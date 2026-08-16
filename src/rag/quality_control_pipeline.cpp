@@ -13,6 +13,7 @@
 #include "rag/citation_highlighter.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <iomanip>
@@ -44,6 +45,7 @@ struct QualityControlPipeline::Impl {
     std::function<void(const std::string&, const QualityCheckResult&)> learning_callback;
     
     // Statistics
+    mutable std::mutex stats_mutex;
     struct Stats {
         size_t total_checks = 0;
         size_t passed_fast = 0;
@@ -118,12 +120,16 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
                                       stage_result.dimension_scores.end());
         
         // Update statistics
-        const auto passed_fast_count = static_cast<double>(impl_->stats.passed_fast);
-        const auto fast_stage_ms = static_cast<double>(result.fast_stage_time.count());
-        impl_->stats.avg_fast_time_ms =
-            ((impl_->stats.avg_fast_time_ms * passed_fast_count) + fast_stage_ms)
-            / (passed_fast_count + 1.0);
-        impl_->stats.passed_fast++;
+        {
+            std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+            impl_->stats.total_checks++;
+            const auto passed_fast_count = static_cast<double>(impl_->stats.passed_fast);
+            const auto fast_stage_ms = static_cast<double>(result.fast_stage_time.count());
+            impl_->stats.avg_fast_time_ms =
+                ((impl_->stats.avg_fast_time_ms * passed_fast_count) + fast_stage_ms)
+                / (passed_fast_count + 1.0);
+            impl_->stats.passed_fast++;
+        }
     }
     
     // Stage 2: Balanced Evaluation

@@ -480,12 +480,18 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
 
         const std::string gap_response = infer(gap_prompt, gap_max_tokens);
         ++result.steps_executed;
-
+         
+        // Validate gap response before processing
+        if (gap_response.empty()) {
+            spdlog::warn("MultiStepRAG::runIterative: Empty gap detection response from LLM");
+            break;
+        }
+         
         if (gap_response.size() > kMaxGapResponseChars) {
             spdlog::warn("MultiStepRAG::runIterative gap-response too large; stopping refinement");
             break;
         }
-
+         
         const auto aspects = parseOpenAspects(gap_response);
         if (aspects.empty()) {
             spdlog::info(

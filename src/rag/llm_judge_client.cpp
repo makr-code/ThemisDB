@@ -15,6 +15,7 @@
 #include "llm/llama_wrapper.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <filesystem>
 #include <cstdlib>
 #include <array>
@@ -23,6 +24,8 @@
 #include <iomanip>
 #include <atomic>
 #include <unordered_set>
+#include <mutex>
+#include <cctype>
 
 using json = nlohmann::json;
 
@@ -123,14 +126,38 @@ std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
             continue;
         }
 
-        for (const auto& entry : fs::directory_iterator(dir)) {
-            if (isModelFile(entry.path())) {
-                push_unique_if_model(entry.path());
+        try {
+            // Store iterator to avoid potential temporary issues
+            fs::directory_iterator dir_iter(dir);
+            for (const auto& entry : dir_iter) {
+                if (isModelFile(entry.path())) {
+                    push_unique_if_model(entry.path());
+                }
             }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("LLMJudgeClient: Error iterating directory {}: {}", dir.string(), e.what());
+            continue;
         }
     }
 
     return candidates;
+}
+
+std::string normalizeExpectedSha256(std::string sidecar_line) {
+    sidecar_line.erase(
+        std::remove_if(sidecar_line.begin(), sidecar_line.end(), [](unsigned char ch) {
+            return std::isspace(ch);
+        }),
+        sidecar_line.end()
+    );
+
+    if (sidecar_line.size() >= 64) {
+        sidecar_line = sidecar_line.substr(0, 64);
+    }
+
+    std::transform(sidecar_line.begin(), sidecar_line.end(), sidecar_line.begin(),
+                   [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+    return sidecar_line;
 }
 } // namespace
 
@@ -142,6 +169,7 @@ struct LLMJudgeClient::Impl {
     Config config;
     std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine;
     std::string model_id;
+    mutable std::mutex state_mutex;  // Protect shared state access
 
     void tryAutoRegisterLocalModel() {
         if (const char* disable_auto_register = std::getenv("THEMIS_DISABLE_LLM_AUTO_REGISTER");
@@ -169,6 +197,28 @@ struct LLMJudgeClient::Impl {
             auto plugin = std::make_shared<llm::LlamaWrapper>(wrapper_config);
 
             try {
+                // Verify model integrity via SHA-256 sidecar if available
+                std::string sha_path = model_path.string() + ".sha256";
+                if (std::filesystem::exists(sha_path)) {
+                    std::ifstream sidecar(sha_path);
+                    if (sidecar.is_open()) {
+                        std::string expected_hash;
+                        std::getline(sidecar, expected_hash);
+                        sidecar.close();
+
+                        expected_hash = normalizeExpectedSha256(expected_hash);
+                        std::string actual_hash = themis::utils::calculateSHA256(model_path.string());
+                        if (actual_hash.empty() || expected_hash.empty()) {
+                            THEMIS_WARN("LLMJudgeClient: model integrity check unavailable for {} (empty hash)", model_path.string());
+                            continue;
+                        }
+                        if (actual_hash != expected_hash) {
+                            THEMIS_WARN("LLMJudgeClient: model integrity check failed for {}", model_path.string());
+                            continue;
+                        }
+                    }
+                }
+                
                 if (!plugin->loadModel(model_path.string(), plugin_config)) {
                     THEMIS_WARN("LLMJudgeClient: failed to load local judge model candidate {}", model_path.string());
                     continue;
@@ -241,7 +291,11 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
         request.submitted_at = std::chrono::steady_clock::now();
         
         // Submit request and wait for response
-        auto handle = impl_->inference_engine->submit(request);
+        llm::InferenceHandle handle;
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            handle = impl_->inference_engine->submit(request);
+        }
         auto response = handle.get();
         
         auto end_time = std::chrono::steady_clock::now();
@@ -294,7 +348,10 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
             request.request_id = generateRequestId();
             request.submitted_at = std::chrono::steady_clock::now();
             
-            handles.push_back(impl_->inference_engine->submit(request));
+            {
+                std::lock_guard<std::mutex> lock(impl_->state_mutex);
+                handles.push_back(impl_->inference_engine->submit(request));
+            }
         }
         
         // Wait for all responses
@@ -461,7 +518,8 @@ void LLMJudgeClient::parseEvaluationResponse(
                 
                 try {
                     parsed.score = std::stod(score_str);
-                } catch (...) {
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Failed to parse score '{}': {}", score_str, e.what());
                     parsed.score = 0.5; // Default
                 }
             }
@@ -483,8 +541,6 @@ void LLMJudgeClient::parseEvaluationResponse(
             }
         }
     }
-    }
 }
 
 } // namespace themis::rag::judge
-

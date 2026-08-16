@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <sstream>
 #include <regex>
+#include <mutex>
 #include <cmath>
 #include <set>
 
@@ -28,6 +29,7 @@ struct CoherenceEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     // Calculate readability score (Flesch-like metric)
     double calculateReadability(const std::string& text) {
@@ -284,6 +286,14 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
     std::vector<std::string> sentences;
     auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
     auto sentences_end = std::sregex_iterator();
+    
+    // Count matches for reserve
+    size_t match_count = 0;
+    for (auto it = sentences_begin; it != sentences_end; ++it) {
+        ++match_count;
+    }
+    sentences.reserve(match_count);
+    contradictions.reserve(std::max(size_t(1), match_count / 4));  // Expect ~25% contradictions
     
     for (auto it = sentences_begin; it != sentences_end; ++it) {
         sentences.push_back(it->str());

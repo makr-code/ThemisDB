@@ -16,6 +16,7 @@
 
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <vector>
@@ -192,6 +193,7 @@ public:
 private:
     std::shared_ptr<ILoRAScorer> scorer_;
     LoRARetrieverConfig          config_;
+    mutable std::mutex           state_mutex_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

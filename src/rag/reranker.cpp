@@ -236,7 +236,8 @@ double heuristicScore(const std::string& query, const std::string& document) {
 
 struct CrossEncoderReranker::Impl {
     CrossEncoderConfig config;
-    std::atomic<bool> model_loaded{false};
+    mutable std::mutex state_mutex;
+    bool model_loaded{false};
 
     // Score cache: key = hash of "query\0doc_id"
     mutable std::mutex cache_mutex;
@@ -306,15 +307,18 @@ struct CrossEncoderReranker::Impl {
     /// Score a single (query, document text) pair.
     double computeScore(const std::string& query,
                         const std::string& doc_text) const {
-        if (model_loaded) {
+        {
+            std::lock_guard<std::mutex> lock(state_mutex);
+            if (model_loaded) {
 #ifdef THEMIS_ENABLE_ONNX
-            // OnnxRuntime forward pass:
-            //   auto inputs  = tokenise_pair(query, doc_text, config.max_length);
-            //   auto outputs = session_.Run(...);
-            //   return sigmoid(outputs[0]);
+                // OnnxRuntime forward pass:
+                //   auto inputs  = tokenise_pair(query, doc_text, config.max_length);
+                //   auto outputs = session_.Run(...);
+                //   return sigmoid(outputs[0]);
 #else
-            THEMIS_DEBUG("Model loaded but THEMIS_ENABLE_ONNX not set; using heuristic scorer");
+                THEMIS_DEBUG("Model loaded but THEMIS_ENABLE_ONNX not set; using heuristic scorer");
 #endif
+            }
         }
         return heuristicScore(query, doc_text);
     }
@@ -522,14 +526,18 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         std::lock_guard<std::mutex> cfg_lock(impl_->config_mutex);
         impl_->config.model_path = canonical_path.string();
     }
-    impl_->model_loaded.store(true, std::memory_order_release);
+    {
+        std::lock_guard<std::mutex> state_lock(impl_->state_mutex);
+        impl_->model_loaded = true;
+    }
     THEMIS_INFO("CrossEncoderReranker: model loaded and verified from '{}'",
                 canonical_path.string());
     return true;
 }
 
 bool CrossEncoderReranker::isModelLoaded() const {
-    return impl_->model_loaded.load(std::memory_order_acquire);
+    std::lock_guard<std::mutex> lock(impl_->state_mutex);
+    return impl_->model_loaded;
 }
 
 void CrossEncoderReranker::clearCache() {
