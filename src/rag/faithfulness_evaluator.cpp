@@ -36,18 +36,21 @@ struct FaithfulnessEvaluator::Impl {
     // falls back to term-overlap heuristic when no model is configured.
     SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
         // Use NLI verifier if available
-        if (nli_verifier) {
-            auto nli_result = nli_verifier->checkEntailment(document, claim);
-            
-            if (nli_result.label == NLILabel::ENTAILMENT) {
-                return SupportLevel::FULLY_SUPPORTED;
-            } else if (nli_result.label == NLILabel::NEUTRAL) {
-                return SupportLevel::PARTIALLY_SUPPORTED;
-            } else if (nli_result.label == NLILabel::CONTRADICTION) {
-                return SupportLevel::CONTRADICTED;
-            } else {
-                return SupportLevel::UNSUPPORTED;
-            }
+        {
+            std::lock_guard<std::mutex> lock(state_mutex);
+            if (nli_verifier) {
+                auto nli_result = nli_verifier->checkEntailment(document, claim);
+                
+                if (nli_result.label == NLILabel::ENTAILMENT) {
+                    return SupportLevel::FULLY_SUPPORTED;
+                } else if (nli_result.label == NLILabel::NEUTRAL) {
+                    return SupportLevel::PARTIALLY_SUPPORTED;
+                } else if (nli_result.label == NLILabel::CONTRADICTION) {
+                    return SupportLevel::CONTRADICTED;
+                } else {
+                    return SupportLevel::UNSUPPORTED;
+                }
+           }
         }
         
         // Fallback: term-overlap heuristic when no NLI verifier is configured
