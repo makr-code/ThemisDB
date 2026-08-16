@@ -239,6 +239,12 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
 
             THEMIS_INFO("HTTP/3 new QUIC connection from {}", session_key);
             
+            // CRITICAL FIX: null_dereference - Add null check for server_ and ssl_ctx_
+            if (!server_ || !ssl_ctx_) {
+                THEMIS_ERROR("HTTP/3: Cannot create session - server or SSL context is NULL");
+                continue;  // Skip this packet
+            }
+            
             auto session = std::make_shared<Http3Session>(
                 socket_, remote_endpoint_, server_, ssl_ctx_.get(), max_idle_timeout_ms_, prod_cfg_
             );
