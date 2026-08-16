@@ -13,3 +13,6 @@ themis_add_standard_benchmark(bench_aql_helper_paths  bench_aql_helper_paths.cpp
 
 # Phase 6: Consolidated performance gate verification (AG-4, AG-5, AG-6)
 themis_add_standard_benchmark(bench_aql_assistance_gates  bench_aql_assistance_gates.cpp)
+
+# Phase 4 Q3 2026: Consistency hardening performance gates (AQL-ASS-01..04)
+themis_add_standard_benchmark(bench_aql_consistency_performance_gates bench_aql_consistency_performance_gates.cpp)

@@ -11,6 +11,7 @@
 
 
 #include "updates/manifest_database.h"
+#include "updates/batch5_safety_helpers.h"
 #include <memory>
 #include <stdexcept>
 #include "utils/logger.h"
@@ -31,6 +32,65 @@
 
 namespace themis {
 namespace updates {
+
+// ============================================================================
+// RAII wrapper for temporary file cleanup
+// ============================================================================
+
+/**
+ * @brief RAII wrapper for temporary files with secure cleanup
+ * @see Error Code: 7409 (temporary file cleanup on exception)
+ */
+class TempFileRaii {
+public:
+    explicit TempFileRaii(const std::string& path = "") : path_(path) {}
+    
+    ~TempFileRaii() {
+        if (!path_.empty()) {
+            try {
+                std::error_code ec;
+                std::filesystem::remove(path_, ec);
+                if (ec) {
+                    LOG_WARN("Failed to remove temporary file {}: {}", path_, ec.message());
+                }
+            } catch (const std::exception& e) {
+                LOG_WARN("Exception removing temporary file {}: {}", path_, e.what());
+            }
+        }
+    }
+    
+    // Non-copyable
+    TempFileRaii(const TempFileRaii&) = delete;
+    TempFileRaii& operator=(const TempFileRaii&) = delete;
+    
+    // Movable
+    TempFileRaii(TempFileRaii&& other) noexcept : path_(std::move(other.path_)) {
+        other.path_.clear();
+    }
+    TempFileRaii& operator=(TempFileRaii&& other) noexcept {
+        if (this != &other) {
+            // Cleanup old path if any
+            if (!path_.empty()) {
+                std::error_code ec;
+                std::filesystem::remove(path_, ec);
+            }
+            path_ = std::move(other.path_);
+            other.path_.clear();
+        }
+        return *this;
+    }
+    
+    const std::string& path() const noexcept { return path_; }
+    
+    std::string release() noexcept {
+        std::string tmp = std::move(path_);
+        path_.clear();
+        return tmp;
+    }
+    
+private:
+    std::string path_;
+};
 
 ManifestDatabase::ManifestDatabase(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -199,7 +259,6 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
         // Verify signature using the plugin security verifier
         // Note: We're verifying the manifest hash signature, not a file
         // For this, we create a temporary file containing the hash
-        std::string tempPath;
         try {
             // Get system temporary directory and create cryptographically secure random filename
             auto tempDir = std::filesystem::temp_directory_path();
@@ -220,7 +279,10 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             }
             oss << ".tmp";
             std::string uniqueName = oss.str();
-            tempPath = (tempDir / uniqueName).string();
+            std::string tempPath = (tempDir / uniqueName).string();
+            
+            // RAII wrapper ensures cleanup on all paths (Error 7409)
+            TempFileRaii temp_guard(tempPath);
             
             // Create temporary file with restricted permissions
             std::ofstream temp(tempPath, std::ios::binary | std::ios::trunc);
@@ -240,8 +302,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             
             bool verified = verifier_->verifySignature(tempPath, sig);
             
-            // Clean up temporary file
-            std::filesystem::remove(tempPath);
+            // Cleanup via RAII guard happens automatically on scope exit
             
             // Cache the result
             cacheSignatureVerification(manifest.manifest_hash, verified, manifest.signing_certificate);
@@ -253,14 +314,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             
             LOG_INFO("Manifest signature verified for version {}", manifest.version);
         } catch (const std::exception& e) {
-            // Ensure cleanup even on exception
-            if (!tempPath.empty()) {
-                try {
-                    std::filesystem::remove(tempPath);
-                } catch (...) {
-                    // Ignore cleanup errors
-                }
-            }
+            // RAII cleanup ensures temp file is removed even on exception (Error 7409)
             LOG_ERROR("Exception during manifest signature verification: {}", e.what());
             return false;
         }

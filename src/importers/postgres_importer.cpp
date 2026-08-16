@@ -625,6 +625,21 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
         // Performance: avoid temporary string from `+= line + " "`
         current_sql.append(line).append(1, ' ');
         
+        // PHASE-3A-FIX: Guard against maximum statement size before processing
+        if (options.max_statement_size_bytes > 0 &&
+            current_sql.size() > options.max_statement_size_bytes) {
+            addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
+                     ImportErrorSeverity::WARNING,
+                     "SQL statement exceeds max_statement_size_bytes (" +
+                     std::to_string(options.max_statement_size_bytes) + ")",
+                     "line " + std::to_string(line_number));
+            stats.warnings.push_back("Statement too large near line " +
+                                     std::to_string(line_number));
+            current_sql.clear();
+            if (!options.continue_on_error) return false;
+            continue;
+        }
+        
         // Complete statement?
         if (line.find(';') != std::string::npos) {
             if (current_sql.find("CREATE TABLE") != std::string::npos) {
@@ -2377,17 +2392,24 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
 
     // Check custom types discovered from CREATE TYPE statements in the dump.
     // Check both the original and lowercased form of the type name.
+    // PHASE-3A-FIX: Add null/empty checks for custom type values
     {
         std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
         auto ct = custom_type_map_.find(pg_type);
-        if (ct != custom_type_map_.end()) return ct->second;
+        if (ct != custom_type_map_.end() && !ct->second.empty()) {
+            return ct->second;
+        }
         ct = custom_type_map_.find(lower_type);
-        if (ct != custom_type_map_.end()) return ct->second;
+        if (ct != custom_type_map_.end() && !ct->second.empty()) {
+            return ct->second;
+        }
     }
 
     // Array types
-    if (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||
-        lower_type.rfind("array", 0) == 0) {
+    // PHASE-3A-FIX: Add bounds check before calling back() on string
+    if (!lower_type.empty() && 
+        (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||
+         lower_type.rfind("array", 0) == 0)) {
         return "array";
     }
 

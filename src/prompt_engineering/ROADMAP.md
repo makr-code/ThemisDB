@@ -50,13 +50,18 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [x] standardize fail-safe behavior for invalid templates, injection mismatches, and version faults (Target: Q4 2026) — **COMPLETED 2026-08-08**
   - `PromptTemplateValidator` extended with injection detection methods
   - SQL, command, path traversal, and template injection patterns detected
-  - Adversarial test cases: 40+ test scenarios covering evasion attempts and edge cases
+  - Adversarial test cases: 54+ malicious payloads covering evasion attempts and edge cases
   - Integration: `validate()` automatically checks template content for injection patterns
 - [x] unify diagnostics across manager/version/optimizer/evaluator incidents using `PromptEngineeringErrorContext` (Target: Q4 2026)
 - [x] enforce rewrite step bounds, phase isolation, malformed-rule rejection, and terminal policy behavior (Target: Q4 2026)
+- [x] **BATCH 3: Adversarial/Edge-Case Validation** (Target: Q3 2026) — **COMPLETED 2026-08-15**
+  - 8 test classes covering: SQL injection, Command injection, Path traversal, XSS, Template recursion, Unicode evasion, Null byte injection, Mixed attacks
+  - 54+ malicious payloads for comprehensive injection pattern detection
+  - File: `tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp`
+  - Target detection rate: 100% on known malicious inputs, <1% false positives on benign prompts
 
 ### Phase 4: Tests
-- [~] expand focused regressions for invalid template and concurrent mutation scenarios (Target: Q4 2026) — Focused test suite PE-FT-001..PE-FT-015 established; edge case coverage expansion in progress (2026-08-07)
+- [~] expand focused regressions for invalid template and concurrent mutation scenarios (Target: Q4 2026) — Focused test suite PE-FT-001..PE-FT-015 established; BATCH 3 adversarial suite PE-ADV-01..08 complete (2026-08-15)
 - [~] extend deterministic stress fixtures for optimization/evaluation workloads (Target: Q4 2026) — Synthetic workload generators implemented; stress test harness ready (2026-08-07)
 - [~] add unit/integration coverage for rewrite rule ordering, trace generation, normalization idempotence, and NL→AQL preprocessing flows (Target: Q4 2026) — Rewrite rule test cases drafted; NL→AQL preprocessing validation pending (2026-08-07)
 

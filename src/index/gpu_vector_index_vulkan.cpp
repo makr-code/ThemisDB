@@ -327,14 +327,16 @@ public:
             const size_t totalSize = totalFloatCount * sizeof(float);
             std::vector<float> flatData(totalFloatCount);
 
-            size_t offset = 0;
-            for (const auto& vec : vectors) {
-                if (vec.size() != static_cast<size_t>(dimension_)) {
-                    THEMIS_ERROR("VulkanVectorIndexBackend: Vector dimension mismatch");
-                    return false;
+            {
+                size_t offset = 0;
+                for (const auto& vec : vectors) {
+                    if (vec.size() != static_cast<size_t>(dimension_)) {
+                        THEMIS_ERROR("VulkanVectorIndexBackend: Vector dimension mismatch");
+                        return false;
+                    }
+                    std::copy(vec.begin(), vec.end(), flatData.begin() + static_cast<std::ptrdiff_t>(offset));
+                    offset += dim;
                 }
-                std::copy(vec.begin(), vec.end(), flatData.begin() + static_cast<std::ptrdiff_t>(offset));
-                offset += dim;
             }
             
             // Create or recreate vector buffer
@@ -569,15 +571,17 @@ public:
 
             const size_t dim = static_cast<size_t>(dimension_);
             std::vector<float> flatQueries(numQueries * dim);
-            size_t queryOffset = 0;
-            for (const auto& query : queries) {
-                if (query.size() != static_cast<size_t>(dimension_)) {
-                    THEMIS_ERROR("VulkanVectorIndexBackend: Query dimension mismatch in batch");
-                    return {};
+            {
+                size_t queryOffset = 0;
+                for (const auto& query : queries) {
+                    if (query.size() != static_cast<size_t>(dimension_)) {
+                        THEMIS_ERROR("VulkanVectorIndexBackend: Query dimension mismatch in batch");
+                        return {};
+                    }
+                    std::copy(query.begin(), query.end(),
+                              flatQueries.begin() + static_cast<std::ptrdiff_t>(queryOffset));
+                    queryOffset += dim;
                 }
-                std::copy(query.begin(), query.end(),
-                          flatQueries.begin() + static_cast<std::ptrdiff_t>(queryOffset));
-                queryOffset += dim;
             }
 
             const size_t queryBufferSize = numQueries * dim * sizeof(float);

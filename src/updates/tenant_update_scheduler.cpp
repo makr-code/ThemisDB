@@ -199,10 +199,13 @@ void TenantUpdateScheduler::revokeConsent(const std::string& tenant_id)
 bool TenantUpdateScheduler::hasConsent(const std::string& tenant_id) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
+    // 7510 Fix: Explicit null check order for readability
+    // Check if key exists BEFORE dereferencing
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
         return false;
     }
+    // Now safe to access it->second
     return it->second.consent_granted;
 }
 
@@ -674,4 +677,3 @@ TenantUpdateScheduler::formatUtc(std::chrono::system_clock::time_point tp)
 
 } // namespace updates
 } // namespace themis
-

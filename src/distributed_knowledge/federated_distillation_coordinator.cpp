@@ -64,7 +64,7 @@ FederatedDistillationCoordinator::FederatedDistillationCoordinator(DistillationC
     }
 }
 
-FederatedDistillationCoordinator::~FederatedDistillationCoordinator() = default;
+FederatedDistillationCoordinator::~FederatedDistillationCoordinator() noexcept = default;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IFederatedDistillationCoordinator — submitSoftLabels
@@ -79,8 +79,17 @@ void FederatedDistillationCoordinator::submitSoftLabels(const std::string &teach
     if (teacher_id.empty()) {
         throw std::invalid_argument("submitSoftLabels: teacher_id must not be empty");
     }
+
+    // ── Consistency Level: CAUSAL (Round-based ordering) ─────────────────────
+    // Detect if we're advancing to next round: either last round was broadcast
+    // (last_round_ has value) or this is the first submission (current_round_ == 0).
+    // This ensures round N+1 causally depends on round N broadcast.
     const bool will_advance_round = (last_round_.has_value() || current_round_ == 0);
     const uint64_t projected_round = will_advance_round ? (current_round_ + 1) : current_round_;
+
+    // ── Consistency Level: STRONG (Privacy budget check) ────────────────────
+    // Privacy budget enforcement: check projected round before accepting submit.
+    // This blocks if max_rounds would be exceeded (fail-closed policy).
     if (config_.max_rounds > 0 && projected_round > config_.max_rounds) {
         throw std::runtime_error("FederatedDistillationCoordinator: DP privacy budget exhausted");
     }
@@ -90,6 +99,7 @@ void FederatedDistillationCoordinator::submitSoftLabels(const std::string &teach
     has_pending_        = true;
 
     // Advance round counter on first submit if we had just broadcast.
+    // This implements causal ordering: broadcast at N → submit at N+1.
     if (will_advance_round) {
         ++current_round_;
     }
@@ -105,6 +115,11 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
     if (!has_pending_) {
         throw std::runtime_error("broadcastToStudents: no soft labels submitted for this round");
     }
+
+    // ── Consistency Level: STRONG (Privacy budget guard) ────────────────────
+    // Privacy budget verification blocks broadcast if exhausted.
+    // This is a strong consistency guard: operation fails immediately if budget
+    // exceeded. No eventual consistency fallback for privacy guarantees.
     if (!verifyPrivacyBudget()) {
         throw std::runtime_error("FederatedDistillationCoordinator: DP privacy budget exhausted");
     }

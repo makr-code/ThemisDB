@@ -11,6 +11,7 @@
 
 
 #include "updates/parallel_downloader.h"
+#include "updates/batch5_safety_helpers.h"
 #include "utils/logger.h"
 #include "utils/retry_policy.h"
 
@@ -272,18 +273,69 @@ uint64_t ParallelDownloader::resumeOffset(const std::string& dest) const {
 }
 
 // ============================================================================
+// RAII wrapper for EVP_MD_CTX
+// ============================================================================
+
+/**
+ * @brief RAII wrapper for EVP_MD_CTX to ensure cleanup in all paths
+ * @see Error Code: 7401 (EVP context leak prevention)
+ */
+class EvpMdCtxRaii {
+public:
+    explicit EvpMdCtxRaii(EVP_MD_CTX* ctx = nullptr) : ctx_(ctx) {}
+    
+    ~EvpMdCtxRaii() {
+        if (ctx_) {
+            EVP_MD_CTX_free(ctx_);
+        }
+    }
+    
+    // Non-copyable
+    EvpMdCtxRaii(const EvpMdCtxRaii&) = delete;
+    EvpMdCtxRaii& operator=(const EvpMdCtxRaii&) = delete;
+    
+    // Movable
+    EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
+    EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
+        if (this != &other) {
+            if (ctx_) EVP_MD_CTX_free(ctx_);
+            ctx_ = other.release();
+        }
+        return *this;
+    }
+    
+    EVP_MD_CTX* get() const noexcept { return ctx_; }
+    EVP_MD_CTX* release() noexcept {
+        EVP_MD_CTX* tmp = ctx_;
+        ctx_ = nullptr;
+        return tmp;
+    }
+    
+private:
+    EVP_MD_CTX* ctx_ = nullptr;
+};
+
+// ============================================================================
 // SHA-256 helper
 // ============================================================================
 
+/**
+ * @brief Compute SHA-256 hash of file with exception-safe resource management
+ * @param path File path to hash
+ * @return Hex-encoded SHA-256 hash, or empty string on error
+ * @note Uses RAII for EVP_MD_CTX to prevent resource leaks (Error 7401)
+ */
 std::string ParallelDownloader::computeSha256(const std::string& path) {
     std::ifstream f(path, std::ios::binary);
     if (!f.is_open()) return {};
 
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    // RAII wrapper ensures cleanup even if exceptions occur
+    EvpMdCtxRaii ctx_guard(EVP_MD_CTX_new());
+    EVP_MD_CTX* ctx = ctx_guard.get();
     if (!ctx) return {};
 
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(ctx);
+        // RAII cleanup happens automatically on return
         return {};
     }
 
@@ -299,7 +351,7 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int  digest_len = 0;
     EVP_DigestFinal_ex(ctx, digest, &digest_len);
-    EVP_MD_CTX_free(ctx);
+    // RAII cleanup happens automatically on scope exit
 
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');

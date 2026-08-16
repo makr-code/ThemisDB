@@ -179,20 +179,22 @@ double HnswLayerOptimizer::calculateAdaptiveScore_(int entry_layer, int ef) cons
     
     if (recent_queries_.empty()) return 0.0;
     
-    double total_score = 0.0;
-    int count = 0;
-    
-    for (const auto& query : recent_queries_) {
-        if (query.entry_layer == entry_layer && query.ef_used == ef) {
-            // Score inversely proportional to time, proportionally to efficiency
-            double time_score = 1000.0 / (query.total_time_ms + 1.0);  // +1 to avoid division by zero
-            double layer_score = 10.0 / (query.layers_traversed + 1.0);
-            total_score += time_score + layer_score;
-            count++;
+    {
+        double total_score = 0.0;
+        int count = 0;
+        
+        for (const auto& query : recent_queries_) {
+            if (query.entry_layer == entry_layer && query.ef_used == ef) {
+                // Score inversely proportional to time, proportionally to efficiency
+                double time_score = 1000.0 / (query.total_time_ms + 1.0);  // +1 to avoid division by zero
+                double layer_score = 10.0 / (query.layers_traversed + 1.0);
+                total_score += time_score + layer_score;
+                count++;
+            }
         }
+        
+        return count > 0 ? total_score / count : 0.0;
     }
-    
-    return count > 0 ? total_score / count : 0.0;
 }
 
 } // namespace themis

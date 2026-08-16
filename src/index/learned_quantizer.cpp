@@ -296,10 +296,11 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
         // Per-block decoding
         vector.resize(dimension_);
         
-        size_t code_offset = 0;
-        int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
-        
-        for (int block = 0; block < num_blocks; block++) {
+        {
+            size_t code_offset = 0;
+            int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
+            
+            for (int block = 0; block < num_blocks; block++) {
             int start = block * config_.block_size;
             int end = std::min(start + config_.block_size, dimension_);
             [[maybe_unused]] int block_dim = end - start;

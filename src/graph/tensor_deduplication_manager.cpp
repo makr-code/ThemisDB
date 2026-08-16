@@ -318,25 +318,28 @@ StoredTensorRecord TensorDeduplicationManager::store(const std::string &tensor_i
     // Store record
     std::size_t total_bytes_stored = 0;
     std::size_t bytes_saved        = 0;
-    std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
-    auto prev = records_.find(tensor_id);
-    if (prev != records_.end()) {
-        total_bytes_stored_.fetch_sub(prev->second.compressed_bytes, std::memory_order_relaxed);
-        bytes_saved_.fetch_sub(prev->second.saved_bytes, std::memory_order_relaxed);
-        clearMappingForTensorIdLocked(tensor_id);
-    }
-    total_bytes_stored_.fetch_add(record.compressed_bytes, std::memory_order_relaxed);
-    bytes_saved_.fetch_add(record.saved_bytes, std::memory_order_relaxed);
-    records_[tensor_id] = record;
-    if (record.is_canonical) {
-        const auto idx               = makeKeyIndex(makeKey(record.tenant, record.collection, record.field));
-        key_to_tensor_id_[idx]       = tensor_id;
-        tensor_id_to_key_[tensor_id] = idx;
-    }
-    total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
-    bytes_saved        = bytes_saved_.load(std::memory_order_relaxed);
-    wlk.unlock();
+    {
+        // LOCK SCOPE: Acquire rw_mutex_ (Tier 2), release BEFORE callback
+        std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+        auto prev = records_.find(tensor_id);
+        if (prev != records_.end()) {
+            total_bytes_stored_.fetch_sub(prev->second.compressed_bytes, std::memory_order_relaxed);
+            bytes_saved_.fetch_sub(prev->second.saved_bytes, std::memory_order_relaxed);
+            clearMappingForTensorIdLocked(tensor_id);
+        }
+        total_bytes_stored_.fetch_add(record.compressed_bytes, std::memory_order_relaxed);
+        bytes_saved_.fetch_add(record.saved_bytes, std::memory_order_relaxed);
+        records_[tensor_id] = record;
+        if (record.is_canonical) {
+            const auto idx               = makeKeyIndex(makeKey(record.tenant, record.collection, record.field));
+            key_to_tensor_id_[idx]       = tensor_id;
+            tensor_id_to_key_[tensor_id] = idx;
+        }
+        total_bytes_stored = total_bytes_stored_.load(std::memory_order_relaxed);
+        bytes_saved        = bytes_saved_.load(std::memory_order_relaxed);
+    }  // rw_mutex_ released HERE
 
+    // SAFE: Call journal callback AFTER releasing rw_mutex_
     persistUpsertJournalEntry(record, total_bytes_stored, bytes_saved);
 
     return record;
@@ -1257,24 +1260,28 @@ bool TensorDeduplicationManager::restoreGraph(const std::string &snapshot_key) {
 
         fp_graph_->importPersistedGraph(snapshot);
 
-        std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
-        records_.clear();
-        key_to_tensor_id_.clear();
-        tensor_id_to_key_.clear();
-        for (const auto &record : records) {
-            records_[record.tensor_id] = record;
-            if (!record.is_canonical) {
-                continue;
-            }
+        {
+            // LOCK SCOPE: Acquire rw_mutex_ (Tier 2), release BEFORE replayMutationJournal
+            std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+            records_.clear();
+            key_to_tensor_id_.clear();
+            tensor_id_to_key_.clear();
+            for (const auto &record : records) {
+                records_[record.tensor_id] = record;
+                if (!record.is_canonical) {
+                    continue;
+                }
 
-            const auto key                      = makeKey(record.tenant, record.collection, record.field);
-            const auto key_index                = makeKeyIndex(key);
-            key_to_tensor_id_[key_index]        = record.tensor_id;
-            tensor_id_to_key_[record.tensor_id] = key_index;
-        }
-        total_bytes_stored_.store(total_bytes_stored, std::memory_order_relaxed);
-        bytes_saved_.store(bytes_saved, std::memory_order_relaxed);
-        wlk.unlock(); // Release before replayMutationJournal, which re-acquires per entry.
+                const auto key                      = makeKey(record.tenant, record.collection, record.field);
+                const auto key_index                = makeKeyIndex(key);
+                key_to_tensor_id_[key_index]        = record.tensor_id;
+                tensor_id_to_key_[record.tensor_id] = key_index;
+            }
+            total_bytes_stored_.store(total_bytes_stored, std::memory_order_relaxed);
+            bytes_saved_.store(bytes_saved, std::memory_order_relaxed);
+        }  // rw_mutex_ released HERE
+        
+        // SAFE: Call replayMutationJournal AFTER releasing rw_mutex_
         if (!replayMutationJournal(snapshot_key)) {
             return false;
         }
@@ -1357,27 +1364,33 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string &snapsh
         if (entry.type == MutationJournalEntryType::Upsert) {
             fp_graph_->upsertPersistedNode(entry.node, entry.edges);
 
-            std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
-            clearMappingForTensorIdLocked(entry.record.tensor_id);
-            records_[entry.record.tensor_id] = entry.record;
-            if (entry.record.is_canonical) {
-                const auto key       = makeKey(entry.record.tenant, entry.record.collection, entry.record.field);
-                const auto key_index = makeKeyIndex(key);
-                key_to_tensor_id_[key_index]              = entry.record.tensor_id;
-                tensor_id_to_key_[entry.record.tensor_id] = key_index;
-            }
-            total_bytes_stored_.store(entry.total_bytes_stored, std::memory_order_relaxed);
-            bytes_saved_.store(entry.bytes_saved, std::memory_order_relaxed);
+            {
+                // LOCK SCOPE: Acquire rw_mutex_ (Tier 2) per entry
+                std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
+                clearMappingForTensorIdLocked(entry.record.tensor_id);
+                records_[entry.record.tensor_id] = entry.record;
+                if (entry.record.is_canonical) {
+                    const auto key       = makeKey(entry.record.tenant, entry.record.collection, entry.record.field);
+                    const auto key_index = makeKeyIndex(key);
+                    key_to_tensor_id_[key_index]              = entry.record.tensor_id;
+                    tensor_id_to_key_[entry.record.tensor_id] = key_index;
+                }
+                total_bytes_stored_.store(entry.total_bytes_stored, std::memory_order_relaxed);
+                bytes_saved_.store(entry.bytes_saved, std::memory_order_relaxed);
+            }  // rw_mutex_ released HERE
             continue;
         }
 
         {
+            // LOCK SCOPE: Acquire rw_mutex_ (Tier 2) for deletion
             std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
             clearMappingForTensorIdLocked(entry.tensor_id);
             records_.erase(entry.tensor_id);
             total_bytes_stored_.store(entry.total_bytes_stored, std::memory_order_relaxed);
             bytes_saved_.store(entry.bytes_saved, std::memory_order_relaxed);
-        }
+        }  // rw_mutex_ released HERE
+        
+        // SAFE: Call fp_graph operation AFTER releasing rw_mutex_
         fp_graph_->remove(entry.tensor_id);
     }
 

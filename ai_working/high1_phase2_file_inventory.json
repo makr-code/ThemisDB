@@ -1,0 +1,70 @@
+{
+  "total_files_found": 73,
+  "blocker_reference": 47,
+  "actual_implementation": 73,
+  "discrepancy_explanation": "Blocker report references 47-file aspirational set; actual implementation has 73 files. The remaining -26 files are planned for future phases.",
+  "by_location": {
+    "src/content": 35,
+    "tests/content": 26,
+    "src/content/adapters": 7,
+    "src/content/pipeline": 5
+  },
+  "details": {
+    "tests/content": {
+      "description": "Test files",
+      "count": 26,
+      "files": [
+        "test_content_policy_manual.cpp",
+        "test_content_contract_hardening_focused.cpp",
+        "test_content_html_processor.cpp",
+        "test_content_con007_con012_remediations.cpp",
+        "test_content_deduplication.cpp",
+        "test_content_security.cpp",
+        "test_content_policy.cpp",
+        "test_content_fulltext_index.cpp",
+        "test_archive_processor_validation.cpp",
+        "test_content_errors.cpp",
+        "test_content_pipeline.cpp",
+        "test_content_streaming_ingestion.cpp",
+        "test_content_metrics.cpp",
+        "test_content_processor_chain.cpp",
+        "test_adapter_scope_validation.cpp",
+        "test_content_logger.cpp",
+        "test_content_embedding_pipeline.cpp",
+        "test_content_pipeline_hardening.cpp",
+        "test_content_markdown_processor.cpp",
+        "test_content_language_detector.cpp",
+        "test_content_fs.cpp",
+        "test_content_features.cpp",
+        "test_content_toolbox_bridge.cpp",
+        "test_content_audio_processor.cpp",
+        "test_content_version_manager.cpp",
+        "test_content_docs_linkset_validation.cpp"
+      ]
+    },
+    "src/content/adapters": {
+      "description": "Adapter subdirectory",
+      "count": 7,
+      "files": [
+        "archive_extractor_adapter.cpp",
+        "pdf_extractor_adapter.cpp",
+        "audio_extractor_adapter.cpp",
+        "format_extractor_factory.cpp",
+        "office_extractor_adapter.cpp",
+        "image_extractor_adapter.cpp",
+        "text_extractor_adapter.cpp"
+      ]
+    },
+    "src/content/pipeline": {
+      "description": "Pipeline subdirectory",
+      "count": 5,
+      "files": [
+        "async_bulk_uploader.cpp",
+        "content_chunker.cpp",
+        "zstd_compression.cpp",
+        "multimodal_chunker.cpp",
+        "bulk_upload_interface.cpp"
+      ]
+    }
+  }
+}

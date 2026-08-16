@@ -1,14 +1,13 @@
 /**
  * @file audio_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Audio content processor for speech-to-text and acoustic feature extraction.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 93/100
- * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=3, L=0
- * @note Status: Production Ready
+ * @note Score: 86/100
+ * @note Gap Summary: total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=3, M=3, L=0
+ * @note Status: Production Ready; Core STT functional (Whisper integration); speaker diarization deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 

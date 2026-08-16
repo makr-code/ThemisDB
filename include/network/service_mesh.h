@@ -139,7 +139,7 @@ public:
 
     explicit ServiceMeshIntegration(const Config& config = Config{});
 
-    ~ServiceMeshIntegration();
+    virtual ~ServiceMeshIntegration() noexcept;
 
     /// Bind the probe TCP socket and start the accept loop thread.
     /// @return true on success, false if the port could not be bound.

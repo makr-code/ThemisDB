@@ -460,6 +460,46 @@
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_GRPC": "ON"
       }
+    },
+    {
+      "name": "develop-strict",
+      "displayName": "Develop - Strict (Warnings-as-Errors)",
+      "description": "Strict compilation with all warnings enabled and treated as errors",
+      "inherits": "community-debug",
+      "binaryDir": "${sourceDir}/build-develop-strict",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wunused -Wnull-dereference -Wformat=2 -Werror -Wno-deprecated-declarations",
+        "CMAKE_C_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wunused -Wnull-dereference -Wformat=2 -Werror",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "develop-asan",
+      "displayName": "Develop - AddressSanitizer (ASan)",
+      "description": "Build with AddressSanitizer for memory error detection",
+      "inherits": "community-debug",
+      "binaryDir": "${sourceDir}/build-develop-asan",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS_INIT": "-fsanitize=address -fsanitize-recover=address -g",
+        "CMAKE_C_FLAGS_INIT": "-fsanitize=address -fsanitize-recover=address -g",
+        "CMAKE_EXE_LINKER_FLAGS_INIT": "-fsanitize=address",
+        "CMAKE_SHARED_LINKER_FLAGS_INIT": "-fsanitize=address",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "develop-tsan",
+      "displayName": "Develop - ThreadSanitizer (TSan)",
+      "description": "Build with ThreadSanitizer for race condition detection",
+      "inherits": "community-debug",
+      "binaryDir": "${sourceDir}/build-develop-tsan",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS_INIT": "-fsanitize=thread -g",
+        "CMAKE_C_FLAGS_INIT": "-fsanitize=thread -g",
+        "CMAKE_EXE_LINKER_FLAGS_INIT": "-fsanitize=thread",
+        "CMAKE_SHARED_LINKER_FLAGS_INIT": "-fsanitize=thread",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
     }
   ],
   "buildPresets": [

@@ -82,10 +82,19 @@ private:
     };
 
     std::atomic<bool> cancelled_{false};
+    
+    // Phase 2A Data Race Protection: Mutex guards for concurrent access
+    mutable std::mutex type_cache_mutex_;  ///< Protects type_mapping_cache_ concurrent access
+    mutable std::mutex metadata_mutex_;    ///< Protects field_metadata_snapshot_ concurrent access
+    mutable std::mutex stats_mutex_;       ///< Protects connection_pool_stats_ concurrent access
     mutable std::mutex config_type_overrides_mutex_;  ///< Protects config_type_overrides_ concurrent access
+    
     std::map<std::string, TableSchema> schemas_;
     JdbcConfig jdbc_config_;                               ///< Parsed JDBC config from initialize()
     std::map<std::string, std::string> config_type_overrides_; ///< Type overrides from initialize()
+    std::map<std::string, std::string> type_mapping_cache_;  ///< Cached type mappings (Phase 2A)
+    std::map<std::string, std::string> field_metadata_snapshot_;  ///< Metadata snapshot (Phase 2A)
+    std::map<std::string, size_t> connection_pool_stats_;  ///< Connection pool statistics (Phase 2A)
 
     // Parsing methods
     bool parseDumpFile(const std::string& file_path, const ImportOptions& options,

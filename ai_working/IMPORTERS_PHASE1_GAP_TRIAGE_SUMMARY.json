@@ -1,0 +1,43 @@
+{
+  "module": "importers",
+  "timestamp": "2026-06-04T08:50:22",
+  "total_gaps": 282,
+  "classifications": {
+    "TRUE_POSITIVE": 167,
+    "FALSE_POSITIVE": 23,
+    "GUARDED_STUB": 81,
+    "DEFERRED": 11
+  },
+  "severity_distribution": {
+    "CRITICAL": 1,
+    "HIGH": 10,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "complexity_distribution": {
+    "Tier-1": 133,
+    "Tier-2": 126,
+    "Tier-3": 0
+  },
+  "severity_changes": {
+    "CRITICAL \u2192 HIGH": 16,
+    "HIGH \u2192 MEDIUM": 41,
+    "MEDIUM \u2192 HIGH": 9,
+    "MEDIUM \u2192 LOW": 1
+  },
+  "avg_confidence": 76.66666666666667,
+  "phase_estimates": {
+    "Phase_2A": "3 weeks, 800 LOC, data_race+blocking_no_timeout",
+    "Phase_2B": "2 weeks, 385 LOC, exception_safety+smart_ptr",
+    "Phase_2C": "1 week, 650 LOC, iterator_safety+null_dereference",
+    "Phase_3A": "2-3 weeks, 475 LOC, o_n2_performance",
+    "Phase_3B": "1-2 weeks, 150 LOC, map_container_platform",
+    "Phase_4_5": "4-6 weeks, 200 LOC, edge_cases_docs"
+  },
+  "next_steps": [
+    "Verify mutex availability and RAII pattern support",
+    "Plan agent dispatch for Phase 2A (postgres/mysql/flatfile concurrent)",
+    "Establish CI benchmarking for Phase 3A verification",
+    "Review deferred items (generic_catch patterns) for Phase 2B planning"
+  ]
+}

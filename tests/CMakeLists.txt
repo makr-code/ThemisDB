@@ -20713,6 +20713,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cloud/test_cloud_backup.cpp")
     message(STATUS "  CloudBackup: multi-cloud backup, incremental, restore verification")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/test_paged_kv_cache_focused.cpp" AND NOT TARGET test_paged_kv_cache_focused)
+    message(STATUS "Adding Sharding: PagedKVCache focused tests")
+    add_executable(test_paged_kv_cache_focused
+        sharding/test_paged_kv_cache_focused.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/paged_kv_cache.cpp
+    )
+    target_include_directories(test_paged_kv_cache_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_paged_kv_cache_focused PRIVATE ${TEST_LIBS} spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_paged_kv_cache_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PagedKVCacheFocusedTests COMMAND test_paged_kv_cache_focused)
+    set_tests_properties(PagedKVCacheFocusedTests PROPERTIES LABELS "sharding;llm;kv-cache;focused;unit" TIMEOUT 60)
+    message(STATUS "  PagedKVCache: payload persistence, prefix reuse, shared-block cleanup")
+endif()
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_session_manager_focused.cpp")
     message(STATUS "Adding Voice: VoiceSessionManager focused tests (QW-32)")

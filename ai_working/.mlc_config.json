@@ -1,0 +1,40 @@
+{
+  "description": "markdown-link-check configuration for ThemisDB documentation",
+  "ignorePatterns": [
+    {
+      "pattern": "^https?://",
+      "description": "External HTTP(S) URLs are validated by separate security/dependency audits, not this gate"
+    },
+    {
+      "pattern": "^mailto:",
+      "description": "Email links (RFC 6068)"
+    },
+    {
+      "pattern": "^#[a-z0-9-]*$",
+      "description": "Anchor-only links (same-file references, validated per-document)"
+    },
+    {
+      "pattern": "^\\$\\{",
+      "description": "Variable substitutions (CI/build-time)"
+    },
+    {
+      "pattern": "^ftp://",
+      "description": "FTP protocol (rare but possible)"
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^/docs/",
+      "replacement": "",
+      "description": "Normalize leading /docs/ references to root level"
+    }
+  ],
+  "retryOn429": true,
+  "retryCount": 2,
+  "retryDelay": 1000,
+  "timeout": 5000,
+  "aliveStatusCodes": [200, 206],
+  "headers": {
+    "User-Agent": "ThemisDB-Link-Checker/1.0"
+  }
+}

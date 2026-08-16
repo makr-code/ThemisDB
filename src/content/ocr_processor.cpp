@@ -1,14 +1,13 @@
 /**
  * @file ocr_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Optical character recognition engine for image-based text extraction.
  * @version 0.0.15
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
- * @note Status: Production Ready
+ * @note Maturity: 🔴 ALPHA
+ * @note Score: 68/100
+ * @note Gap Summary: total=18; TODO=2, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=3, C=2, H=5, M=8, L=0
+ * @note Status: Beta; OCR engine integration in progress; confidence filtering and language-specific models under test
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/ocr_processor.h"
 
 #include <algorithm>

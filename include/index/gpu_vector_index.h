@@ -118,7 +118,7 @@ public:
     // Constructor
     GPUVectorIndex();
     explicit GPUVectorIndex(const Config& config);
-    ~GPUVectorIndex();
+    ~GPUVectorIndex() noexcept;
     
     // Initialization
     bool initialize(int dimension);

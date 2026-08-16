@@ -143,6 +143,35 @@ This root enhancement backlog follows a strict wave-gate model; no wave starts b
 
 ---
 
+## Module-Level Enhancement Documents
+
+### Content Module — Deferred Features & Production TODO Classification
+> **Document:** [`CONTENT_DEFERRED_FEATURES.md`](CONTENT_DEFERRED_FEATURES.md)  
+> **Authority:** `src/content/MODULE_GAPS_BATCH5.md` §CMT-7502  
+> **Status:** ✅ Classification Complete (2026-08-15)
+
+This document provides comprehensive classification of **73 production TODO instances** across the content module:
+
+- **Optimization** (12 items): Performance improvements deferred to v2.5.0  
+- **Features** (28 items): New functionality pending design reviews/external dependencies  
+- **Vendor Integration** (8 items): External services pending contracts/availability  
+- **Documentation** (25 items): Post-GA maintenance items for v2.4.1
+
+**Key Points:**
+- ✅ 100% of production TODOs classified and tracked
+- ✅ Each TODO has GitHub issue reference or documented rationale
+- ✅ No orphaned TODOs without tracking
+- ✅ All items have acceptable fallback implementations (no GA blockers)
+
+**Integration:** See [`CONTENT_DEFERRED_FEATURES.md`](CONTENT_DEFERRED_FEATURES.md) for:
+- Detailed classification by type (Optimization/Feature/Vendor/Other)
+- Target release timeline for each deferred item
+- GitHub issue tracking and dependency graph
+- Legitimate production patterns documentation
+- FAQ and acceptance criteria for closing deferred items
+
+---
+
 ## llm_wiki (Enterprise Plugin — `themisdb_llm_wiki`)
 
 > Full spec: [`plugins/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md`](plugins/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md)

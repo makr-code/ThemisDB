@@ -1,14 +1,13 @@
 /**
  * @file embedding_pipeline.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Embedding generation and management pipeline for content vectorization.
  * @version 0.0.15
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 73/100
+ * @note Gap Summary: total=13; TODO=2, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=2, C=1, H=3, M=7, L=0
+ * @note Status: Beta; Embedding pipeline scaffolding complete; model optimization and caching under test
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/embedding_pipeline.h"
 #include "content/content_metrics.h"
 #include "llm/embedded_llm.h"

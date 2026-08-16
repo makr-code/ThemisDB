@@ -398,8 +398,22 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
 
     std::string line;
     std::string current_sql;
+    // PHASE-4-HARDENING: Add bounds to prevent DoS from oversized SQL statements
+    const size_t kMaxLineLength = 65536;  // 64 KB per line
+    const size_t kMaxSqlLength = 1048576; // 1 MB per statement
+    size_t lines_processed = 0;
+    const size_t kMaxLinesPerSchema = 10000; // Max lines per schema detection
 
-    while (std::getline(file, line)) {
+    while (std::getline(file, line) && lines_processed < kMaxLinesPerSchema) {
+        ++lines_processed;
+         
+        // Truncate overly long lines
+        if (line.size() > kMaxLineLength) {
+            THEMIS_WARN("Oracle schema line {} exceeds max length ({}); truncating", 
+                       lines_processed, kMaxLineLength);
+            line.resize(kMaxLineLength);
+        }
+         
         // Skip empty lines and SQL comments (-- ...)
         if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) continue;
 
@@ -409,6 +423,13 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
             if (first == std::string::npos) continue;
         }
 
+        // Bounds check on accumulated SQL
+        if (current_sql.size() + stripped.size() + 1 > kMaxSqlLength) {
+            THEMIS_WARN("Oracle SQL statement exceeds max length ({}); truncating", kMaxSqlLength);
+            current_sql.clear();
+            continue;
+        }
+         
         current_sql += stripped + " ";
 
         if (line.find(';') != std::string::npos) {
@@ -746,10 +767,12 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
 
         // Collect type token (may include parenthesised precision, e.g. NUMBER(10,2)
         // or VARCHAR2(255 BYTE))
+        // PHASE-4-HARDENING: Add length limit to prevent DoS via oversized type strings
+        const size_t kMaxTypeLength = 256;
         std::string col_type;
         size_t k = type_start;
         int tdep = 0;
-        while (k < col_def.size()) {
+        while (k < col_def.size() && col_type.size() < kMaxTypeLength) {
             char c = col_def[k];
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {
@@ -761,6 +784,10 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
                 col_type += c;
             }
             ++k;
+        }
+         
+        if (col_type.size() >= kMaxTypeLength) {
+            THEMIS_WARN("Oracle column type exceeds max length ({}); truncating", kMaxTypeLength);
         }
 
         if (col_type.empty()) continue;

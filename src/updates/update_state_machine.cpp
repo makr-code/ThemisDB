@@ -247,7 +247,9 @@ void UpdateStateMachine::reset() {
         try {
             cb(from, UpdateState::IDLE, "");
         } catch (...) {
-            // Never let callbacks crash
+            // Error Code: 7490 - Never let callbacks crash the state machine
+            // Log and silently ignore to ensure state integrity is maintained
+            LOG_WARN("UpdateStateMachine: state change callback threw exception; silently caught");
         }
     }
 }

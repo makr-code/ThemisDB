@@ -555,11 +555,22 @@ private:
     mutable std::unordered_map<std::string, int64_t> ann_vertex_to_idx_;
     mutable std::vector<std::string>                  ann_idx_to_vertex_;
 
-    mutable std::mutex policy_mutex_;   ///< Protects policy_ updates
-    mutable std::mutex cycle_mutex_;    ///< Serialises concurrent triggerRefresh calls
-    mutable std::mutex stats_mutex_;    ///< Protects last_stats_ / audit_trail_ / changefeed_
+    // ─────────────────────────────────────────────────────────────────────────
+    // Lock Hierarchy (CANONICAL ORDER for deadlock prevention):
+    // Tier 1 (Acquire FIRST): cycle_mutex_
+    // Tier 2 (Acquire SECOND): policy_mutex_
+    // Tier 3 (Acquire LAST): stats_mutex_, cv_mutex_
+    //
+    // CRITICAL: Always acquire locks in Tier 1 → 2 → 3 order.
+    // If you need multiple locks, acquire higher tiers first.
+    // NEVER reverse this order, or deadlocks will occur.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    mutable std::mutex policy_mutex_;   ///< Tier 2: Protects policy_ updates
+    mutable std::mutex cycle_mutex_;    ///< Tier 1: Serialises concurrent triggerRefresh calls
+    mutable std::mutex stats_mutex_;    ///< Tier 3: Protects last_stats_ / audit_trail_ / changefeed_
     std::condition_variable cv_;
-    std::mutex cv_mutex_;
+    std::mutex cv_mutex_;               ///< Tier 3: Protects condition variable
 
     std::thread scheduler_thread_;
     std::atomic<bool> running_{false};
