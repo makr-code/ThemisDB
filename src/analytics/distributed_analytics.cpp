@@ -819,6 +819,11 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
             std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
             FutureResult f = promise.get_future();
+            // Detached worker safety:
+            // 1. std::thread captures all required data by value.
+            // 2. Future (f) synchronizes promise readiness only; it does not join the thread.
+            // 3. The lambda sets the promise as its final action and then exits immediately.
+            // 4. All exception paths set the promise value before returning.
             std::thread([entry, query, promise = std::move(promise)]() mutable {
                 ShardExecutionInfo info;
                 info.shard_id = entry.shard_id;
@@ -855,7 +860,10 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                         entry.shard_id);
                     promise.set_value({OLAPResult{}, std::move(info)});
                 }
+                // The promise is fulfilled as the last observable action before thread exit.
             }).detach();
+            // detach() is only safe here because the thread owns all captured state,
+            // fulfills the promise before returning, and performs no further work after that.
             futures.push_back(std::move(f));
         }
 

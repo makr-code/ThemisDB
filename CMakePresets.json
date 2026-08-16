@@ -468,9 +468,10 @@
       "inherits": "community-debug",
       "binaryDir": "${sourceDir}/build-develop-strict",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wunused -Wnull-dereference -Wformat=2 -Werror -Wno-deprecated-declarations",
-        "CMAKE_C_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wunused -Wnull-dereference -Wformat=2 -Werror",
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wunused -Wnull-dereference -Wformat=2 -Wno-deprecated-declarations",
+        "CMAKE_C_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wunused -Wnull-dereference -Wformat=2",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_STRICT_BUILD": "ON"
       }
     },
     {

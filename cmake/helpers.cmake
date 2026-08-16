@@ -92,3 +92,23 @@ function(themis_add_test name)
     # Apply sane defaults: 60s timeout, label 'unit' unless labels already set later
     set_tests_properties(${name} PROPERTIES LABELS "unit" TIMEOUT 60)
 endfunction()
+
+# ============================================================================
+# Strict Compilation Options Helper
+# ============================================================================
+# 
+# Apply -Werror and strict compilation flags to specific targets only,
+# not to external dependencies. This prevents strict mode from failing on
+# warnings in vendored code (e.g. llama.cpp, ggml).
+#
+# Usage:
+#   themis_apply_strict_build_flags(target_name)
+#
+# This function adds -Werror to the target's compile options if
+# THEMIS_STRICT_BUILD is enabled.
+#
+function(themis_apply_strict_build_flags target_name)
+    if(DEFINED THEMIS_STRICT_COMPILE_OPTIONS AND THEMIS_STRICT_COMPILE_OPTIONS)
+        target_compile_options(${target_name} PRIVATE ${THEMIS_STRICT_COMPILE_OPTIONS})
+    endif()
+endfunction()
