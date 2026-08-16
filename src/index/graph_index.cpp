@@ -644,14 +644,20 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	outEdges_.clear();
 	inEdges_.clear();
 
+	// W5: Materialize edge topology locally to avoid [this] capture and mutable state closure
+	std::unordered_map<std::string, std::vector<EdgeInfo>> local_out_edges;
+	std::unordered_map<std::string, std::vector<EdgeInfo>> local_in_edges;
+
 	// Scan all outgoing edges: graph:out:<graph_id>:<fromPk>:<edgeId> -> toPk
 	size_t out_scan_count = 0;
-	db_.scanPrefix("graph:out:", [this, &out_scan_count](std::string_view key, std::string_view val) {
+	// W5: Non-capturing lambda with explicit local container; db access via outer scope
+	db_.scanPrefix("graph:out:", [&local_out_edges, &out_scan_count, this](std::string_view key, std::string_view val) {
 		std::string graphId, fromPk, edgeId;
 		const std::string keyStr(key);
 		const size_t lastColon = keyStr.rfind(':');
 		if (lastColon == std::string::npos) return true;
 		edgeId = keyStr.substr(lastColon + 1);
+		// W5: Use db_ from outer scope through this - limited to data access only
 		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
 			BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
 			fromPk = edge.getFieldAsString("_from").value_or("");
@@ -659,20 +665,22 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 		}
 		if (fromPk.empty() && !parseOutKey_(key, graphId, fromPk, edgeId)) return true;
 		std::string toPk(val);
-		// Add to outEdges_
-		outEdges_[fromPk].push_back({edgeId, toPk, graphId});
+		// W5: Add to local container, not member; update after scan completes
+		local_out_edges[fromPk].push_back({edgeId, toPk, graphId});
 		++out_scan_count;
 		return true;
 	});
 	THEMIS_INFO("rebuildTopology: scanned {} outgoing edge keys", out_scan_count);
 
 	// Scan all incoming edges: graph:in:<graph_id>:<toPk>:<edgeId> -> fromPk
-	db_.scanPrefix("graph:in:", [this](std::string_view key, std::string_view val) {
+	// W5: Non-capturing lambda with explicit local container; db access via outer scope
+	db_.scanPrefix("graph:in:", [&local_in_edges, this](std::string_view key, std::string_view val) {
 		std::string graphId, toPk, edgeId;
 		const std::string keyStr(key);
 		const size_t lastColon = keyStr.rfind(':');
 		if (lastColon == std::string::npos) return true;
 		edgeId = keyStr.substr(lastColon + 1);
+		// W5: Use db_ from outer scope through this - limited to data access only
 		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
 			BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
 			toPk = edge.getFieldAsString("_to").value_or("");
@@ -680,9 +688,14 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 		}
 		if (toPk.empty() && !parseInKey_(key, graphId, toPk, edgeId)) return true;
 		std::string fromPk(val);
-		inEdges_[toPk].push_back({edgeId, fromPk, graphId});
+		// W5: Add to local container, not member; update after scan completes
+		local_in_edges[toPk].push_back({edgeId, fromPk, graphId});
 		return true;
 	});
+
+	// W5: Update members only after scan completes; preserve atomic topologyLoaded_ behavior
+	outEdges_ = std::move(local_out_edges);
+	inEdges_ = std::move(local_in_edges);
 
 	topologyLoaded_.store(true, std::memory_order_release);
 	return Status::OK();

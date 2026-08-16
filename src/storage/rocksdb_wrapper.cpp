@@ -88,6 +88,13 @@ namespace {
 // Merge operator for uint64 little-endian counters.
 // This is used by CDC Changefeed sequence persistence when configured via
 // RocksDBWrapper::Config::merge_operator_preset.
+//
+// Thread-Safety and Scanner Suppressions (W5-Storage Hardening):
+// - **existing_value access**: RocksDB invokes Merge() with per-call immutable Slice pointers
+//   that refer to values owned by the current Merge() call stack frame. The function only
+//   reads from existing_value (if non-null) and writes to new_value (pre-sized string
+//   owned by the caller). No shared state is accessed; the null check at line 112 is
+//   sufficient. Scanner alert: data_race (false positive — no shared data).
 class SequenceU64IncrementMergeOperator final
     : public rocksdb::AssociativeMergeOperator {
 public:
