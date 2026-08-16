@@ -69,7 +69,7 @@ struct NLIFaithfulnessVerifier::Impl {
         if (config.use_onnx) {
             ONNXModelLoaderConfig loader_config;
             loader_config.cache_dir = "./models";
-            loader_config.verify_checksum = false;
+            loader_config.verify_checksum = true;  // CRITICAL: Enable model integrity verification
             loader_config.auto_download = false;
             loader_config.create_cache_dir = true;
             

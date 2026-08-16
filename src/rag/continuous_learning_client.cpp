@@ -203,7 +203,7 @@ void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
     
     if (impl_->config.enable_batching) {
         // Add to batch
-        std::lock_guard<std::mutex> lock(impl_->batch_mutex);
+        std::unique_lock<std::mutex> lock(impl_->batch_mutex);
         impl_->metric_batch.push_back(metric);
         
         // Flush if batch is full
@@ -215,9 +215,13 @@ void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
             impl_->metric_batch.clear();
             
             // Send without holding lock
-            impl_->batch_mutex.unlock();
+            lock.unlock();
             impl_->sendMetricsInternal(to_send);
-            impl_->batch_mutex.lock();
+            
+            // Re-acquire lock with timeout (CRITICAL: bounded wait)
+            if (!lock.try_lock_for(std::chrono::seconds(5))) {
+                THEMIS_WARN("Failed to re-acquire batch_mutex within timeout");
+            }
         }
     } else {
         // Send immediately
