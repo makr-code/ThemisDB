@@ -15,6 +15,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <mutex>
 #include <random>
 #include <cmath>
 
@@ -27,6 +28,7 @@ struct PairwiseComparator::Impl {
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
     std::mt19937 rng;
+    mutable std::mutex scores_mutex;
     
     Impl() : rng(std::random_device{}()) {}
     

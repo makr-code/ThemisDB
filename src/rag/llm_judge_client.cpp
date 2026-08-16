@@ -178,6 +178,23 @@ struct LLMJudgeClient::Impl {
             auto plugin = std::make_shared<llm::LlamaWrapper>(wrapper_config);
 
             try {
+                // Verify model integrity via SHA-256 sidecar if available
+                std::string sha_path = model_path.string() + ".sha256";
+                if (std::filesystem::exists(sha_path)) {
+                    std::ifstream sidecar(sha_path);
+                    if (sidecar.is_open()) {
+                        std::string expected_hash;
+                        std::getline(sidecar, expected_hash);
+                        sidecar.close();
+                        
+                        std::string actual_hash = themis::utils::calculateSHA256(model_path.string());
+                        if (actual_hash.empty() || actual_hash != expected_hash) {
+                            THEMIS_WARN("LLMJudgeClient: model integrity check failed for {}", model_path.string());
+                            continue;
+                        }
+                    }
+                }
+                
                 if (!plugin->loadModel(model_path.string(), plugin_config)) {
                     THEMIS_WARN("LLMJudgeClient: failed to load local judge model candidate {}", model_path.string());
                     continue;
