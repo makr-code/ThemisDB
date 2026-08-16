@@ -282,7 +282,6 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
 
     // Phase 3: Initialize parser state tracker for resource limit enforcement
     ParserStateTracker parser_state(static_cast<size_t>(kMaxCmmnXmlBytes));
-    parser_state.start_timestamp = std::chrono::system_clock::now();
 
     auto tag_cb = [&](const XmlTag& t) {
         const std::string& tn = t.name;

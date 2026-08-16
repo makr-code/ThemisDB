@@ -1,0 +1,149 @@
+Run started: 2026-08-13T20:24:00+02:00
+===== vcpkg =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+6d9d7df564a1ccdaa994e4ad39ccd4a32360867b
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for vcpkg; attempting pointer update to origin/HEAD
+No origin/HEAD for vcpkg — skipping pointer update
+===== llama.cpp =====
+--- git status --porcelain ---
+?? ggml/src/ggml-vulkan/cmake/vulkan-shaders-gen-cache.cmake
+?? ggml/src/ggml-vulkan/cmake/vulkan-shaders-gen-toolchain-msvc.cmake
+--- superproject recorded commit ---
+
+--- ls-remote check for recorded commit ---
+(no recorded commit)
+Stashing local changes in llama.cpp
+No local changes to save
+Recorded commit not on origin for llama.cpp; attempting pointer update to origin/HEAD
+No origin/HEAD for llama.cpp — skipping pointer update
+===== whisper.cpp =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+95ea8f9bfb03a15db08a8989966fd1ae3361e20d
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for whisper.cpp; attempting pointer update to origin/HEAD
+No origin/HEAD for whisper.cpp — skipping pointer update
+===== stable-diffusion.cpp =====
+--- git status --porcelain ---
+ M examples/server/frontend
+ M ggml
+ M thirdparty/libwebm
+ M thirdparty/libwebp
+--- superproject recorded commit ---
+8afbeb6ba9702c15d41a38296f2ab1fe5c829fa0
+--- ls-remote check for recorded commit ---
+Stashing local changes in stable-diffusion.cpp
+No local changes to save
+Recorded commit not on origin for stable-diffusion.cpp; attempting pointer update to origin/HEAD
+No origin/HEAD for stable-diffusion.cpp — skipping pointer update
+===== ffmpeg =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+7e3781e3ca8a9f5cc6ba14e05cc5fd12498bbaa9
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for ffmpeg; attempting pointer update to origin/HEAD
+No origin/HEAD for ffmpeg — skipping pointer update
+===== external/GIUF =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+f1c98061cba837afafee4a29e22b065b283f3383
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for external/GIUF; attempting pointer update to origin/HEAD
+No origin/HEAD for external/GIUF — skipping pointer update
+===== plugins/themisdb_ethic_ai =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+ce401ad9d604012a2c02655e79f5c17f57a9f82d
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for plugins/themisdb_ethic_ai; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_ethic_ai — skipping pointer update
+===== plugins/themisdb_llm_wiki =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+2d454638b0473273c850c9886e3185f6bdbd22c8
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for plugins/themisdb_llm_wiki; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_llm_wiki — skipping pointer update
+===== plugins/themisdb_storage =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+03eb17c844a0da96eb66155e20075a90cf467c36
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for plugins/themisdb_storage; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_storage — skipping pointer update
+===== plugins/themisdb_importer =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+317add1f724d5f6b979883b85b3c530f6191804d
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for plugins/themisdb_importer; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_importer — skipping pointer update
+===== plugins/themisdb_plugin_signer =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+d333b666bdebb01940b19f76ea986abbb0f42968
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for plugins/themisdb_plugin_signer; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_plugin_signer — skipping pointer update
+===== plugins/themisdb_geo =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+f81e665630de4b67779801a332670342e534c9c9
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for plugins/themisdb_geo; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_geo — skipping pointer update
+===== plugins/themisdb_timeseries =====
+--- git status --porcelain ---
+--- superproject recorded commit ---
+48c381e12576363a45a81bc116abd5ce4c621577
+--- ls-remote check for recorded commit ---
+Recorded commit not on origin for plugins/themisdb_timeseries; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_timeseries — skipping pointer update
+===== projects/Themis.AdminTools.Shared =====
+--- git status --porcelain ---
+?? obj/
+--- superproject recorded commit ---
+3d9fcadc9a78dbf49add36a957fdae64d9c2eaf1
+--- ls-remote check for recorded commit ---
+Stashing local changes in projects/Themis.AdminTools.Shared
+No local changes to save
+Recorded commit not on origin for projects/Themis.AdminTools.Shared; attempting pointer update to origin/HEAD
+No origin/HEAD for projects/Themis.AdminTools.Shared — skipping pointer update
+===== docker/tmp/openssl =====
+MISSING PATH: docker/tmp/openssl
+===== tools/semgrep =====
+MISSING PATH: tools/semgrep
+===== tools/codeql =====
+MISSING PATH: tools/codeql
+No staged submodule pointer changes
+Pushing develop branch to origin (may require permissions)
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Run finished: 2026-08-13T20:27:13+02:00
+Stashed:
+llama.cpp
+stable-diffusion.cpp
+projects/Themis.AdminTools.Shared
+Updated:
+
+Skipped:
+vcpkg
+llama.cpp
+whisper.cpp
+stable-diffusion.cpp
+ffmpeg
+external/GIUF
+plugins/themisdb_ethic_ai
+plugins/themisdb_llm_wiki
+plugins/themisdb_storage
+plugins/themisdb_importer
+plugins/themisdb_plugin_signer
+plugins/themisdb_geo
+plugins/themisdb_timeseries
+projects/Themis.AdminTools.Shared
+DONE

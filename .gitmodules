@@ -6,6 +6,10 @@
 [submodule "llama.cpp"]
 	path = llama.cpp
 	url = https://github.com/ggerganov/llama.cpp.git
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg.git
+	branch = master
 [submodule "whisper.cpp"]
 	path = whisper.cpp
 	url = https://github.com/ggerganov/whisper.cpp.git
@@ -73,4 +77,3 @@
 [submodule "projects/Themis.AdminTools.Shared"]
 	path = projects/Themis.AdminTools.Shared
 	url = https://github.com/makr-code/themisdb_admin_tools.git
-	branch = admin-tools-split

@@ -48,12 +48,16 @@
 
 namespace themis { namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
 struct EVP_CIPHER_CTX_Deleter {
     void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
 };
 
 using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
+
+} // anonymous namespace
 
 /** @brief Implementation detail. */
 class HSMProvider::Impl {

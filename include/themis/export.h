@@ -61,7 +61,9 @@
 
 // themis_query - Query engine and AQL
 #ifndef THEMIS_QUERY_API
-#ifdef THEMIS_QUERY_EXPORTS
+#if defined(THEMIS_QUERY_STATIC)
+    #define THEMIS_QUERY_API
+#elif defined(THEMIS_QUERY_EXPORTS)
     #define THEMIS_QUERY_API THEMIS_EXPORT_MACRO
 #else
     #define THEMIS_QUERY_API THEMIS_IMPORT_MACRO

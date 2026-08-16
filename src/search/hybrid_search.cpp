@@ -92,16 +92,25 @@ HybridSearch::~HybridSearch() noexcept = default;
 // Reranker attachment
 // ============================================================================
 
-void HybridSearch::setReranker(LlmReranker::LlmBackend backend,
-                                const LlmReranker::Config& config) {
+void HybridSearch::setReranker(ILlmReranker::LlmBackend backend,
+                                const ILlmReranker::Config& config) {
     if (!backend) {
         reranker_.reset();
         THEMIS_DEBUG("HybridSearch: LLM re-ranker disabled");
         return;
     }
-    reranker_.emplace(config, std::move(backend));
-    THEMIS_DEBUG("HybridSearch: LLM re-ranker attached (batch_size={}, llm_weight={:.2f})",
-                 config.batch_size, config.llm_weight);
+    // Try to create an implementation via factory. If none registered,
+    // disable the reranker and log a warning to avoid linking heavy code.
+    auto impl = search::createLlmReranker(config);
+    if (impl) {
+        impl->setBackend(std::move(backend));
+        reranker_ = std::shared_ptr<ILlmReranker>(impl.release());
+        THEMIS_DEBUG("HybridSearch: LLM re-ranker attached (batch_size={}, llm_weight={:.2f})",
+                     config.batch_size, config.llm_weight);
+    } else {
+        THEMIS_WARN("HybridSearch: no LlmReranker factory registered; reranker disabled");
+        reranker_.reset();
+    }
 }
 
 void HybridSearch::setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor) {

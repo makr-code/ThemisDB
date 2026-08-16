@@ -14,6 +14,7 @@
 
 #include "query/functions/function_registry.h"
 #include "llm/lora_framework/lora_orchestrator.h"
+#include "themis/llm/lora_orchestrator_interface.h"
 #include <nlohmann/json.hpp>
 #include <memory>
 
@@ -30,7 +31,7 @@ using namespace themis::llm::lora;
  * Provides eleven AQL functions for LoRA framework operations:
  * 
  * 1. LORA_TRAIN(adapter_id, base_model, dataset, config) -> object
- *    Train a LoRA adapter on a dataset
+
  * 
  * 2. LORA_QUERY(model_id, adapter_id, prompt, options) -> string
  *    Execute inference with LoRA adapter
@@ -465,9 +466,9 @@ void registerLoRAFunctions(FunctionRegistry& registry);
 
 /**
  * @brief Get or create singleton LoRA orchestrator instance
- * @return Shared pointer to LoRA orchestrator
+ * @return Shared pointer to LoRA orchestrator interface
  */
-std::shared_ptr<LoRAOrchestrator> getLoRAOrchestrator();
+std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator();
 
 } // namespace functions
 } // namespace query

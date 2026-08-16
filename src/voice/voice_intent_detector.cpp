@@ -288,10 +288,10 @@ IntentResult VoiceIntentDetector::detect(
     
     // TASK 2.3: Hardened confidence threshold enforcement
     // Fallback chain implementation:
-    if (result.confidence < kMinIntentConfidence) {
+    if (result.confidence < config_.min_confidence_threshold) {
         // Confidence below threshold; try backup strategy
         spdlog::debug("VoiceIntentDetector::detect: confidence {} below threshold {} (error 6801)",
-                      result.confidence, kMinIntentConfidence);
+                  result.confidence, config_.min_confidence_threshold);
         
         // TASK 2.3: Fallback to context-aware intent detection if available
         if (context != nullptr && context->hasEntity("last_intent")) {
@@ -306,7 +306,7 @@ IntentResult VoiceIntentDetector::detect(
         }
         
         // TASK 2.3: Final fallback to CONVERSATION (safest default)
-        if (result.confidence < kMinIntentConfidence) {
+        if (result.confidence < config_.min_confidence_threshold) {
             result.intent = IntentCategory::CONVERSATION;
             result.confidence = 0.5f;  // Minimal confidence for safety default
             spdlog::debug("VoiceIntentDetector::detect: using safe default (CONVERSATION)");

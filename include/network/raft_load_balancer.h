@@ -156,6 +156,97 @@ public:
     };
 
     // -------------------------------------------------------------------------
+    // R17, R18: Connection Lifecycle Management (RAII Guard)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief RAII guard for connection lifecycle management.
+     *
+     * Ensures onConnectionOpened() and onConnectionClosed() are called in pairs,
+     * even if errors occur or exceptions are thrown. Prevents connection leaks
+     * from imbalanced callback invocations.
+     *
+     * Example:
+     * @code
+     *   auto conn = lb->selectBackend();  // Get backend address
+     *   lb->onConnectionOpened(conn);      // Manual open (or use guard)
+     *   // ... use connection ...
+     *   lb->onConnectionClosed(conn);      // Manual close
+     *
+     *   // OR using guard (exception-safe):
+     *   {
+     *       ConnectionGuard guard(*lb, backend_address);
+     *       // ... use connection (guard.address() == backend_address)
+     *       // guard destructor calls onConnectionClosed even if exception
+     *   }
+     * @endcode
+     */
+    class ConnectionGuard {
+    public:
+        /**
+         * @brief Create a connection guard for the given backend.
+         * Automatically calls onConnectionOpened() on construction.
+         * @param lb Reference to RaftLoadBalancer
+         * @param backend_address Backend address returned by selectBackend()
+         */
+        ConnectionGuard(RaftLoadBalancer& lb, const std::string& backend_address) noexcept
+            : lb_(lb), backend_address_(backend_address)
+        {
+            lb_.get().onConnectionOpened(backend_address_);
+        }
+
+        /**
+         * @brief Destructor automatically calls onConnectionClosed().
+         * Exception-safe: marked noexcept and suppresses any exceptions.
+         */
+        ~ConnectionGuard() noexcept
+        {
+            try {
+                lb_.get().onConnectionClosed(backend_address_);
+            }
+            catch (...) {
+                // Suppress exceptions during cleanup to maintain noexcept contract
+            }
+        }
+
+        // Non-copyable to prevent double-close
+        ConnectionGuard(const ConnectionGuard&) = delete;
+        ConnectionGuard& operator=(const ConnectionGuard&) = delete;
+
+        // Movable to support scope transfer
+        ConnectionGuard(ConnectionGuard&& other) noexcept
+            : lb_(other.lb_), backend_address_(std::move(other.backend_address_))
+        {
+            other.backend_address_.clear();
+        }
+
+        ConnectionGuard& operator=(ConnectionGuard&& other) noexcept
+        {
+            if (this != &other) {
+                // Close current connection before moving
+                try {
+                    lb_.get().onConnectionClosed(backend_address_);
+                }
+                catch (...) {}
+
+                lb_ = other.lb_;
+                backend_address_ = std::move(other.backend_address_);
+                other.backend_address_.clear();
+            }
+            return *this;
+        }
+
+        /**
+         * @brief Get the backend address this guard is managing.
+         */
+        const std::string& address() const noexcept { return backend_address_; }
+
+    private:
+        std::reference_wrapper<RaftLoadBalancer> lb_;
+        std::string backend_address_;
+    };
+
+    // -------------------------------------------------------------------------
     // Construction / Destruction
     // -------------------------------------------------------------------------
 

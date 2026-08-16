@@ -338,10 +338,6 @@ SchemaAutoDetector::validateStringCoercion(const std::string& value)
     return "";  // Valid
 }
 
-} // namespace importers
-} // namespace themis
-
-
 // ============================================================================
 // PHASE-3-ERROR-HANDLING: Schema Validation with Report
 // ============================================================================
@@ -434,4 +430,7 @@ SchemaValidationReport validateSchemaWithReport(
     
     return report;
 }
+
+} // namespace importers
+} // namespace themis
 

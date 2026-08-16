@@ -352,7 +352,7 @@ private:
     mutable std::mutex                  heartbeat_mutex_;
     std::condition_variable             heartbeat_cv_;
     std::unique_ptr<std::thread>        heartbeat_thread_;
-    std::atomic<std::chrono::milliseconds> last_heartbeat_ms_{0};
+    std::atomic<std::chrono::milliseconds> last_heartbeat_ms_{std::chrono::milliseconds(0)};
     std::atomic<size_t>                 coordination_failures_{0};
 
     // Generate a task ID for tasks without one (mirrors TaskScheduler logic).

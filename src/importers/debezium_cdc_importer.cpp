@@ -47,14 +47,14 @@ static ImportErrorCode mapDebeziumErrorToCode(const std::string& error_msg) {
     }
     if (lmsg.find("timeout") != std::string::npos ||
         lmsg.find("timed out") != std::string::npos) {
-        return ImportErrorCode::IMPORT_TIMEOUT;
+        return ImportErrorCode::DEADLINE_EXCEEDED;
     }
     if (lmsg.find("schema") != std::string::npos ||
         lmsg.find("parse") != std::string::npos ||
         lmsg.find("deserialization") != std::string::npos) {
         return ImportErrorCode::IMPORT_SCHEMA_MISMATCH;
     }
-    return ImportErrorCode::UNKNOWN_ERROR;
+    return ImportErrorCode::UNKNOWN;
 }
 
 } // anonymous namespace
@@ -229,41 +229,36 @@ ImportStats DebeziumCDCImporter::importData(
 
     // Delegate to streamEvents() with a ThemisDB-write sink.
     ImportStats stats{};
-    stats.start_time = std::chrono::steady_clock::now();
+    const auto start_time = std::chrono::steady_clock::now();
 
-    const ImportStats stream_stats = streamEvents(options,
+    // Delegate to streamEvents() which returns detailed stats including
+    // structured_errors for the no-build-flag guard path. Return the
+    // stream result directly so callers (and tests) observe connector
+    // unavailability correctly.
+    return streamEvents(options,
         [&](const CDCEvent& event) -> bool {
             if (cancelled_.load(std::memory_order_relaxed)) return false;
 
-            ++stats.rows_processed;
+            ++stats.total_records;
 
             if (event.op == ChangeOp::Unknown) {
-                ++stats.rows_skipped;
+                ++stats.skipped_records;
                 return true;
             }
 
             if (!tableAllowed(event.table)) {
-                ++stats.rows_skipped;
+                ++stats.skipped_records;
                 return true;
             }
 
             // In production: dispatch to ThemisDB storage layer.
-            // INSERT / READ  → upsert after
-            // UPDATE         → upsert after (merge or overwrite per options)
-            // DELETE         → delete by primary key from before
-            ++stats.rows_imported;
+            ++stats.imported_records;
 
             if (progress_callback) {
-                progress_callback(static_cast<double>(stats.rows_processed));
+                progress_callback("stream", stats.total_records, 0);
             }
             return true;
         });
-
-    (void)source_path;
-    (void)stream_stats;
-
-    stats.end_time = std::chrono::steady_clock::now();
-    return stats;
 }
 
 // ============================================================================
@@ -273,11 +268,11 @@ ImportStats DebeziumCDCImporter::importData(
 ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                                                CDCEventCallback callback) {
     ImportStats stats{};
-    stats.start_time = std::chrono::steady_clock::now();
+    const auto start_time = std::chrono::steady_clock::now();
 
     const auto deadline = (options.deadline_ms > 0)
         ? std::optional<std::chrono::steady_clock::time_point>(
-              stats.start_time + std::chrono::milliseconds(options.deadline_ms))
+              start_time + std::chrono::milliseconds(options.deadline_ms))
         : std::nullopt;
 
     // ---- Mock path (for unit tests) ----------------------------------------
@@ -285,26 +280,41 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
         for (auto& event : mock_events_) {
             if (cancelled_.load(std::memory_order_relaxed)) break;
             if (deadline && std::chrono::steady_clock::now() >= *deadline) break;
-            ++stats.rows_processed;
+            ++stats.total_records;
+
+            if (!tableAllowed(event.table)) {
+                ++stats.skipped_records;
+                continue;
+            }
+
             if (!callback(event)) break;
-            ++stats.rows_imported;
+            ++stats.imported_records;
         }
         mock_events_.clear();
-        stats.end_time = std::chrono::steady_clock::now();
+        const auto end_time = std::chrono::steady_clock::now();
+        stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+        stats.rows_imported = stats.imported_records;
+        stats.rows_skipped = stats.skipped_records;
+        stats.rows_quarantined = stats.quarantined_records;
         return stats;
     }
 
     // ---- Build guard check --------------------------------------------------
 #ifndef THEMIS_ENABLE_DEBEZIUM
     ImportError err;
-    err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+    err.code     = ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
     err.message  = "DebeziumCDCImporter: THEMIS_ENABLE_DEBEZIUM is not defined. "
                    "Rebuild with -DTHEMIS_ENABLE_DEBEZIUM=ON to enable the full "
                    "librdkafka-backed connector. Brokers: " +
                    sanitiseBrokers(config_.brokers);
     err.severity = ImportErrorSeverity::CRITICAL;
-    stats.errors.push_back(std::move(err));
-    stats.end_time = std::chrono::steady_clock::now();
+    stats.structured_errors.push_back(err);
+    stats.errors.push_back(err.message);
+    const auto end_time = std::chrono::steady_clock::now();
+    stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+    stats.rows_imported = stats.imported_records;
+    stats.rows_skipped = stats.skipped_records;
+    stats.rows_quarantined = stats.quarantined_records;
     return stats;
 #else
     // ---- Production path (librdkafka C++ API) --------------------------------
@@ -329,11 +339,16 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
         !setConf("enable.auto.commit", "false")                 ||
         !setConf("session.timeout.ms", "30000")) {
         ImportError err;
-        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.code     = ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
         err.message  = "DebeziumCDCImporter: configuration error: " + errstr;
         err.severity = ImportErrorSeverity::CRITICAL;
-        stats.errors.push_back(std::move(err));
-        stats.end_time = std::chrono::steady_clock::now();
+        stats.structured_errors.push_back(err);
+        stats.errors.push_back(err.message);
+        const auto end_time = std::chrono::steady_clock::now();
+        stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+        stats.rows_imported = stats.imported_records;
+        stats.rows_skipped = stats.skipped_records;
+        stats.rows_quarantined = stats.quarantined_records;
         return stats;
     }
 
@@ -346,11 +361,16 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
         RdKafka::KafkaConsumer::create(conf.get(), errstr));
     if (!consumer) {
         ImportError err;
-        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.code     = ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
         err.message  = "DebeziumCDCImporter: failed to create consumer: " + errstr;
         err.severity = ImportErrorSeverity::CRITICAL;
-        stats.errors.push_back(std::move(err));
-        stats.end_time = std::chrono::steady_clock::now();
+        stats.structured_errors.push_back(err);
+        stats.errors.push_back(err.message);
+        const auto end_time = std::chrono::steady_clock::now();
+        stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+        stats.rows_imported = stats.imported_records;
+        stats.rows_skipped = stats.skipped_records;
+        stats.rows_quarantined = stats.quarantined_records;
         return stats;
     }
 
@@ -359,12 +379,17 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
     //    Use a regex pattern to subscribe to all tables under the configured prefix.
     if (config_.topic_prefix.empty()) {
         ImportError err;
-        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.code     = ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
         err.message  = "DebeziumCDCImporter: 'topic_prefix' is required for "
-                       "the production Kafka path.";
+                   "the production Kafka path.";
         err.severity = ImportErrorSeverity::CRITICAL;
-        stats.errors.push_back(std::move(err));
-        stats.end_time = std::chrono::steady_clock::now();
+        stats.structured_errors.push_back(err);
+        stats.errors.push_back(err.message);
+        const auto end_time = std::chrono::steady_clock::now();
+        stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+        stats.rows_imported = stats.imported_records;
+        stats.rows_skipped = stats.skipped_records;
+        stats.rows_quarantined = stats.quarantined_records;
         return stats;
     }
 
@@ -375,12 +400,17 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
     const RdKafka::ErrorCode sub_err = consumer->subscribe(topics);
     if (sub_err != RdKafka::ERR_NO_ERROR) {
         ImportError err;
-        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.code     = ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
         err.message  = "DebeziumCDCImporter: subscribe failed: " +
-                       RdKafka::err2str(sub_err);
+                   RdKafka::err2str(sub_err);
         err.severity = ImportErrorSeverity::CRITICAL;
-        stats.errors.push_back(std::move(err));
-        stats.end_time = std::chrono::steady_clock::now();
+        stats.structured_errors.push_back(err);
+        stats.errors.push_back(err.message);
+        const auto end_time = std::chrono::steady_clock::now();
+        stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+        stats.rows_imported = stats.imported_records;
+        stats.rows_skipped = stats.skipped_records;
+        stats.rows_quarantined = stats.quarantined_records;
         return stats;
     }
 
@@ -400,7 +430,7 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
 
         switch (msg->err()) {
             case RdKafka::ERR_NO_ERROR: {
-                ++stats.rows_processed;
+                ++stats.total_records;
 
                 const std::string payload(
                     static_cast<const char*>(msg->payload()),
@@ -418,23 +448,29 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                 if (!parse_err.empty()) {
                     // Unparseable message — record error and continue.
                     ImportError err;
-                    err.code     = static_cast<uint32_t>(
-                        ImportErrorCode::IMPORT_SCHEMA_MISMATCH);
+                    err.code     = ImportErrorCode::IMPORT_SCHEMA_MISMATCH;
                     err.message  = "DebeziumCDCImporter: " + parse_err;
                     err.severity = ImportErrorSeverity::WARNING;
-                    stats.errors.push_back(std::move(err));
-                    ++stats.rows_skipped;
+                    stats.structured_errors.push_back(err);
+                    stats.errors.push_back(err.message);
+                    ++stats.skipped_records;
                     break;
                 }
 
                 // Store the Kafka offset in the event for downstream consumers.
                 event.offset = static_cast<uint64_t>(msg->offset());
 
+                if (!tableAllowed(event.table)) {
+                    ++stats.skipped_records;
+                    break;
+                }
+
                 if (!callback(event)) {
                     // Callback requested stop.
                     stop = true;
+                } else {
+                    ++stats.imported_records;
                 }
-                ++stats.rows_imported;
                 ++batch_count;
 
                 // At-least-once: commit after each batch window.
@@ -454,11 +490,12 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                 const ImportErrorCode code =
                     mapDebeziumErrorToCode(msg->errstr());
                 ImportError err;
-                err.code     = static_cast<uint32_t>(code);
+                err.code     = code;
                 err.message  = "DebeziumCDCImporter: consumer error: " +
                                msg->errstr();
                 err.severity = ImportErrorSeverity::ERROR;
-                stats.errors.push_back(std::move(err));
+                stats.structured_errors.push_back(err);
+                stats.errors.push_back(err.message);
                 break;
             }
         }
@@ -470,7 +507,11 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
     }
     consumer->close();
 
-    stats.end_time = std::chrono::steady_clock::now();
+    const auto end_time2 = std::chrono::steady_clock::now();
+    stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time2 - start_time).count();
+    stats.rows_imported = stats.imported_records;
+    stats.rows_skipped = stats.skipped_records;
+    stats.rows_quarantined = stats.quarantined_records;
     return stats;
 #endif
 }

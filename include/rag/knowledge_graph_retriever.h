@@ -13,6 +13,9 @@
 
 #include "rag/rag_judge.h"
 #include "graph/knowledge_graph_reasoner.h"
+// Forward-declare IKnowledgeGraph to avoid a circular include. The full
+// definition lives in themis/rag/kg/knowledge_graph_interface.h.
+namespace themis::rag::kg { class IKnowledgeGraph; }
 
 #include <memory>
 #include <optional>
@@ -343,6 +346,9 @@ public:
     explicit EntityLinker(const KnowledgeGraph&   graph,
                           const EntityLinkerConfig& config = {});
 
+    explicit EntityLinker(std::shared_ptr<IKnowledgeGraph> graph,
+                          const EntityLinkerConfig& config = {});
+
     /**
      * @brief Extract entities from @p text and link them to KG nodes.
      * @param text Source text.
@@ -351,7 +357,10 @@ public:
     std::vector<EntityLinkingMatch> link(const std::string& text) const;
 
 private:
-    const KnowledgeGraph&  graph_;
+    // When constructed from a concrete KnowledgeGraph, `raw_graph_` points
+    // to it. When constructed from an interface, `graph_iface_` is used.
+    const KnowledgeGraph*                 raw_graph_ = nullptr;
+    std::shared_ptr<IKnowledgeGraph>      graph_iface_;
     EntityLinkerConfig     config_;
 
     /// Extract raw entity candidates (surface spans) from text.
@@ -393,6 +402,9 @@ public:
      * @param config Retrieval configuration.
      */
     explicit KnowledgeGraphRetriever(const KnowledgeGraph&   graph,
+                                     const KGRetrieverConfig& config = {});
+
+    explicit KnowledgeGraphRetriever(std::shared_ptr<IKnowledgeGraph> graph,
                                      const KGRetrieverConfig& config = {});
 
     ~KnowledgeGraphRetriever();
@@ -469,6 +481,15 @@ public:
      */
     static std::unique_ptr<KnowledgeGraphRetriever> createBalanced(
         const KnowledgeGraph& graph);
+
+    static std::unique_ptr<KnowledgeGraphRetriever> createShallow(
+        std::shared_ptr<IKnowledgeGraph> graph);
+
+    static std::unique_ptr<KnowledgeGraphRetriever> createBalanced(
+        std::shared_ptr<IKnowledgeGraph> graph);
+
+    static std::unique_ptr<KnowledgeGraphRetriever> createDeep(
+        std::shared_ptr<IKnowledgeGraph> graph);
 
     /**
      * @brief Deep retriever: 3-hop traversal, higher KG weight (0.45).

@@ -235,6 +235,9 @@ public:
     std::optional<themisdb::sharding::CrossShardTransaction>
     getTransaction(const std::string& txn_id) const;
 
+    /** @brief Return whether the coordinator is healthy (leader healthy and running). */
+    bool isHealthy() const;
+
 private:
     std::string local_shard_id_;                    ///< Local shard identity.
     std::shared_ptr<ShardTopology> topology_;       ///< Shared topology provider.

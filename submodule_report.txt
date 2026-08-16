@@ -1,0 +1,135 @@
+--- docker/tmp/openssl ---
+MISSING PATH
+--- vcpkg ---
+commit:6d9d7df564
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/microsoft/vcpkg.git (fetch)
+origin	https://github.com/microsoft/vcpkg.git (push)
+commit-on-origin: NO
+--- llama.cpp ---
+commit:1e8924fd6
+porcelain:
+M ggml/src/ggml-vulkan/CMakeLists.txt
+ M ggml/src/ggml-vulkan/vulkan-shaders/CMakeLists.txt
+?? ggml/src/ggml-vulkan/cmake/vulkan-shaders-gen-cache.cmake
+?? ggml/src/ggml-vulkan/cmake/vulkan-shaders-gen-toolchain-msvc.cmake
+branch:HEAD
+remote:
+origin	https://github.com/ggerganov/llama.cpp.git (fetch)
+origin	https://github.com/ggerganov/llama.cpp.git (push)
+commit-on-origin: NO
+--- whisper.cpp ---
+commit:95ea8f9b
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/ggerganov/whisper.cpp.git (fetch)
+origin	https://github.com/ggerganov/whisper.cpp.git (push)
+commit-on-origin: NO
+--- stable-diffusion.cpp ---
+commit:8afbeb6
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/leejet/stable-diffusion.cpp.git (fetch)
+origin	https://github.com/leejet/stable-diffusion.cpp.git (push)
+commit-on-origin: NO
+--- ffmpeg ---
+commit:7e3781e3ca
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/FFmpeg/FFmpeg.git (fetch)
+origin	https://github.com/FFmpeg/FFmpeg.git (push)
+commit-on-origin: NO
+--- external/GIUF ---
+commit:f1c9806
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/GIUF.git (fetch)
+origin	https://github.com/makr-code/GIUF.git (push)
+commit-on-origin: NO
+--- tools/semgrep ---
+MISSING PATH
+--- tools/codeql ---
+MISSING PATH
+--- plugins/themisdb_ethic_ai ---
+commit:ce401ad
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_ethic_ai.git (fetch)
+origin	https://github.com/makr-code/themisdb_ethic_ai.git (push)
+commit-on-origin: NO
+--- plugins/themisdb_llm_wiki ---
+commit:2d45463
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_llm_wiki.git (fetch)
+origin	https://github.com/makr-code/themisdb_llm_wiki.git (push)
+commit-on-origin: NO
+--- plugins/themisdb_storage ---
+commit:03eb17c
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_storage.git (fetch)
+origin	https://github.com/makr-code/themisdb_storage.git (push)
+commit-on-origin: NO
+--- plugins/themisdb_importer ---
+commit:317add1
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_importer.git (fetch)
+origin	https://github.com/makr-code/themisdb_importer.git (push)
+commit-on-origin: NO
+--- plugins/themisdb_plugin_signer ---
+commit:d333b66
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_plugin_signer.git (fetch)
+origin	https://github.com/makr-code/themisdb_plugin_signer.git (push)
+commit-on-origin: NO
+--- plugins/themisdb_geo ---
+commit:f81e665
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_geo.git (fetch)
+origin	https://github.com/makr-code/themisdb_geo.git (push)
+commit-on-origin: NO
+--- plugins/themisdb_timeseries ---
+commit:48c381e
+porcelain:
+
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_timeseries.git (fetch)
+origin	https://github.com/makr-code/themisdb_timeseries.git (push)
+commit-on-origin: NO
+--- projects/Themis.AdminTools.Shared ---
+commit:3d9fcad
+porcelain:
+?? obj/
+branch:HEAD
+remote:
+origin	https://github.com/makr-code/themisdb_admin_tools.git (fetch)
+origin	https://github.com/makr-code/themisdb_admin_tools.git (push)
+commit-on-origin: NO

@@ -10,6 +10,7 @@
  */
 
 #include "rag/knowledge_graph_retriever.h"
+#include "themis/rag/kg/knowledge_graph_interface.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -284,7 +285,11 @@ double EntityLinker::similarity(const std::string& a, const std::string& b) {
 
 EntityLinker::EntityLinker(const KnowledgeGraph&    graph,
                            const EntityLinkerConfig& config)
-    : graph_(graph), config_(config) {}
+    : raw_graph_(&graph), graph_iface_(nullptr), config_(config) {}
+
+EntityLinker::EntityLinker(std::shared_ptr<IKnowledgeGraph> graph,
+                           const EntityLinkerConfig& config)
+    : raw_graph_(nullptr), graph_iface_(std::move(graph)), config_(config) {}
 
 std::vector<Entity> EntityLinker::extract(const std::string& text) const {
     std::vector<Entity> entities;
@@ -377,26 +382,33 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
         const KGNode* best_node     = nullptr;
         double         best_sim     = 0.0;
 
-        // Search through all nodes for the best match
-        // We use findNodeByName which already holds the lock internally.
-        const KGNode* candidate_node = graph_.findNodeByName(entity.text);
-        if (candidate_node) {
-            best_sim  = stringSimilarity(norm_text,
-                            normalise(candidate_node->canonical_name));
-            // Also check aliases
-            for (const auto& alias : candidate_node->aliases) {
+        // Search through all nodes for the best match. Support both concrete
+        // KnowledgeGraph and interface-backed graphs.
+        std::optional<KGNode> candidate_node_opt;
+        if (raw_graph_) {
+            const KGNode* p = raw_graph_->findNodeByName(entity.text);
+            if (p) candidate_node_opt = *p;
+        } else if (graph_iface_) {
+            candidate_node_opt = graph_iface_->findNodeByName(entity.text);
+        }
+
+        if (candidate_node_opt) {
+            const KGNode& candidate_node = *candidate_node_opt;
+            best_sim = stringSimilarity(norm_text, normalise(candidate_node.canonical_name));
+            for (const auto& alias : candidate_node.aliases) {
                 const double s = stringSimilarity(norm_text, normalise(alias));
                 if (s > best_sim) best_sim = s;
             }
-            best_node = candidate_node;
+            // We don't keep a pointer into optional; store id via node_id later.
+            best_node = nullptr; // indicate we have a match via candidate_node_opt
         }
 
         EntityLinkingMatch match;
         match.entity        = entity;
         match.linking_score = best_sim;
-        match.is_linked     = (best_node != nullptr) &&
-                              (best_sim >= config_.min_linking_score);
-        match.node_id       = match.is_linked ? best_node->id : "";
+        match.is_linked     = candidate_node_opt.has_value() &&
+                      (best_sim >= config_.min_linking_score);
+        match.node_id       = match.is_linked ? candidate_node_opt->id : "";
         matches.push_back(std::move(match));
     }
 
@@ -408,7 +420,8 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
 // =============================================================================
 
 struct KnowledgeGraphRetriever::Impl {
-    const KnowledgeGraph*                 graph;
+    const KnowledgeGraph*                 graph = nullptr;
+    std::shared_ptr<IKnowledgeGraph>     graph_iface;
     KGRetrieverConfig                     config;
     graph::KnowledgeGraphReasoner*        reasoner = nullptr;  ///< optional; not owned
 };
@@ -424,6 +437,17 @@ KnowledgeGraphRetriever::KnowledgeGraphRetriever(const KnowledgeGraph&    graph,
     impl_->graph  = &graph;
     impl_->config = config;
     THEMIS_DEBUG("KnowledgeGraphRetriever created: depth={}, kg_weight={:.2f}",
+                 config.max_traversal_depth, config.kg_score_weight);
+}
+
+KnowledgeGraphRetriever::KnowledgeGraphRetriever(std::shared_ptr<IKnowledgeGraph> graph,
+                                                 const KGRetrieverConfig& config)
+    : impl_(std::make_unique<Impl>())
+{
+    impl_->graph = nullptr;
+    impl_->graph_iface = std::move(graph);
+    impl_->config = config;
+    THEMIS_DEBUG("KnowledgeGraphRetriever(created from IKnowledgeGraph): depth={}, kg_weight={:.2f}",
                  config.max_traversal_depth, config.kg_score_weight);
 }
 
@@ -454,8 +478,13 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     const KGRetrieverConfig& cfg = impl_->config;
 
     // ── Step 1: Extract and link entities from the query ─────────────────────
-    EntityLinker linker(*impl_->graph, cfg.linker_config);
-    result.query_entity_links = linker.link(query);
+    std::unique_ptr<EntityLinker> linker_ptr;
+    if (impl_->graph) {
+        linker_ptr = std::make_unique<EntityLinker>(*impl_->graph, cfg.linker_config);
+    } else {
+        linker_ptr = std::make_unique<EntityLinker>(impl_->graph_iface, cfg.linker_config);
+    }
+    result.query_entity_links = linker_ptr->link(query);
 
     THEMIS_DEBUG("Query '{}' links={}", query, result.query_entity_links.size());
     for (const auto& m : result.query_entity_links) {
@@ -549,7 +578,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         aug_doc.kg_boost    = 0.0;
 
         // Link entities in this document
-        aug_doc.entity_links = linker.link(doc.content);
+        aug_doc.entity_links = linker_ptr->link(doc.content);
         THEMIS_DEBUG("Doc '{}' entity_links.size={} content='{}'", doc.id, aug_doc.entity_links.size(), doc.content);
         for (const auto& dm : aug_doc.entity_links) {
             THEMIS_DEBUG("  -> entity='{}' node_id='{}' linked={} score={}",
@@ -563,9 +592,16 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
             doc_node_ids.insert(match.node_id);
 
             // Also add 1-hop neighbours of document entities
-            auto nbrs = impl_->graph->neighbours(match.node_id, 1,
-                                                 cfg.min_edge_weight);
-            for (auto& nb : nbrs) {
+            std::unordered_set<std::string> nbrs_set;
+            if (impl_->graph) {
+                auto nbrs = impl_->graph->neighbours(match.node_id, 1,
+                                                     cfg.min_edge_weight);
+                nbrs_set = std::move(nbrs);
+            } else if (impl_->graph_iface) {
+                nbrs_set = impl_->graph_iface->neighbours(match.node_id, 1,
+                                                         cfg.min_edge_weight);
+            }
+            for (auto& nb : nbrs_set) {
                 doc_node_ids.insert(nb);
             }
         }
@@ -655,6 +691,14 @@ KnowledgeGraphRetrieverFactory::createShallow(const KnowledgeGraph& graph) {
 }
 
 std::unique_ptr<KnowledgeGraphRetriever>
+KnowledgeGraphRetrieverFactory::createShallow(std::shared_ptr<IKnowledgeGraph> graph) {
+    KGRetrieverConfig cfg;
+    cfg.max_traversal_depth = 1;
+    cfg.kg_score_weight     = 0.2;
+    return std::make_unique<KnowledgeGraphRetriever>(std::move(graph), cfg);
+}
+
+std::unique_ptr<KnowledgeGraphRetriever>
 KnowledgeGraphRetrieverFactory::createBalanced(const KnowledgeGraph& graph) {
     KGRetrieverConfig cfg;
     cfg.max_traversal_depth = 2;
@@ -663,11 +707,27 @@ KnowledgeGraphRetrieverFactory::createBalanced(const KnowledgeGraph& graph) {
 }
 
 std::unique_ptr<KnowledgeGraphRetriever>
+KnowledgeGraphRetrieverFactory::createBalanced(std::shared_ptr<IKnowledgeGraph> graph) {
+    KGRetrieverConfig cfg;
+    cfg.max_traversal_depth = 2;
+    cfg.kg_score_weight     = 0.3;
+    return std::make_unique<KnowledgeGraphRetriever>(std::move(graph), cfg);
+}
+
+std::unique_ptr<KnowledgeGraphRetriever>
 KnowledgeGraphRetrieverFactory::createDeep(const KnowledgeGraph& graph) {
     KGRetrieverConfig cfg;
     cfg.max_traversal_depth = 3;
     cfg.kg_score_weight     = 0.45;
     return std::make_unique<KnowledgeGraphRetriever>(graph, cfg);
+}
+
+std::unique_ptr<KnowledgeGraphRetriever>
+KnowledgeGraphRetrieverFactory::createDeep(std::shared_ptr<IKnowledgeGraph> graph) {
+    KGRetrieverConfig cfg;
+    cfg.max_traversal_depth = 3;
+    cfg.kg_score_weight     = 0.45;
+    return std::make_unique<KnowledgeGraphRetriever>(std::move(graph), cfg);
 }
 
 } // namespace themis::rag::kg

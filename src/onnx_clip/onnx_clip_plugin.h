@@ -123,9 +123,11 @@ public:
     /// Thread-safe (guarded by a static mutex).
     static void setModelHashFn(ModelHashFn fn);
 
-private:
-    // Implementation details
+public:
+    // Implementation details (forward-declared as public so the out-of-class
+    // definition in the .cpp may legally provide the concrete type).
     struct Impl;
+private:
     /// Guards pointer-level swap of impl_ during hot-swap reloads.
     mutable std::mutex impl_swap_mtx_;
     std::shared_ptr<Impl> impl_;

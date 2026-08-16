@@ -11,6 +11,7 @@
 
 
 #include "index/multi_vector_search.h"
+#include "index/connection_guard.h"  // Phase 3 A-6: Connection leak prevention
 #include "index/vector_index.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"

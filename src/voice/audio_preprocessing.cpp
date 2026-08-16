@@ -665,43 +665,43 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
     return result;
 }
 
-bool AudioPreprocessingPipeline::isCodecSupported(AudioCodec codec) const {
+bool AudioPreprocessingPipeline::isCodecSupported(DetectedAudioCodec codec) const {
     switch (codec) {
-        case AudioCodec::PCM16:
-        case AudioCodec::PCM32:
-        case AudioCodec::OPUS:
-        case AudioCodec::AAC:
-        case AudioCodec::FLAC:
+        case DetectedAudioCodec::PCM16:
+        case DetectedAudioCodec::PCM32:
+        case DetectedAudioCodec::OPUS:
+        case DetectedAudioCodec::AAC:
+        case DetectedAudioCodec::FLAC:
             return true;
-        case AudioCodec::UNKNOWN:
+        case DetectedAudioCodec::UNKNOWN:
         default:
             return false;
     }
 }
 
-AudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
+DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     const std::vector<uint8_t>& raw_audio) const
 {
-    if (raw_audio.size() < 4) return AudioCodec::UNKNOWN;
+    if (raw_audio.size() < 4) return DetectedAudioCodec::UNKNOWN;
     
     // Check for OPUS header (0xFF, 0x4F)
     if (raw_audio[0] == 0xFF && raw_audio[1] == 0x4F) {
-        return AudioCodec::OPUS;
+        return DetectedAudioCodec::OPUS;
     }
     
     // Check for FLAC header ('fLaC' = 0x66 0x4C 0x61 0x43)
     if (raw_audio.size() >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
         raw_audio[2] == 0x61 && raw_audio[3] == 0x43) {
-        return AudioCodec::FLAC;
+        return DetectedAudioCodec::FLAC;
     }
     
     // Check for AAC header (0xFF 0xF1 or 0xFF 0xF9)
     if (raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
-        return AudioCodec::AAC;
+        return DetectedAudioCodec::AAC;
     }
     
     // Default to PCM16 for raw PCM data
-    return AudioCodec::PCM16;
+    return DetectedAudioCodec::PCM16;
 }
 
 bool AudioPreprocessingPipeline::validateFrameHeader(

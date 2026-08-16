@@ -6,8 +6,8 @@
  */
 
 #include "gpu/gpu_memory_allocator.h"
-#include "themis/gpu/gpu_backend_dispatch_contract.h"
-#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+#include "gpu/gpu_backend_dispatch_contract.h"
+#include "gpu/gpu_backend_dispatch_diagnostics.h"
 #include <cuda_runtime.h>
 #include <algorithm>
 #include <utility>

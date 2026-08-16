@@ -200,7 +200,7 @@ bool PromptTemplateValidator::hasSQLInjectionPattern(const std::string& content)
     };
     
     for (const auto& keyword : sql_keywords) {
-        if (containsIgnoreCase(content, keyword)) {
+        if (themis::prompt_engineering::containsIgnoreCase(content, keyword)) {
             // Additional check: look for quote patterns suggesting SQL injection
             if (content.find("'") != std::string::npos || 
                 content.find("\"") != std::string::npos ||
@@ -265,10 +265,10 @@ bool PromptTemplateValidator::hasTemplateInjectionPattern(const std::string& con
     }
     
     // Check for Jinja2/Template-style code execution patterns
-    if (containsIgnoreCase(content, "{% for ") ||
-        containsIgnoreCase(content, "{% if ") ||
-        containsIgnoreCase(content, "{% macro ") ||
-        containsIgnoreCase(content, "{% import ")) {
+    if (themis::prompt_engineering::containsIgnoreCase(content, "{% for ") ||
+        themis::prompt_engineering::containsIgnoreCase(content, "{% if ") ||
+        themis::prompt_engineering::containsIgnoreCase(content, "{% macro ") ||
+        themis::prompt_engineering::containsIgnoreCase(content, "{% import ")) {
         return true;
     }
     

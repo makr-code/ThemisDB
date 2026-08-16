@@ -33,14 +33,18 @@ SocketTimeoutManager::SocketTimeoutManager(const SocketTimeoutConfig& config)
                  config_.write_timeout.count());
 }
 
-SocketTimeoutManager::~SocketTimeoutManager() {
-    spdlog::info("SocketTimeoutManager destroyed. Stats: accept_timeouts={}, read_timeouts={}, write_timeouts={}, "
-                 "successful_ops={}, timeout_rate={:.2f}%",
-                 stats_.accept_timeouts.load(),
-                 stats_.read_timeouts.load(),
-                 stats_.write_timeouts.load(),
-                 stats_.successful_operations.load(),
-                 stats_.getTimeoutRate() * 100.0);
+SocketTimeoutManager::~SocketTimeoutManager() noexcept {
+    try {
+        spdlog::info("SocketTimeoutManager destroyed. Stats: accept_timeouts={}, read_timeouts={}, write_timeouts={}, "
+                     "successful_ops={}, timeout_rate={:.2f}%",
+                     stats_.accept_timeouts.load(),
+                     stats_.read_timeouts.load(),
+                     stats_.write_timeouts.load(),
+                     stats_.successful_operations.load(),
+                     stats_.getTimeoutRate() * 100.0);
+    } catch (...) {
+        // Suppress exceptions in destructor; logging failure is non-critical
+    }
 }
 
 bool SocketTimeoutManager::configureSocket(socket_t socket) {

@@ -16,6 +16,7 @@
 #include <memory>
 #include <mutex>
 #include <nlohmann/json.hpp>
+#include "themis/export.h"
 
 namespace themis::governance {
 
@@ -51,7 +52,7 @@ enum class GovDiagnosticCode : int32_t {
  * detected during governance operations. Includes remediation guidance
  * for operational teams.
  */
-struct GovernanceDiagnostic {
+struct THEMIS_SECURITY_API GovernanceDiagnostic {
     /// Error classification code (see GovDiagnosticCode).
     GovDiagnosticCode code = GovDiagnosticCode::kConflictDetected;
     
@@ -84,7 +85,7 @@ struct GovernanceDiagnostic {
  * by component, code, or time range. Supports export for monitoring
  * and alerting systems.
  */
-class DiagnosticAggregator {
+class THEMIS_SECURITY_API DiagnosticAggregator {
 public:
     DiagnosticAggregator() = default;
     ~DiagnosticAggregator() = default;
@@ -171,7 +172,7 @@ private:
  *
  * @return Singleton DiagnosticAggregator instance.
  */
-DiagnosticAggregator& getGlobalDiagnosticAggregator();
+THEMIS_SECURITY_API DiagnosticAggregator& getGlobalDiagnosticAggregator();
 
 /**
  * @brief Conflict diagnostic helper for Phase 3B hardening.
@@ -180,7 +181,7 @@ DiagnosticAggregator& getGlobalDiagnosticAggregator();
  * diagnostics integration. Provides conflict resolution metadata
  * for policy engine and compliance reporter.
  */
-class ConflictDiagnosticHelper {
+class THEMIS_SECURITY_API ConflictDiagnosticHelper {
 public:
     /**
      * @brief Conflict resolution strategies.
@@ -407,7 +408,7 @@ struct AccessRequest {
  *
  * Thread-safe. Intended for pre-evaluation checks before policy engine.
  */
-class SafeAccessValidator {
+class THEMIS_SECURITY_API SafeAccessValidator {
 public:
     /**
      * @brief Create validator with optional external aggregator.

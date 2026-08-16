@@ -33,21 +33,21 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
       leadership_acquired_(0),
       leadership_lost_(0),
       coordination_failures_(0),
-      last_heartbeat_ms_(0)
+      last_heartbeat_ms_(std::chrono::milliseconds(0))
 {
     // Phase 3: Structured validation error logging
     if (!scheduler_) {
         THEMIS_ERROR(
             "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
             "code={} msg='scheduler cannot be null' context={{}}",
-            static_cast<int>(SchedulerError::kInternalError));
+            static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
     }
     if (!coordinator_) {
         THEMIS_ERROR(
             "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
             "code={} msg='coordinator cannot be null' context={{}}",
-            static_cast<int>(SchedulerError::kInternalError));
+            static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
     }
 }
@@ -65,21 +65,21 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
       leadership_acquired_(0),
       leadership_lost_(0),
       coordination_failures_(0),
-      last_heartbeat_ms_(0)
+      last_heartbeat_ms_(std::chrono::milliseconds(0))
 {
     // Phase 3: Structured validation error logging
     if (!scheduler_) {
         THEMIS_ERROR(
             "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
             "code={} msg='scheduler cannot be null' context={{}}",
-            static_cast<int>(SchedulerError::kInternalError));
+            static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
     }
     if (!coordinator_) {
         THEMIS_ERROR(
             "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
             "code={} msg='coordinator cannot be null' context={{}}",
-            static_cast<int>(SchedulerError::kInternalError));
+            static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
     }
 
@@ -514,39 +514,41 @@ SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
             "[DistributedTaskCoordinator::handleSplitBrainDetection] "
             "code={} msg='split-brain check requested but coordinator not running' "
             "context={{running={}, coordinator_active=false}}",
-            static_cast<int>(SchedulerError::kCoordinationError),
+            static_cast<int>(themis::scheduler::SchedulerError::kCoordinationError),
             running_.load());
-        return SchedulerError::kCoordinationError;
+        return themis::scheduler::SchedulerError::kCoordinationError;
     }
 
     try {
         // Check for split-brain conditions: multiple leaders, stale replicas, etc.
         const std::string my_id = coordinator_->getLocalShardId();
-        const auto current_leader = coordinator_->getCurrentLeader();
+        const std::optional<std::string> current_leader = coordinator_->getCurrentLeader();
 
         {
             std::lock_guard<std::mutex> lock(leadership_mutex_);
 
             // If we have a stored leader ID and it differs from the current leader,
             // this may indicate a leadership change or split-brain condition.
-            if (!current_leader_.empty() && current_leader_.value_or("") != current_leader_.value_or("")) {
-                THEMIS_WARN(
-                    "[DistributedTaskCoordinator::handleSplitBrainDetection] "
-                    "code={} msg='split-brain detected' "
-                    "context={{node_id='{}', previous_leader='{}', current_leader='{}', "
-                    "scheduler_active={}}}",
-                    static_cast<int>(SchedulerError::kCoordinationError),
-                    my_id, current_leader_, current_leader.value_or("unknown"),
-                    scheduler_active_.load());
-                
-                // Fail-closed: deactivate scheduler if this node is a leader
-                if (scheduler_active_.load()) {
-                    THEMIS_INFO("DistributedTaskCoordinator: deactivating scheduler due to split-brain detection");
-                    deactivateScheduler();
-                }
+            if (!current_leader_.empty() && current_leader.has_value()) {
+                if (current_leader_ != current_leader.value()) {
+                    THEMIS_WARN(
+                        "[DistributedTaskCoordinator::handleSplitBrainDetection] "
+                        "code={} msg='split-brain detected' "
+                        "context={{node_id='{}', previous_leader='{}', current_leader='{}', "
+                        "scheduler_active={}}}",
+                        static_cast<int>(themis::scheduler::SchedulerError::kCoordinationError),
+                        my_id, current_leader_, current_leader ? *current_leader : "unknown",
+                        scheduler_active_.load());
 
-                coordination_failures_.fetch_add(1);
-                return SchedulerError::kCoordinationError;
+                    // Fail-closed: deactivate scheduler if this node is a leader
+                    if (scheduler_active_.load()) {
+                        THEMIS_INFO("DistributedTaskCoordinator: deactivating scheduler due to split-brain detection");
+                        deactivateScheduler();
+                    }
+
+                    coordination_failures_.fetch_add(1);
+                    return themis::scheduler::SchedulerError::kCoordinationError;
+                }
             }
 
             // Update the current leader for next check
@@ -556,17 +558,17 @@ SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
         }
 
         THEMIS_DEBUG("DistributedTaskCoordinator: split-brain check passed (leader={})",
-                    current_leader.value_or("unknown"));
-        return SchedulerError::kSuccess;
+                    current_leader ? *current_leader : "unknown");
+        return themis::scheduler::SchedulerError::kSuccess;
     } catch (const std::exception& ex) {
         THEMIS_ERROR(
             "[DistributedTaskCoordinator::handleSplitBrainDetection] "
             "code={} msg='error during split-brain detection' exception='{}' "
             "context={{coordinator_available=true}}",
-            static_cast<int>(SchedulerError::kCoordinationError),
+            static_cast<int>(themis::scheduler::SchedulerError::kCoordinationError),
             ex.what());
         coordination_failures_.fetch_add(1);
-        return SchedulerError::kCoordinationError;
+        return themis::scheduler::SchedulerError::kCoordinationError;
     }
 }
 

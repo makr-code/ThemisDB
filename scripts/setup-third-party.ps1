@@ -135,6 +135,7 @@ if (-not (Test-Path (Join-Path $RepoRoot '.git'))) {
 
 Ensure-Submodule -Root $RepoRoot -Name 'ffmpeg'
 Ensure-Submodule -Root $RepoRoot -Name 'llama.cpp'
+Ensure-Submodule -Root $RepoRoot -Name 'vcpkg'
 Ensure-Vcpkg -Root $RepoRoot -Bootstrap:$BootstrapVcpkg -ForceReclone:$ForceRecloneVcpkg
 Ensure-VcpkgBaseline -Root $RepoRoot
 

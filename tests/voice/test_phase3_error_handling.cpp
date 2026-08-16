@@ -59,10 +59,10 @@ TEST_F(AudioValidationTest, AcceptValidPayload) {
 }
 
 TEST_F(AudioValidationTest, CodecWhitelistValidation) {
-    EXPECT_TRUE(pipeline.isCodecSupported(AudioCodec::PCM16));
-    EXPECT_TRUE(pipeline.isCodecSupported(AudioCodec::OPUS));
-    EXPECT_TRUE(pipeline.isCodecSupported(AudioCodec::FLAC));
-    EXPECT_FALSE(pipeline.isCodecSupported(AudioCodec::UNKNOWN));
+    EXPECT_TRUE(pipeline.isCodecSupported(DetectedAudioCodec::PCM16));
+    EXPECT_TRUE(pipeline.isCodecSupported(DetectedAudioCodec::OPUS));
+    EXPECT_TRUE(pipeline.isCodecSupported(DetectedAudioCodec::FLAC));
+    EXPECT_FALSE(pipeline.isCodecSupported(DetectedAudioCodec::UNKNOWN));
 }
 
 // ============================================================================

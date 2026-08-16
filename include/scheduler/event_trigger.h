@@ -12,6 +12,7 @@
 #pragma once
 
 #include "cdc/changefeed.h"
+#include "scheduler/scheduler_api_contract.h"
 #include <string>
 #include <set>
 #include <optional>
