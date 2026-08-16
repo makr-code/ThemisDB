@@ -5,6 +5,9 @@ name: CI — Benchmarks
 #           06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml,
 #           07-quality_nightly-benchmark-sweep.yml
 
+env:
+  ARTIFACT_DIR: 'benchmark-artifacts'
+
 on:
   # Heavy benchmark jobs (voice, GPU, nightly sweep) run on schedule/dispatch only.
   # push and pull_request triggers removed to avoid blocking PRs with slow, resource-
