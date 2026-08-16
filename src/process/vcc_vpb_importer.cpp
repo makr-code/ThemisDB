@@ -302,8 +302,8 @@ json parseVccVpbYaml(const std::string& yaml_text) {
             }
 
             // New activity item
-            if (std::regex_match(trimmed, std::regex(R"(^-\s*$)")) ||
-                trimmed.substr(0, 2) == "- ") {
+            if (std::regex_match(trimmed, activity_dash_re) ||
+                (trimmed.size() >= 2 && trimmed.substr(0, 2) == "- ")) {
 
                 if (in_activity && !current_activity.empty()) {
                     activities.push_back(current_activity);
@@ -315,9 +315,8 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 // Check if first key is on same line: "- id: foo"
                 std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
-                    std::regex kv(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");
                     std::smatch m;
-                    if (std::regex_search(rest, m, kv)) {
+                    if (std::regex_search(rest, m, activity_kv_re)) {
                         current_activity[m[1].str()] = unquote(trimStr(m[2].str()));
                     }
                 }
@@ -326,9 +325,8 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
             if (in_activity) {
                 // Parse key: value inside activity
-                std::regex kv(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");
                 std::smatch m;
-                if (std::regex_search(trimmed, m, kv)) {
+                if (std::regex_search(trimmed, m, activity_kv_re)) {
                     current_activity[m[1].str()] = unquote(trimStr(m[2].str()));
                 }
             }
@@ -346,12 +344,17 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         bool in_edges  = false;
         bool in_edge   = false;
         json current_edge = json::object();
+        
+        // Pre-compile regexes for edges block
+        static const std::regex edges_header_re(R"(^edges\s*:)");
+        static const std::regex edge_dash_re(R"(^-\s*$)");
+        static const std::regex edge_kv_re(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");
 
         for (const auto& l : lines) {
             std::string trimmed = trimStr(l);
             int indent = indentOf(l);
 
-            if (std::regex_match(l, std::regex(R"(^edges\s*:)"))) {
+            if (std::regex_match(l, edges_header_re)) {
                 in_edges = true;
                 continue;
             }
@@ -368,8 +371,8 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 continue;
             }
 
-            if (std::regex_match(trimmed, std::regex(R"(^-\s*$)")) ||
-                trimmed.substr(0, 2) == "- ") {
+            if (std::regex_match(trimmed, edge_dash_re) ||
+                (trimmed.size() >= 2 && trimmed.substr(0, 2) == "- ")) {
 
                 if (in_edge && !current_edge.empty()) {
                     edges.push_back(current_edge);
@@ -379,9 +382,8 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
                 std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
-                    std::regex kv(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");
                     std::smatch m;
-                    if (std::regex_search(rest, m, kv)) {
+                    if (std::regex_search(rest, m, edge_kv_re)) {
                         current_edge[m[1].str()] = unquote(trimStr(m[2].str()));
                     }
                 }
@@ -389,9 +391,8 @@ json parseVccVpbYaml(const std::string& yaml_text) {
             }
 
             if (in_edge) {
-                std::regex kv(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");
                 std::smatch m;
-                if (std::regex_search(trimmed, m, kv)) {
+                if (std::regex_search(trimmed, m, edge_kv_re)) {
                     current_edge[m[1].str()] = unquote(trimStr(m[2].str()));
                 }
             }
@@ -635,32 +636,62 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
     std::vector<std::string> model_chunks;
     std::string current_chunk;
 
-    while (std::getline(ss, line)) {
+    // Limit to prevent resource exhaustion (DoS protection)
+    static constexpr size_t MAX_LINES = 100000;
+    size_t line_count = 0;
+
+    while (std::getline(ss, line) && line_count < MAX_LINES) {
+        ++line_count;
+        
+        // Input validation: explicit bounds checking on user-controlled input
+        const size_t line_len = line.size();
+        
         // Check for start of new model (line starts with 2 spaces + "- ")
-        bool is_new_model = (line.size() >= 4 && line[0] == ' ' && line[1] == ' '
-                             && line[2] == '-' && line[3] == ' ');
+        // Defensive bounds checking to prevent out-of-bounds access
+        bool is_new_model = (line_len >= 4 && 
+                            line[0] == ' ' && line[1] == ' ' &&
+                            line[2] == '-' && line[3] == ' ');
+        
         // Also detect "  -\n" (just the dash, id on next line)
-        bool is_dash_only = (line.size() >= 3 && line[0] == ' ' && line[1] == ' '
-                             && line[2] == '-' && (line.size() == 3 || line[3] == '\r'));
+        bool is_dash_only = (line_len >= 3 && 
+                            line[0] == ' ' && line[1] == ' ' &&
+                            line[2] == '-' && 
+                            (line_len == 3 || line[3] == '\r'));
 
-        if ((is_new_model || is_dash_only) && !current_chunk.empty()) {
-            model_chunks.push_back(current_chunk);
-            current_chunk.clear();
-        }
+        try {
+            if ((is_new_model || is_dash_only) && !current_chunk.empty()) {
+                model_chunks.push_back(current_chunk);
+                current_chunk.clear();
+            }
 
-        if (is_new_model) {
-            // Remove the leading "  - "
-            current_chunk += line.substr(4) + "\n";
-        } else if (is_dash_only) {
-            // Just a dash; content on subsequent lines
-        } else if (!line.empty() && line[0] == ' ' && line[1] == ' ' && line.size() > 4) {
-            // Indented content belonging to current model — remove 4 spaces indent
-            current_chunk += (line.size() > 4 ? line.substr(4) : "") + "\n";
-        } else if (line.empty()) {
-            if (!current_chunk.empty()) current_chunk += "\n";
-        } else {
-            // Top-level key outside the list — stop
-            break;
+            if (is_new_model) {
+                // Remove the leading "  - " (safe after bounds check)
+                if (line_len > 4) {
+                    current_chunk += line.substr(4) + "\n";
+                } else {
+                    current_chunk += "\n";
+                }
+            } else if (is_dash_only) {
+                // Just a dash; content on subsequent lines
+            } else if (!line.empty() && line_len >= 2 && 
+                       line[0] == ' ' && line[1] == ' ') {
+                // Indented content belonging to current model — remove 4 spaces indent
+                if (line_len > 4) {
+                    current_chunk += line.substr(4) + "\n";
+                } else if (line_len > 2) {
+                    current_chunk += line.substr(2) + "\n";
+                } else {
+                    current_chunk += "\n";
+                }
+            } else if (line.empty()) {
+                if (!current_chunk.empty()) current_chunk += "\n";
+            } else {
+                // Top-level key outside the list — stop
+                break;
+            }
+        } catch (const std::exception& e) {
+            SPDLOG_WARN("[vcc_vpb_importer] Exception processing line {}: {}", line_count, e.what());
+            continue;
         }
     }
 
