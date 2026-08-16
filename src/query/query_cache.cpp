@@ -15,8 +15,6 @@
 #include "utils/logger.h"
 #include <openssl/sha.h>
 #include <algorithm>
-#include <sstream>
-#include <iomanip>
 
 namespace themis {
 namespace query {
@@ -59,15 +57,16 @@ std::string QueryCache::generateFingerprint(
     SHA256(reinterpret_cast<const unsigned char*>(input.data()),
            input.size(), hash);
     
-    // Convert to hex string using StringBuilder pattern
-    std::ostringstream ss;
-    ss.str().reserve(SHA256_DIGEST_LENGTH * 2 + 10);  // Pre-reserve capacity
-    ss << std::hex << std::setfill('0');
+    // Convert to hex string
+    std::string hex;
+    hex.reserve(SHA256_DIGEST_LENGTH * 2);
+    const char digits[] = "0123456789abcdef";
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::setw(2) << static_cast<unsigned int>(hash[i]);
+        hex.push_back(digits[(hash[i] >> 4) & 0xf]);
+        hex.push_back(digits[hash[i] & 0xf]);
     }
-    
-    return ss.str();
+
+    return hex;
 }
 
 Result<void> QueryCache::put(

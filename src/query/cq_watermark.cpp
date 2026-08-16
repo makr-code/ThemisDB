@@ -22,6 +22,7 @@
 
 #include "query/cq_watermark.h"
 #include <algorithm>
+#include <limits>
 
 namespace themis {
 namespace query {
@@ -48,8 +49,8 @@ bool CQWatermark::observe(int64_t event_ts_us) noexcept {
     }
 
     // Late event: within budget?
-    // Use saturating subtraction to prevent underflow if allowed_lateness_us_
-    // is unexpectedly negative (defensive programming).
+    // Saturating subtraction: if allowed_lateness_us_ exceeds the watermark value
+    // (wm - allowed_lateness_us_ would underflow), clamp the lower bound to INT64_MIN.
     const int64_t min_ts = (allowed_lateness_us_ > wm)
         ? std::numeric_limits<int64_t>::min()
         : (wm - allowed_lateness_us_);

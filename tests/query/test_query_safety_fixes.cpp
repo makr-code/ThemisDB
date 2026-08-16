@@ -16,6 +16,7 @@
 #include "query/cq_watermark.h"
 #include "query/query_canceller.h"
 
+#include <cmath>
 #include <thread>
 #include <chrono>
 #include <limits>
@@ -53,9 +54,9 @@ TEST_F(QueryRewriteRuleTest, NestedOrChainIteratorSafety) {
 
     // The apply() method should not crash or produce invalid iterators
     // even when recursively processing nested structures.
-    size_t changes = rule_.apply(plan, ctx_);
-    // We expect some rewrite to occur
-    EXPECT_GE(changes, 0);
+    EXPECT_NO_THROW({ rule_.apply(plan, ctx_); });
+    // Plan must remain a valid JSON object after rewriting.
+    EXPECT_TRUE(plan.is_object());
 }
 
 /// Test that deeply nested OR chains don't cause iterator invalidation.
@@ -79,8 +80,8 @@ TEST_F(QueryRewriteRuleTest, DeeplyNestedOrChainSafety) {
     };
 
     // Should handle deep nesting without iterator invalidation
-    size_t changes = rule_.apply(plan, ctx_);
-    EXPECT_GE(changes, 0);
+    EXPECT_NO_THROW({ rule_.apply(plan, ctx_); });
+    EXPECT_TRUE(plan.is_object());
 }
 
 // ============================================================================

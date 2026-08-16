@@ -320,25 +320,21 @@ TEST_F(ParserScopeValidationTest, ContextualKeywordAsCollectionName) {
  * Test: ContinuousQueryPlanner validates source_collection name
  */
 TEST_F(ParserScopeValidationTest, ContinuousQueryValidSourceCollection) {
-    // This test verifies that ContinuousQueryPlanner validates collection names
-    // Implementation would depend on how ContinuousQueryPlanner exposes its API
-    // For now, this is a placeholder for future integration
+    GTEST_SKIP() << "Placeholder: requires ContinuousQueryPlanner API to be testable";
 }
 
 /**
  * Test: ContinuousQueryPlanner rejects empty source_collection
  */
 TEST_F(ParserScopeValidationTest, ContinuousQueryRejectsEmptyCollection) {
-    // This test verifies that empty collection names are rejected
-    // Implementation depends on ContinuousQueryPlanner API
+    GTEST_SKIP() << "Placeholder: requires ContinuousQueryPlanner API to be testable";
 }
 
 /**
  * Test: ContinuousQueryPlanner validates collection name format
  */
 TEST_F(ParserScopeValidationTest, ContinuousQueryValidatesCollectionFormat) {
-    // This test verifies that invalid collection names are rejected
-    // Implementation depends on ContinuousQueryPlanner API
+    GTEST_SKIP() << "Placeholder: requires ContinuousQueryPlanner API to be testable";
 }
 
 // ============================================================================

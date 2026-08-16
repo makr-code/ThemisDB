@@ -96,6 +96,10 @@ public:
 private:
     std::unordered_set<std::string> registered_collections_;
     std::vector<std::unordered_set<std::string>> scope_stack_;
+    /// Scope namespace prefix currently active (empty = unqualified / default scope).
+    std::string current_scope_prefix_;
+    /// Stack of scope prefixes aligned with scope_stack_.
+    std::vector<std::string> scope_prefix_stack_;
 };
 
 // ============================================================================

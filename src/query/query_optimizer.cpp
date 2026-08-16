@@ -1043,9 +1043,14 @@ bool QueryOptimizer::validateResultBounds(const Plan& plan,
     
     if (metrics_collector_) {
         if (!valid) {
+            const bool rows_exceeded = bounds.max_result_rows > 0 && result_rows > bounds.max_result_rows;
+            const bool bytes_exceeded = bounds.max_result_bytes > 0 && result_bytes > bounds.max_result_bytes;
+            const std::string violation_type = (rows_exceeded && bytes_exceeded) ? "rows_and_bytes"
+                                             : rows_exceeded                     ? "rows"
+                                                                                 : "bytes";
             metrics_collector_->addCounter("query.optimizer.scope_violation", 1,
                 {{"scope_id", bounds.scope_id},
-                 {"violation_type", result_rows > bounds.max_result_rows ? "rows" : "bytes"}});
+                 {"violation_type", violation_type}});
         } else {
             metrics_collector_->addCounter("query.optimizer.scope_validated", 1,
                 {{"scope_id", bounds.scope_id}});

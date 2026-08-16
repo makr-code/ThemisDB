@@ -31,6 +31,21 @@ void ParserScopeContext::registerCollection(const std::string& collection_name) 
     if (collection_name.empty()) {
         return;  // Silently ignore empty collection names
     }
+
+    // Extract scope namespace prefix (the part before the first dot, if any).
+    // Collections like "scope1.table1" carry an explicit scope prefix.
+    const auto dot_pos = collection_name.find('.');
+    if (dot_pos != std::string::npos) {
+        std::string prefix = collection_name.substr(0, dot_pos);
+        if (!current_scope_prefix_.empty() && current_scope_prefix_ != prefix) {
+            throw std::runtime_error(
+                fmt::format("Parser error: scope mismatch — mix of scope '{}' and scope '{}' "
+                            "is not allowed within a single query",
+                            current_scope_prefix_, prefix));
+        }
+        current_scope_prefix_ = std::move(prefix);
+    }
+
     registered_collections_.insert(collection_name);
 }
 
@@ -49,14 +64,22 @@ Result<bool> ParserScopeContext::validateCollectionAccess(
     const std::string& collection_name,
     const std::string& context_description) const {
     if (!isCollectionInScope(collection_name)) {
+        // Build the registered-collections list without relying on fmt::join
+        // to avoid a dependency on <fmt/ranges.h>.
+        std::string registered_list;
+        if (registered_collections_.empty()) {
+            registered_list = "(none)";
+        } else {
+            for (const auto& c : registered_collections_) {
+                if (!registered_list.empty()) registered_list += ", ";
+                registered_list += c;
+            }
+        }
         return Err<bool>(
             errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
             fmt::format("Collection '{}' not in scope for {} statement. "
                        "Registered collections: {}",
-                       collection_name, context_description,
-                       getRegisteredCollections().empty() ?
-                           "(none)" :
-                           fmt::format("{}", fmt::join(getRegisteredCollections(), ", ")))
+                       collection_name, context_description, registered_list)
         );
     }
     return Ok(true);
@@ -64,12 +87,17 @@ Result<bool> ParserScopeContext::validateCollectionAccess(
 
 void ParserScopeContext::pushScope() {
     scope_stack_.push_back(registered_collections_);
+    scope_prefix_stack_.push_back(current_scope_prefix_);
 }
 
 void ParserScopeContext::popScope() {
     if (!scope_stack_.empty()) {
         registered_collections_ = std::move(scope_stack_.back());
         scope_stack_.pop_back();
+    }
+    if (!scope_prefix_stack_.empty()) {
+        current_scope_prefix_ = std::move(scope_prefix_stack_.back());
+        scope_prefix_stack_.pop_back();
     }
 }
 
@@ -80,6 +108,8 @@ const std::unordered_set<std::string>& ParserScopeContext::getRegisteredCollecti
 void ParserScopeContext::clear() {
     registered_collections_.clear();
     scope_stack_.clear();
+    current_scope_prefix_.clear();
+    scope_prefix_stack_.clear();
 }
 
 // ============================================================================
