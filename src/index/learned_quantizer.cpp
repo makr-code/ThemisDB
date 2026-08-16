@@ -301,32 +301,33 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
             int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
             
             for (int block = 0; block < num_blocks; block++) {
-            int start = block * config_.block_size;
-            int end = std::min(start + config_.block_size, dimension_);
-            [[maybe_unused]] int block_dim = end - start;
-            
-            // Read scale
-            if (code_offset + sizeof(float) > codes.size()) {
-                THEMIS_ERROR("LearnedQuantizer::decode - Insufficient data for scale");
-                return {};
-            }
-            
-            float scale;
-            std::memcpy(&scale, codes.data() + code_offset, sizeof(float));
-            code_offset += sizeof(float);
-            
-            // Decode values
-            for (int i = start; i < end; i++) {
-                if (code_offset >= codes.size()) {
-                    THEMIS_ERROR("LearnedQuantizer::decode - Insufficient data");
+                int start = block * config_.block_size;
+                int end = std::min(start + config_.block_size, dimension_);
+                [[maybe_unused]] int block_dim = end - start;
+                 
+                // Read scale
+                if (code_offset + sizeof(float) > codes.size()) {
+                    THEMIS_ERROR("LearnedQuantizer::decode - Insufficient data for scale");
                     return {};
                 }
-                
-                int bin = static_cast<int>(codes[code_offset++]);
-                if (bin >= 0 && bin < num_bins_) {
-                    vector[i] = global_centroids_[bin] * scale;
-                } else {
-                    vector[i] = 0.0f;
+                 
+                float scale;
+                std::memcpy(&scale, codes.data() + code_offset, sizeof(float));
+                code_offset += sizeof(float);
+                 
+                // Decode values
+                for (int i = start; i < end; i++) {
+                    if (code_offset >= codes.size()) {
+                        THEMIS_ERROR("LearnedQuantizer::decode - Insufficient data");
+                        return {};
+                    }
+                     
+                    int bin = static_cast<int>(codes[code_offset++]);
+                    if (bin >= 0 && bin < num_bins_) {
+                        vector[i] = global_centroids_[bin] * scale;
+                    } else {
+                        vector[i] = 0.0f;
+                    }
                 }
             }
         }
