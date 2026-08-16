@@ -1,11 +1,12 @@
 # ThemisDB Failover Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: Production Ready (Wave A Hardening) | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · MODULE_GAPS_BATCH5.md -->
+<!-- Wave Context: Wave A (Runtime Reliability Q3-Q4 2026) — Detection Accuracy + Promotion Timing + Split-Brain Prevention -->
 
 ## Module Purpose
 
-The failover module provides automatic failover orchestration and disaster recovery execution surfaces for ThemisDB, including failover queueing, recovery workflow execution, and operational state/telemetry handling.
+Production-capable automatic failover orchestration and disaster recovery execution surfaces for ThemisDB, including failover queueing, health detection, promotion strategy, recovery workflow execution, and operational state/telemetry handling. **Batch 5 enhancement focus: Detection determinism, promotion timing, split-brain prevention, topology validation**.
 
 ## Relevant Interfaces
 

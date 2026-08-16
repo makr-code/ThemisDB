@@ -1,13 +1,14 @@
 # ThemisDB Process Module
 
-<!-- Status: Production Ready (Phase 1-6 Complete) | validated: 2026-08-06 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PERFORMANCE_EXPECTATIONS.md · PRODUCTION_REQUIREMENTS.md · PHASE_6_ACCEPTANCE_CHECKLIST.md -->
+<!-- Status: Production Ready (Phase 1-6 Complete, Wave A Reliability) | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PERFORMANCE_EXPECTATIONS.md · PRODUCTION_REQUIREMENTS.md · PHASE_6_ACCEPTANCE_CHECKLIST.md · MODULE_GAPS.md -->
+<!-- Wave Context: Wave A (Runtime Reliability) — Recovery Determinism + Fail-Closed Verification -->
 
 ## Module Purpose
 
-Production-capable process modeling runtime with hardened edge-case behavior, unified diagnostics framework, and bounded resource constraints. Provides process-model import/export, lifecycle operations, process-linking, and process-oriented retrieval/RAG support surfaces for ThemisDB.
+Production-capable process modeling runtime with hardened edge-case behavior, unified diagnostics framework, and bounded resource constraints. Provides process-model import/export, lifecycle operations, process-linking, and process-oriented retrieval/RAG support surfaces for ThemisDB. **Batch 5 enhancement focus: Recovery determinism, phase isolation, crash consistency**.
 
-**Status:** Phase 1-6 (High-Churn Hardening Initiative) ✓ COMPLETE (2026-08-06)
+**Status:** Phase 1-6 (High-Churn Hardening Initiative) ✓ COMPLETE (2026-08-06) → Batch 5 Wave A alignment complete (2026-08-14)
 
 ## Module Scope and Verified Behaviors
 

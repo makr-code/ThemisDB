@@ -8,6 +8,19 @@ This file documents all documentation and code quality gaps in the **query** mod
 - **Status**: Verified & FIXED (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, BRACE IMBALANCE FIX APPLIED)
 - **Last Updated**: 2026-08-16 - ALL 12 QUERY MODULE BRACE IMBALANCES FIXED
 
+**Batch 3 Wave Correlation (2026-08-14):**
+- **Wave A Gaps** (~200 IMPL gaps): Query planning determinism, timeout enforcement, cancellation semantics, federated execution error handling
+- **Wave A DOC Gaps** (~150): Thread-safety model for optimizer, query cancellation flow documentation, failure-mode runbook
+- **Wave B Gaps** (~300 IMPL gaps): Distributed execution baselines, ANN+graph hybrid planner, parallel optimization, benchmark gates
+- **Wave B DOC Gaps** (~200): Cost model documentation, planner decision logic, performance tuning guide
+- **Other Gaps** (~3,600): Inline comments, algorithm notes, null-pointer checks, resource-leak fixes
+
+**Phase Implementation Status (Batch 3 verified 2026-08-14):**
+- [x] Phase 1-6: Complete (parser, optimizer, executor, federation, caching, documentation)
+- [x] AQL LLM Integration Phase 1-4: Complete (parser validation, metrics, documentation, SLA tests)
+- [x] AQL Mutations Phase 1-5: Complete (INSERT/UPDATE/REMOVE/UPSERT, transactions, atomicity)
+- [~] Wave B Hybrid Planner: In progress (single-shard ANN+graph scope, parallel optimization pending)
+
 ### By Severity
 
 - **CRITICAL**: 60 (reduced from 72, fixed 12 brace_imbalance gaps)

@@ -1,5 +1,5 @@
 site_name: ThemisDB - Das vollständige Handbuch
-site_description: Umfassendes Kompendium für ThemisDB v1.4.0-alpha - Von Grundlagen bis Mastery
+site_description: Umfassendes Kompendium für ThemisDB v2.4.0 - Von Grundlagen bis Mastery
 site_url: https://makr-code.github.io/ThemisDB/compendium/
 repo_name: makr-code/ThemisDB
 repo_url: https://github.com/makr-code/ThemisDB
@@ -44,9 +44,9 @@ plugins:
   - search:
       lang: de
   - with-pdf:
-      output_path: pdf/ThemisDB-Kompendium-v1.4.0-alpha.pdf
+      output_path: pdf/ThemisDB-Kompendium-v2.4.0.pdf
       cover_title: "ThemisDB"
-      cover_subtitle: "Das vollständige Handbuch - Version 1.4.0-alpha"
+      cover_subtitle: "Das vollständige Handbuch - Version 2.4.0 GA"
       author: "ThemisDB Team"
       toc_title: "Inhaltsverzeichnis"
       heading_shift: false
