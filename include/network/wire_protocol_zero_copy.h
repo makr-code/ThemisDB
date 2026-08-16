@@ -144,6 +144,10 @@ public:
      *   - sendfile(2) / splice(2) fails with EINVAL / ENOSYS (e.g., the fd
      *     is a socket, not a regular file — kernel constraint).
      *
+     * R15: Removed noexcept guarantee to allow exception-safe buffer allocation
+     * in sendfile fallback path. Callers must handle std::bad_alloc if buffer
+     * allocation fails during fallback to pread + write.
+     *
      * @param socket_fd          Destination socket file descriptor.
      * @param payload_fd         Source file descriptor for sendfile.
      *                           Pass -1 to force fallback to writev.
@@ -152,11 +156,12 @@ public:
      *                           Default: 65536 (64 KiB).
      * @return Total bytes written (header + payload) on success, or -1 on
      *         error (errno set by the failing syscall).
+     * @throws std::bad_alloc if memory allocation fails in fallback path
      */
     ssize_t writeToWithSendfile(int      socket_fd,
                                 int      payload_fd,
                                 off_t    payload_offset    = 0,
-                                size_t   sendfile_threshold = 65536) const noexcept;
+                                size_t   sendfile_threshold = 65536) const;
 
     /**
      * @brief Total frame size in bytes (header + payload).

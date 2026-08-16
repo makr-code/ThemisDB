@@ -10,7 +10,6 @@
  */
 
 #include "network/kernel_bypass.h"
-#include "utils/logger.h"
 
 #include <algorithm>
 #include <cassert>
@@ -21,56 +20,52 @@
 #include <stdexcept>
 #include <system_error>
 
+#include "utils/logger.h"
+
 // ---- Linux-specific headers ------------------------------------------------
 #ifdef __linux__
-#  include <fcntl.h>
-#  include <sys/mman.h>
-#  include <sys/socket.h>
-#  include <sys/stat.h>
-#  include <sys/syscall.h>
-#  include <unistd.h>
-#  include <dirent.h>
-#  include <pthread.h>
-#  include <netinet/in.h>
-#  include <arpa/inet.h>
+#include <arpa/inet.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <sys/mman.h>
+#include <sys/socket.h>
+#include <sys/stat.h>
+#include <sys/syscall.h>
+#include <unistd.h>
 #endif
 
 // ---- io_uring headers (Linux kernel ≥ 5.1) ---------------------------------
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
-#  include <signal.h>
-#  include <linux/io_uring.h>
+#include <linux/io_uring.h>
+#include <signal.h>
 
 // Thin syscall wrappers (not exposed by all glibc versions).
-static int themis_io_uring_setup(unsigned entries, struct io_uring_params* p) {
+static int themis_io_uring_setup(unsigned entries, struct io_uring_params *p) {
     return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
 }
-static int themis_io_uring_enter(int fd, unsigned to_submit,
-                                  unsigned min_complete, unsigned flags,
-                                  sigset_t* sig) {
-    return static_cast<int>(::syscall(__NR_io_uring_enter,
-                                      fd, to_submit, min_complete,
-                                      flags, sig, _NSIG / 8));
+static int themis_io_uring_enter(int fd, unsigned to_submit, unsigned min_complete, unsigned flags, sigset_t *sig) {
+    return static_cast<int>(::syscall(__NR_io_uring_enter, fd, to_submit, min_complete, flags, sig, _NSIG / 8));
 }
-static int themis_io_uring_register(int fd, unsigned opcode,
-                                     void* arg, unsigned nr_args) {
-    return static_cast<int>(::syscall(__NR_io_uring_register,
-                                      fd, opcode, arg, nr_args));
+static int themis_io_uring_register(int fd, unsigned opcode, void *arg, unsigned nr_args) {
+    return static_cast<int>(::syscall(__NR_io_uring_register, fd, opcode, arg, nr_args));
 }
-#endif  // THEMIS_ENABLE_IO_URING && __linux__
+#endif // THEMIS_ENABLE_IO_URING && __linux__
 
 // ---- NUMA headers ----------------------------------------------------------
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
-#  include <numa.h>
+#include <numa.h>
 #endif
 
 // ---- DPDK headers ----------------------------------------------------------
 #if defined(THEMIS_ENABLE_DPDK)
-#  include <rte_eal.h>
-#  include <rte_ethdev.h>
-#  include <rte_mbuf.h>
-#  include <rte_mempool.h>
-#  include <rte_lcore.h>
-#  include <rte_cycles.h>
+#include <rte_cycles.h>
+#include <rte_eal.h>
+#include <rte_ethdev.h>
+#include <rte_lcore.h>
+#include <rte_mbuf.h>
+#include <rte_mempool.h>
 #endif
 
 namespace themis {
@@ -81,21 +76,20 @@ namespace {
 constexpr int kShutdownJoinTimeoutMs = 5000;
 
 /// @brief Join @p t within @p timeout_ms; log and detach on timeout.
-static void timedJoin(std::thread& t,
-                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable())
+        return;
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable())
+            inner.join();
         p.set_value();
     });
     watcher.detach();
-    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
-            std::future_status::ready) {
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) != std::future_status::ready) {
         // thread_join_no_timeout: detach on deadline to avoid indefinite block
-        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
-                    timeout_ms);
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.", timeout_ms);
     }
 }
 
@@ -108,7 +102,8 @@ static void timedJoin(std::thread& t,
 bool CpuPinner::pinCallerToCore(int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
-    if (core_id < 0) return false;
+    if (core_id < 0)
+        return false;
     cpu_set_t set;
     CPU_ZERO(&set);
     CPU_SET(static_cast<unsigned>(core_id), &set);
@@ -119,16 +114,16 @@ bool CpuPinner::pinCallerToCore(int core_id) noexcept {
 #endif
 }
 
-bool CpuPinner::pinThreadToCore(std::thread& thread, int core_id) noexcept {
+bool CpuPinner::pinThreadToCore(std::thread &thread, int core_id) noexcept {
     static_cast<void>(thread);
     static_cast<void>(core_id);
 #ifdef __linux__
-    if (core_id < 0) return false;
+    if (core_id < 0)
+        return false;
     cpu_set_t set;
     CPU_ZERO(&set);
     CPU_SET(static_cast<unsigned>(core_id), &set);
-    return ::pthread_setaffinity_np(thread.native_handle(),
-                                    sizeof(set), &set) == 0;
+    return ::pthread_setaffinity_np(thread.native_handle(), sizeof(set), &set) == 0;
 #else
     (void)thread;
     (void)core_id;
@@ -139,14 +134,15 @@ bool CpuPinner::pinThreadToCore(std::thread& thread, int core_id) noexcept {
 int CpuPinner::numaNodeForCore(int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
-    if (core_id < 0) return -1;
+    if (core_id < 0)
+        return -1;
     // Walk /sys/devices/system/cpu/cpu<N>/node* symlinks.
     char path[128];
-    std::snprintf(path, sizeof(path),
-                  "/sys/devices/system/cpu/cpu%d", core_id);
-    DIR* d = ::opendir(path);
-    if (!d) return -1;
-    struct dirent* e;
+    std::snprintf(path, sizeof(path), "/sys/devices/system/cpu/cpu%d", core_id);
+    DIR *d = ::opendir(path);
+    if (!d)
+        return -1;
+    struct dirent *e;
     while ((e = ::readdir(d)) != nullptr) {
         if (::strncmp(e->d_name, "node", 4) == 0) {
             int node = std::atoi(e->d_name + 4);
@@ -155,7 +151,7 @@ int CpuPinner::numaNodeForCore(int core_id) noexcept {
         }
     }
     ::closedir(d);
-    return 0;  // assume node 0 if not found
+    return 0; // assume node 0 if not found
 #else
     (void)core_id;
     return -1;
@@ -194,38 +190,43 @@ std::vector<int> CpuPinner::coresOnNuma(int numa_node) noexcept {
 // NumaAllocator
 // =============================================================================
 
-void* NumaAllocator::allocate(size_t size, int node) {
+void *NumaAllocator::allocate(size_t size, int node) {
     static_cast<void>(node);
-    if (size == 0) throw std::bad_alloc{};
+    if (size == 0)
+        throw std::bad_alloc{};
 
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
-    void* p = nullptr;
+    void *p = nullptr;
     if (node >= 0) {
         p = ::numa_alloc_onnode(size, node);
     } else {
         p = ::numa_alloc_local(size);
     }
-    if (!p) throw std::bad_alloc{};
+    if (!p)
+        throw std::bad_alloc{};
     return p;
 #else
     (void)node;
     // Fallback: std::aligned_alloc with 64-byte alignment.
     constexpr size_t kAlign = 64;
-    size_t padded = (size + kAlign - 1) & ~(kAlign - 1);
-    void* p = nullptr;
+    size_t padded           = (size + kAlign - 1) & ~(kAlign - 1);
+    void *p                 = nullptr;
 #ifdef _WIN32
     p = _aligned_malloc(padded, kAlign);
 #else
-    if (::posix_memalign(&p, kAlign, padded) != 0) p = nullptr;
+    if (::posix_memalign(&p, kAlign, padded) != 0)
+        p = nullptr;
 #endif
-    if (!p) throw std::bad_alloc{};
+    if (!p)
+        throw std::bad_alloc{};
     return p;
 #endif
 }
 
-void NumaAllocator::deallocate(void* ptr, size_t size) noexcept {
+void NumaAllocator::deallocate(void *ptr, size_t size) noexcept {
     static_cast<void>(size);
-    if (!ptr) return;
+    if (!ptr)
+        return;
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
     ::numa_free(ptr, size);
 #elif defined(_WIN32)
@@ -250,20 +251,18 @@ bool NumaAllocator::isNumaAvailable() noexcept {
 // =============================================================================
 
 ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
-    if (size_bytes == 0) return;
+    if (size_bytes == 0)
+        return;
 
 #ifdef __linux__
     // Attempt huge-page-backed mmap first.
-    constexpr size_t kHugePage = 2 * 1024 * 1024;  // 2 MiB
-    size_t aligned = (size_bytes + kHugePage - 1) & ~(kHugePage - 1);
+    constexpr size_t kHugePage = 2 * 1024 * 1024; // 2 MiB
+    size_t aligned             = (size_bytes + kHugePage - 1) & ~(kHugePage - 1);
 
     int mmap_flags = MAP_PRIVATE | MAP_ANONYMOUS | MAP_POPULATE;
 
     // Try MAP_HUGETLB (requires CONFIG_HUGETLBFS in kernel).
-    void* p = ::mmap(nullptr, aligned,
-                     PROT_READ | PROT_WRITE,
-                     mmap_flags | MAP_HUGETLB,
-                     -1, 0);
+    void *p = ::mmap(nullptr, aligned, PROT_READ | PROT_WRITE, mmap_flags | MAP_HUGETLB, -1, 0);
     if (p != MAP_FAILED) {
         data_      = p;
         size_      = aligned;
@@ -274,18 +273,15 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
         if (numa_node >= 0 && NumaAllocator::isNumaAvailable()) {
             // mbind to preferred node.
             unsigned long nodemask = (1UL << static_cast<unsigned>(numa_node));
-            ::syscall(__NR_mbind, p, aligned, /* MPOL_PREFERRED */ 1,
-                      &nodemask, sizeof(nodemask) * 8 + 1, /* MPOL_MF_MOVE */ 2);
+            ::syscall(__NR_mbind, p, aligned, /* MPOL_PREFERRED */ 1, &nodemask, sizeof(nodemask) * 8 + 1,
+                      /* MPOL_MF_MOVE */ 2);
         }
 #endif
         return;
     }
 
     // Fallback: regular anonymous mmap.
-    p = ::mmap(nullptr, size_bytes,
-               PROT_READ | PROT_WRITE,
-               MAP_PRIVATE | MAP_ANONYMOUS | MAP_POPULATE,
-               -1, 0);
+    p = ::mmap(nullptr, size_bytes, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_POPULATE, -1, 0);
     if (p != MAP_FAILED) {
         data_      = p;
         size_      = size_bytes;
@@ -318,8 +314,7 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
         std::lock_guard<std::mutex> lock(nonLinuxAllocFnMutex());
         alloc_fn = nonLinuxAllocFnStorage();
     }
-    data_ = alloc_fn ? alloc_fn(size_bytes, numa_node)
-                     : NumaAllocator::allocate(size_bytes, -1);
+    data_ = alloc_fn ? alloc_fn(size_bytes, numa_node) : NumaAllocator::allocate(size_bytes, -1);
     if (!data_) {
         THEMIS_WARN("ZeroCopyDmaBuffer: non-Linux allocator bridge returned null");
     }
@@ -329,7 +324,8 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
 }
 
 ZeroCopyDmaBuffer::~ZeroCopyDmaBuffer() {
-    if (!data_) return;
+    if (!data_)
+        return;
 #ifdef __linux__
     ::munmap(data_, size_);
 #else
@@ -347,15 +343,14 @@ ZeroCopyDmaBuffer::~ZeroCopyDmaBuffer() {
     data_ = nullptr;
 }
 
-ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(ZeroCopyDmaBuffer&& o) noexcept
-    : data_(o.data_), size_(o.size_), huge_page_(o.huge_page_)
-{
+ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(ZeroCopyDmaBuffer &&o) noexcept
+    : data_(o.data_), size_(o.size_), huge_page_(o.huge_page_) {
     o.data_      = nullptr;
     o.size_      = 0;
     o.huge_page_ = false;
 }
 
-ZeroCopyDmaBuffer& ZeroCopyDmaBuffer::operator=(ZeroCopyDmaBuffer&& o) noexcept {
+ZeroCopyDmaBuffer &ZeroCopyDmaBuffer::operator=(ZeroCopyDmaBuffer &&o) noexcept {
     if (this != &o) {
         this->~ZeroCopyDmaBuffer();
         new (this) ZeroCopyDmaBuffer(std::move(o));
@@ -391,11 +386,8 @@ std::vector<int> DPDKServer::coresFromMask(uint64_t mask) noexcept {
 // DPDKServer — construction / destruction
 // =============================================================================
 
-DPDKServer::DPDKServer(const Config&          config,
-                       RocksDBWrapper*        storage,
-                       SecondaryIndexManager* index_mgr)
-    : config_(config), storage_(storage), index_mgr_(index_mgr)
-{}
+DPDKServer::DPDKServer(const Config &config, RocksDBWrapper *storage, SecondaryIndexManager *index_mgr)
+    : config_(config), storage_(storage), index_mgr_(index_mgr) {}
 
 DPDKServer::~DPDKServer() {
     stop();
@@ -426,8 +418,7 @@ bool DPDKServer::start() {
 
     // Core mask.
     char mask_str[32];
-    std::snprintf(mask_str, sizeof(mask_str), "0x%llX",
-                  static_cast<unsigned long long>(config_.cpu_core_mask));
+    std::snprintf(mask_str, sizeof(mask_str), "0x%llX", static_cast<unsigned long long>(config_.cpu_core_mask));
     eal_arg_strs.push_back("-c");
     eal_arg_strs.push_back(mask_str);
 
@@ -438,10 +429,10 @@ bool DPDKServer::start() {
     }
 
     // Convert to char* array.
-    std::vector<char*> eal_argv;
+    std::vector<char *> eal_argv;
     eal_argv.reserve(eal_arg_strs.size());
-    for (auto& s : eal_arg_strs) {
-        eal_argv.push_back(const_cast<char*>(s.c_str()));
+    for (auto &s : eal_arg_strs) {
+        eal_argv.push_back(const_cast<char *>(s.c_str()));
     }
     int eal_argc = static_cast<int>(eal_argv.size());
 
@@ -458,7 +449,7 @@ bool DPDKServer::start() {
     // -------------------------------------------------------------------------
     // 3. Configure the Ethernet device.
     // -------------------------------------------------------------------------
-    int port_id = 0;  // first available port
+    int port_id       = 0; // first available port
     unsigned nb_ports = rte_eth_dev_count_avail();
     if (nb_ports == 0) {
         last_error_ = "DPDKServer: no DPDK-bound Ethernet ports found";
@@ -471,19 +462,15 @@ bool DPDKServer::start() {
     int numa_node = config_.numa_node;
     if (numa_node < 0) {
         numa_node = rte_eth_dev_socket_id(port_id);
-        if (numa_node < 0) numa_node = 0;
+        if (numa_node < 0)
+            numa_node = 0;
     }
 
     // Create mbuf memory pool.
-    uint32_t pool_size = config_.mbuf_pool_size
-                         * (config_.num_rx_queues + config_.num_tx_queues);
-    struct rte_mempool* mbuf_pool =
-        rte_pktmbuf_pool_create("THEMIS_MBUF_POOL",
-                                pool_size,
-                                /* cache_size */ 256,
-                                /* priv_size */  0,
-                                RTE_MBUF_DEFAULT_BUF_SIZE,
-                                numa_node);
+    uint32_t pool_size            = config_.mbuf_pool_size * (config_.num_rx_queues + config_.num_tx_queues);
+    struct rte_mempool *mbuf_pool = rte_pktmbuf_pool_create("THEMIS_MBUF_POOL", pool_size,
+                                                            /* cache_size */ 256,
+                                                            /* priv_size */ 0, RTE_MBUF_DEFAULT_BUF_SIZE, numa_node);
     if (!mbuf_pool) {
         last_error_ = "rte_pktmbuf_pool_create failed";
         THEMIS_ERROR("DPDKServer: {}", last_error_);
@@ -495,19 +482,15 @@ bool DPDKServer::start() {
     struct rte_eth_conf eth_conf;
     std::memset(&eth_conf, 0, sizeof(eth_conf));
     if (config_.enable_rss) {
-        eth_conf.rxmode.mq_mode = ETH_MQ_RX_RSS;
-        eth_conf.rx_adv_conf.rss_conf.rss_hf =
-            ETH_RSS_IP | ETH_RSS_TCP | ETH_RSS_UDP;
+        eth_conf.rxmode.mq_mode              = ETH_MQ_RX_RSS;
+        eth_conf.rx_adv_conf.rss_conf.rss_hf = ETH_RSS_IP | ETH_RSS_TCP | ETH_RSS_UDP;
     }
     if (config_.enable_jumbo_frames) {
         eth_conf.rxmode.offloads |= DEV_RX_OFFLOAD_JUMBO_FRAME;
         eth_conf.rxmode.max_rx_pkt_len = 9000;
     }
 
-    ret = rte_eth_dev_configure(port_id,
-                                config_.num_rx_queues,
-                                config_.num_tx_queues,
-                                &eth_conf);
+    ret = rte_eth_dev_configure(port_id, config_.num_rx_queues, config_.num_tx_queues, &eth_conf);
     if (ret < 0) {
         last_error_ = "rte_eth_dev_configure failed: " + std::string(rte_strerror(-ret));
         THEMIS_ERROR("DPDKServer: {}", last_error_);
@@ -518,13 +501,10 @@ bool DPDKServer::start() {
 
     // Set up RX queues.
     for (uint16_t q = 0; q < config_.num_rx_queues; ++q) {
-        ret = rte_eth_rx_queue_setup(port_id, q,
-                                     config_.mbuf_pool_size,
-                                     static_cast<unsigned>(numa_node),
-                                     nullptr, mbuf_pool);
+        ret = rte_eth_rx_queue_setup(port_id, q, config_.mbuf_pool_size, static_cast<unsigned>(numa_node), nullptr,
+                                     mbuf_pool);
         if (ret < 0) {
-            last_error_ = "rte_eth_rx_queue_setup failed for queue "
-                          + std::to_string(q);
+            last_error_ = "rte_eth_rx_queue_setup failed for queue " + std::to_string(q);
             THEMIS_ERROR("DPDKServer: {}", last_error_);
             rte_mempool_free(mbuf_pool);
             rte_eal_cleanup();
@@ -534,13 +514,9 @@ bool DPDKServer::start() {
 
     // Set up TX queues.
     for (uint16_t q = 0; q < config_.num_tx_queues; ++q) {
-        ret = rte_eth_tx_queue_setup(port_id, q,
-                                     config_.mbuf_pool_size,
-                                     static_cast<unsigned>(numa_node),
-                                     nullptr);
+        ret = rte_eth_tx_queue_setup(port_id, q, config_.mbuf_pool_size, static_cast<unsigned>(numa_node), nullptr);
         if (ret < 0) {
-            last_error_ = "rte_eth_tx_queue_setup failed for queue "
-                          + std::to_string(q);
+            last_error_ = "rte_eth_tx_queue_setup failed for queue " + std::to_string(q);
             THEMIS_ERROR("DPDKServer: {}", last_error_);
             rte_mempool_free(mbuf_pool);
             rte_eal_cleanup();
@@ -566,7 +542,7 @@ bool DPDKServer::start() {
     // 4. Launch poll loops — one thread per lcore in the core mask.
     // -------------------------------------------------------------------------
     running_.store(true, std::memory_order_release);
-    auto cores = coresFromMask(config_.cpu_core_mask);
+    auto cores   = coresFromMask(config_.cpu_core_mask);
     int queue_id = 0;
     for (int core : cores) {
         int qid = queue_id++ % static_cast<int>(config_.num_rx_queues);
@@ -580,11 +556,10 @@ bool DPDKServer::start() {
 
     THEMIS_INFO("DPDKServer: started on port {} (DPDK port {}), {} rx/tx queues, "
                 "{} MiB huge pages",
-                config_.port, port_id,
-                config_.num_rx_queues, config_.huge_pages_mb);
+                config_.port, port_id, config_.num_rx_queues, config_.huge_pages_mb);
     return true;
 
-#else  // THEMIS_ENABLE_DPDK not defined
+#else // THEMIS_ENABLE_DPDK not defined
 
     last_error_ = "DPDKServer: DPDK support not compiled in "
                   "(build with -DTHEMIS_ENABLE_DPDK=ON)";
@@ -599,8 +574,9 @@ bool DPDKServer::start() {
 // =============================================================================
 
 void DPDKServer::stop() {
-    if (!running_.exchange(false, std::memory_order_acq_rel)) return;
-    for (auto& t : workers_) {
+    if (!running_.exchange(false, std::memory_order_acq_rel))
+        return;
+    for (auto &t : workers_) {
         timedJoin(t);
     }
     workers_.clear();
@@ -616,22 +592,20 @@ void DPDKServer::stop() {
 // DPDKServer::pollLoop
 // =============================================================================
 
-void DPDKServer::pollLoop([[maybe_unused]] int core_id,
-                          [[maybe_unused]] int queue_id) {
+void DPDKServer::pollLoop([[maybe_unused]] int core_id, [[maybe_unused]] int queue_id) {
 #if defined(THEMIS_ENABLE_DPDK)
-    constexpr uint64_t kCyclesPerStatUpdate = 100000000ULL;  // ~0.1 s at 1 GHz
-    uint64_t last_stat_cycle = rte_get_tsc_cycles();
+    constexpr uint64_t kCyclesPerStatUpdate = 100000000ULL; // ~0.1 s at 1 GHz
+    uint64_t last_stat_cycle                = rte_get_tsc_cycles();
 
     while (running_.load(std::memory_order_relaxed)) {
         // Receive burst.
-        struct rte_mbuf* rx_pkts[32];
-        uint16_t nb_rx = rte_eth_rx_burst(0, static_cast<uint16_t>(queue_id),
-                                           rx_pkts, config_.rx_burst_size);
+        struct rte_mbuf *rx_pkts[32];
+        uint16_t nb_rx = rte_eth_rx_burst(0, static_cast<uint16_t>(queue_id), rx_pkts, config_.rx_burst_size);
 
         if (nb_rx > 0) {
             // Process each received packet.
             for (uint16_t i = 0; i < nb_rx; ++i) {
-                struct rte_mbuf* m = rx_pkts[i];
+                struct rte_mbuf *m = rx_pkts[i];
 
                 {
                     std::lock_guard<std::mutex> lk(stats_mutex_);
@@ -656,8 +630,7 @@ void DPDKServer::pollLoop([[maybe_unused]] int core_id,
         uint64_t now = rte_get_tsc_cycles();
         if (now - last_stat_cycle >= kCyclesPerStatUpdate) {
             last_stat_cycle = now;
-            THEMIS_DEBUG("DPDKServer core {}: rx={} tx={} dropped={}",
-                         core_id, stats_.rx_packets, stats_.tx_packets,
+            THEMIS_DEBUG("DPDKServer core {}: rx={} tx={} dropped={}", core_id, stats_.rx_packets, stats_.tx_packets,
                          stats_.rx_dropped);
         }
     }
@@ -691,9 +664,11 @@ bool IoUringServer::isIoUringAvailable() noexcept {
         return true;
     }
     // EPERM means the syscall exists but requires CAP_SYS_ADMIN.
-    if (errno == EPERM) return true;
+    if (errno == EPERM)
+        return true;
     // ENOMEM means available but out of memory right now.
-    if (errno == ENOMEM) return true;
+    if (errno == ENOMEM)
+        return true;
     return false;
 #else
     return false;
@@ -706,7 +681,8 @@ uint32_t IoUringServer::ioUringVersion() noexcept {
     struct io_uring_params p;
     std::memset(&p, 0, sizeof(p));
     int fd = themis_io_uring_setup(2, &p);
-    if (fd < 0) return 0;
+    if (fd < 0)
+        return 0;
     ::close(fd);
     // Feature flags encode version indirectly; return sq_entries as a proxy.
     return (p.features & IORING_FEAT_FAST_POLL) ? 0x0506U : 0x0501U;
@@ -719,11 +695,8 @@ uint32_t IoUringServer::ioUringVersion() noexcept {
 // IoUringServer — construction / destruction
 // =============================================================================
 
-IoUringServer::IoUringServer(const Config&          config,
-                             RocksDBWrapper*        storage,
-                             SecondaryIndexManager* index_mgr)
-    : config_(config), storage_(storage), index_mgr_(index_mgr)
-{}
+IoUringServer::IoUringServer(const Config &config, RocksDBWrapper *storage, SecondaryIndexManager *index_mgr)
+    : config_(config), storage_(storage), index_mgr_(index_mgr) {}
 
 IoUringServer::~IoUringServer() {
     stop();
@@ -745,7 +718,7 @@ bool IoUringServer::setupListenSocket() {
     ::setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
     ::setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
 
-    struct sockaddr_in addr{};
+    struct sockaddr_in addr {};
     addr.sin_family      = AF_INET;
     addr.sin_port        = htons(config_.port);
     addr.sin_addr.s_addr = ::inet_addr(config_.host.c_str());
@@ -753,9 +726,8 @@ bool IoUringServer::setupListenSocket() {
         addr.sin_addr.s_addr = INADDR_ANY;
     }
 
-    if (::bind(fd, reinterpret_cast<struct sockaddr*>(&addr), sizeof(addr)) < 0) {
-        last_error_ = "bind() failed on port " + std::to_string(config_.port)
-                      + ": " + std::strerror(errno);
+    if (::bind(fd, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)) < 0) {
+        last_error_ = "bind() failed on port " + std::to_string(config_.port) + ": " + std::strerror(errno);
         ::close(fd);
         return false;
     }
@@ -818,9 +790,7 @@ bool IoUringServer::setupIoUring() {
     }
 
     if (!iovecs.empty()) {
-        int rc = themis_io_uring_register(ring_fd_,
-                                          IORING_REGISTER_BUFFERS,
-                                          iovecs.data(),
+        int rc = themis_io_uring_register(ring_fd_, IORING_REGISTER_BUFFERS, iovecs.data(),
                                           static_cast<unsigned>(iovecs.size()));
         if (rc < 0) {
             THEMIS_WARN("IoUringServer: IORING_REGISTER_BUFFERS failed ({}); "
@@ -855,7 +825,8 @@ bool IoUringServer::start() {
         return false;
     }
 
-    if (!setupListenSocket()) return false;
+    if (!setupListenSocket())
+        return false;
     if (!setupIoUring()) {
         if (listen_fd_ >= 0) {
 #ifdef __linux__
@@ -872,8 +843,7 @@ bool IoUringServer::start() {
         workers_.emplace_back([this, i]() { workerLoop(static_cast<int>(i)); });
     }
 
-    THEMIS_INFO("IoUringServer: started on {}:{}, ring_size={}, {} workers",
-                config_.host, config_.port,
+    THEMIS_INFO("IoUringServer: started on {}:{}, ring_size={}, {} workers", config_.host, config_.port,
                 config_.ring_size, config_.num_worker_threads);
     return true;
 }
@@ -916,13 +886,15 @@ void IoUringServer::workerLoop([[maybe_unused]] int worker_id) {
                                        /* flags       */ IORING_ENTER_GETEVENTS,
                                        /* sigmask     */ nullptr);
         if (rc < 0) {
-            if (errno == EINTR || errno == EAGAIN) continue;
-            if (!running_.load(std::memory_order_relaxed)) break;
-            THEMIS_WARN("IoUringServer worker {}: io_uring_enter error: {}",
-                        worker_id, std::strerror(errno));
+            if (errno == EINTR || errno == EAGAIN)
+                continue;
+            if (!running_.load(std::memory_order_relaxed))
+                break;
+            THEMIS_WARN("IoUringServer worker {}: io_uring_enter error: {}", worker_id, std::strerror(errno));
             break;
         }
-        if (rc == 0) continue;
+        if (rc == 0)
+            continue;
 
         std::lock_guard<std::mutex> lk(stats_mutex_);
         stats_.recv_completions += static_cast<uint64_t>(rc);
@@ -954,9 +926,10 @@ void IoUringServer::teardown() {
 // =============================================================================
 
 void IoUringServer::stop() {
-    if (!running_.exchange(false, std::memory_order_acq_rel)) return;
+    if (!running_.exchange(false, std::memory_order_acq_rel))
+        return;
 
-    // Close the ring fd so all blocked io_uring_enter() calls return -EBADF.
+        // Close the ring fd so all blocked io_uring_enter() calls return -EBADF.
 #ifdef __linux__
     if (ring_fd_ >= 0) {
         ::close(ring_fd_);
@@ -964,7 +937,7 @@ void IoUringServer::stop() {
     }
 #endif
 
-    for (auto& t : workers_) {
+    for (auto &t : workers_) {
         timedJoin(t);
     }
     workers_.clear();
@@ -983,4 +956,3 @@ IoUringServer::Stats IoUringServer::stats() const noexcept {
 
 } // namespace network
 } // namespace themis
-
