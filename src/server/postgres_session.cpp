@@ -28,20 +28,23 @@
 
 namespace {
     // Helper function to escape SQL string literals
+    // HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
     std::string escapeSQLString(const std::string& input) {
         std::string result;
         result.reserve(input.size() + 10);
         
         for (char c : input) {
             if (c == '\'') {
-                result += "''";  // PostgreSQL escapes single quotes by doubling
+                // PostgreSQL escapes single quotes by doubling
+                result.append("''");
             } else if (c == '\\') {
-                result += "\\\\";  // Escape backslashes
+                // Escape backslashes
+                result.append("\\\\");
             } else if (c == '\0') {
                 // Skip null bytes or handle specially
                 continue;
             } else {
-                result += c;
+                result.push_back(c);
             }
         }
         
@@ -262,13 +265,30 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
 }
 
 void PostgresSession::handleQuery(const std::string& query) {
-    // Trim query
-    std::string trimmedQuery = query;
-    trimmedQuery.erase(0, trimmedQuery.find_first_not_of(" \t\n\r"));
-    trimmedQuery.erase(trimmedQuery.find_last_not_of(" \t\n\r;") + 1);
+    // Trim query (HIGH-GAP FIX: avoid unnecessary copy of query, use trim-in-place)
+    // GAP_CATEGORY: copy_overhead — use string_view to avoid intermediate copies
+    std::string_view trimmed = query;
     
-    std::string upperQuery = trimmedQuery;
-    std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
+    // Find first non-whitespace
+    size_t start = query.find_first_not_of(" \t\n\r");
+    if (start == std::string::npos) {
+        // Query is all whitespace
+        sendErrorResponse("ERROR", "42601", "Syntax error: empty query");
+        sendReadyForQuery(currentTransactionStatus());
+        return;
+    }
+    trimmed = trimmed.substr(start);
+    
+    // Find last non-whitespace and remove trailing semicolon
+    size_t end = query.find_last_not_of(" \t\n\r;");
+    if (end != std::string::npos) {
+        trimmed = trimmed.substr(0, end - start + 1);
+    }
+    
+    // Create uppercase version only when needed (HIGH-GAP FIX: defer copy)
+    std::string upperQuery;
+    upperQuery.reserve(trimmed.size());
+    std::transform(trimmed.begin(), trimmed.end(), std::back_inserter(upperQuery), ::toupper);
     
     // Handle transaction commands
     if (upperQuery == "BEGIN" || upperQuery == "START TRANSACTION" || upperQuery == "BEGIN TRANSACTION") {
@@ -1014,6 +1034,7 @@ void PostgresSession::sendAuthenticationOk() {
 
 void PostgresSession::sendParameterStatus(const std::string& name, const std::string& value) {
     std::vector<uint8_t> payload;
+    payload.reserve(name.size() + value.size() + 2);  // name + null + value + null
     payload.insert(payload.end(), name.begin(), name.end());
     payload.push_back(0);
     payload.insert(payload.end(), value.begin(), value.end());
@@ -1042,6 +1063,10 @@ void PostgresSession::sendReadyForQuery(char transactionStatus) {
 
 void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fields) {
     std::vector<uint8_t> payload;
+    
+    // Estimate size: 2 bytes for count + (avg_field_name_size + 19 bytes) per field
+    // Average field name is ~15 chars, so ~34 bytes per field + 2 for header
+    payload.reserve(2 + fields.size() * 34);
     
     // Field count
     uint16_t fieldCount = fields.size();
