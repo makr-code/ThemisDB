@@ -73,7 +73,7 @@ ThemisDB v2.4.0 documentation consolidation project is **complete**. All four ph
 - LLM module: Wave tracking aligns with root ROADMAP ✅
 - Sharding module: Phase 6 sign-off artefacts referenced ✅
 
-**Result:** No issues found; documentation ready for release.
+**Result:** No documentation issues found; documentation artifacts are ready for release review.
 
 ---
 
@@ -216,7 +216,7 @@ Currently, the **only** blocking gate for v2.4.0 GA release is:
 - ✅ SLA and chaos/fault-injection evidence complete
 - ✅ All documentation synchronized to v2.4.0
 
-**No Technical Blocking Issues Remain.**
+**No documentation blocking issues remain.** The active repository-wide technical blocker is the Wave A1 ODR violation tracked separately in `ai_working/WAVE_A1_BUILD_FAILURE_REPORT.md`.
 
 ---
 
