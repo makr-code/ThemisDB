@@ -57,6 +57,9 @@ struct NLIFaithfulnessVerifier::Impl {
     size_t heuristic_inference_count_ = 0;
     double total_onnx_latency_ms_ = 0.0;
     
+    // Synchronization for thread-safe access to shared state
+    mutable std::mutex state_mutex;
+    
     Impl(const Config& cfg) : config(cfg) {
         THEMIS_INFO("NLIFaithfulnessVerifier initialized");
         THEMIS_INFO("  Entailment threshold: {}", config.entailment_threshold);
