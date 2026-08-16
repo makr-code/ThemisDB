@@ -122,6 +122,25 @@ public:
     template<typename FormatString, typename... Args>
     static void critical(FormatString&& fmt, Args&&... args);
 
+    // Backwards-compatible capitalized aliases used across the codebase.
+    template<typename FormatString, typename... Args>
+    static void Trace(FormatString&& fmt, Args&&... args) { trace(std::forward<FormatString>(fmt), std::forward<Args>(args)...); }
+
+    template<typename FormatString, typename... Args>
+    static void Debug(FormatString&& fmt, Args&&... args) { debug(std::forward<FormatString>(fmt), std::forward<Args>(args)...); }
+
+    template<typename FormatString, typename... Args>
+    static void Info(FormatString&& fmt, Args&&... args) { info(std::forward<FormatString>(fmt), std::forward<Args>(args)...); }
+
+    template<typename FormatString, typename... Args>
+    static void Warn(FormatString&& fmt, Args&&... args) { warn(std::forward<FormatString>(fmt), std::forward<Args>(args)...); }
+
+    template<typename FormatString, typename... Args>
+    static void Error(FormatString&& fmt, Args&&... args) { error(std::forward<FormatString>(fmt), std::forward<Args>(args)...); }
+
+    template<typename FormatString, typename... Args>
+    static void Critical(FormatString&& fmt, Args&&... args) { critical(std::forward<FormatString>(fmt), std::forward<Args>(args)...); }
+
 private:
     inline static std::shared_ptr<spdlog::logger> logger_{};
     static LogMetrics metrics_;

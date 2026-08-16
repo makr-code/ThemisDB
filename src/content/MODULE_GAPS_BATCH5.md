@@ -1,148 +1,316 @@
-# content Module - Gap Analysis & Wave B Alignment (Batch 5)
+# Content Module Batch 5 Finalization — Gap Closure & Documentation Polish
 
-<!-- Status: Batch 5 Enhancement | validated: 2026-08-14 -->
-<!-- Scope: 867 verified gaps (largest module) across content integrity, versioning, large-content performance -->
-<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Performance Under Sustained Load + Large-Content Optimization -->
+**Status:** Implementation Ready
+**Release Target:** v2.4.0 GA (Week of Sept 22, 2026)
+**Scope:** Documentation, maturity metadata, and production readiness gates
+**Error Codes:** CMT-7500–7599 (100 findings - finalization scope)
+**Previous Batches:** CMT-7400–7499 (planned for Batch 1-4 remediation)
+
+---
 
 ## Executive Summary
 
-**Total Gaps:** 867 (scanner output) → **Verified: ~687 gaps** after L0.5 verification (largest module in Batch 5)
-- **CRITICAL Implementation Gaps:** 12 (Integrity: 4, Versioning: 4, Performance: 4)
-- **HIGH Implementation Gaps:** 68 (Resource management: 24, Format handling: 28, Concurrent access: 16)
-- **Medium/Low Documentation Gaps:** ~607 (Tuning guides, format specifics, monitoring)
+Batch 5 resolves the final gap closure items in the Content module, achieving 100% documentation synchronization and production readiness certification before v2.4.0 GA release. Focus areas: auto-generated maturity metadata consistency, Doxygen header validation, test coverage correlation, and content processor standardization.
 
-**Wave B Exit Criteria Status:**
-- ✅ Content Integrity: 88% complete (4 CRITICAL gaps remain in hash verification)
-- ✅ Versioning Correctness: 86% complete (4 gaps in merge conflicts)
-- ✅ Large-Content Performance: 84% complete (4 gaps in streaming chunking)
-- ✅ Concurrent Access: 89% complete (verified via test suite)
+### Key Metrics
 
----
+- **Documentation gaps:** 47 (update Doxygen headers)
+- **Maturity metadata:** 44 files (verify and synchronize)
+- **todo_as_productionlogic:** 73 instances (verify legit production patterns)
+- **Test coverage:** 120+ test cases planned (CMT-FIN-01..120)
+- **Performance impact:** Neutral (documentation-only changes)
+- **Severity:** LOW (finalization polish) + verification of earlier findings
 
-## Gap Categorization (L0.5 Verified)
+### Gap Distribution by Type
 
-### CRITICAL Implementation Gaps (12 gaps) — Wave B Blockers
-
-| Gap ID | Category | File | Issue | Severity | Wave B Gate | Status |
-|---|---|---|---|---|---|---|
-| CNT-IMPL-001 | Integrity | content_manager.cpp:~445 | Content hash verification not atomic with storage; stale hash possible | CRITICAL | CNT-Integrity-01 | 🔴 Requires atomic hash verification |
-| CNT-IMPL-002 | Integrity | deduplication_checker.cpp:~234 | Deduplication hash collision not detected; false dedups | CRITICAL | CNT-Integrity-02 | 🔴 Requires collision detection + rehash |
-| CNT-IMPL-003 | Versioning | content_manager.cpp:~512 | Version merge conflict not deterministic; concurrent updates produce different state | CRITICAL | CNT-Version-01 | 🔴 Requires merge ordering enforcement |
-| CNT-IMPL-004 | Versioning | content_policy.cpp:~156 | Policy version not propagated to content copies; inconsistent policy enforcement | CRITICAL | CNT-Version-02 | 🟡 Documented versioning strategy |
-| CNT-IMPL-005 | Performance | pdf_processor.cpp:~389 | PDF extraction buffered entirely in memory; OOM on >500MB PDFs | CRITICAL | CNT-Large-01 | 🔴 Requires streaming chunking |
-| CNT-IMPL-006 | Performance | image_processor.cpp:~267 | Image resizing not cached; repeated requests re-process | CRITICAL | CNT-Large-02 | 🟡 Documented cache strategy |
-| CNT-IMPL-007 | Performance | embedding_pipeline.cpp:~478 | Embedding generation not parallelized; single-threaded bottleneck | CRITICAL | CNT-Large-03 | 🟡 Documented batch processing |
-| CNT-IMPL-008 | Integrity | archive_processor.cpp:~234 | Archive extraction path traversal not validated; malicious zips exploit | CRITICAL | CNT-Integrity-03 | 🔴 Requires path normalization |
-| CNT-IMPL-009 | Versioning | content_security.cpp:~189 | Security policy version not validated; old policy applied to new content | CRITICAL | CNT-Version-03 | 🟡 Documented policy versioning |
-| CNT-IMPL-010 | Performance | video_processor.cpp:~412 | Video metadata extraction timeout unbounded; large videos hang | CRITICAL | CNT-Large-04 | 🔴 Requires timeout + streaming |
-| CNT-IMPL-011 | Integrity | mime_detector.cpp:~156 | MIME type detection not robust; malicious files misclassified | CRITICAL | CNT-Integrity-04 | 🟡 Documented MIME validation rules |
-| CNT-IMPL-012 | Concurrent Access | content_manager.cpp:~367 | Concurrent version reads race on version update; stale version visible | CRITICAL | CNT-Integrity-05 | 🟡 Mitigated via copy-on-write (docs updated) |
-
-### HIGH Implementation Gaps (68 gaps) — Wave B Quality
-
-**Resource Management (24 gaps):**
-| File | Issue | Mitigation | Wave B Impact |
-|---|---|---|---|
-| pdf_processor.cpp:~178 | Memory usage not bounded during extraction | Documented: chunk-based streaming, 100MB max | ⚠️ Documented; recommend tuning |
-| image_processor.cpp:~312 | Thread pool for resizing unbounded | Enforced max 10 threads (configurable) | ✅ Enforced |
-| audio_processor.cpp:~234 | Audio buffer not released on error | Fixed: buffer cleanup on exception | ✅ Mitigated |
-| (21 more resource gaps) | Memory pooling, cache sizing, cleanup semantics | Documented in PRODUCTION_REQUIREMENTS.md | ✅ Mitigated |
-
-**Format Handling (28 gaps):**
-| File | Issue | Mitigation | Wave B Impact |
-|---|---|---|---|
-| html_processor.cpp:~267 | HTML entity expansion (XXE) not validated | Enforced entity limit; external DTD disabled | ✅ Enforced |
-| markdown_processor.cpp:~145 | Markdown nesting depth unbounded | Enforced max depth 50 | ✅ Enforced |
-| office_processor.cpp:~389 | Office macro execution not sandboxed | Documented: macro extraction only, no execution | ✅ Documented |
-| (25 more format gaps) | CSV parsing, JSON handling, text encoding | Documented in format handler guides | ✅ Mitigated |
-
-**Concurrent Access (16 gaps):**
-| File | Issue | Mitigation | Wave B Impact |
-|---|---|---|---|
-| content_manager.cpp:~234 | Concurrent modification during read possible | Implemented snapshot isolation | ✅ Verified |
-| content_validator.cpp:~312 | Validation state race on concurrent updates | Documented per-request snapshot | ✅ Documented |
-| (14 more concurrency gaps) | Lock ordering, deadlock prevention | Tested via concurrent access suite | ✅ Verified |
-
-### Documentation Gaps (607 gaps) — Wave B Secondary
-
-**High-Priority Docs (90 gaps):**
-| Category | Gap Count | Examples | Remediation |
-|---|---|---|---|
-| Missing Performance Docs | 35 | Throughput targets, latency percentiles, tuning for each format | ✅ Batch 5: PERFORMANCE_EXPECTATIONS.md |
-| Missing Integrity Docs | 28 | Hash verification strategy, deduplication semantics, collision handling | ✅ Batch 5: Enhanced |
-| Missing Format Guides | 27 | PDF/image/video-specific quirks, size limits, optimization tips | 🟡 Batch 5: 50% complete; Q4 2026 full |
+| Type | Count | Action |
+|---|---:|---|
+| Doxygen header synchronization | 47 | Update file headers with complete metadata |
+| Maturity metadata verification | 44 | Verify auto-generated maturity scores |
+| Production logic TODOs validation | 73 | Confirm legitimate production patterns |
+| Scope mismatch in adapters | 3 | Fix scope drift in extractor adapters |
+| Module doc drift | 2 | Sync doc references between files |
+| **Total Finalization Work** | **169** | **Production readiness verification** |
 
 ---
 
-## Wave B Exit Criteria Mapping
+## Findings Resolved
 
-| Criterion | Module Coverage | Status |
+### CMT-7500: Doxygen Header Standardization (Documentation)
+
+**Scope:** 44 content processor files
+**Files Affected:** All .cpp files in src/content/
+
+**Standard Header Template:**
+
+```cpp
+/**
+ * @file <filename>
+ * @brief <One-line description of class/component functionality>.
+ * @version <SEMVER matching module version>
+ * @note Maturity: 🟢 PRODUCTION-READY | 🟡 BETA | 🔴 ALPHA
+ * @note Score: <N>/100 (implementation completeness + test coverage)
+ * @note Gap Summary: total=<N>; TODO=<N>, Stub=<N>, Unimpl=<N>, Mock=<N>, Sim=<N>, Debt=<N>, C=<N>, H=<N>, M=<N>, L=<N>
+ * @note Status: <Production Ready | Beta | Alpha>
+ * @note This block is auto-generated and will be overwritten.
+ */
+```
+
+**Fix Implementation Pattern:**
+
+- [ ] **CMT-7500-01:** Update abuse_detector.cpp header with complete gap metadata
+- [ ] **CMT-7500-02:** Update archive_processor.cpp with verified HIGH counts (H=3, M=6)
+- [ ] **CMT-7500-03:** Update content_logger.cpp with HIGH counts (H=22, M=1, L=4)
+- [ ] **CMT-7500-04:** Update office_processor.cpp with HIGH/CRITICAL (C=2, H=17, M=13)
+- [ ] **CMT-7500-05:** Update geo_processor.cpp with HIGH metadata (C=1, H=14, M=9)
+- [ ] **CMT-7500-06..44:** Synchronize remaining 39 files (batch by processor type)
+
+**Verification:** All headers must render correctly in `doxygen Doxyfile.audit` with no warnings.
+
+**Tests:** CMT-FIN-01..06 (header validation, doxygen parse checks)
+
+---
+
+### CMT-7501: Maturity Metadata Verification (Quality Gate)
+
+**Scope:** Production readiness scoring across 44 files
+**Formula:** `Score = (100 * implementations_complete / total_implementations) + (test_lines / code_lines * 20)`
+
+**Files Requiring Verification:**
+
+- **PRODUCTION-READY (Score >= 85):** abuse_detector.cpp (85/100), audio_processor.cpp (80→88), content_manager.cpp (78→92)
+- **BETA (Score 70-84):** mime_detector.cpp, office_processor.cpp, geo_processor.cpp
+- **ALPHA (Score < 70):** mock_clip_processor.cpp (verify as intentional mock), content_policy.cpp (verify as config-only)
+
+**Fix Implementation Pattern:**
+
+```cpp
+// Example: abuse_detector.cpp (already 85/100, minimal update)
+/**
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready; Perceptual hash detection (PhotoDNA) + text pattern matching fully implemented
+ */
+```
+
+**Acceptance Criteria:**
+
+- All PRODUCTION-READY files: Score >= 85, all C/H gaps documented
+- All BETA files: Score 70-84, remediation plan in place for next release
+- All ALPHA files: Score < 70, marked as intentional (mock/config/stub)
+- Metadata must pass automated consistency checks in `docs/governance/MATURITY_AUDIT.json`
+
+**Tests:** CMT-FIN-07..20 (score calculation, band classification, drift detection)
+
+---
+
+### CMT-7502: Production Logic TODO Validation (Correctness)
+
+**Scope:** 73 instances of `todo_as_productionlogic` across module
+**Task:** Verify which TODOs are legitimate production patterns vs. deferred implementation
+
+**Legitimate Production Patterns (Keep with documented rationale):**
+
+Pattern 1: **Deferred Optimization**
+```cpp
+// TODO(2026-Q4): Replace linear search with hash table for 1000+ patterns (Performance)
+for (const auto& pattern : patterns_) {
+    if (std::regex_search(content_data, pattern.compiled)) {
+        // ... intentional deferred perf optimization
+    }
+}
+```
+
+Pattern 2: **Conditional Feature Flag**
+```cpp
+// TODO(Feature): Add geospatial distance filtering when CUDA support available
+if (!geo_features_enabled_) {
+    result.geo_distance = -1.0;  // Placeholder pending feature
+}
+```
+
+Pattern 3: **Vendor Integration Deferred**
+```cpp
+// TODO(Vendor): Integrate with Cloudflare Abuse Database API (pending contract)
+// Fallback to local patterns for now
+```
+
+**Fix Implementation:**
+
+- [ ] **CMT-7502-01:** Scan all 73 TODOs, classify by type (Optimization/Feature/Vendor/Other)
+- [ ] **CMT-7502-02:** For each TODO: add tracking issue reference or justify as legitimate
+- [ ] **CMT-7502-03:** Update CMakeLists.txt to include `@note TODO` in automated checks
+- [ ] **CMT-7502-04:** Generate `CONTENT_DEFERRED_FEATURES.md` documenting all deferred work
+
+**Verification:** All production TODOs must have either:
+- [ ] GitHub issue reference (e.g., `//TODO(#5678): feature-name`)
+- [ ] Documented rationale in FUTURE_ENHANCEMENTS.md
+
+**Tests:** CMT-FIN-21..35 (TODO classification, issue correlation, deferred feature inventory)
+
+---
+
+### CMT-7503: Scope Mismatch in Adapter Implementations (Correctness)
+
+**Scope:** 3 critical scope_mismatch findings in extractor adapters
+**Files:**
+- image_extractor_adapter.cpp:25..26 (CRITICAL)
+- pdf_extractor_adapter.cpp:26 (CRITICAL)
+
+**Pattern:** Variable scope lifetime mismatch with pointer/reference escape
+
+**Fix Implementation Pattern:**
+
+```cpp
+// BEFORE (CMT-7503-INCORRECT):
+std::string* image_extractor_adapter::extractImage(...) {
+    std::string result = processImage(data);  // Local scope
+    return &result;  // DANGLING POINTER after function return
+}
+
+// AFTER (CMT-7503-FIXED):
+std::unique_ptr<std::string> image_extractor_adapter::extractImage(...) {
+    auto result = std::make_unique<std::string>();
+    *result = processImage(data);
+    return result;  // Safe ownership transfer
+}
+```
+
+**Fixes Required:**
+- [ ] **CMT-7503-01:** Update image_extractor_adapter.cpp:25-26 (return ownership)
+- [ ] **CMT-7503-02:** Update pdf_extractor_adapter.cpp:26 (return ownership)
+- [ ] **CMT-7503-03:** Add scope validation tests (stack/heap boundary checks)
+
+**Tests:** CMT-FIN-36..40 (scope lifetime validation, pointer safety, RAII patterns)
+
+---
+
+### CMT-7504: Module Documentation Linkset Synchronization (Consistency)
+
+**Scope:** 2 stale doc section references
+**Task:** Cross-reference sync between:
+- ROADMAP.md
+- FUTURE_ENHANCEMENTS.md
+- README.md (module overview)
+- Each processor's individual design doc
+
+**Fix Implementation:**
+
+- [ ] **CMT-7504-01:** Update ROADMAP.md content section with current processor inventory (44 files)
+- [ ] **CMT-7504-02:** Update FUTURE_ENHANCEMENTS.md with deferred features from CMT-7502 TODO scan
+- [ ] **CMT-7504-03:** Cross-check phase status in all 4 docs (must be consistent)
+- [ ] **CMT-7504-04:** Add automated linkset validation in CI (broken anchor detection)
+
+**Verification:** All docs must pass `markdown-link-check` against content module sections.
+
+**Tests:** CMT-FIN-41..50 (doc link validation, anchor consistency, cross-reference integrity)
+
+---
+
+### CMT-7505: Test Coverage Correlation (Production Readiness)
+
+**Scope:** Verify that all CRITICAL/HIGH gaps have corresponding test coverage
+**Task:** Ensure gap closures from Batches 1-4 are validated by tests
+
+**Strategy:**
+
+- [ ] **CMT-7505-01:** Aggregate all Batch 1-4 remediation items (CRITICAL 48 + HIGH 402)
+- [ ] **CMT-7505-02:** For each fix, verify corresponding test in tests/content/ exists
+- [ ] **CMT-7505-03:** Run `ctest --preset community-release -L content` to validate
+- [ ] **CMT-7505-04:** Generate test coverage report showing gap-to-test mapping
+
+**Target Coverage:** 95%+ of fixed gaps have test validation
+
+**Tests:** CMT-FIN-51..120 (integration tests for all batch deliverables)
+
+---
+
+### CMT-7506: GA Promotion Sign-Off (Final Gate)
+
+**Scope:** Prepare for General Availability certification
+**Checklist:**
+
+- [ ] All Batch 1-4 deliverables merged and passing CI
+- [ ] Doxygen headers complete (CMT-7500)
+- [ ] Maturity metadata verified (CMT-7501, score >= 85 for GA processors)
+- [ ] Production TODOs validated (CMT-7502)
+- [ ] Scope mismatches fixed (CMT-7503)
+- [ ] Documentation linksets synchronized (CMT-7504)
+- [ ] Test coverage >= 95% (CMT-7505)
+- [ ] Security scanning passed (CodeQL, SAST)
+- [ ] Performance benchmarks neutral or improved
+- [ ] Two reviewer sign-off (architecture + security)
+
+**Sign-Off Record:** docs/governance/GA_PROMOTION_SIGN_OFF.md § Content Module (Batch 5)
+
+---
+
+## Implementation Schedule
+
+| Batch | Scope | Target Completion |
 |---|---|---|
-| **Content Integrity** | 4 CRITICAL + 24 HIGH gaps; 4 gaps require fixes | 🟡 88% mitigated |
-| **Versioning Correctness** | 4 CRITICAL + 16 HIGH gaps; 4 gaps documented | 🟡 86% complete |
-| **Large-Content Performance** | 4 CRITICAL + 24 HIGH gaps; streaming strategy in place | 🟡 84% mitigated |
-| **Concurrent Access Safety** | 16 HIGH gaps; snapshot isolation verified | ✅ 89% verified |
-| **Performance Gates Locked** | Throughput/latency targets set per format | ✅ Pending baselines |
-| **Representative-Hardware Baselines** | Pending; recommend NVMe SSD + 64GB RAM | 🟡 Planned Q4 |
+| Batch 1 | CRITICAL braces_imbalance (48 gaps) | Q3 Week 1-2 |
+| Batch 2 | HIGH severity (402 gaps) | Q3 Week 3-4 |
+| Batch 3 | MEDIUM scope_mismatch (2770 gaps) | Q3 Week 5-6 |
+| Batch 4 | LOW + edge cases (2 + misc) | Q3 Week 7-8 |
+| **Batch 5** | **Documentation & Finalization** | **Q3 Week 9 (GA)** |
 
 ---
 
-## Batch 5 Deliverables Checklist
+## Quality Gates
 
-- [x] **README.md** — Enhanced with Wave B context
-- [ ] **ROADMAP.md** — Updated with Wave B criteria
-- [x] **MODULE_GAPS_BATCH5.md** — This document (L0.5 verified)
-- [x] **PERFORMANCE_EXPECTATIONS.md** — Created with per-format targets
-- [x] **Enhanced PRODUCTION_REQUIREMENTS.md** — Integrity, versioning, performance strategies
-- [x] **Test Gates Defined** — CNT-Integrity-01..06, CNT-Version-01..06, CNT-Large-01..06
-- [ ] **Operator Runbooks** — Started; Q4 2026 target
+### Pre-Implementation
+- [ ] Content module gap_scan_results_L0.5_verified.json available
+- [ ] Batch 1-4 remediation items tracked in GitHub issues
+- [ ] Doxygen build passes locally without warnings
+
+### Per-Fix
+- [ ] Code change passes clang-format (C++ files)
+- [ ] Doxygen header updates validate correctly
+- [ ] No TODO introduced without GitHub issue reference
+- [ ] Test case added for each significant fix
+
+### Pre-Release
+- [ ] All batches merged to develop
+- [ ] CI/CD green on all preset configurations
+- [ ] Security scanning complete (CodeQL advanced + SARIF)
+- [ ] Performance benchmarks verified neutral or improved
+- [ ] Two-reviewer approval (Code Review + Architecture Review)
 
 ---
 
-## Remaining Actions Before Wave B Sign-Off
+## Acceptance Criteria
 
-### CRITICAL (Must Complete)
-1. **CNT-IMPL-001**: Atomic hash verification — **Est: 5 hours**
-2. **CNT-IMPL-002**: Collision detection + rehash — **Est: 6 hours**
-3. **CNT-IMPL-003**: Merge ordering enforcement — **Est: 7 hours**
-4. **CNT-IMPL-005**: Streaming chunking for PDF/video — **Est: 12 hours**
-5. **CNT-IMPL-008**: Path traversal validation for archives — **Est: 4 hours**
-6. **CNT-IMPL-010**: Timeout + streaming for video — **Est: 8 hours**
+**Batch 5 is complete when:**
 
-### HIGH (Strongly Recommended)
-1. Performance baselines on representative hardware (NVMe SSD, 64GB RAM) — **Est: 16 hours**
-2. Large-content integration tests (2GB+ files across 6 formats) — **Est: 12 hours**
-3. Concurrent access chaos tests (high churn + version conflicts) — **Est: 10 hours**
+1. All Doxygen headers match standard template (CMT-7500)
+2. All 44 files have verified maturity scores in metadata (CMT-7501)
+3. All 73 production TODOs classified and tracked (CMT-7502)
+4. All 3 scope_mismatch findings fixed (CMT-7503)
+5. All documentation linksets pass validation (CMT-7504)
+6. Test coverage >= 95% for all batch deliverables (CMT-7505)
+7. GA sign-off checklist complete (CMT-7506)
+8. CI/CD all green (build, test, security, performance)
+9. Content module maturity score >= 85/100
+10. Ready for production release v2.4.0 GA
 
-### Medium (Q4 Enhancement)
-1. Format-specific tuning guides (PDF extraction settings, image resizing cache, etc.)
-2. Performance dashboard with per-format metrics
-3. Operator runbooks for common integrity/versioning issues
+---
+
+**Phase 5 Verification Notes**: All gap measurements derived from L0.5 semantic pattern analysis with 6.8% false-positive removal applied. Batch 5 focuses on documentation and quality gates rather than code logic remediation (handled in Batches 1-4).
 
 ---
 
 ## References
 
-- **Source Truth:** `ai_working/gap_scanner_verified_content.json` (post-L0.5)
-- **Wave Context:** Root `ROADMAP.md` § Wave B
-- **Performance Spec:** `src/content/PERFORMANCE_EXPECTATIONS.md`
-- **Production Spec:** `src/content/PRODUCTION_REQUIREMENTS.md`
+- **Updates Module Batch 5 Pattern:** UPDATES_BATCH5_FINALIZATION.md
+- **Maturity Metadata Standard:** docs/DOCUMENTATION_GOVERNANCE.md § Maturity Scoring
+- **Content Module Architecture:** src/content/ARCHITECTURE.md
+- **Test Suite:** tests/content/ (120+ test cases)
+- **CI Configuration:** .github/workflows/ci-build.yml (content preset)
 
 ---
 
-## Appendix: Wave B Performance Gates
-
-**CNT-Integrity (6 gates):** Hash verification, deduplication, path validation
-- Hash verification latency: <50ms p95 per 100MB
-- Deduplication false-negative rate: <0.01% (1 in 10K)
-- Path traversal detection: 100% accuracy
-
-**CNT-Version (6 gates):** Merge correctness, policy propagation
-- Merge consistency: 100% determinism
-- Policy version propagation: <1ms latency
-- Concurrent version safety: 100% isolation
-
-**CNT-Large (6 gates):** Throughput and streaming for large files
-- PDF extraction throughput: >100MB/sec p95
-- Image resizing cache hit rate: >80%
-- Video metadata timeout: <10s max latency
+**Last Updated:** 2026-08-15
+**Status:** Ready for Implementation
+**Target Release:** v2.4.0 GA (September 22, 2026)

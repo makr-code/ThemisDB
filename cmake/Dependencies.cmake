@@ -100,6 +100,16 @@ if(NOT ZLIB_FOUND)
 endif()
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
+# Create ZLIB::ZLIB target if it doesn't exist (needed for RocksDB and CURL compatibility)
+if(ZLIB_FOUND AND NOT TARGET ZLIB::ZLIB)
+    add_library(ZLIB::ZLIB INTERFACE IMPORTED)
+    set_target_properties(ZLIB::ZLIB PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "${ZLIB_INCLUDE_DIR}"
+        INTERFACE_LINK_LIBRARIES "${ZLIB_LIBRARY}"
+    )
+    message(STATUS "Created ZLIB::ZLIB imported target")
+endif()
+
 # zstd (compression codec) - must be found before RocksDB
 find_package(zstd QUIET CONFIG)
 if(zstd_FOUND)
@@ -275,6 +285,10 @@ endif()
 # Disable spdlog compile-time format string checks for better compatibility with runtime format strings
 if(spdlog_FOUND AND NOT MSVC)
     add_compile_definitions(SPDLOG_USE_SPDLOG_FMT_EXT=0)
+    add_compile_definitions(SPDLOG_DISABLE_DEFAULT_LOGGER)
+    add_compile_definitions(SPDLOG_NO_EXCEPTIONS)
+    add_compile_definitions(SPDLOG_FMT_EXTERNAL)
+    # Note: Do not use SPDLOG_USE_STD_FORMAT with fmt namespace - causes incompatibilities
 endif()
 
 find_package(nlohmann_json CONFIG QUIET)

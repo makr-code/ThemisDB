@@ -252,6 +252,7 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
     bool should_notify = false;
 
     {
+        // LOCK SCOPE: Acquire mutex_ (Tier 2) for graph modification
         std::unique_lock<std::mutex> lk(mutex_);
 
         // Remove old entry if updating — inline removal to avoid recursive lock
@@ -318,9 +319,11 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
             hook_edges    = buildPersistedEdgesForLocked(tensor_id);
             should_notify = true;
         }
-    } // mutex_ released
+    } // mutex_ released HERE - BEFORE acquiring hook_mutex_
 
-    // Call node-persist hook outside the main lock (matches TNSE observer pattern).
+    // SAFE: Call node-persist hook outside the main lock (matches TNSE observer pattern).
+    // Lock order: mutex_ (Tier 2) released, then hook_mutex_ (Tier 3) acquired.
+    // No circular dependency because Tier 2 is fully released before Tier 3 acquired.
     if (should_notify) {
         std::lock_guard<std::mutex> hlk(hook_mutex_);
         if (node_persist_hook_) {

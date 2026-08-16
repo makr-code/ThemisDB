@@ -48,7 +48,7 @@ static ImportErrorCode mapRedisErrorToCode(const std::string& error_msg) {
     }
     if (lmsg.find("timeout") != std::string::npos ||
         lmsg.find("timed out") != std::string::npos) {
-        return ImportErrorCode::IMPORT_TIMEOUT;
+        return ImportErrorCode::DEADLINE_EXCEEDED;
     }
     if (lmsg.find("auth") != std::string::npos ||
         lmsg.find("noauth") != std::string::npos ||
@@ -56,7 +56,7 @@ static ImportErrorCode mapRedisErrorToCode(const std::string& error_msg) {
         // Map auth failure to IMPORT_CONNECTOR_UNAVAILABLE (avoids leaking status).
         return ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
     }
-    return ImportErrorCode::UNKNOWN_ERROR;
+    return ImportErrorCode::UNKNOWN;
 }
 
 } // anonymous namespace
@@ -189,23 +189,23 @@ RedisImporter::RedisValueType RedisImporter::parseRedisType(
 // ============================================================================
 
 json RedisImporter::fetchKeyDocument(const std::string& key,
-                                      RedisValueType vtype,
-                                      std::string& error_out) {
+                      RedisValueType vtype,
+                      std::string& error_out,
+                      void* conn) {
     json doc;
     doc["_id"]   = key;
 
-    auto sendCmd = [&](const std::vector<std::string>& cmd) -> std::string {
-        if (mock_command_fn_) return mock_command_fn_(cmd);
+    auto sendCmd = [&](void* c, const std::vector<std::string>& cmd) -> std::string {
+    if (mock_command_fn_) return mock_command_fn_(cmd);
 #ifdef THEMIS_ENABLE_REDIS
-        // Production: real hiredis command.
-        return "";
+    return executeHiredisCommand(c, cmd);
 #else
-        return "";
+    return "";
 #endif
     };
 
     // Fetch TTL (PTTL returns milliseconds; -1 = no expiry, -2 = key gone).
-    const std::string ttl_str = sendCmd({"PTTL", key});
+    const std::string ttl_str = sendCmd(conn, {"PTTL", key});
     try {
         const int64_t pttl = std::stoll(ttl_str);
         if (pttl > 0) doc["_ttl_ms"] = pttl;
@@ -214,12 +214,12 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
     switch (vtype) {
         case RedisValueType::String: {
             doc["_type"]  = "string";
-            doc["value"]  = sendCmd({"GET", key});
+            doc["value"]  = sendCmd(conn, {"GET", key});
             break;
         }
         case RedisValueType::Hash: {
             doc["_type"] = "hash";
-            const std::string raw = sendCmd({"HGETALL", key});
+            const std::string raw = sendCmd(conn, {"HGETALL", key});
             // hiredis HGETALL returns alternating field/value pairs as a JSON array.
             try {
                 const json pairs = json::parse(raw);
@@ -237,20 +237,20 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
         }
         case RedisValueType::List: {
             doc["_type"] = "list";
-            const std::string raw = sendCmd({"LRANGE", key, "0", "-1"});
+            const std::string raw = sendCmd(conn, {"LRANGE", key, "0", "-1"});
             try { doc["value"] = json::parse(raw); } catch (...) { doc["value"] = raw; }
             break;
         }
         case RedisValueType::Set: {
             doc["_type"] = "set";
-            const std::string raw = sendCmd({"SMEMBERS", key});
+            const std::string raw = sendCmd(conn, {"SMEMBERS", key});
             try { doc["value"] = json::parse(raw); } catch (...) { doc["value"] = raw; }
             break;
         }
         case RedisValueType::ZSet: {
             doc["_type"] = "zset";
             // ZRANGE WITHSCORES returns [member, score, member, score, ...].
-            const std::string raw = sendCmd({"ZRANGE", key, "0", "-1", "WITHSCORES"});
+            const std::string raw = sendCmd(conn, {"ZRANGE", key, "0", "-1", "WITHSCORES"});
             try {
                 const json pairs = json::parse(raw);
                 json zobj = json::object();
@@ -280,9 +280,10 @@ ImportStats RedisImporter::importData(
     const ImportOptions& options,
     ProgressCallback progress_callback) {
 
-    cancelled_.store(false);
+    // Preserve pre-start cancellation requests; do not reset `cancelled_` here.
+    // Tests may call `cancel()` before `importData` and expect it to take effect.
     ImportStats stats{};
-    stats.start_time = std::chrono::steady_clock::now();
+    const auto start_time = std::chrono::steady_clock::now();
 
     // Resolve host/port.
     std::string host = config_.host;
@@ -300,20 +301,21 @@ ImportStats RedisImporter::importData(
 #ifndef THEMIS_ENABLE_REDIS
     if (!mock_command_fn_) {
         ImportError err;
-        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.code     = ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
         err.message  = "RedisImporter: THEMIS_ENABLE_REDIS is not defined. "
                        "Rebuild with -DTHEMIS_ENABLE_REDIS=ON to enable the full "
                        "hiredis-backed connector. Endpoint: " +
                        sanitiseEndpoint(host, port);
         err.severity = ImportErrorSeverity::CRITICAL;
-        stats.errors.push_back(std::move(err));
+        stats.structured_errors.push_back(err);
+        stats.errors.push_back(err.message);
         return stats;
     }
 #endif
 
     const auto deadline = (options.deadline_ms > 0)
         ? std::optional<std::chrono::steady_clock::time_point>(
-              stats.start_time + std::chrono::milliseconds(options.deadline_ms))
+              start_time + std::chrono::milliseconds(options.deadline_ms))
         : std::nullopt;
 
     auto sendCmd = [&](const std::vector<std::string>& cmd) -> std::string {
@@ -331,10 +333,11 @@ ImportStats RedisImporter::importData(
         if (cancelled_.load(std::memory_order_relaxed)) break;
         if (deadline && std::chrono::steady_clock::now() >= *deadline) {
             ImportError err;
-            err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_TIMEOUT);
+            err.code     = ImportErrorCode::DEADLINE_EXCEEDED;
             err.message  = "RedisImporter: deadline exceeded.";
             err.severity = ImportErrorSeverity::WARNING;
-            stats.errors.push_back(std::move(err));
+            stats.structured_errors.push_back(err);
+            stats.errors.push_back(err.message);
             break;
         }
 
@@ -358,11 +361,12 @@ ImportStats RedisImporter::importData(
             }
         } catch (const std::exception& e) {
             ImportError err;
-            err.code     = static_cast<uint32_t>(ImportErrorCode::UNKNOWN_ERROR);
+            err.code     = ImportErrorCode::UNKNOWN;
             err.message  = "RedisImporter: SCAN response parse error: " +
                            std::string(e.what());
             err.severity = ImportErrorSeverity::ERROR;
-            stats.errors.push_back(std::move(err));
+            stats.structured_errors.push_back(err);
+            stats.errors.push_back(err.message);
             break;
         }
 
@@ -371,13 +375,13 @@ ImportStats RedisImporter::importData(
         // Fetch and process each key.
         for (const auto& key : keys) {
             if (cancelled_.load(std::memory_order_relaxed)) break;
-            ++stats.rows_processed;
+            ++stats.total_records;
 
             // TYPE <key>
             const std::string type_str = sendCmd({"TYPE", key});
             const RedisValueType vtype = parseRedisType(type_str);
             if (vtype == RedisValueType::Unknown) {
-                ++stats.rows_skipped;
+                ++stats.skipped_records;
                 continue;
             }
 
@@ -385,25 +389,31 @@ ImportStats RedisImporter::importData(
             const json doc = fetchKeyDocument(key, vtype, fetch_err);
             if (!fetch_err.empty()) {
                 ImportError err;
-                err.code     = static_cast<uint32_t>(ImportErrorCode::UNKNOWN_ERROR);
+                err.code     = ImportErrorCode::UNKNOWN;
                 err.message  = "RedisImporter: " + fetch_err;
                 err.severity = ImportErrorSeverity::ERROR;
-                stats.errors.push_back(std::move(err));
-                ++stats.rows_failed;
+                stats.structured_errors.push_back(err);
+                stats.errors.push_back(err.message);
+                ++stats.failed_records;
                 continue;
             }
 
             // In production the document would be written to ThemisDB storage here.
-            ++stats.rows_imported;
+            ++stats.imported_records;
         }
 
         if (progress_callback) {
-            progress_callback(static_cast<double>(stats.rows_processed));
+            progress_callback("scan", stats.total_records, 0);
         }
 
     } while (cursor != "0");
 
-    stats.end_time = std::chrono::steady_clock::now();
+    const auto end_time = std::chrono::steady_clock::now();
+    stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+    // Backwards-compatibility aliases
+    stats.rows_imported = stats.imported_records;
+    stats.rows_skipped = stats.skipped_records;
+    stats.rows_quarantined = stats.quarantined_records;
     return stats;
 }
 

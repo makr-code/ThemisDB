@@ -66,6 +66,8 @@ namespace themis {
 
 namespace {
 
+// A-2.2: Iterator Invalidation Prevention
+// Use index-based access with explicit bounds checks to avoid iterator invalidation
 size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
                            std::vector<std::string>& idToPk,
                            const std::string& pk) {
@@ -78,6 +80,7 @@ size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
 	}
 
 	const size_t id = it->second;
+	// Defensive bounds check before accessing vector by index (A-2.2)
 	if (id < idToPk.size()) {
 		idToPk[id] = pk;
 	}
@@ -88,8 +91,12 @@ size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
 
 VectorIndexManager::VectorIndexManager(RocksDBWrapper& db) : db_(db) {}
 
-VectorIndexManager::~VectorIndexManager() {
-	shutdown();
+VectorIndexManager::~VectorIndexManager() noexcept {
+	try {
+		shutdown();
+	} catch (const std::exception& e) {
+		THEMIS_ERROR("Destructor exception (ignored): {}", e.what());
+	}
 }
 
 // Phase 1: Set audit logger for tracking vector operations
@@ -288,22 +295,35 @@ VectorIndexManager::Status VectorIndexManager::shutdown() {
 			THEMIS_WARN("Exception while saving ANN backend: {}", ex.what());
 		}
 	}
-	// Release the HNSW index to avoid memory leaks
+	// Release the HNSW index to avoid memory leaks (Phase 5: RAII safety fix)
+	releaseHnswResources_();
+	return Status::OK();
+}
+
+// Phase 5: Safe HNSW resource cleanup (RAII safety fix)
+void VectorIndexManager::releaseHnswResources_() noexcept {
 #ifdef THEMIS_HNSW_ENABLED
 	if (hnswIndex_) {
-		delete static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+		try {
+			delete static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+		} catch (const std::exception& e) {
+			THEMIS_ERROR("Exception deleting HNSW index (ignored): {}", e.what());
+		}
 		hnswIndex_ = nullptr;
 		useHnsw_ = false;
 	}
 	if (hnswSpace_) {
-		delete static_cast<hnswlib::SpaceInterface<float>*>(hnswSpace_);
+		try {
+			delete static_cast<hnswlib::SpaceInterface<float>*>(hnswSpace_);
+		} catch (const std::exception& e) {
+			THEMIS_ERROR("Exception deleting HNSW space (ignored): {}", e.what());
+		}
 		hnswSpace_ = nullptr;
 	}
 #endif
-	return Status::OK();
 }
 
-void VectorIndexManager::setAutoSavePath(const std::string& savePath, bool autoSave) {
+
 	savePath_ = savePath;
 	autoSave_ = autoSave;
 	
@@ -2369,17 +2389,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			efSearch_ = ef; m_ = m; efConstruction_ = efc;
 
 	#ifdef THEMIS_HNSW_ENABLED
-			// Release any previously allocated HNSW index before loading a new one
+			// Release any previously allocated HNSW index before loading a new one (Phase 5: RAII safety fix)
 			// to prevent memory leaks when loadIndex() is called multiple times.
-			if (hnswIndex_) {
-				delete static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
-				hnswIndex_ = nullptr;
-				useHnsw_ = false;
-			}
-			if (hnswSpace_) {
-				delete static_cast<hnswlib::SpaceInterface<float>*>(hnswSpace_);
-				hnswSpace_ = nullptr;
-			}
+			releaseHnswResources_();
 
 			// Initialisiere Space
 			std::unique_ptr<hnswlib::SpaceInterface<float>> space;

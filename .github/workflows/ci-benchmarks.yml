@@ -106,7 +106,7 @@ jobs:
           exit 0
 
       - name: Document SKIP (voice deps missing)
-        if: steps.cmake_configure.outputs.exit_code != '0' || steps.cmake_build.outputs.exit_code != '0'
+        if: (steps.cmake_configure.outputs.exit_code != '' && steps.cmake_configure.outputs.exit_code != '0') || (steps.cmake_build.outputs.exit_code != '' && steps.cmake_build.outputs.exit_code != '0')
         run: |
           {
             echo "## Voice Benchmark — SKIP"
@@ -284,6 +284,7 @@ jobs:
             -DTHEMIS_ENABLE_CUDA=OFF \
             -DTHEMIS_ENABLE_HIP=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ENABLE_MIMALLOC=OFF \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_MODELS_MODE=SKIP

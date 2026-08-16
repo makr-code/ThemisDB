@@ -1,15 +1,13 @@
 /**
  * @file text_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Text content processor with tokenization, NLP, and linguistic analysis.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Maturity: 🟡 BETA
  * @note Score: 84/100
- * @note Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=0, M=3, L=0
- * @note Status: Production Ready
+ * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=2, M=5, L=0
+ * @note Status: Production Ready; Tokenization + NLP working; advanced linguistic analysis deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include <algorithm>
 #include <cctype>
 #include <climits>

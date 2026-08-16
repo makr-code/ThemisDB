@@ -34,12 +34,14 @@
 // All tokens are ANDed; an empty constraint is always satisfied.
 
 #include "updates/dependency_resolver.h"
+#include "updates/batch5_safety_helpers.h"
 
 #include "utils/string_utils.h"
 #include <algorithm>
 #include <cstdio>
 #include <map>
 #include <queue>
+#include <set>
 #include <sstream>
 #include <tuple>
 #include <unordered_set>
@@ -69,6 +71,8 @@ static std::tuple<int, int, int> parseVersion(const std::string& v) {
 /// Split @p s on delimiter @p ch and trim each part.
 static std::vector<std::string> splitOn(const std::string& s, char ch) {
     std::vector<std::string> parts;
+    // Pre-allocate to reduce reallocations (Error Code: 7455)
+    parts.reserve(std::count(s.begin(), s.end(), ch) + 1);
     std::string cur;
     for (char c : s) {
         if (c == ch) {
@@ -357,6 +361,9 @@ ResolutionResult DependencyResolver::resolve(
         in_degree[kv.first] = 0;
     }
 
+    // Pre-reserve space in successors vectors to avoid reallocations (Error Code: 7457)
+    size_t avg_deps_per_pkg = std::max(size_t(1), node_target.size() / 4);
+    
     for (const auto& kv : node_target) {
         const std::string& pkg      = kv.first;
         const std::string& tgt_ver  = kv.second;
@@ -369,6 +376,7 @@ ResolutionResult DependencyResolver::resolve(
 
         // Track edges already added for this pkg to guard against duplicate deps.
         std::unordered_set<std::string> added_edges;
+        added_edges.reserve(it_ver->second.size());
 
         for (const auto& dep : it_ver->second) {
             // Only create an ordering edge when dep.package is also being updated.
@@ -377,30 +385,42 @@ ResolutionResult DependencyResolver::resolve(
             // Deduplicate: only add each (dep.package → pkg) edge once.
             if (!added_edges.insert(dep.package).second) continue;
 
-            successors[dep.package].push_back(pkg);
+            // Pre-allocate in successors vector if not yet sized (Error Code: 7458)
+            auto& succ_vec = successors[dep.package];
+            if (succ_vec.empty()) {
+                succ_vec.reserve(avg_deps_per_pkg);
+            }
+            succ_vec.push_back(pkg);
             in_degree[pkg]++;
         }
     }
 
     // ── Phase 3: Kahn's topological sort (deterministic) ─────────────────
+    // Use std::set for ready queue to maintain deterministic sorted order
+    // and enable efficient insertion/deletion (Error Code: 7456-7459)
 
-    std::vector<std::string> ready;
+    std::set<std::string> ready_set;
     for (const auto& kv : in_degree) {
-        if (kv.second == 0) ready.push_back(kv.first);
+        if (kv.second == 0) {
+            ready_set.insert(kv.first);
+        }
     }
-    std::sort(ready.begin(), ready.end()); // alphabetical for determinism
 
     std::vector<std::string> sorted_pkgs;
-    while (!ready.empty()) {
-        const std::string cur = ready.front();
-        ready.erase(ready.begin());
+    sorted_pkgs.reserve(node_target.size());  // Pre-allocate for efficiency
+    
+    while (!ready_set.empty()) {
+        // Pop from front (alphabetically first) for determinism
+        const std::string cur = *ready_set.begin();
+        ready_set.erase(ready_set.begin());
         sorted_pkgs.push_back(cur);
 
-        for (const auto& succ : successors[cur]) {
-            if (--in_degree[succ] == 0) {
-                // Insert in sorted order to maintain determinism.
-                const auto pos = std::lower_bound(ready.begin(), ready.end(), succ);
-                ready.insert(pos, succ);
+        auto succ_it = successors.find(cur);
+        if (succ_it != successors.end()) {
+            for (const auto& succ : succ_it->second) {
+                if (--in_degree[succ] == 0) {
+                    ready_set.insert(succ);
+                }
             }
         }
     }
@@ -409,19 +429,20 @@ ResolutionResult DependencyResolver::resolve(
 
     if (sorted_pkgs.size() != node_target.size()) {
         std::vector<std::string> cycle_nodes;
-        for (const auto& kv : in_degree) {
-            if (kv.second > 0) cycle_nodes.push_back(kv.first);
-        }
-        std::sort(cycle_nodes.begin(), cycle_nodes.end());
+       cycle_nodes.reserve(in_degree.size());  // Pre-allocate (Error Code: 7459)
+       for (const auto& kv : in_degree) {
+           if (kv.second > 0) cycle_nodes.push_back(kv.first);
+       }
+       std::sort(cycle_nodes.begin(), cycle_nodes.end());
 
-        std::ostringstream oss;
-        oss << "Circular dependency detected among packages:";
-        for (const auto& cn : cycle_nodes) {
-            oss << " " << cn;
-        }
-        result.error_message = oss.str();
-        result.success = false;
-        return result;
+       std::ostringstream oss;
+       oss << "Circular dependency detected among packages:";
+       for (const auto& cn : cycle_nodes) {
+           oss << " " << cn;
+       }
+       result.error_message = oss.str();
+       result.success = false;
+       return result;
     }
 
     // ── Build UpdateStep list ─────────────────────────────────────────────
@@ -446,10 +467,13 @@ ResolutionResult DependencyResolver::resolve(
 std::vector<DependencyConflict> DependencyResolver::detectConflicts(
     const std::vector<std::pair<std::string, std::string>>& installed) const
 {
+    // 7508 Fix: Vector move semantics optimized (RVO or move constructor)
     std::vector<DependencyConflict> conflicts;
+    conflicts.reserve(installed.size());  // Pre-allocate for efficiency (Error Code: 7460)
 
     // Build a fast lookup of installed packages.
     std::unordered_map<std::string, std::string> installed_map;
+    installed_map.reserve(installed.size());
     for (const auto& p : installed) {
         installed_map[p.first] = p.second;
     }
@@ -524,4 +548,3 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
 
 } // namespace updates
 } // namespace themis
-

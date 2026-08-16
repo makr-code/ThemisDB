@@ -15,6 +15,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include "themis/export.h"
 #include <list>
 #include <unordered_map>
 #include <unordered_set>
@@ -265,7 +266,7 @@ private:
  * //                      {"bob","reports_to","carol"} ]
  * @endcode
  */
-class KnowledgeGraphReasoner {
+class THEMIS_GRAPH_API KnowledgeGraphReasoner {
 public:
     /// Default maximum inference hops per `infer()` call.
     static constexpr int kDefaultMaxHops = 5;

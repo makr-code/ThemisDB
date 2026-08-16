@@ -1,0 +1,514 @@
+[20:09:07] [..] ======================================================================
+[20:09:07] [..] GitHub Actions Workflow Runtime Test Suite
+[20:09:07] [..] Zeitstempel: 2026-08-13 20:09:07
+[20:09:07] [..] ======================================================================
+[20:09:07] [..] 
+[20:09:07] [..] Gefundene Workflows: 22
+[20:09:07] [..] 
+[20:09:07] [..] Teste: automation-community.yml
+[20:09:07] [OK]   ✓ YAML-Syntax korrekt
+[20:09:08] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:07+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:08] [OK]   ✓ Trigger: keine
+[20:09:08] [OK]   ✓ Job-Struktur: 4 Jobs mit 6 Steps total
+[20:09:08] [OK]   ✓ Permissions: contents:read
+[20:09:08] [..] 
+[20:09:08] [..] Teste: ci-benchmarks.yml
+[20:09:08] [OK]   ✓ YAML-Syntax korrekt
+[20:09:08] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:08+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:08] [OK]   ✓ Trigger: keine
+[20:09:08] [OK]   ✓ Job-Struktur: 5 Jobs mit 29 Steps total
+[20:09:08] [OK]   ✓ Permissions: contents:write
+[20:09:08] [..] 
+[20:09:08] [..] Teste: ci-build.yml
+[20:09:08] [OK]   ✓ YAML-Syntax korrekt
+[20:09:08] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:08+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:08] [OK]   ✓ Trigger: keine
+[20:09:08] [OK]   ✓ Job-Struktur: 5 Jobs mit 43 Steps total
+[20:09:08] [OK]   ✓ Permissions: actions:read, contents:read, issues:read, pull-requests:write
+[20:09:08] [..] 
+[20:09:08] [..] Teste: ci-pr-gates.yml
+[20:09:08] [OK]   ✓ YAML-Syntax korrekt
+[20:09:09] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:08+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:09] [OK]   ✓ Trigger: keine
+[20:09:09] [OK]   ✓ Job-Struktur: 11 Jobs mit 45 Steps total
+[20:09:09] [OK]   ✓ Permissions: contents:read, pull-requests:write, issues:write, security-events:write
+[20:09:09] [..] 
+[20:09:09] [..] Teste: ci-release.yml
+[20:09:09] [OK]   ✓ YAML-Syntax korrekt
+[20:09:09] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:09+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:09] [OK]   ✓ Trigger: keine
+[20:09:09] [OK]   ✓ Job-Struktur: 7 Jobs mit 30 Steps total
+[20:09:09] [OK]   ✓ Permissions: contents:read, packages:write, actions:read, pull-requests:read
+[20:09:09] [..] 
+[20:09:09] [..] Teste: codeql.yml
+[20:09:09] [OK]   ✓ YAML-Syntax korrekt
+[20:09:09] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:09+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:09] [OK]   ✓ Trigger: keine
+[20:09:09] [OK]   ✓ Job-Struktur: 1 Jobs mit 1 Steps total
+[20:09:09] [OK]   ✓ Permissions: contents:read
+[20:09:09] [..] 
+[20:09:09] [..] Teste: compliance-supply-chain.yml
+[20:09:09] [OK]   ✓ YAML-Syntax korrekt
+[20:09:09] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:09+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:09] [OK]   ✓ Trigger: keine
+[20:09:09] [OK]   ✓ Job-Struktur: 5 Jobs mit 38 Steps total
+[20:09:10] [OK]   ✓ Permissions: contents:read
+[20:09:10] [..] 
+[20:09:10] [..] Teste: copilot-ollama-router-ci.yml
+[20:09:10] [OK]   ✓ YAML-Syntax korrekt
+[20:09:10] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:10+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:10] [OK]   ✓ Trigger: keine
+[20:09:10] [OK]   ✓ Job-Struktur: 1 Jobs mit 6 Steps total
+[20:09:10] [OK]   ✓ Permissions: contents:read
+[20:09:10] [..] 
+[20:09:10] [..] Teste: copilot-regression-guard.yml
+[20:09:10] [OK]   ✓ YAML-Syntax korrekt
+[20:09:10] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:10+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:10] [OK]   ✓ Trigger: keine
+[20:09:10] [OK]   ✓ Job-Struktur: 1 Jobs mit 8 Steps total
+[20:09:10] [OK]   ✓ Permissions: default
+[20:09:10] [..] 
+[20:09:10] [..] Teste: docker-image.yml
+[20:09:10] [OK]   ✓ YAML-Syntax korrekt
+[20:09:10] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:10+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:10] [OK]   ✓ Trigger: keine
+[20:09:10] [OK]   ✓ Job-Struktur: 1 Jobs mit 14 Steps total
+[20:09:10] [OK]   ✓ Permissions: contents:read
+[20:09:10] [..] 
+[20:09:10] [..] Teste: edition-hyperscaler-ci.yml
+[20:09:10] [OK]   ✓ YAML-Syntax korrekt
+[20:09:11] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:10+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:11] [OK]   ✓ Trigger: keine
+[20:09:11] [OK]   ✓ Job-Struktur: 1 Jobs mit 7 Steps total
+[20:09:11] [OK]   ✓ Permissions: contents:read
+[20:09:11] [..] 
+[20:09:11] [..] Teste: fortify.yml
+[20:09:11] [OK]   ✓ YAML-Syntax korrekt
+[20:09:11] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:11+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:11] [OK]   ✓ Trigger: keine
+[20:09:11] [OK]   ✓ Job-Struktur: 1 Jobs mit 2 Steps total
+[20:09:11] [OK]   ✓ Permissions: default
+[20:09:11] [..] 
+[20:09:11] [..] Teste: fuzzing.yml
+[20:09:11] [OK]   ✓ YAML-Syntax korrekt
+[20:09:11] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:11+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:11] [OK]   ✓ Trigger: keine
+[20:09:11] [OK]   ✓ Job-Struktur: 1 Jobs mit 8 Steps total
+[20:09:11] [OK]   ✓ Permissions: contents:read
+[20:09:11] [..] 
+[20:09:11] [..] Teste: governance-gates.yml
+[20:09:11] [OK]   ✓ YAML-Syntax korrekt
+[20:09:12] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:11+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:12] [OK]   ✓ Trigger: keine
+[20:09:12] [OK]   ✓ Job-Struktur: 8 Jobs mit 40 Steps total
+[20:09:12] [OK]   ✓ Permissions: contents:read, pull-requests:write, issues:write, checks:write, security-events:read
+[20:09:12] [..] 
+[20:09:12] [..] Teste: maintenance-cache-warming.yml
+[20:09:12] [OK]   ✓ YAML-Syntax korrekt
+[20:09:12] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:12+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:12] [OK]   ✓ Trigger: keine
+[20:09:12] [OK]   ✓ Job-Struktur: 2 Jobs mit 20 Steps total
+[20:09:12] [OK]   ✓ Permissions: contents:read, actions:write
+[20:09:12] [..] 
+[20:09:12] [..] Teste: maintenance-ci-health.yml
+[20:09:12] [OK]   ✓ YAML-Syntax korrekt
+[20:09:12] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:12+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:12] [OK]   ✓ Trigger: keine
+[20:09:12] [OK]   ✓ Job-Struktur: 1 Jobs mit 7 Steps total
+[20:09:12] [OK]   ✓ Permissions: contents:read, actions:read
+[20:09:12] [..] 
+[20:09:12] [..] Teste: maintenance-docs.yml
+[20:09:12] [OK]   ✓ YAML-Syntax korrekt
+[20:09:12] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:12+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:13] [OK]   ✓ Trigger: keine
+[20:09:13] [OK]   ✓ Job-Struktur: 7 Jobs mit 35 Steps total
+[20:09:13] [OK]   ✓ Permissions: contents:write, pull-requests:write
+[20:09:13] [..] 
+[20:09:13] [..] Teste: maintenance-issues.yml
+[20:09:13] [OK]   ✓ YAML-Syntax korrekt
+[20:09:13] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:13+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:13] [OK]   ✓ Trigger: keine
+[20:09:13] [OK]   ✓ Job-Struktur: 2 Jobs mit 13 Steps total
+[20:09:13] [OK]   ✓ Permissions: contents:read, actions:read, security-events:read, issues:write
+[20:09:13] [..] 
+[20:09:13] [..] Teste: quality-static-analysis.yml
+[20:09:13] [OK]   ✓ YAML-Syntax korrekt
+[20:09:13] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:13+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:13] [OK]   ✓ Trigger: keine
+[20:09:13] [OK]   ✓ Job-Struktur: 5 Jobs mit 34 Steps total
+[20:09:13] [OK]   ✓ Permissions: contents:read, security-events:write
+[20:09:13] [..] 
+[20:09:13] [..] Teste: release-changelog.yml
+[20:09:13] [OK]   ✓ YAML-Syntax korrekt
+[20:09:13] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:13+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:13] [OK]   ✓ Trigger: keine
+[20:09:13] [OK]   ✓ Job-Struktur: 2 Jobs mit 12 Steps total
+[20:09:13] [OK]   ✓ Permissions: contents:read
+[20:09:13] [..] 
+[20:09:13] [..] Teste: security-consolidated.yml
+[20:09:13] [OK]   ✓ YAML-Syntax korrekt
+[20:09:14] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:14+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:14] [OK]   ✓ Trigger: keine
+[20:09:14] [OK]   ✓ Job-Struktur: 4 Jobs mit 18 Steps total
+[20:09:14] [OK]   ✓ Permissions: contents:read
+[20:09:14] [..] 
+[20:09:14] [..] Teste: security-pentest-quarterly.yml
+[20:09:14] [OK]   ✓ YAML-Syntax korrekt
+[20:09:14] [!!]   ⚠ act-Parsing: act list fehlgeschlagen: time="2026-08-13T20:09:14+02:00" level=info msg="Using docker host 'npipe:////./pipe/docker_engine',
+[20:09:14] [OK]   ✓ Trigger: keine
+[20:09:14] [OK]   ✓ Job-Struktur: 1 Jobs mit 7 Steps total
+[20:09:14] [OK]   ✓ Permissions: contents:read, security-events:write, issues:write
+[20:09:14] [..] 
+[20:09:14] [..] ======================================================================
+[20:09:14] [..] ZUSAMMENFASSUNG
+[20:09:14] [..] ----------------------------------------------------------------------
+[20:09:14] [OK] Bestanden: 88
+[20:09:14] [XX] Fehlgeschlagen: 0
+[20:09:14] [!!] Warnungen: 22
+[20:09:14] [..] Workflows getestet: 22
+[20:09:14] [..] Dauer: 6.69s
+[20:09:14] [OK] [OK] ALLE TESTS BESTANDEN
+[20:09:14] [..] ======================================================================
+
+══════════════════════════════════════════════════════════════════════
+DETAILLIERTE TEST-ERGEBNISSE
+══════════════════════════════════════════════════════════════════════
+
+Workflow: automation-community.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - greet-first-interaction: {'steps': 1, 'runs-on': 'ubuntu-latest'}
+      - auto-label: {'steps': 1, 'runs-on': 'ubuntu-latest'}
+      - summarize-issue: {'steps': 3, 'runs-on': 'ubuntu-latest'}
+      - request-review: {'steps': 1, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+
+Workflow: ci-benchmarks.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - voice-benchmarks: {'steps': 8, 'runs-on': '${{ matrix.os }}'}
+      - gpu-bench-cuda: {'steps': 5, 'runs-on': ['self-hosted', 'gpu-cuda']}
+      - gpu-bench-hip: {'steps': 4, 'runs-on': ['self-hosted', 'gpu-hip']}
+      - gpu-bench-cpu-fallback: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - nightly-benchmark-sweep: {'steps': 7, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: write
+
+Workflow: ci-build.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - cost-estimate: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+      - detect-changes: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+      - build: {'steps': 19, 'runs-on': '${{ matrix.os }}'}
+      - sanitizer-asan: {'steps': 10, 'runs-on': 'ubuntu-latest'}
+      - sanitizer-ubsan: {'steps': 10, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - actions: read
+      - contents: read
+      - issues: read
+      - pull-requests: write
+
+Workflow: ci-pr-gates.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - preflight-ci-policy: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+      - community-pipeline-policy: {'steps': 3, 'runs-on': 'ubuntu-latest'}
+      - high-exception-record: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - private-plugin-boundary: {'steps': 3, 'runs-on': 'ubuntu-latest'}
+      - release-critical-tests: {'steps': 6, 'runs-on': 'ubuntu-latest'}
+      - reproducible-builds: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - scanner-delta-report: {'steps': 7, 'runs-on': 'ubuntu-latest'}
+      - submodule-commit-pins: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+      - workflow-boundary-guard: {'steps': 6, 'runs-on': 'ubuntu-latest'}
+      - secret-scan: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - gates-summary: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+      - pull-requests: write
+      - issues: write
+      - security-events: write
+
+Workflow: ci-release.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - preflight-release-policy: {'steps': 1, 'runs-on': 'ubuntu-latest'}
+      - build-matrix: {'steps': 13, 'runs-on': '${{ matrix.os }}'}
+      - package: {'steps': 7, 'runs-on': 'ubuntu-latest'}
+      - validate-release-manifest: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+      - publish-community: {'steps': 3, 'runs-on': 'ubuntu-latest'}
+      - publish-private: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - changelog: {'steps': 0, 'runs-on': 'unknown'}
+    permissions:
+      - contents: read
+      - packages: write
+      - actions: read
+      - pull-requests: read
+
+Workflow: codeql.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - analyze: {'steps': 1, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+
+Workflow: compliance-supply-chain.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - license-gate: {'steps': 7, 'runs-on': 'ubuntu-22.04'}
+      - license-release-assets: {'steps': 2, 'runs-on': 'ubuntu-22.04'}
+      - sbom: {'steps': 13, 'runs-on': 'ubuntu-22.04'}
+      - dependency-freshness: {'steps': 10, 'runs-on': 'ubuntu-22.04'}
+      - soc2-evidence: {'steps': 6, 'runs-on': 'ubuntu-22.04'}
+    permissions:
+      - contents: read
+
+Workflow: copilot-ollama-router-ci.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - ci: {'steps': 6, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+
+Workflow: copilot-regression-guard.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - copilot-regression-guard: {'steps': 8, 'runs-on': 'ubuntu-latest'}
+    permissions:
+
+Workflow: docker-image.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - build-and-push: {'steps': 14, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+
+Workflow: edition-hyperscaler-ci.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - hyperscaler-build: {'steps': 7, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+
+Workflow: fortify.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - Fortify-AST-Scan: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+    permissions:
+
+Workflow: fuzzing.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - fuzz: {'steps': 8, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+
+Workflow: governance-gates.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - maturity-verification: {'steps': 9, 'runs-on': 'ubuntu-latest'}
+      - module-phase-gate: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - merge-gate-enforcer: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - rc-validation: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - gate-audit-summary: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - waiver-expiration-check: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - wave-gate-automation: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - branch-protection-drift: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+      - pull-requests: write
+      - issues: write
+      - checks: write
+      - security-events: read
+
+Workflow: maintenance-cache-warming.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - warm-linux-cache: {'steps': 11, 'runs-on': 'ubuntu-latest'}
+      - warm-windows-cache: {'steps': 9, 'runs-on': 'windows-latest'}
+    permissions:
+      - contents: read
+      - actions: write
+
+Workflow: maintenance-ci-health.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - ci-health-dashboard: {'steps': 7, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+      - actions: read
+
+Workflow: maintenance-docs.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - ai-context-sync: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - developer-llm-wiki: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - code-maturity: {'steps': 6, 'runs-on': 'ubuntu-latest'}
+      - docs-orphan-check: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - root-docs-hygiene: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - src-docs-alignment: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - ai-working-hygiene: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: write
+      - pull-requests: write
+
+Workflow: maintenance-issues.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - gs3-gap-triage: {'steps': 11, 'runs-on': 'ubuntu-latest'}
+      - security-alert-triage: {'steps': 2, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+      - actions: read
+      - security-events: read
+      - issues: write
+
+Workflow: quality-static-analysis.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - clang-tidy: {'steps': 9, 'runs-on': 'ubuntu-latest'}
+      - clang-format: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - doxygen-coverage: {'steps': 7, 'runs-on': 'ubuntu-latest'}
+      - doxygen-mermaid-mapping: {'steps': 5, 'runs-on': 'ubuntu-latest'}
+      - performance-regression: {'steps': 8, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+      - security-events: write
+
+Workflow: release-changelog.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - update: {'steps': 6, 'runs-on': 'ubuntu-latest'}
+      - backfill: {'steps': 6, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+
+Workflow: security-consolidated.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - trivy: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - gitleaks: {'steps': 4, 'runs-on': 'ubuntu-latest'}
+      - kubesec: {'steps': 3, 'runs-on': 'ubuntu-latest'}
+      - dast-scan: {'steps': 7, 'runs-on': 'ubuntu-22.04'}
+    permissions:
+      - contents: read
+
+Workflow: security-pentest-quarterly.yml
+  Bestanden: 4
+  Fehlgeschlagen: 0
+  Warnungen: 1
+  Details:
+    yaml: YAML-Syntax korrekt
+    triggers: keine
+    jobs:
+      - quarterly-pentest: {'steps': 7, 'runs-on': 'ubuntu-latest'}
+    permissions:
+      - contents: read
+      - security-events: write
+      - issues: write
+

@@ -265,8 +265,12 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectFrequencyAnomaly(const std::string& task_id,
-                                                   const std::chrono::system_clock::time_point& now) {
-    const auto& stats = task_stats_[task_id];
+                                                   const std::chrono::system_clock::time_point& now) const {
+    auto it = task_stats_.find(task_id);
+    if (it == task_stats_.end()) {
+        return 0.0;
+    }
+    const auto& stats = it->second;
     
     if (stats.execution_times.size() < config_.min_samples) {
         return 0.0;
@@ -305,8 +309,12 @@ double TaskAnomalyDetector::detectFrequencyAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
-                                                 [[maybe_unused]] const std::chrono::system_clock::time_point& now) {
-    const auto& stats = task_stats_[task_id];
+                                                 [[maybe_unused]] const std::chrono::system_clock::time_point& now) const {
+    auto it = task_stats_.find(task_id);
+    if (it == task_stats_.end()) {
+        return 0.0;
+    }
+    const auto& stats = it->second;
     
     if (stats.execution_times.size() < config_.pattern_window_size) {
         return 0.0;
@@ -345,8 +353,12 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectResourceAnomaly(const std::string& task_id,
-                                                  const TaskResourceUsage& resource_usage) {
-    const auto& stats = task_stats_[task_id];
+                                                  const TaskResourceUsage& resource_usage) const {
+    auto it = task_stats_.find(task_id);
+    if (it == task_stats_.end()) {
+        return 0.0;
+    }
+    const auto& stats = it->second;
     
     if (stats.cpu_usage.size() < config_.min_samples) {
         return 0.0;
@@ -376,8 +388,12 @@ double TaskAnomalyDetector::detectResourceAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
-                                                     [[maybe_unused]] bool success) {
-    const auto& stats = task_stats_[task_id];
+                                                     [[maybe_unused]] bool success) const {
+    auto it = task_stats_.find(task_id);
+    if (it == task_stats_.end()) {
+        return 0.0;
+    }
+    const auto& stats = it->second;
     
     if (stats.execution_results.size() < config_.min_samples) {
         return 0.0;

@@ -1,0 +1,502 @@
+{
+  "phase": 1,
+  "date": "2026-08-15",
+  "source_file": "src/ingestion/MODULE_GAPS.md",
+  "scan_timestamp": "2026-08-15T13:41:21.257602",
+  "total_raw_findings": 178,
+  "verification_status": "COMPLETE",
+  "summary": {
+    "total_raw": 178,
+    "verified_gaps": 49,
+    "false_positives_removed": 114,
+    "downgrades": 153,
+    "severity_distribution": {
+      "CRITICAL": 25,
+      "HIGH": 24,
+      "MEDIUM": 15,
+      "LOW": 0,
+      "INFO": 114
+    }
+  },
+  "tier_1_critical_blocking": {
+    "count": 25,
+    "description": "Real gaps requiring architecture review; unimplemented production code without guards",
+    "examples": [
+      {
+        "file": "src/ingestion/steps/base_entity_assembler_step.cpp",
+        "line": 53,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/base_entity_assembler_step.cpp",
+        "line": 58,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "std::vector<std::string> supportedMimeTypes() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/chunk_embed_step.cpp",
+        "line": 52,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/chunk_embed_step.cpp",
+        "line": 57,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "std::vector<std::string> supportedMimeTypes() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/chunk_text_step.cpp",
+        "line": 52,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      }
+    ]
+  },
+  "tier_2_critical_high": {
+    "count": 25,
+    "description": "All CRITICAL findings (real gaps + guarded stubs)",
+    "breakdown": {
+      "real_gaps": 25,
+      "guarded_stubs": 0,
+      "others": 0
+    },
+    "examples": [
+      {
+        "file": "src/ingestion/steps/base_entity_assembler_step.cpp",
+        "line": 53,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/base_entity_assembler_step.cpp",
+        "line": 58,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "std::vector<std::string> supportedMimeTypes() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/chunk_embed_step.cpp",
+        "line": 52,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/chunk_embed_step.cpp",
+        "line": 57,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "std::vector<std::string> supportedMimeTypes() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      },
+      {
+        "file": "src/ingestion/steps/chunk_text_step.cpp",
+        "line": 52,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+        "original_severity": "CRITICAL",
+        "verified_severity": "CRITICAL",
+        "classification": "Real Gap",
+        "rationale": "Unimplemented production code"
+      }
+    ]
+  },
+  "tier_3_high": {
+    "count": 24,
+    "description": "HIGH findings (performance/reliability concerns)",
+    "breakdown": {
+      "guarded_stubs": 24,
+      "placeholders": 0,
+      "others": 0
+    },
+    "examples": [
+      {
+        "file": "src/ingestion/entity_assembler.cpp",
+        "line": 79,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "if (!std::regex_search(text, m, re_law)) return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "HIGH",
+        "classification": "Guarded Stub",
+        "rationale": "Return guarded by conditional"
+      },
+      {
+        "file": "src/ingestion/ingestion_quality_judge.cpp",
+        "line": 413,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "if (pos == std::string::npos) return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "HIGH",
+        "classification": "Guarded Stub",
+        "rationale": "Return guarded by conditional"
+      },
+      {
+        "file": "src/ingestion/kafka_connector.cpp",
+        "line": 59,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "if (start == std::string::npos) return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "HIGH",
+        "classification": "Guarded Stub",
+        "rationale": "Return guarded by conditional"
+      },
+      {
+        "file": "src/ingestion/legal_domain.cpp",
+        "line": 47,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "if (begin == std::string::npos) return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "HIGH",
+        "classification": "Guarded Stub",
+        "rationale": "Return guarded by conditional"
+      },
+      {
+        "file": "src/ingestion/object_storage_connector.cpp",
+        "line": 71,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "if (start == std::string::npos) return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "HIGH",
+        "classification": "Guarded Stub",
+        "rationale": "Return guarded by conditional"
+      }
+    ]
+  },
+  "tier_4_medium": {
+    "count": 15,
+    "description": "MEDIUM findings (code quality, standard compliance)",
+    "breakdown": {
+      "placeholders": 15,
+      "others": 0
+    },
+    "examples": [
+      {
+        "file": "src/ingestion/cdc_connector.cpp",
+        "line": 567,
+        "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+        "category": "stub",
+        "context": "// STUB/SIMULATION NOTE:",
+        "original_severity": "HIGH",
+        "verified_severity": "MEDIUM",
+        "classification": "Placeholder",
+        "rationale": "Marked as STUB; Phase N+1 work"
+      },
+      {
+        "file": "src/ingestion/database_connector.cpp",
+        "line": 458,
+        "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+        "category": "stub",
+        "context": "// STUB/SIMULATION NOTE:",
+        "original_severity": "HIGH",
+        "verified_severity": "MEDIUM",
+        "classification": "Placeholder",
+        "rationale": "Marked as STUB; Phase N+1 work"
+      },
+      {
+        "file": "src/ingestion/kafka_connector.cpp",
+        "line": 238,
+        "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+        "category": "stub",
+        "context": "// STUB/SIMULATION NOTE:",
+        "original_severity": "HIGH",
+        "verified_severity": "MEDIUM",
+        "classification": "Placeholder",
+        "rationale": "Marked as STUB; Phase N+1 work"
+      }
+    ]
+  },
+  "tier_5_low": {
+    "count": 114,
+    "description": "LOW/INFO findings (test mocks, documentation, legitimate patterns)",
+    "breakdown": {
+      "test_mocks": 66,
+      "legitimate_returns": 48,
+      "others": 0
+    }
+  },
+  "classification_summary": {
+    "Real Gap": 25,
+    "Test-Mock": 66,
+    "Guarded Stub": 24,
+    "Placeholder": 15,
+    "Legitimate Return": 48,
+    "Unknown": 0
+  },
+  "false_positives": {
+    "count": 114,
+    "rate_percent": 64.0,
+    "breakdown": {
+      "test_mocks": 66,
+      "legitimate_returns": 48
+    },
+    "examples": [
+      {
+        "file": "src/ingestion/ingestion_coordinator.cpp",
+        "line": 197,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "INFO",
+        "classification": "Legitimate Return",
+        "rationale": "Empty object return (Result<void>)"
+      },
+      {
+        "file": "src/ingestion/ingestion_coordinator.cpp",
+        "line": 345,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "INFO",
+        "classification": "Legitimate Return",
+        "rationale": "Empty object return (Result<void>)"
+      },
+      {
+        "file": "src/ingestion/ingestion_sinks.cpp",
+        "line": 126,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "INFO",
+        "classification": "Legitimate Return",
+        "rationale": "Empty object return (Result<void>)"
+      },
+      {
+        "file": "src/ingestion/ingestion_sinks.cpp",
+        "line": 147,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "INFO",
+        "classification": "Legitimate Return",
+        "rationale": "Empty object return (Result<void>)"
+      },
+      {
+        "file": "src/ingestion/ingestion_sinks.cpp",
+        "line": 175,
+        "pattern": "return\\s+\\{\\s*\\};",
+        "category": "unimplemented",
+        "context": "return {};",
+        "original_severity": "CRITICAL",
+        "verified_severity": "INFO",
+        "classification": "Legitimate Return",
+        "rationale": "Empty object return (Result<void>)"
+      }
+    ]
+  },
+  "high_risk_flags": {
+    "timeout_findings": 0,
+    "data_race_findings": 0,
+    "resource_leak_findings": 0,
+    "notes": "Current gap scanner focuses on unimplemented/stub patterns. Data-race and resource-leak findings would require ThreadSanitizer and static analysis integration."
+  },
+  "affected_files": {
+    "total": 41,
+    "top_files": [
+      {
+        "file": "tests/test_ingestion_cdc.cpp",
+        "total": 19,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low_info": 19
+      },
+      {
+        "file": "tests/test_ingestion_kafka.cpp",
+        "total": 17,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low_info": 17
+      },
+      {
+        "file": "tests/test_ingestion_database.cpp",
+        "total": 11,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low_info": 11
+      },
+      {
+        "file": "src/ingestion/ingestion_sinks.cpp",
+        "total": 10,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low_info": 10
+      },
+      {
+        "file": "tests/test_ingestion_object_storage.cpp",
+        "total": 10,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low_info": 10
+      },
+      {
+        "file": "src/ingestion/s3_connector.cpp",
+        "total": 8,
+        "critical": 0,
+        "high": 6,
+        "medium": 2,
+        "low_info": 0
+      },
+      {
+        "file": "src/ingestion/web_crawler_connector.cpp",
+        "total": 7,
+        "critical": 0,
+        "high": 7,
+        "medium": 0,
+        "low_info": 0
+      },
+      {
+        "file": "src/ingestion/steps/llm_extract_step.cpp",
+        "total": 7,
+        "critical": 2,
+        "high": 1,
+        "medium": 0,
+        "low_info": 4
+      },
+      {
+        "file": "src/ingestion/workflow_engine.cpp",
+        "total": 5,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low_info": 4
+      },
+      {
+        "file": "src/ingestion/steps/chunk_embed_step.cpp",
+        "total": 5,
+        "critical": 2,
+        "high": 0,
+        "medium": 0,
+        "low_info": 3
+      },
+      {
+        "file": "src/ingestion/steps/chunk_tt_decompose_step.cpp",
+        "total": 5,
+        "critical": 2,
+        "high": 0,
+        "medium": 0,
+        "low_info": 3
+      },
+      {
+        "file": "include/ingestion/inference_backend.h",
+        "total": 5,
+        "critical": 0,
+        "high": 0,
+        "medium": 3,
+        "low_info": 2
+      },
+      {
+        "file": "src/ingestion/steps/chunk_text_step.cpp",
+        "total": 4,
+        "critical": 2,
+        "high": 0,
+        "medium": 0,
+        "low_info": 2
+      },
+      {
+        "file": "src/ingestion/steps/decompress_step.cpp",
+        "total": 4,
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low_info": 3
+      },
+      {
+        "file": "src/ingestion/steps/deontic_step.cpp",
+        "total": 4,
+        "critical": 2,
+        "high": 1,
+        "medium": 0,
+        "low_info": 1
+      }
+    ]
+  },
+  "category_breakdown": {
+    "unimplemented": {
+      "count": 153,
+      "by_classification": {
+        "Real Gap": 25,
+        "Guarded Stub": 24,
+        "Legitimate Return": 48,
+        "Test-Mock": 56
+      }
+    },
+    "stub": {
+      "count": 24,
+      "by_classification": {
+        "Placeholder": 15,
+        "Test-Mock": 9
+      }
+    },
+    "todo": {
+      "count": 1,
+      "by_classification": {
+        "Test-Mock": 1
+      }
+    }
+  },
+  "next_phase": "Phase 2 \u2014 CRITICAL Fixes via themisdb-implementer",
+  "recommendations": {
+    "immediate_action": "Fix 25 unimplemented real gaps in production code",
+    "phase_2_scope": "25 CRITICAL findings (41 prioritized per coordination doc)",
+    "phase_3_scope": "24 HIGH findings (103 per coordination doc)",
+    "phase_4_scope": "15 MEDIUM + 114 LOW/INFO findings",
+    "false_positive_rate": "64.0% (acceptable <10%)"
+  }
+}

@@ -291,9 +291,22 @@ private:
     // Set of tables whose R-tree has been built (lazily or from writes).
     mutable std::unordered_set<std::string> rtree_built_;
 
+    // ========================================================================
+    // Thread Safety: Lock Hierarchy (Phase 3 A-5 Circular Lock Ordering)
+    // ========================================================================
+    //
+    // LOCK HIERARCHY (prevents deadlocks via consistent acquisition order):
+    //   Tier 1 (Global):    rtree_mutex_        ← Acquire FIRST
+    //   Tier 2 (Partition): [reserved for future per-table locks]
+    //   Tier 3 (Element):   [reserved for future per-entry locks]
+    //
+    // INVARIANT: All code paths must acquire locks in order Tier 1 → Tier 2 → Tier 3.
+    //            Violating this order creates deadlock risk. ThreadSanitizer detects violations.
+    //            See: https://github.com/google/sanitizers/wiki/ThreadSanitizerDeadlockDetector
+    //
     // Mutex protecting rtrees_, mbr_cache_, and rtree_built_ for thread-safe
     // concurrent read (shared) and exclusive write (unique) access.
-    mutable std::shared_mutex rtree_mutex_;
+    mutable std::shared_mutex rtree_mutex_;  // Tier 1: Global R-tree lock
 
     // Lazily build the R-tree for `table` by scanning per-PK RocksDB keys.
     // No-op if already built.  Called automatically inside searchIntersects.

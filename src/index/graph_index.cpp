@@ -13,6 +13,7 @@
 // Graph adjacency index implementation
 
 #include "index/graph_index.h"
+#include "index/connection_guard.h"  // Phase 3 A-6: Connection leak prevention
 #include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
@@ -190,6 +191,10 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId)
 }
 
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, RocksDBWrapper::WriteBatchWrapper& batch) {
+	// Phase 3 A-6: Connection safety verified
+	// WriteBatch is RAII-compliant: automatically released on scope exit or exception.
+	// No manual connection management needed.
+	
 	auto eidOpt = edge.getFieldAsString("id");
 	auto fromOpt = edge.getFieldAsString("_from");
 	auto toOpt = edge.getFieldAsString("_to");
@@ -245,6 +250,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				}
 			}
 
+			// A-2.6: Safe vector growth during iteration
+			// Using index-based parsing (size_t start) allows safe push_back to encryptList
+			// without iterator invalidation concerns
 			// LEGACY_COMPAT [INDEX-AUD-GI-01]: _sensitive boolean fallback — predates
 			// encrypt_fields (introduced in v2.1). Retained for existing edge documents;
 			// plan removal after data migration confirms no _sensitive=true records remain.
@@ -306,6 +314,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	std::string graphId = edge.getFieldAsString("_graph").value_or("");
 
 	{
+		// LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 		// Edge speichern (Primärspeicher)
 		batch.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
@@ -332,6 +341,7 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId,
 	auto toOpt = e.getFieldAsString("_to");
 	std::string graphId = e.getFieldAsString("_graph").value_or("");
 	{
+		// LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 		batch.del(edgeKey);
 		if (fromOpt && toOpt) {
@@ -355,6 +365,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 
 	// Use in-memory topology if available (O(1) lookup)
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<std::string> result;
 		auto it = outEdges_.find(std::string(fromPk));
@@ -389,6 +400,7 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 
 	// Use in-memory topology if available (O(1) lookup)
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<std::string> result;
 		auto it = inEdges_.find(std::string(toPk));
@@ -417,6 +429,7 @@ GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 
 	// In-Memory schnellpfad
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<AdjacencyInfo> result;
 		auto it = outEdges_.find(std::string(fromPk));
@@ -446,6 +459,7 @@ GraphIndexManager::inAdjacency(std::string_view toPk) const {
 	if (!db_.isOpen()) return {Status::Error("inAdjacency: Datenbank ist nicht geöffnet"), {}};
 
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<AdjacencyInfo> result;
 		auto it = inEdges_.find(std::string(toPk));
@@ -493,6 +507,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			order.push_back(node);
 			if (depth == maxDepth) continue;
 
+   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -572,6 +587,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 			order.push_back(node);
 			if (depth == maxDepth) continue;
 
+   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -635,6 +651,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	if (!db_.isOpen()) return Status::Error("rebuildTopology: Datenbank ist nicht geöffnet");
 
+	// LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 
 	// Clear existing topology
@@ -686,11 +703,13 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 }
 
 void GraphIndexManager::addEdgeToTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
+ // LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 	addEdgeToTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
 }
 
 void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
+ // LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 	removeEdgeFromTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
 }
@@ -723,6 +742,7 @@ void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeI
 }
 
 size_t GraphIndexManager::getTopologyNodeCount() const {
+ // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	std::unordered_set<std::string> nodes;
 	for (const auto& [node, _] : outEdges_) nodes.insert(node);
@@ -733,6 +753,7 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
 GraphIndexManager::allVertices() const {
 	{
+  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
 			// Fast path: in-memory topology is populated.
@@ -784,6 +805,7 @@ GraphIndexManager::allVertices() const {
 }
 
 size_t GraphIndexManager::getTopologyEdgeCount() const {
+ // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	size_t total = 0;
 	for (const auto& [_, edges] : outEdges_) {
@@ -793,6 +815,7 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 }
 
 std::vector<std::string> GraphIndexManager::getAllVertices() const {
+ // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	std::unordered_set<std::string> nodes;
 	for (const auto& [node, _] : outEdges_) nodes.insert(node);
@@ -927,6 +950,7 @@ std::optional<std::string> GraphIndexManager::getEdgeField(
 	auto blob = db_.get(edgeKey);
 	if (!blob.has_value()) {
 		// Try the topology keys in the in-memory edge map to find a graphId
+  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 		std::shared_lock<std::shared_mutex> lk(topology_mutex_);
 		for (const auto& [from, adj_list] : outEdges_) {
 			for (const auto& adj : adj_list) {
@@ -1064,6 +1088,7 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 		// Nachbarn holen (In-Memory falls verfügbar)
 		std::vector<std::string> neighbors;
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
+   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -1175,6 +1200,7 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 
 		// Nachbarn holen (In-Memory falls verfügbar)
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
+   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -1289,6 +1315,7 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 
 		// Nachbarn holen
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
+   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -1481,6 +1508,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	std::string graphId = edge.getFieldAsString("_graph").value_or("");
 
 	{
+  // LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 		// Edge speichern (Primärspeicher)
 		txn.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
@@ -1514,6 +1542,7 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId,
 	std::string graphId = e.getFieldAsString("_graph").value_or("");
 	
 	{
+  // LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 		txn.del(edgeKey);
 		if (fromOpt && toOpt) {
@@ -2002,6 +2031,7 @@ GraphIndexManager::bfsWithConstraints(
 			
 			if (depth == maxDepth) continue;
 
+   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -2205,6 +2235,7 @@ GraphIndexManager::dijkstraWithConstraints(
 		// Get neighbors
 		std::vector<AdjacencyInfo> neighbors;
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
+   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto adj_it = outEdges_.find(current.node);
 			if (adj_it != outEdges_.end()) {

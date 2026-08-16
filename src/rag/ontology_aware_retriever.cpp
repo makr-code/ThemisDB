@@ -63,7 +63,18 @@ OntologyAwareRetriever::OntologyAwareRetriever(
     const kg::KnowledgeGraph&      graph,
     const graph::OntologyManager&  ontology,
     const OntologyRetrieverConfig& config)
-    : graph_(graph)
+    : raw_graph_(&graph)
+    , graph_iface_(kg::makeIKnowledgeGraph(graph))
+    , ontology_(ontology)
+    , config_(config)
+{}
+
+OntologyAwareRetriever::OntologyAwareRetriever(
+    std::shared_ptr<kg::IKnowledgeGraph> graph,
+    const graph::OntologyManager&       ontology,
+    const OntologyRetrieverConfig&      config)
+    : raw_graph_(nullptr)
+    , graph_iface_(std::move(graph))
     , ontology_(ontology)
     , config_(config)
 {}
@@ -151,8 +162,16 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
     kg_cfg.kg_score_weight     = config_.kg_score_weight;
     kg_cfg.linker_config       = config_.linker_config;
 
-    kg::KnowledgeGraphRetriever base_retriever(graph_, kg_cfg);
-    auto base_result = base_retriever.retrieve(query, candidates);
+    kg::KGRetrievalResult base_result;
+    if (raw_graph_) {
+        kg::KnowledgeGraphRetriever base_retriever(*raw_graph_, kg_cfg);
+        base_result = base_retriever.retrieve(query, candidates);
+    } else if (graph_iface_) {
+        // When an IKnowledgeGraph is provided, construct a retriever that
+        // operates over the interface implementation.
+        kg::KnowledgeGraphRetriever base_retriever(graph_iface_, kg_cfg);
+        base_result = base_retriever.retrieve(query, candidates);
+    }
 
     result.documents              = std::move(base_result.documents);
     result.query_entity_links     = std::move(base_result.query_entity_links);
@@ -181,10 +200,26 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
             for (const auto& doc_link : aug_doc.entity_links) {
                 if (!doc_link.is_linked) continue;
                 // Get all outgoing edges from this node and check axioms.
-                auto out_edges = graph_.outEdges(doc_link.node_id);
+                std::vector<kg::KGEdge> out_edges;
+                if (graph_iface_) {
+                    out_edges = graph_iface_->outEdges(doc_link.node_id);
+                } else if (raw_graph_) {
+                    out_edges = raw_graph_->outEdges(doc_link.node_id);
+                }
                 for (const auto& edge : out_edges) {
-                    const auto* src_node = graph_.findNode(edge.from_id);
-                    const auto* tgt_node = graph_.findNode(edge.to_id);
+                    const kg::KGNode* src_node = nullptr;
+                    const kg::KGNode* tgt_node = nullptr;
+                    if (graph_iface_) {
+                        auto s = graph_iface_->findNode(edge.from_id);
+                        auto t = graph_iface_->findNode(edge.to_id);
+                        if (s) src_node = &(*s);
+                        if (t) tgt_node = &(*t);
+                    } else if (raw_graph_) {
+                        auto src = raw_graph_->findNode(edge.from_id);
+                        auto tgt = raw_graph_->findNode(edge.to_id);
+                        if (src) src_node = src;
+                        if (tgt) tgt_node = tgt;
+                    }
                     if (!src_node || !tgt_node) continue;
 
                     const std::string src_type = entityTypeName(src_node->type);
@@ -233,6 +268,18 @@ OntologyAwareRetrieverFactory::createShallow(
     return std::make_unique<OntologyAwareRetriever>(graph, ontology, cfg);
 }
 
+std::unique_ptr<OntologyAwareRetriever>
+OntologyAwareRetrieverFactory::createShallow(
+    std::shared_ptr<kg::IKnowledgeGraph> graph,
+    const graph::OntologyManager&        ontology)
+{
+    OntologyRetrieverConfig cfg;
+    cfg.max_traversal_depth        = 1;
+    cfg.kg_score_weight            = 0.2;
+    cfg.filter_by_allowed_edge_types = false;
+    return std::make_unique<OntologyAwareRetriever>(std::move(graph), ontology, cfg);
+}
+
 /*static*/
 std::unique_ptr<OntologyAwareRetriever>
 OntologyAwareRetrieverFactory::createBalanced(
@@ -244,6 +291,18 @@ OntologyAwareRetrieverFactory::createBalanced(
     cfg.kg_score_weight            = 0.3;
     cfg.filter_by_allowed_edge_types = true;
     return std::make_unique<OntologyAwareRetriever>(graph, ontology, cfg);
+}
+
+std::unique_ptr<OntologyAwareRetriever>
+OntologyAwareRetrieverFactory::createBalanced(
+    std::shared_ptr<kg::IKnowledgeGraph> graph,
+    const graph::OntologyManager&        ontology)
+{
+    OntologyRetrieverConfig cfg;
+    cfg.max_traversal_depth        = 2;
+    cfg.kg_score_weight            = 0.3;
+    cfg.filter_by_allowed_edge_types = true;
+    return std::make_unique<OntologyAwareRetriever>(std::move(graph), ontology, cfg);
 }
 
 /*static*/
@@ -258,6 +317,19 @@ OntologyAwareRetrieverFactory::createDeep(
     cfg.max_superclass_expansion   = 20;
     cfg.filter_by_allowed_edge_types = true;
     return std::make_unique<OntologyAwareRetriever>(graph, ontology, cfg);
+}
+
+std::unique_ptr<OntologyAwareRetriever>
+OntologyAwareRetrieverFactory::createDeep(
+    std::shared_ptr<kg::IKnowledgeGraph> graph,
+    const graph::OntologyManager&        ontology)
+{
+    OntologyRetrieverConfig cfg;
+    cfg.max_traversal_depth        = 3;
+    cfg.kg_score_weight            = 0.45;
+    cfg.max_superclass_expansion   = 20;
+    cfg.filter_by_allowed_edge_types = true;
+    return std::make_unique<OntologyAwareRetriever>(std::move(graph), ontology, cfg);
 }
 
 } // namespace themis::rag

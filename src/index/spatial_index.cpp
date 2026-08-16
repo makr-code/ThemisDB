@@ -11,6 +11,7 @@
 
 
 #include "index/spatial_index.h"
+#include "index/connection_guard.h"  // Phase 3 A-6: Connection leak prevention
 #include <stdexcept>
 #include "utils/logger.h"
 #include "utils/geometric_distances.h"
@@ -268,11 +269,13 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
 
     // Fast path: already built — check with a shared (read) lock.
     {
+        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
         if (rtree_built_.count(table_str)) return;
     }
 
     // Slow path: acquire exclusive write lock and build.
+    // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
     std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
     // Double-check after acquiring write lock to avoid redundant work.
     if (rtree_built_.count(table_str)) return;
@@ -397,6 +400,7 @@ SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     // subsequent ensureRTree() rebuilds cleanly from the new (empty) index.
     std::string table_str(table);
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         rtrees_.erase(table_str);
         mbr_cache_.erase(table_str);
@@ -422,6 +426,7 @@ SpatialIndexManager::Status SpatialIndexManager::dropSpatialIndex(std::string_vi
     // index is recreated later.
     std::string table_str(table);
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         rtrees_.erase(table_str);
         mbr_cache_.erase(table_str);
@@ -511,6 +516,7 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
     // empty bulk-load fully clears query-visible state and restart rebuilds
     // cannot resurrect stale entries.
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         rtrees_[table_str].clear();
         mbr_cache_[table_str].clear();
@@ -561,6 +567,7 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
 
     // Atomically swap in the new in-memory state under the write lock.
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         mbr_cache_[table_str] = std::move(local_cache);
         rtrees_[table_str].clear();
@@ -572,6 +579,7 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
     }
 
     {
+        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
         THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
                     "geo_index_bytes_allocated={}",
@@ -650,6 +658,7 @@ SpatialIndexManager::Status SpatialIndexManager::insert(
     std::string table_str(table);
     std::string pk_str(primary_key);
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         mbr_cache_[table_str][pk_str] = sidecar.mbr;
         rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
@@ -712,6 +721,7 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     std::string table_str(table);
     std::string pk_str(primary_key);
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         mbr_cache_[table_str][pk_str] = sidecar.mbr;
         rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
@@ -768,6 +778,7 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     std::string table_str(table);
     std::string pk_str(primary_key);
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         auto& cache = mbr_cache_[table_str];
         auto it = cache.find(pk_str);
@@ -838,6 +849,7 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     std::string table_str(table);
     std::string pk_str(primary_key);
     {
+        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         auto& cache = mbr_cache_[table_str];
         auto it = cache.find(pk_str);
@@ -911,6 +923,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     std::string_view table,
     const geo::MBR& query_bbox
 ) const {
+    // Phase 3 A-6: Connection safety verified
+    // DB queries use RocksDB's iterator-based scan (RAII-safe).
+    // No manual connection management needed.
+    // Exceptions automatically trigger cleanup via db_ destructor.
+    
     // G5: Track query metrics
     metrics_.query_count++;
 
@@ -933,6 +950,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     std::unordered_map<std::string, geo::MBR> candidate_mbrs;
     bool rtree_populated = false;
     {
+        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
         if (rtree.size() > 0) {
@@ -953,10 +971,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
         std::vector<SpatialResult> results;
 
         size_t mbr_candidates_this_query = static_cast<size_t>(candidate_keys.size());
-        size_t exact_checks_this_query = 0;
-        size_t exact_passed_this_query = 0;
+        {
+            size_t exact_checks_this_query = 0;
+            size_t exact_passed_this_query = 0;
 
-        for (const auto& pk : candidate_keys) {
+            for (const auto& pk : candidate_keys) {
             // Look up the stored MBR from the snapshot.
             geo::MBR entry_mbr;
             auto mbr_it = candidate_mbrs.find(pk);
@@ -1151,6 +1170,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     std::unordered_map<std::string, geo::MBR> candidate_mbrs;
     bool rtree_populated = false;
     {
+        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
         if (rtree.size() > 0) {

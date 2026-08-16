@@ -103,6 +103,15 @@ bool ZstdDictionaryCompressor::train(
     std::vector<size_t>  sample_sizes(samples.size());
     size_t offset = 0;
     for (size_t i = 0; i < samples.size(); ++i) {
+        // R12: Add overflow-safe bounds checks before memcpy to prevent
+        // buffer overflow even when sample sizes are extreme.
+        if (offset > concat.size()) {
+            return false;
+        }
+        if (samples[i].size() > (concat.size() - offset)) {
+            // Buffer overflow detected: sample would exceed destination
+            return false;
+        }
         std::memcpy(concat.data() + offset, samples[i].data(), samples[i].size());
         sample_sizes[i] = samples[i].size();
         offset += samples[i].size();

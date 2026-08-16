@@ -199,7 +199,9 @@ class GPUErrorHandler {
    * Behavior: Converts cuda_err to GPUErrorClass, formats message,
    * logs via spdlog. Does not apply recovery policy; caller is responsible.
    */
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
   virtual void logError(cudaError_t cuda_err, const std::string& context) noexcept = 0;
+#endif
 
   /**
    * @brief Log a HIP error to diagnostics without recovery action.
@@ -210,7 +212,9 @@ class GPUErrorHandler {
    * Behavior: Converts hip_err to GPUErrorClass, formats message,
    * logs via spdlog. Does not apply recovery policy.
    */
+#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
   virtual void logError(hipError_t hip_err, const std::string& context) noexcept = 0;
+#endif
 
   /**
    * @brief Handle a CUDA error with recovery policy application.
@@ -223,9 +227,11 @@ class GPUErrorHandler {
    * May throw on critical errors depending on policy and configuration.
    * Thread-safe.
    */
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
   virtual void handleError(cudaError_t cuda_err, 
                           const std::string& context,
                           const ErrorRecoveryPolicy* policy = nullptr) = 0;
+#endif
 
   /**
    * @brief Handle a HIP error with recovery policy application.
@@ -238,9 +244,11 @@ class GPUErrorHandler {
    * May throw on critical errors depending on policy and configuration.
    * Thread-safe.
    */
+#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
   virtual void handleError(hipError_t hip_err,
                           const std::string& context,
                           const ErrorRecoveryPolicy* policy = nullptr) = 0;
+#endif
 
   /**
    * @brief Convert CUDA error code to GPUErrorClass taxonomy.
@@ -250,7 +258,9 @@ class GPUErrorHandler {
    * 
    * Behavior: Pure lookup; no side effects. May be called frequently.
    */
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
   virtual GPUErrorClass classifyError(cudaError_t cuda_err) const noexcept = 0;
+#endif
 
   /**
    * @brief Convert HIP error code to GPUErrorClass taxonomy.
@@ -260,7 +270,9 @@ class GPUErrorHandler {
    * 
    * Behavior: Pure lookup; no side effects.
    */
+#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
   virtual GPUErrorClass classifyError(hipError_t hip_err) const noexcept = 0;
+#endif
 
   /**
    * @brief Get default recovery policy for error class.
@@ -471,5 +483,3 @@ class GPUErrorHandler {
 
 }  // namespace gpu
 }  // namespace themis
-
-#endif  // THEMIS_GPU_ERROR_H

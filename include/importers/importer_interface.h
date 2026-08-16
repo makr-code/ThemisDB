@@ -319,6 +319,18 @@ struct ImportStats {
     /// Populated by the importer when entity_linking.enabled is true and
     /// the batch fits within the configured sample limit.
     json sample_entities = json::array();
+
+    // Backwards-compatibility aliases (legacy test and plugin code may use
+    // the older field names). These are kept as separate counters to avoid
+    // changing existing initialization behaviour; callers are encouraged to
+    // use the canonical names above. They will be synchronized by the
+    // importer where necessary.
+    // Deprecated: use `imported_records` instead of `rows_imported`.
+    size_t rows_imported = 0;
+    // Deprecated: use `skipped_records` instead of `rows_skipped`.
+    size_t rows_skipped = 0;
+    // Deprecated: use `quarantined_records` instead of `rows_quarantined`.
+    size_t rows_quarantined = 0;
     
     json toJson() const {
         json err_arr = json::array();
@@ -642,6 +654,11 @@ struct ImportOptions {
     /// All three share the single import_timeout_ms budget in file-based importers.
     /// Live-connection importers may honour them individually.
     uint32_t import_timeout_ms = 0;   ///< 0 = disabled
+
+    // Backwards-compatibility alias: older code/tests used `deadline_ms`.
+    // Keep a separate alias field to avoid ABI churn; importer code may
+    // synchronize these values at call sites.
+    uint32_t deadline_ms = 0;
 
     json toJson() const {
         return json{

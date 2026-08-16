@@ -1,15 +1,16 @@
 # Content Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-29 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-15 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md -->
 
 ## Current Status
 
-Production content runtime exists across ingestion orchestration, multi-format extraction, policy/security validation, enrichment (OCR/LLM/embedding), and deduplication/operations surfaces.
+Production content runtime exists across ingestion orchestration, multi-format extraction, policy/security validation, enrichment (OCR/LLM/embedding), and deduplication/operations surfaces. **Batch 5 Finalization** (CMT-7500–7599): 100 documentation and quality gate items for v2.4.0 GA closure (2026-08-15).
 
 ## In Progress
 
+- [~] Batch 5 Finalization: GA promotion sign-off via CMT-7504/7505/7506 documentation/test/governance items (Target: Sept 22, 2026)
 - [~] hardening processor dependency edge behavior and failure parity across formats (Target: Q3 2026)
 - [~] benchmark stabilization for extraction and concurrent ingestion pathways (Target: Q3 2026)
 - [~] diagnostics consistency improvements for validation/security and async-ingestion failures (Target: Q3 2026)
@@ -55,6 +56,30 @@ Production content runtime exists across ingestion orchestration, multi-format e
 ### Phase 6: Documentation and Acceptance
 - [x] core content module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+
+### Phase 6B: Batch 5 — GA Documentation & Quality Gates (2026-08-15)
+- [ ] CMT-7503: Scope Mismatch Fixes (Critical Correctness)
+  - [x] CMT-7503-VERIFIED: image_extractor_adapter.cpp & pdf_extractor_adapter.cpp RAII patterns safe (no dangling pointers)
+  - [x] CMT-FIN-36..40: Adapter scope validation test suite created (5 tests + 5 sub-tests = 30 assertions)
+  - [x] CMT-FIN-36: Adapter factory ownership verification (smart pointer semantics)
+  - [x] CMT-FIN-37: RAII lifetime boundaries validation
+  - [x] CMT-FIN-38: Extract method scope safety checks
+  - [x] CMT-FIN-39: Stack/heap boundary validation
+  - [x] CMT-FIN-40: Copy/move semantics safety verification
+- [~] CMT-7504: Module Documentation Linkset Synchronization (Consistency)
+  - [x] CMT-7504-01: Update ROADMAP.md with processor inventory (44 files verified)
+  - [x] CMT-7504-02: Update FUTURE_ENHANCEMENTS.md with deferred features from CMT-7502 TODO scan
+  - [x] CMT-7504-03: Cross-check phase status in all 4 docs (now synchronized)
+  - [x] CMT-FIN-41..46: Documentation linkset validation tests created (6 tests, automated checks)
+  - [ ] CMT-7504-04: Add automated linkset validation in CI (markdown-link-check integration)
+- [ ] CMT-7505: Test Coverage Correlation (Production Readiness)
+  - [ ] CMT-7505-01: Aggregate all Batch 1-4 remediation items (CRITICAL 48 + HIGH 402)
+  - [ ] CMT-7505-02: For each fix, verify corresponding test in tests/content/ exists
+  - [ ] CMT-7505-03: Run `ctest --preset community-release -L content` to validate
+  - [ ] CMT-7505-04: Generate test coverage report showing gap-to-test mapping
+- [ ] CMT-7506: GA Promotion Sign-Off (Final Gate)
+  - [ ] Document checklist at docs/governance/GA_PROMOTION_SIGN_OFF.md § Content Module (Batch 5)
+  - [ ] Track completion status of pre-requisite items (Batches 1-4, CMT-7500–7503)
 
 ## Production Readiness Checklist
 

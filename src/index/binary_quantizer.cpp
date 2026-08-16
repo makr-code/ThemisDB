@@ -84,20 +84,22 @@ BinaryQuantizer::Status BinaryQuantizer::train(
     
     // Learn scale factor if not provided
     if (config_.scale_factor <= 0.0f) {
-        double sum_abs = 0.0;
-        size_t count = 0;
-        
-        for (const auto& vec : training_vectors) {
-            for (int d = 0; d < dimension_; d++) {
-                float centered = config_.center_values 
-                    ? vec[d] - mean_values_[d]
-                    : vec[d];
-                sum_abs += std::abs(centered);
-                count++;
+        {
+            double sum_abs = 0.0;
+            size_t count = 0;
+            
+            for (const auto& vec : training_vectors) {
+                for (int d = 0; d < dimension_; d++) {
+                    float centered = config_.center_values 
+                        ? vec[d] - mean_values_[d]
+                        : vec[d];
+                    sum_abs += std::abs(centered);
+                    count++;
+                }
             }
+            
+            scale_ = static_cast<float>(sum_abs / count);
         }
-        
-        scale_ = static_cast<float>(sum_abs / count);
     } else {
         scale_ = config_.scale_factor;
     }

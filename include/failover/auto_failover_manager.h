@@ -238,7 +238,7 @@ private:
         std::chrono::steady_clock::time_point enqueued_at;
     };
 
-    std::queue<FailoverTask> failover_queue_;
+    std::queue<FailoverTask> failover_queue_{};  // RAII: In-class initializer ensures empty state
 
     // Tracking
     std::map<std::string, int> consecutive_failures_;
@@ -286,12 +286,14 @@ private:
     void transitionState(FailoverOrchestratorState new_state);
 
     // Unified diagnostics helper — logs the canonical error code and fires event callbacks.
+    // Exception-safe guarantee: Basic (noexcept wrapper ensures no exceptions escape to caller)
     void emitDiagnostic(FailoverErrorCode code,
                         const std::string& node_id,
-                        const std::string& detail);
+                        const std::string& detail) noexcept;
 
     // Logging and callbacks
-    void emitEvent(FailoverEventType type, const std::string& node_id, const std::string& detail);
+    // Exception-safe guarantee: Basic (catches all exceptions from callbacks internally)
+    void emitEvent(FailoverEventType type, const std::string& node_id, const std::string& detail) noexcept;
     void updateStatistics(const FailoverResult& result);
 };
 

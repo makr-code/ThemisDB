@@ -132,6 +132,7 @@ The container installs all toolchains and dependencies automatically.
 ```bash
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
+git submodule update --init --recursive
 ```
 
 ### 2. Install pre-commit hooks and bootstrap third-party dependencies
@@ -147,6 +148,8 @@ pwsh ./scripts/setup-third-party.ps1   # requires PowerShell 7+
 ```
 
 This installs vcpkg dependencies, llama.cpp, whisper.cpp, and ffmpeg into the repository tree.
+
+The repository uses a pinned `vcpkg` submodule for consistent Windows/Linux/Docker dependency resolution.
 
 ### 3. Configure and build (Community edition)
 

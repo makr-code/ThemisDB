@@ -318,32 +318,94 @@ std::string SystemHardwareInfoProvider::cpuArch() const {
 }
 
 // ---------------------------------------------------------------------------
-// Default libcurl HTTP sender
+// Default libcurl HTTP sender with proper RAII
 // ---------------------------------------------------------------------------
 
 namespace {
 
 #ifdef THEMIS_ENABLE_CURL
+
+/**
+ * @brief RAII wrapper for curl_slist to ensure cleanup in all paths
+ * @see Error Code: 7402 (curl_slist memory leak prevention)
+ */
+class CurlSlistRaii {
+public:
+    explicit CurlSlistRaii(curl_slist* slist = nullptr) : slist_(slist) {}
+    
+    ~CurlSlistRaii() {
+        if (slist_) {
+            curl_slist_free_all(slist_);
+        }
+    }
+    
+    // Non-copyable
+    CurlSlistRaii(const CurlSlistRaii&) = delete;
+    CurlSlistRaii& operator=(const CurlSlistRaii&) = delete;
+    
+    // Movable
+    CurlSlistRaii(CurlSlistRaii&& other) noexcept : slist_(other.release()) {}
+    CurlSlistRaii& operator=(CurlSlistRaii&& other) noexcept {
+        if (this != &other) {
+            if (slist_) curl_slist_free_all(slist_);
+            slist_ = other.release();
+        }
+        return *this;
+    }
+    
+    curl_slist* get() const noexcept { return slist_; }
+    
+    curl_slist* append(const char* data) noexcept {
+        slist_ = curl_slist_append(slist_, data);
+        return slist_;
+    }
+    
+    curl_slist* release() noexcept {
+        curl_slist* tmp = slist_;
+        slist_ = nullptr;
+        return tmp;
+    }
+    
+private:
+    curl_slist* slist_ = nullptr;
+};
+
 static std::size_t curlNullSink(char* /*buf*/, std::size_t /*size*/,
-                                 std::size_t nmemb, void* /*userp*/) {
+                                std::size_t nmemb, void* /*userp*/) {
     return nmemb;
 }
 
+/**
+ * @brief Perform HTTP POST with exception-safe resource management
+ * @param url Target URL
+ * @param body Request body
+ * @param content_type Content-Type header value
+ * @param timeout_seconds HTTP timeout in seconds
+ * @return true if HTTP status 2xx received
+ * @note Uses RAII for curl_slist to prevent memory leaks (Error 7402)
+ */
 static bool curlPost(const std::string& url, const std::string& body,
                      const std::string& content_type, int timeout_seconds) {
     CURL* curl = curl_easy_init();
     if (!curl) { return false; }
 
-    struct curl_slist* headers = nullptr;
+    // RAII wrapper ensures curl_slist_free_all called on all paths
+    CurlSlistRaii headers;
     const std::string ct_header = "Content-Type: " + content_type;
-    headers = curl_slist_append(headers, ct_header.c_str());
-    headers = curl_slist_append(headers, "Accept: application/json");
+    if (!headers.append(ct_header.c_str())) {
+        curl_easy_cleanup(curl);
+        return false;
+    }
+    if (!headers.append("Accept: application/json")) {
+        curl_easy_cleanup(curl);
+        return false;
+    }
 
     curl_easy_setopt(curl, CURLOPT_URL,            url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST,            1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS,      body.c_str());
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,   static_cast<long>(body.size()));
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,      headers);
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,      headers.get());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   curlNullSink);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,         static_cast<long>(timeout_seconds));
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT,  5L);
@@ -356,8 +418,8 @@ static bool curlPost(const std::string& url, const std::string& body,
     long http_code = 0;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 
-    curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
+    // RAII cleanup for headers happens automatically on return
 
     if (res != CURLE_OK) {
         LOG_WARN("Telemetry HTTP POST failed: {}", curl_easy_strerror(res));

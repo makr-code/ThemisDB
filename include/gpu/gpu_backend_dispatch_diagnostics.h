@@ -10,6 +10,7 @@
  */
 
 #pragma once
+#include "themis/export.h"
 
 #include "gpu_backend_dispatch_contract.h"
 #include <functional>
@@ -60,7 +61,7 @@ using GPUDispatchEventCallback = std::function<void(
  * Provides synchronous structured logging and event callbacks for all
  * GPU backend dispatch error conditions.
  */
-class GPUBackendDispatchDiagnostics {
+class THEMIS_GEO_API GPUBackendDispatchDiagnostics {
 public:
     /**
      * @brief Emit a diagnostic event for a GPU backend dispatch error.
@@ -112,7 +113,7 @@ public:
  * Ensures diagnostic operations complete within MAX_EMIT_DIAGNOSTIC_LATENCY_US
  * and logs a warning if timeout is exceeded.
  */
-class DiagnosticEmissionGuard {
+class THEMIS_GEO_API DiagnosticEmissionGuard {
 public:
     /**
      * @brief Construct and start timing.

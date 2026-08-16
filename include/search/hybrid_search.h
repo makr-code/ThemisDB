@@ -11,8 +11,10 @@
 
 
 #pragma once
+#include "themis/export.h"
 
-#include "search/llm_reranker.h"
+#include "themis/search/llm_reranker_interface.h"
+#include "themis/search/llm_reranker_factory.h"
 #include "search/search_error_codes.h"
 
 #include <string>
@@ -77,7 +79,7 @@ class AnnFrontdoor;
  * - Combines lexical and semantic matching
  * - Configurable weights for BM25/vector balance
  */
-class HybridSearch {
+class THEMIS_QUERY_API HybridSearch {
 public:
     struct Config {
         double bm25_weight = 0.5;
@@ -210,8 +212,8 @@ public:
      *                 Pass nullptr to disable.
      * @param config   Optional re-ranker configuration.
      */
-    void setReranker(LlmReranker::LlmBackend backend,
-                     const LlmReranker::Config& config = LlmReranker::Config{});
+    void setReranker(ILlmReranker::LlmBackend backend,
+                     const ILlmReranker::Config& config = ILlmReranker::Config{});
 
     /**
      * @brief Normalize scores in [min, max] to [0, 1].
@@ -230,7 +232,7 @@ private:
     VectorIndexManager* vector_index_;
     Config config_;
     std::shared_ptr<index::AnnFrontdoor> ann_frontdoor_;
-    std::optional<LlmReranker> reranker_; ///< Optional LLM re-ranker (Phase 3)
+    std::shared_ptr<ILlmReranker> reranker_; ///< Optional LLM re-ranker (Phase 3)
 };
 
 } // namespace themis

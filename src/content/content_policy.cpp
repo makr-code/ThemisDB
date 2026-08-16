@@ -1,15 +1,13 @@
 /**
  * @file content_policy.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Content policy engine for access control, retention, and regulatory compliance.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 71/100
+ * @note Gap Summary: total=15; TODO=2, Stub=2, Unimpl=2, Mock=0, Sim=1, Debt=3, C=2, H=4, M=7, L=0
+ * @note Status: Beta; Policy engine scaffolding in place; retention rules and audit integration under development
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/content_policy.h"
 #include <algorithm>
 

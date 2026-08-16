@@ -1,14 +1,13 @@
 /**
  * @file html_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief HTML content processor with DOM parsing and semantic element extraction.
  * @version 0.0.15
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 93/100
- * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=8, L=0
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 72/100
+ * @note Gap Summary: total=11; TODO=1, Stub=1, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=3, M=6, L=0
+ * @note Status: Beta; HTML parsing working; CSS selector extraction and advanced DOM analysis deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/html_processor.h"
 
 #include <exception>

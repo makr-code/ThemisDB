@@ -50,6 +50,17 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
     std::string prompt = extraction_tmpl.format(vars);
     std::string response = LLMIntegration::generate(prompt);
     
+    // Validate LLM output before parsing
+    if (response.empty()) {
+        THEMIS_WARN("ClaimExtractor: Empty LLM response for claim extraction");
+        return {};
+    }
+    
+    if (response.length() > 1000000) {  // Sanity check for reasonable response size
+        THEMIS_WARN("ClaimExtractor: LLM response exceeds maximum reasonable size ({})", response.length());
+        return {};
+    }
+    
     // Parse claims from response
     std::vector<Claim> claims;
     std::istringstream iss(response);
@@ -108,6 +119,13 @@ ClaimVerificationResult ClaimExtractor::verify(
     
     std::string prompt = tmpl.format(vars);
     std::string response = LLMIntegration::generate(prompt);
+    
+    // Validate LLM response before parsing
+    if (response.empty()) {
+        THEMIS_WARN("ClaimExtractor: Empty LLM response for claim verification");
+        result.verdict = ClaimVerificationResult::Verdict::INSUFFICIENT;
+        return result;
+    }
     
     // Parse verification result
     auto parsed = LLMIntegration::parseEvaluationResponse(response);
@@ -242,15 +260,21 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         std::string prompt = consistency_tmpl.format(vars);
         std::string llm_response = LLMIntegration::generate(prompt);
         
-        // Parse agreements and disagreements from response
-        // Simplified parsing - in production would use structured output
-        if (llm_response.find("agreement") != std::string::npos ||
-            llm_response.find("consistent") != std::string::npos) {
-            result.agreements.push_back("General agreement found");
-        }
-        if (llm_response.find("disagreement") != std::string::npos ||
-            llm_response.find("inconsistent") != std::string::npos) {
-            result.disagreements.push_back("Some disagreements found");
+        // Validate LLM response before parsing
+        if (llm_response.empty()) {
+            THEMIS_WARN("ClaimExtractor: Empty LLM response for consistency check");
+            result.consistency_score = 0.0;
+        } else {
+            // Parse agreements and disagreements from response
+            // Simplified parsing - in production would use structured output
+            if (llm_response.find("agreement") != std::string::npos ||
+                llm_response.find("consistent") != std::string::npos) {
+                result.agreements.push_back("General agreement found");
+            }
+            if (llm_response.find("disagreement") != std::string::npos ||
+                llm_response.find("inconsistent") != std::string::npos) {
+                result.disagreements.push_back("Some disagreements found");
+            }
         }
     }
     

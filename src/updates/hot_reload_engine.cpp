@@ -11,6 +11,7 @@
 
 
 #include "updates/hot_reload_engine.h"
+#include "updates/batch5_safety_helpers.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
@@ -23,6 +24,7 @@
 #include <iomanip>
 #include <chrono>
 #include <openssl/evp.h>
+#include <memory>
 
 #ifdef THEMIS_ENABLE_CURL
 #include <curl/curl.h>
@@ -32,6 +34,53 @@ namespace themis {
 namespace updates {
 
 namespace fs = std::filesystem;
+
+// ============================================================================
+// RAII Wrapper for EVP_MD_CTX (Error Code: 7441-7443)
+// ============================================================================
+
+/**
+ * @brief RAII wrapper for EVP_MD_CTX to ensure cleanup in all execution paths.
+ * 
+ * Guarantees exception-safe resource cleanup of OpenSSL EVP context.
+ * Prevents resource leaks even during early returns or exceptions.
+ * 
+ * @error_code 7441 EVP_MD_CTX resource leak in exception path
+ */
+class EvpMdCtxRaii {
+public:
+    explicit EvpMdCtxRaii(EVP_MD_CTX* ctx = nullptr) : ctx_(ctx) {}
+    
+    ~EvpMdCtxRaii() {
+        if (ctx_) {
+            EVP_MD_CTX_free(ctx_);
+        }
+    }
+    
+    // Non-copyable
+    EvpMdCtxRaii(const EvpMdCtxRaii&) = delete;
+    EvpMdCtxRaii& operator=(const EvpMdCtxRaii&) = delete;
+    
+    // Movable
+    EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
+    EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
+        if (this != &other) {
+            if (ctx_) EVP_MD_CTX_free(ctx_);
+            ctx_ = other.release();
+        }
+        return *this;
+    }
+    
+    EVP_MD_CTX* get() const noexcept { return ctx_; }
+    EVP_MD_CTX* release() noexcept {
+        EVP_MD_CTX* tmp = ctx_;
+        ctx_ = nullptr;
+        return tmp;
+    }
+    
+private:
+    EVP_MD_CTX* ctx_ = nullptr;
+};
 
 HotReloadEngine::HotReloadEngine(
     std::shared_ptr<ManifestDatabase> manifest_db,
@@ -310,20 +359,33 @@ bool HotReloadEngine::rollback(const std::string& rollback_id) {
             return false;
         }
         
+        // IMPORTANT: File I/O with implicit timeout consideration (Error Code: 7482)
+        // Note: std::ifstream is synchronous. Filesystem-level timeouts should be
+        // implemented at a higher level if needed for non-local filesystems.
         std::ifstream metadata_file(metadata_path);
-        json metadata_json;
-        metadata_file >> metadata_json;
+        if (!metadata_file.is_open()) {
+            LOG_ERROR("Failed to open rollback metadata: {}", metadata_path);
+            return false;
+        }
         
-        // Restore files
-        for (const auto& file_json : metadata_json["files"]) {
-            std::string file_path = file_json["path"];
-            std::string backup_file = backup_dir + "/" + file_path;
-            std::string dest_file = config_.install_directory + "/" + file_path;
+        try {
+            json metadata_json;
+            metadata_file >> metadata_json;
             
-            if (fs::exists(backup_file)) {
-                fs::copy_file(backup_file, dest_file, fs::copy_options::overwrite_existing);
-                LOG_DEBUG("Restored: {}", file_path);
+            // Restore files
+            for (const auto& file_json : metadata_json["files"]) {
+                std::string file_path = file_json["path"];
+                std::string backup_file = backup_dir + "/" + file_path;
+                std::string dest_file = config_.install_directory + "/" + file_path;
+                
+                if (fs::exists(backup_file)) {
+                    fs::copy_file(backup_file, dest_file, fs::copy_options::overwrite_existing);
+                    LOG_DEBUG("Restored: {}", file_path);
+                }
             }
+        } catch (const std::exception& e) {
+            LOG_ERROR("Failed to restore files from rollback: {}", e.what());
+            return false;
         }
 
         if (history_logger_) {
@@ -410,18 +472,34 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
     std::vector<std::pair<std::string, std::string>> rollback_points;
     
     try {
-        for (const auto& entry : fs::directory_iterator(config_.backup_directory)) {
+        // Store iterator to ensure valid lifetime across loop (Error Code: 7443)
+        auto it = fs::directory_iterator(config_.backup_directory);
+        for (const auto& entry : it) {
             if (entry.is_directory()) {
                 std::string rollback_id = entry.path().filename().string();
                 std::string metadata_path = entry.path().string() + "/rollback.json";
                 
                 if (fs::exists(metadata_path)) {
+                    // IMPORTANT: File I/O with implicit timeout consideration (Error Code: 7481)
+                    // Note: std::ifstream is synchronous. In production, filesystem operations
+                    // should be protected by filesystem-level timeouts or async mechanisms.
+                    // For now, we assume the filesystem is responsive (typical for local storage).
                     std::ifstream metadata_file(metadata_path);
-                    json metadata_json;
-                    metadata_file >> metadata_json;
+                    if (!metadata_file.is_open()) {
+                        LOG_WARN("HotReloadEngine: failed to open rollback metadata: {}", metadata_path);
+                        continue;
+                    }
                     
-                    std::string timestamp = metadata_json.value("timestamp", "unknown");
-                    rollback_points.emplace_back(rollback_id, timestamp);
+                    try {
+                        json metadata_json;
+                        metadata_file >> metadata_json;
+                        
+                        std::string timestamp = metadata_json.value("timestamp", "unknown");
+                        rollback_points.emplace_back(rollback_id, timestamp);
+                    } catch (const std::exception& e) {
+                        LOG_WARN("HotReloadEngine: failed to parse rollback metadata: {}", e.what());
+                        continue;
+                    }
                 }
             }
         }
@@ -600,13 +678,13 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
         return "";
     }
     
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-    if (!mdctx) {
+    // Use RAII wrapper for EVP_MD_CTX (Error Code: 7442)
+    EvpMdCtxRaii mdctx(EVP_MD_CTX_new());
+    if (!mdctx.get()) {
         return "";
     }
     
-    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(mdctx);
+    if (EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr) != 1) {
         return "";
     }
     
@@ -614,19 +692,16 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
     std::vector<char> buffer(bufferSize);
     
     while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
-        if (EVP_DigestUpdate(mdctx, buffer.data(), file.gcount()) != 1) {
-            EVP_MD_CTX_free(mdctx);
+        if (EVP_DigestUpdate(mdctx.get(), buffer.data(), file.gcount()) != 1) {
             return "";
         }
     }
     
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int hashLen = 0;
-    if (EVP_DigestFinal_ex(mdctx, hash, &hashLen) != 1) {
-        EVP_MD_CTX_free(mdctx);
+    if (EVP_DigestFinal_ex(mdctx.get(), hash, &hashLen) != 1) {
         return "";
     }
-    EVP_MD_CTX_free(mdctx);
     
     std::ostringstream ss;
     for (unsigned int i = 0; i < hashLen; i++) {

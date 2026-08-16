@@ -1,14 +1,13 @@
 /**
  * @file pdf_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief PDF content processor with text/image extraction and metadata parsing.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=4, L=0
- * @note Status: Production Ready
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=4, L=0
+ * @note Status: Production Ready; PDF text/image extraction working; form field handling deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/pdf_processor.h"
 
 #include <algorithm>

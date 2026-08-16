@@ -32,6 +32,7 @@
 #include "cache/cache_replication_coordinator.h"
 #include "core/concerns/eviction_strategies.h"
 #include "access_model/access_coordinator.h"
+#include "access_model/access_tier_interface.h"
 
 namespace themis {
 
@@ -761,7 +762,7 @@ private:
     double calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const;
     
     // Phase 5: BLOCK 2 Cache Integration — Emit eviction events to coordinator
-    void emitEvictionEvent(const std::string& key, TierLevel tier, 
+    void emitEvictionEvent(const std::string& key, access_model::TierLevel tier, 
                           std::size_t size_bytes, uint64_t access_count,
                           int64_t last_access_ms, std::string_view reason);
     

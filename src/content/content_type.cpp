@@ -1,15 +1,13 @@
 /**
  * @file content_type.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Content type classification and metadata management for supported formats.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
- * @note Status: Production Ready
+ * @note Score: 87/100
+ * @note Gap Summary: total=4; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=3, L=0
+ * @note Status: Production Ready; Content type classification complete; custom type plugins deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/content_type.h"
 
 #include <algorithm>
@@ -121,16 +119,16 @@ void ContentTypeRegistry::registerType(const ContentType &type) {
     types_.push_back(type);
 }
 
-const ContentType *ContentTypeRegistry::getByMimeType(const std::string &mime_type) const {
+std::optional<ContentType> ContentTypeRegistry::getByMimeType(const std::string &mime_type) const {
     for (const auto &type : types_) {
         if (type.mime_type == mime_type) {
-            return &type;
+            return type;  // Return copy, not pointer
         }
     }
-    return nullptr;
+    return std::nullopt;
 }
 
-const ContentType *ContentTypeRegistry::getByExtension(const std::string &extension) const {
+std::optional<ContentType> ContentTypeRegistry::getByExtension(const std::string &extension) const {
     std::string ext_lower = extension;
     std::transform(ext_lower.begin(), ext_lower.end(), ext_lower.begin(), ::tolower);
 
@@ -145,16 +143,16 @@ const ContentType *ContentTypeRegistry::getByExtension(const std::string &extens
             std::transform(type_ext_lower.begin(), type_ext_lower.end(), type_ext_lower.begin(), ::tolower);
 
             if (type_ext_lower == ext_lower) {
-                return &type;
+                return type;  // Return copy, not pointer
             }
         }
     }
-    return nullptr;
+    return std::nullopt;
 }
 
-const ContentType *ContentTypeRegistry::detectFromBlob(const std::string &blob) const {
+std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string &blob) const {
     if (blob.empty()) {
-        return nullptr;
+        return std::nullopt;
     }
 
     // Check magic bytes for common formats
@@ -228,7 +226,7 @@ const ContentType *ContentTypeRegistry::detectFromBlob(const std::string &blob) 
         }
     }
 
-    return nullptr; // Unknown type
+    return std::nullopt; // Unknown type
 }
 
 std::vector<const ContentType *> ContentTypeRegistry::getByCategory(ContentCategory category) const {

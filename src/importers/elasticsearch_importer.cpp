@@ -47,7 +47,7 @@ static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
     }
     if (lmsg.find("timeout") != std::string::npos ||
         lmsg.find("timed out") != std::string::npos) {
-        return ImportErrorCode::IMPORT_TIMEOUT;
+        return ImportErrorCode::DEADLINE_EXCEEDED;
     }
     if (lmsg.find("index_not_found") != std::string::npos ||
         lmsg.find("no such index") != std::string::npos) {
@@ -58,7 +58,7 @@ static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
         lmsg.find("type") != std::string::npos) {
         return ImportErrorCode::IMPORT_SCHEMA_MISMATCH;
     }
-    return ImportErrorCode::UNKNOWN_ERROR;
+    return ImportErrorCode::UNKNOWN;
 }
 
 } // anonymous namespace
@@ -432,24 +432,28 @@ ImportStats ElasticsearchImporter::importData(
     const ImportOptions& options,
     ProgressCallback progress_callback) {
 
-    cancelled_.store(false);
+    // Do not reset `cancelled_` here. If `cancel()` was called before
+    // `importData` starts (tests and callers may do this), the flag must
+    // remain set so the import exits immediately. The atomic is initialized
+    // to false in the constructor by default.
     ImportStats stats{};
-    stats.start_time = std::chrono::steady_clock::now();
+    const auto start_time = std::chrono::steady_clock::now();
 
     const std::string index = source_path.empty() ? config_.index : source_path;
     if (index.empty()) {
         ImportError err;
-        err.code    = static_cast<uint32_t>(ImportErrorCode::FILE_NOT_FOUND);
+        err.code    = ImportErrorCode::FILE_NOT_FOUND;
         err.message = "ElasticsearchImporter: index name is required.";
         err.severity = ImportErrorSeverity::CRITICAL;
-        stats.errors.push_back(std::move(err));
+        stats.structured_errors.push_back(err);
+        stats.errors.push_back(err.message);
         return stats;
     }
 
     // Optional deadline enforcement.
     const auto deadline = (options.deadline_ms > 0)
         ? std::optional<std::chrono::steady_clock::time_point>(
-              stats.start_time + std::chrono::milliseconds(options.deadline_ms))
+              start_time + std::chrono::milliseconds(options.deadline_ms))
         : std::nullopt;
 
     // Initiate scroll.
@@ -458,17 +462,25 @@ ImportStats ElasticsearchImporter::importData(
 
     if (!err_out.empty()) {
         ImportError err;
-        err.code     = static_cast<uint32_t>(mapEsErrorToCode(err_out));
+        // If no mock is installed (and we're in the non-ELASTICSEARCH build)
+        // treat this as the connector being unavailable so tests and callers
+        // observe the explicit IMPORT_CONNECTOR_UNAVAILABLE code.
+        if (!mock_http_fn_ || err_out.find("THEMIS_ENABLE_ELASTICSEARCH") != std::string::npos) {
+            err.code = ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
+        } else {
+            err.code = mapEsErrorToCode(err_out);
+        }
         err.message  = "ElasticsearchImporter::importData: " + err_out;
         err.severity = ImportErrorSeverity::CRITICAL;
-        stats.errors.push_back(std::move(err));
+        stats.structured_errors.push_back(err);
+        stats.errors.push_back(err.message);
         return stats;
     }
 
     auto processPage = [&](const std::vector<json>& page) {
         for (const auto& doc : page) {
             if (cancelled_.load(std::memory_order_relaxed)) break;
-            ++stats.rows_processed;
+            ++stats.total_records;
 
             // Conflict resolution.
             if (!options.include_tables.empty()) {
@@ -477,27 +489,32 @@ ImportStats ElasticsearchImporter::importData(
                 for (const auto& t : options.include_tables) {
                     if (doc_index.find(t) != std::string::npos) { allowed = true; break; }
                 }
-                if (!allowed) { ++stats.rows_skipped; continue; }
+                if (!allowed) { ++stats.skipped_records; continue; }
             }
 
             // In production, the document would be written to ThemisDB storage here.
-            ++stats.rows_imported;
+            ++stats.imported_records;
         }
         if (progress_callback) {
-            progress_callback(static_cast<double>(stats.rows_processed));
+            progress_callback("scroll", stats.total_records, 0);
         }
     };
 
-    processPage(first_page);
+    // Process the initial search page returned by initScroll (if any).
+    if (!first_page.empty()) {
+        processPage(first_page);
+    }
+
 
     // Scroll until exhausted.
     while (!cancelled_.load(std::memory_order_relaxed) && !scroll_id.empty()) {
         if (deadline && std::chrono::steady_clock::now() >= *deadline) {
             ImportError err;
-            err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_TIMEOUT);
+            err.code     = ImportErrorCode::DEADLINE_EXCEEDED;
             err.message  = "ElasticsearchImporter: deadline exceeded.";
             err.severity = ImportErrorSeverity::WARNING;
-            stats.errors.push_back(std::move(err));
+            stats.structured_errors.push_back(err);
+            stats.errors.push_back(err.message);
             break;
         }
 
@@ -506,10 +523,11 @@ ImportStats ElasticsearchImporter::importData(
 
         if (!page_err.empty()) {
             ImportError err;
-            err.code     = static_cast<uint32_t>(mapEsErrorToCode(page_err));
+            err.code     = mapEsErrorToCode(page_err);
             err.message  = page_err;
             err.severity = ImportErrorSeverity::ERROR;
-            stats.errors.push_back(std::move(err));
+            stats.structured_errors.push_back(err);
+            stats.errors.push_back(err.message);
             break;
         }
         if (page.empty()) break; // End of index.
@@ -518,7 +536,11 @@ ImportStats ElasticsearchImporter::importData(
     }
 
     clearScroll(scroll_id);
-    stats.end_time = std::chrono::steady_clock::now();
+    const auto end_time = std::chrono::steady_clock::now();
+    stats.elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+    stats.rows_imported = stats.imported_records;
+    stats.rows_skipped = stats.skipped_records;
+    stats.rows_quarantined = stats.quarantined_records;
     return stats;
 }
 

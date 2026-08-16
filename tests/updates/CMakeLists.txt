@@ -34,7 +34,7 @@ foreach(_src IN LISTS UPDATES_PREFIX_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 60
-            LABELS "updates;operator_diagnostics"
+            LABELS "release_critical;updates;operator_diagnostics"
         )
     else()
         themis_register_module_focused_test(
@@ -43,7 +43,7 @@ foreach(_src IN LISTS UPDATES_PREFIX_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 120
-            LABELS updates
+            LABELS "release_critical;updates"
         )
     endif()
 endforeach()

@@ -1,14 +1,13 @@
 /**
  * @file geo_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Geospatial content processor for coordinate extraction and geographic reasoning.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=9, L=0
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 81/100
+ * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=2, M=4, L=0
+ * @note Status: Production Ready; Coordinate extraction working; geocoding API limits deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 

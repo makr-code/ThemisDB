@@ -13,6 +13,7 @@
 
 #include "scheduler/task_audit_event.h"
 #include "scheduler/task_anomaly_detector.h"
+#include "scheduler/scheduler_api_contract.h"
 #include "utils/audit_logger.h"
 #include <memory>
 #include <mutex>

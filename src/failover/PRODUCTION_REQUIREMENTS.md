@@ -2,7 +2,7 @@
 
 # ThemisDB Failover Module - Production Requirements
 
-## Zweck und Geltungsbereich
+<!-- Links: ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · README.md · ROADMAP.md -->
 
 Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Failover-Moduls.
 Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Auto-Failover-Manager, Disaster-Recovery-Manager.

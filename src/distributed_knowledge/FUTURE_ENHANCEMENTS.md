@@ -8,6 +8,7 @@
 - hardening and refinement of cross-shard federation workflows
 - expansion of deterministic reliability under timeout and partial-failure pressure
 - stricter benchmark-backed guardrails for aggregation, merge, and sync hot paths
+- v2.x federation roadmap aligned with Phase 2-3 hardening (Q4 2026)
 
 ## Design Constraints
 

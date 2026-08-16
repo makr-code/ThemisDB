@@ -1,0 +1,208 @@
+═════════════════════════════════════════════════════════════
+CI/CD WORKFLOW ANALYSIS REPORT - 2026-08-13 19:51:55
+═════════════════════════════════════════════════════════════
+
+📄 FILE: automation-community.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 126
+  • Potential Job Blocks: 6
+  • Template Variables Used: 3
+  ⚠️  ISSUES:
+      • ⚠️  Secrets referenced in non-security workflow
+      • ⚠️  Steps missing 'run:' or 'uses:' (1 found)
+
+📄 FILE: ci-benchmarks.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 372
+  • Potential Job Blocks: 7
+  • Template Variables Used: 8
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • ⚠️  Steps missing 'run:' or 'uses:' (5 found)
+
+📄 FILE: ci-build.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 765
+  • Potential Job Blocks: 8
+  • Template Variables Used: 14
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (23 found)
+
+📄 FILE: ci-pr-gates.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 713
+  • Potential Job Blocks: 14
+  • Template Variables Used: 5
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • ⚠️  Steps missing 'run:' or 'uses:' (9 found)
+
+📄 FILE: ci-release.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 591
+  • Potential Job Blocks: 10
+  • Template Variables Used: 12
+  ⚠️  ISSUES:
+      • ⚠️  Action without version pin (no @hash or @vX.Y.Z)
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (17 found)
+
+📄 FILE: codeql.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 40
+  • Potential Job Blocks: 3
+  • Template Variables Used: 3
+  ✅ No critical issues detected
+
+📄 FILE: compliance-supply-chain.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 492
+  • Potential Job Blocks: 9
+  • Template Variables Used: 7
+  ⚠️  ISSUES:
+      • ⚠️  Secrets referenced in non-security workflow
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (13 found)
+
+📄 FILE: copilot-ollama-router-ci.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 50
+  • Potential Job Blocks: 5
+  • Template Variables Used: 2
+  ✅ No critical issues detected
+
+📄 FILE: copilot-regression-guard.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 141
+  • Potential Job Blocks: 3
+  • Template Variables Used: 3
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • ⚠️  Steps missing 'run:' or 'uses:' (1 found)
+
+📄 FILE: docker-image.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 310
+  • Potential Job Blocks: 3
+  • Template Variables Used: 10
+  ⚠️  ISSUES:
+      • ⚠️  Secrets referenced in non-security workflow
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (10 found)
+
+📄 FILE: edition-hyperscaler-ci.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 98
+  • Potential Job Blocks: 3
+  • Template Variables Used: 7
+  ⚠️  ISSUES:
+      • ⚠️  Secrets referenced in non-security workflow
+      • ⚠️  Steps missing 'run:' or 'uses:' (2 found)
+
+📄 FILE: fortify.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 131
+  • Potential Job Blocks: 3
+  • Template Variables Used: 12
+  ⚠️  ISSUES:
+      • ⚠️  Secrets referenced in non-security workflow
+      • ⚠️  Steps missing 'run:' or 'uses:' (1 found)
+
+📄 FILE: fuzzing.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 161
+  • Potential Job Blocks: 3
+  • Template Variables Used: 
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+
+📄 FILE: governance-gates.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 743
+  • Potential Job Blocks: 14
+  • Template Variables Used: 9
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • ⚠️  Steps missing 'run:' or 'uses:' (17 found)
+
+📄 FILE: maintenance-cache-warming.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 296
+  • Potential Job Blocks: 4
+  • Template Variables Used: 4
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (12 found)
+
+📄 FILE: maintenance-ci-health.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 334
+  • Potential Job Blocks: 3
+  • Template Variables Used: 5
+  ⚠️  ISSUES:
+      • ⚠️  Steps missing 'run:' or 'uses:' (3 found)
+
+📄 FILE: maintenance-docs.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 577
+  • Potential Job Blocks: 11
+  • Template Variables Used: 10
+  ⚠️  ISSUES:
+      • ⚠️  Secrets referenced in non-security workflow
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (16 found)
+
+📄 FILE: maintenance-issues.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 690
+  • Potential Job Blocks: 3
+  • Template Variables Used: 8
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (8 found)
+
+📄 FILE: quality-static-analysis.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 349
+  • Potential Job Blocks: 8
+  • Template Variables Used: 2
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • ⚠️  Steps missing 'run:' or 'uses:' (6 found)
+
+📄 FILE: release-changelog.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 347
+  • Potential Job Blocks: 4
+  • Template Variables Used: 10
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (8 found)
+
+📄 FILE: security-consolidated.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 291
+  • Potential Job Blocks: 6
+  • Template Variables Used: 3
+  ⚠️  ISSUES:
+      • ⚠️  Potentially problematic if-condition found
+      • 🔴 CRITICAL: Hardcoded credentials detected
+      • ⚠️  Steps missing 'run:' or 'uses:' (4 found)
+
+📄 FILE: security-pentest-quarterly.yml
+────────────────────────────────────────────────────────────
+  • Total Lines: 317
+  • Potential Job Blocks: 3
+  • Template Variables Used: 
+  ⚠️  ISSUES:
+      • ⚠️  Steps missing 'run:' or 'uses:' (3 found)
+

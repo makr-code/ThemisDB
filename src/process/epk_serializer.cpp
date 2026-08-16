@@ -110,7 +110,7 @@ EpkSerializer::ImportResult EpkSerializer::importText(
         result.ok      = false;
         result.message = "EPK text exceeds maximum allowed size (10 MiB)";
         auto incident = ProcessDiagnostics::createResourceIncident(
-            ProcError::kResourceLimitExceeded,
+            ProcError::kMaxElementsExceeded,
             process_id,
             "Input size " + std::to_string(epk_text.size()) + " exceeds limit " + 
             std::to_string(kMaxEpkTextBytes)

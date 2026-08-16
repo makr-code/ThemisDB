@@ -555,5 +555,3 @@ inline shared_gpu_ptr<T> make_shared_gpu(size_t count) {
 
 }  // namespace gpu
 }  // namespace themis
-
-#endif  // THEMIS_GPU_MEMORY_H

@@ -15,8 +15,8 @@
  */
 
 #include "themis/gpu/load_balancer.h"
-#include "themis/gpu/gpu_backend_dispatch_contract.h"
-#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+#include "gpu/gpu_backend_dispatch_contract.h"
+#include "gpu/gpu_backend_dispatch_diagnostics.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 

@@ -355,10 +355,11 @@ std::vector<float> LearnableRotaryEmbedding::train(
     loss_history.reserve(config.max_epochs);
     
     float best_val_loss = std::numeric_limits<float>::max();
-    size_t epochs_without_improvement = 0;
-    
-    // Training loop
-    for (size_t epoch = 0; epoch < config.max_epochs; ++epoch) {
+    {
+        size_t epochs_without_improvement = 0;
+        
+        // Training loop
+        for (size_t epoch = 0; epoch < config.max_epochs; ++epoch) {
         setTrainingMode(true);
         
         // Shuffle training samples

@@ -103,8 +103,9 @@ public:
     void rebuildOversubPartitions() {
         if (!oversubManager || vectorData.empty() || oversubBulkLoading_) return;
 
-        // Remove all existing partitions.
-        for (size_t pid : oversubManager->getAllPartitionIds()) {
+        // Phase 5: Snapshot partition IDs to avoid iterator invalidation during removal
+        const auto partIds = oversubManager->getAllPartitionIds();
+        for (size_t pid : partIds) {
             oversubManager->removePartition(pid);
         }
 
@@ -149,10 +150,11 @@ public:
         std::vector<std::pair<float, size_t>> candidates;
         candidates.reserve(std::min(k * 4, vectorData.size()));
 
-        const auto partIds = oversubManager->getAllPartitionIds();
-        size_t globalOffset = 0;
+        {
+            const auto partIds = oversubManager->getAllPartitionIds();
+            size_t globalOffset = 0;
 
-        for (size_t pid : partIds) {
+            for (size_t pid : partIds) {
             // Ensure this partition is VRAM-resident (triggers LRU eviction if needed).
             oversubManager->accessPartition(pid);
 
@@ -1050,7 +1052,14 @@ GPUVectorIndex::GPUVectorIndex(const Config& config)
     : pImpl(std::make_unique<Impl>(config)) {
 }
 
-GPUVectorIndex::~GPUVectorIndex() = default;
+// Phase 5: GPU destructor explicit cleanup with exception safety
+GPUVectorIndex::~GPUVectorIndex() noexcept {
+    try {
+        shutdown();
+    } catch (const std::exception& e) {
+        THEMIS_WARN("GPU cleanup failed (ignored): {}", e.what());
+    }
+}
 
 bool GPUVectorIndex::initialize(int dimension) {
     return pImpl->initialize(dimension);

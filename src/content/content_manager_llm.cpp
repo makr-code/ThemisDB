@@ -1,14 +1,13 @@
 /**
  * @file content_manager_llm.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Core content management system orchestrating processors, validators, and storage.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=9, L=0
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 74/100
+ * @note Gap Summary: total=14; TODO=3, Stub=1, Unimpl=2, Mock=0, Sim=0, Debt=2, C=1, H=4, M=7, L=0
+ * @note Status: Beta; LLM integration in progress; prompt engineering and response validation under review
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include <algorithm>
 #include <sstream>
 

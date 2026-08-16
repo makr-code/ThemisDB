@@ -212,7 +212,7 @@ struct NetworkSpanEvent {
  */
 class INetworkObservabilitySink {
 public:
-    virtual ~INetworkObservabilitySink() = default;
+    virtual ~INetworkObservabilitySink();
 
     /**
      * @brief Called once per completed span with the event descriptor.

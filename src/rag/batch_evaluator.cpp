@@ -57,7 +57,8 @@ bool parseDouble(const std::string& raw, double& out) {
         size_t consumed = 0;
         out = std::stod(raw, &consumed);
         return consumed == raw.size();
-    } catch (...) {
+    } catch (const std::exception& e) {
+        THEMIS_DEBUG("Failed to parse '{}' as double: {}", raw, e.what());
         return false;
     }
 }
@@ -238,7 +239,9 @@ void BatchEvaluator::workerThread() {
             if (item.has_promise) {
                 try {
                     item.promise.set_exception(std::current_exception());
-                } catch (...) {}
+                } catch (const std::exception& set_ex) {
+                    THEMIS_WARN("Failed to set exception on promise: {}", set_ex.what());
+                }
             }
         }
     }

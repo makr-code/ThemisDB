@@ -2472,5 +2472,172 @@ const ForecastConfig &ForecastModel::config() const noexcept {
     return impl_->config;
 }
 
+// ============================================================================
+// Forecasting Helper Functions (Phase 2B)
+// ============================================================================
+
+int seasonalityDuration(
+    const std::vector<double>& timeseries,
+    int max_lag) {
+    
+    // Validate input
+    if (timeseries.size() < 2) {
+        throw std::invalid_argument("Time series must have at least 2 points");
+    }
+    
+    // Compute mean for detrending
+    double mean = 0.0;
+    for (double val : timeseries) {
+        mean += val;
+    }
+    mean /= static_cast<double>(timeseries.size());
+    
+    // Detrend: subtract mean
+    std::vector<double> detrended(timeseries.size());
+    for (size_t i = 0; i < timeseries.size(); ++i) {
+        detrended[i] = timeseries[i] - mean;
+    }
+    
+    // Compute variance (for normalization)
+    double variance = 0.0;
+    for (double val : detrended) {
+        variance += val * val;
+    }
+    variance /= static_cast<double>(detrended.size());
+    
+    if (variance < 1e-10) {
+        return 0;  // Constant series, no seasonality
+    }
+    
+    // Autocorrelation computation
+    int best_lag = 0;
+    double best_autocorr = 0.0;
+    int max_lag_check = std::min(max_lag, static_cast<int>(timeseries.size() / 2));
+    
+    for (int lag = 1; lag <= max_lag_check; ++lag) {
+        double autocorr = 0.0;
+        for (size_t i = static_cast<size_t>(lag); i < detrended.size(); ++i) {
+            autocorr += detrended[i] * detrended[i - lag];
+        }
+        autocorr /= static_cast<double>(detrended.size() - lag);
+        autocorr /= variance;  // Normalize
+        
+        // Looking for local maxima with high autocorrelation
+        if (autocorr > best_autocorr && autocorr > 0.5) {
+            best_autocorr = autocorr;
+            best_lag = lag;
+        }
+    }
+    
+    // Return detected period, or 0 if no strong seasonality
+    return best_lag > 0 ? best_lag : 0;
+}
+
+std::pair<bool, std::string> validateTestData(
+    const std::vector<std::vector<double>>& test_features,
+    size_t expected_n_features) {
+    
+    // Check if test data is empty
+    if (test_features.empty()) {
+        return {false, "Test data is empty"};
+    }
+    
+    // Check feature count consistency
+    for (size_t i = 0; i < test_features.size(); ++i) {
+        if (test_features[i].size() != expected_n_features) {
+            return {false, "Test features must have " + std::to_string(expected_n_features) + 
+                          " features per sample, but sample " + std::to_string(i) + 
+                          " has " + std::to_string(test_features[i].size())};
+        }
+        
+        // Check for NaN and Inf in test features
+        for (size_t j = 0; j < test_features[i].size(); ++j) {
+            double val = test_features[i][j];
+            if (std::isnan(val) || std::isinf(val)) {
+                return {false, "Test feature at sample " + std::to_string(i) + 
+                              ", feature " + std::to_string(j) + " is NaN or Inf"};
+            }
+        }
+    }
+    
+    return {true, ""};
+}
+
+std::pair<bool, std::string> exponentialSmoothing(
+    ForecastModel& model,
+    const std::vector<double>& timeseries,
+    double alpha,
+    double beta,
+    double gamma) {
+    
+    // Validate input
+    if (timeseries.size() < 2) {
+        return {false, "Time series must have at least 2 points"};
+    }
+    
+    // Validate smoothing parameters
+    if (alpha <= 0.0 || alpha >= 1.0) {
+        return {false, "Alpha must be in (0, 1)"};
+    }
+    if (beta < 0.0 || beta >= 1.0) {
+        return {false, "Beta must be in [0, 1)"};
+    }
+    if (gamma < 0.0 || gamma >= 1.0) {
+        return {false, "Gamma must be in [0, 1)"};
+    }
+    
+    // Simple exponential smoothing: S_t = alpha * y_t + (1-alpha) * S_{t-1}
+    std::vector<double> level(timeseries.size());
+    std::vector<double> trend(timeseries.size(), 0.0);
+    std::vector<double> seasonal(timeseries.size(), 0.0);
+    
+    // Initialize level with first value
+    level[0] = timeseries[0];
+    if (timeseries.size() > 1) {
+        trend[1] = beta * (timeseries[1] - timeseries[0]);
+    }
+    
+    // Apply exponential smoothing
+    for (size_t t = 1; t < timeseries.size(); ++t) {
+        double l_prev = level[t-1];
+        double tr_prev = t > 0 ? trend[t-1] : 0.0;
+        
+        // Level update
+        level[t] = alpha * timeseries[t] + (1.0 - alpha) * (l_prev + tr_prev);
+        
+        // Trend update (if enabled)
+        if (beta > 0.0 && t > 0) {
+            trend[t] = beta * (level[t] - l_prev) + (1.0 - beta) * tr_prev;
+        }
+        
+        // Seasonal update (if enabled) - simplified
+        if (gamma > 0.0 && t > 0) {
+            seasonal[t] = gamma * (timeseries[t] - level[t]) + (1.0 - gamma) * seasonal[t-1];
+        }
+    }
+    
+    // Store fitted parameters in model's internal state
+    // This is a simplified implementation; actual model storage would be done via model.impl_
+    // For now, we just mark the model as fitted
+    model.impl_->fitted = true;
+    model.impl_->config.method = ForecastMethod::EXP_SMOOTHING;
+    model.impl_->train_y = timeseries;
+    model.impl_->alpha = alpha;
+    model.impl_->beta = beta;
+    model.impl_->gamma = gamma;
+    
+    // Compute in-sample RMSE
+    double rmse = 0.0;
+    for (size_t t = 1; t < timeseries.size(); ++t) {
+        double predicted = level[t-1] + trend[t-1] + seasonal[t-1];
+        double error = timeseries[t] - predicted;
+        rmse += error * error;
+    }
+    rmse = std::sqrt(rmse / static_cast<double>(timeseries.size() - 1));
+    model.impl_->in_sample_rmse = rmse;
+    
+    return {true, ""};
+}
+
 } // namespace analytics
 } // namespace themisdb

@@ -140,9 +140,11 @@ SchemaInferenceEngine::inferImplicitRelationships(
                         double confidence = 0.8; // default heuristic
                         std::string col_key = schema.name + "." + col;
                         std::string pk_key  = other.name  + "." + pk;
-                        if (stats.count(col_key) && stats.count(pk_key)) {
-                            const auto& cStat = stats.at(col_key);
-                            const auto& pkStat = stats.at(pk_key);
+                        auto col_stat_it = stats.find(col_key);
+                        auto pk_stat_it = stats.find(pk_key);
+                        if (col_stat_it != stats.end() && pk_stat_it != stats.end()) {
+                            const auto& cStat = col_stat_it->second;
+                            const auto& pkStat = pk_stat_it->second;
                             if (pkStat.distinct_count > 0) {
                                 confidence = std::min(1.0,
                                     static_cast<double>(cStat.distinct_count) /
@@ -160,8 +162,9 @@ SchemaInferenceEngine::inferImplicitRelationships(
 
             // Record cardinality distribution
             std::string key = schema.name + "." + col;
-            if (stats.count(key)) {
-                const auto& st = stats.at(key);
+            auto stat_it = stats.find(key);
+            if (stat_it != stats.end()) {
+                const auto& st = stat_it->second;
                 inferred.cardinality_distribution[col] =
                     st.total_rows > 0
                         ? static_cast<double>(st.distinct_count) / st.total_rows
