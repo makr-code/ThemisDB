@@ -261,9 +261,8 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
     // TIMEOUT HARDENING: Set a hard timeout bound on lag checking to avoid
     // unbounded backpressure in degraded network scenarios.
     // Max safe lag = 10x configured limit or 10 seconds, whichever is smaller.
-    const int64_t max_safe_lag_ms = std::min(
-        static_cast<int64_t>(config_.max_lag_ms) * 10,
-        10000LL);
+    const int64_t max_safe_lag_ms = (static_cast<int64_t>(config_.max_lag_ms) * 10LL < 10000LL) ?
+        (static_cast<int64_t>(config_.max_lag_ms) * 10LL) : 10000LL;
     
     if (lag > static_cast<int64_t>(config_.max_lag_ms)) {
         AlertCallback cb;

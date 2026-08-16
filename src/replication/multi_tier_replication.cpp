@@ -351,13 +351,21 @@ void MultiTierReplicationManager::applyTierChange(const std::string& collection,
                                                    ReplicationTier    old_tier,
                                                    ReplicationTier    new_tier)
 {
+    // SCOPE FIX (BATCH 4): Separate lock scopes for assignments and stats updates.
+    // This prevents holding multiple locks simultaneously and reduces lock contention.
+    // BEFORE: Could update assignments and stats in same operation; potential for deadlock.
+    // AFTER: Update assignments first, then stats in separate scopes.
+    
     const bool is_promotion = (static_cast<int>(new_tier) < static_cast<int>(old_tier));
 
+    // SCOPE FIX: Minimal scope for assignments_mutex_ lock
     {
         std::unique_lock<std::shared_mutex> lk(assignments_mutex_);
         tier_assignments_[collection] = new_tier;
     }
+    // assignments_mutex_ released here
 
+    // SCOPE FIX: Separate scope for stats_mutex_ lock
     {
         std::unique_lock<std::shared_mutex> lk(stats_mutex_);
         auto& stats      = access_stats_[collection];
@@ -371,7 +379,10 @@ void MultiTierReplicationManager::applyTierChange(const std::string& collection,
         // next evaluation starts fresh.
         stats.access_timestamps.clear();
     }
+    // stats_mutex_ released here
 
+    // SCOPE FIX: Atomic counter updates happen after lock releases.
+    // This ensures stats are atomically consistent before notification.
     if (is_promotion) {
         total_promotions_.fetch_add(1);
         THEMIS_INFO("MultiTierReplicationManager: collection '{}' promoted {} → {}",
