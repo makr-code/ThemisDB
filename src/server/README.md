@@ -51,6 +51,34 @@ Out of scope:
 - hot paths include HTTP request build/parse helpers, selected endpoint paths, and stream protocol helpers.
 - degradation under overload must remain explicit through rate limiting, shedding, and health signaling.
 
+## Thread-Safety Model (Tier 1 Requirement)
+
+**Concurrency guarantees:**
+- **HTTP Request Dispatch:** Thread-safe for concurrent requests via per-connection thread pools
+- **API Gateway Routing:** Immutable route table after initialization; lock-free read paths
+- **Auth Middleware:** Thread-safe credential validation via `auth_cache_mutex_` (concurrent readers, single writer)
+- **Rate Limiting:** Atomic counters for per-client/global quotas; no lock-free races
+- **Session Management:** Per-session state isolated via `SessionContext`; concurrent sessions have independent mutexes
+- **Health Checks:** Atomic reads of service state; no blocking on health endpoint
+- **Error Service:** Thread-safe error code registry via `error_registry_mutex_`
+
+**Known thread-safety invariants:**
+- HTTP/2 stream multiplexing uses per-stream mutexes (no cross-stream races)
+- WebSocket/MQTT session lifecycle protected by `session_lifecycle_mutex_`
+- Rate limiter state updates are atomic or protected by `rate_limit_mutex_`
+- Graceful shutdown uses `ServerState` atomic with state machine validation
+
+**Fail-Closed Behavior (Wave A — Runtime Reliability):**
+- **Rate Limit Exceeded:** Return 429 Too Many Requests (no queue overflow); drop new requests
+- **Backend Unavailable:** Return 503 Service Unavailable; fail fast without retrying indefinitely
+- **Request Timeout:** Enforce per-request deadline; return 504 Gateway Timeout on overrun
+- **Auth Failure:** Return 401 Unauthorized (fail-closed); no partial auth bypass
+- **Overload Shedding:** Reject requests with 503 Service Unavailable when queue depth > threshold
+- **Graceful Shutdown:** Drain in-flight requests with deadline; return 503 to new clients
+- **Connection Error:** Close connection immediately; propagate error to client
+
+---
+
 ## Sourcecode Verification (Module: server/readme)
 
 - Verified files:

@@ -8,6 +8,13 @@
 ## Current Status
 Production-ready multi-model query stack with parser, optimizer, execution, federation, caching, and compatibility layers in active use.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** Query planning determinism, timeout behavior consistency, cancellation semantics, distributed write stress
+- **Wave A Exit Criteria:** Deterministic chaos evidence (query timeout, cancellation) + release-critical CI GREEN + federated execution baselines
+- **Wave B (Q3–Q4 2026):** Distributed execution baselines, hybrid planner (ANN+graph), benchmark gates, parallel optimization
+- **Wave B Exit Criteria:** Hybrid planner single-shard stable + federated execution p95/p99 on representative hardware
+- **Tier 2 Functional Completeness:** Query planning is foundational for all workloads
+
 **Hybrid Retrieval Rollout Readiness**: 65% 🟢 (issue #5468).
 - Phase A (single-shard exact): ✅ Ready with error-path fixes (return-value checks, exception handling).
 - Phase B (thread-safety): ✅ COMPLETE 2026-08-08 — QueryOptimizer per_query_cost_model_mutex_, advisor_cost_model_mutex_, adaptive_init_flag_ added; PlanCache stats atomics + deadline propagation wired; 9 tests in test_query_optimizer_thread_safety.cpp.

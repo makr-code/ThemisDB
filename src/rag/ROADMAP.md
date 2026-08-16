@@ -8,6 +8,16 @@
 
 Production-grade RAG runtime with retrieval fusion, context assembly, evaluation, ingestion bridge integration, and safety controls in active use.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave B (Q3–Q4 2026):** WikiIndexStore Phase B (RocksDB retrieval, BM25+, HNSW, RRF fusion, cache hit-rate, query-latency gates)
+- **Wave B Exit Criteria:** Full 4-layer retrieval chain with stable p95/p99 on representative hardware; Phase A→B migration atomic and rollback-safe
+- **Tier 2 Functional Completeness:** High-impact for RAG/LLM workloads; Phase B is Wave B entry criterion
+
+**Phase Implementation Status (Batch 3 verified 2026-08-14):**
+- Phase 1-4: Complete (retrieval fusion, context assembly, evaluation, ingestion bridge)
+- Phase 5-6: In progress (benchmarking, documentation)
+- **Phase B (Q4 2026):** WikiIndexStore RocksDB integration pending; BM25+ scorer, HNSW index, RRF fusion, persistent cache
+
 ## In Progress
 
 - [~] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)

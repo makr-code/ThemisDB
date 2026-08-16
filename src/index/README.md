@@ -49,6 +49,18 @@ Out of scope:
 - unsupported GPU/capability paths degrade deterministically with bounded fallback behavior.
 - rebuild/tiering and distributed features require explicit operational configuration.
 
+**Production Readiness Status (Batch 3 verified 2026-08-14):**
+- **Ready for production:** AnnFrontdoor (single-shard exact-first with CPU fallback), secondary indexes (range, composite), spatial indexes, graph indexes
+- **Production-ready with limits:** Vector search (CPU-only, flat/HNSW), index compression (quantization codecs), adaptive index recommendation
+- **Not yet production-ready:** GPU vector index CUDA backend (Wave B target Q4 2026), GPU vector index HIP backend (Wave B target Q4 2026), distributed vector index orchestration (Wave B target Q4 2026)
+
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave B (Q3–Q4 2026):** ANN+vector integration gates, GPU backend validation (CUDA/HIP), hybrid retrieval Phase B buffer lifecycle RAII
+- **Wave B Exit Criteria:** AnnFrontdoor+GPU parity on representative hardware, buffer concurrency ThreadSanitizer clean, benchmark gates locked
+- **Tier 2 Functional Completeness:** Index performance is critical for retrieval workloads; hybrid retrieval Phase B blocks RAG Phase B
+
+---
+
 ## Sourcecode Verification (Module: index/readme)
 
 - Verified files:

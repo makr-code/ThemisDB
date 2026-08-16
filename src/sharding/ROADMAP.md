@@ -10,6 +10,12 @@
 
 Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** Multi-shard exact-path gate (Phase C), topology-change auto-rebalance, latency-aware routing, distributed write stress
+- **Wave A Exit Criteria:** Deterministic chaos evidence (network partition, coordinator failure, cascade) + thread-safety sign-off + release-critical CI GREEN + p95/p99 baselines
+- **Tier 1 Criticality:** Runtime-critical for distributed databases; thread-safety and fail-closed guarantees mandatory
+- **Rollout Readiness:** 35% 🔴 (Phase A ready, Phase B/C blocked on thread-safety gates)
+
 **Hybrid Retrieval Rollout Readiness**: 35% 🔴 (issue #5468).
 - Phase A (single-shard exact): ✅ Ready — single-shard path is stable.
 - Phase B (multi-shard exact): ❌ Q3 2026 — blocked by 340+ cross-shard thread-safety gaps.

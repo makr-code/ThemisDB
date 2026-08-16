@@ -12,6 +12,19 @@
 - Actionable Findings (Critical + High): 248
 - Affected Files: 60
 
+**Batch 3 Wave Correlation (2026-08-14):**
+- **Wave B Gaps** (~150 IMPL gaps): WikiIndexStore Phase B implementation (BM25+, HNSW, RRF fusion), persistent embedding cache, LLM-Judge integration
+- **Wave B DOC Gaps** (~100): Phase B architecture documentation, cost model documentation, migration guide
+- **Other IMPL Gaps** (~200): Data-race fixes in concurrent retrieval, timeout enforcement, resource limits
+- **Other DOC Gaps** (~100): Inline comments, algorithm notes, failure-mode documentation
+
+**Phase B Implementation Status (Batch 3 verified 2026-08-14):**
+- BM25+ scorer: DOC gap (algorithm documented, awaiting code implementation Q4 2026)
+- HNSW index: IMPL gap (index structure stub, awaiting RocksDB backend integration Q4 2026)
+- RRF fusion: IMPL gap (fusion logic skeleton, awaiting scorer integration Q4 2026)
+- Persistent cache: IMPL gap (RocksDB schema designed, awaiting column-family implementation Q4 2026)
+- LLM-Judge: IMPL gap (currently mock-mode stub; real integration pending Q4 2026)
+
 ## Severity Summary
 
 | Severity | Count |

@@ -1025,6 +1025,16 @@ engine->dropQuery("my_query");
 - Runtime re-optimization from execution statistics
 - **Continuous Query Language (CQL)** — `ContinuousQueryEngine`, `WindowSpec`, `SynopsisStore`, `IncrementalAgg`, `CQWatermark` (v2.0.0)
 
+**Production Readiness Status (Batch 3 verified 2026-08-14):**
+- **Ready for production:** AQL parser/optimizer/executor (all 6 phases complete), SQL/SPARQL compatibility, query caching (exact-match), federation (single-shard), CTEs, window functions
+- **Production-ready with limits:** Semantic cache (requires embedding model), federated queries (cross-shard performance gates pending), query federation (single-node stress-tested)
+- **Not yet production-ready:** Parallel query optimization (Wave B target Q4 2026), ANN+graph hybrid planning (Wave B target Q4 2026), distributed query cost model (Wave B target Q1 2027)
+
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** Query planning determinism, timeout behavior consistency, cancellation semantics
+- **Wave B (Q3–Q4 2026):** Distributed execution baselines, hybrid planner (ANN+graph), benchmark gates for federated paths
+- **Tier 2 Functional Completeness:** High-impact for all query workloads; query planning is foundational
+
 ⚠️ **Beta Features:**
 - Adaptive query optimization (v1.5.0+)
 - Semantic cache (v1.5.0+)
