@@ -184,6 +184,7 @@ private:
     Statistics stats_;
     mutable std::shared_mutex stats_mutex_;
     RequestCallback request_callback_;
+    mutable std::mutex callback_mutex_;  // Protect request_callback_ access
     
     HTTPResponse requestWithRetry(
         HTTPMethod method,

@@ -346,7 +346,22 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
         opts.temperature = impl_->config.temperature;
         opts.max_tokens  = impl_->config.max_output_tokens;
         result.combined_summary = LLMIntegration::generate(prompt, opts);
-
+        
+        // Validate LLM response
+        if (result.combined_summary.empty()) {
+            THEMIS_WARN("DocumentSummarizer: Empty response from LLM for multi-document summary");
+            // Fall back to extractive summary instead of empty result
+            for (const auto& d : documents) {
+                const auto qterms = impl_->queryTerms(query);
+                const std::string extractive = extractiveSummary(
+                    d.content, qterms,
+                    impl_->config.max_sentences_per_doc,
+                    impl_->config.min_sentence_chars,
+                    impl_->config.max_summary_chars / documents.size());
+                result.combined_summary += extractive + "\n";
+            }
+        }
+        
         // Per-document breakdowns using extractive (no extra LLM calls)
         const size_t per_doc_budget =
             impl_->config.max_summary_chars / documents.size();

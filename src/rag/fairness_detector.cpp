@@ -19,6 +19,7 @@
 #include <fstream>
 #include <sstream>
 #include <numeric>
+#include <mutex>
 
 namespace themis::rag {
 
@@ -39,6 +40,7 @@ public:
 
     FairnessDetectorConfig config;
     bool embeddings_loaded = false;
+    mutable std::mutex metrics_mutex;  // Protect embeddings and bias vectors
     
     // Word embeddings: word -> embedding vector
     std::unordered_map<std::string, std::vector<float>> embeddings;

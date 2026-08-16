@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <numeric>
@@ -439,6 +440,24 @@ bool CalibrationManager::saveModel(const std::string& filepath) {
 }
 
 bool CalibrationManager::loadModel(const std::string& filepath) {
+    // Verify model integrity via SHA-256 sidecar if available
+    std::string sha_path = filepath + ".sha256";
+    if (std::filesystem::exists(sha_path)) {
+        std::ifstream sidecar(sha_path);
+        if (sidecar.is_open()) {
+            std::string expected_hash;
+            std::getline(sidecar, expected_hash);
+            sidecar.close();
+            
+            // Compute actual SHA-256
+            std::string actual_hash = themis::utils::calculateSHA256(filepath);
+            if (actual_hash.empty() || actual_hash != expected_hash) {
+                THEMIS_ERROR("CalibrationManager: model integrity check failed for '{}'", filepath);
+                return false;
+            }
+        }
+    }
+    
     std::ifstream file(filepath);
     if (!file.is_open()) {
         THEMIS_WARN("CalibrationManager: cannot read model from '{}'", filepath);

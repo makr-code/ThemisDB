@@ -82,7 +82,8 @@ SemanticQueryCache::Status SemanticQueryCache::put(
     
     auto stVec = vim_.addEntity(embEntity, "embedding");
     if (!stVec.ok) {
-        return Status::Error("Failed to add to vector index: " + stVec.message);
+        // Optimize: Use fmt::format for error message building
+        return Status::Error(fmt::format("Failed to add to vector index: {}", stVec.message));
     }
     
     // Update LRU
@@ -534,7 +535,8 @@ std::map<std::string, float> SemanticQueryCache::extractQueryFeatures_(std::stri
     
     // Add bigram features
     for (size_t i = 0; i + 1 < tokens.size(); ++i) {
-        std::string bigram = tokens[i] + "_" + tokens[i + 1];
+        // Optimize: Use fmt::format for string building in loop instead of concatenation
+        std::string bigram = fmt::format("{}_{}", tokens[i], tokens[i + 1]);
         features[bigram] = 0.5f / total;  // Lower weight for bigrams
     }
     
@@ -550,7 +552,8 @@ std::map<std::string, float> SemanticQueryCache::extractQueryFeatures_(std::stri
     
     for (const auto& kw : keywords) {
         if (std::find(tokens.begin(), tokens.end(), kw) != tokens.end()) {
-            features["kw_" + kw] = 1.0f;
+            // Optimize: Use fmt::format for string building instead of concatenation
+            features[fmt::format("kw_{}", kw)] = 1.0f;
         }
     }
     

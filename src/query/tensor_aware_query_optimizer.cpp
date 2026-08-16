@@ -94,6 +94,32 @@ bool TensorAwareQueryOptimizer::isTensorFunction(const std::string& name) noexce
 }
 
 // ============================================================================
+// Safe multiplication helper
+// ============================================================================
+
+namespace {
+    /// Safe multiplication with overflow detection for doubles.
+    /// Returns the product, clamped to DBL_MAX if overflow would occur.
+    inline double safeMul(double a, double b) noexcept {
+        constexpr double kMaxDouble = std::numeric_limits<double>::max();
+        if (a == 0.0 || b == 0.0) return 0.0;
+        if (a > 0.0 && b > 0.0 && a > kMaxDouble / b) {
+            return kMaxDouble;
+        }
+        if (a < 0.0 && b < 0.0 && a < kMaxDouble / b) {
+            return kMaxDouble;
+        }
+        if (a > 0.0 && b < 0.0 && b < -kMaxDouble / a) {
+            return -kMaxDouble;
+        }
+        if (a < 0.0 && b > 0.0 && a < -kMaxDouble / b) {
+            return -kMaxDouble;
+        }
+        return a * b;
+    }
+} // namespace
+
+// ============================================================================
 // estimateTTCost
 // ============================================================================
 
@@ -116,20 +142,22 @@ double TensorAwareQueryOptimizer::estimateTTCost(
         function_name == "TENSOR_NORM"        ||
         function_name == "TENSOR_CONTRACT") {
         // Inner-product / transfer-matrix: O(d·n·r³)
-        cost = d * n * r * r * r;
+        // Use safe multiplication to prevent overflow
+        cost = safeMul(d, safeMul(n, safeMul(r, safeMul(r, r))));
     } else if (function_name == "TENSOR_SLICE" ||
                function_name == "TENSOR_PROJECT") {
         // Slice / marginalize one core: O(d·n·r²)
-        cost = d * n * r * r;
+        // Use safe multiplication to prevent overflow
+        cost = safeMul(d, safeMul(n, safeMul(r, r)));
     } else if (function_name == "TENSOR_COMPRESS" ||
                function_name == "TENSOR_DECOMPOSE") {
         // TT-rounding / decomposition: O(d·r²·n·log n)
-        cost = d * r * r * n * std::log2(n + 1.0);
+        cost = safeMul(safeMul(d, safeMul(r, r)), safeMul(n, std::log2(n + 1.0)));
     } else if (function_name == "TENSOR_INFO") {
-        cost = d * n;
+        cost = safeMul(d, n);
     } else {
         // Unknown — use a generic linear estimate.
-        cost = d * n * r;
+        cost = safeMul(d, safeMul(n, r));
     }
 
     // Guard against infinity/NaN from extreme-but-capped inputs; return a

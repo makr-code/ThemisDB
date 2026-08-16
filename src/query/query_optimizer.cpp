@@ -974,5 +974,120 @@ QueryOptimizer::GraphWorkloadPlan QueryOptimizer::optimizeGraphWorkload(
 	return plan;
 }
 
+// ============================================================================
+// SCOPE VALIDATION (Phase 2 Agent 2)
+// ============================================================================
+
+bool QueryOptimizer::setScopeBounds(Plan& plan,
+                                    const std::string& scope_id,
+                                    size_t max_rows,
+                                    size_t max_bytes,
+                                    bool enforce_federation) const noexcept {
+    if (scope_id.empty()) {
+        spdlog::warn("QueryOptimizer::setScopeBounds: scope_id cannot be empty");
+        return false;
+    }
+    
+    // Both limits must be reasonable (at least one should be set)
+    if (max_rows == 0 && max_bytes == 0) {
+        spdlog::warn("QueryOptimizer::setScopeBounds: at least one limit must be set");
+        return false;
+    }
+    
+    // Set scope bounds on plan
+    plan.scope_bounds.scope_id = scope_id;
+    plan.scope_bounds.max_result_rows = max_rows;
+    plan.scope_bounds.max_result_bytes = max_bytes;
+    plan.scope_bounds.enforce_federation_isolation = enforce_federation;
+    
+    if (metrics_collector_) {
+        metrics_collector_->addCounter("query.optimizer.scope_bounds_set", 1,
+            {{"scope_id", scope_id},
+             {"has_row_limit", max_rows > 0 ? "true" : "false"},
+             {"has_byte_limit", max_bytes > 0 ? "true" : "false"},
+             {"federation_isolation", enforce_federation ? "true" : "false"}});
+    }
+    
+    spdlog::debug("QueryOptimizer::setScopeBounds: scope_id={}, max_rows={}, max_bytes={}, federation={}",
+                  scope_id, max_rows, max_bytes, enforce_federation);
+    
+    return true;
+}
+
+bool QueryOptimizer::validateResultBounds(const Plan& plan,
+                                          size_t result_rows,
+                                          size_t result_bytes) const noexcept {
+    // If scope bounds not set, validation passes (legacy behavior)
+    if (!plan.has_valid_scope_bounds()) {
+        return true;
+    }
+    
+    const auto& bounds = plan.scope_bounds;
+    bool valid = true;
+    
+    // Check row limit
+    if (bounds.max_result_rows > 0 && result_rows > bounds.max_result_rows) {
+        spdlog::error("QueryOptimizer::validateResultBounds: Row count overflow detected! "
+                      "scope_id={}, max_rows={}, actual_rows={}",
+                      bounds.scope_id, bounds.max_result_rows, result_rows);
+        valid = false;
+    }
+    
+    // Check byte limit
+    if (bounds.max_result_bytes > 0 && result_bytes > bounds.max_result_bytes) {
+        spdlog::error("QueryOptimizer::validateResultBounds: Byte count overflow detected! "
+                      "scope_id={}, max_bytes={}, actual_bytes={}",
+                      bounds.scope_id, bounds.max_result_bytes, result_bytes);
+        valid = false;
+    }
+    
+    if (metrics_collector_) {
+        if (!valid) {
+            const bool rows_exceeded = bounds.max_result_rows > 0 && result_rows > bounds.max_result_rows;
+            const bool bytes_exceeded = bounds.max_result_bytes > 0 && result_bytes > bounds.max_result_bytes;
+            const std::string violation_type = (rows_exceeded && bytes_exceeded) ? "rows_and_bytes"
+                                             : rows_exceeded                     ? "rows"
+                                                                                 : "bytes";
+            metrics_collector_->addCounter("query.optimizer.scope_violation", 1,
+                {{"scope_id", bounds.scope_id},
+                 {"violation_type", violation_type}});
+        } else {
+            metrics_collector_->addCounter("query.optimizer.scope_validated", 1,
+                {{"scope_id", bounds.scope_id}});
+        }
+    }
+    
+    return valid;
+}
+
+bool QueryOptimizer::validateFederationScopeIsolation(const Plan& plan,
+                                                       const std::string& remote_scope_id) const noexcept {
+    // If federation isolation not required, validation passes
+    if (!plan.scope_bounds.enforce_federation_isolation) {
+        return true;
+    }
+    
+    // If scope IDs don't match, isolation violation
+    if (plan.scope_bounds.scope_id != remote_scope_id) {
+        spdlog::error("QueryOptimizer::validateFederationScopeIsolation: Scope mismatch detected! "
+                      "local_scope={}, remote_scope={}",
+                      plan.scope_bounds.scope_id, remote_scope_id);
+        
+        if (metrics_collector_) {
+            metrics_collector_->addCounter("query.optimizer.federation_scope_violation", 1,
+                {{"local_scope", plan.scope_bounds.scope_id},
+                 {"remote_scope", remote_scope_id}});
+        }
+        return false;
+    }
+    
+    if (metrics_collector_) {
+        metrics_collector_->addCounter("query.optimizer.federation_scope_validated", 1,
+            {{"scope_id", plan.scope_bounds.scope_id}});
+    }
+    
+    return true;
+}
+
 } // namespace query
 } // namespace themis

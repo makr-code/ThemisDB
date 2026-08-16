@@ -20,6 +20,7 @@
 #include <filesystem>
 #include <cstdint>
 #include <array>
+#include <mutex>
 
 #if defined(THEMIS_HAS_ONNX)
 #  if __has_include(<onnxruntime/onnxruntime_cxx_api.h>)
@@ -73,6 +74,8 @@ public:
     std::unique_ptr<Ort::Session> passage_session;
 #endif
     
+    // Thread safety for shared state access
+    mutable std::mutex state_mutex;
     /**
      * @brief Normalize embedding vector to unit L2 norm
      */
@@ -286,8 +289,13 @@ void DPRVectorizer::initialize() {
                         config_.query_model_path);
             throw std::runtime_error("Failed to load query encoder model");
         }
-        impl_->query_model_info = query_model;
-        impl_->query_encoder_loaded = true;
+        
+        // Acquire lock before updating shared state
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            impl_->query_model_info = query_model;
+            impl_->query_encoder_loaded = true;
+        }
         THEMIS_INFO("Loaded and verified query encoder: {} (size: {} bytes, checksum: verified)", 
                     config_.query_model_path, query_model->model_size_bytes);
         
@@ -298,17 +306,26 @@ void DPRVectorizer::initialize() {
                         config_.passage_model_path);
             throw std::runtime_error("Failed to load passage encoder model");
         }
-        impl_->passage_model_info = passage_model;
-        impl_->passage_encoder_loaded = true;
+        
+        // Acquire lock before updating shared state
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            impl_->passage_model_info = passage_model;
+            impl_->passage_encoder_loaded = true;
+        }
         THEMIS_INFO("Loaded and verified passage encoder: {} (size: {} bytes, checksum: verified)", 
                     config_.passage_model_path, passage_model->model_size_bytes);
         
-        // Initialize tokenizers
-        impl_->query_tokenizer = std::make_unique<themis::llm::lora::LlamaTokenizer>(config_.query_model_path);
-        impl_->passage_tokenizer = std::make_unique<themis::llm::lora::LlamaTokenizer>(config_.passage_model_path);
+        // Initialize tokenizers (protected by lock)
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            impl_->query_tokenizer = std::make_unique<themis::llm::lora::LlamaTokenizer>(config_.query_model_path);
+            impl_->passage_tokenizer = std::make_unique<themis::llm::lora::LlamaTokenizer>(config_.passage_model_path);
+        }
 
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
         try {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
             impl_->ort_env = std::make_unique<Ort::Env>(ORT_LOGGING_LEVEL_WARNING, "themis_dpr");
             impl_->ort_session_options = std::make_unique<Ort::SessionOptions>();
             impl_->ort_session_options->SetIntraOpNumThreads(1);
@@ -331,8 +348,11 @@ void DPRVectorizer::initialize() {
 
             THEMIS_INFO("DPRVectorizer ONNX sessions created successfully");
         } catch (const std::exception& e) {
-            impl_->query_session.reset();
-            impl_->passage_session.reset();
+            {
+                std::lock_guard<std::mutex> lock(impl_->state_mutex);
+                impl_->query_session.reset();
+                impl_->passage_session.reset();
+            }
             THEMIS_WARN("DPRVectorizer ONNX session init failed (fallback active): {}", e.what());
         }
 #else
@@ -344,8 +364,11 @@ void DPRVectorizer::initialize() {
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("DPRVectorizer initialization failed: {}", e.what());
-        impl_->query_encoder_loaded = false;
-        impl_->passage_encoder_loaded = false;
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            impl_->query_encoder_loaded = false;
+            impl_->passage_encoder_loaded = false;
+        }
         throw;
     }
 
@@ -355,6 +378,7 @@ void DPRVectorizer::initialize() {
 // ─────────────────────────────────────────────────────────────────────
 
 bool DPRVectorizer::isInitialized() const {
+    std::lock_guard<std::mutex> lock(impl_->state_mutex);
     return initialized_ && impl_->query_encoder_loaded && impl_->passage_encoder_loaded;
 }
 
@@ -382,8 +406,12 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
 
     // Phase 2: Real query encoding
     try {
-        // Tokenize query
-        auto tokens = impl_->tokenizeText(query, impl_->query_tokenizer.get());
+        // Tokenize query (with synchronization to protect tokenizer access)
+        std::vector<int> tokens;
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            tokens = impl_->tokenizeText(query, impl_->query_tokenizer.get());
+        }
         
         std::vector<float> embedding;
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
@@ -431,8 +459,12 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
 
     // Phase 2: Real passage encoding
     try {
-        // Tokenize passage
-        auto tokens = impl_->tokenizeText(passage, impl_->passage_tokenizer.get());
+        // Tokenize passage (with synchronization to protect tokenizer access)
+        std::vector<int> tokens;
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            tokens = impl_->tokenizeText(passage, impl_->passage_tokenizer.get());
+        }
         
         std::vector<float> embedding;
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
@@ -509,11 +541,14 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
             
             size_t batch_end = std::min(batch_start + config_.batch_size, passages.size());
             
-            // Tokenize batch
+            // Tokenize batch (with synchronization to protect tokenizer access)
             std::vector<std::vector<int>> batch_tokens;
-            for (size_t i = batch_start; i < batch_end; ++i) {
-                auto tokens = impl_->tokenizeText(passages[i], impl_->passage_tokenizer.get());
-                batch_tokens.push_back(tokens);
+            {
+                std::lock_guard<std::mutex> lock(impl_->state_mutex);
+                for (size_t i = batch_start; i < batch_end; ++i) {
+                    auto tokens = impl_->tokenizeText(passages[i], impl_->passage_tokenizer.get());
+                    batch_tokens.push_back(tokens);
+                }
             }
             
             // Encode batch

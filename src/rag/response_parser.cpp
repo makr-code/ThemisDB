@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <cctype>
 #include <sstream>
+#include <limits>
 
 // simdjson fast-path for the JSON extraction hot-path
 #if __has_include(<simdjson.h>)
@@ -211,7 +212,8 @@ bool ResponseParser::validate(const ParsedResponse& parsed) {
 
 double ResponseParser::normalizeScore(double score, double min_range, double max_range) {
     // Normalize to 0-1 range
-    if (max_range == min_range) {
+    constexpr double EPSILON = std::numeric_limits<double>::epsilon();
+    if (std::abs(max_range - min_range) < EPSILON) {
         return 0.5;
     }
     
@@ -240,8 +242,8 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
             }
             
             return score;
-        } catch (...) {
-            THEMIS_DEBUG("Failed to parse score from pattern 1");
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("Failed to parse score from pattern 1: {}", e.what());
         }
     }
     
@@ -251,13 +253,14 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
             double numerator = std::stod(match[1].str());
             double denominator = std::stod(match[2].str());
             
-            if (denominator != 0) {
+            constexpr double EPSILON = std::numeric_limits<double>::epsilon();
+            if (std::abs(denominator) > EPSILON) {
                 // Normalize to 5-point scale
                 double score = (numerator / denominator) * 5.0;
                 return score;
             }
-        } catch (...) {
-            THEMIS_DEBUG("Failed to parse score from pattern 2");
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("Failed to parse score from pattern 2: {}", e.what());
         }
     }
     
@@ -266,8 +269,8 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
     if (std::regex_match(text, match, pattern3)) {
         try {
             return std::stod(match[1].str());
-        } catch (...) {
-            THEMIS_DEBUG("Failed to parse score from pattern 3");
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("Failed to parse score from pattern 3: {}", e.what());
         }
     }
     

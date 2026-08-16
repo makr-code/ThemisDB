@@ -138,6 +138,13 @@ std::string LLMIntegration::generate(
             req.model_id    = "default";
             auto response = llm::LLMPluginManager::instance().generate(req);
             THEMIS_DEBUG("LLM generation via LLMPluginManager: {} tokens", response.tokens_generated);
+             
+            // Validate response before returning
+            if (response.text.empty()) {
+                THEMIS_WARN("LLMIntegration: Empty response from LLM plugin, using fallback");
+                return buildFallbackResponse(prompt);
+            }
+             
             return response.text;
         } catch (const std::exception& e) {
             THEMIS_WARN("LLMIntegration fallback activated (plugin unavailable): {}", e.what());

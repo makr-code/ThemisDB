@@ -79,31 +79,35 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
     if (!hasType(node, "or")) {
         return std::nullopt;
     }
-    auto left_it  = node.find("left");
-    auto right_it = node.find("right");
-    if (left_it == node.end() || right_it == node.end()) {
+    // Prefer direct existence checks to avoid iterator invalidation issues
+    if (!node.contains("left") || !node.contains("right")) {
         return std::nullopt;
     }
 
-    const auto& left  = *left_it;
-    const auto& right = *right_it;
+    const auto& left  = node.at("left");
+    const auto& right = node.at("right");
 
     // Recursively collect from left (which might itself be an OR chain)
     OrChain result;
 
     auto processEq = [&](const nlohmann::json& eq) -> bool {
         if (!hasType(eq, "eq")) return false;
-        auto f = eq.find("field");
-        auto v = eq.find("value");
-        if (f == eq.end() || v == eq.end()) return false;
-        const std::string field = f->get<std::string>();
-        if (result.field.empty()) {
-            result.field = field;
-        } else if (result.field != field) {
-            return false; // different fields – can't merge
+        // Use contains() and at() to avoid iterator invalidation
+        if (!eq.contains("field") || !eq.contains("value")) return false;
+        
+        try {
+            const std::string field = eq.at("field").get<std::string>();
+            if (result.field.empty()) {
+                result.field = field;
+            } else if (result.field != field) {
+                return false; // different fields – can't merge
+            }
+            // Safe copy of value from JSON object
+            result.values.push_back(eq.at("value"));
+            return true;
+        } catch (const nlohmann::json::exception&) {
+            return false;
         }
-        result.values.push_back(*v);
-        return true;
     };
 
     // Left side: accept either an eq node or a nested OR
@@ -113,8 +117,12 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
         auto sub = collectOrChain(left);
         if (!sub) return std::nullopt;
         result.field = sub->field;
-        result.values.insert(result.values.end(),
-                             sub->values.begin(), sub->values.end());
+        // Reserve capacity to avoid invalidation during resize
+        result.values.reserve(result.values.size() + sub->values.size());
+        // Move values instead of copying to be more efficient
+        for (auto& val : sub->values) {
+            result.values.push_back(std::move(val));
+        }
     } else {
         return std::nullopt;
     }
