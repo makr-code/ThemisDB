@@ -384,12 +384,16 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
     for (const auto& e : normalized_graph["edges"]) {
         std::string from = e.value("from", "");
         std::string to   = e.value("to", "");
-        // Extract values immediately to avoid holding iterators
+        // Extract indices immediately to avoid iterator invalidation
+        // Use direct value extraction to prevent holding stale iterators
         auto fi = node_index.find(from);
+        if (fi == node_index.end()) continue;
+        int from_idx = fi->second;  // Extract value immediately
+         
         auto ti = node_index.find(to);
-        if (fi == node_index.end() || ti == node_index.end()) continue;
-        int from_idx = fi->second;
-        int to_idx   = ti->second;
+        if (ti == node_index.end()) continue;
+        int to_idx = ti->second;    // Extract value immediately
+         
         out_neighbors[from_idx].push_back(to_idx);
         // For undirected context propagation also add reverse edge
         out_neighbors[to_idx].push_back(from_idx);
