@@ -13,6 +13,7 @@
 #include "index/graph_index.h"
 #include "index/secondary_index.h"
 #include "index/vector_index.h"
+#include "index/connection_guard.h"  // Phase 3 A-6: Connection leak prevention
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/expected.h"
