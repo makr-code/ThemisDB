@@ -783,8 +783,10 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
         prompt.size(),
         max_tokens);
 
-    // Collect SSE events from LLM streaming
+    // PHASE2-OPTIMIZATION: missing_vector_reserve — pre-allocate for streaming response body
+    // SSE responses can accumulate many events; reserve space to avoid repeated reallocations
     std::string sse_body;
+    sse_body.reserve(64 * 1024);  // Reserve 64 KB for typical SSE response
     sse_body += "retry: 3000\n\n";
 
     try {
