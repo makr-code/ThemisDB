@@ -209,38 +209,59 @@ void ServiceMeshIntegration::acceptLoop() {
     // The mesh health probe server should not block indefinitely on accept().
     // Use 30-second deadline as this is for occasional Kubernetes health probes.
     const int timeout_ms = 30000;
-    
+    const auto poll_interval = std::chrono::milliseconds(10);
+
+    boost::system::error_code ec;
+    acceptor_->non_blocking(true, ec);
+    if (ec) {
+        THEMIS_WARN("[ServiceMesh] Failed to enable non-blocking accept: {}",
+                    ec.message());
+        return;
+    }
+
     while (running_.load(std::memory_order_acquire)) {
-        boost::system::error_code ec;
         tcp::socket socket(*io_ctx_);
-        
-        // Set up deadline timer for the accept operation
-        auto deadline = std::chrono::steady_clock::now() + 
-                       std::chrono::milliseconds(timeout_ms);
-        
-        // Use synchronous accept with socket timeout option instead of full async refactor.
-        // This is pragmatic for a health probe server that's only used occasionally.
-        // Set socket receive timeout via SO_RCVTIMEO (POSIX) / SO_RCVTIMEO (Windows)
-        boost::asio::socket_base::receive_timeout opt(timeout_ms);
-        acceptor_->set_option(opt);
-        
-        acceptor_->accept(socket, ec);
-        if (ec) {
-            // boost::asio::error::operation_aborted is expected on stop().
-            // Also expect boost::asio::error::timed_out if accept times out.
-            if (ec == boost::asio::error::operation_aborted ||
-                ec == boost::asio::error::timed_out ||
-                ec == boost::asio::error::try_again) {
-                // Timeout or explicit stop signal: exit gracefully
-                if (ec != boost::asio::error::operation_aborted) {
-                    THEMIS_DEBUG("[ServiceMesh] Accept timeout after {} ms", timeout_ms);
-                }
+
+        const auto deadline = std::chrono::steady_clock::now() +
+                              std::chrono::milliseconds(timeout_ms);
+        bool accepted = false;
+
+        while (running_.load(std::memory_order_acquire)) {
+            ec.clear();
+            acceptor_->accept(socket, ec);
+            if (!ec) {
+                accepted = true;
                 break;
             }
-            // Log unexpected errors but continue
+
+            if (ec == boost::asio::error::operation_aborted) {
+                break;
+            }
+
+            if (ec == boost::asio::error::would_block ||
+                ec == boost::asio::error::try_again) {
+                if (std::chrono::steady_clock::now() >= deadline) {
+                    THEMIS_DEBUG("[ServiceMesh] Accept timeout after {} ms",
+                                 timeout_ms);
+                    break;
+                }
+                std::this_thread::sleep_for(poll_interval);
+                continue;
+            }
+
             THEMIS_WARN("[ServiceMesh] Accept error: {}", ec.message());
             break;
         }
+
+        if (!running_.load(std::memory_order_acquire) ||
+            ec == boost::asio::error::operation_aborted) {
+            break;
+        }
+
+        if (!accepted) {
+            continue;
+        }
+
         serveProbe(std::move(socket));
     }
 }

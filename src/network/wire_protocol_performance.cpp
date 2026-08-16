@@ -229,7 +229,7 @@ PayloadBufferPool::Handle PayloadBufferPool::acquire() {
     {
         // R16: Add timeout enforcement with try_lock_for to prevent indefinite
         // blocking on high contention. Uses 100µs timeout for fast path.
-        std::unique_lock<std::timed_mutex> lock(pool_mutex_);
+        std::unique_lock<std::timed_mutex> lock(pool_mutex_, std::defer_lock);
         if (!lock.try_lock_for(std::chrono::microseconds(100))) {
             // Timeout on lock acquisition: fall through to heap allocation
             // This is acceptable for low-contention fast path

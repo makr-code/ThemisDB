@@ -16,6 +16,7 @@
 
 #include <cassert>
 #include <cerrno>
+#include <chrono>
 #include <fstream>
 #include <stdexcept>
 #include <system_error>
@@ -74,15 +75,48 @@ inline bool waitForSocketWritable(int fd, int timeout_ms) noexcept {
     pfd.fd = fd;
     pfd.events = POLLOUT;
     pfd.revents = 0;
-    
-    int result = ::poll(&pfd, 1, timeout_ms);
-    if (result <= 0) {
+
+    const auto deadline = std::chrono::steady_clock::now() +
+                          std::chrono::milliseconds(timeout_ms);
+
+    while (true) {
+        const auto now = std::chrono::steady_clock::now();
+        if (now >= deadline) {
+            errno = ETIMEDOUT;
+            return false;
+        }
+
+        const auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(
+            deadline - now);
+        const int poll_timeout_ms = static_cast<int>(remaining.count());
+
+        const int result = ::poll(&pfd, 1, poll_timeout_ms);
+        if (result < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            return false;
+        }
         if (result == 0) {
             errno = ETIMEDOUT;
+            return false;
         }
+
+        if ((pfd.revents & POLLNVAL) != 0) {
+            errno = EBADF;
+            return false;
+        }
+        if ((pfd.revents & (POLLERR | POLLHUP)) != 0) {
+            errno = EPIPE;
+            return false;
+        }
+        if ((pfd.revents & POLLOUT) != 0) {
+            return true;
+        }
+
+        errno = EIO;
         return false;
     }
-    return (pfd.revents & POLLOUT) != 0;
 }
 #endif
 
