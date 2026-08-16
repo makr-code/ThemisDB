@@ -145,10 +145,11 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
 
         // Build directed edges: primary → each replica
         json edges = json::array();
-        const std::string local_id = primary_id_.empty() ? "primary" : primary_id_;
+        // HIGH-GAP FIX: unnecessary_copy — avoid string copy, use view where possible
+        const std::string_view local_id = primary_id_.empty() ? std::string_view("primary") : std::string_view(primary_id_);
         for (const auto& r : replicas) {
             edges.push_back({
-                {"from", local_id},
+                {"from", std::string(local_id)},
                 {"to",   r.replica_id},
                 {"type", "WAL_STREAM"}
             });
@@ -230,11 +231,12 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleUiGet(
 {
     auto span = Tracer::startSpan("handleUiGet");
     std::string api_base;
-    const std::string target{req.target()};
-    const std::string marker = "/ui/replication/topology";
+    // HIGH-GAP FIX: unnecessary_copy — use string_view for const values
+    std::string_view target{req.target()};
+    constexpr std::string_view marker = "/ui/replication/topology";
     const auto pos = target.find(marker);
     if (pos != std::string::npos) {
-        api_base = target.substr(0, pos);
+        api_base = std::string(target.substr(0, pos));
         if (!isValidUiApiBasePrefix(api_base)) {
             return makeErrorResponse(http::status::bad_request,
                                      "Invalid UI API base prefix", req);
