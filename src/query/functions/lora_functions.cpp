@@ -340,8 +340,8 @@ nlohmann::json LoraSimilarFunction::execute(
         }
         
         // Get source adapter info
-        auto adapter_info = orchestrator->getAdapter(adapter_id);
-        if (!adapter_info) {
+        auto adapter_info_opt = orchestrator->getAdapter(adapter_id);
+        if (!adapter_info_opt) {
             json error = json::array();
             return error;
         }
@@ -560,8 +560,8 @@ nlohmann::json LoraStatsFunction::execute(
         }
         
         // Get adapter info
-        auto adapter_info = orchestrator->getAdapter(adapter_id);
-        if (!adapter_info) {
+        auto adapter_info_opt = orchestrator->getAdapter(adapter_id);
+        if (!adapter_info_opt) {
             json error;
             error["error"] = "Adapter not found";
             return error;

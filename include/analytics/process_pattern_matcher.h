@@ -253,6 +253,15 @@ public:
         const ProcessPattern& pattern,
         double threshold = 0.8
     );
+
+    /**
+     * @brief Match an activity sequence in an event log.
+     */
+    Status matchActivityPattern(
+        const EventLog& log,
+        const std::vector<std::string>& pattern,
+        std::vector<int>& out_matching_trace_indices
+    );
     
     // ===== Batch Operations =====
     
