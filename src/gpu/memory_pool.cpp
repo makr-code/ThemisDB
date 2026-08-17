@@ -25,6 +25,9 @@
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
+#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
 #endif
@@ -292,11 +295,14 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
                     } else {
                         auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
                         auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
-                        if (cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice) != cudaSuccess) {
+                        
+                        cudaError_t cuda_err = cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice);
+                        if (cuda_err != cudaSuccess) {
+                            GPUDispatchErrorCode dispatch_err = checkCudaError(cuda_err, "cudaMemcpy (defragment)", -1);
                             ++result.data_move_errors;
                             if (logger) {
                                 logger->error("GPUMemoryPool::defragment: cudaMemcpy failed for slab at offset {} "
-                                              "to new offset {}", s.offset, new_offset);
+                                              "to new offset {}: {}", s.offset, new_offset, cudaGetErrorString(cuda_err));
                             }
                         }
                     }
@@ -315,11 +321,14 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
                     } else {
                         auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
                         auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
-                        if (hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice) != hipSuccess) {
+                        
+                        hipError_t hip_err = hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice);
+                        if (hip_err != hipSuccess) {
+                            GPUDispatchErrorCode dispatch_err = checkHipError(hip_err, "hipMemcpy (defragment)", -1);
                             ++result.data_move_errors;
                             if (logger) {
                                 logger->error("GPUMemoryPool::defragment: hipMemcpy failed for slab at offset {} "
-                                              "to new offset {}", s.offset, new_offset);
+                                              "to new offset {}: {}", s.offset, new_offset, hipGetErrorString(hip_err));
                             }
                         }
                     }

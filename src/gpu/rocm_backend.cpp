@@ -30,6 +30,9 @@
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
+#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+
 #ifdef THEMIS_ENABLE_HIP
 #  include <hip/hip_runtime.h>
 #endif
@@ -250,6 +253,7 @@ ROCmBackend::AllocationRecord ROCmBackend::allocate(size_t size_bytes,
     void* ptr = nullptr;
     hipError_t err = hipMalloc(&ptr, size_bytes);
     if (err != hipSuccess || ptr == nullptr) {
+        GPUDispatchErrorCode dispatch_err = checkHipError(err, "hipMalloc", -1);
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("ROCmBackend::allocate: hipMalloc({} bytes, tag='{}') failed: error={}", 
@@ -278,6 +282,7 @@ ROCmBackend::Result ROCmBackend::deallocate(AllocationRecord& rec) {
     auto* ptr = reinterpret_cast<void*>(rec.device_ptr);
     hipError_t err = hipFree(ptr);
     if (err != hipSuccess) {
+        GPUDispatchErrorCode dispatch_err = checkHipError(err, "hipFree", -1);
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("ROCmBackend::deallocate: hipFree(tag='{}') failed: error={}", 

@@ -22,6 +22,7 @@
 
 #include "themis/gpu/unified_memory.h"
 #include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+#include "themis/gpu/gpu_cuda_error_hardening.h"
 
 #include <algorithm>
 #include <cstdlib>
@@ -109,11 +110,15 @@ void *GPUUnifiedMemoryAllocator::allocate(size_t bytes, const std::string &tag, 
     void *ptr = nullptr;
 
 #ifdef THEMIS_ENABLE_CUDA
-    if (cudaMallocManaged(&ptr, bytes, cudaMemAttachGlobal) != cudaSuccess) {
+    cudaError_t cuda_err = cudaMallocManaged(&ptr, bytes, cudaMemAttachGlobal);
+    if (cuda_err != cudaSuccess) {
+        GPUDispatchErrorCode dispatch_err = checkCudaError(cuda_err, "cudaMallocManaged", -1);
         ptr = nullptr;
     }
 #elif defined(THEMIS_ENABLE_HIP)
-    if (hipMallocManaged(&ptr, bytes, hipMemAttachGlobal) != hipSuccess) {
+    hipError_t hip_err = hipMallocManaged(&ptr, bytes, hipMemAttachGlobal);
+    if (hip_err != hipSuccess) {
+        GPUDispatchErrorCode dispatch_err = checkHipError(hip_err, "hipMallocManaged", -1);
         ptr = nullptr;
     }
 #else
@@ -207,9 +212,19 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, [[maybe_
     ++prefetch_calls_;
 
 #ifdef THEMIS_ENABLE_CUDA
-    return cudaMemPrefetchAsync(ptr, bytes, device_id, nullptr) == cudaSuccess;
+    cudaError_t cuda_err = cudaMemPrefetchAsync(ptr, bytes, device_id, nullptr);
+    if (cuda_err != cudaSuccess) {
+        checkCudaError(cuda_err, "cudaMemPrefetchAsync", device_id);
+        return false;
+    }
+    return true;
 #elif defined(THEMIS_ENABLE_HIP)
-    return hipMemPrefetchAsync(ptr, bytes, device_id, nullptr) == hipSuccess;
+    hipError_t hip_err = hipMemPrefetchAsync(ptr, bytes, device_id, nullptr);
+    if (hip_err != hipSuccess) {
+        checkHipError(hip_err, "hipMemPrefetchAsync", device_id);
+        return false;
+    }
+    return true;
 #else
     static_cast<void>(device_id);
     return true;
@@ -252,7 +267,13 @@ bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, [[maybe_un
         default:
             return false;
     }
-    return cudaMemAdvise(ptr, bytes, cuda_advice, device_id) == cudaSuccess;
+    
+    cudaError_t cuda_err = cudaMemAdvise(ptr, bytes, cuda_advice, device_id);
+    if (cuda_err != cudaSuccess) {
+        checkCudaError(cuda_err, "cudaMemAdvise", device_id);
+        return false;
+    }
+    return true;
 #elif defined(THEMIS_ENABLE_HIP)
     hipMemoryAdvise hip_advice;
     switch (advice) {
@@ -277,7 +298,13 @@ bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, [[maybe_un
         default:
             return false;
     }
-    return hipMemAdvise(ptr, bytes, hip_advice, device_id) == hipSuccess;
+    
+    hipError_t hip_err = hipMemAdvise(ptr, bytes, hip_advice, device_id);
+    if (hip_err != hipSuccess) {
+        checkHipError(hip_err, "hipMemAdvise", device_id);
+        return false;
+    }
+    return true;
 #else
     static_cast<void>(advice);
     static_cast<void>(device_id);

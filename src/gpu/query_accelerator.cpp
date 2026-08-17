@@ -12,6 +12,7 @@
 
 #include "themis/gpu/query_accelerator.h"
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 
 #include <algorithm>
 #include <cstring>
@@ -23,6 +24,8 @@
 #include "themis/gpu/gpu_error.h"
 #include "themis/gpu/gpu_memory.h"
 #include "themis/gpu/gpu_timeout.h"
+#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -315,13 +318,30 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
             } else {
                 result.rows.clear();
             }
-        } catch ([[maybe_unused]] const std::exception &ex) {
-            // Thrust system_error or std::runtime_error — fall through.
+        } catch (const std::bad_alloc &ex) {
+            // Memory allocation failure during GPU operation
             result.rows.clear();
             gpu_done = false;
-        } catch (...) {
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("scan GPU path: memory allocation failure: {}", ex.what());
+            }
+        } catch (const std::runtime_error &ex) {
+            // Thrust system_error or runtime error — fall through to CPU
             result.rows.clear();
             gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->debug("scan GPU path: runtime error: {}", ex.what());
+            }
+        } catch (const std::exception &ex) {
+            // Other standard exceptions
+            result.rows.clear();
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("scan GPU path: unexpected exception: {}", ex.what());
+            }
         }
         if (gpu_done) {
             uint64_t bytes = 0;
@@ -424,11 +444,27 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
                 rows     = std::move(sorted_rows);
                 gpu_done = true;
             }
-        } catch ([[maybe_unused]] const std::exception &ex) {
-            // Thrust system_error or std::runtime_error — fall through to CPU.
+        } catch (const std::bad_alloc &ex) {
+            // Memory allocation failure during GPU operation
             gpu_done = false;
-        } catch (...) {
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("sort GPU path: memory allocation failure: {}", ex.what());
+            }
+        } catch (const std::runtime_error &ex) {
+            // Thrust system_error or runtime error — fall through to CPU
             gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->debug("sort GPU path: runtime error: {}", ex.what());
+            }
+        } catch (const std::exception &ex) {
+            // Other standard exceptions
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("sort GPU path: unexpected exception: {}", ex.what());
+            }
         }
         if (gpu_done) {
             result.rows    = std::move(rows);
@@ -538,11 +574,27 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
                 result.value = gpu_result;
                 gpu_done     = true;
             }
-        } catch ([[maybe_unused]] const std::exception &ex) {
-            // Thrust system_error or std::runtime_error — fall through to CPU.
+        } catch (const std::bad_alloc &ex) {
+            // Memory allocation failure during GPU operation
             gpu_done = false;
-        } catch (...) {
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("aggregate GPU path: memory allocation failure: {}", ex.what());
+            }
+        } catch (const std::runtime_error &ex) {
+            // Thrust system_error or runtime error — fall through to CPU
             gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->debug("aggregate GPU path: runtime error: {}", ex.what());
+            }
+        } catch (const std::exception &ex) {
+            // Other standard exceptions
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("aggregate GPU path: unexpected exception: {}", ex.what());
+            }
         }
         if (gpu_done) {
             uint64_t bytes = 0;
@@ -701,13 +753,31 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
                 }
             }
             gpu_done = !kernel_guard.checkTimeoutDeadline();
-        } catch ([[maybe_unused]] const std::exception &ex) {
-            // Thrust system_error or std::runtime_error — fall through to CPU.
+        } catch (const std::bad_alloc &ex) {
+            // Memory allocation failure during GPU operation
             result.pairs.clear();
             gpu_done = false;
-        } catch (...) {
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("join GPU path: memory allocation failure: {}", ex.what());
+            }
+        } catch (const std::runtime_error &ex) {
+            // Thrust system_error or runtime error — fall through to CPU
             result.pairs.clear();
             gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->debug("join GPU path: runtime error: {}", ex.what());
+            }
+        } catch (const std::exception &ex) {
+            // Other standard exceptions
+            result.pairs.clear();
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("join GPU path: unexpected exception: {}", ex.what());
+            }
+        }
         }
         if (gpu_done) {
             uint64_t bytes = 0;
@@ -917,11 +987,27 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                     }
                 }
             }
-        } catch ([[maybe_unused]] const std::exception &ex) {
-            // cuBLAS, Thrust, or std::runtime_error — fall through to CPU.
+        } catch (const std::bad_alloc &ex) {
+            // Memory allocation failure during GPU operation
             gpu_done = false;
-        } catch (...) {
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("dotProduct GPU path (CUDA): memory allocation failure: {}", ex.what());
+            }
+        } catch (const std::runtime_error &ex) {
+            // cuBLAS or runtime error — fall through to CPU
             gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->debug("dotProduct GPU path (CUDA): runtime error: {}", ex.what());
+            }
+        } catch (const std::exception &ex) {
+            // Other standard exceptions
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("dotProduct GPU path (CUDA): unexpected exception: {}", ex.what());
+            }
         }
         // blas (CublasHandle) destroyed here automatically.
 
@@ -1030,11 +1116,27 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                     gpu_done = false;
                 }
             }
-        } catch ([[maybe_unused]] const std::exception &ex) {
-            // hipBLAS, Thrust, or std::runtime_error — fall through to CPU.
+        } catch (const std::bad_alloc &ex) {
+            // Memory allocation failure during GPU operation
             gpu_done = false;
-        } catch (...) {
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("dotProduct GPU path (HIP): memory allocation failure: {}", ex.what());
+            }
+        } catch (const std::runtime_error &ex) {
+            // hipBLAS or runtime error — fall through to CPU
             gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->debug("dotProduct GPU path (HIP): runtime error: {}", ex.what());
+            }
+        } catch (const std::exception &ex) {
+            // Other standard exceptions
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("dotProduct GPU path (HIP): unexpected exception: {}", ex.what());
+            }
         }
         // blas (HipblasHandle) destroyed here automatically.
 

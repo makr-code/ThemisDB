@@ -83,6 +83,18 @@ std::string GPUAdminAPI::getStatsJson() const {
           << "\"edition_info\":\"" << jsonEscape(info) << "\""
           << "}";
         return j.str();
+    } catch (const std::bad_alloc &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getStatsJson() memory allocation failure");
+        }
+        return "{\"error\":\"stats unavailable\",\"details\":\"memory allocation failure\"}";
+    } catch (const std::runtime_error &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getStatsJson() runtime error: {}", e.what());
+        }
+        return "{\"error\":\"stats unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}";
     } catch (const std::exception &e) {
         auto logger = spdlog::get("gpu");
         if (logger) {
@@ -90,12 +102,6 @@ std::string GPUAdminAPI::getStatsJson() const {
         }
         // Return error JSON on exception
         return "{\"error\":\"stats unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}";
-    } catch (...) {
-        auto logger = spdlog::get("gpu");
-        if (logger) {
-            logger->error("GPUAdminAPI::getStatsJson() threw unknown exception");
-        }
-        return "{\"error\":\"stats unavailable\",\"details\":\"unknown exception\"}";
     }
 }
 
@@ -126,6 +132,18 @@ std::string GPUAdminAPI::getTenantsJson() const {
         }
         j << "]";
         return j.str();
+    } catch (const std::bad_alloc &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getTenantsJson() memory allocation failure");
+        }
+        return "[{\"error\":\"tenants unavailable\",\"details\":\"memory allocation failure\"}]";
+    } catch (const std::runtime_error &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getTenantsJson() runtime error: {}", e.what());
+        }
+        return "[{\"error\":\"tenants unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}]";
     } catch (const std::exception &e) {
         auto logger = spdlog::get("gpu");
         if (logger) {
@@ -133,12 +151,6 @@ std::string GPUAdminAPI::getTenantsJson() const {
         }
         // Return error JSON on exception
         return "[{\"error\":\"tenants unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}]";
-    } catch (...) {
-        auto logger = spdlog::get("gpu");
-        if (logger) {
-            logger->error("GPUAdminAPI::getTenantsJson() threw unknown exception");
-        }
-        return "[{\"error\":\"tenants unavailable\",\"details\":\"unknown exception\"}]";
     }
 }
 
@@ -174,6 +186,18 @@ std::string GPUAdminAPI::getDevicesJson() const {
         }
         j << "]";
         return j.str();
+    } catch (const std::bad_alloc &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getDevicesJson() memory allocation failure");
+        }
+        return "[{\"error\":\"devices unavailable\",\"details\":\"memory allocation failure\"}]";
+    } catch (const std::runtime_error &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getDevicesJson() runtime error: {}", e.what());
+        }
+        return "[{\"error\":\"devices unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}]";
     } catch (const std::exception &e) {
         auto logger = spdlog::get("gpu");
         if (logger) {
@@ -181,12 +205,6 @@ std::string GPUAdminAPI::getDevicesJson() const {
         }
         // Return error JSON on exception
         return "[{\"error\":\"devices unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}]";
-    } catch (...) {
-        auto logger = spdlog::get("gpu");
-        if (logger) {
-            logger->error("GPUAdminAPI::getDevicesJson() threw unknown exception");
-        }
-        return "[{\"error\":\"devices unavailable\",\"details\":\"unknown exception\"}]";
     }
 }
 
@@ -214,6 +232,18 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
           << "\"bytes\":" << bytes << ","
           << "\"current_allocated_bytes\":" << stats.allocated_bytes << "}";
         return j.str();
+    } catch (const std::bad_alloc &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::simulateJson() memory allocation failure");
+        }
+        return "{\"error\":\"simulation failed\",\"details\":\"memory allocation failure\"}";
+    } catch (const std::runtime_error &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::simulateJson() runtime error: {}", e.what());
+        }
+        return "{\"error\":\"simulation failed\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}";
     } catch (const std::exception &e) {
         auto logger = spdlog::get("gpu");
         if (logger) {
@@ -221,12 +251,6 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
         }
         // Return error JSON on exception
         return "{\"error\":\"simulation failed\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}";
-    } catch (...) {
-        auto logger = spdlog::get("gpu");
-        if (logger) {
-            logger->error("GPUAdminAPI::simulateJson() threw unknown exception");
-        }
-        return "{\"error\":\"simulation failed\",\"details\":\"unknown exception\"}";
     }
 }
 
@@ -237,18 +261,24 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
 std::string GPUAdminAPI::getGeoBackendStatsJson() const {
     try {
         return ::themis::geo::getGpuSpatialBackendStatsJson();
+    } catch (const std::bad_alloc &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getGeoBackendStatsJson() memory allocation failure");
+        }
+        return "{\"error\":\"geo stats unavailable\",\"details\":\"memory allocation failure\"}";
+    } catch (const std::runtime_error &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getGeoBackendStatsJson() runtime error: {}", e.what());
+        }
+        return "{\"error\":\"geo stats unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}";
     } catch (const std::exception &e) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::getGeoBackendStatsJson() threw exception: {}", e.what());
         }
         return "{\"error\":\"geo stats unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}";
-    } catch (...) {
-        auto logger = spdlog::get("gpu");
-        if (logger) {
-            logger->error("GPUAdminAPI::getGeoBackendStatsJson() threw unknown exception");
-        }
-        return "{\"error\":\"geo stats unavailable\",\"details\":\"unknown exception\"}";
     }
 }
 
@@ -284,18 +314,24 @@ std::string GPUAdminAPI::getMIGInstancesJson() const {
         }
         j << "]";
         return j.str();
+    } catch (const std::bad_alloc &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getMIGInstancesJson() memory allocation failure");
+        }
+        return "[{\"error\":\"MIG instances unavailable\",\"details\":\"memory allocation failure\"}]";
+    } catch (const std::runtime_error &e) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUAdminAPI::getMIGInstancesJson() runtime error: {}", e.what());
+        }
+        return "[{\"error\":\"MIG instances unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}]";
     } catch (const std::exception &e) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::getMIGInstancesJson() threw exception: {}", e.what());
         }
         return "[{\"error\":\"MIG instances unavailable\",\"details\":\"" + jsonEscape(std::string(e.what())) + "\"}]";
-    } catch (...) {
-        auto logger = spdlog::get("gpu");
-        if (logger) {
-            logger->error("GPUAdminAPI::getMIGInstancesJson() threw unknown exception");
-        }
-        return "[{\"error\":\"MIG instances unavailable\",\"details\":\"unknown exception\"}]";
     }
 }
 
