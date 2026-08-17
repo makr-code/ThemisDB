@@ -22,7 +22,7 @@
 namespace fs   = std::filesystem;
 using json     = nlohmann::json;
 
-namespace themis {
+namespace themisdb {
 namespace sharding {
 
 namespace {
@@ -104,7 +104,12 @@ PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool PaxosStatePersistence::open(const std::string& node_id) {
-    std::lock_guard<std::timed_mutex> lock(mutex_);
+    // FIXED: Use timed_lock with try_lock_for to enforce init_timeout
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    if (!lock.try_lock_for(config_.init_timeout)) {
+        THEMIS_ERROR("Failed to acquire state lock within timeout");
+        return false;
+    }
     if (is_open_.load()) return true;
 
     node_state_.node_id = node_id;
@@ -383,4 +388,4 @@ bool PaxosStatePersistence::forceCompact() {
 }
 
 } // namespace sharding
-} // namespace themis
+} // namespace themisdb

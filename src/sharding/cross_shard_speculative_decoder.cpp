@@ -37,9 +37,13 @@ CrossShardSpeculativeDecoder::CrossShardSpeculativeDecoder(
                  config_.max_speculative_tokens);
 }
 
-CrossShardSpeculativeDecoder::~CrossShardSpeculativeDecoder() {
-    shutdown();
-    spdlog::info("CrossShardSpeculativeDecoder destroyed");
+CrossShardSpeculativeDecoder::~CrossShardSpeculativeDecoder() noexcept {
+    try {
+        shutdown();
+    } catch (...) {
+        // FIXED: Suppress exception in destructor to guarantee noexcept contract
+        std::cerr << "Exception during CrossShardSpeculativeDecoder shutdown\n";
+    }
 }
 
 // ============================================================================

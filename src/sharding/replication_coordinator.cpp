@@ -14,7 +14,8 @@
 #include "utils/logger.h"
 #include <algorithm>
 
-namespace themis::sharding {
+namespace themisdb {
+namespace sharding {
 
 /**
  * @brief Construct replication coordinator.
@@ -96,6 +97,19 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
         if (it != pending_writes_.end()) {
             result.replicas_acknowledged = it->second.ack_count.load(std::memory_order_acquire);
             it->second.completed.store(true, std::memory_order_release);
+        }
+
+        // FIXED: Close DB connection before erasing entry to prevent pool exhaustion
+        if (it != pending_writes_.end()) {
+            try {
+                if (it->second.db_connection) {
+                    // Connection will be released when shared_ptr goes out of scope
+                    it->second.db_connection.reset();
+                }
+            } catch (...) {
+                // Suppress exception to ensure cleanup proceeds
+                THEMIS_WARN("Exception during connection cleanup for LSN {}", lsn_key);
+            }
         }
 
         // Cleanup this entry
@@ -225,4 +239,5 @@ void ReplicationCoordinator::cleanupPendingWrites() {
     }
 }
 
-} // namespace themis::sharding
+} // namespace sharding
+} // namespace themisdb

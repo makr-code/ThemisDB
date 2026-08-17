@@ -22,7 +22,7 @@
 #include <thread>
 #include <nlohmann/json.hpp>
 
-namespace themis {
+namespace themisdb {
 namespace sharding {
 
 // ==================== SLOWindow Implementation ====================
@@ -846,4 +846,4 @@ void SLOReporter::writeReport(const std::string& content) {
 }
 
 } // namespace sharding
-} // namespace themis
+} // namespace themisdb

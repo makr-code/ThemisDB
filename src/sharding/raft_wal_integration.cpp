@@ -39,7 +39,11 @@ RaftWALIntegration::~RaftWALIntegration() {
  * @return Write result indicating quorum success, assigned LSN, and error text.
  */
 RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry) {
-    std::unique_lock<std::mutex> lock(mutex_);
+    // FIXED: Use timed lock to prevent indefinite blocking if mutex is held too long
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    if (!lock.try_lock_for(config_.write_timeout)) {
+        return {false, LSN{}, "Write timeout - leader unavailable"};
+    }
     
     if (!is_leader_) {
         return {false, LSN{}, "Not leader, redirect to " + config_.raft_state->getLeaderId()};

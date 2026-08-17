@@ -21,7 +21,8 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::sharding {
+namespace themisdb {
+namespace sharding {
 
 /**
  * @brief Coordinates replica acknowledgments for write-concern enforcement.
@@ -108,13 +109,14 @@ private:
         std::atomic<size_t> ack_count{0};
         std::chrono::steady_clock::time_point start_time;
         std::atomic<bool> completed{false};
+        std::shared_ptr<void> db_connection;  // FIXED: DB connection for resource cleanup
 
         PendingWrite() = default;
         
         // Parametrisierter Konstruktor für direkte Initialisierung
         PendingWrite(const LSN& l, const WriteConcernConfig& c, size_t ack = 1)
             : lsn(l), concern(c), ack_count(ack), 
-              start_time(std::chrono::steady_clock::now()), completed(false) {}
+              start_time(std::chrono::steady_clock::now()), completed(false), db_connection(nullptr) {}
         
         // Custom copy/move to support storage inside associative containers despite atomic member
         PendingWrite(const PendingWrite& other)
@@ -164,4 +166,5 @@ private:
     void cleanupPendingWrites();
 };
 
-} // namespace themis::sharding
+} // namespace sharding
+} // namespace themisdb

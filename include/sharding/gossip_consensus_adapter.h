@@ -115,6 +115,11 @@ private:
      */
     bool hasReachedQuorum(uint64_t log_index) const;
     
+    /**
+     * @brief FIXED: Check quorum without acquiring lock (assumes log_mutex_ already held)
+     */
+    bool hasReachedQuorumUnlocked(uint64_t log_index) const;
+    
     ConsensusConfig config_;
     std::unique_ptr<themis::sharding::GossipProtocol> gossip_;
     std::unique_ptr<themis::sharding::DistributedCoordinator> coordinator_;

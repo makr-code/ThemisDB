@@ -13,6 +13,7 @@
 #include "sharding/paxos_wal.h"
 
 #include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <mutex>
@@ -20,7 +21,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace themis {
+namespace themisdb {
 namespace sharding {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -89,6 +90,7 @@ public:
         size_t  compact_interval   = 512;   ///< Compact after this many committed slots
         bool    sync_on_write      = true;  ///< fsync after every write (crash safety)
         size_t  max_wal_entries    = 10000; ///< Trigger snapshot after N WAL entries
+       std::chrono::milliseconds init_timeout{5000}; ///< FIXED: Timeout for state lock acquisition during initialization
     };
 
     PaxosStatePersistence(PaxosWAL*             wal,
@@ -192,4 +194,4 @@ private:
 };
 
 } // namespace sharding
-} // namespace themis
+} // namespace themisdb

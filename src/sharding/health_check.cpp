@@ -21,7 +21,7 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 
-namespace themis {
+namespace themisdb {
 namespace sharding {
 
 /** @brief Construct health-check system with immutable runtime config. */
@@ -386,5 +386,6 @@ bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
 }
 
 } // namespace sharding
-} // namespace themis
+} // namespace sharding
+} // namespace themisdb
 

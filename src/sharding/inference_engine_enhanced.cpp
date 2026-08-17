@@ -35,9 +35,13 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const ModelConfig& model_config
     spdlog::info("InferenceEngineEnhanced created for model: {}", model_config_.model_id);
 }
 
-InferenceEngineEnhanced::~InferenceEngineEnhanced() {
-    shutdown();
-    spdlog::info("InferenceEngineEnhanced destroyed");
+InferenceEngineEnhanced::~InferenceEngineEnhanced() noexcept {
+    try {
+        shutdown();
+    } catch (...) {
+        // FIXED: Suppress exception in destructor to guarantee noexcept contract
+        std::cerr << "Exception during InferenceEngineEnhanced shutdown\n";
+    }
 }
 
 // ============================================================================

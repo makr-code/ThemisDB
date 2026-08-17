@@ -18,6 +18,7 @@
 #include <map>
 #include <set>
 #include <mutex>
+#include <chrono>
 #include "raft_state.h"
 #include "raft_log.h"
 #include "wal_manager.h"
@@ -55,6 +56,7 @@ public:
         std::shared_ptr<WALManager> wal_manager;     ///< Local WAL storage manager.
         std::shared_ptr<WALShipper> wal_shipper;     ///< Leader-side WAL replication shipper.
         std::shared_ptr<WALApplier> wal_applier;     ///< Follower-side WAL applier.
+       std::chrono::milliseconds write_timeout{5000}; ///< FIXED: Timeout for write lock acquisition (prevents indefinite blocking)
     };
 
     /**
@@ -113,7 +115,7 @@ public:
 private:
     Config config_;                     ///< Shared subsystem dependencies.
     bool is_leader_;                    ///< Cached local leadership mode.
-    std::mutex mutex_;                  ///< Protects leadership and pending write state.
+    std::timed_mutex mutex_;                  ///< FIXED: Changed to timed_mutex to enforce write_timeout. Protects leadership and pending write state.
     std::condition_variable cv_;  ///< Notified by onAppendEntriesResponse() when ACKs arrive
 
     // Track pending writes for quorum

@@ -179,9 +179,20 @@ std::vector<ConsensusLogEntry> GossipConsensusAdapter::readLog(
     
     uint64_t end = end_index.value_or(commit_index_.load());
     
+    // FIXED: Add bounds validation to prevent unbounded iteration and data races
+    if (start_index > end) {
+        return result;  // Invalid range
+    }
+    
+    // Cap iteration to avoid excessive memory use
+    uint64_t max_entries = 1000;
+    if (end - start_index + 1 > max_entries) {
+        end = start_index + max_entries - 1;
+    }
+    
     for (uint64_t i = start_index; i <= end; ++i) {
         auto it = log_entries_.find(i);
-        if (it != log_entries_.end() && hasReachedQuorum(i)) {
+        if (it != log_entries_.end() && hasReachedQuorumUnlocked(i)) {  // FIXED: Use unlocked version
             result.push_back(it->second);
         }
     }
@@ -376,7 +387,11 @@ void GossipConsensusAdapter::gossipThread() {
 
 bool GossipConsensusAdapter::hasReachedQuorum(uint64_t log_index) const {
     std::lock_guard<std::mutex> lock(log_mutex_);
-    
+    return hasReachedQuorumUnlocked(log_index);
+}
+
+bool GossipConsensusAdapter::hasReachedQuorumUnlocked(uint64_t log_index) const {
+    // FIXED: Helper method that doesn't acquire lock (caller must hold log_mutex_)
     auto it = log_acknowledgments_.find(log_index);
     if (it == log_acknowledgments_.end()) {
         return false;
