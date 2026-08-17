@@ -249,7 +249,7 @@
             "transfer"
           ]
         },
-        "azure-storage-cpp",
+        "azure-storage-blobs-cpp",
         {
           "name": "google-cloud-cpp",
           "features": [

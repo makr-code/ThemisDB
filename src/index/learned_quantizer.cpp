@@ -452,4 +452,3 @@ size_t LearnedQuantizer::getMemoryUsage() const {
 }
 
 } // namespace themis
-

@@ -107,9 +107,11 @@ LockManager::LockResult LockManager::acquireLock(
     waiting_for_.erase(txn_id);
     stats_waiting_.fetch_sub(1, std::memory_order_relaxed);
 
-    // Remove from waiters list
-    auto& entry = lock_table_[key];
-    entry.waiters.remove(req);
+    // Remove from waiters list - use find() to avoid re-hashing lock_table_
+    auto lt_it_waiter = lock_table_.find(key);
+    if (lt_it_waiter != lock_table_.end()) {
+        lt_it_waiter->second.waiters.remove(req);
+    }
 
     if (!granted) {
         stats_timeouts_.fetch_add(1, std::memory_order_relaxed);

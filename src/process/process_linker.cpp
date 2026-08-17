@@ -498,7 +498,8 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
 
     // Collect already-attached doc types for this instance+node
     auto node_atts = getNodeAttachments(instance_id, node_id);
-    std::set<std::string> present_types;
+    std::unordered_set<std::string> present_types;
+    present_types.reserve(node_atts.size());
     for (const auto& att : node_atts) {
         // The attached_by convention: metadata["doc_type"] carries the type
         if (att.metadata.contains("doc_type") && att.metadata["doc_type"].is_string()) {
@@ -508,6 +509,7 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
 
     // Cross-reference
     std::vector<std::string> missing;
+    missing.reserve(required.size());
     for (const auto& req : required) {
         if (!req.value("mandatory", false)) continue;
         std::string dtype = req.value("doc_type", "");

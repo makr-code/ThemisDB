@@ -1,5 +1,8 @@
 # ThemisDB Full-Scan Auswertung - Impact-Based Classification
 
+> ⚠️ **Historischer Snapshot (2026-06-21):** Diese Auswertung basiert nur auf `src/graph` als repräsentativem Teilumfang.  
+> Für den aktualisierten Vollumfang-Stand siehe: `AI_VIBE_BASELINE_UPDATE_2026_08_17.md` und `AI_VIBE_SCAN_REPORT.md`.
+
 **Datum**: 2026-06-21  
 **Scan-Scope**: src/graph (representative HIGH-impact module)  
 **Total Findings**: 1,677  

@@ -356,7 +356,6 @@ std::vector<float> LearnableRotaryEmbedding::train(
     
     float best_val_loss = std::numeric_limits<float>::max();
     size_t epochs_without_improvement = 0;
-
     // Training loop
     for (size_t epoch = 0; epoch < config.max_epochs; ++epoch) {
         setTrainingMode(true);
@@ -537,4 +536,3 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
 }
 
 } // namespace themis
-

@@ -16,6 +16,7 @@
 #include <cassert>
 #include <numeric>
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace themis {
 
@@ -221,10 +222,15 @@ void TransactionBatcher::flush()
 
     // Wait until the queue is empty AND the in-flight batch (if any) has finished.
     // This ensures all items submitted before flush() was called are fully resolved.
+    // Use a 30-second timeout to prevent indefinite blocking.
     std::unique_lock<std::mutex> lk(queue_mutex_);
-    flush_cv_.wait(lk, [this] {
+    const bool flushed = flush_cv_.wait_for(lk, std::chrono::seconds(30), [this] {
         return queue_.empty() && !batch_in_progress_;
     });
+    
+    if (!flushed) {
+        THEMIS_WARN("TransactionBatcher::flush(): timeout waiting for queue to flush after 30s");
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

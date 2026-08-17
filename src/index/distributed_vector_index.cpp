@@ -15,6 +15,7 @@
 // See include/index/distributed_vector_index.h for the public API and design notes.
 
 #include "index/distributed_vector_index.h"
+#include "index/connection_guard.h"  // Phase 3 A-6: Connection leak prevention
 #include "index/ann_index.h" // ScaNN
 #include "utils/logger.h"
 

@@ -22,6 +22,18 @@
 namespace themisdb::sharding {
 
 // ============================================================================
+// LOCK ORDERING ENFORCEMENT
+// ============================================================================
+// Lock hierarchy (MUST be strictly maintained to prevent deadlocks):
+//   state_mutex_ (1) < audit_mutex_ (2) < metrics_mutex_ (3)
+//
+// Rules:
+// 1. Never acquire a lower-numbered mutex while holding a higher-numbered one
+// 2. Use std::scoped_lock for multi-lock sections to acquire atomically in order
+// 3. Minimize critical section duration to reduce lock contention
+// ============================================================================
+
+// ============================================================================
 // DualConsensusOrchestrator Implementation
 // ============================================================================
 

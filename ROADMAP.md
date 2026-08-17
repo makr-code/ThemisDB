@@ -161,7 +161,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
   - **Documentation:** See ai_context/INDEX_MODULE_STATUS_2026_08_09.md §Private Plugin Submodule Status for Wave-1 current status
   - `gpu-impact-analysis` remains explicitly out of Wave 1
 - [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
-- [ ] Move Wave-1 private modules to commit-pinned submodules — repositories provisioned, commit pins pending after initial content push (Target: Q3 2026)
+- [x] Move Wave-1 private modules to commit-pinned submodules — `.gitmodules` now records explicit `commit = ...` pins for `themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`, `themisdb_plugin_signer`, `themisdb_geo`, and `themisdb_timeseries` (2026-08)
 - [ ] Keep static AI/acceleration plugins out of Wave 1 until they have a clean shared-library SDK seam (Target: Q4 2026)
 - [~] Add build-gated source externalization switches for Geo/TimeSeries (`THEMIS_EXTERNALIZE_GEO_PLUGIN`, `THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN`) and optional submodule registration in CMake (Target: Q3 2026)
 
@@ -193,7 +193,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Open reference plugin paths remain available for onboarding-critical storage, export, and AI scenarios
 
 ### Known Issues & Limitations
-- Wave-1 private repositories are provisioned (`themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`). `.gitmodules` entries added; commit-pin hashes pending after initial content push to the private repos.
+- Wave-1 private repositories are provisioned (`themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`) and `.gitmodules` now contains explicit commit-pin hashes. Remaining work is CI/license/hash/SBOM gating plus Community/private packaging hardening.
 - `ethics_ai` is not yet fully separable from core: `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` remain public shims for CAI/LLM integration paths.
 - Shared benchmark files (`benchmarks/bench_importer_throughput.cpp`, `benchmarks/bench_blob_zstd.cpp`) still contain mixed public/private scenarios and require split extraction before the plugin-name-aligned connector/blob migration completes.
 - `scraper`, `llama_cpp`, `whisper`, `stable_diffusion`, and acceleration backends still contain static or core-coupled build paths and are intentionally excluded from Wave 1.

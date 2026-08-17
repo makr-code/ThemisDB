@@ -1,200 +1,333 @@
-# replication — MODULE_GAPS.md (Batch 4 Wave A Analysis)
+# Replication Module Gaps — Batch 4 Analysis (CRITICAL + HIGH)
 
-**Batch:** Tier 3 Batch 4  
-**Wave:** A (Runtime Reliability First)  
-**Module:** `src/replication` (857 gaps identified)  
-**Last Updated:** 2026-08-14  
-**Status:** Gap categorization in progress (IMPL vs DOC phase)
-
-## Gap Summary
-
-| Metric | Value |
-|---|---|
-| **Total Gaps** | ~857 |
-| **Implementation Gaps (IMPL)** | ~514 (60%) |
-| **Documentation Gaps (DOC)** | ~343 (40%) |
-| **Critical Severity** | ~68 |
-| **High Severity** | ~206 |
-| **Medium Severity** | ~583 |
-
-## Gap Categorization: IMPL vs DOC
-
-### Implementation Gaps (IMPL) — Code/Logic Gaps: ~514
-
-**Categories:**
-1. **Geographic Placement Policy Enforcement:** ~120 gaps
-   - Geographic region preference not applied in replica placement
-   - Replica balancing across regions incomplete
-   - Region failure detection not triggering failover
-   - Zone affinity constraints not enforced
-   - Severity: CRITICAL (affects multi-region deployment)
-
-2. **Async WAL Shipping & Lag Monitoring:** ~150 gaps
-   - Cross-region WAL shipping not implemented (synchronous default only)
-   - Replication lag calculation incomplete
-   - Lag alert threshold enforcement missing
-   - Batched WAL transmission not optimized
-   - Severity: CRITICAL (Batch A2 blocking item)
-
-3. **Failover & Topology Management:** ~120 gaps
-   - Failover consensus mechanism incomplete
-   - Primary/replica role transitions not atomic
-   - Topology change detection missing
-   - Quorum validation on split-brain scenarios incomplete
-   - Severity: HIGH (affects availability)
-
-4. **Network Partition Handling:** ~80 gaps
-   - Split-brain detection missing (network partition)
-   - Replica reconciliation after partition heal incomplete
-   - Partial write rollback on failover incomplete
-   - Severity: HIGH (affects consistency)
-
-5. **Replication Protocol & Message Ordering:** ~44 gaps
-   - Message ordering violation risks (out-of-order WAL entries)
-   - Transaction boundary enforcement in replication stream incomplete
-   - Replication stream compression not implemented
-   - Severity: MEDIUM (affects latency and bandwidth)
-
-### Documentation Gaps (DOC) — Documentation/Evidence: ~343
-
-**Categories:**
-1. **Geographic Placement Policy Documentation:** ~90 gaps
-   - Geographic placement rules not documented (region, zone, latency)
-   - Replica distribution algorithm not specified
-   - Failover prioritization not documented
-   - Region failure semantics incomplete
-   - Severity: HIGH (critical for operations)
-
-2. **Async WAL Shipping Semantics Documentation:** ~85 gaps
-   - WAL shipping asynchrony guarantees not documented
-   - Lag monitoring implementation details missing
-   - Cross-region shipping latency expectations not specified
-   - Batching strategy and configuration not documented
-   - Severity: HIGH (critical for RPO/RTO design)
-
-3. **Failover & Recovery Documentation:** ~80 gaps
-   - Failover decision algorithm not documented
-   - Consensus mechanism behavior incomplete
-   - Recovery time (RTO) expectations not specified
-   - Data loss (RPO) expectations not specified
-   - Severity: HIGH (affects SLA design)
-
-4. **Topology & Replication State Machine:** ~60 gaps
-   - Replica state machine transitions not formally documented
-   - Topology change procedures incomplete
-   - Rebalance algorithm not specified
-   - Severity: MEDIUM (affects integration testing)
-
-5. **Observability & Diagnostics:** ~28 gaps
-   - Replication lag metric definitions incomplete
-   - Failover event logging incomplete
-   - Diagnostic runbooks missing for common scenarios
-   - Severity: MEDIUM (affects operator awareness)
-
-## Wave A (Runtime Reliability) Focus Areas
-
-### Critical Path 1: Geographic Placement Policy (IMPL + DOC)
-- [ ] **IMPL Gap:** Implement geographic placement rules (region/zone affinity)
-- [ ] **IMPL Gap:** Implement replica balancing across geographic regions
-- [ ] **IMPL Gap:** Implement region failure detection and failover trigger
-- [ ] **DOC Gap:** Document geographic placement algorithm and constraints
-- [ ] **DOC Gap:** Document failover prioritization by region/latency
-- [ ] **Test Gate:** Geo-01 to Geo-06 focused tests (placement rules, balancing, region failure)
-- [ ] **Benchmark Gate:** Placement decision latency ≤100ms, failover latency ≤1s
-- **Target:** Q3 2026 | **Severity:** CRITICAL
-
-### Critical Path 2: Async Cross-Region WAL Shipping (IMPL + DOC)
-- [ ] **IMPL Gap:** Implement async WAL shipping (non-blocking writes)
-- [ ] **IMPL Gap:** Implement WAL batching for cross-region transport
-- [ ] **IMPL Gap:** Implement lag monitoring and alerting
-- [ ] **DOC Gap:** Document WAL shipping asynchrony model (RPO implications)
-- [ ] **DOC Gap:** Document lag calculation and alert thresholds
-- [ ] **Test Gate:** WAL-Ship-01 to WAL-Ship-06 focused tests (async shipping, batching, lag monitoring)
-- [ ] **Benchmark Gate:** Async WAL overhead <10% latency, batch size optimization, lag accuracy ≤100ms
-- **Target:** Q3 2026 | **Severity:** CRITICAL
-
-### Critical Path 3: Failover Consensus & Recovery (IMPL + DOC)
-- [ ] **IMPL Gap:** Implement failover consensus mechanism (quorum-based)
-- [ ] **IMPL Gap:** Implement primary/replica role transitions (atomic or no-op)
-- [ ] **IMPL Gap:** Implement split-brain detection and resolution
-- [ ] **DOC Gap:** Document failover decision algorithm and timeouts
-- [ ] **DOC Gap:** Document RTO and RPO expectations for failover
-- [ ] **Test Gate:** Failover-01 to Failover-08 focused tests (consensus, role transitions, split-brain, recovery)
-- [ ] **Benchmark Gate:** Failover latency p99≤2s, consensus decision ≤500ms
-- **Target:** Q3–Q4 2026 | **Severity:** CRITICAL
-
-### Critical Path 4: Replication Protocol Message Ordering (IMPL + DOC)
-- [ ] **IMPL Gap:** Enforce message ordering in replication stream
-- [ ] **IMPL Gap:** Implement transaction boundary markers
-- [ ] **IMPL Gap:** Implement stream compression for bandwidth optimization
-- [ ] **DOC Gap:** Document replication protocol (message format, ordering)
-- [ ] **DOC Gap:** Document stream semantics (at-least-once, exactly-once)
-- [ ] **Test Gate:** Protocol-01 to Protocol-06 focused tests (ordering, boundaries, compression)
-- [ ] **Benchmark Gate:** Message throughput ≥10k msgs/s, latency p99≤100ms, compression ratio ≥2x
-- **Target:** Q4 2026 | **Severity:** HIGH
-
-## Wave A Closure Status
-
-### Test Evidence Gates (Batch 4, Wave A)
-- [ ] **REP-Geo-01 to REP-Geo-06:** Geographic placement validation (placement rules, balancing, failure)
-- [ ] **REP-WAL-01 to REP-WAL-06:** Async WAL shipping validation (async model, batching, lag monitoring)
-- [ ] **REP-Failover-01 to REP-Failover-08:** Failover validation (consensus, role transitions, recovery, split-brain)
-- [ ] **REP-Protocol-01 to REP-Protocol-06:** Replication protocol validation (ordering, boundaries, compression)
-- **Target:** Q3 2026 | **Status:** In Progress
-
-### Benchmark Gates (Batch 4, Wave A)
-- [ ] **REP-GRG-01:** Geographic placement decision latency ≤100ms
-- [ ] **REP-GRG-02:** Failover latency p99≤2s
-- [ ] **REP-GRG-03:** Async WAL overhead <10% latency impact
-- [ ] **REP-GRG-04:** Replication lag accuracy ±100ms
-- [ ] **REP-GRG-05:** Message throughput ≥10k msgs/s
-- [ ] **REP-GRG-06:** Stream compression ratio ≥2x
-- **Target:** Q3 2026 | **Status:** In Progress
-
-## Priority Assessment and Action Plan
-
-### P0 — Wave A Gate Blockers (resolve by Q3 2026 end)
-1. **Geographic placement policy implementation** → Region/zone affinity + balancing
-2. **Async cross-region WAL shipping** → Non-blocking writes + batching
-3. **Failover consensus mechanism** → Quorum-based decision + atomic role transitions
-4. **Split-brain detection and resolution** → Network partition detection + recovery
-5. **Replication protocol message ordering** → Ordered delivery guarantees
-
-### P1 — Post-Wave-A Hardening (Q4 2026)
-1. Stream compression optimization (improve compression ratio)
-2. Lag alert threshold fine-tuning based on production workloads
-3. Rebalance algorithm optimization for large clusters
-
-## Known Issues & Limitations
-
-1. **Geographic constraints:** Manual region/zone configuration; no automatic discovery
-2. **Async WAL latency:** Cross-region shipping introduces RPO window; configurable but not zero
-3. **Failover latency:** Consensus requires quorum communication; minimum ~500ms
-4. **Split-brain scenarios:** Detection is probabilistic; requires network partition confirmation
-5. **Message ordering:** Relies on TCP ordering guarantees; no application-level sequencing
-
-## Cross-Module Dependencies
-
-| Dependency | Module | Nature | Wave |
-|---|---|---|---|
-| WAL shipping interface | storage | Required for async WAL integration | Wave A |
-| Network transport | network | Dependency for cross-region communication | Wave A |
-| Cluster membership | core | Dependency for replica topology management | Wave A |
-
-## Batch 4 Contribution to Program Success
-
-This module contributes to **Wave A (Runtime Reliability)** by:
-1. ✅ Delivering geographic placement policy for multi-region deployments
-2. ✅ Implementing async cross-region WAL shipping with lag monitoring
-3. ✅ Proving failover consensus and recovery determinism
-4. ✅ Ensuring replication protocol integrity under network partitions
-
-**Gate Status for Wave A Exit:** 🟡 In Progress (P0 items resolve by Q3 2026 end)
+**Scope**: Analysis of all 1519 identified gaps in replication module  
+**Generated**: 2026-08-16  
+**Target**: Document exact patterns, locations, and fix strategies
 
 ---
 
-**Next Steps:**
-1. Execute P0 gap resolution (geo placement, async WAL, failover, split-brain) by EOQ3 2026
-2. Deliver focused test gates (REP-Geo, REP-WAL, REP-Failover, REP-Protocol) by EOQ3 2026
-3. Benchmark gates must pass at ≥95th percentile by EOQ3 2026
-4. `release_critical` CI must remain green throughout Wave A execution
+## Critical Findings (16 total)
+
+### 1. Unimplemented Logic Patterns (14 CRITICAL)
+
+#### logical_replication.cpp
+- **Line 494 (CRITICAL)**: `return {};` in change tracking function
+  - Context: Document change extraction
+  - Fix: Implement proper change collection from replication log
+  - Impact: Must return valid change entries or empty vector (not stub)
+
+- **Line 710 (CRITICAL)**: `return {};` in change filtering
+  - Context: Filter changes by collection/document ID
+  - Fix: Implement filtering logic using collection name/document ID predicates
+  - Impact: Core CDC streaming path
+
+- **Line 725 (CRITICAL)**: `return {};` in change extraction
+  - Context: Extract changes from base collection
+  - Fix: Implement extraction with proper iterator/range handling
+  - Impact: Multi-collection replication support
+
+#### replication_manager.cpp
+- **Line 3203-3205 (CRITICAL)**: Binary deserialize truncation checks
+  - Context: `MMWriteEntry::deserialize` string length parsing
+  - Fix: Ensure buffer bounds checking; emit proper errors
+  - Impact: WAL parsing correctness
+
+- **Line 3333 (CRITICAL)**: `return {};` in topology handling
+  - Context: Replicate topology update distribution
+  - Fix: Implement topology change propagation
+  - Impact: Multi-node replication correctness
+
+- **Line 4575 (CRITICAL)**: `return {};` in data validation
+  - Context: Validate replication payload
+  - Fix: Implement schema/data validation
+  - Impact: Data integrity in replication
+
+- **Line 4633 (CRITICAL)**: `return {};` in compression logic
+  - Context: Compress replication stream
+  - Fix: Implement compression with proper headers/trailers
+  - Impact: WAL shipping throughput
+
+- **Lines 4658, 4668, 4677, 4689 (CRITICAL)**: Multiple stubs in conflict handling
+  - Context: Conflict detection and resolution paths
+  - Fix: Implement conflict strategy application
+  - Impact: Multi-writer replication correctness
+
+- **Line 5486 (CRITICAL)**: `return {};` in event processing
+  - Context: Process replication events
+  - Fix: Implement event dispatch to listeners
+  - Impact: Observability and monitoring
+
+### 2. Scope_mismatch Violations (CRITICAL)
+
+#### observability.cpp:34
+- **Issue**: Variable lifetime/scope violation in observer pattern
+- **Fix**: Reorder initialization; ensure object lifetime covers usage
+- **Impact**: Observer callback correctness
+
+### 3. Structural Issues (CRITICAL)
+
+#### observability.cpp:1 (braces_imbalance)
+- **Issue**: Mismatched braces (opening without closing)
+- **Fix**: Balance all braces at file level
+- **Impact**: Compilation
+
+#### policy.cpp:1 (braces_imbalance)
+- **Issue**: Mismatched braces
+- **Fix**: Balance braces
+- **Impact**: Compilation
+
+---
+
+## High Severity Findings (194 total)
+
+### 1. Circular Lock Ordering (96 findings)
+
+**Location**: replication_slot.cpp  
+**Pattern**: Potential deadlock due to inconsistent lock acquisition order
+
+**Affected Functions**:
+- Lock ordering violations in:
+  - Slot state management (add_slot → advance_slot)
+  - LSN tracking under concurrent updates
+  - Failover trigger paths
+
+**Fix Strategy**:
+1. Document lock hierarchy (e.g., slot_mutex → lsn_mutex → io_mutex)
+2. Ensure all code paths follow hierarchy
+3. Add lock ordering annotations/comments
+4. Consider lock-free alternatives for hot paths
+
+**Impact**: Prevents potential deadlocks under high concurrency
+
+### 2. Iterator Invalidation (HIGH)
+
+**Locations**: replication_manager.cpp (lines 2769, 4052)  
+**Pattern**: Iterator usage after container mutation
+
+**Fix Strategy**:
+1. Validate iterator lifetime vs. container operations
+2. Use container-stable iterators if available
+3. Cache results before mutation
+4. Add assertions for iterator validity
+
+**Impact**: Prevents crashes under concurrent replication
+
+### 3. Range Temporary Lifetime (21 findings)
+
+**Location**: event_stream.cpp  
+**Pattern**: Temporary objects outlived by references
+
+**Fix Strategy**:
+1. Capture temporaries in variables
+2. Ensure reference lifetime ≤ temporary lifetime
+3. Use std::string_view for string ranges
+4. Document lifetime contracts in APIs
+
+**Impact**: Prevents use-after-free in event streaming
+
+### 4. String Concatenation Loops (HIGH)
+
+**Location**: event_stream.cpp  
+**Pattern**: String += in loops (O(n²) behavior)
+
+**Fix Strategy**:
+1. Replace with std::ostringstream
+2. Or use std::string::append with pre-allocated capacity
+3. Add vector::reserve() calls
+
+**Impact**: Performance improvement in event serialization
+
+### 5. Missing noexcept on Move (2 findings)
+
+**Pattern**: Move constructors/assignments should be noexcept
+
+**Fix Strategy**:
+1. Mark move operations with noexcept
+2. Ensure move semantics don't throw
+3. Update template constraints
+
+**Impact**: Container move semantics efficiency
+
+### 6. Lock Contention (11 findings)
+
+**Locations**: conflict_resolution.cpp  
+**Pattern**: Excessive locking on hot paths
+
+**Fix Strategy**:
+1. Identify hot locks
+2. Reduce lock scope
+3. Consider read-write locks where applicable
+4. Use lock-free data structures if feasible
+
+**Impact**: Latency improvement in conflict resolution
+
+### 7. No Timeout on Async Ops (6+ findings)
+
+**Locations**: 
+- replication_manager.cpp (lines 558, 654, 3331, 4170, 6024, 6059, 6857, 6895)
+- logical_replication.cpp (lines 647, 702)
+
+**Pattern**: Async operations without timeout bounds
+
+**Fix Strategy**:
+1. Add configurable timeout parameters
+2. Emit alerts when timeout exceeded
+3. Implement graceful degradation
+4. Document timeout expectations in API
+
+**Impact**: Prevents indefinite waits in distributed systems
+
+### 8. Multiplication Overflow (replication_manager.cpp:549)
+
+**Pattern**: Unchecked multiplication before allocation
+
+**Fix Strategy**:
+1. Use safe multiplication helpers
+2. Check for overflow before multiply
+3. Emit diagnostic errors on overflow
+4. Use std::numeric_limits for bounds
+
+**Impact**: Prevents memory exhaustion attacks
+
+---
+
+## Medium Severity Findings (1307 total)
+
+### 1. Scope Mismatch (1262 findings)
+
+**Pattern**: Variable declared too broadly; should be scoped more locally
+
+**Fix Strategy**:
+1. Move declarations closer to first use
+2. Reduce variable lifetime
+3. Improve code locality and readability
+4. Potential performance improvement (cache locality)
+
+**Impact**: Code quality + potential performance gain
+
+### 2. Copy Overhead (5 findings)
+
+**Pattern**: Unnecessary object copies
+
+**Fix Strategy**:
+1. Use const references for parameters
+2. Use std::string_view for strings
+3. Use move semantics where appropriate
+4. Reduce temporary allocations
+
+**Impact**: Performance improvement in replication paths
+
+### 3. Manual Cleanup (11 findings)
+
+**Pattern**: Manual delete/cleanup instead of RAII
+
+**Fix Strategy**:
+1. Replace with std::unique_ptr / std::shared_ptr
+2. Use RAII guards for resources
+3. Ensure exception-safe cleanup
+4. Eliminate raw new/delete in new code
+
+**Impact**: Exception safety + maintainability
+
+### 4. TODO as Production Logic (20 findings)
+
+**Pattern**: TODO comments with actual implementation needed
+
+**Fix Strategy**:
+1. Implement the TODO logic
+2. Remove TODO placeholder
+3. Add tests for new logic
+4. Document behavior
+
+**Impact**: Complete feature implementation
+
+### 5. O(n²) Patterns (8 findings)
+
+**Pattern**: Inefficient algorithms in performance-critical paths
+
+**Fix Strategy**:
+1. Replace nested loops with hash lookups
+2. Use set/map for membership testing
+3. Cache intermediate results
+4. Add vector::reserve() calls
+
+**Impact**: Performance improvement
+
+### 6. Lock Contention / Performance (11+ findings)
+
+**Pattern**: Excessive locking or inefficient synchronization
+
+**Fix Strategy**:
+1. Reduce critical section size
+2. Use fine-grained locking
+3. Consider lock-free data structures
+4. Profile hot paths
+
+**Impact**: Latency + throughput improvement
+
+---
+
+## Affected Files Summary
+
+| File | Total | Critical | High | Medium | Top Patterns |
+|------|-------|----------|------|--------|--------------|
+| replication_manager.cpp | 517 | 8+ | 80+ | 400+ | unimplemented, scope_mismatch, no_timeout, overflow |
+| observability.cpp | ~50 | 2 | 8 | 40 | scope_mismatch, braces_imbalance |
+| logical_replication.cpp | ~100 | 3 | 15 | 82 | unimplemented, range_temporary, no_timeout |
+| replication_slot.cpp | ~300 | - | 96 | 200+ | circular_lock_ordering, scope_mismatch |
+| conflict_resolution.cpp | ~80 | - | 25 | 55 | lock_contention, range_temporary, scope_mismatch |
+| event_stream.cpp | ~150 | - | 20+ | 130 | string_concat_loop, range_temporary, scope_mismatch |
+| policy.cpp | ~50 | 1 | 5 | 44 | braces_imbalance, scope_mismatch |
+| async_wal_shipper.cpp | ~80 | - | 10+ | 70 | no_timeout, copy_overhead, scope_mismatch |
+| multi_tier_replication.cpp | ~100 | - | 15 | 85 | scope_mismatch, lock_contention |
+| raft_v2.cpp | ~120 | - | 20 | 100 | circular_lock_ordering, scope_mismatch |
+| Other files | ~172 | 2 | 0 | 170 | misc |
+
+---
+
+## Fix Priority Order (by severity + impact)
+
+1. **CRITICAL (must fix before GA)**
+   - All unimplemented patterns (22 findings)
+   - Scope violations in core paths
+   - Braces imbalance (compilation)
+
+2. **HIGH (should fix for Wave A)**
+   - Circular lock ordering (deadlock prevention)
+   - Iterator invalidation (crash prevention)
+   - No-timeout operations (liveness)
+   - Overflow checks (security)
+
+3. **MEDIUM (should fix for code quality)**
+   - Scope_mismatch bulk closure (code quality + perf)
+   - Copy overhead (performance)
+   - TODO-as-productionlogic (feature completion)
+   - Lock contention (latency)
+
+---
+
+## Implementation Notes
+
+### Design Constraints
+- No breaking changes to replication_api_contract.h
+- Maintain deterministic failover/promotion behavior
+- Thread-safe changes only
+- Exception-safe resource management (RAII)
+- No performance regression on hot paths
+
+### Test Verification
+- Existing replication tests must pass
+- New logic must have focused regression tests
+- Benchmarks (if available) must remain stable
+- Integration tests must verify multi-node scenarios
+
+### Documentation Requirements
+- Update Doxygen comments for changed APIs
+- Document any new timeout/configuration parameters
+- Update ARCHITECTURE.md if behavior changes
+- Add section to ROADMAP.md documenting closure evidence
+
+---
+
+Generated: 2026-08-16 08:54 UTC  
+Status: Ready for gap closure implementation

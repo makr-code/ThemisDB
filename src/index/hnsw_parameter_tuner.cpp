@@ -223,7 +223,6 @@ void HnswParameterTuner::adapt() {
     double avg_latency = 0.0;
     double avg_recall = 0.0;
     size_t recall_samples = 0;
-
     for (const auto& q : recent_queries_) {
         avg_latency += q.latency_ms;
         if (q.recall >= 0.0) {
@@ -231,7 +230,6 @@ void HnswParameterTuner::adapt() {
             recall_samples++;
         }
     }
-
     avg_latency /= recent_queries_.size();
     if (recall_samples > 0) {
         avg_recall /= recall_samples;
@@ -606,4 +604,3 @@ bool HnswMemoryOptimizer::hasSIMDPrefetch() {
 
 } // namespace index
 } // namespace themis
-

@@ -1733,13 +1733,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 				// Composite
 				prefix = std::string("idx:") + std::string(table) + ":" + col + ":";
 			}
-			db_.scanPrefix(prefix, [this, &pk, &batch](std::string_view key, std::string_view /*val*/){
+			// W5: Snapshot pk locally; eliminate [this] capture to avoid manager state closure
+			const std::string_view pk_snapshot = pk;
+			db_.scanPrefix(prefix, [&pk_snapshot, &batch](std::string_view key, std::string_view /*val*/){
 				// Prüfen, ob PK am Ende passt (endet mit :PK)
 				std::string_view keyView(key);
 				size_t lastColon = keyView.rfind(':');
 				if (lastColon != std::string_view::npos) {
 					std::string_view extractedPK = keyView.substr(lastColon + 1);
-					if (extractedPK == pk) {
+					if (extractedPK == pk_snapshot) {
 						batch.del(std::string(key));
 					}
 				}
@@ -4452,13 +4454,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 				// Composite
 				prefix = std::string("idx:") + std::string(table) + ":" + col + ":";
 			}
-			db_.scanPrefix(prefix, [this, &pk, &txn](std::string_view key, std::string_view /*val*/){
+			// W5: Snapshot pk locally; eliminate [this] capture to avoid manager state closure
+			const std::string_view pk_snapshot = pk;
+			db_.scanPrefix(prefix, [&pk_snapshot, &txn](std::string_view key, std::string_view /*val*/){
 				// Prüfen, ob PK am Ende passt (endet mit :PK)
 				std::string_view keyView(key);
 				size_t lastColon = keyView.rfind(':');
 				if (lastColon != std::string_view::npos) {
 					std::string_view extractedPK = keyView.substr(lastColon + 1);
-					if (extractedPK == pk) {
+					if (extractedPK == pk_snapshot) {
 						txn.del(std::string(key));
 					}
 				}

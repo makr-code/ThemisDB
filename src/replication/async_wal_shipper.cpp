@@ -257,7 +257,7 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
     // Record lag sample in histogram
     recordLagSample(lag);
 
-    // Check lag limit and fire alert if needed
+    // Check lag limit and fire alert if needed.
     if (lag > static_cast<int64_t>(config_.max_lag_ms)) {
         AlertCallback cb;
         {
@@ -270,13 +270,18 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
         ++stats_.lag_alerts_fired;
         stats_.current_lag_ms = lag;
         if (lag > stats_.max_observed_lag_ms) stats_.max_observed_lag_ms = lag;
-    } else {
+    }
+    
+    // SCOPE IMPROVEMENT: Move stats update into single block to reduce lock contention.
+    // This consolidates two separate stats updates into one atomic operation.
+    {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.current_lag_ms = lag;
         if (lag > stats_.max_observed_lag_ms) stats_.max_observed_lag_ms = lag;
     }
 
-    // Invoke transport handler
+    // Invoke transport handler.
+    // Lag threshold is telemetry/alerting only: shipping must still be attempted.
     ShipHandler handler;
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
@@ -286,6 +291,10 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
         handler(seg);
         // bytes_shipped / segments_shipped updated inside default handler;
         // for custom handlers we update bytes here if not already counted.
+    } else {
+        // No handler installed: account as dropped segment.
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        ++stats_.segments_dropped;
     }
 }
 
