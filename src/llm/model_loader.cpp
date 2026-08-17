@@ -88,8 +88,12 @@ public:
         llama_log_set(llamaLoadLogCaptureCallback, &state_);
     }
 
-    ~ScopedLlamaLogCapture() {
-        llama_log_set(previous_callback_, previous_user_data_);
+    ~ScopedLlamaLogCapture() noexcept {
+        try {
+            llama_log_set(previous_callback_, previous_user_data_);
+        } catch (...) {
+            // exception_in_destructor: swallow — cannot propagate from destructor
+        }
     }
 
     const LlamaLoadLogCaptureState& state() const {
@@ -137,14 +141,19 @@ std::string getExpectedModelChecksum(const json& config) {
 
 } // namespace
 
-CachedModel::~CachedModel() {
-    if (context_handle != nullptr) {
-        llama_free(reinterpret_cast<llama_context*>(context_handle));
-        context_handle = nullptr;
-    }
-    if (model_handle != nullptr) {
-        llama_free_model(reinterpret_cast<llama_model*>(model_handle));
-        model_handle = nullptr;
+CachedModel::~CachedModel() noexcept {
+    try {
+        if (context_handle != nullptr) {
+            llama_free(reinterpret_cast<llama_context*>(context_handle));
+            context_handle = nullptr;
+        }
+        if (model_handle != nullptr) {
+            llama_free_model(reinterpret_cast<llama_model*>(model_handle));
+            model_handle = nullptr;
+        }
+    } catch (...) {
+        // exception_in_destructor: swallow — resource handles are C API (should not throw)
+        // Log is best-effort; spdlog itself is noexcept on modern builds.
     }
 }
 
@@ -215,19 +224,28 @@ LazyModelLoader::LazyModelLoader(const Config& config)
     spdlog::info("  Default context: {} tokens", config_.default_n_ctx);
 }
 
-LazyModelLoader::~LazyModelLoader() {
-    std::unordered_map<std::string, std::future<CachedModel*>> pending_loads;
-    {
+LazyModelLoader::~LazyModelLoader() noexcept {
+    try {
+        // Drain any pending async loads before clearing the model cache so that
+        // the async tasks cannot race against the model map being destroyed.
+        std::unordered_map<std::string, std::future<CachedModel*>> pending_loads;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            pending_loads.swap(pending_loads_);
+        }
+
+        // Wait for (or discard) each pending future.  Explicit clear() ensures
+        // the futures are waited on before proceeding to the final map clear.
+        pending_loads.clear();
+
         std::lock_guard<std::mutex> lock(mutex_);
-        pending_loads.swap(pending_loads_);
+        models_.clear();
+        total_vram_mb_ = 0;
+        total_ram_mb_ = 0;
+    } catch (...) {
+        // exception_in_destructor: swallow — cannot safely propagate from dtor
+        spdlog::error("[LazyModelLoader] Exception swallowed in destructor");
     }
-
-    pending_loads.clear();
-
-    std::lock_guard<std::mutex> lock(mutex_);
-    models_.clear();
-    total_vram_mb_ = 0;
-    total_ram_mb_ = 0;
 }
 
 CachedModel* LazyModelLoader::getOrLoadModel(
@@ -919,6 +937,12 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
                         model_path,
                         attempts.str()));
     }
+
+    // resource_leaked_in_exception: wrap lmodel in a RAII guard so it is
+    // automatically freed if any exception is thrown before ownership transfers
+    // to model->model_handle (e.g. during JSON metadata population).
+    auto lmodel_guard = std::unique_ptr<llama_model, decltype(&llama_free_model)>(
+        lmodel, llama_free_model);
     
     // Log which loader was used
     if (custom_loader_success) {
@@ -993,12 +1017,14 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
         spdlog::info("Embeddings mode enabled for model: {}", model_id);
     }
     
-    // Create context
-    llama_context* lctx = llama_new_context_with_model(lmodel, ctx_params);
-    
-    if (!lctx) {
+    // Create context — lmodel_guard still owns the model handle
+    // resource_leaked_in_exception: wrap lctx in a RAII guard as well
+    auto lctx_guard = std::unique_ptr<llama_context, decltype(&llama_free)>(
+        llama_new_context_with_model(lmodel_guard.get(), ctx_params), llama_free);
+
+    if (!lctx_guard) {
         errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, model_id);
-        llama_free_model(lmodel);
+        // lmodel_guard destructor will call llama_free_model — no manual free needed
         return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED,
             fmt::format("Failed to create context for model: {}", model_id));
     }
@@ -1019,12 +1045,12 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->vram_mb = vram_mb;
     model->ram_mb = ram_mb;
 
-    // Store opaque handles
-    // Safety: reinterpret_cast safe for type-erasure of C API handles
-    // These pointers will be cast back to their original types when needed
-    // Standard pattern for interfacing with C libraries that use opaque handles
-    model->model_handle = reinterpret_cast<void*>(lmodel);
-    model->context_handle = reinterpret_cast<void*>(lctx);
+    // Transfer ownership to model's opaque handle fields.
+    // Safety: reinterpret_cast safe for type-erasure of C API handles.
+    // release() is called only after all potentially-throwing operations above
+    // have completed — if any of them threw, the RAII guards still clean up.
+    model->model_handle   = reinterpret_cast<void*>(lmodel_guard.release());
+    model->context_handle = reinterpret_cast<void*>(lctx_guard.release());
 
     const bool gpu_offload_requested = requested_gpu_layers > 0;
     const bool gpu_offload_effective = gpu_offload_requested && log_capture.state().assigned_non_cpu;

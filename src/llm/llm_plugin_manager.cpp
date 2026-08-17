@@ -27,7 +27,20 @@ namespace themis {
 namespace llm {
 
 LLMPluginManager::LLMPluginManager() = default;
-LLMPluginManager::~LLMPluginManager() = default;
+
+LLMPluginManager::~LLMPluginManager() noexcept {
+    // exception_in_destructor: plugins_ holds unique_ptr<ILLMPlugin>; plugin
+    // destructors must not throw but we defensively swallow any that do.
+    try {
+        std::lock_guard<std::mutex> lock(mutex_);
+        // Release all VRAM handles before destroying plugins so the allocator
+        // sees the frees while it is still alive.
+        vram_handles_.clear();
+        plugins_.clear();
+    } catch (...) {
+        // Swallow — cannot safely propagate from destructor.
+    }
+}
 
 void LLMPluginManager::registerPlugin(
     const std::string& name,
@@ -151,6 +164,12 @@ json LLMPluginManager::getAggregatedCapabilities() const {
     json result = json::array();
     
     for (const auto& [name, entry] : plugins_) {
+        // null_dereference: entry.plugin is owned by unique_ptr and non-null
+        // (registerPlugin rejects null plugins), but guard defensively.
+        if (!entry.plugin) {
+            spdlog::warn("getAggregatedCapabilities: plugin '{}' has null handle, skipping", name);
+            continue;
+        }
         json plugin_caps;
         plugin_caps["name"] = name;
         plugin_caps["is_default"] = (name == default_plugin_name_);
@@ -198,6 +217,11 @@ json LLMPluginManager::getAggregatedStats() const {
     result["plugins"] = json::object();
     
     for (const auto& [name, entry] : plugins_) {
+        // null_dereference: guard defensively even though registerPlugin prevents null.
+        if (!entry.plugin) {
+            spdlog::warn("getAggregatedStats: plugin '{}' has null handle, skipping", name);
+            continue;
+        }
         json plugin_stats;
         plugin_stats["memory"] = entry.plugin->getMemoryStats();
         plugin_stats["performance"] = entry.plugin->getPerformanceStats();
@@ -385,6 +409,11 @@ std::vector<std::string> LLMPluginManager::listModels() const {
     std::vector<std::string> models;
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& [name, entry] : plugins_) {
+        // null_dereference: guard defensively
+        if (!entry.plugin) {
+            spdlog::warn("listModels: plugin '{}' has null handle, skipping", name);
+            continue;
+        }
         if (auto info = entry.plugin->getModelInfo()) {
             models.push_back(info->name);
         } else {
@@ -1126,11 +1155,15 @@ std::vector<int32_t> LLMPluginManager::ProcessTokensSafe(
  * and resource exhaustion.
  */
 struct ConcurrentInferenceTracker {
+    // uninitialized_access: all fields have in-class initializers so POD values
+    // are zero/value-initialised before first use regardless of constructor path.
     std::atomic<size_t> active_inferences{0};
-    size_t max_concurrent = 256;
+    size_t max_concurrent{256};
     std::mutex lock;
-    
-    bool AcquireSlot() {
+
+    ConcurrentInferenceTracker() noexcept = default;
+
+    bool AcquireSlot() noexcept {
         std::lock_guard<std::mutex> g(lock);
         if (active_inferences >= max_concurrent) {
             return false;
@@ -1139,14 +1172,14 @@ struct ConcurrentInferenceTracker {
         return true;
     }
     
-    void ReleaseSlot() {
+    void ReleaseSlot() noexcept {
         std::lock_guard<std::mutex> g(lock);
         if (active_inferences > 0) {
             active_inferences--;
         }
     }
     
-    size_t GetActiveCount() const {
+    size_t GetActiveCount() const noexcept {
         return active_inferences.load();
     }
 };

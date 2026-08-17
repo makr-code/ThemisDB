@@ -44,7 +44,7 @@ class SSMStateRocksDBStore;
 class LLMPluginManager {
 public:
     LLMPluginManager();
-    ~LLMPluginManager();
+    ~LLMPluginManager() noexcept;
     
     // Prevent copying
     LLMPluginManager(const LLMPluginManager&) = delete;

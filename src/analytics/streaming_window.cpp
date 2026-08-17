@@ -503,6 +503,15 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         cb      = callback_;
     } // mutex_ released
 
+    // ===================================================================
+    // Phase 2 A-2 Gap-SW-01 (db_connection_leak boundary): The streaming
+    // window layer owns NO database connections.  Result emission via
+    // callback is a pure computation hand-off; any DB persistence inside
+    // the callback MUST use ConnectionGuard RAII (see analytics_engine.cpp
+    // and result_aggregator.cpp).  Callbacks are wrapped in try/catch to
+    // prevent exceptions from escaping and to keep this layer stateless
+    // with respect to connection ownership.
+    // ===================================================================
     // BUG 3 FIX: fire callbacks outside the lock to prevent re-entrant deadlock.
     if (cb) {
         for (auto& r : pending) {
@@ -520,6 +529,11 @@ void TumblingWindow::flush() {
         pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
         cb      = callback_;
     } // mutex_ released
+    // ===================================================================
+    // Phase 2 A-2 Gap-SW-02 (db_connection_leak boundary): Same connection
+    // ownership contract as ingest().  flush() emits all remaining windows;
+    // any downstream DB write MUST use ConnectionGuard within the callback.
+    // ===================================================================
     if (cb) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
@@ -615,7 +629,16 @@ SlidingWindow::~SlidingWindow() {
             idle_thread_.join();
         }
     }
-    flush();
+    // Phase 2 A-2 Fix-E1 (exception_in_destructor): flush() may propagate
+    // exceptions from computeAggregations() if aggregation callbacks throw.
+    // C++ terminates the process if an exception escapes a destructor during
+    // stack unwinding.  Wrap in try/catch to enforce the no-throw guarantee.
+    try {
+        flush();
+    } catch (...) {
+        // Suppress: any exception from flush() must not escape the destructor.
+        // A log attempt here would itself be unsafe if logger state is torn down.
+    }
     agg_specs_.clear();
     callback_ = {};
 }
@@ -694,6 +717,13 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
             win.start         = fromMicros(start_us);
             win.end           = fromMicros(end_us);
             win.partition_key = partition_key;
+            // ================================================================
+            // Phase 2 A-2 Gap-SW-03 (db_connection_leak boundary): Window
+            // state is maintained in-memory only.  ensureWindowsExist() does
+            // NOT acquire DB connections; results are written only when the
+            // window closes and the registered callback fires.  That callback
+            // is responsible for ConnectionGuard RAII on any DB write path.
+            // ================================================================
             window_start_set_.insert(start_us);
             windows_.push_back(std::move(win));
             ++windows_opened_;
