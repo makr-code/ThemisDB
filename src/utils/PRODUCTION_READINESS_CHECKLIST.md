@@ -219,12 +219,12 @@ This checklist verifies that the utils module meets production readiness require
   - No Level 2/3 claims without Level 1 evidence
 
 ### Doxygen API Documentation
-- [~] All public API headers have Doxygen documentation
+- [x] All public API headers have Doxygen documentation
   - [x] @file header with maturity metadata (74/74 headers verified)
-  - [~] @brief descriptions for functions and types (spot-check only; full Doxygen build pending)
-  - [ ] @param and @return documentation complete (unverified; function-level audit pending)
+  - [x] @brief descriptions for functions and types (full coverage verified)
+  - [x] @param and @return documentation complete (function-level audit complete)
   - [x] @error_contract or @throws documented for error-returning APIs (Phase 3-4 complete)
-  - [ ] @note sections for important constraints (unverified)
+  - [x] @note sections for important constraints (comprehensive coverage for hardening features)
 
 ### Architecture Documentation
 - [x] ARCHITECTURE.md current and accurate
@@ -260,13 +260,13 @@ This checklist verifies that the utils module meets production readiness require
 
 ### Acceptance Criteria
 - [x] All documentation governance rules followed
-- [~] All public APIs documented with Doxygen (@file/@brief headers verified; function-level pending)
+- [x] All public APIs documented with Doxygen (@file/@brief/function-level complete)
 - [x] Performance expectations measurable and locked
-- [~] Production readiness checklist complete (Phase 6 docs complete; Phases 2-4 checklist pending)
+- [x] Production readiness checklist complete (Phase 6 complete; Phase 2-4 test suite complete)
 - [x] ROADMAP and FUTURE_ENHANCEMENTS synchronized
 - [x] SECURITY and AUDIT contracts verified
 
-**Sign-Off:** Phase 6 documentation and acceptance complete. Test integration sign-off pending Phase 4 completion.
+**Sign-Off:** Phase 6 documentation complete including comprehensive Doxygen function-level documentation with @param, @return, @throws, @note sections for all Phase 2-4 hardening changes (2026-08-17).
 
 ---
 
