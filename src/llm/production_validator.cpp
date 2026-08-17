@@ -199,7 +199,8 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
                             : estimateTokenCount(response.text));
                     successful++;
                 } catch (const std::exception& inner) {
-                    spdlog::warn("Benchmark request {} inference failed: {}", i, inner.what());
+                    spdlog::warn("Benchmark request {} inference failed (context: request_id={}): {}", 
+                               i, i, inner.what());
                     failed++;
                 }
             } else {
@@ -207,7 +208,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
             }
             
         } catch (const std::exception& e) {
-            spdlog::warn("Benchmark request {} failed: {}", i, e.what());
+            spdlog::warn("Benchmark request {} failed (context: request_preparation): {}", i, e.what());
             failed++;
         }
         
@@ -688,7 +689,7 @@ bool ProductionValidator::testModelLoading() {
         passed = loaded_models.empty();
         spdlog::info("  LazyModelLoader instantiated; loaded_models={}", loaded_models.size());
     } catch (const std::exception& e) {
-        spdlog::error("  LazyModelLoader construction failed: {}", e.what());
+        spdlog::error("LazyModelLoader construction failed (context: model loader initialization): {}", e.what());
         passed = false;
     }
 

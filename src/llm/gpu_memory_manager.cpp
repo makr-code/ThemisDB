@@ -86,7 +86,7 @@ public:
         : ptr_(ptr), bytes_(bytes), type_(type), gpu_available_(gpu_available), 
           gpu_device_id_(gpu_device_id) {}
     
-    ~MemoryHolder() {
+    ~MemoryHolder() noexcept {
         if (!ptr_) return;
         
         try {
@@ -104,7 +104,7 @@ public:
         } catch (const std::exception& e) {
             spdlog::error("Exception during memory cleanup: {}", e.what());
         } catch (...) {
-            spdlog::error("Unknown exception during memory cleanup");
+            spdlog::critical("Unknown exception during memory cleanup");
         }
     }
     

@@ -889,7 +889,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         return true;
         
     } catch (const std::exception& e) {
-        spdlog::error("Exception loading model from ThemisDB: {}", e.what());
+        spdlog::error("Exception loading model from ThemisDB (context: model_id={}): {}", model_id, e.what());
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
                         model_id + ": " + e.what());
         return false;
@@ -967,7 +967,7 @@ size_t LlamaWrapper::cleanupTempModels(int days_old) {
                         removed_count, days_old);
         }
     } catch (const std::exception& e) {
-        spdlog::error("Failed to cleanup temp models: {}", e.what());
+        spdlog::error("Failed to cleanup temp models (context: temporary directory maintenance): {}", e.what());
     }
     
     return removed_count;
@@ -1215,7 +1215,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     try {
         return generateRegular(safe_request);
     } catch (const std::exception& e) {
-        spdlog::error("Regular inference error: {}", e.what());
+        spdlog::error("Regular inference error (context: model_id={}, prompt_length={}): {}", 
+                     current_model_id_, safe_request.prompt.length(), e.what());
         throw;
     }
     

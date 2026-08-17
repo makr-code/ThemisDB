@@ -88,8 +88,14 @@ public:
         llama_log_set(llamaLoadLogCaptureCallback, &state_);
     }
 
-    ~ScopedLlamaLogCapture() {
-        llama_log_set(previous_callback_, previous_user_data_);
+    ~ScopedLlamaLogCapture() noexcept {
+        try {
+            llama_log_set(previous_callback_, previous_user_data_);
+        } catch (const std::exception& e) {
+            spdlog::error("Exception restoring llama log callback in ~ScopedLlamaLogCapture: {}", e.what());
+        } catch (...) {
+            spdlog::critical("Unknown exception restoring llama log callback in ~ScopedLlamaLogCapture");
+        }
     }
 
     const LlamaLoadLogCaptureState& state() const {
@@ -478,7 +484,8 @@ bool LazyModelLoader::preloadModel(
             }
             
         } catch (const std::exception& e) {
-            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
+            spdlog::error("Exception during async model load (context: preloading model {} from {}): {}", 
+                         model_id, model_path, e.what());
             return nullptr;
         }
     });
@@ -606,10 +613,10 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
                 spdlog::error("Async model load failed: {}", model_id);
             }
             
-            return model;
             
         } catch (const std::exception& e) {
-            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
+            spdlog::error("Exception during async model load (context: loading model {} from {}): {}", 
+                         model_id, model_path, e.what());
             return nullptr;
         }
     });
@@ -1004,7 +1011,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
                 spdlog::warn("Custom GGUFLoader: Failed to parse GGUF file");
             }
         } catch (const std::exception& e) {
-            spdlog::warn("Custom GGUFLoader exception: {}", e.what());
+            spdlog::warn("Custom GGUFLoader exception (context: GGUF file validation for {}): {}", model_id, e.what());
         }
     }
     

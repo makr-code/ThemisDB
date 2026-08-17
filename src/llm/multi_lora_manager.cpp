@@ -1643,7 +1643,12 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         
         return true;
     } catch (const std::exception& e) {
-        spdlog::error("Quantization failed for LoRA {}: {}", lora->lora_id, e.what());
+        // Wrap exception with operation context for better debugging
+        const std::string context_msg = fmt::format(
+            "Quantization failed for LoRA {}: {} (file: {})",
+            lora->lora_id, e.what(), lora->path
+        );
+        spdlog::error("{}", context_msg);
         return false;
     }
 }
@@ -1713,7 +1718,7 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
         spdlog::debug("INT8 quantization: {} channels, {} weights per channel", 
                       num_channels, weights_per_channel);
     } catch (const std::exception& e) {
-        spdlog::error("INT8 quantization failed: {}", e.what());
+        spdlog::error("INT8 quantization failed for LoRA: {} (operation context: quantize INT8 weights)", e.what());
         lora->is_quantized = false;
     }
 }
@@ -2610,7 +2615,7 @@ void MultiLoRAManager::evictionWorker() {
                 }
             }
         } catch (const std::exception& e) {
-            spdlog::error("Eviction worker error: {}", e.what());
+            spdlog::error("Eviction worker error (context: LRU cache maintenance): {}", e.what());
         }
     }
     
