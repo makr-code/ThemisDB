@@ -112,6 +112,87 @@ std::string normalizeChecksum(std::string checksum) {
     return checksum;
 }
 
+// ═══════════════════════════════════════════════════════════
+// BATCH 1.2: Model Loader Null-Safety Helpers
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * @brief Validates model file path exists and is accessible
+ * @param model_path Path to model file
+ * @param model_id Model identifier for logging
+ * @throw std::runtime_error if path is empty or inaccessible
+ * @pre model_path must not be empty
+ */
+void validateModelFilePath(const std::string& model_path, const std::string& model_id) {
+    if (model_path.empty()) {
+        const std::string error_msg = "Model path is empty for model: " + model_id;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    const fs::path model_file_path = fs::absolute(fs::path(model_path));
+    if (!fs::exists(model_file_path)) {
+        const std::string error_msg = "Model file does not exist: " + model_file_path.string() + 
+                                      " (model: " + model_id + ")";
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    if (!fs::is_regular_file(model_file_path)) {
+        const std::string error_msg = "Model path is not a regular file: " + model_file_path.string() + 
+                                      " (model: " + model_id + ")";
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
+/**
+ * @brief Validates configuration object has required structure
+ * @param config JSON configuration object
+ * @param model_id Model identifier for logging
+ * @throw std::runtime_error if config is not a valid object
+ * @pre config must be a valid JSON object
+ */
+void validateModelConfig(const json& config, const std::string& model_id) {
+    if (!config.is_object()) {
+        const std::string error_msg = "Model configuration is not a valid object for model: " + model_id;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
+/**
+ * @brief Validates llama_model pointer is not null
+ * @param model Pointer to loaded llama_model
+ * @param model_id Model identifier for logging
+ * @throw std::runtime_error if model is nullptr
+ * @pre model must be non-null
+ */
+void validateLoadedModel(const llama_model* model, const std::string& model_id) {
+    if (!model) {
+        const std::string error_msg = "Failed to load model: " + model_id + 
+                                      " (llama_load_model_from_file returned nullptr)";
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
+/**
+ * @brief Validates llama_context pointer is not null
+ * @param context Pointer to created llama_context
+ * @param model_id Model identifier for logging
+ * @throw std::runtime_error if context is nullptr
+ * @pre context must be non-null
+ */
+void validateLoadedContext(const llama_context* context, const std::string& model_id) {
+    if (!context) {
+        const std::string error_msg = "Failed to create context for model: " + model_id + 
+                                      " (llama_new_context_with_model returned nullptr)";
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
 std::string getExpectedModelChecksum(const json& config) {
     if (!config.is_object()) {
         return {};
@@ -938,8 +1019,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     }
     
     if (!lmodel) {
+        spdlog::error("Failed to load model with both custom and native loaders (all n_gpu_layers attempts failed)");
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
-        spdlog::error("Failed to load model with both custom and native loaders");
         std::ostringstream attempts;
         for (size_t i = 0; i < attempted_gpu_layers.size(); ++i) {
             if (i > 0) {
@@ -1029,7 +1110,9 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Create context
     llama_context* lctx = llama_new_context_with_model(lmodel, ctx_params);
     
+    // BATCH 1.2: Enhanced Null-Safety Validation for Context Creation
     if (!lctx) {
+        spdlog::error("Failed to create context for model: {} (llama_new_context_with_model returned nullptr)", model_id);
         errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, model_id);
         llama_free_model(lmodel);
         return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED,

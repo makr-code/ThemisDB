@@ -168,6 +168,81 @@ bool GGUFLoader::isFormatSupported(GGMLType type) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════
+// BATCH 1.3: Tensor Buffer Validation Helpers
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * @brief Validates tensor metadata has valid shape information
+ * @param tensor Tensor metadata to validate
+ * @param tensor_name Name for error messaging
+ * @throw std::runtime_error if shape is invalid or empty
+ * @pre tensor shape must not be empty
+ */
+void validateTensorShape(const TensorMetadata& tensor, const std::string& tensor_name) {
+    if (tensor.shape.empty()) {
+        const std::string error_msg = "Tensor shape is empty for: " + tensor_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    for (size_t i = 0; i < tensor.shape.size(); ++i) {
+        if (tensor.shape[i] <= 0) {
+            const std::string error_msg = "Tensor dimension[" + std::to_string(i) + "] is invalid (<=0) for: " + tensor_name;
+            spdlog::error("{}", error_msg);
+            throw std::runtime_error(error_msg);
+        }
+    }
+}
+
+/**
+ * @brief Validates tensor buffer pointer and size
+ * @param buffer Pointer to tensor buffer data
+ * @param buffer_size Size of buffer in bytes
+ * @param tensor_name Name for error messaging
+ * @throw std::runtime_error if buffer is null or size is invalid
+ * @pre buffer must be non-null and size must be positive
+ */
+void validateTensorBuffer(const void* buffer, size_t buffer_size, const std::string& tensor_name) {
+    if (!buffer) {
+        const std::string error_msg = "Tensor buffer is null for: " + tensor_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    if (buffer_size == 0) {
+        const std::string error_msg = "Tensor buffer size is zero for: " + tensor_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
+/**
+ * @brief Validates tensor offset is within file bounds
+ * @param offset Offset into file
+ * @param tensor_size Size of tensor data
+ * @param file_size Total file size
+ * @param tensor_name Name for error messaging
+ * @throw std::runtime_error if offset or size would exceed file bounds
+ * @pre offset + tensor_size must not exceed file_size
+ */
+void validateTensorOffset(size_t offset, size_t tensor_size, size_t file_size, const std::string& tensor_name) {
+    if (offset >= file_size) {
+        const std::string error_msg = "Tensor offset (" + std::to_string(offset) + 
+                                      ") exceeds file size (" + std::to_string(file_size) + ") for: " + tensor_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    if (offset + tensor_size > file_size || offset + tensor_size < offset) {  // Check for overflow
+        const std::string error_msg = "Tensor data [offset=" + std::to_string(offset) + 
+                                      ", size=" + std::to_string(tensor_size) + 
+                                      "] exceeds file bounds [file_size=" + std::to_string(file_size) + "] for: " + tensor_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
 GGUFLoader::GGUFLoader() 
     : fd_(-1), mmap_base_(nullptr), mmap_size_(0), db_(nullptr) {
 }
@@ -250,6 +325,13 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
     mmap_size_ = mmap_size;
     fd_ = fd_guard.release();
     
+    // BATCH 1.3: Validate mmap result before proceeding
+    if (!mmap_base_ || mmap_size_ == 0) {
+        last_error_ = "GGUF file mapping failed: mmap_base is null or size is zero";
+        releaseResources();
+        return false;
+    }
+    
 #else
     std::ifstream file(filepath, std::ios::binary | std::ios::ate);
     if (!file) {
@@ -283,6 +365,13 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
     
     mmap_size_ = static_cast<size_t>(size);
     mmap_base_ = file_buffer_.data();
+    
+    // BATCH 1.3: Validate buffer result before proceeding
+    if (!mmap_base_ || mmap_size_ == 0) {
+        last_error_ = "GGUF file buffer allocation failed: buffer is null or size is zero";
+        file_buffer_.clear();
+        return false;
+    }
 #endif
     
     // Parse GGUF structure
@@ -561,6 +650,17 @@ bool GGUFLoader::parseTensorInfo() {
         }
         tensor.size = num_elements * getGGMLTypeSize(tensor.type);
         tensor.offset = tensor_offset;
+        
+        // BATCH 1.3: Validate tensor shape and bounds before storing
+        try {
+            validateTensorShape(tensor, "GGUFLoader::parseTensorInfo[" + tensor.name + "]");
+            validateTensorOffset(tensor.offset, tensor.size, mmap_size_, 
+                               "GGUFLoader::parseTensorInfo[" + tensor.name + "]");
+        } catch (const std::exception& e) {
+            last_error_ = e.what();
+            spdlog::error("GGUFLoader: {}", last_error_);
+            return false;
+        }
         
         metadata_.tensors.push_back(tensor);
     }
