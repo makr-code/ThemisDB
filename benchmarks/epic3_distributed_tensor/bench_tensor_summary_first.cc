@@ -196,4 +196,243 @@ BENCHMARK(BSF04_ExactFetch)
     ->Unit(benchmark::kMicrosecond)
     ->UseRealTime();
 
+// ── BSF-05: Freshness query latency for single shard ──────────────────────────
+
+void BSF05_FreshnessQuery(benchmark::State& state) {
+    ShardSummaryCoordinator c;
+    c.registerShard("shard-0");
+
+    ShardSummary s;
+    s.shard_id = "shard-0";
+    s.shard_relevance = 0.9f;
+    s.freshness_state = SummaryFreshnessState::FRESH;
+    s.freshness_ttl_seconds = 3600;
+
+    c.refreshShard("shard-0", s, kRecentMs);
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    for (auto _ : state) {
+        const bool fresh = c.isFresh("shard-0", kBenchNowMs);
+        benchmark::DoNotOptimize(fresh);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("BSF-05 freshness-query");
+}
+BENCHMARK(BSF05_FreshnessQuery)
+    ->Iterations(100000)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
+
+// ── BSF-06: Routing latency with varying shard counts ──────────────────────────
+
+void BSF06_RoutingLatencyScaling(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    auto c = makeCoordinator(n, /*refreshed=*/true, /*stale=*/false);
+    const auto summaries = makeSummaryVec(n, /*fresh=*/true);
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    for (auto _ : state) {
+        const auto decisions =
+            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
+        benchmark::DoNotOptimize(decisions);
+    }
+
+    state.SetItemsProcessed(state.iterations() * n);
+    state.SetLabel("BSF-06 routing-scaling");
+}
+BENCHMARK(BSF06_RoutingLatencyScaling)
+    ->Arg(1)
+    ->Arg(4)
+    ->Arg(16)
+    ->Arg(64)
+    ->Arg(256)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
+
+// ── BSF-07: Consensus check latency ──────────────────────────────────────────
+
+void BSF07_ConsensusLatency(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    auto c = makeCoordinator(n, /*refreshed=*/true, /*stale=*/false);
+
+    std::vector<std::string> shard_ids;
+    shard_ids.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        shard_ids.push_back("shard-" + std::to_string(i));
+    }
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    for (auto _ : state) {
+        const auto res = c.checkFreshnessConsensus(shard_ids, kBenchNowMs);
+        benchmark::DoNotOptimize(res);
+    }
+
+    state.SetItemsProcessed(state.iterations() * n);
+    state.SetLabel("BSF-07 consensus-latency");
+}
+BENCHMARK(BSF07_ConsensusLatency)
+    ->Arg(4)
+    ->Arg(16)
+    ->Arg(64)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
+
+// ── BSF-08: Refresh throughput (advisory summary updates) ────────────────────
+
+void BSF08_RefreshThroughput(benchmark::State& state) {
+    auto c = makeCoordinator(64, /*refreshed=*/false);
+    std::unordered_map<std::string, ShardSummary> summaries;
+    for (int i = 0; i < 64; ++i) {
+        ShardSummary s;
+        s.shard_id = "shard-" + std::to_string(i);
+        s.shard_relevance = 0.8f;
+        s.freshness_state = SummaryFreshnessState::STALE;
+        s.freshness_ttl_seconds = 3600;
+        summaries.emplace(s.shard_id, std::move(s));
+    }
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    int64_t ts = kBenchNowMs;
+    for (auto _ : state) {
+        const auto results = c.refreshAll(summaries, ts);
+        benchmark::DoNotOptimize(results);
+        ts += 1000;  // Increment time to vary results
+    }
+
+    state.SetItemsProcessed(state.iterations() * 64);
+    state.SetLabel("BSF-08 refresh-throughput");
+}
+BENCHMARK(BSF08_RefreshThroughput)
+    ->Iterations(1000)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
+
+// ── BSF-09: Escalation count with mixed freshness ─────────────────────────────
+
+void BSF09_EscalationMetrics(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    auto fetcher = std::make_shared<BenchStubFetcher>();
+    ShardSummaryCoordinator c(fetcher);
+
+    std::vector<ShardSummary> summaries;
+    for (int i = 0; i < n; ++i) {
+        ShardSummary s;
+        s.shard_id = "shard-" + std::to_string(i);
+        s.shard_relevance = 0.8f + static_cast<float>(i % 5) * 0.02f;
+        s.shard_healthy = true;
+        // Alternate between fresh and stale
+        s.freshness_state = (i % 2 == 0) ? SummaryFreshnessState::FRESH
+                                          : SummaryFreshnessState::STALE;
+        s.freshness_ttl_seconds = 3600;
+        summaries.push_back(std::move(s));
+    }
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    for (auto _ : state) {
+        const auto decisions =
+            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
+        benchmark::DoNotOptimize(decisions);
+    }
+
+    state.SetItemsProcessed(state.iterations() * n);
+    state.SetLabel("BSF-09 escalation-metrics");
+}
+BENCHMARK(BSF09_EscalationMetrics)
+    ->Arg(16)
+    ->Arg(64)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
+
+// ── BSF-10: Exact fetch with multiple concurrent requests (single-threaded simulation) ─
+
+void BSF10_FetchBatch(benchmark::State& state) {
+    auto fetcher = std::make_shared<BenchStubFetcher>();
+    ShardSummaryCoordinator c(fetcher);
+
+    std::vector<RoutingDecision> decisions;
+    for (int i = 0; i < 8; ++i) {
+        decisions.push_back({
+            .shard_id = "shard-" + std::to_string(i),
+            .include_shard = true,
+            .escalate_to_exact = true,
+        });
+    }
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    for (auto _ : state) {
+        const auto results = c.fetchEscalated(decisions, "artifact-bench");
+        benchmark::DoNotOptimize(results);
+    }
+
+    state.SetItemsProcessed(state.iterations() * 8);
+    state.SetLabel("BSF-10 fetch-batch");
+}
+BENCHMARK(BSF10_FetchBatch)
+    ->Iterations(1000)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
+
+// ── BSF-11: Stats snapshot latency (atomic counter reads) ──────────────────────
+
+void BSF11_StatsSnapshot(benchmark::State& state) {
+    auto fetcher = std::make_shared<BenchStubFetcher>();
+    ShardSummaryCoordinator c(fetcher);
+
+    // Pre-populate some stats
+    for (int i = 0; i < 100; ++i) {
+        ShardSummary s;
+        s.shard_id = "shard-" + std::to_string(i % 16);
+        s.shard_relevance = 0.8f;
+        s.freshness_state = SummaryFreshnessState::FRESH;
+        c.refreshShard(s.shard_id, s, kBenchNowMs);
+    }
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    for (auto _ : state) {
+        const auto stats = c.stats();
+        benchmark::DoNotOptimize(stats);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("BSF-11 stats-snapshot");
+}
+BENCHMARK(BSF11_StatsSnapshot)
+    ->Iterations(100000)
+    ->Unit(benchmark::kNanosecond)
+    ->UseRealTime();
+
+// ── BSF-12: Planner latency p99 target (synthesis of routing + consensus checks) ─
+
+void BSF12_PlannerLatencyP99(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    auto c = makeCoordinator(n, /*refreshed=*/true);
+
+    std::vector<ShardSummary> summaries = makeSummaryVec(n, /*fresh=*/true);
+    std::vector<std::string> shard_ids;
+    for (int i = 0; i < n; ++i) {
+        shard_ids.push_back("shard-" + std::to_string(i));
+    }
+
+    benchmark::DoNotOptimize(kCanonicalRngSeed);
+
+    // Simulate a planner decision: route + check consensus
+    for (auto _ : state) {
+        const auto decisions =
+            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
+        const auto consensus = c.checkFreshnessConsensus(shard_ids, kBenchNowMs);
+        benchmark::DoNotOptimize(decisions);
+        benchmark::DoNotOptimize(consensus);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("BSF-12 planner-latency-p99");
+}
+BENCHMARK(BSF12_PlannerLatencyP99)
+    ->Arg(4)
+    ->Arg(16)
+    ->Arg(64)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
+
 } // namespace

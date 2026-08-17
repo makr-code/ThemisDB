@@ -315,6 +315,27 @@ class SnapshotBasedUpdateWorker {
                                                const ArtifactManifest& current_manifest,
                                                uint64_t current_source_seq);
 
+  /// Phase B: Checks if a delta window is valid for patching operations.
+  /// @param delta_window Window to validate
+  /// @param max_age_ms Maximum allowed age of window (default 1 hour)
+  /// @return true if window is valid for patching, false otherwise
+  virtual bool isValidForPatchingPublic(const DeltaWindow& delta_window,
+                                        int64_t max_age_ms = 3600000) const;
+
+  /// Phase B: Detects instability in delta patterns (e.g., thrashing).
+  /// @param delta_window Window to analyze
+  /// @param current_residual Current residual of the artifact
+  /// @return true if instability detected, false otherwise
+  virtual bool detectInstabilityPublic(const DeltaWindow& delta_window,
+                                       double current_residual) const;
+
+  /// Phase B: Checks if delta log appears to be overflowing.
+  /// @param current_entries Current number of entries in delta log
+  /// @param max_entries Maximum allowed entries (default 100000)
+  /// @return true if overflow imminent (>95% of limit), false otherwise
+  virtual bool isDeltaLogOverflowingPublic(size_t current_entries,
+                                           uint32_t max_entries = 100000) const;
+
  protected:
   UpdateWorkerState state_ = UpdateWorkerState::IDLE;
   Stats stats_;

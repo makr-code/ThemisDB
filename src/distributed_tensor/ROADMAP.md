@@ -71,15 +71,32 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] planner freshness gates (`tensor_freshness_age_seconds` threshold checks) (Prometheus metric wired)
 - [x] ctest gate: `test_tensor_delta_log` (tests/epic3_distributed_tensor/test_tensor_delta_log.cpp)
 - [x] ctest gate: `test_tensor_rebuild_fallback` (tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp)
-- [x] benchmark gate: `bench_tensor_partial_refit` (benchmarks/epic3_distributed_tensor/bench_tensor_partial_refit.cc)
+- [x] ctest gate: `test_phase_b_edge_cases` (tests/epic3_distributed_tensor/test_phase_b_edge_cases.cpp) — Phase B comprehensive edge case testing
+- [x] benchmark gate: `bench_tensor_partial_refit` (benchmarks/epic3_distributed_tensor/bench_tensor_partial_refit.cc) — Performance targets: p99 <= 30ms for bounded windows
 
-#### Phase C — Distributed Tensor Artifact Coordination (Q4 2026)
-- [ ] shard summary refresh with freshness timestamps (Target: Q4 2026)
-- [ ] summary-first routing with escalation to exact-on-demand (Target: Q4 2026)
-- [ ] exact-on-demand tensor fetch (replaces summary when accuracy required) (Target: Q4 2026)
-- [ ] multi-shard freshness consensus (Target: Q4 2026)
-- [ ] ctest gate: `test_tensor_shard_summary` (Target: Q4 2026)
-- [ ] benchmark gate: `bench_tensor_summary_first` (Target: Q4 2026)
+**Phase B Implementation (2026-08-17 Completion)**:
+- [x] Enhanced patch path with delta window bounds checking (sequence continuity, age validation, structural mutation detection)
+- [x] Partial refit with state machine transitions (PARTIAL_REFITTED state, rank cap enforcement, residual thresholds)
+- [x] Rebuild fallback triggering on:
+  - [x] Delta log overflow detection (95% threshold on max entries)
+  - [x] Instability detection heuristics (high mutation frequency, residual thresholds)
+  - [x] Fail-closed behavior on manifest validation failure
+- [x] Comprehensive edge case test suite (PBE-01..24): 24 tests covering patch bounds, overflow, instability, state transitions
+- [x] Full benchmark suite with performance targets:
+  - Patch path: p99 <= 5ms (10-50 entry windows)
+  - Partial refit: p99 <= 30ms (100-3200 entry windows)
+  - Rebuild fallback: p99 <= 100ms
+  - Decision logic: < 100µs per call
+- [x] Production-ready error handling: manifest validation, rank cap checks, residual enforcement
+- [x] State machine transitions for all three paths (PATCHED, PARTIAL_REFITTED, REBUILT)
+
+#### Phase C — Distributed Tensor Artifact Coordination (Q4 2026) ✅ COMPLETE
+- [x] shard summary refresh with freshness timestamps (✅ Implemented 2026-08-17)
+- [x] summary-first routing with escalation to exact-on-demand (✅ Implemented 2026-08-17)
+- [x] exact-on-demand tensor fetch (replaces summary when accuracy required) (✅ Implemented 2026-08-17)
+- [x] multi-shard freshness consensus (✅ Implemented 2026-08-17)
+- [x] ctest gate: `module_epic3_distributed_tensor_tensor_shard_summary_focused` (✅ 41 tests 2026-08-17)
+- [x] benchmark gate: `module_epic3_distributed_tensor_bench_summary_first_focused` (✅ 12 benchmarks 2026-08-17)
 
 #### Phase D — Optional Acceleration (2027+)
 - [ ] CPU/GPU break-even validation for tensor operations (Target: 2027)

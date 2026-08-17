@@ -327,19 +327,27 @@ public:
      */
     struct Config {
         /// Default freshness TTL for newly registered shards (seconds).
-        uint32_t default_ttl_seconds = 3600;
+        uint32_t default_ttl_seconds;
 
         /// Quorum ratio: fraction of shards that must be FRESH to skip exact fetch.
-        float freshness_quorum_ratio = 0.75f;
+        float freshness_quorum_ratio;
 
         /// Maximum exact fetch timeout in milliseconds.
-        uint32_t exact_fetch_timeout_ms = 5000;
+        uint32_t exact_fetch_timeout_ms;
 
         /// If true, STALE shards are always escalated; if false, they are skipped.
-        bool escalate_stale_shards = true;
+        bool escalate_stale_shards;
 
         /// If true, INVALID shards are skipped entirely (not included in routing).
-        bool skip_invalid_shards = true;
+        bool skip_invalid_shards;
+
+        /// Default constructor with proper default values.
+        Config() noexcept
+            : default_ttl_seconds(3600),
+              freshness_quorum_ratio(0.75f),
+              exact_fetch_timeout_ms(5000),
+              escalate_stale_shards(true),
+              skip_invalid_shards(true) {}
     };
 
     /**
@@ -353,7 +361,7 @@ public:
     explicit ShardSummaryCoordinator(
         std::shared_ptr<IShardFetcher> fetcher = nullptr,
         ManifestStore* manifest_store = nullptr,
-        Config config = {}) noexcept;
+        Config config = Config()) noexcept;
 
     ~ShardSummaryCoordinator() = default;
 
