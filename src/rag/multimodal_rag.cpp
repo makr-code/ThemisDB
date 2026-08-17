@@ -81,6 +81,7 @@ struct MultiModalRAG::Impl {
     TextRetrievalFn     text_retriever;
     ImageRetrievalFn    image_retriever;
     ImageCaptionFn      image_captioner;
+    mutable std::mutex state_mutex;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

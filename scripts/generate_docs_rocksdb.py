@@ -147,6 +147,7 @@ def generate_cpp_direct_writer(docs_data: dict, output_path: str) -> str:
 #include <rocksdb/options.h>
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
@@ -181,7 +182,7 @@ int main(int argc, char* argv[]) {
     // Open RocksDB database
     Options options;
     options.create_if_missing = true;
-    DB* db = nullptr;
+    std::unique_ptr<DB> db;
 
     Status status = DB::Open(options, db_path, &db);
     if (!status.ok()) {
@@ -200,7 +201,7 @@ int main(int argc, char* argv[]) {
         status = db->Put(WriteOptions(), key, value);
         if (!status.ok()) {
             std::cerr << "Error writing to database: " << status.ToString() << std::endl;
-            delete db;
+            db.reset();
             return 1;
         }
         
@@ -213,7 +214,7 @@ int main(int argc, char* argv[]) {
     std::cout << "[OK] Successfully imported " << doc_count << " documents!" << std::endl;
 
     // Cleanup
-    delete db;
+    db.reset();
     return 0;
 }
 """)
