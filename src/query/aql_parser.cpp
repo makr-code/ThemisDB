@@ -107,7 +107,7 @@ void ParserScopeContext::popScope() {
     }
 }
 
-const std::unordered_set<std::string>& ParserScopeContext::getRegisteredCollections() const {
+const std::set<std::string>& ParserScopeContext::getRegisteredCollections() const {
     return registered_collections_;
 }
 
