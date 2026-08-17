@@ -13,6 +13,8 @@
 #include "utils/audit_logger.h"
 #include <stdexcept>
 #include "utils/logger.h"
+#include "utils/error_contracts.h"
+#include <fmt/format.h>
 
 #include <filesystem>
 #include <openssl/sha.h>
@@ -1558,6 +1560,12 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
 void HashChainAuditWriter::saveChainHead() {
     try {
         if (!chain_head_stream_.is_open()) {
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::AUDIT_PERSISTENCE_FAILED,
+                "chain head stream is not open",
+                "HashChainAuditWriter::saveChainHead",
+                ErrorSeverity::Error,
+                /*is_recoverable=*/false));
             throw std::runtime_error("chain head stream is not open");
         }
 
@@ -1633,6 +1641,12 @@ void HashChainAuditWriter::write(nlohmann::json record) {
             log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);
         }
         if (!log_stream_.is_open()) {
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::AUDIT_PERSISTENCE_FAILED,
+                fmt::format("log stream could not be opened: {}", cfg_.log_path),
+                "HashChainAuditWriter::append",
+                ErrorSeverity::Error,
+                /*is_recoverable=*/true));
             throw std::runtime_error("log stream is not open");
         }
         log_stream_ << record_json << '\n';
@@ -1640,6 +1654,12 @@ void HashChainAuditWriter::write(nlohmann::json record) {
             log_stream_.flush();
         }
     } catch (const std::exception& e) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::AUDIT_WRITE_FAILED,
+            fmt::format("failed to append log to {}: {}", cfg_.log_path, e.what()),
+            "HashChainAuditWriter::append",
+            ErrorSeverity::Error,
+            /*is_recoverable=*/true));
         THEMIS_ERROR("HashChainAuditWriter: failed to append log to {}: {}",
                      cfg_.log_path, e.what());
     }

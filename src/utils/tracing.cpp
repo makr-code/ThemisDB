@@ -12,6 +12,7 @@
 
 #include "utils/tracing.h"
 #include "utils/logger.h"
+#include "utils/error_contracts.h"
 #include "observability/metrics_collector.h"
 #include "security/pii_redaction_policy.h"
 
