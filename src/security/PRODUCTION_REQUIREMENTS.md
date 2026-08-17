@@ -37,6 +37,13 @@ Es definiert verbindliche Anforderungen für Zugriffskontrolle, Verschlüsselung
 - **MUST:** `behavioral_anomaly_detector.cpp` in Produktionsdeployments konfiguriert.
 - **MUST:** Security-Evidence-Collector (`security_evidence_collector.cpp`) aktiv; Audit-Trail muss persistiert werden.
 
+### 4) Timestamp-Authority Transport (RFC 3161)
+
+- **MUST:** Für produktive TSA-Anbindung den OpenSSL/CURL-Pfad (`timestamp_authority_openssl.cpp`) mit HTTPS-Endpunkt betreiben.
+- **MUST:** TSA-Transport auf TLS-gesicherte Verbindungen beschränken (kein HTTP-Fallback, keine Nicht-HTTPS-Redirects).
+- **MUST:** Verbindungs- und Gesamt-Timeouts gesetzt halten; unbegrenzte TSA-Requests sind unzulässig.
+- **MUST NOT:** Unsichere TSA-Transportpfade als produktiven Standard verwenden.
+
 ## Betriebsgrenzen (aktuelles Security-Verhalten)
 
 - Encryption-Key-Rotation über `vault_key_provider` ist operativ; Key-Rotation ohne Ausfallzeit erfordert konfigurierte Rotation-Policy.
@@ -52,6 +59,7 @@ Es definiert verbindliche Anforderungen für Zugriffskontrolle, Verschlüsselung
 - [ ] AQL-Injection-Detektor aktiv
 - [ ] Behavioral-Anomaly-Detektor konfiguriert
 - [ ] Security-Evidence-Collector persistiert Audit-Trail
+- [ ] TSA-Endpunkt nutzt HTTPS; RFC-3161 Transport wird über den OpenSSL/CURL-Pfad abgesichert
 - [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
 
 ## Review / Sourcecode-Audit-Nachweis
@@ -69,3 +77,4 @@ Es definiert verbindliche Anforderungen für Zugriffskontrolle, Verschlüsselung
 - `src/security/aql_injection_detector.cpp`
 - `src/security/behavioral_anomaly_detector.cpp`
 - `src/security/security_evidence_collector.cpp`
+- `src/security/timestamp_authority_openssl.cpp`

@@ -53,3 +53,4 @@
 
 - Continue module-wide pass for README/ARCHITECTURE/SECURITY/PERFORMANCE wording to keep every statement strictly source-verifiable.
 - Keep benchmark-backed security limits synchronized with latest focused regressions.
+- Full fresh security-gap rescan remains open and must be completed before final Batch-4 closure; status is explicitly tracked in `src/security/MODULE_GAPS.md`.

@@ -25,6 +25,12 @@ Provides encryption, key management, and PKI integration for ThemisDB, implement
 
 **Maturity:** 🟢 Production-Ready — Defense-in-depth security stack (TLS/mTLS, encryption, RBAC/ABAC, HSM integration, audit/compliance) is operational.
 
+### Developer Update (2026-08-17)
+
+- TSA transport hardening for RFC-3161 requests is implemented in `src/security/timestamp_authority_openssl.cpp` (HTTPS-only, HTTPS-protocol restriction, TLS minimum, connect/total timeout hardening).
+- `src/security/timestamp_authority.cpp` remains the non-OpenSSL fallback/stub bridge path and is not the hardened TSA transport implementation.
+- A full fresh security-gap rescan is still open and explicitly tracked in `src/security/MODULE_GAPS.md`.
+
 ## Architecture Overview
 
 ThemisDB's security module implements defense-in-depth with multiple layers:
@@ -1030,7 +1036,8 @@ bool loadLoRAAdapter(const std::string& path) {
 - `malware_scanner.cpp` - ClamAV integration
 - `binary_manifest.cpp` - Manifest handling
 - `cms_signing.cpp` - CMS signing implementation
-- `timestamp_authority.cpp` - TSA client
+- `timestamp_authority_openssl.cpp` - OpenSSL/libcurl TSA client with hardened HTTPS transport
+- `timestamp_authority.cpp` - TSA fallback bridge/stub path for non-OpenSSL builds
 - `usb_admin_authenticator.cpp` - USB authentication
 - `vram_secure_clear.cpp` - VRAM clearing
 
