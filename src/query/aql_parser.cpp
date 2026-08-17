@@ -24,6 +24,95 @@ namespace themis {
 namespace query {
 
 // ============================================================================
+// ParserScopeContext Implementation (Phase 2 Agent 1)
+// ============================================================================
+
+void ParserScopeContext::registerCollection(const std::string& collection_name) {
+    if (collection_name.empty()) {
+        return;  // Silently ignore empty collection names
+    }
+
+    // Extract scope namespace prefix (the part before the first dot, if any).
+    // Collections like "scope1.table1" carry an explicit scope prefix.
+    const auto dot_pos = collection_name.find('.');
+    if (dot_pos != std::string::npos) {
+        std::string prefix = collection_name.substr(0, dot_pos);
+        if (!current_scope_prefix_.empty() && current_scope_prefix_ != prefix) {
+            throw std::runtime_error(
+                fmt::format("Parser error: scope mismatch — mix of scope '{}' and scope '{}' "
+                            "is not allowed within a single query",
+                            current_scope_prefix_, prefix));
+        }
+        current_scope_prefix_ = std::move(prefix);
+    }
+
+    registered_collections_.insert(collection_name);
+}
+
+bool ParserScopeContext::isCollectionInScope(const std::string& collection_name) const {
+    if (collection_name.empty()) {
+        return false;  // Empty collection names are never in scope
+    }
+    // Special case: "graph" is a synthetic collection name for traversal queries
+    if (collection_name == "graph") {
+        return true;
+    }
+    return registered_collections_.count(collection_name) > 0;
+}
+
+Result<bool> ParserScopeContext::validateCollectionAccess(
+    const std::string& collection_name,
+    const std::string& context_description) const {
+    if (!isCollectionInScope(collection_name)) {
+        // Build the registered-collections list without relying on fmt::join
+        // to avoid a dependency on <fmt/ranges.h>.
+        std::string registered_list;
+        if (registered_collections_.empty()) {
+            registered_list = "(none)";
+        } else {
+            for (const auto& c : registered_collections_) {
+                if (!registered_list.empty()) registered_list += ", ";
+                registered_list += c;
+            }
+        }
+        return Err<bool>(
+            errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+            fmt::format("Collection '{}' not in scope for {} statement. "
+                       "Registered collections: {}",
+                       collection_name, context_description, registered_list)
+        );
+    }
+    return Ok(true);
+}
+
+void ParserScopeContext::pushScope() {
+    scope_stack_.push_back(registered_collections_);
+    scope_prefix_stack_.push_back(current_scope_prefix_);
+}
+
+void ParserScopeContext::popScope() {
+    if (!scope_stack_.empty()) {
+        registered_collections_ = std::move(scope_stack_.back());
+        scope_stack_.pop_back();
+    }
+    if (!scope_prefix_stack_.empty()) {
+        current_scope_prefix_ = std::move(scope_prefix_stack_.back());
+        scope_prefix_stack_.pop_back();
+    }
+}
+
+const std::unordered_set<std::string>& ParserScopeContext::getRegisteredCollections() const {
+    return registered_collections_;
+}
+
+void ParserScopeContext::clear() {
+    registered_collections_.clear();
+    scope_stack_.clear();
+    current_scope_prefix_.clear();
+    scope_prefix_stack_.clear();
+}
+
+// ============================================================================
 // Tokenizer (Lexer)
 // ============================================================================
 
@@ -196,7 +285,8 @@ private:
         }
         advance(); // Skip opening quote
         std::string value;
-        
+        value.reserve(256);  // Pre-allocate to avoid O(n²) growth
+         
         while (peek() != quote && peek() != '\0') {
             if (peek() == '\\') {
                 advance();
@@ -224,16 +314,17 @@ private:
     
     Token readNumber(size_t line, size_t col) {
         std::string value;
+        value.reserve(32);  // Pre-allocate for typical number sizes
         bool is_float = false;
-        
+         
         if (peek() == '-') {
             value += advance();
         }
-        
+         
         while (std::isdigit(peek())) {
             value += advance();
         }
-        
+         
         // Only treat as float if dot is followed by a digit (e.g., 1.23)
         if (peek() == '.' && std::isdigit(peek(1))) {
             is_float = true;
@@ -242,13 +333,14 @@ private:
                 value += advance();
             }
         }
-        
+         
         return Token(is_float ? TokenType::FLOAT : TokenType::INTEGER, value, line, col);
     }
     
     Token readIdentifierOrKeyword(size_t line, size_t col) {
         std::string value;
-        
+        value.reserve(64);  // Pre-allocate for typical identifier sizes
+         
         while (std::isalnum(peek()) || peek() == '_') {
             value += advance();
         }
@@ -451,6 +543,8 @@ private:
     // (stack overflow via crafted queries with thousands of nested NOT / subexpressions).
     int depth_{0};
     static constexpr int kMaxExprDepth = 500;
+    // Phase 2 Agent 1: Scope validation context
+    ParserScopeContext scope_context_;
     
     const Token& current() const {
         return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
@@ -654,7 +748,11 @@ private:
                         try {
                             pred.proximity_distance = static_cast<uint32_t>(
                                 std::stoul(current().value));
-                        } catch (...) {
+                        } catch (const std::out_of_range& e) {
+                            THEMIS_WARN("aql_parser: NEAR predicate distance value overflow '{}', using default 0", current().value);
+                            pred.proximity_distance = 0;
+                        } catch (const std::invalid_argument& e) {
+                            THEMIS_WARN("aql_parser: NEAR predicate distance '{}' is not a valid number, using default 0", current().value);
                             pred.proximity_distance = 0;
                         }
                         advance();
@@ -706,7 +804,11 @@ private:
                 }
                 try {
                     pred.boost = std::stod(current().value);
-                } catch (...) {
+                } catch (const std::out_of_range& e) {
+                    THEMIS_WARN("aql_parser: SEARCH BOOST value overflow '{}', using default 1.0", current().value);
+                    pred.boost = 1.0;
+                } catch (const std::invalid_argument& e) {
+                    THEMIS_WARN("aql_parser: SEARCH BOOST value '{}' is not a valid number, using default 1.0", current().value);
                     pred.boost = 1.0;
                 }
                 advance();
@@ -762,7 +864,11 @@ private:
             }
             try {
                 node->top_boost = std::stod(current().value);
-            } catch (...) {
+            } catch (const std::out_of_range& e) {
+                THEMIS_WARN("aql_parser: SEARCH top-level BOOST value overflow '{}', using default 1.0", current().value);
+                node->top_boost = 1.0;
+            } catch (const std::invalid_argument& e) {
+                THEMIS_WARN("aql_parser: SEARCH top-level BOOST value '{}' is not a valid number, using default 1.0", current().value);
                 node->top_boost = 1.0;
             }
             advance();
@@ -808,6 +914,10 @@ private:
         if (match(TokenType::IDENTIFIER)) {
             std::string collection = current().value;
             advance();
+            
+            // Phase 2 Agent 1: Register and validate collection scope
+            scope_context_.registerCollection(collection);
+            
             ForNode node;
             node.variable = varVertex;
             node.collection = collection;
@@ -1530,6 +1640,8 @@ private:
             if (t == k) {
                 std::string name = current().value;
                 advance();
+                // Phase 2 Agent 1: Register collection in scope for mutation statements
+                scope_context_.registerCollection(name);
                 return name;
             }
         }

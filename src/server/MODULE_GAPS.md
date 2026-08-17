@@ -12,6 +12,11 @@
 - **Affected Source Files**: 111
 - **Previous Scan (2026-06-04)**: 1,793 findings → **Current Verified**: 2,172 findings (+21% additional gaps identified)
 
+**Batch 3 Wave Correlation (2026-08-14):**
+- **Wave A Gaps** (~400 IMPL gaps): HTTP timeout enforcement, graceful shutdown drain, rate-limit fail-closed, protocol retry semantics
+- **Wave B Gaps** (~300 IMPL gaps): Distributed rate-limit state, GraphQL federation, adaptive backpressure
+- **DOC Gaps** (~1,500 gaps): Thread-safety model documentation, fail-closed behavior documentation, auth flow documentation
+
 ## Severity Summary
 
 | Severity | Count |

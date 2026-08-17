@@ -1,11 +1,12 @@
 # ThemisDB Distributed Knowledge Module
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | validated: 2026-08-10 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: PRODUCTION_CANDIDATE (Wave B Distribution) | Phase 1-3 complete | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Partition Tolerance + Convergence Guarantees + Cross-Shard Consistency -->
 
 ## Module Purpose
 
-The distributed_knowledge module provides cross-shard knowledge federation runtime surfaces for ThemisDB, including adapter capability exchange, federated aggregation, cross-shard retrieval merge, and privacy-aware feedback synchronization.
+Production-candidate cross-shard knowledge federation runtime surfaces for ThemisDB, including adapter capability exchange, federated aggregation, cross-shard retrieval merge, and privacy-aware feedback synchronization. **Batch 5 enhancement focus: Partition tolerance under shard failures, convergence guarantees, cross-shard consistency validation**.
 
 ## Relevant Interfaces
 

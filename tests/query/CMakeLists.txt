@@ -552,6 +552,44 @@ else()
     message(STATUS "Query Optimizer Regression tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_query_optimizer_regression.cpp")
 endif()
 
+# Phase 2 Agent 2: Query Optimizer Scope Bounds and Validation Tests
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_optimizer_scope_bounds.cpp")
+    message(STATUS "Adding Phase 2 Agent 2: Query Optimizer Scope Bounds tests (25 deterministic cases)")
+
+    add_executable(test_query_optimizer_scope_bounds_focused
+        test_query_optimizer_scope_bounds.cpp
+    )
+
+    target_include_directories(test_query_optimizer_scope_bounds_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_optimizer_scope_bounds_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_optimizer_scope_bounds_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME QueryOptimizerScopeBoundsTests
+        TARGET test_query_optimizer_scope_bounds_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS phase2 optimizer scope-bounds scope-mismatch federation isolation validation
+    )
+
+    message(STATUS "  Phase 2 Agent 2: Scope bounds (SB1-6), result boundaries (RB7-13), federation isolation (FS14-17), edge cases (EC18-22), concurrency (C23), integration (I24-25)")
+else()
+    message(STATUS "Phase 2 Agent 2: Query Optimizer Scope Bounds tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_query_optimizer_scope_bounds.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_geospatial_optimizer.cpp")
     message(STATUS "Adding Query: Geospatial Optimizer Phase 6C tests (GEO_OPT_01-40)")
 

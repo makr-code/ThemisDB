@@ -1,11 +1,12 @@
 # ThemisDB Ingestion Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: Production Ready (Wave B Performance) | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Backpressure + Ordering Guarantees + Schema Enforcement -->
 
 ## Module Purpose
 
-The ingestion module provides source intake, normalization, and pipeline orchestration for ThemisDB, including multi-source connectors, validation, retry/rate-limit control, quality evaluation, and ingestion workflow execution.
+Production-capable data ingestion paths providing batch/streaming entry points, backpressure and flow control, ordering guarantees, and schema validation/enforcement for ThemisDB. **Batch 5 enhancement focus: Backpressure determinism, ordering guarantee reliability, schema enforcement under sustained load**.
 
 ## Relevant Interfaces
 

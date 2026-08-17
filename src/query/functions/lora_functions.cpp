@@ -156,9 +156,13 @@ nlohmann::json LoraTrainFunction::execute(
         // Get orchestrator and start training (async by default)
         auto orchestrator = getLoRAOrchestrator();
         if (!orchestrator) {
-            json error; error["error"] = "No LoRA orchestrator available";
+            json error;
+            error["error"] = "LORA_TRAIN failed: LoRA orchestrator is unavailable";
+            error["adapter_id"] = adapter_id;
+            error["reason"] = "orchestrator_initialization_failed";
             return error;
         }
+        
         std::string job_id = orchestrator->createAdapter(
             adapter_id,
             training_data,
@@ -248,9 +252,13 @@ nlohmann::json LoraQueryFunction::execute(
         // Get orchestrator and ensure adapter is loaded
         auto orchestrator = getLoRAOrchestrator();
         if (!orchestrator) {
-            return json(std::string("LORA_QUERY failed: No orchestrator available"));
+            json error;
+            error["error"] = "LORA_GENERATE failed: LoRA orchestrator is unavailable";
+            error["adapter_id"] = adapter_id;
+            error["reason"] = "orchestrator_initialization_failed";
+            return error;
         }
-
+        
         if (!orchestrator->isLoaded(adapter_id)) {
             orchestrator->loadAdapter(adapter_id, false);  // Sync load
         }
@@ -322,11 +330,20 @@ nlohmann::json LoraSimilarFunction::execute(
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
-
-        // Get source adapter info as JSON
+        if (!orchestrator) {
+            json error = json::array();
+            error.push_back({
+                {"error", "LORA_SIMILAR failed: LoRA orchestrator is unavailable"},
+                {"reason", "orchestrator_initialization_failed"}
+            });
+            return error;
+        }
+        
+        // Get source adapter info
         auto adapter_info_opt = orchestrator->getAdapter(adapter_id);
         if (!adapter_info_opt) {
-            return json::array();
+            json error = json::array();
+            return error;
         }
         const auto& adapter_info = *adapter_info_opt;
 
@@ -534,8 +551,15 @@ nlohmann::json LoraStatsFunction::execute(
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
-
-        // Get adapter info (JSON)
+        if (!orchestrator) {
+            json error;
+            error["error"] = "LORA_STATS failed: LoRA orchestrator is unavailable";
+            error["adapter_id"] = adapter_id;
+            error["reason"] = "orchestrator_initialization_failed";
+            return error;
+        }
+        
+        // Get adapter info
         auto adapter_info_opt = orchestrator->getAdapter(adapter_id);
         if (!adapter_info_opt) {
             json error;
@@ -632,6 +656,12 @@ nlohmann::json LoraRecommendFunction::execute(
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
+        if (!orchestrator) {
+            json error;
+            error["error"] = "LORA_RECOMMEND failed: LoRA orchestrator is unavailable";
+            error["reason"] = "orchestrator_initialization_failed";
+            return error;
+        }
         
         // Search for adapters matching criteria
         json search_criteria;
@@ -733,6 +763,14 @@ nlohmann::json LoraLineageFunction::execute(
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
+        if (!orchestrator) {
+            json lineage = json::array();
+            lineage.push_back({
+                {"error", "LORA_LINEAGE failed: LoRA orchestrator is unavailable"},
+                {"reason", "orchestrator_initialization_failed"}
+            });
+            return lineage;
+        }
         
         // Get adapter versions
         auto versions = orchestrator->getVersions(adapter_id);
@@ -796,6 +834,13 @@ nlohmann::json LoraProvenanceFunction::execute(
     try {
         const std::string adapter_id = args[0].get<std::string>();
         auto orchestrator = getLoRAOrchestrator();
+        if (!orchestrator) {
+            json error;
+            error["error"] = "LORA_PROVENANCE failed: LoRA orchestrator is unavailable";
+            error["adapter_id"] = adapter_id;
+            error["reason"] = "orchestrator_initialization_failed";
+            return error;
+        }
         auto prov_opt = orchestrator->getProvenanceRecord(adapter_id);
         if (!prov_opt) {
             return nullptr;
@@ -844,6 +889,15 @@ nlohmann::json LoraAuditLogFunction::execute(
         const int limit = (args.size() > 1) ? std::max(0, args[1].get<int>()) : 100;
 
         auto orchestrator = getLoRAOrchestrator();
+        if (!orchestrator) {
+            json result = json::array();
+            result.push_back({
+                {"error", "LORA_AUDIT_LOG failed: LoRA orchestrator is unavailable"},
+                {"reason", "orchestrator_initialization_failed"}
+            });
+            return result;
+        }
+        
         const auto entries = orchestrator->getInferenceAuditLog(adapter_id);
 
         json result = json::array();
@@ -894,6 +948,15 @@ nlohmann::json LoraSnapshotsFunction::execute(
     try {
         const std::string adapter_id = args[0].get<std::string>();
         auto orchestrator = getLoRAOrchestrator();
+        if (!orchestrator) {
+            json result = json::array();
+            result.push_back({
+                {"error", "LORA_SNAPSHOTS failed: LoRA orchestrator is unavailable"},
+                {"reason", "orchestrator_initialization_failed"}
+            });
+            return result;
+        }
+        
         const auto snaps = orchestrator->listAdapterSnapshots(adapter_id);
 
         json result = json::array();
@@ -940,8 +1003,17 @@ nlohmann::json LoraVerifyChainFunction::execute(
 ) const {
     try {
         const std::string adapter_id = args[0].get<std::string>();
+        
         auto orchestrator = getLoRAOrchestrator();
-
+        if (!orchestrator) {
+            json result;
+            result["error"] = "LORA_VERIFY_CHAIN failed: LoRA orchestrator is unavailable";
+            result["adapter_id"] = adapter_id;
+            result["reason"] = "orchestrator_initialization_failed";
+            result["is_valid"] = false;
+            return result;
+        }
+        
         const auto entries     = orchestrator->getInferenceAuditLog(adapter_id);
         const bool chain_valid = orchestrator->verifyAuditChain(adapter_id);
 

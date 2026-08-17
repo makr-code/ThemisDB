@@ -17,6 +17,7 @@
 #include <cmath>
 #include <sstream>
 #include <unordered_set>
+#include <mutex>
 
 namespace themis::rag::streaming {
 
@@ -134,6 +135,9 @@ struct StreamingRetriever::Impl {
 
     std::atomic<bool> streaming{false};
     std::atomic<bool> cancel_requested{false};
+    
+    // Synchronization for thread-safe callback access
+    mutable std::mutex callback_mutex;
 
     /**
      * Check whether @p candidate is too similar to any already-selected
@@ -169,14 +173,17 @@ StreamingRetriever::StreamingRetriever(const StreamingRetrieverConfig& config)
 StreamingRetriever::~StreamingRetriever() = default;
 
 void StreamingRetriever::setDocumentAcceptedCallback(DocumentAcceptedCallback cb) {
+    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_accepted = std::move(cb);
 }
 
 void StreamingRetriever::setDocumentSkippedCallback(DocumentSkippedCallback cb) {
+    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_skipped = std::move(cb);
 }
 
 void StreamingRetriever::setWindowFullCallback(WindowFullCallback cb) {
+    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_window_full = std::move(cb);
 }
 
@@ -262,8 +269,13 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
             if (!window_full_notified) {
                 THEMIS_INFO("Context window full after {} documents ({} tokens)",
                             result.documents_added, filler.snapshot().total_tokens_used);
-                if (impl_->on_window_full) {
-                    impl_->on_window_full(filler.snapshot());
+                WindowFullCallback cb;
+                {
+                    std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                    cb = impl_->on_window_full;
+                }
+                if (cb) {
+                    cb(filler.snapshot());
                 }
                 window_full_notified = true;
             }
@@ -275,8 +287,13 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
         if (impl_->isDuplicate(doc, filler.documents())) {
             THEMIS_DEBUG("Skipping duplicate document: id={}", doc.id);
             result.skipped_documents.push_back(doc);
-            if (impl_->on_skipped) {
-                impl_->on_skipped(doc, filler.snapshot());
+            DocumentSkippedCallback cb;
+            {
+                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                cb = impl_->on_skipped;
+            }
+            if (cb) {
+                cb(doc, filler.snapshot());
             }
             continue;
         }
@@ -287,16 +304,26 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
             THEMIS_DEBUG("Accepted document: id={}, score={:.3f}, tokens_used={}",
                          doc.id, doc.relevance_score,
                          filler.snapshot().total_tokens_used);
-            if (impl_->on_accepted) {
-                impl_->on_accepted(doc, filler.snapshot());
+            DocumentAcceptedCallback cb;
+            {
+                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                cb = impl_->on_accepted;
+            }
+            if (cb) {
+                cb(doc, filler.snapshot());
             }
         } else {
             // Document did not fit
             THEMIS_DEBUG("Skipped document (budget): id={}, score={:.3f}",
                          doc.id, doc.relevance_score);
             result.skipped_documents.push_back(doc);
-            if (impl_->on_skipped) {
-                impl_->on_skipped(doc, filler.snapshot());
+            DocumentSkippedCallback cb;
+            {
+                std::lock_guard<std::mutex> lock(impl_->callback_mutex);
+                cb = impl_->on_skipped;
+            }
+            if (cb) {
+                cb(doc, filler.snapshot());
             }
         }
     }

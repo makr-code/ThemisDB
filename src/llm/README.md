@@ -42,6 +42,23 @@ Out of scope:
 - Runtime behavior can vary by selected backend and available acceleration stack.
 - Benchmark coverage is broad but still evolving for all cross-node production scenarios.
 
+## Thread-Safety Model (Tier 1 Requirement)
+
+**Concurrency guarantees:**
+- **Query API:** Thread-safe for concurrent queries on distinct models via `EmbeddedLLM` thread-local isolation
+- **Model Loading:** Single writer, multiple readers protected by `model_load_mutex_` (read-write lock)
+- **Adapter Management:** LoRA adapter load/switch/unload protected by `adapter_lifecycle_mutex_`
+- **Embedding Cache:** Atomic operations on `query_embed_cache_` (concurrent readers + persistent RocksDB backend)
+- **Streaming Output:** Per-session callback isolation; no shared state between concurrent streams
+- **Plugin Lifecycle:** Thread-safe registration via `plugin_manager_mutex_`
+
+**Known thread-safety invariants:**
+- Multi-model query paths isolate state via separate `EmbeddedLLM*` instances per model
+- Cache eviction under concurrent reads is protected by `query_embed_mutex_` and `atomic<dim_probed_>`
+- Adapter hot-swap races prevented by `SubagentLifecycleManager` state machine (Phase B delivered)
+
+---
+
 ## Runtime Fallback and Verification Status (validated: 2026-07-19)
 
 - Doxygen `@file` coverage is complete across the module source and public headers.
@@ -53,6 +70,14 @@ Out of scope:
 - Release-signoff work that is broader than these source-level fallback fixes
   remains tracked in [ROADMAP.md](ROADMAP.md) and
   [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md).
+
+**Fail-Closed Behavior (Wave A — Runtime Reliability):**
+- **Model Load Failure:** Return `Status::kModelLoadFailed`; do not proceed to inference
+- **VRAM Exhaustion:** Trigger model eviction, then reject new load requests with `kOutOfMemory`
+- **Stream Abort:** Propagate abort signal, cleanup in-flight tokens, return incomplete response
+- **Backend Unavailable:** Fall back to CPU inference path; fail fast if CPU unavailable
+- **Timeout:** Enforce per-request timeout via `CancellationToken`; return `kDeadlineExceeded` on overrun
+- **Plugin Load Failure:** Graceful degradation (use next available backend); log error, do not crash
 
 Historical broad-spectrum scan inventories are retained in [MODULE_GAPS.md](MODULE_GAPS.md),
 but they are not the source of truth for the targeted runtime fallback coverage

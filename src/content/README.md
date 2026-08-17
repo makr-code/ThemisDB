@@ -1,21 +1,20 @@
 # ThemisDB Content Module
 
 <!-- Status: current | validated: 2026-08-15 -->
-<<<<<<< HEAD
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md -->
-=======
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · CMT-7504-DOCUMENTATION_SYNC.md -->
->>>>>>> origin/develop
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md · CMT-7504-DOCUMENTATION_SYNC.md -->
+<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Content Integrity + Versioning + Large-Content Performance -->
+
+Related docs: [Architecture](ARCHITECTURE.md) · [Roadmap](ROADMAP.md) · [Future Enhancements](FUTURE_ENHANCEMENTS.md) · [Batch 5 Gaps](MODULE_GAPS_BATCH5.md) · [Performance Expectations](PERFORMANCE_EXPECTATIONS.md) · [CMT-7504 Sync](CMT-7504-DOCUMENTATION_SYNC.md)
 
 ## Module Purpose
 
-The content module provides multi-format ingestion and processing runtime surfaces for ThemisDB, including extraction, validation, enrichment, deduplication, and content-pipeline orchestration.
+Production-capable multi-format content ingestion, storage/retrieval, versioning, and metadata management for ThemisDB supporting concurrent access patterns. **Batch 5 enhancement focus: Content integrity verification, versioning correctness, large-content performance optimization, concurrent access safety**.
 
 ## Module Status (Batch 5, 2026-08-15)
 
-**Maturity:** 🟢 **PRODUCTION-CANDIDATE** with finalization in progress  
-**Scope Verification:** CMT-7503 verified no dangling pointers (image/pdf adapters RAII-safe)  
-**Test Coverage:** CMT-FIN-36..40 (adapter scope validation), CMT-FIN-41..46 (doc linkset validation)  
+**Maturity:** 🟢 **PRODUCTION-CANDIDATE** with finalization in progress
+**Scope Verification:** CMT-7503 verified no dangling pointers (image/pdf adapters RAII-safe)
+**Test Coverage:** CMT-FIN-36..40 (adapter scope validation), CMT-FIN-41..46 (doc linkset validation)
 **Documentation Sync:** CMT-7504 in progress (ROADMAP/README/FUTURE_ENHANCEMENTS synchronized)
 
 ## Relevant Interfaces
@@ -145,23 +144,13 @@ This module contains 47 processor, management, and support files:
   - ingestion orchestration and processor routing
   - validation/security and enrichment/deduplication behavior
   - async pipeline and plugin integration paths
-<<<<<<< HEAD
   - multi-format extraction and chunking
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - Batch 5 (v2.4.0 GA closure) tasks tracked in:
-    - CMT-7504-DOCUMENTATION_SYNC.md (linkset synchronization)
-    - CMT-7505-TEST_COVERAGE_CORRELATION.md (gap-to-test mapping)
-    - CMT-7506-GA_PROMOTION_SIGN_OFF.md (promotion readiness)
-  - historical entries remain in CHANGELOG.md
-=======
 - Batch 5 (v2.4.0 GA closure) tracking:
   - **CMT-7503:** Scope mismatch verification (adapters RAII-safe) ✅ VERIFIED
-  - **CMT-FIN-36..40:** Adapter scope validation tests ✅ CREATED (test_adapter_scope_validation.cpp)
+  - **CMT-FIN-36..40:** Adapter scope validation tests ✅ CREATED (`tests/content/test_adapter_scope_validation.cpp`)
   - **CMT-7504:** Documentation linkset synchronization (in progress)
-  - **CMT-FIN-41..46:** Documentation linkset validation tests ✅ CREATED (test_content_docs_linkset_validation.cpp)
+  - **CMT-FIN-41..46:** Documentation linkset validation tests ✅ CREATED (`tests/content/test_content_docs_linkset_validation.cpp`)
   - **CMT-7505:** Test coverage correlation (planned)
   - **CMT-7506:** GA promotion sign-off (planned)
-  - Forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - Historical entries remain in CHANGELOG.md
->>>>>>> origin/develop
+  - forward planning is tracked in [ROADMAP.md](ROADMAP.md) and [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
+  - historical entries remain in [CHANGELOG.md](CHANGELOG.md)

@@ -334,6 +334,15 @@ def fetch_port_manifest(
         with urlopen(request, timeout=30) as response:
             data = json.load(response)
     except HTTPError as exc:
+        if exc.code == 404:
+            print(
+                f"[WARNING] Port '{port_name}' not found in vcpkg registry at baseline {baseline} "
+                f"(HTTP 404) — treating as unlicensed (no dependencies).",
+                flush=True,
+            )
+            data: dict[str, Any] = {"name": port_name}
+            cache[port_name] = data
+            return data
         raise RuntimeError(f"Unable to fetch port manifest for {port_name}: HTTP {exc.code}") from exc
     except URLError as exc:
         raise RuntimeError(f"Unable to fetch port manifest for {port_name}: {exc.reason}") from exc

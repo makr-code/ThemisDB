@@ -1278,33 +1278,30 @@ PropertyGraphManager::computePageRank(
     for (int iter = 0; iter < max_iterations && !converged; ++iter) {
         // Compute new PageRank scores
         for (const auto& node : nodes) {
-            {
-                double sum = 0.0;
-                
-                // Sum contributions from incoming nodes
-                for (const auto& in_node : incoming_nodes[node]) {
-                    int out_count = outgoing_count[in_node];
-                    if (out_count > 0) {
-                        sum += pagerank[in_node] / out_count;
-                    }
+            double sum = 0.0;
+
+            // Sum contributions from incoming nodes
+            for (const auto& in_node : incoming_nodes[node]) {
+                int out_count = outgoing_count[in_node];
+                if (out_count > 0) {
+                    sum += pagerank[in_node] / out_count;
                 }
-                
-                // PageRank formula: PR(node) = (1-d)/N + d * sum(PR(in_node) / out_degree(in_node))
-                pagerank_new[node] = (1.0 - damping_factor) / N + damping_factor * sum;
             }
+
+            // PageRank formula: PR(node) = (1-d)/N + d * sum(PR(in_node) / out_degree(in_node))
+            pagerank_new[node] = (1.0 - damping_factor) / N + damping_factor * sum;
         }
         
         // Check convergence
-        {
-            double diff = 0.0;
-            for (const auto& node : nodes) {
-                diff += std::abs(pagerank_new[node] - pagerank[node]);
+        double diff = 0.0;
+        for (const auto& node : nodes) {
+            diff += std::abs(pagerank_new[node] - pagerank[node]);
         }
-        
+
         if (diff < tolerance) {
             converged = true;
         }
-        
+
         // Update scores
         pagerank = pagerank_new;
     }

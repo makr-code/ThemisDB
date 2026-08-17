@@ -111,6 +111,8 @@ const std::vector<DetectionRule>& getRules()
                              "shared pattern '{}' — skipped", e.label);
             }
         }
+        // Reserve additional space for RAG-specific patterns (approximately 10 hard-coded rules)
+        r.reserve(std::max(r.capacity(), r.size() + 10));
 
         // ── RAG-specific patterns (not in shared registry) ───────────────────
 
@@ -380,6 +382,7 @@ std::string PromptInjectionSanitizer::sanitize(
     // ── Replace matched fragments at or above threshold ───────────────────
     // Sort findings by offset descending so replacements don't shift positions.
     std::vector<const InjectionFinding*> to_replace;
+    to_replace.reserve(scan.findings.size());  // Upper bound: all findings may qualify
     for (const auto& f : scan.findings) {
         if (f.severity >= cfg.removal_threshold &&
             !f.matched_fragment.empty())

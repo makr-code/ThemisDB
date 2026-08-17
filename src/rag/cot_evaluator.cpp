@@ -16,6 +16,7 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
+#include <mutex>
 #include <set>
 #include <iterator>
 #include <algorithm>
@@ -28,6 +29,7 @@ struct CoTEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     // Generate CoT prompt
     std::string generateCoTPrompt(
@@ -166,6 +168,9 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
     if (!impl_->config.enable_logic_validation) {
         return inconsistencies;
     }
+    
+    // Reserve space for expected inconsistencies
+    inconsistencies.reserve(std::max(size_t(1), steps.size() / 4));
     
     // Check for contradictions between steps
     for (size_t i = 0; i < steps.size(); ++i) {

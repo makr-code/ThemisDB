@@ -215,8 +215,10 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
                         if (s) src_node = &(*s);
                         if (t) tgt_node = &(*t);
                     } else if (raw_graph_) {
-                        src_node = raw_graph_->findNode(edge.from_id);
-                        tgt_node = raw_graph_->findNode(edge.to_id);
+                        auto src = raw_graph_->findNode(edge.from_id);
+                        auto tgt = raw_graph_->findNode(edge.to_id);
+                        if (src) src_node = src;
+                        if (tgt) tgt_node = tgt;
                     }
                     if (!src_node || !tgt_node) continue;
 
