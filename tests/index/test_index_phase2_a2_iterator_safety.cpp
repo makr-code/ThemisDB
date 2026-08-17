@@ -10,6 +10,8 @@
 #include <gtest/gtest.h>
 #include "index/partition_manager.h"
 #include "index/vector_index_manager_safety.h"
+#include "index/advanced_vector_index.h"
+#include "index/graph_auto_buffer.h"
 #include <thread>
 #include <vector>
 
@@ -459,6 +461,107 @@ TEST(IndexPhase2A2Integration, AllGapsWorking) {
     EXPECT_EQ(pm.GetPartitionById(p2.id()), nullptr);
     EXPECT_NE(vim.GetIndexById(idx1.id()), nullptr);
     EXPECT_NE(vim.GetIndexById(idx2.id()), nullptr);
+}
+
+// ============================================================================
+// RAII / DESTRUCTOR SAFETY TESTS
+// Covers: exception_in_destructor (graph_auto_buffer.cpp:52)
+//         delete_no_nullptr / delete_without_nullptr (advanced_vector_index.cpp)
+// ============================================================================
+
+/**
+ * @brief TC-RAII-01: GraphAutoBuffer destructor must be noexcept
+ *
+ * Gap: exception_in_destructor — ~GraphAutoBuffer() must not propagate
+ * exceptions even when stop() and flush() are invoked during destruction.
+ */
+TEST(IndexPhase2A2RAII, GraphAutoBufferDestructorIsNoexcept) {
+    // Compile-time assertion: destructor must be declared noexcept
+    static_assert(
+        std::is_nothrow_destructible<GraphAutoBuffer>::value,
+        "GraphAutoBuffer::~GraphAutoBuffer() must be noexcept "
+        "(exception_in_destructor gap A-2 fix)");
+
+    // If the static_assert passes the test is green
+    SUCCEED() << "GraphAutoBuffer destructor is noexcept — compile-time verified";
+}
+
+/**
+ * @brief TC-RAII-02: AdvancedVectorIndex destructor must be noexcept
+ *
+ * Gap: delete_no_nullptr — destructor must mark noexcept and guard raw delete
+ * of faiss::Index* with nullptr check and try/catch.
+ */
+TEST(IndexPhase2A2RAII, AdvancedVectorIndexDestructorIsNoexcept) {
+    static_assert(
+        std::is_nothrow_destructible<AdvancedVectorIndex>::value,
+        "AdvancedVectorIndex::~AdvancedVectorIndex() must be noexcept "
+        "(delete_no_nullptr gap fix)");
+
+    // Runtime: construct with default config and destroy — must not throw/terminate
+    EXPECT_NO_THROW({
+        AdvancedVectorIndex idx(128, AdvancedVectorIndex::Config{});
+        (void)idx;
+    }) << "AdvancedVectorIndex construction + destruction must not throw";
+
+    SUCCEED() << "AdvancedVectorIndex destructor is noexcept — verified";
+}
+
+/**
+ * @brief TC-RAII-03: No double-delete on repeated VectorIndex removal
+ *
+ * Gap: delete_without_nullptr — RemoveVectorIndex must return false
+ * (not crash/double-free) when called a second time on the same ID.
+ */
+TEST(IndexPhase2A2RAII, NoDoubleDeleteOnRepeatedVectorIndexRemoval) {
+    VectorIndexManagerSafety vim;
+
+    auto handle = vim.CreateIndex("idx-no-dbl", 64u);
+    ASSERT_TRUE(handle.isValid());
+
+    // First removal must succeed
+    EXPECT_TRUE(vim.RemoveVectorIndex(handle.id()));
+
+    // Second removal on the same ID must return false, not crash
+    EXPECT_FALSE(vim.RemoveVectorIndex(handle.id()))
+        << "Second removal of same index must return false — no double-delete";
+
+    EXPECT_EQ(vim.GetIndexCount(), 0u);
+}
+
+/**
+ * @brief TC-RAII-04: No double-delete on repeated PartitionManager removal
+ *
+ * Gap: delete_without_nullptr — RemovePartition must return false (not crash)
+ * on a second call for the same partition_id.
+ */
+TEST(IndexPhase2A2RAII, NoDoubleDeleteOnRepeatedPartitionRemoval) {
+    PartitionManager pm;
+
+    auto handle = pm.AddPartition("part-no-dbl");
+    ASSERT_TRUE(handle.isValid());
+
+    EXPECT_TRUE(pm.RemovePartition(handle.id()));
+    EXPECT_FALSE(pm.RemovePartition(handle.id()))
+        << "Second removal of same partition must return false — no double-delete";
+
+    EXPECT_EQ(pm.GetPartitionCount(), 0u);
+}
+
+/**
+ * @brief TC-RAII-05: AdvancedVectorIndex multiple create/destroy cycles (no leak)
+ *
+ * Verifies that AdvancedVectorIndex can be created and destroyed multiple
+ * times without memory corruption or use-after-free.
+ */
+TEST(IndexPhase2A2RAII, AdvancedVectorIndexMultipleCreateDestroy) {
+    for (int i = 0; i < 5; ++i) {
+        EXPECT_NO_THROW({
+            AdvancedVectorIndex idx(static_cast<size_t>(64 * (i + 1)),
+                                    AdvancedVectorIndex::Config{});
+            (void)idx;
+        }) << "Iteration " << i << ": construction/destruction must not throw";
+    }
 }
 
 } // namespace themis::testing

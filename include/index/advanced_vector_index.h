@@ -98,7 +98,7 @@ public:
      * @brief Create advanced vector index
      */
     explicit AdvancedVectorIndex(size_t dimension, const Config& config);
-    ~AdvancedVectorIndex();
+    ~AdvancedVectorIndex() noexcept;
     
     // Disable copy, allow move
     AdvancedVectorIndex(const AdvancedVectorIndex&) = delete;
