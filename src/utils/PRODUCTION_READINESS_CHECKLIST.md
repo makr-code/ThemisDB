@@ -219,12 +219,12 @@ This checklist verifies that the utils module meets production readiness require
   - No Level 2/3 claims without Level 1 evidence
 
 ### Doxygen API Documentation
-- [x] All public API headers have Doxygen documentation
-  - @file header with maturity metadata
-  - @brief descriptions for functions and types
-  - @param and @return documentation complete
-  - @error_contract or @throws documented for error-returning APIs
-  - @note sections for important constraints
+- [~] All public API headers have Doxygen documentation
+  - [x] @file header with maturity metadata (74/74 headers verified)
+  - [~] @brief descriptions for functions and types (spot-check only; full Doxygen build pending)
+  - [ ] @param and @return documentation complete (unverified; function-level audit pending)
+  - [ ] @error_contract or @throws documented for error-returning APIs (unverified; Phase 3-4 dependency)
+  - [ ] @note sections for important constraints (unverified)
 
 ### Architecture Documentation
 - [x] ARCHITECTURE.md current and accurate
@@ -254,19 +254,19 @@ This checklist verifies that the utils module meets production readiness require
 - [x] All contracts source-verified
 
 ### Test Integration
-- [x] All tests passing
-- [x] Benchmarks in release profile reproducible
-- [x] No blockers to merge
+- [ ] All tests passing (Phase 4 pending; not yet verified)
+- [~] Benchmarks in release profile reproducible (benchmark files present; CI run not verified)
+- [ ] No blockers to merge (pending Phase 4 completion)
 
 ### Acceptance Criteria
 - [x] All documentation governance rules followed
-- [x] All public APIs documented with Doxygen
+- [~] All public APIs documented with Doxygen (@file/@brief headers verified; function-level pending)
 - [x] Performance expectations measurable and locked
-- [x] Production readiness checklist complete
+- [~] Production readiness checklist complete (Phase 6 docs complete; Phases 2-4 checklist pending)
 - [x] ROADMAP and FUTURE_ENHANCEMENTS synchronized
 - [x] SECURITY and AUDIT contracts verified
 
-**Sign-Off:** Phase 6 documentation and acceptance complete.
+**Sign-Off:** Phase 6 documentation and acceptance complete. Test integration sign-off pending Phase 4 completion.
 
 ---
 

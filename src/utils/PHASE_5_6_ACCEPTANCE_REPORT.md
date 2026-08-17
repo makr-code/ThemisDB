@@ -15,8 +15,8 @@ The ThemisDB utils module has completed Phase 5 (Performance and Hardening) and 
 
 - ✓ **Performance Gates Locked**: All 6 mapped utility hotspots (privacy, SIMD, thread pool, encryption, compression, audit) have benchmark-backed release gates in place.
 - ✓ **Documentation Complete**: All Level 1 module docs (8 files) synchronized, source-verified, and governance-compliant.
-- ✓ **API Documentation Current**: Public headers in include/utils/ have Doxygen documentation with maturity metadata.
-- ✓ **Production Readiness Verified**: Formal checklist and acceptance gates established across all 6 phases.
+- [~] **API Documentation Partial**: 74/74 public headers verified with @file/@brief maturity metadata; function-level @param/@return/@throws coverage not yet verified (full Doxygen build pending).
+- [~] **Production Readiness Partial**: Formal checklist established; Phase 6 docs complete; Phases 2-4 checklist items and test integration pending.
 
 ### Blockers
 
@@ -132,10 +132,10 @@ Sampling of public headers in include/utils/:
 
 | Metric | Target | Status | Notes |
 |---|---|---|---|
-| Test pass rate | 100% | ✓ On track | Phase 4 validates; benchmarks passing per Phase 5 |
-| Public API coverage | >= 80% | ✓ Documented | Coverage goals set in Phase 4 plan |
-| Benchmark reproducibility | 100% | ✓ Locked | Phase 5 gates confirm reproducibility |
-| No flaky tests | 100% deterministic | ✓ Documented | Concurrency strategy in Phase 4 plan |
+| Test pass rate | 100% | [ ] Pending | Phase 4 not yet complete; no verified test run |
+| Public API coverage | >= 80% | [ ] Not measured | Coverage goals documented in Phase 4 plan; measurement pending |
+| Benchmark reproducibility | 100% | [~] Files present | Benchmark files verified present; CI run against thresholds pending |
+| No flaky tests | 100% deterministic | [ ] Not verified | Concurrency strategy documented; Phase 4 verification pending |
 
 ### Benchmark Compliance
 
@@ -161,7 +161,7 @@ Sampling of public headers in include/utils/:
 | Aspect | Coverage | Status |
 |---|---|---|
 | Module-level docs (Level 1) | 8/8 files present | ✓ 100% |
-| Public API Doxygen coverage | Sampled headers verified | ✓ On track |
+| Public API Doxygen coverage | 74/74 @file headers verified; function-level unverified | [~] Partial |
 | Architecture claims verification | Sourcecode mapping provided | ✓ Complete |
 | Performance expectations linkage | All targets map to benchmarks | ✓ Complete |
 | Error contract documentation | SECURITY.md and AUDIT.md | ✓ Complete |
@@ -180,11 +180,11 @@ Sampling of public headers in include/utils/:
 
 ### Task 2: Doxygen API Documentation
 - **Scope:** Verify all public APIs have Doxygen documentation
-- **Result:** ✓ **PASS** (spot-check verified; full audit recommended pre-merge)
+- **Result:** [~] **PARTIAL** (spot-check only; function-level audit pending)
+  - @file headers verified: 74/74 public headers have @file and @brief blocks with maturity metadata
   - Sample headers verified: audit_logger.h, pii_detector.h, thread_pool_manager.h
-  - Documentation format: @file, @brief, @note blocks present with maturity metadata
-  - Function-level documentation: Headers sampled; @param and @return ready for Doxygen generation
-  - Recommendation: Run `doxygen Doxyfile` in CI/CD to verify all headers before merge
+  - Function-level documentation: Not verified; @param/@return/@throws coverage requires full Doxygen build
+  - Action required: Run `doxygen Doxyfile` and audit function-level coverage before Phase 4 sign-off
 
 ### Task 3: Performance Expectations Documentation
 - **Scope:** Verify performance targets are measurable and verifiable
