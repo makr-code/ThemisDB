@@ -479,6 +479,47 @@ jobs:
           fi
           exit ${CTEST_EXIT}
 
+      - name: Verify Wave A Release-Critical Gate
+        if: success() && contains(matrix.preset, 'linux-release')
+        run: |
+          cd build
+          echo "Running Wave A Release-Critical Tests (108 tests)..."
+          echo "├─ Phase 6 Hardening (TXC-01..32, FLR-01..20): 52 tests"
+          echo "├─ Fault Injection (FI-01..40): 40 tests"
+          echo "└─ Contract Hardening (SCR-01..16): 16 tests"
+          
+          T0=$(date +%s)
+          ctest --label-include release_critical \
+                --output-on-failure \
+                --timeout 120 \
+                -R "sharding" \
+                --output-junit wave-a-gate-results.xml 2>&1 | tee wave-a-gate.log
+          WAVE_A_EXIT=$?
+          TEST_SECS=$(( $(date +%s) - T0 ))
+          
+          if [ "${WAVE_A_EXIT}" -eq 0 ]; then
+            echo ""
+            echo "✅ Wave A Release-Critical Gate PASSED (${TEST_SECS}s)"
+            PASS=$(grep -c 'testcase' wave-a-gate-results.xml 2>/dev/null || echo '?')
+            FAIL=$(grep -c '<failure' wave-a-gate-results.xml 2>/dev/null || echo '0')
+            echo "   Expected: 108+ tests, Got: ${PASS} total, ${FAIL} failures"
+          else
+            echo ""
+            echo "❌ Wave A Release-Critical Gate FAILED (exit ${WAVE_A_EXIT}) after ${TEST_SECS}s"
+            echo "   Review wave-a-gate.log above for details"
+          fi
+          exit ${WAVE_A_EXIT}
+
+      - name: Upload Wave A Gate Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave-a-gate-results-${{ matrix.preset }}
+          path: |
+            build/wave-a-gate-results.xml
+            build/wave-a-gate.log
+          retention-days: 30
+
       - name: Annotate PR with build/test failures
         if: failure() && github.event_name == 'pull_request'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
