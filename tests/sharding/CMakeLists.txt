@@ -150,6 +150,28 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_sharding_chaos.cpp")
     message(STATUS "  ShardingChaos: network partitions, cascading failures, split-brain, random failure injection")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_chaos_batch_a9.cpp")
+    message(STATUS "Adding Sharding: Wave A Batch A-9 chaos tests")
+    add_executable(module_sharding_test_sharding_chaos_batch_a9_focused
+        test_sharding_chaos_batch_a9.cpp
+        ${THEMIS_ROOT_DIR}/tests/utils/fault_injector.cpp)
+    target_include_directories(module_sharding_test_sharding_chaos_batch_a9_focused PRIVATE
+        ${THEMIS_ROOT_DIR}
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests)
+    target_link_libraries(module_sharding_test_sharding_chaos_batch_a9_focused PRIVATE
+        GTest::gtest GTest::gtest_main Threads::Threads)
+    target_compile_definitions(module_sharding_test_sharding_chaos_batch_a9_focused PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE sharding
+        NAME ShardingChaosBatchA9FocusedTests
+        TARGET module_sharding_test_sharding_chaos_batch_a9_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS sharding chaos batch-a9)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_sharding_e2e.cpp")
     message(STATUS "Adding Sharding: E2E focused tests")
     add_executable(test_sharding_e2e_focused ../test_sharding_e2e.cpp)
@@ -482,6 +504,10 @@ foreach(_src IN LISTS SHARDING_AUTOGEN_PREFIX_TEST_SOURCES)
         endif()
     endforeach()
     if(_src_already_registered)
+        continue()
+    endif()
+
+    if(_src MATCHES ".*/test_sharding_chaos_batch_a9\\.cpp$")
         continue()
     endif()
 

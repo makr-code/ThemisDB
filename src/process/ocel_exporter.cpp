@@ -115,6 +115,8 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
         int64_t     timestamp_ms;
     };
     std::vector<EventEntry> entries;
+    entries.reserve(inst.tokens.size() * 16);  // Estimate based on typical token path lengths
+    std::unordered_set<std::string> added_nodes;  // Track already-added nodes for O(1) lookup
 
     for (const auto& tok : inst.tokens) {
         // Walk visited_nodes in order, using visit_timestamps where available
@@ -127,20 +129,13 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
                          vt_it->second.time_since_epoch()).count();
             }
             entries.push_back(EventEntry{.node_id = nid, .timestamp_ms = ts});
+            added_nodes.insert(nid);
         }
         // Add current node as final event if not already in visited_nodes
-        if (!tok.current_node.empty()) {
-            bool already_visited = false;
-            for (const auto& e : entries) {
-                if (e.node_id == tok.current_node) {
-                    already_visited = true;
-                    break;
-                }
-            }
-            if (!already_visited) {
-                int64_t ts = tok.started_at_ms.value_or(inst.started_at_ms);
-                entries.push_back(EventEntry{.node_id = tok.current_node, .timestamp_ms = ts});
-            }
+        if (!tok.current_node.empty() && added_nodes.find(tok.current_node) == added_nodes.end()) {
+            int64_t ts = tok.started_at_ms.value_or(inst.started_at_ms);
+            entries.push_back(EventEntry{.node_id = tok.current_node, .timestamp_ms = ts});
+            added_nodes.insert(tok.current_node);
         }
     }
 

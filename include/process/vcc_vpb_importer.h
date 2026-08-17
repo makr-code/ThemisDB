@@ -89,6 +89,13 @@ public:
      * @param yaml_text  Raw YAML content (UTF-8).
      * @param meta       Optional metadata overrides (owner, version, state).
      * @return ImportResult with a fully populated record on success.
+     *
+     * Implementation notes:
+     * - Uses RAII containers for safe memory management (std::string, std::vector, json)
+     * - All string operations are bounds-safe (std::string uses checked access patterns)
+     * - Regexes are pre-compiled as static const to avoid repeated compilation
+     * - Input YAML size is validated before parsing
+     * - Complexity: O(n log n) where n = length of YAML text (dominated by regex matching)
      */
     static ImportResult importYaml(
         std::string_view      yaml_text,
@@ -103,6 +110,13 @@ public:
      * @param list_key      The top-level YAML key that holds the array of models.
      * @param meta_defaults Metadata defaults applied to every imported model.
      * @return Vector of ImportResult — one per model in the list.
+     *
+     * Implementation notes:
+     * - Uses RAII containers (std::string, std::vector) for safe memory management
+     * - Bounds-checks all array/string access via size() before indexing
+     * - Limits total line count to 100,000 to prevent DoS (malformed input)
+     * - Pre-compiles all regexes as static const to avoid repeated compilation
+     * - Complexity: O(n) where n = length of input YAML text
      */
     static std::vector<ImportResult> importYamlList(
         std::string_view          yaml_text,

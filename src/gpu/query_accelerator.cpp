@@ -72,6 +72,18 @@
 namespace themis {
 namespace gpu {
 
+namespace {
+
+constexpr auto kGpuDispatchTimeout = std::chrono::seconds(5);
+
+} // namespace
+
+#if defined(THEMIS_ENABLE_CUDA)
+#define THEMIS_GPU_QUERY_ACCEL_SYNC() CHECKED_CUDA(cudaDeviceSynchronize())
+#elif defined(THEMIS_ENABLE_HIP)
+#define THEMIS_GPU_QUERY_ACCEL_SYNC() CHECKED_HIP(hipDeviceSynchronize())
+#endif
+
 // ---------------------------------------------------------------------------
 // FP16 / BF16 quantisation helpers (CPU simulation of Tensor Core precision)
 // ---------------------------------------------------------------------------
@@ -267,6 +279,7 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
     if (use_gpu && !filter) {
         bool gpu_done = false;
         try {
+            KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
             // Pass-all scan: use thrust::copy_if with an always-true device
             // predicate to exercise a real GPU select primitive.  Host-callable
             // filter predicates fall through to the CPU path below.
@@ -295,8 +308,13 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
             for (uint64_t i : h_idx) {
                 result.rows.push_back(rows[static_cast<size_t>(i)]);
             }
-            result.rows_passed = result.rows.size();
-            gpu_done           = true;
+            THEMIS_GPU_QUERY_ACCEL_SYNC();
+            if (!kernel_guard.checkTimeoutDeadline()) {
+                result.rows_passed = result.rows.size();
+                gpu_done           = true;
+            } else {
+                result.rows.clear();
+            }
         } catch ([[maybe_unused]] const std::exception &ex) {
             // Thrust system_error or std::runtime_error — fall through.
             result.rows.clear();
@@ -369,6 +387,7 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
     if (use_gpu) {
         bool gpu_done = false;
         try {
+            KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
             const size_t n = rows.size();
 
             // 1. Extract numeric keys and row indices on host.
@@ -394,14 +413,17 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
             // 4. Copy sorted indices back to host.
             std::vector<uint64_t> sorted_idx(n);
             thrust::copy(d_idx.begin(), d_idx.end(), sorted_idx.begin());
+            THEMIS_GPU_QUERY_ACCEL_SYNC();
 
             // 5. Gather rows into sorted order.
             std::vector<Row> sorted_rows(n);
             for (size_t i = 0; i < n; ++i) {
                 sorted_rows[i] = std::move(rows[static_cast<size_t>(sorted_idx[i])]);
             }
-            rows     = std::move(sorted_rows);
-            gpu_done = true;
+            if (!kernel_guard.checkTimeoutDeadline()) {
+                rows     = std::move(sorted_rows);
+                gpu_done = true;
+            }
         } catch ([[maybe_unused]] const std::exception &ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
             gpu_done = false;
@@ -478,6 +500,7 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
     if (use_gpu && func != AggFunc::COUNT) {
         bool gpu_done = false;
         try {
+            KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
             const size_t n = rows.size();
 
             // 1. Extract values on host.
@@ -510,8 +533,11 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
                 default:
                     break;
             }
-            result.value = gpu_result;
-            gpu_done     = true;
+            THEMIS_GPU_QUERY_ACCEL_SYNC();
+            if (!kernel_guard.checkTimeoutDeadline()) {
+                result.value = gpu_result;
+                gpu_done     = true;
+            }
         } catch ([[maybe_unused]] const std::exception &ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
             gpu_done = false;
@@ -633,6 +659,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     if (use_gpu) {
         bool gpu_done = false;
         try {
+            KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
             // Extract keys on host (JoinKeyFn is a host functor).
             const size_t bn = build_side->size();
             const size_t pn = probe_side->size();
@@ -655,6 +682,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
             std::vector<uint64_t> sorted_bidx(bn);
             thrust::copy(d_bkeys.begin(), d_bkeys.end(), sorted_bkeys.begin());
             thrust::copy(d_bidx.begin(), d_bidx.end(), sorted_bidx.begin());
+            THEMIS_GPU_QUERY_ACCEL_SYNC();
 
             // Probe phase: for each probe key binary-search the host-side
             // sorted build keys (GPU sort already paid for O(n log n) work).
@@ -672,7 +700,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
                     }
                 }
             }
-            gpu_done = true;
+            gpu_done = !kernel_guard.checkTimeoutDeadline();
         } catch ([[maybe_unused]] const std::exception &ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
             result.pairs.clear();
@@ -784,11 +812,12 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         CHECKED_CUDA(cudaMemcpy(d_b.get(), b.data(), n * sizeof(float), cudaMemcpyHostToDevice));
                         
                         // Enforce SLA: kernel must complete within 5 seconds
-                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
                         
                         float dot_result = 0.0f;
                         if (cublasSdot(blas.get(), n, d_a.get(), 1, d_b.get(), 1, &dot_result)
                             == CUBLAS_STATUS_SUCCESS) {
+                            THEMIS_GPU_QUERY_ACCEL_SYNC();
                             // Check SLA deadline
                             if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(dot_result);
@@ -800,8 +829,6 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         // Allocation failure or CUDA error → fall through to CPU
                         gpu_done = false;
                     }
-                }
-
                 } else if (config_.precision_mode == PrecisionMode::FP16) {
                     // --- FP16: quantise on host, cublasGemmEx (1×n × n×1) with RAII ---
                     // Use CUDA_R_16F inputs with CUDA_R_32F output + FP32 compute
@@ -822,7 +849,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         CHECKED_CUDA(cudaMemcpy(d_b.get(), hb.data(), n * sizeof(__half), cudaMemcpyHostToDevice));
                         
                         // Enforce SLA: kernel must complete within 5 seconds
-                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
                         
                         const float alpha = 1.0f, beta = 0.0f;
                         // Compute C (1×1) = A (1×n) * B (n×1) with FP32 accumulation
@@ -835,6 +862,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                             == CUBLAS_STATUS_SUCCESS) {
                             float c_host = 0.0f;
                             CHECKED_CUDA(cudaMemcpy(&c_host, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost));
+                            THEMIS_GPU_QUERY_ACCEL_SYNC();
                             // Check SLA deadline
                             if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(c_host);
@@ -865,7 +893,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         CHECKED_CUDA(cudaMemcpy(d_b.get(), bb.data(), n * sizeof(__nv_bfloat16), cudaMemcpyHostToDevice));
                         
                         // Enforce SLA: kernel must complete within 5 seconds
-                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
                         
                         const float alpha_f = 1.0f, beta_f = 0.0f;
                         if (cublasGemmEx(blas.get(), CUBLAS_OP_N, CUBLAS_OP_N, 1, 1, n, &alpha_f,
@@ -875,6 +903,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                             == CUBLAS_STATUS_SUCCESS) {
                             float h_c = 0.0f;
                             CHECKED_CUDA(cudaMemcpy(&h_c, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost));
+                            THEMIS_GPU_QUERY_ACCEL_SYNC();
                             // Check SLA deadline
                             if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(h_c);
@@ -933,11 +962,12 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         CHECKED_HIP(hipMemcpy(d_b.get(), b.data(), n * sizeof(float), hipMemcpyHostToDevice));
                         
                         // Enforce SLA: kernel must complete within 5 seconds
-                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
                         
                         float dot_result = 0.0f;
                         if (hipblasSdot(blas.get(), n, d_a.get(), 1, d_b.get(), 1, &dot_result)
                             == HIPBLAS_STATUS_SUCCESS) {
+                            THEMIS_GPU_QUERY_ACCEL_SYNC();
                             // Check SLA deadline
                             if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(dot_result);
@@ -970,7 +1000,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         CHECKED_HIP(hipMemcpy(d_b.get(), hb.data(), n * sizeof(hipblasHalf), hipMemcpyHostToDevice));
                         
                         // Enforce SLA: kernel must complete within 5 seconds
-                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
                         
                         const float alpha = 1.0f, beta = 0.0f;
                         if (hipblasGemmEx(blas.get(), HIPBLAS_OP_N, HIPBLAS_OP_N, 1, 1, n, &alpha,
@@ -980,6 +1010,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                             == HIPBLAS_STATUS_SUCCESS) {
                             float c_host = 0.0f;
                             CHECKED_HIP(hipMemcpy(&c_host, d_c.get(), sizeof(float), hipMemcpyDeviceToHost));
+                            THEMIS_GPU_QUERY_ACCEL_SYNC();
                             // Check SLA deadline
                             if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(c_host);
@@ -1261,3 +1292,6 @@ void GPUQueryAccelerator::resetStats() {
 } // namespace gpu
 } // namespace themis
 
+#ifdef THEMIS_GPU_QUERY_ACCEL_SYNC
+#undef THEMIS_GPU_QUERY_ACCEL_SYNC
+#endif

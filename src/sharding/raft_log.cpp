@@ -25,23 +25,74 @@
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
 #include <sstream>
+#include <cstdlib>
 
 namespace themisdb {
 namespace sharding {
+
+// ============================================================================
+// TIMEOUT CONFIGURATION FOR CONSENSUS OPERATIONS
+// ============================================================================
+// Environment variable: THEMIS_SHARDING_CONSENSUS_TIMEOUT_MS
+// Default: 10000 ms (10 seconds) - consensus ops must complete or timeout quickly
+// This prevents indefinite blocking during network partitions or node failures.
+// ============================================================================
+
+namespace {
+    /**
+     * @brief Get consensus timeout from environment or use default
+     * @return Timeout duration in milliseconds
+     */
+    std::chrono::milliseconds getConsensusTimeout() {
+        const char* env_timeout = std::getenv("THEMIS_SHARDING_CONSENSUS_TIMEOUT_MS");
+        if (env_timeout) {
+            try {
+                long timeout_ms = std::stol(env_timeout);
+                if (timeout_ms > 0 && timeout_ms <= 120000) {  // 2 minute max
+                    return std::chrono::milliseconds(timeout_ms);
+                }
+            } catch (...) {
+                spdlog::warn("Invalid THEMIS_SHARDING_CONSENSUS_TIMEOUT_MS: {}; using default", env_timeout);
+            }
+        }
+        return std::chrono::milliseconds(10000);  // Default: 10 seconds
+    }
+}
 
 /** @brief Construct empty in-memory Raft log state. */
 RaftLog::RaftLog() : commit_index_(0) {}
 
 /** @brief Append entry at its declared index, replacing existing slot if present. */
 uint64_t RaftLog::append(const LogEntry& entry) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Use try_lock_for to prevent indefinite blocking
+    // during consensus operations. If timeout expires, throw exception to
+    // allow caller to handle consensus abort.
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        std::string error_msg = "RaftLog::append timeout after " + 
+                               std::to_string(timeout.count()) + "ms";
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
     log_[entry.index] = entry;
     return entry.index;
 }
 
 /** @brief Return entry at index when present. */
 std::optional<LogEntry> RaftLog::getEntry(uint64_t index) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Use try_lock_for for consistent timeout behavior
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        spdlog::error("RaftLog::getEntry timeout after {}ms retrieving index {}",
+                     timeout.count(), index);
+        return std::nullopt;
+    }
+    
     auto it = log_.find(index);
     if (it != log_.end()) {
         return it->second;
@@ -51,7 +102,16 @@ std::optional<LogEntry> RaftLog::getEntry(uint64_t index) const {
 
 /** @brief Return contiguous available entry range from start to end index. */
 std::vector<LogEntry> RaftLog::getEntries(uint64_t start_index, uint64_t end_index) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Batch read operation with timeout
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        spdlog::error("RaftLog::getEntries timeout after {}ms retrieving range [{}, {}]",
+                     timeout.count(), start_index, end_index);
+        return {};  // Return empty vector on timeout
+    }
+    
     std::vector<LogEntry> entries;
     
     for (uint64_t i = start_index; i <= end_index; ++i) {
@@ -68,7 +128,15 @@ std::vector<LogEntry> RaftLog::getEntries(uint64_t start_index, uint64_t end_ind
 
 /** @brief Check whether index/term pair is known, including snapshot anchor. */
 bool RaftLog::hasEntry(uint64_t index, uint64_t term) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Consensus query with timeout
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        spdlog::error("RaftLog::hasEntry timeout after {}ms checking index={} term={}",
+                     timeout.count(), index, term);
+        return false;
+    }
     
     // Special case: index 0 always matches (no previous entry)
     if (index == 0) {
@@ -90,7 +158,15 @@ bool RaftLog::hasEntry(uint64_t index, uint64_t term) const {
 
 /** @brief Delete all log entries from index onward and clamp commit index. */
 void RaftLog::truncateFrom(uint64_t index) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Consensus write with timeout
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        spdlog::error("RaftLog::truncateFrom timeout after {}ms truncating from index={}",
+                     timeout.count(), index);
+        return;  // Log truncation timeout - caller should handle
+    }
     
     // Erase all entries from index onward
     auto it = log_.lower_bound(index);
@@ -104,7 +180,16 @@ void RaftLog::truncateFrom(uint64_t index) {
 
 /** @brief Advance commit index if monotonic and bounded by last known index. */
 void RaftLog::setCommitIndex(uint64_t index) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Consensus commit update with timeout
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        spdlog::error("RaftLog::setCommitIndex timeout after {}ms setting index={}",
+                     timeout.count(), index);
+        return;
+    }
+    
     // RLOG-2: Reject attempts to regress or jump past the last appended entry.
     if (index < commit_index_) {
         spdlog::warn("RaftLog::setCommitIndex: rejecting regression from {} to {}",
@@ -122,13 +207,27 @@ void RaftLog::setCommitIndex(uint64_t index) {
 
 /** @brief Return current committed log index. */
 uint64_t RaftLog::getCommitIndex() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Fast read with timeout
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        spdlog::error("RaftLog::getCommitIndex timeout after {}ms", timeout.count());
+        return 0;  // Return 0 on timeout (nothing committed)
+    }
     return commit_index_;
 }
 
 /** @brief Return last available log index or snapshot index when compacted. */
 uint64_t RaftLog::getLastLogIndex() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // TIMEOUT ENFORCEMENT: Fast read with timeout
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    auto timeout = getConsensusTimeout();
+    
+    if (!lock.try_lock_for(timeout)) {
+        spdlog::error("RaftLog::getLastLogIndex timeout after {}ms", timeout.count());
+        return snapshot_index_;  // Return snapshot index on timeout
+    }
     if (log_.empty()) {
         // RLOG-1: After snapshot compaction the in-memory log is empty but
         // snapshot_index_ marks the last included entry. Return it so that

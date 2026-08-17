@@ -33,16 +33,16 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 - [x] Define explicit failure contracts for invalid audio, auth failure, and unavailable backend states (2026-08-09: VOICE_SESSION_CONTRACT.md §4; error_message prefix tags frozen)
 
 ### Phase 2: Core Implementation
-- [ ] Complete hardening for session lifecycle, chunk validation, and bounded streaming behavior (Target: Q4 2026)
+- [~] Complete hardening for session lifecycle, chunk validation, and bounded streaming behavior (Target: Q4 2026) — 2026-08-17: fail-closed session teardown, bounded voice payload rejection, deterministic liveness/anti-spoof engines delivered; broader backend fallback alignment still open
 - [ ] Align wake-word, intent, and command pipelines to shared fallback semantics (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] Enforce fail-closed behavior for malformed payloads, invalid session transitions, and partial backend failures (Target: Q4 2026)
+- [~] Enforce fail-closed behavior for malformed payloads, invalid session transitions, and partial backend failures (Target: Q4 2026) — 2026-08-17: malformed/oversized payload rejection and terminated-session fail-closed teardown verified; partial backend failure matrix still open
 - [ ] Standardize fallback behavior when optional runtime features are unavailable (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] Expand focused regressions for session isolation, streaming teardown, and auth edge cases (Target: Q4 2026)
-- [ ] Extend adversarial input regressions for spoofing, replay, and noisy wake-word scenarios (Target: Q4 2026)
+- [~] Expand focused regressions for session isolation, streaming teardown, and auth edge cases (Target: Q4 2026) — 2026-08-17: `tests/voice/test_voice_wave_a8_hardening_focused.cpp` added for teardown, replay, stale challenge, and audit callback coverage
+- [~] Extend adversarial input regressions for spoofing, replay, and noisy wake-word scenarios (Target: Q4 2026) — 2026-08-17: deterministic live/replay/speaker-mismatch anti-spoof regressions added; noisy wake-word expansion still open
 
 ### Phase 5: Performance and Hardening
 - [ ] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026)
@@ -85,12 +85,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
 ### Wave A Closure Evidence Block
-- [ ] Focused regression closure: dedicated session-isolation, streaming-teardown, malformed-input, and auth-edge regressions are still missing.
+- [~] Focused regression closure: dedicated teardown/auth-edge/adversarial regressions now exist in `tests/voice/test_voice_wave_a8_hardening_focused.cpp`; broader browser/telephony streaming closure is still pending.
 - [ ] Chaos/fault-injection evidence: no Wave A-specific chaos bundle is recorded yet for teardown, spoofing, or backend-failure scenarios.
-- [ ] Fail-closed verification: malformed/oversized stream rejection, invalid session transitions, and degraded backend fallbacks still need proof.
+- [~] Fail-closed verification: malformed/oversized payload rejection and terminated-session teardown are now covered by focused tests; invalid transition and degraded-backend proof is still pending.
 - [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending.
 - [ ] `release_critical` coverage: Wave A voice hardening does not yet have green-on-`develop` gate evidence.
-- [ ] Next closure batch: harden fail-closed session lifecycle, add adversarial liveness/anti-spoof regressions, and prove safe multi-session teardown.
+- [~] Next closure batch: fail-closed session lifecycle, adversarial liveness/anti-spoof regressions, and safe multi-session teardown are partially delivered on 2026-08-17; remaining work is backend-failure/chaos evidence and representative-hardware baselines.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.

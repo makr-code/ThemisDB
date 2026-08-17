@@ -31,7 +31,9 @@ namespace gpu {
  * `src/gpu/FUTURE_ENHANCEMENTS.md` v1.2.0.  Operations are dispatched to the
  * GPU path when the row count exceeds `Config::gpu_threshold_rows`; otherwise
  * they fall back to a CPU implementation so the interface is always usable
- * without real GPU hardware.
+ * without real GPU hardware. GPU-side launch, synchronization, or timeout
+ * failures are fail-closed: the operation degrades to CPU and `used_gpu`
+ * remains `false` unless the GPU path completed successfully.
  *
  * Supported operations
  * --------------------

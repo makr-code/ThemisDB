@@ -228,7 +228,7 @@ public:
     uint64_t getSnapshotTerm() const;
 
 private:
-    mutable std::mutex mutex_;
+    mutable std::timed_mutex mutex_;
     std::map<uint64_t, LogEntry> log_;  // Index -> LogEntry
     uint64_t commit_index_;         ///< Highest committed log index.
     uint64_t snapshot_index_{0};    ///< Index of the last installed snapshot.

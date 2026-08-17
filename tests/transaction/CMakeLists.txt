@@ -319,6 +319,67 @@ else()
 endif()
 
 # AUTOGEN PREFIX BLOCK: transaction
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_chaos.cpp")
+    message(STATUS "Adding Transaction: Wave A Batch A-9 chaos tests")
+
+    add_executable(module_transaction_test_transaction_chaos_focused
+        test_transaction_chaos.cpp
+        ${THEMIS_ROOT_DIR}/tests/utils/fault_injector.cpp
+    )
+    target_include_directories(module_transaction_test_transaction_chaos_focused PRIVATE
+        ${THEMIS_ROOT_DIR}
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
+    )
+    target_link_libraries(module_transaction_test_transaction_chaos_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+    target_compile_definitions(module_transaction_test_transaction_chaos_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE transaction
+        NAME TransactionChaosBatchA9FocusedTests
+        TARGET module_transaction_test_transaction_chaos_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS transaction chaos batch-a9
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_stress.cpp")
+    message(STATUS "Adding Transaction: Wave A Batch A-9 stress tests")
+
+    add_executable(module_transaction_test_transaction_stress_focused
+        test_transaction_stress.cpp
+    )
+    target_include_directories(module_transaction_test_transaction_stress_focused PRIVATE
+        ${THEMIS_ROOT_DIR}
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
+    )
+    target_link_libraries(module_transaction_test_transaction_stress_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+    target_compile_definitions(module_transaction_test_transaction_stress_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE transaction
+        NAME TransactionStressBatchA9FocusedTests
+        TARGET module_transaction_test_transaction_stress_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS transaction stress batch-a9
+    )
+endif()
+
 file(GLOB TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_*.cpp"
 )
@@ -338,6 +399,10 @@ foreach(_src IN LISTS TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES)
         endif()
     endforeach()
     if(_src_already_registered)
+        continue()
+    endif()
+
+    if(_src MATCHES ".*/test_transaction_(chaos|stress)\\.cpp$")
         continue()
     endif()
 

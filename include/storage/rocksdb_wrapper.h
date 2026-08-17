@@ -85,6 +85,9 @@ class BaseEntity;
 /// Thread-safety:
 /// - **Read-safe**: Multiple threads can call read operations (get, scan, etc) concurrently
 /// - **Write-safe**: Write operations (put, delete) are thread-safe (use internal locking)
+/// - **Config-safe**: All RocksDB Options/ReadOptions/WriteOptions objects are guarded by
+///   options_mutex_ and are thread-safe for concurrent reads (all member calls use immutable
+///   object views passed to RocksDB engine). Configuration changes during construction only.
 /// - **NOT move-safe**: Move constructor and assignment should NOT be called during concurrent access
 ///   - Only safe during initialization/teardown when no other threads are accessing the object
 ///   - Never move during active operation

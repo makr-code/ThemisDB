@@ -42,6 +42,18 @@ bool isValidSessionTransition(SessionState current, SessionState next) {
     return false;
 }
 
+void finalizeSessionTeardownLocked(
+    const std::string& session_id,
+    const int64_t timestamp_ms,
+    std::unordered_map<std::string, VoiceSessionData>& active_cache,
+    std::map<std::string, int64_t>& state_change_timestamps,
+    ISessionPersistenceBackend& backend) {
+    state_change_timestamps[session_id] = timestamp_ms;
+    active_cache.erase(session_id);
+    const bool removed = backend.remove(session_id);
+    static_cast<void>(removed);
+}
+
 } // namespace
 
 // ============================================================================
@@ -61,7 +73,7 @@ bool isValidSessionTransition(SessionState current, SessionState next) {
 //
 // Timeout enforcement:
 // - idle_timeout_ms: 5 minutes (default)
-// - max_session_duration_ms: 1 hour (default)
+// - max_session_duration_ms: 30 minutes (default)
 // - Session expires if either timeout is exceeded (fail-closed)
 
 // ---- Free functions ----
@@ -128,7 +140,7 @@ VoiceSessionManager::VoiceSessionManager(
         timeout_config_.idle_timeout_ms = 5 * 60 * 1000;  // 5 minute default
     }
     if (timeout_config_.max_session_duration_ms <= 0) {
-        timeout_config_.max_session_duration_ms = 60 * 60 * 1000;  // 1 hour default
+        timeout_config_.max_session_duration_ms = 30 * 60 * 1000;  // 30 minute default
     }
 }
 
@@ -238,11 +250,14 @@ std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::strin
         // TASK 2.1: Check session expiration before returning
         if (isExpired(it->second)) {
             it->second.state = SessionState::EXPIRED;
-            const bool saved = backend_->save(it->second);
-            static_cast<void>(saved);
-            state_change_timestamps_[session_id] = nowMs();
+            finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
             spdlog::debug("VoiceSessionManager::getSession: session {} expired (error 6602)", session_id);
             return std::nullopt;  // Fail-closed: expired sessions not returned
+        }
+        if (it->second.state == SessionState::TERMINATED ||
+            it->second.state == SessionState::EXPIRED) {
+            finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
+            return std::nullopt;
         }
         return it->second;
     }
@@ -257,11 +272,14 @@ std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::strin
     // TASK 2.1: Verify loaded session is not expired before returning
     if (isExpired(*loaded)) {
         loaded->state = SessionState::EXPIRED;
-        const bool saved = backend_->save(*loaded);
-        static_cast<void>(saved);
-        state_change_timestamps_[session_id] = nowMs();
+        finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
         spdlog::debug("VoiceSessionManager::getSession: loaded session {} is expired (error 6602)", session_id);
         return std::nullopt;  // Fail-closed
+    }
+    if (loaded->state == SessionState::TERMINATED ||
+        loaded->state == SessionState::EXPIRED) {
+        finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
+        return std::nullopt;
     }
     
     active_cache_[session_id] = *loaded;
@@ -276,9 +294,7 @@ bool VoiceSessionManager::updateSession(
     if (it == active_cache_.end()) return false;
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
-        state_change_timestamps_[session_id] = nowMs();
-        const bool saved = backend_->save(it->second);
-        static_cast<void>(saved);
+        finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
         return false;
     }
     if (it->second.state == SessionState::TERMINATED ||
@@ -333,10 +349,8 @@ bool VoiceSessionManager::addConversationTurn(
     // TASK 2.1: Verify session is not expired before modification
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
-        state_change_timestamps_[session_id] = nowMs();
         spdlog::warn("VoiceSessionManager::addConversationTurn: session {} is expired, rejecting turn", session_id);
-        const bool saved = backend_->save(it->second);
-        static_cast<void>(saved);
+        finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
         return false;
     }
     if (it->second.state != SessionState::ACTIVE &&
@@ -387,9 +401,7 @@ bool VoiceSessionManager::touchSession(const std::string& session_id) {
     if (it == active_cache_.end()) return false;
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
-        state_change_timestamps_[session_id] = nowMs();
-        const bool saved = backend_->save(it->second);
-        static_cast<void>(saved);
+        finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
         return false;
     }
     if (it->second.state == SessionState::TERMINATED ||
@@ -415,9 +427,7 @@ bool VoiceSessionManager::updatePreferredLanguage(
     if (it == active_cache_.end()) return false;
     if (isExpired(it->second)) {
         it->second.state = SessionState::EXPIRED;
-        state_change_timestamps_[session_id] = nowMs();
-        const bool saved = backend_->save(it->second);
-        static_cast<void>(saved);
+        finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
         return false;
     }
     if (it->second.state == SessionState::TERMINATED ||
@@ -445,30 +455,30 @@ bool VoiceSessionManager::terminateSession(const std::string& session_id) {
     }
 
     it->second.state = SessionState::TERMINATED;
-    state_change_timestamps_[session_id] = nowMs();
-    const bool saved = backend_->save(it->second);
-    static_cast<void>(saved);
-    active_cache_.erase(it);
+    finalizeSessionTeardownLocked(session_id, nowMs(), active_cache_, state_change_timestamps_, *backend_);
     return true;
 }
 
 size_t VoiceSessionManager::expireOldSessions() {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     size_t expired = 0;
+    std::vector<std::string> expired_ids;
     for (auto& [id, session] : active_cache_) {
         if (isExpired(session)) {
             session.state = SessionState::EXPIRED;
-            state_change_timestamps_[id] = nowMs();
-            const bool saved = backend_->save(session);
-            static_cast<void>(saved);
+            expired_ids.push_back(id);
             ++expired;
         }
     }
-    // Remove expired from cache
-    for (auto it = active_cache_.begin(); it != active_cache_.end(); ) {
-        if (it->second.state == SessionState::EXPIRED ||
-            it->second.state == SessionState::TERMINATED) {
-            it = active_cache_.erase(it);
+    const int64_t timestamp_ms = nowMs();
+    for (const auto& session_id : expired_ids) {
+        finalizeSessionTeardownLocked(session_id, timestamp_ms, active_cache_, state_change_timestamps_, *backend_);
+    }
+    for (auto it = active_cache_.begin(); it != active_cache_.end();) {
+        if (it->second.state == SessionState::TERMINATED) {
+            const std::string session_id = it->first;
+            ++it;
+            finalizeSessionTeardownLocked(session_id, timestamp_ms, active_cache_, state_change_timestamps_, *backend_);
         } else {
             ++it;
         }
@@ -480,7 +490,12 @@ std::vector<VoiceSessionData> VoiceSessionManager::getSessionsForUser(const std:
     std::lock_guard<std::mutex> lock(manager_mutex_);
     std::vector<VoiceSessionData> result;
     for (const auto& [id, session] : active_cache_) {
-        if (session.user_id == user_id) result.push_back(session);
+        if (session.user_id == user_id &&
+            session.state != SessionState::TERMINATED &&
+            session.state != SessionState::EXPIRED &&
+            !isExpired(session)) {
+            result.push_back(session);
+        }
     }
     return result;
 }

@@ -20,21 +20,52 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
         )
     endif()
 
+    if(_stem STREQUAL "test_voice_wave_a8_hardening_focused")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/voice/voice_liveness_detector.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_anti_spoof_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_audit_logger.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+        )
+    elseif(_stem STREQUAL "test_voice_adversarial")
+        set(_extra_sources
+            ${THEMIS_ROOT_DIR}/tests/utils/fault_injector.cpp
+        )
+    endif()
+
     add_executable(${_target}
         "${_src}"
         ${_extra_sources}
     )
     target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
         ${THEMIS_ROOT_DIR}/tests
     )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
+    if(_stem STREQUAL "test_voice_adversarial")
+        target_link_libraries(${_target} PRIVATE
+            GTest::gtest
+            GTest::gtest_main
+            Threads::Threads
+        )
+    else()
+        if(_stem STREQUAL "test_voice_wave_a8_hardening_focused")
+            target_link_libraries(${_target} PRIVATE
+                GTest::gtest
+                GTest::gtest_main
+                spdlog::spdlog
+                Threads::Threads
+            )
+        else()
+            target_link_libraries(${_target} PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                spdlog::spdlog
+                Threads::Threads
+            )
+        endif()
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
