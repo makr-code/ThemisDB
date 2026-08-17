@@ -62,21 +62,31 @@ Production-usable shared utility behavior exists for observability, privacy proc
   - [x] 3.2: Error code taxonomy (9000-9099, 90 codes across 9 subsystems) - COMPLETE
   - [x] 3.3: Incident categorization for operators (15 categories) - COMPLETE
   - [x] 3.4: ErrorContext and diagnostic logging helpers - COMPLETE
-  - [ ] 3.5: Apply error contracts to observability components (audit_logger, logger, tracing, saga_logger)
-  - [ ] 3.6: Apply error contracts to privacy components (pii_detector, detection engines)
+  - [~] 3.5: Apply error contracts to observability components (audit_logger, logger, tracing, saga_logger)
+    - [x] 3.5a: tracing.cpp logErrorWithContext at initialization failure path - COMPLETE 2026-08-17
+    - [x] 3.5b: saga_logger.cpp logErrorWithContext at hash-mismatch and signature-invalid paths - COMPLETE 2026-08-17
+  - [~] 3.6: Apply error contracts to privacy components (pii_detector, detection engines)
+    - [x] 3.6a: pii_detector reload failure emits structured ErrorContext - COMPLETE 2026-08-17
+    - [x] 3.6b: pii_detector engine exception emits structured ErrorContext - COMPLETE 2026-08-17
+    - [x] 3.6c: pii_detector default engine load failure emits structured ErrorContext - COMPLETE 2026-08-17
   - [~] 3.7: Apply error contracts to crypto components (hkdf_helper, hkdf_cache, pki_client)
     - [x] 3.7a: pki_client pinning misconfiguration now fails closed with explicit diagnostics - COMPLETE 2026-08-17
-  - [ ] 3.8: Apply error contracts to compression components (zstd_codec, lz4_codec, serialization)
+  - [~] 3.8: Apply error contracts to compression components (zstd_codec, lz4_codec, serialization)
+    - [x] 3.8a: zstd_codec compress/decompress failure emits structured ErrorContext - COMPLETE 2026-08-17
+    - [x] 3.8b: lz4_codec compress/decompress failure emits structured ErrorContext - COMPLETE 2026-08-17
+    - [x] 3.8c: serialization Decoder bounds violation emits structured ErrorContext - COMPLETE 2026-08-17
   - [~] 3.9: Apply error contracts to runtime services (thread_pool_manager, rate_limiter, connection pools)
     - [x] 3.9a: error_registry read/write paths hardened for concurrent access in high-fan-out call paths - COMPLETE 2026-08-17
 - [ ] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
   - [x] 3.10: Incident categorizer with 15 operator-visible categories - COMPLETE
   - [x] 3.11: Structured logging with ErrorContext - COMPLETE
-  - [ ] 3.12: Update component implementations to use new diagnostics
+  - [x] 3.12: Update component implementations to use new diagnostics
+    - tracing.cpp, saga_logger.cpp, pii_detector.cpp, zstd_codec.cpp, lz4_codec.cpp, serialization.cpp - COMPLETE 2026-08-17
 
 ### Phase 4: Tests
 - [x] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)
 - [ ] extend concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
+  - [~] Phase 4 stress/concurrency test suite added (UTL-CONC-01..10): ThreadPool, RateLimiter, ErrorRegistry, error_contracts, zstd_codec, lz4_codec - IN PROGRESS 2026-08-17
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for mapped utility hotspots (Target: Q4 2026)
@@ -91,7 +101,15 @@ Production-usable shared utility behavior exists for observability, privacy proc
   - grpc_channel_pool.cpp: exception-safe scope re-lock
   - rate_limiter.cpp: cv_.wait_for + try_acquire_for()
   - audit_logger.cpp: FdGuard RAII wrapper for POSIX fds
-- [x] gap remediation follow-up documented: pki_client + error_registry critical/high closure update (2026-08-17)
+- [x] gap remediation follow-up: Phase 3.5/3.6/3.8/3.12 error-contract integration + Phase 4 stress test suite (2026-08-17)
+  - tracing.cpp: logErrorWithContext at OTel initialization failure
+  - saga_logger.cpp: logErrorWithContext at hash-mismatch and PKI signature-invalid paths
+  - pii_detector.cpp: logErrorWithContext at reload failure, engine exception, engine load failure
+  - zstd_codec.cpp: logErrorWithContext at compress/decompress failure; error_contracts.h added
+  - lz4_codec.cpp: logErrorWithContext at compress/decompress failure; error_contracts.h added
+  - serialization.cpp: logErrorWithContext at Decoder bounds violation; error_contracts.h added
+  - tests/utils/test_utils_stress_concurrency.cpp: Phase 4 stress suite UTL-CONC-01..10 added
+- [x] gap remediation: pki_client + error_registry critical/high closure (2026-08-17)
   - pki_client.cpp: cert pinning fail-closed enforcement + password callback bounds hardening
   - error_registry.cpp/h: shared_mutex synchronization for concurrent read/write safety
 
@@ -100,7 +118,7 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] core shared helper surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [~] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 3.5/3.6/3.8/3.12 and Phase 4 stress expansion remain open)
+- [~] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 3.9, 3.7 partial; Phase 4 stress expansion in progress)
 - [ ] broader release benchmark stabilization complete
 
 ## Known Issues and Limitations
