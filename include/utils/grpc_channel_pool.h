@@ -64,8 +64,8 @@ public:
     // Disable copy, allow move
     GrpcChannelPool(const GrpcChannelPool&) = delete;
     GrpcChannelPool& operator=(const GrpcChannelPool&) = delete;
-    GrpcChannelPool(GrpcChannelPool&&) = default;
-    GrpcChannelPool& operator=(GrpcChannelPool&&) = default;
+    GrpcChannelPool(GrpcChannelPool&&) noexcept = default;
+    GrpcChannelPool& operator=(GrpcChannelPool&&) noexcept = default;
     
     /**
      * @brief Acquire a channel for the given target

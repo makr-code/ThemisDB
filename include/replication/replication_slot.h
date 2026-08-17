@@ -108,8 +108,8 @@ public:
     // Non-copyable, movable
     ReplicationSlot(const ReplicationSlot&)            = delete;
     ReplicationSlot& operator=(const ReplicationSlot&) = delete;
-    ReplicationSlot(ReplicationSlot&&)                 = default;
-    ReplicationSlot& operator=(ReplicationSlot&&)      = default;
+    ReplicationSlot(ReplicationSlot&&)                 noexcept = default;
+    ReplicationSlot& operator=(ReplicationSlot&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Control API

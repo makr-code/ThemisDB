@@ -44,8 +44,8 @@ public:
 
     TextChunker(const TextChunker&)            = delete;
     TextChunker& operator=(const TextChunker&) = delete;
-    TextChunker(TextChunker&&)                 = default;
-    TextChunker& operator=(TextChunker&&)      = default;
+    TextChunker(TextChunker&&)                 noexcept = default;
+    TextChunker& operator=(TextChunker&&)      noexcept = default;
 
     // ── Configuration ─────────────────────────────────────────────────────────
 

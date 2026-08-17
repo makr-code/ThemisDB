@@ -568,8 +568,8 @@ public:
     /// Prevents use-after-free by holding OperationGuard
     class SafeIterator {
     public:
-        SafeIterator(SafeIterator&& other) noexcept = default;
-        SafeIterator& operator=(SafeIterator&& other) noexcept = default;
+        SafeIterator(SafeIterator&& other) noexcept noexcept = default;
+        SafeIterator& operator=(SafeIterator&& other) noexcept noexcept = default;
         
         // No copying - enforce move semantics for safety
         SafeIterator(const SafeIterator&) = delete;

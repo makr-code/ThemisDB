@@ -168,8 +168,8 @@ public:
     // Non-copyable, movable
     AdaptiveCircuitBreaker(const AdaptiveCircuitBreaker&)            = delete;
     AdaptiveCircuitBreaker& operator=(const AdaptiveCircuitBreaker&) = delete;
-    AdaptiveCircuitBreaker(AdaptiveCircuitBreaker&&)                 = default;
-    AdaptiveCircuitBreaker& operator=(AdaptiveCircuitBreaker&&)      = default;
+    AdaptiveCircuitBreaker(AdaptiveCircuitBreaker&&)                 noexcept = default;
+    AdaptiveCircuitBreaker& operator=(AdaptiveCircuitBreaker&&)      noexcept = default;
 
     ~AdaptiveCircuitBreaker() = default;
 

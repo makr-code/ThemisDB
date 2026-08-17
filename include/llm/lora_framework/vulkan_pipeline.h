@@ -207,8 +207,8 @@ public:
     
     VulkanComputePipeline(const VulkanComputePipeline&) = delete;
     VulkanComputePipeline& operator=(const VulkanComputePipeline&) = delete;
-    VulkanComputePipeline(VulkanComputePipeline&&) noexcept = default;
-    VulkanComputePipeline& operator=(VulkanComputePipeline&&) noexcept = default;
+    VulkanComputePipeline(VulkanComputePipeline&&) noexcept noexcept = default;
+    VulkanComputePipeline& operator=(VulkanComputePipeline&&) noexcept noexcept = default;
     
     bool create(size_t = 0) { return false; }
     void cleanup() {}

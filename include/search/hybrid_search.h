@@ -145,8 +145,8 @@ public:
     
     HybridSearch(const HybridSearch&) = delete;
     HybridSearch& operator=(const HybridSearch&) = delete;
-    HybridSearch(HybridSearch&&) noexcept = default;
-    HybridSearch& operator=(HybridSearch&&) noexcept = default;
+    HybridSearch(HybridSearch&&) noexcept noexcept = default;
+    HybridSearch& operator=(HybridSearch&&) noexcept noexcept = default;
     
     /**
      * @brief Perform hybrid search combining BM25 and vector search.

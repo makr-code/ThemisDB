@@ -120,8 +120,8 @@ public:
     // Non-copyable; movable.
     GeoOperatorDiagnostics(const GeoOperatorDiagnostics&) = delete;
     GeoOperatorDiagnostics& operator=(const GeoOperatorDiagnostics&) = delete;
-    GeoOperatorDiagnostics(GeoOperatorDiagnostics&&) noexcept = default;
-    GeoOperatorDiagnostics& operator=(GeoOperatorDiagnostics&&) noexcept = default;
+    GeoOperatorDiagnostics(GeoOperatorDiagnostics&&) noexcept noexcept = default;
+    GeoOperatorDiagnostics& operator=(GeoOperatorDiagnostics&&) noexcept noexcept = default;
 
     // -------------------------------------------------------------------------
     // § 3.1  Recording

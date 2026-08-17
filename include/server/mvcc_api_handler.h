@@ -111,8 +111,8 @@ public:
 
     MvccApiHandler(const MvccApiHandler&) = delete;
     MvccApiHandler& operator=(const MvccApiHandler&) = delete;
-    MvccApiHandler(MvccApiHandler&&) = default;
-    MvccApiHandler& operator=(MvccApiHandler&&) = default;
+    MvccApiHandler(MvccApiHandler&&) noexcept noexcept = default;
+    MvccApiHandler& operator=(MvccApiHandler&&) noexcept noexcept = default;
 
     /**
      * @brief Register all MVCC routes with an httplib Server.

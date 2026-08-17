@@ -59,8 +59,8 @@ public:
     // Disable copy, allow move
     TOTPReplayCache(const TOTPReplayCache&) = delete;
     TOTPReplayCache& operator=(const TOTPReplayCache&) = delete;
-    TOTPReplayCache(TOTPReplayCache&&) = default;
-    TOTPReplayCache& operator=(TOTPReplayCache&&) = default;
+    TOTPReplayCache(TOTPReplayCache&&) noexcept = default;
+    TOTPReplayCache& operator=(TOTPReplayCache&&) noexcept = default;
     
     /**
      * @brief Check if code has been used and mark it as used

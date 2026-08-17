@@ -82,8 +82,8 @@ public:
     // Non-copyable; movable.
     TsEdgeCaseHandler(const TsEdgeCaseHandler&) = delete;
     TsEdgeCaseHandler& operator=(const TsEdgeCaseHandler&) = delete;
-    TsEdgeCaseHandler(TsEdgeCaseHandler&&) noexcept = default;
-    TsEdgeCaseHandler& operator=(TsEdgeCaseHandler&&) noexcept = default;
+    TsEdgeCaseHandler(TsEdgeCaseHandler&&) noexcept noexcept = default;
+    TsEdgeCaseHandler& operator=(TsEdgeCaseHandler&&) noexcept noexcept = default;
 
     // -------------------------------------------------------------------------
     // § 1.1  Remote-Write Validation

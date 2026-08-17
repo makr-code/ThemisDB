@@ -114,8 +114,8 @@ public:
     // Non-copyable, movable
     SignedPluginRepository(const SignedPluginRepository&) = delete;
     SignedPluginRepository& operator=(const SignedPluginRepository&) = delete;
-    SignedPluginRepository(SignedPluginRepository&&) = default;
-    SignedPluginRepository& operator=(SignedPluginRepository&&) = default;
+    SignedPluginRepository(SignedPluginRepository&&) noexcept = default;
+    SignedPluginRepository& operator=(SignedPluginRepository&&) noexcept = default;
 
     // -------------------------------------------------------------------------
     // Key management

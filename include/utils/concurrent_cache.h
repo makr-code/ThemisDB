@@ -36,8 +36,8 @@ public:
     // Disable copy, allow move
     ConcurrentCache(const ConcurrentCache&) = delete;
     ConcurrentCache& operator=(const ConcurrentCache&) = delete;
-    ConcurrentCache(ConcurrentCache&&) = default;
-    ConcurrentCache& operator=(ConcurrentCache&&) = default;
+    ConcurrentCache(ConcurrentCache&&) noexcept = default;
+    ConcurrentCache& operator=(ConcurrentCache&&) noexcept = default;
     
     /// Insert or overwrite value
     void insert(const Key& key, const Value& value) {

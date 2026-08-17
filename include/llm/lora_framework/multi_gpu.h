@@ -41,8 +41,8 @@ public:
     // Disable copy, enable move
     MultiGPUContext(const MultiGPUContext&) = delete;
     MultiGPUContext& operator=(const MultiGPUContext&) = delete;
-    MultiGPUContext(MultiGPUContext&&) noexcept = default;
-    MultiGPUContext& operator=(MultiGPUContext&&) noexcept = default;
+    MultiGPUContext(MultiGPUContext&&) noexcept noexcept = default;
+    MultiGPUContext& operator=(MultiGPUContext&&) noexcept noexcept = default;
     
     /**
      * @brief Get number of GPUs in context

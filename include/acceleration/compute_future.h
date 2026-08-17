@@ -49,8 +49,8 @@ public:
     // Copyable — each copy shares the same cancellation flag.
     CancellationToken(const CancellationToken&)            = default;
     CancellationToken& operator=(const CancellationToken&) = default;
-    CancellationToken(CancellationToken&&)                 = default;
-    CancellationToken& operator=(CancellationToken&&)      = default;
+    CancellationToken(CancellationToken&&)                 noexcept = default;
+    CancellationToken& operator=(CancellationToken&&)      noexcept = default;
 
     /**
      * @brief Request cancellation.
@@ -218,8 +218,8 @@ public:
     // Non-copyable, movable.
     ComputeFuture(const ComputeFuture&)            = delete;
     ComputeFuture& operator=(const ComputeFuture&) = delete;
-    ComputeFuture(ComputeFuture&&)                 = default;
-    ComputeFuture& operator=(ComputeFuture&&)      = default;
+    ComputeFuture(ComputeFuture&&)                 noexcept = default;
+    ComputeFuture& operator=(ComputeFuture&&)      noexcept = default;
 
     // ── Core API ─────────────────────────────────────────────────────────────
 

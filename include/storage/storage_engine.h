@@ -140,7 +140,7 @@ public:
      * @param other StorageEngine instance to move from (will be in valid but
      *              unspecified state after this operation)
      */
-    StorageEngine(StorageEngine&& other) noexcept = default;
+    StorageEngine(StorageEngine&& other) noexcept noexcept = default;
     
     /**
      * @brief Move assignment operator
@@ -151,7 +151,7 @@ public:
      * @param other StorageEngine instance to move from
      * @return Reference to this object
      */
-    StorageEngine& operator=(StorageEngine&& other) noexcept = default;
+    StorageEngine& operator=(StorageEngine&& other) noexcept noexcept = default;
     
     // Delete copy operations to prevent accidental copies of injected dependencies
     StorageEngine(const StorageEngine&) = delete;

@@ -125,8 +125,8 @@ public:
 
     AdvancedCacheManager(const AdvancedCacheManager&)            = delete;
     AdvancedCacheManager& operator=(const AdvancedCacheManager&) = delete;
-    AdvancedCacheManager(AdvancedCacheManager&&)                 = default;
-    AdvancedCacheManager& operator=(AdvancedCacheManager&&)      = default;
+    AdvancedCacheManager(AdvancedCacheManager&&)                 noexcept = default;
+    AdvancedCacheManager& operator=(AdvancedCacheManager&&)      noexcept = default;
 
     // =========================================================================
     // Partition management

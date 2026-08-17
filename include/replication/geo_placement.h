@@ -164,8 +164,8 @@ public:
     // Non-copyable, movable
     GeoReplicaPlacementManager(const GeoReplicaPlacementManager&)            = delete;
     GeoReplicaPlacementManager& operator=(const GeoReplicaPlacementManager&) = delete;
-    GeoReplicaPlacementManager(GeoReplicaPlacementManager&&)                 = default;
-    GeoReplicaPlacementManager& operator=(GeoReplicaPlacementManager&&)      = default;
+    GeoReplicaPlacementManager(GeoReplicaPlacementManager&&)                 noexcept = default;
+    GeoReplicaPlacementManager& operator=(GeoReplicaPlacementManager&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Candidate selection

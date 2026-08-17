@@ -135,8 +135,8 @@ public:
     // Non-copyable, movable
     InPlaceSchemaMigrator(const InPlaceSchemaMigrator&) = delete;
     InPlaceSchemaMigrator& operator=(const InPlaceSchemaMigrator&) = delete;
-    InPlaceSchemaMigrator(InPlaceSchemaMigrator&&) = default;
-    InPlaceSchemaMigrator& operator=(InPlaceSchemaMigrator&&) = default;
+    InPlaceSchemaMigrator(InPlaceSchemaMigrator&&) noexcept = default;
+    InPlaceSchemaMigrator& operator=(InPlaceSchemaMigrator&&) noexcept = default;
 
     /**
      * @brief Check whether a schema migration is purely additive.

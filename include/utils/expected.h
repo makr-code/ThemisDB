@@ -70,9 +70,9 @@ public:
         : storage_(std::move(unexp).value()) {}
 
     expected(const expected&) = default;
-    expected(expected&&) noexcept(std::is_nothrow_move_constructible_v<std::variant<T, E>>) = default;
+    expected(expected&&) noexcept(std::is_nothrow_move_constructible_v<std::variant<T, E>>) noexcept = default;
     expected& operator=(const expected&) = default;
-    expected& operator=(expected&&) noexcept(std::is_nothrow_move_assignable_v<std::variant<T, E>>) = default;
+    expected& operator=(expected&&) noexcept(std::is_nothrow_move_assignable_v<std::variant<T, E>>) noexcept = default;
 
     [[nodiscard]] bool has_value() const noexcept { return std::holds_alternative<T>(storage_); }
     explicit operator bool() const noexcept { return has_value(); }

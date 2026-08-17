@@ -97,8 +97,8 @@ public:
     // Non-copyable, movable
     WakeWordDetector(const WakeWordDetector&)            = delete;
     WakeWordDetector& operator=(const WakeWordDetector&) = delete;
-    WakeWordDetector(WakeWordDetector&&)                 = default;
-    WakeWordDetector& operator=(WakeWordDetector&&)      = default;
+    WakeWordDetector(WakeWordDetector&&)                 noexcept = default;
+    WakeWordDetector& operator=(WakeWordDetector&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Wake-word registration

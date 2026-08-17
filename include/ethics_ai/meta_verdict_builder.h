@@ -52,8 +52,8 @@ public:
     // Non-copyable; move-constructible.
     MetaVerdictBuilder(const MetaVerdictBuilder&)            = delete;
     MetaVerdictBuilder& operator=(const MetaVerdictBuilder&) = delete;
-    MetaVerdictBuilder(MetaVerdictBuilder&&)                 = default;
-    MetaVerdictBuilder& operator=(MetaVerdictBuilder&&)      = default;
+    MetaVerdictBuilder(MetaVerdictBuilder&&)                 noexcept = default;
+    MetaVerdictBuilder& operator=(MetaVerdictBuilder&&)      noexcept = default;
 
     /**
      * @brief Set the legal-DB grounding to attach to every MetaVerdict.

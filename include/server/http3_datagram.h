@@ -133,8 +133,8 @@ public:
     // Non-copyable; moveable.
     Http3DatagramDispatcher(const Http3DatagramDispatcher&)            = delete;
     Http3DatagramDispatcher& operator=(const Http3DatagramDispatcher&) = delete;
-    Http3DatagramDispatcher(Http3DatagramDispatcher&&)                 = default;
-    Http3DatagramDispatcher& operator=(Http3DatagramDispatcher&&)      = default;
+    Http3DatagramDispatcher(Http3DatagramDispatcher&&)                 noexcept noexcept = default;
+    Http3DatagramDispatcher& operator=(Http3DatagramDispatcher&&)      noexcept noexcept = default;
 
     // ── Context Management ───────────────────────────────────────────────────
 

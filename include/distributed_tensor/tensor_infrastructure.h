@@ -167,7 +167,7 @@ class TensorInfrastructureManager {
   TensorInfrastructureManager(const TensorInfrastructureManager&) = delete;
 
   /// Move constructor.
-  TensorInfrastructureManager(TensorInfrastructureManager&&) noexcept = default;
+  TensorInfrastructureManager(TensorInfrastructureManager&&) noexcept noexcept = default;
 
   /// Assignment operator deleted.
   TensorInfrastructureManager& operator=(const TensorInfrastructureManager&) =
@@ -175,7 +175,7 @@ class TensorInfrastructureManager {
 
   /// Move assignment operator.
   TensorInfrastructureManager& operator=(
-      TensorInfrastructureManager&&) noexcept = default;
+      TensorInfrastructureManager&&) noexcept noexcept = default;
 
   /// Virtual destructor.
   virtual ~TensorInfrastructureManager() = default;
@@ -247,11 +247,11 @@ class DefaultTensorInfrastructureManager : public TensorInfrastructureManager {
 
   /// Move constructor.
   DefaultTensorInfrastructureManager(
-      DefaultTensorInfrastructureManager&&) noexcept = default;
+      DefaultTensorInfrastructureManager&&) noexcept noexcept = default;
 
   /// Move assignment operator.
   DefaultTensorInfrastructureManager& operator=(
-      DefaultTensorInfrastructureManager&&) noexcept = default;
+      DefaultTensorInfrastructureManager&&) noexcept noexcept = default;
 
   /// Destructor.
   ~DefaultTensorInfrastructureManager() override = default;

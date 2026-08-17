@@ -160,8 +160,8 @@ public:
     // Non-copyable, moveable
     WorkloadCacheStrategy(const WorkloadCacheStrategy&) = delete;
     WorkloadCacheStrategy& operator=(const WorkloadCacheStrategy&) = delete;
-    WorkloadCacheStrategy(WorkloadCacheStrategy&&) = default;
-    WorkloadCacheStrategy& operator=(WorkloadCacheStrategy&&) = default;
+    WorkloadCacheStrategy(WorkloadCacheStrategy&&) noexcept = default;
+    WorkloadCacheStrategy& operator=(WorkloadCacheStrategy&&) noexcept = default;
     
     /**
      * @brief Record query execution characteristics

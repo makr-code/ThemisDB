@@ -91,8 +91,8 @@ public:
     // Non-copyable; move-constructible.
     DiscourseOrchestrator(const DiscourseOrchestrator&)            = delete;
     DiscourseOrchestrator& operator=(const DiscourseOrchestrator&) = delete;
-    DiscourseOrchestrator(DiscourseOrchestrator&&)                 = default;
-    DiscourseOrchestrator& operator=(DiscourseOrchestrator&&)      = default;
+    DiscourseOrchestrator(DiscourseOrchestrator&&)                 noexcept = default;
+    DiscourseOrchestrator& operator=(DiscourseOrchestrator&&)      noexcept = default;
 
     /**
      * @brief Inject a real LLM inference function.

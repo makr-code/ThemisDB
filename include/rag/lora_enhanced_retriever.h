@@ -156,8 +156,8 @@ public:
 
     LoRAEnhancedRetriever(const LoRAEnhancedRetriever&)            = delete;
     LoRAEnhancedRetriever& operator=(const LoRAEnhancedRetriever&) = delete;
-    LoRAEnhancedRetriever(LoRAEnhancedRetriever&&)                 = default;
-    LoRAEnhancedRetriever& operator=(LoRAEnhancedRetriever&&)      = default;
+    LoRAEnhancedRetriever(LoRAEnhancedRetriever&&)                 noexcept = default;
+    LoRAEnhancedRetriever& operator=(LoRAEnhancedRetriever&&)      noexcept = default;
 
     /**
      * @brief Re-rank @p candidates using LoRA scoring.

@@ -311,8 +311,8 @@ public:
 
     ModularRAGPipeline(const ModularRAGPipeline&) = delete;
     ModularRAGPipeline& operator=(const ModularRAGPipeline&) = delete;
-    ModularRAGPipeline(ModularRAGPipeline&&) = default;
-    ModularRAGPipeline& operator=(ModularRAGPipeline&&) = default;
+    ModularRAGPipeline(ModularRAGPipeline&&) noexcept = default;
+    ModularRAGPipeline& operator=(ModularRAGPipeline&&) noexcept = default;
     ~ModularRAGPipeline() = default;
 
     /**

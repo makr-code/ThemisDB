@@ -77,8 +77,8 @@ public:
     // Non-copyable, movable
     ServiceMeshApiHandler(const ServiceMeshApiHandler&) = delete;
     ServiceMeshApiHandler& operator=(const ServiceMeshApiHandler&) = delete;
-    ServiceMeshApiHandler(ServiceMeshApiHandler&&) = default;
-    ServiceMeshApiHandler& operator=(ServiceMeshApiHandler&&) = default;
+    ServiceMeshApiHandler(ServiceMeshApiHandler&&) noexcept noexcept = default;
+    ServiceMeshApiHandler& operator=(ServiceMeshApiHandler&&) noexcept noexcept = default;
 
     /**
      * @brief Handle GET /api/v1/service-mesh/status.

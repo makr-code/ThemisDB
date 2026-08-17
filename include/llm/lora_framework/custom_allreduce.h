@@ -58,8 +58,8 @@ public:
     // Disable copy, enable move
     CustomAllReduce(const CustomAllReduce&) = delete;
     CustomAllReduce& operator=(const CustomAllReduce&) = delete;
-    CustomAllReduce(CustomAllReduce&&) noexcept = default;
-    CustomAllReduce& operator=(CustomAllReduce&&) noexcept = default;
+    CustomAllReduce(CustomAllReduce&&) noexcept noexcept = default;
+    CustomAllReduce& operator=(CustomAllReduce&&) noexcept noexcept = default;
     
     /**
      * @brief Initialize custom all-reduce (setup P2P if available)

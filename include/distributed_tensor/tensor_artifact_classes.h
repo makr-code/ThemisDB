@@ -159,13 +159,13 @@ class TensorArtifact {
   TensorArtifact(const TensorArtifact&) = delete;
 
   /// Move constructor.
-  TensorArtifact(TensorArtifact&&) noexcept = default;
+  TensorArtifact(TensorArtifact&&) noexcept noexcept = default;
 
   /// Assignment operator deleted.
   TensorArtifact& operator=(const TensorArtifact&) = delete;
 
   /// Move assignment operator.
-  TensorArtifact& operator=(TensorArtifact&&) noexcept = default;
+  TensorArtifact& operator=(TensorArtifact&&) noexcept noexcept = default;
 
   /// Virtual destructor for polymorphic cleanup.
   virtual ~TensorArtifact() = default;
@@ -237,10 +237,10 @@ class PrimaryTensorArtifact : public TensorArtifact {
                         DurabilityLevel durability_level);
 
   /// Move constructor.
-  PrimaryTensorArtifact(PrimaryTensorArtifact&&) noexcept = default;
+  PrimaryTensorArtifact(PrimaryTensorArtifact&&) noexcept noexcept = default;
 
   /// Move assignment operator.
-  PrimaryTensorArtifact& operator=(PrimaryTensorArtifact&&) noexcept = default;
+  PrimaryTensorArtifact& operator=(PrimaryTensorArtifact&&) noexcept noexcept = default;
 
   /// Destructor.
   ~PrimaryTensorArtifact() override = default;
@@ -276,10 +276,10 @@ class DerivedTensorArtifact : public TensorArtifact {
                         DurabilityLevel durability_level);
 
   /// Move constructor.
-  DerivedTensorArtifact(DerivedTensorArtifact&&) noexcept = default;
+  DerivedTensorArtifact(DerivedTensorArtifact&&) noexcept noexcept = default;
 
   /// Move assignment operator.
-  DerivedTensorArtifact& operator=(DerivedTensorArtifact&&) noexcept = default;
+  DerivedTensorArtifact& operator=(DerivedTensorArtifact&&) noexcept noexcept = default;
 
   /// Destructor.
   ~DerivedTensorArtifact() override = default;
@@ -306,10 +306,10 @@ class EphemeralTensorArtifact : public TensorArtifact {
                           const std::string& session_id);
 
   /// Move constructor.
-  EphemeralTensorArtifact(EphemeralTensorArtifact&&) noexcept = default;
+  EphemeralTensorArtifact(EphemeralTensorArtifact&&) noexcept noexcept = default;
 
   /// Move assignment operator.
-  EphemeralTensorArtifact& operator=(EphemeralTensorArtifact&&) noexcept = default;
+  EphemeralTensorArtifact& operator=(EphemeralTensorArtifact&&) noexcept noexcept = default;
 
   /// Destructor.
   ~EphemeralTensorArtifact() override = default;

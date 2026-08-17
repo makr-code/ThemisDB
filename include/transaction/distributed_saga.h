@@ -373,8 +373,8 @@ public:
     // Non-copyable, movable
     DistributedSagaCoordinator(const DistributedSagaCoordinator&)            = delete;
     DistributedSagaCoordinator& operator=(const DistributedSagaCoordinator&) = delete;
-    DistributedSagaCoordinator(DistributedSagaCoordinator&&)                 = default;
-    DistributedSagaCoordinator& operator=(DistributedSagaCoordinator&&)      = default;
+    DistributedSagaCoordinator(DistributedSagaCoordinator&&)                 noexcept = default;
+    DistributedSagaCoordinator& operator=(DistributedSagaCoordinator&&)      noexcept = default;
 
     // ── Core API ──────────────────────────────────────────────────────────────
 

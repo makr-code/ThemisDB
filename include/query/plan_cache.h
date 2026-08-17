@@ -200,8 +200,8 @@ public:
     // Non-copyable
     PlanCache(const PlanCache&)            = delete;
     PlanCache& operator=(const PlanCache&) = delete;
-    PlanCache(PlanCache&&)                 = default;
-    PlanCache& operator=(PlanCache&&)      = default;
+    PlanCache(PlanCache&&)                 noexcept = default;
+    PlanCache& operator=(PlanCache&&)      noexcept = default;
 
     // =========================================================================
     // Core API

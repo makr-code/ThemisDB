@@ -81,11 +81,11 @@ public:
 
     /// @brief Move constructor for polymorphic shard executor base.
     /// @note Move semantics: abstract base carries no data; derived classes must delegate here.
-    ShardGraphExecutor(ShardGraphExecutor&&) noexcept = default;
+    ShardGraphExecutor(ShardGraphExecutor&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator for polymorphic shard executor base.
     /// @note Move semantics: abstract base carries no data; safe as no-op base move.
-    ShardGraphExecutor& operator=(ShardGraphExecutor&&) noexcept = default;
+    ShardGraphExecutor& operator=(ShardGraphExecutor&&) noexcept noexcept = default;
 
     ShardGraphExecutor(const ShardGraphExecutor&) = delete;
     ShardGraphExecutor& operator=(const ShardGraphExecutor&) = delete;
@@ -155,11 +155,11 @@ public:
 
     /// @brief Move constructor — transfers shard_id and optimizer; source shard_id left empty.
     /// @note Move semantics: std::string move clears source shard_id_; optimizer moved via its own move.
-    LocalShardGraphExecutor(LocalShardGraphExecutor&&) noexcept = default;
+    LocalShardGraphExecutor(LocalShardGraphExecutor&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator.
     /// @note Move semantics: all members replaced; old shard_id and optimizer discarded.
-    LocalShardGraphExecutor& operator=(LocalShardGraphExecutor&&) noexcept = default;
+    LocalShardGraphExecutor& operator=(LocalShardGraphExecutor&&) noexcept noexcept = default;
 
     LocalShardGraphExecutor(const LocalShardGraphExecutor&) = delete;
     LocalShardGraphExecutor& operator=(const LocalShardGraphExecutor&) = delete;

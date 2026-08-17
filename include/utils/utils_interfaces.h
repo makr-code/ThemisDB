@@ -258,8 +258,8 @@ public:
     KeyHandle(const KeyHandle&)            = delete;
     KeyHandle& operator=(const KeyHandle&) = delete;
 
-    KeyHandle(KeyHandle&&) noexcept            = default;
-    KeyHandle& operator=(KeyHandle&&) noexcept = default;
+    KeyHandle(KeyHandle&&) noexcept            noexcept = default;
+    KeyHandle& operator=(KeyHandle&&) noexcept noexcept = default;
 
     ~KeyHandle() {
         // Zeroize key material before release.

@@ -106,8 +106,8 @@ public:
 
 protected:
     IShardLimitPolicy() = default;
-    IShardLimitPolicy(IShardLimitPolicy&&) = default;
-    IShardLimitPolicy& operator=(IShardLimitPolicy&&) = default;
+    IShardLimitPolicy(IShardLimitPolicy&&) noexcept = default;
+    IShardLimitPolicy& operator=(IShardLimitPolicy&&) noexcept = default;
 };
 
 } // namespace sharding

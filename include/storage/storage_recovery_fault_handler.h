@@ -135,8 +135,8 @@ public:
     RecoveryFaultHandler& operator=(const RecoveryFaultHandler&) = delete;
 
     /// Move-enabled.
-    RecoveryFaultHandler(RecoveryFaultHandler&&) noexcept = default;
-    RecoveryFaultHandler& operator=(RecoveryFaultHandler&&) noexcept = default;
+    RecoveryFaultHandler(RecoveryFaultHandler&&) noexcept noexcept = default;
+    RecoveryFaultHandler& operator=(RecoveryFaultHandler&&) noexcept noexcept = default;
 
     ~RecoveryFaultHandler() = default;
 

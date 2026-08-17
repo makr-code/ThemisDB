@@ -118,8 +118,8 @@ public:
     OntologyManager(const OntologyManager&) = delete;
     OntologyManager& operator=(const OntologyManager&) = delete;
 
-    OntologyManager(OntologyManager&&) = default;
-    OntologyManager& operator=(OntologyManager&&) = default;
+    OntologyManager(OntologyManager&&) noexcept = default;
+    OntologyManager& operator=(OntologyManager&&) noexcept = default;
 
     /// Explicit destructor for Rule of Five compliance and semantic clarity.
     /// Cleans up all member resources (maps, lists, mutexes); relies on standard

@@ -154,8 +154,8 @@ public:
     // Disable copy, allow move
     SchemaManager(const SchemaManager&) = delete;
     SchemaManager& operator=(const SchemaManager&) = delete;
-    SchemaManager(SchemaManager&&) = default;
-    SchemaManager& operator=(SchemaManager&&) = default;
+    SchemaManager(SchemaManager&&) noexcept = default;
+    SchemaManager& operator=(SchemaManager&&) noexcept = default;
 
     // ========================================================================
     // Public API - Schema Discovery

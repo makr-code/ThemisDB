@@ -199,8 +199,8 @@ public:
     // Non-copyable, moveable
     AdaptiveQueryCache(const AdaptiveQueryCache&) = delete;
     AdaptiveQueryCache& operator=(const AdaptiveQueryCache&) = delete;
-    AdaptiveQueryCache(AdaptiveQueryCache&&) = default;
-    AdaptiveQueryCache& operator=(AdaptiveQueryCache&&) = default;
+    AdaptiveQueryCache(AdaptiveQueryCache&&) noexcept = default;
+    AdaptiveQueryCache& operator=(AdaptiveQueryCache&&) noexcept = default;
     
     /**
      * @brief Generate query fingerprint from query string and parameters

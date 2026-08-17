@@ -254,8 +254,8 @@ public:
     // Non-copyable, movable
     AgenticRAG(const AgenticRAG&)            = delete;
     AgenticRAG& operator=(const AgenticRAG&) = delete;
-    AgenticRAG(AgenticRAG&&)                 = default;
-    AgenticRAG& operator=(AgenticRAG&&)      = default;
+    AgenticRAG(AgenticRAG&&)                 noexcept = default;
+    AgenticRAG& operator=(AgenticRAG&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Primary entry point

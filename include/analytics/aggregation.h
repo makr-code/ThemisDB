@@ -168,8 +168,8 @@ public:
 
     Aggregator(const Aggregator&)            = delete;
     Aggregator& operator=(const Aggregator&) = delete;
-    Aggregator(Aggregator&&)                 noexcept = default;
-    Aggregator& operator=(Aggregator&&)      noexcept = default;
+    Aggregator(Aggregator&&)                 noexcept noexcept = default;
+    Aggregator& operator=(Aggregator&&)      noexcept noexcept = default;
 
     /**
      * @brief Feed one input row into the aggregator.

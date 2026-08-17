@@ -44,8 +44,8 @@ public:
     // Disable copy, allow move
     PITRApiHandler(const PITRApiHandler&) = delete;
     PITRApiHandler& operator=(const PITRApiHandler&) = delete;
-    PITRApiHandler(PITRApiHandler&&) = default;
-    PITRApiHandler& operator=(PITRApiHandler&&) = default;
+    PITRApiHandler(PITRApiHandler&&) noexcept noexcept = default;
+    PITRApiHandler& operator=(PITRApiHandler&&) noexcept noexcept = default;
 
     /**
      * Register routes with HTTP server

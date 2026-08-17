@@ -130,8 +130,8 @@ public:
     // Non-copyable, movable
     DocumentSplitter(const DocumentSplitter&)            = delete;
     DocumentSplitter& operator=(const DocumentSplitter&) = delete;
-    DocumentSplitter(DocumentSplitter&&)                 = default;
-    DocumentSplitter& operator=(DocumentSplitter&&)      = default;
+    DocumentSplitter(DocumentSplitter&&)                 noexcept = default;
+    DocumentSplitter& operator=(DocumentSplitter&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Splitting

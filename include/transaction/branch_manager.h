@@ -127,8 +127,8 @@ public:
     // Disable copy, allow move
     BranchManager(const BranchManager&) = delete;
     BranchManager& operator=(const BranchManager&) = delete;
-    BranchManager(BranchManager&&) = default;
-    BranchManager& operator=(BranchManager&&) = default;
+    BranchManager(BranchManager&&) noexcept = default;
+    BranchManager& operator=(BranchManager&&) noexcept = default;
     
     /**
      * @brief Set MergeEngine for non-fast-forward merge support

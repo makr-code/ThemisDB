@@ -96,8 +96,8 @@ public:
     // Disable copy, allow move
     HnswLayerOptimizer(const HnswLayerOptimizer&) = delete;
     HnswLayerOptimizer& operator=(const HnswLayerOptimizer&) = delete;
-    HnswLayerOptimizer(HnswLayerOptimizer&&) = default;
-    HnswLayerOptimizer& operator=(HnswLayerOptimizer&&) = default;
+    HnswLayerOptimizer(HnswLayerOptimizer&&) noexcept = default;
+    HnswLayerOptimizer& operator=(HnswLayerOptimizer&&) noexcept = default;
     
     /// Check if optimization is enabled
     bool isEnabled() const { return config_.enabled; }

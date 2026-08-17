@@ -142,8 +142,8 @@ public:
     // Non-copyable; moveable.
     CrossShardSSIManager(const CrossShardSSIManager&) = delete;
     CrossShardSSIManager& operator=(const CrossShardSSIManager&) = delete;
-    CrossShardSSIManager(CrossShardSSIManager&&) noexcept = default;
-    CrossShardSSIManager& operator=(CrossShardSSIManager&&) noexcept = default;
+    CrossShardSSIManager(CrossShardSSIManager&&) noexcept noexcept = default;
+    CrossShardSSIManager& operator=(CrossShardSSIManager&&) noexcept noexcept = default;
 
     // ── Registration API ─────────────────────────────────────────────────────
 

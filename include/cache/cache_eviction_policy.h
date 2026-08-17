@@ -73,7 +73,7 @@ public:
      * Transfers policy state. `other` becomes moved-from state.
      * Note: This is the default implementation; subclasses may override.
      */
-    CacheEvictionPolicy(CacheEvictionPolicy&& other) noexcept = default;
+    CacheEvictionPolicy(CacheEvictionPolicy&& other) noexcept noexcept = default;
 
     /**
      * @brief Move assignment operator
@@ -83,7 +83,7 @@ public:
      * 
      * Transfers policy state. `other` becomes moved-from state.
      */
-    CacheEvictionPolicy& operator=(CacheEvictionPolicy&& other) noexcept = default;
+    CacheEvictionPolicy& operator=(CacheEvictionPolicy&& other) noexcept noexcept = default;
 
     // No copy
     CacheEvictionPolicy(const CacheEvictionPolicy&) = delete;

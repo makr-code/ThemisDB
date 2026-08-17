@@ -316,8 +316,8 @@ public:
     // Non-copyable, movable
     SchemaMigration(const SchemaMigration&)            = delete;
     SchemaMigration& operator=(const SchemaMigration&) = delete;
-    SchemaMigration(SchemaMigration&&)                 = default;
-    SchemaMigration& operator=(SchemaMigration&&)      = default;
+    SchemaMigration(SchemaMigration&&)                 noexcept = default;
+    SchemaMigration& operator=(SchemaMigration&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Configuration

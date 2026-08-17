@@ -160,8 +160,8 @@ public:
     // Non-copyable; movable.
     GeoEdgeCaseHandler(const GeoEdgeCaseHandler&) = delete;
     GeoEdgeCaseHandler& operator=(const GeoEdgeCaseHandler&) = delete;
-    GeoEdgeCaseHandler(GeoEdgeCaseHandler&&) noexcept = default;
-    GeoEdgeCaseHandler& operator=(GeoEdgeCaseHandler&&) noexcept = default;
+    GeoEdgeCaseHandler(GeoEdgeCaseHandler&&) noexcept noexcept = default;
+    GeoEdgeCaseHandler& operator=(GeoEdgeCaseHandler&&) noexcept noexcept = default;
 
     // -------------------------------------------------------------------------
     // § 4.1  Dispatch

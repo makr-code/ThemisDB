@@ -214,8 +214,8 @@ public:
     // Non-copyable, movable
     StreamingRetriever(const StreamingRetriever&)            = delete;
     StreamingRetriever& operator=(const StreamingRetriever&) = delete;
-    StreamingRetriever(StreamingRetriever&&)                 = default;
-    StreamingRetriever& operator=(StreamingRetriever&&)      = default;
+    StreamingRetriever(StreamingRetriever&&)                 noexcept = default;
+    StreamingRetriever& operator=(StreamingRetriever&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Callbacks

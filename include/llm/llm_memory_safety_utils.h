@@ -250,8 +250,8 @@ class VectorRAII {
   }
   
   // Move semantics
-  VectorRAII(VectorRAII&& other) noexcept = default;
-  VectorRAII& operator=(VectorRAII&& other) noexcept = default;
+  VectorRAII(VectorRAII&& other) noexcept noexcept = default;
+  VectorRAII& operator=(VectorRAII&& other) noexcept noexcept = default;
   
   // Prevent copying for exclusive ownership
   VectorRAII(const VectorRAII&) = default;

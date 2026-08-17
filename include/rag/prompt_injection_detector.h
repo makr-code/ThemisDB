@@ -107,8 +107,8 @@ public:
 
     PromptInjectionDetector(const PromptInjectionDetector&)            = delete;
     PromptInjectionDetector& operator=(const PromptInjectionDetector&) = delete;
-    PromptInjectionDetector(PromptInjectionDetector&&)                 = default;
-    PromptInjectionDetector& operator=(PromptInjectionDetector&&)      = default;
+    PromptInjectionDetector(PromptInjectionDetector&&)                 noexcept = default;
+    PromptInjectionDetector& operator=(PromptInjectionDetector&&)      noexcept = default;
 
     /**
      * @brief Scan a single text fragment for injection patterns.

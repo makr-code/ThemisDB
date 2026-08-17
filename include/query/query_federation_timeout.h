@@ -141,8 +141,8 @@ public:
     TimeoutPolicy& operator=(const TimeoutPolicy&) = delete;
 
     // Default move semantics
-    TimeoutPolicy(TimeoutPolicy&&) = default;
-    TimeoutPolicy& operator=(TimeoutPolicy&&) = default;
+    TimeoutPolicy(TimeoutPolicy&&) noexcept = default;
+    TimeoutPolicy& operator=(TimeoutPolicy&&) noexcept = default;
 
     /**
      * @brief Get per-shard timeout

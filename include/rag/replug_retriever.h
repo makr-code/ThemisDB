@@ -191,8 +191,8 @@ public:
     // Not copyable because the weight table is mutable state.
     ReplugRetriever(const ReplugRetriever&)            = delete;
     ReplugRetriever& operator=(const ReplugRetriever&) = delete;
-    ReplugRetriever(ReplugRetriever&&)                 = default;
-    ReplugRetriever& operator=(ReplugRetriever&&)      = default;
+    ReplugRetriever(ReplugRetriever&&)                 noexcept = default;
+    ReplugRetriever& operator=(ReplugRetriever&&)      noexcept = default;
 
     // ═══════════════════════════════════════════════════════════
     // Core API

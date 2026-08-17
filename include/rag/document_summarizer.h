@@ -148,8 +148,8 @@ public:
     // Non-copyable, movable
     DocumentSummarizer(const DocumentSummarizer&)            = delete;
     DocumentSummarizer& operator=(const DocumentSummarizer&) = delete;
-    DocumentSummarizer(DocumentSummarizer&&)                 = default;
-    DocumentSummarizer& operator=(DocumentSummarizer&&)      = default;
+    DocumentSummarizer(DocumentSummarizer&&)                 noexcept = default;
+    DocumentSummarizer& operator=(DocumentSummarizer&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Single-document summarization

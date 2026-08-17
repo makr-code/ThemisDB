@@ -84,8 +84,8 @@ public:
     DiagnosticEmitter& operator=(const DiagnosticEmitter&) = delete;
 
     // Movable
-    DiagnosticEmitter(DiagnosticEmitter&&) = default;
-    DiagnosticEmitter& operator=(DiagnosticEmitter&&) = default;
+    DiagnosticEmitter(DiagnosticEmitter&&) noexcept = default;
+    DiagnosticEmitter& operator=(DiagnosticEmitter&&) noexcept = default;
 
     // ========================================================================
     // Listener management

@@ -106,8 +106,8 @@ public:
     // Non-copyable; movable.
     TsOperatorDiagnostics(const TsOperatorDiagnostics&) = delete;
     TsOperatorDiagnostics& operator=(const TsOperatorDiagnostics&) = delete;
-    TsOperatorDiagnostics(TsOperatorDiagnostics&&) noexcept = default;
-    TsOperatorDiagnostics& operator=(TsOperatorDiagnostics&&) noexcept = default;
+    TsOperatorDiagnostics(TsOperatorDiagnostics&&) noexcept noexcept = default;
+    TsOperatorDiagnostics& operator=(TsOperatorDiagnostics&&) noexcept noexcept = default;
 
     // -------------------------------------------------------------------------
     // § 3.1  Recording

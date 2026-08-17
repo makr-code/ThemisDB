@@ -152,8 +152,8 @@ public:
 
     SmartRouter(const SmartRouter&)            = delete;
     SmartRouter& operator=(const SmartRouter&) = delete;
-    SmartRouter(SmartRouter&&)                 = default;
-    SmartRouter& operator=(SmartRouter&&)      = default;
+    SmartRouter(SmartRouter&&)                 noexcept noexcept = default;
+    SmartRouter& operator=(SmartRouter&&)      noexcept noexcept = default;
 
     ~SmartRouter() = default;
 

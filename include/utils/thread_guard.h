@@ -119,8 +119,8 @@ public:
     ThreadGuard& operator=(const ThreadGuard&) = delete;
 
     // Allow move semantics
-    ThreadGuard(ThreadGuard&&) noexcept = default;
-    ThreadGuard& operator=(ThreadGuard&&) noexcept = default;
+    ThreadGuard(ThreadGuard&&) noexcept noexcept = default;
+    ThreadGuard& operator=(ThreadGuard&&) noexcept noexcept = default;
 
 private:
     std::thread thread_;

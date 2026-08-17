@@ -84,11 +84,11 @@ struct ModelInfo {
 
     /// @brief Move constructor — transfers all fields; source is left in a valid empty state.
     /// @note Move semantics: all string/primitive members transferred; source cleared by std::string move.
-    ModelInfo(ModelInfo&&) noexcept = default;
+    ModelInfo(ModelInfo&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator.
     /// @note Move semantics: all string/primitive members transferred.
-    ModelInfo& operator=(ModelInfo&&) noexcept = default;
+    ModelInfo& operator=(ModelInfo&&) noexcept noexcept = default;
 
     ModelInfo(const ModelInfo&) = default;
     ModelInfo& operator=(const ModelInfo&) = default;
@@ -122,11 +122,11 @@ struct LoRAInfo {
 
     /// @brief Move constructor — transfers all fields; source left valid-empty.
     /// @note Move semantics: std::string move clears source strings; primitives copied.
-    LoRAInfo(LoRAInfo&&) noexcept = default;
+    LoRAInfo(LoRAInfo&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator.
     /// @note Move semantics: all members transferred, source left valid-empty.
-    LoRAInfo& operator=(LoRAInfo&&) noexcept = default;
+    LoRAInfo& operator=(LoRAInfo&&) noexcept noexcept = default;
 
     LoRAInfo(const LoRAInfo&) = default;
     LoRAInfo& operator=(const LoRAInfo&) = default;
@@ -230,11 +230,11 @@ struct InferenceResponse {
 
     /// @brief Move constructor — transfers all members including containers and optional fields.
     /// @note Move semantics: std::vector/std::string members moved; source left valid-empty.
-    InferenceResponse(InferenceResponse&&) noexcept = default;
+    InferenceResponse(InferenceResponse&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator.
     /// @note Move semantics: all members transferred; source left in a valid empty state.
-    InferenceResponse& operator=(InferenceResponse&&) noexcept = default;
+    InferenceResponse& operator=(InferenceResponse&&) noexcept noexcept = default;
 
     InferenceResponse(const InferenceResponse&) = default;
     InferenceResponse& operator=(const InferenceResponse&) = default;
@@ -292,11 +292,11 @@ struct RAGContext {
 
     /// @brief Move constructor — transfers query, collection, documents, and all parameters.
     /// @note Move semantics: std::string/std::vector members moved; source left valid-empty.
-    RAGContext(RAGContext&&) noexcept = default;
+    RAGContext(RAGContext&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator.
     /// @note Move semantics: all members transferred; source left in a valid empty state.
-    RAGContext& operator=(RAGContext&&) noexcept = default;
+    RAGContext& operator=(RAGContext&&) noexcept noexcept = default;
 
     RAGContext(const RAGContext&) = default;
     RAGContext& operator=(const RAGContext&) = default;
@@ -337,11 +337,11 @@ public:
 
     /// @brief Move constructor for polymorphic LLM plugin base.
     /// @note Move semantics: abstract base carries no data; subclasses must call this.
-    ILLMPlugin(ILLMPlugin&&) noexcept = default;
+    ILLMPlugin(ILLMPlugin&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator for polymorphic LLM plugin base.
     /// @note Move semantics: abstract base carries no data; subclasses must call this.
-    ILLMPlugin& operator=(ILLMPlugin&&) noexcept = default;
+    ILLMPlugin& operator=(ILLMPlugin&&) noexcept noexcept = default;
 
     ILLMPlugin(const ILLMPlugin&) = delete;
     ILLMPlugin& operator=(const ILLMPlugin&) = delete;
@@ -605,11 +605,11 @@ public:
 
     /// @brief Move constructor — transfers unique_ptr ownership; source becomes a null-plugin adapter.
     /// @note Move semantics: std::unique_ptr move transfers sole ownership; source llm_plugin_ becomes nullptr.
-    LLMPluginAdapter(LLMPluginAdapter&&) noexcept = default;
+    LLMPluginAdapter(LLMPluginAdapter&&) noexcept noexcept = default;
 
     /// @brief Move assignment operator — transfers unique_ptr ownership.
     /// @note Move semantics: replaces current plugin with source; source becomes nullptr.
-    LLMPluginAdapter& operator=(LLMPluginAdapter&&) noexcept = default;
+    LLMPluginAdapter& operator=(LLMPluginAdapter&&) noexcept noexcept = default;
 
     LLMPluginAdapter(const LLMPluginAdapter&) = delete;
     LLMPluginAdapter& operator=(const LLMPluginAdapter&) = delete;

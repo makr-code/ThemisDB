@@ -196,8 +196,8 @@ public:
     // Non-copyable, movable
     QueryExecutor(const QueryExecutor&)            = delete;
     QueryExecutor& operator=(const QueryExecutor&) = delete;
-    QueryExecutor(QueryExecutor&&)                 = default;
-    QueryExecutor& operator=(QueryExecutor&&)      = default;
+    QueryExecutor(QueryExecutor&&)                 noexcept = default;
+    QueryExecutor& operator=(QueryExecutor&&)      noexcept = default;
 
     /**
      * @brief Execute the plan and materialise all results.

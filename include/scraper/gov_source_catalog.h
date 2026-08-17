@@ -123,8 +123,8 @@ public:
     // Non-copyable, movable
     GovSourceCatalog(const GovSourceCatalog&) = delete;
     GovSourceCatalog& operator=(const GovSourceCatalog&) = delete;
-    GovSourceCatalog(GovSourceCatalog&&) = default;
-    GovSourceCatalog& operator=(GovSourceCatalog&&) = default;
+    GovSourceCatalog(GovSourceCatalog&&) noexcept = default;
+    GovSourceCatalog& operator=(GovSourceCatalog&&) noexcept = default;
 
     // --- Querying ---
 

@@ -183,13 +183,13 @@ class RecoveryManager {
   RecoveryManager(const RecoveryManager&) = delete;
 
   /// Move constructor.
-  RecoveryManager(RecoveryManager&&) noexcept = default;
+  RecoveryManager(RecoveryManager&&) noexcept noexcept = default;
 
   /// Assignment operator deleted.
   RecoveryManager& operator=(const RecoveryManager&) = delete;
 
   /// Move assignment operator.
-  RecoveryManager& operator=(RecoveryManager&&) noexcept = default;
+  RecoveryManager& operator=(RecoveryManager&&) noexcept noexcept = default;
 
   /// Virtual destructor.
   virtual ~RecoveryManager() = default;
@@ -255,7 +255,7 @@ class DefaultRecoveryManager : public RecoveryManager {
   DefaultRecoveryManager() = default;
 
   /// Move constructor.
-  DefaultRecoveryManager(DefaultRecoveryManager&&) noexcept = default;
+  DefaultRecoveryManager(DefaultRecoveryManager&&) noexcept noexcept = default;
 
   /// Move assignment operator.
   DefaultRecoveryManager& operator=(DefaultRecoveryManager&&) noexcept =

@@ -65,8 +65,8 @@ public:
     // Non-copyable (singleton backend)
     LlmIngestionBridge(const LlmIngestionBridge&) = delete;
     LlmIngestionBridge& operator=(const LlmIngestionBridge&) = delete;
-    LlmIngestionBridge(LlmIngestionBridge&&)            noexcept = default;
-    LlmIngestionBridge& operator=(LlmIngestionBridge&&) noexcept = default;
+    LlmIngestionBridge(LlmIngestionBridge&&)            noexcept noexcept = default;
+    LlmIngestionBridge& operator=(LlmIngestionBridge&&) noexcept noexcept = default;
 
     /**
      * @brief Generate text via `LLMPluginManager::instance().generate()`.

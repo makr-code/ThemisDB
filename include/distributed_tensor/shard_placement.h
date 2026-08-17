@@ -144,13 +144,13 @@ class ShardPlacementStrategy {
   ShardPlacementStrategy(const ShardPlacementStrategy&) = delete;
 
   /// Move constructor.
-  ShardPlacementStrategy(ShardPlacementStrategy&&) noexcept = default;
+  ShardPlacementStrategy(ShardPlacementStrategy&&) noexcept noexcept = default;
 
   /// Assignment operator deleted.
   ShardPlacementStrategy& operator=(const ShardPlacementStrategy&) = delete;
 
   /// Move assignment operator.
-  ShardPlacementStrategy& operator=(ShardPlacementStrategy&&) noexcept = default;
+  ShardPlacementStrategy& operator=(ShardPlacementStrategy&&) noexcept noexcept = default;
 
   /// Virtual destructor.
   virtual ~ShardPlacementStrategy() = default;
@@ -207,7 +207,7 @@ class DefaultShardPlacementStrategy : public ShardPlacementStrategy {
 
   /// Move assignment operator.
   DefaultShardPlacementStrategy& operator=(
-      DefaultShardPlacementStrategy&&) noexcept = default;
+      DefaultShardPlacementStrategy&&) noexcept noexcept = default;
 
   /// Destructor.
   ~DefaultShardPlacementStrategy() override = default;

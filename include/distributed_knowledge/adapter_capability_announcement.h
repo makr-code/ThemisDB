@@ -210,8 +210,8 @@ public:
 
     GossipAdapterPublisher(const GossipAdapterPublisher&)            = delete;
     GossipAdapterPublisher& operator=(const GossipAdapterPublisher&) = delete;
-    GossipAdapterPublisher(GossipAdapterPublisher&&)                 = default;
-    GossipAdapterPublisher& operator=(GossipAdapterPublisher&&)      = default;
+    GossipAdapterPublisher(GossipAdapterPublisher&&)                 noexcept = default;
+    GossipAdapterPublisher& operator=(GossipAdapterPublisher&&)      noexcept = default;
 
     /**
      * @brief Broadcast an adapter capability announcement to all peers.

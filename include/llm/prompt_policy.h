@@ -92,8 +92,8 @@ public:
     PromptPolicy& operator=(const PromptPolicy&) = delete;
 
     // Movable
-    PromptPolicy(PromptPolicy&&) = default;
-    PromptPolicy& operator=(PromptPolicy&&) = default;
+    PromptPolicy(PromptPolicy&&) noexcept = default;
+    PromptPolicy& operator=(PromptPolicy&&) noexcept = default;
 
     /**
      * @brief A compiled rule entry: the original PolicyRule plus its compiled

@@ -59,8 +59,8 @@ public:
     // Disable copy, allow move
     MergeApiHandler(const MergeApiHandler&) = delete;
     MergeApiHandler& operator=(const MergeApiHandler&) = delete;
-    MergeApiHandler(MergeApiHandler&&) = default;
-    MergeApiHandler& operator=(MergeApiHandler&&) = default;
+    MergeApiHandler(MergeApiHandler&&) noexcept noexcept = default;
+    MergeApiHandler& operator=(MergeApiHandler&&) noexcept noexcept = default;
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
     /**

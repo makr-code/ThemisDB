@@ -240,8 +240,8 @@ public:
     // Non-copyable; movable
     TemporalMigrator(const TemporalMigrator&)            = delete;
     TemporalMigrator& operator=(const TemporalMigrator&) = delete;
-    TemporalMigrator(TemporalMigrator&&)                 = default;
-    TemporalMigrator& operator=(TemporalMigrator&&)      = default;
+    TemporalMigrator(TemporalMigrator&&)                 noexcept = default;
+    TemporalMigrator& operator=(TemporalMigrator&&)      noexcept = default;
 
     // ── Configuration ─────────────────────────────────────────────────────────
 

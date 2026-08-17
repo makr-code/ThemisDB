@@ -124,8 +124,8 @@ public:
     PinnedMemory& operator=(const PinnedMemory&) = delete;
     
     // Allow moving
-    PinnedMemory(PinnedMemory&&) noexcept = default;
-    PinnedMemory& operator=(PinnedMemory&&) noexcept = default;
+    PinnedMemory(PinnedMemory&&) noexcept noexcept = default;
+    PinnedMemory& operator=(PinnedMemory&&) noexcept noexcept = default;
     
     /**
      * @brief Get raw pointer to pinned memory
@@ -200,8 +200,8 @@ public:
     CudaBuffer& operator=(const CudaBuffer&) = delete;
     
     // Allow moving
-    CudaBuffer(CudaBuffer&&) noexcept = default;
-    CudaBuffer& operator=(CudaBuffer&&) noexcept = default;
+    CudaBuffer(CudaBuffer&&) noexcept noexcept = default;
+    CudaBuffer& operator=(CudaBuffer&&) noexcept noexcept = default;
     
     /**
      * @brief Get raw pointer
@@ -294,8 +294,8 @@ public:
     
     CudaBuffer(const CudaBuffer&) = delete;
     CudaBuffer& operator=(const CudaBuffer&) = delete;
-    CudaBuffer(CudaBuffer&&) noexcept = default;
-    CudaBuffer& operator=(CudaBuffer&&) noexcept = default;
+    CudaBuffer(CudaBuffer&&) noexcept noexcept = default;
+    CudaBuffer& operator=(CudaBuffer&&) noexcept noexcept = default;
     
     /**
      * @brief Get raw pointer

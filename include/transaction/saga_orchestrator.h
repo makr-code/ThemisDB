@@ -219,8 +219,8 @@ public:
 
     SAGAOrchestrator(const SAGAOrchestrator&)            = delete;
     SAGAOrchestrator& operator=(const SAGAOrchestrator&) = delete;
-    SAGAOrchestrator(SAGAOrchestrator&&)                 = default;
-    SAGAOrchestrator& operator=(SAGAOrchestrator&&)      = default;
+    SAGAOrchestrator(SAGAOrchestrator&&)                 noexcept = default;
+    SAGAOrchestrator& operator=(SAGAOrchestrator&&)      noexcept = default;
 
     // ── Core execution API ────────────────────────────────────────────────────
 

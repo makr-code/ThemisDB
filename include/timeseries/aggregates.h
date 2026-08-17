@@ -75,8 +75,8 @@ public:
     
     TimeSeriesAggregates(const TimeSeriesAggregates&) = delete;
     TimeSeriesAggregates& operator=(const TimeSeriesAggregates&) = delete;
-    TimeSeriesAggregates(TimeSeriesAggregates&&) = default;
-    TimeSeriesAggregates& operator=(TimeSeriesAggregates&&) = default;
+    TimeSeriesAggregates(TimeSeriesAggregates&&) noexcept = default;
+    TimeSeriesAggregates& operator=(TimeSeriesAggregates&&) noexcept = default;
     
     /**
      * @brief Compute aggregates over time windows

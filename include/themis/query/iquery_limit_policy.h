@@ -137,8 +137,8 @@ public:
 
 protected:
     IQueryLimitPolicy() = default;
-    IQueryLimitPolicy(IQueryLimitPolicy&&) = default;
-    IQueryLimitPolicy& operator=(IQueryLimitPolicy&&) = default;
+    IQueryLimitPolicy(IQueryLimitPolicy&&) noexcept = default;
+    IQueryLimitPolicy& operator=(IQueryLimitPolicy&&) noexcept = default;
 };
 
 } // namespace query

@@ -508,8 +508,8 @@ public:
 
     ITransactionCoordinator(const ITransactionCoordinator&)             = delete;
     ITransactionCoordinator& operator=(const ITransactionCoordinator&)  = delete;
-    ITransactionCoordinator(ITransactionCoordinator&&)                  noexcept = default;
-    ITransactionCoordinator& operator=(ITransactionCoordinator&&)       noexcept = default;
+    ITransactionCoordinator(ITransactionCoordinator&&)                  noexcept noexcept = default;
+    ITransactionCoordinator& operator=(ITransactionCoordinator&&)       noexcept noexcept = default;
 
 protected:
     ITransactionCoordinator() = default;

@@ -77,8 +77,8 @@ public:
     // Disable copy, allow move
     Hypertable(const Hypertable&) = delete;
     Hypertable& operator=(const Hypertable&) = delete;
-    Hypertable(Hypertable&&) = default;
-    Hypertable& operator=(Hypertable&&) = default;
+    Hypertable(Hypertable&&) noexcept = default;
+    Hypertable& operator=(Hypertable&&) noexcept = default;
     
     /**
      * @brief Insert time-series data point

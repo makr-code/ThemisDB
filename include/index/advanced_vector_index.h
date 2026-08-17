@@ -103,8 +103,8 @@ public:
     // Disable copy, allow move
     AdvancedVectorIndex(const AdvancedVectorIndex&) = delete;
     AdvancedVectorIndex& operator=(const AdvancedVectorIndex&) = delete;
-    AdvancedVectorIndex(AdvancedVectorIndex&&) = default;
-    AdvancedVectorIndex& operator=(AdvancedVectorIndex&&) = default;
+    AdvancedVectorIndex(AdvancedVectorIndex&&) noexcept = default;
+    AdvancedVectorIndex& operator=(AdvancedVectorIndex&&) noexcept = default;
     
     /**
      * @brief Train index on sample data

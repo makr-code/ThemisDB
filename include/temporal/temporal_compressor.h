@@ -178,8 +178,8 @@ public:
     // Non-copyable; movable
     TemporalCompressor(const TemporalCompressor&)            = delete;
     TemporalCompressor& operator=(const TemporalCompressor&) = delete;
-    TemporalCompressor(TemporalCompressor&&)                 = default;
-    TemporalCompressor& operator=(TemporalCompressor&&)      = default;
+    TemporalCompressor(TemporalCompressor&&)                 noexcept = default;
+    TemporalCompressor& operator=(TemporalCompressor&&)      noexcept = default;
 
     // ── Primary API ───────────────────────────────────────────────────────────
 

@@ -698,8 +698,8 @@ public:
     // Non-copyable; movable.
     EthicsAuditLog(const EthicsAuditLog&)            = delete;
     EthicsAuditLog& operator=(const EthicsAuditLog&) = delete;
-    EthicsAuditLog(EthicsAuditLog&&)                 = default;
-    EthicsAuditLog& operator=(EthicsAuditLog&&)      = default;
+    EthicsAuditLog(EthicsAuditLog&&)                 noexcept = default;
+    EthicsAuditLog& operator=(EthicsAuditLog&&)      noexcept = default;
 
     /**
      * @brief Append a new immutable audit entry.

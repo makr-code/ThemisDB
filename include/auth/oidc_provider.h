@@ -105,8 +105,8 @@ public:
     OIDCProvider& operator=(const OIDCProvider&) = delete;
 
     // Movable
-    OIDCProvider(OIDCProvider&&) = default;
-    OIDCProvider& operator=(OIDCProvider&&) = default;
+    OIDCProvider(OIDCProvider&&) noexcept = default;
+    OIDCProvider& operator=(OIDCProvider&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // Discovery

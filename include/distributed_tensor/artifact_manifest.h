@@ -114,13 +114,13 @@ class ArtifactManifest {
   ArtifactManifest(const ArtifactManifest&) = delete;
 
   /// Move constructor.
-  ArtifactManifest(ArtifactManifest&&) noexcept = default;
+  ArtifactManifest(ArtifactManifest&&) noexcept noexcept = default;
 
   /// Assignment operator deleted.
   ArtifactManifest& operator=(const ArtifactManifest&) = delete;
 
   /// Move assignment operator.
-  ArtifactManifest& operator=(ArtifactManifest&&) noexcept = default;
+  ArtifactManifest& operator=(ArtifactManifest&&) noexcept noexcept = default;
 
   /// Virtual destructor.
   virtual ~ArtifactManifest() = default;

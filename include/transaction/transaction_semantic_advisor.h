@@ -115,8 +115,8 @@ public:
 
     TransactionSemanticAdvisor(const TransactionSemanticAdvisor&) = delete;
     TransactionSemanticAdvisor& operator=(const TransactionSemanticAdvisor&) = delete;
-    TransactionSemanticAdvisor(TransactionSemanticAdvisor&&) = default;
-    TransactionSemanticAdvisor& operator=(TransactionSemanticAdvisor&&) = default;
+    TransactionSemanticAdvisor(TransactionSemanticAdvisor&&) noexcept = default;
+    TransactionSemanticAdvisor& operator=(TransactionSemanticAdvisor&&) noexcept = default;
 
     // ─── Dependency injection ──────────────────────────────────────────────
 

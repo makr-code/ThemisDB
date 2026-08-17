@@ -45,8 +45,8 @@ public:
     // Disable copy, allow move
     SnapshotApiHandler(const SnapshotApiHandler&) = delete;
     SnapshotApiHandler& operator=(const SnapshotApiHandler&) = delete;
-    SnapshotApiHandler(SnapshotApiHandler&&) = default;
-    SnapshotApiHandler& operator=(SnapshotApiHandler&&) = default;
+    SnapshotApiHandler(SnapshotApiHandler&&) noexcept noexcept = default;
+    SnapshotApiHandler& operator=(SnapshotApiHandler&&) noexcept noexcept = default;
 
     /**
      * @brief Register routes with HTTP server
