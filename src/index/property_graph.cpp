@@ -1270,12 +1270,13 @@ PropertyGraphManager::computePageRank(
             double diff = 0.0;
             for (const auto& node : nodes) {
                 diff += std::abs(pagerank_new[node] - pagerank[node]);
+            }
+             
+            if (diff < tolerance) {
+                converged = true;
+            }
         }
-        
-        if (diff < tolerance) {
-            converged = true;
-        }
-        
+         
         // Update scores
         pagerank = pagerank_new;
     }
