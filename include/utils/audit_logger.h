@@ -217,29 +217,58 @@ public:
      * 
      * Logs an event to the audit trail. If hash chaining is enabled, the event 
      * is cryptographically linked to the previous event. If encryption is enabled,
-     * the event is encrypted before writing.
+     * @brief Log a JSON audit event with encryption and signing
+     * 
+     * Persists a JSON event to the audit log with optional encryption and digital
+     * signing. Supports external SIEM forwarding and cryptographic chain verification.
+     * Part of Phase 2.3 observability hardening with explicit error codes.
      * 
      * @param event JSON object containing event data
      * 
      * @return void (failure is logged, not signaled - see @error_contract below)
      * 
      * @error_contract
-     * - If buffer would overflow: logs ERR_AUDIT_BUFFER_OVERFLOW and truncates event
-     * - If write fails: logs ERR_AUDIT_LOG_WRITE_FAILED and retries with fallback to stderr
-     * - If serialization fails: logs ERR_AUDIT_SERIALIZATION_FAILED and uses simplified format
-     * - If encryption fails: logs ERR_AUDIT_SERVICE_DEGRADED and switches to unencrypted mode
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_BUFFER_OVERFLOW (7300): Event exceeds MAX_EVENT_SIZE limit (10MB)
+     *   - Recovery: Event is truncated to fit within bounds
+     *   - Severity: WARNING
+     *   - User Action: Review event size limits in configuration
+     * 
+     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Write to audit storage failed
+     *   - Recovery: Retries with fallback to stderr
+     *   - Severity: ERROR
+     *   - User Action: Check disk space and file permissions
+     * 
+     * - ERR_AUDIT_SERIALIZATION_FAILED (7302): Event serialization failed
+     *   - Recovery: Uses simplified JSON format for retry
+     *   - Severity: ERROR
+     *   - User Action: Validate event JSON structure
+     * 
+     * - ERR_AUDIT_SERVICE_DEGRADED (7308): Encryption/PKI service unavailable
+     *   - Recovery: Continues with unencrypted logging or fallback to plaintext
+     *   - Severity: WARNING
+     *   - User Action: Check PKI/encryption service availability
+     * 
+     * **Graceful Degradation (Phase 2.8):**
+     * - If buffer would overflow: truncates event and logs as WARNING
+     * - If write fails: retries with fallback to stderr 
+     * - If encryption fails: logs as degraded and switches to plaintext
+     * - If PKI/signing fails: logs as warning and continues without signatures
      * - Service degradation: if external audit service unreachable, continues with local logging
      * 
      * @bounded_resources
      * - Buffer capacity: cfg.max_buffer_size (default: 1GB)
-     * - Event size: Individual events capped at 10MB
+     * - Event size: Individual events capped at 10MB (Phase 2.9)
      * - Queue depth: max cfg.max_queued_events entries
+     * - Recovery: All bounded resource checks include watermarks and backpressure signals
      * 
      * @thread_safety Thread-safe via internal mutex (file_mu_)
      * @performance O(n) where n is event JSON size; async batch writes if configured
      * 
-     * @see ErrorCode for error taxonomy
-     * @see logSecurityEvent() for security-specific event logging
+     * @see ErrorCode::ERR_AUDIT_BUFFER_OVERFLOW for resource exhaustion details
+     * @see ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED for I/O failure details
+     * @see ErrorCode::ERR_AUDIT_SERVICE_DEGRADED for graceful degradation behavior
+     * @see logEvent() for write operation details
      */
     void logEvent(const nlohmann::json& event);
      
@@ -248,6 +277,7 @@ public:
      * 
      * Logs a high-level security event (authentication, authorization, key management, etc.)
      * with automatic timestamp, user context, and resource tagging.
+     * Phase 2.10 Doxygen enhancement: comprehensive error contract documentation.
      * 
      * @param event_type Security event type (enum)
      * @param user_id User/service account performing the action
@@ -257,16 +287,32 @@ public:
      * @return void (see @error_contract below)
      * 
      * @error_contract
-     * - If event_type invalid: logs ERR_AUDIT_FORMAT_INVALID and skips event
-     * - If user_id or resource empty: logs ERR_AUDIT_SERIALIZATION_FAILED with warning
-     * - If details JSON too large: logs ERR_AUDIT_BUFFER_OVERFLOW and truncates
-     * - All error paths fall through to logEvent() error handling
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_FORMAT_INVALID (7304): Event type invalid or unrecognized
+     *   - Recovery: Event is skipped; no logging occurs
+     *   - Severity: WARNING
+     *   - User Action: Verify SecurityEventType enum values
      * 
-     * @thread_safety Thread-safe
-     * @performance O(1) for event type resolution; delegates to logEvent() for write
+     * - ERR_AUDIT_SERIALIZATION_FAILED (7302): User ID or resource is empty
+     *   - Recovery: Event logged with placeholder values and warning context
+     *   - Severity: WARNING
+     *   - User Action: Ensure user_id and resource parameters are non-empty
+     * 
+     * - ERR_AUDIT_BUFFER_OVERFLOW (7300): Details JSON exceeds size limit
+     *   - Recovery: Details JSON is truncated to fit within bounds
+     *   - Severity: WARNING
+     *   - User Action: Reduce size of event details or batch events
+     * 
+     * **Error Path Cascading:**
+     * - All error paths fall through to logEvent() error handling
+     * - If logEvent() fails, event is retried or logged to stderr
+     * 
+     * @thread_safety Thread-safe (delegates to thread-safe logEvent())
+     * @performance O(1) for event type resolution; O(n) delegates to logEvent() for write
      * 
      * @see SecurityEventType for valid event types
-     * @see logEvent() for write operation details
+     * @see logEvent() for write operation and detailed error contracts
+     * @see ErrorCode for complete error taxonomy
      */
     void logSecurityEvent(
         SecurityEventType event_type,
@@ -278,21 +324,41 @@ public:
     /**
      * @brief Verify integrity of audit log hash chain
      * 
-     * If hash chaining is enabled, verifies that the cryptographic chain linking
-     * audit events is intact. Detects tampering or log rotation issues.
+     * Validates that all events in the audit log form a cryptographically consistent
+     * chain (if hash chaining is enabled). Detects tampering, missing events, or
+     * out-of-order appends. Phase 2.10: Comprehensive error documentation.
      * 
      * @return true if chain is valid or chaining disabled; false if tampering detected
      * 
      * @error_contract
-     * - If chain file missing/unreadable: returns false (logs ERR_AUDIT_LOG_WRITE_FAILED)
-     * - If hash verification fails: returns false (logs ERR_AUDIT_SERVICE_DEGRADED warning)
-     * - If internal error: returns false (logs ERR_AUDIT_CLEANUP_FAILED context)
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Chain file missing or unreadable
+     *   - Recovery: Returns false; logs error context
+     *   - Severity: ERROR
+     *   - User Action: Check chain file permissions and existence
      * 
-     * @thread_safety Thread-safe
-     * @performance O(n) where n is log file size; consider caching in production
+     * - ERR_AUDIT_SERVICE_DEGRADED (7308): Hash verification fails; potential tampering
+     *   - Recovery: Returns false; logs warning context
+     *   - Severity: ERROR
+     *   - User Action: Investigate chain integrity; restore from backup if needed
+     * 
+     * - ERR_AUDIT_CLEANUP_FAILED (7309): Internal error during verification
+     *   - Recovery: Returns false; logs error context
+     *   - Severity: ERROR
+     *   - User Action: Check audit logger internal state; restart audit service
+     * 
+     * **Chain Verification Semantics:**
+     * - Validates hash continuity: H(event_i) matches stored hash reference in event_{i+1}
+     * - Detects insertion, deletion, or modification of events
+     * - Non-recoverable: chain corruption always reported; never auto-repaired
+     * - Hash chaining disabled: returns true (no verification needed)
+     * 
+     * @thread_safety Thread-safe via internal mutex (file_mu_)
+     * @performance O(n) where n is log file size
      * 
      * @note Should be called before critical operations to detect tampering
-     * @see ErrorCode::ERR_AUDIT_ROTATION_FAILED for related rotation errors
+     * @see ErrorCode::ERR_AUDIT_SERVICE_DEGRADED for tampering detection
+     * @see logEvent() for chain implementation details
      */
     bool verifyChainIntegrity();
      
@@ -300,21 +366,49 @@ public:
      * @brief Flush audit log to disk
      * 
      * Flushes pending audit events to disk. If fsync is enabled in config,
-     * ensures data is durably written to storage.
+     * ensures data is durably written to storage. Phase 2.10: Comprehensive error documentation.
      * 
      * @return void (see @error_contract below)
      * 
      * @error_contract
-     * - If disk full: logs ERR_AUDIT_DISK_FULL and triggers rotation/cleanup
-     * - If write permission denied: logs ERR_AUDIT_PERMISSION_DENIED
-     * - If fsync fails: logs ERR_AUDIT_SERVICE_DEGRADED (non-fatal)
-     * - All failures logged but flush continues with what it can
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_DISK_FULL (7306): Insufficient disk space during flush
+     *   - Recovery: Automatically triggers log rotation/cleanup to free space
+     *   - Severity: WARNING
+     *   - User Action: Increase disk space; review retention policies
      * 
-     * @thread_safety Thread-safe
+     * - ERR_AUDIT_PERMISSION_DENIED (7305): Write permission denied on audit log
+     *   - Recovery: Flush fails; error logged with diagnostic context
+     *   - Severity: ERROR
+     *   - User Action: Check file ownership and access control lists
+     * 
+     * - ERR_AUDIT_SERVICE_DEGRADED (7308): fsync() operation fails (non-fatal)
+     *   - Recovery: Data written but durability guarantee degraded; continues
+     *   - Severity: WARNING
+     *   - User Action: Check file system health; consider fsync_on_write setting
+     * 
+     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Generic write failure during flush
+     *   - Recovery: Logged with context; pending events remain buffered
+     *   - Severity: ERROR
+     *   - User Action: Retry flush after resolving underlying I/O issue
+     * 
+     * **Flush Semantics:**
+     * - Writes all pending events in write buffer to audit log file
+     * - If fsync enabled: calls fsync() for durable write guarantee
+     * - Bounded failure propagation: does not abort on non-fatal errors
+     * - Continues flushing even if individual writes fail
+     * 
+     * @bounded_resources
+     * - Buffer flush: O(pending_events) time
+     * - Disk I/O: bounded by write buffer size (cfg.max_buffer_size)
+     * - fsync cost: approximately 1 syscall per flush if enabled
+     * 
+     * @thread_safety Thread-safe via internal mutex (file_mu_)
      * @performance O(pending_events); blocks until flush complete if fsync enabled
      * 
      * @note Critical for audit durability; should be called periodically
-     * @see ErrorCode for diagnostics
+     * @see ErrorCode for complete error taxonomy
+     * @see logEvent() for event buffering details
      */
     void flush();
     

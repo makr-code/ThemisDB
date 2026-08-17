@@ -82,16 +82,222 @@ class THEMIS_BASE_API Logger {
 public:
     enum class Level { TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL };
 
+    /**
+     * @brief Initialize logger with file sink
+     * 
+     * Creates a standard file logger that writes log entries to a single file.
+     * Phase 2.10: Comprehensive error contract documentation.
+     * 
+     * @param log_file Path to output log file (default: "vccdb.log")
+     * @param level Logging level threshold (default: INFO)
+     * 
+     * @return void
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Cannot create/write to log file
+     *   - Recovery: Falls back to stderr logging; non-fatal
+     *   - Severity: WARNING
+     *   - User Action: Check file path, permissions, and disk space
+     * 
+     * - ERR_AUDIT_PERMISSION_DENIED (7305): Insufficient permissions on log directory
+     *   - Recovery: Logs to stderr instead
+     *   - Severity: WARNING
+     *   - User Action: Verify write permissions on log directory
+     * 
+     * - ERR_AUDIT_DISK_FULL (7306): Insufficient disk space for log file
+     *   - Recovery: Falls back to stderr; disk space error is logged
+     *   - Severity: WARNING
+     *   - User Action: Free up disk space before reinitializing
+     * 
+     * **Initialization Semantics:**
+     * - Replaces previous logger instance if already initialized
+     * - Graceful degradation: all errors logged but initialization proceeds
+     * - Stderr fallback always available if file logging fails
+     * 
+     * @thread_safety Thread-safe; previous logger instance is flushed before replacement
+     * @performance O(1) initialization; first log call may incur file creation overhead
+     * 
+     * @see ErrorCode for complete error taxonomy
+     * @see initJson() for JSON format logging
+     * @see initRotating() for automatic log rotation
+     */
     static void init(const std::string& log_file = "vccdb.log", Level level = Level::INFO);
+    
+    /**
+     * @brief Initialize logger with JSON-formatted file sink
+     * 
+     * Creates a JSON file logger that writes structured JSON log entries.
+     * Useful for log aggregation systems and automated parsing.
+     * Phase 2.10: Comprehensive error contract documentation.
+     * 
+     * @param log_file Path to output JSON log file (default: "vccdb.json.log")
+     * @param level Logging level threshold (default: INFO)
+     * 
+     * @return void
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Cannot create/write to JSON log file
+     *   - Recovery: Falls back to stderr logging; JSON formatting disabled
+     *   - Severity: WARNING
+     *   - User Action: Check file path, permissions, and disk space
+     * 
+     * - ERR_AUDIT_SERIALIZATION_FAILED (7302): JSON serialization error
+     *   - Recovery: Logs entry as plain text instead
+     *   - Severity: WARNING
+     *   - User Action: Check for invalid characters in log messages
+     * 
+     * - ERR_AUDIT_PERMISSION_DENIED (7305): Insufficient permissions on log directory
+     *   - Recovery: Falls back to stderr; JSON format is preserved
+     *   - Severity: WARNING
+     *   - User Action: Verify write permissions on log directory
+     * 
+     * **JSON Format Semantics:**
+     * - Each log entry is a complete JSON object with: timestamp, level, message, context
+     * - Structured output suitable for log aggregation (ELK, Splunk, CloudWatch)
+     * - Invalid JSON in messages is escaped appropriately
+     * 
+     * @thread_safety Thread-safe; previous logger instance is flushed before replacement
+     * @performance O(1) initialization; first JSON serialization incurs format overhead
+     * 
+     * @see ErrorCode for complete error taxonomy
+     * @see init() for plain-text file logging
+     * @see initRotating() for automatic log rotation with JSON format
+     */
     static void initJson(const std::string& log_file = "vccdb.json.log", Level level = Level::INFO);
+    
+    /**
+     * @brief Initialize logger with rotating file sink
+     * 
+     * Creates a file logger that automatically rotates log files when they reach
+     * a maximum size. Old files are renamed with sequence numbers and oldest files
+     * are pruned according to max_files limit.
+     * Phase 2.10: Comprehensive error contract documentation.
+     * 
+     * @param log_file Path to output log file (default: "vccdb.log")
+     * @param max_file_size Maximum size per file before rotation (default: 10MB)
+     * @param max_files Maximum number of rotated files to keep (default: 5)
+     * @param level Logging level threshold (default: INFO)
+     * 
+     * @return void
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Cannot create/rotate log files
+     *   - Recovery: Falls back to single-file mode (no rotation)
+     *   - Severity: WARNING
+     *   - User Action: Check file path, permissions, and disk space
+     * 
+     * - ERR_AUDIT_ROTATION_FAILED (7307): Log rotation failed (file rename/delete)
+     *   - Recovery: Continues with existing file; rotation retried on next threshold
+     *   - Severity: WARNING
+     *   - User Action: Check file system permissions for old files
+     * 
+     * - ERR_AUDIT_PERMISSION_DENIED (7305): Insufficient permissions for rotation
+     *   - Recovery: Falls back to single-file mode; newest entries may overwrite old
+     *   - Severity: WARNING
+     *   - User Action: Verify write permissions on log directory
+     * 
+     * - ERR_AUDIT_DISK_FULL (7306): Insufficient disk space for rotation
+     *   - Recovery: Attempts cleanup; if unsuccessful, continues without rotation
+     *   - Severity: WARNING
+     *   - User Action: Free up disk space and increase cleanup retention policy
+     * 
+     * **Rotation Semantics:**
+     * - Files are rotated when size >= max_file_size (checked at log write time)
+     * - Old files are renamed: vccdb.1.log, vccdb.2.log, ... vccdb.max_files.log
+     * - Files beyond max_files count are deleted (FIFO cleanup)
+     * - Rotation is atomic; partial rotations are not possible
+     * - Graceful degradation: if rotation fails, logging continues without rotation
+     * 
+     * @bounded_resources
+     * - Total disk space: approximately max_file_size * max_files bytes
+     * - Rotation cost: O(max_files) for file rename/delete operations
+     * - Watermarks: cleanup triggered when sum exceeds max_file_size * (max_files - 1)
+     * 
+     * @thread_safety Thread-safe; rotation is protected by logger lock
+     * @performance O(1) per log call; O(max_files) on rotation event
+     * 
+     * @see ErrorCode for complete error taxonomy
+     * @see init() for single-file logging
+     * @see initJson() for JSON-formatted rotating logs
+     */
     static void initRotating(const std::string& log_file = "vccdb.log",
                              std::size_t max_file_size = 10 * 1024 * 1024,
                              std::size_t max_files = 5,
                              Level level = Level::INFO);
 
+    /**
+     * @brief Shutdown logger and flush pending messages
+     * 
+     * Closes all log sinks and flushes pending messages to disk.
+     * Safe to call even if logger not initialized.
+     * Phase 2.10: Comprehensive error contract documentation.
+     * 
+     * @return void
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Flush to file fails
+     *   - Recovery: Attempts stderr flush; non-fatal
+     *   - Severity: WARNING
+     *   - User Action: Check disk space and file permissions
+     * 
+     * - ERR_AUDIT_CLEANUP_FAILED (7309): Logger cleanup fails
+     *   - Recovery: Proceeds with cleanup; stderr remains available
+     *   - Severity: WARNING
+     *   - User Action: Check for resource leaks in sinks
+     * 
+     * **Shutdown Semantics:**
+     * - All pending log entries flushed before shutdown
+     * - All sinks are closed and released
+     * - Thread-safe: subsequent log calls fail gracefully (logged to fallback)
+     * - Idempotent: safe to call multiple times
+     * 
+     * @thread_safety Thread-safe; protects against concurrent log calls
+     * @performance O(pending_messages) for final flush
+     * 
+     * @note Should be called during application shutdown
+     * @see ErrorCode for complete error taxonomy
+     */
     static void shutdown();
+     
     static std::shared_ptr<spdlog::logger> get();
 
+    /**
+     * @brief Set logging level threshold
+     * 
+     * Changes the logging level for all subsequent log calls.
+     * Levels below the threshold are silently discarded.
+     * Phase 2.10: Comprehensive error contract documentation.
+     * 
+     * @param level Threshold level (TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL)
+     * 
+     * @return void
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309):**
+     * No error codes; operation always succeeds.
+     * - Level changes are atomic (single write under mutex)
+     * - In-flight log calls use previous level value
+     * - Level change is non-blocking
+     * 
+     * **Level Semantics:**
+     * - TRACE: Most verbose; includes debug flow tracking (1% sample rate default)
+     * - DEBUG: Development-level diagnostics (10% sample rate default)
+     * - INFO: General informational messages (100% logged)
+     * - WARN: Warning conditions and recoverable errors (100% logged)
+     * - ERROR: Error conditions and failures (100% logged)
+     * - CRITICAL: Critical errors and system failures (100% logged)
+     * 
+     * @thread_safety Thread-safe; uses atomic write under mutex
+     * @performance O(1) operation; no I/O overhead
+     * 
+     * @see Level for available levels
+     * @see getLevel() to query current level
+     * @see SampledLogger for rate-limiting at high volume
+     */
     static void setLevel(Level level);
     static Level getLevel();
     static void setPattern(const std::string& pattern);

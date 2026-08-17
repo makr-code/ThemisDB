@@ -219,6 +219,32 @@ public:
         
         /**
          * Record an error event on this span
+         * 
+         * Logs an error to the current span for observability and distributed tracing.
+         * Phase 2.10: Comprehensive error contract documentation.
+         * 
+         * @param errorMessage Human-readable error description
+         * 
+         * @return void
+         * 
+         * @error_contract
+         * **Phase 2.3 Error Codes (7300-7309, 7362):**
+         * - ERR_TRACING_DEGRADED (7362): Error logging fails (non-fatal)
+         *   - Recovery: Error is logged locally; span continues
+         *   - Severity: WARNING
+         *   - User Action: Check tracing backend availability
+         * 
+         * **Span Error Semantics:**
+         * - Error events are aggregated in span attributes
+         * - Errors do NOT automatically end span; span continues until end() or destructor
+         * - Multiple errors can be recorded per span
+         * - Tracing disabled: error call is no-op (valid_ = false)
+         * 
+         * @thread_safety NOT thread-safe; one span per thread/context
+         * @performance O(1) for local error logging; depends on tracing backend
+         * 
+         * @see setStatus() to mark span with error status code
+         * @see ErrorCode::ERR_TRACING_DEGRADED for tracing failures
          */
         void recordError(const std::string& errorMessage);
         
@@ -257,17 +283,79 @@ public:
     
     /**
      * Start a new span with the given name
-     * The span will be a child of the current active span (if any)
+     * 
+     * Creates a child span of the currently active span (if any).
+     * Phase 2.10: Comprehensive error contract documentation.
+     * 
+     * @param name Span name for display in tracing backend
+     * 
+     * @return Span RAII object; span ends when object is destroyed
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309, 7362):**
+     * - ERR_TRACING_DEGRADED (7362): Span creation fails
+     *   - Recovery: Returns invalid span (valid_ = false); no-op operations
+     *   - Severity: WARNING
+     *   - User Action: Check tracing backend availability
+     * 
+     * **Span Creation Semantics:**
+     * - Span becomes child of active context (if set)
+     * - Span lifetime bound to returned object (RAII)
+     * - Tracing disabled: returns empty span (valid_ = false)
+     * - Span name is immutable; cannot be changed after creation
+     * 
+     * @bounded_resources
+     * - Active spans limited by tracing backend configuration
+     * - Resource check: if span count exceeds limit, returns invalid span
+     * 
+     * @thread_safety NOT thread-safe; call from trace context thread
+     * @performance O(1) amortized; O(n) on backend when span count exceeds threshold
+     * 
+     * @see startChildSpan() to explicitly specify parent
+     * @see startSpanFromHeaders() for distributed tracing
+     * @see Span::isValid() to check if creation succeeded
      */
     static Span startSpan(const std::string& name);
-    
+     
     /**
      * Start a new span as a child of the given parent span
+     * 
+     * Creates a child span explicitly linked to a parent span.
+     * Useful when the parent is not the active context.
+     * Phase 2.10: Comprehensive error contract documentation.
+     * 
+     * @param name Span name for display in tracing backend
+     * @param parent Parent span to link this span to
+     * 
+     * @return Span RAII object; span ends when object is destroyed
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309, 7362):**
+     * - ERR_TRACING_DEGRADED (7362): Span creation fails
+     *   - Recovery: Returns invalid span (valid_ = false); no-op operations
+     *   - Severity: WARNING
+     *   - User Action: Check tracing backend availability
+     * 
+     * **Child Span Semantics:**
+     * - Creates explicit parent-child relationship in trace tree
+     * - Parent span can be on different thread/context
+     * - Parent validity is not checked; invalid parent creates orphan span
+     * - Child inherits parent's trace context and baggage
+     * 
+     * @bounded_resources
+     * - Span hierarchy depth: limited by tracing backend
+     * - Resource check: if span tree exceeds depth limit, returns invalid span
+     * 
+     * @thread_safety NOT thread-safe; call from trace context thread
+     * @performance O(1) amortized; depends on trace tree depth
+     * 
+     * @see startSpan() for automatic parent detection
+     * @see startSpanFromHeaders() for distributed tracing
      */
     static Span startChildSpan(const std::string& name, const Span& parent);
 
     /**
-     * Start a new root span using W3C TraceContext headers for context propagation.
+     * Start a new root span using W3C TraceContext headers for context propagation
      *
      * Extracts the `traceparent` (and optionally `tracestate`) header from the
      * provided header map and creates a span that is a child of the upstream trace
@@ -282,9 +370,47 @@ public:
      * When THEMIS_ENABLE_TRACING is not defined, this falls back to startSpan()
      * and records the raw `traceparent` value as an attribute for log correlation.
      *
+     * Phase 2.10: Comprehensive error contract documentation.
+     *
      * @param name       Span name
      * @param headers    HTTP request headers (case-insensitive key lookup)
-     * @return Span      A new span, possibly linked to the upstream trace
+     * 
+     * @return Span RAII object; span ends when object is destroyed
+     * 
+     * @error_contract
+     * **Phase 2.3 Error Codes (7300-7309, 7362):**
+     * - ERR_TRACING_DEGRADED (7362): W3C header parsing fails
+     *   - Recovery: Falls back to startSpan() without distributed trace context
+     *   - Severity: WARNING
+     *   - User Action: Validate traceparent header format
+     * 
+     * - ERR_TRACING_DEGRADED (7362): Span creation fails after parsing
+     *   - Recovery: Returns invalid span (valid_ = false)
+     *   - Severity: WARNING
+     *   - User Action: Check tracing backend availability
+     * 
+     * **W3C Trace Context Semantics:**
+     * - Parses `traceparent` header using W3C Trace Context Level 1 format
+     * - Optional `tracestate` header preserved for backend baggage
+     * - If headers missing: creates root span (new trace ID)
+     * - Invalid header format: logged as warning; root span created
+     * 
+     * **Distributed Trace Propagation:**
+     * - Enables end-to-end tracing across service boundaries
+     * - Incoming trace ID is preserved in resulting span
+     * - All child spans inherit propagated trace context
+     * - Useful for API gateway → ThemisDB → backend service chains
+     * 
+     * @bounded_resources
+     * - Header parsing: O(header_count) for case-insensitive lookup
+     * - Resource check: no additional resources required
+     * 
+     * @thread_safety NOT thread-safe; call from trace context thread
+     * @performance O(header_count) for header parsing; O(1) for span creation
+     * 
+     * @see startSpan() for basic span creation without distributed context
+     * @see startChildSpan() for explicit parent linking
+     * @see https://www.w3.org/TR/trace-context/ for W3C Trace Context specification
      */
     static Span startSpanFromHeaders(
         const std::string& name,
