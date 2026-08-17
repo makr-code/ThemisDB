@@ -176,6 +176,8 @@ std::optional<std::string> DistributedCoordinator::getCurrentLeader() const {
 // Leader election
 /** @brief Start local election round and decide winner using simplified policy. */
 void DistributedCoordinator::startElection() {
+    uint32_t election_term = 0;
+    
     {
         std::lock_guard<std::shared_mutex> lock(leader_mutex_);
         
@@ -184,17 +186,22 @@ void DistributedCoordinator::startElection() {
             return;
         }
         
-        // Transition to CANDIDATE
+        // Transition to CANDIDATE and increment term atomically
         role_.store(CoordinatorRole::CANDIDATE);
-        current_term_++;
+        election_term = ++current_term_;  // Atomic increment; capture for logging
     }
     
     stats_.elections_started++;
     
-    THEMIS_INFO("Starting leader election (term: {})", current_term_.load());
+    THEMIS_INFO("Starting leader election (term: {})", election_term);
     
     // Simplified election: broadcast candidacy via gossip
-    requestVotes();
+    // NOTE: This is called outside the lock to avoid deadlock risk with gossip manager
+    try {
+        requestVotes();
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Election vote request failed: {}", e.what());
+    }
     
     // Wait for election timeout
     // Note: This blocks the calling thread by design for simplicity.
@@ -205,21 +212,32 @@ void DistributedCoordinator::startElection() {
     
     // Check if we won (simplified: highest shard_id wins)
     // In production: use Raft-style voting
-    auto all_shards = topology_->getAllShards();
-    bool won = true;
-    for (const auto& shard : all_shards) {
-        if (shard.shard_id > local_shard_id_ && shard.is_healthy) {
-            won = false;
-            break;
+    try {
+        auto all_shards = topology_->getAllShards();
+        bool won = true;
+        for (const auto& shard : all_shards) {
+            if (shard.shard_id > local_shard_id_ && shard.is_healthy) {
+                won = false;
+                break;
+            }
         }
-    }
-    
-    if (won) {
-        becomeLeader();
-    } else {
-        role_.store(CoordinatorRole::FOLLOWER);
-        stats_.elections_lost++;
-        THEMIS_INFO("Lost election in term {}", current_term_.load());
+        
+        if (won) {
+            becomeLeader();
+        } else {
+            {
+                std::lock_guard<std::shared_mutex> lock(leader_mutex_);
+                role_.store(CoordinatorRole::FOLLOWER);
+            }
+            stats_.elections_lost++;
+            THEMIS_INFO("Lost election in term {}", election_term);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Election decision failed: {}", e.what());
+        {
+            std::lock_guard<std::shared_mutex> lock(leader_mutex_);
+            role_.store(CoordinatorRole::FOLLOWER);
+        }
     }
 }
 
@@ -406,13 +424,26 @@ void DistributedCoordinator::taskExecutorLoop() {
     for (auto& task : tasks_to_execute) {
         if (executor) {
             try {
+                THEMIS_DEBUG("Executing task: {} (type: {})", task.task_id, static_cast<int>(task.type));
                 bool success = executor(task);
                 if (success) {
                     // Remove task from pending
+                    THEMIS_INFO("Task completed successfully: {}", task.task_id);
                     cancelTask(task.task_id);
+                } else {
+                    THEMIS_WARN("Task execution returned false: {} (type: {})", 
+                                task.task_id, static_cast<int>(task.type));
                 }
+            } catch (const std::bad_alloc& e) {
+                // Out-of-memory: log with severity; don't retry
+                THEMIS_ERROR("Task execution OOM error: {}; task={}", e.what(), task.task_id);
             } catch (const std::exception& e) {
-                THEMIS_WARN("Task execution failed: {}", e.what());
+                // Other exceptions: log with full context
+                THEMIS_WARN("Task execution exception: {}; task_id={}; task_type={}; what={}", 
+                            typeid(e).name(), task.task_id, static_cast<int>(task.type), e.what());
+            } catch (...) {
+                // Unknown exception: log without attempting to extract details
+                THEMIS_ERROR("Task execution unknown exception; task_id={}", task.task_id);
             }
         }
     }
