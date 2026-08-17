@@ -548,6 +548,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                     // Execute via AQLParser + QueryEngine
                     QueryInfo info = parseSelectQuery(query);
                     std::vector<FieldDescription> fields;
+                    fields.reserve(info.selectColumns.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                     for (const auto& col : info.selectColumns) {
                         if (col == "*") {
                             fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -599,6 +600,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                                         nlohmann::json doc = nlohmann::json::parse(
                                             entity.toJson());
                                         std::vector<std::string> row_vals;
+                                        row_vals.reserve(fields.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                                         for (const auto& f : fields) {
                                             if (doc.contains(f.name)) {
                                                 const auto& v = doc[f.name];
@@ -786,6 +788,7 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             if (upperQuery.find("SELECT") == 0) {
                 QueryInfo info = parseSelectQuery(query);
                 std::vector<FieldDescription> fields;
+                fields.reserve(info.selectColumns.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                 for (const auto& col : info.selectColumns) {
                     if (col == "*") {
                         fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -1043,6 +1046,11 @@ void PostgresSession::sendReadyForQuery(char transactionStatus) {
 void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fields) {
     std::vector<uint8_t> payload;
     
+    // OPTIMIZATION: Reserve space to avoid repeated reallocations
+    // Estimate: 2 (field count) + fields.size() * (19 + avg_name_length)
+    size_t estimated_size = 2 + fields.size() * 30;
+    payload.reserve(estimated_size);
+    
     // Field count
     uint16_t fieldCount = fields.size();
     payload.push_back((fieldCount >> 8) & 0xFF);
@@ -1090,6 +1098,14 @@ void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fi
 void PostgresSession::sendDataRow(const std::vector<std::string>& values) {
     std::vector<uint8_t> payload;
     
+    // OPTIMIZATION: Reserve space to avoid repeated reallocations
+    // Estimate: 2 (col count) + values.size() * (4 + avg_value_length)
+    size_t estimated_size = 2;
+    for (const auto& v : values) {
+        estimated_size += 4 + v.size();
+    }
+    payload.reserve(estimated_size);
+    
     // Column count
     uint16_t colCount = values.size();
     payload.push_back((colCount >> 8) & 0xFF);
@@ -1114,6 +1130,14 @@ void PostgresSession::sendDataRowBinary(const std::vector<std::pair<std::vector<
     // Send DataRow in binary format
     // Each value is a pair of (binary_data, type_oid)
     std::vector<uint8_t> payload;
+    
+    // OPTIMIZATION: Reserve space to avoid repeated reallocations
+    // Estimate: 2 (col count) + values.size() * (4 + avg_data_length)
+    size_t estimated_size = 2;
+    for (const auto& [data, _] : values) {
+        estimated_size += 4 + data.size();
+    }
+    payload.reserve(estimated_size);
     
     // Column count
     uint16_t colCount = values.size();
@@ -1143,6 +1167,8 @@ void PostgresSession::sendPortalSuspended() {
 
 void PostgresSession::sendCommandComplete(const std::string& commandTag) {
     std::vector<uint8_t> payload;
+    // OPTIMIZATION: Reserve space for string + null terminator
+    payload.reserve(commandTag.size() + 1);
     payload.insert(payload.end(), commandTag.begin(), commandTag.end());
     payload.push_back(0);
     writeMessage('C', payload);
@@ -1158,6 +1184,9 @@ void PostgresSession::sendBindComplete() {
 
 void PostgresSession::sendParameterDescription(const std::vector<int32_t>& paramTypes) {
     std::vector<uint8_t> payload;
+    
+    // OPTIMIZATION: Reserve space: 2 (param count) + paramTypes.size() * 4
+    payload.reserve(2 + paramTypes.size() * 4);
     
     // Number of parameters
     uint16_t paramCount = paramTypes.size();
@@ -1189,6 +1218,9 @@ void PostgresSession::sendCopyInResponse(const std::vector<int16_t>& formatCodes
     
     std::vector<uint8_t> payload;
     
+    // OPTIMIZATION: Reserve space: 1 (format) + 2 (count) + formatCodes.size() * 2
+    payload.reserve(3 + formatCodes.size() * 2);
+    
     // Overall format: 0 = text, 1 = binary
     uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
     payload.push_back(overallFormat);
@@ -1213,6 +1245,9 @@ void PostgresSession::sendCopyOutResponse(const std::vector<int16_t>& formatCode
     
     std::vector<uint8_t> payload;
     
+    // OPTIMIZATION: Reserve space: 1 (format) + 2 (count) + formatCodes.size() * 2
+    payload.reserve(3 + formatCodes.size() * 2);
+    
     uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
     payload.push_back(overallFormat);
     
@@ -1233,6 +1268,9 @@ void PostgresSession::sendCopyBothResponse(const std::vector<int16_t>& formatCod
     // Used for replication
     
     std::vector<uint8_t> payload;
+    
+    // OPTIMIZATION: Reserve space: 1 (format) + 2 (count) + formatCodes.size() * 2
+    payload.reserve(3 + formatCodes.size() * 2);
     
     uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
     payload.push_back(overallFormat);
@@ -1264,6 +1302,10 @@ void PostgresSession::sendCopyDone() {
 void PostgresSession::sendErrorResponse(const std::string& severity, const std::string& code, 
                                        const std::string& message) {
     std::vector<uint8_t> payload;
+    
+    // OPTIMIZATION: Reserve space: 1(S) + severity.size() + 1(null) + 1(C) + code.size() + 1(null) 
+    //                              + 1(M) + message.size() + 1(null) + 1(terminator)
+    payload.reserve(8 + severity.size() + code.size() + message.size());
     
     // Severity
     payload.push_back('S');

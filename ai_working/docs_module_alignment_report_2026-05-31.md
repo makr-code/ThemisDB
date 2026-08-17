@@ -10,8 +10,8 @@
 
 ## Zusammenfassung
 
-- Generiert: 2026-06-01 12:40:58
-- Module analysiert: 62
+- Generiert: 2026-08-17 10:56:31
+- Module analysiert: 67
 - Module mit Risiko: 0
 - Ohne Docs-Link: 0
 - Mit veralteten Docs (>30 Tage hinter Plan): 0
