@@ -23,13 +23,15 @@ Provides encryption, key management, and PKI integration for ThemisDB, implement
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Defense-in-depth security stack (TLS/mTLS, encryption, RBAC/ABAC, HSM integration, audit/compliance) is operational.
+**Maturity:** 🟡 Production-evidence available, final gap closure pending — defense-in-depth security stack (TLS/mTLS, encryption, RBAC/ABAC, HSM integration, audit/compliance) has current Wave-C validation evidence, but module-level closure still depends on the remaining gap work tracked in `MODULE_GAPS.md`.
 
 ### Developer Update (2026-08-17)
 
 - TSA transport hardening for RFC-3161 requests is implemented in `src/security/timestamp_authority_openssl.cpp` (HTTPS-only, HTTPS-protocol restriction, TLS minimum, connect/total timeout hardening).
 - `src/security/timestamp_authority.cpp` remains the non-OpenSSL fallback/stub bridge path and is not the hardened TSA transport implementation.
+- Wave-C production validation evidence is present in `tests/security/test_security_wavec_production_validation_focused.cpp` and is reflected in `ROADMAP.md`.
 - A full fresh security-gap rescan is still open and explicitly tracked in `src/security/MODULE_GAPS.md`.
+- Current readiness call: the module has production-style evidence, but **not all gaps are closed yet**, so a final production-ready sign-off would still be premature.
 
 ## Architecture Overview
 
