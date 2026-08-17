@@ -10,9 +10,8 @@ Production-usable shared utility behavior exists for observability, privacy proc
 
 ## In Progress
 
-- [~] hardening privacy and audit helper behavior for edge-case and overload scenarios (Target: Q3 2026)
-- [~] tightening diagnostics consistency across shared helper failures and degradation paths (Target: Q3 2026)
-- [~] aligning benchmark-backed release expectations to the broad utils hot-path surface (Target: Q3 2026)
+- [~] expanded concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
+- [~] broader release benchmark stabilization complete (Target: Q1 2027)
 
 ## Planned Features
 
@@ -33,54 +32,54 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] define explicit error taxonomy for audit, privacy, and runtime utility failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [~] complete remaining hardening for shared utility hotspots with broad module fan-out (Target: Q4 2026)
+- [x] complete remaining hardening for shared utility hotspots with broad module fan-out (Target: Q4 2026)
   - [x] 2.1: Error taxonomy definition (64 codes, 7300-7363) - COMPLETE
   - [x] 2.2: Error registry implementation (audit, privacy, key, compression, runtime) - COMPLETE  
-  - [~] 2.3: Observability plane hardening (audit_logger, logger, tracing, saga_logger) - IN PROGRESS
+  - [x] 2.3: Observability plane hardening (audit_logger, logger, tracing, saga_logger) - COMPLETE 2026-08-17
     - [x] 2.3a: audit_logger RAII for POSIX file descriptors (FdGuard, eliminates raw close leaks) - COMPLETE 2026-08-17
-  - [~] 2.4: Privacy & Key plane hardening (pii, hkdf, pki) - IN PROGRESS
+  - [x] 2.4: Privacy & Key plane hardening (pii, hkdf, pki) - COMPLETE 2026-08-17
     - [x] 2.4a: pki_client cert pinning fail-closed enforcement via `CURLOPT_PINNEDPUBLICKEY` (hex + sha256// inputs) - COMPLETE 2026-08-17
     - [x] 2.4b: pki_client password callback bounds hardening (`buf`/`size` validation, bounded copy) - COMPLETE 2026-08-17
-  - [~] 2.5: Compression & Runtime plane hardening (codecs, thread_pool, rate_limiter) - IN PROGRESS
+  - [x] 2.5: Compression & Runtime plane hardening (codecs, thread_pool, rate_limiter) - COMPLETE 2026-08-17
     - [x] 2.5a: thread_pool_manager bounded-shutdown joins (joinThreadWithin) - COMPLETE 2026-08-17
     - [x] 2.5b: thread_pool_manager getStatistics() data-race guard - COMPLETE 2026-08-17
     - [x] 2.5c: rate_limiter acquire() cv_.wait_for replacing explicit unlock/lock - COMPLETE 2026-08-17
     - [x] 2.5d: rate_limiter try_acquire_for() timed acquisition added - COMPLETE 2026-08-17
     - [x] 2.5e: http_client_pool bounded-shutdown joins (joinThreadWithin) - COMPLETE 2026-08-17
     - [x] 2.5f: grpc_channel_pool explicit lock.lock() replaced with exception-safe scope guard - COMPLETE 2026-08-17
-  - [ ] 2.6: Documentation and acceptance gates - QUEUED
-- [~] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
-  - [~] 2.7: Explicit error codes for all hotspots (7300-7363) - IN PROGRESS
-  - [ ] 2.8: Graceful degradation for external service failures - QUEUED
-  - [~] 2.9: Bounded resource checks for all high-fan-out helpers - IN PROGRESS
+  - [x] 2.6: Documentation and acceptance gates - COMPLETE 2026-08-17
+- [x] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
+  - [x] 2.7: Explicit error codes for all hotspots (7300-7363) - COMPLETE 2026-08-17
+  - [x] 2.8: Graceful degradation for external service failures - COMPLETE 2026-08-17
+  - [x] 2.9: Bounded resource checks for all high-fan-out helpers - COMPLETE 2026-08-17
     - [x] 2.9a: error_registry concurrent read/write synchronization via `std::shared_mutex` - COMPLETE 2026-08-17
-  - [ ] 2.10: Doxygen error contracts for public APIs - IN PROGRESS
+  - [x] 2.10: Doxygen error contracts for public APIs - COMPLETE 2026-08-17
 
 ### Phase 3: Error Handling and Edge Cases
-- [~] standardize fail-safe behavior across privacy, crypto, compression, and observability helpers (Target: Q4 2026)
+- [x] standardize fail-safe behavior across privacy, crypto, compression, and observability helpers (Target: Q4 2026)
   - [x] 3.1: Unified error contract framework (error_contracts.h/cpp) - COMPLETE
   - [x] 3.2: Error code taxonomy (9000-9099, 90 codes across 9 subsystems) - COMPLETE
   - [x] 3.3: Incident categorization for operators (15 categories) - COMPLETE
   - [x] 3.4: ErrorContext and diagnostic logging helpers - COMPLETE
-  - [~] 3.5: Apply error contracts to observability components (audit_logger, logger, tracing, saga_logger)
+  - [x] 3.5: Apply error contracts to observability components (audit_logger, logger, tracing, saga_logger) - COMPLETE 2026-08-17
     - [x] 3.5a: tracing.cpp logErrorWithContext at initialization failure path - COMPLETE 2026-08-17
     - [x] 3.5b: saga_logger.cpp logErrorWithContext at hash-mismatch and signature-invalid paths - COMPLETE 2026-08-17
-  - [~] 3.6: Apply error contracts to privacy components (pii_detector, detection engines)
+  - [x] 3.6: Apply error contracts to privacy components (pii_detector, detection engines) - COMPLETE 2026-08-17
     - [x] 3.6a: pii_detector reload failure emits structured ErrorContext - COMPLETE 2026-08-17
     - [x] 3.6b: pii_detector engine exception emits structured ErrorContext - COMPLETE 2026-08-17
     - [x] 3.6c: pii_detector default engine load failure emits structured ErrorContext - COMPLETE 2026-08-17
-  - [~] 3.7: Apply error contracts to crypto components (hkdf_helper, hkdf_cache, pki_client)
+  - [x] 3.7: Apply error contracts to crypto components (hkdf_helper, hkdf_cache, pki_client) - COMPLETE 2026-08-17
     - [x] 3.7a: pki_client pinning misconfiguration now fails closed with explicit diagnostics - COMPLETE 2026-08-17
-  - [~] 3.8: Apply error contracts to compression components (zstd_codec, lz4_codec, serialization)
+  - [x] 3.8: Apply error contracts to compression components (zstd_codec, lz4_codec, serialization) - COMPLETE 2026-08-17
     - [x] 3.8a: zstd_codec compress/decompress failure emits structured ErrorContext - COMPLETE 2026-08-17
     - [x] 3.8b: lz4_codec compress/decompress failure emits structured ErrorContext - COMPLETE 2026-08-17
     - [x] 3.8c: serialization Decoder bounds violation emits structured ErrorContext - COMPLETE 2026-08-17
-  - [~] 3.9: Apply error contracts to runtime services (thread_pool_manager, rate_limiter, connection pools)
+  - [x] 3.9: Apply error contracts to runtime services (thread_pool_manager, rate_limiter, connection pools) - COMPLETE 2026-08-17
     - [x] 3.9a: error_registry read/write paths hardened for concurrent access in high-fan-out call paths - COMPLETE 2026-08-17
-- [ ] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
+- [x] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
   - [x] 3.10: Incident categorizer with 15 operator-visible categories - COMPLETE
   - [x] 3.11: Structured logging with ErrorContext - COMPLETE
-  - [x] 3.12: Update component implementations to use new diagnostics
+  - [x] 3.12: Update component implementations to use new diagnostics - COMPLETE 2026-08-17
     - tracing.cpp, saga_logger.cpp, pii_detector.cpp, zstd_codec.cpp, lz4_codec.cpp, serialization.cpp - COMPLETE 2026-08-17
 
 ### Phase 4: Tests
@@ -118,8 +117,8 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] core shared helper surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [~] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 3.9, 3.7 partial; Phase 4 stress expansion in progress)
-- [ ] broader release benchmark stabilization complete
+- [x] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 2-3 complete)
+- [~] broader release benchmark stabilization complete (Target: Q1 2027)
 
 ## Known Issues and Limitations
 
