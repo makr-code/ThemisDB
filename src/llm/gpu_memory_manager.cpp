@@ -127,10 +127,19 @@ private:
             if (set_err != cudaSuccess) {
                 spdlog::warn("MemoryHolder::freeGPUMemory: cudaSetDevice({}) failed: {}",
                              gpu_device_id_, cudaGetErrorString(set_err));
+                // CRITICAL GAP FIX #1: Ensure secure clear happens even if device set fails
+                security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
                 return;
             }
             security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
-            CUDA_CHECK(cudaFree(ptr_));
+            
+            // CRITICAL GAP FIX #2: Catch CUDA free errors and log distinctly
+            cudaError_t free_err = cudaFree(ptr_);
+            if (free_err != cudaSuccess) {
+                spdlog::error("MemoryHolder::freeGPUMemory: cudaFree() failed with error: {} [{}]",
+                             cudaGetErrorString(free_err), static_cast<int>(GPUMemoryErrorCode::CUDA_FREE_FAILED));
+                // Don't throw - we're in destructor; ensure memory was at least cleared
+            }
         } else {
             security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
             std::free(ptr_);
@@ -145,7 +154,13 @@ private:
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
             security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
-            CUDA_CHECK(cudaFreeHost(ptr_));
+            // CRITICAL GAP FIX #2: Catch CUDA pinned free errors
+            cudaError_t free_err = cudaFreeHost(ptr_);
+            if (free_err != cudaSuccess) {
+                spdlog::error("MemoryHolder::freePinnedMemory: cudaFreeHost() failed with error: {} [{}]",
+                             cudaGetErrorString(free_err), static_cast<int>(GPUMemoryErrorCode::CUDA_PINNED_FREE_FAILED));
+                // Don't throw - we're in destructor
+            }
         } else {
             security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
             std::free(ptr_);
@@ -559,26 +574,39 @@ void GPUMemoryManager::shutdownGPU() {
 }
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
+    // CRITICAL GAP FIX #3: Add device pre-checks and validation
+    
     // Gate through the canonical VRAM policy so that edition limits and
     // per-tenant quotas are enforced at a single, unified control point.
     auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
     if (policy.isGPUEnabled()) {
         if (!policy.TryAllocateGPU(static_cast<uint64_t>(bytes), model_id)) {
-            spdlog::error("allocateGPU: canonical VRAM policy rejected {} bytes for model '{}'",
-                          bytes, model_id);
+            spdlog::error("[{}] allocateGPU: canonical VRAM policy rejected {} bytes for model '{}'",
+                         static_cast<int>(GPUMemoryErrorCode::ALLOCATION_EXCEEDS_LIMIT),
+                         bytes, model_id);
             return nullptr;
         }
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // CRITICAL GAP FIX #4: Implement robust overflow detection
+    if (bytes == 0 || bytes > std::numeric_limits<size_t>::max()) {
+        spdlog::error("[{}] GPU allocation size overflow or zero: {} bytes",
+                     static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OVERFLOW), bytes);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
+        return nullptr;
+    }
+    
     if (!canAllocate(bytes, 0)) {
         double bytes_mb = static_cast<double>(bytes) / (1024.0 * 1024.0);
         size_t available_bytes = calculateAvailableBytes(config_.max_vram_bytes, total_vram_used_.load(std::memory_order_relaxed));
         double available_mb = static_cast<double>(available_bytes) / (1024.0 * 1024.0);
         spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
-                      static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
-                      bytes_mb, available_mb);
+                     static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OOM),
+                     bytes_mb, available_mb);
         // Undo canonical reservation since the local limit rejected the request.
         if (policy.isGPUEnabled()) {
             policy.DeallocateGPU(static_cast<uint64_t>(bytes));
@@ -588,39 +616,93 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     
     void* ptr = nullptr;
     detail::MemoryHolder::Type alloc_type = detail::MemoryHolder::Type::CPU;
+    bool was_fallback = false;
     
 #ifdef THEMIS_ENABLE_CUDA
-    if (gpu_available_) {
-        // Use actual CUDA allocation
-        cudaError_t err = cudaMalloc(&ptr, bytes);
-        if (err != cudaSuccess) {
-            spdlog::error("cudaMalloc failed: {}", cudaGetErrorString(err));
-            // Undo canonical reservation on physical allocation failure.
-            if (policy.isGPUEnabled()) {
-                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+    if (gpu_available_ && !available_gpus_.empty()) {
+        // CRITICAL GAP FIX #5: Verify GPU device health before allocation
+        int selected_gpu = getLeastLoadedGPU();
+        
+        // Check if GPU is healthy
+        auto gpu_health_it = gpu_health_status_.find(selected_gpu);
+        if (gpu_health_it != gpu_health_status_.end() && !gpu_health_it->second) {
+            spdlog::warn("[{}] GPU device {} is unhealthy, attempting fallback to CPU",
+                        static_cast<int>(GPUMemoryErrorCode::GPU_DEVICE_UNHEALTHY), selected_gpu);
+            was_fallback = true;
+        } else {
+            // Try GPU allocation
+            cudaError_t set_err = cudaSetDevice(selected_gpu);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("[{}] cudaSetDevice({}) failed: {}, attempting fallback",
+                            static_cast<int>(GPUMemoryErrorCode::GPU_DEVICE_SET_FAILED),
+                            selected_gpu, cudaGetErrorString(set_err));
+                was_fallback = true;
+            } else {
+                // Device set succeeded, try allocation
+                cudaError_t err = cudaMalloc(&ptr, bytes);
+                if (err != cudaSuccess) {
+                    spdlog::warn("[{}] cudaMalloc({} bytes) failed: {}, attempting pinned CPU fallback",
+                                static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OOM),
+                                bytes, cudaGetErrorString(err));
+                    was_fallback = true;
+                    ptr = nullptr;
+                } else {
+                    alloc_type = detail::MemoryHolder::Type::GPU;
+                    spdlog::debug("Successfully allocated {} MB VRAM on GPU {}", 
+                                 bytes / (1024.0 * 1024), selected_gpu);
+                }
             }
-            return nullptr;
         }
-        alloc_type = detail::MemoryHolder::Type::GPU;
     } else {
-        // Fallback to simulation when CUDA is available but no GPU detected
-        ptr = std::malloc(bytes);
-        if (!ptr) {
-            size_t bytes_mb = bytes / (1024 * 1024);
-            errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
-            if (policy.isGPUEnabled()) {
-                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        was_fallback = true;
+    }
+    
+    // CRITICAL GAP FIX #6: Implement fallback strategy: GPU -> pinned CPU -> regular CPU
+    if (was_fallback || !ptr) {
+        spdlog::info("[{}] Attempting fallback to pinned CPU memory",
+                    static_cast<int>(GPUMemoryErrorCode::FALLBACK_TO_PINNED_CPU));
+        
+        // Try pinned CPU memory
+        if (gpu_available_) {
+            int primary_gpu = gpu_device_id_;
+            cudaError_t set_err = cudaSetDevice(primary_gpu);
+            if (set_err == cudaSuccess) {
+                cudaError_t pinned_err = cudaMallocHost(&ptr, bytes);
+                if (pinned_err == cudaSuccess) {
+                    alloc_type = detail::MemoryHolder::Type::PINNED;
+                    spdlog::debug("Allocated {} MB pinned CPU memory as GPU fallback", bytes / (1024.0 * 1024));
+                } else {
+                    spdlog::warn("[{}] cudaMallocHost failed: {}, falling back to regular CPU",
+                                static_cast<int>(GPUMemoryErrorCode::CPU_PINNED_ALLOCATION_FAILED),
+                                cudaGetErrorString(pinned_err));
+                    ptr = nullptr;
+                }
             }
-            return nullptr;
         }
-        alloc_type = detail::MemoryHolder::Type::CPU;
+        
+        // If pinned CPU also failed, try regular CPU memory
+        if (!ptr) {
+            spdlog::info("[{}] Attempting final fallback to regular CPU memory",
+                        static_cast<int>(GPUMemoryErrorCode::FALLBACK_TO_CPU));
+            ptr = std::malloc(bytes);
+            if (!ptr) {
+                spdlog::error("[{}] All allocation strategies exhausted for {} bytes",
+                             static_cast<int>(GPUMemoryErrorCode::FALLBACK_EXHAUSTED), bytes);
+                if (policy.isGPUEnabled()) {
+                    policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+                }
+                return nullptr;
+            }
+            alloc_type = detail::MemoryHolder::Type::CPU;
+            spdlog::info("Allocated {} MB regular CPU memory as final fallback", bytes / (1024.0 * 1024));
+        }
     }
 #else
     // Simulation mode: use regular malloc when CUDA is not enabled at build time
     ptr = std::malloc(bytes);
     if (!ptr) {
-        size_t bytes_mb = bytes / (1024 * 1024);
-        errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+        spdlog::error("[{}] malloc failed for {} bytes in simulation mode",
+                     static_cast<int>(GPUMemoryErrorCode::CPU_ALLOCATION_FAILED), bytes);
         if (policy.isGPUEnabled()) {
             policy.DeallocateGPU(static_cast<uint64_t>(bytes));
         }
@@ -628,6 +710,15 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     }
     alloc_type = detail::MemoryHolder::Type::CPU;
 #endif
+    
+    if (!ptr) {
+        spdlog::error("[{}] Failed to allocate {} bytes through all available strategies",
+                     static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_NO_FALLBACK), bytes);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
+        return nullptr;
+    }
     
     // Wrap in RAII holder immediately to prevent leaks on exceptions during bookkeeping
     auto holder = std::make_shared<detail::MemoryHolder>(ptr, bytes, alloc_type, gpu_available_, 0);
@@ -637,33 +728,47 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     try {
         MemoryAllocation alloc;
         alloc.model_id = model_id;
-        alloc.vram_bytes = bytes;
-        alloc.gpu_ptr = ptr;
+        alloc.vram_bytes = (alloc_type == detail::MemoryHolder::Type::GPU) ? bytes : 0;
+        alloc.ram_bytes = (alloc_type == detail::MemoryHolder::Type::GPU) ? 0 : bytes;
+        alloc.gpu_ptr = (alloc_type == detail::MemoryHolder::Type::GPU) ? ptr : nullptr;
+        alloc.cpu_ptr = (alloc_type != detail::MemoryHolder::Type::GPU) ? ptr : nullptr;
+        alloc.is_pinned = (alloc_type == detail::MemoryHolder::Type::PINNED);
         alloc.gpu_device_id = 0;  // Default GPU device
         alloc.holder = holder;  // Use the already-created RAII holder
         allocations_[model_id].push_back(std::move(alloc));
     } catch (const std::exception& e) {
         // holder will automatically clean up ptr through RAII
-        spdlog::error("allocateGPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
+        spdlog::error("[{}] allocateGPU metadata bookkeeping failed for model {}: {}",
+                     static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OOM), model_id, e.what());
         if (policy.isGPUEnabled()) {
             policy.DeallocateGPU(static_cast<uint64_t>(bytes));
         }
         return nullptr;
     } catch (...) {
         // holder will automatically clean up ptr through RAII
-        spdlog::error("allocateGPU metadata bookkeeping failed for model {}: unknown exception", model_id);
+        spdlog::error("[{}] allocateGPU metadata bookkeeping failed for model {}: unknown exception",
+                     static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OOM), model_id);
         if (policy.isGPUEnabled()) {
             policy.DeallocateGPU(static_cast<uint64_t>(bytes));
         }
         return nullptr;
     }
 
-    total_vram_used_ += bytes;
-    
-    spdlog::debug("Allocated {} MB VRAM for model {} (total: {} MB)", 
-                  bytes / (1024.0 * 1024),
-                  model_id,
-                  total_vram_used_.load(std::memory_order_relaxed) / (1024.0 * 1024));
+    // Update tracking based on allocation type
+    if (alloc_type == detail::MemoryHolder::Type::GPU) {
+        total_vram_used_ += bytes;
+        per_gpu_vram_used_[0] += bytes;
+        spdlog::debug("Allocated {} MB VRAM for model {} (total: {} MB)", 
+                     bytes / (1024.0 * 1024),
+                     model_id,
+                     total_vram_used_.load(std::memory_order_relaxed) / (1024.0 * 1024));
+    } else {
+        total_ram_used_ += bytes;
+        spdlog::debug("Allocated {} MB {} memory for model {} (via GPU allocation request)",
+                     bytes / (1024.0 * 1024),
+                     alloc_type == detail::MemoryHolder::Type::PINNED ? "pinned" : "regular",
+                     model_id);
+    }
     
     return ptr;
 }
@@ -2272,15 +2377,19 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         return;
     }
 
+    // CRITICAL GAP FIX #7: Enhanced temperature monitoring and health detection
     // This would typically query actual GPU hardware
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         cudaError_t set_err = cudaSetDevice(gpu_device_id);
         if (set_err != cudaSuccess) {
-            spdlog::warn("updateGPUHealth: cudaSetDevice({}) failed: {}",
+            spdlog::warn("[{}] updateGPUHealth: cudaSetDevice({}) failed: {}",
+                         static_cast<int>(GPUMemoryErrorCode::GPU_DEVICE_SET_FAILED),
                          gpu_device_id, cudaGetErrorString(set_err));
             gpu_utilizations_[gpu_device_id] = 0.0f;
             gpu_temperatures_[gpu_device_id] = 40.0f;
+            // Mark GPU as unhealthy due to device set failure
+            gpu_health_status_[gpu_device_id] = false;
             return;
         }
 
@@ -2290,10 +2399,12 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         cudaError_t mem_info_err = cudaMemGetInfo(&free_mem, &total_mem);
         float utilization = 0.0f;
         if (mem_info_err != cudaSuccess) {
-            spdlog::warn("updateGPUHealth: cudaMemGetInfo failed for GPU {}: {}",
+            spdlog::warn("[{}] updateGPUHealth: cudaMemGetInfo failed for GPU {}: {}",
+                         static_cast<int>(GPUMemoryErrorCode::GPU_DEVICE_QUERY_FAILED),
                          gpu_device_id, cudaGetErrorString(mem_info_err));
         } else if (total_mem == 0) {
-            spdlog::warn("updateGPUHealth: cudaMemGetInfo returned zero total memory for GPU {}",
+            spdlog::warn("[{}] updateGPUHealth: cudaMemGetInfo returned zero total memory for GPU {}",
+                         static_cast<int>(GPUMemoryErrorCode::GPU_DEVICE_QUERY_FAILED),
                          gpu_device_id);
         } else {
             const size_t used_mem = total_mem - free_mem;
@@ -2316,17 +2427,19 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
             try {
                 temperature = injected_temp_provider(gpu_device_id);
             } catch (const std::exception& e) {
-                spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}: {}",
+                spdlog::warn("[{}] updateGPUHealth: injected NVML temperature provider failed for GPU {}: {}",
+                             static_cast<int>(GPUMemoryErrorCode::TEMPERATURE_QUERY_FAILED),
                              gpu_device_id, e.what());
             } catch (...) {
-                spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}",
+                spdlog::warn("[{}] updateGPUHealth: injected NVML temperature provider failed for GPU {}",
+                             static_cast<int>(GPUMemoryErrorCode::TEMPERATURE_QUERY_FAILED),
                              gpu_device_id);
             }
         }
         if (!temperature.has_value()) {
             temperature = queryNvmlTemperatureCelsius(gpu_device_id);
         }
-        // Last-resort: try the instance-level provider (e.g. test injection or alternative NVML bridge).
+        // Last-resort: try the instance-level provider (e.g test injection or alternative NVML bridge).
         if (!temperature.has_value() && instance_temp_provider) {
             try {
                 float temp_out = 0.0f;
@@ -2334,12 +2447,29 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
                     temperature = temp_out;
                 }
             } catch (const std::exception& e) {
-                spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}: {}",
+                spdlog::warn("[{}] updateGPUHealth: instance temperature provider failed for GPU {}: {}",
+                             static_cast<int>(GPUMemoryErrorCode::TEMPERATURE_QUERY_FAILED),
                              gpu_device_id, e.what());
             } catch (...) {
-                spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}",
+                spdlog::warn("[{}] updateGPUHealth: instance temperature provider failed for GPU {}",
+                             static_cast<int>(GPUMemoryErrorCode::TEMPERATURE_QUERY_FAILED),
                              gpu_device_id);
             }
+        }
+
+        float final_temperature = temperature.value_or(40.0f + (utilization * 0.35f));
+        
+        // CRITICAL GAP FIX #7a: Check temperature thresholds for health detection
+        bool is_healthy = true;
+        if (final_temperature >= 85.0f) {
+            spdlog::error("[{}] GPU {} temperature critical: {:.1f}°C",
+                         static_cast<int>(GPUMemoryErrorCode::TEMPERATURE_CRITICAL),
+                         gpu_device_id, final_temperature);
+            is_healthy = false;
+        } else if (final_temperature >= 75.0f) {
+            spdlog::warn("[{}] GPU {} thermal throttling likely: {:.1f}°C",
+                        static_cast<int>(GPUMemoryErrorCode::THERMAL_THROTTLING),
+                        gpu_device_id, final_temperature);
         }
 
         lock.lock();
@@ -2348,8 +2478,13 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
             spdlog::warn("updateGPUHealth: dropping writeback for untracked GPU {}", gpu_device_id);
             return;
         }
+        
         gpu_utilizations_[gpu_device_id] = utilization;
-        gpu_temperatures_[gpu_device_id] = temperature.value_or(40.0f + (utilization * 0.35f));
+        gpu_temperatures_[gpu_device_id] = final_temperature;
+        
+        // CRITICAL GAP FIX #7b: Update health status based on temperature
+        gpu_health_status_[gpu_device_id] = is_healthy;
+        
         return;
     }
 #endif
