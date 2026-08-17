@@ -13,6 +13,7 @@
 #include "utils/regex_detection_engine.h"
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -152,8 +153,21 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
     
     std::vector<PIIFinding> findings;
     
+    // Timeout mechanism: track elapsed time during regex matching
+    // to detect and abort backtracking-prone patterns early
+    auto start_time = std::chrono::steady_clock::now();
+    constexpr std::chrono::milliseconds kRegexMatchTimeoutMs{5000}; // 5 second timeout
+    
     for (const auto& pattern : patterns_) {
         if (!pattern.enabled) continue;
+        
+        // Check for overall timeout before processing next pattern
+        auto elapsed = std::chrono::steady_clock::now() - start_time;
+        if (elapsed > kRegexMatchTimeoutMs) {
+            spdlog::warn("RegexDetectionEngine: Regex matching exceeded {}ms timeout; aborting remaining patterns", 
+                        kRegexMatchTimeoutMs.count());
+            break; // Timeout exceeded; stop processing remaining patterns
+        }
         
         // Phase A.1 Hardening: Detect and skip known ReDoS patterns
         if (detect_redos_patterns_ && detectReDoSPattern(pattern.regex_str)) {
@@ -169,6 +183,17 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
             std::sregex_iterator end;
             
             for (; it != end; ++it) {
+                // Check timeout during match iteration (each 10 matches)
+                static thread_local size_t match_count = 0;
+                if (++match_count % 10 == 0) {
+                    auto current_elapsed = std::chrono::steady_clock::now() - start_time;
+                    if (current_elapsed > kRegexMatchTimeoutMs) {
+                        spdlog::warn("RegexDetectionEngine: Pattern '{}' exceeded {}ms timeout during iteration", 
+                                    pattern.name, kRegexMatchTimeoutMs.count());
+                        goto pattern_timeout; // Break out of both loops
+                    }
+                }
+                
                 std::smatch match = *it;
                 std::string value = match.str();
                 
@@ -191,9 +216,12 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
         } catch (const std::regex_error& e) {
             spdlog::error("RegexDetectionEngine: Regex matching failed for '{}': {}", 
                           pattern.name, e.what());
-            // Continue with next pattern; don't crash
+            // Malformed pattern error: log and continue with next pattern
+            // This ensures malformed patterns do not crash detection
         }
     }
+    
+    pattern_timeout: // Jump point for timeout handling
     
     // Sort by start offset
     std::sort(findings.begin(), findings.end(), 

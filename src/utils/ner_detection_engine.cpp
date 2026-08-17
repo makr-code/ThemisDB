@@ -24,6 +24,7 @@ namespace utils {
 
 NERDetectionEngine::NERDetectionEngine()
     : enabled_(false)
+    , model_available_(false)  // Initially model is unavailable until loaded
     , min_confidence_(0.70)
     , default_redaction_mode_("strict") {
 
@@ -35,6 +36,7 @@ NERDetectionEngine::NERDetectionEngine()
     signature_.cert_serial = "EMBEDDED";
 
     loadDefaults();
+    model_available_ = true;  // Default gazetteers are now loaded
 }
 
 // ============================================================================
@@ -77,15 +79,25 @@ bool NERDetectionEngine::initialize(const nlohmann::json& config) {
 
         loadFromConfig(config);
         rebuildFieldHints();
+        
+        // Verify that model data (gazetteers) are actually loaded
+        // If all gazetteers are empty after loading, mark model as unavailable
+        if (honorifics_.empty() && org_suffixes_.empty() && location_prepositions_.empty()) {
+            model_available_ = false;
+            spdlog::warn("NERDetectionEngine: All gazetteers are empty after loading; model marked unavailable");
+        } else {
+            model_available_ = true;
+        }
 
-        spdlog::info("NERDetectionEngine: Initialized (honorifics={}, org_suffixes={}, "
+        spdlog::info("NERDetectionEngine: Initialized (model_available={}, honorifics={}, org_suffixes={}, "
                      "location_prepositions={})",
-                     honorifics_.size(), org_suffixes_.size(), location_prepositions_.size());
+                     model_available_, honorifics_.size(), org_suffixes_.size(), location_prepositions_.size());
         return true;
 
     } catch (const std::exception& e) {
+        model_available_ = false;
         last_error_ = std::string("Initialization failed: ") + e.what();
-        spdlog::error("NERDetectionEngine: {}", last_error_);
+        spdlog::error("NERDetectionEngine: {} (model marked unavailable)", last_error_);
         return false;
     }
 }
@@ -134,6 +146,14 @@ std::vector<PIIFinding> NERDetectionEngine::detectInText(const std::string& text
 
     if (!enabled_ || text.empty()) {
         return {};
+    }
+    
+    // Phase A.2 Hardening: Explicit model-unavailable handling
+    // If model/gazetteers are not available, return empty findings (fail-closed)
+    // This prevents silent fallback to default/degraded behavior
+    if (!model_available_) {
+        spdlog::warn("NERDetectionEngine: detectInText called but model is unavailable");
+        return {};  // Fail-closed: no detections when model unavailable
     }
 
     auto tokens = tokenise(text);

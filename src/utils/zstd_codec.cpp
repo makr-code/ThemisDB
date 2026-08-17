@@ -32,6 +32,13 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
         return Ok(std::vector<uint8_t>());
     }
     
+    // Step 1.5: Phase A.3 Hardening - Validate compression level
+    // ZSTD valid levels: 1-22 (default 3). Clamp out-of-range values.
+    if (level < 1 || level > 22) {
+        THEMIS_WARN("Compression level {} is out of valid range [1, 22]; clamping to default 3", level);
+        level = 3;  // Default ZSTD compression level
+    }
+    
     // Step 2: Validate input size to prevent DoS
     if (size > compression::MAX_INPUT_SIZE) {
         THEMIS_ERROR("Input too large for compression: {} bytes (max: {})",

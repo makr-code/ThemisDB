@@ -76,6 +76,7 @@ public:
 private:
     // Engine state
     bool enabled_;
+    bool model_available_;  // Tracks whether gazetteers/model data are loaded
     mutable std::string last_error_;
     PluginSignature signature_;
     mutable std::mutex mutex_;

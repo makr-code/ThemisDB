@@ -146,6 +146,12 @@ Serialization::TypeTag Serialization::Decoder::readTag() {
 }
 
 uint32_t Serialization::Decoder::readUInt32() {
+    // Phase A.4 Hardening - CRITICAL: Bounds check before reading 4 bytes
+    if (pos_ + 4 > data_.size()) {
+        // Bounds overflow detected - return 0 and don't advance pos_
+        // This prevents silent out-of-bounds reads on malformed data
+        return 0;
+    }
     uint32_t value = 0;
     for (int i = 0; i < 4; ++i) {
         value |= static_cast<uint32_t>(data_[pos_++]) << (i * 8);
@@ -154,6 +160,12 @@ uint32_t Serialization::Decoder::readUInt32() {
 }
 
 uint64_t Serialization::Decoder::readUInt64() {
+    // Phase A.4 Hardening - CRITICAL: Bounds check before reading 8 bytes
+    if (pos_ + 8 > data_.size()) {
+        // Bounds overflow detected - return 0 and don't advance pos_
+        // This prevents silent out-of-bounds reads on malformed data
+        return 0;
+    }
     uint64_t value = 0;
     for (int i = 0; i < 8; ++i) {
         value |= static_cast<uint64_t>(data_[pos_++]) << (i * 8);
@@ -207,6 +219,16 @@ double Serialization::Decoder::decodeDouble() {
 std::string Serialization::Decoder::decodeString() {
     readTag();
     uint32_t size = readUInt32();
+    
+    // Phase A.4 Hardening - CRITICAL: Bounds check before creating string
+    // Prevent out-of-bounds reads when deserializing untrusted data
+    if (pos_ + size > data_.size()) {
+        // Malformed: declared string size exceeds available buffer
+        // Return empty string instead of reading past buffer
+        pos_ = data_.size();  // Advance to EOF to prevent further reads
+        return "";
+    }
+    
     // Note: reinterpret_cast to char* is explicitly allowed by C++ standard
     // for accessing object representation (not a strict aliasing violation)
     std::string str(reinterpret_cast<const char*>(&data_[pos_]), size);
@@ -217,6 +239,16 @@ std::string Serialization::Decoder::decodeString() {
 std::vector<uint8_t> Serialization::Decoder::decodeBinary() {
     readTag();
     uint32_t size = readUInt32();
+    
+    // Phase A.4 Hardening - CRITICAL: Bounds check before vector construction
+    // Prevent out-of-bounds reads and ensure safe vector initialization
+    if (pos_ + size > data_.size()) {
+        // Malformed: declared binary size exceeds available buffer
+        // Return empty vector instead of reading past buffer
+        pos_ = data_.size();  // Advance to EOF to prevent further reads
+        return std::vector<uint8_t>();
+    }
+    
     std::vector<uint8_t> binary(data_.begin() + pos_, data_.begin() + pos_ + size);
     pos_ += size;
     return binary;
@@ -226,10 +258,19 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
     readTag();
     uint32_t count = readUInt32();
     
+    // Phase A.4 Hardening - CRITICAL: Bounds check before memcpy
+    // Prevent out-of-bounds reads when deserializing float vectors
+    size_t bytes_needed = static_cast<size_t>(count) * sizeof(float);
+    if (pos_ + bytes_needed > data_.size()) {
+        // Malformed: declared vector count exceeds available buffer
+        pos_ = data_.size();  // Advance to EOF to prevent further reads
+        return std::vector<float>();  // Return empty vector
+    }
+    
     std::vector<float> vec(count);
     const uint8_t* data = &data_[pos_];
-    std::memcpy(vec.data(), data, count * sizeof(float));
-    pos_ += count * sizeof(float);
+    std::memcpy(vec.data(), data, bytes_needed);
+    pos_ += bytes_needed;
     
     return vec;
 }
