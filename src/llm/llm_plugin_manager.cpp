@@ -394,18 +394,23 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
         auto info = plugin->getModelInfo();
         if (info && info->vram_required_mb > 0) {
             const size_t vram_bytes = info->vram_required_mb * 1024ULL * 1024ULL;
+            // THREAD-SAFETY: Acquire vram_mutex_ to atomically register VRAM handle
+            // and store it in vram_handles_, preventing races with unloadModel() or
+            // getHealthStatus() that access the same structures.
+            std::lock_guard<std::mutex> vram_lock(vram_mutex_);
             auto handle = vram_allocator_.registerExternal(vram_bytes, model_id);
-            std::lock_guard<std::mutex> lock(mutex_);
             vram_handles_[model_id] = std::move(handle);
         }
+     }
     }
     return ok;
 }
 
 void LLMPluginManager::unloadModel(const std::string& model_id) {
-    // Free the VRAM handle first (before the plugin frees the underlying memory).
+    // THREAD-SAFETY: Use vram_mutex_ to atomically free VRAM handle and remove from map.
+    // This prevents races with loadModel() or getHealthStatus().
     if (!model_id.empty()) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> vram_lock(vram_mutex_);
         auto it = vram_handles_.find(model_id);
         if (it != vram_handles_.end()) {
             vram_allocator_.free(it->second);
@@ -586,7 +591,13 @@ LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
     health.models_loaded = static_cast<int>(listModels().size());
     health.loras_loaded = static_cast<int>(listLoRAs().size());
 
-    const auto vram = vram_allocator_.getStats();
+    // THREAD-SAFETY: Use vram_mutex_ to safely read VRAM stats while preventing
+    // concurrent modifications from loadModel() or unloadModel().
+    const auto vram = [this]() {
+        std::lock_guard<std::mutex> vram_lock(vram_mutex_);
+        return vram_allocator_.getStats();
+    }();
+    
     health.vram_total_bytes           = vram.total_vram_bytes;
     health.vram_used_bytes            = vram.used_vram_bytes;
     health.vram_free_bytes            = vram.free_vram_bytes;
@@ -601,6 +612,8 @@ LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
 }
 
 ActiveVRAMAllocator::Stats LLMPluginManager::getVRAMStats() const {
+    // THREAD-SAFETY: Use vram_mutex_ to safely read VRAM stats.
+    std::lock_guard<std::mutex> vram_lock(vram_mutex_);
     return vram_allocator_.getStats();
 }
 

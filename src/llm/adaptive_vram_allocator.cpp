@@ -207,21 +207,43 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
     return plan;
 }
 
-bool AdaptiveVRAMAllocator::allocateWithFragmentation(size_t bytes, void** ptr) {
-    if (!impl_ || ptr == nullptr || bytes == 0) {
+bool AdaptiveVRAMAllocator::allocateWithFragmentation(size_t bytes, void** ptr) noexcept {
+    // Validate inputs
+    if (ptr == nullptr || bytes == 0) {
         return false;
     }
-    return impl_->active_allocator_.allocateWithFragmentation(bytes, ptr);
-}
-
-bool AdaptiveVRAMAllocator::handleOutOfMemory() {
+    
+    // Ensure ptr is initialized to nullptr for exception safety
+    *ptr = nullptr;
+    
     if (!impl_) {
         return false;
     }
-    return impl_->active_allocator_.handleOutOfMemory();
+    
+    try {
+        return impl_->active_allocator_.allocateWithFragmentation(bytes, ptr);
+    } catch (...) {
+        // Ensure ptr stays nullptr on exception
+        if (ptr != nullptr) {
+            *ptr = nullptr;
+        }
+        return false;
+    }
 }
 
-size_t AdaptiveVRAMAllocator::calculateKVCacheSizePerToken(const ModelConfig& model) {
+bool AdaptiveVRAMAllocator::handleOutOfMemory() noexcept {
+    if (!impl_) {
+        return false;
+    }
+    
+    try {
+        return impl_->active_allocator_.handleOutOfMemory();
+    } catch (...) {
+        return false;
+    }
+}
+
+size_t AdaptiveVRAMAllocator::calculateKVCacheSizePerToken(const ModelConfig& model) noexcept {
     // Formula: 2 × num_layers × num_kv_heads × head_dim × precision_bytes
     // The "2" accounts for both Key and Value caches
     if (model.precision_bytes <= 0 || model.num_layers == 0 || model.num_kv_heads == 0 ||
@@ -238,7 +260,7 @@ size_t AdaptiveVRAMAllocator::calculateKVCacheSizePerToken(const ModelConfig& mo
     return kv_size;
 }
 
-size_t AdaptiveVRAMAllocator::calculateModelSize(size_t num_parameters, float precision_bytes) {
+size_t AdaptiveVRAMAllocator::calculateModelSize(size_t num_parameters, float precision_bytes) noexcept {
     if (!std::isfinite(precision_bytes) || precision_bytes <= 0.0f) {
         return 0;
     }
@@ -254,7 +276,7 @@ size_t AdaptiveVRAMAllocator::estimateActivationMemory(
     const ModelConfig& model,
     size_t batch_size,
     size_t seq_length
-) {
+) noexcept {
     // Estimate based on typical transformer architecture
     // Activations scale with: batch_size × seq_length × hidden_dim × num_layers
     // Rough estimate: ~4-8 bytes per activation depending on precision
