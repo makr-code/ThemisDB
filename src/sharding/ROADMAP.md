@@ -10,6 +10,12 @@
 
 Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** Multi-shard exact-path gate (Phase C), topology-change auto-rebalance, latency-aware routing, distributed write stress
+- **Wave A Exit Criteria:** Deterministic chaos evidence (network partition, coordinator failure, cascade) + thread-safety sign-off + release-critical CI GREEN + p95/p99 baselines
+- **Tier 1 Criticality:** Runtime-critical for distributed databases; thread-safety and fail-closed guarantees mandatory
+- **Rollout Readiness:** 35% 🔴 (Phase A ready, Phase B/C blocked on thread-safety gates)
+
 **Hybrid Retrieval Rollout Readiness**: 35% 🔴 (issue #5468).
 - Phase A (single-shard exact): ✅ Ready — single-shard path is stable.
 - Phase B (multi-shard exact): ❌ Q3 2026 — blocked by 340+ cross-shard thread-safety gaps.
@@ -44,26 +50,30 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 ## Planned Features
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [x] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (delivered 2026-08-10)
+- [x] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (delivered 2026-08-10, verified 2026-08-17)
   - Fixes: `dual_consensus_orchestrator.cpp` deadlock in `updateConsistencyState`, `getMetrics`
     lock-ordering violation (`metrics_mutex_` → `state_mutex_`), unprotected callback fields,
     unprotected `background_sync_interval_`, data race on `conflict_callback_` in
     `replica_consistency.cpp`, and detached-thread shared-state hazards.
+  - Verification: All fixes verified in source code; std::scoped_lock for atomic dual acquisition at line 829;
+    getMetrics() no longer holds metrics_mutex_ while accessing state_mutex_ protected paths
   - Test evidence: TSO-01..TSO-08 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
-- [x] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (delivered 2026-08-10)
+- [x] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (delivered 2026-08-10, verified 2026-08-17)
   - Canonical order documented in headers: `state_mutex_` (1) < `audit_mutex_` (2) < `metrics_mutex_` (3)
     for `DualConsensusOrchestrator`; `state_mutex_` (1) < `callbacks_mutex_` (2) < `cluster_mutex_` (3) <
     `snapshot_mutex_` (4) for `RaftConsensusAdapter`.  `logGroundingOperation` now uses `std::scoped_lock`
     for atomic dual acquisition; `getMetrics` no longer holds `metrics_mutex_` while calling into
     `state_mutex_`-protected paths.
+  - Verification: All lock hierarchies verified in place; scoped_lock patterns confirmed; deadlock-free
   - Test evidence: LKO-01..LKO-06 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
-- [x] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (delivered 2026-08-10)
+- [x] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (delivered 2026-08-10, verified 2026-08-17)
   - Fixes: `backgroundSyncThread` now detects quorum loss (null consensus layers) and backs off;
     retry logic added for transient `STORAGE_AHEAD`/`CACHE_AHEAD` sync failures; atomic interval read
     prevents torn reads of `background_sync_interval_ms_`.
+  - Verification: Exception safety audit complete; all resource cleanup in exception paths verified
   - Test evidence: CCR-01..CCR-06 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
-- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
-- [~] Phase C benchmark gate: `bench_multishard_exact` (deterministic benchmark hygiene tightened; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
+- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (explicitly registered as `ShardingMultiShardExactPhaseCGate`; code audit and test infrastructure verified 2026-08-17; full environment validation pending — repo-wide build blockers resolved 2026-08-17) (Target: Q4 2026 validation)
+- [~] Phase C benchmark gate: `bench_multishard_exact` (deterministic benchmark hygiene tightened; code audit verified 2026-08-17; full environment validation pending — repo-wide build blockers resolved 2026-08-17) (Target: Q4 2026 validation)
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)

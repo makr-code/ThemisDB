@@ -32,6 +32,7 @@
 #pragma once
 
 #include <map>
+#include <mutex>
 #include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
@@ -190,6 +191,7 @@ public:
     ) const;
 
 private:
+    mutable std::mutex tables_mutex_;  ///< Protects tables_ for thread-safe concurrent access
     std::map<std::string, DecisionTable> tables_;
 
     /// Evaluate a rule row against the input context.

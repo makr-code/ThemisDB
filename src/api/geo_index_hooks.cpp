@@ -20,8 +20,7 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 
-namespace themis {
-namespace api {
+namespace themis::api {
 
 using json = nlohmann::json;
 
@@ -144,147 +143,128 @@ void GeoIndexHooks::onEntityPut(
         bool found_geometry = false;
 
         if (j.contains("geometry") && j["geometry"].is_string()) {
-            // Geometry as hex-encoded EWKB string
             std::string hex_ewkb = j["geometry"].get<std::string>();
-            // Simple hex decode (assumes valid hex)
             geom_blob.reserve(hex_ewkb.size() / 2);
-            for (size_t i = 0; i < hex_ewkb.size(); i += 2) {
-            uint8_t byte = static_cast<uint8_t>(
-                std::stoi(hex_ewkb.substr(i, 2), nullptr, 16)
-            );
-            geom_blob.push_back(byte);
+            for (size_t i = 0; i + 1 < hex_ewkb.size(); i += 2) {
+                uint8_t byte = static_cast<uint8_t>(std::stoi(hex_ewkb.substr(i, 2), nullptr, 16));
+                geom_blob.push_back(byte);
+            }
+            found_geometry = true;
+        } else if (j.contains("geometry") && j["geometry"].is_object()) {
+            if (!validateGeoJSONBasic(j["geometry"])) {
+                THEMIS_WARN("Invalid GeoJSON structure for {}:{}", table, pk);
+                return;
+            }
+
+            std::string geojson = j["geometry"].dump();
+            try {
+                geo::GeoValidator::validateGeometrySize(geojson.size());
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Geometry size validation failed for {}:{}: {}", table, pk, e.what());
+                return;
+            }
+
+            auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+            geom_blob = geo::EWKBParser::serialize(geom_info);
+            auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
+            auto status = spatial_mgr->insert(table, pk, sidecar);
+            if (!status) {
+                THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
+            } else {
+                THEMIS_DEBUG("Spatial index updated for {}:{}", table, pk);
+            }
+            return;
+        } else if (j.contains("geom_blob") && j["geom_blob"].is_array()) {
+            for (auto& byte : j["geom_blob"]) {
+                geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));
+            }
+            found_geometry = true;
+        } else if (j.contains("location")) {
+            if (j["location"].is_string()) {
+                std::string geojson = j["location"].get<std::string>();
+                try {
+                    geo::GeoValidator::validateGeometrySize(geojson.size());
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
+                    auto status = spatial_mgr->insert(table, pk, sidecar);
+                    if (!status) {
+                        THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
+                    } else {
+                        THEMIS_DEBUG("Spatial index updated (location) for {}:{}", table, pk);
+                    }
+                    return;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (location string) for {}:{}: {}", table, pk, e.what());
+                }
+            } else if (j["location"].is_object()) {
+                if (!validateGeoJSONBasic(j["location"])) {
+                    THEMIS_WARN("Invalid GeoJSON in location field for {}:{}", table, pk);
+                    return;
+                }
+
+                std::string geojson = j["location"].dump();
+                try {
+                    geo::GeoValidator::validateGeometrySize(geojson.size());
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
+                    auto status = spatial_mgr->insert(table, pk, sidecar);
+                    if (!status) {
+                        THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
+                    } else {
+                        THEMIS_DEBUG("Spatial index updated (location) for {}:{}", table, pk);
+                    }
+                    return;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (location object) for {}:{}: {}", table, pk, e.what());
+                }
+            }
+        } else if (j.contains("geom")) {
+            if (j["geom"].is_string()) {
+                std::string geojson = j["geom"].get<std::string>();
+                try {
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
+                    auto status = spatial_mgr->insert(table, pk, sidecar);
+                    if (!status) {
+                        THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
+                    } else {
+                        THEMIS_DEBUG("Spatial index updated (geom) for {}:{}", table, pk);
+                    }
+                    return;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (geom string) for {}:{}: {}", table, pk, e.what());
+                }
+            } else if (j["geom"].is_object()) {
+                std::string geojson = j["geom"].dump();
+                try {
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
+                    auto status = spatial_mgr->insert(table, pk, sidecar);
+                    if (!status) {
+                        THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
+                    } else {
+                        THEMIS_DEBUG("Spatial index updated (geom) for {}:{}", table, pk);
+                    }
+                    return;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (geom object) for {}:{}: {}", table, pk, e.what());
+                }
+            }
         }
-        found_geometry = true;
-    } else if (j.contains("geometry") && j["geometry"].is_object()) {
-        // Geometry as GeoJSON - validate before parsing
-        if (!validateGeoJSONBasic(j["geometry"])) {
-            THEMIS_WARN("Invalid GeoJSON structure for {}:{}", table, pk);
+
+        if (!found_geometry) {
             return;
         }
-        
-        std::string geojson = j["geometry"].dump();
-        
-        // Validate size before parsing
-        try {
-            geo::GeoValidator::validateGeometrySize(geojson.size());
-        } catch (const std::exception& e) {
-            THEMIS_WARN("Geometry size validation failed for {}:{}: {}", table, pk, e.what());
-            return;
-        }
-        
-        auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
-        geom_blob = geo::EWKBParser::serialize(geom_info);
+
+        auto geom_info = geo::EWKBParser::parse(geom_blob);
         auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-        
-        // Insert into spatial index
         auto status = spatial_mgr->insert(table, pk, sidecar);
         if (!status) {
-            THEMIS_WARN("Spatial index insert failed for {}:{}: {}", 
-                        table, pk, status.message);
+            THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
         } else {
             THEMIS_DEBUG("Spatial index updated for {}:{}", table, pk);
         }
-        return;
-    } else if (j.contains("geom_blob") && j["geom_blob"].is_array()) {
-        // Geometry as binary array
-        for (auto& byte : j["geom_blob"]) {
-            geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));
-        }
-        found_geometry = true;
-    } else if (j.contains("location")) {
-        // Support for 'location' field commonly used in entities
-        if (j["location"].is_string()) {
-            // GeoJSON as string
-            std::string geojson = j["location"].get<std::string>();
-            try {
-                geo::GeoValidator::validateGeometrySize(geojson.size());
-                auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
-                auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-                auto status = spatial_mgr->insert(table, pk, sidecar);
-                if (!status) {
-                    THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
-                } else {
-                    THEMIS_DEBUG("Spatial index updated (location) for {}:{}", table, pk);
-                }
-                return;
-            } catch (const std::exception& e) {
-                THEMIS_WARN("Geo hook parse error (location string) for {}:{}: {}", table, pk, e.what());
-            }
-        } else if (j["location"].is_object()) {
-            // GeoJSON object - validate first
-            if (!validateGeoJSONBasic(j["location"])) {
-                THEMIS_WARN("Invalid GeoJSON in location field for {}:{}", table, pk);
-                return;
-            }
-            
-            std::string geojson = j["location"].dump();
-            try {
-                geo::GeoValidator::validateGeometrySize(geojson.size());
-                auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
-                auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-                auto status = spatial_mgr->insert(table, pk, sidecar);
-                if (!status) {
-                    THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
-                } else {
-                    THEMIS_DEBUG("Spatial index updated (location) for {}:{}", table, pk);
-                }
-                return;
-            } catch (const std::exception& e) {
-                THEMIS_WARN("Geo hook parse error (location object) for {}:{}: {}", table, pk, e.what());
-            }
-        }
-    } else if (j.contains("geom")) {
-        // Support for 'geom' alias
-        if (j["geom"].is_string()) {
-            std::string geojson = j["geom"].get<std::string>();
-            try {
-                auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
-                auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-                auto status = spatial_mgr->insert(table, pk, sidecar);
-                if (!status) {
-                    THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
-                } else {
-                    THEMIS_DEBUG("Spatial index updated (geom) for {}:{}", table, pk);
-                }
-                return;
-            } catch (const std::exception& e) {
-                THEMIS_WARN("Geo hook parse error (geom string) for {}:{}: {}", table, pk, e.what());
-            }
-        } else if (j["geom"].is_object()) {
-            std::string geojson = j["geom"].dump();
-            try {
-                auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
-                auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-                auto status = spatial_mgr->insert(table, pk, sidecar);
-                if (!status) {
-                    THEMIS_WARN("Spatial index insert failed for {}:{}: {}", table, pk, status.message);
-                } else {
-                    THEMIS_DEBUG("Spatial index updated (geom) for {}:{}", table, pk);
-                }
-                return;
-            } catch (const std::exception& e) {
-                THEMIS_WARN("Geo hook parse error (geom object) for {}:{}: {}", table, pk, e.what());
-            }
-        }
-    }
-
-    if (!found_geometry) {
-        // No geometry field, skip silently
-        return;
-    }
-
-    // Parse EWKB and compute sidecar (for hex string or binary array paths)
-    auto geom_info = geo::EWKBParser::parse(geom_blob);
-    auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-
-    // Insert into spatial index
-    auto status = spatial_mgr->insert(table, pk, sidecar);
-    if (!status) {
-        THEMIS_WARN("Spatial index insert failed for {}:{}: {}", 
-                    table, pk, status.message);
-    } else {
-        THEMIS_DEBUG("Spatial index updated for {}:{}", table, pk);
-    }    } catch (const json::exception& e) {
+    } catch (const json::exception& e) {
         // JSON parse error - log but don't fail the entity write
         THEMIS_WARN("Geo hook JSON parse error for {}:{}: {}", table, pk, e.what());
     } catch (const std::exception& e) {
@@ -580,6 +560,5 @@ void GeoIndexHooks::onEntityDelete(
     }
 }
 
-} // namespace api
-} // namespace themis
+} // namespace themis::api
 

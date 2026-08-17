@@ -221,6 +221,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
 
+      - name: Ensure optional Docker build context paths exist
+        run: |
+          mkdir -p internal compendium artifacts/docs-db
+
       - name: Start ThemisDB (production mode, self-signed TLS)
         run: |
           docker compose -f docker-compose.yml up -d themis

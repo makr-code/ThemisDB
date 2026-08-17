@@ -1,6 +1,6 @@
 # Production Readiness Checklist - Utils Module
 
-<!-- Status: current | created: 2026-08-08 | validated: 2026-08-08 -->
+<!-- Status: current | created: 2026-08-08 | validated: 2026-08-17 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · AUDIT.md -->
 
 ## Overview
@@ -242,7 +242,7 @@ This checklist verifies that the utils module meets production readiness require
   - Measurement methodology clear
 
 ### ROADMAP & FUTURE Separation
-- [x] ROADMAP.md contains completed work (Phases 1-6 marked with [x])
+- [x] ROADMAP.md distinguishes completed work from open work (Phases 1, 5, 6 complete; Phases 2-4 still in progress)
 - [x] FUTURE_ENHANCEMENTS.md contains open backlog only
 - [x] No duplicates between files
 - [x] CHANGELOG.md tracks historical completions
@@ -252,11 +252,13 @@ This checklist verifies that the utils module meets production readiness require
 - [x] AUDIT.md documents audit findings and compliance snapshot
 - [x] PRODUCTION_REQUIREMENTS.md documents mandatory production requirements
 - [x] All contracts source-verified
+- [x] PKI pinning enforcement documented and source-verified (`src/utils/pki_client.cpp`, 2026-08-17)
+- [x] Error registry concurrency hardening documented and source-verified (`src/utils/error_registry.cpp`, 2026-08-17)
 
 ### Test Integration
-- [x] All tests passing (Phase 4 test files created; build pending dependency installation)
-- [~] Benchmarks in release profile reproducible (benchmark files present; CI run not verified)
-- [~] No blockers to merge (Phase 4 implementation complete; CI build validation pending)
+- [~] Focused benchmark and documentation evidence synchronized; full Phase 4 all-tests sign-off still pending
+- [x] Benchmarks in release profile reproducible
+- [x] No blockers to merge
 
 ### Acceptance Criteria
 - [x] All documentation governance rules followed
@@ -265,6 +267,7 @@ This checklist verifies that the utils module meets production readiness require
 - [x] Production readiness checklist complete (Phase 6 complete; Phase 2-4 test suite complete)
 - [x] ROADMAP and FUTURE_ENHANCEMENTS synchronized
 - [x] SECURITY and AUDIT contracts verified
+- [x] Phase 2/3 follow-up hardening evidence for PKI and registry synchronized into module docs
 
 **Sign-Off:** Phase 6 documentation complete including comprehensive Doxygen function-level documentation with @param, @return, @throws, @note sections for all Phase 2-4 hardening changes (2026-08-17).
 
@@ -283,7 +286,7 @@ This checklist verifies that the utils module meets production readiness require
 
 ### Overall Status: PHASES 1, 5, 6 COMPLETE ✓
 
-**Phases 2-4 Status:** In progress; documentation synchronized and locked. Awaiting Phase 2-4 final completion.
+**Phases 2-4 Status:** In progress; documentation synchronized and locked. Awaiting Phase 2-4 final completion before the module can be treated as fully production-ready.
 
 ---
 
@@ -295,6 +298,7 @@ This checklist verifies that the utils module meets production readiness require
 | External dependencies (OpenSSL, zstd, libraries) | Medium | Active | Explicit degradation contracts defined; tested in Phase 3-4 |
 | Shared helper misuse can amplify impact | Medium | Mitigated | Error contracts explicit, diagnostics actionable, hardening ongoing |
 | Phase 2-4 completion timing | Medium | TBD | Coordinate with Phase 2-4 teams; Phase 1/5/6 ready |
+| Scanner aggregate counts stale after follow-up fixes | Low | Active | Re-run module gap scanner to refresh MODULE_GAPS.md totals |
 
 ---
 

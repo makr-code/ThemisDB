@@ -8,6 +8,12 @@
 
 The module provides production-grade LLM runtime surfaces across async inference, enhanced multi-model orchestration, adapter/plugin management, routing, streaming, and safety/policy controls.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** Distributed end-to-end optimization (SpeculativeDecoder + cross-node inference hardening)
+- **Wave B (Q3–Q4 2026):** Wiki Phase B (RocksDB retrieval, cache hit-rate, query-latency gates)
+- **Wave A Exit Criteria:** Deterministic chaos evidence + fail-closed verification + release-critical CI GREEN
+- **Wave B Exit Criteria:** Full 4-layer retrieval chain with stable p95/p99 on representative hardware
+
 ### Module Evidence Summary (2026-07-19)
 
 **Doxygen Documentation:**
@@ -81,7 +87,28 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] **Phase B**: SubagentLifecycleManager with resource tracking (integrated in `src/llm/subagent_factory_impl.cpp`)
   - [x] **Phase C**: SubagentCoordinator with parallel fan-out + merge strategies (`include/llm/subagent_coordinator.h`, `src/llm/subagent_coordinator_impl.cpp`)
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
-  - [x] **Phase E**: Operational deployment guide + ROADMAP updates (COMPLETE 2026-08-16 via Wave A-8)
+  - [~] **Phase E**: Operational deployment guide + ROADMAP updates (in progress)
+- [~] **MODULE_GAPS.md Closure** (Target: 2026-08-31, Parallel Execution)
+  - [~] Phase 1: Critical Structural Fixes (braces, thread-safety, RAII) → 4 parallel sub-agents
+    - [~] Braces imbalance in 37 files (Sub-Agent: llm-braces-critical-fixes)
+    - [~] Data-race synchronization fixes (Sub-Agent: llm-thread-safety-fixes)
+    - [~] Resource leak / RAII wrappers (Sub-Agent: llm-raii-resource-fixes)
+  - [~] Phase 2: Documentation Enhancements (11,074 DOC gaps)
+    - [~] Module architecture & design docs (Sub-Agent: llm-documentation-enhancements)
+    - [~] Inline code comments & Doxygen headers (Sub-Agent: llm-documentation-enhancements)
+    - [~] Operational runbooks & troubleshooting guides (Sub-Agent: llm-documentation-enhancements)
+  - [ ] Phase 3: Code Quality & Performance (150+ medium/low gaps)
+    - [ ] Exception-safety patterns & tests
+    - [ ] Performance optimization (copy overhead, string concat, O(n²))
+    - [ ] Security hardening (LLM input validation, injection prevention)
+  - [ ] Phase 4: Testing & Validation
+    - [ ] 40+ focused hardening tests (thread-safety, exception-safety, resource cleanup)
+    - [ ] Performance regression gates established
+    - [ ] AddressSanitizer / ThreadSanitizer validation
+  - [ ] Deliverables
+    - [ ] GAP_CLOSURE_IMPLEMENTATION_GUIDE.md (created 2026-08-17)
+    - [ ] REMEDIATION_PATTERNS.md with standardized fix patterns (created 2026-08-17)
+    - [ ] All 12,474 gaps tracked, closed, or deferred with justification
 
 ## Planned Features
 

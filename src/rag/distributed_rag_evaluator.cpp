@@ -119,6 +119,15 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
         }
 
         auto judge_ptr = judges[i];  // shared ownership — safe across timeouts
+        
+        // Skip null judges
+        if (!judge_ptr) {
+            THEMIS_WARN("DistributedRAGEvaluator: Skipping null judge at index {}", i);
+            std::lock_guard<std::mutex> lk(sem->mtx);
+            --sem->running;
+            continue;
+        }
+        
         futures.push_back(
             std::async(std::launch::async,
                        [judge_ptr, shared_input, sem]() {
@@ -138,6 +147,8 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
 
     std::vector<judge::EvaluationResult> successful_results;
     std::vector<double>                  successful_weights;
+    successful_results.reserve(n);
+    successful_weights.reserve(n);
 
     for (size_t i = 0; i < n; ++i) {
         bool ok = false;
@@ -145,7 +156,7 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
 
         try {
             if (timeout.count() > 0) {
-                auto status = futures[i].wait_for(timeout);
+                const auto status = futures[i].wait_for(timeout);
                 if (status == std::future_status::ready) {
                     res = futures[i].get();
                     ok  = true;
@@ -309,7 +320,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     for (size_t i = 0; i < results.size(); ++i) {
         total_w += use_weights ? weights[i] : 1.0;
     }
-    if (total_w == 0.0) { total_w = 1.0; }
+    if (total_w < std::numeric_limits<double>::epsilon()) { total_w = 1.0; }
 
     judge::EvaluationResult out{};
     out.judge_model = "distributed-aggregate";

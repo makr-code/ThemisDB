@@ -232,7 +232,12 @@ bool DmnEvaluator::loadFromJson(const json& dmn_json) {
             SPDLOG_WARN("[DmnEvaluator] Decision table has no id");
             return false;
         }
-        tables_[dt.id] = std::move(dt);
+        
+        // Thread-safety: protect shared tables_ access
+        {
+            std::lock_guard<std::mutex> lock(tables_mutex_);
+            tables_[dt.id] = std::move(dt);
+        }
         return true;
     } catch (const std::exception& ex) {
         SPDLOG_ERROR("[DmnEvaluator] loadFromJson failed: {}", ex.what());
@@ -435,7 +440,12 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
         SPDLOG_WARN("[DmnEvaluator] Could not parse decision id from DMN XML");
         return false;
     }
-    tables_[dt.id] = std::move(dt);
+     
+    // Thread-safety: protect shared tables_ access
+    {
+        std::lock_guard<std::mutex> lock(tables_mutex_);
+        tables_[dt.id] = std::move(dt);
+    }
     return true;
 }
 
@@ -446,6 +456,9 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
 json DmnEvaluator::evaluate(std::string_view decision_id,
                               const json&      input_context) const
 {
+    // Thread-safety: protect shared tables_ access
+    std::lock_guard<std::mutex> lock(tables_mutex_);
+    
     const auto it = tables_.find(std::string(decision_id));
     if (it == tables_.end()) {
         SPDLOG_WARN("[DmnEvaluator] Decision '{}' not found", decision_id);
@@ -477,6 +490,9 @@ json DmnEvaluator::evaluate(std::string_view decision_id,
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::vector<std::string> DmnEvaluator::listDecisions() const {
+    // Thread-safety: protect shared tables_ access
+    std::lock_guard<std::mutex> lock(tables_mutex_);
+    
     std::vector<std::string> ids;
     ids.reserve(tables_.size());
     for (const auto& [id, _] : tables_) ids.push_back(id);
@@ -484,6 +500,9 @@ std::vector<std::string> DmnEvaluator::listDecisions() const {
 }
 
 std::optional<DecisionTable> DmnEvaluator::getDecision(std::string_view decision_id) const {
+    // Thread-safety: protect shared tables_ access
+    std::lock_guard<std::mutex> lock(tables_mutex_);
+    
     const auto it = tables_.find(std::string(decision_id));
     if (it == tables_.end()) return std::nullopt;
     return it->second;

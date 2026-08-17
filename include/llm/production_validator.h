@@ -35,6 +35,20 @@ namespace testing {
  * 
  * Week 13-14 Implementation: End-to-end system integration testing,
  * production validation, and stress testing for 72+ hours stability.
+ * 
+ * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
+ * 1. validation_state_lock_ → State machine transitions (exclusive)
+ *    └─ validation_queue_lock_ → Results queue access (exclusive)
+ *       └─ metrics_lock_ → Telemetry updates (exclusive)
+ *
+ * Memory Ordering:
+ * - stress_test_running_: std::memory_order_acquire/release
+ * - total_requests_processed_, total_failures_: std::memory_order_relaxed
+ * 
+ * Thread Safety:
+ * - All public methods are thread-safe via internal mutexes
+ * - Validation state machine (IDLE → RUNNING → COMPLETE) uses atomics
+ * - Latency samples protected by latency_mutex_
  */
 class ProductionValidator {
 public:
@@ -204,16 +218,44 @@ private:
     ValidationConfig config_;
     std::shared_ptr<InferenceEngineEnhanced> inference_engine_;
 
-    // Test state
-    std::atomic<bool> stress_test_running_ = false;
+    // LOCK HIERARCHY ENFORCEMENT (§3.4):
+    // ┌─ validation_state_lock_ : std::mutex (state machine)
+    // │  └─ validation_queue_lock_ : std::mutex (results queue)
+    // │     └─ metrics_lock_ : std::mutex (telemetry)
+    // └─ latency_mutex_ : std::mutex (independent statistics)
+    
+    /// Exclusive lock for validation state transitions (IDLE → RUNNING → COMPLETE)
+    mutable std::mutex validation_state_lock_;
+    
+    /// Exclusive lock for validation results queue
+    mutable std::mutex validation_queue_lock_;
+    
+    /// Exclusive lock for telemetry and statistics updates
+    mutable std::mutex metrics_lock_;
+
+    // Test state (protected by validation_state_lock_)
+    /// Atomic flag: stress test is running (memory_order_acquire/release)
+    std::atomic<bool> stress_test_running_{false};
+    
+    /// Stress test start time (protected by validation_state_lock_)
     std::chrono::system_clock::time_point stress_test_start_;
+    
+    /// Memory baseline in MB (protected by validation_state_lock_)
     size_t memory_baseline_mb_ = 0;   ///< Set on first checkMemoryLeaks() call or reset()
     
-    // Statistics
-    std::deque<double> latency_samples_;  // Use deque for efficient removal of old samples
-    mutable std::mutex latency_mutex_;    // Protects latency_samples_ in const and non-const paths
-    std::atomic<size_t> total_requests_processed_ = 0;
-    std::atomic<size_t> total_failures_ = 0;
+    // Statistics (protected by metrics_lock_ or latency_mutex_)
+    
+    /// Latency samples (protected by latency_mutex_; use deque for efficient removal)
+    std::deque<double> latency_samples_;
+    
+    /// Protects latency_samples_ in const and non-const paths
+    mutable std::mutex latency_mutex_;
+    
+    /// Total requests processed (protected by metrics_lock_; may use std::memory_order_relaxed)
+    std::atomic<size_t> total_requests_processed_{0};
+    
+    /// Total failures (protected by metrics_lock_; may use std::memory_order_relaxed)
+    std::atomic<size_t> total_failures_{0};
     
     // Helper methods
     double calculatePercentile(const std::vector<double>& data, double percentile);

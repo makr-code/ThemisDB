@@ -173,7 +173,7 @@ static std::string buildOdbcConnectionString(
     }
 
     if (!username.empty()) cs << "UID=" << username << ";";
-    if (!password.empty()) cs << "PWD=" << password << ";";
+    if (!password.empty()) cs << "PWD=" << password << ";";  // gitleaks:allow
     if (timeout_s > 0)     cs << "TIMEOUT=" << timeout_s << ";";
 
     return cs.str();
@@ -182,8 +182,8 @@ static std::string buildOdbcConnectionString(
 /// Return a copy of an ODBC connection string with the PWD value masked.
 /// This is used in log/error messages to avoid credential leakage.
 [[maybe_unused]] static std::string sanitisedConnectionString(const std::string& cs) {
-    // Case-insensitive search for "PWD=" without copying the whole string.
-    static const std::string target = "pwd=";
+    // Case-insensitive search for "PWD=" without copying the whole string.  // gitleaks:allow
+    static const std::string target = "pwd=";  // gitleaks:allow
     auto it = std::search(cs.begin(), cs.end(),
                           target.begin(), target.end(),
                           [](char a, char b) {

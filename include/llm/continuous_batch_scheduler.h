@@ -41,6 +41,13 @@ namespace llm {
  * 
  * Thread Safety: All public methods are thread-safe via internal mutex.
  * 
+ * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
+ * 1. mutex_ → Exclusive lock protecting all internal state
+ *    └─ No nested locks with external components (independent callbacks)
+ * 
+ * Memory Ordering:
+ * - next_request_id_, next_sequence_id_: std::memory_order_relaxed
+ * 
  * @see docs/llm/PAGED_ATTENTION_INTEGRATION.md for detailed documentation
  */
 class ContinuousBatchScheduler {
@@ -292,12 +299,24 @@ private:
     // Request lookup
     std::unordered_map<std::string, std::shared_ptr<ScheduledRequest>> all_requests_;
     
-    // Synchronization
+    // LOCK HIERARCHY ENFORCEMENT (§3.3):
+    // ┌─ mutex_ : std::mutex (exclusive access to all request queues and state)
+    // └─ cv_ : std::condition_variable (paired with mutex_)
+    // Note: No nested locks - external callbacks (metrics_collector_, shard_load_cb_)
+    //       are invoked while holding mutex_ but must not acquire it themselves
+    
+    /// Exclusive lock protecting all scheduler state:
+    /// - waiting_queue_, active_requests_, preempted_requests_, all_requests_
+    /// - running_, stats_, effective_prefill_chunk_size_
     mutable std::mutex mutex_;
+    
+    /// Condition variable for scheduler thread wake-up (paired with mutex_)
     std::condition_variable cv_;
+    
+    /// Scheduler is running (protected by mutex_)
     bool running_ = false;
     
-    // Statistics
+    // Statistics (protected by mutex_)
     Stats stats_;
     std::chrono::system_clock::time_point last_schedule_time_;
     // Adaptive prefill chunk state; accessed only while holding mutex_ in
@@ -314,7 +333,7 @@ private:
     
     std::string generateRequestId();
     
-    // Thread-safe counters using atomics
+    // Thread-safe counters using atomics (std::memory_order_relaxed)
     // Note: These are incremented during request submission under mutex_,
     // but making them atomic is defensive programming for future changes
     std::atomic<int> next_request_id_{0};

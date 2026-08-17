@@ -83,6 +83,91 @@ namespace llm {
 namespace {
 constexpr int DEFAULT_MAX_GENERATION_TOKENS = 512;
 
+// ═══════════════════════════════════════════════════════════
+// Null-Safety Validation Helpers (Batch 1)
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * @brief Validates model loader is initialized
+ * @param loader Pointer to model loader instance
+ * @param context_name Name for error messaging
+ * @throw std::runtime_error if loader is nullptr
+ * @pre loader must be non-null
+ */
+void validateModelLoaderInitialized(const LazyModelLoader* loader, const std::string& context_name) {
+    if (!loader) {
+        const std::string error_msg = "LlamaWrapper: Model loader not initialized in " + context_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
+/**
+ * @brief Validates cached model and its handles
+ * @param cached Pointer to cached model instance
+ * @param context_name Name for error messaging
+ * @throw std::runtime_error if cached is nullptr or handles are invalid
+ * @pre cached must be non-null with valid model and context handles
+ */
+void validateCachedModel(const CachedModel* cached, const std::string& context_name) {
+    if (!cached) {
+        const std::string error_msg = "LlamaWrapper: Model load returned nullptr in " + context_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    if (!cached->model_handle || !cached->context_handle) {
+        const std::string error_msg = "LlamaWrapper: Model or context handle is null after load in " + context_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
+/**
+ * @brief Validates llama_model and llama_context pointers
+ * @param model Pointer to llama_model
+ * @param context Pointer to llama_context
+ * @param context_name Name for error messaging
+ * @throw std::runtime_error if either pointer is null
+ * @pre Both model and context must be non-null
+ */
+void validateLlamaHandles(const llama_model* model, const llama_context* context, const std::string& context_name) {
+    if (!model) {
+        const std::string error_msg = "LlamaWrapper: llama_model pointer is null in " + context_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+    
+    if (!context) {
+        const std::string error_msg = "LlamaWrapper: llama_context pointer is null in " + context_name;
+        spdlog::error("{}", error_msg);
+        throw std::runtime_error(error_msg);
+    }
+}
+
+/**
+ * @brief Validates token array for iteration safety
+ * @param tokens Vector of tokens
+ * @param min_size Minimum required size
+ * @param context_name Name for error messaging
+ * @throw std::invalid_argument if array is empty or below minimum size
+ * @pre tokens must not be empty
+ */
+void validateTokenArray(const std::vector<llama_token>& tokens, size_t min_size, const std::string& context_name) {
+    if (tokens.empty()) {
+        const std::string error_msg = "LlamaWrapper: Token array is empty in " + context_name;
+        spdlog::error("{}", error_msg);
+        throw std::invalid_argument(error_msg);
+    }
+    
+    if (tokens.size() < min_size) {
+        const std::string error_msg = "LlamaWrapper: Token array size (" + std::to_string(tokens.size()) + 
+                                      ") is below minimum (" + std::to_string(min_size) + ") in " + context_name;
+        spdlog::error("{}", error_msg);
+        throw std::invalid_argument(error_msg);
+    }
+}
+
 bool sanitizePromptText(
     const std::string& input,
     std::string& sanitized,
@@ -804,7 +889,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         return true;
         
     } catch (const std::exception& e) {
-        spdlog::error("Exception loading model from ThemisDB: {}", e.what());
+        spdlog::error("Exception loading model from ThemisDB (context: model_id={}): {}", model_id, e.what());
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, 
                         model_id + ": " + e.what());
         return false;
@@ -882,7 +967,7 @@ size_t LlamaWrapper::cleanupTempModels(int days_old) {
                         removed_count, days_old);
         }
     } catch (const std::exception& e) {
-        spdlog::error("Failed to cleanup temp models: {}", e.what());
+        spdlog::error("Failed to cleanup temp models (context: temporary directory maintenance): {}", e.what());
     }
     
     return removed_count;
@@ -1130,7 +1215,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     try {
         return generateRegular(safe_request);
     } catch (const std::exception& e) {
-        spdlog::error("Regular inference error: {}", e.what());
+        spdlog::error("Regular inference error (context: model_id={}, prompt_length={}): {}", 
+                     current_model_id_, safe_request.prompt.length(), e.what());
         throw;
     }
     
@@ -1144,39 +1230,27 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     spdlog::debug("Generating response for prompt (length: {}, max_tokens={})",
                   request.prompt.length(), request.max_tokens);
     
+    // ═══════════════════════════════════════════════════════════
+    // BATCH 1.1: Enhanced Null-Safety Validation
+    // ═══════════════════════════════════════════════════════════
+    
     // Ensure model is loaded (lazy loading trigger)
     auto* const model_loader = model_loader_.get();
-    if (!model_loader) {
-        throw std::runtime_error("Model loader is not initialized");
-    }
+    validateModelLoaderInitialized(model_loader, "generateRegular()");
 
     auto cached = model_loader->getOrLoadModelShared(
         current_model_id_,
         current_model_path_
     );
-    if (!cached) {
-        if (metrics_collector_) {
-            metrics_collector_->recordInferenceFailure(current_model_id_, "model_load_failed");
-        }
-        throw std::runtime_error("Model failed to load");
-    }
+    validateCachedModel(cached, "generateRegular() -> getOrLoadModelShared()");
 
     void* model_handle = cached->model_handle;
     void* context_handle = cached->context_handle;
-    if (!model_handle || !context_handle) {
-        throw std::runtime_error("Model/context handle is null after load");
-    }
     auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
     auto* lctx = reinterpret_cast<llama_context*>(context_handle);
     
-    // Model and context must be loaded before inference
-    if (!lmodel || !lctx) {
-        throw std::runtime_error(
-            "LlamaWrapper: Model/context not initialized. "
-            "Call loadModel() with a valid model file before attempting inference. "
-            "Model ID: " + current_model_id_
-        );
-    }
+    // Validate llama handles before dereference
+    validateLlamaHandles(lmodel, lctx, "generateRegular() -> inference preparation");
 
     // Real llama.cpp inference implementation
     // Declare adapter tracking outside try to access in catch
@@ -1251,6 +1325,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // 2. Tokenize prompt
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+        
+        // BATCH 1.1: Validate tokenization result
+        validateTokenArray(prompt_tokens, 1, "generateRegular() -> tokenizeInternal()");
         
         InferenceResponse response;
         response.request_id = request.request_id;

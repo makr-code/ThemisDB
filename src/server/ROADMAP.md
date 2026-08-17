@@ -7,6 +7,12 @@
 ## Current Status
 Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, GraphQL, and MCP integration. Core API gateway, auth middleware, validation, and observability paths are available in production deployments.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** HTTP timeout patterns, graceful-shutdown drain semantics, wire-protocol retry
+- **Wave A Exit Criteria:** Deterministic chaos evidence (timeout/shutdown) + fail-closed verification + release-critical CI GREEN
+- **Wave B (Q3–Q4 2026):** Cluster-wide distributed rate-limit state, GraphQL federation hardening
+- **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
+
 ## Recently Completed
 - [x] Phase 5 Server Hardening — P5-S01 Wire-Protocol Retry + P5-S02 HTTP Timeout/Shutdown — Completed Q3 2026 (Validated 2026-07-20)
   - P5-S01: Exponential-backoff retry gate with configurable max_retries, base_delay, budget cap, and optional jitter
@@ -47,11 +53,42 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)
 - [ ] GraphQL federation and schema governance hardening for multi-service deployments (Target: Q4 2026)
 - [ ] HTTP/3 congestion-control and connection migration tuning under production-like packet loss (Target: Q4 2026)
+- [ ] MCP Tool Extension — Group 1: Knowledge Graph tools (kg_neighbours, kg_shortest_path, kg_subgraph, kg_node_properties) (Target: Q4 2026)
+  - Inputs: node_id, depth (1–5), edge_type filter, max_nodes; output: nodes/edges list + truncation flag
+  - Backend: graph_api_handler; cycle-safe traversal; max 1000 nodes per call
+  - Tests: 16 GTest cases (depth 1/2/3, cycles, non-existent nodes) in tests/server/test_mcp_kg_tools.cpp
+  - Perf: p99 ≤ 200ms at depth=3, fan-out ≤ 50
+- [ ] MCP Tool Extension — Group 2: Vector/Hybrid/RAG tools (semantic_search, hybrid_search, rag_retrieve, vector_index_list) (Target: Q4 2026)
+  - Inputs: text query or raw float32 vector, top_k (max 200), collection, filter, threshold
+  - Backend: vector_api_handler + LLMPluginManager (auto-embed); rag_retrieve returns ranked chunks with sources
+  - Tests: 16 GTest cases in tests/server/test_mcp_search_tools.cpp
+  - Perf: p99 ≤ 500ms at top_k=10, 100k documents
+- [ ] MCP Tool Extension — Group 7: Schema extensions (schema_diff, schema_validate, explain_query) (Target: Q4 2026)
+  - explain_query returns execution plan without executing; schema_diff compares two named versions
+  - Backend: schema_api_handler, query_api_handler
+  - Tests: integrated into existing schema test suite
 
 ### Mid-term (6-12 months)
 - [ ] Passwordless WebAuthn/FIDO2 auth integration for admin and API scopes (Target: Q1 2027)
 - [ ] CPU- and memory-governed WASM execution hardening with stricter runtime policy envelopes (Target: Q1 2027)
 - [ ] Service-mesh policy sync hardening and failover behavior validation under partition scenarios (Target: Q1 2027)
+- [ ] MCP Tool Extension — Group 3: Plugin & LLM management (plugin_list/load/unload, llm_model_list, llm_model_status) (Target: Q1 2027)
+  - plugin_load/unload require admin scope and synchronous signature validation
+  - Backend: LLMPluginManager (already available via attachAIOrchestrator)
+  - Tests: 12 GTest cases in tests/server/test_mcp_plugin_tools.cpp
+- [ ] MCP Tool Extension — Group 4: Operations & Monitoring (health_check, metrics_snapshot, shard_status, compaction_trigger, connection_pool_status) (Target: Q1 2027)
+  - compaction_trigger requires admin scope; all others require read scope
+  - Backend: health_error_service, monitoring_api_handler, shard_repair_api_handler
+  - Tests: 12 GTest cases in tests/server/test_mcp_ops_tools.cpp
+- [ ] MCP Tool Extension — Group 5: Updates & Backup (update_list_pending/apply/rollback, backup_create/list/restore) (Target: Q1 2027)
+  - backup_restore requires one-time confirm_token from backup_list; update error codes follow [7400-7499]
+  - Backend: update_api_handler; rollback uses Updates-module isolation model
+  - Tests: 16 GTest cases in tests/server/test_mcp_update_tools.cpp
+- [ ] MCP Tool Extension — Group 6: Security & Audit (audit_log_query, permission_check, token_validate, security_scan_status) (Target: Q1-Q2 2027)
+  - audit_log_query RBAC-filtered to caller scope; token_validate never returns token value
+  - Backend: audit_api_handler, auth_middleware
+  - Tests: 12 GTest cases in tests/server/test_mcp_audit_tools.cpp
+- [ ] Complete implementation spec: docs/de/apis/MCP_TOOL_EXTENSION_PLAN.md (Target: Q4 2026 — done)
 
 ## Implementation Phases
 

@@ -8,6 +8,18 @@ This file documents all documentation and code quality gaps in the **index** mod
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
+**Batch 3 Wave Correlation (2026-08-14):**
+- **Wave B Gaps** (~800 IMPL gaps): GPU vector index CUDA backend (L2/cosine/inner-product kernels), HIP backend, buffer lifecycle RAII hardening, concurrency fixes
+- **Wave B DOC Gaps** (~300): GPU backend documentation, cost model documentation, hybrid retrieval Phase B runbook
+- **Other IMPL Gaps** (~600): O(N²) complexity reductions, lock-contention fixes, GPU-memory-leak elimination, null-dereference fixes
+- **Other DOC Gaps** (~4,100): Inline comments (braces_imbalance_midfile), algorithm documentation, integration notes
+
+**Hybrid Retrieval Phase Implementation Status (Batch 3 verified 2026-08-14):**
+- [x] Phase A: AnnFrontdoor ready with CPU fallback, all six artifact kinds registered, observability wired
+- [~] Phase B: Buffer lifecycle RAII + concurrency hardening in progress; ThreadSanitizer validation pending
+- [~] Phase B: GPU ANN validation pending (blocked by gpu module gaps)
+- [ ] Phase C: GPU ANN full integration (Wave B target Q4 2026)
+
 ### By Severity
 
 - **CRITICAL**: 29

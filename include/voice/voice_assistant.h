@@ -184,7 +184,8 @@ public:
      * 
      * @param audio_data Audio input from user
      * @param session_id Session identifier
-     * @return Spoken response as audio
+     * @return Spoken response as audio. Empty or oversized payloads are rejected
+     *         fail-closed before STT processing.
      */
     std::vector<uint8_t> processVoiceCommand(
         const std::vector<uint8_t>& audio_data,
@@ -226,7 +227,8 @@ public:
      * @param audio_data     Audio input from user (WAV or supported format)
      * @param session_id     Session identifier
      * @param segment_callback Called for every transcribed segment; may be nullptr
-     * @return Spoken response as audio bytes (WAV), empty on failure
+     * @return Spoken response as audio bytes (WAV), empty on failure. Empty or
+     *         oversized payloads are rejected fail-closed before streaming STT.
      */
     std::vector<uint8_t> streamProcessVoiceCommand(
         const std::vector<uint8_t>& audio_data,

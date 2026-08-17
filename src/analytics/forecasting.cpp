@@ -2620,11 +2620,11 @@ std::pair<bool, std::string> exponentialSmoothing(
     // This is a simplified implementation; actual model storage would be done via model.impl_
     // For now, we just mark the model as fitted
     model.impl_->fitted = true;
-    model.impl_->config.method = ForecastMethod::EXP_SMOOTHING;
+    model.impl_->method = ForecastMethod::EXP_SMOOTHING;
     model.impl_->train_y = timeseries;
-    model.impl_->alpha = alpha;
-    model.impl_->beta = beta;
-    model.impl_->gamma = gamma;
+    model.impl_->config.alpha = alpha;
+    model.impl_->config.beta = beta;
+    model.impl_->config.gamma = gamma;
     
     // Compute in-sample RMSE
     double rmse = 0.0;

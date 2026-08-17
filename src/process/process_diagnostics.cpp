@@ -13,6 +13,7 @@
 #include <ctime>
 #include <iomanip>
 #include <mutex>
+#include <shared_mutex>
 #include <sstream>
 
 namespace themis::process {

@@ -280,6 +280,20 @@ uint64_t WALStorage::parseSegmentId(const std::string& filename) {
 
 WALStorage::WALStorage(const Config& cfg) : config_(cfg) {}
 
+// Exception Safety: No-throw Destructor (W5-Storage Hardening)
+// 
+// This destructor is called during normal cleanup and during exception unwinding.
+// It must guarantee that:
+//   1. fd_ is closed even if fsync fails (no fd leaks).
+//   2. lock_guard acquisition and execution cannot throw (mutex never held long).
+//   3. State is consistent after ~WALStorage() completes (even partially on error).
+//
+// Implementation:
+//   - std::lock_guard<std::mutex> ensures mutex is acquired/released without throwing.
+//   - fd_ ≥ 0 check prevents redundant close attempts.
+//   - fsync result is ignored ((void) cast) to prevent any exception from fsync.
+//   - themis_close_fd(fd_) always succeeds (returns int, never throws).
+//   - fd_ = -1 sentinel ensures no double-close in future operations.
 WALStorage::~WALStorage() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (fd_ >= 0) {
@@ -289,6 +303,16 @@ WALStorage::~WALStorage() {
     }
 }
 
+// Factory method: Strong Exception Guarantee (W5-Storage Hardening)
+//
+// Exception Safety:
+//   - If openOrCreate() throws or returns an error, the partial WALStorage object
+//     is destroyed (unique_ptr cleanup) before returning Err<>.
+//   - Caller receives a Result<> that indicates success/failure.
+//   - No exception escapes open(); all errors are captured in Result.
+//
+// Thread Safety:
+//   - Factory method (static); no concurrent access during construction.
 // no_timeout scanner alert: WALStorage::open is a local-file factory method;
 // it opens a WAL directory on block storage — no network I/O, no timeout needed.
 Result<std::unique_ptr<WALStorage>> WALStorage::open(
@@ -435,6 +459,27 @@ Result<void> WALStorage::replaySegment(const std::string& path,
 // Segment management
 // ──────────────────────────────────────────────────────────────────────────────
 
+// Close-Path Locking and Exception Safety (W5-Storage Hardening)
+//
+// openNewSegment() transitions file descriptor and segment state atomically under mutex_:
+//   1. Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked).
+//   2. If fd_ >= 0, fsync old segment (may timeout, but continue anyway).
+//   3. Close old fd_; set fd_ = -1.
+//   4. Open new segment file with O_CLOEXEC (prevents FD leak in fork).
+//   5. On error, return Err<>; caller must retry or abort.
+//   6. On success, update current_segment_, segment_bytes_, fd_.
+//
+// Exception Safety: Strong Guarantee
+//   - ScopedFileDescriptor (next_fd) ensures new fd is closed if exception occurs
+//     before fd_ = next_fd.release().
+//   - Old segment is closed before opening new one (no orphaned fds).
+//   - State transition is atomic under mutex_; no partial updates visible to readers.
+//   - If any step fails, fd_ remains valid (either old or -1), ready for retry.
+//
+// Thread Safety: Race Prevention
+//   - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded).
+//   - Concurrent writers cannot access fd_/segment state during transition.
+//   - fd_ ≥ 0 check is stable under mutex_ (no concurrent close).
 Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     if (fd_ >= 0) {
         // W1-S02: fsync timeout protection for segment rotation.

@@ -1,0 +1,84 @@
+Moved on 2026-08-17T: 77 files
+
+Moved to logs/build/:
+- build_after_alert_severity_fix.log
+- build_after_aql_bool_fix.log
+- build_after_aql_delete_fix.log
+- build_after_in_and_tsa_fix.log
+- build_after_ingestion_severity_fix.log
+- build_after_macro_fix.log
+- build_after_more_macro_fixes.log
+- build_after_sql_in_fix.log
+- build_after_tsa_cpp_fix.log
+- build_after_voice_error_fix.log
+- build_error.log
+- build_externalize_configure.log
+- build_full.log
+- build_incremental_view.log
+- build_last_attempt.log
+- build_query_serial.log
+- build_serial_next.log
+- build_serial_next2.log
+- build_serial.log
+- build_smoke_cmake_433.log
+- build_temporal_aggregation_singlejob.log
+- build_temporal_aggregation.log
+- build_test.log
+- build_themis_storage.log
+- build_themis_tests_after_patch.log
+- build_themis_tests_full.log
+- build_themis_tests.log
+- build_windows_release_after_aql_validator_severity_fix_clean.log
+- build_windows_release_after_aql_validator_severity_fix.log
+- build_windows_release_after_cdc_delete_fix.log
+- build_windows_release_after_cep_optional_fix.log
+- build_windows_release_after_focus_green.log
+- build_windows_release_after_geo_far_fix.log
+- build_windows_release_after_observability_level_fix.log
+- build_windows_release_after_process_include_fix.log
+- build_windows_release_after_tfg_near_fix.log
+- build_with_vcvars.log
+- build-msvc-windows-release.log
+- build-themi_base.log
+- build-themis_base.log
+- build.log
+- build_output_final.txt
+- build_output.txt
+- build_output2.txt
+- build_output3.txt
+- build_config_output.txt
+- build_errors.txt
+- build_llm_vision.txt
+- build_log_quick.txt
+- build_vulkan_shaders_gen_after_parser_fix.txt
+- build_vulkan_shaders_gen_latest.txt
+- build-focused-tests-log.txt
+- buildlog_current.txt
+- buildlog.txt
+- BUILD_AND_RUN_STRESS_TESTS.md
+
+Moved to ai_working/:
+- CLAUDE.md
+
+Moved to logs/:
+- cmake_direct.log
+- cmake_output.log
+- cmake_test.log
+- ctest_after_post_build_fix.txt
+- ctest_full_run_20260716.txt
+- ctest_windows_release_after_not_built_fix.txt
+- ctest_windows_release_after_vulkan_fix.txt
+- vsdevcmd-debug.log
+- tmp_dll_deps.txt
+- tmp_dump.txt
+- tmp_graph_symbols.txt
+- tmp_llm_symbols.txt
+- tmp_recursive_deps.txt
+- tmp_windows_debug_log.txt
+- ctest_full_latest.log.tmp18dfc
+- CTEST.md
+- CMAKE_HARDENING_PLAN.md
+
+Notes:
+- A small set of files (CMake configs) were moved to logs/ by accident and restored immediately.
+

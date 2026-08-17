@@ -1299,39 +1299,3 @@ void ColumnarExecutionEngine::resetStats() noexcept {
 
 } // namespace analytics
 } // namespace themisdb
-
-// ============================================================================
-// Phase 2E: Columnar Execution Functions
-// ============================================================================
-
-/**
- * @brief Compute columnar batch layout for efficient cache utilization
- * 
- * Divides columns into cache-aligned batches for SIMD processing
- */
-Status ColumnarExecutor::computeColumnBatches(
-    size_t num_columns,
-    size_t batch_size,
-    std::vector<std::pair<size_t, size_t>>& out_batches) {
-    
-    if (num_columns == 0) {
-        return Status::Error("Number of columns must be > 0");
-    }
-    
-    if (batch_size == 0) {
-        return Status::Error("Batch size must be > 0");
-    }
-    
-    out_batches.clear();
-    out_batches.reserve((num_columns + batch_size - 1) / batch_size);
-    
-    for (size_t i = 0; i < num_columns; i += batch_size) {
-        size_t batch_end = std::min(i + batch_size, num_columns);
-        out_batches.push_back({i, batch_end});
-    }
-    
-    return Status::OK();
-}
-
-} // namespace analytics
-} // namespace themisdb

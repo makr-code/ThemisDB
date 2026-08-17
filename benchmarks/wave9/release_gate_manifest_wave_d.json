@@ -1,0 +1,300 @@
+{
+  "schema_version": "1.1",
+  "wave": "D",
+  "description": "Wave D Operability Hardening: Distributed tracing, high-cardinality metrics, soak test validation, and operator runbooks.",
+  "effective_date": "2026-08-17",
+  "owners": ["platform-release@themisdb", "operations@themisdb"],
+  "target_release": "v2.5.0-rc1 (Q1 2027)",
+
+  "baseline_freeze": {
+    "compiler": "clang-17",
+    "compiler_flags": "-O3 -march=native -DNDEBUG",
+    "preset": "linux-release",
+    "hardware_profile": "ci-runner-standard",
+    "os_image": "ubuntu-22.04"
+  },
+
+  "seed": 42,
+  "warmup_iterations": 500,
+  "repetitions": 5,
+  "min_sample_size": 30,
+
+  "performance_budgets": {
+    "observability_overhead_pct": 2.0,
+    "trace_latency_overhead_us": 10.0,
+    "metric_collection_throughput_events_per_sec": 1000,
+    "otel_exporter_recovery_time_ms": 100,
+    "soak_test_cpu_utilization_pct": 80.0,
+    "soak_test_memory_utilization_pct": 75.0
+  },
+
+  "hard_gates": [
+    {
+      "id": "W4A-TRACE-01",
+      "phase": "2A",
+      "benchmark": "test_otel_trace_overhead_measurement",
+      "metric": "latency_overhead_pct",
+      "threshold": 2.0,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Distributed trace instrumentation overhead must not exceed 2.0% vs Wave 7 baseline.",
+      "rationale": "Observability should not add perceptible latency to production workloads. This gate ensures tracing instrumentation in transaction/sharding/replication remains transparent.",
+      "baseline_reference": "benchmarks/wave7/release_gate_manifest_w7.json::GATE-W7-XX (p99 latency baseline)"
+    },
+    {
+      "id": "W4A-METRICS-01",
+      "phase": "2B",
+      "benchmark": "test_high_cardinality_metrics_explosion",
+      "metric": "memory_usage_mb",
+      "threshold": 512.0,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "High-cardinality metrics collection must remain memory-bounded at ≤512 MB for 50k dimensions.",
+      "rationale": "Metric cardinality explosion is a known DoS vector in telemetry systems. This gate validates aggregation policies and bounded label sets prevent OOM.",
+      "evidence_source": "tests/observability/test_high_cardinality_metrics_explosion.cpp"
+    },
+    {
+      "id": "W4A-EXPORTER-01",
+      "phase": "2C",
+      "benchmark": "test_otel_exporter_sustained_throughput",
+      "metric": "events_per_sec",
+      "threshold": 1000,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "OTel exporter must sustain ≥1000 spans/sec without drops.",
+      "rationale": "Production observability requires reliable export at high throughput. This gate validates the exporter pipeline can handle distributed tracing load.",
+      "evidence_source": "tests/observability/test_otel_exporter_stress.cpp::scenario_sustained_throughput"
+    },
+    {
+      "id": "W4A-EXPORTER-02",
+      "phase": "2C",
+      "benchmark": "test_otel_exporter_network_failure_recovery",
+      "metric": "recovery_time_ms",
+      "threshold": 100,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "OTel exporter must recover from network failure within 100 ms.",
+      "rationale": "Transient network failures are common in distributed systems. Fast recovery ensures minimal telemetry loss.",
+      "evidence_source": "tests/observability/test_otel_exporter_stress.cpp::scenario_network_recovery"
+    },
+    {
+      "id": "W4A-EXPORTER-03",
+      "phase": "2C",
+      "benchmark": "test_otel_exporter_concurrent_exporters",
+      "metric": "duplicate_traces_pct",
+      "threshold": 0,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Concurrent OTel exporters must not produce duplicate traces.",
+      "rationale": "Multiple concurrent exporters must synchronize safely to avoid trace duplication which corrupts observability.",
+      "evidence_source": "tests/observability/test_otel_exporter_stress.cpp::scenario_concurrent_exporters"
+    },
+    {
+      "id": "W4A-EXPORTER-04",
+      "phase": "2C",
+      "benchmark": "test_otel_exporter_cardinality_explosion",
+      "metric": "memory_usage_mb",
+      "threshold": 768.0,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "OTel exporter must handle 10k metric dimensions without exceeding 768 MB.",
+      "rationale": "Cardinality explosion in distributed systems can exhaust exporter memory. This gate validates buffering and aggregation.",
+      "evidence_source": "tests/observability/test_otel_exporter_stress.cpp::scenario_cardinality_explosion"
+    },
+    {
+      "id": "W4A-EXPORTER-05",
+      "phase": "2C",
+      "benchmark": "test_otel_exporter_graceful_shutdown",
+      "metric": "data_loss_pct",
+      "threshold": 0,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "OTel exporter graceful shutdown must lose zero traces.",
+      "rationale": "Proper shutdown is critical for correctness. This gate validates all in-flight traces are flushed.",
+      "evidence_source": "tests/observability/test_otel_exporter_stress.cpp::scenario_graceful_shutdown"
+    },
+    {
+      "id": "W9-SOAK-TELEMETRY-01",
+      "phase": "4.1",
+      "benchmark": "test_wave9_otel_24h_soak",
+      "metric": "data_loss_pct",
+      "threshold": 0.1,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "24-hour telemetry exporter soak test must maintain <0.1% data loss under sustained load.",
+      "rationale": "Production deployments require sustained observability collection without data loss. 24-hour run validates stability over time.",
+      "baseline_metrics": {
+        "sustained_throughput_spans_per_sec": 500,
+        "recovery_latency_ms": 150,
+        "memory_usage_mb": 256
+      }
+    },
+    {
+      "id": "W9-SOAK-REPLICATION-01",
+      "phase": "4.2",
+      "benchmark": "test_wave9_replication_48h_soak",
+      "metric": "lag_recovery_success_pct",
+      "threshold": 99.9,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "48-hour replication WAL shipping soak must complete lag recovery in ≥99.9% of failover events.",
+      "rationale": "Geo-distributed replication is critical for HA. 48-hour run with periodic failover validates recovery guarantees.",
+      "baseline_metrics": {
+        "lag_p95_us": 50000,
+        "lag_p99_us": 100000,
+        "recovery_time_sec": 5,
+        "data_consistency_validation": "checksum_verified"
+      }
+    },
+    {
+      "id": "W9-SOAK-SHARDING-01",
+      "phase": "4.3",
+      "benchmark": "test_wave9_sharding_topology_48h_soak",
+      "metric": "stall_events_count",
+      "threshold": 0,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "48-hour sharding topology soak must not experience write stalls >5 seconds during rebalance.",
+      "rationale": "Topology changes are frequent in distributed systems. This gate validates that rebalance does not deadlock or stall writes.",
+      "baseline_metrics": {
+        "rebalance_time_sec": 30,
+        "write_latency_p95_us": 10000,
+        "write_latency_p99_us": 25000,
+        "exactness_guarantee": "verified"
+      }
+    },
+    {
+      "id": "W9-SOAK-ACCELERATION-01",
+      "phase": "4.4",
+      "benchmark": "test_wave9_mixed_acceleration_24h_soak",
+      "metric": "fallback_recovery_time_ms",
+      "threshold": 500,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "24-hour mixed GPU/CPU acceleration soak must recover from fallback within 500 ms.",
+      "rationale": "GPU failures are common in production. This gate validates CPU degradation and fast recovery paths.",
+      "baseline_metrics": {
+        "fallback_injection_frequency_min": 30,
+        "cpu_degradation_pct": 15,
+        "memory_utilization_pct": 70,
+        "thermal_stability": "verified"
+      }
+    }
+  ],
+
+  "soft_gates": [
+    {
+      "id": "SGATE-WAVE-D-01",
+      "phase": "2B",
+      "benchmark": "test_high_cardinality_metrics_explosion",
+      "metric": "metric_aggregation_latency_us",
+      "threshold": 1000,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "High-cardinality metric aggregation should complete within 1 ms.",
+      "rationale": "Slow aggregation can impact metric scrape latency. This warning helps identify optimization opportunities."
+    },
+    {
+      "id": "SGATE-WAVE-D-02",
+      "phase": "4.1",
+      "benchmark": "test_wave9_otel_24h_soak",
+      "metric": "trace_latency_p99_us",
+      "threshold": 50,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Sustained trace collection p99 latency should stay under 50 µs.",
+      "rationale": "Extended soak tests should show stable trace latency. High p99 suggests buffering or GC pressure."
+    },
+    {
+      "id": "SGATE-WAVE-D-03",
+      "phase": "4.2",
+      "benchmark": "test_wave9_replication_48h_soak",
+      "metric": "lag_variance_pct",
+      "threshold": 15.0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Replication lag variance should not exceed 15% across the 48-hour run.",
+      "rationale": "Stable lag indicates predictable replication behavior. High variance suggests network jitter or system pressure."
+    }
+  ],
+
+  "regression_policy": {
+    "tolerance_percent": 5.0,
+    "min_regressions_for_block": 1,
+    "auto_ticket_on_hard_gate_failure": true,
+    "ci_action_on_hard_gate_failure": "block_merge",
+    "ci_action_on_soft_gate_failure": "warn_and_continue",
+    "report_output": "benchmarks/results/wave_d/gate_report.json",
+    "regression_tickets_output": "benchmarks/results/wave_d/regression_tickets.json",
+    "soak_test_minimum_duration_hours": 24
+  },
+
+  "phase_schedule": {
+    "2A": {
+      "name": "Distributed Tracing Instrumentation",
+      "target_completion": "2026-09-15",
+      "modules": ["transaction", "sharding", "replication"],
+      "test_files": ["tests/observability/test_otel_trace_overhead.cpp"]
+    },
+    "2B": {
+      "name": "High-Cardinality Metrics Collection",
+      "target_completion": "2026-09-30",
+      "metrics": ["shard_write_latency", "replication_lag", "transaction_retry_count"],
+      "test_files": ["tests/observability/test_high_cardinality_metrics_explosion.cpp"]
+    },
+    "2C": {
+      "name": "OTel Exporter Reliability",
+      "target_completion": "2026-10-15",
+      "scenarios": ["sustained_throughput", "network_recovery", "cardinality_explosion", "concurrent_exporters", "graceful_shutdown"],
+      "test_files": ["tests/observability/test_otel_exporter_stress.cpp"]
+    },
+    "4.1": {
+      "name": "Telemetry Exporter Resilience Soak (24h)",
+      "target_completion": "2026-11-30",
+      "duration_hours": 24,
+      "test_files": ["benchmarks/wave9/test_wave9_otel_24h_soak.cpp"]
+    },
+    "4.2": {
+      "name": "Replication WAL Shipping Soak (48h)",
+      "target_completion": "2026-11-30",
+      "duration_hours": 48,
+      "test_files": ["benchmarks/wave9/test_wave9_replication_48h_soak.cpp"]
+    },
+    "4.3": {
+      "name": "Sharding Topology Changes Soak (48h)",
+      "target_completion": "2026-11-30",
+      "duration_hours": 48,
+      "test_files": ["benchmarks/wave9/test_wave9_sharding_topology_soak.cpp"]
+    },
+    "4.4": {
+      "name": "Mixed Acceleration Workloads Soak (24h)",
+      "target_completion": "2026-11-30",
+      "duration_hours": 24,
+      "test_files": ["benchmarks/wave9/test_wave9_mixed_acceleration_soak.cpp"]
+    }
+  },
+
+  "known_limitations": [
+    "Phase 2A tracing overhead assumes in-process span creation; distributed network I/O will add additional latency not captured in microbenchmarks.",
+    "Phase 2B cardinality explosion test uses synthetic label generation; real workloads with dynamic topology or failover may exhibit different cardinality patterns.",
+    "Phase 2C exporter stress tests use local network simulation; real WAN failures (packet loss, jitter, reordering) may exhibit different recovery characteristics.",
+    "Phase 4 soak tests use configured duration overrides for CI (2 hours default, 24-48 hours for production validation runs).",
+    "Soak test scheduling requires dedicated runner resources; CI implementation may run with shorter durations or on nightly-only schedule.",
+    "Phase 2B/2C tests assume OpenTelemetry SDK ≥1.8.0 is available; older versions may show different performance characteristics."
+  ],
+
+  "integration_notes": {
+    "wave_dependencies": [
+      "Wave A-C exit criteria must reach ≥70% completion before Wave D official gate enforcement",
+      "Wave 7-9 benchmark infrastructure is prerequisite; Wave D gates extend existing manifest"
+    ],
+    "ci_integration": "Wave D gates are enforced in release_critical CI via separate workflow trigger; observability gates (W4A-*) are optional in PR CI but required for release promotion",
+    "runbook_references": [
+      "docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md",
+      "docs/operability/RUNBOOK_REPLICATION_LAG_FAILOVER.md",
+      "docs/operability/RUNBOOK_SHARDING_TOPOLOGY_CHANGE.md",
+      "docs/operability/RUNBOOK_VOICE_INCIDENT_TRIAGE.md",
+      "docs/operability/RUNBOOK_GPU_FALLBACK_PERFORMANCE.md"
+    ]
+  }
+}

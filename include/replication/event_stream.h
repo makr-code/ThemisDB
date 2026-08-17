@@ -136,8 +136,8 @@ public:
         ~Subscription() { cancel(); }
 
         // Move-only
-        Subscription(Subscription&&) = default;
-        Subscription& operator=(Subscription&&) = default;
+        Subscription(Subscription&&) noexcept = default;
+        Subscription& operator=(Subscription&&) noexcept = default;
         Subscription(const Subscription&)            = delete;
         Subscription& operator=(const Subscription&) = delete;
 

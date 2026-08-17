@@ -12,6 +12,7 @@
 
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
+#include "utils/error_contracts.h"
 #include <fmt/format.h>
 
 #include <algorithm>
@@ -92,7 +93,11 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
     );
     
     if (ZSTD_isError(compressed_size)) {
-        THEMIS_ERROR("Compression failed: {}", ZSTD_getErrorName(compressed_size));
+        const auto err_msg = fmt::format("ZSTD compress failed: {}", ZSTD_getErrorName(compressed_size));
+        THEMIS_ERROR("{}", err_msg);
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::COMPRESSION_FAILED, err_msg,
+            "zstd_compress_safe", ErrorSeverity::Error, /*is_recoverable=*/true));
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             ZSTD_getErrorName(compressed_size)
@@ -180,7 +185,11 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     );
     
     if (decompressed_size == ZSTD_CONTENTSIZE_ERROR) {
-        THEMIS_ERROR("Failed to get decompressed size: not valid ZSTD frame");
+        const auto err_msg = std::string("Not a valid ZSTD compressed frame");
+        THEMIS_ERROR("Failed to get decompressed size: {}", err_msg);
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::COMPRESSION_INPUT_INVALID, err_msg,
+            "zstd_decompress_safe", ErrorSeverity::Error, /*is_recoverable=*/false));
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             "Not a valid ZSTD compressed frame"
@@ -244,7 +253,11 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     ZSTD_freeDCtx(dctx);
     
     if (ZSTD_isError(result)) {
-        THEMIS_ERROR("Decompression failed: {}", ZSTD_getErrorName(result));
+        const auto err_msg = fmt::format("ZSTD decompress failed: {}", ZSTD_getErrorName(result));
+        THEMIS_ERROR("{}", err_msg);
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::DECOMPRESSION_FAILED, err_msg,
+            "zstd_decompress_safe", ErrorSeverity::Error, /*is_recoverable=*/true));
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             ZSTD_getErrorName(result)

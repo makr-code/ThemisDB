@@ -33,6 +33,16 @@ extern "C" {
 namespace themis {
 namespace voice {
 
+namespace {
+
+constexpr size_t kMaxVoicePayloadBytes = 8 * 1024 * 1024;
+
+[[nodiscard]] bool isRejectedVoicePayload(const std::vector<uint8_t>& audio_data) {
+    return audio_data.empty() || audio_data.size() > kMaxVoicePayloadBytes;
+}
+
+} // namespace
+
 VoiceAssistant::VoiceAssistant(const Config& config)
         : config_(config),
             voice_authenticator_(config.voice_auth_config),
@@ -143,6 +153,9 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     const std::string& session_id
 ) {
     if (!initialized_) {
+        return {};
+    }
+    if (isRejectedVoicePayload(audio_data)) {
         return {};
     }
 
@@ -267,6 +280,9 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     std::function<void(const content::TranscriptionSegment&)> segment_callback
 ) {
     if (!initialized_) {
+        return {};
+    }
+    if (isRejectedVoicePayload(audio_data)) {
         return {};
     }
 
@@ -954,4 +970,3 @@ VoiceAssistant::AudioConvertFn VoiceAssistant::makeFFmpegAudioConvertFn()
 
 } // namespace voice
 } // namespace themis
-

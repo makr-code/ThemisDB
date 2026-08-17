@@ -386,6 +386,13 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+
+    friend std::pair<bool, std::string> exponentialSmoothing(
+        ForecastModel& model,
+        const std::vector<double>& timeseries,
+        double alpha,
+        double beta,
+        double gamma);
 };
 
 // ============================================================================

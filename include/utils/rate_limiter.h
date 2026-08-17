@@ -66,6 +66,21 @@ public:
     bool try_acquire(double tokens = 1.0);
 
     /**
+     * @brief Try to acquire tokens, waiting at most @p timeout.
+     *
+     * @param tokens  Number of tokens to acquire (default 1.0)
+     * @param timeout Maximum time to wait
+     * @return true if tokens were acquired; false on timeout
+     *
+     * @error_contract
+     * - Returns true immediately if tokens <= 0 (no-op)
+     * - Returns false if timeout expires before tokens become available
+     * - Thread-safe via internal mutex
+     */
+    bool try_acquire_for(double tokens,
+                         std::chrono::milliseconds timeout) noexcept;
+
+    /**
      * @brief Block until @p tokens are available and consume them.
      *
      * If `tokens > burst_size` this will spin with minimal sleep intervals

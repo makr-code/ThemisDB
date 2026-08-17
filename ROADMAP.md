@@ -119,9 +119,65 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
 
 ### Wave D — Operability Hardening (Q1 2027)
-- [ ] Observability expansion: distributed tracing, high-cardinality stress, exporter reliability, and operator remediation hints across core modules (Target: Q1 2027)
-- [ ] Publish runbooks for access-model promotion, replication lag/failover, sharding repair/rebalance, voice incident triage, and GPU fallback (Target: Q1 2027)
-- [ ] Add long-duration soak tests for sustained telemetry, replication traffic, distributed writes, and mixed acceleration workloads (Target: Q1 2027)
+- [~] **Phase 1: Benchmark Infrastructure Alignment** (Weeks 1-2)
+  - [x] Extended `benchmarks/wave9/release_gate_manifest_wave_d.json` with 8 hard + 3 soft observability gates
+  - [x] Created `benchmarks/wave9/SOAK_TEST_RUNBOOK_WAVE_D.md` with execution procedures for 4 soak tests (24-48h each)
+  - [~] Update `.github/workflows/ci-benchmarks.yml` to wire Wave D observability nightly schedule (Target: 2026-08-18)
+  - [~] Create Wave D CI workflow templates (`wave-d-observability-gates.yml`, `wave-d-soak-tests.yml`) (Target: 2026-08-18)
+  - [ ] Implement drift detection for cross-module trace inconsistencies (Target: 2026-08-25)
+
+- [~] **Phase 2A-2C: Observability Instrumentation** (Weeks 3-6)
+  - [~] Phase 2A: Distributed tracing span framework
+    - [x] Created test skeleton `tests/observability/test_otel_trace_overhead.cpp` (Gate: W4A-TRACE-01, overhead ≤2%)
+    - [ ] Implement DistributedTraceSpan class with W3C context propagation (Target: 2026-08-25)
+    - [ ] Add trace points in Coordinator, ShardRouter, WALShipper (Target: 2026-09-01)
+    - [ ] Unit tests: ≥10 tests validating span creation, baggage, parent-child links (Target: 2026-09-01)
+    - [ ] Overhead measurement on representative hardware (Target: 2026-09-08)
+  
+  - [~] Phase 2B: High-cardinality metrics collection
+    - [x] Created test skeleton `tests/observability/test_high_cardinality_metrics.cpp` (Gate: W4A-METRICS-01, memory ≤512 MB at 50k dims)
+    - [ ] Extend MetricsCollector with shard histograms, replica-lag quantiles, retry counters (Target: 2026-09-01)
+    - [ ] Define cardinality bounds (shard ≤ topology, replica ≤ set size) (Target: 2026-09-01)
+    - [ ] Cardinality explosion test (10k → 50k dimensions, memory tracking) (Target: 2026-09-08)
+    - [ ] Unit tests: ≥10 tests covering metrics, cardinality, memory bounds (Target: 2026-09-08)
+  
+  - [~] Phase 2C: OTel exporter reliability (5 stress scenarios)
+    - [x] Created test skeleton `tests/observability/test_otel_exporter_stress.cpp` (Gates: W4A-EXPORTER-01..05)
+    - [ ] Implement 5-scenario stress test suite: 1000 spans/sec, network recovery, cardinality, concurrent exporters, graceful shutdown (Target: 2026-09-15)
+    - [ ] Measure exporter throughput, recovery latency, data loss under failure (Target: 2026-09-15)
+    - [ ] Integration into `release_critical;observability` CI label (Target: 2026-09-15)
+    - [ ] Unit tests: ≥5 tests covering all stress scenarios (Target: 2026-09-15)
+
+- [~] **Phase 4: Soak Test Framework** (Weeks 7-12)
+  - [x] Phase 4.1: Telemetry Exporter 24h soak (Gate: W9-SOAK-TELEMETRY-01)
+    - [x] Created `benchmarks/wave9/test_wave9_otel_24h_soak.cpp` skeleton with streaming collection
+  
+  - [x] Phase 4.2: Replication WAL Shipping 48h soak (Gate: W9-SOAK-REPLICATION-01)
+    - [x] Created `benchmarks/wave9/test_wave9_replication_48h_soak.cpp` skeleton
+  
+  - [x] Phase 4.3: Sharding Topology Changes 48h soak (Gate: W9-SOAK-SHARDING-01)
+    - [x] Created `benchmarks/wave9/test_wave9_sharding_topology_soak.cpp` skeleton
+  
+  - [x] Phase 4.4: Mixed Acceleration Workloads 24h soak (Gate: W9-SOAK-ACCELERATION-01)
+    - [x] Created `benchmarks/wave9/test_wave9_mixed_acceleration_soak.cpp` skeleton
+  
+  - [ ] Implement soak test CI integration: nightly (Sunday 04:00 UTC) with 2h smoke override for CI (Target: 2026-09-15)
+  - [ ] Execute all 4 soak tests to completion (24-48h each) and collect baseline evidence (Target: 2026-10-15)
+
+- [ ] **Phase 5: Operability Validation** (Weeks 15-18)
+  - [ ] Runbook development and UAT (5 runbooks: access-model, replication, sharding, voice, GPU)
+  - [ ] Chaos injection and failure pattern validation (Target: 2026-11-01)
+  - [ ] Trace/metric correlation with troubleshooting scenarios (Target: 2026-11-08)
+
+- [ ] **Phase 6: Documentation & Acceptance** (Weeks 19-20)
+  - [x] Created `docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md` (template)
+  - [x] Created `docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md` (template)
+  - [x] Created `docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md` (template)
+  - [x] Created `docs/operability/PHASE4_SOAK_TEST_RESULTS.md` (template)
+  - [ ] Finalize verification evidence files with execution results (Target: 2026-11-15)
+  - [ ] Create consolidated `docs/operability/WAVE_D_BENCHMARK_VALIDATION.md` (Target: 2026-11-22)
+  - [ ] Update `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 with Wave D gate closure (Target: 2026-11-22)
+
 - [ ] Security audit: HTTP auth SSL/TLS configuration review (misconfigurability assessment, TLS verification whitelist documentation) — **Non-critical, follow-up from Phase 6 gap verification (2026-08-15)** (Target: Q1 2027)
 
 ### Program-Level Success Criteria
@@ -161,7 +217,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
   - **Documentation:** See ai_context/INDEX_MODULE_STATUS_2026_08_09.md §Private Plugin Submodule Status for Wave-1 current status
   - `gpu-impact-analysis` remains explicitly out of Wave 1
 - [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
-- [ ] Move Wave-1 private modules to commit-pinned submodules — repositories provisioned, commit pins pending after initial content push (Target: Q3 2026)
+- [x] Move Wave-1 private modules to commit-pinned submodules — `.gitmodules` now records explicit `commit = ...` pins for `themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`, `themisdb_plugin_signer`, `themisdb_geo`, and `themisdb_timeseries` (2026-08)
 - [ ] Keep static AI/acceleration plugins out of Wave 1 until they have a clean shared-library SDK seam (Target: Q4 2026)
 - [~] Add build-gated source externalization switches for Geo/TimeSeries (`THEMIS_EXTERNALIZE_GEO_PLUGIN`, `THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN`) and optional submodule registration in CMake (Target: Q3 2026)
 
@@ -193,7 +249,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Open reference plugin paths remain available for onboarding-critical storage, export, and AI scenarios
 
 ### Known Issues & Limitations
-- Wave-1 private repositories are provisioned (`themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`). `.gitmodules` entries added; commit-pin hashes pending after initial content push to the private repos.
+- Wave-1 private repositories are provisioned (`themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`) and `.gitmodules` now contains explicit commit-pin hashes. Remaining work is CI/license/hash/SBOM gating plus Community/private packaging hardening.
 - `ethics_ai` is not yet fully separable from core: `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` remain public shims for CAI/LLM integration paths.
 - Shared benchmark files (`benchmarks/bench_importer_throughput.cpp`, `benchmarks/bench_blob_zstd.cpp`) still contain mixed public/private scenarios and require split extraction before the plugin-name-aligned connector/blob migration completes.
 - `scraper`, `llama_cpp`, `whisper`, `stable_diffusion`, and acceleration backends still contain static or core-coupled build paths and are intentionally excluded from Wave 1.

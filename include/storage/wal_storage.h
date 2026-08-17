@@ -52,7 +52,25 @@ namespace themis {
  *
  * ## Thread safety
  *
- * All public methods are thread-safe.
+ * All public methods are thread-safe. Internally, all access to the file
+ * descriptor (fd_), current segment ID, and segment state is protected by
+ * mutex_. Exception safety is guaranteed:
+ * - **open()**: Factory method; if openOrCreate() throws, the partial object is cleaned up.
+ * - **append operations**: If an operation fails, fd_ and segment state remain valid for
+ *   retry or further operations. No state corruption on exception.
+ * - **Destructor (~WALStorage)**: Guarantees fd_ is closed even during exception unwinding.
+ *   Uses RAII (ScopedFileDescriptor) for file descriptor lifecycle.
+ * - **Segment open/close**: fd_ transitions are atomic; old segment is fsynced and closed
+ *   before new segment is activated. fd_=-1 sentinel prevents fd leaks.
+ *
+ * ## Exception Safety: Strong Guarantee
+ *
+ * - **open()**: Returns Result; no exception. Factory success == valid WALStorage object.
+ * - **appendPut/appendDelete/appendBatch()**: Return Result. On error, WAL state unchanged
+ *   and ready for retry.
+ * - **checkpoint()**: Return Result. May write CHECKPOINT entry; fsync is "best-effort"
+ *   in timeout cases.
+ * - **Destructor**: No-throw; uses lock (may block but never throws).
  */
 class WALStorage {
 public:

@@ -18,10 +18,13 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <atomic>
+#include <condition_variable>
 
 #include <nlohmann/json.hpp>
 
@@ -299,6 +302,20 @@ struct LoRASlot {
  * 3. Request 1: Use legal-qa adapter
  * 4. Request 2: Use medical-diagnosis adapter
  * 5. Both can be in the same inference batch (if backend supports it)
+ * 
+ * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
+ * 1. adapter_state_lock_ → Top-level shared state (read-write for queries)
+ *    └─ adapter_cache_lock_ → Adapter cache modifications (exclusive)
+ *       └─ metrics_lock_ → Telemetry updates (exclusive)
+ *
+ * Memory Ordering:
+ * - eviction_thread_running_: std::memory_order_acquire/release
+ * - eviction_thread_done_: std::memory_order_acquire/release
+ * 
+ * Thread Safety:
+ * - All public methods are thread-safe
+ * - Shared state (loras_, gpu_vram_usage_, fusion_cache_) protected by locks
+ * - No circular lock dependencies enforced by documentation
  */
 class MultiLoRAManager {
 public:
@@ -870,23 +887,40 @@ private:
     Config config_;
     
     std::unordered_map<std::string, std::unique_ptr<LoRASlot>> loras_;
-    mutable std::mutex mutex_;
     
-    // Statistics
+    // LOCK HIERARCHY ENFORCEMENT (§3.1):
+    // ┌─ adapter_state_lock_ : std::shared_mutex
+    // │  └─ adapter_cache_lock_ : std::mutex  (for modifications only)
+    // │     └─ metrics_lock_ : std::mutex
+    // └─ eviction_cv_ : std::condition_variable (paired with adapter_cache_lock_)
+    
+    /// Read-write lock for adapter state queries (many readers, few writers)
+    mutable std::shared_mutex adapter_state_lock_;
+    
+    /// Exclusive lock for adapter cache modifications (loading/unloading)
+    mutable std::mutex adapter_cache_lock_;
+    
+    /// Exclusive lock for telemetry updates (statistics)
+    mutable std::mutex metrics_lock_;
+    
+    /// Condition variable for eviction thread signaling (paired with adapter_cache_lock_)
+    std::condition_variable eviction_cv_;
+    
+    // Statistics (protected by metrics_lock_)
     size_t total_vram_bytes_ = 0;
     size_t cache_hits_ = 0;
     size_t cache_misses_ = 0;
     size_t evictions_ = 0;
     size_t switches_ = 0;                // LoRA switch count
     
-    // Multi-GPU state (v1.4.0)
+    // Multi-GPU state (v1.4.0) (protected by adapter_state_lock_)
     std::unordered_map<int, size_t> gpu_vram_usage_;  // Per-GPU VRAM tracking
     int next_round_robin_gpu_ = 0;                     // Round-robin counter
     
-    // Enhanced tracking for v1.5.0
+    // Enhanced tracking for v1.5.0 (protected by adapter_state_lock_)
     std::unordered_map<std::string, std::string> lora_tenants_;  // LoRA -> Tenant mapping
     
-    // Audit log structure (v1.5.0)
+    // Audit log structure (v1.5.0) (protected by metrics_lock_)
     struct AuditEvent {
         std::chrono::system_clock::time_point timestamp;
         std::string event_type;  // "load", "unload", "migrate", "evict"
@@ -900,7 +934,7 @@ private:
     std::vector<AuditEvent> audit_log_;
     size_t max_audit_log_size_ = 1000;
     
-    // GPU health tracking (v1.5.0)
+    // GPU health tracking (v1.5.0) (protected by adapter_state_lock_)
     std::unordered_map<int, bool> gpu_health_status_;  // GPU ID -> healthy status
     std::unordered_map<int, std::chrono::system_clock::time_point> gpu_last_health_check_;
     
@@ -911,7 +945,7 @@ private:
     // Helper for access frequency calculation
     double calculateAccessFrequency(const LoRASlot* lora, 
                                    const std::chrono::system_clock::time_point& now) const;
-    // Fusion cache and metrics (v1.5.0)
+    // Fusion cache and metrics (v1.5.0) (protected by adapter_cache_lock_)
     std::unordered_map<std::string, FusionCacheEntry> fusion_cache_;
     std::unordered_map<std::string, FusionConfig> fusion_configs_;
     std::unordered_map<std::string, AlphaSchedule> fusion_schedules_;
@@ -924,11 +958,15 @@ private:
     
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
+    
+    /// Atomic flag: eviction thread is running (memory_order_acquire/release)
     std::atomic<bool> eviction_thread_running_{false};
+    
     /// @brief Set to true when the eviction thread has fully exited.
     /// Used by stopEvictionThread() to implement a timed join (W1-L01 no_timeout fix).
+    /// Protected by memory_order_acquire/release for thread synchronization.
     std::atomic<bool> eviction_thread_done_{true};
-    std::condition_variable eviction_cv_;
+    
     ApplyAdapterFn apply_adapter_fn_;
     RemoveAdapterFn remove_adapter_fn_;
     

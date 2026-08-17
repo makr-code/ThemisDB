@@ -7,11 +7,13 @@
 **Methodik:** Automatisierter Source-Scan (D1–D3) + Compliance-Dokumenten-Audit (D4) + Roadmap-Checkbox-Analyse (D5) + Operational-Evidence-Review (D6)  
 **Basis:** `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `IMPLEMENTATION_AUDIT_2026-08-08.md`, `../ROADMAP.md` (Stand 2026-08-09)
 
+> **Archiv-Hinweis:** Verweise auf `v1.4.x` Audit-Templates/Evidence-Pakete in diesem Bericht sind historisch und nicht als Current-State-Quelle zu lesen; aktuelle Statusaussagen folgen `ROADMAP.md`, `CHANGELOG.md` und `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+
 > **Wichtige Sync-Notiz (2026-08-10):**
 > - Das korrigierte Audit `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist die maßgebliche Quelle bei Abweichungen für `evaluation`, `execution`, CUDA-Geokernel und den `ai_snapshot_cleanup.h`-Compile-Befund.
 > - `src/execution/ROADMAP.md` existiert inzwischen; der frühere reine Governance-Gap ist damit geschlossen.
 > - `src/evaluation/AUDIT.md`, `tests/epic2_evaluation/` und `benchmarks/epic2_evaluation/` belegen produktive Source-, Test- und Benchmark-Surfaces; offen bleibt dort primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
-> - Source-Check 2026-08-12: `include/search/` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer in 20 Headern; die Search-Lücke bleibt also aktuell.
+> - Source-Check 2026-08-12: `include/search/` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer in 20 Headern, diese sitzen jedoch in auto-generierten Gap-Summary-Kommentaren; die reale Search-Restarbeit bleibt die in `src/search/ROADMAP.md` geführte 4-Layer-Integration und Timeout-Härtung.
 > - Source-Check 2026-08-12: `include/security/ai_snapshot_cleanup.h` zeigt den korrigierten Konstruktor-Split (`AiSnapshotCleanupJob();` plus `explicit AiSnapshotCleanupJob(Config cfg);`); offen ist nur noch die Re-Validierung im Build-Lauf.
 
 ---
@@ -23,10 +25,10 @@
 | **Produktionsreife gesamt** | **~72 %** | ⟶ stabil | LOC-gewichtet, Basis 2026-08-08 |
 | **Core-Module (A.1–A.4)** | **~76 %** | ⟶ stabil | Server, Auth, Network, Process prodgrade |
 | **Optionale Module** | **~66 %** | ⟶ stabil | LLM, GPU, Tensor in aktiver Härtung |
-| **Private Plugins Wave-1** | **~55 %** | ⟶ stabil | Ethic-AI in Submodul, Commit-Pins offen |
+| **Private Plugins Wave-1** | **~55 %** | ⟶ stabil | Wave-1-Submodule commit-gepinnt; Governance-/CI-Gates bleiben offen |
 | **GA-Blocker (technisch)** | **0** | ✅ | Alle technischen Gates PASS |
 | **GA-Blocker (Governance)** | **1** | ⏳ | Menschliche Freigabe §9 ausstehend |
-| **Aktive Compile-Fehler** | **0 bestätigt im aktuellen Source** | ⚠️ | früherer `ai_snapshot_cleanup.h:63`-Befund source-seitig geschlossen; Build-Re-Validierung offen |
+| **Aktive Compile-Fehler** | **0 bestätigt im aktuellen Source** | ⚠️ | früherer `ai_snapshot_cleanup.h:63`-Befund source-seitig geschlossen; Header-Revalidierung PASS, vollständige Geo-/Security-Build-Revalidierung aktuell von `spdlog`/RocksDB-Dependencies blockiert |
 | **Source-Code gesamt** | **~830 K LOC** | ⟶ | 67 Module, Messdatum 2026-08-09 |
 | **Test-Dateien aktiv** | **~1.000+** | ⟶ | 132 focused-Tests |
 | **Stub-Marker gesamt** | **~2.500** | ⟶ | Über 67 Module verteilt |
@@ -390,17 +392,17 @@ Basis: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` — keine neuen Suppressi
 | # | Lücke | Betroffene Module | Schwere | Maßnahme |
 |---|-------|-------------------|---------|----------|
 | GOV-01 | Kein `AUDIT.md` vorhanden | `access_model`, `execution`, `llm_wiki` | 🟡 Mittel | AUDIT.md anlegen, vor GA |
-| GOV-02 | Private Plugin Commit-Pins ausstehend | `ethic_ai`, `storage`, `importer`, `llm_wiki` | 🟡 Mittel | Nach Repo-Setup |
+| GOV-02 | Private Plugin Governance-/CI-Gates unvollständig | `ethic_ai`, `storage`, `importer`, `llm_wiki` | 🟡 Mittel | Community/private Policy-, Hash-, SBOM- und Packaging-Gates schließen |
 | GOV-03 | `execution`-Modul braucht aktuelle ausführbare Test-/Benchmark-Evidenz im Monatsreport | `execution` | 🟡 Mittel | Nächsten Evidence-Refresh einpflegen |
 
 ### 6.4 Private Plugin Wave-1 Status
 
 | Plugin | Repo | Submodul-Pfad | ROADMAP | Interface | Status |
 |--------|------|---------------|---------|-----------|--------|
-| `ethic_ai` | `makr-code/themisdb_ethic_ai` | `plugins/themisdb_ethic_ai` | ✅ | 🟡 Partial | ⏳ Commit-Pin offen |
-| `themisdb_storage` | `makr-code/themisdb_storage` | `plugins/themisdb_storage` | 🟡 | 🟡 | ⏳ Setup ausstehend |
-| `themisdb_importer` | `makr-code/themisdb_importer` | `plugins/themisdb_importer` | 🟡 | 🟡 | ⏳ Setup ausstehend |
-| `themisdb_llm_wiki` | `makr-code/themisdb_llm_wiki` | `plugins/themisdb_llm_wiki` | ✅ | ✅ Phase A+B | 🟢 Interface fertig, Pin offen |
+| `ethic_ai` | `makr-code/themisdb_ethic_ai` | `plugins/themisdb_ethic_ai` | ✅ | 🟡 Partial | 🟡 Commit-Pin vorhanden, Governance-Gates offen |
+| `themisdb_storage` | `makr-code/themisdb_storage` | `plugins/themisdb_storage` | 🟡 | 🟡 | 🟡 Commit-Pin vorhanden, Setup/Gates offen |
+| `themisdb_importer` | `makr-code/themisdb_importer` | `plugins/themisdb_importer` | 🟡 | 🟡 | 🟡 Commit-Pin vorhanden, Setup/Gates offen |
+| `themisdb_llm_wiki` | `makr-code/themisdb_llm_wiki` | `plugins/themisdb_llm_wiki` | ✅ | ✅ Phase A+B | 🟢 Interface fertig, Commit-Pin vorhanden |
 
 ### 6.5 GA-Promotion-Gate-Matrix
 

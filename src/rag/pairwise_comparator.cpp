@@ -15,6 +15,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <mutex>
 #include <random>
 #include <cmath>
 
@@ -27,6 +28,7 @@ struct PairwiseComparator::Impl {
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
     std::mt19937 rng;
+    mutable std::mutex scores_mutex;
     
     Impl() : rng(std::random_device{}()) {}
     
@@ -268,14 +270,26 @@ PairwiseComparisonResult PairwiseComparator::compare(
         case BiasMitigationStrategy::MULTI_SAMPLE: {
             // Multiple evaluations with random orders
             std::vector<ComparisonWinner> results;
-            std::uniform_int_distribution<> dist(0, 1);
             
-            for (int i = 0; i < impl_->config.num_samples; ++i) {
-                bool a_first = dist(impl_->rng) == 0;
+            int num_samples;
+            {
+                std::lock_guard<std::mutex> lock(impl_->scores_mutex);
+                num_samples = impl_->config.num_samples;
+            }
+            
+            results.reserve(num_samples);
+            std::uniform_int_distribution<> dist(0, 1);
+             
+            for (int i = 0; i < num_samples; ++i) {
+                bool a_first;
+                {
+                    std::lock_guard<std::mutex> lock(impl_->scores_mutex);
+                    a_first = dist(impl_->rng) == 0;
+                }
                 results.push_back(compareWithLLM(query, documents, answer_a, answer_b, a_first));
             }
             
-            result.num_evaluations = impl_->config.num_samples;
+            result.num_evaluations = num_samples;
             
             // Count votes
             int a_votes = 0, b_votes = 0, tie_votes = 0;
@@ -288,10 +302,10 @@ PairwiseComparisonResult PairwiseComparator::compare(
             // Determine winner by majority
             if (a_votes > b_votes && a_votes > tie_votes) {
                 result.overall_winner = ComparisonWinner::ANSWER_A;
-                result.overall_confidence = static_cast<double>(a_votes) / impl_->config.num_samples;
+                result.overall_confidence = static_cast<double>(a_votes) / num_samples;
             } else if (b_votes > a_votes && b_votes > tie_votes) {
                 result.overall_winner = ComparisonWinner::ANSWER_B;
-                result.overall_confidence = static_cast<double>(b_votes) / impl_->config.num_samples;
+                result.overall_confidence = static_cast<double>(b_votes) / num_samples;
             } else {
                 result.overall_winner = ComparisonWinner::TIE;
                 result.overall_confidence = 0.5;

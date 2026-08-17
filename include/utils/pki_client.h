@@ -32,7 +32,11 @@ struct PKIConfig {
     
     // TLS Hardening: Certificate Pinning
     bool enable_cert_pinning = false;                   // Enable certificate pinning
-    std::vector<std::string> pinned_cert_fingerprints;  // SHA256 fingerprints (hex) of allowed certificates
+    // Allowed pins for the TLS peer public key. Accepted formats:
+    // - hex SHA-256 fingerprint (with or without ':' separators)
+    // - libcurl "sha256//<base64>" pin format
+    // Requests fail closed when pinning is enabled and no valid pin can be built.
+    std::vector<std::string> pinned_cert_fingerprints;
     bool pin_leaf_only = false;                         // If true, pin only leaf cert; if false, pin any cert in chain
 
     // X.509 Chain Verification: path to PEM trust store (CA bundle or CA cert).

@@ -10,7 +10,7 @@
 [![Maturity](https://img.shields.io/badge/maturity-66_sync__15_PC__46_H__2_E__3_T-orange)](ROADMAP.md)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
-[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [⚠️ Status](ROADMAP.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
+[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [⚠️ Status](ROADMAP.md) · [🔎 Audit Hub](audit/AUDIT.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
 
 </div>
 
@@ -249,6 +249,7 @@ Rule of thumb: architecture is layered, but security acceptance is tier-based.
 | [VERSIONING.md](VERSIONING.md) | Versioning policy and release cadence |
 | [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) | Branch model, edition matrix, CI/CD pipeline |
 | [CHANGELOG.md](CHANGELOG.md) | Release notes (Keep a Changelog format) |
+| [AUDIT.md](AUDIT.md) | Root audit navigation pointer to canonical `/audit/**` sources |
 | [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md) | Benchmarks and performance targets |
 | [docs/use-cases/LLM_WIKI_MVP.md](docs/use-cases/LLM_WIKI_MVP.md) | LLM Wiki MVP setup, config, and usage |
 | [SOP.md](SOP.md) | Standard operating procedures (release, hotfix, incident) |

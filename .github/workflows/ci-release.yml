@@ -51,6 +51,7 @@ on:
         description: 'Tag for image version (for dispatch)'
         required: false
         type: string
+  workflow_call: {}
 
 permissions:
   contents: read

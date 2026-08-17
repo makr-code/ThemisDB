@@ -12,6 +12,7 @@
 
 #include "utils/lz4_codec.h"
 #include "utils/logger.h"
+#include "utils/error_contracts.h"
 #include <fmt/format.h>
 
 #ifdef THEMIS_HAS_LZ4
@@ -77,6 +78,10 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
         acceleration);
 
     if (compressed_size <= 0) {
+        const auto err_msg = std::string("LZ4_compress_fast failed");
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::COMPRESSION_FAILED, err_msg,
+            "lz4_compress_safe", ErrorSeverity::Error, /*is_recoverable=*/true));
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
             "LZ4_compress_fast failed");
@@ -125,9 +130,13 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
         static_cast<int>(original_size));
 
     if (result < 0) {
+        const auto err_msg = fmt::format("LZ4_decompress_safe failed with code {}", result);
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::DECOMPRESSION_FAILED, err_msg,
+            "lz4_decompress_safe", ErrorSeverity::Error, /*is_recoverable=*/true));
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
-            fmt::format("LZ4_decompress_safe failed with code {}", result));
+            err_msg);
     }
 
     output.resize(static_cast<size_t>(result));
