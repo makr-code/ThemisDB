@@ -1570,6 +1570,18 @@ WriteResult RedundancyStrategy::writeMirror(
     target_shards.push_back(*primary_shard);
     
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    // CONSENSUS-AWARE: Validate replicas before adding to target list
+    if (!replicas.empty()) {
+        for (const auto& replica : replicas) {
+            // W2-S06: Consensus validation — fail-closed if replica is invalid
+            if (replica.empty()) {
+                spdlog::error("writeMirror: received empty replica ID, rejecting write for document {}", 
+                             document_id);
+                return WriteResult::failed(document_id, "Invalid replica shard identifier");
+            }
+        }
+    }
+    
     target_shards.insert(
         target_shards.end(),
         std::make_move_iterator(replicas.begin()),

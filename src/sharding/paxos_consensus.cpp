@@ -245,6 +245,12 @@ bool PaxosConsensus::addNode(
         return false;
     }
     
+    // W2-S06: Consensus validation — validate node_id is not empty before adding
+    if (node_id.empty()) {
+        spdlog::error("PaxosConsensus::addNode: node_id is empty, rejecting");
+        return false;
+    }
+    
     cluster_nodes_.push_back(node_id);
     spdlog::info("Added node {} to cluster", node_id);
     return true;
@@ -449,7 +455,13 @@ void PaxosConsensus::runProposer() {
                     std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << retry)));
                 }
                 
-                success = executePreparePhase(slot, entry);
+                try {
+                    success = executePreparePhase(slot, entry);
+                } catch (const std::exception& e) {
+                    spdlog::error("Node {} exception during executePreparePhase for slot {}: {}", 
+                                 node_id_, slot, e.what());
+                    success = false;
+                }
                 if (success) break;
             }
             
@@ -649,7 +661,13 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
         total_prepares_++;
 
         // Self-promise (local acceptor always promises to its own proposer)
-        instance.prepare_promises.insert(node_id_);
+        // W2-S06: Consensus validation — ensure node_id_ is valid before recording promise
+        if (!node_id_.empty()) {
+            instance.prepare_promises.insert(node_id_);
+        } else {
+            spdlog::error("onPreparePhase: node_id_ is empty, cannot record self-promise");
+            return false;
+        }
 
         // Send Phase-1 Prepare RPCs to all peer nodes.
         // If a real RPC callback has been registered (via setPrepareRPCCallback or
@@ -790,7 +808,14 @@ bool PaxosConsensus::executeAcceptPhase(
     // Self-accept (local acceptor always accepts its own proposer)
     if (handleAccept(slot, proposal, value)) {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        instances_[slot].accept_acks.insert(node_id_);
+        
+        // W2-S06: Consensus validation — validate node_id_ before recording self-ack
+        if (!node_id_.empty()) {
+            instances_[slot].accept_acks.insert(node_id_);
+        } else {
+            spdlog::error("onAcceptPhase: node_id_ is empty, cannot record self-ack");
+            return false;
+        }
     }
 
     // Send Phase-2 Accept RPCs to all peer nodes.

@@ -104,6 +104,45 @@ uint32_t calculateCRC32(const uint8_t* data, size_t length) {
     return crc ^ 0xFFFFFFFF;
 }
 
+/**
+ * @brief Helper function to execute an operation with exponential backoff retry.
+ * 
+ * @tparam Func Callable that returns bool (true = success, false = transient failure)
+ * @param func Operation to retry
+ * @param max_retries Maximum number of retry attempts (default: 3)
+ * @param initial_delay_ms Initial backoff delay in milliseconds (default: 100)
+ * @param max_delay_ms Maximum backoff delay cap (default: 5000)
+ * @return true if operation succeeded, false if all retries exhausted
+ */
+template <typename Func>
+inline bool retryWithBackoff(
+    Func&& func,
+    int max_retries = 3,
+    uint64_t initial_delay_ms = 100,
+    uint64_t max_delay_ms = 5000
+) {
+    for (int attempt = 0; attempt < max_retries; ++attempt) {
+        try {
+            if (func()) {
+                return true;  // Success
+            }
+            // Transient failure: prepare to retry
+        } catch (const std::exception&) {
+            // Exception indicates transient failure; retry
+        }
+        
+        if (attempt < max_retries - 1) {
+            // Exponential backoff: 100ms, 200ms, 400ms, ...
+            uint64_t delay_ms = initial_delay_ms * (1ULL << attempt);
+            delay_ms = std::min(delay_ms, max_delay_ms);
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+        }
+    }
+    
+    return false;  // All retries exhausted
+}
+
 /** @brief Generate pseudo-random per-session identifier. */
 uint32_t generateSessionId() {
     static std::random_device rd;
@@ -646,6 +685,18 @@ bool StreamSession::initialize() {
 
 void StreamSession::addFile(const StreamFileInfo& file) {
     std::lock_guard<std::mutex> lock(mutex_);
+    
+    // W2-S06: Consensus validation — validate file before adding to stream
+    if (file.file_id.empty()) {
+        spdlog::error("StreamSession::addFile: file has empty file_id, rejecting");
+        return;
+    }
+    
+    if (file.file_name.empty()) {
+        spdlog::error("StreamSession::addFile: file has empty file_name, rejecting");
+        return;
+    }
+    
     files_.push_back(file);
 }
 
@@ -903,7 +954,22 @@ void StreamSession::transitionState(StreamSessionState new_state) {
 }
 
 bool StreamSession::sendMessage([[maybe_unused]] StreamMessageType type, [[maybe_unused]] const std::vector<uint8_t>& payload) {
-    // In real implementation, this would send over the mTLS connection
+    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
+    // Purpose: Allow testing of the heartbeat mechanism when mTLS transport not wired.
+    // Activation: No real mTLS client injected.
+    // Production Delta: No actual message transmission over network; local stub always succeeds.
+    // Removal Plan: Replace with real mTLS client implementation (see FUTURE_ENHANCEMENTS.md).
+    
+    // In real implementation, this would send over the mTLS connection with retry logic:
+    // return retryWithBackoff([this, &type, &payload]() -> bool {
+    //     try {
+    //         auto result = mtls_client_->send(payload);
+    //         return result.ok();
+    //     } catch (const std::exception&) {
+    //         return false;  // Transient failure, retry
+    //     }
+    // }, 3, 100, 5000);
+    
     return true;
 }
 
@@ -991,6 +1057,18 @@ StreamPlan::~StreamPlan() {
 
 void StreamPlan::addSession(std::unique_ptr<StreamSession> session) {
     std::lock_guard<std::mutex> lock(mutex_);
+    
+    // W2-S06: Consensus validation — validate session before adding to plan
+    if (!session) {
+        spdlog::error("StreamPlan::addSession: session is null, rejecting");
+        return;
+    }
+    
+    if (session->getSessionId().empty()) {
+        spdlog::error("StreamPlan::addSession: session has empty session_id, rejecting");
+        return;
+    }
+    
     sessions_.push_back(std::move(session));
 }
 
@@ -1140,23 +1218,23 @@ StreamTransferTask::~StreamTransferTask() {
 }
 
 bool StreamTransferTask::start() {
-    running_ = true;
+    running_.store(true, std::memory_order_release);
     transfer_thread_ = std::thread(&StreamTransferTask::transferLoop, this);
     return true;
 }
 
 void StreamTransferTask::pause() {
-    paused_ = true;
+    paused_.store(true, std::memory_order_release);
 }
 
 void StreamTransferTask::resume() {
-    paused_ = false;
+    paused_.store(false, std::memory_order_release);
     cv_.notify_all();
 }
 
 void StreamTransferTask::abort() {
-    running_ = false;
-    failed_ = true;
+    running_.store(false, std::memory_order_release);
+    failed_.store(true, std::memory_order_release);
     cv_.notify_all();
 }
 
@@ -1184,17 +1262,19 @@ StreamFileProgress StreamTransferTask::getProgress() const {
 }
 
 void StreamTransferTask::transferLoop() {
-    while (running_) {
+    while (running_.load(std::memory_order_acquire)) {
         {
             std::unique_lock<std::mutex> lock(mutex_);
             // Use wait_for with the session timeout to prevent indefinite blocking
             // if paused_ is set but never cleared (e.g. caller forgets to resume).
             const auto wait_dur = std::chrono::milliseconds(
                 config_.timeout_ms > 0 ? config_.timeout_ms : DEFAULT_TIMEOUT_MS);
-            cv_.wait_for(lock, wait_dur, [this] { return !paused_ || !running_; });
+            cv_.wait_for(lock, wait_dur, [this] { 
+                return !paused_.load(std::memory_order_acquire) || !running_.load(std::memory_order_acquire); 
+            });
         }
         
-        if (!running_) break;
+        if (!running_.load(std::memory_order_acquire)) break;
 
         for (;;) {
             uint32_t chunk_index = 0;
@@ -1231,7 +1311,7 @@ void StreamTransferTask::transferLoop() {
         }
 
         if (transfer_complete) {
-            complete_ = true;
+            complete_.store(true, std::memory_order_release);
             break;
         }
 
@@ -1343,21 +1423,26 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
     std::filesystem::path chunk_file = staging_dir / 
         (file_.file_id + "_chunk_" + std::to_string(chunk.chunk_index) + ".dat");
     
-    std::ofstream out(chunk_file, std::ios::binary);
-    if (!out) {
-        std::cerr << "Failed to write chunk file: " << chunk_file << std::endl;
+    try {
+        std::ofstream out(chunk_file, std::ios::binary);
+        if (!out) {
+            std::cerr << "Failed to write chunk file: " << chunk_file << std::endl;
+            return false;
+        }
+
+        // Write chunk metadata and data
+        out.write(reinterpret_cast<const char*>(&chunk.chunk_index), sizeof(chunk.chunk_index));
+        out.write(reinterpret_cast<const char*>(&chunk.file_offset), sizeof(chunk.file_offset));
+        out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
+        out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
+        out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
+        out.write(reinterpret_cast<const char*>(chunk.data.data()), chunk.data.size());
+
+        return out.good();
+    } catch (const std::exception& e) {
+        spdlog::error("Exception writing chunk file {}: {}", chunk_file.string(), e.what());
         return false;
     }
-
-    // Write chunk metadata and data
-    out.write(reinterpret_cast<const char*>(&chunk.chunk_index), sizeof(chunk.chunk_index));
-    out.write(reinterpret_cast<const char*>(&chunk.file_offset), sizeof(chunk.file_offset));
-    out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
-    out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
-    out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
-    out.write(reinterpret_cast<const char*>(chunk.data.data()), chunk.data.size());
-
-    return out.good();
 }
 
 // ============================================================================
@@ -1378,7 +1463,7 @@ StreamReceiveTask::~StreamReceiveTask() {
 }
 
 bool StreamReceiveTask::start() {
-    running_ = true;
+    running_.store(true, std::memory_order_release);
     
     // Create output directory if it doesn't exist
     std::filesystem::path out_path(output_path_);
@@ -1389,7 +1474,7 @@ bool StreamReceiveTask::start() {
         if (!std::filesystem::create_directories(parent_dir, ec)) {
             std::cerr << "Failed to create output directory: " << parent_dir 
                       << " - " << ec.message() << std::endl;
-            failed_ = true;
+            failed_.store(true, std::memory_order_release);
             return false;
         }
     }
@@ -1398,7 +1483,7 @@ bool StreamReceiveTask::start() {
     std::ofstream test_file(output_path_, std::ios::binary | std::ios::trunc);
     if (!test_file.is_open()) {
         std::cerr << "Failed to open output file for writing: " << output_path_ << std::endl;
-        failed_ = true;
+        failed_.store(true, std::memory_order_release);
         return false;
     }
     test_file.close();
@@ -1407,14 +1492,16 @@ bool StreamReceiveTask::start() {
 }
 
 bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
-    if (!running_ || failed_ || complete_) {
+    if (!running_.load(std::memory_order_acquire) || 
+        failed_.load(std::memory_order_acquire) || 
+        complete_.load(std::memory_order_acquire)) {
         return false;
     }
 
     if (chunk.chunk_index >= chunks_received_.size()) {
         std::cerr << "Rejecting chunk with out-of-range index " << chunk.chunk_index
                   << " for file " << file_.file_id << std::endl;
-        failed_ = true;
+        failed_.store(true, std::memory_order_release);
         return false;
     }
 
@@ -1422,7 +1509,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         chunk.compressed_size > chunk.uncompressed_size) {
         std::cerr << "Rejecting chunk " << chunk.chunk_index
                   << " due to inconsistent size metadata" << std::endl;
-        failed_ = true;
+        failed_.store(true, std::memory_order_release);
         return false;
     }
 
@@ -1437,7 +1524,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         chunk.uncompressed_size != expected_uncompressed) {
         std::cerr << "Rejecting chunk " << chunk.chunk_index
                   << " due to unexpected offset/size metadata" << std::endl;
-        failed_ = true;
+        failed_.store(true, std::memory_order_release);
         return false;
     }
 
@@ -1447,7 +1534,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         if (chunk.chunk_index < next_expected_chunk_ || chunks_received_[chunk.chunk_index]) {
             std::cerr << "Rejecting stale or duplicate chunk " << chunk.chunk_index
                       << " for file " << file_.file_id << std::endl;
-            failed_ = true;
+            failed_.store(true, std::memory_order_release);
             return false;
         }
 
@@ -1455,7 +1542,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
             out_of_order_chunks_.count(chunk.chunk_index) > 0) {
             std::cerr << "Rejecting duplicate buffered chunk " << chunk.chunk_index
                       << " for file " << file_.file_id << std::endl;
-            failed_ = true;
+            failed_.store(true, std::memory_order_release);
             return false;
         }
 
@@ -1464,7 +1551,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
                 chunks_received_[chunk.chunk_index] = false;
                 std::cerr << "Failed to write chunk " << chunk.chunk_index
                           << " for file " << file_.file_id << std::endl;
-                failed_ = true;
+                failed_.store(true, std::memory_order_release);
                 return false;
             }
             chunks_received_[chunk.chunk_index] = true;
@@ -1475,7 +1562,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
                     chunks_received_[next_expected_chunk_] = false;
                     std::cerr << "Failed to flush buffered chunk " << next_expected_chunk_
                               << " for file " << file_.file_id << std::endl;
-                    failed_ = true;
+                    failed_.store(true, std::memory_order_release);
                     return false;
                 }
                 chunks_received_[next_expected_chunk_] = true;
@@ -1492,7 +1579,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
                 return received;
             });
         if (all_received) {
-            complete_ = true;
+            complete_.store(true, std::memory_order_release);
         }
     }
     
@@ -1500,8 +1587,8 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
 }
 
 void StreamReceiveTask::abort() {
-    running_ = false;
-    failed_ = true;
+    running_.store(false, std::memory_order_release);
+    failed_.store(true, std::memory_order_release);
 }
 
 StreamFileProgress StreamReceiveTask::getProgress() const {

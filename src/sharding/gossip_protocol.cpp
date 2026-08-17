@@ -55,6 +55,53 @@ using FILE_ptr = std::unique_ptr<FILE, FILE_Deleter>;
 namespace themis {
 namespace sharding {
 
+// ============================================================================
+// Retry Helper with Exponential Backoff
+// ============================================================================
+
+namespace {
+
+/**
+ * @brief Helper function to execute an operation with exponential backoff retry.
+ * 
+ * @tparam Func Callable that returns bool (true = success, false = transient failure)
+ * @param func Operation to retry
+ * @param max_retries Maximum number of retry attempts (default: 3)
+ * @param initial_delay_ms Initial backoff delay in milliseconds (default: 100)
+ * @param max_delay_ms Maximum backoff delay cap (default: 5000)
+ * @return true if operation succeeded, false if all retries exhausted
+ */
+template <typename Func>
+inline bool retryWithBackoff(
+    Func&& func,
+    int max_retries = 3,
+    uint64_t initial_delay_ms = 100,
+    uint64_t max_delay_ms = 5000
+) {
+    for (int attempt = 0; attempt < max_retries; ++attempt) {
+        try {
+            if (func()) {
+                return true;  // Success
+            }
+            // Transient failure: prepare to retry
+        } catch (const std::exception&) {
+            // Exception indicates transient failure; retry
+        }
+        
+        if (attempt < max_retries - 1) {
+            // Exponential backoff: 100ms, 200ms, 400ms, ...
+            uint64_t delay_ms = initial_delay_ms * (1ULL << attempt);
+            delay_ms = std::min(delay_ms, max_delay_ms);
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+        }
+    }
+    
+    return false;  // All retries exhausted
+}
+
+}  // anonymous namespace
+
 GossipProtocol::GossipProtocol(
     const GossipConfig& config,
     std::shared_ptr<ShardTopology> topology
@@ -396,24 +443,33 @@ void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
     auto message = createHeartbeatMessage();
     message.signature = signMessage(message);
     
-    try {
-        auto response = client_->post(
-            peer.endpoint,
-            "/api/v1/gossip",
-            message.toJson()
-        );
-        
-        if (response.success) {
-            messages_sent_++;
+    // Use retry logic with exponential backoff for transient failures
+    const bool success = retryWithBackoff([this, &peer, &message]() -> bool {
+        try {
+            auto response = client_->post(
+                peer.endpoint,
+                "/api/v1/gossip",
+                message.toJson()
+            );
             
-            // Process response
-            auto response_msg = GossipMessage::fromJson(response.body);
-            if (!response_msg.sender_id.empty()) {
-                handleMessage(response_msg);
+            if (response.success) {
+                messages_sent_++;
+                
+                // Process response
+                auto response_msg = GossipMessage::fromJson(response.body);
+                if (!response_msg.sender_id.empty()) {
+                    handleMessage(response_msg);
+                }
+                return true;
             }
+            return false;  // Transient failure, retry
+        } catch (const std::exception&) {
+            return false;  // Exception, retry
         }
-    } catch (...) {
-        // Log error, mark peer as potentially unhealthy
+    }, 3, 100, 5000);  // max_retries=3, initial_delay=100ms, max_delay=5000ms
+    
+    if (!success) {
+        // All retries exhausted, mark peer as potentially unhealthy
         std::lock_guard<std::mutex> lock(peers_mutex_);
         auto it = peers_.find(peer.peer_id);
         if (it != peers_.end()) {
@@ -428,25 +484,30 @@ void GossipProtocol::sendPeerList(const PeerInfo& peer) {
     auto message = createPeerListMessage();
     message.signature = signMessage(message);
     
-    try {
-        auto response = client_->post(
-            peer.endpoint,
-            "/api/v1/gossip",
-            message.toJson()
-        );
-        
-        if (response.success) {
-            messages_sent_++;
+    // Use retry logic with exponential backoff for transient failures
+    retryWithBackoff([this, &peer, &message]() -> bool {
+        try {
+            auto response = client_->post(
+                peer.endpoint,
+                "/api/v1/gossip",
+                message.toJson()
+            );
             
-            // Process response peer list
-            auto response_msg = GossipMessage::fromJson(response.body);
-            if (response_msg.message_type == "peer_list") {
-                handleMessage(response_msg);
+            if (response.success) {
+                messages_sent_++;
+                
+                // Process response peer list
+                auto response_msg = GossipMessage::fromJson(response.body);
+                if (response_msg.message_type == "peer_list") {
+                    handleMessage(response_msg);
+                }
+                return true;
             }
+            return false;  // Transient failure, retry
+        } catch (const std::exception&) {
+            return false;  // Exception, retry
         }
-    } catch (...) {
-        // Log error
-    }
+    }, 3, 100, 5000);  // max_retries=3, initial_delay=100ms, max_delay=5000ms
 }
 
 void GossipProtocol::sendLeaveMessage() {
@@ -465,16 +526,20 @@ void GossipProtocol::sendLeaveMessage() {
     }
     
     for (const auto& peer : peers) {
-        try {
-            client_->post(
-                peer.endpoint,
-                "/api/v1/gossip",
-                message.toJson()
-            );
-            messages_sent_++;
-        } catch (...) {
-            // Best effort, ignore errors
-        }
+        // Use retry logic with exponential backoff for transient failures
+        retryWithBackoff([this, &peer, &message]() -> bool {
+            try {
+                client_->post(
+                    peer.endpoint,
+                    "/api/v1/gossip",
+                    message.toJson()
+                );
+                messages_sent_++;
+                return true;
+            } catch (const std::exception&) {
+                return false;  // Exception, retry
+            }
+        }, 3, 100, 5000);  // max_retries=3, initial_delay=100ms, max_delay=5000ms
     }
 }
 
@@ -654,28 +719,28 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
         if (!ctx) {
             return "";
         }
-    
-    std::string signature;
-    
-    if (EVP_DigestSignInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1) {
-        if (EVP_DigestSignUpdate(ctx.get(), to_sign.c_str(), to_sign.length()) == 1) {
-            size_t sig_len = 0;
-            if (EVP_DigestSignFinal(ctx.get(), nullptr, &sig_len) == 1) {
-                std::vector<unsigned char> sig(sig_len);
-                if (EVP_DigestSignFinal(ctx.get(), sig.data(), &sig_len) == 1) {
-                    // Base64 encode
-                    signature.resize(((sig_len + 2) / 3) * 4 + 1);
-                    int out_len = EVP_EncodeBlock(
-                        reinterpret_cast<unsigned char*>(signature.data()),
-                        sig.data(), static_cast<int>(sig_len)
-                    );
-                    signature.resize(out_len);
+        
+        std::string signature;
+        
+        if (EVP_DigestSignInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1) {
+            if (EVP_DigestSignUpdate(ctx.get(), to_sign.c_str(), to_sign.length()) == 1) {
+                size_t sig_len = 0;
+                if (EVP_DigestSignFinal(ctx.get(), nullptr, &sig_len) == 1) {
+                    std::vector<unsigned char> sig(sig_len);
+                    if (EVP_DigestSignFinal(ctx.get(), sig.data(), &sig_len) == 1) {
+                        // Base64 encode
+                        signature.resize(((sig_len + 2) / 3) * 4 + 1);
+                        int out_len = EVP_EncodeBlock(
+                            reinterpret_cast<unsigned char*>(signature.data()),
+                            sig.data(), static_cast<int>(sig_len)
+                        );
+                        signature.resize(out_len);
+                    }
                 }
             }
         }
-    }
-    
-    return signature;
+        
+        return signature;
     } catch (const std::exception& e) {
         spdlog::error("Exception during message signing: {}", e.what());
         return "";

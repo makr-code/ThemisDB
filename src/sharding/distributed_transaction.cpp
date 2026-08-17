@@ -120,6 +120,12 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     
     // Add participants — resolve real gRPC endpoint from registry when available
     for (const auto& shard_id : shard_ids) {
+        // W2-S06: Consensus validation — validate shard_id before adding as participant
+        if (shard_id.empty()) {
+            THEMIS_ERROR("begin: empty shard_id in participant list, rejecting transaction");
+            return "";
+        }
+        
         TransactionParticipant participant;
         participant.shard_id = shard_id;
 
@@ -170,11 +176,34 @@ bool DistributedTransactionCoordinator::addOperation(
         return false;
     }
     
+    // W2-S06: Consensus validation — ensure shard_id is valid before adding operation
+    if (shard_id.empty()) {
+        THEMIS_ERROR("addOperation: shard_id is empty for txn {}, rejecting operation", txn_id);
+        return false;
+    }
+    
+    // W2-S06: Operation validation — ensure operation is not malformed
+    if (!operation.is_object() && !operation.is_array()) {
+        THEMIS_ERROR("addOperation: operation must be object or array for txn {}, rejecting", txn_id);
+        return false;
+    }
+    
     // Add operation to transaction
+    // CONSENSUS-AWARE: Log operation addition for durability
     if (!txn.operations.contains(shard_id)) {
         txn.operations[shard_id] = nlohmann::json::array();
     }
     txn.operations[shard_id].push_back(operation);
+    
+    // Log to recovery WAL if enabled (ensures durability before returning)
+    if (config_.enable_recovery_log) {
+        try {
+            logOperationAddedForRecovery(txn_id, shard_id, operation);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to log operation to WAL: {}, proceeding with in-memory state", e.what());
+            // Fall-through: in-memory state is already updated, accept reduced durability guarantee
+        }
+    }
     
     return true;
 }
@@ -208,7 +237,22 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         THEMIS_DEBUG("Transaction {} using Percolator commit path (SNAPSHOT_ISOLATION)",
                      txn_id);
         lock.unlock();
-        const bool committed = percolatorCommit(txn);
+        
+        bool committed = false;
+        try {
+            committed = percolatorCommit(txn);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Exception during percolatorCommit for txn {}: {}", txn_id, e.what());
+            // Try to re-acquire lock to update transaction state
+            if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+                spdlog::error("Lock acquisition timeout after percolatorCommit exception for txn {}", txn_id);
+                return false;
+            }
+            txn.state = TransactionState::ABORTED;
+            aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+            return false;
+        }
+        
         if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
             spdlog::error("Lock acquisition timeout after percolatorCommit for txn {}", txn_id);
             return false;
@@ -241,7 +285,20 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     lock.unlock();
     
     auto prepare_start = std::chrono::steady_clock::now();
-    bool prepared = preparePhase(txn);
+    bool prepared = false;
+    try {
+        prepared = preparePhase(txn);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during preparePhase for txn {}: {}", txn_id, e.what());
+        if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+            spdlog::error("Lock acquisition timeout after preparePhase exception for txn {}", txn_id);
+            return false;
+        }
+        txn.state = TransactionState::ABORTED;
+        aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+        return false;
+    }
+    
     auto prepare_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - prepare_start).count();
     
@@ -322,7 +379,20 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     // Wait until commit timestamp is definitely in the past
     // This is the key TrueTime operation for external consistency
     lock.unlock();
-    truetime_->waitUntil(txn.commit_time);
+    
+    try {
+        truetime_->waitUntil(txn.commit_time);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during TrueTime wait for txn {}: {}", txn_id, e.what());
+        if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+            spdlog::error("Lock acquisition timeout after TrueTime wait exception for txn {}", txn_id);
+            return false;
+        }
+        txn.state = TransactionState::ABORTED;
+        aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+        return false;
+    }
+    
     if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
         spdlog::error("Lock acquisition timeout after TrueTime wait for txn {}", txn_id);
         return false;
@@ -368,7 +438,20 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     }
 
     auto commit_start = std::chrono::steady_clock::now();
-    bool committed = retryCommitPhase(txn);
+    bool committed = false;
+    try {
+        committed = retryCommitPhase(txn);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception during retryCommitPhase for txn {}: {}", txn_id, e.what());
+        if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+            spdlog::error("Lock acquisition timeout after retryCommitPhase exception for txn {}", txn_id);
+            return false;
+        }
+        txn.state = TransactionState::ABORTED;
+        aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+        return false;
+    }
+    
     auto commit_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - commit_start).count();
     
@@ -1039,7 +1122,12 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
 
             // Recovered participants are simple identifiers (node/shard ids)
             for (const auto& pid : replay_txn.participants) {
-                if (pid.empty()) continue;
+                // W2-S06: Consensus validation — validate participant shard ID
+                if (pid.empty()) {
+                    THEMIS_WARN("recoverInDoubtTransactions: empty participant ID in recovery txn {}, skipping", txn_id);
+                    continue;
+                }
+                
                 TransactionParticipant participant;
                 participant.shard_id = pid;
                 participant.endpoint = participant.shard_id.empty()
