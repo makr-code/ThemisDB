@@ -145,57 +145,62 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConne
 ) {
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
     
-    // Try to get from idle pool first
-    if (!idle_pool_.empty()) {
-        auto pooled = std::move(idle_pool_.front());
-        idle_pool_.pop();
+    try {
+        // Try to get from idle pool first
+        if (!idle_pool_.empty()) {
+            auto pooled = std::move(idle_pool_.front());
+            idle_pool_.pop();
+            
+            // Validate before returning
+            if (isConnectionExpired(pooled)) {
+                connections_failed_++;
+                // Connection expired, try to create new one
+            } else if (pooled.ssl && validateConnection(pooled.ssl.get())) {
+                // Update metadata
+                pooled.last_used = std::chrono::steady_clock::now();
+                active_connections_.insert(pooled.ssl.get());
+                return std::move(pooled.ssl);
+            }
+        }
         
-        // Validate before returning
-        if (isConnectionExpired(pooled)) {
-            connections_failed_++;
-            // Connection expired, try to create new one
-        } else if (pooled.ssl && validateConnection(pooled.ssl.get())) {
-            // Update metadata
-            pooled.last_used = std::chrono::steady_clock::now();
-            active_connections_.insert(pooled.ssl.get());
-            return std::move(pooled.ssl);
+        // No idle connections or validation failed
+        // Try to create new connection if under limit
+        size_t total_connections = active_connections_.size() + idle_pool_.size();
+        if (total_connections < config_.max_connections) {
+            auto new_conn = createNewConnection();
+            if (new_conn) {
+                active_connections_.insert(new_conn->get());
+                return new_conn;
+            }
         }
-    }
-    
-    // No idle connections or validation failed
-    // Try to create new connection if under limit
-    size_t total_connections = active_connections_.size() + idle_pool_.size();
-    if (total_connections < config_.max_connections) {
-        auto new_conn = createNewConnection();
-        if (new_conn) {
-            active_connections_.insert(new_conn->get());
-            return new_conn;
+        
+        // Wait for available connection with timeout
+        bool available = available_cv_.wait_for(lock, timeout, [this]() {
+            return !idle_pool_.empty() || !running_;
+        });
+        
+        if (!available || !running_) {
+            std::cerr << "Connection pool exhausted for endpoint: " << endpoint_ << std::endl;
+            return std::nullopt;
         }
-    }
-    
-    // Wait for available connection with timeout
-    bool available = available_cv_.wait_for(lock, timeout, [this]() {
-        return !idle_pool_.empty() || !running_;
-    });
-    
-    if (!available || !running_) {
-        std::cerr << "Connection pool exhausted for endpoint: " << endpoint_ << std::endl;
+        
+        // Try again after waiting
+        if (!idle_pool_.empty()) {
+            auto pooled = std::move(idle_pool_.front());
+            idle_pool_.pop();
+            
+            if (pooled.ssl && validateConnection(pooled.ssl.get())) {
+                pooled.last_used = std::chrono::steady_clock::now();
+                active_connections_.insert(pooled.ssl.get());
+                return std::move(pooled.ssl);
+            }
+        }
+        
+        return std::nullopt;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception in getConnection: {}", e.what());
         return std::nullopt;
     }
-    
-    // Try again after waiting
-    if (!idle_pool_.empty()) {
-        auto pooled = std::move(idle_pool_.front());
-        idle_pool_.pop();
-        
-        if (pooled.ssl && validateConnection(pooled.ssl.get())) {
-            pooled.last_used = std::chrono::steady_clock::now();
-            active_connections_.insert(pooled.ssl.get());
-            return std::move(pooled.ssl);
-        }
-    }
-    
-    return std::nullopt;
 }
 
 /**

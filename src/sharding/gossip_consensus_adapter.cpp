@@ -138,6 +138,12 @@ std::optional<uint64_t> GossipConsensusAdapter::propose(
     {
         std::lock_guard<std::mutex> lock(log_mutex_);
         log_entries_[entry.index] = entry;
+        
+        // W2-S06: Consensus validation — validate node_id before recording self-ack
+        if (node_id_.empty()) {
+            spdlog::error("GossipConsensusAdapter::appendEntry: node_id_ is empty, rejecting ack");
+            return 0;
+        }
         log_acknowledgments_[entry.index].insert(node_id_);  // Self-acknowledge
     }
     
@@ -216,6 +222,12 @@ bool GossipConsensusAdapter::addNode(
     const std::string& /*endpoint*/
 ) {
     std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // W2-S06: Consensus validation — validate node_id before adding to cluster
+    if (node_id.empty()) {
+        spdlog::error("GossipConsensusAdapter::addNode: node_id is empty, rejecting");
+        return false;
+    }
     
     if (std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id) != cluster_nodes_.end()) {
         spdlog::warn("Node {} already in cluster", node_id);
@@ -373,6 +385,11 @@ void GossipConsensusAdapter::gossipThread() {
             // and deadlock by not calling hasReachedQuorum which re-acquires lock)
             for (auto& [index, entry] : log_entries_) {
                 if (index > commit_index_.load() && hasReachedQuorumUnlocked(index)) {
+                    // W2-S06: Consensus validation — validate entry before marking for commit
+                    if (entry.index == 0 || entry.data.empty()) {
+                        spdlog::warn("gossipThread: entry {} has invalid index or data, skipping commit", entry.index);
+                        continue;
+                    }
                     ready_to_commit.push_back({index, entry});
                 }
             }
