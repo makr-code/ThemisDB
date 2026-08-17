@@ -57,6 +57,13 @@ if(THEMIS_PLUGIN_SCRAPER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLi
     add_subdirectory(scraper)
 endif()
 
+# AI Watermark Detector Plugin – AI-generated content detection
+option(THEMIS_PLUGIN_AI_WATERMARK_DETECTOR "Build the AI Watermark Detector plugin" ON)
+if(THEMIS_PLUGIN_AI_WATERMARK_DETECTOR AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisdb_ai_watermark_detector/CMakeLists.txt" AND NOT TARGET themisdb_ai_watermark_detector)
+    message(STATUS "  - AI Watermark Detector Plugin (AI-generated content detection)")
+    add_subdirectory(themisdb_ai_watermark_detector)
+endif()
+
 # Whisper Plugin – audio transcription (whisper.cpp)
 option(THEMIS_PLUGIN_WHISPER "Build the Whisper audio transcription plugin" ON)
 if(THEMIS_PLUGIN_WHISPER AND EXISTS "${THEMIS_ROOT_DIR}/src/whisper/CMakeLists.txt")

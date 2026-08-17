@@ -1,17 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
-# Plugin name
-project(themisdb_ai_watermark_detector VERSION 1.0.0 LANGUAGES CXX)
-
-# Feature flag
-option(THEMIS_PLUGIN_AI_WATERMARK_DETECTOR "Build the AI Watermark Detector plugin" ON)
-
-if(NOT THEMIS_PLUGIN_AI_WATERMARK_DETECTOR)
-    message(STATUS "  - AI Watermark Detector plugin disabled (skipped)")
-    return()
-endif()
-
-message(STATUS "  - AI Watermark Detector plugin")
+# Plugin library name
+set(PROJECT_NAME themisdb_ai_watermark_detector)
 
 # Header files
 set(AI_WATERMARK_DETECTOR_HEADERS
