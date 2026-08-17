@@ -184,7 +184,19 @@ public:
         if (entry.is_compiled && entry.hot_fn) {
             ++stats_.hot_hits;
             THEMIS_DEBUG("QueryCompiler: hot path key={} call={}", handle.key, entry.call_count);
-            return entry.hot_fn(params);
+            try {
+                return entry.hot_fn(params);
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("QueryCompiler: hot-path execution failed key={} error={}", 
+                           handle.key, ex.what());
+                return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                       fmt::format("Hot-path execution failed: {}", ex.what()));
+            } catch (...) {
+                THEMIS_WARN("QueryCompiler: hot-path execution failed key={} (unknown error)", 
+                           handle.key);
+                return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                       "Hot-path execution failed with unknown error");
+            }
         }
 
         // ---- Compilation trigger -------------------------------------------
@@ -195,14 +207,38 @@ public:
             trySpecialise(entry, handle.key);
             if (entry.is_compiled && entry.hot_fn) {
                 ++stats_.hot_hits;
-                return entry.hot_fn(params);
+                try {
+                    return entry.hot_fn(params);
+                } catch (const std::exception& ex) {
+                    THEMIS_WARN("QueryCompiler: newly compiled hot-path execution failed key={} error={}", 
+                               handle.key, ex.what());
+                    return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                           fmt::format("Compiled hot-path execution failed: {}", ex.what()));
+                } catch (...) {
+                    THEMIS_WARN("QueryCompiler: newly compiled hot-path execution failed key={} (unknown error)", 
+                               handle.key);
+                    return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                           "Compiled hot-path execution failed with unknown error");
+                }
             }
         }
 
         // ---- Cold path ------------------------------------------------------
         ++stats_.cold_hits;
         THEMIS_DEBUG("QueryCompiler: cold path key={} call={}", handle.key, entry.call_count);
-        return entry.executor(entry.query_text, params);
+        try {
+            return entry.executor(entry.query_text, params);
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("QueryCompiler: cold-path execution failed key={} error={}", 
+                       handle.key, ex.what());
+            return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                   fmt::format("Cold-path execution failed: {}", ex.what()));
+        } catch (...) {
+            THEMIS_WARN("QueryCompiler: cold-path execution failed key={} (unknown error)", 
+                       handle.key);
+            return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                   "Cold-path execution failed with unknown error");
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -347,6 +383,14 @@ private:
             THEMIS_WARN("QueryCompiler: specialisation failed key={} error={}",
                         key, ex.what());
         } catch (...) {
+            // RATIONALE: Catch-all exception swallowing is intentional here.
+            // The specialisation path is an optimization (hot-path compilation).
+            // If specialisation fails for any reason (even unknown exceptions),
+            // we gracefully degrade to the cold path (interpreted execution).
+            // Propagating the exception would break query execution entirely,
+            // whereas swallowing allows the query to proceed with full correctness,
+            // just without the optimization benefit.
+            // This design ensures robustness over performance edge cases.
             entry.compile_failed = true;
             ++stats_.compilation_failures;
             THEMIS_WARN("QueryCompiler: specialisation failed key={} (unknown error)", key);

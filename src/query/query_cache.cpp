@@ -436,6 +436,9 @@ void QueryCache::evictLRU() {
     
     auto it = cache_.find(fingerprint);
     if (it != cache_.end()) {
+        // TODO: Implement asynchronous cleanup for dependency index removals
+        // to reduce critical section duration for write-heavy workloads.
+        
         // Remove from dependency index
         removeFromDependencyIndex(fingerprint, it->second.entry.dependencies);
         
@@ -446,12 +449,27 @@ void QueryCache::evictLRU() {
         
         THEMIS_DEBUG("Evicted LRU entry: fingerprint={}", fingerprint.substr(0, 16));
         
+        // Remove from LRU list using the stored iterator for O(1) removal
+        // instead of searching for the element (which would be O(n))
+        if (it->second.lru_it != lru_list_.end()) {
+            lru_list_.erase(it->second.lru_it);
+        } else {
+            // Fallback: if iterator is invalid, remove by value (O(n) but safe)
+            THEMIS_WARN("QueryCache: lru_it iterator invalid, falling back to list search for fingerprint={}", 
+                       fingerprint.substr(0, 16));
+            lru_list_.remove(fingerprint);
+        }
+        
         // Remove from cache
         cache_.erase(it);
+    } else {
+        // INVARIANT VIOLATION: fingerprint in lru_list_ but not in cache_
+        // This indicates a data structure inconsistency. Log and repair.
+        THEMIS_WARN("QueryCache::evictLRU: fingerprint {} found in lru_list but not in cache_ "
+                   "(data structure inconsistency - removing from lru_list)", 
+                   fingerprint.substr(0, 16));
+        lru_list_.pop_back();
     }
-    
-    // Remove from LRU list
-    lru_list_.pop_back();
 }
 
 void QueryCache::evictLFU() {

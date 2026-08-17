@@ -31,6 +31,7 @@
 #include <tbb/task_group.h>
 
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 
 namespace themis {
 
@@ -202,6 +203,12 @@ Result<ParallelExecutor::Table> ParallelExecutor::parallelScan(
         tbb::task_group tg;
         for (size_t m = 0; m < nmors; ++m) {
             tg.run([&, m]() {
+                // Defensive check: ensure input is not nullptr before dereferencing
+                if (!input.data() || input.empty()) {
+                    THEMIS_WARN("ParallelExecutor::parallelScan: null or empty input in morsel {}", m);
+                    return;  // Early return for this morsel
+                }
+                
                 const size_t start = m * morsel;
                 const size_t end   = std::min(start + morsel, n);
                 Table local;
