@@ -190,17 +190,24 @@ public:
         ++entry.call_count;
 
         // ---- Hot path -------------------------------------------------------
+        // Exception Safety (Wave A §13): Strong exception safety guaranteed.
+        // Both std::exception and unknown exceptions are caught, logged with context,
+        // and transformed to Result::Err. This ensures execute() never propagates.
         if (entry.is_compiled && entry.hot_fn) {
             ++stats_.hot_hits;
             THEMIS_DEBUG("QueryCompiler: hot path key={} call={}", handle.key, entry.call_count);
             try {
                 return entry.hot_fn(params);
             } catch (const std::exception& ex) {
+                // Catch and log known exceptions with full context.
+                // This preserves the exception type name (ex.what()) for debugging.
                 THEMIS_WARN("QueryCompiler: hot-path execution failed key={} error={}", 
                            handle.key, ex.what());
                 return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                                        fmt::format("Hot-path execution failed: {}", ex.what()));
             } catch (...) {
+                // Catch unknown exceptions (implementation-specific; rare).
+                // Ensure caller still receives a valid Result<> with error information.
                 THEMIS_WARN("QueryCompiler: hot-path execution failed key={} (unknown error)", 
                            handle.key);
                 return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -216,6 +223,8 @@ public:
             trySpecialise(entry, handle.key);
             if (entry.is_compiled && entry.hot_fn) {
                 ++stats_.hot_hits;
+                // Exception Safety (Wave A §13): Strong guarantee.
+                // Newly compiled hot path uses the same exception handling as above.
                 try {
                     return entry.hot_fn(params);
                 } catch (const std::exception& ex) {
@@ -235,6 +244,8 @@ public:
         // ---- Cold path ------------------------------------------------------
         ++stats_.cold_hits;
         THEMIS_DEBUG("QueryCompiler: cold path key={} call={}", handle.key, entry.call_count);
+        // Exception Safety (Wave A §13): Strong guarantee.
+        // Cold path (interpreted execution) uses same exception handling pattern.
         try {
             return entry.executor(entry.query_text, params);
         } catch (const std::exception& ex) {
