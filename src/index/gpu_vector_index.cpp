@@ -173,7 +173,6 @@ public:
                 }
                 globalOffset += numVecs;
             }
-        }
         } // close inner partition-iteration scope
 
         // Select top-k from all candidates.

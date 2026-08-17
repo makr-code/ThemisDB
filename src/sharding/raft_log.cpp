@@ -239,7 +239,7 @@ uint64_t RaftLog::getLastLogIndex() const {
 
 /** @brief Return term of last in-memory entry or snapshot anchor term. */
 uint64_t RaftLog::getLastLogTerm() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (log_.empty()) {
         return snapshot_term_;
     }
@@ -248,13 +248,13 @@ uint64_t RaftLog::getLastLogTerm() const {
 
 /** @brief Return number of in-memory log entries. */
 size_t RaftLog::size() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     return log_.size();
 }
 
 /** @brief Estimate in-memory footprint of current log entries in bytes. */
 size_t RaftLog::estimatedSizeBytes() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     // Fixed overhead per entry: two uint64_t (term + index) + one uint64_t (timestamp)
     constexpr size_t kEntryOverhead = sizeof(uint64_t) * 3;
     size_t total = 0;
@@ -266,7 +266,7 @@ size_t RaftLog::estimatedSizeBytes() const {
 
 /** @brief Compact committed entries up to snapshot boundary and set anchor. */
 void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
 
     // Safety: never compact past committed entries.  The caller must ensure
     // that snapshot_index <= commit_index before invoking this method.
@@ -291,26 +291,26 @@ void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
 
 /** @brief Update snapshot anchor metadata used for post-compaction lookups. */
 void RaftLog::setSnapshotMeta(uint64_t index, uint64_t term) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     snapshot_index_ = index;
     snapshot_term_  = term;
 }
 
 /** @brief Return installed snapshot index anchor. */
 uint64_t RaftLog::getSnapshotIndex() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     return snapshot_index_;
 }
 
 /** @brief Return installed snapshot term anchor. */
 uint64_t RaftLog::getSnapshotTerm() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     return snapshot_term_;
 }
 
 /** @brief Clear all log entries and reset commit/snapshot state. */
 void RaftLog::clear() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     log_.clear();
     commit_index_ = 0;
     snapshot_index_ = 0;

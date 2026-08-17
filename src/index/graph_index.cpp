@@ -659,8 +659,8 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	inEdges_.clear();
 
 	// W5: Materialize edge topology locally to avoid [this] capture and mutable state closure
-	std::unordered_map<std::string, std::vector<EdgeInfo>> local_out_edges;
-	std::unordered_map<std::string, std::vector<EdgeInfo>> local_in_edges;
+	std::unordered_map<std::string, std::vector<GraphIndexManager::AdjacencyInfo>> local_out_edges;
+	std::unordered_map<std::string, std::vector<GraphIndexManager::AdjacencyInfo>> local_in_edges;
 
 	// Scan all outgoing edges: graph:out:<graph_id>:<fromPk>:<edgeId> -> toPk
 	size_t out_scan_count = 0;
