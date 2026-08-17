@@ -137,14 +137,34 @@ std::string getExpectedModelChecksum(const json& config) {
 
 } // namespace
 
-CachedModel::~CachedModel() {
-    if (context_handle != nullptr) {
-        llama_free(reinterpret_cast<llama_context*>(context_handle));
-        context_handle = nullptr;
+/**
+ * @brief Destructor for cached model
+ * 
+ * Exception-safe cleanup of llama.cpp resources (context and model handles).
+ * This destructor is called automatically when CachedModel goes out of scope
+ * or is deleted. All cleanup is noexcept(true) guaranteed.
+ */
+CachedModel::~CachedModel() noexcept {
+    try {
+        // Clean up context first (dependent on model)
+        if (context_handle != nullptr) {
+            llama_free(reinterpret_cast<llama_context*>(context_handle));
+            context_handle = nullptr;
+        }
+    } catch (...) {
+        // Suppress exceptions to maintain noexcept guarantee
+        spdlog::error("CachedModel::~CachedModel: Exception freeing context");
     }
-    if (model_handle != nullptr) {
-        llama_free_model(reinterpret_cast<llama_model*>(model_handle));
-        model_handle = nullptr;
+    
+    try {
+        // Clean up model
+        if (model_handle != nullptr) {
+            llama_free_model(reinterpret_cast<llama_model*>(model_handle));
+            model_handle = nullptr;
+        }
+    } catch (...) {
+        // Suppress exceptions to maintain noexcept guarantee
+        spdlog::error("CachedModel::~CachedModel: Exception freeing model");
     }
 }
 
@@ -215,19 +235,32 @@ LazyModelLoader::LazyModelLoader(const Config& config)
     spdlog::info("  Default context: {} tokens", config_.default_n_ctx);
 }
 
-LazyModelLoader::~LazyModelLoader() {
-    std::unordered_map<std::string, std::future<CachedModel*>> pending_loads;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        pending_loads.swap(pending_loads_);
+LazyModelLoader::~LazyModelLoader() noexcept {
+    // Exception-safe cleanup with noexcept guarantee
+    try {
+        // Clean up pending async loads
+        std::unordered_map<std::string, std::future<CachedModel*>> pending_loads;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            pending_loads.swap(pending_loads_);
+        }
+        
+        // Clear futures (waits for any ongoing async operations)
+        pending_loads.clear();
+    } catch (...) {
+        spdlog::error("LazyModelLoader::~LazyModelLoader: Exception during pending_loads cleanup");
     }
 
-    pending_loads.clear();
-
-    std::lock_guard<std::mutex> lock(mutex_);
-    models_.clear();
-    total_vram_mb_ = 0;
-    total_ram_mb_ = 0;
+    try {
+        // Clean up all loaded models
+        std::lock_guard<std::mutex> lock(mutex_);
+        models_.clear();  // unique_ptr handles cleanup automatically
+        
+        total_vram_mb_ = 0;
+        total_ram_mb_ = 0;
+    } catch (...) {
+        spdlog::error("LazyModelLoader::~LazyModelLoader: Exception during models cleanup");
+    }
 }
 
 CachedModel* LazyModelLoader::getOrLoadModel(
