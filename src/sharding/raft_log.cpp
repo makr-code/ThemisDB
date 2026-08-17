@@ -67,7 +67,7 @@ uint64_t RaftLog::append(const LogEntry& entry) {
     // TIMEOUT ENFORCEMENT: Use try_lock_for to prevent indefinite blocking
     // during consensus operations. If timeout expires, throw exception to
     // allow caller to handle consensus abort.
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {
@@ -84,7 +84,7 @@ uint64_t RaftLog::append(const LogEntry& entry) {
 /** @brief Return entry at index when present. */
 std::optional<LogEntry> RaftLog::getEntry(uint64_t index) const {
     // TIMEOUT ENFORCEMENT: Use try_lock_for for consistent timeout behavior
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {
@@ -103,7 +103,7 @@ std::optional<LogEntry> RaftLog::getEntry(uint64_t index) const {
 /** @brief Return contiguous available entry range from start to end index. */
 std::vector<LogEntry> RaftLog::getEntries(uint64_t start_index, uint64_t end_index) const {
     // TIMEOUT ENFORCEMENT: Batch read operation with timeout
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {
@@ -129,7 +129,7 @@ std::vector<LogEntry> RaftLog::getEntries(uint64_t start_index, uint64_t end_ind
 /** @brief Check whether index/term pair is known, including snapshot anchor. */
 bool RaftLog::hasEntry(uint64_t index, uint64_t term) const {
     // TIMEOUT ENFORCEMENT: Consensus query with timeout
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {
@@ -159,7 +159,7 @@ bool RaftLog::hasEntry(uint64_t index, uint64_t term) const {
 /** @brief Delete all log entries from index onward and clamp commit index. */
 void RaftLog::truncateFrom(uint64_t index) {
     // TIMEOUT ENFORCEMENT: Consensus write with timeout
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {
@@ -181,7 +181,7 @@ void RaftLog::truncateFrom(uint64_t index) {
 /** @brief Advance commit index if monotonic and bounded by last known index. */
 void RaftLog::setCommitIndex(uint64_t index) {
     // TIMEOUT ENFORCEMENT: Consensus commit update with timeout
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {
@@ -208,7 +208,7 @@ void RaftLog::setCommitIndex(uint64_t index) {
 /** @brief Return current committed log index. */
 uint64_t RaftLog::getCommitIndex() const {
     // TIMEOUT ENFORCEMENT: Fast read with timeout
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {
@@ -221,7 +221,7 @@ uint64_t RaftLog::getCommitIndex() const {
 /** @brief Return last available log index or snapshot index when compacted. */
 uint64_t RaftLog::getLastLogIndex() const {
     // TIMEOUT ENFORCEMENT: Fast read with timeout
-    std::unique_lock<std::mutex> lock(mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
     if (!lock.try_lock_for(timeout)) {

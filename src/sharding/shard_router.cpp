@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <regex>
 #include <chrono>
+#include <limits>
 #include <sstream>
 #include <map>
 #include <unordered_map>
@@ -91,6 +92,14 @@ uint64_t extractVersionToken(const nlohmann::json& payload) {
 
 uint64_t resolveShardResultVersion(const ShardResult& result) {
     return std::max(result.version_token, extractVersionToken(result.data));
+}
+
+uint64_t makeStrictMergeVersionToken(uint64_t observed_max_version) {
+    const uint64_t candidate = makeMergeVersionToken();
+    if (observed_max_version == std::numeric_limits<uint64_t>::max()) {
+        return observed_max_version;
+    }
+    return std::max(candidate, observed_max_version + 1);
 }
 
 } // namespace
@@ -795,10 +804,11 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
 
         size_t total_right_rows  = 0;
         size_t total_matched_rows = 0;
-        uint64_t merge_version = makeMergeVersionToken();
+        uint64_t observed_version = 0;
         for (const auto& shard_result : left_results) {
-            merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
+            observed_version = std::max(observed_version, resolveShardResultVersion(shard_result));
         }
+        uint64_t merge_version = makeStrictMergeVersionToken(observed_version);
         nlohmann::json joined_rows = nlohmann::json::array();
 
         if (!right_collection.empty()) {
@@ -807,7 +817,8 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
                 "FOR doc IN " + right_collection + " RETURN doc";
             auto right_results = scatterGather(right_query);
             for (const auto& shard_result : right_results) {
-                merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
+                observed_version = std::max(observed_version, resolveShardResultVersion(shard_result));
+                merge_version = makeStrictMergeVersionToken(observed_version);
                 if (!shard_result.success || !shard_result.data.is_array()) continue;
                 for (const auto& right_row : shard_result.data) {
                     total_right_rows++;
@@ -1198,18 +1209,17 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     merged["shard_count"] = results.size();
     
     size_t success_count = 0;
-    uint64_t merge_version = makeMergeVersionToken();  // Generate new monotonic version
+    uint64_t observed_version = 0;
     
     // W5-Sharding: Scan all shard versions and use maximum to ensure forward consistency
     for (const auto& result : results) {
-        uint64_t shard_version = resolveShardResultVersion(result);
+        const uint64_t shard_version = resolveShardResultVersion(result);
         // Ensure merge_version is strictly greater than any shard version
         // This prevents stale read detection across shard boundaries
-        merge_version = std::max(merge_version, shard_version);
+        observed_version = std::max(observed_version, shard_version);
     }
     
-    // Re-increment to ensure strict monotonicity: merged version > any shard version
-    merge_version = makeMergeVersionToken();
+    const uint64_t merge_version = makeStrictMergeVersionToken(observed_version);
     
     for (const auto& result : results) {
         if (result.success) {
@@ -1313,4 +1323,3 @@ std::optional<std::string> ShardRouter::extractNamespace(const std::string& quer
 }
 
 } // namespace themis::sharding
-

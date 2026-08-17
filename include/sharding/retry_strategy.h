@@ -7,9 +7,11 @@
 
 #pragma once
 
+#include <algorithm>
 #include <chrono>
 #include <functional>
 #include <stdexcept>
+#include <thread>
 #include <spdlog/spdlog.h>
 
 namespace themisdb {

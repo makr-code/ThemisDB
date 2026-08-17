@@ -114,8 +114,3 @@ TEST(GPUAdversarialTest, OpenCircuitSkipsGpuAndUsesCPUOnly) {
 }
 
 }  // namespace themis::test
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
