@@ -30,11 +30,11 @@
  */
 
 #include "analytics/incremental_view.h"
+#include "utils/logger.h"
 
 #include <cassert>
 #include <cmath>
 #include <limits>
-#include <spdlog/spdlog.h>
 #include <sstream>
 #include <thread>
 
@@ -560,11 +560,11 @@ IncrementalViewManager::~IncrementalViewManager() = default;
 bool IncrementalViewManager::createView(const ViewDefinition &def) {
     std::unique_lock lk(views_mutex_);
     if (views_.count(def.name)) {
-        spdlog::warn("IncrementalViewManager: view '{}' already exists", def.name);
+        THEMIS_WARN("IncrementalViewManager: view '{}' already exists", def.name);
         return false;
     }
     views_[def.name] = std::make_shared<IncrementalView>(def);
-    spdlog::info("IncrementalViewManager: created view '{}'", def.name);
+    THEMIS_INFO("IncrementalViewManager: created view '{}'", def.name);
     return true;
 }
 
@@ -574,7 +574,7 @@ bool IncrementalViewManager::dropView(const std::string &name) {
         return false;
     }
     views_.erase(name);
-    spdlog::info("IncrementalViewManager: dropped view '{}'", name);
+    THEMIS_INFO("IncrementalViewManager: dropped view '{}'", name);
     return true;
 }
 
@@ -624,7 +624,7 @@ ViewQueryResult IncrementalViewManager::query(const std::string &view_name, cons
     std::shared_lock lk(views_mutex_);
     auto it = views_.find(view_name);
     if (it == views_.end()) {
-        spdlog::warn("IncrementalViewManager: view '{}' not found", view_name);
+        THEMIS_WARN("IncrementalViewManager: view '{}' not found", view_name);
         return {};
     }
     return it->second->query(filters, limit, offset);

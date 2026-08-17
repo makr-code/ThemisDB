@@ -173,6 +173,7 @@ public:
             }
             globalOffset += numVecs;
         }
+        } // close inner partition-iteration scope
 
         // Select top-k from all candidates.
         const size_t topK = std::min(k, candidates.size());

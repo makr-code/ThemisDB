@@ -62,8 +62,8 @@ Production-capable sharding runtime exists for routing/placement, distributed co
     retry logic added for transient `STORAGE_AHEAD`/`CACHE_AHEAD` sync failures; atomic interval read
     prevents torn reads of `background_sync_interval_ms_`.
   - Test evidence: CCR-01..CCR-06 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
-- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
-- [~] Phase C benchmark gate: `bench_multishard_exact` (deterministic benchmark hygiene tightened; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
+- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still pending — repo-wide build blockers `gpu_vector_index.cpp`/`incremental_view.cpp` resolved 2026-08-17) (Target: Q4 2026)
+- [~] Phase C benchmark gate: `bench_multishard_exact` (deterministic benchmark hygiene tightened; full environment validation still pending — repo-wide build blockers resolved 2026-08-17) (Target: Q4 2026)
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
