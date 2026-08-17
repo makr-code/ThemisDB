@@ -267,6 +267,9 @@ std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTen
 
 GPUTimeSliceScheduler::Stats GPUTimeSliceScheduler::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    // Ensure memory visibility of counter updates from dispatch() calls.
+    std::atomic_thread_fence(std::memory_order_acquire);
+    
     Stats s;
     s.total_submitted    = total_submitted_;
     s.total_completed    = total_completed_;
