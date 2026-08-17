@@ -207,7 +207,7 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
         auto encrypted_lek = enc.encrypt(lek_plaintext, kek_key_id_);
         
         // Store in DB
-        auto encrypted_json = themis::EncryptedBlob{encrypted_lek}.toJson();
+        auto encrypted_json = encrypted_lek.toJson();
         std::string json_str = encrypted_json.dump();
         std::vector<uint8_t> json_bytes(json_str.begin(), json_str.end());
         if (!db_->put(db_key_str, json_bytes)) {

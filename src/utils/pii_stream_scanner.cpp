@@ -79,11 +79,13 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
         themis::utils::logErrorWithContext(ctx);
         // Fail-closed: return a synthetic finding covering the entire window
         PIIFinding sentinel;
-        sentinel.pii_type  = "UNKNOWN_FAIL_CLOSED";
-        sentinel.value     = "(redacted – detection error)";
+        sentinel.type         = PIIType::UNKNOWN;
+        sentinel.pattern_name = "FAIL_CLOSED";
+        sentinel.engine_name  = "fail_closed";
+        sentinel.value        = "(redacted – detection error)";
         sentinel.start_offset = global_offset_;
         sentinel.end_offset   = global_offset_ + process_len;
-        sentinel.confidence   = 1.0f;
+        sentinel.confidence   = 1.0;
         global_offset_  += process_len;
         lookahead_buf_   = lookahead_buf_.substr(process_len);
         return {sentinel};
