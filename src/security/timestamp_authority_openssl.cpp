@@ -47,6 +47,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <algorithm>
+#include <cctype>
 #include <sstream>
 #include <iomanip>
 #include <memory>
@@ -107,6 +109,49 @@ using TSA_ASN1_OBJECT_ptr    = std::unique_ptr<ASN1_OBJECT, TSA_ASN1_OBJECT_Dele
 using TSA_OPENSSL_Buffer_ptr = std::unique_ptr<unsigned char, TSA_OPENSSL_Deleter>;
 using TSA_OPENSSL_CStr_ptr   = std::unique_ptr<char, TSA_OPENSSL_CStr_Deleter>;
 using TSA_curl_slist_ptr     = std::unique_ptr<struct curl_slist, TSA_curl_slist_Deleter>;
+
+} // namespace
+
+namespace {
+
+bool startsWithHttps(const std::string& url) {
+    constexpr char kHttpsPrefix[] = "https://";
+    constexpr std::size_t kPrefixLen = sizeof(kHttpsPrefix) - 1;
+    if (url.size() < kPrefixLen) {
+        return false;
+    }
+    return std::equal(
+        kHttpsPrefix, kHttpsPrefix + kPrefixLen, url.begin(),
+        [](char lhs, char rhs) {
+            return std::tolower(static_cast<unsigned char>(lhs)) ==
+                   std::tolower(static_cast<unsigned char>(rhs));
+        });
+}
+
+bool applyTSATransportHardening(CURL* curl, const TSAConfig& config, std::string& lastError) {
+    if (curl == nullptr) {
+        lastError = "CURL init failed";
+        return false;
+    }
+    if (!startsWithHttps(config.url)) {
+        lastError = "TSA URL must use HTTPS";
+        return false;
+    }
+
+    const long timeoutSeconds = config.timeout_seconds > 0 ? static_cast<long>(config.timeout_seconds) : 30L;
+    const long connectTimeoutSeconds = std::clamp(timeoutSeconds / 3, 2L, 10L);
+
+    curl_easy_setopt(curl, CURLOPT_PROTOCOLS, static_cast<long>(CURLPROTO_HTTPS));
+    curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS, static_cast<long>(CURLPROTO_HTTPS));
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 0L);
+    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, connectTimeoutSeconds);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
+    curl_easy_setopt(curl, CURLOPT_SSLVERSION, static_cast<long>(CURL_SSLVERSION_TLSv1_2));
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config.verify_tsa_cert ? 1L : 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config.verify_tsa_cert ? 2L : 0L);
+    curl_easy_setopt(curl, CURLOPT_HTTPAUTH, config.username.empty() ? 0L : static_cast<long>(CURLAUTH_BASIC));
+    return true;
+}
 
 } // namespace
 
@@ -316,19 +361,15 @@ size_t curlWrite(char* ptr,size_t size,size_t nmemb,void* userdata){
 
 std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_t>& request){
     if(!impl_->curl){ last_error_="CURL init failed"; return {}; }
+    if(!applyTSATransportHardening(impl_->curl, config_, last_error_)){ return {}; }
     std::vector<uint8_t> response;
     curl_easy_setopt(impl_->curl, CURLOPT_URL, config_.url.c_str());
     curl_easy_setopt(impl_->curl, CURLOPT_POST, 1L);
     curl_easy_setopt(impl_->curl, CURLOPT_NOBODY, 0L);
     curl_easy_setopt(impl_->curl, CURLOPT_POSTFIELDS, request.data());
     curl_easy_setopt(impl_->curl, CURLOPT_POSTFIELDSIZE, (long)request.size());
-    curl_easy_setopt(impl_->curl, CURLOPT_TIMEOUT, (long)config_.timeout_seconds);
     curl_easy_setopt(impl_->curl, CURLOPT_WRITEFUNCTION, curlWrite);
     curl_easy_setopt(impl_->curl, CURLOPT_WRITEDATA, &response);
-
-    // TLS certificate verification
-    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYPEER, config_.verify_tsa_cert ? 1L : 0L);
-    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYHOST, config_.verify_tsa_cert ? 2L : 0L);
 
     // Custom CA certificate (for internal TSAs with self-signed/private CA)
     if(!config_.ca_cert_path.empty()){
@@ -564,18 +605,17 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
 
 bool TimestampAuthority::isAvailable(){
     if(!impl_->curl) return false;
+    if(!applyTSATransportHardening(impl_->curl, config_, last_error_)){ return false; }
     curl_easy_setopt(impl_->curl, CURLOPT_URL, config_.url.c_str());
     curl_easy_setopt(impl_->curl, CURLOPT_NOBODY, 1L);
     curl_easy_setopt(impl_->curl, CURLOPT_TIMEOUT, 5L);
     if(!config_.ca_cert_path.empty()){
         curl_easy_setopt(impl_->curl, CURLOPT_CAINFO, config_.ca_cert_path.c_str());
     }
-    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYPEER, config_.verify_tsa_cert ? 1L : 0L);
-    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYHOST, config_.verify_tsa_cert ? 2L : 0L);
     CURLcode res = curl_easy_perform(impl_->curl);
     // Reset NOBODY so subsequent POST requests work correctly
     curl_easy_setopt(impl_->curl, CURLOPT_NOBODY, 0L);
-    curl_easy_setopt(impl_->curl, CURLOPT_TIMEOUT, (long)config_.timeout_seconds);
+    applyTSATransportHardening(impl_->curl, config_, last_error_);
     return res == CURLE_OK;
 }
 

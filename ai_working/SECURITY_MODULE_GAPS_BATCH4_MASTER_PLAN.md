@@ -1,9 +1,12 @@
 # Security Module — Gap Closure Batch 4 Master Plan
 
 **Date:** 2026-08-16  
-**Status:** Active Execution  
+**Status:** Archived Planning Baseline (partially outdated)  
 **Scope:** src/security — 3,648 documented gaps  
 **Strategy:** Parallel 3-agent model with severity-based batching
+
+> **Update 2026-08-17:** This document is retained as the original Batch-4 planning baseline only.  
+> Current execution state is tracked in `ai_working/SECURITY_BATCH4_IMPLEMENTATION_PLAN_2026-08-17.md` and `src/security/MODULE_GAPS.md`.
 
 ## Executive Summary
 
@@ -294,13 +297,12 @@ Before each merge:
 
 ---
 
-## Next Steps
+## Next Steps (Updated 2026-08-17)
 
-1. **Immediate (this session):** Launch Agents 1-3 in parallel
-2. **Agent 1 execution:** Begin CRITICAL gap fixes
-3. **Agents 2-3 preparation:** Standby for rebase on Agent 1 completion
-4. **Merge & Verification:** Sequential checkpoint merges with test validation
-5. **Final Sweep:** Documentation update and PR creation
+1. Use this file as historical Batch-4 planning context only.
+2. Continue residual CRITICAL/HIGH closure from the targeted execution tracker.
+3. Run a fresh scanner pass to replace legacy totals with current measured counts.
+4. Keep module docs synchronized with each residual-risk fix.
 
 ---
 
