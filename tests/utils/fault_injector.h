@@ -177,7 +177,7 @@ public:
 protected:
     InjectionConfig config_;
     InjectionState state_;
-    std::mt19937_64 rng_;
+    mutable std::mt19937_64 rng_;
     std::chrono::steady_clock::time_point start_time_;
     mutable std::mutex mutex_;
 
@@ -192,7 +192,7 @@ protected:
     /**
      * @brief Generate random value [0, 1)
      */
-    double randomDouble() {
+    double randomDouble() const {
         std::uniform_real_distribution<double> dist(0.0, 1.0);
         return dist(rng_);
     }
@@ -200,7 +200,7 @@ protected:
     /**
      * @brief Generate random integer [min, max]
      */
-    int64_t randomInt(int64_t min, int64_t max) {
+    int64_t randomInt(int64_t min, int64_t max) const {
         std::uniform_int_distribution<int64_t> dist(min, max);
         return dist(rng_);
     }
@@ -327,7 +327,7 @@ public:
      */
     bool shouldDropPacket() const {
         std::lock_guard<std::mutex> lk(mutex_);
-        if (!isActive()) {
+        if (state_ != InjectionState::ACTIVE) {
             return false;
         }
         return randomDouble() < net_cfg_.packet_loss_rate;
@@ -338,7 +338,7 @@ public:
      */
     bool isPartitioned(const std::string& node_id) const {
         std::lock_guard<std::mutex> lk(mutex_);
-        if (!isActive()) {
+        if (state_ != InjectionState::ACTIVE) {
             return false;
         }
         for (const auto& member : net_cfg_.partition_members) {
@@ -390,7 +390,7 @@ public:
      */
     bool shouldTimeout() const {
         std::lock_guard<std::mutex> lk(mutex_);
-        return isActive() && timeout_cfg_.trigger_immediately;
+        return state_ == InjectionState::ACTIVE && timeout_cfg_.trigger_immediately;
     }
 
 private:

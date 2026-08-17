@@ -26,6 +26,7 @@
 #include <chrono>
 #include <memory>
 #include <iostream>
+#include <map>
 
 #include "tests/utils/fault_injector.h"
 
@@ -87,7 +88,7 @@ public:
         if (crash_injector_ && crash_injector_->shouldCrashAt(
                 CrashInjector::CrashPoint::BEFORE_FSYNC)) {
             txn.state = TxnState::CRASHED;
-            crash_injector_->recover();  // Auto-recover for testing
+            txn.is_active = false;
             return false;
         }
 
@@ -113,11 +114,12 @@ public:
         if (crash_injector_ && crash_injector_->shouldCrashAt(
                 CrashInjector::CrashPoint::DURING_COMMIT)) {
             txn.state = TxnState::CRASHED;
-            crash_injector_->recover();
+            txn.is_active = false;
             return false;
         }
 
         txn.state = TxnState::COMMITTED;
+        txn.is_active = false;
         return true;
     }
 
@@ -134,6 +136,7 @@ public:
         std::this_thread::sleep_for(10ms);  // Simulate abort work
 
         txn.state = TxnState::ABORTED;
+        txn.is_active = false;
         return true;
     }
 
@@ -236,10 +239,11 @@ protected:
 TEST_F(TransactionChaosTest, CoordinatorCrashRecovery) {
     // Setup crash injector
     CrashInjector::CrashConfig cfg{
-        .target_component = "coordinator",
-        .crash_point = CrashInjector::CrashPoint::BEFORE_FSYNC,
-        .duration = 1s,  // Auto-recover after 1s
-        .auto_recover = true};
+    };
+    cfg.target_component = "coordinator";
+    cfg.duration = 1s;  // Auto-recover after 1s
+    cfg.auto_recover = true;
+    cfg.crash_point = CrashInjector::CrashPoint::DURING_COMMIT;
     CrashInjector crash_injector(cfg);
     coordinator_->setCrashInjector(&crash_injector);
 
@@ -389,10 +393,11 @@ TEST_F(TransactionChaosTest, CascadingRollbackScenario) {
  */
 TEST_F(TransactionChaosTest, PreCommitCrashRecovery) {
     CrashInjector::CrashConfig cfg{
-        .target_component = "coordinator_pre_commit",
-        .crash_point = CrashInjector::CrashPoint::DURING_COMMIT,
-        .duration = 500ms,
-        .auto_recover = true};
+    };
+    cfg.target_component = "coordinator_pre_commit";
+    cfg.duration = 500ms;
+    cfg.auto_recover = true;
+    cfg.crash_point = CrashInjector::CrashPoint::DURING_COMMIT;
     CrashInjector crash_injector(cfg);
     coordinator_->setCrashInjector(&crash_injector);
 
@@ -407,6 +412,7 @@ TEST_F(TransactionChaosTest, PreCommitCrashRecovery) {
 
     // Try to commit - will fail
     bool commit_ok = coordinator_->commitTransaction(txn_id);
+    EXPECT_FALSE(commit_ok);
 
     // Wait for recovery
     std::this_thread::sleep_for(600ms);

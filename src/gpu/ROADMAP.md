@@ -147,11 +147,11 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: Phase 2/3 focused tests (P23-01..08) and release-gate benchmarks (GP23-01..06) are already delivered.
-- [ ] Chaos/fault-injection evidence: resource-exhaustion, fallback-all-paths, and timeout-specific fault-injection suites are still open.
-- [~] Fail-closed verification: error taxonomy and fail-closed predicates exist, but full proof that every GPU failure degrades cleanly to CPU is still pending.
+- [~] Chaos/fault-injection evidence: focused timeout/fallback/resource-safety CPU-only regressions are now covered; broader resource-exhaustion and all-path fault-injection suites remain open.
+- [~] Fail-closed verification: timeout enforcement now avoids unsafe stream destruction and focused regressions prove clean CPU fallback on timeout/exception paths, but full all-path proof is still pending.
 - [ ] Representative-hardware p95/p99 baselines: representative-hardware refresh remains open for backend and acceleration paths.
-- [ ] `release_critical` coverage: Wave A GPU closure still needs green-on-`develop` evidence for timeout/fallback/resource-exhaustion gates.
-- [ ] Next closure batch: reduce unchecked CUDA calls, close RAII lifecycle gaps, enforce kernel timeouts, and add fallback/resource-exhaustion proof.
+- [~] `release_critical` coverage: focused timeout/fallback/resource-safety regression targets are now present, but full green-on-`develop` evidence for timeout/fallback/resource-exhaustion gates remains open.
+- [~] Next closure batch: resource-exhaustion and representative-hardware closure remain open after the delivered CUDA-call/RAII/timeout/fallback hardening.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.

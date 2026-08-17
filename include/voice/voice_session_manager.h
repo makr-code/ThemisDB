@@ -18,7 +18,7 @@
  *
  * - **ACTIVE**: Session created, user is interacting
  * - **IDLE**: No activity for idle_timeout_ms
- * - **EXPIRED**: Session exceeded max_session_duration_ms
+ * - **EXPIRED**: Session exceeded idle or absolute timeout and is no longer usable
  * - **TERMINATED**: Explicit termination or cleanup
  *
  * ## Error Codes (Voice Module — Session)
@@ -33,6 +33,8 @@
  * ## Thread Safety
  * All public methods are thread-safe (internal mutex protection).
  * Persistence backend is assumed thread-safe.
+ * Expired or terminated sessions are removed from active storage fail-closed;
+ * only state-change timestamps remain for audit/teardown diagnostics.
  */
 
 
@@ -102,7 +104,7 @@ struct SessionAnalytics {
 // Session timeout configuration
 struct SessionTimeoutConfig {
     int64_t idle_timeout_ms = 5 * 60 * 1000;          // 5 minutes
-    int64_t max_session_duration_ms = 60 * 60 * 1000;  // 1 hour
+    int64_t max_session_duration_ms = 30 * 60 * 1000;  // 30 minutes
     int64_t cleanup_interval_ms = 30 * 1000;            // 30 seconds
     bool auto_expire = true;
 };
@@ -187,7 +189,8 @@ private:
 /// 1. Creation: new sessions transition to ACTIVE state
 /// 2. Activity tracking: last_activity_ms updated on touchSession()
 /// 3. Expiration: automated cleanup via expireOldSessions()
-/// 4. Termination: explicit or implicit state transitions
+/// 4. Termination: explicit or implicit state transitions remove the session
+///    from active storage fail-closed
 ///
 /// ## State Transitions (Frozen)
 /// ```
@@ -205,9 +208,9 @@ private:
 /// - Session data snapshots are returned by value (copy-safe)
 ///
 /// ## Resource Limits (Frozen)
-/// - Maximum concurrent sessions: unbounded (enforced externally)
+/// - Maximum concurrent sessions: 1000 per manager instance
 /// - Session timeout: idle_timeout_ms (default 5 min)
-/// - Maximum duration: max_session_duration_ms (default 1 hour)
+/// - Maximum duration: max_session_duration_ms (default 30 min)
 /// - Cleanup interval: cleanup_interval_ms (default 30 sec)
 class VoiceSessionManager {
 public:

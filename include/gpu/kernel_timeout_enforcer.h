@@ -7,12 +7,15 @@
  * @note Status: Wave A Batch A-8 Implementation
  *
  * Monitors GPU kernel execution and enforces timeout limits. If a kernel
- * exceeds its timeout window, execution is preempted and falls back to CPU.
+ * exceeds its timeout window, execution fails closed and the caller may
+ * degrade to CPU without destroying the caller-owned stream.
  *
  * ## Execution Model
- * 1. Kernel starts with timeout guard
- * 2. Background thread monitors elapsed time
- * 3. If timeout exceeded, kernel stream is destroyed
+ * 1. Kernel starts with timeout budget metadata
+ * 2. The enforcer measures wall-clock time and, when a stream is supplied,
+ *    polls stream completion with bounded waiting
+ * 3. If timeout exceeded, the enforcer reports failure and drains the stream
+ *    safely when one was provided
  * 4. Fallback to CPU execution (if enabled)
  *
  * @error 7700: Kernel timeout exceeded
@@ -23,7 +26,8 @@
 
 #include <cstdint>
 #include <functional>
-#include <cuda_runtime.h>
+
+#include "gpu/gpu_safe_raii.h"
 
 namespace themis {
 namespace gpu {
@@ -48,8 +52,8 @@ public:
     /// @param kernel_lambda Function containing kernel launch code
     /// @param config Kernel configuration and timeout settings
     /// @return true if kernel completed within timeout; false if timed out
-    /// @throws std::runtime_error on CUDA errors
-    bool executeWithTimeout(
+    /// @throws std::runtime_error on invalid input or backend synchronization errors
+    [[nodiscard]] bool executeWithTimeout(
         const std::function<void()>& kernel_lambda,
         const KernelConfig& config
     );
@@ -58,17 +62,22 @@ public:
     /// @param gpu_kernel GPU kernel function
     /// @param cpu_kernel CPU fallback function
     /// @param config Kernel configuration
-    /// @return true if GPU kernel completed; false if fell back to CPU
-    bool executeWithFallback(
-        const std::function<void()>& gpu_kernel,
-        const std::function<void()>& cpu_kernel,
-        const KernelConfig& config
+    /// GPU exceptions trigger CPU fallback when enabled; otherwise they are
+    /// rethrown to the caller.
+    ///
+    /// @return true if GPU kernel completed; false if execution degraded to CPU
+    [[nodiscard]] bool executeWithFallback(
+       const std::function<void()>& gpu_kernel,
+       const std::function<void()>& cpu_kernel,
+       const KernelConfig& config
     );
 
 private:
     bool kernel_timed_out_ = false;
 
-    void monitorKernelTimeout(cudaStream_t stream, uint32_t timeout_ms);
+    [[nodiscard]] bool waitForCompletion(cudaStream_t stream,
+                                         uint32_t timeout_ms,
+                                         std::chrono::steady_clock::time_point start_time);
 };
 
 }} // namespace themis::gpu

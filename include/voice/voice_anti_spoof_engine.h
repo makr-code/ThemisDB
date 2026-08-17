@@ -7,7 +7,7 @@
  * @note Status: Wave A Batch A-8 Implementation
  *
  * Detects and rejects spoofed audio (recordings, synthetically generated, or replayed)
- * by analyzing three orthogonal features:
+ * by analyzing three deterministic local features:
  *
  * 1. **Audio Freshness**: Detects synthetic/recorded vs. live stream
  *    - Spectral analysis for digital artifacts
@@ -79,6 +79,10 @@ struct SpoofAnalysis {
  * - Noise pattern analysis to detect edited/spliced audio
  *
  * Thread-safe: all methods acquire internal mutex.
+ *
+ * The implementation accepts 16-bit little-endian PCM payloads or a
+ * comma-separated numeric baseline embedding. Inputs that cannot be parsed are
+ * rejected fail-closed.
  */
 class VoiceAntiSpoofEngine {
 public:
@@ -88,6 +92,8 @@ public:
         double speaker_match_threshold = 0.8;  ///< Min speaker match to pass (0.8 = 80% match)
         double noise_consistency_threshold = 0.65; ///< Min noise consistency (0.65 = 65% consistency)
         bool require_all_checks = true;        ///< Require all three checks to pass (fail-closed)
+        size_t min_audio_bytes = 3200;         ///< Require at least ~100 ms PCM payload
+        size_t max_audio_bytes = 2 * 1024 * 1024; ///< Reject oversized payloads fail-closed
     };
 
     /// @brief Construct engine with default config
@@ -114,7 +120,7 @@ public:
     /// @error 7201: Speaker verification failed
     /// @error 7202: Audio quality too low for analysis
     /// @error 7203: Synthetic/recorded audio detected
-    SpoofAnalysis analyzeSpoofRisk(
+    [[nodiscard]] SpoofAnalysis analyzeSpoofRisk(
         const std::string& audio_data,
         const std::string& speaker_baseline
     );
@@ -123,20 +129,20 @@ public:
     /// @param audio_data Raw audio bytes
     /// @return Freshness score (0.0 = definitely synthetic, 1.0 = definitely live)
     /// @note Uses spectral analysis to detect digital artifacts
-    double analyzeAudioFreshness(const std::string& audio_data);
+    [[nodiscard]] double analyzeAudioFreshness(const std::string& audio_data);
 
     /// @brief Verify speaker matches baseline voice
     /// @param audio_data Raw audio bytes from speaker
     /// @param baseline Voice embedding from enrollment session
     /// @return Match score (0.0 = different speaker, 1.0 = same speaker)
     /// @note Uses speaker embedding model for comparison
-    double analyzeSpeakerMatch(const std::string& audio_data, const std::string& baseline);
+    [[nodiscard]] double analyzeSpeakerMatch(const std::string& audio_data, const std::string& baseline);
 
     /// @brief Analyze background noise consistency
     /// @param audio_data Raw audio bytes
     /// @return Consistency score (0.0 = discontinuous/edited, 1.0 = perfectly consistent)
     /// @note Detects spliced or edited audio by analyzing noise patterns
-    double analyzeNoisePattern(const std::string& audio_data);
+    [[nodiscard]] double analyzeNoisePattern(const std::string& audio_data);
 
 private:
     Config config_;
@@ -145,28 +151,28 @@ private:
     /// @brief Extract spectral features from audio
     /// @param audio Raw audio data
     /// @return Vector of spectral coefficients (placeholder)
-    std::vector<double> extractSpectralFeatures(const std::string& audio);
+    [[nodiscard]] std::vector<double> extractSpectralFeatures(const std::string& audio);
 
     /// @brief Extract speaker embedding from audio
     /// @param audio Raw audio data
     /// @return Speaker embedding vector (placeholder)
-    std::vector<double> extractSpeakerEmbedding(const std::string& audio);
+    [[nodiscard]] std::vector<double> extractSpeakerEmbedding(const std::string& audio);
 
     /// @brief Extract noise profile from audio
     /// @param audio Raw audio data
     /// @return Noise characteristics (placeholder)
-    std::vector<double> extractNoiseProfile(const std::string& audio);
+    [[nodiscard]] std::vector<double> extractNoiseProfile(const std::string& audio);
 
     /// @brief Compute cosine similarity between two vectors
     /// @param v1 First vector
     /// @param v2 Second vector
     /// @return Similarity score (0.0 = orthogonal, 1.0 = identical)
-    double cosineSimilarity(const std::vector<double>& v1, const std::vector<double>& v2) const;
+    [[nodiscard]] double cosineSimilarity(const std::vector<double>& v1, const std::vector<double>& v2) const;
 
     /// @brief Normalize vector to unit length
     /// @param vec Vector to normalize
     /// @return Normalized vector
-    std::vector<double> normalizeVector(const std::vector<double>& vec) const;
+    [[nodiscard]] std::vector<double> normalizeVector(const std::vector<double>& vec) const;
 };
 
 }} // namespace themis::voice

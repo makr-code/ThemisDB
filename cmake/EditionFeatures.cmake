@@ -39,6 +39,8 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/admin_api.cpp
         ../src/gpu/gpu_module.cpp
         ../src/gpu/stream_manager.cpp
+        ../src/gpu/gpu_safe_raii.cpp
+        ../src/gpu/kernel_timeout_enforcer.cpp
         ../src/gpu/query_accelerator.cpp
         ../src/gpu/graph_cache.cpp
         ../src/gpu/tensor_buffer.cpp

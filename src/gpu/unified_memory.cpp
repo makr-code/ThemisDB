@@ -36,6 +36,21 @@
 namespace themis {
 namespace gpu {
 
+namespace {
+
+[[nodiscard]] bool platformFree(void* ptr) noexcept {
+#ifdef THEMIS_ENABLE_CUDA
+    return cudaFree(ptr) == cudaSuccess;
+#elif defined(THEMIS_ENABLE_HIP)
+    return hipFree(ptr) == hipSuccess;
+#else
+    std::free(ptr);
+    return true;
+#endif
+}
+
+} // namespace
+
 // ============================================================================
 // isSupported
 // ============================================================================
@@ -123,47 +138,38 @@ bool GPUUnifiedMemoryAllocator::free(void *ptr) {
         return false;
     }
 
-    size_t bytes = 0;
-    std::string tenant_id;
+    std::lock_guard<std::mutex> lock(mutex_);
 
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
+    auto it
+        = std::find_if(active_.begin(), active_.end(), [ptr](const AllocationRecord &r) { return r.ptr == ptr; });
+    if (it == active_.end()) {
+        return false;
+    }
 
-        auto it
-            = std::find_if(active_.begin(), active_.end(), [ptr](const AllocationRecord &r) { return r.ptr == ptr; });
-        if (it == active_.end()) {
-            return false;
-        }
+    if (!platformFree(ptr)) {
+        return false;
+    }
 
-        bytes     = it->bytes;
-        tenant_id = it->tenant_id;
+    const size_t bytes = it->bytes;
+    const std::string tenant_id = it->tenant_id;
 
-        active_.erase(it);
-        ++total_frees_;
-        if (allocated_bytes_ >= static_cast<uint64_t>(bytes)) {
-            allocated_bytes_ -= static_cast<uint64_t>(bytes);
-        } else {
-            allocated_bytes_ = 0;
-        }
-        if (!tenant_id.empty()) {
-            auto tit = tenant_bytes_.find(tenant_id);
-            if (tit != tenant_bytes_.end()) {
-                if (tit->second >= static_cast<uint64_t>(bytes)) {
-                    tit->second -= static_cast<uint64_t>(bytes);
-                } else {
-                    tit->second = 0;
-                }
+    active_.erase(it);
+    ++total_frees_;
+    if (allocated_bytes_ >= static_cast<uint64_t>(bytes)) {
+        allocated_bytes_ -= static_cast<uint64_t>(bytes);
+    } else {
+        allocated_bytes_ = 0;
+    }
+    if (!tenant_id.empty()) {
+        auto tit = tenant_bytes_.find(tenant_id);
+        if (tit != tenant_bytes_.end()) {
+            if (tit->second >= static_cast<uint64_t>(bytes)) {
+                tit->second -= static_cast<uint64_t>(bytes);
+            } else {
+                tit->second = 0;
             }
         }
-    } // mutex released here — platform free runs without holding the lock
-
-#ifdef THEMIS_ENABLE_CUDA
-    cudaFree(ptr);
-#elif defined(THEMIS_ENABLE_HIP)
-    hipFree(ptr);
-#else
-    std::free(ptr);
-#endif
+    }
 
     return true;
 }
@@ -308,13 +314,7 @@ void GPUUnifiedMemoryAllocator::reset() {
 
     // Free all tracked pointers.
     for (auto &rec : active_) {
-#ifdef THEMIS_ENABLE_CUDA
-        cudaFree(rec.ptr);
-#elif defined(THEMIS_ENABLE_HIP)
-        hipFree(rec.ptr);
-#else
-        std::free(rec.ptr);
-#endif
+        static_cast<void>(platformFree(rec.ptr));
     }
 
     active_.clear();

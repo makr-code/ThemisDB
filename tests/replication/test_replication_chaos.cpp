@@ -227,11 +227,11 @@ TEST_F(ReplicationChaosTest, LagInjectionAndFailover) {
  * Inject packet loss, verify WAL shipping retries and succeeds.
  */
 TEST_F(ReplicationChaosTest, WALShippingUnderPacketLoss) {
-    NetworkInjector::NetworkConfig cfg{
-        .target_component = "wal_channel",
-        .duration = 2s,
-        .network_type = NetworkInjector::NetworkFaultType::PACKET_LOSS,
-        .packet_loss_rate = 0.1f};  // 10% packet loss
+    NetworkInjector::NetworkConfig cfg;
+    cfg.target_component = "wal_channel";
+    cfg.duration = 2s;
+    cfg.network_type = NetworkInjector::NetworkFaultType::PACKET_LOSS;
+    cfg.packet_loss_rate = 0.1f;  // 10% packet loss
 
     NetworkInjector loss_injector(cfg);
 

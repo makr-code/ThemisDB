@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <ctime>
 
 namespace themis {
 namespace voice {
@@ -29,8 +30,6 @@ void VoiceAuditLogger::logAuthenticationAttempt(
     if (!config_.enable_logging) {
         return;
     }
-
-    std::lock_guard<std::mutex> lock(mutex_);
 
     json event;
     event["timestamp"] = getTimestamp();
@@ -58,8 +57,6 @@ void VoiceAuditLogger::logSessionLifecycle(
         return;
     }
 
-    std::lock_guard<std::mutex> lock(mutex_);
-
     json event;
     event["timestamp"] = getTimestamp();
     event["event_type"] = "VOICE_SESSION_LIFECYCLE";
@@ -82,8 +79,6 @@ void VoiceAuditLogger::logLivenessChallenge(
     if (!config_.enable_logging) {
         return;
     }
-
-    std::lock_guard<std::mutex> lock(mutex_);
 
     json event;
     event["timestamp"] = getTimestamp();
@@ -111,8 +106,6 @@ void VoiceAuditLogger::logSpoofDetection(
     if (!config_.enable_logging) {
         return;
     }
-
-    std::lock_guard<std::mutex> lock(mutex_);
 
     json event;
     event["timestamp"] = getTimestamp();
@@ -168,32 +161,46 @@ std::string VoiceAuditLogger::getTimestamp() const {
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         now.time_since_epoch()) % 1000;
 
+    std::tm utc_time{};
+#if defined(_WIN32)
+    gmtime_s(&utc_time, &time_t_now);
+#else
+    gmtime_r(&time_t_now, &utc_time);
+#endif
+
     std::stringstream ss;
-    ss << std::put_time(std::gmtime(&time_t_now), "%Y-%m-%dT%H:%M:%S");
+    ss << std::put_time(&utc_time, "%Y-%m-%dT%H:%M:%S");
     ss << '.' << std::setfill('0') << std::setw(3) << ms.count() << 'Z';
     return ss.str();
 }
 
 void VoiceAuditLogger::writeEvent(const json& event) {
-    // Add to in-memory log
-    event_log_.push_back(event);
-
-    // Call callback if registered
-    if (event_callback_) {
-        event_callback_(event);
+    std::function<void(const json&)> callback;
+    Config config_snapshot;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        event_log_.push_back(event);
+        callback = event_callback_;
+        config_snapshot = config_;
     }
 
-    // Write to console if enabled
-    if (config_.log_to_console) {
-        std::cerr << serializeEvent(event) << std::endl;
+    if (callback) {
+        try {
+            callback(event);
+        } catch (...) {
+            // Audit callbacks must never break event capture.
+        }
     }
 
-    // Write to file if configured
-    if (!config_.log_file_path.empty()) {
-        std::ofstream log_file(config_.log_file_path, std::ios::app);
+    const std::string serialized = serializeEvent(event);
+    if (config_snapshot.log_to_console) {
+        std::cerr << serialized << std::endl;
+    }
+
+    if (!config_snapshot.log_file_path.empty()) {
+        std::ofstream log_file(config_snapshot.log_file_path, std::ios::app);
         if (log_file.is_open()) {
-            log_file << serializeEvent(event) << "\n";
-            log_file.close();
+            log_file << serialized << "\n";
         }
     }
 }

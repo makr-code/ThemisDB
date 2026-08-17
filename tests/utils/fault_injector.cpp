@@ -310,7 +310,7 @@ void CorruptionInjector::update() {
 size_t CorruptionInjector::corruptData(uint8_t* buffer, size_t size) {
     std::lock_guard<std::mutex> lk(mutex_);
 
-    if (!isActive()) {
+    if (state_ != InjectionState::ACTIVE) {
         return 0;
     }
 
@@ -331,7 +331,7 @@ size_t CorruptionInjector::corruptData(uint8_t* buffer, size_t size) {
 
 int FaultOrchestrator::addInjector(std::unique_ptr<FaultInjector> injector) {
     std::lock_guard<std::mutex> lk(mutex_);
-    int id = generateId();
+    int id = next_id_++;
     injectors_[id] = std::move(injector);
     return id;
 }

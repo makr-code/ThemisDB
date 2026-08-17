@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <random>
 #include <cctype>
-#include <iostream>
+#include <limits>
 
 namespace themis {
 namespace voice {
@@ -27,6 +27,84 @@ static const std::vector<std::string> CHALLENGE_PHRASES = {
     "confirm six hundred six"
 };
 
+namespace {
+
+[[nodiscard]] bool isPrintableTranscriptPayload(const std::string& payload) {
+    if (payload.empty()) {
+        return false;
+    }
+
+    size_t printable_count = 0;
+    for (const unsigned char c : payload) {
+        if (std::isprint(c) || std::isspace(c)) {
+            ++printable_count;
+        } else {
+            return false;
+        }
+    }
+
+    return printable_count == payload.size();
+}
+
+[[nodiscard]] std::string extractTranscriptCandidate(const std::string& payload) {
+    if (!isPrintableTranscriptPayload(payload)) {
+        return {};
+    }
+
+    constexpr const char* kTranscriptPrefix = "transcript:";
+    if (payload.rfind(kTranscriptPrefix, 0) == 0) {
+        return payload.substr(std::char_traits<char>::length(kTranscriptPrefix));
+    }
+
+    const auto transcript_key = payload.find("\"transcript\"");
+    if (transcript_key != std::string::npos) {
+        const auto colon = payload.find(':', transcript_key);
+        const auto first_quote = payload.find('"', colon == std::string::npos ? transcript_key : colon + 1);
+        if (colon != std::string::npos && first_quote != std::string::npos) {
+            const auto second_quote = payload.find('"', first_quote + 1);
+            if (second_quote != std::string::npos && second_quote > first_quote + 1) {
+                return payload.substr(first_quote + 1, second_quote - first_quote - 1);
+            }
+        }
+    }
+
+    return payload;
+}
+
+size_t cleanupExpiredChallengesUnlocked(
+    const int64_t now,
+    const int64_t challenge_timeout_ms,
+    const int64_t replay_memory_ms,
+    std::map<uint64_t, Challenge>& active_challenges,
+    std::set<uint64_t>& verified_challenges,
+    std::map<uint64_t, int64_t>& verified_timestamps) {
+    size_t cleaned = 0;
+    const int64_t cutoff = now - challenge_timeout_ms;
+
+    for (auto it = active_challenges.begin(); it != active_challenges.end();) {
+        if (it->second.issued_at_ms < cutoff) {
+            it = active_challenges.erase(it);
+            ++cleaned;
+        } else {
+            ++it;
+        }
+    }
+
+    const int64_t replay_cutoff = now - replay_memory_ms;
+    for (auto it = verified_timestamps.begin(); it != verified_timestamps.end();) {
+        if (it->second < replay_cutoff) {
+            verified_challenges.erase(it->first);
+            it = verified_timestamps.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    return cleaned;
+}
+
+} // namespace
+
 VoiceLivenessDetector::VoiceLivenessDetector(const Config& config)
     : config_(config) {
 }
@@ -37,6 +115,13 @@ std::optional<Challenge> VoiceLivenessDetector::issueChallenge(const std::string
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
+    cleanupExpiredChallengesUnlocked(
+        nowMs(),
+        config_.challenge_timeout_ms,
+        config_.replay_memory_ms,
+        active_challenges_,
+        verified_challenges_,
+        verified_timestamps_);
 
     Challenge challenge;
     challenge.id = next_challenge_id_++;
@@ -49,7 +134,7 @@ std::optional<Challenge> VoiceLivenessDetector::issueChallenge(const std::string
     return challenge;
 }
 
-VerificationResult VoiceLivenessDetector::verifyResponse(
+VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
     const std::string& user_id,
     const Challenge& challenge,
     const std::string& audio_response) {
@@ -63,13 +148,35 @@ VerificationResult VoiceLivenessDetector::verifyResponse(
         result.reason = "Invalid user ID";
         return result;
     }
+    if (audio_response.empty()) {
+        result.reason = "Empty response payload";
+        return result;
+    }
+    if (audio_response.size() > config_.max_response_bytes) {
+        result.reason = "Response payload too large";
+        return result;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
+    cleanupExpiredChallengesUnlocked(
+        nowMs(),
+        config_.challenge_timeout_ms,
+        config_.replay_memory_ms,
+        active_challenges_,
+        verified_challenges_,
+        verified_timestamps_);
 
     // Check if challenge exists and is active
     auto it = active_challenges_.find(challenge.id);
     if (it == active_challenges_.end()) {
-        result.reason = "Challenge not found";
+        const int64_t challenge_age_ms = nowMs() - challenge.issued_at_ms;
+        if (challenge_age_ms > config_.challenge_timeout_ms) {
+            result.reason = "Challenge expired (stale)";
+        } else {
+            result.reason = (verified_challenges_.find(challenge.id) != verified_challenges_.end())
+                ? "Replay attack detected (challenge already consumed)"
+                : "Challenge not found";
+        }
         return result;
     }
 
@@ -84,7 +191,8 @@ VerificationResult VoiceLivenessDetector::verifyResponse(
     }
 
     // Check for replay attack
-    if (config_.enable_replay_detection && isReplayedChallenge(challenge.id)) {
+    if (config_.enable_replay_detection &&
+        verified_challenges_.find(challenge.id) != verified_challenges_.end()) {
         result.reason = "Replay attack detected (challenge already verified)";
         return result;
     }
@@ -98,6 +206,7 @@ VerificationResult VoiceLivenessDetector::verifyResponse(
     // Convert audio response to text
     std::string response_text = speechToText(audio_response);
     if (response_text.empty()) {
+        active_challenges_.erase(it);
         result.reason = "Speech-to-text conversion failed";
         return result;
     }
@@ -109,6 +218,7 @@ VerificationResult VoiceLivenessDetector::verifyResponse(
     // Check if response matches challenge
     if (normalized_response.find(normalized_expected) == std::string::npos &&
         normalized_expected.find(normalized_response) == std::string::npos) {
+        active_challenges_.erase(it);
         result.reason = "Challenge response text mismatch";
         return result;
     }
@@ -145,37 +255,17 @@ std::optional<Challenge> VoiceLivenessDetector::getChallenge(uint64_t challenge_
 
 size_t VoiceLivenessDetector::cleanupExpiredChallenges() {
     std::lock_guard<std::mutex> lock(mutex_);
-
-    size_t cleaned = 0;
-    int64_t now = nowMs();
-    int64_t cutoff = now - config_.challenge_timeout_ms;
-
-    // Remove expired active challenges
-    for (auto it = active_challenges_.begin(); it != active_challenges_.end(); ) {
-        if (it->second.issued_at_ms < cutoff) {
-            it = active_challenges_.erase(it);
-            cleaned++;
-        } else {
-            ++it;
-        }
-    }
-
-    // Remove old verified challenge records (beyond replay memory window)
-    int64_t replay_cutoff = now - config_.replay_memory_ms;
-    for (auto it = verified_timestamps_.begin(); it != verified_timestamps_.end(); ) {
-        if (it->second < replay_cutoff) {
-            verified_challenges_.erase(it->first);
-            it = verified_timestamps_.erase(it);
-        } else {
-            ++it;
-        }
-    }
-
-    return cleaned;
+    return cleanupExpiredChallengesUnlocked(
+        nowMs(),
+        config_.challenge_timeout_ms,
+        config_.replay_memory_ms,
+        active_challenges_,
+        verified_challenges_,
+        verified_timestamps_);
 }
 
 bool VoiceLivenessDetector::isReplayedChallenge(uint64_t challenge_id) const {
-    // Note: not taking lock here since it's called from within verifyResponse which already holds it
+    std::lock_guard<std::mutex> lock(mutex_);
     return verified_challenges_.find(challenge_id) != verified_challenges_.end();
 }
 
@@ -185,22 +275,19 @@ size_t VoiceLivenessDetector::getActiveChallengeCount() const {
 }
 
 std::string VoiceLivenessDetector::speechToText(const std::string& audio) {
-    // NOTE: This is a stub implementation. In production, this would call:
-    // - Google Cloud Speech-to-Text API
-    // - AWS Transcribe
-    // - Azure Cognitive Services
-    // - Local Whisper model
-    //
-    // For now, we return empty string to indicate stub (production would not do this)
-    // In actual testing, this would be mocked or replaced with a real service
-    
-    if (audio.empty()) {
-        return "";
+    if (audio.empty() || audio.size() > config_.max_response_bytes) {
+        return {};
     }
 
-    // Stub: In production, call real speech-to-text service
-    // This is a placeholder that allows the detector to work in testing
-    return "";  // Actual implementation would contact speech-to-text service
+    auto transcript = normalizeText(extractTranscriptCandidate(audio));
+    size_t alpha_count = 0;
+    for (const unsigned char c : transcript) {
+        if (std::isalpha(c)) {
+            ++alpha_count;
+        }
+    }
+
+    return alpha_count >= 3 ? transcript : std::string{};
 }
 
 std::string VoiceLivenessDetector::generateRandomChallenge() {
@@ -220,9 +307,9 @@ int64_t VoiceLivenessDetector::nowMs() const {
 std::string VoiceLivenessDetector::normalizeText(const std::string& text) {
     std::string normalized;
     
-    for (char c : text) {
+    for (const unsigned char c : text) {
         if (std::isalnum(c)) {
-            normalized += std::tolower(c);
+            normalized += static_cast<char>(std::tolower(c));
         } else if (std::isspace(c) && !normalized.empty() && normalized.back() != ' ') {
             normalized += ' ';
         }

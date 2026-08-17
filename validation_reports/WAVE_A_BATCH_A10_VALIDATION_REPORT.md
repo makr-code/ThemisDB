@@ -1,5 +1,5 @@
 # WAVE A BATCH A-10: FINAL VALIDATION & GA PROMOTION
-**Report Date**: 2026-08-16T16:14:46.439+00:00  
+**Report Date**: 2026-08-17T05:15:00+00:00  
 **Status**: VALIDATION IN PROGRESS  
 **Target**: Wave A Production Ready for Oct 15, 2026 GA Release  
 **Scope**: All 5 Wave A modules + Cross-module integration  
@@ -12,9 +12,9 @@ This document tracks the final validation gates for Wave A Batch A-10 before pro
 
 ### Validation Gate Status Matrix
 
-| Gate | Module | Status | P ass/Fail | Evidence |
+| Gate | Module | Status | Pass/Fail | Evidence |
 |------|--------|--------|-----------|----------|
-| 1️⃣ **Compilation** | All | IN PROGRESS | ? | build logs |
+| 1️⃣ **Compilation** | All | IN PROGRESS | PARTIAL | `community-release` configure PASS; focused A-9 build + test PASS on `community-debug`; broader repo build still blocked by unrelated `src/index/gpu_vector_index.cpp` compile errors |
 | 2️⃣ **ThreadSanitizer** | All | PENDING | ? | tsan reports |
 | 3️⃣ **AddressSanitizer** | All | PENDING | ? | asan reports |
 | 4️⃣ **Long-Run Soak Test** | All | PENDING | ? | 2-hour metrics |
@@ -40,25 +40,63 @@ This document tracks the final validation gates for Wave A Batch A-10 before pro
 
 ### Execution Plan
 
+#### 2026-08-17 Focused A-9 validation snapshot
+**Status**: PARTIAL PASS (targeted chaos/adversarial scope only)
+
+Commands executed:
+```bash
+sudo apt-get install -y \
+  librocksdb-dev libgtest-dev libgrpc-dev libgrpc++-dev \
+  libprotobuf-dev protobuf-compiler protobuf-compiler-grpc \
+  libspdlog-dev libfmt-dev nlohmann-json3-dev libsimdjson-dev \
+  libtbb-dev libmimalloc-dev libyaml-cpp-dev \
+  libcurl4-openssl-dev libboost-system-dev
+
+cmake --preset community-release --fresh
+cmake --preset community-debug --fresh -DTHEMIS_BUILD_BENCHMARKS=OFF
+cmake --build build-community-debug --target \
+  module_transaction_test_transaction_chaos_focused \
+  module_transaction_test_transaction_stress_focused \
+  module_sharding_test_sharding_chaos_batch_a9_focused \
+  module_replication_test_replication_chaos_focused \
+  module_voice_test_voice_adversarial_focused \
+  module_gpu_test_gpu_adversarial_focused \
+  --parallel 8
+cd build-community-debug && ctest --output-on-failure -R \
+  'TransactionChaosBatchA9FocusedTests|TransactionStressBatchA9FocusedTests|ShardingChaosBatchA9FocusedTests|ReplicationChaosBatchA9FocusedTests|test_voice_adversarial_voice_FocusedTests|test_gpu_adversarial_gpu_FocusedTests'
+```
+
+Observed result:
+```text
+100% tests passed, 0 tests failed out of 6
+```
+
+Remaining broader-build blocker observed during validation:
+```text
+src/index/gpu_vector_index.cpp
+error: cannot define member function ... within ‘GPUVectorIndex::Impl’
+error: expected ‘}’ at end of input
+```
+
 #### Preset 1: develop-strict (Warnings-as-Errors)
-**Status**: Configuration attempted  
-**Result**: RocksDB missing dependency (system)  
+**Status**: NOT RE-RUN after dependency remediation  
+**Result**: pending broader repository-wide validation  
 
 ```
 CMake Error: RocksDB not found. Install via vcpkg or system package.
 ```
 
-**Resolution**: RocksDB (librocksdb-dev) installed successfully.
+**Resolution**: RocksDB dependency gap remediated (`librocksdb-dev` installed successfully).
 
 #### Preset 2: community-release (System Packages)
-**Status**: Configuration attempted  
-**Result**: gRPC CMake target error  
+**Status**: Configuration re-run after dependency remediation  
+**Result**: PASS after installing missing gRPC runtime/dev packages  
 
 ```
 CMake Error at /usr/lib/x86_64-linux-gnu/cmake/grpc/gRPCTargets.cmake:195
 ```
 
-**Analysis**: System gRPC installation has incomplete CMake configuration.
+**Resolution**: installed `libgrpc++-dev` and `protobuf-compiler-grpc`; `cmake --preset community-release --fresh` completed successfully.
 
 ### Environment Analysis
 
@@ -68,21 +106,27 @@ CMake Error at /usr/lib/x86_64-linux-gnu/cmake/grpc/gRPCTargets.cmake:195
 | cmake | ✅ | YES | 3.28.3 |
 | ninja-build | ✅ | YES | 1.11.1 |
 | librocksdb-dev | ✅ | YES | 8.9.1 |
-| libspdlog-dev | ✅ | YES | 1.11.0 |
+| libspdlog-dev | ✅ | YES | 1.12.0 |
 | libfmt-dev | ✅ | YES | 9.1.0 |
-| libsimdjson-dev | ✅ | YES | latest |
+| libsimdjson-dev | ✅ | YES | 3.6.4 |
 | libtbb-dev | ✅ | YES | 2021.11.0 |
-| nlohmann-json3-dev | ✅ | YES | latest |
+| nlohmann-json3-dev | ✅ | YES | 3.11.3 |
 | libgrpc-dev | ✅ | YES | 1.51.1 |
+| libgrpc++-dev | ✅ | YES | 1.51.1 |
+| protobuf-compiler-grpc | ✅ | YES | 1.51.1 |
+| libcurl4-openssl-dev | ✅ | YES | 8.5.0 |
+| libmimalloc-dev | ✅ | YES | 2.1.2 |
+| libyaml-cpp-dev | ✅ | YES | 0.8.0 |
+| libboost-system-dev | ✅ | YES | 1.83.0 |
 | libssl-dev | ✅ | YES | 3.0.13 |
 | libprotobuf-dev | ✅ | YES | 3.21.12 |
 
 #### Build System Assessment
 
 **System Packages vs vcpkg**:
-- System packages: Partial availability, CMake targets incomplete
-- vcpkg: Recommended for full control, not available in this environment
-- vcpkg bootstrap: Requires manual cloning and setup
+- System packages: sufficient for targeted `community-release`/`community-debug` validation after remediation
+- vcpkg: recommended for canonical CI/CD parity
+- vcpkg bootstrap: not performed in this validation session
 
 **Recommended Approach for Real CI/CD**:
 Use vcpkg with full dependency management (as per CMakePresets.json design).

@@ -13,7 +13,7 @@
  * ## Security Model
  * 1. Server generates random challenge text + timestamp
  * 2. Client captures live audio containing challenge phrase
- * 3. Speech-to-text converts response to text
+ * 3. A deterministic local transcript extractor normalizes the response payload
  * 4. Verification checks: text match, timestamp freshness, no replay
  * 
  * ## Challenge Lifecycle
@@ -66,6 +66,11 @@ struct Challenge {
  * 4. Prove the response matches the challenge (via speech-to-text)
  *
  * Thread-safe: all methods acquire internal mutex.
+ *
+ * The implementation is intentionally fail-closed: opaque or malformed binary
+ * payloads are rejected unless they contain a locally verifiable transcript
+ * representation. This avoids granting access when upstream capture or speech
+ * extraction data is incomplete.
  */
 class VoiceLivenessDetector {
 public:
@@ -74,6 +79,7 @@ public:
         int64_t challenge_timeout_ms = 5000;  ///< Time window for response (default: 5 sec)
         int64_t replay_memory_ms = 60000;     ///< How long to remember verified challenges (default: 60 sec)
         bool enable_replay_detection = true;  ///< Track verified challenges to prevent replay
+        size_t max_response_bytes = 64 * 1024; ///< Reject oversized response payloads fail-closed
     };
 
     /// @brief Result of liveness verification
@@ -104,7 +110,7 @@ public:
     /// @param user_id User identifier
     /// @return Challenge with unique ID and random phrase; nullopt if generation failed
     /// @error 7100: Challenge generation failed
-    std::optional<Challenge> issueChallenge(const std::string& user_id);
+    [[nodiscard]] std::optional<Challenge> issueChallenge(const std::string& user_id);
 
     /// @brief Verify a challenge response
     /// @param user_id User identifier
@@ -115,7 +121,7 @@ public:
     /// @error 7102: Stale challenge (>5s old)
     /// @error 7103: Replay attack detected
     /// @error 7104: Invalid challenge response (text mismatch)
-    VerificationResult verifyResponse(
+    [[nodiscard]] VerificationResult verifyResponse(
         const std::string& user_id,
         const Challenge& challenge,
         const std::string& audio_response
@@ -124,20 +130,20 @@ public:
     /// @brief Get an active challenge by ID
     /// @param challenge_id Challenge identifier
     /// @return Challenge if found and not expired; nullopt otherwise
-    std::optional<Challenge> getChallenge(uint64_t challenge_id) const;
+    [[nodiscard]] std::optional<Challenge> getChallenge(uint64_t challenge_id) const;
 
     /// @brief Cleanup expired challenges
     /// @return Number of challenges cleaned up
-    size_t cleanupExpiredChallenges();
+    [[nodiscard]] size_t cleanupExpiredChallenges();
 
     /// @brief Check if a challenge has been verified before (replay detection)
     /// @param challenge_id Challenge identifier
     /// @return true if challenge was previously verified (replay); false otherwise
-    bool isReplayedChallenge(uint64_t challenge_id) const;
+    [[nodiscard]] bool isReplayedChallenge(uint64_t challenge_id) const;
 
     /// @brief Get current challenge count
     /// @return Number of active challenges
-    size_t getActiveChallengeCount() const;
+    [[nodiscard]] size_t getActiveChallengeCount() const;
 
 private:
     Config config_;
@@ -148,9 +154,9 @@ private:
     std::set<uint64_t> verified_challenges_;               ///< Previously verified (replay detection)
     std::map<uint64_t, int64_t> verified_timestamps_;      ///< When each challenge was verified
 
-    /// @brief Convert audio to text challenge
-    /// @param audio Raw audio data
-    /// @return Recognized text; empty string if conversion failed
+    /// @brief Extract a deterministic transcript candidate from the response payload.
+    /// @param audio Raw response payload; opaque/binary data is rejected fail-closed.
+    /// @return Recognized text; empty string if extraction failed
     std::string speechToText(const std::string& audio);
 
     /// @brief Generate random challenge phrase

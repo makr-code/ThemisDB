@@ -2,7 +2,7 @@
 
 **Project**: ThemisDB Wave A Production Readiness  
 **Release Target**: v2.4.0 (Oct 15, 2026)  
-**Validation Date**: 2026-08-16  
+**Validation Date**: 2026-08-17  
 **Validator**: Copilot Code Agent  
 
 ---
@@ -10,10 +10,10 @@
 ## PRE-VALIDATION SETUP
 
 ### Environment Requirements
-- [ ] Ubuntu 22.04 LTS or later (Linux CI runner)
-- [ ] GCC 11+ or Clang 13+ (for sanitizer support)
-- [ ] CMake 3.20+ installed
-- [ ] Ninja build system installed
+- [x] Ubuntu 22.04 LTS or later (Linux CI runner)
+- [x] GCC 11+ or Clang 13+ (for sanitizer support)
+- [x] CMake 3.20+ installed
+- [x] Ninja build system installed
 - [ ] vcpkg bootstrapped with required triplets
 - [ ] 8+ CPU cores available
 - [ ] 32+ GB RAM available
@@ -27,8 +27,10 @@ sudo apt-get install -y \
   libssl-dev libcurl4-openssl-dev \
   librocksdb-dev libspdlog-dev libfmt-dev \
   libsimdjson-dev libtbb-dev nlohmann-json3-dev \
-  libgrpc-dev libprotobuf-dev protobuf-compiler \
-  libgtest-dev
+  libgrpc-dev libgrpc++-dev \
+  libprotobuf-dev protobuf-compiler protobuf-compiler-grpc \
+  libgtest-dev libmimalloc-dev libyaml-cpp-dev \
+  libboost-system-dev
 
 # vcpkg bootstrap
 git clone https://github.com/microsoft/vcpkg.git
@@ -41,6 +43,47 @@ cd vcpkg && ./bootstrap-vcpkg.sh && cd ..
 ---
 
 ## GATE 1: COMPILATION VERIFICATION
+
+### 2026-08-17 Focused A-9 execution snapshot
+
+- [x] `cmake --preset community-release --fresh` completed after dependency remediation
+- [x] `cmake --preset community-debug --fresh -DTHEMIS_BUILD_BENCHMARKS=OFF` completed
+- [x] Focused A-9 build completed for six dedicated targets
+- [x] Focused A-9 CTest run passed (`6/6`)
+- [ ] Full `develop-strict` build re-run
+- [ ] Full `develop-asan` build + tests
+- [ ] Full `develop-tsan` build + tests
+- [ ] Full Wave A compile gate closure across broader repo
+
+**Focused build command actually run**:
+```bash
+cmake --build build-community-debug --target \
+  module_transaction_test_transaction_chaos_focused \
+  module_transaction_test_transaction_stress_focused \
+  module_sharding_test_sharding_chaos_batch_a9_focused \
+  module_replication_test_replication_chaos_focused \
+  module_voice_test_voice_adversarial_focused \
+  module_gpu_test_gpu_adversarial_focused \
+  --parallel 8
+```
+
+**Focused test command actually run**:
+```bash
+cd build-community-debug && ctest --output-on-failure -R \
+  'TransactionChaosBatchA9FocusedTests|TransactionStressBatchA9FocusedTests|ShardingChaosBatchA9FocusedTests|ReplicationChaosBatchA9FocusedTests|test_voice_adversarial_voice_FocusedTests|test_gpu_adversarial_gpu_FocusedTests'
+```
+
+**Observed result**:
+```text
+100% tests passed, 0 tests failed out of 6
+```
+
+**Known broader build blocker**:
+```text
+src/index/gpu_vector_index.cpp
+error: cannot define member function ... within ‘GPUVectorIndex::Impl’
+error: expected ‘}’ at end of input
+```
 
 ### ✅ Phase 1.1: develop-strict Configuration
 
@@ -720,4 +763,3 @@ Wave A v2.4.0 is hereby approved for promotion to General Availability (GA) effe
 **Report Generated**: 2026-08-16T16:14:46Z  
 **Validation Duration**: 12 hours (estimated)  
 **Evidence Location**: validation_reports/
-

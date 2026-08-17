@@ -38,17 +38,72 @@
 
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
-#include <memory>
-#include <stdexcept>
-#include <thread>
 #include <atomic>
 #include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <stdexcept>
+#include <string>
+#include <thread>
+#include <utility>
+
+#if defined(THEMIS_ENABLE_CUDA) && defined(__has_include)
+#if __has_include(<cuda_runtime.h>)
+#define THEMIS_GPU_SAFE_RAII_HAS_CUDA 1
 #include <cuda_runtime.h>
+#endif
+#endif
+
+#ifndef THEMIS_GPU_SAFE_RAII_HAS_CUDA
+#define THEMIS_GPU_SAFE_RAII_HAS_CUDA 0
+using cudaStream_t = void*;
+#endif
 
 namespace themis {
 namespace gpu {
+
+namespace detail {
+
+/**
+ * @brief Raise a detailed CUDA runtime error.
+ *
+ * @param call Stringified CUDA expression.
+ * @param file Source file where the failure originated.
+ * @param line Source line where the failure originated.
+ * @param detail CUDA runtime detail string.
+ *
+ * @throws std::runtime_error Always throws.
+ */
+[[noreturn]] void throwCudaError(const char* call,
+                                 const char* file,
+                                 int line,
+                                 const std::string& detail);
+
+/**
+ * @brief Raise a deterministic "CUDA unavailable" failure for CPU-only builds.
+ *
+ * @param call Stringified CUDA expression that was requested.
+ * @param file Source file where the failure originated.
+ * @param line Source line where the failure originated.
+ *
+ * @throws std::runtime_error Always throws.
+ */
+[[noreturn]] void throwCudaUnavailable(const char* call,
+                                       const char* file,
+                                       int line);
+
+/**
+ * @brief Best-effort device free for no-throw cleanup paths.
+ *
+ * Destructors and move-assignment cleanup call this helper so that CUDA-enabled
+ * builds release device memory without throwing while CPU-only builds remain
+ * compilable and behave as a no-op.
+ *
+ * @param ptr Device pointer to release. nullptr is ignored.
+ */
+void destroyDeviceMemoryNoThrow(void* ptr) noexcept;
+
+} // namespace detail
 
 // ============================================================================
 // CUDA_CHECK MACRO — Automatic error checking for all CUDA calls
@@ -66,15 +121,18 @@ namespace gpu {
  * 
  * @error Throws std::runtime_error on CUDA failure with error string
  */
+#if THEMIS_GPU_SAFE_RAII_HAS_CUDA
 #define CUDA_CHECK(call) do { \
-    cudaError_t err = (call); \
+    const cudaError_t err = (call); \
     if (err != cudaSuccess) { \
-        std::string error_msg = std::string("CUDA error: ") + \
-            cudaGetErrorString(err) + \
-            " (in " + __FILE__ + ":" + std::to_string(__LINE__) + ")"; \
-        throw std::runtime_error(error_msg); \
+        ::themis::gpu::detail::throwCudaError(#call, __FILE__, __LINE__, cudaGetErrorString(err)); \
     } \
 } while(0)
+#else
+#define CUDA_CHECK(call) do { \
+    ::themis::gpu::detail::throwCudaUnavailable(#call, __FILE__, __LINE__); \
+} while(0)
+#endif
 
 // ============================================================================
 // DeviceMemoryGuard — RAII wrapper for GPU memory allocation
@@ -111,7 +169,7 @@ public:
     /// Safe on moved-from allocators (no double-free)
     ~DeviceMemoryGuard() noexcept {
         if (ptr_) {
-            cudaFree(ptr_);  // No error checking in destructor (no-throw guarantee)
+            detail::destroyDeviceMemoryNoThrow(ptr_);
         }
     }
 
@@ -126,7 +184,7 @@ public:
     DeviceMemoryGuard& operator=(DeviceMemoryGuard&& other) noexcept {
         if (this != &other) {
             if (ptr_) {
-                cudaFree(ptr_);
+                detail::destroyDeviceMemoryNoThrow(ptr_);
             }
             ptr_ = std::exchange(other.ptr_, nullptr);
             size_ = std::exchange(other.size_, 0);
@@ -188,8 +246,10 @@ private:
  * @class KernelTimeoutGuard
  * @brief RAII wrapper for monitoring and enforcing kernel execution timeouts
  *
- * Prevents long-running kernels from hanging the GPU. Uses a background thread
- * to monitor execution time and forcibly cancel kernels that exceed timeout.
+ * Prevents long-running kernels from hanging the calling path. The guard is
+ * cooperative: it records timeout state without destroying or resetting the
+ * caller-owned stream. Callers should mark completion only after any explicit
+ * stream synchronization they require.
  *
  * Usage:
  * ```cpp
@@ -207,16 +267,16 @@ public:
     /// @param timeout_ms Timeout in milliseconds (default: 10 seconds)
     explicit KernelTimeoutGuard(cudaStream_t stream, uint32_t timeout_ms = 10000);
 
-    /// @brief Destructor — waits for kernel and enforces timeout
+    /// @brief Destructor — stops monitoring and joins the watchdog thread
     ~KernelTimeoutGuard() noexcept;
 
     // Delete copy operations (unique ownership)
     KernelTimeoutGuard(const KernelTimeoutGuard&) = delete;
     KernelTimeoutGuard& operator=(const KernelTimeoutGuard&) = delete;
 
-    // Allow move operations
-    KernelTimeoutGuard(KernelTimeoutGuard&&) noexcept = default;
-    KernelTimeoutGuard& operator=(KernelTimeoutGuard&&) noexcept = default;
+    // Delete move operations to keep watchdog/thread ownership single-owner.
+    KernelTimeoutGuard(KernelTimeoutGuard&&) = delete;
+    KernelTimeoutGuard& operator=(KernelTimeoutGuard&&) = delete;
 
     /// @brief Mark kernel execution as completed
     /// Called after kernel launches to indicate successful completion
@@ -236,6 +296,7 @@ private:
     std::atomic<bool> completed_{false};
     std::atomic<bool> timed_out_{false};
     std::thread monitor_thread_;
+    std::chrono::milliseconds poll_interval_{1};
 
     /// @brief Monitor thread function
     void monitorThread();

@@ -199,12 +199,12 @@ protected:
  */
 TEST_F(ShardingChaosTest, MultiShardRebalanceUnderNetworkPartition) {
     // Setup network partition injector
-    NetworkInjector::NetworkConfig cfg{
-        .target_component = "shard-0",
-        .duration = 2s,
-        .network_type = NetworkInjector::NetworkFaultType::PARTITION,
-        .target_node = "shard-0",
-        .partition_members = {"shard-0"}};
+    NetworkInjector::NetworkConfig cfg;
+    cfg.target_component = "shard-0";
+    cfg.duration = 2s;
+    cfg.network_type = NetworkInjector::NetworkFaultType::PARTITION;
+    cfg.target_node = "shard-0";
+    cfg.partition_members = {"shard-0"};
 
     NetworkInjector net_injector(cfg);
 
@@ -249,11 +249,11 @@ TEST_F(ShardingChaosTest, MultiShardRebalanceUnderNetworkPartition) {
  */
 TEST_F(ShardingChaosTest, ConsensusTimeoutUnderLoad) {
     // Setup network delay injector
-    NetworkInjector::NetworkConfig cfg{
-        .target_component = "consensus_channel",
-        .duration = 3s,
-        .network_type = NetworkInjector::NetworkFaultType::DELAY,
-        .latency = 100ms};
+    NetworkInjector::NetworkConfig cfg;
+    cfg.target_component = "consensus_channel";
+    cfg.duration = 3s;
+    cfg.network_type = NetworkInjector::NetworkFaultType::DELAY;
+    cfg.latency = 100ms;
 
     NetworkInjector delay_injector(cfg);
 

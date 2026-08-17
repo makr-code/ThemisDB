@@ -21,6 +21,7 @@
 #include <chrono>
 #include <memory>
 #include <iostream>
+#include <map>
 
 using namespace std::chrono_literals;
 
@@ -56,6 +57,7 @@ public:
         }
         it->second.committed = true;
         committed_count_++;
+        txns_.erase(it);
         return true;
     }
 
@@ -173,8 +175,6 @@ TEST_F(TransactionStressTest, HighContentionLockStress) {
                 } else {
                     errors++;
                 }
-                // Immediately cleanup
-                mgr_->abortTransaction(txn_id);
             }
         });
     }
@@ -222,11 +222,6 @@ TEST_F(TransactionStressTest, TransactionCleanupVerification) {
         }
     }
     EXPECT_EQ(committed, TXN_COUNT);
-
-    // Clean up all
-    for (int txn_id : txn_ids) {
-        mgr_->abortTransaction(txn_id);
-    }
 
     // Verify cleanup
     EXPECT_EQ(mgr_->getPendingTransactionCount(), 0);

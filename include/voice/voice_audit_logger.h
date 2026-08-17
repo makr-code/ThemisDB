@@ -192,19 +192,19 @@ public:
 
     /// @brief Get all logged events
     /// @return Vector of JSON event objects
-    std::vector<json> getEventLog() const;
+    [[nodiscard]] std::vector<json> getEventLog() const;
 
     /// @brief Get events for a specific user
     /// @param user_id User identifier
     /// @return Vector of JSON events for that user
-    std::vector<json> getEventsForUser(const std::string& user_id) const;
+    [[nodiscard]] std::vector<json> getEventsForUser(const std::string& user_id) const;
 
     /// @brief Clear all logged events
     void clearEventLog();
 
     /// @brief Get event count
     /// @return Number of logged events
-    size_t getEventCount() const;
+    [[nodiscard]] size_t getEventCount() const;
 
     /// @brief Register callback for new events
     /// @param callback Function called when new event is logged
@@ -219,7 +219,7 @@ private:
 
     /// @brief Get current timestamp in ISO 8601 format
     /// @return Timestamp string (e.g., "2026-08-28T14:22:31.456Z")
-    std::string getTimestamp() const;
+    [[nodiscard]] std::string getTimestamp() const;
 
     /// @brief Write event to output (console, file, or callback)
     /// @param event JSON event object
@@ -228,7 +228,7 @@ private:
     /// @brief Serialize event to JSON string with formatting
     /// @param event JSON event
     /// @return Formatted JSON string
-    std::string serializeEvent(const json& event) const;
+    [[nodiscard]] std::string serializeEvent(const json& event) const;
 };
 
 }} // namespace themis::voice

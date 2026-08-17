@@ -4,61 +4,74 @@
  */
 
 #include "gpu/gpu_safe_raii.h"
-#include <iostream>
+
+#include <sstream>
 
 namespace themis {
 namespace gpu {
+
+namespace detail {
+
+[[noreturn]] void throwCudaError(const char* call,
+                                 const char* file,
+                                 int line,
+                                 const std::string& detail) {
+    std::ostringstream os;
+    os << "CUDA error in " << call << ": " << detail << " (" << file << ':' << line << ')';
+    throw std::runtime_error(os.str());
+}
+
+[[noreturn]] void throwCudaUnavailable(const char* call,
+                                       const char* file,
+                                       int line) {
+    std::ostringstream os;
+    os << "CUDA runtime unavailable for " << call
+       << " (" << file << ':' << line << ')';
+    throw std::runtime_error(os.str());
+}
+
+void destroyDeviceMemoryNoThrow(void* ptr) noexcept {
+#if THEMIS_GPU_SAFE_RAII_HAS_CUDA
+    if (ptr != nullptr) {
+        static_cast<void>(cudaFree(ptr));
+    }
+#else
+    static_cast<void>(ptr);
+#endif
+}
+
+} // namespace detail
 
 // ============================================================================
 // KernelTimeoutGuard Implementation
 // ============================================================================
 
 KernelTimeoutGuard::KernelTimeoutGuard(cudaStream_t stream, uint32_t timeout_ms)
-    : stream_(stream), timeout_ms_(timeout_ms) {
-    
-    // Start monitor thread
-    monitor_thread_ = std::thread([this]() { monitorThread(); });
+    : stream_(stream),
+      timeout_ms_(timeout_ms) {
+    monitor_thread_ = std::thread(&KernelTimeoutGuard::monitorThread, this);
 }
 
 KernelTimeoutGuard::~KernelTimeoutGuard() noexcept {
-    // Signal completion if not already done
-    if (!completed_.load(std::memory_order_acquire)) {
-        // Wait a bit for completion
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
-    
-    // Mark as completed to signal monitor thread to exit
     completed_.store(true, std::memory_order_release);
-
-    // Wait for monitor thread to finish
     if (monitor_thread_.joinable()) {
         monitor_thread_.join();
     }
 }
 
 void KernelTimeoutGuard::monitorThread() {
-    // Wait for either completion or timeout
-    auto start = std::chrono::high_resolution_clock::now();
-    
+    const auto start = std::chrono::steady_clock::now();
+
     while (!completed_.load(std::memory_order_acquire)) {
-        auto now = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start);
-        
+        const auto now = std::chrono::steady_clock::now();
+        const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start);
+
         if (elapsed.count() >= timeout_ms_) {
-            // Timeout exceeded!
             timed_out_.store(true, std::memory_order_release);
-            
-            // Attempt to cancel stream (best-effort)
-            try {
-                cudaStreamDestroy(stream_);
-            } catch (...) {
-                // Ignore errors in destructor-like context
-            }
             return;
         }
-        
-        // Sleep a bit to avoid busy waiting
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+        std::this_thread::sleep_for(poll_interval_);
     }
 }
 

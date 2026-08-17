@@ -4,12 +4,89 @@
  */
 
 #include "voice/voice_anti_spoof_engine.h"
+
 #include <algorithm>
 #include <cmath>
+#include <cctype>
+#include <cstdlib>
 #include <numeric>
 
 namespace themis {
 namespace voice {
+
+namespace {
+
+[[nodiscard]] std::vector<double> parsePcm16Le(const std::string& audio_data) {
+    if (audio_data.empty() || (audio_data.size() % 2) != 0) {
+        return {};
+    }
+
+    std::vector<double> samples;
+    samples.reserve(audio_data.size() / 2);
+    for (size_t i = 0; i < audio_data.size(); i += 2) {
+        const auto lo = static_cast<unsigned char>(audio_data[i]);
+        const auto hi = static_cast<unsigned char>(audio_data[i + 1]);
+        const int16_t sample = static_cast<int16_t>(
+            static_cast<uint16_t>(lo) |
+            (static_cast<uint16_t>(hi) << 8));
+        samples.push_back(static_cast<double>(sample) / 32768.0);
+    }
+    return samples;
+}
+
+[[nodiscard]] bool looksLikeNumericVector(const std::string& baseline) {
+    if (baseline.empty()) {
+        return false;
+    }
+
+    bool has_digit = false;
+    for (const unsigned char c : baseline) {
+        if (std::isdigit(c)) {
+            has_digit = true;
+        }
+        if (!(std::isdigit(c) || std::isspace(c) || c == ',' || c == '.' || c == '-' || c == '+')) {
+            return false;
+        }
+    }
+    return has_digit;
+}
+
+[[nodiscard]] std::vector<double> parseNumericVector(const std::string& baseline) {
+    std::vector<double> result;
+    if (!looksLikeNumericVector(baseline)) {
+        return result;
+    }
+
+    size_t start = 0;
+    while (start < baseline.size()) {
+        const auto comma = baseline.find(',', start);
+        const auto end = (comma == std::string::npos) ? baseline.size() : comma;
+        auto token = baseline.substr(start, end - start);
+        token.erase(std::remove_if(token.begin(), token.end(),
+                                   [](unsigned char c) { return std::isspace(c); }),
+                    token.end());
+        if (!token.empty()) {
+            char* parse_end = nullptr;
+            const double value = std::strtod(token.c_str(), &parse_end);
+            if (parse_end == nullptr || *parse_end != '\0' || !std::isfinite(value)) {
+                return {};
+            }
+            result.push_back(value);
+        }
+        if (comma == std::string::npos) {
+            break;
+        }
+        start = comma + 1;
+    }
+
+    return result;
+}
+
+[[nodiscard]] double clamp01(const double value) {
+    return std::max(0.0, std::min(1.0, value));
+}
+
+} // namespace
 
 VoiceAntiSpoofEngine::VoiceAntiSpoofEngine(const Config& config)
     : config_(config) {
@@ -18,265 +95,280 @@ VoiceAntiSpoofEngine::VoiceAntiSpoofEngine(const Config& config)
 SpoofAnalysis VoiceAntiSpoofEngine::analyzeSpoofRisk(
     const std::string& audio_data,
     const std::string& speaker_baseline) {
-    
     SpoofAnalysis result;
-    
+    result.is_likely_spoofed = true;
+    result.spoof_probability = 1.0;
+
     if (audio_data.empty() || speaker_baseline.empty()) {
-        result.is_likely_spoofed = true;
-        result.spoof_probability = 1.0;
         result.reason = "Invalid audio or baseline data";
+        return result;
+    }
+    if (audio_data.size() < config_.min_audio_bytes || audio_data.size() > config_.max_audio_bytes) {
+        result.reason = "Audio payload outside supported bounds";
         return result;
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    try {
-        // Analyze three orthogonal features
-        result.audio_freshness_score = analyzeAudioFreshness(audio_data);
-        result.speaker_match_score = analyzeSpeakerMatch(audio_data, speaker_baseline);
-        result.noise_consistency_score = analyzeNoisePattern(audio_data);
+    result.audio_freshness_score = analyzeAudioFreshness(audio_data);
+    result.speaker_match_score = analyzeSpeakerMatch(audio_data, speaker_baseline);
+    result.noise_consistency_score = analyzeNoisePattern(audio_data);
 
-        // Compute composite verdict
-        if (config_.require_all_checks) {
-            // Fail-closed: ALL checks must pass
-            bool freshness_ok = result.audio_freshness_score >= config_.freshness_threshold;
-            bool speaker_ok = result.speaker_match_score >= config_.speaker_match_threshold;
-            bool noise_ok = result.noise_consistency_score >= config_.noise_consistency_threshold;
+    const bool freshness_ok = result.audio_freshness_score >= config_.freshness_threshold;
+    const bool speaker_ok = result.speaker_match_score >= config_.speaker_match_threshold;
+    const bool noise_ok = result.noise_consistency_score >= config_.noise_consistency_threshold;
 
-            result.is_likely_spoofed = !(freshness_ok && speaker_ok && noise_ok);
+    int passed_checks = 0;
+    passed_checks += freshness_ok ? 1 : 0;
+    passed_checks += speaker_ok ? 1 : 0;
+    passed_checks += noise_ok ? 1 : 0;
 
-            if (!freshness_ok) {
-                result.reason = "Audio freshness check failed (likely synthetic/recorded)";
-            } else if (!speaker_ok) {
-                result.reason = "Speaker verification failed (voice mismatch)";
-            } else if (!noise_ok) {
-                result.reason = "Noise consistency check failed (likely edited/spliced)";
-            } else {
-                result.reason = "Audio passed all anti-spoofing checks";
-            }
-        } else {
-            // Majority voting: 2 out of 3 must pass
-            int passed_checks = 0;
-            if (result.audio_freshness_score >= config_.freshness_threshold) passed_checks++;
-            if (result.speaker_match_score >= config_.speaker_match_threshold) passed_checks++;
-            if (result.noise_consistency_score >= config_.noise_consistency_threshold) passed_checks++;
+    result.is_likely_spoofed = config_.require_all_checks
+        ? !(freshness_ok && speaker_ok && noise_ok)
+        : (passed_checks < 2);
 
-            result.is_likely_spoofed = (passed_checks < 2);
-            
-            if (result.is_likely_spoofed) {
-                result.reason = "Failed majority of anti-spoofing checks";
-            } else {
-                result.reason = "Passed majority anti-spoofing checks";
-            }
-        }
-
-        // Compute spoof probability (inverse of how many checks passed)
-        int passed = 0;
-        if (result.audio_freshness_score >= config_.freshness_threshold) passed++;
-        if (result.speaker_match_score >= config_.speaker_match_threshold) passed++;
-        if (result.noise_consistency_score >= config_.noise_consistency_threshold) passed++;
-        
-        result.spoof_probability = (3.0 - passed) / 3.0;
-        result.overall_confidence = (result.audio_freshness_score + 
-                                    result.speaker_match_score + 
-                                    result.noise_consistency_score) / 3.0;
-
-    } catch (const std::exception& e) {
-        result.is_likely_spoofed = true;  // Fail-closed
-        result.spoof_probability = 1.0;
-        result.reason = std::string("Analysis error: ") + e.what();
+    if (!freshness_ok) {
+        result.reason = "Audio freshness check failed (likely synthetic/recorded)";
+    } else if (!speaker_ok) {
+        result.reason = "Speaker verification failed (voice mismatch)";
+    } else if (!noise_ok) {
+        result.reason = "Noise consistency check failed (likely edited/spliced)";
+    } else {
+        result.reason = "Audio passed all anti-spoofing checks";
     }
 
+    result.spoof_probability = clamp01((3.0 - static_cast<double>(passed_checks)) / 3.0);
+    result.overall_confidence = clamp01(
+        (result.audio_freshness_score +
+         result.speaker_match_score +
+         result.noise_consistency_score) / 3.0);
     return result;
 }
 
 double VoiceAntiSpoofEngine::analyzeAudioFreshness(const std::string& audio_data) {
-    // Extract spectral features to detect synthetic/recorded audio
     auto features = extractSpectralFeatures(audio_data);
-    
     if (features.empty()) {
-        return 0.0;  // Fail-closed: unable to analyze = likely spoofed
+        return 0.0;
     }
 
-    // Heuristic: Compute spectral variation
-    // Live audio has natural spectral variation; synthetic is too regular
-    double mean = std::accumulate(features.begin(), features.end(), 0.0) / features.size();
-    double variance = 0.0;
-    
-    for (double f : features) {
-        variance += (f - mean) * (f - mean);
-    }
-    variance /= features.size();
-    
-    double std_dev = std::sqrt(variance);
-    
-    // Normalize to [0, 1] scale
-    // Live audio typically has std_dev in range [0.1, 0.5]
-    // Synthetic audio has std_dev < 0.05 or > 0.6
-    double freshness = std::min(1.0, std_dev / 0.35);
-    
-    // Clamp to avoid floating point issues
-    return std::max(0.0, std::min(1.0, freshness));
+    const double crest_factor = features[0];
+    const double flatness = features[1];
+    const double repetition_ratio = features[2];
+    const double clipping_ratio = features[3];
+    const double dynamic_range = features[4];
+
+    const double crest_score = clamp01(1.0 - std::abs(crest_factor - 4.5) / 4.5);
+    const double flatness_score = clamp01(1.0 - (flatness / 0.85));
+    const double repetition_score = clamp01(1.0 - repetition_ratio);
+    const double clipping_score = clamp01(1.0 - (clipping_ratio / 0.15));
+    const double range_score = clamp01(dynamic_range / 0.45);
+
+    return clamp01(0.25 * crest_score +
+                   0.20 * flatness_score +
+                   0.25 * repetition_score +
+                   0.15 * clipping_score +
+                   0.15 * range_score);
 }
 
 double VoiceAntiSpoofEngine::analyzeSpeakerMatch(
     const std::string& audio_data,
     const std::string& baseline) {
-    
-    // Extract speaker embedding from current audio
-    auto current_embedding = extractSpeakerEmbedding(audio_data);
-    
-    // Parse baseline embedding (assumed to be comma-separated doubles)
-    std::vector<double> baseline_embedding;
-    if (!baseline.empty()) {
-        // In production, this would deserialize the baseline
-        // For now, stub implementation
+    auto current_embedding = normalizeVector(extractSpeakerEmbedding(audio_data));
+    std::vector<double> baseline_embedding = parseNumericVector(baseline);
+    if (baseline_embedding.empty()) {
         baseline_embedding = extractSpeakerEmbedding(baseline);
     }
-    
+    baseline_embedding = normalizeVector(baseline_embedding);
+
     if (current_embedding.empty() || baseline_embedding.empty()) {
-        return 0.0;  // Fail-closed
+        return 0.0;
     }
 
-    // Compute cosine similarity
-    double match_score = cosineSimilarity(current_embedding, baseline_embedding);
-    
-    // Clamp to [0, 1]
-    return std::max(0.0, std::min(1.0, match_score));
+    return clamp01(cosineSimilarity(current_embedding, baseline_embedding));
 }
 
 double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) {
-    // Extract background noise profile
     auto noise_profile = extractNoiseProfile(audio_data);
-    
-    if (noise_profile.empty()) {
-        return 0.0;  // Fail-closed
+    if (noise_profile.size() < 3) {
+        return 0.0;
     }
 
-    // Heuristic: Compute noise consistency
-    // Consistent background noise = natural/continuous recording
-    // Discontinuous noise = edited/spliced audio
-    
-    double mean = std::accumulate(noise_profile.begin(), noise_profile.end(), 0.0) / noise_profile.size();
+    double mean = std::accumulate(noise_profile.begin(), noise_profile.end(), 0.0) /
+                  static_cast<double>(noise_profile.size());
     double variance = 0.0;
-    
-    for (double n : noise_profile) {
-        variance += (n - mean) * (n - mean);
+    double max_jump = 0.0;
+    for (size_t i = 0; i < noise_profile.size(); ++i) {
+        const double diff = noise_profile[i] - mean;
+        variance += diff * diff;
+        if (i > 0) {
+            max_jump = std::max(max_jump, std::abs(noise_profile[i] - noise_profile[i - 1]));
+        }
     }
-    variance /= noise_profile.size();
-    
-    // High variance in noise = inconsistent = likely edited
-    double consistency = 1.0 - std::min(1.0, variance / 10.0);
-    
-    return std::max(0.0, std::min(1.0, consistency));
+    variance /= static_cast<double>(noise_profile.size());
+
+    const double variance_score = clamp01(1.0 - (variance / 0.10));
+    const double jump_score = clamp01(1.0 - (max_jump / 0.60));
+    return clamp01(0.65 * variance_score + 0.35 * jump_score);
 }
 
 std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::string& audio) {
-    // Stub implementation: return dummy features
-    // In production, this would:
-    // - Parse audio format (WAV, PCM, etc.)
-    // - Compute FFT or MFCC
-    // - Return spectral coefficients
-    
-    if (audio.empty()) {
+    auto samples = parsePcm16Le(audio);
+    if (samples.size() < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
-    // Generate synthetic features based on audio content hash
-    // This is deterministic but not real spectral analysis
-    std::vector<double> features;
-    for (size_t i = 0; i < 10; ++i) {
-        // Deterministic pseudo-random based on input
-        uint32_t hash = i * 31 + audio.size() * 7;
-        features.push_back(static_cast<double>(hash % 100) / 100.0);
+    double rms = 0.0;
+    double peak = 0.0;
+    double log_sum = 0.0;
+    double arithmetic_sum = 0.0;
+    size_t clipping_count = 0;
+    for (double sample : samples) {
+        const double magnitude = std::abs(sample);
+        rms += sample * sample;
+        peak = std::max(peak, magnitude);
+        log_sum += std::log(magnitude + 1e-9);
+        arithmetic_sum += magnitude;
+        if (magnitude >= 0.98) {
+            ++clipping_count;
+        }
     }
-    return features;
+    rms = std::sqrt(rms / static_cast<double>(samples.size()));
+
+    const double crest_factor = (rms > 1e-9) ? (peak / rms) : 0.0;
+    const double flatness = std::exp(log_sum / static_cast<double>(samples.size())) /
+                            ((arithmetic_sum / static_cast<double>(samples.size())) + 1e-9);
+
+    constexpr size_t kFrameSamples = 320;
+    size_t frame_pairs = 0;
+    size_t repeated_pairs = 0;
+    if (samples.size() >= (2 * kFrameSamples)) {
+        for (size_t offset = kFrameSamples;
+             offset + kFrameSamples <= samples.size();
+             offset += kFrameSamples) {
+            double diff_sum = 0.0;
+            double base_sum = 0.0;
+            for (size_t i = 0; i < kFrameSamples; ++i) {
+                const double prev = samples[offset - kFrameSamples + i];
+                const double curr = samples[offset + i];
+                diff_sum += std::abs(curr - prev);
+                base_sum += std::abs(prev);
+            }
+            const double normalized_diff = diff_sum / (base_sum + static_cast<double>(kFrameSamples) * 1e-6);
+            if (normalized_diff < 0.05) {
+                ++repeated_pairs;
+            }
+            ++frame_pairs;
+        }
+    }
+
+    double min_sample = 1.0;
+    double max_sample = -1.0;
+    for (double sample : samples) {
+        min_sample = std::min(min_sample, sample);
+        max_sample = std::max(max_sample, sample);
+    }
+
+    return {
+        crest_factor,
+        clamp01(flatness),
+        (frame_pairs == 0) ? 0.0 : static_cast<double>(repeated_pairs) / static_cast<double>(frame_pairs),
+        static_cast<double>(clipping_count) / static_cast<double>(samples.size()),
+        max_sample - min_sample
+    };
 }
 
 std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::string& audio) {
-    // Stub implementation: return dummy embedding
-    // In production, this would:
-    // - Use a pre-trained speaker recognition model (e.g., x-vector, i-vector)
-    // - Extract speaker embedding from audio
-    // - Return 256+ dimensional vector
-    
-    if (audio.empty()) {
+    auto samples = parsePcm16Le(audio);
+    if (samples.size() < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
-    // Generate synthetic embedding based on audio content
-    std::vector<double> embedding;
-    for (size_t i = 0; i < 128; ++i) {
-        uint32_t hash = (i * 17 + audio.size() * 13) % 1000;
-        embedding.push_back(static_cast<double>(hash) / 1000.0 - 0.5);
+    constexpr size_t kBands = 8;
+    std::vector<double> embedding(16, 0.0);
+    const size_t band_size = samples.size() / kBands;
+    if (band_size == 0) {
+        return {};
     }
+
+    for (size_t band = 0; band < kBands; ++band) {
+        const size_t start = band * band_size;
+        const size_t end = (band == kBands - 1) ? samples.size() : start + band_size;
+        const size_t length = end - start;
+        double rms = 0.0;
+        size_t zero_crossings = 0;
+        for (size_t i = start; i < end; ++i) {
+            rms += samples[i] * samples[i];
+            if (i > start && ((samples[i] >= 0.0) != (samples[i - 1] >= 0.0))) {
+                ++zero_crossings;
+            }
+        }
+        embedding[band] = std::sqrt(rms / static_cast<double>(length));
+        embedding[kBands + band] = static_cast<double>(zero_crossings) / static_cast<double>(length);
+    }
+
     return embedding;
 }
 
 std::vector<double> VoiceAntiSpoofEngine::extractNoiseProfile(const std::string& audio) {
-    // Stub implementation: return dummy noise profile
-    // In production, this would:
-    // - Detect background noise/silence
-    // - Extract noise characteristics (frequency content)
-    // - Return noise vector for continuity checking
-    
-    if (audio.empty()) {
+    auto samples = parsePcm16Le(audio);
+    if (samples.size() < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
-    std::vector<double> noise;
-    for (size_t i = 0; i < 20; ++i) {
-        uint32_t hash = (i * 23 + audio.size() * 11) % 100;
-        noise.push_back(static_cast<double>(hash) / 100.0);
+    constexpr size_t kFrameSamples = 320;
+    std::vector<double> profile;
+    for (size_t offset = 0; offset + kFrameSamples <= samples.size(); offset += kFrameSamples) {
+        double energy = 0.0;
+        for (size_t i = 0; i < kFrameSamples; ++i) {
+            energy += samples[offset + i] * samples[offset + i];
+        }
+        profile.push_back(std::sqrt(energy / static_cast<double>(kFrameSamples)));
     }
-    return noise;
+
+    return profile;
 }
 
 double VoiceAntiSpoofEngine::cosineSimilarity(
     const std::vector<double>& v1,
     const std::vector<double>& v2) const {
-    
     if (v1.empty() || v2.empty()) {
         return 0.0;
     }
 
-    // Pad to same size
-    size_t size = std::min(v1.size(), v2.size());
-    
+    const size_t size = std::min(v1.size(), v2.size());
     double dot_product = 0.0;
     double norm1 = 0.0;
     double norm2 = 0.0;
-    
+
     for (size_t i = 0; i < size; ++i) {
         dot_product += v1[i] * v2[i];
         norm1 += v1[i] * v1[i];
         norm2 += v2[i] * v2[i];
     }
-    
+
     norm1 = std::sqrt(norm1);
     norm2 = std::sqrt(norm2);
-    
     if (norm1 < 1e-10 || norm2 < 1e-10) {
-        return 0.0;  // Degenerate case
+        return 0.0;
     }
-    
+
     return dot_product / (norm1 * norm2);
 }
 
 std::vector<double> VoiceAntiSpoofEngine::normalizeVector(const std::vector<double>& vec) const {
     double norm = 0.0;
-    for (double v : vec) {
-        norm += v * v;
+    for (double value : vec) {
+        norm += value * value;
     }
     norm = std::sqrt(norm);
-    
-    std::vector<double> result = vec;
+
+    std::vector<double> normalized = vec;
     if (norm > 1e-10) {
-        for (auto& v : result) {
-            v /= norm;
+        for (auto& value : normalized) {
+            value /= norm;
         }
     }
-    return result;
+    return normalized;
 }
 
 }} // namespace themis::voice
