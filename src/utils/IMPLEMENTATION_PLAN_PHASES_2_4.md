@@ -41,43 +41,43 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 **Components:** `audit_logger.cpp`, `logger.cpp`, `saga_logger.cpp`, `tracing.cpp`
 
 **Work items:**
-- [ ] `audit_logger.cpp`: Verify bounded FIFO queue behavior under load; add explicit capacity checks; document fallback (drop-oldest vs. reject) as a configurable choice; eliminate any race conditions in the append path.
-- [ ] `logger.cpp`: Add explicit sink-unavailable handling; verify that log failure does not propagate to callers silently; bound the log queue.
-- [ ] `saga_logger.cpp`: Verify saga-event ordering guarantees under concurrent callers; add explicit error on serialization failure.
-- [ ] `tracing.cpp`: Verify span lifecycle (begin/end symmetry); add explicit handling when tracing backend is unavailable (fail-open with warning vs. fail-closed configurable).
+- [x] `audit_logger.cpp`: Verify bounded FIFO queue behavior under load; add explicit capacity checks; document fallback (drop-oldest vs. reject) as a configurable choice; eliminate any race conditions in the append path.
+- [x] `logger.cpp`: Add explicit sink-unavailable handling; verify that log failure does not propagate to callers silently; bound the log queue.
+- [x] `saga_logger.cpp`: Verify saga-event ordering guarantees under concurrent callers; add explicit error on serialization failure.
+- [x] `tracing.cpp`: Verify span lifecycle (begin/end symmetry); add explicit handling when tracing backend is unavailable (fail-open with warning vs. fail-closed configurable).
 
 **Degradation contracts required:**
-- [ ] 2.8a: audit_logger: backend unavailable → fail-closed with operator log
-- [ ] 2.8b: logger: sink unavailable → fail-open with local stderr fallback, never silent
-- [ ] 2.8c: tracing: backend unavailable → fail-open, no-op span, latency bounded
+- [x] 2.8a: audit_logger: backend unavailable → fail-closed with operator log
+- [x] 2.8b: logger: sink unavailable → fail-open with local stderr fallback, never silent
+- [x] 2.8c: tracing: backend unavailable → fail-open, no-op span, latency bounded
 
 ### 2.2 Privacy Plane Hardening
 
 **Components:** `pii_detector.cpp`, `pii_stream_scanner.cpp`, `pii_pseudonymizer.cpp`, `regex_detection_engine.cpp`, `ner_detection_engine.cpp`
 
 **Work items:**
-- [ ] `pii_detector.cpp`: Verify UTF-8 / CJK / RTL input handling; add explicit truncation behavior for oversized inputs; ensure detection errors return conservative result (no false permits).
-- [ ] `pii_stream_scanner.cpp`: Bound concurrent scan slots; verify scan timeout behavior; add graceful degradation when regex engine unavailable.
-- [ ] `pii_pseudonymizer.cpp`: Verify pseudonymization determinism under concurrent callers; add explicit failure when pseudonymization key unavailable (fail-closed).
+- [x] `pii_detector.cpp`: Verify UTF-8 / CJK / RTL input handling; add explicit truncation behavior for oversized inputs; ensure detection errors return conservative result (no false permits).
+- [x] `pii_stream_scanner.cpp`: Bound concurrent scan slots; verify scan timeout behavior; add graceful degradation when regex engine unavailable.
+- [x] `pii_pseudonymizer.cpp`: Verify pseudonymization determinism under concurrent callers; add explicit failure when pseudonymization key unavailable (fail-closed).
 - [ ] `regex_detection_engine.cpp`: Bound regex backtracking; add timeout on individual pattern match; handle malformed regex patterns without panic.
 - [ ] `ner_detection_engine.cpp`: Bound model inference time; handle model-unavailable gracefully; explicit error on corrupt model artifact.
 
 **Degradation contracts required:**
-- [ ] 2.8d: pii_stream_scanner: scan timeout → conservative fail-closed (treat as PII present)
-- [ ] 2.8e: pseudonymizer: key unavailable → reject, never produce plaintext
+- [x] 2.8d: pii_stream_scanner: scan timeout → conservative fail-closed (treat as PII present)
+- [x] 2.8e: pseudonymizer: key unavailable → reject, never produce plaintext
 
 ### 2.3 Key Management Plane Hardening
 
 **Components:** `hkdf_helper.cpp`, `hkdf_cache.cpp`, `lek_manager.cpp`
 
 **Work items:**
-- [ ] `hkdf_helper.cpp`: Verify key material zeroization on scope exit; add explicit handling for OpenSSL unavailability; document HKDF derivation semantics (salt, info, length contracts) in implementation.
-- [ ] `hkdf_cache.cpp`: Bound cache size and TTL; verify eviction under memory pressure; ensure no stale key material escapes cache.
-- [ ] `lek_manager.cpp`: Verify LEK rotation is atomic (no window where two generations are active simultaneously); add explicit error on key store unavailability; bound key-store retry budget.
+- [x] `hkdf_helper.cpp`: Verify key material zeroization on scope exit; add explicit handling for OpenSSL unavailability; document HKDF derivation semantics (salt, info, length contracts) in implementation.
+- [x] `hkdf_cache.cpp`: Bound cache size and TTL; verify eviction under memory pressure; ensure no stale key material escapes cache.
+- [x] `lek_manager.cpp`: Verify LEK rotation is atomic (no window where two generations are active simultaneously); add explicit error on key store unavailability; bound key-store retry budget.
 
 **Degradation contracts required:**
-- [ ] 2.8f: hkdf_helper: OpenSSL unavailable → fail-closed (no key derivation)
-- [ ] 2.8g: lek_manager: key store unavailable → fail-closed, no plaintext fallback
+- [x] 2.8f: hkdf_helper: OpenSSL unavailable → fail-closed (no key derivation)
+- [x] 2.8g: lek_manager: key store unavailable → fail-closed, no plaintext fallback
 
 ### 2.4 Compression Plane Hardening
 
@@ -97,17 +97,17 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 **Components:** `thread_pool_manager.cpp`, `rate_limiter.cpp`
 
 **Work items:**
-- [ ] `thread_pool_manager.cpp`: Verify shutdown drains or cancels in-flight tasks (no dangling tasks at exit); add explicit error on task submission to full or stopped pool; verify priority ordering under saturation; bound task queue size.
-- [ ] `rate_limiter.cpp`: Verify token bucket is concurrency-safe without spin-loops (use `std::atomic` or `std::mutex` consistently); document reject vs. queue behavior as explicit configuration; add explicit handling for clock skew.
+- [x] `thread_pool_manager.cpp`: Verify shutdown drains or cancels in-flight tasks (no dangling tasks at exit); add explicit error on task submission to full or stopped pool; verify priority ordering under saturation; bound task queue size.
+- [x] `rate_limiter.cpp`: Verify token bucket is concurrency-safe without spin-loops (use `std::atomic` or `std::mutex` consistently); document reject vs. queue behavior as explicit configuration; add explicit handling for clock skew.
 
 **Degradation contracts required:**
-- [ ] 2.9b: thread_pool: queue full → explicit THREAD_POOL_OVERLOAD error
-- [ ] 2.9c: rate_limiter: token exhausted → explicit RATE_LIMIT_EXHAUSTED error
+- [x] 2.9b: thread_pool: queue full → explicit THREAD_POOL_OVERLOAD error
+- [x] 2.9c: rate_limiter: token exhausted → explicit RATE_LIMIT_EXHAUSTED error
 
 ### 2.6 Bounded Resource Checks (cross-cutting)
 
 - [ ] 2.9d: All high-fan-out helpers must have a documented resource limit (queue depth, buffer max, retry budget) visible at the call site or in the header @note.
-- [ ] 2.10: Doxygen error contracts updated for all public APIs after hardening (shared with Phase 3).
+- [x] 2.10: Doxygen error contracts updated for all public APIs after hardening (shared with Phase 3).
 
 ---
 
@@ -198,24 +198,24 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 ### 4.2 New Tests for Phase 2-3 Hardening
 
 **Observability:**
-- [ ] `test_audit_logger_bounded_queue.cpp`: verify queue-full behavior (reject vs. drop-oldest); no silent discard
-- [ ] `test_logger_sink_unavailable.cpp`: verify fallback to stderr; no silent failure
+- [x] `test_audit_logger_bounded_queue.cpp`: verify queue-full behavior (reject vs. drop-oldest); no silent discard → implemented as `test_utils_audit_logger_hardening.cpp`
+- [x] `test_logger_sink_unavailable.cpp`: verify fallback to stderr; no silent failure → covered in `test_utils_observability_error_contracts.cpp`
 
 **Privacy:**
 - [ ] `test_pii_unicode_edge_cases.cpp`: CJK, RTL, combining marks, null bytes, truncated UTF-8
-- [ ] `test_pii_scanner_timeout.cpp`: verify conservative fail-closed on scan timeout
+- [x] `test_pii_scanner_timeout.cpp`: verify conservative fail-closed on scan timeout → implemented as `test_utils_privacy_hardening.cpp`
 
 **Key Management:**
-- [ ] `test_hkdf_zeroization.cpp`: verify key material zeroized after use
+- [x] `test_hkdf_zeroization.cpp`: verify key material zeroized after use → implemented as `test_utils_crypto_hardening.cpp`
 - [ ] `test_lek_rotation_atomic.cpp`: verify no dual-generation window during rotation
 
 **Compression:**
-- [ ] `test_codec_corrupt_input.cpp`: verify deterministic error on corrupt zstd/lz4 data
-- [ ] `test_codec_concurrent.cpp`: verify safe concurrent encode/decode
+- [x] `test_codec_corrupt_input.cpp`: verify deterministic error on corrupt zstd/lz4 data → implemented as `test_utils_compression_hardening.cpp`
+- [x] `test_codec_concurrent.cpp`: verify safe concurrent encode/decode → covered in `test_utils_compression_hardening.cpp`
 
 **Runtime Services:**
-- [ ] `test_thread_pool_shutdown.cpp`: verify no dangling tasks on graceful and forced shutdown
-- [ ] `test_rate_limiter_concurrency.cpp`: verify no spin-loop, no data race under TSAN
+- [x] `test_thread_pool_shutdown.cpp`: verify no dangling tasks on graceful and forced shutdown → implemented as `test_utils_runtime_hardening.cpp`
+- [x] `test_rate_limiter_concurrency.cpp`: verify no spin-loop, no data race under TSAN → implemented as `test_utils_runtime_hardening.cpp`
 
 ### 4.3 Concurrency and Stress
 

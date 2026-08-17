@@ -12,6 +12,7 @@
 
 #include "utils/tracing.h"
 #include "utils/logger.h"
+#include "utils/error_contracts.h"
 #include "observability/metrics_collector.h"
 #include "security/pii_redaction_policy.h"
 
@@ -253,6 +254,15 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
             boost::system::error_code ec;
             auto results = resolver.resolve(host, std::to_string(port), ec);
             if (ec) {
+                // Fail-open: no-op span, latency bounded to probe timeout (3s).
+                auto ctx = themis::utils::makeErrorContext(
+                    themis::utils::ErrorCode::TRACE_EXPORT_FAILED,
+                    "Tracing collector DNS resolution failed – using no-op spans (fail-open); host=" +
+                        host + " port=" + std::to_string(port) + " error=" + ec.message(),
+                    "Tracer::initialize",
+                    themis::utils::ErrorSeverity::Warning,
+                    true);
+                themis::utils::logErrorWithContext(ctx);
                 THEMIS_WARN("Tracing collector resolve failed ({}:{}): {}. Tracing disabled.", host, port, ec.message());
                 initialized_ = true;
                 return false;
@@ -281,11 +291,28 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
             io.run();
             ec = connect_ec;
             if (ec) {
+                // Fail-open: degrade to no-op spans, latency bounded.
+                auto ctx2 = themis::utils::makeErrorContext(
+                    themis::utils::ErrorCode::TRACE_EXPORT_FAILED,
+                    "Tracing collector TCP connect failed – using no-op spans (fail-open); host=" +
+                        host + " port=" + std::to_string(port) + " error=" + ec.message(),
+                    "Tracer::initialize",
+                    themis::utils::ErrorSeverity::Warning,
+                    true);
+                themis::utils::logErrorWithContext(ctx2);
                 THEMIS_WARN("Tracing collector unreachable ({}:{}): {}. Tracing disabled.", host, port, ec.message());
                 initialized_ = true;
                 return false;
             }
         } catch (const std::exception& e) {
+            auto ctx3 = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::TRACE_EXPORT_FAILED,
+                "Tracing collector probe threw exception – using no-op spans (fail-open); error=" +
+                    std::string(e.what()),
+                "Tracer::initialize",
+                themis::utils::ErrorSeverity::Warning,
+                true);
+            themis::utils::logErrorWithContext(ctx3);
             THEMIS_WARN("Tracing probe failed: {}. Tracing disabled.", e.what());
             initialized_ = true;
             return false;

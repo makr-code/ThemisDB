@@ -11,6 +11,7 @@
 
 
 #include "utils/rate_limiter.h"
+#include "utils/error_contracts.h"
 
 #include <algorithm>
 #include <stdexcept>
@@ -50,6 +51,17 @@ bool RateLimiter::try_acquire(double tokens) {
         tokens_ -= tokens;
         return true;
     }
+    // Explicit structured diagnostic on token exhaustion (RATE_LIMIT_EXHAUSTED).
+    auto ctx = themis::utils::makeErrorContext(
+        themis::utils::ErrorCode::RATELIMIT_EXCEEDED,
+        "Rate limit token bucket exhausted – request rejected; "
+        "requested=" + std::to_string(tokens) +
+        "; available=" + std::to_string(tokens_) +
+        "; rate_per_s=" + std::to_string(rate_),
+        "RateLimiter::try_acquire",
+        themis::utils::ErrorSeverity::Warning,
+        true);
+    themis::utils::logErrorWithContext(ctx);
     return false;
 }
 

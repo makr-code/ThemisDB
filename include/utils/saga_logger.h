@@ -91,12 +91,29 @@ public:
                SAGALoggerConfig cfg);
     
     /**
-     * @brief Log a single SAGA step (buffered)
+     * @brief Log a single SAGA step (buffered).
+     *
+     * Buffers the step for batch writing. When the batch size threshold is reached,
+     * `signAndFlushBatch()` is called automatically.
+     *
+     * @param step SAGA step to record
+     * @throws std::runtime_error if log file unavailable or encryption fails (fail-closed)
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Batch encryption fails (LEK unavailable) | AUDIT_ENCRYPTION_FAILED (9015) | Critical | batch_id, error | Throw (fail-closed – no plaintext persisted) |
+     * | Log file write fails (backend unavailable) | AUDIT_PERSISTENCE_FAILED (9012) | Critical | path, error | Throw (fail-closed) |
+     *
+     * @degradation fail-closed – encryption failure blocks persistence; no plaintext fallback
+     * @see ErrorCode 9010-9019 for audit error taxonomy
      */
     void logStep(const SAGAStep& step);
     
     /**
-     * @brief Force flush current batch (useful for shutdown)
+     * @brief Force flush current batch (useful for shutdown).
+     *
+     * @throws std::runtime_error if flush fails (propagated from signAndFlushBatch)
      */
     void flush();
     

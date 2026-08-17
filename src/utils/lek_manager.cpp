@@ -71,6 +71,7 @@
 #include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/audit_logger.h"
+#include "utils/error_contracts.h"
 #include "utils/hkdf_helper.h"
 
 #include <openssl/rand.h>
@@ -90,12 +91,34 @@ LEKManager::LEKManager(std::shared_ptr<themis::RocksDBWrapper> db,
     , pki_(std::move(pki))
     , key_provider_(std::move(key_provider)) {
     
-    // Ensure KEK exists
+    // Ensure KEK exists (fail-closed: key store unavailable → abort construction)
     if (!key_provider_->hasKey(kek_key_id_)) {
-        auto kek = deriveKEK();
+        std::vector<uint8_t> kek;
+        try {
+            kek = deriveKEK();
+        } catch (const std::exception& e) {
+            auto ctx = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::CRYPTO_KEY_DERIVATION_FAILED,
+                "KEK derivation failed – key store unavailable (fail-closed); "
+                "kek_key_id=" + kek_key_id_ + "; error=" + e.what(),
+                "LEKManager::LEKManager",
+                themis::utils::ErrorSeverity::Critical,
+                false);
+            themis::utils::logErrorWithContext(ctx);
+            throw;
+        }
         const uint32_t version = key_provider_->createKeyFromBytes(kek_key_id_, kek);
         if (version == 0) {
-            throw std::runtime_error("Failed to create KEK in key provider");
+            auto ctx = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::CRYPTO_KEY_NOT_FOUND,
+                "Failed to register KEK in key provider – key store unavailable (fail-closed); "
+                "kek_key_id=" + kek_key_id_,
+                "LEKManager::LEKManager",
+                themis::utils::ErrorSeverity::Critical,
+                false);
+            themis::utils::logErrorWithContext(ctx);
+            throw std::runtime_error(
+                "LEKManager: key store unavailable – cannot register KEK");
         }
     }
 }
@@ -188,7 +211,16 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
         std::string json_str = encrypted_json.dump();
         std::vector<uint8_t> json_bytes(json_str.begin(), json_str.end());
         if (!db_->put(db_key_str, json_bytes)) {
-            throw std::runtime_error("Failed to persist encrypted LEK in RocksDB");
+            auto ctx = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::CRYPTO_KEY_NOT_FOUND,
+                "Failed to persist encrypted LEK in RocksDB – key store unavailable (fail-closed); "
+                "date_str=" + date_str + "; db_key=" + db_key_str,
+                "LEKManager::getLEKForDate",
+                themis::utils::ErrorSeverity::Critical,
+                false);
+            themis::utils::logErrorWithContext(ctx);
+            throw std::runtime_error(
+                "LEKManager: key store unavailable – cannot persist LEK for " + date_str);
         }
         
         // Load into KeyProvider

@@ -46,23 +46,21 @@ public:
      * @param tokens Number of tokens to acquire (default 1.0)
      * @return true if tokens were available and consumed; false otherwise
      *
-     * @error_contract
-     * - Returns true (no-op) if tokens <= 0 — caller's zero/negative token request
-     *   is treated as already satisfied; no logging is emitted.
-     * - Returns false if tokens > burst_size — the bucket can never accumulate
-     *   more than burst_size tokens, so the request will never succeed.
-     * - Returns false on insufficient available tokens (expected, not an error)
-     * - Returns true on successful acquisition (bucket decremented)
-     *
-     * @bounded_resources
+    * @error_contract
+    * | Condition | ErrorCode | Severity | Logging | Recovery |
+    * |-----------|-----------|----------|---------|----------|
+    * | tokens <= 0 (no-op) | n/a | n/a | None | Return true |
+    * | Token bucket exhausted (insufficient tokens) | RATELIMIT_EXCEEDED (9073) | Warning | requested, available, rate_per_s | Return false (RATE_LIMIT_EXHAUSTED) |
+    *
+    * @degradation explicit false return + structured diagnostic on every rejection
+    * @bounded_resources
     * - Tokens capped at burst_size (no unbounded accumulation)
     * - Operation O(1) time complexity
     * 
-    * @thread_safety Thread-safe via internal mutex
+    * @thread_safety Thread-safe via internal mutex (no spin-loops)
     * @performance Sub-microsecond; no sleep/wait
     * 
-    * @note If tokens > burst_size, request will always fail; ensure tokens ≤ burst_size
-    * @note Use for non-critical operations where blocking is unacceptable
+    * @see ErrorCode 9070-9079 for concurrency error taxonomy
     * @see acquire() for blocking variant with automatic retry
     */
     bool try_acquire(double tokens = 1.0);

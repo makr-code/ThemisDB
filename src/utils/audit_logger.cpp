@@ -12,6 +12,7 @@
 
 #include "utils/audit_logger.h"
 #include <stdexcept>
+#include "utils/error_contracts.h"
 #include "utils/logger.h"
 
 #include <filesystem>
@@ -149,15 +150,55 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
     std::filesystem::create_directories(
         std::filesystem::path(cfg_.log_path).parent_path());
 
+    // Bounded queue check: enforce max_queued_events before the file write so
+    // callers get an explicit error rather than an unbounded disk fill.
+    if (cfg_.max_queued_events > 0 && entry_count_ >= cfg_.max_queued_events) {
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::AUDIT_BUFFER_OVERFLOW,
+            "Audit event queue at capacity (" + std::to_string(cfg_.max_queued_events) +
+            ") – event rejected (fail-closed); log_path=" + cfg_.log_path,
+            "AuditLogger::appendJsonLine",
+            themis::utils::ErrorSeverity::Critical,
+            false);
+        themis::utils::logErrorWithContext(ctx);
+        throw std::runtime_error(
+            "AuditLogger: event queue at capacity (" +
+            std::to_string(cfg_.max_queued_events) +
+            "); fail-closed — event rejected");
+    }
+
     // Rotate the primary log file if it has grown beyond the configured limit
     rotateLogIfNeeded();
 
     const std::string line = j.dump() + "\n";
 
-    // Write primary log file
+    // Write primary log file (fail-closed: surface write failures to caller)
     {
         std::ofstream ofs(cfg_.log_path, std::ios::app | std::ios::binary);
+        if (!ofs) {
+            auto ctx = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::AUDIT_PERSISTENCE_FAILED,
+                "Failed to open audit log file for append – backend unavailable; path=" + cfg_.log_path,
+                "AuditLogger::appendJsonLine",
+                themis::utils::ErrorSeverity::Critical,
+                false);
+            themis::utils::logErrorWithContext(ctx);
+            throw std::runtime_error(
+                "AuditLogger: cannot open log file '" + cfg_.log_path +
+                "' – audit backend unavailable");
+        }
         ofs << line;
+        if (!ofs) {
+            auto ctx = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::AUDIT_WRITE_FAILED,
+                "Write to audit log file failed; path=" + cfg_.log_path,
+                "AuditLogger::appendJsonLine",
+                themis::utils::ErrorSeverity::Critical,
+                false);
+            themis::utils::logErrorWithContext(ctx);
+            throw std::runtime_error(
+                "AuditLogger: write failure on log file '" + cfg_.log_path + "'");
+        }
     }
 
     // Flush kernel page-cache to stable storage for crash durability

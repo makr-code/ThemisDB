@@ -12,6 +12,7 @@
 
 #include "utils/pii_detection_engine.h"
 #include "utils/lek_manager.h"
+#include "utils/error_contracts.h"
 
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
@@ -61,8 +62,32 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
     }
 
     // Run detection on the portion we are ready to finalize.
+    // Fail-closed: if the detection engine throws (timeout, unavailable), treat
+    // the entire window as PII present so no data leaks through unscanned.
     std::string window = lookahead_buf_.substr(0, process_len);
-    auto raw_findings  = engine_->detectInText(window);
+    std::vector<PIIFinding> raw_findings;
+    try {
+        raw_findings = engine_->detectInText(window);
+    } catch (const std::exception& e) {
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::PRIVACY_ENGINE_FAILED,
+            "PII detection engine threw exception – failing closed (treating window as PII); "
+            "window_bytes=" + std::to_string(process_len) + "; error=" + e.what(),
+            "PIIStreamScanner::scan_chunk",
+            themis::utils::ErrorSeverity::Error,
+            false);
+        themis::utils::logErrorWithContext(ctx);
+        // Fail-closed: return a synthetic finding covering the entire window
+        PIIFinding sentinel;
+        sentinel.pii_type  = "UNKNOWN_FAIL_CLOSED";
+        sentinel.value     = "(redacted – detection error)";
+        sentinel.start_offset = global_offset_;
+        sentinel.end_offset   = global_offset_ + process_len;
+        sentinel.confidence   = 1.0f;
+        global_offset_  += process_len;
+        lookahead_buf_   = lookahead_buf_.substr(process_len);
+        return {sentinel};
+    }
 
     // Filter by confidence and adjust offsets to be absolute in the document.
     std::vector<PIIFinding> result;
