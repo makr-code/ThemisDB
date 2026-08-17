@@ -651,3 +651,23 @@ foreach(_rc_integration_target IN ITEMS
             ${_rc_integration_target})
     endif()
 endforeach()
+
+# ============================================================================
+# Wave D Soak Tests
+# Labels: wave_d;soak;not_release_critical
+# These tests are excluded from the fast release_critical gate.
+# Run via: ctest -L "wave_d" --timeout 7200
+# ============================================================================
+foreach(_soak_test IN ITEMS
+    test_replication_soak_60min
+    test_sharding_distributed_write_soak
+    test_telemetry_soak
+)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
+        add_integration_test(${_soak_test} ${_soak_test}.cpp)
+        set_tests_properties(${_soak_test} PROPERTIES
+            LABELS "wave_d;soak;not_release_critical"
+            TIMEOUT 7200
+        )
+    endif()
+endforeach()

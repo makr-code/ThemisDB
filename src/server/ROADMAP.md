@@ -58,12 +58,16 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [x] Close remaining scanner-confirmed high-severity auth/logging findings with regression tests — `include/server/server_api_contract.h` documents all 12+ error classes and fail-closed semantics; SCH-01..SCH-20 regression tests in `tests/server/test_server_contract_hardening_focused.cpp` (Target: Q2 2026)
 
 ### Phase 2: Protocol and Gateway Hardening
-- [ ] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)
-- [ ] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)
+- [~] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)
+  — SH3-01..SH3-12 in `tests/server/test_server_http3_stress_focused.cpp`; benchmarks SVR-H3-01..SVR-H3-02 in `benchmarks/server/bench_server_http3_gates.cpp`
+- [~] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)
+  — SGR-01..SGR-12 in `tests/server/test_server_gateway_resilience_focused.cpp`
 
 ### Phase 3: Validation and Contract Governance
-- [ ] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)
-- [ ] Add stricter backward-compat checks for gRPC and REST versioning contracts (Target: Q4 2026)
+- [~] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)
+  — `captureSpecSnapshot()` + `detectDrift()` + `DriftReport` in `include/server/openapi_route_registry.h`; SOD-01..SOD-08 in `tests/server/test_server_openapi_drift_focused.cpp`
+- [~] Add stricter backward-compat checks for gRPC and REST versioning contracts (Target: Q4 2026)
+  — `CompatPolicy` + `CompatChecker` + `SchemaFieldDescriptor` in `include/server/api_version.h`; SCC-01..SCC-07 in `tests/server/test_server_compat_contract_focused.cpp`
 
 ### Phase 4: Tests and Reliability Gates
 - [x] Expand integration and soak coverage for mixed protocol traffic (HTTP/gRPC/WebSocket/MQTT) — 20 deterministic GTest cases SCH-01..SCH-20 in `tests/server/test_server_contract_hardening_focused.cpp` covering auth, retry, timeout, rate-limit, and protocol contracts (Target: Q4 2026)

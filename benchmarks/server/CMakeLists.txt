@@ -106,3 +106,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_server_hotpaths.cpp")
     message(STATUS "  SVR-05: gRPC unary p99<=1ms  SVR-06: Shutdown drain p99<=5s")
     message(STATUS "  SVR-07: Retry budget p99<=50us  SVR-08: Route lookup p99<=10us")
 endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_server_http3_gates.cpp")
+    message(STATUS "Adding server HTTP/3 Protocol-Hardening release-gate benchmarks (SVR-H3-01..SVR-H3-02)")
+    add_executable(bench_server_http3_gates bench_server_http3_gates.cpp)
+    target_include_directories(bench_server_http3_gates PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(bench_server_http3_gates PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(bench_server_http3_gates PRIVATE THEMIS_BENCHMARK_BUILD=1)
+    themis_apply_benchmark_release_flags(bench_server_http3_gates)
+    install(TARGETS bench_server_http3_gates
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    message(STATUS "  SVR-H3-01: Connection-migration latency p99<=5us")
+    message(STATUS "  SVR-H3-02: 0-RTT resumption decision latency p99<=1us")
+endif()
