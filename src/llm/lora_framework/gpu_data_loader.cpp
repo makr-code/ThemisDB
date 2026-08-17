@@ -15,6 +15,7 @@
 #include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <chrono>
 #include <random>
 
 namespace themis {
@@ -125,11 +126,16 @@ GPUBatch GPUDataLoader::getNextBatch() {
     if (config_.async_loading && prefetch_active_.load(std::memory_order_acquire)) {
         // Get from prefetch queue
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        queue_cv_.wait(lock, [this] { 
-            return !prefetch_queue_.empty() || stop_prefetch_.load(std::memory_order_acquire); 
-        });
-        
-        if (!prefetch_queue_.empty()) {
+        // B2-blocking_no_timeout: wait_for bounds the block so a stalled prefetch thread
+        // cannot deadlock the consumer indefinitely.
+        static constexpr std::chrono::seconds kPrefetchConsumeTimeout{5};
+        if (!queue_cv_.wait_for(lock, kPrefetchConsumeTimeout, [this] {
+                return !prefetch_queue_.empty() || stop_prefetch_.load(std::memory_order_acquire);
+            })) {
+            spdlog::warn("GPUDataLoader::getNextBatch: timed out waiting for prefetch queue after {} s; "
+                         "falling back to synchronous load", kPrefetchConsumeTimeout.count());
+            batch = prepareBatch(current_batch_);
+        } else if (!prefetch_queue_.empty()) {
             batch = std::move(prefetch_queue_.front());
             prefetch_queue_.pop();
             queue_cv_.notify_one();  // Notify prefetch thread
@@ -230,8 +236,10 @@ void GPUDataLoader::prefetchWorker() {
         // Check if we have room in the queue
         {
             std::unique_lock<std::mutex> lock(queue_mutex_);
-            queue_cv_.wait(lock, [this, &batch_idx] {
-                return prefetch_queue_.size() < config_.prefetch_batches || 
+            // B2-blocking_no_timeout: wait_for prevents permanent stall if consumer thread dies.
+            static constexpr std::chrono::seconds kPrefetchProduceTimeout{10};
+            queue_cv_.wait_for(lock, kPrefetchProduceTimeout, [this, &batch_idx] {
+                return prefetch_queue_.size() < config_.prefetch_batches ||
                        stop_prefetch_.load(std::memory_order_acquire);
             });
             

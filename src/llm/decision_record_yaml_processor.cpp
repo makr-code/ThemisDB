@@ -87,10 +87,19 @@ bool DecisionRecordYamlProcessor::flush() {
         return queue_.empty() && in_flight_ == 0 && finalized >= submitted;
     };
 
+    // B2-blocking_no_timeout: cap the legacy no-timeout path to prevent indefinite deadlock.
+    static constexpr std::chrono::seconds kMaxFlushTimeout{30};
+
     std::unique_lock<std::mutex> lk(mutex_);
     if (config_.flush_timeout_ms.count() == 0) {
-        // Legacy: no timeout — wait indefinitely (not recommended in production).
-        cv_.wait(lk, pred);
+        // Legacy: flush_timeout_ms == 0 previously waited indefinitely.  Cap to kMaxFlushTimeout
+        // to prevent deadlock when a background thread stalls or is never started.
+        if (!cv_.wait_for(lk, kMaxFlushTimeout, pred)) {
+            spdlog::warn("DecisionRecordYamlProcessor::flush() timed out after {} s "
+                         "(legacy no-timeout config). Some records may not be flushed.",
+                         kMaxFlushTimeout.count());
+            return false;
+        }
         return true;
     }
     return cv_.wait_for(lk, config_.flush_timeout_ms, pred);
