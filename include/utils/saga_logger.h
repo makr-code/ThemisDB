@@ -208,6 +208,14 @@ private:
     void appendJsonLine(const std::string& path, const nlohmann::json& j);
     std::string generateBatchId() const;
     
+    /**
+     * @brief Log an error context to stderr (Phase 2.3 hardening)
+     * 
+     * Helper method for logging errors to stderr to avoid recursion
+     * when normal logging fails. Used during buffer overflow and flush failures.
+     */
+    void logErrorContext(const ErrorContext& ctx);
+    
     std::shared_ptr<FieldEncryption> enc_;
     std::shared_ptr<VCCPKIClient> pki_;
     SAGALoggerConfig cfg_;
