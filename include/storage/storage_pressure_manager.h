@@ -135,8 +135,8 @@ public:
     StoragePressureManager& operator=(const StoragePressureManager&) = delete;
 
     /// Move-enabled.
-    StoragePressureManager(StoragePressureManager&&) noexcept noexcept = default;
-    StoragePressureManager& operator=(StoragePressureManager&&) noexcept noexcept = default;
+    StoragePressureManager(StoragePressureManager&&) noexcept = default;
+    StoragePressureManager& operator=(StoragePressureManager&&) noexcept = default;
 
     ~StoragePressureManager() = default;
 

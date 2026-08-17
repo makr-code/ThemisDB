@@ -89,8 +89,8 @@ struct CheckpointData {
     ~CheckpointData() = default;
     CheckpointData(const CheckpointData&) = delete;
     CheckpointData& operator=(const CheckpointData&) = delete;
-    CheckpointData(CheckpointData&&) noexcept noexcept = default;
-    CheckpointData& operator=(CheckpointData&&) noexcept noexcept = default;
+    CheckpointData(CheckpointData&&) noexcept = default;
+    CheckpointData& operator=(CheckpointData&&) noexcept = default;
     GPUTensor input;                  ///< Input tensor to the layer
     ForwardFunction forward_fn;       ///< Function to recompute forward pass
     size_t activation_size_bytes = 0; ///< Size of activation memory saved

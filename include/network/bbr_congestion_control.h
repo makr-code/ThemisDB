@@ -180,7 +180,7 @@ public:
     BbrCongestionController(const BbrCongestionController&)            = delete;
     BbrCongestionController& operator=(const BbrCongestionController&) = delete;
     BbrCongestionController(BbrCongestionController&&) noexcept        noexcept = default;
-    BbrCongestionController& operator=(BbrCongestionController&&) noexcept noexcept = default;
+    BbrCongestionController& operator=(BbrCongestionController&&) noexcept = default;
 
     // -------------------------------------------------------------------------
     // Configuration

@@ -123,7 +123,7 @@ public:
     MptcpSubflowManager(const MptcpSubflowManager&)            = delete;
     MptcpSubflowManager& operator=(const MptcpSubflowManager&) = delete;
     MptcpSubflowManager(MptcpSubflowManager&&) noexcept        noexcept = default;
-    MptcpSubflowManager& operator=(MptcpSubflowManager&&) noexcept noexcept = default;
+    MptcpSubflowManager& operator=(MptcpSubflowManager&&) noexcept = default;
 
     // -------------------------------------------------------------------------
     // Capability and state queries

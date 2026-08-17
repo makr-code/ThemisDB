@@ -53,8 +53,8 @@ public:
     // Disable copy, allow move
     DiffApiHandler(const DiffApiHandler&) = delete;
     DiffApiHandler& operator=(const DiffApiHandler&) = delete;
-    DiffApiHandler(DiffApiHandler&&) noexcept noexcept = default;
-    DiffApiHandler& operator=(DiffApiHandler&&) noexcept noexcept = default;
+    DiffApiHandler(DiffApiHandler&&) noexcept = default;
+    DiffApiHandler& operator=(DiffApiHandler&&) noexcept = default;
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
     /**

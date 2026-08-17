@@ -79,8 +79,8 @@ public:
     // Disable copy, enable move
     MultiGPULoRALayer(const MultiGPULoRALayer&) = delete;
     MultiGPULoRALayer& operator=(const MultiGPULoRALayer&) = delete;
-    MultiGPULoRALayer(MultiGPULoRALayer&&) noexcept noexcept = default;
-    MultiGPULoRALayer& operator=(MultiGPULoRALayer&&) noexcept noexcept = default;
+    MultiGPULoRALayer(MultiGPULoRALayer&&) noexcept = default;
+    MultiGPULoRALayer& operator=(MultiGPULoRALayer&&) noexcept = default;
     
     /**
      * @brief Forward pass on all GPUs

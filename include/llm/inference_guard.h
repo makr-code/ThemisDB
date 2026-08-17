@@ -160,8 +160,8 @@ public:
     TokenBufferGuard& operator=(const TokenBufferGuard&) = delete;
     
     // Allow move
-    TokenBufferGuard(TokenBufferGuard&&) noexcept noexcept = default;
-    TokenBufferGuard& operator=(TokenBufferGuard&&) noexcept noexcept = default;
+    TokenBufferGuard(TokenBufferGuard&&) noexcept = default;
+    TokenBufferGuard& operator=(TokenBufferGuard&&) noexcept = default;
     
     /**
      * @brief Add token to buffer with bounds checking

@@ -132,8 +132,8 @@ public:
     // Non-copyable (potentially large data); movable.
     TimeSeries(const TimeSeries&)            = delete;
     TimeSeries& operator=(const TimeSeries&) = delete;
-    TimeSeries(TimeSeries&&)                 noexcept noexcept = default;
-    TimeSeries& operator=(TimeSeries&&)      noexcept noexcept = default;
+    TimeSeries(TimeSeries&&)                 noexcept = default;
+    TimeSeries& operator=(TimeSeries&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Write

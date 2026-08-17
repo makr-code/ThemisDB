@@ -296,7 +296,7 @@ public:
 
     // RLAIFTrainer is move-only (PIMPL with unique_ptr).
     RLAIFTrainer(RLAIFTrainer&&) noexcept            noexcept = default;
-    RLAIFTrainer& operator=(RLAIFTrainer&&) noexcept noexcept = default;
+    RLAIFTrainer& operator=(RLAIFTrainer&&) noexcept = default;
 
     RLAIFTrainer(const RLAIFTrainer&)            = delete;
     RLAIFTrainer& operator=(const RLAIFTrainer&) = delete;

@@ -154,8 +154,8 @@ public:
     // Disable copy, allow move
     PITRManager(const PITRManager&) = delete;
     PITRManager& operator=(const PITRManager&) = delete;
-    PITRManager(PITRManager&&) noexcept noexcept = default;
-    PITRManager& operator=(PITRManager&&) noexcept noexcept = default;
+    PITRManager(PITRManager&&) noexcept = default;
+    PITRManager& operator=(PITRManager&&) noexcept = default;
 
     /**
      * @brief Restore database to a specific sequence number

@@ -1139,14 +1139,14 @@ public:
      * @note AQLParser is stateless, so move operations are trivial
      * @cwe CWE-457: Stateless design ensures moved-from state is always valid
      */
-    AQLParser(AQLParser&&) noexcept noexcept = default;
+    AQLParser(AQLParser&&) noexcept = default;
     
     /**
      * @brief Move assignment operator
      * @note AQLParser is stateless, so move operations are trivial
      * @cwe CWE-672: Stateless design prevents use-after-move issues
      */
-    AQLParser& operator=(AQLParser&&) noexcept noexcept = default;
+    AQLParser& operator=(AQLParser&&) noexcept = default;
     
     // Delete copy operations (stateless but still follows best practices)
     AQLParser(const AQLParser&) = delete;

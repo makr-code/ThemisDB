@@ -245,8 +245,8 @@ public:
     
     VulkanContext(const VulkanContext&) = delete;
     VulkanContext& operator=(const VulkanContext&) = delete;
-    VulkanContext(VulkanContext&&) noexcept noexcept = default;
-    VulkanContext& operator=(VulkanContext&&) noexcept noexcept = default;
+    VulkanContext(VulkanContext&&) noexcept = default;
+    VulkanContext& operator=(VulkanContext&&) noexcept = default;
     
     bool initialize(int = 0, bool = false) { return false; }
     void cleanup() {}

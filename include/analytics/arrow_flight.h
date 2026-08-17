@@ -177,11 +177,11 @@ public:
 
     /// @brief Move constructor for polymorphic ArrowFlightServer base.
     /// @note Move semantics: abstract base carries no data members; derived classes must delegate here.
-    ArrowFlightServer(ArrowFlightServer&&) noexcept noexcept = default;
+    ArrowFlightServer(ArrowFlightServer&&) noexcept = default;
 
     /// @brief Move assignment operator for polymorphic ArrowFlightServer base.
     /// @note Move semantics: no-op on data-less abstract base; derived classes extend this.
-    ArrowFlightServer& operator=(ArrowFlightServer&&) noexcept noexcept = default;
+    ArrowFlightServer& operator=(ArrowFlightServer&&) noexcept = default;
 
     ArrowFlightServer(const ArrowFlightServer&) = delete;
     ArrowFlightServer& operator=(const ArrowFlightServer&) = delete;
@@ -276,11 +276,11 @@ public:
 
     /// @brief Move constructor for polymorphic ArrowFlightClient base.
     /// @note Move semantics: abstract base carries no data members; derived classes must delegate here.
-    ArrowFlightClient(ArrowFlightClient&&) noexcept noexcept = default;
+    ArrowFlightClient(ArrowFlightClient&&) noexcept = default;
 
     /// @brief Move assignment operator for polymorphic ArrowFlightClient base.
     /// @note Move semantics: no-op on data-less abstract base; derived classes extend this.
-    ArrowFlightClient& operator=(ArrowFlightClient&&) noexcept noexcept = default;
+    ArrowFlightClient& operator=(ArrowFlightClient&&) noexcept = default;
 
     ArrowFlightClient(const ArrowFlightClient&) = delete;
     ArrowFlightClient& operator=(const ArrowFlightClient&) = delete;

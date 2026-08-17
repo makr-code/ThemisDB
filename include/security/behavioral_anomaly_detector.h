@@ -149,7 +149,7 @@ public:
     BehavioralAnomalyDetector(const BehavioralAnomalyDetector&)            = delete;
     BehavioralAnomalyDetector& operator=(const BehavioralAnomalyDetector&) = delete;
     BehavioralAnomalyDetector(BehavioralAnomalyDetector&&) noexcept        noexcept = default;
-    BehavioralAnomalyDetector& operator=(BehavioralAnomalyDetector&&) noexcept noexcept = default;
+    BehavioralAnomalyDetector& operator=(BehavioralAnomalyDetector&&) noexcept = default;
 
     /**
      * @brief Score a new access event against the session's behavioural history.

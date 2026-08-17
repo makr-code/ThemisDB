@@ -91,7 +91,7 @@ class IntegrityVerificationReceipt {
 
   /// Move assignment operator.
   IntegrityVerificationReceipt& operator=(
-      IntegrityVerificationReceipt&&) noexcept noexcept = default;
+      IntegrityVerificationReceipt&&) noexcept = default;
 
   /// Destructor.
   ~IntegrityVerificationReceipt() = default;
@@ -222,7 +222,7 @@ class IntegrityVerificationEngine {
   IntegrityVerificationEngine(const IntegrityVerificationEngine&) = delete;
 
   /// Move constructor.
-  IntegrityVerificationEngine(IntegrityVerificationEngine&&) noexcept noexcept = default;
+  IntegrityVerificationEngine(IntegrityVerificationEngine&&) noexcept = default;
 
   /// Assignment operator deleted.
   IntegrityVerificationEngine& operator=(const IntegrityVerificationEngine&) =
@@ -230,7 +230,7 @@ class IntegrityVerificationEngine {
 
   /// Move assignment operator.
   IntegrityVerificationEngine& operator=(
-      IntegrityVerificationEngine&&) noexcept noexcept = default;
+      IntegrityVerificationEngine&&) noexcept = default;
 
   /// Virtual destructor.
   virtual ~IntegrityVerificationEngine() = default;
@@ -288,11 +288,11 @@ class DefaultIntegrityVerificationEngine : public IntegrityVerificationEngine {
 
   /// Move constructor.
   DefaultIntegrityVerificationEngine(
-      DefaultIntegrityVerificationEngine&&) noexcept noexcept = default;
+      DefaultIntegrityVerificationEngine&&) noexcept = default;
 
   /// Move assignment operator.
   DefaultIntegrityVerificationEngine& operator=(
-      DefaultIntegrityVerificationEngine&&) noexcept noexcept = default;
+      DefaultIntegrityVerificationEngine&&) noexcept = default;
 
   /// Destructor.
   ~DefaultIntegrityVerificationEngine() override = default;

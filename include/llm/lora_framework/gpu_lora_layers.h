@@ -58,8 +58,8 @@ public:
     // Disable copy, enable move
     GPULoRALayer(const GPULoRALayer&) = delete;
     GPULoRALayer& operator=(const GPULoRALayer&) = delete;
-    GPULoRALayer(GPULoRALayer&&) noexcept noexcept = default;
-    GPULoRALayer& operator=(GPULoRALayer&&) noexcept noexcept = default;
+    GPULoRALayer(GPULoRALayer&&) noexcept = default;
+    GPULoRALayer& operator=(GPULoRALayer&&) noexcept = default;
     
     // ========== Forward/Backward ==========
     

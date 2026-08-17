@@ -91,11 +91,11 @@ struct SectionHeader {
 
     /// @brief Move constructor — transfers magic, version, data_size, flags, and reserved fields.
     /// @note Move semantics: POD fields copied from source; source left in zero-initialised state.
-    SectionHeader(SectionHeader&&) noexcept noexcept = default;
+    SectionHeader(SectionHeader&&) noexcept = default;
 
     /// @brief Move assignment operator.
     /// @note Move semantics: all POD fields transferred; source left in zero-initialised state.
-    SectionHeader& operator=(SectionHeader&&) noexcept noexcept = default;
+    SectionHeader& operator=(SectionHeader&&) noexcept = default;
 
     SectionHeader(const SectionHeader&) = default;
     SectionHeader& operator=(const SectionHeader&) = default;
@@ -116,11 +116,11 @@ public:
 
     /// @brief Move constructor — transfers storage shared_ptr and config; source config reset to defaults.
     /// @note Move semantics: std::shared_ptr move transfers co-ownership; GGUFSTConfig is trivially copyable.
-    GGUFSTAdapter(GGUFSTAdapter&&) noexcept noexcept = default;
+    GGUFSTAdapter(GGUFSTAdapter&&) noexcept = default;
 
     /// @brief Move assignment operator.
     /// @note Move semantics: storage_ and config_ replaced; old storage_ ref-count decremented.
-    GGUFSTAdapter& operator=(GGUFSTAdapter&&) noexcept noexcept = default;
+    GGUFSTAdapter& operator=(GGUFSTAdapter&&) noexcept = default;
 
     GGUFSTAdapter(const GGUFSTAdapter&) = delete;
     GGUFSTAdapter& operator=(const GGUFSTAdapter&) = delete;

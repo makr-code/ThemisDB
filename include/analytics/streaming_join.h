@@ -135,7 +135,7 @@ public:
     // Non-copyable (hash table may be large)
     HashJoin(const HashJoin&)            = delete;
     HashJoin& operator=(const HashJoin&) = delete;
-    HashJoin(HashJoin&&)                 noexcept noexcept = default;
+    HashJoin(HashJoin&&)                 noexcept = default;
 
     // -----------------------------------------------------------------------
     // Build phase

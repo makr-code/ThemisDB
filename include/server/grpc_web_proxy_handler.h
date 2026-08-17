@@ -123,8 +123,8 @@ public:
     // Non-copyable, movable
     GrpcWebProxyHandler(const GrpcWebProxyHandler&) = delete;
     GrpcWebProxyHandler& operator=(const GrpcWebProxyHandler&) = delete;
-    GrpcWebProxyHandler(GrpcWebProxyHandler&&) noexcept noexcept = default;
-    GrpcWebProxyHandler& operator=(GrpcWebProxyHandler&&) noexcept noexcept = default;
+    GrpcWebProxyHandler(GrpcWebProxyHandler&&) noexcept = default;
+    GrpcWebProxyHandler& operator=(GrpcWebProxyHandler&&) noexcept = default;
 
     /**
      * @brief Handle an incoming gRPC-Web POST request.

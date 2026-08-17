@@ -131,9 +131,9 @@ class KeyProvider : public virtual IKeyProvider {
 public:
     KeyProvider() = default;
     KeyProvider(const KeyProvider&) = default;
-    KeyProvider(KeyProvider&&) noexcept noexcept = default;
+    KeyProvider(KeyProvider&&) noexcept = default;
     KeyProvider& operator=(const KeyProvider&) = default;
-    KeyProvider& operator=(KeyProvider&&) noexcept noexcept = default;
+    KeyProvider& operator=(KeyProvider&&) noexcept = default;
     ~KeyProvider() override = default;
     
     // IKeyProvider interface implementation (with defaults)

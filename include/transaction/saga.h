@@ -57,8 +57,8 @@ public:
     // Disable copy, enable move
     Saga(const Saga&) = delete;
     Saga& operator=(const Saga&) = delete;
-    Saga(Saga&&) noexcept noexcept = default;
-    Saga& operator=(Saga&&) noexcept noexcept = default;
+    Saga(Saga&&) noexcept = default;
+    Saga& operator=(Saga&&) noexcept = default;
     
     /// Add a step with its compensating action
     void addStep(std::string operation_name, CompensatingAction compensate);

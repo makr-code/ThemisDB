@@ -71,8 +71,8 @@ public:
     CTECache& operator=(const CTECache&) = delete;
     
     // Allow move
-    CTECache(CTECache&&) noexcept noexcept = default;
-    CTECache& operator=(CTECache&&) noexcept noexcept = default;
+    CTECache(CTECache&&) noexcept = default;
+    CTECache& operator=(CTECache&&) noexcept = default;
     
     /**
      * @brief Store CTE results in cache

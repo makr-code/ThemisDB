@@ -101,8 +101,8 @@ public:
     GeoBackendDispatcher& operator=(const GeoBackendDispatcher&) = delete;
 
     // Allow moving
-    GeoBackendDispatcher(GeoBackendDispatcher&&) noexcept noexcept = default;
-    GeoBackendDispatcher& operator=(GeoBackendDispatcher&&) noexcept noexcept = default;
+    GeoBackendDispatcher(GeoBackendDispatcher&&) noexcept = default;
+    GeoBackendDispatcher& operator=(GeoBackendDispatcher&&) noexcept = default;
 
     /**
      * @brief Query whether CUDA GPU is available and functional.

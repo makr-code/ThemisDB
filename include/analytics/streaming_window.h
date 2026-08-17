@@ -145,8 +145,8 @@ struct WindowAggregateSpec {
 
         WindowAggregateSpec(const WindowAggregateSpec&) = default;
         WindowAggregateSpec& operator=(const WindowAggregateSpec&) = default;
-        WindowAggregateSpec(WindowAggregateSpec&&) noexcept noexcept = default;
-        WindowAggregateSpec& operator=(WindowAggregateSpec&&) noexcept noexcept = default;
+        WindowAggregateSpec(WindowAggregateSpec&&) noexcept = default;
+        WindowAggregateSpec& operator=(WindowAggregateSpec&&) noexcept = default;
         ~WindowAggregateSpec() = default;
 };
 

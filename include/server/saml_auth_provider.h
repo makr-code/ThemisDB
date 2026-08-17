@@ -96,8 +96,8 @@ public:
     // Non-copyable, movable
     SamlAuthProvider(const SamlAuthProvider&) = delete;
     SamlAuthProvider& operator=(const SamlAuthProvider&) = delete;
-    SamlAuthProvider(SamlAuthProvider&&) noexcept noexcept = default;
-    SamlAuthProvider& operator=(SamlAuthProvider&&) noexcept noexcept = default;
+    SamlAuthProvider(SamlAuthProvider&&) noexcept = default;
+    SamlAuthProvider& operator=(SamlAuthProvider&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // HTTP handlers – each returns a JSON result with an embedded status_code

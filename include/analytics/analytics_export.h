@@ -78,11 +78,11 @@ public:
 
     /// @brief Move constructor for polymorphic analytics exporter base.
     /// @note Move semantics: abstract base carries no data members; derived classes must delegate here.
-    IAnalyticsExporter(IAnalyticsExporter&&) noexcept noexcept = default;
+    IAnalyticsExporter(IAnalyticsExporter&&) noexcept = default;
 
     /// @brief Move assignment operator for polymorphic analytics exporter base.
     /// @note Move semantics: no-op on data-less abstract base; derived classes extend this.
-    IAnalyticsExporter& operator=(IAnalyticsExporter&&) noexcept noexcept = default;
+    IAnalyticsExporter& operator=(IAnalyticsExporter&&) noexcept = default;
 
     IAnalyticsExporter(const IAnalyticsExporter&) = delete;
     IAnalyticsExporter& operator=(const IAnalyticsExporter&) = delete;

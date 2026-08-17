@@ -53,8 +53,8 @@ public:
     // Non-copyable, movable
     ContinuousQueryApiHandler(const ContinuousQueryApiHandler&) = delete;
     ContinuousQueryApiHandler& operator=(const ContinuousQueryApiHandler&) = delete;
-    ContinuousQueryApiHandler(ContinuousQueryApiHandler&&) noexcept noexcept = default;
-    ContinuousQueryApiHandler& operator=(ContinuousQueryApiHandler&&) noexcept noexcept = default;
+    ContinuousQueryApiHandler(ContinuousQueryApiHandler&&) noexcept = default;
+    ContinuousQueryApiHandler& operator=(ContinuousQueryApiHandler&&) noexcept = default;
 
     /**
      * @brief POST /v1/queries/continuous

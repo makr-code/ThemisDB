@@ -127,8 +127,8 @@ public:
     OAuth2Provider& operator=(const OAuth2Provider&) = delete;
 
     // Movable
-    OAuth2Provider(OAuth2Provider&&) noexcept noexcept = default;
-    OAuth2Provider& operator=(OAuth2Provider&&) noexcept noexcept = default;
+    OAuth2Provider(OAuth2Provider&&) noexcept = default;
+    OAuth2Provider& operator=(OAuth2Provider&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // HTTP handlers – each returns a JSON result.

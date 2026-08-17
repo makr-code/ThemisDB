@@ -34,8 +34,8 @@ struct GPUBatch {
     ~GPUBatch() = default;
     GPUBatch(const GPUBatch&) = delete;
     GPUBatch& operator=(const GPUBatch&) = delete;
-    GPUBatch(GPUBatch&&) noexcept noexcept = default;
-    GPUBatch& operator=(GPUBatch&&) noexcept noexcept = default;
+    GPUBatch(GPUBatch&&) noexcept = default;
+    GPUBatch& operator=(GPUBatch&&) noexcept = default;
     GPUTensor input_ids;      // Tokenized input (batch_size, seq_len)
     GPUTensor attention_mask; // Attention mask (batch_size, seq_len)
     GPUTensor labels;         // Target labels (batch_size, seq_len)

@@ -69,8 +69,8 @@ public:
     /// Non-copyable, movable
     AqlPredicateFilter(const AqlPredicateFilter&) = delete;
     AqlPredicateFilter& operator=(const AqlPredicateFilter&) = delete;
-    AqlPredicateFilter(AqlPredicateFilter&&) noexcept noexcept = default;
-    AqlPredicateFilter& operator=(AqlPredicateFilter&&) noexcept noexcept = default;
+    AqlPredicateFilter(AqlPredicateFilter&&) noexcept = default;
+    AqlPredicateFilter& operator=(AqlPredicateFilter&&) noexcept = default;
 
     /**
      * @brief Evaluate the predicate against a single entity.
