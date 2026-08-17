@@ -33,15 +33,19 @@ Remaining open critical/high items are tracked in ROADMAP.md Phase 3.5, 3.6, 3.8
 Phase 4 stress validation expansion. The previously listed `pki_client.cpp` and
 `error_registry.cpp` critical/high findings are now remediated in source and reflected in
 the follow-up remediation entry above. This document's scan snapshot is from 2026-06-04 and
-should be regenerated to refresh aggregate counts.
+must be read as historical evidence only until the scanner is rerun to refresh aggregate counts.
 
 ## Scan Snapshot
 
+> Current manual status (2026-08-17): 8 targeted critical/high gap clusters were closed on
+> 2026-08-17, but the utils module still has open hardening and stress-validation work in
+> `ROADMAP.md`. The totals below are a historical scanner snapshot, not a current open-gap count.
+
 - Module: utils
 - Generated: 2026-06-04 08:50:22
-- Status: Critical Findings Present
-- Total Findings: 414
-- Actionable Findings (Critical + High): 235
+- Status: Historical 2026-06-04 snapshot (stale after 2026-08-17 remediation updates)
+- Total Findings: 414 (historical snapshot)
+- Actionable Findings (Critical + High): 235 (historical snapshot, not current open count)
 - Affected Files: 44
 
 ## Severity Summary

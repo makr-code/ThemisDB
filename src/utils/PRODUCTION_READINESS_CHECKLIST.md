@@ -1,6 +1,6 @@
 # Production Readiness Checklist - Utils Module
 
-<!-- Status: current | created: 2026-08-08 | validated: 2026-08-08 -->
+<!-- Status: current | created: 2026-08-08 | validated: 2026-08-17 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · AUDIT.md -->
 
 ## Overview
@@ -242,7 +242,7 @@ This checklist verifies that the utils module meets production readiness require
   - Measurement methodology clear
 
 ### ROADMAP & FUTURE Separation
-- [x] ROADMAP.md contains completed work (Phases 1-6 marked with [x])
+- [x] ROADMAP.md distinguishes completed work from open work (Phases 1, 5, 6 complete; Phases 2-4 still in progress)
 - [x] FUTURE_ENHANCEMENTS.md contains open backlog only
 - [x] No duplicates between files
 - [x] CHANGELOG.md tracks historical completions
@@ -256,7 +256,7 @@ This checklist verifies that the utils module meets production readiness require
 - [x] Error registry concurrency hardening documented and source-verified (`src/utils/error_registry.cpp`, 2026-08-17)
 
 ### Test Integration
-- [x] All tests passing
+- [~] Focused benchmark and documentation evidence synchronized; full Phase 4 all-tests sign-off still pending
 - [x] Benchmarks in release profile reproducible
 - [x] No blockers to merge
 
@@ -286,7 +286,7 @@ This checklist verifies that the utils module meets production readiness require
 
 ### Overall Status: PHASES 1, 5, 6 COMPLETE ✓
 
-**Phases 2-4 Status:** In progress; documentation synchronized and locked. Awaiting Phase 2-4 final completion.
+**Phases 2-4 Status:** In progress; documentation synchronized and locked. Awaiting Phase 2-4 final completion before the module can be treated as fully production-ready.
 
 ---
 
