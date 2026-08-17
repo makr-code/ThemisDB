@@ -3,6 +3,25 @@
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
+## Remediation Log
+
+### 2026-08-17 — Critical/High Gap Closure (manual remediation run)
+
+Scope: Closed critical scanner findings in 5 source files. Scanner scan date was 2026-06-04;
+remediation applied to `develop` branch on 2026-08-17.
+
+| File | Findings Closed | Category | Status |
+|---|---|---|---|
+| utils/thread_pool_manager.cpp | 5 (CRITICAL×5) | thread_join_no_timeout, data_race | ✓ CLOSED |
+| utils/http_client_pool.cpp | 3 (CRITICAL×3) | blocking_no_timeout, thread_join_no_timeout | ✓ CLOSED |
+| utils/grpc_channel_pool.cpp | 2 (HIGH×2) | explicit_lock_unlock | ✓ CLOSED |
+| utils/rate_limiter.cpp | 3 (CRITICAL×2, HIGH×1) | blocking_no_timeout, no_timeout, explicit_lock_unlock | ✓ CLOSED |
+| utils/audit_logger.cpp | 4 (MEDIUM×4) | manual_cleanup (raw fd close) | ✓ CLOSED |
+
+Remaining open critical/high items are tracked in ROADMAP.md Phase 2.4, 3.5-3.9, and the
+outstanding scanner findings in pki_client.cpp, error_registry.cpp, and pool_allocator.cpp
+(pool_allocator critical items were previously resolved per RESOLVED markers in scan output).
+
 ## Scan Snapshot
 
 - Module: utils

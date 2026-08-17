@@ -11,6 +11,8 @@
 
 
 #include "utils/http_client_pool.h"
+#include "utils/thread_join_utils.h"
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>
 #include <regex>
@@ -93,10 +95,11 @@ HTTPClientPool::~HTTPClientPool() {
     io_context_->stop();
 #endif
     
-    // Join I/O threads
+    // Join I/O threads (bounded join; threads exit when io_context_ is stopped)
     for (auto& thread : io_threads_) {
-        if (thread.joinable()) {
-            thread.join();
+        if (!joinThreadWithin(thread)) {
+            spdlog::warn("HTTPClientPool: I/O thread did not exit within deadline; "
+                         "a detached watcher will complete the join");
         }
     }
     

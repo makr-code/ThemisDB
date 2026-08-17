@@ -1,7 +1,7 @@
 # Utils Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-18 -->
+<!-- Status: current | validated: 2026-08-17 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -37,8 +37,15 @@ Production-usable shared utility behavior exists for observability, privacy proc
   - [x] 2.1: Error taxonomy definition (64 codes, 7300-7363) - COMPLETE
   - [x] 2.2: Error registry implementation (audit, privacy, key, compression, runtime) - COMPLETE  
   - [~] 2.3: Observability plane hardening (audit_logger, logger, tracing, saga_logger) - IN PROGRESS
+    - [x] 2.3a: audit_logger RAII for POSIX file descriptors (FdGuard, eliminates raw close leaks) - COMPLETE 2026-08-17
   - [ ] 2.4: Privacy & Key plane hardening (pii, hkdf, pki) - QUEUED
-  - [ ] 2.5: Compression & Runtime plane hardening (codecs, thread_pool, rate_limiter) - QUEUED
+  - [~] 2.5: Compression & Runtime plane hardening (codecs, thread_pool, rate_limiter) - IN PROGRESS
+    - [x] 2.5a: thread_pool_manager bounded-shutdown joins (joinThreadWithin) - COMPLETE 2026-08-17
+    - [x] 2.5b: thread_pool_manager getStatistics() data-race guard - COMPLETE 2026-08-17
+    - [x] 2.5c: rate_limiter acquire() cv_.wait_for replacing explicit unlock/lock - COMPLETE 2026-08-17
+    - [x] 2.5d: rate_limiter try_acquire_for() timed acquisition added - COMPLETE 2026-08-17
+    - [x] 2.5e: http_client_pool bounded-shutdown joins (joinThreadWithin) - COMPLETE 2026-08-17
+    - [x] 2.5f: grpc_channel_pool explicit lock.lock() replaced with exception-safe scope guard - COMPLETE 2026-08-17
   - [ ] 2.6: Documentation and acceptance gates - QUEUED
 - [~] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
   - [~] 2.7: Explicit error codes for all hotspots (7300-7363) - IN PROGRESS
@@ -73,13 +80,19 @@ Production-usable shared utility behavior exists for observability, privacy proc
 ### Phase 6: Documentation and Acceptance
 - [x] core utils module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] gap remediation run documented: 6 critical scanner findings resolved across 5 source files (2026-08-17)
+  - thread_pool_manager.cpp: bounded joins + data-race guard
+  - http_client_pool.cpp: bounded joins in destructor
+  - grpc_channel_pool.cpp: exception-safe scope re-lock
+  - rate_limiter.cpp: cv_.wait_for + try_acquire_for()
+  - audit_logger.cpp: FdGuard RAII wrapper for POSIX fds
 
 ## Production Readiness Checklist
 
 - [x] core shared helper surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for high-fan-out helpers
+- [~] remaining hardening tasks closed for high-fan-out helpers (6 critical gaps closed 2026-08-17; Phase 2.4/3.5-3.9 open)
 - [ ] broader release benchmark stabilization complete
 
 ## Known Issues and Limitations

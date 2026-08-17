@@ -383,7 +383,50 @@ From AUDIT.md and FUTURE_ENHANCEMENTS.md:
 
 ---
 
-## Appendix A: Deliverables Checklist
+## 9. Phase 6 Update — Gap Remediation Run 2026-08-17
+
+**Update Date:** 2026-08-17 05:30 UTC  
+**Update Type:** Source-code gap closure (critical/high scanner findings)
+
+### Summary
+
+A targeted remediation run closed 6 critical/high scanner findings across 5 source files,
+identified in the MODULE_GAPS.md scan dated 2026-06-04. All changes are on the `develop` branch.
+
+### Files Remediated
+
+| File | Finding Categories | Items Closed |
+|---|---|---|
+| `thread_pool_manager.cpp` | `thread_join_no_timeout`, `data_race` | 5 (CRITICAL) |
+| `http_client_pool.cpp` | `blocking_no_timeout`, `thread_join_no_timeout` | 3 (CRITICAL) |
+| `grpc_channel_pool.cpp` | `explicit_lock_unlock` | 2 (HIGH) |
+| `rate_limiter.cpp` | `blocking_no_timeout`, `no_timeout`, `explicit_lock_unlock` | 3 (CRITICAL+HIGH) |
+| `audit_logger.cpp` | `manual_cleanup` (raw POSIX fd close) | 4 (MEDIUM) |
+
+### Implementation Notes
+
+- **Thread pool / HTTP pool shutdown**: Both now use `joinThreadWithin()` from
+  `include/utils/thread_join_utils.h` for bounded joins. A 5-second deadline is applied;
+  a `spdlog::warn` is emitted and a detached watcher thread finishes the join asynchronously
+  if the deadline is exceeded. Workers are already cooperative (check `running_` flag).
+- **ThreadPoolManager::getStatistics()**: Guards against data race during concurrent shutdown
+  by checking `running_.load()` before dereferencing pool unique_ptrs.
+- **grpc_channel_pool**: Explicit `lock.lock()` after unlocked channel creation section is
+  now wrapped with a `try/catch` that re-acquires the lock before rethrowing. Eliminates the
+  lock-state inconsistency on exception paths.
+- **rate_limiter**: The explicit `lk.unlock()` / `std::this_thread::sleep_for()` / `lk.lock()`
+  sequence in `acquire()` is replaced with `cv_.wait_for(lk, sleep_dur)`, enabling early wakeup
+  on `reset()` and eliminating the RAII-unsafe explicit unlock/lock pair. A new
+  `try_acquire_for(tokens, timeout)` API provides bounded acquisition.
+- **audit_logger**: A local `FdGuard` RAII struct wraps all `::open()` + `::fdatasync()` + `::close()`
+  sequences on POSIX platforms. Eliminates 4 `manual_cleanup` findings; Windows paths unchanged.
+
+### Updated Status
+
+ROADMAP.md Phase 2 items 2.5a–2.5f and Phase 6 gap remediation entry updated.
+MODULE_GAPS.md Remediation Log section added.
+
+
 
 ### Phase 5-6 Deliverables (Completed)
 

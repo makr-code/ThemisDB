@@ -34,6 +34,22 @@
 #include <unistd.h>
 #endif
 
+#ifndef _WIN32
+namespace {
+
+/// @brief RAII wrapper for a POSIX file descriptor.
+/// Automatically closes the fd on scope exit. The fd must be >= 0.
+struct FdGuard {
+    explicit FdGuard(int fd) noexcept : fd_(fd) {}
+    ~FdGuard() noexcept { if (fd_ >= 0) ::close(fd_); }
+    FdGuard(const FdGuard&) = delete;
+    FdGuard& operator=(const FdGuard&) = delete;
+    int fd_;
+};
+
+} // anonymous namespace
+#endif
+
 namespace themis {
 namespace utils {
 
@@ -165,8 +181,8 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
 #ifndef _WIN32
         int fd = ::open(cfg_.log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
         if (fd >= 0) {
-            ::fdatasync(fd);
-            ::close(fd);
+            FdGuard guard(fd);
+            ::fdatasync(guard.fd_);
         }
 #else
         HANDLE h = CreateFileA(cfg_.log_path.c_str(), GENERIC_WRITE,
@@ -191,8 +207,8 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
 #ifndef _WIN32
             int fd2 = ::open(cfg_.secondary_log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
             if (fd2 >= 0) {
-                ::fdatasync(fd2);
-                ::close(fd2);
+                FdGuard guard2(fd2);
+                ::fdatasync(guard2.fd_);
             }
 #else
             HANDLE h2 = CreateFileA(cfg_.secondary_log_path.c_str(), GENERIC_WRITE,
@@ -1554,8 +1570,8 @@ void HashChainAuditWriter::saveChainHead() {
         if (cfg_.fsync_on_write) {
             int fd = ::open(cfg_.chain_head_path.c_str(), O_RDONLY);
             if (fd >= 0) {
-                ::fdatasync(fd);
-                ::close(fd);
+                FdGuard guard(fd);
+                ::fdatasync(guard.fd_);
             }
         }
 #endif
