@@ -1,8 +1,9 @@
 # Access Model Module - Roadmap
 
 **Version:** 1.0.0  
-**Status:** ACTIVE (Phase 2 complete; Phase 5-6 planned)  
-**Last Validated:** 2026-08-10
+**Status:** ACTIVE (Phase 2-4 complete; Phase 5-6 implementation launched)  
+**Last Validated:** 2026-08-17  
+**Phase 5-6 Plan:** `ai_working/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -14,7 +15,11 @@
 **Phase 2 Complete:** Core coordinator, age-based policy, metrics, CMakeLists.txt, and ACM-01..08 unit tests delivered (2026-08-09).  
 **Phase 3 Complete:** Cache integration with full eviction event emission (BLOCK 2 Phase 2).  
 **Phase 4 Complete:** Storage integration with promotion detection (BLOCK 3 Phase 2).  
-**Phases 5-6 Planned:** Observability, e2e integration tests, and release benchmark gates (Target: Q1 2027).
+**Phase 5-6 In Progress:** 🟡 Implementation launched 2026-08-17
+  - Phase 5.1-5.3 (Observability Infrastructure): Agent `access-model-phase5-observabil` in progress
+  - Phase 6.1-6.3 (Testing & Benchmarks): Agent `access-model-phase6-testing` in progress
+  - Documentation (Runbooks, Dashboard, Gate Verification): Complete ✅
+  - Target: Complete by 2026-08-24 (Q3 2026, Wave B exit criteria)
 
 ---
 
@@ -74,21 +79,48 @@
 - [x] Integration tests: storage→coordinator→cache (Target: Q4 2026)
   - [x] CAI-07,08,09,10 test cases ready in test_cache_storage_integration.cpp
 
-### Phase 5: Observability & Diagnostics 🔵 (PLANNED)
-- [ ] Structured logging for all transitions (Target: Q1 2027)
-- [ ] Trace correlation ID propagation (Target: Q1 2027)
-- [ ] Metrics dashboard panels (Target: Q1 2027)
-- [ ] Operator runbooks (Target: Q1 2027)
+### Phase 5: Observability & Diagnostics 🟡 (IN PROGRESS)
+- [~] Structured logging for all transitions (Target: Q3 2026, Agent in progress)
+  - [ ] Create `access_model_logging.h` with TierTransitionLog, EvictionEventLog, PromotionDecisionLog structs
+  - [ ] Instrument AccessCoordinatorImpl (10+ logging points)
+  - [ ] Use spdlog fmt integration for structured fields
+- [~] Trace correlation ID propagation (Target: Q3 2026, Agent in progress)
+  - [ ] Create `access_model_trace.h` with TraceContext, CorrelationID
+  - [ ] Thread-local context management
+  - [ ] ID flow through entire event chain
+- [~] Metrics dashboard panels (Target: Q3 2026)
+  - [ ] Counters: promotion_attempts, promotion_successes, demotion_attempts, demotion_successes
+  - [ ] Histograms: promotion_latency_ms, demotion_latency_ms (p50/p95/p99)
+  - [ ] Gauges: event_queue_depth, worker_thread_utilization
+  - [ ] Prometheus-compatible output
+- [x] Operator runbooks (5+ scenarios) — COMPLETE ✅
+  - [x] Symptom 1: Promotions not happening
+  - [x] Symptom 2: Worker pool stuck
+  - [x] Symptom 3: Memory spike
+  - [x] Symptom 4: Promotion latency spike
+  - [x] Symptom 5: Policy conflicts
+- [x] Dashboard guide & examples — COMPLETE ✅
 
-### Phase 6: Tests & Hardening 🔵 (PLANNED)
-- [ ] Integration tests: full stack e2e (test_access_model_e2e.cpp) (Target: Q1 2027)
-- [ ] Concurrent operation tests (test_coordination_concurrency.cpp) (Target: Q1 2027)
-- [ ] Benchmarks: promotion latency gates (Target: Q1 2027)
-  - [ ] Gate: L1→L2 promotion ≤50µs
-  - [ ] Gate: Cache eviction→storage feedback ≤100µs
-  - [ ] Gate: Cold→warm promotion ≤100ms for ≤1MB objects
-- [ ] Release-critical gate: GATE-ACM-01..06 (Target: Q1 2027)
-- [ ] Zero regressions in cache/storage benchmarks (Target: Q1 2027)
+### Phase 6: Tests & Hardening 🟡 (IN PROGRESS)
+- [~] E2E integration tests (test_access_model_e2e.cpp) (Target: Q3 2026, Agent in progress)
+  - [ ] 15+ test scenarios (promotion chains, demotion chains, policy, edge cases)
+  - [ ] Acceptance: All PASS in <5s, ASan/TSan/UBSan clean, >85% coverage
+- [~] Concurrent operation tests (test_coordination_concurrency.cpp) (Target: Q3 2026, Agent in progress)
+  - [ ] 10+ concurrency patterns (concurrent events, tier operations, thread pool stress)
+  - [ ] Acceptance: TSan-clean (0 races), no event loss, queue depth stable
+- [~] Benchmark gates (bench_access_coordinator_gates.cpp) (Target: Q3 2026, Agent in progress)
+  - [ ] GATE-ACM-01: L1→L2 promotion ≤50µs p99
+  - [ ] GATE-ACM-02: Cache eviction→storage feedback ≤100µs p99
+  - [ ] GATE-ACM-03: Cold→warm promotion ≤100ms p99
+  - [ ] GATE-ACM-04: Event processing ≥10K events/sec
+  - [ ] GATE-ACM-05: Memory overhead ≤50MB
+  - [ ] GATE-ACM-06: Policy decision ≤10µs p99
+- [ ] Release-critical gate: GATE-ACM-01..06 verification (Target: Q3 2026)
+  - [ ] All gates PASS on representative hardware
+  - [ ] Baseline captured, regression rules enforced
+  - [ ] Documented hardware profiles
+- [x] Gate verification framework — COMPLETE ✅
+- [ ] Regression validation (cache/storage benchmarks ≤5% delta) (Target: Q3 2026)
 
 ---
 

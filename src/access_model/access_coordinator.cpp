@@ -27,6 +27,8 @@
 #include <vector>
 
 #include "core/logger.h"
+#include "access_model/access_model_logging.h"
+#include "access_model/access_model_trace.h"
 
 namespace themis {
 namespace access_model {
@@ -72,6 +74,16 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
         logger()->info("AccessCoordinator started with {} worker threads",
                        thread_pool_size_);
+        
+        // Emit structured lifecycle log
+        CoordinatorLifecycleLog lifecycle_log{
+            .event_type = "START",
+            .details = "worker_thread_count=" + std::to_string(thread_pool_size_),
+            .correlation_id = generateCorrelationId("startup"),
+            .thread_id = std::this_thread::get_id(),
+            .timestamp = std::chrono::system_clock::now(),
+        };
+        accessModelLogger().logCoordinatorLifecycle(lifecycle_log);
     }
 
     void shutdown() override {
@@ -93,6 +105,16 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
         worker_threads_.clear();
         logger()->info("AccessCoordinator shut down");
+        
+        // Emit structured lifecycle log
+        CoordinatorLifecycleLog lifecycle_log{
+            .event_type = "SHUTDOWN",
+            .details = "graceful_drain_complete",
+            .correlation_id = generateCorrelationId("shutdown"),
+            .thread_id = std::this_thread::get_id(),
+            .timestamp = std::chrono::system_clock::now(),
+        };
+        accessModelLogger().logCoordinatorLifecycle(lifecycle_log);
     }
 
     bool isRunning() const override { return running_; }
@@ -120,6 +142,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         };
 
         // Apply age policy: decide if this should trigger storage demotion
+        std::string decision = "UNKNOWN";
         if (policy_set_) {
             bool should_demote = false;
             TierLevel target_tier = TierLevel::UNKNOWN;
@@ -127,12 +150,16 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             // High access count → keep hot (don't demote)
             if (event.access_count >= policy_.l1_promotion_threshold) {
                 should_demote = false;
+                decision = "RETAIN";
             }
             // Low access count + old → demote to storage
             else if (event.last_access_age_secs.count() >
                      (policy_.hot_zero_access_days * 86400)) {
                 should_demote = true;
                 target_tier = TierLevel::STORAGE_WARM;
+                decision = "DEMOTE";
+            } else {
+                decision = "DEFER";
             }
 
             if (should_demote && tiers_.count(target_tier)) {
@@ -167,6 +194,21 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             "correlation_id={}",
             event.key, tierLevelName(event.tier), event.access_count,
             correlation_id);
+        
+        // Emit structured eviction log
+        EvictionEventLog eviction_log{
+            .key = std::string(event.key),
+            .from_tier = event.tier,
+            .eviction_reason = std::string(event.eviction_reason),
+            .size_bytes = event.size_bytes,
+            .access_count = event.access_count,
+            .last_access_age = event.last_access_age_secs,
+            .decision = decision,
+            .correlation_id = correlation_id,
+            .thread_id = std::this_thread::get_id(),
+            .timestamp = event_start,
+        };
+        accessModelLogger().logEvictionEvent(eviction_log);
     }
 
     void onHotAccess(const AccessEvent& event) override {
@@ -191,6 +233,9 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         };
 
         // Apply age policy: check if should promote to cache
+        std::string decision = "UNKNOWN";
+        std::optional<TierLevel> target_tier_opt;
+        
         if (policy_set_ && event.access_count >= policy_.storage_promotion_threshold) {
             // Promotion candidate
             TierLevel target_tier = TierLevel::L3_SEMANTIC;
@@ -203,6 +248,8 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
             if (tiers_.count(target_tier)) {
                 metrics_.counters.promotions_initiated++;
+                decision = "PROMOTE";
+                target_tier_opt = target_tier;
 
                 DemotionEvent task{
                     .key = std::string(event.key),
@@ -215,6 +262,8 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
                 transition.to_tier = target_tier;
             }
+        } else if (policy_set_) {
+            decision = "REJECT";
         }
 
         // Track metrics
@@ -233,6 +282,24 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             "correlation_id={}",
             event.key, tierLevelName(event.current_tier), event.access_count,
             correlation_id);
+        
+        // Emit structured promotion decision log
+        PromotionDecisionLog decision_log{
+            .key = std::string(event.key),
+            .current_tier = event.current_tier,
+            .target_tier = target_tier_opt,
+            .decision = decision,
+            .access_count = event.access_count,
+            .age_secs = std::chrono::seconds(event.age_secs),
+            .threshold_name = "storage_promotion_threshold",
+            .threshold_value = policy_.storage_promotion_threshold,
+            .actual_value = event.access_count,
+            .reason = "hot_access_detected_on_storage_tier",
+            .correlation_id = correlation_id,
+            .thread_id = std::this_thread::get_id(),
+            .timestamp = event_start,
+        };
+        accessModelLogger().logPromotionDecision(decision_log);
     }
 
     // Async promotion/demotion
@@ -407,6 +474,13 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
  private:
     void workerMain() {
+        // Set up trace context for this worker thread
+        auto worker_id = generateCorrelationId("worker");
+        TraceContext ctx{worker_id};
+        TraceContextManager::ScopedContext trace_guard(ctx);
+        
+        logger()->debug("Worker thread started: correlation_id={}", worker_id);
+
         while (running_) {
             std::unique_lock<std::mutex> lock(mutex_);
 
@@ -423,7 +497,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
             lock.unlock();
 
-            // Process task
+            // Process task (trace context automatically propagated)
             processPromotionTask(task);
 
             lock.lock();
@@ -431,6 +505,8 @@ class AccessCoordinatorImpl : public AccessCoordinator {
                 pending_demotions_--;
             }
         }
+        
+        logger()->debug("Worker thread exiting: correlation_id={}", worker_id);
     }
 
     void processPromotionTask(const DemotionEvent& task) {
@@ -473,6 +549,20 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         logger()->debug(
             "Promotion task processed: key={}, from_tier={}, to_tier={}",
             task.key, tierLevelName(task.from_tier), tierLevelName(task.to_tier));
+        
+        // Emit structured tier transition log
+        TierTransitionLog transition_log{
+            .key = task.key,
+            .from_tier = task.from_tier,
+            .to_tier = task.to_tier,
+            .reason = task.reason,
+            .latency_ms = result.total_latency_ms.count(),
+            .correlation_id = correlation_id,
+            .thread_id = std::this_thread::get_id(),
+            .timestamp = result.completed_at,
+            .status = result.success ? "SUCCESS" : "FAILED",
+        };
+        accessModelLogger().logTierTransition(transition_log);
     }
 
     std::string generateCorrelationId(const std::string& prefix) {

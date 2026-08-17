@@ -158,6 +158,9 @@ endfunction()
 
 # Module-style benchmark layout (analogous to tests/<module>/CMakeLists.txt).
 # Modules that provide their own benchmark CMake registration are wired here.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/access_model/CMakeLists.txt")
+    add_subdirectory(access_model)
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ai/CMakeLists.txt")
     add_subdirectory(ai)
 endif()

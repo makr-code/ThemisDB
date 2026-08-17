@@ -2423,6 +2423,8 @@ set(THEMIS_CORE_SOURCES
     ../src/access_model/age_based_policy.cpp
     ../src/access_model/access_metrics.cpp
     ../src/access_model/promotion_demotion.cpp
+    ../src/access_model/access_model_logging.cpp
+    ../src/access_model/access_model_trace.cpp
 
     # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
     # Kafka, S3/GCS/Azure, JDBC, web-crawler, CDC, distributed coordinator)

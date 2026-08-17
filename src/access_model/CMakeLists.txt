@@ -12,6 +12,8 @@ set(ACCESS_MODEL_SOURCES
     age_based_policy.cpp
     access_metrics.cpp
     promotion_demotion.cpp
+    access_model_logging.cpp
+    access_model_trace.cpp
 )
 
 # Standalone library target (used by tests when themis_core is not available)
