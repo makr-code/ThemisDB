@@ -32,6 +32,12 @@
 - broaden integration and stress coverage where utility misuse would have wide blast radius.
 - expand benchmark depth only for hot paths with release significance.
 
+### PKI Client Production Signing
+
+- fail-closed guarantee: 100% of pinning-enabled REST signing/verification requests with invalid pin material must be rejected before network success (Target: Q4 2026).
+- diagnostics unification: emit structured fields `{path, mode, pinning_enabled, failure_reason}` for REST/local/CSR signing and verify flows (Target: Q4 2026).
+- test-path isolation: ensure production presets return `ok=false` for unconfigured signing and disallow test fallback activation outside `THEMIS_TEST_MODE` builds (Target: Q4 2026).
+
 ## Test Strategy
 
 - unit and integration suites for audit, privacy, key, compression, and concurrency helpers.

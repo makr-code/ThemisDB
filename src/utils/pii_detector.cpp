@@ -13,6 +13,7 @@
 #include "utils/pii_detector.h"
 #include <stdexcept>
 #include "utils/pii_detection_engine.h"
+#include "utils/error_contracts.h"
 #include "config/config_path_resolver.h"
 #include <algorithm>
 #include <charconv>
@@ -23,6 +24,7 @@
 #include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <spdlog/spdlog.h>
+#include <fmt/format.h>
 
 namespace {
 
@@ -98,6 +100,11 @@ bool PIIDetector::reload(const std::string& config_path) {
         // Restore old engines on failure
         engines_ = std::move(old_engines);
         spdlog::error("PIIDetector: Reload failed, retained previous engines. Error: {}", last_error_);
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::PRIVACY_CONFIG_INVALID,
+            fmt::format("PIIDetector reload failed: {}", last_error_),
+            "PIIDetector::reload",
+            ErrorSeverity::Error, /*is_recoverable=*/true));
         return false;
     }
     
@@ -142,6 +149,11 @@ std::vector<PIIFinding> PIIDetector::detectInText(const std::string& text) const
         } catch (const std::exception& e) {
             spdlog::error("PIIDetector: Engine '{}' threw exception: {}", 
                          engine->getName(), e.what());
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::PRIVACY_ENGINE_FAILED,
+                fmt::format("PIIDetector engine '{}' threw: {}", engine->getName(), e.what()),
+                "PIIDetector::detectInText",
+                ErrorSeverity::Warning, /*is_recoverable=*/true));
         }
     }
     
@@ -370,6 +382,11 @@ void PIIDetector::initializeDefaultEngine() {
     if (!regex_result) {
         spdlog::error("PIIDetector: Failed to create default regex engine: {}",
                      regex_result.error().message());
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED,
+            fmt::format("Failed to create default regex engine: {}", regex_result.error().message()),
+            "PIIDetector::initializeWithEmbeddedDefaults",
+            ErrorSeverity::Error, /*is_recoverable=*/false));
     } else {
         auto regex_engine = std::move(*regex_result);
         if (!regex_engine->initialize(default_config)) {
@@ -386,6 +403,11 @@ void PIIDetector::initializeDefaultEngine() {
     if (!ner_result) {
         spdlog::error("PIIDetector: Failed to create default NER engine: {}",
                      ner_result.error().message());
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED,
+            fmt::format("Failed to create default NER engine: {}", ner_result.error().message()),
+            "PIIDetector::initializeWithEmbeddedDefaults",
+            ErrorSeverity::Warning, /*is_recoverable=*/true));
     } else {
         auto ner_engine = std::move(*ner_result);
         if (!ner_engine->initialize(default_config)) {

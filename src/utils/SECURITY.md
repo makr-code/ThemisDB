@@ -1,6 +1,6 @@
 # Security - Utils Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-17 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -24,12 +24,15 @@ Security in the utils module focuses on safe shared-helper behavior for audit lo
 - privacy scan and pseudonymization paths are isolated from unrelated runtime helpers.
 - key derivation and local key lifecycle logic remain explicit and separable.
 - compression and runtime helper boundaries are documented and benchmarked where hot-path relevant.
+- PKI REST paths enforce fail-closed TLS pinning when pinning is enabled (`CURLOPT_PINNEDPUBLICKEY`).
+- Error registry read/write paths are synchronized (`std::shared_mutex`) for concurrent callers.
 
 ## Security Follow-ups
 
 - deepen validation around privacy false-negative and pseudonymization edge behavior.
 - tighten key-material handling and lifecycle diagnostics across helper boundaries.
 - broaden stress and failure-path coverage for shared runtime helper misuse or overload.
+- refresh scanner aggregates in MODULE_GAPS.md after 2026-08-17 pki/error-registry hardening.
 
 ## Sourcecode Verification (Module: utils/security)
 
@@ -40,7 +43,11 @@ Security in the utils module focuses on safe shared-helper behavior for audit lo
   - src/utils/hkdf_helper.cpp
   - src/utils/lek_manager.cpp
   - src/utils/input_validator.cpp
+  - src/utils/pki_client.cpp
+  - src/utils/error_registry.cpp
 - Verified controls:
   - dedicated audit and privacy helper surfaces
   - explicit key-derivation and local key lifecycle paths
   - bounded shared-helper failure behavior
+  - fail-closed TLS pinning semantics for PKI REST integration
+  - synchronized registry access for concurrent high-fan-out error lookups

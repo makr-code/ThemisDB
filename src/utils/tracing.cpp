@@ -12,6 +12,7 @@
 
 #include "utils/tracing.h"
 #include "utils/logger.h"
+#include "utils/error_contracts.h"
 #include "observability/metrics_collector.h"
 #include "security/pii_redaction_policy.h"
 
@@ -317,6 +318,11 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to initialize OpenTelemetry tracer: {}", e.what());
+        utils::logErrorWithContext(utils::makeErrorContext(
+            utils::ErrorCode::TRACE_SPAN_CREATE_FAILED,
+            std::string("OpenTelemetry tracer init failed: ") + e.what(),
+            "Tracer::initialize",
+            utils::ErrorSeverity::Fatal, /*is_recoverable=*/false));
         return false;
     }
 #else

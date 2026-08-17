@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <shared_mutex>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
@@ -441,6 +442,7 @@ private:
     
     std::unordered_map<int, ErrorMetadata> errors_;
     std::unordered_map<std::string, std::vector<int>> category_index_;
+    mutable std::shared_mutex mutex_;
 };
 
 // Helper function to log errors with error code
