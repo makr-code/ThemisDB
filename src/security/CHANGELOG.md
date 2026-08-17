@@ -7,6 +7,13 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- Added Wave-C production-validation focused coverage in `tests/security/test_security_wavec_production_validation_focused.cpp`:
+  - Vault production config hardening and fail-closed validation.
+  - HSM stub/production guardrail enforcement validation.
+  - Failure-injection matrix for dependency/malformed-response handling.
+  - Mixed ABAC+RLS real-query workload filtering validation.
+  - Conflict-resolution and concurrent policy-update atomicity checks.
+  - Sustained-load integrity and boundary/license/hash/SBOM policy gate checks.
 - Documentation governance alignment pass:
   - `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md` kept future-focused.
   - `AUDIT.md`, `README.md`, `ARCHITECTURE.md`, `SECURITY.md`, and `PERFORMANCE_EXPECTATIONS.md` refreshed with sourcecode verification evidence blocks.

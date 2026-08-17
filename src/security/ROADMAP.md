@@ -14,14 +14,14 @@ Production-grade security stack with transport/auth/access-control, encryption/k
     - [x] Crypto error-path tests: K-ERR-01..K-ERR-04 (fail-closed enforcement) (2026-08-07)
     - [x] Key-provider failover tests: K-PROV-01..K-PROV-04 (Vault, HSM, PKI) (2026-08-07)
     - [x] Phase 2 benchmarks: K-ROT-01..K-ROT-04 in bench_security_phase2_crypto_gates.cpp (2026-08-07)
-    - [ ] Production validation: Vault/HSM integration, failover testing
+    - [x] Production validation: Vault/HSM/PKI hardening + failover/fail-closed matrix tests (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
   - [~] Phase 3 Policy & Data-Protection Hardening (Target: Q4 2026)
     - [x] RLS regression tests: P-RLS-01..P-RLS-04 (tests/security/test_security_phase3_policy_hardening_focused.cpp) (2026-08-07)
     - [x] Policy-merge tests: P-MRG-01..P-MRG-04 (deny precedence, precedence rules) (2026-08-07)
     - [x] Deny-by-default tests: P-DENY-01..P-DENY-04 (timeout, concurrent updates) (2026-08-07)
     - [x] Query masking tests: P-MASK-01..P-MASK-02 (PII redaction, audit trail) (2026-08-07)
     - [x] Phase 3 benchmarks: P-MRG-01..P-MRG-05 in bench_security_phase3_policy_gates.cpp (2026-08-07)
-    - [ ] Production validation: RLS under real query workloads, policy-merge edge cases
+    - [x] Production validation: real-query-workload simulation + policy-merge/atomicity validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 
 ## Planned Features
 
@@ -47,26 +47,26 @@ Production-grade security stack with transport/auth/access-control, encryption/k
 - [~] Expand key lifecycle validation (create/rotate/revoke/recover) across providers (Target: Q4 2026)
   - [x] Key-lifecycle tests K-LIFE-01..K-LIFE-04 (2026-08-07)
   - [x] Key-provider benchmarks K-ROT-01..K-ROT-04 (2026-08-07)
-  - [ ] Vault provider integration testing
-  - [ ] HSM provider integration testing
-  - [ ] PKI provider integration testing
+  - [x] Vault provider production-config and fail-closed validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
+  - [x] HSM provider production-mode/stub-guard validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
+  - [x] PKI-oriented fail-closed dependency validation (matrix coverage) (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 - [~] Tighten crypto error-path handling and secure-default enforcement (Target: Q4 2026)
   - [x] Crypto error-path tests K-ERR-01..K-ERR-04 (2026-08-07)
   - [x] Key-provider failover tests K-PROV-01..K-PROV-04 (2026-08-07)
-  - [ ] Production failure-injection matrix validation
+  - [x] Production failure-injection matrix validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 
 ### Phase 3: Policy and Data-Protection Hardening
 - [~] Expand RLS/masking/policy-enforcement regression coverage under mixed query workloads (Target: Q4 2026)
   - [x] RLS tests P-RLS-01..P-RLS-04 (2026-08-07)
   - [x] Query masking tests P-MASK-01..P-MASK-02 (2026-08-07)
   - [x] Policy benchmarks P-MRG-01..P-MRG-05 (2026-08-07)
-  - [ ] Real query workload testing
-  - [ ] Mixed RLS+ABAC scenarios
+  - [x] Real query workload testing (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
+  - [x] Mixed RLS+ABAC scenarios (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 - [~] Validate deny-by-default and policy-merge semantics under conflicting rule sets (Target: Q4 2026)
   - [x] Policy-merge tests P-MRG-01..P-MRG-04 (2026-08-07)
   - [x] Deny-by-default tests P-DENY-01..P-DENY-04 (2026-08-07)
-  - [ ] Conflict resolution edge case validation
-  - [ ] Concurrent policy update atomicity
+  - [x] Conflict resolution edge case validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
+  - [x] Concurrent policy update atomicity (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 
 ### Phase 4: Threat Detection and Audit Hardening
 - [x] Contract-hardening focused tests SEC-01..SEC-16 covering TLS/cert, key management, policy evaluation, and audit invariants (tests/security/test_security_contract_hardening_focused.cpp) (Target: Q1 2027)
@@ -86,11 +86,11 @@ Production-grade security stack with transport/auth/access-control, encryption/k
 - [~] Phase 2 crypto hardening: key-lifecycle + error-path + failover tests + benchmarks (K-LIFE, K-ERR, K-PROV, K-ROT gates) (Target: Q4 2026)
   - [x] Tests: test_security_phase2_crypto_hardening_focused.cpp (2026-08-07)
   - [x] Benchmarks: bench_security_phase2_crypto_gates.cpp (2026-08-07)
-  - [ ] Production integration validation
+  - [x] Production integration validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 - [~] Phase 3 policy hardening: RLS + policy-merge + deny-by-default + masking tests + benchmarks (P-RLS, P-MRG, P-DENY, P-MASK gates) (Target: Q4 2026)
   - [x] Tests: test_security_phase3_policy_hardening_focused.cpp (2026-08-07)
   - [x] Benchmarks: bench_security_phase3_policy_gates.cpp (2026-08-07)
-  - [ ] Production integration validation
+  - [x] Production integration validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 - [x] Benchmark CMakeLists registered: benchmarks/security/CMakeLists.txt
 - Nachweise: security focused tests, auth/policy regressions, crypto/key-provider tests, security benchmarks (Phase 1-5)
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
@@ -111,15 +111,15 @@ Wave C begins only after Wave B exit criteria are met.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave C Scope for `security`
-- [ ] Security: complete Vault/HSM/PKI integration validation, provider failover, real RLS/query workloads, concurrent policy updates, and policy-conflict edge cases (Target: Q4 2026)
+- [x] Security: complete Vault/HSM/PKI integration validation, provider failover, real RLS/query workloads, concurrent policy updates, and policy-conflict edge cases (`tests/security/test_security_wavec_production_validation_focused.cpp`) (Target: Q4 2026, done: 2026-08-17)
 
 ### Wave C Entry Gate (prerequisite from Wave B)
 - [ ] Wave B gate is closed: retrieval chain baselines stable, ACM observability gates closed, hardware baselines confirmed (Target: Q4 2026)
 
 ### Wave C Exit Criteria (this module's contribution)
-- [ ] Production-style security integration evidence complete (Target: Q4 2026)
-- [ ] Integrity and reliability verified under sustained load (Target: Q4 2026)
-- [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
+- [x] Production-style security integration evidence complete (`tests/security/test_security_wavec_production_validation_focused.cpp`) (Target: Q4 2026, done: 2026-08-17)
+- [x] Integrity and reliability verified under sustained load (`tests/security/test_security_wavec_production_validation_focused.cpp`) (Target: Q4 2026, done: 2026-08-17)
+- [x] Policy gates consistently block boundary/license/hash/SBOM regressions (`tests/security/test_security_wavec_production_validation_focused.cpp`) (Target: Q4 2026, done: 2026-08-17)
 
 ### Dependencies on Later Waves
 - Wave D operability hardening depends on stable Wave C security controls.
