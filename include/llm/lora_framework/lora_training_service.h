@@ -218,7 +218,7 @@ public:
     
     explicit LoRATrainingService(const Config& config);
     explicit LoRATrainingService();
-    ~LoRATrainingService();
+    ~LoRATrainingService() noexcept;
     
     // Disable copy
     LoRATrainingService(const LoRATrainingService&) = delete;

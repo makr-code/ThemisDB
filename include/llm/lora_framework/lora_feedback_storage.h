@@ -61,7 +61,7 @@ public:
     };
     
     explicit FeedbackStorageService(const Config& config);
-    ~FeedbackStorageService();
+    ~FeedbackStorageService() noexcept;
     
     // Disable copy
     FeedbackStorageService(const FeedbackStorageService&) = delete;

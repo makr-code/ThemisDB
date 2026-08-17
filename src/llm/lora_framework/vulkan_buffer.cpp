@@ -35,18 +35,26 @@ VulkanBuffer::VulkanBuffer(VulkanContext* context, VkDeviceSize size, Usage usag
     }
 }
 
-VulkanBuffer::~VulkanBuffer() {
-    if (mapped_ptr_) {
-        unmap();
-    }
-    
-    if (buffer_ != VK_NULL_HANDLE) {
-        vkDestroyBuffer(context_->device(), buffer_, nullptr);
-    }
-    
-    if (memory_ != VK_NULL_HANDLE) {
-        vkFreeMemory(context_->device(), memory_, nullptr);
-    }
+VulkanBuffer::~VulkanBuffer() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — unmap()/vkDestroyBuffer/vkFreeMemory
+    // may throw (validation layers, custom allocators). Suppress to honour noexcept.
+    try {
+        if (mapped_ptr_) {
+            unmap();
+        }
+
+        if (buffer_ != VK_NULL_HANDLE) {
+            vkDestroyBuffer(context_->device(), buffer_, nullptr);
+            buffer_ = VK_NULL_HANDLE;
+        }
+
+        if (memory_ != VK_NULL_HANDLE) {
+            vkFreeMemory(context_->device(), memory_, nullptr);
+            memory_ = VK_NULL_HANDLE;
+        }
+    } catch (const std::exception& e) {
+        (void)e; // validation-layer error: suppress, resource is freed by Vulkan driver
+    } catch (...) {}
 }
 
 VulkanBuffer::VulkanBuffer(VulkanBuffer&& other) noexcept

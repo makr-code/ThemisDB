@@ -224,7 +224,7 @@ public:
     InferenceEngineEnhanced(const Config& config,
                             std::shared_ptr<SharedWorkerPool> pool);
 
-    ~InferenceEngineEnhanced();
+    ~InferenceEngineEnhanced() noexcept;
     
     // Model management
     

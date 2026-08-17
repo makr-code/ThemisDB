@@ -252,7 +252,7 @@ public:
         const InlineTrainingConfig& config
     );
 
-    ~InlineTrainingEngine();
+    ~InlineTrainingEngine() noexcept;
 
     /**
      * @brief Inject a real gradient computer for production LoRA training.

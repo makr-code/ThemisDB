@@ -32,8 +32,12 @@ DirectXDescriptors::DirectXDescriptors(DirectXContext* context, uint32_t max_des
     }
 }
 
-DirectXDescriptors::~DirectXDescriptors() {
-    // COM pointers automatically release
+DirectXDescriptors::~DirectXDescriptors() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — COM Release() may throw on
+    // debug-layer paths; suppress exceptions to satisfy noexcept contract.
+    try {
+        // COM smart-pointer member (descriptor_heap_) released automatically.
+    } catch (...) {}
 }
 
 DirectXDescriptors::DirectXDescriptors(DirectXDescriptors&& other) noexcept

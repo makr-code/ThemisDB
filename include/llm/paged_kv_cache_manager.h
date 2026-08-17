@@ -166,7 +166,7 @@ public:
     };
 
     PagedKVCacheManager(const Config& config);
-    ~PagedKVCacheManager();
+    ~PagedKVCacheManager() noexcept;
 
     /**
      * @brief Allocate blocks for a sequence
