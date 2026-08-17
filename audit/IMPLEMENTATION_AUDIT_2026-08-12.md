@@ -23,7 +23,7 @@ Gegenüber den August-Audits vom 2026-08-08 ist der wichtigste Stand heute:
 1. **`execution` ist kein Governance-Gap mehr** — `src/execution/ROADMAP.md` existiert und klassifiziert das Modul als produktionsreif.
 2. **Der frühere `ai_snapshot_cleanup.h:63`-Compile-Befund ist im Source geschlossen** — der Header verwendet nun einen parameterlosen Default-Konstruktor plus expliziten `Config`-Konstruktor statt der problematischen Default-Parameter-Form.
 3. **`evaluation` ist weiterhin kein Scaffold** — Source-, Test- und Benchmark-Surfaces sind vorhanden; offen ist primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
-4. **Der Search-Gap bleibt im aktuellen Source sichtbar** — `include/search/*.h` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer über 20 Header.
+4. **Der frühere Search-Header-Marker-Befund ist neu zu bewerten** — die Treffer in `include/search/*.h` stammen aus auto-generierten Doxygen-/Gap-Summary-Kommentaren; die reale offene Search-Arbeit bleibt die in `src/search/ROADMAP.md` dokumentierte 4-Layer-Integration und Timeout-Härtung.
 5. **Die GA-Lage bleibt unverändert:** Alle technischen Gates stehen auf PASS, die finale Freigabe bleibt menschlich.
 
 ---
@@ -73,7 +73,7 @@ Der frühere Audit-Hotspot `include/security/ai_snapshot_cleanup.h:63` ist im ak
 - `explicit AiSnapshotCleanupJob(Config cfg);`
 
 **Audit-Fazit:** Der frühere Source-Befund ist **im Code adressiert**.  
-**Rest-Risiko:** Eine aktuelle Build-Bestätigung ist in diesem Audit nicht neu enthalten; Build-Evidenz bleibt von der lokalen Dependency-Lage abhängig.
+**Rest-Risiko:** Eine aktuelle Build-Bestätigung ist in diesem Audit nicht neu enthalten; die Revalidierung vom 2026-08-17 bestätigt zwar den Header per C++17-Kompilation, zeigt für Geo-/Security-Targets im aktuellen Linux-Umfeld aber weiterhin fehlende Build-Dependencies (`spdlog`, für Vollabdeckung zusätzlich RocksDB).
 
 ### 2.3 Evaluation: reale Implementierung, offene Ausführungsevidenz
 
@@ -92,15 +92,15 @@ Die aktuelle Evaluation-Dokumentation belegt:
 
 **Audit-Fazit:** `evaluation` bleibt **teilgehärtet/härtungsbedürftig**, aber **nicht** `scaffold` oder `0 Tests`.
 
-### 2.4 Search: Stub-Lage im aktuellen Header-Bestand weiterhin offen
+### 2.4 Search: Header-Marker sind kein belastbarer Stub-Nachweis
 
-Der heutige Header-Scan bestätigt den Search-Befund aus dem Korrektur-Audit weiterhin im aktuellen Source:
+Der heutige Header-Scan zeigt zwar weiterhin Marker-Treffer in `include/search/*.h`, diese sind jedoch im aktuellen Stand **kein belastbarer Nachweis für Runtime-Stubs**:
 
-- `include/search/` enthält aktuell **20 Header mit 40 `STUB`/`TODO`/`MOCK`-Marker-Treffern**
-- der Gap ist damit nicht nur historisch, sondern im aktuellen Branch weiterhin source-sichtbar
-- ein Schließen dieser Lücke ist im Audit-Stack bislang nicht belegt
+- die Treffer sitzen in auto-generierten `@note Gap Summary`-Kommentaren der Header
+- `src/search/AUDIT.md` stuft das Modul ohne kritische Blocker ein und verortet offene Arbeit bei Merge-Hardening/Diagnostik
+- `src/search/ROADMAP.md` benennt die reale Restarbeit explizit als 4-Layer-Integration (`LayeredRetrievalOrchestrator`) und erzwungene Timeout-/Stress-/Tracing-Gates
 
-**Audit-Fazit:** Für `search` bleibt die Implementierungslücke **aktuell und source-bestätigt**.
+**Audit-Fazit:** Für `search` bleibt Arbeit offen, aber **nicht** in Form eines durch die Header-Marker belegten Stub-Blocks. Maßgeblich sind die offenen Q3/Q4-Hardening-Tasks aus `src/search/ROADMAP.md`.
 
 ---
 
@@ -115,12 +115,12 @@ Diese Punkte bleiben nach dem heutigen Quell- und Dokumentstand die wichtigsten 
 
 **Bewertung:** Weiterhin ein **Top-Risiko für Q3/Q4 2026**.
 
-### 3.2 Search-Stubs
+### 3.2 Search-Hardening statt Search-Stub-Blocker
 
-- `include/search/` enthält weiterhin zahlreiche Stub-/Mock-Markierungen; der aktuelle Source-Check zählt 40 Marker-Treffer in 20 Headern.
-- Das korrigierte Audit vom 2026-08-08 bleibt dafür der belastbare historische Deep-Dive, der heutige Bericht bestätigt aber explizit den **aktuellen** Fortbestand.
+- offen bleiben die in `src/search/ROADMAP.md` geführten Q3/Q4-Themen: reale ANN/Tensor/Graph/LLM-Wiring-Pfade, End-to-End-Integration, erzwungene Layer-Timeouts sowie zugehörige Stress-/Tracing-Gates
+- die früheren Header-Marker-Treffer bleiben als Dokumentations-/Scanner-Artefakt sichtbar, sind aber kein geeigneter Current-State-Indikator für produktive Search-Runtime-Lücken
 
-**Bewertung:** Reale Implementierungslücke, aber aktuell eher **Hardening-/Ausbau-Thema** als akuter GA-Blocker.
+**Bewertung:** Reale Implementierungs- und Hardening-Arbeit bleibt offen, aber der frühere "Search-Stubs"-Befund wird auf **ROADMAP-basierte Restarbeit** statt Markerzählung präzisiert.
 
 ### 3.3 Evaluation-Gates und ausführbare Evidenz
 
@@ -130,10 +130,10 @@ Diese Punkte bleiben nach dem heutigen Quell- und Dokumentstand die wichtigsten 
 
 ### 3.4 Private-Plugin-Governance
 
-- Die Root-Roadmap hält Commit-Pins für Wave-1-Private-Plugins weiterhin offen.
-- `.gitmodules` zeigt die vorgesehenen Plugin-Repositories und Branch-Zuordnungen; der Governance-Abschluss ist damit noch nicht vollständig.
+- `.gitmodules` enthält für die Wave-1-Submodule inzwischen explizite `commit = ...`-Pins.
+- offen bleiben Governance- und Release-Gates: Community/private CI-Policy, License-/Hash-/SBOM-Checks sowie fail-closed Packaging-Verhalten.
 
-**Bewertung:** **Governance-/Release-Hardening-Lücke**, kein aktueller Core-Implementierungsblocker.
+**Bewertung:** **Governance-/Release-Hardening-Lücke**, aber kein offener "Commit-Pins fehlen"-Befund mehr.
 
 ---
 
@@ -142,7 +142,7 @@ Diese Punkte bleiben nach dem heutigen Quell- und Dokumentstand die wichtigsten 
 Der Audit-Stack enthält Stand-Drift, die künftig beachtet werden muss:
 
 1. `audit/MATURITY_REPORT_2026-08.md` führte bis zu diesem Sync noch einen aktiven Compile-Fehler in `ai_snapshot_cleanup.h` und bewertete `execution`/`evaluation` sichtbar konservativer als die neueren modulnahen Quellen.
-2. `audit/IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` bleibt für Search/CUDA/Evaluation als Deep-Dive relevant, war aber für aktuelle Execution-Pfade und den aktuellen Search-Header-Stand unvollständig.
+2. `audit/IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` bleibt für Search/CUDA/Evaluation als Deep-Dive relevant, war aber für aktuelle Execution-Pfade unvollständig und überbewertete Search-Header-Marker als Runtime-Stubs.
 3. Für Statusfragen gilt weiterhin die dokumentierte Source-Priorität:
    - Root-GA-/Governance-Status aus `ROADMAP.md` und `docs/governance/GA_PROMOTION_SIGN_OFF.md`
    - modulnahe Wahrheit aus `src/<module>/ROADMAP.md` und `src/<module>/AUDIT.md`
@@ -165,8 +165,8 @@ Der Audit-Stack enthält Stand-Drift, die künftig beachtet werden muss:
 
 4. **Reale Q3/Q4-Implementierungslücken abarbeiten**
    - Hybrid-Retrieval Thread-Safety
-   - Search-Stub-Ablösung
-   - Private-Plugin Commit-Pins / Release-Governance
+   - Search Layered-Retrieval Hardening
+   - Private-Plugin Release-Governance
 
 ---
 

@@ -240,7 +240,7 @@ For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 |---|----------|--------|-------------|--------|-------|
 | 1 | 🟡 Medium | acceleration | Vulkan compute shaders — distance kernel not yet hardened | Q2 2026 | [#1394](https://github.com/makr-code/ThemisDB/issues/1394) |
 | 2 | 🟡 Medium | query / gpu / sharding | Hybrid-Retrieval Phase B thread-safety hardening remains open | Q3 2026 | [#5468](https://github.com/makr-code/ThemisDB/issues/5468) |
-| 3 | 🟡 Medium | plugins/private | Wave-1 private plugin commit pins still pending | Q3 2026 | — |
+| 3 | 🟡 Medium | plugins/private | Wave-1 private plugin commit pins are present; remaining work is CI/license/hash/SBOM policy enforcement for Community vs private lanes | Q4 2026 | — |
 | 4 | 🟡 Medium | security | Zero-trust continuous verification framework not implemented | Q1 2027 | [#1541](https://github.com/makr-code/ThemisDB/issues/1541) |
 | 5 | 🟡 Medium | compliance | BSI C5 2026 release evidence manifest and linked drill/SBOM traces remain open | Q3–Q4 2026 | — |
 
