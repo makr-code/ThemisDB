@@ -10,6 +10,7 @@
  */
 
 #include "llm/adapter_registry.h"
+#include "llm/raii_wrappers.h"
 #include "storage/security_signature.h"
 #include <spdlog/spdlog.h>
 #include <openssl/evp.h>
@@ -411,10 +412,12 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     // is provided.  Fall back to a deterministic placeholder when no key is
     // supplied (useful in test/CI environments).
     if (!private_key.empty()) {
-        BIO* bio = BIO_new_mem_buf(private_key.data(),
-                                   static_cast<int>(private_key.size()));
-        EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
-        BIO_free(bio);
+        // BATCH 2: RAII wrapper for BIO - automatically freed at scope exit
+        ScopedBIO bio(BIO_new_mem_buf(private_key.data(),
+                                       static_cast<int>(private_key.size())));
+        
+        // BATCH 2: RAII wrapper for EVP_PKEY - automatically freed at scope exit
+        ScopedEVPKey pkey(PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
 
         if (!pkey) {
             spdlog::warn("AdapterRegistry::signAdapter: failed to parse private key for '{}'",
@@ -422,18 +425,19 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
             return false;
         }
 
-        EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+        // BATCH 2: RAII wrapper for EVP_MD_CTX - automatically freed at scope exit
+        ScopedEVPContext ctx(EVP_MD_CTX_new());
         std::string signature_bytes;
         bool sign_ok = false;
 
-        if (ctx && EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
+        if (ctx && EVP_DigestSignInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
             std::size_t sig_len = 0;
-            if (EVP_DigestSign(ctx,
+            if (EVP_DigestSign(ctx.get(),
                                nullptr, &sig_len,
                                reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
                                sig.content_hash.size()) == 1) {
                 signature_bytes.resize(sig_len);
-                if (EVP_DigestSign(ctx,
+                if (EVP_DigestSign(ctx.get(),
                                    reinterpret_cast<unsigned char*>(signature_bytes.data()),
                                    &sig_len,
                                    reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
@@ -443,8 +447,8 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
                 }
             }
         }
-        EVP_MD_CTX_free(ctx);
-        EVP_PKEY_free(pkey);
+        // BATCH 2: No manual cleanup needed - RAII destructors handle it automatically
+        // bio, pkey, and ctx will be freed here when they go out of scope
 
         if (!sign_ok) {
             spdlog::warn("AdapterRegistry::signAdapter: Ed25519 sign failed for '{}'",

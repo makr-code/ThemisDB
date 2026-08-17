@@ -315,6 +315,23 @@ public:
     void setPromptPolicy(std::shared_ptr<PromptPolicy> policy);
 
 private:
+    // ─────────────────────────────────────────────────────────────────────
+    // LOCK ORDERING INVARIANTS (prevent circular waits and deadlocks)
+    // ─────────────────────────────────────────────────────────────────────
+    // 
+    // When multiple locks must be held, acquire them in this order:
+    // 1. plugin_mutex_       (R/W lock for hot-swap)
+    // 2. queue_mutex_        (protects request_queue_)
+    // 3. tracking_mutex_     (protects active_requests_)
+    // 4. latency_mutex_      (protects latency_samples_)
+    // 5. cache_meta_mutex_   (protects cache metadata)
+    // 6. policy_mutex_       (protects prompt_policy_)
+    // 7. stats_time_mutex_   (protects engine_start_time_)
+    //
+    // NEVER acquire mutexes in reverse order. If you need multiple locks,
+    // always follow this sequence to prevent deadlock.
+    // ─────────────────────────────────────────────────────────────────────
+    
     Config config_;
     ILLMPlugin* plugin_;
     std::shared_ptr<ILLMPlugin> owned_plugin_;
@@ -381,7 +398,9 @@ private:
     Stats stats_;
 
     // Engine start time for tokens/sec wall-clock calculation.
+    // Protected by stats_mutex_ to avoid data races when read from getQueueStats().
     std::chrono::steady_clock::time_point engine_start_time_{std::chrono::steady_clock::now()};
+    mutable std::mutex stats_time_mutex_;  // Protects engine_start_time_ access
 
     // Per-request latency samples for p99 computation (protected by latency_mutex_).
     // Using deque for O(1) front-removal when the window exceeds 10 000 samples.
