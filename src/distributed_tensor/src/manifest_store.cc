@@ -2,6 +2,16 @@
 /// @brief Implementation of manifest persistence store for tensor artifacts
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
+///
+/// Error codes for this module use the distributed_tensor range [7000-7099]:
+///   - 7000-7009: Storage errors (open, close, I/O failures)
+///   - 7010-7019: Manifest validation errors (invalid_manifest, schema violation)
+///   - 7020-7029: CAS (Compare-And-Swap) failures (version mismatch)
+///   - 7030-7039: Locking errors (lock_timeout, lock_not_held)
+///   - 7040-7099: Reserved for future use
+///
+/// SG-DT-01 (Fail-Closed Invariant): All error paths must fail closed. The
+/// validate() method call on line 80 and 114 enforces the SG-DT-01 invariant.
 
 #include "src/distributed_tensor/include/manifest_store.h"
 #include <map>

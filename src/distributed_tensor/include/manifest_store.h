@@ -82,8 +82,8 @@ public:
     // Non-copyable; move-only to avoid shared mutable state.
     ManifestStore(const ManifestStore&)            = delete;
     ManifestStore& operator=(const ManifestStore&) = delete;
-    ManifestStore(ManifestStore&&)                 = default;
-    ManifestStore& operator=(ManifestStore&&)      = default;
+    ManifestStore(ManifestStore&&) noexcept                 = default;
+    ManifestStore& operator=(ManifestStore&&) noexcept      = default;
 
     // ── Write operations ────────────────────────────────────────────────────
 

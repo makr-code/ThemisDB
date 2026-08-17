@@ -60,7 +60,27 @@ ShardSummaryCoordinator::ShardSummaryCoordinator(
     Config config) noexcept
     : fetcher_(std::move(fetcher)),
       manifest_store_(manifest_store),
-      config_(config) {}
+      config_(config) {
+    config_.validateAndClamp();
+}
+
+// ============================================================================
+// Config validation and Byzantine safety (SG-DT-01)
+// ============================================================================
+
+void ShardSummaryCoordinator::Config::validateAndClamp() noexcept {
+    // Enforce minimum quorum ratio for Byzantine Fault Tolerance.
+    // SG-DT-01 requires majority (>= 50%) participation.
+    if (freshness_quorum_ratio < 0.5f) {
+        // Log diagnostic: unsafe quorum ratio being clamped
+        // (In production, this would use the logging framework)
+        // TODO: use themis::base::logging::Warn() when available
+        freshness_quorum_ratio = 0.5f;
+    } else if (freshness_quorum_ratio > 1.0f) {
+        // Also clamp upper bound to valid fraction
+        freshness_quorum_ratio = 1.0f;
+    }
+}
 
 // ============================================================================
 // Shard registration
@@ -356,7 +376,9 @@ std::vector<ExactFetchResult> ShardSummaryCoordinator::fetchEscalated(
 // ============================================================================
 
 void ShardSummaryCoordinator::setConfig(const Config& config) noexcept {
-    config_ = config;
+    Config validated_config = config;
+    validated_config.validateAndClamp();
+    config_ = validated_config;
 }
 
 ShardSummaryCoordinator::Config ShardSummaryCoordinator::config() const noexcept {

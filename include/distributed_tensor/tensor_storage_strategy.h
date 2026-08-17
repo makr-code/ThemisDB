@@ -465,7 +465,7 @@ public:
      */
     [[nodiscard]] MmapError advise(
         const MmapRegion& region,
-        AccessPattern     pattern) const noexcept;
+        AccessPattern     pattern) noexcept;
 };
 
 // ---------------------------------------------------------------------------

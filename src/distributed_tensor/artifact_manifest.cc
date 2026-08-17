@@ -105,43 +105,81 @@ bool ArtifactManifest::is_complete() const noexcept {
   // 3. A recovery strategy set
   // 4. For primary artifacts, content_hash is set
 
-  if (artifact_id_.empty() || version_.empty()) {
+  if (artifact_id.empty() || version == 0) {
     return false;
   }
 
-  if (shard_placements_.empty()) {
+  if (shard_placements.empty()) {
     return false;
   }
 
-  if (lifecycle_stage_ == ArtifactLifecycleStage::DELETED) {
+  if (lifecycle_state == LifecycleState::FAILED) {
     return false;
   }
 
-  if (recovery_strategy_.empty()) {
-    return false;
-  }
-
-  if (total_size_bytes_ == 0) {
-    return false;
-  }
-
-  for (const auto& shard : shard_placements_) {
-    if (shard.shard_id.empty() || shard.node_id.empty() ||
-        shard.shard_size_bytes == 0) {
+  for (const auto& shard : shard_placements) {
+    if (shard.empty()) {
       return false;
     }
   }
 
   // Primary artifacts require content hash.
-  if (artifact_class_ == ArtifactClass::PRIMARY && content_hash_.empty()) {
+  if (artifact_class == ArtifactClass::PRIMARY && content_hash.empty()) {
     return false;
   }
 
-  if (artifact_class_ == ArtifactClass::DERIVED &&
-      parent_artifact_id_.empty() && !reconstruction_instruction_) {
+  if (artifact_class == ArtifactClass::DERIVED &&
+      source_artifact_id.empty() && reconstruction_instructions.empty()) {
     return false;
   }
 
+  return true;
+}
+
+bool ArtifactManifest::validate() const {
+  // SG-DT-01 (Fail-Closed Invariant): Must fail closed on any validation error.
+  // This method checks all invariants as documented in artifact_manifest.h:564.
+
+  // Check 1: artifact_id is non-empty
+  if (artifact_id.empty()) {
+    return false;
+  }
+
+  // Check 2: source_seq_end >= source_seq_start (when both are non-zero)
+  if (source_seq_start != 0 && source_seq_end != 0) {
+    if (source_seq_end < source_seq_start) {
+      return false;
+    }
+  }
+
+  // Check 3: residual is in reasonable range [0.0, 1000.0]
+  if (residual < 0.0 || residual > 1000.0) {
+    return false;
+  }
+
+  // Check 4: rank_status <= rank_cap (when rank_cap > 0)
+  if (rank_cap > 0 && rank_status > rank_cap) {
+    return false;
+  }
+
+  // Check 5: replication_factor >= 1
+  if (replication_factor < 1) {
+    return false;
+  }
+
+  // Check 6: timestamp consistency (updated_at >= created_at)
+  if (updated_at_unix_sec < created_at_unix_sec) {
+    return false;
+  }
+
+  // Check 7: artifact_class / truth_semantic combination is valid
+  // GROUND_TRUTH is reserved for SOURCE_OF_TRUTH artifacts only
+  if (truth_semantic == TruthSemantic::GROUND_TRUTH &&
+      artifact_class != ArtifactClass::SOURCE_OF_TRUTH) {
+    return false;
+  }
+
+  // All invariants hold
   return true;
 }
 

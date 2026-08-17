@@ -290,7 +290,7 @@ std::pair<MmapRegion, MmapError> MmapLoader::open(
 
 MmapError MmapLoader::advise(
     const MmapRegion& region,
-    AccessPattern     pattern) const noexcept {
+    AccessPattern     pattern) noexcept {
 
     if (!region.isOpen()) {
         return MmapError::NOT_OPEN;
