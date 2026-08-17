@@ -16,6 +16,7 @@
 
 #include "utils/pki_client.h"
 #include <stdexcept>
+#include <algorithm>
 #include "utils/expected.h"
 #include "utils/error_registry.h"
 #include "utils/openssl_deleter.h"
@@ -33,6 +34,8 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <cctype>
+#include <string_view>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <iostream>
@@ -46,77 +49,70 @@ namespace utils {
 // Certificate Pinning: SHA256 Fingerprint Verification
 // ============================================================================
 
-// CURL SSL Context Callback for Certificate Pinning
-static CURLcode ssl_ctx_callback([[maybe_unused]] CURL* curl, void* ssl_ctx, void* userptr) {
-    
-    auto* cfg = static_cast<const PKIConfig*>(userptr);
-    if (!cfg || !cfg->enable_cert_pinning || cfg->pinned_cert_fingerprints.empty()) {
-        return CURLE_OK; // Pinning disabled
-    }
-    
-    SSL_CTX* ctx = static_cast<SSL_CTX*>(ssl_ctx);
-    
-    // Custom verify callback to check pinned certificates
-    auto verify_cb = [](int preverify_ok, X509_STORE_CTX* x509_ctx) -> int {
-        // Get the certificate being verified
-        X509* cert = X509_STORE_CTX_get_current_cert(x509_ctx);
-        if (!cert) {
-            return 0; // Fail if no certificate
+static std::string base64_encode(const std::vector<uint8_t>& data);
+
+static std::optional<std::vector<uint8_t>> parse_hex_fingerprint(std::string_view fingerprint) {
+    std::string normalized;
+    normalized.reserve(fingerprint.size());
+    for (unsigned char c : fingerprint) {
+        if (std::isxdigit(c) != 0) {
+            normalized.push_back(static_cast<char>(c));
+            continue;
         }
-        
-        // Get user data (PKIConfig)
-        SSL* ssl = static_cast<SSL*>(X509_STORE_CTX_get_ex_data(
-            x509_ctx, SSL_get_ex_data_X509_STORE_CTX_idx()));
-        [[maybe_unused]] SSL_CTX* ssl_ctx = ssl ? SSL_get_SSL_CTX(ssl) : nullptr;
-        
-        // For simplicity, we'll store the PKIConfig in SSL_CTX ex_data
-        // This is a workaround since we can't pass userdata directly to verify callback
-        
-        // For now, just do standard verification
-        // Full implementation would check cert fingerprint here
-        return preverify_ok;
-    };
-    
-    // Set verify mode and callback
-    SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, 
-        [](int preverify_ok, [[maybe_unused]] X509_STORE_CTX* x509_ctx) -> int {
-            // Simplified: just accept if preverify passed
-            // In production, add fingerprint verification here
-            return preverify_ok;
-        });
-    
-    return CURLE_OK;
+        if (c == ':' || std::isspace(c) != 0 || c == '-') {
+            continue;
+        }
+        return std::nullopt;
+    }
+
+    if (normalized.size() % 2 != 0) {
+        return std::nullopt;
+    }
+
+    std::vector<uint8_t> out;
+    out.reserve(normalized.size() / 2);
+    for (size_t i = 0; i < normalized.size(); i += 2) {
+        unsigned int byte = 0;
+        std::istringstream iss(normalized.substr(i, 2));
+        iss >> std::hex >> byte;
+        if (iss.fail()) {
+            return std::nullopt;
+        }
+        out.push_back(static_cast<uint8_t>(byte));
+    }
+    return out;
 }
 
-// Verify certificate chain against pinned fingerprints (called after SSL handshake)
-[[maybe_unused]] static bool verify_peer_certificate(CURL* curl, const PKIConfig& cfg) {
-    if (!cfg.enable_cert_pinning || cfg.pinned_cert_fingerprints.empty()) {
-        return true; // Pinning disabled
+static std::optional<std::string> build_pinned_public_key_value(const PKIConfig& cfg) {
+    std::vector<std::string> pins;
+    pins.reserve(cfg.pinned_cert_fingerprints.size());
+
+    for (const auto& configured_pin : cfg.pinned_cert_fingerprints) {
+        if (configured_pin.rfind("sha256//", 0) == 0) {
+            pins.push_back(configured_pin);
+            continue;
+        }
+
+        auto parsed = parse_hex_fingerprint(configured_pin);
+        if (!parsed || parsed->size() != SHA256_DIGEST_LENGTH) {
+            return std::nullopt;
+        }
+
+        pins.push_back("sha256//" + base64_encode(*parsed));
     }
-    
-    // Get peer certificate info from CURL
-    struct curl_certinfo* certinfo = nullptr;
-    CURLcode res = curl_easy_getinfo(curl, CURLINFO_CERTINFO, &certinfo);
-    
-    if (res != CURLE_OK || !certinfo) {
-        std::cerr << "PKI Certificate Pinning: Failed to get certificate info\n";
-        return false;
+
+    if (pins.empty()) {
+        return std::nullopt;
     }
-    
-    // For now, use CURLINFO_SSL_VERIFYRESULT to check if SSL verification passed
-    long verify_result = 0;
-    curl_easy_getinfo(curl, CURLINFO_SSL_VERIFYRESULT, &verify_result);
-    
-    if (verify_result != 0) {
-        std::cerr << "PKI Certificate Pinning: SSL verification failed (code: " 
-                  << verify_result << ")\n";
-        return false;
+
+    std::string value;
+    for (size_t i = 0; i < pins.size(); ++i) {
+        if (i > 0) {
+            value.push_back(';');
+        }
+        value += pins[i];
     }
-    
-    // Note: Full implementation would extract X509 cert and verify fingerprint
-    // For now, we rely on CURLOPT_PINNEDPUBLICKEY (if available) or standard SSL verification
-    
-    return true;
+    return value;
 }
 
 // Simple base64 (encode/decode) to avoid extra deps
@@ -202,11 +198,12 @@ static int nid_for_algorithm(const std::string& alg, size_t& expected_len) {
 }
 
 static int password_cb(char* buf, int size, int /*rwflag*/, void* u) {
-    if (!u) return 0;
+    if (!buf || !u || size <= 0) return 0;
     auto* pass = static_cast<std::string*>(u);
-    int len = static_cast<int>(pass->size());
-    if (len > size) len = size;
-    std::memcpy(buf, pass->data(), len);
+    int len = std::min<int>(static_cast<int>(pass->size()), size);
+    if (len > 0) {
+        std::memcpy(buf, pass->data(), static_cast<size_t>(len));
+    }
     return len;
 }
 
@@ -464,24 +461,23 @@ static bool verify_cert_chain(const PKIConfig& cfg) {
 }
 
 // Configure CURL handle with certificate pinning
-static void configure_curl_pinning(CURL* curl, const PKIConfig* cfg) {
+[[nodiscard]] static bool configure_curl_pinning(CURL* curl, const PKIConfig* cfg) {
     if (!cfg || !cfg->enable_cert_pinning || cfg->pinned_cert_fingerprints.empty()) {
-        return; // Pinning disabled
+        return true; // Pinning disabled
     }
     
     // Enable SSL verification
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
-    
-    // Set public key pinning (CURLOPT_PINNEDPUBLICKEY)
-    // Format: sha256//<base64-encoded-sha256-hash>
-    // For simplicity, we'll use the first pinned fingerprint
-    if (!cfg->pinned_cert_fingerprints.empty()) {
-        // Note: CURL expects sha256// format with base64, but we have hex
-        // For now, we'll use CURLOPT_SSL_CTX_FUNCTION for custom verification
-        curl_easy_setopt(curl, CURLOPT_SSL_CTX_FUNCTION, ssl_ctx_callback);
-        curl_easy_setopt(curl, CURLOPT_SSL_CTX_DATA, const_cast<PKIConfig*>(cfg));
+
+    auto pinned_public_key = build_pinned_public_key_value(*cfg);
+    if (!pinned_public_key) {
+        return false;
     }
+
+    CURLcode pin_rc =
+        curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pinned_public_key->c_str());
+    return pin_rc == CURLE_OK;
 }
 
 VCCPKIClient::VCCPKIClient(PKIConfig cfg) : cfg_(std::move(cfg)) {}
@@ -532,7 +528,12 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                 curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
                 
                 // Configure certificate pinning
-                configure_curl_pinning(curl, &cfg_);
+                if (!configure_curl_pinning(curl, &cfg_)) {
+                    std::cerr << "PKI REST /sign: invalid certificate pinning configuration\n";
+                    curl_slist_free_all(headers);
+                    curl_easy_cleanup(curl);
+                    return res;
+                }
 
                 std::string resp_body;
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
@@ -751,7 +752,12 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                 curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
                 
                 // Configure certificate pinning
-                configure_curl_pinning(curl, &cfg_);
+                if (!configure_curl_pinning(curl, &cfg_)) {
+                    std::cerr << "PKI REST /verify: invalid certificate pinning configuration\n";
+                    curl_slist_free_all(headers);
+                    curl_easy_cleanup(curl);
+                    return false;
+                }
 
                 std::string resp_body;
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
@@ -875,4 +881,3 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
 
 } // namespace utils
 } // namespace themis
-

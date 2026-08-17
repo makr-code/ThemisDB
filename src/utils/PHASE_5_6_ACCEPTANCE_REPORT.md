@@ -426,6 +426,33 @@ identified in the MODULE_GAPS.md scan dated 2026-06-04. All changes are on the `
 ROADMAP.md Phase 2 items 2.5a–2.5f and Phase 6 gap remediation entry updated.
 MODULE_GAPS.md Remediation Log section added.
 
+## 10. Phase 6 Update — PKI/Error-Registry Follow-up 2026-08-17
+
+**Update Date:** 2026-08-17 06:30 UTC  
+**Update Type:** Source-code gap closure follow-up + Phase-6 documentation sync
+
+### Summary
+
+A second focused remediation pass closed the remaining high-priority actionable gaps in
+`pki_client.cpp` and `error_registry.cpp`:
+
+- PKI REST pinning now enforces fail-closed behavior with `CURLOPT_PINNEDPUBLICKEY`
+  using configured SHA-256 pins (hex or `sha256//` format).
+- `password_cb` now validates `buf` and `size` before bounded copy.
+- Error registry now synchronizes concurrent read/write access with `std::shared_mutex`.
+
+### Documentation Synchronization (Phase 6)
+
+- `src/utils/ROADMAP.md` updated (Phase 2.4/2.9/3.7/3.9 progress + follow-up remediation note).
+- `src/utils/MODULE_GAPS.md` updated with follow-up remediation entry and stale-snapshot notice.
+- `src/utils/SECURITY.md` updated with PKI pinning and registry synchronization controls.
+- `src/utils/PRODUCTION_READINESS_CHECKLIST.md` updated with Phase 2/3 evidence linkage.
+
+### Verification Evidence
+
+- Focused tests: `test_error_registry`, `test_pki_client`, `test_pki_client_rest`
+- Security checks: secret scan for changed files, CodeQL run after changes
+
 
 
 ### Phase 5-6 Deliverables (Completed)

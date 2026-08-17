@@ -5,6 +5,17 @@
 
 ## Remediation Log
 
+### 2026-08-17 — Critical/High Gap Closure Follow-up (manual remediation run)
+
+Scope: closed remaining critical/high actionable findings in `pki_client.cpp` and
+`error_registry.cpp` that were still listed as open after the first 2026-08-17 batch.
+
+| File | Findings Closed | Category | Status |
+|---|---|---|---|
+| utils/pki_client.cpp | 2 (CRITICAL×2) | data_race (password callback), unchecked_memcpy | ✓ CLOSED |
+| utils/pki_client.cpp | 1 (HIGH×1) | cert-pinning stub path replaced by fail-closed enforcement | ✓ CLOSED |
+| utils/error_registry.cpp | 1 (HIGH×1) | concurrent read/write synchronization (`shared_mutex`) | ✓ CLOSED |
+
 ### 2026-08-17 — Critical/High Gap Closure (manual remediation run)
 
 Scope: Closed critical scanner findings in 5 source files. Scanner scan date was 2026-06-04;
@@ -18,9 +29,11 @@ remediation applied to `develop` branch on 2026-08-17.
 | utils/rate_limiter.cpp | 3 (CRITICAL×2, HIGH×1) | blocking_no_timeout, no_timeout, explicit_lock_unlock | ✓ CLOSED |
 | utils/audit_logger.cpp | 4 (MEDIUM×4) | manual_cleanup (raw fd close) | ✓ CLOSED |
 
-Remaining open critical/high items are tracked in ROADMAP.md Phase 2.4, 3.5-3.9, and the
-outstanding scanner findings in pki_client.cpp, error_registry.cpp, and pool_allocator.cpp
-(pool_allocator critical items were previously resolved per RESOLVED markers in scan output).
+Remaining open critical/high items are tracked in ROADMAP.md Phase 3.5, 3.6, 3.8, 3.12, and
+Phase 4 stress validation expansion. The previously listed `pki_client.cpp` and
+`error_registry.cpp` critical/high findings are now remediated in source and reflected in
+the follow-up remediation entry above. This document's scan snapshot is from 2026-06-04 and
+should be regenerated to refresh aggregate counts.
 
 ## Scan Snapshot
 
@@ -470,6 +483,10 @@ Total findings: 54
 ### utils/pki_client.cpp
 Total findings: 35
 
+> Status update (2026-08-17): critical/high actionable findings in password callback bounds
+> handling and certificate-pinning enforcement were remediated in source. Remaining entries
+> below are from the historical 2026-06-04 snapshot and require scanner refresh for recount.
+
 - Line 200: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Review finding and apply recommended module-specific fix.
@@ -644,6 +661,9 @@ Total findings: 35
 
 ### utils/error_registry.cpp
 Total findings: 32
+
+> Status update (2026-08-17): concurrent read/write access hardening was implemented with
+> `std::shared_mutex`. Historical findings below remain as scanner output snapshot context.
 
 - Line 140: severity=CRITICAL; category=smart_ptr_misuse
   Description: Raw new without immediate wrapping in smart pointer

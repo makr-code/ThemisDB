@@ -38,7 +38,9 @@ Production-usable shared utility behavior exists for observability, privacy proc
   - [x] 2.2: Error registry implementation (audit, privacy, key, compression, runtime) - COMPLETE  
   - [~] 2.3: Observability plane hardening (audit_logger, logger, tracing, saga_logger) - IN PROGRESS
     - [x] 2.3a: audit_logger RAII for POSIX file descriptors (FdGuard, eliminates raw close leaks) - COMPLETE 2026-08-17
-  - [ ] 2.4: Privacy & Key plane hardening (pii, hkdf, pki) - QUEUED
+  - [~] 2.4: Privacy & Key plane hardening (pii, hkdf, pki) - IN PROGRESS
+    - [x] 2.4a: pki_client cert pinning fail-closed enforcement via `CURLOPT_PINNEDPUBLICKEY` (hex + sha256// inputs) - COMPLETE 2026-08-17
+    - [x] 2.4b: pki_client password callback bounds hardening (`buf`/`size` validation, bounded copy) - COMPLETE 2026-08-17
   - [~] 2.5: Compression & Runtime plane hardening (codecs, thread_pool, rate_limiter) - IN PROGRESS
     - [x] 2.5a: thread_pool_manager bounded-shutdown joins (joinThreadWithin) - COMPLETE 2026-08-17
     - [x] 2.5b: thread_pool_manager getStatistics() data-race guard - COMPLETE 2026-08-17
@@ -50,7 +52,8 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [~] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
   - [~] 2.7: Explicit error codes for all hotspots (7300-7363) - IN PROGRESS
   - [ ] 2.8: Graceful degradation for external service failures - QUEUED
-  - [ ] 2.9: Bounded resource checks for all high-fan-out helpers - QUEUED
+  - [~] 2.9: Bounded resource checks for all high-fan-out helpers - IN PROGRESS
+    - [x] 2.9a: error_registry concurrent read/write synchronization via `std::shared_mutex` - COMPLETE 2026-08-17
   - [ ] 2.10: Doxygen error contracts for public APIs - IN PROGRESS
 
 ### Phase 3: Error Handling and Edge Cases
@@ -61,9 +64,11 @@ Production-usable shared utility behavior exists for observability, privacy proc
   - [x] 3.4: ErrorContext and diagnostic logging helpers - COMPLETE
   - [ ] 3.5: Apply error contracts to observability components (audit_logger, logger, tracing, saga_logger)
   - [ ] 3.6: Apply error contracts to privacy components (pii_detector, detection engines)
-  - [ ] 3.7: Apply error contracts to crypto components (hkdf_helper, hkdf_cache, pki_client)
+  - [~] 3.7: Apply error contracts to crypto components (hkdf_helper, hkdf_cache, pki_client)
+    - [x] 3.7a: pki_client pinning misconfiguration now fails closed with explicit diagnostics - COMPLETE 2026-08-17
   - [ ] 3.8: Apply error contracts to compression components (zstd_codec, lz4_codec, serialization)
-  - [ ] 3.9: Apply error contracts to runtime services (thread_pool_manager, rate_limiter, connection pools)
+  - [~] 3.9: Apply error contracts to runtime services (thread_pool_manager, rate_limiter, connection pools)
+    - [x] 3.9a: error_registry read/write paths hardened for concurrent access in high-fan-out call paths - COMPLETE 2026-08-17
 - [ ] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
   - [x] 3.10: Incident categorizer with 15 operator-visible categories - COMPLETE
   - [x] 3.11: Structured logging with ErrorContext - COMPLETE
@@ -86,13 +91,16 @@ Production-usable shared utility behavior exists for observability, privacy proc
   - grpc_channel_pool.cpp: exception-safe scope re-lock
   - rate_limiter.cpp: cv_.wait_for + try_acquire_for()
   - audit_logger.cpp: FdGuard RAII wrapper for POSIX fds
+- [x] gap remediation follow-up documented: pki_client + error_registry critical/high closure update (2026-08-17)
+  - pki_client.cpp: cert pinning fail-closed enforcement + password callback bounds hardening
+  - error_registry.cpp/h: shared_mutex synchronization for concurrent read/write safety
 
 ## Production Readiness Checklist
 
 - [x] core shared helper surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [~] remaining hardening tasks closed for high-fan-out helpers (6 critical gaps closed 2026-08-17; Phase 2.4/3.5-3.9 open)
+- [~] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 3.5/3.6/3.8/3.12 and Phase 4 stress expansion remain open)
 - [ ] broader release benchmark stabilization complete
 
 ## Known Issues and Limitations

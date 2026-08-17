@@ -252,6 +252,8 @@ This checklist verifies that the utils module meets production readiness require
 - [x] AUDIT.md documents audit findings and compliance snapshot
 - [x] PRODUCTION_REQUIREMENTS.md documents mandatory production requirements
 - [x] All contracts source-verified
+- [x] PKI pinning enforcement documented and source-verified (`src/utils/pki_client.cpp`, 2026-08-17)
+- [x] Error registry concurrency hardening documented and source-verified (`src/utils/error_registry.cpp`, 2026-08-17)
 
 ### Test Integration
 - [x] All tests passing
@@ -265,6 +267,7 @@ This checklist verifies that the utils module meets production readiness require
 - [x] Production readiness checklist complete
 - [x] ROADMAP and FUTURE_ENHANCEMENTS synchronized
 - [x] SECURITY and AUDIT contracts verified
+- [x] Phase 2/3 follow-up hardening evidence for PKI and registry synchronized into module docs
 
 **Sign-Off:** Phase 6 documentation and acceptance complete.
 
@@ -295,6 +298,7 @@ This checklist verifies that the utils module meets production readiness require
 | External dependencies (OpenSSL, zstd, libraries) | Medium | Active | Explicit degradation contracts defined; tested in Phase 3-4 |
 | Shared helper misuse can amplify impact | Medium | Mitigated | Error contracts explicit, diagnostics actionable, hardening ongoing |
 | Phase 2-4 completion timing | Medium | TBD | Coordinate with Phase 2-4 teams; Phase 1/5/6 ready |
+| Scanner aggregate counts stale after follow-up fixes | Low | Active | Re-run module gap scanner to refresh MODULE_GAPS.md totals |
 
 ---
 
