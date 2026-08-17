@@ -1,50 +1,51 @@
 #!/usr/bin/env python3
 
-filepath = "/home/runner/work/ThemisDB/ThemisDB/src/llm/grafana_metrics.cpp"
+import os
+import re
 
-with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
-    lines = f.readlines()
+files_to_analyze = {
+    "gguf_loader.cpp": -3,
+    "model_downloader.cpp": -2,
+    "inference_engine_enhanced.cpp": 1,
+    "llama_wrapper.cpp": 2,
+    "llm_model_storage.cpp": 2,
+    "streaming_handler.cpp": 1,
+}
 
-# Look for function signatures in class implementations
-# Count function signatures vs. opening braces
+base_path = "/home/runner/work/ThemisDB/ThemisDB/src/llm/"
 
-func_signatures = []
-for i, line in enumerate(lines, 1):
-    # Look for lines like "Type ClassName::methodName() {"
-    if ('::' in line and '(' in line and ')' in line and 
-        'namespace' not in line and 'template' not in line and
-        not line.strip().startswith('//')):
+def find_location(filename, expected_balance):
+    fpath = os.path.join(base_path, filename)
+    with open(fpath, 'r', encoding='utf-8', errors='ignore') as f:
+        content = f.read()
+    
+    # Clean properly
+    clean = re.sub(r'R"\([^)]*\)"', '', content, flags=re.DOTALL)
+    clean = re.sub(r'"[^"]*"', '', clean)
+    clean = re.sub(r"'[^']*'", '', clean)
+    clean = re.sub(r'//.*$', '', clean, flags=re.MULTILINE)
+    clean = re.sub(r'/\*.*?\*/', '', clean, flags=re.DOTALL)
+    
+    balance = 0
+    for i, line in enumerate(clean.split('\n'), 1):
+        for char in line:
+            if char == '{':
+                balance += 1
+            elif char == '}':
+                balance -= 1
+    
+    print(f"\n{filename} (expected: {expected_balance})")
+    print(f"  Final balance: {balance}")
+    
+    if balance != 0:
+        # Try to find the problem by checking around major functions
+        lines = content.split('\n')
+        print(f"  Total lines: {len(lines)}")
         
-        # Check if this is a function signature (ends with ; or { on same or next line)
-        if line.rstrip().endswith(';'):
-            continue  # This is a declaration in header included
-        
-        # This is likely a function implementation
-        has_brace = '{' in line
-        func_signatures.append({
-            'line': i,
-            'content': line.strip()[:80],
-            'has_brace': has_brace,
-            'full_line': line
-        })
+        # Find functions with their line numbers
+        for i, line in enumerate(lines[-30:], len(lines)-30):
+            if 'namespace' in line or '}' in line and i > len(lines) - 10:
+                print(f"  Line {i}: {line}")
 
-print("Function signatures found (first 30):")
-count = 0
-for sig in func_signatures[:30]:
-    if '::' in sig['content'] and '(' in sig['content']:
-        print(f"L{sig['line']:4d} {'[HAS]' if sig['has_brace'] else '[MISS]'}: {sig['content']}")
-        count += 1
-
-print("\n\nLooking for function signatures missing opening braces on same line:")
-for sig in func_signatures:
-    if not sig['has_brace'] and 'static constexpr' not in sig['full_line']:
-        # Check if next few lines have opening brace
-        line_num = sig['line']
-        found_brace_soon = False
-        for j in range(1, 5):
-            if line_num + j <= len(lines) and '{' in lines[line_num + j - 1]:
-                found_brace_soon = True
-                break
-        
-        if found_brace_soon:
-            print(f"L{sig['line']}: {sig['content']}")
+for fname, balance in files_to_analyze.items():
+    find_location(fname, balance)
