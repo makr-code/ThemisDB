@@ -361,6 +361,12 @@ size_t PlanCache::invalidateTable(const std::string& table) {
 
     // Copy fingerprints to avoid iterator invalidation
     std::vector<std::string> fps = tidx->second;
+    
+    // Sort fingerprints for deterministic invalidation order (Batch 1C determinism gate).
+    // This ensures plan cache invalidation notifications are always in the same order,
+    // which is critical for deterministic behavior in distributed query planning.
+    std::sort(fps.begin(), fps.end());
+    
     size_t count = 0;
 
     for (const auto& fp : fps) {
@@ -378,7 +384,7 @@ size_t PlanCache::invalidateTable(const std::string& table) {
 
     // Use atomic operation for stats update (GAP-4)
     stats_.invalidations.fetch_add(count, std::memory_order_release);
-    THEMIS_INFO("PlanCache invalidated {} plan(s) for table '{}'", count, table);
+    THEMIS_INFO("PlanCache invalidated {} plan(s) for table '{}' (sorted order)", count, table);
     return count;
 }
 

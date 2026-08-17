@@ -54,26 +54,15 @@ namespace themis {
  * @return true if wait completed within timeout; false if timeout exceeded.
  */
 inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) noexcept {
-    const auto start = std::chrono::high_resolution_clock::now();
-    const auto deadline = start + std::chrono::duration<double>(timeout_seconds);
-
     // TBB task_group::wait() is blocking and does not support timeouts natively.
-    // As a conservative approach, we wait with a busy-wait loop on a shorter
-    // interval, checking elapsed time. In production, this allows detection of
-    // hung tasks and graceful fallback to partial results.
-    const auto check_interval = std::chrono::milliseconds(100);
-
-    while (true) {
-        // Attempt to wait with a very short timeout. TBB does not support
-        // cancellation or timeouts natively, so we rely on task_group::wait()
-        // completing quickly for well-behaved tasks.
-        //
-        // NOTE: In future implementations, this could be replaced with TBB 2021+
-        // task_group::run_and_wait() or similar mechanisms.
-        tg.wait();
-        return true;  // Wait completed successfully
-    }
-    THEMIS_UNREACHABLE();
+    // For now, we simply call wait() directly. In future implementations, this
+    // could be replaced with TBB 2021+ task_group mechanisms or custom timeout logic.
+    //
+    // LIMITATION: Cannot timeout on hung tasks without external mechanisms (e.g., watchdog threads).
+    // Current behavior: blocks indefinitely if tasks hang (matching pre-1C behavior).
+    // Mitigation: Callers should ensure tasks have their own timeout/cancellation logic.
+    tg.wait();
+    return true;  // Always returns true (wait completed)
 }
 
 // ============================================================================
