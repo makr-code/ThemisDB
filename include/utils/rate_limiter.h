@@ -67,34 +67,46 @@ public:
     */
     bool try_acquire(double tokens = 1.0);
 
-    /**
-     * @brief Block until @p tokens are available and consume them.
+     * @brief Block until @p tokens are available and consume them with timeout support.
      *
-     * If `tokens > burst_size` this will spin with minimal sleep intervals
-     * (tokens can never accumulate past burst_size) so callers must ensure
-     * tokens ≤ burst_size for meaningful blocking behaviour.
+     * Blocking variant with timeout. If `tokens > burst_size` or timeout expires before
+     * tokens are available, returns false. Otherwise acquires tokens and returns true.
      * 
-     * @param tokens Number of tokens to acquire (default 1.0)
+     * Graceful degradation:
+     * - If tokens > burst_size: returns false immediately (tokens can never accumulate)
+     * - If timeout expires: returns false and propagates error to caller
+     * - Caller should implement fallback strategy (queue rejection or degraded mode)
+     * 
+     * @param tokens Number of tokens to acquire (must be <= burst_size)
+     * @param timeout Maximum time to wait for tokens to become available
+     * @return true if tokens acquired successfully; false on timeout or invalid request
      * 
      * @error_contract
-     * - If tokens <= 0: returns immediately (no-op); no logging is emitted
-     * - If tokens > burst_size: spins indefinitely (tokens can never accumulate past burst_size)
-     * - On normal operation: blocks until tokens available, then consumes them
+     * - If tokens <= 0: returns true immediately (no-op); no logging emitted
+     * - If tokens > burst_size: returns false (error code: 9073 RATELIMIT_EXCEEDED)
+     * - If timeout exceeded: returns false (error code: 9073 RATELIMIT_EXCEEDED)
+     * - On successful acquisition: returns true
      * 
      * @bounded_resources
-     * - Maximum wait time: (tokens / rate_per_second) seconds
+     * - Maximum wait time: timeout parameter (caller-controlled)
      * - Memory: stack-only; no dynamic allocation
      * - CPU: minimal while waiting (uses condition_variable)
      * 
      * @thread_safety Thread-safe; condition variable handles concurrent waiters
-     * @performance O(wait_time); blocks thread until available
+     * @performance O(wait_time); blocks thread until available or timeout
      * 
-     * @warning NEVER call with tokens > burst_size in production (causes hang)
-     * @warning Use with timeouts in critical paths to avoid unbounded blocking
-     * @see try_acquire() for non-blocking variant
-     * @see set_rate() to adjust rate without resetting bucket
+     * @graceful_degradation
+     * When rate limit is exceeded:
+     * 1. Caller receives false return value
+     * 2. Should log incident (rate limit threshold breached)
+     * 3. Can choose to: queue for later, reject request, or use degraded service tier
+     * 
+     * @note Always use timeouts in production to prevent unbounded blocking
+     * @note Ensure tokens <= burst_size to avoid timeout guarantee violation
+     * @see try_acquire() for non-blocking variant (fail-fast)
+     * @see set_rate() to adjust rate dynamically
      */
-    void acquire(double tokens = 1.0);
+    bool acquire_with_timeout(double tokens, std::chrono::milliseconds timeout);
 
     /**
      * @brief Reset the bucket to `burst_size` and update the timestamp.

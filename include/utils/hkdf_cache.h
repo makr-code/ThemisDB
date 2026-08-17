@@ -182,6 +182,25 @@ public:
      * @note Thread-Safe: All parameters and return value are thread-safe
      * @warning Caller owns the returned vector; use volatile_free() for sensitive cleanup
      * 
+     * @error_contract
+     * | Condition | Behavior | Recovery |
+     * |-----------|----------|----------|
+     * | Cache hit | Returns cached key | Continues immediately |
+     * | Cache miss | Derives new key | Increments miss counter |
+     * | OpenSSL fails | Throws std::runtime_error | Caller must handle exception |
+     * | Memory exhausted | Throws std::bad_alloc | Reduce output_length or clear cache |
+     * | Cache overflow | Evicts oldest entry (LRU) | TTL or capacity limits trigger eviction |
+     * | Key expired (TTL) | Re-derives new key | Transparent refresh on cache miss |
+     * 
+     * @graceful_degradation
+     * If OpenSSL HKDF is unavailable, this function will throw; caller should:
+     * 1. Catch std::runtime_error and log error
+     * 2. Fall back to lower-security key material (if available)
+     * 3. Escalate incident to operator
+     * 
+     * @bounded_resource Cache shards: 16, each with ~max_entries limit
+     * @recovery_strategy On derivation failure: caller must implement fallback key strategy
+     * 
      * @see RFC 5869 for HKDF specification
      * @see purge_by_ikm_hash() for selective cache invalidation
      * 

@@ -67,9 +67,37 @@ public:
     explicit VCCPKIClient(PKIConfig cfg);
 
     // Sign a precomputed hash (e.g. SHA-256 over ciphertext batch)
+    //
+    // Graceful degradation for PKI service failure:
+    // - If PKI endpoint is unreachable: falls back to local key if available
+    // - If certificate is expired: signHash still succeeds but increments warning counter
+    // - If key material is invalid: returns empty/invalid SignatureResult
+    // - Caller should validate result.ok before using signature
+    //
+    // @error_contract
+    // | Condition | Behavior | Recovery |
+    // |-----------|----------|----------|
+    // | PKI endpoint timeout | Falls back to local key | Escalate and retry later |
+    // | Certificate expired | Warning logged, signs with expired cert | Renew certificate |
+    // | No key available | Returns ok=false | Configure key_path or ca_url |
+    // | Local key corruption | Returns ok=false | Rotate to new key material |
     [[nodiscard]] SignatureResult signHash(const std::vector<uint8_t>& hash_bytes) const;
 
     // Verify a signature against a precomputed hash
+    //
+    // Graceful degradation for PKI service failure:
+    // - If PKI endpoint is unreachable: falls back to cached cert (if available)
+    // - If certificate chain cannot be verified: returns false (fail-secure)
+    // - If certificate is expired: verifyHash still validates signature but warns
+    // - Caller should always check return value before trusting verification
+    //
+    // @error_contract
+    // | Condition | Behavior | Recovery |
+    // |-----------|----------|----------|
+    // | Certificate not found | Returns false | Ensure cert_path or trust_store configured |
+    // | Chain verification fails | Returns false | Check certificate chain integrity |
+    // | Signature invalid | Returns false | Check data integrity and signature format |
+    // | Trust store unavailable | Skips chain validation, verifies sig only | Configure trust_store_path |
     [[nodiscard]] bool verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const;
 
     const PKIConfig& config() const { return cfg_; }

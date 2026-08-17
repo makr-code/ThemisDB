@@ -68,10 +68,28 @@ public:
     GrpcChannelPool& operator=(GrpcChannelPool&&) = default;
     
     /**
-     * @brief Acquire a channel for the given target
+     * @brief Acquire a channel for the given target with graceful degradation support
+     * 
+     * Attempts to acquire a channel from the pool. If all channels are in use,
+     * waits up to acquire_timeout for one to become available. On timeout or
+     * pool exhaustion, returns nullptr and increments acquire_timeout counter.
+     * 
+     * Graceful degradation strategy:
+     * - If pool is full and timeout expires: caller must handle nullptr
+     * - If connection cannot be established: channel is not pooled
+     * - Caller should implement retry logic or fallback strategy
+     * 
      * @param target Target address (e.g., "localhost:50051")
      * @param credentials Channel credentials (optional, uses insecure if nullptr)
-     * @return Shared pointer to gRPC channel
+     * @return Shared pointer to gRPC channel, or nullptr if acquisition failed
+     * 
+     * @error_contract
+     * | Condition | Behavior | Recovery |
+     * |-----------|----------|----------|
+     * | Pool exhausted | Returns nullptr | Implement backoff/fallback |
+     * | Acquire timeout | Returns nullptr | Retry later or use degraded mode |
+     * | Connection failed | Returns nullptr | Check network/endpoint health |
+     * | Shutdown in progress | Returns nullptr | Wait for shutdown to complete |
      */
     std::shared_ptr<grpc::Channel> acquireChannel(
         const std::string& target,
@@ -154,12 +172,20 @@ public:
     void reportSuccess(const std::string& target);
 
     /**
-     * @brief Report a failed RPC call for the circuit breaker.
+     * @brief Report a failed RPC call for the circuit breaker with optional error details
      *
      * Call this after every failed RPC.  It increments the failure counter
      * and may trip the circuit (CLOSED → OPEN) when the threshold is reached.
+     * 
+     * Graceful degradation:
+     * - When circuit is OPEN, new requests are rejected immediately
+     * - After CB_OPEN_TIMEOUT, circuit transitions to HALF_OPEN for recovery probe
+     * - Operator can monitor circuit states via getCircuitState()
+     * 
+     * @param target The endpoint that failed
+     * @param error_code Optional error code for diagnostics (9075-9076 range)
      */
-    void reportFailure(const std::string& target);
+    void reportFailure(const std::string& target, uint16_t error_code = 0);
 
     /**
      * @brief Perform a lightweight health-check ping on a target.
