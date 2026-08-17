@@ -411,11 +411,11 @@ public:
 
     ~ShardSummaryCoordinator() = default;
 
-    // Prevent copy; allow move.
+    // Prevent copy; mutex and atomics are non-movable
     ShardSummaryCoordinator(const ShardSummaryCoordinator&) = delete;
     ShardSummaryCoordinator& operator=(const ShardSummaryCoordinator&) = delete;
-    ShardSummaryCoordinator(ShardSummaryCoordinator&&) noexcept = default;
-    ShardSummaryCoordinator& operator=(ShardSummaryCoordinator&&) noexcept = default;
+    ShardSummaryCoordinator(ShardSummaryCoordinator&&) = delete;
+    ShardSummaryCoordinator& operator=(ShardSummaryCoordinator&&) = delete;
 
     // ─── Shard Registration ───────────────────────────────────────────────
 
