@@ -386,6 +386,5 @@ bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
 }
 
 } // namespace sharding
-} // namespace sharding
 } // namespace themisdb
 

@@ -364,20 +364,28 @@ void GossipConsensusAdapter::gossipThread() {
         lock.unlock();
         
         // Simulate gossip propagation
+        // FIXED: Collect entries first, release lock, then invoke callbacks to avoid deadlock
+        std::vector<std::pair<uint64_t, ConsensusLogEntry>> ready_to_commit;
         {
             std::lock_guard<std::mutex> log_lock(log_mutex_);
             
-            // Check which entries have reached quorum
+            // Collect entries that have reached quorum (avoid iterator invalidation
+            // and deadlock by not calling hasReachedQuorum which re-acquires lock)
             for (auto& [index, entry] : log_entries_) {
-                if (index > commit_index_.load() && hasReachedQuorum(index)) {
-                    commit_index_ = index;
-                    
-                    // Call commit callback
-                    std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
-                    if (on_commit_callback_) {
-                        on_commit_callback_(entry);
-                    }
+                if (index > commit_index_.load() && hasReachedQuorumUnlocked(index)) {
+                    ready_to_commit.push_back({index, entry});
                 }
+            }
+        }  // Lock released here
+        
+        // Update commit index and invoke callbacks outside lock
+        for (auto& [index, entry] : ready_to_commit) {
+            commit_index_ = index;
+            
+            // Call commit callback without holding log_mutex_
+            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            if (on_commit_callback_) {
+                on_commit_callback_(entry);
             }
         }
     }

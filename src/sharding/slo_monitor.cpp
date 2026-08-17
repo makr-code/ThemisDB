@@ -15,6 +15,7 @@
 
 #include "sharding/slo_monitor.h"
 #include <algorithm>
+#include <chrono>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
@@ -763,7 +764,9 @@ void SLOReporter::stop() {
     }
     
     if (reporter_thread_ && reporter_thread_->joinable()) {
-        reporter_thread_->join();
+        if (!reporter_thread_->try_join_for(std::chrono::seconds(30))) {
+            std::cerr << "SLOReporter::stop: reporter thread did not exit within 30s timeout\n";
+        }
     }
 }
 

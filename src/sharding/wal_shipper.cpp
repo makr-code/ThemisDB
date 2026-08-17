@@ -14,6 +14,7 @@
 #include "sharding/prometheus_metrics.h"
 #include "utils/zstd_codec.h"
 #include <algorithm>
+#include <chrono>
 #include <iomanip>
 #include <iostream>
 #include <openssl/sha.h>
@@ -90,7 +91,9 @@ void WALShipper::stop() {
     cv_.notify_all();
     
     if (shipper_thread_ && shipper_thread_->joinable()) {
-        shipper_thread_->join();
+        if (!shipper_thread_->try_join_for(std::chrono::seconds(30))) {
+            spdlog::error("WALShipper::stop: shipping thread did not exit within 30s timeout");
+        }
     }
 }
 

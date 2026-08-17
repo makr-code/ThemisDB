@@ -461,6 +461,5 @@ uint64_t PaxosSnapshotManager::generateSnapshotId() const {
 }
 
 } // namespace sharding
-} // namespace sharding
 } // namespace themisdb
 
