@@ -341,10 +341,6 @@ TEST_F(WatermarkDetectorTest, ResetDetector) {
 }
 
 // ============================================================================
-// Main
+// Main entry point provided by GTest::gtest_main (linked via CMake)
 // ============================================================================
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

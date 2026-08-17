@@ -12,6 +12,7 @@
 #include "detection_result.h"
 #include "detection_config.h"
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -103,6 +104,10 @@ public:
   virtual std::vector<DetectionResult> detect_batch(
       const std::vector<std::string>& texts,
       const std::vector<std::string>& source_ids = {}) {
+    if (!source_ids.empty() && source_ids.size() != texts.size()) {
+      throw std::invalid_argument(
+          "source_ids must be empty or match texts.size()");
+    }
     std::vector<DetectionResult> results;
     for (size_t i = 0; i < texts.size(); ++i) {
       std::string sid = (source_ids.size() > i) ? source_ids[i] : "";

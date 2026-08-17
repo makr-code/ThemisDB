@@ -36,13 +36,13 @@
 using namespace themis::ingestion;
 using namespace std::chrono_literals;
 
-namespace {
-
-static constexpr uint64_t kQueueSaturationTestSeed = 42;
-
 // ---------------------------------------------------------------------------
-// Mock item for testing with custom size
+// TestItem and QueueItemSize<TestItem> specialization must live in the same
+// namespace as the primary QueueItemSize template so explicit specialization
+// is well-formed (C++17 [temp.expl.spec]/2).
 // ---------------------------------------------------------------------------
+namespace themis::ingestion {
+
 struct TestItem {
     int id;
     std::string data;
@@ -66,7 +66,7 @@ struct QueueItemSize<TestItem> {
     }
 };
 
-}  // anonymous namespace
+}  // namespace themis::ingestion
 
 // ===========================================================================
 // INGQ-01..04 — Basic queue capacity and saturation

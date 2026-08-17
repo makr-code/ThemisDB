@@ -9,6 +9,7 @@
 #include "../include/detector_interface.h"
 #include "../include/token_distribution_analyzer.h"
 #include <iostream>
+#include <mutex>
 #include <sstream>
 #include <cmath>
 #include <chrono>
@@ -30,6 +31,10 @@ private:
   DetectionConfig config_;
   std::unique_ptr<TokenDistributionAnalyzer> token_analyzer_;
   bool initialized_ = false;
+
+  // Protects cache_, cache_hits_, cache_misses_, config_ for concurrent
+  // detect_text() calls as required by the thread-safety contract.
+  mutable std::mutex mutex_;
 
   // Cache: text_hash -> DetectionResult
   std::unordered_map<size_t, DetectionResult> cache_;
@@ -87,6 +92,7 @@ WatermarkDetectorImpl::WatermarkDetectorImpl()
 
 void WatermarkDetectorImpl::configure(const DetectionConfig& config) {
   config.validate();
+  std::lock_guard<std::mutex> lock(mutex_);
   config_ = config;
 }
 
@@ -98,7 +104,13 @@ DetectionResult WatermarkDetectorImpl::detect_text(const std::string& text,
   result.text_length_chars = text.size();
   result.detection_timestamp = std::chrono::system_clock::now();
 
-  // Phase 1: Validate input
+  // Phase 1: Validate input (read config_ under lock)
+  DetectionConfig cfg;
+  {
+    std::lock_guard<std::mutex> lock(mutex_);
+    cfg = config_;
+  }
+
   if (text.empty()) {
     result.status = DetectionStatus::InvalidInput;
     result.error_message = "Input text is empty";
@@ -106,15 +118,16 @@ DetectionResult WatermarkDetectorImpl::detect_text(const std::string& text,
     return result;
   }
 
-  if (text.size() > static_cast<size_t>(config_.max_input_length)) {
+  if (text.size() > static_cast<size_t>(cfg.max_input_length)) {
     result.status = DetectionStatus::InvalidInput;
     result.error_message = "Input text exceeds maximum length";
     return result;
   }
 
   // Phase 2: Check cache
-  if (config_.enable_caching) {
+  if (cfg.enable_caching) {
     size_t text_hash = hash_text(text);
+    std::lock_guard<std::mutex> lock(mutex_);
     auto it = cache_.find(text_hash);
     if (it != cache_.end()) {
       result = it->second;
@@ -126,8 +139,8 @@ DetectionResult WatermarkDetectorImpl::detect_text(const std::string& text,
   }
 
   // Phase 3: Check trusted sources
-  if (!config_.trusted_sources.empty() &&
-      config_.trusted_sources.count(source_id) > 0) {
+  if (!cfg.trusted_sources.empty() &&
+      cfg.trusted_sources.count(source_id) > 0) {
     result.confidence_score = 0.0f;
     result.status = DetectionStatus::Success;
     result.detected_language = detect_language(text);
@@ -165,25 +178,28 @@ DetectionResult WatermarkDetectorImpl::detect_text(const std::string& text,
   }
 
   // Phase 9: Apply confidence threshold
-  if (result.confidence_score < config_.confidence_threshold) {
+  if (result.confidence_score < cfg.confidence_threshold) {
     result.confidence_score = 0.0f;
   }
 
   // Phase 10: Check for warnings
-  if (result.tokens_analyzed < static_cast<uint64_t>(config_.min_tokens_for_reliable_score)) {
+  if (result.tokens_analyzed < static_cast<uint64_t>(cfg.min_tokens_for_reliable_score)) {
     result.warnings.push_back("text_too_short");
   }
 
-  if (config_.strict_mode &&
-      std::abs(result.confidence_score - config_.confidence_threshold) < 0.1f) {
+  if (cfg.strict_mode &&
+      std::abs(result.confidence_score - cfg.confidence_threshold) < 0.1f) {
     result.warnings.push_back("high_uncertainty");
   }
 
   result.status = DetectionStatus::Success;
 
   // Phase 11: Cache result
-  if (config_.enable_caching && cache_.size() < static_cast<size_t>(config_.cache_max_entries)) {
-    cache_[hash_text(text)] = result;
+  if (cfg.enable_caching) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (cache_.size() < static_cast<size_t>(cfg.cache_max_entries)) {
+      cache_[hash_text(text)] = result;
+    }
   }
 
   auto end_time = std::chrono::high_resolution_clock::now();
@@ -195,12 +211,14 @@ DetectionResult WatermarkDetectorImpl::detect_text(const std::string& text,
 }
 
 void WatermarkDetectorImpl::clear_cache() {
+  std::lock_guard<std::mutex> lock(mutex_);
   cache_.clear();
   cache_hits_ = 0;
   cache_misses_ = 0;
 }
 
 std::string WatermarkDetectorImpl::get_cache_stats() const {
+  std::lock_guard<std::mutex> lock(mutex_);
   std::ostringstream oss;
   size_t total = cache_hits_ + cache_misses_;
   float hit_rate = (total > 0) ? (100.0f * cache_hits_ / total) : 0.0f;
@@ -228,15 +246,19 @@ size_t WatermarkDetectorImpl::hash_text(const std::string& text) const {
 }
 
 std::vector<uint32_t> WatermarkDetectorImpl::tokenize(const std::string& text) {
-  // STUB: Phase 2 implementation will integrate with LLM module tokenizer.
-  // For now, return empty vector (tokenization failed, but doesn't crash).
-  // Real implementation will tokenize text into token IDs.
-  
-  // Placeholder: return dummy tokens based on text length
+  // STUB/SIMULATION NOTE:
+  // Purpose: Phase 1 placeholder; returns deterministic dummy token IDs based
+  //          on text length so heuristics can exercise a non-empty token path.
+  // Activation: Always active in Phase 1; gated out once Phase 2 LLM-module
+  //             tokenizer integration is complete.
+  // Production Delta: Does not reflect real vocabulary tokens; distributions
+  //                   are not meaningful for watermark detection.
+  // Removal Plan: Replace with actual tokenizer in Phase 2
+  //               (see plugins/themisdb_ai_watermark_detector/ROADMAP.md Phase 2).
   std::vector<uint32_t> tokens;
   int estimated_tokens = text.size() / 4;  // rough estimate: 4 chars per token
   if (estimated_tokens < 10) estimated_tokens = 10;
-  
+
   for (int i = 0; i < estimated_tokens && i < 1000; ++i) {
     tokens.push_back(i % 50000);  // dummy token ID
   }

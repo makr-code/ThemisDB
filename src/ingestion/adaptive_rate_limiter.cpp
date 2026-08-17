@@ -97,7 +97,7 @@ RateLimitInfo parseRateLimitHeaders(
 // ============================================================================
 
 bool AdaptiveRateLimiter::tryAcquireToken(bool allow_wait) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     refillTokens();
 

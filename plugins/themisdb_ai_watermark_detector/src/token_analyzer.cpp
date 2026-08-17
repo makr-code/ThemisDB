@@ -7,6 +7,8 @@
 #include <cmath>
 #include <algorithm>
 #include <numeric>
+#include <sstream>
+#include <stdexcept>
 
 namespace themisdb::watermark {
 
