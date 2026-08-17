@@ -199,6 +199,8 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
     }
 
     ++dispatch_rounds_;
+    // Ensure all counter updates are visible to other threads.
+    std::atomic_thread_fence(std::memory_order_release);
 }
 
 void GPUTimeSliceScheduler::drainAll(GPULauncher::BackendFn backend) {
