@@ -27,6 +27,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <future>
 #include <memory>
 #include <numeric>

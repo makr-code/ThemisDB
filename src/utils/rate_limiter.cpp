@@ -100,9 +100,12 @@ bool RateLimiter::try_acquire_for(double tokens, std::chrono::milliseconds timeo
             tokens_ -= tokens;
             return true;
         }
+        auto now = std::chrono::steady_clock::now();
+        if (now >= deadline) return false;
+        auto remaining = std::chrono::duration_cast<std::chrono::duration<double>>(deadline - now);
         auto wait = wait_for_locked(tokens);
         constexpr std::chrono::duration<double> max_sleep{0.05};
-        auto sleep_dur = std::min(wait, max_sleep);
+        auto sleep_dur = std::min({wait, max_sleep, remaining});
         cv_.wait_for(lk, sleep_dur);
         if (std::chrono::steady_clock::now() >= deadline) return false;
     }

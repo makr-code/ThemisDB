@@ -137,17 +137,19 @@ std::string DistributedTraceSpan::statusMessage() const {
 std::shared_ptr<DistributedTraceContext> DistributedTraceSpan::childContext(
     const std::string& child_operation_name) {
 
-    // Create a new trace context with the same trace ID but new span ID
-    auto child_ctx = DistributedTraceContext::createRoot();  // This creates a new trace ID
+    // Use W3C traceparent to carry the parent trace ID and span ID into the
+    // child context — avoids direct access to DistributedTraceContext's
+    // protected members (trace_id_ / parent_span_id_).
+    // Format: "00-{32-hex trace_id}-{16-hex span_id}-{flags}"
+    const std::string traceparent = "00-" + trace_id_ + "-" + span_id_ + "-01";
+    std::map<std::string, std::string> headers;
+    headers["traceparent"] = traceparent;
+
+    auto child_ctx = DistributedTraceContext::fromHttpHeaders(
+        headers, TraceContextFormat::W3C_TRACE_CONTEXT);
     if (!child_ctx) {
         return nullptr;
     }
-
-    // Copy trace ID from parent
-    child_ctx->trace_id_ = trace_id_;
-
-    // Set parent span ID to this span's ID
-    child_ctx->parent_span_id_ = span_id_;
 
     // Inherit baggage from this span
     {

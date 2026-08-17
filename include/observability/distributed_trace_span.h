@@ -20,6 +20,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <shared_mutex>

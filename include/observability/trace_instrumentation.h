@@ -55,6 +55,65 @@ std::shared_ptr<DistributedTraceContext> getCurrentTraceContext();
  */
 void setCurrentTraceContext(std::shared_ptr<DistributedTraceContext> ctx);
 
+/**
+ * @brief Get the current active span (thread-local).
+ *
+ * Returns the span associated with the innermost active TRACE_SCOPE on the
+ * current thread. Returns nullptr if no scope is active.
+ *
+ * @return Pointer to active DistributedTraceSpan, or nullptr.
+ */
+DistributedTraceSpan* getCurrentSpan();
+
+/**
+ * @brief Set the current active span (thread-local).
+ *
+ * Used internally by TraceContextGuard. Do not call directly.
+ *
+ * @param span Raw pointer to span owned by the active guard (may be nullptr).
+ */
+void setCurrentSpan(DistributedTraceSpan* span);
+
+/**
+ * @brief RAII guard that activates a span scope and restores the previous
+ *        context and span on destruction (including on exception paths).
+ *
+ * Used by TRACE_SCOPE_* macros to guarantee correct nesting — without this
+ * guard the thread-local context would be left pointing at a destroyed span
+ * after the scope exits.
+ */
+class TraceContextGuard {
+public:
+    /**
+     * @brief Activate @p span as the current span and @p child_ctx as the
+     *        current trace context for the duration of the enclosing scope.
+     *
+     * @param span       Active span (must outlive this guard; owned by caller).
+     * @param child_ctx  Child trace context produced by the span.
+     */
+    TraceContextGuard(DistributedTraceSpan* span,
+                      std::shared_ptr<DistributedTraceContext> child_ctx)
+        : prev_ctx_(getCurrentTraceContext())
+        , prev_span_(getCurrentSpan())
+    {
+        setCurrentTraceContext(std::move(child_ctx));
+        setCurrentSpan(span);
+    }
+
+    /// Restores the previous context and span on scope exit (RAII).
+    ~TraceContextGuard() {
+        setCurrentSpan(prev_span_);
+        setCurrentTraceContext(std::move(prev_ctx_));
+    }
+
+    TraceContextGuard(const TraceContextGuard&) = delete;
+    TraceContextGuard& operator=(const TraceContextGuard&) = delete;
+
+private:
+    std::shared_ptr<DistributedTraceContext> prev_ctx_;
+    DistributedTraceSpan* prev_span_;
+};
+
 // ============================================================================
 // Trace Instrumentation Macros
 // ============================================================================
@@ -86,7 +145,9 @@ void setCurrentTraceContext(std::shared_ptr<DistributedTraceContext> ctx);
 #define TRACE_SCOPE_COORDINATOR(operation_name, parent_context) \
     auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
         operation_name, parent_context); \
-    setCurrentTraceContext(_trace_span_##__LINE__->childContext(operation_name));
+    TraceContextGuard _trace_guard_##__LINE__( \
+        _trace_span_##__LINE__.get(), \
+        _trace_span_##__LINE__->childContext(operation_name));
 
 /**
  * @brief RAII scope guard for ShardRouter tracing.
@@ -108,7 +169,9 @@ void setCurrentTraceContext(std::shared_ptr<DistributedTraceContext> ctx);
 #define TRACE_SCOPE_SHARD_ROUTER(operation_name) \
     auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
         operation_name, getCurrentTraceContext()); \
-    setCurrentTraceContext(_trace_span_##__LINE__->childContext(operation_name));
+    TraceContextGuard _trace_guard_##__LINE__( \
+        _trace_span_##__LINE__.get(), \
+        _trace_span_##__LINE__->childContext(operation_name));
 
 /**
  * @brief RAII scope guard for WALShipper tracing.
@@ -130,7 +193,9 @@ void setCurrentTraceContext(std::shared_ptr<DistributedTraceContext> ctx);
 #define TRACE_SCOPE_WAL_SHIPPER(operation_name) \
     auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
         operation_name, getCurrentTraceContext()); \
-    setCurrentTraceContext(_trace_span_##__LINE__->childContext(operation_name));
+    TraceContextGuard _trace_guard_##__LINE__( \
+        _trace_span_##__LINE__.get(), \
+        _trace_span_##__LINE__->childContext(operation_name));
 
 /**
  * @brief Record a tracing event with optional attributes.
@@ -153,10 +218,9 @@ void setCurrentTraceContext(std::shared_ptr<DistributedTraceContext> ctx);
  */
 #define TRACE_EVENT(event_name, attrs) \
     do { \
-        auto _ctx = getCurrentTraceContext(); \
-        if (_ctx) { \
-            /* Event is recorded in the context's associated span */ \
-            /* This is handled by the span lifetime manager */ \
+        auto* _span = getCurrentSpan(); \
+        if (_span) { \
+            _span->addEvent((event_name), (attrs)); \
         } \
     } while (0)
 
@@ -182,9 +246,9 @@ void setCurrentTraceContext(std::shared_ptr<DistributedTraceContext> ctx);
  */
 #define TRACE_BAGGAGE(key, value) \
     do { \
-        auto _ctx = getCurrentTraceContext(); \
-        if (_ctx) { \
-            /* Baggage is added to the active span */ \
+        auto* _span = getCurrentSpan(); \
+        if (_span) { \
+            _span->addBaggage((key), (value)); \
         } \
     } while (0)
 
@@ -207,11 +271,11 @@ void setCurrentTraceContext(std::shared_ptr<DistributedTraceContext> ctx);
  * @param status SpanStatus enum value (Ok, Error, or Unset).
  * @param message Optional error message (used only if status == Error).
  */
-#define TRACE_SET_STATUS(status, message) \
+#define TRACE_SET_STATUS(status, ...) \
     do { \
-        auto _ctx = getCurrentTraceContext(); \
-        if (_ctx) { \
-            /* Span status is updated */ \
+        auto* _span = getCurrentSpan(); \
+        if (_span) { \
+            _span->setStatus((status), ##__VA_ARGS__); \
         } \
     } while (0)
 

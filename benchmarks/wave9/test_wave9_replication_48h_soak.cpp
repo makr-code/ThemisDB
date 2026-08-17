@@ -10,10 +10,13 @@
 
 #include <benchmark/benchmark.h>
 #include <chrono>
-#include <thread>
+#include <cstdlib>
+#include <iostream>
+#include <map>
 #include <random>
 #include <atomic>
-#include <map>
+#include <thread>
+#include <fmt/format.h>
 
 namespace themis::benchmarks::wave9 {
 

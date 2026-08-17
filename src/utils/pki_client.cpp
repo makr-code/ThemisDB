@@ -200,10 +200,12 @@ static int nid_for_algorithm(const std::string& alg, size_t& expected_len) {
 static int password_cb(char* buf, int size, int /*rwflag*/, void* u) {
     if (!buf || !u || size <= 0) return 0;
     auto* pass = static_cast<std::string*>(u);
-    int len = std::min<int>(static_cast<int>(pass->size()), size);
+    // Reserve one byte for the NUL terminator required by OpenSSL.
+    int len = std::min<int>(static_cast<int>(pass->size()), size - 1);
     if (len > 0) {
         std::memcpy(buf, pass->data(), static_cast<size_t>(len));
     }
+    buf[len] = '\0';
     return len;
 }
 
