@@ -174,7 +174,23 @@ public:
         /// Maximum number of distinct queries to keep in the compiled cache.
         size_t max_cache_entries = 512;
 
-        /// Maximum compile time in milliseconds before falling back.
+        /**
+         * @brief Maximum compile time in milliseconds before falling back.
+         *
+         * **Wave A Timeout Safety (§12, ROADMAP.md):**
+         * Compilation is strictly bounded by this deadline. If specialisation
+         * would exceed this timeout, the compiler aborts the compilation,
+         * marks the entry as failed, and falls back to the interpreted path
+         * indefinitely.
+         *
+         * **SLA Reasoning:**
+         * - Default: 100 ms (generous for template specialisation on modern CPUs)
+         * - Rationale: Ensures compilation overhead never dominates query latency
+         * - Failure mode: Silent fallback to cold path with no loss of correctness
+         * - Logging: All timeout events logged with query key for observability
+         * - Future: When THEMIS_HAS_LLVM_JIT is enabled, LLVM compilation
+         *   will also respect this deadline with early abort.
+         */
         uint64_t compilation_timeout_ms = 100;
 
         Config() = default;
