@@ -241,8 +241,8 @@ public:
 
     QueryCompiler(const QueryCompiler&)            = delete;
     QueryCompiler& operator=(const QueryCompiler&) = delete;
-    QueryCompiler(QueryCompiler&&)                 = default;
-    QueryCompiler& operator=(QueryCompiler&&)      = default;
+    QueryCompiler(QueryCompiler&&)                 noexcept = default;
+    QueryCompiler& operator=(QueryCompiler&&)      noexcept = default;
 
     // =========================================================================
     // Core API

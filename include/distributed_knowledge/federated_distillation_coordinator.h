@@ -292,7 +292,7 @@ public:
 
     FederatedDistillationCoordinator(const FederatedDistillationCoordinator&)            = delete;
     FederatedDistillationCoordinator& operator=(const FederatedDistillationCoordinator&) = delete;
-    FederatedDistillationCoordinator(FederatedDistillationCoordinator&&)                 = default;
+    FederatedDistillationCoordinator(FederatedDistillationCoordinator&&)                 noexcept = default;
     FederatedDistillationCoordinator& operator=(FederatedDistillationCoordinator&&)      noexcept;
 
     // ── IFederatedDistillationCoordinator ─────────────────────────────────────

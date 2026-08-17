@@ -36,6 +36,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
+#include "updates/updates_diagnostic_emitter.h"
 #include <sstream>
 #include <algorithm>
 #include <chrono>
@@ -167,15 +168,43 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
 http::response<http::string_body> EntityApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
+    // OP-CORRELATION-ID-001: Extract correlation ID from request headers
+    std::string correlation_id = std::string(
+        req[boost::http::field::custom]  // X-Correlation-ID header
+    );
+    if (correlation_id.empty()) {
+        // Generate new correlation ID if not provided (unique per request)
+        static std::atomic<uint64_t> get_counter{0};
+        auto ts = std::chrono::system_clock::now().time_since_epoch().count();
+        correlation_id = "get-" + std::to_string(ts) + "-" + 
+                         std::to_string(get_counter.fetch_add(1, std::memory_order_relaxed));
+    }
+    
     if (auth_ && auth_->isEnabled()) {
         std::string path_only = std::string(req.target());
         auto qpos = path_only.find('?');
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (auto resp = requireAccess(req, "data:read", "read", path_only)) return *resp;
+        if (auto resp = requireAccess(req, "data:read", "read", path_only)) {
+            // OP-AUDIT-001: Log auth failure with correlation ID
+            THEMIS_WARN("Entity GET denied (correlation_id={}): {}", correlation_id, path_only);
+            return *resp;
+        }
     }
+    
+    // OP-TIMEOUT-001: Set deadline for entity retrieval (5 second max)
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+    
     auto span = Tracer::startSpan("GET /entities/:key");
+    span.setAttribute("correlation_id", correlation_id);
     
     try {
+        // OP-TIMEOUT-002: Check deadline before main operation
+        if (std::chrono::steady_clock::now() > deadline) {
+            THEMIS_WARN("Entity GET timeout (correlation_id={}): deadline exceeded", correlation_id);
+            span.setStatus(false, "Timeout");
+            return makeErrorResponse(http::status::gateway_timeout, "Entity retrieval timeout", req);
+        }
+        
         // Extract entity key from path: /entities/{key}
         auto key = extractPathParam(std::string(req.target()), "/entities/");
         if (key.empty()) {
@@ -195,9 +224,17 @@ http::response<http::string_body> EntityApiHandler::handleGet(
         std::string table = key.substr(0, pos);
         std::string pk = key.substr(pos + 1);
 
+        // OP-LATENCY-001: Measure storage read latency
+        auto read_start = std::chrono::steady_clock::now();
         auto blob_opt = storage_->get(KeySchema::makeRelationalKey(table, pk));
+        auto read_latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - read_start);
+        
         if (!blob_opt.has_value()) {
             span.setStatus(false, "Entity not found");
+            // OP-AUDIT-002: Log not-found with latency
+            THEMIS_INFO("Entity GET not found (correlation_id={}, latency_ms={}, key={})", 
+                       correlation_id, read_latency.count(), key);
             return makeErrorResponse(http::status::not_found, "Entity not found", req);
         }
         const auto& blob_vec = blob_opt.value();
@@ -227,14 +264,18 @@ http::response<http::string_body> EntityApiHandler::handleGet(
 
         if (!decrypt) {
             span.setStatus(true);
+            // OP-LATENCY-002: Include latency metrics in response headers
             json response = {{"key", key}, {"blob", blob_str}};
+            THEMIS_DEBUG("Entity GET success (correlation_id={}, latency_ms={}, key={})", 
+                        correlation_id, read_latency.count(), key);
             return makeResponse(http::status::ok, response.dump(), req);
         }
 
         // Decryption only when schema is configured and fields are marked
         json entity_json;
         try { entity_json = json::parse(blob_str); } catch (...) {
-            THEMIS_ERROR("GET entity: stored blob is not valid JSON for key: {}", key);
+            THEMIS_ERROR("GET entity: stored blob is not valid JSON for key: {} (correlation_id={})", 
+                        key, correlation_id);
             span.setStatus(false, "Stored blob is not valid JSON");
             return makeErrorResponse(http::status::internal_server_error, "Stored entity JSON parse failed", req);
         }

@@ -55,7 +55,7 @@ public:
      */
     VulkanBuffer(VulkanContext* context, VkDeviceSize size, Usage usage);
     
-    ~VulkanBuffer();
+    ~VulkanBuffer() noexcept;
     
     // Disable copy, enable move
     VulkanBuffer(const VulkanBuffer&) = delete;

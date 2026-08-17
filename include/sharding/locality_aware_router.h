@@ -135,6 +135,50 @@ public:
     Statistics getStatistics() const;
     nlohmann::json getStatisticsJson() const;
     
+    /**
+     * @brief Record latency (RTT) measurement for a replica in a specific DC.
+     *
+     * Updates the RTT tracking for cross-datacenter routing decisions.
+     * Used by latency-aware routing to select the lowest-RTT replica.
+     *
+     * @param replica_id Replica node identifier.
+     * @param datacenter_id Requesting datacenter ID.
+     * @param rtt_ms Measured round-trip time in milliseconds.
+     */
+    void recordReplicaLatency(const std::string& replica_id,
+                             const std::string& datacenter_id,
+                             uint64_t rtt_ms);
+
+    /**
+     * @brief Select lowest-RTT replica for cross-datacenter read routing.
+     *
+     * For a given shard and requesting datacenter, returns the replica ID
+     * with the lowest measured RTT, or falls back to nearest replica on timeout.
+     *
+     * @param shard_id Shard to route to.
+     * @param requesting_datacenter_id Datacenter making the request.
+     * @param timeout_ms Fallback timeout; if all replicas exceeded timeout, use nearest.
+     * @return Replica ID with lowest RTT, or primary if all timed out.
+     */
+    std::string selectLowestRTTReplica(const std::string& shard_id,
+                                     const std::string& requesting_datacenter_id,
+                                     uint64_t timeout_ms = 1000);
+
+    /**
+     * @brief Compute deterministic multi-shard exact consistency under failure.
+     *
+     * Returns routing decisions for multi-shard queries that guarantee exact
+     * consistency semantics even when some shards fail. Uses quorum-based
+     * validation and deterministic fallback ordering.
+     *
+     * @param shard_ids Target shards for the query.
+     * @param consistency_level Required consistency (e.g., "strong", "eventual").
+     * @return Vector of shard IDs ordered by routing priority for exact consistency.
+     */
+    std::vector<std::string> computeMultiShardExactConsistency(
+        const std::vector<std::string>& shard_ids,
+        const std::string& consistency_level = "strong");
+
 private:
     std::string local_shard_id_;
     std::shared_ptr<ShardTopology> topology_;
@@ -145,6 +189,14 @@ private:
     std::map<std::string, std::set<std::string>> placement_cache_;
     mutable std::shared_mutex cache_mutex_;
     
+    // Latency tracking: replica_id -> (datacenter_id -> rtt_ms, timestamp)
+    struct LatencyRecord {
+        uint64_t rtt_ms = 0;
+        std::chrono::system_clock::time_point last_update;
+    };
+    std::map<std::string, std::map<std::string, LatencyRecord>> latency_records_;
+    mutable std::shared_mutex latency_mutex_;
+    
     // Bloom filter for space-efficient tracking (optional)
     // std::unique_ptr<BloomFilter> bloom_filter_;
     
@@ -153,9 +205,16 @@ private:
     
     // Scoring helpers
     float calculateLocalityScore(const std::string& shard_id,
-                                  const QuerySpec& spec) const;
+                                 const QuerySpec& spec) const;
     float calculateLoadScore(const std::string& shard_id) const;
     float calculateNetworkScore(const std::string& shard_id) const;
+    
+    // Latency helpers
+    uint64_t getReplicaLatency(const std::string& replica_id,
+                             const std::string& datacenter_id) const;
+    bool isLatencyStale(const std::string& replica_id,
+                       const std::string& datacenter_id,
+                       uint64_t max_age_ms) const;
     
     // Cache helpers
     std::string makeCacheKey(const std::string& collection,

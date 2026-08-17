@@ -123,8 +123,8 @@ public:
     // Non-copyable, moveable
     LLMResponseCache(const LLMResponseCache&) = delete;
     LLMResponseCache& operator=(const LLMResponseCache&) = delete;
-    LLMResponseCache(LLMResponseCache&&) = default;
-    LLMResponseCache& operator=(LLMResponseCache&&) = default;
+    LLMResponseCache(LLMResponseCache&&) noexcept = default;
+    LLMResponseCache& operator=(LLMResponseCache&&) noexcept = default;
 
     /**
      * @brief Cache an inference response

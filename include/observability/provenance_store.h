@@ -171,8 +171,8 @@ public:
     // Disable copy; move is allowed.
     RocksDBProvenanceStore(const RocksDBProvenanceStore&) = delete;
     RocksDBProvenanceStore& operator=(const RocksDBProvenanceStore&) = delete;
-    RocksDBProvenanceStore(RocksDBProvenanceStore&&)           = default;
-    RocksDBProvenanceStore& operator=(RocksDBProvenanceStore&&) = default;
+    RocksDBProvenanceStore(RocksDBProvenanceStore&&)           noexcept = default;
+    RocksDBProvenanceStore& operator=(RocksDBProvenanceStore&&) noexcept = default;
 
     // IProvenanceStore interface implementation
     [[nodiscard]] bool storeRecord(const std::string&                 query_id,

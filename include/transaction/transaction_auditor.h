@@ -118,8 +118,8 @@ public:
 
     TransactionAuditor(const TransactionAuditor&)            = delete;
     TransactionAuditor& operator=(const TransactionAuditor&) = delete;
-    TransactionAuditor(TransactionAuditor&&)                 = default;
-    TransactionAuditor& operator=(TransactionAuditor&&)      = default;
+    TransactionAuditor(TransactionAuditor&&)                 noexcept = default;
+    TransactionAuditor& operator=(TransactionAuditor&&)      noexcept = default;
 
     // ── Configuration ────────────────────────────────────────────────────────
 

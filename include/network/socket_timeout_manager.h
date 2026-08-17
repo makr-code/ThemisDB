@@ -134,8 +134,8 @@ public:
     // Non-copyable, movable
     SocketTimeoutManager(const SocketTimeoutManager&) = delete;
     SocketTimeoutManager& operator=(const SocketTimeoutManager&) = delete;
-    SocketTimeoutManager(SocketTimeoutManager&&) = default;
-    SocketTimeoutManager& operator=(SocketTimeoutManager&&) = default;
+    SocketTimeoutManager(SocketTimeoutManager&&) noexcept = default;
+    SocketTimeoutManager& operator=(SocketTimeoutManager&&) noexcept = default;
     
     /**
      * @brief Configure socket with timeouts

@@ -222,8 +222,8 @@ public:
     // Non-copyable, movable
     SecurityEvidenceCollector(const SecurityEvidenceCollector&) = delete;
     SecurityEvidenceCollector& operator=(const SecurityEvidenceCollector&) = delete;
-    SecurityEvidenceCollector(SecurityEvidenceCollector&&) = default;
-    SecurityEvidenceCollector& operator=(SecurityEvidenceCollector&&) = default;
+    SecurityEvidenceCollector(SecurityEvidenceCollector&&) noexcept = default;
+    SecurityEvidenceCollector& operator=(SecurityEvidenceCollector&&) noexcept = default;
 
     /**
      * @brief Collect all SOC 2 evidence for the given time window.

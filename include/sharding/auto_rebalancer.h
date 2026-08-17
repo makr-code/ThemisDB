@@ -372,10 +372,18 @@ private:
     std::atomic<uint64_t> split_proposals_total_{0};
     std::chrono::system_clock::time_point last_check_time_;
     
+    // Topology tracking for automatic rebalancing on node join/leave
+    std::vector<std::string> last_known_topology_;
+    std::atomic<uint64_t> topology_change_count_{0};
+    
     // Monitoring loop
     /** @brief Background monitoring loop driving periodic detection/execution. */
     void monitorLoop();
 
+    // Topology change handling
+    /** @brief Detect and handle automatic rebalancing for topology changes (node join/leave). */
+    void handleTopologyChange();
+    
     // Hot-shard split handling
     /** @brief Evaluate split policy proposals and dispatch eligible split operations. */
     void evaluateAndExecuteSplits();

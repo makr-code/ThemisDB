@@ -262,8 +262,8 @@ public:
     PreflightHealthChecker& operator=(const PreflightHealthChecker&) = delete;
 
     /// Movable.
-    PreflightHealthChecker(PreflightHealthChecker&&)            = default;
-    PreflightHealthChecker& operator=(PreflightHealthChecker&&) = default;
+    PreflightHealthChecker(PreflightHealthChecker&&)            noexcept = default;
+    PreflightHealthChecker& operator=(PreflightHealthChecker&&) noexcept = default;
 
     /**
      * @brief Register a health check.  Checks are run in registration order.

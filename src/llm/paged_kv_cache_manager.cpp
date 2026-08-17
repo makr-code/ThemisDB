@@ -28,7 +28,12 @@ PagedKVCacheManager::PagedKVCacheManager(const Config& config)
     initializeBlocks();
 }
 
-PagedKVCacheManager::~PagedKVCacheManager() = default;
+PagedKVCacheManager::~PagedKVCacheManager() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — default destruction of members
+    // (e.g. custom allocators, GPU handles) may throw. Wrap in try/catch to
+    // prevent std::terminate() during stack unwinding.
+    // Members are destroyed automatically after the try/catch block exits.
+}
 
 void PagedKVCacheManager::initializeBlocks() {
     blocks_.resize(config_.num_blocks);

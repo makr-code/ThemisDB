@@ -43,8 +43,12 @@ LlamaModelHandle::LlamaModelHandle(const std::string& model_path,
     spdlog::info("  Model type: {}", model_type());
 }
 
-LlamaModelHandle::~LlamaModelHandle() {
-    spdlog::debug("Destroying LlamaModelHandle");
+LlamaModelHandle::~LlamaModelHandle() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — spdlog::debug and the model_
+    // unique_ptr deleter (llama_free_model) may invoke hooks that throw.
+    try {
+        spdlog::debug("Destroying LlamaModelHandle");
+    } catch (...) {}
 }
 
 LlamaModelHandle::LlamaModelHandle(LlamaModelHandle&& other) noexcept
@@ -109,8 +113,12 @@ LlamaContextHandle::LlamaContextHandle(llama_model* model,
     spdlog::info("Context created with {} tokens capacity", params.n_ctx);
 }
 
-LlamaContextHandle::~LlamaContextHandle() {
-    spdlog::debug("Destroying LlamaContextHandle");
+LlamaContextHandle::~LlamaContextHandle() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — context_ deleter calls
+    // llama_free() which may throw via registered hooks.
+    try {
+        spdlog::debug("Destroying LlamaContextHandle");
+    } catch (...) {}
 }
 
 LlamaContextHandle::LlamaContextHandle(LlamaContextHandle&& other) noexcept
@@ -238,8 +246,12 @@ BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle(
     configureBackendSpecificFeatures();
 }
 
-BackendAwareLlamaModelHandle::~BackendAwareLlamaModelHandle() {
-    spdlog::debug("Destroying BackendAwareLlamaModelHandle");
+BackendAwareLlamaModelHandle::~BackendAwareLlamaModelHandle() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — model_ deleter, gpu_memory_manager_
+    // destructor, and spdlog call may all throw. Suppress to satisfy §[except.spec].
+    try {
+        spdlog::debug("Destroying BackendAwareLlamaModelHandle");
+    } catch (...) {}
 }
 
 BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle(

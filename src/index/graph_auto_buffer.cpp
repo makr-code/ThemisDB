@@ -41,9 +41,18 @@ GraphAutoBuffer::GraphAutoBuffer(PropertyGraphManager* graph,
     stats_.last_flush_time = std::chrono::steady_clock::now();
 }
 
-GraphAutoBuffer::~GraphAutoBuffer() {
+GraphAutoBuffer::~GraphAutoBuffer() noexcept {
+    // Gap: exception_in_destructor — wrap stop() to prevent exception propagation
     if (running_.load()) {
-        stop();
+        try {
+            stop();
+        } catch (const std::exception& e) {
+            // Destructor must never propagate exceptions; log and swallow
+            THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: exception during stop (ignored): {}",
+                         e.what());
+        } catch (...) {
+            THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: unknown exception during stop (ignored)");
+        }
     }
 }
 
@@ -263,8 +272,9 @@ size_t GraphAutoBuffer::flushBuffer(const std::string& graph_id, GraphBuffer& bu
     span.setAttribute("operations", static_cast<int64_t>(buffer.operations.size()));
     
     // Execute all operations
+    // Gap: RAII/variable-scope — declare count outside inner block so return value is valid
+    size_t count = 0;
     {
-        size_t count = 0;
         size_t nodes_flushed = 0;
         size_t edges_flushed = 0;
         

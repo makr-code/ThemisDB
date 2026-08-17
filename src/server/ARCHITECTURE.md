@@ -1,6 +1,6 @@
 # Architecture - Server Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-17 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -32,6 +32,15 @@ The server module composes gateway routing, middleware enforcement, endpoint dis
 - request rejection and overload behavior remain explicit through middleware and health signaling.
 - endpoint failures remain bounded to handler and response paths rather than widening into transport control.
 - protocol/session failures remain observable through server-owned runtime surfaces.
+
+## Retry, Timeout, and Graceful-Shutdown Patterns (Phase 5, Q3 2026)
+
+Phase 5 hardening delivered two runtime resilience patterns that are now part of the production architecture:
+
+- **P5-S01 Wire-protocol retry** — exponential-backoff retry with configurable `max_retries`, `base_delay`, global budget cap, and optional jitter. Retry eligibility is gated at the transport layer (kTransient only; kFatal/kInvalidArg fail-fast). Per-request retry-count tracking is thread-safe with explicit reset semantics. Evidence: 16 deterministic WSR tests in `tests/server/test_server_phase5_hardening.cpp`.
+- **P5-S02 HTTP timeout and graceful-shutdown drain** — per-request deadline enforcement (kTimedOut on deadline overrun); server lifecycle state machine (kRunning → kDraining → kStopped) with explicit in-flight drain before stop; idle-connection and keepalive-timeout recycling. Evidence: 12 deterministic HST tests in `tests/server/test_server_phase5_hardening.cpp`.
+
+These patterns are covered by 8 benchmark release gates SVR-01..SVR-08 in `benchmarks/server/bench_server_hotpaths.cpp`.
 
 ## Sourcecode Verification (Module: server/architecture)
 

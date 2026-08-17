@@ -114,8 +114,8 @@ public:
     // Non-copyable, movable
     ConfidentialComputing(const ConfidentialComputing&) = delete;
     ConfidentialComputing& operator=(const ConfidentialComputing&) = delete;
-    ConfidentialComputing(ConfidentialComputing&&) = default;
-    ConfidentialComputing& operator=(ConfidentialComputing&&) = default;
+    ConfidentialComputing(ConfidentialComputing&&) noexcept = default;
+    ConfidentialComputing& operator=(ConfidentialComputing&&) noexcept = default;
 
     /**
      * @brief Factory: detect the active TEE and return the appropriate

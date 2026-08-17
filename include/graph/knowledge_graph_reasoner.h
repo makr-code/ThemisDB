@@ -280,8 +280,8 @@ public:
     KnowledgeGraphReasoner(const KnowledgeGraphReasoner&) = delete;
     KnowledgeGraphReasoner& operator=(const KnowledgeGraphReasoner&) = delete;
 
-    KnowledgeGraphReasoner(KnowledgeGraphReasoner&&) = default;
-    KnowledgeGraphReasoner& operator=(KnowledgeGraphReasoner&&) = default;
+    KnowledgeGraphReasoner(KnowledgeGraphReasoner&&) noexcept = default;
+    KnowledgeGraphReasoner& operator=(KnowledgeGraphReasoner&&) noexcept = default;
 
     // ── Rule management ─────────────────────────────────────────────────────
 

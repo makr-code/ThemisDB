@@ -92,8 +92,8 @@ public:
     // Not copyable (synonym map can be large); movable
     QueryExpander(const QueryExpander&) = delete;
     QueryExpander& operator=(const QueryExpander&) = delete;
-    QueryExpander(QueryExpander&&) = default;
-    QueryExpander& operator=(QueryExpander&&) = default;
+    QueryExpander(QueryExpander&&) noexcept = default;
+    QueryExpander& operator=(QueryExpander&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // Dictionary management

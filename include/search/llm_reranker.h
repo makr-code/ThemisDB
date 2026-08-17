@@ -135,8 +135,8 @@ public:
 
     LlmReranker(const LlmReranker&) = delete;
     LlmReranker& operator=(const LlmReranker&) = delete;
-    LlmReranker(LlmReranker&&) = default;
-    LlmReranker& operator=(LlmReranker&&) = default;
+    LlmReranker(LlmReranker&&) noexcept = default;
+    LlmReranker& operator=(LlmReranker&&) noexcept = default;
 
     /**
      * @brief Replace the LLM backend at runtime (e.g. after model load).

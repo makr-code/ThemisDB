@@ -400,8 +400,8 @@ public:
 
     AdaptiveQueryCompiler(const AdaptiveQueryCompiler&)            = delete;
     AdaptiveQueryCompiler& operator=(const AdaptiveQueryCompiler&) = delete;
-    AdaptiveQueryCompiler(AdaptiveQueryCompiler&&)                 = default;
-    AdaptiveQueryCompiler& operator=(AdaptiveQueryCompiler&&)      = default;
+    AdaptiveQueryCompiler(AdaptiveQueryCompiler&&)                 noexcept = default;
+    AdaptiveQueryCompiler& operator=(AdaptiveQueryCompiler&&)      noexcept = default;
 
     // =========================================================================
     // Core API

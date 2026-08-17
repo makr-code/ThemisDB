@@ -150,8 +150,8 @@ public:
     // Non-copyable, moveable
     QueryCacheManager(const QueryCacheManager&) = delete;
     QueryCacheManager& operator=(const QueryCacheManager&) = delete;
-    QueryCacheManager(QueryCacheManager&&) = default;
-    QueryCacheManager& operator=(QueryCacheManager&&) = default;
+    QueryCacheManager(QueryCacheManager&&) noexcept = default;
+    QueryCacheManager& operator=(QueryCacheManager&&) noexcept = default;
     
     /**
      * @brief Retrieve cached query result

@@ -48,7 +48,7 @@ public:
     /**
      * @brief Destructor - cleanup llama.cpp resources
      */
-    ~LlamaTokenizer() override;
+    ~LlamaTokenizer() noexcept override;
     
     // Disable copy (llama.cpp resources are non-copyable)
     LlamaTokenizer(const LlamaTokenizer&) = delete;

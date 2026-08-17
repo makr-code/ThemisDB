@@ -773,11 +773,19 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                 if (!fa) return std::string();
-                std::vector<std::string> parts; parts.push_back(fa->field);
+                std::vector<std::string> parts;
+                parts.reserve(8);  // Typical nesting depth is 4-8 levels
+                parts.push_back(fa->field);
                 auto* cur = fa->object.get();
                 while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
                 auto* root = dynamic_cast<VariableExpr*>(cur); if (!root) return std::string();
-                rootVar = root->name; std::string col; for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; } return col;
+                rootVar = root->name;
+                std::ostringstream col_oss;
+                for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
+                    if (it != parts.rbegin()) col_oss << ".";
+                    col_oss << *it;
+                }
+                return col_oss.str();
             };
             auto literalToString = [&](const LiteralValue& value)->std::string{
                 return std::visit([](auto&& arg)->std::string{
@@ -848,6 +856,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::string retVar; if ((*parse_result)->return_node && (*parse_result)->return_node->expression) { if (auto* v = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get())) { retVar = v->name; } }
             if (retVar != var1 && retVar != var2) { joinSpan.setStatus(false, "return_not_supported_for_join"); span.setStatus(false, "JOIN currently supports RETURN of one bound variable (left or right)"); return makeErrorResponse(http::status::bad_request, "JOIN currently supports RETURN of one bound variable (left or right)", req); }
             std::vector<themis::BaseEntity> out;
+            // Reserve based on expected join cardinality (smaller input set)
+            out.reserve(std::min(leftVec.size(), rightVec.size()));
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
             if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
@@ -879,12 +889,19 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 if (!e) return std::nullopt;
                 if (auto* fa = dynamic_cast<FieldAccessExpr*>(e.get())) {
                     // Sammle Feldpfad und prüfe Root-Variable
-                    std::vector<std::string> parts; parts.push_back(fa->field);
+                    std::vector<std::string> parts;
+                    parts.reserve(8);  // Typical nesting depth is 4-8 levels
+                    parts.push_back(fa->field);
                     auto* cur = fa->object.get();
                     while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
                     auto* root = dynamic_cast<VariableExpr*>(cur);
                     if (!root || root->name != loopVar) return std::nullopt;
-                    std::string col; for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; }
+                    std::ostringstream col_oss;
+                    for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
+                        if (it != parts.rbegin()) col_oss << ".";
+                        col_oss << *it;
+                    }
+                    std::string col = col_oss.str();
                     return col;
                 }
                 if (auto* v = dynamic_cast<VariableExpr*>(e.get())) {
@@ -1624,6 +1641,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                             if (!fa) return std::string();
                             std::vector<std::string> parts;
+                            parts.reserve(8);  // Typical nesting depth is 4-8 levels
                             parts.push_back(fa->field);
                             auto* cur = fa->object.get();
                             while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) {
@@ -1633,9 +1651,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto* root = dynamic_cast<VariableExpr*>(cur);
                             if (!root) return std::string();
                             rootVar = root->name;
-                            std::string col;
-                            for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; }
-                            return col;
+                            std::ostringstream col_oss;
+                            for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
+                                if (it != parts.rbegin()) col_oss << ".";
+                                col_oss << *it;
+                            }
+                            return col_oss.str();
                         };
                         auto literalToString = [&](const LiteralValue& value)->std::string{
                             return std::visit([](auto&& arg)->std::string{
@@ -2306,6 +2327,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 
                                 // Extract field path
                                 std::vector<std::string> parts;
+                                parts.reserve(8);  // Typical nesting depth is 4-8 levels
                                 parts.push_back(fa->field);
                                 auto* cur = fa->object.get();
                                 while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) {
@@ -2316,11 +2338,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 // Verify it's rooted at the FOR variable
                                 if (auto* rootVar = dynamic_cast<VariableExpr*>(cur)) {
                                     if (rootVar->name == first_for_node.variable) {
-                                        std::string col;
+                                        std::ostringstream col_oss;
                                         for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                                            if (!col.empty()) col += ".";
-                                            col += *it;
+                                            if (it != parts.rbegin()) col_oss << ".";
+                                            col_oss << *it;
                                         }
+                                        std::string col = col_oss.str();
                                         
                                         // Convert literal to string
                                         auto litToString = [](const LiteralValue& value)->std::string {
@@ -2814,6 +2837,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                 if (!fa) return std::string();
                 std::vector<std::string> parts;
+                parts.reserve(8);  // Typical nesting depth is 4-8 levels
                 parts.push_back(fa->field);
                 auto* cur = fa->object.get();
                 while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) {
@@ -2821,12 +2845,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     cur = fa2->object.get();
                 }
                 // Root erwartet Variable; deren Name wird ignoriert
-                std::string col;
+                std::ostringstream col_oss;
                 for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
-                    if (!col.empty()) col += ".";
-                    col += *it;
+                    if (it != parts.rbegin()) col_oss << ".";
+                    col_oss << *it;
                 }
-                return col;
+                return col_oss.str();
             };
 
             // MVP: Unterst�tze 0..1 Group-Variablen
@@ -2946,13 +2970,19 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         std::function<std::optional<std::string>(const std::shared_ptr<Expression>&, bool&)> extractColFromFA;
         extractColFromFA = [&](const std::shared_ptr<Expression>& expr, bool& rootedAtLoop)->std::optional<std::string> {
             auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get()); if (!fa) return std::nullopt;
-            std::vector<std::string> parts; parts.push_back(fa->field);
+            std::vector<std::string> parts;
+            parts.reserve(8);  // Typical nesting depth is 4-8 levels
+            parts.push_back(fa->field);
             auto* cur = fa->object.get();
             while (auto* fa2 = dynamic_cast<FieldAccessExpr*>(cur)) { parts.push_back(fa2->field); cur = fa2->object.get(); }
             if (auto* rootVarExpr = dynamic_cast<VariableExpr*>(cur)) { rootedAtLoop = (rootVarExpr->name == loopVar); }
             else { rootedAtLoop = false; }
-            std::string col; for (auto it = parts.rbegin(); it != parts.rend(); ++it) { if (!col.empty()) col += "."; col += *it; }
-            return col;
+            std::ostringstream col_oss;
+            for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
+                if (it != parts.rbegin()) col_oss << ".";
+                col_oss << *it;
+            }
+            return col_oss.str();
         };
 
         // Detect if RETURN/LET expressions reference FULLTEXT_SCORE()

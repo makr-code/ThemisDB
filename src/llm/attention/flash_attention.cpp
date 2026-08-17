@@ -268,7 +268,18 @@ FlashAttention::FlashAttention(Backend backend, const FlashAttentionConfig& conf
     }
 }
 
-FlashAttention::~FlashAttention() = default;
+FlashAttention::~FlashAttention() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — pImpl destructor (Impl::~Impl)
+    // calls shutdown/cleanup which may throw. Reset inside try/catch to guarantee
+    // noexcept behaviour required by §[except.spec].
+    try {
+        impl_.reset();
+    } catch (const std::exception& e) {
+        spdlog::error("FlashAttention::~FlashAttention: exception during cleanup (suppressed): {}", e.what());
+    } catch (...) {
+        spdlog::error("FlashAttention::~FlashAttention: unknown exception during cleanup (suppressed)");
+    }
+}
 
 Status FlashAttention::forward(
     const Tensor& Q,

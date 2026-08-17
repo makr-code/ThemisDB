@@ -62,8 +62,8 @@ public:
     // Disable copy, allow move
     LoRAMetadataCache(const LoRAMetadataCache&) = delete;
     LoRAMetadataCache& operator=(const LoRAMetadataCache&) = delete;
-    LoRAMetadataCache(LoRAMetadataCache&&) = default;
-    LoRAMetadataCache& operator=(LoRAMetadataCache&&) = default;
+    LoRAMetadataCache(LoRAMetadataCache&&) noexcept = default;
+    LoRAMetadataCache& operator=(LoRAMetadataCache&&) noexcept = default;
     
     /**
      * @brief Store LoRA metadata

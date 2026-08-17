@@ -201,8 +201,8 @@ public:
     // Non-copyable, movable
     TNSRTask(const TNSRTask&) = delete;
     TNSRTask& operator=(const TNSRTask&) = delete;
-    TNSRTask(TNSRTask&&) = default;
-    TNSRTask& operator=(TNSRTask&&) = default;
+    TNSRTask(TNSRTask&&) noexcept = default;
+    TNSRTask& operator=(TNSRTask&&) noexcept = default;
 
     /**
      * @brief Run TNSR on a set of storage keys.

@@ -315,8 +315,8 @@ public:
     // Non-copyable; movable.
     SchemaRegistryClient(const SchemaRegistryClient&) = delete;
     SchemaRegistryClient& operator=(const SchemaRegistryClient&) = delete;
-    SchemaRegistryClient(SchemaRegistryClient&&)            = default;
-    SchemaRegistryClient& operator=(SchemaRegistryClient&&) = default;
+    SchemaRegistryClient(SchemaRegistryClient&&)            noexcept = default;
+    SchemaRegistryClient& operator=(SchemaRegistryClient&&) noexcept = default;
 
     /**
      * @brief Register a schema if not yet registered and return its ID.

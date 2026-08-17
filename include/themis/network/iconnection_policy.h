@@ -180,8 +180,8 @@ public:
 
 protected:
     IConnectionPolicy() = default;
-    IConnectionPolicy(IConnectionPolicy&&) = default;
-    IConnectionPolicy& operator=(IConnectionPolicy&&) = default;
+    IConnectionPolicy(IConnectionPolicy&&) noexcept = default;
+    IConnectionPolicy& operator=(IConnectionPolicy&&) noexcept = default;
 };
 
 } // namespace network

@@ -3,9 +3,45 @@
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-08-07  
-**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; Section 9 human sign-off required for final promotion
-**Owner:** platform-release@themisdb  
+**Last Updated:** 2026-08-17  
+**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; **Wave D D4-00 Build Verification in progress** (2026-08-17); Section 9 human sign-off required for final promotion
+**Owner:** platform-release@themisdb
+
+---
+
+## Wave D D4-00 — Build Verification & Test Execution Status (2026-08-17 Update)
+
+### Current Status: 🟡 STAGED FOR BUILD & TEST EXECUTION
+
+**Code Changes Complete:** ✅
+- property_graph.cpp compilation issue: FIXED (missing closing brace at line 1278)
+- gpu_vector_index.cpp Impl class scoping: VERIFIED CORRECT (no changes needed)
+- All code committed to PR #5962, branch `copilot/implement-real-sourcecode-to-close-gaps`
+
+**Build Environment Status:** 🟡 AWAITING SETUP
+- CMake preset `community-release-allow-missing-rocksdb` verified in CMakePresets.json ✅
+- Dependencies verified: OpenSSL 3.0.13 ✅, ZLIB 1.3 ✅, spdlog ✅, boost ✅
+- fmt library: Requires installation (See `ai_working/WAVE_D_D4_00_BUILD_ENVIRONMENT_STATUS.md` for 3 installation options)
+- RocksDB: Gracefully degraded with preset flag ✅
+
+**Test Targets Ready:** ✅
+- 155+ release_critical test targets identified in CMakeLists.txt
+- Tests organized by module: Transaction (35), Sharding (96), Replication (24)
+- Test labels properly configured: `release_critical`, `transaction_p2_p3`, `sharding_p6`, `replication_p4_p5`
+
+**Next Actions (Priority Order):**
+1. Resolve fmt library installation (Option: Docker/apt-get/vcpkg bootstrap)
+2. CMake configuration: `cmake --preset community-release-allow-missing-rocksdb`
+3. Build execution: `cmake --build --preset community-release-allow-missing-rocksdb --parallel 16`
+4. Test execution: `ctest --preset community-release -L release_critical --output-on-failure -j 4`
+5. Collect evidence and update this document
+
+**Estimated Time to Completion:** 3.5–4.5 hours from build environment ready
+
+**Evidence Artifacts Created (Ready for integration):**
+- `ai_working/WAVE_D_D4_00_CONTINUATION_REPORT.md` — Comprehensive build plan
+- `ai_working/WAVE_D_SESSION_SUMMARY.md` — Executive summary
+- `ai_working/WAVE_D_D4_00_BUILD_ENVIRONMENT_STATUS.md` — Build environment analysis and resolution options  
 
 ---
 

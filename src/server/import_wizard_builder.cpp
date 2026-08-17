@@ -25,6 +25,11 @@ std::string buildImportWizardHtml() {
     //   GET  /api/v1/import/jobs
     // No external CDN dependencies – all assets are embedded here so the
     // wizard works in air-gapped environments.
+    
+    // HIGH-GAP FIX: hardcoded_path — use injected API base for configurability
+    // The JavaScript below will use this variable instead of hardcoded paths
+    constexpr std::string_view kApiBaseDefault = "/api/v1/import";
+    
     std::string html;
         // Large single-pass builder with many concatenations: reserve generously
         // to reduce repeated reallocations/copies during assembly.

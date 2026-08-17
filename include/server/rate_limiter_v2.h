@@ -276,6 +276,36 @@ public:
      */
     void reset();
 
+    /**
+     * @brief OP-HEALTH-001: Check if rate limiter is healthy and operational.
+     * 
+     * Returns true if the rate limiter can process requests without degradation:
+     * - Local backend: always true (cannot fail)
+     * - Redis backend: true if Redis is reachable and responding
+     * 
+     * @return true if healthy; false if degraded
+     * @note Thread-safe atomic read
+     * @note Operational observability; informs /health probes
+     */
+    bool isHealthy() const;
+
+    /**
+     * @brief OP-HEALTH-002: Get detailed health status as JSON (readiness probe).
+     * 
+     * Returns operational metrics suitable for /health/{module} endpoint:
+     * - status: "healthy" or "unhealthy"
+     * - total_requests: cumulative request count
+     * - total_rejections: cumulative rejection count
+     * - backend: "redis" or "local"
+     * - redis_healthy: Redis backend status
+     * - timeout_count: deadlines exceeded
+     * 
+     * @return JSON string with health metrics
+     * @note Thread-safe; uses atomic reads
+     * @note Suitable for Prometheus scraping or health endpoint
+     */
+    std::string getHealthStatus() const;
+
 private:
     struct Bucket {
         std::atomic<size_t> tokens;
@@ -334,6 +364,13 @@ private:
     std::unordered_map<Priority, std::unique_ptr<Bucket>> buckets_;
     std::atomic<uint64_t> total_requests_{0};
     std::atomic<uint64_t> total_rejections_{0};
+    
+    // OP-TIMEOUT-001: Track deadlines exceeded (fail-safe timeouts)
+    std::atomic<uint64_t> timeout_count_{0};
+    
+    // OP-LATENCY-001/002: Track latency metrics (thread-safe atomic counters)
+    std::atomic<uint64_t> latency_redis_sum_{0};    // Redis path latency count
+    std::atomic<uint64_t> latency_local_sum_{0};    // Local path latency count
 
 #ifdef THEMIS_ENABLE_REDIS
     // F-008: Connection pool — one mutex/cv guards the pool of redisContext* slots.

@@ -242,3 +242,115 @@ json RouteRegistry::buildOpenApiSpec(const std::string& api_version) const {
 
 } // namespace server
 } // namespace themis
+
+// ── Phase 3 Schema-Governance: Drift Detection ────────────────────────────────
+
+#include <sstream>
+#include <functional>
+#include <unordered_map>
+
+namespace themis {
+namespace server {
+
+namespace {
+
+/// Build a canonical string key for a route entry: "METHOD /path".
+inline std::string routeKey(const RouteEntry& e) {
+    return e.method + " " + e.path;
+}
+
+/// Produce a deterministic hash of a route entry's operation metadata.
+/// Uses a simple FNV-1a hash over the serialised fields to avoid heavy
+/// JSON dependency in the hot registration path.
+inline std::size_t hashRouteOperation(const RouteEntry& e) {
+    // Include path, method, operationId, summary, deprecated flag.
+    std::string canonical = e.path + "|" + e.method
+        + "|" + e.operation.operationId
+        + "|" + e.operation.summary
+        + "|" + (e.operation.deprecated ? "1" : "0");
+    return std::hash<std::string>{}(canonical);
+}
+
+/// Parse a snapshot string (produced by captureSpecSnapshot) back into a
+/// map of routeKey → operation hash.
+std::unordered_map<std::string, std::size_t>
+parseSnapshot(const std::string& snapshot) {
+    std::unordered_map<std::string, std::size_t> result;
+    if (snapshot.empty()) { return result; }
+
+    std::istringstream ss(snapshot);
+    std::string line;
+    while (std::getline(ss, line)) {
+        auto sep = line.rfind('\t');
+        if (sep == std::string::npos) { continue; }
+        std::string key  = line.substr(0, sep);
+        std::string hstr = line.substr(sep + 1);
+        try {
+            result.emplace(std::move(key), static_cast<std::size_t>(std::stoull(hstr)));
+        } catch (...) {
+            // Malformed line: skip silently (caller can treat missing key as drift)
+        }
+    }
+    return result;
+}
+
+} // anonymous namespace
+
+std::string RouteRegistry::captureSpecSnapshot() const {
+    std::shared_lock<std::shared_mutex> lk(mutex_);
+    // Build a line-per-route text: "METHOD /path\t<hash>\n"
+    // Sorted for determinism regardless of insertion order.
+    std::vector<std::string> lines;
+    lines.reserve(entries_.size());
+    for (const auto& e : entries_) {
+        lines.push_back(routeKey(e) + "\t"
+                        + std::to_string(hashRouteOperation(e)));
+    }
+    std::sort(lines.begin(), lines.end());
+    std::string result;
+    result.reserve(lines.size() * 64);
+    for (const auto& l : lines) { result += l + "\n"; }
+    return result;
+}
+
+RouteRegistry::DriftReport
+RouteRegistry::detectDrift(const std::string& baseline_snapshot) const {
+    // Parse baseline into key → hash map
+    auto baseline = parseSnapshot(baseline_snapshot);
+
+    // Capture current state (under lock)
+    std::unordered_map<std::string, std::size_t> current;
+    {
+        std::shared_lock<std::shared_mutex> lk(mutex_);
+        current.reserve(entries_.size());
+        for (const auto& e : entries_) {
+            current.emplace(routeKey(e), hashRouteOperation(e));
+        }
+    }
+
+    DriftReport report;
+    // Added: in current but not in baseline
+    for (const auto& [key, hash] : current) {
+        if (baseline.find(key) == baseline.end()) {
+            report.added.push_back(key);
+        }
+    }
+    // Removed / Changed: in baseline but not in current, or hash changed
+    for (const auto& [key, base_hash] : baseline) {
+        auto it = current.find(key);
+        if (it == current.end()) {
+            report.removed.push_back(key);
+        } else if (it->second != base_hash) {
+            report.changed.push_back(key);
+        }
+    }
+
+    // Sort each list for deterministic ordering
+    std::sort(report.added.begin(), report.added.end());
+    std::sort(report.removed.begin(), report.removed.end());
+    std::sort(report.changed.begin(), report.changed.end());
+    return report;
+}
+
+} // namespace server
+} // namespace themis

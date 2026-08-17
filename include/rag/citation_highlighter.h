@@ -145,8 +145,8 @@ public:
     // Non-copyable, movable
     CitationHighlighter(const CitationHighlighter&)            = delete;
     CitationHighlighter& operator=(const CitationHighlighter&) = delete;
-    CitationHighlighter(CitationHighlighter&&)                 = default;
-    CitationHighlighter& operator=(CitationHighlighter&&)      = default;
+    CitationHighlighter(CitationHighlighter&&)                 noexcept = default;
+    CitationHighlighter& operator=(CitationHighlighter&&)      noexcept = default;
 
     /**
      * @brief Map every sentence in @p answer to the best-matching source chunk

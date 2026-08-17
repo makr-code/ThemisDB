@@ -207,8 +207,8 @@ public:
 
     CompiledPromptTemplate(const CompiledPromptTemplate&)            = default;
     CompiledPromptTemplate& operator=(const CompiledPromptTemplate&) = default;
-    CompiledPromptTemplate(CompiledPromptTemplate&&)                 = default;
-    CompiledPromptTemplate& operator=(CompiledPromptTemplate&&)      = default;
+    CompiledPromptTemplate(CompiledPromptTemplate&&)                 noexcept = default;
+    CompiledPromptTemplate& operator=(CompiledPromptTemplate&&)      noexcept = default;
 
     // IPromptTemplate ----------------------------------------------------------
 

@@ -255,8 +255,8 @@ public:
     // Non-copyable, movable
     EthicsSelectionRouter(const EthicsSelectionRouter&)            = delete;
     EthicsSelectionRouter& operator=(const EthicsSelectionRouter&) = delete;
-    EthicsSelectionRouter(EthicsSelectionRouter&&)                 = default;
-    EthicsSelectionRouter& operator=(EthicsSelectionRouter&&)      = default;
+    EthicsSelectionRouter(EthicsSelectionRouter&&)                 noexcept = default;
+    EthicsSelectionRouter& operator=(EthicsSelectionRouter&&)      noexcept = default;
 
     /**
      * @brief Build a DiscourseOrchestratorPlan from the currently loaded school set.

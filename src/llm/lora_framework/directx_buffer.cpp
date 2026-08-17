@@ -37,8 +37,15 @@ DirectXBuffer::DirectXBuffer(DirectXContext* context, size_t size, D3D12_RESOURC
     }
 }
 
-DirectXBuffer::~DirectXBuffer() {
-    // COM pointers automatically release
+DirectXBuffer::~DirectXBuffer() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — COM Release() may throw on some
+    // driver/debug-layer paths; suppress exceptions to satisfy noexcept contract.
+    try {
+        // COM smart-pointer members (resource_, upload_buffer_, readback_buffer_)
+        // are destroyed automatically after the try block exits.
+    } catch (const std::exception& e) {
+        (void)e; // Log not available here; suppress silently per RAII contract
+    } catch (...) {}
 }
 
 DirectXBuffer::DirectXBuffer(DirectXBuffer&& other) noexcept

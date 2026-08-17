@@ -480,6 +480,11 @@ struct HoltWintersParams {
     int m;                 ///< seasonal period
     bool multiplicative;
     double residual_stddev;
+
+    // Phase 2 A-2 Fix-C4 (missing_dtor): explicit default destructor.
+    // std::vector<double> S is RAII-managed; this declaration documents that
+    // the destructor was audited and intentionally defaulted.
+    ~HoltWintersParams() = default;
 };
 
 HoltWintersParams fitHoltWinters(const std::vector<double> &y, double alpha, double beta, double gamma, int m,

@@ -129,8 +129,8 @@ public:
     // Non-copyable, movable
     ReplicationPolicy(const ReplicationPolicy&)            = delete;
     ReplicationPolicy& operator=(const ReplicationPolicy&) = delete;
-    ReplicationPolicy(ReplicationPolicy&&)                 = default;
-    ReplicationPolicy& operator=(ReplicationPolicy&&)      = default;
+    ReplicationPolicy(ReplicationPolicy&&)                 noexcept = default;
+    ReplicationPolicy& operator=(ReplicationPolicy&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Policy management

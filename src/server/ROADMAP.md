@@ -31,12 +31,10 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - Token revocation (JTI blacklist) support
   - Fail-closed rejection on any validation failure
   - Comprehensive test coverage for all validation scenarios
-
-## In Progress
-- [~] P0 security/code-quality remediation wave for server paths (Target: Q2 2026)
+- [x] P0 security/code-quality remediation wave for server paths (Completed Q3 2026)
   - Status: 2,172 verified gaps identified and categorized (2026-06-25); 654 actionable (Critical + High severity)
-  - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
-  - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)
+  - [x] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths — Phase 1 Security/Auth Hardening complete; all scanner-confirmed high-severity auth/logging findings closed with SCH-01..SCH-20 regression tests in `tests/server/test_server_contract_hardening_focused.cpp` (Target: Q2 2026 → Completed Q3 2026)
+  - [x] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green — `include/server/server_api_contract.h` §2 Auth Gate Contract frozen; all 12+ error classes with fail-closed semantics; SCH-01..SCH-20 all pass (Target: Q2 2026 → Completed Q3 2026)
 - [x] Phase 5-S kickoff: wire-protocol retry/idempotency hardening batch (Target: Q3 2026 → delivered Q3 2026)
   - [x] Idempotency cache lookup now serves thread-local snapshots and `lookupSnapshot()` exposes by-value reads without exposing unlocked internal storage
   - [x] Zero-window idempotency configuration fails safe by disabling retention rather than growing unbounded state
@@ -97,12 +95,16 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [x] Close remaining scanner-confirmed high-severity auth/logging findings with regression tests — `include/server/server_api_contract.h` documents all 12+ error classes and fail-closed semantics; SCH-01..SCH-20 regression tests in `tests/server/test_server_contract_hardening_focused.cpp` (Target: Q2 2026)
 
 ### Phase 2: Protocol and Gateway Hardening
-- [ ] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)
-- [ ] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)
+- [~] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)
+  — SH3-01..SH3-12 in `tests/server/test_server_http3_stress_focused.cpp`; benchmarks SVR-H3-01..SVR-H3-02 in `benchmarks/server/bench_server_http3_gates.cpp`
+- [~] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)
+  — SGR-01..SGR-12 in `tests/server/test_server_gateway_resilience_focused.cpp`
 
 ### Phase 3: Validation and Contract Governance
-- [ ] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)
-- [ ] Add stricter backward-compat checks for gRPC and REST versioning contracts (Target: Q4 2026)
+- [~] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)
+  — `captureSpecSnapshot()` + `detectDrift()` + `DriftReport` in `include/server/openapi_route_registry.h`; SOD-01..SOD-08 in `tests/server/test_server_openapi_drift_focused.cpp`
+- [~] Add stricter backward-compat checks for gRPC and REST versioning contracts (Target: Q4 2026)
+  — `CompatPolicy` + `CompatChecker` + `SchemaFieldDescriptor` in `include/server/api_version.h`; SCC-01..SCC-07 in `tests/server/test_server_compat_contract_focused.cpp`
 
 ### Phase 4: Tests and Reliability Gates
 - [x] Expand integration and soak coverage for mixed protocol traffic (HTTP/gRPC/WebSocket/MQTT) — 20 deterministic GTest cases SCH-01..SCH-20 in `tests/server/test_server_contract_hardening_focused.cpp` covering auth, retry, timeout, rate-limit, and protocol contracts (Target: Q4 2026)
@@ -182,11 +184,22 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [x] Ensure completed roadmap items are moved only to CHANGELOG and not retained in roadmap history blocks — server ROADMAP Phase 1, Phase 4, Phase 5 checkboxes updated with evidence references (Target: ongoing)
 
 ## Production Readiness Checklist
-- Status: Tracking in progress (last validated 2026-07-29)
+- Status: Tracking in progress (last validated 2026-08-17)
 - Nachweise: Integration tests, focused protocol tests, and security regression suites
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 - Validation Summary: Issue #5622 module evidence validation complete; 9 test cases (100% pass rate) in module_server_test_server_activation_profile_focused
 - [x] API contracts frozen and documented for all HTTP/gRPC/WebSocket/MQTT entry points — `include/server/server_api_contract.h`
+- [x] Phase 1 Security/Auth Hardening complete — frozen API contract (`include/server/server_api_contract.h` §2 Auth Gate Contract, §6 Error Taxonomy, §8 Threading Guarantees); all 12+ error classes documented with fail-closed semantics
+- [x] SCH-01..SCH-20 regression test suite passing — `tests/server/test_server_contract_hardening_focused.cpp`; covers auth, retry, timeout, rate-limit, and protocol contracts
+- [x] Phase 4 contract hardening test suite complete — 20 deterministic GTest cases (auth, retry, timeout, rate-limit, protocol fault injection) in `tests/server/test_server_contract_hardening_focused.cpp`
+- [x] Phase 5 wire-protocol retry complete (P5-S01) — exponential-backoff retry with configurable budget/jitter; 16 WSR tests pass in `tests/server/test_server_phase5_hardening.cpp`
+- [x] Phase 5 HTTP timeout and graceful-shutdown complete (P5-S02) — deadline enforcement, kRunning→kDraining→kStopped drain semantics; 12 HST tests pass in `tests/server/test_server_phase5_hardening.cpp`
+- [x] 39 focused SRV-01..SRV-39 tests complete and registered as `release_critical;server;phase1`
+- [x] 8 benchmark release gates SVR-01..SVR-08 delivered — `benchmarks/server/bench_server_hotpaths.cpp`; Wave-7 latency baselines (read p99≤200µs, write≥80k ops/s) hold with no regressions from retry/timeout logic
+- [x] Voice API Bearer-Token JWT/OIDC validation complete — JWT signature, expiry, issuer, audience, and JTI revocation; fail-closed on any validation failure
+- [x] GA evidence bundling and sign-off complete (Batch C) — retry/timeout/shutdown release-critical paths documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`
+- [x] Phase 6 documentation aligned — `include/server/server_api_contract.h` freezes all handler registration, auth gate, retry/timeout/backpressure, error taxonomy, lifecycle/ownership, and threading contracts
+- [x] noexcept build-blocker cleanup complete (2026-08-17) — A-5 ThreadSanitizer cleanup pass resolved all remaining noexcept-related build blockers
 
 ## Known Issues and Limitations
 - Plugin-based adapter loading still requires roadmap delivery.

@@ -136,8 +136,8 @@ public:
 
     IntelligentPrefetcher(const IntelligentPrefetcher&)            = delete;
     IntelligentPrefetcher& operator=(const IntelligentPrefetcher&) = delete;
-    IntelligentPrefetcher(IntelligentPrefetcher&&)                 = default;
-    IntelligentPrefetcher& operator=(IntelligentPrefetcher&&)      = default;
+    IntelligentPrefetcher(IntelligentPrefetcher&&)                 noexcept = default;
+    IntelligentPrefetcher& operator=(IntelligentPrefetcher&&)      noexcept = default;
 
     // =========================================================================
     // Core API

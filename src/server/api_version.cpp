@@ -329,3 +329,94 @@ std::optional<BreakingChangeInfo> APIVersionManager::isBreakingChange(
 }
 
 } // namespace themis::server
+
+// ── Phase 3 Schema-Governance: CompatChecker ─────────────────────────────────
+
+namespace themis::server {
+
+namespace {
+
+/// Determine whether @p new_type is a narrowing of @p old_type.
+/// Narrowing means the new type can represent fewer values than the old type
+/// (e.g. int64 → int32 is narrowing; int32 → int64 is widening).
+bool isTypeNarrowing(const std::string& old_type, const std::string& new_type) {
+    if (old_type == new_type) { return false; }
+    // Well-known narrowing pairs
+    static const std::vector<std::pair<std::string,std::string>> kNarrowing = {
+        {"int64",  "int32"},
+        {"int64",  "uint32"},
+        {"int64",  "int16"},
+        {"int32",  "int16"},
+        {"uint64", "uint32"},
+        {"uint32", "uint16"},
+        {"double", "float"},
+        {"string", "bytes"},  // Semantic narrowing: less general encoding
+        {"bytes",  "string"},
+    };
+    for (const auto& [wide, narrow] : kNarrowing) {
+        if (old_type == wide && new_type == narrow) { return true; }
+    }
+    return false;
+}
+
+} // anonymous namespace
+
+CompatCheckResult CompatChecker::validate(
+    const SchemaFieldDescriptor& old_field,
+    const SchemaFieldDescriptor& updated_field,
+    const CompatPolicy&          policy) const noexcept
+{
+    // 1. Field rename check
+    if (old_field.name != updated_field.name && !policy.allow_field_rename) {
+        return {false,
+                "Field rename not allowed by CompatPolicy: '"
+                + old_field.name + "' → '" + updated_field.name + "'"};
+    }
+
+    // 2. Type narrowing check
+    if (isTypeNarrowing(old_field.type, updated_field.type)
+        && !policy.allow_type_narrowing) {
+        return {false,
+                "Type narrowing not allowed by CompatPolicy: '"
+                + old_field.name + "' " + old_field.type
+                + " → " + updated_field.type};
+    }
+
+    // 3. Optional → required is a breaking change (unconditional: not covered
+    //    by any CompatPolicy flag because it always breaks existing senders)
+    if (!old_field.required && updated_field.required) {
+        return {false,
+                "Making an optional field required is always a breaking change: '"
+                + updated_field.name + "'"};
+    }
+
+    return {true, ""};
+}
+
+CompatCheckResult CompatChecker::validateRemoval(
+    const SchemaFieldDescriptor& removed_field,
+    const CompatPolicy&          policy) const noexcept
+{
+    if (!policy.allow_field_removal) {
+        return {false,
+                "Field removal not allowed by CompatPolicy: '"
+                + removed_field.name + "' (type=" + removed_field.type + ")"};
+    }
+    return {true, ""};
+}
+
+CompatCheckResult CompatChecker::validateEndpointRename(
+    const std::string& old_path,
+    const std::string& new_path,
+    const CompatPolicy& policy) const noexcept
+{
+    if (old_path == new_path) { return {true, ""}; }
+    if (!policy.allow_path_rename) {
+        return {false,
+                "Endpoint path rename not allowed by CompatPolicy: '"
+                + old_path + "' → '" + new_path + "'"};
+    }
+    return {true, ""};
+}
+
+} // namespace themis::server

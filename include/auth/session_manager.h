@@ -113,8 +113,8 @@ public:
     // Non-copyable, movable
     SessionManager(const SessionManager&) = delete;
     SessionManager& operator=(const SessionManager&) = delete;
-    SessionManager(SessionManager&&) = default;
-    SessionManager& operator=(SessionManager&&) = default;
+    SessionManager(SessionManager&&) noexcept = default;
+    SessionManager& operator=(SessionManager&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // Lifecycle operations

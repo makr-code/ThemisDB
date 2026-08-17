@@ -2043,6 +2043,8 @@ set(THEMIS_CORE_SOURCES
     ../src/index/multi_vector_search.cpp
     ../src/index/distributed_vector_index.cpp
     ../src/index/tiered_index_manager.cpp
+    ../src/index/partition_manager.cpp
+    ../src/index/vector_index_manager_safety.cpp
     ../src/index/vector_auto_buffer.cpp
     ../src/index/gpu_memory_oversubscription.cpp
     ../src/index/index_compression.cpp
@@ -2087,7 +2089,9 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/distributed_saga.cpp
+    ../src/transaction/distributed_transaction_manager.cpp
     ../src/transaction/saga_orchestrator.cpp
+    ../src/transaction/compensation_log.cpp
     ../src/transaction/saga_plugin_bridge.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp

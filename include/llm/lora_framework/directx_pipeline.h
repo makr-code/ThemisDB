@@ -47,7 +47,7 @@ public:
                     uint32_t num_uavs = 1,
                     uint32_t num_srvs = 2);
     
-    ~DirectXPipeline();
+    ~DirectXPipeline() noexcept;
     
     // Disable copy, allow move
     DirectXPipeline(const DirectXPipeline&) = delete;

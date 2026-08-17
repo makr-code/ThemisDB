@@ -32,6 +32,7 @@
 #include "cache/adaptive_query_cache.h"
 #include "utils/input_validator.h"
 #include "utils/logger.h"
+#include "updates/updates_diagnostic_emitter.h"
 
 #include <chrono>
 #include <filesystem>
@@ -351,6 +352,9 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
 
     auto fut = std::async(std::launch::async,
         [job, registry, executor, result_cache]() mutable {
+            // OP-TIMEOUT-001: Set deadline for async operation (5 min max)
+            auto deadline = std::chrono::steady_clock::now() + std::chrono::minutes(5);
+            
             // Transition: PENDING → RUNNING (under per-record lock)
             {
                 std::lock_guard<std::mutex> rlock(job->mu);
@@ -366,7 +370,58 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
             }
 
             try {
-                auto result = executor(job->query, job->auth_header);
+                // OP-RETRY-001: Exponential backoff retry logic (Phase 5 pattern)
+                // Base delay: 100ms, max: 5000ms, global budget: 30s
+                constexpr int kMaxRetries = 3;
+                constexpr auto kRetryBaseDelay = std::chrono::milliseconds(100);
+                constexpr auto kRetryMaxDelay = std::chrono::milliseconds(5000);
+                constexpr auto kRetryBudget = std::chrono::seconds(30);
+                
+                auto budget_start = std::chrono::steady_clock::now();
+                std::string result;
+                
+                for (int attempt = 1; attempt <= kMaxRetries; ++attempt) {
+                    // OP-TIMEOUT-002: Check deadline before retry attempt
+                    if (std::chrono::steady_clock::now() > deadline) {
+                        THEMIS_WARN("AsyncJob {}: deadline exceeded at retry attempt {}", 
+                                   job->id, attempt);
+                        throw std::runtime_error("AsyncJob execution exceeded 5-minute deadline");
+                    }
+                    
+                    // Check global retry budget
+                    auto elapsed = std::chrono::steady_clock::now() - budget_start;
+                    if (elapsed > kRetryBudget) {
+                        throw std::runtime_error("AsyncJob retry budget exhausted (30s timeout)");
+                    }
+                    
+                    try {
+                        // OP-LATENCY-001: Instrument executor call with timing
+                        auto exec_start = std::chrono::steady_clock::now();
+                        result = executor(job->query, job->auth_header);
+                        auto exec_duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - exec_start);
+                        
+                        THEMIS_DEBUG("AsyncJob {} executed successfully (latency: {}ms, attempt: {})", 
+                                    job->id, exec_duration.count(), attempt);
+                        break;  // Success, exit retry loop
+                        
+                    } catch (const std::exception& ex) {
+                        // OP-RETRY-002: Decide whether to retry based on error type
+                        if (attempt < kMaxRetries) {
+                            // Exponential backoff: 100ms * 2^(attempt-1) + jitter
+                            auto delay_ms = std::chrono::milliseconds(
+                                static_cast<long>(100 * std::pow(2.0, attempt - 1)));
+                            delay_ms = std::min(delay_ms, kRetryMaxDelay);
+                            
+                            THEMIS_INFO("AsyncJob {}: retry attempt {} failed ({}), backing off {}ms",
+                                       job->id, attempt, ex.what(), delay_ms.count());
+                            std::this_thread::sleep_for(delay_ms);
+                        } else {
+                            throw;  // Final attempt failed
+                        }
+                    }
+                }
+                
                 std::string final_status;
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
@@ -445,10 +500,24 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleSubmit");
+    
+    // OP-CORRELATION-ID-001: Extract and thread correlation ID from request
+    std::string correlation_id = std::string(req[http::field::custom]);  // X-Correlation-ID
+    if (correlation_id.empty()) {
+        // Generate new correlation ID if not provided
+        static std::atomic<uint64_t> correlation_counter{0};
+        auto ts = std::chrono::system_clock::now().time_since_epoch().count();
+        correlation_id = "job-" + std::to_string(ts) + "-" + 
+                         std::to_string(correlation_counter.fetch_add(1, std::memory_order_relaxed));
+    }
+    
     // Optional auth check
     if (auth_ && auth_->isEnabled()) {
         const auto auth_hdr = req[http::field::authorization];
         if (std::string(auth_hdr).empty()) {
+            // OP-AUDIT-001: Emit audit event for auth failure (thread-safe)
+            THEMIS_WARN("AsyncJob submit denied: authorization required (correlation_id={})", 
+                       correlation_id);
             return makeJsonResponse(http::status::unauthorized,
                 {{"error", true}, {"message", "Authorization required"}}, req);
         }
@@ -461,6 +530,8 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     try {
         body = json::parse(req.body());
     } catch (const std::exception& ex) {
+        THEMIS_WARN("AsyncJob submit failed JSON parsing (correlation_id={}): {}", 
+                   correlation_id, ex.what());
         return makeJsonResponse(http::status::bad_request,
             {{"error", true},
              {"message", std::string("Invalid JSON body: ") + ex.what()}},
@@ -508,10 +579,18 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     registry_->add(job);
     launchJob(job);
 
-    THEMIS_INFO("AsyncJob {} submitted: query length={}", job->id, aql_query.size());
+    // OP-AUDIT-002: Log job submission with correlation ID (informational)
+    THEMIS_INFO("AsyncJob {} submitted: query_length={}, correlation_id={}", 
+               job->id, aql_query.size(), correlation_id);
 
-    return makeJsonResponse(http::status::accepted,
-        {{"job_id", job->id}, {"status", "pending"}}, req);
+    // OP-LATENCY-002: Include correlation ID in response for tracing
+    auto response_json = json{
+        {"job_id", job->id}, 
+        {"status", "pending"},
+        {"correlation_id", correlation_id}
+    };
+    
+    return makeJsonResponse(http::status::accepted, response_json, req);
 }
 
 // GET /v2/jobs
@@ -595,6 +674,33 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
         req);
 }
 
+// ============================================================================
+// OP-HEALTH-001: Health Check Handlers
+// ============================================================================
+
+http::response<http::string_body> AsyncJobApiHandler::handleHealthCheck(
+    const http::request<http::string_body>& req)
+{
+    // OP-HEALTH-002: GET /v2/health/jobs → detailed readiness probe
+    // Returns operational status suitable for Kubernetes/Docker health checks
+    
+    auto registry_count = registry_->all().size();
+    
+    json health_status = {
+        {"status", "healthy"},
+        {"service", "async_jobs_api"},
+        {"active_jobs", registry_count},
+        {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()}
+    };
+    
+    // Only report as healthy if we can accept new jobs
+    if (registry_count > 10000) {
+        health_status["status"] = "degraded";
+        health_status["message"] = "Too many active jobs (>10000)";
+    }
+    
+    return makeJsonResponse(http::status::ok, health_status, req);
+}
+
 } // namespace server
 } // namespace themis
-

@@ -496,28 +496,65 @@ HttpServer::HttpServer(
         THEMIS_INFO("MVCC API Handler initialized");
         
         // Initialize PITRManager (Point-in-Time Recovery feature)
-        pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
-        pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
-        THEMIS_INFO("PITRManager initialized");
+        // CRITICAL FIX: null_dereference + uncaught_exception - Add null checks and exception handling
+        try {
+            if (!storage_ || !changefeed_ || !snapshot_manager_) {
+                THEMIS_ERROR("Cannot initialize PITRManager: missing required dependencies (storage={}, changefeed={}, snapshot_manager={})",
+                    storage_ ? "OK" : "NULL", changefeed_ ? "OK" : "NULL", snapshot_manager_ ? "OK" : "NULL");
+            } else {
+                pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
+                pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
+                THEMIS_INFO("PITRManager initialized");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to initialize PITRManager: {}", e.what());
+        }
         
         // Initialize BranchManager (Phase 4 - Persistent Branches)
-        branch_manager_ = std::make_unique<transaction::BranchManager>(*storage_, *changefeed_, *snapshot_manager_);
-        branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
-        THEMIS_INFO("BranchManager initialized");
+        // CRITICAL FIX: null_dereference + uncaught_exception - Add null checks and exception handling
+        try {
+            if (!storage_ || !changefeed_ || !snapshot_manager_) {
+                THEMIS_ERROR("Cannot initialize BranchManager: missing required dependencies");
+            } else {
+                branch_manager_ = std::make_unique<transaction::BranchManager>(*storage_, *changefeed_, *snapshot_manager_);
+                branch_api_handler_ = std::make_unique<BranchApiHandler>(*branch_manager_);
+                THEMIS_INFO("BranchManager initialized");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to initialize BranchManager: {}", e.what());
+        }
         
         // Initialize DiffEngine (Phase 2 MVCC features - required for MergeEngine)
-        diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
-        diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
-        THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
+        // CRITICAL FIX: null_dereference - Add null check for changefeed_
+        try {
+            if (!changefeed_) {
+                THEMIS_ERROR("Cannot initialize DiffEngine: changefeed is NULL");
+            } else {
+                diff_engine_ = std::make_unique<analytics::DiffEngine>(*changefeed_, snapshot_manager_.get());
+                diff_api_handler_ = std::make_unique<DiffApiHandler>(*diff_engine_);
+                THEMIS_INFO("DiffEngine initialized with SnapshotManager support");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to initialize DiffEngine: {}", e.what());
+        }
         
         // Initialize MergeEngine and MergeApiHandler (Phase 5 MVCC features - 3-Way Merge)
-        merge_engine_ = std::make_unique<transaction::MergeEngine>(*diff_engine_, *snapshot_manager_, *changefeed_);
-        merge_api_handler_ = std::make_unique<MergeApiHandler>(*merge_engine_, *snapshot_manager_);
-        THEMIS_INFO("MergeEngine initialized for 3-way merge support");
-        
-        // Connect MergeEngine to BranchManager for non-fast-forward merges
-        branch_manager_->setMergeEngine(merge_engine_.get());
-        THEMIS_INFO("BranchManager connected to MergeEngine for 3-way merge support");
+        // CRITICAL FIX: null_dereference - Add null checks and conditional initialization
+        if (diff_engine_ && snapshot_manager_ && changefeed_) {
+            try {
+                merge_engine_ = std::make_unique<transaction::MergeEngine>(*diff_engine_, *snapshot_manager_, *changefeed_);
+                merge_api_handler_ = std::make_unique<MergeApiHandler>(*merge_engine_, *snapshot_manager_);
+                THEMIS_INFO("MergeEngine initialized for 3-way merge support");
+                
+                // CRITICAL FIX: null_dereference - Add null check before dereferencing branch_manager_
+                if (branch_manager_) {
+                    branch_manager_->setMergeEngine(merge_engine_.get());
+                    THEMIS_INFO("BranchManager connected to MergeEngine for 3-way merge support");
+                }
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to initialize MergeEngine: {}", e.what());
+            }
+        }
         
         // Initialize SSE Connection Manager for streaming (if enabled)
 #ifdef THEMIS_ENABLE_SSE
@@ -713,13 +750,25 @@ HttpServer::HttpServer(
     THEMIS_INFO("FieldEncryption initialized");
 
     // Initialize ContentManager and register built-in processors (now with encryption)
+    // CRITICAL FIX: null_dereference + resource_leaked_in_exception + uncaught_exception
     try {
-        content_manager_ = std::make_shared<themis::content::ContentManager>(
-            storage_, vector_index_, graph_index_, secondary_index_, field_encryption_);
-        text_processor_ = std::make_unique<themis::content::TextProcessor>();
-        content_manager_->registerProcessor(std::unique_ptr<themis::content::IContentProcessor>(text_processor_.release()));
-        // Provide FieldEncryption to GraphIndexManager so edges can be encrypted on write
-        if (graph_index_) {
+        if (!storage_ || !secondary_index_) {
+            THEMIS_WARN("ContentManager skipped: missing required dependencies (storage={}, secondary_index={})",
+                storage_ ? "OK" : "NULL", secondary_index_ ? "OK" : "NULL");
+        } else {
+            content_manager_ = std::make_shared<themis::content::ContentManager>(
+                storage_, vector_index_, graph_index_, secondary_index_, field_encryption_);
+            auto text_proc = std::make_unique<themis::content::TextProcessor>();
+            // CRITICAL FIX: resource_leaked_in_exception - Keep ownership if registration fails
+            if (!text_proc) {
+                THEMIS_ERROR("Failed to create TextProcessor");
+            } else {
+                content_manager_->registerProcessor(std::move(text_proc));
+                THEMIS_INFO("ContentManager and TextProcessor initialized");
+            }
+        }
+        // CRITICAL FIX: null_dereference - Add null check before dereferencing graph_index_
+        if (graph_index_ && field_encryption_) {
             graph_index_->setFieldEncryption(field_encryption_);
         }
     } catch (const std::exception& e) {

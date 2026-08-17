@@ -121,8 +121,8 @@ public:
     // Non-copyable; movable.
     TsStreamCursor(const TsStreamCursor&)            = delete;
     TsStreamCursor& operator=(const TsStreamCursor&) = delete;
-    TsStreamCursor(TsStreamCursor&&)                 = default;
-    TsStreamCursor& operator=(TsStreamCursor&&)      = default;
+    TsStreamCursor(TsStreamCursor&&)                 noexcept = default;
+    TsStreamCursor& operator=(TsStreamCursor&&)      noexcept = default;
 
 private:
     explicit TsStreamCursor(TSStore& store,

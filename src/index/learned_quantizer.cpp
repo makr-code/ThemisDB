@@ -328,8 +328,9 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
                 }
             }
         }
+        }
     }
-    
+     
     return vector;
 }
 

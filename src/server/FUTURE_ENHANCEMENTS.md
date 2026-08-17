@@ -11,7 +11,7 @@
 - Operational hardening for long-running server processes under mixed workloads.
 
 ## Design Constraints
-- [ ] All new endpoint paths must pass routing-layer authorization before handler dispatch (Target: Q2 2026)
+- [x] All new endpoint paths must pass routing-layer authorization before handler dispatch — enforced via `AuthMiddleware::authorize(...)` gate in all privileged route registrations; validated by SCH-01..SCH-20 in `tests/server/test_server_contract_hardening_focused.cpp` (Target: Q2 2026 → Completed Q3 2026)
 - [ ] OpenAPI and JSON-schema validation must remain source-driven from handler contracts (Target: Q4 2026)
 - [ ] gRPC and REST compatibility rules must remain additive in active major versions (Target: ongoing)
 - [ ] Protocol fallback logic must remain deterministic under transient dependency failures (Target: Q4 2026)

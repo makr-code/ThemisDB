@@ -128,8 +128,8 @@ public:
 
     HybridRetriever(const HybridRetriever&)            = default;
     HybridRetriever& operator=(const HybridRetriever&) = default;
-    HybridRetriever(HybridRetriever&&)                 = default;
-    HybridRetriever& operator=(HybridRetriever&&)      = default;
+    HybridRetriever(HybridRetriever&&)                 noexcept = default;
+    HybridRetriever& operator=(HybridRetriever&&)      noexcept = default;
 
     /**
      * @brief Fuse BM25 and vector candidate lists into a single ranked list.

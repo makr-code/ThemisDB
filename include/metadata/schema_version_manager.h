@@ -118,8 +118,8 @@ public:
     // Disable copy, allow move
     SchemaVersionManager(const SchemaVersionManager&) = delete;
     SchemaVersionManager& operator=(const SchemaVersionManager&) = delete;
-    SchemaVersionManager(SchemaVersionManager&&) = default;
-    SchemaVersionManager& operator=(SchemaVersionManager&&) = default;
+    SchemaVersionManager(SchemaVersionManager&&) noexcept = default;
+    SchemaVersionManager& operator=(SchemaVersionManager&&) noexcept = default;
 
     // ========================================================================
     // Public API

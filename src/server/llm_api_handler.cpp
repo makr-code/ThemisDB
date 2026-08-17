@@ -77,20 +77,23 @@ namespace {
     }
 
     std::optional<std::string> extractRagDocumentContent(const nlohmann::json& entity) {
+        // Check "content" field first
         if (entity.contains("content") && entity["content"].is_string()) {
-            const auto content = entity["content"].get<std::string>();
+            const std::string& content = entity["content"].get_ref<const std::string&>();
             if (!content.empty()) {
                 return content;
             }
         }
+        // Check "text" field
         if (entity.contains("text") && entity["text"].is_string()) {
-            const auto content = entity["text"].get<std::string>();
+            const std::string& content = entity["text"].get_ref<const std::string&>();
             if (!content.empty()) {
                 return content;
             }
         }
+        // Check "body" field
         if (entity.contains("body") && entity["body"].is_string()) {
-            const auto content = entity["body"].get<std::string>();
+            const std::string& content = entity["body"].get_ref<const std::string&>();
             if (!content.empty()) {
                 return content;
             }
@@ -103,13 +106,13 @@ namespace {
             return primary_key;
         }
         if (entity.contains("source") && entity["source"].is_string()) {
-            const auto source = entity["source"].get<std::string>();
+            const std::string& source = entity["source"].get_ref<const std::string&>();
             if (!source.empty()) {
                 return source;
             }
         }
         if (entity.contains("id") && entity["id"].is_string()) {
-            const auto source = entity["id"].get<std::string>();
+            const std::string& source = entity["id"].get_ref<const std::string&>();
             if (!source.empty()) {
                 return source;
             }
@@ -153,9 +156,16 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
     auto span = Tracer::startSpan("handleRequest");
 
     try {
+        // HIGH-GAP FIX: hardcoded_path — use centralized path constants
+        // API route constants for maintainability and runtime configurability
+        static constexpr std::string_view kLoraPrefix = "/api/v1/llm/lora/";
+        static constexpr std::string_view kOpenAIChatCompletions = "/v1/chat/completions";
+        static constexpr std::string_view kOpenAIModels = "/v1/models";
+        static constexpr std::string_view kLLMPrefix = "/api/v1/llm/";
+        
         // Delegate to LoRAApiHandler for LoRA-specific paths
         std::string_view target = req.target();
-        if (lora_handler_ && target.starts_with("/api/v1/llm/lora/")) {
+        if (lora_handler_ && target.starts_with(kLoraPrefix)) {
             return lora_handler_->handleRequest(req);
         }
 
@@ -163,9 +173,9 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         // Route them BEFORE the JWT gate so that OpenAI SDK clients (which send a
         // plain API key, not a signed JWT) are not rejected by validateBearerToken().
         auto method = req.method();
-        if (target == "/v1/chat/completions" && method == http::verb::post) {
+        if (target == kOpenAIChatCompletions && method == http::verb::post) {
             return handleOpenAIChatCompletions(req);
-        } else if (target == "/v1/models" && method == http::verb::get) {
+        } else if (target == kOpenAIModels && method == http::verb::get) {
             return handleOpenAIListModels(req);
         }
 
@@ -773,8 +783,10 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
         prompt.size(),
         max_tokens);
 
-    // Collect SSE events from LLM streaming
+    // PHASE2-OPTIMIZATION: missing_vector_reserve — pre-allocate for streaming response body
+    // SSE responses can accumulate many events; reserve space to avoid repeated reallocations
     std::string sse_body;
+    sse_body.reserve(64 * 1024);  // Reserve 64 KB for typical SSE response
     sse_body += "retry: 3000\n\n";
 
     try {

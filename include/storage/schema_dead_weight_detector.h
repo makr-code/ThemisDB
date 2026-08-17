@@ -160,8 +160,8 @@ public:
 
     SchemaDeadWeightDetector(const SchemaDeadWeightDetector&) = delete;
     SchemaDeadWeightDetector& operator=(const SchemaDeadWeightDetector&) = delete;
-    SchemaDeadWeightDetector(SchemaDeadWeightDetector&&) = default;
-    SchemaDeadWeightDetector& operator=(SchemaDeadWeightDetector&&) = default;
+    SchemaDeadWeightDetector(SchemaDeadWeightDetector&&) noexcept = default;
+    SchemaDeadWeightDetector& operator=(SchemaDeadWeightDetector&&) noexcept = default;
 
     // ─── Dependency injection ──────────────────────────────────────────────
 

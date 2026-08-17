@@ -1243,7 +1243,17 @@ LoRATrainingService::LoRATrainingService(const Config& config)
 LoRATrainingService::LoRATrainingService()
     : impl_(std::make_unique<Impl>(Config{})) {}
 
-LoRATrainingService::~LoRATrainingService() = default;
+LoRATrainingService::~LoRATrainingService() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — pImpl destructor (Impl::~Impl)
+    // may throw during training teardown. Reset under try/catch.
+    try {
+        impl_.reset();
+    } catch (const std::exception& e) {
+        spdlog::error("LoRATrainingService::~LoRATrainingService: exception during cleanup (suppressed): {}", e.what());
+    } catch (...) {
+        spdlog::error("LoRATrainingService::~LoRATrainingService: unknown exception during cleanup (suppressed)");
+    }
+}
 
 TrainingResult LoRATrainingService::trainOnTheFly(
     const std::string& adapter_id,

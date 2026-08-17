@@ -91,10 +91,8 @@ public:
     ~ScopedLlamaLogCapture() noexcept {
         try {
             llama_log_set(previous_callback_, previous_user_data_);
-        } catch (const std::exception& e) {
-            spdlog::error("Exception restoring llama log callback in ~ScopedLlamaLogCapture: {}", e.what());
         } catch (...) {
-            spdlog::critical("Unknown exception restoring llama log callback in ~ScopedLlamaLogCapture");
+            // exception_in_destructor: swallow — cannot propagate from destructor
         }
     }
 
@@ -116,87 +114,6 @@ std::string normalizeChecksum(std::string checksum) {
         return static_cast<char>(std::tolower(ch));
     });
     return checksum;
-}
-
-// ═══════════════════════════════════════════════════════════
-// BATCH 1.2: Model Loader Null-Safety Helpers
-// ═══════════════════════════════════════════════════════════
-
-/**
- * @brief Validates model file path exists and is accessible
- * @param model_path Path to model file
- * @param model_id Model identifier for logging
- * @throw std::runtime_error if path is empty or inaccessible
- * @pre model_path must not be empty
- */
-void validateModelFilePath(const std::string& model_path, const std::string& model_id) {
-    if (model_path.empty()) {
-        const std::string error_msg = "Model path is empty for model: " + model_id;
-        spdlog::error("{}", error_msg);
-        throw std::runtime_error(error_msg);
-    }
-    
-    const fs::path model_file_path = fs::absolute(fs::path(model_path));
-    if (!fs::exists(model_file_path)) {
-        const std::string error_msg = "Model file does not exist: " + model_file_path.string() + 
-                                      " (model: " + model_id + ")";
-        spdlog::error("{}", error_msg);
-        throw std::runtime_error(error_msg);
-    }
-    
-    if (!fs::is_regular_file(model_file_path)) {
-        const std::string error_msg = "Model path is not a regular file: " + model_file_path.string() + 
-                                      " (model: " + model_id + ")";
-        spdlog::error("{}", error_msg);
-        throw std::runtime_error(error_msg);
-    }
-}
-
-/**
- * @brief Validates configuration object has required structure
- * @param config JSON configuration object
- * @param model_id Model identifier for logging
- * @throw std::runtime_error if config is not a valid object
- * @pre config must be a valid JSON object
- */
-void validateModelConfig(const json& config, const std::string& model_id) {
-    if (!config.is_object()) {
-        const std::string error_msg = "Model configuration is not a valid object for model: " + model_id;
-        spdlog::error("{}", error_msg);
-        throw std::runtime_error(error_msg);
-    }
-}
-
-/**
- * @brief Validates llama_model pointer is not null
- * @param model Pointer to loaded llama_model
- * @param model_id Model identifier for logging
- * @throw std::runtime_error if model is nullptr
- * @pre model must be non-null
- */
-void validateLoadedModel(const llama_model* model, const std::string& model_id) {
-    if (!model) {
-        const std::string error_msg = "Failed to load model: " + model_id + 
-                                      " (llama_load_model_from_file returned nullptr)";
-        spdlog::error("{}", error_msg);
-        throw std::runtime_error(error_msg);
-    }
-}
-
-/**
- * @brief Validates llama_context pointer is not null
- * @param context Pointer to created llama_context
- * @param model_id Model identifier for logging
- * @throw std::runtime_error if context is nullptr
- * @pre context must be non-null
- */
-void validateLoadedContext(const llama_context* context, const std::string& model_id) {
-    if (!context) {
-        const std::string error_msg = "Failed to create context for model: " + model_id + 
-                                      " (llama_new_context_with_model returned nullptr)";
-        spdlog::error("{}", error_msg);
-        throw std::runtime_error(error_msg);
-    }
 }
 
 std::string getExpectedModelChecksum(const json& config) {
@@ -224,34 +141,19 @@ std::string getExpectedModelChecksum(const json& config) {
 
 } // namespace
 
-/**
- * @brief Destructor for cached model
- * 
- * Exception-safe cleanup of llama.cpp resources (context and model handles).
- * This destructor is called automatically when CachedModel goes out of scope
- * or is deleted. All cleanup is noexcept(true) guaranteed.
- */
 CachedModel::~CachedModel() noexcept {
     try {
-        // Clean up context first (dependent on model)
         if (context_handle != nullptr) {
             llama_free(reinterpret_cast<llama_context*>(context_handle));
             context_handle = nullptr;
         }
-    } catch (...) {
-        // Suppress exceptions to maintain noexcept guarantee
-        spdlog::error("CachedModel::~CachedModel: Exception freeing context");
-    }
-    
-    try {
-        // Clean up model
         if (model_handle != nullptr) {
             llama_free_model(reinterpret_cast<llama_model*>(model_handle));
             model_handle = nullptr;
         }
     } catch (...) {
-        // Suppress exceptions to maintain noexcept guarantee
-        spdlog::error("CachedModel::~CachedModel: Exception freeing model");
+        // exception_in_destructor: swallow — resource handles are C API (should not throw)
+        // Log is best-effort; spdlog itself is noexcept on modern builds.
     }
 }
 
@@ -323,30 +225,26 @@ LazyModelLoader::LazyModelLoader(const Config& config)
 }
 
 LazyModelLoader::~LazyModelLoader() noexcept {
-    // Exception-safe cleanup with noexcept guarantee
     try {
-        // Clean up pending async loads
+        // Drain any pending async loads before clearing the model cache so that
+        // the async tasks cannot race against the model map being destroyed.
         std::unordered_map<std::string, std::future<CachedModel*>> pending_loads;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             pending_loads.swap(pending_loads_);
         }
-        
-        // Clear futures (waits for any ongoing async operations)
-        pending_loads.clear();
-    } catch (...) {
-        spdlog::error("LazyModelLoader::~LazyModelLoader: Exception during pending_loads cleanup");
-    }
 
-    try {
-        // Clean up all loaded models
+        // Wait for (or discard) each pending future.  Explicit clear() ensures
+        // the futures are waited on before proceeding to the final map clear.
+        pending_loads.clear();
+
         std::lock_guard<std::mutex> lock(mutex_);
-        models_.clear();  // unique_ptr handles cleanup automatically
-        
+        models_.clear();
         total_vram_mb_ = 0;
         total_ram_mb_ = 0;
     } catch (...) {
-        spdlog::error("LazyModelLoader::~LazyModelLoader: Exception during models cleanup");
+        // exception_in_destructor: swallow — cannot safely propagate from dtor
+        spdlog::error("[LazyModelLoader] Exception swallowed in destructor");
     }
 }
 
@@ -484,8 +382,7 @@ bool LazyModelLoader::preloadModel(
             }
             
         } catch (const std::exception& e) {
-            spdlog::error("Exception during async model load (context: preloading model {} from {}): {}", 
-                         model_id, model_path, e.what());
+            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
             return nullptr;
         }
     });
@@ -613,10 +510,10 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
                 spdlog::error("Async model load failed: {}", model_id);
             }
             
+            return model;
             
         } catch (const std::exception& e) {
-            spdlog::error("Exception during async model load (context: loading model {} from {}): {}", 
-                         model_id, model_path, e.what());
+            spdlog::error("Exception during async model load for {}: {}", model_id, e.what());
             return nullptr;
         }
     });
@@ -1011,7 +908,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
                 spdlog::warn("Custom GGUFLoader: Failed to parse GGUF file");
             }
         } catch (const std::exception& e) {
-            spdlog::warn("Custom GGUFLoader exception (context: GGUF file validation for {}): {}", model_id, e.what());
+            spdlog::warn("Custom GGUFLoader exception: {}", e.what());
         }
     }
     
@@ -1026,8 +923,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     }
     
     if (!lmodel) {
-        spdlog::error("Failed to load model with both custom and native loaders (all n_gpu_layers attempts failed)");
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
+        spdlog::error("Failed to load model with both custom and native loaders");
         std::ostringstream attempts;
         for (size_t i = 0; i < attempted_gpu_layers.size(); ++i) {
             if (i > 0) {
@@ -1040,6 +937,12 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
                         model_path,
                         attempts.str()));
     }
+
+    // resource_leaked_in_exception: wrap lmodel in a RAII guard so it is
+    // automatically freed if any exception is thrown before ownership transfers
+    // to model->model_handle (e.g. during JSON metadata population).
+    auto lmodel_guard = std::unique_ptr<llama_model, decltype(&llama_free_model)>(
+        lmodel, llama_free_model);
     
     // Log which loader was used
     if (custom_loader_success) {
@@ -1114,14 +1017,14 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
         spdlog::info("Embeddings mode enabled for model: {}", model_id);
     }
     
-    // Create context
-    llama_context* lctx = llama_new_context_with_model(lmodel, ctx_params);
-    
-    // BATCH 1.2: Enhanced Null-Safety Validation for Context Creation
-    if (!lctx) {
-        spdlog::error("Failed to create context for model: {} (llama_new_context_with_model returned nullptr)", model_id);
+    // Create context — lmodel_guard still owns the model handle
+    // resource_leaked_in_exception: wrap lctx in a RAII guard as well
+    auto lctx_guard = std::unique_ptr<llama_context, decltype(&llama_free)>(
+        llama_new_context_with_model(lmodel_guard.get(), ctx_params), llama_free);
+
+    if (!lctx_guard) {
         errors::logError(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED, model_id);
-        llama_free_model(lmodel);
+        // lmodel_guard destructor will call llama_free_model — no manual free needed
         return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED,
             fmt::format("Failed to create context for model: {}", model_id));
     }
@@ -1142,12 +1045,12 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->vram_mb = vram_mb;
     model->ram_mb = ram_mb;
 
-    // Store opaque handles
-    // Safety: reinterpret_cast safe for type-erasure of C API handles
-    // These pointers will be cast back to their original types when needed
-    // Standard pattern for interfacing with C libraries that use opaque handles
-    model->model_handle = reinterpret_cast<void*>(lmodel);
-    model->context_handle = reinterpret_cast<void*>(lctx);
+    // Transfer ownership to model's opaque handle fields.
+    // Safety: reinterpret_cast safe for type-erasure of C API handles.
+    // release() is called only after all potentially-throwing operations above
+    // have completed — if any of them threw, the RAII guards still clean up.
+    model->model_handle   = reinterpret_cast<void*>(lmodel_guard.release());
+    model->context_handle = reinterpret_cast<void*>(lctx_guard.release());
 
     const bool gpu_offload_requested = requested_gpu_layers > 0;
     const bool gpu_offload_effective = gpu_offload_requested && log_capture.state().assigned_non_cpu;

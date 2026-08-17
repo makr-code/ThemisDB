@@ -203,8 +203,8 @@ public:
 
     EmotionAnalyzer(const EmotionAnalyzer&)            = delete;
     EmotionAnalyzer& operator=(const EmotionAnalyzer&) = delete;
-    EmotionAnalyzer(EmotionAnalyzer&&)                 = default;
-    EmotionAnalyzer& operator=(EmotionAnalyzer&&)      = default;
+    EmotionAnalyzer(EmotionAnalyzer&&)                 noexcept = default;
+    EmotionAnalyzer& operator=(EmotionAnalyzer&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Core analysis

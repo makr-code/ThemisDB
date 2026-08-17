@@ -144,8 +144,8 @@ public:
     // Non-copyable, movable
     ReplicationObserver(const ReplicationObserver&) = delete;
     ReplicationObserver& operator=(const ReplicationObserver&) = delete;
-    ReplicationObserver(ReplicationObserver&&) = default;
-    ReplicationObserver& operator=(ReplicationObserver&&) = default;
+    ReplicationObserver(ReplicationObserver&&) noexcept = default;
+    ReplicationObserver& operator=(ReplicationObserver&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // Observability API

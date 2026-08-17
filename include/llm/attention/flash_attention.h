@@ -141,7 +141,7 @@ public:
     /**
      * @brief Destructor
      */
-    ~FlashAttention();
+    ~FlashAttention() noexcept;
     
     /**
      * @brief Forward pass of attention

@@ -400,8 +400,8 @@ public:
     // Non-copyable; move is allowed.
     AnnFrontdoor(const AnnFrontdoor&)            = delete;
     AnnFrontdoor& operator=(const AnnFrontdoor&) = delete;
-    AnnFrontdoor(AnnFrontdoor&&)                 = default;
-    AnnFrontdoor& operator=(AnnFrontdoor&&)      = default;
+    AnnFrontdoor(AnnFrontdoor&&)                 noexcept = default;
+    AnnFrontdoor& operator=(AnnFrontdoor&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Backend registration

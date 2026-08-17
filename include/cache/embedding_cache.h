@@ -91,8 +91,8 @@ public:
     
     EmbeddingCache(const EmbeddingCache&) = delete;
     EmbeddingCache& operator=(const EmbeddingCache&) = delete;
-    EmbeddingCache(EmbeddingCache&&) = default;
-    EmbeddingCache& operator=(EmbeddingCache&&) = default;
+    EmbeddingCache(EmbeddingCache&&) noexcept = default;
+    EmbeddingCache& operator=(EmbeddingCache&&) noexcept = default;
     
     /**
      * @brief Query cache with fuzzy matching

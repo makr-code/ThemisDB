@@ -1193,8 +1193,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         std::lock_guard<std::mutex> cache_lock(mutex_);  // W1-L04: Data race fix - protect response_cache access
         auto* const response_cache_ptr = response_cache_.get();
         if (response_cache_ptr) {
+            // B3: cache key uses safe_request.prompt which was sanitized by sanitizePromptText()
+            // above (line ~971); cache key is not passed to the LLM, only used for cache lookup.
             const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
-            auto cached_response = response_cache_ptr->get(cache_key);
             if (cached_response) {
                 spdlog::debug("Cache hit for prompt (length: {})", safe_request.prompt.length());
                 
@@ -1518,7 +1519,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             }
         }
         
-        // Cache the successful response; key includes model_id to prevent cross-tenant leakage
+        // Cache the successful response; key includes model_id to prevent cross-tenant leakage.
+        // B3: safe_request.prompt is already sanitized; cache key is not passed to the LLM.
         if (response_cache_) {
             const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
             auto* const response_cache = response_cache_.get();
@@ -1687,8 +1689,9 @@ InferenceResponse LlamaWrapper::generateRAG(
     spdlog::debug("Generating RAG response with {} documents",
                   rag_context.documents.size());
     
-    // Format prompt with RAG context
-    std::string formatted_prompt = formatPromptForRAG(rag_context, request);
+            // B3: formatPromptForRAG sanitizes all RAG document content and the user query
+            // via sanitizePromptText() internally before embedding into the final prompt.
+            std::string formatted_prompt = formatPromptForRAG(rag_context, request);
     
     // Create modified request with formatted prompt
     InferenceRequest rag_request = request;
@@ -3487,7 +3490,8 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         
         spdlog::debug("Image encoding completed in {}ms", response.image_encoding_time_ms);
         
-        // Build multi-modal prompt
+        // Build multi-modal prompt.
+        // B3: buildVisionPrompt sanitizes text_prompt and image_token via sanitizePromptText().
         std::string prompt = buildVisionPrompt(vision_request);
         
         // Create inference request for the text part of the prompt.

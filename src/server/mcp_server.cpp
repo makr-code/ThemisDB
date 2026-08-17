@@ -155,11 +155,12 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     // Config:  config/ai_ml/llm/modes/default.yaml → modes[id=agentic].safety
     try {
         std::string mode_yaml_path;
-        const std::string kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
+        // HIGH-GAP FIX: unnecessary_copy — use string_view for const static path
+        constexpr std::string_view kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
         if (auto resolved = themis::config::ConfigPathResolver::tryResolve(kModeYamlKey)) {
             mode_yaml_path = *resolved;
         } else {
-            mode_yaml_path = kModeYamlKey;
+            mode_yaml_path = std::string(kModeYamlKey);
         }
 
         const YAML::Node mode_root = YAML::LoadFile(mode_yaml_path);
@@ -199,7 +200,8 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
                     themis::security::OperationClass min_threshold =
                         themis::security::OperationClass::CRITICAL;
                     for (const auto& cls : safety["require_approval_for"]) {
-                        const std::string cls_name = cls.as<std::string>();
+                        // HIGH-GAP FIX: unnecessary_copy — avoid std::string copy, use string_view
+                        const std::string_view cls_name = cls.as<std::string>();
                         if (cls_name == "WRITE_SAFE") {
                             min_threshold = themis::security::OperationClass::WRITE_SAFE;
                             break;

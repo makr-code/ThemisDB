@@ -129,8 +129,8 @@ public:
     // Non-copyable, movable
     GrpcApiServer(const GrpcApiServer&)            = delete;
     GrpcApiServer& operator=(const GrpcApiServer&) = delete;
-    GrpcApiServer(GrpcApiServer&&)                 = default;
-    GrpcApiServer& operator=(GrpcApiServer&&)      = default;
+    GrpcApiServer(GrpcApiServer&&)                 noexcept = default;
+    GrpcApiServer& operator=(GrpcApiServer&&)      noexcept = default;
 
     /**
      * @brief Configure the server.  Must be called before start().

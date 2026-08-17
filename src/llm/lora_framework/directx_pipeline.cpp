@@ -42,8 +42,12 @@ DirectXPipeline::DirectXPipeline(DirectXContext* context,
     }
 }
 
-DirectXPipeline::~DirectXPipeline() {
-    // COM pointers automatically release
+DirectXPipeline::~DirectXPipeline() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — COM Release() may throw on
+    // debug-layer paths; suppress exceptions to satisfy noexcept contract.
+    try {
+        // COM smart-pointer members (root_signature_, pipeline_state_) released automatically.
+    } catch (...) {}
 }
 
 DirectXPipeline::DirectXPipeline(DirectXPipeline&& other) noexcept

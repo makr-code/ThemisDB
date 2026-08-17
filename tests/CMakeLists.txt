@@ -4055,6 +4055,46 @@ else()
 endif()
 
 # ============================================================================
+# Geographic Placement & WAL Shipping Focused Tests (Wave D Phase 1)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_geo_placement_wal_shipping_focused.cpp")
+    message(STATUS "Adding Geo Placement & WAL Shipping focused tests")
+
+    add_executable(test_replication_geo_placement_wal_shipping_focused
+       replication/test_replication_geo_placement_wal_shipping_focused.cpp
+    )
+
+    target_include_directories(test_replication_geo_placement_wal_shipping_focused PRIVATE
+       ${THEMIS_ROOT_DIR}/include
+       ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_replication_geo_placement_wal_shipping_focused PRIVATE
+       ${TEST_LIBS}
+       themis_core
+       Threads::Threads
+    )
+
+    target_compile_definitions(test_replication_geo_placement_wal_shipping_focused PRIVATE
+       THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicationGeoPlacementWalShippingFocusedTests
+            COMMAND test_replication_geo_placement_wal_shipping_focused)
+
+    set_tests_properties(ReplicationGeoPlacementWalShippingFocusedTests PROPERTIES
+       LABELS "replication;wave-d;geo-placement;wal-shipping;multi-dc;focused;unit;release_critical"
+       RUN_SERIAL TRUE
+       TIMEOUT 120
+    )
+
+    message(STATUS "  Geo Placement & WAL Shipping: leader election constraints, failover, lag alerts, throughput")
+else()
+    message(STATUS "Geo Placement & WAL Shipping focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_geo_placement_wal_shipping_focused.cpp")
+endif()
+
+# ============================================================================
 # Logical Replication Tests (v1.7.0 - schema-aware, filters, initial sync)
 # ============================================================================
 

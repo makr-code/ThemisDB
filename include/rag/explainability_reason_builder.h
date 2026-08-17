@@ -130,8 +130,8 @@ public:
 
     ExplainabilityReasonBuilder(const ExplainabilityReasonBuilder&) = default;
     ExplainabilityReasonBuilder& operator=(const ExplainabilityReasonBuilder&) = default;
-    ExplainabilityReasonBuilder(ExplainabilityReasonBuilder&&) = default;
-    ExplainabilityReasonBuilder& operator=(ExplainabilityReasonBuilder&&) = default;
+    ExplainabilityReasonBuilder(ExplainabilityReasonBuilder&&) noexcept = default;
+    ExplainabilityReasonBuilder& operator=(ExplainabilityReasonBuilder&&) noexcept = default;
 
     // ─── NL Generator injection ───────────────────────────────────────────
 

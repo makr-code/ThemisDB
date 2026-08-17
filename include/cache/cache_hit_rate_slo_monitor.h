@@ -219,8 +219,8 @@ public:
     // Non-copyable, moveable
     CacheHitRateSloMonitor(const CacheHitRateSloMonitor&)            = delete;
     CacheHitRateSloMonitor& operator=(const CacheHitRateSloMonitor&) = delete;
-    CacheHitRateSloMonitor(CacheHitRateSloMonitor&&)                 = default;
-    CacheHitRateSloMonitor& operator=(CacheHitRateSloMonitor&&)      = default;
+    CacheHitRateSloMonitor(CacheHitRateSloMonitor&&)                 noexcept = default;
+    CacheHitRateSloMonitor& operator=(CacheHitRateSloMonitor&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Core API

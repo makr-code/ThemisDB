@@ -183,8 +183,8 @@ public:
     OperatorDiagnostics& operator=(const OperatorDiagnostics&) = delete;
 
     // Movable
-    OperatorDiagnostics(OperatorDiagnostics&&) = default;
-    OperatorDiagnostics& operator=(OperatorDiagnostics&&) = default;
+    OperatorDiagnostics(OperatorDiagnostics&&) noexcept = default;
+    OperatorDiagnostics& operator=(OperatorDiagnostics&&) noexcept = default;
 
     // ========================================================================
     // Failure Scenario Detection

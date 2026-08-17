@@ -176,8 +176,8 @@ public:
 
 protected:
     ITenantQuotaPolicy() = default;
-    ITenantQuotaPolicy(ITenantQuotaPolicy&&) = default;
-    ITenantQuotaPolicy& operator=(ITenantQuotaPolicy&&) = default;
+    ITenantQuotaPolicy(ITenantQuotaPolicy&&) noexcept = default;
+    ITenantQuotaPolicy& operator=(ITenantQuotaPolicy&&) noexcept = default;
 };
 
 } // namespace tenant

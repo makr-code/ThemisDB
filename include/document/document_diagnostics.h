@@ -375,8 +375,8 @@ public:
     DocumentDiagnosticSink& operator=(const DocumentDiagnosticSink&) = delete;
 
     /// Movable: allows the sink to be transferred during initialisation.
-    DocumentDiagnosticSink(DocumentDiagnosticSink&&)            = default;
-    DocumentDiagnosticSink& operator=(DocumentDiagnosticSink&&) = default;
+    DocumentDiagnosticSink(DocumentDiagnosticSink&&)            noexcept = default;
+    DocumentDiagnosticSink& operator=(DocumentDiagnosticSink&&) noexcept = default;
 
     ~DocumentDiagnosticSink() = default;
 

@@ -159,8 +159,8 @@ public:
     // Non-copyable, moveable
     QueryCache(const QueryCache&) = delete;
     QueryCache& operator=(const QueryCache&) = delete;
-    QueryCache(QueryCache&&) = default;
-    QueryCache& operator=(QueryCache&&) = default;
+    QueryCache(QueryCache&&) noexcept = default;
+    QueryCache& operator=(QueryCache&&) noexcept = default;
     
     /**
      * @brief Generate deterministic fingerprint for a query

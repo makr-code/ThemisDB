@@ -105,8 +105,8 @@ public:
     // Non-copyable, movable
     RequestCoalescingManager(const RequestCoalescingManager&)            = delete;
     RequestCoalescingManager& operator=(const RequestCoalescingManager&) = delete;
-    RequestCoalescingManager(RequestCoalescingManager&&)                 = default;
-    RequestCoalescingManager& operator=(RequestCoalescingManager&&)      = default;
+    RequestCoalescingManager(RequestCoalescingManager&&)                 noexcept = default;
+    RequestCoalescingManager& operator=(RequestCoalescingManager&&)      noexcept = default;
 
     ~RequestCoalescingManager() = default;
 

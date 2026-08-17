@@ -120,8 +120,8 @@ public:
     // Disable copy, allow move
     ShardRPCClient(const ShardRPCClient&) = delete;
     ShardRPCClient& operator=(const ShardRPCClient&) = delete;
-    ShardRPCClient(ShardRPCClient&&) = default;
-    ShardRPCClient& operator=(ShardRPCClient&&) = default;
+    ShardRPCClient(ShardRPCClient&&) noexcept = default;
+    ShardRPCClient& operator=(ShardRPCClient&&) noexcept = default;
     
     /**
      * @brief Send PREPARE request (2PC Phase 1)

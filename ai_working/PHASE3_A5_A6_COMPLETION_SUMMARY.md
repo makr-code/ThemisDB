@@ -1,6 +1,6 @@
 # Phase 3 Index Module: A-5 + A-6 Completion Summary
 **Date:** 2026-08-15 18:45 UTC  
-**Status:** ✅ IMPLEMENTATION COMPLETE (Ready for Validation)  
+**Status:** 🟡 MANUAL A-6 AUDIT COMPLETE; A-5 TSAN BLOCKED BY GLOBAL BUILD ISSUES  
 **Target Gaps:** 45 HIGH-severity (11 A-5 + 34 A-6)  
 
 ---
@@ -14,7 +14,8 @@ Phase 3 Batch A-5 (Circular Lock Ordering) and Batch A-6 (Connection Leak Preven
 - ✅ **A-6 Implementation:** 100% (1 new header + 3 files integrated)
 - ✅ **Documentation:** 100% (hierarchy + safety comments)
 - ✅ **Syntax Validation:** PASS (no C++ errors)
-- ⏳ **Full Build & Sanitizer Validation:** Ready (pending environment)
+- ✅ **A-6 Manual Audit (34 db_connection_leak):** Complete — false-positive classification documented
+- ⚠️ **A-5 ThreadSanitizer Validation:** Blocked by unrelated repository-wide compile issues (`noexcept noexcept` declarations in non-index headers)
 
 ---
 

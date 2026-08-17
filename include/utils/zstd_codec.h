@@ -90,8 +90,8 @@ public:
     // Non-copyable; movable.
     ZstdStreamCompressor(const ZstdStreamCompressor&)            = delete;
     ZstdStreamCompressor& operator=(const ZstdStreamCompressor&) = delete;
-    ZstdStreamCompressor(ZstdStreamCompressor&&)                 = default;
-    ZstdStreamCompressor& operator=(ZstdStreamCompressor&&)      = default;
+    ZstdStreamCompressor(ZstdStreamCompressor&&)                 noexcept = default;
+    ZstdStreamCompressor& operator=(ZstdStreamCompressor&&)      noexcept = default;
 
     /**
      * @brief Feed a chunk of uncompressed data into the stream.
@@ -153,8 +153,8 @@ public:
     // Non-copyable; movable.
     ZstdStreamDecompressor(const ZstdStreamDecompressor&)            = delete;
     ZstdStreamDecompressor& operator=(const ZstdStreamDecompressor&) = delete;
-    ZstdStreamDecompressor(ZstdStreamDecompressor&&)                 = default;
-    ZstdStreamDecompressor& operator=(ZstdStreamDecompressor&&)      = default;
+    ZstdStreamDecompressor(ZstdStreamDecompressor&&)                 noexcept = default;
+    ZstdStreamDecompressor& operator=(ZstdStreamDecompressor&&)      noexcept = default;
 
     /**
      * @brief Feed a chunk of compressed data into the stream.

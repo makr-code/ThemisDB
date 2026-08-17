@@ -50,8 +50,8 @@ public:
     // Non-copyable, movable.
     CrossTenantPolicyInheritance(const CrossTenantPolicyInheritance&) = delete;
     CrossTenantPolicyInheritance& operator=(const CrossTenantPolicyInheritance&) = delete;
-    CrossTenantPolicyInheritance(CrossTenantPolicyInheritance&&) = default;
-    CrossTenantPolicyInheritance& operator=(CrossTenantPolicyInheritance&&) = default;
+    CrossTenantPolicyInheritance(CrossTenantPolicyInheritance&&) noexcept = default;
+    CrossTenantPolicyInheritance& operator=(CrossTenantPolicyInheritance&&) noexcept = default;
 
     // -------------------------------------------------------------------------
     // Audit trail

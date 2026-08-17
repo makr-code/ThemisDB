@@ -42,8 +42,14 @@ LlamaTokenizer::LlamaTokenizer(const std::string& model_path)
                  32000);  // Default vocab size for most llama models
 }
 
-LlamaTokenizer::~LlamaTokenizer() {
-    cleanup();
+LlamaTokenizer::~LlamaTokenizer() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — cleanup() calls llama_free_model
+    // which may trigger hooks that throw. Suppress to satisfy §[except.spec].
+    try {
+        cleanup();
+    } catch (const std::exception& e) {
+        (void)e; // llama_free_model() error: suppress; OS reclaims memory
+    } catch (...) {}
 }
 
 LlamaTokenizer::LlamaTokenizer(LlamaTokenizer&& other) noexcept

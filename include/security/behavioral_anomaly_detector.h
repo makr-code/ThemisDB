@@ -148,7 +148,7 @@ public:
     // Non-copyable, movable
     BehavioralAnomalyDetector(const BehavioralAnomalyDetector&)            = delete;
     BehavioralAnomalyDetector& operator=(const BehavioralAnomalyDetector&) = delete;
-    BehavioralAnomalyDetector(BehavioralAnomalyDetector&&) noexcept        = default;
+    BehavioralAnomalyDetector(BehavioralAnomalyDetector&&) noexcept        noexcept = default;
     BehavioralAnomalyDetector& operator=(BehavioralAnomalyDetector&&) noexcept = default;
 
     /**

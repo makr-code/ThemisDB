@@ -234,6 +234,42 @@ public:
         const std::optional<nlohmann::json>& body = std::nullopt
     );
 
+    /**
+     * @brief Execute multi-shard exact consistency query with deterministic fallback.
+     *
+     * Executes a query across multiple shards with exact consistency guarantees.
+     * If some shards fail, falls back to healthy shards while maintaining consistency.
+     *
+     * Guarantees:
+     * - Quorum-based validation (majority of shards must agree)
+     * - Deterministic fallback to remaining healthy shards
+     * - Version token tracking for consistency verification
+     *
+     * @param query Query text.
+     * @param shard_ids Target shard identifiers.
+     * @return Per-shard execution records; check validateMultiShardExactConsistency().
+     */
+    std::vector<ShardResult> executeMultiShardExactConsistency(
+        const std::string& query,
+        const std::vector<std::string>& shard_ids);
+
+    /**
+     * @brief Validate multi-shard results for exact consistency.
+     *
+     * Checks that results from multiple shards are consistent and
+     * can be safely merged for exact consistency reads.
+     *
+     * Validation criteria:
+     * - Quorum of shards must have succeeded
+     * - Version tokens must be within expected consistency window
+     * - No causal ordering violations
+     *
+     * @param results Vector of shard results.
+     * @return true if results pass exact consistency validation, false otherwise.
+     */
+    bool validateMultiShardExactConsistency(
+        const std::vector<ShardResult>& results);
+
 private:
     std::shared_ptr<URNResolver> resolver_;   ///< Resolves ownership and health information for shards.
     std::shared_ptr<RemoteExecutor> executor_; ///< Performs remote shard RPCs when the target is non-local.

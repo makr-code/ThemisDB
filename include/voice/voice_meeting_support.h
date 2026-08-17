@@ -210,8 +210,8 @@ public:
     // Non-copyable, movable
     RealtimeMeetingSession(const RealtimeMeetingSession&) = delete;
     RealtimeMeetingSession& operator=(const RealtimeMeetingSession&) = delete;
-    RealtimeMeetingSession(RealtimeMeetingSession&&) = default;
-    RealtimeMeetingSession& operator=(RealtimeMeetingSession&&) = default;
+    RealtimeMeetingSession(RealtimeMeetingSession&&) noexcept = default;
+    RealtimeMeetingSession& operator=(RealtimeMeetingSession&&) noexcept = default;
 
     /**
      * @brief Push a new transcript segment into the session.
