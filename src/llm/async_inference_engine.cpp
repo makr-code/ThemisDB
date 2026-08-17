@@ -644,9 +644,14 @@ json AsyncInferenceEngine::getWorkerStats() const {
     stats["total_dedup_cache_misses"] = stats_.total_dedup_cache_misses.load();
 
     // tokens/sec: total tokens generated divided by elapsed wall-clock time.
+    // THREAD-SAFETY: Protect engine_start_time_ read with mutex to prevent data race
     stats["total_tokens_generated"] = stats_.total_tokens_generated.load();
-    double elapsed_s = std::chrono::duration<double>(
-        std::chrono::steady_clock::now() - engine_start_time_).count();
+    double elapsed_s;
+    {
+        std::lock_guard<std::mutex> lock(stats_time_mutex_);
+        elapsed_s = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - engine_start_time_).count();
+    }
     if (elapsed_s > 0.0) {
         stats["tokens_per_second"] =
             static_cast<double>(stats_.total_tokens_generated.load()) / elapsed_s;

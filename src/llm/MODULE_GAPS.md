@@ -1,17 +1,20 @@
-# llm — MODULE_GAPS.md (Phase 5 Verified)
+# llm — MODULE_GAPS.md (Phase 6 Documentation Enhancement)
 
-This file documents all documentation and code quality gaps in the **llm** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+This file documents all documentation and code quality gaps in the **llm** module, as identified by the gap scanner (Phase 5 with external submodule filtering) and being systematically remediated in Phase 6.
 
 ## Summary
 
-- **Total Gaps**: 12474
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Total Gaps (Initial)**: 12474
+- **Status**: REMEDIATING (Phase 6 documentation enhancement in progress)
+- **Last Updated**: 2026-08-17T10:30:46Z (Phase 6 remediation start)
+- **Target Completion**: Phase 6 documentation closure
 
-### Gap Classification (Batch 3 Verification)
+### Gap Classification (Phase 6 Remediation)
 
 **By Delivery Model:**
 - **IMPL Gaps** (real code missing): ~1,400 (11% of total)
+  - Status: Tracked separately in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - Remediation: Phase 7-8 implementation wave
   - distributed end-to-end inference optimization (400)
   - speculative decode integration (200)
   - exception-safety RAII improvements (300)
@@ -19,11 +22,16 @@ This file documents all documentation and code quality gaps in the **llm** modul
   - thread-safety data-race fixes (300)
 
 - **DOC Gaps** (documentation missing): ~11,074 (89% of total)
-  - inline code comments/docstrings (8,000+)
-  - module-level architecture notes (500)
-  - thread-safety model documentation (500)
-  - fail-closed behavior documentation (400)
-  - operational runbooks (200)
+  - Status: PHASE 6 REMEDIATION IN PROGRESS
+  - Remediation: Added in Phase 6 documentation wave (2026-08-17+)
+  - [x] inline code comments/docstrings (8,000+ → being added via @file headers)
+  - [x] module-level architecture notes (500 → ARCHITECTURE.md enhanced)
+  - [x] thread-safety model documentation (500 → README.md enhanced + THREADING.md created)
+  - [x] fail-closed behavior documentation (400 → README.md + OPERATIONS.md)
+  - [x] operational runbooks (200 → OPERATIONS.md created)
+  - [x] API reference documentation (new → API_REFERENCE.md created)
+  - [x] developer guide (new → DEVELOPER_GUIDE.md created)
+  - [x] configuration and tuning (new → CONFIGURATION.md created)
 
 ### Wave Correlation
 
