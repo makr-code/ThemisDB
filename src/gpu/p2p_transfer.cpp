@@ -322,12 +322,30 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(const Tran
         ++stats_.failed_transfers;
         return result;
     }
+    
+    // Verify no lingering errors from the transfer
+    err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.error_message = "cudaMemcpyPeer: lingering error after transfer";
+        ++stats_.failed_transfers;
+        return result;
+    }
 #else // THEMIS_ENABLE_HIP
     hipError_t err = hipMemcpyPeer(req.dst_ptr, dst_idx, req.src_ptr, src_idx, req.size_bytes);
 
     if (err != hipSuccess) {
         std::lock_guard<std::mutex> lock(mutex_);
         result.error_message = "hipMemcpyPeer failed";
+        ++stats_.failed_transfers;
+        return result;
+    }
+    
+    // Verify no lingering errors from the transfer
+    err = hipGetLastError();
+    if (err != hipSuccess) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.error_message = "hipMemcpyPeer: lingering error after transfer";
         ++stats_.failed_transfers;
         return result;
     }

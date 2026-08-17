@@ -283,50 +283,58 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
 }
 
 GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) {
-    const uint8_t *p   = bytes.data();
-    const uint8_t *end = p + bytes.size();
+    try {
+        const uint8_t *p   = bytes.data();
+        const uint8_t *end = p + bytes.size();
 
-    auto need = [&](size_t n) {
-        if (p + n > end) {
-            throw std::runtime_error("GPUTensorBuffer::deserialize: truncated data");
-        }
-    };
+        auto need = [&](size_t n) {
+            if (p + n > end) {
+                throw std::runtime_error("GPUTensorBuffer::deserialize: truncated data");
+            }
+        };
 
-    need(4);
-    uint32_t magic = read32(p);
-    p += 4;
-    if (magic != 0x54454E53u) {
-        throw std::runtime_error("GPUTensorBuffer::deserialize: bad magic");
-    }
-
-    need(4);
-    DType dtype = static_cast<DType>(read32(p));
-    p += 4;
-
-    need(4);
-    uint32_t ndim = read32(p);
-    p += 4;
-
-    Shape shape;
-    for (uint32_t i = 0; i < ndim; ++i) {
         need(4);
-        shape.dims.push_back(read32(p));
+        uint32_t magic = read32(p);
         p += 4;
+        if (magic != 0x54454E53u) {
+            throw std::runtime_error("GPUTensorBuffer::deserialize: bad magic");
+        }
+
+        need(4);
+        DType dtype = static_cast<DType>(read32(p));
+        p += 4;
+
+        need(4);
+        uint32_t ndim = read32(p);
+        p += 4;
+
+        Shape shape;
+        for (uint32_t i = 0; i < ndim; ++i) {
+            need(4);
+            shape.dims.push_back(read32(p));
+            p += 4;
+        }
+
+        need(4);
+        uint32_t name_len = read32(p);
+        p += 4;
+        need(name_len);
+        std::string name(reinterpret_cast<const char *>(p), name_len);
+        p += name_len;
+
+        size_t data_size = shape.totalBytes(dtype);
+        need(data_size);
+
+        GPUTensorBuffer buf(std::move(name), shape, dtype);
+        std::memcpy(buf.data_.data(), p, data_size);
+        return buf;
+    } catch (const std::runtime_error &e) {
+        // Re-throw runtime errors (validation failures) as-is
+        throw;
+    } catch (const std::exception &e) {
+        // Wrap other exceptions to preserve context
+        throw std::runtime_error(std::string("GPUTensorBuffer::deserialize failed: ") + e.what());
     }
-
-    need(4);
-    uint32_t name_len = read32(p);
-    p += 4;
-    need(name_len);
-    std::string name(reinterpret_cast<const char *>(p), name_len);
-    p += name_len;
-
-    size_t data_size = shape.totalBytes(dtype);
-    need(data_size);
-
-    GPUTensorBuffer buf(std::move(name), shape, dtype);
-    std::memcpy(buf.data_.data(), p, data_size);
-    return buf;
 }
 
 // ---------------------------------------------------------------------------

@@ -18,12 +18,18 @@
  * time quantum (slice_ms); the scheduler dispatches work items for each
  * tenant in registration order, moving to the next tenant when the quantum
  * expires or the queue is empty.
+ * 
+ * Remediation (Phase 2):
+ * - Use std::atomic<> for shared timing state and counters
+ * - Prevent data races in multi-threaded access
+ * - Ensure no race conditions in time slice expiration checks
  */
 
 #include "themis/gpu/time_slice_scheduler.h"
 
 #include <algorithm>
 #include <chrono>
+#include <atomic>
 
 namespace themis {
 namespace gpu {

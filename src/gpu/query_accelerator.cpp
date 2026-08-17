@@ -1144,7 +1144,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
             auto db_dev = raft::make_device_matrix<float>(handle, numVectors, dim);
             CHECKED_CUDA(cudaMemcpy(db_dev.data_handle(), database.data(), numVectors * dim * sizeof(float),
                                     cudaMemcpyHostToDevice));
-            raft::copy(db_dev.data_handle(), database.data(), numVectors * dim, handle.get_stream());
+            // Note: cudaMemcpy above handles the transfer; raft::copy is redundant and removed.
  
             // 2. Build IVF-Flat index with SLA enforcement
             KernelSLAGuard build_guard(std::chrono::seconds(5));
@@ -1161,7 +1161,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
                 auto q_dev = raft::make_device_matrix<float>(handle, numQueries, dim);
                 CHECKED_CUDA(cudaMemcpy(q_dev.data_handle(), queries.data(), numQueries * dim * sizeof(float),
                                         cudaMemcpyHostToDevice));
-                raft::copy(q_dev.data_handle(), queries.data(), numQueries * dim, handle.get_stream());
+                // Note: cudaMemcpy above handles the transfer; raft::copy is redundant and removed.
                 auto neighbors_dev = raft::make_device_matrix<uint32_t>(handle, numQueries, k);
                 auto distances_dev = raft::make_device_matrix<float>(handle, numQueries, k);
                  
@@ -1178,8 +1178,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
                                             numQueries * k * sizeof(uint32_t), cudaMemcpyDeviceToHost));
                     CHECKED_CUDA(cudaMemcpy(host_distances.data(), distances_dev.data_handle(), 
                                             numQueries * k * sizeof(float), cudaMemcpyDeviceToHost));
-                    raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(), numQueries * k, handle.get_stream());
-                    raft::copy(host_distances.data(), distances_dev.data_handle(), numQueries * k, handle.get_stream());
+                    // Note: Synchronize stream to ensure host-side copies complete
                     handle.sync_stream();
  
                     result.results.resize(numQueries);

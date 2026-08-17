@@ -47,13 +47,21 @@ bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::stri
         }
     }
 
-    // Commit the allocation.
+    // RAII-safe allocation: add to tracking first (may throw on vector alloc)
+    // If this throws, no state is modified. Only on success do we update counters.
+    try {
+        active_allocations_.push_back({size_bytes, tag, tenant_id});
+    } catch (...) {
+        // Vector allocation failed; state is unchanged
+        return false;
+    }
+
+    // Commit the allocation (only reached if push succeeded).
     gpu_memory_allocated_ = new_total;
     if (gpu_memory_allocated_ > peak_bytes_) {
         peak_bytes_ = gpu_memory_allocated_;
     }
     ++allocation_count_;
-    active_allocations_.push_back({size_bytes, tag, tenant_id});
 
     // Update tenant state.
     if (!tenant_id.empty()) {

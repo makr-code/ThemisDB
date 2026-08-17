@@ -13,6 +13,7 @@
 #include "themis/gpu/training_loop.h"
 
 #include <algorithm>
+#include <cmath>
 #include <numeric>
 #include <stdexcept>
 
@@ -112,8 +113,22 @@ GPUTrainingLoop::EpochStats GPUTrainingLoop::run(const std::vector<Batch> &batch
     es.epoch     = epoch_num_;
     es.steps     = local_steps;
     es.avg_loss  = local_steps > 0 ? sum_loss / static_cast<double>(local_steps) : 0.0;
-    es.min_loss  = (min_loss == std::numeric_limits<double>::max()) ? 0.0 : min_loss;
-    es.max_loss  = (max_loss == std::numeric_limits<double>::lowest()) ? 0.0 : max_loss;
+    
+    // Use safe floating-point comparisons: check if min/max were ever updated
+    // from their sentinel values (std::numeric_limits<double>::max/lowest()).
+    // Avoid exact equality checks with infinity values.
+    if (std::isfinite(min_loss) && min_loss != std::numeric_limits<double>::max()) {
+       es.min_loss = min_loss;
+    } else {
+       es.min_loss = 0.0;
+    }
+    
+    if (std::isfinite(max_loss) && max_loss != std::numeric_limits<double>::lowest()) {
+       es.max_loss = max_loss;
+    } else {
+       es.max_loss = 0.0;
+    }
+    
     es.gpu_steps = gpu_steps;
     es.cpu_steps = cpu_steps;
 

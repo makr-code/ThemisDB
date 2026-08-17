@@ -1,6 +1,7 @@
-> **Status:** 2026-06-01 – mit aktuellem Gpu-Code (`policy.cpp`) abgeglichen.
+<!-- Status: current | validated: 2026-08-17 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md -->
 
-# ThemisDB Gpu Module - Production Requirements
+# ThemisDB GPU Module - Production Requirements
 
 ## Zweck und Geltungsbereich
 

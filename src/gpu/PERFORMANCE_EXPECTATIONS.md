@@ -1,5 +1,8 @@
 # PERFORMANCE_EXPECTATIONS - src/gpu
 
+<!-- Status: current | validated: 2026-08-17 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md -->
+
 ## Scope
 
 - Module: src/gpu
