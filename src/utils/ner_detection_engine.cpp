@@ -148,12 +148,13 @@ std::vector<PIIFinding> NERDetectionEngine::detectInText(const std::string& text
         return {};
     }
     
-    // Phase A.2 Hardening: Explicit model-unavailable handling
-    // If model/gazetteers are not available, return empty findings (fail-closed)
-    // This prevents silent fallback to default/degraded behavior
+    // Fail-closed: throw when model is unavailable so the caller (e.g.
+    // PIIStreamScanner) can catch the exception and emit a sentinel finding
+    // that blocks data from passing through unscanned.  Returning an empty
+    // vector would be fail-open (silent bypass).
     if (!model_available_) {
-        spdlog::warn("NERDetectionEngine: detectInText called but model is unavailable");
-        return {};  // Fail-closed: no detections when model unavailable
+        spdlog::warn("NERDetectionEngine: detectInText called but model is unavailable – throwing (fail-closed)");
+        throw std::runtime_error("NERDetectionEngine: model is unavailable");
     }
 
     auto tokens = tokenise(text);

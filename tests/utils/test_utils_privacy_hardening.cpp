@@ -27,22 +27,25 @@ using namespace themis::utils;
 // ─────────────────────────────────────────────────────────────────────────────
 class AlwaysThrowingEngine : public IPIIDetectionEngine {
 public:
-    std::vector<PIIFinding> detectInText(const std::string&) const override {
+    [[nodiscard]] std::string getName()    const override { return "AlwaysThrowingEngine"; }
+    [[nodiscard]] std::string getVersion() const override { return "0.0.0"; }
+    [[nodiscard]] bool        isEnabled()  const override { return true; }
+    [[nodiscard]] PluginSignature getSignature() const override { return {}; }
+    [[nodiscard]] bool initialize([[maybe_unused]] const nlohmann::json&) override { return true; }
+    [[nodiscard]] bool reload([[maybe_unused]] const nlohmann::json&)     override { return true; }
+
+    [[nodiscard]] std::vector<PIIFinding> detectInText(const std::string&) const override {
         throw std::runtime_error("simulated engine timeout");
     }
-    std::unordered_map<std::string, std::vector<PIIFinding>>
-    detectInJson([[maybe_unused]] const nlohmann::json& j) const override {
-        throw std::runtime_error("simulated engine timeout");
-    }
-    PIIType classifyFieldName([[maybe_unused]] const std::string&) const override {
+    [[nodiscard]] PIIType classifyFieldName([[maybe_unused]] const std::string&) const override {
         return PIIType::UNKNOWN;
     }
-    size_t maxPatternLength() const override { return 64; }
-    std::string engineName() const override { return "AlwaysThrowingEngine"; }
-    bool isEnabled() const override { return true; }
-    void setEnabled([[maybe_unused]] bool) override {}
-    double confidenceThreshold() const override { return 0.5; }
-    void setConfidenceThreshold([[maybe_unused]] double) override {}
+    [[nodiscard]] std::string getRedactionRecommendation([[maybe_unused]] PIIType) const override {
+        return "strict";
+    }
+    [[nodiscard]] std::string     getLastError() const override { return {}; }
+    [[nodiscard]] nlohmann::json  getMetadata()  const override { return {}; }
+    size_t maxPatternLength()                    const override { return 64; }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -50,22 +53,25 @@ public:
 // ─────────────────────────────────────────────────────────────────────────────
 class EmptyFindingsEngine : public IPIIDetectionEngine {
 public:
-    std::vector<PIIFinding> detectInText([[maybe_unused]] const std::string& t) const override {
+    [[nodiscard]] std::string getName()    const override { return "EmptyFindingsEngine"; }
+    [[nodiscard]] std::string getVersion() const override { return "0.0.0"; }
+    [[nodiscard]] bool        isEnabled()  const override { return true; }
+    [[nodiscard]] PluginSignature getSignature() const override { return {}; }
+    [[nodiscard]] bool initialize([[maybe_unused]] const nlohmann::json&) override { return true; }
+    [[nodiscard]] bool reload([[maybe_unused]] const nlohmann::json&)     override { return true; }
+
+    [[nodiscard]] std::vector<PIIFinding> detectInText([[maybe_unused]] const std::string&) const override {
         return {};
     }
-    std::unordered_map<std::string, std::vector<PIIFinding>>
-    detectInJson([[maybe_unused]] const nlohmann::json& j) const override {
-        return {};
-    }
-    PIIType classifyFieldName([[maybe_unused]] const std::string&) const override {
+    [[nodiscard]] PIIType classifyFieldName([[maybe_unused]] const std::string&) const override {
         return PIIType::UNKNOWN;
     }
-    size_t maxPatternLength() const override { return 32; }
-    std::string engineName() const override { return "EmptyFindingsEngine"; }
-    bool isEnabled() const override { return true; }
-    void setEnabled([[maybe_unused]] bool) override {}
-    double confidenceThreshold() const override { return 0.5; }
-    void setConfidenceThreshold([[maybe_unused]] double) override {}
+    [[nodiscard]] std::string getRedactionRecommendation([[maybe_unused]] PIIType) const override {
+        return "none";
+    }
+    [[nodiscard]] std::string     getLastError() const override { return {}; }
+    [[nodiscard]] nlohmann::json  getMetadata()  const override { return {}; }
+    size_t maxPatternLength()                    const override { return 32; }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -91,9 +97,10 @@ TEST(PrivacyHardening, EngineExceptionFailClosedReturnsSentinelFinding) {
 
     // Fail-closed: must return at least one sentinel finding
     ASSERT_GE(findings.size(), 1u);
-    EXPECT_EQ(findings[0].pii_type, "UNKNOWN_FAIL_CLOSED");
+    EXPECT_EQ(findings[0].type, PIIType::UNKNOWN);
+    EXPECT_EQ(findings[0].pattern_name, "FAIL_CLOSED");
     // Confidence must be maximum (1.0) for a fail-closed sentinel
-    EXPECT_FLOAT_EQ(findings[0].confidence, 1.0f);
+    EXPECT_DOUBLE_EQ(findings[0].confidence, 1.0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

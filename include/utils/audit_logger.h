@@ -198,6 +198,13 @@ struct AuditLoggerConfig {
     uint64_t max_file_size_bytes = 0;   ///< rotate when file reaches this size (0 = disabled)
     size_t max_rotated_files = 5;       ///< number of rotated log files to keep
     std::string secondary_log_path;     ///< mirror path for redundancy (empty = disabled)
+
+    /// Maximum number of hash-chain entries accepted before rejecting further
+    /// writes with AUDIT_BUFFER_OVERFLOW (fail-closed).  0 = unlimited.
+    /// Note: this bounds the chain entry counter (entry_count_), not an
+    /// in-memory queue; it is most useful for preventing unbounded disk fill in
+    /// long-running deployments without log rotation.
+    size_t max_queued_events = 0;
 };
 
 // Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now)
