@@ -6,6 +6,8 @@
 **Scope:** Aktueller Implementierungsstand auf Basis der Root-Governance, des Audit-Stacks und der modulnahen `ROADMAP.md`-/`AUDIT.md`-Quellen sowie eines aktuellen Source-Reality-Checks auf Dokumentationsdrift  
 **Primärquellen:** `ROADMAP.md`, `audit/MATURITY_REPORT_2026-08.md`, `audit/IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `docs/governance/GA_PROMOTION_SIGN_OFF.md`, `src/execution/ROADMAP.md`, `src/evaluation/ROADMAP.md`, `src/evaluation/AUDIT.md`, `include/security/ai_snapshot_cleanup.h`, `include/search/*.h`, `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp`, `tests/test_thread_pool_manager.cpp`, `tests/thread/test_thread_pool_manager.cpp`, `benchmarks/bench_thread_pool_saturation.cpp`
 
+> **SOT-Hinweis:** Für Audit-Dokumentation ist `/audit/**` kanonisch; `ai_working/**` ist nur Evidenz-/Entwurfsmaterial und keine eigenständige Wahrheitsquelle.
+
 ---
 
 ## Executive Summary

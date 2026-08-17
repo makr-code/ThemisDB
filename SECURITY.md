@@ -21,12 +21,11 @@
 > ThemisDB **security module is currently in HARDENING status** (see module table in [ROADMAP.md](ROADMAP.md)).
 > Do not use in production-critical environments without project-specific hardening review and validated release evidence.
 
-| Version | Status | Security Module | Notes |
+| Version / Line | Status | Security Module | Notes |
 |---------|:------:|:---------------:|-------|
-| **1.8.x** | 🟡 Beta | 🚨 NOT READY | Active hardening phase; security audit in progress |
-| **1.x** | 🔴 Alpha | 🚨 NOT READY | Security gaps identified, fixes underway |
-| **0.9.x** | ❌ Unsupported | ❌ Unsupported | Use only for testing/non-production |
-| **< 0.9** | ❌ Unsupported | ❌ Unsupported | End of life |
+| **2.4.0 (current GA lane)** | 🟡 Human sign-off pending | ✅ Technical GA gates PASS | Final governance sign-off pending in `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9 |
+| **2.4.0-rc1 evidence baseline** | ✅ Technical PASS | ✅ Wave 7/8/9 + sanitizer + pentest evidence complete | See `audit/AUDIT.md` and `audit/MATURITY_REPORT_2026-08.md` |
+| **1.x and older** | ❌ Unsupported for current security posture claims | ❌ Historical only | Keep only as archival implementation history |
 
 ---
 
@@ -144,7 +143,7 @@ gemeinsame Baseline:
 | Bereich | Verbindliche Aussage | Primäre Nachweise |
 |---|---|---|
 | Architekturkonsistenz | Sicherheitsmodell (Hardening, Transportschutz, AuthN/AuthZ, Audit-Trail) ist mit der Root-Architektur synchronisiert | [ARCHITECTURE.md](ARCHITECTURE.md), [audit/AUDIT.md](audit/AUDIT.md) |
-| Technische Kontrollen | Auditierbare Kontrollen umfassen mindestens RBAC, verschlüsselte Audit-Logs, SAST/Secret/Container-Scans | [audit/AUDIT.md](audit/AUDIT.md), [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md) |
+| Technische Kontrollen | Auditierbare Kontrollen umfassen mindestens RBAC, verschlüsselte Audit-Logs, SAST/Secret/Container-Scans | [audit/AUDIT.md](audit/AUDIT.md), [audit/docs/audit-framework/AUDIT_RUNBOOK.md](audit/docs/audit-framework/AUDIT_RUNBOOK.md) |
 | Verifikationspfade | Security-relevante Test-/Nachweiswege werden in CTest nachvollziehbar geführt | [CTEST.md](CTEST.md) |
 | Performance-Randbedingungen | Performance-Ziele und Optimierungen dürfen Sicherheitskontrollen nicht abschalten oder umgehen | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md), [PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md), [PERFORMANCE_BOTTLENECKS.md](PERFORMANCE_BOTTLENECKS.md) |
 
@@ -506,10 +505,10 @@ semgrep --config=auto src/ include/
 
 ---
 
-## 🔒 Recent Security Work
+## 🔒 Recent Security Work (archival v1.x context)
 
 > [!NOTE]
-> **Comprehensive Security Summary (v1.3.0 - v1.3.4):**  
+> **Archival security summary (v1.3.0 - v1.3.4):**  
 > See [Security Work Summary](/docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md) for detailed information about recent security improvements.
 
 ### Highlights (v1.3.4)
@@ -550,4 +549,3 @@ semgrep --config=auto src/ include/
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

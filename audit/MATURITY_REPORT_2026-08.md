@@ -7,6 +7,8 @@
 **Methodik:** Automatisierter Source-Scan (D1–D3) + Compliance-Dokumenten-Audit (D4) + Roadmap-Checkbox-Analyse (D5) + Operational-Evidence-Review (D6)  
 **Basis:** `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `IMPLEMENTATION_AUDIT_2026-08-08.md`, `../ROADMAP.md` (Stand 2026-08-09)
 
+> **Archiv-Hinweis:** Verweise auf `v1.4.x` Audit-Templates/Evidence-Pakete in diesem Bericht sind historisch und nicht als Current-State-Quelle zu lesen; aktuelle Statusaussagen folgen `ROADMAP.md`, `CHANGELOG.md` und `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+
 > **Wichtige Sync-Notiz (2026-08-10):**
 > - Das korrigierte Audit `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist die maßgebliche Quelle bei Abweichungen für `evaluation`, `execution`, CUDA-Geokernel und den `ai_snapshot_cleanup.h`-Compile-Befund.
 > - `src/execution/ROADMAP.md` existiert inzwischen; der frühere reine Governance-Gap ist damit geschlossen.

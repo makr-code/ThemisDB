@@ -26,6 +26,7 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 
 - [ROADMAP.md](ROADMAP.md) — cross-module delivery roadmap
 - [CHANGELOG.md](CHANGELOG.md) — released changes
+- [AUDIT.md](AUDIT.md) — root audit navigation (points to canonical `audit/` hub)
 - [VERSIONING.md](VERSIONING.md) — semantic versioning policy
 - [SECURITY.md](SECURITY.md) — vulnerability reporting and security policy
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution process
@@ -62,7 +63,8 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 - [docs/SYSTEMATISCHER_REVIEWPLAN.md](docs/SYSTEMATISCHER_REVIEWPLAN.md)
 - [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md)
 - [docs/de/development/SOURCE_CODE_AUDIT.md](docs/de/development/SOURCE_CODE_AUDIT.md)
-- [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md)
+- [audit/AUDIT.md](audit/AUDIT.md)
+- [audit/docs/audit-framework/AUDIT_RUNBOOK.md](audit/docs/audit-framework/AUDIT_RUNBOOK.md)
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-07-28

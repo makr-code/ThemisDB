@@ -1,64 +1,26 @@
-# Root Audit-Navigation und Abgleichsnachweis
+# Root Audit Navigation (SOT Pointer)
 
-Die zentrale Audit-Dokumentation liegt unter `audit/`.
+Canonical audit source for this repository is the `/audit/**` tree.
 
-## Kanonische Audit-Quellen
+## Primary source of truth
 
-- Hauptdokument: [audit/AUDIT.md](audit/AUDIT.md)
-- BSI C5 2026 Update: [audit/BSI_C5_2026_THEMISDB_AUDIT.md](audit/BSI_C5_2026_THEMISDB_AUDIT.md)
-- Audit-Runbook: [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md)
+- Audit hub: [audit/AUDIT.md](audit/AUDIT.md)
+- Audit index and canonical map: [audit/README.md](audit/README.md)
+- BSI C5 delta audit: [audit/BSI_C5_2026_THEMISDB_AUDIT.md](audit/BSI_C5_2026_THEMISDB_AUDIT.md)
+- Maturity snapshot: [audit/MATURITY_REPORT_2026-08.md](audit/MATURITY_REPORT_2026-08.md)
+- Current implementation sync: [audit/IMPLEMENTATION_AUDIT_2026-08-12.md](audit/IMPLEMENTATION_AUDIT_2026-08-12.md)
 
-## Root-Dokument-Abgleich (Architektur / Security / Performance / Test)
+## Governance references
 
-Der Root-Abgleich folgt einer gemeinsamen Kontrollbasis:
+- Root status baseline: [ROADMAP.md](ROADMAP.md)
+- Release trace: [CHANGELOG.md](CHANGELOG.md)
+- GA governance sign-off: [docs/governance/GA_PROMOTION_SIGN_OFF.md](docs/governance/GA_PROMOTION_SIGN_OFF.md)
+- Documentation SOT rules: [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md)
 
-1. **Sicherheitsmodell ↔ Architekturannahmen:** Hardening/Transport/AuthZ/Audit-Trail sind zwischen `ARCHITECTURE.md` und `SECURITY.md` harmonisiert.
-2. **Audit-Aussagen ↔ technische Kontrollen:** Referenziert werden aktive Kontrollen aus `audit/AUDIT.md` und `SECURITY.md` (z. B. Gitleaks, clang-tidy, cppcheck, Trivy, RBAC, Audit-Logging).
-3. **Security-Verifikation ↔ Testpfade:** Nachweisbare Testpfade sind in `CTEST.md` dokumentiert und mit den Security-/Audit-Dokumenten verlinkt.
-4. **Performance ↔ Security/Audit:** Performance-Gates in `PERFORMANCE_EXPECTATIONS.md`, `PERFORMANCE_OPTIMIZATION_PLAN.md` und `PERFORMANCE_BOTTLENECKS.md` sind auf dieselben Sicherheits- und Audit-Randbedingungen ausgerichtet.
+## Notes
 
-## Gap-Scanner Status (2026-06-11)
-
-- Aktiver Scan-Artefaktpfad:
-  - `ai_working/gap_scan_results.json`
-  - `ai_working/gap_scan_report_ollama_gemma4.md`
-- Aktive Remediation-Worklist:
-  - `themis_core` only (third_party rein informativ)
-  - kompakter 6-Zeilen-Template-Block pro Item fuer externe Abarbeitung
-- Aktives GitHub-Tracking-Issue:
-  - `#5475` — `[P0-HIGH] INCLUDE Module - Current Gap Worklist Tracking (2026-06-11)`
-- Hinweis zur Tracker-Konsolidierung:
-  - Historische modulare v3-P0-Tracker wurden in den Closed-State ueberfuehrt und durch den aktuellen Baseline-Tracker ersetzt.
-  - Zweite Konsolidierungsrunde abgeschlossen: Cross-Module/v3-Tracker `#5172`, `#5232` bis `#5244` geschlossen (superseded by `#5475`).
-
-### Aktuell offene Remediation-Issues (Snapshot)
-
-- `#5475` — `[P0-HIGH] INCLUDE Module - Current Gap Worklist Tracking (2026-06-11)`
-- `#5363` — Legacy migration tracking (offen)
-- `#5364` — Legacy migration tracking (offen)
-- `#5365` — Legacy migration tracking (offen)
-- `#5366` — Legacy migration tracking (offen)
-
-## Root-Sync-Referenzen (2026-06-11)
-
-- README-Statusabgleich:
-  - `README.md` Abschnitt `Scanner Baseline Update (2026-06-11)` ist auf denselben Tracking-Stand synchronisiert.
-- Releasehistorie / Governance-Abgleich:
-  - `CHANGELOG.md` enthaelt den Eintrag `Documentation / Governance — Scanner baseline and tracker consolidation (2026-06-11)`.
-- Arbeitsmodus fuer Remediation:
-  - Fokus bleibt auf abhakbarer Worklist (keine Top-N-Statistik) mit `themis_core` als actionable Scope.
-
-## Review- und Dokumentationsaudit-Nachweis (Issue-Abschluss)
-
-- [x] Fachreview gegen Checklisten durchgeführt
-  Referenzen: [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](docs/DOCUMENTATION_REVIEW_GUIDELINES.md), [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md)
-- [x] Dokumentationsaudit systematisch durchgeführt
-  Referenzen: [docs/SYSTEMATISCHER_REVIEWPLAN.md](docs/SYSTEMATISCHER_REVIEWPLAN.md), [docs/de/development/SOURCE_CODE_AUDIT.md](docs/de/development/SOURCE_CODE_AUDIT.md)
-- [x] Audit-/Review-Ergebnis in Root-Dokumenten dokumentiert
-  Referenz: [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md)
-- [x] Betroffene Dateien/Scope festgehalten
-  `ARCHITECTURE.md`, `AUDIT.md`, `SECURITY.md`, `CTEST.md`, `PERFORMANCE_EXPECTATIONS.md`, `PERFORMANCE_OPTIMIZATION_PLAN.md`, `PERFORMANCE_BOTTLENECKS.md`
+- `/docs/**` audit-related pages are downstream publication/legacy mirrors unless explicitly marked otherwise in [audit/README.md](audit/README.md).
+- `ai_working/**` is evidence and draft material, never canonical source of truth for release/security status claims.
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-06-11
-
+Zuletzt geprueft (Root-Sync): 2026-08-17

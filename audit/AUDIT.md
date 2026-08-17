@@ -1,12 +1,12 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Last Updated:** 2026-08-12
+**Last Updated:** 2026-08-17
 **Repository Metadata:** `VERSION=2.4.0`, `RELEASE_TYPE=stable`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop`
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
 
 > **NOTE:** This document aggregates the current audit stack. When August 2026 audit files disagree, prefer `IMPLEMENTATION_AUDIT_2026-08-12.md`, then `MATURITY_REPORT_2026-08.md`, `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, the root `ROADMAP.md`, and the module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
-> **NEW (Aug 2026):** EU AI Act compliance documentation added:
+> **NEW (Aug 2026):** EU AI Act compliance documentation added (canonical in `/audit`, downstream mirrors may lag):
 > - `docs/compliance/EU_AI_ACT_COMPLIANCE.md` — Risk classification & deployment checklist
 > - `docs/compliance/EU_AI_ACT_RISK_MAPPING.md` — Module-by-module risk assessment  
 > - `docs/compliance/EU_AI_ACT_EVIDENCE_BUNDLE.md` — Testing & audit trail evidence
@@ -248,7 +248,7 @@ For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 
 ## Recent Security Work
 
-### v1.3.4 (2026-01)
+### Archival release notes — v1.3.4 (2026-01)
 
 **RocksDB Wrapper:**
 - ✅ 7 critical vulnerabilities fixed (use-after-free, null-pointer, memory leaks)
@@ -266,7 +266,7 @@ For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 - ✅ HTTPS-only communication
 - ✅ Thread-safe implementation
 
-### v1.5.0 (2026-Q1)
+### Archival release notes — v1.5.0 (2026-Q1)
 
 **Security & PKI:**
 - ✅ PKCS#11 real HSM provider (`src/security/hsm_provider_pkcs11.cpp`)
@@ -280,7 +280,7 @@ For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 - ✅ `DatabaseMaintenanceOrchestrator` — all mutations audit-logged via `AuditLogger`
 - ✅ RBAC roles `maintenance:read`, `maintenance:write`, `maintenance:admin` enforced
 
-### v1.7.0 (2026-Q1)
+### Archival release notes — v1.7.0 (2026-Q1)
 
 **Documentation & Quality Audit (PRs #3472–#3484):**
 - ✅ Full 44-module documentation audit and sync — stale references removed, undocumented components added
@@ -291,7 +291,7 @@ For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 **Observability:**
 - ✅ `RootCauseAnalyzer` — `analyzeIssue`, `findCorrelations`, `buildCausalGraph` (Issue #84)
 
-### v1.8.0 (2026-03-22)
+### Archival release notes — v1.8.0 (2026-03-22)
 
 **Authentication & Authorization:**
 - ✅ JWT scope enforcement — `JWTClaims.scopes`, `role_scope_map_`, OAuth2 `scope`/`scp` claim extraction (PR [#4279](https://github.com/makr-code/ThemisDB/pull/4279))
