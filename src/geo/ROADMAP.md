@@ -9,7 +9,7 @@
 
 Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON geometry processing, spatial joins, clustering, raster queries, temporal-spatial workflows, and tile integration.
 
-Issue #5646 remains open with partial closure coverage: roadmap/future synchronization is refreshed, configure now succeeds in this Linux environment after dependency provisioning, but focused executable evidence is still blocked by a pre-existing cross-module compile error in `include/security/ai_snapshot_cleanup.h`.
+Issue #5646 remains open with partial closure coverage: roadmap/future synchronization is refreshed, the earlier cross-module `ai_snapshot_cleanup.h` source bug is resolved, and a header-only revalidation now passes. What still remains open is refreshed focused executable evidence for the current cycle because the current Linux environment still lacks required build dependencies (`spdlog`, and for full module coverage also RocksDB).
 
 ## In Progress
 
@@ -87,16 +87,18 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
   - Result: now passes after installing required system dependencies (`librocksdb-dev`, `libfmt-dev`, `libspdlog-dev`, `nlohmann-json3-dev`, `libmimalloc-dev`, `libgtest-dev`, `libtbb-dev`, `libyaml-cpp-dev`, `libboost-system-dev`, `libboost-filesystem-dev`, `libcurl4-openssl-dev`).
 - Configure attempt 2: `cmake --preset community-release-allow-missing-rocksdb -DCMAKE_DISABLE_FIND_PACKAGE_RocksDB=TRUE`
   - Result: passes and confirms RocksDB fallback detection via pkg-config dynamic path.
-- Build attempt: `cmake --build /home/runner/work/ThemisDB/ThemisDB/build-community-release-allow-missing-rocksdb --target module_geo_test_aql_st_functions_focused`
-  - Result: blocked by pre-existing compile error outside geo scope: `include/security/ai_snapshot_cleanup.h:63` (`AiSnapshotCleanupJob(Config cfg = {})` brace-init conversion failure).
-- Focused build/test status in this environment: executable refresh still blocked; test binary not produced yet.
+- Build attempt (historical, 2026-07-29): `cmake --build /home/runner/work/ThemisDB/ThemisDB/build-community-release-allow-missing-rocksdb --target module_geo_test_aql_st_functions_focused`
+  - Result at that time: blocked by the then-open cross-module `include/security/ai_snapshot_cleanup.h:63` constructor issue.
+- Revalidation attempt (2026-08-17): header-only compile for `include/security/ai_snapshot_cleanup.h` passes under `g++ -std=c++17`, confirming the former constructor blocker is source-seitig closed.
+- Revalidation attempt (2026-08-17): focused configure/build refresh remains blocked in this environment because `community-release-allow-missing-rocksdb` still fails without `spdlog`; full geo/security target validation additionally depends on RocksDB availability.
+- Current status: the `ai_snapshot_cleanup.h` source defect is closed; this roadmap keeps the evidence refresh open until a fresh focused geo build/test run is recorded in a dependency-complete environment.
 - Last known focused target evidence from issue context: PASS on `module_geo_test_aql_st_functions_focused.exe --gtest_brief=1` (`82` tests, exit `0`, validated `2026-07-18`).
 
 ## Open Work (Issue #5646)
 
 - [x] validate and refine extracted roadmap priorities against full module docs in `src/geo/ROADMAP.md`
 - [x] validate and refine extracted future focus points against full module docs in `src/geo/FUTURE_ENHANCEMENTS.md`
-- [~] add/refresh focused build and test evidence for this module (configure is now unblocked; build is blocked by pre-existing non-geo compile error documented in Evidence Summary)
+- [~] add/refresh focused build and test evidence for this module (historical non-geo compile blocker is resolved; current-cycle executable evidence now depends on a dependency-complete environment with at least `spdlog`, and for full coverage RocksDB)
 - [x] mark completed synced items and risks with explicit status transitions
 
 ## Closure Criteria (Issue #5646)
@@ -105,7 +107,7 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] evidence updated with explicit justified gap in this environment
 - [ ] parent epic task entry checked by maintainer
 - [ ] status labels updated by maintainer before close
-- [x] close reason documented as "sync pass complete; focused evidence refresh remains blocked by pre-existing non-geo compile error in current tree"
+- [x] close reason documented as "sync pass complete; historical non-geo compile blocker resolved, focused evidence refresh still needs a fresh current-cycle run"
 
 ## Known Issues & Limitations
 

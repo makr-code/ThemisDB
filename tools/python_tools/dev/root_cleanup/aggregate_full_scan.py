@@ -67,7 +67,23 @@ def aggregate_scans():
     total_findings = len(all_gaps)
     severity_dist = Counter(g.get('severity', 'UNKNOWN') for g in all_gaps)
     impact_dist = Counter(g.get('impact_level', 'UNKNOWN') for g in all_gaps)
-    ai_vibe_count = sum(1 for g in all_gaps if g.get('gap_type', '').startswith('ai_'))
+    ai_vibe_keywords = (
+        'todo_',
+        'simulation_',
+        'stub_',
+        'unvalidated_llm_',
+        'unsanitized_llm_',
+        'unchecked_result',
+        'missing_doxygen',
+        'llm_prompt',
+        'error_handling',
+        'header_drift',
+    )
+    ai_vibe_count = sum(
+        1
+        for g in all_gaps
+        if any(k in str(g.get('type', '')).lower() for k in ai_vibe_keywords)
+    )
     subsystem_dist = Counter(g.get('subsystem', 'UNKNOWN') for g in all_gaps)
     
     print(f"\n📊 TOTAL FINDINGS: {total_findings:,d}")

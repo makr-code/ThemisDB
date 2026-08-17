@@ -1,14 +1,12 @@
 # AI-Vibe Vulnerability Scan Report
-## Comprehensive Codebase Assessment (3 of 4 directories complete)
+## Comprehensive Codebase Assessment (4 of 4 directories complete)
 
-**Scan Date:** 2024-Latest  
-**Scope:** Full codebase across src/, include/, benchmarks/ (tests/ pending)  
+**Scan Date:** 2026-08-17  
+**Scope:** Full codebase across src/, include/, benchmarks/, tests/  
 **Scanner Suite:** 5 AI-Vibe + 37 Classic (42 total)  
 **Confidence Strategy:** 0.65-0.95 per scanner type; <5% false positive target
 
 ---
-
-## Executive Summary
 
 ## Executive Summary
 
@@ -366,7 +364,9 @@ With delimiters (correct):
 - `ai_working/scan_src.json` - Source implementation findings
 - `ai_working/scan_include.json` - Header findings
 - `ai_working/scan_benchmarks.json` - Benchmark findings
-- `ai_working/scan_tests.json` - Test findings (pending)
+- `ai_working/scan_tests.json` - Test findings
+- `ai_working/full_codebase_aggregated.json` - 42-scanner aggregated metrics (last refresh: 2026-08-17)
+- `ai_working/reports/root_cleanup/AI_VIBE_BASELINE_UPDATE_2026_08_17.md` - baseline refresh, inventory, and delta analysis
 
 **Analysis Tools:**
 - `tools/gs3_orchestrator.py` - Scanner orchestration (42 scanners)

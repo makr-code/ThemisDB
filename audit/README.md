@@ -1,30 +1,49 @@
-# ThemisDB — Audit Documentation Hub
+# ThemisDB Audit Hub and Canonical Map
 
-**Last Updated:** 2026-08-12
+**Last Updated:** 2026-08-17  
 **Repository Metadata:** `VERSION=2.4.0`, `RELEASE_TYPE=stable`  
-**Audit Evidence Snapshot:** `v2.4.0-rc1` hardening and GA-readiness artefacts on `develop`
-
-Dieses Verzeichnis bündelt die aktuellen Audit-, Compliance- und Reifeberichte für ThemisDB. Für Statusaussagen gelten die kanonischen Upstream-Quellen aus `ROADMAP.md`, `CHANGELOG.md`, `docs/governance/GA_PROMOTION_SIGN_OFF.md` und den modulnahen `src/*`-Dokumenten.
+**Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
 
 ---
 
-## Current Audit Set
+## Scope Lock
+
+- **Authoritative audit stack:** `audit/`
+- **Downstream docs mirror/publication:** `docs/`
+- **Historical/archive:** `audit/docs/audit-reports/v1.4.1/`, `audit/docs/audit-framework/evidence/v1.4.1/`, `audit/docs/ARCHIVED/`
+- **Non-canonical working evidence:** `ai_working/**` (draft/evidence only; never release/security source of truth)
+
+---
+
+## Current Audit Set (Authoritative)
 
 | Document | Purpose |
 |---|---|
-| `AUDIT.md` | Zentrale Security-, Compliance- und Release-Audit-Zusammenfassung |
-| `MATURITY_REPORT_2026-08.md` | Monatsbericht zur technischen Reife, Gate-Lage und offenen Risiken |
-| `IMPLEMENTATION_AUDIT_2026-08-12.md` | Aktueller Synchronisationsbericht zum Implementierungsstand per 2026-08-12 inklusive Source-Reality-Check für Execution-/Search-Drift |
-| `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Korrigierter Deep-Dive für Evaluation-, Execution-, CUDA- und Compile-Befunde |
-| `IMPLEMENTATION_AUDIT_2026-08-08.md` | Rohes Delta-Audit vom 2026-08-08 (nur noch als historische Zwischenstufe) |
-| `IMPLEMENTATION_AUDIT_2026-08-07.md` | Basis-Snapshot vom 2026-08-07 |
-| `BSI_C5_2026_THEMISDB_AUDIT.md` | BSI-C5-Delta-Audit und Maßnahmenliste |
+| `AUDIT.md` | Central security/compliance/release audit summary |
+| `MATURITY_REPORT_2026-08.md` | Monthly maturity and gate posture |
+| `IMPLEMENTATION_AUDIT_2026-08-12.md` | Current implementation sync report |
+| `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Historical deep-dive delta report |
+| `IMPLEMENTATION_AUDIT_2026-08-08.md` | Historical raw delta report |
+| `IMPLEMENTATION_AUDIT_2026-08-07.md` | Historical base snapshot |
+| `BSI_C5_2026_THEMISDB_AUDIT.md` | BSI-C5-2026 delta audit and actions |
+
+---
+
+## Inventory Matrix (`/audit` ↔ `/docs`)
+
+| Topic | Canonical (`/audit`) | Downstream (`/docs`) | Status |
+|---|---|---|---|
+| Root audit navigation | `../AUDIT.md` → `audit/AUDIT.md` | n/a | ✅ synced |
+| EU AI Act compliance set | `docs/compliance/EU_AI_ACT_*.md` (inside `audit/`) | `../docs/compliance/` currently does not mirror these files | 🟡 divergence tracked |
+| Audit framework runbook/templates | `docs/audit-framework/*` (inside `audit/`) | `../docs/audit-framework/*` | 🟡 mirrored with overlap; `/audit` authoritative |
+| Legacy `Audit` topic docs | `docs/Audit/*` (inside `audit/`) | `../docs/Audit/*` (inventory/gap-analysis docs) | ✅ scope-separated (no same-file duplicates) |
+| Versioned audit bundles | `docs/audit-reports/v1.4.1/*` (inside `audit/`) | `../docs/audit-reports/v1.4.1/*` | 🟡 historical mirror; archival-only framing required |
 
 ---
 
 ## Quick Navigation
 
-### Compliance & Governance
+### Compliance & Governance (canonical in `/audit`)
 - `docs/compliance/EU_AI_ACT_COMPLIANCE.md`
 - `docs/compliance/EU_AI_ACT_RISK_MAPPING.md`
 - `docs/compliance/EU_AI_ACT_EVIDENCE_BUNDLE.md`
@@ -40,19 +59,19 @@ Dieses Verzeichnis bündelt die aktuellen Audit-, Compliance- und Reifeberichte 
 - `../security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`
 - `../docs/governance/GA_PROMOTION_SIGN_OFF.md`
 
-### Historical / Versioned Audit Packages
+### Historical / Archival Paths
 - `docs/audit-reports/q2-2026-quality-wave-1/AUDIT.md`
-- `docs/audit-reports/v1.4.1/`
-- `docs/audit-framework/evidence/v1.4.1/`
+- `docs/audit-reports/v1.4.1/` (archival package)
+- `docs/audit-framework/evidence/v1.4.1/` (archival evidence bundle)
+- `docs/ARCHIVED/`
 
 ---
 
 ## Current Status Snapshot
 
-- Die technische GA-Härtung bleibt **PASS**: Wave 7, Wave 8, Wave 9, Sanitizer-Evidence und Pentest-Evidence sind geschlossen.
-- Der **einzige bestätigte GA-Blocker** bleibt die menschliche Freigabe in `../docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
-- `IMPLEMENTATION_AUDIT_2026-08-12.md` ist der aktuelle Referenzbericht für den synchronisierten Implementierungsstand; `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` bleibt der Deep-Dive für Evaluation/Execution/CUDA/Compile-Deltas, wird aber für aktuelle Search-/Execution-Pfadfragen durch den 2026-08-12-Sync ergänzt.
-- Die Audit-Dokumente in `audit/docs/compliance/` und `audit/docs/audit-framework/` bleiben die aktuelle Level-1/Level-2-Ablage innerhalb des Audit-Bereichs.
+- Technical GA hardening remains **PASS** (Wave 7/8/9 + sanitizer + pentest evidence).
+- The only confirmed GA blocker remains the human sign-off in `../docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
+- For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-08-12.md` first.
 
 ### Compliance Snapshot
 
@@ -67,18 +86,9 @@ Dieses Verzeichnis bündelt die aktuellen Audit-, Compliance- und Reifeberichte 
 
 ---
 
-## Provenance Notes
+## Provenance
 
-- Root release-readiness status: `../ROADMAP.md` (Last Updated 2026-08-09)
-- Root release summary: `../CHANGELOG.md`
+- Root release-readiness status: `../ROADMAP.md`
+- Root release trace: `../CHANGELOG.md`
 - Final governance gate: `../docs/governance/GA_PROMOTION_SIGN_OFF.md`
 - Module-level implementation truth: `../src/*/ROADMAP.md`, `../src/*/AUDIT.md`
-
----
-
-## Latest Changes
-
-- 2026-08-12: Implementierungs-Audit und Audit-Hub mit Source-Reality-Check für Execution-Pfade, Search-Header-Gaps und `ai_snapshot_cleanup.h`-Fix synchronisiert
-- 2026-08-10: Hub auf aktuelle Audit-Artefakte, Referenzpfade und GA-Blocker synchronisiert
-- 2026-08-09: `MATURITY_REPORT_2026-08.md` als Monatsaggregat ergänzt
-- 2026-08-08: Korrigiertes Implementierungs-Audit + EU-AI-Act-Audit-Dokumente ergänzt

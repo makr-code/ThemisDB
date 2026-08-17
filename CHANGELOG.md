@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Documentation
+
+- Audit/docs governance sync: root `AUDIT.md` converted to strict SOT navigation pointer, `audit/README.md` now contains explicit canonical `/audit` ↔ downstream `/docs` mapping, and root audit/security index links were aligned to canonical audit paths.
+
 ---
 
 ## [2.4.0] - 2026-08-13 - GA Release: v2.4.0 General Availability

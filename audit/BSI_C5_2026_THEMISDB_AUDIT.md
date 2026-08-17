@@ -45,7 +45,6 @@ ThemisDB bleibt auf einer **tragfähigen BSI-C5-Basis**, benötigt für den 2026
 ## 4) Betroffene zentrale Dokumente
 
 - `audit/AUDIT.md` (zentrale Audit-Übersicht, aktualisiert)
-- `audit/docs/audit-framework/COMPLIANCE_MAPPING.md`
+- `../docs/audit-framework/COMPLIANCE_MAPPING.md` (Downstream-Referenz; Audit-SOT bleibt `audit/`)
 - `docs/de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md`
 - `docs/de/compliance/compliance_full_checklist.md`
-
