@@ -76,7 +76,7 @@ Write-Host "`n[3/5] Replication HA & Failover Tests" -ForegroundColor Yellow
 $haTests = @(
     "test_replication_ha"
     "test_replication_geo"
-    "test_replication_*wal*"
+    "test_replication_.*wal.*"
 )
 
 foreach ($test in $haTests) {
@@ -98,7 +98,7 @@ foreach ($test in $haTests) {
 Write-Host "`n[4/5] Full Replication Test Suite" -ForegroundColor Yellow
 
 Write-Host "Running all replication tests..."
-$allTestsResult = & ctest --preset $BuildPreset -k "replication" --output-on-failure 2>&1
+$allTestsResult = & ctest --preset $BuildPreset -L "module:replication" --output-on-failure 2>&1
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "⚠ Some replication tests failed (see above for details)" -ForegroundColor Yellow

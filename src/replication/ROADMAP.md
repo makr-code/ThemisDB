@@ -53,12 +53,12 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [x] define explicit error taxonomy for replication failure classes (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
-- [x] complete hardening for replication manager and failover internals (Completed 2026-08-16 — Batch 4 gap closure: all 16 CRITICAL findings addressed, 22 unimplemented patterns replaced with production logic)
-- [x] align logical replication/CDC behavior to bounded runtime contracts (Completed 2026-08-16 — logical_replication.cpp/replication_manager.cpp: all return {} stubs documented as production-behavior or replaced with real logic)
+- [~] complete hardening for replication manager and failover internals (Target: Q3 2026)
+- [~] align logical replication/CDC behavior to bounded runtime contracts (Target: Q3 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-safe behavior for promotion failures, lag spikes, and slot faults (Completed 2026-08-16 — Batch 4 HIGH-A: replication_slot.cpp lock hierarchy (Level 1→2→3) documented and enforced, raft_v2.cpp move semantics hardened)
-- [x] unify diagnostics across orchestration/conflict/stream incident classes (Completed 2026-08-16 — Batch 4 HIGH-B+MEDIUM: event_stream.cpp range-temporary lifetimes fixed, conflict_resolution.cpp lock scope reduced)
+- [~] standardize fail-safe behavior for promotion failures, lag spikes, and slot faults (Target: Q3 2026)
+- [~] unify diagnostics across orchestration/conflict/stream incident classes (Target: Q3 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for failover and conflict-heavy edge scenarios (Completed 2026-07-29 — test_replication_contract_hardening_focused.cpp, RCH-01..RCH-16)
