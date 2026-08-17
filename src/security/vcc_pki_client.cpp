@@ -53,6 +53,60 @@ using X509_STORE_CTX_ptr = std::unique_ptr<X509_STORE_CTX, X509_STORE_CTX_Delete
 using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
 using OPENSSL_string_ptr = std::unique_ptr<char, OPENSSL_Free_Deleter>;
 
+bool starts_with(const std::string& value, const char* prefix) {
+    return value.rfind(prefix, 0) == 0;
+}
+
+std::string extract_url_host(const std::string& url) {
+    const size_t scheme_pos = url.find("://");
+    const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
+    if (host_start >= url.size()) {
+        return {};
+    }
+
+    if (url[host_start] == '[') {
+        const size_t end_bracket = url.find(']', host_start + 1);
+        if (end_bracket == std::string::npos) {
+            return {};
+        }
+        return url.substr(host_start + 1, end_bracket - host_start - 1);
+    }
+
+    const size_t host_end = url.find_first_of(":/", host_start);
+    return url.substr(host_start, host_end == std::string::npos ? std::string::npos
+                                                                : host_end - host_start);
+}
+
+bool is_loopback_host(const std::string& host) {
+    return host == "localhost" || host == "127.0.0.1" || host == "::1";
+}
+
+bool is_loopback_url(const std::string& url) {
+    return is_loopback_host(extract_url_host(url));
+}
+
+void validate_transport_config(const std::string& base_url, const TLSConfig& tls_config, int timeout_ms) {
+    if (base_url.empty()) {
+        throw std::invalid_argument("PKI base URL must not be empty");
+    }
+    if (timeout_ms <= 0) {
+        throw std::invalid_argument("PKI timeout must be greater than zero");
+    }
+
+    const bool uses_https = starts_with(base_url, "https://");
+    const bool uses_http = starts_with(base_url, "http://");
+    const bool loopback = is_loopback_url(base_url);
+
+    if (!uses_https && !(uses_http && loopback)) {
+        throw std::invalid_argument(
+            "PKI endpoint must use HTTPS; plain HTTP is only allowed for loopback development endpoints");
+    }
+    if (!tls_config.verify_server && !loopback) {
+        throw std::invalid_argument(
+            "PKI TLS verification may only be disabled for loopback development endpoints");
+    }
+}
+
 } // anonymous namespace
 
 // Helper function to convert ASN1_TIME to milliseconds since epoch
@@ -291,6 +345,8 @@ VCCPKIClient::VCCPKIClient(
     , timeout_ms_(timeout_ms)
     , impl_(std::make_unique<Impl>())
 {
+    validate_transport_config(base_url_, tls_config_, timeout_ms_);
+
     // Configure TLS
     impl_->ca_cert_path = tls_config.ca_cert_path;
     impl_->client_cert_path = tls_config.client_cert_path;

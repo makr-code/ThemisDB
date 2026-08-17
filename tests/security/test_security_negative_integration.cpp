@@ -388,10 +388,9 @@ protected:
                                   const std::string&,
                                   const std::string&)> override_fn) {
         themis::VaultKeyProvider::Config cfg;
-        cfg.vault_addr     = "http://vault.test.invalid:8200";
+        cfg.vault_addr     = "https://vault.test.invalid:8200";
         cfg.vault_token    = "test-token";
         cfg.kv_mount_path  = "themis";
-        cfg.verify_ssl     = false;
         cfg.request_timeout_ms = 100;
         auto provider = std::make_unique<themis::VaultKeyProvider>(cfg);
         provider->setTestRequestOverride(override_fn);
