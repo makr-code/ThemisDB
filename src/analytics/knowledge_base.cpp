@@ -392,7 +392,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 
         if (t.substr(0, 9) == "priority:") {
             try { current.priority = std::stoi(themis::utils::trim(t.substr(9))); }
-            catch (...) { current.priority = 0; }
+            catch (const std::exception&) { current.priority = 0; }
             continue;
         }
         if (t.substr(0, 12) == "description:") {
@@ -401,7 +401,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
         }
         if (t.substr(0, 25) == "ml_confidence_threshold:") {
             try { current.ml_confidence_threshold = std::stod(themis::utils::trim(t.substr(25))); }
-            catch (...) { current.ml_confidence_threshold = 0.0; }
+            catch (const std::exception&) { current.ml_confidence_threshold = 0.0; }
             continue;
         }
 

@@ -435,6 +435,9 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
     if (executor) {
         try {
             initial_healthy = executor->isHealthy();
+        } catch (const std::exception& e) {
+            spdlog::debug("addShard: health check threw for new shard '{}': {}", shard_id, e.what());
+            initial_healthy = false;
         } catch (...) {
             initial_healthy = false;
         }
@@ -500,8 +503,10 @@ std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() co
                 if (e.executor && e.executor->isHealthy()) {
                     ++n;
                 }
+            } catch (const std::exception& ex) {
+                spdlog::debug("getHealthyShardCount: health check threw for shard '{}': {}", e.shard_id, ex.what());
             } catch (...) {
-                // Health check failed, skip this shard
+                // Health check failed via unknown exception; skip this shard
             }
         }
         return n;

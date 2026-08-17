@@ -81,8 +81,8 @@ public:
     // -----------------------------------------------------------------------
     LRUCache(const LRUCache&)            = delete;
     LRUCache& operator=(const LRUCache&) = delete;
-    LRUCache(LRUCache&&)                 = default;
-    LRUCache& operator=(LRUCache&&)      = default;
+    LRUCache(LRUCache&&)                 noexcept = default;
+    LRUCache& operator=(LRUCache&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Core API
