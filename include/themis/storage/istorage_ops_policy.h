@@ -168,8 +168,8 @@ public:
 
 protected:
     IStorageOpsPolicy() = default;
-    IStorageOpsPolicy(IStorageOpsPolicy&&) = default;
-    IStorageOpsPolicy& operator=(IStorageOpsPolicy&&) = default;
+    IStorageOpsPolicy(IStorageOpsPolicy&&) noexcept = default;
+    IStorageOpsPolicy& operator=(IStorageOpsPolicy&&) noexcept = default;
 };
 
 } // namespace storage

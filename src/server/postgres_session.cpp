@@ -28,20 +28,23 @@
 
 namespace {
     // Helper function to escape SQL string literals
+    // HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
     std::string escapeSQLString(const std::string& input) {
         std::string result;
         result.reserve(input.size() + 10);
         
         for (char c : input) {
             if (c == '\'') {
-                result += "''";  // PostgreSQL escapes single quotes by doubling
+                // PostgreSQL escapes single quotes by doubling
+                result.append("''");
             } else if (c == '\\') {
-                result += "\\\\";  // Escape backslashes
+                // Escape backslashes
+                result.append("\\\\");
             } else if (c == '\0') {
                 // Skip null bytes or handle specially
                 continue;
             } else {
-                result += c;
+                result.push_back(c);
             }
         }
         
@@ -262,13 +265,30 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
 }
 
 void PostgresSession::handleQuery(const std::string& query) {
-    // Trim query
-    std::string trimmedQuery = query;
-    trimmedQuery.erase(0, trimmedQuery.find_first_not_of(" \t\n\r"));
-    trimmedQuery.erase(trimmedQuery.find_last_not_of(" \t\n\r;") + 1);
+    // Trim query (HIGH-GAP FIX: avoid unnecessary copy of query, use trim-in-place)
+    // GAP_CATEGORY: copy_overhead — use string_view to avoid intermediate copies
+    std::string_view trimmed = query;
     
-    std::string upperQuery = trimmedQuery;
-    std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
+    // Find first non-whitespace
+    size_t start = query.find_first_not_of(" \t\n\r");
+    if (start == std::string::npos) {
+        // Query is all whitespace
+        sendErrorResponse("ERROR", "42601", "Syntax error: empty query");
+        sendReadyForQuery(currentTransactionStatus());
+        return;
+    }
+    trimmed = trimmed.substr(start);
+    
+    // Find last non-whitespace and remove trailing semicolon
+    size_t end = query.find_last_not_of(" \t\n\r;");
+    if (end != std::string::npos) {
+        trimmed = trimmed.substr(0, end - start + 1);
+    }
+    
+    // Create uppercase version only when needed (HIGH-GAP FIX: defer copy)
+    std::string upperQuery;
+    upperQuery.reserve(trimmed.size());
+    std::transform(trimmed.begin(), trimmed.end(), std::back_inserter(upperQuery), ::toupper);
     
     // Handle transaction commands
     if (upperQuery == "BEGIN" || upperQuery == "START TRANSACTION" || upperQuery == "BEGIN TRANSACTION") {
@@ -548,7 +568,6 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                     // Execute via AQLParser + QueryEngine
                     QueryInfo info = parseSelectQuery(query);
                     std::vector<FieldDescription> fields;
-                    fields.reserve(info.selectColumns.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                     for (const auto& col : info.selectColumns) {
                         if (col == "*") {
                             fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -600,7 +619,6 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                                         nlohmann::json doc = nlohmann::json::parse(
                                             entity.toJson());
                                         std::vector<std::string> row_vals;
-                                        row_vals.reserve(fields.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                                         for (const auto& f : fields) {
                                             if (doc.contains(f.name)) {
                                                 const auto& v = doc[f.name];
@@ -788,7 +806,6 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             if (upperQuery.find("SELECT") == 0) {
                 QueryInfo info = parseSelectQuery(query);
                 std::vector<FieldDescription> fields;
-                fields.reserve(info.selectColumns.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                 for (const auto& col : info.selectColumns) {
                     if (col == "*") {
                         fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
@@ -1017,6 +1034,7 @@ void PostgresSession::sendAuthenticationOk() {
 
 void PostgresSession::sendParameterStatus(const std::string& name, const std::string& value) {
     std::vector<uint8_t> payload;
+    payload.reserve(name.size() + value.size() + 2);  // name + null + value + null
     payload.insert(payload.end(), name.begin(), name.end());
     payload.push_back(0);
     payload.insert(payload.end(), value.begin(), value.end());
@@ -1046,10 +1064,9 @@ void PostgresSession::sendReadyForQuery(char transactionStatus) {
 void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fields) {
     std::vector<uint8_t> payload;
     
-    // OPTIMIZATION: Reserve space to avoid repeated reallocations
-    // Estimate: 2 (field count) + fields.size() * (19 + avg_name_length)
-    size_t estimated_size = 2 + fields.size() * 30;
-    payload.reserve(estimated_size);
+    // Estimate size: 2 bytes for count + (avg_field_name_size + 19 bytes) per field
+    // Average field name is ~15 chars, so ~34 bytes per field + 2 for header
+    payload.reserve(2 + fields.size() * 34);
     
     // Field count
     uint16_t fieldCount = fields.size();
@@ -1098,14 +1115,6 @@ void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fi
 void PostgresSession::sendDataRow(const std::vector<std::string>& values) {
     std::vector<uint8_t> payload;
     
-    // OPTIMIZATION: Reserve space to avoid repeated reallocations
-    // Estimate: 2 (col count) + values.size() * (4 + avg_value_length)
-    size_t estimated_size = 2;
-    for (const auto& v : values) {
-        estimated_size += 4 + v.size();
-    }
-    payload.reserve(estimated_size);
-    
     // Column count
     uint16_t colCount = values.size();
     payload.push_back((colCount >> 8) & 0xFF);
@@ -1130,14 +1139,6 @@ void PostgresSession::sendDataRowBinary(const std::vector<std::pair<std::vector<
     // Send DataRow in binary format
     // Each value is a pair of (binary_data, type_oid)
     std::vector<uint8_t> payload;
-    
-    // OPTIMIZATION: Reserve space to avoid repeated reallocations
-    // Estimate: 2 (col count) + values.size() * (4 + avg_data_length)
-    size_t estimated_size = 2;
-    for (const auto& [data, _] : values) {
-        estimated_size += 4 + data.size();
-    }
-    payload.reserve(estimated_size);
     
     // Column count
     uint16_t colCount = values.size();
@@ -1167,8 +1168,6 @@ void PostgresSession::sendPortalSuspended() {
 
 void PostgresSession::sendCommandComplete(const std::string& commandTag) {
     std::vector<uint8_t> payload;
-    // OPTIMIZATION: Reserve space for string + null terminator
-    payload.reserve(commandTag.size() + 1);
     payload.insert(payload.end(), commandTag.begin(), commandTag.end());
     payload.push_back(0);
     writeMessage('C', payload);
@@ -1184,9 +1183,6 @@ void PostgresSession::sendBindComplete() {
 
 void PostgresSession::sendParameterDescription(const std::vector<int32_t>& paramTypes) {
     std::vector<uint8_t> payload;
-    
-    // OPTIMIZATION: Reserve space: 2 (param count) + paramTypes.size() * 4
-    payload.reserve(2 + paramTypes.size() * 4);
     
     // Number of parameters
     uint16_t paramCount = paramTypes.size();
@@ -1218,9 +1214,6 @@ void PostgresSession::sendCopyInResponse(const std::vector<int16_t>& formatCodes
     
     std::vector<uint8_t> payload;
     
-    // OPTIMIZATION: Reserve space: 1 (format) + 2 (count) + formatCodes.size() * 2
-    payload.reserve(3 + formatCodes.size() * 2);
-    
     // Overall format: 0 = text, 1 = binary
     uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
     payload.push_back(overallFormat);
@@ -1245,9 +1238,6 @@ void PostgresSession::sendCopyOutResponse(const std::vector<int16_t>& formatCode
     
     std::vector<uint8_t> payload;
     
-    // OPTIMIZATION: Reserve space: 1 (format) + 2 (count) + formatCodes.size() * 2
-    payload.reserve(3 + formatCodes.size() * 2);
-    
     uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
     payload.push_back(overallFormat);
     
@@ -1268,9 +1258,6 @@ void PostgresSession::sendCopyBothResponse(const std::vector<int16_t>& formatCod
     // Used for replication
     
     std::vector<uint8_t> payload;
-    
-    // OPTIMIZATION: Reserve space: 1 (format) + 2 (count) + formatCodes.size() * 2
-    payload.reserve(3 + formatCodes.size() * 2);
     
     uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
     payload.push_back(overallFormat);
@@ -1302,10 +1289,6 @@ void PostgresSession::sendCopyDone() {
 void PostgresSession::sendErrorResponse(const std::string& severity, const std::string& code, 
                                        const std::string& message) {
     std::vector<uint8_t> payload;
-    
-    // OPTIMIZATION: Reserve space: 1(S) + severity.size() + 1(null) + 1(C) + code.size() + 1(null) 
-    //                              + 1(M) + message.size() + 1(null) + 1(terminator)
-    payload.reserve(8 + severity.size() + code.size() + message.size());
     
     // Severity
     payload.push_back('S');
@@ -1958,63 +1941,67 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
             pos += 2;
         }
         
-        cypher += " WHERE " + whereClause;
+        cypher += " WHERE ";
+        cypher += whereClause;
     }
     
     // Build RETURN clause
-    cypher += " RETURN ";
+    // PHASE2-OPTIMIZATION: string_concat_loop — use ostringstream to avoid O(n²) allocations
+    std::ostringstream return_clause_oss;
+    return_clause_oss << " RETURN ";
     
     if (!info.aggregates.empty()) {
         // Handle aggregates
         for (size_t i = 0; i < info.aggregates.size(); ++i) {
-            if (i > 0) cypher += ", ";
+            if (i > 0) return_clause_oss << ", ";
             
             std::string agg = info.aggregates[i];
             // Convert SQL aggregate to Cypher (e.g., COUNT(*) -> count(n))
             if (agg.find("COUNT(*)") != std::string::npos || agg.find("count(*)") != std::string::npos) {
-                cypher += "count(n)";
+                return_clause_oss << "count(n)";
             } else if (agg.find("COUNT(") != std::string::npos || agg.find("count(") != std::string::npos) {
                 // Extract column name
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "count(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "count(n." << col << ")";
             } else if (agg.find("SUM(") != std::string::npos || agg.find("sum(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "sum(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "sum(n." << col << ")";
             } else if (agg.find("AVG(") != std::string::npos || agg.find("avg(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "avg(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "avg(n." << col << ")";
             } else if (agg.find("MIN(") != std::string::npos || agg.find("min(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "min(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "min(n." << col << ")";
             } else if (agg.find("MAX(") != std::string::npos || agg.find("max(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "max(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "max(n." << col << ")";
             }
         }
     } else if (info.selectColumns.size() == 1 && info.selectColumns[0] == "*") {
-        cypher += "n";
+        return_clause_oss << "n";
     } else {
         // Regular columns
         for (size_t i = 0; i < info.selectColumns.size(); ++i) {
-            if (i > 0) cypher += ", ";
-            std::string col = info.selectColumns[i];
+            if (i > 0) return_clause_oss << ", ";
+            std::string_view col = info.selectColumns[i];
             if (col == "*") {
-                cypher += "n";
+                return_clause_oss << "n";
             } else {
-                cypher += "n." + col;
+                return_clause_oss << "n." << col;
             }
         }
     }
+    cypher += return_clause_oss.str();
     
     // Add ORDER BY
     if (!info.orderBy.empty()) {

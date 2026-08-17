@@ -138,8 +138,8 @@ public:
 
 protected:
     IRateLimitPolicy() = default;
-    IRateLimitPolicy(IRateLimitPolicy&&) = default;
-    IRateLimitPolicy& operator=(IRateLimitPolicy&&) = default;
+    IRateLimitPolicy(IRateLimitPolicy&&) noexcept = default;
+    IRateLimitPolicy& operator=(IRateLimitPolicy&&) noexcept = default;
 };
 
 } // namespace ratelimit

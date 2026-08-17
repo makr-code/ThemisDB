@@ -432,8 +432,8 @@ public:
 
     MmapLoader(const MmapLoader&)            = delete;
     MmapLoader& operator=(const MmapLoader&) = delete;
-    MmapLoader(MmapLoader&&)                 = default;
-    MmapLoader& operator=(MmapLoader&&)      = default;
+    MmapLoader(MmapLoader&&)                 noexcept = default;
+    MmapLoader& operator=(MmapLoader&&)      noexcept = default;
 
     /**
      * @brief Opens a read-only memory-mapped region for @p file_path.

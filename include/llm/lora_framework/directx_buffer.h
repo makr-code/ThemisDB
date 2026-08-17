@@ -43,7 +43,7 @@ public:
     DirectXBuffer(DirectXContext* context, size_t size, 
                   D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
     
-    ~DirectXBuffer();
+    ~DirectXBuffer() noexcept;
     
     // Disable copy, allow move
     DirectXBuffer(const DirectXBuffer&) = delete;

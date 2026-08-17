@@ -114,6 +114,60 @@ public:
      */
     void clear();
 
+    // ── Phase 3 Schema-Governance ──────────────────────────────────────────
+
+    /**
+     * @brief Capture a canonical snapshot of the current registered-route set.
+     *
+     * Serialises the full set of registered route entries to a deterministic
+     * canonical form and returns it as an opaque string (e.g. a SHA-256 hex
+     * digest or canonical JSON blob).  The snapshot can later be passed to
+     * detectDrift() to identify changes.
+     *
+     * Complexity: O(N) in the number of registered routes.
+     *
+     * @return  Opaque snapshot string; empty only when the registry is empty.
+     * @note    Thread-safe; acquires the internal shared_mutex for reading.
+     */
+    [[nodiscard]] std::string captureSpecSnapshot() const;
+
+    /**
+     * @brief Diff report returned by detectDrift().
+     *
+     * Contains three disjoint lists of route paths (HTTP-method + path pairs)
+     * that differ between the baseline snapshot and the current state.
+     *
+     * - **added**   — routes present now but absent in the baseline.
+     * - **removed** — routes present in the baseline but absent now.
+     * - **changed** — routes present in both but with a different schema hash.
+     */
+    struct DriftReport {
+        std::vector<std::string> added;   ///< New routes not in baseline
+        std::vector<std::string> removed; ///< Routes removed since baseline
+        std::vector<std::string> changed; ///< Routes modified since baseline
+
+        /// @return true if any drift was detected.
+        [[nodiscard]] bool hasDrift() const noexcept {
+            return !added.empty() || !removed.empty() || !changed.empty();
+        }
+    };
+
+    /**
+     * @brief Compare the current registry against a previously captured snapshot.
+     *
+     * Returns a DriftReport describing which routes were added, removed, or
+     * changed since the snapshot was captured.  Can be used at server startup
+     * (when THEMIS_OPENAPI_STRICT=1) to fail-fast on spec divergence.
+     *
+     * Complexity: O(N) in the number of registered routes.
+     *
+     * @param baseline_snapshot  Snapshot string previously returned by
+     *                           captureSpecSnapshot().
+     * @return DriftReport describing all detected differences.
+     * @note Thread-safe; acquires the internal shared_mutex for reading.
+     */
+    [[nodiscard]] DriftReport detectDrift(const std::string& baseline_snapshot) const;
+
 private:
     RouteRegistry() = default;
 

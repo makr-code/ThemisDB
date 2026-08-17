@@ -411,8 +411,8 @@ public:
 
     KnowledgeGraphRetriever(const KnowledgeGraphRetriever&)            = delete;
     KnowledgeGraphRetriever& operator=(const KnowledgeGraphRetriever&) = delete;
-    KnowledgeGraphRetriever(KnowledgeGraphRetriever&&)                 = default;
-    KnowledgeGraphRetriever& operator=(KnowledgeGraphRetriever&&)      = default;
+    KnowledgeGraphRetriever(KnowledgeGraphRetriever&&)                 noexcept = default;
+    KnowledgeGraphRetriever& operator=(KnowledgeGraphRetriever&&)      noexcept = default;
 
     /**
      * @brief Augment @p candidates with knowledge graph signal.

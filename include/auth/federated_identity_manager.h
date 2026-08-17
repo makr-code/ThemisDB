@@ -121,8 +121,8 @@ public:
     FederatedIdentityManager& operator=(const FederatedIdentityManager&) = delete;
 
     // Movable
-    FederatedIdentityManager(FederatedIdentityManager&&) = default;
-    FederatedIdentityManager& operator=(FederatedIdentityManager&&) = default;
+    FederatedIdentityManager(FederatedIdentityManager&&) noexcept = default;
+    FederatedIdentityManager& operator=(FederatedIdentityManager&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // Realm registration

@@ -163,8 +163,8 @@ public:
     // Non-copyable; movable.
     TransportPolicyMiddleware(const TransportPolicyMiddleware&) = delete;
     TransportPolicyMiddleware& operator=(const TransportPolicyMiddleware&) = delete;
-    TransportPolicyMiddleware(TransportPolicyMiddleware&&) = default;
-    TransportPolicyMiddleware& operator=(TransportPolicyMiddleware&&) = default;
+    TransportPolicyMiddleware(TransportPolicyMiddleware&&) noexcept = default;
+    TransportPolicyMiddleware& operator=(TransportPolicyMiddleware&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // IHttpHandler interface

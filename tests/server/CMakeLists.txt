@@ -44,6 +44,42 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TIMEOUT 120
             LABELS release_critical server phase1
         )
+    elseif(_stem STREQUAL "test_server_http3_stress_focused")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS release_critical server phase2 http3
+        )
+    elseif(_stem STREQUAL "test_server_gateway_resilience_focused")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS release_critical server phase2 gateway
+        )
+    elseif(_stem STREQUAL "test_server_openapi_drift_focused")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS release_critical server phase3 schema
+        )
+    elseif(_stem STREQUAL "test_server_compat_contract_focused")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS release_critical server phase3 compat
+        )
     else()
         themis_register_module_focused_test(
             MODULE server

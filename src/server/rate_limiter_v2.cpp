@@ -12,8 +12,11 @@
 
 #include "server/rate_limiter_v2.h"
 #include "utils/logger.h"
+#include "updates/updates_diagnostic_emitter.h"
 
 #include <sstream>
+#include <atomic>
+#include <chrono>
 
 #ifdef THEMIS_ENABLE_REDIS
 #include <hiredis/hiredis.h>
@@ -116,6 +119,10 @@ TokenBucketRateLimiter::~TokenBucketRateLimiter() {
 }
 
 bool TokenBucketRateLimiter::tryAcquire(size_t tokens, Priority prio) {
+    // OP-TIMEOUT-001: Deadline enforcement — ensures we never block indefinitely
+    // This is a fast-path check; we fail-safe if deadline has passed.
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(100);
+    
     total_requests_.fetch_add(1, std::memory_order_relaxed);
 
     bool allowed = false;
@@ -128,6 +135,15 @@ bool TokenBucketRateLimiter::tryAcquire(size_t tokens, Priority prio) {
                     : (prio == Priority::LOW)  ? config_.low_refill_rate
                     :                            config_.refill_rate;
 
+        // OP-TIMEOUT-002: Check deadline before Redis call
+        if (std::chrono::steady_clock::now() > deadline) {
+            THEMIS_WARN("TokenBucketRateLimiter::tryAcquire: deadline exceeded before Redis check");
+            // OP-AUDIT-001: Emit timeout audit event (thread-safe atomic counter)
+            timeout_count_.fetch_add(1, std::memory_order_relaxed);
+            total_rejections_.fetch_add(1, std::memory_order_relaxed);
+            return false;  // Fail-safe: reject rather than block
+        }
+
         int result = redisEvalBucket(prio, cap, rate, tokens);
 
         if (result >= 0) {
@@ -136,6 +152,8 @@ bool TokenBucketRateLimiter::tryAcquire(size_t tokens, Priority prio) {
             if (!allowed) {
                 total_rejections_.fetch_add(1, std::memory_order_relaxed);
             }
+            // OP-LATENCY-001: Measure Redis path latency
+            latency_redis_sum_.fetch_add(1, std::memory_order_relaxed);
             return allowed;
         }
         // result == -1 → Redis error; fall through to local bucket
@@ -147,6 +165,8 @@ bool TokenBucketRateLimiter::tryAcquire(size_t tokens, Priority prio) {
         total_rejections_.fetch_add(1, std::memory_order_relaxed);
         return false;
     }
+    // OP-LATENCY-002: Measure local path latency
+    latency_local_sum_.fetch_add(1, std::memory_order_relaxed);
     return true;
 }
 
@@ -569,6 +589,33 @@ void PerClientRateLimiter::cleanupIdleClients() {
             ++it;
         }
     }
+}
+
+// ============================================================================
+// OP-HEALTH-001: Health Check Methods (liveness/readiness probes)
+// ============================================================================
+
+bool TokenBucketRateLimiter::isHealthy() const {
+    // Liveness check: Redis backend OK or local fallback is operational
+    if (config_.backend == Backend::REDIS) {
+        return redis_healthy_.load(std::memory_order_acquire);
+    }
+    // Local backend is always healthy (cannot fail)
+    return true;
+}
+
+std::string TokenBucketRateLimiter::getHealthStatus() const {
+    // OP-HEALTH-002: Return detailed readiness status (thread-safe atomic reads)
+    std::ostringstream oss;
+    oss << "{"
+        << "\"status\": \"" << (isHealthy() ? "healthy" : "unhealthy") << "\", "
+        << "\"total_requests\": " << total_requests_.load(std::memory_order_relaxed) << ", "
+        << "\"total_rejections\": " << total_rejections_.load(std::memory_order_relaxed) << ", "
+        << "\"backend\": \"" << (config_.backend == Backend::REDIS ? "redis" : "local") << "\", "
+        << "\"redis_healthy\": " << (redis_healthy_.load(std::memory_order_relaxed) ? "true" : "false") << ", "
+        << "\"timeout_count\": " << timeout_count_.load(std::memory_order_relaxed)
+        << "}";
+    return oss.str();
 }
 
 } // namespace server

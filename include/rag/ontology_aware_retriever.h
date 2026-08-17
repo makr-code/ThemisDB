@@ -137,8 +137,8 @@ public:
 
     OntologyAwareRetriever(const OntologyAwareRetriever&)            = delete;
     OntologyAwareRetriever& operator=(const OntologyAwareRetriever&) = delete;
-    OntologyAwareRetriever(OntologyAwareRetriever&&)                 = default;
-    OntologyAwareRetriever& operator=(OntologyAwareRetriever&&)      = default;
+    OntologyAwareRetriever(OntologyAwareRetriever&&)                 noexcept = default;
+    OntologyAwareRetriever& operator=(OntologyAwareRetriever&&)      noexcept = default;
 
     /**
      * @brief Augment @p candidates using ontology-aware KG signal.

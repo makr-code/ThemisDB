@@ -282,8 +282,8 @@ public:
     // Non-copyable, movable
     RoundTripSimulator(const RoundTripSimulator&)            = delete;
     RoundTripSimulator& operator=(const RoundTripSimulator&) = delete;
-    RoundTripSimulator(RoundTripSimulator&&)                 = default;
-    RoundTripSimulator& operator=(RoundTripSimulator&&)      = default;
+    RoundTripSimulator(RoundTripSimulator&&)                 noexcept = default;
+    RoundTripSimulator& operator=(RoundTripSimulator&&)      noexcept = default;
 
     // ─────────────────────────────────────────────────────────────────────────
     // Primary entry point

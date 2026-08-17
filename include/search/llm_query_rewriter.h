@@ -127,8 +127,8 @@ public:
 
     LlmQueryRewriter(const LlmQueryRewriter&) = delete;
     LlmQueryRewriter& operator=(const LlmQueryRewriter&) = delete;
-    LlmQueryRewriter(LlmQueryRewriter&&) = default;
-    LlmQueryRewriter& operator=(LlmQueryRewriter&&) = default;
+    LlmQueryRewriter(LlmQueryRewriter&&) noexcept = default;
+    LlmQueryRewriter& operator=(LlmQueryRewriter&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // Backend management

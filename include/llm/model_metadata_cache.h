@@ -60,8 +60,8 @@ public:
     // Disable copy, allow move
     ModelMetadataCache(const ModelMetadataCache&) = delete;
     ModelMetadataCache& operator=(const ModelMetadataCache&) = delete;
-    ModelMetadataCache(ModelMetadataCache&&) = default;
-    ModelMetadataCache& operator=(ModelMetadataCache&&) = default;
+    ModelMetadataCache(ModelMetadataCache&&) noexcept = default;
+    ModelMetadataCache& operator=(ModelMetadataCache&&) noexcept = default;
     
     /**
      * @brief Store model metadata

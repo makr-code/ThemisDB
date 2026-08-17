@@ -39,7 +39,7 @@ public:
      */
     DirectXDescriptors(DirectXContext* context, uint32_t max_descriptors = 256);
     
-    ~DirectXDescriptors();
+    ~DirectXDescriptors() noexcept;
     
     // Disable copy, allow move
     DirectXDescriptors(const DirectXDescriptors&) = delete;

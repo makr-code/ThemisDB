@@ -1,6 +1,6 @@
 > ⚠️ **Historischer Auditbericht** - Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-17 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report - Security Module
@@ -11,9 +11,9 @@
 |---|---|
 | Module | security |
 | Source path | `src/security/` |
-| Audit date | 2026-05-31 |
+| Audit date | 2026-08-17 |
 | Audited by | Copilot (source code analysis) |
-| Status | In progress - source alignment refreshed for roadmap/future/audit workflow |
+| Status | In progress - documentation revalidated against current Wave-C evidence; residual gap closure still open |
 
 ## Summary
 
@@ -38,7 +38,7 @@
   - Access and policy enforcement surfaces -> `src/security/access_control_manager.cpp`, `src/security/rbac.cpp`, `src/security/row_level_security.cpp`
   - Query masking and injection detection paths -> `src/security/query_masking_policy.cpp`, `src/security/aql_injection_detector.cpp`
   - Key-provider and signing surfaces -> `src/security/vault_key_provider.cpp`, `src/security/pki_key_provider.cpp`, `src/security/manifest_signer.cpp`
-  - Runtime security orchestration and evidence paths -> `src/security/security_manager.cpp`, `src/security/security_evidence_collector.cpp`
+  - Runtime evidence and policy/detection control paths -> `src/security/security_evidence_collector.cpp`, `src/security/zero_trust_policy_enforcer.cpp`, `src/security/behavioral_anomaly_detector.cpp`
   - Zero-trust and anomaly/security signal paths -> `src/security/zero_trust_policy_enforcer.cpp`, `src/security/behavioral_anomaly_detector.cpp`
 - Gepruefte Feature-/Laufzeit-Gates:
   - Access/policy deny or allow decisions in security control paths
@@ -53,3 +53,5 @@
 
 - Continue module-wide pass for README/ARCHITECTURE/SECURITY/PERFORMANCE wording to keep every statement strictly source-verifiable.
 - Keep benchmark-backed security limits synchronized with latest focused regressions.
+- Full fresh security-gap rescan remains open and must be completed before final Batch-4 closure; status is explicitly tracked in `src/security/MODULE_GAPS.md`.
+- Final production-ready sign-off should not be claimed while the rescan and non-TSA residual CRITICAL/HIGH closure items remain open.

@@ -132,8 +132,8 @@ public:
     // Non-copyable; movable.
     ConfigEncryptedStore(const ConfigEncryptedStore&)            = delete;
     ConfigEncryptedStore& operator=(const ConfigEncryptedStore&) = delete;
-    ConfigEncryptedStore(ConfigEncryptedStore&&)                 = default;
-    ConfigEncryptedStore& operator=(ConfigEncryptedStore&&)      = default;
+    ConfigEncryptedStore(ConfigEncryptedStore&&)                 noexcept = default;
+    ConfigEncryptedStore& operator=(ConfigEncryptedStore&&)      noexcept = default;
 
     // -------------------------------------------------------------------------
     // CRUD

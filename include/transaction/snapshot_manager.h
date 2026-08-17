@@ -83,8 +83,8 @@ public:
     // Disable copy, allow move
     SnapshotManager(const SnapshotManager&) = delete;
     SnapshotManager& operator=(const SnapshotManager&) = delete;
-    SnapshotManager(SnapshotManager&&) = default;
-    SnapshotManager& operator=(SnapshotManager&&) = default;
+    SnapshotManager(SnapshotManager&&) noexcept = default;
+    SnapshotManager& operator=(SnapshotManager&&) noexcept = default;
 
     /**
      * @brief Create a new named snapshot/tag

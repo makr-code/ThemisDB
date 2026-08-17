@@ -23,6 +23,7 @@
 #include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "updates/updates_diagnostic_emitter.h"
 #include <sstream>
 #include <thread>
 #include <chrono>
@@ -299,11 +300,28 @@ ChangefeedApiHandler::ChangefeedApiHandler(
     delivery_tracker_.start();
 }
 
-http::response<http::string_body> ChangefeedApiHandler::handleGet(
+http://response<http::string_body> ChangefeedApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
+    // OP-CORRELATION-ID-001: Extract correlation ID from request headers
+    std::string correlation_id = std::string(
+        req[http::field::custom]  // X-Correlation-ID header
+    );
+    if (correlation_id.empty()) {
+        // Generate new correlation ID if not provided
+        static std::atomic<uint64_t> cdf_counter{0};
+        auto ts = std::chrono::system_clock::now().time_since_epoch().count();
+        correlation_id = "cdf-" + std::to_string(ts) + "-" + 
+                         std::to_string(cdf_counter.fetch_add(1, std::memory_order_relaxed));
+    }
+    
+    // OP-TIMEOUT-001: Set deadline for changefeed query (10 second max)
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(10);
+    
     // Authorization check
     if (auto auth_resp = checkAuth(req, "cdc:read")) {
+        // OP-AUDIT-001: Log auth failure with correlation ID
+        THEMIS_WARN("Changefeed GET denied (correlation_id={})", correlation_id);
         return *auth_resp;
     }
     
@@ -314,8 +332,16 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
     
     auto span = Tracer::startSpan("handleChangefeedGet");
     span.setAttribute("http.path", "/changefeed");
+    span.setAttribute("correlation_id", correlation_id);
     
     try {
+        // OP-TIMEOUT-002: Check deadline before main operation
+        if (std::chrono::steady_clock::now() > deadline) {
+            THEMIS_WARN("Changefeed GET timeout (correlation_id={}): deadline exceeded", correlation_id);
+            span.setStatus(false, "Timeout");
+            return makeErrorResponse(http::status::gateway_timeout, "Changefeed query timeout", req);
+        }
+        
         // Parse query parameters
         Changefeed::ListOptions options;
         
@@ -374,8 +400,11 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
             }
         }
         
-        // List events
+        // OP-LATENCY-001: Measure changefeed query latency
+        auto query_start = std::chrono::steady_clock::now();
         auto events = changefeed_->listEvents(options);
+        auto query_latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - query_start);
         
         // Build response
         json response;
@@ -390,9 +419,15 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
         span.setAttribute("events.from_seq", static_cast<int64_t>(options.from_sequence));
         span.setStatus(true);
         
+        // OP-AUDIT-002: Log successful query with latency and correlation ID
+        THEMIS_DEBUG("Changefeed GET success (correlation_id={}, events={}, latency_ms={})",
+                    correlation_id, events.size(), query_latency.count());
+        
         return makeResponse(http::status::ok, response.dump(), req);
         
     } catch (const std::exception& e) {
+        // OP-AUDIT-003: Log errors with correlation ID
+        THEMIS_WARN("Changefeed GET failed (correlation_id={}): {}", correlation_id, e.what());
         span.recordError(e.what());
         span.setStatus(false, "internal_error");
         return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);

@@ -110,8 +110,8 @@ public:
     // Non-copyable
     GPUGraphTraversal(const GPUGraphTraversal&) = delete;
     GPUGraphTraversal& operator=(const GPUGraphTraversal&) = delete;
-    GPUGraphTraversal(GPUGraphTraversal&&) = default;
-    GPUGraphTraversal& operator=(GPUGraphTraversal&&) = default;
+    GPUGraphTraversal(GPUGraphTraversal&&) noexcept = default;
+    GPUGraphTraversal& operator=(GPUGraphTraversal&&) noexcept = default;
 
     // -----------------------------------------------------------------------
     // Graph loading

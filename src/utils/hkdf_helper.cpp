@@ -51,6 +51,7 @@
 #include <openssl/params.h>
 #include <stdexcept>
 #include <cstring>
+#include "utils/error_contracts.h"
 
 namespace themis {
 namespace utils {
@@ -67,7 +68,15 @@ std::vector<uint8_t> HKDFHelper::derive(
     // OpenSSL 3.0+ API
     EVP_KDF *kdf = EVP_KDF_fetch(nullptr, "HKDF", nullptr);
     if (!kdf) {
-        throw std::runtime_error("EVP_KDF_fetch failed");
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::CRYPTO_KEY_DERIVATION_FAILED,
+            "EVP_KDF_fetch failed – OpenSSL HKDF provider unavailable (fail-closed); "
+            "output_length=" + std::to_string(output_length),
+            "HKDFHelper::derive",
+            themis::utils::ErrorSeverity::Critical,
+            false);
+        themis::utils::logErrorWithContext(ctx);
+        throw std::runtime_error("HKDFHelper::derive: EVP_KDF_fetch failed – HKDF provider unavailable");
     }
     
     EVP_KDF_CTX *kctx = EVP_KDF_CTX_new(kdf);
@@ -101,7 +110,16 @@ std::vector<uint8_t> HKDFHelper::derive(
     
     if (EVP_KDF_derive(kctx, output.data(), output.size(), params) <= 0) {
         EVP_KDF_CTX_free(kctx);
-        throw std::runtime_error("EVP_KDF_derive failed");
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::CRYPTO_KEY_DERIVATION_FAILED,
+            "EVP_KDF_derive failed – key derivation unsuccessful (fail-closed); "
+            "output_length=" + std::to_string(output_length) +
+            "; ikm_size=" + std::to_string(ikm.size()),
+            "HKDFHelper::derive",
+            themis::utils::ErrorSeverity::Critical,
+            false);
+        themis::utils::logErrorWithContext(ctx);
+        throw std::runtime_error("HKDFHelper::derive: EVP_KDF_derive failed");
     }
     
     EVP_KDF_CTX_free(kctx);

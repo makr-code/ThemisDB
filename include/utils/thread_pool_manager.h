@@ -92,23 +92,20 @@ public:
      * @return true if task accepted, false if queue full or timeout exceeded
      * 
      * @error_contract
-     * - Returns false if queue_depth >= config.max_queue_depth (logs ERR_THREADPOOL_OVERFLOW)
-     * - Returns false if timeout waiting for queue space (logs ERR_THREADPOOL_TIMEOUT)
-     * - If task is null: returns false (logs ERR_THREADPOOL_TASK_REJECTED)
-     * - If pool not running: returns false (logs warning, suggests retry)
-     * 
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Pool is stopped (not running) | THREADPOOL_SHUTDOWN (9071) | Error | pool_name | Return false (THREAD_POOL_OVERLOAD) |
+     * | Queue at capacity, timeout elapsed | THREADPOOL_QUEUE_FULL (9070) | Error | pool_name, queue_size, task_name | Return false (THREAD_POOL_OVERLOAD) |
+     *
+     * @degradation explicit false return on any rejection; no silent discard
      * @bounded_resources
-     * - Queue depth capped at config.max_queue_depth (default: 100,000 tasks)
+     * - Queue depth capped at config.queue_size (default: 1,000 tasks)
      * - Task wait time bounded by timeout parameter
-     * - Memory: each queued task ~200 bytes overhead
      * 
      * @thread_safety Thread-safe for concurrent submit() calls
      * @performance O(log n) insertion into priority queue where n = queue depth
      * 
-     * @note On queue full: implementing exponential backoff is recommended
-     * @note On timeout: consider increasing pool size or reducing task submission rate
-     * @see Task::Priority for task priority levels
-     * @see Statistics getStatistics() to monitor queue depth
+     * @see ErrorCode 9070-9079 for concurrency error taxonomy
      */
     bool submit(std::shared_ptr<Task> task, std::chrono::milliseconds timeout = std::chrono::seconds(5));
      

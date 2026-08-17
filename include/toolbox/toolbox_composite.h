@@ -48,8 +48,8 @@ public:
 
     ToolboxComposite(const ToolboxComposite&)            = delete;
     ToolboxComposite& operator=(const ToolboxComposite&) = delete;
-    ToolboxComposite(ToolboxComposite&&)                 = default;
-    ToolboxComposite& operator=(ToolboxComposite&&)      = default;
+    ToolboxComposite(ToolboxComposite&&)                 noexcept = default;
+    ToolboxComposite& operator=(ToolboxComposite&&)      noexcept = default;
 
     /**
      * @brief Extract entities, dispatching to the matching toolbox.

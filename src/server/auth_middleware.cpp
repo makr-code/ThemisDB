@@ -211,11 +211,14 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
 
         const auto& config = kv.second;
         // Build scopes string for diagnostics
-        std::string scopes_list;
+        std::ostringstream scopes_oss;
+        bool first_scope = true;
         for (const auto& s : config.scopes) {
-            if (!scopes_list.empty()) scopes_list += ",";
-            scopes_list += s;
+            if (!first_scope) scopes_oss << ",";
+            scopes_oss << s;
+            first_scope = false;
         }
+        std::string scopes_list = scopes_oss.str();
         THEMIS_INFO("Auth token matched for user='{}' tenant='{}' scopes='{}'", 
                     config.user_id, config.tenant_id, scopes_list);
         
@@ -528,11 +531,12 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         }
 
         // Build roles string manually (fmt::join not available in fmt 11.0.2)
-        std::string roles_str;
+        std::ostringstream roles_oss;
         for (size_t i = 0; i < result.roles.size(); ++i) {
-            if (i > 0) roles_str += ", ";
-            roles_str += result.roles[i];
+            if (i > 0) roles_oss << ", ";
+            roles_oss << result.roles[i];
         }
+        std::string roles_str = roles_oss.str();
         THEMIS_INFO("Kerberos authentication successful for principal '{}' with roles: [{}]",
                    result.principal_name, roles_str);
 

@@ -65,8 +65,8 @@ public:
     // Non-copyable; move-constructible.
     MirrorSchoolHandler(const MirrorSchoolHandler&)            = delete;
     MirrorSchoolHandler& operator=(const MirrorSchoolHandler&) = delete;
-    MirrorSchoolHandler(MirrorSchoolHandler&&)                 = default;
-    MirrorSchoolHandler& operator=(MirrorSchoolHandler&&)      = default;
+    MirrorSchoolHandler(MirrorSchoolHandler&&)                 noexcept = default;
+    MirrorSchoolHandler& operator=(MirrorSchoolHandler&&)      noexcept = default;
 
     /**
      * @brief Inject a real LLM inference function.

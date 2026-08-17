@@ -13,7 +13,6 @@
 // Property Graph Manager Implementation
 
 #include "index/property_graph.h"
-#include "index/connection_guard.h"  // Phase 3 A-6: Connection leak prevention
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
@@ -26,27 +25,6 @@
 #include <stdexcept>
 
 namespace themis {
-
-// ==================== Phase 3 A-6: Database Connection Leak Prevention ====================
-// 
-// Property Graph Module — Exception-Safe Database Operations Documentation
-// 
-// This module uses WriteBatch for transactional operations:
-// - All node/edge creation, updates, and deletions use WriteBatchWrapper (RAII)
-// - Each WriteBatch is wrapped in std::unique_ptr, guaranteeing automatic cleanup
-// - 31+ WriteBatch operations identified and documented with RAII guarantees
-// 
-// Exception-Safety Guarantees:
-//   ✓ Early returns: unique_ptr cleanup triggered automatically
-//   ✓ Exception throws: unique_ptr cleanup during stack unwinding
-//   ✓ Commit failures: Immediately detected, no partial writes possible
-//   ✓ Label indexing atomicity: All label entries committed with node (ACID)
-//   ✓ Edge creation atomicity: All edge properties committed as unit (ACID)
-//   ✓ No manual connection management: RocksDB lifecycle fully automated
-// 
-// Gap Tracking: A-6.6 through A-6.N (property_graph specific instances)
-// 
-// ============================================================================================
 
 namespace {
 
@@ -166,13 +144,6 @@ PropertyGraphManager::Status PropertyGraphManager::addNode(const BaseEntity& nod
     // Extract labels
     std::vector<std::string> labels = extractLabels_(node);
 
-    // Phase 3 A-6: WriteBatch node creation RAII documentation
-    // - db_.createWriteBatch() returns std::unique_ptr<WriteBatchWrapper>
-    // - Node writes are buffered atomically, committed as single unit
-    // - Label index entries added transactionally with node (ACID)
-    // - Exception during label indexing: WriteBatch rollback automatic (SAFE)
-    // - Commit failure: Error status returned, no partial writes committed (SAFE)
-    // - Gap A-6.6: Property graph node creation transactional safety
     auto batch = db_.createWriteBatch();
     if (!batch) {
         return Status::Error("addNode: Could not create write batch");
@@ -1278,29 +1249,34 @@ PropertyGraphManager::computePageRank(
     for (int iter = 0; iter < max_iterations && !converged; ++iter) {
         // Compute new PageRank scores
         for (const auto& node : nodes) {
-            double sum = 0.0;
-
-            // Sum contributions from incoming nodes
-            for (const auto& in_node : incoming_nodes[node]) {
-                int out_count = outgoing_count[in_node];
-                if (out_count > 0) {
-                    sum += pagerank[in_node] / out_count;
+            {
+                double sum = 0.0;
+                
+                // Sum contributions from incoming nodes
+                for (const auto& in_node : incoming_nodes[node]) {
+                    int out_count = outgoing_count[in_node];
+                    if (out_count > 0) {
+                        sum += pagerank[in_node] / out_count;
+                    }
                 }
+                
+                // PageRank formula: PR(node) = (1-d)/N + d * sum(PR(in_node) / out_degree(in_node))
+                pagerank_new[node] = (1.0 - damping_factor) / N + damping_factor * sum;
             }
-
-            // PageRank formula: PR(node) = (1-d)/N + d * sum(PR(in_node) / out_degree(in_node))
-            pagerank_new[node] = (1.0 - damping_factor) / N + damping_factor * sum;
         }
         
         // Check convergence
-        double diff = 0.0;
-        for (const auto& node : nodes) {
-            diff += std::abs(pagerank_new[node] - pagerank[node]);
+        {
+            double diff = 0.0;
+            for (const auto& node : nodes) {
+                diff += std::abs(pagerank_new[node] - pagerank[node]);
+            }
+             
+            if (diff < tolerance) {
+                converged = true;
+            }
         }
-
-        if (diff < tolerance) {
-            converged = true;
-        }
+         
         // Update scores
         pagerank = pagerank_new;
     }
@@ -1309,3 +1285,4 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
+

@@ -18,6 +18,8 @@
 #include <functional>
 #include <chrono>
 #include <memory>
+#include <vector>
+#include <algorithm>
 
 namespace themis {
 namespace sharding {
@@ -99,6 +101,48 @@ public:
 
     /** @brief Validate operator signature and authorization material. */
     bool validateOperator(const std::string& operator_signature);
+
+    /**
+     * @brief Execute rebalance with >=80% throughput guarantee during migration.
+     *
+     * Executes the rebalance operation while monitoring throughput and maintaining
+     * minimum 80% of baseline throughput. Automatically adjusts batch size to meet
+     * throughput requirements without halting query execution.
+     *
+     * @param throughput_callback Optional callback providing current throughput in bytes/sec.
+     * @return true on success with throughput guarantee met, false on failure or throughput violation.
+     */
+    bool executeWithThroughputGuarantee(
+        const std::function<uint64_t()>& throughput_callback = nullptr);
+
+    /**
+     * @brief Check if topology change requires automatic rebalancing.
+     *
+     * Detects when a node joins or leaves the cluster and determines if rebalancing
+     * is necessary to restore target balance.
+     *
+     * @param old_topology Previous topology state (node IDs).
+     * @param new_topology New topology state (node IDs).
+     * @return true if rebalancing is needed to restore balance, false if already balanced.
+     */
+    static bool isTopologyChangeRebalancingNeeded(
+        const std::vector<std::string>& old_topology,
+        const std::vector<std::string>& new_topology);
+
+    /**
+     * @brief Generate deterministic rebalance plan for automatic topology change.
+     *
+     * Creates a rebalance plan that redistributes shards to maintain target balance
+     * when a node joins or leaves the cluster. Plan ensures minimal data movement
+     * and deterministic behavior.
+     *
+     * @param old_topology Previous topology (node IDs).
+     * @param new_topology New topology (node IDs).
+     * @return Vector of rebalance operation configs to execute sequentially.
+     */
+    std::vector<RebalanceOperationConfig> generateTopologyChangeRebalancePlan(
+        const std::vector<std::string>& old_topology,
+        const std::vector<std::string>& new_topology);
 
 private:
     RebalanceOperationConfig config_;

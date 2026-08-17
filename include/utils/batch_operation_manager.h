@@ -71,8 +71,8 @@ public:
     // Disable copy, allow move
     BatchOperationManager(const BatchOperationManager&) = delete;
     BatchOperationManager& operator=(const BatchOperationManager&) = delete;
-    BatchOperationManager(BatchOperationManager&&) = default;
-    BatchOperationManager& operator=(BatchOperationManager&&) = default;
+    BatchOperationManager(BatchOperationManager&&) noexcept = default;
+    BatchOperationManager& operator=(BatchOperationManager&&) noexcept = default;
     
     /**
      * @brief Add item to batch queue

@@ -175,33 +175,21 @@ public:
      *                     Valid range: 1-255*32 (per RFC 5869 SHA-256 limit)
      * 
      * @return Derived key material of length output_length bytes
-     * @throws std::invalid_argument if output_length exceeds maximum
-     * @throws std::runtime_error if OpenSSL HKDF fails
-     * 
-     * @note Memory Safety: Key material is zero-wiped when evicted from cache
-     * @note Thread-Safe: All parameters and return value are thread-safe
-     * @warning Caller owns the returned vector; use volatile_free() for sensitive cleanup
+     * @throws std::invalid_argument if output_length exceeds RFC 5869 maximum (8160 bytes)
+     * @throws std::runtime_error if OpenSSL HKDF fails on cache miss
      * 
      * @error_contract
-     * | Condition | Behavior | Recovery |
-     * |-----------|----------|----------|
-     * | Cache hit | Returns cached key | Continues immediately |
-     * | Cache miss | Derives new key | Increments miss counter |
-     * | OpenSSL fails | Throws std::runtime_error | Caller must handle exception |
-     * | Memory exhausted | Throws std::bad_alloc | Reduce output_length or clear cache |
-     * | Cache overflow | Evicts oldest entry (LRU) | TTL or capacity limits trigger eviction |
-     * | Key expired (TTL) | Re-derives new key | Transparent refresh on cache miss |
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Cache miss + HKDF derivation fails | CRYPTO_KEY_DERIVATION_FAILED (9050) | Critical | output_length, error | Re-throw (fail-closed) |
+     *
+     * @degradation fail-closed – derivation error is propagated; no stale key returned
+     * @note Memory Safety: Evicted cache entries are zero-wiped via OPENSSL_cleanse()
+     * @note Thread-Safe: All parameters and return value are thread-safe (per-shard mutex)
+     * @note Bounded: Cache capacity = Config::capacity_per_shard × 16 shards
+     * @warning Caller owns the returned vector; use OPENSSL_cleanse() for sensitive cleanup
      * 
-     * @graceful_degradation
-     * If OpenSSL HKDF is unavailable, this function will throw; caller should:
-     * 1. Catch std::runtime_error and log error
-     * 2. Fall back to lower-security key material (if available)
-     * 3. Escalate incident to operator
-     * 
-     * @bounded_resource Cache shards: 16, each with ~max_entries limit
-     * @recovery_strategy On derivation failure: caller must implement fallback key strategy
-     * 
-     * @see RFC 5869 for HKDF specification
+     * @see ErrorCode 9050-9059 for crypto error taxonomy
      * @see purge_by_ikm_hash() for selective cache invalidation
      * 
      * @example

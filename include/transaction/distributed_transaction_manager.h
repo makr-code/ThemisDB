@@ -526,17 +526,27 @@ public:
     // ── Recovery ─────────────────────────────────────────────────────────────
 
     /**
-     * @brief Re-drive in-doubt transactions after a coordinator restart.
+     * @brief Re-drive in-doubt transactions after a coordinator restart (AC-6).
      *
-     * Reads the WAL from the beginning, identifies transactions that were in
-     * the PREPARED state when the coordinator crashed, and re-sends the Phase-2
-     * decision (COMMIT or ABORT) to all participants that have registered
-     * callbacks.
+     * Implements crash-recovery and in-doubt transaction reconciliation by:
+     * 1. Reading the WAL from the beginning
+     * 2. Identifying transactions in PREPARED state (in-doubt)
+     * 3. Re-sending Phase-2 ABORT decision to all in-memory participants
+     *
+     * **Acceptance Criteria (AC-6)**:
+     * - WAL replay must resolve all in-doubt transactions within 5 seconds of 
+     *   coordinator restart for typical workloads (≤1000 in-flight transactions)
+     * - Deterministic rollback under sustained contention (≥30s) without data loss
+     * - No orphaned locks after recovery; all participant locks released
+     * - Recovery idempotent: re-running does not change outcome
      *
      * Must be called once after construction, before accepting new transactions,
      * when WAL recovery is desired.
      *
      * @return Number of in-doubt transactions resolved.
+     *
+     * @see DistributedTxnManagerConfig::wal_directory for enabling WAL.
+     * @see logToWAL() for WAL entry details.
      */
     size_t recoverInDoubtTransactions() override;
 
@@ -563,13 +573,24 @@ public:
 
     /**
      * @brief Scan active transactions and abort any that have exceeded their
-     *        deadline.
+     *        deadline (AC-5).
+     *
+     * **Acceptance Criteria (AC-5)**:
+     * Implements deterministic timeout and retry semantics:
+     * - Exponential backoff with base 100ms, factor 2×, jitter ±20%, max 3 retries
+     * - Error codes consistent across coordinator restart
+     * - No silent deadline extension
+     * - Deterministic rollback under sustained contention (≥30s)
      *
      * This method is non-blocking and returns the number of transactions
      * aborted.  Callers should invoke it periodically (e.g. from a background
      * thread or a heartbeat).
      *
      * @return Number of transactions aborted due to timeout.
+     *
+     * @see DistributedTxnManagerConfig::prepare_timeout for Phase 1 timeout
+     * @see DistributedTxnManagerConfig::commit_timeout for Phase 2 timeout
+     * @see DistributedTxnManagerConfig::default_txn_timeout for overall timeout
      */
     size_t checkTimeouts();
 

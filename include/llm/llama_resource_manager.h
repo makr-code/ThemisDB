@@ -112,7 +112,7 @@ class LlamaModelHandle {
 public:
     explicit LlamaModelHandle(const std::string& model_path, 
                              const llama_model_params& params);
-    ~LlamaModelHandle();
+    ~LlamaModelHandle() noexcept;
     
     // Non-copyable, movable (Modern C++ Best Practice)
     LlamaModelHandle(const LlamaModelHandle&) = delete;
@@ -143,7 +143,7 @@ class LlamaContextHandle {
 public:
     explicit LlamaContextHandle(llama_model* model,
                                const llama_context_params& params);
-    ~LlamaContextHandle();
+    ~LlamaContextHandle() noexcept;
     
     LlamaContextHandle(const LlamaContextHandle&) = delete;
     LlamaContextHandle& operator=(const LlamaContextHandle&) = delete;
@@ -178,7 +178,7 @@ public:
         const llama_model_params& params,
         const GPUBackendConfig& gpu_config
     );
-    ~BackendAwareLlamaModelHandle();
+    ~BackendAwareLlamaModelHandle() noexcept;
     
     // Non-copyable, movable
     BackendAwareLlamaModelHandle(const BackendAwareLlamaModelHandle&) = delete;

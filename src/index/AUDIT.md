@@ -144,6 +144,14 @@
 - [INDEX-FP-ARS-RESERVE-01] approximate_radius_search.cpp L96/L97/L162/L163 MEDIUM `missing_vector_reserve`/`copy_overhead`: `search_result.results.reserve(results.size())` and `batch_results.reserve(query_vectors.size())` are both present immediately before their respective push_back loops; scanner did not track the reserve calls. Source-verified FP.
 - [INDEX-FP-ARS-HEALTH-01] approximate_radius_search.cpp L85 MEDIUM `no_health_check`: scanner triggered on `status.message` inside a `THEMIS_ERROR` diagnostic; `status` is a `VectorIndexManager::Status` result struct, not a health-check probe surface. Source-verified FP.
 
+### Phase 3 A-5/A-6 verification update (2026-08-17)
+
+- [INDEX-P3-A6-MANUAL-01] Manual audit of all 34 `db_connection_leak` findings from `ai_working/scan_src.json` (index scope) completed.
+  - `graph_index.cpp` (16): findings point to `topologyLoaded_` in-memory topology checks inside locked sections, not DB connection lifecycle.
+  - `gpu_vector_index.cpp` (11), `gpu_memory_oversubscription.cpp` (1), `cuda_hnsw_graph_traversal.cpp` (1), `rotary_embeddings_hip.cpp` (3), `spatial_index.cpp` (2): findings map to GPU/VRAM allocation accounting or log strings (`allocated_*`), not connection acquisition/release APIs.
+  - Classification: **False positives for DB connection leaks** in index scope (manual source verification).
+- [INDEX-P3-A5-TSAN-01] ThreadSanitizer execution for the 11 `circular_lock_ordering` findings is currently blocked by unrelated repository-wide build failures in non-index headers (`noexcept noexcept` declarations). Two local blockers were corrected during this run (`include/utils/expected.h`, `include/storage/rocksdb_wrapper.h`), but additional non-index blockers remain and prevent full TSan runtime validation.
+
 ## Compliance Snapshot
 
 | Requirement | Status |

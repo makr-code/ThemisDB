@@ -54,8 +54,8 @@ public:
     // Non-copyable, movable
     LoRACertificateStore(const LoRACertificateStore&) = delete;
     LoRACertificateStore& operator=(const LoRACertificateStore&) = delete;
-    LoRACertificateStore(LoRACertificateStore&&) = default;
-    LoRACertificateStore& operator=(LoRACertificateStore&&) = default;
+    LoRACertificateStore(LoRACertificateStore&&) noexcept = default;
+    LoRACertificateStore& operator=(LoRACertificateStore&&) noexcept = default;
 
     /**
      * @brief Look up a certificate PEM by its SHA-256 fingerprint.

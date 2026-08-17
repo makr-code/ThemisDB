@@ -242,8 +242,8 @@ public:
     // Non-copyable, movable
     MultiModalRAG(const MultiModalRAG&)            = delete;
     MultiModalRAG& operator=(const MultiModalRAG&) = delete;
-    MultiModalRAG(MultiModalRAG&&)                 = default;
-    MultiModalRAG& operator=(MultiModalRAG&&)      = default;
+    MultiModalRAG(MultiModalRAG&&)                 noexcept = default;
+    MultiModalRAG& operator=(MultiModalRAG&&)      noexcept = default;
 
     // ── Retrieval backend configuration ──────────────────────────────────────
 

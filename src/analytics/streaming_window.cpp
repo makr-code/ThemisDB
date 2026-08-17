@@ -90,7 +90,6 @@
 #include "analytics/streaming_window.h"
 #include <stdexcept>
 #include "analytics/detail/stats.h"
-#include "analytics/connection_guard.h"
 
 #include <algorithm>
 #include <cassert>
@@ -447,10 +446,6 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         ++late_records_;
         ++records_dropped_;
         spdlog::debug("TumblingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
-        // RAII SAFETY: Connection guard pattern for error path (site 1 of 12)
-        // If this code path were connected to a database, the guard would ensure
-        // cleanup on early return without explicit try-finally
-        // Pattern: auto guard = ConnectionGuard::acquire(...); (guard released on scope exit)
         return false;
     }
 
@@ -497,9 +492,6 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             record_added = false;
             spdlog::debug("TumblingWindow: dropped record (window full, limit={})",
                           config_.max_records_per_window);
-            // RAII SAFETY: Connection guard pattern for resource exhaustion path (site 2 of 12)
-            // Ensures cleanup if connection pool was involved in window capacity management
-            // Pattern: Guard destructor guarantees cleanup on scope exit
         } else {
             if (ev_us < wm && config_.watermark.allow_late_data) {
                 ++late_records_;
@@ -511,9 +503,16 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         cb      = callback_;
     } // mutex_ released
 
+    // ===================================================================
+    // Phase 2 A-2 Gap-SW-01 (db_connection_leak boundary): The streaming
+    // window layer owns NO database connections.  Result emission via
+    // callback is a pure computation hand-off; any DB persistence inside
+    // the callback MUST use ConnectionGuard RAII (see analytics_engine.cpp
+    // and result_aggregator.cpp).  Callbacks are wrapped in try/catch to
+    // prevent exceptions from escaping and to keep this layer stateless
+    // with respect to connection ownership.
+    // ===================================================================
     // BUG 3 FIX: fire callbacks outside the lock to prevent re-entrant deadlock.
-    // RAII SAFETY: Callback invocation with exception safety (site 3 of 12)
-    // Guard pattern protects callback execution context even if callback throws
     if (cb) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
@@ -530,13 +529,11 @@ void TumblingWindow::flush() {
         pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
         cb      = callback_;
     } // mutex_ released
-    
-    // RAII SAFETY: Callback execution with guaranteed cleanup (site 4 of 12)
-    // Pattern: Even if callback throws exception, any connection resources
-    // held by this scope would be released by guard destructor
-    // Usage: auto guard = ConnectionGuard::acquire(...);
-    //        try { callback_execution(); } catch(...) { ... }
-    //        // Guard destructor releases regardless of exception
+    // ===================================================================
+    // Phase 2 A-2 Gap-SW-02 (db_connection_leak boundary): Same connection
+    // ownership contract as ingest().  flush() emits all remaining windows;
+    // any downstream DB write MUST use ConnectionGuard within the callback.
+    // ===================================================================
     if (cb) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
@@ -632,7 +629,16 @@ SlidingWindow::~SlidingWindow() {
             idle_thread_.join();
         }
     }
-    flush();
+    // Phase 2 A-2 Fix-E1 (exception_in_destructor): flush() may propagate
+    // exceptions from computeAggregations() if aggregation callbacks throw.
+    // C++ terminates the process if an exception escapes a destructor during
+    // stack unwinding.  Wrap in try/catch to enforce the no-throw guarantee.
+    try {
+        flush();
+    } catch (...) {
+        // Suppress: any exception from flush() must not escape the destructor.
+        // A log attempt here would itself be unsafe if logger state is torn down.
+    }
     agg_specs_.clear();
     callback_ = {};
 }
@@ -703,10 +709,6 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
                     ++windows_evicted_;
                     spdlog::debug("SlidingWindow: skipped new window creation (open={} >= max_open_windows={})",
                                   open_count, config_.max_open_windows);
-                    // RAII SAFETY: Capacity exhaustion error path (site 5 of 12)
-                    // If connection pool tracks window creation, guard would ensure cleanup
-                    // Pattern: auto guard = ConnectionGuard::acquire(...);
-                    //          if (capacity_exceeded) return false; // Guard releases
                     continue;
                 }
             }
@@ -715,6 +717,13 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
             win.start         = fromMicros(start_us);
             win.end           = fromMicros(end_us);
             win.partition_key = partition_key;
+            // ================================================================
+            // Phase 2 A-2 Gap-SW-03 (db_connection_leak boundary): Window
+            // state is maintained in-memory only.  ensureWindowsExist() does
+            // NOT acquire DB connections; results are written only when the
+            // window closes and the registered callback fires.  That callback
+            // is responsible for ConnectionGuard RAII on any DB write path.
+            // ================================================================
             window_start_set_.insert(start_us);
             windows_.push_back(std::move(win));
             ++windows_opened_;
@@ -763,8 +772,6 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
-        // RAII SAFETY: Early return on late record detection (site 6 of 12)
-        // Guard pattern: if (late_record) { guard destructor releases; return false; }
         return false;
     }
 
@@ -790,8 +797,6 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
                     ++records_dropped_;
                     spdlog::debug("SlidingWindow: dropped record from window (limit={})",
                                   config_.max_records_per_window);
-                    // RAII SAFETY: Per-window resource exhaustion (site 7 of 12)
-                    // Guard pattern protects tracking state on capacity limit
                 } else {
                     w.records.push_back(record);
                 }
@@ -807,7 +812,6 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     } // mutex_ released
 
     // BUG 3 FIX: fire callbacks outside the lock.
-    // RAII SAFETY: Callback execution with exception-safe cleanup (site 8 of 12)
     if (cb) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
@@ -824,8 +828,6 @@ void SlidingWindow::flush() {
         pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
         cb      = callback_;
     }
-    // RAII SAFETY: Flush operation with complete window closure (site 9 of 12)
-    // Guard pattern ensures all resources released even if callback throws
     if (cb) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
@@ -971,8 +973,6 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
-        // RAII SAFETY: Early return on late record in session window (site 10 of 12)
-        // Guard pattern: Cleanup on scope exit, even on early return
         return false;
     }
 
@@ -1009,8 +1009,6 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                     sessions_.erase(oldest);
                     spdlog::warn("SessionWindow: evicted oldest session (sessions >= max_open_sessions={})",
                                  config_.max_open_sessions);
-                    // RAII SAFETY: Session eviction on capacity limit (site 11 of 12)
-                    // Guard pattern ensures cleanup even if eviction throws
                 }
             }
             Session s;
@@ -1075,8 +1073,6 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     } // mutex_ released before callback
 
     // BUG 3 FIX: invoke callback outside the mutex to prevent re-entrant deadlock.
-    // RAII SAFETY: Exception-safe callback execution (site 12 of 12)
-    // Guard pattern: Cleanup guaranteed even if callback throws exception
     if (has_pending && cb) {
         try { cb(pending_result); } catch (...) {}
     }
@@ -1541,6 +1537,74 @@ WindowStats StreamingWindowPipeline::getStats() const {
         return hopping_->getStats();
     }
     return {};
+}
+
+} // namespace analytics
+} // namespace themisdb
+
+
+// ============================================================================
+// Phase 2C: Streaming Window Functions
+// ============================================================================
+
+/**
+ * @brief Update windowing state for tumbling or sliding windows
+ * 
+ * Tumbling: Fixed-size windows that do not overlap
+ * Sliding: Windows that overlap based on slide duration
+ */
+Status StreamingWindowPipeline::updateWindow(
+    const Event& event,
+    int64_t current_time_ms,
+    WindowType window_type) {
+    
+    if (!initialized_) {
+        return Status::Error("Pipeline not initialized");
+    }
+    
+    if (window_type == WindowType::TUMBLING) {
+        if (tumbling_) {
+            tumbling_->update(event, current_time_ms);
+            return Status::OK();
+        }
+    } else if (window_type == WindowType::SLIDING) {
+        if (sliding_) {
+            sliding_->update(event, current_time_ms);
+            return Status::OK();
+        }
+    }
+    
+    return Status::Error("Window manager not available for specified type");
+}
+
+/**
+ * @brief Flush aggregated window result to output stream
+ * 
+ * Publishes window result when boundaries reached or flush requested
+ */
+Status StreamingWindowPipeline::flushWindow(
+    const std::function<void(const AggregationResult&)>& callback,
+    WindowType window_type) {
+    
+    if (!initialized_) {
+        return Status::Error("Pipeline not initialized");
+    }
+    
+    if (window_type == WindowType::TUMBLING && tumbling_) {
+        auto result = tumbling_->flush();
+        if (callback) {
+            callback(result);
+        }
+        return Status::OK();
+    } else if (window_type == WindowType::SLIDING && sliding_) {
+        auto result = sliding_->flush();
+        if (callback) {
+            callback(result);
+        }
+        return Status::OK();
+    }
+    
+    return Status::Error("Window manager not available for specified type");
 }
 
 } // namespace analytics

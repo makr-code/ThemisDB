@@ -65,8 +65,8 @@ public:
     // Non-copyable; move is allowed so callers can transfer ownership.
     AQLTokenStream(const AQLTokenStream&)            = delete;
     AQLTokenStream& operator=(const AQLTokenStream&) = delete;
-    AQLTokenStream(AQLTokenStream&&)                 = default;
-    AQLTokenStream& operator=(AQLTokenStream&&)      = default;
+    AQLTokenStream(AQLTokenStream&&)                 noexcept = default;
+    AQLTokenStream& operator=(AQLTokenStream&&)      noexcept = default;
 
     ~AQLTokenStream() {
         // Ensure any blocked consumer is unblocked.

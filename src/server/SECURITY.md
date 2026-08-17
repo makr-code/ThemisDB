@@ -1,6 +1,6 @@
 # Security - Server Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-17 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -30,6 +30,15 @@ Security in the server module focuses on authentication and request-control midd
 - deepen validation for overload and request-flood edge scenarios across mixed endpoint traffic.
 - tighten diagnostics consistency across auth, throttle, and health/error rejection paths.
 - broaden protocol-specific hardening coverage for server-owned session surfaces.
+
+## Phase 1 Auth Hardening Closure (Q2 2026)
+
+Auth hardening is complete. The API contract is frozen at `include/server/server_api_contract.h`:
+- **§2 Auth Gate Contract** — explicit per-route authentication and authorization gate semantics.
+- **§6 Error Taxonomy** — 12+ error classes with documented fail-closed semantics; no silent auth bypass.
+- **§8 Threading Guarantees** — thread-safety contracts for all middleware and handler entry points.
+
+SCH-01..SCH-20 regression coverage is active in `tests/server/test_server_contract_hardening_focused.cpp` (Phase 4 test suite, 20 deterministic GTest cases). Voice API JWT/OIDC Bearer-Token validation is complete: JWT signature, expiry (`exp`), issuer (`iss`), audience (`aud` = `"themis-voice-api"`), and JTI revocation; fail-closed on any validation failure.
 
 ## Sourcecode Verification (Module: server/security)
 

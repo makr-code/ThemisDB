@@ -44,7 +44,7 @@ class SSMStateRocksDBStore;
 class LLMPluginManager {
 public:
     LLMPluginManager();
-    ~LLMPluginManager();
+    ~LLMPluginManager() noexcept;
     
     // Prevent copying
     LLMPluginManager(const LLMPluginManager&) = delete;
@@ -418,6 +418,50 @@ public:
      * @return JSON object as string, or "{}" if state store not initialized
      */
     std::string getStateStoreStatistics() const;
+
+    /**
+     * @brief Safely create plugin with null checks and exception handling (CRITICAL-4-1)
+     * @param plugin_name Factory identifier
+     * @param config_json Configuration JSON
+     * @return Unique pointer to created plugin
+     * @throws std::invalid_argument if plugin_name is empty
+     * @throws std::runtime_error if factory not found or creation fails
+     */
+    std::unique_ptr<ILLMPlugin> CreatePluginSafe(
+        const std::string& plugin_name,
+        const std::string& config_json = ""
+    );
+
+    /**
+     * @brief Safely initialize plugin with exception handling (CRITICAL-4-2)
+     * @param name Plugin name
+     * @param plugin Plugin instance reference
+     * @return true if initialization succeeded
+     */
+    bool InitializePluginSafe(
+        const std::string& name,
+        std::unique_ptr<ILLMPlugin>& plugin
+    );
+
+    /**
+     * @brief Validate model state and resources (CRITICAL-1-6)
+     * @param model_id Model identifier
+     * @return true if model is valid and ready
+     */
+    bool ValidateModelState(const std::string& model_id);
+
+    /**
+     * @brief Process tokens safely with bounds checking (CRITICAL-2-5)
+     * @param tokens Token strings to process
+     * @param max_tokens Maximum tokens to process
+     * @return Vector of token IDs
+     * @throws std::invalid_argument if inputs invalid
+     * @throws std::overflow_error if token limit exceeded
+     */
+    std::vector<int32_t> ProcessTokensSafe(
+        const std::vector<std::string>& tokens,
+        size_t max_tokens = 8192
+    );
 
 private:
     struct PluginEntry {

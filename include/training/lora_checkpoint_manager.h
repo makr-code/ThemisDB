@@ -148,8 +148,8 @@ public:
     // Non-copyable, movable
     LoRACheckpointManager(const LoRACheckpointManager&)            = delete;
     LoRACheckpointManager& operator=(const LoRACheckpointManager&) = delete;
-    LoRACheckpointManager(LoRACheckpointManager&&)                 = default;
-    LoRACheckpointManager& operator=(LoRACheckpointManager&&)      = default;
+    LoRACheckpointManager(LoRACheckpointManager&&)                 noexcept = default;
+    LoRACheckpointManager& operator=(LoRACheckpointManager&&)      noexcept = default;
 
     /**
      * @brief Atomically save a checkpoint with integrity metadata.

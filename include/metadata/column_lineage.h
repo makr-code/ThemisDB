@@ -127,8 +127,8 @@ public:
     // Disable copy; allow move
     ColumnLineageTracker(const ColumnLineageTracker&) = delete;
     ColumnLineageTracker& operator=(const ColumnLineageTracker&) = delete;
-    ColumnLineageTracker(ColumnLineageTracker&&) = default;
-    ColumnLineageTracker& operator=(ColumnLineageTracker&&) = default;
+    ColumnLineageTracker(ColumnLineageTracker&&) noexcept = default;
+    ColumnLineageTracker& operator=(ColumnLineageTracker&&) noexcept = default;
 
     /**
      * @brief Record a derivation step for a target column.

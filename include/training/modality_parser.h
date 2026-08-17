@@ -258,8 +258,8 @@ public:
     // Non-copyable, movable
     ModalityDetector(const ModalityDetector&)            = delete;
     ModalityDetector& operator=(const ModalityDetector&) = delete;
-    ModalityDetector(ModalityDetector&&)                 = default;
-    ModalityDetector& operator=(ModalityDetector&&)      = default;
+    ModalityDetector(ModalityDetector&&)                 noexcept = default;
+    ModalityDetector& operator=(ModalityDetector&&)      noexcept = default;
 
     /**
      * @brief Heuristically detect the dominant modality of @p content.

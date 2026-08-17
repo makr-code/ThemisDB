@@ -139,8 +139,8 @@ public:
     MemoryPolicy& operator=(const MemoryPolicy&) = delete;
 
     // Default move semantics
-    MemoryPolicy(MemoryPolicy&&) = default;
-    MemoryPolicy& operator=(MemoryPolicy&&) = default;
+    MemoryPolicy(MemoryPolicy&&) noexcept = default;
+    MemoryPolicy& operator=(MemoryPolicy&&) noexcept = default;
 
     /**
      * @brief Get maximum result size in bytes

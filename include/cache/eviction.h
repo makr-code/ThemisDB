@@ -104,8 +104,8 @@ public:
 
     EvictionScheduler(const EvictionScheduler&)            = delete;
     EvictionScheduler& operator=(const EvictionScheduler&) = delete;
-    EvictionScheduler(EvictionScheduler&&)                 = default;
-    EvictionScheduler& operator=(EvictionScheduler&&)      = default;
+    EvictionScheduler(EvictionScheduler&&)                 noexcept = default;
+    EvictionScheduler& operator=(EvictionScheduler&&)      noexcept = default;
 
     /**
      * @brief Score and sort candidates, then select entries to free target bytes.

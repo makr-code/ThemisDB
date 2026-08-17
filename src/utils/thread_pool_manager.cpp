@@ -14,6 +14,7 @@
 #include "utils/thread_join_utils.h"
 #include <stdexcept>
 #include <algorithm>
+#include "utils/error_contracts.h"
 
 namespace themis::utils {
 
@@ -89,7 +90,13 @@ void ThreadPool::workerLoop() {
 
 bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds timeout) {
     if (!running_) {
-        spdlog::warn("ThreadPool '{}' is not running", config_.name);
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::THREADPOOL_QUEUE_FULL,
+            "Task submission rejected – thread pool is stopped; pool_name=" + config_.name,
+            "ThreadPool::submit",
+            themis::utils::ErrorSeverity::Error,
+            false);
+        themis::utils::logErrorWithContext(ctx);
         return false;
     }
     
@@ -101,7 +108,16 @@ bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds ti
     });
     
     if (!space) {
-        spdlog::error("ThreadPool '{}' queue full, rejecting task", config_.name);
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::THREADPOOL_QUEUE_FULL,
+            "Task submission rejected – thread pool queue at capacity (THREAD_POOL_OVERLOAD); "
+            "pool_name=" + config_.name +
+            "; queue_size=" + std::to_string(config_.queue_size) +
+            "; task_name=" + (task ? task->getName() : "<null>"),
+            "ThreadPool::submit",
+            themis::utils::ErrorSeverity::Error,
+            false);
+        themis::utils::logErrorWithContext(ctx);
         return false;
     }
     

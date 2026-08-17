@@ -125,8 +125,8 @@ public:
     // Disable copy, allow move
     InformationSchema(const InformationSchema&) = delete;
     InformationSchema& operator=(const InformationSchema&) = delete;
-    InformationSchema(InformationSchema&&) = default;
-    InformationSchema& operator=(InformationSchema&&) = default;
+    InformationSchema(InformationSchema&&) noexcept = default;
+    InformationSchema& operator=(InformationSchema&&) noexcept = default;
 
     // ========================================================================
     // INFORMATION_SCHEMA views

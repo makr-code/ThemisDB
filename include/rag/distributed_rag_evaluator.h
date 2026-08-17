@@ -128,8 +128,8 @@ public:
     // Non-copyable; movable.
     DistributedRAGEvaluator(const DistributedRAGEvaluator&)            = delete;
     DistributedRAGEvaluator& operator=(const DistributedRAGEvaluator&) = delete;
-    DistributedRAGEvaluator(DistributedRAGEvaluator&&)                 = default;
-    DistributedRAGEvaluator& operator=(DistributedRAGEvaluator&&)      = default;
+    DistributedRAGEvaluator(DistributedRAGEvaluator&&)                 noexcept = default;
+    DistributedRAGEvaluator& operator=(DistributedRAGEvaluator&&)      noexcept = default;
 
     /**
      * @brief Evaluate a single input across all judges.

@@ -84,7 +84,7 @@ struct CachedModel {
      * outstanding shared owners can rely on RAII cleanup once the final
      * reference leaves scope.
      */
-    virtual ~CachedModel();
+    virtual ~CachedModel() noexcept;
     std::string model_id;
     std::string model_path;
     ModelInfo info;
@@ -142,7 +142,7 @@ public:
     };
     
     explicit LazyModelLoader(const Config& config);
-    ~LazyModelLoader();
+    ~LazyModelLoader() noexcept;
     
     /**
      * @brief Get or load a model (lazy loading)

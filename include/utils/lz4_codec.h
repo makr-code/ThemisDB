@@ -39,12 +39,21 @@ namespace lz4_compression {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Compress @p size bytes at @p data with LZ4.
+ * @brief Compress @p size bytes at @p data with LZ4 (safe version with parameter validation).
  *
  * @param data         Pointer to input bytes (must not be nullptr unless size==0).
- * @param size         Number of bytes to compress.
- * @param acceleration LZ4 acceleration factor (≥1; default 1).
- * @return Ok(compressed_bytes) on success; Err on failure or unsupported.
+ * @param size         Number of bytes to compress (must not exceed MAX_INPUT_SIZE).
+ * @param acceleration LZ4 acceleration factor (1-1000; values outside range are auto-clamped).
+ * @return Ok(compressed_bytes) on success; Err on failure or parameter validation failure.
+ *
+ * @note Parameter Validation: Acceleration parameter is silently clamped to valid range [1-1000].
+ *       Invalid values are logged as WARN but do not prevent compression.
+ * @note Max Input: Input size is validated against MAX_INPUT_SIZE to prevent DoS allocation.
+ * @note Thread-Safe: Safe for concurrent calls from multiple threads.
+ * @note Acceleration: Higher acceleration = faster compression + lower compression ratio.
+ *
+ * @error E_INVALID_INPUT Input data size exceeds MAX_INPUT_SIZE limit.
+ * @error E_COMPRESSION_FAILED LZ4 compression failed (insufficient memory or state error).
  */
 Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
                                                 int acceleration = lz4_compression::DEFAULT_ACCELERATION);

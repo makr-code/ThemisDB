@@ -150,7 +150,7 @@ public:
 
     CrossShardFeedbackSync(const CrossShardFeedbackSync&)            = delete;
     CrossShardFeedbackSync& operator=(const CrossShardFeedbackSync&) = delete;
-    CrossShardFeedbackSync(CrossShardFeedbackSync&&)                 = default;
+    CrossShardFeedbackSync(CrossShardFeedbackSync&&)                 noexcept = default;
     CrossShardFeedbackSync& operator=(CrossShardFeedbackSync&&)      noexcept;
 
     // ── Publishing ───────────────────────────────────────────────────────────

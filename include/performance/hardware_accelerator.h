@@ -286,8 +286,8 @@ public:
 
     HardwareAccelerator(const HardwareAccelerator&)            = delete;
     HardwareAccelerator& operator=(const HardwareAccelerator&) = delete;
-    HardwareAccelerator(HardwareAccelerator&&)                 = default;
-    HardwareAccelerator& operator=(HardwareAccelerator&&)      = default;
+    HardwareAccelerator(HardwareAccelerator&&)                 noexcept = default;
+    HardwareAccelerator& operator=(HardwareAccelerator&&)      noexcept = default;
 
     // =========================================================================
     // Core API

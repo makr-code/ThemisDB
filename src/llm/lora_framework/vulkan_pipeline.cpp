@@ -41,35 +41,49 @@ VulkanComputePipeline::VulkanComputePipeline(VulkanContext* context,
     }
 }
 
-VulkanComputePipeline::~VulkanComputePipeline() {
-    if (fence_ != VK_NULL_HANDLE) {
-        context_->wait_for_fence(fence_);
-        context_->destroy_fence(fence_);
-    }
-    
-    if (command_buffer_ != VK_NULL_HANDLE) {
-        context_->free_command_buffer(command_buffer_);
-    }
-    
-    if (descriptor_pool_ != VK_NULL_HANDLE) {
-        vkDestroyDescriptorPool(context_->device(), descriptor_pool_, nullptr);
-    }
-    
-    if (pipeline_ != VK_NULL_HANDLE) {
-        vkDestroyPipeline(context_->device(), pipeline_, nullptr);
-    }
-    
-    if (pipeline_layout_ != VK_NULL_HANDLE) {
-        vkDestroyPipelineLayout(context_->device(), pipeline_layout_, nullptr);
-    }
-    
-    if (descriptor_set_layout_ != VK_NULL_HANDLE) {
-        vkDestroyDescriptorSetLayout(context_->device(), descriptor_set_layout_, nullptr);
-    }
-    
-    if (shader_module_ != VK_NULL_HANDLE) {
-        vkDestroyShaderModule(context_->device(), shader_module_, nullptr);
-    }
+VulkanComputePipeline::~VulkanComputePipeline() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — context_->wait_for_fence(),
+    // destroy_fence(), free_command_buffer(), and vkDestroy* may throw (Vulkan
+    // validation layers or custom allocators). Suppress to honour noexcept.
+    try {
+        if (fence_ != VK_NULL_HANDLE) {
+            context_->wait_for_fence(fence_);
+            context_->destroy_fence(fence_);
+            fence_ = VK_NULL_HANDLE;
+        }
+
+        if (command_buffer_ != VK_NULL_HANDLE) {
+            context_->free_command_buffer(command_buffer_);
+            command_buffer_ = VK_NULL_HANDLE;
+        }
+
+        if (descriptor_pool_ != VK_NULL_HANDLE) {
+            vkDestroyDescriptorPool(context_->device(), descriptor_pool_, nullptr);
+            descriptor_pool_ = VK_NULL_HANDLE;
+        }
+
+        if (pipeline_ != VK_NULL_HANDLE) {
+            vkDestroyPipeline(context_->device(), pipeline_, nullptr);
+            pipeline_ = VK_NULL_HANDLE;
+        }
+
+        if (pipeline_layout_ != VK_NULL_HANDLE) {
+            vkDestroyPipelineLayout(context_->device(), pipeline_layout_, nullptr);
+            pipeline_layout_ = VK_NULL_HANDLE;
+        }
+
+        if (descriptor_set_layout_ != VK_NULL_HANDLE) {
+            vkDestroyDescriptorSetLayout(context_->device(), descriptor_set_layout_, nullptr);
+            descriptor_set_layout_ = VK_NULL_HANDLE;
+        }
+
+        if (shader_module_ != VK_NULL_HANDLE) {
+            vkDestroyShaderModule(context_->device(), shader_module_, nullptr);
+            shader_module_ = VK_NULL_HANDLE;
+        }
+    } catch (const std::exception& e) {
+        (void)e; // Vulkan driver owns the underlying resources; suppress safely
+    } catch (...) {}
 }
 
 VulkanComputePipeline::VulkanComputePipeline(VulkanComputePipeline&& other) noexcept

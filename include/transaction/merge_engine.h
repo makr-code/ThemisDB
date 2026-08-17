@@ -159,8 +159,8 @@ public:
     // Disable copy, allow move
     MergeEngine(const MergeEngine&) = delete;
     MergeEngine& operator=(const MergeEngine&) = delete;
-    MergeEngine(MergeEngine&&) = default;
-    MergeEngine& operator=(MergeEngine&&) = default;
+    MergeEngine(MergeEngine&&) noexcept = default;
+    MergeEngine& operator=(MergeEngine&&) noexcept = default;
 
     /**
      * @brief Perform three-way merge between two sequences

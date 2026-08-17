@@ -56,9 +56,25 @@ public:
                      std::shared_ptr<AuditLogger> audit_logger = nullptr);
     
     /**
-     * @brief Pseudonymize detected PII in JSON object
+     * @brief Pseudonymize detected PII in JSON object.
+     *
+     * Replaces PII values with UUIDs. Requires a valid pseudonymization key;
+     * if the key is unavailable, the operation fails closed rather than
+     * producing plaintext in the output.
+     *
      * @param data Input JSON with potential PII
-     * @return JSON with PII replaced by UUIDs, list of mappings created
+     * @return JSON with PII replaced by UUIDs, and list of UUID mappings created
+     * @throws std::runtime_error if pseudonymization key is unavailable (fail-closed)
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Pseudonymization key unavailable (RAND_bytes failure) | CRYPTO_KEY_DERIVATION_FAILED (9050) | Critical | key_id | Throw (fail-closed – no plaintext produced) |
+     * | Database unavailable (cannot persist mapping) | CRYPTO_KEY_NOT_FOUND (9053) | Critical | pii_uuid | Throw (fail-closed) |
+     *
+     * @degradation fail-closed – key unavailable → reject; never returns unredacted data on error
+     * @see ErrorCode 9050-9059 for crypto error taxonomy
+     * @see ErrorCode 9040-9049 for privacy detection taxonomy
      */
     std::pair<nlohmann::json, std::vector<std::string>> pseudonymize(
         const nlohmann::json& data

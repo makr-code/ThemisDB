@@ -111,8 +111,8 @@ public:
     // Non-copyable, movable (for use in unique_ptr / direct members)
     TracingMiddleware(const TracingMiddleware&) = delete;
     TracingMiddleware& operator=(const TracingMiddleware&) = delete;
-    TracingMiddleware(TracingMiddleware&&) = default;
-    TracingMiddleware& operator=(TracingMiddleware&&) = default;
+    TracingMiddleware(TracingMiddleware&&) noexcept = default;
+    TracingMiddleware& operator=(TracingMiddleware&&) noexcept = default;
 
     /// HTTP header name used for the correlation ID.
     static constexpr std::string_view kCorrelationIdHeader = "X-Correlation-ID";

@@ -123,12 +123,24 @@ public:
     std::string getLastError() const;
     
     /**
-     * @brief Detect PII patterns in plain text
+     * @brief Detect PII patterns in plain text.
      * 
-     * Runs all enabled detection engines and merges results.
-     * 
+     * Runs all enabled detection engines and merges results. On engine error,
+     * returns conservative result (empty findings treated as "scan failed" is
+     * NOT returned; instead engine errors propagate via PIIStreamScanner).
+     *
      * @param text Input text to scan
      * @return Vector of PII findings sorted by start_offset, deduplicated
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Engine throws on detection | PRIVACY_ENGINE_FAILED (9049) | Error | engine_name, error | Skip engine; merge remaining results conservatively |
+     * | Input exceeds size limit | PRIVACY_BUFFER_OVERFLOW (9043) | Warning | input_size | Truncate to limit; scan partial input |
+     * | No engines loaded | PRIVACY_NO_ENGINE (9048) | Error | — | Return empty (caller must treat as unknown) |
+     *
+     * @degradation conservative – detection errors produce empty results, not false permits
+     * @see ErrorCode 9040-9049 for privacy detection taxonomy
      */
     std::vector<PIIFinding> detectInText(const std::string& text) const;
     

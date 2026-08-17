@@ -219,6 +219,11 @@ public:
     http::response<http::string_body> handleCancel(
         const http::request<http::string_body>& req);
 
+    /// GET /v2/health/jobs – OP-HEALTH-002 readiness probe (liveness check)
+    /// Returns operational status suitable for Kubernetes health checks
+    http::response<http::string_body> handleHealthCheck(
+        const http::request<http::string_body>& req);
+
 private:
     /// Generate a unique job ID (timestamp + monotonic counter).
     static std::string generateJobId();

@@ -157,8 +157,16 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(
                  shared_pool_->numThreads());
 }
 
-InferenceEngineEnhanced::~InferenceEngineEnhanced() {
-    shutdown();
+InferenceEngineEnhanced::~InferenceEngineEnhanced() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — shutdown() may throw; must not
+    // propagate out of the destructor or std::terminate() is invoked.
+    try {
+        shutdown();
+    } catch (const std::exception& e) {
+        spdlog::error("InferenceEngineEnhanced::~InferenceEngineEnhanced: exception during shutdown (suppressed): {}", e.what());
+    } catch (...) {
+        spdlog::error("InferenceEngineEnhanced::~InferenceEngineEnhanced: unknown exception during shutdown (suppressed)");
+    }
 }
 
 void InferenceEngineEnhanced::setRemoteExecutor(

@@ -54,8 +54,8 @@ public:
     // Non-copyable, movable
     SchemaRegistry(const SchemaRegistry&)            = delete;
     SchemaRegistry& operator=(const SchemaRegistry&) = delete;
-    SchemaRegistry(SchemaRegistry&&)                 = default;
-    SchemaRegistry& operator=(SchemaRegistry&&)      = default;
+    SchemaRegistry(SchemaRegistry&&)                 noexcept = default;
+    SchemaRegistry& operator=(SchemaRegistry&&)      noexcept = default;
 
     // ── Query ────────────────────────────────────────────────────────────────
 

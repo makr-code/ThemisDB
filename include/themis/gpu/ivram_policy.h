@@ -94,8 +94,8 @@ public:
 
 protected:
     IVRAMPolicy() = default;
-    IVRAMPolicy(IVRAMPolicy&&) = default;
-    IVRAMPolicy& operator=(IVRAMPolicy&&) = default;
+    IVRAMPolicy(IVRAMPolicy&&) noexcept = default;
+    IVRAMPolicy& operator=(IVRAMPolicy&&) noexcept = default;
 };
 
 } // namespace gpu

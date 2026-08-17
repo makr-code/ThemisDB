@@ -161,7 +161,7 @@ Sampling of public headers in include/utils/:
 | Aspect | Coverage | Status |
 |---|---|---|
 | Module-level docs (Level 1) | 8/8 files present | ✓ 100% |
-| Public API Doxygen coverage | Sampled headers verified | ✓ On track |
+| Public API Doxygen coverage | 74/74 @file headers verified; function-level unverified | [~] Partial |
 | Architecture claims verification | Sourcecode mapping provided | ✓ Complete |
 | Performance expectations linkage | All targets map to benchmarks | ✓ Complete |
 | Error contract documentation | SECURITY.md and AUDIT.md | ✓ Complete |
@@ -180,11 +180,11 @@ Sampling of public headers in include/utils/:
 
 ### Task 2: Doxygen API Documentation
 - **Scope:** Verify all public APIs have Doxygen documentation
-- **Result:** ✓ **PASS** (spot-check verified; full audit recommended pre-merge)
+- **Result:** [~] **PARTIAL** (spot-check only; function-level audit pending)
+  - @file headers verified: 74/74 public headers have @file and @brief blocks with maturity metadata
   - Sample headers verified: audit_logger.h, pii_detector.h, thread_pool_manager.h
-  - Documentation format: @file, @brief, @note blocks present with maturity metadata
-  - Function-level documentation: Headers sampled; @param and @return ready for Doxygen generation
-  - Recommendation: Run `doxygen Doxyfile` in CI/CD to verify all headers before merge
+  - Function-level documentation: Not verified; @param/@return/@throws coverage requires full Doxygen build
+  - Action required: Run `doxygen Doxyfile` and audit function-level coverage before Phase 4 sign-off
 
 ### Task 3: Performance Expectations Documentation
 - **Scope:** Verify performance targets are measurable and verifiable

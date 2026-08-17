@@ -95,10 +95,18 @@ AdvancedVectorIndex::AdvancedVectorIndex(size_t dimension, const Config& config)
     initializeIndex();
 }
 
-AdvancedVectorIndex::~AdvancedVectorIndex() {
+AdvancedVectorIndex::~AdvancedVectorIndex() noexcept {
 #ifdef THEMIS_HAS_FAISS
+    // Gap: exception_in_destructor + delete_no_nullptr — guard delete with noexcept try/catch
     if (index_) {
-        delete static_cast<faiss::Index*>(index_);
+        try {
+            delete static_cast<faiss::Index*>(index_);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::~AdvancedVectorIndex: exception deleting index (ignored): {}",
+                         e.what());
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::~AdvancedVectorIndex: unknown exception deleting index (ignored)");
+        }
         index_ = nullptr;
     }
 #endif
@@ -573,8 +581,14 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
 #ifdef THEMIS_HAS_FAISS
     try {
         if (index_) {
-            delete static_cast<faiss::Index*>(index_);
-            index_ = nullptr;  // prevent dangling pointer if read_index throws
+            // Gap: delete_no_nullptr — guard faiss::Index dtor exceptions; set nullptr first
+            auto* old = static_cast<faiss::Index*>(index_);
+            index_ = nullptr;  // prevent dangling pointer regardless of dtor outcome
+            try {
+                delete old;
+            } catch (...) {
+                THEMIS_ERROR("AdvancedVectorIndex::load: exception deleting old index (ignored)");
+            }
         }
         
         auto* idx = faiss::read_index(path.c_str());

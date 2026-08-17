@@ -1,6 +1,6 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-17 -->
 # Security - Security Module
 
 > Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).
@@ -20,12 +20,13 @@
 - Access-control and policy enforcement surfaces (`rbac`, `access_control_manager`, `row_level_security`).
 - Encryption and key-provider paths (`field_encryption`, vault/HSM/PKI providers).
 - Detection controls (`aql_injection_detector`, anomaly/detection helpers, malware scanning).
-- Security orchestration and evidence collection (`security_manager`, `security_evidence_collector`).
+- Security evidence collection (`security_evidence_collector`) plus runtime policy/detection controls (`zero_trust_policy_enforcer`, `behavioral_anomaly_detector`).
 
 ## Known Limitations
 
 - Some high-assurance dependency-failure combinations still require broader validation evidence.
 - Certain performance envelopes for hot security paths need continuous benchmark-backed monitoring.
+- A fresh full security-gap rescan is still open; final module-level production-ready sign-off remains pending until the residual findings in `MODULE_GAPS.md` are closed.
 
 ## Sourcecode Verification (Module: security/security)
 
@@ -38,8 +39,9 @@
   - `src/security/hsm_provider_pkcs11.cpp`
   - `src/security/pki_key_provider.cpp`
   - `src/security/aql_injection_detector.cpp`
-  - `src/security/security_manager.cpp`
   - `src/security/security_evidence_collector.cpp`
+  - `src/security/zero_trust_policy_enforcer.cpp`
+  - `src/security/behavioral_anomaly_detector.cpp`
 - Verified controls:
   - policy/access decisions
   - encryption/key-provider behavior

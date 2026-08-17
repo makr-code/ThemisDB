@@ -115,8 +115,8 @@ public:
     // Disable copy, allow move
     SchemaConstraints(const SchemaConstraints&) = delete;
     SchemaConstraints& operator=(const SchemaConstraints&) = delete;
-    SchemaConstraints(SchemaConstraints&&) = default;
-    SchemaConstraints& operator=(SchemaConstraints&&) = default;
+    SchemaConstraints(SchemaConstraints&&) noexcept = default;
+    SchemaConstraints& operator=(SchemaConstraints&&) noexcept = default;
 
     // ========================================================================
     // Constraint management

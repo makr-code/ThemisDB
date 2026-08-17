@@ -201,8 +201,8 @@ public:
     // Non-copyable, movable.
     CrossShardForeignKeyValidator(const CrossShardForeignKeyValidator&) = delete;
     CrossShardForeignKeyValidator& operator=(const CrossShardForeignKeyValidator&) = delete;
-    CrossShardForeignKeyValidator(CrossShardForeignKeyValidator&&) = default;
-    CrossShardForeignKeyValidator& operator=(CrossShardForeignKeyValidator&&) = default;
+    CrossShardForeignKeyValidator(CrossShardForeignKeyValidator&&) noexcept = default;
+    CrossShardForeignKeyValidator& operator=(CrossShardForeignKeyValidator&&) noexcept = default;
 
     /**
      * @brief Register a cross-shard FK constraint.

@@ -54,7 +54,7 @@ public:
      */
     VulkanComputePipeline(VulkanContext* context, const std::vector<uint32_t>& shader_code);
     
-    ~VulkanComputePipeline();
+    ~VulkanComputePipeline() noexcept;
     
     // Disable copy, enable move
     VulkanComputePipeline(const VulkanComputePipeline&) = delete;

@@ -204,8 +204,8 @@ public:
     // Non-copyable; movable
     TemporalCDC(const TemporalCDC&)            = delete;
     TemporalCDC& operator=(const TemporalCDC&) = delete;
-    TemporalCDC(TemporalCDC&&)                 = default;
-    TemporalCDC& operator=(TemporalCDC&&)      = default;
+    TemporalCDC(TemporalCDC&&)                 noexcept = default;
+    TemporalCDC& operator=(TemporalCDC&&)      noexcept = default;
 
     ~TemporalCDC() = default;
 

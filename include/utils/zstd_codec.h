@@ -54,6 +54,23 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
 
 // New Result<T>-based API for better error handling and security validation
 // These provide detailed error information and are recommended for new code
+
+/**
+ * @brief Safely compress data using ZSTD with parameter validation.
+ *
+ * @param data Input buffer pointer (must not be nullptr).
+ * @param size Size in bytes (must not exceed MAX_ZSTD_INPUT_SIZE).
+ * @param level Compression level (1-22); values outside range are auto-clamped to [1-22].
+ * @return Result containing compressed data or error description.
+ *
+ * @note Parameter Validation: Compression level is silently clamped to valid range [1-22].
+ *       Invalid levels are logged as WARN but do not cause compression to fail.
+ * @note Max Input: Enforces maximum input size to prevent DoS via oversized allocations.
+ * @note Thread-Safe: Uses thread-local ZSTD_CCtx for safe concurrent use.
+ *
+ * @error E_INVALID_INPUT Input data is empty or exceeds size limits.
+ * @error E_COMPRESSION_FAILED ZSTD compression failed (insufficient memory or corrupt state).
+ */
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level = 3);
 Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& compressed);
 
@@ -90,8 +107,8 @@ public:
     // Non-copyable; movable.
     ZstdStreamCompressor(const ZstdStreamCompressor&)            = delete;
     ZstdStreamCompressor& operator=(const ZstdStreamCompressor&) = delete;
-    ZstdStreamCompressor(ZstdStreamCompressor&&)                 = default;
-    ZstdStreamCompressor& operator=(ZstdStreamCompressor&&)      = default;
+    ZstdStreamCompressor(ZstdStreamCompressor&&)                 noexcept = default;
+    ZstdStreamCompressor& operator=(ZstdStreamCompressor&&)      noexcept = default;
 
     /**
      * @brief Feed a chunk of uncompressed data into the stream.
@@ -153,8 +170,8 @@ public:
     // Non-copyable; movable.
     ZstdStreamDecompressor(const ZstdStreamDecompressor&)            = delete;
     ZstdStreamDecompressor& operator=(const ZstdStreamDecompressor&) = delete;
-    ZstdStreamDecompressor(ZstdStreamDecompressor&&)                 = default;
-    ZstdStreamDecompressor& operator=(ZstdStreamDecompressor&&)      = default;
+    ZstdStreamDecompressor(ZstdStreamDecompressor&&)                 noexcept = default;
+    ZstdStreamDecompressor& operator=(ZstdStreamDecompressor&&)      noexcept = default;
 
     /**
      * @brief Feed a chunk of compressed data into the stream.

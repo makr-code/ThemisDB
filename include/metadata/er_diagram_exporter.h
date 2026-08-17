@@ -62,8 +62,8 @@ public:
 
     ERDiagramExporter(const ERDiagramExporter&) = default;
     ERDiagramExporter& operator=(const ERDiagramExporter&) = default;
-    ERDiagramExporter(ERDiagramExporter&&) = default;
-    ERDiagramExporter& operator=(ERDiagramExporter&&) = default;
+    ERDiagramExporter(ERDiagramExporter&&) noexcept = default;
+    ERDiagramExporter& operator=(ERDiagramExporter&&) noexcept = default;
 
     // =========================================================================
     // Export API

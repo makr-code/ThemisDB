@@ -184,8 +184,8 @@ public:
     // Not copyable; movable.
     SchemaMigrator(const SchemaMigrator&) = delete;
     SchemaMigrator& operator=(const SchemaMigrator&) = delete;
-    SchemaMigrator(SchemaMigrator&&) = default;
-    SchemaMigrator& operator=(SchemaMigrator&&) = default;
+    SchemaMigrator(SchemaMigrator&&) noexcept = default;
+    SchemaMigrator& operator=(SchemaMigrator&&) noexcept = default;
 
     // ── Staging API ──────────────────────────────────────────────────────────
 

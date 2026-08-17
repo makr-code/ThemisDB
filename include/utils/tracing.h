@@ -183,10 +183,26 @@ private:
 class Tracer {
 public:
     /**
-     * Initialize the global tracer with OTLP HTTP exporter
+     * @brief Initialize the global tracer with OTLP HTTP exporter.
+     *
+     * Probes the collector endpoint (3-second timeout) before registering the
+     * OTLP exporter. If the probe fails the tracer is marked initialized but
+     * operates in no-op mode (every span is discarded), bounding latency impact.
+     *
      * @param serviceName Name of this service (e.g., "themis-server")
      * @param endpoint OTLP HTTP endpoint (e.g., "http://localhost:4318")
-     * @return true if initialization succeeded
+     * @return true if initialization succeeded and backend is reachable;
+     *         false if backend unreachable (no-op mode, fail-open)
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Collector DNS resolution fails | TRACE_EXPORT_FAILED (9031) | Warning | host, port, error | Return false; use no-op spans (fail-open) |
+     * | Collector TCP connect fails (timeout 3 s) | TRACE_EXPORT_FAILED (9031) | Warning | host, port, error | Return false; use no-op spans (fail-open) |
+     * | Probe throws unexpected exception | TRACE_EXPORT_FAILED (9031) | Warning | error | Return false; use no-op spans (fail-open) |
+     *
+     * @degradation fail-open – backend unavailable produces no-op spans; latency bounded to 3 s probe
+     * @see ErrorCode 9030-9039 for tracing error taxonomy
      */
     static bool initialize(const std::string& serviceName, const std::string& endpoint);
     

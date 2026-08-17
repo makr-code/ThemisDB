@@ -76,8 +76,8 @@ public:
     // Disable copy, allow move
     PagedBlockManager(const PagedBlockManager&) = delete;
     PagedBlockManager& operator=(const PagedBlockManager&) = delete;
-    PagedBlockManager(PagedBlockManager&&) = default;
-    PagedBlockManager& operator=(PagedBlockManager&&) = default;
+    PagedBlockManager(PagedBlockManager&&) noexcept = default;
+    PagedBlockManager& operator=(PagedBlockManager&&) noexcept = default;
     
     /**
      * @brief Allocate contiguous blocks

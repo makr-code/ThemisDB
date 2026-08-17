@@ -120,8 +120,8 @@ public:
 
     AdjacencyList(const AdjacencyList&)            = default;
     AdjacencyList& operator=(const AdjacencyList&) = default;
-    AdjacencyList(AdjacencyList&&)                 = default;
-    AdjacencyList& operator=(AdjacencyList&&)      = default;
+    AdjacencyList(AdjacencyList&&)                 noexcept = default;
+    AdjacencyList& operator=(AdjacencyList&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Vertex operations

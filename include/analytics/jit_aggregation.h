@@ -122,8 +122,8 @@ public:
 
     JITAggregationCompiler(const JITAggregationCompiler&)            = delete;
     JITAggregationCompiler& operator=(const JITAggregationCompiler&) = delete;
-    JITAggregationCompiler(JITAggregationCompiler&&)                 = default;
-    JITAggregationCompiler& operator=(JITAggregationCompiler&&)      = default;
+    JITAggregationCompiler(JITAggregationCompiler&&)                 noexcept = default;
+    JITAggregationCompiler& operator=(JITAggregationCompiler&&)      noexcept = default;
 
     // -------------------------------------------------------------------------
     // Core API

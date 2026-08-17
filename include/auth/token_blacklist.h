@@ -117,8 +117,8 @@ public:
     // Non-copyable, movable
     TokenBlacklist(const TokenBlacklist&) = delete;
     TokenBlacklist& operator=(const TokenBlacklist&) = delete;
-    TokenBlacklist(TokenBlacklist&&) = default;
-    TokenBlacklist& operator=(TokenBlacklist&&) = default;
+    TokenBlacklist(TokenBlacklist&&) noexcept = default;
+    TokenBlacklist& operator=(TokenBlacklist&&) noexcept = default;
 
     /**
      * @brief Attach an AuditLogger to receive TOKEN_REVOKED events.

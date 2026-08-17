@@ -222,8 +222,8 @@ public:
     // Non-copyable, movable.
     MaterializedView(const MaterializedView&)            = delete;
     MaterializedView& operator=(const MaterializedView&) = delete;
-    MaterializedView(MaterializedView&&)                 = default;
-    MaterializedView& operator=(MaterializedView&&)      = default;
+    MaterializedView(MaterializedView&&)                 noexcept = default;
+    MaterializedView& operator=(MaterializedView&&)      noexcept = default;
 
     // =========================================================================
     // Refresh / staleness
@@ -444,8 +444,8 @@ public:
     // Non-copyable, movable.
     MaterializedViewRegistry(const MaterializedViewRegistry&)            = delete;
     MaterializedViewRegistry& operator=(const MaterializedViewRegistry&) = delete;
-    MaterializedViewRegistry(MaterializedViewRegistry&&)                 = default;
-    MaterializedViewRegistry& operator=(MaterializedViewRegistry&&)      = default;
+    MaterializedViewRegistry(MaterializedViewRegistry&&)                 noexcept = default;
+    MaterializedViewRegistry& operator=(MaterializedViewRegistry&&)      noexcept = default;
 
     // =========================================================================
     // Registration

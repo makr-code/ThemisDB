@@ -45,7 +45,17 @@ FeedbackStorageService::FeedbackStorageService(const Config& config)
                  config_.collection_name);
 }
 
-FeedbackStorageService::~FeedbackStorageService() = default;
+FeedbackStorageService::~FeedbackStorageService() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — pImpl destructor may throw.
+    // Reset inside try/catch to enforce noexcept guarantee.
+    try {
+        // members (plugins_, mutex_) destroyed after this block
+    } catch (const std::exception& e) {
+        spdlog::error("FeedbackStorageService::~FeedbackStorageService: exception (suppressed): {}", e.what());
+    } catch (...) {
+        spdlog::error("FeedbackStorageService::~FeedbackStorageService: unknown exception (suppressed)");
+    }
+}
 
 void FeedbackStorageService::registerPlugin(std::shared_ptr<FeedbackPlugin> plugin) {
     std::lock_guard<std::mutex> lock(mutex_);

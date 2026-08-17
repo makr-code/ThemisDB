@@ -1,6 +1,6 @@
 # ThemisDB Server Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-17 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
@@ -104,6 +104,9 @@ Out of scope:
   - src/server/postgres_session.cpp
   - src/server/themis_core_grpc_service.cpp
   - src/server/wal_grpc_service.cpp
+- Verified test suites:
+  - tests/server/test_server_contract_hardening_focused.cpp (SCH-01..SCH-20; Phase 1 auth/contract hardening)
+  - tests/server/test_server_phase5_hardening.cpp (P5-S01 WSR-01..16 wire-protocol retry; P5-S02 HST-01..12 HTTP timeout/shutdown)
 - Verified benchmark anchors:
   - benchmarks/bench_api_endpoints.cpp
   - benchmarks/bench_stream_protocol.cpp

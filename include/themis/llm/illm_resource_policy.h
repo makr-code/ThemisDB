@@ -153,8 +153,8 @@ public:
 
 protected:
     ILLMResourcePolicy() = default;
-    ILLMResourcePolicy(ILLMResourcePolicy&&) = default;
-    ILLMResourcePolicy& operator=(ILLMResourcePolicy&&) = default;
+    ILLMResourcePolicy(ILLMResourcePolicy&&) noexcept = default;
+    ILLMResourcePolicy& operator=(ILLMResourcePolicy&&) noexcept = default;
 };
 
 } // namespace llm

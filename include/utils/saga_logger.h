@@ -91,97 +91,29 @@ public:
                SAGALoggerConfig cfg);
     
     /**
-     * @brief Log a single SAGA step (buffered)
-     * 
-     * Adds a SAGA step to the in-memory buffer. When buffer reaches batch_size
-     * or batch_interval, a signed batch is persisted to disk.
-     * Phase 2.10: Comprehensive error contract documentation.
-     * 
-     * @param step SAGA step record containing saga_id, step_name, action, entity_id, payload, status
-     * 
-     * @return void (failures logged via ErrorContext)
-     * 
+     * @brief Log a single SAGA step (buffered).
+     *
+     * Buffers the step for batch writing. When the batch size threshold is reached,
+     * `signAndFlushBatch()` is called automatically.
+     *
+     * @param step SAGA step to record
+     * @throws std::runtime_error if log file unavailable or encryption fails (fail-closed)
+     *
      * @error_contract
-     * **Phase 2.3 Error Codes (7300-7309, 7363):**
-     * - ERR_AUDIT_BUFFER_OVERFLOW (7300): Step payload exceeds max size
-     *   - Recovery: Step truncated or dropped; logged as warning
-     *   - Severity: WARNING
-     *   - User Action: Reduce SAGA step payload size
-     * 
-     * - ERR_SAGA_EVENT_LOSS (7363): Buffer full; step cannot be added
-     *   - Recovery: Auto-triggers batch flush; step retried after flush
-     *   - Severity: WARNING
-     *   - User Action: Check disk I/O performance; increase batch_size
-     * 
-     * - ERR_AUDIT_SERIALIZATION_FAILED (7302): Step JSON serialization fails
-     *   - Recovery: Step logged as fallback text format
-     *   - Severity: ERROR
-     *   - User Action: Verify payload JSON structure
-     * 
-     * **Buffering Semantics:**
-     * - Steps are buffered in memory; not durable until batch flush
-     * - Batch flush triggered by: buffer full, batch_size reached, or explicit flush()
-     * - Flush encrypts, signs, and persists batch atomically
-     * - If flush fails: buffer remains; retry on next flush opportunity
-     * 
-     * @bounded_resources
-     * - Buffer size: approximately batch_size * avg_step_size bytes
-     * - Watermark: triggers flush when buffer >= (batch_size * 0.9)
-     * - Resource check: rejects steps that would exceed buffer capacity
-     * 
-     * @thread_safety Thread-safe via internal mutex (buffer_mu_)
-     * @performance O(1) amortized; O(n) on batch flush where n = batch_size
-     * 
-     * @see SAGAStep for step structure
-     * @see flush() for batch persistence details
-     * @see ErrorCode for complete error taxonomy
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Batch encryption fails (LEK unavailable) | AUDIT_ENCRYPTION_FAILED (9015) | Critical | batch_id, error | Throw (fail-closed – no plaintext persisted) |
+     * | Log file write fails (backend unavailable) | AUDIT_PERSISTENCE_FAILED (9012) | Critical | path, error | Throw (fail-closed) |
+     *
+     * @degradation fail-closed – encryption failure blocks persistence; no plaintext fallback
+     * @see ErrorCode 9010-9019 for audit error taxonomy
      */
     void logStep(const SAGAStep& step);
     
     /**
-     * @brief Force flush current batch (useful for shutdown)
-     * 
-     * Immediately persists current buffer as a signed batch to disk,
-     * regardless of batch_size or batch_interval. Useful during shutdown
-     * to ensure all pending steps are durable.
-     * Phase 2.10: Comprehensive error contract documentation.
-     * 
-     * @return void (see @error_contract below)
-     * 
-     * @error_contract
-     * **Phase 2.3 Error Codes (7300-7309, 7363):**
-     * - ERR_AUDIT_LOG_WRITE_FAILED (7301): Cannot write batch to disk
-     *   - Recovery: Batch retained in buffer; retry on next flush
-     *   - Severity: ERROR
-     *   - User Action: Check disk space and file permissions
-     * 
-     * - ERR_AUDIT_SERIALIZATION_FAILED (7302): Batch serialization fails
-     *   - Recovery: Batch logged as text fallback; contents may be incomplete
-     *   - Severity: ERROR
-     *   - User Action: Check for corruption in batch data
-     * 
-     * - ERR_AUDIT_SERVICE_DEGRADED (7308): PKI signing service unavailable
-     *   - Recovery: Batch written unsigned (metadata preserved); logged as warning
-     *   - Severity: WARNING
-     *   - User Action: Restore PKI service availability
-     * 
-     * - ERR_SAGA_EVENT_LOSS (7363): Batch lost during persistence (non-recoverable)
-     *   - Recovery: Buffer cleared to prevent duplicate submission
-     *   - Severity: CRITICAL
-     *   - User Action: Investigate disk I/O failure; restore from backup
-     * 
-     * **Flush Semantics:**
-     * - Encrypt-then-sign flow: serialize → encrypt → hash → sign → persist
-     * - Atomic: flush is all-or-nothing (no partial batches)
-     * - If flush fails: buffer remains for retry; caller should retry
-     * - Empty buffer: no-op; returns immediately
-     * 
-     * @thread_safety Thread-safe via internal mutex (buffer_mu_)
-     * @performance O(batch_size) for encryption and signing operations
-     * 
-     * @note Critical for shutdown: ensures no step loss
-     * @see logStep() for step buffering
-     * @see ErrorCode for complete error taxonomy
+     * @brief Force flush current batch (useful for shutdown).
+     *
+     * @throws std::runtime_error if flush fails (propagated from signAndFlushBatch)
      */
     void flush();
     
@@ -207,14 +139,6 @@ private:
     std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
     void appendJsonLine(const std::string& path, const nlohmann::json& j);
     std::string generateBatchId() const;
-    
-    /**
-     * @brief Log an error context to stderr (Phase 2.3 hardening)
-     * 
-     * Helper method for logging errors to stderr to avoid recursion
-     * when normal logging fails. Used during buffer overflow and flush failures.
-     */
-    void logErrorContext(const ErrorContext& ctx);
     
     std::shared_ptr<FieldEncryption> enc_;
     std::shared_ptr<VCCPKIClient> pki_;

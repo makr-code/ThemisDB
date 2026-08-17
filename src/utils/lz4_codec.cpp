@@ -31,6 +31,15 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
     if (!data || size == 0) {
         return Ok(std::vector<uint8_t>());
     }
+    
+    // Phase A.3 Hardening - Validate and clamp acceleration parameter
+    // LZ4_compress_fast accepts acceleration >= 1. Typical range is 1-1000.
+    // Values outside this range are clamped to DEFAULT_ACCELERATION
+    if (acceleration < 1 || acceleration > 1000) {
+        THEMIS_WARN("LZ4 acceleration {} is out of valid range [1, 1000]; using default {}", 
+                    acceleration, lz4_compression::DEFAULT_ACCELERATION);
+        acceleration = lz4_compression::DEFAULT_ACCELERATION;
+    }
 
     if (size > lz4_compression::MAX_INPUT_SIZE) {
         return Err<std::vector<uint8_t>>(
@@ -66,7 +75,7 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
         reinterpret_cast<char*>(output.data()),
         src_size,
         bound,
-        acceleration > 0 ? acceleration : lz4_compression::DEFAULT_ACCELERATION);
+        acceleration);
 
     if (compressed_size <= 0) {
         const auto err_msg = std::string("LZ4_compress_fast failed");

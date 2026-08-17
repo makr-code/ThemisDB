@@ -93,8 +93,8 @@ public:
     // Non-copyable, movable
     EmbeddingPipeline(const EmbeddingPipeline&) = delete;
     EmbeddingPipeline& operator=(const EmbeddingPipeline&) = delete;
-    EmbeddingPipeline(EmbeddingPipeline&&) = default;
-    EmbeddingPipeline& operator=(EmbeddingPipeline&&) = default;
+    EmbeddingPipeline(EmbeddingPipeline&&) noexcept = default;
+    EmbeddingPipeline& operator=(EmbeddingPipeline&&) noexcept = default;
 
     /**
      * @brief Generate an embedding vector for a single text.

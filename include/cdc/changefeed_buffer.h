@@ -106,8 +106,8 @@ struct ChangefeedBufferStats {
     // Delete copy operations due to atomic members
     ChangefeedBufferStats(const ChangefeedBufferStats&) = delete;
     ChangefeedBufferStats& operator=(const ChangefeedBufferStats&) = delete;
-    ChangefeedBufferStats(ChangefeedBufferStats&&) = default;
-    ChangefeedBufferStats& operator=(ChangefeedBufferStats&&) = default;
+    ChangefeedBufferStats(ChangefeedBufferStats&&) noexcept = default;
+    ChangefeedBufferStats& operator=(ChangefeedBufferStats&&) noexcept = default;
     ChangefeedBufferStats() = default;
 };
 

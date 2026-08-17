@@ -177,8 +177,8 @@ public:
     // Non-copyable, movable
     VoiceBiometricAuthenticator(const VoiceBiometricAuthenticator&)            = delete;
     VoiceBiometricAuthenticator& operator=(const VoiceBiometricAuthenticator&) = delete;
-    VoiceBiometricAuthenticator(VoiceBiometricAuthenticator&&)                 = default;
-    VoiceBiometricAuthenticator& operator=(VoiceBiometricAuthenticator&&)      = default;
+    VoiceBiometricAuthenticator(VoiceBiometricAuthenticator&&)                 noexcept = default;
+    VoiceBiometricAuthenticator& operator=(VoiceBiometricAuthenticator&&)      noexcept = default;
 
     // -----------------------------------------------------------------------
     // Enrollment

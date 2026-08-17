@@ -109,8 +109,8 @@ public:
     // Non-copyable; movable
     IntervalTreeIndex(const IntervalTreeIndex&)            = delete;
     IntervalTreeIndex& operator=(const IntervalTreeIndex&) = delete;
-    IntervalTreeIndex(IntervalTreeIndex&&)                 = default;
-    IntervalTreeIndex& operator=(IntervalTreeIndex&&)      = default;
+    IntervalTreeIndex(IntervalTreeIndex&&)                 noexcept = default;
+    IntervalTreeIndex& operator=(IntervalTreeIndex&&)      noexcept = default;
 
     ~IntervalTreeIndex() = default;
 

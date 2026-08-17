@@ -299,15 +299,20 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
         std::string key = makeGroupKeyJit(input, group_cols, row);
 
         auto it = groups.find(key);
-        // NOTE: Iterator invalidation is safe here. If the key is not found,
-        // we emplace it and immediately re-fetch the iterator (line 302).
-        // If the key already exists, the iterator remains valid. For unordered_map,
-        // insertion does not invalidate iterators to existing elements.
-        if (it == groups.end()) {
+        // Phase 2 A-2 Fix-D1 (iterator_invalidation): For std::unordered_map,
+        // insertion via emplace() may trigger a rehash, which invalidates ALL
+        // existing iterators.  The fix is to:
+        //   (a) Never use 'it' after emplace() on the same map.
+        //   (b) Re-fetch with find() to obtain a valid post-emplace iterator.
+        // [[likely]] marks the existing-key branch as the hot path since most
+        // rows map to already-seen groups during aggregation (C++20 §9.12.5).
+        if (it == groups.end()) [[unlikely]] {
+            // Cold path: new group key — emplace, then re-fetch.
+            // MUST re-fetch: emplace() may rehash and invalidate all iterators.
             groups.emplace(key, std::vector<JitAggState>(specs.size()));
             key_order.push_back(key);
             it = groups.find(key);
-        }
+        } // Hot path (existing key): iterator remains valid; fall through.
 
         auto &states = it->second;
         for (size_t s = 0; s < specs.size(); ++s) {

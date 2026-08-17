@@ -120,8 +120,8 @@ public:
     // Non-copyable; movable
     CatalogExporter(const CatalogExporter&) = delete;
     CatalogExporter& operator=(const CatalogExporter&) = delete;
-    CatalogExporter(CatalogExporter&&) = default;
-    CatalogExporter& operator=(CatalogExporter&&) = default;
+    CatalogExporter(CatalogExporter&&) noexcept = default;
+    CatalogExporter& operator=(CatalogExporter&&) noexcept = default;
 
     // =========================================================================
     // Public API

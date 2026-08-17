@@ -123,8 +123,8 @@ public:
     // Non-copyable, movable
     CAIEthicsIntegration(const CAIEthicsIntegration&)            = delete;
     CAIEthicsIntegration& operator=(const CAIEthicsIntegration&) = delete;
-    CAIEthicsIntegration(CAIEthicsIntegration&&)                 = default;
-    CAIEthicsIntegration& operator=(CAIEthicsIntegration&&)      = default;
+    CAIEthicsIntegration(CAIEthicsIntegration&&)                 noexcept = default;
+    CAIEthicsIntegration& operator=(CAIEthicsIntegration&&)      noexcept = default;
 
     // -------------------------------------------------------------------------
     // Core evaluation

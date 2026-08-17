@@ -255,8 +255,16 @@ InlineTrainingEngine::InlineTrainingEngine(
     impl_->config        = config;
 }
 
-InlineTrainingEngine::~InlineTrainingEngine() {
-    stopTraining();
+InlineTrainingEngine::~InlineTrainingEngine() noexcept {
+    // Phase2-LLM-B1: exception_in_destructor — stopTraining() may throw; must
+    // not propagate out of the destructor (§[except.spec]).
+    try {
+        stopTraining();
+    } catch (const std::exception& e) {
+        spdlog::error("InlineTrainingEngine::~InlineTrainingEngine: exception during stopTraining (suppressed): {}", e.what());
+    } catch (...) {
+        spdlog::error("InlineTrainingEngine::~InlineTrainingEngine: unknown exception during stopTraining (suppressed)");
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
