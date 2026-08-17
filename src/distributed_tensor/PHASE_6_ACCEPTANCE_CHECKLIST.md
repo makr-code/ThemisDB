@@ -92,6 +92,7 @@ Phase 6 may be marked complete only when all of the following are true:
 ## Related Files
 
 - `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/ROADMAP.md`
+- `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/PRODUCTION_ENABLE_GATES.md` ⭐ **NEW: Production enable gate criteria for Phase A/B/C (2026-08-17)**
 - `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/PERFORMANCE_EXPECTATIONS.md`
 - `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/TEST_EVIDENCE_COLLECTION.md`
 - `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/RUNBOOK_EPIC3_PHASE5.md`

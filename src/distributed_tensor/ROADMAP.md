@@ -135,16 +135,16 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] lifecycle transition helpers (`transitionToRebuilding`, `transitionToReadyAfterRebuild`, `transitionToFailed`) and planner freshness gate helper (`shouldRejectForPlanner`) implemented in `ArtifactInvalidationManager` (issue #5442, Target: Q3 2026)
 - [x] Phase A: tensor delta log + manifest store wired (Target: Q3 2026) ✅ **TDL-01..18 in tests/epic3_distributed_tensor/test_tensor_delta_log.cpp**
 - [x] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026) ✅ **RFB-01..10 in tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp**
-- [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
-- [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
+- [x] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026) ✅ **2026-08-17 complete: tests/epic3_distributed_tensor/test_phase_b_edge_cases.cpp (24 tests), benchmarks/epic3_distributed_tensor/bench_tensor_partial_refit.cc**
+- [x] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026) ✅ **2026-08-17 complete: tests/epic3_distributed_tensor/test_tensor_shard_summary.cpp (41 tests), benchmarks/epic3_distributed_tensor/bench_tensor_summary_first.cc (12 benchmarks)**
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
 - [x] corruption and tampering detection implemented
 - [x] partial-receipt and stale-receipt edge case handling implemented
 - [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
-- [ ] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026)
-- [ ] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
+- [x] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026) ✅ **2026-08-17: delta log overflow detection (95% threshold), instability detection heuristics, fail-closed behavior**
+- [x] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026) ✅ **2026-08-17: multi-shard freshness consensus, exact-on-demand escalation logic**
 
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
@@ -157,28 +157,29 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
 - [x] `test_tensor_delta_log` — Phase A ctest gate ✅ **Done; TDL-01..TDL-18, TDL-A1..A3 (tests/epic3_distributed_tensor/test_tensor_delta_log.cpp)**
 - [x] `test_tensor_rebuild_fallback` — Phase A/B ctest gate ✅ **Done; RFB-01..RFB-10, RFB-A1..A5 (tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp)**
-- [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
+- [x] `test_phase_b_edge_cases` — Phase B edge case ctest gate ✅ **Done; PBE-01..PBE-24 (24 tests, tests/epic3_distributed_tensor/test_phase_b_edge_cases.cpp)**
+- [x] `test_tensor_shard_summary` — Phase C ctest gate ✅ **Done; 41 tests (tests/epic3_distributed_tensor/test_tensor_shard_summary.cpp), 2026-08-17 completion**
 
 ### Phase 5: Performance and Hardening
 - [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
+- [x] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
-- [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
-- [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
+- [x] `bench_tensor_partial_refit` — Phase B benchmark gate ✅ **Done; 8 benchmarks with performance targets: p99 <= 30ms for 100-3200 entry windows, 2026-08-17 completion**
+- [x] `bench_tensor_summary_first` — Phase C benchmark gate ✅ **Done; 12 benchmarks validating summary-first routing and exact-on-demand escalation, 2026-08-17 completion**
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed tensor docs aligned to source-verifiable implementation state
 - [x] tensor-update rollout track documented in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468)
-- [ ] acceptance docs tied to measured runtime behavior
+- [~] acceptance docs tied to measured runtime behavior ⏳ **Phase 6 Acceptance Checklist updated 2026-08-17; benchmark evidence collection pending**
 
 ### Phase 7: Production Integration
 - [ ] default pipeline integration enabled after gates are met
-- [ ] Phase A production enable: manifest schema + advisory policy in place (Target: Q3 2026)
-- [ ] Phase B production enable: delta log + partial refit with rebuild fallback (Target: Q3 2026)
-- [ ] Phase C production enable: shard summary coordination (after sharding Phase C gates) (Target: Q4 2026)
+- [~] Phase A production enable: manifest schema + advisory policy validation gates pending (Target: Q3 2026)
+- [~] Phase B production enable: rebuild fallback & instability detection gates pending (Target: Q3 2026)
+- [~] Phase C production enable: shard summary coordination gates pending (after sharding Phase C gates at 70% ready) (Target: Q4 2026)
 
 ## Production Readiness Checklist
 
@@ -187,11 +188,11 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] tensor-update infrastructure rollout track defined (issue #5468)
 - [x] runtime resilience hardening completed for Phase 3 safety gates
 - [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites
-- [ ] benchmark gates implemented and passing
-- [ ] Phase A advisory-only invariant enforced and verified
-- [ ] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`) passing
-- [ ] Phase C ctest gates (`test_tensor_shard_summary`) passing
-- [ ] Phase C benchmark gates (`bench_tensor_summary_first`) passing
+- [~] benchmark gates implemented (sources complete); evidence collection pending (Target: Q4 2026)
+- [~] Phase A advisory-only invariant enforced and verified; production enable gate pending (Target: Q3 2026)
+- [~] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`, `test_phase_b_edge_cases`) passing; production enable gate pending (Target: Q3 2026)
+- [~] Phase C ctest gates (`test_tensor_shard_summary`) passing; production enable gate pending (Target: Q4 2026)
+- [~] Phase C benchmark gates (`bench_tensor_summary_first`) implemented; evidence collection pending (Target: Q4 2026)
 
 ## Test Evidence & Acceptance (2026-07-28)
 
