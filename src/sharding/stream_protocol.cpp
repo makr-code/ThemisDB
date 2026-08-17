@@ -804,7 +804,9 @@ bool StreamSession::isActive() const {
 }
 
 void StreamSession::sessionLoop() {
-    while (running_.load()) {
+    // W5-Sharding: Guard session state transitions and task completion checks
+    // Ensures all state updates are protected from concurrent access
+    while (running_.load(std::memory_order_acquire)) {
         // Check for completion
         bool all_complete = true;
         bool any_failed = false;
@@ -833,8 +835,9 @@ void StreamSession::sessionLoop() {
         }
         
         if (any_failed) {
+            // W5-Sharding: State transition guarded by atomic store
             transitionState(StreamSessionState::FAILED);
-            running_.store(false);
+            running_.store(false, std::memory_order_release);
 
             StreamCompletionCallback completion_callback;
             {
@@ -848,8 +851,9 @@ void StreamSession::sessionLoop() {
         }
         
         if (all_complete && has_files) {
+            // W5-Sharding: State transition guarded by atomic store
             transitionState(StreamSessionState::COMPLETE);
-            running_.store(false);
+            running_.store(false, std::memory_order_release);
 
             StreamCompletionCallback completion_callback;
             {
@@ -871,13 +875,14 @@ void StreamSession::sessionLoop() {
 }
 
 void StreamSession::heartbeatLoop() {
-    while (running_.load()) {
+    // W5-Sharding: Guard heartbeat loop with proper memory ordering
+    while (running_.load(std::memory_order_acquire)) {
         // Send heartbeat
         sendMessage(StreamMessageType::HEARTBEAT, {});
         
         std::unique_lock<std::mutex> lock(mutex_);
         cv_.wait_for(lock, std::chrono::milliseconds(HEARTBEAT_INTERVAL_MS), [this] {
-            return !running_.load();
+            return !running_.load(std::memory_order_acquire);
         });
     }
 }

@@ -5,6 +5,9 @@
 
 #include <gtest/gtest.h>
 #include "utils/error_registry.h"
+#include <atomic>
+#include <thread>
+#include <vector>
 
 using namespace themis::errors;
 
@@ -403,3 +406,60 @@ TEST_F(ErrorRegistryTest, VerifyMCPCategoryCount) {
     EXPECT_GE(mcp_errors.size(), 5);
 }
 
+TEST_F(ErrorRegistryTest, ConcurrentReadWriteAccessDoesNotCorruptRegistry) {
+    auto& registry = ErrorRegistry::getInstance();
+
+    std::atomic<bool> failed{false};
+    constexpr int kIterations = 200;
+    std::vector<std::thread> workers;
+    workers.reserve(4);
+
+    workers.emplace_back([&]() {
+        for (int i = 0; i < kIterations; ++i) {
+            ErrorMetadata custom{
+                static_cast<ErrorCode>(9800 + (i % 50)),
+                "TestConcurrent",
+                "Warning",
+                "Concurrent test error {}",
+                "Synthetic concurrent registration",
+                "No action required",
+                {},
+                {"concurrency", "test"}
+            };
+            registry.registerError(custom);
+        }
+    });
+
+    workers.emplace_back([&]() {
+        for (int i = 0; i < kIterations; ++i) {
+            auto error = registry.getError(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);
+            if (error.category.empty()) {
+                failed.store(true);
+            }
+        }
+    });
+
+    workers.emplace_back([&]() {
+        for (int i = 0; i < kIterations; ++i) {
+            auto by_category = registry.getErrorsByCategory("LLM");
+            if (by_category.empty()) {
+                failed.store(true);
+            }
+        }
+    });
+
+    workers.emplace_back([&]() {
+        for (int i = 0; i < kIterations; ++i) {
+            auto dump = registry.toJSON();
+            if (!dump.contains("errors")) {
+                failed.store(true);
+            }
+        }
+    });
+
+    for (auto& worker : workers) {
+        worker.join();
+    }
+
+    EXPECT_FALSE(failed.load());
+}

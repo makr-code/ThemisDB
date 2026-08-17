@@ -17,6 +17,9 @@
 #include <iomanip>
 #include <openssl/sha.h>
 #include <sstream>
+#include "utils/logger.h"
+#include "utils/error_contracts.h"
+#include <fmt/format.h>
 
 namespace themis {
 namespace utils {
@@ -301,11 +304,21 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
     
     // 4. Compare with stored hash
     if (computed_hash != batch_meta->ciphertext_hash) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::UTILS_INVALID_STATE,
+            fmt::format("SAGA batch '{}' hash mismatch — data tampered", batch_id),
+            "SAGALogger::verifyBatch",
+            ErrorSeverity::Error, /*is_recoverable=*/false));
         return false; // Hash mismatch → tampered
     }
     
     // 5. Verify PKI signature (verifyHash instead of verifySignature)
     if (pki_ && !pki_->verifyHash(computed_hash, batch_meta->signature)) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::UTILS_INVALID_STATE,
+            fmt::format("SAGA batch '{}' PKI signature invalid", batch_id),
+            "SAGALogger::verifyBatch",
+            ErrorSeverity::Error, /*is_recoverable=*/false));
         return false; // Signature invalid
     }
     

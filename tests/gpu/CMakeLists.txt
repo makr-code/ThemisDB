@@ -15,15 +15,31 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
 
     add_executable(${_target} "${_src}")
     target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
     )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
+    if(_stem STREQUAL "test_gpu_adversarial")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/gpu_safe_fail.cpp
+            ${THEMIS_ROOT_DIR}/tests/utils/fault_injector.cpp
+        )
+        target_link_libraries(${_target} PRIVATE
+            GTest::gtest
+            GTest::gtest_main
+            fmt::fmt
+            spdlog::spdlog
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     # Suppress compiler warnings for test targets (per-target to avoid
@@ -38,7 +54,7 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
     # implementation objects. To ensure focused GPU tests have access to the
     # kernel registry implementation when modules are split, compile the
     # central kernel_registry.cpp directly into the focused test target.
-    if(THEMIS_BUILD_MODULAR)
+    if(THEMIS_BUILD_MODULAR AND NOT _stem STREQUAL "test_gpu_adversarial")
         target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/acceleration/kernel_registry.cpp)
     endif()
 
@@ -46,7 +62,8 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
     # a lightweight fallback implementation into focused tests so unit tests
     # link and run. This file provides synthetic but deterministic behavior
     # suitable for unit tests and CI.
-    if(EXISTS "${THEMIS_ROOT_DIR}/src/acceleration/break_even_validator_impl_fallback.cpp")
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/acceleration/break_even_validator_impl_fallback.cpp"
+       AND NOT _stem STREQUAL "test_gpu_adversarial")
         target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/acceleration/break_even_validator_impl_fallback.cpp)
     endif()
 

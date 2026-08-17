@@ -183,10 +183,13 @@ uint64_t SSMStateRocksDBStore::compact(uint64_t retention_window_ms) {
         while (it->Valid() && it->key().starts_with("ssm_state:")) {
             auto ts = parseTimestampFromKey(it->key().ToString());
             if (ts.has_value()) {
-                // Convert HLC physical time to milliseconds and compare
-                // TODO: Proper HLC comparison
-                // For now, simple heuristic: if physical_time < cutoff, delete
-                if (ts->physical() < static_cast<uint64_t>(cutoff_ms)) {
+                // ✅ PRODUCTION FIX: Proper HLC timestamp comparison
+                // Create a cutoff timestamp with logical counter = 0 for boundary comparison
+                // This ensures we delete all snapshots with timestamps < cutoff_ms
+                auto cutoff_ts = HLCTimestamp::from(static_cast<uint64_t>(cutoff_ms), 0);
+                
+                // Use HLC comparison operators to properly compare both physical and logical components
+                if (*ts < cutoff_ts) {
                     keys_to_delete.push_back(it->key().ToString());
                 }
             }

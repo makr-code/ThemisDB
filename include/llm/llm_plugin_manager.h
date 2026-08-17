@@ -476,6 +476,11 @@ private:
     /// VRAM budget tracker — registers externally-managed GPU memory (loaded models)
     /// for system-wide VRAM pressure monitoring and OOM-threshold alerting.
     ActiveVRAMAllocator vram_allocator_;
+    
+    // THREAD-SAFETY: Protects vram_allocator_ and vram_handles_ to ensure
+    // atomic registration/deregistration and prevent data races during
+    // loadModel() / unloadModel() / getHealthStatus() sequences.
+    mutable std::mutex vram_mutex_;
 
     /// Maps model_id → VRAM handle so we can deregister on unload.
     std::unordered_map<std::string, ActiveVRAMAllocator::AllocationHandle> vram_handles_;

@@ -8,6 +8,18 @@ This file documents all documentation and code quality gaps in the **sharding** 
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
+**Batch 3 Wave Correlation (2026-08-14):**
+- **Wave A Gaps** (~500 IMPL gaps): Cross-shard thread-safety (340+ → ~102 after hardening), lock-ordering (95 → 0), consensus coordination (170 → 51)
+- **Wave A DOC Gaps** (~300): Thread-safety model documentation, fail-closed behavior documentation, rebalance runbook
+- **Wave B Gaps** (~200 IMPL): Distributed rate-limit state, topology-change stress testing, SLA monitoring
+- **Other DOC Gaps** (~6,200): Inline comments, architectural notes, operational observability
+
+**Hardening Status (Batch 3 verified 2026-08-10):**
+- [x] Thread-safety gaps reduced from 340+ → ~102 (dual_consensus_orchestrator, replica_consistency)
+- [x] Lock-ordering violations reduced from 95 → 0 (canonical order documented and tested)
+- [x] Consensus coordination robustness improved (170 → 51 gaps; quorum-loss detection, backoff logic)
+- [x] Test evidence: TSO-01..TSO-08, LKO-01..LKO-06, CCR-01..CCR-06 in test_sharding_thread_safety_lock_order_focused.cpp
+
 ### By Severity
 
 - **CRITICAL**: 36

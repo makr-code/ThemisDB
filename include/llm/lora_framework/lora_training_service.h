@@ -16,10 +16,13 @@
 #include "mixed_precision.h"
 #include "lr_scheduler.h"
 #include "gradient_utils.h"
+#include "llm/lora_training_error_codes.h"
 #include <memory>
 #include <string>
 #include <vector>
 #include <functional>
+#include <optional>
+#include <cmath>
 
 // Forward declarations for shard infrastructure
 namespace themis {

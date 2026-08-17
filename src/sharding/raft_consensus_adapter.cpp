@@ -18,9 +18,22 @@
 #include <algorithm>
 #include <thread>
 #include <stdexcept>
+#include <chrono>
 
 namespace themisdb {
 namespace sharding {
+
+// ============================================================================
+// LOCK ORDERING ENFORCEMENT
+// ============================================================================
+// Lock hierarchy (MUST be strictly maintained to prevent deadlocks):
+//   state_mutex_ (1) < callbacks_mutex_ (2) < cluster_mutex_ (3) < snapshot_mutex_ (4)
+//
+// Rules:
+// 1. Never acquire a lower-numbered mutex while holding a higher-numbered one
+// 2. Use std::scoped_lock for multi-lock sections to acquire atomically in order
+// 3. Minimize critical section duration to reduce contention
+// ============================================================================
 
 /** @brief Construct adapter with initial follower cached state. */
 RaftConsensusAdapter::RaftConsensusAdapter(const ConsensusConfig& config)
@@ -592,21 +605,27 @@ bool RaftConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) 
     if (snapshot_data.contains("_snapshot_term"))
         restored_term  = snapshot_data["_snapshot_term"].get<uint64_t>();
 
-    {
+    // LOCK ORDERING FIX: When both snapshot_mutex_ and state_mutex_ are needed,
+    // use scoped_lock to acquire them in canonical order (state < snapshot).
+    // This prevents ABBA deadlock with other code paths.
+    if (raft_ && restored_term > 0) {
+        // Need both locks: use scoped_lock in canonical order
+        std::scoped_lock both_locks(state_mutex_, snapshot_mutex_);
+        
+        // Update snapshot under both locks
+        snapshot_data_  = snapshot_data;
+        snapshot_index_ = restored_index;
+        snapshot_term_  = restored_term;
+        
+        // Step down to follower so the restored state is consistent
+        raft_->getRaftState().becomeFollower(restored_term);
+        current_state_ = ConsensusState::FOLLOWER;
+    } else {
+        // Only need snapshot_mutex_ if not updating state
         std::lock_guard<std::mutex> lock(snapshot_mutex_);
         snapshot_data_  = snapshot_data;
         snapshot_index_ = restored_index;
         snapshot_term_  = restored_term;
-    }
-
-    // If Raft is running, step down to follower so the restored state is
-    // consistent with a freshly-caught-up node.
-    if (raft_ && restored_term > 0) {
-        raft_->getRaftState().becomeFollower(restored_term);
-        {
-            std::lock_guard<std::mutex> lock(state_mutex_);
-            current_state_ = ConsensusState::FOLLOWER;
-        }
     }
 
     spdlog::info("restoreSnapshot: snapshot restored at index={} term={}",

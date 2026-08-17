@@ -42,6 +42,14 @@ Out of scope:
 - some cross-node production mixes still need broader benchmark evidence
 - environment-dependent integrations may affect end-to-end latency envelopes
 
+**Production Readiness Status (Batch 3 verified 2026-08-14):**
+- **Ready for production:** Hybrid retrieval (BM25 + vector), streaming context assembly, retrieval quality gates, ingestion bridge
+- **Production-ready with limits:** Multi-step RAG (iterative, map-reduce), adaptive retrieval depth control, prompt-injection detection
+- **Not yet production-ready:** WikiIndexStore Phase B (RocksDB integration, BM25+, HNSW, RRF fusion) — Wave B target Q4 2026
+- **Pending:** LLM-Judge real integration (currently mock), persistent embedding cache, per-query retrieval guardrails
+
+---
+
 ## Sourcecode Verification (Module: rag/readme)
 
 - Verified files:

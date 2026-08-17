@@ -42,6 +42,13 @@ Out of scope:
 - analytics execution paths include both local and distributed orchestration surfaces.
 - export and serving integrations can return structured not-supported or dependency errors when optional backends are unavailable.
 
+**Production Readiness Status (Batch 3 verified 2026-08-14):**
+- **Ready for production:** OLAP execution, tumbling/sliding/hopping/session windows, CEP rule matching, basic forecasting, anomaly detection
+- **Production-ready with limits:** Streaming join (backpressure), model serving (circuit breaker), distributed analytics (fault tolerance)
+- **Not yet production-ready:** Cross-cluster federated analytics (Wave B target Q4 2026), high-volume export with SLA guarantees (Wave B target Q4 2026)
+
+---
+
 ## Sourcecode Verification (Module: analytics/readme)
 
 - Verified files:

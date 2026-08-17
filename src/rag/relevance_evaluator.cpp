@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <sstream>
 #include <regex>
+#include <mutex>
 #include <cmath>
 #include <set>
 #include <unordered_map>
@@ -29,6 +30,7 @@ struct RelevanceEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
 
     // Tokenize text into lowercase, punctuation-stripped tokens of length > 2
     static std::vector<std::string> tokenize(const std::string& text) {
@@ -123,6 +125,7 @@ RelevanceEvaluator::~RelevanceEvaluator() = default;
 
 std::vector<std::string> RelevanceEvaluator::generateReverseQuestions(const std::string& answer) {
     std::vector<std::string> questions;
+    questions.reserve(impl_->config.num_reverse_questions);
     
     if (answer.empty()) {
         return questions;

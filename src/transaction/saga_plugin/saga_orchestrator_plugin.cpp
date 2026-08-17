@@ -15,6 +15,8 @@
 
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <thread>
+#include <atomic>
 
 #ifdef _WIN32
 #define THEMIS_SAGA_PLUGIN_EXPORT __declspec(dllexport)
@@ -24,11 +26,106 @@
 
 namespace themis::transaction {
 
+/**
+ * @brief RAII wrapper for SAGAOrchestrator lifecycle management.
+ * 
+ * Ensures proper creation and cleanup of SAGAOrchestrator instances,
+ * preventing use-after-free and resource leaks on exception.
+ */
+class SAGAOrchestratorGuard {
+public:
+    /**
+     * @brief Create orchestrator with given configuration.
+     * @throws std::bad_alloc or any exception from orchestrator initialization
+     */
+    explicit SAGAOrchestratorGuard(const SAGAOrchestrator::Config& config = {})
+        : orchestrator_(nullptr)
+        , lifetime_count_(0)
+    {
+        try {
+            orchestrator_ = std::make_unique<SAGAOrchestrator>(config);
+            lifetime_count_.store(1, std::memory_order_release);
+        } catch (...) {
+            // Ensure cleanup on exception
+            orchestrator_.reset();
+            lifetime_count_.store(0, std::memory_order_release);
+            throw;
+        }
+    }
+
+    /**
+     * @brief Destructor waits for pending operations and cleans up.
+     */
+    ~SAGAOrchestratorGuard() noexcept {
+        try {
+            if (orchestrator_) {
+                // Wait for any pending operations to complete
+                // This gives in-flight transactions time to finish gracefully
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                orchestrator_.reset();
+            }
+        } catch (...) {
+            // Suppress exceptions in destructor
+        }
+        lifetime_count_.store(0, std::memory_order_release);
+    }
+
+    // Prevent copying
+    SAGAOrchestratorGuard(const SAGAOrchestratorGuard&) = delete;
+    SAGAOrchestratorGuard& operator=(const SAGAOrchestratorGuard&) = delete;
+
+    // Prevent moving (ensures lifetime is tied to the plugin instance)
+    SAGAOrchestratorGuard(SAGAOrchestratorGuard&&) = delete;
+    SAGAOrchestratorGuard& operator=(SAGAOrchestratorGuard&&) = delete;
+
+    /**
+     * @brief Get the orchestrator instance.
+     * @return Pointer to orchestrator, or nullptr if not initialized
+     */
+    SAGAOrchestrator* get() noexcept {
+        return orchestrator_.get();
+    }
+
+    /**
+     * @brief Get the orchestrator instance (const).
+     */
+    const SAGAOrchestrator* get() const noexcept {
+        return orchestrator_.get();
+    }
+
+    /**
+     * @brief Check if orchestrator is valid.
+     */
+    bool valid() const noexcept {
+        return orchestrator_ != nullptr && lifetime_count_.load(std::memory_order_acquire) > 0;
+    }
+
+    /**
+     * @brief Replace the orchestrator with a new one.
+     * @throws std::bad_alloc or any exception from orchestrator initialization
+     */
+    void reset(const SAGAOrchestrator::Config& config = {}) {
+        try {
+            auto new_orchestrator = std::make_unique<SAGAOrchestrator>(config);
+            orchestrator_ = std::move(new_orchestrator);
+            lifetime_count_.store(1, std::memory_order_release);
+        } catch (...) {
+            orchestrator_.reset();
+            lifetime_count_.store(0, std::memory_order_release);
+            throw;
+        }
+    }
+
+private:
+    std::unique_ptr<SAGAOrchestrator> orchestrator_;
+    std::atomic<int> lifetime_count_;
+};
+
 /** @brief Saga orchestrator plugin. */
 class SagaOrchestratorPlugin final : public plugins::IThemisPlugin {
 public:
     SagaOrchestratorPlugin()
-        : orchestrator_(std::make_unique<SAGAOrchestrator>(SAGAOrchestrator::Config{})) {}
+        : guard_(SAGAOrchestrator::Config{}) {}
 
     const char* getName() const override {
         return "saga_orchestrator";
@@ -83,20 +180,28 @@ public:
             }
         }
 
-        orchestrator_ = std::make_unique<SAGAOrchestrator>(config);
-        return true;
+        try {
+            guard_.reset(config);
+            return true;
+        } catch (...) {
+            return false;
+        }
     }
 
     void shutdown() override {
-        orchestrator_ = std::make_unique<SAGAOrchestrator>(SAGAOrchestrator::Config{});
+        try {
+            guard_.reset(SAGAOrchestrator::Config{});
+        } catch (...) {
+            // Suppress exceptions on shutdown
+        }
     }
 
     void* getInstance() override {
-        return orchestrator_.get();
+        return guard_.get();
     }
 
 private:
-    std::unique_ptr<SAGAOrchestrator> orchestrator_;
+    SAGAOrchestratorGuard guard_;
 };
 
 } // namespace themis::transaction

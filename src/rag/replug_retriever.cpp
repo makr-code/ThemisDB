@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -167,7 +168,7 @@ void ReplugRetriever::normalise(std::vector<double>& scores) {
     const double lo    = *lo_it;
     const double hi    = *hi_it;
     const double range = hi - lo;
-    if (range == 0.0) {
+    if (std::abs(range) < std::numeric_limits<double>::epsilon()) {
         // All identical: map to 1 when value > 0, else 0.
         const double uniform = (hi > 0.0) ? 1.0 : 0.0;
         for (auto& s : scores) {
@@ -332,7 +333,7 @@ void ReplugRetriever::updateRetrieverWeights(
     const double lr = config_.weight_update_lr;
     for (const auto& sc : result.scores) {
         double& w = weights_[sc.document_id];
-        if (w == 0.0) {
+        if (std::abs(w) < std::numeric_limits<double>::epsilon()) {
             w = 1.0; // Initialise to neutral weight on first encounter.
         }
         w += lr * sc.kl_gradient;

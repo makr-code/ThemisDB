@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -148,13 +149,16 @@ struct RLAIFTrainer::Impl {
     RLAIFConfig                  config;
     std::shared_ptr<IAIJudge>    judge;
     std::vector<PreferencePair>  dataset;
+    mutable std::mutex           stats_mutex;
     RLAIFTrainerStats            stats;
     std::function<void(const RLAIFTrainingStep&)> step_callback;
 
     // Queue for batch processing.
+    mutable std::mutex queue_mutex;
     std::vector<std::pair<std::string, std::string>> queue; // (query, draft)
 
     // DK-5: Cross-shard feedback counters
+    mutable std::mutex cross_shard_mutex;
     CrossShardStats cross_shard_stats;
 };
 
@@ -429,31 +433,34 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
         impl_->dataset.push_back(pair);
     }
 
-    step.success = true;
+     step.success = true;
 
     // ── Update statistics ──────────────────────────────────────────────────
     const auto elapsed = std::chrono::steady_clock::now() - step_start;
     step.elapsed_ms    = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
 
-    ++impl_->stats.total_steps;
-    ++impl_->stats.successful_steps;
-
-    // Running average of preference score.
     {
-        const double n       = static_cast<double>(impl_->stats.successful_steps);
-        const double old_avg = impl_->stats.avg_preference_score;
-        impl_->stats.avg_preference_score =
-            old_avg + (pair.preference_score - old_avg) / n;
-    }
+        std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+        ++impl_->stats.total_steps;
+        ++impl_->stats.successful_steps;
 
-    // Running average of step elapsed time.
-    {
-        const double n      = static_cast<double>(impl_->stats.total_steps);
-        const auto old_ms   = impl_->stats.avg_step_ms.count();
-        const long new_ms   = step.elapsed_ms.count();
-        impl_->stats.avg_step_ms =
-            std::chrono::milliseconds(
-                static_cast<long>(old_ms + (new_ms - old_ms) / n));
+        // Running average of preference score.
+        {
+            const double n       = static_cast<double>(impl_->stats.successful_steps);
+            const double old_avg = impl_->stats.avg_preference_score;
+            impl_->stats.avg_preference_score =
+                old_avg + (pair.preference_score - old_avg) / n;
+        }
+
+        // Running average of step elapsed time.
+        {
+            const double n      = static_cast<double>(impl_->stats.total_steps);
+            const auto old_ms   = impl_->stats.avg_step_ms.count();
+            const long new_ms   = step.elapsed_ms.count();
+            impl_->stats.avg_step_ms =
+                std::chrono::milliseconds(
+                    static_cast<long>(old_ms + (new_ms - old_ms) / n));
+        }
     }
 
     if (impl_->step_callback) {
@@ -476,16 +483,20 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
 
 void RLAIFTrainer::addToQueue(const std::string& query,
                                const std::string& draft_response) {
+    std::lock_guard<std::mutex> lock(impl_->queue_mutex);
     impl_->queue.emplace_back(query, draft_response);
 }
 
 std::vector<RLAIFTrainingStep> RLAIFTrainer::processBatch() {
     std::vector<RLAIFTrainingStep> results;
-    results.reserve(impl_->queue.size());
-    for (const auto& [query, draft] : impl_->queue) {
-        results.push_back(runTrainingStep(query, draft));
+    {
+        std::lock_guard<std::mutex> lock(impl_->queue_mutex);
+        results.reserve(impl_->queue.size());
+        for (const auto& [query, draft] : impl_->queue) {
+            results.push_back(runTrainingStep(query, draft));
+        }
+        impl_->queue.clear();
     }
-    impl_->queue.clear();
     return results;
 }
 

@@ -113,12 +113,12 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
   - File: `tests/retrieval/test_retrieval_hybrid_parity_focused.cpp`
   - Parity contract verified: Rank correlation ≥ 0.95 (Spearman)
   - Deterministic fixtures for reproducible testing
-- [~] `test_sharding_multishard_exact` — Phase C gate (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still blocked by current repo-wide build failures outside sharding)
+- [~] `test_sharding_multishard_exact` — Phase C gate (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still pending — repo-wide build blockers `gpu_vector_index.cpp`/`incremental_view.cpp` resolved 2026-08-17)
 - [ ] contract and integration tests implementation in `tests/epic1_retrieval/`
 
 **Phase 5: Performance and Hardening**
 - [~] `bench_ann_distance_cpu_vs_flat` — Phase B benchmark gate (implemented; environment validation pending)
-- [~] `bench_multishard_exact` — Phase C benchmark gate (deterministic benchmark hygiene tightened; full environment validation still blocked by current repo-wide build failures outside sharding)
+- [~] `bench_multishard_exact` — Phase C benchmark gate (deterministic benchmark hygiene tightened; full environment validation still pending — repo-wide build blockers resolved 2026-08-17)
 - [~] benchmark suite implementation in `benchmarks/epic1_retrieval/` (initial gates added; full validation pending)
 
 **Phase 6: Documentation and Acceptance**

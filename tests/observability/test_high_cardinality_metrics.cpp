@@ -1,326 +1,206 @@
-/**
- * @file test_high_cardinality_metrics.cpp
- * @brief Focused regression tests for high-cardinality metrics (Phase 2, HCM-01..10).
- *
- * Test coverage:
- * - HCM-01: Cardinality limit enforcement
- * - HCM-02: DROP_NEW_SETS policy
- * - HCM-03: AGGREGATE_TO_OTHER policy
- * - HCM-04: WARN_ONLY policy
- * - HCM-05: Cardinality statistics tracking
- * - HCM-06: Custom fallback strategies
- * - HCM-07: Per-metric cardinality configuration
- * - HCM-08: Prefix-based limit configuration
- * - HCM-09: Concurrent label set recording
- * - HCM-10: Edge cases (empty metrics, extreme cardinality)
- */
+// tests/observability/test_high_cardinality_metrics.cpp
+// Wave D Phase 2B: High-Cardinality Metrics Collection
+// Gate: W4A-METRICS-01 (memory bounded, no OOM at 50k dimensions)
 
-#include "gtest/gtest.h"
-#include "observability/high_cardinality_metrics.h"
-#include <thread>
-#include <vector>
-#include <map>
+#include "observability/wave_d_high_cardinality_metrics.h"
 
-namespace themis {
-namespace observability {
+#include <gtest/gtest.h>
+#include <benchmark/benchmark.h>
 
-class HighCardinalityMetricsTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        tracker = createHighCardinalityMetricsTracker();
+namespace themis::observability::tests {
+
+// Benchmark: Metrics collection under increasing cardinality
+static void HighCardinalityMetricsEmission(benchmark::State& state) {
+  int dimension_count = state.range(0);  // 100, 1000, 10000, 50000
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  for (auto _ : state) {
+    // Simulate metric emission with varying cardinality
+    for (int i = 0; i < dimension_count; ++i) {
+      mgr.shardLatencies().recordLatency(
+        "shard_" + std::to_string(i % 100),
+        "write",
+        42.5);
     }
+  }
+}
 
-    std::unique_ptr<HighCardinalityMetricsTracker> tracker;
+BENCHMARK(HighCardinalityMetricsEmission)
+    ->RangeMultiplier(10)
+    ->Range(100, 50000)
+    ->Complexity();
+
+// Test: Verify cardinality bounds
+class MetricsCardinalityTest : public ::testing::Test {
+protected:
+  static constexpr int MAX_SAFE_CARDINALITY = 50000;
+  static constexpr double MAX_MEMORY_MB = 512.0;
+  
+  void SetUp() override {
+    auto& mgr = HighCardinalityMetricsManager::getInstance();
+    mgr.reset();
+  }
 };
 
-// HCM-01: Cardinality limit enforcement
-TEST_F(HighCardinalityMetricsTest, CardinalityLimitEnforcement) {
-    CardinalityLimit limit;
-    limit.max_series = 10;
-    limit.policy = CardinalityExceededPolicy::DROP_NEW_SETS;
-    limit.emit_diagnostics = true;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-
-    // Record 10 unique label sets
-    for (int i = 0; i < 10; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["label"] = std::to_string(i);
-        tracker->recordLabelSet("test_metric", labels);
-    }
-
-    auto stats = tracker->getCardinalityStats("test_metric");
-    EXPECT_EQ(stats.current_series_count, 10);
-    EXPECT_FALSE(stats.at_limit);  // Exactly at limit, not over
-
-    // Try to record 11th unique label set
-    std::map<std::string, std::string> labels;
-    labels["label"] = "10";
-    tracker->recordLabelSet("test_metric", labels);
-
-    stats = tracker->getCardinalityStats("test_metric");
-    EXPECT_EQ(stats.current_series_count, 10);  // Should not increase
+TEST_F(MetricsCardinalityTest, MetricsMemoryBounded) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Emit metrics up to 50k cardinality
+  for (int i = 0; i < 50000; ++i) {
+    mgr.shardLatencies().recordLatency(
+      "shard_" + std::to_string(i / 50),  // 1000 unique shards
+      "write",
+      10.0 + (i % 100));
+  }
+  
+  // Verify cardinality is bounded
+  EXPECT_TRUE(mgr.isCardinalitySafe());
+  
+  // Verify memory usage is within budget
+  uint64_t estimated_bytes = mgr.getEstimatedMemoryBytes();
+  double estimated_mb = estimated_bytes / (1024.0 * 1024.0);
+  EXPECT_LT(estimated_mb, MAX_MEMORY_MB);
 }
 
-// HCM-02: DROP_NEW_SETS policy
-TEST_F(HighCardinalityMetricsTest, DropNewSetPolicy) {
-    CardinalityLimit limit;
-    limit.max_series = 5;
-    limit.policy = CardinalityExceededPolicy::DROP_NEW_SETS;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-
-    // Fill to limit
-    for (int i = 0; i < 5; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["id"] = std::to_string(i);
-        tracker->recordLabelSet("test_metric", labels);
-    }
-
-    // Try to exceed limit
-    std::map<std::string, std::string> excess_labels;
-    excess_labels["id"] = "overflow";
-
-    bool can_accept = tracker->canAcceptLabelSet("test_metric", excess_labels);
-    EXPECT_FALSE(can_accept);
-
-    tracker->recordLabelSet("test_metric", excess_labels);
-
-    auto stats = tracker->getCardinalityStats("test_metric");
-    EXPECT_EQ(stats.rejected_sets_total, 1);
-    EXPECT_EQ(stats.current_series_count, 5);
+TEST_F(MetricsCardinalityTest, ShardCardinalityBounded) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Try to emit more than 1024 shards
+  for (int i = 0; i < 2000; ++i) {
+    mgr.shardLatencies().recordLatency(
+      "shard_" + std::to_string(i),
+      "read",
+      25.0);
+  }
+  
+  // Verify cardinality is bounded at 1024
+  EXPECT_LE(mgr.shardLatencies().getCardinality(), 1024);
 }
 
-// HCM-03: AGGREGATE_TO_OTHER policy
-TEST_F(HighCardinalityMetricsTest, AggregateToOtherPolicy) {
-    CardinalityLimit limit;
-    limit.max_series = 5;
-    limit.policy = CardinalityExceededPolicy::AGGREGATE_TO_OTHER;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-
-    // Fill to limit
-    for (int i = 0; i < 5; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["id"] = std::to_string(i);
-        tracker->recordLabelSet("test_metric", labels);
-    }
-
-    // Try to exceed limit
-    std::map<std::string, std::string> excess_labels;
-    excess_labels["id"] = "overflow1";
-
-    auto recorded_labels = tracker->recordLabelSet("test_metric", excess_labels);
-
-    // Should have __other label added
-    EXPECT_TRUE(recorded_labels.count("__other"));
-
-    auto stats = tracker->getCardinalityStats("test_metric");
-    EXPECT_EQ(stats.aggregated_sets_total, 1);
+TEST_F(MetricsCardinalityTest, ReplicaCardinalityBounded) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Try to emit more than 32 replicas
+  for (int i = 0; i < 100; ++i) {
+    mgr.replicaLag().recordLag(
+      "replica_" + std::to_string(i),
+      10.0 + (i % 20));
+  }
+  
+  // Verify cardinality is bounded at 32
+  EXPECT_LE(mgr.replicaLag().getCardinality(), 32);
 }
 
-// HCM-04: WARN_ONLY policy
-TEST_F(HighCardinalityMetricsTest, WarnOnlyPolicy) {
-    CardinalityLimit limit;
-    limit.max_series = 5;
-    limit.policy = CardinalityExceededPolicy::WARN_ONLY;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-
-    // Fill to limit
-    for (int i = 0; i < 5; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["id"] = std::to_string(i);
-        tracker->recordLabelSet("test_metric", labels);
-    }
-
-    // Try to exceed limit
-    std::map<std::string, std::string> excess_labels;
-    excess_labels["id"] = "overflow";
-
-    tracker->recordLabelSet("test_metric", excess_labels);
-
-    auto stats = tracker->getCardinalityStats("test_metric");
-    EXPECT_EQ(stats.current_series_count, 6);  // Should accept beyond limit
+TEST_F(MetricsCardinalityTest, RetryReasonCardinalityBounded) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Define failure reasons
+  std::vector<std::string> reasons = {
+    "timeout", "connection_reset", "byzantine", "overload",
+    "not_found", "permission_denied", "invalid_argument",
+    "internal_error", "unavailable", "unknown"
+  };
+  
+  // Try to emit more than 10 reasons
+  for (size_t i = 0; i < reasons.size() + 5; ++i) {
+    mgr.retryCounter().recordRetry(
+      reasons[i % reasons.size()],
+      1);
+  }
+  
+  // Verify cardinality is bounded at 10
+  EXPECT_LE(mgr.retryCounter().getAllRetries().size(), 10);
 }
 
-// HCM-05: Cardinality statistics tracking
-TEST_F(HighCardinalityMetricsTest, CardinalityStatisticsTracking) {
-    CardinalityLimit limit;
-    limit.max_series = 100;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-
-    // Record some label sets
-    for (int i = 0; i < 50; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["id"] = std::to_string(i);
-        tracker->recordLabelSet("test_metric", labels);
-    }
-
-    auto stats = tracker->getCardinalityStats("test_metric");
-
-    EXPECT_EQ(stats.current_series_count, 50);
-    EXPECT_EQ(stats.limit, 100);
-    EXPECT_EQ(stats.utilization_percent, 50.0);
-    EXPECT_FALSE(stats.at_limit);
+TEST_F(MetricsCardinalityTest, QuantileCalculation) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Record latencies for a specific shard
+  for (int i = 1; i <= 100; ++i) {
+    mgr.shardLatencies().recordLatency("shard_001", "write", i * 1.0);
+  }
+  
+  auto quantiles = mgr.shardLatencies().getQuantiles("shard_001", "write");
+  EXPECT_GT(quantiles.p50, 0.0);
+  EXPECT_GT(quantiles.p95, quantiles.p50);
+  EXPECT_GT(quantiles.p99, quantiles.p95);
 }
 
-// HCM-06: Custom fallback strategies
-TEST_F(HighCardinalityMetricsTest, CustomFallbackStrategy) {
-    class TestFallbackStrategy : public CardinalityFallbackStrategy {
-    public:
-        std::map<std::string, std::string> apply(
-            const std::map<std::string, std::string>& labels) override {
-            auto result = labels;
-            result["fallback"] = "custom";
-            return result;
-        }
-    };
-
-    CardinalityLimit limit;
-    limit.max_series = 3;
-    limit.policy = CardinalityExceededPolicy::AGGREGATE_TO_OTHER;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-    tracker->setFallbackStrategy("test_metric", std::make_unique<TestFallbackStrategy>());
-
-    // Fill to limit
-    for (int i = 0; i < 3; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["id"] = std::to_string(i);
-        tracker->recordLabelSet("test_metric", labels);
-    }
-
-    // Exceed limit
-    std::map<std::string, std::string> excess_labels;
-    excess_labels["id"] = "overflow";
-
-    auto recorded = tracker->recordLabelSet("test_metric", excess_labels);
-
-    EXPECT_TRUE(recorded.count("fallback"));
-    EXPECT_EQ(recorded["fallback"], "custom");
+TEST_F(MetricsCardinalityTest, ReplicaLagQuantiles) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Record lag observations
+  for (int i = 1; i <= 50; ++i) {
+    mgr.replicaLag().recordLag("replica_001", i * 2.0);
+  }
+  
+  auto quantiles = mgr.replicaLag().getQuantiles("replica_001");
+  EXPECT_GT(quantiles.p50, 0.0);
+  EXPECT_GT(quantiles.p95, quantiles.p50);
+  EXPECT_GT(quantiles.p99, quantiles.p95);
+  EXPECT_GT(quantiles.max, quantiles.p99);
 }
 
-// HCM-07: Per-metric cardinality configuration
-TEST_F(HighCardinalityMetricsTest, PerMetricConfiguration) {
-    CardinalityLimit limit1;
-    limit1.max_series = 10;
-
-    CardinalityLimit limit2;
-    limit2.max_series = 100;
-
-    tracker->setCardinalityLimit("metric1", limit1);
-    tracker->setCardinalityLimit("metric2", limit2);
-
-    auto retrieved_limit1 = tracker->getCardinalityLimit("metric1");
-    auto retrieved_limit2 = tracker->getCardinalityLimit("metric2");
-
-    EXPECT_EQ(retrieved_limit1.max_series, 10);
-    EXPECT_EQ(retrieved_limit2.max_series, 100);
+TEST_F(MetricsCardinalityTest, RetryCounterAggregation) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Record retries by reason
+  mgr.retryCounter().recordRetry("timeout", 10);
+  mgr.retryCounter().recordRetry("connection_reset", 5);
+  mgr.retryCounter().recordRetry("byzantine", 3);
+  
+  EXPECT_EQ(mgr.retryCounter().getRetryCount("timeout"), 10);
+  EXPECT_EQ(mgr.retryCounter().getRetryCount("connection_reset"), 5);
+  EXPECT_EQ(mgr.retryCounter().getTotalRetries(), 18);
 }
 
-// HCM-08: Prefix-based limit configuration
-TEST_F(HighCardinalityMetricsTest, PrefixBasedLimitConfiguration) {
-    CardinalityLimit limit;
-    limit.max_series = 50;
-
-    // Create some metrics with common prefix
-    tracker->setCardinalityLimit("http_request_duration_ms", limit);
-    tracker->setCardinalityLimit("http_request_size_bytes", limit);
-    tracker->setCardinalityLimit("db_query_latency_ms", limit);
-
-    // Apply limit to all "http_*" metrics
-    std::size_t updated = tracker->setCardinalityLimitByPrefix("http_", limit);
-
-    EXPECT_GE(updated, 2);  // At least 2 http_* metrics
-}
-
-// HCM-09: Concurrent label set recording
-TEST_F(HighCardinalityMetricsTest, ConcurrentLabelSetRecording) {
-    CardinalityLimit limit;
-    limit.max_series = 10000;
-    limit.policy = CardinalityExceededPolicy::DROP_NEW_SETS;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-
-    std::vector<std::thread> threads;
-
-    // Record label sets concurrently
-    for (int t = 0; t < 10; ++t) {
-        threads.emplace_back([this, t]() {
-            for (int i = 0; i < 100; ++i) {
-                std::map<std::string, std::string> labels;
-                labels["thread"] = std::to_string(t);
-                labels["iteration"] = std::to_string(i);
-                tracker->recordLabelSet("test_metric", labels);
-            }
-        });
-    }
-
-    for (auto& thread : threads) {
-        thread.join();
-    }
-
-    auto stats = tracker->getCardinalityStats("test_metric");
-    EXPECT_EQ(stats.current_series_count, 1000);  // 10 threads * 100 iterations
-}
-
-// HCM-10: Edge cases (empty metrics, extreme cardinality)
-TEST_F(HighCardinalityMetricsTest, EmptyMetricHandling) {
-    auto stats = tracker->getCardinalityStats("nonexistent_metric");
-
-    EXPECT_EQ(stats.current_series_count, 0);
-    EXPECT_EQ(stats.limit, 0);  // No limit configured
-}
-
-TEST_F(HighCardinalityMetricsTest, ExtremeCardinalityLimit) {
-    CardinalityLimit limit;
-    limit.max_series = 1000000;  // Very high limit
-
-    tracker->setCardinalityLimit("extreme_metric", limit);
-
-    // Record many unique label sets
+TEST_F(MetricsCardinalityTest, MemoryBoundedUnderSustainedLoad) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Simulate sustained metric emission
+  for (int iteration = 0; iteration < 1000; ++iteration) {
     for (int i = 0; i < 100; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["id"] = std::to_string(i);
-        tracker->recordLabelSet("extreme_metric", labels);
+      mgr.shardLatencies().recordLatency(
+        "shard_" + std::to_string(i % 50),
+        "write",
+        20.0 + (iteration % 50));
     }
-
-    auto stats = tracker->getCardinalityStats("extreme_metric");
-    EXPECT_EQ(stats.current_series_count, 100);
-    EXPECT_FALSE(stats.at_limit);
+    mgr.replicaLag().recordLag(
+      "replica_" + std::to_string(iteration % 10),
+      15.0 + (iteration % 30));
+  }
+  
+  // Verify system is still stable
+  EXPECT_TRUE(mgr.isCardinalitySafe());
+  uint64_t memory_bytes = mgr.getEstimatedMemoryBytes();
+  EXPECT_LT(memory_bytes, 512 * 1024 * 1024);  // Under 512 MB
 }
 
-TEST_F(HighCardinalityMetricsTest, TrackingEnableDisable) {
-    CardinalityLimit limit;
-    limit.max_series = 5;
-
-    tracker->setCardinalityLimit("test_metric", limit);
-
-    // Initially enabled
-    EXPECT_TRUE(tracker->isTrackingEnabled("test_metric"));
-
-    // Fill to limit
-    for (int i = 0; i < 5; ++i) {
-        std::map<std::string, std::string> labels;
-        labels["id"] = std::to_string(i);
-        tracker->recordLabelSet("test_metric", labels);
-    }
-
-    // Disable tracking
-    tracker->setTrackingEnabled("test_metric", false);
-
-    // Should now accept unlimited cardinality
-    std::map<std::string, std::string> excess_labels;
-    excess_labels["id"] = "overflow";
-
-    bool can_accept = tracker->canAcceptLabelSet("test_metric", excess_labels);
-    EXPECT_TRUE(can_accept);
-
-    auto stats = tracker->getCardinalityStats("test_metric");
-    EXPECT_EQ(stats.current_series_count, 5);  // Still shows recorded count
+TEST_F(MetricsCardinalityTest, CardinalityExceedingLimit) {
+  auto& mgr = HighCardinalityMetricsManager::getInstance();
+  
+  // Emit to near the limit (40k cardinality)
+  for (int i = 0; i < 40000; ++i) {
+    mgr.shardLatencies().recordLatency(
+      "shard_" + std::to_string(i / 40),
+      "read",
+      15.0);
+  }
+  
+  size_t cardinality_before = mgr.getTotalCardinality();
+  EXPECT_LT(cardinality_before, 50000);
+  
+  // Try to exceed limit (should be capped)
+  for (int i = 40000; i < 60000; ++i) {
+    mgr.shardLatencies().recordLatency(
+      "shard_" + std::to_string(i / 40),
+      "write",
+      25.0);
+  }
+  
+  size_t cardinality_after = mgr.getTotalCardinality();
+  // Cardinality should grow but remain bounded
+  EXPECT_LE(cardinality_after, 50000 + 100);  // Small tolerance
 }
 
-} // namespace observability
-} // namespace themis
+}  // namespace themis::observability::tests

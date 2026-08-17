@@ -13,6 +13,8 @@
 #include "llm/continuous_batch_scheduler.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <shared_mutex>
+#include <chrono>
 
 namespace themis {
 namespace llm {

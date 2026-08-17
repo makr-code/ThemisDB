@@ -18,6 +18,7 @@
 
 #include "utils/logger.h"
 #include "utils/pii_redacting_sink.h"
+#include "utils/error_contracts.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -103,6 +104,12 @@ void Logger::init(const std::string& log_file, Level level) {
         json_mode_ = false;
         logger_->info("Logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::LOG_INITIALIZATION_FAILED,
+            std::string("Log initialization failed: ") + ex.what(),
+            "Logger::init",
+            ErrorSeverity::Fatal,
+            /*is_recoverable=*/false));
         std::cerr << "Log initialization failed: " << ex.what() << std::endl;
     }
 }
@@ -131,6 +138,12 @@ void Logger::initJson(const std::string& log_file, Level level) {
         json_mode_ = true;
         logger_->info("JSON logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::LOG_INITIALIZATION_FAILED,
+            std::string("JSON log initialization failed: ") + ex.what(),
+            "Logger::initJson",
+            ErrorSeverity::Fatal,
+            /*is_recoverable=*/false));
         std::cerr << "JSON log initialization failed: " << ex.what() << std::endl;
     }
 }

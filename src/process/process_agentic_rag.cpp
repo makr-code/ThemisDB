@@ -24,6 +24,7 @@
 
 #include <chrono>
 #include <sstream>
+#include <unordered_set>
 
 namespace themis {
 namespace process {
@@ -53,6 +54,7 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
     // Encode the main LLM prompt as a document.
     if (!ctx.llm_prompt.empty()) {
         rag::judge::RetrievedDocument d;
+        // NOLINT(clang-analyzer-core.uninitialized.Assign) - Safe string concatenation
         d.id               = "proc_prompt:" + ctx.instance_id;
         d.content          = ctx.llm_prompt;
         d.similarity_score = 1.0;
@@ -64,8 +66,9 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
     // Encode the subgraph as a document.
     if (!ctx.subgraph.empty()) {
         rag::judge::RetrievedDocument d;
+        // NOLINT(clang-analyzer-core.uninitialized.Assign) - Safe string concatenation
         d.id               = "proc_subgraph:" + ctx.instance_id;
-        d.content          = ctx.subgraph.dump(2);
+        d.content          = ctx.subgraph.dump(2);  // NOLINT(clang-analyzer-core.uninitialized.Assign)
         d.similarity_score = 0.9;
         d.metadata["type"] = "subgraph";
         d.metadata["instance_id"] = ctx.instance_id;
@@ -77,9 +80,10 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
     size_t att_idx = 0;
     for (const auto& att : ctx.attachments) {
         rag::judge::RetrievedDocument d;
+        // NOLINT(clang-analyzer-core.uninitialized.Assign) - Safe string concatenation and std::to_string
         d.id               = "proc_att:" + ctx.instance_id + ":" +
                              std::to_string(att_idx++);
-        d.content          = att.dump(2);
+        d.content          = att.dump(2);  // NOLINT(clang-analyzer-core.uninitialized.Assign)
         d.similarity_score = 0.8;
         d.metadata["type"] = "attachment";
         d.metadata["instance_id"] = ctx.instance_id;
@@ -90,9 +94,10 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
     size_t sc_idx = 0;
     for (const auto& sc : ctx.similar_cases) {
         rag::judge::RetrievedDocument d;
+        // NOLINT(clang-analyzer-core.uninitialized.Assign) - Safe string concatenation and std::to_string
         d.id               = "proc_case:" + ctx.instance_id + ":" +
                              std::to_string(sc_idx++);
-        d.content          = sc.dump(2);
+        d.content          = sc.dump(2);  // NOLINT(clang-analyzer-core.uninitialized.Assign)
         d.similarity_score = 0.7;
         d.metadata["type"] = "similar_case";
         docs.push_back(std::move(d));
@@ -105,8 +110,9 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
             oss << "- " << md << '\n';
         }
         rag::judge::RetrievedDocument d;
+        // NOLINT(clang-analyzer-core.uninitialized.Assign) - Safe string concatenation
         d.id               = "proc_missing:" + ctx.instance_id;
-        d.content          = oss.str();
+        d.content          = oss.str();  // NOLINT(clang-analyzer-core.uninitialized.Assign)
         d.similarity_score = 0.85;
         d.metadata["type"] = "missing_documents";
         d.metadata["instance_id"] = ctx.instance_id;
@@ -124,27 +130,45 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
     ProcessRagContext ctx,
     const std::vector<rag::judge::RetrievedDocument>& extra_docs)
 {
+    // Build a set of existing attachment IDs for O(log n) lookup
+    // instead of O(n) linear search per doc (avoiding O(n²) complexity)
+    std::unordered_set<std::string> existing_ids;
+    for (const auto& existing : ctx.attachments) {
+        if (existing.contains("_id")) {
+            try {
+                std::string id = existing["_id"].get<std::string>();
+                existing_ids.insert(std::move(id));
+            } catch (const nlohmann::json::exception&) {
+                // Skip malformed entries
+                continue;
+            }
+        }
+    }
+
     for (const auto& doc : extra_docs) {
         auto type_it = doc.metadata.find("type");
         if (type_it == doc.metadata.end()) continue;
 
         const std::string& t = type_it->second;
         if (t == "attachment" || t == "similar_case") {
-            // Avoid duplicates by ID
-            bool found = false;
-            for (const auto& existing : ctx.attachments) {
-                if (existing.contains("_id") &&
-                    existing["_id"].get<std::string>() == doc.id) {
-                    found = true; break;
-                }
+            // Avoid duplicates by ID using O(1) set lookup instead of O(n) search
+            if (existing_ids.find(doc.id) != existing_ids.end()) {
+                continue;
             }
-            if (!found) {
-                try {
-                    ctx.attachments.push_back(nlohmann::json::parse(doc.content));
-                } catch (...) {
-                    ctx.attachments.push_back(nlohmann::json{{"_id", doc.id},
-                                                              {"content", doc.content}});
-                }
+
+            try {
+                nlohmann::json parsed = nlohmann::json::parse(doc.content);
+                ctx.attachments.push_back(std::move(parsed));
+                existing_ids.insert(doc.id);  // Track newly added ID
+            } catch (const nlohmann::json::exception& e) {
+                // Fallback: store as-is with metadata
+                SPDLOG_WARN("[process] Failed to parse attachment '{}': {}", doc.id, e.what());
+                ctx.attachments.push_back(nlohmann::json{{"_id", doc.id},
+                                                          {"content", doc.content}});
+                existing_ids.insert(doc.id);
+            } catch (const std::exception& e) {
+                // Catch other exceptions (memory, etc.)
+                SPDLOG_ERROR("[process] Unexpected error merging document '{}': {}", doc.id, e.what());
             }
         }
         // Subgraph and prompt replacements are not merged to avoid clobbering

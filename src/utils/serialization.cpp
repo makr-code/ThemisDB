@@ -12,7 +12,10 @@
 
 #include "utils/serialization.h"
 #include "utils/safe_cast.h"
+#include "utils/error_contracts.h"
+#include "utils/logger.h"
 #include <cstring>
+#include <fmt/format.h>
 
 namespace themis {
 namespace utils {
@@ -140,6 +143,11 @@ Serialization::TypeTag Serialization::Decoder::peekType() const {
 
 Serialization::TypeTag Serialization::Decoder::readTag() {
     if (pos_ >= data_.size()) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::DESERIALIZATION_FAILED,
+            fmt::format("Decoder read past end: pos={} size={}", pos_, data_.size()),
+            "Serialization::Decoder::readTag",
+            ErrorSeverity::Warning, /*is_recoverable=*/false));
         return TypeTag::NULL_VALUE;
     }
     return static_cast<TypeTag>(data_[pos_++]);

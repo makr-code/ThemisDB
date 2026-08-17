@@ -1,11 +1,12 @@
 # ThemisDB Updates Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: Production Ready (Wave A Consistency) | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PRODUCTION_REQUIREMENTS.md -->
+<!-- Wave Context: Wave A (Runtime Reliability Q3-Q4 2026) — MVCC Consistency + Concurrent Updates + Conflict Resolution -->
 
 ## Module Purpose
 
-The updates module provides release-manifest handling, state-machine-driven update orchestration, delta update behavior, cluster and tenant scheduling paths, and schema/update lifecycle control for ThemisDB.
+Production-capable release-manifest handling, state-machine-driven update orchestration, delta update behavior, cluster and tenant scheduling paths, and schema/update lifecycle control for ThemisDB. **Batch 5 enhancement focus: MVCC snapshot correctness, concurrent update coordination, conflict resolution strategies, consistency under partitions**.
 
 ## Relevant Interfaces
 

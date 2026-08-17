@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <regex>
 #include <chrono>
+#include <limits>
 #include <sstream>
 #include <map>
 #include <unordered_map>
@@ -37,9 +38,23 @@ static constexpr const char* API_QUERY = "/api/v1/query";
 
 namespace {
 
+// W5-Sharding: Atomic version counter for monotonic merged version tokens
+// Ensures version tokens across shard boundaries are monotonically increasing
+// Format: [48-bit timestamp (microseconds) | 16-bit counter]
+static std::atomic<uint16_t> g_merge_version_counter{0};
+
 uint64_t makeMergeVersionToken() {
-    return static_cast<uint64_t>(
-        std::chrono::steady_clock::now().time_since_epoch().count());
+    // Get current timestamp in microseconds (48 bits)
+    auto now = std::chrono::steady_clock::now();
+    auto duration = now.time_since_epoch();
+    auto micros = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    
+    // Increment counter (16 bits) - wraps around at 65536
+    uint16_t counter = g_merge_version_counter.fetch_add(1, std::memory_order_relaxed);
+    
+    // Combine: upper 48 bits = timestamp, lower 16 bits = counter
+    // This gives us monotonic ordering within a process and temporal ordering across shards
+    return (static_cast<uint64_t>(micros) << 16) | counter;
 }
 
 uint64_t extractVersionToken(const nlohmann::json& payload) {
@@ -77,6 +92,14 @@ uint64_t extractVersionToken(const nlohmann::json& payload) {
 
 uint64_t resolveShardResultVersion(const ShardResult& result) {
     return std::max(result.version_token, extractVersionToken(result.data));
+}
+
+uint64_t makeStrictMergeVersionToken(uint64_t observed_max_version) {
+    const uint64_t candidate = makeMergeVersionToken();
+    if (observed_max_version == std::numeric_limits<uint64_t>::max()) {
+        return observed_max_version;
+    }
+    return std::max(candidate, observed_max_version + 1);
 }
 
 } // namespace
@@ -781,10 +804,11 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
 
         size_t total_right_rows  = 0;
         size_t total_matched_rows = 0;
-        uint64_t merge_version = makeMergeVersionToken();
+        uint64_t observed_version = 0;
         for (const auto& shard_result : left_results) {
-            merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
+            observed_version = std::max(observed_version, resolveShardResultVersion(shard_result));
         }
+        uint64_t merge_version = makeStrictMergeVersionToken(observed_version);
         nlohmann::json joined_rows = nlohmann::json::array();
 
         if (!right_collection.empty()) {
@@ -793,7 +817,8 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
                 "FOR doc IN " + right_collection + " RETURN doc";
             auto right_results = scatterGather(right_query);
             for (const auto& shard_result : right_results) {
-                merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
+                observed_version = std::max(observed_version, resolveShardResultVersion(shard_result));
+                merge_version = makeStrictMergeVersionToken(observed_version);
                 if (!shard_result.success || !shard_result.data.is_array()) continue;
                 for (const auto& right_row : shard_result.data) {
                     total_right_rows++;
@@ -1176,6 +1201,7 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     // - Consistency model: Read committed (eventual) from multiple shards
     // - Duplicate handling: Client responsible for deduplication on keys
     // - Ordering: Results ordered by shard response arrival, not key
+    // W5-Sharding: Ensure monotonic version metadata propagation across shard boundaries
     
     nlohmann::json merged;
     merged["results"] = nlohmann::json::array();
@@ -1183,10 +1209,19 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     merged["shard_count"] = results.size();
     
     size_t success_count = 0;
-    uint64_t merge_version = makeMergeVersionToken();
+    uint64_t observed_version = 0;
+    
+    // W5-Sharding: Scan all shard versions and use maximum to ensure forward consistency
+    for (const auto& result : results) {
+        const uint64_t shard_version = resolveShardResultVersion(result);
+        // Ensure merge_version is strictly greater than any shard version
+        // This prevents stale read detection across shard boundaries
+        observed_version = std::max(observed_version, shard_version);
+    }
+    
+    const uint64_t merge_version = makeStrictMergeVersionToken(observed_version);
     
     for (const auto& result : results) {
-        merge_version = std::max(merge_version, resolveShardResultVersion(result));
         if (result.success) {
             success_count++;
             
@@ -1450,4 +1485,3 @@ bool ShardRouter::validateMultiShardExactConsistency(
 }
 
 } // namespace themis::sharding
-

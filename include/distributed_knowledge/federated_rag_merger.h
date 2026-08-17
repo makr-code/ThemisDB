@@ -216,6 +216,7 @@ struct FederatedRAGMergerConfig {
     [[nodiscard]] bool isValid() const {
         return top_k > 0 && rrf_constant > 0.0 && specialisation_boost >= 1.0;
     }
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // FederatedRAGMerger

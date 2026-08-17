@@ -1,50 +1,50 @@
 {
-  "version": "1.0.1",
-  "release_date": "2025-12-08",
-  "latest": "1.0.1",
+  "version": "2.4.0",
+  "release_date": "2026-08-05",
+  "latest": "2.4.0",
   "channel": "stable",
   "downloads": {
     "linux_x64_zip": {
-      "url": "https://github.com/makr-code/ThemisDB/releases/download/v1.0.1/themisdb-1.0.1-linux-x64.zip",
-      "sha256": "8B075931270487B493F9244738829CF84752D33FF7381B624044C988A00FCC80",
-      "size": 10735168
+      "url": "https://github.com/makr-code/ThemisDB/releases/download/v2.4.0/themisdb-2.4.0-linux-x64.zip",
+      "sha256": "PENDING_RELEASE_BUILD",
+      "size": 0
     },
     "debian_amd64": {
-      "url": "https://github.com/makr-code/ThemisDB/releases/download/v1.0.1/themisdb_1.0.1_amd64.deb",
-      "sha256": "D922D21C4D7EAAD2FF18F784E4C447BF8411925B14F582883E4BE22369D4B5C3",
-      "size": 8312890
+      "url": "https://github.com/makr-code/ThemisDB/releases/download/v2.4.0/themisdb_2.4.0_amd64.deb",
+      "sha256": "PENDING_RELEASE_BUILD",
+      "size": 0
     },
     "rhel_x86_64": {
-      "url": "https://github.com/makr-code/ThemisDB/releases/download/v1.0.1/themisdb-1.0.1-1.x86_64.rpm",
-      "sha256": "3CBE36BCF3763F3450286442F00DBDAE0CD29A4F3D9175DF4D77D412C0FD5A7B",
-      "size": 10665984
+      "url": "https://github.com/makr-code/ThemisDB/releases/download/v2.4.0/themisdb-2.4.0-1.x86_64.rpm",
+      "sha256": "PENDING_RELEASE_BUILD",
+      "size": 0
     },
     "qnap_x64_zip": {
-      "url": "https://github.com/makr-code/ThemisDB/releases/download/v1.0.1/themisdb-1.0.1-qnap-x64.zip",
-      "sha256": "E9BCAD4E654283274CF4C9FB78677C9310A6B7E6E67663B894B26FA869D6D881",
-      "size": 10493929
+      "url": "https://github.com/makr-code/ThemisDB/releases/download/v2.4.0/themisdb-2.4.0-qnap-x64.zip",
+      "sha256": "PENDING_RELEASE_BUILD",
+      "size": 0
     },
     "windows_x64_zip": {
-      "url": "https://github.com/makr-code/ThemisDB/releases/download/v1.0.1/themis-1.0.1-windows-x64.zip",
-      "sha256": "74BC4E0836F1F870B68D4F86E7C34172AC1EBDC9367843D67A6E7380EF00848B",
-      "size": 4012854
+      "url": "https://github.com/makr-code/ThemisDB/releases/download/v2.4.0/themis-2.4.0-windows-x64.zip",
+      "sha256": "PENDING_RELEASE_BUILD",
+      "size": 0
     },
     "docker": {
       "image": "themisdb/themisdb",
-      "tags": ["1.0.1", "latest"],
+      "tags": ["2.4.0", "latest"],
       "registry": "https://hub.docker.com/r/themisdb/themisdb"
     },
     "docker_qnap": {
       "image": "themisdb/themisdb",
-      "tags": ["1.0.1-qnap", "latest-qnap"],
+      "tags": ["2.4.0-qnap", "latest-qnap"],
       "registry": "https://hub.docker.com/r/themisdb/themisdb"
     }
   },
-  "changelog_url": "https://github.com/makr-code/ThemisDB/blob/main/CHANGELOG.md",
-  "release_notes_url": "https://github.com/makr-code/ThemisDB/blob/main/RELEASE_NOTES_v1.0.1.md",
-  "minimum_version": "1.0.0",
+  "changelog_url": "https://github.com/makr-code/ThemisDB/blob/develop/CHANGELOG.md",
+  "release_notes_url": "https://github.com/makr-code/ThemisDB/blob/develop/RELEASE_NOTES_v2.4.0.md",
+  "minimum_version": "2.0.0",
   "security_updates": [],
   "breaking_changes": false,
   "update_priority": "normal",
-  "announcement": "ThemisDB v1.0.1 - Security updates, Raft/WAL integration improvements, and QNAP multi-arch support."
+  "announcement": "ThemisDB v2.4.0 - GA Release: Access Model Coordination Layer + Phase 6 Documentation + Multi-Model AI/LLM Integration"
 }

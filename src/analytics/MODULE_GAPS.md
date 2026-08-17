@@ -8,6 +8,18 @@ This file documents all documentation and code quality gaps in the **analytics**
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
+**Batch 3 Wave Correlation (2026-08-14):**
+- **Wave B Gaps** (~300 IMPL gaps): OLAP optimization, streaming-join backpressure, model-serving circuit-breaker enhancement, distributed merge diagnostics
+- **Wave B DOC Gaps** (~200): Performance tuning guide, failure-mode runbook, operator dashboard documentation
+- **Other IMPL Gaps** (~200): Iterator-invalidation fixes, O(N²) complexity reductions, transit-encryption enforcement
+- **Other DOC Gaps** (~2,800): Inline comments, algorithm documentation, integration notes
+
+**Production Readiness Status (Batch 3 verified 2026-08-14):**
+- [x] Streaming window runtime limits implemented and tested (max_open_windows, eviction tracking)
+- [x] Distributed analytics circuit breaker pattern with state machine and recovery
+- [x] Model serving integration with fault-tolerance and degradation
+- [~] Cross-cluster federated analytics hardening (Wave B target: Q4 2026)
+
 ### By Severity
 
 - **CRITICAL**: 35

@@ -1,11 +1,12 @@
 # ThemisDB Maintenance Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: Production Ready (Wave A Reliability) | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PRODUCTION_REQUIREMENTS.md -->
+<!-- Wave Context: Wave A (Runtime Reliability Q3-Q4 2026) — Maintenance Determinism + Crash Consistency + Concurrent Operation Safety -->
 
 ## Module Purpose
 
-The maintenance module orchestrates recurring and on-demand database maintenance operations, including schedule management, execution coordination, persistence of schedules, health aggregation, and task-handler dispatch.
+Production-capable maintenance workflows, compaction, cleanup, and resource management for ThemisDB with emphasis on safety under concurrent operations and crash consistency. **Batch 5 enhancement focus: Maintenance operation safety, compaction correctness, crash consistency recovery, resource cleanup reliability**.
 
 ## Relevant Interfaces
 

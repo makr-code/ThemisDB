@@ -30,11 +30,11 @@
  */
 
 #include "analytics/incremental_view.h"
+#include "utils/logger.h"
 
 #include <cassert>
 #include <cmath>
 #include <limits>
-#include <spdlog/spdlog.h>
 #include <sstream>
 #include <thread>
 
@@ -560,11 +560,11 @@ IncrementalViewManager::~IncrementalViewManager() = default;
 bool IncrementalViewManager::createView(const ViewDefinition &def) {
     std::unique_lock lk(views_mutex_);
     if (views_.count(def.name)) {
-        spdlog::warn("IncrementalViewManager: view '{}' already exists", def.name);
+        THEMIS_WARN("IncrementalViewManager: view '{}' already exists", def.name);
         return false;
     }
     views_[def.name] = std::make_shared<IncrementalView>(def);
-    spdlog::info("IncrementalViewManager: created view '{}'", def.name);
+    THEMIS_INFO("IncrementalViewManager: created view '{}'", def.name);
     return true;
 }
 
@@ -574,7 +574,7 @@ bool IncrementalViewManager::dropView(const std::string &name) {
         return false;
     }
     views_.erase(name);
-    spdlog::info("IncrementalViewManager: dropped view '{}'", name);
+    THEMIS_INFO("IncrementalViewManager: dropped view '{}'", name);
     return true;
 }
 
@@ -624,78 +624,10 @@ ViewQueryResult IncrementalViewManager::query(const std::string &view_name, cons
     std::shared_lock lk(views_mutex_);
     auto it = views_.find(view_name);
     if (it == views_.end()) {
-        spdlog::warn("IncrementalViewManager: view '{}' not found", view_name);
+        THEMIS_WARN("IncrementalViewManager: view '{}' not found", view_name);
         return {};
     }
     return it->second->query(filters, limit, offset);
-}
-
-} // namespace analytics
-} // namespace themisdb
-
-// ============================================================================
-// Phase 2C: Incremental Aggregation Functions
-// ============================================================================
-
-/**
- * @brief Update incremental aggregation with new value (O(1) cost)
- * 
- * Maintains running totals/stats without recomputation.
- * Supports: sum, count, average, min, max aggregations.
- */
-Status IncrementalView::updateAggregation(
-    double value,
-    AggregationType agg_type) {
-    
-    if (!std::isfinite(value)) {
-        return Status::Error("Value is not finite (NaN or Inf)");
-    }
-    
-    std::lock_guard<std::mutex> lock(state_mutex_);
-    
-    switch (agg_type) {
-        case AggregationType::SUM:
-            running_sum_ += value;
-            return Status::OK();
-            
-        case AggregationType::COUNT:
-            running_count_++;
-            return Status::OK();
-            
-        case AggregationType::AVERAGE:
-            // Online average: avg = (avg * n + x) / (n + 1)
-            if (running_count_ == 0) {
-                running_average_ = value;
-            } else {
-                running_average_ = 
-                    (running_average_ * static_cast<double>(running_count_) + value) /
-                    static_cast<double>(running_count_ + 1);
-            }
-            running_count_++;
-            running_sum_ += value;
-            return Status::OK();
-            
-        case AggregationType::MIN:
-            if (running_count_ == 0) {
-                running_min_ = value;
-            } else {
-                running_min_ = std::min(running_min_, value);
-            }
-            running_count_++;
-            return Status::OK();
-            
-        case AggregationType::MAX:
-            if (running_count_ == 0) {
-                running_max_ = value;
-            } else {
-                running_max_ = std::max(running_max_, value);
-            }
-            running_count_++;
-            return Status::OK();
-            
-        default:
-            return Status::Error("Unknown aggregation type");
-    }
 }
 
 } // namespace analytics

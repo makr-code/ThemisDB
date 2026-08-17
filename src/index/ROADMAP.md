@@ -10,15 +10,20 @@
 
 Production index runtime exists across vector/secondary/spatial/graph indexing, acceleration/compression pathways, and index lifecycle/rebuild/tiering operations.
 
-**ANN Frontdoor formalized** (issue #5424): `AnnFrontdoor` is the single universal retrieval gate for all
-ANN queries. All six artifact classes — Document, Chunk, Entity, Adapter, Package, ShardSummary — are
-registered as first-class `AnnScopeKind` values with hot/cold routing and observability.
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave B (Q3–Q4 2026):** AnnFrontdoor+vector integration gates, GPU backend validation (CUDA/HIP), hybrid retrieval Phase B (buffer lifecycle RAII, concurrency ThreadSanitizer)
+- **Wave B Exit Criteria:** Full 4-layer retrieval chain (search: ANN+vector+graph+LLM) with stable p95/p99 on representative hardware
+- **Tier 2 Functional Completeness:** Index performance critical for all retrieval workloads; blocks RAG Phase B and search Phase B
 
 **Hybrid Retrieval Rollout Readiness**: 40% 🟡 (issue #5468).
 - Phase A (exact-first, CPU fallback): ✅ AnnFrontdoor ready with CPU fallback enforced.
 - Phase B (ANN + CPU validation): 🟡 Q3 2026 — buffer lifecycle RAII and concurrency gaps must be fixed.
 - Phase C (GPU ANN): ❌ Q4 2026 or later — blocked by gpu module gaps.
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
+
+**ANN Frontdoor formalized** (issue #5424): `AnnFrontdoor` is the single universal retrieval gate for all
+ANN queries. All six artifact classes — Document, Chunk, Entity, Adapter, Package, ShardSummary — are
+registered as first-class `AnnScopeKind` values with hot/cold routing and observability.
 
 ## In Progress
 

@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <sstream>
 #include <regex>
+#include <mutex>
 
 namespace themis::rag::judge {
 
@@ -26,6 +27,7 @@ struct CompletenessEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     // Check if aspect is covered in answer
     bool isAspectCovered(const std::string& aspect, const std::string& answer) {
@@ -115,6 +117,7 @@ CompletenessEvaluator::~CompletenessEvaluator() = default;
 
 std::vector<QueryAspect> CompletenessEvaluator::extractQueryAspects(const std::string& query) {
     std::vector<QueryAspect> aspects;
+    aspects.reserve(10);  // Reasonable estimate for typical queries
     
     if (query.empty()) {
         return aspects;

@@ -52,6 +52,9 @@ struct WALEntry;
 class ReplicationStream;
 class LeaderElection;
 class CompressedReplicationStream;
+struct PlacementConstraints;
+struct PlacementValidationResult;
+class GeoReplicaPlacementManager;
 
 /**
  * Replication Role
@@ -154,7 +157,7 @@ struct ReplicaInfo {
     }
     
     int64_t replicationLagMs() const;
-    
+     
     void updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t degraded_lag_threshold_ms);
 };
 
@@ -979,31 +982,72 @@ public:
      */
     bool hasLeaderLease() const;
 
+    // -----------------------------------------------------------------------
+    // Geographic replica placement policies (v1.8.0+)
+    // -----------------------------------------------------------------------
+
+    /**
+     * Set the geographic replica placement constraints for leader election
+     * and failover candidate selection.
+     *
+     * When set, the ReplicationManager will use these constraints to guide:
+     * - selectLeaderCandidate() for initial leader election
+     * - selectFailoverCandidate() when the current leader fails
+     *
+     * @param constraints Placement constraints (preferred/forbidden DCs, zones, etc.)
+     *        An empty constraints object disables geographic placement policy.
+     *
+     * @see include/replication/geo_placement.h — PlacementConstraints
+     */
+    void setPlacementPolicy(const PlacementConstraints& constraints);
+
+    /**
+     * Get the currently active geographic replica placement constraints.
+     *
+     * @return Reference to the active PlacementConstraints, or empty constraints
+     *         if no policy is set.
+     */
+    const PlacementConstraints& getPlacementPolicy() const;
+
+    /**
+     * Validate whether the current replica topology satisfies the active
+     * geographic placement policy.
+     *
+     * @return PlacementValidationResult with any violations or recommendations.
+     *         An empty violations list means the topology satisfies the policy.
+     */
+    PlacementValidationResult validatePlacementPolicy() const;
+
 private:
     ReplicationConfig config_;
     std::string node_id_;
-    
+     
     std::shared_ptr<WALManager> wal_;
     std::unique_ptr<LeaderElection> election_;
-    
+     
     std::vector<std::unique_ptr<ReplicationStream>> streams_;
     mutable std::shared_mutex replicas_mutex_;  // Protects replicas_ and streams_
     std::vector<ReplicaInfo> replicas_;
-    
+     
     std::shared_ptr<IConflictResolver> conflict_resolver_;
     std::vector<std::shared_ptr<IReplicationListener>> listeners_;
-    
+     
     ReplicationStats stats_;
-    
+     
     std::mutex manager_mutex_;
     std::atomic<bool> initialized_{false};
     std::atomic<bool> running_{false};
-    
+     
     // Background threads
     std::thread heartbeat_thread_;
     std::thread compaction_thread_;
     std::thread health_monitor_thread_;
-    
+
+    // Geographic placement policy (v1.8.0+)
+    mutable std::mutex placement_policy_mutex_;
+    std::unique_ptr<PlacementConstraints> active_placement_policy_;
+    std::unique_ptr<GeoReplicaPlacementManager> placement_manager_;
+     
     bool validateConfig();
     void heartbeatLoop();
     void compactionLoop();
@@ -2571,6 +2615,11 @@ private:
 
     std::string generateSessionToken(uint64_t sequence) const;
 };
+
+// Include geo_placement types at end of header to avoid circular dependency
+// (geo_placement.h includes replication_manager.h; by this point, the entire
+// replication_manager.h has been parsed and #pragma once prevents re-parsing)
+#include "replication/geo_placement.h"
 
 } // namespace replication
 } // namespace themisdb

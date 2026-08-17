@@ -29,8 +29,8 @@ namespace {
     // Threshold for using partition pruning strategy
     constexpr size_t PARTITION_PRUNING_THRESHOLD = 5;
 
-    [[nodiscard]] std::shared_ptr<themis::sharding::ShardRouter> requireShardRouter(
-        std::shared_ptr<themis::sharding::ShardRouter> shard_router) {
+    [[nodiscard]] std::shared_ptr<::themis::sharding::ShardRouter> requireShardRouter(
+        std::shared_ptr<::themis::sharding::ShardRouter> shard_router) {
         if (!shard_router) {
             throw std::invalid_argument("QueryFederation: shard_router cannot be null");
         }
@@ -128,13 +128,13 @@ namespace {
 
 namespace themis::query {
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router
 ) : QueryFederation(std::move(shard_router), Config{}) {
 }
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router,
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router,
     const Config& config
 ) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(nullptr),
@@ -145,15 +145,15 @@ QueryFederation::QueryFederation(
                  config_.enable_result_streaming);
 }
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router,
-    sharding::ShardingManager& sharding_manager
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router,
+    ::themis::sharding::ShardingManager& sharding_manager
 ) : QueryFederation(std::move(shard_router), sharding_manager, Config{}) {
 }
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router,
-    sharding::ShardingManager& sharding_manager,
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router,
+    ::themis::sharding::ShardingManager& sharding_manager,
     const Config& config
 ) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(&sharding_manager),
@@ -296,7 +296,8 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-nlohmann::json QueryFederation::execute(const std::string& query) {    total_queries_++;
+nlohmann::json QueryFederation::execute(const std::string& query) {
+    total_queries_++;
     auto start_time = std::chrono::steady_clock::now();
     
     try {
@@ -344,15 +345,15 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
                 shard_results = shard_router_->scatterGather(query);
                 break;
                 
-            case ExecutionPlan::Strategy::PARTITION_PRUNING:
+            case ExecutionPlan::Strategy::PARTITION_PRUNING: {
                 partition_pruned_queries_++;
                 spdlog::debug("QueryFederation: partition pruning to {} shard(s)", plan.target_shards.size());
-                {
+
                 // Optimize: Use unordered_set for O(n) deduplication instead of sort + unique (O(n log n))
-                std::unordered_set<std::string_view> unique_shards;
+                std::unordered_set<std::string> unique_shards;
                 std::vector<std::string> deduped_targets;
                 deduped_targets.reserve(plan.target_shards.size());
-                    
+
                 for (const auto& shard : plan.target_shards) {
                     if (unique_shards.insert(shard).second) {
                         deduped_targets.push_back(shard);
@@ -362,36 +363,36 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
                 if (!deduped_targets.empty()) {
                     // Phase 2 Executor Scope Fix: Initialize scope enforcer for result validation
                     auto scope_enforcer = std::make_unique<ScopeEnforcerImpl>();
-                        
-                        shard_results = shard_router_->executeOnShards(query, deduped_targets);
-                        
-                        // Validate scope boundaries for each shard result
-                        for (auto& result : shard_results) {
-                            QueryScope shard_scope;
-                            shard_scope.shard_id = result.shard_id;
-                            shard_scope.is_federated = true;
-                            shard_scope.scope_generation = 1;
-                            
-                            // Scope validation on shard result data
-                            if (result.success && !result.data.empty()) {
-                                const std::string result_data = result.data.dump();
-                                if (auto scope_result = scope_enforcer->validateResultScope(
+                    shard_results = shard_router_->executeOnShards(query, deduped_targets);
+
+                    // Validate scope boundaries for each shard result
+                    for (auto& result : shard_results) {
+                        QueryScope shard_scope;
+                        shard_scope.shard_id = result.shard_id;
+                        shard_scope.is_federated = true;
+                        shard_scope.scope_generation = 1;
+
+                        // Scope validation on shard result data
+                        if (result.success && !result.data.empty()) {
+                            const std::string result_data = result.data.dump();
+                            if (auto scope_result = scope_enforcer->validateResultScope(
                                     result_data, shard_scope)) {
-                                    spdlog::debug("Scope validation passed for shard '{}'", result.shard_id);
-                                } else {
-                                    spdlog::warn("Scope validation failed for shard '{}': {}",
-                                               result.shard_id, scope_result.error().context());
-                                }
+                                spdlog::debug("Scope validation passed for shard '{}'", result.shard_id);
+                            } else {
+                                spdlog::warn("Scope validation failed for shard '{}': {}",
+                                             result.shard_id, scope_result.error().context());
                             }
                         }
-                    } else {
-                        spdlog::warn("Partition pruning selected without target shards; falling back to scatter-gather");
-                        shard_results = shard_router_->scatterGather(query);
                     }
-                    spdlog::debug("Partition pruning: received {} shard result(s)",
-                                  shard_results.size());
+                } else {
+                    spdlog::warn("Partition pruning selected without target shards; falling back to scatter-gather");
+                    shard_results = shard_router_->scatterGather(query);
                 }
+
+                spdlog::debug("Partition pruning: received {} shard result(s)",
+                              shard_results.size());
                 break;
+            }
                 
             case ExecutionPlan::Strategy::BROADCAST_JOIN:
                 broadcast_joins_++;

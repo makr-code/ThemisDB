@@ -355,55 +355,53 @@ std::vector<float> LearnableRotaryEmbedding::train(
     loss_history.reserve(config.max_epochs);
     
     float best_val_loss = std::numeric_limits<float>::max();
-    {
-        size_t epochs_without_improvement = 0;
-        
-        // Training loop
-        for (size_t epoch = 0; epoch < config.max_epochs; ++epoch) {
+    size_t epochs_without_improvement = 0;
+    // Training loop
+    for (size_t epoch = 0; epoch < config.max_epochs; ++epoch) {
         setTrainingMode(true);
-        
+
         // Shuffle training samples
         std::vector<TrainingSample> shuffled = train_samples;
         std::random_device rd;
         std::mt19937 g(rd());
         std::shuffle(shuffled.begin(), shuffled.end(), g);
-        
+
         // Process mini-batches
         float epoch_loss = 0.0f;
         size_t num_batches = 0;
-        
+
         for (size_t i = 0; i < shuffled.size(); i += config.batch_size) {
             size_t batch_end = std::min(i + config.batch_size, shuffled.size());
             std::vector<TrainingSample> batch(
                 shuffled.begin() + i,
                 shuffled.begin() + batch_end
             );
-            
+
             // Compute batch loss
             float batch_loss = computeContrastiveLoss(batch, config.temperature);
             epoch_loss += batch_loss;
             num_batches++;
-            
+
             // Compute and accumulate gradients for the batch
             std::vector<double> batch_gradients(learnable_theta_.size(), 0.0);
-            
+
             for (const auto& sample : batch) {
                 auto sample_grads = computeGradients(
                     sample.embedding,
                     sample.similarity_target,
                     sample.position
                 );
-                
+
                 for (size_t j = 0; j < batch_gradients.size(); ++j) {
                     batch_gradients[j] += sample_grads[j];
                 }
             }
-            
+
             // Average gradients over batch
             for (auto& grad : batch_gradients) {
                 grad /= static_cast<double>(batch.size());
             }
-            
+
             // Update parameters
             if (config.use_adam) {
                 updateAdam(batch_gradients, config.learning_rate, config);
@@ -411,22 +409,22 @@ std::vector<float> LearnableRotaryEmbedding::train(
                 updateSGD(batch_gradients, config.learning_rate);
             }
         }
-        
+
         epoch_loss /= static_cast<float>(num_batches);
         loss_history.push_back(epoch_loss);
-        
+
         // Validation
         if (!val_samples.empty()) {
             setTrainingMode(false);
             float val_loss = computeValidationLoss(val_samples);
-            
+
             // Early stopping check
             if (val_loss < best_val_loss) {
                 best_val_loss = val_loss;
                 epochs_without_improvement = 0;
             } else {
                 epochs_without_improvement++;
-                
+
                 if (epochs_without_improvement >= config.early_stop_patience) {
                     // Early stopping triggered
                     break;
@@ -539,4 +537,3 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
 }
 
 } // namespace themis
-

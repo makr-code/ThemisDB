@@ -246,7 +246,9 @@ jobs:
             C:\vcpkg\bootstrap-vcpkg.bat -disableMetrics
             Write-Host "  ✅ vcpkg bootstrapped"
           } else {
-            Write-Host "  ✅ vcpkg found in cache — skipping clone"
+            Write-Host "  ✅ vcpkg found in cache — refreshing git history to ensure baseline availability..."
+            git -C C:\vcpkg fetch origin
+            Write-Host "  ✅ vcpkg git history refreshed"
           }
           $Secs = [int](Get-Date -UFormat %s) - $T0
           C:\vcpkg\vcpkg version

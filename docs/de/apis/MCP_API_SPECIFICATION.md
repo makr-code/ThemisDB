@@ -843,8 +843,83 @@ result = await session.call_tool("batch_insert", {
 
 ---
 
+## Geplante Tool-Erweiterungen (Wave B/C)
+
+> **Vollständiger Plan:** [MCP_TOOL_EXTENSION_PLAN.md](MCP_TOOL_EXTENSION_PLAN.md)
+
+Die folgenden Tool-Gruppen sind geplant und werden auf `develop` implementiert. Aktuell **noch nicht** produktiv verfügbar.
+
+### Gruppe 1: Knowledge Graph (Target: Q4 2026)
+
+| Tool | Beschreibung |
+|---|---|
+| `kg_neighbours` | Nachbarn eines Knotens abrufen (Tiefe, Kantentypen konfigurierbar) |
+| `kg_shortest_path` | Kürzester Pfad zwischen zwei Knoten |
+| `kg_subgraph` | Teilgraph um Anker-Knoten extrahieren |
+| `kg_node_properties` | Alle Eigenschaften eines Knotens |
+
+### Gruppe 2: Vector Search & RAG (Target: Q4 2026)
+
+| Tool | Beschreibung |
+|---|---|
+| `semantic_search` | Vektor-basiertes semantisches Retrieval (kNN) |
+| `hybrid_search` | BM25 + Vektor kombiniert |
+| `rag_retrieve` | Vollständige RAG-Pipeline (embed → search → rerank) |
+| `vector_index_list` | Verfügbare Vektor-Indizes auflisten |
+
+### Gruppe 3: Plugin & LLM Management (Target: Q1 2027)
+
+| Tool | Beschreibung |
+|---|---|
+| `plugin_list` | Geladene Plugins mit Status |
+| `plugin_load` | Plugin dynamisch laden (Admin-Scope) |
+| `plugin_unload` | Plugin entladen (Admin-Scope) |
+| `llm_model_list` | Verfügbare LLM-Modelle |
+| `llm_model_status` | Status eines spezifischen Modells |
+
+### Gruppe 4: Operations & Monitoring (Target: Q1 2027)
+
+| Tool | Beschreibung |
+|---|---|
+| `health_check` | Server-Health inkl. Shard-Status |
+| `metrics_snapshot` | Aktuelle Performance-Metriken |
+| `shard_status` | Sharding-Topologie und Replikationsstatus |
+| `compaction_trigger` | RocksDB Compaction auslösen (Admin-Scope) |
+| `connection_pool_status` | Status des Connection Pools |
+
+### Gruppe 5: Updates & Backup (Target: Q1 2027)
+
+| Tool | Beschreibung |
+|---|---|
+| `update_list_pending` | Ausstehende Migrationen auflisten |
+| `update_apply` | Migration anwenden (Admin-Scope) |
+| `update_rollback` | Letzten Update zurückrollen (Admin-Scope) |
+| `backup_create` | Snapshot/Backup initiieren |
+| `backup_list` | Verfügbare Backups auflisten |
+| `backup_restore` | Backup wiederherstellen (confirm_token erforderlich) |
+
+### Gruppe 6: Security & Audit (Target: Q1–Q2 2027)
+
+| Tool | Beschreibung |
+|---|---|
+| `audit_log_query` | Audit-Log abfragen (RBAC-gefiltert) |
+| `permission_check` | Berechtigungs-Check für Ressource/Aktion |
+| `token_validate` | Auth-Token validieren und Claims inspizieren |
+| `security_scan_status` | Letzten Sicherheits-Scan-Status abrufen |
+
+### Gruppe 7: Schema & Query-Plan (Target: Q4 2026)
+
+| Tool | Beschreibung |
+|---|---|
+| `schema_diff` | Schema-Vergleich zwischen zwei Versionen |
+| `schema_validate` | Schema gegen Constraints validieren |
+| `explain_query` | Query-Execution-Plan ohne Ausführung |
+
+---
+
 ## Siehe auch
 
+- [MCP Tool Extension Plan](MCP_TOOL_EXTENSION_PLAN.md)
 - [MCP Protocol Support](MCP_PROTOCOL_SUPPORT.md)
 - [REST API Specification](REST_API_SPECIFICATION.md)
 - [AQL Syntax Guide](../aql/AQL_SYNTAX_GUIDE.md)

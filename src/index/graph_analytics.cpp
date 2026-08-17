@@ -459,6 +459,7 @@ GraphAnalytics::louvainCommunities(
     }
 
     // Renumber communities contiguously
+    std::map<std::string, int> result;
     {
         std::map<int, int> old_to_new;
         int new_id = 0;
