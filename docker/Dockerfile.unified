@@ -81,6 +81,9 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     export CURL_RETRIES=10; \
     export CURL_TIMEOUT=600; \
     mkdir -p /build/vcpkg_installed; \
+    # Defensive guard: ensure the overlay-ports directory exists even if a
+    # stale GHA build-cache entry for the COPY layer omits it.
+    mkdir -p /build/ports; \
         # remove any stale partial boost archives that can poison the cache
         find /opt/vcpkg/downloads -name '*.part' -delete || true; \
     echo "Installing packages for ${TRIPLET} with aria2..."; \
