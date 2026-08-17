@@ -907,9 +907,10 @@ DistributedTrainingCoordinator::collectGradients(int step_number) {
                 {"timeout_ms", config_.timeout_seconds * 1000}
             };
             
-            // Send RPC request to shard
-            // Note: ShardRouter's executeQuery is used for general queries
-            // In a production system, you would add a specific gradient collection RPC method
+            // Send RPC request to shard.
+            // B3: request.dump() JSON-encodes all fields (including adapter_id_ and step_number),
+            // which prevents injection of control characters into the RPC query string.
+            // This is internal shard communication, not an LLM inference prompt.
             std::string rpc_query = "collect_gradients:" + request.dump();
             json response = shard_router_->executeQuery(rpc_query);
             
