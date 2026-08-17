@@ -67,7 +67,27 @@ public:
     PluginSignature getSignature() const override;
     bool initialize(const nlohmann::json& config) override;
     bool reload(const nlohmann::json& config) override;
+    
+    /**
+     * @brief Detects PII entities in unstructured text using NER.
+     *
+     * @param text Input text to scan (unstructured, may contain mixed content).
+     * @return Vector of PIIFinding objects with detected entity spans.
+     * 
+     * @throws std::runtime_error If engine is enabled but no model/gazetteers are available.
+     * @throws std::invalid_argument If text is not valid UTF-8 (when validation enabled).
+     *
+     * @note Thread-safe: Uses mutex for model state access.
+     * @note Fail-Closed: Returns empty findings if model_available_ is false (graceful degradation).
+     * @note Model Unavailability: If gazetteers fail to load during initialize(), model_available_ = false;
+     *       subsequent detectInText() calls return empty findings rather than crashing.
+     * @note Graceful Degradation: If model becomes unavailable at runtime, detection stops safely;
+     *       applications can fall back to regex-based detection or log warnings.
+     *
+     * @post model_available_ state determines whether detection proceeds. If false, returns {} immediately.
+     */
     std::vector<PIIFinding> detectInText(const std::string& text) const override;
+    
     PIIType classifyFieldName(const std::string& field_name) const override;
     std::string getRedactionRecommendation(PIIType type) const override;
     std::string getLastError() const override;

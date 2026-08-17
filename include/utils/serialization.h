@@ -109,8 +109,40 @@ public:
         uint64_t decodeUInt64();
         float decodeFloat();
         double decodeDouble();
+        
+        /**
+         * @brief Decodes a string from the binary buffer with bounds checking.
+         *
+         * @return Decoded string value (empty string if size field is invalid or exceeds buffer bounds).
+         *
+         * @note Bounds-Checked: Verifies (pos_ + size_bytes) <= data_.size() before reading.
+         * @note Fail-Safe: Returns empty string on bounds overflow instead of crashing.
+         * @note Security: Prevents buffer overflow attacks from malformed serialized data.
+         *
+         * @throws May throw during UTF-8 validation if enabled, but not on bounds overflow.
+         */
         std::string decodeString();
+        
+        /**
+         * @brief Decodes binary data from the buffer with bounds checking.
+         *
+         * @return Decoded binary vector (empty if size field is invalid or exceeds buffer bounds).
+         *
+         * @note Bounds-Checked: Verifies (pos_ + size_bytes) <= data_.size() before reading.
+         * @note Fail-Safe: Returns empty vector on bounds overflow.
+         * @note Security: Prevents out-of-bounds reads on corrupted serialized data.
+         */
         std::vector<uint8_t> decodeBinary();
+        
+        /**
+         * @brief Decodes a float vector with overflow protection.
+         *
+         * @return Decoded vector of floats (empty if size exceeds buffer bounds).
+         *
+         * @note Bounds-Checked: Verifies (pos_ + size*sizeof(float)) <= data_.size() before reading.
+         * @note Fail-Safe: Returns empty vector if array would exceed remaining buffer.
+         * @note Security: Prevents integer overflow in size*sizeof calculation by explicit checks.
+         */
         std::vector<float> decodeFloatVector();
         
         size_t beginArray();
