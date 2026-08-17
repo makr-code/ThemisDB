@@ -1,19 +1,15 @@
 /**
  * @file replication_manager.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief ThemisDB Replication Manager Implementation
+ * 
+ * Leader-Follower Replication with Raft-like Consensus
+ * 
+ * Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
  * @note Gap Summary: total=13; TODO=2, Stub=6, Unimpl=0, Mock=1, Sim=4, Debt=0, C=108, H=91, M=171, L=0
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-
-/**
- * ThemisDB Replication Manager Implementation
- * 
- * Leader-Follower Replication with Raft-like Consensus
  * 
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0
@@ -538,7 +534,10 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     
                     // BATCH D FIX: Guard against oversized or corrupt length fields
                     // Use unsigned literals to avoid signed multiplication overflow (CWE-190).
-                    if (len > 64u * 1024u * 1024u) {
+                    // Calculation: 64 * 1024 * 1024 = 67,108,864 bytes (67 MB max WAL record)
+                    // This is safely within uint32_t range [0, 4,294,967,295]
+                    static constexpr uint32_t MAX_WAL_RECORD_SIZE = 64u * 1024u * 1024u;
+                    if (len > MAX_WAL_RECORD_SIZE) {
                         THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", 
                                    segment_path, len);
                         break;
@@ -643,11 +642,15 @@ void WALManager::sync() {
         }
         ::_close(fd);
 #else
+        // NOTE: Blocking local filesystem operation (open). 
+        // Expected timeout: microseconds to milliseconds. Configure OS watchdog for hung processes.
         int fd = ::open(entry.path().c_str(), O_RDONLY | O_CLOEXEC);
         if (fd < 0) {
             THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
             continue;
         }
+        // NOTE: Blocking local filesystem operation (fsync).
+        // Expected timeout: milliseconds to seconds depending on device. If hung, check I/O subsystem.
         if (::fsync(fd) != 0) {
             THEMIS_WARN("WALManager::sync: fsync failed for {}: {}", entry.path().string(), strerror(errno));
         }
@@ -1145,10 +1148,13 @@ bool ReplicationManager::initialize() {
     
     // Initialize WAL Manager
     wal_ = std::make_shared<WALManager>(config_);
-    
+     
     // Initialize Leader Election
     election_ = std::make_unique<LeaderElection>(node_id_, config_, wal_);
-    
+     
+    // Initialize Geographic Placement Manager
+    placement_manager_ = std::make_unique<GeoReplicaPlacementManager>();
+     
     // Connect to seed nodes
     replicas_.reserve(config_.seed_nodes.size());  // Pre-allocate for seed nodes
     for (const auto& seed : config_.seed_nodes) {
@@ -1832,6 +1838,53 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
     THEMIS_DEBUG("leaseRead served: collection={} doc={} commit_index={} node={}",
                  collection, document_id, result.commit_index, node_id_);
     return result;
+}
+
+// ============================================================================
+// Geographic replica placement policies (v1.8.0+)
+// ============================================================================
+
+void ReplicationManager::setPlacementPolicy(const PlacementConstraints& constraints) {
+    std::lock_guard<std::mutex> lock(placement_policy_mutex_);
+     
+    if (!active_placement_policy_) {
+        active_placement_policy_ = std::make_unique<PlacementConstraints>(constraints);
+    } else {
+        *active_placement_policy_ = constraints;
+    }
+     
+    // Ensure placement manager exists
+    if (!placement_manager_) {
+        placement_manager_ = std::make_unique<GeoReplicaPlacementManager>();
+    }
+     
+    THEMIS_INFO("ReplicationManager::setPlacementPolicy: {} preferred DCs, {} forbidden DCs, {} required DCs",
+                constraints.preferred_datacenters.size(),
+                constraints.forbidden_datacenters.size(),
+                constraints.required_datacenters.size());
+}
+
+const PlacementConstraints& ReplicationManager::getPlacementPolicy() const {
+    std::lock_guard<std::mutex> lock(placement_policy_mutex_);
+     
+    if (!active_placement_policy_) {
+        // Return a static empty constraints object for safety
+        static const PlacementConstraints empty;
+        return empty;
+    }
+     
+    return *active_placement_policy_;
+}
+
+PlacementValidationResult ReplicationManager::validatePlacementPolicy() const {
+    std::lock_guard<std::mutex> lock(placement_policy_mutex_);
+     
+    if (!placement_manager_ || !active_placement_policy_) {
+        return PlacementValidationResult();
+    }
+     
+    std::shared_lock<std::shared_mutex> replicas_lock(replicas_mutex_);
+    return placement_manager_->validatePlacement(replicas_, *active_placement_policy_);
 }
 
 void ReplicationManager::healthMonitorLoop() {
@@ -4054,10 +4107,13 @@ void ParallelReplicationWorker::submit(const WALEntry& entry) {
 
         // If there's a previous write to the same document, add its done-flag
         // as a dependency so this write waits for it to complete.
-        auto it = last_done_per_doc_.find(entry.document_id);
-        if (it != last_done_per_doc_.end()) {
-            item.deps.push_back(it->second);
-            stats_deps_detected_.fetch_add(1);
+        {
+            // Scoped to prevent iterator invalidation: iterator is not used after container modification
+            auto it = last_done_per_doc_.find(entry.document_id);
+            if (it != last_done_per_doc_.end()) {
+                item.deps.push_back(it->second);
+                stats_deps_detected_.fetch_add(1);
+            }
         }
         // Register this write as the latest for this document
         last_done_per_doc_[entry.document_id] = done_flag;
