@@ -1,9 +1,21 @@
 # PERFORMANCE_EXPECTATIONS - src/server
 
+<!-- Status: current | validated: 2026-08-17 -->
+
 ## Scope
 
 - Module: src/server
 - This file defines measurable server module performance expectations for release gating.
+
+## Phase 5 Hardening Gates (Q3 2026)
+
+| Gate ID | Source | Description |
+|---|---|---|
+| SVR-01..SVR-08 | `benchmarks/server/bench_server_hotpaths.cpp` | 8 benchmark release gates covering server hot-paths; Wave-7 baselines (read p99≤200µs, write ≥80k ops/s) confirmed with no regressions from retry/timeout logic |
+| WSR-01..WSR-16 | `tests/server/test_server_phase5_hardening.cpp` | P5-S01 wire-protocol retry latency gates (exponential backoff, budget cap, jitter paths) |
+| HST-01..HST-12 | `tests/server/test_server_phase5_hardening.cpp` | P5-S02 HTTP timeout and graceful-shutdown timing gates (deadline enforcement, drain ordering) |
+
+These gates supplement the baseline SRVP-1..SRVP-4 / SRVG-1..SRVG-3 expectations below.
 
 ## Benchmark Reference
 

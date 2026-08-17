@@ -145,11 +145,22 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [x] Ensure completed roadmap items are moved only to CHANGELOG and not retained in roadmap history blocks — server ROADMAP Phase 1, Phase 4, Phase 5 checkboxes updated with evidence references (Target: ongoing)
 
 ## Production Readiness Checklist
-- Status: Tracking in progress (last validated 2026-07-29)
+- Status: Tracking in progress (last validated 2026-08-17)
 - Nachweise: Integration tests, focused protocol tests, and security regression suites
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 - Validation Summary: Issue #5622 module evidence validation complete; 9 test cases (100% pass rate) in module_server_test_server_activation_profile_focused
 - [x] API contracts frozen and documented for all HTTP/gRPC/WebSocket/MQTT entry points — `include/server/server_api_contract.h`
+- [x] Phase 1 Security/Auth Hardening complete — frozen API contract (`include/server/server_api_contract.h` §2 Auth Gate Contract, §6 Error Taxonomy, §8 Threading Guarantees); all 12+ error classes documented with fail-closed semantics
+- [x] SCH-01..SCH-20 regression test suite passing — `tests/server/test_server_contract_hardening_focused.cpp`; covers auth, retry, timeout, rate-limit, and protocol contracts
+- [x] Phase 4 contract hardening test suite complete — 20 deterministic GTest cases (auth, retry, timeout, rate-limit, protocol fault injection) in `tests/server/test_server_contract_hardening_focused.cpp`
+- [x] Phase 5 wire-protocol retry complete (P5-S01) — exponential-backoff retry with configurable budget/jitter; 16 WSR tests pass in `tests/server/test_server_phase5_hardening.cpp`
+- [x] Phase 5 HTTP timeout and graceful-shutdown complete (P5-S02) — deadline enforcement, kRunning→kDraining→kStopped drain semantics; 12 HST tests pass in `tests/server/test_server_phase5_hardening.cpp`
+- [x] 39 focused SRV-01..SRV-39 tests complete and registered as `release_critical;server;phase1`
+- [x] 8 benchmark release gates SVR-01..SVR-08 delivered — `benchmarks/server/bench_server_hotpaths.cpp`; Wave-7 latency baselines (read p99≤200µs, write≥80k ops/s) hold with no regressions from retry/timeout logic
+- [x] Voice API Bearer-Token JWT/OIDC validation complete — JWT signature, expiry, issuer, audience, and JTI revocation; fail-closed on any validation failure
+- [x] GA evidence bundling and sign-off complete (Batch C) — retry/timeout/shutdown release-critical paths documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`
+- [x] Phase 6 documentation aligned — `include/server/server_api_contract.h` freezes all handler registration, auth gate, retry/timeout/backpressure, error taxonomy, lifecycle/ownership, and threading contracts
+- [x] noexcept build-blocker cleanup complete (2026-08-17) — A-5 ThreadSanitizer cleanup pass resolved all remaining noexcept-related build blockers
 
 ## Known Issues and Limitations
 - Plugin-based adapter loading still requires roadmap delivery.
