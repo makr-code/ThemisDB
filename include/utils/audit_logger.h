@@ -453,6 +453,17 @@ public:
     );
 
 private:
+    /**
+     * @brief Log an ErrorContext with structured diagnostics
+     * 
+     * Internal helper that formats error contexts for audit and operational
+     * visibility. Part of Phase 2.3 observability hardening.
+     * 
+     * @param ctx Error context to log
+     * @thread_safety Thread-safe (uses internal locking)
+     */
+    void logErrorContext(const ErrorContext& ctx);
+
     std::shared_ptr<themis::FieldEncryption> enc_;
     std::shared_ptr<VCCPKIClient> pki_;
     AuditLoggerConfig cfg_;
