@@ -17,6 +17,8 @@
 #include <iomanip>
 #include <openssl/sha.h>
 #include <sstream>
+#include "utils/error_contracts.h"
+#include "utils/error_registry.h"
 
 namespace themis {
 namespace utils {

@@ -18,6 +18,8 @@
 
 #include "utils/logger.h"
 #include "utils/pii_redacting_sink.h"
+#include "utils/error_contracts.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -103,7 +105,25 @@ void Logger::init(const std::string& log_file, Level level) {
         json_mode_ = false;
         logger_->info("Logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
-        std::cerr << "Log initialization failed: " << ex.what() << std::endl;
+        // Phase 2.3: Log initialization error with ErrorContext
+        ErrorContext err_ctx(
+            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            fmt::format("Logger initialization failed: {}", ex.what()),
+            "Logger::init"
+        );
+        err_ctx.severity = ErrorSeverity::ERROR;
+        err_ctx.is_recoverable = false;
+        err_ctx.recovery_hint = "Check log file path and permissions; ensure log directory exists";
+        
+        std::cerr << "Log initialization failed: " << err_ctx.toJSON() << std::endl;
+    } catch (const std::exception &ex) {
+        ErrorContext err_ctx(
+            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            fmt::format("Unexpected error in Logger::init: {}", ex.what()),
+            "Logger::init[exception]"
+        );
+        err_ctx.severity = ErrorSeverity::CRITICAL;
+        std::cerr << err_ctx.toJSON() << std::endl;
     }
 }
 
@@ -131,7 +151,25 @@ void Logger::initJson(const std::string& log_file, Level level) {
         json_mode_ = true;
         logger_->info("JSON logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
-        std::cerr << "JSON log initialization failed: " << ex.what() << std::endl;
+        // Phase 2.3: Log initialization error with ErrorContext
+        ErrorContext err_ctx(
+            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            fmt::format("JSON logger initialization failed: {}", ex.what()),
+            "Logger::initJson"
+        );
+        err_ctx.severity = ErrorSeverity::ERROR;
+        err_ctx.is_recoverable = false;
+        err_ctx.recovery_hint = "Check JSON log file path and permissions";
+        
+        std::cerr << "JSON log initialization failed: " << err_ctx.toJSON() << std::endl;
+    } catch (const std::exception &ex) {
+        ErrorContext err_ctx(
+            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            fmt::format("Unexpected error in Logger::initJson: {}", ex.what()),
+            "Logger::initJson[exception]"
+        );
+        err_ctx.severity = ErrorSeverity::CRITICAL;
+        std::cerr << err_ctx.toJSON() << std::endl;
     }
 }
 
@@ -162,7 +200,25 @@ void Logger::initRotating(const std::string& log_file,
         logger_->info("Rotating logger initialized (max_size={}, max_files={})",
                       max_file_size, max_files);
     } catch (const spdlog::spdlog_ex& ex) {
-        std::cerr << "Rotating log initialization failed: " << ex.what() << std::endl;
+        // Phase 2.3: Log initialization error with ErrorContext
+        ErrorContext err_ctx(
+            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            fmt::format("Rotating logger initialization failed: {}", ex.what()),
+            "Logger::initRotating"
+        );
+        err_ctx.severity = ErrorSeverity::ERROR;
+        err_ctx.is_recoverable = false;
+        err_ctx.recovery_hint = "Check log file path, permissions, and rotation parameters";
+        
+        std::cerr << "Rotating log initialization failed: " << err_ctx.toJSON() << std::endl;
+    } catch (const std::exception &ex) {
+        ErrorContext err_ctx(
+            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            fmt::format("Unexpected error in Logger::initRotating: {}", ex.what()),
+            "Logger::initRotating[exception]"
+        );
+        err_ctx.severity = ErrorSeverity::CRITICAL;
+        std::cerr << err_ctx.toJSON() << std::endl;
     }
 }
 
