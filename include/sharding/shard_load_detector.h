@@ -240,6 +240,10 @@ private:
     std::shared_ptr<PrometheusMetrics> metrics_;
     Config config_;
     
+    /// @brief LOCK ORDERING (CANONICAL):
+    /// Single-lock design: mutex_ protects all shared state
+    /// - No other locks used; acquires are strictly linearized
+    /// - Caller responsibility: hold mutex_ for full duration of multi-operation sequences
     mutable std::mutex mutex_;
     
     // Load metrics per shard (latest snapshot)
@@ -259,32 +263,32 @@ private:
     // Detection helpers
     /** @brief Detect shard byte-footprint skew beyond configured threshold. */
     bool detectStorageImbalance(
-        const std::map<std::string, ShardLoadMetrics>& loads,
-        LoadImbalanceResult& result
+       const std::map<std::string, ShardLoadMetrics>& loads,
+       LoadImbalanceResult& result
     ) const;
     
     /** @brief Detect request-rate skew beyond configured threshold. */
     bool detectRequestImbalance(
-        const std::map<std::string, ShardLoadMetrics>& loads,
-        LoadImbalanceResult& result
+       const std::map<std::string, ShardLoadMetrics>& loads,
+       LoadImbalanceResult& result
     ) const;
     
     /** @brief Detect p99 latency outliers relative to cluster average. */
     bool detectLatencyDegradation(
-        const std::map<std::string, ShardLoadMetrics>& loads,
-        LoadImbalanceResult& result
+       const std::map<std::string, ShardLoadMetrics>& loads,
+       LoadImbalanceResult& result
     ) const;
     
     /** @brief Detect shards above configured CPU/storage exhaustion thresholds. */
     bool detectResourceExhaustion(
-        const std::map<std::string, ShardLoadMetrics>& loads,
-        LoadImbalanceResult& result
+       const std::map<std::string, ShardLoadMetrics>& loads,
+       LoadImbalanceResult& result
     ) const;
     
     /** @brief Build rebalance recommendations from hotspot/cold-shard analysis. */
     void generateRebalanceRecommendations(
-        const std::map<std::string, ShardLoadMetrics>& loads,
-        LoadImbalanceResult& result
+       const std::map<std::string, ShardLoadMetrics>& loads,
+       LoadImbalanceResult& result
     ) const;
     
     /** @brief Collapse multi-signal shard metrics into one weighted load score. */

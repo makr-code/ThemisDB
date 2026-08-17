@@ -183,6 +183,5 @@ inline constexpr int kRollbackTimeout = 60000;  // 60 seconds
 } // namespace themis
 
 // Include implementation (out-of-line definitions)
-#include "sharding/sharding_error_recovery_impl.h"
+#include "sharding_error_recovery_impl.h"
 
-#endif  // THEMIS_SHARDING_ERROR_RECOVERY_H_

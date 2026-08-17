@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "sharding/sharding_api_contract.h"
-#include "sharding/sharding_error_recovery.h"
+#include "sharding_api_contract.h"
+#include "sharding_error_recovery.h"
 
 namespace themis {
 namespace sharding {
@@ -258,5 +258,3 @@ inline bool isFailClosedError(ShardingErrorCode ec) noexcept {
 
 } // namespace sharding
 } // namespace themis
-
-#endif  // THEMIS_SHARDING_ERROR_RECOVERY_IMPL_H_

@@ -453,6 +453,8 @@ void ShardLoadDetector::recordRebalanceTriggered() {
 
 /** @brief Return whether detector currently suppresses actions during cooldown window. */
 bool ShardLoadDetector::isInCooldown() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     if (last_rebalance_time_ == std::chrono::system_clock::time_point::min()) {
         return false;
     }
@@ -469,12 +471,22 @@ bool ShardLoadDetector::isInCooldown() const {
 nlohmann::json ShardLoadDetector::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Check cooldown without re-acquiring lock (we already hold it)
+    bool in_cooldown = false;
+    if (last_rebalance_time_ != std::chrono::system_clock::time_point::min()) {
+        auto now = std::chrono::system_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now - last_rebalance_time_
+        );
+        in_cooldown = elapsed < config_.rebalance_cooldown;
+    }
+    
     nlohmann::json stats;
     stats["total_detections"] = total_detections_.load();
     stats["imbalance_detections"] = imbalance_detections_.load();
     stats["rebalance_triggers"] = rebalance_triggers_.load();
     stats["tracked_shards"] = shard_loads_.size();
-    stats["in_cooldown"] = isInCooldown();
+    stats["in_cooldown"] = in_cooldown;
     
     if (!shard_loads_.empty()) {
         auto now = std::chrono::system_clock::now();
