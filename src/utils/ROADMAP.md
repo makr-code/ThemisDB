@@ -10,7 +10,6 @@ Production-usable shared utility behavior exists for observability, privacy proc
 
 ## In Progress
 
-- [~] expanded concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
 - [~] broader release benchmark stabilization complete (Target: Q1 2027)
 
 ## Planned Features
@@ -84,7 +83,7 @@ Production-usable shared utility behavior exists for observability, privacy proc
 
 ### Phase 4: Tests
 - [x] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)
-- [~] extend concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
+- [x] extend concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
   - [x] Phase 4 stress/concurrency test suite added (UTL-CONC-01..10): ThreadPool, RateLimiter, ErrorRegistry, error_contracts, zstd_codec, lz4_codec - COMPLETE 2026-08-17
 
 ### Phase 5: Performance and Hardening
@@ -117,7 +116,7 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] core shared helper surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [x] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 2-3 complete)
+- [x] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 2-4 complete)
 - [~] broader release benchmark stabilization complete (Target: Q1 2027)
 
 ## Known Issues and Limitations
