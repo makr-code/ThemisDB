@@ -234,6 +234,8 @@ void HnswParameterTuner::adapt() {
         }
         
         avg_latency /= recent_queries_.size();
+    }
+     
     if (recall_samples > 0) {
         avg_recall /= recall_samples;
     }
