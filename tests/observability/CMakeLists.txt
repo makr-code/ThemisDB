@@ -32,6 +32,20 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_high_cardinality_metrics")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/observability/high_cardinality_metrics.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/wave_d_high_cardinality_metrics.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_otel_trace_overhead")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_otel_exporter_stress")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/exporter_stress_framework.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
     endif()
     if(_stem STREQUAL "test_operator_remediation_engine")

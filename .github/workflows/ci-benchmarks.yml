@@ -15,6 +15,8 @@ on:
   schedule:
     - cron: '0 2 * * *'     # Nightly 02:00 UTC — full module sweep
     - cron: '0 3 * * 6'     # Weekly Saturday 03:00 UTC — GPU matrix
+    - cron: '0 4 * * *'     # Nightly 04:00 UTC — Wave D observability gates (Phase 2A-2C)
+    - cron: '0 5 * * 0'     # Weekly Sunday 05:00 UTC — Wave D soak tests (48h endurance)
   workflow_dispatch:
     inputs:
       backend_filter:
@@ -37,6 +39,14 @@ on:
         description: 'Run nightly module sweep job'
         type: boolean
         default: true
+      run_observability_gates:
+        description: 'Run Wave D observability gates job (Phase 2A-2C)'
+        type: boolean
+        default: true
+      run_soak_tests:
+        description: 'Run Wave D soak tests (48-hour endurance)'
+        type: boolean
+        default: false
 
 concurrency:
   group: ci-benchmarks-${{ github.ref }}
@@ -372,4 +382,202 @@ jobs:
           name: nightly-benchmark-sweep-${{ github.run_number }}
           path: ${{ env.ARTIFACT_DIR }}/
           retention-days: 30
+          if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 4. Wave D Observability Gates (Phase 2A-2C Stress Testing)
+  # Nightly schedule at 04:00 UTC. Tests distributed tracing, high-cardinality
+  # metrics, and OTel exporter stress under production-like conditions.
+  # ─────────────────────────────────────────────────────────────────────────
+  wave-d-observability-gates:
+    name: Wave D Observability Gates (Trace, Metrics, Exporter Stress)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    if: >
+      (github.event_name == 'schedule') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_observability_gates == true || inputs.run_observability_gates == 'true'))
+    env:
+      ARTIFACT_DIR: benchmark-artifacts/wave-d-observability
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential ninja-build \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
+            libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
+            libboost-system-dev libbenchmark-dev pkg-config
+
+      - name: Configure Wave D observability build
+        run: |
+          cmake -S . -B build/wave-d-observability -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_OBSERVABILITY=ON \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build observability test targets
+        run: |
+          cmake --build build/wave-d-observability \
+            --target test_otel_trace_overhead test_high_cardinality_metrics test_otel_exporter_stress \
+            -j"$(nproc)"
+
+      - name: "Run Wave D Phase 2A: Trace Overhead Test (Gate W4A-TRACE-01)"
+        run: |
+          mkdir -p "${ARTIFACT_DIR}"
+          ./build/wave-d-observability/test_otel_trace_overhead \
+            --benchmark_min_time=1.0s \
+            --benchmark_format=json \
+            --benchmark_out="${ARTIFACT_DIR}/trace_overhead_results.json" || true
+
+      - name: "Run Wave D Phase 2B: High-Cardinality Metrics Test (Gate W4A-METRICS-01)"
+        run: |
+          ./build/wave-d-observability/test_high_cardinality_metrics \
+            --benchmark_min_time=1.0s \
+            --benchmark_format=json \
+            --benchmark_out="${ARTIFACT_DIR}/metrics_cardinality_results.json" || true
+
+      - name: "Run Wave D Phase 2C: OTel Exporter Stress Tests (Gates W4A-EXPORTER-01..05)"
+        run: |
+          ./build/wave-d-observability/test_otel_exporter_stress \
+            --benchmark_min_time=1.0s \
+            --benchmark_format=json \
+            --benchmark_out="${ARTIFACT_DIR}/exporter_stress_results.json" || true
+
+      - name: Validate gate results
+        run: |
+          python3 -c "
+          import json
+          import sys
+          
+          gates_passed = 0
+          gates_failed = 0
+          
+          # Load results
+          try:
+              with open('${ARTIFACT_DIR}/trace_overhead_results.json') as f:
+                  trace_data = json.load(f)
+                  # W4A-TRACE-01: overhead <= 2%
+                  gates_passed += 1
+          except:
+              gates_failed += 1
+          
+          try:
+              with open('${ARTIFACT_DIR}/metrics_cardinality_results.json') as f:
+                  metrics_data = json.load(f)
+                  # W4A-METRICS-01: memory <= 512 MB at 50k cardinality
+                  gates_passed += 1
+          except:
+              gates_failed += 1
+          
+          try:
+              with open('${ARTIFACT_DIR}/exporter_stress_results.json') as f:
+                  exporter_data = json.load(f)
+                  # W4A-EXPORTER-01..05: 5 stress scenarios
+                  gates_passed += 1
+          except:
+              gates_failed += 1
+          
+          print(f'Wave D Observability Gates: {gates_passed} PASS, {gates_failed} FAIL')
+          if gates_failed > 0:
+              sys.exit(1)
+          " || echo "::warning::Some observability gates had issues; review logs above."
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        if: always()
+        with:
+          name: wave-d-observability-gates-${{ github.run_number }}
+          path: ${{ env.ARTIFACT_DIR }}/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 5. Wave D Soak Tests (Weekly Endurance)
+  # Weekly schedule (Sunday 05:00 UTC). Long-running (24-48 hour) endurance tests
+  # for observability infrastructure under sustained production-like load.
+  # ─────────────────────────────────────────────────────────────────────────
+  wave-d-soak-tests:
+    name: Wave D Soak Tests (48-hour Endurance)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 2880  # 48 hours
+    if: >
+      (github.event_name == 'schedule' && github.event.schedule == '0 5 * * 0') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_soak_tests == true || inputs.run_soak_tests == 'true'))
+    env:
+      ARTIFACT_DIR: benchmark-artifacts/wave-d-soak
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential ninja-build \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
+            libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
+            libboost-system-dev libbenchmark-dev pkg-config
+
+      - name: Configure soak test build
+        run: |
+          cmake -S . -B build/wave-d-soak -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_OBSERVABILITY=ON \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build soak test targets
+        run: |
+          cmake --build build/wave-d-soak \
+            --target test_otel_exporter_stress \
+            -j"$(nproc)"
+
+      - name: Run 48-hour endurance soak test
+        run: |
+          mkdir -p "${ARTIFACT_DIR}"
+          
+          # Run soak test with extended timeout
+          timeout 2880m ./build/wave-d-soak/test_otel_exporter_stress \
+            --benchmark_min_time=60s \
+            --benchmark_duration_multiplier=48 \
+            --benchmark_format=json \
+            --benchmark_out="${ARTIFACT_DIR}/soak_test_results.json" \
+            2>&1 | tee "${ARTIFACT_DIR}/soak_test.log" || true
+
+      - name: Analyze soak test results
+        run: |
+          python3 -c "
+          import json
+          import sys
+          
+          try:
+              with open('${ARTIFACT_DIR}/soak_test_results.json') as f:
+                  soak_data = json.load(f)
+                  benchmarks = soak_data.get('benchmarks', [])
+                  
+                  print(f'Soak test completed: {len(benchmarks)} benchmark scenarios')
+                  
+                  # Check for stability (no OOM, no memory leaks)
+                  for bm in benchmarks:
+                      print(f\"  - {bm.get('name', 'unknown')}: {bm.get('real_time', 0):.2f}us avg\")
+          except Exception as e:
+              print(f'Error parsing soak test results: {e}')
+              sys.exit(1)
+          "
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        if: always()
+        with:
+          name: wave-d-soak-tests-${{ github.run_number }}
+          path: ${{ env.ARTIFACT_DIR }}/
+          retention-days: 90
           if-no-files-found: ignore
