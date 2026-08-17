@@ -104,13 +104,17 @@ void Logger::init(const std::string& log_file, Level level) {
         json_mode_ = false;
         logger_->info("Logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
-        logErrorWithContext(makeErrorContext(
-            ErrorCode::LOG_INITIALIZATION_FAILED,
-            std::string("Log initialization failed: ") + ex.what(),
+        // Fail-open: degrade to stderr so callers are never silently unlogged.
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::LOG_INITIALIZATION_FAILED,
+            "spdlog sink initialization failed – falling back to stderr; log_file=" +
+                log_file + "; error=" + ex.what(),
             "Logger::init",
-            ErrorSeverity::Fatal,
-            /*is_recoverable=*/false));
-        std::cerr << "Log initialization failed: " << ex.what() << std::endl;
+            themis::utils::ErrorSeverity::Error,
+            true);
+        themis::utils::logErrorWithContext(ctx);
+        std::cerr << "[Logger::init] Log initialization failed (sink unavailable): "
+                  << ex.what() << " – falling back to stderr\n";
     }
 }
 
@@ -138,13 +142,17 @@ void Logger::initJson(const std::string& log_file, Level level) {
         json_mode_ = true;
         logger_->info("JSON logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
-        logErrorWithContext(makeErrorContext(
-            ErrorCode::LOG_INITIALIZATION_FAILED,
-            std::string("JSON log initialization failed: ") + ex.what(),
+        // Fail-open: emit a structured diagnostic and fall back to stderr.
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::LOG_INITIALIZATION_FAILED,
+            "spdlog JSON sink initialization failed – falling back to stderr; log_file=" +
+                log_file + "; error=" + ex.what(),
             "Logger::initJson",
-            ErrorSeverity::Fatal,
-            /*is_recoverable=*/false));
-        std::cerr << "JSON log initialization failed: " << ex.what() << std::endl;
+            themis::utils::ErrorSeverity::Error,
+            true);
+        themis::utils::logErrorWithContext(ctx);
+        std::cerr << "[Logger::initJson] JSON log initialization failed: "
+                  << ex.what() << " – falling back to stderr\n";
     }
 }
 
@@ -175,7 +183,17 @@ void Logger::initRotating(const std::string& log_file,
         logger_->info("Rotating logger initialized (max_size={}, max_files={})",
                       max_file_size, max_files);
     } catch (const spdlog::spdlog_ex& ex) {
-        std::cerr << "Rotating log initialization failed: " << ex.what() << std::endl;
+        // Fail-open: emit structured diagnostic and fall back to stderr.
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::LOG_INITIALIZATION_FAILED,
+            "spdlog rotating sink initialization failed – falling back to stderr; log_file=" +
+                log_file + "; error=" + ex.what(),
+            "Logger::initRotating",
+            themis::utils::ErrorSeverity::Error,
+            true);
+        themis::utils::logErrorWithContext(ctx);
+        std::cerr << "[Logger::initRotating] Rotating log initialization failed: "
+                  << ex.what() << " – falling back to stderr\n";
     }
 }
 

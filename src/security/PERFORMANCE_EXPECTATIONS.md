@@ -3,59 +3,55 @@
 ## Scope
 - Modul: `src/security`
 - Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
+- Primärquelle fuer die aktuellen Release-Gates ist `benchmarks/security/bench_security_release_gates.cpp`; Phase-2/3-Spezialgates liegen in den fokussierten Security-Benchmarkdateien.
 
 ## Benchmark-Bezug
 - Relevante Benchmark-Dateien:
-  - `benchmarks/bench_security.cpp`
+  - `benchmarks/security/bench_security_release_gates.cpp`
+  - `benchmarks/security/bench_security_phase2_crypto_gates.cpp`
+  - `benchmarks/security/bench_security_phase3_policy_gates.cpp`
+  - `benchmarks/security/bench_security.cpp` (breitere Modul-Baseline)
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Harte Release-Gates (aktuell)
+
+| Gate-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| SEC-1 | Siehe Zielbeschreibung: AES-256-GCM (AES-NI) | `BM_AES256GCM_Encrypt_1MB` |
-| SEC-2 | Siehe Zielbeschreibung: AES-256-GCM medium payload latency | `BM_AES256GCM_Encrypt_64KB` |
-| SEC-3 | Siehe Zielbeschreibung: Kyber-1024 Key Encapsulation | `BM_PostQuantum_KyberKeyGen_1024` |
-| SEC-4 | Siehe Zielbeschreibung: Dilithium-5 Signing | `BM_PostQuantum_DilithiumSign_5` |
-| SEC-5 | Siehe Zielbeschreibung: RBAC Role-Hierarchy validation latency | `BM_RBAC_RoleHierarchyValidation` |
-| SEC-6 | Siehe Zielbeschreibung: RBAC Policy Eval (100 Rollen) P99 | `BM_RBAC_PermissionCheck_ManyRoles` |
-| SEC-7 | Siehe Zielbeschreibung: AQL injection detection overhead | `BM_AQLInjection_MaliciousQuery` |
-| SEC-8 | Siehe Zielbeschreibung: Audit Log Write P99 | `BM_AuditLog_TamperEvidentAppend` |
+| SRG-01 | p99 <= 1 ms | Policy evaluation hot path |
+| SRG-02 | p99 <= 500 us | JWT token signature verify |
+| SRG-03 | p99 <= 100 us | Key lookup (in-memory) |
+| SRG-04 | p99 <= 500 us | Audit write (mock in-memory) |
+| SRG-05 | p99 <= 200 us | RBAC permission check |
+| SRG-06 | p99 <= 2 ms | Certificate validation overhead |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Focused hardening benchmark families
 
-| Gate-ID | Erwartungswert | Messregel |
+| Family | Evidence file | Coverage |
 |---|---|---|
-| SECG-1 | >= 600 MB/s (AES-256-GCM Encrypt Throughput) | mean aus `BM_AES256GCM_Encrypt_1MB` |
-| SECG-2 | <= 45 ms (TLS/Audit kritische P99-Latenz) | p99 aus `BM_AES256GCM_Encrypt_64KB` und `BM_FieldEncryption_SmallDocument` |
-| SECG-3 | <= 20 ms (RBAC Evaluation P95) | p95 aus `BM_RBAC_PermissionCheck_ManyRoles` |
-| SECG-4 | Regression <= 7 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| Phase 2 Crypto | `benchmarks/security/bench_security_phase2_crypto_gates.cpp` | key lifecycle, provider failover, crypto error-path guardrails |
+| Phase 3 Policy | `benchmarks/security/bench_security_phase3_policy_gates.cpp` | RLS, policy merge, deny-by-default, masking guardrails |
+| Release gates | `benchmarks/security/bench_security_release_gates.cpp` | promotion-blocking hot-path latency limits |
 
 ## Validierung
 - Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
 - Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
 
-## Numerische Mindestziele (Release Gate)
+## Hinweise zur Bewertung
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
-
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Die harten `SRG-*`-Grenzen sind die aktuell verbindlichen release-blocking Ziele fuer das Modul.
+- Phase-2/3-Benchmarks sind Härtungs- und Regressionsgates; sie ergänzen die Release-Hot-Path-Grenzen statt sie zu ersetzen.
+- Wave-C-Produktionsvalidierung (`tests/security/test_security_wavec_production_validation_focused.cpp`) liefert Integrations- und Fehlermatrix-Evidenz, ist aber kein eigener Benchmark-Ersatz.
 
 ## Sourcecode Verification (Module: security/performance)
 
 - Gepruefte Benchmark-Quelle:
-  - `benchmarks/bench_security.cpp`
+  - `benchmarks/security/bench_security_release_gates.cpp`
+  - `benchmarks/security/bench_security_phase2_crypto_gates.cpp`
+  - `benchmarks/security/bench_security_phase3_policy_gates.cpp`
+  - `benchmarks/security/bench_security.cpp`
 - Gepruefte Ziel-Fall-Zuordnung:
-  - AES-GCM throughput/latency (`BM_AES256GCM_*`)
-  - RBAC policy and hierarchy checks (`BM_RBAC_*`)
-  - Post-quantum keygen/sign operations (`BM_PostQuantum_*`)
-  - Injection detection overhead (`BM_AQLInjection_*`)
-  - Tamper-evident audit append performance (`BM_AuditLog_*`)
+  - `SRG-01..SRG-06` release-gate mappings
+  - Phase-2 crypto gate mappings
+  - Phase-3 policy gate mappings
 - Ergebnis:
-  - Alle referenzierten Benchmark-Faelle existieren im aktuellen Benchmark-Source.
+  - Die aktuell dokumentierten fokussierten Security-Benchmarkdateien existieren im Repository.
   - Release-Gates bleiben an reproduzierbare Messlaeufe im Release-Profil gebunden.

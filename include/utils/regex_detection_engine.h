@@ -80,7 +80,25 @@ public:
     PluginSignature getSignature() const override;
     bool initialize(const nlohmann::json& config) override;
     bool reload(const nlohmann::json& config) override;
+    
+    /**
+     * @brief Detects PII in input text using compiled regex patterns.
+     *
+     * @param text Input text to scan (must be valid UTF-8 if validation enabled).
+     * @return Vector of PIIFinding objects with detected matches.
+     * 
+     * @throws std::invalid_argument If UTF-8 validation is enabled and text is not valid UTF-8.
+     * @throws std::length_error If text exceeds configured maximum size.
+     * @throws std::regex_error If regex matching fails (malformed pattern or catastrophic backtracking).
+     *
+     * @note Thread-safe: Uses mutex for pattern read access.
+     * @note Timeout: Regex matching is limited to 5 seconds; remaining patterns are skipped if exceeded.
+     * @note Fail-Closed: Invalid input throws exception rather than returning empty (prevents silent bypass).
+     *
+     * @post If timeout occurs, spdlog warning is emitted and detection stops; findings detected so far are returned.
+     */
     std::vector<PIIFinding> detectInText(const std::string& text) const override;
+    
     PIIType classifyFieldName(const std::string& field_name) const override;
     std::string getRedactionRecommendation(PIIType type) const override;
     std::string getLastError() const override;

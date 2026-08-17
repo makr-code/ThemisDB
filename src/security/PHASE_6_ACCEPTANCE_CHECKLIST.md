@@ -7,6 +7,12 @@
 **Delivered Date:** 2026-08-06  
 **Phase Owner:** Security Module Engineering Team
 
+## Post-Closure Revalidation (2026-08-17)
+
+- [x] Wave-C production-validation evidence added in `tests/security/test_security_wavec_production_validation_focused.cpp`
+- [x] `ROADMAP.md` updated to reflect completed Wave-C module contribution items
+- [~] Final module-level production-ready sign-off remains pending because `MODULE_GAPS.md` still tracks an open fresh full security-gap rescan and non-TSA residual CRITICAL/HIGH closure work
+
 ## Phase 6 Objectives
 
 1. Finalize API documentation (Doxygen) for all public security APIs
@@ -59,7 +65,7 @@
   - [x] Phase 2 benchmarks delivered: K-ROT-01..04 (2026-08-07)
   - [x] Phase 3 tests delivered: P-RLS-01..04, P-MRG-01..04, P-DENY-01..04, P-MASK-01..02 (2026-08-07)
   - [x] Phase 3 benchmarks delivered: P-MRG-01..05 (2026-08-07)
-  - [ ] Production validation: Vault/HSM integration, real query workload edge cases (Q4 2026) — IN PROGRESS
+  - [x] Production validation: Vault/HSM/PKI integration, failover/error-path matrix, real query workload edge cases, concurrent policy updates (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
 - [x] Planned Features section with Short-term (Q4 2026) and Mid-term (Q1 2027) initiatives
 - [x] Implementation Phases section with all 5 phases documented:
   - [x] Phase 1: Access and Identity Hardening (4 items, all complete)
@@ -270,12 +276,13 @@ This security module acceptance checklist verifies that:
 
 5. **Documentation is complete:** ROADMAP.md, FUTURE_ENHANCEMENTS.md, PRODUCTION_REQUIREMENTS.md, and PERFORMANCE_EXPECTATIONS.md all aligned and verified.
 
-6. **Production readiness criteria met:**
+6. **Production evidence criteria met for the documented Phase-6/Wave-C scope:**
    - [x] Tracking in progress
    - [x] Contract header frozen
    - [x] Contract-hardening tests
    - [x] Release-gate benchmarks
    - [x] Production evidence collected
+   - [~] Final module-level production-ready sign-off still depends on closure of `src/security/MODULE_GAPS.md`
 
 ## Status Transition
 
@@ -294,7 +301,8 @@ This security module acceptance checklist verifies that:
 - [x] Production requirements confirmed
 - [x] Performance expectations established
 
-**Acceptance Status:** ✓ APPROVED FOR CLOSURE
+**Acceptance Status:** ✓ APPROVED FOR PHASE-6 CLOSURE / WAVE-C DOC REVALIDATION  
+**Readiness Note:** Final "all gaps closed / production-ready sign-off" is still pending residual gap closure from `src/security/MODULE_GAPS.md`.
 
 ---
 

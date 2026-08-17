@@ -171,7 +171,29 @@ std::vector<uint8_t> SAGALogger::sha256(const std::vector<uint8_t>& data) {
 
 void SAGALogger::appendJsonLine(const std::string& path, const nlohmann::json& j) {
     std::ofstream ofs(path, std::ios::app | std::ios::binary);
+    if (!ofs) {
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::AUDIT_PERSISTENCE_FAILED,
+            "Failed to open SAGA log file for append – backend unavailable; path=" + path,
+            "SAGALogger::appendJsonLine",
+            themis::utils::ErrorSeverity::Critical,
+            false);
+        themis::utils::logErrorWithContext(ctx);
+        throw std::runtime_error(
+            "SAGALogger: cannot open log file '" + path + "' – backend unavailable");
+    }
     ofs << j.dump() << "\n";
+    if (!ofs) {
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::AUDIT_WRITE_FAILED,
+            "Write to SAGA log file failed; path=" + path,
+            "SAGALogger::appendJsonLine",
+            themis::utils::ErrorSeverity::Critical,
+            false);
+        themis::utils::logErrorWithContext(ctx);
+        throw std::runtime_error(
+            "SAGALogger: write failure on log file '" + path + "'");
+    }
 }
 
 void SAGALogger::signAndFlushBatch() {
@@ -206,8 +228,21 @@ void SAGALogger::signAndFlushBatch() {
     signed_batch.lek_id = cfg_.key_id;
     
     if (cfg_.encrypt_then_sign && enc_) {
-        // 2. Encrypt with LEK
-    auto blob = enc_->encrypt(plaintext, cfg_.key_id);
+        // 2. Encrypt with LEK (fail-closed: encryption failure propagates)
+        EncryptedBlob blob;
+        try {
+            blob = enc_->encrypt(plaintext, cfg_.key_id);
+        } catch (const std::exception& e) {
+            auto ctx = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::AUDIT_ENCRYPTION_FAILED,
+                "SAGA batch encryption failed – key unavailable or LEK error; batch_id=" +
+                    batch_id + "; error=" + e.what(),
+                "SAGALogger::signAndFlushBatch",
+                themis::utils::ErrorSeverity::Critical,
+                false);
+            themis::utils::logErrorWithContext(ctx);
+            throw;  // fail-closed: do not persist plaintext on encryption failure
+        }
         signed_batch.iv = blob.iv;
         signed_batch.tag = blob.tag;
     signed_batch.key_version = blob.key_version;

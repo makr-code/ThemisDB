@@ -16,6 +16,7 @@
 #include <memory>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 
 // WebDAV HTTP client support (requires libcurl)
 #ifdef THEMIS_ENABLE_WEBDAV
@@ -33,14 +34,50 @@ struct WebDAV_EVP_MD_CTX_Deleter {
 };
 
 #ifdef THEMIS_ENABLE_WEBDAV
+struct WebDAV_CURL_Deleter {
+    void operator()(CURL* p) const { if (p) curl_easy_cleanup(p); }
+};
 struct WebDAV_CURL_slist_Deleter {
     void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); }
 };
 
+using WebDAV_CURL_ptr = std::unique_ptr<CURL, WebDAV_CURL_Deleter>;
 using WebDAV_CURL_slist_ptr = std::unique_ptr<struct curl_slist, WebDAV_CURL_slist_Deleter>;
 #endif
 
 using WebDAV_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, WebDAV_EVP_MD_CTX_Deleter>;
+
+bool starts_with(const std::string& value, const char* prefix) {
+    return value.rfind(prefix, 0) == 0;
+}
+
+std::string extract_url_host(const std::string& url) {
+    const size_t scheme_pos = url.find("://");
+    const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
+    if (host_start >= url.size()) {
+        return {};
+    }
+
+    if (url[host_start] == '[') {
+        const size_t end_bracket = url.find(']', host_start + 1);
+        if (end_bracket == std::string::npos) {
+            return {};
+        }
+        return url.substr(host_start + 1, end_bracket - host_start - 1);
+    }
+
+    const size_t host_end = url.find_first_of(":/", host_start);
+    return url.substr(host_start, host_end == std::string::npos ? std::string::npos
+                                                                : host_end - host_start);
+}
+
+bool is_loopback_host(const std::string& host) {
+    return host == "localhost" || host == "127.0.0.1" || host == "::1";
+}
+
+bool is_loopback_url(const std::string& url) {
+    return is_loopback_host(extract_url_host(url));
+}
 
 } // anonymous namespace
 
@@ -61,6 +98,8 @@ using WebDAV_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, WebDAV_EVP_MD_CTX_Dele
  */
 class WebDAVUserRegistrationPlugin : public IUserRegistrationPlugin {
 public:
+    static constexpr long kRequestTimeoutMs = 5000;
+
     struct Config {
         std::string webdav_base_url;  // e.g., "https://sharepoint.company.com"
         std::string webdav_username;  // Admin username for WebDAV
@@ -73,11 +112,28 @@ public:
     explicit WebDAVUserRegistrationPlugin(const Config& config)
         : config_(config)
     {
+        if (config_.webdav_base_url.empty()) {
+            throw std::invalid_argument("WebDAV base URL must not be empty");
+        }
+        const bool uses_https = starts_with(config_.webdav_base_url, "https://");
+        const bool uses_http = starts_with(config_.webdav_base_url, "http://");
+        const bool loopback = is_loopback_url(config_.webdav_base_url);
+        if (!uses_https && !(uses_http && loopback)) {
+            throw std::invalid_argument(
+                "WebDAV endpoint must use HTTPS; plain HTTP is only allowed for loopback development endpoints");
+        }
+        if (!config_.verify_ssl && !loopback) {
+            throw std::invalid_argument(
+                "WebDAV TLS verification may only be disabled for loopback development endpoints");
+        }
+
         THEMIS_INFO("WebDAVUserRegistrationPlugin initialized for: {}", 
                     config_.webdav_base_url);
         
 #ifdef THEMIS_ENABLE_WEBDAV
-        curl_global_init(CURL_GLOBAL_DEFAULT);
+        if (curl_global_init(CURL_GLOBAL_DEFAULT) != CURLE_OK) {
+            throw std::runtime_error("Failed to initialize libcurl for WebDAV plugin");
+        }
 #endif
     }
     
@@ -191,7 +247,7 @@ public:
 
         // Collect the raw PROPFIND response body.
         std::string response_body;
-        CURL* curl = curl_easy_init();
+        WebDAV_CURL_ptr curl(curl_easy_init());
         if (!curl) {
             return themis::Err<std::vector<UserRegistrationData>>(
                 errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -200,9 +256,22 @@ public:
         }
 
         // Depth: 1 – list direct children (one entry per user sub-resource).
-        WebDAV_CURL_slist_ptr headers(nullptr);
-        headers.reset(curl_slist_append(headers.get(), "Depth: 1"));
-        headers.reset(curl_slist_append(headers.get(), "Content-Type: application/xml"));
+        curl_slist* raw_headers = curl_slist_append(nullptr, "Depth: 1");
+        if (!raw_headers) {
+            return themis::Err<std::vector<UserRegistrationData>>(
+                errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Failed to create CURL header list for PROPFIND"
+            );
+        }
+        curl_slist* content_type_headers = curl_slist_append(raw_headers, "Content-Type: application/xml");
+        if (!content_type_headers) {
+            curl_slist_free_all(raw_headers);
+            return themis::Err<std::vector<UserRegistrationData>>(
+                errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Failed to append Content-Type header for PROPFIND"
+            );
+        }
+        WebDAV_CURL_slist_ptr headers(content_type_headers);
 
         // Minimal PROPFIND body requesting displayname and resourcetype.
         static const char kPropfindBody[] =
@@ -211,26 +280,27 @@ public:
             "<D:prop><D:displayname/><D:resourcetype/></D:prop>"
             "</D:propfind>";
 
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_USERNAME, config_.webdav_username.c_str());
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, config_.webdav_password.c_str());
-        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, kPropfindBody);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+        curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_USERNAME, config_.webdav_username.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_PASSWORD, config_.webdav_password.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_CUSTOMREQUEST, "PROPFIND");
+        curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER, headers.get());
+        curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kPropfindBody);
+        curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                          static_cast<long>(sizeof(kPropfindBody) - 1));
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
+        curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
+        curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
+        curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
         if (!config_.verify_ssl) {
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
         }
 
-        CURLcode res = curl_easy_perform(curl);
+        CURLcode res = curl_easy_perform(curl.get());
         long http_code = 0;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        curl_slist_free_all(headers);
-        curl_easy_cleanup(curl);
+        curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
         if (res != CURLE_OK) {
             return themis::Err<std::vector<UserRegistrationData>>(
@@ -351,11 +421,24 @@ public:
         }
 
         std::string response_body;
-        CURL* curl = curl_easy_init();
+        WebDAV_CURL_ptr curl(curl_easy_init());
         if (curl) {
-            struct curl_slist* headers = nullptr;
-            headers = curl_slist_append(headers, "Depth: 0");
-            headers = curl_slist_append(headers, "Content-Type: application/xml");
+            curl_slist* raw_headers = curl_slist_append(nullptr, "Depth: 0");
+            if (!raw_headers) {
+                return themis::Err<UserRegistrationData>(
+                    errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                    "Failed to create CURL header list for WebDAV update"
+                );
+            }
+            curl_slist* content_type_headers = curl_slist_append(raw_headers, "Content-Type: application/xml");
+            if (!content_type_headers) {
+                curl_slist_free_all(raw_headers);
+                return themis::Err<UserRegistrationData>(
+                    errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                    "Failed to append Content-Type header for WebDAV update"
+                );
+            }
+            WebDAV_CURL_slist_ptr headers(content_type_headers);
 
             static const char kPropfindBody[] =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -363,26 +446,27 @@ public:
                 "<D:allprop/>"
                 "</D:propfind>";
 
-            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_USERNAME, config_.webdav_username.c_str());
-            curl_easy_setopt(curl, CURLOPT_PASSWORD, config_.webdav_password.c_str());
-            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
-            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, kPropfindBody);
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+            curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl.get(), CURLOPT_USERNAME, config_.webdav_username.c_str());
+            curl_easy_setopt(curl.get(), CURLOPT_PASSWORD, config_.webdav_password.c_str());
+            curl_easy_setopt(curl.get(), CURLOPT_CUSTOMREQUEST, "PROPFIND");
+            curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER, headers.get());
+            curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kPropfindBody);
+            curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                              static_cast<long>(sizeof(kPropfindBody) - 1));
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+            curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+            curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
+            curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
+            curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
+            curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
             if (!config_.verify_ssl) {
-                curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-                curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+                curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+                curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
             }
 
-            CURLcode res = curl_easy_perform(curl);
+            CURLcode res = curl_easy_perform(curl.get());
             long http_code = 0;
-            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-            curl_slist_free_all(headers);
-            curl_easy_cleanup(curl);
+            curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
             if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
                 // Extract displayname from the PROPFIND response.
@@ -435,7 +519,7 @@ private:
         const std::string& user_id,
         const std::string& password
     ) {
-        CURL* curl = curl_easy_init();
+        WebDAV_CURL_ptr curl(curl_easy_init());
         if (!curl) {
             return themis::ErrVoid(errors::ErrorCode::ERR_NET_CONNECTION_REFUSED, "Failed to initialize CURL");
         }
@@ -447,22 +531,26 @@ private:
         }
         
         // Set up CURL for WebDAV PROPFIND request
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_USERNAME, user_id.c_str());
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
-        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
+        std::string response_body;
+        curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_USERNAME, user_id.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_PASSWORD, password.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_CUSTOMREQUEST, "PROPFIND");
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
+        curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
+        curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
+        curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
         
         if (!config_.verify_ssl) {
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
         }
         
         // Perform request
-        CURLcode res = curl_easy_perform(curl);
+        CURLcode res = curl_easy_perform(curl.get());
         long response_code = 0;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
-        
-        curl_easy_cleanup(curl);
+        curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &response_code);
         
         if (res != CURLE_OK) {
             return themis::ErrVoid(
@@ -514,7 +602,7 @@ private:
 
 #ifdef THEMIS_ENABLE_WEBDAV
         std::string response_body;
-        CURL* curl = curl_easy_init();
+        WebDAV_CURL_ptr curl(curl_easy_init());
         if (!curl) {
             return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
         }
@@ -534,30 +622,38 @@ private:
             "</D:prop>"
             "</D:propfind>";
 
-        struct curl_slist* headers = nullptr;
-        headers = curl_slist_append(headers, "Depth: 0");
-        headers = curl_slist_append(headers, "Content-Type: application/xml");
+        curl_slist* raw_headers = curl_slist_append(nullptr, "Depth: 0");
+        if (!raw_headers) {
+            return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
+        }
+        curl_slist* content_type_headers = curl_slist_append(raw_headers, "Content-Type: application/xml");
+        if (!content_type_headers) {
+            curl_slist_free_all(raw_headers);
+            return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
+        }
+        WebDAV_CURL_slist_ptr headers(content_type_headers);
 
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_USERNAME, config_.webdav_username.c_str());
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, config_.webdav_password.c_str());
-        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, kAdPropfindBody);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+        curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_USERNAME, config_.webdav_username.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_PASSWORD, config_.webdav_password.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_CUSTOMREQUEST, "PROPFIND");
+        curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER, headers.get());
+        curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kAdPropfindBody);
+        curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                          static_cast<long>(sizeof(kAdPropfindBody) - 1));
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
+        curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
+        curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
+        curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
         if (!config_.verify_ssl) {
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
         }
 
-        CURLcode res = curl_easy_perform(curl);
+        CURLcode res = curl_easy_perform(curl.get());
         long http_code = 0;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        curl_slist_free_all(headers);
-        curl_easy_cleanup(curl);
+        curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
         if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
             // Helper: extract text between open and close tags.
@@ -669,4 +765,3 @@ private:
 
 } // namespace security
 } // namespace themis
-

@@ -2,8 +2,8 @@
 
 # Security Module - Architecture Guide
 
-**Version:** 1.1
-**Last Updated:** 2026-05-31
+**Version:** 1.2
+**Last Updated:** 2026-08-17
 **Module Path:** `src/security/`
 
 ## 1. Overview
@@ -29,7 +29,7 @@ The security module provides encryption, key/provider integration, access-contro
 | `query_masking_policy.cpp` / `pii_redaction_policy.cpp` | masking and PII policy behavior |
 | `aql_injection_detector.cpp` | query-injection detection surface |
 | `zero_trust_policy_enforcer.cpp` | request-level policy enforcement |
-| `security_evidence_collector.cpp` / `security_manager.cpp` | security orchestration and evidence surfaces |
+| `security_evidence_collector.cpp` | security evidence aggregation and export surfaces |
 | `behavioral_anomaly_detector.cpp` / `malware_scanner.cpp` | detection and threat-signal paths |
 
 ### 3.2 Data Flow (Simplified)
@@ -72,6 +72,7 @@ Detection path
 
 - Some high-assurance runtime envelopes still require broader benchmark evidence.
 - Some dependency-failure combinations remain under ongoing hardening verification.
+- A fresh full security-gap rescan and remaining non-TSA Batch-4 closure work are still open in `MODULE_GAPS.md`.
 - Operator-facing policy and diagnostics clarity is still being improved.
 
 ## 8. Sourcecode Verification (Module: security/architecture)

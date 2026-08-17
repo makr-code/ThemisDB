@@ -52,7 +52,7 @@ namespace themis {
  * Example Usage:
  * @code
  * auto provider = std::make_shared<VaultKeyProvider>(
- *     "http://localhost:8200",
+ *     "https://vault.example.com:8200",
  *     "s.abc123...",
  *     "themis"  // KV mount path
  * );
@@ -82,7 +82,7 @@ public:
      * @brief Configuration for Vault connection
      */
     struct Config {
-        std::string vault_addr;      // e.g., "http://localhost:8200"
+        std::string vault_addr;      // Production: "https://vault.example.com:8200"; loopback-only dev HTTP is allowed.
         std::string vault_token;     // Authentication token
     std::string kv_mount_path;   // KV secrets engine mount (default: "themis")
     // Transit mount for signing (optional)
@@ -120,7 +120,7 @@ public:
     /**
      * @brief Convenience constructor with default settings
      * 
-     * @param vault_addr Vault address (e.g., "http://localhost:8200")
+     * @param vault_addr Vault address (production: HTTPS required; loopback-only HTTP allowed for local dev/test)
      * @param vault_token Authentication token
      * @param kv_mount_path KV mount path (default: "themis")
      */

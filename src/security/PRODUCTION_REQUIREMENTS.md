@@ -1,4 +1,4 @@
-> **Status:** 2026-06-01 – mit aktuellem Security-Code (`rbac.cpp`, `access_control_manager.cpp`, `field_encryption.cpp`, `vault_key_provider.cpp`) abgeglichen.
+> **Status:** 2026-08-17 – mit aktuellem Security-Code, Wave-C Validierung (`tests/security/test_security_wavec_production_validation_focused.cpp`) und Rest-Gap-Status aus `MODULE_GAPS.md` abgeglichen.
 
 # ThemisDB Security Module - Production Requirements
 
@@ -37,11 +37,19 @@ Es definiert verbindliche Anforderungen für Zugriffskontrolle, Verschlüsselung
 - **MUST:** `behavioral_anomaly_detector.cpp` in Produktionsdeployments konfiguriert.
 - **MUST:** Security-Evidence-Collector (`security_evidence_collector.cpp`) aktiv; Audit-Trail muss persistiert werden.
 
+### 4) Timestamp-Authority Transport (RFC 3161)
+
+- **MUST:** Für produktive TSA-Anbindung den OpenSSL/CURL-Pfad (`timestamp_authority_openssl.cpp`) mit HTTPS-Endpunkt betreiben.
+- **MUST:** TSA-Transport auf TLS-gesicherte Verbindungen beschränken (kein HTTP-Fallback, keine Nicht-HTTPS-Redirects).
+- **MUST:** Verbindungs- und Gesamt-Timeouts gesetzt halten; unbegrenzte TSA-Requests sind unzulässig.
+- **MUST NOT:** Unsichere TSA-Transportpfade als produktiven Standard verwenden.
+
 ## Betriebsgrenzen (aktuelles Security-Verhalten)
 
 - Encryption-Key-Rotation über `vault_key_provider` ist operativ; Key-Rotation ohne Ausfallzeit erfordert konfigurierte Rotation-Policy.
 - `pki_key_provider.cpp` für TLS-Zertifikatsverwaltung; PKI-Zertifikat-Ablauf führt zu Verbindungsabbrüchen ohne rechtzeitige Rotation.
-- `security_manager.cpp` orchestriert über alle Detection-Surfaces; Konfiguration muss vor Produktionsstart validiert werden.
+- `zero_trust_policy_enforcer.cpp`, `behavioral_anomaly_detector.cpp` und `security_evidence_collector.cpp` bilden die aktuell dokumentierten produktionsrelevanten Policy-/Detection-/Evidence-Surfaces; deren Konfiguration muss vor Produktionsstart validiert werden.
+- Dieses Dokument beschreibt produktive Mindestanforderungen, ersetzt aber **keine** finale Gap-Abnahme: Solange `MODULE_GAPS.md` offene Rescan-/Residualpunkte führt, ist die Modul-Sign-off noch nicht vollstaendig abgeschlossen.
 
 ## Minimaler Produktions-Check (Audit-fähig)
 
@@ -52,6 +60,9 @@ Es definiert verbindliche Anforderungen für Zugriffskontrolle, Verschlüsselung
 - [ ] AQL-Injection-Detektor aktiv
 - [ ] Behavioral-Anomaly-Detektor konfiguriert
 - [ ] Security-Evidence-Collector persistiert Audit-Trail
+- [ ] TSA-Endpunkt nutzt HTTPS; RFC-3161 Transport wird über den OpenSSL/CURL-Pfad abgesichert
+- [ ] `THEMIS_ALLOW_HSM_STUB` ist in Produktion nicht gesetzt
+- [ ] `THEMIS_ALLOW_TSA_STUB` ist in Produktion nicht gesetzt
 - [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
 
 ## Review / Sourcecode-Audit-Nachweis
@@ -69,3 +80,7 @@ Es definiert verbindliche Anforderungen für Zugriffskontrolle, Verschlüsselung
 - `src/security/aql_injection_detector.cpp`
 - `src/security/behavioral_anomaly_detector.cpp`
 - `src/security/security_evidence_collector.cpp`
+- `src/security/zero_trust_policy_enforcer.cpp`
+- `src/security/hsm_provider.cpp`
+- `src/security/timestamp_authority.cpp`
+- `src/security/timestamp_authority_openssl.cpp`

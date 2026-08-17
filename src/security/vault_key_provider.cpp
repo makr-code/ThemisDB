@@ -46,6 +46,72 @@ namespace {
         void operator()(curl_slist* p) const { if (p) curl_slist_free_all(p); }
     };
     using CURLSList_ptr = std::unique_ptr<curl_slist, CURLSListDeleter>;
+
+    bool starts_with(const std::string& value, const char* prefix) {
+        return value.rfind(prefix, 0) == 0;
+    }
+
+    std::string extract_url_host(const std::string& url) {
+        const size_t scheme_pos = url.find("://");
+        const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
+        if (host_start >= url.size()) {
+            return {};
+        }
+
+        if (url[host_start] == '[') {
+            const size_t end_bracket = url.find(']', host_start + 1);
+            if (end_bracket == std::string::npos) {
+                return {};
+            }
+            return url.substr(host_start + 1, end_bracket - host_start - 1);
+        }
+
+        const size_t host_end = url.find_first_of(":/", host_start);
+        return url.substr(host_start, host_end == std::string::npos ? std::string::npos
+                                                                    : host_end - host_start);
+    }
+
+    bool is_loopback_host(const std::string& host) {
+        return host == "localhost" || host == "127.0.0.1" || host == "::1";
+    }
+
+    bool is_loopback_url(const std::string& url) {
+        return is_loopback_host(extract_url_host(url));
+    }
+
+    VaultKeyProvider::Config validate_vault_config(VaultKeyProvider::Config config) {
+        if (config.vault_addr.empty()) {
+            throw KeyOperationException("Vault address must not be empty");
+        }
+        if (config.vault_token.empty()) {
+            throw KeyOperationException("Vault token must not be empty");
+        }
+        if (config.request_timeout_ms <= 0) {
+            throw KeyOperationException("Vault request timeout must be greater than zero");
+        }
+
+        const bool uses_https = starts_with(config.vault_addr, "https://");
+        const bool uses_http = starts_with(config.vault_addr, "http://");
+        const bool loopback = is_loopback_url(config.vault_addr);
+
+        if (!uses_https && !(uses_http && loopback)) {
+            throw KeyOperationException(
+                "Vault endpoint must use HTTPS; plain HTTP is only allowed for loopback development endpoints",
+                -1,
+                config.vault_addr,
+                false);
+        }
+
+        if (!config.verify_ssl && !loopback) {
+            throw KeyOperationException(
+                "Vault TLS verification may only be disabled for loopback development endpoints",
+                -1,
+                config.vault_addr,
+                false);
+        }
+
+        return config;
+    }
 }
 
 // CURL write callback
@@ -266,18 +332,20 @@ struct VaultKeyProvider::Impl {
 };
 
 VaultKeyProvider::VaultKeyProvider(const Config& config) 
-    : impl_(std::make_unique<Impl>(config)) 
+    : impl_(std::make_unique<Impl>(validate_vault_config(config))) 
 {}
 
 VaultKeyProvider::VaultKeyProvider(
     const std::string& vault_addr,
     const std::string& vault_token,
     const std::string& kv_mount_path
-) : impl_(std::make_unique<Impl>(Config())) {
-    impl_->config.vault_addr = vault_addr;
-    impl_->config.vault_token = vault_token;
-    impl_->config.kv_mount_path = kv_mount_path;
-}
+) : VaultKeyProvider([&]() {
+        Config config;
+        config.vault_addr = vault_addr;
+        config.vault_token = vault_token;
+        config.kv_mount_path = kv_mount_path;
+        return config;
+    }()) {}
 
 VaultKeyProvider::~VaultKeyProvider() = default;
 
@@ -848,5 +916,4 @@ VaultKeyProvider::CacheStats VaultKeyProvider::getCacheStats() const {
 }
 
 } // namespace themis
-
 

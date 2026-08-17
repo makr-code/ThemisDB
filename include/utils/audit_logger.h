@@ -198,6 +198,13 @@ struct AuditLoggerConfig {
     uint64_t max_file_size_bytes = 0;   ///< rotate when file reaches this size (0 = disabled)
     size_t max_rotated_files = 5;       ///< number of rotated log files to keep
     std::string secondary_log_path;     ///< mirror path for redundancy (empty = disabled)
+
+    /// Maximum number of hash-chain entries accepted before rejecting further
+    /// writes with AUDIT_BUFFER_OVERFLOW (fail-closed).  0 = unlimited.
+    /// Note: this bounds the chain entry counter (entry_count_), not an
+    /// in-memory queue; it is most useful for preventing unbounded disk fill in
+    /// long-running deployments without log rotation.
+    size_t max_queued_events = 0;
 };
 
 // Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now)
@@ -224,12 +231,14 @@ public:
      * @return void (failure is logged, not signaled - see @error_contract below)
      * 
      * @error_contract
-     * - If buffer would overflow: logs ERR_AUDIT_BUFFER_OVERFLOW and truncates event
-     * - If write fails: logs ERR_AUDIT_LOG_WRITE_FAILED and retries with fallback to stderr
-     * - If serialization fails: logs ERR_AUDIT_SERIALIZATION_FAILED and uses simplified format
-     * - If encryption fails: logs ERR_AUDIT_SERVICE_DEGRADED and switches to unencrypted mode
-     * - Service degradation: if external audit service unreachable, continues with local logging
-     * 
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Log file cannot be opened (backend unavailable) | AUDIT_PERSISTENCE_FAILED (9012) | Critical | path + OS error | Throw (fail-closed) |
+     * | Write to file fails (I/O error, disk full) | AUDIT_WRITE_FAILED (9011) | Critical | path + bytes attempted | Throw (fail-closed) |
+     * | Encryption of event fails (key unavailable) | AUDIT_ENCRYPTION_FAILED (9015) | Critical | key_id | Throw (fail-closed) |
+     * | Log rotation fails | AUDIT_ROTATION_FAILED (9013) | Error | log_path + rotated count | Continue, skip rotation |
+     *
+     * @degradation fail-closed – backend unavailable propagates as exception; no silent drop
      * @bounded_resources
      * - Buffer capacity: cfg.max_buffer_size (default: 1GB)
      * - Event size: Individual events capped at 10MB
@@ -238,7 +247,7 @@ public:
      * @thread_safety Thread-safe via internal mutex (file_mu_)
      * @performance O(n) where n is event JSON size; async batch writes if configured
      * 
-     * @see ErrorCode for error taxonomy
+     * @see ErrorCode 9010-9019 for audit error taxonomy
      * @see logSecurityEvent() for security-specific event logging
      */
     void logEvent(const nlohmann::json& event);

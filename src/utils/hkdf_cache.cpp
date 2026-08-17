@@ -12,6 +12,7 @@
 
 #include "utils/hkdf_cache.h"
 #include "utils/hkdf_helper.h"
+#include "utils/error_contracts.h"
 
 #include <openssl/crypto.h>
 #include <openssl/sha.h>
@@ -198,9 +199,22 @@ std::vector<uint8_t> HKDFCache::derive_cached(const std::vector<uint8_t>& ikm,
         return it->second.second.value;
     }
 
-    // Cache miss — derive and store
+    // Cache miss — derive and store (fail-closed on derivation error)
     ++shard.misses;
-    auto out = HKDFHelper::derive(ikm, salt, info, output_length);
+    std::vector<uint8_t> out;
+    try {
+        out = HKDFHelper::derive(ikm, salt, info, output_length);
+    } catch (const std::exception& e) {
+        auto ctx = themis::utils::makeErrorContext(
+            themis::utils::ErrorCode::CRYPTO_KEY_DERIVATION_FAILED,
+            "HKDF derivation failed on cache miss – key unavailable (fail-closed); "
+            "output_length=" + std::to_string(output_length) + "; error=" + e.what(),
+            "HKDFCache::derive_cached",
+            themis::utils::ErrorSeverity::Critical,
+            false);
+        themis::utils::logErrorWithContext(ctx);
+        throw;  // fail-closed: do not return default/empty key material
+    }
 
     shard.lru.push_front(k);
     CacheEntry entry{out, std::chrono::steady_clock::now()};

@@ -175,14 +175,21 @@ public:
      *                     Valid range: 1-255*32 (per RFC 5869 SHA-256 limit)
      * 
      * @return Derived key material of length output_length bytes
-     * @throws std::invalid_argument if output_length exceeds maximum
-     * @throws std::runtime_error if OpenSSL HKDF fails
+     * @throws std::invalid_argument if output_length exceeds RFC 5869 maximum (8160 bytes)
+     * @throws std::runtime_error if OpenSSL HKDF fails on cache miss
      * 
-     * @note Memory Safety: Key material is zero-wiped when evicted from cache
-     * @note Thread-Safe: All parameters and return value are thread-safe
-     * @warning Caller owns the returned vector; use volatile_free() for sensitive cleanup
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Cache miss + HKDF derivation fails | CRYPTO_KEY_DERIVATION_FAILED (9050) | Critical | output_length, error | Re-throw (fail-closed) |
+     *
+     * @degradation fail-closed – derivation error is propagated; no stale key returned
+     * @note Memory Safety: Evicted cache entries are zero-wiped via OPENSSL_cleanse()
+     * @note Thread-Safe: All parameters and return value are thread-safe (per-shard mutex)
+     * @note Bounded: Cache capacity = Config::capacity_per_shard × 16 shards
+     * @warning Caller owns the returned vector; use OPENSSL_cleanse() for sensitive cleanup
      * 
-     * @see RFC 5869 for HKDF specification
+     * @see ErrorCode 9050-9059 for crypto error taxonomy
      * @see purge_by_ikm_hash() for selective cache invalidation
      * 
      * @example

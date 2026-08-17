@@ -12,6 +12,7 @@
 
 #include "utils/pii_detector.h"
 #include <stdexcept>
+#include "utils/error_contracts.h"
 #include "utils/pii_detection_engine.h"
 #include "utils/error_contracts.h"
 #include "config/config_path_resolver.h"

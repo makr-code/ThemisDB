@@ -82,8 +82,52 @@ class THEMIS_BASE_API Logger {
 public:
     enum class Level { TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL };
 
+    /**
+     * @brief Initialize logger with console + file sinks.
+     *
+     * @param log_file Path to the log file (default: "vccdb.log")
+     * @param level    Minimum log level to emit (default: INFO)
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | spdlog sink initialization fails (disk full, invalid path) | LOG_INITIALIZATION_FAILED (9023) | Error | log_file, error | Emit structured diagnostic; fall back to stderr (fail-open) |
+     *
+     * @degradation fail-open – sink failure is logged to stderr; logger continues usable
+     * @see ErrorCode 9020-9029 for logging error taxonomy
+     */
     static void init(const std::string& log_file = "vccdb.log", Level level = Level::INFO);
+
+    /**
+     * @brief Initialize logger with JSON-structured output.
+     *
+     * @param log_file Path to the JSON log file
+     * @param level    Minimum log level to emit
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | spdlog JSON sink initialization fails | LOG_INITIALIZATION_FAILED (9023) | Error | log_file, error | Emit structured diagnostic; fall back to stderr (fail-open) |
+     *
+     * @degradation fail-open – never silently loses log events
+     */
     static void initJson(const std::string& log_file = "vccdb.json.log", Level level = Level::INFO);
+
+    /**
+     * @brief Initialize logger with rotating file sink.
+     *
+     * @param log_file      Path to the rotating log file
+     * @param max_file_size Maximum size per file in bytes (default: 10 MiB)
+     * @param max_files     Maximum number of rotated files to retain (default: 5)
+     * @param level         Minimum log level to emit
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Rotating sink initialization fails | LOG_INITIALIZATION_FAILED (9023) | Error | log_file, error | Emit structured diagnostic; fall back to stderr (fail-open) |
+     *
+     * @degradation fail-open – never silently drops events on sink failure
+     */
     static void initRotating(const std::string& log_file = "vccdb.log",
                              std::size_t max_file_size = 10 * 1024 * 1024,
                              std::size_t max_files = 5,

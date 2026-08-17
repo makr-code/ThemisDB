@@ -173,10 +173,17 @@ public:
      * has been revoked, returns empty string.
      * 
      * @param date_str Date of desired LEK in format "YYYY-MM-DD"
-     * @return LEK key_id if found and not revoked; empty string otherwise
+     * @return LEK key_id if found and not revoked; empty string if key not found or revoked
+     * @throws std::runtime_error if key store (RocksDB) is unavailable
      * 
-     * @thread_safe Yes
-     * @note Non-throwing: Returns empty string if key not found
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Key store (RocksDB) unavailable – cannot persist new LEK | CRYPTO_KEY_NOT_FOUND (9053) | Critical | date_str, db_key | Throw (fail-closed) |
+     * | Key has been revoked | CRYPTO_KEY_EXPIRED (9052) | Info | date_str | Return empty string |
+     *
+     * @degradation fail-closed on key store unavailability; no plaintext fallback
+     * @thread_safe Yes - internally synchronized
      * 
      * Usage:
      * @code

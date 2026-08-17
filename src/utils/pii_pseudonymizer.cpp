@@ -13,6 +13,7 @@
 #include "utils/pii_pseudonymizer.h"
 #include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
+#include "utils/error_contracts.h"
 #include "utils/logger.h"
 
 #include <openssl/rand.h>
@@ -31,13 +32,22 @@ PIIPseudonymizer::PIIPseudonymizer(std::shared_ptr<themis::RocksDBWrapper> db,
     , detector_(std::move(detector))
     , audit_logger_(std::move(audit_logger)) {
     
-    // Ensure encryption key exists
+    // Ensure encryption key exists (fail-closed: no pseudonymization without key)
     auto key_provider = enc_->getKeyProvider();
     if (!key_provider->hasKey(key_id_)) {
         // Generate random 256-bit key
         std::vector<uint8_t> key_bytes(32);
         if (RAND_bytes(key_bytes.data(), static_cast<int>(key_bytes.size())) != 1) {
-            throw std::runtime_error("Failed to generate random key for PII mapping");
+            auto ctx = themis::utils::makeErrorContext(
+                themis::utils::ErrorCode::CRYPTO_KEY_DERIVATION_FAILED,
+                "OpenSSL RAND_bytes failed – cannot generate PII mapping key; "
+                "pseudonymization unavailable (fail-closed); key_id=" + key_id_,
+                "PIIPseudonymizer::PIIPseudonymizer",
+                themis::utils::ErrorSeverity::Critical,
+                false);
+            themis::utils::logErrorWithContext(ctx);
+            throw std::runtime_error(
+                "PIIPseudonymizer: key generation failed – pseudonymization key unavailable");
         }
         [[maybe_unused]] const uint32_t created_version =
             key_provider->createKeyFromBytes(key_id_, key_bytes);

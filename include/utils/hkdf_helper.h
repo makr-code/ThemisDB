@@ -95,15 +95,23 @@ public:
      * 
      * @return Derived key material (OKM) of length output_length
      * 
-     * @throws std::invalid_argument if output_length exceeds RFC 5869 limit
-     * @throws std::runtime_error if OpenSSL HKDF fails
+     * @throws std::invalid_argument if output_length exceeds RFC 5869 limit (8160 bytes)
+     * @throws std::runtime_error if OpenSSL HKDF fails (fail-closed: no fallback key)
      * 
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | OpenSSL HKDF provider unavailable (EVP_KDF_fetch fails) | CRYPTO_KEY_DERIVATION_FAILED (9050) | Critical | output_length | Throw (fail-closed) |
+     * | Key derivation operation fails (EVP_KDF_derive / EVP_PKEY_derive) | CRYPTO_KEY_DERIVATION_FAILED (9050) | Critical | output_length, ikm_size | Throw (fail-closed) |
+     *
+     * @degradation fail-closed – no default/weak key is ever silently produced
      * @note Thread-Safe: Fully thread-safe, stateless operation
      * @note Deterministic: Same inputs → same output
-     * @note Memory-Safe: Return value must be cleaned up by caller
+     * @note Key zeroization: Caller is responsible for OPENSSL_cleanse() on result
      * 
      * @see RFC 5869 for specification
      * @see HKDFCache for cached key derivation (better performance)
+     * @see ErrorCode 9050-9059 for crypto error taxonomy
      * 
      * @example
      * @code{.cpp}
