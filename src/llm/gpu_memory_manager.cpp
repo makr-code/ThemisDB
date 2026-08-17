@@ -11,6 +11,7 @@
 
 
 #include "llm/gpu_memory_manager.h"
+#include "llm/gpu_memory_error_codes.h"
 #include <stdexcept>
 #include <limits>
 #include "utils/error_registry.h"
