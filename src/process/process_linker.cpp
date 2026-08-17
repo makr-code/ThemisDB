@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <chrono>
 #include <set>
+#include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>

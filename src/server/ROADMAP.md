@@ -7,6 +7,12 @@
 ## Current Status
 Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, GraphQL, and MCP integration. Core API gateway, auth middleware, validation, and observability paths are available in production deployments.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** HTTP timeout patterns, graceful-shutdown drain semantics, wire-protocol retry
+- **Wave A Exit Criteria:** Deterministic chaos evidence (timeout/shutdown) + fail-closed verification + release-critical CI GREEN
+- **Wave B (Q3–Q4 2026):** Cluster-wide distributed rate-limit state, GraphQL federation hardening
+- **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
+
 ## Recently Completed
 - [x] Phase 5 Server Hardening — P5-S01 Wire-Protocol Retry + P5-S02 HTTP Timeout/Shutdown — Completed Q3 2026 (Validated 2026-07-20)
   - P5-S01: Exponential-backoff retry gate with configurable max_retries, base_delay, budget cap, and optional jitter

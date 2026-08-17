@@ -12,6 +12,8 @@
 
 #include "query/continuous_query_planner.h"
 #include "utils/error_registry.h"
+#include <cctype>
+#include <fmt/format.h>
 
 namespace themis {
 namespace query {
@@ -25,6 +27,13 @@ void ContinuousPlan::evaluate(ContinuousQueryState& state,
     auto& spec     = state.spec;
     auto& synopsis = *state.synopsis;
     auto& wm       = *state.watermark;
+
+    // Phase 2 Agent 1: Validate source collection is not empty and in scope
+    if (spec.source_collection.empty()) {
+        // Log error: source collection scope validation failed
+        THEMIS_WARN("ContinuousPlan::evaluate: source_collection is empty");
+        return;
+    }
 
     // 1. Advance watermark to current tick boundary
     wm.advance();
@@ -78,6 +87,24 @@ Result<ContinuousPlan> ContinuousQueryPlanner::compile(
     if (spec.source_collection.empty()) {
         return Err<ContinuousPlan>(errors::ErrorCode::ERR_QUERY_INVALID,
                                    "source_collection must not be empty");
+    }
+
+    // Phase 2 Agent 1: Validate source collection name format (no special characters)
+    // Collection names should be valid identifiers
+    if (!std::isalpha(spec.source_collection[0]) && spec.source_collection[0] != '_') {
+        return Err<ContinuousPlan>(
+            errors::ErrorCode::ERR_QUERY_INVALID,
+            fmt::format("Invalid source_collection name '{}': must start with letter or underscore",
+                       spec.source_collection));
+    }
+    for (size_t i = 1; i < spec.source_collection.length(); ++i) {
+        char c = spec.source_collection[i];
+        if (!std::isalnum(c) && c != '_') {
+            return Err<ContinuousPlan>(
+                errors::ErrorCode::ERR_QUERY_INVALID,
+                fmt::format("Invalid source_collection name '{}': contains invalid character '{}'",
+                           spec.source_collection, c));
+        }
     }
 
     // Validate: aql_body must not be empty

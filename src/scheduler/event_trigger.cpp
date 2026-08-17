@@ -112,7 +112,7 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
         THEMIS_ERROR(
             "[EventTrigger::EventTrigger] "
             "code={} msg='changefeed cannot be null' context={{}}",
-            static_cast<int>(SchedulerError::kInternalError));
+            static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
         throw std::invalid_argument("EventTrigger: changefeed cannot be null");
     }
     
@@ -120,7 +120,7 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
         THEMIS_ERROR(
             "[EventTrigger::EventTrigger] "
             "code={} msg='invalid config' context={{validation_error='{}'}}",
-            static_cast<int>(SchedulerError::kTriggerInvalid),
+            static_cast<int>(themis::scheduler::SchedulerError::kTriggerInvalid),
             config_.getValidationError());
         throw std::invalid_argument("EventTrigger: invalid config - " + 
                                    config_.getValidationError());
@@ -130,7 +130,7 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
         THEMIS_ERROR(
             "[EventTrigger::EventTrigger] "
             "code={} msg='callback cannot be null' context={{}}",
-            static_cast<int>(SchedulerError::kInternalError));
+            static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
         throw std::invalid_argument("EventTrigger: callback cannot be null");
     }
 }
@@ -562,7 +562,7 @@ EventTriggerManager::EventTriggerManager(Changefeed* changefeed)
         THEMIS_ERROR(
             "[EventTriggerManager::EventTriggerManager] "
             "code={} msg='changefeed cannot be null' context={{}}",
-            static_cast<int>(SchedulerError::kInternalError));
+            static_cast<int>(themis::scheduler::SchedulerError::kInternalError));
         throw std::invalid_argument("EventTriggerManager: changefeed cannot be null");
     }
 }

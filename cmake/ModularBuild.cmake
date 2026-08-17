@@ -1,4 +1,4 @@
-﻿# Modular Build Configuration for ThemisDB
+# Modular Build Configuration for ThemisDB
 # This feature is planned for post-v1.3.0 release
 # See docs/architecture/MODULARIZATION_PLAN.md for details
 
@@ -91,12 +91,20 @@ function(themis_add_module MODULE_NAME)
     # Create the library (SHARED by default for modular build)
     add_library(themis_${MODULE_NAME} ${_themis_module_type} ${ARG_SOURCES})
     
-    # Set export macro
+    # Set export macro (only for shared DLL modules)
     string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
-    target_compile_definitions(themis_${MODULE_NAME} 
-        PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS
-        PUBLIC THEMIS_${MODULE_NAME_UPPER}_ENABLED
-    )
+    if(NOT ARG_STATIC_MODULE)
+        target_compile_definitions(themis_${MODULE_NAME} 
+            PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS
+            PUBLIC THEMIS_${MODULE_NAME_UPPER}_ENABLED
+        )
+    else()
+        # Static modules do not export symbols via __declspec; only mark as enabled
+        target_compile_definitions(themis_${MODULE_NAME} 
+            PUBLIC THEMIS_${MODULE_NAME_UPPER}_ENABLED
+                   THEMIS_${MODULE_NAME_UPPER}_STATIC
+        )
+    endif()
     
     # Include directories
     target_include_directories(themis_${MODULE_NAME}
@@ -141,9 +149,11 @@ function(themis_add_module MODULE_NAME)
         target_link_libraries(themis_${MODULE_NAME} PUBLIC ${ARG_DEPENDENCIES})
     endif()
     
-    # Define module-specific export macro
-    string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
-    target_compile_definitions(themis_${MODULE_NAME} PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS)
+    # Define module-specific export macro for shared modules only
+    if(NOT ARG_STATIC_MODULE)
+        string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
+        target_compile_definitions(themis_${MODULE_NAME} PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS)
+    endif()
     
     # mimalloc import definitions for all modules
     if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
@@ -233,6 +243,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/self_awareness.cpp
     ../src/utils/timestamp_utils.cpp
     ../src/observability/metrics_collector.cpp
+    ../src/observability/field_diagnostics_collector.cpp
     ../src/security/pii_redaction_policy.cpp
     ../src/utils/pii_detection_engine.cpp
     ../src/utils/regex_detection_engine.cpp
@@ -373,6 +384,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/tensor/tensor_ingestion_bridge.cpp
     ../src/tensor/tensor_core_bridge.cpp
     ../src/tensor/tensor_fingerprint_graph.cpp
+    ../src/tensor/tensor_error_handling.cpp
+    ../src/tensor/tensor_summary_types.cpp
+    ../src/tensor/compression_strategy.cpp
     ../src/tensor/adapter_repository.cpp
     ../src/tensor/tensor_mid_layer.cpp
     ../src/tensor/utr_converter.cpp
@@ -603,6 +617,7 @@ list(APPEND THEMIS_STORAGE_SOURCES)
 set(THEMIS_QUERY_SOURCES
     # Query engine
     ../src/query/query_engine.cpp
+    ../src/search/hybrid_search.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/query/adaptive_join.cpp
@@ -675,6 +690,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
+    ../src/query/llm_query_shims.cpp
     ../src/query/functions/tensor_functions.cpp
     ../src/query/tensor_contraction_engine.cpp
     ../src/rag/ontology_aware_retriever.cpp
@@ -696,8 +712,10 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/columnar_execution.cpp
     # Process Modeling Module
     ../src/process/process_model_manager.cpp
+    ../src/process/process_common.cpp
     ../src/process/epk_aris_xml_importer.cpp
     ../src/process/bpmn_serializer.cpp
+    ../src/process/serializer_hardening.cpp
     ../src/process/epk_serializer.cpp
     ../src/process/llm_process_descriptor.cpp
     ../src/process/vcc_vpb_importer.cpp
@@ -765,6 +783,9 @@ set(THEMIS_QUERY_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/importers/postgres_importer.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MYSQL_IMPORTER}>:../src/importers/mysql_importer.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MONGO_IMPORTER}>:../src/importers/mongo_importer.cpp>
+    ../src/importers/elasticsearch_importer.cpp
+    ../src/importers/redis_importer.cpp
+    ../src/importers/debezium_cdc_importer.cpp
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
     ../src/importers/huggingface_ingest_plugin.cpp
@@ -829,8 +850,8 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/hsm_provider.cpp
     ../src/security/hsm_provider_pkcs11.cpp
     ../src/security/hsm_key_provider_adapter.cpp
-    ../src/security/timestamp_authority.cpp
-    ../src/security/timestamp_authority_openssl.cpp
+    $<$<BOOL:${THEMIS_USE_OPENSSL_TSA}>:../src/security/timestamp_authority_openssl.cpp>
+    $<$<NOT:$<BOOL:${THEMIS_USE_OPENSSL_TSA}>>:../src/security/timestamp_authority.cpp>
     ../src/security/vcc_pki_client.cpp
     ../src/security/xxe_safe_xml_parser.cpp
     
@@ -873,6 +894,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/policy_version_history.cpp
     ../src/governance/opa_adapter.cpp
     ../src/governance/data_lineage.cpp
+    ../src/governance/governance_diagnostics.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
@@ -917,10 +939,10 @@ set(THEMIS_SECURITY_SOURCES
     # Encryption and field helpers (use storage + security features)
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
+    ../src/index/graph_index.cpp
     ../src/storage/index_maintenance.cpp
     ../src/storage/index_analyzer.cpp
     ../src/index/vector_index.cpp
-    ../src/index/graph_index.cpp
     ../src/index/index_manager.cpp
     ../src/index/vector_auto_buffer.cpp
     ../src/index/gnn_embeddings.cpp
@@ -929,26 +951,6 @@ set(THEMIS_SECURITY_SOURCES
     # Storage-backed PII and vector index helpers
     ../src/utils/pii_pseudonymizer.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
-    ../src/search/hybrid_search.cpp
-    ../src/search/llm_reranker.cpp
-    ../src/search/llm_query_rewriter.cpp
-    ../src/search/query_expander.cpp
-    ../src/search/fuzzy_matcher.cpp
-    ../src/search/faceted_search.cpp
-    ../src/search/federated_search.cpp
-    ../src/search/search_analytics.cpp
-    ../src/search/autocomplete.cpp
-    ../src/search/conversational_search.cpp
-    ../src/search/learning_to_rank.cpp
-    ../src/search/multi_modal_search.cpp
-    ../src/search/personalized_ranker.cpp
-    ../src/search/multi_field_search.cpp
-    ../src/search/neural_sparse_retrieval.cpp
-    ../src/search/search_highlighter.cpp
-    ../src/search/search_result_stream.cpp
-    ../src/search/cross_lingual_search.cpp
-    ../src/search/negative_keyword_filter.cpp
-    ../src/search/layered_retrieval_orchestrator.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -1380,6 +1382,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/judge_config.cpp
     ../src/rag/judge_ensemble.cpp
     ../src/rag/knowledge_graph_retriever.cpp
+    ../src/rag/kg/knowledge_graph_adapter.cpp
     ../src/rag/learning_metrics.cpp
     ../src/rag/llm_judge_integration.cpp
     ../src/rag/llm_meta_analyzer.cpp
@@ -1473,6 +1476,29 @@ else()
     set(THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_SOURCES})
     set(THEMIS_LLM_EXT_SOURCES)
 endif()
+
+# Create a small LLM API module that contains a minimal set of
+# runtime-facing implementations (DocsAssistant, EmbeddedLLM, ThemisHelpLoRA)
+# These are required by query components at link time but should not
+# drag in the full LLM implementation which depends on sharding.
+set(THEMIS_LLM_API_SOURCES
+    ../src/llm/llm_factory_stub.cpp
+    ../src/llm/api/docs_assistant_adapter.cpp
+    ../src/llm/api/themis_help_lora_adapter.cpp
+    ../src/llm/api/embedded_llm_adapter.cpp
+)
+
+# Ensure the heavyweight implementations remain in the core LLM
+# sources so the full `themis_llm` library continues to provide
+# real functionality when linked at final link time.
+list(APPEND THEMIS_LLM_CORE_SOURCES
+    ../src/llm/docs_assistant.cpp
+    ../src/llm/embedded_llm.cpp
+    ../src/llm/applications/themis_help_lora.cpp
+)
+
+# Remove API files from the core sources if they are present
+list(REMOVE_ITEM THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_API_SOURCES})
 
 # Keep AQL LLM integration files together in llm_ext when split is enabled.
 # This avoids accidental core/ext separation by index-based splitting and
@@ -1668,6 +1694,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_event.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_result_store.cpp>
+    ../src/scheduler/task_execution_result.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_scheduler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/branch_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/merge_api_handler.cpp>
@@ -1907,6 +1934,7 @@ set(THEMIS_GEO_SOURCES
 if(THEMIS_ENABLE_GPU)
     list(APPEND THEMIS_GEO_SOURCES
         ../src/gpu/gpu_module.cpp
+        ../src/gpu/gpu_backend_dispatch_diagnostics.cpp
         ../src/gpu/config.cpp
         ../src/gpu/feature_flags.cpp
         ../src/gpu/memory_pool.cpp
@@ -2217,6 +2245,9 @@ function(themis_build_modular)
         themis_transaction
         themis_security
     )
+    if(TARGET themis_process)
+        list(APPEND _themis_query_deps themis_process)
+    endif()
 
     # Arrow / Parquet / Arrow Flight targets for modular query build
     if(TARGET Arrow::arrow_shared)
@@ -2259,6 +2290,11 @@ function(themis_build_modular)
     if(THEMIS_MODULE_GEO)
         list(APPEND _themis_query_deps themis_geo)
     endif()
+    # Note: themis_llm is intentionally NOT added here to avoid creating
+    # cyclic inter-target dependencies with themis_sharding. When LLM symbols
+    # are required at link time, higher-level shared targets (e.g. themis_sharding)
+    # should link both themis_query and themis_llm so the final link resolves
+    # transitive references without introducing cycles among static libs.
     if(onnxruntime_FOUND)
         list(APPEND _themis_query_deps onnxruntime::onnxruntime)
     endif()
@@ -2391,8 +2427,23 @@ function(themis_build_modular)
                 themis_base 
                 themis_storage 
                 themis_security
+                themis_query
                 themis_transaction
         )
+        # Link the lightweight LLM API module (if built) to provide
+        # runtime-facing LLM symbols used by query/sharding without
+        # pulling in the full LLM implementation that depends on sharding.
+        # Prefer linking the full themis_llm target if available; it no
+        # longer depends on themis_sharding (avoid cycles). Fall back to
+        # themis_llm_api if a split API module is used.
+        if(TARGET themis_llm)
+            target_link_libraries(themis_sharding PRIVATE themis_llm)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_sharding PRIVATE themis_llm_ext)
+            endif()
+        elseif(TARGET themis_llm_api)
+            target_link_libraries(themis_sharding PRIVATE themis_llm_api)
+        endif()
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
@@ -2497,6 +2548,17 @@ function(themis_build_modular)
     endif()
     
     if(THEMIS_MODULE_LLM)
+        # Small API module providing DocsAssistant/EmbeddedLLM/ThemisHelpLoRA
+        themis_add_module(llm_api
+            STATIC_MODULE
+            DISABLE_AUTO_EXPORT
+            SOURCES ${THEMIS_LLM_API_SOURCES}
+            DEPENDENCIES
+                themis_base
+                themis_storage
+                themis_security
+        )
+
         themis_add_module(llm
             STATIC_MODULE
             DISABLE_AUTO_EXPORT
@@ -2505,7 +2567,6 @@ function(themis_build_modular)
                 themis_base 
                 themis_storage
                 themis_security
-                themis_sharding
                 themis_query
         )
         if(THEMIS_MODULE_LLM_SPLIT AND THEMIS_LLM_EXT_SOURCES)
@@ -2517,7 +2578,6 @@ function(themis_build_modular)
                     themis_base
                     themis_storage
                     themis_security
-                    themis_sharding
                     themis_llm
                     themis_query
             )
@@ -2657,6 +2717,9 @@ function(themis_build_modular)
         if(TARGET themis_query)
             list(APPEND _themis_content_deps themis_query)
         endif()
+        if(THEMIS_MODULE_SHARDING)
+            list(APPEND _themis_content_deps themis_sharding)
+        endif()
         if(TARGET libzip::zip)
             list(APPEND _themis_content_deps libzip::zip)
         elseif(TARGET libzip::libzip)
@@ -2718,6 +2781,33 @@ function(themis_build_modular)
         themis_network
         PARENT_SCOPE
     )
+
+    # Ensure sharding links query then the lightweight llm api (link order matters)
+    if(TARGET themis_sharding)
+        if(TARGET themis_query)
+            target_link_libraries(themis_sharding PRIVATE themis_query)
+        endif()
+        # Provide process serialization helpers used by query/sharding at link time
+        if(TARGET themis_process)
+            target_link_libraries(themis_sharding PRIVATE themis_process)
+        endif()
+        # Prefer linking the full themis_llm implementation when available
+        # to avoid duplicate adapter symbols from the lightweight API module.
+        if(TARGET themis_llm)
+            target_link_libraries(themis_sharding PRIVATE themis_llm)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_sharding PRIVATE themis_llm_ext)
+            endif()
+        elseif(TARGET themis_llm_api)
+            target_link_libraries(themis_sharding PRIVATE themis_llm_api)
+        endif()
+        # Graph/ontology helpers may be referenced by sharding (e.g. validation,
+        # ontology lookups). Link graph module when available so those symbols
+        # are provided at final link time.
+        if(TARGET themis_graph)
+            target_link_libraries(themis_sharding PRIVATE themis_graph)
+        endif()
+    endif()
     
     if(THEMIS_MODULE_SHARDING)
         list(APPEND THEMIS_ALL_MODULES themis_sharding)

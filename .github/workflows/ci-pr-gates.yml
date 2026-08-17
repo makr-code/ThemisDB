@@ -706,7 +706,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail if mandatory release-critical gate failed
-        if: needs.release-critical-tests.result == 'failure'
+        if: needs.release-critical-tests.result != '' && needs.release-critical-tests.result == 'failure'
         run: |
           echo "::error::release-critical-tests FAILED — this is a mandatory gate per RELEASE_STRATEGY.md §2.3"
           exit 1

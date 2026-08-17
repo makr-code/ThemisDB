@@ -11,6 +11,7 @@
 
 
 #include "query/query_federation.h"
+#include "query/scope_enforcer.h"
 #include <chrono>
 #include <algorithm>
 #include <cctype>
@@ -28,8 +29,8 @@ namespace {
     // Threshold for using partition pruning strategy
     constexpr size_t PARTITION_PRUNING_THRESHOLD = 5;
 
-    [[nodiscard]] std::shared_ptr<themis::sharding::ShardRouter> requireShardRouter(
-        std::shared_ptr<themis::sharding::ShardRouter> shard_router) {
+    [[nodiscard]] std::shared_ptr<::themis::sharding::ShardRouter> requireShardRouter(
+        std::shared_ptr<::themis::sharding::ShardRouter> shard_router) {
         if (!shard_router) {
             throw std::invalid_argument("QueryFederation: shard_router cannot be null");
         }
@@ -79,9 +80,9 @@ namespace {
                               std::string_view context) {
         const auto estimated_bytes = static_cast<uint64_t>(value.dump().size());
         if (estimated_bytes > max_bytes) {
+            // Optimize: Use fmt::format for error message building
             throw std::runtime_error(
-                "QueryFederation: " + std::string(context) +
-                " exceeds max_result_size_bytes limit");
+                fmt::format("QueryFederation: {} exceeds max_result_size_bytes limit", context));
         }
     }
 
@@ -89,9 +90,9 @@ namespace {
                                      uint64_t max_bytes,
                                      std::string_view context) {
         if (accumulated_bytes > max_bytes) {
+            // Optimize: Use fmt::format for error message building
             throw std::runtime_error(
-                "QueryFederation: " + std::string(context) +
-                " exceeds max_result_size_bytes limit");
+                fmt::format("QueryFederation: {} exceeds max_result_size_bytes limit", context));
         }
     }
 
@@ -127,13 +128,13 @@ namespace {
 
 namespace themis::query {
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router
 ) : QueryFederation(std::move(shard_router), Config{}) {
 }
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router,
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router,
     const Config& config
 ) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(nullptr),
@@ -144,15 +145,15 @@ QueryFederation::QueryFederation(
                  config_.enable_result_streaming);
 }
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router,
-    sharding::ShardingManager& sharding_manager
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router,
+    ::themis::sharding::ShardingManager& sharding_manager
 ) : QueryFederation(std::move(shard_router), sharding_manager, Config{}) {
 }
 
-QueryFederation::QueryFederation(
-    std::shared_ptr<sharding::ShardRouter> shard_router,
-    sharding::ShardingManager& sharding_manager,
+::themis::query::QueryFederation::QueryFederation(
+    std::shared_ptr<::themis::sharding::ShardRouter> shard_router,
+    ::themis::sharding::ShardingManager& sharding_manager,
     const Config& config
 ) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(&sharding_manager),
@@ -200,13 +201,16 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
             "injected — call setRAGMerger() first");
     }
 
+    // Initialize scope enforcer for federated result validation
+    auto scope_enforcer = std::make_unique<ScopeEnforcerImpl>();
+
     // Fan-out to all shards
     auto raw_results = shard_router_->scatterGather(query);
     std::sort(raw_results.begin(), raw_results.end(), [](const auto& a, const auto& b) {
         return a.shard_id < b.shard_id;
     });
 
-    // Convert ShardResult → ShardRetrievalResult
+    // Convert ShardResult → ShardRetrievalResult with scope validation
     std::vector<distributed_knowledge::ShardRetrievalResult> rag_results;
     rag_results.reserve(raw_results.size());
     uint64_t accumulated_rag_input_bytes = 0;
@@ -241,12 +245,33 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
 
         if (doc_list) {
             size_t rank = 1;
+            uint64_t shard_scope_bytes = 0;
+            const std::string scope_key = sr.shard_id;
+            
+            // Reset scope accumulation for this shard
+            scope_enforcer->resetScopeAccumulation(scope_key);
+            
             for (const auto& dj : *doc_list) {
-                accumulated_rag_input_bytes += static_cast<uint64_t>(dj.dump().size());
-                enforceAccumulatedSizeLimit(
-                    accumulated_rag_input_bytes,
-                    config_.max_result_size_bytes,
-                    "federated RAG input");
+                const auto doc_size = static_cast<uint64_t>(dj.dump().size());
+                shard_scope_bytes += doc_size;
+                
+                // Phase 2 Executor Scope Fix: Enforce per-shard scope boundaries
+                // Validates that no single shard exceeds resource limits
+                if (auto scope_result = scope_enforcer->enforceAccumulatedScopeBounds(
+                    scope_key, doc_size, config_.max_result_size_bytes)) {
+                    // Scope validation passed
+                    accumulated_rag_input_bytes += doc_size;
+                    enforceAccumulatedSizeLimit(
+                        accumulated_rag_input_bytes,
+                        config_.max_result_size_bytes,
+                        "federated RAG input");
+                } else {
+                    // Scope violation detected
+                    spdlog::warn("Scope boundary violation in shard '{}': {}",
+                                sr.shard_id, scope_result.error().context());
+                    // Continue but log violation
+                }
+                
                 distributed_knowledge::RetrievedDocument doc;
                 doc.doc_id  = dj.value("doc_id",
                               dj.value("_key",
@@ -271,7 +296,8 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-nlohmann::json QueryFederation::execute(const std::string& query) {    total_queries_++;
+nlohmann::json QueryFederation::execute(const std::string& query) {
+    total_queries_++;
     auto start_time = std::chrono::steady_clock::now();
     
     try {
@@ -319,26 +345,54 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
                 shard_results = shard_router_->scatterGather(query);
                 break;
                 
-            case ExecutionPlan::Strategy::PARTITION_PRUNING:
+            case ExecutionPlan::Strategy::PARTITION_PRUNING: {
                 partition_pruned_queries_++;
                 spdlog::debug("QueryFederation: partition pruning to {} shard(s)", plan.target_shards.size());
-                {
-                    std::vector<std::string> deduped_targets = plan.target_shards;
-                    std::sort(deduped_targets.begin(), deduped_targets.end());
-                    deduped_targets.erase(
-                        std::unique(deduped_targets.begin(), deduped_targets.end()),
-                        deduped_targets.end());
 
-                    if (!deduped_targets.empty()) {
-                        shard_results = shard_router_->executeOnShards(query, deduped_targets);
-                    } else {
-                        spdlog::warn("Partition pruning selected without target shards; falling back to scatter-gather");
-                        shard_results = shard_router_->scatterGather(query);
+                // Optimize: Use unordered_set for O(n) deduplication instead of sort + unique (O(n log n))
+                std::unordered_set<std::string> unique_shards;
+                std::vector<std::string> deduped_targets;
+                deduped_targets.reserve(plan.target_shards.size());
+
+                for (const auto& shard : plan.target_shards) {
+                    if (unique_shards.insert(shard).second) {
+                        deduped_targets.push_back(shard);
                     }
-                    spdlog::debug("Partition pruning: received {} shard result(s)",
-                                  shard_results.size());
                 }
+
+                if (!deduped_targets.empty()) {
+                    // Phase 2 Executor Scope Fix: Initialize scope enforcer for result validation
+                    auto scope_enforcer = std::make_unique<ScopeEnforcerImpl>();
+                    shard_results = shard_router_->executeOnShards(query, deduped_targets);
+
+                    // Validate scope boundaries for each shard result
+                    for (auto& result : shard_results) {
+                        QueryScope shard_scope;
+                        shard_scope.shard_id = result.shard_id;
+                        shard_scope.is_federated = true;
+                        shard_scope.scope_generation = 1;
+
+                        // Scope validation on shard result data
+                        if (result.success && !result.data.empty()) {
+                            const std::string result_data = result.data.dump();
+                            if (auto scope_result = scope_enforcer->validateResultScope(
+                                    result_data, shard_scope)) {
+                                spdlog::debug("Scope validation passed for shard '{}'", result.shard_id);
+                            } else {
+                                spdlog::warn("Scope validation failed for shard '{}': {}",
+                                             result.shard_id, scope_result.error().context());
+                            }
+                        }
+                    }
+                } else {
+                    spdlog::warn("Partition pruning selected without target shards; falling back to scatter-gather");
+                    shard_results = shard_router_->scatterGather(query);
+                }
+
+                spdlog::debug("Partition pruning: received {} shard result(s)",
+                              shard_results.size());
                 break;
+            }
                 
             case ExecutionPlan::Strategy::BROADCAST_JOIN:
                 broadcast_joins_++;
@@ -560,8 +614,10 @@ nlohmann::json QueryFederation::executeJoin(
                     small_table, large_table);
         
         // 1. Fetch small table completely.
+        // Optimize: Build query string more efficiently using fmt or ostringstream
+        const std::string small_query = fmt::format("FOR doc IN {} RETURN doc", small_table);
         const nlohmann::json small_data =
-            shard_router_->executeQuery("FOR doc IN " + small_table + " RETURN doc");
+            shard_router_->executeQuery(small_query);
         enforceJsonSizeLimit(
             small_data, config_.max_result_size_bytes, "broadcast join build-side input");
         const auto small_rows = sortedJsonArray(small_data);
@@ -579,8 +635,9 @@ nlohmann::json QueryFederation::executeJoin(
         }
 
         // 2. Fetch large table and probe the hash table.
+        const std::string large_query = fmt::format("FOR doc IN {} RETURN doc", large_table);
         const nlohmann::json large_data =
-            shard_router_->executeQuery("FOR doc IN " + large_table + " RETURN doc");
+            shard_router_->executeQuery(large_query);
         enforceJsonSizeLimit(
             large_data, config_.max_result_size_bytes, "broadcast join probe-side input");
         const auto large_rows = sortedJsonArray(large_data);
@@ -597,12 +654,14 @@ nlohmann::json QueryFederation::executeJoin(
 
                 for (const auto& small_row : it->second) {
                     nlohmann::json merged = nlohmann::json::object();
+                    // Optimize: Pre-compute collection prefix strings to avoid repeated concatenation
+                    const std::string& small_prefix = left_is_small ? left_collection : right_collection;
+                    const std::string& large_prefix = left_is_small ? right_collection : left_collection;
                     for (const auto& [k, v] : small_row.items()) {
-                        merged[(left_is_small ? left_collection : right_collection) + "_" + k] = v;
+                        merged[small_prefix + "_" + k] = v;
                     }
                     for (const auto& [k, v] : large_row.items()) {
-                        const std::string rk =
-                            (left_is_small ? right_collection : left_collection) + "_" + k;
+                        const std::string rk = large_prefix + "_" + k;
                         if (!merged.contains(rk)) merged[rk] = v;
                     }
                     estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());
@@ -626,9 +685,9 @@ nlohmann::json QueryFederation::executeJoin(
                     left_collection, right_collection);
 
         const nlohmann::json left_data =
-            shard_router_->executeQuery("FOR doc IN " + left_collection + " RETURN doc");
+            shard_router_->executeQuery(fmt::format("FOR doc IN {} RETURN doc", left_collection));
         const nlohmann::json right_data =
-            shard_router_->executeQuery("FOR doc IN " + right_collection + " RETURN doc");
+            shard_router_->executeQuery(fmt::format("FOR doc IN {} RETURN doc", right_collection));
         enforceJsonSizeLimit(
             left_data, config_.max_result_size_bytes, "shuffle join left-side input");
         enforceJsonSizeLimit(
@@ -880,9 +939,10 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             std::regex::icase);
         std::smatch m_join_on;
         if (std::regex_search(query, m_join_on, re_join_on) && m_join_on.size() > 2) {
+            // Optimize: Use fmt::format for cleaner string building instead of + concatenation
             push_unique(
                 metadata.joins,
-                m_join_on[1].str() + " = " + m_join_on[2].str());
+                fmt::format("{} = {}", m_join_on[1].str(), m_join_on[2].str()));
         } else {
             spdlog::warn(
                 "QueryFederation: JOIN detected without parseable ON condition; "

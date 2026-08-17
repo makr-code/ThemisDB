@@ -123,6 +123,7 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
 
     // Simple sentence boundary split on ". " or "? "
     std::vector<std::string> sentences;
+    sentences.reserve(q.size() / 20);  // Estimate: average sentence ~20 chars
     std::string acc;
     for (size_t i = 0; i < q.size(); ++i) {
         acc += q[i];
@@ -219,6 +220,7 @@ std::string MultiHopReasoner::composeAnswer(
 {
     // Gather all non-empty intermediate answers
     std::vector<std::string> partial_answers;
+    partial_answers.reserve(hop_records.size());  // Upper bound: all hops may have answers
     for (const auto& hr : hop_records) {
         if (hr.succeeded && !hr.intermediate_answer.empty()) {
             partial_answers.push_back(
@@ -285,7 +287,8 @@ MultiHopResult MultiHopReasoner::reason(
 
     // Step 2: Execute one hop per sub-query
     std::vector<std::string> previous_answers;
-
+    previous_answers.reserve(sub_queries.size());  // Upper bound: one answer per sub-query
+    
     for (size_t i = 0; i < sub_queries.size(); ++i) {
         const auto hop_start = std::chrono::steady_clock::now();
 

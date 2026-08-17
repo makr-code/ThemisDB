@@ -66,9 +66,9 @@ namespace process {
  * @brief Abstract base for conflict resolution algorithms.
  * @internal
  */
-class ConflictResolutionStrategy {
+class IConflictResolutionStrategy {
  public:
-  virtual ~ConflictResolutionStrategy() = default;
+  virtual ~IConflictResolutionStrategy() = default;
 
   /**
    * @brief Determine winner between two conflicting versions.
@@ -83,7 +83,7 @@ class ConflictResolutionStrategy {
  * @brief Last-Write-Wins conflict resolution (default fallback).
  * @internal
  */
-class LastWriteWinsStrategy : public ConflictResolutionStrategy {
+class LastWriteWinsStrategy : public IConflictResolutionStrategy {
  public:
   std::string ResolveConflict(const ConflictMetadata& metadata) override {
     // Higher timestamp wins
@@ -105,7 +105,7 @@ class LastWriteWinsStrategy : public ConflictResolutionStrategy {
  * @brief First-Write-Wins conflict resolution.
  * @internal
  */
-class FirstWriteWinsStrategy : public ConflictResolutionStrategy {
+class FirstWriteWinsStrategy : public IConflictResolutionStrategy {
  public:
   std::string ResolveConflict(const ConflictMetadata& metadata) override {
     // Lower timestamp wins
@@ -127,7 +127,7 @@ class FirstWriteWinsStrategy : public ConflictResolutionStrategy {
  * @brief Application callback-based conflict resolution.
  * @internal
  */
-class ApplicationCustomStrategy : public ConflictResolutionStrategy {
+class ApplicationCustomStrategy : public IConflictResolutionStrategy {
  public:
   explicit ApplicationCustomStrategy(
       std::shared_ptr<ProcessConflictResolverCallback> callback)
@@ -162,7 +162,7 @@ class ApplicationCustomStrategy : public ConflictResolutionStrategy {
 
  private:
   std::shared_ptr<ProcessConflictResolverCallback> callback_;
-  std::unique_ptr<ConflictResolutionStrategy> fallback_;
+  std::unique_ptr<IConflictResolutionStrategy> fallback_;
 };
 
 // ============================================================================
@@ -265,7 +265,7 @@ class ProcessConflictResolverImpl {
   /**
    * @brief Create resolution strategy based on config.
    */
-  static std::unique_ptr<ConflictResolutionStrategy> CreateStrategy(
+  static std::unique_ptr<IConflictResolutionStrategy> CreateStrategy(
       const std::string& strategy_name,
       std::shared_ptr<ProcessConflictResolverCallback> callback) {
     if (strategy_name == "LWW") {
@@ -295,7 +295,7 @@ class ProcessConflictResolverImpl {
   ConflictResolverConfig config_;
 
   mutable std::mutex resolver_mutex_;
-  std::unique_ptr<ConflictResolutionStrategy> strategy_;
+  std::unique_ptr<IConflictResolutionStrategy> strategy_;
   std::shared_ptr<ProcessConflictResolverCallback> callback_;
 
   mutable std::mutex conflict_history_mutex_;

@@ -8,6 +8,37 @@ This file documents all documentation and code quality gaps in the **llm** modul
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
+### Gap Classification (Batch 3 Verification)
+
+**By Delivery Model:**
+- **IMPL Gaps** (real code missing): ~1,400 (11% of total)
+  - distributed end-to-end inference optimization (400)
+  - speculative decode integration (200)
+  - exception-safety RAII improvements (300)
+  - memory-leak in cache cleanup (200)
+  - thread-safety data-race fixes (300)
+
+- **DOC Gaps** (documentation missing): ~11,074 (89% of total)
+  - inline code comments/docstrings (8,000+)
+  - module-level architecture notes (500)
+  - thread-safety model documentation (500)
+  - fail-closed behavior documentation (400)
+  - operational runbooks (200)
+
+### Wave Correlation
+
+**Wave A Gaps (Q3–Q4 2026):**
+- Distributed end-to-end optimization: IMPL + DOC
+- Cross-node inference hardening: IMPL + DOC
+- Timeout behavior consistency: DOC (code exists)
+- Fail-closed verification: DOC + chaos tests
+
+**Wave B Gaps (Q3–Q4 2026):**
+- Wiki Phase B RocksDB integration: IMPL complete (2026-08-09), DOC needed
+- Cache hit-rate gates: IMPL complete, DOC needed
+- Query-latency gates: IMPL in progress, DOC needed
+- Persistent embedding cache: IMPL complete (2026-08-09), DOC needed
+
 ### By Severity
 
 - **CRITICAL**: 155

@@ -38,6 +38,7 @@ Optional for fastest onboarding:
 ```bash
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
+git submodule update --init --recursive
 ```
 
 ---
@@ -101,9 +102,7 @@ ThemisDB provides multiple presets optimized for different scenarios:
 #### With vcpkg (recommended):
 
 ```bash
-# Prerequisites: vcpkg must be set up
-# git clone https://github.com/microsoft/vcpkg.git
-# cd vcpkg && ./bootstrap-vcpkg.sh
+# Prerequisites: submodules initialized and third-party setup executed
 
 cmake --preset linux-release
 cmake --build --preset linux-release --parallel 16
@@ -124,9 +123,7 @@ ctest --preset community-release --output-on-failure
 From a Visual Studio Developer Command Prompt:
 
 ```powershell
-# Prerequisites: vcpkg must be set up
-# git clone https://github.com/microsoft/vcpkg.git
-# cd vcpkg && .\bootstrap-vcpkg.bat
+# Prerequisites: submodules initialized and third-party setup executed
 
 cmake --preset windows-release
 cmake --build --preset windows-release --parallel 16
@@ -259,15 +256,13 @@ not deterministic.
 
 ### Error: "Could not find toolchain file: vcpkg/scripts/buildsystems/vcpkg.cmake"
 
-**Cause**: Using a vcpkg-based preset (linux-release, windows-release) without vcpkg installed.
+**Cause**: Using a vcpkg-based preset (linux-release, windows-release) without initialized submodules/bootstrap.
 
 **Solution**:
-1. Install vcpkg:
+1. Initialize submodules and bootstrap third-party dependencies:
    ```bash
-   git clone https://github.com/microsoft/vcpkg.git
-   cd vcpkg
-   ./bootstrap-vcpkg.sh  # Linux/macOS
-   # or .\bootstrap-vcpkg.bat  # Windows
+   git submodule update --init --recursive
+   pwsh ./scripts/setup-third-party.ps1
    ```
 
 2. Or use fallback preset:
@@ -311,8 +306,8 @@ Alternatively, use the `linux-release` preset with vcpkg, which includes all dep
 **Known Issues**:
 
 1. **`linux-release` requires vcpkg toolchain**: If you receive "Could not find toolchain file", ensure:
-   - vcpkg is cloned to `./vcpkg/`
-   - vcpkg is bootstrapped: `./vcpkg/bootstrap-vcpkg.sh`
+   - submodules are initialized (`git submodule update --init --recursive`)
+   - `pwsh ./scripts/setup-third-party.ps1` completed successfully
    - CMAKE_TOOLCHAIN_FILE in CMakePresets.json points to correct path
 
 2. **`community-release` may fail on missing packages**: This preset depends on system development packages being installed.

@@ -15,8 +15,6 @@
 #include "utils/logger.h"
 #include <openssl/sha.h>
 #include <algorithm>
-#include <sstream>
-#include <iomanip>
 
 namespace themis {
 namespace query {
@@ -41,11 +39,17 @@ std::string QueryCache::generateFingerprint(
     const std::string& query,
     const nlohmann::json& params
 ) const {
-    // Concatenate query + params for hashing
-    std::string input = query;
-    if (!params.empty() && !params.is_null()) {
-        input += "::";
-        input += params.dump();
+    // Optimized: Concatenate query + params for hashing using StringBuilder pattern
+    // Pre-estimate size to reduce allocations (avoid repeated reallocations)
+    std::string params_json = (!params.empty() && !params.is_null()) ? params.dump() : "";
+    size_t total_size = query.size() + (params_json.empty() ? 0 : (2 + params_json.size()));
+    
+    std::string input;
+    input.reserve(total_size);  // Reserve capacity once to eliminate reallocations
+    input.append(query);
+    if (!params_json.empty()) {
+        input.append("::");
+        input.append(params_json);
     }
     
     // Compute SHA256 hash
@@ -54,13 +58,15 @@ std::string QueryCache::generateFingerprint(
            input.size(), hash);
     
     // Convert to hex string
-    std::ostringstream ss;
-    ss << std::hex << std::setfill('0');
+    std::string hex;
+    hex.reserve(SHA256_DIGEST_LENGTH * 2);
+    const char digits[] = "0123456789abcdef";
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::setw(2) << static_cast<unsigned int>(hash[i]);
+        hex.push_back(digits[(hash[i] >> 4) & 0xf]);
+        hex.push_back(digits[hash[i] & 0xf]);
     }
-    
-    return ss.str();
+
+    return hex;
 }
 
 Result<void> QueryCache::put(

@@ -1335,9 +1335,8 @@ if(MSVC)
     add_link_options($<$<CONFIG:MinSizeRel>:/LTCG:OFF>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
-    if(THEMIS_STRICT_BUILD)
-        add_compile_options(-Werror)
-    endif()
+    # Note: -Werror is applied at target level via themis_apply_strict_build_flags()
+    # not globally via add_compile_options(), to avoid external dependency build failures
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)
@@ -1963,10 +1962,12 @@ set(THEMIS_CORE_SOURCES
     ../src/tensor/hiss_structural_search.cpp
     ../src/tensor/tensor_index_manager.cpp
     ../src/tensor/tensor_fingerprint_graph.cpp
+    ../src/tensor/tensor_error_handling.cpp
     ../src/tensor/tensor_ingestion_bridge.cpp
     ../src/tensor/tensor_core_bridge.cpp
     # Distributed Tensor Retrieval (EPIC 3)
     ../src/tensor/tensor_summary_types.cpp
+    ../src/tensor/compression_strategy.cpp
     ../src/distributed_tensor/src/distributed_planner.cc
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
@@ -2013,7 +2014,6 @@ set(THEMIS_CORE_SOURCES
     
     ../src/index/secondary_index.cpp
     ../src/index/inverted_index.cpp
-    ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
     ../src/index/property_graph.cpp
     ../src/index/edge_types.cpp
@@ -2635,6 +2635,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/multi_modal_search.cpp
     ../src/search/llm_query_rewriter.cpp
     ../src/search/llm_reranker.cpp
+    ../src/search/llm_reranker_factory_stub.cpp
     ../src/search/personalized_ranker.cpp
     ../src/search/multi_field_search.cpp
     ../src/search/cross_lingual_search.cpp
@@ -2719,6 +2720,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/policy_review.cpp
     ../src/governance/policy_file_watcher.cpp
     ../src/governance/data_lineage.cpp
+    ../src/governance/governance_diagnostics.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/soc2_controls.cpp
     ../src/governance/model_governance.cpp
@@ -2927,6 +2929,7 @@ set(THEMIS_CORE_SOURCES
     
     # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp
+    ../src/observability/field_diagnostics_collector.cpp
     ../src/observability/alertmanager.cpp
     ../src/observability/continuous_profiler.cpp
     ../src/observability/ebpf_tracer.cpp
@@ -2997,6 +3000,10 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/postgres_importer.cpp
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MYSQL_IMPORTER}>:../src/importers/mysql_importer.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MONGO_IMPORTER}>:../src/importers/mongo_importer.cpp>
+    # Core importers required by focused tests
+    ../src/importers/elasticsearch_importer.cpp
+    ../src/importers/redis_importer.cpp
+    ../src/importers/debezium_cdc_importer.cpp
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
     ../src/importers/schema_validator.cpp

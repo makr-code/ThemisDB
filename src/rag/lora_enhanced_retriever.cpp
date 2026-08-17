@@ -99,10 +99,12 @@ const LoRARetrieverConfig& LoRAEnhancedRetriever::config() const noexcept {
 }
 
 void LoRAEnhancedRetriever::setConfig(const LoRARetrieverConfig& config) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     config_ = config;
 }
 
 void LoRAEnhancedRetriever::setScorer(std::shared_ptr<ILoRAScorer> scorer) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     scorer_ = std::move(scorer);
 }
 
@@ -111,6 +113,8 @@ LoRAEnhancedRetriever::rerank(
     const std::string&                           query,
     const std::vector<judge::RetrievedDocument>& candidates) const
 {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
     if (!scorer_ || candidates.empty()) {
         return candidates;
     }

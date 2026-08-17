@@ -1,11 +1,12 @@
 # ThemisDB Importers Module
 
-<!-- Status: current | validated: 2026-08-02 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md -->
+<!-- Status: Production Ready (Wave B Performance) | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Error Recovery + Streaming Performance + Large-File Handling -->
 
 ## Module Purpose
 
-The importers module provides source-to-ThemisDB ingestion capabilities for relational, document, stream, and file/object sources, including schema handling, conflict resolution, validation, auditability, and optional MDM/post-processing paths.
+Production-capable source-to-ThemisDB ingestion capabilities for relational, document, stream, and file/object sources, including schema handling, conflict resolution, validation, auditability, and optional MDM/post-processing paths. **Batch 5 enhancement focus: Error recovery determinism, streaming performance under load, large-file handling with backpressure**.
 
 ## Relevant Interfaces
 

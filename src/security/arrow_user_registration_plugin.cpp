@@ -24,11 +24,11 @@ namespace security {
 namespace {
 
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
-struct EVP_MD_CTX_Deleter {
+struct ArrowUser_EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
 };
 
-using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using ArrowUser_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, ArrowUser_EVP_MD_CTX_Deleter>;
 
 } // anonymous namespace
 
@@ -254,7 +254,7 @@ std::string ArrowUserRegistrationPlugin::hashPassword(const std::string& passwor
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int  hash_len = 0;
 
-    EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+    ArrowUser_EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
     EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
     EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
     EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);

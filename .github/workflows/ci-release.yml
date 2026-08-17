@@ -51,6 +51,7 @@ on:
         description: 'Tag for image version (for dispatch)'
         required: false
         type: string
+  workflow_call: {}
 
 permissions:
   contents: read
@@ -169,15 +170,30 @@ jobs:
         if: matrix.preset == 'linux-release' && steps.filter.outputs.skip != 'true'
         run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends dpkg-dev rpm
 
+      - name: Preflight vcpkg submodule (linux/windows release presets)
+        if: >
+          steps.filter.outputs.skip != 'true' &&
+          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
+        shell: bash
+        run: |
+          set -euo pipefail
+          git submodule sync -- vcpkg
+          git submodule update --init --recursive vcpkg
+          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
+            echo "::error::Missing vcpkg toolchain at vcpkg/scripts/buildsystems/vcpkg.cmake"
+            exit 1
+          }
+
       - name: Set up vcpkg (Linux/Windows vcpkg presets)
         if: >
           steps.filter.outputs.skip != 'true' &&
           (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
         shell: bash
         run: |
-          if [ ! -d vcpkg ]; then
-            git clone https://github.com/microsoft/vcpkg.git vcpkg --depth=1
-          fi
+          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
+            echo "::error::vcpkg submodule/toolchain missing before bootstrap"
+            exit 1
+          }
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>/dev/null || ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
 
       - name: Configure

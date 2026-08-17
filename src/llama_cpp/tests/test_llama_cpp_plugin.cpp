@@ -21,6 +21,9 @@ using namespace themis::llamacpp;
 using namespace themis::llm;
 using json = nlohmann::json;
 
+// Provide the short alias used across test code: `llm::ILLMPlugin` -> `themis::llm::ILLMPlugin`
+namespace llm = themis::llm;
+
 // ── Group A – loadModel ───────────────────────────────────────────────────────
 
 TEST(LlamaCppPluginFocusedTests, A1_LoadModelReturnsTrue) {

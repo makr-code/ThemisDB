@@ -57,6 +57,22 @@ public:
 
         // Serialization + execution-path recommendation (SerializationStrategyAdvisor)
         OptimizerCostModel::SerializationAdvice serialization_advice;
+        
+        // ==================== SCOPE VALIDATION (Phase 2 Agent 2) ====================
+        // Scope boundaries enforced at plan time to prevent result overflow
+        struct ScopeBounds {
+            std::string scope_id;                   // scope identifier (database/collection/tenant)
+            size_t max_result_rows = 0;             // max rows this plan can return
+            size_t max_result_bytes = 0;            // max bytes this plan can produce
+            bool enforce_federation_isolation = false; // true if federated query isolation required
+        };
+        ScopeBounds scope_bounds;                   // scope limits for this plan (GAP-2)
+        
+        // Validates that scope bounds are set and consistent
+        bool has_valid_scope_bounds() const noexcept {
+            return !scope_bounds.scope_id.empty() && 
+                   (scope_bounds.max_result_rows > 0 || scope_bounds.max_result_bytes > 0);
+        }
     };
 
     /// @param secIdx          Secondary index manager (required).
@@ -282,6 +298,57 @@ public:
         size_t max_depth,
         size_t estimated_branching_factor,
         bool has_spatial_constraint = false) const;
+    
+    // =============================
+    // Scope Validation (Phase 2 Agent 2)
+    // =============================
+    
+    /**
+     * @brief Set scope bounds on a query plan to prevent result overflow.
+     * 
+     * Enforces that query results respect scope boundaries:
+     * - max_result_rows: Maximum rows the plan can return
+     * - max_result_bytes: Maximum bytes the plan can produce
+     * - scope_id: Identifies the scope (database/collection/tenant)
+     * 
+     * @param plan Plan to validate (modified in place)
+     * @param scope_id Scope identifier
+     * @param max_rows Maximum result rows (0 = unlimited)
+     * @param max_bytes Maximum result bytes (0 = unlimited)
+     * @param enforce_federation Enforce federation scope isolation
+     * @return true if scope bounds set successfully
+     */
+    bool setScopeBounds(Plan& plan,
+                       const std::string& scope_id,
+                       size_t max_rows = 0,
+                       size_t max_bytes = 0,
+                       bool enforce_federation = false) const noexcept;
+    
+    /**
+     * @brief Validate that result count respects plan scope bounds.
+     * 
+     * Ensures result doesn't exceed scope limits set by setScopeBounds.
+     * 
+     * @param plan Plan with scope bounds
+     * @param result_rows Actual result row count
+     * @param result_bytes Actual result bytes
+     * @return true if result respects scope bounds
+     */
+    bool validateResultBounds(const Plan& plan,
+                              size_t result_rows,
+                              size_t result_bytes) const noexcept;
+    
+    /**
+     * @brief Validate federation query scope isolation.
+     * 
+     * Ensures federated query results are properly isolated by scope.
+     * 
+     * @param plan Query plan with federation settings
+     * @param remote_scope_id Scope ID from remote shard
+     * @return true if isolation constraints satisfied
+     */
+    bool validateFederationScopeIsolation(const Plan& plan,
+                                          const std::string& remote_scope_id) const noexcept;
 
 private:
     SecondaryIndexManager& secIdx_;

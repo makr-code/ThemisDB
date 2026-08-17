@@ -27,6 +27,7 @@
 #include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cdc/changefeed.h"
+#include "scheduler/scheduler_api_contract.h"
 #include "scheduler/task_audit_event.h"
 #include "scheduler/task_result_store.h"
 #include "observability/alertmanager.h"
@@ -107,6 +108,7 @@ struct ScheduledTask {
     // Task state
     bool enabled = true;
     bool running = false;  // Currently executing
+    bool allow_concurrent = false; // Allow overlapping executions (legacy compatibility)
 
     // ── Starvation prevention via aging ──────────────────────────────────
     /// How many consecutive scheduler ticks this task was ready-but-skipped

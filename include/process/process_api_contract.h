@@ -55,11 +55,14 @@
 namespace themis::process {
 
 enum class ProcError : int32_t {
+    kSuccess             = 0,    ///< Operation completed successfully
     kUnsupportedElement  = 7600,
     kInvalidTransition   = 7601,
     kSerialiserFailed    = 7602,
     kDeserialiserFailed  = 7603,
     kExecutionTimeout    = 7604,
+    kRetrievalFailed     = 7610,
+    kLinkingStateInvalid = 7611,
     kMaxDepthExceeded    = 7605,  ///< Max nesting depth exceeded
     kMaxElementsExceeded = 7606,  ///< Max elements in model exceeded
     kMaxContextSizeExceeded = 7607, ///< Max retrieval context size exceeded

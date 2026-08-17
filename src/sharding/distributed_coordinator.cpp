@@ -454,6 +454,11 @@ bool DistributedCoordinator::isLeaderHealthy() const {
     return heartbeat_age < config_.heartbeat_interval_ms * 2;
 }
 
+/** @brief Return whether the coordinator is healthy (leader healthy and running). */
+bool DistributedCoordinator::isHealthy() const {
+    return isRunning() && isLeaderHealthy();
+}
+
 // Heartbeats
 /** @brief Send leader heartbeat and renew local lease state. */
 void DistributedCoordinator::sendHeartbeat() {

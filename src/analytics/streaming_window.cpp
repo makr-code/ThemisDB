@@ -100,8 +100,6 @@
 #include <spdlog/spdlog.h>
 #include <sstream>
 
-#include "analytics/detail/stats.h"
-
 namespace themisdb {
 namespace analytics {
 
@@ -337,21 +335,31 @@ TumblingWindow::TumblingWindow(const TumblingWindowConfig &config)
     : config_(config), callback_(), agg_specs_(), open_windows_(), watermark_us_(0), windows_opened_(0),
       windows_closed_(0), records_ingested_(0), records_dropped_(0), late_records_(0), results_emitted_(0),
       idle_running_(false), last_event_us_(0) {
+    // RAII SAFETY: Resource lifecycle management
+    // - agg_specs_ (vector) initialized with reserve() → exception-safe allocation
+    // - idle_thread_ created only if idle_timeout > 0 → safe conditional initialization
+    // - All member variables default-initialized
+    // - Destructor guaranteed to clean up thread (see below)
     agg_specs_.reserve(16);
     if (config_.watermark.idle_timeout.count() > 0) {
         idle_running_ = true;
+        // Thread capture uses 'this' → thread lifecycle tied to object lifetime
         idle_thread_  = std::thread([this] { idleTimeoutLoop(); });
     }
 }
 
 TumblingWindow::~TumblingWindow() {
+    // RAII GUARANTEE: Fully constructed instances clean up all owned resources here.
+    // If construction throws, C++ destroys only the already-constructed subobjects;
+    // this destructor itself is not invoked for the incomplete TumblingWindow object.
     if (idle_running_) {
-        idle_running_ = false;
-        idle_cv_.notify_all();
+        idle_running_ = false;  // Signal thread to stop
+        idle_cv_.notify_all();   // Wake up thread from wait_for
         if (idle_thread_.joinable()) {
-            idle_thread_.join();
+            idle_thread_.join();  // Wait for thread to finish (CRITICAL: must join before destroying 'this')
         }
     }
+    // Vector destructors run automatically
     open_windows_.clear();
     agg_specs_.clear();
     callback_ = {};
@@ -580,6 +588,11 @@ SlidingWindow::SlidingWindow(const SlidingWindowConfig &config)
     : config_(config), callback_(), agg_specs_(), windows_(), watermark_us_(0), windows_opened_(0), windows_closed_(0),
       records_ingested_(0), records_dropped_(0), late_records_(0), results_emitted_(0), idle_running_(false),
       last_event_us_(0) {
+    // RAII SAFETY: Resource lifecycle management (same pattern as TumblingWindow)
+    // - All container members (agg_specs_, windows_) initialized empty
+    // - reserve() called on agg_specs_ for pre-allocation (exception-safe)
+    // - Conditional thread creation only if idle_timeout > 0
+    // - Thread captures 'this' → tied to object lifetime, destroyed before object cleanup
     agg_specs_.reserve(16);
     if (config_.watermark.idle_timeout.count() > 0) {
         idle_running_ = true;
@@ -588,6 +601,13 @@ SlidingWindow::SlidingWindow(const SlidingWindowConfig &config)
 }
 
 SlidingWindow::~SlidingWindow() {
+    // RAII GUARANTEE: Thread-safe cleanup on destruction
+    // Sequence:
+    // 1. Signal thread to stop (idle_running_ = false)
+    // 2. Wake thread from wait_for (idle_cv_.notify_all())
+    // 3. Wait for thread to finish (idle_thread_.join())
+    // 4. Then proceed with other cleanup (flush, clear vectors)
+    // This ordering prevents race conditions and use-after-free
     if (idle_running_) {
         idle_running_ = false;
         idle_cv_.notify_all();
@@ -845,12 +865,25 @@ void SlidingWindow::idleTimeoutLoop() {
 SessionWindow::SessionWindow(const SessionWindowConfig &config)
     : config_(config), callback_(), agg_specs_(), sessions_(), running_(false), watermark_us_(0), windows_opened_(0),
       windows_closed_(0), records_ingested_(0), records_dropped_(0), late_records_(0), results_emitted_(0) {
+    // RAII SAFETY: Resource lifecycle management (enhanced pattern for SessionWindow)
+    // - agg_specs_ and sessions_ containers initialized empty, ready for operations
+    // - expiry_thread_ spawned with capture of 'this' pointer
+    // - running_ flag used for clean shutdown coordination
+    // - All member variables properly initialized for thread-safe access
     agg_specs_.reserve(16);
     running_       = true;
     expiry_thread_ = std::thread([this] { expiryLoop(); });
 }
 
 SessionWindow::~SessionWindow() {
+    // RAII GUARANTEE: Session state cleanup with thread synchronization
+    // Precise cleanup sequence to prevent race conditions:
+    // 1. Signal expiry thread to stop (running_ = false)
+    // 2. Wake expiry thread from wait_for (expiry_cv_.notify_all())
+    // 3. Wait for expiry thread to finish (expiry_thread_.join())
+    // 4. Flush any pending results
+    // 5. Clear containers
+    // This ordering ensures no access to 'this' after destructor starts
     running_ = false;
     expiry_cv_.notify_all();
     if (expiry_thread_.joinable()) {
@@ -1474,74 +1507,6 @@ WindowStats StreamingWindowPipeline::getStats() const {
         return hopping_->getStats();
     }
     return {};
-}
-
-} // namespace analytics
-} // namespace themisdb
-
-
-// ============================================================================
-// Phase 2C: Streaming Window Functions
-// ============================================================================
-
-/**
- * @brief Update windowing state for tumbling or sliding windows
- * 
- * Tumbling: Fixed-size windows that do not overlap
- * Sliding: Windows that overlap based on slide duration
- */
-Status StreamingWindowPipeline::updateWindow(
-    const Event& event,
-    int64_t current_time_ms,
-    WindowType window_type) {
-    
-    if (!initialized_) {
-        return Status::Error("Pipeline not initialized");
-    }
-    
-    if (window_type == WindowType::TUMBLING) {
-        if (tumbling_) {
-            tumbling_->update(event, current_time_ms);
-            return Status::OK();
-        }
-    } else if (window_type == WindowType::SLIDING) {
-        if (sliding_) {
-            sliding_->update(event, current_time_ms);
-            return Status::OK();
-        }
-    }
-    
-    return Status::Error("Window manager not available for specified type");
-}
-
-/**
- * @brief Flush aggregated window result to output stream
- * 
- * Publishes window result when boundaries reached or flush requested
- */
-Status StreamingWindowPipeline::flushWindow(
-    const std::function<void(const AggregationResult&)>& callback,
-    WindowType window_type) {
-    
-    if (!initialized_) {
-        return Status::Error("Pipeline not initialized");
-    }
-    
-    if (window_type == WindowType::TUMBLING && tumbling_) {
-        auto result = tumbling_->flush();
-        if (callback) {
-            callback(result);
-        }
-        return Status::OK();
-    } else if (window_type == WindowType::SLIDING && sliding_) {
-        auto result = sliding_->flush();
-        if (callback) {
-            callback(result);
-        }
-        return Status::OK();
-    }
-    
-    return Status::Error("Window manager not available for specified type");
 }
 
 } // namespace analytics

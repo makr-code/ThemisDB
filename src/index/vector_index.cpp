@@ -324,6 +324,8 @@ void VectorIndexManager::releaseHnswResources_() noexcept {
 }
 
 
+
+void VectorIndexManager::setAutoSavePath(const std::string& savePath, bool autoSave) {
 	savePath_ = savePath;
 	autoSave_ = autoSave;
 	

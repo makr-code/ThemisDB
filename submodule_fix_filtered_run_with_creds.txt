@@ -1,0 +1,39 @@
+
+===== vcpkg =====
+Skipping vcpkg (not owned by makr-code) -> https://github.com/microsoft/vcpkg.git
+
+===== llama.cpp =====
+Skipping llama.cpp (not owned by makr-code) -> https://github.com/ggerganov/llama.cpp.git
+
+===== whisper.cpp =====
+Skipping whisper.cpp (not owned by makr-code) -> https://github.com/ggerganov/whisper.cpp.git
+
+===== stable-diffusion.cpp =====
+Skipping stable-diffusion.cpp (not owned by makr-code) -> https://github.com/leejet/stable-diffusion.cpp.git
+
+===== ffmpeg =====
+Skipping ffmpeg (not owned by makr-code) -> https://github.com/FFmpeg/FFmpeg.git
+
+===== external/GIUF =====
+Processing external/GIUF (owned by makr-code)
+super_sha: f1c98061cba837afafee4a29e22b065b283f3383
+Recorded commit not on origin for external/GIUF; attempting pointer update to origin/HEAD
+HEAD is now at f1c9806 Initial GIUF bootstrap: docs, schemas, CLI skeleton
+Updated pointer for external/GIUF to f1c98061cba837afafee4a29e22b065b283f3383
+
+===== plugins/themisdb_ethic_ai =====
+Processing plugins/themisdb_ethic_ai (owned by makr-code)
+super_sha: ce401ad9d604012a2c02655e79f5c17f57a9f82d
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/makr-code/themisdb_ethic_ai.git/'
+Recorded commit not on origin for plugins/themisdb_ethic_ai; attempting pointer update to origin/HEAD
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/makr-code/themisdb_ethic_ai.git/'
+No origin/HEAD for plugins/themisdb_ethic_ai — skipping pointer update
+
+===== plugins/themisdb_llm_wiki =====
+Processing plugins/themisdb_llm_wiki (owned by makr-code)
+super_sha: 2d454638b0473273c850c9886e3185f6bdbd22c8
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/makr-code/themisdb_llm_wiki.git/'
+Recorded commit not on origin for plugins/themisdb_llm_wiki; attempting pointer update to origin/HEAD
