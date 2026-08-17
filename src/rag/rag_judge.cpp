@@ -406,34 +406,34 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                 // a positive finding; leave at defaults (false) to avoid implying
                 // the answer was assessed for autonomy/diversity/citations.
                 result.respects_human_autonomy = false;
-                result.shows_moral_diversity   = false;
-                result.has_ethical_citations   = false;
+                result.shows_moral_diversity = false;
+                result.has_ethical_citations = false;
                 result.ethical_violations.emplace_back(
-                "INJECTION_BLOCKED: HIGH or CRITICAL severity injection pattern detected "
-                "in retrieved documents. Evaluation aborted.");
-            THEMIS_WARN("RAGJudge::evaluate: injection blocked ({} findings). "
-                        "Evaluation aborted for query: {}",
-                        total_findings, input.query);
+                    "INJECTION_BLOCKED: HIGH or CRITICAL severity injection pattern detected "
+                    "in retrieved documents. Evaluation aborted.");
+                THEMIS_WARN("RAGJudge::evaluate: injection blocked ({} findings). "
+                            "Evaluation aborted for query: {}",
+                            total_findings, input.query);
 
-            if (config.block_on_high_severity_injection) {
-                // Default path: abort evaluation immediately
-                auto end_time = std::chrono::steady_clock::now();
-                result.evaluation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    end_time - start_time);
-                return result;
+                if (config.block_on_high_severity_injection) {
+                    // Default path: abort evaluation immediately
+                    auto end_time = std::chrono::steady_clock::now();
+                    result.evaluation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        end_time - start_time);
+                    return result;
+                }
+
+                // block_on_high_severity_injection=false: log a warning and continue
+                result.injection_blocked = false;
+                THEMIS_WARN("block_on_high_severity_injection=false: "
+                            "continuing evaluation despite HIGH severity injection findings");
             }
 
-            // block_on_high_severity_injection=false: log a warning and continue
-            result.injection_blocked = false;
-            THEMIS_WARN("block_on_high_severity_injection=false: "
-                        "continuing evaluation despite HIGH severity injection findings");
-        }
-
-        if (total_findings > 0) {
-            THEMIS_WARN("RAGJudge::evaluate: {} injection finding(s) in retrieved docs "
-                        "(max severity < HIGH) for query (len={})",
-                        total_findings, input.query.length());
-        }
+            if (total_findings > 0) {
+                THEMIS_WARN("RAGJudge::evaluate: {} injection finding(s) in retrieved docs "
+                            "(max severity < HIGH) for query (len={})",
+                            total_findings, input.query.length());
+            }
         } catch (const std::exception& e) {
             THEMIS_ERROR("Injection detection failed: {}", e.what());
             result.injection_screened = false;
@@ -571,7 +571,6 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                         double verification_ratio = static_cast<double>(verified_count) / claims.size();
                         result.faithfulness_score = std::min(result.faithfulness_score, verification_ratio);
                     }
-                } catch (const std::exception& e) {
                 } catch (const std::exception& e) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed: {}", e.what());
                 } catch (...) {

@@ -252,6 +252,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                         std::string context_type = coll["encryption"].value("context_type", "user");
                         std::vector<std::string> fields;
                         if (coll["encryption"].contains("fields")) {
+                            fields.reserve(coll["encryption"]["fields"].size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                             for (auto& f : coll["encryption"]["fields"]) if (f.is_string()) fields.push_back(f.get<std::string>());
                         }
                         // Extract user_id and groups from JWT for decryption context
@@ -406,6 +407,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                             std::string context_type = coll["encryption"].value("context_type", "user");
                             std::vector<std::string> fields;
                             if (coll["encryption"].contains("fields")) {
+                                fields.reserve(coll["encryption"]["fields"].size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                                 for (auto& f : coll["encryption"]["fields"]) {
                                     if (f.is_string()) fields.push_back(f.get<std::string>());
                                 }
@@ -441,6 +443,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                     // Vector<float>: Serialize as JSON array
                                     const auto& vec = std::get<std::vector<float>>(v);
                                     nlohmann::json j_arr = nlohmann::json::array();
+                                    j_arr.reserve(vec.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                                     for (float val : vec) j_arr.push_back(val);
                                     std::string json_str = j_arr.dump();
                                     plain_bytes.assign(json_str.begin(), json_str.end());
@@ -830,6 +833,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
         
         // Collect errors during validation/processing
         std::vector<json> errors;
+        errors.reserve(total);  // OPTIMIZATION: Pre-allocate to avoid reallocations during validation
         int64_t succeeded = 0;
         
         // Phase 1: Validate all operations before committing anything
@@ -1152,6 +1156,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     std::vector<json> documents;
     documents.reserve(256);
     std::vector<json> errors;
+    errors.reserve(256);  // OPTIMIZATION: Pre-allocate to avoid reallocations
 
     std::istringstream stream(body);
     std::string line;

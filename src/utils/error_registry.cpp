@@ -14,6 +14,7 @@
 #include "utils/string_utils.h"
 #include <algorithm>
 #include <iostream>
+#include <mutex>
 #include <stdexcept>
 
 namespace themis {
@@ -2455,12 +2456,14 @@ void ErrorRegistry::registerDefaultErrors() {
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     int code_value = static_cast<int>(metadata.code);
     errors_[code_value] = metadata;
     category_index_[metadata.category].push_back(code_value);
 }
 
 ErrorMetadata ErrorRegistry::getError(ErrorCode code) const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     int code_value = static_cast<int>(code);
     auto it = errors_.find(code_value);
     if (it != errors_.end()) {
@@ -2482,6 +2485,7 @@ ErrorMetadata ErrorRegistry::getError(ErrorCode code) const {
 
 std::vector<ErrorMetadata> ErrorRegistry::getErrorsByCategory(
     const std::string& category) const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<ErrorMetadata> result;
     auto it = category_index_.find(category);
@@ -2495,6 +2499,7 @@ std::vector<ErrorMetadata> ErrorRegistry::getErrorsByCategory(
 
 std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
     const std::string& query) const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<ErrorMetadata> result;
     
@@ -2512,6 +2517,7 @@ std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
 }
 
 std::vector<std::string> ErrorRegistry::getAllCategories() const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     std::vector<std::string> categories;
     for (const auto& [category, _] : category_index_) {
         categories.push_back(category);
@@ -2520,11 +2526,16 @@ std::vector<std::string> ErrorRegistry::getAllCategories() const {
 }
 
 json ErrorRegistry::toJSON() const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     json result = {
         {"total_errors", errors_.size()},
-        {"categories", getAllCategories()},
+        {"categories", json::array()},
         {"errors", json::array()}
     };
+
+    for (const auto& [category, _] : category_index_) {
+        result["categories"].push_back(category);
+    }
     
     for (const auto& pair : errors_) {
         result["errors"].push_back(pair.second.toJSON());
@@ -2539,4 +2550,3 @@ std::string ErrorRegistry::getRecoveryHint(ErrorCode code) const {
 
 } // namespace errors
 } // namespace themis
-

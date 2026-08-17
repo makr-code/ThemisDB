@@ -88,6 +88,27 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] **Phase C**: SubagentCoordinator with parallel fan-out + merge strategies (`include/llm/subagent_coordinator.h`, `src/llm/subagent_coordinator_impl.cpp`)
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
   - [~] **Phase E**: Operational deployment guide + ROADMAP updates (in progress)
+- [~] **MODULE_GAPS.md Closure** (Target: 2026-08-31, Parallel Execution)
+  - [~] Phase 1: Critical Structural Fixes (braces, thread-safety, RAII) → 4 parallel sub-agents
+    - [~] Braces imbalance in 37 files (Sub-Agent: llm-braces-critical-fixes)
+    - [~] Data-race synchronization fixes (Sub-Agent: llm-thread-safety-fixes)
+    - [~] Resource leak / RAII wrappers (Sub-Agent: llm-raii-resource-fixes)
+  - [~] Phase 2: Documentation Enhancements (11,074 DOC gaps)
+    - [~] Module architecture & design docs (Sub-Agent: llm-documentation-enhancements)
+    - [~] Inline code comments & Doxygen headers (Sub-Agent: llm-documentation-enhancements)
+    - [~] Operational runbooks & troubleshooting guides (Sub-Agent: llm-documentation-enhancements)
+  - [ ] Phase 3: Code Quality & Performance (150+ medium/low gaps)
+    - [ ] Exception-safety patterns & tests
+    - [ ] Performance optimization (copy overhead, string concat, O(n²))
+    - [ ] Security hardening (LLM input validation, injection prevention)
+  - [ ] Phase 4: Testing & Validation
+    - [ ] 40+ focused hardening tests (thread-safety, exception-safety, resource cleanup)
+    - [ ] Performance regression gates established
+    - [ ] AddressSanitizer / ThreadSanitizer validation
+  - [ ] Deliverables
+    - [ ] GAP_CLOSURE_IMPLEMENTATION_GUIDE.md (created 2026-08-17)
+    - [ ] REMEDIATION_PATTERNS.md with standardized fix patterns (created 2026-08-17)
+    - [ ] All 12,474 gaps tracked, closed, or deferred with justification
 
 ## Planned Features
 

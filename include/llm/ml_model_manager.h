@@ -218,6 +218,24 @@ struct MLInferenceResponse {
  * - Scaling: Auto-scale model instances based on load
  * - Health: Monitor model health and handle failures
  * - Retirement: Gracefully retire old models
+ * 
+ * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
+ * 1. model_lifecycle_lock_ → Model lifecycle state transitions (exclusive)
+ *    └─ model_cache_lock_ → Model cache access (read-write for queries)
+ *       └─ metrics_lock_ → Instance metrics updates (exclusive)
+ *
+ * Additional Locks:
+ * - dispatch_fn_mutex_: Protects inference_dispatch_fn_ modifications
+ * - cancel_mutex_: Protects cancelled_requests_ set
+ * 
+ * Memory Ordering:
+ * - running_: std::memory_order_acquire/release
+ * - total_requests_, successful_requests_, failed_requests_: std::memory_order_relaxed
+ * 
+ * Thread Safety:
+ * - All public methods are thread-safe
+ * - Background health monitor and auto-scaler threads use lock hierarchy
+ * - No circular lock dependencies enforced by documentation
  */
 class MLModelManager {
 public:
@@ -494,14 +512,31 @@ private:
     };
     
     std::unordered_map<std::string, std::unique_ptr<ModelEntry>> models_;
-    mutable std::mutex models_mutex_;
+    
+    // LOCK HIERARCHY ENFORCEMENT (§3.2):
+    // ┌─ model_lifecycle_lock_ : std::mutex
+    // │  └─ model_cache_lock_ : std::shared_mutex (for cache reads)
+    // │     └─ metrics_lock_ : std::mutex
+    // └─ dispatch_fn_mutex_ : std::mutex (independent)
+    // └─ cancel_mutex_ : std::mutex (independent)
+    
+    /// Exclusive lock for model lifecycle state transitions (register, deploy, retire)
+    mutable std::mutex model_lifecycle_lock_;
+    
+    /// Read-write lock for model cache queries (many readers, few writers)
+    mutable std::shared_mutex model_cache_lock_;
+    
+    /// Exclusive lock for instance metrics and statistics updates
+    mutable std::mutex metrics_lock_;
     
     // Background threads
     std::unique_ptr<std::thread> health_monitor_thread_;
     std::unique_ptr<std::thread> auto_scaler_thread_;
+    
+    /// Atomic flag: system is running (memory_order_acquire/release)
     std::atomic<bool> running_{false};
     
-    // Statistics
+    // Statistics (protected by metrics_lock_; may use std::memory_order_relaxed for increment-only ops)
     std::atomic<size_t> total_requests_{0};
     std::atomic<size_t> successful_requests_{0};
     std::atomic<size_t> failed_requests_{0};
@@ -515,7 +550,7 @@ private:
     
     MLModelInstance* selectInstance(const std::string& model_id);
     /// Selects the least-busy DEPLOYED instance from an already-locked ModelEntry.
-    /// Caller MUST hold models_mutex_.  Returns nullptr when no DEPLOYED instance exists.
+    /// Caller MUST hold model_cache_lock_. Returns nullptr when no DEPLOYED instance exists.
     [[nodiscard]] MLModelInstance* selectLeastBusy_(const ModelEntry& entry) const noexcept;
     void updateInstanceMetrics(MLModelInstance* instance, float latency_ms, bool success);
     
@@ -525,11 +560,11 @@ private:
     std::string generateRequestId();
     std::atomic<uint64_t> request_counter_{0};
 
-    // In-flight request cancellation tracking
+    // In-flight request cancellation tracking (protected by cancel_mutex_)
     std::unordered_set<std::string> cancelled_requests_;
     std::mutex cancel_mutex_;
 
-    // Injection slot for real inference dispatch (stub #250)
+    // Injection slot for real inference dispatch (stub #250) (protected by dispatch_fn_mutex_)
     InferenceDispatchFn inference_dispatch_fn_;
     mutable std::mutex dispatch_fn_mutex_;
 };

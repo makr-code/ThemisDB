@@ -15,6 +15,7 @@
 #include "utils/logger.h"
 #include "utils/error_contracts.h"
 #include "utils/error_registry.h"
+#include <fmt/format.h>
 
 #include <filesystem>
 #include <openssl/sha.h>
@@ -34,6 +35,22 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <unistd.h>
+#endif
+
+#ifndef _WIN32
+namespace {
+
+/// @brief RAII wrapper for a POSIX file descriptor.
+/// Automatically closes the fd on scope exit. The fd must be >= 0.
+struct FdGuard {
+    explicit FdGuard(int fd) noexcept : fd_(fd) {}
+    ~FdGuard() noexcept { if (fd_ >= 0) ::close(fd_); }
+    FdGuard(const FdGuard&) = delete;
+    FdGuard& operator=(const FdGuard&) = delete;
+    int fd_;
+};
+
+} // anonymous namespace
 #endif
 
 namespace themis {
@@ -167,8 +184,8 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
 #ifndef _WIN32
         int fd = ::open(cfg_.log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
         if (fd >= 0) {
-            ::fdatasync(fd);
-            ::close(fd);
+            FdGuard guard(fd);
+            ::fdatasync(guard.fd_);
         }
 #else
         HANDLE h = CreateFileA(cfg_.log_path.c_str(), GENERIC_WRITE,
@@ -193,8 +210,8 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
 #ifndef _WIN32
             int fd2 = ::open(cfg_.secondary_log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
             if (fd2 >= 0) {
-                ::fdatasync(fd2);
-                ::close(fd2);
+                FdGuard guard2(fd2);
+                ::fdatasync(guard2.fd_);
             }
 #else
             HANDLE h2 = CreateFileA(cfg_.secondary_log_path.c_str(), GENERIC_WRITE,
@@ -1678,6 +1695,12 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
 void HashChainAuditWriter::saveChainHead() {
     try {
         if (!chain_head_stream_.is_open()) {
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::AUDIT_PERSISTENCE_FAILED,
+                "chain head stream is not open",
+                "HashChainAuditWriter::saveChainHead",
+                ErrorSeverity::Error,
+                /*is_recoverable=*/false));
             throw std::runtime_error("chain head stream is not open");
         }
 
@@ -1690,8 +1713,8 @@ void HashChainAuditWriter::saveChainHead() {
         if (cfg_.fsync_on_write) {
             int fd = ::open(cfg_.chain_head_path.c_str(), O_RDONLY);
             if (fd >= 0) {
-                ::fdatasync(fd);
-                ::close(fd);
+                FdGuard guard(fd);
+                ::fdatasync(guard.fd_);
             }
         }
 #endif
@@ -1753,6 +1776,12 @@ void HashChainAuditWriter::write(nlohmann::json record) {
             log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);
         }
         if (!log_stream_.is_open()) {
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::AUDIT_PERSISTENCE_FAILED,
+                fmt::format("log stream could not be opened: {}", cfg_.log_path),
+                "HashChainAuditWriter::append",
+                ErrorSeverity::Error,
+                /*is_recoverable=*/true));
             throw std::runtime_error("log stream is not open");
         }
         log_stream_ << record_json << '\n';
@@ -1760,6 +1789,12 @@ void HashChainAuditWriter::write(nlohmann::json record) {
             log_stream_.flush();
         }
     } catch (const std::exception& e) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::AUDIT_WRITE_FAILED,
+            fmt::format("failed to append log to {}: {}", cfg_.log_path, e.what()),
+            "HashChainAuditWriter::append",
+            ErrorSeverity::Error,
+            /*is_recoverable=*/true));
         THEMIS_ERROR("HashChainAuditWriter: failed to append log to {}: {}",
                      cfg_.log_path, e.what());
     }

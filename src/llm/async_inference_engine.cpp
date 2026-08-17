@@ -34,7 +34,12 @@ AsyncInferenceEngine::AsyncInferenceEngine(
         throw std::invalid_argument("Plugin cannot be null");
     }
     // Wrap raw pointer in a non-owning shared_ptr for hot-swap support.
-    active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
+    // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
+    // and to establish happens-before relationship with first worker access.
+    {
+        std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
+        active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
+    }
     
     spdlog::info("AsyncInferenceEngine starting with {} worker threads",
                  config_.num_worker_threads);
@@ -66,7 +71,12 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     if (!plugin_) {
         throw std::invalid_argument("Plugin cannot be null");
     }
-    active_plugin_ = owned_plugin_;
+    // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
+    // and to establish happens-before relationship with first worker access.
+    {
+        std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
+        active_plugin_ = owned_plugin_;
+    }
     spdlog::info("AsyncInferenceEngine starting with {} worker threads",
                  config_.num_worker_threads);
     workers_.reserve(config_.num_worker_threads);
@@ -102,7 +112,11 @@ AsyncInferenceEngine::AsyncInferenceEngine(
         throw std::invalid_argument("SharedWorkerPool cannot be null");
     }
     // Wrap raw pointer in a non-owning shared_ptr for hot-swap support.
-    active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
+    // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
+    {
+        std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
+        active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
+    }
     spdlog::info("AsyncInferenceEngine started with shared worker pool ({} threads)",
                  shared_pool_->numThreads());
     // Private worker threads are NOT started; the shared pool is used instead.
@@ -130,7 +144,11 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     if (!shared_pool_) {
         throw std::invalid_argument("SharedWorkerPool cannot be null");
     }
-    active_plugin_ = owned_plugin_;
+    // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
+    {
+        std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
+        active_plugin_ = owned_plugin_;
+    }
     spdlog::info("AsyncInferenceEngine started with shared worker pool ({} threads)",
                  shared_pool_->numThreads());
     timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
@@ -644,9 +662,14 @@ json AsyncInferenceEngine::getWorkerStats() const {
     stats["total_dedup_cache_misses"] = stats_.total_dedup_cache_misses.load();
 
     // tokens/sec: total tokens generated divided by elapsed wall-clock time.
+    // THREAD-SAFETY: Protect engine_start_time_ read with mutex to prevent data race
     stats["total_tokens_generated"] = stats_.total_tokens_generated.load();
-    double elapsed_s = std::chrono::duration<double>(
-        std::chrono::steady_clock::now() - engine_start_time_).count();
+    double elapsed_s;
+    {
+        std::lock_guard<std::mutex> lock(stats_time_mutex_);
+        elapsed_s = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - engine_start_time_).count();
+    }
     if (elapsed_s > 0.0) {
         stats["tokens_per_second"] =
             static_cast<double>(stats_.total_tokens_generated.load()) / elapsed_s;

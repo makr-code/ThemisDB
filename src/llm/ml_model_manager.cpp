@@ -22,6 +22,8 @@
 #include <random>
 #include <thread>
 #include <chrono>
+#include <shared_mutex>
+#include <condition_variable>
 
 namespace themis {
 namespace llm {
@@ -48,13 +50,18 @@ MLModelManager::~MLModelManager() {
 // ═══════════════════════════════════════════════════════════
 
 Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
-    std::lock_guard<std::mutex> lock(models_mutex_);
+    // LOCK HIERARCHY: model_lifecycle_lock_ (exclusive for state changes)
+    std::lock_guard<std::mutex> lifecycle_lock(model_lifecycle_lock_);
     
-    if (models_.find(config.model_id) != models_.end()) {
-        return themis::Err<bool>(
-            themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
-            "Model already registered: " + config.model_id
-        );
+    // Check with read lock on cache
+    {
+        std::shared_lock<std::shared_mutex> cache_lock(model_cache_lock_);
+        if (models_.find(config.model_id) != models_.end()) {
+            return themis::Err<bool>(
+                themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+                "Model already registered: " + config.model_id
+            );
+        }
     }
     
     auto entry = std::make_unique<ModelEntry>();
@@ -62,7 +69,11 @@ Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
     entry->status = MLModelStatus::REGISTERED;
     entry->registered_at = std::chrono::system_clock::now();
     
-    models_[config.model_id] = std::move(entry);
+    // Write to cache with exclusive lock
+    {
+        std::unique_lock<std::shared_mutex> cache_lock(model_cache_lock_);
+        models_[config.model_id] = std::move(entry);
+    }
     
     THEMIS_INFO("Registered model: " + config.model_id + " (type: " + std::to_string(static_cast<int>(config.type)) + ")");
     
@@ -73,7 +84,10 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     const std::string& model_id,
     size_t num_instances
 ) {
-    std::lock_guard<std::mutex> lock(models_mutex_);
+    // LOCK HIERARCHY: model_lifecycle_lock_ (exclusive for state transitions)
+    std::lock_guard<std::mutex> lifecycle_lock(model_lifecycle_lock_);
+    
+    std::unique_lock<std::shared_mutex> cache_lock(model_cache_lock_);
     
     auto it = models_.find(model_id);
     if (it == models_.end()) {

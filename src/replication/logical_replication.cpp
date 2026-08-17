@@ -1,16 +1,17 @@
 /**
  * @file logical_replication.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief ThemisDB Logical Replication Implementation
+ *
+ * Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=10, M=19, L=4
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ *
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
  */
-
-
-#include "replication/logical_replication.h"
 
 #include <algorithm>
 #include <cctype>
@@ -639,8 +640,12 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     const auto tmp_path = base / (slot.meta.slot_name + ".json.tmp");
     const std::string payload = j.dump(2);
 #ifdef _WIN32
+    // NOTE: Blocking local filesystem operation (open). 
+    // Expected timeout: microseconds to milliseconds.
     int fd = ::_open(tmp_path.string().c_str(), _O_WRONLY | _O_CREAT | _O_TRUNC | _O_BINARY, _S_IREAD | _S_IWRITE);
 #else
+    // NOTE: Blocking local filesystem operation (open). 
+    // Expected timeout: microseconds to milliseconds.
     int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
 #endif
     if (fd < 0) {
@@ -672,6 +677,8 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
 #ifdef _WIN32
     if (::_commit(fd) != 0) {
 #else
+    // NOTE: Blocking local filesystem operation (fsync).
+    // Expected timeout: milliseconds to seconds depending on device.
     if (::fsync(fd) != 0) {
 #endif
 #ifdef _WIN32
@@ -696,6 +703,8 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     }
 
 #ifndef _WIN32
+    // NOTE: Blocking local filesystem operation (open + fsync).
+    // Expected timeout: milliseconds to seconds. For directory sync to ensure durability.
     int dir_fd = ::open(base.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
     if (dir_fd >= 0) {
         if (::fsync(dir_fd) != 0) {

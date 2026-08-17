@@ -11,6 +11,7 @@
 
 
 #include "utils/thread_pool_manager.h"
+#include "utils/thread_join_utils.h"
 #include <stdexcept>
 #include <algorithm>
 
@@ -157,10 +158,12 @@ void ThreadPool::shutdown() {
     // Wake up all workers
     cv_.notify_all();
     
-    // Wait for all workers to finish
+    // Wait for all workers to finish (bounded join; workers check running_)
     for (auto& worker : workers_) {
-        if (worker.joinable()) {
-            worker.join();
+        if (!joinThreadWithin(worker)) {
+            spdlog::warn("ThreadPool '{}': worker thread did not exit within deadline; "
+                         "a detached watcher will complete the join",
+                         config_.name);
         }
     }
     
@@ -259,6 +262,13 @@ ThreadPool::Statistics ThreadPoolManager::getPoolStatistics(PoolType pool) const
 }
 
 ThreadPoolManager::GlobalStatistics ThreadPoolManager::getStatistics() const {
+    // Guard against concurrent shutdown: pools are destroyed only after running_
+    // is set to false in shutdown(), so checking the flag before dereferencing
+    // the unique_ptrs is sufficient (a TOCTOU here is acceptable — the pools are
+    // long-lived and the worst case is returning zeroed statistics).
+    if (!running_.load(std::memory_order_acquire)) {
+        return GlobalStatistics{};
+    }
     GlobalStatistics stats;
     stats.io_stats = io_pool_->getStatistics();
     stats.cpu_stats = cpu_pool_->getStatistics();
@@ -285,9 +295,12 @@ void ThreadPoolManager::shutdown() {
         blocking_pool_->shutdown();
     }
     
-    // Wait for metrics thread
+    // Wait for metrics thread (bounded join; metricsLoop checks running_)
     if (metrics_thread_.joinable()) {
-        metrics_thread_.join();
+        if (!joinThreadWithin(metrics_thread_)) {
+            spdlog::warn("ThreadPoolManager: metrics thread did not exit within deadline; "
+                         "a detached watcher will complete the join");
+        }
     }
 }
 

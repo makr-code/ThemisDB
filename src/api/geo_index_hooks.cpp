@@ -20,8 +20,7 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 
-namespace themis {
-namespace api {
+namespace themis::api {
 
 using json = nlohmann::json;
 
@@ -561,6 +560,5 @@ void GeoIndexHooks::onEntityDelete(
     }
 }
 
-} // namespace api
-} // namespace themis
+} // namespace themis::api
 

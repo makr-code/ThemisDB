@@ -237,7 +237,7 @@ double heuristicScore(const std::string& query, const std::string& document) {
 struct CrossEncoderReranker::Impl {
     CrossEncoderConfig config;
     mutable std::mutex state_mutex;
-    bool model_loaded{false};
+    std::atomic<bool> model_loaded{false};
 
     // Score cache: key = hash of "query\0doc_id"
     mutable std::mutex cache_mutex;

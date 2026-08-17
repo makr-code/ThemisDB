@@ -316,6 +316,7 @@ void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
     // Build MQTT CONNACK packet
     // Format: [Type(0x20), RemainingLength, SessionPresent, ReturnCode]
     std::vector<uint8_t> packet;
+    packet.reserve(5);  // OPTIMIZATION: MQTT 5.0 needs 5 bytes max, MQTT 3.1.1 needs 4
     packet.push_back(static_cast<uint8_t>(0x20u)); // CONNACK packet type
     
     if (protocolVersion_ == 5) {
@@ -341,6 +342,12 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     if (retain) {
         flags = static_cast<uint8_t>(flags | 0x01u);
     }
+    
+    // OPTIMIZATION: Pre-allocate packet size
+    // Estimate: 1 (type) + 4 (var-length) + 2 (topic len) + topic + [2 (packet id)] + payload
+    size_t estimated_size = 1 + 4 + 2 + topic.size() + payload.size() + (qos > 0 ? 2 : 0);
+    packet.reserve(estimated_size);
+    
     packet.push_back(static_cast<uint8_t>(0x30u | flags)); // PUBLISH with QoS and retain
     
     // Calculate remaining length
@@ -445,6 +452,9 @@ void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& retu
     // Build MQTT SUBACK packet
     // Format: [Type(0x90), RemainingLength, PacketId(2), ReturnCodes...]
     std::vector<uint8_t> packet;
+    std::vector<uint8_t> packet;
+    packet.reserve(4 + returnCodes.size());
+    
     packet.push_back(0x90); // SUBACK packet type
     const size_t remaining_suback = 2 + returnCodes.size();
     if (remaining_suback > static_cast<size_t>(std::numeric_limits<uint8_t>::max())) {

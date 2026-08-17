@@ -76,14 +76,20 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::acquireChannel(
         // No available channels, check if we can create new one
         if (pool->all_channels.size() < config_.max_channels_per_target) {
             lock.unlock();
-            
-            // Create new channel
-            auto channel = createChannel(target, credentials);
+
+            // Create new channel outside the lock (may throw).
+            std::shared_ptr<grpc::Channel> channel;
+            try {
+                channel = createChannel(target, credentials);
+            } catch (...) {
+                lock.lock();
+                throw;
+            }
             auto pooled_channel = std::make_shared<PooledChannel>();
             pooled_channel->channel = channel;
             pooled_channel->in_use = true;
             pooled_channel->last_used = std::chrono::steady_clock::now();
-            
+
             lock.lock();
             pool->all_channels[channel] = pooled_channel;
             total_channels_.fetch_add(1);
@@ -357,9 +363,14 @@ bool GrpcChannelPool::healthCheck(const std::string& target,
         } else if (!pool->all_channels.empty()) {
             ch = pool->all_channels.begin()->first;
         } else {
-            // Create a temporary probe channel
+            // Create a temporary probe channel outside the lock (may throw).
             lock.unlock();
-            ch = createChannel(target, nullptr);
+            try {
+                ch = createChannel(target, nullptr);
+            } catch (...) {
+                lock.lock();
+                throw;
+            }
             lock.lock();
         }
 
