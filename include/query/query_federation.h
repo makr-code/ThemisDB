@@ -220,9 +220,28 @@ public:
      * 2. Creates execution plan
      * 3. Executes plan across shards
      * 4. Merges and returns results
-     * 
+     *
+     * **Exception Safety (Wave A §13):**
+     *   This is a propagating boundary: exceptions from shard routers and
+     *   query execution are caught, audited (including exception type and affected
+     *   clusters), logged with full context, and then re-thrown to the caller.
+     *   This provides observability without exception swallowing.
+     *
+     *   Both std::exception and unknown exceptions are audited before propagation.
+     *   Audit logs include:
+     *     - Event: "federation_failure"
+     *     - Exception type (typeid name)
+     *     - Original exception message
+     *     - Affected cluster count
+     *     - Timestamp
+     *
      * @param query Query string (AQL format)
-     * @return Query results
+     * @return Query results as JSON
+     * 
+     * @throws Any exception from shard router or query execution; wrapped with
+     *         audit context. Guaranteed never to swallow exceptions.
+     *         - std::exception and subclasses: Full type and message logged
+     *         - Unknown exceptions: Audited as "unknown exception" then re-thrown
      */
     nlohmann::json execute(const std::string& query);
     
@@ -337,8 +356,31 @@ public:
         //   FILTER doc._key >= "<min>" AND doc._key <= "<max>"
         std::optional<std::pair<std::string, std::string>> key_range;
     };
-    QueryMetadata analyzeQuery(const std::string& query);
     
+    /**
+     * @brief Analyze query to extract metadata for execution planning.
+     *
+     * Parses query text to identify:
+     *   - Tables referenced
+     *   - Join conditions
+     *   - Aggregations
+     *   - LIMIT/OFFSET clauses
+     *   - Shard-key predicates
+     *
+     * **Exception Safety (Wave A §13):**
+     *   Strong exception safety: never propagates exceptions from regex or
+     *   numeric parsing. Parsing failures are logged with full context and
+     *   gracefully degrade (e.g., failed LIMIT parsing resets to std::nullopt).
+     *   This ensures analyzis failures never corrupt query execution.
+     *
+     * @param query Query string to analyze
+     * @return QueryMetadata with parsed information; unset fields indicate
+     *         parse failures (safe, non-throwing degradation)
+     *
+     * @throws Never. All exceptions caught and logged; caller receives
+     *         partial metadata with failed fields unset.
+     */
+    QueryMetadata analyzeQuery(const std::string& query);
     /**
      * @brief Determine which shards are relevant for a query
      * 
