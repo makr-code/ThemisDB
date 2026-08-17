@@ -362,5 +362,3 @@ struct FailSafeContract {
 
 }  // namespace ingestion
 }  // namespace themis
-
-#endif  // THEMISDB_INCLUDE_INGESTION_ERROR_CONTRACT_H

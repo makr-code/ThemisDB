@@ -18,6 +18,7 @@
 
 #include "ingestion/ingestion_error_contract.h"
 
+#include <atomic>
 #include <chrono>
 #include <functional>
 #include <map>
@@ -458,5 +459,3 @@ private:
 
 }  // namespace ingestion
 }  // namespace themis
-
-#endif  // THEMISDB_INCLUDE_INGESTION_DIAGNOSTIC_EMITTER_H

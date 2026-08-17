@@ -88,7 +88,7 @@ bool isPermanentError(IngestionErrorCode code) {
 
         // Workflow errors (permanent for this item)
         case IngestionErrorCode::WORKFLOW_CONDITIONAL_FALSE:
-        case IngestionErrorCode::ADAPTER_INCOMPATIBILITY:
+        case IngestionErrorCode::WORKFLOW_ADAPTER_FAILED:
 
         // System errors (permanent)
         case IngestionErrorCode::NOT_IMPLEMENTED:
