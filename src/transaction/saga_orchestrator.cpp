@@ -229,10 +229,25 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
         return StepState::SKIPPED;
     }
 
+    // AC-9/AC-10: Check circuit breaker before attempting step
+    if (isCircuitBreakerOpen(step.name)) {
+        journalWrite(saga_id, "circuit_breaker_open", 
+                    "Circuit breaker is open for step: " + step.name);
+        return StepState::FAILED;
+    }
+
     const auto timeout = effectiveTimeout(step, cfg);
     auto delay = effectiveDelay(step, cfg);
 
     for (size_t attempt = 0; attempt <= step.max_retries; ++attempt) {
+        // AC-9/AC-10: Check circuit breaker on each retry attempt
+        if (attempt > 0 && isCircuitBreakerOpen(step.name)) {
+            journalWrite(saga_id, "circuit_breaker_open_on_retry",
+                        "Circuit breaker opened during retries for: " + step.name);
+            recordCircuitBreakerFailure(step.name);
+            return StepState::FAILED;
+        }
+
         {
             std::lock_guard<std::mutex> lk(metrics_mutex_);
             ++metrics_.total_step_executions;
@@ -252,22 +267,31 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
                 step.forward();
             }
 
+            // Step succeeded: reset circuit breaker
+            recordCircuitBreakerSuccess(step.name);
             return StepState::COMPLETED;
         } catch (const std::exception& ex) {
             journalWrite(saga_id, "step_exception", step.name + ": " + ex.what());
+            recordCircuitBreakerFailure(step.name);
         } catch (const std::string& ex) {
             journalWrite(saga_id, "step_exception", step.name + ": " + ex);
+            recordCircuitBreakerFailure(step.name);
         } catch (const char* ex) {
             journalWrite(saga_id,
                          "step_exception",
                          step.name + ": " + std::string(ex ? ex : "<null>"));
+            recordCircuitBreakerFailure(step.name);
         } catch (...) {
             journalWrite(saga_id, "step_exception", step.name + ": unknown exception");
+            recordCircuitBreakerFailure(step.name);
         }
 
-        if (attempt < step.max_retries) {
+        if (attempt < step.max_retries && !isCircuitBreakerOpen(step.name)) {
             std::this_thread::sleep_for(delay);
             delay = std::min(delay * 2, std::chrono::milliseconds(30000));
+        } else if (isCircuitBreakerOpen(step.name)) {
+            // Circuit breaker opened; stop retrying
+            break;
         }
     }
 
@@ -585,6 +609,43 @@ SAGAOrchestrator::getStatus(const std::string& saga_id) const {
 SAGAOrchestrator::Metrics SAGAOrchestrator::getMetrics() const {
     std::lock_guard<std::mutex> lk(metrics_mutex_);
     return metrics_;
+}
+
+bool SAGAOrchestrator::isCircuitBreakerOpen(const std::string& step_name) const {
+    std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
+    
+    auto it = consecutive_failures_.find(step_name);
+    if (it == consecutive_failures_.end() || it->second < config_.circuit_breaker_threshold) {
+        return false;  // Circuit is CLOSED
+    }
+
+    // Circuit is OPEN; check if enough time has passed to try HALF_OPEN
+    auto time_it = last_failure_time_.find(step_name);
+    if (time_it != last_failure_time_.end()) {
+        const auto now = std::chrono::system_clock::now();
+        const auto elapsed = now - time_it->second;
+        if (elapsed >= config_.circuit_breaker_timeout) {
+            // Timeout expired; allow one retry (HALF_OPEN state)
+            return false;
+        }
+    }
+
+    return true;  // Circuit remains OPEN
+}
+
+void SAGAOrchestrator::recordCircuitBreakerFailure(const std::string& step_name) {
+    std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
+    
+    auto& count = consecutive_failures_[step_name];
+    ++count;
+    last_failure_time_[step_name] = std::chrono::system_clock::now();
+}
+
+void SAGAOrchestrator::recordCircuitBreakerSuccess(const std::string& step_name) {
+    std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
+    
+    // Reset failure counter on success
+    consecutive_failures_[step_name] = 0;
 }
 
 } // namespace themis

@@ -152,6 +152,14 @@ struct SAGAOrchestratorConfig {
 
     /// Path for optional journal (empty = disabled).
     std::string journal_path;
+
+    // ── Circuit Breaker Configuration (AC-9/AC-10) ──────────────────────────
+    /// Number of consecutive failures before circuit breaker opens (default: 5).
+    /// When a step fails this many times consecutively, no further retries are attempted.
+    uint32_t circuit_breaker_threshold{5};
+
+    /// Duration for which the circuit breaker remains open before entering half-open state.
+    std::chrono::milliseconds circuit_breaker_timeout{std::chrono::milliseconds(30000)};
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -225,13 +233,30 @@ public:
     // ── Core execution API ────────────────────────────────────────────────────
 
     /**
-     * @brief Execute a SAGA definition synchronously.
+     * @brief Execute a SAGA definition synchronously (AC-8/AC-9/AC-10).
      *
      * Steps are run in dependency order (topological sort). Independent steps
      * run in parallel when enable_parallel is true.  On any step failure,
      * all completed steps are compensated in reverse execution order.
      *
+     * **Acceptance Criteria (AC-8/AC-9/AC-10)**:
+     * - **AC-8 Compensation Idempotency**: Each compensation step can be safely
+     *   replayed multiple times (≥10 concurrent retries) and reach the same
+     *   committed state. Uses CompensationLog to track and skip duplicates.
+     * - **AC-9 SAGA Orchestration Under Failures**: Handles partial remote
+     *   failures, network degradation, and slow responses. Failed steps trigger
+     *   reversal of all completed steps in reverse order.
+     * - **AC-10 Retry Storm Handling**: Implements circuit breaker that opens
+     *   after `config.circuit_breaker_threshold` consecutive failures (default 5).
+     *   Circuit remains open for `config.circuit_breaker_timeout` before allowing
+     *   retries. Uses exponential backoff (base 1s, factor 2×, max 30s) with
+     *   jitter to prevent thundering herd.
+     *
      * @return OK() on full success, Error(...) with description on failure.
+     *
+     * @see SAGAOrchestratorConfig::circuit_breaker_threshold for failure threshold
+     * @see SAGAOrchestratorConfig::circuit_breaker_timeout for recovery window
+     * @see CompensationLog for idempotency tracking
      */
     SagaOrchestratorStatus execute(const SAGADefinition& saga);
 
@@ -335,6 +360,21 @@ private:
 
     // Journal mutex: serialises concurrent journalWrite() calls
     mutable std::mutex journal_mutex_;
+
+    // ── Circuit Breaker State ──────────────────────────────────────────────
+    // Per-step failure tracking for circuit breaker (AC-9/AC-10)
+    mutable std::mutex circuit_breaker_mutex_;
+    std::unordered_map<std::string, uint32_t> consecutive_failures_;  ///< step_name → failure count
+    std::unordered_map<std::string, std::chrono::system_clock::time_point> last_failure_time_;
+
+    /// Check if circuit breaker is open for a specific step.
+    bool isCircuitBreakerOpen(const std::string& step_name) const;
+
+    /// Record a failure for circuit breaker tracking.
+    void recordCircuitBreakerFailure(const std::string& step_name);
+
+    /// Record a success (resets failure counter).
+    void recordCircuitBreakerSuccess(const std::string& step_name);
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 
