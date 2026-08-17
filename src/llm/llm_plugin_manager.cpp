@@ -18,6 +18,9 @@
 #include "llm/embedded_llm.h"
 #include "llm/ssm_state_rocksdb_store.h"
 #include "utils/error_registry.h"
+#include <rocksdb/db.h>
+#include <rocksdb/utilities/transaction_db.h>
+#include <rocksdb/options.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>
@@ -877,13 +880,49 @@ bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
         // Create RocksDB path if it doesn't exist
         std::filesystem::create_directories(config.rocksdb_path);
         
-        // TODO: P2-D05: Initialize RocksDB TransactionDB instance
-        // For now, this is a placeholder that logs the intent
+        // ✅ PRODUCTION FIX P2-D05: Initialize RocksDB TransactionDB instance
+        // Set up RocksDB options with SSM-specific tuning
+        rocksdb::Options options;
+        options.create_if_missing = true;
+        options.error_if_exists = false;
+        
+        // Enable compression for snapshots to reduce storage footprint
+        if (config.enable_compression) {
+            options.compression = rocksdb::kLZ4Compression;
+        }
+        
+        // Configure transaction options
+        rocksdb::TransactionDBOptions txn_db_options;
+        txn_db_options.num_stripes = 8;  // Default stripe count for TransactionDB
+        
+        // Open TransactionDB
+        rocksdb::TransactionDB* txn_db_ptr = nullptr;
+        rocksdb::Status status = rocksdb::TransactionDB::Open(
+            options,
+            txn_db_options,
+            config.rocksdb_path,
+            &txn_db_ptr
+        );
+        
+        if (!status.ok()) {
+            spdlog::error("LLMPluginManager::initializeStateStore: "
+                         "Failed to open RocksDB TransactionDB: {} at path={}",
+                         status.ToString(), config.rocksdb_path);
+            return false;
+        }
+        
+        // Assign to member pointer (ownership remains with unique_ptr if we create wrapper)
+        state_db_ = txn_db_ptr;
+        
+        // Get default column family handle (nullptr for default CF is OK in TransactionDB)
+        state_cf_ = nullptr;  // Will use default column family
+        
         spdlog::info("LLMPluginManager::initializeStateStore: "
-                    "RocksDB path={}, retention_window_ms={}, max_snapshots_per_session={}",
+                    "RocksDB TransactionDB initialized successfully at path={}, "
+                    "retention_window_ms={}, max_snapshots_per_session={}",
                     config.rocksdb_path, config.retention_window_ms, config.max_snapshots_per_session);
         
-        // Create SSMStateRocksDBStore instance (state_db_ and state_cf_ will be initialized separately)
+        // Create SSMStateRocksDBStore instance with initialized database
         if (state_db_) {
             SSMStateRocksDBStore::Config store_cfg;
             store_cfg.retention_window_ms = config.retention_window_ms;
@@ -895,7 +934,7 @@ bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
             spdlog::info("LLMPluginManager: SSM state store initialized successfully");
             return true;
         } else {
-            spdlog::warn("LLMPluginManager::initializeStateStore: RocksDB not initialized, deferring state store creation");
+            spdlog::warn("LLMPluginManager::initializeStateStore: Failed to acquire TransactionDB pointer");
             return false;
         }
     } catch (const std::exception& e) {
