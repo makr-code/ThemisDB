@@ -13,6 +13,9 @@ name: Maintenance — Issues (GS3 Gaps + Security Alerts)
 #   - .github/workflows/maintenance-gs3-gaps.yml  (→ no_workflows/)
 #   - .github/workflows/maintenance-security-alerts.yml  (→ no_workflows/)
 
+env:
+  TARGET_BRANCH: ${{ github.event.repository.default_branch }}
+
 on:
   schedule:
     - cron: '30 3 * * *'   # Daily 03:30 UTC — GS3 gap triage
