@@ -24,6 +24,8 @@
 #include <cmath>
 #include <cctype>
 #include <mutex>
+#include <shared_mutex>
+#include <condition_variable>
 #include <numeric>
 #include <thread>
 #include <fstream>

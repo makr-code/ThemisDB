@@ -23,6 +23,8 @@
 #include <numeric>
 #include <fstream>
 #include <limits>  // For std::numeric_limits (range validation)
+#include <shared_mutex>
+#include <condition_variable>
 #include <llama.h>
 
 // llama.cpp forward declarations (newer API may not be present in headers)
