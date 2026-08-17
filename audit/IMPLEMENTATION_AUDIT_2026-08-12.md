@@ -21,7 +21,7 @@ Gegenüber den August-Audits vom 2026-08-08 ist der wichtigste Stand heute:
 1. **`execution` ist kein Governance-Gap mehr** — `src/execution/ROADMAP.md` existiert und klassifiziert das Modul als produktionsreif.
 2. **Der frühere `ai_snapshot_cleanup.h:63`-Compile-Befund ist im Source geschlossen** — der Header verwendet nun einen parameterlosen Default-Konstruktor plus expliziten `Config`-Konstruktor statt der problematischen Default-Parameter-Form.
 3. **`evaluation` ist weiterhin kein Scaffold** — Source-, Test- und Benchmark-Surfaces sind vorhanden; offen ist primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
-4. **Der Search-Gap bleibt im aktuellen Source sichtbar** — `include/search/*.h` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer über 20 Header.
+4. **Der Search-Gap bleibt im aktuellen Source sichtbar** — Die 40 Treffer in 20 Headern sind `@note Gap Summary`-Annotationen im Doxygen-Dateiheader (je Datei: TODO=1, Stub=1, Mock=1), keine Inline-TODO-Kommentare im Produktionscode. `MODULE_GAPS.md` führt 40 `todo_as_productionlogic`-Einträge. `src/search/ROADMAP.md` wurde auf Maturity 65% korrigiert; der frühere "GA READY"-Claim ist ein bestätigter Überclaim (Pass 2, 2026-08-17).
 5. **Die GA-Lage bleibt unverändert:** Alle technischen Gates stehen auf PASS, die finale Freigabe bleibt menschlich.
 
 ---

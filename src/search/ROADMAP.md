@@ -15,7 +15,7 @@ Production-ready search runtime (v2.0.0 GA) with complete build configuration in
 - Phase 6 (Documentation & GA Acceptance) ✅ COMPLETE as of 2026-08-06
 - Build Configuration Integration ✅ COMPLETE as of 2026-08-08
 
-**Module Status:** 🟢 **GA READY & BUILD-INTEGRATED** (v2.0.0 Frozen)
+**Module Status:** 🟡 **Phase 1-6 dokumentiert; Härtung Phase 7 offen** (Maturity: 65% laut `audit/MATURITY_REPORT_2026-08.md` — Ziel GA nach Q3/Q4 2026 Härtungswelle; Issue #5468 thread-safety offen)
 
 ### Build Configuration Completion (2026-08-08)
 - [x] All 20 search module implementations added to cmake/ModularBuild.cmake
@@ -23,7 +23,7 @@ Production-ready search runtime (v2.0.0 GA) with complete build configuration in
   - [x] federated_search.cpp (new, 198 lines)
   - [x] search_result_stream.cpp (new, 171 lines)
   - [x] 17 existing implementations verified
-- [x] Total codebase: 5,223 lines of real implementation code (no stubs)
+- [x] Total codebase: 5,223 lines of implementation code (18/20 Komponenten tragen Gap-Scanner-Annotationen: TODO=1, Stub=1, Mock=1 je Datei; 40 `todo_as_productionlogic`-Einträge in `MODULE_GAPS.md` — Härtungsziel Q3/Q4 2026)
 - [x] All implementations include constructor validation and error handling
 - [x] Build configuration commit: 8888dc81
 - [x] Documentation sync: README, IMPLEMENTATION_STATUS_REPORT updated
