@@ -15,6 +15,7 @@
 #include "utils/error_contracts.h"
 #include "utils/logger.h"
 #include "utils/error_contracts.h"
+#include "utils/error_registry.h"
 #include <fmt/format.h>
 
 #include <filesystem>
@@ -307,96 +308,208 @@ void AuditLogger::rotateLogIfNeeded() {
 void AuditLogger::logEvent(const nlohmann::json& event) {
     if (!cfg_.enabled) return;
 
-    // Canonical-ish JSON (nlohmann::json preserves insertion order; for true canonicalization more work is needed)
-    std::string plain = event.dump();
-
-    nlohmann::json record;
-    record["ts"] = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        std::chrono::system_clock::now().time_since_epoch()).count();
-    record["category"] = "AUDIT";
-    
-    // Add hash chain if enabled
-    if (cfg_.enable_hash_chain) {
-        std::lock_guard<std::mutex> lock(chain_mu_);
-        record["chain_entry"] = entry_count_;
-        record["prev_hash"] = last_hash_;
-    }
-
-    if (cfg_.encrypt_then_sign && enc_) {
-        // Encrypt plaintext JSON with configured key
-        auto blob = enc_->encrypt(plain, cfg_.key_id);
-
-        // Build bytes for hashing: iv || ciphertext || tag
-        std::vector<uint8_t> to_hash;
-        to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size());
-        to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
-        to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
-        to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());
-
-        auto hash = sha256(to_hash);
-        SignatureResult sig;
-        if (pki_) {
-            try { sig = pki_->signHash(hash); }
-            catch (const std::exception &) { sig.ok = false; }
-            catch (const std::string &) { sig.ok = false; }
-            catch (const char *) { sig.ok = false; }
+    try {
+        // ─────────────────────────────────────────────────────────────────────
+        // Bounded Resource Check: Event size validation (Phase 2.9)
+        // ─────────────────────────────────────────────────────────────────────
+        std::string plain = event.dump();
+        constexpr size_t MAX_EVENT_SIZE = 10 * 1024 * 1024; // 10MB limit
+        
+        if (plain.size() > MAX_EVENT_SIZE) {
+            ErrorContext err_ctx(
+                themis::errors::ErrorCode::ERR_AUDIT_BUFFER_OVERFLOW,
+                "Event size exceeds maximum limit",
+                "AuditLogger::logEvent"
+            );
+            err_ctx.resource_limit = MAX_EVENT_SIZE;
+            err_ctx.resource_current = plain.size();
+            err_ctx.severity = ErrorSeverity::WARNING;
+            err_ctx.is_recoverable = true;
+            err_ctx.recovery_hint = "Event will be truncated to fit maximum size";
+            logErrorContext(err_ctx);
+            
+            // Truncate event to fit within bounds (Phase 2.8: Graceful Degradation)
+            plain = plain.substr(0, MAX_EVENT_SIZE - 1000); // Leave room for metadata
         }
 
-        auto jblob = themis::EncryptedBlob{blob}.toJson();
-        // Persist encrypted payload and signature metadata
-        record["payload"] = {
-            {"type", "ciphertext"},
-            {"key_id", blob.key_id},
-            {"key_version", blob.key_version},
-            {"iv_b64", jblob["iv"]},
-            {"ciphertext_b64", jblob["ciphertext"]},
-            {"tag_b64", jblob["tag"]}
-        };
-        record["signature"] = {
-            {"ok", sig.ok},
-            {"id", sig.signature_id},
-            {"algorithm", sig.algorithm},
-            {"sig_b64", sig.signature_b64},
-            {"cert_serial", sig.cert_serial}
-        };
-    } else {
-        // No encryption: sign plaintext bytes (if PKI available)
-        std::vector<uint8_t> bytes(plain.begin(), plain.end());
-        auto hash = sha256(bytes);
-        SignatureResult sig;
-        if (pki_) {
-            try { sig = pki_->signHash(hash); }
-            catch (const std::exception &) { sig.ok = false; }
-            catch (const std::string &) { sig.ok = false; }
-            catch (const char *) { sig.ok = false; }
+        nlohmann::json record;
+        record["ts"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                std::chrono::system_clock::now().time_since_epoch()).count();
+        record["category"] = "AUDIT";
+        
+        // Add hash chain if enabled
+        if (cfg_.enable_hash_chain) {
+            std::lock_guard<std::mutex> lock(chain_mu_);
+            record["chain_entry"] = entry_count_;
+            record["prev_hash"] = last_hash_;
         }
-        record["payload"] = {
-            {"type", "plaintext"},
-            {"data_b64", base64_encode_local(bytes)}
-        };
-        record["signature"] = {
-            {"ok", sig.ok},
-            {"id", sig.signature_id},
-            {"algorithm", sig.algorithm},
-            {"sig_b64", sig.signature_b64},
-            {"cert_serial", sig.cert_serial}
-        };
-    }
-    
-    // Update hash chain
-    if (cfg_.enable_hash_chain) {
-        std::lock_guard<std::mutex> lock(chain_mu_);
-        last_hash_ = computeEntryHash(record);
-        entry_count_++;
-        last_timestamp_ = std::chrono::system_clock::now();
-        saveChainState();
-    }
 
-    appendJsonLine(record);
-    
-    // Forward to SIEM if enabled
-    if (cfg_.enable_siem) {
-        forwardToSiem(event);
+        if (cfg_.encrypt_then_sign && enc_) {
+            // Encrypt plaintext JSON with configured key
+            try {
+                auto blob = enc_->encrypt(plain, cfg_.key_id);
+
+                // Build bytes for hashing: iv || ciphertext || tag
+                std::vector<uint8_t> to_hash;
+                to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size());
+                to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
+                to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
+                to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());
+
+                auto hash = sha256(to_hash);
+                SignatureResult sig;
+                if (pki_) {
+                    try { 
+                        sig = pki_->signHash(hash); 
+                    }
+                    catch (const std::exception &e) { 
+                        sig.ok = false;
+                        
+                        // Log PKI failure with error context (Phase 2.3)
+                        ErrorContext pki_err(
+                            themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                            fmt::format("PKI signing failed: {}", e.what()),
+                            "AuditLogger::logEvent[encryption]"
+                        );
+                        pki_err.severity = ErrorSeverity::WARNING;
+                        pki_err.is_recoverable = true;
+                        pki_err.recovery_hint = "Continuing without signature verification";
+                        logErrorContext(pki_err);
+                    }
+                    catch (const std::string &e) { 
+                        sig.ok = false;
+                    }
+                    catch (const char *e) { 
+                        sig.ok = false;
+                    }
+                }
+
+                auto jblob = themis::EncryptedBlob{blob}.toJson();
+                // Persist encrypted payload and signature metadata
+                record["payload"] = {
+                    {"type", "ciphertext"},
+                    {"key_id", blob.key_id},
+                    {"key_version", blob.key_version},
+                    {"iv_b64", jblob["iv"]},
+                    {"ciphertext_b64", jblob["ciphertext"]},
+                    {"tag_b64", jblob["tag"]}
+                };
+                record["signature"] = {
+                    {"ok", sig.ok},
+                    {"id", sig.signature_id},
+                    {"algorithm", sig.algorithm},
+                    {"sig_b64", sig.signature_b64},
+                    {"cert_serial", sig.cert_serial}
+                };
+            }
+            catch (const std::exception &e) {
+                // Encryption failed - degrade to unencrypted mode (Phase 2.8)
+                ErrorContext enc_err(
+                    themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                    fmt::format("Encryption failed: {}", e.what()),
+                    "AuditLogger::logEvent[encryption]"
+                );
+                enc_err.severity = ErrorSeverity::WARNING;
+                enc_err.is_recoverable = true;
+                enc_err.recovery_hint = "Switching to unencrypted audit logging";
+                logErrorContext(enc_err);
+                
+                // Fallback: write plaintext
+                std::vector<uint8_t> bytes(plain.begin(), plain.end());
+                auto hash = sha256(bytes);
+                record["payload"] = {
+                    {"type", "plaintext"},
+                    {"data_b64", base64_encode_local(bytes)}
+                };
+                record["signature"] = {{"ok", false}};
+            }
+        } else {
+            // No encryption: sign plaintext bytes (if PKI available)
+            try {
+                std::vector<uint8_t> bytes(plain.begin(), plain.end());
+                auto hash = sha256(bytes);
+                SignatureResult sig;
+                if (pki_) {
+                    try { 
+                        sig = pki_->signHash(hash); 
+                    }
+                    catch (const std::exception &e) { 
+                        sig.ok = false;
+                        
+                        ErrorContext pki_err(
+                            themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                            fmt::format("PKI signing failed: {}", e.what()),
+                            "AuditLogger::logEvent[plaintext]"
+                        );
+                        pki_err.severity = ErrorSeverity::WARNING;
+                        logErrorContext(pki_err);
+                    }
+                    catch (...) { 
+                        sig.ok = false; 
+                    }
+                }
+                record["payload"] = {
+                    {"type", "plaintext"},
+                    {"data_b64", base64_encode_local(bytes)}
+                };
+                record["signature"] = {
+                    {"ok", sig.ok},
+                    {"id", sig.signature_id},
+                    {"algorithm", sig.algorithm},
+                    {"sig_b64", sig.signature_b64},
+                    {"cert_serial", sig.cert_serial}
+                };
+            }
+            catch (const std::exception &e) {
+                ErrorContext err(
+                    themis::errors::ErrorCode::ERR_AUDIT_SERIALIZATION_FAILED,
+                    fmt::format("Plaintext serialization failed: {}", e.what()),
+                    "AuditLogger::logEvent[plaintext_serialize]"
+                );
+                err.severity = ErrorSeverity::ERROR;
+                logErrorContext(err);
+                return; // Unable to proceed
+            }
+        }
+        
+        // Update hash chain
+        if (cfg_.enable_hash_chain) {
+            try {
+                std::lock_guard<std::mutex> lock(chain_mu_);
+                last_hash_ = computeEntryHash(record);
+                entry_count_++;
+                last_timestamp_ = std::chrono::system_clock::now();
+                saveChainState();
+            }
+            catch (const std::exception &e) {
+                ErrorContext chain_err(
+                    themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                    fmt::format("Chain state update failed: {}", e.what()),
+                    "AuditLogger::logEvent[chain_update]"
+                );
+                chain_err.severity = ErrorSeverity::WARNING;
+                chain_err.is_recoverable = true;
+                logErrorContext(chain_err);
+            }
+        }
+
+        appendJsonLine(record);
+        
+        // Forward to SIEM if enabled
+        if (cfg_.enable_siem) {
+            forwardToSiem(event);
+        }
+    }
+    catch (const std::exception &e) {
+        // Final fallback: log to stderr
+        ErrorContext fatal_err(
+            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            fmt::format("Unexpected error in logEvent: {}", e.what()),
+            "AuditLogger::logEvent[fatal]"
+        );
+        fatal_err.severity = ErrorSeverity::CRITICAL;
+        fatal_err.is_recoverable = false;
+        std::cerr << fatal_err.toJSON() << std::endl;
     }
 }
 
@@ -826,8 +939,30 @@ void AuditLogger::flush() {
 }
 
 // ============================================================================
-// Retention Support Methods
+// Phase 2.3: Observability Plane Hardening - Error Context Logging
 // ============================================================================
+
+void AuditLogger::logErrorContext(const ErrorContext& ctx) {
+    // Create an audit event representing the error context
+    nlohmann::json error_event = nlohmann::json::parse(ctx.toJSON());
+    error_event["event_type"] = "DIAGNOSTIC_ERROR";
+    error_event["severity_level"] = static_cast<int>(ctx.severity);
+    error_event["is_recoverable"] = ctx.is_recoverable;
+    
+    // Log diagnostically - use simplified path to avoid recursion
+    try {
+        std::lock_guard<std::mutex> lock(file_mu_);
+        // Append directly without full encryption/chain processing
+        // to prevent recursive failures during error logging
+        appendJsonLine(error_event);
+    }
+    catch (const std::exception &e) {
+        // Final fallback: write to stderr (Phase 2.8: Graceful Degradation)
+        std::cerr << "AUDIT_ERROR_CONTEXT_FAILED: " << e.what() 
+                  << " | " << ctx.toJSON() << std::endl;
+    }
+}
+
 
 std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
     std::vector<AuditLogEntry> entries;
