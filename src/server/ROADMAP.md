@@ -25,12 +25,10 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - Token revocation (JTI blacklist) support
   - Fail-closed rejection on any validation failure
   - Comprehensive test coverage for all validation scenarios
-
-## In Progress
-- [~] P0 security/code-quality remediation wave for server paths (Target: Q2 2026)
+- [x] P0 security/code-quality remediation wave for server paths (Completed Q3 2026)
   - Status: 2,172 verified gaps identified and categorized (2026-06-25); 654 actionable (Critical + High severity)
-  - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
-  - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)
+  - [x] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths — Phase 1 Security/Auth Hardening complete; all scanner-confirmed high-severity auth/logging findings closed with SCH-01..SCH-20 regression tests in `tests/server/test_server_contract_hardening_focused.cpp` (Target: Q2 2026 → Completed Q3 2026)
+  - [x] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green — `include/server/server_api_contract.h` §2 Auth Gate Contract frozen; all 12+ error classes with fail-closed semantics; SCH-01..SCH-20 all pass (Target: Q2 2026 → Completed Q3 2026)
 - [x] Phase 5-S kickoff: wire-protocol retry/idempotency hardening batch (Target: Q3 2026 → delivered Q3 2026)
   - [x] Idempotency cache lookup now serves thread-local snapshots and `lookupSnapshot()` exposes by-value reads without exposing unlocked internal storage
   - [x] Zero-window idempotency configuration fails safe by disabling retention rather than growing unbounded state
