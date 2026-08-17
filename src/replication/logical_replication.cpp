@@ -470,6 +470,11 @@ void LogicalReplicationManager::applyTransform(LogicalChange& change) const {
 }
 
 std::string LogicalReplicationManager::documentIdFromChange(const LogicalChange& change) const {
+    // Production Logic: Extract document ID from change data (new_data first, then old_data).
+    // Searches for "document_id" first, then "_id" field in JSON objects.
+    // Returns: document ID string if found; empty string ("") if not found or data is not an object.
+    // Contract: Caller must check for empty return and treat as "no ID available" condition.
+    
     if (change.new_data.is_object()) {
         if (change.new_data.contains("document_id")) {
             const auto& v = change.new_data["document_id"];
@@ -491,7 +496,7 @@ std::string LogicalReplicationManager::documentIdFromChange(const LogicalChange&
         }
     }
     THEMIS_DEBUG("LogicalReplicationManager::documentIdFromChange: no document id found in change; returning empty string");
-    return {};
+    return {};  // Production behavior: empty string signals "ID not available"
 }
 
 void LogicalReplicationManager::loadPersistedSlots() {
@@ -702,12 +707,19 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
 }
 
 std::string LogicalReplicationManager::slotStatePath(const std::string& slot_name) const {
+    // Production Logic: Generate filesystem path for logical replication slot state.
+    // Returns: 
+    //   - empty string if WAL directory not configured (prerequisite missing)
+    //   - base directory path if slot_name is empty
+    //   - full path to slot JSON file (base/slot_name.json) if slot_name provided
+    // Contract: Caller must check for empty return when wal_directory is not configured.
+    
     fs::path base = config_.wal_directory.empty()
                         ? fs::path()
                         : fs::path(config_.wal_directory) / "logical_slots";
     if (base.empty()) {
         THEMIS_WARN("LogicalReplicationManager::slotStatePath: wal_directory not configured; returning empty path");
-        return {};
+        return {};  // Production behavior: empty string signals "configuration incomplete"
     }
     if (slot_name.empty()) return base.string();
     return (base / (slot_name + ".json")).string();
@@ -720,9 +732,13 @@ LogicalReplicationManager::Stats LogicalReplicationManager::getStats() const {
 
 std::string LogicalReplicationManager::collectionKey(const std::string& collection,
                                                      const std::string& document_id) {
+    // Production Logic: Create composite key for document identification.
+    // Returns: "collection:document_id" on valid inputs; empty string if either parameter is empty.
+    // Contract: Caller must validate inputs before calling; empty return signals invalid parameters.
+    
     if (collection.empty() || document_id.empty()) {
         THEMIS_WARN("LogicalReplicationManager::collectionKey: empty collection or document_id; returning empty key");
-        return {};
+        return {};  // Production behavior: empty string signals "invalid inputs"
     }
     return collection + ":" + document_id;
 }
