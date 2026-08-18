@@ -901,18 +901,33 @@ bool KnowledgeGapDetector::verifyClaim(
     }
 
     // Check how many terms are found in documents
+    // Optimization: Convert to set for O(1) lookup and parse words once per document
+    // Complexity: O(n_docs × n_content) instead of O(n_docs × n_terms × n_content)
     size_t terms_found = 0;
+    
+    // Pre-build set of claim terms for O(1) lookup
+    std::set<std::string> term_set(claim_terms.begin(), claim_terms.end());
 
     for (const auto& doc : docs) {
         std::string content_lower = doc.content;
         std::transform(content_lower.begin(), content_lower.end(),
                       content_lower.begin(),
                       [](unsigned char c){ return std::tolower(c); });
-
-        for (const auto& term : claim_terms) {
-            if (content_lower.find(term) != std::string::npos) {
+        
+        // Parse content into words and check membership in term set
+        // Early exit when we find a matching term (O(log n_terms) per word)
+        std::istringstream stream(content_lower);
+        std::string word;
+        bool found_any = false;
+        
+        while (stream >> word && !found_any) {
+            // Remove punctuation from word end for better matching
+            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                word.pop_back();
+            }
+            if (term_set.count(word)) {
                 terms_found++;
-                break; // Count each term only once per document
+                found_any = true;
             }
         }
     }
