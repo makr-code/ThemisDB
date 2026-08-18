@@ -18,6 +18,7 @@
 
 #include <memory>
 #include <algorithm>
+#include <fmt/format.h>
 #include "sharding/sharding_manager.h"
 #include "themis/runtime_license_gate.h"
 
@@ -29,12 +30,9 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
 
     // Edition constraint check
     if (shard_nodes_.size() >= static_cast<size_t>(GetMaxShardNodes())) {
-        std::string error = "Cannot add shard node. Edition limit reached: ";
-        error += std::to_string(GetMaxShardNodes());
-        error += " nodes maximum (";
-        error += std::string(edition::EDITION_STRING);
-        error += " edition)";
-        throw std::runtime_error(error);
+        throw std::runtime_error(fmt::format(
+            "Cannot add shard node. Edition limit reached: {} nodes maximum ({} edition)",
+            GetMaxShardNodes(), edition::EDITION_STRING));
     }
 
     shard_nodes_.push_back(node);
@@ -56,13 +54,9 @@ int ShardingManager::GetRemainingNodeCapacity() const {
 void ShardingManager::ValidateNodeCount(size_t requested_nodes) {
     int max_nodes = GetMaxShardNodes();
     if (static_cast<int>(requested_nodes) > max_nodes) {
-        std::string error = "Requested node count (";
-        error += std::to_string(requested_nodes);
-        error += ") exceeds edition limit (";
-        error += std::to_string(max_nodes);
-        error += "). Edition: ";
-        error += std::string(edition::EDITION_STRING);
-        throw std::runtime_error(error);
+        throw std::runtime_error(fmt::format(
+            "Requested node count ({}) exceeds edition limit ({}). Edition: {}",
+            requested_nodes, max_nodes, edition::EDITION_STRING));
     }
 }
 
@@ -94,13 +88,8 @@ bool ShardingManager::RemoveShardNode(uint32_t node_id) {
 
 std::string ShardingManager::GetShardingCapabilityInfo() const {
     const auto info = edition::EditionInfo::Get();
-    std::string result = "Edition: ";
-    result += std::string(info.name);
-    result += " | Max Shard Nodes: ";
-    result += std::to_string(info.sharding_max_nodes);
-    result += " | Current Nodes: ";
-    result += std::to_string(GetNodeCount());
-    return result;
+    return fmt::format("Edition: {} | Max Shard Nodes: {} | Current Nodes: {}",
+        info.name, info.sharding_max_nodes, GetNodeCount());
 }
 
 std::string ShardingManager::GetShardForKey(

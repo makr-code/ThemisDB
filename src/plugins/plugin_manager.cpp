@@ -1444,6 +1444,16 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
         return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
     }
 
+    // RAII guard for new_instance: ensures cleanup on any error path (including exceptions).
+    // Uses DestroyPluginFunc if available, otherwise falls back to delete.
+    auto instance_deleter = [&new_destroy](IThemisPlugin* p) noexcept {
+        if (!p) return;
+        if (new_destroy) new_destroy(p);
+        else delete p;
+    };
+    std::unique_ptr<IThemisPlugin, decltype(instance_deleter)>
+        new_instance_guard(new_instance, instance_deleter);
+
     // Step 2f: Initialize with restored state embedded in config (if available)
     std::string init_config = "{}";
     if (!saved_state.empty()) {
@@ -1457,8 +1467,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     }
 
     if (!new_instance->initialize(init_config.c_str())) {
-        if (new_destroy) new_destroy(new_instance);
-        else delete new_instance;
+        new_instance_guard.reset();
         unloadLibrary(new_handle);
         auto msg = fmt::format("New plugin binary for '{}' failed initialize()", name);
         THEMIS_ERROR("{}", msg);
@@ -1493,8 +1502,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
         auto it = plugins_.find(name);
         if (it == plugins_.end()) {
             // Unlikely: plugin entry was removed concurrently. Clean up new instance.
-            if (new_destroy) new_destroy(new_instance);
-            else delete new_instance;
+            new_instance_guard.reset();
             unloadLibrary(new_handle);
             return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                            fmt::format("Plugin entry '{}' removed during reload", name));
@@ -1509,11 +1517,11 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
                 getSymbol(old_handle, "destroyPlugin"));
         }
 
-        // Release old instance ownership and atomically install new instance.
-        // Using get()+reset() rather than release() to ensure the unique_ptr is
-        // explicitly nulled before the new pointer is assigned.
+        // Detach the old instance before publishing the replacement so teardown
+        // can run after the registry entry has been updated.
         old_raw = entry.instance.get();
         entry.instance.release();
+        new_instance_guard.release();
         entry.instance.reset(new_instance);
         entry.library_handle = new_handle;
         entry.loaded         = true;

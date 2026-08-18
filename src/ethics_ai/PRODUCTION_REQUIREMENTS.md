@@ -1,4 +1,4 @@
-> **Status:** 2026-06-01 – mit aktuellem Ethics_ai-Code (`argument_store.cpp`) abgeglichen.
+> **Status:** 2026-08-18 – Retrospective closure of Q4 2026 EU AI Act compliance work (2026-08-09). Art. 13/22 compliance complete; audit types finalized; production-grade baseline verified.
 
 # ThemisDB Ethics_ai Module - Production Requirements
 

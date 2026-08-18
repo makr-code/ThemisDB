@@ -22,6 +22,7 @@
 #include <sstream>
 #include <filesystem>
 #include <cstdlib>
+#include <algorithm>
 
 namespace themis {
 namespace llm {
@@ -149,7 +150,8 @@ std::vector<std::string> LLMPluginManager::listPlugins() const {
     for (const auto& [name, _] : plugins_) {
         result.push_back(name);
     }
-    
+    // Sort for deterministic order (plugins_ is unordered_map)
+    std::sort(result.begin(), result.end());
     return result;
 }
 
@@ -161,9 +163,16 @@ bool LLMPluginManager::hasPlugin(const std::string& name) const {
 json LLMPluginManager::getAggregatedCapabilities() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Collect sorted plugin names for deterministic output (plugins_ is unordered_map)
+    std::vector<std::string> sorted_names;
+    sorted_names.reserve(plugins_.size());
+    for (const auto& [name, _] : plugins_) sorted_names.push_back(name);
+    std::sort(sorted_names.begin(), sorted_names.end());
+
     json result = json::array();
     
-    for (const auto& [name, entry] : plugins_) {
+    for (const auto& name : sorted_names) {
+        const auto& entry = plugins_.at(name);
         // null_dereference: entry.plugin is owned by unique_ptr and non-null
         // (registerPlugin rejects null plugins), but guard defensively.
         if (!entry.plugin) {

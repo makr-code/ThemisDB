@@ -73,6 +73,7 @@ Production-usable shared utility behavior exists for observability, privacy proc
     - [x] 3.8a: zstd_codec compress/decompress failure emits structured ErrorContext - COMPLETE 2026-08-17
     - [x] 3.8b: lz4_codec compress/decompress failure emits structured ErrorContext - COMPLETE 2026-08-17
     - [x] 3.8c: serialization Decoder bounds violation emits structured ErrorContext - COMPLETE 2026-08-17
+    - [x] 3.8d: @error_contract Doxygen tables added to zstd_codec.h, lz4_codec.h, serialization.h (codes 9060-9084) - COMPLETE 2026-08-18
   - [x] 3.9: Apply error contracts to runtime services (thread_pool_manager, rate_limiter, connection pools) - COMPLETE 2026-08-17
     - [x] 3.9a: error_registry read/write paths hardened for concurrent access in high-fan-out call paths - COMPLETE 2026-08-17
 - [x] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
@@ -85,6 +86,7 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)
 - [x] extend concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
   - [x] Phase 4 stress/concurrency test suite added (UTL-CONC-01..10): ThreadPool, RateLimiter, ErrorRegistry, error_contracts, zstd_codec, lz4_codec - COMPLETE 2026-08-17
+  - [x] Phase 4 extended stress suites: audit_logger concurrent writers (N=8/32/128), thread_pool saturation, pii_stream_scanner parallel slots, lek_rotation_atomic, pii_unicode_edge_cases - COMPLETE 2026-08-18
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for mapped utility hotspots (Target: Q4 2026)
@@ -110,6 +112,13 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] gap remediation: pki_client + error_registry critical/high closure (2026-08-17)
   - pki_client.cpp: cert pinning fail-closed enforcement + password callback bounds hardening
   - error_registry.cpp/h: shared_mutex synchronization for concurrent read/write safety
+- [x] Phase 2.2 privacy plane: regex_detection_engine + ner_detection_engine hardened (2026-08-18)
+  - regex_detection_engine.cpp: backtracking bounds (kRegexMatchTimeoutMs=5s), malformed-pattern guard, UTF-8 validate
+  - ner_detection_engine.cpp: model-unavailable fail-closed (throws), rollback-on-reload, model_available_ gate
+- [x] Phase 3.8 compression @error_contract headers: zstd_codec.h, lz4_codec.h, serialization.h (2026-08-18)
+  - zstd_compress_safe / zstd_decompress_safe: @error_contract tables with codes 9060-9067
+  - lz4_compress_safe / lz4_decompress_safe: @error_contract tables with codes 9060-9067
+  - Serialization::Encoder::finish() + Decoder class: @error_contract tables (9080-9084)
 
 ## Production Readiness Checklist
 

@@ -1,0 +1,127 @@
+name: Post Failure Comment
+description: >
+  Posts (or idempotently updates) a structured failure comment on a PR or issue.
+  Uses an HTML marker to identify existing bot comments so that re-runs update
+  rather than append a new comment, avoiding comment spam.
+
+inputs:
+  token:
+    description: GitHub token with pull-requests:write permission.
+    required: true
+  gate-name:
+    description: Short human-readable name of the gate or check (e.g. "Community Fail-Closed").
+    required: true
+  workflow-file:
+    description: Workflow file name shown in the comment footer (e.g. "09-pr-gates_community-fail-closed.yml").
+    required: true
+  job-status:
+    description: The job status string ("success", "failure", "cancelled", "skipped").
+    required: true
+  checklist:
+    description: >
+      Markdown bullet list describing the individual sub-checks and their results.
+      Each line should start with "- ✅ " or "- ❌ " as appropriate.
+    required: true
+  error-summary:
+    description: Optional free-text error details captured from failing steps.
+    required: false
+    default: ''
+  marker-id:
+    description: >
+      Unique marker string embedded as an HTML comment to identify the bot comment.
+      Must be unique per workflow. Defaults to the gate-name slug.
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Post or update gate result comment
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+      env:
+        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_GATE_NAME: ${{ inputs.gate-name }}
+        INPUT_WORKFLOW_FILE: ${{ inputs.workflow-file }}
+        INPUT_JOB_STATUS: ${{ inputs.job-status }}
+        INPUT_CHECKLIST: ${{ inputs.checklist }}
+        INPUT_ERROR_SUMMARY: ${{ inputs.error-summary }}
+        INPUT_MARKER_ID: ${{ inputs.marker-id }}
+      with:
+        github-token: ${{ inputs.token }}
+        script: |
+          const prNumber = context.issue && context.issue.number;
+          if (!prNumber) {
+            core.info('No PR/issue context — skipping comment (push or workflow_dispatch trigger).');
+            return;
+          }
+
+          const gateName     = process.env.INPUT_GATE_NAME;
+          const workflowFile = process.env.INPUT_WORKFLOW_FILE;
+          const jobStatus    = process.env.INPUT_JOB_STATUS;
+          const checklist    = process.env.INPUT_CHECKLIST || '';
+          const errorSummary = process.env.INPUT_ERROR_SUMMARY || '';
+          const rawMarkerId  = process.env.INPUT_MARKER_ID || gateName;
+
+          // Derive a stable, slug-safe marker from the gate name.
+          const markerId = 'post-failure-comment-' +
+            rawMarkerId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          const marker = `<!-- ${markerId} -->`;
+
+          const passed  = jobStatus === 'success';
+          const icon    = passed ? '✅' : '❌';
+          const verdict = passed ? 'PASSED' : 'FAILED';
+          const runUrl  = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+          let body = [
+            marker,
+            `## ${icon} Wave C Policy Gate: ${gateName}`,
+            '',
+            `**Result:** ${icon} ${gateName} ${verdict}`,
+            `**Workflow run:** [#${context.runId}](${runUrl})`,
+            `**Triggered by:** @${context.actor}`,
+            '',
+            '### Checks',
+            checklist,
+          ].join('\n');
+
+          if (!passed && errorSummary) {
+            body += [
+              '',
+              '### Error Details',
+              '```',
+              errorSummary.substring(0, 3000),
+              '```',
+            ].join('\n');
+          }
+
+          body += `\n\n> See \`.github/workflows/${workflowFile}\` for details.`;
+
+          // Find an existing bot comment with our marker to update idempotently.
+          const { data: comments } = await github.rest.issues.listComments({
+            issue_number: prNumber,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            per_page: 100,
+          });
+
+          const existing = comments.find(c =>
+            c.body && c.body.includes(marker)
+          );
+
+          if (existing) {
+            await github.rest.issues.updateComment({
+              comment_id: existing.id,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+            core.info(`Updated existing comment ${existing.id} for gate "${gateName}".`);
+          } else {
+            await github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+            core.info(`Created new comment for gate "${gateName}".`);
+          }
