@@ -240,8 +240,22 @@ ManifestStoreStatus ManifestStore::write(const std::string& artifact_id,
   // Validate version counter is available (cannot be 0 if we've written before,
   // but for first write we need to ensure counter logic is sound)
   // If current_version is 0, this is either a new artifact or counter is corrupted
-  // Log the transition for diagnostics
+  // Check if artifact exists to distinguish between new artifact and corrupted counter
   if (current_version == 0) {
+    ArtifactManifest existing;
+    ManifestStoreStatus check_status = internalRead(artifact_id, 0, existing);
+    if (check_status == ManifestStoreStatus::OK) {
+      // Artifact exists but counter is corrupted/missing - this is an error
+      spdlog::error("ManifestStore::write: Version counter corrupted for existing artifact_id={}", 
+                   artifact_id);
+      return ManifestStoreStatus::STORAGE_ERROR;
+    } else if (check_status != ManifestStoreStatus::NOT_FOUND) {
+      // Some other error reading the artifact
+      spdlog::error("ManifestStore::write: Error reading artifact_id={} to validate counter: status={}",
+                   artifact_id, static_cast<int>(check_status));
+      return check_status;
+    }
+    // If NOT_FOUND, this is a new artifact - proceed with version 1
     spdlog::debug("ManifestStore::write: Creating new version counter for artifact_id={}", artifact_id);
   }
 

@@ -197,7 +197,6 @@
       - any-glob-to-any-file:
           - "src/**/*.cpp"
           - "include/**/*.hpp"
-      - head-sha: '.*refactor.*'
 
 "type:build":
   - changed-files:
