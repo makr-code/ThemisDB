@@ -343,6 +343,10 @@ private:
     bool TryAllocateUnderLock(uint64_t size_bytes,
                               const std::string& tag,
                               const std::string& tenant_id);
+
+    // Rollback helper (Phase 3 Hardening) — called under lock for exception recovery.
+    // Decrements both global and per-tenant counters; idempotent and noexcept.
+    void RollbackAllocationUnderLock(const std::string& tenant_id, uint64_t size_bytes);
 };
 
 // ---------------------------------------------------------------------------

@@ -13,10 +13,12 @@
 /*
  * GPU Memory Pool — slab-based pre-allocator with fragmentation tracking.
  * 
- * Remediation (Phase 2):
- * - Add validation for device_base_ptr lifetime and bounds checking
- * - Detect memory leaks and corruption patterns
- * - Ensure allocation/deallocation balance
+ * Phase 3 Hardening (Exception Safety):
+ * - All slab operations (acquire, release) are exception-safe
+ * - Bounds validation on all offset calculations
+ * - RAII guards for state rollback on failure
+ * - Diagnostic logging for corruption detection
+ * - Defragmentation operations preserve state on error
  */
 
 #include "themis/gpu/memory_pool.h"
@@ -40,6 +42,53 @@ namespace themis {
 namespace gpu {
 
 // ============================================================================
+// RAII guard for slab state rollback (Phase 3 Hardening)
+// ============================================================================
+
+class SlabStateGuard {
+public:
+    SlabStateGuard(GPUMemoryPool& pool, size_t slab_idx, uint64_t delta_allocated, uint64_t delta_wasted)
+        : pool_(pool), slab_idx_(slab_idx), delta_alloc_(delta_allocated), delta_waste_(delta_wasted),
+          committed_(false) {}
+
+    ~SlabStateGuard() noexcept {
+        if (!committed_) {
+            // Rollback on exception.
+            if (pool_.allocated_bytes_ >= delta_alloc_) {
+                pool_.allocated_bytes_ -= delta_alloc_;
+            } else {
+                pool_.allocated_bytes_ = 0;
+            }
+            if (pool_.wasted_bytes_ >= delta_waste_) {
+                pool_.wasted_bytes_ -= delta_waste_;
+            } else {
+                pool_.wasted_bytes_ = 0;
+            }
+            if (slab_idx_ < pool_.slabs_.size()) {
+                pool_.slabs_[slab_idx_].is_free = true;
+                pool_.slabs_[slab_idx_].owner_tag.clear();
+                pool_.slabs_[slab_idx_].request_size = 0;
+            }
+        }
+    }
+
+    void commit() noexcept { committed_ = true; }
+
+    // Non-copyable, non-movable
+    SlabStateGuard(const SlabStateGuard&) = delete;
+    SlabStateGuard& operator=(const SlabStateGuard&) = delete;
+    SlabStateGuard(SlabStateGuard&&) = delete;
+    SlabStateGuard& operator=(SlabStateGuard&&) = delete;
+
+private:
+    GPUMemoryPool& pool_;
+    size_t slab_idx_;
+    uint64_t delta_alloc_;
+    uint64_t delta_waste_;
+    bool committed_;
+};
+
+// ============================================================================
 // Construction
 // ============================================================================
 
@@ -58,17 +107,18 @@ GPUMemoryPool::GPUMemoryPool(uint64_t total_bytes, uint64_t slab_size, size_t nu
 }
 
 // ============================================================================
-// tryAcquire
+// tryAcquire — Phase 3 Exception-Safe Implementation
 // ============================================================================
 
 bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint64_t &offset) {
     std::lock_guard<std::mutex> lock(mutex_);
 
+    auto logger = spdlog::get("gpu");
+
     // Bounds validation: prevent overflow and invalid requests.
     if (size_bytes == 0 || size_bytes > slab_size_) {
         ++alloc_misses_;
         if (size_bytes == 0) {
-            auto logger = spdlog::get("gpu");
             if (logger) {
                 logger->warn("GPUMemoryPool::tryAcquire: zero-byte allocation attempted by tag '{}'", tag);
             }
@@ -79,16 +129,19 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint
     // Pool miss: request too large for any single slab.
     if (size_bytes > slab_size_) {
         ++alloc_misses_;
+        if (logger) {
+            logger->debug("GPUMemoryPool::tryAcquire: request size {} exceeds slab size {}", size_bytes, slab_size_);
+        }
         return false;
     }
 
     // First-fit search.
+    size_t slab_idx = 0;
     for (auto &s : slabs_) {
         if (s.is_free) {
             // Validation: ensure offset is within pool bounds.
             if (s.offset >= total_bytes_) {
                 ++alloc_misses_;
-                auto logger = spdlog::get("gpu");
                 if (logger) {
                     logger->error("GPUMemoryPool::tryAcquire: slab offset {} exceeds pool size {}", 
                                   s.offset, total_bytes_);
@@ -96,37 +149,64 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint
                 return false;
             }
 
-            s.is_free      = false;
-            s.owner_tag    = tag;
-            s.request_size = size_bytes;
-            offset         = s.offset;
+            // Create guard to rollback on exception.
+            uint64_t delta_allocated = slab_size_;
+            uint64_t delta_wasted = slab_size_ - size_bytes;
+            SlabStateGuard guard(*this, slab_idx, delta_allocated, delta_wasted);
 
+            // Update slab state (may throw, will be rolled back by guard).
+            try {
+                s.is_free      = false;
+                s.owner_tag    = tag;
+                s.request_size = size_bytes;
+                offset         = s.offset;
+            } catch (const std::exception &ex) {
+                if (logger) {
+                    logger->error("GPUMemoryPool::tryAcquire: failed to update slab state: {}", ex.what());
+                }
+                ++alloc_misses_;
+                return false;
+            }
+
+            // Update counters (safe since no more exceptions expected after state update).
             allocated_bytes_ += slab_size_;
             if (allocated_bytes_ > peak_bytes_) {
                 peak_bytes_ = allocated_bytes_;
             }
-            // Wasted bytes: slab space not used by this request.
             wasted_bytes_ += (slab_size_ - size_bytes);
             ++alloc_hits_;
+
+            // Commit guard to prevent rollback on destruction.
+            guard.commit();
+
+            if (logger) {
+                logger->debug("GPUMemoryPool::tryAcquire: granted tag='{}', size={}, offset={}", tag, size_bytes, offset);
+            }
+
             return true;
         }
+        ++slab_idx;
     }
 
     // No free slab found.
     ++alloc_misses_;
+    if (logger) {
+        logger->debug("GPUMemoryPool::tryAcquire: no free slabs available for request of {} bytes", size_bytes);
+    }
     return false;
 }
 
 // ============================================================================
-// release
+// release — Phase 3 Exception-Safe Implementation with Better Diagnostics
 // ============================================================================
 
 bool GPUMemoryPool::release(uint64_t offset) {
     std::lock_guard<std::mutex> lock(mutex_);
 
+    auto logger = spdlog::get("gpu");
+
     // Bounds validation: prevent out-of-bounds releases.
     if (offset >= total_bytes_) {
-        auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUMemoryPool::release: offset {} exceeds pool size {}", offset, total_bytes_);
         }
@@ -137,7 +217,6 @@ bool GPUMemoryPool::release(uint64_t offset) {
         if (s.offset == offset && !s.is_free) {
             // Validation: check for corruption in request_size.
             if (s.request_size > slab_size_) {
-                auto logger = spdlog::get("gpu");
                 if (logger) {
                     logger->error("GPUMemoryPool::release: detected corruption for slab at offset {} "
                                   "(request_size {} > slab_size {})", offset, s.request_size, slab_size_);
@@ -148,6 +227,49 @@ bool GPUMemoryPool::release(uint64_t offset) {
 
             // Recover the wasted bytes charged at acquire time.
             const uint64_t wasted = slab_size_ - s.request_size;
+            if (wasted_bytes_ >= wasted) {
+                wasted_bytes_ -= wasted;
+            } else {
+                wasted_bytes_ = 0;
+                if (logger) {
+                    logger->warn("GPUMemoryPool::release: wasted_bytes underflow detected for slab at offset {}", offset);
+                }
+            }
+
+            // Mark slab as free (safe operation, no exception expected).
+            s.is_free = true;
+            s.owner_tag.clear();
+            s.request_size = 0;
+
+            // Decrement allocated counter with underflow guard.
+            if (allocated_bytes_ >= slab_size_) {
+                allocated_bytes_ -= slab_size_;
+            } else {
+                allocated_bytes_ = 0;
+                if (logger) {
+                    logger->warn("GPUMemoryPool::release: allocated_bytes underflow detected for slab at offset {}", offset);
+                }
+            }
+
+            // Privacy: zero the slab before returning it to the free list.
+            // In a real CUDA pool this calls cudaMemset(device_ptr, 0, slab_size_).
+            if (zero_on_free_) {
+                ++zeroed_slabs_;
+            }
+
+            if (logger) {
+                logger->debug("GPUMemoryPool::release: freed slab at offset {}", offset);
+            }
+
+            return true;
+        }
+    }
+
+    if (logger) {
+        logger->warn("GPUMemoryPool::release: slab at offset {} not found or already free", offset);
+    }
+    return false;
+}
             if (wasted_bytes_ >= wasted) {
                 wasted_bytes_ -= wasted;
             } else {
