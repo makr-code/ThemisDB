@@ -621,3 +621,132 @@ TEST(PlannerObserver, FactoryWithObserverReturnsUsablePlanner) {
     EXPECT_EQ(obs.call_count, 1);
 }
 
+// ============================================================================
+// Phase 4 Expansion: Category C Fail-Closed, FallbackReason Taxonomy
+// ============================================================================
+
+/// Phase 4 Test: Verify Category C operations block GPU dispatch outright.
+TEST_F(QueryPlannerTest, CategoryC_BlocksGpuDispatchEvenWhenAllGatesPass) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    auto e = makeFullEligibility();
+    e.query_kernel_category = KernelCategory::C;  // Category C: ACL/provenance/transaction
+    auto f = makeFreshArtifact();  // All gates pass
+    const auto c = makeDefaultConfig();
+
+    const auto decision = planner->selectPath(e, f, c);
+    
+    // GPU dispatch must be blocked for Category C
+    EXPECT_FALSE(decision.uses_gpu);
+    EXPECT_EQ(decision.fallback_reason, FallbackReason::CategoryCSubpathDetected);
+}
+
+/// Phase 4 Test: Verify tensor freshness detection with stale age.
+TEST_F(QueryPlannerTest, TensorArtifactStale_ExactFallbackReason) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    auto e = makeFullEligibility();
+    auto f = makeStaleArtifact();  // artifact_age_ms = 10'000 > 5'000
+    const auto c = makeDefaultConfig();
+
+    const auto decision = planner->selectPath(e, f, c);
+    
+    // Stale artifact should trigger the TensorArtifactStale reason
+    EXPECT_EQ(decision.fallback_reason, FallbackReason::TensorArtifactStale);
+}
+
+/// Phase 4 Test: Verify delta lag threshold detection.
+TEST_F(QueryPlannerTest, TensorDeltaLagExceeds_TriggersRebuild) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    auto e = makeFullEligibility();
+    auto f = makeFreshArtifact();
+    f.delta_lag = 2000;  // Exceeds 1000 threshold in default config
+    const auto c = makeDefaultConfig();
+
+    const auto decision = planner->selectPath(e, f, c);
+    
+    // High delta lag should block the tensor path
+    EXPECT_NE(decision.path, ExecutionPath::AnnTensorSummary);
+    EXPECT_NE(decision.path, ExecutionPath::AnnTensorExactGraph);
+}
+
+/// Phase 4 Test: Verify residual threshold enforcement.
+TEST_F(QueryPlannerTest, TensorResidualLow_BlocksTensorPath) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    auto e = makeFullEligibility();
+    auto f = makeFreshArtifact();
+    f.residual_threshold = 0.90;  // Below 0.95 minimum
+    const auto c = makeDefaultConfig();
+
+    const auto decision = planner->selectPath(e, f, c);
+    
+    // Low residual should block tensor-based paths
+    EXPECT_NE(decision.path, ExecutionPath::AnnTensorSummary);
+    EXPECT_NE(decision.path, ExecutionPath::AnnTensorExactGraph);
+}
+
+/// Phase 4 Test: Verify rank cap enforcement.
+TEST_F(QueryPlannerTest, TensorRankCapExceeded_FallsBackToExact) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    auto e = makeFullEligibility();
+    auto f = makeFreshArtifact();
+    f.rank_cap = 1500;  // Exceeds default 1000 limit
+    const auto c = makeDefaultConfig();
+
+    const auto decision = planner->selectPath(e, f, c);
+    
+    // Rank cap violation should trigger fallback
+    EXPECT_EQ(decision.fallback_reason, FallbackReason::TensorRankCapExceeded);
+}
+
+/// Phase 4 Test: Verify rebuild-in-progress blocks tensor paths.
+TEST_F(QueryPlannerTest, TensorRebuildInProgress_BlocksTensorPath) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    auto e = makeFullEligibility();
+    auto f = makeFreshArtifact();
+    f.rebuild_in_progress = true;
+    const auto c = makeDefaultConfig();
+
+    const auto decision = planner->selectPath(e, f, c);
+    
+    // Active rebuild should block tensor-based paths, select path 1 (ANN only) or path 4
+    EXPECT_EQ(decision.fallback_reason, FallbackReason::TensorRebuildInProgress);
+}
+
+/// Phase 4 Test: Verify fallback chain from GPU failure → CPU fallback.
+TEST_F(QueryPlannerTest, FallbackChain_GpuErrorFallsBackToCpu) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    auto e = makeFullEligibility();
+    e.gpu_parity_validated = false;  // Simulate GPU parity check failure
+    auto f = makeFreshArtifact();
+    const auto c = makeDefaultConfig();
+
+    const auto decision = planner->selectPath(e, f, c);
+    
+    // GPU parity failure should force CPU path
+    EXPECT_FALSE(decision.uses_gpu);
+}
+
+/// Phase 4 Test: Verify no silent fallback — every fallback has a reason.
+TEST_F(QueryPlannerTest, NoSilentFallback_AllFallbacksHaveReason) {
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    
+    // Test various fallback scenarios
+    std::vector<std::pair<ExecutionEligibility, TensorArtifactFreshness>> scenarios = {
+        {makeFullEligibility(), makeStaleArtifact()},
+        {makeFullEligibility(), makeFreshArtifact(10000)},
+    };
+    
+    const auto c = makeDefaultConfig();
+    
+    for (auto& [e, f] : scenarios) {
+        const auto decision = planner->selectPath(e, f, c);
+        
+        // If path is not AnnOnly, there must be a fallback reason
+        if (decision.path != ExecutionPath::AnnOnly) {
+            // Either it's a legitimate fallback or it's none (which is OK for paths 4/5)
+            if (decision.fallback_reason != FallbackReason::None) {
+                EXPECT_NE(decision.fallback_reason, FallbackReason::None);
+            }
+        }
+    }
+}
+

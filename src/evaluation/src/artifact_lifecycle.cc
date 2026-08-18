@@ -82,7 +82,7 @@ bool ArtifactLifecycleManager::isUsableForPlanning(LifecycleState state) noexcep
     return state == LifecycleState::READY || state == LifecycleState::STALE;
 }
 
-bool ArtifactLifecycleManager::requiresImmedateRebuild(LifecycleState state) noexcept {
+bool ArtifactLifecycleManager::requiresImmediateRebuild(LifecycleState state) noexcept {
     return state == LifecycleState::INVALIDATED || state == LifecycleState::FAILED;
 }
 
@@ -244,7 +244,7 @@ std::vector<LifecycleMetadata> ArtifactLifecycleManager::identifyRebuildCandidat
     std::vector<LifecycleMetadata> candidates;
 
     for (const auto& metadata : metadata_batch) {
-        if (requiresImmedateRebuild(metadata.state)) {
+        if (requiresImmediateRebuild(metadata.state)) {
             candidates.push_back(metadata);
         }
     }

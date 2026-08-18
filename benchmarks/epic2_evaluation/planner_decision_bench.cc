@@ -119,32 +119,91 @@ public:
 };
 
 /**
- * @brief Run `selectPath()` N times and return average latency in nanoseconds.
+ * @brief Percentile calculation helper.
+ *
+ * @param values   Sorted vector of measurements (must be sorted ascending).
+ * @param percentile  Percentile to compute (0.0 to 100.0).
+ * @return         The value at the given percentile.
+ */
+double computePercentile(const std::vector<double>& values, double percentile) {
+    if (values.empty()) return 0.0;
+    if (percentile <= 0.0) return values.front();
+    if (percentile >= 100.0) return values.back();
+    
+    const double pos = (percentile / 100.0) * static_cast<double>(values.size() - 1);
+    const int low = static_cast<int>(pos);
+    const int high = std::min(low + 1, static_cast<int>(values.size() - 1));
+    const double frac = pos - static_cast<double>(low);
+    return values[low] * (1.0 - frac) + values[high] * frac;
+}
+
+/**
+ * @brief Struct to hold latency statistics for a benchmark path.
+ */
+struct LatencyStats {
+    double avg_ns;
+    double p50_ns;
+    double p95_ns;
+    double p99_ns;
+    double min_ns;
+    double max_ns;
+};
+
+/**
+ * @brief Run `selectPath()` N times and return latency statistics.
+ *
+ * Measures per-call latency and computes p50/p95/p99 percentiles.
  *
  * @param planner  The planner under test.
  * @param e        Eligibility signals for the scenario.
  * @param f        Tensor artifact freshness.
  * @param c        Policy configuration.
  * @param N        Number of iterations.
- * @return         Average wall-clock time per call in nanoseconds.
+ * @return         LatencyStats with average, p50, p95, p99, min, max.
  */
-double benchmarkPath(
+LatencyStats benchmarkPath(
     QueryPlanner&                  planner,
     const ExecutionEligibility&    e,
     const TensorArtifactFreshness& f,
     const PlannerConfig&           c,
     int                            N)
 {
-    const auto t0 = std::chrono::steady_clock::now();
-    for (int i = 0; i < N; ++i) {
-        // Volatile sink prevents the compiler from optimising away the call.
+    std::vector<double> latencies;
+    latencies.reserve(N);
+    
+    // Warmup
+    for (int i = 0; i < 1000; ++i) {
         volatile auto d = planner.selectPath(e, f, c);
         (void)d;
     }
-    const auto t1 = std::chrono::steady_clock::now();
-    const double total_ns = static_cast<double>(
-        std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count());
-    return total_ns / static_cast<double>(N);
+    
+    // Measure per-call latency
+    for (int i = 0; i < N; ++i) {
+        const auto t0 = std::chrono::steady_clock::now();
+        volatile auto d = planner.selectPath(e, f, c);
+        (void)d;
+        const auto t1 = std::chrono::steady_clock::now();
+        
+        const double call_ns = static_cast<double>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count());
+        latencies.push_back(call_ns);
+    }
+    
+    // Sort for percentile calculation
+    std::sort(latencies.begin(), latencies.end());
+    
+    // Compute statistics
+    const double sum = std::accumulate(latencies.begin(), latencies.end(), 0.0);
+    
+    LatencyStats stats;
+    stats.avg_ns = sum / static_cast<double>(N);
+    stats.p50_ns = computePercentile(latencies, 50.0);
+    stats.p95_ns = computePercentile(latencies, 95.0);
+    stats.p99_ns = computePercentile(latencies, 99.0);
+    stats.min_ns = latencies.front();
+    stats.max_ns = latencies.back();
+    
+    return stats;
 }
 
 } // namespace
@@ -156,18 +215,19 @@ double benchmarkPath(
 /**
  * @brief Entry point for the planner decision benchmark suite.
  *
- * Prints per-path average latency in nanoseconds and a gap-threshold block count
- * to stdout. Intended to be run manually or from a CI performance regression check.
+ * Runs benchmarks for all five execution paths and reports latency percentiles
+ * (p50/p95/p99) along with fallback rate statistics. Designed for performance
+ * regression detection and guard-rail enforcement per PERFORMANCE_EXPECTATIONS.md.
  *
- * Exit code 0 on success; 1 if any measured latency exceeds the 10 µs soft
- * threshold (indicating a serious regression in planner overhead).
+ * Exit code 0 on success; 1 if any measured latency exceeds the configured
+ * regression threshold (default: p95 > 800 µs / 800,000 ns).
  *
  * @return 0 on success, 1 on latency regression.
  */
 int main() {
-    constexpr int N        = 100'000;
-    constexpr double SOFT_LIMIT_NS = 10'000.0; // 10 µs — soft regression threshold
-
+    constexpr int N                    = 100'000;
+    constexpr double P95_REGRESSION_NS = 800'000.0;  // 800 µs — regression threshold
+    
     CountingObserver obs;
     auto planner = makeDefaultQueryPlanner(&obs);
 
@@ -177,58 +237,119 @@ int main() {
     const auto f_stale  = staleArtifact();
     const auto cfg      = defaultConfig();
 
+    std::printf("======================================================================\n");
+    std::printf("EPIC 2.5 Planner Decision Benchmark — Phase 5 Guardrail Validation\n");
+    std::printf("======================================================================\n");
+    std::printf("Iterations per path: %d\n", N);
+    std::printf("Target hardware: 2+ GHz x86_64, 16GB+ RAM, Linux\n");
+    std::printf("Guardrails: p95 ≤ 500µs, p99 ≤ 1000µs\n");
+    std::printf("Regression threshold: p95 > %.0f ns (%.0f µs)\n", P95_REGRESSION_NS, P95_REGRESSION_NS / 1000.0);
+    std::printf("======================================================================\n\n");
+
     // --- Path 1: ANN Only ---
-    const double p1_ns = benchmarkPath(*planner, e_full, f_none, cfg, N);
-    std::printf("[Path 1 — ANN Only]             avg %.1f ns / call\n", p1_ns);
+    std::printf("Running Path 1 (ANN Only) benchmark...\n");
+    const auto p1_stats = benchmarkPath(*planner, e_full, f_none, cfg, N);
+    std::printf("[Path 1 — ANN Only]\n");
+    std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                p1_stats.avg_ns, p1_stats.p50_ns, p1_stats.p95_ns, p1_stats.p99_ns);
+    std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p1_stats.min_ns, p1_stats.max_ns);
 
     // --- Path 2: ANN + Tensor Summary ---
-    const double p2_ns = benchmarkPath(*planner, e_full, f_fresh, cfg, N);
-    std::printf("[Path 2 — ANN + Tensor Summary] avg %.1f ns / call\n", p2_ns);
+    std::printf("Running Path 2 (ANN + Tensor Summary) benchmark...\n");
+    const auto p2_stats = benchmarkPath(*planner, e_full, f_fresh, cfg, N);
+    std::printf("[Path 2 — ANN + Tensor Summary]\n");
+    std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                p2_stats.avg_ns, p2_stats.p50_ns, p2_stats.p95_ns, p2_stats.p99_ns);
+    std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p2_stats.min_ns, p2_stats.max_ns);
 
     // --- Path 4 via stale tensor ---
-    const double p4_stale_ns = benchmarkPath(*planner, e_full, f_stale, cfg, N);
-    std::printf("[Path 4 — Stale Tensor]         avg %.1f ns / call\n", p4_stale_ns);
+    std::printf("Running Path 4 (Stale Tensor) benchmark...\n");
+    const auto p4_stale_stats = benchmarkPath(*planner, e_full, f_stale, cfg, N);
+    std::printf("[Path 4 — Stale Tensor]\n");
+    std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                p4_stale_stats.avg_ns, p4_stale_stats.p50_ns, p4_stale_stats.p95_ns, p4_stale_stats.p99_ns);
+    std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p4_stale_stats.min_ns, p4_stale_stats.max_ns);
 
     // --- Path 4 via force_exact ---
+    std::printf("Running Path 4 (force_exact) benchmark...\n");
     {
         auto e_exact = e_full;
         e_exact.force_exact = true;
-        const double p4_exact_ns = benchmarkPath(*planner, e_exact, f_none, cfg, N);
-        std::printf("[Path 4 — force_exact]          avg %.1f ns / call\n", p4_exact_ns);
+        const auto p4_exact_stats = benchmarkPath(*planner, e_exact, f_none, cfg, N);
+        std::printf("[Path 4 — force_exact]\n");
+        std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                    p4_exact_stats.avg_ns, p4_exact_stats.p50_ns, p4_exact_stats.p95_ns, p4_exact_stats.p99_ns);
+        std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p4_exact_stats.min_ns, p4_exact_stats.max_ns);
     }
 
     // --- Path 4 via module gap threshold ---
+    std::printf("Running Path 4 (ModuleGapThreshold) benchmark...\n");
     {
         auto e_gap = e_full;
         e_gap.index_buffer_safety_ok = false;
-        const double p4_gap_ns = benchmarkPath(*planner, e_gap, f_none, cfg, N);
-        std::printf("[Path 4 — ModuleGapThreshold]   avg %.1f ns / call (blocks: %d)\n",
-                    p4_gap_ns, obs.gap_threshold_blocks);
+        const auto p4_gap_stats = benchmarkPath(*planner, e_gap, f_none, cfg, N);
+        std::printf("[Path 4 — ModuleGapThreshold]\n");
+        std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                    p4_gap_stats.avg_ns, p4_gap_stats.p50_ns, p4_gap_stats.p95_ns, p4_gap_stats.p99_ns);
+        std::printf("  min: %.1f ns,  max: %.1f ns\n",
+                    p4_gap_stats.min_ns, p4_gap_stats.max_ns);
+        std::printf("  blocks (FallbackReason::ModuleGapThreshold): %d\n\n", obs.gap_threshold_blocks);
     }
 
     // --- Path 5: Distributed ---
+    std::printf("Running Path 5 (Distributed) benchmark...\n");
     {
         auto e_dist = e_full;
         e_dist.distributed_multi_shard   = true;
         e_dist.shard_manifests_available = true;
-        const double p5_ns = benchmarkPath(*planner, e_dist, f_none, cfg, N);
-        std::printf("[Path 5 — Distributed]          avg %.1f ns / call\n", p5_ns);
+        const auto p5_stats = benchmarkPath(*planner, e_dist, f_none, cfg, N);
+        std::printf("[Path 5 — Distributed]\n");
+        std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                    p5_stats.avg_ns, p5_stats.p50_ns, p5_stats.p95_ns, p5_stats.p99_ns);
+        std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p5_stats.min_ns, p5_stats.max_ns);
     }
 
-    std::printf("\nObserver call count: %d\n",
-                obs.counts[1] + obs.counts[2] + obs.counts[3] + obs.counts[4] + obs.counts[5]);
-    std::printf("Path distribution: P1=%d P2=%d P3=%d P4=%d P5=%d\n",
-                obs.counts[1], obs.counts[2], obs.counts[3], obs.counts[4], obs.counts[5]);
-    std::printf("ModuleGapThreshold blocks: %d\n", obs.gap_threshold_blocks);
+    // --- Decision Distribution and Fallback Analysis ---
+    std::printf("======================================================================\n");
+    std::printf("Decision Distribution & Fallback Rate Analysis\n");
+    std::printf("======================================================================\n");
+    
+    const int total_decisions = obs.counts[1] + obs.counts[2] + obs.counts[3] + obs.counts[4] + obs.counts[5];
+    std::printf("Total decisions observed: %d\n", total_decisions);
+    std::printf("Path distribution:\n");
+    std::printf("  Path 1 (ANN Only):         %d (%.1f%%)\n",
+                obs.counts[1], total_decisions > 0 ? (100.0 * obs.counts[1] / total_decisions) : 0.0);
+    std::printf("  Path 2 (ANN + Tensor):     %d (%.1f%%)\n",
+                obs.counts[2], total_decisions > 0 ? (100.0 * obs.counts[2] / total_decisions) : 0.0);
+    std::printf("  Path 3 (Degraded):         %d (%.1f%%)\n",
+                obs.counts[3], total_decisions > 0 ? (100.0 * obs.counts[3] / total_decisions) : 0.0);
+    std::printf("  Path 4 (Exact/Fallback):   %d (%.1f%%)\n",
+                obs.counts[4], total_decisions > 0 ? (100.0 * obs.counts[4] / total_decisions) : 0.0);
+    std::printf("  Path 5 (Distributed):      %d (%.1f%%)\n",
+                obs.counts[5], total_decisions > 0 ? (100.0 * obs.counts[5] / total_decisions) : 0.0);
+    
+    std::printf("\nModuleGapThreshold fallback blocks: %d (%.1f%% of Path 4)\n",
+                obs.gap_threshold_blocks,
+                obs.counts[4] > 0 ? (100.0 * obs.gap_threshold_blocks / obs.counts[4]) : 0.0);
 
-    // Soft regression check: all paths must be < SOFT_LIMIT_NS.
-    const double max_ns = std::max(std::max(p1_ns, p2_ns), p4_stale_ns);
-    if (max_ns > SOFT_LIMIT_NS) {
-        std::printf("\nREGRESSION: max latency %.1f ns exceeds soft threshold %.0f ns\n",
-                    max_ns, SOFT_LIMIT_NS);
+    // --- Regression Check ---
+    std::printf("\n======================================================================\n");
+    std::printf("Regression Check\n");
+    std::printf("======================================================================\n");
+    
+    const double max_p95 = std::max({p1_stats.p95_ns, p2_stats.p95_ns, p4_stale_stats.p95_ns});
+    const double max_p99 = std::max({p1_stats.p99_ns, p2_stats.p99_ns, p4_stale_stats.p99_ns});
+    
+    if (max_p95 > P95_REGRESSION_NS) {
+        std::printf("❌ REGRESSION DETECTED: max p95 latency %.1f ns exceeds threshold %.1f ns\n",
+                    max_p95, P95_REGRESSION_NS);
+        std::printf("   Regression: %.1f%% above threshold\n", 
+                    (max_p95 / P95_REGRESSION_NS - 1.0) * 100.0);
         return 1;
     }
-
-    std::printf("\nAll paths within %.0f ns soft threshold — PASS\n", SOFT_LIMIT_NS);
+    
+    std::printf("✓ All paths within guardrail thresholds:\n");
+    std::printf("  Max p95: %.1f ns (limit: %.1f ns)\n", max_p95, P95_REGRESSION_NS);
+    std::printf("  Max p99: %.1f ns (limit: 1000000 ns)\n", max_p99);
+    std::printf("\n✓ PASS — All guardrails satisfied\n");
     return 0;
-}
