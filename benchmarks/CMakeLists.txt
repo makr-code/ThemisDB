@@ -4029,6 +4029,40 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_stt_tts_latency.cpp")
     message(STATUS "  Voice Phase 5.1: STT latency (100ms, 5s, 60s, noisy audio), TTS latency (short, medium, long, rapid-fire)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_a8_baselines.cpp")
+    message(STATUS "Adding Voice Wave A closure baseline benchmarks")
+
+    add_executable(bench_voice_a8_baselines
+        voice/bench_voice_a8_baselines.cpp
+    )
+
+    target_include_directories(bench_voice_a8_baselines PRIVATE
+        ${CMAKE_SOURCE_DIR}/benchmarks/voice
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_voice_a8_baselines PRIVATE
+        themis_core
+        benchmark::benchmark
+        benchmark::benchmark_main
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_a8_baselines PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_voice_a8_baselines)
+
+    install(TARGETS bench_voice_a8_baselines
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Voice Wave A: stream validation, liveness, and session-overhead p95/p99 baselines")
+endif()
+
 # Task 5.2: Streaming Throughput Benchmarks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_streaming_throughput.cpp")
     message(STATUS "Adding Voice Streaming Throughput benchmarks (Phase 5 Task 5.2)")
@@ -5074,6 +5108,7 @@ themis_add_standard_benchmark(bench_geojson_parse          bench_geojson_parse.c
 themis_add_standard_benchmark(bench_gorilla_codec          bench_gorilla_codec.cpp)
 themis_add_standard_benchmark(bench_gossip_config          bench_gossip_config.cpp)
 themis_add_standard_benchmark(bench_gpu_erasure            gpu/bench_gpu_erasure.cpp)
+themis_add_standard_benchmark(bench_gpu_a8_baselines      gpu/bench_gpu_a8_baselines.cpp)
 themis_add_standard_benchmark(bench_gpu_phase2_phase3_gates gpu/bench_gpu_phase2_phase3_gates.cpp)
 themis_add_standard_benchmark(bench_gpu_phase_c_gates      gpu/bench_gpu_phase_c_gates.cpp)
 themis_add_standard_benchmark(bench_hsm_provider           bench_hsm_provider.cpp)
