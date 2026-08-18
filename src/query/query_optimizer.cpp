@@ -335,7 +335,7 @@ QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuer
 			diagMsg
 		);
 	}
-	return Ok(result->size());
+	return Ok(result.value().size());
 }
 
 // ---------------- Per-Query Cost Model Integration (Phase 3, Issue #2419) ----------------

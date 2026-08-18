@@ -24,6 +24,17 @@
 ///   - the requested accuracy mode is EXACT, OR
 ///   - consensus quorum is not met across shards.
 ///
+/// ## Byzantine Fault Tolerance and Quorum Safety (SG-DT-01)
+///
+/// Quorum-based consensus decisions (e.g., "skip exact fetch") require strict
+/// majority participation to ensure Byzantine Fault Tolerance:
+/// - Minimum quorum ratio: 0.5f (50% + 1 participant) — simple majority
+/// - Recommended quorum ratio: 0.666f (66.7%) or 0.75f (75%) for Byzantine safety
+/// - All quorum_ratio values are validated at construction and configuration time
+/// - Attempting to set quorum_ratio < 0.5f will be rejected with error logging
+///
+/// Reference: PRODUCTION_REQUIREMENTS.md §2.3 Safety Gates (SG-DT-01)
+///
 /// ## Thread Safety
 ///
 /// `ShardSummaryCoordinator` is thread-safe for concurrent `refresh()`,
@@ -324,22 +335,65 @@ class ShardSummaryCoordinator {
 public:
     /**
      * @brief Configuration for the coordinator.
+     *
+     * ### Byzantine Quorum Safety (SG-DT-01)
+     *
+     * The `freshness_quorum_ratio` enforces minimum majority participation:
+     * - Must be >= 0.5f (50% + 1) to satisfy Byzantine Fault Tolerance
+     * - Default 0.75f (75%) provides safety margin for transient failures
+     * - Clamped to [0.5f, 1.0f] at construction and via setConfig()
      */
     struct Config {
         /// Default freshness TTL for newly registered shards (seconds).
-        uint32_t default_ttl_seconds = 3600;
+        uint32_t default_ttl_seconds;
 
         /// Quorum ratio: fraction of shards that must be FRESH to skip exact fetch.
-        float freshness_quorum_ratio = 0.75f;
+        /// MUST be >= 0.5f for Byzantine Fault Tolerance (majority quorum).
+        /// Default: 0.75f (75%) — provides safety margin.
+        /// Recommended values: 0.666f (2/3) or 0.75f (3/4).
+        float freshness_quorum_ratio;
 
         /// Maximum exact fetch timeout in milliseconds.
-        uint32_t exact_fetch_timeout_ms = 5000;
+        uint32_t exact_fetch_timeout_ms;
 
         /// If true, STALE shards are always escalated; if false, they are skipped.
-        bool escalate_stale_shards = true;
+        bool escalate_stale_shards;
 
         /// If true, INVALID shards are skipped entirely (not included in routing).
-        bool skip_invalid_shards = true;
+        bool skip_invalid_shards;
+
+        /**
+         * @brief Default constructor with proper default values.
+         *
+         * Initializes freshness_quorum_ratio to 0.75f (75%), which satisfies
+         * Byzantine majority requirements. The constructor validates and clamps
+         * all values to their safe ranges.
+         */
+        Config() noexcept
+            : default_ttl_seconds(3600),
+              freshness_quorum_ratio(0.75f),
+              exact_fetch_timeout_ms(5000),
+              escalate_stale_shards(true),
+              skip_invalid_shards(true) {
+            validateAndClamp();
+        }
+
+        /**
+         * @brief Validate and clamp all configuration values to safe ranges.
+         *
+         * Ensures freshness_quorum_ratio >= 0.5f (Byzantine majority).
+         * If clamping occurs, behavior is logged (typically WARN level).
+         */
+        void validateAndClamp() noexcept;
+
+        /**
+         * @brief Check if freshness_quorum_ratio meets Byzantine requirements.
+         *
+         * @return true if freshness_quorum_ratio >= 0.5f
+         */
+        [[nodiscard]] bool isQuorumSafe() const noexcept {
+            return freshness_quorum_ratio >= 0.5f;
+        }
     };
 
     /**
@@ -353,15 +407,15 @@ public:
     explicit ShardSummaryCoordinator(
         std::shared_ptr<IShardFetcher> fetcher = nullptr,
         ManifestStore* manifest_store = nullptr,
-        Config config = {}) noexcept;
+        Config config = Config()) noexcept;
 
     ~ShardSummaryCoordinator() = default;
 
-    // Prevent copy; allow move.
+    // Prevent copy; mutex and atomics are non-movable
     ShardSummaryCoordinator(const ShardSummaryCoordinator&) = delete;
     ShardSummaryCoordinator& operator=(const ShardSummaryCoordinator&) = delete;
-    ShardSummaryCoordinator(ShardSummaryCoordinator&&) = default;
-    ShardSummaryCoordinator& operator=(ShardSummaryCoordinator&&) = default;
+    ShardSummaryCoordinator(ShardSummaryCoordinator&&) = delete;
+    ShardSummaryCoordinator& operator=(ShardSummaryCoordinator&&) = delete;
 
     // ─── Shard Registration ───────────────────────────────────────────────
 
@@ -507,7 +561,13 @@ public:
     /**
      * @brief Update the coordinator configuration.
      *
+     * The configuration is validated and clamped to ensure Byzantine safety
+     * requirements are met (freshness_quorum_ratio >= 0.5f). If the provided
+     * config has an unsafe quorum ratio, it is silently adjusted and a WARN
+     * diagnostic is logged.
+     *
      * @param config New configuration; takes effect immediately.
+     *               Must satisfy Byzantine safety requirements (SG-DT-01).
      */
     void setConfig(const Config& config) noexcept;
 

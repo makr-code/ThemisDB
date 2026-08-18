@@ -266,6 +266,14 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     PartialTranscript empty;
     if (!impl_ || !impl_->active) return empty;
 
+    // CRITICAL GAP 7: Reject empty chunks fail-closed
+    if (audio_chunk.empty()) {
+        std::string msg = "VoiceStreamingSession: empty audio chunk rejected (error 6920)";
+        THEMIS_WARN("{}", msg);
+        if (impl_->on_error) impl_->on_error(msg);
+        return empty;
+    }
+
     // TASK 2.5: Verify stream state (must be CONNECTED or STREAMING)
     // Error code 6901: Stream state transition invalid
     if (impl_->stream_state == StreamState::CLOSING ||
@@ -275,19 +283,23 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         if (impl_->on_error) impl_->on_error(msg);
         return empty;
     }
+    
+    // CRITICAL GAP 8: Reject malformed frames
     if (!isChunkFrameAligned(impl_->config, audio_chunk)) {
-        std::string msg = "VoiceStreamingSession: malformed or frame-misaligned audio chunk (error 6904)";
+        std::string msg = "VoiceStreamingSession: malformed or frame-misaligned audio chunk (error 6904), size=" +
+                          std::to_string(audio_chunk.size());
         THEMIS_WARN("{}", msg);
         if (impl_->on_error) impl_->on_error(msg);
         return empty;
     }
 
     // TASK 2.5: Enforce max frame size
+    // CRITICAL GAP 9: Oversized individual frame rejection
     if (audio_chunk.size() > impl_->config.max_frame_bytes) {
-        std::string msg = "VoiceStreamingSession: frame too large (" +
+        std::string msg = "VoiceStreamingSession: frame too large (oversized rejection: " +
                           std::to_string(audio_chunk.size()) + " > " +
-                          std::to_string(impl_->config.max_frame_bytes) + ")";
-        THEMIS_WARN("{}", msg);
+                          std::to_string(impl_->config.max_frame_bytes) + " bytes) - error 6900";
+        THEMIS_ERROR("{}", msg);
         if (impl_->on_error) impl_->on_error(msg);
         return empty;
     }
@@ -302,10 +314,11 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     }
 
     // TASK 2.5: Bounded buffer overflow detection and rejection
+    // CRITICAL GAP 10: Oversized session buffer rejection
     // Error code 6900: Buffer overflow
     size_t new_total = impl_->buffer_size_bytes + audio_chunk.size();
     if (new_total > kMaxBufferSizeBytes) {
-        std::string msg = "VoiceStreamingSession: buffer overflow (" +
+        std::string msg = "VoiceStreamingSession: buffer overflow (session buffer would exceed " +
                           std::to_string(new_total) + " > " +
                           std::to_string(kMaxBufferSizeBytes) + " bytes) - error 6900";
         THEMIS_ERROR("{}", msg);
@@ -319,7 +332,8 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     impl_->last_chunk_seq++;
     if (impl_->pending_chunk_sequences.size() >= kMaxChunkQueueSize) {
         impl_->sequence_gap_detected = true;
-        std::string msg = "VoiceStreamingSession: pending chunk queue exhausted (error 6902)";
+        std::string msg = "VoiceStreamingSession: pending chunk queue exhausted (" +
+                          std::to_string(impl_->pending_chunk_sequences.size()) + ") - error 6902";
         THEMIS_ERROR("{}", msg);
         if (impl_->on_error) impl_->on_error(msg);
         return empty;

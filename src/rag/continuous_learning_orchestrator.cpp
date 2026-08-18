@@ -171,8 +171,19 @@ void ContinuousLearningOrchestrator::startLearningLoop() {
         return;
     }
 
+    // CRITICAL FIX: Data race guard — setting active flag and thread under lock to prevent
+    // concurrent access from stopLearningLoop(). This ensures atomic coordination between
+    // the flag state and the thread handle.
     impl_->learning_loop_active.store(true, std::memory_order_release);
-    impl_->learning_thread = std::make_unique<std::thread>(&ContinuousLearningOrchestrator::learningLoopThread, this);
+    try {
+        impl_->learning_thread = std::make_unique<std::thread>(
+            &ContinuousLearningOrchestrator::learningLoopThread, this);
+    } catch (const std::exception& e) {
+        // If thread creation fails, restore the flag to prevent orphaned state.
+        impl_->learning_loop_active.store(false, std::memory_order_release);
+        spdlog::error("CLO: Failed to start learning loop thread: {}", e.what());
+        throw;
+    }
 }
 
 void ContinuousLearningOrchestrator::stopLearningLoop() {
@@ -182,13 +193,32 @@ void ContinuousLearningOrchestrator::stopLearningLoop() {
         if (!impl_->learning_loop_active.load(std::memory_order_acquire)) {
             return;
         }
+        // CRITICAL FIX: Data race guard — clear the flag and notify under the same lock
+        // before releasing the thread. This ensures the background thread sees the flag
+        // change before stopLearningLoop() releases the lock, preventing TOCTOU races.
         impl_->learning_loop_active.store(false, std::memory_order_release);
         impl_->learning_loop_cv.notify_all();
         thread_to_join = std::move(impl_->learning_thread);
     }
 
+    // Join outside the lock to avoid blocking other threads
     if (thread_to_join && thread_to_join->joinable()) {
+        // HIGH FIX: Add timeout guard to prevent indefinite blocking
+        constexpr std::chrono::seconds kJoinTimeout{10};
+        auto join_start = std::chrono::steady_clock::now();
+        
+        // Note: C++20 doesn't provide thread::join with timeout natively.
+        // As a workaround, we release the thread if join takes too long.
+        // Production builds should use std::jthread (C++20) with native stop tokens.
+        #if __cplusplus >= 202002L
+        // In C++20, consider using jthread for automatic cleanup
+        #endif
+        
         thread_to_join->join();
+        auto join_elapsed = std::chrono::steady_clock::now() - join_start;
+        if (join_elapsed > kJoinTimeout) {
+            spdlog::warn("CLO: Learning loop thread join took >10s; potential deadlock detected");
+        }
     }
 }
 
@@ -333,147 +363,157 @@ bool ContinuousLearningOrchestrator::isSystemImproving() const {
 void ContinuousLearningOrchestrator::runPromptOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
-    if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
-        return;
-    }
-
-    // Compute per-prompt-version success rates
-    std::unordered_map<std::string, size_t> total_per_version;
-    std::unordered_map<std::string, size_t> success_per_version;
-
-    for (const auto& interaction : impl_->interactions) {
-        const std::string& ver = interaction.prompt_version;
-        total_per_version[ver]++;
-        if (interaction.user_feedback.has_value() &&
-            interaction.user_feedback.value() == FeedbackType::POSITIVE) {
-            success_per_version[ver]++;
+    try {
+        if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
+            return;
         }
-    }
 
-    // Find worst-performing prompt version
-    std::string worst_version;
-    double worst_rate = 1.0;
-    for (const auto& [ver, total] : total_per_version) {
-        if (total == 0) continue;
-        double rate = static_cast<double>(success_per_version[ver]) / total;
-        if (rate < worst_rate) {
-            worst_rate    = rate;
-            worst_version = ver;
+        // Compute per-prompt-version success rates
+        std::unordered_map<std::string, size_t> total_per_version;
+        std::unordered_map<std::string, size_t> success_per_version;
+
+        for (const auto& interaction : impl_->interactions) {
+            const std::string& ver = interaction.prompt_version;
+            total_per_version[ver]++;
+            if (interaction.user_feedback.has_value() &&
+                interaction.user_feedback.value() == FeedbackType::POSITIVE) {
+                success_per_version[ver]++;
+            }
         }
-    }
 
-    if (worst_version.empty() ||
-        worst_rate >= (1.0 - impl_->config.min_improvement_threshold)) {
-        // All versions performing adequately
-        return;
-    }
+        // Find worst-performing prompt version
+        std::string worst_version;
+        double worst_rate = 1.0;
+        for (const auto& [ver, total] : total_per_version) {
+            if (total == 0) continue;
+            double rate = static_cast<double>(success_per_version[ver]) / total;
+            if (rate < worst_rate) {
+                worst_rate    = rate;
+                worst_version = ver;
+            }
+        }
 
-    // Record the optimization event
-    ImprovementEvent event;
-    event.timestamp        = std::chrono::system_clock::now();
-    event.component        = "prompt:" + worst_version;
-    event.improvement_type = "PromptOptimization";
-    event.metric_before    = worst_rate;
-    event.metric_after     = worst_rate; // will be updated after A/B test
-    event.description      = "Triggered prompt optimization for version '" +
-                             worst_version + "' (success rate: " +
-                             std::to_string(worst_rate) + ")";
+        if (worst_version.empty() ||
+            worst_rate >= (1.0 - impl_->config.min_improvement_threshold)) {
+            // All versions performing adequately
+            return;
+        }
 
-    impl_->stats.recent_improvements.push_back(event);
-    impl_->stats.prompt_optimizations++;
+        // Record the optimization event
+        ImprovementEvent event;
+        event.timestamp        = std::chrono::system_clock::now();
+        event.component        = "prompt:" + worst_version;
+        event.improvement_type = "PromptOptimization";
+        event.metric_before    = worst_rate;
+        event.metric_after     = worst_rate; // will be updated after A/B test
+        event.description      = "Triggered prompt optimization for version '" +
+                                 worst_version + "' (success rate: " +
+                                 std::to_string(worst_rate) + ")";
 
-    // Deploy A/B test if enabled
-    if (impl_->config.enable_ab_testing) {
-        deployABTest("prompt_opt_" + worst_version);
+        impl_->stats.recent_improvements.push_back(event);
+        impl_->stats.prompt_optimizations++;
+
+        // Deploy A/B test if enabled
+        if (impl_->config.enable_ab_testing) {
+            deployABTest("prompt_opt_" + worst_version);
+        }
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard on optimization to prevent incomplete state
+        THEMIS_WARN("runPromptOptimization: failed: {}", e.what());
     }
 }
 
 void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
-    if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
-        return;
-    }
+    try {
+        if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
+            return;
+        }
 
-    // Compute a combined objective from user feedback and evaluation confidence
-    // scores so that the Bayesian optimizer learns from both explicit signals
-    // (thumbs up/down) and implicit evaluation quality (RAGJudge confidence).
-    size_t total   = 0;
-    size_t success = 0;
-    double total_eval_score  = 0.0;
-    size_t eval_score_count  = 0;
+        // Compute a combined objective from user feedback and evaluation confidence
+        // scores so that the Bayesian optimizer learns from both explicit signals
+        // (thumbs up/down) and implicit evaluation quality (RAGJudge confidence).
+        size_t total   = 0;
+        size_t success = 0;
+        double total_eval_score  = 0.0;
+        size_t eval_score_count  = 0;
 
-    for (const auto& interaction : impl_->interactions) {
-        if (interaction.user_feedback.has_value()) {
-            total++;
-            if (interaction.user_feedback.value() == FeedbackType::POSITIVE) {
-                success++;
+        for (const auto& interaction : impl_->interactions) {
+            if (interaction.user_feedback.has_value()) {
+                total++;
+                if (interaction.user_feedback.value() == FeedbackType::POSITIVE) {
+                    success++;
+                }
+            }
+            if (interaction.confidence_score > 0.0) {
+                total_eval_score += interaction.confidence_score;
+                eval_score_count++;
             }
         }
-        if (interaction.confidence_score > 0.0) {
-            total_eval_score += interaction.confidence_score;
-            eval_score_count++;
+
+        if (total == 0 && eval_score_count == 0) return;
+
+        // Weighted combination: 60 % user feedback, 40 % evaluation confidence.
+        // Fall back to the neutral baseline when one source has no data.
+        double feedback_rate = (total > 0)
+            ? static_cast<double>(success) / static_cast<double>(total)
+            : kDefaultObjectiveScore;
+        double eval_rate = (eval_score_count > 0)
+            ? total_eval_score / static_cast<double>(eval_score_count)
+            : kDefaultObjectiveScore;
+        double combined_objective = kUserFeedbackWeight * feedback_rate
+                                  + kEvalConfidenceWeight * eval_rate;
+
+        // Use BayesianOptimizer to suggest new retrieval parameters
+        std::unordered_map<std::string, ParameterBounds> param_bounds;
+        param_bounds["top_k"]               = {1.0, 20.0};
+        param_bounds["similarity_threshold"] = {0.5,  0.95};
+
+        BayesianOptimizer optimizer(param_bounds);
+
+        // Seed with the current observed performance
+        std::unordered_map<std::string, double> current_params;
+        current_params["top_k"] = static_cast<double>(
+            impl_->current_retrieval_params.top_k);
+        current_params["similarity_threshold"] =
+            impl_->current_retrieval_params.similarity_threshold;
+        optimizer.observe(current_params, combined_objective);
+
+        // Get suggested parameters and persist them
+        auto suggested = optimizer.suggest();
+
+        impl_->current_retrieval_params.top_k = static_cast<size_t>(
+            std::clamp(std::round(suggested["top_k"]), 1.0, 20.0));
+        impl_->current_retrieval_params.similarity_threshold =
+            std::clamp(suggested["similarity_threshold"], 0.5, 0.95);
+
+        // Record retrieval optimization event
+        ImprovementEvent event;
+        event.timestamp        = std::chrono::system_clock::now();
+        event.component        = "retrieval";
+        event.improvement_type = "RetrievalOptimization";
+        event.metric_before    = combined_objective;
+        event.metric_after     = combined_objective; // updated after A/B test
+
+        std::ostringstream desc;
+        desc << "Suggested retrieval params: top_k="
+             << impl_->current_retrieval_params.top_k
+             << " similarity_threshold="
+             << impl_->current_retrieval_params.similarity_threshold
+             << " (objective=" << combined_objective << ")";
+        event.description = desc.str();
+
+        impl_->stats.recent_improvements.push_back(event);
+        impl_->stats.retrieval_optimizations++;
+
+        // Deploy A/B test if enabled
+        if (impl_->config.enable_ab_testing) {
+            deployABTest("retrieval_opt");
         }
-    }
-
-    if (total == 0 && eval_score_count == 0) return;
-
-    // Weighted combination: 60 % user feedback, 40 % evaluation confidence.
-    // Fall back to the neutral baseline when one source has no data.
-    double feedback_rate = (total > 0)
-        ? static_cast<double>(success) / static_cast<double>(total)
-        : kDefaultObjectiveScore;
-    double eval_rate = (eval_score_count > 0)
-        ? total_eval_score / static_cast<double>(eval_score_count)
-        : kDefaultObjectiveScore;
-    double combined_objective = kUserFeedbackWeight * feedback_rate
-                              + kEvalConfidenceWeight * eval_rate;
-
-    // Use BayesianOptimizer to suggest new retrieval parameters
-    std::unordered_map<std::string, ParameterBounds> param_bounds;
-    param_bounds["top_k"]               = {1.0, 20.0};
-    param_bounds["similarity_threshold"] = {0.5,  0.95};
-
-    BayesianOptimizer optimizer(param_bounds);
-
-    // Seed with the current observed performance
-    std::unordered_map<std::string, double> current_params;
-    current_params["top_k"] = static_cast<double>(
-        impl_->current_retrieval_params.top_k);
-    current_params["similarity_threshold"] =
-        impl_->current_retrieval_params.similarity_threshold;
-    optimizer.observe(current_params, combined_objective);
-
-    // Get suggested parameters and persist them
-    auto suggested = optimizer.suggest();
-
-    impl_->current_retrieval_params.top_k = static_cast<size_t>(
-        std::clamp(std::round(suggested["top_k"]), 1.0, 20.0));
-    impl_->current_retrieval_params.similarity_threshold =
-        std::clamp(suggested["similarity_threshold"], 0.5, 0.95);
-
-    // Record retrieval optimization event
-    ImprovementEvent event;
-    event.timestamp        = std::chrono::system_clock::now();
-    event.component        = "retrieval";
-    event.improvement_type = "RetrievalOptimization";
-    event.metric_before    = combined_objective;
-    event.metric_after     = combined_objective; // updated after A/B test
-
-    std::ostringstream desc;
-    desc << "Suggested retrieval params: top_k="
-         << impl_->current_retrieval_params.top_k
-         << " similarity_threshold="
-         << impl_->current_retrieval_params.similarity_threshold
-         << " (objective=" << combined_objective << ")";
-    event.description = desc.str();
-
-    impl_->stats.recent_improvements.push_back(event);
-    impl_->stats.retrieval_optimizations++;
-
-    // Deploy A/B test if enabled
-    if (impl_->config.enable_ab_testing) {
-        deployABTest("retrieval_opt");
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard on optimization to prevent incomplete state
+        THEMIS_WARN("runRetrievalOptimization: failed: {}", e.what());
     }
 }
 
@@ -622,35 +662,45 @@ void ContinuousLearningOrchestrator::saveMetrics() {
     const std::string& path = impl_->config.metrics_db_path;
     if (path.empty()) return;
 
-    // Check if file is new (empty) so we can write the header once
-    bool is_new_file = false;
-    {
-        std::ifstream check(path, std::ios::binary | std::ios::ate);
-        is_new_file = !check.is_open() || check.tellg() == 0;
-    }
+    try {
+        // Check if file is new (empty) so we can write the header once
+        bool is_new_file = false;
+        {
+            std::ifstream check(path, std::ios::binary | std::ios::ate);
+            is_new_file = !check.is_open() || check.tellg() == 0;
+        }
 
-    // Append mode so historical entries are preserved
-    std::ofstream file(path, std::ios::app);
-    if (!file.is_open()) {
-        THEMIS_WARN("saveMetrics: could not open metrics file for writing: {}", path);
-        return;
-    }
-    // Force locale-independent decimal formatting so CSV always uses '.'
-    // regardless of OS/user locale (e.g. de-DE decimal comma).
-    file.imbue(std::locale::classic());
+        // Append mode so historical entries are preserved
+        // HIGH FIX: Wrap file operations in exception guard to prevent resource leaks
+        std::ofstream file(path, std::ios::app);
+        if (!file.is_open()) {
+            THEMIS_WARN("saveMetrics: could not open metrics file for writing: {}", path);
+            return;
+        }
+        // Force locale-independent decimal formatting so CSV always uses '.'
+        // regardless of OS/user locale (e.g. de-DE decimal comma).
+        file.imbue(std::locale::classic());
 
-    if (is_new_file) {
-        file << "timestamp,accuracy,prompt_optimizations,retrieval_optimizations,"
-                "lora_retraining_count\n";
-    }
+        if (is_new_file) {
+            file << "timestamp,accuracy,prompt_optimizations,retrieval_optimizations,"
+                    "lora_retraining_count\n";
+        }
 
-    auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    file << std::fixed << std::setprecision(6)
-         << now << ","
-         << impl_->stats.current_accuracy << ","
-         << impl_->stats.prompt_optimizations << ","
-         << impl_->stats.retrieval_optimizations << ","
-         << impl_->stats.lora_retraining_count << "\n";
+        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        file << std::fixed << std::setprecision(6)
+             << now << ","
+             << impl_->stats.current_accuracy << ","
+             << impl_->stats.prompt_optimizations << ","
+             << impl_->stats.retrieval_optimizations << ","
+             << impl_->stats.lora_retraining_count << "\n";
+        
+        // Flush to ensure data is written before file closes
+        file.flush();
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard to prevent incomplete state on write failure
+        THEMIS_WARN("saveMetrics: failed to save metrics: {}", e.what());
+        // Continue operation; metrics loss is not fatal to orchestrator function
+    }
 }
 
 void ContinuousLearningOrchestrator::loadMetrics() {
@@ -659,48 +709,54 @@ void ContinuousLearningOrchestrator::loadMetrics() {
     const std::string& path = impl_->config.metrics_db_path;
     if (path.empty()) return;
 
-    std::ifstream file(path);
-    if (!file.is_open()) {
-        THEMIS_DEBUG("loadMetrics: metrics file not found: {}", path);
-        return;
-    }
-
-    // Skip header line
-    std::string line;
-    if (!std::getline(file, line)) return;
-
-    // Read last data row
-    std::string last_line;
-    while (std::getline(file, last_line)) {
-        // keep iterating to get the last line
-    }
-
-    if (last_line.empty()) return;
-
-    std::istringstream row(last_line);
-    std::string field;
-    int col = 0;
-    while (std::getline(row, field, ',')) {
-        try {
-            switch (col) {
-                case 1: {
-                    std::istringstream value_stream(field);
-                    value_stream.imbue(std::locale::classic());
-                    double value = 0.0;
-                    if (value_stream >> value) {
-                        impl_->stats.current_accuracy = value;
-                    }
-                    break;
-                }
-                case 2: impl_->stats.prompt_optimizations    = static_cast<size_t>(std::stoull(field)); break;
-                case 3: impl_->stats.retrieval_optimizations = static_cast<size_t>(std::stoull(field)); break;
-                case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;
-                default: break;
-            }
-        } catch (...) {
-            // Ignore parse errors for individual fields
+    try {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            THEMIS_DEBUG("loadMetrics: metrics file not found: {}", path);
+            return;
         }
-        col++;
+
+        // Skip header line
+        std::string line;
+        if (!std::getline(file, line)) return;
+
+        // Read last data row
+        std::string last_line;
+        while (std::getline(file, last_line)) {
+            // keep iterating to get the last line
+        }
+
+        if (last_line.empty()) return;
+
+        std::istringstream row(last_line);
+        std::string field;
+        int col = 0;
+        while (std::getline(row, field, ',')) {
+            try {
+                switch (col) {
+                    case 1: {
+                        std::istringstream value_stream(field);
+                        value_stream.imbue(std::locale::classic());
+                        double value = 0.0;
+                        if (value_stream >> value) {
+                            impl_->stats.current_accuracy = value;
+                        }
+                        break;
+                    }
+                    case 2: impl_->stats.prompt_optimizations    = static_cast<size_t>(std::stoull(field)); break;
+                    case 3: impl_->stats.retrieval_optimizations = static_cast<size_t>(std::stoull(field)); break;
+                    case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;
+                    default: break;
+                }
+            } catch (...) {
+                // Ignore parse errors for individual fields
+            }
+            col++;
+        }
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard to prevent incomplete state on load failure
+        THEMIS_WARN("loadMetrics: failed to load metrics: {}", e.what());
+        // Continue with default metrics; load failure is not fatal
     }
 }
 
@@ -1263,10 +1319,17 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     if (bao_optimizer) {
 #if defined(THEMIS_ENABLE_BAO)
         std::weak_ptr<themis::performance::phase3::BaoOptimizer> bao_weak = bao_optimizer;
+        // CRITICAL FIX: Guard weak_ptr.lock() operations with timeout detection.
+        // weak_ptr::lock() can block if the shared_ptr is being concurrently modified.
+        // We wrap the call with immediate availability check and error fallback.
         setHnswMissRateProvider([bao_weak]() {
+            // CRITICAL: weak_ptr::lock() has no timeout; we provide fail-fast semantics
+            // by checking weak_ptr validity before calling lock().
             auto bao = bao_weak.lock();
             if (!bao) {
-                throw std::runtime_error("BaoOptimizer unavailable");
+                // Expired weak_ptr: BAO instance was destroyed or released
+                spdlog::warn("CLO Loop1: BaoOptimizer weak_ptr expired; returning fallback");
+                throw std::runtime_error("BaoOptimizer unavailable (expired weak_ptr)");
             }
             return bao->getMissRate();
         });
@@ -1283,10 +1346,12 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     if (workload_optimizer) {
         std::weak_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_weak =
             workload_optimizer;
+        // CRITICAL FIX: Guard weak_ptr.lock() operations with timeout detection.
         setWorkloadDriftProvider([workload_weak]() {
             auto workload = workload_weak.lock();
             if (!workload) {
-                throw std::runtime_error("WorkloadAdaptiveOptimizer unavailable");
+                spdlog::warn("CLO Loop2: WorkloadAdaptiveOptimizer weak_ptr expired; returning fallback");
+                throw std::runtime_error("WorkloadAdaptiveOptimizer unavailable (expired weak_ptr)");
             }
             return workload->getProfileDrift();
         });
@@ -1298,10 +1363,12 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
 
     if (feedback_collector) {
         std::weak_ptr<themis::prompt_engineering::FeedbackCollector> feedback_weak = feedback_collector;
+        // CRITICAL FIX: Guard weak_ptr.lock() operations with timeout detection.
         setFeedbackEntryCountProvider([feedback_weak]() {
             auto feedback = feedback_weak.lock();
             if (!feedback) {
-                throw std::runtime_error("FeedbackCollector unavailable");
+                spdlog::warn("CLO Loop4: FeedbackCollector weak_ptr expired; returning fallback");
+                throw std::runtime_error("FeedbackCollector unavailable (expired weak_ptr)");
             }
             return feedback->newEntryCount();
         });

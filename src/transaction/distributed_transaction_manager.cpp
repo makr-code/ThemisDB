@@ -1385,10 +1385,28 @@ void DistributedTransactionManager::startThreadPool() {
                 std::function<void()> task;
                 {
                     std::unique_lock<std::mutex> lock(pool_mutex_);
-                    pool_cv_.wait(lock, [this] {
-                        return pool_stop_ || !task_queue_.empty();
-                    });
+                    // Use wait_for with timeout (30s) to prevent indefinite blocking.
+                    // If timeout occurs, loop will re-acquire lock and re-check conditions.
+                    const auto timeout_result = pool_cv_.wait_for(
+                        lock,
+                        std::chrono::seconds(30),
+                        [this] { return pool_stop_ || !task_queue_.empty(); }
+                    );
+                     
+                    if (!timeout_result && !pool_stop_) {
+                        // Timeout occurred and pool is not stopping; log warning and continue waiting.
+                        THEMIS_WARN("DistributedTransactionManager [{}] thread pool worker timeout "
+                                  "after 30s waiting for tasks", coordinator_id_);
+                        continue;
+                    }
+                     
                     if (pool_stop_ && task_queue_.empty()) return;
+                     
+                    if (task_queue_.empty()) {
+                        // Spurious wakeup or timeout with empty queue; loop again.
+                        continue;
+                    }
+                     
                     task = std::move(task_queue_.front());
                     task_queue_.pop();
                 }

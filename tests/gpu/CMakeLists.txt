@@ -67,12 +67,18 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/acceleration/break_even_validator_impl_fallback.cpp)
     endif()
 
+    # Determine labels based on test file
+    set(_labels "gpu")
+    if(_stem MATCHES "test_gpu_error_handling_comprehensive|test_gpu_phase_c_integration")
+        list(APPEND _labels "gpu_phase_c")
+    endif()
+
     themis_register_module_focused_test(
         MODULE gpu
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS gpu
+        LABELS ${_labels}
     )
 endforeach()

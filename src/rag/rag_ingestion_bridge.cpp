@@ -91,6 +91,21 @@ RAGIngestionBridge& RAGIngestionBridge::operator=(RAGIngestionBridge&&) noexcept
 // Core operations
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Thread-Safe: captures local copies of member pointers before use.
+// Complexity: O(m * e) where m = text.size(), e = entity extraction overhead
+// Failure modes handled (all return ok=false with descriptive error):
+//   - Empty text: rejected with error="empty input"
+//   - Text > kMaxDocumentChars (5 MiB): rejected with error="input too large"
+//   - Invalid collection name (empty, >256 chars, control chars): rejected
+//   - Invalid mime type (empty, >128 chars, control chars): rejected
+//   - Invalid filename (empty, >512 chars, control chars): rejected
+//   - Workflow engine unavailable: falls back to direct entity extraction (fail-open)
+//   - Vector writer failure: logged, partial result returned (vector_count=0)
+//   - Graph writer failure: logged, indexing continues without graph writes
+// All validation errors are logged at WARN level; I/O errors at WARN level.
+// Doc ID is deterministic from text hash (idempotent re-indexing).
+// Fallback workflow ensures partial indexing succeeds even without full pipeline.
+
 IndexResult RAGIngestionBridge::indexDocument(
     const std::string& text,
     const std::string& collection,
@@ -113,6 +128,10 @@ IndexResult RAGIngestionBridge::indexDocument(
         trimmed_filename,
         text.size());
 
+    // ── Validation section (fail-closed) ────────────────────────────────────
+    // All validation checks return IndexResult with ok=false + error message
+    // No exception thrown; fail-closed semantics for all input validation.
+    
     if (text.empty()) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: empty input");
         return IndexResult{
@@ -120,6 +139,8 @@ IndexResult RAGIngestionBridge::indexDocument(
             .error = "empty input"
         };
     }
+    // Bound check: text <= kMaxDocumentChars (5 MiB)
+    // Prevents memory exhaustion and ensures bounded ingestion time
     if (text.size() > kMaxDocumentChars) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})", text.size());
         return IndexResult{
@@ -127,6 +148,8 @@ IndexResult RAGIngestionBridge::indexDocument(
             .error = "input too large"
         };
     }
+    // Collection name validation: must be non-empty, <= 256 chars, no control chars
+    // Control char check prevents injection attacks and ensures clean metadata
     if (trimmed_collection.empty() || trimmed_collection.size() > kMaxCollectionChars ||
         hasControlCharacters(trimmed_collection)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid collection");
@@ -135,6 +158,7 @@ IndexResult RAGIngestionBridge::indexDocument(
             .error = "invalid collection"
         };
     }
+    // MIME type validation: must be non-empty, <= 128 chars, no control chars
     if (trimmed_mime.empty() || trimmed_mime.size() > kMaxMimeChars ||
         hasControlCharacters(trimmed_mime)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid mime");
@@ -143,6 +167,8 @@ IndexResult RAGIngestionBridge::indexDocument(
             .error = "invalid mime"
         };
     }
+    // Filename validation: must be non-empty, <= 512 chars, no control chars
+    // Filename used for workflow routing (e.g., PDF vs plain text handling)
     if (trimmed_filename.empty() || trimmed_filename.size() > kMaxFilenameChars ||
         hasControlCharacters(trimmed_filename)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid filename");
@@ -152,6 +178,10 @@ IndexResult RAGIngestionBridge::indexDocument(
         };
     }
 
+    // ── Workflow execution with fallback path ────────────────────────────────
+    // Idempotent doc_id: computed from collection + text hash, deterministic.
+    // Enables re-indexing the same document (will overwrite previous records).
+    
     // Derive a stable document ID from collection + text
     const std::string doc_hash = computeDocHash(text);
     const std::string doc_id   = trimmed_collection + "/" + doc_hash;
@@ -166,6 +196,9 @@ IndexResult RAGIngestionBridge::indexDocument(
     ingestion::BaseEntitySet entity_set;
     bool used_workflow_fallback = false;
 
+    // Primary path: use WorkflowEngine if available (full NER + chunking)
+    // Fallback path: direct entity extraction + one canonical chunk
+    // Fallback ensures indexing succeeds even when workflow pipeline unavailable.
     if (auto engine = toolbox->workflowEngine()) {
         auto result = engine->execute(ctx);
         if (result) {
@@ -184,6 +217,8 @@ IndexResult RAGIngestionBridge::indexDocument(
         used_workflow_fallback = true;
     }
 
+    // Fallback workflow path: minimal entity extraction + one canonical chunk
+    // Ensures RAG pipeline can still retrieve documents even without full processing.
     if (used_workflow_fallback) {
         spdlog::info(
             "RAGIngestionBridge::indexDocument using fallback workflow path for collection='{}'",
@@ -199,6 +234,7 @@ IndexResult RAGIngestionBridge::indexDocument(
         }
         entity_set.nodes = std::move(entities);
 
+        // Create one canonical chunk from the full document for retrieval fallback
         ingestion::VectorRecord fallback_chunk;
         fallback_chunk.chunk_id = doc_id + "#0";
         fallback_chunk.source_file_id = doc_id;
@@ -211,6 +247,12 @@ IndexResult RAGIngestionBridge::indexDocument(
     std::size_t vector_count = 0;
     std::size_t entity_count = entity_set.nodes.size();
 
+    // ── Vector writer section (failure handling) ────────────────────────────
+    // Writes all extracted chunks to the vector index (if vector_writer configured).
+    // Injects canonical RAG metadata: collection, source, content
+    // Failure to write is logged but non-fatal; indexing continues.
+    // This allows partial indexing to succeed even if vector write fails.
+    
     // Write vector chunks (stamp each chunk's source_file_id with our doc_id)
     if (vector_writer && !entity_set.chunks.empty()) {
         // Move chunks into the write buffer to avoid an extra full-vector copy
@@ -267,6 +309,11 @@ IndexResult RAGIngestionBridge::indexDocument(
         // Write failure is non-fatal: we still return a partial result
     }
 
+    // ── Graph writer section (optional, failure-closed) ──────────────────────
+    // Writes extracted entities and relations to graph store (if graph_writer configured).
+    // Failure is logged but does not affect indexing result.
+    // Write is fire-and-forget; caller cannot observe graph write failures.
+    
     // Write graph entities / relations
     if (graph_writer) {
         if (!entity_set.nodes.empty()) {

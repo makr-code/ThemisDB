@@ -1481,7 +1481,7 @@ QueryEngine::executeAndCount(const ConjunctiveQuery& q) const {
 		return Err<size_t>(keysResult.error().code(), keysResult.error().context());
 	}
 
-	const size_t count = keysResult->size();
+	const size_t count = (keysResult.value()).size();
 	span.setAttribute("query.result_count", static_cast<int64_t>(count));
 	span.setStatus(true);
 	return Ok(count);
@@ -1574,8 +1574,8 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		auto v = evalArg(0);
 		if (!v) return v;
-		if (v->is_string()) return Ok(nlohmann::json(v->get<std::string>().length()));
-		if (v->is_array() || v->is_object()) return Ok(nlohmann::json(v->size()));
+		if (v.value().is_string()) return Ok(nlohmann::json(v.value().get<std::string>().length()));
+		if (v.value().is_array() || v.value().is_object()) return Ok(nlohmann::json(v.value().size()));
 		return Ok(nlohmann::json(0));
 	}
 	if (funcName == "CONCAT") {
@@ -1583,7 +1583,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		for (size_t i = 0; i < args.size(); ++i) {
 			auto v = evalArg(i);
 			if (!v) return v;
-			out += v->is_string() ? v->get<std::string>() : v->dump();
+			out += v.value().is_string() ? v.value().get<std::string>() : v.value().dump();
 		}
 		return Ok(nlohmann::json(out));
 	}
@@ -1596,11 +1596,11 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!s) return s;
 		auto st = evalArg(1);
 		if (!st) return st;
-		if (!s->is_string()) {
+		if (!s.value().is_string()) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, 
 				"SUBSTRING expects string as first argument");
 		}
-		std::string sv = s->get<std::string>();
+		std::string sv = s.value().get<std::string>();
 		// Clamp negative/out-of-range doubles to [0, sv.size()] before narrowing to
 		// size_t; a raw static_cast of a negative double is implementation-defined UB.
 		const double startD = qe_toNumber(*st);
@@ -1626,11 +1626,11 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		auto v = evalArg(0);
 		if (!v) return v;
-		if (!v->is_string()) {
+		if (!v.value().is_string()) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, 
 				fmt::format("{} expects string argument", funcName));
 		}
-		std::string s = v->get<std::string>();
+		std::string s = v.value().get<std::string>();
 		if (funcName == "UPPER") std::transform(s.begin(), s.end(), s.begin(), ::toupper);
 		else std::transform(s.begin(), s.end(), s.begin(), ::tolower);
 		return Ok(nlohmann::json(s));
@@ -2303,7 +2303,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			arc_points = static_cast<int>(ap_d);
 		}
 		try {
-			const geo::GeometryInfo geom = geo::EWKBParser::parseGeoJSON(gRes->dump());
+			const geo::GeometryInfo geom = geo::EWKBParser::parseGeoJSON(gRes.value().dump());
 			const geo::GeometryInfo result = geo::getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
 			const std::string json_str = geo::EWKBParser::toGeoJSON(result);
 			if (json_str == "{}" || json_str.empty()) {
@@ -2343,7 +2343,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 			auto fa = std::static_pointer_cast<FieldAccessExpr>(expr);
 			auto base = qe_evalExpr(fa->object, ctx);
 			if (!base) return base;
-			if (base->is_null()) return Ok(nlohmann::json(nullptr));
+			if (base.value().is_null()) return Ok(nlohmann::json(nullptr));
 			return Ok(qe_getNested(*base, {fa->field}));
 		}
 		case ASTNodeType::ArrayLiteral: {
@@ -2405,23 +2405,23 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 				}
 				case BinaryOperator::Eq: return Ok(nlohmann::json(*l == *r));
 				case BinaryOperator::Neq: return Ok(nlohmann::json(*l != *r));
-				case BinaryOperator::Lt: return Ok(nlohmann::json(l->is_number()&&r->is_number() ? (l->get<double>() < r->get<double>()) : (l->dump() < r->dump())));
-				case BinaryOperator::Lte: return Ok(nlohmann::json(l->is_number()&&r->is_number() ? (l->get<double>() <= r->get<double>()) : (l->dump() <= r->dump())));
-				case BinaryOperator::Gt: return Ok(nlohmann::json(l->is_number()&&r->is_number() ? (l->get<double>() > r->get<double>()) : (l->dump() > r->dump())));
-				case BinaryOperator::Gte: return Ok(nlohmann::json(l->is_number()&&r->is_number() ? (l->get<double>() >= r->get<double>()) : (l->dump() >= r->dump())));
+				case BinaryOperator::Lt: return Ok(nlohmann::json(l.value().is_number()&&r.value().is_number() ? (l.value().get<double>() < r.value().get<double>()) : (l.value().dump() < r.value().dump())));
+				case BinaryOperator::Lte: return Ok(nlohmann::json(l.value().is_number()&&r.value().is_number() ? (l.value().get<double>() <= r.value().get<double>()) : (l.value().dump() <= r.value().dump())));
+				case BinaryOperator::Gt: return Ok(nlohmann::json(l.value().is_number()&&r.value().is_number() ? (l.value().get<double>() > r.value().get<double>()) : (l.value().dump() > r.value().dump())));
+				case BinaryOperator::Gte: return Ok(nlohmann::json(l.value().is_number()&&r.value().is_number() ? (l.value().get<double>() >= r.value().get<double>()) : (l.value().dump() >= r.value().dump())));
 				case BinaryOperator::And: return Ok(nlohmann::json(qe_toBool(*l) && qe_toBool(*r)));
 				case BinaryOperator::Or: return Ok(nlohmann::json(qe_toBool(*l) || qe_toBool(*r)));
 				case BinaryOperator::Xor: return Ok(nlohmann::json(qe_toBool(*l) ^ qe_toBool(*r)));
 				case BinaryOperator::In: {
 					// Membership: left IN right (right can be array or string)
-					if (r->is_array()) {
+					if (r.value().is_array()) {
 						for (const auto& e : *r) {
 							if (e == *l) return Ok(nlohmann::json(true));
 						}
 						return Ok(nlohmann::json(false));
 					}
-					if (r->is_string() && l->is_string()) {
-						return Ok(nlohmann::json(r->get<std::string>().find(l->get<std::string>()) != std::string::npos));
+					if (r.value().is_string() && l.value().is_string()) {
+						return Ok(nlohmann::json(r.value().get<std::string>().find(l.value().get<std::string>()) != std::string::npos));
 					}
 					return Ok(nlohmann::json(false));
 				}

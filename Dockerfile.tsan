@@ -1,0 +1,35 @@
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install build essentials and dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential cmake ninja-build git curl ca-certificates pkg-config \
+    libssl-dev zlib1g-dev libkrb5-dev \
+    librocksdb-dev libgtest-dev libgmock-dev \
+    libspdlog-dev libyaml-cpp-dev \
+    nlohmann-json3-dev libmimalloc-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /themisdb
+
+COPY . .
+
+# Clean up any cached build directories
+RUN rm -rf build_tsan build build-community-release
+
+# Build with TSan enabled - disable non-essential features
+RUN mkdir -p build_tsan && cd build_tsan && \
+    cmake .. \
+    -DTHEMIS_ENABLE_TSAN=ON \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DENABLE_TESTING=ON \
+    -DTHEMIS_ENABLE_GPU=OFF \
+    -DTHEMIS_ENABLE_GRPC=OFF \
+    -DTHEMIS_ENABLE_LLM=OFF \
+    && cmake --build . --target module_access_model_test_coordination_concurrency_focused --parallel 4 2>&1
+
+# Run the test
+WORKDIR /themisdb/build_tsan
+RUN ctest -R "test_coordination_concurrency" --output-on-failure -V 2>&1
+

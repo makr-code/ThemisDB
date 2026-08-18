@@ -29,19 +29,45 @@ struct CompletenessEvaluator::Impl {
     ResponseParser parser;
     mutable std::mutex state_mutex;  // Protect shared state access
     
-    // Check if aspect is covered in answer
-    bool isAspectCovered(const std::string& aspect, const std::string& answer) {
-        std::string aspect_lower = aspect;
+    // Optimization: Extract answer words once to avoid repeated parsing
+    // Builds a set of lowercase words from answer for O(log n) lookup
+    static std::set<std::string> extractAnswerWords(const std::string& answer) {
+        std::set<std::string> words;
         std::string answer_lower = answer;
-        std::transform(aspect_lower.begin(), aspect_lower.end(), aspect_lower.begin(), ::tolower);
-        std::transform(answer_lower.begin(), answer_lower.end(), answer_lower.begin(), ::tolower);
+        std::transform(answer_lower.begin(), answer_lower.end(), 
+                      answer_lower.begin(), ::tolower);
         
-        // Extract key terms from aspect
+        std::istringstream stream(answer_lower);
+        std::string word;
+        while (stream >> word) {
+            // Remove punctuation from word end
+            while (!word.empty() && !std::isalnum(word.back())) {
+                word.pop_back();
+            }
+            if (word.length() > 3) {  // Filter short words
+                words.insert(word);
+            }
+        }
+        return words;
+    }
+    
+    // Check if aspect is covered in answer using pre-extracted words
+    // Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length)
+    bool isAspectCoveredOptimized(const std::string& aspect, 
+                                  const std::set<std::string>& answer_words) {
+        std::string aspect_lower = aspect;
+        std::transform(aspect_lower.begin(), aspect_lower.end(), 
+                      aspect_lower.begin(), ::tolower);
+        
         std::istringstream stream(aspect_lower);
         std::vector<std::string> key_terms;
         std::string word;
         
         while (stream >> word) {
+            // Remove punctuation from word end
+            while (!word.empty() && !std::isalnum(word.back())) {
+                word.pop_back();
+            }
             if (word.length() > 3) {  // Filter short words
                 key_terms.push_back(word);
             }
@@ -51,10 +77,10 @@ struct CompletenessEvaluator::Impl {
             return false;
         }
         
-        // Check how many key terms are present in answer
+        // Check how many key terms are present in answer words
         size_t found_count = 0;
         for (const auto& term : key_terms) {
-            if (answer_lower.find(term) != std::string::npos) {
+            if (answer_words.count(term)) {
                 found_count++;
             }
         }
@@ -63,18 +89,29 @@ struct CompletenessEvaluator::Impl {
         return found_count >= (key_terms.size() * 0.6);
     }
     
-    // Calculate coverage score for an aspect
-    double calculateCoverageScore(const std::string& aspect, const std::string& answer) {
+    // Check if aspect is covered in answer
+    bool isAspectCovered(const std::string& aspect, const std::string& answer) {
+        auto answer_words = extractAnswerWords(answer);
+        return isAspectCoveredOptimized(aspect, answer_words);
+    }
+    
+    // Calculate coverage score using pre-extracted words
+    // Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length)
+    double calculateCoverageScoreOptimized(const std::string& aspect,
+                                          const std::set<std::string>& answer_words) {
         std::string aspect_lower = aspect;
-        std::string answer_lower = answer;
-        std::transform(aspect_lower.begin(), aspect_lower.end(), aspect_lower.begin(), ::tolower);
-        std::transform(answer_lower.begin(), answer_lower.end(), answer_lower.begin(), ::tolower);
+        std::transform(aspect_lower.begin(), aspect_lower.end(), 
+                      aspect_lower.begin(), ::tolower);
         
         std::istringstream stream(aspect_lower);
         std::vector<std::string> key_terms;
         std::string word;
         
         while (stream >> word) {
+            // Remove punctuation from word end
+            while (!word.empty() && !std::isalnum(word.back())) {
+                word.pop_back();
+            }
             if (word.length() > 3) {
                 key_terms.push_back(word);
             }
@@ -86,12 +123,18 @@ struct CompletenessEvaluator::Impl {
         
         size_t found_count = 0;
         for (const auto& term : key_terms) {
-            if (answer_lower.find(term) != std::string::npos) {
+            if (answer_words.count(term)) {
                 found_count++;
             }
         }
         
         return static_cast<double>(found_count) / key_terms.size();
+    }
+    
+    // Calculate coverage score for an aspect
+    double calculateCoverageScore(const std::string& aspect, const std::string& answer) {
+        auto answer_words = extractAnswerWords(answer);
+        return calculateCoverageScoreOptimized(aspect, answer_words);
     }
 };
 
@@ -299,6 +342,11 @@ CompletenessResult CompletenessEvaluator::evaluate(
     }
     
     // Step 2: Check aspect coverage
+    // Optimization: Extract answer words once to avoid repeated parsing in loop
+    // This reduces complexity from O(n_aspects × n_terms × n_answer) 
+    // to O(n_answer + n_aspects × n_terms × log n_unique_words)
+    auto answer_words = impl_->extractAnswerWords(answer);
+    
     result.covered_aspects_count = 0;
     double required_coverage = 0.0;
     double optional_coverage = 0.0;
@@ -306,8 +354,8 @@ CompletenessResult CompletenessEvaluator::evaluate(
     size_t optional_count = 0;
     
     for (auto& aspect : result.aspects) {
-        aspect.is_covered = impl_->isAspectCovered(aspect.aspect_text, answer);
-        aspect.coverage_score = impl_->calculateCoverageScore(aspect.aspect_text, answer);
+        aspect.is_covered = impl_->isAspectCoveredOptimized(aspect.aspect_text, answer_words);
+        aspect.coverage_score = impl_->calculateCoverageScoreOptimized(aspect.aspect_text, answer_words);
         
         if (aspect.is_covered) {
             result.covered_aspects_count++;

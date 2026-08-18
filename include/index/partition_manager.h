@@ -20,8 +20,9 @@
 
 namespace themis {
 
-/// Forward declaration
+/// Forward declarations
 class PartitionData;
+class PartitionManager;
 
 /**
  * @brief Handle for safe partition access with lifetime tracking

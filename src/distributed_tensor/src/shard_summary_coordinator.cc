@@ -9,6 +9,8 @@
 
 #include <chrono>
 #include <string>
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/fmt.h>
 
 namespace themis {
 namespace distributed_tensor {
@@ -60,7 +62,31 @@ ShardSummaryCoordinator::ShardSummaryCoordinator(
     Config config) noexcept
     : fetcher_(std::move(fetcher)),
       manifest_store_(manifest_store),
-      config_(config) {}
+      config_(config) {
+    config_.validateAndClamp();
+}
+
+// ============================================================================
+// Config validation and Byzantine safety (SG-DT-01)
+// ============================================================================
+
+void ShardSummaryCoordinator::Config::validateAndClamp() noexcept {
+    // Enforce minimum quorum ratio for Byzantine Fault Tolerance.
+    // SG-DT-01 requires majority (>= 50%) participation.
+    if (freshness_quorum_ratio < 0.5f) {
+        // Log diagnostic: unsafe quorum ratio being clamped
+        spdlog::warn("ShardSummaryCoordinator::Config::validateAndClamp: "
+                     "freshness_quorum_ratio {} is below minimum 0.5; clamping to 0.5",
+                     freshness_quorum_ratio);
+        freshness_quorum_ratio = 0.5f;
+    } else if (freshness_quorum_ratio > 1.0f) {
+        // Also clamp upper bound to valid fraction
+        spdlog::warn("ShardSummaryCoordinator::Config::validateAndClamp: "
+                     "freshness_quorum_ratio {} exceeds maximum 1.0; clamping to 1.0",
+                     freshness_quorum_ratio);
+        freshness_quorum_ratio = 1.0f;
+    }
+}
 
 // ============================================================================
 // Shard registration
@@ -104,6 +130,9 @@ ShardSummaryRefreshResult ShardSummaryCoordinator::refreshShard(
         auto it = records_.find(shard_id);
         if (it == records_.end()) {
             // Auto-register with default TTL.
+            spdlog::debug("ShardSummaryCoordinator::refreshShard: auto-registering shard_id={} "
+                         "with default_ttl_seconds={}",
+                         shard_id, config_.default_ttl_seconds);
             ShardFreshnessRecord rec;
             rec.shard_id = shard_id;
             rec.ttl_seconds = config_.default_ttl_seconds;
@@ -114,6 +143,10 @@ ShardSummaryRefreshResult ShardSummaryCoordinator::refreshShard(
         it->second.markRefreshed(ts);
         result.generation = it->second.refresh_generation;
         result.freshness_state = tensor::SummaryFreshnessState::FRESH;
+        
+        spdlog::debug("ShardSummaryCoordinator::refreshShard: refreshed shard_id={} "
+                     "at_timestamp_ms={} generation={}",
+                     shard_id, ts, result.generation);
     }
 
     // Update the advisory summary's freshness fields.
@@ -218,6 +251,7 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
     decisions.reserve(summaries.size());
 
     const int64_t ts = resolveNow(now_ms);
+    uint32_t escalation_count = 0;
 
     for (const auto& s : summaries) {
         stat_routing_decisions_.fetch_add(1, std::memory_order_relaxed);
@@ -250,6 +284,9 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
                 d.include_shard = false;
                 d.escalate_to_exact = false;
                 d.reason = "shard_summary_invalid_skipped";
+                spdlog::debug("ShardSummaryCoordinator::routeSummaryFirst: shard_id={} "
+                             "INVALID state, skipping (config.skip_invalid_shards=true)",
+                             d.shard_id);
                 decisions.push_back(std::move(d));
                 continue;
             }
@@ -258,6 +295,10 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
             d.escalate_to_exact = true;
             d.reason = "shard_summary_invalid_escalate";
             stat_escalations_.fetch_add(1, std::memory_order_relaxed);
+            ++escalation_count;
+            spdlog::warn("ShardSummaryCoordinator::routeSummaryFirst: shard_id={} "
+                        "INVALID state, escalating to exact fetch (config.skip_invalid_shards=false)",
+                        d.shard_id);
             decisions.push_back(std::move(d));
             continue;
         }
@@ -268,10 +309,15 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
                 d.escalate_to_exact = true;
                 d.reason = "shard_summary_stale_escalate_to_exact";
                 stat_escalations_.fetch_add(1, std::memory_order_relaxed);
+                ++escalation_count;
+                spdlog::info("ShardSummaryCoordinator::routeSummaryFirst: shard_id={} "
+                            "STALE, escalating to exact fetch", d.shard_id);
             } else {
                 d.include_shard = false;
                 d.escalate_to_exact = false;
                 d.reason = "shard_summary_stale_skipped";
+                spdlog::debug("ShardSummaryCoordinator::routeSummaryFirst: shard_id={} "
+                             "STALE, skipping (config.escalate_stale_shards=false)", d.shard_id);
             }
             decisions.push_back(std::move(d));
             continue;
@@ -283,11 +329,24 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
             d.escalate_to_exact = true;
             d.reason = "accuracy_mode_exact_forced";
             stat_escalations_.fetch_add(1, std::memory_order_relaxed);
+            ++escalation_count;
+            spdlog::debug("ShardSummaryCoordinator::routeSummaryFirst: shard_id={} "
+                         "FRESH summary, forced to exact fetch (accuracy_mode=EXACT)",
+                         d.shard_id);
         } else {
             d.escalate_to_exact = false;
             d.reason = "shard_summary_fresh_advisory";
+            spdlog::debug("ShardSummaryCoordinator::routeSummaryFirst: shard_id={} "
+                         "using FRESH advisory summary (advisory_score={})",
+                         d.shard_id, d.advisory_score);
         }
         decisions.push_back(std::move(d));
+    }
+    
+    if (escalation_count > 0) {
+        spdlog::info("ShardSummaryCoordinator::routeSummaryFirst: "
+                    "processed {} summaries with {} escalations to exact fetch",
+                    summaries.size(), escalation_count);
     }
     return decisions;
 }
@@ -309,8 +368,15 @@ ExactFetchResult ShardSummaryCoordinator::fetchExact(
         result.success = false;
         result.error_reason = "no_fetcher_configured";
         stat_refresh_failures_.fetch_add(1, std::memory_order_relaxed);
+        spdlog::error("ShardSummaryCoordinator::fetchExact: no fetcher configured for "
+                     "artifact_id={} shard_id={}",
+                     request.artifact_id, request.shard_id);
         return result;
     }
+
+    spdlog::debug("ShardSummaryCoordinator::fetchExact: starting exact fetch for "
+                 "artifact_id={} shard_id={} with timeout_ms={}",
+                 request.artifact_id, request.shard_id, request.timeout_ms);
 
     const auto start = std::chrono::steady_clock::now();
     result = fetcher_->fetch(request);
@@ -325,8 +391,14 @@ ExactFetchResult ShardSummaryCoordinator::fetchExact(
 
     if (result.success) {
         stat_exact_fetch_successes_.fetch_add(1, std::memory_order_relaxed);
+        spdlog::debug("ShardSummaryCoordinator::fetchExact: success for "
+                     "artifact_id={} shard_id={} latency_ms={:.2f}",
+                     request.artifact_id, request.shard_id, measured_ms);
     } else {
         stat_refresh_failures_.fetch_add(1, std::memory_order_relaxed);
+        spdlog::warn("ShardSummaryCoordinator::fetchExact: failure for "
+                    "artifact_id={} shard_id={} reason={} latency_ms={:.2f}",
+                    request.artifact_id, request.shard_id, result.error_reason, measured_ms);
     }
     return result;
 }
@@ -356,7 +428,9 @@ std::vector<ExactFetchResult> ShardSummaryCoordinator::fetchEscalated(
 // ============================================================================
 
 void ShardSummaryCoordinator::setConfig(const Config& config) noexcept {
-    config_ = config;
+    Config validated_config = config;
+    validated_config.validateAndClamp();
+    config_ = validated_config;
 }
 
 ShardSummaryCoordinator::Config ShardSummaryCoordinator::config() const noexcept {

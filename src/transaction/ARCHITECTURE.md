@@ -75,11 +75,43 @@ Compensation path
 - Compensation flows are expected to be idempotent and replay-safe.
 - Timeout and liveness checks are part of runtime guardrails for distributed coordination.
 
+## 6.1 Memory Management & RAII Patterns
+
+### Core Principles
+- **Prefer `std::unique_ptr` and `std::make_unique`** for exclusive ownership.
+- **Use `std::shared_ptr` only when shared ownership is semantically required** (e.g., TrueTime in distributed paths).
+- **Avoid raw `new`/`delete` pairs** except in C plugin interfaces (where documented).
+- **All resource cleanup must be exception-safe** via RAII destructors.
+
+### Applied Patterns
+| Component | Pattern | Example |
+|-----------|---------|---------|
+| TransactionManager | std::unique_ptr for detector thread | `deadlock_detector_thread_ = std::make_unique<std::thread>(...)` |
+| DistributedTransactionManager | std::unique_ptr for WAL | `wal_ = std::make_unique<WALManager>(wal_cfg)` |
+| GlobalTransactionManager | std::shared_ptr for distributed state | `truetime_` shared across replicas |
+| SAGAOrchestratorGuard | std::unique_ptr for orchestrator lifecycle | Internal RAII wrapper in plugin |
+| Saga/SAGA steps | Lambda capture (stack-based lifetime) | Compensation actions captured by value |
+
+### C Plugin Interface Exception
+- **File:** `src/transaction/saga_plugin/saga_orchestrator_plugin.cpp`
+- **Reason:** Dynamic loading via C interface requires raw pointers.
+- **Mitigation:** 
+  - `createPlugin()` wraps allocation in try-catch with allocation safety checks.
+  - `destroyPlugin()` validates null pointers before deletion (double-delete safe).
+  - Internal RAII (`SAGAOrchestratorGuard`) ensures orchestrator lifecycle safety.
+  - All exceptions logged; no silent failures.
+
+### Validation & Testing
+- Unit tests verify resource cleanup on exception paths.
+- Saga orchestrator tests validate plugin creation/destruction cycles.
+- No manual cleanup code in application paths (all RAII-based).
+
 ## 7. Known Limitations and Future Work
 
 - Additional benchmark evidence is needed for some high-contention distributed envelopes.
 - Some long-tail distributed fault combinations remain under ongoing hardening.
 - Documentation and guardrails continue to be aligned with active source changes.
+- C plugin interface pattern in saga_orchestrator_plugin.cpp may be refactored to use a factory in future versions.
 
 ## 8. Sourcecode Verification (Module: transaction/architecture)
 

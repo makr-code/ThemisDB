@@ -15,6 +15,14 @@ if(TARGET epic2_evaluation_lib)
     )
     target_link_libraries(planner_decision_bench PRIVATE epic2_evaluation_lib)
     target_compile_features(planner_decision_bench PRIVATE cxx_std_17)
+    
+    # Phase 5: planner_error_path_bench for Category C error handling overhead
+    add_executable(planner_error_path_bench planner_error_path_bench.cc)
+    target_include_directories(planner_error_path_bench PRIVATE
+        ${THEMIS_ROOT_DIR}/src/evaluation
+    )
+    target_link_libraries(planner_error_path_bench PRIVATE epic2_evaluation_lib)
+    target_compile_features(planner_error_path_bench PRIVATE cxx_std_17)
 endif()
 
 # ============================================================================

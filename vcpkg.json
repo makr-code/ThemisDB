@@ -13,20 +13,7 @@
     {
       "name": "zlib",
       "version>=": "1.3"
-    },
-    {
-      "name": "rocksdb",
-      "features": [
-        "lz4",
-        "snappy",
-        "zlib",
-        "zstd"
-      ]
-    },
-    {
-      "name": "simdjson",
-      "version>=": "3.0.0"
-    },
+  }
     {
       "name": "tbb",
       "version>=": "2021.5.0"

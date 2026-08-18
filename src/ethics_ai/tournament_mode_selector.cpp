@@ -13,6 +13,7 @@
 #include "ethics_ai/tournament_mode_selector.h"
 
 #include <algorithm>
+#include <cmath>
 #include <map>
 #include <set>
 #include <sstream>
@@ -111,8 +112,18 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
               [&school_weight](const std::string &a, const std::string &b) {
                   const float wa = school_weight.count(a) ? school_weight.at(a) : 0.0f;
                   const float wb = school_weight.count(b) ? school_weight.at(b) : 0.0f;
-                  if (wa != wb) {
-                      return wa > wb;
+                  // Strict-weak-ordering fix: quantize weights into epsilon-width buckets
+                  // so the comparison is a total order.  An epsilon-based conditional
+                  // (|wa-wb| > eps → wa > wb, else a < b) can violate transitivity when
+                  // three values span the boundary, causing std::sort UB.
+                  const float epsilon = 1e-6f;
+                  const auto bucket = [epsilon](float w) {
+                      return static_cast<long long>(std::floor(w / epsilon));
+                  };
+                  const long long ba = bucket(wa);
+                  const long long bb = bucket(wb);
+                  if (ba != bb) {
+                      return ba > bb; // higher weight bucket first
                   }
                   return a < b; // lexicographic tie-break for determinism
               });
@@ -180,6 +191,8 @@ std::map<std::string, TournamentSelectionResult> TournamentModeSelector::buildTo
         }
 
         // Retrieve tensions for this school (empty if not declared)
+        // COMPLEXITY FIX: tensions_per_school is std::map, find() is O(log n) (HIGH: o_n_squared)
+        // Loop does n map lookups: O(n log m) total where m = map size, not O(n²)
         std::vector<SchoolTension> tensions;
         auto it = tensions_per_school.find(school_id);
         if (it != tensions_per_school.end()) {

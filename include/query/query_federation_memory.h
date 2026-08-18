@@ -194,7 +194,7 @@ public:
      * @brief Record a memory pressure event
      * @param event The event to record
      */
-    void recordPressureEvent(const MemoryPressureEvent& event);
+    void recordPressureEvent(const MemoryPressureEvent& event) const;
 
     /**
      * @brief Get recorded pressure events
@@ -218,6 +218,7 @@ public:
 
 private:
     friend class Builder;
+    friend class ResultAccumulator;
 
     MemoryPolicy(
         uint64_t max_result_bytes,
@@ -355,7 +356,7 @@ public:
 private:
     const MemoryPolicy& policy_;
     mutable std::mutex mutex_;
-    std::unordered_map<std::string, std::deque<ResultBatch>> shard_batches_;
+    std::unordered_map<std::string, std::deque<MemoryPolicy::ResultBatch>> shard_batches_;
     uint64_t current_memory_bytes_ = 0;
     size_t total_batch_count_ = 0;
 

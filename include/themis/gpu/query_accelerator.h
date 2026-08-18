@@ -45,6 +45,34 @@ namespace gpu {
  * - **annSearch** — approximate k-nearest-neighbor vector similarity search
  *                   (GPU stub: cuVS/RAFT `ivf_flat` on CUDA; CPU brute-force fallback)
  *
+ * Result Parity & Precision Guarantees
+ * -------------------------------------
+ *
+ * **Deterministic CPU Fallback**: All GPU operations include deterministic CPU fallback
+ * paths that execute when:
+ * - No GPU device is available (returns same result as CPU-forced mode)
+ * - CUDA/HIP memory allocation fails (automatic fallback via CHECKED_CUDA macro)
+ * - CUDA/HIP memory copy operations fail (fallback triggered by exception)
+ * - Kernel execution times out (exceeds 5-second SLA enforced by KernelSLAGuard)
+ *
+ * When fallback occurs:
+ * - `used_gpu` field in result is set to `false`
+ * - Result value matches CPU implementation within precision tolerance (see below)
+ * - No partial/corrupted results are returned (fail-closed design)
+ *
+ * **Floating-Point Result Tolerance**:
+ * GPU and CPU paths produce results within the following tolerances:
+ * - **FP32 (exact)**: Relative error < 1e-5 (no quantization)
+ * - **FP16 (quantized)**: Relative error < 1e-3 (due to 10-bit mantissa quantization)
+ * - **BF16 (quantized)**: Relative error < 5e-3 (due to 7-bit mantissa quantization)
+ * - **Integer operations** (scan, sort, aggregate COUNT, hashJoin): Exact match
+ *
+ * These tolerances account for:
+ * 1. Host-side FP16/BF16 quantization simulation (CPU path)
+ * 2. GPU Tensor Core precision loss (GPU path)
+ * 3. Floating-point rounding differences between platforms
+ * 4. Order-dependent accumulation (e.g., dot product, SUM may differ by 1 ULP)
+ *
  * Thread safety: all public methods are protected by an internal mutex.
  */
 class GPUQueryAccelerator {

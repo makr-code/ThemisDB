@@ -1,12 +1,80 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-08-18 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · MODULE_STATUS.md -->
+<!-- Phase 6 Acceptance: CHANGELOG.md updated with all critical gap fixes from Batches 1-3 -->
+<!-- Issue References: makr-code/ThemisDB#5665 (tracking issue), makr-code/ThemisDB#5624 (parent epic) -->
 
 # Changelog — RAG Module
 
 All notable changes to the RAG module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [2.2.0] — 2026-08-18 – Phase 6 Documentation & Acceptance
+
+### Thread Safety
+- **RAGContextAssembler** thread-safety contract documented: all methods are const or operate on local state (no mutable shared state)
+- **RAGIngestionBridge** thread-safety guarantees formalized: public methods thread-safe, no mutable state beyond constructor-injected shared pointers
+- Added `@thread-safe` annotations to all synchronized methods in rag_context_assembler.h and rag_ingestion_bridge.h
+- Concurrency model documented in ARCHITECTURE.md (retrieval/evaluation under concurrent load, caches/metrics coordinated)
+
+### Performance & Complexity Analysis
+- **RAGContextAssembler::assemble()** complexity documented as O(n log n) for sorting + O(n) for greedy fill = **O(n log n)** overall where n = chunk count
+- **RAGContextAssembler::truncateContent()** complexity: O(n) where n = content length, deterministic truncation with marker
+- **RAGIngestionBridge::indexDocument()** complexity: O(m * e) where m = document characters, e = entity extraction overhead (delegated to IngestionToolbox)
+- **RAGIngestionBridge::enrichRetrievedDocuments()** complexity: O(d * e) where d = document count in retrieval result set
+- Performance characteristics added to function documentation in both headers
+
+### Resource Management & Bounds
+- **Context Assembly Budget Limits**: model_context_tokens bounds enforced, response reservation = max(min_response_tokens, 20% window)
+- **Ingestion Limits Enforced**:
+  - Document size: kMaxDocumentChars = 5 MiB (prevents OOM)
+  - Collection name: kMaxCollectionChars = 256 chars
+  - Metadata values: kMaxMetadataValueChars = 16 KiB
+  - Chunk snippet: kMaxChunkSnippetChars = 128 KiB
+- All limits documented with rationale in implementation and headers
+
+### Documentation Enhancements
+- **API Documentation Review Complete**: all public functions in rag_context_assembler.h and rag_ingestion_bridge.h now have @brief, @param, @return, @throws documentation
+- **Pre/Post Conditions Documented**:
+  - `RAGContextAssembler::assemble()` @pre: config must be initialized, chunks must not be null
+  - `RAGIngestionBridge::indexDocument()` @pre: toolbox must not be null; @post: either ok=true with doc_id, or ok=false with error message
+- **Failure Modes Documented**:
+  - Empty context/retrieval: returns valid empty context (not error)
+  - Backend unavailable: fallback to vector-only or error signaling (configurable)
+  - Malformed input: validation and boundary enforcement (fail-closed)
+  - Missing metadata: handled with truncation/defaulting via boundedMetadataValue()
+
+### Implementation Comments Added
+- **Sorting comments** (rag_context_assembler.cpp line 101-113): Deterministic tie-breaking for relevance-equal chunks (id, source, content as secondary keys)
+- **Budget computation comments** (rag_context_assembler.cpp line 70-82): Token budget lifecycle, response guard calculation
+- **Greedy fill comments** (rag_context_assembler.cpp line 115-143): Chunk fit strategy, truncation decision logic
+- **Entity extraction comments** (rag_ingestion_bridge.cpp): Delegation pattern to IngestionToolbox, deterministic hydration
+- **Error recovery comments** (rag_ingestion_bridge.cpp): Optional graph writer fallback, partial indexing error signaling
+
+### Test Coverage Verification (Phase 4 Evidence)
+- **Budget Consistency Tests**: 20 tests in test_rag_budget_consistency_focused.cpp (Groups A-E: assembler determinism, propagation, truncation, response reservation)
+- **Ingestion Bridge Hardening**: 19 tests in test_rag_ingestion_bridge_hardening_focused.cpp (Groups A-E: malformed input, missing metadata, empty retrieval, deterministic hydration, error recovery)
+- **Error Handling & Edge Cases**: 23 tests in test_rag_error_handling_edge_cases_focused.cpp (Groups A-E: malformed context, invalid budget, partial failures, backend fallback, resource exhaustion)
+- Total new focused tests: **62 tests** covering Phase 3 (error handling) and Phase 4 (testing) acceptance criteria
+
+### Production Requirements Alignment
+- **PRODUCTION_REQUIREMENTS.md synced** with current implementation state:
+  - Prompt-injection-detector integration documented (active on all RAG paths)
+  - Context assembly bounded-size enforcement documented
+  - RAG judge and quality control pipeline documented as mandatory gates
+  - Upstream authorization for retrieval scope documented
+  - Bias detector calibration requirements documented
+- Audit-fable minimal production check list verified (8/8 items mapped to code)
+
+### Verification & Acceptance
+- Maturity scores verified:
+  - rag_context_assembler.h: 🟢 PRODUCTION-READY (100/100)
+  - rag_ingestion_bridge.h: 🟢 PRODUCTION-READY (86/100)
+  - rag_context_assembler.cpp: 🟢 PRODUCTION-READY (100/100)
+  - rag_ingestion_bridge.cpp: 🟢 PRODUCTION-READY (84/100)
+- Issue #5665 (RAG module phase 1-6) evidence update complete
+- Issue #5624 (parent epic) tracking updated with Phase 1-4 completion status
 
 ## [Unreleased]
 

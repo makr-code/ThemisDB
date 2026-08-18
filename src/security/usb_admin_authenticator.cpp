@@ -477,8 +477,8 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO_ptr b64(BIO_new(BIO_f_base64()));
-    BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
+    USBAdmin_BIO_ptr b64(BIO_new(BIO_f_base64()));
+    USBAdmin_BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
     BIO* result = BIO_push(b64.release(), bmem.release());
     BIO_set_flags(result, BIO_FLAGS_BASE64_NO_NL);
     
@@ -529,7 +529,7 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     std::string data_to_verify = data_stream.str();
     
     // Load the embedded public key
-    BIO_ptr key_bio(BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1));
+    USBAdmin_BIO_ptr key_bio(BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1));
     if (!key_bio) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create BIO for public key");
         return false;

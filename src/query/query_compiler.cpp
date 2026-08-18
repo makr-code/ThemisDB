@@ -374,7 +374,7 @@ private:
                     -> Result<QueryResult>
                 {
                     auto r = captured_executor(captured_query, params);
-                    if (r) { r->used_compiled_path = true; }
+                    if (r) { r.value().used_compiled_path = true; }
                     return r;
                 };
             } else {
@@ -383,7 +383,7 @@ private:
                     -> Result<QueryResult>
                 {
                     auto r = captured_executor(captured_query, params);
-                    if (r) { r->used_compiled_path = true; }
+                    if (r) { r.value().used_compiled_path = true; }
                     return r;
                 };
             }

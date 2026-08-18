@@ -15,6 +15,7 @@
 #include "ethics_ai/ethics_ai_types.h"
 #include "argument_store.h"
 #include <memory>
+#include <mutex>
 
 namespace themis {
 namespace plugins {
@@ -124,6 +125,9 @@ public:
 private:
     std::shared_ptr<ArgumentStore> store_;
     bool legal_db_available_{true};
+    
+    /// CRITICAL FIX: Protect shared store access (data_race: shared data without lock at lines 56, 218)
+    mutable std::mutex store_access_mutex_;
     
     // Helper methods
     double calculateTextSimilarity(const std::string& text1, const std::string& text2);

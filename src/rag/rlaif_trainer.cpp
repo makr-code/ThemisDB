@@ -387,8 +387,11 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
     if (impl_->config.principles.empty()) {
         step.success       = false;
         step.error_message = "No constitutional principles configured.";
-        ++impl_->stats.total_steps;
-        ++impl_->stats.failed_steps;
+        {
+            std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+            ++impl_->stats.total_steps;
+            ++impl_->stats.failed_steps;
+        }
         return step;
     }
 
@@ -402,10 +405,16 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
 
         if (rev.outcome == RevisionOutcome::ACCEPTED) {
             current = rev.revised_response;
-            ++impl_->stats.revisions_performed;
+            {
+                std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+                ++impl_->stats.revisions_performed;
+            }
             for (const auto& crit : rev.critiques) {
                 if (crit.violation_detected) {
-                    ++impl_->stats.violations_detected;
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+                        ++impl_->stats.violations_detected;
+                    }
                 }
             }
         } else if (rev.outcome == RevisionOutcome::UNCHANGED) {
@@ -522,7 +531,11 @@ size_t RLAIFTrainer::datasetSize() const {
 // ============================================================
 
 RLAIFTrainerStats RLAIFTrainer::getStats() const {
-    auto stats = impl_->stats;
+    RLAIFTrainerStats stats;
+    {
+        std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+        stats = impl_->stats;
+    }
     // Build per-principle violation summary from the dataset.
     std::unordered_map<std::string, size_t> pv_map;
     for (const auto& pair : impl_->dataset) {
@@ -535,6 +548,7 @@ RLAIFTrainerStats RLAIFTrainer::getStats() const {
 }
 
 void RLAIFTrainer::resetStats() {
+    std::lock_guard<std::mutex> lock(impl_->stats_mutex);
     impl_->stats = {};
 }
 

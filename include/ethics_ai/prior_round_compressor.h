@@ -16,6 +16,7 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <mutex>
 
 namespace themis {
 namespace plugins {
@@ -176,6 +177,10 @@ private:
 
     /// Injected LLM abstractive summariser (null → extractive fallback).
     LlmSummaryFn llm_summary_fn_;
+    
+    /// CRITICAL FIX: Protect access to llm_summary_fn_ from concurrent access
+    /// (data_race: shared data access without lock protection at line 294)
+    mutable std::mutex llm_fn_mutex_;
 };
 
 } // namespace ethics

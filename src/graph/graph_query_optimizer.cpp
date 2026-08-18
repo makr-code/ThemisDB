@@ -772,14 +772,14 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 
             auto gpu_result = gpu_trav.bfs(std::string(start_vertex), gpu_cfg);
             if (gpu_result) {
-                local_stats.nodes_explored    = gpu_result->nodes_explored;
-                local_stats.edges_traversed   = gpu_result->edges_traversed;
-                local_stats.execution_time_ms = gpu_result->execution_time_ms;
-                local_stats.early_terminated  = gpu_result->truncated;
-                local_stats.paths_found       = gpu_result->visited_vertices.size();
+                local_stats.nodes_explored    = gpu_result.value().nodes_explored;
+                local_stats.edges_traversed   = gpu_result.value().edges_traversed;
+                local_stats.execution_time_ms = gpu_result.value().execution_time_ms;
+                local_stats.early_terminated  = gpu_result.value().truncated;
+                local_stats.paths_found       = gpu_result.value().visited_vertices.size();
                 if (stats) *stats = local_stats;
                 recordExecution(local_stats);
-                return Ok(std::move(gpu_result->visited_vertices));
+                return Ok(std::move(gpu_result.value().visited_vertices));
             }
             // Fall through to CPU path on GPU error (vertex-not-found is re-raised).
             if (gpu_result.error().code() ==
@@ -993,14 +993,14 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
 
             auto gpu_result = gpu_trav.dfs(std::string(start_vertex), gpu_cfg);
             if (gpu_result) {
-                local_stats.nodes_explored    = gpu_result->nodes_explored;
-                local_stats.edges_traversed   = gpu_result->edges_traversed;
-                local_stats.execution_time_ms = gpu_result->execution_time_ms;
-                local_stats.early_terminated  = gpu_result->truncated;
-                local_stats.paths_found       = gpu_result->visited_vertices.size();
+                local_stats.nodes_explored    = gpu_result.value().nodes_explored;
+                local_stats.edges_traversed   = gpu_result.value().edges_traversed;
+                local_stats.execution_time_ms = gpu_result.value().execution_time_ms;
+                local_stats.early_terminated  = gpu_result.value().truncated;
+                local_stats.paths_found       = gpu_result.value().visited_vertices.size();
                 if (stats) *stats = local_stats;
                 recordExecution(local_stats);
-                return Ok(std::move(gpu_result->visited_vertices));
+                return Ok(std::move(gpu_result.value().visited_vertices));
             }
             if (gpu_result.error().code() ==
                     errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX) {

@@ -1,7 +1,7 @@
 # Ethics AI Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-07-28 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Links: ARCHITECTURE.md · README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
 ## Scope

@@ -32,6 +32,12 @@ ManifestStore::ManifestStore(observability::MetricsCollector* metrics) noexcept
 // ---------------------------------------------------------------------------
 
 bool ManifestStore::store(const ArtifactManifest& manifest) {
+    // SG-DT-01: Fail-closed validation.
+    // Reject any manifest that fails invariant checks.
+    if (!manifest.validate()) {
+        return false;
+    }
+
     Key key{manifest.tensor_name, manifest.shard_id, manifest.artifact_id};
 
     std::unique_lock<std::mutex> lock(mutex_);

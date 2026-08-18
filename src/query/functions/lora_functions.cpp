@@ -39,7 +39,7 @@ namespace {
     std::mutex g_orchestrator_mutex;
 }
 
-static std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
+std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
     std::lock_guard<std::mutex> lock(g_orchestrator_mutex);
     auto orchestrator = themis::llm::createLoRAOrchestrator();
     return orchestrator;

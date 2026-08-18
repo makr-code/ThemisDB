@@ -277,8 +277,12 @@ class SnapshotBasedUpdateWorker {
 
   /// Recovers from a crash by loading checkpoint.
   /// @param artifact_id Artifact to recover
-  /// @return true if recovery was successful or no checkpoint exists, false on error
-  virtual bool recoverFromCheckpoint(const std::string& artifact_id);
+  /// @return Recovered manifest if recovery successful, std::nullopt if no checkpoint or error
+  /// Note: Returns nullopt in these cases:
+  ///   - No checkpoint found (not an error)
+  ///   - Checkpoint corrupted and deleted
+  ///   - Validation failed (invalid manifest, corrupted data, etc.)
+  virtual std::optional<ArtifactManifest> recoverFromCheckpoint(const std::string& artifact_id);
 
   /// Saves a checkpoint before starting long-running operation.
   /// @param artifact_id Artifact being processed
@@ -314,6 +318,27 @@ class SnapshotBasedUpdateWorker {
   virtual StaleArtifactMetrics detectStaleness(const std::string& artifact_id,
                                                const ArtifactManifest& current_manifest,
                                                uint64_t current_source_seq);
+
+  /// Phase B: Checks if a delta window is valid for patching operations.
+  /// @param delta_window Window to validate
+  /// @param max_age_ms Maximum allowed age of window (default 1 hour)
+  /// @return true if window is valid for patching, false otherwise
+  virtual bool isValidForPatchingPublic(const DeltaWindow& delta_window,
+                                        int64_t max_age_ms = 3600000) const;
+
+  /// Phase B: Detects instability in delta patterns (e.g., thrashing).
+  /// @param delta_window Window to analyze
+  /// @param current_residual Current residual of the artifact
+  /// @return true if instability detected, false otherwise
+  virtual bool detectInstabilityPublic(const DeltaWindow& delta_window,
+                                       double current_residual) const;
+
+  /// Phase B: Checks if delta log appears to be overflowing.
+  /// @param current_entries Current number of entries in delta log
+  /// @param max_entries Maximum allowed entries (default 100000)
+  /// @return true if overflow imminent (>95% of limit), false otherwise
+  virtual bool isDeltaLogOverflowingPublic(size_t current_entries,
+                                           uint32_t max_entries = 100000) const;
 
  protected:
   UpdateWorkerState state_ = UpdateWorkerState::IDLE;

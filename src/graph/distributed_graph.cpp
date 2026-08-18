@@ -94,7 +94,7 @@ LocalShardGraphExecutor::executeBFS(const std::string &start_vertex, int max_dep
 
     // Qualify every returned vertex ID with this shard's tag.
     std::vector<std::string> qualified;
-    qualified.reserve(res->size());
+    qualified.reserve(res.value().size());
     for (const auto &v : *res) {
         qualified.push_back(qualify(v));
     }
@@ -111,9 +111,9 @@ LocalShardGraphExecutor::executeDijkstra(const std::string &start_vertex, const 
 
     // Qualify every node in the returned path.
     GraphIndexManager::PathResult qualified_path;
-    qualified_path.totalCost = res->totalCost;
-    qualified_path.path.reserve(res->path.size());
-    for (const auto &v : res->path) {
+    qualified_path.totalCost = res.value().totalCost;
+    qualified_path.path.reserve(res.value().path.size());
+    for (const auto &v : res.value().path) {
         qualified_path.path.push_back(qualify(v));
     }
     return Ok(std::move(qualified_path));
@@ -287,7 +287,7 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
                 }
                 // Normalize empty path as "not found" at distributed layer so
                 // callers receive ERR_GRAPH_PATH_NOT_FOUND consistently.
-                if (res && !res->path.empty()) {
+                if (res && !res.value().path.empty()) {
                     return res;
                 }
                 if (!res) {
@@ -330,13 +330,13 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
             spdlog::warn("distributed_graph: shortest-path shard future threw non-standard exception");
             continue;
         }
-        if (!res || res->path.empty()) {
+        if (!res || res.value().path.empty()) {
             if (!res) {
                 recordExactTraversalError("shortest_path", "shard_execution_failed");
             }
             continue; // this shard has no path
         }
-        if (res->totalCost < best.totalCost) {
+        if (res.value().totalCost < best.totalCost) {
             best      = *res;
             found_any = true;
         }

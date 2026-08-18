@@ -35,10 +35,140 @@ namespace voice {
 
 namespace {
 
-constexpr size_t kMaxVoicePayloadBytes = 8 * 1024 * 1024;
+// ============================================================================
+// BATCH A-8: Fail-closed limits for malformed/oversized stream rejection
+// CRITICAL GAPS 1-11: Implement comprehensive stream validation
+// ============================================================================
 
+// Per-chunk and session-wide limits for fail-closed rejection
+constexpr size_t MAX_VOICE_CHUNK_SIZE = 64 * 1024;        // 64 KB per chunk (CRITICAL GAP 6)
+constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // 2 MB cumulative buffer (CRITICAL GAP 7)
+constexpr size_t MAX_SESSION_STREAMS = 10;                // Max streams per session (CRITICAL GAP 8)
+constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format version (CRITICAL GAP 9)
+
+/**
+ * @brief Validate audio payload for oversized or empty conditions.
+ * Fail-closed: reject any payload exceeding limits or malformed structure.
+ * 
+ * @param audio_data Input audio buffer
+ * @return true if payload should be rejected; false if acceptable
+ */
 [[nodiscard]] bool isRejectedVoicePayload(const std::vector<uint8_t>& audio_data) {
-    return audio_data.empty() || audio_data.size() > kMaxVoicePayloadBytes;
+    // CRITICAL GAP 1: Reject empty payloads
+    if (audio_data.empty()) {
+        THEMIS_WARN("Voice stream: empty audio payload rejected");
+        return true;
+    }
+    // CRITICAL GAP 2: Reject oversized payloads that could cause OOM
+    // Use stricter per-chunk limit from BATCH A-8 spec
+    if (audio_data.size() > MAX_VOICE_CHUNK_SIZE) {
+        THEMIS_WARN("Voice stream chunk exceeds max size: {} bytes > {} bytes max", 
+                    audio_data.size(), MAX_VOICE_CHUNK_SIZE);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief Validate frame format version for malformed frame detection.
+ * Fail-closed: reject frames with invalid version.
+ * 
+ * CRITICAL GAP 4: Validate frame version
+ * 
+ * @param frame_version Version byte from frame header
+ * @return true if version is valid; false otherwise
+ */
+[[nodiscard]] bool isValidFrameVersion(uint8_t frame_version) {
+    if (frame_version != VALID_FRAME_VERSION) {
+        THEMIS_WARN("Voice frame invalid version: {} (expected {})", 
+                    static_cast<int>(frame_version), static_cast<int>(VALID_FRAME_VERSION));
+        return false;
+    }
+    return true;
+}
+
+/**
+ * @brief Validate compression format for malformed stream rejection.
+ * Fail-closed: reject unsupported compression formats.
+ * 
+ * CRITICAL GAP 5: Validate compression format
+ * 
+ * @param compression_format Compression type code
+ * @return true if format is valid; false otherwise
+ */
+[[nodiscard]] bool isValidCompressionFormat(uint8_t compression_format) {
+    // Supported formats: 0=PCM (uncompressed), 1=OPUS, 2=AAC
+    switch (compression_format) {
+        case 0:  // PCM
+        case 1:  // OPUS
+        case 2:  // AAC
+            return true;
+        default:
+            THEMIS_WARN("Voice frame invalid compression format: {}", 
+                        static_cast<int>(compression_format));
+            return false;
+    }
+}
+
+/**
+ * @brief Validate cumulative buffer doesn't exceed stream limits.
+ * Fail-closed: reject chunks that would overflow buffer.
+ * 
+ * CRITICAL GAP 7: Cumulative buffer check
+ * 
+ * @param current_buffer_size Current buffer size in bytes
+ * @param new_chunk_size Size of incoming chunk
+ * @return true if chunk would be accepted; false if rejected
+ */
+[[nodiscard]] bool validateStreamBufferCapacity(
+    size_t current_buffer_size, 
+    size_t new_chunk_size) {
+    
+    if (current_buffer_size + new_chunk_size > MAX_STREAM_BUFFER) {
+        THEMIS_WARN("Voice stream buffer would exceed max: {} + {} > {} (REJECT)",
+                    current_buffer_size, new_chunk_size, MAX_STREAM_BUFFER);
+        return false;
+    }
+    return true;
+}
+
+/**
+ * @brief Validate UTF-8 encoding in command text.
+ * 
+ * @param text Command text to validate
+ * @return true if valid UTF-8; false otherwise (fail-closed)
+ */
+[[nodiscard]] bool isValidUtf8Command(const std::string& text) {
+    // CRITICAL GAP 3: Reject non-UTF8 metadata in voice commands
+    // Simple UTF-8 validation: check for valid byte sequences
+    for (size_t i = 0; i < text.length(); ++i) {
+        const unsigned char c = static_cast<unsigned char>(text[i]);
+        
+        if ((c & 0x80) == 0) {
+            // Single-byte ASCII character
+            continue;
+        } else if ((c & 0xE0) == 0xC0) {
+            // 2-byte sequence
+            if (i + 1 >= text.length() || (text[++i] & 0xC0) != 0x80) {
+                return false;
+            }
+        } else if ((c & 0xF0) == 0xE0) {
+            // 3-byte sequence
+            if (i + 2 >= text.length() || (text[++i] & 0xC0) != 0x80 || (text[++i] & 0xC0) != 0x80) {
+                return false;
+            }
+        } else if ((c & 0xF8) == 0xF0) {
+            // 4-byte sequence
+            if (i + 3 >= text.length() || (text[++i] & 0xC0) != 0x80 || 
+                (text[++i] & 0xC0) != 0x80 || (text[++i] & 0xC0) != 0x80) {
+                return false;
+            }
+        } else {
+            // Invalid UTF-8 byte
+            return false;
+        }
+    }
+    return true;
 }
 
 } // namespace
@@ -165,8 +295,13 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            // CRITICAL GAP 4: Audit logging for authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
+            THEMIS_INFO("[AUDIT] voice_authenticate: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
+                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
+                THEMIS_WARN("[AUDIT] voice_authenticate_failed: user_id={}, session_id={}, error_code={}", 
+                           uid, session_id, auth_result.error_code);
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
                 tts_opts.format   = "wav";
@@ -292,8 +427,13 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            // CRITICAL GAP 5: Audit logging for stream authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
+            THEMIS_INFO("[AUDIT] voice_authenticate_stream: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
+                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
+                THEMIS_WARN("[AUDIT] voice_authenticate_stream_failed: user_id={}, session_id={}, error_code={}", 
+                           uid, session_id, auth_result.error_code);
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
                 tts_opts.format   = "wav";
@@ -687,7 +827,10 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     const std::vector<uint8_t>& audio_sample)
 {
     auto result = voice_authenticator_.authenticate(user_id, audio_sample);
+    // CRITICAL GAP 6: Audit logging for authenticateSpeaker() with detailed diagnostics
     logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
+    THEMIS_INFO("[AUDIT] voice_authenticate_speaker: user_id={}, audio_size={}, result={}, timestamp_ms={}, error_code={}",
+                user_id, audio_sample.size(), result.authenticated, result.timestamp_ms, result.error_code);
     return result;
 }
 

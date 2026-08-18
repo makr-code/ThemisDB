@@ -2,6 +2,8 @@
 
 # ThemisDB Ethics_ai Module - Production Requirements
 
+<!-- Links: FUTURE_ENHANCEMENTS.md · README.md · ROADMAP.md -->
+
 ## Zweck und Geltungsbereich
 
 Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Ethics_ai-Moduls.
