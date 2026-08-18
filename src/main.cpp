@@ -434,9 +434,6 @@ int main(int argc, char* argv[]) {
         db.close();
         THEMIS_INFO("Database closed successfully");
         
-        // Display supporter acknowledgment
-        THEMIS_INFO("{}",  utils::get_supporter_message());
-        
     } catch (const std::exception& e) {
         THEMIS_ERROR("Exception: {}", e.what());
         return 1;
@@ -444,10 +441,8 @@ int main(int argc, char* argv[]) {
     
     utils::Logger::shutdown();
     
-    // Display supporter message to console
-    std::cout << utils::get_supporter_message() << std::endl;
-    
     std::cout << "\n=== Demo completed successfully! ===" << std::endl;
+    std::cout << utils::get_supporter_message() << std::endl;
     std::cout << "Check vccdb.log for detailed logs" << std::endl;
     
     return 0;

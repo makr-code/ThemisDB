@@ -234,6 +234,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
+    ../src/utils/supporters_util.cpp
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/utils/grpc_channel_pool.cpp>
     ../src/utils/cron_parser.cpp
     ../src/utils/bloom_filter.cpp

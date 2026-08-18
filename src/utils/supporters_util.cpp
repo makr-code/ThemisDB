@@ -7,7 +7,6 @@
 
 #include "utils/supporters_util.h"
 #include "generated/supporters_list.h"
-#include <sstream>
 
 namespace themis::utils {
 
@@ -16,17 +15,8 @@ std::string get_supporters_list() {
 }
 
 std::string get_supporter_message() {
-    std::ostringstream oss;
     auto supporters = get_supporters_list();
-    
-    oss << "\n╔════════════════════════════════════════════════════════════════╗\n"
-        << "║                 🙏 Thank You to Our Supporters 🙏              ║\n"
-        << "╚════════════════════════════════════════════════════════════════╝\n"
-        << "We are deeply grateful for the support of:\n"
-        << supporters << "\n"
-        << "═══════════════════════════════════════════════════════════════════\n";
-    
-    return oss.str();
+    return "Thank you to: " + supporters;
 }
 
 } // namespace themis::utils
