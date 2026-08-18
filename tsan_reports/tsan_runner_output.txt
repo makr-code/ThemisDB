@@ -1,0 +1,9 @@
+TSAN Test Runner Starting...
+
+[Tier 2] Testing Transaction Module Concurrency...
+  PASS: Transaction concurrency test completed
+
+[Tier 2] Testing Sharding Module Concurrency...
+  PASS: Sharding coordinator concurrency test completed
+
+[TSAN] All Wave A concurrency tests completed
