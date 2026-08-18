@@ -12,9 +12,6 @@
 
 ## Source Files
 
-- `STREAM_A_ORCHESTRATION_FINAL_REPORT.md` (2026-08-18, 18,315 B)
-- `STREAM_B_EXECUTION_COORDINATION.md` (2026-08-18, 15,015 B)
-- `STREAM_B_EXECUTION_DASHBOARD.md` (2026-08-18, 12,870 B)
 - `STREAM_B_LAUNCH_SUMMARY.md` (2026-08-18, 9,483 B)
 - `STREAM_LEADERS_QUICK_REFERENCE_CP1_2026-08-22.md` (2026-08-18, 3,686 B)
 - `SUB_AGENT_ORCHESTRATION_PROTOCOL_STREAM_A.md` (2026-08-18, 12,150 B)
@@ -22,165 +19,14 @@
 - `STREAM_A_COMPLETION_REPORT.md` (2026-08-18, 8,900 B)
 - `STREAM_A_INTEGRATION_AUG30_31_SUMMARY.md` (2026-08-18, 10,517 B)
 - `STREAM_A_INTEGRATION_STATUS.md` (2026-08-18, 5,677 B)
+- `STREAM_A_ORCHESTRATION_FINAL_REPORT.md` (2026-08-18, 18,315 B)
+- `STREAM_B_EXECUTION_COORDINATION.md` (2026-08-18, 15,015 B)
+- `STREAM_B_EXECUTION_DASHBOARD.md` (2026-08-18, 12,870 B)
 - `PHASE_4_5_GATES_AND_STREAM_B_KICKOFF.md` (2026-08-18, 15,388 B)
 
 ---
 
 ## Compacted Content
-
-### STREAM_A_ORCHESTRATION_FINAL_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Stream A Orchestration — Final Completion Report
-**Date**: 2026-08-08
-**Status**: ✅ **ALL AGENTS DELIVERED**
-**Total Elapsed**: 10 minutes 30 seconds
-**Parallel Execution**: 4 agents (1 pilot + 3 Stream A blocks)
-**Framework Validation**: APPROVED FOR PRODUCTION
----
-## Executive Summary
-**Key Result**: **65% time savings achieved via parallelization** (10.5 minutes vs ~30 minutes sequential execution)
----
-## Orchestration Scope & Execution
-### Agents Deployed
-| Agent | Block | Role | Status | Elapsed | Deliverables |
-|-------|-------|------|--------|---------|--------------|
-| **flash-attention-e8-pilot** | Pilot | Validation | ✅ COMPLETE | 9m 31s | 1 report (25 KB) |
-| **tensor-a1-hardening** | A1 | Implementation | ✅ COMPLETE | 8m 7s | 4 docs (1000+ LOC) |
-| **tensor-a2-diagnostics** | A2 | Review | ✅ COMPLETE | 10m 30s | 5 docs (1,576 LOC) |
-| **tensor-a3-benchmarks** | A3 | Performance | ✅ COMPLETE | 10m 15s | 4 docs + CMake (65.5 KB) |
-### Parallel Execution Timeline
-08:23:01Z ──┬─→ Pilot (A)         ─────────── 9m 31s ──────────┐
-│                                                   │
-├─→ A1 Hardening (B)  ────────── 8m 7s ───────────┤
-│                                                   │  Total: 10m 30s
-├─→ A2 Diagnostics (C) ─────────── 10m 30s ────────┤  vs Sequential:
-│                                                   │  ~30-35 minutes
-└─→ A3 Benchmarks (D)  ─────────── 10m 15s ────────┘
-Time Savings: 65%
-08:33:31Z ──────────────────────── ALL COMPLETE ────────────────
-**Parallelization Efficiency**: A1 completed independently while A2/A3 ran in parallel → no blocking dependencies
----
-## Block Deliverables
-### Block A1: Concurrent Workload Hardening
-**Objective**: Harden tensor index and ingestion bridge subsystems against concurrent access patterns.
-**Deliverables** (4 documents, 1000+ lines):
-- ✅ `CONCURRENT_HARDENING_FINDINGS.md` — Gap analysis & hardening approach
-- ✅ `CONCURRENT_HARDENING_BLOCK_A1_SUMMARY.md` — Executive summary
-- ✅ `BLOCK_A1_IMPLEMENTATION_STATUS.txt` — Implementation checkpoint
-- ✅ `VERIFICATION_CHECKLIST.md` — Comprehensive verification matrix
-**Key Achievements**:
-
----
-
-### STREAM_B_EXECUTION_COORDINATION.md
-
-*(file too large — key headings extracted)*
-
-# Stream B Execution Coordination (Sept 1 - Oct 31, 2026)
-**Status**: 🟢 LAUNCH READY
-**Date**: 2026-08-09
-**Coordination Version**: v1.0
----
-## Overview
-Stream B executes three parallel workstreams (B1, B2) followed by a validation phase (B3):
-- **B1 & B2**: Sept 1-21 (parallel execution)
-- **Integration Testing**: Sept 22 - Oct 14
-- **B3**: Oct 15-29
-- **Final Merge**: Oct 30-31
----
-## Block B1: Deterministic Edge Scenario Handling
-**Agent**: themisdb-implementer
-**Duration**: 2-3 weeks (Sept 1-21)
-**Status**: ✅ **COMPLETE** (Ready for CI Build & Test Validation)
-### Deliverables ✅ DELIVERED
-1. **Edge Scenario Inventory** ✅ COMPLETE (15 critical scenarios)
-- [x] Invalid adapter references (TEDGE-01)
-- [x] Out-of-bounds index accesses (TEDGE-02)
-- [x] Stale fingerprints in graph (TEDGE-03)
-- [x] Self-similarity computation failures (TEDGE-04)
-- [x] Null train in comparison (TEDGE-05)
-- [x] Concurrent modification conflicts (TEDGE-06)
-- [x] Bridge routing failures (TEDGE-07)
-- [x] Adapter communication errors (TEDGE-08)
-- [x] Invalid decomposition parameters (TEDGE-09)
-- [x] Kappa-gate violations (TEDGE-10)
-- [x] Export serialization failures (TEDGE-11)
-- [x] Replay deserialization failures (TEDGE-12)
-- [x] Partial graph loss (TEDGE-13)
-- [x] Out-of-memory during computation (TEDGE-14)
-- [x] Concurrent memory exhaustion (TEDGE-15)
-2. **tensor_edge_case_handler.h/cpp** ✅ COMPLETE (1,037 lines)
-- [x] 15 handler methods (all [[nodiscard]] noexcept)
-- [x] EdgeCaseResult contract (error_code, recovery_action, is_recoverable)
-- [x] 10 mapped error codes (9510-9589 range)
-- [x] Recovery strategies: fail-closed, retry, fallback, degrade
-- [x] RAII resource cleanup (no raw new/delete)
-- [x] Deterministic behavior under all scenarios
-- [x] spdlog diagnostic emission
-- [x] Per-scenario statistics tracking
-3. **test_tensor_bridge_edge_cases_focused.cpp** ✅ COMPLETE (504 lines, 33 tests)
-- [x] TEDGE-01..15: Core scenario tests (15 tests)
-- [x] TEDGE-16..30: Property-based + stress tests (15 tests)
-- [x] Validation tests (3 tests): Statistics, Diagnostics, Error Codes
-- [x] All scenarios + combinations tested
-- [x] Deterministic error codes validated
-- [x] Recovery paths verified
-
----
-
-### STREAM_B_EXECUTION_DASHBOARD.md
-
-*(file too large — key headings extracted)*
-
-# Stream B Execution Dashboard
-**Status**: 🟡 IN PROGRESS
-**Date**: 2026-08-09 (Sept 1 Launch)
-**Duration**: Sept 1 - Oct 31, 2026
----
-## Agent Status
-### Block B1: Deterministic Edge Scenario Handling
-- **Agent ID**: tensor-b1-edges
-- **Agent Type**: themisdb-implementer
-- **Status**: ✅ **COMPLETE** (2026-08-09, 42 minutes elapsed)
-- **Duration**: Sept 1-21 (2-3 weeks)
-- **Progress**: All deliverables ready for CI validation
-### Block B2: Stress Coverage for Concurrent Patterns
-- **Agent ID**: tensor-b2-stress
-- **Agent Type**: general-purpose
-- **Status**: 🟡 ACTIVE (launched 2026-08-09)
-- **Duration**: Sept 1-21 (2-3 weeks, parallel with B1)
-- **Progress**: See block section below
-### Block B3: P95/P99 Baseline Validation
-- **Agent ID**: tensor-b3-validation (not yet launched)
-- **Agent Type**: task runner
-- **Status**: 🔴 PENDING (launches Oct 15)
-- **Duration**: Oct 15-29
-- **Launch Condition**: B1 + B2 complete and integrated
----
-## Weekly Milestones
-### Week 1 (Sept 1-7)
-**B1 Deliverables** (Edge Scenario Handling):
-- [ ] Edge scenario inventory completed (10-15 scenarios identified)
-- [ ] tensor_edge_case_handler.h API designed
-- [ ] Initial test framework skeleton
-**B2 Deliverables** (Stress Coverage):
-- [ ] 8+ workload profile designs documented
-- [ ] Workload mixer framework skeleton
-- [ ] Initial stress test structure
-**Coordination**:
-- [ ] Both agents running and producing output
-- [ ] Weekly status reports in PRs
-### Week 2 (Sept 8-14)
-**B1 Deliverables**:
-- [ ] tensor_edge_case_handler.cpp implementation started
-- [ ] 10+ edge case tests implemented (TEDGE-01..10)
-- [ ] Initial ASan/UBSan validation
-**B2 Deliverables**:
-- [ ] Workload mixer implementation started
-
----
 
 ### STREAM_B_LAUNCH_SUMMARY.md
 
@@ -1957,6 +1803,160 @@ All three agents are executing independently with clear deliverables and no cros
 **Status**: STREAM A IN PROGRESS – 1/3 blocks complete, 2/3 running
 **Target Completion**: Aug 9, 2026
 **Approval Gate**: Merge to develop Aug 30-31, 2026
+
+---
+
+### STREAM_A_ORCHESTRATION_FINAL_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Stream A Orchestration — Final Completion Report
+**Date**: 2026-08-08
+**Status**: ✅ **ALL AGENTS DELIVERED**
+**Total Elapsed**: 10 minutes 30 seconds
+**Parallel Execution**: 4 agents (1 pilot + 3 Stream A blocks)
+**Framework Validation**: APPROVED FOR PRODUCTION
+---
+## Executive Summary
+**Key Result**: **65% time savings achieved via parallelization** (10.5 minutes vs ~30 minutes sequential execution)
+---
+## Orchestration Scope & Execution
+### Agents Deployed
+| Agent | Block | Role | Status | Elapsed | Deliverables |
+|-------|-------|------|--------|---------|--------------|
+| **flash-attention-e8-pilot** | Pilot | Validation | ✅ COMPLETE | 9m 31s | 1 report (25 KB) |
+| **tensor-a1-hardening** | A1 | Implementation | ✅ COMPLETE | 8m 7s | 4 docs (1000+ LOC) |
+| **tensor-a2-diagnostics** | A2 | Review | ✅ COMPLETE | 10m 30s | 5 docs (1,576 LOC) |
+| **tensor-a3-benchmarks** | A3 | Performance | ✅ COMPLETE | 10m 15s | 4 docs + CMake (65.5 KB) |
+### Parallel Execution Timeline
+08:23:01Z ──┬─→ Pilot (A)         ─────────── 9m 31s ──────────┐
+│                                                   │
+├─→ A1 Hardening (B)  ────────── 8m 7s ───────────┤
+│                                                   │  Total: 10m 30s
+├─→ A2 Diagnostics (C) ─────────── 10m 30s ────────┤  vs Sequential:
+│                                                   │  ~30-35 minutes
+└─→ A3 Benchmarks (D)  ─────────── 10m 15s ────────┘
+Time Savings: 65%
+08:33:31Z ──────────────────────── ALL COMPLETE ────────────────
+**Parallelization Efficiency**: A1 completed independently while A2/A3 ran in parallel → no blocking dependencies
+---
+## Block Deliverables
+### Block A1: Concurrent Workload Hardening
+**Objective**: Harden tensor index and ingestion bridge subsystems against concurrent access patterns.
+**Deliverables** (4 documents, 1000+ lines):
+- ✅ `CONCURRENT_HARDENING_FINDINGS.md` — Gap analysis & hardening approach
+- ✅ `CONCURRENT_HARDENING_BLOCK_A1_SUMMARY.md` — Executive summary
+- ✅ `BLOCK_A1_IMPLEMENTATION_STATUS.txt` — Implementation checkpoint
+- ✅ `VERIFICATION_CHECKLIST.md` — Comprehensive verification matrix
+**Key Achievements**:
+
+---
+
+### STREAM_B_EXECUTION_COORDINATION.md
+
+*(file too large — key headings extracted)*
+
+# Stream B Execution Coordination (Sept 1 - Oct 31, 2026)
+**Status**: 🟢 LAUNCH READY
+**Date**: 2026-08-09
+**Coordination Version**: v1.0
+---
+## Overview
+Stream B executes three parallel workstreams (B1, B2) followed by a validation phase (B3):
+- **B1 & B2**: Sept 1-21 (parallel execution)
+- **Integration Testing**: Sept 22 - Oct 14
+- **B3**: Oct 15-29
+- **Final Merge**: Oct 30-31
+---
+## Block B1: Deterministic Edge Scenario Handling
+**Agent**: themisdb-implementer
+**Duration**: 2-3 weeks (Sept 1-21)
+**Status**: ✅ **COMPLETE** (Ready for CI Build & Test Validation)
+### Deliverables ✅ DELIVERED
+1. **Edge Scenario Inventory** ✅ COMPLETE (15 critical scenarios)
+- [x] Invalid adapter references (TEDGE-01)
+- [x] Out-of-bounds index accesses (TEDGE-02)
+- [x] Stale fingerprints in graph (TEDGE-03)
+- [x] Self-similarity computation failures (TEDGE-04)
+- [x] Null train in comparison (TEDGE-05)
+- [x] Concurrent modification conflicts (TEDGE-06)
+- [x] Bridge routing failures (TEDGE-07)
+- [x] Adapter communication errors (TEDGE-08)
+- [x] Invalid decomposition parameters (TEDGE-09)
+- [x] Kappa-gate violations (TEDGE-10)
+- [x] Export serialization failures (TEDGE-11)
+- [x] Replay deserialization failures (TEDGE-12)
+- [x] Partial graph loss (TEDGE-13)
+- [x] Out-of-memory during computation (TEDGE-14)
+- [x] Concurrent memory exhaustion (TEDGE-15)
+2. **tensor_edge_case_handler.h/cpp** ✅ COMPLETE (1,037 lines)
+- [x] 15 handler methods (all [[nodiscard]] noexcept)
+- [x] EdgeCaseResult contract (error_code, recovery_action, is_recoverable)
+- [x] 10 mapped error codes (9510-9589 range)
+- [x] Recovery strategies: fail-closed, retry, fallback, degrade
+- [x] RAII resource cleanup (no raw new/delete)
+- [x] Deterministic behavior under all scenarios
+- [x] spdlog diagnostic emission
+- [x] Per-scenario statistics tracking
+3. **test_tensor_bridge_edge_cases_focused.cpp** ✅ COMPLETE (504 lines, 33 tests)
+- [x] TEDGE-01..15: Core scenario tests (15 tests)
+- [x] TEDGE-16..30: Property-based + stress tests (15 tests)
+- [x] Validation tests (3 tests): Statistics, Diagnostics, Error Codes
+- [x] All scenarios + combinations tested
+- [x] Deterministic error codes validated
+- [x] Recovery paths verified
+
+---
+
+### STREAM_B_EXECUTION_DASHBOARD.md
+
+*(file too large — key headings extracted)*
+
+# Stream B Execution Dashboard
+**Status**: 🟡 IN PROGRESS
+**Date**: 2026-08-09 (Sept 1 Launch)
+**Duration**: Sept 1 - Oct 31, 2026
+---
+## Agent Status
+### Block B1: Deterministic Edge Scenario Handling
+- **Agent ID**: tensor-b1-edges
+- **Agent Type**: themisdb-implementer
+- **Status**: ✅ **COMPLETE** (2026-08-09, 42 minutes elapsed)
+- **Duration**: Sept 1-21 (2-3 weeks)
+- **Progress**: All deliverables ready for CI validation
+### Block B2: Stress Coverage for Concurrent Patterns
+- **Agent ID**: tensor-b2-stress
+- **Agent Type**: general-purpose
+- **Status**: 🟡 ACTIVE (launched 2026-08-09)
+- **Duration**: Sept 1-21 (2-3 weeks, parallel with B1)
+- **Progress**: See block section below
+### Block B3: P95/P99 Baseline Validation
+- **Agent ID**: tensor-b3-validation (not yet launched)
+- **Agent Type**: task runner
+- **Status**: 🔴 PENDING (launches Oct 15)
+- **Duration**: Oct 15-29
+- **Launch Condition**: B1 + B2 complete and integrated
+---
+## Weekly Milestones
+### Week 1 (Sept 1-7)
+**B1 Deliverables** (Edge Scenario Handling):
+- [ ] Edge scenario inventory completed (10-15 scenarios identified)
+- [ ] tensor_edge_case_handler.h API designed
+- [ ] Initial test framework skeleton
+**B2 Deliverables** (Stress Coverage):
+- [ ] 8+ workload profile designs documented
+- [ ] Workload mixer framework skeleton
+- [ ] Initial stress test structure
+**Coordination**:
+- [ ] Both agents running and producing output
+- [ ] Weekly status reports in PRs
+### Week 2 (Sept 8-14)
+**B1 Deliverables**:
+- [ ] tensor_edge_case_handler.cpp implementation started
+- [ ] 10+ edge case tests implemented (TEDGE-01..10)
+- [ ] Initial ASan/UBSan validation
+**B2 Deliverables**:
+- [ ] Workload mixer implementation started
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Generated:** 2026-08-18  
 **Topics:** 20  
-**Total source files grouped:** 1560  
+**Total source files grouped:** 1600  
 
 > Auto-generated LLM-wiki index following the Karpathy LLM Wiki pattern.
 > Each page below is a compact knowledge blob for one topic.
@@ -14,15 +14,15 @@
 - [AI_FRAMEWORK.md](AI_FRAMEWORK.md) — 1 source files
 - [ANALYTICS.md](ANALYTICS.md) — 65 source files
 - [AQL.md](AQL.md) — 6 source files
-- [BATCH_DELIVERY.md](BATCH_DELIVERY.md) — 228 source files
-- [CICD.md](CICD.md) — 2 source files
+- [BATCH_DELIVERY.md](BATCH_DELIVERY.md) — 239 source files
+- [CICD.md](CICD.md) — 4 source files
 - [EXECUTION.md](EXECUTION.md) — 19 source files
-- [FINAL_REPORTS.md](FINAL_REPORTS.md) — 34 source files
+- [FINAL_REPORTS.md](FINAL_REPORTS.md) — 35 source files
 - [GAP_CLOSURE.md](GAP_CLOSURE.md) — 144 source files
 - [GA_CLOSURE.md](GA_CLOSURE.md) — 9 source files
-- [IMPLEMENTATION.md](IMPLEMENTATION.md) — 62 source files
-- [MISC.md](MISC.md) — 517 source files
-- [PHASE_REPORTS.md](PHASE_REPORTS.md) — 355 source files
+- [IMPLEMENTATION.md](IMPLEMENTATION.md) — 67 source files
+- [MISC.md](MISC.md) — 534 source files
+- [PHASE_REPORTS.md](PHASE_REPORTS.md) — 359 source files
 - [PROCESS_MODULE.md](PROCESS_MODULE.md) — 4 source files
 - [SECURITY.md](SECURITY.md) — 3 source files
 - [STREAM_REPORTS.md](STREAM_REPORTS.md) — 11 source files

@@ -19,7 +19,6 @@
 - `fp_wave2_top10_triage.md` (2026-08-18, 3,475 B)
 - `fp_delta_wave2_report.json` (2026-08-18, 19,808 B)
 - `fp_delta_wave2_report.md` (2026-08-18, 4,340 B)
-- `WAVE_D_PREREQUISITE_VERIFICATION_2026_08_15.md` (2026-08-18, 24,353 B)
 - `WAVE_D_SESSION_SUMMARY.md` (2026-08-18, 8,579 B)
 - `WAVE_GATE_DASHBOARD.md` (2026-08-18, 13,138 B)
 - `WAVE_C_IMPLEMENTATION_TRACKER.md` (2026-08-18, 6,629 B)
@@ -31,6 +30,7 @@
 - `WAVE_D_DEPENDENCY_RESOLUTION_GUIDE.md` (2026-08-18, 12,980 B)
 - `WAVE_D_FINAL_DEPENDENCY_LIST.md` (2026-08-18, 3,126 B)
 - `WAVE_D_PARALLEL_EXECUTION_CONSOLIDATION.md` (2026-08-18, 16,454 B)
+- `WAVE_D_PREREQUISITE_VERIFICATION_2026_08_15.md` (2026-08-18, 24,353 B)
 - `WAVE_B_COMPLETION_DELIVERY_REPORT.md` (2026-08-18, 12,925 B)
 - `WAVE_B_COMPLETION_PLAN.md` (2026-08-18, 9,871 B)
 - `WAVE_B_COMPLETION_SUMMARY.md` (2026-08-18, 17,383 B)
@@ -60,6 +60,7 @@
 - `WAVE_A_EXECUTIVE_SUMMARY_FOR_USER.md` (2026-08-18, 6,126 B)
 - `WAVE_A_FINAL_SIGN_OFF_CHECKLIST.md` (2026-08-18, 13,981 B)
 - `WAVE_A_INTERMEDIATE_PROGRESS_2026-08-16-14-30.md` (2026-08-18, 13,359 B)
+- `WAVE_A_1B_COMPLETION_REPORT.md` (2026-08-18, 9,684 B)
 - `WAVE_A_1C_1D_DELIVERY_SUMMARY.md` (2026-08-18, 11,887 B)
 - `WAVE_A_1C_1D_IMPLEMENTATION_PLAN.md` (2026-08-18, 3,604 B)
 - `WAVE_A_1C_1D_VERIFICATION.md` (2026-08-18, 8,587 B)
@@ -68,31 +69,30 @@
 - `WAVE_A_8_EXECUTIVE_SUMMARY.md` (2026-08-18, 12,817 B)
 - `WAVE_A_8_INTEGRATION_PLAN.md` (2026-08-18, 8,182 B)
 - `WAVE_A_8_VALIDATION_FRAMEWORK.md` (2026-08-18, 11,104 B)
-- `WAVE5_WAVE6_EXECUTION_REPORT.md` (2026-08-18, 4,473 B)
-- `WAVE5_WAVE6_FILTER_CEILING_ANALYSIS.md` (2026-08-18, 8,824 B)
-- `WAVE_A1_BUILD_FAILURE_REPORT.md` (2026-08-18, 11,308 B)
 - `WAVE_A1_DETAILED_ACTION_PLAN.md` (2026-08-18, 15,847 B)
 - `WAVE_A2_A5_PARALLEL_ACTION_PLANS.md` (2026-08-18, 23,513 B)
 - `WAVE_A8_IMPLEMENTATION_PLAN.md` (2026-08-18, 2,084 B)
 - `WAVE_A8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 14,589 B)
 - `WAVE_AB_EXECUTION_MASTER_BOARD.md` (2026-08-18, 16,041 B)
 - `WAVE_AB_QUICK_REFERENCE_GUIDE.md` (2026-08-18, 12,901 B)
-- `WAVE_A_1B_COMPLETION_REPORT.md` (2026-08-18, 9,684 B)
-- `WAVE1_IMPLEMENTATION_QUICK_REFERENCE.md` (2026-08-18, 8,672 B)
-- `WAVE1_ISSUE_MAPPING_2026-05-25.md` (2026-08-18, 441 B)
-- `WAVE1_PRIVATE_PLUGIN_SUBMODULE_STATUS_2026_08_10.md` (2026-08-18, 9,224 B)
-- `WAVE1_REMEDIATION_REVISED_PRIORITIES_2026-06-21.md` (2026-08-18, 6,065 B)
 - `WAVE1_SERVER_LLM_TICKETS_2026-05-25.json` (2026-08-18, 5,616 B)
 - `WAVE1_SERVER_LLM_TICKETS_2026-05-25.md` (2026-08-18, 6,533 B)
 - `WAVE2_ANALYSIS_START.md` (2026-08-18, 1,642 B)
 - `WAVE2_COMPLETION_ANALYSIS.md` (2026-08-18, 8,978 B)
 - `WAVE2_DETAILED_ANALYSIS.md` (2026-08-18, 6,011 B)
 - `WAVE3_EXECUTION_SUMMARY.md` (2026-08-18, 8,905 B)
-- `SPRINT8_WAVE2_SUMMARY.txt` (2026-08-18, 7,147 B)
+- `WAVE5_WAVE6_EXECUTION_REPORT.md` (2026-08-18, 4,473 B)
+- `WAVE5_WAVE6_FILTER_CEILING_ANALYSIS.md` (2026-08-18, 8,824 B)
+- `WAVE_A1_BUILD_FAILURE_REPORT.md` (2026-08-18, 11,308 B)
+- `WAVE1_REMEDIATION_REVISED_PRIORITIES_2026-06-21.md` (2026-08-18, 6,065 B)
+- `WAVE1_IMPLEMENTATION_QUICK_REFERENCE.md` (2026-08-18, 8,672 B)
+- `WAVE1_ISSUE_MAPPING_2026-05-25.md` (2026-08-18, 441 B)
+- `WAVE1_PRIVATE_PLUGIN_SUBMODULE_STATUS_2026_08_10.md` (2026-08-18, 9,224 B)
 - `SPRINT8_WAVE3_ANALYSIS_REPORT.md` (2026-08-18, 5,633 B)
 - `SPRINT8_WAVE3_FINAL_REPORT.md` (2026-08-18, 10,969 B)
 - `SPRINT8_WAVE3_KICKOFF.md` (2026-08-18, 5,287 B)
 - `SPRINT8_WAVE2_FINAL_REPORT.md` (2026-08-18, 9,771 B)
+- `SPRINT8_WAVE2_SUMMARY.txt` (2026-08-18, 7,147 B)
 - `SCAN_TOP20_ACTIONABLE_WAVE1.md` (2026-08-18, 10,422 B)
 - `PHASE_2_WAVE_B_SERVER_MODULE_PLAN_2026-08-18.md` (2026-08-18, 11,077 B)
 - `GITHUB_ISSUES_WAVE1_TRACKING_2026-06-21.md` (2026-08-18, 5,349 B)
@@ -789,45 +789,6 @@ Scope: full src+include scan (3183 files)
 - src\analytics\anomaly_detection.cpp:1253
 - src\analytics\anomaly_detection.cpp:1269
 - src\analytics\cep_engine.cpp:196
-
----
-
-### WAVE_D_PREREQUISITE_VERIFICATION_2026_08_15.md
-
-*(file too large — key headings extracted)*
-
-[Turn 0]
----
-# ThemisDB Wave A, B, C Exit Criteria Verification Report
-**Date:** 2026-08-15
-**Scope:** Wave A/B/C gate status, GA Batch D sign-off readiness, Wave D prerequisites
-**Repository:** ThemisDB v2.4.0-rc1 on develop branch
-**Status Baseline:** Most recent commits (e96c66a754 failover gap closure)
----
-## Executive Summary
-### Overall Program Status
-| Wave | Status | Blocker | Gate(s) |
-|------|--------|---------|---------|
-| **Wave A** | 🟡 IN PROGRESS | Chaos evidence collection, representative baselines | 4 exit criteria |
-| **Wave B** | 🔴 BLOCKED | LayeredRetrievalOrchestrator real-layer integration | 3 exit criteria |
-| **Wave C** | 🔴 BLOCKED | Production security validation (Vault/HSM/PKI) | 3 exit criteria |
-| **GA Batch D** | 🟢 PASS (Technical) | Human sign-off (D-11) required | D-1..D-10 + E-1..E-5 ✅ |
----
-## 1. Wave A Exit Criteria Analysis
-### Criterion A-1: Deterministic Chaos Evidence
-**Requirement:** Complete for transaction/sharding/replication recovery and failover paths
-**Target:** Q4 2026
-| Module | Status | Evidence | Gap |
-|--------|--------|----------|-----|
-**Sub-Status:**
-- Failover (Batch A-Support) provides infrastructure for other modules' chaos validation ✅
-- Transaction Phase 2 test files exist but need build/execution confirmation (pending Q3 2026)
-- Sharding and Replication still need deterministic chaos runs
----
-### Criterion A-2: Fail-Closed Behavior Verification
-**Requirement:** Verified for all distributed and acceleration paths
-**Target:** Q4 2026
-| Module | Status | Evidence | Gap |
 
 ---
 
@@ -2918,6 +2879,45 @@ Wave D Phase 1 (D1) operability hardening implementation for three core distribu
 
 ---
 
+### WAVE_D_PREREQUISITE_VERIFICATION_2026_08_15.md
+
+*(file too large — key headings extracted)*
+
+[Turn 0]
+---
+# ThemisDB Wave A, B, C Exit Criteria Verification Report
+**Date:** 2026-08-15
+**Scope:** Wave A/B/C gate status, GA Batch D sign-off readiness, Wave D prerequisites
+**Repository:** ThemisDB v2.4.0-rc1 on develop branch
+**Status Baseline:** Most recent commits (e96c66a754 failover gap closure)
+---
+## Executive Summary
+### Overall Program Status
+| Wave | Status | Blocker | Gate(s) |
+|------|--------|---------|---------|
+| **Wave A** | 🟡 IN PROGRESS | Chaos evidence collection, representative baselines | 4 exit criteria |
+| **Wave B** | 🔴 BLOCKED | LayeredRetrievalOrchestrator real-layer integration | 3 exit criteria |
+| **Wave C** | 🔴 BLOCKED | Production security validation (Vault/HSM/PKI) | 3 exit criteria |
+| **GA Batch D** | 🟢 PASS (Technical) | Human sign-off (D-11) required | D-1..D-10 + E-1..E-5 ✅ |
+---
+## 1. Wave A Exit Criteria Analysis
+### Criterion A-1: Deterministic Chaos Evidence
+**Requirement:** Complete for transaction/sharding/replication recovery and failover paths
+**Target:** Q4 2026
+| Module | Status | Evidence | Gap |
+|--------|--------|----------|-----|
+**Sub-Status:**
+- Failover (Batch A-Support) provides infrastructure for other modules' chaos validation ✅
+- Transaction Phase 2 test files exist but need build/execution confirmation (pending Q3 2026)
+- Sharding and Replication still need deterministic chaos runs
+---
+### Criterion A-2: Fail-Closed Behavior Verification
+**Requirement:** Verified for all distributed and acceleration paths
+**Target:** Q4 2026
+| Module | Status | Evidence | Gap |
+
+---
+
 ### WAVE_B_COMPLETION_DELIVERY_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -4683,6 +4683,59 @@ lt_it_waiter->second.waiters.remove(req);
 
 ---
 
+### WAVE_A_1B_COMPLETION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Wave A Batch 1B: Exception Safety at Boundaries — Completion Report
+**Status:** ✅ COMPLETE
+**Date:** 2026-08-17
+**Commit:** 3e94337d30
+**Branch:** copilot/plan-implement-real-sourcecode
+## Executive Summary
+**Key Metrics:**
+- 1/1 CRITICAL gaps fixed (query_federation LIMIT parsing)
+- 100% exception logging coverage
+- 100% rationale documentation for all catch-all handlers
+- 4 files modified (2 implementations, 2 headers)
+- 230+ lines added/modified
+- 0 breaking changes
+## Tasks Completed
+### 1. ✅ CRITICAL FIX: query_federation.cpp Line 965
+**Task:** Fix catch-all exception swallowing in LIMIT/OFFSET parsing
+**Implementation:**
+- Replaced single `catch(...)` with four specific handlers:
+1. `catch(const std::out_of_range& ex)` — numeric overflow
+2. `catch(const std::invalid_argument& ex)` — parse error
+3. `catch(const std::exception& ex)` — unexpected type
+4. `catch(...)` — unknown exception (rare)
+**Changes:**
+- Lines 975-1034: 60 lines of enhanced exception handling
+- Each handler logs matched values and error message
+- Unknown exception handler includes full rationale (Wave A §13)
+- Graceful degradation: resets limit/offset to std::nullopt
+**Verification:**
+- ✅ No silent exception swallowing
+- ✅ Operator-visible logging for all error conditions
+- ✅ Full context logged (query length, matched values, error type)
+- ✅ Backward compatible (same behavior, better observability)
+### 2. ✅ HIGH: query_compiler.cpp Exception Safety
+**Task:** Enhance exception safety documentation and logging
+**Implementation:**
+- Added Wave A §13 exception safety comments (3 execution paths)
+- Enhanced error logging with query key + exception type
+- Improved inline comments explaining strong safety guarantee
+- Verified rationale for trySpecialise() catch-all (already present)
+**Changes:**
+- Lines 192-261: 70 lines of documentation + logging
+- Hot path: Exception safety guarantee documented
+- Newly-compiled hot path: Consistent error handling
+- Cold path: Uniform exception handling with hot paths
+**Verification:**
+- ✅ All three paths have consistent exception handling
+
+---
+
 ### WAVE_A_1C_1D_DELIVERY_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -5078,153 +5131,6 @@ Each agent should produce a deliverable conforming to this structure:
 
 ---
 
-### WAVE5_WAVE6_EXECUTION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Wave 5/6 Filter Execution - Final Status Report
-## Objective
-Execute Wave 5 & Wave 6 semantic gap filters to reduce false positives from 27,991 initial gaps.
-## Execution Status ✅ SUCCESS
-### Infrastructure Fixes Applied
-1. **sys.path isolation**: Added `sys.path.insert(0, str(Path(__file__).parent))` to gap_scanner_v3.py
-2. **Subprocess PYTHONPATH**: Configured `env['PYTHONPATH']` in gap_audit_pipeline_v3.py._run_command()
-3. **Output visibility**: Added stdout/stderr printing to surface subprocess logs
-4. **Debug logging**: Added `[DEBUG]` statements to show filter enablement
-**Commit**: `37763f0e19` - "fix: Enable Wave 5/6 filter execution in subprocess context"
-### Execution Results
-**Wave 5 (Aggressive FP Reduction):**
-- Status: ✅ Executed
-- Duration: 0.1s
-- Tasks processed: 3,439
-- Gap reduction: 27,991 → 27,297 (-694 gaps, **2.5%**)
-- Throughput: 30,528.5 tasks/sec
-- Workers: 8 (parallel)
-**Wave 6 (Context-Aware Semantic Filtering):**
-- Status: ✅ Executed
-- Duration: 12.9s
-- Files processed: 1,380
-- Gap reduction: 27,297 → 27,297 (-0 gaps, **0.0%**)
-- Throughput: 107.0 files/sec
-- Workers: 8 (parallel)
-**Final Result**: 27,297 gaps (no additional reduction after Wave 5)
-## Gap Analysis by Severity
-| Severity | Count | % |
-|----------|-------|---|
-| CRITICAL | 3,854 | 14.1% |
-| HIGH | 10,418 | 38.2% |
-| MEDIUM | 12,925 | 47.4% |
-| **ACTIONABLE (C+H)** | **14,272** | **52.3%** |
-## Top 5 Modules
-1. llm - 4,289 gaps
-2. server - 2,709 gaps
-3. sharding - 1,651 gaps
-4. rag - 1,335 gaps
-5. analytics - 1,176 gaps
-## Problem Analysis
-### Current vs Target
-| Metric | Target | Actual | Status |
-|--------|--------|--------|--------|
-| Wave 5 reduction | -55% (~15,396) | -2.5% (-694) | ❌ Under-filtered |
-| Wave 6 reduction | -30-40% | 0.0% | ❌ No reduction |
-
----
-
-### WAVE5_WAVE6_FILTER_CEILING_ANALYSIS.md
-
-*(file too large — key headings extracted)*
-
-# Wave 5/6 Filter Hard Ceiling Analysis — Final Report
-**Date**: 2026-06-02
-**Status**: ✅ INVESTIGATION COMPLETE — Hard Ceiling Identified
----
-## Executive Summary
-All three filter implementations achieve virtually identical results:
-v1 (Original Aggressive):    27,297 gaps → 2.5% reduction
-v2 (Inverted Logic):         27,232 gaps → 2.5% reduction
-v3 (Super-Aggressive):       27,233 gaps → 2.5% reduction (REGRESSION +1)
-**Conclusion**: The 27,000+ gaps are **likely REAL issues, not false positives.**
----
-## Detailed Findings
-### Filter Strategies Tested
-#### Strategy 1: Original Aggressive Filters (v1)
-- **Approach**: 21 category-specific filter methods with semantic heuristics
-- **Result**: 27,991 raw gaps → 27,297 after Wave 5 (-694 gaps, **2.5%**)
-- **Wave 6**: No additional reduction (27,297 → 27,297, **0%**)
-- **Status**: Working but conservative
-#### Strategy 2: Inverted Elimination Logic (v2)
-- **Approach**: "Eliminate by default unless clearly an issue" (inverse confidence)
-- **Result**: 27,232 gaps (**negligible -65 gap improvement**, still ~2.5%)
-- **Issue**: Benign pattern detection too broad—kept most gaps anyway
-- **Status**: Underperformed; inverted logic didn't help
-#### Strategy 3: Super-Aggressive (v3)
-- **Approach**: Focus ONLY on obvious false positives:
-- Comments (all marked as FP)
-- Test code (TEST_F, mock_, stub_)
-- Examples (demo, sample)
-- Preprocessor lines
-- Declarations
-- **Result**: 27,233 gaps (**REGRESSION +1 vs v2**, still ~2.5%!)
-- **Status**: Failed to improve; actual regression
-### Pipeline Metrics
-**Scan Phase**: 148-170 seconds (28 scanners: Phase 1-11)
-**Filter Execution** (v3 results):
-- Wave 5 processing: ~0.1 seconds
-- Input gaps: 27,991
-- Output gaps: 27,233
-- Filtered: ~758 gaps (2.7% reduction)
-- Wave 6 processing: ~12-13 seconds
-- Input gaps: 27,233
-
----
-
-### WAVE_A1_BUILD_FAILURE_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Wave A Batch A1 — Build Verification Failure Report
-**Generated:** 2026-08-14
-**Status:** 🔴 **CRITICAL BLOCKER** — ODR Violations Prevent Build
-**Severity:** P1 (Blocks entire Wave A program)
-**Escalation Required:** YES
----
-## Executive Summary
-**Verification Run:** 2026-08-14 ~22:00 UTC
-**Result:** ❌ **BUILD FAILURE** (cannot proceed to test execution)
-**Root Cause:** One Definition Rule (ODR) violations in `src/security/` module
-**Blocker Impact:** Transaction test executables cannot link; all Wave A work gate-blocked
----
-## Build Verification Results
-### ✅ Passed (File Verification + Configuration)
-| Check | Status | Details |
-|-------|--------|---------|
-| Test files exist | ✅ | 3 files verified; 36 total tests ready |
-| CMake configuration | ✅ | `community-release` preset configured successfully |
-| Dependencies resolved | ✅ | OpenSSL, ZLIB, RocksDB, fmt, spdlog, Boost, GTest, TBB all found |
-**Test Files Confirmed:**
-- `tests/transaction/test_transaction_distributed_phase2.cpp` — 14 tests
-- `tests/transaction/test_transaction_saga_compensation_phase2.cpp` — 11 tests
-- `tests/transaction/test_transaction_fault_injection_phase3.cpp` — 11 tests
-### ❌ Failed (Build + Link)
-| Check | Status | Error | Impact |
-|-------|--------|-------|--------|
-| Build transaction test targets | ❌ | Linker error: multiple symbol definitions | Cannot proceed to test execution |
-| Create test executables | ❌ | ODR violations in security library | All tests blocked |
----
-## Root Cause Analysis
-### Error Message
-FAILED: lib/libthemis_security.so
-/usr/bin/c++: multiple definition of 'themis::security::TimestampAuthority::*'
-collect2: error: ld returned 1 status
-### Affected Files (ODR Violations)
-1. **src/security/timestamp_authority.cpp** (Primary definition)
-- Contains: `class TimestampAuthority` implementation
-- Issue: Symbol exported in multiple compilation units
-2. **src/security/timestamp_authority_openssl.cpp** (Duplicate definition)
-- Contains: Conflicting `TimestampAuthority` implementation
-
----
-
 ### WAVE_A1_DETAILED_ACTION_PLAN.md
 
 *(file too large — key headings extracted)*
@@ -5515,234 +5421,6 @@ Wave A-8 delivers production-ready fail-closed hardening for GPU/CUDA and Voice 
 - Wave A exit gate: Release-critical CI (target: 2026-10-02)
 - B1-B3: Performance gates locked (target: 2026-10-31)
 - Batches 7-13: Closure evidence filed (target: 2027-03-31)
-
----
-
-### WAVE_A_1B_COMPLETION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Wave A Batch 1B: Exception Safety at Boundaries — Completion Report
-**Status:** ✅ COMPLETE
-**Date:** 2026-08-17
-**Commit:** 3e94337d30
-**Branch:** copilot/plan-implement-real-sourcecode
-## Executive Summary
-**Key Metrics:**
-- 1/1 CRITICAL gaps fixed (query_federation LIMIT parsing)
-- 100% exception logging coverage
-- 100% rationale documentation for all catch-all handlers
-- 4 files modified (2 implementations, 2 headers)
-- 230+ lines added/modified
-- 0 breaking changes
-## Tasks Completed
-### 1. ✅ CRITICAL FIX: query_federation.cpp Line 965
-**Task:** Fix catch-all exception swallowing in LIMIT/OFFSET parsing
-**Implementation:**
-- Replaced single `catch(...)` with four specific handlers:
-1. `catch(const std::out_of_range& ex)` — numeric overflow
-2. `catch(const std::invalid_argument& ex)` — parse error
-3. `catch(const std::exception& ex)` — unexpected type
-4. `catch(...)` — unknown exception (rare)
-**Changes:**
-- Lines 975-1034: 60 lines of enhanced exception handling
-- Each handler logs matched values and error message
-- Unknown exception handler includes full rationale (Wave A §13)
-- Graceful degradation: resets limit/offset to std::nullopt
-**Verification:**
-- ✅ No silent exception swallowing
-- ✅ Operator-visible logging for all error conditions
-- ✅ Full context logged (query length, matched values, error type)
-- ✅ Backward compatible (same behavior, better observability)
-### 2. ✅ HIGH: query_compiler.cpp Exception Safety
-**Task:** Enhance exception safety documentation and logging
-**Implementation:**
-- Added Wave A §13 exception safety comments (3 execution paths)
-- Enhanced error logging with query key + exception type
-- Improved inline comments explaining strong safety guarantee
-- Verified rationale for trySpecialise() catch-all (already present)
-**Changes:**
-- Lines 192-261: 70 lines of documentation + logging
-- Hot path: Exception safety guarantee documented
-- Newly-compiled hot path: Consistent error handling
-- Cold path: Uniform exception handling with hot paths
-**Verification:**
-- ✅ All three paths have consistent exception handling
-
----
-
-### WAVE1_IMPLEMENTATION_QUICK_REFERENCE.md
-
-*(file too large — key headings extracted)*
-
-# Wave 1 Implementation Quick Reference (v1.1.0–v1.2.0)
-**Audience:** Implementing Agent
-**Purpose:** Minimal reference for each Wave 1 item — design, scope, tests, gates
-**Target Timeline:** 8–10 weeks
----
-## A-01 · JWT JWKS Cache Thread-Safety
-| Aspect | Detail |
-|--------|--------|
-| **Files** | `src/auth/jwt_validator.{h,cpp}` |
-| **Issue** | Race condition on JWKS cache → undefined behavior, auth bypass |
-| **Fix** | Add `mutable std::shared_mutex jwks_mutex_` |
-| **Reads** | `std::shared_lock` |
-| **Writes** | `std::unique_lock` (refresh path) |
-| **Security** | Use `CRYPTO_memcmp` for key comparison (no early-exit timing leak) |
-| **Test** | 16 threads × 10K validate() calls with concurrent refresh; no UB with TSan |
-| **Phase** | 1: design (1d), 2: impl (2d), 3: error (1d), 4: tests (2d), 5: obs (1d), 6: doc (1d) |
----
-## A-02 · LDAP DN and Filter Injection Prevention
-| Aspect | Detail |
-|--------|--------|
-| **Files** | `src/auth/ldap_authenticator.{h,cpp}` |
-| **Issue** | LDAP injection via DN and filter string concatenation |
-| **Fix** | Implement `escapeLdapDn()` and `escapeLdapFilter()` (RFC 4515/4514) |
-| **Test** | Fuzz: injection payloads `)(uid=*)(|(uid=*`, `*)(uid=*))(|(uid=*` — verify escaped safely |
-| **Phase** | 1: design (1d), 2: impl (2d), 3: error (1d), 4: tests (2d), 5: obs (1d), 6: doc (1d) |
----
-## A-03 · Constant-Time Recovery Code / Session ID Comparison
-| Aspect | Detail |
-|--------|--------|
-| **Files** | `src/auth/mfa_authenticator.cpp`, `src/auth/rate_limiter_backend.cpp` |
-| **Issue** | Timing side-channel on recovery code / session ID comparison (early exit) |
-| **Fix** | Replace `std::find()` with full-traversal loop + `CRYPTO_memcmp` |
-| **Test** | Timing test: measure std-dev latency across 10K trials (match vs non-match); assert < 500ns difference |
-| **Phase** | 1: design (1d), 2: impl (1d), 3: error (1d), 4: tests (1d), 5: obs (0.5d), 6: doc (0.5d) |
----
-## A-04 · Chimera — Production ThemisDB Adapter Integration
-| Aspect | Detail |
-|--------|--------|
-| **Files** | `src/chimera/themisdb_adapter.{hpp,cpp}` |
-| **Issue** | Chimera adapter uses in-process simulation; production paths guarded by `NOT_IMPLEMENTED` |
-| **Fix** | Wire real engines: `setQueryEngine()`, `setVectorIndex()`, `setGraphIndex()` |
-| **Error** | Replace `NOT_IMPLEMENTED` with `ThemisError::BackendUnavailable` when null |
-| **Capability** | Update `has_capability()` to reflect actual engine availability |
-| **Test** | Inject real engine; verify null-engine path fails deterministically |
-| **Phase** | 1: design (2d), 2: impl (3d), 3: error (1d), 4: tests (2d), 5: obs (1d), 6: doc (1d) |
----
-
----
-
-### WAVE1_ISSUE_MAPPING_2026-05-25.md
-
-*(file too large — key headings extracted)*
-
-# Wave 1 Issue Mapping (2026-05-25)
-## P0
-- W1-S01 -> #5348
-- W1-S02 -> #5349
-- W1-L01 -> #5350
-- W1-L02 -> #5351
-- W1-L03 -> #5352
-## P1
-- W1-S03 -> #5353
-- W1-S04 -> #5354
-- W1-S05 -> #5355
-- W1-L04 -> #5356
-- W1-L05 -> #5357
-- W1-L06 -> #5358
-## P2
-- W1-S06 -> #5359
-- W1-S07 -> #5360
-- W1-L07 -> #5361
-## Zusammenfassung
-- Insgesamt erzeugte Wave-1-Issues: 14
-- Abdeckung: alle Tickets aus `WAVE1_SERVER_LLM_TICKETS_2026-05-25.json`
-
----
-
-### WAVE1_PRIVATE_PLUGIN_SUBMODULE_STATUS_2026_08_10.md
-
-*(file too large — key headings extracted)*
-
-# Wave 1 Private Plugin Submodule Status & Integration Plan
-**Date:** 2026-08-10
-**Status:** PRE-GA (awaiting promotion sign-off; submodule infrastructure ready)
-**Scope:** Wave-1 private plugin externalization via commit-pinned submodules
----
-## Executive Summary
-**4 Wave-1 Repositories:**
-1. ✅ `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (ethics_ai plugin root)
-**Public Optional Submodules (Wave 1+):**
-5. ✅ `makr-code/themisdb_geo` → `plugins/themisdb_geo/` (public optional; Phase 5-6 complete)
-6. ✅ `makr-code/themisdb_timeseries` → `plugins/themisdb_timeseries/` (public optional; integrated fallback ready)
-7. ✅ `makr-code/themisdb_plugin_signer` → `plugins/themisdb_plugin_signer/` (plugin validation/signing utilities)
----
-## Current State (.gitmodules)
-### Wave-1 Private Plugins (Entries Confirmed 2026-08-10)
-[submodule "plugins/themisdb_ethic_ai"]
-path = plugins/themisdb_ethic_ai
-url = https://github.com/makr-code/themisdb_ethic_ai.git
-branch = develop
-[submodule "plugins/themisdb_llm_wiki"]
-path = plugins/themisdb_llm_wiki
-url = https://github.com/makr-code/themisdb_llm_wiki.git
-branch = develop
-[submodule "plugins/themisdb_storage"]
-path = plugins/themisdb_storage
-url = https://github.com/makr-code/themisdb_storage.git
-branch = develop
-[submodule "plugins/themisdb_importer"]
-path = plugins/themisdb_importer
-url = https://github.com/makr-code/themisdb_importer.git
-branch = develop
-### Public Optional Submodules (Entries Confirmed 2026-08-10)
-[submodule "plugins/themisdb_plugin_signer"]
-path = plugins/themisdb_plugin_signer
-url = https://github.com/makr-code/themisdb_plugin_signer.git
-branch = develop
-
----
-
-### WAVE1_REMEDIATION_REVISED_PRIORITIES_2026-06-21.md
-
-*(file too large — key headings extracted)*
-
-# Wave 1 Remediation Priorities - Updated 2026-06-21
----
-## Status Summary
-| Issue | Original Findings | Validated Issues | FP Rate | Action |
-|-------|-----------------|-----------------|---------|--------|
-| **#5482 - Braces** | 105,459 | ~1 | 99.99% | ✋ HOLD → Fix ontology_manager.cpp only |
-| **#5483 - Memory/RAII** | 1,069 | HIGH confidence | <5% | ✅ PROCEED |
-| **#5484 - Error/Thread** | 2,577 | HIGH confidence | <5% | ✅ PROCEED |
----
-## Immediate Actions (Next 24 hours)
-### 1. **FIX ontology_manager.cpp** (~30 min)
-- **Issue:** One extra closing brace (balance = -1)
-- **Confidence:** 100% (verified by check_braces.py)
-- **Effort:** 30 minutes
-- **Action:** Find and remove the extra `}`
-- **Reference:** Issue #5482 comment with FP analysis
-- **Status:** UNBLOCKED - Start immediately
-### 2. **QUARANTINE Braces Check Scanner** (~15 min)
-- **Action:** Mark braces check as "Research Phase"
-- **Location:** `tools/scanners/gs3_step01_braces_check.py`
-- **Change:** Add warning comment at top
-- **Rationale:** Scanner unreliable until rewritten with proper C++ AST parsing
-- **Status:** BLOCKING #5482 closure
-### 3. **TRIAGE Memory & Error Handling Issues** (~1-2 hours)
-- **Focus:** Network layer (server, RPC, API handlers)
-- **From:** Issue #5483 (memory/RAII), #5484 (error/thread)
-- **Sample Top Files:**
-- `server/mcp_server.cpp` (697 braces false positives, but real issues likely)
-- `server/rpc/rpc_service_impl.cpp` (512 false positives)
-- `server/monitoring_api_handler.cpp` (750 false positives)
-- **Validation:** Check which have real memory/error issues (not braces-related)
-- **Status:** BLOCKED by braces clarity, but can proceed with semantic analysis
----
-## Wave 1 Revised Effort Estimate
-| Category | Original | FP-Adjusted | Change |
-|----------|----------|------------|--------|
-| **Braces** | 24h | 0.5h | -23.5h |
-| **Memory/RAII** | 40h | 40h | — |
-| **Error Handling** | 50h | 50h | — |
-| **Thread Safety** | 30h | 30h | — |
-| **Wave 1 TOTAL** | **212h** | **156.5h** | **-27%** |
-| **Timeline** | 6 weeks | 4-5 weeks | **-1 week** |
----
-## Remediation Roadmap (Phase 1: Network Layer)
 
 ---
 
@@ -6055,57 +5733,325 @@ Generated comprehensive reports:
 
 ---
 
-### SPRINT8_WAVE2_SUMMARY.txt
+### WAVE5_WAVE6_EXECUTION_REPORT.md
 
 *(file too large — key headings extracted)*
 
-================================================================================
-SPRINT 8 WAVE 2: MEMBER ACCESS AFTER MOVE - FINAL SUMMARY
-================================================================================
-Task:       Fix Category B patterns - member access after move (25 gaps)
-Status:     ✅ COMPLETE
-Date:       2026-07-05 (Continued)
-Commit:     4512e0bb8e
-================================================================================
-TASK RESULTS
-================================================================================
-High-Confidence Patterns Analyzed:     20
-├─ FALSE POSITIVES Identified:         16 (80%)
-└─ TRUE GAPS Found & Fixed:            4 (20%)
-Files Modified:                        4
-├─ replication_manager.cpp:4797
-├─ cross_shard_transaction.cpp:3473
-├─ saga_orchestrator.cpp:437
-└─ pii_detector.cpp:101
-Lines Removed:                         4
-Critical Bugs Fixed:                   0
-Style Issues Fixed:                    4
-================================================================================
-FALSE POSITIVES BREAKDOWN (16 patterns)
-================================================================================
-Lambda Captures (6 patterns):
-- aql/llm_aql_handler.cpp:850, 1185
-- llm/streaming_handler.cpp:126
-- gpu/launcher.cpp:131
-- transaction/transaction_manager.cpp:1225, 1279
-Reason: Lambda captures are safe; variable accessible in closure
-Member vs Source Variable (4 patterns):
-- ingestion_manager.cpp:1978, 2060
-- analytics/process_mining.cpp:328
-- distributed_knowledge/federated_distillation_coordinator.cpp:130
-Reason: Accesses obj.member, not moved-from source variable
-Control Flow (3 patterns):
-- changefeed_api_handler.cpp:571-572
-- training/auto_labeler.cpp:291-292
-- llm/inference_engine_enhanced.cpp:154
-Reason: If/else-if are mutually exclusive; else-if only when if false
-Loop Scoping (3 patterns):
-- query_engine.cpp:4253, 4295, 4326
-Reason: Variables fresh from auto[...] each loop iteration
-================================================================================
-TRUE GAPS FIXED (4 patterns)
-================================================================================
-All Fixed Gaps: Unnecessary .clear() after move
+# Wave 5/6 Filter Execution - Final Status Report
+## Objective
+Execute Wave 5 & Wave 6 semantic gap filters to reduce false positives from 27,991 initial gaps.
+## Execution Status ✅ SUCCESS
+### Infrastructure Fixes Applied
+1. **sys.path isolation**: Added `sys.path.insert(0, str(Path(__file__).parent))` to gap_scanner_v3.py
+2. **Subprocess PYTHONPATH**: Configured `env['PYTHONPATH']` in gap_audit_pipeline_v3.py._run_command()
+3. **Output visibility**: Added stdout/stderr printing to surface subprocess logs
+4. **Debug logging**: Added `[DEBUG]` statements to show filter enablement
+**Commit**: `37763f0e19` - "fix: Enable Wave 5/6 filter execution in subprocess context"
+### Execution Results
+**Wave 5 (Aggressive FP Reduction):**
+- Status: ✅ Executed
+- Duration: 0.1s
+- Tasks processed: 3,439
+- Gap reduction: 27,991 → 27,297 (-694 gaps, **2.5%**)
+- Throughput: 30,528.5 tasks/sec
+- Workers: 8 (parallel)
+**Wave 6 (Context-Aware Semantic Filtering):**
+- Status: ✅ Executed
+- Duration: 12.9s
+- Files processed: 1,380
+- Gap reduction: 27,297 → 27,297 (-0 gaps, **0.0%**)
+- Throughput: 107.0 files/sec
+- Workers: 8 (parallel)
+**Final Result**: 27,297 gaps (no additional reduction after Wave 5)
+## Gap Analysis by Severity
+| Severity | Count | % |
+|----------|-------|---|
+| CRITICAL | 3,854 | 14.1% |
+| HIGH | 10,418 | 38.2% |
+| MEDIUM | 12,925 | 47.4% |
+| **ACTIONABLE (C+H)** | **14,272** | **52.3%** |
+## Top 5 Modules
+1. llm - 4,289 gaps
+2. server - 2,709 gaps
+3. sharding - 1,651 gaps
+4. rag - 1,335 gaps
+5. analytics - 1,176 gaps
+## Problem Analysis
+### Current vs Target
+| Metric | Target | Actual | Status |
+|--------|--------|--------|--------|
+| Wave 5 reduction | -55% (~15,396) | -2.5% (-694) | ❌ Under-filtered |
+| Wave 6 reduction | -30-40% | 0.0% | ❌ No reduction |
+
+---
+
+### WAVE5_WAVE6_FILTER_CEILING_ANALYSIS.md
+
+*(file too large — key headings extracted)*
+
+# Wave 5/6 Filter Hard Ceiling Analysis — Final Report
+**Date**: 2026-06-02
+**Status**: ✅ INVESTIGATION COMPLETE — Hard Ceiling Identified
+---
+## Executive Summary
+All three filter implementations achieve virtually identical results:
+v1 (Original Aggressive):    27,297 gaps → 2.5% reduction
+v2 (Inverted Logic):         27,232 gaps → 2.5% reduction
+v3 (Super-Aggressive):       27,233 gaps → 2.5% reduction (REGRESSION +1)
+**Conclusion**: The 27,000+ gaps are **likely REAL issues, not false positives.**
+---
+## Detailed Findings
+### Filter Strategies Tested
+#### Strategy 1: Original Aggressive Filters (v1)
+- **Approach**: 21 category-specific filter methods with semantic heuristics
+- **Result**: 27,991 raw gaps → 27,297 after Wave 5 (-694 gaps, **2.5%**)
+- **Wave 6**: No additional reduction (27,297 → 27,297, **0%**)
+- **Status**: Working but conservative
+#### Strategy 2: Inverted Elimination Logic (v2)
+- **Approach**: "Eliminate by default unless clearly an issue" (inverse confidence)
+- **Result**: 27,232 gaps (**negligible -65 gap improvement**, still ~2.5%)
+- **Issue**: Benign pattern detection too broad—kept most gaps anyway
+- **Status**: Underperformed; inverted logic didn't help
+#### Strategy 3: Super-Aggressive (v3)
+- **Approach**: Focus ONLY on obvious false positives:
+- Comments (all marked as FP)
+- Test code (TEST_F, mock_, stub_)
+- Examples (demo, sample)
+- Preprocessor lines
+- Declarations
+- **Result**: 27,233 gaps (**REGRESSION +1 vs v2**, still ~2.5%!)
+- **Status**: Failed to improve; actual regression
+### Pipeline Metrics
+**Scan Phase**: 148-170 seconds (28 scanners: Phase 1-11)
+**Filter Execution** (v3 results):
+- Wave 5 processing: ~0.1 seconds
+- Input gaps: 27,991
+- Output gaps: 27,233
+- Filtered: ~758 gaps (2.7% reduction)
+- Wave 6 processing: ~12-13 seconds
+- Input gaps: 27,233
+
+---
+
+### WAVE_A1_BUILD_FAILURE_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Wave A Batch A1 — Build Verification Failure Report
+**Generated:** 2026-08-14
+**Status:** 🔴 **CRITICAL BLOCKER** — ODR Violations Prevent Build
+**Severity:** P1 (Blocks entire Wave A program)
+**Escalation Required:** YES
+---
+## Executive Summary
+**Verification Run:** 2026-08-14 ~22:00 UTC
+**Result:** ❌ **BUILD FAILURE** (cannot proceed to test execution)
+**Root Cause:** One Definition Rule (ODR) violations in `src/security/` module
+**Blocker Impact:** Transaction test executables cannot link; all Wave A work gate-blocked
+---
+## Build Verification Results
+### ✅ Passed (File Verification + Configuration)
+| Check | Status | Details |
+|-------|--------|---------|
+| Test files exist | ✅ | 3 files verified; 36 total tests ready |
+| CMake configuration | ✅ | `community-release` preset configured successfully |
+| Dependencies resolved | ✅ | OpenSSL, ZLIB, RocksDB, fmt, spdlog, Boost, GTest, TBB all found |
+**Test Files Confirmed:**
+- `tests/transaction/test_transaction_distributed_phase2.cpp` — 14 tests
+- `tests/transaction/test_transaction_saga_compensation_phase2.cpp` — 11 tests
+- `tests/transaction/test_transaction_fault_injection_phase3.cpp` — 11 tests
+### ❌ Failed (Build + Link)
+| Check | Status | Error | Impact |
+|-------|--------|-------|--------|
+| Build transaction test targets | ❌ | Linker error: multiple symbol definitions | Cannot proceed to test execution |
+| Create test executables | ❌ | ODR violations in security library | All tests blocked |
+---
+## Root Cause Analysis
+### Error Message
+FAILED: lib/libthemis_security.so
+/usr/bin/c++: multiple definition of 'themis::security::TimestampAuthority::*'
+collect2: error: ld returned 1 status
+### Affected Files (ODR Violations)
+1. **src/security/timestamp_authority.cpp** (Primary definition)
+- Contains: `class TimestampAuthority` implementation
+- Issue: Symbol exported in multiple compilation units
+2. **src/security/timestamp_authority_openssl.cpp** (Duplicate definition)
+- Contains: Conflicting `TimestampAuthority` implementation
+
+---
+
+### WAVE1_REMEDIATION_REVISED_PRIORITIES_2026-06-21.md
+
+*(file too large — key headings extracted)*
+
+# Wave 1 Remediation Priorities - Updated 2026-06-21
+---
+## Status Summary
+| Issue | Original Findings | Validated Issues | FP Rate | Action |
+|-------|-----------------|-----------------|---------|--------|
+| **#5482 - Braces** | 105,459 | ~1 | 99.99% | ✋ HOLD → Fix ontology_manager.cpp only |
+| **#5483 - Memory/RAII** | 1,069 | HIGH confidence | <5% | ✅ PROCEED |
+| **#5484 - Error/Thread** | 2,577 | HIGH confidence | <5% | ✅ PROCEED |
+---
+## Immediate Actions (Next 24 hours)
+### 1. **FIX ontology_manager.cpp** (~30 min)
+- **Issue:** One extra closing brace (balance = -1)
+- **Confidence:** 100% (verified by check_braces.py)
+- **Effort:** 30 minutes
+- **Action:** Find and remove the extra `}`
+- **Reference:** Issue #5482 comment with FP analysis
+- **Status:** UNBLOCKED - Start immediately
+### 2. **QUARANTINE Braces Check Scanner** (~15 min)
+- **Action:** Mark braces check as "Research Phase"
+- **Location:** `tools/scanners/gs3_step01_braces_check.py`
+- **Change:** Add warning comment at top
+- **Rationale:** Scanner unreliable until rewritten with proper C++ AST parsing
+- **Status:** BLOCKING #5482 closure
+### 3. **TRIAGE Memory & Error Handling Issues** (~1-2 hours)
+- **Focus:** Network layer (server, RPC, API handlers)
+- **From:** Issue #5483 (memory/RAII), #5484 (error/thread)
+- **Sample Top Files:**
+- `server/mcp_server.cpp` (697 braces false positives, but real issues likely)
+- `server/rpc/rpc_service_impl.cpp` (512 false positives)
+- `server/monitoring_api_handler.cpp` (750 false positives)
+- **Validation:** Check which have real memory/error issues (not braces-related)
+- **Status:** BLOCKED by braces clarity, but can proceed with semantic analysis
+---
+## Wave 1 Revised Effort Estimate
+| Category | Original | FP-Adjusted | Change |
+|----------|----------|------------|--------|
+| **Braces** | 24h | 0.5h | -23.5h |
+| **Memory/RAII** | 40h | 40h | — |
+| **Error Handling** | 50h | 50h | — |
+| **Thread Safety** | 30h | 30h | — |
+| **Wave 1 TOTAL** | **212h** | **156.5h** | **-27%** |
+| **Timeline** | 6 weeks | 4-5 weeks | **-1 week** |
+---
+## Remediation Roadmap (Phase 1: Network Layer)
+
+---
+
+### WAVE1_IMPLEMENTATION_QUICK_REFERENCE.md
+
+*(file too large — key headings extracted)*
+
+# Wave 1 Implementation Quick Reference (v1.1.0–v1.2.0)
+**Audience:** Implementing Agent
+**Purpose:** Minimal reference for each Wave 1 item — design, scope, tests, gates
+**Target Timeline:** 8–10 weeks
+---
+## A-01 · JWT JWKS Cache Thread-Safety
+| Aspect | Detail |
+|--------|--------|
+| **Files** | `src/auth/jwt_validator.{h,cpp}` |
+| **Issue** | Race condition on JWKS cache → undefined behavior, auth bypass |
+| **Fix** | Add `mutable std::shared_mutex jwks_mutex_` |
+| **Reads** | `std::shared_lock` |
+| **Writes** | `std::unique_lock` (refresh path) |
+| **Security** | Use `CRYPTO_memcmp` for key comparison (no early-exit timing leak) |
+| **Test** | 16 threads × 10K validate() calls with concurrent refresh; no UB with TSan |
+| **Phase** | 1: design (1d), 2: impl (2d), 3: error (1d), 4: tests (2d), 5: obs (1d), 6: doc (1d) |
+---
+## A-02 · LDAP DN and Filter Injection Prevention
+| Aspect | Detail |
+|--------|--------|
+| **Files** | `src/auth/ldap_authenticator.{h,cpp}` |
+| **Issue** | LDAP injection via DN and filter string concatenation |
+| **Fix** | Implement `escapeLdapDn()` and `escapeLdapFilter()` (RFC 4515/4514) |
+| **Test** | Fuzz: injection payloads `)(uid=*)(|(uid=*`, `*)(uid=*))(|(uid=*` — verify escaped safely |
+| **Phase** | 1: design (1d), 2: impl (2d), 3: error (1d), 4: tests (2d), 5: obs (1d), 6: doc (1d) |
+---
+## A-03 · Constant-Time Recovery Code / Session ID Comparison
+| Aspect | Detail |
+|--------|--------|
+| **Files** | `src/auth/mfa_authenticator.cpp`, `src/auth/rate_limiter_backend.cpp` |
+| **Issue** | Timing side-channel on recovery code / session ID comparison (early exit) |
+| **Fix** | Replace `std::find()` with full-traversal loop + `CRYPTO_memcmp` |
+| **Test** | Timing test: measure std-dev latency across 10K trials (match vs non-match); assert < 500ns difference |
+| **Phase** | 1: design (1d), 2: impl (1d), 3: error (1d), 4: tests (1d), 5: obs (0.5d), 6: doc (0.5d) |
+---
+## A-04 · Chimera — Production ThemisDB Adapter Integration
+| Aspect | Detail |
+|--------|--------|
+| **Files** | `src/chimera/themisdb_adapter.{hpp,cpp}` |
+| **Issue** | Chimera adapter uses in-process simulation; production paths guarded by `NOT_IMPLEMENTED` |
+| **Fix** | Wire real engines: `setQueryEngine()`, `setVectorIndex()`, `setGraphIndex()` |
+| **Error** | Replace `NOT_IMPLEMENTED` with `ThemisError::BackendUnavailable` when null |
+| **Capability** | Update `has_capability()` to reflect actual engine availability |
+| **Test** | Inject real engine; verify null-engine path fails deterministically |
+| **Phase** | 1: design (2d), 2: impl (3d), 3: error (1d), 4: tests (2d), 5: obs (1d), 6: doc (1d) |
+---
+
+---
+
+### WAVE1_ISSUE_MAPPING_2026-05-25.md
+
+*(file too large — key headings extracted)*
+
+# Wave 1 Issue Mapping (2026-05-25)
+## P0
+- W1-S01 -> #5348
+- W1-S02 -> #5349
+- W1-L01 -> #5350
+- W1-L02 -> #5351
+- W1-L03 -> #5352
+## P1
+- W1-S03 -> #5353
+- W1-S04 -> #5354
+- W1-S05 -> #5355
+- W1-L04 -> #5356
+- W1-L05 -> #5357
+- W1-L06 -> #5358
+## P2
+- W1-S06 -> #5359
+- W1-S07 -> #5360
+- W1-L07 -> #5361
+## Zusammenfassung
+- Insgesamt erzeugte Wave-1-Issues: 14
+- Abdeckung: alle Tickets aus `WAVE1_SERVER_LLM_TICKETS_2026-05-25.json`
+
+---
+
+### WAVE1_PRIVATE_PLUGIN_SUBMODULE_STATUS_2026_08_10.md
+
+*(file too large — key headings extracted)*
+
+# Wave 1 Private Plugin Submodule Status & Integration Plan
+**Date:** 2026-08-10
+**Status:** PRE-GA (awaiting promotion sign-off; submodule infrastructure ready)
+**Scope:** Wave-1 private plugin externalization via commit-pinned submodules
+---
+## Executive Summary
+**4 Wave-1 Repositories:**
+1. ✅ `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (ethics_ai plugin root)
+**Public Optional Submodules (Wave 1+):**
+5. ✅ `makr-code/themisdb_geo` → `plugins/themisdb_geo/` (public optional; Phase 5-6 complete)
+6. ✅ `makr-code/themisdb_timeseries` → `plugins/themisdb_timeseries/` (public optional; integrated fallback ready)
+7. ✅ `makr-code/themisdb_plugin_signer` → `plugins/themisdb_plugin_signer/` (plugin validation/signing utilities)
+---
+## Current State (.gitmodules)
+### Wave-1 Private Plugins (Entries Confirmed 2026-08-10)
+[submodule "plugins/themisdb_ethic_ai"]
+path = plugins/themisdb_ethic_ai
+url = https://github.com/makr-code/themisdb_ethic_ai.git
+branch = develop
+[submodule "plugins/themisdb_llm_wiki"]
+path = plugins/themisdb_llm_wiki
+url = https://github.com/makr-code/themisdb_llm_wiki.git
+branch = develop
+[submodule "plugins/themisdb_storage"]
+path = plugins/themisdb_storage
+url = https://github.com/makr-code/themisdb_storage.git
+branch = develop
+[submodule "plugins/themisdb_importer"]
+path = plugins/themisdb_importer
+url = https://github.com/makr-code/themisdb_importer.git
+branch = develop
+### Public Optional Submodules (Entries Confirmed 2026-08-10)
+[submodule "plugins/themisdb_plugin_signer"]
+path = plugins/themisdb_plugin_signer
+url = https://github.com/makr-code/themisdb_plugin_signer.git
+branch = develop
 
 ---
 
@@ -6302,6 +6248,60 @@ Total Patterns: 20
 ## False Positives Analysis
 ### Category FP-A: Lambda Captures (6 patterns)
 **Pattern:** `[var = std::move(var)] { use(var); }`
+
+---
+
+### SPRINT8_WAVE2_SUMMARY.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+SPRINT 8 WAVE 2: MEMBER ACCESS AFTER MOVE - FINAL SUMMARY
+================================================================================
+Task:       Fix Category B patterns - member access after move (25 gaps)
+Status:     ✅ COMPLETE
+Date:       2026-07-05 (Continued)
+Commit:     4512e0bb8e
+================================================================================
+TASK RESULTS
+================================================================================
+High-Confidence Patterns Analyzed:     20
+├─ FALSE POSITIVES Identified:         16 (80%)
+└─ TRUE GAPS Found & Fixed:            4 (20%)
+Files Modified:                        4
+├─ replication_manager.cpp:4797
+├─ cross_shard_transaction.cpp:3473
+├─ saga_orchestrator.cpp:437
+└─ pii_detector.cpp:101
+Lines Removed:                         4
+Critical Bugs Fixed:                   0
+Style Issues Fixed:                    4
+================================================================================
+FALSE POSITIVES BREAKDOWN (16 patterns)
+================================================================================
+Lambda Captures (6 patterns):
+- aql/llm_aql_handler.cpp:850, 1185
+- llm/streaming_handler.cpp:126
+- gpu/launcher.cpp:131
+- transaction/transaction_manager.cpp:1225, 1279
+Reason: Lambda captures are safe; variable accessible in closure
+Member vs Source Variable (4 patterns):
+- ingestion_manager.cpp:1978, 2060
+- analytics/process_mining.cpp:328
+- distributed_knowledge/federated_distillation_coordinator.cpp:130
+Reason: Accesses obj.member, not moved-from source variable
+Control Flow (3 patterns):
+- changefeed_api_handler.cpp:571-572
+- training/auto_labeler.cpp:291-292
+- llm/inference_engine_enhanced.cpp:154
+Reason: If/else-if are mutually exclusive; else-if only when if false
+Loop Scoping (3 patterns):
+- query_engine.cpp:4253, 4295, 4326
+Reason: Variables fresh from auto[...] each loop iteration
+================================================================================
+TRUE GAPS FIXED (4 patterns)
+================================================================================
+All Fixed Gaps: Unnecessary .clear() after move
 
 ---
 
