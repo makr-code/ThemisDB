@@ -266,3 +266,14 @@ jobs:
           name: error-metrics
           path: /tmp/error-metrics/
           retention-days: 90
+
+      - name: Publish Error Dashboard
+        if: always() && steps.aggregate.outputs.has_artifacts == 'true'
+        uses: ./.github/actions/publish-error-dashboard@main
+        with:
+          metrics-artifact: error-metrics
+          create-issue: ${{ steps.aggregate.outputs.chronic_errors > 0 }}
+          dashboard-title: '📊 Build Error Dashboard — Run #${{ github.run_number }}'
+          send-slack: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+        continue-on-error: true
