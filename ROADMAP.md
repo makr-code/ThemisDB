@@ -110,8 +110,11 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026)
 
 ### Wave C — Security Production Validation (Q4 2026)
+- [~] Audit: harden integrity and high-volume export reliability under sustained load (Target: Q4 2026) — **Baseline Lock ✅ 2026-08-18** (Batch 1 approved pending CI validation; Wave 9 critical fixes complete: 25+ CRITICAL races → 0)
+  - [~] Batch 1 — High-Volume Export Reliability: buffered concurrent writes, crash recovery, stress tests, p95/p99 baselines (4-5 days)
+  - [ ] Batch 2 — CI Policy Gates Phase 3: plugin boundaries, edition/license, SBOM/hash checks (3-4 days)
+  - [ ] Batch 3 — Security Integration & Hardening: Vault/HSM/PKI, failover, RLS, concurrent updates (4-5 days)
 - [ ] Security module: complete Vault/HSM/PKI integration validation, provider failover, real RLS/query workloads, concurrent policy updates, and policy-conflict edge cases (Target: Q4 2026)
-- [ ] Audit: harden integrity and high-volume export reliability under sustained load (Target: Q4 2026)
 - [ ] CI policy gates: enforce private/public plugin boundaries, edition/license validation, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
 
 ### Wave C Exit Criteria (Gate to Wave D)
