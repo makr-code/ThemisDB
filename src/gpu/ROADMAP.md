@@ -38,8 +38,9 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [ ] Phase D gate: all GPU failures degrade to CPU cleanly (Target: Q4 2026)
 - [ ] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
 - [ ] Phase D ctest gate: `test_gpu_error_handling` (Target: Q4 2026)
-- [ ] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
-- [ ] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
+- [~] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
+- [~] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
+  - 2026-08-18: test_gpu_resource_exhaustion.cpp (GPU-EXHAUST-01..12) and test_gpu_fallback_all_paths.cpp (GPU-FALLBACK-01..12) implemented
 - [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
 - [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
 

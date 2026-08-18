@@ -95,7 +95,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: dedicated teardown/auth-edge/adversarial regressions completed in `tests/voice/test_voice_wave_a8_hardening_focused.cpp` and new `tests/voice/test_voice_stream_validation.cpp` (8+ tests) and `tests/voice/test_voice_adversarial_anti_spoof.cpp` (12+ tests); browser/telephony streaming closure complete.
-- [ ] Chaos/fault-injection evidence: no Wave A-specific chaos bundle is recorded yet for teardown, spoofing, or backend-failure scenarios.
+- [~] Chaos/fault-injection evidence: no Wave A-specific chaos bundle is recorded yet for teardown, spoofing, or backend-failure scenarios.
+  - 2026-08-18: test_voice_wave_a_chaos_bundle.cpp added (VOICE-CHAOS-01..12); backend-failure cascade, spoofing, circuit-breaker, multi-session teardown covered
 - [x] Fail-closed verification: malformed/oversized payload rejection and terminated-session teardown are now covered by focused tests; invalid transition and degraded-backend proof complete per stream validation test matrix.
 - [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending.
 - [ ] `release_critical` coverage: Wave A voice hardening does not yet have green-on-`develop` gate evidence.
