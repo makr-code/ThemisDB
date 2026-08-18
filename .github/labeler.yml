@@ -1,30 +1,217 @@
 # Labeler configuration for actions/labeler@v5
 # Labels are applied automatically based on changed file paths in a PR.
+# See DOCUMENTATION_GOVERNANCE.md for label taxonomy and governance.
 
+# ──────────────────────────────────────────────────────────────────────────────
+# ROADMAP WAVE LABELS (Wave A–D per ROADMAP.md §Execution Batches)
+# ──────────────────────────────────────────────────────────────────────────────
+"wave:A":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/access_model/**"
+          - "src/search/**"
+          - "src/sharding/**"
+          - "src/replication/**"
+          - "src/utils/**"
+          - "include/access_model/**"
+          - "include/search/**"
+          - "include/sharding/**"
+          - "include/replication/**"
+
+"wave:B":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/llm/**"
+          - "src/retrieval/**"
+          - "src/tensor/**"
+          - "src/gpu/**"
+          - "include/llm/**"
+          - "include/retrieval/**"
+
+"wave:C":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/security/**"
+          - "src/auth/**"
+          - "src/governance/**"
+          - "include/security/**"
+          - "include/auth/**"
+
+"wave:D":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/observability/**"
+          - "src/maintenance/**"
+          - "docs/operability/**"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CORE MODULE AREA LABELS (primary subsystem classification)
+# ──────────────────────────────────────────────────────────────────────────────
 "area:acceleration":
   - changed-files:
-      - any-glob-to-any-file: "src/cuda/**"
+      - any-glob-to-any-file:
+          - "src/acceleration/**"
+          - "src/cuda/**"
+          - "src/gpu/**"
+          - "include/acceleration/**"
 
 "area:vector":
   - changed-files:
-      - any-glob-to-any-file: "src/vector/**"
+      - any-glob-to-any-file:
+          - "src/vector_search/**"
+          - "src/vector/**"
+          - "include/vector_search/**"
 
 "area:graph":
   - changed-files:
-      - any-glob-to-any-file: "src/graph/**"
+      - any-glob-to-any-file:
+          - "src/graph/**"
+          - "include/graph/**"
 
 "area:storage":
   - changed-files:
-      - any-glob-to-any-file: "src/storage/**"
+      - any-glob-to-any-file:
+          - "src/storage/**"
+          - "include/storage/**"
 
+"area:llm":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/llm/**"
+          - "src/llm_streaming/**"
+          - "src/llm_wiki/**"
+          - "src/prompt_engineering/**"
+          - "include/llm/**"
+
+"area:search":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/search/**"
+          - "src/retrieval/**"
+          - "src/rag/**"
+          - "include/search/**"
+
+"area:security":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/security/**"
+          - "src/auth/**"
+          - "include/security/**"
+
+"area:access-model":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/access_model/**"
+          - "include/access_model/**"
+
+"area:sharding":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/sharding/**"
+          - "include/sharding/**"
+
+"area:replication":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/replication/**"
+          - "include/replication/**"
+
+"area:updates":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/updates/**"
+          - "include/updates/**"
+
+"area:process":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/process/**"
+          - "include/process/**"
+
+"area:audit":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/audit/**"
+          - "src/cdc/**"
+          - "include/audit/**"
+
+"area:observability":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/observability/**"
+          - "src/telemetry/**"
+          - "include/observability/**"
+
+"area:plugins":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/plugins/**"
+          - "plugins/**"
+          - "include/plugins/**"
+
+"area:api":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/api/**"
+          - "src/rpc_grpc/**"
+          - "include/api/**"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CHANGE TYPE LABELS
+# ──────────────────────────────────────────────────────────────────────────────
 "type:documentation":
   - changed-files:
-      - any-glob-to-any-file: "docs/**"
+      - any-glob-to-any-file:
+          - "docs/**"
+          - "README.md"
+          - "ROADMAP.md"
+          - "*.md"
 
 "type:test":
   - changed-files:
-      - any-glob-to-any-file: "tests/**"
+      - any-glob-to-any-file:
+          - "tests/**"
+          - "test_*.cpp"
+
+"type:ci":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+          - "CMakeLists.txt"
+          - "CMakePresets.json"
+          - "cmake/**"
+
+"type:refactor":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**/*.cpp"
+          - "include/**/*.hpp"
+      - head-sha: '.*refactor.*'
+
+"type:build":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "CMakeLists.txt"
+          - "CMakePresets.json"
+          - "cmake/**"
+          - "vcpkg.json"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# STATUS AND PRIORITY LABELS
+# ──────────────────────────────────────────────────────────────────────────────
+"release_critical":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/access_model/**"
+          - "src/search/**"
+          - "src/sharding/**"
+          - "src/replication/**"
+          - "include/access_model/**"
+          - "include/search/**"
+          - "include/sharding/**"
+          - "include/replication/**"
 
 "ai-generated":
   - changed-files:
-      - any-glob-to-any-file: "ai_working/**"
+      - any-glob-to-any-file:
+          - "ai_working/**"
