@@ -96,7 +96,7 @@ Production-ready search runtime (v2.0.0 GA) with complete build configuration in
   - [x] Documentation governance sync: L1-L4 hierarchy maintained
   - [x] Research mapping: research/implementation_influence/by_module.md aligned
 
-## Wave B Completion Status (2026-08-17)
+## Wave B Completion Status (2026-08-17 → 2026-08-18)
 
 - [x] **Wave B: Retrieval Chain Integration** (COMPLETE 2026-08-17)
   - [x] CRITICAL gaps verification: no_timeout (30s default verified), exception_in_destructor (noexcept verified)
@@ -106,9 +106,37 @@ Production-ready search runtime (v2.0.0 GA) with complete build configuration in
   - [x] Constructor initialization verification: All files properly initialize members
   - [x] Documentation update: WAVE_B_COMPLETION_PLAN.md, WAVE_B_VERIFICATION_REPORT.md created
   - [x] ROADMAP.md updated with Wave B completion status (THIS ENTRY)
-  - **Deliverables:** Comprehensive verification report; 854 total gaps assessed; 2 CRITICAL gaps verified as fixed; 71 HIGH gaps verified as non-blocking
-  - **Status:** ✅ COMPLETE (2026-08-17)
+  - **Deliverables (2026-08-17):** Comprehensive verification report; 854 total gaps assessed; 2 CRITICAL gaps verified as fixed; 71 HIGH gaps verified as non-blocking
+  - **Status:** ✅ IMPLEMENTATION COMPLETE (2026-08-17)
   - **Evidence:** WAVE_B_VERIFICATION_REPORT.md with full analysis and sign-off
+
+- [x] **Wave B: Documentation Closure** (COMPLETE 2026-08-18)
+  - [x] LAYERED_RETRIEVAL_ARCHITECTURE.md: Comprehensive 4-layer chain design documentation
+    - [x] Layer specifications (ANN, Tensor, Graph, LLM)
+    - [x] Timeout model & concurrency
+    - [x] Guardrail model with per-query bounds
+    - [x] OpenTelemetry tracing integration
+    - [x] Configuration & deployment topologies
+    - [x] Scaling & performance considerations
+    - [x] Testing & validation framework
+  - [x] LAYERED_RETRIEVAL_SLA.md: Performance & resource contracts
+    - [x] Latency targets (p50/p95/p99 per scenario)
+    - [x] Per-layer latency breakdown
+    - [x] Memory footprint analysis (bounded ~13.5 KB/query)
+    - [x] Throughput & capacity planning (2–200 QPS)
+    - [x] Reliability targets (99.9–99.99% availability)
+    - [x] Degradation paths (4 key scenarios)
+    - [x] Resource utilization profiles (CPU, GPU, Network)
+    - [x] Hardware tier profiles (Tier 1–3)
+    - [x] Tuning guidelines (latency/quality/cost-aware)
+    - [x] Monitoring & alerting thresholds
+    - [x] Known limitations & caveats
+  - [x] ARCHITECTURE.md: Added v3.0.0 LayeredRetrievalOrchestrator contract section
+    - [x] Cross-references to LAYERED_RETRIEVAL_ARCHITECTURE.md and LAYERED_RETRIEVAL_SLA.md
+    - [x] Updated sourcecode verification section
+  - **Deliverables (2026-08-18):** Complete architecture and SLA documentation for 4-layer chain
+  - **Status:** ✅ DOCUMENTATION COMPLETE (2026-08-18)
+  - **Evidence:** LAYERED_RETRIEVAL_ARCHITECTURE.md, LAYERED_RETRIEVAL_SLA.md, updated ARCHITECTURE.md
 
 ## In Progress
 
