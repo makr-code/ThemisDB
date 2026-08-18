@@ -2010,7 +2010,7 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/catalog_exporter.cpp
     ../src/metadata/distributed_catalog.cpp
     ../src/metadata/er_diagram_exporter.cpp
-    ../src/server/schema_api_handler.cpp
+    # ../src/server/schema_api_handler.cpp  # Temporarily disabled - requires boost::beast
     
     ../src/index/secondary_index.cpp
     ../src/index/inverted_index.cpp
@@ -2060,7 +2060,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/keyprovider_signing.cpp
     ../src/security/hsm_signing.cpp
     ../src/security/vault_signing_provider.cpp
-    ../src/security/xxe_safe_xml_parser.cpp
+    # ../src/security/xxe_safe_xml_parser.cpp  # Temporarily disabled - requires pugixml
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
     ../src/security/malware_scanner.cpp
