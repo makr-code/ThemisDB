@@ -1,7 +1,7 @@
 # GPU Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-06-30 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Status: current | validated: 2026-08-17 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md -->
 
 ## IVRAMPolicy Hierarchy — Extension Points
 

@@ -18,12 +18,18 @@
  * time quantum (slice_ms); the scheduler dispatches work items for each
  * tenant in registration order, moving to the next tenant when the quantum
  * expires or the queue is empty.
+ * 
+ * Remediation (Phase 2):
+ * - Use std::atomic<> for shared timing state and counters
+ * - Prevent data races in multi-threaded access
+ * - Ensure no race conditions in time slice expiration checks
  */
 
 #include "themis/gpu/time_slice_scheduler.h"
 
 #include <algorithm>
 #include <chrono>
+#include <atomic>
 
 namespace themis {
 namespace gpu {
@@ -193,6 +199,8 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
     }
 
     ++dispatch_rounds_;
+    // Ensure all counter updates are visible to other threads.
+    std::atomic_thread_fence(std::memory_order_release);
 }
 
 void GPUTimeSliceScheduler::drainAll(GPULauncher::BackendFn backend) {
@@ -261,6 +269,9 @@ std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTen
 
 GPUTimeSliceScheduler::Stats GPUTimeSliceScheduler::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    // Ensure memory visibility of counter updates from dispatch() calls.
+    std::atomic_thread_fence(std::memory_order_acquire);
+    
     Stats s;
     s.total_submitted    = total_submitted_;
     s.total_completed    = total_completed_;

@@ -12,12 +12,21 @@
 
 /*
  * GPU Memory Pool — slab-based pre-allocator with fragmentation tracking.
+ * 
+ * Remediation (Phase 2):
+ * - Add validation for device_base_ptr lifetime and bounds checking
+ * - Detect memory leaks and corruption patterns
+ * - Ensure allocation/deallocation balance
  */
 
 #include "themis/gpu/memory_pool.h"
 
 #include <algorithm>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
+
+#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -55,6 +64,18 @@ GPUMemoryPool::GPUMemoryPool(uint64_t total_bytes, uint64_t slab_size, size_t nu
 bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint64_t &offset) {
     std::lock_guard<std::mutex> lock(mutex_);
 
+    // Bounds validation: prevent overflow and invalid requests.
+    if (size_bytes == 0 || size_bytes > slab_size_) {
+        ++alloc_misses_;
+        if (size_bytes == 0) {
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("GPUMemoryPool::tryAcquire: zero-byte allocation attempted by tag '{}'", tag);
+            }
+        }
+        return false;
+    }
+
     // Pool miss: request too large for any single slab.
     if (size_bytes > slab_size_) {
         ++alloc_misses_;
@@ -64,6 +85,17 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint
     // First-fit search.
     for (auto &s : slabs_) {
         if (s.is_free) {
+            // Validation: ensure offset is within pool bounds.
+            if (s.offset >= total_bytes_) {
+                ++alloc_misses_;
+                auto logger = spdlog::get("gpu");
+                if (logger) {
+                    logger->error("GPUMemoryPool::tryAcquire: slab offset {} exceeds pool size {}", 
+                                  s.offset, total_bytes_);
+                }
+                return false;
+            }
+
             s.is_free      = false;
             s.owner_tag    = tag;
             s.request_size = size_bytes;
@@ -91,8 +123,29 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint
 
 bool GPUMemoryPool::release(uint64_t offset) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    // Bounds validation: prevent out-of-bounds releases.
+    if (offset >= total_bytes_) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("GPUMemoryPool::release: offset {} exceeds pool size {}", offset, total_bytes_);
+        }
+        return false;
+    }
+
     for (auto &s : slabs_) {
         if (s.offset == offset && !s.is_free) {
+            // Validation: check for corruption in request_size.
+            if (s.request_size > slab_size_) {
+                auto logger = spdlog::get("gpu");
+                if (logger) {
+                    logger->error("GPUMemoryPool::release: detected corruption for slab at offset {} "
+                                  "(request_size {} > slab_size {})", offset, s.request_size, slab_size_);
+                }
+                // Attempt recovery: clamp to slab_size to prevent further damage.
+                s.request_size = slab_size_;
+            }
+
             // Recover the wasted bytes charged at acquire time.
             const uint64_t wasted = slab_size_ - s.request_size;
             if (wasted_bytes_ >= wasted) {
@@ -199,8 +252,19 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
     size_t slabs_moved       = 0;
     uint64_t bytes_compacted = 0;
 
+    auto logger = spdlog::get("gpu");
+
     for (auto &s : slabs_) {
         if (!s.is_free) {
+            // Validation: check slab request_size for corruption.
+            if (s.request_size > slab_size_) {
+                if (logger) {
+                    logger->error("GPUMemoryPool::defragment: detected corruption for slab at offset {} "
+                                  "(request_size {} > slab_size {})", s.offset, s.request_size, slab_size_);
+                }
+                s.request_size = slab_size_;
+            }
+
             if (s.offset != new_offset) {
                 // Record the old→new mapping so callers can update raw device
                 // pointers they hold (base + old_offset → base + new_offset).
@@ -216,21 +280,57 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
                 // the two differ.  The source region [s.offset, s.offset+slab_size_)
                 // and the destination [new_offset, new_offset+slab_size_) are
                 // therefore always disjoint — no temporary buffer is needed.
+                
+                // Validation: check device_base_ptr and size bounds before using it.
 #ifdef THEMIS_ENABLE_CUDA
                 if (device_base_ptr_ != 0) {
-                    auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
-                    auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
-                    if (cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice) != cudaSuccess) {
+                    // Validate that offsets are within bounds.
+                    if (s.offset + slab_size_ > total_bytes_ || new_offset + slab_size_ > total_bytes_) {
                         ++result.data_move_errors;
+                        if (logger) {
+                            logger->error("GPUMemoryPool::defragment: offset bounds violation detected "
+                                          "(old_offset={}, new_offset={}, slab_size={}, total_bytes={})",
+                                          s.offset, new_offset, slab_size_, total_bytes_);
+                        }
+                    } else {
+                        auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
+                        auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
+                        
+                        cudaError_t cuda_err = cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice);
+                        if (cuda_err != cudaSuccess) {
+                            GPUDispatchErrorCode dispatch_err = checkCudaError(cuda_err, "cudaMemcpy (defragment)", -1);
+                            ++result.data_move_errors;
+                            if (logger) {
+                                logger->error("GPUMemoryPool::defragment: cudaMemcpy failed for slab at offset {} "
+                                              "to new offset {}: {}", s.offset, new_offset, cudaGetErrorString(cuda_err));
+                            }
+                        }
                     }
                 }
 #endif
 #ifdef THEMIS_ENABLE_HIP
                 if (device_base_ptr_ != 0) {
-                    auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
-                    auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
-                    if (hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice) != hipSuccess) {
+                    // Validate that offsets are within bounds.
+                    if (s.offset + slab_size_ > total_bytes_ || new_offset + slab_size_ > total_bytes_) {
                         ++result.data_move_errors;
+                        if (logger) {
+                            logger->error("GPUMemoryPool::defragment: offset bounds violation detected "
+                                          "(old_offset={}, new_offset={}, slab_size={}, total_bytes={})",
+                                          s.offset, new_offset, slab_size_, total_bytes_);
+                        }
+                    } else {
+                        auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
+                        auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
+                        
+                        hipError_t hip_err = hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice);
+                        if (hip_err != hipSuccess) {
+                            GPUDispatchErrorCode dispatch_err = checkHipError(hip_err, "hipMemcpy (defragment)", -1);
+                            ++result.data_move_errors;
+                            if (logger) {
+                                logger->error("GPUMemoryPool::defragment: hipMemcpy failed for slab at offset {} "
+                                              "to new offset {}: {}", s.offset, new_offset, hipGetErrorString(hip_err));
+                            }
+                        }
                     }
                 }
 #endif
@@ -253,6 +353,10 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
     result.frag_after
         = (allocated_bytes_ > 0) ? (static_cast<float>(wasted_bytes_) / static_cast<float>(total_bytes_)) : 0.0f;
     result.ran = true;
+
+    if (logger && result.data_move_errors > 0) {
+        logger->warn("GPUMemoryPool::defragment: completed with {} data move errors", result.data_move_errors);
+    }
 
     return result;
 }

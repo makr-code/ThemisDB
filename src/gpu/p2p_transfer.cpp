@@ -33,6 +33,8 @@
 
 #include "themis/gpu/cluster_topology.h"
 #include "themis/gpu/feature_flags.h"
+#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -317,8 +319,19 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(const Tran
     cudaError_t err = cudaMemcpyPeer(req.dst_ptr, dst_idx, req.src_ptr, src_idx, req.size_bytes);
 
     if (err != cudaSuccess) {
+        GPUDispatchErrorCode dispatch_err = checkCudaError(err, "cudaMemcpyPeer", src_idx);
         std::lock_guard<std::mutex> lock(mutex_);
-        result.error_message = "cudaMemcpyPeer failed";
+        result.error_message = "cudaMemcpyPeer failed: " + std::string(cudaGetErrorString(err));
+        ++stats_.failed_transfers;
+        return result;
+    }
+    
+    // Verify no lingering errors from the transfer
+    err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        GPUDispatchErrorCode dispatch_err = checkCudaError(err, "cudaMemcpyPeer: lingering error", src_idx);
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.error_message = "cudaMemcpyPeer: lingering error after transfer";
         ++stats_.failed_transfers;
         return result;
     }
@@ -326,8 +339,19 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(const Tran
     hipError_t err = hipMemcpyPeer(req.dst_ptr, dst_idx, req.src_ptr, src_idx, req.size_bytes);
 
     if (err != hipSuccess) {
+        GPUDispatchErrorCode dispatch_err = checkHipError(err, "hipMemcpyPeer", src_idx);
         std::lock_guard<std::mutex> lock(mutex_);
-        result.error_message = "hipMemcpyPeer failed";
+        result.error_message = "hipMemcpyPeer failed: " + std::string(hipGetErrorString(err));
+        ++stats_.failed_transfers;
+        return result;
+    }
+    
+    // Verify no lingering errors from the transfer
+    err = hipGetLastError();
+    if (err != hipSuccess) {
+        GPUDispatchErrorCode dispatch_err = checkHipError(err, "hipMemcpyPeer: lingering error", src_idx);
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.error_message = "hipMemcpyPeer: lingering error after transfer";
         ++stats_.failed_transfers;
         return result;
     }

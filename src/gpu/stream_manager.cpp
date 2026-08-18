@@ -65,7 +65,10 @@ GPUStreamManager::~GPUStreamManager() {
     for (auto &kv : streams_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (kv.second.cuda_stream != 0) {
-            cudaStreamDestroy(reinterpret_cast<cudaStream_t>(kv.second.cuda_stream));
+            cudaStream_t cs = reinterpret_cast<cudaStream_t>(kv.second.cuda_stream);
+            // Synchronize pending work before destroying the stream
+            cudaStreamSynchronize(cs);
+            cudaStreamDestroy(cs);
         }
 #endif
         if (kv.second.uses_rocm_stream) {
@@ -237,7 +240,10 @@ bool GPUStreamManager::destroyStream(const std::string &name) {
 #ifdef THEMIS_ENABLE_CUDA
     // Destroy CUDA stream from the cuda_stream field (createStream path).
     if (cuda_handle != 0) {
-        cudaStreamDestroy(reinterpret_cast<cudaStream_t>(cuda_handle));
+        cudaStream_t cs = reinterpret_cast<cudaStream_t>(cuda_handle);
+        // Synchronize before destruction to ensure pending work completes
+        cudaStreamSynchronize(cs);
+        cudaStreamDestroy(cs);
     }
     // Destroy CUDA stream registered in the global registry (createCudaStream path).
     {
@@ -245,7 +251,10 @@ bool GPUStreamManager::destroyStream(const std::string &name) {
         auto &reg = cudaStreamRegistry();
         auto it   = reg.find(name);
         if (it != reg.end()) {
-            cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second));
+            cudaStream_t cs = reinterpret_cast<cudaStream_t>(it->second);
+            // Synchronize before destruction to ensure pending work completes
+            cudaStreamSynchronize(cs);
+            cudaStreamDestroy(cs);
             reg.erase(it);
         }
     }
