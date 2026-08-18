@@ -19,7 +19,7 @@
 #include <string>
 
 // Logging support
-#include "themis/base/logger.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace storage {
