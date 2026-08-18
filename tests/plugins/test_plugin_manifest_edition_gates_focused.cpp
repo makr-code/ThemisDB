@@ -10,9 +10,18 @@
 #include "themis/edition.h"
 #include <nlohmann/json.hpp>
 #include <cstdlib>
+#include <cctype>
+#include <algorithm>
 
 using namespace themis::plugins;
 using json = nlohmann::json;
+
+// Helper: Normalize edition name (case-insensitive)
+static inline std::string normalizeEditionName(std::string value) {
+    std::transform(value.begin(), value.end(), value.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return value;
+}
 
 // Test fixture for manifest edition gate validation
 class PluginManifestEditionGatesTest : public ::testing::Test {
