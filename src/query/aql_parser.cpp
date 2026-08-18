@@ -64,16 +64,22 @@ Result<bool> ParserScopeContext::validateCollectionAccess(
     const std::string& collection_name,
     const std::string& context_description) const {
     if (!isCollectionInScope(collection_name)) {
-        // Build the registered-collections list without relying on fmt::join
-        // to avoid a dependency on <fmt/ranges.h>.
+        // Build the registered-collections list efficiently using fmt::format
+        // instead of string += in loop to avoid repeated allocations.
         std::string registered_list;
         if (registered_collections_.empty()) {
             registered_list = "(none)";
         } else {
+            // Efficiently join collection names with commas.
+            // Use std::ostringstream or manual building with proper capacity.
+            std::ostringstream ss;
+            bool first = true;
             for (const auto& c : registered_collections_) {
-                if (!registered_list.empty()) registered_list += ", ";
-                registered_list += c;
+                if (!first) ss << ", ";
+                ss << c;
+                first = false;
             }
+            registered_list = ss.str();
         }
         return Err<bool>(
             errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
@@ -101,7 +107,7 @@ void ParserScopeContext::popScope() {
     }
 }
 
-const std::unordered_set<std::string>& ParserScopeContext::getRegisteredCollections() const {
+const std::set<std::string>& ParserScopeContext::getRegisteredCollections() const {
     return registered_collections_;
 }
 

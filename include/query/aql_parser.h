@@ -84,9 +84,9 @@ public:
     /**
      * @brief Get all registered collections in the current scope.
      *
-     * @return A set of collection names.
+     * @return A sorted set of collection names (deterministic iteration order).
      */
-    [[nodiscard]] const std::unordered_set<std::string>& getRegisteredCollections() const;
+    [[nodiscard]] const std::set<std::string>& getRegisteredCollections() const;
 
     /**
      * @brief Clear all registered collections (typically on new parse).
@@ -94,8 +94,10 @@ public:
     void clear();
 
 private:
-    std::unordered_set<std::string> registered_collections_;
-    std::vector<std::unordered_set<std::string>> scope_stack_;
+    /// Ordered set for deterministic iteration (Batch 1C — determinism gate).
+    std::set<std::string> registered_collections_;
+    /// Stack of ordered sets for scope nesting (deterministic order).
+    std::vector<std::set<std::string>> scope_stack_;
     /// Scope namespace prefix currently active (empty = unqualified / default scope).
     std::string current_scope_prefix_;
     /// Stack of scope prefixes aligned with scope_stack_.

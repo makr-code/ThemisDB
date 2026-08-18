@@ -451,13 +451,35 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
         
     } catch (const std::exception& e) {
         // Q2: Audit — cross-cluster query failure
+        // Exception Safety (Wave A §13): Capture full error context before propagating.
+        // This ensures upstream callers (API boundaries) receive complete error information.
         const nlohmann::json audit_event = {
             {"event", "federation_failure"},
             {"reason", e.what()},
-            {"affected_clusters", total_queries_.load()}
+            {"exception_type", typeid(e).name()},
+            {"affected_clusters", total_queries_.load()},
+            {"timestamp_ms", std::chrono::system_clock::now().time_since_epoch().count()}
         };
         spdlog::error("[audit] {}", audit_event.dump());
-        spdlog::error("Federated query execution failed: {}", e.what());
+        spdlog::error("Federated query execution failed: exception_type={} reason={}",
+                     typeid(e).name(), e.what());
+        throw;
+    } catch (...) {
+        // RATIONALE (Wave A §13 Exception Safety):
+        //   Unknown exception from shard router or query execution. This catch-all
+        //   ensures we log audit information even for non-std::exception types.
+        //   After logging, we re-throw to preserve exception propagation semantics.
+        // ACTIVATION: Only reached if exception is not std::exception (rare).
+        // PRODUCTION DELTA: Exception is re-thrown with audit context logged first.
+        // ACTION: Always audit before propagating to ensure observability.
+        const nlohmann::json audit_event = {
+            {"event", "federation_failure"},
+            {"reason", "unknown exception"},
+            {"affected_clusters", total_queries_.load()},
+            {"timestamp_ms", std::chrono::system_clock::now().time_since_epoch().count()}
+        };
+        spdlog::error("[audit] {}", audit_event.dump());
+        spdlog::error("Federated query execution failed with unknown exception");
         throw;
     }
 }
@@ -962,8 +984,50 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 } else if (m2.size() > 1) {
                     metadata.limit = std::stoull(m2[1].str());
                 }
+            } catch (const std::out_of_range& ex) {
+                // Numeric value exceeds uint64_t range. Log context and degrade safely.
+                THEMIS_WARN("QueryFederation::analyzeQuery: LIMIT/OFFSET numeric overflow; "
+                            "match[1]={} match[2]={} error={} (falling back to no limit)",
+                            m2.size() > 1 ? m2[1].str() : "<none>",
+                            m2.size() > 2 ? m2[2].str() : "<none>",
+                            ex.what());
+                metadata.limit.reset();
+                metadata.offset.reset();
+            } catch (const std::invalid_argument& ex) {
+                // std::stoull cannot parse the matched string (internal regex error unlikely).
+                // Log context and degrade safely.
+                THEMIS_WARN("QueryFederation::analyzeQuery: LIMIT/OFFSET parse error; "
+                            "match[1]={} match[2]={} error={} (falling back to no limit)",
+                            m2.size() > 1 ? m2[1].str() : "<none>",
+                            m2.size() > 2 ? m2[2].str() : "<none>",
+                            ex.what());
+                metadata.limit.reset();
+                metadata.offset.reset();
+            } catch (const std::exception& ex) {
+                // Unexpected exception type from std::stoull or regex.
+                // Log full context and degrade safely.
+                THEMIS_WARN("QueryFederation::analyzeQuery: LIMIT/OFFSET extraction failed; "
+                            "match[1]={} match[2]={} error_type={} error={} (falling back to no limit)",
+                            m2.size() > 1 ? m2[1].str() : "<none>",
+                            m2.size() > 2 ? m2[2].str() : "<none>",
+                            typeid(ex).name(),
+                            ex.what());
+                metadata.limit.reset();
+                metadata.offset.reset();
             } catch (...) {
-                THEMIS_WARN("query_federation: unhandled exception caught");
+                // RATIONALE (Wave A §13 Exception Safety):
+                //   Unknown exception from regex or numeric parsing. This catch-all is necessary
+                //   because std::stoull may throw implementation-specific exceptions on some
+                //   platforms. We degrade safely by resetting limit/offset to std::nullopt,
+                //   which signals the caller to apply no pagination filter. This preserves
+                //   correctness (returns all rows) at the cost of no optimization.
+                // ACTIVATION: Only reached if exception is not std::exception (rare).
+                // PRODUCTION DELTA: All rows returned instead of limited set.
+                // ACTION: Always log operator context and gracefully degrade to unlimited.
+                THEMIS_WARN("QueryFederation::analyzeQuery: LIMIT/OFFSET extraction failed with unknown exception; "
+                            "falling back to no limit (query={} approx_len={})",
+                            query.length() > 100 ? query.substr(0, 97) + "..." : query,
+                            query.length());
                 metadata.limit.reset();
                 metadata.offset.reset();
             }

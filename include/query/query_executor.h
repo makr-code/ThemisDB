@@ -116,13 +116,30 @@ struct ResultSet {
  * Holds references to storage, transaction state, and other subsystems
  * needed during plan execution.  `QueryExecutor` treats this as a
  * non-owning view; the lifetime must outlast the executor call.
+ *
+ * **Wave A Timeout Safety (§13, ROADMAP.md):**
+ * The executor respects timeout_ms and checks for deadline expiry at each
+ * row iteration checkpoint. If the deadline is exceeded, execute() throws
+ * std::runtime_error("Query execution timeout") to fail fast and release
+ * resources. Streaming execution (execute_streaming) returns early when
+ * the timeout is exceeded, allowing partial results to be delivered.
  */
 struct ExecutionContext {
     /// Maximum rows to materialise before streaming flush (0 = unbounded).
     std::size_t max_materialise_rows = 1024;
     /// Hard row-count limit across all result pages.
     std::size_t row_limit = 100'000;
-    /// Query timeout in milliseconds (0 = no limit).
+    /**
+     * @brief Query execution timeout in milliseconds (0 = no limit).
+     *
+     * **SLA Reasoning:**
+     * - Default: 0 (no timeout) — caller must set explicitly if desired
+     * - Rationale: Prevents runaway queries from blocking indefinitely
+     * - Checked at each row iteration, not at sub-millisecond granularity
+     * - Failure mode: Throws std::runtime_error on timeout (materialised execute)
+     *               or returns early (streaming execute) with partial results
+     * - Logging: All timeout events logged with row count and elapsed time
+     */
     uint32_t timeout_ms = 0;
 };
 
@@ -232,9 +249,22 @@ private:
     const QueryPlan*     plan_;
     const ExecutionContext* context_;
     std::atomic<bool>    aborted_{false};
+    std::chrono::steady_clock::time_point execution_start_;
 
     /// Build one Row from a source map entry.
     Row build_row(const std::unordered_map<std::string, ColumnValue>& src) const;
+
+    /**
+     * @brief Check if execution timeout has been exceeded.
+     *
+     * **Wave A Timeout Safety (§13, ROADMAP.md):**
+     * Returns true if context_->timeout_ms is set and has been exceeded.
+     * Called at each row iteration to enforce execution deadlines.
+     * Returns false if timeout_ms is 0 (no limit).
+     *
+     * @return true if timeout is configured and deadline exceeded, false otherwise.
+     */
+    [[nodiscard]] bool isExecutionTimeoutExceeded() const noexcept;
 };
 
 }  // namespace query

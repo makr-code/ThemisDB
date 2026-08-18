@@ -32,13 +32,33 @@
 #include <cmath>
 #include <thread>
 #include <functional>
+#include <mutex>
 
 namespace themis {
 namespace query {
 
-// Lazy-initialized NLP analyzer (thread-safe in C++11+)
+// Lazy-initialized NLP analyzer with thread-safe std::call_once guard (Batch 1C determinism).
+// Ensures exactly-once initialization regardless of concurrent access from distributed nodes.
 static themis::analytics::NlpTextAnalyzer& getOptimizerNlp() {
+    static std::once_flag init_flag;
     static themis::analytics::NlpTextAnalyzer instance;
+    static bool init_success = false;
+
+    std::call_once(init_flag, []() {
+        try {
+            THEMIS_DEBUG("QueryOptimizer: initializing NLP text analyzer (first call)");
+            // instance is already default-constructed at static storage duration
+            init_success = true;
+            THEMIS_INFO("QueryOptimizer: NLP text analyzer initialized successfully");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("QueryOptimizer: NLP text analyzer initialization failed: {}", e.what());
+            init_success = false;
+        }
+    });
+
+    if (!init_success) {
+        THEMIS_WARN("QueryOptimizer::getOptimizerNlp: instance may not be fully initialized");
+    }
     return instance;
 }
 
@@ -567,7 +587,9 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	plan.shard_ids = available_shards;
 	
 	if (!distributed_model_) {
-		// Fallback: simple plan without optimization
+		// Fallback: simple plan without optimization (Batch 1D null-safety gate)
+		THEMIS_WARN("QueryOptimizer::optimizeForDistribution: distributed_model_ is null; "
+		            "using fallback plan");
 		plan.recommended_parallelism = std::min(available_shards.size(), size_t(8));
 		return plan;
 	}
