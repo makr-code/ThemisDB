@@ -12,13 +12,65 @@
 
 ## Source Files
 
+- `UTILS_MODULE_IMPLEMENTATION_DELIVERY_INDEX.md` (2026-08-18, 12,608 B)
 - `UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md` (2026-08-18, 17,536 B)
 - `UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md` (2026-08-18, 22,058 B)
-- `UTILS_MODULE_IMPLEMENTATION_DELIVERY_INDEX.md` (2026-08-18, 12,608 B)
 
 ---
 
 ## Compacted Content
+
+### UTILS_MODULE_IMPLEMENTATION_DELIVERY_INDEX.md
+
+*(file too large — key headings extracted)*
+
+# Utils Module Implementation Plan - Complete Delivery Index
+## Q3 2026 - Q1 2027 Comprehensive Orchestration
+**Document Date:** 2026-08-08
+**Plan Status:** ✅ **PHASE A WAVE 1 COMPLETE**
+**Overall Completion:** 100% of Phase A objectives delivered
+---
+## 📋 Quick Navigation
+### Executive Summaries (Start Here)
+- **UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md** (17.3 KB)
+- High-level overview for stakeholders
+- Complete delivery status, key achievements
+- Critical path, resource allocation
+- Immediate action items
+### Detailed Status Tracking
+- **UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md** (21.7 KB)
+- Phase-by-phase breakdown
+- Agent orchestration summary
+- Detailed deliverables inventory
+- Acceptance gates and risk register
+### Critical Blocker Documentation
+- **PHASE_A2_CRIT001_RESOLUTION_GUIDE.md** (10.5 KB)
+- **CRITICAL:** Error code collision [7300-7305]
+- Complete step-by-step fix guide
+- Deadline: 2026-08-09
+- Action required: Developer assignment TODAY
+---
+## 📁 PHASE A Deliverables (Complete)
+### A.1: Privacy/Audit Helper Hardening (COMPLETE ✅)
+**Implementation Files:**
+- `include/utils/regex_detection_engine.h` - Hardening method declarations
+- `src/utils/regex_detection_engine.cpp` - UTF-8 validation, ReDoS detection, bounds checking
+- `tests/utils/test_utils_privacy_audit_hardening.cpp` - 8 comprehensive hardening tests
+**Documentation:**
+- `PHASE_A1_IMPLEMENTATION_SUMMARY.md` - Implementation details (475 lines)
+- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` - Implementation roadmap (328 lines)
+- `PHASE_A1_VERIFICATION_CHECKLIST.md` - Acceptance criteria (600 lines)
+**Quality Metrics:**
+- Production code: 225 lines
+- Test code: 441 lines
+- Test ratio: 1.96 (excellent)
+- Performance overhead: <2%
+- Backward compatibility: 100%
+---
+### A.2: Diagnostics Consistency Improvements (COMPLETE ✅)
+**Review Documents:**
+
+---
 
 ### UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md
 
@@ -117,57 +169,5 @@
 - PH-06: Concurrent write safety (multiple threads)
 - PH-07: Timeout/cancellation (graceful shutdown)
 - PH-08: ReDoS prevention (catastrophic backtracking)
-
----
-
-### UTILS_MODULE_IMPLEMENTATION_DELIVERY_INDEX.md
-
-*(file too large — key headings extracted)*
-
-# Utils Module Implementation Plan - Complete Delivery Index
-## Q3 2026 - Q1 2027 Comprehensive Orchestration
-**Document Date:** 2026-08-08
-**Plan Status:** ✅ **PHASE A WAVE 1 COMPLETE**
-**Overall Completion:** 100% of Phase A objectives delivered
----
-## 📋 Quick Navigation
-### Executive Summaries (Start Here)
-- **UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md** (17.3 KB)
-- High-level overview for stakeholders
-- Complete delivery status, key achievements
-- Critical path, resource allocation
-- Immediate action items
-### Detailed Status Tracking
-- **UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md** (21.7 KB)
-- Phase-by-phase breakdown
-- Agent orchestration summary
-- Detailed deliverables inventory
-- Acceptance gates and risk register
-### Critical Blocker Documentation
-- **PHASE_A2_CRIT001_RESOLUTION_GUIDE.md** (10.5 KB)
-- **CRITICAL:** Error code collision [7300-7305]
-- Complete step-by-step fix guide
-- Deadline: 2026-08-09
-- Action required: Developer assignment TODAY
----
-## 📁 PHASE A Deliverables (Complete)
-### A.1: Privacy/Audit Helper Hardening (COMPLETE ✅)
-**Implementation Files:**
-- `include/utils/regex_detection_engine.h` - Hardening method declarations
-- `src/utils/regex_detection_engine.cpp` - UTF-8 validation, ReDoS detection, bounds checking
-- `tests/utils/test_utils_privacy_audit_hardening.cpp` - 8 comprehensive hardening tests
-**Documentation:**
-- `PHASE_A1_IMPLEMENTATION_SUMMARY.md` - Implementation details (475 lines)
-- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` - Implementation roadmap (328 lines)
-- `PHASE_A1_VERIFICATION_CHECKLIST.md` - Acceptance criteria (600 lines)
-**Quality Metrics:**
-- Production code: 225 lines
-- Test code: 441 lines
-- Test ratio: 1.96 (excellent)
-- Performance overhead: <2%
-- Backward compatibility: 100%
----
-### A.2: Diagnostics Consistency Improvements (COMPLETE ✅)
-**Review Documents:**
 
 ---

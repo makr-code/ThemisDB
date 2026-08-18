@@ -20,56 +20,56 @@
 - `VOICE_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 10,026 B)
 - `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
 - `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-18, 17,036 B)
-- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
+- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
 - `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
-- `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
+- `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
 - `REPLICATION_WAL_IMPLEMENTATION_2026_08_18.md` (2026-08-18, 8,453 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
 - `RAG_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,916 B)
+- `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
 - `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
-- `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
 - `POLICY_CONFLICT_DETECTION_IMPLEMENTATION_REPORT.md` (2026-08-18, 13,596 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
 - `PHASE_B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,117 B)
-- `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-18, 13,507 B)
+- `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
+- `PHASE_5_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,485 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
+- `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-18, 13,507 B)
 - `PHASE_5_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 11,681 B)
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-18, 19,108 B)
-- `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
-- `PHASE_5_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,485 B)
+- `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-18, 5,374 B)
 - `PHASE_2_IMPLEMENTATION_GUIDE.md` (2026-08-18, 8,733 B)
 - `PHASE_2_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,152 B)
-- `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-18, 6,986 B)
-- `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-18, 5,374 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN.md` (2026-08-18, 6,986 B)
+- `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-18, 6,986 B)
+- `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
-- `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
-- `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 5,981 B)
-- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
-- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
 - `IMPLEMENTATION_PLAN_8_ITEMS_2026-05-25.md` (2026-08-18, 1,274 B)
 - `IMPLEMENTATION_ROADMAP.md` (2026-08-18, 14,252 B)
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 9,018 B)
+- `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 5,981 B)
+- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
+- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
 - `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
@@ -78,8 +78,8 @@
 - `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
 - `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
 - `AUDIT_INTEGRITY_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 10,390 B)
-- `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 10,935 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-18, 17,764 B)
+- `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 10,935 B)
 
 ---
 
@@ -1611,226 +1611,6 @@ Per CLAUDE.md and modern C++ best practices:
 
 ---
 
-### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
-
-# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
-
-## Status Overview (2026-08-07)
-
-| Phase | Name | Status | Progress | Target | Completion |
-|-------|------|--------|----------|--------|------------|
-| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
-| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
-| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
-| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
-
-## Implementation Batches
-
-### Batch 1: Phase 2-Core Hardening (CURRENT)
-**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
-
-**Objectives:**
-- [~] Builder fail-fast logic for null/invalid dependencies
-- [~] Null-checks and error messages in content_toolbox_bridge
-- [~] Registry initialization/reset semantics validation
-- [~] IT-13..IT-20 edge-case tests
-- [~] Build validation on linux-release
-
-**Key Files:**
-- src/toolbox/toolbox_builder.cpp - Builder validation
-- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
-- src/toolbox/toolbox_registry.cpp - Registry semantics
-- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
-- src/toolbox/ROADMAP.md - Update Phase 2 progress
-
-**Expected Deliverables:**
-- ✅ All Phase 2 items at 80%→95% completion
-- ✅ Mixed-content scenarios validated
-- ✅ IT-13..IT-20 tests pass
-- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
-- ✅ Build succeeds
-
----
-
-### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
-
-**Objectives:**
-- Unify incident taxonomy across 4 execution planes
-- Add Prometheus metrics for all error classes
-- Implement deterministic stress fixtures
-- Extend test coverage (IT-13..IT-20)
-
-**Key Files:**
-- src/toolbox/SECURITY.md - Incident taxonomy
-- src/toolbox/ingestion_toolbox.cpp - Metrics
-- src/toolbox/content_toolbox_bridge.cpp - Metrics
-- src/toolbox/toolbox_registry.cpp - Error tracking
-- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
-
-**Expected Deliverables:**
-- ✅ Incident taxonomy documented
-- ✅ New metrics in getMetricsText()
-- ✅ Stress fixtures demonstrate deterministic behavior
-- ✅ Phase 3 progress 75%→90%
-
----
-
-### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
-
-**Objectives:**
-- Validate proxy-benchmark behavior
-- Establish p95/p99 envelopes
-- Expand native toolbox benchmark suite
-- Certify GATE-TBX-P1..P6
-
-**Key Files:**
-- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
-- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
-- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
-- src/toolbox/ROADMAP.md - Phase 5 progress
-
-**Expected Deliverables:**
-- ✅ GATE-TBX-P1..P6 baseline measurements
-- ✅ p95/p99 envelopes documented
-- ✅ No regression > 10% vs baseline
-- ✅ Phase 5 progress 50%→85%
-
----
-
-### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
-
-**Objectives:**
-- Operationalize PRODUCTION_REQUIREMENTS.md
-- Update cross-links in all docs
-- 100% Production-Readiness Checklist
-- Prepare release notes
-
-**Key Files:**
-- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
-- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
-- docs/toolbox/ - Public docs
-- CHANGELOG.md - Q4 2026 entries
-- src/toolbox/ROADMAP.md - Final status
-
-**Expected Deliverables:**
-- ✅ All docs consistent and current
-- ✅ Production-Readiness 100%
-- ✅ Release notes ready
-- ✅ Phase 6 progress 100%
-
----
-
-## Verification Procedures
-
-### Batch 1 (Phase 2) Validation
-```bash
-cmake --preset linux-release
-cmake --build --preset linux-release
-ctest --preset linux-release -L toolbox -V
-# Verify new metrics in toolbox.getMetricsText()
-# Verify IT-13..IT-20 tests all pass
-```
-
-### Batch 2 (Phase 3) Validation
-```bash
-cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
-./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
-# Verify stress scenarios complete without deadlock
-# Verify Prometheus metrics for all error classes
-```
-
-### Batch 3 (Phase 5) Validation
-```bash
-cmake --build --preset linux-release --target bench_toolbox_native_workloads
-./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
-# Verify all gates meet thresholds
-# Verify p95/p99 percentiles consistent across runs
-```
-
-### Batch 4 (Phase 6) Validation
-```bash
-# Validate doc links
-grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
-# Verify Production-Readiness Checklist
-grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
-# Verify CHANGELOG entries
-grep -c "Q4 2026" CHANGELOG.md
-```
-
----
-
-## Timeline & Milestones
-
-| Batch | Weeks | Deliverables | Status |
-|-------|-------|--------------|--------|
-| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
-| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
-| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
-| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
-
----
-
-## Quality Gates
-
-### Code Quality
-- [ ] No new CodeQL alerts (Phase 2-6)
-- [ ] All focused test targets pass
-- [ ] Build succeeds on linux-release preset
-- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
-
-### Functional
-- [ ] Mixed-content scenarios validated
-- [ ] Soft-fail + fail-fast behaviors tested
-- [ ] All error paths exercised
-- [ ] Metrics emitted correctly
-- [ ] Stress tests complete without deadlock
-
-### Performance
-- [ ] GATE-TBX-P1..P6 meet thresholds
-- [ ] p95/p99 envelopes established
-- [ ] No regression > 10% vs baseline
-
-### Documentation
-- [ ] Cross-links consistent
-- [ ] Production requirements documented
-- [ ] Release notes prepared
-- [ ] Roadmap 100% synchronized
-
----
-
-## Key Risks & Mitigations
-
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
-| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
-| Proxy-benchmark regression | Low | High | Native suite early validation |
-| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
-
----
-
-## Success Criteria (All Batches)
-
-✅ Phase 1: Design/API contracts frozen (Complete)
-✅ Phase 2: Core hardening 80%→95%, mixed-content validated
-✅ Phase 3: Incident taxonomy unified, metrics complete
-✅ Phase 4: 96+ focused tests passing (Complete)
-✅ Phase 5: GATE-TBX-P1..P6 gates certified
-✅ Phase 6: Production-Readiness 100%, docs synced
-
----
-
-**Last Updated:** 2026-08-07 18:33 UTC
-**Next Review:** Upon Batch 1 completion (agent notification)
-
----
-
 ### TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -2145,6 +1925,226 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 **Prepared by:** Copilot  
 **Prepared on:** 2026-08-02  
 **Next Review:** 2026-08-09 (scanner execution results)
+
+---
+
+### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
+
+# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
+
+## Status Overview (2026-08-07)
+
+| Phase | Name | Status | Progress | Target | Completion |
+|-------|------|--------|----------|--------|------------|
+| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
+| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
+| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
+| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
+
+## Implementation Batches
+
+### Batch 1: Phase 2-Core Hardening (CURRENT)
+**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
+
+**Objectives:**
+- [~] Builder fail-fast logic for null/invalid dependencies
+- [~] Null-checks and error messages in content_toolbox_bridge
+- [~] Registry initialization/reset semantics validation
+- [~] IT-13..IT-20 edge-case tests
+- [~] Build validation on linux-release
+
+**Key Files:**
+- src/toolbox/toolbox_builder.cpp - Builder validation
+- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
+- src/toolbox/toolbox_registry.cpp - Registry semantics
+- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
+- src/toolbox/ROADMAP.md - Update Phase 2 progress
+
+**Expected Deliverables:**
+- ✅ All Phase 2 items at 80%→95% completion
+- ✅ Mixed-content scenarios validated
+- ✅ IT-13..IT-20 tests pass
+- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
+- ✅ Build succeeds
+
+---
+
+### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
+
+**Objectives:**
+- Unify incident taxonomy across 4 execution planes
+- Add Prometheus metrics for all error classes
+- Implement deterministic stress fixtures
+- Extend test coverage (IT-13..IT-20)
+
+**Key Files:**
+- src/toolbox/SECURITY.md - Incident taxonomy
+- src/toolbox/ingestion_toolbox.cpp - Metrics
+- src/toolbox/content_toolbox_bridge.cpp - Metrics
+- src/toolbox/toolbox_registry.cpp - Error tracking
+- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
+
+**Expected Deliverables:**
+- ✅ Incident taxonomy documented
+- ✅ New metrics in getMetricsText()
+- ✅ Stress fixtures demonstrate deterministic behavior
+- ✅ Phase 3 progress 75%→90%
+
+---
+
+### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
+
+**Objectives:**
+- Validate proxy-benchmark behavior
+- Establish p95/p99 envelopes
+- Expand native toolbox benchmark suite
+- Certify GATE-TBX-P1..P6
+
+**Key Files:**
+- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
+- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
+- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
+- src/toolbox/ROADMAP.md - Phase 5 progress
+
+**Expected Deliverables:**
+- ✅ GATE-TBX-P1..P6 baseline measurements
+- ✅ p95/p99 envelopes documented
+- ✅ No regression > 10% vs baseline
+- ✅ Phase 5 progress 50%→85%
+
+---
+
+### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
+
+**Objectives:**
+- Operationalize PRODUCTION_REQUIREMENTS.md
+- Update cross-links in all docs
+- 100% Production-Readiness Checklist
+- Prepare release notes
+
+**Key Files:**
+- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
+- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
+- docs/toolbox/ - Public docs
+- CHANGELOG.md - Q4 2026 entries
+- src/toolbox/ROADMAP.md - Final status
+
+**Expected Deliverables:**
+- ✅ All docs consistent and current
+- ✅ Production-Readiness 100%
+- ✅ Release notes ready
+- ✅ Phase 6 progress 100%
+
+---
+
+## Verification Procedures
+
+### Batch 1 (Phase 2) Validation
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release -L toolbox -V
+# Verify new metrics in toolbox.getMetricsText()
+# Verify IT-13..IT-20 tests all pass
+```
+
+### Batch 2 (Phase 3) Validation
+```bash
+cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
+./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
+# Verify stress scenarios complete without deadlock
+# Verify Prometheus metrics for all error classes
+```
+
+### Batch 3 (Phase 5) Validation
+```bash
+cmake --build --preset linux-release --target bench_toolbox_native_workloads
+./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
+# Verify all gates meet thresholds
+# Verify p95/p99 percentiles consistent across runs
+```
+
+### Batch 4 (Phase 6) Validation
+```bash
+# Validate doc links
+grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
+# Verify Production-Readiness Checklist
+grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
+# Verify CHANGELOG entries
+grep -c "Q4 2026" CHANGELOG.md
+```
+
+---
+
+## Timeline & Milestones
+
+| Batch | Weeks | Deliverables | Status |
+|-------|-------|--------------|--------|
+| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
+| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
+| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
+| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
+
+---
+
+## Quality Gates
+
+### Code Quality
+- [ ] No new CodeQL alerts (Phase 2-6)
+- [ ] All focused test targets pass
+- [ ] Build succeeds on linux-release preset
+- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
+
+### Functional
+- [ ] Mixed-content scenarios validated
+- [ ] Soft-fail + fail-fast behaviors tested
+- [ ] All error paths exercised
+- [ ] Metrics emitted correctly
+- [ ] Stress tests complete without deadlock
+
+### Performance
+- [ ] GATE-TBX-P1..P6 meet thresholds
+- [ ] p95/p99 envelopes established
+- [ ] No regression > 10% vs baseline
+
+### Documentation
+- [ ] Cross-links consistent
+- [ ] Production requirements documented
+- [ ] Release notes prepared
+- [ ] Roadmap 100% synchronized
+
+---
+
+## Key Risks & Mitigations
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|-----------|
+| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
+| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
+| Proxy-benchmark regression | Low | High | Native suite early validation |
+| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
+
+---
+
+## Success Criteria (All Batches)
+
+✅ Phase 1: Design/API contracts frozen (Complete)
+✅ Phase 2: Core hardening 80%→95%, mixed-content validated
+✅ Phase 3: Incident taxonomy unified, metrics complete
+✅ Phase 4: 96+ focused tests passing (Complete)
+✅ Phase 5: GATE-TBX-P1..P6 gates certified
+✅ Phase 6: Production-Readiness 100%, docs synced
+
+---
+
+**Last Updated:** 2026-08-07 18:33 UTC
+**Next Review:** Upon Batch 1 completion (agent notification)
 
 ---
 
@@ -2579,6 +2579,57 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 
+### SPRINT_8_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
+**Date:** 2026-06-30
+**Sprint:** 8 - Move Semantics Remediation
+**Phase:** 1A - LLM + Query Modules
+**Status:** ✅ IN PROGRESS
+---
+## EXECUTIVE SUMMARY
+- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
+- **CWE-415:** Double Free (move assignment doesn't clean up)
+- **CWE-672:** Use After Free (moved-from objects accessed)
+### Key Metrics
+| Metric | Value |
+|--------|-------|
+| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
+| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
+| **Files Fixed (Phase 1A)** | 4 files |
+| **Test Files Created** | 2 comprehensive test suites |
+| **Estimated Time Savings** | 200+ hours of manual security review |
+---
+## IMPLEMENTATION DETAILS
+### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
+**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
+**Fix Applied:**
+- ✅ Added move constructor with `noexcept`
+- ✅ Added move assignment operator with self-assignment check
+- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
+- ✅ Added Doxygen comments with CWE mappings
+**Key Implementation:**
+// Header: Added after destructor
+MultiLoRAManager(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager(const MultiLoRAManager&) = delete;
+MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
+// Implementation: Proper ownership transfer with valid moved-from state
+MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
+: config_(std::move(other.config_)),
+loras_(std::move(other.loras_)),
+// ... all members moved
+eviction_thread_(std::move(other.eviction_thread_))
+// ...
+{
+// Reset source to valid empty state
+other.total_vram_bytes_ = 0;
+other.eviction_thread_running_.store(false);
+
+---
+
 ### SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md
 
 # Sprint 8 Phase 1B: Move Semantics Remediation — Implementation Summary
@@ -2919,57 +2970,6 @@ ctest -R "StorageEngine" -V
 ---
 
 **End of Sprint 8 Phase 1B Move Semantics Implementation Summary**
-
----
-
-### SPRINT_8_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
-**Date:** 2026-06-30
-**Sprint:** 8 - Move Semantics Remediation
-**Phase:** 1A - LLM + Query Modules
-**Status:** ✅ IN PROGRESS
----
-## EXECUTIVE SUMMARY
-- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
-- **CWE-415:** Double Free (move assignment doesn't clean up)
-- **CWE-672:** Use After Free (moved-from objects accessed)
-### Key Metrics
-| Metric | Value |
-|--------|-------|
-| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
-| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
-| **Files Fixed (Phase 1A)** | 4 files |
-| **Test Files Created** | 2 comprehensive test suites |
-| **Estimated Time Savings** | 200+ hours of manual security review |
----
-## IMPLEMENTATION DETAILS
-### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
-**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
-**Fix Applied:**
-- ✅ Added move constructor with `noexcept`
-- ✅ Added move assignment operator with self-assignment check
-- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
-- ✅ Added Doxygen comments with CWE mappings
-**Key Implementation:**
-// Header: Added after destructor
-MultiLoRAManager(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager(const MultiLoRAManager&) = delete;
-MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
-// Implementation: Proper ownership transfer with valid moved-from state
-MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
-: config_(std::move(other.config_)),
-loras_(std::move(other.loras_)),
-// ... all members moved
-eviction_thread_(std::move(other.eviction_thread_))
-// ...
-{
-// Reset source to valid empty state
-other.total_vram_bytes_ = 0;
-other.eviction_thread_running_.store(false);
 
 ---
 
@@ -3575,6 +3575,55 @@ This comprehensive RAII hardening of the LLM module significantly improves resou
 
 ---
 
+### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# PR Version Targeting Implementation Summary
+> **Status:** Complete (2026-08-18)
+> **Author:** Copilot Task Agent
+> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
+---
+## Overview
+This implementation enables **every PR to have a target version** that:
+1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
+2. ✅ Maps to GitHub milestones for release scope tracking
+3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
+4. ✅ Supports automated validation and release manager workflows
+---
+## What Was Implemented
+### Block 1: Governance & Documentation (Complete ✓)
+**Files Created:**
+1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
+- Comprehensive policy for version-targeted PRs
+- Valid version formats (SemVer, pre-releases, backlog)
+- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
+- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
+- Release manager workflow and pre-release checklist
+- FAQ and troubleshooting
+2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
+- Step-by-step milestone creation guide
+- Recommended milestone structure (stable, pre-release, backlog)
+- Milestone description templates with examples
+- Pre-release checklist for release managers
+- Quarterly backlog triage process
+**Files Modified:**
+1. **`.github/pull_request_template.md`**
+- Added mandatory "Target Version" field at top of template
+- Included selection criteria and link to governance policy
+- Provides dropdown of valid version formats
+2. **`RELEASE_STRATEGY.md`** (§2.1.1)
+- Documented PR version targeting integration with milestone model
+- Explained traceability, changelog automation, and scope validation
+3. **`VERSIONING.md`** (§2.1)
+- Added PR version targeting guidance
+- Selection criteria table for different PR types
+- Reference to full policy documentation
+---
+### Block 2: Automation & Validation (Complete ✓)
+
+---
+
 ### Q3_2026_EPIC_IMPLEMENTATION_INDEX.md
 
 # Q3 2026 Epic Implementation Index
@@ -3987,55 +4036,6 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# PR Version Targeting Implementation Summary
-> **Status:** Complete (2026-08-18)
-> **Author:** Copilot Task Agent
-> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
----
-## Overview
-This implementation enables **every PR to have a target version** that:
-1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
-2. ✅ Maps to GitHub milestones for release scope tracking
-3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
-4. ✅ Supports automated validation and release manager workflows
----
-## What Was Implemented
-### Block 1: Governance & Documentation (Complete ✓)
-**Files Created:**
-1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
-- Comprehensive policy for version-targeted PRs
-- Valid version formats (SemVer, pre-releases, backlog)
-- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
-- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
-- Release manager workflow and pre-release checklist
-- FAQ and troubleshooting
-2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
-- Step-by-step milestone creation guide
-- Recommended milestone structure (stable, pre-release, backlog)
-- Milestone description templates with examples
-- Pre-release checklist for release managers
-- Quarterly backlog triage process
-**Files Modified:**
-1. **`.github/pull_request_template.md`**
-- Added mandatory "Target Version" field at top of template
-- Included selection criteria and link to governance policy
-- Provides dropdown of valid version formats
-2. **`RELEASE_STRATEGY.md`** (§2.1.1)
-- Documented PR version targeting integration with milestone model
-- Explained traceability, changelog automation, and scope validation
-3. **`VERSIONING.md`** (§2.1)
-- Added PR version targeting guidance
-- Selection criteria table for different PR types
-- Reference to full policy documentation
----
-### Block 2: Automation & Validation (Complete ✓)
-
----
-
 ### POLICY_CONFLICT_DETECTION_IMPLEMENTATION_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -4252,54 +4252,104 @@ ConflictType conflict_type;
 
 ---
 
-### PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md
+### PHASE_5_IMPLEMENTATION_PLAN_5782.md
 
 *(file too large — key headings extracted)*
 
-# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
-**Date**: 2026-08-08
-**Status**: Implementation Complete for Regex Detection Engine
-**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+# Phase 5: Operational Production Readiness — Implementation Plan
+**Status:** Planning & Coordination
+**Target Completion:** 2026-10-31
+**Last Updated:** 2026-07-28
 ---
-## Change Summary
-### Overview
-Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
-1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
-2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
-3. **Explicit Error Handling**: Clear error states instead of silent failures
+## Executive Summary
+Phase 5 delivers operational excellence for ThemisDB's General Availability (GA) release. This phase focuses on:
+1. **Observability & Auditability** — Structured logging, metrics, tracing, dashboards, audit logs
+2. **Error Classification & SLO Signals** — Error taxonomy, SLO mapping, real-time SLO tracking
+3. **Backup & Recovery Proof** — Automated backups, PITR validation, RTO/RPO measurement
+4. **99.99% SLA Validation** — 168+ hour endurance test with fault injection
+5. **Operational Runbooks** — Disaster recovery, failure response, upgrade procedures
 ---
-## Files Modified
-### 1. Test Infrastructure
-#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
-- **Lines**: 328 total
-- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
-- **Tests Implemented**:
-- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
-- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
-- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
-- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
-- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
-- `PH-06`: Saga logger concurrent write safety (10+ threads)
-- `PH-07`: Audit logger timeout and cancellation (graceful stop)
-- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
-**Key Features**:
-class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
-// Each test includes:
-// 1. Clear scenario description
-// 2. Documented input/expected output
-// 3. Multiple edge cases per scenario
-// 4. No silent failures (explicit assertions)
-// 5. Helper methods for test data generation
-};
-#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
-- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
-- **Scope**: `PrivacyAuditHardeningFocusedTests`
-- **Timeout**: 60 seconds
-- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+## Implementation Timeline
+### Week 1–2 (Aug 5–18): Observability Instrumentation
+- Structured logging infrastructure (JSON format, context propagation)
+- Metrics collection framework (latency, throughput, errors, resources)
+- Distributed tracing integration (OpenTelemetry)
+- Tests: OBS-01 through OBS-10
+### Week 3 (Aug 19–25): Error Classification & SLO
+- Error taxonomy definition and documentation
+- Error-to-SLO mapping implementation
+- SLO tracking system (availability, latency, error budget)
+- Tests: SLO-01 through SLO-10
+### Week 4–5 (Aug 26–Sep 8): Backup & Recovery
+- Automated backup scheduling and log archival
+- Backup integrity verification (checksums, restore cycles)
+- PITR (Point-in-Time Recovery) implementation and validation
+- RTO/RPO measurement under load
+- Tests: BR-01 through BR-10
+### Week 6–7 (Sep 9–22): SLA 99.99% Validation
+- 168+ hour sustained load + fault-injection test campaign
+- Graceful degradation validation
+- Maintenance window procedures
+- SLA evidence archive and compliance certificate
+- Tests: SLA-01 through SLA-10
+### Week 8 (Sep 23–29): Operational Runbooks & Sign-Off
+- Disaster recovery procedures documentation
+- Node/shard failure response procedures
+- Upgrade/rollback procedures
+- Tuning and troubleshooting guides
+- Update `docs/operations/RUNBOOK_PRODUCTION.md`
+- Final governance sign-off and release approval
 ---
-### 2. Regex Detection Engine Hardening
-#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
-- **Added Methods** (all [[nodiscard]] per best practices):
+## Detailed Requirements
+
+---
+
+### PHASE_5_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# TRANSACTION MODULE PHASE 5 - IMPLEMENTATION SUMMARY
+**Date:** 2026-08-08
+**Status:** Documentation and Release Readiness Framework Complete
+---
+## Overview
+---
+## Completed Deliverables
+### 1. Phase 4 Acceptance Checklist (`PHASE_4_ACCEPTANCE_CHECKLIST.md`)
+A comprehensive acceptance checklist documenting performance hardening and operational validation:
+**Acceptance Criteria Documented:**
+- **AC-14: Throughput Baseline**
+- Single-thread: 10K+ txns/sec
+- Multi-thread (4x): 50K+ txns/sec
+- Distributed (3-node 2PC): 5K+ txns/sec
+- Isolation level impact analysis (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
+- **AC-15: Latency Tail (Percentile Analysis)**
+- Single transaction: p99 < 50ms, p999 < 200ms
+- Distributed: p99 < 100ms
+- Contention-induced spikes analyzed
+- **AC-16: Audit Overhead Measurement**
+- Baseline without audit vs. with audit
+- Target: < 5% regression
+- **AC-17: Batching Efficiency**
+- Various batch sizes (10, 100, 1000 items)
+- Target: 50%+ throughput improvement
+- **AC-18: Recovery Performance**
+- Crash recovery and WAL replay
+- Target: < 5s recovery for 10K transactions
+**Benchmarks Documented (19 total):**
+- 13 benchmarks in `bench_transaction_phase4.cpp`
+- 6 benchmarks in `bench_transaction_throughput.cpp`
+- Workload profiles: Sequential, Contention, YCSB, Distributed, High-Frequency
+- Performance gates: THP-01 through REC-01 (9 gates)
+**Structure:**
+- Overview and acceptance criteria coverage
+- Benchmark suite summary with file-by-file breakdown
+- Performance gate thresholds with validation points
+- Build & execution verification checklist
+- Expected output formats and validation procedures
+### 2. Phase 5 Acceptance Checklist (`PHASE_5_ACCEPTANCE_CHECKLIST.md`)
+A comprehensive release readiness framework encompassing:
+**Core Sections:**
 
 ---
 
@@ -4683,6 +4733,57 @@ class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
 
 ---
 
+### PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md
+
+*(file too large — key headings extracted)*
+
+# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
+**Date**: 2026-08-08
+**Status**: Implementation Complete for Regex Detection Engine
+**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+---
+## Change Summary
+### Overview
+Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
+1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
+2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
+3. **Explicit Error Handling**: Clear error states instead of silent failures
+---
+## Files Modified
+### 1. Test Infrastructure
+#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
+- **Lines**: 328 total
+- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
+- **Tests Implemented**:
+- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
+- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
+- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
+- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
+- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
+- `PH-06`: Saga logger concurrent write safety (10+ threads)
+- `PH-07`: Audit logger timeout and cancellation (graceful stop)
+- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
+**Key Features**:
+class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
+// Each test includes:
+// 1. Clear scenario description
+// 2. Documented input/expected output
+// 3. Multiple edge cases per scenario
+// 4. No silent failures (explicit assertions)
+// 5. Helper methods for test data generation
+};
+#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
+- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
+- **Scope**: `PrivacyAuditHardeningFocusedTests`
+- **Timeout**: 60 seconds
+- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+---
+### 2. Regex Detection Engine Hardening
+#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
+- **Added Methods** (all [[nodiscard]] per best practices):
+
+---
+
 ### PHASE_5_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -4786,104 +4887,56 @@ Phase 5 delivers operational excellence for ThemisDB's General Availability (GA)
 
 ---
 
-### PHASE_5_IMPLEMENTATION_PLAN_5782.md
+### PHASE_2_4_IMPLEMENTATION_SUMMARY.txt
 
 *(file too large — key headings extracted)*
 
-# Phase 5: Operational Production Readiness — Implementation Plan
-**Status:** Planning & Coordination
-**Target Completion:** 2026-10-31
-**Last Updated:** 2026-07-28
+# Phase 2.4 Implementation Summary
+**Completion Date**: 2026-07-01
+**Status**: ✅ **COMPLETE**
 ---
-## Executive Summary
-Phase 5 delivers operational excellence for ThemisDB's General Availability (GA) release. This phase focuses on:
-1. **Observability & Auditability** — Structured logging, metrics, tracing, dashboards, audit logs
-2. **Error Classification & SLO Signals** — Error taxonomy, SLO mapping, real-time SLO tracking
-3. **Backup & Recovery Proof** — Automated backups, PITR validation, RTO/RPO measurement
-4. **99.99% SLA Validation** — 168+ hour endurance test with fault injection
-5. **Operational Runbooks** — Disaster recovery, failure response, upgrade procedures
+## What Was Accomplished
+### Phase 2.4: Integration & Validation (Week 6 of Phase 2)
+### Key Deliverables
+1. **Phase 2.4 Implementation Plan** (`PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md`)
+- 6-step comprehensive validation roadmap
+- Build validation & unit testing strategy
+- Determinism validation approach (100x runs)
+- Performance benchmarking validation
+- Distributed consistency verification
+- L1 gap re-audit methodology
+- Documentation & security review procedures
+2. **Phase 2.4 Completion Report** (`PHASE_2_4_COMPLETION_REPORT.md`)
+- Executive summary of all Phase 2 work (107 findings addressed)
+- Detailed validation results from code analysis
+- Test coverage analysis (22 files, 326 tests)
+- Exception safety & RAII validation
+- Distributed consistency framework verification
+- Phase 2.3 artifacts validation
+- Determinism patterns identified in code
+- Performance benchmarking strategy
+- L1 gap audit results (zero new findings)
+- Acceptance criteria verification
+- Final sign-off and release readiness
+3. **ROADMAP.md Updates**
+- Added Phase 2.3 completion sign-off section with:
+- OntologyManager hardening (2 CRITICAL gaps fixed)
+- Entity type constraints tests (13 new tests)
+- Quality metrics and verification
+- Added Phase 2.4 completion sign-off section with:
+- Scope and validation results
+- Test coverage inventory (22 files, 326 tests)
+- Distributed consistency validation
+- Exception safety analysis
+- Gap resolution summary (107 findings)
+- Phase 3 readiness status
 ---
-## Implementation Timeline
-### Week 1–2 (Aug 5–18): Observability Instrumentation
-- Structured logging infrastructure (JSON format, context propagation)
-- Metrics collection framework (latency, throughput, errors, resources)
-- Distributed tracing integration (OpenTelemetry)
-- Tests: OBS-01 through OBS-10
-### Week 3 (Aug 19–25): Error Classification & SLO
-- Error taxonomy definition and documentation
-- Error-to-SLO mapping implementation
-- SLO tracking system (availability, latency, error budget)
-- Tests: SLO-01 through SLO-10
-### Week 4–5 (Aug 26–Sep 8): Backup & Recovery
-- Automated backup scheduling and log archival
-- Backup integrity verification (checksums, restore cycles)
-- PITR (Point-in-Time Recovery) implementation and validation
-- RTO/RPO measurement under load
-- Tests: BR-01 through BR-10
-### Week 6–7 (Sep 9–22): SLA 99.99% Validation
-- 168+ hour sustained load + fault-injection test campaign
-- Graceful degradation validation
-- Maintenance window procedures
-- SLA evidence archive and compliance certificate
-- Tests: SLA-01 through SLA-10
-### Week 8 (Sep 23–29): Operational Runbooks & Sign-Off
-- Disaster recovery procedures documentation
-- Node/shard failure response procedures
-- Upgrade/rollback procedures
-- Tuning and troubleshooting guides
-- Update `docs/operations/RUNBOOK_PRODUCTION.md`
-- Final governance sign-off and release approval
----
-## Detailed Requirements
-
----
-
-### PHASE_5_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# TRANSACTION MODULE PHASE 5 - IMPLEMENTATION SUMMARY
-**Date:** 2026-08-08
-**Status:** Documentation and Release Readiness Framework Complete
----
-## Overview
----
-## Completed Deliverables
-### 1. Phase 4 Acceptance Checklist (`PHASE_4_ACCEPTANCE_CHECKLIST.md`)
-A comprehensive acceptance checklist documenting performance hardening and operational validation:
-**Acceptance Criteria Documented:**
-- **AC-14: Throughput Baseline**
-- Single-thread: 10K+ txns/sec
-- Multi-thread (4x): 50K+ txns/sec
-- Distributed (3-node 2PC): 5K+ txns/sec
-- Isolation level impact analysis (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
-- **AC-15: Latency Tail (Percentile Analysis)**
-- Single transaction: p99 < 50ms, p999 < 200ms
-- Distributed: p99 < 100ms
-- Contention-induced spikes analyzed
-- **AC-16: Audit Overhead Measurement**
-- Baseline without audit vs. with audit
-- Target: < 5% regression
-- **AC-17: Batching Efficiency**
-- Various batch sizes (10, 100, 1000 items)
-- Target: 50%+ throughput improvement
-- **AC-18: Recovery Performance**
-- Crash recovery and WAL replay
-- Target: < 5s recovery for 10K transactions
-**Benchmarks Documented (19 total):**
-- 13 benchmarks in `bench_transaction_phase4.cpp`
-- 6 benchmarks in `bench_transaction_throughput.cpp`
-- Workload profiles: Sequential, Contention, YCSB, Distributed, High-Frequency
-- Performance gates: THP-01 through REC-01 (9 gates)
-**Structure:**
-- Overview and acceptance criteria coverage
-- Benchmark suite summary with file-by-file breakdown
-- Performance gate thresholds with validation points
-- Build & execution verification checklist
-- Expected output formats and validation procedures
-### 2. Phase 5 Acceptance Checklist (`PHASE_5_ACCEPTANCE_CHECKLIST.md`)
-A comprehensive release readiness framework encompassing:
-**Core Sections:**
+## Phase 2.4 Validation Results
+### Test Coverage
+- **22 test files** containing **326 individual tests**
+- All test files present and accounted for
+- Tests organized by module: Ontology (25), Distributed (14), Rotate Completion (16), Path Constraints (10), and others
+- Full coverage verified across all graph operations
 
 ---
 
@@ -4981,112 +5034,6 @@ election_term = ++current_term_;  // ✅ INSIDE LOCK
 **Issue**: Generic exception messages lacking diagnostic context
 **Solution**: Distinguish exception types and log full context
 **Code**:
-
----
-
-### PHASE_2_3_IMPLEMENTATION_PLAN_1393.md
-
-*(file too large — key headings extracted)*
-
-# Phase 2-3 Implementation Plan: user_storage_encrypted Module
-**Status:** In Progress (2026-08-08)
-**Priority:** Critical
-**Target Completion:** Phase 2-3 Complete
-## Components Implemented
-### ✅ Component 0: Error Codes & Diagnostics
-- **File:** `include/user_storage_encrypted/error_codes.hpp`
-- **Status:** ✅ COMPLETE
-- **Changes:**
-- Added ErrorCode enum with 32 distinct error codes (1xxx-5xxx categories)
-- DiagnosticEvent struct for structured logging
-- JSON serialization support
-- Global diagnostic event handler with spdlog integration
-**Files Affected:**
-- `include/user_storage_encrypted/error_codes.hpp` (NEW)
-- `src/user_storage_encrypted/diagnostic_events.cpp` (NEW)
-- `src/user_storage_encrypted/CMakeLists.txt` (UPDATED)
----
-### ✅ Component 1: CommandTimeoutManager
-- **File:** `include/user_storage_encrypted/command_timeout_manager.hpp`
-- **Status:** ✅ COMPLETE
-- **Changes:**
-- Timeout tracking using `std::chrono::steady_clock`
-- Graceful process termination (SIGTERM → SIGKILL)
-- Resource cleanup guarantees (via waitpid)
-- No silent hangs
-**Files Affected:**
-- `include/user_storage_encrypted/command_timeout_manager.hpp` (NEW)
----
-## Components To Implement (Phase 2)
-### Component 2.1: GoCryptFS Backend Hardening
-**File:** `src/user_storage_encrypted/gocryptfs_backend.cpp`
-**Tasks:**
-1. **[PENDING]** Integrate CommandTimeoutManager into executeCommandWithStdin()
-- Replace raw waitpid with timeout-aware process management
-- Enforce mount timeout (30s), unmount timeout (30s), key delivery (5s)
-- Gracefully kill processes on timeout
-2. **[PENDING]** FUSE Error Recovery
-- Enhance checkAvailability() for better error classification
-- Add /proc/mounts parsing for stale mount detection
-- Implement `fusermount -u` fallback logic
-- Map system errors to ErrorCode enum
-3. **[PENDING]** Stdin Pipe Buffer Cleanup
-- Verify explicit_bzero() usage in deliverKeyViaStdin()
-- Ensure cleanup on exceptions (RAII wrapper)
-- Add Doxygen security properties documentation
-
----
-
-### PHASE_2_4_IMPLEMENTATION_SUMMARY.txt
-
-*(file too large — key headings extracted)*
-
-# Phase 2.4 Implementation Summary
-**Completion Date**: 2026-07-01
-**Status**: ✅ **COMPLETE**
----
-## What Was Accomplished
-### Phase 2.4: Integration & Validation (Week 6 of Phase 2)
-### Key Deliverables
-1. **Phase 2.4 Implementation Plan** (`PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md`)
-- 6-step comprehensive validation roadmap
-- Build validation & unit testing strategy
-- Determinism validation approach (100x runs)
-- Performance benchmarking validation
-- Distributed consistency verification
-- L1 gap re-audit methodology
-- Documentation & security review procedures
-2. **Phase 2.4 Completion Report** (`PHASE_2_4_COMPLETION_REPORT.md`)
-- Executive summary of all Phase 2 work (107 findings addressed)
-- Detailed validation results from code analysis
-- Test coverage analysis (22 files, 326 tests)
-- Exception safety & RAII validation
-- Distributed consistency framework verification
-- Phase 2.3 artifacts validation
-- Determinism patterns identified in code
-- Performance benchmarking strategy
-- L1 gap audit results (zero new findings)
-- Acceptance criteria verification
-- Final sign-off and release readiness
-3. **ROADMAP.md Updates**
-- Added Phase 2.3 completion sign-off section with:
-- OntologyManager hardening (2 CRITICAL gaps fixed)
-- Entity type constraints tests (13 new tests)
-- Quality metrics and verification
-- Added Phase 2.4 completion sign-off section with:
-- Scope and validation results
-- Test coverage inventory (22 files, 326 tests)
-- Distributed consistency validation
-- Exception safety analysis
-- Gap resolution summary (107 findings)
-- Phase 3 readiness status
----
-## Phase 2.4 Validation Results
-### Test Coverage
-- **22 test files** containing **326 individual tests**
-- All test files present and accounted for
-- Tests organized by module: Ontology (25), Distributed (14), Rotate Completion (16), Path Constraints (10), and others
-- Full coverage verified across all graph operations
 
 ---
 
@@ -5239,6 +5186,114 @@ election_term = ++current_term_;  // ✅ INSIDE LOCK
 
 ---
 
+### PHASE_2_3_IMPLEMENTATION_PLAN_1393.md
+
+*(file too large — key headings extracted)*
+
+# Phase 2-3 Implementation Plan: user_storage_encrypted Module
+**Status:** In Progress (2026-08-08)
+**Priority:** Critical
+**Target Completion:** Phase 2-3 Complete
+## Components Implemented
+### ✅ Component 0: Error Codes & Diagnostics
+- **File:** `include/user_storage_encrypted/error_codes.hpp`
+- **Status:** ✅ COMPLETE
+- **Changes:**
+- Added ErrorCode enum with 32 distinct error codes (1xxx-5xxx categories)
+- DiagnosticEvent struct for structured logging
+- JSON serialization support
+- Global diagnostic event handler with spdlog integration
+**Files Affected:**
+- `include/user_storage_encrypted/error_codes.hpp` (NEW)
+- `src/user_storage_encrypted/diagnostic_events.cpp` (NEW)
+- `src/user_storage_encrypted/CMakeLists.txt` (UPDATED)
+---
+### ✅ Component 1: CommandTimeoutManager
+- **File:** `include/user_storage_encrypted/command_timeout_manager.hpp`
+- **Status:** ✅ COMPLETE
+- **Changes:**
+- Timeout tracking using `std::chrono::steady_clock`
+- Graceful process termination (SIGTERM → SIGKILL)
+- Resource cleanup guarantees (via waitpid)
+- No silent hangs
+**Files Affected:**
+- `include/user_storage_encrypted/command_timeout_manager.hpp` (NEW)
+---
+## Components To Implement (Phase 2)
+### Component 2.1: GoCryptFS Backend Hardening
+**File:** `src/user_storage_encrypted/gocryptfs_backend.cpp`
+**Tasks:**
+1. **[PENDING]** Integrate CommandTimeoutManager into executeCommandWithStdin()
+- Replace raw waitpid with timeout-aware process management
+- Enforce mount timeout (30s), unmount timeout (30s), key delivery (5s)
+- Gracefully kill processes on timeout
+2. **[PENDING]** FUSE Error Recovery
+- Enhance checkAvailability() for better error classification
+- Add /proc/mounts parsing for stale mount detection
+- Implement `fusermount -u` fallback logic
+- Map system errors to ErrorCode enum
+3. **[PENDING]** Stdin Pipe Buffer Cleanup
+- Verify explicit_bzero() usage in deliverKeyViaStdin()
+- Ensure cleanup on exceptions (RAII wrapper)
+- Add Doxygen security properties documentation
+
+---
+
+### PHASE_11_IMPLEMENTATION_LOG.md
+
+*(file too large — key headings extracted)*
+
+# Phase 11: Security Hardening Scanners — Implementation Log
+**Date:** 2026-06-02
+**Version:** 1.0
+**Status:** 🟡 IN PROGRESS
+**Target:** 6 security-focused scanners for data leaks, encryption, key management
+**Timeline:** Q3-Q4 2026 (4-6 weeks, ~2,200 LOC)
+**Expected Impact:** +4,000–7,000 gaps
+---
+## Implementation Status
+| Scanner | Status | LOC | Type | Priority | Expected Gaps |
+|---------|--------|-----|------|----------|---------------|
+| P11-1: Data Leak Detection | ✅ DONE | 380 | Implementation | 🔴 CRITICAL | 600–1,000 |
+| P11-2: Encryption Leak Detection | ✅ DONE | 400 | Stub/Template | 🔴 CRITICAL | 1,200–1,800 |
+| P11-3: E2E Security Encryption | ✅ DONE | 350 | Stub/Template | 🟠 HIGH | 800–1,200 |
+| P11-4: Key Failure Detection | ✅ DONE | 440 | Implementation | 🔴 CRITICAL | 1,500–2,200 |
+| P11-5: Attack Vector Detection | ✅ DONE | 380 | Stub/Template | 🟠 HIGH | 2,000–3,000 |
+| P11-6: Military Hardening | ✅ DONE | 420 | Stub/Template | 🟠 HIGH | 1,800–2,800 |
+| Integration Module | ✅ DONE | 220 | Harness (Updated) | 🟡 MEDIUM | N/A |
+**Total Completed:** 6/6 scanners (2,170 LOC + integration)
+**Status:** All scanners skeleton & integration complete; ready for refinement & testing
+---
+## P11-1: Data Leak Detection — ✅ COMPLETED
+**File:** `tools/gap_scanner_v3_phase11_data_leak.py`
+**Implementation Date:** 2026-06-02
+**Lines of Code:** 380
+### Features Implemented
+**Detection Patterns (12):**
+- [x] Hardcoded SSN (various formats: 123-45-6789)
+- [x] Credit card numbers (4-digit blocks)
+- [x] Phone numbers (US format detection)
+- [x] Email addresses in hardcoded form
+- [x] API keys and tokens
+- [x] Database credentials
+- [x] AWS access keys (AKIA pattern)
+- [x] GitHub personal access tokens
+- [x] Password assignments
+- [x] Sensitive logging (password, token, secret keywords)
+- [x] Unzeroed memory after secret use
+- [x] Plaintext sensitive data
+### Whitelists Implemented
+1. **Test data patterns:** Common test SSNs, credit cards, emails
+2. **Legitimate contexts:** Test files, fixtures
+3. **Configuration exemptions:** Development environment markers
+### Accuracy & FP Reduction
+- Test data whitelist matches common patterns
+- Context-aware detection (logging, assignment)
+- Confidence scoring (0.7–0.99)
+- File context filtering (test files excluded)
+
+---
+
 ### PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md
 
 *(file too large — key headings extracted)*
@@ -5332,61 +5387,6 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 ### Phase 1-4 Enhancement Summary
 - **Total New Scanners:** 5 (S-1, S-2, S-3, M-1/M-2, C-1)
 - **Total New Patterns:** 27 pattern variants
-
----
-
-### PHASE_11_IMPLEMENTATION_LOG.md
-
-*(file too large — key headings extracted)*
-
-# Phase 11: Security Hardening Scanners — Implementation Log
-**Date:** 2026-06-02
-**Version:** 1.0
-**Status:** 🟡 IN PROGRESS
-**Target:** 6 security-focused scanners for data leaks, encryption, key management
-**Timeline:** Q3-Q4 2026 (4-6 weeks, ~2,200 LOC)
-**Expected Impact:** +4,000–7,000 gaps
----
-## Implementation Status
-| Scanner | Status | LOC | Type | Priority | Expected Gaps |
-|---------|--------|-----|------|----------|---------------|
-| P11-1: Data Leak Detection | ✅ DONE | 380 | Implementation | 🔴 CRITICAL | 600–1,000 |
-| P11-2: Encryption Leak Detection | ✅ DONE | 400 | Stub/Template | 🔴 CRITICAL | 1,200–1,800 |
-| P11-3: E2E Security Encryption | ✅ DONE | 350 | Stub/Template | 🟠 HIGH | 800–1,200 |
-| P11-4: Key Failure Detection | ✅ DONE | 440 | Implementation | 🔴 CRITICAL | 1,500–2,200 |
-| P11-5: Attack Vector Detection | ✅ DONE | 380 | Stub/Template | 🟠 HIGH | 2,000–3,000 |
-| P11-6: Military Hardening | ✅ DONE | 420 | Stub/Template | 🟠 HIGH | 1,800–2,800 |
-| Integration Module | ✅ DONE | 220 | Harness (Updated) | 🟡 MEDIUM | N/A |
-**Total Completed:** 6/6 scanners (2,170 LOC + integration)
-**Status:** All scanners skeleton & integration complete; ready for refinement & testing
----
-## P11-1: Data Leak Detection — ✅ COMPLETED
-**File:** `tools/gap_scanner_v3_phase11_data_leak.py`
-**Implementation Date:** 2026-06-02
-**Lines of Code:** 380
-### Features Implemented
-**Detection Patterns (12):**
-- [x] Hardcoded SSN (various formats: 123-45-6789)
-- [x] Credit card numbers (4-digit blocks)
-- [x] Phone numbers (US format detection)
-- [x] Email addresses in hardcoded form
-- [x] API keys and tokens
-- [x] Database credentials
-- [x] AWS access keys (AKIA pattern)
-- [x] GitHub personal access tokens
-- [x] Password assignments
-- [x] Sensitive logging (password, token, secret keywords)
-- [x] Unzeroed memory after secret use
-- [x] Plaintext sensitive data
-### Whitelists Implemented
-1. **Test data patterns:** Common test SSNs, credit cards, emails
-2. **Legitimate contexts:** Test files, fixtures
-3. **Configuration exemptions:** Development environment markers
-### Accuracy & FP Reduction
-- Test data whitelist matches common patterns
-- Context-aware detection (logging, assignment)
-- Confidence scoring (0.7–0.99)
-- File context filtering (test files excluded)
 
 ---
 
@@ -5639,157 +5639,6 @@ The implementation hooks both components into production systems:
 
 ---
 
-### IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Transaction Module Memory & RAII Safety Fixes - Implementation Summary
-**Date:** 2026-08-18
-**Status:** ✅ COMPLETE
-**Quality:** PRODUCTION-READY
----
-## Overview
----
-## Issues Resolved
-### Issue 1: saga_orchestrator_plugin.cpp:210 - new_without_raii
-- **Severity:** CRITICAL
-- **Problem:** Raw `new` without error handling
-- **Solution:** Added try-catch, null validation, error logging
-- **Result:** ✅ FIXED
-### Issue 2: saga_orchestrator_plugin.cpp:214 - delete_no_nullptr
-- **Severity:** CRITICAL
-- **Problem:** Raw `delete` without null check or exception safety
-- **Solution:** Added noexcept, null check, comprehensive exception handling
-- **Result:** ✅ FIXED
-### Issue 3: Module-Wide RAII Compliance
-- **Severity:** HIGH
-- **Finding:** All other transaction module files already using proper smart pointers
-- **Result:** ✅ NO ADDITIONAL ISSUES FOUND
----
-## Files Modified
-### 1. `src/transaction/saga_plugin/saga_orchestrator_plugin.cpp`
-- **Lines:** 275 (was 217)
-- **Changes:**
-- Added spdlog include
-- Enhanced createPlugin() (1 → 29 lines)
-- Enhanced destroyPlugin() (1 → 35 lines)
-- Added comprehensive Doxygen documentation
-- **Status:** ✅ Exception-safe, production-ready
-### 2. `src/transaction/ARCHITECTURE.md`
-- **Lines:** 130 (was 99)
-- **Changes:**
-- Added Section 6.1: Memory Management & RAII Patterns
-- Documented core principles and applied patterns
-- Documented C plugin interface exception rationale
-- **Status:** ✅ Comprehensive guidance provided
----
-## Key Improvements
-### Exception Safety
-✅ createPlugin() throws std::bad_alloc on allocation failure
-
----
-
-### IMPLEMENTATION_SUMMARY_v1_6_0.md
-
-*(file too large — key headings extracted)*
-
-# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
-## 📋 Executive Summary
-**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
-**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
----
-## 🎯 Deliverables
-### 1. Post-Generation AQL Validation with Injection Detection ✅
-**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
-**Features Implemented**:
-- AST-based structural validation via AQLQueryValidator
-- Configurable validation modes:
-- `WARN_ONLY`: Log validation errors as warnings (default)
-- `REJECT_ON_ERROR`: Throw exception on validation errors
-- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
-- Collection scope validation to prevent privilege escalation
-- ACL validation for access control
-- Retry logic with dynamic feedback for failed validations
-- Integration with existing security modules
-**Code Quality**:
-- Clean separation of concerns
-- Proper error handling with specific exception types
-- Well-documented with inline comments
-- Thread-safe implementation
-- Performance optimized with early returns
-**Security Impact**:
-- Prevents malformed AQL execution
-- Detects and rejects injection attempts
-- Enforces collection access boundaries
-- Fails securely with clear error messages
----
-### 2. Thread Leak Elimination in LLMTimeoutManager ✅
-**Location**: `include/aql/llm_timeout_manager.h:87-225`
-**Implementation Details**:
-- Modern C++20 `std::jthread` with automatic RAII cleanup
-- Proper thread ownership transfer on timeout
-- Background cleanup thread ensures no leaked handles
-- Two execution modes:
-- `executeWithTimeout()`: Simple blocking timeout
-- `executeWithCancelToken()`: Cooperative cancellation
-**Key Improvements**:
-- Previous: Thread detach on timeout (potential leak)
-- Current: Background cleanup thread with proper join (no leak)
-- Documented implementation strategy with detailed comments
-
----
-
-### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
-**Implementation Date:** 2026-08-15 15:30 UTC
-**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
-**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
----
-## Executive Summary
-- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
-- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
-- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
-- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
-**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
----
-## What Was Implemented
-### 1. Phase 3A Agent Dispatched
-**Agent ID:** `importers-phase3a-high-batch-a`
-**Name:** importers-phase3a-high-batch-a1
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:30 UTC
-**Status:** 🟡 Running
-**Scope:** 58 HIGH gaps
-- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
-- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
-- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
-**Target Completion:** Sep 19, 2026 (2-3 weeks)
-**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
-**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
-### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
-**Agent ID:** `importers-phase4a-high-batch-a`
-**Name:** importers-phase4a-high-batch-a2
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:31 UTC
-**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
-**Scope:** 55 HIGH gaps
-- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
-- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
-- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
-- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
-- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
-- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
-**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
-**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
-**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
-### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
-**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
-
----
-
 ### IMPLEMENTATION_ACTIONS_COMPLETED.md
 
 *(file too large — key headings extracted)*
@@ -6013,6 +5862,157 @@ Updated `ai_working/00_START_HERE.md`:
 ### Technical Implementation: ✅ COMPLETE
 | Phase | Status | Completion Date | Key Deliverables |
 |-------|--------|-----------------|------------------|
+
+---
+
+### IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Transaction Module Memory & RAII Safety Fixes - Implementation Summary
+**Date:** 2026-08-18
+**Status:** ✅ COMPLETE
+**Quality:** PRODUCTION-READY
+---
+## Overview
+---
+## Issues Resolved
+### Issue 1: saga_orchestrator_plugin.cpp:210 - new_without_raii
+- **Severity:** CRITICAL
+- **Problem:** Raw `new` without error handling
+- **Solution:** Added try-catch, null validation, error logging
+- **Result:** ✅ FIXED
+### Issue 2: saga_orchestrator_plugin.cpp:214 - delete_no_nullptr
+- **Severity:** CRITICAL
+- **Problem:** Raw `delete` without null check or exception safety
+- **Solution:** Added noexcept, null check, comprehensive exception handling
+- **Result:** ✅ FIXED
+### Issue 3: Module-Wide RAII Compliance
+- **Severity:** HIGH
+- **Finding:** All other transaction module files already using proper smart pointers
+- **Result:** ✅ NO ADDITIONAL ISSUES FOUND
+---
+## Files Modified
+### 1. `src/transaction/saga_plugin/saga_orchestrator_plugin.cpp`
+- **Lines:** 275 (was 217)
+- **Changes:**
+- Added spdlog include
+- Enhanced createPlugin() (1 → 29 lines)
+- Enhanced destroyPlugin() (1 → 35 lines)
+- Added comprehensive Doxygen documentation
+- **Status:** ✅ Exception-safe, production-ready
+### 2. `src/transaction/ARCHITECTURE.md`
+- **Lines:** 130 (was 99)
+- **Changes:**
+- Added Section 6.1: Memory Management & RAII Patterns
+- Documented core principles and applied patterns
+- Documented C plugin interface exception rationale
+- **Status:** ✅ Comprehensive guidance provided
+---
+## Key Improvements
+### Exception Safety
+✅ createPlugin() throws std::bad_alloc on allocation failure
+
+---
+
+### IMPLEMENTATION_SUMMARY_v1_6_0.md
+
+*(file too large — key headings extracted)*
+
+# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
+## 📋 Executive Summary
+**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
+**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
+---
+## 🎯 Deliverables
+### 1. Post-Generation AQL Validation with Injection Detection ✅
+**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
+**Features Implemented**:
+- AST-based structural validation via AQLQueryValidator
+- Configurable validation modes:
+- `WARN_ONLY`: Log validation errors as warnings (default)
+- `REJECT_ON_ERROR`: Throw exception on validation errors
+- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
+- Collection scope validation to prevent privilege escalation
+- ACL validation for access control
+- Retry logic with dynamic feedback for failed validations
+- Integration with existing security modules
+**Code Quality**:
+- Clean separation of concerns
+- Proper error handling with specific exception types
+- Well-documented with inline comments
+- Thread-safe implementation
+- Performance optimized with early returns
+**Security Impact**:
+- Prevents malformed AQL execution
+- Detects and rejects injection attempts
+- Enforces collection access boundaries
+- Fails securely with clear error messages
+---
+### 2. Thread Leak Elimination in LLMTimeoutManager ✅
+**Location**: `include/aql/llm_timeout_manager.h:87-225`
+**Implementation Details**:
+- Modern C++20 `std::jthread` with automatic RAII cleanup
+- Proper thread ownership transfer on timeout
+- Background cleanup thread ensures no leaked handles
+- Two execution modes:
+- `executeWithTimeout()`: Simple blocking timeout
+- `executeWithCancelToken()`: Cooperative cancellation
+**Key Improvements**:
+- Previous: Thread detach on timeout (potential leak)
+- Current: Background cleanup thread with proper join (no leak)
+- Documented implementation strategy with detailed comments
+
+---
+
+### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
+**Implementation Date:** 2026-08-15 15:30 UTC
+**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
+**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
+---
+## Executive Summary
+- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
+- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
+- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
+- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
+**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
+---
+## What Was Implemented
+### 1. Phase 3A Agent Dispatched
+**Agent ID:** `importers-phase3a-high-batch-a`
+**Name:** importers-phase3a-high-batch-a1
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:30 UTC
+**Status:** 🟡 Running
+**Scope:** 58 HIGH gaps
+- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
+- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
+- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
+**Target Completion:** Sep 19, 2026 (2-3 weeks)
+**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
+**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
+### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
+**Agent ID:** `importers-phase4a-high-batch-a`
+**Name:** importers-phase4a-high-batch-a2
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:31 UTC
+**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
+**Scope:** 55 HIGH gaps
+- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
+- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
+- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
+- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
+- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
+- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
+**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
+**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
+**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
+### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
+**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
 
 ---
 
@@ -6404,6 +6404,57 @@ echo "2. IMPLEMENTATION DETAILS"
 
 ---
 
+### ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Access Model Phase 5-6 Implementation Plan
+**Document Version:** 1.0.0
+**Status:** Detailed Planning
+**Target:** Wave B Exit Criteria (Q3-Q4 2026)
+**Current Module Status:** Phases 1-4 COMPLETE; Phases 5-6 PLANNED
+---
+## Context
+The Access Model module provides unified coordination between cache and storage tiers via:
+- **AccessCoordinator:** Central broker orchestrating promotions/demotions
+- **EvictionListener / PromotionListener:** Thin event interfaces from cache/storage
+- **AgeBasedPolicy:** Unified aging for tier transitions
+- **AccessMetrics:** Observability collectors
+---
+## Phase 5: Observability & Diagnostics (Planned)
+### 5.1 Structured Logging for Tier Transitions
+**Objective:** Log all coordinator state transitions with structured context
+**Implementation Tasks:**
+1. **Create access_model_logging.h**
+- Define structured log entry types:
+- `TierTransitionLog` (key, from_tier, to_tier, reason, latency_ms)
+- `EvictionEventLog` (key, from_tier, eviction_reason, size_bytes)
+- `PromotionDecisionLog` (key, decision, access_count, age_secs)
+- Use spdlog/fmt integration for structured fields
+2. **Instrument AccessCoordinatorImpl**
+- Log on `start()`, `shutdown()`
+- Log on eviction event receipt: `onCacheEvicted_impl()`
+- Log on promotion event receipt: `onStorageAccess_impl()`
+- Log on promotion/demotion decision: `makePromotionDecision()`, `makeDemotionDecision()`
+- Log worker thread lifecycle: `workerMain()` entry/exit
+3. **Add Context Fields to Logs**
+- Correlation ID (trace context across events)
+- Thread ID (identifies worker threads)
+- Timestamp (millisecond precision)
+- Operation duration (for latency tracking)
+- Status (SUCCESS, REJECTED, FAILED)
+4. **Log Levels**
+- TRACE: detailed event processing (verbose)
+- DEBUG: decisions made, policy application
+- INFO: tier transitions, policy changes
+- WARN: rejected promotions, policy conflicts
+- ERROR: coordinator failures, thread pool errors
+**Acceptance Criteria:**
+- [ ] Structured log schema documented
+- [ ] All coordinator state transitions logged
+
+---
+
 ### ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -6457,56 +6508,5 @@ echo "2. IMPLEMENTATION DETAILS"
 - All tests pass in <5 seconds
 - >85% coverage of AccessCoordinatorImpl
 - ASan/TSan/UBSan clean
-
----
-
-### ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Access Model Phase 5-6 Implementation Plan
-**Document Version:** 1.0.0
-**Status:** Detailed Planning
-**Target:** Wave B Exit Criteria (Q3-Q4 2026)
-**Current Module Status:** Phases 1-4 COMPLETE; Phases 5-6 PLANNED
----
-## Context
-The Access Model module provides unified coordination between cache and storage tiers via:
-- **AccessCoordinator:** Central broker orchestrating promotions/demotions
-- **EvictionListener / PromotionListener:** Thin event interfaces from cache/storage
-- **AgeBasedPolicy:** Unified aging for tier transitions
-- **AccessMetrics:** Observability collectors
----
-## Phase 5: Observability & Diagnostics (Planned)
-### 5.1 Structured Logging for Tier Transitions
-**Objective:** Log all coordinator state transitions with structured context
-**Implementation Tasks:**
-1. **Create access_model_logging.h**
-- Define structured log entry types:
-- `TierTransitionLog` (key, from_tier, to_tier, reason, latency_ms)
-- `EvictionEventLog` (key, from_tier, eviction_reason, size_bytes)
-- `PromotionDecisionLog` (key, decision, access_count, age_secs)
-- Use spdlog/fmt integration for structured fields
-2. **Instrument AccessCoordinatorImpl**
-- Log on `start()`, `shutdown()`
-- Log on eviction event receipt: `onCacheEvicted_impl()`
-- Log on promotion event receipt: `onStorageAccess_impl()`
-- Log on promotion/demotion decision: `makePromotionDecision()`, `makeDemotionDecision()`
-- Log worker thread lifecycle: `workerMain()` entry/exit
-3. **Add Context Fields to Logs**
-- Correlation ID (trace context across events)
-- Thread ID (identifies worker threads)
-- Timestamp (millisecond precision)
-- Operation duration (for latency tracking)
-- Status (SUCCESS, REJECTED, FAILED)
-4. **Log Levels**
-- TRACE: detailed event processing (verbose)
-- DEBUG: decisions made, policy application
-- INFO: tier transitions, policy changes
-- WARN: rejected promotions, policy conflicts
-- ERROR: coordinator failures, thread pool errors
-**Acceptance Criteria:**
-- [ ] Structured log schema documented
-- [ ] All coordinator state transitions logged
 
 ---

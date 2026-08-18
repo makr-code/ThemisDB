@@ -13,16 +13,16 @@
 ## Source Files
 
 - `VOICE_STREAM_HARDENING_2026_08_18.md` (2026-08-18, 20,815 B)
-- `STREAM_B_EXECUTION_COORDINATION.md` (2026-08-18, 15,015 B)
-- `STREAM_B_EXECUTION_DASHBOARD.md` (2026-08-18, 12,870 B)
-- `STREAM_B_LAUNCH_SUMMARY.md` (2026-08-18, 9,483 B)
-- `STREAM_LEADERS_QUICK_REFERENCE_CP1_2026-08-22.md` (2026-08-18, 3,686 B)
-- `SUB_AGENT_ORCHESTRATION_PROTOCOL_STREAM_A.md` (2026-08-18, 12,150 B)
 - `STREAM_A_AUG30_31_MERGE_CHECKLIST.md` (2026-08-18, 8,441 B)
 - `STREAM_A_COMPLETION_REPORT.md` (2026-08-18, 8,900 B)
 - `STREAM_A_INTEGRATION_AUG30_31_SUMMARY.md` (2026-08-18, 10,517 B)
 - `STREAM_A_INTEGRATION_STATUS.md` (2026-08-18, 5,677 B)
 - `STREAM_A_ORCHESTRATION_FINAL_REPORT.md` (2026-08-18, 18,315 B)
+- `STREAM_B_EXECUTION_COORDINATION.md` (2026-08-18, 15,015 B)
+- `STREAM_B_EXECUTION_DASHBOARD.md` (2026-08-18, 12,870 B)
+- `STREAM_B_LAUNCH_SUMMARY.md` (2026-08-18, 9,483 B)
+- `STREAM_LEADERS_QUICK_REFERENCE_CP1_2026-08-22.md` (2026-08-18, 3,686 B)
+- `SUB_AGENT_ORCHESTRATION_PROTOCOL_STREAM_A.md` (2026-08-18, 12,150 B)
 - `PHASE_4_5_GATES_AND_STREAM_B_KICKOFF.md` (2026-08-18, 15,388 B)
 
 ---
@@ -79,866 +79,6 @@
 - ✅ Adversarial input handling framework
 - ✅ Failure mode fall-closed semantics
 - ✅ Observable metrics for false-positive/negative rates
-
----
-
-### STREAM_B_EXECUTION_COORDINATION.md
-
-*(file too large — key headings extracted)*
-
-# Stream B Execution Coordination (Sept 1 - Oct 31, 2026)
-**Status**: 🟢 LAUNCH READY
-**Date**: 2026-08-09
-**Coordination Version**: v1.0
----
-## Overview
-Stream B executes three parallel workstreams (B1, B2) followed by a validation phase (B3):
-- **B1 & B2**: Sept 1-21 (parallel execution)
-- **Integration Testing**: Sept 22 - Oct 14
-- **B3**: Oct 15-29
-- **Final Merge**: Oct 30-31
----
-## Block B1: Deterministic Edge Scenario Handling
-**Agent**: themisdb-implementer
-**Duration**: 2-3 weeks (Sept 1-21)
-**Status**: ✅ **COMPLETE** (Ready for CI Build & Test Validation)
-### Deliverables ✅ DELIVERED
-1. **Edge Scenario Inventory** ✅ COMPLETE (15 critical scenarios)
-- [x] Invalid adapter references (TEDGE-01)
-- [x] Out-of-bounds index accesses (TEDGE-02)
-- [x] Stale fingerprints in graph (TEDGE-03)
-- [x] Self-similarity computation failures (TEDGE-04)
-- [x] Null train in comparison (TEDGE-05)
-- [x] Concurrent modification conflicts (TEDGE-06)
-- [x] Bridge routing failures (TEDGE-07)
-- [x] Adapter communication errors (TEDGE-08)
-- [x] Invalid decomposition parameters (TEDGE-09)
-- [x] Kappa-gate violations (TEDGE-10)
-- [x] Export serialization failures (TEDGE-11)
-- [x] Replay deserialization failures (TEDGE-12)
-- [x] Partial graph loss (TEDGE-13)
-- [x] Out-of-memory during computation (TEDGE-14)
-- [x] Concurrent memory exhaustion (TEDGE-15)
-2. **tensor_edge_case_handler.h/cpp** ✅ COMPLETE (1,037 lines)
-- [x] 15 handler methods (all [[nodiscard]] noexcept)
-- [x] EdgeCaseResult contract (error_code, recovery_action, is_recoverable)
-- [x] 10 mapped error codes (9510-9589 range)
-- [x] Recovery strategies: fail-closed, retry, fallback, degrade
-- [x] RAII resource cleanup (no raw new/delete)
-- [x] Deterministic behavior under all scenarios
-- [x] spdlog diagnostic emission
-- [x] Per-scenario statistics tracking
-3. **test_tensor_bridge_edge_cases_focused.cpp** ✅ COMPLETE (504 lines, 33 tests)
-- [x] TEDGE-01..15: Core scenario tests (15 tests)
-- [x] TEDGE-16..30: Property-based + stress tests (15 tests)
-- [x] Validation tests (3 tests): Statistics, Diagnostics, Error Codes
-- [x] All scenarios + combinations tested
-- [x] Deterministic error codes validated
-- [x] Recovery paths verified
-
----
-
-### STREAM_B_EXECUTION_DASHBOARD.md
-
-*(file too large — key headings extracted)*
-
-# Stream B Execution Dashboard
-**Status**: 🟡 IN PROGRESS
-**Date**: 2026-08-09 (Sept 1 Launch)
-**Duration**: Sept 1 - Oct 31, 2026
----
-## Agent Status
-### Block B1: Deterministic Edge Scenario Handling
-- **Agent ID**: tensor-b1-edges
-- **Agent Type**: themisdb-implementer
-- **Status**: ✅ **COMPLETE** (2026-08-09, 42 minutes elapsed)
-- **Duration**: Sept 1-21 (2-3 weeks)
-- **Progress**: All deliverables ready for CI validation
-### Block B2: Stress Coverage for Concurrent Patterns
-- **Agent ID**: tensor-b2-stress
-- **Agent Type**: general-purpose
-- **Status**: 🟡 ACTIVE (launched 2026-08-09)
-- **Duration**: Sept 1-21 (2-3 weeks, parallel with B1)
-- **Progress**: See block section below
-### Block B3: P95/P99 Baseline Validation
-- **Agent ID**: tensor-b3-validation (not yet launched)
-- **Agent Type**: task runner
-- **Status**: 🔴 PENDING (launches Oct 15)
-- **Duration**: Oct 15-29
-- **Launch Condition**: B1 + B2 complete and integrated
----
-## Weekly Milestones
-### Week 1 (Sept 1-7)
-**B1 Deliverables** (Edge Scenario Handling):
-- [ ] Edge scenario inventory completed (10-15 scenarios identified)
-- [ ] tensor_edge_case_handler.h API designed
-- [ ] Initial test framework skeleton
-**B2 Deliverables** (Stress Coverage):
-- [ ] 8+ workload profile designs documented
-- [ ] Workload mixer framework skeleton
-- [ ] Initial stress test structure
-**Coordination**:
-- [ ] Both agents running and producing output
-- [ ] Weekly status reports in PRs
-### Week 2 (Sept 8-14)
-**B1 Deliverables**:
-- [ ] tensor_edge_case_handler.cpp implementation started
-- [ ] 10+ edge case tests implemented (TEDGE-01..10)
-- [ ] Initial ASan/UBSan validation
-**B2 Deliverables**:
-- [ ] Workload mixer implementation started
-
----
-
-### STREAM_B_LAUNCH_SUMMARY.md
-
-# Stream B Execution Launch Summary
-
-**Date**: 2026-08-09  
-**Status**: ✅ EXECUTION COMMENCED  
-**Launch Time**: Sept 1, 2026
-
----
-
-## Executive Summary
-
-Stream B execution has been formally launched with two specialized agents now active in background execution mode:
-
-1. **Block B1 (Deterministic Edge Scenario Handling)**: themisdb-implementer agent (tensor-b1-edges)
-2. **Block B2 (Stress Coverage for Concurrent Patterns)**: general-purpose agent (tensor-b2-stress)
-
-Both blocks are scheduled to execute in parallel from Sept 1-21, 2026, followed by a 2.5-week integration testing phase (Sept 22 - Oct 14), and then Block B3 validation (Oct 15-29).
-
----
-
-## Launch Checklist ✅
-
-### Prerequisites Verified
-- ✅ Stream A complete (Aug 30-31 merge scheduled)
-- ✅ All 3 blocks (B1, B2, B3) have detailed specifications
-- ✅ Agent assignments confirmed (themisdb-implementer, general-purpose, task-runner)
-- ✅ Gate conditions identified and documented
-- ✅ Risk mitigation strategies in place
-
-### Coordination Documents Created
-- ✅ ai_working/STREAM_B_EXECUTION_COORDINATION.md (full execution plan)
-- ✅ ai_working/STREAM_B_EXECUTION_DASHBOARD.md (progress tracking)
-- ✅ This summary document
-
-### Agents Launched
-- ✅ Block B1: tensor-b1-edges (themisdb-implementer)
-  - Status: 🟡 ACTIVE (background mode)
-  - Agent ID: tensor-b1-edges
-  - Task: Edge scenario handling (10-15 scenarios, handler implementation, 20-30 tests)
-
-- ✅ Block B2: tensor-b2-stress (general-purpose)
-  - Status: 🟡 ACTIVE (background mode)
-  - Agent ID: tensor-b2-stress
-  - Task: Stress coverage (8+ workload profiles, 16+ stress tests, STRESS_COVERAGE.md)
-
-### Timeline Locked
-- ✅ Sept 1-21: B1 + B2 parallel execution
-- ✅ Sept 22 - Oct 14: Integration testing
-- ✅ Oct 15-29: B3 validation
-- ✅ Oct 30-31: Final merge to develop
-
----
-
-## Block B1: Deterministic Edge Scenario Handling
-
-**Agent**: themisdb-implementer (tensor-b1-edges)  
-**Duration**: Sept 1-21 (2-3 weeks)  
-**Status**: 🟡 ACTIVE
-
-### Key Deliverables
-
-1. **Edge Scenario Inventory** (10-15 scenarios)
-   - Invalid adapter references
-   - Out-of-bounds index accesses
-   - Stale fingerprints in graph
-   - Bridge routing failures under load
-   - Graph export/replay edge cases
-   - Memory pressure scenarios
-
-2. **tensor_edge_case_handler.h/cpp**
-   - Fail-safe state transitions
-   - Explicit error codes (no silent degradation)
-   - RAII resource cleanup
-   - Unified diagnostics integration
-
-3. **test_tensor_bridge_edge_cases_focused.cpp** (20-30 tests)
-   - TEDGE-01 through TEDGE-30
-   - All scenarios + combinations covered
-   - Recovery paths validated
-   - Property-based combinatorial tests
-
-### Success Criteria
-
-- ✅ All 10-15 edge scenarios explicitly handled
-- ✅ No undefined behavior (ASan/UBSan passing)
-- ✅ Error codes match documented contract
-- ✅ Recovery paths validated
-- ✅ Zero stubs/mocks in production code
-
-### Integration Points
-
-```cmake
-# tests/tensor/CMakeLists.txt
-module_tensor_test_tensor_bridge_edge_cases_focused
-```
-
----
-
-## Block B2: Stress Coverage for Concurrent Patterns
-
-**Agent**: general-purpose (tensor-b2-stress)  
-**Duration**: Sept 1-21 (2-3 weeks, parallel with B1)  
-**Status**: 🟡 ACTIVE
-
-### Key Deliverables
-
-1. **Workload Mixer Design** (8+ profiles)
-   - Query-heavy (95% query, 5% store/remove)
-   - Mixed workloads (90/10, 75/25, etc.)
-   - Stress & saturation profiles
-   - Chaos injection patterns
-
-2. **test_tensor_stress_suite_focused.cpp** (16+ tests)
-   - TSTRESS-01 through TSTRESS-16+
-   - Throughput validation (>= 2,000 ops/sec)
-   - Memory stability (< 5% growth per 1M ops)
-   - P99 latency tracking
-   - Chaos injection coverage
-
-3. **STRESS_COVERAGE.md**
-   - 8+ workload profiles documented
-   - Expected throughput/latency per profile
-   - Failure injection strategies
-   - Memory budget enforcement
-   - CI integration notes
-
-### Success Criteria
-
-- ✅ >= 2,000 ops/sec throughput validated
-- ✅ Memory growth bounded (< 5% per 1M ops)
-- ✅ P99 latency stable under sustained load
-- ✅ Chaos injection reveals no crashes
-- ✅ 16+ stress tests all passing
-
-### Integration Points
-
-```cmake
-# tests/tensor/CMakeLists.txt
-module_tensor_test_tensor_stress_suite_focused
-# Note: TIMEOUT 300+ for long-running tests
-```
-
----
-
-## Block B3: P95/P99 Baseline Validation
-
-**Agent**: task runner (tensor-b3-validation)  
-**Duration**: Oct 15-29  
-**Status**: 🔴 PENDING (awaiting B1+B2 completion)
-
-### Key Deliverables
-
-1. **Release-Profile Benchmark Runs**
-   - Ubuntu Linux (100+ samples)
-   - Windows (100+ samples)
-   - macOS (100+ samples)
-
-2. **P95_P99_VALIDATION_REPORT.md**
-   - Comparison vs Q3 baseline
-   - Tolerance check: ±5%
-   - Per-hardware results
-   - Regression analysis
-
-### Success Criteria
-
-- ✅ P95/P99 within ±5% of Q3 baseline
-- ✅ Measurements stable across 100+ runs
-- ✅ No regressions detected
-- ✅ Hardware variance documented
-
----
-
-## Execution Roadmap
-
-### Week 1 (Sept 1-7)
-**B1**: Edge scenario inventory + handler API design  
-**B2**: Workload profile design + test framework skeleton  
-**Status**: Initial deliverables due
-
-### Week 2 (Sept 8-14)
-**B1**: Handler implementation + 10+ edge case tests  
-**B2**: Workload mixer + 8+ stress tests, throughput measurement  
-**Status**: Mid-point validation
-
-### Week 3 (Sept 15-21)
-**B1**: All 20-30 edge tests, ASan/UBSan validation, recovery paths verified  
-**B2**: All 16+ stress tests, chaos validation, memory/latency complete  
-**Status**: Block completion
-
-### Integration Phase (Sept 22 - Oct 14)
-**Action**: Merge B1 + B2 to feature/tensor-q4-determinism  
-**Validation**: Full tensor module test suite, regression analysis  
-**Status**: Feature branch stabilization
-
-### B3 Phase (Oct 15-29)
-**B3**: Benchmark runs on 3 platforms, validation report  
-**Status**: Performance validation
-
-### Final Phase (Oct 30-31)
-**Action**: Code review, sign-off, merge to develop  
-**Status**: Release readiness
-
----
-
-## Quality Gates
-
-### Production Readiness
-
-Before merging to develop:
-- ✅ All tests passing (TEDGE-01..30, TSTRESS-01..16)
-- ✅ No memory leaks (ASan clean)
-- ✅ No undefined behavior (UBSan clean)
-- ✅ Performance targets met (2,000+ ops/sec, < 5% memory growth, ±5% p95/p99)
-- ✅ Documentation complete (Doxygen-ready)
-- ✅ Zero stubs/mocks in production code
-
-### Code Quality
-
-- C++17 compliant (no C++20 features)
-- RAII patterns throughout
-- Exception-safe guarantees honored
-- Atomic memory ordering correct
-- No data races (ThreadSanitizer clean)
-
-### Documentation
-
-- All public APIs documented (Doxygen)
-- Edge case scenarios documented
-- Workload profiles documented
-- Performance baselines documented
-- Recovery procedures documented
-
----
-
-## Risk Mitigation Summary
-
-| Risk | Mitigation |
-|------|-----------|
-| Edge case explosion | Prioritize by severity; property-based testing |
-| Throughput instability | Lock CI hardware; 100+ sample runs |
-| Test build failures | Early CMake validation; weekly integration checks |
-| Regressions | Compare all metrics vs Q3 baseline; ±5% tolerance |
-| Integration delays | Weekly sync; parallel execution of B1+B2 |
-
----
-
-## Communication Plan
-
-### Weekly Status Reports
-**Schedule**: Every Monday (during execution phase)  
-**Channel**: PR comments with metrics and progress  
-**Content**: Edge scenarios identified, tests passing, performance metrics
-
-### Integration Sync
-**Date**: Sept 22  
-**Purpose**: B1+B2 merge planning and feature branch stabilization
-
-### B3 Kickoff
-**Date**: Oct 15  
-**Purpose**: Launch validation phase, platform selection confirmation
-
-### Final Review
-**Date**: Oct 29  
-**Purpose**: Prepare merge decision, sign-off checklist
-
----
-
-## Monitoring & Escalation
-
-**Dashboard**: ai_working/STREAM_B_EXECUTION_DASHBOARD.md (updated weekly)  
-**Coordination**: ai_working/STREAM_B_EXECUTION_COORDINATION.md  
-
-**Critical Blockers** (escalate immediately):
-- CMake/build failures
-- Performance regressions > 10%
-- Test failures in production code paths
-- Memory leaks or undefined behavior
-- Feature branch instability
-
----
-
-## Success Criteria - Summary
-
-Stream B execution is **LAUNCHED & ON TRACK** with:
-
-### ✅ Verified Readiness
-- Stream A prerequisites complete
-- All 3 blocks comprehensively planned
-- Agents assigned and briefed
-- Gate conditions documented
-
-### ✅ Active Execution
-- Block B1: Edge scenario handling (tensor-b1-edges)
-- Block B2: Stress coverage (tensor-b2-stress)
-- Both executing in parallel Sept 1-21
-
-### ✅ Clear Integration Path
-- Sept 22-Oct 14: Integration testing & stabilization
-- Oct 15-29: B3 validation
-- Oct 30-31: Merge to develop
-
-### ✅ Quality Standards
-- Production-ready code (no stubs/mocks)
-- Comprehensive testing (20-30 edge tests, 16+ stress tests)
-- Performance validated (2,000+ ops/sec, < 5% memory growth)
-- Documentation complete (Doxygen-ready)
-
----
-
-## Next Steps
-
-1. **Monitor Agents**: Watch agent_id tensor-b1-edges and tensor-b2-stress for progress
-2. **Weekly Reviews**: Check STREAM_B_EXECUTION_DASHBOARD.md for milestone updates
-3. **Integration Planning**: Prepare Sept 22 merge window (B1+B2 to feature branch)
-4. **B3 Preparation**: Schedule Oct 15 B3 agent launch and platform confirmation
-
----
-
-**Status**: 🟢 STREAM B EXECUTION LIVE  
-**Confidence Level**: HIGH (based on Stream A success and detailed planning)  
-**Target Completion**: Oct 31, 2026 (merge to develop)
-
----
-
-**Created**: 2026-08-09  
-**Agent IDs**: tensor-b1-edges, tensor-b2-stress
-
----
-
-### STREAM_LEADERS_QUICK_REFERENCE_CP1_2026-08-22.md
-
-# CP-1 GATE DECISION — STREAM LEADERS QUICK REFERENCE
-## Content Module Batch 5 → Approved for Merge to develop
-
-**Gate Date:** 2026-08-22 13:58 UTC  
-**Status:** ✅ **APPROVED** (95%+ confidence)  
-**Release Target:** v2.4.0 GA (2026-08-29) 🚀
-
----
-
-## DECISION SUMMARY
-
-### ✅ GATE PASSED — ALL STREAMS APPROVED FOR MERGE
-
-| Stream | Focus | Status | Evidence | Merge |
-|--------|-------|--------|----------|-------|
-| **Stream A** | Doxygen Standardization (CMT-7500/7501) | ✅ APPROVED | 35/35 files 100% compliant | ✅ READY |
-| **Stream B** | Production TODO Classification (CMT-7502) | ✅ APPROVED | 73/73 TODOs reconciled | ✅ READY |
-| **Stream C** | Scope Fixes & Documentation (CMT-7503/7504) | ✅ APPROVED | 26 tests created, all PASS | ✅ READY |
-| **Stream D** | Continuous Review & CP Consolidation | ✅ COMPLETE | Gate authority decision issued | ✅ READY |
-
----
-
-## BLOCKER STATUS (ALL RESOLVED ✅)
-
-### CRITICAL-1: Dangling Pointers ✅
-- **Issue:** Use-after-free risk in ContentTypeRegistry
-- **Fix:** Migrated to std::optional<ContentType>
-- **Tests:** 20 comprehensive tests PASS
-- **Confidence:** 95%+
-
-### HIGH-1: Doxygen Compliance ✅
-- **Issue:** Reported 47 missing headers
-- **Reality:** 35/35 files already 100% compliant
-- **Action:** Audit verified + 13 mismatches corrected
-- **Confidence:** 100%
-
-### HIGH-2: TODO Reconciliation ✅
-- **Issue:** 73 expected vs. 13 found (60-item gap)
-- **Root Cause:** Gap scanner over-prediction + prior removals
-- **Result:** 73/73 accounted for (31 current + 42 explained)
-- **Confidence:** 92%
-
----
-
-## IMMEDIATE ACTIONS (2026-08-23)
-
-### For All Streams
-
-**Step 1: Merge Execution**
-```bash
-git checkout develop
-git pull origin develop
-git merge --no-ff copilot/analyse-plan-execute-gaps-implementation \
-  -m "Content Batch 5: Stream A/B/C merge | All 3 blockers resolved | CP-1 APPROVED"
-git push origin develop
-```
-
-**Step 2: Validation**
-```bash
-ctest --preset release_critical -L "not stress_test" --output-on-failure -j 8
-```
-
-**Step 3: Documentation**
-- Update CHANGELOG.md with Content Batch 5 summary
-- Verify ROADMAP.md reflects gate decision
-
----
-
-## KEY DOCUMENTS (In `/ai_working/`)
-
-### Decision Documents
-- **CP1_RE_REVIEW_GATE_DECISION_2026-08-22.md** — Formal approval (11.5 KB)
-- **CP1_MILESTONE_COORDINATION_SUMMARY_2026-08-22.md** — Complete summary (12.8 KB)
-
-### Blocker Evidence
-- **CRITICAL-1:** CMT-CRITICAL-1-VERIFICATION-2026-08-15.md (17.5 KB)
-- **HIGH-1:** HIGH1_BLOCKER_RESOLUTION_SUMMARY.md (10.2 KB)
-- **HIGH-2:** CMT_TODO_AUDIT_COMPREHENSIVE_SUMMARY.md (9.9 KB)
-
-### Master Evidence Package
-- **CONTENT_BATCH5_COMPLETE_FINAL_REPORT_2026-08-15.md** (17.9 KB)
-
----
-
-## TIMELINE
-
-| Date | Milestone | Status |
-|------|-----------|--------|
-| 2026-08-22 | CP-1 Gate: APPROVED ✅ | **TODAY** |
-| 2026-08-23 | Merge to develop | **TOMORROW** |
-| 2026-08-24 | CI/CD validation complete | +2 days |
-| 2026-08-26 | CP-2 checkpoint | +4 days |
-| 2026-08-29 | v2.4.0 GA Release 🚀 | +7 days |
-
----
-
-## RISK LEVEL: MINIMAL ✅
-
-- Memory safety: ✅ Protected by std::optional + tests
-- Compliance: ✅ 100% verified
-- Production blockers: ✅ 0 (all accounted for)
-- CI/CD integration: ✅ 95%+ confidence
-
----
-
-## CONTACT & ESCALATION
-
-- **Stream Lead Authority:** Stream D (Content Module Lead)
-- **Coordination Lead:** makr-code/Copilot Coordination Team
-- **Questions:** Review full documents in `/ai_working/`
-
----
-
-**Status:** ✅ READY FOR MERGE (2026-08-23)  
-**Confidence:** 95%+  
-**Release On-Track:** YES 🚀
-
----
-
-_Refer to full documents in `/ai_working/` for detailed evidence. All governance gates satisfied. Ready to proceed with merge execution._
-
----
-
-### SUB_AGENT_ORCHESTRATION_PROTOCOL_STREAM_A.md
-
-# Sub-Agent Orchestration Protocol — Stream A (Q3 2026 Tensor Hardening)
-
-**Status**: LAUNCH PROTOCOL (Pre-Deployment)  
-**Created**: 2026-08-08T18:23:01Z  
-**Target Deployment**: Immediate (Aug 8, 2026)  
-**Scope**: Tensor Module Stream A Q3 Hardening & Diagnostics  
-**Parent Plan**: `TENSOR_IMPLEMENTATION_MASTER_PLAN.md`  
-
----
-
-## Executive Summary
-
-This document defines the **parallel sub-agent orchestration protocol** for Stream A execution (Aug 7–31, 2026). Three specialized agents run in parallel across three implementation blocks (A1/A2/A3), with explicit coordination, dependency management, and weekly integration checkpoints.
-
-**Pilot Workflow**: Flash Attention E8 validation (background agent launched 2026-08-08T18:23:01Z) validates the orchestration framework before full Stream A deployment.
-
----
-
-## Agent Registry & Roles
-
-### A1: Concurrent Hardening (themisdb-implementer)
-- **Agent ID**: `tensor-a1-hardening`
-- **Repository Role**: Core implementation and hardening
-- **Primary Deliverables**:
-  - Concurrency fixes in `tensor_index_manager.cpp`, `tensor_ingestion_bridge.cpp`
-  - Test suite: `test_tensor_index_manager_concurrent_focused.cpp` (TNCI-01..24)
-  - Test suite: `test_tensor_ingestion_bridge_concurrent_focused.cpp` (TNIC-01..16)
-  - Report: `CONCURRENT_HARDENING_FINDINGS.md`
-- **Success Criteria**:
-  - All tests pass 100+ iterations
-  - ThreadSanitizer clean (no race conditions)
-  - Throughput scales with thread count
-- **Duration**: Aug 7–21, 2026 (1-2 weeks)
-- **Status**: 🟡 PLANNED
-
-### A2: Diagnostics Unification (themisdb-reviewer)
-- **Agent ID**: `tensor-a2-diagnostics`
-- **Repository Role**: Validation and hardening review
-- **Primary Deliverables**:
-  - Unified `emitDiagnostic()` in `tensor_error_handling.cpp`
-  - Updates to diagnostic calls in `tensor_index_manager.cpp`, `tensor_core_bridge.cpp`, `tensor_fingerprint_graph.cpp`
-  - Test suite: `test_tensor_diagnostics_integration_focused.cpp` (TDIAG-01..24)
-  - Report: `DIAGNOSTIC_AUDIT.md`
-- **Success Criteria**:
-  - >95% error path coverage
-  - Consistent diagnostic format
-  - Zero silent failures
-- **Duration**: Aug 7–21, 2026 (1-2 weeks, parallel with A1)
-- **Status**: 🟡 PLANNED
-
-### A3: Benchmark Baselining (task runner)
-- **Agent ID**: `tensor-a3-benchmarks`
-- **Repository Role**: Performance validation and reporting
-- **Primary Deliverables**:
-  - Enhanced/validated benchmarks: `bench_tensor_fingerprint_graph.cpp`, `bench_tensor_deduplication_manager.cpp`
-  - Baseline report: `TENSOR_Q3_BENCHMARK_BASELINE.md` (p95/p99 locked values)
-  - Validation against `FUTURE_ENHANCEMENTS.md` targets
-- **Success Criteria**:
-  - All targets met
-  - p95/p99 stable (<2% variance)
-  - Baseline reproducible
-- **Duration**: Aug 7–27, 2026 (independent track, can start immediately)
-- **Status**: 🟡 PLANNED
-
----
-
-## Parallel Execution Model
-
-### Block Dependencies
-
-```
-A1 (Concurrent Hardening)  ┐
-A2 (Diagnostics)          ├─→ Integration (Aug 22-31) → PR Merge (Aug 30-31)
-A3 (Benchmarks)           ┘
-```
-
-**Dependency Rules**:
-- A1 and A2 have **interface dependencies**: diagnostic calls in A1 code must use interfaces defined in A2
-- A3 (benchmarks) is **independent**: can run in parallel, but feeds into Stream B validation (Sept 1+)
-- No blocking dependencies between A1, A2, A3: all three can start immediately on Aug 7
-
-### Coordination Points
-
-**Weekly Sync** (Wednesdays 2026-08-14, 2026-08-21, 2026-08-28):
-- A1 status: test count, pass rate, ThreadSanitizer findings
-- A2 status: error paths catalogued, diagnostic format validated
-- A3 status: benchmark runs completed, p95/p99 measurements
-- Risk register update
-- Escalation path for blockers
-
-**Integration Checkpoint** (Aug 22-31):
-- All A1/A2/A3 blocks feature-complete
-- Tests passing on current `develop` baseline
-- Performance targets validated
-- Merge PR to `develop`: Aug 30-31
-
----
-
-## Launch Protocol
-
-### Pre-Launch Checklist (NOW — 2026-08-08T18:23:01Z)
-
-- [x] Pilot validation started: **Flash Attention E8 workflow** (general-purpose agent)
-  - Validates agent infrastructure and reporting mechanisms
-  - Expected completion: 2026-08-08 (async, <4 hours)
-  - Output: `ai_working/FLASH_ATTENTION_E8_PILOT_VALIDATION.md`
-
-- [ ] Confirm agent infrastructure availability:
-  - `themisdb-implementer` role enabled
-  - `themisdb-reviewer` role enabled
-  - Task runner (benchmarks) infrastructure ready
-  - CI/CD gates functional (build, test, benchmark, security)
-
-- [ ] Confirm baseline environment:
-  - `develop` branch current and passing `release_critical` CI
-  - CMake preset `windows-release` or `linux-release` ready
-  - CTest labels registered: `tensor;hardening;phase1` (or renamed per stream)
-  - Benchmark infrastructure ready: microbench, macro-bench, graph profiling
-
-### Agent Launch Sequence (PROPOSED — Aug 8, 2026, 18:30 UTC)
-
-**Phase 1 — Immediate Launch (Aug 8, 2026, 18:30 UTC)**
-
-1. **A1 Agent Spin-up** (`themisdb-implementer`, `tensor-a1-hardening`)
-   - Task: Begin concurrent hardening analysis in tensor_index_manager.cpp
-   - Expected Duration: 10-14 days (Aug 8-21)
-   - Deliverable: CONCURRENT_HARDENING_FINDINGS.md (draft by Aug 15)
-   - Success Metric: First 50+ tests passing, ThreadSanitizer zero-race baseline
-
-2. **A2 Agent Spin-up** (`themisdb-reviewer`, `tensor-a2-diagnostics`)
-   - Task: Design unified diagnostic interface and audit error paths
-   - Expected Duration: 7-10 days (Aug 8-18)
-   - Deliverable: DIAGNOSTIC_AUDIT.md (draft by Aug 14)
-   - Success Metric: Error path mapping >95% complete, diagnostic format frozen
-
-3. **A3 Agent Spin-up** (`task`, `tensor-a3-benchmarks`)
-   - Task: Validate existing benchmarks and collect baseline measurements
-   - Expected Duration: 10-14 days (Aug 8-21)
-   - Deliverable: TENSOR_Q3_BENCHMARK_BASELINE.md (draft by Aug 18)
-   - Success Metric: All target measurements complete, p95/p99 stable
-
-**Phase 2 — Integration & Closure (Aug 22-31, 2026)**
-
-- Merge A1/A2/A3 findings into coherent PR
-- Final test pass on `develop` CI gates
-- Prepare for Stream B launch (Sept 1)
-
----
-
-## Coordination Framework
-
-### Communication Protocol
-
-**Agent-to-Agent Interface**:
-- A1 ↔ A2: Diagnostic interface (`tensor_error_handling.cpp`, `emitDiagnostic()` contract)
-- A1 → A3: Test performance measurements feed baseline calibration
-- A2 → A3: Diagnostic overhead must stay <5% of benchmark runtime
-
-**Agent-to-Human Interface**:
-- Weekly async standup via status in this file (UPDATED section below)
-- Escalation: Blocker → `makr-code` via GitHub issue or direct notification
-- Final checkpoint: Aug 29 (all A1/A2/A3 ready for merge review)
-
-### Risk Management
-
-**A1 Risks**:
-- ThreadSanitizer may report false positives in lock-free data structures → requires domain expert review
-- **Mitigation**: Keep lock-free patterns minimal; pre-approved list in code review
-
-**A2 Risks**:
-- Diagnostic format change may break downstream log parsers → requires careful versioning
-- **Mitigation**: Version diagnostic messages; provide migration helper
-
-**A3 Risks**:
-- Hardware-variance in benchmark results may exceed 2% tolerance → requires stable CI environment
-- **Mitigation**: Lock benchmark frequency, CPU governor, thermal profile on CI runner
-
----
-
-## Status Tracking (LIVE)
-
-### Latest Report (2026-08-08T18:23:01Z)
-
-| Agent | Block | Status | Progress | Next Checkpoint |
-|-------|-------|--------|----------|-----------------|
-| `tensor-a1-hardening` | A1 | 🟡 PLANNED | — | Aug 15 (draft findings) |
-| `tensor-a2-diagnostics` | A2 | 🟡 PLANNED | — | Aug 14 (draft audit) |
-| `tensor-a3-benchmarks` | A3 | 🟡 PLANNED | — | Aug 18 (draft baseline) |
-| **PILOT** | Flash E8 | 🔵 IN PROGRESS | Started 18:23Z | 2026-08-08 23:59Z |
-
-### Weekly Checkpoints
-
-**Week 1 (Aug 7-13)**:
-- [ ] A1: Concurrency analysis in progress, initial test cases defined
-- [ ] A2: Error path inventory started, diagnostic interface draft
-- [ ] A3: Benchmark infrastructure validated, measurement protocol finalized
-- [ ] Pilot: Flash Attention E8 validation report delivered
-
-**Week 2 (Aug 14-20)**:
-- [ ] A1: CONCURRENT_HARDENING_FINDINGS.md draft; 50+ tests passing
-- [ ] A2: DIAGNOSTIC_AUDIT.md draft; error paths >95% catalogued
-- [ ] A3: TENSOR_Q3_BENCHMARK_BASELINE.md draft; p95/p99 locked
-- [ ] Integration: Dependencies validated (A1 → A2 interface ready)
-
-**Week 3 (Aug 21-27)**:
-- [ ] A1: Final test suite complete (TNCI-01..24 + TNIC-01..16); all pass
-- [ ] A2: All error paths instrumented; zero silent failures validated
-- [ ] A3: Benchmark suite finalized; performance targets confirmed PASS
-- [ ] PR: Integration PR `feature/tensor-q3-hardening` created
-
-**Week 4 (Aug 28-31)**:
-- [ ] PR Review: Code review and sign-off
-- [ ] Final CI Gate: All `release_critical` tests PASS on PR
-- [ ] Merge: Merge to `develop` (Aug 30-31)
-
----
-
-## Deliverables Checklist
-
-### A1 Deliverables (Concurrent Hardening)
-
-- [ ] `src/llm/tensor_index_manager.cpp` — concurrency hardening applied
-- [ ] `src/llm/tensor_ingestion_bridge.cpp` — bounded concurrency controls added
-- [ ] `tests/llm/test_tensor_index_manager_concurrent_focused.cpp` — TNCI-01..24 tests
-- [ ] `tests/llm/test_tensor_ingestion_bridge_concurrent_focused.cpp` — TNIC-01..16 tests
-- [ ] `ai_working/CONCURRENT_HARDENING_FINDINGS.md` — issue tracking report
-
-### A2 Deliverables (Diagnostics Unification)
-
-- [ ] `src/llm/tensor_error_handling.cpp/h` — unified `emitDiagnostic()` helper
-- [ ] `src/llm/tensor_index_manager.cpp` — diagnostic call integration
-- [ ] `src/llm/tensor_core_bridge.cpp` — diagnostic call integration
-- [ ] `src/llm/tensor_fingerprint_graph.cpp` — diagnostic call integration
-- [ ] `tests/llm/test_tensor_diagnostics_integration_focused.cpp` — TDIAG-01..24 tests
-- [ ] `ai_working/DIAGNOSTIC_AUDIT.md` — error path mapping report
-
-### A3 Deliverables (Benchmark Baselining)
-
-- [ ] `benchmarks/llm/bench_tensor_fingerprint_graph.cpp` — enhanced/validated
-- [ ] `benchmarks/llm/bench_tensor_deduplication_manager.cpp` — enhanced/validated
-- [ ] `ai_working/TENSOR_Q3_BENCHMARK_BASELINE.md` — baseline report with gates
-- [ ] Benchmark CI gates: GATE-TN-A3-01..06 defined and PASS
-
-### Integration Deliverables
-
-- [ ] PR `feature/tensor-q3-hardening` created and linked
-- [ ] All A1/A2/A3 artifacts integrated into `ai_working/` or source directories
-- [ ] Weekly sync notes consolidated into `STREAM_A_Q3_2026_TRACKING.md` (update)
-
----
-
-## Next Phase Transition (Stream B Launch Sept 1)
-
-Upon successful Stream A closure (Aug 30-31), the orchestration framework immediately transitions to Stream B (Q4 2026 Determinism & Coverage):
-
-- B1: Edge Case Determinism (`themisdb-implementer`, `tensor-b1-edges`)
-- B2: Stress Coverage (`general-purpose`, `tensor-b2-stress`)
-- B3: P95/P99 Validation (`task`, `tensor-b3-validation`)
-
-**Prerequisites for Stream B Launch**:
-- Stream A PR merged to `develop`
-- All A1/A2/A3 acceptance criteria met
-- Weekly sync notes reflect zero-risk closure
-- CI gates `release_critical` green for 48+ hours
-
----
-
-## Appendix A: Reference Documents
-
-- **Parent Plan**: `TENSOR_IMPLEMENTATION_MASTER_PLAN.md`
-- **Stream A Tracking**: `STREAM_A_Q3_2026_TRACKING.md`
-- **Tensor ROADMAP**: `src/tensor/ROADMAP.md`
-- **Agent Definitions**:
-  - `themisdb-implementer`: `.github/agents/themisdb-implementer.agent.md`
-  - `themisdb-reviewer`: `.github/agents/themisdb-reviewer.agent.md`
-- **CI Configuration**: `.github/workflows/09-pr-gates_release-critical-tests.yml`
-- **CMake Targets**: `tests/tensor/CMakeLists.txt`, `benchmarks/tensor/CMakeLists.txt`
-
----
-
-## Appendix B: Pilot Validation Workflow (Flash Attention E8)
-
-**Pilot Status**: RUNNING (started 2026-08-08T18:23:01Z)  
-**Expected Output**: `ai_working/FLASH_ATTENTION_E8_PILOT_VALIDATION.md`  
-**Validation Purpose**: Confirm agent infrastructure works before full Stream A deployment  
-**Success Criterion**: Pilot completes with actionable validation report; orchestration framework confirmed stable
-
----
-
-**Document Owner**: @makr-code  
-**Last Updated**: 2026-08-08T18:23:01Z  
-**Next Review**: 2026-08-14 (Week 1 checkpoint)
 
 ---
 
@@ -2011,6 +1151,866 @@ Time Savings: 65%
 - ✅ `BLOCK_A1_IMPLEMENTATION_STATUS.txt` — Implementation checkpoint
 - ✅ `VERIFICATION_CHECKLIST.md` — Comprehensive verification matrix
 **Key Achievements**:
+
+---
+
+### STREAM_B_EXECUTION_COORDINATION.md
+
+*(file too large — key headings extracted)*
+
+# Stream B Execution Coordination (Sept 1 - Oct 31, 2026)
+**Status**: 🟢 LAUNCH READY
+**Date**: 2026-08-09
+**Coordination Version**: v1.0
+---
+## Overview
+Stream B executes three parallel workstreams (B1, B2) followed by a validation phase (B3):
+- **B1 & B2**: Sept 1-21 (parallel execution)
+- **Integration Testing**: Sept 22 - Oct 14
+- **B3**: Oct 15-29
+- **Final Merge**: Oct 30-31
+---
+## Block B1: Deterministic Edge Scenario Handling
+**Agent**: themisdb-implementer
+**Duration**: 2-3 weeks (Sept 1-21)
+**Status**: ✅ **COMPLETE** (Ready for CI Build & Test Validation)
+### Deliverables ✅ DELIVERED
+1. **Edge Scenario Inventory** ✅ COMPLETE (15 critical scenarios)
+- [x] Invalid adapter references (TEDGE-01)
+- [x] Out-of-bounds index accesses (TEDGE-02)
+- [x] Stale fingerprints in graph (TEDGE-03)
+- [x] Self-similarity computation failures (TEDGE-04)
+- [x] Null train in comparison (TEDGE-05)
+- [x] Concurrent modification conflicts (TEDGE-06)
+- [x] Bridge routing failures (TEDGE-07)
+- [x] Adapter communication errors (TEDGE-08)
+- [x] Invalid decomposition parameters (TEDGE-09)
+- [x] Kappa-gate violations (TEDGE-10)
+- [x] Export serialization failures (TEDGE-11)
+- [x] Replay deserialization failures (TEDGE-12)
+- [x] Partial graph loss (TEDGE-13)
+- [x] Out-of-memory during computation (TEDGE-14)
+- [x] Concurrent memory exhaustion (TEDGE-15)
+2. **tensor_edge_case_handler.h/cpp** ✅ COMPLETE (1,037 lines)
+- [x] 15 handler methods (all [[nodiscard]] noexcept)
+- [x] EdgeCaseResult contract (error_code, recovery_action, is_recoverable)
+- [x] 10 mapped error codes (9510-9589 range)
+- [x] Recovery strategies: fail-closed, retry, fallback, degrade
+- [x] RAII resource cleanup (no raw new/delete)
+- [x] Deterministic behavior under all scenarios
+- [x] spdlog diagnostic emission
+- [x] Per-scenario statistics tracking
+3. **test_tensor_bridge_edge_cases_focused.cpp** ✅ COMPLETE (504 lines, 33 tests)
+- [x] TEDGE-01..15: Core scenario tests (15 tests)
+- [x] TEDGE-16..30: Property-based + stress tests (15 tests)
+- [x] Validation tests (3 tests): Statistics, Diagnostics, Error Codes
+- [x] All scenarios + combinations tested
+- [x] Deterministic error codes validated
+- [x] Recovery paths verified
+
+---
+
+### STREAM_B_EXECUTION_DASHBOARD.md
+
+*(file too large — key headings extracted)*
+
+# Stream B Execution Dashboard
+**Status**: 🟡 IN PROGRESS
+**Date**: 2026-08-09 (Sept 1 Launch)
+**Duration**: Sept 1 - Oct 31, 2026
+---
+## Agent Status
+### Block B1: Deterministic Edge Scenario Handling
+- **Agent ID**: tensor-b1-edges
+- **Agent Type**: themisdb-implementer
+- **Status**: ✅ **COMPLETE** (2026-08-09, 42 minutes elapsed)
+- **Duration**: Sept 1-21 (2-3 weeks)
+- **Progress**: All deliverables ready for CI validation
+### Block B2: Stress Coverage for Concurrent Patterns
+- **Agent ID**: tensor-b2-stress
+- **Agent Type**: general-purpose
+- **Status**: 🟡 ACTIVE (launched 2026-08-09)
+- **Duration**: Sept 1-21 (2-3 weeks, parallel with B1)
+- **Progress**: See block section below
+### Block B3: P95/P99 Baseline Validation
+- **Agent ID**: tensor-b3-validation (not yet launched)
+- **Agent Type**: task runner
+- **Status**: 🔴 PENDING (launches Oct 15)
+- **Duration**: Oct 15-29
+- **Launch Condition**: B1 + B2 complete and integrated
+---
+## Weekly Milestones
+### Week 1 (Sept 1-7)
+**B1 Deliverables** (Edge Scenario Handling):
+- [ ] Edge scenario inventory completed (10-15 scenarios identified)
+- [ ] tensor_edge_case_handler.h API designed
+- [ ] Initial test framework skeleton
+**B2 Deliverables** (Stress Coverage):
+- [ ] 8+ workload profile designs documented
+- [ ] Workload mixer framework skeleton
+- [ ] Initial stress test structure
+**Coordination**:
+- [ ] Both agents running and producing output
+- [ ] Weekly status reports in PRs
+### Week 2 (Sept 8-14)
+**B1 Deliverables**:
+- [ ] tensor_edge_case_handler.cpp implementation started
+- [ ] 10+ edge case tests implemented (TEDGE-01..10)
+- [ ] Initial ASan/UBSan validation
+**B2 Deliverables**:
+- [ ] Workload mixer implementation started
+
+---
+
+### STREAM_B_LAUNCH_SUMMARY.md
+
+# Stream B Execution Launch Summary
+
+**Date**: 2026-08-09  
+**Status**: ✅ EXECUTION COMMENCED  
+**Launch Time**: Sept 1, 2026
+
+---
+
+## Executive Summary
+
+Stream B execution has been formally launched with two specialized agents now active in background execution mode:
+
+1. **Block B1 (Deterministic Edge Scenario Handling)**: themisdb-implementer agent (tensor-b1-edges)
+2. **Block B2 (Stress Coverage for Concurrent Patterns)**: general-purpose agent (tensor-b2-stress)
+
+Both blocks are scheduled to execute in parallel from Sept 1-21, 2026, followed by a 2.5-week integration testing phase (Sept 22 - Oct 14), and then Block B3 validation (Oct 15-29).
+
+---
+
+## Launch Checklist ✅
+
+### Prerequisites Verified
+- ✅ Stream A complete (Aug 30-31 merge scheduled)
+- ✅ All 3 blocks (B1, B2, B3) have detailed specifications
+- ✅ Agent assignments confirmed (themisdb-implementer, general-purpose, task-runner)
+- ✅ Gate conditions identified and documented
+- ✅ Risk mitigation strategies in place
+
+### Coordination Documents Created
+- ✅ ai_working/STREAM_B_EXECUTION_COORDINATION.md (full execution plan)
+- ✅ ai_working/STREAM_B_EXECUTION_DASHBOARD.md (progress tracking)
+- ✅ This summary document
+
+### Agents Launched
+- ✅ Block B1: tensor-b1-edges (themisdb-implementer)
+  - Status: 🟡 ACTIVE (background mode)
+  - Agent ID: tensor-b1-edges
+  - Task: Edge scenario handling (10-15 scenarios, handler implementation, 20-30 tests)
+
+- ✅ Block B2: tensor-b2-stress (general-purpose)
+  - Status: 🟡 ACTIVE (background mode)
+  - Agent ID: tensor-b2-stress
+  - Task: Stress coverage (8+ workload profiles, 16+ stress tests, STRESS_COVERAGE.md)
+
+### Timeline Locked
+- ✅ Sept 1-21: B1 + B2 parallel execution
+- ✅ Sept 22 - Oct 14: Integration testing
+- ✅ Oct 15-29: B3 validation
+- ✅ Oct 30-31: Final merge to develop
+
+---
+
+## Block B1: Deterministic Edge Scenario Handling
+
+**Agent**: themisdb-implementer (tensor-b1-edges)  
+**Duration**: Sept 1-21 (2-3 weeks)  
+**Status**: 🟡 ACTIVE
+
+### Key Deliverables
+
+1. **Edge Scenario Inventory** (10-15 scenarios)
+   - Invalid adapter references
+   - Out-of-bounds index accesses
+   - Stale fingerprints in graph
+   - Bridge routing failures under load
+   - Graph export/replay edge cases
+   - Memory pressure scenarios
+
+2. **tensor_edge_case_handler.h/cpp**
+   - Fail-safe state transitions
+   - Explicit error codes (no silent degradation)
+   - RAII resource cleanup
+   - Unified diagnostics integration
+
+3. **test_tensor_bridge_edge_cases_focused.cpp** (20-30 tests)
+   - TEDGE-01 through TEDGE-30
+   - All scenarios + combinations covered
+   - Recovery paths validated
+   - Property-based combinatorial tests
+
+### Success Criteria
+
+- ✅ All 10-15 edge scenarios explicitly handled
+- ✅ No undefined behavior (ASan/UBSan passing)
+- ✅ Error codes match documented contract
+- ✅ Recovery paths validated
+- ✅ Zero stubs/mocks in production code
+
+### Integration Points
+
+```cmake
+# tests/tensor/CMakeLists.txt
+module_tensor_test_tensor_bridge_edge_cases_focused
+```
+
+---
+
+## Block B2: Stress Coverage for Concurrent Patterns
+
+**Agent**: general-purpose (tensor-b2-stress)  
+**Duration**: Sept 1-21 (2-3 weeks, parallel with B1)  
+**Status**: 🟡 ACTIVE
+
+### Key Deliverables
+
+1. **Workload Mixer Design** (8+ profiles)
+   - Query-heavy (95% query, 5% store/remove)
+   - Mixed workloads (90/10, 75/25, etc.)
+   - Stress & saturation profiles
+   - Chaos injection patterns
+
+2. **test_tensor_stress_suite_focused.cpp** (16+ tests)
+   - TSTRESS-01 through TSTRESS-16+
+   - Throughput validation (>= 2,000 ops/sec)
+   - Memory stability (< 5% growth per 1M ops)
+   - P99 latency tracking
+   - Chaos injection coverage
+
+3. **STRESS_COVERAGE.md**
+   - 8+ workload profiles documented
+   - Expected throughput/latency per profile
+   - Failure injection strategies
+   - Memory budget enforcement
+   - CI integration notes
+
+### Success Criteria
+
+- ✅ >= 2,000 ops/sec throughput validated
+- ✅ Memory growth bounded (< 5% per 1M ops)
+- ✅ P99 latency stable under sustained load
+- ✅ Chaos injection reveals no crashes
+- ✅ 16+ stress tests all passing
+
+### Integration Points
+
+```cmake
+# tests/tensor/CMakeLists.txt
+module_tensor_test_tensor_stress_suite_focused
+# Note: TIMEOUT 300+ for long-running tests
+```
+
+---
+
+## Block B3: P95/P99 Baseline Validation
+
+**Agent**: task runner (tensor-b3-validation)  
+**Duration**: Oct 15-29  
+**Status**: 🔴 PENDING (awaiting B1+B2 completion)
+
+### Key Deliverables
+
+1. **Release-Profile Benchmark Runs**
+   - Ubuntu Linux (100+ samples)
+   - Windows (100+ samples)
+   - macOS (100+ samples)
+
+2. **P95_P99_VALIDATION_REPORT.md**
+   - Comparison vs Q3 baseline
+   - Tolerance check: ±5%
+   - Per-hardware results
+   - Regression analysis
+
+### Success Criteria
+
+- ✅ P95/P99 within ±5% of Q3 baseline
+- ✅ Measurements stable across 100+ runs
+- ✅ No regressions detected
+- ✅ Hardware variance documented
+
+---
+
+## Execution Roadmap
+
+### Week 1 (Sept 1-7)
+**B1**: Edge scenario inventory + handler API design  
+**B2**: Workload profile design + test framework skeleton  
+**Status**: Initial deliverables due
+
+### Week 2 (Sept 8-14)
+**B1**: Handler implementation + 10+ edge case tests  
+**B2**: Workload mixer + 8+ stress tests, throughput measurement  
+**Status**: Mid-point validation
+
+### Week 3 (Sept 15-21)
+**B1**: All 20-30 edge tests, ASan/UBSan validation, recovery paths verified  
+**B2**: All 16+ stress tests, chaos validation, memory/latency complete  
+**Status**: Block completion
+
+### Integration Phase (Sept 22 - Oct 14)
+**Action**: Merge B1 + B2 to feature/tensor-q4-determinism  
+**Validation**: Full tensor module test suite, regression analysis  
+**Status**: Feature branch stabilization
+
+### B3 Phase (Oct 15-29)
+**B3**: Benchmark runs on 3 platforms, validation report  
+**Status**: Performance validation
+
+### Final Phase (Oct 30-31)
+**Action**: Code review, sign-off, merge to develop  
+**Status**: Release readiness
+
+---
+
+## Quality Gates
+
+### Production Readiness
+
+Before merging to develop:
+- ✅ All tests passing (TEDGE-01..30, TSTRESS-01..16)
+- ✅ No memory leaks (ASan clean)
+- ✅ No undefined behavior (UBSan clean)
+- ✅ Performance targets met (2,000+ ops/sec, < 5% memory growth, ±5% p95/p99)
+- ✅ Documentation complete (Doxygen-ready)
+- ✅ Zero stubs/mocks in production code
+
+### Code Quality
+
+- C++17 compliant (no C++20 features)
+- RAII patterns throughout
+- Exception-safe guarantees honored
+- Atomic memory ordering correct
+- No data races (ThreadSanitizer clean)
+
+### Documentation
+
+- All public APIs documented (Doxygen)
+- Edge case scenarios documented
+- Workload profiles documented
+- Performance baselines documented
+- Recovery procedures documented
+
+---
+
+## Risk Mitigation Summary
+
+| Risk | Mitigation |
+|------|-----------|
+| Edge case explosion | Prioritize by severity; property-based testing |
+| Throughput instability | Lock CI hardware; 100+ sample runs |
+| Test build failures | Early CMake validation; weekly integration checks |
+| Regressions | Compare all metrics vs Q3 baseline; ±5% tolerance |
+| Integration delays | Weekly sync; parallel execution of B1+B2 |
+
+---
+
+## Communication Plan
+
+### Weekly Status Reports
+**Schedule**: Every Monday (during execution phase)  
+**Channel**: PR comments with metrics and progress  
+**Content**: Edge scenarios identified, tests passing, performance metrics
+
+### Integration Sync
+**Date**: Sept 22  
+**Purpose**: B1+B2 merge planning and feature branch stabilization
+
+### B3 Kickoff
+**Date**: Oct 15  
+**Purpose**: Launch validation phase, platform selection confirmation
+
+### Final Review
+**Date**: Oct 29  
+**Purpose**: Prepare merge decision, sign-off checklist
+
+---
+
+## Monitoring & Escalation
+
+**Dashboard**: ai_working/STREAM_B_EXECUTION_DASHBOARD.md (updated weekly)  
+**Coordination**: ai_working/STREAM_B_EXECUTION_COORDINATION.md  
+
+**Critical Blockers** (escalate immediately):
+- CMake/build failures
+- Performance regressions > 10%
+- Test failures in production code paths
+- Memory leaks or undefined behavior
+- Feature branch instability
+
+---
+
+## Success Criteria - Summary
+
+Stream B execution is **LAUNCHED & ON TRACK** with:
+
+### ✅ Verified Readiness
+- Stream A prerequisites complete
+- All 3 blocks comprehensively planned
+- Agents assigned and briefed
+- Gate conditions documented
+
+### ✅ Active Execution
+- Block B1: Edge scenario handling (tensor-b1-edges)
+- Block B2: Stress coverage (tensor-b2-stress)
+- Both executing in parallel Sept 1-21
+
+### ✅ Clear Integration Path
+- Sept 22-Oct 14: Integration testing & stabilization
+- Oct 15-29: B3 validation
+- Oct 30-31: Merge to develop
+
+### ✅ Quality Standards
+- Production-ready code (no stubs/mocks)
+- Comprehensive testing (20-30 edge tests, 16+ stress tests)
+- Performance validated (2,000+ ops/sec, < 5% memory growth)
+- Documentation complete (Doxygen-ready)
+
+---
+
+## Next Steps
+
+1. **Monitor Agents**: Watch agent_id tensor-b1-edges and tensor-b2-stress for progress
+2. **Weekly Reviews**: Check STREAM_B_EXECUTION_DASHBOARD.md for milestone updates
+3. **Integration Planning**: Prepare Sept 22 merge window (B1+B2 to feature branch)
+4. **B3 Preparation**: Schedule Oct 15 B3 agent launch and platform confirmation
+
+---
+
+**Status**: 🟢 STREAM B EXECUTION LIVE  
+**Confidence Level**: HIGH (based on Stream A success and detailed planning)  
+**Target Completion**: Oct 31, 2026 (merge to develop)
+
+---
+
+**Created**: 2026-08-09  
+**Agent IDs**: tensor-b1-edges, tensor-b2-stress
+
+---
+
+### STREAM_LEADERS_QUICK_REFERENCE_CP1_2026-08-22.md
+
+# CP-1 GATE DECISION — STREAM LEADERS QUICK REFERENCE
+## Content Module Batch 5 → Approved for Merge to develop
+
+**Gate Date:** 2026-08-22 13:58 UTC  
+**Status:** ✅ **APPROVED** (95%+ confidence)  
+**Release Target:** v2.4.0 GA (2026-08-29) 🚀
+
+---
+
+## DECISION SUMMARY
+
+### ✅ GATE PASSED — ALL STREAMS APPROVED FOR MERGE
+
+| Stream | Focus | Status | Evidence | Merge |
+|--------|-------|--------|----------|-------|
+| **Stream A** | Doxygen Standardization (CMT-7500/7501) | ✅ APPROVED | 35/35 files 100% compliant | ✅ READY |
+| **Stream B** | Production TODO Classification (CMT-7502) | ✅ APPROVED | 73/73 TODOs reconciled | ✅ READY |
+| **Stream C** | Scope Fixes & Documentation (CMT-7503/7504) | ✅ APPROVED | 26 tests created, all PASS | ✅ READY |
+| **Stream D** | Continuous Review & CP Consolidation | ✅ COMPLETE | Gate authority decision issued | ✅ READY |
+
+---
+
+## BLOCKER STATUS (ALL RESOLVED ✅)
+
+### CRITICAL-1: Dangling Pointers ✅
+- **Issue:** Use-after-free risk in ContentTypeRegistry
+- **Fix:** Migrated to std::optional<ContentType>
+- **Tests:** 20 comprehensive tests PASS
+- **Confidence:** 95%+
+
+### HIGH-1: Doxygen Compliance ✅
+- **Issue:** Reported 47 missing headers
+- **Reality:** 35/35 files already 100% compliant
+- **Action:** Audit verified + 13 mismatches corrected
+- **Confidence:** 100%
+
+### HIGH-2: TODO Reconciliation ✅
+- **Issue:** 73 expected vs. 13 found (60-item gap)
+- **Root Cause:** Gap scanner over-prediction + prior removals
+- **Result:** 73/73 accounted for (31 current + 42 explained)
+- **Confidence:** 92%
+
+---
+
+## IMMEDIATE ACTIONS (2026-08-23)
+
+### For All Streams
+
+**Step 1: Merge Execution**
+```bash
+git checkout develop
+git pull origin develop
+git merge --no-ff copilot/analyse-plan-execute-gaps-implementation \
+  -m "Content Batch 5: Stream A/B/C merge | All 3 blockers resolved | CP-1 APPROVED"
+git push origin develop
+```
+
+**Step 2: Validation**
+```bash
+ctest --preset release_critical -L "not stress_test" --output-on-failure -j 8
+```
+
+**Step 3: Documentation**
+- Update CHANGELOG.md with Content Batch 5 summary
+- Verify ROADMAP.md reflects gate decision
+
+---
+
+## KEY DOCUMENTS (In `/ai_working/`)
+
+### Decision Documents
+- **CP1_RE_REVIEW_GATE_DECISION_2026-08-22.md** — Formal approval (11.5 KB)
+- **CP1_MILESTONE_COORDINATION_SUMMARY_2026-08-22.md** — Complete summary (12.8 KB)
+
+### Blocker Evidence
+- **CRITICAL-1:** CMT-CRITICAL-1-VERIFICATION-2026-08-15.md (17.5 KB)
+- **HIGH-1:** HIGH1_BLOCKER_RESOLUTION_SUMMARY.md (10.2 KB)
+- **HIGH-2:** CMT_TODO_AUDIT_COMPREHENSIVE_SUMMARY.md (9.9 KB)
+
+### Master Evidence Package
+- **CONTENT_BATCH5_COMPLETE_FINAL_REPORT_2026-08-15.md** (17.9 KB)
+
+---
+
+## TIMELINE
+
+| Date | Milestone | Status |
+|------|-----------|--------|
+| 2026-08-22 | CP-1 Gate: APPROVED ✅ | **TODAY** |
+| 2026-08-23 | Merge to develop | **TOMORROW** |
+| 2026-08-24 | CI/CD validation complete | +2 days |
+| 2026-08-26 | CP-2 checkpoint | +4 days |
+| 2026-08-29 | v2.4.0 GA Release 🚀 | +7 days |
+
+---
+
+## RISK LEVEL: MINIMAL ✅
+
+- Memory safety: ✅ Protected by std::optional + tests
+- Compliance: ✅ 100% verified
+- Production blockers: ✅ 0 (all accounted for)
+- CI/CD integration: ✅ 95%+ confidence
+
+---
+
+## CONTACT & ESCALATION
+
+- **Stream Lead Authority:** Stream D (Content Module Lead)
+- **Coordination Lead:** makr-code/Copilot Coordination Team
+- **Questions:** Review full documents in `/ai_working/`
+
+---
+
+**Status:** ✅ READY FOR MERGE (2026-08-23)  
+**Confidence:** 95%+  
+**Release On-Track:** YES 🚀
+
+---
+
+_Refer to full documents in `/ai_working/` for detailed evidence. All governance gates satisfied. Ready to proceed with merge execution._
+
+---
+
+### SUB_AGENT_ORCHESTRATION_PROTOCOL_STREAM_A.md
+
+# Sub-Agent Orchestration Protocol — Stream A (Q3 2026 Tensor Hardening)
+
+**Status**: LAUNCH PROTOCOL (Pre-Deployment)  
+**Created**: 2026-08-08T18:23:01Z  
+**Target Deployment**: Immediate (Aug 8, 2026)  
+**Scope**: Tensor Module Stream A Q3 Hardening & Diagnostics  
+**Parent Plan**: `TENSOR_IMPLEMENTATION_MASTER_PLAN.md`  
+
+---
+
+## Executive Summary
+
+This document defines the **parallel sub-agent orchestration protocol** for Stream A execution (Aug 7–31, 2026). Three specialized agents run in parallel across three implementation blocks (A1/A2/A3), with explicit coordination, dependency management, and weekly integration checkpoints.
+
+**Pilot Workflow**: Flash Attention E8 validation (background agent launched 2026-08-08T18:23:01Z) validates the orchestration framework before full Stream A deployment.
+
+---
+
+## Agent Registry & Roles
+
+### A1: Concurrent Hardening (themisdb-implementer)
+- **Agent ID**: `tensor-a1-hardening`
+- **Repository Role**: Core implementation and hardening
+- **Primary Deliverables**:
+  - Concurrency fixes in `tensor_index_manager.cpp`, `tensor_ingestion_bridge.cpp`
+  - Test suite: `test_tensor_index_manager_concurrent_focused.cpp` (TNCI-01..24)
+  - Test suite: `test_tensor_ingestion_bridge_concurrent_focused.cpp` (TNIC-01..16)
+  - Report: `CONCURRENT_HARDENING_FINDINGS.md`
+- **Success Criteria**:
+  - All tests pass 100+ iterations
+  - ThreadSanitizer clean (no race conditions)
+  - Throughput scales with thread count
+- **Duration**: Aug 7–21, 2026 (1-2 weeks)
+- **Status**: 🟡 PLANNED
+
+### A2: Diagnostics Unification (themisdb-reviewer)
+- **Agent ID**: `tensor-a2-diagnostics`
+- **Repository Role**: Validation and hardening review
+- **Primary Deliverables**:
+  - Unified `emitDiagnostic()` in `tensor_error_handling.cpp`
+  - Updates to diagnostic calls in `tensor_index_manager.cpp`, `tensor_core_bridge.cpp`, `tensor_fingerprint_graph.cpp`
+  - Test suite: `test_tensor_diagnostics_integration_focused.cpp` (TDIAG-01..24)
+  - Report: `DIAGNOSTIC_AUDIT.md`
+- **Success Criteria**:
+  - >95% error path coverage
+  - Consistent diagnostic format
+  - Zero silent failures
+- **Duration**: Aug 7–21, 2026 (1-2 weeks, parallel with A1)
+- **Status**: 🟡 PLANNED
+
+### A3: Benchmark Baselining (task runner)
+- **Agent ID**: `tensor-a3-benchmarks`
+- **Repository Role**: Performance validation and reporting
+- **Primary Deliverables**:
+  - Enhanced/validated benchmarks: `bench_tensor_fingerprint_graph.cpp`, `bench_tensor_deduplication_manager.cpp`
+  - Baseline report: `TENSOR_Q3_BENCHMARK_BASELINE.md` (p95/p99 locked values)
+  - Validation against `FUTURE_ENHANCEMENTS.md` targets
+- **Success Criteria**:
+  - All targets met
+  - p95/p99 stable (<2% variance)
+  - Baseline reproducible
+- **Duration**: Aug 7–27, 2026 (independent track, can start immediately)
+- **Status**: 🟡 PLANNED
+
+---
+
+## Parallel Execution Model
+
+### Block Dependencies
+
+```
+A1 (Concurrent Hardening)  ┐
+A2 (Diagnostics)          ├─→ Integration (Aug 22-31) → PR Merge (Aug 30-31)
+A3 (Benchmarks)           ┘
+```
+
+**Dependency Rules**:
+- A1 and A2 have **interface dependencies**: diagnostic calls in A1 code must use interfaces defined in A2
+- A3 (benchmarks) is **independent**: can run in parallel, but feeds into Stream B validation (Sept 1+)
+- No blocking dependencies between A1, A2, A3: all three can start immediately on Aug 7
+
+### Coordination Points
+
+**Weekly Sync** (Wednesdays 2026-08-14, 2026-08-21, 2026-08-28):
+- A1 status: test count, pass rate, ThreadSanitizer findings
+- A2 status: error paths catalogued, diagnostic format validated
+- A3 status: benchmark runs completed, p95/p99 measurements
+- Risk register update
+- Escalation path for blockers
+
+**Integration Checkpoint** (Aug 22-31):
+- All A1/A2/A3 blocks feature-complete
+- Tests passing on current `develop` baseline
+- Performance targets validated
+- Merge PR to `develop`: Aug 30-31
+
+---
+
+## Launch Protocol
+
+### Pre-Launch Checklist (NOW — 2026-08-08T18:23:01Z)
+
+- [x] Pilot validation started: **Flash Attention E8 workflow** (general-purpose agent)
+  - Validates agent infrastructure and reporting mechanisms
+  - Expected completion: 2026-08-08 (async, <4 hours)
+  - Output: `ai_working/FLASH_ATTENTION_E8_PILOT_VALIDATION.md`
+
+- [ ] Confirm agent infrastructure availability:
+  - `themisdb-implementer` role enabled
+  - `themisdb-reviewer` role enabled
+  - Task runner (benchmarks) infrastructure ready
+  - CI/CD gates functional (build, test, benchmark, security)
+
+- [ ] Confirm baseline environment:
+  - `develop` branch current and passing `release_critical` CI
+  - CMake preset `windows-release` or `linux-release` ready
+  - CTest labels registered: `tensor;hardening;phase1` (or renamed per stream)
+  - Benchmark infrastructure ready: microbench, macro-bench, graph profiling
+
+### Agent Launch Sequence (PROPOSED — Aug 8, 2026, 18:30 UTC)
+
+**Phase 1 — Immediate Launch (Aug 8, 2026, 18:30 UTC)**
+
+1. **A1 Agent Spin-up** (`themisdb-implementer`, `tensor-a1-hardening`)
+   - Task: Begin concurrent hardening analysis in tensor_index_manager.cpp
+   - Expected Duration: 10-14 days (Aug 8-21)
+   - Deliverable: CONCURRENT_HARDENING_FINDINGS.md (draft by Aug 15)
+   - Success Metric: First 50+ tests passing, ThreadSanitizer zero-race baseline
+
+2. **A2 Agent Spin-up** (`themisdb-reviewer`, `tensor-a2-diagnostics`)
+   - Task: Design unified diagnostic interface and audit error paths
+   - Expected Duration: 7-10 days (Aug 8-18)
+   - Deliverable: DIAGNOSTIC_AUDIT.md (draft by Aug 14)
+   - Success Metric: Error path mapping >95% complete, diagnostic format frozen
+
+3. **A3 Agent Spin-up** (`task`, `tensor-a3-benchmarks`)
+   - Task: Validate existing benchmarks and collect baseline measurements
+   - Expected Duration: 10-14 days (Aug 8-21)
+   - Deliverable: TENSOR_Q3_BENCHMARK_BASELINE.md (draft by Aug 18)
+   - Success Metric: All target measurements complete, p95/p99 stable
+
+**Phase 2 — Integration & Closure (Aug 22-31, 2026)**
+
+- Merge A1/A2/A3 findings into coherent PR
+- Final test pass on `develop` CI gates
+- Prepare for Stream B launch (Sept 1)
+
+---
+
+## Coordination Framework
+
+### Communication Protocol
+
+**Agent-to-Agent Interface**:
+- A1 ↔ A2: Diagnostic interface (`tensor_error_handling.cpp`, `emitDiagnostic()` contract)
+- A1 → A3: Test performance measurements feed baseline calibration
+- A2 → A3: Diagnostic overhead must stay <5% of benchmark runtime
+
+**Agent-to-Human Interface**:
+- Weekly async standup via status in this file (UPDATED section below)
+- Escalation: Blocker → `makr-code` via GitHub issue or direct notification
+- Final checkpoint: Aug 29 (all A1/A2/A3 ready for merge review)
+
+### Risk Management
+
+**A1 Risks**:
+- ThreadSanitizer may report false positives in lock-free data structures → requires domain expert review
+- **Mitigation**: Keep lock-free patterns minimal; pre-approved list in code review
+
+**A2 Risks**:
+- Diagnostic format change may break downstream log parsers → requires careful versioning
+- **Mitigation**: Version diagnostic messages; provide migration helper
+
+**A3 Risks**:
+- Hardware-variance in benchmark results may exceed 2% tolerance → requires stable CI environment
+- **Mitigation**: Lock benchmark frequency, CPU governor, thermal profile on CI runner
+
+---
+
+## Status Tracking (LIVE)
+
+### Latest Report (2026-08-08T18:23:01Z)
+
+| Agent | Block | Status | Progress | Next Checkpoint |
+|-------|-------|--------|----------|-----------------|
+| `tensor-a1-hardening` | A1 | 🟡 PLANNED | — | Aug 15 (draft findings) |
+| `tensor-a2-diagnostics` | A2 | 🟡 PLANNED | — | Aug 14 (draft audit) |
+| `tensor-a3-benchmarks` | A3 | 🟡 PLANNED | — | Aug 18 (draft baseline) |
+| **PILOT** | Flash E8 | 🔵 IN PROGRESS | Started 18:23Z | 2026-08-08 23:59Z |
+
+### Weekly Checkpoints
+
+**Week 1 (Aug 7-13)**:
+- [ ] A1: Concurrency analysis in progress, initial test cases defined
+- [ ] A2: Error path inventory started, diagnostic interface draft
+- [ ] A3: Benchmark infrastructure validated, measurement protocol finalized
+- [ ] Pilot: Flash Attention E8 validation report delivered
+
+**Week 2 (Aug 14-20)**:
+- [ ] A1: CONCURRENT_HARDENING_FINDINGS.md draft; 50+ tests passing
+- [ ] A2: DIAGNOSTIC_AUDIT.md draft; error paths >95% catalogued
+- [ ] A3: TENSOR_Q3_BENCHMARK_BASELINE.md draft; p95/p99 locked
+- [ ] Integration: Dependencies validated (A1 → A2 interface ready)
+
+**Week 3 (Aug 21-27)**:
+- [ ] A1: Final test suite complete (TNCI-01..24 + TNIC-01..16); all pass
+- [ ] A2: All error paths instrumented; zero silent failures validated
+- [ ] A3: Benchmark suite finalized; performance targets confirmed PASS
+- [ ] PR: Integration PR `feature/tensor-q3-hardening` created
+
+**Week 4 (Aug 28-31)**:
+- [ ] PR Review: Code review and sign-off
+- [ ] Final CI Gate: All `release_critical` tests PASS on PR
+- [ ] Merge: Merge to `develop` (Aug 30-31)
+
+---
+
+## Deliverables Checklist
+
+### A1 Deliverables (Concurrent Hardening)
+
+- [ ] `src/llm/tensor_index_manager.cpp` — concurrency hardening applied
+- [ ] `src/llm/tensor_ingestion_bridge.cpp` — bounded concurrency controls added
+- [ ] `tests/llm/test_tensor_index_manager_concurrent_focused.cpp` — TNCI-01..24 tests
+- [ ] `tests/llm/test_tensor_ingestion_bridge_concurrent_focused.cpp` — TNIC-01..16 tests
+- [ ] `ai_working/CONCURRENT_HARDENING_FINDINGS.md` — issue tracking report
+
+### A2 Deliverables (Diagnostics Unification)
+
+- [ ] `src/llm/tensor_error_handling.cpp/h` — unified `emitDiagnostic()` helper
+- [ ] `src/llm/tensor_index_manager.cpp` — diagnostic call integration
+- [ ] `src/llm/tensor_core_bridge.cpp` — diagnostic call integration
+- [ ] `src/llm/tensor_fingerprint_graph.cpp` — diagnostic call integration
+- [ ] `tests/llm/test_tensor_diagnostics_integration_focused.cpp` — TDIAG-01..24 tests
+- [ ] `ai_working/DIAGNOSTIC_AUDIT.md` — error path mapping report
+
+### A3 Deliverables (Benchmark Baselining)
+
+- [ ] `benchmarks/llm/bench_tensor_fingerprint_graph.cpp` — enhanced/validated
+- [ ] `benchmarks/llm/bench_tensor_deduplication_manager.cpp` — enhanced/validated
+- [ ] `ai_working/TENSOR_Q3_BENCHMARK_BASELINE.md` — baseline report with gates
+- [ ] Benchmark CI gates: GATE-TN-A3-01..06 defined and PASS
+
+### Integration Deliverables
+
+- [ ] PR `feature/tensor-q3-hardening` created and linked
+- [ ] All A1/A2/A3 artifacts integrated into `ai_working/` or source directories
+- [ ] Weekly sync notes consolidated into `STREAM_A_Q3_2026_TRACKING.md` (update)
+
+---
+
+## Next Phase Transition (Stream B Launch Sept 1)
+
+Upon successful Stream A closure (Aug 30-31), the orchestration framework immediately transitions to Stream B (Q4 2026 Determinism & Coverage):
+
+- B1: Edge Case Determinism (`themisdb-implementer`, `tensor-b1-edges`)
+- B2: Stress Coverage (`general-purpose`, `tensor-b2-stress`)
+- B3: P95/P99 Validation (`task`, `tensor-b3-validation`)
+
+**Prerequisites for Stream B Launch**:
+- Stream A PR merged to `develop`
+- All A1/A2/A3 acceptance criteria met
+- Weekly sync notes reflect zero-risk closure
+- CI gates `release_critical` green for 48+ hours
+
+---
+
+## Appendix A: Reference Documents
+
+- **Parent Plan**: `TENSOR_IMPLEMENTATION_MASTER_PLAN.md`
+- **Stream A Tracking**: `STREAM_A_Q3_2026_TRACKING.md`
+- **Tensor ROADMAP**: `src/tensor/ROADMAP.md`
+- **Agent Definitions**:
+  - `themisdb-implementer`: `.github/agents/themisdb-implementer.agent.md`
+  - `themisdb-reviewer`: `.github/agents/themisdb-reviewer.agent.md`
+- **CI Configuration**: `.github/workflows/09-pr-gates_release-critical-tests.yml`
+- **CMake Targets**: `tests/tensor/CMakeLists.txt`, `benchmarks/tensor/CMakeLists.txt`
+
+---
+
+## Appendix B: Pilot Validation Workflow (Flash Attention E8)
+
+**Pilot Status**: RUNNING (started 2026-08-08T18:23:01Z)  
+**Expected Output**: `ai_working/FLASH_ATTENTION_E8_PILOT_VALIDATION.md`  
+**Validation Purpose**: Confirm agent infrastructure works before full Stream A deployment  
+**Success Criterion**: Pilot completes with actionable validation report; orchestration framework confirmed stable
+
+---
+
+**Document Owner**: @makr-code  
+**Last Updated**: 2026-08-08T18:23:01Z  
+**Next Review**: 2026-08-14 (Week 1 checkpoint)
 
 ---
 
