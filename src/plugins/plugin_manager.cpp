@@ -43,6 +43,33 @@ namespace fs = std::filesystem;
 
 namespace {
 
+// Platform-specific library handle unloading function
+inline void unloadLibraryHandle(void* handle) noexcept {
+    if (!handle) return;
+#ifdef _WIN32
+    FreeLibrary(static_cast<HMODULE>(handle));
+#else
+    dlclose(handle);
+#endif
+}
+
+// Custom deleter for library handles to be used with unique_ptr
+struct LibraryHandleDeleter {
+    void operator()(void* handle) const noexcept {
+        if (handle) {
+            try {
+                unloadLibraryHandle(handle);
+            } catch (...) {
+                // Suppress exceptions during cleanup
+                THEMIS_WARN("Exception during library handle cleanup");
+            }
+        }
+    }
+};
+
+// Type alias for RAII-wrapped library handle
+using LibraryHandlePtr = std::unique_ptr<void, LibraryHandleDeleter>;
+
 std::string normalizeEditionName(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -835,34 +862,62 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
             }
         }
 
+        // Release main plugin lock before recursively loading dependencies.
+        // This prevents deadlock and allows concurrent dependency loading.
+        // Note: entry reference becomes invalid after releasing lock, so we don't use it.
         lock.unlock();
+
+        // Auto-load dependencies without holding the main plugins_ lock.
+        // Each recursive loadPlugin() call will acquire its own lock as needed.
         for (const auto& dep : deps_to_load) {
             THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
             auto dep_result = loadPlugin(dep);
             if (!dep_result) {
-                lock.lock();
+                // On dependency load failure, re-acquire lock and update state.
+                // Must re-query iterator since entry may have changed during unlock period.
                 {
-                    std::lock_guard<std::mutex> state_lock(entry.state_mutex);
-                    entry.state = PluginLifecycleState::UNLOADED;
+                    std::lock_guard<std::mutex> relock(mutex_);
+                    auto it_relock = plugins_.find(name);
+                    if (it_relock != plugins_.end()) {
+                        std::lock_guard<std::mutex> state_lock(it_relock->second.state_mutex);
+                        it_relock->second.state = PluginLifecycleState::UNLOADED;
+                    }
                 }
                 metrics_.recordError(name);
                 return tl::unexpected(dep_result.error());
             }
         }
-        lock.lock();
-        it = plugins_.find(name);
-        if (it == plugins_.end()) {
-            metrics_.recordError(name);
-            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
-                                        fmt::format("Plugin '{}' not found after dependency load", name));
-        }
-        if (it->second.loaded && it->second.instance) {
-            {
-                std::lock_guard<std::mutex> state_lock(it->second.state_mutex);
-                it->second.state = PluginLifecycleState::LOADED;
+
+        // Re-acquire lock after dependency loading completes.
+        // Must re-query the plugin entry since it may have been modified.
+        {
+            std::lock_guard<std::mutex> relock(mutex_);
+            it = plugins_.find(name);
+            if (it == plugins_.end()) {
+                metrics_.recordError(name);
+                return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                                            fmt::format("Plugin '{}' not found after dependency load", name));
             }
-            return Ok(it->second.instance.get());
+            // If a dependency load sequence succeeded and loaded this plugin, return it.
+            if (it->second.loaded && it->second.instance) {
+                {
+                    std::lock_guard<std::mutex> state_lock(it->second.state_mutex);
+                    it->second.state = PluginLifecycleState::LOADED;
+                }
+                return Ok(it->second.instance.get());
+            }
         }
+    }
+    
+    // Re-acquire lock for main loading sequence below.
+    // This ensures the lock is always held when accessing current_entry.
+    if (!lock.owns_lock()) {
+        lock.lock();
+    }
+    it = plugins_.find(name);
+    if (it == plugins_.end()) {
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                                    fmt::format("Plugin '{}' was removed during loading", name));
     }
     
     auto& current_entry = it->second;
@@ -1412,8 +1467,9 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     }
 
     // Step 2c: Load new binary (old library stays open — OS ref-counts handles)
-    void* new_handle = loadLibrary(plugin_path);
-    if (!new_handle) {
+    // Use RAII wrapper to ensure automatic cleanup if anything fails
+    void* raw_new_handle = loadLibrary(plugin_path);
+    if (!raw_new_handle) {
         auto msg = fmt::format("Failed to load new plugin binary for '{}' from '{}'", name, plugin_path);
         THEMIS_ERROR("{}", msg);
 #ifndef _WIN32
@@ -1422,12 +1478,15 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
         metrics_.recordError(name);
         return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
     }
+    
+    // Wrap handle in unique_ptr for RAII cleanup on failure
+    LibraryHandlePtr new_handle(raw_new_handle);
 
     // Step 2d: Resolve createPlugin / destroyPlugin entry points
-    auto new_create  = reinterpret_cast<CreatePluginFunc>(getSymbol(new_handle, "createPlugin"));
-    auto new_destroy = reinterpret_cast<DestroyPluginFunc>(getSymbol(new_handle, "destroyPlugin"));
+    auto new_create  = reinterpret_cast<CreatePluginFunc>(getSymbol(new_handle.get(), "createPlugin"));
+    auto new_destroy = reinterpret_cast<DestroyPluginFunc>(getSymbol(new_handle.get(), "destroyPlugin"));
     if (!new_create) {
-        unloadLibrary(new_handle);
+        // new_handle RAII will automatically unload on scope exit
         auto msg = fmt::format("New binary for plugin '{}' does not export createPlugin", name);
         THEMIS_ERROR("{}", msg);
         metrics_.recordError(name);
@@ -1435,14 +1494,32 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     }
 
     // Step 2e: Create new plugin instance
-    IThemisPlugin* new_instance = new_create();
-    if (!new_instance) {
-        unloadLibrary(new_handle);
+    IThemisPlugin* raw_new_instance = new_create();
+    if (!raw_new_instance) {
+        // new_handle RAII will automatically unload on scope exit
         auto msg = fmt::format("createPlugin() returned null for '{}'", name);
         THEMIS_ERROR("{}", msg);
         metrics_.recordError(name);
         return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
     }
+
+    // Wrap instance in unique_ptr with appropriate deleter
+    // Note: we need to capture new_destroy as the deleter
+    // Using a lambda deleter to call the plugin's destroy function if available
+    auto instance_deleter = [new_destroy](IThemisPlugin* ptr) noexcept {
+        if (ptr) {
+            try {
+                if (new_destroy) {
+                    new_destroy(ptr);
+                } else {
+                    delete ptr;
+                }
+            } catch (...) {
+                THEMIS_WARN("Exception during plugin instance cleanup");
+            }
+        }
+    };
+    std::unique_ptr<IThemisPlugin, decltype(instance_deleter)> new_instance(raw_new_instance, instance_deleter);
 
     // Step 2f: Initialize with restored state embedded in config (if available)
     std::string init_config = "{}";
@@ -1457,9 +1534,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     }
 
     if (!new_instance->initialize(init_config.c_str())) {
-        if (new_destroy) new_destroy(new_instance);
-        else delete new_instance;
-        unloadLibrary(new_handle);
+        // Both new_handle and new_instance RAII will automatically cleanup on scope exit
         auto msg = fmt::format("New plugin binary for '{}' failed initialize()", name);
         THEMIS_ERROR("{}", msg);
         metrics_.recordError(name);
@@ -1492,10 +1567,8 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
 
         auto it = plugins_.find(name);
         if (it == plugins_.end()) {
-            // Unlikely: plugin entry was removed concurrently. Clean up new instance.
-            if (new_destroy) new_destroy(new_instance);
-            else delete new_instance;
-            unloadLibrary(new_handle);
+            // Unlikely: plugin entry was removed concurrently.
+            // RAII wrappers (new_handle and new_instance) will automatically clean up on scope exit
             return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                            fmt::format("Plugin entry '{}' removed during reload", name));
         }
@@ -1509,13 +1582,16 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
                 getSymbol(old_handle, "destroyPlugin"));
         }
 
-        // Release old instance ownership and atomically install new instance.
-        // Using get()+reset() rather than release() to ensure the unique_ptr is
-        // explicitly nulled before the new pointer is assigned.
+        // Atomically swap instances:
+        // 1. Capture the raw pointer of the old instance from entry.instance
         old_raw = entry.instance.get();
+        // 2. Release ownership from the old unique_ptr (don't delete yet)
         entry.instance.release();
-        entry.instance.reset(new_instance);
-        entry.library_handle = new_handle;
+        // 3. Move ownership of the new instance to entry.instance
+        // We release from the RAII wrapper and pass the raw pointer to reset()
+        entry.instance.reset(new_instance.release());
+        // 4. Store the new handle (release from RAII wrapper and store raw pointer)
+        entry.library_handle = new_handle.release();
         entry.loaded         = true;
         entry.file_hash      = calculateFileHash(plugin_path);
     }
@@ -1523,16 +1599,34 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     // Swap complete — old plugin is now detached. Notify AFTER_UNLOAD.
     notifyPluginReload(name, PluginReloadPhase::AFTER_UNLOAD);
 
-    // Shut down and destroy the old instance outside the lock
+    // Create RAII wrappers for old instance and handle cleanup
+    // Note: old_destroy was captured with specific knowledge of old_handle's exported functions
+    auto old_instance_deleter = [old_destroy](IThemisPlugin* ptr) noexcept {
+        if (ptr) {
+            try {
+                ptr->shutdown();
+                if (old_destroy) {
+                    old_destroy(ptr);
+                } else {
+                    delete ptr;
+                }
+            } catch (...) {
+                THEMIS_WARN("Exception during old plugin instance cleanup");
+            }
+        }
+    };
+    
+    // Wrap old instance in RAII holder (it will be destroyed when this scope exits)
     if (old_raw) {
-        old_raw->shutdown();
-        if (old_destroy) old_destroy(old_raw);
-        else delete old_raw;
+        std::unique_ptr<IThemisPlugin, decltype(old_instance_deleter)> 
+            old_instance_holder(old_raw, old_instance_deleter);
+        // old_instance_holder automatically destroys old_raw when it goes out of scope
     }
-    // Brief delay to allow the OS to release the old file handle
+    
+    // Unload old library handle with brief delay to allow OS to release file
     if (old_handle) {
         std::this_thread::sleep_for(RELOAD_UNLOAD_DELAY_MS);
-        unloadLibrary(old_handle);
+        unloadLibraryHandle(old_handle);
     }
 
     // Update health monitor: unregister old instance, register new one
