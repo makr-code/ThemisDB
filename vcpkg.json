@@ -6,6 +6,8 @@
     "rocksdb",
     "fmt",
     "spdlog",
-    "nlohmann-json"
+    "nlohmann-json",
+    "boost",
+    "pugixml"
   ]
 }
