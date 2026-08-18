@@ -38,8 +38,10 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [ ] Phase D gate: all GPU failures degrade to CPU cleanly (Target: Q4 2026)
 - [ ] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
 - [ ] Phase D ctest gate: `test_gpu_error_handling` (Target: Q4 2026)
-- [ ] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
-- [ ] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
+- [~] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
+- [~] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
+  - 2026-08-18: test_gpu_resource_exhaustion.cpp (GPU-EXHAUST-01..12) and test_gpu_fallback_all_paths.cpp (GPU-FALLBACK-01..12) implemented
+  - 2026-08-18: both suites promoted to `release_critical` via `tests/gpu/CMakeLists.txt`; green-on-`develop` evidence still pending
 - [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
 - [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
 
@@ -143,14 +145,18 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
 - [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
+  - 2026-08-18: `ci-pr-gates` develop push runs were green, but the `Release-Critical Test Suite` job is skipped on push; no completed `ci-build` develop run has yet produced GPU-specific green evidence.
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
+  - 2026-08-18: `bench_gpu_a8_baselines.cpp` registered in `benchmarks/CMakeLists.txt`; execution evidence pending representative hardware
+  - 2026-08-18: clean release benchmark build was re-attempted in sandbox after installing system packages, but the benchmark target still had to traverse the full shared build graph and did not reach the GPU benchmark binary within the sandbox execution window.
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: Phase 2/3 focused tests (P23-01..08) and release-gate benchmarks (GP23-01..06) are already delivered.
 - [~] Chaos/fault-injection evidence: focused timeout/fallback/resource-safety CPU-only regressions are now covered; broader resource-exhaustion and all-path fault-injection suites remain open.
 - [~] Fail-closed verification: timeout enforcement now avoids unsafe stream destruction and focused regressions prove clean CPU fallback on timeout/exception paths, but full all-path proof is still pending.
-- [ ] Representative-hardware p95/p99 baselines: representative-hardware refresh remains open for backend and acceleration paths.
-- [~] `release_critical` coverage: focused timeout/fallback/resource-safety regression targets are now present, but full green-on-`develop` evidence for timeout/fallback/resource-exhaustion gates remains open.
+- [ ] Representative-hardware p95/p99 baselines: representative-hardware refresh remains open for backend and acceleration paths; `bench_gpu_a8_baselines` is now wired into the benchmark build for evidence capture.
+- [~] `release_critical` coverage: timeout/fallback/resource-exhaustion focused targets are now registered `release_critical`, but full green-on-`develop` evidence remains open.
+  - 2026-08-18: current develop evidence gap is CI-lane specific, not test-registration specific; push-side `ci-pr-gates` passed while `ci-build` has not yet yielded a completed release-critical proof point for GPU.
 - [~] Next closure batch: resource-exhaustion and representative-hardware closure remain open after the delivered CUDA-call/RAII/timeout/fallback hardening.
 
 ### Dependencies on Later Waves

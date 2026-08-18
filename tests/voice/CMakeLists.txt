@@ -68,12 +68,17 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    set(_labels "voice")
+    if(_stem MATCHES "test_voice_wave_a_chaos_bundle|test_voice_stream_validation|test_voice_backend_degradation_focused|test_voice_session_chaos_isolation")
+        list(APPEND _labels "wave_a" "release_critical")
+    endif()
+
     themis_register_module_focused_test(
         MODULE voice
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS voice
+        LABELS ${_labels}
     )
 endforeach()
