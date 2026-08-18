@@ -17,10 +17,6 @@
 #include "utils/error_registry.h"
 #include "utils/zstd_codec.h"
 #include "utils/lz4_codec.h"
-#include <rocksdb/db.h>
-#include <rocksdb/options.h>
-#include <rocksdb/utilities/transaction_db.h>
-#include <rocksdb/sst_file_reader.h>
 #include <filesystem>
 #include <fstream>
 #include <chrono>
@@ -35,9 +31,13 @@
 #include <nlohmann/json.hpp>
 #include <cstdlib>
 #include <openssl/sha.h>
+#ifdef THEMIS_ROCKSDB_AVAILABLE
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
+#include <rocksdb/sst_file_reader.h>
 #include <rocksdb/utilities/options_util.h>
+#endif
 #ifdef THEMIS_ENABLE_OPENSSL
 #  include <openssl/evp.h>
 #  include <openssl/rand.h>
@@ -51,6 +51,8 @@
 #endif
 
 namespace themis {
+
+#ifdef THEMIS_ROCKSDB_AVAILABLE
 
 namespace {
 
@@ -3232,4 +3234,112 @@ bool BackupManager::decompressPathWithIntegrity(const std::string& src_path,
     return true;
 }
 
+#else
+
+// Stub implementations when THEMIS_ROCKSDB_AVAILABLE is not defined
+
+BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> /* db_wrapper */) {
+    THEMIS_ERROR("BackupManager requires THEMIS_ROCKSDB_AVAILABLE to be enabled");
+}
+
+Result<std::string> BackupManager::createFullBackup(const std::string& /* dest_dir */) {
+    return Err<std::string>(
+        errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+        "Backup operations not available: RocksDB not enabled");
+}
+
+bool BackupManager::createFullBackup(const std::string& /* dest_dir */, std::error_code& ec,
+                                    const BackupOptions& /* options */) {
+    ec = std::make_error_code(std::errc::operation_not_supported);
+    return false;
+}
+
+Result<std::string> BackupManager::createIncrementalBackup(const std::string& /* dest_dir */) {
+    return Err<std::string>(
+        errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+        "Backup operations not available: RocksDB not enabled");
+}
+
+bool BackupManager::createIncrementalBackup(const std::string& /* dest_dir */, std::error_code& ec,
+                                           const BackupOptions& /* options */) {
+    ec = std::make_error_code(std::errc::operation_not_supported);
+    return false;
+}
+
+Result<std::string> BackupManager::createDifferentialBackup(const std::string& /* dest_dir */) {
+    return Err<std::string>(
+        errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+        "Backup operations not available: RocksDB not enabled");
+}
+
+bool BackupManager::createDifferentialBackup(const std::string& /* dest_dir */, std::error_code& ec,
+                                            const BackupOptions& /* options */) {
+    ec = std::make_error_code(std::errc::operation_not_supported);
+    return false;
+}
+
+Result<void> BackupManager::archiveWAL(const std::string& /* dest_dir */) {
+    return Err<void>(
+        errors::ErrorCode::ERR_BACKUP_WAL_ARCHIVE_FAILED,
+        "WAL archival not available: RocksDB not enabled");
+}
+
+bool BackupManager::archiveWAL(const std::string& /* dest_dir */, std::error_code& ec) {
+    ec = std::make_error_code(std::errc::operation_not_supported);
+    return false;
+}
+
+Result<void> BackupManager::restoreFromBackup(const std::string& /* src_dir */) {
+    return Err<void>(
+        errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+        "Restore operations not available: RocksDB not enabled");
+}
+
+bool BackupManager::restoreFromBackup(const std::string& /* src_dir */, std::error_code& ec,
+                                     RecoveryStats* /* stats */) {
+    ec = std::make_error_code(std::errc::operation_not_supported);
+    return false;
+}
+
+bool BackupManager::performPITR(const std::string& /* dest_dir */, const PITROptions& /* pitr_options */,
+                               std::error_code& ec, RecoveryStats* /* stats */) {
+    ec = std::make_error_code(std::errc::operation_not_supported);
+    return false;
+}
+
+bool BackupManager::restoreCollections(const std::string& /* src_dir */,
+                                      const std::vector<std::string>& /* collections */,
+                                      std::error_code& ec) {
+    ec = std::make_error_code(std::errc::operation_not_supported);
+    return false;
+}
+
+std::vector<std::string> BackupManager::listBackups(const std::string& /* backup_dir */) {
+    return {};
+}
+
+Result<void> BackupManager::verifyBackup(const std::string& /* backup_dir */) {
+    return Err<void>(
+        errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+        "Backup verification not available: RocksDB not enabled");
+}
+
+Result<std::string> BackupManager::compressBackup(const std::string& /* backup_dir */) {
+    return Err<std::string>(
+        errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+        "Backup compression not available: RocksDB not enabled");
+}
+
+Result<std::string> BackupManager::decompressBackup(const std::string& /* compressed_file */,
+                                                   const std::string& /* dest_dir */) {
+    return Err<std::string>(
+        errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+        "Backup decompression not available: RocksDB not enabled");
+}
+
+#endif // THEMIS_ROCKSDB_AVAILABLE
+
 } // namespace themis
+
+
+
