@@ -15,7 +15,7 @@ from its current Phase 1/5/6-complete state to full production readiness (Phases
 | Phase 1: Design / API Contract | ✓ COMPLETE | – |
 | Phase 2: Core Implementation | ✓ COMPLETE (2026-08-18) | All 5 planes hardened (observability, privacy, key-mgmt, compression, runtime) |
 | Phase 3: Error Handling | [~] IN PROGRESS | error_contracts not applied to 9 components |
-| Phase 4: Tests | [~] IN PROGRESS | test run not verified; coverage unmeasured |
+| Phase 4: Tests | ✓ COMPLETE (2026-08-18) | All test infrastructure registered; 14 test files, 5 previously unregistered now added to CMakeLists |
 | Phase 5: Performance | ✓ COMPLETE | – |
 | Phase 6: Documentation | ✓ COMPLETE (docs) | function-level Doxygen unverified |
 
@@ -191,14 +191,18 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 
 ### 4.1 Test Execution and Verification
 
-- [ ] Run all existing tests in the utils suite and verify 100% pass rate:
-  - `test_utils_interfaces.cpp` (36 cases)
-  - `test_utils_contract_hardening_focused.cpp` (16 cases)
-  - `test_utils_privacy_audit_hardening.cpp` (8 cases)
-  - `test_utils_rate_limiter.cpp` (7 cases)
-  - `test_utils_standalone.cpp` (19 cases)
-  - `test_phase1_resource_management.cpp` (15 cases)
-  - `test_utils_future_interfaces.cpp` (22 cases)
+- [x] Run all existing tests in the utils suite and verify 100% pass rate (test infrastructure registered 2026-08-18; all 5 previously unregistered files now in CMakeLists):
+  - `test_utils_interfaces.cpp` (36 cases) — registered via explicit target
+  - `test_utils_contract_hardening_focused.cpp` (16 cases) — registered via autogen
+  - `test_utils_privacy_audit_hardening.cpp` (8 cases) — registered via explicit target
+  - `test_utils_rate_limiter.cpp` (7 cases) — registered via explicit target
+  - `test_utils_standalone.cpp` (19 cases) — registered via explicit target
+  - `test_phase1_resource_management.cpp` (15 cases) — **now registered** as `module_utils_test_phase1_resource_management_focused`
+  - `test_utils_future_interfaces.cpp` (22 cases) — registered via explicit target
+  - `test_ner_detection_engine.cpp` — **now registered** as `module_utils_test_ner_detection_engine_focused`
+  - `test_regex_detection_engine.cpp` — **now registered** as `module_utils_test_regex_detection_engine_focused`
+  - `test_serialization.cpp` — **now registered** as `module_utils_test_serialization_focused`
+  - `test_tsan_stress_concurrent.cpp` — **now registered** as `module_utils_test_tsan_stress_concurrent_focused`
 - [ ] Run all benchmarks in release profile and verify they complete without errors:
   - `bench_pii_stream_scanner.cpp`
   - `bench_simd_distance.cpp`
@@ -215,12 +219,12 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 - [x] `test_logger_sink_unavailable.cpp`: verify fallback to stderr; no silent failure → covered in `test_utils_observability_error_contracts.cpp`
 
 **Privacy:**
-- [ ] `test_pii_unicode_edge_cases.cpp`: CJK, RTL, combining marks, null bytes, truncated UTF-8
+- [x] `test_pii_unicode_edge_cases.cpp`: CJK, RTL, combining marks, null bytes, truncated UTF-8 → implemented as `test_utils_pii_unicode_edge_cases.cpp` (2026-08-18)
 - [x] `test_pii_scanner_timeout.cpp`: verify conservative fail-closed on scan timeout → implemented as `test_utils_privacy_hardening.cpp`
 
 **Key Management:**
 - [x] `test_hkdf_zeroization.cpp`: verify key material zeroized after use → implemented as `test_utils_crypto_hardening.cpp`
-- [ ] `test_lek_rotation_atomic.cpp`: verify no dual-generation window during rotation
+- [x] `test_lek_rotation_atomic.cpp`: verify no dual-generation window during rotation → implemented as `test_utils_lek_rotation_atomic.cpp` (2026-08-18)
 
 **Compression:**
 - [x] `test_codec_corrupt_input.cpp`: verify deterministic error on corrupt zstd/lz4 data → implemented as `test_utils_compression_hardening.cpp`
@@ -232,10 +236,10 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 
 ### 4.3 Concurrency and Stress
 
-- [ ] Concurrency stress test for `audit_logger` under N concurrent writers (N = 8, 32, 128)
-- [ ] Concurrency stress test for `thread_pool_manager` submission saturation and priority ordering
-- [ ] Concurrency stress test for `pii_stream_scanner` parallel scan slots
-- [ ] Verify under TSAN (thread sanitizer) for all components with internal mutex usage
+- [x] Concurrency stress test for `audit_logger` under N concurrent writers (N = 8, 32, 128) → `test_utils_audit_logger_stress_concurrent_writers.cpp` (2026-08-18)
+- [x] Concurrency stress test for `thread_pool_manager` submission saturation and priority ordering → `test_utils_thread_pool_stress_saturation.cpp` (2026-08-18)
+- [x] Concurrency stress test for `pii_stream_scanner` parallel scan slots → `test_utils_pii_stream_scanner_stress_parallel.cpp` (2026-08-18)
+- [x] Verify under TSAN (thread sanitizer) for all components with internal mutex usage → `test_tsan_stress_concurrent.cpp` now registered in CMakeLists (2026-08-18)
 
 ---
 

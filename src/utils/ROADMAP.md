@@ -92,6 +92,19 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)
 - [x] extend concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
   - [x] Phase 4 stress/concurrency test suite added (UTL-CONC-01..10): ThreadPool, RateLimiter, ErrorRegistry, error_contracts, zstd_codec, lz4_codec - COMPLETE 2026-08-17
+- [x] Phase 4.2 new test coverage complete (2026-08-18):
+  - test_utils_pii_unicode_edge_cases.cpp: CJK/RTL/combining marks/truncated UTF-8
+  - test_utils_lek_rotation_atomic.cpp: dual-generation window verification
+  - test_utils_audit_logger_stress_concurrent_writers.cpp: N=8/32/128 concurrent writers
+  - test_utils_thread_pool_stress_saturation.cpp: submission saturation + priority ordering
+  - test_utils_pii_stream_scanner_stress_parallel.cpp: parallel scan slot stress
+  - test_tsan_stress_concurrent.cpp: TSAN concurrency verification for mutex-heavy components
+- [x] Phase 4.3 unregistered tests registered in CMakeLists (2026-08-18):
+  - test_ner_detection_engine.cpp → NERDetectionEngineFocusedTests
+  - test_regex_detection_engine.cpp → RegexDetectionEngineFocusedTests
+  - test_serialization.cpp → SerializationFocusedTests
+  - test_tsan_stress_concurrent.cpp → TSANConcurrencyStressTests
+  - test_phase1_resource_management.cpp → Phase1ResourceManagementTests
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for mapped utility hotspots (Target: Q4 2026)
@@ -117,6 +130,10 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] gap remediation: pki_client + error_registry critical/high closure (2026-08-17)
   - pki_client.cpp: cert pinning fail-closed enforcement + password callback bounds hardening
   - error_registry.cpp/h: shared_mutex synchronization for concurrent read/write safety
+- [x] Phase 4 gap closure: 5 unregistered test files added to CMakeLists (2026-08-18)
+  - test_ner_detection_engine.cpp, test_regex_detection_engine.cpp, test_serialization.cpp
+  - test_tsan_stress_concurrent.cpp, test_phase1_resource_management.cpp
+  - IMPLEMENTATION_PLAN_PHASES_2_4.md Phase 4 items marked complete
 
 ## Production Readiness Checklist
 
