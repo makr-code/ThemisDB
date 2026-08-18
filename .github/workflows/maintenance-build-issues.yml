@@ -246,3 +246,23 @@ jobs:
             echo "... (see full report in GitHub issue)"
           fi
           echo "──────────────────────────────────────────────"
+
+      - name: Collect error metrics for Prometheus/Grafana
+        if: always()
+        shell: bash
+        env:
+          ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
+          METRICS_DIR: /tmp/error-metrics
+          OUTPUT_FORMAT: json,prometheus,markdown
+          GITHUB_OUTPUT: ${{ env.GITHUB_OUTPUT }}
+        run: |
+          mkdir -p /tmp/error-metrics
+          node ${{ github.workspace }}/.github/scripts/collect-build-metrics.js
+
+      - name: Upload metrics artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-metrics
+          path: /tmp/error-metrics/
+          retention-days: 90
