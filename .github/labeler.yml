@@ -27,12 +27,16 @@
 "wave:B":
   - changed-files:
       - any-glob-to-any-file:
+          - "src/acceleration/**"
           - "src/llm/**"
           - "src/retrieval/**"
           - "src/tensor/**"
           - "src/gpu/**"
+          - "include/acceleration/**"
+          - "include/gpu/**"
           - "include/llm/**"
           - "include/retrieval/**"
+          - "include/tensor/**"
 
 "wave:C":
   - changed-files:
@@ -40,6 +44,7 @@
           - "src/security/**"
           - "src/auth/**"
           - "src/governance/**"
+          - "include/governance/**"
           - "include/security/**"
           - "include/auth/**"
 

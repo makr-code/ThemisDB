@@ -152,7 +152,7 @@ When a version is released or superseded:
 
 - The PR author sets the "Target Version" field
 - GitHub automation (or manual PR review) assigns the corresponding milestone to the PR
-- If the milestone does not exist, the PR is blocked until:
+- If the milestone does not exist, automation leaves the PR unassigned and the PR should not be merged until:
   - The milestone is created, OR
   - The author changes the target version to an existing milestone
 

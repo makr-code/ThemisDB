@@ -15,8 +15,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -94,8 +92,8 @@ jobs:
           RESPONSE: ${{ steps.inference.outputs.response }}
 
   # ---------------------------------------------------------------------------
-  # Assign milestone based on affected modules and ROADMAP Waves
-  # Maps changed files to ROADMAP Waves (A/B/C/D) and assigns appropriate milestone
+  # Assign milestone from the PR's Target Version field.
+  # This keeps milestone assignment aligned with the version-targeting governance model.
   # ──────────────────────────────────────────────────────────────────────────────
   assign-milestone:
     name: Assign milestone
@@ -107,14 +105,7 @@ jobs:
       pull-requests: write
       contents: read
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
-        with:
-          fetch-depth: 1
-          sparse-checkout: |
-            .github
-            ROADMAP.md
-
-      - name: Determine milestone from changed files
+      - name: Determine milestone from PR target version
         id: milestone
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
@@ -124,55 +115,17 @@ jobs:
               console.log('Skipping: PR does not exist or is a draft.');
               return;
             }
-              // Get changed files
-              const { data: files } = await github.rest.pulls.listFiles({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pr.number,
-                per_page: 100,
-              });
 
-              // Map files to ROADMAP Wave and milestone
-              const waveA = /^(src|include)\/(access_model|search|sharding|replication|utils)\//;
-              const waveB = /^(src|include)\/(llm|retrieval|tensor|gpu|acceleration)\//;
-              const waveC = /^(src|include)\/(security|auth|governance)\//;
-              const waveD = /^(src|include)\/(observability|maintenance)|^docs\/operability\//;
+            const match = (pr.body || '').match(/^\*\*Target Version:\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$/m);
+            const milestone = (match?.[1] || match?.[2] || '').trim();
 
-              let waves = new Set();
-              let isReleaseRelated = false;
-              
-              for (const file of files) {
-                const filePath = file.filename;
-                if (waveA.test(filePath)) waves.add('A');
-                if (waveB.test(filePath)) waves.add('B');
-                if (waveC.test(filePath)) waves.add('C');
-                if (waveD.test(filePath)) waves.add('D');
-                if (/^(src|include)\/(updates|process|audit)\//i.test(filePath)) {
-                  isReleaseRelated = true;
-                }
-              }
-
-              // Determine milestone based on Waves
-              let milestone = null;
-              if (waves.has('A') || isReleaseRelated) {
-                milestone = 'Q4-2026';
-              } else if (waves.has('B')) {
-                milestone = 'Q4-2026';
-              } else if (waves.has('C')) {
-                milestone = 'Q4-2026';
-              } else if (waves.has('D')) {
-                milestone = 'Q1-2027';
-              } else if (/^(docs|README|ROADMAP|CHANGELOG)/.test(pr.title) ||
-                        /^docs|^.github/.test(files[0]?.filename || '')) {
-                milestone = 'Documentation';
-              } else {
-                milestone = 'Backlog';
-              }
-
-              console.log(`Detected Waves: ${Array.from(waves).join(', ') || 'none'}`);
-              console.log(`Assigned milestone: ${milestone}`);
-              core.setOutput('milestone', milestone);
+            if (!milestone) {
+              console.log('No Target Version found in PR body; skipping milestone assignment.');
+              return;
             }
+
+            console.log(`Assigned milestone from Target Version: ${milestone}`);
+            core.setOutput('milestone', milestone);
 
       - name: Apply milestone to PR
         if: steps.milestone.outputs.milestone != ''
