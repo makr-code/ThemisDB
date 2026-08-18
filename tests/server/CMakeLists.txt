@@ -80,6 +80,15 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TIMEOUT 120
             LABELS release_critical server phase3 compat
         )
+    elseif(_stem STREQUAL "test_server_phase2_focused")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS release_critical server phase2 performance
+        )
     else()
         themis_register_module_focused_test(
             MODULE server
