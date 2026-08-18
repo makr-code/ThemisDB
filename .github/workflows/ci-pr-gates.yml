@@ -135,6 +135,72 @@ jobs:
           PY
 
   # ────────────────────────────────────────────────────────────────────────────
+  # WAVE C POLICY GATES — Invokes all 4 policy gate workflows
+  # Enforces security boundaries, edition compatibility, and supply-chain integrity
+  # ────────────────────────────────────────────────────────────────────────────
+  wavec-policy-gates-private-plugin:
+    name: Wave C Policy Gate — Private/Public Plugin Boundary
+    needs: preflight-ci-policy
+    if: github.event.pull_request.base.ref != ''
+    uses: ./.github/workflows/09-pr-gates_private-plugin-boundary-enforcement.yml
+
+  wavec-policy-gates-edition-license:
+    name: Wave C Policy Gate — Edition & License Validation
+    needs: preflight-ci-policy
+    if: github.event.pull_request.base.ref != ''
+    uses: ./.github/workflows/09-pr-gates_edition-license-validation.yml
+
+  wavec-policy-gates-hash-sbom:
+    name: Wave C Policy Gate — Hash & SBOM Integrity
+    needs: preflight-ci-policy
+    if: github.event.pull_request.base.ref != ''
+    uses: ./.github/workflows/09-pr-gates_hash-sbom-validation.yml
+
+  wavec-policy-gates-community-fail-closed:
+    name: Wave C Policy Gate — Community Fail-Closed Validation
+    needs: preflight-ci-policy
+    if: github.event.pull_request.base.ref != ''
+    uses: ./.github/workflows/09-pr-gates_community-fail-closed.yml
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # AGGREGATED WAVE C POLICY GATES RESULT
+  # Waits for all 4 policy gates to complete
+  # ────────────────────────────────────────────────────────────────────────────
+  wavec-policy-gates:
+    name: Wave C Policy Gates (Aggregated)
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - wavec-policy-gates-private-plugin
+      - wavec-policy-gates-edition-license
+      - wavec-policy-gates-hash-sbom
+      - wavec-policy-gates-community-fail-closed
+    steps:
+      - name: Report Wave C policy gate results
+        run: |
+          {
+            echo "## Wave C Policy Gates Results"
+            echo ""
+            echo "| Gate | Result |"
+            echo "|------|--------|"
+            echo "| Private/Public Plugin Boundary | ${{ needs.wavec-policy-gates-private-plugin.result }} |"
+            echo "| Edition & License Validation | ${{ needs.wavec-policy-gates-edition-license.result }} |"
+            echo "| Hash & SBOM Integrity | ${{ needs.wavec-policy-gates-hash-sbom.result }} |"
+            echo "| Community Fail-Closed | ${{ needs.wavec-policy-gates-community-fail-closed.result }} |"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+      
+      - name: Fail if any Wave C policy gate failed
+        if: |
+          needs.wavec-policy-gates-private-plugin.result == 'failure' ||
+          needs.wavec-policy-gates-edition-license.result == 'failure' ||
+          needs.wavec-policy-gates-hash-sbom.result == 'failure' ||
+          needs.wavec-policy-gates-community-fail-closed.result == 'failure'
+        run: |
+          echo "::error::One or more Wave C policy gates FAILED — review implementation per CI_POLICY_GATES_WAVE_C.md"
+          exit 1
+
+  # ────────────────────────────────────────────────────────────────────────────
   # GATE 1 — Community Pipeline Policy (no private credentials in community CI)
   # Applies to: PRs targeting community and minimal only
   # ────────────────────────────────────────────────────────────────────────────
@@ -917,6 +983,7 @@ jobs:
     if: always()
     needs:
       - preflight-ci-policy
+      - wavec-policy-gates
       - community-pipeline-policy
       - high-exception-record
       - private-plugin-boundary
@@ -937,6 +1004,7 @@ jobs:
             echo "| Gate | Result |"
             echo "|------|--------|"
             echo "| Preflight CI Policy + Workflow Lint | ${{ needs.preflight-ci-policy.result }} |"
+            echo "| **Wave C Policy Gates** | ${{ needs.wavec-policy-gates.result }} |"
             echo "| Community Pipeline Policy | ${{ needs.community-pipeline-policy.result }} |"
             echo "| High Exception Record | ${{ needs.high-exception-record.result }} |"
             echo "| Private Plugin Boundary | ${{ needs.private-plugin-boundary.result }} |"
@@ -949,6 +1017,12 @@ jobs:
             echo "| Private-Credential Scanning (Wave C B3) | ${{ needs.private-credential-scan.result }} |"
             echo "| Secret Scanning (non-blocking) | ${{ needs.secret-scan.result }} |"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if mandatory Wave C policy gates failed
+        if: needs.wavec-policy-gates.result != '' && needs.wavec-policy-gates.result == 'failure'
+        run: |
+          echo "::error::Wave C policy gates FAILED — review implementation per CI_POLICY_GATES_WAVE_C.md"
+          exit 1
 
       - name: Fail if mandatory release-critical gate failed
         if: needs.release-critical-tests.result != '' && needs.release-critical-tests.result == 'failure'

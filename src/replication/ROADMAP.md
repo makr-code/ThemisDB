@@ -41,12 +41,16 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
   - ✅ Implementation: `ReplicationManager::setPlacementPolicy()`, `getPlacementPolicy()`, `validatePlacementPolicy()`
   - ✅ Deterministic behavior: `GeoReplicaPlacementManager` provides stateless candidate selection
   - **Status**: Feature complete; integration with automatic leader election pending (Track 2 hardening phase)
-- [ ] **Async cross-region WAL shipping with configurable lag limits**: replicate WAL segments to
+- [x] **Async cross-region WAL shipping with configurable lag limits**: replicate WAL segments to
   remote DCs asynchronously; operator-configurable lag limit (default 1 s); emit alert metric
-  when lag limit exceeded (Target: Q3 2026)
-  - Inputs: `replication.wal_shipping.max_lag_ms` config key; remote DC endpoint
-  - Acceptance: WAL ship throughput ≥ 80 MB/s on GbE link; lag alert fires within 2× lag window;
+  when lag limit exceeded (Target: Q3 2026, COMPLETED 2026-08-18)
+  - ✅ Inputs: `replication.wal_shipping.max_lag_ms` config key; remote DC endpoint
+  - ✅ Acceptance: WAL ship throughput ≥ 80 MB/s on GbE link; lag alert fires within 2× lag window;
     `replication_wal_lag_ms` Prometheus histogram wired
+  - ✅ Implementation: `AsyncWalShipper` class with background worker thread, configurable lag thresholds
+  - ✅ Alert integration: `LagAlertManager` with SLO threshold enforcement and failover detection
+  - ✅ Production readiness: 13 focused test cases, lock hierarchy documented, zero unresolved markers
+  - ✅ Evidence: `ai_working/REPLICATION_WAL_IMPLEMENTATION_2026_08_18.md`, test file `tests/replication/test_replication_async_wal_lag_alerts.cpp`
 
 ## Implementation Phases
 
@@ -156,13 +160,14 @@ This module is scoped to **Wave A — Runtime Reliability First** in the program
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave A Scope for `replication`
-- [ ] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026)
+- [x] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026, COMPLETED 2026-08-18)
 
 ### Wave A Exit Criteria (this module's contribution)
 - [x] Deterministic chaos evidence complete for recovery and failover paths (Completed 2026-08-17 — test_replication_chaos_failover_focused.cpp, CHAOS-01..08: geo-placement fault injection + WAL transport failure scenarios)
 - [x] Fail-closed behavior verified for all distributed/acceleration paths in scope (Completed 2026-08-17 — CHAOS-01..08 validate fail-closed placement; WAL shipper proven stoppable under always-throw and blocking-transport faults)
 - [x] `release_critical` CI green on `develop` (Completed 2026-08-17 — geo_placement_wal_shipping and chaos_failover tests promoted to `release_critical` label in tests/replication/CMakeLists.txt)
 - [x] Representative-hardware p95/p99 baselines refreshed (Completed 2026-08-17 — bench_replication_geo_wal_baselines.cpp: BENCH-GEO-01..04 + BENCH-WAL-01..04 with p99 thresholds: GEO < 500 µs, WAL enqueue < 200 µs, burst ≥ 50 000/s)
+- [x] Async WAL shipping with lag alerts implementation complete (Completed 2026-08-18 — AsyncWalShipper + LagAlertManager production code, 13 test cases, zero critical markers)
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: contract hardening (RCH-01..16) and conflict-resolution evidence are already recorded in the module evidence summary.

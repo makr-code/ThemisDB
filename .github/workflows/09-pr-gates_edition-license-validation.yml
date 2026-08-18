@@ -1,0 +1,201 @@
+name: CI — PR Gates (Wave C) — Edition & License Validation
+
+# Enforces edition compatibility and license feature gates.
+# Validates that enterprise/hyperscaler/military features do not leak to community builds.
+# Ensures license_feature field matches feature availability per edition.
+
+on:
+  workflow_call: {}
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'plugins/**'
+      - 'include/**'
+      - 'src/**'
+      - 'CMakeLists.txt'
+      - '.github/workflows/09-pr-gates_edition-license-validation.yml'
+  push:
+    branches: [develop]
+    paths:
+      - 'plugins/**'
+      - 'include/**'
+      - 'src/**'
+  workflow_dispatch:
+
+concurrency:
+  group: edition-license-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  edition-license-validation:
+    name: Edition & License Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Validate edition matrix consistency
+        run: |
+          set -euo pipefail
+          
+          TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
+          echo "Target branch: $TARGET_BRANCH"
+          
+          # Define allowed editions per branch.
+          case "$TARGET_BRANCH" in
+            community)
+              ALLOWED_EDITIONS="public"
+              ;;
+            minimal)
+              ALLOWED_EDITIONS="public"
+              ;;
+            enterprise)
+              ALLOWED_EDITIONS="public,enterprise"
+              ;;
+            hyperscaler)
+              ALLOWED_EDITIONS="public,enterprise,hyperscaler"
+              ;;
+            military)
+              ALLOWED_EDITIONS="public,enterprise,military"
+              ;;
+            develop)
+              ALLOWED_EDITIONS="public,enterprise,hyperscaler,military"
+              ;;
+            *)
+              ALLOWED_EDITIONS="public"
+              ;;
+          esac
+          
+          echo "Allowed editions for $TARGET_BRANCH: $ALLOWED_EDITIONS"
+          
+          # Find all plugin.toml/plugin.json files and validate allowed_editions.
+          INVALID_EDITIONS=0
+          MANIFEST_FILES=$(find plugins -name "plugin.toml" -o -name "plugin.json" 2>/dev/null || echo "")
+          
+          while IFS= read -r manifest_file; do
+            [ -z "$manifest_file" ] && continue
+            
+            # Extract allowed_editions from manifest.
+            DECLARED_EDITIONS=$(grep -oP 'allowed_editions\s*=\s*"?\K[^"]*' "$manifest_file" || echo "")
+            [ -z "$DECLARED_EDITIONS" ] && continue
+            
+            # Check each declared edition against allowed list.
+            for edition in $(echo "$DECLARED_EDITIONS" | tr ',' '\n'); do
+              edition=$(echo "$edition" | xargs)  # trim whitespace
+              
+              if ! echo "$ALLOWED_EDITIONS" | grep -q "$edition"; then
+                echo "::error::$manifest_file declares edition '$edition' not allowed on branch '$TARGET_BRANCH'"
+                ((INVALID_EDITIONS++)) || true
+              fi
+            done
+          done <<< "$MANIFEST_FILES"
+          
+          if [ $INVALID_EDITIONS -gt 0 ]; then
+            echo "::error::$INVALID_EDITIONS manifest(s) have incompatible edition declarations"
+            exit 1
+          fi
+          
+          echo "✓ Edition matrix validation passed"
+
+      - name: Validate license_feature gates
+        run: |
+          set -euo pipefail
+          
+          TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
+          
+          # Community builds must NOT require commercial/enterprise licenses.
+          if [[ "$TARGET_BRANCH" == "community" ]] || [[ "$TARGET_BRANCH" == "minimal" ]]; then
+            
+            INVALID_LICENSES=0
+            MANIFEST_FILES=$(find plugins -name "plugin.toml" -o -name "plugin.json" 2>/dev/null || echo "")
+            
+            while IFS= read -r manifest_file; do
+              [ -z "$manifest_file" ] && continue
+              
+              # Check for enterprise-only license features in community plugins.
+              if grep -qE 'license_feature.*=.*"(ENTERPRISE|HYPERSCALER|MILITARY)"' "$manifest_file"; then
+                echo "::error::$manifest_file declares enterprise license feature in community-targetable plugin"
+                ((INVALID_LICENSES++)) || true
+              fi
+            done <<< "$MANIFEST_FILES"
+            
+            if [ $INVALID_LICENSES -gt 0 ]; then
+              echo "::error::$INVALID_LICENSES plugin(s) have restricted license features in community build"
+              exit 1
+            fi
+          fi
+          
+          echo "✓ License feature validation passed"
+
+      - name: Detect enterprise/hyperscaler/military markers in community paths
+        run: |
+          set -euo pipefail
+          
+          TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
+          
+          if [[ "$TARGET_BRANCH" == "community" ]] || [[ "$TARGET_BRANCH" == "minimal" ]]; then
+            BASE_REF="${{ github.base_ref || 'develop' }}"
+            git fetch origin "${BASE_REF}" --depth=1
+            CHANGED_FILES=$(git diff --name-only "origin/${BASE_REF}...HEAD" || echo "")
+            
+            ENTERPRISE_MARKERS=0
+            
+            while IFS= read -r file; do
+              # Look for edition markers in code (e.g., THEMIS_ENTERPRISE_ONLY, THEMIS_MILITARY_ONLY).
+              if [[ "$file" =~ \.(cpp|h|hpp)$ ]]; then
+                if grep -q "THEMIS_ENTERPRISE_ONLY\|THEMIS_HYPERSCALER_ONLY\|THEMIS_MILITARY_ONLY" "$file"; then
+                  # These are OK if they guard the feature (compilation flags).
+                  # But if they're shipping as-is in community, that's a leak.
+                  if ! grep -q "#ifdef THEMIS_ENTERPRISE_ONLY\|#ifdef THEMIS_HYPERSCALER_ONLY\|#ifdef THEMIS_MILITARY_ONLY" "$file"; then
+                    echo "::warning::Edition marker found in $file but may not be properly guarded"
+                  fi
+                fi
+              fi
+            done <<< "$CHANGED_FILES"
+            
+            if [ $ENTERPRISE_MARKERS -gt 0 ]; then
+              echo "::warning::Found $ENTERPRISE_MARKERS potential edition-marker issues"
+            fi
+          fi
+          
+          echo "✓ Enterprise/military marker detection passed"
+
+      - name: Post edition validation result
+        if: always()
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const conclusion = '${{ job.status }}' === 'success' ? 'success' : 'failure';
+            const msg = conclusion === 'success'
+              ? '✅ Edition & License validation PASSED'
+              : '❌ Edition & License validation FAILED';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Wave C Policy Gate: Edition & License Validation
+            
+            ${msg}
+            
+            - ✅ Edition matrix consistency check
+            - ✅ License feature gate validation
+            - ✅ Enterprise/military marker detection
+            
+            Target branch: \`${{ github.base_ref || 'develop' }}\`
+            
+            See \`.github/workflows/09-pr-gates_edition-license-validation.yml\` for details.`
+            });

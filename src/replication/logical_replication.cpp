@@ -36,6 +36,41 @@ namespace fs = std::filesystem;
 namespace themisdb {
 namespace replication {
 
+// ============================================================================
+// Lock Hierarchy Documentation (logical_replication.cpp)
+// ============================================================================
+//
+// This module implements a 2-level lock hierarchy for logical replication
+// slot management using std::shared_mutex for reader-writer concurrency.
+//
+// LOCK HIERARCHY (ordered from outermost to innermost):
+//
+//   Level 1: LogicalReplicationManager::slots_mutex_
+//            - Purpose: Protects slots_ map (slot collection)
+//            - Scope: Slot lookup, creation, listing
+//            - Hold time: MINIMAL (~microseconds)
+//            - Pattern: shared_lock for reads, unique_lock for writes
+//            - Mode: Multiple readers (slot access), exclusive writer (slot create)
+//            - Typically released before accessing individual slot
+//
+//   Level 2: SlotRuntime::mutex
+//            - Purpose: Protects individual slot state (buffer, metadata)
+//            - Scope: Per-slot operations (advance, readChanges, persist)
+//            - Hold time: VARIABLE (depends on buffer size)
+//            - Pattern: lock_guard for state updates, persist outside if possible
+//            - Mode: exclusive access to per-slot state
+//
+// BLOCKING OPERATIONS:
+//   persistSlot() performs file I/O (currently under Level 2 lock)
+//   readChanges() may buffer large change sets (under Level 2 lock)
+//   Note: These should be refactored to execute lock-free when possible
+//
+// TIMEOUT SAFETY:
+//   SlotRuntime::mutex could be upgraded to unique_lock with timeout
+//   in high-contention scenarios (future improvement)
+//
+// ============================================================================
+
 namespace {
 std::string trimCopy(const std::string& s) {
     size_t start = 0;

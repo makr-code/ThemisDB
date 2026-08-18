@@ -58,12 +58,13 @@
 namespace themis { namespace voice {
 using json = nlohmann::json;
 
-// Session states
+// Session states (Wave A Block 2: Enhanced teardown safety)
 enum class SessionState {
-    ACTIVE,
-    IDLE,
-    EXPIRED,
-    TERMINATED
+    ACTIVE,       // User actively interacting
+    IDLE,         // No activity within idle_timeout_ms
+    EXPIRED,      // Exceeded absolute timeout
+    CLOSING,      // Explicit teardown in progress (Wave A Block 2 addition)
+    TERMINATED    // Teardown complete, resources released
 };
 
 std::string sessionStateToString(SessionState state);
@@ -101,12 +102,21 @@ struct SessionAnalytics {
     std::map<std::string, size_t> sessions_by_language;
 };
 
-// Session timeout configuration
+/// @struct SessionTimeoutConfig
+/// @brief Session lifecycle and teardown timeout configuration.
+///
+/// ## Wave A Block 2: Teardown Safety Enhancements
+/// - `teardown_timeout_ms`: Force-terminate sessions exceeding this time
+/// - `closing_grace_period_ms`: Wait for graceful shutdown before forced terminate
+/// - `enable_timeout_guards`: When true, enforce strict teardown timeouts
 struct SessionTimeoutConfig {
-    int64_t idle_timeout_ms = 5 * 60 * 1000;          // 5 minutes
+    int64_t idle_timeout_ms = 5 * 60 * 1000;           // 5 minutes
     int64_t max_session_duration_ms = 30 * 60 * 1000;  // 30 minutes
-    int64_t cleanup_interval_ms = 30 * 1000;            // 30 seconds
+    int64_t cleanup_interval_ms = 30 * 1000;           // 30 seconds
+    int64_t teardown_timeout_ms = 5 * 1000;            // 5 seconds (Wave A Block 2)
+    int64_t closing_grace_period_ms = 100;             // 100 ms (Wave A Block 2)
     bool auto_expire = true;
+    bool enable_timeout_guards = true;                 // Wave A Block 2
 };
 
 // Persistence interface (for pluggable backends)
@@ -298,16 +308,69 @@ public:
     /// @error 6601 Session not found
     bool updatePreferredLanguage(const std::string& session_id, const std::string& language_code);
 
-    /// @brief Terminate session explicitly.
+    /// @brief Terminate session explicitly with timeout guard (Wave A Block 2).
+    ///
+    /// Initiates graceful session shutdown with fail-closed timeout enforcement.
+    /// On timeout or error, forces resource release (fail-closed behavior).
+    ///
+    /// State transition: ACTIVE/IDLE/EXPIRED → CLOSING → TERMINATED
     ///
     /// @param session_id Session identifier
     ///
     /// @pre Session must exist
     /// @post Session transitions to TERMINATED state
+    /// @post All session references cleared (no dangling pointers)
+    /// @post Audit event logged (terminateSession action)
     ///
-    /// @return true if terminated; false if session not found
+    /// @return true if terminated successfully; false if session not found or timeout
     /// @error 6601 Session not found
+    /// @error 6608 Teardown timeout exceeded (Wave A Block 2)
     bool terminateSession(const std::string& session_id);
+
+    /// @brief Terminate session with explicit timeout override (Wave A Block 2).
+    ///
+    /// Identical to terminateSession() but allows caller to specify timeout duration.
+    /// Useful for emergency shutdowns or testing teardown timeout behavior.
+    ///
+    /// @param session_id Session identifier
+    /// @param timeout_ms Override timeout in milliseconds
+    ///
+    /// @return true if terminated successfully; false if timeout/not found
+    bool terminateSessionWithTimeout(
+        const std::string& session_id,
+        int64_t timeout_ms
+    );
+
+    /// @brief Force-terminate all sessions (cleanup/shutdown scenario).
+    ///
+    /// Terminates all active sessions in concurrent-safe manner.
+    /// Ignores individual session timeouts; applies global timeout guard.
+    /// Used during graceful shutdown or resource exhaustion scenarios.
+    ///
+    /// Wave A Block 2: Reverse-dependency cleanup
+    /// Order: Sessions → Authenticator → Storage
+    ///
+    /// @param timeout_ms Global timeout for entire cleanup (default = 10s)
+    /// @return Number of sessions successfully terminated
+    size_t terminateAllSessions(int64_t timeout_ms = 10000);
+
+    /// @brief Detect double-close attempt (fail-closed).
+    ///
+    /// Prevents double-termination bugs (resource cleanup races).
+    /// Returns true if session is already CLOSING or TERMINATED.
+    ///
+    /// @param session_id Session identifier
+    /// @return true if session already in CLOSING/TERMINATED state; false otherwise
+    bool isDoubleCloseAttempt(const std::string& session_id);
+
+    /// @brief Get session teardown status (Wave A Block 2 diagnostics).
+    ///
+    /// Returns structured info about session teardown progress.
+    /// Useful for debugging resource leaks and timeout issues.
+    ///
+    /// @param session_id Session identifier
+    /// @return JSON object with: state, teardown_start_ms, elapsed_ms, error_code
+    json getSessionTeardownStatus(const std::string& session_id);
 
     /// @brief Expire old sessions (cleanup).
     ///
@@ -351,8 +414,6 @@ public:
     /// @note Format is stable and suitable for logging/debugging
     static std::string generateSessionId();
     
-    // Phase 3: Session State Guard Violations
-    
     /// @brief Validate state transition (fail-closed)
     /// @param session_id Session identifier
     /// @param new_state Target state
@@ -360,25 +421,10 @@ public:
     /// @error 6603 Invalid state transition
     bool validateStateTransition(const std::string& session_id, SessionState new_state);
     
-    /// @brief Detect double-close attempt (fail-closed)
-    /// @param session_id Session identifier
-    /// @return true if session already in TERMINATED state; false otherwise
-    bool isDoubleCloseAttempt(const std::string& session_id);
-    
     /// @brief Detect use-after-free (fail-closed)
     /// @param session_id Session identifier
     /// @return true if session has expired; false if active
     bool isUseAfterFreeAttempt(const std::string& session_id);
-    
-    /// @brief Detect session collision (prevent duplicate session_id)
-    /// @param session_id Session identifier
-    /// @return true if session_id already exists; false otherwise
-    bool sessionIdExists(const std::string& session_id);
-    
-    /// @brief Get session state change timestamp (for audit trail)
-    /// @param session_id Session identifier
-    /// @return Timestamp in milliseconds; 0 if not found
-    int64_t getStateChangeTimestamp(const std::string& session_id);
 
 private:
     SessionTimeoutConfig timeout_config_;
@@ -387,11 +433,28 @@ private:
 
     std::unordered_map<std::string, VoiceSessionData> active_cache_;
     
-    // Phase 3: Session guard tracking
+    // Phase 3 & Wave A Block 2: Session guard tracking and teardown state
     std::map<std::string, int64_t> state_change_timestamps_;
+    
+    // Wave A Block 2: Teardown safety tracking
+    struct TeardownInfo {
+        int64_t start_time_ms = 0;        // When teardown initiated
+        SessionState pre_closing_state = SessionState::TERMINATED;  // State before CLOSING
+        int64_t error_code = 0;           // Error during teardown if any
+    };
+    std::map<std::string, TeardownInfo> teardown_tracker_;
 
     bool isExpired(const VoiceSessionData& session) const;
     int64_t nowMs() const;
-};;
+    
+    /// @brief Internal: Perform teardown with timeout enforcement (Wave A Block 2)
+    /// @param session_id Session identifier
+    /// @param timeout_ms Timeout in milliseconds
+    /// @return true if successfully terminated; false on timeout
+    bool teardownSessionLocked(
+        const std::string& session_id,
+        int64_t timeout_ms
+    );
+};
 
 }} // namespace themis::voice

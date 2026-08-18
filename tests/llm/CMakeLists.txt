@@ -123,6 +123,27 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             )
         endif()
     endif()
+    # LLM Wiki Phase 4 gap closure tests (Wave B)
+    if(_stem STREQUAL "test_llm_wiki_phase4_roundtrip" OR 
+       _stem STREQUAL "test_llm_wiki_edition_gates" OR
+       _stem STREQUAL "test_llm_wiki_performance")
+        # These tests require workspace state manager and edition gate
+        if(TARGET themis_llm_wiki)
+            target_link_libraries(${_target} PRIVATE themis_llm_wiki)
+        else()
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
+            )
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llm_wiki
+            )
+        endif()
+        # Add Wave B labels for tracking
+        set(_wave_b_labels "wave_b llm_wiki phase4")
+    else()
+        set(_wave_b_labels "")
+    endif()
     # Tests using EXPECT_THAT/HasSubstr need gmock.
     set(_gmock_link "")
     if(TARGET GTest::gmock)
@@ -166,6 +187,16 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TIER unit
             TIMEOUT 120
             LABELS release_critical llm batch1 memory_safety
+        )
+    elseif(_wave_b_labels)
+        # Wave B LLM Wiki Phase 4 gap closure tests (LWP-RT-01, LWP-GATE-01, LWP-PERF-01)
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 180
+            LABELS ${_wave_b_labels}
         )
     else()
         themis_register_module_focused_test(

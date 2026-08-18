@@ -26,6 +26,33 @@
 namespace themisdb {
 namespace replication {
 
+// ============================================================================
+// Lock Hierarchy Documentation (event_stream.cpp)
+// ============================================================================
+//
+// This module implements a 2-level lock hierarchy for thread-safe event
+// handling in replication systems without deadlocks.
+//
+// LOCK HIERARCHY (ordered from outermost to innermost):
+//
+//   Level 1: ReplicationEventStream::subs_mutex_
+//            - Purpose: Protects subscription list
+//            - Scope: Subscribe/unsubscribe operations
+//            - Hold time: MINIMAL (~microseconds)
+//            - Pattern: Acquire → copy subscriptions → release → invoke outside
+//
+//   Level 2: ReplicationEventStream::buffer_mutex_
+//            - Purpose: Protects event history buffer
+//            - Scope: Buffer append and historical queries
+//            - Hold time: MINIMAL (~microseconds)
+//            - Pattern: Acquire → buffer op → release
+//
+// CRITICAL INVARIANT:
+//   All callback invocations (emit → callbacks) happen OUTSIDE both locks.
+//   This prevents callbacks from acquiring locks that could cause circular wait.
+//
+// ============================================================================
+
 // ---------------------------------------------------------------------------
 // Construction
 // ---------------------------------------------------------------------------

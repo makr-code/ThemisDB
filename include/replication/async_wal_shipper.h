@@ -176,12 +176,25 @@ public:
     /**
      * @brief Construct and start the background shipping thread.
      * @param config WalShippingConfig; copied on construction.
+     * 
+     * @note Thread safety: Construction is not thread-safe; ensure no concurrent
+     *       access to this object until construction completes.
+     * 
+     * @note The background worker thread is started immediately and will begin
+     *       processing queued segments.
      */
     explicit AsyncWalShipper(WalShippingConfig config);
 
     /**
      * @brief Stop the background thread and release resources.
-     * Blocks until the background thread has exited.
+     * 
+     * Blocks until the background thread has exited gracefully (best-effort).
+     * Attempts to drain remaining queue segments before stopping.
+     * 
+     * @note Thread safety: This method acquires queue_mutex_ and may be called
+     *       from any thread.
+     * 
+     * @note Exception safety: Noexcept.
      */
     ~AsyncWalShipper();
 
@@ -197,15 +210,32 @@ public:
 
     /**
      * @brief Set the alert callback invoked when lag exceeds max_lag_ms.
+     * 
      * Thread-safe; replaces any previously registered callback.
+     * 
+     * @param cb Callback function; nullptr to unregister.
+     *           Callback receives lag in milliseconds.
+     *           Callback exceptions are caught and suppressed.
+     * 
+     * @note Thread safety: Acquires callback_mutex_; safe to call concurrently.
      */
     void setAlertCallback(AlertCallback cb);
 
     /**
-     * @brief Set the transport handler.
+     * @brief Set the transport handler for WAL segment shipping.
      *
      * Must be called before the first enqueueSegment() call if a real
-     * transport is required.  Thread-safe.
+     * transport is required (default is no-op counting handler).
+     * 
+     * @param handler Transport handler function. Receives WalSegment by const ref.
+     *                Returns true on success, false on transient failure.
+     *                Exceptions from handler are NOT caught; handler must be
+     *                exception-safe.
+     * 
+     * @note Thread safety: Acquires callback_mutex_; safe to call concurrently.
+     * 
+     * @note Lifetime: Handler is copied; caller retains ownership of any
+     *       captured state.
      */
     void setShipHandler(ShipHandler handler);
 
@@ -216,9 +246,22 @@ public:
     /**
      * @brief Enqueue a WAL segment for async shipping.
      *
+     * Implements backpressure control: when the queue reaches max_queue_depth,
+     * this returns false to signal the caller to back off (drop segment, wait,
+     * or retry).
+     * 
      * @param segment Segment to ship; moved into the internal queue.
      * @return true when the segment was accepted; false when the queue is at
      *         capacity (back-pressure signal to the caller).
+     * 
+     * @note Thread safety: Acquires queue_mutex_; safe to call concurrently.
+     *       Condition variable is notified after enqueue.
+     * 
+     * @note Backpressure: When false is returned, caller must implement
+     *       backpressure strategy (e.g., wait, retry, or drop).
+     * 
+     * @note Segment ownership: Moved into queue; original segment object
+     *       left in moved-from state (safe to destroy).
      */
     bool enqueueSegment(WalSegment segment);
 
@@ -228,28 +271,57 @@ public:
 
     /**
      * @brief Return current stats snapshot.
-     * Thread-safe.
+     * 
+     * Thread-safe; returns a consistent snapshot of current statistics.
+     * 
+     * @return WalShippingStats containing segments_enqueued, segments_shipped,
+     *         segments_dropped, lag_alerts_fired, current and max lag, and
+     *         bytes counters.
+     * 
+     * @note Thread safety: Acquires stats_mutex_; safe to call concurrently.
      */
     WalShippingStats stats() const;
 
     /**
      * @brief Return the current shipping lag in milliseconds.
      *
-     * Defined as the age of the oldest queued segment, or 0 when the queue
-     * is empty.  This is the primary lag value monitored against max_lag_ms.
+     * Defined as the wall-clock time between the moment the oldest segment
+     * was enqueued (WalSegment::enqueue_time) and now. When the queue is empty,
+     * returns 0. This is the primary lag value monitored against max_lag_ms.
+     * 
+     * @return Current lag in milliseconds (0 if queue is empty).
+     * 
+     * @note Thread safety: Acquires queue_mutex_; safe to call concurrently.
+     * 
+     * @note Timing: Lag is calculated using std::chrono::steady_clock for
+     *       monotonic timing (immune to system clock adjustments).
      */
     int64_t currentLagMs() const;
 
     /**
      * @brief Export Prometheus-format metrics text.
      *
-     * Exposes:
+     * Exposes all WAL shipping metrics as Prometheus 0.0.4 format text.
+     * Includes histogram (replication_wal_lag_ms), counters, and gauge metrics.
+     *
+     * Metrics exported:
      * - `replication_wal_lag_ms` histogram (buckets at geometric intervals)
      * - `replication_wal_segments_enqueued_total` counter
      * - `replication_wal_segments_shipped_total` counter
      * - `replication_wal_segments_dropped_total` counter
      * - `replication_wal_lag_alerts_total` counter
      * - `replication_wal_bytes_shipped_total` counter
+     * 
+     * Labels per metric:
+     * - `local_dc`: local datacenter identifier
+     * - `remote_dc`: remote datacenter endpoint
+     * 
+     * @return Prometheus-format string (valid metric text).
+     * 
+     * @note Thread safety: Acquires stats_mutex_ and histogram_mutex_;
+     *       safe to call concurrently.
+     * 
+     * @note Format: Follows Prometheus v0.0.4 text exposition format.
      */
     std::string exportPrometheusMetrics() const;
 
@@ -260,15 +332,39 @@ public:
     /**
      * @brief Gracefully stop the background thread.
      *
-     * Drains the remaining queue before stopping (best-effort; does not
-     * block indefinitely).  Safe to call multiple times.
+     * Sets stop_requested flag and notifies the worker thread. Drains the
+     * remaining queue before stopping (best-effort; does not block indefinitely).
+     * Safe to call multiple times.
+     * 
+     * @note Thread safety: Acquires queue_mutex_; safe to call concurrently.
+     * 
+     * @note Graceful shutdown: Worker thread will process all remaining queued
+     *       segments before exiting (no forced termination).
+     * 
+     * @note Blocking: May block briefly while joining worker thread.
      */
     void stop();
 
 private:
     WalShippingConfig config_;
 
-    // Queue
+    // -----------------------------------------------------------------------
+    // Synchronization primitives and lock hierarchy
+    // -----------------------------------------------------------------------
+    // LOCK HIERARCHY (to prevent deadlock):
+    // 1. queue_mutex_       (outermost: queue and stop flag)
+    // 2. callback_mutex_    (callbacks and handler)
+    // 3. stats_mutex_       (statistics)
+    // 4. histogram_mutex_   (lag histogram buckets)
+    // 
+    // Rules:
+    // - Never acquire a lower-numbered lock while holding a higher-numbered lock.
+    // - When acquiring multiple locks, always acquire in order: 1 → 2 → 3 → 4.
+    // - Operations in dispatchSegment acquire locks in order: histogram (4) → stats (3).
+    // - Operations in enqueueSegment acquire: queue (1) → stats (3) [OK: 1 < 3].
+    // - Alert callback execution unlocks state_mutex in callback to prevent deadlock.
+
+    // Queue and lifecycle
     mutable std::mutex              queue_mutex_;
     std::condition_variable         queue_cv_;
     std::queue<WalSegment>          segment_queue_;
@@ -296,19 +392,53 @@ private:
     // Internal helpers
     // -----------------------------------------------------------------------
 
-    /// Background thread main loop.
+    /**
+     * @brief Background thread main loop.
+     * 
+     * Runs in dedicated thread; dequeues segments and calls dispatchSegment().
+     * Exits when stop_requested is true and queue is empty.
+     */
     void workerLoop();
 
-    /// Dispatch a single segment: invoke ship handler, update stats/histogram.
+    /**
+     * @brief Dispatch a single segment: invoke ship handler, update stats/histogram.
+     * 
+     * @param seg Segment to dispatch (const ref; not modified).
+     * 
+     * @note Exception safety: Strong (no state corruption on exception from
+     *       callback; callback exceptions are caught and suppressed).
+     * 
+     * @note Lock order: histogram (4) → stats (3) (respects lock hierarchy).
+     */
     void dispatchSegment(const WalSegment& seg);
 
-    /// Record one lag sample into the histogram.
+    /**
+     * @brief Record one lag sample into the histogram.
+     * 
+     * Updates histogram buckets and sum. Negative lags are clamped to 0.
+     * 
+     * @param lag_ms Lag in milliseconds.
+     * 
+     * @note Thread safety: Acquires histogram_mutex_; safe to call concurrently.
+     */
     void recordLagSample(int64_t lag_ms);
 
-    /// Build histogram bucket bounds for the given config.
+    /**
+     * @brief Build histogram bucket bounds for the given config.
+     * 
+     * Generates a geometric series of bucket upper bounds from 1 ms to
+     * 10× max_lag_ms, divided into `buckets` intervals.
+     * 
+     * @param max_lag_ms Configuration maximum lag in milliseconds.
+     * @param buckets Number of histogram buckets to generate.
+     * @return Vector of bucket upper bounds (size == buckets).
+     * 
+     * @note Bucket +Inf is implicit (not stored); samples above the highest
+     *       bucket are placed in the last bucket.
+     */
     static std::vector<double> buildHistogramBounds(
-        uint32_t max_lag_ms,
-        uint32_t buckets);
+       uint32_t max_lag_ms,
+       uint32_t buckets);
 };
 
 } // namespace replication

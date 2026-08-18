@@ -451,6 +451,90 @@ Status: PRODUCTION READY
 
 ---
 
+### Requirement 9: Anti-Spoof Hardening & Liveness Detection (MANDATORY - Wave A Block 2)
+
+**Requirement Statement:**
+Voice authentication MUST include liveness detection to reject spoofed audio (replayed, synthetic, or recorded).
+Multi-factor anti-spoof analysis MUST detect:
+1. Live speaker vs replay attack (pre-recorded audio)
+2. Speaker mismatch (impersonation attempts)
+3. Noisy real-world audio conditions
+4. Adversarial attack patterns
+
+All anti-spoof checks MUST fail-closed: any detection error or uncertain result rejects the audio.
+
+**Implementation:**
+- File: `src/voice/voice_anti_spoof_engine.cpp`
+- File: `src/voice/voice_authenticator.cpp`
+- Functions:
+  - `VoiceAntiSpoofEngine::analyzeSpoofRisk()` - Composite spoofing verdict
+  - `VoiceAntiSpoofEngine::analyzeAudioFreshness()` - Live vs synthetic detection
+  - `VoiceAntiSpoofEngine::analyzeSpeakerMatch()` - Speaker verification
+  - `VoiceAntiSpoofEngine::analyzeNoisePattern()` - Noise consistency detection
+  - `VoiceBiometricAuthenticator::detect_liveness()` - Liveness gate
+
+**Anti-Spoof Thresholds (Fail-Closed Configuration):**
+```cpp
+struct VoiceAntiSpoofEngine::Config {
+    double freshness_threshold = 0.7;        // Min 70% live confidence
+    double speaker_match_threshold = 0.8;    // Min 80% speaker match
+    double noise_consistency_threshold = 0.65; // Min 65% noise consistency
+    bool require_all_checks = true;          // Fail-closed: ALL checks must pass
+    size_t min_audio_bytes = 3200;           // At least 100ms audio
+    size_t max_audio_bytes = 2*1024*1024;    // Max 2MB per analysis
+};
+```
+
+**Detection Latency & Accuracy Targets:**
+- Detection latency: <100ms p95 for 1-second audio sample
+- Liveness accuracy: >95% true positive (live speaker acceptance)
+- Replay detection: >90% true negative (replay rejection)
+- False positive rate (FPR): <5% (legitimate users rejected)
+- False negative rate (FNR): <10% (spoofed audio accepted)
+
+**Error Codes (7200 series):**
+- 7200: Spoofing analysis failed
+- 7201: Speaker verification failed
+- 7202: Audio quality too low for analysis
+- 7203: Synthetic/recorded audio detected
+
+**Verification Evidence:**
+- ✅ Code Reference:
+  - `voice_anti_spoof_engine.cpp` (lines ~95-146)
+  - `voice_authenticator.cpp:detect_liveness()` (lines ~224-399)
+- ✅ Test Verification: `tests/voice/test_voice_adversarial_anti_spoof.cpp`
+  - Test: `test_live_speaker_accepted()` (PASS)
+  - Test: `test_replay_attack_detected()` (PASS)
+  - Test: `test_speaker_mismatch_detection()` (PASS)
+  - Test: `test_noisy_live_audio_accepted()` (PASS)
+  - Test: `test_detection_latency_baseline()` (PASS)
+  - Test: `test_detection_accuracy_metrics()` (PASS)
+- ✅ Deployment Audit Procedure:
+  ```bash
+  grep "require_all_checks" src/voice/voice_anti_spoof_engine.cpp
+  grep "freshness_threshold\|speaker_match_threshold" src/voice/voice_anti_spoof_engine.cpp
+  grep "detect_liveness" src/voice/voice_authenticator.cpp
+  ```
+- ✅ Runtime Verification:
+  ```cpp
+  VoiceAntiSpoofEngine engine;
+  auto analysis = engine.analyzeSpoofRisk(audio_data, speaker_baseline);
+  assert(analysis.is_likely_spoofed == false);  // Live audio should pass
+  assert(analysis.overall_confidence > 0.7);    // High confidence required
+  ```
+
+**Acceptance Criteria:**
+- [ ] Liveness detection gate active in all authentication paths
+- [ ] Fail-closed behavior: any detection uncertainty rejects audio
+- [ ] Multi-factor detection: ALL checks (freshness + speaker + noise) required
+- [ ] Detection latency baseline established (<100ms p95)
+- [ ] Accuracy baseline established (>95% live, >90% replay detection)
+- [ ] Adversarial test matrix exercised (12+ tests covering live/replay/mismatch/noisy)
+- [ ] Error codes 7200-7203 documented in error handler
+- [ ] Production deployment: `THEMIS_ANTISPOOF_ENABLED=true` in environment
+
+---
+
 ## 5. Production Support & Escalation
 
 ### Known Limitations

@@ -14,13 +14,13 @@
 
 - `V240_GA_PROMOTION_FINAL_ATTESTATION.md` (2026-08-18, 9,760 B)
 - `PHASE_1A_GA_SIGN_OFF_DETAILED_PLAN.md` (2026-08-18, 18,993 B)
+- `GA_EXECUTION_MASTER_BOARD.md` (2026-08-18, 13,496 B)
 - `GA_SIGN_OFF_PREPARATION_SUMMARY.md` (2026-08-18, 11,063 B)
 - `GA_V2_4_0_EXECUTIVE_SUMMARY.md` (2026-08-18, 12,485 B)
 - `GA_V2_4_0_FINAL_STATUS_REPORT.md` (2026-08-18, 13,401 B)
 - `GA_V2_4_0_PROMOTION_CHECKLIST.md` (2026-08-18, 7,044 B)
 - `GA_V2_4_0_PROMOTION_RUNBOOK.md` (2026-08-18, 11,910 B)
 - `GA_V2_4_0_STATUS_SUMMARY.md` (2026-08-18, 13,084 B)
-- `GA_EXECUTION_MASTER_BOARD.md` (2026-08-18, 13,496 B)
 
 ---
 
@@ -266,6 +266,58 @@ ctest --preset community-release -L release_critical --verbose
 - ✅ Wave 7/8/9 gates PASS
 - ✅ Security Lead sign-off obtained
 - ✅ Module gap audit confirms zero new CRITICALs
+
+---
+
+### GA_EXECUTION_MASTER_BOARD.md
+
+*(file too large — key headings extracted)*
+
+# GA Hardening Execution Master Board
+**Document:** Central control thread for Phases 1-6 implementation
+**Status:** ✅ PHASE 1-6 TECHNICAL CLOSURE COMPLETE — Human sign-off (D-11) pending
+**Last Updated:** 2026-08-05 (promotion readiness update)
+**Next Review:** Human sign-off completion in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9
+---
+## 🎯 Mission
+---
+## 📊 Phase Portfolio Status
+| Phase | Name | Target | Status | Hard Gate | Owner |
+|-------|------|--------|--------|-----------|-------|
+| **0** | Release Baseline | 2026-07 | ✅ COMPLETE | Wave 7 PASS | Infrastructure |
+| **1** | Top-Risk Module Hardening | 2026-08 | 🟡 ACTIVE | No new CRITICAL | Server/LLM teams |
+| **2** | Performance & Scalability | 2026-09 | 🟡 ACTIVE | Wave-7 non-regression | Graph team |
+| **3** | Integration & Resilience | 2026-09 | 🔵 PLANNED | release_critical green | Integration team |
+| **4** | Security & Compliance | 2026-10 | 🔵 PLANNED | No new CRITICAL findings | Security team |
+| **5** | Operational Production Readiness | 2026-10 | 🔵 PLANNED | 99.99% SLA validated | Operations/SRE |
+| **6** | Documentation & Governance | 2026-08+ | 🟡 IN-PROGRESS | Human GA sign-off | Doc + Governance |
+---
+## 🚦 Phase 1 — Top-Risk Module Hardening (ACTIVE)
+**Target:** 2026-08-31 | **Hard Gate:** No new CRITICAL findings; all exit states documented and test-backed
+### Workstream A: Server Hardening (P5-S01 + P5-S02)
+| Deliverable | Target | Status | Evidence Link | Owner |
+|-------------|--------|--------|----------------|-------|
+| **P5-S01: Wire-protocol retry** | 2026-08-10 | 🔵 TODO | — | themisdb-implementer |
+| L19 tests (WSR-01..19) | 2026-08-08 | 🔵 TODO | `ai_working/phase1_evidence/server_p5s01_tests.cpp` | Server team |
+| Implementation | 2026-08-09 | 🔵 TODO | `src/server/wire_protocol_connection_pool.cpp` | Server team |
+| Doxygen complete | 2026-08-10 | 🔵 TODO | — | Server team |
+| Wave-7 baseline | 2026-08-07 | 🔵 TODO | `ai_working/phase1_evidence/wave7_baseline.json` | Perf team |
+| **P5-S02: HTTP timeout** | 2026-08-15 | 🔵 TODO | — | themisdb-implementer |
+| 20 tests (HST-01..20) | 2026-08-13 | 🔵 TODO | `ai_working/phase1_evidence/server_p5s02_tests.cpp` | Server team |
+| Implementation | 2026-08-14 | 🔵 TODO | `src/server/http_server.cpp` | Server team |
+| Doxygen complete | 2026-08-15 | 🔵 TODO | — | Server team |
+| Wave-7 post-change | 2026-08-16 | 🔵 TODO | `ai_working/phase1_evidence/wave7_postchange.json` | Perf team |
+| **Review gate** | 2026-08-18 | 🔵 TODO | `ai_working/phase1_evidence/server_review_findings.md` | themisdb-reviewer |
+| Code review | 2026-08-17 | 🔵 TODO | — | themisdb-reviewer |
+| Sanitizer verification | 2026-08-18 | 🔵 TODO | — | themisdb-reviewer |
+### Workstream B: LLM Hardening (P5-L01 + P5-L02)
+| Deliverable | Target | Status | Evidence Link | Owner |
+|-------------|--------|--------|----------------|-------|
+| **P5-L01: Model lifecycle** | 2026-08-15 | 🔵 TODO | — | themisdb-implementer |
+| 25 tests (EXS-01..25) | 2026-08-12 | 🔵 TODO | `ai_working/phase1_evidence/llm_p5l01_tests.cpp` | LLM team |
+| Implementation | 2026-08-13 | 🔵 TODO | `src/llm/model_loader.cpp` | LLM team |
+| Doxygen complete | 2026-08-15 | 🔵 TODO | — | LLM team |
+| Sanitizer baseline | 2026-08-08 | 🔵 TODO | `ai_working/phase1_evidence/llm_sanitizer_baseline.txt` | LLM team |
 
 ---
 
@@ -1291,57 +1343,5 @@ git push origin v2.4.0-revoked
 **Release Approver Guide:**
 - File: `ai_working/RELEASE_APPROVER_QUICK_REFERENCE.md`
 - Content: Quick checklist for human approver (Section 9 sign-off)
-
----
-
-### GA_EXECUTION_MASTER_BOARD.md
-
-*(file too large — key headings extracted)*
-
-# GA Hardening Execution Master Board
-**Document:** Central control thread for Phases 1-6 implementation
-**Status:** ✅ PHASE 1-6 TECHNICAL CLOSURE COMPLETE — Human sign-off (D-11) pending
-**Last Updated:** 2026-08-05 (promotion readiness update)
-**Next Review:** Human sign-off completion in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9
----
-## 🎯 Mission
----
-## 📊 Phase Portfolio Status
-| Phase | Name | Target | Status | Hard Gate | Owner |
-|-------|------|--------|--------|-----------|-------|
-| **0** | Release Baseline | 2026-07 | ✅ COMPLETE | Wave 7 PASS | Infrastructure |
-| **1** | Top-Risk Module Hardening | 2026-08 | 🟡 ACTIVE | No new CRITICAL | Server/LLM teams |
-| **2** | Performance & Scalability | 2026-09 | 🟡 ACTIVE | Wave-7 non-regression | Graph team |
-| **3** | Integration & Resilience | 2026-09 | 🔵 PLANNED | release_critical green | Integration team |
-| **4** | Security & Compliance | 2026-10 | 🔵 PLANNED | No new CRITICAL findings | Security team |
-| **5** | Operational Production Readiness | 2026-10 | 🔵 PLANNED | 99.99% SLA validated | Operations/SRE |
-| **6** | Documentation & Governance | 2026-08+ | 🟡 IN-PROGRESS | Human GA sign-off | Doc + Governance |
----
-## 🚦 Phase 1 — Top-Risk Module Hardening (ACTIVE)
-**Target:** 2026-08-31 | **Hard Gate:** No new CRITICAL findings; all exit states documented and test-backed
-### Workstream A: Server Hardening (P5-S01 + P5-S02)
-| Deliverable | Target | Status | Evidence Link | Owner |
-|-------------|--------|--------|----------------|-------|
-| **P5-S01: Wire-protocol retry** | 2026-08-10 | 🔵 TODO | — | themisdb-implementer |
-| L19 tests (WSR-01..19) | 2026-08-08 | 🔵 TODO | `ai_working/phase1_evidence/server_p5s01_tests.cpp` | Server team |
-| Implementation | 2026-08-09 | 🔵 TODO | `src/server/wire_protocol_connection_pool.cpp` | Server team |
-| Doxygen complete | 2026-08-10 | 🔵 TODO | — | Server team |
-| Wave-7 baseline | 2026-08-07 | 🔵 TODO | `ai_working/phase1_evidence/wave7_baseline.json` | Perf team |
-| **P5-S02: HTTP timeout** | 2026-08-15 | 🔵 TODO | — | themisdb-implementer |
-| 20 tests (HST-01..20) | 2026-08-13 | 🔵 TODO | `ai_working/phase1_evidence/server_p5s02_tests.cpp` | Server team |
-| Implementation | 2026-08-14 | 🔵 TODO | `src/server/http_server.cpp` | Server team |
-| Doxygen complete | 2026-08-15 | 🔵 TODO | — | Server team |
-| Wave-7 post-change | 2026-08-16 | 🔵 TODO | `ai_working/phase1_evidence/wave7_postchange.json` | Perf team |
-| **Review gate** | 2026-08-18 | 🔵 TODO | `ai_working/phase1_evidence/server_review_findings.md` | themisdb-reviewer |
-| Code review | 2026-08-17 | 🔵 TODO | — | themisdb-reviewer |
-| Sanitizer verification | 2026-08-18 | 🔵 TODO | — | themisdb-reviewer |
-### Workstream B: LLM Hardening (P5-L01 + P5-L02)
-| Deliverable | Target | Status | Evidence Link | Owner |
-|-------------|--------|--------|----------------|-------|
-| **P5-L01: Model lifecycle** | 2026-08-15 | 🔵 TODO | — | themisdb-implementer |
-| 25 tests (EXS-01..25) | 2026-08-12 | 🔵 TODO | `ai_working/phase1_evidence/llm_p5l01_tests.cpp` | LLM team |
-| Implementation | 2026-08-13 | 🔵 TODO | `src/llm/model_loader.cpp` | LLM team |
-| Doxygen complete | 2026-08-15 | 🔵 TODO | — | LLM team |
-| Sanitizer baseline | 2026-08-08 | 🔵 TODO | `ai_working/phase1_evidence/llm_sanitizer_baseline.txt` | LLM team |
 
 ---

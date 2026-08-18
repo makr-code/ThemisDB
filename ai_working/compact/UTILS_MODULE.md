@@ -12,13 +12,61 @@
 
 ## Source Files
 
+- `UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md` (2026-08-18, 17,536 B)
 - `UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md` (2026-08-18, 22,058 B)
 - `UTILS_MODULE_IMPLEMENTATION_DELIVERY_INDEX.md` (2026-08-18, 12,608 B)
-- `UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md` (2026-08-18, 17,536 B)
 
 ---
 
 ## Compacted Content
+
+### UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Utils Module Implementation Plan - Executive Summary
+## Q3 2026 - Q1 2027 Comprehensive Delivery
+**Report Date:** 2026-08-08
+**Plan Start:** 2026-08-08
+**Plan End:** 2027-01-31
+**Overall Duration:** 5.5 months, ~2.5 FTE
+**Status:** ✅ Phase A WAVE 1 COMPLETE, A.3+B.3 IN PROGRESS
+---
+## 🎯 Strategic Vision
+1. **Hardening & Diagnostics (Phase A)** - Q3 2026
+- Privacy/audit helper hardening against edge cases + overload
+- Diagnostics consistency and error taxonomy
+- Release-gate benchmarking
+2. **Core Implementation & Expansion (Phase B)** - Q4 2026
+- 40-50 targeted regression tests
+- Operator-visible diagnostics and runbooks
+- Crypto/key-management lifecycle documentation
+3. **Benchmarking & Resilience (Phase C)** - Q1 2027
+- Extended benchmark coverage
+- Sustained load resilience validation
+- Production readiness sign-off
+---
+## 📊 Delivery Status (2026-08-08)
+### WAVE 1: Phase A (Q3 2026) - On Track ✅
+| Component | Status | Completion | Deliverables | Impact |
+|-----------|--------|-----------|--------------|--------|
+| **A.2** Diagnostics Review | ✅ COMPLETE | 100% | 5 docs, 65.5 KB | 9 findings, CRIT-001 blocker identified |
+| **A.3** Benchmarks | 🔄 IN PROGRESS | 50% | 8 gates measured | P95/p99 latencies, overhead validation |
+| **B.3** Crypto Docs | 🔄 IN PROGRESS | 50% | L0→L4 docs | Lifecycle phases, threat model |
+**Expected Wave 1 Completion:** 2026-08-08, 15:00 UTC (35 minutes)
+### BLOCKING ISSUE: CRIT-001 (Error Code Collision)
+**Severity:** 🔴 CRITICAL (blocks Phase A.2 implementation)
+**Problem:**
+- Error codes [7300-7305] already exist in `UtilsError` enum
+- Phase A.2 task requires [7300-7399] allocation
+- **Result:** Duplicate enum values → compilation failure
+**Solution:**
+- Extend existing enum to [7300-7349]
+- Organize sub-ranges by category
+- Maintain backward compatibility
+**Timeline:**
+
+---
 
 ### UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md
 
@@ -121,53 +169,5 @@
 ---
 ### A.2: Diagnostics Consistency Improvements (COMPLETE ✅)
 **Review Documents:**
-
----
-
-### UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Utils Module Implementation Plan - Executive Summary
-## Q3 2026 - Q1 2027 Comprehensive Delivery
-**Report Date:** 2026-08-08
-**Plan Start:** 2026-08-08
-**Plan End:** 2027-01-31
-**Overall Duration:** 5.5 months, ~2.5 FTE
-**Status:** ✅ Phase A WAVE 1 COMPLETE, A.3+B.3 IN PROGRESS
----
-## 🎯 Strategic Vision
-1. **Hardening & Diagnostics (Phase A)** - Q3 2026
-- Privacy/audit helper hardening against edge cases + overload
-- Diagnostics consistency and error taxonomy
-- Release-gate benchmarking
-2. **Core Implementation & Expansion (Phase B)** - Q4 2026
-- 40-50 targeted regression tests
-- Operator-visible diagnostics and runbooks
-- Crypto/key-management lifecycle documentation
-3. **Benchmarking & Resilience (Phase C)** - Q1 2027
-- Extended benchmark coverage
-- Sustained load resilience validation
-- Production readiness sign-off
----
-## 📊 Delivery Status (2026-08-08)
-### WAVE 1: Phase A (Q3 2026) - On Track ✅
-| Component | Status | Completion | Deliverables | Impact |
-|-----------|--------|-----------|--------------|--------|
-| **A.2** Diagnostics Review | ✅ COMPLETE | 100% | 5 docs, 65.5 KB | 9 findings, CRIT-001 blocker identified |
-| **A.3** Benchmarks | 🔄 IN PROGRESS | 50% | 8 gates measured | P95/p99 latencies, overhead validation |
-| **B.3** Crypto Docs | 🔄 IN PROGRESS | 50% | L0→L4 docs | Lifecycle phases, threat model |
-**Expected Wave 1 Completion:** 2026-08-08, 15:00 UTC (35 minutes)
-### BLOCKING ISSUE: CRIT-001 (Error Code Collision)
-**Severity:** 🔴 CRITICAL (blocks Phase A.2 implementation)
-**Problem:**
-- Error codes [7300-7305] already exist in `UtilsError` enum
-- Phase A.2 task requires [7300-7399] allocation
-- **Result:** Duplicate enum values → compilation failure
-**Solution:**
-- Extend existing enum to [7300-7349]
-- Organize sub-ranges by category
-- Maintain backward compatibility
-**Timeline:**
 
 ---

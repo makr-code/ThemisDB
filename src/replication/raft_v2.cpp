@@ -18,6 +18,39 @@
 namespace themisdb {
 namespace replication {
 
+// ============================================================================
+// Lock Hierarchy Documentation (raft_v2.cpp)
+// ============================================================================
+//
+// This module implements a 2-level lock hierarchy to prevent deadlocks
+// during cluster configuration changes and membership updates.
+//
+// LOCK HIERARCHY (ordered from outermost to innermost):
+//
+//   Level 1: RaftV2ClusterConfig::mutex_
+//            - Purpose: Protects membership sets and joint consensus state
+//            - Scope: Config mutations and membership queries
+//            - Hold time: MINIMAL (set operations only, ~microseconds)
+//            - Pattern: Acquire → access sets → release → call external
+//
+//   Level 2: MembershipChangeManager::mutex_
+//            - Purpose: Protects pending change entries
+//            - Scope: Change request tracking
+//            - Hold time: MINIMAL (state copy, ~microseconds)
+//            - Pattern: Acquire → copy entry → release → WAL append outside
+//
+//   Level 3: Blocking I/O and External Operations
+//            - Purpose: WAL append, config persistence
+//            - Scope: NEVER held while holding Level 1 or 2 locks
+//            - Hold time: VARIABLE (I/O dependent, often 10-100ms)
+//            - Pattern: Must complete AFTER all higher-level locks released
+//
+// CRITICAL VIOLATION BEING FIXED:
+//   writeEntry() previously called wal_->append() while holding mutex_
+//   This has been corrected: entry created under lock, WAL append outside
+//
+// ============================================================================
+
 // ─────────────────────────────────────────────────────────────────────────────
 // RaftV2ClusterConfig
 // ─────────────────────────────────────────────────────────────────────────────
@@ -149,53 +182,170 @@ MembershipChangeManager::MembershipChangeManager(
 MembershipChangeEntry MembershipChangeManager::proposeAdd(
     const std::string& new_node_id)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (pending_) {
-        throw std::runtime_error(
-            "MembershipChangeManager: membership change already in progress");
-    }
-    auto old_members = config_->getNewMembers();
-    config_->beginAddMember(new_node_id);
-    auto new_members = config_->getNewMembers();
+    MembershipChangeEntry entry;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_) {
+            throw std::runtime_error(
+                "MembershipChangeManager: membership change already in progress");
+        }
+        auto old_members = config_->getNewMembers();
+        config_->beginAddMember(new_node_id);
+        auto new_members = config_->getNewMembers();
 
-    auto entry = writeEntry(
-        MembershipChangeEntry::Phase::JOINT, old_members, new_members);
-    pending_ = entry;
+        entry = writeEntry(
+            MembershipChangeEntry::Phase::JOINT, old_members, new_members);
+        pending_ = entry;
+    }  // LOCK RELEASED: WAL append happens outside lock
+    
+    // Persist to WAL outside lock (Level 3 I/O)
+    if (wal_) {
+        WALEntry wal_entry;
+        wal_entry.operation    = "MEMBERSHIP_CHANGE";
+        wal_entry.collection   = "__raft_config__";
+        wal_entry.document_id  = "joint";
+        std::ostringstream oss;
+        oss << "{\"phase\":\"joint\",\"old\":[";
+        bool first = true;
+        for (const auto& m : entry.old_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "],\"new\":[";
+        first = true;
+        for (const auto& m : entry.new_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "]}";
+        wal_entry.data = oss.str();
+        wal_->append(wal_entry);
+        entry.log_index = wal_->getCurrentSequence();
+    }
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_ &&
+            pending_->phase == MembershipChangeEntry::Phase::JOINT &&
+            pending_->old_members == entry.old_members &&
+            pending_->new_members == entry.new_members) {
+            pending_->log_index = entry.log_index;
+        }
+    }
     return entry;
 }
 
 MembershipChangeEntry MembershipChangeManager::proposeRemove(
     const std::string& target_node_id)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (pending_) {
-        throw std::runtime_error(
-            "MembershipChangeManager: membership change already in progress");
-    }
-    auto old_members = config_->getNewMembers();
-    config_->beginRemoveMember(target_node_id);
-    auto new_members = config_->getNewMembers();
+    MembershipChangeEntry entry;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_) {
+            throw std::runtime_error(
+                "MembershipChangeManager: membership change already in progress");
+        }
+        auto old_members = config_->getNewMembers();
+        config_->beginRemoveMember(target_node_id);
+        auto new_members = config_->getNewMembers();
 
-    auto entry = writeEntry(
-        MembershipChangeEntry::Phase::JOINT, old_members, new_members);
-    pending_ = entry;
+        entry = writeEntry(
+            MembershipChangeEntry::Phase::JOINT, old_members, new_members);
+        pending_ = entry;
+    }  // LOCK RELEASED: WAL append happens outside lock
+    
+    // Persist to WAL outside lock (Level 3 I/O)
+    if (wal_) {
+        WALEntry wal_entry;
+        wal_entry.operation    = "MEMBERSHIP_CHANGE";
+        wal_entry.collection   = "__raft_config__";
+        wal_entry.document_id  = "joint";
+        std::ostringstream oss;
+        oss << "{\"phase\":\"joint\",\"old\":[";
+        bool first = true;
+        for (const auto& m : entry.old_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "],\"new\":[";
+        first = true;
+        for (const auto& m : entry.new_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "]}";
+        wal_entry.data = oss.str();
+        wal_->append(wal_entry);
+        entry.log_index = wal_->getCurrentSequence();
+    }
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_ &&
+            pending_->phase == MembershipChangeEntry::Phase::JOINT &&
+            pending_->old_members == entry.old_members &&
+            pending_->new_members == entry.new_members) {
+            pending_->log_index = entry.log_index;
+        }
+    }
     return entry;
 }
 
 void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (!pending_ || pending_->phase != MembershipChangeEntry::Phase::JOINT) {
-        return;  // Stale callback – ignore
+    MembershipChangeEntry commit;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!pending_ || pending_->phase != MembershipChangeEntry::Phase::JOINT) {
+            return;  // Stale callback – ignore
+        }
+        if (pending_->log_index != log_index) {
+            return;  // Mismatch – ignore
+        }
+        // Write the COMMIT entry so followers know to finalise
+        commit = writeEntry(
+            MembershipChangeEntry::Phase::COMMIT,
+            pending_->old_members,
+            pending_->new_members);
+        pending_ = commit;
+    }  // LOCK RELEASED: WAL append happens outside lock
+
+    if (wal_) {
+        WALEntry wal_entry;
+        wal_entry.operation    = "MEMBERSHIP_CHANGE";
+        wal_entry.collection   = "__raft_config__";
+        wal_entry.document_id  = "commit";
+        std::ostringstream oss;
+        oss << "{\"phase\":\"commit\",\"old\":[";
+        bool first = true;
+        for (const auto& m : commit.old_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "],\"new\":[";
+        first = true;
+        for (const auto& m : commit.new_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "]}";
+        wal_entry.data = oss.str();
+        wal_->append(wal_entry);
+        commit.log_index = wal_->getCurrentSequence();
     }
-    if (pending_->log_index != log_index) {
-        return;  // Mismatch – ignore
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_ &&
+            pending_->phase == MembershipChangeEntry::Phase::COMMIT &&
+            pending_->old_members == commit.old_members &&
+            pending_->new_members == commit.new_members) {
+            pending_->log_index = commit.log_index;
+        }
     }
-    // Write the COMMIT entry so followers know to finalise
-    auto commit = writeEntry(
-        MembershipChangeEntry::Phase::COMMIT,
-        pending_->old_members,
-        pending_->new_members);
-    pending_ = commit;
 }
 
 void MembershipChangeManager::onNewConfigCommitted() {
@@ -267,44 +417,22 @@ MembershipChangeEntry MembershipChangeManager::writeEntry(
     const std::set<std::string>& old_members,
     const std::set<std::string>& new_members)
 {
+    // LOCK HIERARCHY NOTE (Level 2 → Level 3):
+    // Create and return the entry WITHOUT calling wal_->append() while holding mutex_.
+    // The caller is responsible for WAL persistence outside the lock.
+    // This prevents circular deadlock if WAL manager holds any locks.
+    
     MembershipChangeEntry entry;
     entry.phase       = phase;
     entry.old_members = old_members;
     entry.new_members = new_members;
     entry.term        = 0;  // Filled in by caller when term is known
     entry.log_index   = 0;  // Filled in by WAL on append
-
-    if (wal_) {
-        // Encode as a synthetic WAL entry for persistence
-        WALEntry wal_entry;
-        wal_entry.operation    = "MEMBERSHIP_CHANGE";
-        wal_entry.collection   = "__raft_config__";
-        wal_entry.document_id  = (phase == MembershipChangeEntry::Phase::JOINT)
-                                     ? "joint"
-                                     : "commit";
-        // Pack members as a simple CSV in the data field
-        std::ostringstream oss;
-        oss << "{\"phase\":\"" << wal_entry.document_id << "\",\"old\":[";
-        bool first = true;
-        for (const auto& m : old_members) {
-            if (!first) oss << ",";
-            oss << "\"" << m << "\"";
-            first = false;
-        }
-        oss << "],\"new\":[";
-        first = true;
-        for (const auto& m : new_members) {
-            if (!first) oss << ",";
-            oss << "\"" << m << "\"";
-            first = false;
-        }
-        oss << "]}";
-        wal_entry.data = oss.str();
-        wal_->append(wal_entry);
-        entry.log_index = wal_->getCurrentSequence();
-    }
+    
+    // Note: WAL append is now the caller's responsibility (proposeAdd/proposeRemove/applyEntry)
     return entry;
 }
+
 
 }  // namespace replication
 }  // namespace themisdb
