@@ -5,6 +5,7 @@ name: CI — PR Gates (Wave C) — Edition & License Validation
 # Ensures license_feature field matches feature availability per edition.
 
 on:
+  workflow_call: {}
   pull_request:
     types: [opened, edited, synchronize, reopened]
     branches:
@@ -37,7 +38,6 @@ permissions:
   pull-requests: write
 
 jobs:
-
   edition-license-validation:
     name: Edition & License Validation
     runs-on: ubuntu-latest
@@ -189,13 +189,13 @@ jobs:
               repo: context.repo.repo,
               body: `## Wave C Policy Gate: Edition & License Validation
             
-${msg}
+            ${msg}
             
-- ✅ Edition matrix consistency check
-- ✅ License feature gate validation
-- ✅ Enterprise/military marker detection
+            - ✅ Edition matrix consistency check
+            - ✅ License feature gate validation
+            - ✅ Enterprise/military marker detection
             
-Target branch: \`${{ github.base_ref || 'develop' }}\`
+            Target branch: \`${{ github.base_ref || 'develop' }}\`
             
-See \`.github/workflows/09-pr-gates_edition-license-validation.yml\` for details.`
+            See \`.github/workflows/09-pr-gates_edition-license-validation.yml\` for details.`
             });

@@ -5,6 +5,7 @@ name: CI — PR Gates (Wave C) — Private/Public Plugin Boundary Enforcement
 # Validates plugin manifest visibility and edition allowlist fields.
 
 on:
+  workflow_call: {}
   pull_request:
     types: [opened, edited, synchronize, reopened]
     branches:
@@ -36,7 +37,6 @@ permissions:
   pull-requests: write
 
 jobs:
-
   private-plugin-boundary-check:
     name: Private Plugin Boundary Enforcement
     runs-on: ubuntu-latest

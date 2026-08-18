@@ -5,6 +5,7 @@ name: CI — PR Gates (Wave C) — Community Fail-Closed Validation
 # Validates license disclaimers and no-telemetry enforcement in community distribution.
 
 on:
+  workflow_call: {}
   pull_request:
     types: [opened, edited, synchronize, reopened]
     branches:
@@ -32,7 +33,6 @@ permissions:
   pull-requests: write
 
 jobs:
-
   community-fail-closed-validation:
     name: Community Fail-Closed Validation
     runs-on: ubuntu-latest
@@ -203,15 +203,15 @@ jobs:
               repo: context.repo.repo,
               body: `## Wave C Policy Gate: Community Fail-Closed Validation
             
-${msg}
+            ${msg}
             
-- ✅ No silent fallback patterns
-- ✅ License disclaimers present
-- ✅ No unguarded telemetry/tracking
-- ✅ Community-only build config validation
-- ✅ No enterprise secrets leakage
+            - ✅ No silent fallback patterns
+            - ✅ License disclaimers present
+            - ✅ No unguarded telemetry/tracking
+            - ✅ Community-only build config validation
+            - ✅ No enterprise secrets leakage
             
-Community builds are fail-closed: no accidental enterprise features slip through.
+            Community builds are fail-closed: no accidental enterprise features slip through.
             
-See \`.github/workflows/09-pr-gates_community-fail-closed.yml\` for details.`
+            See \`.github/workflows/09-pr-gates_community-fail-closed.yml\` for details.`
             });
