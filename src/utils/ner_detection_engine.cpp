@@ -11,6 +11,7 @@
 
 
 #include "utils/ner_detection_engine.h"
+#include "utils/error_contracts.h"
 #include <algorithm>
 #include <cctype>
 #include <spdlog/spdlog.h>
@@ -98,6 +99,10 @@ bool NERDetectionEngine::initialize(const nlohmann::json& config) {
         model_available_ = false;
         last_error_ = std::string("Initialization failed: ") + e.what();
         spdlog::error("NERDetectionEngine: {} (model marked unavailable)", last_error_);
+        // Phase 3.12: Diagnostics integration for model load failure
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED, last_error_,
+            "NERDetectionEngine::init", ErrorSeverity::Error, /*is_recoverable=*/false));
         return false;
     }
 }
@@ -121,7 +126,12 @@ bool NERDetectionEngine::reload(const nlohmann::json& config) {
             location_prepositions_ = old_location_prep;
             field_name_hints_      = old_field_hints;
             redaction_modes_       = old_redaction_modes;
-            spdlog::error("NERDetectionEngine: Reload failed, retained previous config");
+            const auto err_msg = std::string("Reload failed, retained previous config");
+            spdlog::error("NERDetectionEngine: {}", err_msg);
+            // Phase 3.12: Diagnostics integration for reload failure
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::PRIVACY_ENGINE_LOAD_FAILED, err_msg,
+                "NERDetectionEngine::reload", ErrorSeverity::Warning, /*is_recoverable=*/true));
             return false;
         }
 
@@ -137,6 +147,10 @@ bool NERDetectionEngine::reload(const nlohmann::json& config) {
         redaction_modes_       = old_redaction_modes;
         last_error_ = std::string("Reload failed: ") + e.what();
         spdlog::error("NERDetectionEngine: {}", last_error_);
+        // Phase 3.12: Diagnostics integration for reload exception
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED, last_error_,
+            "NERDetectionEngine::reload", ErrorSeverity::Error, /*is_recoverable=*/false));
         return false;
     }
 }
