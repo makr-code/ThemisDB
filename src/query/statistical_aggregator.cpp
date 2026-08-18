@@ -131,12 +131,11 @@ Result<nlohmann::json> StatisticalAggregator::calculateVariancePop(const std::ve
 
 Result<nlohmann::json> StatisticalAggregator::calculateStdDev(const std::vector<double>& values) {
     auto variance = calculateVariance(values);
-    
     if (!variance) {
         return variance;  // Propagate error
     }
     
-    return Ok(nlohmann::json(std::sqrt(variance->get<double>())));
+    return Ok(nlohmann::json(std::sqrt(variance.value().get<double>())));
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateStdDevPop(const std::vector<double>& values) {
@@ -183,7 +182,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> v
         );
     }
     
-    return Ok(nlohmann::json(q3->get<double>() - q1->get<double>()));
+    return Ok(nlohmann::json(q3.value().get<double>() - q1.value().get<double>()));
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateMAD(const std::vector<double>& values) {

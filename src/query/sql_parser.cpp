@@ -676,7 +676,7 @@ private:
             advance();
             auto right = parseAnd();
             if (!right) return right;
-            left = Ok(std::make_shared<SQLBinaryOpExpr>("OR", std::move(left.value()), std::move(right.value())));
+            left = Ok(std::static_pointer_cast<SQLExpr>(std::make_shared<SQLBinaryOpExpr>("OR", std::move(left.value()), std::move(right.value()))));
         }
         return left;
     }
@@ -688,7 +688,7 @@ private:
             advance();
             auto right = parseNot();
             if (!right) return right;
-            left = Ok(std::make_shared<SQLBinaryOpExpr>("AND", std::move(left.value()), std::move(right.value())));
+            left = Ok(std::static_pointer_cast<SQLExpr>(std::make_shared<SQLBinaryOpExpr>("AND", std::move(left.value()), std::move(right.value()))));
         }
         return left;
     }
