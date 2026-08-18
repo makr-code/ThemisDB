@@ -1,0 +1,274 @@
+name: Maintenance — AI Working Cleanup & LLM Wiki Compaction
+
+# Periodically cleans up ai_working/, compacts topics into LLM-wiki pages
+# (ai_working/compact/), rotates archives, and updates the developer LLM wiki
+# in ai_context/developer_llm_wiki/.
+#
+# Implements the Karpathy LLM-Wiki pattern:
+#   https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+#
+# Each topic in ai_working/ produces a single compact wiki page that is
+# human-readable AND LLM-context-optimised (key facts, decisions, status —
+# not raw execution logs).
+#
+# Triggers:
+#   schedule    — Weekly, Monday 03:00 UTC
+#   push        — On changes to ai_working/** merged to develop/community
+#   workflow_dispatch — Manual with configurable options
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'  # Monday 03:00 UTC
+  push:
+    branches: [develop, community]
+    paths:
+      - 'ai_working/**'
+      - 'scripts/ai-working-compact.py'
+      - 'scripts/ai-dev-llm-wiki-sync.py'
+      - '.github/workflows/maintenance-ai-working.yml'
+  workflow_dispatch:
+    inputs:
+      compact:
+        description: 'Run topic compaction (ai_working/compact/)'
+        required: false
+        default: 'true'
+        type: boolean
+      archive:
+        description: 'Run archive rotation'
+        required: false
+        default: 'true'
+        type: boolean
+      cleanup:
+        description: 'Run stale-file cleanup'
+        required: false
+        default: 'true'
+        type: boolean
+      archive_days:
+        description: 'Age threshold for archiving in days (default: 90)'
+        required: false
+        default: '90'
+        type: string
+      cleanup_days:
+        description: 'Age threshold for archive cleanup in days (default: 365)'
+        required: false
+        default: '365'
+        type: string
+      llm_wiki_full_sync:
+        description: 'Run full LLM wiki sync (all source globs)'
+        required: false
+        default: 'false'
+        type: boolean
+      dry_run:
+        description: 'Dry-run mode — print actions, no file modifications'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write  # required to commit compacted wiki pages back
+
+concurrency:
+  group: maintenance-ai-working-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # --------------------------------------------------------------------------
+  # Job 1: Compact + archive + cleanup ai_working/
+  # --------------------------------------------------------------------------
+  ai-working-compact:
+    name: 🗜️ AI Working Compaction & Archive
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          # Use PAT or GITHUB_TOKEN; push requires write access
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.12'
+
+      - name: Determine compact options
+        id: opts
+        run: |
+          # Determine which modes to run. On schedule/push always run all.
+          # On workflow_dispatch respect inputs.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            COMPACT="${{ inputs.compact }}"
+            ARCHIVE="${{ inputs.archive }}"
+            CLEANUP="${{ inputs.cleanup }}"
+            ARCHIVE_DAYS="${{ inputs.archive_days }}"
+            CLEANUP_DAYS="${{ inputs.cleanup_days }}"
+            DRY_RUN="${{ inputs.dry_run }}"
+          else
+            COMPACT="true"
+            ARCHIVE="true"
+            CLEANUP="true"
+            ARCHIVE_DAYS="90"
+            CLEANUP_DAYS="365"
+            DRY_RUN="false"
+          fi
+
+          # Build flag list
+          FLAGS=""
+          [ "$COMPACT" = "true" ] && FLAGS="$FLAGS --compact"
+          [ "$ARCHIVE" = "true" ] && FLAGS="$FLAGS --archive"
+          [ "$CLEANUP" = "true" ] && FLAGS="$FLAGS --cleanup"
+          [ "$DRY_RUN" = "true" ] && FLAGS="$FLAGS --dry-run"
+          FLAGS="$FLAGS --archive-days ${ARCHIVE_DAYS} --cleanup-days ${CLEANUP_DAYS}"
+
+          echo "flags=$FLAGS" >> "$GITHUB_OUTPUT"
+          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+          echo "Compact flags: $FLAGS"
+
+      - name: Run AI working compaction
+        id: compact_run
+        run: |
+          python scripts/ai-working-compact.py ${{ steps.opts.outputs.flags }} \
+            2>&1 | tee /tmp/compact_run.log
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload compact run log
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: ai-working-compact-${{ github.run_number }}
+          path: |
+            /tmp/compact_run.log
+            ai_working/compact/COMPACT_RUN_SUMMARY.json
+          retention-days: 14
+
+      - name: Commit compacted pages and archives
+        if: steps.opts.outputs.dry_run != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add ai_working/compact/ ai_working/ARCHIVE_PRE_* || true
+          # Also stage any files that were removed by cleanup
+          git add -u ai_working/ || true
+
+          if git diff --cached --quiet; then
+            echo "Nothing to commit after compact/archive/cleanup."
+          else
+            CHANGED=$(git diff --cached --name-only | wc -l)
+            git commit -m "chore(ai-working): compact + archive rotation [${CHANGED} files] [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
+            echo "Pushed $CHANGED file changes."
+          fi
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## AI Working Compaction"
+            echo ""
+            echo "| Field | Value |"
+            echo "| ----- | ----- |"
+            echo "| Event | \`${{ github.event_name }}\` |"
+            echo "| Ref | \`${{ github.ref_name }}\` |"
+            echo "| Dry run | \`${{ steps.opts.outputs.dry_run }}\` |"
+            echo "| Flags | \`${{ steps.opts.outputs.flags }}\` |"
+            echo ""
+            if [ -f ai_working/compact/COMPACT_RUN_SUMMARY.json ]; then
+              echo '```json'
+              cat ai_working/compact/COMPACT_RUN_SUMMARY.json
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # --------------------------------------------------------------------------
+  # Job 2: Developer LLM Wiki sync
+  # Runs after compaction so compact pages are included in wiki source scan.
+  # --------------------------------------------------------------------------
+  llm-wiki-sync:
+    name: 📖 Developer LLM Wiki Sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: ai-working-compact
+    # Only sync on schedule, workflow_dispatch, or when docs-related files change
+    if: >
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && contains(github.event.head_commit.message, '[wiki]'))
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          # Pull latest so we get the compact pages committed by Job 1
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.12'
+
+      - name: Run developer LLM wiki sync
+        id: wiki_sync
+        run: |
+          SYNC_FLAGS=(--apply-updates)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
+             [ "${{ inputs.llm_wiki_full_sync }}" = "true" ]; then
+            SYNC_FLAGS+=(--full-sync)
+          fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
+             [ "${{ inputs.dry_run }}" = "true" ]; then
+            SYNC_FLAGS+=(--dry-run)
+          fi
+          python scripts/ai-dev-llm-wiki-sync.py "${SYNC_FLAGS[@]}" \
+            2>&1 | tee /tmp/wiki_sync.log
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload LLM wiki sync artifacts
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: developer-llm-wiki-${{ github.run_number }}
+          path: |
+            /tmp/wiki_sync.log
+            ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
+            ai_context/developer_llm_wiki/WIKI_STATUS.json
+          retention-days: 14
+
+      - name: Commit updated wiki pages
+        if: >
+          !(github.event_name == 'workflow_dispatch' && inputs.dry_run == 'true')
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add ai_context/developer_llm_wiki/ || true
+
+          if git diff --cached --quiet; then
+            echo "LLM wiki is up to date — no commit needed."
+          else
+            CHANGED=$(git diff --cached --name-only | wc -l)
+            git commit -m "chore(llm-wiki): sync developer wiki [${CHANGED} files] [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
+            echo "Pushed $CHANGED wiki file changes."
+          fi
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## Developer LLM Wiki Sync"
+            echo ""
+            echo "| Field | Value |"
+            echo "| ----- | ----- |"
+            echo "| Event | \`${{ github.event_name }}\` |"
+            echo "| Ref | \`${{ github.ref_name }}\` |"
+            echo "| Exit code | \`${{ steps.wiki_sync.outputs.exit_code }}\` |"
+            echo ""
+            if [ -f ai_context/developer_llm_wiki/WIKI_STATUS.json ]; then
+              echo '```json'
+              cat ai_context/developer_llm_wiki/WIKI_STATUS.json
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
