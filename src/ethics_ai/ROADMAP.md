@@ -1,23 +1,29 @@
 # Ethics AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-28 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-18 (retrospective closure from 2026-08-09 work completion) -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · RETROSPECTIVE_CLOSURE_2026_08_18.md -->
 
 ## Current Status
 
 Production-grade ethics_ai runtime exists for profile loading, discourse orchestration, argument persistence, RAG context assembly, evaluation metrics, and plugin lifecycle integration.
 
-The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre-selection).
-The next major evolution is the **Layered Discourse Model (LDM)** for Process-Equal,
-scalable multi-school discourse. Design rationale documented in
+**EU AI Act Compliance Milestone (Q4 2026):** ✅ **COMPLETE as of 2026-08-09**
+- Art. 13 (Transparency) fully implemented: participating school listing, audit trail immutability, legal grounding
+- Art. 22 (Human Oversight) fully implemented: ChainVisualizer visualization, NormEvidence legal citations
+- Layered Discourse Model (LDM) Phases 1–5 fully implemented with equal-weight contract enforcement
+- Community build separability verified (fail-closed without private sources)
+- 9+ focused EU compliance tests all passing; benchmark gates instrumented
+- See `RETROSPECTIVE_CLOSURE_2026_08_18.md` for detailed closure evidence
+
+The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre-selection) with Ebene-1–5 Layered Discourse Model (LDM) available for `LAYERED_FULL` and `LAYERED_FAST` modes. Design rationale documented in
 `docs/research/ethics_discourse_process_equality.md`.
 
 ## In Progress
 
-- [~] hardening deterministic behavior for profile-edge and multi-school debate permutations (Target: Q3 2026)
-- [~] benchmark stabilization for decision, context, and evaluator hot paths (Target: Q3 2026)
-- [~] diagnostics consistency improvements for plugin lifecycle and debate failure classes (Target: Q3 2026)
+- [~] hardening deterministic behavior for profile-edge and multi-school debate permutations (Target: Q3 2026) — forward work
+- [~] benchmark stabilization for decision, context, and evaluator hot paths (Target: Q3 2026) — forward work; GATE-EUAI-AUDIT-01 instrumented
+- [~] diagnostics consistency improvements for plugin lifecycle and debate failure classes (Target: Q3 2026) — forward work
 
 ---
 
