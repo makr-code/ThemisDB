@@ -57,6 +57,7 @@ permissions:
   contents: read
   issues: read
   pull-requests: write
+  checks: read
 
 concurrency:
   group: ci-build-${{ github.ref }}
