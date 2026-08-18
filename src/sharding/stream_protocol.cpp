@@ -1419,30 +1419,50 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
         return false;
     }
     
-    // Write chunk to staging file (simulates network transfer)
+    // BATCH 5: Add retry logic for transient I/O failures with exponential backoff
+    // Transient errors: file system temporarily unavailable, permission denied temporarily, etc.
     std::filesystem::path chunk_file = staging_dir / 
         (file_.file_id + "_chunk_" + std::to_string(chunk.chunk_index) + ".dat");
     
-    try {
-        std::ofstream out(chunk_file, std::ios::binary);
-        if (!out) {
-            std::cerr << "Failed to write chunk file: " << chunk_file << std::endl;
-            return false;
+    // Lambda to perform chunk write operation with retry capability
+    auto writeChunkWithRetry = [&chunk, &chunk_file]() -> bool {
+        try {
+            std::ofstream out(chunk_file, std::ios::binary);
+            if (!out) {
+                spdlog::warn("Failed to open chunk file for writing: {}", chunk_file.string());
+                return false;  // Transient failure - retry
+            }
+
+            // Write chunk metadata and data
+            out.write(reinterpret_cast<const char*>(&chunk.chunk_index), sizeof(chunk.chunk_index));
+            out.write(reinterpret_cast<const char*>(&chunk.file_offset), sizeof(chunk.file_offset));
+            out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
+            out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
+            out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
+            out.write(reinterpret_cast<const char*>(chunk.data.data()), chunk.data.size());
+
+            if (!out.good()) {
+                spdlog::warn("Failed to write chunk data to file: {}", chunk_file.string());
+                return false;  // Transient failure - retry
+            }
+            
+            return true;  // Success
+        } catch (const std::filesystem::filesystem_error& e) {
+            spdlog::warn("Filesystem error writing chunk {}: {}", chunk_file.string(), e.what());
+            return false;  // Transient failure - retry
+        } catch (const std::exception& e) {
+            spdlog::error("Unexpected exception writing chunk {}: {}", chunk_file.string(), e.what());
+            return false;  // Transient failure - retry
         }
-
-        // Write chunk metadata and data
-        out.write(reinterpret_cast<const char*>(&chunk.chunk_index), sizeof(chunk.chunk_index));
-        out.write(reinterpret_cast<const char*>(&chunk.file_offset), sizeof(chunk.file_offset));
-        out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
-        out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
-        out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
-        out.write(reinterpret_cast<const char*>(chunk.data.data()), chunk.data.size());
-
-        return out.good();
-    } catch (const std::exception& e) {
-        spdlog::error("Exception writing chunk file {}: {}", chunk_file.string(), e.what());
-        return false;
-    }
+    };
+    
+    // BATCH 5: Retry with exponential backoff (max 3 attempts, 50-1000ms delays)
+    return retryWithBackoff(
+        writeChunkWithRetry,
+        3,      // max_retries
+        50,     // initial_delay_ms (shorter for I/O operations)
+        1000    // max_delay_ms
+    );
 }
 
 // ============================================================================

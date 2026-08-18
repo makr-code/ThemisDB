@@ -58,6 +58,54 @@ inline uint64_t makeVersionToken() {
     return (static_cast<uint64_t>(micros) << 16) | counter;
 }
 
+/**
+ * @brief BATCH 5: Retry helper for transient replication failures with exponential backoff.
+ * 
+ * Used for replication operations that may fail transiently due to:
+ * - Temporary network issues (STORAGE_AHEAD, CACHE_AHEAD)
+ * - Temporary coordinator unavailability
+ * - Transient lock contention
+ * 
+ * @tparam Func Callable that returns bool (true = success, false = transient failure)
+ * @param func Operation to retry
+ * @param max_retries Maximum retry attempts (default: 3)
+ * @param initial_delay_ms Initial backoff delay in milliseconds (default: 50)
+ * @param max_delay_ms Maximum backoff delay cap (default: 2000)
+ * @return true if operation succeeded, false if all retries exhausted
+ */
+template <typename Func>
+inline bool retryReplicationWithBackoff(
+    Func&& func,
+    int max_retries = 3,
+    uint64_t initial_delay_ms = 50,
+    uint64_t max_delay_ms = 2000
+) {
+    for (int attempt = 0; attempt < max_retries; ++attempt) {
+        try {
+            if (func()) {
+                return true;  // Success
+            }
+            // Transient failure: prepare to retry
+        } catch (const std::exception& e) {
+            spdlog::debug("Replication attempt {} failed: {}", attempt + 1, e.what());
+            // Exception indicates transient failure; retry
+        }
+        
+        if (attempt < max_retries - 1) {
+            // Exponential backoff: 50ms, 100ms, 200ms, ...
+            uint64_t delay_ms = initial_delay_ms * (1ULL << attempt);
+            delay_ms = std::min(delay_ms, max_delay_ms);
+            
+            spdlog::debug("Replication retry in {}ms (attempt {}/{})", 
+                         delay_ms, attempt + 1, max_retries);
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+        }
+    }
+    
+    spdlog::warn("Replication exhausted {} retries", max_retries);
+    return false;  // All retries exhausted
+}
+
 }  // namespace
 
 // ═══════════════════════════════════════════════════════════
