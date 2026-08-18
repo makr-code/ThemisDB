@@ -14,13 +14,13 @@
 
 - `V240_GA_PROMOTION_FINAL_ATTESTATION.md` (2026-08-18, 9,760 B)
 - `PHASE_1A_GA_SIGN_OFF_DETAILED_PLAN.md` (2026-08-18, 18,993 B)
-- `GA_V2_4_0_STATUS_SUMMARY.md` (2026-08-18, 13,084 B)
 - `GA_EXECUTION_MASTER_BOARD.md` (2026-08-18, 13,496 B)
 - `GA_SIGN_OFF_PREPARATION_SUMMARY.md` (2026-08-18, 11,063 B)
 - `GA_V2_4_0_EXECUTIVE_SUMMARY.md` (2026-08-18, 12,485 B)
 - `GA_V2_4_0_FINAL_STATUS_REPORT.md` (2026-08-18, 13,401 B)
 - `GA_V2_4_0_PROMOTION_CHECKLIST.md` (2026-08-18, 7,044 B)
 - `GA_V2_4_0_PROMOTION_RUNBOOK.md` (2026-08-18, 11,910 B)
+- `GA_V2_4_0_STATUS_SUMMARY.md` (2026-08-18, 13,084 B)
 
 ---
 
@@ -266,55 +266,6 @@ ctest --preset community-release -L release_critical --verbose
 - ✅ Wave 7/8/9 gates PASS
 - ✅ Security Lead sign-off obtained
 - ✅ Module gap audit confirms zero new CRITICALs
-
----
-
-### GA_V2_4_0_STATUS_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# GA v2.4.0 Promotion — Comprehensive Status Summary
-**Generated:** 2026-08-07 15:15 UTC
-**Release Version:** v2.4.0 GA (rc1 → stable)
-**Status:** Phase 1B in progress, Phase 2-3 ready for execution
----
-## Executive Summary
-**Current Blocker:** Benchmark execution in progress (ETA: ~30 min remaining)
-**Approval Path:** Benchmarks → Validation → Human Sign-Off (Section 9) → Merge/Tag → Release
-**Timeline to GA:** ~1–2 hours from now (dependent on benchmark performance)
----
-## Phase Summary
-### ✅ Phase 1A: Release-Profile Build Configuration
-**Status:** COMPLETE (automated background task)
-- Created linux-release CMake preset configuration
-- Verified Ninja and vcpkg dependencies
-- Compiler: clang-17, -O3 -march=native -DNDEBUG
-- Build targets: Wave 7/8/9 benchmark binaries
-### 🔄 Phase 1B: Benchmark Execution
-**Status:** IN PROGRESS (automated background task)
-- **Task ID:** benchmark-execution
-- **Elapsed Time:** ~3.5 minutes (started 2026-08-07 15:15:04 UTC)
-- **Expected Duration:** 30–45 minutes total
-- **Current Stage:** Building or early benchmark execution
-- **Monitoring:** Logs at `/tmp/cmake_config.log`, `/tmp/build_*.log`, `/tmp/w*.log`
-### ✅ Phase 1C: Validation Infrastructure
-**Status:** COMPLETE (all scripts created)
-- **Script:** `benchmarks/ga_v2_4_0_gate_validation.py`
-- **Purpose:** Orchestrate W7/W8/W9 validation and consolidate results
-- **Ready to Execute:** Yes, upon benchmark completion
-### ✅ Phase 2: Documentation & Guides
-**Status:** COMPLETE (all created)
-**Promotion Checklist:**
-- File: `ai_working/GA_V2_4_0_PROMOTION_CHECKLIST.md`
-- Content: 11-section verification matrix for all promotion requirements
-- Status: All items tracked and marked per current state
-**Execution Runbook:**
-- File: `ai_working/GA_V2_4_0_PROMOTION_RUNBOOK.md`
-- Content: Phase-by-phase execution steps with CI gate verification
-- Purpose: Guide for release engineer through merge/tag/release
-**Release Approver Guide:**
-- File: `ai_working/RELEASE_APPROVER_QUICK_REFERENCE.md`
-- Content: Quick checklist for human approver (Section 9 sign-off)
 
 ---
 
@@ -1343,5 +1294,54 @@ git push origin v2.4.0-revoked
 **Last Updated:** 2026-08-07 15:15 UTC  
 **Ready for Execution:** YES ✓  
 **Requires Human Approval:** YES (Phase 3, Section 9)
+
+---
+
+### GA_V2_4_0_STATUS_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# GA v2.4.0 Promotion — Comprehensive Status Summary
+**Generated:** 2026-08-07 15:15 UTC
+**Release Version:** v2.4.0 GA (rc1 → stable)
+**Status:** Phase 1B in progress, Phase 2-3 ready for execution
+---
+## Executive Summary
+**Current Blocker:** Benchmark execution in progress (ETA: ~30 min remaining)
+**Approval Path:** Benchmarks → Validation → Human Sign-Off (Section 9) → Merge/Tag → Release
+**Timeline to GA:** ~1–2 hours from now (dependent on benchmark performance)
+---
+## Phase Summary
+### ✅ Phase 1A: Release-Profile Build Configuration
+**Status:** COMPLETE (automated background task)
+- Created linux-release CMake preset configuration
+- Verified Ninja and vcpkg dependencies
+- Compiler: clang-17, -O3 -march=native -DNDEBUG
+- Build targets: Wave 7/8/9 benchmark binaries
+### 🔄 Phase 1B: Benchmark Execution
+**Status:** IN PROGRESS (automated background task)
+- **Task ID:** benchmark-execution
+- **Elapsed Time:** ~3.5 minutes (started 2026-08-07 15:15:04 UTC)
+- **Expected Duration:** 30–45 minutes total
+- **Current Stage:** Building or early benchmark execution
+- **Monitoring:** Logs at `/tmp/cmake_config.log`, `/tmp/build_*.log`, `/tmp/w*.log`
+### ✅ Phase 1C: Validation Infrastructure
+**Status:** COMPLETE (all scripts created)
+- **Script:** `benchmarks/ga_v2_4_0_gate_validation.py`
+- **Purpose:** Orchestrate W7/W8/W9 validation and consolidate results
+- **Ready to Execute:** Yes, upon benchmark completion
+### ✅ Phase 2: Documentation & Guides
+**Status:** COMPLETE (all created)
+**Promotion Checklist:**
+- File: `ai_working/GA_V2_4_0_PROMOTION_CHECKLIST.md`
+- Content: 11-section verification matrix for all promotion requirements
+- Status: All items tracked and marked per current state
+**Execution Runbook:**
+- File: `ai_working/GA_V2_4_0_PROMOTION_RUNBOOK.md`
+- Content: Phase-by-phase execution steps with CI gate verification
+- Purpose: Guide for release engineer through merge/tag/release
+**Release Approver Guide:**
+- File: `ai_working/RELEASE_APPROVER_QUICK_REFERENCE.md`
+- Content: Quick checklist for human approver (Section 9 sign-off)
 
 ---
