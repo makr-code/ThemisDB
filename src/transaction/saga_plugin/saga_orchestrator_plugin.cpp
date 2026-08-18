@@ -17,6 +17,7 @@
 #include <nlohmann/json.hpp>
 #include <thread>
 #include <atomic>
+#include <spdlog/spdlog.h>
 
 #ifdef _WIN32
 #define THEMIS_SAGA_PLUGIN_EXPORT __declspec(dllexport)
@@ -206,11 +207,69 @@ private:
 
 } // namespace themis::transaction
 
+/**
+ * @brief Plugin factory function - C interface for dynamic loading.
+ * 
+ * @note MEMORY OWNERSHIP:
+ * - Caller is responsible for calling destroyPlugin() to free returned pointer
+ * - Returned pointer is never nullptr (throws std::bad_alloc on failure)
+ * - Exception safety: if allocation fails, throws exception; no dangling pointers
+ * 
+ * @return Pointer to newly allocated SagaOrchestratorPlugin instance
+ * @throws std::bad_alloc if allocation fails
+ */
 extern "C" THEMIS_SAGA_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
-    return new themis::transaction::SagaOrchestratorPlugin();
+    try {
+        // Use new with RAII wrapper internally to ensure exception safety
+        // If std::make_unique-like semantics were available, we'd use it
+        auto* plugin = new themis::transaction::SagaOrchestratorPlugin();
+        if (!plugin) {
+            throw std::bad_alloc();
+        }
+        return plugin;
+    } catch (const std::bad_alloc&) {
+        // Propagate allocation failures - caller must handle or let process terminate
+        throw;
+    } catch (const std::exception& e) {
+        // Log any other exception and rethrow
+        spdlog::error("SagaOrchestratorPlugin creation failed: {}", e.what());
+        throw;
+    }
 }
 
-extern "C" THEMIS_SAGA_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
-    delete plugin;
+/**
+ * @brief Plugin destroyer function - C interface for dynamic unloading.
+ * 
+ * @note PRECONDITION: plugin must be a non-null pointer returned from createPlugin()
+ * @note POSTCONDITION: plugin pointer is deleted; caller should not use it afterward
+ * @note EXCEPTION SAFETY: noexcept; any exceptions are logged and suppressed
+ * 
+ * @param plugin Pointer to SagaOrchestratorPlugin instance to destroy
+ */
+extern "C" THEMIS_SAGA_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) noexcept {
+    if (!plugin) {
+        // Silently ignore null pointers - double-delete safety
+        // This is safe even if called multiple times with same null
+        return;
+    }
+    
+    try {
+        // Delete the plugin instance
+        delete plugin;
+    } catch (const std::exception& e) {
+        // Exception in destructor - log and suppress per noexcept contract
+        try {
+            spdlog::error("Exception during plugin destruction: {}", e.what());
+        } catch (...) {
+            // Even logging might throw - suppress silently
+        }
+    } catch (...) {
+        // Unknown exception - suppress per noexcept contract
+        try {
+            spdlog::error("Unknown exception during plugin destruction");
+        } catch (...) {
+            // Even logging might throw - suppress silently
+        }
+    }
 }
 

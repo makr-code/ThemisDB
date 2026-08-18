@@ -81,12 +81,17 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
     }
 
     enum class Color { WHITE, GRAY, BLACK };
+    // Initialize all color map entries explicitly to avoid uninitialized access
     std::unordered_map<std::string, Color> color;
-    for (const auto& name : names) color[name] = Color::WHITE;
+    for (const auto& name : names) {
+        color[name] = Color::WHITE;
+    }
 
-    std::function<bool(const std::string&)> dfs = [&](const std::string& u) -> bool {
+    // Lambda captures fully-initialized color map, guaranteed safe access
+    std::function<bool(const std::string&)> dfs = [&color, &adj](const std::string& u) -> bool {
         color[u] = Color::GRAY;
         for (const auto& v : adj[u]) {
+            // Both color[v] and color assignments are safe: all names initialized above
             if (color[v] == Color::GRAY) return true; // back-edge → cycle
             if (color[v] == Color::WHITE && dfs(v)) return true;
         }
