@@ -116,7 +116,7 @@ inline GPUDispatchErrorCode mapHipErrorToDispatchCode(hipError_t hip_err) noexce
  * - On error: maps error, emits diagnostic, returns error code
  * 
  * Example:
- * ```cpp
+ * @code
  * GPUDispatchErrorCode err = checkCudaError(
  *     cudaMalloc(&ptr, size),
  *     "cudaMalloc",
@@ -124,7 +124,7 @@ inline GPUDispatchErrorCode mapHipErrorToDispatchCode(hipError_t hip_err) noexce
  * if (err != GPUDispatchErrorCode::SUCCESS) {
  *     // Handle error: implement CPU fallback
  * }
- * ```
+ * @endcode
  */
 #ifdef THEMIS_ENABLE_CUDA
 inline GPUDispatchErrorCode checkCudaError(
@@ -176,7 +176,7 @@ inline GPUDispatchErrorCode checkHipError(
  * @brief RAII guard for fallback-on-error pattern.
  * 
  * Usage pattern for CUDA operations with automatic CPU fallback:
- * ```cpp
+ * @code
  * GPUDispatchErrorCode final_error = GPUDispatchErrorCode::SUCCESS;
  * {
  *     CudaFallbackGuard guard(final_error);
@@ -187,7 +187,7 @@ inline GPUDispatchErrorCode checkHipError(
  * if (final_error != GPUDispatchErrorCode::SUCCESS) {
  *     // Execute CPU fallback
  * }
- * ```
+ * @endcode
  */
 class CudaFallbackGuard {
  public:
@@ -222,7 +222,7 @@ class CudaFallbackGuard {
  * 3. Executes fallback_block
  * 
  * Example:
- * ```cpp
+ * @code
  * bool gpu_success = false;
  * CHECKED_CUDA_WITH_FALLBACK(
  *     cudaMalloc(&ptr, size),
@@ -230,8 +230,8 @@ class CudaFallbackGuard {
  *         gpu_success = false;
  *         // implement CPU fallback here
  *     });
- * if (gpu_success) { /* use GPU result */ }
- * ```
+ * if (gpu_success) { // use GPU result }
+ * @endcode
  */
 #ifdef THEMIS_ENABLE_CUDA
 #define CHECKED_CUDA_WITH_FALLBACK(stmt, fallback_block) \
