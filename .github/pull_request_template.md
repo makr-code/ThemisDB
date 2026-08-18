@@ -3,6 +3,26 @@
 > For EPIC-branch workflow PRs, use `.github/PULL_REQUEST_TEMPLATE/epic-branch-flow.md`.
 > This applies to both `feature/* -> epic/*` and `epic/* -> develop` integration PRs.
 
+## Target Version (Required)
+
+<!-- Select the version this PR targets. Must be an existing GitHub milestone.
+     See docs/governance/PR_VERSION_TARGETING.md for guidance.
+     Valid formats: v2.4.0, v2.4.1, v2.5.0-alpha1, v2.5.0-beta1, v2.5.0-rc1, [Unreleased]
+     
+     Selection criteria:
+     - Features: assign to next planned MINOR (e.g., v2.5.0-alpha1)
+     - Bug fixes (stable): assign to v2.4.0 or v2.4.1
+     - Docs: same version as the documented feature
+     - Security: current stable version first, then backports
+     - Infrastructure: next MINOR or [Unreleased]
+-->
+
+**Target Version:** (choose one from active milestones)
+
+<!-- Briefly explain why this version was chosen -->
+
+---
+
 ## Description
 
 <!-- Describe the changes in this PR -->
