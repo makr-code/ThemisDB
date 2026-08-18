@@ -32,6 +32,10 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
 endif()
 
+# Canonical dependency contract: strict in normal dev/release builds,
+# diagnostic-only fallback in bootstrap troubleshooting.
+include(cmake/DependencyContract.cmake)
+
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" _ver_raw)
 string(STRIP "${_ver_raw}" _ver_raw)
 
