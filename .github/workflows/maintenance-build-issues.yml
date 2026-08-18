@@ -206,7 +206,7 @@ jobs:
           close-if-empty: 'false'
 
       - name: Send Slack notification for chronic errors
-        if: steps.aggregate.outputs.chronic_errors > 0 && secrets.SLACK_WEBHOOK_URL != ''
+        if: steps.aggregate.outputs.chronic_errors > 0
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
@@ -216,7 +216,7 @@ jobs:
         continue-on-error: true
 
       - name: Send Discord notification for chronic errors
-        if: steps.aggregate.outputs.chronic_errors > 0 && secrets.DISCORD_WEBHOOK_URL != ''
+        if: steps.aggregate.outputs.chronic_errors > 0
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
