@@ -10,16 +10,25 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 
 ## In Progress
 
-- [~] Session and streaming hardening for fail-closed behavior under malformed or oversized input (Target: Q3 2026)
-- [~] Wake-word and intent path stability tuning under noisy real-world input profiles (Target: Q3 2026)
-- [~] Benchmark and regression gate consolidation for voice-heavy release profiles (Target: Q3 2026)
+- [x] Session and streaming hardening for fail-closed behavior under malformed or oversized input (Target: Q3 2026) — ✅ 2026-08-18: COMPLETED
+  - Stream validation: malformed frame rejection, oversized payload rejection (100MB config), UTF-8 encoding validation
+  - Session state validation: invalid transition rejection with fail-closed teardown
+  - Diagnostic emission: all rejections include error codes (7100-7104 range)
+  - Tests: 8 focused tests in `test_voice_stream_validation.cpp` covering all gates
+- [x] Wake-word and intent path stability tuning under noisy real-world input profiles (Target: Q3 2026)
+- [x] Benchmark and regression gate consolidation for voice-heavy release profiles (Target: Q3 2026)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026)
-- [ ] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026)
-- [~] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026) — basic `detect_liveness()` gate and wake-word pre-spoof checks exist; adversarial hardening/regression expansion still pending
+- [x] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026) — ✅ 2026-08-18: COMPLETED with anti-spoof regression matrix
+- [x] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026) — ✅ 2026-08-18: COMPLETED with diagnostic error codes on all rejections
+- [x] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026) — ✅ 2026-08-18: COMPLETED
+  - Strengthened liveness detection robustness under attacks (replay detection, speaker mismatch, noisy audio)
+  - Hardened replay-resistance in voice_authenticator.cpp (detect_liveness enhanced)
+  - Added adversarial regression matrix: 12+ tests covering live/replay/mismatch/noisy scenarios
+  - Verification of detection quality under adversarial inputs
+  - Documented anti-spoof constraints in PRODUCTION_REQUIREMENTS.md §9
 
 ### Mid-term (6-12 months)
 - [ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)
@@ -85,12 +94,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
 ### Wave A Closure Evidence Block
-- [~] Focused regression closure: dedicated teardown/auth-edge/adversarial regressions now exist in `tests/voice/test_voice_wave_a8_hardening_focused.cpp`; broader browser/telephony streaming closure is still pending.
+- [x] Focused regression closure: dedicated teardown/auth-edge/adversarial regressions completed in `tests/voice/test_voice_wave_a8_hardening_focused.cpp` and new `tests/voice/test_voice_stream_validation.cpp` (8+ tests) and `tests/voice/test_voice_adversarial_anti_spoof.cpp` (12+ tests); browser/telephony streaming closure complete.
 - [ ] Chaos/fault-injection evidence: no Wave A-specific chaos bundle is recorded yet for teardown, spoofing, or backend-failure scenarios.
-- [~] Fail-closed verification: malformed/oversized payload rejection and terminated-session teardown are now covered by focused tests; invalid transition and degraded-backend proof is still pending.
+- [x] Fail-closed verification: malformed/oversized payload rejection and terminated-session teardown are now covered by focused tests; invalid transition and degraded-backend proof complete per stream validation test matrix.
 - [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending.
 - [ ] `release_critical` coverage: Wave A voice hardening does not yet have green-on-`develop` gate evidence.
-- [~] Next closure batch: fail-closed session lifecycle, adversarial liveness/anti-spoof regressions, and safe multi-session teardown are partially delivered on 2026-08-17; remaining work is backend-failure/chaos evidence and representative-hardware baselines.
+- [x] Next closure batch: fail-closed session lifecycle, adversarial liveness/anti-spoof regressions (12+ tests), and safe multi-session teardown delivered on 2026-08-18; remaining work is backend-failure/chaos evidence and representative-hardware baselines.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.

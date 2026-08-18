@@ -28,6 +28,43 @@ namespace themisdb {
 namespace replication {
 
 // ============================================================================
+// Lock Hierarchy Documentation (multi_tier_replication.cpp)
+// ============================================================================
+//
+// This module implements a 2-level lock hierarchy using std::shared_mutex
+// (reader-writer locks) to maximize concurrency during tier-level operations
+// and statistics gathering.
+//
+// LOCK HIERARCHY (ordered from outermost to innermost):
+//
+//   Level 1: MultiTierReplicationManager::assignments_mutex_
+//            - Purpose: Protects tier_assignments_ map
+//            - Scope: Tier assignment and removal operations
+//            - Hold time: MINIMAL (~microseconds)
+//            - Pattern: Acquire for write → map op → release
+//                       Acquire for read → copy value → release
+//            - Mode: exclusive (write), shared (read)
+//
+//   Level 2: MultiTierReplicationManager::stats_mutex_
+//            - Purpose: Protects access_stats_ map
+//            - Scope: Stats collection and retrieval
+//            - Hold time: MINIMAL (~microseconds)
+//            - Pattern: Acquire → update stats → release
+//            - Mode: exclusive (write), shared (read)
+//
+// TIMEOUT SAFETY:
+//   Tier assignment and removal operations use std::unique_lock which enables
+//   timeout-aware operations if needed in the future. Currently, no external
+//   I/O is performed while holding these locks.
+//
+// SCOPE IMPROVEMENT (lines 103-115):
+//   assignTier now consolidates both assignments_mutex_ and stats_mutex_
+//   operations into focused scopes to minimize lock hold time and reduce
+//   contention on the shared mutexes.
+//
+// ============================================================================
+
+// ============================================================================
 // Built-in tier defaults
 // ============================================================================
 
