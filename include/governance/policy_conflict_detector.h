@@ -32,6 +32,7 @@
 #include <chrono>
 #include <memory>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -387,7 +388,7 @@ private:
      */
     bool hasCircularDependency(
         const std::string& rule_id,
-        const std::unordered_set<std::string>& visited,
+        std::unordered_set<std::string>& visited,
         std::unordered_set<std::string>& rec_stack,
         const PolicyManager& policy_mgr
     ) const;

@@ -22,6 +22,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <tuple>
 
 namespace themis {
 namespace governance {

@@ -704,12 +704,44 @@ std::string PolicyConflictDetector::generateConflictId(
 
 bool PolicyConflictDetector::hasCircularDependency(
     const std::string& rule_id,
-    const std::unordered_set<std::string>& visited,
+    std::unordered_set<std::string>& visited,
     std::unordered_set<std::string>& rec_stack,
     const PolicyManager& policy_mgr) const {
-    
-    // Simplified circular dependency check
-    // In a full implementation, would parse policy dependencies
+
+    if (rec_stack.count(rule_id)) {
+        return true;  // Back-edge found: cycle detected
+    }
+    if (visited.count(rule_id)) {
+        return false;  // Already fully explored, no cycle via this node
+    }
+
+    // Mark as in-progress for cycle detection
+    visited.insert(rule_id);
+    rec_stack.insert(rule_id);
+
+    // Derive dependency edges: rule A depends on rule B when B's id appears
+    // as a resource pattern in A (e.g., resource "rule:<id>" or "<id>").
+    auto rule_opt = policy_mgr.getRule(rule_id);
+    if (rule_opt) {
+        auto all_rules = policy_mgr.listRules();
+        for (const auto& candidate : all_rules) {
+            if (candidate.id == rule_id) {
+                continue;
+            }
+            for (const auto& resource : rule_opt->resources) {
+                if (resource == candidate.id ||
+                    resource == "rule:" + candidate.id) {
+                    if (hasCircularDependency(candidate.id, visited, rec_stack,
+                                             policy_mgr)) {
+                        return true;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    rec_stack.erase(rule_id);
     return false;
 }
 
