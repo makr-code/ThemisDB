@@ -1,6 +1,6 @@
 # 🙏 ThemisDB Supporters & Contributors
 
-**Thank you to:** Diana, Makr Code Team, Meta (Yuri Malkov et al.), Google (Jeff Johnson et al.), Microsoft (Daan Leijen et al.), Apache (Renzo Angles et al.), Michael Stonebraker, Jim Gray, Philip Bernstein, Diego Ongaro, Edward Hu, Hugo Touvron, Daniel Lemire, John McCalpin, Intel, NVIDIA, AWS, OpenSSL Project, Xiph.Org Foundation, Cloud Native Computing Foundation, Mozilla, OpenAI, DuckDB Foundation, Boost Community, Open Source Community
+**Thank you to:** Diana (loving wife), Makr Code Team, Meta (Yuri Malkov et al.), Google (Jeff Johnson et al.), Microsoft (Daan Leijen et al.), Apache (Renzo Angles et al.), Michael Stonebraker, Jim Gray, Philip Bernstein, Diego Ongaro, Edward Hu, Hugo Touvron, Daniel Lemire, John McCalpin, Intel, NVIDIA, AWS, OpenSSL Project, Xiph.Org Foundation, Cloud Native Computing Foundation, Mozilla, OpenAI, DuckDB Foundation, Boost Community, Open Source Community
 
 ---
 
