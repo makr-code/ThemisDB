@@ -18,10 +18,10 @@
 - `WRAPPER_SCANNER_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 8,786 B)
 - `WEEK1_IMPLEMENTATION_STATUS.md` (2026-08-18, 9,834 B)
 - `VOICE_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 10,026 B)
-- `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-18, 17,036 B)
 - `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
-- `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
+- `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-18, 17,036 B)
 - `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
+- `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
 - `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
@@ -30,15 +30,15 @@
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
+- `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
 - `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
-- `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
-- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-18, 13,507 B)
+- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
 - `PHASE_5_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 11,681 B)
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
@@ -52,19 +52,19 @@
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
+- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
-- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
-- `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
+- `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
 - `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
+- `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
 - `IMPLEMENTATION_PLAN_8_ITEMS_2026-05-25.md` (2026-08-18, 1,274 B)
 - `IMPLEMENTATION_ROADMAP.md` (2026-08-18, 14,252 B)
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 9,018 B)
 - `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,655 B)
 - `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
-- `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
@@ -1505,6 +1505,53 @@ Progress is tracked incrementally via:
 
 ---
 
+### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Updates Module v1.1.0 Final Implementation Summary
+**Date**: 2026-08-08
+**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
+**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
+**Duration**: ~3 hours (parallelized agent execution)
+---
+## Executive Summary
+### Key Deliverables
+| Block | Scope | Status | Evidence |
+|-------|-------|--------|----------|
+| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
+| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
+| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
+---
+## Block 1: Gap Remediation (CRITICAL Findings)
+### Completion Status: 17/22 CRITICAL Fixed (77%)
+**Remediated Components:**
+#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
+// Added thread synchronization for column family handles
+std::mutex cf_mutex_;  // Protects column_families_ and related access
+- All column family operations (getOrCreate, read, write) now protected
+- Thread-safe concurrent access from multiple update threads
+- Zero data race violations in focused tests
+#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
+**Resource Leak Fixes (2/2):**
+- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
+- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
+- Exception-safe resource management with automatic deallocation
+**Timeout Handling (6/6):**
+// Condition variable timeout
+cv.wait_for(lock, std::chrono::seconds(5));
+// Thread join timeout with deadline tracking
+std::this_thread::sleep_for(std::chrono::milliseconds(100));
+if (!joined) {
+LOG_WARNING("Thread join timeout, detaching");
+thread.detach();
+}
+- All blocking operations have bounded timeouts
+- Graceful fallback when timeouts exceeded
+- Prevents deadlocks and hangs
+
+---
+
 ### USER_STORAGE_IMPLEMENTATION_COORDINATION.md
 
 *(file too large — key headings extracted)*
@@ -1555,102 +1602,6 @@ Complete hardening of the four core user_storage_encrypted components:
 - ✅ Build: zero warnings
 ### Code Quality Standards
 Per CLAUDE.md and modern C++ best practices:
-
----
-
-### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Updates Module v1.1.0 Final Implementation Summary
-**Date**: 2026-08-08
-**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
-**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
-**Duration**: ~3 hours (parallelized agent execution)
----
-## Executive Summary
-### Key Deliverables
-| Block | Scope | Status | Evidence |
-|-------|-------|--------|----------|
-| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
-| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
-| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
----
-## Block 1: Gap Remediation (CRITICAL Findings)
-### Completion Status: 17/22 CRITICAL Fixed (77%)
-**Remediated Components:**
-#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
-// Added thread synchronization for column family handles
-std::mutex cf_mutex_;  // Protects column_families_ and related access
-- All column family operations (getOrCreate, read, write) now protected
-- Thread-safe concurrent access from multiple update threads
-- Zero data race violations in focused tests
-#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
-**Resource Leak Fixes (2/2):**
-- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
-- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
-- Exception-safe resource management with automatic deallocation
-**Timeout Handling (6/6):**
-// Condition variable timeout
-cv.wait_for(lock, std::chrono::seconds(5));
-// Thread join timeout with deadline tracking
-std::this_thread::sleep_for(std::chrono::milliseconds(100));
-if (!joined) {
-LOG_WARNING("Thread join timeout, detaching");
-thread.detach();
-}
-- All blocking operations have bounded timeouts
-- Graceful fallback when timeouts exceeded
-- Prevents deadlocks and hangs
-
----
-
-### TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Transaction Module Implementation Summary
-**Date:** 2026-08-08
-**Phases Implemented:** 1-4 Complete
-**Total Test Coverage:** 73+ focused tests
-**Performance Gates:** 12 benchmarks
-**Status:** READY FOR BUILD & EXECUTION VERIFICATION
----
-## Executive Summary
-- **Phase 1:** 33 focused tests covering lifecycle, isolation, and error paths
-- **Phase 2:** 26 focused tests covering distributed coordination and SAGA
-- **Phase 3:** 14 focused tests covering fault injection and chaos engineering
-- **Phase 4:** 12 performance benchmarks for throughput, latency, and operational overhead
----
-## Phase 1: Lifecycle and Isolation Safety ✓ COMPLETE
-### Implementation Status
-- **Status:** COMPLETE - Ready for build verification
-- **Target:** Q3 2026
-- **Tests Implemented:** 33
-- **Acceptance Criteria:** AC-1, AC-2, AC-3, AC-7
-### Deliverables
-1. **test_transaction_lifecycle_phase1.cpp** (19 KB)
-- 12 tests covering lifecycle state machine, concurrent transactions, isolation levels
-- AC-1: ACID Lifecycle Isolation (10 threads × 5 txns stress test)
-- AC-2: Begin/Prepare/Commit/Abort guardrails (double-operation prevention)
-- AC-3: Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
-2. **test_transaction_isolation_contention_phase1.cpp** (20 KB)
-- 10 tests covering isolation edge cases and lock contention
-- AC-3: Isolation semantics under contention (9 threads × 8 txns)
-- AC-7: Timeout determinism (short timeouts under contention)
-3. **test_transaction_error_path_determinism_phase1.cpp** (17 KB)
-- 11 tests covering timeout, rollback, and error recovery
-- AC-2: Error consistency across retries (5 attempts)
-- AC-7: Rollback determinism and timeout behavior
-### Test Evidence
-- 33 focused tests registered in CMakeLists.txt
-- All tests use `themis_register_module_test()` macro
-- Timeout: 120s per test, labels: `transaction;phase-1;feature-specific`
-### Documentation
-- **PHASE_1_ACCEPTANCE_CHECKLIST.md** — Complete evidence and verification plan
----
-## Phase 2: Distributed Coordination Hardening ✓ COMPLETE
-### Implementation Status
 
 ---
 
@@ -1871,6 +1822,55 @@ grep -c "Q4 2026" CHANGELOG.md
 
 **Last Updated:** 2026-08-07 18:33 UTC
 **Next Review:** Upon Batch 1 completion (agent notification)
+
+---
+
+### TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Transaction Module Implementation Summary
+**Date:** 2026-08-08
+**Phases Implemented:** 1-4 Complete
+**Total Test Coverage:** 73+ focused tests
+**Performance Gates:** 12 benchmarks
+**Status:** READY FOR BUILD & EXECUTION VERIFICATION
+---
+## Executive Summary
+- **Phase 1:** 33 focused tests covering lifecycle, isolation, and error paths
+- **Phase 2:** 26 focused tests covering distributed coordination and SAGA
+- **Phase 3:** 14 focused tests covering fault injection and chaos engineering
+- **Phase 4:** 12 performance benchmarks for throughput, latency, and operational overhead
+---
+## Phase 1: Lifecycle and Isolation Safety ✓ COMPLETE
+### Implementation Status
+- **Status:** COMPLETE - Ready for build verification
+- **Target:** Q3 2026
+- **Tests Implemented:** 33
+- **Acceptance Criteria:** AC-1, AC-2, AC-3, AC-7
+### Deliverables
+1. **test_transaction_lifecycle_phase1.cpp** (19 KB)
+- 12 tests covering lifecycle state machine, concurrent transactions, isolation levels
+- AC-1: ACID Lifecycle Isolation (10 threads × 5 txns stress test)
+- AC-2: Begin/Prepare/Commit/Abort guardrails (double-operation prevention)
+- AC-3: Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
+2. **test_transaction_isolation_contention_phase1.cpp** (20 KB)
+- 10 tests covering isolation edge cases and lock contention
+- AC-3: Isolation semantics under contention (9 threads × 8 txns)
+- AC-7: Timeout determinism (short timeouts under contention)
+3. **test_transaction_error_path_determinism_phase1.cpp** (17 KB)
+- 11 tests covering timeout, rollback, and error recovery
+- AC-2: Error consistency across retries (5 attempts)
+- AC-7: Rollback determinism and timeout behavior
+### Test Evidence
+- 33 focused tests registered in CMakeLists.txt
+- All tests use `themis_register_module_test()` macro
+- Timeout: 120s per test, labels: `transaction;phase-1;feature-specific`
+### Documentation
+- **PHASE_1_ACCEPTANCE_CHECKLIST.md** — Complete evidence and verification plan
+---
+## Phase 2: Distributed Coordination Hardening ✓ COMPLETE
+### Implementation Status
 
 ---
 
@@ -3330,105 +3330,6 @@ This comprehensive RAII hardening of the LLM module significantly improves resou
 
 ---
 
-### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
-**Date Created:** 2026-07-05
-**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
-**Artifacts:** 11 Files | ~60KB Documentation
-**Verification:** Script Tested (DRY_RUN Mode) ✅
----
-## 📋 Executive Summary
-### Deliverables
-✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
-✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
-✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
-✅ **Comprehensive Documentation** — Implementation index + quick reference
-✅ **Success Metrics** — Baseline/target tracking across all epics
-### Key Metrics
-| Item | Value |
-|------|-------|
-| Total Epics | 5 |
-| Total Sub-Issues | 23 |
-| Total GitHub Issues to Create | 28 |
-| Estimated Total Effort | 580 hours |
-| Timeline | 30 weeks (W31-W49, 2026) |
-| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
-| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
-| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
-| Production Readiness Target | v2.4 Stable |
----
-## 🎯 The Five Epics (Concretely Verifiable)
-### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
-**Critical Path Item — Blocks All Module Work**
-| Item | Value |
-|------|-------|
-| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
-| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
-| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
-| **Effort** | 80 hours |
-| **Deliverable** | v1.5.0 Stable Release |
-| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
-**Sub-Issues:**
-- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
-- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
-- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
-**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
----
-
----
-
-### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# PR Version Targeting Implementation Summary
-> **Status:** Complete (2026-08-18)
-> **Author:** Copilot Task Agent
-> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
----
-## Overview
-This implementation enables **every PR to have a target version** that:
-1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
-2. ✅ Maps to GitHub milestones for release scope tracking
-3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
-4. ✅ Supports automated validation and release manager workflows
----
-## What Was Implemented
-### Block 1: Governance & Documentation (Complete ✓)
-**Files Created:**
-1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
-- Comprehensive policy for version-targeted PRs
-- Valid version formats (SemVer, pre-releases, backlog)
-- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
-- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
-- Release manager workflow and pre-release checklist
-- FAQ and troubleshooting
-2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
-- Step-by-step milestone creation guide
-- Recommended milestone structure (stable, pre-release, backlog)
-- Milestone description templates with examples
-- Pre-release checklist for release managers
-- Quarterly backlog triage process
-**Files Modified:**
-1. **`.github/pull_request_template.md`**
-- Added mandatory "Target Version" field at top of template
-- Included selection criteria and link to governance policy
-- Provides dropdown of valid version formats
-2. **`RELEASE_STRATEGY.md`** (§2.1.1)
-- Documented PR version targeting integration with milestone model
-- Explained traceability, changelog automation, and scope validation
-3. **`VERSIONING.md`** (§2.1)
-- Added PR version targeting guidance
-- Selection criteria table for different PR types
-- Reference to full policy documentation
----
-### Block 2: Automation & Validation (Complete ✓)
-
----
-
 ### Q3_2026_EPIC_IMPLEMENTATION_INDEX.md
 
 # Q3 2026 Epic Implementation Index
@@ -3791,60 +3692,102 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
+### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Phase A Implementation Summary (Q3 2026)
-## Status: ✅ IMPLEMENTATION COMPLETE
-**Date:** 2026-08-08
-**Scope:** Updates Module Comprehensive Hardening Plan - Phase A (Weeks 1-4)
-**Priority:** Items 1-2 Complete, Item 3 Benchmark Gates Designed
+# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
+**Date Created:** 2026-07-05
+**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
+**Artifacts:** 11 Files | ~60KB Documentation
+**Verification:** Script Tested (DRY_RUN Mode) ✅
 ---
-## DELIVERABLES
-### Item 1: Rollback Hardening ✅ COMPLETE
-#### Modified Files (2)
-- **`include/updates/update_state_machine.h`**
-- Added `RollbackFallbackStrategy` enum with 3 strategies: IMMEDIATE_ABORT, PARTIAL_CONTINUE, DEFER
-- Added `RollbackCallback` type for post-rollback notification
-- Added 6 new public methods:
-- `setRollbackCallback()` - Register rollback completion callback
-- `rollbackToLatestCheckpoint()` - Partial rollback to latest checkpoint
-- `rollbackToCheckpointWithFallback()` - Rollback with failure handling strategy
-- `checkpointCount()` - Query checkpoint count
-- `hasPendingRollback()` - Check for deferred rollbacks
-- `emitRollbackDiagnostic()` - Emit diagnostic on rollback attempt (ERROR level)
-- Added private members for fallback strategy tracking and deferred rollback queue
-- **`src/updates/update_state_machine.cpp`**
-- Implemented all 6 new rollback methods
-- `setRollbackCallback()`: Stores callback for invocation
-- `rollbackToLatestCheckpoint()`: Finds and rolls back to most recent checkpoint
-- `rollbackToCheckpointWithFallback()`: Implements 3 fallback strategies:
-- IMMEDIATE_ABORT: Fail-fast, return false
-- PARTIAL_CONTINUE: Log but continue, return true (optimistic)
-- DEFER: Queue for retry, return false, set `has_pending_rollback_` flag
-- `checkpointCount()`: Returns checkpoint vector size
-- `hasPendingRollback()`: Returns whether deferred_rollbacks_ is non-empty
-- `emitRollbackDiagnostic()`: Logs at WARN (success) or ERROR (failure) level; invokes callback
-#### Modified Files (2)
-- **`include/updates/coordinated_update_manager.h`**
-- Added 5 new public methods for coordinated rollback:
-- `coordinatedRollback()` - Reverse-sequence rollback (leader first, then replicas)
-- `coordinatedRollbackWithIsolation()` - Per-node isolation on failure (no cascade)
-- `hasIsolatedNodes()` - Check if any nodes are isolated
-- `isolatedNodeCount()` - Get count of isolated nodes
-- Added 2 private helper methods:
-- `performNodeRollback()` - Rollback a single node (local or remote)
-- `isolateNode()` - Mark node as failed and isolated
-- Added private member `std::vector<std::string> isolated_nodes_` to track failures
-- **`src/updates/coordinated_update_manager.cpp`**
-- Implemented coordinated rollback methods
-- `performNodeRollback()`: Calls local HotReloadEngine::rollback or mocks remote
-- `isolateNode()`: Marks node status FAILED, adds to isolated_nodes_ list
-- `coordinatedRollback()`: Iterates nodes in reverse sequence (leader first), stops on any failure
-- `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
-- Returns CoordinatedUpdateResult with per-node statuses and aggregate success
-#### Test Files (1)
+## 📋 Executive Summary
+### Deliverables
+✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
+✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
+✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
+✅ **Comprehensive Documentation** — Implementation index + quick reference
+✅ **Success Metrics** — Baseline/target tracking across all epics
+### Key Metrics
+| Item | Value |
+|------|-------|
+| Total Epics | 5 |
+| Total Sub-Issues | 23 |
+| Total GitHub Issues to Create | 28 |
+| Estimated Total Effort | 580 hours |
+| Timeline | 30 weeks (W31-W49, 2026) |
+| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
+| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
+| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
+| Production Readiness Target | v2.4 Stable |
+---
+## 🎯 The Five Epics (Concretely Verifiable)
+### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
+**Critical Path Item — Blocks All Module Work**
+| Item | Value |
+|------|-------|
+| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
+| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
+| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
+| **Effort** | 80 hours |
+| **Deliverable** | v1.5.0 Stable Release |
+| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
+**Sub-Issues:**
+- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
+- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
+- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
+**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
+---
+
+---
+
+### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# PR Version Targeting Implementation Summary
+> **Status:** Complete (2026-08-18)
+> **Author:** Copilot Task Agent
+> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
+---
+## Overview
+This implementation enables **every PR to have a target version** that:
+1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
+2. ✅ Maps to GitHub milestones for release scope tracking
+3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
+4. ✅ Supports automated validation and release manager workflows
+---
+## What Was Implemented
+### Block 1: Governance & Documentation (Complete ✓)
+**Files Created:**
+1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
+- Comprehensive policy for version-targeted PRs
+- Valid version formats (SemVer, pre-releases, backlog)
+- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
+- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
+- Release manager workflow and pre-release checklist
+- FAQ and troubleshooting
+2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
+- Step-by-step milestone creation guide
+- Recommended milestone structure (stable, pre-release, backlog)
+- Milestone description templates with examples
+- Pre-release checklist for release managers
+- Quarterly backlog triage process
+**Files Modified:**
+1. **`.github/pull_request_template.md`**
+- Added mandatory "Target Version" field at top of template
+- Included selection criteria and link to governance policy
+- Provides dropdown of valid version formats
+2. **`RELEASE_STRATEGY.md`** (§2.1.1)
+- Documented PR version targeting integration with milestone model
+- Explained traceability, changelog automation, and scope validation
+3. **`VERSIONING.md`** (§2.1)
+- Added PR version targeting guidance
+- Selection criteria table for different PR types
+- Reference to full policy documentation
+---
+### Block 2: Automation & Validation (Complete ✓)
 
 ---
 
@@ -3905,286 +3848,60 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md
+### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
-# Phase A.1: Privacy and Audit Helpers Hardening Implementation Plan
+*(file too large — key headings extracted)*
 
-**Date**: 2026-08-08  
-**Scope**: Hardening of utils module for edge cases and overload scenarios  
-**Target**: Q3 2026 release-gate completion  
-**Status**: In Progress
-
-## Summary
-
-This document outlines the hardening requirements and implementation strategy for 8 focused tests (PH-01..08) validating edge-case robustness and overload scenario handling in ThemisDB's privacy and audit helpers.
-
+# Phase A Implementation Summary (Q3 2026)
+## Status: ✅ IMPLEMENTATION COMPLETE
+**Date:** 2026-08-08
+**Scope:** Updates Module Comprehensive Hardening Plan - Phase A (Weeks 1-4)
+**Priority:** Items 1-2 Complete, Item 3 Benchmark Gates Designed
 ---
-
-## Test Coverage Matrix
-
-| Test ID | Component | Scenario | Input | Expected Outcome |
-|---------|-----------|----------|-------|-----------------|
-| **PH-01** | PII Detection | Unicode Normalization | Combining chars, BOM, emoji, surrogates | No crashes; correct detection |
-| **PH-02** | Regex Engine | Multibyte UTF-8 Edge Cases | Emoji, mixed scripts, malformed UTF-8 | Graceful handling or explicit error |
-| **PH-03** | Audit Logger | Buffer Overflow | 10K+ rapid audit entries | Documented fallback (drop/reject/block) |
-| **PH-04** | Rate Limiter | Sustained Load | 1000+ scans/sec | Graceful degradation; no crashes |
-| **PH-05** | Pseudonymizer | Edge Cases | Null, empty, >1MB inputs | Consistent behavior or clear error |
-| **PH-06** | Saga Logger | Concurrent Writes | 10+ threads writing simultaneously | No corruption; audit trail integrity |
-| **PH-07** | Audit Logger | Timeout/Cancellation | Long-running operation + cancel signal | Graceful stop; final entry logged |
-| **PH-08** | Regex Engine | Catastrophic Backtracking Prevention | ReDoS patterns: (a+)+b, (a*)*b | Timeout or bounded computation |
-
----
-
-## Implementation Roadmap
-
-### Phase 1: Test Infrastructure (COMPLETED)
-- [x] Create `test_utils_privacy_audit_hardening.cpp` with 8 focused tests
-- [x] Register test in `tests/utils/CMakeLists.txt`
-- [x] Each test includes:
-  - Clear @brief describing scenario
-  - Input/Expected outcome documented
-  - No silent failures; explicit error handling
-
-### Phase 2: Code Hardening (IN PROGRESS)
-
-#### 2.1: Regex Detection Engine (PH-02, PH-08)
-**Files**: `src/utils/regex_detection_engine.cpp`, `include/utils/regex_detection_engine.h`
-
-**Changes**:
-1. Add timeout protection for regex matching
-   - Implement pattern complexity analysis
-   - Detect known ReDoS patterns
-   - Enforce timeout for match operations
-   
-2. Add explicit error codes for hardening violations
-   - `REGEX_TIMEOUT = 7350`
-   - `REGEX_COMPLEXITY_EXCEEDED = 7351`
-   - `REGEX_PATTERN_MALFORMED = 7352`
-
-3. Unicode handling improvements
-   - Validate UTF-8 input before regex matching
-   - Handle combining characters gracefully
-   - Implement UnicodeDetectionEngine fallback
-
-4. Implementation approach:
-   ```cpp
-   // Add to RegexDetectionEngine class:
-   struct RegexTimeoutPolicy {
-       std::chrono::milliseconds timeout{100};
-       size_t max_backtrack_depth{1000};
-       bool detect_redos_patterns{true};
-   };
-   
-   [[nodiscard]] bool validateRegexPattern(const std::string& pattern);
-   [[nodiscard]] std::optional<UtilsError> matchWithTimeout(
-       const std::string& text,
-       const std::regex& pattern,
-       std::vector<PIIFinding>& findings);
-   ```
-
-#### 2.2: PII Detection Engine (PH-01)
-**Files**: `src/utils/pii_detection_engine.cpp`, `include/utils/pii_detection_engine.h`
-
-**Changes**:
-1. Add Unicode normalization support
-   - Implement NFD/NFC normalization
-   - Handle combining characters
-   - Gracefully skip invalid UTF-8 sequences
-
-2. Input validation layer
-   - Bounds check all input strings
-   - Validate UTF-8 byte sequences
-   - Reject oversized inputs (>10MB)
-
-3. Error handling improvements
-   - Explicit error returns for Unicode errors
-   - Audit trail entry for skipped invalid sequences
-   - Configurable fallback behavior
-
-#### 2.3: Audit Logger (PH-03, PH-07)
-**Files**: `src/utils/audit_logger.cpp`, `include/utils/audit_logger.h`
-
-**Changes**:
-1. Buffer overflow handling
-   - Configurable queue size with clear limits
-   - Document overflow policy (drop oldest/reject new)
-   - Log overflow events themselves
-   
-2. Timeout and cancellation support
-   - Add `cancellation_token` parameter to long-running ops
-   - Ensure final audit entry logged on cancellation
-   - No resource leaks (graceful shutdown)
-
-3. Backpressure mechanism
-   - Return status indicating if entry accepted
-   - Signal when queue is full
-   - Provide queue availability info to caller
-
-#### 2.4: Saga Logger (PH-06)
-**Files**: `src/utils/saga_logger.cpp`, `include/utils/saga_logger.h`
-
-**Changes**:
-1. Thread-safe batch assembly
-   - Use lock-free ring buffer or mutex-protected deque
-   - Atomic batch counter
-   - Deterministic batch ordering
-
-2. Concurrent write safety
-   - All writes protected by sync primitives
-   - Batch assembly is atomic (no partial signatures)
-   - Verify no log entry loss under stress
-
-3. Audit trail completeness
-   - Persist completed batches to disk
-   - Maintain checksum of batch contents
-   - Recover on restart if needed
-
-#### 2.5: Rate Limiter Integration (PH-04)
-**Files**: `include/utils/rate_limiter.h`, `src/utils/` (if implementation exists)
-
-**Changes**:
-1. Add configurable rate limits for PII scans
-   - Max scans per second (default: 10,000)
-   - Burst allowance (e.g., 1000 tokens)
-   - Graceful backpressure when exceeded
-
-2. Monitoring/metrics
-   - Current throughput statistics
-   - Queue depth tracking
-   - Overflow events counter
-
-3. Configuration
-   ```yaml
-   rate_limiting:
-     max_scans_per_sec: 10000
-     burst_allowance: 1000
-     overflow_policy: "drop_oldest" # or "reject_new"
-   ```
-
-#### 2.6: Pseudonymizer (PH-05)
-**Files**: `src/utils/pii_pseudonymizer.cpp`, `include/utils/pii_pseudonymizer.h`
-
-**Changes**:
-1. Input bounds validation
-   - Reject inputs > 10MB
-   - Validate not null
-   - Handle empty strings (return as-is or error)
-
-2. Consistent pseudonymization
-   - HMAC-SHA256 must be deterministic for same input
-   - Configurable pseudonym format (hex, base64)
-   - Audit trail includes pseudonym mapping (encrypted)
-
-3. Error handling
-   - Clear error return for oversized inputs
-   - Explicit handling of null/empty
-   - Special characters treated consistently
-
----
-
-## Error Codes (Range 7300-7399)
-
-### Existing Codes
-- `UTILS_AUDIT_OVERFLOW = 7300`
-- `UTILS_BATCH_ROLLBACK = 7301`
-- `UTILS_BATCH_SIZE_EXCEEDED = 7302`
-- `UTILS_RETRY_EXHAUSTED = 7303`
-- `UTILS_DESER_INVALID = 7304`
-- `UTILS_POOL_EXHAUSTED = 7305`
-
-### New Codes (Phase A.1)
-- `REGEX_TIMEOUT = 7350` - Pattern match exceeded timeout
-- `REGEX_COMPLEXITY_EXCEEDED = 7351` - Pattern too complex (ReDoS risk)
-- `REGEX_PATTERN_MALFORMED = 7352` - Regex compilation failed
-- `UNICODE_NORMALIZATION_ERROR = 7353` - Unicode validation failed
-- `INPUT_TOO_LARGE = 7354` - Input exceeds size limit
-- `RATE_LIMIT_EXCEEDED = 7355` - Scan rate limit exceeded
-- `CONCURRENCY_VIOLATION = 7356` - Thread-safety violation detected
-
----
-
-## Build and Test Commands
-
-```bash
-# Configure
-cmake --preset community-release
-
-# Build test
-cmake --build build-community-release \
-  --target module_utils_test_privacy_audit_hardening_focused
-
-# Run tests
-cd build-community-release
-ctest -R "PrivacyAuditHardening" -V --output-on-failure
-
-# Run specific test
-ctest -R "PH0[18]_" -V --output-on-failure
-```
-
----
-
-## Implementation Status
-
-### ✅ COMPLETED
-- [x] Test file: `test_utils_privacy_audit_hardening.cpp` (8 tests)
-- [x] CMakeLists.txt registration
-- [x] Test IDs: PH-01 through PH-08
-
-### 🔄 IN PROGRESS
-- [ ] Regex timeout implementation (PH-02, PH-08)
-- [ ] Unicode validation (PH-01)
-- [ ] Audit buffer overflow policy (PH-03)
-- [ ] Rate limiter integration (PH-04)
-- [ ] Pseudonymizer bounds checks (PH-05)
-- [ ] Saga logger concurrent safety (PH-06)
-- [ ] Audit logger timeout/cancellation (PH-07)
-
-### 📋 TO DO
-- [ ] Update error_registry.h with new error codes
-- [ ] Add operator-actionable error messages
-- [ ] Create benchmarks for load testing
-- [ ] Document fallback behaviors for operators
-
----
-
-## Acceptance Criteria
-
-### Code Quality
-- [ ] All 8 tests pass (PH-01..08)
-- [ ] No regressions in existing utils tests
-- [ ] C++ best practices (RAII, const-correctness, [[nodiscard]])
-- [ ] No silent failures; explicit error returns
-- [ ] Audit trail consistency validated
-
-### Documentation
-- [ ] Public API updated (if signatures changed)
-- [ ] Operator-actionable error messages
-- [ ] Fallback behaviors documented
-- [ ] Performance expectations documented
-
-### Hardening
-- [ ] Unicode edge cases handled
-- [ ] Regex timeout protection active
-- [ ] Rate limiting configurable
-- [ ] Concurrent writes safe
-- [ ] No resource leaks under load
-
----
-
-## References
-
-- `include/utils/utils_api_contract.h` - Error taxonomy
-- `.github/instructions/cpp-best-practices.instructions.md` - C++ guidelines
-- `CLAUDE.md` - Stub/mock governance rules
-- `src/utils/ROADMAP.md` - Phase 1 gate criteria
-
----
-
-## Contacts & Approval
-
-- **Prepared by**: AI Implementation Agent
-- **Date**: 2026-08-08
-- **Status**: Ready for implementation
+## DELIVERABLES
+### Item 1: Rollback Hardening ✅ COMPLETE
+#### Modified Files (2)
+- **`include/updates/update_state_machine.h`**
+- Added `RollbackFallbackStrategy` enum with 3 strategies: IMMEDIATE_ABORT, PARTIAL_CONTINUE, DEFER
+- Added `RollbackCallback` type for post-rollback notification
+- Added 6 new public methods:
+- `setRollbackCallback()` - Register rollback completion callback
+- `rollbackToLatestCheckpoint()` - Partial rollback to latest checkpoint
+- `rollbackToCheckpointWithFallback()` - Rollback with failure handling strategy
+- `checkpointCount()` - Query checkpoint count
+- `hasPendingRollback()` - Check for deferred rollbacks
+- `emitRollbackDiagnostic()` - Emit diagnostic on rollback attempt (ERROR level)
+- Added private members for fallback strategy tracking and deferred rollback queue
+- **`src/updates/update_state_machine.cpp`**
+- Implemented all 6 new rollback methods
+- `setRollbackCallback()`: Stores callback for invocation
+- `rollbackToLatestCheckpoint()`: Finds and rolls back to most recent checkpoint
+- `rollbackToCheckpointWithFallback()`: Implements 3 fallback strategies:
+- IMMEDIATE_ABORT: Fail-fast, return false
+- PARTIAL_CONTINUE: Log but continue, return true (optimistic)
+- DEFER: Queue for retry, return false, set `has_pending_rollback_` flag
+- `checkpointCount()`: Returns checkpoint vector size
+- `hasPendingRollback()`: Returns whether deferred_rollbacks_ is non-empty
+- `emitRollbackDiagnostic()`: Logs at WARN (success) or ERROR (failure) level; invokes callback
+#### Modified Files (2)
+- **`include/updates/coordinated_update_manager.h`**
+- Added 5 new public methods for coordinated rollback:
+- `coordinatedRollback()` - Reverse-sequence rollback (leader first, then replicas)
+- `coordinatedRollbackWithIsolation()` - Per-node isolation on failure (no cascade)
+- `hasIsolatedNodes()` - Check if any nodes are isolated
+- `isolatedNodeCount()` - Get count of isolated nodes
+- Added 2 private helper methods:
+- `performNodeRollback()` - Rollback a single node (local or remote)
+- `isolateNode()` - Mark node as failed and isolated
+- Added private member `std::vector<std::string> isolated_nodes_` to track failures
+- **`src/updates/coordinated_update_manager.cpp`**
+- Implemented coordinated rollback methods
+- `performNodeRollback()`: Calls local HotReloadEngine::rollback or mocks remote
+- `isolateNode()`: Marks node status FAILED, adds to isolated_nodes_ list
+- `coordinatedRollback()`: Iterates nodes in reverse sequence (leader first), stops on any failure
+- `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
+- Returns CoordinatedUpdateResult with per-node statuses and aggregate success
+#### Test Files (1)
 
 ---
 
@@ -4570,6 +4287,289 @@ class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
 ### 2. Regex Detection Engine Hardening
 #### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
 - **Added Methods** (all [[nodiscard]] per best practices):
+
+---
+
+### PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md
+
+# Phase A.1: Privacy and Audit Helpers Hardening Implementation Plan
+
+**Date**: 2026-08-08  
+**Scope**: Hardening of utils module for edge cases and overload scenarios  
+**Target**: Q3 2026 release-gate completion  
+**Status**: In Progress
+
+## Summary
+
+This document outlines the hardening requirements and implementation strategy for 8 focused tests (PH-01..08) validating edge-case robustness and overload scenario handling in ThemisDB's privacy and audit helpers.
+
+---
+
+## Test Coverage Matrix
+
+| Test ID | Component | Scenario | Input | Expected Outcome |
+|---------|-----------|----------|-------|-----------------|
+| **PH-01** | PII Detection | Unicode Normalization | Combining chars, BOM, emoji, surrogates | No crashes; correct detection |
+| **PH-02** | Regex Engine | Multibyte UTF-8 Edge Cases | Emoji, mixed scripts, malformed UTF-8 | Graceful handling or explicit error |
+| **PH-03** | Audit Logger | Buffer Overflow | 10K+ rapid audit entries | Documented fallback (drop/reject/block) |
+| **PH-04** | Rate Limiter | Sustained Load | 1000+ scans/sec | Graceful degradation; no crashes |
+| **PH-05** | Pseudonymizer | Edge Cases | Null, empty, >1MB inputs | Consistent behavior or clear error |
+| **PH-06** | Saga Logger | Concurrent Writes | 10+ threads writing simultaneously | No corruption; audit trail integrity |
+| **PH-07** | Audit Logger | Timeout/Cancellation | Long-running operation + cancel signal | Graceful stop; final entry logged |
+| **PH-08** | Regex Engine | Catastrophic Backtracking Prevention | ReDoS patterns: (a+)+b, (a*)*b | Timeout or bounded computation |
+
+---
+
+## Implementation Roadmap
+
+### Phase 1: Test Infrastructure (COMPLETED)
+- [x] Create `test_utils_privacy_audit_hardening.cpp` with 8 focused tests
+- [x] Register test in `tests/utils/CMakeLists.txt`
+- [x] Each test includes:
+  - Clear @brief describing scenario
+  - Input/Expected outcome documented
+  - No silent failures; explicit error handling
+
+### Phase 2: Code Hardening (IN PROGRESS)
+
+#### 2.1: Regex Detection Engine (PH-02, PH-08)
+**Files**: `src/utils/regex_detection_engine.cpp`, `include/utils/regex_detection_engine.h`
+
+**Changes**:
+1. Add timeout protection for regex matching
+   - Implement pattern complexity analysis
+   - Detect known ReDoS patterns
+   - Enforce timeout for match operations
+   
+2. Add explicit error codes for hardening violations
+   - `REGEX_TIMEOUT = 7350`
+   - `REGEX_COMPLEXITY_EXCEEDED = 7351`
+   - `REGEX_PATTERN_MALFORMED = 7352`
+
+3. Unicode handling improvements
+   - Validate UTF-8 input before regex matching
+   - Handle combining characters gracefully
+   - Implement UnicodeDetectionEngine fallback
+
+4. Implementation approach:
+   ```cpp
+   // Add to RegexDetectionEngine class:
+   struct RegexTimeoutPolicy {
+       std::chrono::milliseconds timeout{100};
+       size_t max_backtrack_depth{1000};
+       bool detect_redos_patterns{true};
+   };
+   
+   [[nodiscard]] bool validateRegexPattern(const std::string& pattern);
+   [[nodiscard]] std::optional<UtilsError> matchWithTimeout(
+       const std::string& text,
+       const std::regex& pattern,
+       std::vector<PIIFinding>& findings);
+   ```
+
+#### 2.2: PII Detection Engine (PH-01)
+**Files**: `src/utils/pii_detection_engine.cpp`, `include/utils/pii_detection_engine.h`
+
+**Changes**:
+1. Add Unicode normalization support
+   - Implement NFD/NFC normalization
+   - Handle combining characters
+   - Gracefully skip invalid UTF-8 sequences
+
+2. Input validation layer
+   - Bounds check all input strings
+   - Validate UTF-8 byte sequences
+   - Reject oversized inputs (>10MB)
+
+3. Error handling improvements
+   - Explicit error returns for Unicode errors
+   - Audit trail entry for skipped invalid sequences
+   - Configurable fallback behavior
+
+#### 2.3: Audit Logger (PH-03, PH-07)
+**Files**: `src/utils/audit_logger.cpp`, `include/utils/audit_logger.h`
+
+**Changes**:
+1. Buffer overflow handling
+   - Configurable queue size with clear limits
+   - Document overflow policy (drop oldest/reject new)
+   - Log overflow events themselves
+   
+2. Timeout and cancellation support
+   - Add `cancellation_token` parameter to long-running ops
+   - Ensure final audit entry logged on cancellation
+   - No resource leaks (graceful shutdown)
+
+3. Backpressure mechanism
+   - Return status indicating if entry accepted
+   - Signal when queue is full
+   - Provide queue availability info to caller
+
+#### 2.4: Saga Logger (PH-06)
+**Files**: `src/utils/saga_logger.cpp`, `include/utils/saga_logger.h`
+
+**Changes**:
+1. Thread-safe batch assembly
+   - Use lock-free ring buffer or mutex-protected deque
+   - Atomic batch counter
+   - Deterministic batch ordering
+
+2. Concurrent write safety
+   - All writes protected by sync primitives
+   - Batch assembly is atomic (no partial signatures)
+   - Verify no log entry loss under stress
+
+3. Audit trail completeness
+   - Persist completed batches to disk
+   - Maintain checksum of batch contents
+   - Recover on restart if needed
+
+#### 2.5: Rate Limiter Integration (PH-04)
+**Files**: `include/utils/rate_limiter.h`, `src/utils/` (if implementation exists)
+
+**Changes**:
+1. Add configurable rate limits for PII scans
+   - Max scans per second (default: 10,000)
+   - Burst allowance (e.g., 1000 tokens)
+   - Graceful backpressure when exceeded
+
+2. Monitoring/metrics
+   - Current throughput statistics
+   - Queue depth tracking
+   - Overflow events counter
+
+3. Configuration
+   ```yaml
+   rate_limiting:
+     max_scans_per_sec: 10000
+     burst_allowance: 1000
+     overflow_policy: "drop_oldest" # or "reject_new"
+   ```
+
+#### 2.6: Pseudonymizer (PH-05)
+**Files**: `src/utils/pii_pseudonymizer.cpp`, `include/utils/pii_pseudonymizer.h`
+
+**Changes**:
+1. Input bounds validation
+   - Reject inputs > 10MB
+   - Validate not null
+   - Handle empty strings (return as-is or error)
+
+2. Consistent pseudonymization
+   - HMAC-SHA256 must be deterministic for same input
+   - Configurable pseudonym format (hex, base64)
+   - Audit trail includes pseudonym mapping (encrypted)
+
+3. Error handling
+   - Clear error return for oversized inputs
+   - Explicit handling of null/empty
+   - Special characters treated consistently
+
+---
+
+## Error Codes (Range 7300-7399)
+
+### Existing Codes
+- `UTILS_AUDIT_OVERFLOW = 7300`
+- `UTILS_BATCH_ROLLBACK = 7301`
+- `UTILS_BATCH_SIZE_EXCEEDED = 7302`
+- `UTILS_RETRY_EXHAUSTED = 7303`
+- `UTILS_DESER_INVALID = 7304`
+- `UTILS_POOL_EXHAUSTED = 7305`
+
+### New Codes (Phase A.1)
+- `REGEX_TIMEOUT = 7350` - Pattern match exceeded timeout
+- `REGEX_COMPLEXITY_EXCEEDED = 7351` - Pattern too complex (ReDoS risk)
+- `REGEX_PATTERN_MALFORMED = 7352` - Regex compilation failed
+- `UNICODE_NORMALIZATION_ERROR = 7353` - Unicode validation failed
+- `INPUT_TOO_LARGE = 7354` - Input exceeds size limit
+- `RATE_LIMIT_EXCEEDED = 7355` - Scan rate limit exceeded
+- `CONCURRENCY_VIOLATION = 7356` - Thread-safety violation detected
+
+---
+
+## Build and Test Commands
+
+```bash
+# Configure
+cmake --preset community-release
+
+# Build test
+cmake --build build-community-release \
+  --target module_utils_test_privacy_audit_hardening_focused
+
+# Run tests
+cd build-community-release
+ctest -R "PrivacyAuditHardening" -V --output-on-failure
+
+# Run specific test
+ctest -R "PH0[18]_" -V --output-on-failure
+```
+
+---
+
+## Implementation Status
+
+### ✅ COMPLETED
+- [x] Test file: `test_utils_privacy_audit_hardening.cpp` (8 tests)
+- [x] CMakeLists.txt registration
+- [x] Test IDs: PH-01 through PH-08
+
+### 🔄 IN PROGRESS
+- [ ] Regex timeout implementation (PH-02, PH-08)
+- [ ] Unicode validation (PH-01)
+- [ ] Audit buffer overflow policy (PH-03)
+- [ ] Rate limiter integration (PH-04)
+- [ ] Pseudonymizer bounds checks (PH-05)
+- [ ] Saga logger concurrent safety (PH-06)
+- [ ] Audit logger timeout/cancellation (PH-07)
+
+### 📋 TO DO
+- [ ] Update error_registry.h with new error codes
+- [ ] Add operator-actionable error messages
+- [ ] Create benchmarks for load testing
+- [ ] Document fallback behaviors for operators
+
+---
+
+## Acceptance Criteria
+
+### Code Quality
+- [ ] All 8 tests pass (PH-01..08)
+- [ ] No regressions in existing utils tests
+- [ ] C++ best practices (RAII, const-correctness, [[nodiscard]])
+- [ ] No silent failures; explicit error returns
+- [ ] Audit trail consistency validated
+
+### Documentation
+- [ ] Public API updated (if signatures changed)
+- [ ] Operator-actionable error messages
+- [ ] Fallback behaviors documented
+- [ ] Performance expectations documented
+
+### Hardening
+- [ ] Unicode edge cases handled
+- [ ] Regex timeout protection active
+- [ ] Rate limiting configurable
+- [ ] Concurrent writes safe
+- [ ] No resource leaks under load
+
+---
+
+## References
+
+- `include/utils/utils_api_contract.h` - Error taxonomy
+- `.github/instructions/cpp-best-practices.instructions.md` - C++ guidelines
+- `CLAUDE.md` - Stub/mock governance rules
+- `src/utils/ROADMAP.md` - Phase 1 gate criteria
+
+---
+
+## Contacts & Approval
+
+- **Prepared by**: AI Implementation Agent
+- **Date**: 2026-08-08
+- **Status**: Ready for implementation
 
 ---
 
@@ -5232,6 +5232,59 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 
 ---
 
+### P0_P1_P2_IMPLEMENTATION_STATUS.md
+
+*(file too large — key headings extracted)*
+
+# P0/P1/P2 Implementation Status Summary
+**Last Updated:** 2026-07-22T16:40:00Z
+## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
+### P0-D01: FA3 Kernel-Audit ✅
+- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
+- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
+- [x] Acceptance: P0-GATE-01 passed
+### P0-D02: NVFP4 Capability-Assessment ✅
+- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
+- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
+- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
+### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
+- [ ] Status: Needs completion
+- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
+- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
+### P0-D04: Baseline-Benchmark ⏳
+- [ ] Status: Needs completion
+- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
+- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
+---
+## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
+### P1-D01: `ISSMPlugin` Interface ✅
+- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
+- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
+- [x] SSMStateSnapshot struct with HLC binding
+- [ ] **GATE:** Needs human architect sign-off on:
+- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
+- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
+- [ ] Owner and migration path for Phase 2+ persistence
+### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
+- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
+- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
+### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
+- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
+### P1-D04: Infini-attention CPU-Fallback ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
+- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
+### P1-D05: Drift-Metriken ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
+- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
+
+---
+
 ### P2_D03_D04_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -5338,60 +5391,7 @@ The implementation hooks both components into production systems:
 
 ---
 
-### P0_P1_P2_IMPLEMENTATION_STATUS.md
-
-*(file too large — key headings extracted)*
-
-# P0/P1/P2 Implementation Status Summary
-**Last Updated:** 2026-07-22T16:40:00Z
-## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
-### P0-D01: FA3 Kernel-Audit ✅
-- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
-- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
-- [x] Acceptance: P0-GATE-01 passed
-### P0-D02: NVFP4 Capability-Assessment ✅
-- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
-- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
-- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
-### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
-- [ ] Status: Needs completion
-- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
-- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
-### P0-D04: Baseline-Benchmark ⏳
-- [ ] Status: Needs completion
-- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
-- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
----
-## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
-### P1-D01: `ISSMPlugin` Interface ✅
-- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
-- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
-- [x] SSMStateSnapshot struct with HLC binding
-- [ ] **GATE:** Needs human architect sign-off on:
-- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
-- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
-- [ ] Owner and migration path for Phase 2+ persistence
-### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
-- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
-- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
-### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
-- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
-### P1-D04: Infini-attention CPU-Fallback ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
-- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
-### P1-D05: Drift-Metriken ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
-- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
-
----
-
-### NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md
+### NEXT_PHASE_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
 
@@ -5436,7 +5436,7 @@ The implementation hooks both components into production systems:
 
 ---
 
-### NEXT_PHASE_IMPLEMENTATION_PLAN.md
+### NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md
 
 *(file too large — key headings extracted)*
 
@@ -5529,6 +5529,55 @@ The implementation hooks both components into production systems:
 **Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
 ### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
 **Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
+
+---
+
+### IMPLEMENTATION_ACTIONS_COMPLETED.md
+
+*(file too large — key headings extracted)*
+
+# Implementation Actions Completed — 2026-07-22T16:45:00Z
+## User Request
+Implement the following from the SSM/Hybrid architecture analysis PR:
+1. P0-D01 + P0-D02: FA3 SM90 Audit + NVFP4 Assessment
+2. P2-D01 (parallel): kv_quantization_bits zu PagedKVCache::Config hinzufügen
+3. P1-D01 Design Review: Human Sign-off auf ISSMPlugin Interface vor Implementierung
+---
+## Completion Status
+### ✅ COMPLETED: P0-D01 + P0-D02
+**Status:** Already existed, verified and documented
+- [x] `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` — FA3 audit complete
+- [x] `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` — NVFP4 assessment complete
+- [x] Acceptance gates: P0-GATE-01 ✅ PASS, P0-GATE-02 ✅ PASS
+**Findings:**
+- SM90 path uses FP32 kernel, NOT FA3 primitives (no TMA/WGMMA)
+- NVFP4 config groundwork in place; runtime quantization pending Phase 2
+- **Outcome:** Positive assessment; proceed with Phase 2 NVFP4 implementation
+---
+### ✅ COMPLETED: P2-D01 — NVFP4 KV-Cache Configuration Extension
+**Changes Made:**
+#### 1. Extended PagedKVCache::Config struct
+**File:** `include/llm/paged_kv_cache.h`
+Added three new fields:
+struct Config {
+// ... existing fields ...
+KVQuantizationType kv_quantization = KVQuantizationType::FP16;
+int kv_quantization_bits = 16;  // NEW: Bit-width for quantized storage
+bool enable_kv_quantization_runtime = false;  // NEW: Runtime quantization gate
+};
+**Rationale:**
+- `kv_quantization_bits`: Explicit control over bit-width (16=FP16, 8=INT8, 4=NVFP4)
+- `enable_kv_quantization_runtime`: Feature flag for Phase 2+ gradual rollout
+#### 2. Added getBitWidthForQuantizationType() static helper
+**File:** `src/llm/paged_kv_cache.cpp`
+static int getBitWidthForQuantizationType(KVQuantizationType type) {
+case FP16: return 16;
+case INT8: return 8;
+case NVFP4: return 4;
+}
+**Rationale:**
+- Validate Config consistency (kv_quantization_bits must match enum)
+- Calculate storage reduction (VRAM = original_size * bits / 32)
 
 ---
 
@@ -5807,55 +5856,6 @@ Updated `ai_working/00_START_HERE.md`:
 - Previous: Thread detach on timeout (potential leak)
 - Current: Background cleanup thread with proper join (no leak)
 - Documented implementation strategy with detailed comments
-
----
-
-### IMPLEMENTATION_ACTIONS_COMPLETED.md
-
-*(file too large — key headings extracted)*
-
-# Implementation Actions Completed — 2026-07-22T16:45:00Z
-## User Request
-Implement the following from the SSM/Hybrid architecture analysis PR:
-1. P0-D01 + P0-D02: FA3 SM90 Audit + NVFP4 Assessment
-2. P2-D01 (parallel): kv_quantization_bits zu PagedKVCache::Config hinzufügen
-3. P1-D01 Design Review: Human Sign-off auf ISSMPlugin Interface vor Implementierung
----
-## Completion Status
-### ✅ COMPLETED: P0-D01 + P0-D02
-**Status:** Already existed, verified and documented
-- [x] `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` — FA3 audit complete
-- [x] `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` — NVFP4 assessment complete
-- [x] Acceptance gates: P0-GATE-01 ✅ PASS, P0-GATE-02 ✅ PASS
-**Findings:**
-- SM90 path uses FP32 kernel, NOT FA3 primitives (no TMA/WGMMA)
-- NVFP4 config groundwork in place; runtime quantization pending Phase 2
-- **Outcome:** Positive assessment; proceed with Phase 2 NVFP4 implementation
----
-### ✅ COMPLETED: P2-D01 — NVFP4 KV-Cache Configuration Extension
-**Changes Made:**
-#### 1. Extended PagedKVCache::Config struct
-**File:** `include/llm/paged_kv_cache.h`
-Added three new fields:
-struct Config {
-// ... existing fields ...
-KVQuantizationType kv_quantization = KVQuantizationType::FP16;
-int kv_quantization_bits = 16;  // NEW: Bit-width for quantized storage
-bool enable_kv_quantization_runtime = false;  // NEW: Runtime quantization gate
-};
-**Rationale:**
-- `kv_quantization_bits`: Explicit control over bit-width (16=FP16, 8=INT8, 4=NVFP4)
-- `enable_kv_quantization_runtime`: Feature flag for Phase 2+ gradual rollout
-#### 2. Added getBitWidthForQuantizationType() static helper
-**File:** `src/llm/paged_kv_cache.cpp`
-static int getBitWidthForQuantizationType(KVQuantizationType type) {
-case FP16: return 16;
-case INT8: return 8;
-case NVFP4: return 4;
-}
-**Rationale:**
-- Validate Config consistency (kv_quantization_bits must match enum)
-- Calculate storage reduction (VRAM = original_size * bits / 32)
 
 ---
 
