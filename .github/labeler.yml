@@ -13,10 +13,16 @@
           - "src/sharding/**"
           - "src/replication/**"
           - "src/utils/**"
+          - "src/updates/**"
+          - "src/process/**"
+          - "src/audit/**"
           - "include/access_model/**"
           - "include/search/**"
           - "include/sharding/**"
           - "include/replication/**"
+          - "include/updates/**"
+          - "include/process/**"
+          - "include/audit/**"
 
 "wave:B":
   - changed-files:
@@ -206,10 +212,17 @@
           - "src/search/**"
           - "src/sharding/**"
           - "src/replication/**"
+          - "src/utils/**"
+          - "src/updates/**"
+          - "src/process/**"
+          - "src/audit/**"
           - "include/access_model/**"
           - "include/search/**"
           - "include/sharding/**"
           - "include/replication/**"
+          - "include/updates/**"
+          - "include/process/**"
+          - "include/audit/**"
 
 "ai-generated":
   - changed-files:

@@ -120,7 +120,10 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
-            if (!pr || !pr.draft) {
+            if (!pr || pr.draft) {
+              console.log('Skipping: PR does not exist or is a draft.');
+              return;
+            }
               // Get changed files
               const { data: files } = await github.rest.pulls.listFiles({
                 owner: context.repo.owner,
