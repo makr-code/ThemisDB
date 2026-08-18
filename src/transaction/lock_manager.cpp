@@ -91,8 +91,15 @@ LockManager::LockResult LockManager::acquireLock(
 
     // Must wait – enqueue request
     auto req = std::make_shared<LockRequest>(txn_id, type);
-    lock_table_[key].waiters.push_back(req);
-    waiting_for_[txn_id] = key;
+    
+    try {
+        lock_table_[key].waiters.push_back(req);
+        waiting_for_[txn_id] = key;
+    } catch (...) {
+        THEMIS_ERROR("Failed to enqueue lock request for txn {} on key '{}'", txn_id, key);
+        return LockResult::Denied("Failed to enqueue lock request");
+    }
+    
     stats_waiting_.fetch_add(1, std::memory_order_relaxed);
 
     THEMIS_DEBUG("LockManager: txn {} waiting for {} lock on '{}'",

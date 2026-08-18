@@ -44,7 +44,8 @@ json MergeEngine::Conflict::toJson() const {
 }
 
 MergeEngine::Conflict MergeEngine::Conflict::fromJson(const json& j) {
-    Conflict c;
+    Conflict c{};  // Explicit value-initialization: all members default-initialized
+    
     std::string type_str = j["type"];
     if (type_str == "modify_modify") c.type = ConflictType::MODIFY_MODIFY;
     else if (type_str == "delete_modify") c.type = ConflictType::DELETE_MODIFY;
@@ -80,7 +81,7 @@ json MergeEngine::ConflictResolution::toJson() const {
 }
 
 MergeEngine::ConflictResolution MergeEngine::ConflictResolution::fromJson(const json& j) {
-    ConflictResolution r;
+    ConflictResolution r{};  // Explicit value-initialization: all members default-initialized
     r.key = j["key"];
     if (j.contains("resolved_value")) {
         r.resolved_value = j["resolved_value"].get<std::string>();
@@ -107,7 +108,8 @@ json MergeEngine::MergeOptions::toJson() const {
 }
 
 MergeEngine::MergeOptions MergeEngine::MergeOptions::fromJson(const json& j) {
-    MergeOptions opts;
+    MergeOptions opts{};  // Explicit value-initialization: all members default-initialized
+    
     std::string strategy_str = j["strategy"];
     if (strategy_str == "ours") opts.strategy = MergeStrategy::OURS;
     else if (strategy_str == "theirs") opts.strategy = MergeStrategy::THEIRS;
@@ -139,7 +141,7 @@ json MergeEngine::MergeStats::toJson() const {
 }
 
 MergeEngine::MergeStats MergeEngine::MergeStats::fromJson(const json& j) {
-    MergeStats stats;
+    MergeStats stats{};  // Explicit value-initialization: all members default-initialized
     stats.changes_applied         = j.value("changes_applied",         (size_t)0);
     stats.conflicts_detected      = j.value("conflicts_detected",      (size_t)0);
     stats.conflicts_auto_resolved = j.value("conflicts_auto_resolved", (size_t)0);
