@@ -26,7 +26,7 @@
 #include <iomanip>
 #include <sstream>
 
-namespace themis {
+namespace themisdb {
 namespace sharding {
 
 // ============================================================================
@@ -461,5 +461,5 @@ uint64_t PaxosSnapshotManager::generateSnapshotId() const {
 }
 
 } // namespace sharding
-} // namespace themis
+} // namespace themisdb
 

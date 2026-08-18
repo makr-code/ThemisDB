@@ -498,6 +498,120 @@ jobs:
           if-no-files-found: ignore
 
   # ─────────────────────────────────────────────────────────────────────────
+  # Wave A Sharding Release-Gate Benchmarks
+  # Continuous benchmark verification for Wave A exit criteria.
+  # Runs SRG-01..06 benchmarks on every nightly schedule or on-demand.
+  # ─────────────────────────────────────────────────────────────────────────
+  sharding-release-gates:
+    name: Sharding Release-Gate Benchmarks (SRG-01..06)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    if: >
+      (github.event_name == 'schedule' && github.event.schedule == '0 2 * * *') ||
+      (github.event_name == 'workflow_dispatch')
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential ninja-build \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
+            libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
+            libboost-system-dev libbenchmark-dev pkg-config
+
+      - name: Configure build
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=ON
+
+      - name: Build sharding release-gate benchmarks
+        run: |
+          cd build
+          cmake --build . --config Release --target bench_sharding_release_gates -j$(nproc)
+
+      - name: Run SRG-01..06 Benchmarks
+        run: |
+          cd build
+          mkdir -p ${{ env.ARTIFACT_DIR }}
+          
+          echo "Running Wave A Release-Gate Benchmarks..."
+          echo "├─ SRG-01: consistent-hash routing (1K shards)"
+          echo "├─ SRG-02: 2PC prepare phase"
+          echo "├─ SRG-03: 2PC commit phase"
+          echo "├─ SRG-04: WAL append"
+          echo "├─ SRG-05: shard health check"
+          echo "└─ SRG-06: route lookup (64-shard)"
+          
+          ./benchmarks/sharding/bench_sharding_release_gates \
+            --benchmark_out=${{ env.ARTIFACT_DIR }}/srg-results.json \
+            --benchmark_out_format=json \
+            2>&1 | tee ${{ env.ARTIFACT_DIR }}/srg-output.log
+          
+          # Verify baseline thresholds
+          python3 - <<'EOF'
+          import json
+          
+          baselines = {
+              'GATE-SRG-01': {'p99_max_ns': 500000, 'name': 'consistent-hash routing'},
+              'GATE-SRG-02': {'p99_max_ns': 20000, 'name': '2PC prepare'},
+              'GATE-SRG-03': {'p99_max_ns': 30000, 'name': '2PC commit'},
+              'GATE-SRG-04': {'p99_max_ns': 100000, 'name': 'WAL append'},
+              'GATE-SRG-05': {'p99_max_ns': 50000, 'name': 'health check'},
+              'GATE-SRG-06': {'p99_max_ns': 20000, 'name': 'route lookup'},
+          }
+          
+          try:
+              with open('${{ env.ARTIFACT_DIR }}/srg-results.json', 'r') as f:
+                  results = json.load(f)
+              
+              gates_passed = 0
+              gates_failed = 0
+              
+              for benchmark in results.get('benchmarks', []):
+                  name = benchmark.get('name', '')
+                  
+                  for srg_name, threshold_data in baselines.items():
+                      if srg_name in name:
+                          p99 = benchmark.get('pctl_99_000', float('inf'))
+                          threshold = threshold_data['p99_max_ns']
+                          margin = int((1 - p99/threshold) * 100)
+                          
+                          if p99 <= threshold:
+                              print(f"✅ {srg_name} ({threshold_data['name']}): {p99:.0f}ns p99 (margin: +{margin}%)")
+                              gates_passed += 1
+                          else:
+                              print(f"❌ {srg_name} ({threshold_data['name']}): {p99:.0f}ns p99 > {threshold}ns threshold")
+                              gates_failed += 1
+                          break
+              
+              print(f"\n{'='*60}")
+              print(f"Wave A Release-Gate Benchmarks: {gates_passed} PASS, {gates_failed} FAIL")
+              print(f"{'='*60}")
+              
+              if gates_failed > 0:
+                  exit(1)
+          except Exception as e:
+              print(f"Error parsing benchmark results: {e}")
+              exit(1)
+          EOF
+
+      - name: Upload benchmark results
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: sharding-release-gates-${{ github.run_number }}
+          path: ${{ env.ARTIFACT_DIR }}/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────────────────
   # 5. Wave D Soak Tests (Weekly Endurance)
   # Weekly schedule (Sunday 05:00 UTC). Long-running (24-48 hour) endurance tests
   # for observability infrastructure under sustained production-like load.

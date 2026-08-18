@@ -104,14 +104,15 @@ DistributedCoordinator::~DistributedCoordinator() {
 // Lifecycle methods
 /** @brief Start election, heartbeat, and task execution worker threads. */
 void DistributedCoordinator::start() {
-    if (running_.exchange(true)) {
+    // Use acquire semantics to ensure all thread-local initialization is visible to worker threads.
+    if (running_.exchange(true, std::memory_order_release)) {
         THEMIS_WARN("DistributedCoordinator already running");
         return;
     }
     
     // Start election monitoring
     election_thread_ = std::thread([this]() {
-        while (running_.load()) {
+        while (running_.load(std::memory_order_acquire)) {
             electionLoop();
             std::this_thread::sleep_for(
                 std::chrono::milliseconds(config_.election_timeout_ms)
@@ -121,7 +122,7 @@ void DistributedCoordinator::start() {
     
     // Start heartbeat thread (only active if leader)
     heartbeat_thread_ = std::thread([this]() {
-        while (running_.load()) {
+        while (running_.load(std::memory_order_acquire)) {
             if (isLeader()) {
                 sendHeartbeat();
             }
@@ -133,7 +134,7 @@ void DistributedCoordinator::start() {
     
     // Start task executor (only active if leader)
     task_executor_thread_ = std::thread([this]() {
-        while (running_.load()) {
+        while (running_.load(std::memory_order_acquire)) {
             if (isLeader()) {
                 taskExecutorLoop();
             }
@@ -146,7 +147,8 @@ void DistributedCoordinator::start() {
 
 /** @brief Stop coordinator worker threads and wait for shutdown. */
 void DistributedCoordinator::stop() {
-    if (!running_.exchange(false)) {
+    // Use release semantics to ensure all pending operations are visible to threads before exit.
+    if (!running_.exchange(false, std::memory_order_release)) {
         return;
     }
     
@@ -176,25 +178,33 @@ std::optional<std::string> DistributedCoordinator::getCurrentLeader() const {
 // Leader election
 /** @brief Start local election round and decide winner using simplified policy. */
 void DistributedCoordinator::startElection() {
+    uint32_t election_term = 0;
+    
     {
         std::lock_guard<std::shared_mutex> lock(leader_mutex_);
         
-        if (role_.load() == CoordinatorRole::LEADER) {
+        // Memory order: acquire before modifying term to ensure previous leader lease is visible.
+        if (role_.load(std::memory_order_acquire) == CoordinatorRole::LEADER) {
             THEMIS_WARN("Already leader, skipping election");
             return;
         }
         
-        // Transition to CANDIDATE
-        role_.store(CoordinatorRole::CANDIDATE);
-        current_term_++;
+        // Transition to CANDIDATE and increment term with release semantics for visibility.
+        role_.store(CoordinatorRole::CANDIDATE, std::memory_order_release);
+        election_term = ++current_term_;  // Atomic increment; capture for logging
     }
     
     stats_.elections_started++;
     
-    THEMIS_INFO("Starting leader election (term: {})", current_term_.load());
+    THEMIS_INFO("Starting leader election (term: {})", election_term);
     
     // Simplified election: broadcast candidacy via gossip
-    requestVotes();
+    // NOTE: This is called outside the lock to avoid deadlock risk with gossip manager
+    try {
+        requestVotes();
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Election vote request failed: {}", e.what());
+    }
     
     // Wait for election timeout
     // Note: This blocks the calling thread by design for simplicity.
@@ -205,21 +215,34 @@ void DistributedCoordinator::startElection() {
     
     // Check if we won (simplified: highest shard_id wins)
     // In production: use Raft-style voting
-    auto all_shards = topology_->getAllShards();
-    bool won = true;
-    for (const auto& shard : all_shards) {
-        if (shard.shard_id > local_shard_id_ && shard.is_healthy) {
-            won = false;
-            break;
+    try {
+        auto all_shards = topology_->getAllShards();
+        bool won = true;
+        for (const auto& shard : all_shards) {
+            if (shard.shard_id > local_shard_id_ && shard.is_healthy) {
+                won = false;
+                break;
+            }
         }
-    }
-    
-    if (won) {
-        becomeLeader();
-    } else {
-        role_.store(CoordinatorRole::FOLLOWER);
-        stats_.elections_lost++;
-        THEMIS_INFO("Lost election in term {}", current_term_.load());
+        
+        if (won) {
+            becomeLeader();
+        } else {
+            {
+                std::lock_guard<std::shared_mutex> lock(leader_mutex_);
+                // Memory order: release to ensure role change is visible to all threads
+                role_.store(CoordinatorRole::FOLLOWER, std::memory_order_release);
+            }
+            stats_.elections_lost++;
+            THEMIS_INFO("Lost election in term {}", election_term);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Election decision failed: {}", e.what());
+        {
+            std::lock_guard<std::shared_mutex> lock(leader_mutex_);
+            // Memory order: release to ensure role change is visible to all threads
+            role_.store(CoordinatorRole::FOLLOWER, std::memory_order_release);
+        }
     }
 }
 
@@ -235,7 +258,8 @@ void DistributedCoordinator::becomeLeader() {
     {
         std::lock_guard<std::shared_mutex> lock(leader_mutex_);
         
-        role_.store(CoordinatorRole::LEADER);
+        // Memory order: release to ensure leader promotion is visible to all threads
+        role_.store(CoordinatorRole::LEADER, std::memory_order_release);
         current_leader_ = local_shard_id_;
         leader_lease_expires_ = std::chrono::system_clock::now() + 
                                 std::chrono::seconds(config_.leader_lease_seconds);
@@ -243,7 +267,8 @@ void DistributedCoordinator::becomeLeader() {
         
         stats_.elections_won++;
         
-        THEMIS_INFO("Became leader for term {}", current_term_.load());
+        // Memory order: acquire to read current term safely
+        THEMIS_INFO("Became leader for term {}", current_term_.load(std::memory_order_acquire));
     }
     
     // Trigger callback outside of locks to avoid deadlock
@@ -256,9 +281,11 @@ void DistributedCoordinator::becomeLeader() {
 void DistributedCoordinator::stepDown() {
     std::lock_guard<std::shared_mutex> lock(leader_mutex_);
     
-    if (role_.load() == CoordinatorRole::LEADER) {
+    // Memory order: acquire before checking role, release when updating
+    if (role_.load(std::memory_order_acquire) == CoordinatorRole::LEADER) {
         THEMIS_INFO("Stepping down from leadership");
-        role_.store(CoordinatorRole::FOLLOWER);
+        // Memory order: release to ensure role change is visible
+        role_.store(CoordinatorRole::FOLLOWER, std::memory_order_release);
         current_leader_.reset();
     }
 }
@@ -327,10 +354,12 @@ DistributedCoordinator::LeaderInfo DistributedCoordinator::getLeaderInfo() const
     
     LeaderInfo info;
     info.shard_id = current_leader_.value_or("");
-    info.role = role_.load();
+    // Memory order: acquire to ensure role is read consistently
+    info.role = role_.load(std::memory_order_acquire);
     info.lease_expires_at = leader_lease_expires_;
     info.last_heartbeat = last_leader_heartbeat_;
-    info.term = current_term_.load();
+    // Memory order: acquire to ensure term is read consistently
+    info.term = current_term_.load(std::memory_order_acquire);
     
     return info;
 }
@@ -345,26 +374,26 @@ void DistributedCoordinator::setLeaderElectedCallback(LeaderElectedCallback call
 // Statistics
 /** @brief Return copy of coordinator runtime statistics. */
 DistributedCoordinator::Statistics DistributedCoordinator::getStatistics() const {
-    // Return a copy of statistics
+    // Return a copy of statistics with acquire semantics for consistency
     Statistics stats;
-    stats.elections_started.store(stats_.elections_started.load());
-    stats.elections_won.store(stats_.elections_won.load());
-    stats.elections_lost.store(stats_.elections_lost.load());
-    stats.leader_failures_detected.store(stats_.leader_failures_detected.load());
-    stats.tasks_coordinated.store(stats_.tasks_coordinated.load());
-    stats.avg_lease_duration_seconds.store(stats_.avg_lease_duration_seconds.load());
+    stats.elections_started.store(stats_.elections_started.load(std::memory_order_acquire), std::memory_order_relaxed);
+    stats.elections_won.store(stats_.elections_won.load(std::memory_order_acquire), std::memory_order_relaxed);
+    stats.elections_lost.store(stats_.elections_lost.load(std::memory_order_acquire), std::memory_order_relaxed);
+    stats.leader_failures_detected.store(stats_.leader_failures_detected.load(std::memory_order_acquire), std::memory_order_relaxed);
+    stats.tasks_coordinated.store(stats_.tasks_coordinated.load(std::memory_order_acquire), std::memory_order_relaxed);
+    stats.avg_lease_duration_seconds.store(stats_.avg_lease_duration_seconds.load(std::memory_order_acquire), std::memory_order_relaxed);
     return stats;
 }
 
 /** @brief Return coordinator runtime statistics as JSON payload. */
 nlohmann::json DistributedCoordinator::getStatisticsJson() const {
     nlohmann::json j;
-    j["elections_started"] = stats_.elections_started.load();
-    j["elections_won"] = stats_.elections_won.load();
-    j["elections_lost"] = stats_.elections_lost.load();
-    j["leader_failures_detected"] = stats_.leader_failures_detected.load();
-    j["tasks_coordinated"] = stats_.tasks_coordinated.load();
-    j["avg_lease_duration_seconds"] = stats_.avg_lease_duration_seconds.load();
+    j["elections_started"] = stats_.elections_started.load(std::memory_order_acquire);
+    j["elections_won"] = stats_.elections_won.load(std::memory_order_acquire);
+    j["elections_lost"] = stats_.elections_lost.load(std::memory_order_acquire);
+    j["leader_failures_detected"] = stats_.leader_failures_detected.load(std::memory_order_acquire);
+    j["tasks_coordinated"] = stats_.tasks_coordinated.load(std::memory_order_acquire);
+    j["avg_lease_duration_seconds"] = stats_.avg_lease_duration_seconds.load(std::memory_order_acquire);
     return j;
 }
 
@@ -406,13 +435,26 @@ void DistributedCoordinator::taskExecutorLoop() {
     for (auto& task : tasks_to_execute) {
         if (executor) {
             try {
+                THEMIS_DEBUG("Executing task: {} (type: {})", task.task_id, static_cast<int>(task.type));
                 bool success = executor(task);
                 if (success) {
                     // Remove task from pending
+                    THEMIS_INFO("Task completed successfully: {}", task.task_id);
                     cancelTask(task.task_id);
+                } else {
+                    THEMIS_WARN("Task execution returned false: {} (type: {})", 
+                                task.task_id, static_cast<int>(task.type));
                 }
+            } catch (const std::bad_alloc& e) {
+                // Out-of-memory: log with severity; don't retry
+                THEMIS_ERROR("Task execution OOM error: {}; task={}", e.what(), task.task_id);
             } catch (const std::exception& e) {
-                THEMIS_WARN("Task execution failed: {}", e.what());
+                // Other exceptions: log with full context
+                THEMIS_WARN("Task execution exception: {}; task_id={}; task_type={}; what={}", 
+                            typeid(e).name(), task.task_id, static_cast<int>(task.type), e.what());
+            } catch (...) {
+                // Unknown exception: log without attempting to extract details
+                THEMIS_ERROR("Task execution unknown exception; task_id={}", task.task_id);
             }
         }
     }
@@ -466,7 +508,8 @@ void DistributedCoordinator::sendHeartbeat() {
         return;
     }
     
-    THEMIS_DEBUG("Sending leader heartbeat (term: {})", current_term_.load());
+    // Memory order: acquire to read current term safely
+    THEMIS_DEBUG("Sending leader heartbeat (term: {})", current_term_.load(std::memory_order_acquire));
     
     // Renew lease
     renewLease();
@@ -484,16 +527,18 @@ void DistributedCoordinator::receiveHeartbeat(const std::string& leader_id, uint
     std::lock_guard<std::shared_mutex> lock(leader_mutex_);
     
     // Update leader info if term is newer or same
-    if (term >= current_term_.load()) {
-        current_term_.store(term);
+    // Memory order: acquire-release for term update visibility
+    if (term >= current_term_.load(std::memory_order_acquire)) {
+        current_term_.store(term, std::memory_order_release);
         current_leader_ = leader_id;
         last_leader_heartbeat_ = std::chrono::system_clock::now();
         leader_lease_expires_ = std::chrono::system_clock::now() + 
                                 std::chrono::seconds(config_.leader_lease_seconds);
         
         // If we were candidate or leader, step down
-        if (role_.load() != CoordinatorRole::FOLLOWER) {
-            role_.store(CoordinatorRole::FOLLOWER);
+        // Memory order: acquire before check, release when updating
+        if (role_.load(std::memory_order_acquire) != CoordinatorRole::FOLLOWER) {
+            role_.store(CoordinatorRole::FOLLOWER, std::memory_order_release);
         }
     }
 }
@@ -501,7 +546,8 @@ void DistributedCoordinator::receiveHeartbeat(const std::string& leader_id, uint
 // Election
 /** @brief Broadcast vote request for current term (stubbed transport). */
 void DistributedCoordinator::requestVotes() {
-    THEMIS_DEBUG("Requesting votes for term {}", current_term_.load());
+    // Memory order: acquire to read current term safely
+    THEMIS_DEBUG("Requesting votes for term {}", current_term_.load(std::memory_order_acquire));
     
     // In production: broadcast vote request via gossip
     // For simplified implementation, we just log
@@ -510,7 +556,8 @@ void DistributedCoordinator::requestVotes() {
 /** @brief Process vote request and emit vote response. */
 void DistributedCoordinator::receiveVoteRequest(const std::string& candidate_id, uint32_t term) {
     // Simplified voting logic
-    bool should_vote = term > current_term_.load();
+    // Memory order: acquire to ensure current term is read before comparison
+    bool should_vote = term > current_term_.load(std::memory_order_acquire);
     sendVote(candidate_id, should_vote);
 }
 

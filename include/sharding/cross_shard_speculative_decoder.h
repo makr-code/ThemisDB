@@ -311,7 +311,7 @@ public:
     /**
      * @brief Shutdown the coordinator
      */
-    void shutdown();
+    void shutdown() noexcept;
     
     /**
      * @brief Update configuration

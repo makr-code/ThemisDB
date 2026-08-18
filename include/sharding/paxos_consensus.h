@@ -335,6 +335,24 @@ private:
     std::string node_id_;
     std::vector<std::string> cluster_nodes_;
     
+    // ======================================================================
+    // DEADLOCK PREVENTION: Canonical Lock Acquisition Order for Paxos
+    // ======================================================================
+    // To prevent circular wait deadlocks, all code MUST acquire locks in
+    // this strict order when multiple locks are needed:
+    //   1. state_mutex_ (consensus state, leader, current_round)
+    //   2. proposal_mutex_ (pending proposals and committed log)
+    //   3. callbacks_mutex_ (state/leader/commit callbacks)
+    // 
+    // CRITICAL RULES:
+    // - NEVER acquire in reverse order
+    // - state_mutex_ protects: state_, current_leader_, and transitions
+    // - proposal_mutex_ protects: pending_proposals_, committed_log_, instances_
+    // - callbacks_mutex_ protects: all callback function pointers and RPC callbacks
+    // - NEVER hold state_mutex_ across RPC calls or while waiting on futures
+    // - NEVER hold proposal_mutex_ across I/O operations (wal/snapshot writes)
+    // - Always use scoped locks: lock.unlock() before crossing thread boundaries
+    // ======================================================================
     // State
     mutable std::mutex state_mutex_;
     std::atomic<ConsensusState> state_;

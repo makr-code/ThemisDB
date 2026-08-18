@@ -21,7 +21,8 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::sharding {
+namespace themisdb {
+namespace sharding {
 
 /**
  * @brief Coordinates replica acknowledgments for write-concern enforcement.
@@ -101,6 +102,17 @@ private:
     std::shared_ptr<WALShipper> shipper_;
     std::atomic<bool> enabled_{true};
 
+    // ======================================================================
+    // DEADLOCK PREVENTION: Canonical Lock Acquisition Order
+    // ======================================================================
+    // To prevent circular wait deadlocks in the ReplicationCoordinator,
+    // the single lock (pending_mutex_) must follow these CRITICAL rules:
+    //   1. NEVER hold pending_mutex_ across WAL shipper RPC calls
+    //   2. ALWAYS release pending_mutex_ before calling shipper_ methods
+    //   3. Use try-catch around all connection cleanup code
+    //   4. Always check db_connection validity before cleanup
+    //   5. Use shared_ptr (RAII) for all owned resources
+    // ======================================================================
     // Track pending writes waiting for acknowledgment
     struct PendingWrite {
         LSN lsn;
@@ -108,13 +120,14 @@ private:
         std::atomic<size_t> ack_count{0};
         std::chrono::steady_clock::time_point start_time;
         std::atomic<bool> completed{false};
+        std::shared_ptr<void> db_connection;  // RAII: automatic cleanup on destruction
 
         PendingWrite() = default;
         
         // Parametrisierter Konstruktor für direkte Initialisierung
         PendingWrite(const LSN& l, const WriteConcernConfig& c, size_t ack = 1)
             : lsn(l), concern(c), ack_count(ack), 
-              start_time(std::chrono::steady_clock::now()), completed(false) {}
+              start_time(std::chrono::steady_clock::now()), completed(false), db_connection(nullptr) {}
         
         // Custom copy/move to support storage inside associative containers despite atomic member
         PendingWrite(const PendingWrite& other)
@@ -164,4 +177,5 @@ private:
     void cleanupPendingWrites();
 };
 
-} // namespace themis::sharding
+} // namespace sharding
+} // namespace themisdb

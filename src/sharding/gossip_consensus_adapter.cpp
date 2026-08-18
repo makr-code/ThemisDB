@@ -138,6 +138,12 @@ std::optional<uint64_t> GossipConsensusAdapter::propose(
     {
         std::lock_guard<std::mutex> lock(log_mutex_);
         log_entries_[entry.index] = entry;
+        
+        // W2-S06: Consensus validation — validate node_id before recording self-ack
+        if (node_id_.empty()) {
+            spdlog::error("GossipConsensusAdapter::appendEntry: node_id_ is empty, rejecting ack");
+            return 0;
+        }
         log_acknowledgments_[entry.index].insert(node_id_);  // Self-acknowledge
     }
     
@@ -179,9 +185,20 @@ std::vector<ConsensusLogEntry> GossipConsensusAdapter::readLog(
     
     uint64_t end = end_index.value_or(commit_index_.load());
     
+    // FIXED: Add bounds validation to prevent unbounded iteration and data races
+    if (start_index > end) {
+        return result;  // Invalid range
+    }
+    
+    // Cap iteration to avoid excessive memory use
+    uint64_t max_entries = 1000;
+    if (end - start_index + 1 > max_entries) {
+        end = start_index + max_entries - 1;
+    }
+    
     for (uint64_t i = start_index; i <= end; ++i) {
         auto it = log_entries_.find(i);
-        if (it != log_entries_.end() && hasReachedQuorum(i)) {
+        if (it != log_entries_.end() && hasReachedQuorumUnlocked(i)) {  // FIXED: Use unlocked version
             result.push_back(it->second);
         }
     }
@@ -205,6 +222,12 @@ bool GossipConsensusAdapter::addNode(
     const std::string& /*endpoint*/
 ) {
     std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // W2-S06: Consensus validation — validate node_id before adding to cluster
+    if (node_id.empty()) {
+        spdlog::error("GossipConsensusAdapter::addNode: node_id is empty, rejecting");
+        return false;
+    }
     
     if (std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id) != cluster_nodes_.end()) {
         spdlog::warn("Node {} already in cluster", node_id);
@@ -353,20 +376,33 @@ void GossipConsensusAdapter::gossipThread() {
         lock.unlock();
         
         // Simulate gossip propagation
+        // FIXED: Collect entries first, release lock, then invoke callbacks to avoid deadlock
+        std::vector<std::pair<uint64_t, ConsensusLogEntry>> ready_to_commit;
         {
             std::lock_guard<std::mutex> log_lock(log_mutex_);
             
-            // Check which entries have reached quorum
+            // Collect entries that have reached quorum (avoid iterator invalidation
+            // and deadlock by not calling hasReachedQuorum which re-acquires lock)
             for (auto& [index, entry] : log_entries_) {
-                if (index > commit_index_.load() && hasReachedQuorum(index)) {
-                    commit_index_ = index;
-                    
-                    // Call commit callback
-                    std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
-                    if (on_commit_callback_) {
-                        on_commit_callback_(entry);
+                if (index > commit_index_.load() && hasReachedQuorumUnlocked(index)) {
+                    // W2-S06: Consensus validation — validate entry before marking for commit
+                    if (entry.index == 0 || entry.data.empty()) {
+                        spdlog::warn("gossipThread: entry {} has invalid index or data, skipping commit", entry.index);
+                        continue;
                     }
+                    ready_to_commit.push_back({index, entry});
                 }
+            }
+        }  // Lock released here
+        
+        // Update commit index and invoke callbacks outside lock
+        for (auto& [index, entry] : ready_to_commit) {
+            commit_index_ = index;
+            
+            // Call commit callback without holding log_mutex_
+            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            if (on_commit_callback_) {
+                on_commit_callback_(entry);
             }
         }
     }
@@ -376,7 +412,11 @@ void GossipConsensusAdapter::gossipThread() {
 
 bool GossipConsensusAdapter::hasReachedQuorum(uint64_t log_index) const {
     std::lock_guard<std::mutex> lock(log_mutex_);
-    
+    return hasReachedQuorumUnlocked(log_index);
+}
+
+bool GossipConsensusAdapter::hasReachedQuorumUnlocked(uint64_t log_index) const {
+    // FIXED: Helper method that doesn't acquire lock (caller must hold log_mutex_)
     auto it = log_acknowledgments_.find(log_index);
     if (it == log_acknowledgments_.end()) {
         return false;

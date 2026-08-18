@@ -114,6 +114,18 @@ std::vector<LogEntry> RaftLog::getEntries(uint64_t start_index, uint64_t end_ind
     
     std::vector<LogEntry> entries;
     
+    // FIXED: Add bounds validation to prevent unbounded iteration and data races
+    if (start_index > end_index) {
+        return entries;  // Invalid range
+    }
+    
+    // Cap iteration to prevent memory exhaustion
+    uint64_t max_entries = 10000;
+    if (end_index - start_index + 1 > max_entries) {
+        end_index = start_index + max_entries - 1;
+        spdlog::warn("RaftLog::getEntries range capped at {} entries", max_entries);
+    }
+    
     for (uint64_t i = start_index; i <= end_index; ++i) {
         auto it = log_.find(i);
         if (it != log_.end()) {

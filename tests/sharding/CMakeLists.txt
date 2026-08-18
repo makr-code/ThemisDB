@@ -418,7 +418,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_contract_hardening_focused.cp
     target_include_directories(test_sharding_contract_hardening_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_sharding_contract_hardening_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_sharding_contract_hardening_focused PRIVATE THEMIS_TEST_BUILD=1)
-    themis_register_module_focused_test(MODULE sharding NAME ShardingContractHardeningFocusedTests TARGET test_sharding_contract_hardening_focused TIER unit TIMEOUT 120 LABELS sharding contract hardening)
+    themis_register_module_focused_test(MODULE sharding NAME ShardingContractHardeningFocusedTests TARGET test_sharding_contract_hardening_focused TIER unit TIMEOUT 120 LABELS sharding contract hardening release_critical)
     message(STATUS "  SCR-01..04: Routing contract (consistent hash, fallback)")
     message(STATUS "  SCR-05..08: 2PC contract (prepare/commit/abort, IN_DOUBT)")
     message(STATUS "  SCR-09..12: WAL contract (ordering, idempotent replay, corruption)")

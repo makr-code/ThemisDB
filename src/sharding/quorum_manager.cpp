@@ -14,6 +14,7 @@
 // Licensed under MIT License
 
 #include "sharding/quorum_manager.h"
+#include "utils/logger.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -66,14 +67,16 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
                                        std::chrono::milliseconds(0));
     }
     
-    stats_.total_writes++;
+    stats_.total_writes.fetch_add(1, std::memory_order_release);
     
     auto start = std::chrono::steady_clock::now();
     
     size_t required_acks = getWriteQuorumSize(target_nodes.size());
     
     if (!isQuorumAchievable(target_nodes.size(), true)) {
-        stats_.failed_writes++;
+        stats_.failed_writes.fetch_add(1, std::memory_order_release);
+        THEMIS_WARN("Write quorum not achievable: required={}, available={}", 
+                    required_acks, target_nodes.size());
         return QuorumResult::failed("Quorum not achievable with available nodes");
     }
     
@@ -107,11 +110,15 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     bool success = successful_nodes.size() >= required_acks;
     
     if (success) {
-        stats_.successful_writes++;
+        stats_.successful_writes.fetch_add(1, std::memory_order_release);
+        THEMIS_DEBUG("Write quorum achieved: {}/{} nodes acknowledged", 
+                     successful_nodes.size(), required_acks);
         return QuorumResult::successful(successful_nodes.size(), required_acks,
                                        successful_nodes, latency);
     } else {
-        stats_.failed_writes++;
+        stats_.failed_writes.fetch_add(1, std::memory_order_release);
+        THEMIS_WARN("Write quorum FAILED: {}/{} nodes acknowledged; {} timed out", 
+                    successful_nodes.size(), required_acks, failed_nodes.size());
         QuorumResult result = QuorumResult::failed("Failed to achieve write quorum");
         result.acks_received = successful_nodes.size();
         result.acks_required = required_acks;
@@ -142,7 +149,7 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
         return QuorumResult::failed("No nodes available for read");
     }
     
-    stats_.total_reads++;
+    stats_.total_reads.fetch_add(1, std::memory_order_release);
     
     auto start = std::chrono::steady_clock::now();
     
@@ -175,11 +182,15 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
     bool success = successful_nodes.size() >= required_acks;
     
     if (success) {
-        stats_.successful_reads++;
+        stats_.successful_reads.fetch_add(1, std::memory_order_release);
+        THEMIS_DEBUG("Read quorum achieved: {}/{} nodes responded", 
+                     successful_nodes.size(), required_acks);
         return QuorumResult::successful(successful_nodes.size(), required_acks,
                                        successful_nodes, latency);
     } else {
-        stats_.failed_reads++;
+        stats_.failed_reads.fetch_add(1, std::memory_order_release);
+        THEMIS_WARN("Read quorum FAILED: {}/{} nodes responded; {} timed out", 
+                    successful_nodes.size(), required_acks, failed_nodes.size());
         QuorumResult result = QuorumResult::failed("Failed to achieve read quorum");
         result.acks_received = successful_nodes.size();
         result.acks_required = required_acks;
@@ -258,6 +269,8 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
     std::chrono::milliseconds timeout) {
     
     std::vector<std::pair<std::string, T>> results;
+    std::vector<std::string> timed_out_nodes;
+    
     auto deadline = std::chrono::steady_clock::now() + timeout;
     
     size_t acks = 0;
@@ -265,7 +278,8 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
         auto remaining = deadline - std::chrono::steady_clock::now();
         
         if (remaining <= std::chrono::milliseconds(0)) {
-            stats_.quorum_timeouts++;
+            stats_.quorum_timeouts.fetch_add(1, std::memory_order_release);
+            timed_out_nodes.push_back(node);
             break;  // Timeout
         }
         
@@ -291,12 +305,20 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
                         }
                     }
                 }
-            } catch (...) {
-                // Operation failed
+            } catch (const std::exception& e) {
+                // Operation failed; log for diagnostics
+                THEMIS_DEBUG("Operation on node {} failed with exception: {}", node, e.what());
             }
         } else {
-            stats_.quorum_timeouts++;
+            stats_.quorum_timeouts.fetch_add(1, std::memory_order_release);
+            timed_out_nodes.push_back(node);
+            THEMIS_DEBUG("Operation on node {} timed out (remaining: {}ms)", 
+                        node, remaining.count());
         }
+    }
+    
+    if (!timed_out_nodes.empty()) {
+        THEMIS_WARN("Quorum wait: {} nodes timed out", timed_out_nodes.size());
     }
     
     return results;

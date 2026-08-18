@@ -248,15 +248,26 @@ private:
     std::atomic<CoordinatorRole> role_{CoordinatorRole::FOLLOWER}; ///< Current local role.
     std::atomic<uint32_t> current_term_{0};         ///< Current coordination term.
     
+    /// @brief LOCK ORDERING (CANONICAL):
+    /// Tier 1: leader_mutex_   — manages leader role, term, lease state
+    ///   ↓ cannot acquire Tier 2 or Tier 3 while holding this lock
+    /// Tier 2: tasks_mutex_    — manages pending task queue  
+    ///   ↓ cannot acquire Tier 3 while holding this lock
+    /// Tier 3: callback_mutex_ — manages registered callbacks
+    ///   ↓ terminal tier; can only release when exiting
+    ///
+    /// RATIONALE: Prevent cyclic dependencies and ensure fair ordering under contention.
+    /// All acquisitions must follow this hierarchy to avoid deadlock.
+    ///
     // Leader state
     std::optional<std::string> current_leader_;     ///< Known current leader shard ID.
     std::chrono::system_clock::time_point leader_lease_expires_; ///< Leader lease expiration timestamp.
     std::chrono::system_clock::time_point last_leader_heartbeat_; ///< Last heartbeat timestamp from leader.
-    mutable std::shared_mutex leader_mutex_;
+    mutable std::shared_mutex leader_mutex_;        ///< [Tier 1] Protects leader state and term.
     
     // Tasks (only used if leader)
     std::vector<CoordinatorTask> pending_tasks_;    ///< Leader-maintained pending tasks queue.
-    mutable std::shared_mutex tasks_mutex_;
+    mutable std::shared_mutex tasks_mutex_;         ///< [Tier 2] Protects pending tasks.
     
     // Threads
     std::thread election_thread_;                   ///< Election monitor thread.
@@ -266,7 +277,7 @@ private:
     // Callbacks
     TaskExecutor task_executor_;                    ///< Task execution callback.
     LeaderElectedCallback leader_elected_callback_; ///< Leader election callback.
-    std::mutex callback_mutex_;
+    mutable std::mutex callback_mutex_;             ///< [Tier 3] Protects callbacks.
     
     // Statistics
     Statistics stats_;                              ///< Runtime counters.

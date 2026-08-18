@@ -275,6 +275,17 @@ void CrossShardTransactionCoordinator::reportDistributedWait(
         return;
     }
 
+    // W2-S06: Consensus validation — validate transaction IDs before recording wait edge
+    if (waiting_transaction_id.empty()) {
+        spdlog::error("recordDistributedWaitEdge: waiting_transaction_id is empty, rejecting edge");
+        return;
+    }
+    
+    if (blocking_transaction_id.empty()) {
+        spdlog::error("recordDistributedWaitEdge: blocking_transaction_id is empty, rejecting edge");
+        return;
+    }
+    
     distributed_wait_for_edges_[waiting_transaction_id].insert(blocking_transaction_id);
     spdlog::trace("Recorded distributed wait edge: {} -> {} (shard={})",
                   waiting_transaction_id, blocking_transaction_id, shard_id);
@@ -3192,20 +3203,15 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
         } else {
             spdlog::error("Failed to create transaction snapshot");
         }
-        
+         
     } catch (const std::exception& e) {
         spdlog::error("Failed to create periodic snapshot: {}", e.what());
     }
-}
-
-} // namespace sharding
-} // namespace themisdb
+ }
 
 // ============================================================================
 // PercolatorCoordinator implementation
 // ============================================================================
-namespace themisdb {
-namespace sharding {
 
 PercolatorCoordinator::PercolatorCoordinator(
     const Config& config,
