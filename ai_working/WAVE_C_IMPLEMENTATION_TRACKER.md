@@ -9,21 +9,33 @@
 **Status:** Starting Implementation  
 **Target:** 4-5 days
 
-### Scope Analysis
-- **Existing Infrastructure:**
-  - `AuditIntegrityManager` — cryptographic signing, retention, verification
-  - `AuditSigner` — HMAC-SHA256, RSA-SHA256 support
-  - `AuditTamperDetector` — chain-of-custody, sequence validation
-  - `AuditRetentionManager` — archival and legal hold
-  - Exporters module — multiple formats (Parquet, JSONL, Arrow IPC, streaming)
+### Scope Analysis (from Audit Explorer Report)
 
-- **Load-Handling Gaps (to implement):**
-  - [ ] High-volume entry buffering and batch writing
-  - [ ] Concurrent entry submission without lock contention
-  - [ ] Crash recovery and idempotency guarantees
-  - [ ] Export atomicity under sustained 1000+ events/sec load
-  - [ ] P95/P99 performance baselines locked
-  - [ ] Stress tests with chaos/recovery scenarios
+**Current State:**
+- Throughput capability: ~1,000-5,000 ops/sec (mutex serialization bottleneck)
+- Target: ≥100,000 ops/sec (GATE-W9-01)
+- Gap: 20-100x shortfall in throughput capacity
+- In-memory only (no persistence layer)
+- No background retention worker thread
+- No batch signing API (1 mutex per entry = throughput cliff)
+
+**Critical Risk Areas Identified:**
+- HuggingFace hub client: 10 CRITICAL data races (lines 207, 408, 591)
+- Export encryption: 11 CRITICAL findings (EVP_CIPHER_CTX not mutex-protected)
+- JSONL LLM exporter: 1 CRITICAL uncaught exception in redaction path
+- Blocking operations in hub client with no timeout bounds
+
+**Load-Handling Gaps (to implement):**
+- [x] Audit integrity infrastructure analyzed (existing: good design, poor scaling)
+- [ ] Lock-free or sharded signing strategy (per-tenant/per-rule buckets)
+- [ ] Batch signing API to amortize mutex overhead
+- [ ] Persistent storage backend (RocksDB) for durability  
+- [ ] Background retention worker to prevent OOM
+- [ ] High-volume entry buffering and concurrent submission
+- [ ] Crash recovery checkpoints with watermark tracking
+- [ ] Export atomicity under 1000+ events/sec load
+- [ ] P95/P99 performance baselines locked in release gates
+- [ ] Fix 10 CRITICAL data races in exporters (blocking this Batch 1)
 
 ### Implementation Tasks
 
