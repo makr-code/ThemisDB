@@ -68,10 +68,48 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
  * @note Max Input: Enforces maximum input size to prevent DoS via oversized allocations.
  * @note Thread-Safe: Uses thread-local ZSTD_CCtx for safe concurrent use.
  *
- * @error E_INVALID_INPUT Input data is empty or exceeds size limits.
- * @error E_COMPRESSION_FAILED ZSTD compression failed (insufficient memory or corrupt state).
+ * @error_contract
+ * | Condition | ErrorCode | Severity | Logging | Recovery |
+ * |-----------|-----------|----------|---------|----------|
+ * | Input nullptr with size > 0 | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | zstd_compress_safe | Return Err |
+ * | Input size > MAX_INPUT_SIZE (1 GB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | size, limit | Return Err |
+ * | Output bound > MAX_OUTPUT_SIZE (2 GB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | bound, limit | Return Err |
+ * | Memory allocation failure | ERR_UTIL_ALLOCATION_FAILED | Error | requested bytes | Return Err |
+ * | ZSTD compress error | ERR_UTIL_COMPRESSION_FAILED (COMPRESSION_FAILED 9060) | Error | ZSTD error name | Return Err; logErrorWithContext |
+ * | ZSTD unavailable (no THEMIS_HAS_ZSTD) | ERR_UTIL_COMPRESSION_FAILED (CODEC_NOT_SUPPORTED 9067) | Error | – | Return Err |
+ *
+ * @degradation Never silently returns uncompressed data; any failure path returns Err.
+ * @bounded_resources
+ * - Input capped at compression::MAX_INPUT_SIZE (1 GB)
+ * - Output buffer capped at compression::MAX_OUTPUT_SIZE (2 GB)
+ * - Compression level auto-clamped to [1, 22]; invalid values logged as WARN
  */
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level = 3);
+
+/**
+ * @brief Safely decompress a ZSTD-framed buffer with bomb protection.
+ *
+ * @param compressed ZSTD-framed bytes to decompress.
+ * @return Ok(decompressed_bytes) on success; Err on any failure.
+ *
+ * @note Decompression bomb protection: Rejects any frame whose declared
+ *       content size exceeds MAX_DECOMPRESSED_SIZE (4 GB).
+ * @note Thread-Safe: Uses a per-call ZSTD_DCtx; safe for concurrent use.
+ *
+ * @error_contract
+ * | Condition | ErrorCode | Severity | Logging | Recovery |
+ * |-----------|-----------|----------|---------|----------|
+ * | Compressed > MAX_DECOMPRESSED_SIZE (4 GB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_BOMB_DETECTED 9064) | Error | declared size, limit | Return Err |
+ * | Memory allocation failure | ERR_UTIL_ALLOCATION_FAILED | Error | requested bytes | Return Err |
+ * | ZSTD_DCtx creation failure | ERR_UTIL_COMPRESSION_FAILED (CODEC_INITIALIZATION_FAILED 9066) | Error | – | Return Err |
+ * | ZSTD decompress error | ERR_UTIL_COMPRESSION_FAILED (DECOMPRESSION_FAILED 9061) | Error | ZSTD error name | Return Err; logErrorWithContext |
+ * | ZSTD unavailable (no THEMIS_HAS_ZSTD) | ERR_UTIL_COMPRESSION_FAILED (CODEC_NOT_SUPPORTED 9067) | Error | – | Return Err |
+ *
+ * @degradation Never returns partial data; any decompression failure returns Err.
+ * @bounded_resources
+ * - Declared decompressed size capped at compression::MAX_DECOMPRESSED_SIZE (4 GB)
+ * - Uses ZSTD_DCtx per call; context freed on any exit path (RAII)
+ */
 Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& compressed);
 
 // ---------------------------------------------------------------------------
