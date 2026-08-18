@@ -54,7 +54,34 @@ std::mutex& wasmPluginLoadFnMutex() {
     return m;
 }
 
-/**
+#ifdef THEMIS_WASM_WASMTIME
+// RAII wrapper for WasmtimeBundle to ensure all wasmtime resources are cleaned up
+struct WasmtimeBundleDeleter {
+    void operator()(void* bundle_ptr) const noexcept {
+        if (!bundle_ptr) return;
+        
+        // Re-define the bundle struct for cleanup purposes
+        struct WasmtimeBundle {
+            wasmtime_engine_t*  engine;
+            wasmtime_store_t*   store;
+            wasmtime_linker_t*  linker;
+            wasmtime_module_t*  module;
+            wasmtime_instance_t instance;
+        };
+        
+        auto* b = static_cast<WasmtimeBundle*>(bundle_ptr);
+        // Cleanup in reverse order of creation
+        wasmtime_linker_delete(b->linker);
+        wasmtime_module_delete(b->module);
+        wasmtime_store_delete(b->store);
+        wasmtime_engine_delete(b->engine);
+        delete b;
+    }
+};
+
+using UniqueWasmtimeBundle = std::unique_ptr<void, WasmtimeBundleDeleter>;
+#endif // THEMIS_WASM_WASMTIME
+
  * @brief Compute the SHA-256 hex digest of a file at @p path.
  * @return Lowercase hex string, or empty string on I/O or crypto error.
  */
@@ -348,19 +375,10 @@ WasmHostAPI::~WasmHostAPI() {
     switch (runtime_) {
 #ifdef THEMIS_WASM_WASMTIME
     case WasmPluginRuntime::WASMTIME: {
-        struct WasmtimeBundle {
-            wasmtime_engine_t*  engine;
-            wasmtime_store_t*   store;
-            wasmtime_linker_t*  linker;
-            wasmtime_module_t*  module;
-            wasmtime_instance_t instance;
-        };
-        auto* b = static_cast<WasmtimeBundle*>(wasm_instance_);
-        wasmtime_linker_delete(b->linker);
-        wasmtime_module_delete(b->module);
-        wasmtime_store_delete(b->store);
-        wasmtime_engine_delete(b->engine);
-        delete b;
+        // Use RAII deleter to ensure cleanup even in exception scenarios
+        UniqueWasmtimeBundle bundle(wasm_instance_, WasmtimeBundleDeleter{});
+        // bundle will be automatically cleaned up when it goes out of scope
+        wasm_instance_ = nullptr;
         break;
     }
 #endif
