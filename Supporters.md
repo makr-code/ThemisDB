@@ -1,99 +1,45 @@
 # 🙏 ThemisDB Supporters & Contributors
 
-We are deeply grateful for everyone who supports and contributes to ThemisDB. This project is built on the foundation of collaborative effort, trust, and shared commitment to creating an exceptional multi-model database system.
-
-## Core Contributors
-- Makr Code Team
-
-## Extended Team
-- Database Architecture Team
-- Query Optimization Team
-
-## Community Contributors
-- Open Source Community
-- Beta Testers
-
-## Partners & Sponsors
-- Technology Partners
-- Academic Institutions
-
-## Special Thanks
-- All contributors and supporters who believe in the ThemisDB mission
-- Special thanks to my loving wife Diana
+**Thank you to:** Diana, Makr Code Team, Meta (Yuri Malkov et al.), Google (Jeff Johnson et al.), Microsoft (Daan Leijen et al.), Apache (Renzo Angles et al.), Michael Stonebraker, Jim Gray, Philip Bernstein, Diego Ongaro, Edward Hu, Hugo Touvron, Daniel Lemire, John McCalpin, Intel, NVIDIA, AWS, OpenSSL Project, Xiph.Org Foundation, Cloud Native Computing Foundation, Mozilla, OpenAI, DuckDB Foundation, Boost Community, Open Source Community
 
 ---
 
-## Thanks to Open-Source Foundations & Libraries
+## Thought Leaders & Scientific Foundations
 
-ThemisDB stands on the shoulders of exceptional open-source projects and their dedicated communities:
+This project is built on foundational research and pioneering work in:
 
-### Core Storage & Data Structures
-- **RocksDB** (Meta/Facebook) - High-performance embedded database
-- **ZLIB** - Compression library (Jean-loup Gailly, Mark Adler)
-- **Zstandard** (Meta/Facebook) - Real-time compression algorithm
-- **LZ4** (Yann Collet) - Fast compression
+- **Database Systems & ACID:** Jim Gray (Transactions), Michael Stonebraker (Relational DBs), Hector Garcia-Molina (Consensus)
+- **Concurrency Control:** Philip A. Bernstein (MVCC), Hector Garcia-Molina (Two-Phase Locking)
+- **Consensus & Replication:** Diego Ongaro, John Ousterhout (Raft), Hector Garcia-Molina (State Machines)
+- **Vector Search:** Yury A. Malkov, Dmitry A. Yashunin (HNSW), Jeff Johnson, Matthijs Douze, Hervé Jégou (FAISS)
+- **Similarity Indexing:** Martin Aumueller, Erik Bernhardsson, Alexander Faithfull (ANN Benchmarks)
+- **High-Performance Algorithms:** Daniel Lemire, Owen Kaser (SIMD), John D. McCalpin (Memory Bandwidth)
+- **Transfer Learning & Adaptation:** Edward J. Hu et al. (LoRA)
+- **Large Language Models:** Hugo Touvron et al. (LLaMA)
+- **Storage Systems:** Siying Dong, Andrew Kryczka, Yanqin Jin, Michael Stumm (RocksDB)
+- **Memory Allocation:** Jason Evans (jemalloc), Daan Leijen, Benjamin Zorn, Leonardo de Moura (mimalloc)
 
-### JSON & Serialization
-- **nlohmann/json** - Modern C++ JSON library
-- **MessagePack** - Efficient binary serialization
-- **Protocol Buffers** (Google) - Serialization format
-- **YAML-CPP** - YAML parser
+## Open-Source & Community
 
-### Performance & Parallelism
-- **Intel TBB** (Intel) - Threading Building Blocks
-- **jemalloc** (Jason Evans) - Memory allocator
-- **mimalloc** (Microsoft) - Memory allocation library
-- **OpenMP** - Parallel computing API
+ThemisDB stands on exceptional open-source foundations:
 
-### Query & Analytics
-- **Arrow** (Apache Software Foundation) - In-memory columnar format
-- **Apache Parquet** (Apache Software Foundation) - Columnar storage
-- **DuckDB** (Stichting DuckDB Foundation) - Analytical database
-- **Boost** (Boost Community) - C++ libraries
-
-### Search & Indexing
-- **FAISS** (Meta/Facebook) - Similarity search library
-- **HNSWLIB** (Yu. A. Malkov, D. A. Yashunin) - Hierarchical Navigable Small World graphs
-- **simdjson** (Daniel Lemire, others) - SIMD JSON parser
-
-### Machine Learning & AI
-- **ONNX Runtime** (Microsoft) - Open Neural Network Exchange runtime
-- **OpenTelemetry** (Cloud Native Computing Foundation) - Observability
-- **piper** - Text-to-speech (Mozilla Common Voice Project)
-- **Whisper** (OpenAI) - Speech recognition
-- **rnnoise** (Xiph.Org Foundation) - Noise suppression
-
-### Network & Communication
-- **gRPC** (Google) - RPC framework
-- **CURL** (Daniel Stenberg) - Data transfer library
-- **OpenSSL** (OpenSSL Project) - Cryptography
-- **httplib** (Yuji Hirose) - HTTP client/server
-- **nghttp2** (Tatsuhiro Tsujikawa) - HTTP/2 implementation
-- **ngtcp2** (Tatsuhiro Tsujikawa) - QUIC protocol
-
-### Testing & Benchmarking
-- **Google Test (gtest)** (Google) - C++ testing framework
-- **Google Benchmark** (Google) - Benchmarking library
-
-### Cloud & Storage
-- **AWS SDK** (Amazon Web Services) - AWS integration
-- **Azure Storage Blobs C++** (Microsoft) - Azure integration
-- **Google Cloud Storage C++** (Google) - Google Cloud integration
-- **Redis Client (hiredis)** (Salvatore Sanfilippo) - Redis protocol
-
-### Utilities & Tools
-- **fmt** (Victor Zverovich) - String formatting library
-- **spdlog** (Gabi Melman) - Logging library
-- **Hash Functions** (Various contributors) - Cryptographic hashing
-
-### GPU Acceleration
-- **CUDA Toolkit** (NVIDIA) - GPU computing platform
-- **HIP** (AMD) - Heterogeneous-Compute Interface for Portability
-- **Vulkan** (Khronos Group) - Graphics API used for compute
-
-### Distributed Systems
-- **RAFT** (Apache Software Foundation) - Consensus algorithm
-- **Kerberos** (MIT) - Authentication protocol
+- **Meta/Facebook:** Yuri Malkov et al. (FAISS, HNSWLIB), Siying Dong et al. (RocksDB), Zstandard Team
+- **Google:** Jeff Johnson et al. (FAISS), Protocol Buffers Team, gRPC Team, Google Test, Google Benchmark
+- **Microsoft:** Daan Leijen et al. (mimalloc), ONNX Runtime Team, Azure SDKs
+- **Apache Foundation:** Renzo Angles et al. (Graph Processing), Parquet Team, Arrow Team
+- **Intel:** TBB (Threading Building Blocks), OpenMP Community
+- **NVIDIA:** CUDA Toolkit, GPU Computing Platform
+- **Cloud Native Computing Foundation:** OpenTelemetry, Cloud Standards
+- **Amazon Web Services:** AWS SDK, Cloud Services
+- **Mozilla:** Common Voice Project (Piper TTS)
+- **OpenAI:** Whisper (Speech Recognition)
+- **Xiph.Org Foundation:** rnnoise, Ogg/Vorbis Standards
+- **MIT:** Kerberos Authentication
+- **Khronos Group:** Vulkan, GPU Standards
+- **DuckDB Foundation:** Analytical Database Innovation
+- **Boost Community:** Modern C++ Libraries
+- **OpenSSL Project:** Cryptographic Standards
+- **Individual Contributors:** Jean-loup Gailly, Mark Adler (ZLIB), Yann Collet (LZ4), Daniel Stenberg (CURL), Salvatore Sanfilippo (Redis), Victor Zverovich (fmt), Gabi Melman (spdlog), Yuji Hirose (httplib), Tatsuhiro Tsujikawa (nghttp2, ngtcp2), Nlohmann (JSON), and countless open-source maintainers
 
 ---
 

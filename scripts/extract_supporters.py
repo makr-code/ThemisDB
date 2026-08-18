@@ -18,10 +18,13 @@ from pathlib import Path
 
 def extract_supporters(md_file_path: str) -> list:
     """
-    Parse Supporters.md and extract all supporter names.
+    Parse Supporters.md and extract all supporter names from the compact format.
+    
+    Expects format: **Thank you to:** name1, org (Lead et al.), name2, ...
+    Only extracts from the first "Thank you to:" line to avoid duplicates.
     
     Returns:
-        List of supporter names (strings)
+        List of supporter names and contributors (strings)
     """
     supporters = []
     
@@ -32,30 +35,28 @@ def extract_supporters(md_file_path: str) -> list:
         print(f"Error: File not found: {md_file_path}", file=sys.stderr)
         return supporters
     
-    # Split into sections (lines that start with ##)
+    # Extract only the first-line "Thank you to:" section (compact format)
     lines = content.split('\n')
-    current_section = None
-    
     for line in lines:
-        line = line.strip()
-        
-        # Skip empty lines and markdown links
-        if not line or line.startswith('#'):
-            if line.startswith('##'):
-                current_section = line
-            continue
-        
-        # Extract supporter names from bullet points
-        if line.startswith('- '):
-            name = line[2:].strip()
-            # Remove markdown links and formatting
-            name = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', name)
-            name = re.sub(r'\*+([^*]+)\*+', r'\1', name)
-            name = name.strip()
+        if line.startswith('**Thank you to:**'):
+            # Parse the comma-separated list
+            thank_you_text = line.replace('**Thank you to:**', '').strip()
             
-            # Skip empty names and common placeholders
-            if name and name not in ['Last Updated:', 'To add your name to this list,']:
-                supporters.append(name)
+            # Split by comma and clean up each entry
+            entries = [s.strip() for s in thank_you_text.split(',')]
+            
+            for entry in entries:
+                if entry:
+                    # Remove markdown links and formatting
+                    entry = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', entry)
+                    entry = re.sub(r'\*+([^*]+)\*+', r'\1', entry)
+                    entry = entry.strip()
+                    
+                    if entry and entry not in ['Last Updated:', 'To add your name to this list,']:
+                        supporters.append(entry)
+            
+            # Only use the compact "Thank you to:" line, not the detailed sections
+            return supporters
     
     return supporters
 
