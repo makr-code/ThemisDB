@@ -46,10 +46,6 @@ constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // 2 MB cumulative buf
 constexpr size_t MAX_SESSION_STREAMS = 10;                // Max streams per session (CRITICAL GAP 8)
 constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format version (CRITICAL GAP 9)
 
-// Legacy constants for backward compatibility (deprecated)
-constexpr size_t kMaxVoicePayloadBytes = 64 * 1024 * 1024;    // 64 MB max chunk (configurable)
-constexpr size_t kMaxSessionBufferBytes = 512 * 1024 * 1024;  // 512 MB max session buffer
-
 /**
  * @brief Validate audio payload for oversized or empty conditions.
  * Fail-closed: reject any payload exceeding limits or malformed structure.

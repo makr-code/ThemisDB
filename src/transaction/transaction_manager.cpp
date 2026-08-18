@@ -33,10 +33,10 @@ TransactionManager::TransactionManager(RocksDBWrapper& db,
                                        VectorIndexManager& vecIdx)
     : db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx) {
     try {
-        // Create and start deadlock detector thread (must succeed before marking as running)
+        deadlock_detector_running_ = true;
+        // Create and start deadlock detector thread after run flag is set
         deadlock_detector_thread_ = std::make_unique<std::thread>(
             &TransactionManager::deadlockDetectorLoop, this);
-        deadlock_detector_running_ = true;
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to start deadlock detector thread: {}", e.what());
         deadlock_detector_running_ = false;
@@ -2209,5 +2209,4 @@ TransactionManager::detectConflicts(TransactionId txn_id) const
 }
 
 } // namespace themis
-
 

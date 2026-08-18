@@ -581,7 +581,7 @@ TEST_F(GPUBatchA9HardeningTest, KernelExecutionWithTimeout) {
 /**
  * @test Kernel timeout with fallback to CPU
  */
-TEST_F(GPUBatchA9HardeningTest, KernelTimeoutTriggerssCPUFallback) {
+TEST_F(GPUBatchA9HardeningTest, KernelTimeoutTriggersCPUFallback) {
     using namespace gpu::batch_a9;
     
     // Note: In actual CUDA environment, a kernel timeout would trigger fallback.

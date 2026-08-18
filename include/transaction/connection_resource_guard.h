@@ -14,9 +14,14 @@
 
 #pragma once
 
-#include <memory>
 #include <chrono>
+#include <cstdint>
+#include <memory>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <vector>
 #include "storage/database_connection_manager.h"
 #include "utils/logger.h"
 
@@ -354,8 +359,21 @@ bool executeWithConnection(
     }
     
     try {
-        operation(conn);
-        return true;
+        using operation_result_t = std::invoke_result_t<
+            Func,
+            std::shared_ptr<storage::DatabaseConnectionManager::Connection>
+        >;
+
+        if constexpr (std::is_void_v<operation_result_t>) {
+            operation(conn);
+            return true;
+        } else if constexpr (std::is_convertible_v<operation_result_t, bool>) {
+            return static_cast<bool>(operation(conn));
+        } else {
+            static_assert(std::is_convertible_v<operation_result_t, bool>,
+                "executeWithConnection() requires operation to return void or bool-convertible type");
+            return false;
+        }
     } catch (const std::exception& e) {
         THEMIS_WARN("Operation '{}' failed: {}", operation_name, e.what());
         guard.markError(e.what());
