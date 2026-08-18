@@ -171,6 +171,94 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
     return true;
 }
 
+/**
+ * @brief Validate session state transition for fail-closed behavior.
+ * 
+ * Enforces valid state transitions:
+ * - ACTIVE → IDLE, EXPIRED, CLOSING, TERMINATED
+ * - IDLE → ACTIVE, EXPIRED, CLOSING, TERMINATED
+ * - EXPIRED → CLOSING, TERMINATED
+ * - CLOSING → TERMINATED
+ * - TERMINATED → (no transitions allowed)
+ * 
+ * CRITICAL GAP 10: Prevent invalid state transitions
+ * 
+ * @param current_state Current session state
+ * @param next_state Proposed next state
+ * @return true if transition is valid; false if transition violates state machine
+ */
+[[nodiscard]] bool isValidSessionStateTransition(
+    const std::string& current_state,
+    const std::string& next_state) {
+    
+    // Fail-closed: reject termination transitions or unrecognized states
+    if (next_state == "TERMINATED" && current_state != "CLOSING" && 
+        current_state != "EXPIRED" && current_state != "ACTIVE" && current_state != "IDLE") {
+        THEMIS_WARN("Voice session invalid state transition: {} → {} (REJECTED)",
+                    current_state, next_state);
+        return false;
+    }
+    
+    // ACTIVE can transition to: IDLE, EXPIRED, CLOSING, TERMINATED
+    if (current_state == "ACTIVE") {
+        return next_state == "IDLE" || next_state == "EXPIRED" || 
+               next_state == "CLOSING" || next_state == "TERMINATED";
+    }
+    
+    // IDLE can transition to: ACTIVE, EXPIRED, CLOSING, TERMINATED
+    if (current_state == "IDLE") {
+        return next_state == "ACTIVE" || next_state == "EXPIRED" || 
+               next_state == "CLOSING" || next_state == "TERMINATED";
+    }
+    
+    // EXPIRED can transition to: CLOSING, TERMINATED
+    if (current_state == "EXPIRED") {
+        return next_state == "CLOSING" || next_state == "TERMINATED";
+    }
+    
+    // CLOSING can transition to: TERMINATED
+    if (current_state == "CLOSING") {
+        return next_state == "TERMINATED";
+    }
+    
+    // TERMINATED cannot transition anywhere
+    if (current_state == "TERMINATED") {
+        THEMIS_WARN("Voice session cannot transition from TERMINATED state (REJECTED)");
+        return false;
+    }
+    
+    // Unrecognized state
+    THEMIS_WARN("Voice session unknown state: {} (REJECTED)", current_state);
+    return false;
+}
+
+/**
+ * @brief Emit diagnostic error message for stream rejection with reason code.
+ * 
+ * Logs rejection reason with error code for audit and debugging.
+ * 
+ * CRITICAL GAP 11: Emit diagnostics on rejection
+ * 
+ * @param reason Human-readable rejection reason
+ * @param error_code Voice module error code (7xxx range)
+ * @param session_id Session identifier (optional)
+ * @param additional_context Additional diagnostic info (optional)
+ */
+void diagnosticStreamRejection(
+    const std::string& reason,
+    int error_code,
+    const std::string& session_id = "",
+    const std::string& additional_context = "") {
+    
+    if (session_id.empty()) {
+        THEMIS_ERROR("Voice stream rejection: error_code={}, reason={}, context={}",
+                     error_code, reason, additional_context);
+    } else {
+        THEMIS_ERROR("Voice stream rejection: session_id={}, error_code={}, reason={}, context={}",
+                     session_id, error_code, reason, additional_context);
+    }
+}
+
 } // namespace
 
 VoiceAssistant::VoiceAssistant(const Config& config)
