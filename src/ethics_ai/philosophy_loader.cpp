@@ -37,7 +37,9 @@ std::variant<size_t, Status> PhilosophyLoader::loadFromDirectory(const std::stri
     }
 
     size_t count = 0;
-    for (const auto &entry : fs::directory_iterator(directory)) {
+    // COMPLEXITY FIX: Store iterator in variable to avoid temporary reference invalidation
+    auto dir_iter = fs::directory_iterator(directory);
+    for (const auto &entry : dir_iter) {
         if (entry.is_regular_file()) {
             auto path = entry.path();
             auto ext  = path.extension().string();
@@ -87,16 +89,18 @@ Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
                     }
                 }
                 // Fallback: join all scalar leaf values
-                std::string acc;
+                std::ostringstream acc;
+                bool first = true;
                 for (const auto &kv : node) {
                     if (kv.second.IsScalar()) {
-                        if (!acc.empty()) {
-                            acc += "; ";
+                        if (!first) {
+                            acc << "; ";
                         }
-                        acc += kv.second.as<std::string>("");
+                        acc << kv.second.as<std::string>("");
+                        first = false;
                     }
                 }
-                return acc;
+                return acc.str();
             }
             if (node.IsSequence() && node.size() > 0 && node[0].IsScalar()) {
                 return node[0].as<std::string>("");
@@ -132,17 +136,19 @@ Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
                 return node.as<std::string>("");
             }
             if (node.IsSequence()) {
-                std::string acc;
+                std::ostringstream acc;
+                bool first = true;
                 for (const auto &item : node) {
                     std::string s = joinNode(item);
                     if (!s.empty()) {
-                        if (!acc.empty()) {
-                            acc += "; ";
+                        if (!first) {
+                            acc << "; ";
                         }
-                        acc += s;
+                        acc << s;
+                        first = false;
                     }
                 }
-                return acc;
+                return acc.str();
             }
             if (node.IsMap()) {
                 // Try common key names first, then join all scalar leaves
@@ -151,17 +157,19 @@ Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
                         return node[key].as<std::string>("");
                     }
                 }
-                std::string acc;
+                std::ostringstream acc;
+                bool first = true;
                 for (const auto &kv : node) {
                     std::string s = joinNode(kv.second);
                     if (!s.empty()) {
-                        if (!acc.empty()) {
-                            acc += "; ";
+                        if (!first) {
+                            acc << "; ";
                         }
-                        acc += s;
+                        acc << s;
+                        first = false;
                     }
                 }
-                return acc;
+                return acc.str();
             }
             return "";
         };

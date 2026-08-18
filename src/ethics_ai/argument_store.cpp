@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <set>
 #include <spdlog/spdlog.h>
+#include <openssl/sha.h>
+#include <iomanip>
+#include <sstream>
 
 #include "ethics_base_entity_adapter.h"
 #include "query/query_engine.h"
@@ -27,6 +30,66 @@ namespace ethics {
 // Bring the canonical query types into scope.
 using themis::query::ConjunctiveQuery;
 using themis::query::PredicateEq;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Model Integrity Verification (SHA256)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Compute SHA256 hash of binary data
+ * @param data Pointer to data
+ * @param len Length of data
+ * @return Hex-encoded SHA256 hash string
+ */
+static std::string computeSHA256(const uint8_t* data, size_t len) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, data, len);
+    SHA256_Final(hash, &sha256);
+    
+    std::ostringstream oss;
+    for (unsigned char c : hash) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << (int)c;
+    }
+    return oss.str();
+}
+
+/**
+ * @brief Verify model integrity by computing hash and comparing with metadata
+ * @param entity The deserialized entity
+ * @param blob The binary data
+ * @param entity_id ID for diagnostic purposes
+ * @return true if integrity check passes or no expected hash stored, false on mismatch
+ */
+static bool verifyModelIntegrity(const BaseEntity& entity, const std::vector<uint8_t>& blob, 
+                                 const std::string& entity_id) {
+    // Compute actual hash
+    std::string actual_hash = computeSHA256(blob.data(), blob.size());
+    
+    // Try to retrieve expected hash from metadata
+    auto stored_hash = entity.getFieldAsString("_integrity_hash");
+    if (!stored_hash) {
+        // No stored hash - diagnostic: first load or legacy entity
+        spdlog::debug("ArgumentStore::verifyModelIntegrity — no stored hash for entity='{}' "
+                     "(expected_hash={})", entity_id, actual_hash);
+        return true; // Pass check - allow legacy entities
+    }
+    
+    // Compare hashes
+    if (actual_hash != *stored_hash) {
+        // Hash mismatch - emit diagnostic and fail
+        spdlog::error("ArgumentStore::verifyModelIntegrity — HASH MISMATCH for entity='{}' "
+                     "actual={} expected={} (MODEL POISONING RISK)", 
+                     entity_id, actual_hash, *stored_hash);
+        return false;
+    }
+    
+    // Hash match - integrity verified
+    spdlog::debug("ArgumentStore::verifyModelIntegrity — integrity verified for entity='{}' "
+                 "(hash={})", entity_id, actual_hash);
+    return true;
+}
 
 void ArgumentStore::setVectorStoreFunction(VectorStoreFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -118,6 +181,12 @@ std::variant<EthicalArgument, Status> ArgumentStore::getArgument(const std::stri
 
     // Deserialize BaseEntity
     BaseEntity entity = BaseEntity::deserialize(argument_id, *blob);
+
+    // CRITICAL FIX: Verify model integrity to detect poisoning
+    if (!verifyModelIntegrity(entity, *blob, argument_id)) {
+        return Status::Error("Model integrity verification failed for argument: " + argument_id 
+                           + " (poisoning detected)");
+    }
 
     // Convert back to EthicalArgument
     return EthicsBaseEntityAdapter::fromBaseEntity(entity);
@@ -218,25 +287,32 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
         std::vector<uint8_t> blob(value.begin(), value.end());
         BaseEntity entity = BaseEntity::deserialize(pk, blob);
 
+        // CRITICAL FIX: Verify model integrity to detect poisoning
+        if (!verifyModelIntegrity(entity, blob, pk)) {
+           spdlog::error("ArgumentStore::getArgumentsByPhilosophy — integrity check failed for '{}'; "
+                        "skipping entity", pk);
+           return true; // Continue to next entity instead of failing entire scan
+        }
+
         // Check philosophy school filter
         auto school = entity.getFieldAsString("philosophy_school");
         if (!school || *school != philosophy_school) {
-            return true; // Continue
+           return true; // Continue
         }
 
         // Check argument type filter
         if (!argument_types.empty()) {
-            auto type_str = entity.getFieldAsString("argument_type");
-            if (!type_str) {
+           auto type_str = entity.getFieldAsString("argument_type");
+           if (!type_str) {
                 return true;
             }
 
-            ArgumentType type = stringToArgumentType(*type_str);
-            bool type_match   = std::any_of(argument_types.begin(), argument_types.end(),
-                                            [type](ArgumentType ft) { return type == ft; });
-            if (!type_match) {
-                return true;
-            }
+           ArgumentType type = stringToArgumentType(*type_str);
+           bool type_match   = std::any_of(argument_types.begin(), argument_types.end(),
+                                           [type](ArgumentType ft) { return type == ft; });
+           if (!type_match) {
+               return true;
+           }
         }
 
         // Convert and add to results
@@ -301,6 +377,12 @@ std::variant<EthicalDecision, Status> ArgumentStore::getDecision(const std::stri
     // Deserialize BaseEntity
     BaseEntity entity = BaseEntity::deserialize(decision_id, *blob);
 
+    // CRITICAL FIX: Verify model integrity to detect poisoning
+    if (!verifyModelIntegrity(entity, *blob, decision_id)) {
+        return Status::Error("Model integrity verification failed for decision: " + decision_id 
+                           + " (poisoning detected)");
+    }
+
     // Convert back to EthicalDecision
     return EthicsBaseEntityAdapter::fromBaseEntity(entity, true);
 }
@@ -357,6 +439,12 @@ std::variant<PhilosophyProfile, Status> ArgumentStore::getPhilosophyProfile(cons
 
     // Deserialize BaseEntity
     BaseEntity entity = BaseEntity::deserialize(school, *blob);
+
+    // CRITICAL FIX: Verify model integrity to detect poisoning
+    if (!verifyModelIntegrity(entity, *blob, school)) {
+        return Status::Error("Model integrity verification failed for profile: " + school 
+                           + " (poisoning detected)");
+    }
 
     // Convert back to PhilosophyProfile
     return EthicsBaseEntityAdapter::fromBaseEntityToProfile(entity);

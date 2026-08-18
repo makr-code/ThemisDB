@@ -47,19 +47,20 @@ std::string PositionAbstractValidator::extractVerdictFromContent(const std::stri
 }
 
 std::string PositionAbstractValidator::buildDefaultAbstract(const DiscourseRoundOutput &output) {
-    std::string thesis_joined;
+    std::ostringstream thesis_joined;
     for (std::size_t i = 0; i < output.core_thesis_ids.size(); ++i) {
         if (i > 0) {
-            thesis_joined += ", ";
+            thesis_joined << ", ";
         }
-        thesis_joined += output.core_thesis_ids[i];
+        thesis_joined << output.core_thesis_ids[i];
     }
-    if (thesis_joined.empty()) {
-        thesis_joined = "none";
+    std::string result = thesis_joined.str();
+    if (result.empty()) {
+        result = "none";
     }
 
     std::ostringstream oss;
-    oss << "[" << output.school_id << "] Verdict: " << output.verdict << ". Core: " << thesis_joined << ".";
+    oss << "[" << output.school_id << "] Verdict: " << output.verdict << ". Core: " << result << ".";
     return oss.str();
 }
 

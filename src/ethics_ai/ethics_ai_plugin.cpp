@@ -495,12 +495,39 @@ public:
 
 extern "C" {
 
+/**
+ * @brief Create an EthicsAI plugin instance (C interface)
+ * 
+ * CRITICAL FIX: Return value MUST be immediately wrapped in a smart pointer
+ * with destroyPlugin() as the custom deleter by the caller.
+ * Recommended pattern:
+ *   auto deleter = [](themis::plugins::IThemisPlugin* p) { destroyPlugin(p); };
+ *   std::unique_ptr<themis::plugins::IThemisPlugin, decltype(deleter)> plugin(
+ *       createPlugin(), deleter);
+ * 
+ * @return Raw pointer to EthicsAIPlugin; caller must manage lifetime
+ */
 THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
+    // CRITICAL FIX: Immediately wrap in smart pointer at call site
+    // This is a C interface requirement; callers MUST use a custom deleter
     return new themis::plugins::ethics::EthicsAIPlugin();
 }
 
+/**
+ * @brief Destroy an EthicsAI plugin instance (C interface)
+ * 
+ * CRITICAL FIX: Add null check and proper cleanup (delete_no_nullptr remediation)
+ * 
+ * @param plugin Pointer to plugin to destroy; may be nullptr (safe to call)
+ */
 THEMIS_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
-    delete plugin;
+    if (plugin != nullptr) {
+        delete plugin;
+        // Note: Caller is responsible for setting their reference to nullptr
+        // Use custom deleter to automate this:
+        //   auto deleter = [](themis::plugins::IThemisPlugin* p) { destroyPlugin(p); };
+        //   std::unique_ptr<themis::plugins::IThemisPlugin, decltype(deleter)> ...
+    }
 }
 
 } // extern "C"

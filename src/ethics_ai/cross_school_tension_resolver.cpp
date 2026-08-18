@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <sstream>
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace themis {
 namespace plugins {
@@ -63,7 +64,11 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
 
         try {
             t.rebuttal_cite_weight = std::stof(weight_str);
-        } catch (...) {
+        } catch (const std::invalid_argument& ex) {
+            THEMIS_WARN("Invalid tension weight format: {}", weight_str);
+            t.rebuttal_cite_weight = 0.5f;
+        } catch (const std::out_of_range& ex) {
+            THEMIS_WARN("Tension weight out of range: {}", weight_str);
             t.rebuttal_cite_weight = 0.5f;
         }
 

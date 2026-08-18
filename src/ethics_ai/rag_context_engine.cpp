@@ -18,6 +18,7 @@
 #include <cmath>
 #include <deque>
 #include <iomanip>
+#include <set>
 #include <sstream>
 #include <unordered_set>
 
@@ -30,6 +31,9 @@ RAGContextEngine::RAGContextEngine(std::shared_ptr<ArgumentStore> store) : store
 std::variant<RAGContext, Status> RAGContextEngine::buildContext(const std::string &dilemma_description,
                                                                 const std::vector<std::string> &philosophy_schools,
                                                                 const std::string &category) {
+    // CRITICAL FIX: Protect shared store_ access (data_race remediation at line 56)
+    std::lock_guard<std::mutex> lock(store_access_mutex_);
+    
     RAGContext context;
 
     // Pattern 1: Find similar dilemmas
@@ -43,6 +47,7 @@ std::variant<RAGContext, Status> RAGContextEngine::buildContext(const std::strin
         auto args_result = store_->getArgumentsByPhilosophy(school, {}, 20);
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&args_result)) {
             std::vector<std::string> arg_ids;
+            arg_ids.reserve(args->size());
             for (const auto &arg : *args) {
                 arg_ids.push_back(arg.id);
             }
@@ -204,9 +209,12 @@ RAGContextEngine::traverseArgumentChain(const std::string &start_argument_id, si
         return std::vector<std::string>{};
     }
 
+    // CRITICAL FIX: Protect shared store_ access (data_race remediation at line 218)
+    std::lock_guard<std::mutex> lock(store_access_mutex_);
+
     // BFS traversal following `supports` / `counterarguments` links.
     std::vector<std::string> visited_order;
-    std::unordered_set<std::string> visited;
+    std::set<std::string> visited;
     // Use a deque for proper FIFO BFS ordering.
     // Each entry: (argument_id, depth)
     std::deque<std::pair<std::string, size_t>> frontier;
