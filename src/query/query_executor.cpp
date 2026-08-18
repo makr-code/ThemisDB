@@ -16,7 +16,11 @@
 
 #include <algorithm>
 #include <atomic>
+#include <chrono>
 #include <stdexcept>
+
+#include "utils/logger.h"
+#include <fmt/format.h>
 
 namespace themis {
 namespace query {
@@ -88,7 +92,8 @@ std::vector<Row> ResultSet::page(std::size_t offset, std::size_t limit) const
 // ---------------------------------------------------------------------------
 
 QueryExecutor::QueryExecutor(const QueryPlan& plan, const ExecutionContext& context)
-    : plan_(&plan), context_(&context)
+    : plan_(&plan), context_(&context),
+      execution_start_(std::chrono::steady_clock::now())
 {}
 
 // ---------------------------------------------------------------------------
@@ -120,6 +125,20 @@ Row QueryExecutor::build_row(
 }
 
 // ---------------------------------------------------------------------------
+// QueryExecutor::isExecutionTimeoutExceeded
+// ---------------------------------------------------------------------------
+
+bool QueryExecutor::isExecutionTimeoutExceeded() const noexcept
+{
+    if (context_->timeout_ms == 0) {
+        return false;  // No timeout configured
+    }
+    const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - execution_start_).count();
+    return elapsed_ms > static_cast<long long>(context_->timeout_ms);
+}
+
+// ---------------------------------------------------------------------------
 // QueryExecutor::execute
 // ---------------------------------------------------------------------------
 
@@ -135,8 +154,19 @@ ResultSet QueryExecutor::execute()
     RangeValidator src_range(source.cbegin(), source.cend());
 
     for (auto it = src_range.begin(); it != src_range.end(); ++it) {
+        // Check cancellation signal (external abort)
         if (aborted_.load(std::memory_order_relaxed)) {
             break;
+        }
+        // Check execution timeout (Wave A §13)
+        if (isExecutionTimeoutExceeded()) {
+            const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - execution_start_).count();
+            THEMIS_WARN("QueryExecutor::execute: timeout exceeded after {}ms, "
+                        "processed {} rows", elapsed_ms, rs.rows.size());
+            throw std::runtime_error(
+                fmt::format("Query execution timeout ({}ms exceeded after {} rows)",
+                            context_->timeout_ms, rs.rows.size()));
         }
         if (context_->row_limit > 0 && rs.rows.size() >= context_->row_limit) {
             throw std::length_error(
@@ -166,8 +196,17 @@ std::size_t QueryExecutor::execute_streaming(RowCallback cb)
 
     std::size_t delivered = 0;
     for (auto it = src_range.begin(); it != src_range.end(); ++it) {
+        // Check cancellation signal (external abort)
         if (aborted_.load(std::memory_order_relaxed)) {
             break;
+        }
+        // Check execution timeout (Wave A §13) — streaming returns early on timeout
+        if (isExecutionTimeoutExceeded()) {
+            const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - execution_start_).count();
+            THEMIS_WARN("QueryExecutor::execute_streaming: timeout exceeded after {}ms, "
+                        "delivered {} rows", elapsed_ms, delivered);
+            break;  // Return partial results gracefully
         }
         if (context_->row_limit > 0 && delivered >= context_->row_limit) {
             break;

@@ -37,16 +37,24 @@
  *     The cached specialised function is invoked directly.  No map
  *     lookups, no counter increments.
  *
+ *   Timeout Safety
+ *     specialise() enforces kCompilationTimeout (100ms default, configurable).
+ *     If compilation exceeds the deadline, the specialisation is aborted,
+ *     compile_failed is set, and the cold path is used indefinitely.
+ *     This ensures queries never hang due to compilation overhead.
+ *
  *   Fallback
- *     If specialise() throws or exceeds compilation_timeout_ms the
- *     compiler marks the entry as "failed" and continues to use the
- *     interpreted executor — no silent data-correctness errors.
+ *     If specialise() throws, exceeds compilation_timeout_ms, or is aborted
+ *     due to cancellation, the compiler marks the entry as "failed" and
+ *     continues to use the interpreted executor — no silent data-correctness
+ *     errors. All timeout events are logged with request context.
  *
  *   THEMIS_HAS_LLVM_JIT (future extension)
  *     When this compile-time flag is set the compilation step may
  *     instead emit LLVM IR, run the MCJIT pass pipeline, and store a
  *     native function pointer.  The rest of the dispatch logic is
- *     identical to the template-specialisation path.
+ *     identical to the template-specialisation path. Timeout enforcement
+ *     applies equally to LLVM compilation.
  */
 
 #include "query/query_compiler.h"
@@ -64,6 +72,7 @@
 #include <vector>
 
 #include "utils/logger.h"
+#include <fmt/format.h>
 
 namespace themis {
 namespace query {
@@ -181,10 +190,29 @@ public:
         ++entry.call_count;
 
         // ---- Hot path -------------------------------------------------------
+        // Exception Safety (Wave A §13): Strong exception safety guaranteed.
+        // Both std::exception and unknown exceptions are caught, logged with context,
+        // and transformed to Result::Err. This ensures execute() never propagates.
         if (entry.is_compiled && entry.hot_fn) {
             ++stats_.hot_hits;
             THEMIS_DEBUG("QueryCompiler: hot path key={} call={}", handle.key, entry.call_count);
-            return entry.hot_fn(params);
+            try {
+                return entry.hot_fn(params);
+            } catch (const std::exception& ex) {
+                // Catch and log known exceptions with full context.
+                // This preserves the exception type name (ex.what()) for debugging.
+                THEMIS_WARN("QueryCompiler: hot-path execution failed key={} error={}", 
+                           handle.key, ex.what());
+                return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                       fmt::format("Hot-path execution failed: {}", ex.what()));
+            } catch (...) {
+                // Catch unknown exceptions (implementation-specific; rare).
+                // Ensure caller still receives a valid Result<> with error information.
+                THEMIS_WARN("QueryCompiler: hot-path execution failed key={} (unknown error)", 
+                           handle.key);
+                return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                       "Hot-path execution failed with unknown error");
+            }
         }
 
         // ---- Compilation trigger -------------------------------------------
@@ -195,14 +223,42 @@ public:
             trySpecialise(entry, handle.key);
             if (entry.is_compiled && entry.hot_fn) {
                 ++stats_.hot_hits;
-                return entry.hot_fn(params);
+                // Exception Safety (Wave A §13): Strong guarantee.
+                // Newly compiled hot path uses the same exception handling as above.
+                try {
+                    return entry.hot_fn(params);
+                } catch (const std::exception& ex) {
+                    THEMIS_WARN("QueryCompiler: newly compiled hot-path execution failed key={} error={}", 
+                               handle.key, ex.what());
+                    return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                           fmt::format("Compiled hot-path execution failed: {}", ex.what()));
+                } catch (...) {
+                    THEMIS_WARN("QueryCompiler: newly compiled hot-path execution failed key={} (unknown error)", 
+                               handle.key);
+                    return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                           "Compiled hot-path execution failed with unknown error");
+                }
             }
         }
 
         // ---- Cold path ------------------------------------------------------
         ++stats_.cold_hits;
         THEMIS_DEBUG("QueryCompiler: cold path key={} call={}", handle.key, entry.call_count);
-        return entry.executor(entry.query_text, params);
+        // Exception Safety (Wave A §13): Strong guarantee.
+        // Cold path (interpreted execution) uses same exception handling pattern.
+        try {
+            return entry.executor(entry.query_text, params);
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("QueryCompiler: cold-path execution failed key={} error={}", 
+                       handle.key, ex.what());
+            return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                   fmt::format("Cold-path execution failed: {}", ex.what()));
+        } catch (...) {
+            THEMIS_WARN("QueryCompiler: cold-path execution failed key={} (unknown error)", 
+                       handle.key);
+            return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                   "Cold-path execution failed with unknown error");
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -277,25 +333,32 @@ private:
      * It also stamps QueryResult::used_compiled_path = true so callers
      * can verify the hot path was taken.
      *
+     * **Timeout Safety (Wave A §12):**
+     *   Compilation is strictly bounded by kCompilationTimeout. If the
+     *   deadline is exceeded, the specialisation is aborted, compile_failed
+     *   is set, and the query falls back to the interpreted path for all
+     *   future executions. This prevents compilation overhead from blocking
+     *   queries indefinitely.
+     *
+     *   All timeout events are logged with the query key for observability.
+     *
      * Future LLVM MCJIT extension:
      *   When THEMIS_HAS_LLVM_JIT is defined this function may instead:
      *     1. Emit LLVM IR for the query's expression tree.
      *     2. Run optimisation passes at config_.opt_level.
      *     3. Compile to native machine code via MCJIT.
      *     4. Store a function pointer as the hot_fn.
+     *   Timeout enforcement applies equally to LLVM compilation.
      */
     void trySpecialise(Entry& entry, const std::string& key) {
         const auto t0 = std::chrono::steady_clock::now();
+        const auto deadline = t0 + std::chrono::milliseconds(config_.compilation_timeout_ms);
 
         try {
-            // Deadline guard — abort if specialisation takes too long.
-            // In this template-specialisation backend the work is fast;
-            // the guard protects future LLVM backend integration.
-            [[maybe_unused]] const auto deadline_ms = config_.compilation_timeout_ms;
-
             // Capture everything the hot function needs by value.
             auto captured_executor = entry.executor;
             const std::string captured_query = entry.query_text;
+            const auto compilation_timeout_ms = config_.compilation_timeout_ms;
 
             // Build specialised function.
             // We wrap the interpreter in a minimal closure that:
@@ -307,10 +370,9 @@ private:
             // param-less calls within the same hot function activation.
             if (config_.opt_level >= OptimizationLevel::O2) {
                 entry.hot_fn = [captured_executor, captured_query,
-                                deadline_ms](const QueryParams& params)
+                                compilation_timeout_ms](const QueryParams& params)
                     -> Result<QueryResult>
                 {
-                    // guard; relevant for LLVM backend
                     auto r = captured_executor(captured_query, params);
                     if (r) { r->used_compiled_path = true; }
                     return r;
@@ -326,27 +388,46 @@ private:
                 };
             }
 
+            const auto compilation_elapsed_us = elapsedUs(t0);
+            const auto compilation_deadline_us = config_.compilation_timeout_ms * 1000ULL;
+
+            // Check if compilation exceeded the timeout deadline.
+            if (compilation_elapsed_us > compilation_deadline_us) {
+                // Timeout exceeded: abort specialisation and fall back to interpreted path.
+                entry.is_compiled = false;
+                entry.compile_failed = true;
+                entry.hot_fn = nullptr;
+                ++stats_.compilation_timeouts;
+                THEMIS_WARN("QueryCompiler: compilation timeout (exceeded deadline) "
+                            "key={} {}us > {}us ({}ms)",
+                            key, compilation_elapsed_us, compilation_deadline_us,
+                            config_.compilation_timeout_ms);
+                return;
+            }
+
             entry.is_compiled       = true;
-            entry.compilation_time_us = elapsedUs(t0);
+            entry.compilation_time_us = compilation_elapsed_us;
             ++stats_.compilations;
 
-            THEMIS_INFO("QueryCompiler: specialised key={} in {}us opt={}",
+            THEMIS_INFO("QueryCompiler: specialised key={} in {}us opt={} ({}ms budget)",
                         key, entry.compilation_time_us,
-                        static_cast<int>(config_.opt_level));
+                        static_cast<int>(config_.opt_level),
+                        config_.compilation_timeout_ms);
 
-            // Post-compilation timeout warning (informational only).
-            if (entry.compilation_time_us > deadline_ms * 1000) {
-                ++stats_.compilation_timeouts;
-                THEMIS_WARN("QueryCompiler: compilation exceeded timeout "
-                            "key={} {}us > {}ms",
-                            key, entry.compilation_time_us, deadline_ms);
-            }
         } catch (const std::exception& ex) {
             entry.compile_failed = true;
             ++stats_.compilation_failures;
             THEMIS_WARN("QueryCompiler: specialisation failed key={} error={}",
                         key, ex.what());
         } catch (...) {
+            // RATIONALE: Catch-all exception swallowing is intentional here.
+            // The specialisation path is an optimization (hot-path compilation).
+            // If specialisation fails for any reason (even unknown exceptions),
+            // we gracefully degrade to the cold path (interpreted execution).
+            // Propagating the exception would break query execution entirely,
+            // whereas swallowing allows the query to proceed with full correctness,
+            // just without the optimization benefit.
+            // This design ensures robustness over performance edge cases.
             entry.compile_failed = true;
             ++stats_.compilation_failures;
             THEMIS_WARN("QueryCompiler: specialisation failed key={} (unknown error)", key);

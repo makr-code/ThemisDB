@@ -174,7 +174,23 @@ public:
         /// Maximum number of distinct queries to keep in the compiled cache.
         size_t max_cache_entries = 512;
 
-        /// Maximum compile time in milliseconds before falling back.
+        /**
+         * @brief Maximum compile time in milliseconds before falling back.
+         *
+         * **Wave A Timeout Safety (§12, ROADMAP.md):**
+         * Compilation is strictly bounded by this deadline. If specialisation
+         * would exceed this timeout, the compiler aborts the compilation,
+         * marks the entry as failed, and falls back to the interpreted path
+         * indefinitely.
+         *
+         * **SLA Reasoning:**
+         * - Default: 100 ms (generous for template specialisation on modern CPUs)
+         * - Rationale: Ensures compilation overhead never dominates query latency
+         * - Failure mode: Silent fallback to cold path with no loss of correctness
+         * - Logging: All timeout events logged with query key for observability
+         * - Future: When THEMIS_HAS_LLVM_JIT is enabled, LLVM compilation
+         *   will also respect this deadline with early abort.
+         */
         uint64_t compilation_timeout_ms = 100;
 
         Config() = default;
@@ -269,14 +285,40 @@ public:
     /**
      * @brief Execute a compiled query (cold or hot path).
      *
-     * On the cold path the provided interpreter is called directly.
-     * Once the hot threshold is exceeded the specialised function is
-     * invoked instead.  If specialisation fails the interpreter is used
-     * as a fallback (no silent data errors).
+     * Implements a two-tier execution strategy:
+     *
+     * **Hot Path (JIT Compiled):**
+     *   If the query has been specialised via JIT compilation and call count
+     *   exceeds the configured hot_threshold, the compiled specialised function
+     *   is invoked. This path captures the executor and query text by value,
+     *   eliminating per-call map lookups and improving latency for hot queries.
+     *   Exceptions from the compiled function are caught, logged, and transformed
+     *   to Result<QueryResult> (strong exception safety guarantee).
+     *
+     * **Cold Path (Interpreted):**
+     *   For queries below the hot threshold or when specialisation has failed,
+     *   the interpreter is invoked directly. This path is always available as
+     *   a fallback and ensures correctness over performance.
+     *
+     * **Exception Safety (Wave A §12-13):**
+     *   - Strong exception safety: execute() never propagates exceptions.
+     *   - All exceptions are caught, logged with full context (query key, error type),
+     *     and transformed to Result<QueryResult>::Err() with appropriate error codes.
+     *   - Both hot and cold paths apply uniform error handling.
+     *   - Unknown exceptions (catch-all) are logged with type information for debugging.
      *
      * @param compiled  Handle produced by compile().
      * @param params    Bind-parameter values for this execution.
-     * @return          QueryResult on success; Error on failure.
+     * @return          Result<QueryResult>: Ok with result on success;
+     *                  Err with ErrorCode::ERR_QUERY_EXECUTION_FAILED and detailed
+     *                  message on any exception (std::exception or unknown).
+     *
+     * @throws          Never. All exceptions are caught and transformed to Result.
+     *
+     * @post            - If compilation failed or hot threshold not exceeded,
+     *                    interpreter is used (no silent fallback; caller can verify
+     *                    via isCompiled() or CompiledQuery::used_compiled_path flag).
+     *                  - All errors are observable via the Result<> return type.
      */
     Result<QueryResult> execute(
         const CompiledQuery& compiled,

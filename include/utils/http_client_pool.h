@@ -126,11 +126,30 @@ public:
     ~HTTPClientPool();
     
     /**
-     * @brief Execute POST request using pooled connection
+     * @brief Execute POST request using pooled connection with graceful degradation
+     * 
+     * Attempts to execute POST request using a pooled connection. If the pool
+     * is exhausted or connection acquisition times out, the returned future
+     * will contain a response with status_code = 0 and body describing the error.
+     * 
+     * Graceful degradation strategy:
+     * - If pool is full and acquire_timeout expires: returns connection error response
+     * - If network is unreachable: connection fails and is not re-pooled
+     * - If server is slow: request_timeout may fire before response arrives
+     * - Caller should implement retry logic with exponential backoff
+     * 
      * @param url Target URL
      * @param body JSON request body
      * @param headers Additional HTTP headers
-     * @return Future with HTTP response
+     * @return Future with HTTP response (status_code=0 on acquisition failure)
+     * 
+     * @error_contract
+     * | Condition | Response | Recovery |
+     * |-----------|----------|----------|
+     * | Pool exhausted | status_code=0, body="POOL_EXHAUSTED" | Wait and retry |
+     * | Acquire timeout | status_code=0, body="ACQUIRE_TIMEOUT" | Use fallback service |
+     * | Connection timeout | status_code=0, body="CONNECT_TIMEOUT" | Check endpoint health |
+     * | Request timeout | status_code=504, body="Gateway Timeout" | Implement retry loop |
      */
     std::future<HTTPResponse> post(
         const std::string& url,
@@ -139,10 +158,29 @@ public:
     );
     
     /**
-     * @brief Execute GET request using pooled connection
+     * @brief Execute GET request using pooled connection with graceful degradation
+     * 
+     * Attempts to execute GET request using a pooled connection. If the pool
+     * is exhausted or connection acquisition times out, the returned future
+     * will contain a response with status_code = 0 and body describing the error.
+     * 
+     * Graceful degradation strategy:
+     * - If pool is full and acquire_timeout expires: returns connection error response
+     * - If network is unreachable: connection fails and is not re-pooled
+     * - If server is slow: request_timeout may fire before response arrives
+     * - Caller should implement retry logic with exponential backoff
+     * 
      * @param url Target URL
      * @param headers Additional HTTP headers
-     * @return Future with HTTP response
+     * @return Future with HTTP response (status_code=0 on acquisition failure)
+     * 
+     * @error_contract
+     * | Condition | Response | Recovery |
+     * |-----------|----------|----------|
+     * | Pool exhausted | status_code=0, body="POOL_EXHAUSTED" | Wait and retry |
+     * | Acquire timeout | status_code=0, body="ACQUIRE_TIMEOUT" | Use fallback service |
+     * | Connection timeout | status_code=0, body="CONNECT_TIMEOUT" | Check endpoint health |
+     * | Request timeout | status_code=504, body="Gateway Timeout" | Implement retry loop |
      */
     std::future<HTTPResponse> get(
         const std::string& url,
