@@ -232,6 +232,29 @@ jobs:
         provenance: true
         sbom: true
 
+    - name: Capture docker build errors as JSON
+      if: failure()
+      shell: bash
+      run: |
+        # docker/build-push-action writes to Actions log, not a file.
+        # Write a minimal structured error record so downstream aggregation
+        # always finds a *-errors.json file on failure.
+        cat > docker-errors.json <<'EOF'
+        {
+          "workflow": "docker-image",
+          "run_id": "${{ github.run_id }}",
+          "run_number": "${{ github.run_number }}",
+          "errors": [
+            {
+              "type": "docker_build_failure",
+              "severity": "critical",
+              "message": "Docker image build failed — see Actions log for details",
+              "timestamp": "${{ github.event.head_commit.timestamp || '' }}"
+            }
+          ]
+        }
+        EOF
+
     - name: Print build result
       if: always()
       run: |
@@ -278,6 +301,14 @@ jobs:
           echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
         fi
         echo "──────────────────────────────────────────────"
+
+    - name: Upload docker errors
+      if: always() && hashFiles('docker-errors.json') != ''
+      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+      with:
+        name: docker-errors-${{ github.run_number }}
+        path: docker-errors.json
+        retention-days: 7
 
     - name: Capture image info
       id: image-info
