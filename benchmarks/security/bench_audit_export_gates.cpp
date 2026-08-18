@@ -78,7 +78,7 @@ struct GateManifest {
     };
 
     std::vector<Gate> gates;
-    std::mutex mu;
+    mutable std::mutex mu;
 
     void addGate(const Gate& gate) {
         std::lock_guard<std::mutex> lock(mu);
@@ -402,8 +402,6 @@ BENCHMARK(BenchmarkIdempotencyCheck)
 // ============================================================================
 // Gate Manifest Output
 // ============================================================================
-
-BENCHMARK_MAIN_DEFS();
 
 // Custom main to write gate manifest after benchmarks complete
 int main(int argc, char* argv[]) {

@@ -13,6 +13,18 @@
 #include <cctype>
 #include <algorithm>
 
+// Portability wrappers for setenv/unsetenv (not available on Windows)
+#ifdef _WIN32
+namespace {
+inline int setenv(const char* name, const char* value, int /*overwrite*/) {
+    return _putenv_s(name, value);
+}
+inline int unsetenv(const char* name) {
+    return _putenv_s(name, "");
+}
+} // anonymous namespace
+#endif
+
 using namespace themis::plugins;
 using json = nlohmann::json;
 

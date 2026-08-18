@@ -2226,7 +2226,8 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
             }
         }
         for (char c : manifest.license_feature) {
-            if (!std::isalnum(c) && c != '_' && c != '.' && c != '-') {
+            const unsigned char uc = static_cast<unsigned char>(c);
+            if (!std::islower(uc) && !std::isdigit(uc) && c != '_' && c != '.' && c != '-') {
                 error_details = "license_feature contains invalid character: " + std::string(1, c);
                 return ManifestErrorCode::PLUGIN_LICENSE_FEATURE_INVALID;
             }
@@ -2276,7 +2277,14 @@ ManifestErrorCode PluginManager::validateManifestPublicPrivateBoundary(
     const std::string& plugin_path,
     std::string& error_details) {
     
-    const std::string visibility = manifest.visibility.empty() ? "public" : manifest.visibility;
+    // Normalize visibility to lowercase to prevent case-sensitivity bypass
+    // at this security boundary (e.g. "Private" must be treated the same as "private").
+    std::string raw_visibility = manifest.visibility.empty() ? "public" : manifest.visibility;
+    std::string visibility;
+    visibility.reserve(raw_visibility.size());
+    for (unsigned char c : raw_visibility) {
+        visibility += static_cast<char>(std::tolower(c));
+    }
     const auto current_edition = normalizeEditionName(std::string(edition::EDITION_STRING));
     
     // Rule 1: visibility="private" AND edition="community" → FAIL-CLOSED

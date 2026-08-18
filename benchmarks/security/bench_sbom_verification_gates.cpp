@@ -9,6 +9,7 @@
 #include <benchmark/benchmark.h>
 #include <spdlog/spdlog.h>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <chrono>
 #include <algorithm>

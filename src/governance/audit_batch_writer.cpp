@@ -129,9 +129,9 @@ std::string AuditBatchWriter::submitEntry(const ImmutableAuditEntry& entry) {
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         
         if (pending_entries_.size() >= config_.buffer_size) {
-            if (config_.enable_backpressure) {
-                return "BUFFER_FULL";
-            }
+            // Always enforce the hard buffer cap to prevent unbounded memory growth,
+            // regardless of the backpressure setting.
+            return "BUFFER_FULL";
         }
         
         pending_entries_.push_back(entry);
@@ -150,35 +150,41 @@ std::string AuditBatchWriter::submitEntryIdempotent(
     const ImmutableAuditEntry& entry,
     const std::string& idempotency_token
 ) {
+    // Atomically check and reserve the token before submitting to avoid TOCTOU:
+    // two concurrent threads could both see "not present" and both call submitEntry(),
+    // producing duplicates. Reserve by inserting a "pending" record under the lock
+    // first, then submit; roll back the reservation on submit failure.
     {
         std::lock_guard<std::mutex> lock(idempotency_mutex_);
         
         auto it = idempotency_tokens_.find(idempotency_token);
         if (it != idempotency_tokens_.end()) {
-            if (it->second.state == "committed") {
+            if (it->second.state == "committed" || it->second.state == "pending") {
                 return "DUPLICATE";
             }
-            // If pending or failed, allow retry
+            // If "failed", allow retry: update to pending
+            it->second.state = "pending";
+            it->second.entry_id = entry.entry_id;
+        } else {
+            // Reserve the token as "pending"
+            IdempotencyToken token;
+            token.token = idempotency_token;
+            token.entry_id = entry.entry_id;
+            token.submitted_at_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+            token.state = "pending";
+            idempotency_tokens_[idempotency_token] = std::move(token);
         }
     }
     
-    // Submit the entry
+    // Submit the entry; roll back the reservation on failure
     auto status = submitEntry(entry);
     if (status != "OK") {
-        return status;
-    }
-    
-    // Record the token
-    {
         std::lock_guard<std::mutex> lock(idempotency_mutex_);
-        
-        IdempotencyToken token;
-        token.token = idempotency_token;
-        token.entry_id = entry.entry_id;
-        token.submitted_at_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
-        token.state = "pending";
-        
-        idempotency_tokens_[idempotency_token] = token;
+        auto it = idempotency_tokens_.find(idempotency_token);
+        if (it != idempotency_tokens_.end() && it->second.state == "pending") {
+            it->second.state = "failed";
+        }
+        return status;
     }
     
     return "OK";
@@ -384,9 +390,25 @@ AuditBatchWriter::WriteResult AuditBatchWriter::flushBatch(
 std::string AuditBatchWriter::computeBatchHash(
     const std::vector<ImmutableAuditEntry>& batch
 ) const {
-    // Compute SHA-256 hash of batch content
-    // Real implementation would hash all entries concatenated
-    return "hash_placeholder";
+    SHA256_CTX ctx;
+    SHA256_Init(&ctx);
+    for (const auto& entry : batch) {
+        // Hash the JSON serialisation of each entry for deterministic content coverage
+        const std::string serialised = entry.toJson().dump();
+        SHA256_Update(&ctx, serialised.data(), serialised.size());
+    }
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    SHA256_Final(digest, &ctx);
+
+    // Encode as lowercase hex string
+    static constexpr char hex_chars[] = "0123456789abcdef";
+    std::string result;
+    result.reserve(SHA256_DIGEST_LENGTH * 2);
+    for (unsigned char byte : digest) {
+        result += hex_chars[(byte >> 4) & 0xF];
+        result += hex_chars[byte & 0xF];
+    }
+    return result;
 }
 
 AuditBatchCheckpoint AuditBatchWriter::createCheckpoint(

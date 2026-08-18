@@ -384,7 +384,12 @@ jobs:
 
           # Store hash in output file for verification
           Path("sbom_hash.txt").write_text(sbom_hash)
-          print(f"::set-output name=sbom_hash::{sbom_hash}")
+          # Use the modern GITHUB_OUTPUT mechanism instead of the deprecated ::set-output command
+          import os
+          github_output = os.environ.get("GITHUB_OUTPUT", "")
+          if github_output:
+              with open(github_output, "a") as f:
+                  f.write(f"sbom_hash={sbom_hash}\n")
           EOF
 
       - name: Verify SBOM hash against release manifest

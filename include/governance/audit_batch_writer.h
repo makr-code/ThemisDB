@@ -31,6 +31,7 @@
 #include <thread>
 #include <chrono>
 #include <functional>
+#include <unordered_map>
 #include <nlohmann/json.hpp>
 
 #include "governance/governance_audit_integrity.h"

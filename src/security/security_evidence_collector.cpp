@@ -492,6 +492,20 @@ bool SecurityEvidenceCollector::exportToFile(const SecurityEvidenceBundle& bundl
         // Atomic rename
         std::filesystem::rename(tmp_path, path);
         THEMIS_INFO("SecurityEvidenceCollector: exported bundle to {}", path);
+
+        // Update last-export metrics so callers can inspect the result
+        {
+            const auto export_end_ms =
+                static_cast<int64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count());
+            std::lock_guard<std::mutex> ml(mutex_);
+            last_export_metrics_.export_end_ms        = export_end_ms;
+            last_export_metrics_.events_sent          = static_cast<uint64_t>(bundle.audit_log.entries.size());
+            last_export_metrics_.events_confirmed     = static_cast<uint64_t>(bundle.audit_log.entries.size());
+            last_export_metrics_.atomicity_guaranteed = true;
+            last_export_metrics_.idempotency_verified = true;
+        }
+
         return true;
 
     } catch (const std::exception& e) {
@@ -557,9 +571,12 @@ bool SecurityEvidenceCollector::export_atomicity_guarantee() const noexcept {
 }
 
 bool SecurityEvidenceCollector::export_idempotency_check() const noexcept {
-    // Idempotency is verified through bundle IDs generated as UUIDs (v4).
-    // Each export has a unique, collision-resistant identifier.
-    // On retry, the same bundle_id ensures deduplication at destination.
+    // Idempotency is guaranteed at the file level: exportToFile() writes to a
+    // temporary file then performs an atomic rename, so retrying an export with
+    // the same bundle object and the same destination path produces a consistent
+    // result without partial writes.  Note: collect() generates a new bundle_id
+    // on every invocation, so callers that need content-level deduplication must
+    // track the bundle_id themselves.
     return true;
 }
 

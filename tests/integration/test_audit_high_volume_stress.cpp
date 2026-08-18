@@ -7,6 +7,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <iostream>
 #include <chrono>
 #include <thread>
 #include <atomic>
