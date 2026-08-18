@@ -99,6 +99,18 @@ nlohmann::json ChangeManagementEvidence::toJson() const {
     return j;
 }
 
+nlohmann::json ExportMetrics::toJson() const {
+    nlohmann::json j;
+    j["export_start_ms"]       = export_start_ms;
+    j["export_end_ms"]         = export_end_ms;
+    j["events_sent"]           = events_sent;
+    j["events_confirmed"]      = events_confirmed;
+    j["resend_count"]          = resend_count;
+    j["atomicity_guaranteed"]  = atomicity_guaranteed;
+    j["idempotency_verified"]  = idempotency_verified;
+    return j;
+}
+
 nlohmann::json SecurityEvidenceBundle::toJson() const {
     nlohmann::json j;
     j["bundle_id"]              = bundle_id;
