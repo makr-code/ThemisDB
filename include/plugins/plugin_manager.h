@@ -207,6 +207,44 @@ private:
         std::string& error_details
     );
     
+    /**
+     * @brief Validate edition restrictions and license gates (Wave C Batch 2)
+     * 
+     * Fail-closed validation of edition allowlists and license feature gates.
+     * 
+     * Behavior:
+     * - If manifest.allowed_editions is non-empty AND current edition not in list → FAIL
+     * - If manifest.license_feature is set AND license gate returns false → FAIL
+     * - Returns detailed error codes (PLUGIN_EDITION_MISMATCH, PLUGIN_LICENSE_DENIED, etc.)
+     * 
+     * @param manifest Plugin manifest to validate
+     * @param error_details Output error message on failure
+     * @return ManifestErrorCode::MANIFEST_OK on success, or error code
+     */
+    ManifestErrorCode validateManifestEditionRestrictions(
+        const PluginManifest& manifest,
+        std::string& error_details
+    );
+    
+    /**
+     * @brief Validate public/private boundary constraints (Wave C Batch 2)
+     * 
+     * Enforces edition and visibility boundary rules:
+     * - If visibility="private" AND current edition="community" → FAIL-CLOSED
+     * - If plugin_path contains "private/" BUT visibility!="private" → WARN/BLOCK
+     * - If visibility="restricted" AND no scoped-checkout context → FAIL-CLOSED
+     * 
+     * @param manifest Plugin manifest to validate
+     * @param plugin_path Filesystem path to the plugin
+     * @param error_details Output error message on failure
+     * @return ManifestErrorCode::MANIFEST_OK on success, or error code
+     */
+    ManifestErrorCode validateManifestPublicPrivateBoundary(
+        const PluginManifest& manifest,
+        const std::string& plugin_path,
+        std::string& error_details
+    );
+    
     // Manifest signature verification
     /**
      * @brief Verify the detached signature for a plugin manifest.

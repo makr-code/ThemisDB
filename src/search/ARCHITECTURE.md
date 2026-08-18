@@ -47,6 +47,21 @@ The search module composes lexical retrieval, vector retrieval, hybrid result fu
 - Constructor throws std::invalid_argument on invalid config
 - **Error Taxonomy:** Analytics errors (0x4000-0x4FFF)
 
+### v3.0.0 — LayeredRetrievalOrchestrator API (New, Wave B)
+**Status:** NEW | Released 2026-08-18 | Wave B Integration Complete
+- Four-stage retrieval pipeline: ANN → Tensor → Graph → LLM
+- Per-layer timeout enforcement (hard deadline, fire-and-forget on timeout)
+- Per-query guardrails bound memory and fan-out (max_layers, max_candidates, max_prompt_chars)
+- OpenTelemetry distributed tracing with per-layer spans
+- Fail-safe: missing backends or timeouts degrade to FALLBACK, chain continues
+- Thread-safe concurrent execute() calls if backends are thread-safe
+- Never throws: all errors captured in LayeredRetrievalResult
+- **Error Taxonomy:** Layered retrieval routing decisions (EXECUTED, FALLBACK, TIMEOUT_SKIP, GUARDRAIL_SKIP, DISABLED)
+- **Phase 4+5 Enhancements:** Real layer integration (not mocks), timeout enforcement, concurrency controls, tracing spans, guardrail enforcement
+- **Performance:** p99 ≤ 200ms (ANN+Tensor) to 300ms (full 4-layer with LLM)
+- **Memory:** Bounded ~13.5 KB per query (all arrays pre-reserved)
+- **Documentation:** See LAYERED_RETRIEVAL_ARCHITECTURE.md and LAYERED_RETRIEVAL_SLA.md for full design and SLA contracts
+
 ### v1.0.0 — SearchErrorCode Taxonomy (Frozen)
 **Status:** FROZEN | Released 2026-08-06
 - Explicit error enumeration for all search failure modes
@@ -96,7 +111,9 @@ The search module composes lexical retrieval, vector retrieval, hybrid result fu
   - src/search/hybrid_search.cpp (v2.0.0, fixed destructor noexcept)
   - src/search/distributed_hybrid_search.cpp (v2.1.0)
   - src/search/search_result_stream.cpp (v2.0.0, added timeout support)
-  - include/search/search_error_codes.h (v1.0.0 NEW)
+  - src/search/layered_retrieval_orchestrator.cpp (v3.0.0 NEW, Wave B real implementation)
+  - include/search/layered_retrieval_orchestrator.h (v3.0.0 NEW, Wave B real implementation)
+  - include/search/search_error_codes.h (v1.0.0)
   - src/search/query_expander.cpp
   - src/search/faceted_search.cpp
   - src/search/llm_reranker.cpp
@@ -106,6 +123,8 @@ The search module composes lexical retrieval, vector retrieval, hybrid result fu
   - module-local ownership of search behavior composition
   - frozen versioned contracts for all major API surfaces
   - unified error taxonomy with explicit error codes
+  - **Wave B: 4-layer LayeredRetrievalOrchestrator (ANN→Tensor→Graph→LLM) with real implementations, per-layer timeouts, guardrails, and OpenTelemetry tracing**
+  - **Wave B: Documentation: LAYERED_RETRIEVAL_ARCHITECTURE.md, LAYERED_RETRIEVAL_SLA.md**
 
 ## Planning Traceability
 

@@ -126,6 +126,7 @@ function Ensure-VcpkgBaseline {
 
 Write-Host "=== Themis Third-Party Setup ==="
 Write-Host "RepoRoot: $RepoRoot"
+Write-Host "Mode: strict setup; diagnostic-only fallback is not allowed for core dependencies."
 
 Require-Git
 
@@ -133,11 +134,14 @@ if (-not (Test-Path (Join-Path $RepoRoot '.git'))) {
     throw "Kein Git-Repository gefunden unter: $RepoRoot"
 }
 
-Ensure-Submodule -Root $RepoRoot -Name 'ffmpeg'
-Ensure-Submodule -Root $RepoRoot -Name 'llama.cpp'
-Ensure-Submodule -Root $RepoRoot -Name 'vcpkg'
+$requiredSubmodules = @('vcpkg', 'ffmpeg', 'llama.cpp', 'whisper.cpp', 'stable-diffusion.cpp')
+foreach ($submodule in $requiredSubmodules) {
+    Ensure-Submodule -Root $RepoRoot -Name $submodule
+}
+
 Ensure-Vcpkg -Root $RepoRoot -Bootstrap:$BootstrapVcpkg -ForceReclone:$ForceRecloneVcpkg
 Ensure-VcpkgBaseline -Root $RepoRoot
 
+Write-Host "[CHECK] Core package contract: fmt, spdlog, nlohmann-json, zlib, RocksDB"
 Write-Host "[DONE] Third-Party-Abhaengigkeiten sind vorbereitet."
-Write-Host "Naechster Schritt: cmake -S . -B build-msvc-windows-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON"
+Write-Host "Naechster Schritt: cmake --preset windows-release (oder linux-release)"

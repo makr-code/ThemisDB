@@ -15,26 +15,107 @@
  * ======================================================
  * Enforces GPU VRAM limits based on edition at runtime.
  * Edition constraints are set at compile-time via CMakeLists.txt.
+ * 
+ * Phase 3 Hardening (Memory Management):
+ * - All allocation paths are exception-safe via RAII
+ * - Tenant quota tracking is exception-safe (updates post-allocation)
+ * - Rollback mechanism for allocation failures
+ * - Diagnostic events for troubleshooting
  */
 
 #include "themis/gpu/memory_manager.h"
+#include "themis/gpu/gpu_error.h"
 #include <spdlog/spdlog.h>
+#include <utility>
 
 namespace themis {
 namespace gpu {
 
 // ============================================================================
+// Internal RAII guard for allocation rollback (Phase 3 Hardening)
+// ============================================================================
+
+class AllocationGuard {
+public:
+    AllocationGuard(GPUMemoryManager* mgr, uint64_t size, const std::string& tenant_id)
+        : manager_(mgr), size_(size), tenant_id_(tenant_id), committed_(false) {}
+
+    ~AllocationGuard() noexcept {
+        if (!committed_ && manager_) {
+            manager_->RollbackAllocationUnderLock(tenant_id_, size_);
+        }
+    }
+
+    void commit() noexcept { committed_ = true; }
+
+    // Non-copyable, non-movable
+    AllocationGuard(const AllocationGuard&) = delete;
+    AllocationGuard& operator=(const AllocationGuard&) = delete;
+    AllocationGuard(AllocationGuard&&) = delete;
+    AllocationGuard& operator=(AllocationGuard&&) = delete;
+
+private:
+    GPUMemoryManager* manager_;
+    uint64_t size_;
+    std::string tenant_id_;
+    bool committed_;
+};
+
+// ============================================================================
+// Internal helper — rollback allocation on failure (must hold mutex_)
+// ============================================================================
+
+void GPUMemoryManager::RollbackAllocationUnderLock(const std::string &tenant_id, uint64_t size_bytes) {
+    auto logger = spdlog::get("gpu");
+
+    // Decrement global counter.
+    if (gpu_memory_allocated_ >= size_bytes) {
+        gpu_memory_allocated_ -= size_bytes;
+    } else {
+        gpu_memory_allocated_ = 0;
+    }
+
+    // Rollback tenant quota if applicable.
+    if (!tenant_id.empty()) {
+        auto it = tenant_states_.find(tenant_id);
+        if (it != tenant_states_.end()) {
+            if (it->second.allocated_bytes >= size_bytes) {
+                it->second.allocated_bytes -= size_bytes;
+            } else {
+                it->second.allocated_bytes = 0;
+            }
+            if (logger) {
+                logger->info("Rollback: tenant={}, size={}, tenant_remaining={}", 
+                           tenant_id, size_bytes, it->second.allocated_bytes);
+            }
+        }
+    } else if (logger) {
+        logger->info("Rollback: global allocation, size={}, remaining={}", size_bytes, gpu_memory_allocated_);
+    }
+}
+
+// ============================================================================
 // Internal helper — must be called with mutex_ already held
+// Exception-safe allocation with RAII guards (Phase 3 Hardening)
 // ============================================================================
 
 bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::string &tag, const std::string &tenant_id) {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
     // Hints count against the VRAM budget so that reserved headroom is
-    // protected from other callers.
-    const uint64_t new_total = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;
+    // protected from other callers.  Use a separate budget_check variable for
+    // the limit test so that gpu_memory_allocated_ only tracks committed bytes
+    // and hint_reserved_bytes_ is not double-counted on subsequent allocations.
+    const uint64_t budget_check = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;
+    const uint64_t new_total    = gpu_memory_allocated_ + size_bytes;
+
+    auto logger = spdlog::get("gpu");
 
     // Check global edition limit.
-    if (new_total > max_vram) {
+    if (budget_check > max_vram) {
+        if (logger) {
+            logger->warn("Allocation denied: global limit exceeded (current={}, requested={}, limit={})",
+                        gpu_memory_allocated_, size_bytes, max_vram);
+        }
         return false;
     }
 
@@ -43,45 +124,73 @@ bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::stri
         auto it = tenant_states_.find(tenant_id);
         if (it != tenant_states_.end() && it->second.quota_bytes > 0) {
             if (it->second.allocated_bytes + size_bytes > it->second.quota_bytes) {
+                if (logger) {
+                    logger->warn("Allocation denied: tenant quota exceeded (tenant={}, current={}, requested={}, quota={})",
+                               tenant_id, it->second.allocated_bytes, size_bytes, it->second.quota_bytes);
+                }
                 return false;
             }
         }
     }
 
+    // Create a guard to automatically rollback on exception.
+    // The guard is not active in the committed state.
+    AllocationGuard guard(this, size_bytes, tenant_id);
+
     // RAII-safe allocation: add to tracking first (may throw on vector alloc)
-    // If this throws, no state is modified. Only on success do we update counters.
+    // If this throws, the guard's destructor will rollback.
     try {
         active_allocations_.push_back({size_bytes, tag, tenant_id});
     } catch (const std::bad_alloc &ex) {
-        // Vector allocation failed; state is unchanged
-        auto logger = spdlog::get("gpu");
+        // Vector allocation failed; guard will rollback on scope exit
         if (logger) {
             logger->warn("TryAllocateUnderLock: vector allocation failed: {}", ex.what());
         }
         return false;
     } catch (const std::exception &ex) {
-        // Unexpected exception during allocation tracking
-        auto logger = spdlog::get("gpu");
+        // Unexpected exception during allocation tracking; guard will rollback
         if (logger) {
             logger->error("TryAllocateUnderLock: unexpected exception: {}", ex.what());
         }
         return false;
     }
 
-    // Commit the allocation (only reached if push succeeded).
+    // Commit the global counter (only reached if push succeeded).
     gpu_memory_allocated_ = new_total;
     if (gpu_memory_allocated_ > peak_bytes_) {
         peak_bytes_ = gpu_memory_allocated_;
     }
     ++allocation_count_;
 
-    // Update tenant state.
+    // Update tenant state (exception-safe: post-allocation update).
+    // This occurs after the allocation record is safely stored.
     if (!tenant_id.empty()) {
-        auto &ts = tenant_states_[tenant_id];
-        ts.allocated_bytes += size_bytes;
-        if (ts.allocated_bytes > ts.peak_bytes) {
-            ts.peak_bytes = ts.allocated_bytes;
+        try {
+            auto &ts = tenant_states_[tenant_id];
+            ts.allocated_bytes += size_bytes;
+            if (ts.allocated_bytes > ts.peak_bytes) {
+                ts.peak_bytes = ts.allocated_bytes;
+            }
+        } catch (const std::exception &ex) {
+            // If tenant state update fails, rollback the entire allocation.
+            if (logger) {
+                logger->error("Failed to update tenant state: {}", ex.what());
+            }
+            RollbackAllocationUnderLock(tenant_id, size_bytes);
+            // Remove the allocation record we just added.
+            if (!active_allocations_.empty() && active_allocations_.back().size_bytes == size_bytes) {
+                active_allocations_.pop_back();
+            }
+            return false;
         }
+    }
+
+    // Mark guard as committed to prevent rollback on destruction.
+    guard.commit();
+
+    if (logger) {
+        logger->debug("Allocation granted: tag={}, size={}, tenant={}, total={}", 
+                     tag, size_bytes, tenant_id.empty() ? "(global)" : tenant_id, gpu_memory_allocated_);
     }
 
     return true;
