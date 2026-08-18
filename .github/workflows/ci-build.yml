@@ -481,7 +481,7 @@ jobs:
           exit ${CTEST_EXIT}
 
       - name: Verify Wave A Release-Critical Gate
-        if: success() && contains(matrix.preset, 'linux-release')
+        if: success() && matrix.os == 'ubuntu-latest' && matrix.build_type == 'Release'
         run: |
           cd build
           echo "Running Wave A Release-Critical Tests (108 tests)..."
@@ -515,7 +515,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: wave-a-gate-results-${{ matrix.preset }}
+          name: wave-a-gate-results-${{ matrix.os }}-${{ matrix.c_compiler }}
           path: |
             build/wave-a-gate-results.xml
             build/wave-a-gate.log
