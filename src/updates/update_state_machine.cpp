@@ -152,6 +152,7 @@ std::optional<Checkpoint> Checkpoint::fromJson(const json& j) {
     } catch (...) {
         return std::nullopt;
     }
+}
 
 // ============================================================================
 // UpdateStateMachine
@@ -821,4 +822,3 @@ bool UpdateStateMachine::isLastRollbackIdempotent() const {
 
 } // namespace updates
 } // namespace themis
-
