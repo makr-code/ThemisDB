@@ -14,10 +14,10 @@ from its current Phase 1/5/6-complete state to full production readiness (Phases
 |---|---|---|
 | Phase 1: Design / API Contract | ✓ COMPLETE | – |
 | Phase 2: Core Implementation | ✓ COMPLETE (2026-08-18) | All 5 planes hardened (observability, privacy, key-mgmt, compression, runtime) |
-| Phase 3: Error Handling | [~] IN PROGRESS | error_contracts not applied to 9 components |
+| Phase 3: Error Handling | ✓ COMPLETE (2026-08-18) | All error contracts and typed error-code ranges applied |
 | Phase 4: Tests | ✓ COMPLETE (2026-08-18) | All test infrastructure registered; 14 test files, 5 previously unregistered now added to CMakeLists |
 | Phase 5: Performance | ✓ COMPLETE | – |
-| Phase 6: Documentation | ✓ COMPLETE (docs) | function-level Doxygen unverified |
+| Phase 6: Documentation | ✓ COMPLETE (2026-08-18) | function-level Doxygen verification complete |
 
 ### Phase 2 Completion Summary (2026-08-18)
 
@@ -37,10 +37,10 @@ from its current Phase 1/5/6-complete state to full production readiness (Phases
 Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_detection_engine.cpp`,
 `pki_client.cpp`, `retention_manager.cpp`, `zstd_codec.cpp`
 
-**Not yet adopted (Phase 3 gap):**
-`audit_logger.cpp`, `logger.cpp`, `saga_logger.cpp`, `tracing.cpp`,
-`hkdf_helper.cpp`, `hkdf_cache.cpp`, `lek_manager.cpp`,
-`thread_pool_manager.cpp`, `rate_limiter.cpp`
+**Phase 3 closure:** all previously listed Phase 3 gap components were updated and
+integrated with the error-contract diagnostics path (`logErrorWithContext()`,
+`categorizeIncident()`), with completion synchronized in `ROADMAP.md` and
+`PRODUCTION_READINESS_CHECKLIST.md`.
 
 ---
 
@@ -72,8 +72,8 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 - [x] `pii_detector.cpp`: Verify UTF-8 / CJK / RTL input handling; add explicit truncation behavior for oversized inputs; ensure detection errors return conservative result (no false permits).
 - [x] `pii_stream_scanner.cpp`: Bound concurrent scan slots; verify scan timeout behavior; add graceful degradation when regex engine unavailable.
 - [x] `pii_pseudonymizer.cpp`: Verify pseudonymization determinism under concurrent callers; add explicit failure when pseudonymization key unavailable (fail-closed).
-- [ ] `regex_detection_engine.cpp`: Bound regex backtracking; add timeout on individual pattern match; handle malformed regex patterns without panic.
-- [ ] `ner_detection_engine.cpp`: Bound model inference time; handle model-unavailable gracefully; explicit error on corrupt model artifact.
+- [x] `regex_detection_engine.cpp`: Bound regex backtracking; add timeout on individual pattern match; handle malformed regex patterns without panic.
+- [x] `ner_detection_engine.cpp`: Bound model inference time; handle model-unavailable gracefully; explicit error on corrupt model artifact.
 
 **Degradation contracts required:**
 - [x] 2.8d: pii_stream_scanner: scan timeout → conservative fail-closed (treat as PII present)
@@ -97,13 +97,13 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 **Components:** `zstd_codec.cpp`, `lz4_codec.cpp`, `serialization.cpp`
 
 **Work items:**
-- [ ] `zstd_codec.cpp`: Verify concurrent encode/decode safety (zstd context reuse); add explicit handling for corrupt compressed data (decompression bomb / checksum failure); bound output buffer growth.
-- [ ] `lz4_codec.cpp`: Verify output buffer sizing for worst-case input; add explicit error on block-size overflow; handle codec library unavailable.
-- [ ] `serialization.cpp`: Add explicit error on schema mismatch; bound deserialization depth to prevent stack overflow on crafted input.
+- [x] `zstd_codec.cpp`: Verify concurrent encode/decode safety (zstd context reuse); add explicit handling for corrupt compressed data (decompression bomb / checksum failure); bound output buffer growth.
+- [x] `lz4_codec.cpp`: Verify output buffer sizing for worst-case input; add explicit error on block-size overflow; handle codec library unavailable.
+- [x] `serialization.cpp`: Add explicit error on schema mismatch; bound deserialization depth to prevent stack overflow on crafted input.
 
 **Degradation contracts required:**
-- [ ] 2.8h: zstd_codec: library unavailable → fail with explicit error, no silent pass-through
-- [ ] 2.9a: bounded resource check – zstd output buffer max before realloc
+- [x] 2.8h: zstd_codec: library unavailable → fail with explicit error, no silent pass-through
+- [x] 2.9a: bounded resource check – zstd output buffer max before realloc
 
 ### 2.5 Runtime Services Plane Hardening
 
@@ -119,7 +119,7 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 
 ### 2.6 Bounded Resource Checks (cross-cutting)
 
-- [ ] 2.9d: All high-fan-out helpers must have a documented resource limit (queue depth, buffer max, retry budget) visible at the call site or in the header @note.
+- [x] 2.9d: All high-fan-out helpers must have a documented resource limit (queue depth, buffer max, retry budget) visible at the call site or in the header @note.
 - [x] 2.10: Doxygen error contracts updated for all public APIs after hardening (shared with Phase 3).
 
 ---
@@ -133,54 +133,54 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 
 **Files:** `include/utils/audit_logger.h`, `include/utils/logger.h`, `include/utils/tracing.h`, `include/utils/saga_logger.h`
 
-- [ ] Add `@error_contract` Doxygen table to all public APIs (template in PHASE3_IMPLEMENTATION_GUIDE.md §1)
-- [ ] Ensure `logEvent()`, `log()`, `beginSpan()`/`endSpan()` return `ErrorCode` or `std::expected<T, ErrorCode>` on all failure paths
-- [ ] Verify error codes are in range 9010-9039 (observability taxonomy)
+- [x] Add `@error_contract` Doxygen table to all public APIs (template in PHASE3_IMPLEMENTATION_GUIDE.md §1)
+- [x] Ensure `logEvent()`, `log()`, `beginSpan()`/`endSpan()` return `ErrorCode` or `std::expected<T, ErrorCode>` on all failure paths
+- [x] Verify error codes are in range 9010-9039 (observability taxonomy)
 
 ### 3.6 Privacy Error Contracts
 
 **Files:** `include/utils/pii_detector.h`, `include/utils/pii_stream_scanner.h`, `include/utils/pii_pseudonymizer.h`, `include/utils/regex_detection_engine.h`
 
-- [ ] Add `@error_contract` Doxygen tables for `detect()`, `scan()`, `pseudonymize()`
-- [ ] Verify all detection errors return conservative result (no false-permit on error)
-- [ ] Verify error codes are in range 9040-9049 (privacy detection taxonomy)
+- [x] Add `@error_contract` Doxygen tables for `detect()`, `scan()`, `pseudonymize()`
+- [x] Verify all detection errors return conservative result (no false-permit on error)
+- [x] Verify error codes are in range 9040-9049 (privacy detection taxonomy)
 
 ### 3.7 Crypto Error Contracts
 
 **Files:** `include/utils/hkdf_helper.h`, `include/utils/hkdf_cache.h`, `include/utils/pki_client.h`, `include/utils/lek_manager.h`
 
-- [ ] Add `@error_contract` Doxygen tables for `derive()`, `get()`, `encrypt()`/`decrypt()`
-- [ ] Verify key derivation never silently produces a weak or default key
-- [ ] Verify error codes are in range 9050-9059 (cryptography taxonomy)
+- [x] Add `@error_contract` Doxygen tables for `derive()`, `get()`, `encrypt()`/`decrypt()`
+- [x] Verify key derivation never silently produces a weak or default key
+- [x] Verify error codes are in range 9050-9059 (cryptography taxonomy)
 
 ### 3.8 Compression Error Contracts
 
 **Files:** `include/utils/zstd_codec.h`, `include/utils/lz4_codec.h`, `include/utils/serialization.h`
 
-- [ ] Add `@error_contract` Doxygen tables for `compress()`, `decompress()`, `serialize()`/`deserialize()`
-- [ ] Verify compression errors are propagated, not silently skipped
-- [ ] Verify error codes are in range 9060-9069 (compression taxonomy)
+- [x] Add `@error_contract` Doxygen tables for `compress()`, `decompress()`, `serialize()`/`deserialize()`
+- [x] Verify compression errors are propagated, not silently skipped
+- [x] Verify error codes are in range 9060-9069 (compression taxonomy)
 
 ### 3.9 Runtime Services Error Contracts
 
 **Files:** `include/utils/thread_pool_manager.h`, `include/utils/rate_limiter.h`
 
-- [ ] Add `@error_contract` Doxygen tables for `submit()`, `tryAcquire()`
-- [ ] Verify error codes are in range 9070-9079 (concurrency taxonomy)
+- [x] Add `@error_contract` Doxygen tables for `submit()`, `tryAcquire()`
+- [x] Verify error codes are in range 9070-9079 (concurrency taxonomy)
 
 ### 3.10–3.12 Diagnostics and Incident Categorization
 
 - [x] 3.10: `IncidentCategorizer` with 15 operator-visible categories – COMPLETE (in error_contracts.h)
 - [x] 3.11: Structured logging with `ErrorContext` – COMPLETE
-- [ ] 3.12: Update component implementations to call `logErrorWithContext()` / `categorizeIncident()` on non-trivial failures; operator-visible diagnostic messages must be actionable (not "unknown error")
+- [x] 3.12: Update component implementations to call `logErrorWithContext()` / `categorizeIncident()` on non-trivial failures; operator-visible diagnostic messages must be actionable (not "unknown error")
 
 ### Edge Case Coverage Checklist
 
-- [ ] Unicode: CJK, RTL, combining marks in PII detection (pii_detector, regex_detection_engine)
-- [ ] Malformed input: truncated, invalid UTF-8, oversized buffers
-- [ ] Overload: queue full (audit_logger, thread_pool), buffer full (codecs), memory pressure
-- [ ] Resource exhaustion: file handles, thread count, OpenSSL context limits
-- [ ] External service unavailable: gRPC backend, HTTP endpoint, key store
+- [x] Unicode: CJK, RTL, combining marks in PII detection (pii_detector, regex_detection_engine)
+- [x] Malformed input: truncated, invalid UTF-8, oversized buffers
+- [x] Overload: queue full (audit_logger, thread_pool), buffer full (codecs), memory pressure
+- [x] Resource exhaustion: file handles, thread count, OpenSSL context limits
+- [x] External service unavailable: gRPC backend, HTTP endpoint, key store
 
 ---
 
@@ -203,14 +203,14 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
   - `test_regex_detection_engine.cpp` — **now registered** as `module_utils_test_regex_detection_engine_focused`
   - `test_serialization.cpp` — **now registered** as `module_utils_test_serialization_focused`
   - `test_tsan_stress_concurrent.cpp` — **now registered** as `module_utils_test_tsan_stress_concurrent_focused`
-- [ ] Run all benchmarks in release profile and verify they complete without errors:
+- [x] Run all benchmarks in release profile and verify they complete without errors:
   - `bench_pii_stream_scanner.cpp`
   - `bench_simd_distance.cpp`
   - `bench_thread_pool_saturation.cpp`
   - `bench_encryption.cpp`
   - `bench_compression.cpp`
   - `bench_compliance_security_governance.cpp`
-- [ ] Measure code coverage for public APIs (lcov or equivalent); target >= 80%
+- [x] Measure code coverage for public APIs (lcov or equivalent); target >= 80%
 
 ### 4.2 New Tests for Phase 2-3 Hardening
 
@@ -247,10 +247,10 @@ Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_dete
 
 This item closes the Phase 6 "partial" gap identified in the documentation pass of 2026-08-17.
 
-- [ ] Run `doxygen Doxyfile` and capture Doxygen warnings
-- [ ] For each public header in `include/utils/`: verify `@param`, `@return`, `@throws`/`@error_contract` are present for non-trivial APIs
-- [ ] Target: zero undocumented public function parameters in `doxygen --warn-if-undocumented` output
-- [ ] After clean Doxygen build: update PRODUCTION_READINESS_CHECKLIST.md Phase 6 Doxygen item to `[x]`
+- [x] Run `doxygen Doxyfile` and capture Doxygen warnings
+- [x] For each public header in `include/utils/`: verify `@param`, `@return`, `@throws`/`@error_contract` are present for non-trivial APIs
+- [x] Target: zero undocumented public function parameters in `doxygen --warn-if-undocumented` output
+- [x] After clean Doxygen build: update PRODUCTION_READINESS_CHECKLIST.md Phase 6 Doxygen item to `[x]`
 
 ---
 
@@ -262,9 +262,9 @@ Phase 2 hardening (2.1-2.5) ──► Phase 3 error contracts (3.5-3.12) ──�
                                                              ◄── Doxygen audit (Phase 6 gap) ◄──
 ```
 
-Phase 3 error contract work is partially blocked on Phase 2 hardening because
-the error paths being documented need to exist in the implementation first.
-Phase 4 test verification is blocked on both Phase 2 and Phase 3.
+Phase 3 error contract work and Phase 4 verification are complete and unblocked.
+Remaining follow-up is now limited to post-Phase-6 benchmark stabilization and
+Wave D operability contributions tracked in `ROADMAP.md` (Q1 2027).
 
 ### Recommended Sequence per Sprint
 
