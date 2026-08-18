@@ -278,6 +278,9 @@ private:
     std::shared_ptr<DistributedTransactionCoordinator> txn_coordinator_; ///< Optional TrueTime-backed txn coordinator.
     Config config_;                           ///< Immutable router configuration captured at construction.
     
+    /// @brief Thread-safe diagnostic counters using relaxed memory order (no synchronization required).
+    /// These are read-only metrics for observability; they don't protect critical state.
+    /// Memory order: std::memory_order_relaxed (sufficient for diagnostic counters).
     mutable std::atomic<uint64_t> total_requests_{0};          ///< Total number of routed operations.
     mutable std::atomic<uint64_t> local_requests_{0};          ///< Requests executed on the local shard.
     mutable std::atomic<uint64_t> remote_requests_{0};         ///< Requests dispatched to a remote shard.

@@ -693,7 +693,19 @@ private:
     std::unordered_map<std::string, double> shard_latency_ewma_ms_;
     static constexpr double kLatencyEwmaAlpha = 0.2;  // smoothing factor
 
+    /// @brief LOCK ORDERING (CANONICAL):
+    /// Tier 1: mutex_          — protects config, erasure_coder, mode-specific state
+    ///   ↓ can acquire Tier 2 while holding this lock
+    /// Tier 2: latency_mutex_  — protects per-shard latency EWMA metrics (independent cache)
+    ///   ↓ terminal tier; no further acquisitions
+    ///
+    /// RATIONALE: mutex_ guards primary write/read state; latency_mutex_ is independent
+    /// to allow latency recording without blocking core read/write operations.
+    /// All acquisitions must follow this hierarchy to avoid deadlock.
+    ///
+    
     // Statistics
+    // Note: Atomic counters are relaxed since they're diagnostic; no synchronization required with other fields.
     std::atomic<uint64_t> stats_writes_{0};
     std::atomic<uint64_t> stats_reads_{0};
     std::atomic<uint64_t> stats_recoveries_{0};

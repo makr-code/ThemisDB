@@ -220,7 +220,11 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
 bool PaxosStatePersistence::persistPromise(uint64_t slot,
                                             uint64_t ballot_round,
                                             const std::string& proposer_node_id) {
-    std::lock_guard<std::timed_mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    if (!lock.try_lock_for(config_.init_timeout)) {
+        THEMIS_ERROR("persistPromise: Failed to acquire lock within timeout for slot={}", slot);
+        return false;
+    }
     if (!is_open_.load()) return false;
 
     DurableAcceptorState& s = slot_cache_[slot];
@@ -246,7 +250,11 @@ bool PaxosStatePersistence::persistPromise(uint64_t slot,
 bool PaxosStatePersistence::persistAccept(uint64_t slot,
                                            uint64_t ballot_round,
                                            const std::string& value) {
-    std::lock_guard<std::timed_mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    if (!lock.try_lock_for(config_.init_timeout)) {
+        THEMIS_ERROR("persistAccept: Failed to acquire lock within timeout for slot={}", slot);
+        return false;
+    }
     if (!is_open_.load()) return false;
 
     DurableAcceptorState& s = slot_cache_[slot];
@@ -335,7 +343,11 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 
 std::optional<DurableAcceptorState>
 PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
-    std::lock_guard<std::timed_mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(const_cast<std::timed_mutex&>(mutex_), std::defer_lock);
+    if (!lock.try_lock_for(config_.init_timeout)) {
+        THEMIS_ERROR("getAcceptorState: Failed to acquire lock within timeout for slot={}", slot);
+        return std::nullopt;
+    }
     auto it = slot_cache_.find(slot);
     if (it == slot_cache_.end()) return std::nullopt;
     return it->second;
@@ -347,14 +359,22 @@ PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
 
 void PaxosStatePersistence::maybeCompact() {
     {
-        std::lock_guard<std::timed_mutex> lock(mutex_);
+        std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+        if (!lock.try_lock_for(config_.init_timeout)) {
+            THEMIS_WARN("maybeCompact: Failed to acquire lock within timeout");
+            return;
+        }
         if (commits_since_compact_ < config_.compact_interval) return;
     }
     forceCompact();
 }
 
 bool PaxosStatePersistence::forceCompact() {
-    std::lock_guard<std::timed_mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
+    if (!lock.try_lock_for(config_.init_timeout)) {
+        THEMIS_ERROR("forceCompact: Failed to acquire lock within timeout");
+        return false;
+    }
     try {
         // Build snapshot data from the in-memory cache
         std::map<uint64_t, PaxosInstance>        instances;

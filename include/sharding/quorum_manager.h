@@ -174,8 +174,19 @@ public:
 
 private:
     QuorumConfig config_;
+    /// @brief LOCK ORDERING (CANONICAL):
+    /// Single-tier lock hierarchy for simplicity:
+    /// Tier 1 (terminal): config_mutex_ — protects config_ and all operations
+    ///
+    /// RATIONALE: Quorum manager has minimal state (just config_), so a single mutex
+    /// is sufficient. Statistics are atomic (no mutex required for lock-free updates).
+    /// All acquisitions must release before returning to prevent deadlock.
+    ///
     mutable std::mutex config_mutex_;
     Statistics stats_;
+    
+    ///< Statistics are maintained using relaxed atomic operations since they're
+    /// diagnostic counters with no synchronization requirements with other state.
     
     /**
      * @brief Calculate quorum size based on type

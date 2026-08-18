@@ -276,6 +276,20 @@ private:
     // Write-Ahead Log for transaction recovery
     std::unique_ptr<WALManager> wal_manager_; ///< Optional WAL manager for in-doubt recovery.
     
+    // ======================================================================
+    // DEADLOCK PREVENTION: Canonical Lock Acquisition Order
+    // ======================================================================
+    // To prevent circular wait deadlocks, all code MUST acquire locks in
+    // this strict order when multiple locks are needed:
+    //   1. mutex_ (primary transaction state lock)
+    //   2. error_mutex (used only within phase operations, never held across calls)
+    // 
+    // CRITICAL RULES:
+    // - NEVER hold both locks across a function call or async operation
+    // - NEVER acquire error_mutex while holding mutex_
+    // - ALWAYS unlock all locks before waiting on futures
+    // - Use lock.unlock() explicitly before async operations
+    // ======================================================================
     mutable std::timed_mutex mutex_;                         ///< Protects transactions and endpoint map.
     std::map<std::string, DistributedTransaction> transactions_; ///< Active and recent transaction registry.
     

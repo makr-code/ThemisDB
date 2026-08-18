@@ -755,6 +755,23 @@ private:
     std::set<std::string> terminal_decisions_in_progress_; ///< Transactions currently in commit/abort finalization.
     
     // Callbacks
+    // ======================================================================
+    // DEADLOCK PREVENTION: Canonical Lock Acquisition Order
+    // ======================================================================
+    // To prevent circular wait deadlocks, all code MUST acquire locks in
+    // this strict order when multiple locks are needed:
+    //   1. transactions_mutex_ (transaction state and wait-edge graph)
+    //   2. decision_mutex_ (terminal decision guard set)
+    //   3. callbacks_mutex_ (state change and RPC callbacks)
+    //   4. deferred_mutex_ (deferred PreCommit tracking)
+    // 
+    // CRITICAL RULES:
+    // - NEVER acquire in reverse order
+    // - NEVER hold multiple locks across function calls or async operations
+    // - ALWAYS unlock transactions_mutex_ before waiting on futures/futures
+    // - Use lock.unlock() explicitly before RPC calls or thread operations
+    // - If you need multiple locks, comment the reason and the order used
+    // ======================================================================
     mutable std::mutex callbacks_mutex_;
     std::function<void(const std::string&, TransactionState, TransactionState)> 
         on_state_change_callback_; ///< Optional state transition callback.

@@ -38,12 +38,8 @@ CrossShardSpeculativeDecoder::CrossShardSpeculativeDecoder(
 }
 
 CrossShardSpeculativeDecoder::~CrossShardSpeculativeDecoder() noexcept {
-    try {
-        shutdown();
-    } catch (...) {
-        // FIXED: Suppress exception in destructor to guarantee noexcept contract
-        std::cerr << "Exception during CrossShardSpeculativeDecoder shutdown\n";
-    }
+    // shutdown() is now noexcept(true) and guaranteed not to throw
+    shutdown();
 }
 
 // ============================================================================
@@ -78,21 +74,27 @@ bool CrossShardSpeculativeDecoder::initialize(
     return true;
 }
 
-void CrossShardSpeculativeDecoder::shutdown() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Cancel all active speculations
-    for (auto& [request_id, speculation] : active_speculations_) {
-        speculation.failed = true;
+void CrossShardSpeculativeDecoder::shutdown() noexcept {
+    try {
+        std::lock_guard<std::mutex> lock(mutex_);
+        
+        // Cancel all active speculations
+        for (auto& [request_id, speculation] : active_speculations_) {
+            speculation.failed = true;
+        }
+        active_speculations_.clear();
+        
+        // Clear shard registry
+        shards_.clear();
+        
+        local_engine_ = nullptr;
+        
+        spdlog::info("CrossShardSpeculativeDecoder: Shutdown complete");
+    } catch (const std::exception& e) {
+        spdlog::error("CrossShardSpeculativeDecoder: Exception during shutdown: {}", e.what());
+    } catch (...) {
+        spdlog::error("CrossShardSpeculativeDecoder: Unknown exception during shutdown");
     }
-    active_speculations_.clear();
-    
-    // Clear shard registry
-    shards_.clear();
-    
-    local_engine_ = nullptr;
-    
-    spdlog::info("CrossShardSpeculativeDecoder: Shutdown complete");
 }
 
 void CrossShardSpeculativeDecoder::updateConfig(const SpeculativeDecodingConfig& config) {

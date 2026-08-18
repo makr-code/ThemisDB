@@ -3203,20 +3203,15 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
         } else {
             spdlog::error("Failed to create transaction snapshot");
         }
-        
+         
     } catch (const std::exception& e) {
         spdlog::error("Failed to create periodic snapshot: {}", e.what());
     }
-}
-
-} // namespace sharding
-} // namespace themisdb
+ }
 
 // ============================================================================
 // PercolatorCoordinator implementation
 // ============================================================================
-namespace themisdb {
-namespace sharding {
 
 PercolatorCoordinator::PercolatorCoordinator(
     const Config& config,

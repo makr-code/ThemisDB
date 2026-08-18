@@ -32,6 +32,23 @@ ReplicationCoordinator::ReplicationCoordinator(std::shared_ptr<WALShipper> shipp
 ReplicationCoordinator::~ReplicationCoordinator() {
     // Notify any waiting threads
     pending_cv_.notify_all();
+    
+    // Clean up all pending writes and their connections
+    try {
+        std::lock_guard<std::mutex> lock(pending_mutex_);
+        for (auto& [lsn_key, pending] : pending_writes_) {
+            try {
+                if (pending.db_connection) {
+                    pending.db_connection.reset();
+                }
+            } catch (...) {
+                THEMIS_WARN("Exception during connection cleanup in destructor for LSN {}", lsn_key);
+            }
+        }
+        pending_writes_.clear();
+    } catch (...) {
+        THEMIS_ERROR("Exception during ReplicationCoordinator destructor cleanup");
+    }
 }
 
 /**
@@ -235,6 +252,17 @@ void ReplicationCoordinator::cleanupPendingWrites() {
         }
     }
     for (const auto& lsn : to_remove) {
+        // Explicitly clean up connection before erasing
+        auto it = pending_writes_.find(lsn);
+        if (it != pending_writes_.end()) {
+            try {
+                if (it->second.db_connection) {
+                    it->second.db_connection.reset();
+                }
+            } catch (...) {
+                THEMIS_WARN("Exception during connection cleanup in cleanupPendingWrites for LSN {}", lsn);
+            }
+        }
         pending_writes_.erase(lsn);
     }
 }

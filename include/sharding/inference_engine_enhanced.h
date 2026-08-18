@@ -284,7 +284,7 @@ public:
     /**
      * @brief Shutdown the inference engine
      */
-    void shutdown();
+    void shutdown() noexcept;
     
     /**
      * @brief Load a model

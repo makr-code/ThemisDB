@@ -36,12 +36,8 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const ModelConfig& model_config
 }
 
 InferenceEngineEnhanced::~InferenceEngineEnhanced() noexcept {
-    try {
-        shutdown();
-    } catch (...) {
-        // FIXED: Suppress exception in destructor to guarantee noexcept contract
-        std::cerr << "Exception during InferenceEngineEnhanced shutdown\n";
-    }
+    // shutdown() is now noexcept(true) and guaranteed not to throw
+    shutdown();
 }
 
 // ============================================================================
@@ -78,47 +74,64 @@ bool InferenceEngineEnhanced::initialize() {
     return true;
 }
 
-void InferenceEngineEnhanced::shutdown() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Cancel all active requests
-    for (auto& [request_id, request] : active_requests_) {
-        request.is_cancelled = true;
+void InferenceEngineEnhanced::shutdown() noexcept {
+    try {
+        std::lock_guard<std::mutex> lock(mutex_);
+        
+        // Cancel all active requests
+        for (auto& [request_id, request] : active_requests_) {
+            request.is_cancelled = true;
+        }
+        active_requests_.clear();
+        
+        // Directly clear LoRA adapters without calling unloadLoRAAdapter()
+        // to avoid potential recursive lock acquisition
+        loaded_adapters_.clear();
+        domain_to_adapter_.clear();
+        
+        // Set flags without calling unloadModel() to avoid recursive lock acquisition
+        model_loaded_ = false;
+        ready_ = false;
+        
+        spdlog::info("InferenceEngineEnhanced: Shutdown complete");
+    } catch (const std::exception& e) {
+        spdlog::error("InferenceEngineEnhanced: Exception during shutdown: {}", e.what());
+    } catch (...) {
+        spdlog::error("InferenceEngineEnhanced: Unknown exception during shutdown");
     }
-    active_requests_.clear();
-    
-    // Unload all LoRA adapters
-    for (auto& [adapter_id, config] : loaded_adapters_) {
-        unloadLoRAAdapter(adapter_id);
-    }
-    loaded_adapters_.clear();
-    domain_to_adapter_.clear();
-    
-    // Unload model
-    unloadModel();
-    
-    ready_ = false;
-    model_loaded_ = false;
-    
-    spdlog::info("InferenceEngineEnhanced: Shutdown complete");
 }
 
 bool InferenceEngineEnhanced::loadModel(const std::string& model_path) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Validate model path
+    if (model_path.empty()) {
+        spdlog::error("InferenceEngineEnhanced: Model path cannot be empty");
+        return false;
+    }
+    
     // In a real implementation, this would load the model using llama.cpp or similar
-    // For now, we'll simulate loading
+    // For now, we'll simulate loading with validation
     
     spdlog::info("InferenceEngineEnhanced: Loading model from {} (simulated)", model_path);
     
     // Simulate loading delay
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     
+    // Validate model path is properly set
     model_config_.model_path = model_path;
+    
+    // Verify model configuration remains valid after path assignment
+    if (!model_config_.isValid()) {
+        model_config_.model_path = "";
+        spdlog::error("InferenceEngineEnhanced: Model configuration became invalid after loading");
+        return false;
+    }
+    
     model_loaded_ = true;
     ready_ = true;
     
-    spdlog::info("InferenceEngineEnhanced: Model loaded successfully");
+    spdlog::info("InferenceEngineEnhanced: Model loaded successfully from {}", model_path);
     return true;
 }
 
