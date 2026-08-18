@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o pipefail
 
 # Simple standalone compilation of test_coordination_concurrency.cpp with TSan
 
@@ -10,6 +11,9 @@ if [ ! -f "$TEST_FILE" ]; then
     echo "Test file not found: $TEST_FILE"
     exit 1
 fi
+
+# Resolve repository root relative to this script
+REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
 
 # Create output directory
 mkdir -p tsan_build
@@ -23,11 +27,13 @@ echo "Attempting to compile with ThreadSanitizer..."
 g++ -c \
     -std=c++17 \
     $TSAN_FLAGS \
-    -I /home/runner/work/ThemisDB/ThemisDB/include \
-    -I /home/runner/work/ThemisDB/ThemisDB/src \
-    ../$TEST_FILE \
+    -I "$REPO_ROOT/include" \
+    -I "$REPO_ROOT/src" \
+    "../$TEST_FILE" \
     2>&1 | tail -50
+COMPILER_EXIT=${PIPESTATUS[0]}
 
 echo ""
-echo "Compilation status: $?"
+echo "Compilation status: $COMPILER_EXIT"
+exit $COMPILER_EXIT
 
