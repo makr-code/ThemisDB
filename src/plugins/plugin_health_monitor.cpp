@@ -59,7 +59,18 @@ void PluginHealthMonitor::stopMonitoring() {
     running_ = false;
 
     if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+        // Join with a 5-second timeout to prevent indefinite blocking
+        // If thread doesn't finish, detach to avoid crash on destruction
+        auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+        while (monitor_thread_.joinable() && std::chrono::steady_clock::now() < deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        
+        if (monitor_thread_.joinable()) {
+            // Thread still running after timeout, detach to avoid blocking destructor
+            THEMIS_WARN("PluginHealthMonitor: monitor thread did not respond to stop signal within 5 seconds");
+            monitor_thread_.detach();
+        }
     }
 
     THEMIS_INFO("PluginHealthMonitor: stopped");
