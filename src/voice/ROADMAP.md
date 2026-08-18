@@ -54,7 +54,7 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 - [~] Extend adversarial input regressions for spoofing, replay, and noisy wake-word scenarios (Target: Q4 2026) — 2026-08-17: deterministic live/replay/speaker-mismatch anti-spoof regressions added; noisy wake-word expansion still open
 
 ### Phase 5: Performance and Hardening
-- [ ] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026)
+- [~] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026) — 2026-08-18: `bench_voice_a8_baselines.cpp` registered in `benchmarks/CMakeLists.txt`; representative-hardware execution still pending
 - [ ] Validate sustained multi-session behavior for cache, queue, and session resources (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
@@ -91,6 +91,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
 - [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
+  - 2026-08-18: Wave A teardown/degradation/chaos suites promoted to `release_critical` in `tests/voice/CMakeLists.txt`; green-on-`develop` evidence pending
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
 ### Wave A Closure Evidence Block
@@ -98,8 +99,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [~] Chaos/fault-injection evidence: no Wave A-specific chaos bundle is recorded yet for teardown, spoofing, or backend-failure scenarios.
   - 2026-08-18: test_voice_wave_a_chaos_bundle.cpp added (VOICE-CHAOS-01..12); backend-failure cascade, spoofing, circuit-breaker, multi-session teardown covered
 - [x] Fail-closed verification: malformed/oversized payload rejection and terminated-session teardown are now covered by focused tests; invalid transition and degraded-backend proof complete per stream validation test matrix.
-- [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending.
-- [ ] `release_critical` coverage: Wave A voice hardening does not yet have green-on-`develop` gate evidence.
+- [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending; `bench_voice_a8_baselines` is now wired into the benchmark build for evidence capture.
+- [~] `release_critical` coverage: Wave A voice hardening suites are now registered `release_critical`, but green-on-`develop` gate evidence is still pending.
 - [x] Next closure batch: fail-closed session lifecycle, adversarial liveness/anti-spoof regressions (12+ tests), and safe multi-session teardown delivered on 2026-08-18; remaining work is backend-failure/chaos evidence and representative-hardware baselines.
 
 ### Dependencies on Later Waves
