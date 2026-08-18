@@ -3770,6 +3770,8 @@ if(THEMIS_BUILD_MODULAR)
             endif()
             target_compile_definitions(themis_network PUBLIC THEMIS_ENABLE_HTTP3)
         endif()
+    endif()
+
     message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
 else()
     # Traditional monolithic build (default for v1.3.x and earlier)
