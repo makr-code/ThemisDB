@@ -18,22 +18,22 @@
 - `WRAPPER_SCANNER_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 8,786 B)
 - `WEEK1_IMPLEMENTATION_STATUS.md` (2026-08-18, 9,834 B)
 - `VOICE_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 10,026 B)
-- `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
 - `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-18, 17,036 B)
+- `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
 - `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
-- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
 - `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
-- `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
+- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
+- `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
 - `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
@@ -42,20 +42,21 @@
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,485 B)
-- `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-18, 6,986 B)
 - `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-18, 5,374 B)
 - `PHASE_2_IMPLEMENTATION_GUIDE.md` (2026-08-18, 8,733 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN.md` (2026-08-18, 6,986 B)
+- `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-18, 6,986 B)
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
-- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
+- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
+- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
 - `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
@@ -63,14 +64,13 @@
 - `IMPLEMENTATION_ROADMAP.md` (2026-08-18, 14,252 B)
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 9,018 B)
 - `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,655 B)
-- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
+- `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
-- `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
 - `FP_DETECTION_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,430 B)
 - `COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 16,526 B)
-- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
 - `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
+- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-18, 17,764 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 10,935 B)
 
@@ -1504,53 +1504,6 @@ Progress is tracked incrementally via:
 
 ---
 
-### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Updates Module v1.1.0 Final Implementation Summary
-**Date**: 2026-08-08
-**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
-**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
-**Duration**: ~3 hours (parallelized agent execution)
----
-## Executive Summary
-### Key Deliverables
-| Block | Scope | Status | Evidence |
-|-------|-------|--------|----------|
-| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
-| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
-| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
----
-## Block 1: Gap Remediation (CRITICAL Findings)
-### Completion Status: 17/22 CRITICAL Fixed (77%)
-**Remediated Components:**
-#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
-// Added thread synchronization for column family handles
-std::mutex cf_mutex_;  // Protects column_families_ and related access
-- All column family operations (getOrCreate, read, write) now protected
-- Thread-safe concurrent access from multiple update threads
-- Zero data race violations in focused tests
-#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
-**Resource Leak Fixes (2/2):**
-- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
-- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
-- Exception-safe resource management with automatic deallocation
-**Timeout Handling (6/6):**
-// Condition variable timeout
-cv.wait_for(lock, std::chrono::seconds(5));
-// Thread join timeout with deadline tracking
-std::this_thread::sleep_for(std::chrono::milliseconds(100));
-if (!joined) {
-LOG_WARNING("Thread join timeout, detaching");
-thread.detach();
-}
-- All blocking operations have bounded timeouts
-- Graceful fallback when timeouts exceeded
-- Prevents deadlocks and hangs
-
----
-
 ### USER_STORAGE_IMPLEMENTATION_COORDINATION.md
 
 *(file too large — key headings extracted)*
@@ -1601,6 +1554,53 @@ Complete hardening of the four core user_storage_encrypted components:
 - ✅ Build: zero warnings
 ### Code Quality Standards
 Per CLAUDE.md and modern C++ best practices:
+
+---
+
+### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Updates Module v1.1.0 Final Implementation Summary
+**Date**: 2026-08-08
+**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
+**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
+**Duration**: ~3 hours (parallelized agent execution)
+---
+## Executive Summary
+### Key Deliverables
+| Block | Scope | Status | Evidence |
+|-------|-------|--------|----------|
+| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
+| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
+| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
+---
+## Block 1: Gap Remediation (CRITICAL Findings)
+### Completion Status: 17/22 CRITICAL Fixed (77%)
+**Remediated Components:**
+#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
+// Added thread synchronization for column family handles
+std::mutex cf_mutex_;  // Protects column_families_ and related access
+- All column family operations (getOrCreate, read, write) now protected
+- Thread-safe concurrent access from multiple update threads
+- Zero data race violations in focused tests
+#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
+**Resource Leak Fixes (2/2):**
+- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
+- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
+- Exception-safe resource management with automatic deallocation
+**Timeout Handling (6/6):**
+// Condition variable timeout
+cv.wait_for(lock, std::chrono::seconds(5));
+// Thread join timeout with deadline tracking
+std::this_thread::sleep_for(std::chrono::milliseconds(100));
+if (!joined) {
+LOG_WARNING("Thread join timeout, detaching");
+thread.detach();
+}
+- All blocking operations have bounded timeouts
+- Graceful fallback when timeouts exceeded
+- Prevents deadlocks and hangs
 
 ---
 
@@ -2336,6 +2336,56 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 
 ---
 
+### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Tensor Module Complete Implementation - Master Plan & Status
+**Date Initiated**: 2026-08-07
+**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
+**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
+**Total Effort**: ~750-900 engineer-hours
+**Agent Count**: 9 specialized sub-agents (3 per stream)
+---
+## Executive Summary
+**Key Characteristics**:
+- ✅ Parallel sub-agent execution (3 agents per stream)
+- ✅ Weekly merge & integration checkpoints
+- ✅ Clear deliverables and success criteria per block
+- ✅ Risk mitigation strategies documented
+- ✅ Backward compatible within major release line
+- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
+---
+## Master Timeline & Milestones
+August 2026          September 2026      October 2026        November 2026       January 2027
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
+│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
+│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
+│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
+│ Exec             │                  │                  │  (48-72h runs)    │              │
+│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
+### Detailed Milestones
+**Week 1-3 (Aug 7-27): Stream A Active Execution**
+- A1: Index/bridge concurrent hardening tests implemented
+- A2: Unified diagnostics architecture designed
+- A3: Baseline benchmark measurements collected
+**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
+- All A1/A2/A3 blocks complete and validated
+- Pull request created for Stream A: feature/tensor-q3-hardening
+- Merge to develop: Aug 30-31
+**Week 4 (Sept 1): Stream B Launch**
+- Edge case scenario inventory (B1) compiled
+- Stress test design (B2) finalized
+- P95/P99 measurement protocol (B3) prepared
+**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
+- B1: Edge case handling implemented, 20-30 tests
+- B2: Stress suite designed and parametrized
+- B3: CI measurement runs scheduled
+**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
+
+---
+
 ### T2.3_IMPLEMENTATION_VERIFICATION.md
 
 # Phase 2 T2.3 Implementation Verification Report
@@ -2522,53 +2572,54 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 
-### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
+### SPRINT_8_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Tensor Module Complete Implementation - Master Plan & Status
-**Date Initiated**: 2026-08-07
-**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
-**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
-**Total Effort**: ~750-900 engineer-hours
-**Agent Count**: 9 specialized sub-agents (3 per stream)
+# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
+**Date:** 2026-06-30
+**Sprint:** 8 - Move Semantics Remediation
+**Phase:** 1A - LLM + Query Modules
+**Status:** ✅ IN PROGRESS
 ---
-## Executive Summary
-**Key Characteristics**:
-- ✅ Parallel sub-agent execution (3 agents per stream)
-- ✅ Weekly merge & integration checkpoints
-- ✅ Clear deliverables and success criteria per block
-- ✅ Risk mitigation strategies documented
-- ✅ Backward compatible within major release line
-- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
+## EXECUTIVE SUMMARY
+- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
+- **CWE-415:** Double Free (move assignment doesn't clean up)
+- **CWE-672:** Use After Free (moved-from objects accessed)
+### Key Metrics
+| Metric | Value |
+|--------|-------|
+| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
+| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
+| **Files Fixed (Phase 1A)** | 4 files |
+| **Test Files Created** | 2 comprehensive test suites |
+| **Estimated Time Savings** | 200+ hours of manual security review |
 ---
-## Master Timeline & Milestones
-August 2026          September 2026      October 2026        November 2026       January 2027
-┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
-│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
-│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
-│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
-│ Exec             │                  │                  │  (48-72h runs)    │              │
-│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
-└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
-### Detailed Milestones
-**Week 1-3 (Aug 7-27): Stream A Active Execution**
-- A1: Index/bridge concurrent hardening tests implemented
-- A2: Unified diagnostics architecture designed
-- A3: Baseline benchmark measurements collected
-**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
-- All A1/A2/A3 blocks complete and validated
-- Pull request created for Stream A: feature/tensor-q3-hardening
-- Merge to develop: Aug 30-31
-**Week 4 (Sept 1): Stream B Launch**
-- Edge case scenario inventory (B1) compiled
-- Stress test design (B2) finalized
-- P95/P99 measurement protocol (B3) prepared
-**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
-- B1: Edge case handling implemented, 20-30 tests
-- B2: Stress suite designed and parametrized
-- B3: CI measurement runs scheduled
-**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
+## IMPLEMENTATION DETAILS
+### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
+**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
+**Fix Applied:**
+- ✅ Added move constructor with `noexcept`
+- ✅ Added move assignment operator with self-assignment check
+- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
+- ✅ Added Doxygen comments with CWE mappings
+**Key Implementation:**
+// Header: Added after destructor
+MultiLoRAManager(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager(const MultiLoRAManager&) = delete;
+MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
+// Implementation: Proper ownership transfer with valid moved-from state
+MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
+: config_(std::move(other.config_)),
+loras_(std::move(other.loras_)),
+// ... all members moved
+eviction_thread_(std::move(other.eviction_thread_))
+// ...
+{
+// Reset source to valid empty state
+other.total_vram_bytes_ = 0;
+other.eviction_thread_running_.store(false);
 
 ---
 
@@ -2912,57 +2963,6 @@ ctest -R "StorageEngine" -V
 ---
 
 **End of Sprint 8 Phase 1B Move Semantics Implementation Summary**
-
----
-
-### SPRINT_8_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
-**Date:** 2026-06-30
-**Sprint:** 8 - Move Semantics Remediation
-**Phase:** 1A - LLM + Query Modules
-**Status:** ✅ IN PROGRESS
----
-## EXECUTIVE SUMMARY
-- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
-- **CWE-415:** Double Free (move assignment doesn't clean up)
-- **CWE-672:** Use After Free (moved-from objects accessed)
-### Key Metrics
-| Metric | Value |
-|--------|-------|
-| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
-| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
-| **Files Fixed (Phase 1A)** | 4 files |
-| **Test Files Created** | 2 comprehensive test suites |
-| **Estimated Time Savings** | 200+ hours of manual security review |
----
-## IMPLEMENTATION DETAILS
-### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
-**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
-**Fix Applied:**
-- ✅ Added move constructor with `noexcept`
-- ✅ Added move assignment operator with self-assignment check
-- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
-- ✅ Added Doxygen comments with CWE mappings
-**Key Implementation:**
-// Header: Added after destructor
-MultiLoRAManager(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager(const MultiLoRAManager&) = delete;
-MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
-// Implementation: Proper ownership transfer with valid moved-from state
-MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
-: config_(std::move(other.config_)),
-loras_(std::move(other.loras_)),
-// ... all members moved
-eviction_thread_(std::move(other.eviction_thread_))
-// ...
-{
-// Reset source to valid empty state
-other.total_vram_bytes_ = 0;
-other.eviction_thread_running_.store(false);
 
 ---
 
@@ -3741,7 +3741,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY.md
+### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
 *(file too large — key headings extracted)*
 
@@ -3798,7 +3798,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
+### PHASE_A_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
@@ -4727,59 +4727,6 @@ A comprehensive release readiness framework encompassing:
 
 ---
 
-### PHASE_2_3_IMPLEMENTATION_PLAN_1393.md
-
-*(file too large — key headings extracted)*
-
-# Phase 2-3 Implementation Plan: user_storage_encrypted Module
-**Status:** In Progress (2026-08-08)
-**Priority:** Critical
-**Target Completion:** Phase 2-3 Complete
-## Components Implemented
-### ✅ Component 0: Error Codes & Diagnostics
-- **File:** `include/user_storage_encrypted/error_codes.hpp`
-- **Status:** ✅ COMPLETE
-- **Changes:**
-- Added ErrorCode enum with 32 distinct error codes (1xxx-5xxx categories)
-- DiagnosticEvent struct for structured logging
-- JSON serialization support
-- Global diagnostic event handler with spdlog integration
-**Files Affected:**
-- `include/user_storage_encrypted/error_codes.hpp` (NEW)
-- `src/user_storage_encrypted/diagnostic_events.cpp` (NEW)
-- `src/user_storage_encrypted/CMakeLists.txt` (UPDATED)
----
-### ✅ Component 1: CommandTimeoutManager
-- **File:** `include/user_storage_encrypted/command_timeout_manager.hpp`
-- **Status:** ✅ COMPLETE
-- **Changes:**
-- Timeout tracking using `std::chrono::steady_clock`
-- Graceful process termination (SIGTERM → SIGKILL)
-- Resource cleanup guarantees (via waitpid)
-- No silent hangs
-**Files Affected:**
-- `include/user_storage_encrypted/command_timeout_manager.hpp` (NEW)
----
-## Components To Implement (Phase 2)
-### Component 2.1: GoCryptFS Backend Hardening
-**File:** `src/user_storage_encrypted/gocryptfs_backend.cpp`
-**Tasks:**
-1. **[PENDING]** Integrate CommandTimeoutManager into executeCommandWithStdin()
-- Replace raw waitpid with timeout-aware process management
-- Enforce mount timeout (30s), unmount timeout (30s), key delivery (5s)
-- Gracefully kill processes on timeout
-2. **[PENDING]** FUSE Error Recovery
-- Enhance checkAvailability() for better error classification
-- Add /proc/mounts parsing for stale mount detection
-- Implement `fusermount -u` fallback logic
-- Map system errors to ErrorCode enum
-3. **[PENDING]** Stdin Pipe Buffer Cleanup
-- Verify explicit_bzero() usage in deliverKeyViaStdin()
-- Ensure cleanup on exceptions (RAII wrapper)
-- Add Doxygen security properties documentation
-
----
-
 ### PHASE_2_4_IMPLEMENTATION_SUMMARY.txt
 
 *(file too large — key headings extracted)*
@@ -5031,6 +4978,59 @@ plugin_info.state = PluginLifecycleState::LOADING;
 
 ---
 
+### PHASE_2_3_IMPLEMENTATION_PLAN_1393.md
+
+*(file too large — key headings extracted)*
+
+# Phase 2-3 Implementation Plan: user_storage_encrypted Module
+**Status:** In Progress (2026-08-08)
+**Priority:** Critical
+**Target Completion:** Phase 2-3 Complete
+## Components Implemented
+### ✅ Component 0: Error Codes & Diagnostics
+- **File:** `include/user_storage_encrypted/error_codes.hpp`
+- **Status:** ✅ COMPLETE
+- **Changes:**
+- Added ErrorCode enum with 32 distinct error codes (1xxx-5xxx categories)
+- DiagnosticEvent struct for structured logging
+- JSON serialization support
+- Global diagnostic event handler with spdlog integration
+**Files Affected:**
+- `include/user_storage_encrypted/error_codes.hpp` (NEW)
+- `src/user_storage_encrypted/diagnostic_events.cpp` (NEW)
+- `src/user_storage_encrypted/CMakeLists.txt` (UPDATED)
+---
+### ✅ Component 1: CommandTimeoutManager
+- **File:** `include/user_storage_encrypted/command_timeout_manager.hpp`
+- **Status:** ✅ COMPLETE
+- **Changes:**
+- Timeout tracking using `std::chrono::steady_clock`
+- Graceful process termination (SIGTERM → SIGKILL)
+- Resource cleanup guarantees (via waitpid)
+- No silent hangs
+**Files Affected:**
+- `include/user_storage_encrypted/command_timeout_manager.hpp` (NEW)
+---
+## Components To Implement (Phase 2)
+### Component 2.1: GoCryptFS Backend Hardening
+**File:** `src/user_storage_encrypted/gocryptfs_backend.cpp`
+**Tasks:**
+1. **[PENDING]** Integrate CommandTimeoutManager into executeCommandWithStdin()
+- Replace raw waitpid with timeout-aware process management
+- Enforce mount timeout (30s), unmount timeout (30s), key delivery (5s)
+- Gracefully kill processes on timeout
+2. **[PENDING]** FUSE Error Recovery
+- Enhance checkAvailability() for better error classification
+- Add /proc/mounts parsing for stale mount detection
+- Implement `fusermount -u` fallback logic
+- Map system errors to ErrorCode enum
+3. **[PENDING]** Stdin Pipe Buffer Cleanup
+- Verify explicit_bzero() usage in deliverKeyViaStdin()
+- Ensure cleanup on exceptions (RAII wrapper)
+- Add Doxygen security properties documentation
+
+---
+
 ### PHASE_1_6_IMPLEMENTATION_STATUS.md
 
 *(file too large — key headings extracted)*
@@ -5182,59 +5182,6 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 
 ---
 
-### P0_P1_P2_IMPLEMENTATION_STATUS.md
-
-*(file too large — key headings extracted)*
-
-# P0/P1/P2 Implementation Status Summary
-**Last Updated:** 2026-07-22T16:40:00Z
-## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
-### P0-D01: FA3 Kernel-Audit ✅
-- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
-- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
-- [x] Acceptance: P0-GATE-01 passed
-### P0-D02: NVFP4 Capability-Assessment ✅
-- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
-- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
-- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
-### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
-- [ ] Status: Needs completion
-- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
-- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
-### P0-D04: Baseline-Benchmark ⏳
-- [ ] Status: Needs completion
-- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
-- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
----
-## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
-### P1-D01: `ISSMPlugin` Interface ✅
-- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
-- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
-- [x] SSMStateSnapshot struct with HLC binding
-- [ ] **GATE:** Needs human architect sign-off on:
-- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
-- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
-- [ ] Owner and migration path for Phase 2+ persistence
-### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
-- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
-- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
-### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
-- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
-### P1-D04: Infini-attention CPU-Fallback ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
-- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
-### P1-D05: Drift-Metriken ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
-- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
-
----
-
 ### P2_D03_D04_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -5341,6 +5288,59 @@ The implementation hooks both components into production systems:
 
 ---
 
+### P0_P1_P2_IMPLEMENTATION_STATUS.md
+
+*(file too large — key headings extracted)*
+
+# P0/P1/P2 Implementation Status Summary
+**Last Updated:** 2026-07-22T16:40:00Z
+## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
+### P0-D01: FA3 Kernel-Audit ✅
+- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
+- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
+- [x] Acceptance: P0-GATE-01 passed
+### P0-D02: NVFP4 Capability-Assessment ✅
+- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
+- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
+- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
+### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
+- [ ] Status: Needs completion
+- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
+- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
+### P0-D04: Baseline-Benchmark ⏳
+- [ ] Status: Needs completion
+- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
+- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
+---
+## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
+### P1-D01: `ISSMPlugin` Interface ✅
+- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
+- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
+- [x] SSMStateSnapshot struct with HLC binding
+- [ ] **GATE:** Needs human architect sign-off on:
+- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
+- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
+- [ ] Owner and migration path for Phase 2+ persistence
+### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
+- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
+- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
+### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
+- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
+### P1-D04: Infini-attention CPU-Fallback ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
+- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
+### P1-D05: Drift-Metriken ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
+- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
+
+---
+
 ### NEXT_PHASE_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
@@ -5428,6 +5428,56 @@ The implementation hooks both components into production systems:
 |---|---|---|
 | `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
 | `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
+
+---
+
+### IMPLEMENTATION_SUMMARY_v1_6_0.md
+
+*(file too large — key headings extracted)*
+
+# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
+## 📋 Executive Summary
+**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
+**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
+---
+## 🎯 Deliverables
+### 1. Post-Generation AQL Validation with Injection Detection ✅
+**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
+**Features Implemented**:
+- AST-based structural validation via AQLQueryValidator
+- Configurable validation modes:
+- `WARN_ONLY`: Log validation errors as warnings (default)
+- `REJECT_ON_ERROR`: Throw exception on validation errors
+- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
+- Collection scope validation to prevent privilege escalation
+- ACL validation for access control
+- Retry logic with dynamic feedback for failed validations
+- Integration with existing security modules
+**Code Quality**:
+- Clean separation of concerns
+- Proper error handling with specific exception types
+- Well-documented with inline comments
+- Thread-safe implementation
+- Performance optimized with early returns
+**Security Impact**:
+- Prevents malformed AQL execution
+- Detects and rejects injection attempts
+- Enforces collection access boundaries
+- Fails securely with clear error messages
+---
+### 2. Thread Leak Elimination in LLMTimeoutManager ✅
+**Location**: `include/aql/llm_timeout_manager.h:87-225`
+**Implementation Details**:
+- Modern C++20 `std::jthread` with automatic RAII cleanup
+- Proper thread ownership transfer on timeout
+- Background cleanup thread ensures no leaked handles
+- Two execution modes:
+- `executeWithTimeout()`: Simple blocking timeout
+- `executeWithCancelToken()`: Cooperative cancellation
+**Key Improvements**:
+- Previous: Thread detach on timeout (potential leak)
+- Current: Background cleanup thread with proper join (no leak)
+- Documented implementation strategy with detailed comments
 
 ---
 
@@ -5759,53 +5809,51 @@ Updated `ai_working/00_START_HERE.md`:
 
 ---
 
-### IMPLEMENTATION_SUMMARY_v1_6_0.md
+### GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md
 
 *(file too large — key headings extracted)*
 
-# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
-## 📋 Executive Summary
-**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
-**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
+# Implementation Summary: Remaining Work for ThemisDB (2026-08-10)
+**Date:** 2026-08-10
+**Session:** Geo Module Externalization & GA Release Preparation
+**Status:** Priority 5 COMPLETE | Priority 1-2 PENDING
 ---
-## 🎯 Deliverables
-### 1. Post-Generation AQL Validation with Injection Detection ✅
-**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
-**Features Implemented**:
-- AST-based structural validation via AQLQueryValidator
-- Configurable validation modes:
-- `WARN_ONLY`: Log validation errors as warnings (default)
-- `REJECT_ON_ERROR`: Throw exception on validation errors
-- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
-- Collection scope validation to prevent privilege escalation
-- ACL validation for access control
-- Retry logic with dynamic feedback for failed validations
-- Integration with existing security modules
-**Code Quality**:
-- Clean separation of concerns
-- Proper error handling with specific exception types
-- Well-documented with inline comments
-- Thread-safe implementation
-- Performance optimized with early returns
-**Security Impact**:
-- Prevents malformed AQL execution
-- Detects and rejects injection attempts
-- Enforces collection access boundaries
-- Fails securely with clear error messages
+## Overview
 ---
-### 2. Thread Leak Elimination in LLMTimeoutManager ✅
-**Location**: `include/aql/llm_timeout_manager.h:87-225`
-**Implementation Details**:
-- Modern C++20 `std::jthread` with automatic RAII cleanup
-- Proper thread ownership transfer on timeout
-- Background cleanup thread ensures no leaked handles
-- Two execution modes:
-- `executeWithTimeout()`: Simple blocking timeout
-- `executeWithCancelToken()`: Cooperative cancellation
-**Key Improvements**:
-- Previous: Thread detach on timeout (potential leak)
-- Current: Background cleanup thread with proper join (no leak)
-- Documented implementation strategy with detailed comments
+## Priority 5: Geo Plugin Externalization Design — ✅ COMPLETE
+### Task 1: Update src/geo/CMakeLists.txt for GPU Conditional Compilation
+**File:** `/src/geo/CMakeLists.txt` (NEW)
+**What was done:**
+- Created independent geo module build orchestration
+- Implemented GPU backend selection logic (CUDA > HIP > CPU fallback)
+- Organized core geo sources (25+ files)
+- Configured GPU-specific compiler flags and link libraries
+- Exported module variables for parent project integration
+**Key Features:**
+# GPU backend selection
+if(THEMIS_GEO_CUDA)
+list(APPEND GEO_GPU_SOURCES gpu_backend_cuda.cu)
+elseif(THEMIS_GEO_HIP)
+list(APPEND GEO_GPU_SOURCES gpu_backend_hip.cpp)
+else()
+list(APPEND GEO_GPU_SOURCES gpu_kernel_dispatcher_cpu.cpp)
+endif()
+# Always include fallback and production backend
+list(APPEND GEO_GPU_SOURCES gpu_backend_stub.cpp)
+list(APPEND GEO_GPU_SOURCES gpu_backend_production.cpp)
+**Acceptance Criteria Met:**
+- ✅ Independent CMakeLists.txt created
+- ✅ GPU conditionals properly handled
+- ✅ Core and GPU sources organized
+- ✅ Exports to parent build working
+---
+### Task 2: Integrate GpuKernelDispatcher into Dispatch Methods
+**File:** `/src/geo/geo_backend_dispatch.cpp`
+**What was done:**
+- Added `#include "geo/gpu_kernel_dispatcher.h"` header
+- Replaced Haversine distance TODO with production GPU dispatch code
+- Replaced point-in-polygon TODO with production GPU dispatch code
+- Implemented circuit-breaker pattern for GPU dispatch failures
 
 ---
 
@@ -5899,54 +5947,6 @@ Include files:
 #include <themis/gpu/gpu_memory.h>     // unique_gpu_ptr, make_unique_gpu
 #include <themis/gpu/gpu_timeout.h>    // KernelSLAGuard
 Macro usage:
-
----
-
-### GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md
-
-*(file too large — key headings extracted)*
-
-# Implementation Summary: Remaining Work for ThemisDB (2026-08-10)
-**Date:** 2026-08-10
-**Session:** Geo Module Externalization & GA Release Preparation
-**Status:** Priority 5 COMPLETE | Priority 1-2 PENDING
----
-## Overview
----
-## Priority 5: Geo Plugin Externalization Design — ✅ COMPLETE
-### Task 1: Update src/geo/CMakeLists.txt for GPU Conditional Compilation
-**File:** `/src/geo/CMakeLists.txt` (NEW)
-**What was done:**
-- Created independent geo module build orchestration
-- Implemented GPU backend selection logic (CUDA > HIP > CPU fallback)
-- Organized core geo sources (25+ files)
-- Configured GPU-specific compiler flags and link libraries
-- Exported module variables for parent project integration
-**Key Features:**
-# GPU backend selection
-if(THEMIS_GEO_CUDA)
-list(APPEND GEO_GPU_SOURCES gpu_backend_cuda.cu)
-elseif(THEMIS_GEO_HIP)
-list(APPEND GEO_GPU_SOURCES gpu_backend_hip.cpp)
-else()
-list(APPEND GEO_GPU_SOURCES gpu_kernel_dispatcher_cpu.cpp)
-endif()
-# Always include fallback and production backend
-list(APPEND GEO_GPU_SOURCES gpu_backend_stub.cpp)
-list(APPEND GEO_GPU_SOURCES gpu_backend_production.cpp)
-**Acceptance Criteria Met:**
-- ✅ Independent CMakeLists.txt created
-- ✅ GPU conditionals properly handled
-- ✅ Core and GPU sources organized
-- ✅ Exports to parent build working
----
-### Task 2: Integrate GpuKernelDispatcher into Dispatch Methods
-**File:** `/src/geo/geo_backend_dispatch.cpp`
-**What was done:**
-- Added `#include "geo/gpu_kernel_dispatcher.h"` header
-- Replaced Haversine distance TODO with production GPU dispatch code
-- Replaced point-in-polygon TODO with production GPU dispatch code
-- Implemented circuit-breaker pattern for GPU dispatch failures
 
 ---
 
@@ -6047,6 +6047,42 @@ AFTER ALL BATCHES (Target):
 
 ---
 
+### CMT-7504_IMPLEMENTATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# CMT-7504 Implementation Guide
+## Documentation Linkset Synchronization Remediation Steps
+**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
+**Target Completion:** 2026-08-31
+**Estimated Effort:** 2 hours (execution + testing)
+---
+## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
+### Step 1.1: Add Bidirectional Cross-Links
+#### A. Update Root README.md
+**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
+**Add this block:**
+### 🟠 Content Module Status Snapshot
+**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
+**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
+---
+#### B. Update Root ROADMAP.md
+**Location:** Immediately after the "## Current Status" section (around line 50)
+**Add this subsection:**
+## Content Module Status
+**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
+See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
+- Complete phase-by-phase status
+- Current in-progress work (hardening, benchmarking, diagnostics)
+- Planned features (3-6 months and 6-12 months targets)
+- Production readiness checklist
+**Key Milestones:**
+- Phase 1-5 Complete (core implementation, error handling, tests, performance)
+- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
+**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
+
+---
+
 ### CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -6094,42 +6130,6 @@ Example: attempt=0→0ms, attempt=1→150ms, attempt=2→225ms, attempt=3→337m
 - `src/chimera/batch_executor.cpp` (10 lines)
 **Features**:
 - `IBatchAdapter`: Mixin interface for queuing and flushing
-
----
-
-### CMT-7504_IMPLEMENTATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# CMT-7504 Implementation Guide
-## Documentation Linkset Synchronization Remediation Steps
-**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
-**Target Completion:** 2026-08-31
-**Estimated Effort:** 2 hours (execution + testing)
----
-## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
-### Step 1.1: Add Bidirectional Cross-Links
-#### A. Update Root README.md
-**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
-**Add this block:**
-### 🟠 Content Module Status Snapshot
-**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
-**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
----
-#### B. Update Root ROADMAP.md
-**Location:** Immediately after the "## Current Status" section (around line 50)
-**Add this subsection:**
-## Content Module Status
-**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
-See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
-- Complete phase-by-phase status
-- Current in-progress work (hardening, benchmarking, diagnostics)
-- Planned features (3-6 months and 6-12 months targets)
-- Production readiness checklist
-**Key Milestones:**
-- Phase 1-5 Complete (core implementation, error handling, tests, performance)
-- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
-**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
 
 ---
 
