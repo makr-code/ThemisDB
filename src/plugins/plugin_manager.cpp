@@ -2212,6 +2212,102 @@ json PluginManager::getDiagnosticsForPlugin(const std::string& plugin_name) cons
     return diagnostics;
 }
 
+ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
+    const PluginManifest& manifest,
+    std::string& error_details) {
+    
+    // Check license_feature format if present
+    if (!manifest.license_feature.empty()) {
+        // Pattern: ^[a-z0-9][a-z0-9_.-]*$
+        if (manifest.license_feature[0] < 'a' || manifest.license_feature[0] > 'z') {
+            if (manifest.license_feature[0] < '0' || manifest.license_feature[0] > '9') {
+                error_details = "license_feature must start with lowercase letter or digit";
+                return ManifestErrorCode::PLUGIN_LICENSE_FEATURE_INVALID;
+            }
+        }
+        for (char c : manifest.license_feature) {
+            if (!std::isalnum(c) && c != '_' && c != '.' && c != '-') {
+                error_details = "license_feature contains invalid character: " + std::string(1, c);
+                return ManifestErrorCode::PLUGIN_LICENSE_FEATURE_INVALID;
+            }
+        }
+    }
+    
+    // Check allowed_editions constraint
+    if (!manifest.allowed_editions.empty()) {
+        const auto current = normalizeEditionName(std::string(edition::EDITION_STRING));
+        bool edition_allowed = std::any_of(
+            manifest.allowed_editions.begin(),
+            manifest.allowed_editions.end(),
+            [&](const std::string& allowed) {
+                return normalizeEditionName(allowed) == current;
+            }
+        );
+        
+        if (!edition_allowed) {
+            error_details = "Plugin not allowed on edition '" + std::string(edition::EDITION_STRING) +
+                          "'. Allowed editions: " + 
+                          [&]() {
+                              std::string result;
+                              for (size_t i = 0; i < manifest.allowed_editions.size(); ++i) {
+                                  if (i > 0) result += ", ";
+                                  result += manifest.allowed_editions[i];
+                              }
+                              return result;
+                          }();
+            return ManifestErrorCode::PLUGIN_EDITION_MISMATCH;
+        }
+    }
+    
+    // Check license_feature gate if required
+    if (!manifest.license_feature.empty()) {
+        auto license_gate = themis::runtime::getLicenseGate();
+        if (!license_gate || !license_gate->hasFeature(manifest.license_feature)) {
+            error_details = "License feature '" + manifest.license_feature + "' not granted";
+            return ManifestErrorCode::PLUGIN_LICENSE_DENIED;
+        }
+    }
+    
+    return ManifestErrorCode::MANIFEST_OK;
+}
+
+ManifestErrorCode PluginManager::validateManifestPublicPrivateBoundary(
+    const PluginManifest& manifest,
+    const std::string& plugin_path,
+    std::string& error_details) {
+    
+    const std::string visibility = manifest.visibility.empty() ? "public" : manifest.visibility;
+    const auto current_edition = normalizeEditionName(std::string(edition::EDITION_STRING));
+    
+    // Rule 1: visibility="private" AND edition="community" → FAIL-CLOSED
+    if (visibility == "private" && current_edition == "community") {
+        error_details = "Private plugin cannot be loaded in community edition";
+        return ManifestErrorCode::PLUGIN_PRIVATE_IN_COMMUNITY;
+    }
+    
+    // Rule 2: plugin_path contains "private/" BUT visibility!="private" → WARN/BLOCK
+    if (plugin_path.find("private/") != std::string::npos ||
+        plugin_path.find("private\\") != std::string::npos) {
+        if (visibility != "private") {
+            error_details = "Plugin path contains 'private/' but visibility is '" + visibility +
+                          "', not 'private'. Mismatched boundary marking.";
+            return ManifestErrorCode::PLUGIN_PATH_VISIBILITY_MISMATCH;
+        }
+    }
+    
+    // Rule 3: visibility="restricted" AND no scoped-checkout context → FAIL-CLOSED
+    if (visibility == "restricted") {
+        // Check for scoped checkout context (e.g., environment variable or config)
+        const char* scoped_context = std::getenv("THEMISDB_SCOPED_CHECKOUT");
+        if (!scoped_context || std::string(scoped_context).empty()) {
+            error_details = "Restricted plugin requires scoped checkout context (THEMISDB_SCOPED_CHECKOUT)";
+            return ManifestErrorCode::PLUGIN_RESTRICTED_NO_CONTEXT;
+        }
+    }
+    
+    return ManifestErrorCode::MANIFEST_OK;
+}
+
 std::string PluginManager::formatDiagnosticMessage(
     PluginsError error_code,
     const std::string& context,
