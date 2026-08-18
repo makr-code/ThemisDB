@@ -213,17 +213,23 @@ jobs:
           echo "✓ Private/public SBOM variance check passed"
 
       - name: Post hash/SBOM validation result
-        if: always()
+        if: always() && github.event.pull_request.number != ''
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           script: |
+            const prNumber = context.issue.number;
+            if (!prNumber) {
+              core.info('No PR context — skipping comment (push or workflow_dispatch trigger)');
+              return;
+            }
+
             const conclusion = '${{ job.status }}' === 'success' ? 'success' : 'failure';
             const msg = conclusion === 'success'
               ? '✅ Hash & SBOM validation PASSED'
               : '❌ Hash & SBOM validation FAILED';
             
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            await github.rest.issues.createComment({
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `## Wave C Policy Gate: Hash & SBOM Integrity
