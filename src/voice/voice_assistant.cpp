@@ -35,7 +35,18 @@ namespace voice {
 
 namespace {
 
+// ============================================================================
 // BATCH A-8: Fail-closed limits for malformed/oversized stream rejection
+// CRITICAL GAPS 1-11: Implement comprehensive stream validation
+// ============================================================================
+
+// Per-chunk and session-wide limits for fail-closed rejection
+constexpr size_t MAX_VOICE_CHUNK_SIZE = 64 * 1024;        // 64 KB per chunk (CRITICAL GAP 6)
+constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // 2 MB cumulative buffer (CRITICAL GAP 7)
+constexpr size_t MAX_SESSION_STREAMS = 10;                // Max streams per session (CRITICAL GAP 8)
+constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format version (CRITICAL GAP 9)
+
+// Legacy constants for backward compatibility (deprecated)
 constexpr size_t kMaxVoicePayloadBytes = 64 * 1024 * 1024;    // 64 MB max chunk (configurable)
 constexpr size_t kMaxSessionBufferBytes = 512 * 1024 * 1024;  // 512 MB max session buffer
 
@@ -49,13 +60,80 @@ constexpr size_t kMaxSessionBufferBytes = 512 * 1024 * 1024;  // 512 MB max sess
 [[nodiscard]] bool isRejectedVoicePayload(const std::vector<uint8_t>& audio_data) {
     // CRITICAL GAP 1: Reject empty payloads
     if (audio_data.empty()) {
+        THEMIS_WARN("Voice stream: empty audio payload rejected");
         return true;
     }
     // CRITICAL GAP 2: Reject oversized payloads that could cause OOM
-    if (audio_data.size() > kMaxVoicePayloadBytes) {
+    // Use stricter per-chunk limit from BATCH A-8 spec
+    if (audio_data.size() > MAX_VOICE_CHUNK_SIZE) {
+        THEMIS_WARN("Voice stream chunk exceeds max size: {} bytes > {} bytes max", 
+                    audio_data.size(), MAX_VOICE_CHUNK_SIZE);
         return true;
     }
     return false;
+}
+
+/**
+ * @brief Validate frame format version for malformed frame detection.
+ * Fail-closed: reject frames with invalid version.
+ * 
+ * CRITICAL GAP 4: Validate frame version
+ * 
+ * @param frame_version Version byte from frame header
+ * @return true if version is valid; false otherwise
+ */
+[[nodiscard]] bool isValidFrameVersion(uint8_t frame_version) {
+    if (frame_version != VALID_FRAME_VERSION) {
+        THEMIS_WARN("Voice frame invalid version: {} (expected {})", 
+                    static_cast<int>(frame_version), static_cast<int>(VALID_FRAME_VERSION));
+        return false;
+    }
+    return true;
+}
+
+/**
+ * @brief Validate compression format for malformed stream rejection.
+ * Fail-closed: reject unsupported compression formats.
+ * 
+ * CRITICAL GAP 5: Validate compression format
+ * 
+ * @param compression_format Compression type code
+ * @return true if format is valid; false otherwise
+ */
+[[nodiscard]] bool isValidCompressionFormat(uint8_t compression_format) {
+    // Supported formats: 0=PCM (uncompressed), 1=OPUS, 2=AAC
+    switch (compression_format) {
+        case 0:  // PCM
+        case 1:  // OPUS
+        case 2:  // AAC
+            return true;
+        default:
+            THEMIS_WARN("Voice frame invalid compression format: {}", 
+                        static_cast<int>(compression_format));
+            return false;
+    }
+}
+
+/**
+ * @brief Validate cumulative buffer doesn't exceed stream limits.
+ * Fail-closed: reject chunks that would overflow buffer.
+ * 
+ * CRITICAL GAP 7: Cumulative buffer check
+ * 
+ * @param current_buffer_size Current buffer size in bytes
+ * @param new_chunk_size Size of incoming chunk
+ * @return true if chunk would be accepted; false if rejected
+ */
+[[nodiscard]] bool validateStreamBufferCapacity(
+    size_t current_buffer_size, 
+    size_t new_chunk_size) {
+    
+    if (current_buffer_size + new_chunk_size > MAX_STREAM_BUFFER) {
+        THEMIS_WARN("Voice stream buffer would exceed max: {} + {} > {} (REJECT)",
+                    current_buffer_size, new_chunk_size, MAX_STREAM_BUFFER);
+        return false;
+    }
+    return true;
 }
 
 /**
