@@ -212,3 +212,153 @@ Die April-Spannen bleiben als strategischer Upper-Bound relevant; der aktuelle B
 | **Stand production-ready** | **€78M – €165M** | **€140M – €260M+** |
 
 **Kernaussage:** Der größte Werthebel ist kurzfristig nicht primär „mehr Features“, sondern das **harte Schließen der letzten Governance-/Commercial-Nachweise** auf bereits hoher technischer Reife.
+
+---
+
+## 11) Quantitative Herleitungen (rechenbar, auditierbar)
+
+### 11.1 Herleitungsquellen und übernommene Basiswerte
+
+| Bereich | Wert(e) | Quelle |
+|---|---|---|
+| TCO Szenario A (SMB) | ThemisDB €550k vs AWS €1.975k / Azure €1.915k / GCP €1.715k (5 Jahre) | `/home/runner/work/ThemisDB/ThemisDB/docs/de/THEMISDB_MONETARY_VALUATION_ANALYSIS.confidential.md` (Zeilen 778–790) |
+| TCO Szenario B (Enterprise) | ThemisDB €2.090k vs AWS €10.500k / Azure €11.100k / GCP €9.000k (5 Jahre) | gleiche Quelle (Zeilen 802–815) |
+| TCO Szenario C (KRITIS) | ThemisDB €550k vs Patchwork €1.450k (5 Jahre) | gleiche Quelle (Zeilen 827–836) |
+| TCO Szenario D (Military) | ThemisDB €1.300k vs Legacy €4.100k / OSS+Integrator €2.650k (5 Jahre) | gleiche Quelle (Zeilen 850–860) |
+| Cost-to-Recreate (ohne/mit AI) | 30.000h vs 8.000–12.000h, €80/h | gleiche Quelle (Zeilen 967–971) |
+| Team-/Kostenstruktur 2027 | 6+1+0,5 FTE; Ø €95k/FTE; KI-Tools €74k/Jahr; Gesamtbudget €1,363M | `/home/runner/work/ThemisDB/ThemisDB/docs/de/strategie/FINANZIERUNG_UND_KOSTENPLAN_2027.md` (Zeilen 48–59, 103–114, 193–205) |
+
+### 11.2 Formelwerk
+
+- **5Y-Savings** = `TCO_Alternative - TCO_ThemisDB`
+- **Benefit/Cost-Multiple** = `5Y-Savings / TCO_ThemisDB`
+- **ROI (5Y, investitionsbasiert)** = `(5Y-Savings - TCO_ThemisDB) / TCO_ThemisDB`
+- **Annual Savings** = `5Y-Savings / 5`
+- **Payback (Jahre)** = `TCO_ThemisDB / Annual Savings`
+- **AI-Break-even-Stunden/Jahr** = `KI-Tools-Jahreskosten / Stundensatz`
+
+---
+
+## 12) ROI-Modell (Szenario-basiert)
+
+### 12.1 Szenario A (SMB, 5 Jahre)
+
+| Vergleich | 5Y-Savings | Benefit/Cost | ROI (5Y) | Payback |
+|---|---:|---:|---:|---:|
+| vs AWS Multi-Service | €1.425M | 2,59× | 159,1% | 1,93 Jahre |
+| vs Azure Cosmos Stack | €1.365M | 2,48× | 148,2% | 2,01 Jahre |
+| vs GCP Multi-Service | €1.165M | 2,12× | 111,8% | 2,36 Jahre |
+
+### 12.2 Szenario B (Enterprise, 5 Jahre)
+
+| Vergleich | 5Y-Savings | Benefit/Cost | ROI (5Y) | Payback |
+|---|---:|---:|---:|---:|
+| vs AWS Multi-Service | €8.410M | 4,02× | 302,4% | 1,24 Jahre |
+| vs Azure Cosmos Stack | €9.010M | 4,31× | 331,1% | 1,16 Jahre |
+| vs GCP Multi-Service | €6.910M | 3,31× | 230,6% | 1,51 Jahre |
+
+### 12.3 Szenario C (KRITIS, 5 Jahre)
+
+| Vergleich | 5Y-Savings | Benefit/Cost | ROI (5Y) | Payback |
+|---|---:|---:|---:|---:|
+| vs Open-Source Patchwork | €0.900M | 1,64× | 63,6% | 3,06 Jahre |
+
+### 12.4 Szenario D (Military, 5 Jahre)
+
+| Vergleich | 5Y-Savings | Benefit/Cost | ROI (5Y) | Payback |
+|---|---:|---:|---:|---:|
+| vs Legacy DefTech | €2.800M | 2,15× | 115,4% | 2,32 Jahre |
+| vs OSS + Integrator | €1.350M | 1,04× | 3,8% | 4,81 Jahre |
+
+**Interpretation:** Der stärkste monetäre Hebel liegt im Enterprise-Migrationsfall (Szenario B). KRITIS/Military sind wirtschaftlich ebenfalls positiv, aber zusätzlich durch regulatorische/operative Notwendigkeit getrieben (nicht nur Kostenersparnis).
+
+---
+
+## 13) Replikationskosten mit vs. ohne KI (Cost-to-Recreate)
+
+### 13.1 Direkte Entwicklungszeit-Kalkulation aus Basisannahmen
+
+**Quelleingabe:**
+- Traditionell: `30.000h × €80 = €2,40M`
+- AI-beschleunigt: `8.000–12.000h × €80 = €0,64M–€0,96M`
+
+**Ergebnis:**
+- **Absolute Einsparung durch KI:** €1,44M–€1,76M
+- **Relative Einsparung:** 60%–73,3%
+
+### 13.2 Vollkosten-Kalkulation mit Team-Kostenstruktur (Repo-intern)
+
+Zusatzannahmen aus 2027-Plan:
+- Ø Personalkosten: €95k pro FTE-Jahr
+- Overhead-Faktor aus Budgetstruktur: `1 + (Nicht-Personal 603k / Personal 760k) = 1,793`
+- 1 FTE-Jahr ≈ 1.600h
+
+| Modell | Stunden | FTE-Jahre | Personalkosten | Vollkosten (mit Overhead) |
+|---|---:|---:|---:|---:|
+| Ohne KI (traditionell) | 30.000h | 18,75 | €1,781M | **€3,195M** |
+| Mit KI (untere Grenze) | 8.000h | 5,00 | €0,475M | **€0,852M** |
+| Mit KI (obere Grenze) | 12.000h | 7,50 | €0,713M | **€1,278M** |
+
+**Vollkosten-Einsparung mit KI:** **€1,917M–€2,343M** gegenüber traditioneller Replikation.
+
+### 13.3 KI-Tooling-Break-even
+
+- KI-Toolkosten (Planwert): €74.000/Jahr
+- Stundensatz: €80/h
+- **Break-even:** `€74.000 / €80 = 925 Stunden/Jahr`
+
+Bereits eine Produktivitätssteigerung von >925h/Jahr deckt die KI-Toolkosten.  
+Die hergeleitete Replikationsersparnis (18.000–22.000h) liegt deutlich darüber.
+
+---
+
+## 14) Verknüpfung zu EV (Stand jetzt vs. production-ready)
+
+### 14.1 Quantifizierter Bewertungs-Lift
+
+| Zustand | EV-Korridor (wahrscheinlich) |
+|---|---:|
+| Stand jetzt | €52M – €118M |
+| Production-ready | €78M – €165M |
+| **Lift absolut** | **+€26M bis +€47M** |
+| **Lift relativ** | **ca. +39% bis +50%** |
+
+**Kernursache des Lifts:** geringerer Governance-/Execution-Discount (von 18–28% auf 8–14%) plus besserer kommerzieller Multiplikatorzugang.
+
+### 14.2 EV-Konsistenzcheck gegen Revenue-Multiples
+
+Bei Base-ARR €2,6M:
+- 8× ARR = €20,8M
+- 10× ARR = €26,0M
+- 14× ARR = €36,4M
+- 18× ARR = €46,8M
+
+Die EV-Spannen im Bericht liegen darüber, da strategische Komponenten (Souveränität/KRITIS/Military, Compliance-Moat, Cost-to-Recreate) additiv berücksichtigt werden.
+
+---
+
+## 15) Sensitivität: Was kippt den Case?
+
+### 15.1 Höchste Hebel
+
+1. **Enterprise-Conversion-Rate** (wirkt direkt auf ARR und Multiple)
+2. **Attach-Rate Add-ons** (von €5k Basis bis €18,5k Premium pro Jahr)
+3. **Churn-Qualität** (LTV:CAC-Spannen im Basisdokument: 4,8:1 bis 9,2:1)
+4. **Governance-Closure-Timing** (direkter EV-Discount/Lift)
+
+### 15.2 Downside-Prüfung
+
+Wenn nur das niedrigste monetäre Delta aus den TCO-Fällen realisiert wird (z. B. Szenario D vs OSS + Integrator), bleibt der Business-Case positiv, aber mit langer Payback-Zeit (4,81 Jahre).  
+Das bedeutet: Für marginale Differenzfälle muss ThemisDB zusätzlich über Compliance-/Souveränitätsnutzen verkauft werden, nicht nur über reine Kostensenkung.
+
+---
+
+## 16) Konkrete Nachschärfung für Investor-/Käufer-Due-Diligence
+
+1. **ROI-Rechner standardisieren** (Formelwerk aus Abschnitt 11 direkt als Appendix/Sheet)
+2. **Replikationskosten dual ausweisen**: „ohne KI“ vs. „mit KI“ als Pflichtmetrik
+3. **Commercial Proof ergänzen**: NRR, Sales-Cycle, Win-Rate (derzeit zentrale Lücke)
+4. **Szenario-Factsheets je Vertical** (SMB/Enterprise/KRITIS/Military) mit Payback-Tabellen
+5. **Discount-Bridge dokumentieren**: klarer Übergang von Stand-jetzt-Discount zu production-ready-Discount
+
+Damit ist die monetäre Bewertung nicht nur narrativ, sondern rechnerisch nachvollziehbar und für Finanzierung/M&A belastbarer.
