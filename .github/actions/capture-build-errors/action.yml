@@ -1,7 +1,10 @@
 name: 'Capture Build Errors'
 description: |
-  Captures build/linker/CMake errors from log files and exports them as structured JSON.
-  Supports multiple error types: compiler_error, linker_error, cmake_error, test_failure.
+  Captures build/linker/CMake/sanitizer errors from log files and exports them as structured JSON.
+  Supports 20+ error types with severity levels and error categorization.
+  
+  Error types: compiler_error, compiler_warning, linker_error, dependency_error, 
+  cmake_error, cmake_warning, sanitizer_error, test_failure, docker_error, platform_error.
 
 inputs:
   build-log-path:
@@ -11,24 +14,31 @@ inputs:
     description: 'Path to write JSON error report (e.g., build/build-errors.json)'
     required: true
   error-limit:
-    description: 'Maximum number of errors to capture'
+    description: 'Maximum number of errors to capture (default: 50)'
     required: false
-    default: '20'
+    default: '50'
   workspace:
     description: 'GitHub workspace (for path normalization)'
     required: false
     default: ${{ github.workspace }}
+  include-warnings:
+    description: 'Include compiler warnings and non-error messages (default: true)'
+    required: false
+    default: 'true'
 
 outputs:
   error-count:
-    description: 'Number of errors captured'
+    description: 'Total number of errors and warnings captured'
     value: ${{ steps.capture.outputs.error_count }}
   error-types:
-    description: 'Comma-separated list of error types found'
+    description: 'Comma-separated list of error type categories found'
     value: ${{ steps.capture.outputs.error_types }}
   has-errors:
     description: 'true if error_count > 0, else false'
     value: ${{ steps.capture.outputs.has_errors }}
+  critical-count:
+    description: 'Number of CRITICAL severity errors'
+    value: ${{ steps.capture.outputs.critical_count }}
 
 runs:
   using: 'composite'
@@ -41,6 +51,7 @@ runs:
         OUTPUT_FILE: ${{ inputs.output-file }}
         ERROR_LIMIT: ${{ inputs.error-limit }}
         WORKSPACE: ${{ inputs.workspace }}
+        INCLUDE_WARNINGS: ${{ inputs.include-warnings }}
         RUN_ID: ${{ github.run_id }}
         RUN_NUMBER: ${{ github.run_number }}
         WORKFLOW: ${{ github.workflow }}
