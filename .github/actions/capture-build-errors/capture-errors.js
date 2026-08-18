@@ -65,6 +65,10 @@ class ErrorMatcher {
       const regex = new RegExp(matcher.pattern, 'gm');
       while ((m = regex.exec(content)) !== null && errors.length < errorLimit) {
         const error = matcher.handler(m);
+        // Honour the include-warnings setting: skip LOW/INFO entries when disabled
+        if (!includeSuppressed && (error.severity === SEVERITY.LOW || error.severity === SEVERITY.INFO)) {
+          continue;
+        }
         const key = `${error.type}:${error.fingerprint || JSON.stringify(error)}`;
         if (!seen.has(key)) {
           seen.add(key);
@@ -80,12 +84,16 @@ class ErrorMatcher {
 const matcher = new ErrorMatcher();
 
 /**
- * Normalize file path: remove workspace prefix and convert to forward slashes
+ * Normalize file path: remove workspace prefix and convert to forward slashes.
+ * Uses a plain prefix check to avoid regex-metacharacter pitfalls.
  */
 function normalizePath(filePath) {
   if (!filePath) return '';
-  let normalized = filePath.replace(/\\/g, '/');
-  normalized = normalized.replace(new RegExp(`^${workspace.replace(/\\/g, '/')}/`), '');
+  const normalized = filePath.replace(/\\/g, '/');
+  const prefix = workspace.replace(/\\/g, '/') + '/';
+  if (normalized.startsWith(prefix)) {
+    return normalized.slice(prefix.length);
+  }
   return normalized;
 }
 

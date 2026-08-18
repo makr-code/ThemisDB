@@ -140,15 +140,16 @@ class MetricsCollector {
   }
 
   calculateResolutionLatency() {
-    // In production, would compare error first occurrence to issue closure
-    // For now, return mock data structure
+    // Resolution latency requires comparing first-occurrence timestamps against
+    // issue-closure timestamps, which are not available from a single CI run.
+    // Return null values; consumers must guard before rendering.
     return {
-      critical_avg_hours: 2.5,
-      high_avg_hours: 8.0,
-      medium_avg_hours: 24.0,
-      low_avg_hours: 72.0,
-      p50_hours: 6.0,
-      p95_hours: 48.0
+      critical_avg_hours: null,
+      high_avg_hours: null,
+      medium_avg_hours: null,
+      low_avg_hours: null,
+      p50_hours: null,
+      p95_hours: null
     };
   }
 
@@ -221,7 +222,7 @@ class MetricsCollector {
     lines.push('# TYPE themis_errors_by_workflow gauge');
 
     for (const [workflow, count] of Object.entries(this.metrics.error_by_workflow)) {
-      const escapedWorkflow = workflow.replace(/"/g, '\\"');
+      const escapedWorkflow = workflow.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
       lines.push(`themis_errors_by_workflow{workflow="${escapedWorkflow}"} ${count}`);
     }
 
@@ -243,7 +244,8 @@ class MetricsCollector {
     lines.push('');
     lines.push('# HELP themis_resolution_latency_critical Resolution latency for CRITICAL errors (hours)');
     lines.push('# TYPE themis_resolution_latency_critical gauge');
-    lines.push(`themis_resolution_latency_critical{} ${this.metrics.error_resolution_latency.critical_avg_hours}`);
+    const critLatency = this.metrics.error_resolution_latency.critical_avg_hours;
+    lines.push(`themis_resolution_latency_critical{} ${critLatency !== null ? critLatency : 'NaN'}`);
 
     return lines.join('\n');
   }
@@ -343,10 +345,11 @@ class MetricsCollector {
 
     md.push('## Error Resolution Latency\n\n');
     md.push('Average time from error first occurrence to fix:\n\n');
-    md.push(`- **CRITICAL**: ${this.metrics.error_resolution_latency.critical_avg_hours}h\n`);
-    md.push(`- **HIGH**: ${this.metrics.error_resolution_latency.high_avg_hours}h\n`);
-    md.push(`- **MEDIUM**: ${this.metrics.error_resolution_latency.medium_avg_hours}h\n`);
-    md.push(`- **LOW**: ${this.metrics.error_resolution_latency.low_avg_hours}h\n\n`);
+    const lat = this.metrics.error_resolution_latency;
+    md.push(`- **CRITICAL**: ${lat.critical_avg_hours !== null ? lat.critical_avg_hours + 'h' : 'N/A'}\n`);
+    md.push(`- **HIGH**: ${lat.high_avg_hours !== null ? lat.high_avg_hours + 'h' : 'N/A'}\n`);
+    md.push(`- **MEDIUM**: ${lat.medium_avg_hours !== null ? lat.medium_avg_hours + 'h' : 'N/A'}\n`);
+    md.push(`- **LOW**: ${lat.low_avg_hours !== null ? lat.low_avg_hours + 'h' : 'N/A'}\n\n`);
 
     return md.join('');
   }

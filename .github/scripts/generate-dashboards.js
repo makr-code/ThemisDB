@@ -15,6 +15,8 @@ const path = require('path');
 
 const METRICS_DIR = process.env.METRICS_DIR || '/tmp/error-metrics';
 const DASHBOARD_DIR = process.env.DASHBOARD_DIR || '/tmp/dashboards';
+const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY || '';
+const GITHUB_SERVER_URL = process.env.GITHUB_SERVER_URL || 'https://github.com';
 
 /**
  * Dashboard Generator
@@ -166,20 +168,16 @@ Week  Mon Tue Wed Thu Fri Sat Sun
 - **Retention**: 90 days
 - **Update Frequency**: After each workflow run
 
-### Download Metrics Files
+### Metrics Files
 
-- [JSON Export](./error-metrics.json)
-- [Prometheus Export](./error-metrics.prom)
-- [CSV Export](./error-metrics.csv)
+Metrics files are uploaded as CI artifacts named \`error-metrics\` on each run.
 
 ---
 
 ## 🔗 Related Links
 
-- [GitHub Actions Runs](https://github.com/$GITHUB_REPOSITORY/actions)
-- [Build Error Issues](https://github.com/$GITHUB_REPOSITORY/issues?q=label:ci/failure)
-- [Error Aggregation Script](./.github/scripts/aggregate-build-errors.js)
-- [Metrics Collection Documentation](./docs/ci-cd/BUILD_ERROR_METRICS.md)
+${GITHUB_REPOSITORY ? `- [GitHub Actions Runs](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions)
+- [Build Error Issues](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/issues?q=label:ci/failure)` : '- *(repository URL not available)*'}
 
 ---
 
@@ -319,12 +317,12 @@ Week  Mon Tue Wed Thu Fri Sat Sun
   }
 
   generatePlatformRows(metrics) {
+    const total = metrics.total_error_instances || 1;
     return Object.entries(metrics.error_by_platform || {})
       .sort((a, b) => b[1] - a[1])
       .map(([platform, count]) => {
-        const pct = ((count / metrics.total_error_instances) * 100).toFixed(1);
-        const trend = Math.random() > 0.5 ? '↑' : '↓';
-        return `| ${platform} | ${count} | ${pct}% | ${trend} |`;
+        const pct = ((count / total) * 100).toFixed(1);
+        return `| ${platform} | ${count} | ${pct}% | — |`;
       })
       .join('\n');
   }
@@ -341,10 +339,21 @@ Week  Mon Tue Wed Thu Fri Sat Sun
   }
 
   generateTopIssuesTable(metrics) {
-    // Placeholder - would need actual chronic error data
-    return `| Rank | Error | Frequency | Status |\n` +
-           `|------|-------|-----------|--------|\n` +
-           `| 1 | undefined reference to 'symbol' | 5x | 🔴 |`;
+    const chronic = Object.entries(metrics.chronic_errors_by_type || {})
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+
+    if (chronic.length === 0) {
+      return `| Rank | Error | Frequency | Status |\n` +
+             `|------|-------|-----------|--------|\n` +
+             `| — | No chronic errors detected | — | ✅ |`;
+    }
+
+    const header = `| Rank | Error | Frequency | Status |\n|------|-------|-----------|--------|`;
+    const rows = chronic.map(([errType, freq], i) =>
+      `| ${i + 1} | ${errType} | ${freq}x | 🔴 |`
+    ).join('\n');
+    return `${header}\n${rows}`;
   }
 
   generateProblemFiles(metrics) {

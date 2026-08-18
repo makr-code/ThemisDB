@@ -106,30 +106,47 @@ jobs:
                 });
                 
                 const errorArtifacts = artifacts.artifacts.filter(a => 
-                  a.name.includes('error') && (a.name.includes('build') || a.name.includes('docker'))
+                  a.name.includes('error') || a.name.startsWith('ctest-results')
                 );
                 
                 for (const artifact of errorArtifacts) {
                   try {
-                    // Download artifact URL instead of directly downloading
-                    const downloadUrl = artifact.archive_download_url;
-                    console.log(`    📥 ${artifact.name} from run #${run.id}`);
-                    downloadedCount++;
+                    console.log(`    📥 Downloading ${artifact.name} from run #${run.id}`);
                     
-                    // Store metadata for aggregation
+                    // Download the artifact zip using the authenticated GitHub API
+                    const response = await github.request('GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/zip', {
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      artifact_id: artifact.id,
+                      request: { redirect: 'follow' },
+                    });
+                    
+                    // response.data is an ArrayBuffer when redirect is followed
+                    const zipPath = path.join(artifactDir, `${artifact.name}-${run.id}.zip`);
+                    fs.writeFileSync(zipPath, Buffer.from(response.data));
+                    
+                    // Extract zip to a named subdirectory
+                    const extractDir = path.join(artifactDir, `${artifact.name}-${run.id}`);
+                    fs.mkdirSync(extractDir, { recursive: true });
+                    
+                    const { execSync } = require('child_process');
+                    execSync(`unzip -o "${zipPath}" -d "${extractDir}"`, { stdio: 'pipe' });
+                    
+                    // Write metadata alongside extracted files
                     fs.writeFileSync(
-                      path.join(artifactDir, `${artifact.name}.metadata.json`),
+                      path.join(extractDir, `_metadata.json`),
                       JSON.stringify({
                         name: artifact.name,
                         run_id: run.id,
                         run_number: run.run_number,
                         workflow: workflowName,
                         created_at: run.created_at,
-                        download_url: downloadUrl
                       }, null, 2)
                     );
+                    
+                    downloadedCount++;
                   } catch (e) {
-                    core.warning(`Failed to process artifact: ${artifact.name} — ${e.message}`);
+                    core.warning(`Failed to download artifact: ${artifact.name} — ${e.message}`);
                   }
                 }
               }
@@ -209,7 +226,7 @@ jobs:
         continue-on-error: true
 
       - name: Create issue for each error type (if needed)
-        if: steps.aggregate.outputs.has_artifacts == 'true'
+        if: steps.fetch.outputs.has_artifacts == 'true'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           script: |
@@ -254,7 +271,6 @@ jobs:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           METRICS_DIR: /tmp/error-metrics
           OUTPUT_FORMAT: json,prometheus,markdown
-          GITHUB_OUTPUT: ${{ env.GITHUB_OUTPUT }}
         run: |
           mkdir -p /tmp/error-metrics
           node ${{ github.workspace }}/.github/scripts/collect-build-metrics.js
@@ -268,8 +284,8 @@ jobs:
           retention-days: 90
 
       - name: Publish Error Dashboard
-        if: always() && steps.aggregate.outputs.has_artifacts == 'true'
-        uses: ./.github/actions/publish-error-dashboard@main
+        if: always() && steps.fetch.outputs.has_artifacts == 'true'
+        uses: ./.github/actions/publish-error-dashboard
         with:
           metrics-artifact: error-metrics
           create-issue: ${{ steps.aggregate.outputs.chronic_errors > 0 }}

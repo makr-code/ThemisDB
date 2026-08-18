@@ -25,13 +25,19 @@ const GITHUB_RUN_URL = process.env.GITHUB_RUN_URL || '';
 const GITHUB_REPO = process.env.GITHUB_REPO || '';
 
 /**
- * Detect platform from webhook URL or explicit input
+ * Detect platform from webhook URL or explicit input.
+ * Uses hostname comparison to prevent substring-in-URL bypass.
  */
 function detectPlatform(url) {
   if (PLATFORM !== 'auto') return PLATFORM.toLowerCase();
-  
-  if (url.includes('hooks.slack.com')) return 'slack';
-  if (url.includes('discord.com')) return 'discord';
+
+  try {
+    const hostname = new URL(url).hostname;
+    if (hostname === 'hooks.slack.com' || hostname.endsWith('.hooks.slack.com')) return 'slack';
+    if (hostname === 'discord.com' || hostname.endsWith('.discord.com')) return 'discord';
+  } catch (_) {
+    // malformed URL — fall through to default
+  }
   return 'slack'; // default
 }
 
@@ -75,8 +81,10 @@ function extractChronicErrors(report) {
     for (let i = chronicSection + 2; i < lines.length; i++) {
       const line = lines[i];
       if (line.startsWith('##')) break; // next section
-      if (line.match(/^\d+\./)) {
-        errors.push(line);
+      const numbered = line.match(/^(\d+)\.\s*(.*)/);
+      if (numbered) {
+        // Normalise to the object shape expected by formatSlackMessage
+        errors.push({ message: numbered[2], frequency: CHRONIC_THRESHOLD });
       }
     }
     return errors;
