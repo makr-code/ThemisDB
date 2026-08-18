@@ -47,13 +47,13 @@ jobs:
           fetch-depth: 0
 
       - name: Check for private plugin leakage to community builds
+        id: check-leakage
         run: |
           set -euo pipefail
           
           BASE_REF="${{ github.base_ref || 'develop' }}"
           git fetch origin "${BASE_REF}" --depth=1
           
-          # Detect changes to private plugin paths
           CHANGED_FILES=$(git diff --name-only "origin/${BASE_REF}...HEAD" || echo "")
           
           PRIVATE_PLUGIN_CHANGED=false
@@ -67,15 +67,15 @@ jobs:
             fi
           done <<< "$CHANGED_FILES"
           
-          # If private plugins touched, enforce edge cases.
           if [ "$PRIVATE_PLUGIN_CHANGED" = "true" ]; then
             echo "::notice::Private plugin files detected in PR:$PRIVATE_PLUGIN_FILES"
             
-            # Only community and minimal builds should fail on private plugin inclusion.
             TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
             
             if [[ "$TARGET_BRANCH" == "community" ]] || [[ "$TARGET_BRANCH" == "minimal" ]]; then
-              echo "::error::Private plugin changes not allowed on community/minimal branches"
+              ERR="Private plugin changes are not allowed on community/minimal branches"
+              echo "::error::$ERR"
+              echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
               exit 1
             fi
           fi
@@ -83,10 +83,10 @@ jobs:
           echo "✓ Private plugin boundary check passed"
 
       - name: Validate plugin manifest visibility fields
+        id: check-visibility
         run: |
           set -euo pipefail
           
-          # Check for plugin manifest files (plugin.toml, plugin.json, etc.)
           MANIFEST_FILES=$(find plugins -name "plugin.toml" -o -name "plugin.json" -o -name "plugin.yaml" 2>/dev/null || echo "")
           
           INVALID_MANIFESTS=0
@@ -94,13 +94,11 @@ jobs:
           while IFS= read -r manifest_file; do
             [ -z "$manifest_file" ] && continue
             
-            # Check if file contains visibility field.
             if ! grep -q "visibility" "$manifest_file"; then
               echo "::warning::Missing 'visibility' field in $manifest_file"
               ((INVALID_MANIFESTS++)) || true
             fi
             
-            # Check if private plugins have visibility set to 'private'.
             if [[ "$manifest_file" =~ ^plugins/private/ ]]; then
               if grep -q 'visibility.*=.*"public"' "$manifest_file"; then
                 echo "::error::Private plugin $manifest_file has public visibility!"
@@ -110,13 +108,16 @@ jobs:
           done <<< "$MANIFEST_FILES"
           
           if [ $INVALID_MANIFESTS -gt 0 ]; then
-            echo "::error::$INVALID_MANIFESTS manifest file(s) failed validation"
+            ERR="$INVALID_MANIFESTS manifest file(s) failed visibility validation"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           
           echo "✓ Plugin manifest visibility validation passed"
 
       - name: Validate submodule commit pins (no branch refs for private)
+        id: check-submodules
         run: |
           set -euo pipefail
           
@@ -127,15 +128,10 @@ jobs:
           
           INVALID_REFS=0
           
-          # Parse .gitmodules and check for private submodules using branch refs.
           while IFS= read -r line; do
             if [[ "$line" =~ ^\[submodule ]]; then
-              # Extract submodule name.
               SUBMOD_NAME=$(echo "$line" | sed 's/\[submodule "\([^"]*\)"\]/\1/')
-              
-              # Check if this is a private submodule.
               if [[ "$SUBMOD_NAME" =~ private ]]; then
-                # Private submodules MUST use commit SHAs, not branch references.
                 if grep -A 5 "^\[submodule \"$SUBMOD_NAME\"\]" .gitmodules | grep -q "branch = "; then
                   echo "::error::Private submodule $SUBMOD_NAME uses branch ref instead of commit SHA"
                   ((INVALID_REFS++)) || true
@@ -145,33 +141,37 @@ jobs:
           done < .gitmodules
           
           if [ $INVALID_REFS -gt 0 ]; then
-            echo "::error::$INVALID_REFS submodule(s) failed commit-pin validation"
+            ERR="$INVALID_REFS submodule(s) use branch refs instead of commit SHAs"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           
           echo "✓ Submodule commit-pin validation passed"
 
+      - name: Collect error summary for comment
+        id: collect-errors
+        if: failure()
+        run: |
+          SUMMARY=""
+          for step_out in \
+            "${{ steps.check-leakage.outputs.error_summary }}" \
+            "${{ steps.check-visibility.outputs.error_summary }}" \
+            "${{ steps.check-submodules.outputs.error_summary }}"; do
+            [ -n "$step_out" ] && SUMMARY="${SUMMARY}${step_out}\n"
+          done
+          echo "summary=${SUMMARY}" >> "$GITHUB_OUTPUT"
+
       - name: Post boundary check result
-        if: always()
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        if: always() && github.event_name == 'pull_request'
+        uses: ./.github/actions/post-failure-comment
         with:
-          script: |
-            const conclusion = '${{ job.status }}' === 'success' ? 'success' : 'failure';
-            const msg = conclusion === 'success'
-              ? '✅ Private/public plugin boundary check PASSED'
-              : '❌ Private/public plugin boundary check FAILED';
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## Wave C Policy Gate: Private Plugin Boundary
-
-            ${msg}
-
-            - ✅ Private plugin leakage detection
-            - ✅ Plugin manifest visibility validation
-            - ✅ Submodule commit-pin enforcement (no branch refs for private)
-
-            See \`.github/workflows/09-pr-gates_private-plugin-boundary-enforcement.yml\` for details.`
-            });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          gate-name: Private Plugin Boundary Enforcement
+          workflow-file: 09-pr-gates_private-plugin-boundary-enforcement.yml
+          job-status: ${{ job.status }}
+          checklist: |
+            - ${{ steps.check-leakage.outcome == 'success' && '✅' || '❌' }} Private plugin leakage detection
+            - ${{ steps.check-visibility.outcome == 'success' && '✅' || '❌' }} Plugin manifest visibility validation
+            - ${{ steps.check-submodules.outcome == 'success' && '✅' || '❌' }} Submodule commit-pin enforcement (no branch refs for private)
+          error-summary: ${{ steps.collect-errors.outputs.summary }}

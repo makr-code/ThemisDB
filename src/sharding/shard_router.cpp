@@ -1385,8 +1385,10 @@ std::vector<ShardResult> ShardRouter::executeMultiShardExactConsistency(
                         result = executeLocal("POST", "/api/v1/query",
                             std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
                     } else if (executor_) {
+                        ShardInfo remote_shard{};
+                        remote_shard.shard_id = shard_id;
                         auto exec_result = executor_->executeQuery(
-                            ShardTopology::ShardInfo{shard_id}, query);
+                            remote_shard, query);
                         result.success = exec_result.success;
                         result.data = exec_result.data;
                         result.error_msg = exec_result.error;

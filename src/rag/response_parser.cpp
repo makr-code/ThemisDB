@@ -18,10 +18,13 @@
 #include <sstream>
 #include <limits>
 
-// simdjson fast-path for the JSON extraction hot-path
-#if __has_include(<simdjson.h>)
+// simdjson fast-path for the JSON extraction hot-path.
+// Disabled on MSVC/unity builds to avoid namespace/parser collisions in vendor headers.
+#if !defined(_MSC_VER) && __has_include(<simdjson.h>)
 #  include <simdjson.h>
 #  define THEMIS_RAG_SIMDJSON 1
+#else
+#  define THEMIS_RAG_SIMDJSON 0
 #endif
 
 namespace themis::rag::judge {
@@ -71,7 +74,7 @@ ParsedResponse ResponseParser::parseJSON(const std::string& response) {
 
         // Fast structural validation via simdjson before full nlohmann parse.
         // On invalid JSON this saves the full nlohmann parse overhead (~3–5× faster).
-#ifdef THEMIS_RAG_SIMDJSON
+#if THEMIS_RAG_SIMDJSON
         static thread_local simdjson::ondemand::parser sj_parser;
         simdjson::padded_string padded(json_str);
         auto doc = sj_parser.iterate(padded);
@@ -174,7 +177,7 @@ nlohmann::json ResponseParser::parseJSONResponse(const std::string& response) {
         }
         std::string json_str = response.substr(start, end - start + 1);
         // Fast structural validation before full parse
-#ifdef THEMIS_RAG_SIMDJSON
+#if THEMIS_RAG_SIMDJSON
         static thread_local simdjson::ondemand::parser sj_parser_json_response;
         simdjson::padded_string padded_json_response(json_str);
         auto doc_json_response = sj_parser_json_response.iterate(padded_json_response);

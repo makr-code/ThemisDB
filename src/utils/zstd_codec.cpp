@@ -29,8 +29,16 @@ namespace utils {
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level) {
 #ifdef THEMIS_HAS_ZSTD
     // Step 1: Handle empty input
-    if (!data || size == 0) {
+    if (size == 0) {
         return Ok(std::vector<uint8_t>());
+    }
+
+    if (!data) {
+        THEMIS_ERROR("Compression input pointer is null for non-empty input: {} bytes", size);
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            fmt::format("Compression input pointer is null for {} bytes", size)
+        );
     }
     
     // Step 1.5: Phase A.3 Hardening - Validate compression level

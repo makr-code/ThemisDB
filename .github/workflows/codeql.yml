@@ -4,21 +4,33 @@ name: "CodeQL Advanced"
 # default CodeQL setup (dynamic/github-code-scanning/codeql). Keeping this file
 # preserves existing references and check contexts without uploading advanced
 # configuration SARIF, which conflicts with default setup.
+#
+# Copilot Autofix:
+#   Copilot Autofix for code scanning alerts is controlled by GitHub's default
+#   CodeQL setup, not by this compatibility stub. To enable or disable it:
+#     Repository Settings → Code security → Copilot Autofix → Enable/Disable
+#   When enabled, Copilot automatically suggests fixes for CodeQL findings
+#   on PRs and in the Security tab without any workflow changes needed here.
+#
+#   The `security-events: write` permission is retained so that if this workflow
+#   is ever extended to perform real CodeQL analysis, SARIF uploads and Copilot
+#   Autofix will work without additional permission changes.
 on:
   push:
     branches: [ "develop", "community" ]
     paths:
       - '.github/workflows/codeql.yml'
-      - '.github/workflows/security-scanning.yml'
+      - '.github/workflows/security-consolidated.yml'
   pull_request:
     branches: [ "develop", "community" ]
     paths:
       - '.github/workflows/codeql.yml'
-      - '.github/workflows/security-scanning.yml'
+      - '.github/workflows/security-consolidated.yml'
   workflow_dispatch: {}
 
 permissions:
   contents: read
+  security-events: write  # Required for SARIF uploads and Copilot Autofix
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -37,3 +49,4 @@ jobs:
         run: |
           echo "CodeQL analysis is handled by GitHub default setup."
           echo "This compatibility workflow intentionally skips advanced CodeQL init/analyze steps."
+          echo "Copilot Autofix: Repository Settings → Code security → Copilot Autofix."

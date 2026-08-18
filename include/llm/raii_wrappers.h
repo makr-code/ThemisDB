@@ -21,8 +21,16 @@
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
+#if __has_include(<openssl/bio.h>) && __has_include(<openssl/evp.h>)
+#include <openssl/bio.h>
+#include <openssl/evp.h>
+#define THEMIS_HAS_OPENSSL_RAII 1
+#else
+#define THEMIS_HAS_OPENSSL_RAII 0
+#endif
+
 // Forward declarations for OpenSSL (only needed if OPENSSL is available)
-#ifdef OPENSSL_CRYPTO_H
+#if THEMIS_HAS_OPENSSL_RAII
 struct bio_st;  // BIO opaque type
 struct evp_pkey_st;  // EVP_PKEY opaque type
 struct evp_md_ctx_st;  // EVP_MD_CTX opaque type

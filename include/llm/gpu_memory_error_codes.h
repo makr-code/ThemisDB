@@ -206,5 +206,3 @@ inline std::string gpuMemoryErrorToString(GPUMemoryErrorCode code) {
 
 } // namespace llm
 } // namespace themis
-
-#endif // THEMIS_LLM_GPU_MEMORY_ERROR_CODES_H

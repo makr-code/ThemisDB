@@ -388,8 +388,8 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
             THEMIS_INFO("[AUDIT] voice_authenticate: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
                         uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
-                THEMIS_WARN("[AUDIT] voice_authenticate_failed: user_id={}, session_id={}, error_code={}", 
-                           uid, session_id, auth_result.error_code);
+                THEMIS_WARN("[AUDIT] voice_authenticate_failed: user_id={}, session_id={}, reason={}",
+                           uid, session_id, auth_result.decision_reason);
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
                 tts_opts.format   = "wav";
@@ -520,8 +520,8 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
             THEMIS_INFO("[AUDIT] voice_authenticate_stream: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
                         uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
-                THEMIS_WARN("[AUDIT] voice_authenticate_stream_failed: user_id={}, session_id={}, error_code={}", 
-                           uid, session_id, auth_result.error_code);
+                THEMIS_WARN("[AUDIT] voice_authenticate_stream_failed: user_id={}, session_id={}, reason={}",
+                           uid, session_id, auth_result.decision_reason);
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
                 tts_opts.format   = "wav";
@@ -917,8 +917,8 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     auto result = voice_authenticator_.authenticate(user_id, audio_sample);
     // CRITICAL GAP 6: Audit logging for authenticateSpeaker() with detailed diagnostics
     logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
-    THEMIS_INFO("[AUDIT] voice_authenticate_speaker: user_id={}, audio_size={}, result={}, timestamp_ms={}, error_code={}",
-                user_id, audio_sample.size(), result.authenticated, result.timestamp_ms, result.error_code);
+    THEMIS_INFO("[AUDIT] voice_authenticate_speaker: user_id={}, audio_size={}, result={}, timestamp_ms={}, reason={}",
+                user_id, audio_sample.size(), result.authenticated, result.timestamp_ms, result.decision_reason);
     return result;
 }
 

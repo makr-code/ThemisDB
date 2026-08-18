@@ -2616,10 +2616,12 @@ private:
     std::string generateSessionToken(uint64_t sequence) const;
 };
 
-// Include geo_placement types at end of header to avoid circular dependency
+} // namespace replication
+} // namespace themisdb
+
+// Include geo_placement types at the end of this header (after namespace close).
+// This resolves forward declarations and provides full type definitions.
+// Circular dependency is prevented by #pragma once in geo_placement.h and this header.
 // (geo_placement.h includes replication_manager.h; by this point, the entire
 // replication_manager.h has been parsed and #pragma once prevents re-parsing)
 #include "replication/geo_placement.h"
-
-} // namespace replication
-} // namespace themisdb

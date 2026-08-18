@@ -426,6 +426,16 @@ public:
     /// @return true if session has expired; false if active
     bool isUseAfterFreeAttempt(const std::string& session_id);
 
+    /// @brief Check whether a session identifier is known to the manager.
+    /// @param session_id Session identifier
+    /// @return true when the session exists in the active cache or backend
+    bool sessionIdExists(const std::string& session_id);
+
+    /// @brief Get the last state-change timestamp for a session.
+    /// @param session_id Session identifier
+    /// @return timestamp in milliseconds, or 0 if unknown
+    int64_t getStateChangeTimestamp(const std::string& session_id);
+
 private:
     SessionTimeoutConfig timeout_config_;
     std::unique_ptr<ISessionPersistenceBackend> backend_;

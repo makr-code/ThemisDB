@@ -120,7 +120,7 @@ public:
     
     // Memory-mapped loading for zero-copy access
     void* mmapTensor(const std::string& tensor_name);
-    void unmapTensor(void* ptr);
+    void unmapTensor(void* ptr) noexcept;
     
     // Extract specific tensor data
     std::vector<uint8_t> getTensorData(const std::string& tensor_name);

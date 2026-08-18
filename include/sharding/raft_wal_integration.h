@@ -115,8 +115,8 @@ public:
 private:
     Config config_;                     ///< Shared subsystem dependencies.
     bool is_leader_;                    ///< Cached local leadership mode.
-    std::timed_mutex mutex_;                  ///< FIXED: Changed to timed_mutex to enforce write_timeout. Protects leadership and pending write state.
-    std::condition_variable cv_;  ///< Notified by onAppendEntriesResponse() when ACKs arrive
+    mutable std::timed_mutex mutex_;                  ///< FIXED: Changed to timed_mutex to enforce write_timeout. Protects leadership and pending write state.
+    std::condition_variable_any cv_;  ///< Notified by onAppendEntriesResponse() when ACKs arrive (works with timed_mutex)
 
     // Track pending writes for quorum
     /** @brief Pending quorum-tracked write keyed by Raft log index. */
