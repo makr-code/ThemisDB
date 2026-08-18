@@ -277,8 +277,12 @@ class SnapshotBasedUpdateWorker {
 
   /// Recovers from a crash by loading checkpoint.
   /// @param artifact_id Artifact to recover
-  /// @return true if recovery was successful or no checkpoint exists, false on error
-  virtual bool recoverFromCheckpoint(const std::string& artifact_id);
+  /// @return Recovered manifest if recovery successful, std::nullopt if no checkpoint or error
+  /// Note: Returns nullopt in these cases:
+  ///   - No checkpoint found (not an error)
+  ///   - Checkpoint corrupted and deleted
+  ///   - Validation failed (invalid manifest, corrupted data, etc.)
+  virtual std::optional<ArtifactManifest> recoverFromCheckpoint(const std::string& artifact_id);
 
   /// Saves a checkpoint before starting long-running operation.
   /// @param artifact_id Artifact being processed

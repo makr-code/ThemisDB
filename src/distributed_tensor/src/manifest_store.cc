@@ -42,6 +42,12 @@ static std::map<std::string, std::pair<std::string, int64_t>> g_locks;  // artif
 // ============================================================================
 // Error mapping: RocksDB::Status to ManifestStoreStatus
 // ============================================================================
+// Error code ranges for distributed_tensor module [7000-7099]:
+//   - 7000-7009: Storage errors (open, close, I/O failures)
+//   - 7010-7019: Manifest validation errors (invalid_manifest, schema violation)
+//   - 7020-7029: CAS (Compare-And-Swap) failures (version mismatch)
+//   - 7030-7039: Locking errors (lock_timeout, lock_not_held)
+//   - 7040-7099: Future use (error codes for aborted, timeout, lock conflicts)
 
 ManifestStoreStatus mapRocksDBStatusToManifestStatus(const rocksdb::Status& status) {
   if (status.ok()) {
@@ -66,8 +72,28 @@ ManifestStoreStatus mapRocksDBStatusToManifestStatus(const rocksdb::Status& stat
     return ManifestStoreStatus::STORAGE_ERROR;
   }
   
+  // Handle Aborted status (operation aborted, possibly async/concurrent issue)
+  if (status.IsAborted()) {
+    spdlog::warn("RocksDB operation aborted: {}", status.ToString());
+    // Map to STORAGE_ERROR (code 7001) - operation could not complete due to abort
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
+  
+  // Handle TimedOut status (operation exceeded time limit)
+  if (status.IsTimedOut()) {
+    spdlog::warn("RocksDB operation timed out: {}", status.ToString());
+    // Map to STORAGE_ERROR (code 7002) - operation could not complete within time limit
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
+  
+  // Handle Locked status (resource locked by another operation)
+  if (status.IsLocked()) {
+    spdlog::warn("RocksDB resource locked: {}", status.ToString());
+    return ManifestStoreStatus::ARTIFACT_LOCKED;
+  }
+  
   // Default: treat as storage error
-  spdlog::error("RocksDB error: {}", status.ToString());
+  spdlog::error("RocksDB error (unmapped status): {}", status.ToString());
   return ManifestStoreStatus::STORAGE_ERROR;
 }
 
@@ -80,9 +106,35 @@ ManifestStoreStatus ManifestStore::open(const std::string& db_path) {
   
   // Check if already initialized
   if (g_db_initialized && g_manifest_db) {
-    db_path_ = db_path;
-    is_open_ = true;
-    return ManifestStoreStatus::OK;
+    // If opening with a different path, close the old DB and open the new one
+    if (db_path_ != db_path) {
+      spdlog::warn("ManifestStore::open: Path mismatch - closing old database at '{}' "
+                   "and opening new database at '{}'",
+                   db_path_, db_path);
+      
+      // Flush pending writes before closing
+      rocksdb::Status flush_status = g_manifest_db->Flush(rocksdb::FlushOptions());
+      if (!flush_status.ok()) {
+        spdlog::warn("ManifestStore::open: Flush failed during path switch: {}", flush_status.ToString());
+      }
+      
+      // Close the old database
+      rocksdb::Status close_status = g_manifest_db->Close();
+      g_manifest_db.reset();
+      g_db_initialized = false;
+      
+      if (!close_status.ok()) {
+        spdlog::error("ManifestStore::open: Failed to close old RocksDB: {}", close_status.ToString());
+        return mapRocksDBStatusToManifestStatus(close_status);
+      }
+      
+      // Continue to open the new path
+    } else {
+      // Same path already open - return success
+      db_path_ = db_path;
+      is_open_ = true;
+      return ManifestStoreStatus::OK;
+    }
   }
 
   // Configure RocksDB options
@@ -182,9 +234,20 @@ ManifestStoreStatus ManifestStore::write(const std::string& artifact_id,
     }
   }
 
+  // Get current version and validate that the counter is accessible
+  uint64_t current_version = getCurrentVersion(artifact_id);
+  
+  // Validate version counter is available (cannot be 0 if we've written before,
+  // but for first write we need to ensure counter logic is sound)
+  // If current_version is 0, this is either a new artifact or counter is corrupted
+  // Log the transition for diagnostics
+  if (current_version == 0) {
+    spdlog::debug("ManifestStore::write: Creating new version counter for artifact_id={}", artifact_id);
+  }
+
   // Create version record
   ManifestVersion version;
-  version.version_id = getCurrentVersion(artifact_id) + 1;
+  version.version_id = current_version + 1;
   version.created_at_unix_sec =
       std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())
           .count();
@@ -234,6 +297,10 @@ ManifestStoreStatus ManifestStore::invalidate(const std::string& artifact_id,
 ManifestStoreStatus ManifestStore::acquireLock(const std::string& artifact_id,
                                                const std::string& lock_holder,
                                                int64_t timeout_ms) {
+  if (!is_open_) {
+    return ManifestStoreStatus::STORE_NOT_OPEN;
+  }
+  
   std::lock_guard<std::mutex> lock(g_db_mutex);
   
   auto lock_it = g_locks.find(artifact_id);
@@ -263,6 +330,10 @@ ManifestStoreStatus ManifestStore::acquireLock(const std::string& artifact_id,
 
 ManifestStoreStatus ManifestStore::releaseLock(const std::string& artifact_id,
                                                const std::string& lock_holder) {
+  if (!is_open_) {
+    return ManifestStoreStatus::STORE_NOT_OPEN;
+  }
+  
   std::lock_guard<std::mutex> lock(g_db_mutex);
   
   auto lock_it = g_locks.find(artifact_id);
@@ -280,6 +351,10 @@ ManifestStoreStatus ManifestStore::releaseLock(const std::string& artifact_id,
 }
 
 bool ManifestStore::isLocked(const std::string& artifact_id) const {
+  if (!is_open_) {
+    return false;  // Store not open, consider artifact as not locked
+  }
+  
   std::lock_guard<std::mutex> lock(g_db_mutex);
   
   auto lock_it = g_locks.find(artifact_id);

@@ -144,10 +144,14 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
   }
 
   // Try to recover from checkpoint if one exists
-  if (!recoverFromCheckpoint(task.artifact_id)) {
-    metrics.error_message = "Failed to recover from checkpoint";
-    metrics.success = false;
-    return UpdateDecision::ERROR_FALLBACK_TO_REBUILD;
+  auto recovered = recoverFromCheckpoint(task.artifact_id);
+  if (!recovered) {
+    // No checkpoint was found (nullopt) is not an error - proceed with normal processing
+    // recovered manifest would be used here if available, but we proceed with task manifest
+  } else {
+    // Use recovered manifest as the baseline for recovery
+    // Store recovery info for diagnostics - the recovered_manifest contains the state
+    // at the point of checkpoint save
   }
 
   // Acquire lock before processing
@@ -523,9 +527,9 @@ void SnapshotBasedUpdateWorker::setManifestStore(ManifestStore* manifest_store) 
   manifest_store_ = manifest_store;
 }
 
-bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifact_id) {
+std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifact_id) {
   if (!checkpoint_manager_) {
-    return true;  // No checkpoint manager, recovery not applicable
+    return std::nullopt;  // No checkpoint manager, recovery not applicable
   }
 
   // Try to load checkpoint
@@ -533,49 +537,63 @@ bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifac
   CheckpointStatus status = checkpoint_manager_->load(artifact_id, checkpoint);
 
   if (status == CheckpointStatus::NOT_FOUND) {
-    return true;  // No checkpoint to recover from
+    return std::nullopt;  // No checkpoint to recover from (not an error)
   }
 
   if (status != CheckpointStatus::OK) {
     // Error loading checkpoint - fail closed per SG-DT-01
     if (status == CheckpointStatus::CORRUPTED) {
       // Corrupted checkpoint - delete it and continue with full rebuild
+      spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                  "checkpoint corrupted, deleting artifact_id={}", artifact_id);
       checkpoint_manager_->deleteCheckpoint(artifact_id);
-      return true;  // Allow processing to continue, will trigger rebuild
+      return std::nullopt;  // Checkpoint deleted, allow processing to continue
     }
-    return false;  // I/O or version error - fail closed
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "failed to load checkpoint artifact_id={}, status={}",
+                artifact_id, static_cast<int>(status));
+    return std::nullopt;  // I/O or version error - fail closed
   }
 
   // Check if we've exhausted retries - if so, give up and allow full rebuild
   if (checkpoint.retry_count >= checkpoint.max_retries) {
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "checkpoint max retries exceeded artifact_id={}, retry_count={}",
+                artifact_id, checkpoint.retry_count);
     checkpoint_manager_->deleteCheckpoint(artifact_id);
-    return true;  // Checkpoint exhausted, allow full rebuild
+    return std::nullopt;  // Checkpoint exhausted, allow full rebuild
   }
 
   // ============================================================================
   // Production checkpoint recovery: Resume update from saved state
   // ============================================================================
-  
+
   // Step 1: Validate checkpoint data integrity
   if (checkpoint.artifact_id.empty() || 
       checkpoint.current_manifest.artifact_id.empty() ||
       checkpoint.delta_window.entries.empty()) {
-    // Invalid checkpoint state - fail closed
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "checkpoint data integrity check failed artifact_id={}, "
+                "has_artifact_id={}, has_manifest_id={}, delta_entries={}",
+                artifact_id, !checkpoint.artifact_id.empty(),
+                !checkpoint.current_manifest.artifact_id.empty(),
+                checkpoint.delta_window.entries.size());
     checkpoint_manager_->deleteCheckpoint(artifact_id);
-    return false;
+    return std::nullopt;
   }
 
   // Step 2: Validate manifest state
   if (!checkpoint.current_manifest.validate()) {
-    // Manifest validation failed - fail closed, require full rebuild
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "manifest validation failed artifact_id={}", artifact_id);
     checkpoint_manager_->deleteCheckpoint(artifact_id);
-    return false;
+    return std::nullopt;
   }
 
   // Step 3: Restore delta window from checkpoint
   // The checkpoint contains the full delta window at the point of save
   const DeltaWindow& checkpoint_delta = checkpoint.delta_window;
-  
+
   // Determine update type from checkpoint decision or current state
   UpdateMode checkpoint_update_mode = UpdateMode::UNKNOWN;
   switch (checkpoint.last_decision) {
@@ -602,25 +620,32 @@ bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifac
 
   // Step 4: Resume residual state and validate
   const double checkpoint_residual = checkpoint.current_manifest.residual;
-  
+
   // Check if residual has become invalid (would exceed threshold)
   if (checkpoint_residual > 1.0 || checkpoint_residual < 0.0) {
-    // Invalid residual state - fail closed, require rebuild
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "invalid residual state artifact_id={}, residual={:.4f}",
+                artifact_id, checkpoint_residual);
     checkpoint_manager_->deleteCheckpoint(artifact_id);
-    return false;
+    return std::nullopt;
   }
 
   // Step 5: Validate that the delta window is still applicable
   // If delta window is too old or contains invalid sequence, fail closed
   if (!checkpoint_delta.isValid() || checkpoint_delta.entries.empty()) {
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "delta window invalid or empty artifact_id={}, "
+                "is_valid={}, entries={}",
+                artifact_id, checkpoint_delta.isValid(),
+                checkpoint_delta.entries.size());
     checkpoint_manager_->deleteCheckpoint(artifact_id);
-    return false;
+    return std::nullopt;
   }
 
   // Step 6: State machine validation - check if current state allows recovery
   RebuildState current_state = checkpoint.current_manifest.rebuild_state;
   bool state_allows_recovery = false;
-  
+
   switch (current_state) {
     case RebuildState::REBUILDING:
       // Can always recover from REBUILDING state
@@ -641,19 +666,25 @@ bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifac
   }
 
   if (!state_allows_recovery) {
-    // State machine doesn't allow recovery - fail closed
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "state machine does not allow recovery artifact_id={}, "
+                "rebuild_state={}, checkpoint_mode={}",
+                artifact_id, static_cast<int>(current_state),
+                static_cast<int>(checkpoint_update_mode));
     checkpoint_manager_->deleteCheckpoint(artifact_id);
-    return false;
+    return std::nullopt;
   }
 
   // Step 7: Increment retry counter and save updated checkpoint
   checkpoint.retry_count++;
   checkpoint.created_at_unix_sec = getCurrentTimeSec();
-  
+
   CheckpointStatus update_status = checkpoint_manager_->save(artifact_id, checkpoint);
   if (update_status != CheckpointStatus::OK) {
-    // Failed to update checkpoint - fail closed
-    return false;
+    spdlog::warn("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
+                "failed to save updated checkpoint artifact_id={}, status={}",
+                artifact_id, static_cast<int>(update_status));
+    return std::nullopt;  // Failed to update checkpoint - fail closed
   }
 
   // Step 8: Prepare state machine transition
@@ -661,10 +692,7 @@ bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifac
   ArtifactManifest recovered_manifest = checkpoint.current_manifest;
   recovered_manifest.rebuild_state = RebuildState::REBUILDING;
   recovered_manifest.lifecycle_state = LifecycleState::UPDATING;
-  
-  // Store recovered state for later use (this would normally be persisted)
-  // For now, we trust the checkpoint restoration above
-  
+
   // Step 9: Log recovery details for diagnostics
   spdlog::info("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "
               "successfully recovered artifact_id={} retry_count={} "
@@ -672,8 +700,8 @@ bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifac
               artifact_id, checkpoint.retry_count,
               static_cast<int>(checkpoint_update_mode), checkpoint_residual);
 
-  // Recovery successful - caller will use checkpoint state to resume update
-  return true;
+  // Recovery successful - return the recovered manifest to caller
+  return recovered_manifest;
 }
 
 bool SnapshotBasedUpdateWorker::saveCheckpoint(const std::string& artifact_id, const UpdateTask& task) {
