@@ -99,7 +99,23 @@ public:
         void beginObject(size_t num_fields);
         void endObject();
         
-        /// Get encoded bytes
+        /**
+         * @brief Finalise the encoded buffer and return the serialized bytes.
+         *
+         * @return Serialized binary representation of all encoded values.
+         *
+         * @note Nesting safety: Incomplete array/object nesting (unmatched
+         *       begin/end calls) produces an internally consistent buffer but
+         *       may fail decoding. Validate with Decoder after encoding.
+         *
+         * @error_contract
+         * | Condition | ErrorCode | Severity | Logging | Recovery |
+         * |-----------|-----------|----------|---------|----------|
+         * | Memory exhaustion while encode* operations append/grow the buffer | std::bad_alloc (SERIALIZATION_FAILED 9080) | Critical | – | Propagates exception |
+         *
+         * @bounded_resources Nesting depth is limited by available stack space; callers
+         *   are responsible for bounding the number of nested begin/end calls.
+         */
         std::vector<uint8_t> finish();
         
     private:
@@ -109,7 +125,31 @@ public:
         void writeUInt64(uint64_t value);
     };
     
-    /** @brief Decoder component. */
+    /**
+     * @brief Decoder component.
+     *
+     * Decodes bytes produced by Encoder::finish(). All decode methods
+     * perform bounds checking before accessing the backing buffer; they
+     * return safe defaults (0, false, empty string/vector) rather than
+     * crashing on malformed or truncated input.
+     *
+     * @note Nesting depth: Encoded arrays/objects may be nested up to the
+     *   available stack depth. Crafted inputs with extreme nesting may cause
+     *   stack overflow; callers that accept untrusted input should bound
+     *   maximum nesting depth externally.
+     *
+     * @error_contract
+     * | Condition | ErrorCode | Severity | Logging | Recovery |
+     * |-----------|-----------|----------|---------|----------|
+     * | Buffer read beyond data end (bounds overflow) | DESERIALIZATION_FAILED (9081) | Error | logErrorWithContext | Returns safe default (0/false/empty) |
+     * | Unexpected type tag encountered | SERIALIZATION_FORMAT_INVALID (9082) | Error | logErrorWithContext | Returns safe default |
+     * | String/binary size field exceeds buffer | DESERIALIZATION_FAILED (9081) | Error | logErrorWithContext | Returns empty string/vector |
+     * | Float-vector element count × sizeof(float) overflows | DESERIALIZATION_FAILED (9081) | Error | logErrorWithContext | Returns empty vector |
+     *
+     * @degradation All decode failures return safe defaults (never undefined
+     *   behaviour). Callers should check hasMore() and peekType() before
+     *   decoding if strict error detection is required.
+     */
     class Decoder {
     public:
         /**

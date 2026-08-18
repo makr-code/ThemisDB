@@ -996,6 +996,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/geo_placement.cpp
     
 )
 
@@ -2448,36 +2449,28 @@ function(themis_build_modular)
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
-            # Ensure Abseil package is found before referencing component targets
-            if(NOT TARGET absl::abseil_dll)
-                find_package(absl CONFIG REQUIRED)
-            endif()
-            # Link proto and gRPC explicitly so transitive Abseil/Protobuf deps
-            # are available when building the sharding DLL on MSVC.
-            target_link_libraries(themis_sharding PRIVATE themis_shard_proto protobuf::libprotobuf gRPC::grpc++ absl::abseil_dll)
-            # On MSVC add explicit vcpkg abseil import libs to ensure all
-            # absl internal components referenced by generated protobuf
-            # code are pulled into the final DLL. This complements the
-            # imported CMake target and avoids unresolved externals from
-            # granular absl component libs in vcpkg.
-            if(MSVC)
-                # Link the Abseil aggregate plus specific components that
-                # provide logging and hashing internals required by the
-                # generated proto code. Keeping the list small reduces
-                # coupling while ensuring unresolved externals are satisfied.
+            target_link_libraries(themis_sharding PRIVATE themis_shard_proto protobuf::libprotobuf)
+            if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
+                # Ensure Abseil package is found before referencing component targets.
+                if(NOT TARGET absl::abseil_dll)
+                    find_package(absl CONFIG REQUIRED)
+                endif()
+
+                # Link gRPC and the Abseil pieces needed by generated service stubs.
                 target_link_libraries(themis_sharding PRIVATE
+                    gRPC::grpc++
                     absl::abseil_dll
-                    absl::absl_log
-                    absl::hash
-                    absl::raw_logging_internal
-                    absl::strings
-                    protobuf::libprotobuf
-                    protobuf::libupb
-                    # Fallback: if the abseil imported target does not yield
-                    # the import library on the link line for some generator
-                    # layouts, add the vcpkg-installed import-lib explicitly.
-                    "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
                 )
+                if(MSVC)
+                    target_link_libraries(themis_sharding PRIVATE
+                        absl::absl_log
+                        absl::hash
+                        absl::raw_logging_internal
+                        absl::strings
+                        protobuf::libupb
+                        "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
+                    )
+                endif()
             endif()
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
@@ -2485,7 +2478,7 @@ function(themis_build_modular)
                 # Generated proto headers can surface size_t->int narrowing warnings in consumers.
                 target_compile_options(themis_sharding PRIVATE /wd4267)
             endif()
-            message(STATUS "themis_sharding linked to themis_shard_proto for gRPC inter-shard communication")
+            message(STATUS "themis_sharding linked to themis_shard_proto (protobuf messages always, gRPC optional)")
         endif()
 
         if(THEMIS_ENABLE_CUDA)

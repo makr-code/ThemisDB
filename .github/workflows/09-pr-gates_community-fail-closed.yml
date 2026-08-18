@@ -43,16 +43,12 @@ jobs:
           fetch-depth: 0
 
       - name: Check for silent fallback patterns (no fail-closed behavior)
+        id: check-fallback
         run: |
           set -euo pipefail
           
           echo "Scanning for silent fallback patterns in community-buildable code..."
           
-          # Pattern: if missing dependency, don't silently degrade; fail explicitly.
-          FALLBACK_PATTERNS=0
-          
-          # Look for patterns like: if (!optional_feature) { continue; }
-          # That's a silent degradation.
           SUSPECT_FILES=$(grep -r "THEMIS_.*_AVAILABLE" src --include="*.cpp" --include="*.h" 2>/dev/null | \
                           grep -v "#ifdef\|#if defined" | \
                           head -20 || echo "")
@@ -62,24 +58,23 @@ jobs:
             echo "$SUSPECT_FILES" | head -5
           fi
           
-          # In community builds, missing private plugins MUST cause build failure,
-          # not silent feature degradation.
           if grep -r "THEMIS_ALLOW_MISSING_PRIVATE\|DISABLE_ON_MISSING_PRIVATE" CMakeLists.txt cmake/ 2>/dev/null; then
-            echo "::error::Found flags allowing silent degradation on missing private plugins in community build"
+            ERR="Found flags allowing silent degradation on missing private plugins in community build"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           
           echo "✓ Silent fallback pattern check passed"
 
       - name: Validate license disclaimers in community distribution
+        id: check-license
         run: |
           set -euo pipefail
           
           echo "Checking for license disclaimers in community-facing artifacts..."
           
-          # Community build must include clear license headers.
           LICENSE_FILES="LICENSE COPYING NOTICE"
-          
           MISSING_LICENSES=0
           for lic_file in $LICENSE_FILES; do
             if [ ! -f "$lic_file" ]; then
@@ -88,7 +83,6 @@ jobs:
             fi
           done
           
-          # Check for license notice in key public headers.
           if [ ! -f "include/themis/api.h" ]; then
             echo "::warning::Main API header not found"
           else
@@ -104,29 +98,22 @@ jobs:
           echo "✓ License disclaimer validation passed"
 
       - name: Detect telemetry/tracking in community code paths
+        id: check-telemetry
         run: |
           set -euo pipefail
           
           echo "Scanning for telemetry/tracking code in community build paths..."
           
           TELEMETRY_PATTERNS="send_telemetry|phoning_home|analytics_endpoint|tracking_beacon|usage_stats"
-          
-          # Check if telemetry is behind proper compilation guards.
           UNGUARDED_TELEMETRY=0
           
           SUSPECT_FILES=$(grep -r "$TELEMETRY_PATTERNS" src --include="*.cpp" --include="*.h" 2>/dev/null || echo "")
           
           while IFS= read -r line; do
             [ -z "$line" ] && continue
-            
             FILE=$(echo "$line" | cut -d: -f1)
-            
-            # Check if line is guarded by THEMIS_ENABLE_TELEMETRY or similar.
             LINE_NUM=$(echo "$line" | cut -d: -f2)
-            
-            # Get context around the line.
             CONTEXT=$(sed -n "$((LINE_NUM-5)),$((LINE_NUM+5))p" "$FILE" 2>/dev/null || echo "")
-            
             if ! echo "$CONTEXT" | grep -q "#ifdef THEMIS_ENABLE_TELEMETRY\|ifdef THEMIS_TELEMETRY"; then
               echo "::warning::Potential unguarded telemetry in $FILE:$LINE_NUM"
               ((UNGUARDED_TELEMETRY++)) || true
@@ -134,19 +121,21 @@ jobs:
           done <<< "$SUSPECT_FILES"
           
           if [ $UNGUARDED_TELEMETRY -gt 0 ]; then
-            echo "::error::Found $UNGUARDED_TELEMETRY telemetry patterns that may not be properly guarded"
+            ERR="Found $UNGUARDED_TELEMETRY telemetry patterns that may not be properly guarded"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           
           echo "✓ Telemetry/tracking detection passed"
 
       - name: Validate community-only build config
+        id: check-build-config
         run: |
           set -euo pipefail
           
           echo "Validating community-only build configuration..."
           
-          # Check CMakeLists.txt for community build flags.
           COMMUNITY_PRESET="CMakePresets.json"
           
           if [ ! -f "$COMMUNITY_PRESET" ]; then
@@ -154,30 +143,29 @@ jobs:
             exit 0
           fi
           
-          # Verify community preset does NOT include private plugins.
           if grep -A 50 '"community"' "$COMMUNITY_PRESET" | grep -q "private"; then
-            echo "::error::Community preset references private plugins!"
+            ERR="Community preset references private plugins"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           
-          # Verify minimal preset is subset of community.
           if grep -A 50 '"minimal"' "$COMMUNITY_PRESET" | grep -q "THEMIS.*ADVANCED"; then
-            echo "::error::Minimal preset includes advanced features!"
+            ERR="Minimal preset includes advanced features"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           
           echo "✓ Community-only build config validation passed"
 
       - name: Check for enterprise secrets leakage
+        id: check-secrets
         run: |
           set -euo pipefail
           
           echo "Scanning for hardcoded enterprise secrets or API keys in community code..."
           
-          # Patterns like: vault_token, api_key, license_key, etc.
-          SECRET_PATTERNS="vault_token|LICENSE_KEY|ENTERPRISE_SECRET|PROPRIETARY_KEY|AWS_SECRET"
-          
-          # Also check for environment variable usage that might leak secrets.
           SUSPICIOUS_ENVS=$(grep -r "\$ENTERPRISE\|\$PROPRIETARY\|\$PRIVATE_" src --include="*.cpp" --include="*.h" 2>/dev/null || echo "")
           
           if [ -n "$SUSPICIOUS_ENVS" ]; then
@@ -187,31 +175,32 @@ jobs:
           
           echo "✓ Enterprise secret leakage check passed"
 
+      - name: Collect error summary for comment
+        id: collect-errors
+        if: failure()
+        run: |
+          SUMMARY=""
+          for step_out in \
+            "${{ steps.check-fallback.outputs.error_summary }}" \
+            "${{ steps.check-telemetry.outputs.error_summary }}" \
+            "${{ steps.check-build-config.outputs.error_summary }}" \
+            "${{ steps.check-secrets.outputs.error_summary }}"; do
+            [ -n "$step_out" ] && SUMMARY="${SUMMARY}${step_out}\n"
+          done
+          echo "summary=${SUMMARY}" >> "$GITHUB_OUTPUT"
+
       - name: Post community fail-closed validation result
-        if: always()
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        if: always() && github.event_name == 'pull_request'
+        uses: ./.github/actions/post-failure-comment
         with:
-          script: |
-            const conclusion = '${{ job.status }}' === 'success' ? 'success' : 'failure';
-            const msg = conclusion === 'success'
-              ? '✅ Community Fail-Closed validation PASSED'
-              : '❌ Community Fail-Closed validation FAILED';
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## Wave C Policy Gate: Community Fail-Closed Validation
-            
-            ${msg}
-            
-            - ✅ No silent fallback patterns
-            - ✅ License disclaimers present
-            - ✅ No unguarded telemetry/tracking
-            - ✅ Community-only build config validation
-            - ✅ No enterprise secrets leakage
-            
-            Community builds are fail-closed: no accidental enterprise features slip through.
-            
-            See \`.github/workflows/09-pr-gates_community-fail-closed.yml\` for details.`
-            });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          gate-name: Community Fail-Closed Validation
+          workflow-file: 09-pr-gates_community-fail-closed.yml
+          job-status: ${{ job.status }}
+          checklist: |
+            - ${{ steps.check-fallback.outcome == 'success' && '✅' || '❌' }} No silent fallback patterns
+            - ${{ steps.check-license.outcome == 'success' && '✅' || '❌' }} License disclaimers present
+            - ${{ steps.check-telemetry.outcome == 'success' && '✅' || '❌' }} No unguarded telemetry/tracking
+            - ${{ steps.check-build-config.outcome == 'success' && '✅' || '❌' }} Community-only build config validation
+            - ${{ steps.check-secrets.outcome == 'success' && '✅' || '❌' }} No enterprise secrets leakage
+          error-summary: ${{ steps.collect-errors.outputs.summary }}

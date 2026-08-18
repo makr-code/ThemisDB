@@ -1196,6 +1196,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             // B3: cache key uses safe_request.prompt which was sanitized by sanitizePromptText()
             // above (line ~971); cache key is not passed to the LLM, only used for cache lookup.
             const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
+            auto cached_response = response_cache_ptr->get(cache_key);
             if (cached_response) {
                 spdlog::debug("Cache hit for prompt (length: {})", safe_request.prompt.length());
                 
@@ -1243,7 +1244,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         current_model_id_,
         current_model_path_
     );
-    validateCachedModel(cached, "generateRegular() -> getOrLoadModelShared()");
+    validateCachedModel(cached.get(), "generateRegular() -> getOrLoadModelShared()");
 
     void* model_handle = cached->model_handle;
     void* context_handle = cached->context_handle;

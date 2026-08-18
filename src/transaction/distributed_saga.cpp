@@ -87,20 +87,20 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
         color[name] = Color::WHITE;
     }
 
-    // Lambda captures fully-initialized color map, guaranteed safe access
-    std::function<bool(const std::string&)> dfs = [&color, &adj](const std::string& u) -> bool {
+    // Use a generic recursive lambda to avoid MSVC's recursion-capture issue
+    // with a std::function holding itself.
+    const auto dfs = [&](const std::string& u, auto&& self) -> bool {
         color[u] = Color::GRAY;
         for (const auto& v : adj[u]) {
-            // Both color[v] and color assignments are safe: all names initialized above
-            if (color[v] == Color::GRAY) return true; // back-edge → cycle
-            if (color[v] == Color::WHITE && dfs(v)) return true;
+            if (color[v] == Color::GRAY) return true;
+            if (color[v] == Color::WHITE && self(v, self)) return true;
         }
         color[u] = Color::BLACK;
         return false;
     };
 
     for (const auto& name : names) {
-        if (color[name] == Color::WHITE && dfs(name)) {
+        if (color[name] == Color::WHITE && dfs(name, dfs)) {
             return DistributedSagaStatus::Error(
                 "dependency cycle detected in SAGA '" + saga.saga_id + "'");
         }

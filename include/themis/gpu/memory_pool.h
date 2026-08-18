@@ -204,6 +204,8 @@ public:
     uintptr_t getDeviceBasePtr()             const noexcept { return device_base_ptr_; }
 
 private:
+    friend class SlabStateGuard;
+
     uint64_t            total_bytes_;
     uint64_t            slab_size_;
     std::vector<Slab>   slabs_;

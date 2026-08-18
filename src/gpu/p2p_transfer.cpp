@@ -33,7 +33,7 @@
 
 #include "themis/gpu/cluster_topology.h"
 #include "themis/gpu/feature_flags.h"
-#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "gpu/gpu_cuda_error_hardening.h"
 #include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 
 #ifdef THEMIS_ENABLE_CUDA

@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
+#include "replication/logical_replication.h"
 #include <fstream>
 #include <utility>
 #include <stdexcept>

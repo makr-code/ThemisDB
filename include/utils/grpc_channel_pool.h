@@ -96,6 +96,15 @@ public:
      * | Acquire timeout | Returns nullptr | Retry later or use degraded mode |
      * | Connection failed | Returns nullptr | Check network/endpoint health |
      * | Shutdown in progress | Returns nullptr | Wait for shutdown to complete |
+     * 
+     * @note Resource Limits (Phase 2.6):
+     *       - Max Channels per Target: Default 10 (configured by Config.max_channels_per_target)
+     *       - Idle Timeout: 30 seconds (channels closed if idle longer)
+     *       - Acquire Timeout: 10 seconds (max wait time for available channel)
+     *       - Max Concurrent Streams: 100 per channel (gRPC HTTP/2 limit)
+     *       - Connection Pool: Per-target; no global channel limit (unlimited targets)
+     * @note Operator Impact: Monitor acquire_timeouts metric; high values indicate
+     *       pool undersizing or backend overload. Increase max_channels_per_target if needed.
      */
     std::shared_ptr<grpc::Channel> acquireChannel(
         const std::string& target,

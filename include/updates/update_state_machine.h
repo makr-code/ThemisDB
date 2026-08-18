@@ -94,7 +94,8 @@ using RollbackCallback = std::function<void(CheckpointId checkpoint_id,
  * @brief Snapshot of the state machine captured by createCheckpoint().
  *
  * Stored in-memory; checkpoints survive for the lifetime of the
- * UpdateStateMachine instance.
+ * UpdateStateMachine instance. Can be persisted to a log file for
+ * crash recovery.
  */
 struct Checkpoint {
     /// Monotonically increasing identifier (1-based).
@@ -107,6 +108,11 @@ struct Checkpoint {
     std::string description;
     /// Wall-clock time the checkpoint was recorded.
     std::chrono::system_clock::time_point timestamp;
+
+    /// Serialize checkpoint to JSON for persistence
+    json toJson() const;
+    /// Deserialize checkpoint from JSON
+    static std::optional<Checkpoint> fromJson(const json& j);
 };
 
 /**
@@ -126,8 +132,10 @@ public:
     /**
      * @brief Construct state machine
      * @param log_path  Path to the persistent transaction log (JSON lines file)
+     * @param checkpoints_log_path  Path to the persistent checkpoints log (JSON lines file)
      */
-    explicit UpdateStateMachine(const std::string& log_path = "");
+    explicit UpdateStateMachine(const std::string& log_path = "",
+                                const std::string& checkpoints_log_path = "");
 
     ~UpdateStateMachine() = default;
 
@@ -240,9 +248,14 @@ public:
      * log and, if a history logger is attached, emitted as a "checkpoint_rollback"
      * event.
      *
+     * IDEMPOTENCY: Calling this method multiple times with the same checkpoint ID
+     * will return true on all calls, but the actual rollback operation is only
+     * performed once. Subsequent calls are logged as idempotent and do not modify state.
+     *
      * @param id  Identifier of the target checkpoint (returned by createCheckpoint()).
      * @return    true if a checkpoint with the given id was found and applied;
-     *            false if no such checkpoint exists.
+     *            false if no such checkpoint exists or was never rolled back to.
+     *            Returns true for idempotent repeat calls to the same checkpoint.
      */
     bool rollbackToCheckpoint(CheckpointId id);
 
@@ -339,14 +352,93 @@ public:
                                 bool success, 
                                 const std::string& reason);
 
+    /**
+     * @brief Check if a rollback to the specified checkpoint is safe to perform.
+     *
+     * A rollback is considered safe if:
+     * - The checkpoint exists in the checkpoints list
+     * - The checkpoint's state is different from the current state
+     * - No in-flight update is in progress
+     *
+     * Error Code: 7407 - Unsafe rollback detected
+     *
+     * @param id The checkpoint to validate
+     * @return true if rollback would be safe; false otherwise
+     * @since 1.8.2 (Wave A)
+     */
+    bool isRollbackSafe(CheckpointId id) const;
+
+    /**
+     * @brief Validate that a rollback operation was correctly applied to the state machine.
+     *
+     * After performing a rollback, this method can be called to verify that:
+     * - The current state matches the checkpoint state
+     * - The current version matches the checkpoint version
+     * - No partial updates are visible
+     *
+     * Error Code: 7406 - Rollback state validation failed
+     *
+     * @param id The checkpoint that was rolled back to
+     * @param reason Optional human-readable reason for the validation (logged on failure)
+     * @return true if the rollback state is valid; false otherwise
+     * @since 1.8.2 (Wave A)
+     */
+    bool validateRollbackState(CheckpointId id, const std::string& reason = "");
+
+    /**
+     * @brief Get the checkpoint ID of the last rollback operation.
+     *
+     * Returns the checkpoint ID that was most recently rolled back to.
+     * Useful for diagnostics and idempotency tracking.
+     *
+     * @return Checkpoint ID of last rollback, or 0 if no rollback has been performed
+     * @since 1.8.2 (Wave A)
+     */
+    CheckpointId lastRollbackCheckpoint() const;
+
+    /**
+     * @brief Get the number of successful rollback attempts.
+     *
+     * This counter is incremented only when rollbackToCheckpoint() finds the
+     * requested checkpoint (i.e., the checkpoint exists).  Failed calls where
+     * the checkpoint is not found do **not** increment the counter.
+     * Idempotent repeats (rolling back to the same checkpoint as the previous
+     * successful call) are counted.
+     * Useful for diagnostics and monitoring.
+     *
+     * @return Number of successful rollback attempts
+     * @since 1.8.2 (Wave A)
+     */
+    uint32_t rollbackAttemptCount() const;
+
+    /**
+     * @brief Check if the last rollback operation was idempotent.
+     *
+     * Returns true if the most recent rollback call was an idempotent repeat
+     * (i.e., rolled back to the same checkpoint as the previous call).
+     *
+     * @return true if last rollback was idempotent; false if it was a new rollback
+     * @since 1.8.2 (Wave A)
+     */
+    bool isLastRollbackIdempotent() const;
+
 private:
     bool isValidTransition(UpdateState from, UpdateState to) const;
     void appendLogEntry(const UpdateTransactionEntry& entry);
+    
+    /// Persist a single checkpoint to the checkpoints log file
+    /// Error Code: 7401 - Checkpoint file write failed
+    void persistCheckpoint(const Checkpoint& cp);
+    
+    /// Load all checkpoints from the checkpoints log file at startup
+    /// Error Code: 7402 - Checkpoint file read failed
+    void loadCheckpoints();
 
     mutable std::mutex mutex_;
     std::atomic<UpdateState> state_{UpdateState::IDLE};
     std::string current_version_;
     std::string log_path_;
+    std::string checkpoints_log_path_;  ///< Path to persistent checkpoints log
     bool has_inflight_update_ = false;
     std::string inflight_version_;
     std::vector<UpdateTransactionEntry> transaction_log_;
@@ -359,6 +451,23 @@ private:
     RollbackCallback rollback_callback_;
     std::vector<CheckpointId> deferred_rollbacks_;
     RollbackFallbackStrategy current_fallback_strategy_{RollbackFallbackStrategy::IMMEDIATE_ABORT};
+
+    // Idempotent rollback tracking (v1.8.2 – Wave A)
+    /// @brief ID of the checkpoint last rolled back to (0 if none)
+    /// @since 1.8.2
+    std::optional<CheckpointId> last_rollback_id_;
+    
+    /// @brief Timestamp of the most recent rollback operation
+    /// @since 1.8.2
+    std::chrono::system_clock::time_point last_rollback_time_;
+    
+    /// @brief Number of rollback attempts (including idempotent repeats)
+    /// @since 1.8.2
+    uint32_t rollback_attempt_count_{0};
+    
+    /// @brief Whether the last rollback was an idempotent repeat
+    /// @since 1.8.2
+    bool last_rollback_was_idempotent_{false};
 };
 
 } // namespace updates

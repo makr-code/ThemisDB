@@ -24,7 +24,7 @@
 #include "themis/gpu/gpu_error.h"
 #include "themis/gpu/gpu_memory.h"
 #include "themis/gpu/gpu_timeout.h"
-#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "gpu/gpu_cuda_error_hardening.h"
 #include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 
 #ifdef THEMIS_ENABLE_CUDA

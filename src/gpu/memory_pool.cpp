@@ -27,7 +27,7 @@
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
-#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "gpu/gpu_cuda_error_hardening.h"
 #include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -267,29 +267,6 @@ bool GPUMemoryPool::release(uint64_t offset) {
 
     if (logger) {
         logger->warn("GPUMemoryPool::release: slab at offset {} not found or already free", offset);
-    }
-    return false;
-}
-            if (wasted_bytes_ >= wasted) {
-                wasted_bytes_ -= wasted;
-            } else {
-                wasted_bytes_ = 0;
-            }
-            s.is_free = true;
-            s.owner_tag.clear();
-            s.request_size = 0;
-            if (allocated_bytes_ >= slab_size_) {
-                allocated_bytes_ -= slab_size_;
-            } else {
-                allocated_bytes_ = 0;
-            }
-            // Privacy: zero the slab before returning it to the free list.
-            // In a real CUDA pool this calls cudaMemset(device_ptr, 0, slab_size_).
-            if (zero_on_free_) {
-                ++zeroed_slabs_;
-            }
-            return true;
-        }
     }
     return false;
 }

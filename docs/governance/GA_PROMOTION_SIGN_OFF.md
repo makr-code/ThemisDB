@@ -3,45 +3,45 @@
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-08-17  
-**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; **Wave D D4-00 Build Verification in progress** (2026-08-17); Section 9 human sign-off required for final promotion
+**Last Updated:** 2026-08-18  
+**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; **Wave D D4-00 CI fixes shipped 2026-08-18** (libfmt-dev + benchmark CI unblocked); Section 9 human sign-off required for final promotion
 **Owner:** platform-release@themisdb
 
 ---
 
-## Wave D D4-00 — Build Verification & Test Execution Status (2026-08-17 Update)
+## Wave D D4-00 — Build Verification & Evidence Status (2026-08-18 Update)
 
-### Current Status: 🟡 STAGED FOR BUILD & TEST EXECUTION
+### Current Status: 🟡 CI FIXES SHIPPED — AWAITING RUN COMPLETION
 
-**Code Changes Complete:** ✅
-- property_graph.cpp compilation issue: FIXED (missing closing brace at line 1278)
-- gpu_vector_index.cpp Impl class scoping: VERIFIED CORRECT (no changes needed)
-- All code committed to PR #5962, branch `copilot/implement-real-sourcecode-to-close-gaps`
+**Root-Cause Analysis & Actions (2026-08-18):**
 
-**Build Environment Status:** 🟡 AWAITING SETUP
-- CMake preset `community-release-allow-missing-rocksdb` verified in CMakePresets.json ✅
-- Dependencies verified: OpenSSL 3.0.13 ✅, ZLIB 1.3 ✅, spdlog ✅, boost ✅
-- fmt library: Requires installation (See `ai_working/WAVE_D_D4_00_BUILD_ENVIRONMENT_STATUS.md` for 3 installation options)
-- RocksDB: Gracefully degraded with preset flag ✅
+Three specific evidence blockers identified, root-caused, and addressed:
 
-**Test Targets Ready:** ✅
-- 155+ release_critical test targets identified in CMakeLists.txt
-- Tests organized by module: Transaction (35), Sharding (96), Replication (24)
-- Test labels properly configured: `release_critical`, `transaction_p2_p3`, `sharding_p6`, `replication_p4_p5`
+#### Evidence Item 1 — Completed `develop` CI-build proof point
+- **Root cause:** `libfmt-dev` and companion system packages missing from `ci-build.yml` `setup-cpp-build` action, causing Build step to fail immediately (0 compile requests, configure succeeds in 34s then build exits non-zero).
+- **Fix:** PR #5999 (merged 2026-08-18 19:12 UTC) added full package list to the CI setup action.
+- **Status:** 🟡 CI run `32175323929` triggered on `develop` (commit `450e74c`) is pending. On successful completion this evidence item **closes**.
 
-**Next Actions (Priority Order):**
-1. Resolve fmt library installation (Option: Docker/apt-get/vcpkg bootstrap)
-2. CMake configuration: `cmake --preset community-release-allow-missing-rocksdb`
-3. Build execution: `cmake --build --preset community-release-allow-missing-rocksdb --parallel 16`
-4. Test execution: `ctest --preset community-release -L release_critical --output-on-failure -j 4`
-5. Collect evidence and update this document
+#### Evidence Item 2 — Successful production-like benchmark binary builds
+- **Root cause 1 (nightly sweep):** `cmake --preset nightly-bench-sweep` uses `vcpkg-base` (sets `CMAKE_TOOLCHAIN_FILE` to `vcpkg/scripts/buildsystems/vcpkg.cmake`) but the CI job never checks out the vcpkg submodule — configure fails at `CMakeLists.txt:214 (include cmake/Dependencies.cmake)`.
+- **Root cause 2 (GPU CPU-fallback):** Missing `libboost-system-dev libboost-filesystem-dev libpugixml-dev zlib1g-dev` from the fallback job's install step.
+- **Fix (2026-08-18):**
+  - nightly-benchmark-sweep: replaced `cmake --preset nightly-bench-sweep` with a direct cmake invocation (no vcpkg, system packages, `THEMIS_AUTO_BOOTSTRAP_DEPS=OFF`); added `libpugixml-dev libyaml-cpp-dev libmimalloc-dev` to install step.
+  - gpu-bench-cpu-fallback: added `libboost-system-dev libboost-filesystem-dev libpugixml-dev zlib1g-dev`.
+- **Status:** 🟡 Next nightly ci-benchmarks run (02:00 UTC) or manual `workflow_dispatch` will validate. Green Voice + Nightly-Sweep = evidence item **closes** (CPU/OS-level; GPU hardware is separate).
 
-**Estimated Time to Completion:** 3.5–4.5 hours from build environment ready
+#### Evidence Item 3 — Benchmark execution on representative hardware (GPU)
+- **Status:** 🔴 OPEN — requires self-hosted GPU runner.
+- GPU jobs (`CUDA sm_80/sm_89/sm_90`, `HIP/ROCm`) have been **cancelled** every nightly run since 2026-08-15; no `gpu-cuda`/`gpu-hip` self-hosted runners are online.
+- **Action required (human):** Bring up ≥1 `self-hosted gpu-cuda` runner with CUDA 12.x for Wave A GPU baseline capture (`bench_gpu_a8_baselines`, `bench_voice_a8_baselines` p95/p99 latency baselines).
+- **Scope note:** GPU evidence is required only for Wave A GPU/Voice Q4 2026 items — it is **not a blocker for v2.4.0 GA CPU-path promotion** (Transaction, Sharding, Replication modules).
 
-**Evidence Artifacts Created (Ready for integration):**
-- `ai_working/WAVE_D_D4_00_CONTINUATION_REPORT.md` — Comprehensive build plan
-- `ai_working/WAVE_D_SESSION_SUMMARY.md` — Executive summary
-- `ai_working/WAVE_D_D4_00_BUILD_ENVIRONMENT_STATUS.md` — Build environment analysis and resolution options  
+**Pending CI Runs (2026-08-18 19:30 UTC):**
+| Run ID | Workflow | Branch | Commit | Status |
+|--------|---------|--------|--------|--------|
+| 32175323929 | ci-build | develop | 450e74c | 🟡 pending |
+| 32098439614 | ci-benchmarks | develop | 3655b79 | 🟡 pending (nightly queue) |
+
 
 ---
 

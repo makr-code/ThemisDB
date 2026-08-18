@@ -23,7 +23,7 @@
 #include <thread>
 #include <nlohmann/json.hpp>
 
-namespace themisdb {
+namespace themis {
 namespace sharding {
 
 // ==================== SLOWindow Implementation ====================
@@ -764,9 +764,7 @@ void SLOReporter::stop() {
     }
     
     if (reporter_thread_ && reporter_thread_->joinable()) {
-        if (!reporter_thread_->try_join_for(std::chrono::seconds(30))) {
-            std::cerr << "SLOReporter::stop: reporter thread did not exit within 30s timeout\n";
-        }
+        reporter_thread_->join();
     }
 }
 
@@ -849,4 +847,4 @@ void SLOReporter::writeReport(const std::string& content) {
 }
 
 } // namespace sharding
-} // namespace themisdb
+} // namespace themis

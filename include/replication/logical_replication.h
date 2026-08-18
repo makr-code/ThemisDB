@@ -39,7 +39,7 @@ namespace replication {
  * downstream subscribers.
  */
 struct LogicalChange {
-    enum class Type { INSERT, UPDATE, DELETE, TRUNCATE, DDL, SNAPSHOT, UNKNOWN };
+    enum class Type : uint8_t { INSERT, UPDATE, DELETE, TRUNCATE, DDL, SNAPSHOT, UNKNOWN };
 
     // Default to UNKNOWN to avoid misclassifying uninitialized changes
     Type type = Type::UNKNOWN;

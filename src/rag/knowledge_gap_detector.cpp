@@ -10,6 +10,7 @@
  */
 
 #include "rag/knowledge_gap_detector.h"
+#include <cctype>
 #include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
@@ -17,6 +18,7 @@
 #include <cmath>
 #include <chrono>
 #include <ctime>
+#include <set>
 #include <shared_mutex>
 #include <unordered_set>
 #include <sstream>
@@ -359,10 +361,6 @@ DetectionResult KnowledgeGapDetector::detectGap(
         const auto config = impl_->snapshotConfig();
         const auto gap_callback = impl_->snapshotGapCallback();
 
-        // F5-4 fix: ethical perspective gap check no longer short-circuits the other checks.
-        // Previously, a positive ethical keyword match returned immediately, skipping
-        // similarity and coverage pre-generation checks. Now all checks run and any
-        // gap (ethical or coverage/similarity) triggers a retrieval.
         bool ethical_gap_detected = false;
         DetectionResult ethical_result;
         if (config.enable_ethical_gap_detection) {
@@ -372,11 +370,10 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 if (gap_callback) {
                     gap_callback(ethical_result);
                 }
-                // Do not return here — continue running coverage/similarity checks below.
+                // Continue with objective coverage/similarity checks below.
             }
         }
 
-        // Comprehensive detection based on mode; merge ethical gap into final result.
         switch (config.mode) {
             case DetectionMode::FAST: {
                 auto pre_result = detectPreGeneration(query, documents);
@@ -399,8 +396,6 @@ DetectionResult KnowledgeGapDetector::detectGap(
                     }
                 }
 
-                // If ethical gap was detected but coverage/similarity checks were clean,
-                // still report the ethical gap to trigger retrieval.
                 if (ethical_gap_detected) {
                     return ethical_result;
                 }
@@ -419,30 +414,32 @@ DetectionResult KnowledgeGapDetector::detectGap(
 
                 if (context.generation_started) {
                     auto during_result = detectDuringGeneration(query, documents, context);
-                if (during_result.gap_detected) {
-                    if (gap_callback) {
-                        gap_callback(during_result);
+                    if (during_result.gap_detected) {
+                        if (gap_callback) {
+                            gap_callback(during_result);
+                        }
+                        return during_result;
                     }
-                    return during_result;
                 }
-            }
 
-            if (!generated_answer.empty()) {
-                auto post_result = detectPostGeneration(query, documents, generated_answer);
-                if (gap_callback && post_result.gap_detected) {
-                    gap_callback(post_result);
+                if (!generated_answer.empty()) {
+                    auto post_result = detectPostGeneration(query, documents, generated_answer);
+                    if (gap_callback && post_result.gap_detected) {
+                        gap_callback(post_result);
+                    }
+                    return post_result;
                 }
-                return post_result;
+
+                if (ethical_gap_detected) {
+                    return ethical_result;
+                }
+
+                return pre_result;
             }
 
-            // If ethical gap was detected but all other checks were clean, report it.
-            if (ethical_gap_detected) {
-                return ethical_result;
-            }
-
-            return pre_result;
+            default:
+                break;
         }
-        }  // end switch
 
         return ethical_gap_detected ? ethical_result : DetectionResult{};
     } catch (const std::exception& e) {
@@ -465,133 +462,112 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     try {
         const auto config = impl_->snapshotConfig();
 
-        // Phase 2: FLARE-style active retrieval implementation
         if (!config.enable_flare) {
-            // FLARE disabled, return regular detection
             return detectPreGeneration(query, initial_documents);
         }
 
         THEMIS_DEBUG("FLARE active retrieval for query: {}", query);
 
         DetectionResult result;
-    result.num_retrieved_docs = initial_documents.size();
+        result.num_retrieved_docs = initial_documents.size();
 
-    // Start with initial documents
-    auto current_documents = initial_documents;
-    size_t retrieval_round = 0;
+        auto current_documents = initial_documents;
+        size_t retrieval_round = 0;
 
-    // Iterative retrieval loop
-    while (retrieval_round < config.max_retrieval_rounds) {
-        // Check current coverage
-        double coverage = calculateQueryCoverage(query, current_documents);
-        double avg_similarity = calculateAverageSimilarity(current_documents);
+        while (retrieval_round < config.max_retrieval_rounds) {
+            const double coverage = calculateQueryCoverage(query, current_documents);
+            const double avg_similarity = calculateAverageSimilarity(current_documents);
 
-        THEMIS_DEBUG("Round {}: coverage={}, similarity={}",
-                    retrieval_round, coverage, avg_similarity);
+            THEMIS_DEBUG("Round {}: coverage={}, similarity={}",
+                        retrieval_round, coverage, avg_similarity);
 
-        // If coverage is sufficient, stop
-        if (coverage >= config.coverage_threshold &&
-            avg_similarity >= config.similarity_threshold) {
-            result.gap_detected = false;
-            result.gap_type = GapType::NONE;
-            result.confidence_score = 0.9;
-            result.coverage_score = coverage;
-            result.avg_similarity_score = avg_similarity;
-            result.num_retrieved_docs = current_documents.size();
-            result.recommendation = FallbackStrategy::NONE;
-            result.explanation = "Sufficient information after " +
-                               std::to_string(retrieval_round) + " retrieval rounds";
+            if (coverage >= config.coverage_threshold &&
+                avg_similarity >= config.similarity_threshold) {
+                result.gap_detected = false;
+                result.gap_type = GapType::NONE;
+                result.confidence_score = 0.9;
+                result.coverage_score = coverage;
+                result.avg_similarity_score = avg_similarity;
+                result.num_retrieved_docs = current_documents.size();
+                result.recommendation = FallbackStrategy::NONE;
+                result.explanation = "Sufficient information after " +
+                                    std::to_string(retrieval_round) +
+                                    " retrieval rounds";
 
-            // Update initial_documents with enhanced set
-            initial_documents = current_documents;
-            return result;
-        }
+                initial_documents = current_documents;
+                return result;
+            }
 
-        // Find missing aspects for re-retrieval
-        auto missing = findMissingAspects(query, current_documents);
+            auto missing = findMissingAspects(query, current_documents);
+            if (missing.empty()) {
+                break;
+            }
 
-        if (missing.empty()) {
-            // No specific missing aspects, but coverage still low
-            break;
-        }
+            const std::string reformulated = reformulateQuery(query, missing[0]);
+            THEMIS_DEBUG("Reformulated query: {}", reformulated);
 
-        // Reformulate query with missing information
-        std::string reformulated = reformulateQuery(query, missing[0]);
+            auto new_documents = performDynamicRetrieval(reformulated, tenant_id);
 
-        THEMIS_DEBUG("Reformulated query: {}", reformulated);
+            for (auto& new_doc : new_documents) {
+                bool is_duplicate = false;
+                for (const auto& existing : current_documents) {
+                    if (existing.id == new_doc.id) {
+                        is_duplicate = true;
+                        break;
+                    }
+                }
 
-        // Retrieve additional documents for the reformulated query
-        auto new_documents = performDynamicRetrieval(reformulated, tenant_id);
-
-        // Deduplicate and merge
-        for (auto& new_doc : new_documents) {
-            bool is_duplicate = false;
-            for (const auto& existing : current_documents) {
-                if (existing.id == new_doc.id) {
-                    is_duplicate = true;
-                    break;
+                if (!is_duplicate) {
+                    current_documents.push_back(new_doc);
                 }
             }
 
-            if (!is_duplicate) {
-                current_documents.push_back(new_doc);
+            ++retrieval_round;
+
+            if (new_documents.empty()) {
+                THEMIS_DEBUG("No new documents retrieved, stopping");
+                break;
             }
         }
 
-        retrieval_round++;
+        const double final_coverage = calculateQueryCoverage(query, current_documents);
+        const double final_similarity = calculateAverageSimilarity(current_documents);
 
-        // Check if we're making progress
-        if (new_documents.empty()) {
-            THEMIS_DEBUG("No new documents retrieved, stopping");
-            break;
+        result.coverage_score = final_coverage;
+        result.avg_similarity_score = final_similarity;
+        result.num_retrieved_docs = current_documents.size();
+
+        if (final_coverage < config.coverage_threshold) {
+            result.gap_detected = true;
+            result.gap_type = GapType::MISSING_ASPECTS;
+            result.confidence_score = 0.7;
+            result.recommendation = FallbackStrategy::INSUFFICIENT_DATA_RESPONSE;
+            result.missing_aspects = findMissingAspects(query, current_documents);
+            result.explanation = "Insufficient coverage after " +
+                               std::to_string(retrieval_round) +
+                               " retrieval rounds (coverage: " +
+                               std::to_string(final_coverage) + ")";
+        } else if (final_similarity < config.similarity_threshold) {
+            result.gap_detected = true;
+            result.gap_type = GapType::LOW_SIMILARITY;
+            result.confidence_score = 0.75;
+            result.recommendation = FallbackStrategy::REFORMULATE_QUERY;
+            result.explanation = "Low similarity after active retrieval (similarity: " +
+                               std::to_string(final_similarity) + ")";
+        } else {
+            result.gap_detected = false;
+            result.gap_type = GapType::NONE;
+            result.confidence_score = 0.85;
+            result.recommendation = FallbackStrategy::NONE;
+            result.explanation = "Acceptable information after active retrieval";
         }
-    }
 
-    // After max rounds, check if gap still exists
-    double final_coverage = calculateQueryCoverage(query, current_documents);
-    double final_similarity = calculateAverageSimilarity(current_documents);
-
-    result.coverage_score = final_coverage;
-    result.avg_similarity_score = final_similarity;
-    result.num_retrieved_docs = current_documents.size();
-
-    if (final_coverage < config.coverage_threshold) {
-        result.gap_detected = true;
-        result.gap_type = GapType::MISSING_ASPECTS;
-        result.confidence_score = 0.7;
-        result.recommendation = FallbackStrategy::INSUFFICIENT_DATA_RESPONSE;
-        result.missing_aspects = findMissingAspects(query, current_documents);
-        result.explanation = "Insufficient coverage after " +
-                           std::to_string(retrieval_round) +
-                           " retrieval rounds (coverage: " +
-                           std::to_string(final_coverage) + ")";
-    } else if (final_similarity < config.similarity_threshold) {
-        result.gap_detected = true;
-        result.gap_type = GapType::LOW_SIMILARITY;
-        result.confidence_score = 0.75;
-        result.recommendation = FallbackStrategy::REFORMULATE_QUERY;
-        result.explanation = "Low similarity after active retrieval (similarity: " +
-                           std::to_string(final_similarity) + ")";
-    } else {
-        result.gap_detected = false;
-        result.gap_type = GapType::NONE;
-        result.confidence_score = 0.85;
-        result.recommendation = FallbackStrategy::NONE;
-        result.explanation = "Acceptable information after active retrieval";
-    }
-
-    // Update initial_documents with enhanced set
-    initial_documents = current_documents;
-
-    return result;
-        }  // end try block
+        initial_documents = current_documents;
+        return result;
     } catch (const std::exception& e) {
-        // HIGH FIX: Exception guard on active retrieval path to prevent incomplete state
         THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed: {}", e.what());
-        // Return safe result with current documents; do not modify initial_documents if error
         return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
     } catch (...) {
-        // HIGH FIX: Catch-all for unknown exceptions
         THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed with unknown exception");
         return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
     }
