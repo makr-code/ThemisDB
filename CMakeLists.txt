@@ -478,6 +478,28 @@ endif()
 # is only generated in build-dir/cmake/, not in the root binary dir.
 enable_testing()
 
+# ===== Supporters List Header Generation =====
+# Generate supporters_list.h at build time by parsing Supporters.md
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/include/generated")
+
+add_custom_command(
+    OUTPUT "${CMAKE_BINARY_DIR}/include/generated/supporters_list.h"
+    COMMAND python3 "${CMAKE_SOURCE_DIR}/scripts/extract_supporters.py"
+            "${CMAKE_SOURCE_DIR}/Supporters.md"
+            "${CMAKE_BINARY_DIR}/include/generated/supporters_list.h"
+    DEPENDS "${CMAKE_SOURCE_DIR}/Supporters.md"
+    COMMENT "Generating supporters list header from Supporters.md..."
+    VERBATIM
+)
+
+add_custom_target(
+    generate_supporters_header ALL
+    DEPENDS "${CMAKE_BINARY_DIR}/include/generated/supporters_list.h"
+)
+
+# Ensure generated header directory is included
+include_directories(BEFORE "${CMAKE_BINARY_DIR}/include")
+
 # Main build logic
 add_subdirectory(cmake)
 

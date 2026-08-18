@@ -18,6 +18,7 @@
 
 #include "utils/cli_parser_utils.h"
 #include "utils/logger.h"
+#include "utils/supporters_util.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -433,12 +434,18 @@ int main(int argc, char* argv[]) {
         db.close();
         THEMIS_INFO("Database closed successfully");
         
+        // Display supporter acknowledgment
+        THEMIS_INFO("{}",  utils::get_supporter_message());
+        
     } catch (const std::exception& e) {
         THEMIS_ERROR("Exception: {}", e.what());
         return 1;
     }
     
     utils::Logger::shutdown();
+    
+    // Display supporter message to console
+    std::cout << utils::get_supporter_message() << std::endl;
     
     std::cout << "\n=== Demo completed successfully! ===" << std::endl;
     std::cout << "Check vccdb.log for detailed logs" << std::endl;
