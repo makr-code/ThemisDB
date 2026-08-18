@@ -187,38 +187,55 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     }
     
     // Step 3: Get decompressed size hint
+    // Phase 2.4 Hardening: Explicit decompression bomb detection
     unsigned long long decompressed_size = ZSTD_getFrameContentSize(
         compressed.data(), 
         compressed.size()
     );
     
     if (decompressed_size == ZSTD_CONTENTSIZE_ERROR) {
-        const auto err_msg = std::string("Not a valid ZSTD compressed frame");
+        const auto err_msg = std::string("Not a valid ZSTD compressed frame (possibly corrupted or truncated)");
         THEMIS_ERROR("Failed to get decompressed size: {}", err_msg);
         logErrorWithContext(makeErrorContext(
             ErrorCode::COMPRESSION_INPUT_INVALID, err_msg,
             "zstd_decompress_safe", ErrorSeverity::Error, /*is_recoverable=*/false));
         return Err<std::vector<uint8_t>>(
             errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
-            "Not a valid ZSTD compressed frame"
+            err_msg
         );
     }
     
     if (decompressed_size == ZSTD_CONTENTSIZE_UNKNOWN) {
         // Decompressed size unknown - use reasonable default based on compression ratio
-        decompressed_size = compressed.size() * 4;  // Assume 4:1 ratio
-        THEMIS_DEBUG("Decompressed size unknown, estimating {} bytes", decompressed_size);
+        // Phase 2.4: Cap estimation to prevent decompression bomb via unknown size
+        constexpr unsigned long long max_estimated = compression::MAX_DECOMPRESSED_SIZE / 2;
+        decompressed_size = std::min(compressed.size() * 4, max_estimated);
+        THEMIS_DEBUG("Decompressed size unknown, estimating {} bytes (compressed {} bytes)", 
+                    decompressed_size, compressed.size());
     }
     
-    // Step 4: Validate decompressed size
+    // Step 4: Validate decompressed size and check for decompression bomb
+    // Phase 2.4: Explicit bounds and ratio checks to detect decompression bombs
     if (decompressed_size > compression::MAX_DECOMPRESSED_SIZE) {
-        THEMIS_ERROR("Decompressed size too large: {} bytes (max: {})", 
-                    decompressed_size, compression::MAX_DECOMPRESSED_SIZE);
+        const auto err_msg = fmt::format("Decompression would exceed limit: {} > {} bytes (DECOMPRESSION_BOMB)",
+                                        decompressed_size, compression::MAX_DECOMPRESSED_SIZE);
+        THEMIS_ERROR("{}", err_msg);
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::COMPRESSION_BOMB_DETECTED, err_msg,
+            "zstd_decompress_safe", ErrorSeverity::Error, /*is_recoverable=*/false));
         return Err<std::vector<uint8_t>>(
-            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
-            fmt::format("Decompressed size {} exceeds maximum {}",
-                       decompressed_size, compression::MAX_DECOMPRESSED_SIZE)
+            errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+            "Decompressed size exceeds maximum (potential decompression bomb)"
         );
+    }
+    
+    // Phase 2.4: Check compression ratio sanity - warn on extreme ratios (>100:1)
+    if (decompressed_size > 0 && compressed.size() > 0) {
+        double ratio = static_cast<double>(decompressed_size) / static_cast<double>(compressed.size());
+        if (ratio > 100.0) {
+            THEMIS_WARN("Extreme compression ratio detected: {:.1f}:1 (decompressed {} from {} bytes)",
+                       ratio, decompressed_size, compressed.size());
+        }
     }
     
     // Step 5: Allocate output buffer with exception safety

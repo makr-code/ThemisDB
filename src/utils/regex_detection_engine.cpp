@@ -11,6 +11,7 @@
 
 
 #include "utils/regex_detection_engine.h"
+#include "utils/error_contracts.h"
 #include <algorithm>
 #include <cctype>
 #include <chrono>
@@ -100,6 +101,10 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
     } catch (const std::exception& e) {
         last_error_ = std::string("Initialization failed: ") + e.what();
         spdlog::error("RegexDetectionEngine: {}", last_error_);
+        // Phase 3.12: Diagnostics integration
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED, last_error_,
+            "RegexDetectionEngine::init", ErrorSeverity::Error, /*is_recoverable=*/false));
         return false;
     }
 }
@@ -120,7 +125,12 @@ bool RegexDetectionEngine::reload(const nlohmann::json& config) {
         patterns_ = old_patterns;
         field_name_hints_ = old_field_hints;
         redaction_modes_ = old_redaction_modes;
-        spdlog::error("RegexDetectionEngine: Reload failed, retained previous patterns");
+        const auto err_msg = std::string("Reload failed, retained previous patterns");
+        spdlog::error("RegexDetectionEngine: {}", err_msg);
+        // Phase 3.12: Diagnostics integration for reload failure
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED, err_msg,
+            "RegexDetectionEngine::reload", ErrorSeverity::Warning, /*is_recoverable=*/true));
         return false;
     }
     
@@ -214,10 +224,13 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
                 findings.push_back(finding);
             }
         } catch (const std::regex_error& e) {
-            spdlog::error("RegexDetectionEngine: Regex matching failed for '{}': {}", 
-                          pattern.name, e.what());
-            // Malformed pattern error: log and continue with next pattern
-            // This ensures malformed patterns do not crash detection
+            const auto err_msg = fmt::format("Regex matching failed for '{}': {}", pattern.name, e.what());
+            spdlog::error("RegexDetectionEngine: {}", err_msg);
+            // Phase 3.12: Malformed pattern error - log diagnostic context
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::PRIVACY_PATTERN_OVERFLOW, err_msg,
+                "RegexDetectionEngine::detect", ErrorSeverity::Warning, /*is_recoverable=*/true));
+            // Continue with next pattern to ensure detection continues
         }
     }
     

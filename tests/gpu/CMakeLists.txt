@@ -72,6 +72,9 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
     if(_stem MATCHES "test_gpu_error_handling_comprehensive|test_gpu_phase_c_integration")
         list(APPEND _labels "gpu_phase_c")
     endif()
+    if(_stem MATCHES "test_gpu_resource_exhaustion|test_gpu_fallback_all_paths")
+        list(APPEND _labels "wave_a" "phase_d" "release_critical")
+    endif()
 
     themis_register_module_focused_test(
         MODULE gpu
