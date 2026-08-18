@@ -193,7 +193,7 @@ public:
      * @post vector_count reflects records written to vector_writer (0 if null)
      * @post entity_count reflects records written to graph_writer (0 if null)
      *
-     * @throws std::invalid_argument if text is empty (see ok == false in return)
+     * @note Does not throw: empty text returns IndexResult{ok=false, error="empty input"}
      *
      * @note Complexity: O(m * e) where m = text.size(), e = extraction overhead
      * @note Thread-safe: no mutable shared state modified

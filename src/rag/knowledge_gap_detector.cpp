@@ -449,11 +449,11 @@ DetectionResult KnowledgeGapDetector::detectGap(
         // HIGH FIX: Exception guard on main detection path to prevent incomplete state
         THEMIS_WARN("detectGap: detection failed with exception: {}", e.what());
         // Return safe no-gap result rather than propagating exception
-        return DetectionResult{gap_detected: false, gap_type: GapType::NONE};
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
     } catch (...) {
         // HIGH FIX: Catch-all for unknown exceptions
         THEMIS_WARN("detectGap: detection failed with unknown exception");
-        return DetectionResult{gap_detected: false, gap_type: GapType::NONE};
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
     }
 }
 
@@ -589,11 +589,11 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         // HIGH FIX: Exception guard on active retrieval path to prevent incomplete state
         THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed: {}", e.what());
         // Return safe result with current documents; do not modify initial_documents if error
-        return DetectionResult{gap_detected: false, gap_type: GapType::NONE};
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
     } catch (...) {
         // HIGH FIX: Catch-all for unknown exceptions
         THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed with unknown exception");
-        return DetectionResult{gap_detected: false, gap_type: GapType::NONE};
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
     }
 }
 

@@ -164,10 +164,9 @@ std::unordered_map<std::string, size_t> bigramFreq(
     bf.reserve(tokens.size() > 1 ? tokens.size() - 1 : 0);
     
     for (size_t i = 0; i + 1 < tokens.size(); ++i) {
-        // Build bigram string efficiently: " token1 token2 "
+        // Build bigram string: "token1 token2"
         std::string bigram;
-        bigram.reserve(tokens[i].size() + tokens[i+1].size() + 3);
-        bigram.push_back(' ');
+        bigram.reserve(tokens[i].size() + tokens[i+1].size() + 1);
         bigram.append(tokens[i]);
         bigram.push_back(' ');
         bigram.append(tokens[i + 1]);
