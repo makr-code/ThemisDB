@@ -23,10 +23,10 @@
 - `MASTER_EXECUTION_PLAN_2026_Q3_Q4.md` (2026-08-18, 17,166 B)
 - `L0_EXECUTION_SUMMARY.md` (2026-08-18, 10,840 B)
 - `IMPORTERS_PHASES_3_6_EXECUTION_SUMMARY.md` (2026-08-18, 11,325 B)
-- `EXECUTION_BASELINE_SUMMARY.md` (2026-08-18, 8,228 B)
-- `EXECUTION_BOARD_2026-08-09.md` (2026-08-18, 4,886 B)
 - `EXECUTION_COMPLETE_SUMMARY.md` (2026-08-18, 9,732 B)
 - `EXECUTION_SUMMARY.md` (2026-08-18, 12,369 B)
+- `EXECUTION_BASELINE_SUMMARY.md` (2026-08-18, 8,228 B)
+- `EXECUTION_BOARD_2026-08-09.md` (2026-08-18, 4,886 B)
 - `DEFERRED_ITEMS_EXECUTION_PLAN_2026_08_10.md` (2026-08-18, 14,482 B)
 - `CP1_REMEDIATION_EXECUTION_SUMMARY.md` (2026-08-18, 12,404 B)
 - `BUILD_TEST_VALIDATION_EXECUTION_PLAN.md` (2026-08-18, 12,257 B)
@@ -2112,315 +2112,6 @@ Overall Completion: Oct 15, 2026 ✅
 
 ---
 
-### EXECUTION_BASELINE_SUMMARY.md
-
-# Execution Baseline Summary — Q3 2026
-
-## Status
-
-✅ **Canonical Execution Board Frozen**  
-📋 **Wave 1 & Wave 2 Consolidated (20 items, no duplicates)**  
-🔐 **Release Governance Mapped (5 milestones: v1.1.0 → v1.7.0)**  
-
----
-
-## What Changed
-
-### Documents Consolidated
-
-1. **FUTURE_ENHANCEMENTS.md (Waves A+B)**
-   - Wave A: 10 critical/high items (security + GPU + AQL)
-   - Wave B: 21 high/medium items (API + ingestion + LLM)
-
-2. **ROADMAP.md**
-   - System readiness gates (no open production gates in root roadmap)
-   - EPIC phases aligned with Wave delivery
-
-3. **Module-level src/*/ROADMAP.md + src/*/FUTURE_ENHANCEMENTS.md**
-   - Scanned 20 modules: auth, chimera, gpu, index, geo, aql, acceleration, analytics, api, ingestion, llm, llama_cpp, query, rag, security, server, sharding, training, utils, etc.
-   - Mapped to corresponding Wave 1 or Wave 2 delivery slots
-
-### Planning Drift Eliminated
-
-- **No duplicates:** Each deliverable has exactly one issue, one acceptance criterion set, one target version
-- **No superseded entries:** All outdated items either archived or consolidated into parent items
-- **Branch governance explicit:** All items target `develop` branch; edition promotion via RELEASE_STRATEGY.md
-
----
-
-## Wave 1 Consolidation (Release-Blocking)
-
-### Security (4 items)
-- **A-01:** JWT JWKS thread-safety (race condition → auth bypass)
-- **A-02:** LDAP injection prevention (DN + filter escaping per RFC 4515/4514)
-- **A-03:** Constant-time comparison (MFA + session ID timing side-channel)
-- **A-10:** AQL thread leak in `LLMTimeoutManager` (resource leak)
-
-### Simulation Replacement (3 items)
-- **A-04:** Chimera ThemisDB adapter → real query/vector/graph engine dispatch
-- **A-05:** Chimera MongoDB/Qdrant/Neo4j → real drivers (feature-gated)
-- **A-06:** GPU query_accelerator → real CUDA/HIP dispatch (5 functions)
-
-### Backend Dispatch (2 items)
-- **A-07:** GPU vector index → CUDA + HIP backends
-- **A-08:** Geospatial → CUDA + OpenCL backends
-
-### Safety (1 item)
-- **A-09:** AQL post-generation validation
-
-**Total Wave 1:** 10 items, **8–10 week delivery target**, v1.1.0–v1.2.0 releases
-
----
-
-## Wave 2 Consolidation (Near-Term Hardening)
-
-### API / Query (5 items)
-- **B-04:** gRPC API surface completion (all handlers)
-- **B-12:** QueryOptimizer → real metadata shard wiring
-- **B-13:** QueryFederation → real shard determination
-- **B-14:** CTE subquery production implementation
-- **B-11:** llama.cpp real inference wiring
-
-### Ingestion / LLM Integration (5 items)
-- **B-07:** LLMIngestionAdapter Phase 2 (llama.cpp wiring)
-- **B-08:** Production connector wiring (S3, Kafka, ODBC, CDC, Object Storage)
-- **B-09:** LoRA security validator (cert store integration)
-- **B-10:** LLMDeploymentPlugin (RocksDB persistence)
-- **B-15:** RAG LLM integration (retrieval + ranking)
-
-### GPU Acceleration (1 item)
-- **B-01:** CUDA kernel completion (vector similarity)
-
-### Infrastructure (4 items)
-- **B-16:** Apache Arrow user registration plugin
-- **B-17:** Server HTTP initialization (real ShardingManager)
-- **B-18:** GPU erasure coder OpenCL implementation
-- **B-19:** Training provenance tracker (AQL template stubs)
-
-### Security / Utils (1 item)
-- **B-20:** PKI client real verification
-
-**Total Wave 2:** 21 items, **Q3 2026 – Q2 2027**, v1.5.0–v1.7.0 releases
-
----
-
-## Release Milestone Mapping
-
-| Milestone | Target | Items | Status |
-|-----------|--------|-------|--------|
-| **v1.1.0** | Q3 2026 (8–10w) | A-01, A-02, A-03, A-04, A-06, A-09, A-10 | 🔴 **Not Started** |
-| **v1.2.0** | Q3–Q4 2026 (4–6w) | A-05, A-07, A-08 | 🔴 **Not Started** |
-| **v1.5.0** | Q4 2026–Q1 2027 | B-01, B-04, B-11, B-12, B-13, B-17, B-20 | 🔴 **Not Started** |
-| **v1.6.0** | Q1–Q2 2027 | B-07, B-08, B-09, B-10, B-15 | 🔴 **Not Started** |
-| **v1.7.0** | Q2–Q3 2027 | B-14, B-16, B-18, B-19 | 🔴 **Not Started** |
-
----
-
-## Branch & Release Governance
-
-### Branch Model (BRANCHING_STRATEGY.md)
-- **develop:** Primary integration branch (all Wave 1/2 work targets `develop`)
-- **Edition branches:** `minimal`, `community`, `enterprise`, `hyperscaler`, `military`
-- **Legacy:** `main` and `millitary` must not be used for new work
-
-### Release Strategy (RELEASE_STRATEGY.md)
-- **Tagging:** 
-  - Community: `vX.Y.Z` (stable), `vX.Y.Z-alphaN/-betaN/-rcN` (pre-release)
-  - Enterprise/Hyperscaler/Military: `{edition}-vX.Y.Z(-rcN)`
-  - Minimal: `minimal-vX.Y.Z(-rcN)`
-- **Milestone mapping:** Each release tag linked to GitHub milestone + `CHANGELOG.md` entry
-
----
-
-## Quality Gate Enforcements
-
-### Production Readiness (per A-01 → A-10 design rules)
-
-✅ **No Silent Fallbacks**
-- Production paths must fail fast if backend unavailable (not silently fall back to CPU/simulation)
-- Simulation paths explicitly marked with `STUB/SIMULATION NOTE` (purpose, activation, delta, removal target)
-
-✅ **Thread Safety**
-- Auth/crypto stubs: `std::shared_mutex` or atomic operations
-- No classic data races
-
-✅ **Timing Side-Channel Prevention**
-- Auth/crypto: `CRYPTO_memcmp` for sensitive comparisons
-- No early-exit based on length or intermediate data
-
-✅ **Performance Gating**
-- Wave 2+ items measured against Wave 7 benchmark baseline (benchmarks/wave7/)
-- Acceptable regression: 0% (no regressions)
-
-✅ **Test Coverage**
-- Unit + integration + property-based for all stub replacements
-- Regression tests: prior stub/fallback behaviour unreachable in production
-
-✅ **Security Review**
-- Auth, crypto, ingestion adapters: mandatory security review before merge
-
----
-
-## Implementation Workflow Per Item
-
-### Phase 1: Design (1–2 days)
-- [ ] Read `src/<module>/ROADMAP.md` + `FUTURE_ENHANCEMENTS.md`
-- [ ] Document production interface + feature gates + activation conditions
-- [ ] Design document + acceptance criteria
-
-### Phase 2: Core Implementation (3–5 days)
-- [ ] Replace stub with production logic
-- [ ] Wire real backend / SDK call
-- [ ] Keep stub path available only via test-double injection
-
-### Phase 3: Error Handling & Edge Cases (1–2 days)
-- [ ] Timeout / retry / partial failure / backend unavailable scenarios
-- [ ] Structured error codes (reuse `errors.h`)
-- [ ] No silent fallbacks
-
-### Phase 4: Tests (2–4 days)
-- [ ] Unit + integration + regression tests
-- [ ] Performance gate measurement (Wave 7 baseline)
-
-### Phase 5: Observability & Security (1 day)
-- [ ] Prometheus metrics / audit logs
-- [ ] Security review (auth/crypto/ingestion)
-
-### Phase 6: Documentation & Acceptance (1 day)
-- [ ] Update `src/<module>/ROADMAP.md` → `[x]`
-- [ ] Update `ROADMAP.md` → `[x]`
-- [ ] Update `FUTURE_ENHANCEMENTS.md` → `[x]`
-- [ ] PR linked to target milestone
-
----
-
-## Key Artifacts
-
-- **EXECUTION_BASELINE_2026_Q3.md** — Full board (20 items with detailed acceptance per item)
-- **ROADMAP.md** — Master roadmap (updated with Wave 1/2 linking)
-- **FUTURE_ENHANCEMENTS.md** — Root backlog (Wave A/B item detail)
-- **src/*/ROADMAP.md** — Module status (per-module completion tracking)
-- **BRANCHING_STRATEGY.md** — Branch + edition model
-- **RELEASE_STRATEGY.md** — Tagging + milestone alignment
-- **benchmarks/wave7/** — Performance baseline for quality gates
-
----
-
-## Next Steps
-
-1. **Assign Wave 1 items to sprint cycles** (8–10 weeks)
-   - A-01 (JWT): Highest security risk → start immediately
-   - A-02, A-03 (LDAP, constant-time): Critical auth fixes → parallel with A-01
-   - A-04, A-06 (Chimera, GPU): Production simulation replacement → begin week 2–3
-   - A-07, A-08 (GPU backends): Backend dispatch → begin week 4–5
-   - A-09, A-10 (AQL): Safety + thread leak → begin week 3–4
-
-2. **Establish sprint review gates**
-   - Daily standup on Phase 1–5 progress per item
-   - Weekly milestone review (design → implementation → testing)
-   - Monthly release readiness gate (all 10 items → v1.1.0/v1.2.0)
-
-3. **Monitor planning drift**
-   - Every 2 weeks: check for superseded items, duplicates, scope creep
-   - Every month: resync with `src/*/ROADMAP.md` for module-level changes
-
----
-
-## Signature
-
-**Board Frozen:** 2026-07-17  
-**Authorized By:** Copilot Code Agent (automated execution baseline consolidation)  
-**Status:** 🟢 Ready for delivery phase assignment
-
----
-
-### EXECUTION_BOARD_2026-08-09.md
-
-# ThemisDB Execution Board — 2026-08-09
-
-**Scope source (canonical):**
-- `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`
-- `/home/runner/work/ThemisDB/ThemisDB/FUTURE_ENHANCEMENTS.md`
-- `/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md`
-
-**Control mode:** sequential between phases, parallel only within active phase.
-
-## 1) Role Assignment
-
-| Role | Assigned Agent | Responsibility |
-|---|---|---|
-| Gap validation | `gap-verifier` | Validate open findings, remove false positives, prioritize remediation waves |
-| Implementation | `themisdb-implementer` | Deliver production changes in batch blocks |
-| Review | `themisdb-reviewer` | Findings-first correctness/security/regression review per block |
-| Docs/Governance sync | `themisdb-doc-orchestrator` | Keep roadmap/release/versioning/governance docs synchronized |
-| Optional cadence audit | `doc-orchestrator` | Cross-check documentation cadence and drift |
-
-## 2) Active Phase Tracker
-
-| Phase | Objective | Owner(s) | Status | Exit Criteria |
-|---|---|---|---|---|
-| Phase A | GA closure (D-11 human sign-off gate) | `themisdb-doc-orchestrator`, `themisdb-reviewer` | `[~]` | Section 9 remains explicit human-only, no governance contradictions |
-| Phase B | Private plugin externalization closure | `themisdb-implementer`, `gap-verifier`, `themisdb-reviewer`, `themisdb-doc-orchestrator` | `[~]` | Plugin readiness checklist fully green |
-| Phase C | LLM Wiki enterprise plugin closure | `themisdb-implementer`, `themisdb-reviewer`, `themisdb-doc-orchestrator` | `[ ]` | LWP test/perf gates pass, signed plugin verification active |
-| Phase D | Remaining root backlog in waves | all | `[ ]` | Full gate package PASS per wave |
-
-## 3) Backlog Queue (Open Canonical Items)
-
-### Phase A (current)
-- [~] Normalize GA governance texts so v2.4.0 path and D-11 human sign-off remain unambiguous across roadmap/release/versioning/sign-off docs.
-- [ ] Keep Section 9 in `/home/runner/work/ThemisDB/ThemisDB/docs/governance/GA_PROMOTION_SIGN_OFF.md` as human-only approval block.
-
-### Phase B
-- [~] Align private plugin submodule branch governance with canonical branch model (`develop`, `community`, `enterprise`, `hyperscaler`, `military`) and remove legacy `main` lane references where applicable.
-- [ ] Close remaining private-plugin release policy items (community no-credential guardrails, fail-closed manifest/runtime gates, commit-pin and packaging policy evidence).
-- [ ] Complete synchronized governance updates in:
-  - `/home/runner/work/ThemisDB/ThemisDB/BRANCHING_STRATEGY.md`
-  - `/home/runner/work/ThemisDB/ThemisDB/RELEASE_STRATEGY.md`
-  - `/home/runner/work/ThemisDB/ThemisDB/DOCUMENTATION_GOVERNANCE.md`
-  - `/home/runner/work/ThemisDB/ThemisDB/VERSIONING.md`
-  - `/home/runner/work/ThemisDB/ThemisDB/CHANGELOG.md`
-  - `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`
-  - `/home/runner/work/ThemisDB/ThemisDB/FUTURE_ENHANCEMENTS.md`
-
-### Phase C
-- [ ] Freeze LLM Wiki ABI policy and config schema documentation.
-- [ ] Complete error/edge-case and guardrail backlog.
-- [ ] Complete Phase B (RocksDB) activation and integration/performance gates.
-- [ ] Finalize operator/developer/migration docs for plugin GA.
-
-### Phase D
-- [ ] Wave 1: open release-critical `[ ]` backlog items first.
-- [ ] Wave 2: high-priority production hardening.
-- [ ] Wave 3: medium-term enhancements.
-
-## 4) Gate Board
-
-| Gate | Current State | Evidence |
-|---|---|---|
-| Build | `[~]` | release-critical baseline documented; re-validation required on active head before GA promotion |
-| Tests | `[~]` | Wave 5/6/7/8/9 evidence referenced in roadmap/sign-off docs |
-| Benchmarks | `[~]` | Wave manifests and gate reports linked in governance docs |
-| Security | `[~]` | sanitizer + pentest bundles available; no new CRITICAL required per cut |
-| Docs/Governance | `[~]` | cross-doc drift remediation in progress (Phase A) |
-
-## 5) Risk Register
-
-| ID | Risk | Impact | Mitigation | Owner | Status |
-|---|---|---|---|---|---|
-| R-01 | Version/governance drift across root docs | Wrong promotion decisions | enforce canonical v2.4.0 wording + explicit D-11 human-only gate | `themisdb-doc-orchestrator` | `[~]` |
-| R-02 | Legacy branch naming in private submodule metadata | Governance non-conformance | migrate `main` branch references to canonical lane strategy | `themisdb-implementer` | `[~]` |
-| R-03 | Private/public boundary leakage in community lanes | Security/compliance exposure | keep fail-closed checks + no-credential community policy | `themisdb-reviewer` | `[ ]` |
-
-## 6) Evidence Index
-
-- `/home/runner/work/ThemisDB/ThemisDB/docs/governance/GA_PROMOTION_SIGN_OFF.md`
-- `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`
-- `/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md`
-- `/home/runner/work/ThemisDB/ThemisDB/RELEASE_STRATEGY.md`
-- `/home/runner/work/ThemisDB/ThemisDB/VERSIONING.md`
-
----
-
 ### EXECUTION_COMPLETE_SUMMARY.md
 
 # QUERY MODULE GAP CLOSURE - EXECUTION COMPLETE
@@ -2822,6 +2513,315 @@ Execution Efficiency:
 **What Was Implemented:**
 - Replaced "TODO: In production, would resume..." placeholder with 9-step validation logic
 - Comprehensive checkpoint recovery with state machine transitions
+
+---
+
+### EXECUTION_BASELINE_SUMMARY.md
+
+# Execution Baseline Summary — Q3 2026
+
+## Status
+
+✅ **Canonical Execution Board Frozen**  
+📋 **Wave 1 & Wave 2 Consolidated (20 items, no duplicates)**  
+🔐 **Release Governance Mapped (5 milestones: v1.1.0 → v1.7.0)**  
+
+---
+
+## What Changed
+
+### Documents Consolidated
+
+1. **FUTURE_ENHANCEMENTS.md (Waves A+B)**
+   - Wave A: 10 critical/high items (security + GPU + AQL)
+   - Wave B: 21 high/medium items (API + ingestion + LLM)
+
+2. **ROADMAP.md**
+   - System readiness gates (no open production gates in root roadmap)
+   - EPIC phases aligned with Wave delivery
+
+3. **Module-level src/*/ROADMAP.md + src/*/FUTURE_ENHANCEMENTS.md**
+   - Scanned 20 modules: auth, chimera, gpu, index, geo, aql, acceleration, analytics, api, ingestion, llm, llama_cpp, query, rag, security, server, sharding, training, utils, etc.
+   - Mapped to corresponding Wave 1 or Wave 2 delivery slots
+
+### Planning Drift Eliminated
+
+- **No duplicates:** Each deliverable has exactly one issue, one acceptance criterion set, one target version
+- **No superseded entries:** All outdated items either archived or consolidated into parent items
+- **Branch governance explicit:** All items target `develop` branch; edition promotion via RELEASE_STRATEGY.md
+
+---
+
+## Wave 1 Consolidation (Release-Blocking)
+
+### Security (4 items)
+- **A-01:** JWT JWKS thread-safety (race condition → auth bypass)
+- **A-02:** LDAP injection prevention (DN + filter escaping per RFC 4515/4514)
+- **A-03:** Constant-time comparison (MFA + session ID timing side-channel)
+- **A-10:** AQL thread leak in `LLMTimeoutManager` (resource leak)
+
+### Simulation Replacement (3 items)
+- **A-04:** Chimera ThemisDB adapter → real query/vector/graph engine dispatch
+- **A-05:** Chimera MongoDB/Qdrant/Neo4j → real drivers (feature-gated)
+- **A-06:** GPU query_accelerator → real CUDA/HIP dispatch (5 functions)
+
+### Backend Dispatch (2 items)
+- **A-07:** GPU vector index → CUDA + HIP backends
+- **A-08:** Geospatial → CUDA + OpenCL backends
+
+### Safety (1 item)
+- **A-09:** AQL post-generation validation
+
+**Total Wave 1:** 10 items, **8–10 week delivery target**, v1.1.0–v1.2.0 releases
+
+---
+
+## Wave 2 Consolidation (Near-Term Hardening)
+
+### API / Query (5 items)
+- **B-04:** gRPC API surface completion (all handlers)
+- **B-12:** QueryOptimizer → real metadata shard wiring
+- **B-13:** QueryFederation → real shard determination
+- **B-14:** CTE subquery production implementation
+- **B-11:** llama.cpp real inference wiring
+
+### Ingestion / LLM Integration (5 items)
+- **B-07:** LLMIngestionAdapter Phase 2 (llama.cpp wiring)
+- **B-08:** Production connector wiring (S3, Kafka, ODBC, CDC, Object Storage)
+- **B-09:** LoRA security validator (cert store integration)
+- **B-10:** LLMDeploymentPlugin (RocksDB persistence)
+- **B-15:** RAG LLM integration (retrieval + ranking)
+
+### GPU Acceleration (1 item)
+- **B-01:** CUDA kernel completion (vector similarity)
+
+### Infrastructure (4 items)
+- **B-16:** Apache Arrow user registration plugin
+- **B-17:** Server HTTP initialization (real ShardingManager)
+- **B-18:** GPU erasure coder OpenCL implementation
+- **B-19:** Training provenance tracker (AQL template stubs)
+
+### Security / Utils (1 item)
+- **B-20:** PKI client real verification
+
+**Total Wave 2:** 21 items, **Q3 2026 – Q2 2027**, v1.5.0–v1.7.0 releases
+
+---
+
+## Release Milestone Mapping
+
+| Milestone | Target | Items | Status |
+|-----------|--------|-------|--------|
+| **v1.1.0** | Q3 2026 (8–10w) | A-01, A-02, A-03, A-04, A-06, A-09, A-10 | 🔴 **Not Started** |
+| **v1.2.0** | Q3–Q4 2026 (4–6w) | A-05, A-07, A-08 | 🔴 **Not Started** |
+| **v1.5.0** | Q4 2026–Q1 2027 | B-01, B-04, B-11, B-12, B-13, B-17, B-20 | 🔴 **Not Started** |
+| **v1.6.0** | Q1–Q2 2027 | B-07, B-08, B-09, B-10, B-15 | 🔴 **Not Started** |
+| **v1.7.0** | Q2–Q3 2027 | B-14, B-16, B-18, B-19 | 🔴 **Not Started** |
+
+---
+
+## Branch & Release Governance
+
+### Branch Model (BRANCHING_STRATEGY.md)
+- **develop:** Primary integration branch (all Wave 1/2 work targets `develop`)
+- **Edition branches:** `minimal`, `community`, `enterprise`, `hyperscaler`, `military`
+- **Legacy:** `main` and `millitary` must not be used for new work
+
+### Release Strategy (RELEASE_STRATEGY.md)
+- **Tagging:** 
+  - Community: `vX.Y.Z` (stable), `vX.Y.Z-alphaN/-betaN/-rcN` (pre-release)
+  - Enterprise/Hyperscaler/Military: `{edition}-vX.Y.Z(-rcN)`
+  - Minimal: `minimal-vX.Y.Z(-rcN)`
+- **Milestone mapping:** Each release tag linked to GitHub milestone + `CHANGELOG.md` entry
+
+---
+
+## Quality Gate Enforcements
+
+### Production Readiness (per A-01 → A-10 design rules)
+
+✅ **No Silent Fallbacks**
+- Production paths must fail fast if backend unavailable (not silently fall back to CPU/simulation)
+- Simulation paths explicitly marked with `STUB/SIMULATION NOTE` (purpose, activation, delta, removal target)
+
+✅ **Thread Safety**
+- Auth/crypto stubs: `std::shared_mutex` or atomic operations
+- No classic data races
+
+✅ **Timing Side-Channel Prevention**
+- Auth/crypto: `CRYPTO_memcmp` for sensitive comparisons
+- No early-exit based on length or intermediate data
+
+✅ **Performance Gating**
+- Wave 2+ items measured against Wave 7 benchmark baseline (benchmarks/wave7/)
+- Acceptable regression: 0% (no regressions)
+
+✅ **Test Coverage**
+- Unit + integration + property-based for all stub replacements
+- Regression tests: prior stub/fallback behaviour unreachable in production
+
+✅ **Security Review**
+- Auth, crypto, ingestion adapters: mandatory security review before merge
+
+---
+
+## Implementation Workflow Per Item
+
+### Phase 1: Design (1–2 days)
+- [ ] Read `src/<module>/ROADMAP.md` + `FUTURE_ENHANCEMENTS.md`
+- [ ] Document production interface + feature gates + activation conditions
+- [ ] Design document + acceptance criteria
+
+### Phase 2: Core Implementation (3–5 days)
+- [ ] Replace stub with production logic
+- [ ] Wire real backend / SDK call
+- [ ] Keep stub path available only via test-double injection
+
+### Phase 3: Error Handling & Edge Cases (1–2 days)
+- [ ] Timeout / retry / partial failure / backend unavailable scenarios
+- [ ] Structured error codes (reuse `errors.h`)
+- [ ] No silent fallbacks
+
+### Phase 4: Tests (2–4 days)
+- [ ] Unit + integration + regression tests
+- [ ] Performance gate measurement (Wave 7 baseline)
+
+### Phase 5: Observability & Security (1 day)
+- [ ] Prometheus metrics / audit logs
+- [ ] Security review (auth/crypto/ingestion)
+
+### Phase 6: Documentation & Acceptance (1 day)
+- [ ] Update `src/<module>/ROADMAP.md` → `[x]`
+- [ ] Update `ROADMAP.md` → `[x]`
+- [ ] Update `FUTURE_ENHANCEMENTS.md` → `[x]`
+- [ ] PR linked to target milestone
+
+---
+
+## Key Artifacts
+
+- **EXECUTION_BASELINE_2026_Q3.md** — Full board (20 items with detailed acceptance per item)
+- **ROADMAP.md** — Master roadmap (updated with Wave 1/2 linking)
+- **FUTURE_ENHANCEMENTS.md** — Root backlog (Wave A/B item detail)
+- **src/*/ROADMAP.md** — Module status (per-module completion tracking)
+- **BRANCHING_STRATEGY.md** — Branch + edition model
+- **RELEASE_STRATEGY.md** — Tagging + milestone alignment
+- **benchmarks/wave7/** — Performance baseline for quality gates
+
+---
+
+## Next Steps
+
+1. **Assign Wave 1 items to sprint cycles** (8–10 weeks)
+   - A-01 (JWT): Highest security risk → start immediately
+   - A-02, A-03 (LDAP, constant-time): Critical auth fixes → parallel with A-01
+   - A-04, A-06 (Chimera, GPU): Production simulation replacement → begin week 2–3
+   - A-07, A-08 (GPU backends): Backend dispatch → begin week 4–5
+   - A-09, A-10 (AQL): Safety + thread leak → begin week 3–4
+
+2. **Establish sprint review gates**
+   - Daily standup on Phase 1–5 progress per item
+   - Weekly milestone review (design → implementation → testing)
+   - Monthly release readiness gate (all 10 items → v1.1.0/v1.2.0)
+
+3. **Monitor planning drift**
+   - Every 2 weeks: check for superseded items, duplicates, scope creep
+   - Every month: resync with `src/*/ROADMAP.md` for module-level changes
+
+---
+
+## Signature
+
+**Board Frozen:** 2026-07-17  
+**Authorized By:** Copilot Code Agent (automated execution baseline consolidation)  
+**Status:** 🟢 Ready for delivery phase assignment
+
+---
+
+### EXECUTION_BOARD_2026-08-09.md
+
+# ThemisDB Execution Board — 2026-08-09
+
+**Scope source (canonical):**
+- `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`
+- `/home/runner/work/ThemisDB/ThemisDB/FUTURE_ENHANCEMENTS.md`
+- `/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md`
+
+**Control mode:** sequential between phases, parallel only within active phase.
+
+## 1) Role Assignment
+
+| Role | Assigned Agent | Responsibility |
+|---|---|---|
+| Gap validation | `gap-verifier` | Validate open findings, remove false positives, prioritize remediation waves |
+| Implementation | `themisdb-implementer` | Deliver production changes in batch blocks |
+| Review | `themisdb-reviewer` | Findings-first correctness/security/regression review per block |
+| Docs/Governance sync | `themisdb-doc-orchestrator` | Keep roadmap/release/versioning/governance docs synchronized |
+| Optional cadence audit | `doc-orchestrator` | Cross-check documentation cadence and drift |
+
+## 2) Active Phase Tracker
+
+| Phase | Objective | Owner(s) | Status | Exit Criteria |
+|---|---|---|---|---|
+| Phase A | GA closure (D-11 human sign-off gate) | `themisdb-doc-orchestrator`, `themisdb-reviewer` | `[~]` | Section 9 remains explicit human-only, no governance contradictions |
+| Phase B | Private plugin externalization closure | `themisdb-implementer`, `gap-verifier`, `themisdb-reviewer`, `themisdb-doc-orchestrator` | `[~]` | Plugin readiness checklist fully green |
+| Phase C | LLM Wiki enterprise plugin closure | `themisdb-implementer`, `themisdb-reviewer`, `themisdb-doc-orchestrator` | `[ ]` | LWP test/perf gates pass, signed plugin verification active |
+| Phase D | Remaining root backlog in waves | all | `[ ]` | Full gate package PASS per wave |
+
+## 3) Backlog Queue (Open Canonical Items)
+
+### Phase A (current)
+- [~] Normalize GA governance texts so v2.4.0 path and D-11 human sign-off remain unambiguous across roadmap/release/versioning/sign-off docs.
+- [ ] Keep Section 9 in `/home/runner/work/ThemisDB/ThemisDB/docs/governance/GA_PROMOTION_SIGN_OFF.md` as human-only approval block.
+
+### Phase B
+- [~] Align private plugin submodule branch governance with canonical branch model (`develop`, `community`, `enterprise`, `hyperscaler`, `military`) and remove legacy `main` lane references where applicable.
+- [ ] Close remaining private-plugin release policy items (community no-credential guardrails, fail-closed manifest/runtime gates, commit-pin and packaging policy evidence).
+- [ ] Complete synchronized governance updates in:
+  - `/home/runner/work/ThemisDB/ThemisDB/BRANCHING_STRATEGY.md`
+  - `/home/runner/work/ThemisDB/ThemisDB/RELEASE_STRATEGY.md`
+  - `/home/runner/work/ThemisDB/ThemisDB/DOCUMENTATION_GOVERNANCE.md`
+  - `/home/runner/work/ThemisDB/ThemisDB/VERSIONING.md`
+  - `/home/runner/work/ThemisDB/ThemisDB/CHANGELOG.md`
+  - `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`
+  - `/home/runner/work/ThemisDB/ThemisDB/FUTURE_ENHANCEMENTS.md`
+
+### Phase C
+- [ ] Freeze LLM Wiki ABI policy and config schema documentation.
+- [ ] Complete error/edge-case and guardrail backlog.
+- [ ] Complete Phase B (RocksDB) activation and integration/performance gates.
+- [ ] Finalize operator/developer/migration docs for plugin GA.
+
+### Phase D
+- [ ] Wave 1: open release-critical `[ ]` backlog items first.
+- [ ] Wave 2: high-priority production hardening.
+- [ ] Wave 3: medium-term enhancements.
+
+## 4) Gate Board
+
+| Gate | Current State | Evidence |
+|---|---|---|
+| Build | `[~]` | release-critical baseline documented; re-validation required on active head before GA promotion |
+| Tests | `[~]` | Wave 5/6/7/8/9 evidence referenced in roadmap/sign-off docs |
+| Benchmarks | `[~]` | Wave manifests and gate reports linked in governance docs |
+| Security | `[~]` | sanitizer + pentest bundles available; no new CRITICAL required per cut |
+| Docs/Governance | `[~]` | cross-doc drift remediation in progress (Phase A) |
+
+## 5) Risk Register
+
+| ID | Risk | Impact | Mitigation | Owner | Status |
+|---|---|---|---|---|---|
+| R-01 | Version/governance drift across root docs | Wrong promotion decisions | enforce canonical v2.4.0 wording + explicit D-11 human-only gate | `themisdb-doc-orchestrator` | `[~]` |
+| R-02 | Legacy branch naming in private submodule metadata | Governance non-conformance | migrate `main` branch references to canonical lane strategy | `themisdb-implementer` | `[~]` |
+| R-03 | Private/public boundary leakage in community lanes | Security/compliance exposure | keep fail-closed checks + no-credential community policy | `themisdb-reviewer` | `[ ]` |
+
+## 6) Evidence Index
+
+- `/home/runner/work/ThemisDB/ThemisDB/docs/governance/GA_PROMOTION_SIGN_OFF.md`
+- `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`
+- `/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md`
+- `/home/runner/work/ThemisDB/ThemisDB/RELEASE_STRATEGY.md`
+- `/home/runner/work/ThemisDB/ThemisDB/VERSIONING.md`
 
 ---
 

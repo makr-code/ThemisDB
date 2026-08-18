@@ -2,7 +2,7 @@
 
 **Generated:** 2026-08-18  
 **Topics:** 20  
-**Total source files grouped:** 1547  
+**Total source files grouped:** 1551  
 
 > Auto-generated LLM-wiki index following the Karpathy LLM Wiki pattern.
 > Each page below is a compact knowledge blob for one topic.
@@ -14,7 +14,7 @@
 - [AI_FRAMEWORK.md](AI_FRAMEWORK.md) — 1 source files
 - [ANALYTICS.md](ANALYTICS.md) — 65 source files
 - [AQL.md](AQL.md) — 6 source files
-- [BATCH_DELIVERY.md](BATCH_DELIVERY.md) — 221 source files
+- [BATCH_DELIVERY.md](BATCH_DELIVERY.md) — 225 source files
 - [CICD.md](CICD.md) — 2 source files
 - [EXECUTION.md](EXECUTION.md) — 19 source files
 - [FINAL_REPORTS.md](FINAL_REPORTS.md) — 33 source files
