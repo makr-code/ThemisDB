@@ -1397,17 +1397,33 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
     }
 
     // Calculate how many terms are found in documents
+    // Optimization: Convert to set for O(1) lookup and parse words once per document
+    // Complexity: O(n_docs × n_content) instead of O(n_docs × n_terms × n_content)
     size_t terms_found = 0;
+    
+    // Pre-build set of sentence terms for O(1) lookup
+    std::set<std::string> term_set(sentence_terms.begin(), sentence_terms.end());
+    
     for (const auto& doc : docs) {
         std::string content_lower = doc.content;
         std::transform(content_lower.begin(), content_lower.end(),
                       content_lower.begin(),
                       [](unsigned char c){ return std::tolower(c); });
 
-        for (const auto& term : sentence_terms) {
-            if (content_lower.find(term) != std::string::npos) {
+        // Parse content into words and check membership in term set
+        // Early exit when we find a matching term (O(log n_terms) per word)
+        std::istringstream stream(content_lower);
+        std::string word;
+        bool found_any = false;
+        
+        while (stream >> word && !found_any) {
+            // Remove punctuation from word end for better matching
+            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                word.pop_back();
+            }
+            if (term_set.count(word)) {
                 terms_found++;
-                break; // Count each term once per document
+                found_any = true;
             }
         }
     }
@@ -1536,7 +1552,7 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     const auto config = impl_->snapshotConfig();
 
     // Keywords that indicate ethical/moral queries
-    std::vector<std::string> ethical_keywords = {
+    std::set<std::string> ethical_keywords_set = {
         "should", "ought", "moral", "ethical", "ethics",
         "right", "wrong", "good", "bad", "justice",
         "fair", "unfair", "virtue", "duty", "obligation",
@@ -1547,9 +1563,18 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     std::transform(lower_query.begin(), lower_query.end(),
                   lower_query.begin(), ::tolower);
 
+    // Optimization: Parse query into words and check set membership O(1) per word
+    // Complexity: O(n_words × log n_keywords) instead of O(n_keywords × n_query_length)
     int keyword_count = 0;
-    for (const auto& keyword : ethical_keywords) {
-        if (lower_query.find(keyword) != std::string::npos) {
+    std::istringstream stream(lower_query);
+    std::string word;
+    
+    while (stream >> word) {
+        // Remove punctuation from word end for better matching
+        while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+            word.pop_back();
+        }
+        if (ethical_keywords_set.count(word)) {
             keyword_count++;
         }
     }
