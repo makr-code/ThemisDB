@@ -6,6 +6,7 @@
     "rocksdb",
     "fmt",
     "spdlog",
-    "nlohmann-json"
+    "nlohmann-json",
+    "snappy"
   ]
 }
