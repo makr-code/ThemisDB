@@ -224,7 +224,11 @@ enum class ErrorCode : uint16_t {
     SERIALIZATION_FORMAT_INVALID    = 9082,  ///< Invalid serialization format
     SERIALIZATION_VERSION_MISMATCH  = 9083,  ///< Version incompatibility
     SERIALIZATION_SIZE_EXCEEDED     = 9084,  ///< Serialized size limit exceeded
-    
+     
+    // SAGA Logging Errors (9090-9098)
+    SAGA_EVENT_LOSS                 = 9090,  ///< SAGA event loss due to buffer overflow
+    SAGA_SERIALIZATION_FAILED       = 9091,  ///< SAGA step serialization failed
+     
     // Catchall
     UNKNOWN_ERROR                   = 9099
 };
@@ -265,6 +269,26 @@ struct ErrorContext {
     // Resource state at time of error
     uint64_t resource_limit;                     ///< Relevant resource limit (if applicable)
     uint64_t resource_current;                   ///< Current resource usage
+    
+    /**
+     * @brief Convenient constructor for common error scenarios
+     */
+    ErrorContext(ErrorCode code_, const std::string& message_, 
+                 const std::string& component_)
+        : code(code_), severity(ErrorSeverity::Error), timestamp(std::chrono::system_clock::now()),
+          elapsed_ms(0), message(message_), component(component_), 
+          is_recoverable(false), retry_count(0),
+          resource_limit(0), resource_current(0) {
+        category = ErrorCategory::Unknown;
+    }
+    
+    /// Default constructor for aggregation
+    ErrorContext() : code(ErrorCode::UNKNOWN_ERROR), severity(ErrorSeverity::Fatal),
+                     timestamp(std::chrono::system_clock::now()), elapsed_ms(0),
+                     is_recoverable(false), retry_count(0),
+                     resource_limit(0), resource_current(0) {
+        category = ErrorCategory::Unknown;
+    }
     
     /**
      * @brief Convert error context to structured log-friendly format

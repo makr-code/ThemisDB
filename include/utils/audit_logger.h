@@ -22,6 +22,7 @@
 
 #include "security/encryption.h"
 #include "utils/pki_client.h"
+#include "utils/error_contracts.h"
 
 namespace themis {
 namespace utils {
@@ -508,6 +509,12 @@ private:
     // Anomaly detection helpers
     void updateTaskBaseline(const std::string& task_id, double execution_time_ms);
     double calculateZScore(double value, double mean, double stddev) const;
+     
+    /**
+     * @brief Log error context for diagnostics
+     * @param ctx Error context with details about the error
+     */
+    void logErrorContext(const ErrorContext& ctx);
 };
 
 // ---------------------------------------------------------------------------

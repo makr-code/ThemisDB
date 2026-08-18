@@ -14,6 +14,7 @@
 
 #include "security/encryption.h"
 #include "utils/pki_client.h"
+#include "utils/error_contracts.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <functional>
@@ -133,6 +134,12 @@ public:
      * @brief Get all batch IDs in chronological order
      */
     std::vector<std::string> listBatches() const;
+
+    /**
+     * @brief Log error context for diagnostics
+     * @param ctx Error context with details about the error
+     */
+    void logErrorContext(const ErrorContext& ctx);
 
 private:
     void signAndFlushBatch();

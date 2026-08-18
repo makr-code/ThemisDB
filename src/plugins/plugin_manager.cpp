@@ -1543,7 +1543,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
 
     // Step 2g: Restore state directly via IStatefulPlugin (belt-and-suspenders)
     if (!saved_state.empty()) {
-        auto* stateful = dynamic_cast<IStatefulPlugin*>(new_instance);
+        auto* stateful = dynamic_cast<IStatefulPlugin*>(new_instance.get());
         if (stateful && !stateful->restoreState(saved_state)) {
             THEMIS_WARN("restoreState() returned false for '{}' after reload; "
                         "plugin continues with state from initialize()", name);

@@ -258,7 +258,7 @@ public:
     KeyHandle(const KeyHandle&)            = delete;
     KeyHandle& operator=(const KeyHandle&) = delete;
 
-    KeyHandle(KeyHandle&&) noexcept            noexcept = default;
+    KeyHandle(KeyHandle&&) noexcept = default;
     KeyHandle& operator=(KeyHandle&&) noexcept = default;
 
     ~KeyHandle() {

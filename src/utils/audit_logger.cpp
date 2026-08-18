@@ -21,6 +21,7 @@
 #include <filesystem>
 #include <openssl/sha.h>
 #include <sstream>
+#include <iostream>
 #include <iomanip>
 #include <cmath>
 #include <algorithm>
@@ -317,13 +318,13 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         
         if (plain.size() > MAX_EVENT_SIZE) {
             ErrorContext err_ctx(
-                themis::errors::ErrorCode::ERR_AUDIT_BUFFER_OVERFLOW,
+                themis::utils::ErrorCode::AUDIT_BUFFER_OVERFLOW,
                 "Event size exceeds maximum limit",
                 "AuditLogger::logEvent"
             );
             err_ctx.resource_limit = MAX_EVENT_SIZE;
             err_ctx.resource_current = plain.size();
-            err_ctx.severity = ErrorSeverity::WARNING;
+            err_ctx.severity = ErrorSeverity::Warning;
             err_ctx.is_recoverable = true;
             err_ctx.recovery_hint = "Event will be truncated to fit maximum size";
             logErrorContext(err_ctx);
@@ -367,11 +368,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                         
                         // Log PKI failure with error context (Phase 2.3)
                         ErrorContext pki_err(
-                            themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                            themis::utils::ErrorCode::AUDIT_SIGNATURE_FAILED,
                             fmt::format("PKI signing failed: {}", e.what()),
                             "AuditLogger::logEvent[encryption]"
                         );
-                        pki_err.severity = ErrorSeverity::WARNING;
+                        pki_err.severity = ErrorSeverity::Warning;
                         pki_err.is_recoverable = true;
                         pki_err.recovery_hint = "Continuing without signature verification";
                         logErrorContext(pki_err);
@@ -405,11 +406,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
             catch (const std::exception &e) {
                 // Encryption failed - degrade to unencrypted mode (Phase 2.8)
                 ErrorContext enc_err(
-                    themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                    themis::utils::ErrorCode::AUDIT_ENCRYPTION_FAILED,
                     fmt::format("Encryption failed: {}", e.what()),
                     "AuditLogger::logEvent[encryption]"
                 );
-                enc_err.severity = ErrorSeverity::WARNING;
+                enc_err.severity = ErrorSeverity::Warning;
                 enc_err.is_recoverable = true;
                 enc_err.recovery_hint = "Switching to unencrypted audit logging";
                 logErrorContext(enc_err);
@@ -437,11 +438,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                         sig.ok = false;
                         
                         ErrorContext pki_err(
-                            themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                            themis::utils::ErrorCode::AUDIT_SIGNATURE_FAILED,
                             fmt::format("PKI signing failed: {}", e.what()),
                             "AuditLogger::logEvent[plaintext]"
                         );
-                        pki_err.severity = ErrorSeverity::WARNING;
+                        pki_err.severity = ErrorSeverity::Warning;
                         logErrorContext(pki_err);
                     }
                     catch (...) { 
@@ -462,11 +463,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
             }
             catch (const std::exception &e) {
                 ErrorContext err(
-                    themis::errors::ErrorCode::ERR_AUDIT_SERIALIZATION_FAILED,
+                    themis::utils::ErrorCode::AUDIT_VALIDATION_FAILED,
                     fmt::format("Plaintext serialization failed: {}", e.what()),
                     "AuditLogger::logEvent[plaintext_serialize]"
                 );
-                err.severity = ErrorSeverity::ERROR;
+                err.severity = ErrorSeverity::Error;
                 logErrorContext(err);
                 return; // Unable to proceed
             }
@@ -483,11 +484,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
             }
             catch (const std::exception &e) {
                 ErrorContext chain_err(
-                    themis::errors::ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+                    themis::utils::ErrorCode::AUDIT_WRITE_FAILED,
                     fmt::format("Chain state update failed: {}", e.what()),
                     "AuditLogger::logEvent[chain_update]"
                 );
-                chain_err.severity = ErrorSeverity::WARNING;
+                chain_err.severity = ErrorSeverity::Warning;
                 chain_err.is_recoverable = true;
                 logErrorContext(chain_err);
             }
@@ -503,11 +504,11 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
     catch (const std::exception &e) {
         // Final fallback: log to stderr
         ErrorContext fatal_err(
-            themis::errors::ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+            themis::utils::ErrorCode::AUDIT_PERSISTENCE_FAILED,
             fmt::format("Unexpected error in logEvent: {}", e.what()),
             "AuditLogger::logEvent[fatal]"
         );
-        fatal_err.severity = ErrorSeverity::CRITICAL;
+        fatal_err.severity = ErrorSeverity::Fatal;
         fatal_err.is_recoverable = false;
         std::cerr << fatal_err.toJSON() << std::endl;
     }
