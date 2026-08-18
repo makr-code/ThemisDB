@@ -52,8 +52,13 @@ namespace lz4_compression {
  * @note Thread-Safe: Safe for concurrent calls from multiple threads.
  * @note Acceleration: Higher acceleration = faster compression + lower compression ratio.
  *
- * @error E_INVALID_INPUT Input data size exceeds MAX_INPUT_SIZE limit.
- * @error E_COMPRESSION_FAILED LZ4 compression failed (insufficient memory or state error).
+ * @error_contract
+ * | Code | Condition | Recovery |
+ * |------|-----------|----------|
+ * | ERR_UTIL_INVALID_ARGUMENT | Input size exceeds 512MB limit | Return Err with E_INVALID_INPUT |
+ * | ERR_UTIL_UNAVAILABLE | LZ4 library not compiled (THEMIS_HAS_LZ4=0) | Return Err with E_UNAVAILABLE |
+ * | ERR_UTIL_COMPRESSION_FAILED | Memory allocation failure or LZ4 internal error | Return Err with E_COMPRESSION_FAILED |
+ * | ERR_UTIL_RESOURCE_EXHAUSTED | Output buffer oversized or acceleration out-of-range [1-1000] | Clamp acceleration; log warn |
  */
 Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
                                                 int acceleration = lz4_compression::DEFAULT_ACCELERATION);
@@ -66,6 +71,15 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
  *                        by the LZ4 block format; must be stored alongside the
  *                        compressed payload by the caller).
  * @return Ok(decompressed_bytes) on success; Err on failure or unsupported.
+ *
+ * @error_contract
+ * | Code | Condition | Recovery |
+ * |------|-----------|----------|
+ * | ERR_UTIL_INVALID_ARGUMENT | Decompressed size exceeds 2GB limit | Return Err with E_INVALID_ARGUMENT |
+ * | ERR_UTIL_DECOMPRESSION_FAILED | Checksum mismatch or corrupt frame | Return Err with E_DECOMPRESSION_FAILED |
+ * | ERR_UTIL_COMPRESSION_BOMB | Ratio >100:1 detected (suspicious) | Log warning; allow with ratio hint |
+ * | ERR_UTIL_UNAVAILABLE | LZ4 library not compiled (THEMIS_HAS_LZ4=0) | Return Err with E_UNAVAILABLE |
+ * | ERR_UTIL_RESOURCE_EXHAUSTED | Memory allocation failure during decompression | Return Err with E_RESOURCE_EXHAUSTED |
  */
 Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& compressed,
                                                   size_t original_size);

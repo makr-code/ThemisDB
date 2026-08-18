@@ -84,7 +84,20 @@ public:
         void beginObject(size_t num_fields);
         void endObject();
         
-        /// Get encoded bytes
+        /**
+         * @brief Finalize encoding and return the serialized bytes.
+         *
+         * @return Encoded binary data in Serialization format.
+         *
+         * @note Output Format: Binary format compatible with Decoder.
+         * @note Resource Usage: Returns encoded buffer; original state cleared.
+         *
+         * @error_contract
+         * | Code | Condition | Recovery |
+         * |------|-----------|----------|
+         * | ERR_UTIL_SERIALIZATION_FAILED | Buffer allocation failure | Returns empty vector |
+         * | ERR_UTIL_RESOURCE_EXHAUSTED | Encoded size exceeds available memory | Returns partial/empty vector |
+         */
         std::vector<uint8_t> finish();
         
     private:
@@ -97,6 +110,22 @@ public:
     /** @brief Decoder component. */
     class Decoder {
     public:
+        /**
+         * @brief Initialize decoder with serialized binary data.
+         *
+         * @param data Serialized binary payload from Serialization::Encoder::finish().
+         *
+         * @note Schema Validation: Implicitly validates schema version from data header.
+         * @note Depth Limiting: Enforces MAX_NESTING_DEPTH = 64 for nested structures to prevent
+         *       stack overflow attacks from maliciously-crafted input.
+         * @note Thread-Safe: Decoder instance is single-threaded; each thread must have its own instance.
+         *
+         * @error_contract
+         * | Code | Condition | Recovery |
+         * |------|-----------|----------|
+         * | ERR_UTIL_DESERIALIZE_SCHEMA_MISMATCH | Schema version mismatch in header | Constructor succeeds; decode methods fail |
+         * | ERR_UTIL_INVALID_ARGUMENT | Empty or corrupted data buffer | Constructor succeeds; decode methods return default/error |
+         */
         explicit Decoder(const std::vector<uint8_t>& data);
         
         TypeTag peekType() const;
@@ -120,6 +149,13 @@ public:
          * @note Security: Prevents buffer overflow attacks from malformed serialized data.
          *
          * @throws May throw during UTF-8 validation if enabled, but not on bounds overflow.
+         *
+         * @error_contract
+         * | Code | Condition | Recovery |
+         * |------|-----------|----------|
+         * | ERR_UTIL_DESERIALIZE_FAILED | String size field exceeds remaining buffer | Returns empty string |
+         * | ERR_UTIL_INVALID_ARGUMENT | String contains invalid UTF-8 sequence | Returns best-effort string or empty |
+         * | ERR_UTIL_RESOURCE_EXHAUSTED | String size allocation would fail | Returns empty string |
          */
         std::string decodeString();
         
@@ -131,6 +167,13 @@ public:
          * @note Bounds-Checked: Verifies (pos_ + size_bytes) <= data_.size() before reading.
          * @note Fail-Safe: Returns empty vector on bounds overflow.
          * @note Security: Prevents out-of-bounds reads on corrupted serialized data.
+         *
+         * @error_contract
+         * | Code | Condition | Recovery |
+         * |------|-----------|----------|
+         * | ERR_UTIL_DESERIALIZE_FAILED | Binary size field exceeds remaining buffer | Returns empty vector |
+         * | ERR_UTIL_RESOURCE_EXHAUSTED | Binary size allocation would fail | Returns empty vector |
+         * | ERR_UTIL_INVALID_ARGUMENT | Invalid type tag for binary data | Returns empty vector |
          */
         std::vector<uint8_t> decodeBinary();
         
@@ -142,19 +185,31 @@ public:
          * @note Bounds-Checked: Verifies (pos_ + size*sizeof(float)) <= data_.size() before reading.
          * @note Fail-Safe: Returns empty vector if array would exceed remaining buffer.
          * @note Security: Prevents integer overflow in size*sizeof calculation by explicit checks.
+         *
+         * @error_contract
+         * | Code | Condition | Recovery |
+         * |------|-----------|----------|
+         * | ERR_UTIL_DESERIALIZE_FAILED | Vector size field exceeds remaining buffer | Returns empty vector |
+         * | ERR_UTIL_RESOURCE_EXHAUSTED | Vector size*sizeof(float) overflows or alloc fails | Returns empty vector |
+         * | ERR_UTIL_INVALID_ARGUMENT | Invalid type tag for float vector | Returns empty vector |
          */
         std::vector<float> decodeFloatVector();
         
         /**
          * @brief Begin array decoding with depth limiting for nested structures.
          *
-         * @return Number of elements in the array.
+         * @return Number of elements in the array (0 if depth limit exceeded).
          *
          * @note Depth-Limited: Arrays/objects nested >64 levels deep are rejected
          *       to prevent stack overflow attacks from malicious input.
          * @note Phase 2.4 Hardening: Bounds checking on nesting depth.
          *
-         * @error Returns 0 if depth limit exceeded.
+         * @error_contract
+         * | Code | Condition | Recovery |
+         * |------|-----------|----------|
+         * | ERR_UTIL_RESOURCE_EXHAUSTED | Nesting depth exceeds MAX_NESTING_DEPTH=64 | Returns 0; endArray() must not be called |
+         * | ERR_UTIL_DESERIALIZE_FAILED | Invalid type tag at position | Returns 0; caller should check hasMore() |
+         * | ERR_UTIL_INVALID_ARGUMENT | Size field exceeds remaining buffer | Returns 0 |
          */
         size_t beginArray();
         void endArray();
@@ -162,13 +217,18 @@ public:
         /**
          * @brief Begin object decoding with depth limiting for nested structures.
          *
-         * @return Number of fields in the object.
+         * @return Number of fields in the object (0 if depth limit exceeded).
          *
          * @note Depth-Limited: Objects nested >64 levels deep are rejected
          *       to prevent stack overflow attacks from crafted deserialization.
          * @note Phase 2.4 Hardening: Bounds checking on nesting depth.
          *
-         * @error Returns 0 if depth limit exceeded.
+         * @error_contract
+         * | Code | Condition | Recovery |
+         * |------|-----------|----------|
+         * | ERR_UTIL_RESOURCE_EXHAUSTED | Nesting depth exceeds MAX_NESTING_DEPTH=64 | Returns 0; endObject() must not be called |
+         * | ERR_UTIL_DESERIALIZE_FAILED | Invalid type tag at position | Returns 0; caller should check hasMore() |
+         * | ERR_UTIL_INVALID_ARGUMENT | Field count exceeds remaining buffer | Returns 0 |
          */
         size_t beginObject();
         void endObject();
