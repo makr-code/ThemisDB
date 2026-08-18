@@ -24,8 +24,8 @@
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
-- `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
 - `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
+- `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
@@ -33,8 +33,8 @@
 - `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
 - `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
@@ -43,20 +43,21 @@
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,485 B)
+- `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-18, 5,374 B)
 - `PHASE_2_IMPLEMENTATION_GUIDE.md` (2026-08-18, 8,733 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN.md` (2026-08-18, 6,986 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-18, 6,986 B)
-- `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-18, 5,374 B)
+- `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
-- `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
+- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
 - `IMPLEMENTATION_PLAN_8_ITEMS_2026-05-25.md` (2026-08-18, 1,274 B)
@@ -64,14 +65,13 @@
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 9,018 B)
 - `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,655 B)
 - `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
-- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
-- `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
 - `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
+- `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
 - `FP_DETECTION_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,430 B)
 - `COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 16,526 B)
-- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
 - `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
+- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-18, 17,764 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 10,935 B)
 
@@ -2337,56 +2337,6 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 
 ---
 
-### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Tensor Module Complete Implementation - Master Plan & Status
-**Date Initiated**: 2026-08-07
-**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
-**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
-**Total Effort**: ~750-900 engineer-hours
-**Agent Count**: 9 specialized sub-agents (3 per stream)
----
-## Executive Summary
-**Key Characteristics**:
-- ✅ Parallel sub-agent execution (3 agents per stream)
-- ✅ Weekly merge & integration checkpoints
-- ✅ Clear deliverables and success criteria per block
-- ✅ Risk mitigation strategies documented
-- ✅ Backward compatible within major release line
-- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
----
-## Master Timeline & Milestones
-August 2026          September 2026      October 2026        November 2026       January 2027
-┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
-│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
-│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
-│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
-│ Exec             │                  │                  │  (48-72h runs)    │              │
-│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
-└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
-### Detailed Milestones
-**Week 1-3 (Aug 7-27): Stream A Active Execution**
-- A1: Index/bridge concurrent hardening tests implemented
-- A2: Unified diagnostics architecture designed
-- A3: Baseline benchmark measurements collected
-**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
-- All A1/A2/A3 blocks complete and validated
-- Pull request created for Stream A: feature/tensor-q3-hardening
-- Merge to develop: Aug 30-31
-**Week 4 (Sept 1): Stream B Launch**
-- Edge case scenario inventory (B1) compiled
-- Stress test design (B2) finalized
-- P95/P99 measurement protocol (B3) prepared
-**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
-- B1: Edge case handling implemented, 20-30 tests
-- B2: Stress suite designed and parametrized
-- B3: CI measurement runs scheduled
-**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
-
----
-
 ### T2.3_IMPLEMENTATION_VERIFICATION.md
 
 # Phase 2 T2.3 Implementation Verification Report
@@ -2570,6 +2520,56 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 **Status:** ✅ All Phase 2 T2.3 acceptance criteria met and verified
+
+---
+
+### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Tensor Module Complete Implementation - Master Plan & Status
+**Date Initiated**: 2026-08-07
+**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
+**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
+**Total Effort**: ~750-900 engineer-hours
+**Agent Count**: 9 specialized sub-agents (3 per stream)
+---
+## Executive Summary
+**Key Characteristics**:
+- ✅ Parallel sub-agent execution (3 agents per stream)
+- ✅ Weekly merge & integration checkpoints
+- ✅ Clear deliverables and success criteria per block
+- ✅ Risk mitigation strategies documented
+- ✅ Backward compatible within major release line
+- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
+---
+## Master Timeline & Milestones
+August 2026          September 2026      October 2026        November 2026       January 2027
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
+│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
+│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
+│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
+│ Exec             │                  │                  │  (48-72h runs)    │              │
+│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
+### Detailed Milestones
+**Week 1-3 (Aug 7-27): Stream A Active Execution**
+- A1: Index/bridge concurrent hardening tests implemented
+- A2: Unified diagnostics architecture designed
+- A3: Baseline benchmark measurements collected
+**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
+- All A1/A2/A3 blocks complete and validated
+- Pull request created for Stream A: feature/tensor-q3-hardening
+- Merge to develop: Aug 30-31
+**Week 4 (Sept 1): Stream B Launch**
+- Edge case scenario inventory (B1) compiled
+- Stress test design (B2) finalized
+- P95/P99 measurement protocol (B3) prepared
+**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
+- B1: Edge case handling implemented, 20-30 tests
+- B2: Stress suite designed and parametrized
+- B3: CI measurement runs scheduled
+**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
 
 ---
 
@@ -3791,7 +3791,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY.md
+### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
 *(file too large — key headings extracted)*
 
@@ -3848,7 +3848,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
+### PHASE_A_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
@@ -4777,6 +4777,59 @@ A comprehensive release readiness framework encompassing:
 
 ---
 
+### PHASE_2_4_IMPLEMENTATION_SUMMARY.txt
+
+*(file too large — key headings extracted)*
+
+# Phase 2.4 Implementation Summary
+**Completion Date**: 2026-07-01
+**Status**: ✅ **COMPLETE**
+---
+## What Was Accomplished
+### Phase 2.4: Integration & Validation (Week 6 of Phase 2)
+### Key Deliverables
+1. **Phase 2.4 Implementation Plan** (`PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md`)
+- 6-step comprehensive validation roadmap
+- Build validation & unit testing strategy
+- Determinism validation approach (100x runs)
+- Performance benchmarking validation
+- Distributed consistency verification
+- L1 gap re-audit methodology
+- Documentation & security review procedures
+2. **Phase 2.4 Completion Report** (`PHASE_2_4_COMPLETION_REPORT.md`)
+- Executive summary of all Phase 2 work (107 findings addressed)
+- Detailed validation results from code analysis
+- Test coverage analysis (22 files, 326 tests)
+- Exception safety & RAII validation
+- Distributed consistency framework verification
+- Phase 2.3 artifacts validation
+- Determinism patterns identified in code
+- Performance benchmarking strategy
+- L1 gap audit results (zero new findings)
+- Acceptance criteria verification
+- Final sign-off and release readiness
+3. **ROADMAP.md Updates**
+- Added Phase 2.3 completion sign-off section with:
+- OntologyManager hardening (2 CRITICAL gaps fixed)
+- Entity type constraints tests (13 new tests)
+- Quality metrics and verification
+- Added Phase 2.4 completion sign-off section with:
+- Scope and validation results
+- Test coverage inventory (22 files, 326 tests)
+- Distributed consistency validation
+- Exception safety analysis
+- Gap resolution summary (107 findings)
+- Phase 3 readiness status
+---
+## Phase 2.4 Validation Results
+### Test Coverage
+- **22 test files** containing **326 individual tests**
+- All test files present and accounted for
+- Tests organized by module: Ontology (25), Distributed (14), Rotate Completion (16), Path Constraints (10), and others
+- Full coverage verified across all graph operations
+
+---
+
 ### PHASE_2_IMPLEMENTATION_GUIDE.md
 
 *(file too large — key headings extracted)*
@@ -5028,56 +5081,50 @@ plugin_info.state = PluginLifecycleState::LOADING;
 
 ---
 
-### PHASE_2_4_IMPLEMENTATION_SUMMARY.txt
+### PHASE_1_6_IMPLEMENTATION_STATUS.md
 
 *(file too large — key headings extracted)*
 
-# Phase 2.4 Implementation Summary
-**Completion Date**: 2026-07-01
-**Status**: ✅ **COMPLETE**
+# Phase 1-6 Code Quality Scanner Roadmap — Implementation Status
+**Date:** 2026-08-02
+**Status:** Phase 1-4 Enhancements COMPLETE; Module Hardening IN PROGRESS
+**Overall Progress:** 6/11 major milestones complete (55%)
 ---
-## What Was Accomplished
-### Phase 2.4: Integration & Validation (Week 6 of Phase 2)
-### Key Deliverables
-1. **Phase 2.4 Implementation Plan** (`PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md`)
-- 6-step comprehensive validation roadmap
-- Build validation & unit testing strategy
-- Determinism validation approach (100x runs)
-- Performance benchmarking validation
-- Distributed consistency verification
-- L1 gap re-audit methodology
-- Documentation & security review procedures
-2. **Phase 2.4 Completion Report** (`PHASE_2_4_COMPLETION_REPORT.md`)
-- Executive summary of all Phase 2 work (107 findings addressed)
-- Detailed validation results from code analysis
-- Test coverage analysis (22 files, 326 tests)
-- Exception safety & RAII validation
-- Distributed consistency framework verification
-- Phase 2.3 artifacts validation
-- Determinism patterns identified in code
-- Performance benchmarking strategy
-- L1 gap audit results (zero new findings)
-- Acceptance criteria verification
-- Final sign-off and release readiness
-3. **ROADMAP.md Updates**
-- Added Phase 2.3 completion sign-off section with:
-- OntologyManager hardening (2 CRITICAL gaps fixed)
-- Entity type constraints tests (13 new tests)
-- Quality metrics and verification
-- Added Phase 2.4 completion sign-off section with:
-- Scope and validation results
-- Test coverage inventory (22 files, 326 tests)
-- Distributed consistency validation
-- Exception safety analysis
-- Gap resolution summary (107 findings)
-- Phase 3 readiness status
+## Executive Summary
+The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of schedule:
+- ✅ **Phase 1-5:** Complete (155,631 gaps identified)
+- ✅ **Phase 6:** Complete (5 new scanners, 1,480 LOC)
+- ✅ **Phase 7-10:** Complete (9 scanners, 1,592 LOC)
+- 🟠 **Phase 1-4 Enhancements:** COMPLETE (6 new scanners, ~2,870 LOC)
+- 🟠 **Module Hardening Tier 1:** IN PROGRESS (LLM Block A complete; 9 blocks remaining)
 ---
-## Phase 2.4 Validation Results
-### Test Coverage
-- **22 test files** containing **326 individual tests**
-- All test files present and accounted for
-- Tests organized by module: Ontology (25), Distributed (14), Rotate Completion (16), Path Constraints (10), and others
-- Full coverage verified across all graph operations
+## Phase 1-4 Enhancements: NEW Implementation (2026-08-02)
+**Objective:** Add 12 new detection patterns to Phase 1-4 scanners
+**Status:** ✅ COMPLETE
+**LOC:** ~2,870 lines of production scanner code
+**Expected Gap Increase:** +2,200-3,200 gaps
+### Delivered Scanners
+#### Security Enhancements (3 scanners, ~3,120 LOC)
+| ID | Scanner | File | Patterns | LOC | CWE | Status |
+|----|---------|------|----------|-----|-----|--------|
+| S-1 | Hardcoded Secrets | `gs3_step01_enhance_security_s1.py` | 5 | 280 | CWE-798 | ✅ DONE |
+| S-2 | Crypto Weaknesses | `gs3_step01_enhance_security_s2.py` | 5 | 310 | CWE-327 | ✅ DONE |
+| S-3 | Injection Attacks | `gs3_step01_enhance_security_s3.py` | 5 | 340 | CWE-94 | ✅ DONE |
+**Total Security:** 15 patterns, ~930 LOC, CWE-798/327/94
+#### Memory Safety Enhancements (1 scanner, ~870 LOC)
+| ID | Scanner | File | Patterns | LOC | CWE | Status |
+|----|---------|------|----------|-----|-----|--------|
+| M-1 | Use-After-Free | `gs3_step02_enhance_memory_m1_m2.py` | 5 | 220 | CWE-416 | ✅ DONE |
+| M-2 | Double-Free | `gs3_step02_enhance_memory_m1_m2.py` | 3 | 180 | CWE-415 | ✅ DONE |
+**Total Memory:** 8 patterns, ~870 LOC, CWE-416/415
+#### Concurrency Enhancements (1 scanner, ~900 LOC)
+| ID | Scanner | File | Patterns | LOC | CWE | Status |
+|----|---------|------|----------|-----|-----|--------|
+| C-1 | Race Conditions | `gs3_step01_enhance_concurrency_c1.py` | 4 | 230 | CWE-362 | ✅ DONE |
+**Total Concurrency:** 4 patterns, ~900 LOC, CWE-362
+### Phase 1-4 Enhancement Summary
+- **Total New Scanners:** 5 (S-1, S-2, S-3, M-1/M-2, C-1)
+- **Total New Patterns:** 27 pattern variants
 
 ---
 
@@ -5182,53 +5229,6 @@ plugin_info.state = PluginLifecycleState::LOADING;
 - [ ] Tag `v2.4.0` created on `community` merge commit
 - [ ] Release artefact built from v2.4.0 tag (not develop HEAD)
 ### Verification Checklist
-
----
-
-### PHASE_1_6_IMPLEMENTATION_STATUS.md
-
-*(file too large — key headings extracted)*
-
-# Phase 1-6 Code Quality Scanner Roadmap — Implementation Status
-**Date:** 2026-08-02
-**Status:** Phase 1-4 Enhancements COMPLETE; Module Hardening IN PROGRESS
-**Overall Progress:** 6/11 major milestones complete (55%)
----
-## Executive Summary
-The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of schedule:
-- ✅ **Phase 1-5:** Complete (155,631 gaps identified)
-- ✅ **Phase 6:** Complete (5 new scanners, 1,480 LOC)
-- ✅ **Phase 7-10:** Complete (9 scanners, 1,592 LOC)
-- 🟠 **Phase 1-4 Enhancements:** COMPLETE (6 new scanners, ~2,870 LOC)
-- 🟠 **Module Hardening Tier 1:** IN PROGRESS (LLM Block A complete; 9 blocks remaining)
----
-## Phase 1-4 Enhancements: NEW Implementation (2026-08-02)
-**Objective:** Add 12 new detection patterns to Phase 1-4 scanners
-**Status:** ✅ COMPLETE
-**LOC:** ~2,870 lines of production scanner code
-**Expected Gap Increase:** +2,200-3,200 gaps
-### Delivered Scanners
-#### Security Enhancements (3 scanners, ~3,120 LOC)
-| ID | Scanner | File | Patterns | LOC | CWE | Status |
-|----|---------|------|----------|-----|-----|--------|
-| S-1 | Hardcoded Secrets | `gs3_step01_enhance_security_s1.py` | 5 | 280 | CWE-798 | ✅ DONE |
-| S-2 | Crypto Weaknesses | `gs3_step01_enhance_security_s2.py` | 5 | 310 | CWE-327 | ✅ DONE |
-| S-3 | Injection Attacks | `gs3_step01_enhance_security_s3.py` | 5 | 340 | CWE-94 | ✅ DONE |
-**Total Security:** 15 patterns, ~930 LOC, CWE-798/327/94
-#### Memory Safety Enhancements (1 scanner, ~870 LOC)
-| ID | Scanner | File | Patterns | LOC | CWE | Status |
-|----|---------|------|----------|-----|-----|--------|
-| M-1 | Use-After-Free | `gs3_step02_enhance_memory_m1_m2.py` | 5 | 220 | CWE-416 | ✅ DONE |
-| M-2 | Double-Free | `gs3_step02_enhance_memory_m1_m2.py` | 3 | 180 | CWE-415 | ✅ DONE |
-**Total Memory:** 8 patterns, ~870 LOC, CWE-416/415
-#### Concurrency Enhancements (1 scanner, ~900 LOC)
-| ID | Scanner | File | Patterns | LOC | CWE | Status |
-|----|---------|------|----------|-----|-----|--------|
-| C-1 | Race Conditions | `gs3_step01_enhance_concurrency_c1.py` | 4 | 230 | CWE-362 | ✅ DONE |
-**Total Concurrency:** 4 patterns, ~900 LOC, CWE-362
-### Phase 1-4 Enhancement Summary
-- **Total New Scanners:** 5 (S-1, S-2, S-3, M-1/M-2, C-1)
-- **Total New Patterns:** 27 pattern variants
 
 ---
 
@@ -5478,6 +5478,57 @@ The implementation hooks both components into production systems:
 |---|---|---|
 | `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
 | `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
+
+---
+
+### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
+**Implementation Date:** 2026-08-15 15:30 UTC
+**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
+**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
+---
+## Executive Summary
+- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
+- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
+- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
+- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
+**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
+---
+## What Was Implemented
+### 1. Phase 3A Agent Dispatched
+**Agent ID:** `importers-phase3a-high-batch-a`
+**Name:** importers-phase3a-high-batch-a1
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:30 UTC
+**Status:** 🟡 Running
+**Scope:** 58 HIGH gaps
+- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
+- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
+- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
+**Target Completion:** Sep 19, 2026 (2-3 weeks)
+**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
+**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
+### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
+**Agent ID:** `importers-phase4a-high-batch-a`
+**Name:** importers-phase4a-high-batch-a2
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:31 UTC
+**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
+**Scope:** 55 HIGH gaps
+- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
+- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
+- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
+- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
+- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
+- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
+**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
+**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
+**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
+### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
+**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
 
 ---
 
@@ -5808,102 +5859,6 @@ Updated `ai_working/00_START_HERE.md`:
 
 ---
 
-### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
-**Implementation Date:** 2026-08-15 15:30 UTC
-**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
-**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
----
-## Executive Summary
-- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
-- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
-- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
-- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
-**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
----
-## What Was Implemented
-### 1. Phase 3A Agent Dispatched
-**Agent ID:** `importers-phase3a-high-batch-a`
-**Name:** importers-phase3a-high-batch-a1
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:30 UTC
-**Status:** 🟡 Running
-**Scope:** 58 HIGH gaps
-- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
-- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
-- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
-**Target Completion:** Sep 19, 2026 (2-3 weeks)
-**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
-**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
-### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
-**Agent ID:** `importers-phase4a-high-batch-a`
-**Name:** importers-phase4a-high-batch-a2
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:31 UTC
-**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
-**Scope:** 55 HIGH gaps
-- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
-- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
-- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
-- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
-- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
-- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
-**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
-**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
-**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
-### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
-**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
-
----
-
-### GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Geographic Replica Placement Policies Implementation Summary
-**Date**: 2026-08-17
-**Target**: ThemisDB Replication Module v1.8.0
-**Task**: Implement geographic replica placement policies to close 16 critical gaps
----
-## Executive Summary
-- ✅ Fixed 4x braces_imbalance issues
-- ✅ Fixed 10x no_timeout issues with timeout-aware comments
-- ✅ Fixed 3x critical issues (multiplication_overflow, iterator_invalidation)
-- ✅ Implemented geographic placement policy feature
-- ✅ Created comprehensive test suite (16 test cases)
-- ✅ Updated ROADMAP.md with completion status
----
-## Changes Summary
-### 1. Fixed Braces Imbalance (4x CRITICAL)
-**Files Modified:**
-- `src/replication/observability.cpp` (line 1)
-- `src/replication/policy.cpp` (line 1)
-- `src/replication/logical_replication.cpp` (line 1)
-- `src/replication/replication_manager.cpp` (line 1)
-### 2. Fixed No_Timeout Issues (10x CRITICAL)
-**Files Modified:**
-- `src/replication/replication_manager.cpp` (lines 647-656)
-- `src/replication/logical_replication.cpp` (lines 645-709)
-**Changes**:
-- Added production-aware timeout comments to blocking I/O operations:
-- `::open()` file operations
-- `::fsync()` durability operations
-- `::write()` persistence operations
-- Comments explain expected timeout windows and monitoring recommendations
-- Format: `NOTE: Blocking local filesystem operation (X). Expected timeout: Y. If hung, check Z subsystem.`
-**Example** (replication_manager.cpp:650-656):
-// NOTE: Blocking local filesystem operation (open).
-// Expected timeout: microseconds to milliseconds. Configure OS watchdog for hung processes.
-int fd = ::open(entry.path().c_str(), O_RDONLY | O_CLOEXEC);
-### 3. Fixed Multiplication Overflow (1x CRITICAL)
-**File**: `src/replication/replication_manager.cpp` (line 540-549)
-**Change**: Made overflow prevention explicit with named constant and verification comment:
-
----
-
 ### GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md
 
 *(file too large — key headings extracted)*
@@ -5997,6 +5952,51 @@ list(APPEND GEO_GPU_SOURCES gpu_backend_production.cpp)
 - Replaced Haversine distance TODO with production GPU dispatch code
 - Replaced point-in-polygon TODO with production GPU dispatch code
 - Implemented circuit-breaker pattern for GPU dispatch failures
+
+---
+
+### GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Geographic Replica Placement Policies Implementation Summary
+**Date**: 2026-08-17
+**Target**: ThemisDB Replication Module v1.8.0
+**Task**: Implement geographic replica placement policies to close 16 critical gaps
+---
+## Executive Summary
+- ✅ Fixed 4x braces_imbalance issues
+- ✅ Fixed 10x no_timeout issues with timeout-aware comments
+- ✅ Fixed 3x critical issues (multiplication_overflow, iterator_invalidation)
+- ✅ Implemented geographic placement policy feature
+- ✅ Created comprehensive test suite (16 test cases)
+- ✅ Updated ROADMAP.md with completion status
+---
+## Changes Summary
+### 1. Fixed Braces Imbalance (4x CRITICAL)
+**Files Modified:**
+- `src/replication/observability.cpp` (line 1)
+- `src/replication/policy.cpp` (line 1)
+- `src/replication/logical_replication.cpp` (line 1)
+- `src/replication/replication_manager.cpp` (line 1)
+### 2. Fixed No_Timeout Issues (10x CRITICAL)
+**Files Modified:**
+- `src/replication/replication_manager.cpp` (lines 647-656)
+- `src/replication/logical_replication.cpp` (lines 645-709)
+**Changes**:
+- Added production-aware timeout comments to blocking I/O operations:
+- `::open()` file operations
+- `::fsync()` durability operations
+- `::write()` persistence operations
+- Comments explain expected timeout windows and monitoring recommendations
+- Format: `NOTE: Blocking local filesystem operation (X). Expected timeout: Y. If hung, check Z subsystem.`
+**Example** (replication_manager.cpp:650-656):
+// NOTE: Blocking local filesystem operation (open).
+// Expected timeout: microseconds to milliseconds. Configure OS watchdog for hung processes.
+int fd = ::open(entry.path().c_str(), O_RDONLY | O_CLOEXEC);
+### 3. Fixed Multiplication Overflow (1x CRITICAL)
+**File**: `src/replication/replication_manager.cpp` (line 540-549)
+**Change**: Made overflow prevention explicit with named constant and verification comment:
 
 ---
 
@@ -6097,6 +6097,42 @@ AFTER ALL BATCHES (Target):
 
 ---
 
+### CMT-7504_IMPLEMENTATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# CMT-7504 Implementation Guide
+## Documentation Linkset Synchronization Remediation Steps
+**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
+**Target Completion:** 2026-08-31
+**Estimated Effort:** 2 hours (execution + testing)
+---
+## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
+### Step 1.1: Add Bidirectional Cross-Links
+#### A. Update Root README.md
+**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
+**Add this block:**
+### 🟠 Content Module Status Snapshot
+**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
+**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
+---
+#### B. Update Root ROADMAP.md
+**Location:** Immediately after the "## Current Status" section (around line 50)
+**Add this subsection:**
+## Content Module Status
+**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
+See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
+- Complete phase-by-phase status
+- Current in-progress work (hardening, benchmarking, diagnostics)
+- Planned features (3-6 months and 6-12 months targets)
+- Production readiness checklist
+**Key Milestones:**
+- Phase 1-5 Complete (core implementation, error handling, tests, performance)
+- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
+**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
+
+---
+
 ### CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -6144,42 +6180,6 @@ Example: attempt=0→0ms, attempt=1→150ms, attempt=2→225ms, attempt=3→337m
 - `src/chimera/batch_executor.cpp` (10 lines)
 **Features**:
 - `IBatchAdapter`: Mixin interface for queuing and flushing
-
----
-
-### CMT-7504_IMPLEMENTATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# CMT-7504 Implementation Guide
-## Documentation Linkset Synchronization Remediation Steps
-**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
-**Target Completion:** 2026-08-31
-**Estimated Effort:** 2 hours (execution + testing)
----
-## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
-### Step 1.1: Add Bidirectional Cross-Links
-#### A. Update Root README.md
-**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
-**Add this block:**
-### 🟠 Content Module Status Snapshot
-**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
-**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
----
-#### B. Update Root ROADMAP.md
-**Location:** Immediately after the "## Current Status" section (around line 50)
-**Add this subsection:**
-## Content Module Status
-**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
-See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
-- Complete phase-by-phase status
-- Current in-progress work (hardening, benchmarking, diagnostics)
-- Planned features (3-6 months and 6-12 months targets)
-- Production readiness checklist
-**Key Milestones:**
-- Phase 1-5 Complete (core implementation, error handling, tests, performance)
-- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
-**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
 
 ---
 
