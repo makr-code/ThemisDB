@@ -92,6 +92,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
   - 2026-08-18: Wave A teardown/degradation/chaos suites promoted to `release_critical` in `tests/voice/CMakeLists.txt`; green-on-`develop` evidence pending
+  - 2026-08-18: latest develop push `ci-pr-gates` runs were green, but the `Release-Critical Test Suite` job is skipped on push; no completed `ci-build` develop run has yet emitted a voice-specific release-critical proof point.
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
 ### Wave A Closure Evidence Block
@@ -100,6 +101,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
   - 2026-08-18: test_voice_wave_a_chaos_bundle.cpp added (VOICE-CHAOS-01..12); backend-failure cascade, spoofing, circuit-breaker, multi-session teardown covered
 - [x] Fail-closed verification: malformed/oversized payload rejection and terminated-session teardown are now covered by focused tests; invalid transition and degraded-backend proof complete per stream validation test matrix.
 - [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending; `bench_voice_a8_baselines` is now wired into the benchmark build for evidence capture.
+  - 2026-08-18: clean release benchmark build was re-attempted in sandbox after installing system packages, but the shared release graph did not reach the voice benchmark executable within the sandbox execution window.
 - [~] `release_critical` coverage: Wave A voice hardening suites are now registered `release_critical`, but green-on-`develop` gate evidence is still pending.
 - [x] Next closure batch: fail-closed session lifecycle, adversarial liveness/anti-spoof regressions (12+ tests), and safe multi-session teardown delivered on 2026-08-18; remaining work is backend-failure/chaos evidence and representative-hardware baselines.
 
