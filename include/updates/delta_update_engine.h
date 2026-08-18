@@ -35,6 +35,10 @@ enum class PatchAlgorithm {
 
 /**
  * @brief Delta descriptor for a single file in a release
+ * 
+ * Supports optional patch ordering constraints via depends_on and apply_order.
+ * When a manifest has enforce_order=true, patches are applied in dependency order
+ * as determined by topological sort (see DeltaManifest::enforce_order).
  */
 struct FileDelta {
     std::string path;         ///< Relative file path (e.g. "bin/themis_server")
@@ -44,6 +48,16 @@ struct FileDelta {
     uint64_t patch_size  = 0; ///< Compressed patch size in bytes
     uint64_t target_size = 0; ///< Expected size of the reconstructed file
     PatchAlgorithm algorithm  = PatchAlgorithm::ZSTD_DICT;
+    
+    /// @brief Paths this file depends on (other FileDelta::path values).
+    /// Empty means no ordering dependencies.
+    /// Used only if DeltaManifest::enforce_order is true.
+    std::vector<std::string> depends_on;
+    
+    /// @brief Explicit ordering hint: lower values applied first.
+    /// 0 (default) = no preference; ties broken by manifest order.
+    /// Used only if DeltaManifest::enforce_order is true.
+    uint32_t apply_order = 0;
 
     json toJson() const;
     static std::optional<FileDelta> fromJson(const json& j);

@@ -103,6 +103,57 @@ std::optional<UpdateTransactionEntry> UpdateTransactionEntry::fromJson(const jso
 }
 
 // ============================================================================
+// Checkpoint serialisation
+// ============================================================================
+
+json Checkpoint::toJson() const {
+    auto time_t_val = std::chrono::system_clock::to_time_t(timestamp);
+    std::tm tm_val = {};
+#ifdef _WIN32
+    gmtime_s(&tm_val, &time_t_val);
+#else
+    gmtime_r(&time_t_val, &tm_val);
+#endif
+    char buf[64];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_val);
+
+    json j;
+    j["id"]          = id;
+    j["state"]       = stateToString(state);
+    j["version"]     = version;
+    j["description"] = description;
+    j["timestamp"]   = buf;
+    return j;
+}
+
+std::optional<Checkpoint> Checkpoint::fromJson(const json& j) {
+    try {
+        Checkpoint cp;
+        cp.id          = j.value("id", 0);
+        cp.state       = stateFromString(j.value("state", "idle"));
+        cp.version     = j.value("version", "");
+        cp.description = j.value("description", "");
+
+        std::string ts = j.value("timestamp", "");
+        if (!ts.empty()) {
+            std::tm tm_val = {};
+            std::istringstream ss(ts);
+            ss >> std::get_time(&tm_val, "%Y-%m-%dT%H:%M:%SZ");
+            if (!ss.fail()) {
+#ifdef _WIN32
+                auto time_t_val = _mkgmtime(&tm_val);
+#else
+                auto time_t_val = timegm(&tm_val);
+#endif
+                cp.timestamp = std::chrono::system_clock::from_time_t(time_t_val);
+            }
+        }
+        return cp;
+    } catch (...) {
+        return std::nullopt;
+    }
+
+// ============================================================================
 // UpdateStateMachine
 // ============================================================================
 

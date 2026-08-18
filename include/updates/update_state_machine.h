@@ -94,7 +94,8 @@ using RollbackCallback = std::function<void(CheckpointId checkpoint_id,
  * @brief Snapshot of the state machine captured by createCheckpoint().
  *
  * Stored in-memory; checkpoints survive for the lifetime of the
- * UpdateStateMachine instance.
+ * UpdateStateMachine instance. Can be persisted to a log file for
+ * crash recovery.
  */
 struct Checkpoint {
     /// Monotonically increasing identifier (1-based).
@@ -107,6 +108,11 @@ struct Checkpoint {
     std::string description;
     /// Wall-clock time the checkpoint was recorded.
     std::chrono::system_clock::time_point timestamp;
+
+    /// Serialize checkpoint to JSON for persistence
+    json toJson() const;
+    /// Deserialize checkpoint from JSON
+    static std::optional<Checkpoint> fromJson(const json& j);
 };
 
 /**
@@ -126,8 +132,10 @@ public:
     /**
      * @brief Construct state machine
      * @param log_path  Path to the persistent transaction log (JSON lines file)
+     * @param checkpoints_log_path  Path to the persistent checkpoints log (JSON lines file)
      */
-    explicit UpdateStateMachine(const std::string& log_path = "");
+    explicit UpdateStateMachine(const std::string& log_path = "",
+                                const std::string& checkpoints_log_path = "");
 
     ~UpdateStateMachine() = default;
 
@@ -342,11 +350,20 @@ public:
 private:
     bool isValidTransition(UpdateState from, UpdateState to) const;
     void appendLogEntry(const UpdateTransactionEntry& entry);
+    
+    /// Persist a single checkpoint to the checkpoints log file
+    /// Error Code: 7401 - Checkpoint file write failed
+    void persistCheckpoint(const Checkpoint& cp);
+    
+    /// Load all checkpoints from the checkpoints log file at startup
+    /// Error Code: 7402 - Checkpoint file read failed
+    void loadCheckpoints();
 
     mutable std::mutex mutex_;
     std::atomic<UpdateState> state_{UpdateState::IDLE};
     std::string current_version_;
     std::string log_path_;
+    std::string checkpoints_log_path_;  ///< Path to persistent checkpoints log
     bool has_inflight_update_ = false;
     std::string inflight_version_;
     std::vector<UpdateTransactionEntry> transaction_log_;
