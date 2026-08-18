@@ -13,6 +13,7 @@
 #include "argument_store.h"
 
 #include <algorithm>
+#include <optional>
 #include <set>
 #include <spdlog/spdlog.h>
 #include <openssl/sha.h>
@@ -56,32 +57,52 @@ static std::string computeSHA256(const uint8_t* data, size_t len) {
 }
 
 /**
- * @brief Verify model integrity by computing hash and comparing with metadata
- * @param entity The deserialized entity
- * @param blob The binary data
- * @param entity_id ID for diagnostic purposes
- * @return true if integrity check passes or no expected hash stored, false on mismatch
+ * @brief Return the out-of-band integrity key for a given entity storage key.
+ *
+ * The hash is stored under a *separate* key so that a tampered payload cannot
+ * also tamper its own expected hash value (self-referential hash bypass).
+ * @param entity_key  The primary RocksDB key for the entity blob.
+ * @return The separate key used to persist the SHA256 digest.
  */
-static bool verifyModelIntegrity(const BaseEntity& entity, const std::vector<uint8_t>& blob, 
-                                 const std::string& entity_id) {
+static std::string makeIntegrityKey(const std::string& entity_key) {
+    return "integrity:" + entity_key;
+}
+
+/**
+ * @brief Verify model integrity by comparing the blob's SHA256 against an
+ *        out-of-band expected hash fetched from a separate storage key.
+ *
+ * The expected hash MUST come from a key that is independent of the blob
+ * itself (see @ref makeIntegrityKey).  Reading the expected hash from the
+ * entity's own payload would allow a tampered blob to pass by adjusting its
+ * embedded hash field.
+ *
+ * @param blob          The raw serialized entity bytes.
+ * @param entity_id     ID string used only for diagnostic log messages.
+ * @param expected_hash Hex SHA256 read from the integrity side-channel key, or
+ *                      std::nullopt for legacy entities that have no record.
+ * @return true  if the hashes match, or if no expected hash exists (legacy).
+ * @return false on hash mismatch (emit ERROR log — potential poisoning).
+ */
+static bool verifyModelIntegrity(const std::vector<uint8_t>& blob,
+                                  const std::string& entity_id,
+                                  const std::optional<std::string>& expected_hash) {
     // Compute actual hash
     std::string actual_hash = computeSHA256(blob.data(), blob.size());
     
-    // Try to retrieve expected hash from metadata
-    auto stored_hash = entity.getFieldAsString("_integrity_hash");
-    if (!stored_hash) {
-        // No stored hash - diagnostic: first load or legacy entity
-        spdlog::debug("ArgumentStore::verifyModelIntegrity — no stored hash for entity='{}' "
-                     "(expected_hash={})", entity_id, actual_hash);
-        return true; // Pass check - allow legacy entities
+    if (!expected_hash) {
+        // No out-of-band record — legacy entity written before integrity tracking
+        spdlog::debug("ArgumentStore::verifyModelIntegrity — no integrity record for entity='{}' "
+                     "(hash={}); allowing (legacy entity)", entity_id, actual_hash);
+        return true;
     }
     
     // Compare hashes
-    if (actual_hash != *stored_hash) {
+    if (actual_hash != *expected_hash) {
         // Hash mismatch - emit diagnostic and fail
         spdlog::error("ArgumentStore::verifyModelIntegrity — HASH MISMATCH for entity='{}' "
                      "actual={} expected={} (MODEL POISONING RISK)", 
-                     entity_id, actual_hash, *stored_hash);
+                     entity_id, actual_hash, *expected_hash);
         return false;
     }
     
@@ -143,6 +164,14 @@ Status ArgumentStore::storeArgument(const EthicalArgument &argument, [[maybe_unu
     // Use ThemisDB storage directly
     storage_->put(key, blob);
 
+    // Store SHA256 hash under a separate out-of-band key so retrievals can
+    // verify integrity without trusting any field embedded in the payload.
+    {
+        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
+        storage_->put(makeIntegrityKey(key), hash_bytes);
+    }
+
     // Trigger vector embedding storage if a writer is injected and requested.
     if (store_vector && !argument.content.empty() && vector_store_fn_) {
         try {
@@ -182,10 +211,18 @@ std::variant<EthicalArgument, Status> ArgumentStore::getArgument(const std::stri
     // Deserialize BaseEntity
     BaseEntity entity = BaseEntity::deserialize(argument_id, *blob);
 
-    // CRITICAL FIX: Verify model integrity to detect poisoning
-    if (!verifyModelIntegrity(entity, *blob, argument_id)) {
-        return Status::Error("Model integrity verification failed for argument: " + argument_id 
-                           + " (poisoning detected)");
+    // CRITICAL FIX: Verify model integrity using out-of-band hash (separate key
+    // prevents a tampered blob from bypassing the check by adjusting its own hash).
+    {
+        std::optional<std::string> expected_hash;
+        auto hash_blob = storage_->get(makeIntegrityKey(key));
+        if (hash_blob) {
+            expected_hash = std::string(hash_blob->begin(), hash_blob->end());
+        }
+        if (!verifyModelIntegrity(*blob, argument_id, expected_hash)) {
+            return Status::Error("Model integrity verification failed for argument: " + argument_id
+                               + " (poisoning detected)");
+        }
     }
 
     // Convert back to EthicalArgument
@@ -246,6 +283,29 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
         if (result.has_value()) {
             std::vector<EthicalArgument> out;
             for (const auto &entity : result.value()) {
+                // CRITICAL FIX: Verify integrity via out-of-band hash for every entity
+                // returned by the query engine.  Re-fetch the raw blob from storage so
+                // the check cannot be bypassed by adjusting a field inside the payload.
+                const std::string eid  = entity.getPrimaryKey();
+                const std::string ekey = EthicsBaseEntityAdapter::makeArgumentKey(eid);
+                auto entity_blob       = storage_->get(ekey);
+                if (entity_blob) {
+                    std::optional<std::string> expected_hash;
+                    auto hash_blob = storage_->get(makeIntegrityKey(ekey));
+                    if (hash_blob) {
+                        expected_hash = std::string(hash_blob->begin(), hash_blob->end());
+                    }
+                    if (!verifyModelIntegrity(*entity_blob, eid, expected_hash)) {
+                        spdlog::error("ArgumentStore::getArgumentsByPhilosophy — integrity check "
+                                     "failed for '{}' (query path); skipping entity", eid);
+                        continue;
+                    }
+                } else {
+                    spdlog::warn("ArgumentStore::getArgumentsByPhilosophy — blob not found in "
+                                "storage for '{}' (query path); skipping entity", eid);
+                    continue;
+                }
+
                 if (!argument_types.empty()) {
                     auto type_str = entity.getFieldAsString("argument_type");
                     if (!type_str) {
@@ -287,11 +347,19 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
         std::vector<uint8_t> blob(value.begin(), value.end());
         BaseEntity entity = BaseEntity::deserialize(pk, blob);
 
-        // CRITICAL FIX: Verify model integrity to detect poisoning
-        if (!verifyModelIntegrity(entity, blob, pk)) {
-           spdlog::error("ArgumentStore::getArgumentsByPhilosophy — integrity check failed for '{}'; "
-                        "skipping entity", pk);
-           return true; // Continue to next entity instead of failing entire scan
+        // CRITICAL FIX: Verify model integrity using out-of-band hash (prefix-scan path).
+        {
+            std::string entity_key = std::string(key); // full key (has prefix)
+            std::optional<std::string> expected_hash;
+            auto hash_blob = storage_->get(makeIntegrityKey(entity_key));
+            if (hash_blob) {
+                expected_hash = std::string(hash_blob->begin(), hash_blob->end());
+            }
+            if (!verifyModelIntegrity(blob, pk, expected_hash)) {
+               spdlog::error("ArgumentStore::getArgumentsByPhilosophy — integrity check failed for '{}'; "
+                            "skipping entity", pk);
+               return true; // Continue to next entity instead of failing entire scan
+            }
         }
 
         // Check philosophy school filter
@@ -348,6 +416,13 @@ Status ArgumentStore::storeDecision(const EthicalDecision &decision) {
     auto blob       = entity.serialize();
     storage_->put(key, blob);
 
+    // Store SHA256 hash out-of-band.
+    {
+        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
+        storage_->put(makeIntegrityKey(key), hash_bytes);
+    }
+
     return Status::OK();
 }
 
@@ -377,10 +452,17 @@ std::variant<EthicalDecision, Status> ArgumentStore::getDecision(const std::stri
     // Deserialize BaseEntity
     BaseEntity entity = BaseEntity::deserialize(decision_id, *blob);
 
-    // CRITICAL FIX: Verify model integrity to detect poisoning
-    if (!verifyModelIntegrity(entity, *blob, decision_id)) {
-        return Status::Error("Model integrity verification failed for decision: " + decision_id 
-                           + " (poisoning detected)");
+    // CRITICAL FIX: Verify model integrity using out-of-band hash.
+    {
+        std::optional<std::string> expected_hash;
+        auto hash_blob = storage_->get(makeIntegrityKey(key));
+        if (hash_blob) {
+            expected_hash = std::string(hash_blob->begin(), hash_blob->end());
+        }
+        if (!verifyModelIntegrity(*blob, decision_id, expected_hash)) {
+            return Status::Error("Model integrity verification failed for decision: " + decision_id
+                               + " (poisoning detected)");
+        }
     }
 
     // Convert back to EthicalDecision
@@ -411,6 +493,13 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile &profile) {
     auto blob       = entity.serialize();
     storage_->put(key, blob);
 
+    // Store SHA256 hash out-of-band.
+    {
+        std::string hash = computeSHA256(blob.data(), blob.size());
+        std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
+        storage_->put(makeIntegrityKey(key), hash_bytes);
+    }
+
     return Status::OK();
 }
 
@@ -440,10 +529,17 @@ std::variant<PhilosophyProfile, Status> ArgumentStore::getPhilosophyProfile(cons
     // Deserialize BaseEntity
     BaseEntity entity = BaseEntity::deserialize(school, *blob);
 
-    // CRITICAL FIX: Verify model integrity to detect poisoning
-    if (!verifyModelIntegrity(entity, *blob, school)) {
-        return Status::Error("Model integrity verification failed for profile: " + school 
-                           + " (poisoning detected)");
+    // CRITICAL FIX: Verify model integrity using out-of-band hash.
+    {
+        std::optional<std::string> expected_hash;
+        auto hash_blob = storage_->get(makeIntegrityKey(key));
+        if (hash_blob) {
+            expected_hash = std::string(hash_blob->begin(), hash_blob->end());
+        }
+        if (!verifyModelIntegrity(*blob, school, expected_hash)) {
+            return Status::Error("Model integrity verification failed for profile: " + school
+                               + " (poisoning detected)");
+        }
     }
 
     // Convert back to PhilosophyProfile

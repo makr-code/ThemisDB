@@ -29,6 +29,7 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
+    std::lock_guard<std::mutex> lock(llm_fn_mutex_);
     llm_summary_fn_ = std::move(fn);
 }
 

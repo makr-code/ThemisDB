@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <set>
 
 #ifdef HAVE_YAML_CPP
 #include <yaml-cpp/yaml.h>

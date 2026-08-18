@@ -23,7 +23,7 @@ All 22 HIGH severity issues in the ethics_ai module have been addressed:
 |--------|-------|
 | Files Modified | 8 |
 | HIGH Issues Fixed | 22 |
-| CRITICAL Issues Fixed | 0 (deferred per governance) |
+| CRITICAL Issues Fixed | 13 (see ETHICS_AI_CRITICAL_FIXES.md) |
 | Code Comments Added | 12+ |
 | Complexity Documentation | Added to 5 files |
 | Null Dereference Checks | 2 added |

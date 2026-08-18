@@ -13,6 +13,7 @@
 #include "ethics_ai/tournament_mode_selector.h"
 
 #include <algorithm>
+#include <cmath>
 #include <map>
 #include <set>
 #include <sstream>
@@ -111,10 +112,18 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
               [&school_weight](const std::string &a, const std::string &b) {
                   const float wa = school_weight.count(a) ? school_weight.at(a) : 0.0f;
                   const float wb = school_weight.count(b) ? school_weight.at(b) : 0.0f;
-                  // COMPLEXITY FIX: Use epsilon comparison for floating-point (HIGH: fp_exact_comparison)
+                  // Strict-weak-ordering fix: quantize weights into epsilon-width buckets
+                  // so the comparison is a total order.  An epsilon-based conditional
+                  // (|wa-wb| > eps → wa > wb, else a < b) can violate transitivity when
+                  // three values span the boundary, causing std::sort UB.
                   const float epsilon = 1e-6f;
-                  if (std::abs(wa - wb) > epsilon) {
-                      return wa > wb;
+                  const auto bucket = [epsilon](float w) {
+                      return static_cast<long long>(std::floor(w / epsilon));
+                  };
+                  const long long ba = bucket(wa);
+                  const long long bb = bucket(wb);
+                  if (ba != bb) {
+                      return ba > bb; // higher weight bucket first
                   }
                   return a < b; // lexicographic tie-break for determinism
               });

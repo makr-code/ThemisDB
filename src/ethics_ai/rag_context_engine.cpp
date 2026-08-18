@@ -31,9 +31,12 @@ RAGContextEngine::RAGContextEngine(std::shared_ptr<ArgumentStore> store) : store
 std::variant<RAGContext, Status> RAGContextEngine::buildContext(const std::string &dilemma_description,
                                                                 const std::vector<std::string> &philosophy_schools,
                                                                 const std::string &category) {
-    // CRITICAL FIX: Protect shared store_ access (data_race remediation at line 56)
-    std::lock_guard<std::mutex> lock(store_access_mutex_);
-    
+    // ArgumentStore acquires its own internal mutex on every operation.
+    // Do NOT hold store_access_mutex_ across this entire method; doing so
+    // would serialize all buildContext() calls and include CPU-heavy similarity
+    // scoring inside the critical section.  Thread safety for store_ access is
+    // already provided by ArgumentStore's internal locking.
+
     RAGContext context;
 
     // Pattern 1: Find similar dilemmas
@@ -209,8 +212,8 @@ RAGContextEngine::traverseArgumentChain(const std::string &start_argument_id, si
         return std::vector<std::string>{};
     }
 
-    // CRITICAL FIX: Protect shared store_ access (data_race remediation at line 218)
-    std::lock_guard<std::mutex> lock(store_access_mutex_);
+    // ArgumentStore is internally thread-safe; no outer mutex needed here.
+    // Removing store_access_mutex_ prevents serializing the entire BFS loop.
 
     // BFS traversal following `supports` / `counterarguments` links.
     std::vector<std::string> visited_order;
