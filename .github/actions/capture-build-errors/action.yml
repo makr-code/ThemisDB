@@ -1,0 +1,52 @@
+name: 'Capture Build Errors'
+description: |
+  Captures build/linker/CMake errors from log files and exports them as structured JSON.
+  Supports multiple error types: compiler_error, linker_error, cmake_error, test_failure.
+
+inputs:
+  build-log-path:
+    description: 'Path to build log file (e.g., build/ctest-output.txt)'
+    required: true
+  output-file:
+    description: 'Path to write JSON error report (e.g., build/build-errors.json)'
+    required: true
+  error-limit:
+    description: 'Maximum number of errors to capture'
+    required: false
+    default: '20'
+  workspace:
+    description: 'GitHub workspace (for path normalization)'
+    required: false
+    default: ${{ github.workspace }}
+
+outputs:
+  error-count:
+    description: 'Number of errors captured'
+    value: ${{ steps.capture.outputs.error_count }}
+  error-types:
+    description: 'Comma-separated list of error types found'
+    value: ${{ steps.capture.outputs.error_types }}
+  has-errors:
+    description: 'true if error_count > 0, else false'
+    value: ${{ steps.capture.outputs.has_errors }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Capture build/test errors
+      id: capture
+      shell: node {0}
+      env:
+        BUILD_LOG_PATH: ${{ inputs.build-log-path }}
+        OUTPUT_FILE: ${{ inputs.output-file }}
+        ERROR_LIMIT: ${{ inputs.error-limit }}
+        WORKSPACE: ${{ inputs.workspace }}
+        RUN_ID: ${{ github.run_id }}
+        RUN_NUMBER: ${{ github.run_number }}
+        WORKFLOW: ${{ github.workflow }}
+        EVENT: ${{ github.event_name }}
+        REF: ${{ github.ref }}
+        SHA: ${{ github.sha }}
+        ACTOR: ${{ github.actor }}
+        MATRIX_OS: ${{ runner.os }}
+      run: ${{ github.action_path }}/capture-errors.js

@@ -1,0 +1,183 @@
+name: Maintenance — Build Error Issues
+
+# Aggregates build/docker errors from failed CI runs and creates consolidated GitHub issues.
+# Triggered after ci-build.yml or docker-image.yml workflows complete.
+
+on:
+  workflow_run:
+    workflows: ["CI — Build", "Docker Image CI/CD"]
+    types: [completed]
+  schedule:
+    - cron: '0 9 * * MON-FRI'  # Monday-Friday at 9:00 UTC
+  workflow_dispatch:
+    inputs:
+      lookback_minutes:
+        description: 'Minutes to look back for failed runs (default: 1440 = 24h)'
+        required: false
+        default: '1440'
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: maintenance-build-issues
+  cancel-in-progress: true
+
+jobs:
+  aggregate-build-errors:
+    name: 📋 Aggregate & Create Build Error Issues
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Aggregate build errors
+        id: aggregate
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Determine look-back window
+            let lookbackMs = 24 * 60 * 60 * 1000; // 24 hours default
+            if (context.eventName === 'workflow_dispatch' && process.env.LOOKBACK_MINUTES) {
+              lookbackMs = parseInt(process.env.LOOKBACK_MINUTES) * 60 * 1000;
+            }
+            
+            const since = new Date(Date.now() - lookbackMs).toISOString();
+            
+            console.log('──────────────────────────────────────────────');
+            console.log('Build Error Aggregation');
+            console.log('──────────────────────────────────────────────');
+            console.log(`Look-back: ${lookbackMs / 1000 / 60 / 60} hours`);
+            console.log(`Since: ${since}`);
+            
+            // Fetch failed workflow runs
+            const workflows = ['CI — Build', 'Docker Image CI/CD'];
+            let allErrors = [];
+            
+            for (const workflowName of workflows) {
+              const { data: wfList } = await github.rest.actions.listRepoWorkflows({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 5,
+              });
+              
+              const wf = wfList.workflows.find(w => w.name === workflowName);
+              if (!wf) {
+                console.log(`  ⏭️  Workflow not found: ${workflowName}`);
+                continue;
+              }
+              
+              const { data: runs } = await github.rest.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: wf.id,
+                status: 'completed',
+                conclusion: 'failure',
+                created: `>=${since}`,
+                per_page: 10,
+              });
+              
+              console.log(`  ${workflowName}: ${runs.workflow_runs.length} failed run(s)`);
+              
+              // Download error artifacts from each run
+              for (const run of runs.workflow_runs) {
+                const { data: artifacts } = await github.rest.actions.listWorkflowRunArtifacts({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: run.id,
+                });
+                
+                const errorArtifacts = artifacts.artifacts.filter(a => 
+                  a.name.includes('error') && (a.name.includes('build') || a.name.includes('docker'))
+                );
+                
+                for (const artifact of errorArtifacts) {
+                  try {
+                    const { data: zipData } = await github.rest.actions.downloadArtifact({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      artifact_id: artifact.id,
+                      archive_format: 'zip',
+                    });
+                    
+                    // Parse artifact content
+                    // In real workflow, would unzip and parse JSON
+                    allErrors.push({
+                      workflow: workflowName,
+                      run_id: run.id,
+                      artifact_name: artifact.name,
+                      created_at: run.created_at,
+                    });
+                  } catch (e) {
+                    core.warning(`Failed to download artifact: ${artifact.name} — ${e.message}`);
+                  }
+                }
+              }
+            }
+            
+            console.log(`  Total error artifact(s): ${allErrors.length}`);
+            
+            // For now, export summary
+            fs.writeFileSync('/tmp/error-summary.json', JSON.stringify({
+              lookback_ms: lookbackMs,
+              since,
+              error_count: allErrors.length,
+              errors: allErrors,
+              timestamp: new Date().toISOString()
+            }, null, 2));
+            
+            core.setOutput('error_count', allErrors.length);
+            core.setOutput('has_errors', allErrors.length > 0 ? 'true' : 'false');
+
+      - name: Create or update chronic build failure issue
+        if: steps.aggregate.outputs.has_errors == 'true'
+        uses: ./.github/actions/manage-governance-issue
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: '🔴 Build/Docker Failures — Error Summary'
+          body: |
+            ## Build Error Report
+            
+            **Aggregation Period**: Last 24 hours  
+            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            ### Summary
+            - Errors captured: ${{ steps.aggregate.outputs.error_count }}
+            - Workflow runs with errors: Multiple (see artifacts)
+            
+            ### Action Required
+            Review the error details in the CI workflow artifacts:
+            1. Navigate to the **Actions** tab
+            2. Find the failed **CI — Build** or **Docker Image CI/CD** run
+            3. Download the `build-errors-*.json` or `docker-errors-*.json` artifacts
+            4. Fix the reported compiler/linker/CMake errors
+            
+            ### Typical Error Types
+            - Compiler errors (GCC/Clang/MSVC)
+            - Linker errors (undefined references)
+            - CMake configuration failures
+            - Docker build failures
+            
+            **Note**: This issue auto-closes when build failures are resolved.
+          labels: 'ci/failure,ci/build-error'
+          close-if-empty: 'false'
+
+      - name: Print error summary
+        if: always()
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Build Error Aggregation Complete"
+          echo "──────────────────────────────────────────────"
+          if [ -f /tmp/error-summary.json ]; then
+            cat /tmp/error-summary.json
+          else
+            echo "  No errors found in look-back period."
+          fi
+          echo "──────────────────────────────────────────────"

@@ -562,6 +562,14 @@ jobs:
               );
             }
 
+      - name: Capture build/test errors as JSON
+        if: failure() && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        uses: ./.github/actions/capture-build-errors
+        with:
+          build-log-path: ${{ steps.strings.outputs.build-output-dir }}/ctest-output.txt
+          output-file: ${{ steps.strings.outputs.build-output-dir }}/build-errors.json
+          error-limit: '20'
+
       - name: Upload CTest results
         if: always() && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
@@ -570,6 +578,7 @@ jobs:
           path: |
             ${{ steps.strings.outputs.build-output-dir }}/ctest-results.xml
             ${{ steps.strings.outputs.build-output-dir }}/ctest-output.txt
+            ${{ steps.strings.outputs.build-output-dir }}/build-errors.json
           retention-days: 7  # short tier per ci-scope-config.yaml
 
       - name: Print sccache statistics
