@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@1a4ff0f1957aaf2ff5e47caf5cc3570f2a7b9476  # v4.0.4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
         with:
           node-version: '20'
 
@@ -165,7 +165,7 @@ jobs:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           OUTPUT_FILE: /tmp/aggregated-errors.md
         run: |
-          node ${{ github.workspace }}/.github/scripts/aggregate-build-errors.js
+          node "${{ github.workspace }}/.github/scripts/aggregate-build-errors.js"
           
           # Output the markdown for use in next steps
           if [ -f /tmp/aggregated-errors.md ]; then
@@ -173,7 +173,7 @@ jobs:
               echo 'report_markdown<<EOF'
               cat /tmp/aggregated-errors.md
               echo EOF
-            } >> $GITHUB_OUTPUT
+            } >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create or update chronic build failure issue
