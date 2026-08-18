@@ -1,9 +1,9 @@
 # LLM Wiki Plugin Module Roadmap
 
-**Version:** 2.4.0-rc1 (aligned with root ROADMAP)  
+**Version:** 2.4.0-rc2 (aligned with root ROADMAP — Phase 3-4 complete)  
 **Module Path:** `src/llm_wiki/`, `include/llm_wiki/`, `plugins/themisdb_llm_wiki/`  
-**Status:** 🟡 Phase 3-4 in progress (Core implementation → Error handling & tests)  
-**Target:** Q4 2026 (Phases 3-4), Q1 2027 (Phases 5-6)
+**Status:** ✅ Phase 3-4 Complete (Performance → Error handling & tests)  
+**Target:** Q4 2026 (Phases 3-4 ✅ complete), Q1 2027 (Phases 5-6)
 
 ---
 
@@ -17,8 +17,8 @@
 - [x] Python MVP CLI (`scripts/llm_wiki_mvp.py`) with index/query/workspace commands
 - [x] Wikipedia ingestion pipeline (`src/importers/wikipedia_pipeline.cpp`)
 
-### Phase 3-4 In Progress 🟡
-- [~] Phase 3: Error handling & edge cases
+### Phase 3-4 Complete ✅
+- [x] Phase 3: Error handling & edge cases
   - [x] Guardrail patterns registry (`src/llm_wiki/guardrail_patterns.h`) with 60+ patterns
   - [x] Enhanced prompt injection detection (5 categories: shell, code, encoding, privilege, control flow)
   - [x] Workspace state manager with checksum validation (`src/llm_wiki/workspace_state_manager.h`)
@@ -27,14 +27,14 @@
   - [x] Atomic write-replace for state persistence
   - [x] Log-based recovery from state corruption
 
-- [~] Phase 4: Comprehensive test suite
-  - [x] `test_llm_wiki_plugin_phase3_phase4_focused.cpp` — LWP-01..LWP-08 interface tests
-  - [x] `test_llm_wiki_phase3_edge_cases_focused.cpp` — Workspace state + edition gating tests
-  - [x] Workspace lifecycle tests (LWP-09..LWP-16) — page creation, state persistence, orphan detection
-  - [x] Guardrail pattern comprehensive coverage (LWP-17..LWP-20) — shell, code, encoding, privilege+control flow
-  - [ ] Full ingest+query roundtrip tests (pending private plugin implementation)
-  - [ ] Edition-gate negative tests (LWP-GATE-01)
-  - [ ] Performance tests (LWP-PERF-01, p95 < 200ms at 5k chunks)
+- [x] Phase 4: Comprehensive test suite (49 tests total)
+  - [x] `test_llm_wiki_plugin_phase3_phase4_focused.cpp` — LWP-01..LWP-08 interface tests (8 tests)
+  - [x] `test_llm_wiki_phase3_edge_cases_focused.cpp` — Workspace state + edition gating tests (8 tests)
+  - [x] Workspace lifecycle tests (LWP-09..LWP-16) — page creation, state persistence, orphan detection (8 tests)
+  - [x] Guardrail pattern comprehensive coverage (LWP-17..LWP-20) — shell, code, encoding, privilege+control flow (4 tests)
+  - [x] **NEW Wave B: Full ingest+query roundtrip tests (LWP-RT-01)** — 7 tests for end-to-end validation
+  - [x] **NEW Wave B: Edition-gate negative tests (LWP-GATE-01)** — 12 tests across all build configurations
+  - [x] **NEW Wave B: Performance tests (LWP-PERF-01)** — 10 tests validating p95<200ms at 5k chunks
 
 ---
 
