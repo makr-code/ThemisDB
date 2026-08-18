@@ -740,12 +740,12 @@ TEST_F(QueryPlannerTest, NoSilentFallback_AllFallbacksHaveReason) {
     for (auto& [e, f] : scenarios) {
         const auto decision = planner->selectPath(e, f, c);
         
-        // If path is not AnnOnly, there must be a fallback reason
+        // Every non-AnnOnly decision must carry an explicit fallback reason —
+        // a None reason on a non-AnnOnly path is the "silent fallback" defect.
         if (decision.path != ExecutionPath::AnnOnly) {
-            // Either it's a legitimate fallback or it's none (which is OK for paths 4/5)
-            if (decision.fallback_reason != FallbackReason::None) {
-                EXPECT_NE(decision.fallback_reason, FallbackReason::None);
-            }
+            EXPECT_NE(decision.fallback_reason, FallbackReason::None)
+                << "Silent fallback detected: path=" << static_cast<int>(decision.path)
+                << " but fallback_reason is None";
         }
     }
 }

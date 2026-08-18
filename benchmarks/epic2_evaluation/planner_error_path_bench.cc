@@ -131,7 +131,10 @@ ErrorPathStats benchmarkErrorPath(
 {
     std::vector<double> latencies;
     latencies.reserve(N);
-    
+
+    std::printf("[benchmarkErrorPath] scenario='%s', iterations=%d\n",
+                scenario_name.c_str(), N);
+
     // Warmup
     for (int i = 0; i < 1000; ++i) {
         volatile auto d = planner.selectPath(e, f, c);

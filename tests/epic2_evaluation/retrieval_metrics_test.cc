@@ -484,18 +484,20 @@ TEST(RetrievalQuality, Phase4_ThrowsOnZeroK) {
         MetricError);
 }
 
-/// Phase 4 Test: Verify invalid range detection for probability values.
-TEST(LlmAnswerQuality, Phase4_ThrowsOnNegativeCounts) {
+/// Phase 4 Test: Verify invalid range detection — supported_claims exceeds total_claims.
+TEST(LlmAnswerQuality, Phase4_ThrowsOnInconsistentClaimCounts) {
     EXPECT_THROW(
-        computeLlmAnswerQuality(-1, 10),
+        computeLlmAnswerQuality(10, 5),
         MetricError);
 }
 
-/// Phase 4 Test: Verify invalid range detection for support tokens.
-TEST(LlmAnswerQuality, Phase4_ThrowsOnNegativeSupportTokens) {
-    EXPECT_THROW(
-        computeLlmAnswerQuality(5, 10, -1, 100),
-        MetricError);
+/// Phase 4 Test: Verify inconsistent token counts leave answer_support_density at 0.
+TEST(LlmAnswerQuality, Phase4_InconsistentTokensYieldZeroDensity) {
+    // evidence_tokens > prompt_token_count is an inconsistent state:
+    // answer_support_density should remain 0 and faithfulness == groundedness.
+    const auto result = computeLlmAnswerQuality(5, 10, /*evidence_tokens=*/200, /*prompt_token_count=*/50);
+    EXPECT_DOUBLE_EQ(result.answer_support_density, 0.0);
+    EXPECT_DOUBLE_EQ(result.groundedness_score, result.faithfulness_score);
 }
 
 /// Phase 4 Test: Verify compression metrics rejects zero size.

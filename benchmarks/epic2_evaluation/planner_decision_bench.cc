@@ -30,7 +30,9 @@
 #include <cstdio>
 #include <initializer_list>
 #include <memory>
+#include <numeric>
 #include <string>
+#include <vector>
 
 #include "include/query_planner.h"
 
@@ -272,42 +274,36 @@ int main() {
 
     // --- Path 4 via force_exact ---
     std::printf("Running Path 4 (force_exact) benchmark...\n");
-    {
-        auto e_exact = e_full;
-        e_exact.force_exact = true;
-        const auto p4_exact_stats = benchmarkPath(*planner, e_exact, f_none, cfg, N);
-        std::printf("[Path 4 — force_exact]\n");
-        std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
-                    p4_exact_stats.avg_ns, p4_exact_stats.p50_ns, p4_exact_stats.p95_ns, p4_exact_stats.p99_ns);
-        std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p4_exact_stats.min_ns, p4_exact_stats.max_ns);
-    }
+    auto e_exact = e_full;
+    e_exact.force_exact = true;
+    const auto p4_exact_stats = benchmarkPath(*planner, e_exact, f_none, cfg, N);
+    std::printf("[Path 4 — force_exact]\n");
+    std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                p4_exact_stats.avg_ns, p4_exact_stats.p50_ns, p4_exact_stats.p95_ns, p4_exact_stats.p99_ns);
+    std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p4_exact_stats.min_ns, p4_exact_stats.max_ns);
 
     // --- Path 4 via module gap threshold ---
     std::printf("Running Path 4 (ModuleGapThreshold) benchmark...\n");
-    {
-        auto e_gap = e_full;
-        e_gap.index_buffer_safety_ok = false;
-        const auto p4_gap_stats = benchmarkPath(*planner, e_gap, f_none, cfg, N);
-        std::printf("[Path 4 — ModuleGapThreshold]\n");
-        std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
-                    p4_gap_stats.avg_ns, p4_gap_stats.p50_ns, p4_gap_stats.p95_ns, p4_gap_stats.p99_ns);
-        std::printf("  min: %.1f ns,  max: %.1f ns\n",
-                    p4_gap_stats.min_ns, p4_gap_stats.max_ns);
-        std::printf("  blocks (FallbackReason::ModuleGapThreshold): %d\n\n", obs.gap_threshold_blocks);
-    }
+    auto e_gap = e_full;
+    e_gap.index_buffer_safety_ok = false;
+    const auto p4_gap_stats = benchmarkPath(*planner, e_gap, f_none, cfg, N);
+    std::printf("[Path 4 — ModuleGapThreshold]\n");
+    std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                p4_gap_stats.avg_ns, p4_gap_stats.p50_ns, p4_gap_stats.p95_ns, p4_gap_stats.p99_ns);
+    std::printf("  min: %.1f ns,  max: %.1f ns\n",
+                p4_gap_stats.min_ns, p4_gap_stats.max_ns);
+    std::printf("  blocks (FallbackReason::ModuleGapThreshold): %d\n\n", obs.gap_threshold_blocks);
 
     // --- Path 5: Distributed ---
     std::printf("Running Path 5 (Distributed) benchmark...\n");
-    {
-        auto e_dist = e_full;
-        e_dist.distributed_multi_shard   = true;
-        e_dist.shard_manifests_available = true;
-        const auto p5_stats = benchmarkPath(*planner, e_dist, f_none, cfg, N);
-        std::printf("[Path 5 — Distributed]\n");
-        std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
-                    p5_stats.avg_ns, p5_stats.p50_ns, p5_stats.p95_ns, p5_stats.p99_ns);
-        std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p5_stats.min_ns, p5_stats.max_ns);
-    }
+    auto e_dist = e_full;
+    e_dist.distributed_multi_shard   = true;
+    e_dist.shard_manifests_available = true;
+    const auto p5_stats = benchmarkPath(*planner, e_dist, f_none, cfg, N);
+    std::printf("[Path 5 — Distributed]\n");
+    std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
+                p5_stats.avg_ns, p5_stats.p50_ns, p5_stats.p95_ns, p5_stats.p99_ns);
+    std::printf("  min: %.1f ns,  max: %.1f ns\n\n", p5_stats.min_ns, p5_stats.max_ns);
 
     // --- Decision Distribution and Fallback Analysis ---
     std::printf("======================================================================\n");
@@ -337,8 +333,12 @@ int main() {
     std::printf("Regression Check\n");
     std::printf("======================================================================\n");
     
-    const double max_p95 = std::max({p1_stats.p95_ns, p2_stats.p95_ns, p4_stale_stats.p95_ns});
-    const double max_p99 = std::max({p1_stats.p99_ns, p2_stats.p99_ns, p4_stale_stats.p99_ns});
+    const double max_p95 = std::max({p1_stats.p95_ns, p2_stats.p95_ns,
+                                      p4_stale_stats.p95_ns, p4_exact_stats.p95_ns,
+                                      p4_gap_stats.p95_ns, p5_stats.p95_ns});
+    const double max_p99 = std::max({p1_stats.p99_ns, p2_stats.p99_ns,
+                                      p4_stale_stats.p99_ns, p4_exact_stats.p99_ns,
+                                      p4_gap_stats.p99_ns, p5_stats.p99_ns});
     
     if (max_p95 > P95_REGRESSION_NS) {
         std::printf("❌ REGRESSION DETECTED: max p95 latency %.1f ns exceeds threshold %.1f ns\n",
