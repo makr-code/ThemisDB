@@ -96,8 +96,8 @@ TEST_F(DeltaPatchOrderingTest, JsonSerializationBackwardCompatibility) {
     // No dependencies (default values)
     json j = fd.toJson();
     // depends_on and apply_order should be omitted when empty/default
-    EXPECT_FALSE(j.contains("depends_on") || j["depends_on"].is_null());
-    EXPECT_FALSE(j.contains("apply_order") || j["apply_order"].is_null());
+    EXPECT_FALSE(j.contains("depends_on"));
+    EXPECT_FALSE(j.contains("apply_order"));
 
     // Deserialize should work with old JSON (no ordering fields)
     auto fd2 = FileDelta::fromJson(j);

@@ -23,6 +23,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
+#include <map>
 #include <queue>
 #include <sstream>
 #include <stdexcept>
@@ -476,15 +477,13 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
     std::unordered_map<std::string, std::vector<std::string>> adj_list;
     std::unordered_map<std::string, int> in_degree;
     std::unordered_map<std::string, FileDelta> delta_by_path;
-    std::multimap<uint32_t, std::string> apply_order_hints;  // For deterministic sorting
-    
+
     // Initialize data structures
     for (const auto& fd : manifest.deltas) {
         delta_by_path[fd.path] = fd;
         in_degree[fd.path] = 0;
-        apply_order_hints.insert({fd.apply_order, fd.path});
     }
-    
+
     // Build adjacency list and compute in-degrees based on explicit dependencies
     for (const auto& fd : manifest.deltas) {
         for (const auto& dep : fd.depends_on) {
@@ -492,7 +491,7 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
             adj_list[dep].push_back(fd.path);
             in_degree[fd.path]++;
         }
-        
+
         // Also add implicit dependencies
         for (const auto& dep : manifest.implicit_dependencies) {
             // Only if not already in explicit depends_on
@@ -502,38 +501,38 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
             }
         }
     }
-    
-    // Kahn's algorithm with stable ordering using apply_order hints
-    std::queue<std::string> ready;
-    for (const auto& [path, degree] : in_degree) {
-        if (degree == 0) {
-            ready.push(path);
+
+    // Kahn's algorithm: use a min-heap keyed by (apply_order, path) for
+    // deterministic tie-breaking regardless of hash-map iteration order.
+    using Entry = std::pair<uint32_t, std::string>;
+    std::priority_queue<Entry, std::vector<Entry>, std::greater<Entry>> ready;
+    for (const auto& fd : manifest.deltas) {
+        if (in_degree[fd.path] == 0) {
+            ready.push({fd.apply_order, fd.path});
         }
     }
-    
+
     while (!ready.empty()) {
-        // Process the node with lowest apply_order first (deterministic)
-        std::string current = ready.front();
+        auto [order, current] = ready.top();
         ready.pop();
-        
+
         result.push_back(delta_by_path[current]);
-        
-        // Process neighbors in apply_order order
-        std::vector<std::pair<uint32_t, std::string>> neighbors;
+
+        // Collect newly-ready neighbours and push with their apply_order key
         for (const auto& neighbor : adj_list[current]) {
-            --in_degree[neighbor];
-            if (in_degree[neighbor] == 0) {
-                neighbors.push_back({delta_by_path[neighbor].apply_order, neighbor});
+            if (--in_degree[neighbor] == 0) {
+                ready.push({delta_by_path[neighbor].apply_order, neighbor});
             }
         }
-        
-        // Sort by apply_order for determinism
-        std::sort(neighbors.begin(), neighbors.end());
-        for (const auto& [order, neighbor] : neighbors) {
-            ready.push(neighbor);
-        }
     }
-    
+
+    // Cycle detection: if we didn't process every delta the graph has a cycle.
+    if (result.size() != manifest.deltas.size()) {
+        LOG_ERROR("computeApplyOrder: cycle detected – processed {}/{} patches; aborting",
+                  result.size(), manifest.deltas.size());
+        return {};
+    }
+
     LOG_INFO("Patch ordering computed: {} patches in dependency order", result.size());
     return result;
 }

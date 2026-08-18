@@ -530,12 +530,11 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
 
-        // Increment attempt counter for all rollback attempts (idempotent or not)
-        rollback_attempt_count_++;
-
         // Check if this is an idempotent call (same checkpoint as last rollback)
         if (last_rollback_id_.has_value() && last_rollback_id_.value() == id) {
             // This is an idempotent rollback call – already rolled back to this checkpoint
+            // Increment counter only for found/idempotent checkpoints, not for not-found ones.
+            rollback_attempt_count_++;
             is_idempotent = true;
             last_rollback_was_idempotent_ = true;
             last_rollback_time_ = std::chrono::system_clock::now();
@@ -582,6 +581,9 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
             LOG_WARN("UpdateStateMachine: rollbackToCheckpoint({}) – checkpoint not found", id);
             return false;
         }
+
+        // Checkpoint exists – count this as a rollback attempt
+        rollback_attempt_count_++;
 
         from_state = state_.load(std::memory_order_relaxed);
         to_state   = it->state;

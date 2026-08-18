@@ -397,13 +397,16 @@ public:
     CheckpointId lastRollbackCheckpoint() const;
 
     /**
-     * @brief Get the number of rollback attempts (including idempotent repeats).
+     * @brief Get the number of successful rollback attempts.
      *
-     * This counter is incremented for every call to rollbackToCheckpoint(),
-     * including idempotent calls that don't modify state.
+     * This counter is incremented only when rollbackToCheckpoint() finds the
+     * requested checkpoint (i.e., the checkpoint exists).  Failed calls where
+     * the checkpoint is not found do **not** increment the counter.
+     * Idempotent repeats (rolling back to the same checkpoint as the previous
+     * successful call) are counted.
      * Useful for diagnostics and monitoring.
      *
-     * @return Number of rollback attempts
+     * @return Number of successful rollback attempts
      * @since 1.8.2 (Wave A)
      */
     uint32_t rollbackAttemptCount() const;

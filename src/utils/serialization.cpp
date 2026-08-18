@@ -298,9 +298,12 @@ size_t Serialization::Decoder::beginArray() {
                        depth_, MAX_NESTING_DEPTH),
             "Serialization::Decoder::beginArray",
             ErrorSeverity::Error, /*is_recoverable=*/false));
+        // Advance to EOF to prevent callers from retrying the same position
+        // and entering an infinite loop on malformed or deeply-nested input.
+        pos_ = data_.size();
         return 0;  // Return 0 to signal error
     }
-    
+
     readTag();
     depth_++;
     return readUInt32();
