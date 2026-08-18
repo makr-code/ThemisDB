@@ -322,6 +322,11 @@ public:
      * @thread_safety Thread-safe
      * @performance O(pending_events); blocks until flush complete if fsync enabled
      * 
+     * @note Resource Limits (Phase 2.6):
+     *       - Queue Depth: Default 10,000 pending events max; older events dropped if exceeded
+     *       - Event Size: Individual event JSON limited to 64 KB; larger events truncated
+     *       - Memory: Bounded queue allocated on initialization; no unbounded growth
+     *       - Disk I/O: Batched writes every 100 events or 100ms (configurable)
      * @note Critical for audit durability; should be called periodically
      * @see ErrorCode for diagnostics
      */

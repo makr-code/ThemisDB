@@ -65,13 +65,58 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
  *
  * @note Parameter Validation: Compression level is silently clamped to valid range [1-22].
  *       Invalid levels are logged as WARN but do not cause compression to fail.
- * @note Max Input: Enforces maximum input size to prevent DoS via oversized allocations.
+ * @note Max Input: Enforces maximum input size (1GB) to prevent DoS via oversized allocations.
+ *       Inputs larger than MAX_INPUT_SIZE will return error code ERR_UTIL_INVALID_ARGUMENT.
+ * @note Max Output: Bounded output buffer allocation to prevent uncontrolled memory growth
+ *       (max 2GB). Compression that would exceed this limit returns ERR_UTIL_INVALID_ARGUMENT.
  * @note Thread-Safe: Uses thread-local ZSTD_CCtx for safe concurrent use.
+ *       Multiple threads can call compress_safe concurrently without synchronization.
+ * @note Concurrent Encode/Decode: ZSTD contexts are NOT reused between threads.
+ *       Each zstd_compress_safe() and zstd_decompress_safe() call creates its own context
+ *       to guarantee thread-safety. Reusing a ZSTD_CCtx across threads is unsafe.
  *
  * @error E_INVALID_INPUT Input data is empty or exceeds size limits.
  * @error E_COMPRESSION_FAILED ZSTD compression failed (insufficient memory or corrupt state).
+ * 
+ * @error_contract
+ * | Code | Condition | Recovery |
+ * |------|-----------|----------|
+ * | ERR_UTIL_INVALID_ARGUMENT | input size > 1GB | Return error; do not attempt compression |
+ * | ERR_UTIL_ALLOCATION_FAILED | cannot allocate output buffer | Return error; check system memory |
+ * | COMPRESSION_FAILED | ZSTD library error | Return error; check ZSTD_getErrorName() for details |
  */
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level = 3);
+
+/**
+ * @brief Safely decompress ZSTD-compressed data with decompression bomb detection.
+ *
+ * @param compressed Compressed bytes produced by zstd_compress*.
+ * @return Result containing decompressed data or error description.
+ *
+ * @note Decompression Bomb Protection: Validates decompressed size against MAX_DECOMPRESSED_SIZE (4GB).
+ *       Blocks decompression of frames claiming to expand to >4GB.
+ *       Extreme compression ratios (>100:1) are logged as warnings.
+ * @note Corrupted Frame Detection: Validates frame header and checksum.
+ *       Returns COMPRESSION_INPUT_INVALID if frame is truncated or corrupted.
+ * @note Unknown Size Handling: When decompressed size is not stored in frame,
+ *       estimates based on 4:1 ratio (capped at MAX_DECOMPRESSED_SIZE/2 to prevent bomb attacks).
+ * @note Thread-Safe: Each call creates its own decompression context.
+ *       Safe for concurrent calls from multiple threads without synchronization.
+ * @note Buffer Growth: Output buffer is allocated once based on decompressed size hint,
+ *       then trimmed to actual decompressed bytes. No repeated reallocation.
+ *
+ * @error E_COMPRESSION_FAILED Invalid compressed data or decompression error.
+ * @error COMPRESSION_BOMB_DETECTED Decompressed size exceeds safety limit (potential attack).
+ * @error COMPRESSION_INPUT_INVALID Frame header corrupted or truncated.
+ * 
+ * @error_contract
+ * | Code | Condition | Recovery |
+ * |------|-----------|----------|
+ * | COMPRESSION_INPUT_INVALID | corrupted/truncated frame header | Return error; data unrecoverable |
+ * | COMPRESSION_BOMB_DETECTED | decompressed size > 4GB | Return error; reject suspicious input |
+ * | ERR_UTIL_ALLOCATION_FAILED | cannot allocate decompression buffer | Return error; check memory |
+ * | DECOMPRESSION_FAILED | ZSTD library error during decompression | Return error; data may be corrupted |
+ */
 Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& compressed);
 
 // ---------------------------------------------------------------------------

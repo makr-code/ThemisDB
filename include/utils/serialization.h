@@ -145,9 +145,31 @@ public:
          */
         std::vector<float> decodeFloatVector();
         
+        /**
+         * @brief Begin array decoding with depth limiting for nested structures.
+         *
+         * @return Number of elements in the array.
+         *
+         * @note Depth-Limited: Arrays/objects nested >64 levels deep are rejected
+         *       to prevent stack overflow attacks from malicious input.
+         * @note Phase 2.4 Hardening: Bounds checking on nesting depth.
+         *
+         * @error Returns 0 if depth limit exceeded.
+         */
         size_t beginArray();
         void endArray();
         
+        /**
+         * @brief Begin object decoding with depth limiting for nested structures.
+         *
+         * @return Number of fields in the object.
+         *
+         * @note Depth-Limited: Objects nested >64 levels deep are rejected
+         *       to prevent stack overflow attacks from crafted deserialization.
+         * @note Phase 2.4 Hardening: Bounds checking on nesting depth.
+         *
+         * @error Returns 0 if depth limit exceeded.
+         */
         size_t beginObject();
         void endObject();
         
@@ -158,6 +180,8 @@ public:
     private:
         const std::vector<uint8_t>& data_;
         size_t pos_ = 0;
+        size_t depth_ = 0;  ///< Current nesting depth for arrays/objects (Phase 2.4 hardening)
+        static constexpr size_t MAX_NESTING_DEPTH = 64;  ///< Prevent stack overflow from deep nesting
         
         uint32_t readUInt32();
         uint64_t readUInt64();

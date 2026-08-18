@@ -150,6 +150,17 @@ public:
      * | Acquire timeout | status_code=0, body="ACQUIRE_TIMEOUT" | Use fallback service |
      * | Connection timeout | status_code=0, body="CONNECT_TIMEOUT" | Check endpoint health |
      * | Request timeout | status_code=504, body="Gateway Timeout" | Implement retry loop |
+     * 
+     * @note Resource Limits (Phase 2.6):
+     *       - Max Connections: Default 50 (configured by Config.max_connections)
+     *       - Acquire Timeout: 10 seconds (max wait for available connection)
+     *       - Connect Timeout: 5 seconds (max time for TCP handshake)
+     *       - Request Timeout: 30 seconds (max time for complete request/response)
+     *       - Idle Timeout: 30 seconds (connections closed if idle longer)
+     *       - I/O Threads: 4 (configured by Config.io_threads)
+     *       - Lock Stripes: 8 (reduces contention; higher = better concurrency)
+     * @note Operator Impact: Monitor acquire_timeouts metric; high values indicate
+     *       pool undersizing. Increase max_connections if needed.
      */
     std::future<HTTPResponse> post(
         const std::string& url,
@@ -181,6 +192,17 @@ public:
      * | Acquire timeout | status_code=0, body="ACQUIRE_TIMEOUT" | Use fallback service |
      * | Connection timeout | status_code=0, body="CONNECT_TIMEOUT" | Check endpoint health |
      * | Request timeout | status_code=504, body="Gateway Timeout" | Implement retry loop |
+     * 
+     * @note Resource Limits (Phase 2.6):
+     *       - Max Connections: Default 50 (configured by Config.max_connections)
+     *       - Acquire Timeout: 10 seconds (max wait for available connection)
+     *       - Connect Timeout: 5 seconds (max time for TCP handshake)
+     *       - Request Timeout: 30 seconds (max time for complete request/response)
+     *       - Idle Timeout: 30 seconds (connections closed if idle longer)
+     *       - I/O Threads: 4 (configured by Config.io_threads)
+     *       - Lock Stripes: 8 (reduces contention; higher = better concurrency)
+     * @note Operator Impact: Monitor acquire_timeouts metric; high values indicate
+     *       pool undersizing. Increase max_connections if needed.
      */
     std::future<HTTPResponse> get(
         const std::string& url,

@@ -271,6 +271,12 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
     size_t bytes_needed = static_cast<size_t>(count) * sizeof(float);
     if (pos_ + bytes_needed > data_.size()) {
         // Malformed: declared vector count exceeds available buffer
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::DESERIALIZATION_FAILED,
+            fmt::format("Float vector bounds violation: need {} bytes, only {} available",
+                       bytes_needed, data_.size() - pos_),
+            "Serialization::Decoder::decodeFloatVector",
+            ErrorSeverity::Warning, /*is_recoverable=*/true));
         pos_ = data_.size();  // Advance to EOF to prevent further reads
         return std::vector<float>();  // Return empty vector
     }
@@ -284,21 +290,51 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
 }
 
 size_t Serialization::Decoder::beginArray() {
+    // Phase 2.4 Hardening: Check nesting depth to prevent stack overflow
+    if (depth_ >= MAX_NESTING_DEPTH) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::DESERIALIZATION_FAILED,
+            fmt::format("Array nesting depth limit exceeded: depth={} (max={})",
+                       depth_, MAX_NESTING_DEPTH),
+            "Serialization::Decoder::beginArray",
+            ErrorSeverity::Error, /*is_recoverable=*/false));
+        return 0;  // Return 0 to signal error
+    }
+    
     readTag();
+    depth_++;
     return readUInt32();
 }
 
 void Serialization::Decoder::endArray() {
-    // No-op
+    // No-op for now, but phase 2.4 depth tracking requires decrement
+    if (depth_ > 0) {
+        depth_--;
+    }
 }
 
 size_t Serialization::Decoder::beginObject() {
+    // Phase 2.4 Hardening: Check nesting depth to prevent stack overflow
+    if (depth_ >= MAX_NESTING_DEPTH) {
+        logErrorWithContext(makeErrorContext(
+            ErrorCode::DESERIALIZATION_FAILED,
+            fmt::format("Object nesting depth limit exceeded: depth={} (max={})",
+                       depth_, MAX_NESTING_DEPTH),
+            "Serialization::Decoder::beginObject",
+            ErrorSeverity::Error, /*is_recoverable=*/false));
+        return 0;  // Return 0 to signal error
+    }
+    
     readTag();
+    depth_++;
     return readUInt32();
 }
 
 void Serialization::Decoder::endObject() {
-    // No-op
+    // No-op for now, but phase 2.4 depth tracking requires decrement
+    if (depth_ > 0) {
+        depth_--;
+    }
 }
 
 bool Serialization::Decoder::hasMore() const {
