@@ -145,13 +145,14 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
 
   // Try to recover from checkpoint if one exists
   auto recovered = recoverFromCheckpoint(task.artifact_id);
-  if (!recovered) {
-    // No checkpoint was found (nullopt) is not an error - proceed with normal processing
-    // recovered manifest would be used here if available, but we proceed with task manifest
-  } else {
-    // Use recovered manifest as the baseline for recovery
-    // Store recovery info for diagnostics - the recovered_manifest contains the state
-    // at the point of checkpoint save
+  
+  // Determine baseline manifest: use recovered state if available, otherwise use task manifest
+  ArtifactManifest baseline_manifest = task.current_manifest;
+  if (recovered) {
+    baseline_manifest = *recovered;
+    spdlog::info("SnapshotBasedUpdateWorker::processTask: "
+                 "using recovered manifest as baseline for artifact_id={}",
+                 task.artifact_id);
   }
 
   // Acquire lock before processing
@@ -173,9 +174,9 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
   state_ = UpdateWorkerState::PROCESSING;
   auto analysis_start = std::chrono::high_resolution_clock::now();
 
-  // Decide strategy
+  // Decide strategy based on baseline manifest's residual (recovered or current)
   const UpdateDecision decision =
-      decideUpdateStrategy(task.delta_window, task.artifact_size_bytes, task.current_manifest.residual);
+      decideUpdateStrategy(task.delta_window, task.artifact_size_bytes, baseline_manifest.residual);
   UpdateDecision final_decision = decision;
 
   auto analysis_end = std::chrono::high_resolution_clock::now();
@@ -183,7 +184,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
 
   // Execute decision
   auto exec_start = std::chrono::high_resolution_clock::now();
-  ArtifactManifest updated_manifest = task.current_manifest;
+  ArtifactManifest updated_manifest = baseline_manifest;
   bool success = false;
 
   try {
