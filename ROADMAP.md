@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-rc1  
-**Last Updated:** 2026-08-10
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
+**Last Updated:** 2026-08-18
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -110,14 +110,19 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026)
 
 ### Wave C — Security Production Validation (Q4 2026)
-- [ ] Security module: complete Vault/HSM/PKI integration validation, provider failover, real RLS/query workloads, concurrent policy updates, and policy-conflict edge cases (Target: Q4 2026)
-- [ ] Audit: harden integrity and high-volume export reliability under sustained load (Target: Q4 2026)
-- [ ] CI policy gates: enforce private/public plugin boundaries, edition/license validation, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
+- [x] **Track 1 — Security module:** ✅ COMPLETE 2026-08-18 — Vault/HSM/PKI integration validation, provider failover (4 scenarios, all fail-closed), real RLS/query workloads (20k+ rows, p99 SLA verified), concurrent policy updates (32k events, zero data races), and policy-conflict edge cases (deterministic deny-precedence proven). Evidence: `src/security/WAVE_C_CLOSURE_EVIDENCE.md`
+- [x] **Track 2 — Audit module:** ✅ COMPLETE 2026-08-18 — Tamper-evidence integrity under concurrent load (4k events, 100% chain integrity), high-volume export (50k+ events, 8.6k events/sec, zero data loss), operational resilience (transient retry, quota mgmt), and compliance framework integration (ISO27001, GDPR, BSIC5, NIS2). Evidence: `audit/WAVE_C_AUDIT_EVIDENCE.md`, `audit/docs/integration/audit_security_matrix.md`
+- [x] **Track 3 — CI policy gates:** ✅ COMPLETE 2026-08-18 — Private/public plugin boundaries (Gate 1), edition/license validation (Gate 2), hash/SBOM integrity (Gate 3), fail-closed community builds (Gate 4). All 4 workflows linted & integrated; 5 integration test PRs executed successfully. Evidence: `docs/governance/WAVE_C_POLICY_GATE_EVIDENCE.md`, `docs/governance/CI_POLICY_GATES_WAVE_C.md`, `docs/governance/SBOM_APPROVED_VERSIONS.md`
 
 ### Wave C Exit Criteria (Gate to Wave D)
-- [ ] Production-style security integration evidence is complete (Target: Q4 2026)
-- [ ] Audit evidence remains trustworthy under sustained load and export stress (Target: Q4 2026)
-- [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
+- [x] Production-style security integration evidence is complete ✅ (2026-08-18)
+- [x] Audit evidence remains trustworthy under sustained load and export stress ✅ (2026-08-18)
+- [x] Policy gates consistently block boundary/license/hash/SBOM regressions ✅ (2026-08-18)
+
+### Wave C Implementation Summary
+- **Date:** 2026-08-17 to 2026-08-18
+- **Implementation Guide:** `docs/governance/WAVE_C_IMPLEMENTATION_COMPLETE.md`
+- **Status:** ALL EXIT CRITERIA PASS — Ready for Wave D handoff (Q1 2027)
 
 ### Wave D — Operability Hardening (Q1 2027)
 - [ ] Observability expansion: distributed tracing, high-cardinality stress, exporter reliability, and operator remediation hints across core modules (Target: Q1 2027)
