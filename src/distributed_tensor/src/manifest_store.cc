@@ -19,42 +19,125 @@
 #include <memory>
 #include <chrono>
 #include <nlohmann/json.hpp>
+#include <rocksdb/db.h>
+#include <rocksdb/options.h>
+#include <rocksdb/slice.h>
+#include <rocksdb/status.h>
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/fmt.h>
 
 using json = nlohmann::json;
 
 namespace themis {
 namespace distributed_tensor {
 
-// In-memory store implementation (mock backend for now)
-// TODO: Replace with actual RocksDB integration when available
-static std::map<std::string, std::string> g_manifest_store;
-static std::map<std::string, std::vector<ManifestVersion>> g_version_history;
+// RocksDB instance for persistent manifest storage
+static std::unique_ptr<rocksdb::DB> g_manifest_db;
+static std::mutex g_db_mutex;
+static bool g_db_initialized = false;
+
+// In-memory lock storage (locks are ephemeral and don't need to be persisted)
 static std::map<std::string, std::pair<std::string, int64_t>> g_locks;  // artifact_id -> (lock_holder, expire_ms)
-static std::map<std::string, uint64_t> g_version_counters;
-static std::mutex g_store_mutex;
+
+// ============================================================================
+// Error mapping: RocksDB::Status to ManifestStoreStatus
+// ============================================================================
+
+ManifestStoreStatus mapRocksDBStatusToManifestStatus(const rocksdb::Status& status) {
+  if (status.ok()) {
+    return ManifestStoreStatus::OK;
+  }
+  
+  if (status.IsNotFound()) {
+    return ManifestStoreStatus::NOT_FOUND;
+  }
+  
+  if (status.IsInvalidArgument()) {
+    return ManifestStoreStatus::INVALID_MANIFEST;
+  }
+  
+  if (status.IsIOError()) {
+    spdlog::error("RocksDB I/O error: {}", status.ToString());
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
+  
+  if (status.IsCorruption()) {
+    spdlog::error("RocksDB corruption detected: {}", status.ToString());
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
+  
+  // Default: treat as storage error
+  spdlog::error("RocksDB error: {}", status.ToString());
+  return ManifestStoreStatus::STORAGE_ERROR;
+}
 
 // ============================================================================
 // ManifestStore Methods
 // ============================================================================
 
 ManifestStoreStatus ManifestStore::open(const std::string& db_path) {
+  std::lock_guard<std::mutex> lock(g_db_mutex);
+  
+  // Check if already initialized
+  if (g_db_initialized && g_manifest_db) {
+    db_path_ = db_path;
+    is_open_ = true;
+    return ManifestStoreStatus::OK;
+  }
+
+  // Configure RocksDB options
+  rocksdb::Options options;
+  options.create_if_missing = true;
+  options.compression = rocksdb::kLZ4Compression;
+  options.max_open_files = 256;
+  options.write_buffer_size = 64 * 1024 * 1024;  // 64 MB
+  options.target_file_size_base = 64 * 1024 * 1024;  // 64 MB
+  
+  // Open RocksDB instance
+  rocksdb::DB* db = nullptr;
+  rocksdb::Status status = rocksdb::DB::Open(options, db_path, &db);
+  
+  if (!status.ok()) {
+    spdlog::error("ManifestStore::open: Failed to open RocksDB at path '{}': {}",
+                 db_path, status.ToString());
+    return mapRocksDBStatusToManifestStatus(status);
+  }
+  
+  g_manifest_db.reset(db);
+  g_db_initialized = true;
   db_path_ = db_path;
   is_open_ = true;
-  // TODO: Replace with actual RocksDB initialization
-  // For now, clear in-memory store on open
-  {
-    std::lock_guard<std::mutex> lock(g_store_mutex);
-    g_manifest_store.clear();
-    g_version_history.clear();
-    g_locks.clear();
-    g_version_counters.clear();
-  }
+  
+  spdlog::info("ManifestStore::open: Successfully opened RocksDB at path '{}'", db_path);
   return ManifestStoreStatus::OK;
 }
 
 ManifestStoreStatus ManifestStore::close() {
+  std::lock_guard<std::mutex> lock(g_db_mutex);
+  
+  if (!g_manifest_db) {
+    is_open_ = false;
+    return ManifestStoreStatus::OK;
+  }
+
+  // Flush pending writes before closing
+  rocksdb::Status flush_status = g_manifest_db->Flush(rocksdb::FlushOptions());
+  if (!flush_status.ok()) {
+    spdlog::warn("ManifestStore::close: Flush failed: {}", flush_status.ToString());
+  }
+
+  // Close database
+  rocksdb::Status close_status = g_manifest_db->Close();
+  g_manifest_db.reset();
+  g_db_initialized = false;
   is_open_ = false;
-  // TODO: Replace with actual RocksDB cleanup
+
+  if (!close_status.ok()) {
+    spdlog::error("ManifestStore::close: Failed to close RocksDB: {}", close_status.ToString());
+    return mapRocksDBStatusToManifestStatus(close_status);
+  }
+
+  spdlog::info("ManifestStore::close: Successfully closed RocksDB");
   return ManifestStoreStatus::OK;
 }
 
@@ -151,7 +234,7 @@ ManifestStoreStatus ManifestStore::invalidate(const std::string& artifact_id,
 ManifestStoreStatus ManifestStore::acquireLock(const std::string& artifact_id,
                                                const std::string& lock_holder,
                                                int64_t timeout_ms) {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
+  std::lock_guard<std::mutex> lock(g_db_mutex);
   
   auto lock_it = g_locks.find(artifact_id);
   if (lock_it != g_locks.end()) {
@@ -180,7 +263,7 @@ ManifestStoreStatus ManifestStore::acquireLock(const std::string& artifact_id,
 
 ManifestStoreStatus ManifestStore::releaseLock(const std::string& artifact_id,
                                                const std::string& lock_holder) {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
+  std::lock_guard<std::mutex> lock(g_db_mutex);
   
   auto lock_it = g_locks.find(artifact_id);
   if (lock_it == g_locks.end()) {
@@ -197,7 +280,7 @@ ManifestStoreStatus ManifestStore::releaseLock(const std::string& artifact_id,
 }
 
 bool ManifestStore::isLocked(const std::string& artifact_id) const {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
+  std::lock_guard<std::mutex> lock(g_db_mutex);
   
   auto lock_it = g_locks.find(artifact_id);
   if (lock_it == g_locks.end()) {
@@ -216,23 +299,74 @@ bool ManifestStore::isLocked(const std::string& artifact_id) const {
 }
 
 uint64_t ManifestStore::getCurrentVersion(const std::string& artifact_id) const {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
-  
-  auto it = g_version_counters.find(artifact_id);
-  if (it != g_version_counters.end()) {
-    return it->second;
+  std::lock_guard<std::mutex> lock(g_db_mutex);
+
+  if (!g_manifest_db) {
+    return 0;
   }
-  return 0;
+
+  std::string counter_key = artifact_id + ":counter";
+  std::string value;
+  rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(), counter_key, &value);
+  
+  if (!status.ok()) {
+    return 0;
+  }
+
+  try {
+    return std::stoull(value);
+  } catch (...) {
+    return 0;
+  }
 }
 
 std::vector<ManifestVersion> ManifestStore::getVersionHistory(const std::string& artifact_id) {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
+  std::lock_guard<std::mutex> lock(g_db_mutex);
+
+  std::vector<ManifestVersion> history;
   
-  auto it = g_version_history.find(artifact_id);
-  if (it != g_version_history.end()) {
-    return it->second;
+  if (!g_manifest_db) {
+    return history;
   }
-  return {};
+
+  try {
+    // Get current version count
+    uint64_t current_version = 0;
+    std::string counter_key = artifact_id + ":counter";
+    std::string counter_value;
+    rocksdb::Status counter_status = g_manifest_db->Get(rocksdb::ReadOptions(), counter_key, &counter_value);
+    
+    if (counter_status.ok()) {
+      try {
+        current_version = std::stoull(counter_value);
+      } catch (...) {
+        return history;
+      }
+    }
+
+    // Iterate through versions 1 to current_version
+    for (uint64_t v = 1; v <= current_version; ++v) {
+      std::string version_key = artifact_id + ":version:" + std::to_string(v);
+      std::string version_json;
+      rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(), version_key, &version_json);
+      
+      if (!status.ok()) {
+        continue;  // Skip missing versions
+      }
+
+      try {
+        auto parsed = json::parse(version_json);
+        ManifestVersion ver = parsed.get<ManifestVersion>();
+        history.push_back(ver);
+      } catch (...) {
+        continue;  // Skip malformed versions
+      }
+    }
+  } catch (...) {
+    // Return partial history
+  }
+
+  return history;
 }
 
 ManifestStoreStatus ManifestStore::deleteManifest(const std::string& artifact_id) {
@@ -240,42 +374,97 @@ ManifestStoreStatus ManifestStore::deleteManifest(const std::string& artifact_id
     return ManifestStoreStatus::STORAGE_ERROR;
   }
   
-  std::lock_guard<std::mutex> lock(g_store_mutex);
-  
-  g_manifest_store.erase(artifact_id);
-  g_version_history.erase(artifact_id);
-  g_version_counters.erase(artifact_id);
-  g_locks.erase(artifact_id);
-  
-  return ManifestStoreStatus::OK;
+  std::lock_guard<std::mutex> lock(g_db_mutex);
+
+  if (!g_manifest_db) {
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
+
+  try {
+    rocksdb::WriteBatch batch;
+    
+    // Delete current manifest
+    batch.Delete(artifact_id);
+    
+    // Delete counter
+    batch.Delete(artifact_id + ":counter");
+    
+    // Delete all versions (get count first)
+    uint64_t current_version = 0;
+    std::string counter_value;
+    rocksdb::Status counter_status = g_manifest_db->Get(rocksdb::ReadOptions(), 
+                                                        artifact_id + ":counter", 
+                                                        &counter_value);
+    if (counter_status.ok()) {
+      try {
+        current_version = std::stoull(counter_value);
+      } catch (...) {
+        // Ignore parse error
+      }
+    }
+    
+    for (uint64_t v = 1; v <= current_version; ++v) {
+      batch.Delete(artifact_id + ":version:" + std::to_string(v));
+    }
+    
+    // Execute batch delete
+    rocksdb::Status status = g_manifest_db->Write(rocksdb::WriteOptions(), &batch);
+    
+    if (!status.ok()) {
+      spdlog::error("ManifestStore::deleteManifest: Failed to delete manifest for artifact_id={}: {}",
+                   artifact_id, status.ToString());
+      return mapRocksDBStatusToManifestStatus(status);
+    }
+    
+    spdlog::debug("ManifestStore::deleteManifest: Successfully deleted manifest for artifact_id={}",
+                 artifact_id);
+    return ManifestStoreStatus::OK;
+  } catch (const std::exception& e) {
+    spdlog::error("ManifestStore::deleteManifest: Exception deleting manifest for artifact_id={}: {}",
+                 artifact_id, e.what());
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
 }
 
 ManifestStore::Stats ManifestStore::getStats() const {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
+  std::lock_guard<std::mutex> lock(g_db_mutex);
   
   Stats stats;
-  stats.total_artifacts = g_manifest_store.size();
-  
-  for (const auto& hist : g_version_history) {
-    stats.total_versions += hist.second.size();
+  stats.total_artifacts = 0;
+  stats.total_versions = 0;
+  stats.locked_artifacts = 0;
+  stats.storage_size_bytes = 0;
+
+  if (!g_manifest_db) {
+    return stats;
   }
-  
-  for (const auto& lock : g_locks) {
-    if (lock.second.second == 0) {
-      stats.locked_artifacts++;
-    } else {
-      int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-          std::chrono::system_clock::now().time_since_epoch()).count();
-      if (lock.second.second > now_ms) {
-        stats.locked_artifacts++;
+
+  try {
+    // Use RocksDB iterator to count artifacts and calculate stats
+    rocksdb::Iterator* it = g_manifest_db->NewIterator(rocksdb::ReadOptions());
+    
+    for (it->SeekToFirst(); it->Valid(); it->Next()) {
+      std::string key = it->key().ToString();
+      
+      // Count manifest entries (keys without ":" are manifests)
+      if (key.find(':') == std::string::npos) {
+        stats.total_artifacts++;
+        stats.storage_size_bytes += it->value().size();
+      }
+      
+      // Count versions (keys with ":version:")
+      if (key.find(":version:") != std::string::npos) {
+        stats.total_versions++;
       }
     }
+    
+    delete it;
+  } catch (const std::exception& e) {
+    spdlog::warn("ManifestStore::getStats: Exception during stats collection: {}", e.what());
   }
-  
-  // Approximate storage size
-  for (const auto& manifest : g_manifest_store) {
-    stats.storage_size_bytes += manifest.second.size();
-  }
+
+  // Lock info is still maintained in-memory for now
+  // Note: In future, locking information could also be persisted in RocksDB
   
   return stats;
 }
@@ -283,57 +472,97 @@ ManifestStore::Stats ManifestStore::getStats() const {
 ManifestStoreStatus ManifestStore::internalRead(const std::string& artifact_id,
                                                 uint64_t version_id,
                                                 ArtifactManifest& manifest) {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
-  
-  // If version_id == 0, get the latest version
+  std::lock_guard<std::mutex> lock(g_db_mutex);
+
+  if (!g_manifest_db) {
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
+
   if (version_id == 0) {
-    auto it = g_manifest_store.find(artifact_id);
-    if (it == g_manifest_store.end()) {
-      return ManifestStoreStatus::NOT_FOUND;
-    }
+    // Read latest manifest for this artifact
+    std::string value;
+    rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(), 
+                                                artifact_id, &value);
     
+    if (!status.ok()) {
+      return mapRocksDBStatusToManifestStatus(status);
+    }
+
     try {
-      auto parsed = json::parse(it->second);
+      auto parsed = json::parse(value);
       manifest = parsed.get<ArtifactManifest>();
       return ManifestStoreStatus::OK;
-    } catch (...) {
+    } catch (const std::exception& e) {
+      spdlog::error("ManifestStore::internalRead: JSON parse error for artifact_id={}: {}",
+                   artifact_id, e.what());
       return ManifestStoreStatus::STORAGE_ERROR;
     }
   }
+
+  // Read specific version from version history key
+  std::string version_key = artifact_id + ":version:" + std::to_string(version_id);
+  std::string value;
+  rocksdb::Status status = g_manifest_db->Get(rocksdb::ReadOptions(),
+                                              version_key, &value);
   
-  // Get specific version from history
-  auto hist_it = g_version_history.find(artifact_id);
-  if (hist_it == g_version_history.end()) {
-    return ManifestStoreStatus::VERSION_MISMATCH;
+  if (!status.ok()) {
+    return mapRocksDBStatusToManifestStatus(status);
   }
-  
-  for (const auto& ver : hist_it->second) {
-    if (ver.version_id == version_id) {
-      manifest = ver.manifest;
-      return ManifestStoreStatus::OK;
-    }
+
+  try {
+    auto parsed = json::parse(value);
+    ManifestVersion ver = parsed.get<ManifestVersion>();
+    manifest = ver.manifest;
+    return ManifestStoreStatus::OK;
+  } catch (const std::exception& e) {
+    spdlog::error("ManifestStore::internalRead: Version parse error for artifact_id={} version_id={}: {}",
+                 artifact_id, version_id, e.what());
+    return ManifestStoreStatus::STORAGE_ERROR;
   }
-  
-  return ManifestStoreStatus::VERSION_MISMATCH;
 }
 
 ManifestStoreStatus ManifestStore::internalWrite(const std::string& artifact_id,
                                                  const ArtifactManifest& manifest,
                                                  const ManifestVersion& version_info) {
-  std::lock_guard<std::mutex> lock(g_store_mutex);
-  
+  std::lock_guard<std::mutex> lock(g_db_mutex);
+
+  if (!g_manifest_db) {
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
+
   try {
-    // Store current manifest
-    g_manifest_store[artifact_id] = json(manifest).dump();
+    // Use batch for atomic writes
+    rocksdb::WriteBatch batch;
     
-    // Add to version history
-    g_version_history[artifact_id].push_back(version_info);
+    // Write latest manifest
+    std::string manifest_json = json(manifest).dump();
+    batch.Put(artifact_id, manifest_json);
     
-    // Update version counter
-    g_version_counters[artifact_id] = version_info.version_id;
+    // Write version entry
+    std::string version_key = artifact_id + ":version:" + std::to_string(version_info.version_id);
+    std::string version_json = json(version_info).dump();
+    batch.Put(version_key, version_json);
     
+    // Write version counter
+    std::string counter_key = artifact_id + ":counter";
+    std::string counter_value = std::to_string(version_info.version_id);
+    batch.Put(counter_key, counter_value);
+    
+    // Execute batch write
+    rocksdb::Status status = g_manifest_db->Write(rocksdb::WriteOptions(), &batch);
+    
+    if (!status.ok()) {
+      spdlog::error("ManifestStore::internalWrite: Failed to write manifest for artifact_id={}: {}",
+                   artifact_id, status.ToString());
+      return mapRocksDBStatusToManifestStatus(status);
+    }
+    
+    spdlog::debug("ManifestStore::internalWrite: Successfully wrote manifest for artifact_id={} version={}",
+                 artifact_id, version_info.version_id);
     return ManifestStoreStatus::OK;
-  } catch (...) {
+  } catch (const std::exception& e) {
+    spdlog::error("ManifestStore::internalWrite: Exception writing manifest for artifact_id={}: {}",
+                 artifact_id, e.what());
     return ManifestStoreStatus::STORAGE_ERROR;
   }
 }
