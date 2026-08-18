@@ -26,36 +26,36 @@
 - `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
-- `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
+- `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
 - `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-18, 13,507 B)
-- `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,485 B)
 - `PHASE_5_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 11,681 B)
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-18, 19,108 B)
+- `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
+- `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-18, 5,374 B)
 - `PHASE_2_IMPLEMENTATION_GUIDE.md` (2026-08-18, 8,733 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md` (2026-08-18, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN.md` (2026-08-18, 6,986 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-18, 6,986 B)
-- `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-18, 5,374 B)
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
+- `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
 - `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
-- `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
-- `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
+- `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
 - `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
@@ -69,8 +69,8 @@
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
 - `FP_DETECTION_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,430 B)
 - `COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 16,526 B)
-- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
 - `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
+- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
 
 ---
 
@@ -2570,57 +2570,6 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 
-### SPRINT_8_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
-**Date:** 2026-06-30
-**Sprint:** 8 - Move Semantics Remediation
-**Phase:** 1A - LLM + Query Modules
-**Status:** ✅ IN PROGRESS
----
-## EXECUTIVE SUMMARY
-- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
-- **CWE-415:** Double Free (move assignment doesn't clean up)
-- **CWE-672:** Use After Free (moved-from objects accessed)
-### Key Metrics
-| Metric | Value |
-|--------|-------|
-| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
-| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
-| **Files Fixed (Phase 1A)** | 4 files |
-| **Test Files Created** | 2 comprehensive test suites |
-| **Estimated Time Savings** | 200+ hours of manual security review |
----
-## IMPLEMENTATION DETAILS
-### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
-**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
-**Fix Applied:**
-- ✅ Added move constructor with `noexcept`
-- ✅ Added move assignment operator with self-assignment check
-- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
-- ✅ Added Doxygen comments with CWE mappings
-**Key Implementation:**
-// Header: Added after destructor
-MultiLoRAManager(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager(const MultiLoRAManager&) = delete;
-MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
-// Implementation: Proper ownership transfer with valid moved-from state
-MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
-: config_(std::move(other.config_)),
-loras_(std::move(other.loras_)),
-// ... all members moved
-eviction_thread_(std::move(other.eviction_thread_))
-// ...
-{
-// Reset source to valid empty state
-other.total_vram_bytes_ = 0;
-other.eviction_thread_running_.store(false);
-
----
-
 ### SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md
 
 # Sprint 8 Phase 1B: Move Semantics Remediation — Implementation Summary
@@ -2961,6 +2910,57 @@ ctest -R "StorageEngine" -V
 ---
 
 **End of Sprint 8 Phase 1B Move Semantics Implementation Summary**
+
+---
+
+### SPRINT_8_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
+**Date:** 2026-06-30
+**Sprint:** 8 - Move Semantics Remediation
+**Phase:** 1A - LLM + Query Modules
+**Status:** ✅ IN PROGRESS
+---
+## EXECUTIVE SUMMARY
+- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
+- **CWE-415:** Double Free (move assignment doesn't clean up)
+- **CWE-672:** Use After Free (moved-from objects accessed)
+### Key Metrics
+| Metric | Value |
+|--------|-------|
+| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
+| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
+| **Files Fixed (Phase 1A)** | 4 files |
+| **Test Files Created** | 2 comprehensive test suites |
+| **Estimated Time Savings** | 200+ hours of manual security review |
+---
+## IMPLEMENTATION DETAILS
+### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
+**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
+**Fix Applied:**
+- ✅ Added move constructor with `noexcept`
+- ✅ Added move assignment operator with self-assignment check
+- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
+- ✅ Added Doxygen comments with CWE mappings
+**Key Implementation:**
+// Header: Added after destructor
+MultiLoRAManager(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager(const MultiLoRAManager&) = delete;
+MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
+// Implementation: Proper ownership transfer with valid moved-from state
+MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
+: config_(std::move(other.config_)),
+loras_(std::move(other.loras_)),
+// ... all members moved
+eviction_thread_(std::move(other.eviction_thread_))
+// ...
+{
+// Reset source to valid empty state
+other.total_vram_bytes_ = 0;
+other.eviction_thread_running_.store(false);
 
 ---
 
@@ -3739,7 +3739,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY.md
+### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
 *(file too large — key headings extracted)*
 
@@ -3796,7 +3796,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
+### PHASE_A_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
@@ -4521,58 +4521,6 @@ class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
 
 ---
 
-### PHASE_5_IMPLEMENTATION_PLAN_5782.md
-
-*(file too large — key headings extracted)*
-
-# Phase 5: Operational Production Readiness — Implementation Plan
-**Status:** Planning & Coordination
-**Target Completion:** 2026-10-31
-**Last Updated:** 2026-07-28
----
-## Executive Summary
-Phase 5 delivers operational excellence for ThemisDB's General Availability (GA) release. This phase focuses on:
-1. **Observability & Auditability** — Structured logging, metrics, tracing, dashboards, audit logs
-2. **Error Classification & SLO Signals** — Error taxonomy, SLO mapping, real-time SLO tracking
-3. **Backup & Recovery Proof** — Automated backups, PITR validation, RTO/RPO measurement
-4. **99.99% SLA Validation** — 168+ hour endurance test with fault injection
-5. **Operational Runbooks** — Disaster recovery, failure response, upgrade procedures
----
-## Implementation Timeline
-### Week 1–2 (Aug 5–18): Observability Instrumentation
-- Structured logging infrastructure (JSON format, context propagation)
-- Metrics collection framework (latency, throughput, errors, resources)
-- Distributed tracing integration (OpenTelemetry)
-- Tests: OBS-01 through OBS-10
-### Week 3 (Aug 19–25): Error Classification & SLO
-- Error taxonomy definition and documentation
-- Error-to-SLO mapping implementation
-- SLO tracking system (availability, latency, error budget)
-- Tests: SLO-01 through SLO-10
-### Week 4–5 (Aug 26–Sep 8): Backup & Recovery
-- Automated backup scheduling and log archival
-- Backup integrity verification (checksums, restore cycles)
-- PITR (Point-in-Time Recovery) implementation and validation
-- RTO/RPO measurement under load
-- Tests: BR-01 through BR-10
-### Week 6–7 (Sep 9–22): SLA 99.99% Validation
-- 168+ hour sustained load + fault-injection test campaign
-- Graceful degradation validation
-- Maintenance window procedures
-- SLA evidence archive and compliance certificate
-- Tests: SLA-01 through SLA-10
-### Week 8 (Sep 23–29): Operational Runbooks & Sign-Off
-- Disaster recovery procedures documentation
-- Node/shard failure response procedures
-- Upgrade/rollback procedures
-- Tuning and troubleshooting guides
-- Update `docs/operations/RUNBOOK_PRODUCTION.md`
-- Final governance sign-off and release approval
----
-## Detailed Requirements
-
----
-
 ### PHASE_5_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -4722,6 +4670,111 @@ Phase 5 delivers operational excellence for ThemisDB's General Availability (GA)
 - Final governance sign-off and release approval
 ---
 ## Detailed Requirements
+
+---
+
+### PHASE_5_IMPLEMENTATION_PLAN_5782.md
+
+*(file too large — key headings extracted)*
+
+# Phase 5: Operational Production Readiness — Implementation Plan
+**Status:** Planning & Coordination
+**Target Completion:** 2026-10-31
+**Last Updated:** 2026-07-28
+---
+## Executive Summary
+Phase 5 delivers operational excellence for ThemisDB's General Availability (GA) release. This phase focuses on:
+1. **Observability & Auditability** — Structured logging, metrics, tracing, dashboards, audit logs
+2. **Error Classification & SLO Signals** — Error taxonomy, SLO mapping, real-time SLO tracking
+3. **Backup & Recovery Proof** — Automated backups, PITR validation, RTO/RPO measurement
+4. **99.99% SLA Validation** — 168+ hour endurance test with fault injection
+5. **Operational Runbooks** — Disaster recovery, failure response, upgrade procedures
+---
+## Implementation Timeline
+### Week 1–2 (Aug 5–18): Observability Instrumentation
+- Structured logging infrastructure (JSON format, context propagation)
+- Metrics collection framework (latency, throughput, errors, resources)
+- Distributed tracing integration (OpenTelemetry)
+- Tests: OBS-01 through OBS-10
+### Week 3 (Aug 19–25): Error Classification & SLO
+- Error taxonomy definition and documentation
+- Error-to-SLO mapping implementation
+- SLO tracking system (availability, latency, error budget)
+- Tests: SLO-01 through SLO-10
+### Week 4–5 (Aug 26–Sep 8): Backup & Recovery
+- Automated backup scheduling and log archival
+- Backup integrity verification (checksums, restore cycles)
+- PITR (Point-in-Time Recovery) implementation and validation
+- RTO/RPO measurement under load
+- Tests: BR-01 through BR-10
+### Week 6–7 (Sep 9–22): SLA 99.99% Validation
+- 168+ hour sustained load + fault-injection test campaign
+- Graceful degradation validation
+- Maintenance window procedures
+- SLA evidence archive and compliance certificate
+- Tests: SLA-01 through SLA-10
+### Week 8 (Sep 23–29): Operational Runbooks & Sign-Off
+- Disaster recovery procedures documentation
+- Node/shard failure response procedures
+- Upgrade/rollback procedures
+- Tuning and troubleshooting guides
+- Update `docs/operations/RUNBOOK_PRODUCTION.md`
+- Final governance sign-off and release approval
+---
+## Detailed Requirements
+
+---
+
+### PHASE_2_4_IMPLEMENTATION_SUMMARY.txt
+
+*(file too large — key headings extracted)*
+
+# Phase 2.4 Implementation Summary
+**Completion Date**: 2026-07-01
+**Status**: ✅ **COMPLETE**
+---
+## What Was Accomplished
+### Phase 2.4: Integration & Validation (Week 6 of Phase 2)
+### Key Deliverables
+1. **Phase 2.4 Implementation Plan** (`PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md`)
+- 6-step comprehensive validation roadmap
+- Build validation & unit testing strategy
+- Determinism validation approach (100x runs)
+- Performance benchmarking validation
+- Distributed consistency verification
+- L1 gap re-audit methodology
+- Documentation & security review procedures
+2. **Phase 2.4 Completion Report** (`PHASE_2_4_COMPLETION_REPORT.md`)
+- Executive summary of all Phase 2 work (107 findings addressed)
+- Detailed validation results from code analysis
+- Test coverage analysis (22 files, 326 tests)
+- Exception safety & RAII validation
+- Distributed consistency framework verification
+- Phase 2.3 artifacts validation
+- Determinism patterns identified in code
+- Performance benchmarking strategy
+- L1 gap audit results (zero new findings)
+- Acceptance criteria verification
+- Final sign-off and release readiness
+3. **ROADMAP.md Updates**
+- Added Phase 2.3 completion sign-off section with:
+- OntologyManager hardening (2 CRITICAL gaps fixed)
+- Entity type constraints tests (13 new tests)
+- Quality metrics and verification
+- Added Phase 2.4 completion sign-off section with:
+- Scope and validation results
+- Test coverage inventory (22 files, 326 tests)
+- Distributed consistency validation
+- Exception safety analysis
+- Gap resolution summary (107 findings)
+- Phase 3 readiness status
+---
+## Phase 2.4 Validation Results
+### Test Coverage
+- **22 test files** containing **326 individual tests**
+- All test files present and accounted for
+- Tests organized by module: Ontology (25), Distributed (14), Rotate Completion (16), Path Constraints (10), and others
+- Full coverage verified across all graph operations
 
 ---
 
@@ -4976,59 +5029,6 @@ plugin_info.state = PluginLifecycleState::LOADING;
 
 ---
 
-### PHASE_2_4_IMPLEMENTATION_SUMMARY.txt
-
-*(file too large — key headings extracted)*
-
-# Phase 2.4 Implementation Summary
-**Completion Date**: 2026-07-01
-**Status**: ✅ **COMPLETE**
----
-## What Was Accomplished
-### Phase 2.4: Integration & Validation (Week 6 of Phase 2)
-### Key Deliverables
-1. **Phase 2.4 Implementation Plan** (`PHASE_2_4_INTEGRATION_VALIDATION_PLAN.md`)
-- 6-step comprehensive validation roadmap
-- Build validation & unit testing strategy
-- Determinism validation approach (100x runs)
-- Performance benchmarking validation
-- Distributed consistency verification
-- L1 gap re-audit methodology
-- Documentation & security review procedures
-2. **Phase 2.4 Completion Report** (`PHASE_2_4_COMPLETION_REPORT.md`)
-- Executive summary of all Phase 2 work (107 findings addressed)
-- Detailed validation results from code analysis
-- Test coverage analysis (22 files, 326 tests)
-- Exception safety & RAII validation
-- Distributed consistency framework verification
-- Phase 2.3 artifacts validation
-- Determinism patterns identified in code
-- Performance benchmarking strategy
-- L1 gap audit results (zero new findings)
-- Acceptance criteria verification
-- Final sign-off and release readiness
-3. **ROADMAP.md Updates**
-- Added Phase 2.3 completion sign-off section with:
-- OntologyManager hardening (2 CRITICAL gaps fixed)
-- Entity type constraints tests (13 new tests)
-- Quality metrics and verification
-- Added Phase 2.4 completion sign-off section with:
-- Scope and validation results
-- Test coverage inventory (22 files, 326 tests)
-- Distributed consistency validation
-- Exception safety analysis
-- Gap resolution summary (107 findings)
-- Phase 3 readiness status
----
-## Phase 2.4 Validation Results
-### Test Coverage
-- **22 test files** containing **326 individual tests**
-- All test files present and accounted for
-- Tests organized by module: Ontology (25), Distributed (14), Rotate Completion (16), Path Constraints (10), and others
-- Full coverage verified across all graph operations
-
----
-
 ### PHASE_1_6_IMPLEMENTATION_STATUS.md
 
 *(file too large — key headings extracted)*
@@ -5180,6 +5180,58 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 
 ---
 
+### P2_D05_IMPLEMENTATION_COMPLETE.md
+
+*(file too large — key headings extracted)*
+
+# P2-D05: Runtime Integration Complete
+**Status**: ✅ PRODUCTION CODE READY
+**Date**: 2026-07-22
+**Batch**: Phase 2 Batch 3
+**Phase**: SSM-hybrid Phase 2 (Runtime Integration)
+**Deliverables**: P2-D03 (Compression) + P2-D04 (RocksDB Persistence) integration into production execution paths
+---
+## Executive Summary
+**P2-D05** delivers complete runtime integration of:
+- **P2-D03** (L2 Episodic Memory Compression): Extractive summarization for conversation overflow
+- **P2-D04** (SSM-State RocksDB Persistence): Durable HLC-timestamped state snapshots
+The implementation hooks both components into production systems:
+- **AQLConversationContext** now triggers compression automatically on history overflow
+- **LLMPluginManager** now manages persistent SSM state snapshots via RocksDB
+**Lines of Code**: ~800 (includes headers, implementations, and tests)
+**Test Coverage**: 23 integration test cases across compression + state store workflows
+**Acceptance Gates**: All P2-GATE criteria wired into runtime checks
+---
+## What Was Built
+### 1. AQLConversationContext Compression Integration
+#### Header Changes (`include/aql/aql_conversation_context.h`)
+- Added forward declaration for `IHistoryCompressor`
+- Added `#include "aql/i_history_compressor.h"`
+- Created new constructor overload accepting `IHistoryCompressor* compressor` parameter
+- Added `setCompressor()` and `getCompressor()` methods for runtime injection
+#### Implementation (`src/aql/aql_conversation_context.cpp`)
+- Modified `Impl` class to hold non-owning `IHistoryCompressor* compressor_` pointer
+- Updated all constructor chains to propagate compressor parameter
+- Enhanced `callLLMImpl()` to:
+1. Check if compression should be triggered (enabled + threshold exceeded + available)
+2. Convert history to `std::vector<std::pair<string, string>>` format
+3. Call `compressor_->compressHistory()` with semantic similarity gate
+4. On success: Replace history with system message + compressed summary
+5. On failure: Log warning and continue without compression (graceful degradation)
+#### Key Features
+- **Automatic Triggering**: Compression activates when:
+- `config_.enable_episodic_compaction == true`
+- `config_.episodic_compaction_trigger_tokens > 0`
+- Current token count > trigger threshold
+- `compressor_->isAvailable() == true`
+- **System Message Preservation**: First message (system prompt) always retained
+- **Graceful Fallback**: Exceptions caught, logged, conversation continues
+- **Thread-Safe**: All access guarded by `history_mutex_`
+---
+### 2. LLMPluginManager RocksDB State Store Integration
+
+---
+
 ### P0_P1_P2_IMPLEMENTATION_STATUS.md
 
 *(file too large — key headings extracted)*
@@ -5287,59 +5339,7 @@ Batch 2 delivers **production-ready code** for SSM-hybrid Phase 2 acceptance:
 
 ---
 
-### P2_D05_IMPLEMENTATION_COMPLETE.md
-
-*(file too large — key headings extracted)*
-
-# P2-D05: Runtime Integration Complete
-**Status**: ✅ PRODUCTION CODE READY
-**Date**: 2026-07-22
-**Batch**: Phase 2 Batch 3
-**Phase**: SSM-hybrid Phase 2 (Runtime Integration)
-**Deliverables**: P2-D03 (Compression) + P2-D04 (RocksDB Persistence) integration into production execution paths
----
-## Executive Summary
-**P2-D05** delivers complete runtime integration of:
-- **P2-D03** (L2 Episodic Memory Compression): Extractive summarization for conversation overflow
-- **P2-D04** (SSM-State RocksDB Persistence): Durable HLC-timestamped state snapshots
-The implementation hooks both components into production systems:
-- **AQLConversationContext** now triggers compression automatically on history overflow
-- **LLMPluginManager** now manages persistent SSM state snapshots via RocksDB
-**Lines of Code**: ~800 (includes headers, implementations, and tests)
-**Test Coverage**: 23 integration test cases across compression + state store workflows
-**Acceptance Gates**: All P2-GATE criteria wired into runtime checks
----
-## What Was Built
-### 1. AQLConversationContext Compression Integration
-#### Header Changes (`include/aql/aql_conversation_context.h`)
-- Added forward declaration for `IHistoryCompressor`
-- Added `#include "aql/i_history_compressor.h"`
-- Created new constructor overload accepting `IHistoryCompressor* compressor` parameter
-- Added `setCompressor()` and `getCompressor()` methods for runtime injection
-#### Implementation (`src/aql/aql_conversation_context.cpp`)
-- Modified `Impl` class to hold non-owning `IHistoryCompressor* compressor_` pointer
-- Updated all constructor chains to propagate compressor parameter
-- Enhanced `callLLMImpl()` to:
-1. Check if compression should be triggered (enabled + threshold exceeded + available)
-2. Convert history to `std::vector<std::pair<string, string>>` format
-3. Call `compressor_->compressHistory()` with semantic similarity gate
-4. On success: Replace history with system message + compressed summary
-5. On failure: Log warning and continue without compression (graceful degradation)
-#### Key Features
-- **Automatic Triggering**: Compression activates when:
-- `config_.enable_episodic_compaction == true`
-- `config_.episodic_compaction_trigger_tokens > 0`
-- Current token count > trigger threshold
-- `compressor_->isAvailable() == true`
-- **System Message Preservation**: First message (system prompt) always retained
-- **Graceful Fallback**: Exceptions caught, logged, conversation continues
-- **Thread-Safe**: All access guarded by `history_mutex_`
----
-### 2. LLMPluginManager RocksDB State Store Integration
-
----
-
-### NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md
+### NEXT_PHASE_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
 
@@ -5384,7 +5384,7 @@ The implementation hooks both components into production systems:
 
 ---
 
-### NEXT_PHASE_IMPLEMENTATION_PLAN.md
+### NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md
 
 *(file too large — key headings extracted)*
 
@@ -6045,6 +6045,42 @@ AFTER ALL BATCHES (Target):
 
 ---
 
+### CMT-7504_IMPLEMENTATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# CMT-7504 Implementation Guide
+## Documentation Linkset Synchronization Remediation Steps
+**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
+**Target Completion:** 2026-08-31
+**Estimated Effort:** 2 hours (execution + testing)
+---
+## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
+### Step 1.1: Add Bidirectional Cross-Links
+#### A. Update Root README.md
+**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
+**Add this block:**
+### 🟠 Content Module Status Snapshot
+**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
+**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
+---
+#### B. Update Root ROADMAP.md
+**Location:** Immediately after the "## Current Status" section (around line 50)
+**Add this subsection:**
+## Content Module Status
+**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
+See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
+- Complete phase-by-phase status
+- Current in-progress work (hardening, benchmarking, diagnostics)
+- Planned features (3-6 months and 6-12 months targets)
+- Production readiness checklist
+**Key Milestones:**
+- Phase 1-5 Complete (core implementation, error handling, tests, performance)
+- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
+**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
+
+---
+
 ### CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -6092,41 +6128,5 @@ Example: attempt=0→0ms, attempt=1→150ms, attempt=2→225ms, attempt=3→337m
 - `src/chimera/batch_executor.cpp` (10 lines)
 **Features**:
 - `IBatchAdapter`: Mixin interface for queuing and flushing
-
----
-
-### CMT-7504_IMPLEMENTATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# CMT-7504 Implementation Guide
-## Documentation Linkset Synchronization Remediation Steps
-**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
-**Target Completion:** 2026-08-31
-**Estimated Effort:** 2 hours (execution + testing)
----
-## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
-### Step 1.1: Add Bidirectional Cross-Links
-#### A. Update Root README.md
-**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
-**Add this block:**
-### 🟠 Content Module Status Snapshot
-**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
-**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
----
-#### B. Update Root ROADMAP.md
-**Location:** Immediately after the "## Current Status" section (around line 50)
-**Add this subsection:**
-## Content Module Status
-**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
-See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
-- Complete phase-by-phase status
-- Current in-progress work (hardening, benchmarking, diagnostics)
-- Planned features (3-6 months and 6-12 months targets)
-- Production readiness checklist
-**Key Milestones:**
-- Phase 1-5 Complete (core implementation, error handling, tests, performance)
-- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
-**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
 
 ---

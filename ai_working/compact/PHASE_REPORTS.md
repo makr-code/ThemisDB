@@ -20,19 +20,19 @@
 - `phase3_implementation_roadmap.md` (2026-08-18, 7,027 B)
 - `phase3_implementation_summary.md` (2026-08-18, 11,885 B)
 - `phase3_scope_analysis.txt` (2026-08-18, 6,327 B)
+- `phase0_verification_report.md` (2026-08-18, 3,965 B)
+- `phase0_verification_report_6362.md` (2026-08-18, 3,965 B)
 - `phase1_report.json` (2026-08-18, 260 B)
 - `phase1_report.md` (2026-08-18, 286 B)
 - `phase2_completion_status.md` (2026-08-18, 8,263 B)
 - `phase2_completion_summary.txt` (2026-08-18, 16,033 B)
 - `phase2_plan.md` (2026-08-18, 2,449 B)
-- `phase0_verification_report.md` (2026-08-18, 3,965 B)
-- `phase0_verification_report_6362.md` (2026-08-18, 3,965 B)
 - `iterator_gaps_phase1.json` (2026-08-18, 58,206 B)
 - `high1_compliance_phase1_audit.json` (2026-08-18, 21,499 B)
 - `high1_phase2_file_inventory.json` (2026-08-18, 2,333 B)
 - `high1_phase2b_additional_files_audit.json` (2026-08-18, 16,917 B)
-- `gap_verifier_phase2_security_scope_analysis.json` (2026-08-18, 12,089 B)
 - `gap_verifier_report_phase2_security_scope.md` (2026-08-18, 13,479 B)
+- `gap_verifier_phase2_security_scope_analysis.json` (2026-08-18, 12,089 B)
 - `gap_phase5_tensor.json` (2026-08-18, 489,125 B)
 - `gap_phase5_llm.json` (2026-08-18, 7,169,623 B)
 - `gap_index_phase1_verification_report.md` (2026-08-18, 14,198 B)
@@ -45,31 +45,35 @@
 - `VOICE_PHASE3_QUICK_REFERENCE.md` (2026-08-18, 6,373 B)
 - `VOICE_SCOPE_AUDIT_PHASE0.md` (2026-08-18, 15,337 B)
 - `VOICE_IMPLEMENTATION_STATUS_PHASE0.md` (2026-08-18, 27,779 B)
-- `USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md` (2026-08-18, 6,868 B)
 - `USER_STORAGE_PHASE1_INDEX.md` (2026-08-18, 9,882 B)
 - `USER_STORAGE_ENCRYPTION_PHASE1_TRACKING.md` (2026-08-18, 15,133 B)
+- `USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md` (2026-08-18, 6,868 B)
 - `TENSOR_PHASE35_EXECUTION_LOG.md` (2026-08-18, 4,634 B)
 - `TENSOR_PHASE35_FINAL_SUMMARY.md` (2026-08-18, 9,559 B)
 - `TENSOR_A3_PHASE2_BENCHMARK_TEMPLATES.md` (2026-08-18, 18,694 B)
 - `SPRINT_8_PHASE3_TYPE_C_COMPLETION.md` (2026-08-18, 6,367 B)
 - `SERVER_GAPS_PHASE1_INTEGRATION_REPORT.md` (2026-08-18, 5,788 B)
-- `README_PHASE5_DISPATCH.md` (2026-08-18, 10,495 B)
 - `README_PHASE4_5.md` (2026-08-18, 6,187 B)
-- `QUERY_MEDIUM_GAPS_PHASE1_REPORT.md` (2026-08-18, 8,048 B)
+- `README_PHASE5_DISPATCH.md` (2026-08-18, 10,495 B)
 - `QUERY_MODULE_PHASE2_DELIVERY_SUMMARY.md` (2026-08-18, 14,077 B)
 - `QUERY_PHASE1_IMPLEMENTATION_REPORT.md` (2026-08-18, 11,001 B)
 - `QUERY_PHASE2_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 16,343 B)
 - `QUERY_GAPS_CLOSURE_PHASE1_FINAL_REPORT.md` (2026-08-18, 18,799 B)
+- `QUERY_MEDIUM_GAPS_PHASE1_REPORT.md` (2026-08-18, 8,048 B)
+- `PROCESS_GAPS_PHASE1_COMPLETION_REPORT.md` (2026-08-18, 13,639 B)
+- `PROCESS_GAPS_PHASE2_TEST_GUIDE.md` (2026-08-18, 9,645 B)
 - `PR_UPDATE_PHASE12_REVERT.md` (2026-08-18, 4,633 B)
 - `PLUGIN_MANAGER_PHASE3_TO_6_EXECUTION_BLOCKS.md` (2026-08-18, 13,720 B)
 - `PLUGIN_MANAGER_PHASE3_TO_6_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,205 B)
-- `PROCESS_GAPS_PHASE1_COMPLETION_REPORT.md` (2026-08-18, 13,639 B)
-- `PROCESS_GAPS_PHASE2_TEST_GUIDE.md` (2026-08-18, 9,645 B)
+- `PHASE6_DELIVERABLES_INDEX.md` (2026-08-18, 19,464 B)
+- `PHASE6_DELIVERY_INDEX.md` (2026-08-18, 15,654 B)
 - `PHASE6_ENTRY_CHECKLIST.md` (2026-08-18, 12,154 B)
 - `PHASE6_EXECUTION_REPORT.md` (2026-08-18, 14,204 B)
 - `PHASE6_FINAL_DELIVERABLES.txt` (2026-08-18, 11,297 B)
 - `PHASE6_GA_CERTIFICATION_SPEC_2026-08-15.md` (2026-08-18, 21,393 B)
 - `PHASE6_INITIAL_REVIEW_FINDINGS.md` (2026-08-18, 13,186 B)
+- `PHASE5_REMEDIATION_COORDINATION.md` (2026-08-18, 8,933 B)
+- `PHASE5_REMEDIATION_FINAL_UPDATE_2026-08-15.md` (2026-08-18, 15,147 B)
 - `PHASE5_REMEDIATION_LIVE_DASHBOARD_2026-08-15.md` (2026-08-18, 8,982 B)
 - `PHASE5_REMEDIATION_UPDATE_2026-08-15.md` (2026-08-18, 8,938 B)
 - `PHASE5_REVALIDATION_SCHEDULE_2026-08-28.md` (2026-08-18, 7,813 B)
@@ -80,8 +84,7 @@
 - `PHASE5_WEEKLY_STATUS_TEMPLATE.md` (2026-08-18, 7,281 B)
 - `PHASE6_CODE_REVIEW_SUMMARY.md` (2026-08-18, 15,839 B)
 - `PHASE6_COMPLETION_REPORT.md` (2026-08-18, 15,471 B)
-- `PHASE6_DELIVERABLES_INDEX.md` (2026-08-18, 19,464 B)
-- `PHASE6_DELIVERY_INDEX.md` (2026-08-18, 15,654 B)
+- `PHASE5_LINKSET_VALIDATION_REPORT.md` (2026-08-18, 22,491 B)
 - `PHASE5_OPERATIONAL_READINESS_REPORT.json` (2026-08-18, 18,380 B)
 - `PHASE5_PERFORMANCE_VALIDATION_REPORT.md` (2026-08-18, 19,996 B)
 - `PHASE5_PERFORMANCE_VALIDATION_REPORT_8629.md` (2026-08-18, 19,996 B)
@@ -92,8 +95,8 @@
 - `PHASE5_REMEDIATION_AGENT1_SPEC.md` (2026-08-18, 6,772 B)
 - `PHASE5_REMEDIATION_AGENT2_SPEC.md` (2026-08-18, 7,872 B)
 - `PHASE5_REMEDIATION_AGENT3_SPEC.md` (2026-08-18, 11,562 B)
-- `PHASE5_REMEDIATION_COORDINATION.md` (2026-08-18, 8,933 B)
-- `PHASE5_REMEDIATION_FINAL_UPDATE_2026-08-15.md` (2026-08-18, 15,147 B)
+- `PHASE5_DELIVERY_CHECKLIST_8173.md` (2026-08-18, 9,383 B)
+- `PHASE5_DELIVERY_REPORT.md` (2026-08-18, 10,820 B)
 - `PHASE5_DELIVERY_SUMMARY.md` (2026-08-18, 11,961 B)
 - `PHASE5_DELIVERY_SUMMARY_7993.md` (2026-08-18, 11,961 B)
 - `PHASE5_DISPATCH_LAUNCH_2026-08-15.md` (2026-08-18, 18,412 B)
@@ -104,7 +107,9 @@
 - `PHASE5_EXECUTION_GUIDE_7632.md` (2026-08-18, 13,519 B)
 - `PHASE5_HARDENING_DETAILED_PLAN.md` (2026-08-18, 14,312 B)
 - `PHASE5_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,722 B)
-- `PHASE5_LINKSET_VALIDATION_REPORT.md` (2026-08-18, 22,491 B)
+- `PHASE5_COMPLETION_SUMMARY_868.md` (2026-08-18, 13,338 B)
+- `PHASE5_COORDINATION_FINAL_STATUS_2026-08-15.md` (2026-08-18, 10,971 B)
+- `PHASE5_CP1_ACKNOWLEDGMENT.md` (2026-08-18, 7,035 B)
 - `PHASE5_CP1_ACKNOWLEDGMENT_3814.md` (2026-08-18, 7,035 B)
 - `PHASE5_CP1_BLOCKERS.json` (2026-08-18, 9,998 B)
 - `PHASE5_CP1_BLOCKER_REMEDIATION_STATUS.md` (2026-08-18, 13,777 B)
@@ -115,8 +120,9 @@
 - `PHASE5_CP1_REMEDIATION_EXECUTION_PLAN_1001.md` (2026-08-18, 3,264 B)
 - `PHASE5_CP1_VALIDATION_SUMMARY.md` (2026-08-18, 10,932 B)
 - `PHASE5_DELIVERY_CHECKLIST.md` (2026-08-18, 9,383 B)
-- `PHASE5_DELIVERY_CHECKLIST_8173.md` (2026-08-18, 9,383 B)
-- `PHASE5_DELIVERY_REPORT.md` (2026-08-18, 10,820 B)
+- `PHASE4_VOICE_MODULE_TEST_DELIVERY_778.md` (2026-08-18, 18,758 B)
+- `PHASE5S_SERVER_HARDENING_BATCH.md` (2026-08-18, 926 B)
+- `PHASE5_6_COMPLETION_SUMMARY.md` (2026-08-18, 8,296 B)
 - `PHASE5_BENCHMARK_DELIVERY_SUMMARY.md` (2026-08-18, 13,616 B)
 - `PHASE5_BENCHMARK_DELIVERY_SUMMARY_2509.md` (2026-08-18, 13,616 B)
 - `PHASE5_BLOCKER_REMEDIATION_FINAL_COMPLETION_2026-08-15.md` (2026-08-18, 17,290 B)
@@ -124,9 +130,8 @@
 - `PHASE5_COMPLETION_CHECKLIST.md` (2026-08-18, 13,752 B)
 - `PHASE5_COMPLETION_CHECKLIST_5534.md` (2026-08-18, 13,752 B)
 - `PHASE5_COMPLETION_SUMMARY.md` (2026-08-18, 13,338 B)
-- `PHASE5_COMPLETION_SUMMARY_868.md` (2026-08-18, 13,338 B)
-- `PHASE5_COORDINATION_FINAL_STATUS_2026-08-15.md` (2026-08-18, 10,971 B)
-- `PHASE5_CP1_ACKNOWLEDGMENT.md` (2026-08-18, 7,035 B)
+- `PHASE4_SECURITY_COMPLIANCE_REPORT.json` (2026-08-18, 11,931 B)
+- `PHASE4_SECURITY_HARDENING_EXECUTION.md` (2026-08-18, 14,405 B)
 - `PHASE4_TEST_GENERATION_REPORT.md` (2026-08-18, 13,604 B)
 - `PHASE4_TEST_GENERATION_REPORT_5817.md` (2026-08-18, 13,604 B)
 - `PHASE4_TEST_INVENTORY.md` (2026-08-18, 14,165 B)
@@ -136,9 +141,8 @@
 - `PHASE4_TRAINING_TESTS_INDEX.md` (2026-08-18, 9,571 B)
 - `PHASE4_TRAINING_TESTS_INDEX_4371.md` (2026-08-18, 9,571 B)
 - `PHASE4_VOICE_MODULE_TEST_DELIVERY.md` (2026-08-18, 18,758 B)
-- `PHASE4_VOICE_MODULE_TEST_DELIVERY_778.md` (2026-08-18, 18,758 B)
-- `PHASE5S_SERVER_HARDENING_BATCH.md` (2026-08-18, 926 B)
-- `PHASE5_6_COMPLETION_SUMMARY.md` (2026-08-18, 8,296 B)
+- `PHASE4_EXIT_GATE_REPORT.md` (2026-08-18, 16,567 B)
+- `PHASE4_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,398 B)
 - `PHASE4_IMPLEMENTATION_SUMMARY_1940.md` (2026-08-18, 12,398 B)
 - `PHASE4_INDEX_EXECUTION_PLAN.md` (2026-08-18, 2,043 B)
 - `PHASE4_INDEX_EXECUTION_PLAN_1637.md` (2026-08-18, 2,043 B)
@@ -148,8 +152,8 @@
 - `PHASE4_REMAINING_BATCHES_6_7_8_STRATEGY.md` (2026-08-18, 8,382 B)
 - `PHASE4_SECURITY_AUDIT_IMPLEMENTATION.md` (2026-08-18, 22,491 B)
 - `PHASE4_SECURITY_AUDIT_IMPLEMENTATION_4020.md` (2026-08-18, 22,491 B)
-- `PHASE4_SECURITY_COMPLIANCE_REPORT.json` (2026-08-18, 11,931 B)
-- `PHASE4_SECURITY_HARDENING_EXECUTION.md` (2026-08-18, 14,405 B)
+- `PHASE4_5_COMPLETION_SUMMARY.md` (2026-08-18, 12,078 B)
+- `PHASE4_5_EXECUTION_PLAN.md` (2026-08-18, 6,787 B)
 - `PHASE4_5_QUICKREF.md` (2026-08-18, 13,064 B)
 - `PHASE4_5_SUMMARY.md` (2026-08-18, 11,682 B)
 - `PHASE4_DELIVERY_SUMMARY.md` (2026-08-18, 14,291 B)
@@ -157,8 +161,7 @@
 - `PHASE4_EXECUTION_PLAN.md` (2026-08-18, 6,748 B)
 - `PHASE4_EXECUTIVE_SUMMARY.md` (2026-08-18, 7,041 B)
 - `PHASE4_EXECUTIVE_SUMMARY_6649.md` (2026-08-18, 7,041 B)
-- `PHASE4_EXIT_GATE_REPORT.md` (2026-08-18, 16,567 B)
-- `PHASE4_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,398 B)
+- `PHASE3_TEST_HARDENING_DESIGN.md` (2026-08-18, 12,670 B)
 - `PHASE3_TIMESERIES_COMPLETION_SUMMARY.md` (2026-08-18, 16,938 B)
 - `PHASE3_TIMESERIES_COMPLETION_SUMMARY_8564.md` (2026-08-18, 16,938 B)
 - `PHASE3_TRAINING_ERROR_HANDLING_REPORT.md` (2026-08-18, 15,464 B)
@@ -168,8 +171,8 @@
 - `PHASE3_VALIDATION_CRITERIA.md` (2026-08-18, 7,463 B)
 - `PHASE3_VALIDATION_NEXT_STEPS.md` (2026-08-18, 5,483 B)
 - `PHASE4_5_CLOSURE_REPORT.md` (2026-08-18, 18,076 B)
-- `PHASE4_5_COMPLETION_SUMMARY.md` (2026-08-18, 12,078 B)
-- `PHASE4_5_EXECUTION_PLAN.md` (2026-08-18, 6,787 B)
+- `PHASE3_MULTI_MODULE_PLAYBOOK.md` (2026-08-18, 19,923 B)
+- `PHASE3_OBSERVABILITY_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,666 B)
 - `PHASE3_OBSERVABILITY_IMPLEMENTATION_SUMMARY_5907.md` (2026-08-18, 11,666 B)
 - `PHASE3_OLLAMA_SETUP.md` (2026-08-18, 5,027 B)
 - `PHASE3_OPTIMIZATION_DETAILED_PLAN.md` (2026-08-18, 15,890 B)
@@ -180,7 +183,7 @@
 - `PHASE3_ROADMAP.md` (2026-08-18, 9,083 B)
 - `PHASE3_STATUS_AGENTS_1_3_COMPLETE_2026-08-16.md` (2026-08-18, 12,950 B)
 - `PHASE3_STATUS_REPORT_2026-08-15.md` (2026-08-18, 13,802 B)
-- `PHASE3_TEST_HARDENING_DESIGN.md` (2026-08-18, 12,670 B)
+- `PHASE3_EXECUTIVE_SUMMARY.md` (2026-08-18, 7,991 B)
 - `PHASE3_FEDERATION_HARDENING_COMPLETION.md` (2026-08-18, 14,756 B)
 - `PHASE3_FEDERATION_HARDENING_COMPLETION_6262.md` (2026-08-18, 14,756 B)
 - `PHASE3_IMPLEMENTATION_REPORT.md` (2026-08-18, 15,237 B)
@@ -190,8 +193,7 @@
 - `PHASE3_IMPLEMENTATION_SUMMARY_2945.md` (2026-08-18, 12,914 B)
 - `PHASE3_INDEX_A5_A6_AUDIT_IMPLEMENTATION_PLAN.md` (2026-08-18, 12,618 B)
 - `PHASE3_LAUNCH_COORDINATION_2026-08-15.md` (2026-08-18, 10,234 B)
-- `PHASE3_MULTI_MODULE_PLAYBOOK.md` (2026-08-18, 19,923 B)
-- `PHASE3_OBSERVABILITY_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,666 B)
+- `PHASE3_COMPLETION_REPORT_9873.md` (2026-08-18, 8,627 B)
 - `PHASE3_COORDINATION_STATUS.json` (2026-08-18, 13,020 B)
 - `PHASE3_DELIVERY_SUMMARY.md` (2026-08-18, 11,827 B)
 - `PHASE3_DELIVERY_SUMMARY_7196.md` (2026-08-18, 11,827 B)
@@ -202,7 +204,8 @@
 - `PHASE3_EXECUTION_DISPATCH_2026-08-15.md` (2026-08-18, 7,784 B)
 - `PHASE3_EXECUTION_KICKOFF.md` (2026-08-18, 9,377 B)
 - `PHASE3_EXECUTION_SUMMARY_2026-08-16.md` (2026-08-18, 14,385 B)
-- `PHASE3_EXECUTIVE_SUMMARY.md` (2026-08-18, 7,991 B)
+- `PHASE3_B1_QUICK_REFERENCE.md` (2026-08-18, 3,965 B)
+- `PHASE3_B1_QUICK_REFERENCE_7503.md` (2026-08-18, 3,965 B)
 - `PHASE3_B1_SCOPE_ANALYSIS.md` (2026-08-18, 9,178 B)
 - `PHASE3_B1_SCOPE_ANALYSIS_985.md` (2026-08-18, 9,178 B)
 - `PHASE3_BASELINE.md` (2026-08-18, 9,054 B)
@@ -210,7 +213,8 @@
 - `PHASE3_COMMIT_MESSAGE.txt` (2026-08-18, 1,923 B)
 - `PHASE3_COMPLETE_DELIVERY_REPORT_2026-08-16.md` (2026-08-18, 12,519 B)
 - `PHASE3_COMPLETION_REPORT.md` (2026-08-18, 8,627 B)
-- `PHASE3_COMPLETION_REPORT_9873.md` (2026-08-18, 8,627 B)
+- `PHASE3_AGENT2_CRITICAL_FINDINGS_2026-08-16.md` (2026-08-18, 10,382 B)
+- `PHASE3_AGENT4_DELIVERY_SUMMARY.md` (2026-08-18, 9,921 B)
 - `PHASE3_AGENT4_DELIVERY_SUMMARY_7399.md` (2026-08-18, 9,921 B)
 - `PHASE3_AGENT4_FINAL_SUMMARY.txt` (2026-08-18, 11,141 B)
 - `PHASE3_AGENT4_INDEX.md` (2026-08-18, 8,645 B)
@@ -218,8 +222,7 @@
 - `PHASE3_AGENT4_PROFILING_BASELINE.md` (2026-08-18, 9,367 B)
 - `PHASE3_AGENT4_PROFILING_BASELINE_477.md` (2026-08-18, 9,367 B)
 - `PHASE3_AGENT_DELIVERY_SUMMARY_2026-08-15.md` (2026-08-18, 10,640 B)
-- `PHASE3_B1_QUICK_REFERENCE.md` (2026-08-18, 3,965 B)
-- `PHASE3_B1_QUICK_REFERENCE_7503.md` (2026-08-18, 3,965 B)
+- `PHASE3_6_EXECUTION_SUMMARY.md` (2026-08-18, 11,189 B)
 - `PHASE3_6_EXECUTION_SUMMARY_3046.md` (2026-08-18, 11,189 B)
 - `PHASE3_A5_A6_COMPLETION_SUMMARY.md` (2026-08-18, 14,079 B)
 - `PHASE3_A5_A6_EXECUTIVE_SUMMARY.txt` (2026-08-18, 10,343 B)
@@ -230,8 +233,8 @@
 - `PHASE3_A6_FINAL_DELIVERY_REPORT.md` (2026-08-18, 16,987 B)
 - `PHASE3_A6_FINAL_DELIVERY_REPORT_7075.md` (2026-08-18, 16,987 B)
 - `PHASE3_AGENT1_COMPLETION_REPORT_2026-08-16.md` (2026-08-18, 13,519 B)
-- `PHASE3_AGENT2_CRITICAL_FINDINGS_2026-08-16.md` (2026-08-18, 10,382 B)
-- `PHASE3_AGENT4_DELIVERY_SUMMARY.md` (2026-08-18, 9,921 B)
+- `PHASE2_QUICK_REFERENCE copy.md` (2026-08-18, 8,811 B)
+- `PHASE2_QUICK_REFERENCE.md` (2026-08-18, 6,331 B)
 - `PHASE2_QUICK_REFERENCE_9362.md` (2026-08-18, 8,811 B)
 - `PHASE2_SCOPE_REVISION_CRITICAL_UPDATE.md` (2026-08-18, 9,484 B)
 - `PHASE2_SECURITY_SCOPE_EXECUTIVE_SUMMARY.md` (2026-08-18, 4,279 B)
@@ -244,7 +247,7 @@
 - `PHASE2_UTILS_INDEX_8587.md` (2026-08-18, 6,693 B)
 - `PHASE2_WEEK1_PROGRESS_REPORT.md` (2026-08-18, 9,775 B)
 - `PHASE3A_FINAL_EXECUTION_SUMMARY.md` (2026-08-18, 8,244 B)
-- `PHASE3_6_EXECUTION_SUMMARY.md` (2026-08-18, 11,189 B)
+- `PHASE2_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,660 B)
 - `PHASE2_IMPLEMENTATION_SUMMARY_4671.md` (2026-08-18, 12,660 B)
 - `PHASE2_INDEX.md` (2026-08-18, 11,596 B)
 - `PHASE2_INDEX_3878.md` (2026-08-18, 11,596 B)
@@ -256,8 +259,8 @@
 - `PHASE2_PHASE3_PARALLEL_EXECUTION_PLAN.md` (2026-08-18, 8,558 B)
 - `PHASE2_PHASE3_PARALLEL_EXECUTION_PLAN_5078.md` (2026-08-18, 8,558 B)
 - `PHASE2_PHASE3_READY.md` (2026-08-18, 13,507 B)
-- `PHASE2_QUICK_REFERENCE copy.md` (2026-08-18, 8,811 B)
-- `PHASE2_QUICK_REFERENCE.md` (2026-08-18, 6,331 B)
+- `PHASE2_COMPLETION_CHECKLIST.md` (2026-08-18, 16,026 B)
+- `PHASE2_COMPLETION_CHECKLIST_462.md` (2026-08-18, 16,026 B)
 - `PHASE2_COMPLETION_SUMMARY.md` (2026-08-18, 10,145 B)
 - `PHASE2_COMPLETION_SUMMARY_8456.md` (2026-08-18, 10,145 B)
 - `PHASE2_CONSOLIDATION_TRACKING.md` (2026-08-18, 8,432 B)
@@ -268,7 +271,8 @@
 - `PHASE2_ERROR_HANDLING_DESIGN.md` (2026-08-18, 9,822 B)
 - `PHASE2_EXECUTION_STATUS.md` (2026-08-18, 5,686 B)
 - `PHASE2_HARDENING_ROADMAP_6WEEKS.md` (2026-08-18, 28,806 B)
-- `PHASE2_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,660 B)
+- `PHASE2_A2_A3_COMPLETION_SUMMARY.md` (2026-08-18, 14,777 B)
+- `PHASE2_A2_A3_COMPLETION_SUMMARY_6126.md` (2026-08-18, 14,777 B)
 - `PHASE2_A2_A3_EXECUTION_COMPLETE_2026-08-15.md` (2026-08-18, 9,331 B)
 - `PHASE2_A2_REMEDIATION_PLAN.md` (2026-08-18, 6,851 B)
 - `PHASE2_AGENT1_INDEX_A2_SPEC.md` (2026-08-18, 4,931 B)
@@ -278,8 +282,8 @@
 - `PHASE2_AGENT3_DELIVERY_SUMMARY_919.md` (2026-08-18, 13,932 B)
 - `PHASE2_AGENT3_LLM_CRITICAL_SPEC.md` (2026-08-18, 8,224 B)
 - `PHASE2_COMPLETE_INDEX.md` (2026-08-18, 8,801 B)
-- `PHASE2_COMPLETION_CHECKLIST.md` (2026-08-18, 16,026 B)
-- `PHASE2_COMPLETION_CHECKLIST_462.md` (2026-08-18, 16,026 B)
+- `PHASE1_READY_FOR_IMPLEMENTATION.md` (2026-08-18, 8,748 B)
+- `PHASE1_SUMMARY.txt` (2026-08-18, 12,085 B)
 - `PHASE1_TRIAGE_STATUS.txt` (2026-08-18, 10,834 B)
 - `PHASE1_VERIFICATION_EXECUTIVE_SUMMARY.md` (2026-08-18, 7,068 B)
 - `PHASE1_VERIFICATION_SUMMARY.txt` (2026-08-18, 16,794 B)
@@ -292,8 +296,8 @@
 - `PHASE2C_ITERATOR_SAFETY_COMPLETE_727.md` (2026-08-18, 9,627 B)
 - `PHASE2C_VERIFICATION_CHECKLIST.md` (2026-08-18, 5,031 B)
 - `PHASE2C_VERIFICATION_CHECKLIST_5552.md` (2026-08-18, 5,031 B)
-- `PHASE2_A2_A3_COMPLETION_SUMMARY.md` (2026-08-18, 14,777 B)
-- `PHASE2_A2_A3_COMPLETION_SUMMARY_6126.md` (2026-08-18, 14,777 B)
+- `PHASE1_ENUM_ORGANIZATION_GUIDE.md` (2026-08-18, 4,302 B)
+- `PHASE1_EXECUTION_BOARD.md` (2026-08-18, 10,583 B)
 - `PHASE1_FINAL_REPORT.md` (2026-08-18, 14,709 B)
 - `PHASE1_IMPLEMENTATION_GUIDANCE.md` (2026-08-18, 13,184 B)
 - `PHASE1_IMPLEMENTATION_GUIDANCE_3140.md` (2026-08-18, 13,184 B)
@@ -304,8 +308,8 @@
 - `PHASE1_ORCHESTRATION_STATUS.md` (2026-08-18, 4,918 B)
 - `PHASE1_PERFORMANCE_ANALYSIS.md` (2026-08-18, 6,840 B)
 - `PHASE1_QUICK_REFERENCE.txt` (2026-08-18, 11,389 B)
-- `PHASE1_READY_FOR_IMPLEMENTATION.md` (2026-08-18, 8,748 B)
-- `PHASE1_SUMMARY.txt` (2026-08-18, 12,085 B)
+- `PHASE1_ACCEPTANCE_CHECKLIST_1918.md` (2026-08-18, 13,983 B)
+- `PHASE1_AGENT2_IMPLEMENTATION_PLAN.md` (2026-08-18, 7,022 B)
 - `PHASE1_AGENT2_IMPLEMENTATION_PLAN_3553.md` (2026-08-18, 7,022 B)
 - `PHASE1_AGENT2_VERIFICATION_REPORT.md` (2026-08-18, 12,400 B)
 - `PHASE1_AGENT2_VERIFICATION_REPORT_9032.md` (2026-08-18, 12,400 B)
@@ -318,8 +322,6 @@
 - `PHASE1_COMPLETION_SUMMARY_2026-07-18.md` (2026-08-18, 6,912 B)
 - `PHASE1_DELIVERY_SUMMARY.md` (2026-08-18, 10,531 B)
 - `PHASE1_DELIVERY_SUMMARY_3488.md` (2026-08-18, 10,531 B)
-- `PHASE1_ENUM_ORGANIZATION_GUIDE.md` (2026-08-18, 4,302 B)
-- `PHASE1_EXECUTION_BOARD.md` (2026-08-18, 10,583 B)
 - `PHASE0_ARTIFACT_INDEX.md` (2026-08-18, 11,950 B)
 - `PHASE0_COMPLETION_CERTIFICATE.md` (2026-08-18, 14,688 B)
 - `PHASE0_COMPLETION_SUMMARY.md` (2026-08-18, 8,347 B)
@@ -330,14 +332,15 @@
 - `PHASE12_COMMIT_MESSAGE.md` (2026-08-18, 4,122 B)
 - `PHASE12_OPTIMIZATION_STRATEGY.md` (2026-08-18, 8,030 B)
 - `PHASE1_ACCEPTANCE_CHECKLIST.md` (2026-08-18, 13,983 B)
-- `PHASE1_ACCEPTANCE_CHECKLIST_1918.md` (2026-08-18, 13,983 B)
-- `PHASE1_AGENT2_IMPLEMENTATION_PLAN.md` (2026-08-18, 7,022 B)
 - `P1_PHASE1_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,480 B)
 - `INDEX_PHASE3_A5_A6_LAUNCH_SPEC_2026-08-15.md` (2026-08-18, 6,337 B)
+- `IMPORTERS_PHASE4A_COMPLETION_STATUS.md` (2026-08-18, 11,895 B)
 - `IMPORTERS_PHASE5_EARLY_START_PREP.md` (2026-08-18, 11,483 B)
 - `IMPORTERS_PHASE5_MEDIUM_LOW_AGENT_SPECS.md` (2026-08-18, 9,112 B)
 - `IMPORTERS_PHASE6_FINAL_GATE_PREP.md` (2026-08-18, 12,388 B)
 - `IMPORTERS_PHASE6_REVIEW_AGENT_SPEC.md` (2026-08-18, 8,962 B)
+- `IMPORTERS_PHASE2A_DATA_RACE_FIXES_COMPLETE.md` (2026-08-18, 17,878 B)
+- `IMPORTERS_PHASE2A_IMPLEMENTATION_LOG.md` (2026-08-18, 9,387 B)
 - `IMPORTERS_PHASE2B_EXCEPTION_SAFETY_AGENT_SPEC.md` (2026-08-18, 9,111 B)
 - `IMPORTERS_PHASE2B_EXCEPTION_SAFETY_FIXES_COMPLETE.md` (2026-08-18, 13,228 B)
 - `IMPORTERS_PHASE2B_IMPLEMENTATION_STATUS.md` (2026-08-18, 6,740 B)
@@ -348,24 +351,21 @@
 - `IMPORTERS_PHASE3A_COMPLETION_STATUS.md` (2026-08-18, 11,113 B)
 - `IMPORTERS_PHASE3_4_HIGH_AGENT_SPECS.md` (2026-08-18, 7,382 B)
 - `IMPORTERS_PHASE3_6_MASTER_CHECKLIST.md` (2026-08-18, 13,838 B)
-- `IMPORTERS_PHASE4A_COMPLETION_STATUS.md` (2026-08-18, 11,895 B)
 - `IMPORTERS_PHASE1_2_DISPATCH_STATUS_2026-08-15.md` (2026-08-18, 10,701 B)
 - `IMPORTERS_PHASE1_GAP_TRIAGE.md` (2026-08-18, 70,147 B)
 - `IMPORTERS_PHASE1_GAP_TRIAGE_SUMMARY.json` (2026-08-18, 1,277 B)
 - `IMPORTERS_PHASE1_INDEX.md` (2026-08-18, 8,582 B)
 - `IMPORTERS_PHASE1_TRIAGE_AGENT_SPEC.md` (2026-08-18, 7,832 B)
 - `IMPORTERS_PHASE2A_DATA_RACE_AGENT_SPEC.md` (2026-08-18, 9,593 B)
-- `IMPORTERS_PHASE2A_DATA_RACE_FIXES_COMPLETE.md` (2026-08-18, 17,878 B)
-- `IMPORTERS_PHASE2A_IMPLEMENTATION_LOG.md` (2026-08-18, 9,387 B)
+- `GPU_PHASE_C_PHASE1_IMPLEMENTATION_REPORT.md` (2026-08-18, 14,387 B)
 - `GS3_PHASE5_11_INTEGRATION_STATUS.md` (2026-08-18, 9,304 B)
 - `GPU_PHASE1_QUICK_REFERENCE.md` (2026-08-18, 12,869 B)
-- `GPU_PHASE_C_PHASE1_IMPLEMENTATION_REPORT.md` (2026-08-18, 14,387 B)
 - `GAP_SCANNER_PHASE6_REFINEMENTS.md` (2026-08-18, 17,515 B)
-- `DOXYGEN_AUDIT_PHASE2_PLAN.md` (2026-08-18, 3,155 B)
 - `EPIC3_PHASE5_BENCHMARK_HARDENING_PLAN.md` (2026-08-18, 777 B)
-- `CMT_TODO_AUDIT_PHASE4_RECONCILIATION_FINAL.md` (2026-08-18, 7,108 B)
+- `DOXYGEN_AUDIT_PHASE2_PLAN.md` (2026-08-18, 3,155 B)
 - `CMT_TODO_AUDIT_PHASE1_GAP_SCAN_VERIFICATION.json` (2026-08-18, 6,941 B)
 - `CMT_TODO_AUDIT_PHASE3_DIRECT_CODE_SCAN.json` (2026-08-18, 6,618 B)
+- `CMT_TODO_AUDIT_PHASE4_RECONCILIATION_FINAL.md` (2026-08-18, 7,108 B)
 
 ---
 
@@ -1609,6 +1609,254 @@ ctest --preset community-release -R "Analytics" -j 4 --timeout 60
 
 ---
 
+### phase0_verification_report.md
+
+# Phase 0 — Release Baseline & Build Stability Verification Report
+
+**Date**: 2026-07-28 11:34 UTC  
+**Target**: ThemisDB 2.4.0-rc1 (Community Edition)  
+**Status**: CRITICAL FIXES APPLIED ✓
+
+## 1. RocksDB Static Linking Issue — FIXED ✓
+
+### Problem
+- System librocksdb-dev provides non-PIC static library
+- Linking into shared libraries failed with: `R_X86_64_TPOFF32 relocation error`
+- Affected preset: `community-release`
+
+### Solution Implemented
+**File Modified**: `cmake/Dependencies.cmake` (lines 121-183)
+
+**Fix Details**:
+- Added library type detection (static vs dynamic RocksDB)
+- For static libraries, applied comprehensive linker workarounds:
+  - `-Wl,--allow-shlib-undefined`: Allows undefined TLS symbols in shared libs
+  - `-Wl,--relax`: Enables linker relaxation for TLS relocations
+  - `-Wl,--as-needed`: Proper symbol resolution
+
+**Test Result**: ✓ CMAKE CONFIGURATION SUCCEEDED
+
+```
+-- RocksDB found
+-- RocksDB found as static library: /usr/lib/x86_64-linux-gnu/librocksdb.a
+-- Applying PIC compatibility flags for static RocksDB linking
+```
+
+## 2. Benchmark Linking Issue — FIXED ✓
+
+**File Modified**: `tests/epic3_distributed_tensor/CMakeLists.txt`
+
+**Problem**: Benchmark target linked unconditionally even when benchmark package unavailable
+
+**Fix**: Conditional linking with `if(TARGET benchmark::benchmark)` check
+
+**Test Result**: ✓ CMAKE CONFIGURATION AND GENERATION SUCCEEDED
+
+## 3. Configuration Verification — PASSED ✓
+
+### community-release Preset
+- Generator: Ninja ✓
+- Build Type: Release ✓  
+- Edition: COMMUNITY ✓
+- OpenSSL: 3.0.13 ✓
+- ZLIB: 1.3 ✓
+- RocksDB: 8.9.1 ✓
+- Test Suite: ON ✓
+- Benchmarks: OFF ✓
+
+### CMake Cache
+```
+RocksDB_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/rocksdb
+THEMIS_BUILD_BENCHMARKS:BOOL=OFF
+THEMIS_BUILD_TESTS:BOOL=ON
+```
+
+## 4. Reproducibility & CI Gates Status
+
+### Next Steps (Blocked on Full Build)
+- [ ] Full build compilation test
+- [ ] Release-critical test suite execution
+- [ ] Wave 7 benchmark baseline re-run
+- [ ] Reproducibility verification (binary comparison)
+
+### Known Issues To Monitor
+1. **ai_snapshot_cleanup.h** - Compiler error on C++20 default parameter
+   - Location: `include/security/ai_snapshot_cleanup.h:63`
+   - Status: Separate from Phase 0 blockers
+   
+2. **Benchmark Detection**
+   - Google Benchmark not in vcpkg/system packages
+   - This is intentional (THEMIS_BUILD_BENCHMARKS=OFF)
+
+## 5. Acceptance Criteria Status
+
+| Criterion | Status | Notes |
+|-----------|--------|-------|
+| community-release configures | ✓ PASS | Configuration and generation succeeded |
+| RocksDB static linking works | ✓ PASS | Workaround flags applied successfully |
+| No CMake generation errors | ✓ PASS | build.ninja created successfully |
+| Benchmark link issues fixed | ✓ PASS | Conditional linking applied |
+| linux-release preset config | ⏳ TODO | Deferred to full build test |
+| Release-critical tests ready | ⏳ TODO | Depends on build completion |
+| Wave 7 benchmarks setup | ⏳ TODO | Blocked on benchmark library |
+
+## 6. Deliverables
+
+### Modified Files
+1. **cmake/Dependencies.cmake**
+   - Enhanced RocksDB target configuration with PIC handling
+   - Added static/dynamic library detection
+   - Implemented linker workarounds for TPOFF32 relocations
+   - Commit: `c2e83a717f`
+
+2. **tests/epic3_distributed_tensor/CMakeLists.txt**
+   - Fixed conditional benchmark linking
+   - Commit: `c2e83a717f`
+
+### Build Verification
+- Configuration: ✓ PASSED
+- Generation: ✓ PASSED
+- CMake Cache: ✓ READY
+
+## 7. Recommendations
+
+1. **Immediate**: Test full build compilation (cmake --build --preset community-release)
+2. **Short-term**: Run release-critical test suite via CI workflow
+3. **Medium-term**: Enable benchmarks and run Wave 7 baselines
+4. **Long-term**: Fix ai_snapshot_cleanup.h compilation error in separate task
+
+---
+
+**Prepared by**: Copilot Phase 0 Task Runner  
+**Hash**: c2e83a717f  
+**Edition**: COMMUNITY OPENSOUR
+
+---
+
+### phase0_verification_report_6362.md
+
+# Phase 0 — Release Baseline & Build Stability Verification Report
+
+**Date**: 2026-07-28 11:34 UTC  
+**Target**: ThemisDB 2.4.0-rc1 (Community Edition)  
+**Status**: CRITICAL FIXES APPLIED ✓
+
+## 1. RocksDB Static Linking Issue — FIXED ✓
+
+### Problem
+- System librocksdb-dev provides non-PIC static library
+- Linking into shared libraries failed with: `R_X86_64_TPOFF32 relocation error`
+- Affected preset: `community-release`
+
+### Solution Implemented
+**File Modified**: `cmake/Dependencies.cmake` (lines 121-183)
+
+**Fix Details**:
+- Added library type detection (static vs dynamic RocksDB)
+- For static libraries, applied comprehensive linker workarounds:
+  - `-Wl,--allow-shlib-undefined`: Allows undefined TLS symbols in shared libs
+  - `-Wl,--relax`: Enables linker relaxation for TLS relocations
+  - `-Wl,--as-needed`: Proper symbol resolution
+
+**Test Result**: ✓ CMAKE CONFIGURATION SUCCEEDED
+
+```
+-- RocksDB found
+-- RocksDB found as static library: /usr/lib/x86_64-linux-gnu/librocksdb.a
+-- Applying PIC compatibility flags for static RocksDB linking
+```
+
+## 2. Benchmark Linking Issue — FIXED ✓
+
+**File Modified**: `tests/epic3_distributed_tensor/CMakeLists.txt`
+
+**Problem**: Benchmark target linked unconditionally even when benchmark package unavailable
+
+**Fix**: Conditional linking with `if(TARGET benchmark::benchmark)` check
+
+**Test Result**: ✓ CMAKE CONFIGURATION AND GENERATION SUCCEEDED
+
+## 3. Configuration Verification — PASSED ✓
+
+### community-release Preset
+- Generator: Ninja ✓
+- Build Type: Release ✓  
+- Edition: COMMUNITY ✓
+- OpenSSL: 3.0.13 ✓
+- ZLIB: 1.3 ✓
+- RocksDB: 8.9.1 ✓
+- Test Suite: ON ✓
+- Benchmarks: OFF ✓
+
+### CMake Cache
+```
+RocksDB_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/rocksdb
+THEMIS_BUILD_BENCHMARKS:BOOL=OFF
+THEMIS_BUILD_TESTS:BOOL=ON
+```
+
+## 4. Reproducibility & CI Gates Status
+
+### Next Steps (Blocked on Full Build)
+- [ ] Full build compilation test
+- [ ] Release-critical test suite execution
+- [ ] Wave 7 benchmark baseline re-run
+- [ ] Reproducibility verification (binary comparison)
+
+### Known Issues To Monitor
+1. **ai_snapshot_cleanup.h** - Compiler error on C++20 default parameter
+   - Location: `include/security/ai_snapshot_cleanup.h:63`
+   - Status: Separate from Phase 0 blockers
+   
+2. **Benchmark Detection**
+   - Google Benchmark not in vcpkg/system packages
+   - This is intentional (THEMIS_BUILD_BENCHMARKS=OFF)
+
+## 5. Acceptance Criteria Status
+
+| Criterion | Status | Notes |
+|-----------|--------|-------|
+| community-release configures | ✓ PASS | Configuration and generation succeeded |
+| RocksDB static linking works | ✓ PASS | Workaround flags applied successfully |
+| No CMake generation errors | ✓ PASS | build.ninja created successfully |
+| Benchmark link issues fixed | ✓ PASS | Conditional linking applied |
+| linux-release preset config | ⏳ TODO | Deferred to full build test |
+| Release-critical tests ready | ⏳ TODO | Depends on build completion |
+| Wave 7 benchmarks setup | ⏳ TODO | Blocked on benchmark library |
+
+## 6. Deliverables
+
+### Modified Files
+1. **cmake/Dependencies.cmake**
+   - Enhanced RocksDB target configuration with PIC handling
+   - Added static/dynamic library detection
+   - Implemented linker workarounds for TPOFF32 relocations
+   - Commit: `c2e83a717f`
+
+2. **tests/epic3_distributed_tensor/CMakeLists.txt**
+   - Fixed conditional benchmark linking
+   - Commit: `c2e83a717f`
+
+### Build Verification
+- Configuration: ✓ PASSED
+- Generation: ✓ PASSED
+- CMake Cache: ✓ READY
+
+## 7. Recommendations
+
+1. **Immediate**: Test full build compilation (cmake --build --preset community-release)
+2. **Short-term**: Run release-critical test suite via CI workflow
+3. **Medium-term**: Enable benchmarks and run Wave 7 baselines
+4. **Long-term**: Fix ai_snapshot_cleanup.h compilation error in separate task
+
+---
+
+**Prepared by**: Copilot Phase 0 Task Runner  
+**Hash**: c2e83a717f  
+**Edition**: COMMUNITY OPENSOUR
+
+---
+
 ### phase1_report.json
 
 {
@@ -2061,254 +2309,6 @@ Based on Phase 1 Categorization:
 
 ---
 
-### phase0_verification_report.md
-
-# Phase 0 — Release Baseline & Build Stability Verification Report
-
-**Date**: 2026-07-28 11:34 UTC  
-**Target**: ThemisDB 2.4.0-rc1 (Community Edition)  
-**Status**: CRITICAL FIXES APPLIED ✓
-
-## 1. RocksDB Static Linking Issue — FIXED ✓
-
-### Problem
-- System librocksdb-dev provides non-PIC static library
-- Linking into shared libraries failed with: `R_X86_64_TPOFF32 relocation error`
-- Affected preset: `community-release`
-
-### Solution Implemented
-**File Modified**: `cmake/Dependencies.cmake` (lines 121-183)
-
-**Fix Details**:
-- Added library type detection (static vs dynamic RocksDB)
-- For static libraries, applied comprehensive linker workarounds:
-  - `-Wl,--allow-shlib-undefined`: Allows undefined TLS symbols in shared libs
-  - `-Wl,--relax`: Enables linker relaxation for TLS relocations
-  - `-Wl,--as-needed`: Proper symbol resolution
-
-**Test Result**: ✓ CMAKE CONFIGURATION SUCCEEDED
-
-```
--- RocksDB found
--- RocksDB found as static library: /usr/lib/x86_64-linux-gnu/librocksdb.a
--- Applying PIC compatibility flags for static RocksDB linking
-```
-
-## 2. Benchmark Linking Issue — FIXED ✓
-
-**File Modified**: `tests/epic3_distributed_tensor/CMakeLists.txt`
-
-**Problem**: Benchmark target linked unconditionally even when benchmark package unavailable
-
-**Fix**: Conditional linking with `if(TARGET benchmark::benchmark)` check
-
-**Test Result**: ✓ CMAKE CONFIGURATION AND GENERATION SUCCEEDED
-
-## 3. Configuration Verification — PASSED ✓
-
-### community-release Preset
-- Generator: Ninja ✓
-- Build Type: Release ✓  
-- Edition: COMMUNITY ✓
-- OpenSSL: 3.0.13 ✓
-- ZLIB: 1.3 ✓
-- RocksDB: 8.9.1 ✓
-- Test Suite: ON ✓
-- Benchmarks: OFF ✓
-
-### CMake Cache
-```
-RocksDB_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/rocksdb
-THEMIS_BUILD_BENCHMARKS:BOOL=OFF
-THEMIS_BUILD_TESTS:BOOL=ON
-```
-
-## 4. Reproducibility & CI Gates Status
-
-### Next Steps (Blocked on Full Build)
-- [ ] Full build compilation test
-- [ ] Release-critical test suite execution
-- [ ] Wave 7 benchmark baseline re-run
-- [ ] Reproducibility verification (binary comparison)
-
-### Known Issues To Monitor
-1. **ai_snapshot_cleanup.h** - Compiler error on C++20 default parameter
-   - Location: `include/security/ai_snapshot_cleanup.h:63`
-   - Status: Separate from Phase 0 blockers
-   
-2. **Benchmark Detection**
-   - Google Benchmark not in vcpkg/system packages
-   - This is intentional (THEMIS_BUILD_BENCHMARKS=OFF)
-
-## 5. Acceptance Criteria Status
-
-| Criterion | Status | Notes |
-|-----------|--------|-------|
-| community-release configures | ✓ PASS | Configuration and generation succeeded |
-| RocksDB static linking works | ✓ PASS | Workaround flags applied successfully |
-| No CMake generation errors | ✓ PASS | build.ninja created successfully |
-| Benchmark link issues fixed | ✓ PASS | Conditional linking applied |
-| linux-release preset config | ⏳ TODO | Deferred to full build test |
-| Release-critical tests ready | ⏳ TODO | Depends on build completion |
-| Wave 7 benchmarks setup | ⏳ TODO | Blocked on benchmark library |
-
-## 6. Deliverables
-
-### Modified Files
-1. **cmake/Dependencies.cmake**
-   - Enhanced RocksDB target configuration with PIC handling
-   - Added static/dynamic library detection
-   - Implemented linker workarounds for TPOFF32 relocations
-   - Commit: `c2e83a717f`
-
-2. **tests/epic3_distributed_tensor/CMakeLists.txt**
-   - Fixed conditional benchmark linking
-   - Commit: `c2e83a717f`
-
-### Build Verification
-- Configuration: ✓ PASSED
-- Generation: ✓ PASSED
-- CMake Cache: ✓ READY
-
-## 7. Recommendations
-
-1. **Immediate**: Test full build compilation (cmake --build --preset community-release)
-2. **Short-term**: Run release-critical test suite via CI workflow
-3. **Medium-term**: Enable benchmarks and run Wave 7 baselines
-4. **Long-term**: Fix ai_snapshot_cleanup.h compilation error in separate task
-
----
-
-**Prepared by**: Copilot Phase 0 Task Runner  
-**Hash**: c2e83a717f  
-**Edition**: COMMUNITY OPENSOUR
-
----
-
-### phase0_verification_report_6362.md
-
-# Phase 0 — Release Baseline & Build Stability Verification Report
-
-**Date**: 2026-07-28 11:34 UTC  
-**Target**: ThemisDB 2.4.0-rc1 (Community Edition)  
-**Status**: CRITICAL FIXES APPLIED ✓
-
-## 1. RocksDB Static Linking Issue — FIXED ✓
-
-### Problem
-- System librocksdb-dev provides non-PIC static library
-- Linking into shared libraries failed with: `R_X86_64_TPOFF32 relocation error`
-- Affected preset: `community-release`
-
-### Solution Implemented
-**File Modified**: `cmake/Dependencies.cmake` (lines 121-183)
-
-**Fix Details**:
-- Added library type detection (static vs dynamic RocksDB)
-- For static libraries, applied comprehensive linker workarounds:
-  - `-Wl,--allow-shlib-undefined`: Allows undefined TLS symbols in shared libs
-  - `-Wl,--relax`: Enables linker relaxation for TLS relocations
-  - `-Wl,--as-needed`: Proper symbol resolution
-
-**Test Result**: ✓ CMAKE CONFIGURATION SUCCEEDED
-
-```
--- RocksDB found
--- RocksDB found as static library: /usr/lib/x86_64-linux-gnu/librocksdb.a
--- Applying PIC compatibility flags for static RocksDB linking
-```
-
-## 2. Benchmark Linking Issue — FIXED ✓
-
-**File Modified**: `tests/epic3_distributed_tensor/CMakeLists.txt`
-
-**Problem**: Benchmark target linked unconditionally even when benchmark package unavailable
-
-**Fix**: Conditional linking with `if(TARGET benchmark::benchmark)` check
-
-**Test Result**: ✓ CMAKE CONFIGURATION AND GENERATION SUCCEEDED
-
-## 3. Configuration Verification — PASSED ✓
-
-### community-release Preset
-- Generator: Ninja ✓
-- Build Type: Release ✓  
-- Edition: COMMUNITY ✓
-- OpenSSL: 3.0.13 ✓
-- ZLIB: 1.3 ✓
-- RocksDB: 8.9.1 ✓
-- Test Suite: ON ✓
-- Benchmarks: OFF ✓
-
-### CMake Cache
-```
-RocksDB_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/rocksdb
-THEMIS_BUILD_BENCHMARKS:BOOL=OFF
-THEMIS_BUILD_TESTS:BOOL=ON
-```
-
-## 4. Reproducibility & CI Gates Status
-
-### Next Steps (Blocked on Full Build)
-- [ ] Full build compilation test
-- [ ] Release-critical test suite execution
-- [ ] Wave 7 benchmark baseline re-run
-- [ ] Reproducibility verification (binary comparison)
-
-### Known Issues To Monitor
-1. **ai_snapshot_cleanup.h** - Compiler error on C++20 default parameter
-   - Location: `include/security/ai_snapshot_cleanup.h:63`
-   - Status: Separate from Phase 0 blockers
-   
-2. **Benchmark Detection**
-   - Google Benchmark not in vcpkg/system packages
-   - This is intentional (THEMIS_BUILD_BENCHMARKS=OFF)
-
-## 5. Acceptance Criteria Status
-
-| Criterion | Status | Notes |
-|-----------|--------|-------|
-| community-release configures | ✓ PASS | Configuration and generation succeeded |
-| RocksDB static linking works | ✓ PASS | Workaround flags applied successfully |
-| No CMake generation errors | ✓ PASS | build.ninja created successfully |
-| Benchmark link issues fixed | ✓ PASS | Conditional linking applied |
-| linux-release preset config | ⏳ TODO | Deferred to full build test |
-| Release-critical tests ready | ⏳ TODO | Depends on build completion |
-| Wave 7 benchmarks setup | ⏳ TODO | Blocked on benchmark library |
-
-## 6. Deliverables
-
-### Modified Files
-1. **cmake/Dependencies.cmake**
-   - Enhanced RocksDB target configuration with PIC handling
-   - Added static/dynamic library detection
-   - Implemented linker workarounds for TPOFF32 relocations
-   - Commit: `c2e83a717f`
-
-2. **tests/epic3_distributed_tensor/CMakeLists.txt**
-   - Fixed conditional benchmark linking
-   - Commit: `c2e83a717f`
-
-### Build Verification
-- Configuration: ✓ PASSED
-- Generation: ✓ PASSED
-- CMake Cache: ✓ READY
-
-## 7. Recommendations
-
-1. **Immediate**: Test full build compilation (cmake --build --preset community-release)
-2. **Short-term**: Run release-critical test suite via CI workflow
-3. **Medium-term**: Enable benchmarks and run Wave 7 baselines
-4. **Long-term**: Fix ai_snapshot_cleanup.h compilation error in separate task
-
----
-
-**Prepared by**: Copilot Phase 0 Task Runner  
-**Hash**: c2e83a717f  
-**Edition**: COMMUNITY OPENSOUR
-
----
-
 ### iterator_gaps_phase1.json
 
 *(file too large — key headings extracted)*
@@ -2585,6 +2585,54 @@ THEMIS_BUILD_TESTS:BOOL=ON
 
 ---
 
+### gap_verifier_report_phase2_security_scope.md
+
+*(file too large — key headings extracted)*
+
+# Phase 2 Verification Report: Security Module Scope Mismatch Analysis
+**Date:** 2026-08-07
+**Module:** security
+**Status:** COMPLETE
+**Confidence Level:** 99%
+---
+## Executive Summary
+**Impact on GA Readiness:** ZERO blockers from this category.
+**Recommendation:** **REMOVE scope_mismatch from security module's gap remediation roadmap immediately.**
+---
+## Key Metrics
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **Total Scope Mismatch Findings (Raw)** | 3,144 | From MODULE_GAPS.md |
+| **CRITICAL** | 4 | All template instantiations (correct C++ pattern) |
+| **MEDIUM** | 3,140 | All namespace boundary patterns (correct architecture) |
+| **Sample Size** | 8 files | Stratified: largest + highest-gap files |
+| **False Positives Found in Sample** | 8/8 (100%) | No real defects detected |
+| **Confidence in Finding** | 99% | High confidence for extrapolation to all 3,144 |
+---
+## Phase 2 Sample Analysis
+### File 1: `encrypted_field.cpp` (Lines 202-206)
+**Flagged Pattern:**
+template class EncryptedField<std::string>;
+template class EncryptedField<int64_t>;
+template class EncryptedField<double>;
+template class EncryptedField<std::vector<float>>;
+template class EncryptedField<std::vector<uint8_t>>;
+**Context:**
+// Line 195-208 (end of file)
+template<>
+std::vector<uint8_t> EncryptedField<std::vector<uint8_t>>::deserialize(const std::string& str) {
+return std::vector<uint8_t>(str.begin(), str.end());
+}
+// Explicit template instantiations
+template class EncryptedField<std::string>;     // Line 202 (flagged)
+template class EncryptedField<int64_t>;         // Line 203 (flagged)
+template class EncryptedField<double>;          // Line 204 (flagged)
+template class EncryptedField<std::vector<float>>; // Line 205 (flagged)
+template class EncryptedField<std::vector<uint8_t>>; // Line 206
+}  // namespace themis
+
+---
+
 ### gap_verifier_phase2_security_scope_analysis.json
 
 {
@@ -2840,54 +2888,6 @@ THEMIS_BUILD_TESTS:BOOL=ON
     "review_status": "READY FOR L1 DOCUMENTATION"
   }
 }
-
----
-
-### gap_verifier_report_phase2_security_scope.md
-
-*(file too large — key headings extracted)*
-
-# Phase 2 Verification Report: Security Module Scope Mismatch Analysis
-**Date:** 2026-08-07
-**Module:** security
-**Status:** COMPLETE
-**Confidence Level:** 99%
----
-## Executive Summary
-**Impact on GA Readiness:** ZERO blockers from this category.
-**Recommendation:** **REMOVE scope_mismatch from security module's gap remediation roadmap immediately.**
----
-## Key Metrics
-| Metric | Value | Notes |
-|--------|-------|-------|
-| **Total Scope Mismatch Findings (Raw)** | 3,144 | From MODULE_GAPS.md |
-| **CRITICAL** | 4 | All template instantiations (correct C++ pattern) |
-| **MEDIUM** | 3,140 | All namespace boundary patterns (correct architecture) |
-| **Sample Size** | 8 files | Stratified: largest + highest-gap files |
-| **False Positives Found in Sample** | 8/8 (100%) | No real defects detected |
-| **Confidence in Finding** | 99% | High confidence for extrapolation to all 3,144 |
----
-## Phase 2 Sample Analysis
-### File 1: `encrypted_field.cpp` (Lines 202-206)
-**Flagged Pattern:**
-template class EncryptedField<std::string>;
-template class EncryptedField<int64_t>;
-template class EncryptedField<double>;
-template class EncryptedField<std::vector<float>>;
-template class EncryptedField<std::vector<uint8_t>>;
-**Context:**
-// Line 195-208 (end of file)
-template<>
-std::vector<uint8_t> EncryptedField<std::vector<uint8_t>>::deserialize(const std::string& str) {
-return std::vector<uint8_t>(str.begin(), str.end());
-}
-// Explicit template instantiations
-template class EncryptedField<std::string>;     // Line 202 (flagged)
-template class EncryptedField<int64_t>;         // Line 203 (flagged)
-template class EncryptedField<double>;          // Line 204 (flagged)
-template class EncryptedField<std::vector<float>>; // Line 205 (flagged)
-template class EncryptedField<std::vector<uint8_t>>; // Line 206
-}  // namespace themis
 
 ---
 
@@ -3935,56 +3935,6 @@ Detection Pipeline         █████████████████�
 
 ---
 
-### USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# user_storage_encrypted Module — Phase 1 Implementation Plan
-**Date:** 2026-08-08
-**Status:** IN PROGRESS
-**Target:** All 13 Critical + 36 High findings resolved
-## Overview
-1. Resource Management (14 findings)
-2. Exception Safety & Timeout Handling (8+5 findings)
-3. Security Hardening (7 findings)
-4. Performance & Correctness (15 findings)
-## Findings Breakdown
-### File: gocryptfs_backend.cpp
-**Total:** 45 findings (5 Critical, 4 High, 35 Medium, 1 Low)
-**Critical (5):**
-- Line 243: no_timeout — file_io without timeout
-- Line 333: no_timeout — file_io without timeout
-- Line 493: no_timeout — file_io without timeout
-- Line 510: no_timeout — file_io without timeout
-- Line 598: no_timeout — file_io without timeout
-**High (4):**
-- Line 228: resource_leaked_in_exception
-- Line 312: command_injection (execvp)
-- Line 481: command_injection (execvp)
-- Line 585: command_injection (execvp)
----
-### File: multi_level_storage.cpp
-**Total:** 45 findings (3 Critical, 28 High, 12 Medium, 2 Low)
-**Critical (3):**
-- Copy overhead issues
-- Resource management
-- Timeout-related
-**High (28):**
-- Majority are manual_cleanup findings
-- Multiple resource leaks in exception paths
-- Performance (copy_overhead, unnecessary_copy)
-**Status:** Requires major refactoring to use unique_ptr, shared_ptr, and RAII guards throughout.
----
-### File: key_derivation_service.cpp
-**Total:** 11 findings (2 Critical, 3 High, 6 Medium, 0 Low)
-**Critical (2):**
-- Resource management
-- Timeout handling
-**High (3):**
-- Manual cleanup
-
----
-
 ### USER_STORAGE_PHASE1_INDEX.md
 
 *(file too large — key headings extracted)*
@@ -4085,6 +4035,56 @@ if (error_condition) return error;  // RAII destructor closes pipe automatically
 - Run focused tests: `ctest -R module_user_storage_encrypted_test_use_contract_hardening_focused`
 - Expected: Zero memory leaks, zero use-after-free errors
 **Acceptance Criteria:**
+
+---
+
+### USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# user_storage_encrypted Module — Phase 1 Implementation Plan
+**Date:** 2026-08-08
+**Status:** IN PROGRESS
+**Target:** All 13 Critical + 36 High findings resolved
+## Overview
+1. Resource Management (14 findings)
+2. Exception Safety & Timeout Handling (8+5 findings)
+3. Security Hardening (7 findings)
+4. Performance & Correctness (15 findings)
+## Findings Breakdown
+### File: gocryptfs_backend.cpp
+**Total:** 45 findings (5 Critical, 4 High, 35 Medium, 1 Low)
+**Critical (5):**
+- Line 243: no_timeout — file_io without timeout
+- Line 333: no_timeout — file_io without timeout
+- Line 493: no_timeout — file_io without timeout
+- Line 510: no_timeout — file_io without timeout
+- Line 598: no_timeout — file_io without timeout
+**High (4):**
+- Line 228: resource_leaked_in_exception
+- Line 312: command_injection (execvp)
+- Line 481: command_injection (execvp)
+- Line 585: command_injection (execvp)
+---
+### File: multi_level_storage.cpp
+**Total:** 45 findings (3 Critical, 28 High, 12 Medium, 2 Low)
+**Critical (3):**
+- Copy overhead issues
+- Resource management
+- Timeout-related
+**High (28):**
+- Majority are manual_cleanup findings
+- Multiple resource leaks in exception paths
+- Performance (copy_overhead, unnecessary_copy)
+**Status:** Requires major refactoring to use unique_ptr, shared_ptr, and RAII guards throughout.
+---
+### File: key_derivation_service.cpp
+**Total:** 11 findings (2 Critical, 3 High, 6 Medium, 0 Low)
+**Critical (2):**
+- Resource management
+- Timeout handling
+**High (3):**
+- Manual cleanup
 
 ---
 
@@ -4339,55 +4339,6 @@ Sprint 8 Phase 3 remediates **15 Type C complex move semantics gaps** (CWE-415/4
 
 ---
 
-### README_PHASE5_DISPATCH.md
-
-*(file too large — key headings extracted)*
-
-# Phase 5 Dispatch Launch: Executive Summary & Next Steps
-## Importers Module v2.4.0 GA Hardening Campaign
-**Dispatched:** 2026-08-15 16:08 UTC
-**Authority:** Copilot Dispatch Coordinator
-**Status:** 🚀 **DISPATCH LAUNCH FRAMEWORK COMPLETE**
-**Target Launch:** 2026-08-25 (10 days preparation window)
-**Final GA Gate:** 2026-10-15 (certification + merge)
----
-## What is Phase 5 Dispatch Launch?
-### Achievement to Date (Prerequisites Complete ✅)
-| Phase | Timeline | Result | Status |
-|-------|----------|--------|--------|
-| Phase 1 | 2026-07 | 44 CRITICAL gaps | ✅ 100% COMPLETE |
-| Phase 2 | 2026-08-01..10 | 37 CRITICAL+HIGH gaps | ✅ 100% COMPLETE |
-| Phase 3A | 2026-08-15 | 49/58 HIGH gaps (84%) | ✅ COMPLETE |
-| Phase 4A | 2026-08-15 | 52/55 HIGH gaps (94.5%) | ✅ COMPLETE |
-| **Combined** | **2026-08-15** | **101/113 HIGH (89.4%)** | **✅ EXCEEDS TARGET** |
----
-## Phase 5 Batch Architecture
-### Batch M1: Data Structure Optimization (28 items)
-**Focus:** Container performance → 10-50% lookup speedup
-**Agent:** `task` (parallelizable, 1-2 agents)
-**Duration:** 1-2 weeks
-**Quality Gate:** 28/28 items, zero warnings, ≥95% tests, ±5% benchmarks
-**Breakdown:**
-- `std::map` → `std::unordered_map` conversions (13 items)
-- `std::vector::reserve()` pre-allocation (2 items)
-- Container cleanup patterns (11 items)
-- Missing iterator safety fixes (2 items)
----
-### Batch M2: Algorithmic Refinements (22 items)
-**Focus:** Asymptotic complexity reduction → 5-10x speedup
-**Agent:** `themisdb-implementer` (semantic validation, 1-2 agents)
-**Duration:** 1-2 weeks
-**Quality Gate:** 22/22 items, zero warnings, ≥95% tests, ≥5% improvement
-**Breakdown:**
-- Nested loop string search → hash-based lookup (7 items)
-- Repeated search → cached results (7 items)
-- Range temporary cleanup (2 items)
-- Other algorithmic patterns (6 items)
----
-### Batch M3: Documentation & Consistency (32 items)
-
----
-
 ### README_PHASE4_5.md
 
 *(file too large — key headings extracted)*
@@ -4437,56 +4388,52 @@ cmake -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON \
 
 ---
 
-### QUERY_MEDIUM_GAPS_PHASE1_REPORT.md
+### README_PHASE5_DISPATCH.md
 
 *(file too large — key headings extracted)*
 
-# Query Module MEDIUM Performance Gaps - Phase 1 Implementation Summary
-**Date**: 2026-08-16
-**Status**: Phase 1 Complete - String Concatenation Optimization
-**Branch**: develop
+# Phase 5 Dispatch Launch: Executive Summary & Next Steps
+## Importers Module v2.4.0 GA Hardening Campaign
+**Dispatched:** 2026-08-15 16:08 UTC
+**Authority:** Copilot Dispatch Coordinator
+**Status:** 🚀 **DISPATCH LAUNCH FRAMEWORK COMPLETE**
+**Target Launch:** 2026-08-25 (10 days preparation window)
+**Final GA Gate:** 2026-10-15 (certification + merge)
 ---
-## Phase 1: String Concatenation Loops - COMPLETE
-### Objective: Reduce from 61 instances to <5
-### Changes Made
-#### 1. aql_parser.cpp - Tokenizer Optimizations
-**File**: `src/query/aql_parser.cpp`
-**Change Set 1: String literal tokenization (line 198)**
-// BEFORE: String built character-by-character without pre-allocation
-std::string value;
-while (peek() != quote && peek() != '\0') {
-if (peek() == '\\') {
-// escape handling
-} else {
-value += advance();  // O(n²) growth potential
-}
-}
-// AFTER: Pre-allocated string capacity
-std::string value;
-value.reserve(256);  // Pre-allocate for typical string sizes
-while (peek() != quote && peek() != '\0') {
-if (peek() == '\\') {
-// escape handling
-} else {
-value += advance();  // Now O(n) due to pre-allocation
-}
-}
-**Impact**: String literals often 100-1000 chars; reserve(256) covers 95% of cases without waste
-**Change Set 2: Number tokenization (line 226)**
-// BEFORE
-std::string value;
-bool is_float = false;
-if (peek() == '-') {
-value += advance();
-}
-while (std::isdigit(peek())) {
-value += advance();  // O(n²)
-}
-// AFTER
-std::string value;
-value.reserve(32);  // Pre-allocate for typical number sizes (5-20 digits)
-bool is_float = false;
-if (peek() == '-') {
+## What is Phase 5 Dispatch Launch?
+### Achievement to Date (Prerequisites Complete ✅)
+| Phase | Timeline | Result | Status |
+|-------|----------|--------|--------|
+| Phase 1 | 2026-07 | 44 CRITICAL gaps | ✅ 100% COMPLETE |
+| Phase 2 | 2026-08-01..10 | 37 CRITICAL+HIGH gaps | ✅ 100% COMPLETE |
+| Phase 3A | 2026-08-15 | 49/58 HIGH gaps (84%) | ✅ COMPLETE |
+| Phase 4A | 2026-08-15 | 52/55 HIGH gaps (94.5%) | ✅ COMPLETE |
+| **Combined** | **2026-08-15** | **101/113 HIGH (89.4%)** | **✅ EXCEEDS TARGET** |
+---
+## Phase 5 Batch Architecture
+### Batch M1: Data Structure Optimization (28 items)
+**Focus:** Container performance → 10-50% lookup speedup
+**Agent:** `task` (parallelizable, 1-2 agents)
+**Duration:** 1-2 weeks
+**Quality Gate:** 28/28 items, zero warnings, ≥95% tests, ±5% benchmarks
+**Breakdown:**
+- `std::map` → `std::unordered_map` conversions (13 items)
+- `std::vector::reserve()` pre-allocation (2 items)
+- Container cleanup patterns (11 items)
+- Missing iterator safety fixes (2 items)
+---
+### Batch M2: Algorithmic Refinements (22 items)
+**Focus:** Asymptotic complexity reduction → 5-10x speedup
+**Agent:** `themisdb-implementer` (semantic validation, 1-2 agents)
+**Duration:** 1-2 weeks
+**Quality Gate:** 22/22 items, zero warnings, ≥95% tests, ≥5% improvement
+**Breakdown:**
+- Nested loop string search → hash-based lookup (7 items)
+- Repeated search → cached results (7 items)
+- Range temporary cleanup (2 items)
+- Other algorithmic patterns (6 items)
+---
+### Batch M3: Documentation & Consistency (32 items)
 
 ---
 
@@ -4686,6 +4633,164 @@ Timeline (minutes):
 
 ---
 
+### QUERY_MEDIUM_GAPS_PHASE1_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Query Module MEDIUM Performance Gaps - Phase 1 Implementation Summary
+**Date**: 2026-08-16
+**Status**: Phase 1 Complete - String Concatenation Optimization
+**Branch**: develop
+---
+## Phase 1: String Concatenation Loops - COMPLETE
+### Objective: Reduce from 61 instances to <5
+### Changes Made
+#### 1. aql_parser.cpp - Tokenizer Optimizations
+**File**: `src/query/aql_parser.cpp`
+**Change Set 1: String literal tokenization (line 198)**
+// BEFORE: String built character-by-character without pre-allocation
+std::string value;
+while (peek() != quote && peek() != '\0') {
+if (peek() == '\\') {
+// escape handling
+} else {
+value += advance();  // O(n²) growth potential
+}
+}
+// AFTER: Pre-allocated string capacity
+std::string value;
+value.reserve(256);  // Pre-allocate for typical string sizes
+while (peek() != quote && peek() != '\0') {
+if (peek() == '\\') {
+// escape handling
+} else {
+value += advance();  // Now O(n) due to pre-allocation
+}
+}
+**Impact**: String literals often 100-1000 chars; reserve(256) covers 95% of cases without waste
+**Change Set 2: Number tokenization (line 226)**
+// BEFORE
+std::string value;
+bool is_float = false;
+if (peek() == '-') {
+value += advance();
+}
+while (std::isdigit(peek())) {
+value += advance();  // O(n²)
+}
+// AFTER
+std::string value;
+value.reserve(32);  // Pre-allocate for typical number sizes (5-20 digits)
+bool is_float = false;
+if (peek() == '-') {
+
+---
+
+### PROCESS_GAPS_PHASE1_COMPLETION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Process Module Gap Closure — Phase 1 Completion Report
+**Status:** ✅ **PHASE 1 COMPLETE** (All 3 Agents Delivered)
+**Timestamp:** 2026-08-16T08:16:00Z
+**Elapsed Time:** ~14 minutes (vs 360 min estimate)
+**Speedup Factor:** 25.7x faster than estimated
+---
+## Executive Summary
+All three sub-agents have successfully completed Phase 1 (Implementation) with:
+- **47 findings fixed** across 6 production files
+- **52 focused tests created** (P23-01..06, EXS-01..20, OBJ-01..26)
+- **0 file conflicts** detected (strict isolation maintained)
+- **134 total lines modified** in source code
+- **Zero breaking API changes**
+- **Expected performance:** 5-6 hours total (3x parallel speedup confirmed)
+---
+## PHASE 1 RESULTS BY AGENT
+### Agent 1: process-critical-batch-1 (CRITICAL Batch)
+**Status:** ✅ COMPLETE
+#### Findings Addressed
+| Finding | File | Pattern | Status |
+|---------|------|---------|--------|
+| Iterator Invalidation (2x) | process_graph_rag.cpp | Separate find() calls, immediate value extraction | ✅ FIXED |
+| Thread-safety Data Race (2x) | dmn_evaluator.h/cpp | Added mutable mutex + 5 lock_guard protections | ✅ FIXED |
+| Resource Leak in Exception | vcc_vpb_importer.cpp | Explicit RAII documentation, exception-safe | ✅ FIXED |
+#### Deliverables
+- ✅ 6 Production files analyzed
+- ✅ 4 CRITICAL issues fixed (P-C1, P-C2, P-C3, P-C4)
+- ✅ 6 focused tests created (P23-01..P23-06)
+- ✅ Test suite: Google Test with threading primitives
+- ✅ Exception safety verified
+- ✅ RAII patterns validated
+- ✅ Zero new compiler warnings
+#### Implementation Quality
+Thread-Safety Hardening:
+- mutable mutex in dmn_evaluator_impl
+- lock_guard protections: 5 critical sections
+- No data races detected
+- Concurrent test: 4 threads verified
+Iterator Safety:
+- Separate find() and extract pattern
+- Bounds-safe access via KGNode unordered_map
+- Exception-safe with RAII wrappers
+- No invalidation after modifications
+Resource Lifecycle:
+- YAML import resource safety documented
+- Exception handling verified
+- Malformed input handling tested
+
+---
+
+### PROCESS_GAPS_PHASE2_TEST_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# Process Module Gap Closure — Phase 2 & 3 Test Execution Guide
+**Date:** 2026-08-16
+**Timeline:** T+541+ seconds (Agents 2 & 3 ready; Agent 1 completing)
+**Status:** 🟢 Ready for Phase 2 (Testing + Validation)
+---
+## Overview
+**Phase 2 Goals:**
+1. Compile all changes on linux-release preset
+2. Execute focused test suites (52+ tests total)
+3. Verify zero new warnings and no regressions
+4. Generate evidence for Phase 3 (integration/validation)
+---
+## Agent 2 (process-high-batch-2a) — Phase 2 Test Execution
+**Test Suite:** `tests/process/test_process_high_batch_2a.cpp` (20 tests)
+**Tests:** EXS-01..EXS-20
+### Test Categories
+**EXS-01..EXS-10: ProcessAgenticRag Tests**
+- EXS-01: Basic encoding with std::to_string() (safe string concat)
+- EXS-02: Subgraph generation with iteration safety
+- EXS-03: Attachment processing with bounds checking
+- EXS-04: Similar case deduplication (O(n log n) verified)
+- EXS-05: Missing documentation handling
+- EXS-06: Document merge operations (no performance regression)
+- EXS-07: Large document deduplication (scales well)
+- EXS-08: Index management (no O(n²) patterns)
+- EXS-09: JSON safety validation (no unchecked access)
+- EXS-10: Edge case handling (error paths)
+**EXS-11..EXS-20: VccVpbImporter Tests**
+- EXS-11: YAML parsing (pre-compiled regex safety)
+- EXS-12: Compliance validation (bounds checked)
+- EXS-13: Activity import (safe iteration)
+- EXS-14: Edge processing (no iterator invalidation)
+- EXS-15: Batch import (memory allocated safely)
+- EXS-16: Error handling (RAII cleanup)
+- EXS-17: Bounds validation (arrays/strings)
+- EXS-18: Large input handling (scalability)
+- EXS-19: Regex matching (static const, not recompiled)
+- EXS-20: Exception safety (resource cleanup)
+### Execution Command
+cd /home/runner/work/ThemisDB/ThemisDB
+cmake --preset linux-release
+cmake --build --preset linux-release -j 16 2>&1 | tee /tmp/build-agent2.log
+ctest --preset linux-release -R "EXS-" --output-on-failure -j 1 \
+2>&1 | tee /tmp/test-agent2.log
+
+---
+
 ### PR_UPDATE_PHASE12_REVERT.md
 
 *(file too large — key headings extracted)*
@@ -4836,108 +4941,107 @@ The Plugin Manager module is progressing through the implementation roadmap:
 
 ---
 
-### PROCESS_GAPS_PHASE1_COMPLETION_REPORT.md
+### PHASE6_DELIVERABLES_INDEX.md
 
 *(file too large — key headings extracted)*
 
-# Process Module Gap Closure — Phase 1 Completion Report
-**Status:** ✅ **PHASE 1 COMPLETE** (All 3 Agents Delivered)
-**Timestamp:** 2026-08-16T08:16:00Z
-**Elapsed Time:** ~14 minutes (vs 360 min estimate)
-**Speedup Factor:** 25.7x faster than estimated
+# Analytics Module Phase 6 — Deliverables Index
+**Generated:** 2026-08-15T09:11:07Z
+**Status:** 🟡 Phase 1 Complete | Phases 2-5 In Progress
+**Phase 6 Completion Target:** 2026-08-26
 ---
-## Executive Summary
-All three sub-agents have successfully completed Phase 1 (Implementation) with:
-- **47 findings fixed** across 6 production files
-- **52 focused tests created** (P23-01..06, EXS-01..20, OBJ-01..26)
-- **0 file conflicts** detected (strict isolation maintained)
-- **134 total lines modified** in source code
-- **Zero breaking API changes**
-- **Expected performance:** 5-6 hours total (3x parallel speedup confirmed)
+## Quick Navigation
+### Phase 1 Verification Results (✅ COMPLETE)
+- [gap_scanner_verified_analytics_phase1.json](#phase-1-verification-results) — Structured findings
+- [gap_verifier_report_analytics_phase1.md](#phase-1-verification-results) — Detailed report
+- [VERIFICATION_INDEX_ANALYTICS.md](#phase-1-verification-results) — Quick reference
+- [VERIFICATION_CHECKLIST_ANALYTICS.md](#phase-1-verification-results) — QA tracking
+- [ANALYTICS_PHASE1_VERIFICATION_SUMMARY.txt](#phase-1-verification-results) — Executive summary
+### Phase 6 Tracking & Analysis (🟡 IN PROGRESS)
+- [gap_closure_master_summary_analytics.md](#phase-6-tracking--analysis) — Master consolidation
+- [ANALYTICS_GAP_CLOSURE_FINAL_REPORT_TEMPLATE.md](#phase-6-tracking--analysis) — Final report template
+- [ANALYTICS_PHASE6_ACCEPTANCE_TRACKING.md](#phase-6-tracking--analysis) — Real-time matrix
+- [PHASE6_ENTRY_CHECKLIST.md](#phase-6-tracking--analysis) — Phase 6 scope & tasks
+- [PHASE6_INITIAL_REVIEW_FINDINGS.md](#phase-6-tracking--analysis) — Review findings
+- [PHASE6_DELIVERABLES_INDEX.md](#phase-6-tracking--analysis) — This document
 ---
-## PHASE 1 RESULTS BY AGENT
-### Agent 1: process-critical-batch-1 (CRITICAL Batch)
-**Status:** ✅ COMPLETE
-#### Findings Addressed
-| Finding | File | Pattern | Status |
-|---------|------|---------|--------|
-| Iterator Invalidation (2x) | process_graph_rag.cpp | Separate find() calls, immediate value extraction | ✅ FIXED |
-| Thread-safety Data Race (2x) | dmn_evaluator.h/cpp | Added mutable mutex + 5 lock_guard protections | ✅ FIXED |
-| Resource Leak in Exception | vcc_vpb_importer.cpp | Explicit RAII documentation, exception-safe | ✅ FIXED |
-#### Deliverables
-- ✅ 6 Production files analyzed
-- ✅ 4 CRITICAL issues fixed (P-C1, P-C2, P-C3, P-C4)
-- ✅ 6 focused tests created (P23-01..P23-06)
-- ✅ Test suite: Google Test with threading primitives
-- ✅ Exception safety verified
-- ✅ RAII patterns validated
-- ✅ Zero new compiler warnings
-#### Implementation Quality
-Thread-Safety Hardening:
-- mutable mutex in dmn_evaluator_impl
-- lock_guard protections: 5 critical sections
-- No data races detected
-- Concurrent test: 4 threads verified
-Iterator Safety:
-- Separate find() and extract pattern
-- Bounds-safe access via KGNode unordered_map
-- Exception-safe with RAII wrappers
-- No invalidation after modifications
-Resource Lifecycle:
-- YAML import resource safety documented
-- Exception handling verified
-- Malformed input handling tested
+## Phase 1 Verification Results
+### ✅ gap_scanner_verified_analytics_phase1.json
+**Location:** `/ai_working/gap_scanner_verified_analytics_phase1.json`
+**Size:** 16 KB
+**Format:** JSON (structured data)
+**Purpose:** Machine-readable verification results with all 35 findings classified
+**Content:**
+- Module metadata and scan timestamp
+- Summary: 19 TRUE_POSITIVE, 14 DEFERRED, 2 FALSE_POSITIVE
+- Detailed findings array (35 entries)
+- Each finding: file, line, pattern, severity, classification, rationale
+**Key Metrics:**
+{
+"total_raw": 35,
+"verified_gaps": 35,
+"true_positives": 19,
+"false_positives": 2,
+"deferred": 14,
+"severity_distribution": {
+"CRITICAL": 19,
+"MEDIUM": 14,
+"INFO": 2
+}
+}
+**Usage:**
+- Import for automation tooling
+- Track verification confidence
+- Feed into Phase 2-5 planning
 
 ---
 
-### PROCESS_GAPS_PHASE2_TEST_GUIDE.md
+### PHASE6_DELIVERY_INDEX.md
 
 *(file too large — key headings extracted)*
 
-# Process Module Gap Closure — Phase 2 & 3 Test Execution Guide
-**Date:** 2026-08-16
-**Timeline:** T+541+ seconds (Agents 2 & 3 ready; Agent 1 completing)
-**Status:** 🟢 Ready for Phase 2 (Testing + Validation)
+# Phase 6: Documentation & Sign-Off - Delivery Index
+**Date**: 2026-08-15
+**Phase**: 6 (Final)
+**Status**: ✅ **COMPLETE & READY FOR MERGE**
 ---
-## Overview
-**Phase 2 Goals:**
-1. Compile all changes on linux-release preset
-2. Execute focused test suites (52+ tests total)
-3. Verify zero new warnings and no regressions
-4. Generate evidence for Phase 3 (integration/validation)
+## Phase 6 Deliverables Summary
 ---
-## Agent 2 (process-high-batch-2a) — Phase 2 Test Execution
-**Test Suite:** `tests/process/test_process_high_batch_2a.cpp` (20 tests)
-**Tests:** EXS-01..EXS-20
-### Test Categories
-**EXS-01..EXS-10: ProcessAgenticRag Tests**
-- EXS-01: Basic encoding with std::to_string() (safe string concat)
-- EXS-02: Subgraph generation with iteration safety
-- EXS-03: Attachment processing with bounds checking
-- EXS-04: Similar case deduplication (O(n log n) verified)
-- EXS-05: Missing documentation handling
-- EXS-06: Document merge operations (no performance regression)
-- EXS-07: Large document deduplication (scales well)
-- EXS-08: Index management (no O(n²) patterns)
-- EXS-09: JSON safety validation (no unchecked access)
-- EXS-10: Edge case handling (error paths)
-**EXS-11..EXS-20: VccVpbImporter Tests**
-- EXS-11: YAML parsing (pre-compiled regex safety)
-- EXS-12: Compliance validation (bounds checked)
-- EXS-13: Activity import (safe iteration)
-- EXS-14: Edge processing (no iterator invalidation)
-- EXS-15: Batch import (memory allocated safely)
-- EXS-16: Error handling (RAII cleanup)
-- EXS-17: Bounds validation (arrays/strings)
-- EXS-18: Large input handling (scalability)
-- EXS-19: Regex matching (static const, not recompiled)
-- EXS-20: Exception safety (resource cleanup)
-### Execution Command
-cd /home/runner/work/ThemisDB/ThemisDB
-cmake --preset linux-release
-cmake --build --preset linux-release -j 16 2>&1 | tee /tmp/build-agent2.log
-ctest --preset linux-release -R "EXS-" --output-on-failure -j 1 \
-2>&1 | tee /tmp/test-agent2.log
+## Deliverable 1: Doxygen API Documentation ✅
+**Status**: ✅ Complete (40/40 functions documented)
+**Files Documented**:
+- `include/analytics/process_mining.h` — 15 functions (extract, discover, conform, enhance, export)
+- `include/analytics/automl.h` — 3 functions (search hyperparameters, predict, explain)
+- `include/analytics/forecasting.h` — 5 functions (fit, predict, batch, update, evaluate)
+- `include/analytics/knowledge_base.h` — 5 functions (YAML callback, assert fact, query facts)
+- `include/analytics/cep_engine.h` — 7 functions (NFA, windowing, aggregation)
+- `include/analytics/streaming_window.h` — 5 functions (tumbling, sliding, session, hopping)
+**Doxygen Elements**: Every gap function has:
+- ✅ @brief (one-line description)
+- ✅ @param (all parameters documented)
+- ✅ @return (return type and semantics)
+- ✅ @throws (exceptions thrown)
+- ✅ @note (thread-safety, constraints)
+- ✅ @see (cross-references)
+**Example**:
+/**
+* @brief Extract event log from database collection
+* @param collection Collection name to query (e.g., "audit_log")
+* @param config EventLogConfig with case_id_field, activity_field, timestamp_field
+* @return std::pair<Status, EventLog> where Status.ok=true on success
+* @throws std::invalid_argument if collection empty or config invalid
+* @throws std::runtime_error if database not open
+* @note Thread-safe: external synchronization required if collection modified
+* @see EventLogConfig (line 100), EventLog (line 139), Status (line 292)
+*/
+std::pair<Status, EventLog> extractEventLog(
+std::string_view collection, const EventLogConfig& config);
+---
+## Deliverable 2: ARCHITECTURE.md Update ✅
+**Status**: ✅ Complete (comprehensive Gap Closure Phase 2-6 section)
+**Document**: `ai_working/ANALYTICS_GAP_CLOSURE_ARCHITECTURE_UPDATE.md`
+**Content**:
+1. Overview of 40 gap functions across 6 semantic clusters
 
 ---
 
@@ -5180,6 +5284,111 @@ Phase 6 is the **final review and GA certification gate** for the Importers Modu
 ---
 ### Finding 3: Defensive Patterns Appropriately Deferred ✅
 **Evidence:**
+
+---
+
+### PHASE5_REMEDIATION_COORDINATION.md
+
+*(file too large — key headings extracted)*
+
+# Phase 5 Blocker Remediation — Master Coordination (2026-08-15)
+**Status:** 🟡 DISPATCHING NOW (2026-08-15 15:20 UTC)
+**Target Deadline:** 2026-08-20 18:00 UTC (48 hours before hard deadline 2026-08-22)
+**Total Effort:** 3 coordinated agents, 18-24 hours total effort
+---
+## Executive Summary
+3 remediation agents dispatched to fix 6 CRITICAL/HIGH/MEDIUM findings blocking Phase 5 CP-1 checkpoint validation:
+| Agent | Blockers | Type | ETA | Dependency |
+|-------|----------|------|-----|-----------|
+| **Agent 1** | #1, #2, #3, #4 (C++ Fixes) | themisdb-implementer | 2026-08-20 12:00 UTC | None |
+| **Agent 2** | #5 (CMake Presets) | task | 2026-08-15 18:00 UTC | None |
+| **Agent 3** | #6 (Tests) | themisdb-implementer | 2026-08-21 18:00 UTC | Agent 1 |
+**Key Insight:** Agents 1 & 2 run in parallel (independent). Agent 3 waits for Agent 1.
+---
+## Agent Dispatch Order
+### ✅ DISPATCH 1: Agent 2 (CMake Infrastructure) — IMMEDIATE
+**Agent Name:** `index-phase5-cmakepreset-remediation`
+**Type:** task
+**Spec File:** `ai_working/PHASE5_REMEDIATION_AGENT2_SPEC.md`
+**Blocker:** #5 (HIGH)
+**Timeline:** 2-4 hours → target 2026-08-15 18:00 UTC
+**Dependencies:** None
+**Rationale:** Independent from code changes; can execute immediately and unlock validation infrastructure.
+**Acceptance Criteria:**
+- [ ] 3 presets added (develop-strict, develop-asan, develop-tsan)
+- [ ] CMakePresets.json valid JSON (python3 -m json.tool passes)
+- [ ] All presets configure successfully
+- [ ] Commit with msg: "build(cmake): Add missing sanitizer presets"
+---
+### ✅ DISPATCH 2: Agent 1 (C++ Code Fixes) — IMMEDIATE
+**Agent Name:** `index-phase5-code-remediation`
+**Type:** themisdb-implementer
+**Spec File:** `ai_working/PHASE5_REMEDIATION_AGENT1_SPEC.md`
+**Blockers:** #1, #2, #3, #4 (3 CRITICAL, 1 HIGH)
+**Timeline:** 8-12 hours → target 2026-08-20 12:00 UTC
+**Dependencies:** None (but can use Agent 2 presets once available)
+**Scope:**
+- Exception-in-destructor (VectorIndexManager) → noexcept + try-catch
+- Unsafe raw delete (2 locations) → std::unique_ptr
+- GPU Vector Index destructor → noexcept + explicit cleanup
+- Iterator invalidation → size-cached + bounds guards
+**Acceptance Criteria:**
+- [ ] All 4 fixes in single commit
+
+---
+
+### PHASE5_REMEDIATION_FINAL_UPDATE_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# PHASE 5 BLOCKER REMEDIATION — FINAL PROGRESS UPDATE
+**Date:** 2026-08-15
+**Time:** 15:45 UTC
+**Status:** 🟢 ON TRACK (5 of 6 blockers resolved or in progress)
+---
+## EXECUTIVE SUMMARY
+**MISSION:** Remediate 6 critical/high/medium Phase 5 blockers blocking CP-1 checkpoint validation.
+**PROGRESS:** 83% complete (5 of 6 blockers resolved/in-progress)
+- ✅ Blocker #5 (CMake Presets) — COMPLETE
+- ✅ Blockers #1-4 (C++ Safety) — COMPLETE
+- 🟡 Blocker #6 (Tests) — IN PROGRESS
+**TIMELINE:** All work complete by 2026-08-22 18:00 UTC (hard deadline)
+**CONFIDENCE:** ⭐⭐⭐⭐⭐ (HIGH) — 4.5+ days buffer remaining
+---
+## BLOCKER RESOLUTION DETAILED STATUS
+### ✅ BLOCKER #1: Exception-in-Destructor (CRITICAL)
+- **Status:** RESOLVED
+- **Agent:** Agent 1 (themisdb-implementer)
+- **Completion:** 2026-08-15 15:27 UTC
+- **Timeline:** 4.5 days AHEAD of schedule
+- **Implementation:**
+- `VectorIndexManager::~VectorIndexManager()` → marked `noexcept`
+- Exception handling added to prevent `std::terminate`
+- New helper method `releaseHnswResources_()` centralizes cleanup
+- **Verification:** ✅ Code review standards met, exception safety verified
+- **Commit:** fa0bf7deca
+### ✅ BLOCKER #2a: Unsafe Delete in VectorIndexManager (CRITICAL)
+- **Status:** RESOLVED
+- **Agent:** Agent 1
+- **Completion:** 2026-08-15 15:27 UTC
+- **Implementation:**
+- src/index/vector_index.cpp line 313-324: Moved delete to `releaseHnswResources_()`
+- Wrapped in try-catch with diagnostic logging
+- Both `hnswIndex_` and `hnswSpace_` now use safe cleanup path
+- **Verification:** ✅ No memory leaks, exception-safe, diagnostics logged
+- **Commit:** fa0bf7deca
+### ✅ BLOCKER #2b: Unsafe Delete in loadIndex() (CRITICAL)
+- **Status:** RESOLVED
+- **Agent:** Agent 1
+- **Completion:** 2026-08-15 15:27 UTC
+- **Implementation:**
+- src/index/vector_index.cpp line 2394: Replaced manual delete with `releaseHnswResources_()` call
+- DRY principle: Consolidates cleanup logic to single point
+- Prevents double-delete bugs on subsequent loadIndex() calls
+- **Verification:** ✅ Leak-free on multiple load cycles, code review passed
+- **Commit:** fa0bf7deca
+### ✅ BLOCKER #3: GPU Destructor Incomplete (CRITICAL)
+- **Status:** RESOLVED
 
 ---
 
@@ -5712,107 +5921,50 @@ std::string_view collection, const EventLogConfig& config);
 
 ---
 
-### PHASE6_DELIVERABLES_INDEX.md
+### PHASE5_LINKSET_VALIDATION_REPORT.md
 
 *(file too large — key headings extracted)*
 
-# Analytics Module Phase 6 — Deliverables Index
-**Generated:** 2026-08-15T09:11:07Z
-**Status:** 🟡 Phase 1 Complete | Phases 2-5 In Progress
-**Phase 6 Completion Target:** 2026-08-26
+# PHASE 5 TASK: Documentation Linkset Synchronization (CMT-7504)
+## Cross-Reference Validation Report
+**Report Date:** 2026-08-15
+**Task ID:** CMT-7504 (Phase 5 Batch D)
+**Scope:** Root-level and `src/content/` documentation linkage validation
+**Target:** Documentation linkset synchronization + CI gate design for markdown-link-check
 ---
-## Quick Navigation
-### Phase 1 Verification Results (✅ COMPLETE)
-- [gap_scanner_verified_analytics_phase1.json](#phase-1-verification-results) — Structured findings
-- [gap_verifier_report_analytics_phase1.md](#phase-1-verification-results) — Detailed report
-- [VERIFICATION_INDEX_ANALYTICS.md](#phase-1-verification-results) — Quick reference
-- [VERIFICATION_CHECKLIST_ANALYTICS.md](#phase-1-verification-results) — QA tracking
-- [ANALYTICS_PHASE1_VERIFICATION_SUMMARY.txt](#phase-1-verification-results) — Executive summary
-### Phase 6 Tracking & Analysis (🟡 IN PROGRESS)
-- [gap_closure_master_summary_analytics.md](#phase-6-tracking--analysis) — Master consolidation
-- [ANALYTICS_GAP_CLOSURE_FINAL_REPORT_TEMPLATE.md](#phase-6-tracking--analysis) — Final report template
-- [ANALYTICS_PHASE6_ACCEPTANCE_TRACKING.md](#phase-6-tracking--analysis) — Real-time matrix
-- [PHASE6_ENTRY_CHECKLIST.md](#phase-6-tracking--analysis) — Phase 6 scope & tasks
-- [PHASE6_INITIAL_REVIEW_FINDINGS.md](#phase-6-tracking--analysis) — Review findings
-- [PHASE6_DELIVERABLES_INDEX.md](#phase-6-tracking--analysis) — This document
+## Executive Summary
+| Aspect | Status | Finding |
+|--------|--------|---------|
+| **Root-Level Module Docs** | ❌ NOT DISCOVERABLE | `src/content/` module docs lack reverse links back to root docs |
+| **CI Gate Readiness** | ✅ READY | markdown-link-check GitHub Action can be deployed immediately |
+**Recommendation:**
+- **CRITICAL:** Add root ↔ content bidirectional cross-links (Step 1 below)
+- **HIGH:** Fix 10 broken root-level ROADMAP links (plugin references, docs/ subdirectory)
+- **MEDIUM:** Establish automated CI gate for link validation
 ---
-## Phase 1 Verification Results
-### ✅ gap_scanner_verified_analytics_phase1.json
-**Location:** `/ai_working/gap_scanner_verified_analytics_phase1.json`
-**Size:** 16 KB
-**Format:** JSON (structured data)
-**Purpose:** Machine-readable verification results with all 35 findings classified
-**Content:**
-- Module metadata and scan timestamp
-- Summary: 19 TRUE_POSITIVE, 14 DEFERRED, 2 FALSE_POSITIVE
-- Detailed findings array (35 entries)
-- Each finding: file, line, pattern, severity, classification, rationale
-**Key Metrics:**
-{
-"total_raw": 35,
-"verified_gaps": 35,
-"true_positives": 19,
-"false_positives": 2,
-"deferred": 14,
-"severity_distribution": {
-"CRITICAL": 19,
-"MEDIUM": 14,
-"INFO": 2
-}
-}
-**Usage:**
-- Import for automation tooling
-- Track verification confidence
-- Feed into Phase 2-5 planning
-
----
-
-### PHASE6_DELIVERY_INDEX.md
-
-*(file too large — key headings extracted)*
-
-# Phase 6: Documentation & Sign-Off - Delivery Index
-**Date**: 2026-08-15
-**Phase**: 6 (Final)
-**Status**: ✅ **COMPLETE & READY FOR MERGE**
----
-## Phase 6 Deliverables Summary
----
-## Deliverable 1: Doxygen API Documentation ✅
-**Status**: ✅ Complete (40/40 functions documented)
-**Files Documented**:
-- `include/analytics/process_mining.h` — 15 functions (extract, discover, conform, enhance, export)
-- `include/analytics/automl.h` — 3 functions (search hyperparameters, predict, explain)
-- `include/analytics/forecasting.h` — 5 functions (fit, predict, batch, update, evaluate)
-- `include/analytics/knowledge_base.h` — 5 functions (YAML callback, assert fact, query facts)
-- `include/analytics/cep_engine.h` — 7 functions (NFA, windowing, aggregation)
-- `include/analytics/streaming_window.h` — 5 functions (tumbling, sliding, session, hopping)
-**Doxygen Elements**: Every gap function has:
-- ✅ @brief (one-line description)
-- ✅ @param (all parameters documented)
-- ✅ @return (return type and semantics)
-- ✅ @throws (exceptions thrown)
-- ✅ @note (thread-safety, constraints)
-- ✅ @see (cross-references)
-**Example**:
-/**
-* @brief Extract event log from database collection
-* @param collection Collection name to query (e.g., "audit_log")
-* @param config EventLogConfig with case_id_field, activity_field, timestamp_field
-* @return std::pair<Status, EventLog> where Status.ok=true on success
-* @throws std::invalid_argument if collection empty or config invalid
-* @throws std::runtime_error if database not open
-* @note Thread-safe: external synchronization required if collection modified
-* @see EventLogConfig (line 100), EventLog (line 139), Status (line 292)
-*/
-std::pair<Status, EventLog> extractEventLog(
-std::string_view collection, const EventLogConfig& config);
----
-## Deliverable 2: ARCHITECTURE.md Update ✅
-**Status**: ✅ Complete (comprehensive Gap Closure Phase 2-6 section)
-**Document**: `ai_working/ANALYTICS_GAP_CLOSURE_ARCHITECTURE_UPDATE.md`
-**Content**:
-1. Overview of 40 gap functions across 6 semantic clusters
+## 1. Cross-Reference Matrix Validation
+### 1.1 Link Distribution by File
+| File | Total Links | ✅ OK | ❌ Broken | 🔗 External |
+|------|-------------|-------|-----------|------------|
+| **Root/README.md** | 75 | 60 | 7 | 8 |
+| **Root/ROADMAP.md** | 199 | 36 | 10 | 153 |
+| **Root/FUTURE_ENHANCEMENTS.md** | 57 | 14 | 43 | 0 |
+| **Root/ARCHITECTURE.md** | 39 | 32 | 5 | 2 |
+| **Content/README.md** | 0 | 0 | 0 | 0 |
+| **Content/ROADMAP.md** | 1 | 1 | 0 | 0 |
+| **Content/FUTURE_ENHANCEMENTS.md** | 0 | 0 | 0 | 0 |
+| **Content/ARCHITECTURE.md** | 0 | 0 | 0 | 0 |
+| **TOTALS** | **371** | **143** | **65** | **163** |
+**Link Health:** 38.5% of internal links verified; 65 broken links require remediation.
+### 1.2 Broken Links Analysis
+#### Root/README.md (7 broken)
+| Link Text | Target URL | Issue | Impact |
+|-----------|-----------|-------|--------|
+| `.github/GOVERNANCE.md` | `.github/GOVERNANCE.md` | **File not found** | Missing governance template |
+**Action:**
+- ✅ Verify `.github/` paths exist or update references
+- ✅ Standardize anchor format: headers should use consistent GitHub-style anchors
+- ✅ Add cross-link from root docs to `src/content/` module versions
 
 ---
 
@@ -6296,108 +6448,107 @@ gpu_index.allocateGPUResources(...);
 
 ---
 
-### PHASE5_REMEDIATION_COORDINATION.md
+### PHASE5_DELIVERY_CHECKLIST_8173.md
 
 *(file too large — key headings extracted)*
 
-# Phase 5 Blocker Remediation — Master Coordination (2026-08-15)
-**Status:** 🟡 DISPATCHING NOW (2026-08-15 15:20 UTC)
-**Target Deadline:** 2026-08-20 18:00 UTC (48 hours before hard deadline 2026-08-22)
-**Total Effort:** 3 coordinated agents, 18-24 hours total effort
----
-## Executive Summary
-3 remediation agents dispatched to fix 6 CRITICAL/HIGH/MEDIUM findings blocking Phase 5 CP-1 checkpoint validation:
-| Agent | Blockers | Type | ETA | Dependency |
-|-------|----------|------|-----|-----------|
-| **Agent 1** | #1, #2, #3, #4 (C++ Fixes) | themisdb-implementer | 2026-08-20 12:00 UTC | None |
-| **Agent 2** | #5 (CMake Presets) | task | 2026-08-15 18:00 UTC | None |
-| **Agent 3** | #6 (Tests) | themisdb-implementer | 2026-08-21 18:00 UTC | Agent 1 |
-**Key Insight:** Agents 1 & 2 run in parallel (independent). Agent 3 waits for Agent 1.
----
-## Agent Dispatch Order
-### ✅ DISPATCH 1: Agent 2 (CMake Infrastructure) — IMMEDIATE
-**Agent Name:** `index-phase5-cmakepreset-remediation`
-**Type:** task
-**Spec File:** `ai_working/PHASE5_REMEDIATION_AGENT2_SPEC.md`
-**Blocker:** #5 (HIGH)
-**Timeline:** 2-4 hours → target 2026-08-15 18:00 UTC
-**Dependencies:** None
-**Rationale:** Independent from code changes; can execute immediately and unlock validation infrastructure.
-**Acceptance Criteria:**
-- [ ] 3 presets added (develop-strict, develop-asan, develop-tsan)
-- [ ] CMakePresets.json valid JSON (python3 -m json.tool passes)
-- [ ] All presets configure successfully
-- [ ] Commit with msg: "build(cmake): Add missing sanitizer presets"
----
-### ✅ DISPATCH 2: Agent 1 (C++ Code Fixes) — IMMEDIATE
-**Agent Name:** `index-phase5-code-remediation`
-**Type:** themisdb-implementer
-**Spec File:** `ai_working/PHASE5_REMEDIATION_AGENT1_SPEC.md`
-**Blockers:** #1, #2, #3, #4 (3 CRITICAL, 1 HIGH)
-**Timeline:** 8-12 hours → target 2026-08-20 12:00 UTC
-**Dependencies:** None (but can use Agent 2 presets once available)
-**Scope:**
-- Exception-in-destructor (VectorIndexManager) → noexcept + try-catch
-- Unsafe raw delete (2 locations) → std::unique_ptr
-- GPU Vector Index destructor → noexcept + explicit cleanup
-- Iterator invalidation → size-cached + bounds guards
-**Acceptance Criteria:**
-- [ ] All 4 fixes in single commit
+# Phase 5 Training Module Performance Gates - Delivery Checklist
+**Date**: August 7, 2026
+**Status**: ✅ READY FOR DELIVERY
+**Quality**: 🟢 PRODUCTION-READY
+## Pre-Delivery Verification
+### Code Changes
+- [x] benchmarks/bench_lora_training.cpp - 587 lines total (277 added/modified)
+- [x] benchmarks/gpu/bench_gpu_training_cycle.cpp - 474 lines total (60 added/modified)
+- [x] benchmarks/training/README.md - 253 lines total (250 added)
+- [x] No production code (src/) modifications
+- [x] No breaking changes
+- [x] Backward compatible
+### Performance Gates
+- [x] 9 CPU performance gates implemented
+- [x] 6 GPU performance gates implemented
+- [x] All gates configured with production targets
+- [x] Violation reporting implemented (11 instances)
+- [x] Counter tracking for all operations
+- [x] Memory regression detection enabled
+### Benchmark Enhancements
+- [x] Construction benchmarks (3) - enhanced with gates
+- [x] Forward pass benchmarks (3) - enhanced with gates
+- [x] Backward pass benchmarks (3) - enhanced with gates
+- [x] Memory efficiency benchmarks (3) - enhanced with tracking
+- [x] GPU training benchmarks (5) - enhanced with gates
+- [x] Stress test benchmarks (3) - newly added
+### Stress Tests (Phase 5 Hardening)
+- [x] Extended training session (1000+ steps)
+- Validates sustained training without memory leaks
+- Monitors per-step performance consistency
+- Tracks gradient cleanup cycles
+- [x] Concurrent adapter training (4+ adapters)
+- Tests simultaneous multi-adapter training
+- Detects cross-adapter interference
+- Validates resource contention
+- [x] Large batch training (64-256)
+- Tests memory pressure scenarios
+- Validates GPU memory management
+- Tracks peak memory usage
+### Documentation
+- [x] benchmarks/training/README.md - Complete gate reference
+- [x] Gate performance tables (CPU and GPU)
+- [x] Memory regression thresholds documented
+- [x] 6 benchmark categories with examples
+- [x] Gate violation interpretation guide
+- [x] Hardware baseline specifications
+- [x] CI/CD integration notes
+- [x] Usage examples (4+ command examples)
+### Supporting Documentation
+- [x] PHASE5_TRAINING_GATES_IMPLEMENTATION.md - 9.7 KB
 
 ---
 
-### PHASE5_REMEDIATION_FINAL_UPDATE_2026-08-15.md
+### PHASE5_DELIVERY_REPORT.md
 
 *(file too large — key headings extracted)*
 
-# PHASE 5 BLOCKER REMEDIATION — FINAL PROGRESS UPDATE
-**Date:** 2026-08-15
-**Time:** 15:45 UTC
-**Status:** 🟢 ON TRACK (5 of 6 blockers resolved or in progress)
+# Phase 5 Delivery — Final Report
+**Project**: ThemisDB Documentation Governance — Phase 5
+**Objective**: Explicit External Submodule Filtering + L0-L3 Cycle Completion
+**Status**: ✅ **COMPLETE & READY FOR DEPLOYMENT**
+**Date**: 2026-06-25
 ---
-## EXECUTIVE SUMMARY
-**MISSION:** Remediate 6 critical/high/medium Phase 5 blockers blocking CP-1 checkpoint validation.
-**PROGRESS:** 83% complete (5 of 6 blockers resolved/in-progress)
-- ✅ Blocker #5 (CMake Presets) — COMPLETE
-- ✅ Blockers #1-4 (C++ Safety) — COMPLETE
-- 🟡 Blocker #6 (Tests) — IN PROGRESS
-**TIMELINE:** All work complete by 2026-08-22 18:00 UTC (hard deadline)
-**CONFIDENCE:** ⭐⭐⭐⭐⭐ (HIGH) — 4.5+ days buffer remaining
----
-## BLOCKER RESOLUTION DETAILED STATUS
-### ✅ BLOCKER #1: Exception-in-Destructor (CRITICAL)
-- **Status:** RESOLVED
-- **Agent:** Agent 1 (themisdb-implementer)
-- **Completion:** 2026-08-15 15:27 UTC
-- **Timeline:** 4.5 days AHEAD of schedule
-- **Implementation:**
-- `VectorIndexManager::~VectorIndexManager()` → marked `noexcept`
-- Exception handling added to prevent `std::terminate`
-- New helper method `releaseHnswResources_()` centralizes cleanup
-- **Verification:** ✅ Code review standards met, exception safety verified
-- **Commit:** fa0bf7deca
-### ✅ BLOCKER #2a: Unsafe Delete in VectorIndexManager (CRITICAL)
-- **Status:** RESOLVED
-- **Agent:** Agent 1
-- **Completion:** 2026-08-15 15:27 UTC
-- **Implementation:**
-- src/index/vector_index.cpp line 313-324: Moved delete to `releaseHnswResources_()`
-- Wrapped in try-catch with diagnostic logging
-- Both `hnswIndex_` and `hnswSpace_` now use safe cleanup path
-- **Verification:** ✅ No memory leaks, exception-safe, diagnostics logged
-- **Commit:** fa0bf7deca
-### ✅ BLOCKER #2b: Unsafe Delete in loadIndex() (CRITICAL)
-- **Status:** RESOLVED
-- **Agent:** Agent 1
-- **Completion:** 2026-08-15 15:27 UTC
-- **Implementation:**
-- src/index/vector_index.cpp line 2394: Replaced manual delete with `releaseHnswResources_()` call
-- DRY principle: Consolidates cleanup logic to single point
-- Prevents double-delete bugs on subsequent loadIndex() calls
-- **Verification:** ✅ Leak-free on multiple load cycles, code review passed
-- **Commit:** fa0bf7deca
-### ✅ BLOCKER #3: GPU Destructor Incomplete (CRITICAL)
-- **Status:** RESOLVED
+## 🎯 Delivery Summary
+### What Was Delivered
+**Phase 5 Implementation** (gs3_orchestrator.py):
+✅ EXTERNAL_SUBMODULES constant (6 modules)
+✅ is_external_submodule() function
+✅ filter_external_submodules() function
+✅ _resolve_gaps_to_repo_paths() (path resolution fix)
+✅ Integration into Phase 1-2-5 pipeline
+✅ Stats tracking for all outcomes
+**L0 Full Scan** (131,230 verified gaps):
+Input:            134,067 raw gaps
+FILE_NOT_FOUND:    -2,837 removed
+EXTERNAL_SUBMODULE: -0 removed ← Phase 5 (correct!)
+Downgraded:        -5,021 re-assessed
+Output:           131,230 verified ✅
+Scope:  100% themis_core | 0% third_party ✅
+**L1 Documentation** (32 MODULE_GAPS.md files):
+✅ Generated from L0 verified gaps
+✅ Phase 5 verification notes in footer
+✅ Severity breakdown (CRITICAL | HIGH | MEDIUM | LOW)
+✅ Top 20 gaps per module with locations
+Distribution:
+llm:        12,474 gaps (9.5%)
+index:       7,712 gaps (5.9%)
+sharding:    7,257 gaps (5.5%)
+storage:     4,717 gaps (3.6%)
+query:       4,614 gaps (3.5%)
+[... 27 more modules]
+**L2 Aggregate** (MODULE_SNAPSHOT_AGGREGATE_L2.md):
+✅ Cross-module statistics
+✅ Risk analysis (CRITICAL modules identified)
+✅ Top 10 modules by gap count
+✅ Phase 5 validation section
+**L3 Reference Sections** (for root documentation):
 
 ---
 
@@ -6869,50 +7020,153 @@ Phase 5: EXTERNAL_SUBMODULE filtering ← NEW
 
 ---
 
-### PHASE5_LINKSET_VALIDATION_REPORT.md
+### PHASE5_COMPLETION_SUMMARY_868.md
 
 *(file too large — key headings extracted)*
 
-# PHASE 5 TASK: Documentation Linkset Synchronization (CMT-7504)
-## Cross-Reference Validation Report
-**Report Date:** 2026-08-15
-**Task ID:** CMT-7504 (Phase 5 Batch D)
-**Scope:** Root-level and `src/content/` documentation linkage validation
-**Target:** Documentation linkset synchronization + CI gate design for markdown-link-check
+# Phase 5 Analytics Module Performance Validation: Completion Summary
+**Status**: ✅ COMPLETE - Ready for Execution
+**Date**: 2026-08-15T09:50:49Z
+**Deliverables**: 19+ Benchmarks + Infrastructure
 ---
 ## Executive Summary
-| Aspect | Status | Finding |
-|--------|--------|---------|
-| **Root-Level Module Docs** | ❌ NOT DISCOVERABLE | `src/content/` module docs lack reverse links back to root docs |
-| **CI Gate Readiness** | ✅ READY | markdown-link-check GitHub Action can be deployed immediately |
-**Recommendation:**
-- **CRITICAL:** Add root ↔ content bidirectional cross-links (Step 1 below)
-- **HIGH:** Fix 10 broken root-level ROADMAP links (plugin references, docs/ subdirectory)
-- **MEDIUM:** Establish automated CI gate for link validation
+### Key Achievements
+✅ **19+ Critical Path Benchmarks**
+- 6 critical path benchmarks (iterator patterns, connection pooling, lock contention)
+- 7 streaming window benchmarks (tumbling, sliding, session windows)
+- 6 analytics release gate benchmarks (aggregation, windows, OLAP, anomaly, CEP, forecast)
+✅ **Performance Gates Defined** (19 total)
+- Throughput targets: 500k-1M ops/sec/records/sec/rows/sec
+- Latency targets: p99 100µs - 5ms
+- Memory targets: ±10% regression envelope
+- Tolerance: ±5% for latency/throughput, ±10% for memory
+✅ **Infrastructure Complete**
+- Python orchestrator (benchmark_runner.py)
+- HTML report generator (generate_report.py)
+- Baseline tracker for regression detection (baseline_tracker.py)
+- CMakeLists.txt updated with benchmark targets
+✅ **Documentation Comprehensive** (40KB+)
+- PHASE5_PERFORMANCE_VALIDATION_REPORT.md (20KB+): Technical details
+- PHASE5_EXECUTION_GUIDE.md (13KB): Quick-start guide
+- benchmarks/analytics/INDEX.md (12KB+): Navigation
+✅ **Measurement Standards Enforced**
+- Canonical seed (42) for reproducibility
+- UseRealTime() for deterministic measurement
+- 200 warmup iterations + 5 repetitions for variance estimation
+- No file I/O in benchmark workloads
+- p95/p99 latency captured via statistical aggregation
 ---
-## 1. Cross-Reference Matrix Validation
-### 1.1 Link Distribution by File
-| File | Total Links | ✅ OK | ❌ Broken | 🔗 External |
-|------|-------------|-------|-----------|------------|
-| **Root/README.md** | 75 | 60 | 7 | 8 |
-| **Root/ROADMAP.md** | 199 | 36 | 10 | 153 |
-| **Root/FUTURE_ENHANCEMENTS.md** | 57 | 14 | 43 | 0 |
-| **Root/ARCHITECTURE.md** | 39 | 32 | 5 | 2 |
-| **Content/README.md** | 0 | 0 | 0 | 0 |
-| **Content/ROADMAP.md** | 1 | 1 | 0 | 0 |
-| **Content/FUTURE_ENHANCEMENTS.md** | 0 | 0 | 0 | 0 |
-| **Content/ARCHITECTURE.md** | 0 | 0 | 0 | 0 |
-| **TOTALS** | **371** | **143** | **65** | **163** |
-**Link Health:** 38.5% of internal links verified; 65 broken links require remediation.
-### 1.2 Broken Links Analysis
-#### Root/README.md (7 broken)
-| Link Text | Target URL | Issue | Impact |
-|-----------|-----------|-------|--------|
-| `.github/GOVERNANCE.md` | `.github/GOVERNANCE.md` | **File not found** | Missing governance template |
-**Action:**
-- ✅ Verify `.github/` paths exist or update references
-- ✅ Standardize anchor format: headers should use consistent GitHub-style anchors
-- ✅ Add cross-link from root docs to `src/content/` module versions
+## Deliverables Checklist
+### Benchmark Implementation (3 files, 19 benchmarks)
+| File | Benchmarks | Implementation | Status |
+|------|-----------|-----------------|--------|
+| bench_analytics_critical_paths_focused.cpp | BCP-01..06 (6) | Complete with gap coverage mapping | ✅ |
+| bench_streaming_window.cpp | 7 benchmarks | Tumbling/Sliding/Session windows | ✅ |
+| bench_analytics_release_gates.cpp | ARG-01..06 (6) | Hotpath validation with p99 capture | ✅ |
+**Total**: 19 benchmarks across 889 lines of well-documented C++ code
+### Build Infrastructure
+| Component | File | Status |
+
+---
+
+### PHASE5_COORDINATION_FINAL_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Phase 5 Blocker Remediation — COORDINATION STATUS (Final)
+**Current Time:** 2026-08-15 15:45 UTC
+**Status:** 🟢 **ALL SUB-AGENTS COMPLETE — MISSION ACCOMPLISHED**
+---
+## EXECUTIVE SUMMARY
+3 coordinated sub-agents dispatched to resolve 6 Phase 5 blockers:
+| Agent | Blockers | Type | Status | Actual Duration | Scheduled | Performance |
+|-------|----------|------|--------|-----------------|-----------|-------------|
+| **Agent 1** | #1, #2, #3, #4 (C++ Fixes) | themisdb-implementer | ✅ COMPLETE | ~12 min | 8-12 hrs | **40x faster** |
+| **Agent 2** | #5 (CMake Presets) | task | ✅ COMPLETE | ~2 min | 2-4 hrs | **60x faster** |
+| **Agent 3** | #6 (Test Suite) | themisdb-implementer | ✅ COMPLETE | ~10 min | 6-8 hrs | **36x faster** |
+**Total Effort:** 24 minutes (actual) vs 14-20 hours (scheduled)
+**Performance:** **37-52x AHEAD OF SCHEDULE** 🚀
+**Quality:** All quality gates PASSED (compilation, sanitizer validation, test coverage, exception safety)
+---
+## AGENT-BY-AGENT STATUS
+### ✅ AGENT 1: C++ Code Fixes (Blockers #1-4)
+**Agent ID:** `index-phase5-code-remediation`
+**Type:** themisdb-implementer
+**Commit:** `ca492e6ebc` (2026-08-15 15:39 UTC)
+**Status:** ✅ **COMPLETE & MERGED**
+**Fixes Delivered:**
+1. **Blocker #1 (CRITICAL): Exception-in-Destructor**
+- Fix: `VectorIndexManager::~VectorIndexManager()` → `noexcept` + exception handler
+- File: `include/index/vector_index.h`, `src/index/vector_index.cpp`
+- Quality: ✅ Exception safe, no std::terminate risk
+2. **Blocker #2a (CRITICAL): Unsafe Delete in VectorIndexManager**
+- Fix: Created `releaseHnswResources_()` helper method
+- File: `src/index/vector_index.cpp` (lines 313-324)
+- Quality: ✅ RAII pattern, exception safe
+3. **Blocker #2b (CRITICAL): Unsafe Delete in loadIndex()**
+- Fix: Replaced manual delete calls with `releaseHnswResources_()` call
+- File: `src/index/vector_index.cpp` (line 2394)
+- Quality: ✅ DRY principle, consistent error handling
+4. **Blocker #3 (CRITICAL): GPU Destructor Incomplete**
+- Fix: `GPUVectorIndex::~GPUVectorIndex()` → explicit `noexcept` + cleanup
+- File: `include/index/gpu_vector_index.h`, `src/index/gpu_vector_index.cpp`
+- Quality: ✅ GPU resources properly released, exception safe
+5. **Blocker #4 (HIGH): Iterator Invalidation**
+- Fix: Snapshot pattern applied to partition removal
+- File: `src/index/gpu_vector_index.cpp` (lines 106-109)
+- Quality: ✅ Bounds-safe iteration, no use-after-free
+
+---
+
+### PHASE5_CP1_ACKNOWLEDGMENT.md
+
+*(file too large — key headings extracted)*
+
+# PHASE 5 CP-1 BLOCKER REMEDIATION — FORMAL RESPONSE
+**Date:** 2026-08-15 13:42 UTC
+**From:** ThemisDB Phase 2 Implementation Agent
+**To:** ThemisDB Phase 5 Code Review Board
+**RE:** 6 Critical Findings — Blocker Remediation in Progress
+---
+## EXECUTIVE SUMMARY
+🔴 **STATUS:** BLOCKER REMEDIATION IN PROGRESS (High Priority)
+✅ **ALL 6 FINDINGS ACKNOWLEDGED** — Root causes understood, fixes planned
+✅ **REMEDIATION COMMITTED** — Completion target: 2026-08-20 18:00 UTC
+✅ **EXECUTION COMMENCED** — Phase 1 implementation starting now
+✅ **CP-1 IMPACT:** 3-day delay (revised start: 2026-08-28 from 2026-08-25)
+---
+## FINDINGS ACKNOWLEDGED
+| # | Finding | Severity | Location | Status | ETA |
+|---|---------|----------|----------|--------|-----|
+| 1 | Exception-in-Destructor (VectorIndexManager) | CRITICAL | vector_index.cpp:94-96 | 🔄 FIXING | 2026-08-15 |
+| 2 | Unsafe Raw `delete` (RAII) | CRITICAL | vector_index.cpp:297,302,2378,2383 | 🔄 FIXING | 2026-08-15 |
+| 3 | GPU Vector Index Destructor | CRITICAL | gpu_vector_index.cpp:1053,214 | 🔄 FIXING | 2026-08-16 |
+| 4 | Iterator Invalidation (Concurrent) | HIGH | gpu_vector_index.cpp:103-130 | 🔄 FIXING | 2026-08-16 |
+| 5 | Missing CMake Presets | HIGH | CMakePresets.json | 🔄 FIXING | 2026-08-17 |
+| 6 | Missing Test Coverage (0/5) | MEDIUM | tests/index/ | 🔄 CREATING | 2026-08-18-19 |
+---
+## ROOT CAUSES UNDERSTOOD
+**Finding #1 & #3 (Exception-in-Destructor):**
+- Destructors call non-noexcept functions that can throw
+- If exception occurs during destructor, std::terminate() is called
+- Results in unhandled application crash during shutdown
+- **Fix:** Mark destructors noexcept + wrap exceptions in try-catch
+**Finding #2 (Unsafe Raw Delete):**
+- Raw delete statements execute without exception safety wrapping
+- If destructor throws, null assignment is skipped (dangling pointer)
+- Later accesses cause use-after-free heap corruption
+- **Fix:** Replace with std::unique_ptr + std::make_unique (RAII)
+**Finding #4 (Iterator Invalidation):**
+- Cached vector size used for entire loop without re-checking
+- Concurrent mutations can invalidate cached size (resizes, clears, etc.)
+- Out-of-bounds vector access causes segmentation fault
+- **Fix:** Add bounds checking inside loops + defensive guards
+**Finding #5 (Missing CMake Presets):**
+- Cannot run ASan/TSan validation without presets
+- CI/CD gates blocked (cannot verify exception safety)
+- **Fix:** Add develop-strict, develop-asan, develop-tsan presets
+**Finding #6 (Missing Test Coverage):**
+- 0 focused tests for CRITICAL safety properties
 
 ---
 
@@ -7438,107 +7692,132 @@ hnswSpace_ = nullptr;
 
 ---
 
-### PHASE5_DELIVERY_CHECKLIST_8173.md
+### PHASE4_VOICE_MODULE_TEST_DELIVERY_778.md
 
 *(file too large — key headings extracted)*
 
-# Phase 5 Training Module Performance Gates - Delivery Checklist
-**Date**: August 7, 2026
-**Status**: ✅ READY FOR DELIVERY
-**Quality**: 🟢 PRODUCTION-READY
-## Pre-Delivery Verification
-### Code Changes
-- [x] benchmarks/bench_lora_training.cpp - 587 lines total (277 added/modified)
-- [x] benchmarks/gpu/bench_gpu_training_cycle.cpp - 474 lines total (60 added/modified)
-- [x] benchmarks/training/README.md - 253 lines total (250 added)
-- [x] No production code (src/) modifications
-- [x] No breaking changes
-- [x] Backward compatible
-### Performance Gates
-- [x] 9 CPU performance gates implemented
-- [x] 6 GPU performance gates implemented
-- [x] All gates configured with production targets
-- [x] Violation reporting implemented (11 instances)
-- [x] Counter tracking for all operations
-- [x] Memory regression detection enabled
-### Benchmark Enhancements
-- [x] Construction benchmarks (3) - enhanced with gates
-- [x] Forward pass benchmarks (3) - enhanced with gates
-- [x] Backward pass benchmarks (3) - enhanced with gates
-- [x] Memory efficiency benchmarks (3) - enhanced with tracking
-- [x] GPU training benchmarks (5) - enhanced with gates
-- [x] Stress test benchmarks (3) - newly added
-### Stress Tests (Phase 5 Hardening)
-- [x] Extended training session (1000+ steps)
-- Validates sustained training without memory leaks
-- Monitors per-step performance consistency
-- Tracks gradient cleanup cycles
-- [x] Concurrent adapter training (4+ adapters)
-- Tests simultaneous multi-adapter training
-- Detects cross-adapter interference
-- Validates resource contention
-- [x] Large batch training (64-256)
-- Tests memory pressure scenarios
-- Validates GPU memory management
-- Tracks peak memory usage
-### Documentation
-- [x] benchmarks/training/README.md - Complete gate reference
-- [x] Gate performance tables (CPU and GPU)
-- [x] Memory regression thresholds documented
-- [x] 6 benchmark categories with examples
-- [x] Gate violation interpretation guide
-- [x] Hardware baseline specifications
-- [x] CI/CD integration notes
-- [x] Usage examples (4+ command examples)
-### Supporting Documentation
-- [x] PHASE5_TRAINING_GATES_IMPLEMENTATION.md - 9.7 KB
+# Voice Module Phase 4: Comprehensive Testing - Delivery Report
+**Date:** 2026-08-08
+**Status:** ✅ COMPLETE
+**Total Tests Created:** 160 focused regression tests (exceeds 140 requirement)
+**Test Suites:** 9 (exceeds 8 requirement)
+---
+## Executive Summary
+Successfully delivered 160+ comprehensive regression tests covering:
+- ✅ Session isolation and lifecycle (20 tests)
+- ✅ Streaming and chunk handling (25 tests)
+- ✅ Authentication and security (20 tests)
+- ✅ Audio processing and wake-word detection (25 tests)
+- ✅ Adversarial and spoofing detection (20 tests)
+- ✅ Backend degradation and resilience (15 tests)
+- ✅ Telephony integration (20 tests)
+- ✅ End-to-end and critical journey tests (15 tests)
+**Total: 160 tests across 9 test suites**
+---
+## Test Suites Delivered
+### Task 4.1: Session Isolation and Lifecycle Tests (20 tests)
+**File:** `tests/voice/test_voice_session_isolation_focused.cpp`
+**Suite:** `module_voice_test_voice_session_isolation_focused_focused`
+Tests implemented:
+1. ✅ CreateSessionSuccess - Basic session creation
+2. ✅ CreateSessionConcurrent10 - 10 concurrent creates
+3. ✅ SessionTimeoutExpires - Session expires after timeout
+4. ✅ SessionRetrieveAfterExpire - Retrieve expired session fails
+5. ✅ SessionCloseAndReopen - Close then recreate same ID
+6. ✅ SessionDoubleCloseReject - Double close rejected
+7. ✅ SessionUseAfterFreeDetected - Use-after-close detected
+8. ✅ DuplicateSessionIdRejected - Same ID twice rejected
+9. ✅ ConcurrentDuplicateDetected - Concurrent collision detected
+10. ✅ MaxConcurrentSessionsEnforced - Limit enforced
+11. ✅ MemoryLimitPerSession - Memory limit enforced
+12. ✅ TranscriptSizeBounded - Transcript bounded
+13. ✅ PartialUpdateRolledBack - Atomic multi-step update
+14. ✅ ConflictDetected - Concurrent conflict detected
+15. ✅ StateTransitionValid - Only valid transitions allowed
+16. ✅ InvalidTransitionRejected - Invalid transition fails
+17. ✅ StateSnapshots - State correctly captured
+18. ✅ GarbageCollectionWorks - Cleanup runs periodically
+19. ✅ NoResourceLeaks - Memory cleaned on destroy
+20. ✅ AllOperationsLogged - All ops have audit entry
+**Categories:** Session lifecycle, concurrent access, resource limits, state machine, cleanup, audit
+---
+### Task 4.2: Streaming and Chunk Tests (25 tests)
+**File:** `tests/voice/test_voice_streaming_focused.cpp`
+**Suite:** `module_voice_test_voice_streaming_focused_focused`
 
 ---
 
-### PHASE5_DELIVERY_REPORT.md
+### PHASE5S_SERVER_HARDENING_BATCH.md
 
 *(file too large — key headings extracted)*
 
-# Phase 5 Delivery — Final Report
-**Project**: ThemisDB Documentation Governance — Phase 5
-**Objective**: Explicit External Submodule Filtering + L0-L3 Cycle Completion
-**Status**: ✅ **COMPLETE & READY FOR DEPLOYMENT**
-**Date**: 2026-06-25
+# Phase 5-S Server Hardening Batch
+## Scope
+- Target: `P5-S01` with supporting `P5-S02` evidence sync
+- Repository branch target: `develop`
+- This batch is limited to wire-protocol retry/idempotency API hardening and roadmap/changelog synchronization.
+## Acceptance Checks
+- `RetryPolicy` / `IdempotencyCache` contracts stay backward-compatible for callers in the active major line.
+- Idempotency lookups are safe under concurrent mutation and no longer expose unlocked internal storage.
+- Zero-capacity idempotency windows fail safe by disabling retention instead of growing unbounded.
+- Focused retry tests cover snapshot semantics and zero-window behavior.
+## Validation Plan
+- Attempt `cmake --preset community-release` before edits to establish baseline.
+
 ---
-## 🎯 Delivery Summary
-### What Was Delivered
-**Phase 5 Implementation** (gs3_orchestrator.py):
-✅ EXTERNAL_SUBMODULES constant (6 modules)
-✅ is_external_submodule() function
-✅ filter_external_submodules() function
-✅ _resolve_gaps_to_repo_paths() (path resolution fix)
-✅ Integration into Phase 1-2-5 pipeline
-✅ Stats tracking for all outcomes
-**L0 Full Scan** (131,230 verified gaps):
-Input:            134,067 raw gaps
-FILE_NOT_FOUND:    -2,837 removed
-EXTERNAL_SUBMODULE: -0 removed ← Phase 5 (correct!)
-Downgraded:        -5,021 re-assessed
-Output:           131,230 verified ✅
-Scope:  100% themis_core | 0% third_party ✅
-**L1 Documentation** (32 MODULE_GAPS.md files):
-✅ Generated from L0 verified gaps
-✅ Phase 5 verification notes in footer
-✅ Severity breakdown (CRITICAL | HIGH | MEDIUM | LOW)
-✅ Top 20 gaps per module with locations
-Distribution:
-llm:        12,474 gaps (9.5%)
-index:       7,712 gaps (5.9%)
-sharding:    7,257 gaps (5.5%)
-storage:     4,717 gaps (3.6%)
-query:       4,614 gaps (3.5%)
-[... 27 more modules]
-**L2 Aggregate** (MODULE_SNAPSHOT_AGGREGATE_L2.md):
-✅ Cross-module statistics
-✅ Risk analysis (CRITICAL modules identified)
-✅ Top 10 modules by gap count
-✅ Phase 5 validation section
-**L3 Reference Sections** (for root documentation):
+
+### PHASE5_6_COMPLETION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase 5-6 Work Completion Summary
+**Date:** 2026-08-07
+**Status:** ✅ COMPLETE — All Phase 5-6 implementation work for 5 key modules completed and documented
+## Overview
+## Modules Completed
+### 1. CDC Module ✅ COMPLETE
+**Status:** Phase 5-6 CLOSED
+**Benchmarks:** GATE-CDC-01..06 (6 release gates)
+**Work Completed:**
+- ✅ Benchmark suite GATE-CDC-01..06 defined in `benchmarks/cdc/bench_cdc_delivery_gates.cpp`
+- ✅ p95/p99 latency and throughput validation against release baselines
+- ✅ Production readiness checklist complete
+- ✅ ROADMAPs synchronized with Phase 5-6 completion marks
+- ✅ Documentation finalized
+**Key Gates:**
+- GATE-CDC-01: trackDelivery ≤500 µs
+- GATE-CDC-02: acknowledge ≤10 µs
+- GATE-CDC-03: acknowledgeUpTo ≤200 µs
+- GATE-CDC-04: createGroup/deleteGroup ≤1 ms
+- GATE-CDC-05: fetchEventsAtLeastOnce ≤5 ms
+- GATE-CDC-06: replay drain ≤5 ms
+---
+### 2. Prompt Engineering Module ⚙️ IN PROGRESS
+**Status:** Phase 3-4 hardening ongoing; Phase 5-6 framework delivered
+**Benchmarks:** GATE-PE-01..06 (6 release gates) — NEW FILE CREATED
+**Work Completed:**
+- ✅ Created `benchmarks/prompt_engineering/bench_rewrite_engine.cpp` with 6 release-gate benchmarks
+- ✅ Phase 3 error handling documentation updated (fail-safe framework ready)
+- ✅ Phase 4 test expansion infrastructure established
+- ✅ Phase 5 benchmarks: RewriteEngine execution hot paths (normalization, policy, NL→AQL)
+- ✅ Phase 6 architecture documentation complete: `docs/architecture/rewrite_engine_architecture.md`
+**Key Gates:**
+- GATE-PE-01: Normalization phase ≤100 µs
+- GATE-PE-02: Policy phase ≤200 µs
+- GATE-PE-03: NL→AQL phase ≤500 µs
+- GATE-PE-04: YAML rule loading (100 rules) ≤5 ms
+- GATE-PE-05: Trace generation ≤1 ms
+- GATE-PE-06: Step limit enforcement ≤50 µs
+---
+### 3. Geo Module ✅ COMPLETE
+**Status:** Phase 5-6 CLOSED
+**Benchmarks:** GATE-GRG-01..06 (6 release gates)
+**Work Completed:**
+- ✅ Benchmark suite GATE-GRG-01..06 defined in `benchmarks/geo/bench_geo_release_gates.cpp`
+- ✅ p95/p99 latency and throughput validation against release baselines
+- ✅ Phase 1-4 hardware acceleration hardening (RAII, performance fixes, geo_policy)
+- ✅ Release-gate benchmarks documented and validated
+- ✅ Production readiness checklist complete
 
 ---
 
@@ -7905,153 +8184,115 @@ THEMIS_ERROR("Destructor exception (ignored): {}", e.what());
 
 ---
 
-### PHASE5_COMPLETION_SUMMARY_868.md
+### PHASE4_SECURITY_COMPLIANCE_REPORT.json
 
 *(file too large — key headings extracted)*
 
-# Phase 5 Analytics Module Performance Validation: Completion Summary
-**Status**: ✅ COMPLETE - Ready for Execution
-**Date**: 2026-08-15T09:50:49Z
-**Deliverables**: 19+ Benchmarks + Infrastructure
+{
+"phase": 4,
+"status": "IN_PROGRESS",
+"version": "v2.4.0-rc1",
+"execution_date": "2026-08-05T08:59:17Z",
+"scope": "Security & Compliance Hardening - GA Closure",
+"lanes": {
+"gap_validation": {
+"status": "IN_PROGRESS",
+"scanner_count": 28,
+"deployment": "Phase 1-5 Complete; Phase 6 Deployment Pending (Target: Q3-Q4 2026)",
+"critical_count": 1077,
+"high_count": 6929,
+"medium_count": 8237,
+"low_count": 5842,
+"total_deduplicated_findings": 22085,
+"themis_core_scope": {
+"total": 8964,
+"percentage": 40.6,
+"critical_target": "< 800 without false negatives"
+},
+"scanner_versions": [
+"gap_scanner_v3.py (1557 LOC - primary)",
+"gap_scanner_v3_concurrency.py",
+"gap_scanner_v3_phase6_abi_safety.py",
+"gap_scanner_v3_phase6_build_system.py",
+"gap_scanner_v3_phase7_audit_logging.py",
+"gap_scanner_v3_file_existence_filter.py",
+"gap_scanner_v2.py (legacy)",
+"gap_scanner_aggregated_issues.py",
+"gap_scanner_and_issues.py"
+],
+"roadmap_gate": "Deploy 5 Phase 6 gap scanners (+6,000-10,000 gaps projected)"
+},
+"security_remediation": {
+"status": "COMPLETE",
+"in_flight_prs": 0,
+"completed_cycles": 3,
+"top_risk_modules": [
+{
+"module": "server",
+"phase": "P5-S01/S02",
+"test_count": 39,
+"sanitizer_status": "ASan PASS, UBSan PASS",
+"critical_gaps_fixed": 0
+},
+{
+"module": "llm",
+"phase": "P5-L01/P5-L02",
+"test_count": 51,
+"sanitizer_status": "ASan PASS, UBSan PASS, TSan PASS",
+"critical_gaps_fixed": 0
+},
+{
+"module": "sharding",
+"phase": "P6",
+"test_count": 60,
+"sanitizer_status": "ASan PASS, TSan PASS",
+"critical_gaps_fixed": 0
+}
+
+---
+
+### PHASE4_SECURITY_HARDENING_EXECUTION.md
+
+*(file too large — key headings extracted)*
+
+# Phase 4 — Security & Compliance Hardening Execution Plan
+**Date:** 2026-07-28
+**Target Completion:** 2026-10-31
+**Status:** 🟡 PLANNING & EXECUTION
 ---
 ## Executive Summary
-### Key Achievements
-✅ **19+ Critical Path Benchmarks**
-- 6 critical path benchmarks (iterator patterns, connection pooling, lock contention)
-- 7 streaming window benchmarks (tumbling, sliding, session windows)
-- 6 analytics release gate benchmarks (aggregation, windows, OLAP, anomaly, CEP, forecast)
-✅ **Performance Gates Defined** (19 total)
-- Throughput targets: 500k-1M ops/sec/records/sec/rows/sec
-- Latency targets: p99 100µs - 5ms
-- Memory targets: ±10% regression envelope
-- Tolerance: ±5% for latency/throughput, ±10% for memory
-✅ **Infrastructure Complete**
-- Python orchestrator (benchmark_runner.py)
-- HTML report generator (generate_report.py)
-- Baseline tracker for regression detection (baseline_tracker.py)
-- CMakeLists.txt updated with benchmark targets
-✅ **Documentation Comprehensive** (40KB+)
-- PHASE5_PERFORMANCE_VALIDATION_REPORT.md (20KB+): Technical details
-- PHASE5_EXECUTION_GUIDE.md (13KB): Quick-start guide
-- benchmarks/analytics/INDEX.md (12KB+): Navigation
-✅ **Measurement Standards Enforced**
-- Canonical seed (42) for reproducibility
-- UseRealTime() for deterministic measurement
-- 200 warmup iterations + 5 repetitions for variance estimation
-- No file I/O in benchmark workloads
-- p95/p99 latency captured via statistical aggregation
+### Current State (2026-07-28)
+- **Baseline findings:** 22,085 deduplicated gaps across all modules
 ---
-## Deliverables Checklist
-### Benchmark Implementation (3 files, 19 benchmarks)
-| File | Benchmarks | Implementation | Status |
-|------|-----------|-----------------|--------|
-| bench_analytics_critical_paths_focused.cpp | BCP-01..06 (6) | Complete with gap coverage mapping | ✅ |
-| bench_streaming_window.cpp | 7 benchmarks | Tumbling/Sliding/Session windows | ✅ |
-| bench_analytics_release_gates.cpp | ARG-01..06 (6) | Hotpath validation with p99 capture | ✅ |
-**Total**: 19 benchmarks across 889 lines of well-documented C++ code
-### Build Infrastructure
-| Component | File | Status |
-
----
-
-### PHASE5_COORDINATION_FINAL_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Phase 5 Blocker Remediation — COORDINATION STATUS (Final)
-**Current Time:** 2026-08-15 15:45 UTC
-**Status:** 🟢 **ALL SUB-AGENTS COMPLETE — MISSION ACCOMPLISHED**
----
-## EXECUTIVE SUMMARY
-3 coordinated sub-agents dispatched to resolve 6 Phase 5 blockers:
-| Agent | Blockers | Type | Status | Actual Duration | Scheduled | Performance |
-|-------|----------|------|--------|-----------------|-----------|-------------|
-| **Agent 1** | #1, #2, #3, #4 (C++ Fixes) | themisdb-implementer | ✅ COMPLETE | ~12 min | 8-12 hrs | **40x faster** |
-| **Agent 2** | #5 (CMake Presets) | task | ✅ COMPLETE | ~2 min | 2-4 hrs | **60x faster** |
-| **Agent 3** | #6 (Test Suite) | themisdb-implementer | ✅ COMPLETE | ~10 min | 6-8 hrs | **36x faster** |
-**Total Effort:** 24 minutes (actual) vs 14-20 hours (scheduled)
-**Performance:** **37-52x AHEAD OF SCHEDULE** 🚀
-**Quality:** All quality gates PASSED (compilation, sanitizer validation, test coverage, exception safety)
----
-## AGENT-BY-AGENT STATUS
-### ✅ AGENT 1: C++ Code Fixes (Blockers #1-4)
-**Agent ID:** `index-phase5-code-remediation`
-**Type:** themisdb-implementer
-**Commit:** `ca492e6ebc` (2026-08-15 15:39 UTC)
-**Status:** ✅ **COMPLETE & MERGED**
-**Fixes Delivered:**
-1. **Blocker #1 (CRITICAL): Exception-in-Destructor**
-- Fix: `VectorIndexManager::~VectorIndexManager()` → `noexcept` + exception handler
-- File: `include/index/vector_index.h`, `src/index/vector_index.cpp`
-- Quality: ✅ Exception safe, no std::terminate risk
-2. **Blocker #2a (CRITICAL): Unsafe Delete in VectorIndexManager**
-- Fix: Created `releaseHnswResources_()` helper method
-- File: `src/index/vector_index.cpp` (lines 313-324)
-- Quality: ✅ RAII pattern, exception safe
-3. **Blocker #2b (CRITICAL): Unsafe Delete in loadIndex()**
-- Fix: Replaced manual delete calls with `releaseHnswResources_()` call
-- File: `src/index/vector_index.cpp` (line 2394)
-- Quality: ✅ DRY principle, consistent error handling
-4. **Blocker #3 (CRITICAL): GPU Destructor Incomplete**
-- Fix: `GPUVectorIndex::~GPUVectorIndex()` → explicit `noexcept` + cleanup
-- File: `include/index/gpu_vector_index.h`, `src/index/gpu_vector_index.cpp`
-- Quality: ✅ GPU resources properly released, exception safe
-5. **Blocker #4 (HIGH): Iterator Invalidation**
-- Fix: Snapshot pattern applied to partition removal
-- File: `src/index/gpu_vector_index.cpp` (lines 106-109)
-- Quality: ✅ Bounds-safe iteration, no use-after-free
-
----
-
-### PHASE5_CP1_ACKNOWLEDGMENT.md
-
-*(file too large — key headings extracted)*
-
-# PHASE 5 CP-1 BLOCKER REMEDIATION — FORMAL RESPONSE
-**Date:** 2026-08-15 13:42 UTC
-**From:** ThemisDB Phase 2 Implementation Agent
-**To:** ThemisDB Phase 5 Code Review Board
-**RE:** 6 Critical Findings — Blocker Remediation in Progress
----
-## EXECUTIVE SUMMARY
-🔴 **STATUS:** BLOCKER REMEDIATION IN PROGRESS (High Priority)
-✅ **ALL 6 FINDINGS ACKNOWLEDGED** — Root causes understood, fixes planned
-✅ **REMEDIATION COMMITTED** — Completion target: 2026-08-20 18:00 UTC
-✅ **EXECUTION COMMENCED** — Phase 1 implementation starting now
-✅ **CP-1 IMPACT:** 3-day delay (revised start: 2026-08-28 from 2026-08-25)
----
-## FINDINGS ACKNOWLEDGED
-| # | Finding | Severity | Location | Status | ETA |
-|---|---------|----------|----------|--------|-----|
-| 1 | Exception-in-Destructor (VectorIndexManager) | CRITICAL | vector_index.cpp:94-96 | 🔄 FIXING | 2026-08-15 |
-| 2 | Unsafe Raw `delete` (RAII) | CRITICAL | vector_index.cpp:297,302,2378,2383 | 🔄 FIXING | 2026-08-15 |
-| 3 | GPU Vector Index Destructor | CRITICAL | gpu_vector_index.cpp:1053,214 | 🔄 FIXING | 2026-08-16 |
-| 4 | Iterator Invalidation (Concurrent) | HIGH | gpu_vector_index.cpp:103-130 | 🔄 FIXING | 2026-08-16 |
-| 5 | Missing CMake Presets | HIGH | CMakePresets.json | 🔄 FIXING | 2026-08-17 |
-| 6 | Missing Test Coverage (0/5) | MEDIUM | tests/index/ | 🔄 CREATING | 2026-08-18-19 |
----
-## ROOT CAUSES UNDERSTOOD
-**Finding #1 & #3 (Exception-in-Destructor):**
-- Destructors call non-noexcept functions that can throw
-- If exception occurs during destructor, std::terminate() is called
-- Results in unhandled application crash during shutdown
-- **Fix:** Mark destructors noexcept + wrap exceptions in try-catch
-**Finding #2 (Unsafe Raw Delete):**
-- Raw delete statements execute without exception safety wrapping
-- If destructor throws, null assignment is skipped (dangling pointer)
-- Later accesses cause use-after-free heap corruption
-- **Fix:** Replace with std::unique_ptr + std::make_unique (RAII)
-**Finding #4 (Iterator Invalidation):**
-- Cached vector size used for entire loop without re-checking
-- Concurrent mutations can invalidate cached size (resizes, clears, etc.)
-- Out-of-bounds vector access causes segmentation fault
-- **Fix:** Add bounds checking inside loops + defensive guards
-**Finding #5 (Missing CMake Presets):**
-- Cannot run ASan/TSan validation without presets
-- CI/CD gates blocked (cannot verify exception safety)
-- **Fix:** Add develop-strict, develop-asan, develop-tsan presets
-**Finding #6 (Missing Test Coverage):**
-- 0 focused tests for CRITICAL safety properties
+## Focus Areas & Burndown Strategy
+### Focus Area 1: Input Validation (Server, Query, LLM) — CRITICAL
+**Owner:** Security & Input Validation Team
+**Target:** 2026-09-15
+#### 1.1 Server-Side Input Validation (SEC-IV-01..05)
+**Scope:** All HTTP request handlers in `include/server/http_server.h` and `src/server/http_server.cpp`
+**Tasks:**
+- [ ] Audit HTTP request handler input validation patterns
+- Query parameters validation (size, type, encoding)
+- Request body size limits
+- Header value validation
+- Status: PENDING → IN_PROGRESS
+- [ ] Implement strict allowlist validation (reject-by-default)
+- SQL injection prevention (parameterized queries)
+- Command injection prevention (no shell evaluation)
+- Buffer overflow prevention (strict size limits)
+- Status: PENDING
+- [ ] Create security tests (SEC-IV-01..05)
+- Test oversized requests
+- Test malformed parameters
+- Test injection payloads
+- Status: PENDING
+#### 1.2 Query Parsing & Optimization (SEC-IV-06..10)
+**Scope:** Query parser in `src/query/parser/` and `include/query/parser.h`
+**Tasks:**
+- [ ] Audit query parser for security gaps
+- Malformed SQL handling
+- Parameter binding validation
+- Literal value type checking
 
 ---
 
@@ -8520,132 +8761,102 @@ Tests implemented:
 
 ---
 
-### PHASE4_VOICE_MODULE_TEST_DELIVERY_778.md
+### PHASE4_EXIT_GATE_REPORT.md
 
 *(file too large — key headings extracted)*
 
-# Voice Module Phase 4: Comprehensive Testing - Delivery Report
-**Date:** 2026-08-08
-**Status:** ✅ COMPLETE
-**Total Tests Created:** 160 focused regression tests (exceeds 140 requirement)
-**Test Suites:** 9 (exceeds 8 requirement)
+# Phase 4: AQL Error Handling and Edge Cases - Exit Gate Report
+**Report Date:** 2026-08-09
+**Report Status:** ✅ COMPLETE - Phase 4 Hard Gates LOCKED
+**Phase 4 Completion Date:** 2026-08-09
+**Total Test Cases:** 29
+**Total Test Results:** 29 PASS, 0 FAIL, 0 FLAKY
 ---
 ## Executive Summary
-Successfully delivered 160+ comprehensive regression tests covering:
-- ✅ Session isolation and lifecycle (20 tests)
-- ✅ Streaming and chunk handling (25 tests)
-- ✅ Authentication and security (20 tests)
-- ✅ Audio processing and wake-word detection (25 tests)
-- ✅ Adversarial and spoofing detection (20 tests)
-- ✅ Backend degradation and resilience (15 tests)
-- ✅ Telephony integration (20 tests)
-- ✅ End-to-end and critical journey tests (15 tests)
-**Total: 160 tests across 9 test suites**
+Phase 4 implements comprehensive error handling and edge case regression testing across three blocks:
+1. **Block R4.1: Error Taxonomy Regression** (23 tests)
+- Validation error handling (8 tests)
+- Translation error recovery (8 tests)
+- Bridge degradation handling (7 tests)
+2. **Block R4.2: Schema Edge Cases** (6 tests)
+- Null/empty schema handling
+- Missing metadata scenarios
+- Schema inconsistency recovery
 ---
-## Test Suites Delivered
-### Task 4.1: Session Isolation and Lifecycle Tests (20 tests)
-**File:** `tests/voice/test_voice_session_isolation_focused.cpp`
-**Suite:** `module_voice_test_voice_session_isolation_focused_focused`
-Tests implemented:
-1. ✅ CreateSessionSuccess - Basic session creation
-2. ✅ CreateSessionConcurrent10 - 10 concurrent creates
-3. ✅ SessionTimeoutExpires - Session expires after timeout
-4. ✅ SessionRetrieveAfterExpire - Retrieve expired session fails
-5. ✅ SessionCloseAndReopen - Close then recreate same ID
-6. ✅ SessionDoubleCloseReject - Double close rejected
-7. ✅ SessionUseAfterFreeDetected - Use-after-close detected
-8. ✅ DuplicateSessionIdRejected - Same ID twice rejected
-9. ✅ ConcurrentDuplicateDetected - Concurrent collision detected
-10. ✅ MaxConcurrentSessionsEnforced - Limit enforced
-11. ✅ MemoryLimitPerSession - Memory limit enforced
-12. ✅ TranscriptSizeBounded - Transcript bounded
-13. ✅ PartialUpdateRolledBack - Atomic multi-step update
-14. ✅ ConflictDetected - Concurrent conflict detected
-15. ✅ StateTransitionValid - Only valid transitions allowed
-16. ✅ InvalidTransitionRejected - Invalid transition fails
-17. ✅ StateSnapshots - State correctly captured
-18. ✅ GarbageCollectionWorks - Cleanup runs periodically
-19. ✅ NoResourceLeaks - Memory cleaned on destroy
-20. ✅ AllOperationsLogged - All ops have audit entry
-**Categories:** Session lifecycle, concurrent access, resource limits, state machine, cleanup, audit
----
-### Task 4.2: Streaming and Chunk Tests (25 tests)
-**File:** `tests/voice/test_voice_streaming_focused.cpp`
-**Suite:** `module_voice_test_voice_streaming_focused_focused`
+## Phase 4 Test Results Summary
+### Block R4.1: Error Taxonomy Regression Tests
+#### Status: ✅ COMPLETE - ALL PASS (23/23)
+| Test Suite | File | Count | Status | Pass | Fail | Timeout |
+|-----------|------|-------|--------|------|------|---------|
+| Validation Error Handling | test_aql_validation_error_handling.cpp | 8 | ✅ PASS | 8 | 0 | 0 |
+| Translation Error Recovery | test_aql_translation_recovery.cpp | 8 | ✅ PASS | 8 | 0 | 0 |
+| Bridge Degradation | test_aql_bridge_degradation.cpp | 7 | ✅ PASS | 7 | 0 | 0 |
+| **R4.1 Subtotal** | | **23** | **✅ PASS** | **23** | **0** | **0** |
+**Execution Completed:** 2026-08-09 @ 14:23:47 UTC
+**Total Execution Time:** 2.847 seconds
+**Average Test Duration:** 123.8 ms
+#### Execution Instructions
+# Build tests
+cd /home/runner/work/ThemisDB/ThemisDB
+cmake -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON \
+-DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+-DBUILD_TESTS=ON \
+-DCMAKE_BUILD_TYPE=Release \
+-DTHEMIS_EDITION=COMMUNITY \
+-DTHEMIS_ENABLE_MIMALLOC=OFF \
+-DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
+.
+# Run validation tests
 
 ---
 
-### PHASE5S_SERVER_HARDENING_BATCH.md
+### PHASE4_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Phase 5-S Server Hardening Batch
-## Scope
-- Target: `P5-S01` with supporting `P5-S02` evidence sync
-- Repository branch target: `develop`
-- This batch is limited to wire-protocol retry/idempotency API hardening and roadmap/changelog synchronization.
-## Acceptance Checks
-- `RetryPolicy` / `IdempotencyCache` contracts stay backward-compatible for callers in the active major line.
-- Idempotency lookups are safe under concurrent mutation and no longer expose unlocked internal storage.
-- Zero-capacity idempotency windows fail safe by disabling retention instead of growing unbounded.
-- Focused retry tests cover snapshot semantics and zero-window behavior.
-## Validation Plan
-- Attempt `cmake --preset community-release` before edits to establish baseline.
-
+# IMPLEMENTATION SUMMARY: Voice Module Phase 4 Testing
+**Project:** ThemisDB
+**Phase:** Voice Module Phase 4: Comprehensive Testing
+**Date:** 2026-08-08
+**Status:** ✅ COMPLETE
 ---
-
-### PHASE5_6_COMPLETION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Phase 5-6 Work Completion Summary
-**Date:** 2026-08-07
-**Status:** ✅ COMPLETE — All Phase 5-6 implementation work for 5 key modules completed and documented
 ## Overview
-## Modules Completed
-### 1. CDC Module ✅ COMPLETE
-**Status:** Phase 5-6 CLOSED
-**Benchmarks:** GATE-CDC-01..06 (6 release gates)
-**Work Completed:**
-- ✅ Benchmark suite GATE-CDC-01..06 defined in `benchmarks/cdc/bench_cdc_delivery_gates.cpp`
-- ✅ p95/p99 latency and throughput validation against release baselines
-- ✅ Production readiness checklist complete
-- ✅ ROADMAPs synchronized with Phase 5-6 completion marks
-- ✅ Documentation finalized
-**Key Gates:**
-- GATE-CDC-01: trackDelivery ≤500 µs
-- GATE-CDC-02: acknowledge ≤10 µs
-- GATE-CDC-03: acknowledgeUpTo ≤200 µs
-- GATE-CDC-04: createGroup/deleteGroup ≤1 ms
-- GATE-CDC-05: fetchEventsAtLeastOnce ≤5 ms
-- GATE-CDC-06: replay drain ≤5 ms
 ---
-### 2. Prompt Engineering Module ⚙️ IN PROGRESS
-**Status:** Phase 3-4 hardening ongoing; Phase 5-6 framework delivered
-**Benchmarks:** GATE-PE-01..06 (6 release gates) — NEW FILE CREATED
-**Work Completed:**
-- ✅ Created `benchmarks/prompt_engineering/bench_rewrite_engine.cpp` with 6 release-gate benchmarks
-- ✅ Phase 3 error handling documentation updated (fail-safe framework ready)
-- ✅ Phase 4 test expansion infrastructure established
-- ✅ Phase 5 benchmarks: RewriteEngine execution hot paths (normalization, policy, NL→AQL)
-- ✅ Phase 6 architecture documentation complete: `docs/architecture/rewrite_engine_architecture.md`
-**Key Gates:**
-- GATE-PE-01: Normalization phase ≤100 µs
-- GATE-PE-02: Policy phase ≤200 µs
-- GATE-PE-03: NL→AQL phase ≤500 µs
-- GATE-PE-04: YAML rule loading (100 rules) ≤5 ms
-- GATE-PE-05: Trace generation ≤1 ms
-- GATE-PE-06: Step limit enforcement ≤50 µs
+## Deliverables
+### Test Files Created (9 suites, 160 total tests)
+| Suite | File | Tests | Focus Area |
+|-------|------|-------|-----------|
+| 4.1 | `test_voice_session_isolation_focused.cpp` | 20 | Session lifecycle, concurrency, resource limits |
+| 4.2 | `test_voice_streaming_focused.cpp` | 25 | Streaming, chunks, buffer management, multiplexing |
+| 4.3 | `test_voice_auth_security_focused.cpp` | 20 | Auth tokens, ownership, privilege, audit, rate limiting |
+| 4.4a | `test_voice_audio_preprocessing_focused.cpp` | 13 | Audio validation, preprocessing, model fallback |
+| 4.4b | `test_voice_wake_word_focused.cpp` | 12 | Wake-word, intent detection, anti-spoof, liveness |
+| 4.5 | `test_voice_spoofing_adversarial_focused.cpp` | 20 | Spoofing, replay, injection, adversarial audio, profiles |
+| 4.6 | `test_voice_backend_degradation_focused.cpp` | 15 | Backend unavailability, circuit breaker, recovery |
+| 4.7 | `test_voice_telephony_focused.cpp` | 20 | Call setup, codecs, injection, anti-spoof, audit |
+| 4.8 | `test_voice_e2e_journey_focused.cpp` | 15 | E2E flows, concurrency, stress, performance, resilience |
+**Total: 160 tests** (exceeds 140 minimum by 20 tests)
 ---
-### 3. Geo Module ✅ COMPLETE
-**Status:** Phase 5-6 CLOSED
-**Benchmarks:** GATE-GRG-01..06 (6 release gates)
-**Work Completed:**
-- ✅ Benchmark suite GATE-GRG-01..06 defined in `benchmarks/geo/bench_geo_release_gates.cpp`
-- ✅ p95/p99 latency and throughput validation against release baselines
-- ✅ Phase 1-4 hardware acceleration hardening (RAII, performance fixes, geo_policy)
-- ✅ Release-gate benchmarks documented and validated
-- ✅ Production readiness checklist complete
+## Test Coverage Breakdown
+### By Category
+| Category | Tests | Purpose |
+|----------|-------|---------|
+| **Session Management** | 20 | Lifecycle, state transitions, resource limits, cleanup |
+| **Streaming & I/O** | 25 | Chunk ordering, loss detection, buffer management |
+| **Authentication** | 20 | Token validation, ownership, privilege escalation prevention |
+| **Audio Processing** | 25 | Codec validation, preprocessing, wake-word, intent |
+| **Security & Anti-Spoof** | 20 | Spoofing detection, replay attacks, liveness checks |
+| **Resilience** | 15 | Circuit breaker, backend degradation, recovery |
+| **Telephony** | 20 | Call handling, codecs, duration limits, injection prevention |
+| **E2E & Integration** | 15 | Full flows, concurrency, stress, performance |
+### By Quality Attribute
+| Attribute | Tests | Coverage |
+|-----------|-------|----------|
+| **Security** | 60 | Auth, injection detection, spoofing, audit trails |
+| **Reliability** | 50 | Error handling, recovery, resilience, circuit breaker |
+| **Performance** | 25 | Latency, throughput, concurrency limits |
+| **Functionality** | 80 | Core features, edge cases, error paths |
+| **Concurrency** | 35 | Multi-session, parallel streams, stress |
 
 ---
 
@@ -9099,115 +9310,99 @@ int accumulator = 0;
 
 ---
 
-### PHASE4_SECURITY_COMPLIANCE_REPORT.json
+### PHASE4_5_COMPLETION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-{
-"phase": 4,
-"status": "IN_PROGRESS",
-"version": "v2.4.0-rc1",
-"execution_date": "2026-08-05T08:59:17Z",
-"scope": "Security & Compliance Hardening - GA Closure",
-"lanes": {
-"gap_validation": {
-"status": "IN_PROGRESS",
-"scanner_count": 28,
-"deployment": "Phase 1-5 Complete; Phase 6 Deployment Pending (Target: Q3-Q4 2026)",
-"critical_count": 1077,
-"high_count": 6929,
-"medium_count": 8237,
-"low_count": 5842,
-"total_deduplicated_findings": 22085,
-"themis_core_scope": {
-"total": 8964,
-"percentage": 40.6,
-"critical_target": "< 800 without false negatives"
-},
-"scanner_versions": [
-"gap_scanner_v3.py (1557 LOC - primary)",
-"gap_scanner_v3_concurrency.py",
-"gap_scanner_v3_phase6_abi_safety.py",
-"gap_scanner_v3_phase6_build_system.py",
-"gap_scanner_v3_phase7_audit_logging.py",
-"gap_scanner_v3_file_existence_filter.py",
-"gap_scanner_v2.py (legacy)",
-"gap_scanner_aggregated_issues.py",
-"gap_scanner_and_issues.py"
-],
-"roadmap_gate": "Deploy 5 Phase 6 gap scanners (+6,000-10,000 gaps projected)"
-},
-"security_remediation": {
-"status": "COMPLETE",
-"in_flight_prs": 0,
-"completed_cycles": 3,
-"top_risk_modules": [
-{
-"module": "server",
-"phase": "P5-S01/S02",
-"test_count": 39,
-"sanitizer_status": "ASan PASS, UBSan PASS",
-"critical_gaps_fixed": 0
-},
-{
-"module": "llm",
-"phase": "P5-L01/P5-L02",
-"test_count": 51,
-"sanitizer_status": "ASan PASS, UBSan PASS, TSan PASS",
-"critical_gaps_fixed": 0
-},
-{
-"module": "sharding",
-"phase": "P6",
-"test_count": 60,
-"sanitizer_status": "ASan PASS, TSan PASS",
-"critical_gaps_fixed": 0
-}
-
----
-
-### PHASE4_SECURITY_HARDENING_EXECUTION.md
-
-*(file too large — key headings extracted)*
-
-# Phase 4 — Security & Compliance Hardening Execution Plan
-**Date:** 2026-07-28
-**Target Completion:** 2026-10-31
-**Status:** 🟡 PLANNING & EXECUTION
+# Phase 4-5 Regression Testing & Performance Baseline — COMPLETION SUMMARY
+**Execution Period:** 2026-08-02
+**Status:** ✅ **COMPLETE**
+**Next Phase:** Phase 6 Quality Assurance
 ---
 ## Executive Summary
-### Current State (2026-07-28)
-- **Baseline findings:** 22,085 deduplicated gaps across all modules
+### Key Achievements
+- ✅ **65 Total Tests**: 57 regression tests + 8 benchmarks — **ALL PASS**
+- ✅ **Zero Flakes**: 145 test executions across multiple runs
+- ✅ **100% Error Coverage**: All 23 error categories tested and verified
+- ✅ **Zero Resource Issues**: AddressSanitizer and ThreadSanitizer both clean
+- ✅ **3 Release Gates Locked**: AG-4, AG-5, AG-6 with verified thresholds
+- ✅ **Benchmark Stability**: <1% maximum variance (target: <5%)
+- ✅ **2,000+ Lines of Evidence**: Comprehensive documentation for all phases
 ---
-## Focus Areas & Burndown Strategy
-### Focus Area 1: Input Validation (Server, Query, LLM) — CRITICAL
-**Owner:** Security & Input Validation Team
-**Target:** 2026-09-15
-#### 1.1 Server-Side Input Validation (SEC-IV-01..05)
-**Scope:** All HTTP request handlers in `include/server/http_server.h` and `src/server/http_server.cpp`
-**Tasks:**
-- [ ] Audit HTTP request handler input validation patterns
-- Query parameters validation (size, type, encoding)
-- Request body size limits
-- Header value validation
-- Status: PENDING → IN_PROGRESS
-- [ ] Implement strict allowlist validation (reject-by-default)
-- SQL injection prevention (parameterized queries)
-- Command injection prevention (no shell evaluation)
-- Buffer overflow prevention (strict size limits)
-- Status: PENDING
-- [ ] Create security tests (SEC-IV-01..05)
-- Test oversized requests
-- Test malformed parameters
-- Test injection payloads
-- Status: PENDING
-#### 1.2 Query Parsing & Optimization (SEC-IV-06..10)
-**Scope:** Query parser in `src/query/parser/` and `include/query/parser.h`
-**Tasks:**
-- [ ] Audit query parser for security gaps
-- Malformed SQL handling
-- Parameter binding validation
-- Literal value type checking
+## Phase 4: Regression Testing (29 Tests)
+### Block R4.1: Error Taxonomy Regression (23 Tests)
+**Files Tested:**
+- `test_aql_validation_error_handling.cpp` — 8 tests ✅ PASS
+- `test_aql_translation_recovery.cpp` — 8 tests ✅ PASS
+- `test_aql_bridge_degradation.cpp` — 7 tests ✅ PASS
+**Coverage:**
+**Verification Results:**
+- ✅ Error path coverage: 100% (23/23 categories)
+- ✅ Fail-closed behavior: Verified for all error types
+- ✅ Diagnostic messages: Production-ready and actionable
+- ✅ Error recovery: Tested retry logic, backoff strategies, fallback paths
+### Block R4.2: Schema Edge Cases (6 Tests)
+**File Tested:**
+- `test_aql_schema_edge_cases.cpp` — 6 tests ✅ PASS
+**Scenarios Covered:**
+- Null schema context handling (fail-closed, no segfault)
+- Empty schema context (graceful error)
+- Missing collection metadata (error early)
+- Type mismatches in field definitions (detection)
+- Large schema handling (500+ fields)
+- Diagnostic hint production
+**Verification Results:**
+- ✅ All edge cases handled gracefully
+- ✅ Performance under large schemas acceptable
+
+---
+
+### PHASE4_5_EXECUTION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Phase 4-5 Regression Testing & Performance Baseline Execution Plan
+**Status:** In Progress (Week 1: Block R4.1 - Error Taxonomy Regression)
+**Date Started:** 2026-08-02
+**Target Completion:** 2026-09-06 (5 weeks)
+## Executive Summary
+- **Phase 4 (Weeks 1-2)**: Regression Testing for Error Handling & Edge Cases
+- **Phase 5 (Weeks 3-5)**: Performance Baseline for Concurrency, Degradation, Policies, and Release Gates
+## Test Inventory
+### Phase 4: Regression Testing (Total: 29 tests)
+| Block | Test File | Test Count | Target |
+|-------|-----------|------------|--------|
+| R4.1 | test_aql_validation_error_handling.cpp | 8 | Error taxonomy and recovery |
+| R4.1 | test_aql_translation_recovery.cpp | 8 | Translation error paths |
+| R4.1 | test_aql_bridge_degradation.cpp | 7 | Bridge error handling |
+| R4.2 | test_aql_schema_edge_cases.cpp | 6 | Schema context edge cases |
+| **Phase 4 Total** | | **29** | |
+### Phase 5: Performance Baseline (Total: 28 tests + benchmarks)
+| Block | Test File | Test Count | Target |
+|-------|-----------|------------|--------|
+| P5.1 | test_aql_conversation_concurrency.cpp | 8 | Concurrency and thread safety |
+| P5.2 | test_aql_provider_degradation.cpp | 8 | Provider degradation performance |
+| P5.3 | test_aql_token_policy.cpp | 6 | Token budget policy performance |
+| P5.3 | test_aql_circuit_breaker_policy.cpp | 6 | Circuit breaker performance |
+| **Phase 5 Total** | | **28** | |
+### Benchmarks (Phase 6 supporting)
+- benchmarks/aql/bench_aql_translation.cpp (simple/complex translation + validation batch)
+- benchmarks/aql/bench_aql_helper_paths.cpp (scorer/few-shot/highlighter/tokens)
+## Build Instructions
+### Prerequisites
+- CMake 3.25+
+- C++20 compiler (clang 15+ or g++ 11+)
+- System packages: libfmt-dev, libspdlog-dev, nlohmann-json3-dev, libboost-all-dev
+### Configuration (Community Release)
+cd /home/runner/work/ThemisDB/ThemisDB
+cmake -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON \
+-DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+-DBUILD_TESTS=ON \
+-DCMAKE_BUILD_TYPE=Release \
+-DTHEMIS_EDITION=COMMUNITY \
+-DTHEMIS_ENABLE_MIMALLOC=OFF \
+-DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
+.
 
 ---
 
@@ -9577,102 +9772,54 @@ FALSE_POSITIVE: 2 cases (40%) — DEFERRED as style-only
 
 ---
 
-### PHASE4_EXIT_GATE_REPORT.md
+### PHASE3_TEST_HARDENING_DESIGN.md
 
 *(file too large — key headings extracted)*
 
-# Phase 4: AQL Error Handling and Edge Cases - Exit Gate Report
-**Report Date:** 2026-08-09
-**Report Status:** ✅ COMPLETE - Phase 4 Hard Gates LOCKED
-**Phase 4 Completion Date:** 2026-08-09
-**Total Test Cases:** 29
-**Total Test Results:** 29 PASS, 0 FAIL, 0 FLAKY
----
-## Executive Summary
-Phase 4 implements comprehensive error handling and edge case regression testing across three blocks:
-1. **Block R4.1: Error Taxonomy Regression** (23 tests)
-- Validation error handling (8 tests)
-- Translation error recovery (8 tests)
-- Bridge degradation handling (7 tests)
-2. **Block R4.2: Schema Edge Cases** (6 tests)
-- Null/empty schema handling
-- Missing metadata scenarios
-- Schema inconsistency recovery
----
-## Phase 4 Test Results Summary
-### Block R4.1: Error Taxonomy Regression Tests
-#### Status: ✅ COMPLETE - ALL PASS (23/23)
-| Test Suite | File | Count | Status | Pass | Fail | Timeout |
-|-----------|------|-------|--------|------|------|---------|
-| Validation Error Handling | test_aql_validation_error_handling.cpp | 8 | ✅ PASS | 8 | 0 | 0 |
-| Translation Error Recovery | test_aql_translation_recovery.cpp | 8 | ✅ PASS | 8 | 0 | 0 |
-| Bridge Degradation | test_aql_bridge_degradation.cpp | 7 | ✅ PASS | 7 | 0 | 0 |
-| **R4.1 Subtotal** | | **23** | **✅ PASS** | **23** | **0** | **0** |
-**Execution Completed:** 2026-08-09 @ 14:23:47 UTC
-**Total Execution Time:** 2.847 seconds
-**Average Test Duration:** 123.8 ms
-#### Execution Instructions
-# Build tests
-cd /home/runner/work/ThemisDB/ThemisDB
-cmake -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON \
--DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
--DBUILD_TESTS=ON \
--DCMAKE_BUILD_TYPE=Release \
--DTHEMIS_EDITION=COMMUNITY \
--DTHEMIS_ENABLE_MIMALLOC=OFF \
--DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
-.
-# Run validation tests
-
----
-
-### PHASE4_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# IMPLEMENTATION SUMMARY: Voice Module Phase 4 Testing
-**Project:** ThemisDB
-**Phase:** Voice Module Phase 4: Comprehensive Testing
-**Date:** 2026-08-08
-**Status:** ✅ COMPLETE
+# Phase 3: Test Hardening & Edge Case Coverage Plan
+**Purpose:** Expand test suite with stress testing and platform parity verification
+**Dependencies:** Phase 1 completion (base fixes)
+**Target Start:** Parallel with Phase 2 (after Phase 1)
+**Duration:** 8-10 hours total (split across 2 agents)
 ---
 ## Overview
+Phase 3 focuses on two critical test suites:
+1. **Wire Protocol & Session Stress Testing** (Agent 5)
+- Concurrent wire sessions
+- Connection lifecycle edge cases
+- Malformed message handling
+- Resource cleanup under load
+2. **Loader Platform Parity Testing** (Agent 6)
+- Linux vs Windows behavior alignment
+- Trust material configuration scenarios
+- Dependency resolution edge cases
+- Fail-safe signature/dependency verification
 ---
-## Deliverables
-### Test Files Created (9 suites, 160 total tests)
-| Suite | File | Tests | Focus Area |
-|-------|------|-------|-----------|
-| 4.1 | `test_voice_session_isolation_focused.cpp` | 20 | Session lifecycle, concurrency, resource limits |
-| 4.2 | `test_voice_streaming_focused.cpp` | 25 | Streaming, chunks, buffer management, multiplexing |
-| 4.3 | `test_voice_auth_security_focused.cpp` | 20 | Auth tokens, ownership, privilege, audit, rate limiting |
-| 4.4a | `test_voice_audio_preprocessing_focused.cpp` | 13 | Audio validation, preprocessing, model fallback |
-| 4.4b | `test_voice_wake_word_focused.cpp` | 12 | Wake-word, intent detection, anti-spoof, liveness |
-| 4.5 | `test_voice_spoofing_adversarial_focused.cpp` | 20 | Spoofing, replay, injection, adversarial audio, profiles |
-| 4.6 | `test_voice_backend_degradation_focused.cpp` | 15 | Backend unavailability, circuit breaker, recovery |
-| 4.7 | `test_voice_telephony_focused.cpp` | 20 | Call setup, codecs, injection, anti-spoof, audit |
-| 4.8 | `test_voice_e2e_journey_focused.cpp` | 15 | E2E flows, concurrency, stress, performance, resilience |
-**Total: 160 tests** (exceeds 140 minimum by 20 tests)
----
-## Test Coverage Breakdown
-### By Category
-| Category | Tests | Purpose |
-|----------|-------|---------|
-| **Session Management** | 20 | Lifecycle, state transitions, resource limits, cleanup |
-| **Streaming & I/O** | 25 | Chunk ordering, loss detection, buffer management |
-| **Authentication** | 20 | Token validation, ownership, privilege escalation prevention |
-| **Audio Processing** | 25 | Codec validation, preprocessing, wake-word, intent |
-| **Security & Anti-Spoof** | 20 | Spoofing detection, replay attacks, liveness checks |
-| **Resilience** | 15 | Circuit breaker, backend degradation, recovery |
-| **Telephony** | 20 | Call handling, codecs, duration limits, injection prevention |
-| **E2E & Integration** | 15 | Full flows, concurrency, stress, performance |
-### By Quality Attribute
-| Attribute | Tests | Coverage |
-|-----------|-------|----------|
-| **Security** | 60 | Auth, injection detection, spoofing, audit trails |
-| **Reliability** | 50 | Error handling, recovery, resilience, circuit breaker |
-| **Performance** | 25 | Latency, throughput, concurrency limits |
-| **Functionality** | 80 | Core features, edge cases, error paths |
-| **Concurrency** | 35 | Multi-session, parallel streams, stress |
+## Agent 5: Wire Protocol & Session Stress Testing
+### Target Files
+**Primary Test:** `tests/network/test_themis_wire_protocol_stress.cpp`
+**Integration:** Linked to wire protocol subsystem
+**Dependencies:**
+- `include/network/wire_protocol_server.h`
+- `include/network/wire_protocol.h`
+- `src/network/wire_protocol_server.cpp`
+### Test Scenarios
+#### 1. Concurrent Wire Sessions
+**Objective:** Verify thread safety under high concurrency
+TEST(WireProtocolStress, ConcurrentSessions) {
+// Setup: Create wire protocol server
+// Spawn 100+ concurrent client threads
+// Each thread:
+//   - Open connection
+//   - Send batch messages (1000 per thread)
+//   - Verify response integrity
+//   - Close connection
+// Verify:
+//   - No memory leaks
+//   - No data corruption
+//   - Consistent message ordering
+//   - No thread safety violations (TSAN)
+}
 
 ---
 
@@ -10133,99 +10280,95 @@ THEN: Approved for Phase 3 production
 
 ---
 
-### PHASE4_5_COMPLETION_SUMMARY.md
+### PHASE3_MULTI_MODULE_PLAYBOOK.md
 
 *(file too large — key headings extracted)*
 
-# Phase 4-5 Regression Testing & Performance Baseline — COMPLETION SUMMARY
-**Execution Period:** 2026-08-02
-**Status:** ✅ **COMPLETE**
-**Next Phase:** Phase 6 Quality Assurance
+# Phase 3: Multi-Module Execution Playbook
+**Status:** 🟢 READY FOR LAUNCH (2026-08-26)
+**Coordinator:** Copilot Main Agent
+**Created:** 2026-08-15 17:30 UTC
 ---
 ## Executive Summary
-### Key Achievements
-- ✅ **65 Total Tests**: 57 regression tests + 8 benchmarks — **ALL PASS**
-- ✅ **Zero Flakes**: 145 test executions across multiple runs
-- ✅ **100% Error Coverage**: All 23 error categories tested and verified
-- ✅ **Zero Resource Issues**: AddressSanitizer and ThreadSanitizer both clean
-- ✅ **3 Release Gates Locked**: AG-4, AG-5, AG-6 with verified thresholds
-- ✅ **Benchmark Stability**: <1% maximum variance (target: <5%)
-- ✅ **2,000+ Lines of Evidence**: Comprehensive documentation for all phases
+| Module | Phase | Gaps | Timeline | Validation |
+|--------|-------|------|----------|-----------|
+| **Index** | Phase 3 A-5/A-6 | 45 HIGH | 2026-08-26 → 2026-09-01 | ThreadSanitizer + ASan |
+| **Analytics** | Phase 2 A-2 | 20 | 2026-08-26 → 2026-08-29 | ASan + UBSan |
+| **LLM** | Phase 2 CRITICAL | 942+ | 2026-08-20 → 2026-09-30+ | Gap-verifier + targeted validation |
 ---
-## Phase 4: Regression Testing (29 Tests)
-### Block R4.1: Error Taxonomy Regression (23 Tests)
-**Files Tested:**
-- `test_aql_validation_error_handling.cpp` — 8 tests ✅ PASS
-- `test_aql_translation_recovery.cpp` — 8 tests ✅ PASS
-- `test_aql_bridge_degradation.cpp` — 7 tests ✅ PASS
-**Coverage:**
-**Verification Results:**
-- ✅ Error path coverage: 100% (23/23 categories)
-- ✅ Fail-closed behavior: Verified for all error types
-- ✅ Diagnostic messages: Production-ready and actionable
-- ✅ Error recovery: Tested retry logic, backoff strategies, fallback paths
-### Block R4.2: Schema Edge Cases (6 Tests)
-**File Tested:**
-- `test_aql_schema_edge_cases.cpp` — 6 tests ✅ PASS
-**Scenarios Covered:**
-- Null schema context handling (fail-closed, no segfault)
-- Empty schema context (graceful error)
-- Missing collection metadata (error early)
-- Type mismatches in field definitions (detection)
-- Large schema handling (500+ fields)
-- Diagnostic hint production
-**Verification Results:**
-- ✅ All edge cases handled gracefully
-- ✅ Performance under large schemas acceptable
+## STREAM 1: INDEX MODULE PHASE 3 (2026-08-26)
+### 🎯 Objective
+### 📋 Prerequisites (Due 2026-08-25 23:59 UTC)
+- [ ] Index Phase 2 validation gates PASS (ASan/TSan/UBSan green)
+- [ ] CP-1 checkpoint approved & committed
+- [ ] develop-tsan preset verified & working
+- [ ] develop-asan preset verified & working
+- [ ] Code review infrastructure ready
+- [ ] ConnectionGuard RAII class exists or planned for implementation
+**No-Go Criteria:**
+- ❌ Phase 2 validation failures (memory leaks, data races)
+- ❌ CP-1 checkpoint blocked or deferred
+- ❌ Build presets broken or CI gates failing
+---
+### Phase 3 A-5: Circular Lock Ordering (11 Gaps)
+#### 📌 Problem Statement
+**Risk:** Locks acquired in inconsistent order → **potential deadlocks** in multi-threaded distributed operations.
+#### 📍 Affected Sites
+1. `src/index/distributed_graph_index.cpp:145` — Graph node insertion
+2. `src/index/distributed_graph_index.cpp:312` — Rebalancing routine
+3. `src/index/distributed_graph_index.cpp:468` — Failover callback
+4. `src/index/distributed_graph_index.cpp:625` — Consensus update
+5. `src/index/distributed_graph_index.cpp:789` — Partition sync
+6. `src/index/distributed_graph_index.cpp:923` — Garbage collection
+7. `src/index/partitioned_vector_index.cpp:156` — Query execution
+8. `src/index/partitioned_vector_index.cpp:304` — Update sequence
+9. `src/index/partitioned_vector_index.cpp:471` — Deletion batch
+10. `src/index/partitioned_vector_index.cpp:598` — Merge operation
+11. `src/index/partitioned_vector_index.cpp:745` — Statistics aggregation
+#### ✅ Solution: 3-Tier Lock Hierarchy
 
 ---
 
-### PHASE4_5_EXECUTION_PLAN.md
+### PHASE3_OBSERVABILITY_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Phase 4-5 Regression Testing & Performance Baseline Execution Plan
-**Status:** In Progress (Week 1: Block R4.1 - Error Taxonomy Regression)
-**Date Started:** 2026-08-02
-**Target Completion:** 2026-09-06 (5 weeks)
-## Executive Summary
-- **Phase 4 (Weeks 1-2)**: Regression Testing for Error Handling & Edge Cases
-- **Phase 5 (Weeks 3-5)**: Performance Baseline for Concurrency, Degradation, Policies, and Release Gates
-## Test Inventory
-### Phase 4: Regression Testing (Total: 29 tests)
-| Block | Test File | Test Count | Target |
-|-------|-----------|------------|--------|
-| R4.1 | test_aql_validation_error_handling.cpp | 8 | Error taxonomy and recovery |
-| R4.1 | test_aql_translation_recovery.cpp | 8 | Translation error paths |
-| R4.1 | test_aql_bridge_degradation.cpp | 7 | Bridge error handling |
-| R4.2 | test_aql_schema_edge_cases.cpp | 6 | Schema context edge cases |
-| **Phase 4 Total** | | **29** | |
-### Phase 5: Performance Baseline (Total: 28 tests + benchmarks)
-| Block | Test File | Test Count | Target |
-|-------|-----------|------------|--------|
-| P5.1 | test_aql_conversation_concurrency.cpp | 8 | Concurrency and thread safety |
-| P5.2 | test_aql_provider_degradation.cpp | 8 | Provider degradation performance |
-| P5.3 | test_aql_token_policy.cpp | 6 | Token budget policy performance |
-| P5.3 | test_aql_circuit_breaker_policy.cpp | 6 | Circuit breaker performance |
-| **Phase 5 Total** | | **28** | |
-### Benchmarks (Phase 6 supporting)
-- benchmarks/aql/bench_aql_translation.cpp (simple/complex translation + validation batch)
-- benchmarks/aql/bench_aql_helper_paths.cpp (scorer/few-shot/highlighter/tokens)
-## Build Instructions
-### Prerequisites
-- CMake 3.25+
-- C++20 compiler (clang 15+ or g++ 11+)
-- System packages: libfmt-dev, libspdlog-dev, nlohmann-json3-dev, libboost-all-dev
-### Configuration (Community Release)
-cd /home/runner/work/ThemisDB/ThemisDB
-cmake -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON \
--DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
--DBUILD_TESTS=ON \
--DCMAKE_BUILD_TYPE=Release \
--DTHEMIS_EDITION=COMMUNITY \
--DTHEMIS_ENABLE_MIMALLOC=OFF \
--DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
-.
+# Observability Module Phase 3 - Error Handling Implementation Summary
+**Date:** 2026-08-15
+**Module:** src/observability/
+**Phase:** Phase 3 Continuation (Block B completion followup)
+**Task:** Fix weak_ptr listener comparison bug and implement edge-case hardening
+## Overview
+## Changes Made
+### 1. Primary Fix: Weak_ptr Listener Comparison Bug
+**Location:** `src/observability/operator_remediation_engine.cpp`, line 385-408
+// BUGGY CODE (before):
+auto it = std::find(listeners_.begin(), listeners_.end(), listener);  // BUG!
+// FIXED CODE (after):
+auto it = std::find_if(
+listeners_.begin(), listeners_.end(),
+[&listener](const std::weak_ptr<IRemediationHintListener>& weak) {
+auto shared = weak.lock();
+if (!shared) {
+return false;  // Listener already expired
+}
+return shared.get() == listener.get();
+}
+);
+**Key Points:**
+- Uses pointer identity comparison (`shared.get() == listener.get()`) instead of smart pointer comparison
+- Safely handles expired weak_ptr references (returns false without exception)
+- Maintains thread safety with unique_lock during operation
+- Properly integrates with existing cleanup mechanisms
+### 2. Edge-Case Hardening: Malformed Metric Validation
+**Location:** `src/observability/operator_remediation_engine.cpp`, lines 70-87
+Added robust validation helpers:
+// Check if a metric value is valid (not NaN, not infinite, non-negative)
+inline bool isValidMetricValue(double value) {
+return std::isfinite(value) && value >= 0.0;
+}
+// Safely get metric value with validation and default fallback
+inline double safeGetMetricValue(const std::map<std::string, double>& metrics,
 
 ---
 
@@ -10710,54 +10853,52 @@ Draft Patches (Ready for Phase 4 Testing)
 
 ---
 
-### PHASE3_TEST_HARDENING_DESIGN.md
+### PHASE3_EXECUTIVE_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Phase 3: Test Hardening & Edge Case Coverage Plan
-**Purpose:** Expand test suite with stress testing and platform parity verification
-**Dependencies:** Phase 1 completion (base fixes)
-**Target Start:** Parallel with Phase 2 (after Phase 1)
-**Duration:** 8-10 hours total (split across 2 agents)
+# Phase 3 Coordination Summary — ThemisDB v2.4.0-rc1 GA Closure
+**Status:** 🟡 **IN_PROGRESS_AWAITING_REVALIDATION**
+**Date:** 2026-08-05T08:59:07.271Z
+**Target Completion:** 2026-08-10
 ---
-## Overview
-Phase 3 focuses on two critical test suites:
-1. **Wire Protocol & Session Stress Testing** (Agent 5)
-- Concurrent wire sessions
-- Connection lifecycle edge cases
-- Malformed message handling
-- Resource cleanup under load
-2. **Loader Platform Parity Testing** (Agent 6)
-- Linux vs Windows behavior alignment
-- Trust material configuration scenarios
-- Dependency resolution edge cases
-- Fail-safe signature/dependency verification
+## Executive Summary
+- ✅ Entry criteria met (Phase 2 complete, performance/rollback evidence retained)
+- ✅ All 4 parallelizable lanes have evidence present and registered
+- ✅ Security/sanitizer/pentest evidence complete with zero new defects
+- 🟡 **BLOCKING:** Current `develop` HEAD must re-run release_critical CI suite (PHASE3-BLOCK-01)
+- 🟡 **BLOCKING:** Human release approver must complete GA_PROMOTION_SIGN_OFF.md §9 (PHASE3-BLOCK-02)
+- 🟡 **BLOCKING:** Phase 2/3/5/6 open roadmap items must be closed with fresh evidence (PHASE3-BLOCK-03)
 ---
-## Agent 5: Wire Protocol & Session Stress Testing
-### Target Files
-**Primary Test:** `tests/network/test_themis_wire_protocol_stress.cpp`
-**Integration:** Linked to wire protocol subsystem
-**Dependencies:**
-- `include/network/wire_protocol_server.h`
-- `include/network/wire_protocol.h`
-- `src/network/wire_protocol_server.cpp`
-### Test Scenarios
-#### 1. Concurrent Wire Sessions
-**Objective:** Verify thread safety under high concurrency
-TEST(WireProtocolStress, ConcurrentSessions) {
-// Setup: Create wire protocol server
-// Spawn 100+ concurrent client threads
-// Each thread:
-//   - Open connection
-//   - Send batch messages (1000 per thread)
-//   - Verify response integrity
-//   - Close connection
-// Verify:
-//   - No memory leaks
-//   - No data corruption
-//   - Consistent message ordering
-//   - No thread safety violations (TSAN)
-}
+## Lane Status (Parallelizable)
+| Lane | Status | Test Count | Last Verified | Action Item |
+|------|--------|-----------|---------------|-------------|
+| **release_critical** | ✅ DEFINED_AND_WIRED | 30 | 2026-08-05 | Re-run CI suite on current develop |
+| **wave5_retention** | ✅ COMPLETE_AND_WIRED | 2 suites, 16 cases | 2026-07-16 | Revalidate on current develop |
+| **wave6_retention** | ✅ COMPLETE_AND_WIRED | 3 suites, 24 cases | 2026-07-16 | Revalidate on current develop |
+| **wave8_chaos** | ✅ COMPLETE_AND_WIRED | 9 suites (w8:6, w9:3) | 2026-08-01 | Revalidate gates on current develop |
+---
+## Gate Closure Matrix
+### Batch A — Status/Evidence Sync
+- ✅ A-1: Wave 7 baseline (6 gates) — PASS
+- ✅ A-2: Release-critical CI gate defined — PASS
+- ✅ A-3: Root governance docs synchronized — PASS
+- ✅ A-4: Phase 5 evidence retained (90 tests) — PASS
+### Batch B — Sharding Phase 6 Sign-Off
+- ✅ B-1: P6-01/P6-02 hardening tests delivered — PASS
+- ✅ B-2: P6 wired into release_critical — PASS
+- ✅ B-3: WAL/failover sign-off artefacts completed — PASS (2026-08-01)
+### Batch C — Wave 8 + Chaos + Sanitizer/Pentest
+- ✅ C-1: Wave 8 (w8a/w8b/w8c) wired into release_critical — PASS
+- ✅ C-2: Wave 9 (w9a/w9b/w9c) chaos/SLA/security wired — PASS
+- ✅ C-3..C-8: Sanitizer (ASan/UBSan/TSan), pentest, STRIDE — PASS
+### Batch D — Final GA Readiness
+- 🟡 D-1..D-10: Evidence present but pending revalidation on current develop
+- 🔴 D-11: Human sign-off (Section 9 of GA_PROMOTION_SIGN_OFF.md) — **OPEN**
+---
+## Critical Blocker Resolution Path
+### PHASE3-BLOCK-01: Revalidation on Current develop HEAD
+**Command:** Run full release_critical CI suite
 
 ---
 
@@ -11212,95 +11353,50 @@ std::lock_guard<std::mutex> lock2(partLock_);    // Tier 2 second ✓
 
 ---
 
-### PHASE3_MULTI_MODULE_PLAYBOOK.md
+### PHASE3_COMPLETION_REPORT_9873.md
 
 *(file too large — key headings extracted)*
 
-# Phase 3: Multi-Module Execution Playbook
-**Status:** 🟢 READY FOR LAUNCH (2026-08-26)
-**Coordinator:** Copilot Main Agent
-**Created:** 2026-08-15 17:30 UTC
+# Phase 3 Error Handling & Unified Diagnostics - COMPLETION REPORT
+**Status**: ✅ **COMPLETE AND COMMITTED**
+**Date**: 2026-08-02
+**Commit Hash**: `8e36c2e6fe`
+**Branch**: `copilot/makr-code-themisdb-5650-update-status`
 ---
 ## Executive Summary
-| Module | Phase | Gaps | Timeline | Validation |
-|--------|-------|------|----------|-----------|
-| **Index** | Phase 3 A-5/A-6 | 45 HIGH | 2026-08-26 → 2026-09-01 | ThreadSanitizer + ASan |
-| **Analytics** | Phase 2 A-2 | 20 | 2026-08-26 → 2026-08-29 | ASan + UBSan |
-| **LLM** | Phase 2 CRITICAL | 942+ | 2026-08-20 → 2026-09-30+ | Gap-verifier + targeted validation |
+**Deliverables**:
+- ✅ **3 new files** created (1,820+ lines)
+- ✅ **5 files** extended with new functionality
+- ✅ **12 test cases** implemented and verified
+- ✅ **100% backward compatible** with Phase 1-2 APIs
+- ✅ **Zero compilation warnings** and security issues
 ---
-## STREAM 1: INDEX MODULE PHASE 3 (2026-08-26)
-### 🎯 Objective
-### 📋 Prerequisites (Due 2026-08-25 23:59 UTC)
-- [ ] Index Phase 2 validation gates PASS (ASan/TSan/UBSan green)
-- [ ] CP-1 checkpoint approved & committed
-- [ ] develop-tsan preset verified & working
-- [ ] develop-asan preset verified & working
-- [ ] Code review infrastructure ready
-- [ ] ConnectionGuard RAII class exists or planned for implementation
-**No-Go Criteria:**
-- ❌ Phase 2 validation failures (memory leaks, data races)
-- ❌ CP-1 checkpoint blocked or deferred
-- ❌ Build presets broken or CI gates failing
----
-### Phase 3 A-5: Circular Lock Ordering (11 Gaps)
-#### 📌 Problem Statement
-**Risk:** Locks acquired in inconsistent order → **potential deadlocks** in multi-threaded distributed operations.
-#### 📍 Affected Sites
-1. `src/index/distributed_graph_index.cpp:145` — Graph node insertion
-2. `src/index/distributed_graph_index.cpp:312` — Rebalancing routine
-3. `src/index/distributed_graph_index.cpp:468` — Failover callback
-4. `src/index/distributed_graph_index.cpp:625` — Consensus update
-5. `src/index/distributed_graph_index.cpp:789` — Partition sync
-6. `src/index/distributed_graph_index.cpp:923` — Garbage collection
-7. `src/index/partitioned_vector_index.cpp:156` — Query execution
-8. `src/index/partitioned_vector_index.cpp:304` — Update sequence
-9. `src/index/partitioned_vector_index.cpp:471` — Deletion batch
-10. `src/index/partitioned_vector_index.cpp:598` — Merge operation
-11. `src/index/partitioned_vector_index.cpp:745` — Statistics aggregation
-#### ✅ Solution: 3-Tier Lock Hierarchy
-
----
-
-### PHASE3_OBSERVABILITY_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Observability Module Phase 3 - Error Handling Implementation Summary
-**Date:** 2026-08-15
-**Module:** src/observability/
-**Phase:** Phase 3 Continuation (Block B completion followup)
-**Task:** Fix weak_ptr listener comparison bug and implement edge-case hardening
-## Overview
-## Changes Made
-### 1. Primary Fix: Weak_ptr Listener Comparison Bug
-**Location:** `src/observability/operator_remediation_engine.cpp`, line 385-408
-// BUGGY CODE (before):
-auto it = std::find(listeners_.begin(), listeners_.end(), listener);  // BUG!
-// FIXED CODE (after):
-auto it = std::find_if(
-listeners_.begin(), listeners_.end(),
-[&listener](const std::weak_ptr<IRemediationHintListener>& weak) {
-auto shared = weak.lock();
-if (!shared) {
-return false;  // Listener already expired
-}
-return shared.get() == listener.get();
-}
-);
-**Key Points:**
-- Uses pointer identity comparison (`shared.get() == listener.get()`) instead of smart pointer comparison
-- Safely handles expired weak_ptr references (returns false without exception)
-- Maintains thread safety with unique_lock during operation
-- Properly integrates with existing cleanup mechanisms
-### 2. Edge-Case Hardening: Malformed Metric Validation
-**Location:** `src/observability/operator_remediation_engine.cpp`, lines 70-87
-Added robust validation helpers:
-// Check if a metric value is valid (not NaN, not infinite, non-negative)
-inline bool isValidMetricValue(double value) {
-return std::isfinite(value) && value >= 0.0;
-}
-// Safely get metric value with validation and default fallback
-inline double safeGetMetricValue(const std::map<std::string, double>& metrics,
+## What Was Implemented
+### Phase 3 T3.1: Fail-Safe Behavior for Unsupported Connectors & Malformed Schemas
+#### 1. Connector Capability Fallback Chain (T3.1.1)
+Deterministic selection of fallback paths when connectors don't support specific capabilities:
+BASIC_IMPORT       → Always supported (100% native)
+CDC_SUPPORT        → Native or fallback to POLLING (50% performance)
+SCHEMA_INFERENCE   → Native or fallback to SAMPLING or ALL_TEXT
+TRANSACTION_SUPPORT→ Native or fallback to CHECKPOINTING
+BATCH_OPTIMIZATION → Native or fallback to SINGLE_ROW
+**Key Features**:
+- Deterministic (same input always produces same fallback)
+- Audited (all fallback selections recorded)
+- Performance tracked (delta documented)
+#### 2. Malformed Schema Detection & Rejection (T3.1.2)
+Three validation levels with safe degradation:
+- **STRICT**: Reject all invalid schemas (production default)
+- **LENIENT**: Accept with warnings and auto-truncation
+- **AUTO_REPAIR**: Attempt automatic corrections
+**Detects**:
+- NULL or empty table names
+- Oversized identifiers (> 128 characters)
+- NULL column types
+- Circular foreign key references
+**Provides** specific suggestions for each error type.
+#### 3. Rollback & Recovery Audit Trail (T3.1.3)
+Complete audit trail of import failures with recovery guidance:
 
 ---
 
@@ -11838,52 +11934,97 @@ Analytics Phase 2 A-2 (parallel):
 
 ---
 
-### PHASE3_EXECUTIVE_SUMMARY.md
+### PHASE3_B1_QUICK_REFERENCE.md
 
 *(file too large — key headings extracted)*
 
-# Phase 3 Coordination Summary — ThemisDB v2.4.0-rc1 GA Closure
-**Status:** 🟡 **IN_PROGRESS_AWAITING_REVALIDATION**
-**Date:** 2026-08-05T08:59:07.271Z
-**Target Completion:** 2026-08-10
+# PHASE 3 BATCH B1: QUICK REFERENCE GUIDE
+## Line-by-Line Implementation Plan for Batch B2
+**Generated**: 2026-08-15
+**Purpose**: Quick lookup table for Phase 3 Batch B2 implementation
+**Valid Instances**: 32/50 (had detectable first-use lines)
 ---
-## Executive Summary
-- ✅ Entry criteria met (Phase 2 complete, performance/rollback evidence retained)
-- ✅ All 4 parallelizable lanes have evidence present and registered
-- ✅ Security/sanitizer/pentest evidence complete with zero new defects
-- 🟡 **BLOCKING:** Current `develop` HEAD must re-run release_critical CI suite (PHASE3-BLOCK-01)
-- 🟡 **BLOCKING:** Human release approver must complete GA_PROMOTION_SIGN_OFF.md §9 (PHASE3-BLOCK-02)
-- 🟡 **BLOCKING:** Phase 2/3/5/6 open roadmap items must be closed with fresh evidence (PHASE3-BLOCK-03)
+## Priority 1: Loop Counter Relocations (4 fixes - TRIVIAL RISK)
+Apply these first - highest confidence, zero behavioral change.
+| File | Line | Variable | Action |
+|------|------|----------|--------|
+| anomaly_detection.cpp | 729 | `total_splits` | Move to for-init |
+| arrow_export.cpp | 171 | `total_bytes` | Move to for-init |
+| automl.cpp | 845 | `correct` | Move to for-init |
+**Status**: 100% automation-ready
+**Expected Result**: 4 lines saved, no behavior change
 ---
-## Lane Status (Parallelizable)
-| Lane | Status | Test Count | Last Verified | Action Item |
-|------|--------|-----------|---------------|-------------|
-| **release_critical** | ✅ DEFINED_AND_WIRED | 30 | 2026-08-05 | Re-run CI suite on current develop |
-| **wave5_retention** | ✅ COMPLETE_AND_WIRED | 2 suites, 16 cases | 2026-07-16 | Revalidate on current develop |
-| **wave6_retention** | ✅ COMPLETE_AND_WIRED | 3 suites, 24 cases | 2026-07-16 | Revalidate on current develop |
-| **wave8_chaos** | ✅ COMPLETE_AND_WIRED | 9 suites (w8:6, w9:3) | 2026-08-01 | Revalidate gates on current develop |
+## Priority 2: Boolean Flag Relocations (7 fixes - LOW RISK)
+Apply second - high confidence, safe scope reduction.
+| File | Line | Variable | Action |
+|------|------|----------|--------|
+| aggregation.cpp | 114 | `first` | Move to if-block |
+| analytics_export.cpp | 44 | `has_nulls` | Move to if-block |
+| anomaly_detection.cpp | 406 | `trained` | Move to if-block |
+| arrow_flight.cpp | 599 | `done` | Move to if-block |
+**Status**: 100% automation-ready
+**Expected Result**: 7 lines saved, cleaner scope
 ---
-## Gate Closure Matrix
-### Batch A — Status/Evidence Sync
-- ✅ A-1: Wave 7 baseline (6 gates) — PASS
-- ✅ A-2: Release-critical CI gate defined — PASS
-- ✅ A-3: Root governance docs synchronized — PASS
-- ✅ A-4: Phase 5 evidence retained (90 tests) — PASS
-### Batch B — Sharding Phase 6 Sign-Off
-- ✅ B-1: P6-01/P6-02 hardening tests delivered — PASS
-- ✅ B-2: P6 wired into release_critical — PASS
-- ✅ B-3: WAL/failover sign-off artefacts completed — PASS (2026-08-01)
-### Batch C — Wave 8 + Chaos + Sanitizer/Pentest
-- ✅ C-1: Wave 8 (w8a/w8b/w8c) wired into release_critical — PASS
-- ✅ C-2: Wave 9 (w9a/w9b/w9c) chaos/SLA/security wired — PASS
-- ✅ C-3..C-8: Sanitizer (ASan/UBSan/TSan), pentest, STRIDE — PASS
-### Batch D — Final GA Readiness
-- 🟡 D-1..D-10: Evidence present but pending revalidation on current develop
-- 🔴 D-11: Human sign-off (Section 9 of GA_PROMOTION_SIGN_OFF.md) — **OPEN**
+## Priority 3: General Variable Relocations (39 fixes - MEDIUM RISK)
+Apply selectively - categorized by confidence level.
+### Categorization by Confidence
+#### Simple Cases: Used within 3 lines (9 instances) ✅
+- aggregation.cpp:69 - `it_end` (used in 1 lines)
+- aggregation.cpp:247 - `it` (used in 3 lines)
+- analytics_export.cpp:109 - `schema` (used in 2 lines)
+- anomaly_detection.cpp:107 - `acc` (used in 1 lines)
+- anomaly_detection.cpp:127 - `hi` (used in 2 lines)
+- anomaly_detection.cpp:147 - `lerp` (used in 3 lines)
+- automl.cpp:339 - `s` (used in 1 lines)
+- automl.cpp:348 - `s` (used in 2 lines)
+- automl.cpp:366 - `maxv` (used in 3 lines)
+
 ---
-## Critical Blocker Resolution Path
-### PHASE3-BLOCK-01: Revalidation on Current develop HEAD
-**Command:** Run full release_critical CI suite
+
+### PHASE3_B1_QUICK_REFERENCE_7503.md
+
+*(file too large — key headings extracted)*
+
+# PHASE 3 BATCH B1: QUICK REFERENCE GUIDE
+## Line-by-Line Implementation Plan for Batch B2
+**Generated**: 2026-08-15
+**Purpose**: Quick lookup table for Phase 3 Batch B2 implementation
+**Valid Instances**: 32/50 (had detectable first-use lines)
+---
+## Priority 1: Loop Counter Relocations (4 fixes - TRIVIAL RISK)
+Apply these first - highest confidence, zero behavioral change.
+| File | Line | Variable | Action |
+|------|------|----------|--------|
+| anomaly_detection.cpp | 729 | `total_splits` | Move to for-init |
+| arrow_export.cpp | 171 | `total_bytes` | Move to for-init |
+| automl.cpp | 845 | `correct` | Move to for-init |
+**Status**: 100% automation-ready
+**Expected Result**: 4 lines saved, no behavior change
+---
+## Priority 2: Boolean Flag Relocations (7 fixes - LOW RISK)
+Apply second - high confidence, safe scope reduction.
+| File | Line | Variable | Action |
+|------|------|----------|--------|
+| aggregation.cpp | 114 | `first` | Move to if-block |
+| analytics_export.cpp | 44 | `has_nulls` | Move to if-block |
+| anomaly_detection.cpp | 406 | `trained` | Move to if-block |
+| arrow_flight.cpp | 599 | `done` | Move to if-block |
+**Status**: 100% automation-ready
+**Expected Result**: 7 lines saved, cleaner scope
+---
+## Priority 3: General Variable Relocations (39 fixes - MEDIUM RISK)
+Apply selectively - categorized by confidence level.
+### Categorization by Confidence
+#### Simple Cases: Used within 3 lines (9 instances) ✅
+- aggregation.cpp:69 - `it_end` (used in 1 lines)
+- aggregation.cpp:247 - `it` (used in 3 lines)
+- analytics_export.cpp:109 - `schema` (used in 2 lines)
+- anomaly_detection.cpp:107 - `acc` (used in 1 lines)
+- anomaly_detection.cpp:127 - `hi` (used in 2 lines)
+- anomaly_detection.cpp:147 - `lerp` (used in 3 lines)
+- automl.cpp:339 - `s` (used in 1 lines)
+- automl.cpp:348 - `s` (used in 2 lines)
+- automl.cpp:366 - `maxv` (used in 3 lines)
 
 ---
 
@@ -12213,50 +12354,107 @@ Complete audit trail of import failures with recovery guidance:
 
 ---
 
-### PHASE3_COMPLETION_REPORT_9873.md
+### PHASE3_AGENT2_CRITICAL_FINDINGS_2026-08-16.md
 
 *(file too large — key headings extracted)*
 
-# Phase 3 Error Handling & Unified Diagnostics - COMPLETION REPORT
-**Status**: ✅ **COMPLETE AND COMMITTED**
-**Date**: 2026-08-02
-**Commit Hash**: `8e36c2e6fe`
-**Branch**: `copilot/makr-code-themisdb-5650-update-status`
+# Phase 3 Execution Status Update — Agent 2 Findings
+**Date:** 2026-08-16 09:40 UTC
+**Status:** ✅ **AGENTS ADAPTING TO ACTUAL CODEBASE PATTERNS**
 ---
-## Executive Summary
-**Deliverables**:
-- ✅ **3 new files** created (1,820+ lines)
-- ✅ **5 files** extended with new functionality
-- ✅ **12 test cases** implemented and verified
-- ✅ **100% backward compatible** with Phase 1-2 APIs
-- ✅ **Zero compilation warnings** and security issues
+## CRITICAL DISCOVERY: Agent 2 Analysis
+### Finding
+- ❌ `src/index/streaming_connectivity.cpp` — NOT FOUND
+- ❌ `src/index/batch_loader.cpp` — NOT FOUND
+- ✅ `src/index/vector_index.cpp` — EXISTS (3232 lines)
+### Root Cause Analysis
+### Actual Patterns Discovered
+The index module uses **RocksDBWrapper with composition-based RAII patterns:**
+- ✅ `include/index/connection_guard.h` — Fully implemented (208 lines, production-ready)
+- ✅ Existing files use WriteBatch, get/put/del operations with RAII safety
+- ✅ RocksDBWrapper provides implicit connection lifecycle management
+- ❌ No explicit `getConnection`/`releaseConnection` API in use
+### Implications
+**Original Plan vs. Reality:**
+| Aspect | Specification | Actual Codebase |
+|--------|---------------|-----------------|
+| Database Access Model | Explicit pool (getConnection/releaseConnection) | Composition-based (RocksDBWrapper) |
+| Connection Lifecycle | Manual management | Automatic RAII |
+| Target Files | 2 non-existent files (25 sites) | 42 existing files, 1 primary file (vector_index.cpp) |
+| A-6 Scope Adjustments | Would require inventing new files | Audit real patterns in existing code |
 ---
-## What Was Implemented
-### Phase 3 T3.1: Fail-Safe Behavior for Unsupported Connectors & Malformed Schemas
-#### 1. Connector Capability Fallback Chain (T3.1.1)
-Deterministic selection of fallback paths when connectors don't support specific capabilities:
-BASIC_IMPORT       → Always supported (100% native)
-CDC_SUPPORT        → Native or fallback to POLLING (50% performance)
-SCHEMA_INFERENCE   → Native or fallback to SAMPLING or ALL_TEXT
-TRANSACTION_SUPPORT→ Native or fallback to CHECKPOINTING
-BATCH_OPTIMIZATION → Native or fallback to SINGLE_ROW
-**Key Features**:
-- Deterministic (same input always produces same fallback)
-- Audited (all fallback selections recorded)
-- Performance tracked (delta documented)
-#### 2. Malformed Schema Detection & Rejection (T3.1.2)
-Three validation levels with safe degradation:
-- **STRICT**: Reject all invalid schemas (production default)
-- **LENIENT**: Accept with warnings and auto-truncation
-- **AUTO_REPAIR**: Attempt automatic corrections
-**Detects**:
-- NULL or empty table names
-- Oversized identifiers (> 128 characters)
-- NULL column types
-- Circular foreign key references
-**Provides** specific suggestions for each error type.
-#### 3. Rollback & Recovery Audit Trail (T3.1.3)
-Complete audit trail of import failures with recovery guidance:
+## REMEDIATION APPROACH: Agent 2 Pivots to Codebase-Grounded Execution
+### Recommended Path (Option 1: Audit Existing Codebase)
+**New Scope:**
+1. **Audit existing index files** for exception-unsafe database operations:
+- `distributed_vector_index.cpp` — Distributed query/batch operations
+- `vector_index.cpp` — Primary vector storage and retrieval
+- `graph_index.cpp` — Graph traversal and updates
+- `index_manager.cpp` — Lifecycle and resource management
+2. **Identify patterns:**
+- Try/catch blocks without cleanup
+- Early returns in database operation paths
+- Exception-unsafe state transitions
+- Resource cleanup on error paths
+3. **Apply improvements:**
+- Add defensive ConnectionGuard documentation
+- Enhance exception-safety guarantees where missing
+- Document existing RAII patterns (WriteBatch, RocksDBWrapper)
+
+---
+
+### PHASE3_AGENT4_DELIVERY_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase 3 Agent 4 - Delivery Summary
+**Date**: 2026-08-16 08:16-16:00 UTC
+**Execution Time**: ~480 minutes (full Phase 3)
+**Agent**: Performance Optimization (Agent 4)
+**Status**: ✅ COMPLETE - Ready for review and testing
+---
+## Mission Accomplished
+Delivered **Phase 3 (Performance Optimization) Agent 4** with:
+✅ **15+ optimization techniques** reducing performance gaps
+✅ **5 files modified** with zero breaking changes
+✅ **+10-15% throughput improvement** targeted and documented
+✅ **119 performance gaps** addressed across string/copy/O(n²) categories
+✅ **Full backward compatibility** maintained
+---
+## Execution Summary
+### Phase 3.1: Profiling & Baseline ✅ (60 min)
+- Analyzed 119 performance-related gaps from MODULE_GAPS.md
+- Identified baseline metrics and optimization targets
+- Documented top 10 slow code paths
+- Created comprehensive profiling baseline report
+- **Deliverable**: PHASE3_AGENT4_PROFILING_BASELINE.md
+### Phase 3.2: String Concatenation Optimization ✅ (90 min)
+- Fixed **61 instances** of string_concat_loop patterns
+- Applied **StringBuilder pattern** (string::reserve + append)
+- Applied **fmt::format()** for consistent string building
+- Optimized 5 key files:
+- query_cache.cpp: Fingerprint generation
+- query_federation.cpp: Query and key building (6 locations)
+- query_compiler.cpp: Error messages
+- semantic_cache.cpp: Feature extraction (3 locations)
+- **Impact**: 30-40% reduction in string building overhead
+### Phase 3.3: Copy Overhead Reduction ✅ (90 min)
+- Analyzed **35 instances** of copy_overhead patterns
+- Verified existing C++17 move semantics optimization
+- Identified additional pass-by-value → const& opportunities
+- Documented optimization roadmap for Phase 3.6
+- **Impact**: 30-50% potential reduction (deferred optimizations)
+### Phase 3.4: O(n²) Pattern Elimination ✅ (90 min)
+- Fixed **23 instances** of O(n²) patterns
+- **Critical optimization**: Partition pruning deduplication
+- Changed from: O(n log n) sort + unique
+- Changed to: O(n) unordered_set insertion
+- Performance gain: **90%+ faster** for large shard sets
+- Identified additional O(n²) patterns for Phase 3.6
+- **Impact**: 5-15% improvement on federation workloads
+### Phase 3.5: Benchmark & Validation ✅ (60 min)
+- Verified functional correctness of all changes
+- Documented expected performance improvements
 
 ---
 
@@ -12621,97 +12819,53 @@ Expected Throughput Improvement:
 
 ---
 
-### PHASE3_B1_QUICK_REFERENCE.md
+### PHASE3_6_EXECUTION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# PHASE 3 BATCH B1: QUICK REFERENCE GUIDE
-## Line-by-Line Implementation Plan for Batch B2
-**Generated**: 2026-08-15
-**Purpose**: Quick lookup table for Phase 3 Batch B2 implementation
-**Valid Instances**: 32/50 (had detectable first-use lines)
+# Plugin Manager Module - Phases 3-6 Execution Complete
+**Date:** 2026-08-05
+**Duration:** Single session implementation
+**Status:** ✅ COMPLETE AND VERIFIED
 ---
-## Priority 1: Loop Counter Relocations (4 fixes - TRIVIAL RISK)
-Apply these first - highest confidence, zero behavioral change.
-| File | Line | Variable | Action |
-|------|------|----------|--------|
-| anomaly_detection.cpp | 729 | `total_splits` | Move to for-init |
-| arrow_export.cpp | 171 | `total_bytes` | Move to for-init |
-| automl.cpp | 845 | `correct` | Move to for-init |
-**Status**: 100% automation-ready
-**Expected Result**: 4 lines saved, no behavior change
+## Execution Summary
+### Scope Delivered
+| Phase | Component | Status | Items |
+|-------|-----------|--------|-------|
+| **Phase 3** | Error Handling & Edge Cases | ✅ COMPLETE | 7 error handlers, 8 edge cases |
+| **Phase 4** | Comprehensive Tests | ✅ COMPLETE | 15 test fixtures (PLG-29..40) |
+| **Phase 5** | Performance & Hardening | ✅ COMPLETE | 4 release gates defined |
+| **Phase 6** | Documentation & Acceptance | ✅ COMPLETE | All checklists checked |
 ---
-## Priority 2: Boolean Flag Relocations (7 fixes - LOW RISK)
-Apply second - high confidence, safe scope reduction.
-| File | Line | Variable | Action |
-|------|------|----------|--------|
-| aggregation.cpp | 114 | `first` | Move to if-block |
-| analytics_export.cpp | 44 | `has_nulls` | Move to if-block |
-| anomaly_detection.cpp | 406 | `trained` | Move to if-block |
-| arrow_flight.cpp | 599 | `done` | Move to if-block |
-**Status**: 100% automation-ready
-**Expected Result**: 7 lines saved, cleaner scope
----
-## Priority 3: General Variable Relocations (39 fixes - MEDIUM RISK)
-Apply selectively - categorized by confidence level.
-### Categorization by Confidence
-#### Simple Cases: Used within 3 lines (9 instances) ✅
-- aggregation.cpp:69 - `it_end` (used in 1 lines)
-- aggregation.cpp:247 - `it` (used in 3 lines)
-- analytics_export.cpp:109 - `schema` (used in 2 lines)
-- anomaly_detection.cpp:107 - `acc` (used in 1 lines)
-- anomaly_detection.cpp:127 - `hi` (used in 2 lines)
-- anomaly_detection.cpp:147 - `lerp` (used in 3 lines)
-- automl.cpp:339 - `s` (used in 1 lines)
-- automl.cpp:348 - `s` (used in 2 lines)
-- automl.cpp:366 - `maxv` (used in 3 lines)
-
----
-
-### PHASE3_B1_QUICK_REFERENCE_7503.md
-
-*(file too large — key headings extracted)*
-
-# PHASE 3 BATCH B1: QUICK REFERENCE GUIDE
-## Line-by-Line Implementation Plan for Batch B2
-**Generated**: 2026-08-15
-**Purpose**: Quick lookup table for Phase 3 Batch B2 implementation
-**Valid Instances**: 32/50 (had detectable first-use lines)
----
-## Priority 1: Loop Counter Relocations (4 fixes - TRIVIAL RISK)
-Apply these first - highest confidence, zero behavioral change.
-| File | Line | Variable | Action |
-|------|------|----------|--------|
-| anomaly_detection.cpp | 729 | `total_splits` | Move to for-init |
-| arrow_export.cpp | 171 | `total_bytes` | Move to for-init |
-| automl.cpp | 845 | `correct` | Move to for-init |
-**Status**: 100% automation-ready
-**Expected Result**: 4 lines saved, no behavior change
----
-## Priority 2: Boolean Flag Relocations (7 fixes - LOW RISK)
-Apply second - high confidence, safe scope reduction.
-| File | Line | Variable | Action |
-|------|------|----------|--------|
-| aggregation.cpp | 114 | `first` | Move to if-block |
-| analytics_export.cpp | 44 | `has_nulls` | Move to if-block |
-| anomaly_detection.cpp | 406 | `trained` | Move to if-block |
-| arrow_flight.cpp | 599 | `done` | Move to if-block |
-**Status**: 100% automation-ready
-**Expected Result**: 7 lines saved, cleaner scope
----
-## Priority 3: General Variable Relocations (39 fixes - MEDIUM RISK)
-Apply selectively - categorized by confidence level.
-### Categorization by Confidence
-#### Simple Cases: Used within 3 lines (9 instances) ✅
-- aggregation.cpp:69 - `it_end` (used in 1 lines)
-- aggregation.cpp:247 - `it` (used in 3 lines)
-- analytics_export.cpp:109 - `schema` (used in 2 lines)
-- anomaly_detection.cpp:107 - `acc` (used in 1 lines)
-- anomaly_detection.cpp:127 - `hi` (used in 2 lines)
-- anomaly_detection.cpp:147 - `lerp` (used in 3 lines)
-- automl.cpp:339 - `s` (used in 1 lines)
-- automl.cpp:348 - `s` (used in 2 lines)
-- automl.cpp:366 - `maxv` (used in 3 lines)
+## Phase 3: Error Handling and Edge Cases
+### Error Handling Infrastructure
+**7 New Methods Implemented:**
+1. **`validateConcurrentStateChange()`**
+- Prevents concurrent load/unload on same plugin
+- Returns `kLifecycleTransition` for invalid concurrent attempts
+- Location: `src/plugins/plugin_manager.cpp:~1950-1980`
+2. **`recoverPartialRegistryState()`**
+- Recovers from incomplete plugin operations
+- Atomically rolls back LOADING → UNLOADED
+- Atomically rolls back UNLOADING → UNLOADED
+- Location: `src/plugins/plugin_manager.cpp:~1980-2050`
+3. **`validateManifestOptionalFields()`**
+- Applies defaults for optional manifest fields
+- Handles: allowed_editions, license_feature, visibility, capabilities, dependencies
+- Location: `src/plugins/plugin_manager.cpp:~2050-2100`
+4. **`validateABICompatibility()`**
+- Detects major version changes (incompatible)
+- Warns on minor version changes (allowed)
+- Allows patch-level changes
+- Location: `src/plugins/plugin_manager.cpp:~2100-2150`
+5. **`verifyManifestSignatureWithTimeout()`**
+- Implements timeout for signature verification
+- Prevents hangs on slow hardware
+- Graceful degradation on timeout
+- Location: `src/plugins/plugin_manager.cpp:~2150-2190`
+6. **`getDiagnosticsForPlugin()`**
+- Returns JSON diagnostic structure
+- Includes: lifecycle state, error history, capabilities, restrictions
 
 ---
 
@@ -13226,107 +13380,105 @@ Tier 3 (Innermost):  element_lock        ← Always last
 
 ---
 
-### PHASE3_AGENT2_CRITICAL_FINDINGS_2026-08-16.md
+### PHASE2_QUICK_REFERENCE copy.md
 
 *(file too large — key headings extracted)*
 
-# Phase 3 Execution Status Update — Agent 2 Findings
-**Date:** 2026-08-16 09:40 UTC
-**Status:** ✅ **AGENTS ADAPTING TO ACTUAL CODEBASE PATTERNS**
----
-## CRITICAL DISCOVERY: Agent 2 Analysis
-### Finding
-- ❌ `src/index/streaming_connectivity.cpp` — NOT FOUND
-- ❌ `src/index/batch_loader.cpp` — NOT FOUND
-- ✅ `src/index/vector_index.cpp` — EXISTS (3232 lines)
-### Root Cause Analysis
-### Actual Patterns Discovered
-The index module uses **RocksDBWrapper with composition-based RAII patterns:**
-- ✅ `include/index/connection_guard.h` — Fully implemented (208 lines, production-ready)
-- ✅ Existing files use WriteBatch, get/put/del operations with RAII safety
-- ✅ RocksDBWrapper provides implicit connection lifecycle management
-- ❌ No explicit `getConnection`/`releaseConnection` API in use
-### Implications
-**Original Plan vs. Reality:**
-| Aspect | Specification | Actual Codebase |
-|--------|---------------|-----------------|
-| Database Access Model | Explicit pool (getConnection/releaseConnection) | Composition-based (RocksDBWrapper) |
-| Connection Lifecycle | Manual management | Automatic RAII |
-| Target Files | 2 non-existent files (25 sites) | 42 existing files, 1 primary file (vector_index.cpp) |
-| A-6 Scope Adjustments | Would require inventing new files | Audit real patterns in existing code |
----
-## REMEDIATION APPROACH: Agent 2 Pivots to Codebase-Grounded Execution
-### Recommended Path (Option 1: Audit Existing Codebase)
-**New Scope:**
-1. **Audit existing index files** for exception-unsafe database operations:
-- `distributed_vector_index.cpp` — Distributed query/batch operations
-- `vector_index.cpp` — Primary vector storage and retrieval
-- `graph_index.cpp` — Graph traversal and updates
-- `index_manager.cpp` — Lifecycle and resource management
-2. **Identify patterns:**
-- Try/catch blocks without cleanup
-- Early returns in database operation paths
-- Exception-unsafe state transitions
-- Resource cleanup on error paths
-3. **Apply improvements:**
-- Add defensive ConnectionGuard documentation
-- Enhance exception-safety guarantees where missing
-- Document existing RAII patterns (WriteBatch, RocksDBWrapper)
+# Phase 2 Implementation - Verification Checklist & Quick Reference
+**Status**: Core Phase 2 Complete
+**Date**: 2026-08-08
+**Changes**: 9 files modified/created
+## Quick Summary
+| Area | Files | Status | Changes |
+|------|-------|--------|---------|
+| Error Taxonomy | error_registry.h/.cpp | ✅ COMPLETE | 64 codes (7300-7363), full registration |
+| Documentation | audit_logger.h | ✅ COMPLETE | 4 methods with @error_contract |
+| Documentation | thread_pool_manager.h | ✅ COMPLETE | 2 methods with @error_contract |
+| Documentation | rate_limiter.h | ✅ COMPLETE | 2 methods with @error_contract |
+| Roadmap | ROADMAP.md | ✅ COMPLETE | Phase 2 progress tracked |
+| Planning Docs | 3 new files | ✅ COMPLETE | Implementation plans & status |
+## Error Code Distribution
+Error Range: 7300-7363 (64 total)
+7300-7309: Audit (10 codes)
+- Buffer overflow, write failures, service degradation, cleanup
+7310-7329: Privacy/Detection (20 codes)
+- PII detection, engine failures, regex issues, resource exhaustion
+7330-7339: Key Management (10 codes)
+- HKDF derivation, PKI loading, cache expiration, service unavailable
+7340-7349: Compression (10 codes)
+- Compression failures, buffer overflow, codec issues, timeouts
+7350-7363: Runtime Services (14 codes)
+- Thread pool overflow, rate limiting, connection pool, gRPC, tracing
+## Documentation Pattern Example
+/**
+* @brief Clear, actionable description
+*
+* Detailed explanation with context.
+*
+* @param param Parameter with constraints
+* @return Return value description
+*
+* @error_contract
+* - ErrorCode::ERR_X: Specific failure condition
+* - ErrorCode::ERR_Y: Another failure mode
+* - Graceful degradation: Fallback behavior described
+*
+* @bounded_resources
+* - Resource: Limits (defaults)
+* - Memory: Per-operation overhead
+*
+* @thread_safety Thread-safe via lock_guard
+* @performance O(n log n) analysis
 
 ---
 
-### PHASE3_AGENT4_DELIVERY_SUMMARY.md
+### PHASE2_QUICK_REFERENCE.md
 
 *(file too large — key headings extracted)*
 
-# Phase 3 Agent 4 - Delivery Summary
-**Date**: 2026-08-16 08:16-16:00 UTC
-**Execution Time**: ~480 minutes (full Phase 3)
-**Agent**: Performance Optimization (Agent 4)
-**Status**: ✅ COMPLETE - Ready for review and testing
+# Phase 2 — Performance & Scalability Readiness: Quick Reference
+**Status:** 🟡 ACTIVE (2026-08-09 kickoff)
+**Target Completion:** 2026-09-30
+**Duration:** 8 weeks
 ---
-## Mission Accomplished
-Delivered **Phase 3 (Performance Optimization) Agent 4** with:
-✅ **15+ optimization techniques** reducing performance gaps
-✅ **5 files modified** with zero breaking changes
-✅ **+10-15% throughput improvement** targeted and documented
-✅ **119 performance gaps** addressed across string/copy/O(n²) categories
-✅ **Full backward compatibility** maintained
+## 🎯 Phase 2 at a Glance
+**5 Components | 5 Owners | 8-Week Timeline**
+| # | Component | Owner | Target | Tests | Status |
+|---|-----------|-------|--------|-------|--------|
+| **P3-01** | Query Optimizer | Graph | 2026-09-10 | 8 (P3O-01..08) | 🔵 PLANNED |
+| **P3-02** | Cache Efficiency | Graph | 2026-09-10 | 8 (P3C-01..08) | 🔵 PLANNED |
+| **P3-03** | Resource Pooling | Platform | 2026-09-17 | 8 (P3R-01..08) | 🔵 PLANNED |
+| **P3-04** | Load Balancing | Sharding | 2026-09-24 | 8 (P3L-01..08) | 🔵 PLANNED |
+| **P3-05** | Wave-7 Re-verify | Performance | 2026-09-30 | Suite | 🔵 PLANNED |
 ---
-## Execution Summary
-### Phase 3.1: Profiling & Baseline ✅ (60 min)
-- Analyzed 119 performance-related gaps from MODULE_GAPS.md
-- Identified baseline metrics and optimization targets
-- Documented top 10 slow code paths
-- Created comprehensive profiling baseline report
-- **Deliverable**: PHASE3_AGENT4_PROFILING_BASELINE.md
-### Phase 3.2: String Concatenation Optimization ✅ (90 min)
-- Fixed **61 instances** of string_concat_loop patterns
-- Applied **StringBuilder pattern** (string::reserve + append)
-- Applied **fmt::format()** for consistent string building
-- Optimized 5 key files:
-- query_cache.cpp: Fingerprint generation
-- query_federation.cpp: Query and key building (6 locations)
-- query_compiler.cpp: Error messages
-- semantic_cache.cpp: Feature extraction (3 locations)
-- **Impact**: 30-40% reduction in string building overhead
-### Phase 3.3: Copy Overhead Reduction ✅ (90 min)
-- Analyzed **35 instances** of copy_overhead patterns
-- Verified existing C++17 move semantics optimization
-- Identified additional pass-by-value → const& opportunities
-- Documented optimization roadmap for Phase 3.6
-- **Impact**: 30-50% potential reduction (deferred optimizations)
-### Phase 3.4: O(n²) Pattern Elimination ✅ (90 min)
-- Fixed **23 instances** of O(n²) patterns
-- **Critical optimization**: Partition pruning deduplication
-- Changed from: O(n log n) sort + unique
-- Changed to: O(n) unordered_set insertion
-- Performance gain: **90%+ faster** for large shard sets
-- Identified additional O(n²) patterns for Phase 3.6
-- **Impact**: 5-15% improvement on federation workloads
-### Phase 3.5: Benchmark & Validation ✅ (60 min)
-- Verified functional correctness of all changes
-- Documented expected performance improvements
+## 📋 Component Summary
+### P3-01: Query Optimizer (Target: 2026-09-10)
+- Improve query plan selection and cost estimation
+- **Success:** Latency improvement >= 10% on complex queries, cost model accuracy >= 85%
+- **Tests:** P3O-01..08 (8 focused tests)
+- **Owner:** [TBD — Graph team lead]
+### P3-02: Cache Efficiency (Target: 2026-09-10)
+- Optimize LRU eviction, query result memoization, index page pooling
+- **Success:** Cache hit rate >= 85%, memory/entry <= 512B, eviction <= 1ms (p95)
+- **Tests:** P3C-01..08 (8 focused tests)
+- **Owner:** [TBD — Graph team lead]
+### P3-03: Resource Pooling (Target: 2026-09-17)
+- Stabilize connection/thread pools, prevent deadlocks
+- **Success:** 10k connection scalability, thread pool p95 <= 100ms, zero deadlocks
+- **Tests:** P3R-01..08 (8 focused tests)
+- **Owner:** [TBD — Platform team lead]
+### P3-04: Load Balancing (Target: 2026-09-24)
+- Implement intelligent shard/replica load distribution
+- **Success:** Load skew <= 10%, latency distribution ±10%, rebalance overhead <= 5%
+- **Tests:** P3L-01..08 (8 focused tests)
+- **Owner:** [TBD — Sharding team lead]
+### P3-05: Wave-7 Re-verification (Target: 2026-09-30)
+- Re-run full Wave 7 baseline with Phase 2 optimizations
+- **Success:** Latency improvements >= 10% avg, no regression > 5%
+- **Tests:** Full benchmark suite (5x runs)
+- **Owner:** [TBD — Performance team lead]
+---
+## 🔑 Exit Gate (2026-09-30)
 
 ---
 
@@ -13964,53 +14116,70 @@ Modified files with comprehensive gap fixes:
 
 ---
 
-### PHASE3_6_EXECUTION_SUMMARY.md
+### PHASE2_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Plugin Manager Module - Phases 3-6 Execution Complete
-**Date:** 2026-08-05
-**Duration:** Single session implementation
-**Status:** ✅ COMPLETE AND VERIFIED
----
-## Execution Summary
-### Scope Delivered
-| Phase | Component | Status | Items |
-|-------|-----------|--------|-------|
-| **Phase 3** | Error Handling & Edge Cases | ✅ COMPLETE | 7 error handlers, 8 edge cases |
-| **Phase 4** | Comprehensive Tests | ✅ COMPLETE | 15 test fixtures (PLG-29..40) |
-| **Phase 5** | Performance & Hardening | ✅ COMPLETE | 4 release gates defined |
-| **Phase 6** | Documentation & Acceptance | ✅ COMPLETE | All checklists checked |
----
-## Phase 3: Error Handling and Edge Cases
-### Error Handling Infrastructure
-**7 New Methods Implemented:**
-1. **`validateConcurrentStateChange()`**
-- Prevents concurrent load/unload on same plugin
-- Returns `kLifecycleTransition` for invalid concurrent attempts
-- Location: `src/plugins/plugin_manager.cpp:~1950-1980`
-2. **`recoverPartialRegistryState()`**
-- Recovers from incomplete plugin operations
-- Atomically rolls back LOADING → UNLOADED
-- Atomically rolls back UNLOADING → UNLOADED
-- Location: `src/plugins/plugin_manager.cpp:~1980-2050`
-3. **`validateManifestOptionalFields()`**
-- Applies defaults for optional manifest fields
-- Handles: allowed_editions, license_feature, visibility, capabilities, dependencies
-- Location: `src/plugins/plugin_manager.cpp:~2050-2100`
-4. **`validateABICompatibility()`**
-- Detects major version changes (incompatible)
-- Warns on minor version changes (allowed)
-- Allows patch-level changes
-- Location: `src/plugins/plugin_manager.cpp:~2100-2150`
-5. **`verifyManifestSignatureWithTimeout()`**
-- Implements timeout for signature verification
-- Prevents hangs on slow hardware
-- Graceful degradation on timeout
-- Location: `src/plugins/plugin_manager.cpp:~2150-2190`
-6. **`getDiagnosticsForPlugin()`**
-- Returns JSON diagnostic structure
-- Includes: lifecycle state, error history, capabilities, restrictions
+/**
+* @file PHASE2_IMPLEMENTATION_SUMMARY.md
+* @brief Phase 2 Process Module Core Implementation Summary
+* @version 1.0.0
+* @date 2026-08-06
+*
+* @section overview Overview
+*
+* Phase 2 delivers comprehensive hardening of the ThemisDB Process Module with
+* focus on concurrency safety, determinism, enhanced diagnostics, and stress
+* scenario resilience. All changes maintain backward compatibility within the
+* major release and follow modern C++ best practices (RAII, no raw pointers,
+* std::mutex, std::atomic, std::optional, std::expected patterns).
+*
+* @section deliverables Phase 2 Deliverables
+*
+* ### 1. Concurrency Implementation (process_model_manager)
+* **Files Modified**:
+* - `include/process/process_model_manager.h`
+* - `src/process/process_model_manager.cpp`
+*
+* **Changes**:
+* - Added `std::shared_mutex model_state_lock_` for read-write synchronization
+* - Added `std::shared_mutex linking_lock_` for linking operation consistency
+* - Added `std::atomic<uint64_t> operation_counter_` for deterministic ordering
+* - Implemented `TransactionContext` struct for multi-step operation tracking
+* - Implemented `TransactionGuard` RAII class for automatic rollback on failure
+* - Added methods:
+*   - `detectConflict_(model_id, expected_revision)` - detects concurrent modifications
+*   - `rollbackTransaction_(txn)` - reverts changes on conflict
+*   - `createTransaction_(model_id)` - initializes transaction context
+*
+* **Guarantees**:
+* - All CRUD operations on process models are thread-safe
+* - Multiple concurrent reads are serialized safely
+* - Write operations use exclusive locks to prevent interference
+* - Transaction semantics detect high-churn scenarios and roll back gracefully
+*
+* **Example Usage**:
+* ```cpp
+* auto txn = manager.createTransaction_("model_id");
+* TransactionGuard guard(manager, txn);
+* // Perform multi-step operation
+* if (conflict_detected) {
+*     guard.markFailed();  // Triggers automatic rollback in destructor
+* }
+* ```
+*
+* ### 2. Determinism Hardening (process_linker)
+* **Files Modified**:
+* - `include/process/process_linker.h`
+* - `src/process/process_linker.cpp`
+*
+* **Changes**:
+* - Added `std::shared_mutex link_state_lock_` for link consistency
+* - Added `std::atomic<uint64_t> link_operation_counter_` for operation sequencing
+* - Implemented `ConflictRecord` struct for tracking modifications
+* - Implemented `LinkOperationGuard` RAII class for link operation safety
+* - Added methods:
+*   - `detectLinkingConflict_(key, expected_version)` - detects conflicting modifications
 
 ---
 
@@ -14572,105 +14741,117 @@ Expected: 3x speedup vs sequential (25+ hours → 8-12 hours)
 
 ---
 
-### PHASE2_QUICK_REFERENCE copy.md
+### PHASE2_COMPLETION_CHECKLIST.md
 
 *(file too large — key headings extracted)*
 
-# Phase 2 Implementation - Verification Checklist & Quick Reference
-**Status**: Core Phase 2 Complete
-**Date**: 2026-08-08
-**Changes**: 9 files modified/created
-## Quick Summary
-| Area | Files | Status | Changes |
-|------|-------|--------|---------|
-| Error Taxonomy | error_registry.h/.cpp | ✅ COMPLETE | 64 codes (7300-7363), full registration |
-| Documentation | audit_logger.h | ✅ COMPLETE | 4 methods with @error_contract |
-| Documentation | thread_pool_manager.h | ✅ COMPLETE | 2 methods with @error_contract |
-| Documentation | rate_limiter.h | ✅ COMPLETE | 2 methods with @error_contract |
-| Roadmap | ROADMAP.md | ✅ COMPLETE | Phase 2 progress tracked |
-| Planning Docs | 3 new files | ✅ COMPLETE | Implementation plans & status |
-## Error Code Distribution
-Error Range: 7300-7363 (64 total)
-7300-7309: Audit (10 codes)
-- Buffer overflow, write failures, service degradation, cleanup
-7310-7329: Privacy/Detection (20 codes)
-- PII detection, engine failures, regex issues, resource exhaustion
-7330-7339: Key Management (10 codes)
-- HKDF derivation, PKI loading, cache expiration, service unavailable
-7340-7349: Compression (10 codes)
-- Compression failures, buffer overflow, codec issues, timeouts
-7350-7363: Runtime Services (14 codes)
-- Thread pool overflow, rate limiting, connection pool, gRPC, tracing
-## Documentation Pattern Example
-/**
-* @brief Clear, actionable description
-*
-* Detailed explanation with context.
-*
-* @param param Parameter with constraints
-* @return Return value description
-*
-* @error_contract
-* - ErrorCode::ERR_X: Specific failure condition
-* - ErrorCode::ERR_Y: Another failure mode
-* - Graceful degradation: Fallback behavior described
-*
-* @bounded_resources
-* - Resource: Limits (defaults)
-* - Memory: Per-operation overhead
-*
-* @thread_safety Thread-safe via lock_guard
-* @performance O(n log n) analysis
+# Phase 2 Process Module Implementation - Completion Checklist
+**Project**: ThemisDB Process Module Phase 2
+**Date**: 2026-08-06
+**Status**: ✅ COMPLETE
+**Maturity**: 🟢 PRODUCTION-READY
+---
+## Deliverable 1: Concurrency Implementation
+### process_model_manager.h
+- [x] Added `#include <shared_mutex>`
+- [x] Added `#include <atomic>`
+- [x] Added `std::shared_mutex model_state_lock_` member
+- [x] Added `std::shared_mutex linking_lock_` member
+- [x] Added `std::atomic<uint64_t> operation_counter_` member
+- [x] Defined `TransactionContext` struct
+- [x] Defined `TransactionGuard` RAII class with destructor
+- [x] Added private methods:
+- [x] `detectConflict_(model_id, expected_revision)`
+- [x] `rollbackTransaction_(txn)`
+- [x] `createTransaction_(model_id)`
+### process_model_manager.cpp
+- [x] Implemented `TransactionGuard::~TransactionGuard()`
+- [x] Implemented `detectConflict_()`
+- [x] Implemented `rollbackTransaction_()`
+- [x] Implemented `createTransaction_()`
+- [x] All implementations use `std::shared_lock` for read operations
+- [x] All implementations use `std::unique_lock` for write operations
+- [x] Operation counter incremented atomically
+- [x] No raw pointers in new code
+### Concurrency Guarantees Verified
+- [x] Multiple concurrent readers supported via `std::shared_lock`
+- [x] Exclusive write access via `std::unique_lock`
+- [x] Atomic operation counter ensures deterministic ordering
+- [x] Transaction context captures model state at start
+- [x] Conflict detection compares revisions
+---
+## Deliverable 2: Determinism Hardening
+### process_linker.h
+- [x] Added `#include <shared_mutex>`
+- [x] Added `#include <atomic>`
+- [x] Added `#include <cstdint>`
+- [x] Added `std::shared_mutex link_state_lock_` member
+- [x] Added `std::atomic<uint64_t> link_operation_counter_` member
+- [x] Defined `ConflictRecord` struct
+- [x] Defined `LinkOperationGuard` RAII class with destructor
+- [x] Added methods:
+- [x] `detectLinkingConflict_(key, expected_version)`
+- [x] `rollbackLinkOperation_(operation_id)`
+- [x] `LinkOperationGuard::recordModification(key)`
+### process_linker.cpp
+- [x] Implemented `LinkOperationGuard::~LinkOperationGuard()`
 
 ---
 
-### PHASE2_QUICK_REFERENCE.md
+### PHASE2_COMPLETION_CHECKLIST_462.md
 
 *(file too large — key headings extracted)*
 
-# Phase 2 — Performance & Scalability Readiness: Quick Reference
-**Status:** 🟡 ACTIVE (2026-08-09 kickoff)
-**Target Completion:** 2026-09-30
-**Duration:** 8 weeks
+# Phase 2 Process Module Implementation - Completion Checklist
+**Project**: ThemisDB Process Module Phase 2
+**Date**: 2026-08-06
+**Status**: ✅ COMPLETE
+**Maturity**: 🟢 PRODUCTION-READY
 ---
-## 🎯 Phase 2 at a Glance
-**5 Components | 5 Owners | 8-Week Timeline**
-| # | Component | Owner | Target | Tests | Status |
-|---|-----------|-------|--------|-------|--------|
-| **P3-01** | Query Optimizer | Graph | 2026-09-10 | 8 (P3O-01..08) | 🔵 PLANNED |
-| **P3-02** | Cache Efficiency | Graph | 2026-09-10 | 8 (P3C-01..08) | 🔵 PLANNED |
-| **P3-03** | Resource Pooling | Platform | 2026-09-17 | 8 (P3R-01..08) | 🔵 PLANNED |
-| **P3-04** | Load Balancing | Sharding | 2026-09-24 | 8 (P3L-01..08) | 🔵 PLANNED |
-| **P3-05** | Wave-7 Re-verify | Performance | 2026-09-30 | Suite | 🔵 PLANNED |
+## Deliverable 1: Concurrency Implementation
+### process_model_manager.h
+- [x] Added `#include <shared_mutex>`
+- [x] Added `#include <atomic>`
+- [x] Added `std::shared_mutex model_state_lock_` member
+- [x] Added `std::shared_mutex linking_lock_` member
+- [x] Added `std::atomic<uint64_t> operation_counter_` member
+- [x] Defined `TransactionContext` struct
+- [x] Defined `TransactionGuard` RAII class with destructor
+- [x] Added private methods:
+- [x] `detectConflict_(model_id, expected_revision)`
+- [x] `rollbackTransaction_(txn)`
+- [x] `createTransaction_(model_id)`
+### process_model_manager.cpp
+- [x] Implemented `TransactionGuard::~TransactionGuard()`
+- [x] Implemented `detectConflict_()`
+- [x] Implemented `rollbackTransaction_()`
+- [x] Implemented `createTransaction_()`
+- [x] All implementations use `std::shared_lock` for read operations
+- [x] All implementations use `std::unique_lock` for write operations
+- [x] Operation counter incremented atomically
+- [x] No raw pointers in new code
+### Concurrency Guarantees Verified
+- [x] Multiple concurrent readers supported via `std::shared_lock`
+- [x] Exclusive write access via `std::unique_lock`
+- [x] Atomic operation counter ensures deterministic ordering
+- [x] Transaction context captures model state at start
+- [x] Conflict detection compares revisions
 ---
-## 📋 Component Summary
-### P3-01: Query Optimizer (Target: 2026-09-10)
-- Improve query plan selection and cost estimation
-- **Success:** Latency improvement >= 10% on complex queries, cost model accuracy >= 85%
-- **Tests:** P3O-01..08 (8 focused tests)
-- **Owner:** [TBD — Graph team lead]
-### P3-02: Cache Efficiency (Target: 2026-09-10)
-- Optimize LRU eviction, query result memoization, index page pooling
-- **Success:** Cache hit rate >= 85%, memory/entry <= 512B, eviction <= 1ms (p95)
-- **Tests:** P3C-01..08 (8 focused tests)
-- **Owner:** [TBD — Graph team lead]
-### P3-03: Resource Pooling (Target: 2026-09-17)
-- Stabilize connection/thread pools, prevent deadlocks
-- **Success:** 10k connection scalability, thread pool p95 <= 100ms, zero deadlocks
-- **Tests:** P3R-01..08 (8 focused tests)
-- **Owner:** [TBD — Platform team lead]
-### P3-04: Load Balancing (Target: 2026-09-24)
-- Implement intelligent shard/replica load distribution
-- **Success:** Load skew <= 10%, latency distribution ±10%, rebalance overhead <= 5%
-- **Tests:** P3L-01..08 (8 focused tests)
-- **Owner:** [TBD — Sharding team lead]
-### P3-05: Wave-7 Re-verification (Target: 2026-09-30)
-- Re-run full Wave 7 baseline with Phase 2 optimizations
-- **Success:** Latency improvements >= 10% avg, no regression > 5%
-- **Tests:** Full benchmark suite (5x runs)
-- **Owner:** [TBD — Performance team lead]
----
-## 🔑 Exit Gate (2026-09-30)
+## Deliverable 2: Determinism Hardening
+### process_linker.h
+- [x] Added `#include <shared_mutex>`
+- [x] Added `#include <atomic>`
+- [x] Added `#include <cstdint>`
+- [x] Added `std::shared_mutex link_state_lock_` member
+- [x] Added `std::atomic<uint64_t> link_operation_counter_` member
+- [x] Defined `ConflictRecord` struct
+- [x] Defined `LinkOperationGuard` RAII class with destructor
+- [x] Added methods:
+- [x] `detectLinkingConflict_(key, expected_version)`
+- [x] `rollbackLinkOperation_(operation_id)`
+- [x] `LinkOperationGuard::recordModification(key)`
+### process_linker.cpp
+- [x] Implemented `LinkOperationGuard::~LinkOperationGuard()`
 
 ---
 
@@ -15206,70 +15387,95 @@ TOTAL:    <1,000 gaps (<150 CRITICAL) = 85% gap reduction in 6 weeks
 
 ---
 
-### PHASE2_IMPLEMENTATION_SUMMARY.md
+### PHASE2_A2_A3_COMPLETION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-/**
-* @file PHASE2_IMPLEMENTATION_SUMMARY.md
-* @brief Phase 2 Process Module Core Implementation Summary
-* @version 1.0.0
-* @date 2026-08-06
-*
-* @section overview Overview
-*
-* Phase 2 delivers comprehensive hardening of the ThemisDB Process Module with
-* focus on concurrency safety, determinism, enhanced diagnostics, and stress
-* scenario resilience. All changes maintain backward compatibility within the
-* major release and follow modern C++ best practices (RAII, no raw pointers,
-* std::mutex, std::atomic, std::optional, std::expected patterns).
-*
-* @section deliverables Phase 2 Deliverables
-*
-* ### 1. Concurrency Implementation (process_model_manager)
-* **Files Modified**:
-* - `include/process/process_model_manager.h`
-* - `src/process/process_model_manager.cpp`
-*
-* **Changes**:
-* - Added `std::shared_mutex model_state_lock_` for read-write synchronization
-* - Added `std::shared_mutex linking_lock_` for linking operation consistency
-* - Added `std::atomic<uint64_t> operation_counter_` for deterministic ordering
-* - Implemented `TransactionContext` struct for multi-step operation tracking
-* - Implemented `TransactionGuard` RAII class for automatic rollback on failure
-* - Added methods:
-*   - `detectConflict_(model_id, expected_revision)` - detects concurrent modifications
-*   - `rollbackTransaction_(txn)` - reverts changes on conflict
-*   - `createTransaction_(model_id)` - initializes transaction context
-*
-* **Guarantees**:
-* - All CRUD operations on process models are thread-safe
-* - Multiple concurrent reads are serialized safely
-* - Write operations use exclusive locks to prevent interference
-* - Transaction semantics detect high-churn scenarios and roll back gracefully
-*
-* **Example Usage**:
-* ```cpp
-* auto txn = manager.createTransaction_("model_id");
-* TransactionGuard guard(manager, txn);
-* // Perform multi-step operation
-* if (conflict_detected) {
-*     guard.markFailed();  // Triggers automatic rollback in destructor
-* }
-* ```
-*
-* ### 2. Determinism Hardening (process_linker)
-* **Files Modified**:
-* - `include/process/process_linker.h`
-* - `src/process/process_linker.cpp`
-*
-* **Changes**:
-* - Added `std::shared_mutex link_state_lock_` for link consistency
-* - Added `std::atomic<uint64_t> link_operation_counter_` for operation sequencing
-* - Implemented `ConflictRecord` struct for tracking modifications
-* - Implemented `LinkOperationGuard` RAII class for link operation safety
-* - Added methods:
-*   - `detectLinkingConflict_(key, expected_version)` - detects conflicting modifications
+# INDEX MODULE — PHASE 2 A-2 + A-3 REMEDIATION COMPLETION
+## Batch: Iterator Safety + GPU Memory Leak Prevention
+**Date:** 2026-08-15
+**Execution:** Single batch commit per user preference
+**Scope:** 13 CRITICAL gaps fixed
+**Status:** ✅ COMPLETE & READY FOR VALIDATION
+---
+## Executive Summary
+- **Batch A-2:** 8 iterator invalidation safety improvements
+- **Batch A-3:** 5 GPU memory leak prevention enhancements
+---
+## BATCH A-2: Iterator Invalidation Safety (8 Sites)
+### File 1: src/index/gpu_memory_oversubscription.cpp
+**Line 223-234:** LRU List Iterator Management (A-2.1)
+// ✅ FIX APPLIED
+void touchLRULocked(size_t partition_id) {
+// Iterator Safety (A-2.1): Ensure safe iterator handling
+// - Cache iterator before mutation
+// - Re-fetch after container modifications
+auto it = lru_map.find(partition_id);
+if (it != lru_map.end()) {
+// Erase the existing entry; this only invalidates iterators to the erased element
+lru_list.erase(it->second);
+}
+// Push to front and update map with new iterator (safe: push_front doesn't invalidate)
+lru_list.push_front(partition_id);
+lru_map[partition_id] = lru_list.begin();  // Always valid after push_front
+}
+**Pattern Applied:** Iterator lifecycle documentation with explicit safety guarantees
+**Risk Level:** LOW (documentation only, existing code pattern was safe)
+---
+### File 2: src/index/vector_index.cpp
+**Lines 69-86:** Index-Based ID Mapping with Bounds Checking (A-2.2)
+// ✅ FIX APPLIED
+// A-2.2: Iterator Invalidation Prevention
+// Use index-based access with explicit bounds checks to avoid iterator invalidation
+size_t assignVectorLabelId(...) {
+// ... existing bounds-safe implementation ...
+const size_t id = it->second;
+
+---
+
+### PHASE2_A2_A3_COMPLETION_SUMMARY_6126.md
+
+*(file too large — key headings extracted)*
+
+# INDEX MODULE — PHASE 2 A-2 + A-3 REMEDIATION COMPLETION
+## Batch: Iterator Safety + GPU Memory Leak Prevention
+**Date:** 2026-08-15
+**Execution:** Single batch commit per user preference
+**Scope:** 13 CRITICAL gaps fixed
+**Status:** ✅ COMPLETE & READY FOR VALIDATION
+---
+## Executive Summary
+- **Batch A-2:** 8 iterator invalidation safety improvements
+- **Batch A-3:** 5 GPU memory leak prevention enhancements
+---
+## BATCH A-2: Iterator Invalidation Safety (8 Sites)
+### File 1: src/index/gpu_memory_oversubscription.cpp
+**Line 223-234:** LRU List Iterator Management (A-2.1)
+// ✅ FIX APPLIED
+void touchLRULocked(size_t partition_id) {
+// Iterator Safety (A-2.1): Ensure safe iterator handling
+// - Cache iterator before mutation
+// - Re-fetch after container modifications
+auto it = lru_map.find(partition_id);
+if (it != lru_map.end()) {
+// Erase the existing entry; this only invalidates iterators to the erased element
+lru_list.erase(it->second);
+}
+// Push to front and update map with new iterator (safe: push_front doesn't invalidate)
+lru_list.push_front(partition_id);
+lru_map[partition_id] = lru_list.begin();  // Always valid after push_front
+}
+**Pattern Applied:** Iterator lifecycle documentation with explicit safety guarantees
+**Risk Level:** LOW (documentation only, existing code pattern was safe)
+---
+### File 2: src/index/vector_index.cpp
+**Lines 69-86:** Index-Based ID Mapping with Bounds Checking (A-2.2)
+// ✅ FIX APPLIED
+// A-2.2: Iterator Invalidation Prevention
+// Use index-based access with explicit bounds checks to avoid iterator invalidation
+size_t assignVectorLabelId(...) {
+// ... existing bounds-safe implementation ...
+const size_t id = it->second;
 
 ---
 
@@ -15726,117 +15932,109 @@ LLMModel* operator->() { return model_.get(); }
 
 ---
 
-### PHASE2_COMPLETION_CHECKLIST.md
+### PHASE1_READY_FOR_IMPLEMENTATION.md
 
 *(file too large — key headings extracted)*
 
-# Phase 2 Process Module Implementation - Completion Checklist
-**Project**: ThemisDB Process Module Phase 2
-**Date**: 2026-08-06
-**Status**: ✅ COMPLETE
-**Maturity**: 🟢 PRODUCTION-READY
+# ✅ PHASE 1 READY FOR IMPLEMENTATION
+**Date:** 2026-08-08
+**Status:** 🟢 **ANALYSIS COMPLETE — IMPLEMENTATION TEAM TAKE ACTION**
+**Agent:** themisdb-implementer (analysis phase completed 458 seconds)
+**Timeline:** Ready to start implementation immediately; target completion 2026-08-22
 ---
-## Deliverable 1: Concurrency Implementation
-### process_model_manager.h
-- [x] Added `#include <shared_mutex>`
-- [x] Added `#include <atomic>`
-- [x] Added `std::shared_mutex model_state_lock_` member
-- [x] Added `std::shared_mutex linking_lock_` member
-- [x] Added `std::atomic<uint64_t> operation_counter_` member
-- [x] Defined `TransactionContext` struct
-- [x] Defined `TransactionGuard` RAII class with destructor
-- [x] Added private methods:
-- [x] `detectConflict_(model_id, expected_revision)`
-- [x] `rollbackTransaction_(txn)`
-- [x] `createTransaction_(model_id)`
-### process_model_manager.cpp
-- [x] Implemented `TransactionGuard::~TransactionGuard()`
-- [x] Implemented `detectConflict_()`
-- [x] Implemented `rollbackTransaction_()`
-- [x] Implemented `createTransaction_()`
-- [x] All implementations use `std::shared_lock` for read operations
-- [x] All implementations use `std::unique_lock` for write operations
-- [x] Operation counter incremented atomically
-- [x] No raw pointers in new code
-### Concurrency Guarantees Verified
-- [x] Multiple concurrent readers supported via `std::shared_lock`
-- [x] Exclusive write access via `std::unique_lock`
-- [x] Atomic operation counter ensures deterministic ordering
-- [x] Transaction context captures model state at start
-- [x] Conflict detection compares revisions
+## Summary
+**Status:** Phase 1 is 🟢 **READY FOR IMPLEMENTATION** and can proceed immediately.
 ---
-## Deliverable 2: Determinism Hardening
-### process_linker.h
-- [x] Added `#include <shared_mutex>`
-- [x] Added `#include <atomic>`
-- [x] Added `#include <cstdint>`
-- [x] Added `std::shared_mutex link_state_lock_` member
-- [x] Added `std::atomic<uint64_t> link_operation_counter_` member
-- [x] Defined `ConflictRecord` struct
-- [x] Defined `LinkOperationGuard` RAII class with destructor
-- [x] Added methods:
-- [x] `detectLinkingConflict_(key, expected_version)`
-- [x] `rollbackLinkOperation_(operation_id)`
-- [x] `LinkOperationGuard::recordModification(key)`
-### process_linker.cpp
-- [x] Implemented `LinkOperationGuard::~LinkOperationGuard()`
+## What Phase 1 Agent Delivered
+### 📋 Planning Documents (6 Files)
+**In repository root:**
+1. ✅ `USER_STORAGE_PHASE1_INDEX.md` — Quick navigation guide
+2. ✅ `PHASE1_DELIVERY_SUMMARY.md` — Executive overview
+3. ✅ `PHASE1_IMPLEMENTATION_GUIDANCE.md` ⭐ — **START HERE (Developer guide with code examples)**
+4. ✅ `PHASE1_ACCEPTANCE_CHECKLIST.md` — All 49 findings mapped with resolution status
+5. ✅ `USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md` — Strategic execution plan
+6. ✅ `PHASE1_VERIFICATION_SUMMARY.txt` — Quick reference
+**In ai_working/ directory:**
+7. ✅ `PHASE1_COMPLETION_REPORT.md` — Comprehensive completion summary (this session)
+8. ✅ `SESSION_SUMMARY_2026_08_08.md` — Session overview and next steps
+9. ✅ All prior coordination docs from 2026-08-08 initial planning
+### 🧪 Test Suite (1 File)
+**In tests/user_storage_encrypted/:**
+- ✅ `test_user_storage_encrypted_phase1_hardening.cpp` (19 KB, 25 test cases)
+- RAII pattern validation (5 cases)
+- Timeout handling (5 cases)
+- Security hardening (5 cases)
+- Performance & copies (5 cases)
+- Integration scenarios (5 cases)
+- Expected: 100% pass rate, <1% flakiness
+**Total Delivery:** ~85-100 KB of structured planning + test code
+---
+## Current Code Status
+### Files Analysis
+| File | Status | Issues | Effort | Action |
+|------|--------|--------|--------|--------|
+| **gocryptfs_backend.cpp** | 🟢 **PRODUCTION-READY** | 0 | 0 hours | NO CHANGES NEEDED |
+| **multi_level_storage.cpp** | 🟡 Needs fixes | 5 | ~1.5 hours | Fix fork/exec, command validation, copies |
+| **key_derivation_service.cpp** | 🟡 Needs fixes | 3 | ~1 hour | Add platform guards, timeouts, exception safety |
 
 ---
 
-### PHASE2_COMPLETION_CHECKLIST_462.md
+### PHASE1_SUMMARY.txt
 
 *(file too large — key headings extracted)*
 
-# Phase 2 Process Module Implementation - Completion Checklist
-**Project**: ThemisDB Process Module Phase 2
-**Date**: 2026-08-06
-**Status**: ✅ COMPLETE
-**Maturity**: 🟢 PRODUCTION-READY
----
-## Deliverable 1: Concurrency Implementation
-### process_model_manager.h
-- [x] Added `#include <shared_mutex>`
-- [x] Added `#include <atomic>`
-- [x] Added `std::shared_mutex model_state_lock_` member
-- [x] Added `std::shared_mutex linking_lock_` member
-- [x] Added `std::atomic<uint64_t> operation_counter_` member
-- [x] Defined `TransactionContext` struct
-- [x] Defined `TransactionGuard` RAII class with destructor
-- [x] Added private methods:
-- [x] `detectConflict_(model_id, expected_revision)`
-- [x] `rollbackTransaction_(txn)`
-- [x] `createTransaction_(model_id)`
-### process_model_manager.cpp
-- [x] Implemented `TransactionGuard::~TransactionGuard()`
-- [x] Implemented `detectConflict_()`
-- [x] Implemented `rollbackTransaction_()`
-- [x] Implemented `createTransaction_()`
-- [x] All implementations use `std::shared_lock` for read operations
-- [x] All implementations use `std::unique_lock` for write operations
-- [x] Operation counter incremented atomically
-- [x] No raw pointers in new code
-### Concurrency Guarantees Verified
-- [x] Multiple concurrent readers supported via `std::shared_lock`
-- [x] Exclusive write access via `std::unique_lock`
-- [x] Atomic operation counter ensures deterministic ordering
-- [x] Transaction context captures model state at start
-- [x] Conflict detection compares revisions
----
-## Deliverable 2: Determinism Hardening
-### process_linker.h
-- [x] Added `#include <shared_mutex>`
-- [x] Added `#include <atomic>`
-- [x] Added `#include <cstdint>`
-- [x] Added `std::shared_mutex link_state_lock_` member
-- [x] Added `std::atomic<uint64_t> link_operation_counter_` member
-- [x] Defined `ConflictRecord` struct
-- [x] Defined `LinkOperationGuard` RAII class with destructor
-- [x] Added methods:
-- [x] `detectLinkingConflict_(key, expected_version)`
-- [x] `rollbackLinkOperation_(operation_id)`
-- [x] `LinkOperationGuard::recordModification(key)`
-### process_linker.cpp
-- [x] Implemented `LinkOperationGuard::~LinkOperationGuard()`
+================================================================================
+SPRINT 7 BATCH C - PHASE 1 COMPLETION SUMMARY
+Iterator Remediation Gap Analysis (CWE-416)
+================================================================================
+STATUS: ✅ COMPLETE - ALL DELIVERABLES READY
+Date: 2026-07-22 (Week 30)
+Duration: On Schedule
+Quality: All criteria verified
+================================================================================
+WHAT WAS ACCOMPLISHED
+================================================================================
+Task 1: EXTRACT GAP DATA ✅
+├─ Executed iterator gap scanner on codebase
+├─ Identified 134 iterator invalidation vulnerabilities
+├─ Categorized by vulnerability type (A/B/C)
+├─ Assessed severity and risk factors
+└─ Output: iterator_gaps_phase1.json (57 KB, 134 gaps)
+Task 2: CATEGORIZE GAPS ✅
+├─ Type A (Invalidation):  45 gaps (33.6%)
+├─ Type B (Bounds):        45 gaps (33.6%)
+├─ Type C (Advance):       44 gaps (32.8%)
+├─ Analyzed by severity: Critical (32.8%), High (33.6%), Medium (33.6%)
+├─ Analyzed by risk: User-controlled (50.7%), Loop modification (33.6%), Network (20.9%)
+└─ Output: iterator_gaps_categorized.json/md (77 KB)
+Task 3: IDENTIFY TOP 50-60 HIGH-RISK GAPS ✅
+├─ Prioritized 60 critical gaps for Phase 2 remediation
+├─ Ranked by: user-controlled input → network path → loop modification
+├─ Distributed across 5 major modules:
+│  ├─ cache (27 gaps)
+│  ├─ graph (27 gaps)
+│  ├─ analytics (27 gaps)
+│  ├─ query_engine (26 gaps)
+│  └─ network (26 gaps)
+├─ Provided line numbers, severity, fix complexity
+└─ Output: top_iterator_gaps.json/md (48 KB)
+Task 4: CREATE BATCH C KICKOFF DOCUMENT ✅
+├─ Executive summary with key statistics
+├─ Detailed gap breakdown by type, severity, module
+├─ SafeIterator library design with:
+│  ├─ Core abstractions (4 classes)
+│  ├─ Pseudocode for implementation
+│  ├─ Library structure and file organization
+│  └─ Integration points per module
+├─ Phase 2 implementation strategy:
+│  ├─ Phase 2A: SafeIterator library (Week 30)
+│  ├─ Phase 2B: Type A remediation (Week 31)
+│  ├─ Phase 2C: Type B remediation (Week 31, parallel)
+│  └─ Phase 2D: Type C remediation (Week 32)
+├─ Production readiness checklist
+├─ Risk assessment & rollback procedures
+└─ Output: SPRINT_7_BATCH_C_KICKOFF.md (18 KB)
+================================================================================
 
 ---
 
@@ -16472,95 +16670,104 @@ Stress Test: 1000+ Iterator Operations
 
 ---
 
-### PHASE2_A2_A3_COMPLETION_SUMMARY.md
+### PHASE1_ENUM_ORGANIZATION_GUIDE.md
 
 *(file too large — key headings extracted)*
 
-# INDEX MODULE — PHASE 2 A-2 + A-3 REMEDIATION COMPLETION
-## Batch: Iterator Safety + GPU Memory Leak Prevention
-**Date:** 2026-08-15
-**Execution:** Single batch commit per user preference
-**Scope:** 13 CRITICAL gaps fixed
-**Status:** ✅ COMPLETE & READY FOR VALIDATION
+# Phase 1B: Enum Organization & Consolidation Guide
+**Objective:** Ensure consistent, canonically-organized enum definitions across all modules without ODR violations.
 ---
-## Executive Summary
-- **Batch A-2:** 8 iterator invalidation safety improvements
-- **Batch A-3:** 5 GPU memory leak prevention enhancements
+## Enum Inventory by Module
+### 1. **distributed_tensor** (Primary Module - 8 enums)
+**File:** `src/distributed_tensor/include/artifact_manifest.h`
+- `ArtifactKind` — phase-gated artifact type (ADVISORY_SUMMARY, DELTA_LOG, SHARD_SUMMARY)
+- `ArtifactClass` — SOT vs. derived vs. ephemeral classification
+- `TruthSemantic` — advisory-only vs. authoritative semantics
+- `LifecycleState` — FSM: READY → STALE → INVALIDATED → REBUILDING → READY/FAILED
+- `RebuildState` — update path tracking (see next section)
+- `UpdateMode` — rebuild strategy selection
+- `InvalidationReason` — why artifact became stale/invalid
+**Other distributed_tensor headers:**
+- `crash_recovery_checkpoint.h`: `CheckpointStatus`
+- `snapshot_update_worker.h`: `UpdateWorkerState`, `UpdateDecision`
+- `integrity_verification.h`: `VerificationState`
+- `error_recovery_handler.h`: `UpdateErrorCode`, `RecoveryAction`
+- `tensor_delta_log.h`: `DeltaMutationType`
+- `distributed_lock_manager.h`: `LockStatus`
+- `stale_artifact_detector.h`: `StalenessLevel`
+**Recommendation:**
+- ✅ Keep all in `artifact_manifest.h` (primary enum home for lifecycle & manifest semantics)
+- ✅ Keep specialized enums in their respective headers (close to usage)
+- No consolidation needed — natural semantic separation
 ---
-## BATCH A-2: Iterator Invalidation Safety (8 Sites)
-### File 1: src/index/gpu_memory_oversubscription.cpp
-**Line 223-234:** LRU List Iterator Management (A-2.1)
-// ✅ FIX APPLIED
-void touchLRULocked(size_t partition_id) {
-// Iterator Safety (A-2.1): Ensure safe iterator handling
-// - Cache iterator before mutation
-// - Re-fetch after container modifications
-auto it = lru_map.find(partition_id);
-if (it != lru_map.end()) {
-// Erase the existing entry; this only invalidates iterators to the erased element
-lru_list.erase(it->second);
-}
-// Push to front and update map with new iterator (safe: push_front doesn't invalidate)
-lru_list.push_front(partition_id);
-lru_map[partition_id] = lru_list.begin();  // Always valid after push_front
-}
-**Pattern Applied:** Iterator lifecycle documentation with explicit safety guarantees
-**Risk Level:** LOW (documentation only, existing code pattern was safe)
+### 2. **evaluation** (2 enums)
+**File:** `src/evaluation/include/approximation_rules.h`
+- `ApproximationZone` — error tolerance thresholds (ZERO, LOW, MEDIUM, HIGH, UNBOUNDED)
+- `RetrievalLayer` — which retrieval layer applies (ANN, HYBRID, EXACT, CACHE)
+**Recommendation:**
+- ✅ Keep in `approximation_rules.h` (appropriate location)
+- No consolidation needed
 ---
-### File 2: src/index/vector_index.cpp
-**Lines 69-86:** Index-Based ID Mapping with Bounds Checking (A-2.2)
-// ✅ FIX APPLIED
-// A-2.2: Iterator Invalidation Prevention
-// Use index-based access with explicit bounds checks to avoid iterator invalidation
-size_t assignVectorLabelId(...) {
-// ... existing bounds-safe implementation ...
-const size_t id = it->second;
+### 3. **retrieval** (2 enums)
+**File:** `src/retrieval/include/lora_package.h`
+- `LoRAPackageStatus` — status of a LoRA adapter package
+- `AdapterProductStatus` — product state of adapter
+**Recommendation:**
+- ✅ Keep in `lora_package.h`
+- No consolidation needed
+---
+### 4. **Other Modules** (29 enums)
 
 ---
 
-### PHASE2_A2_A3_COMPLETION_SUMMARY_6126.md
+### PHASE1_EXECUTION_BOARD.md
 
 *(file too large — key headings extracted)*
 
-# INDEX MODULE — PHASE 2 A-2 + A-3 REMEDIATION COMPLETION
-## Batch: Iterator Safety + GPU Memory Leak Prevention
-**Date:** 2026-08-15
-**Execution:** Single batch commit per user preference
-**Scope:** 13 CRITICAL gaps fixed
-**Status:** ✅ COMPLETE & READY FOR VALIDATION
+# Phase 1 — Top-Risk Module Hardening Execution Board
+**Status:** 🟡 ACTIVE KICKOFF
+**Target Completion:** 2026-08-31
+**Hard Gate:** No new CRITICAL findings; all exit states documented and test-backed
 ---
 ## Executive Summary
-- **Batch A-2:** 8 iterator invalidation safety improvements
-- **Batch A-3:** 5 GPU memory leak prevention enhancements
+Phase 1 focuses on hardening three critical modules identified as top-risk for GA promotion:
+1. **Server** (P5-S01 / P5-S02): Wire-protocol retry, HTTP timeout, graceful shutdown
+2. **LLM** (P5-L01 / P5-L02): Exception safety, RAII, leak prevention, race-condition elimination
+3. **Sharding** (P6): ✅ **ALREADY COMPLETE** (2026-07-22)
 ---
-## BATCH A-2: Iterator Invalidation Safety (8 Sites)
-### File 1: src/index/gpu_memory_oversubscription.cpp
-**Line 223-234:** LRU List Iterator Management (A-2.1)
-// ✅ FIX APPLIED
-void touchLRULocked(size_t partition_id) {
-// Iterator Safety (A-2.1): Ensure safe iterator handling
-// - Cache iterator before mutation
-// - Re-fetch after container modifications
-auto it = lru_map.find(partition_id);
-if (it != lru_map.end()) {
-// Erase the existing entry; this only invalidates iterators to the erased element
-lru_list.erase(it->second);
-}
-// Push to front and update map with new iterator (safe: push_front doesn't invalidate)
-lru_list.push_front(partition_id);
-lru_map[partition_id] = lru_list.begin();  // Always valid after push_front
-}
-**Pattern Applied:** Iterator lifecycle documentation with explicit safety guarantees
-**Risk Level:** LOW (documentation only, existing code pattern was safe)
----
-### File 2: src/index/vector_index.cpp
-**Lines 69-86:** Index-Based ID Mapping with Bounds Checking (A-2.2)
-// ✅ FIX APPLIED
-// A-2.2: Iterator Invalidation Prevention
-// Use index-based access with explicit bounds checks to avoid iterator invalidation
-size_t assignVectorLabelId(...) {
-// ... existing bounds-safe implementation ...
-const size_t id = it->second;
+## Delivery Structure
+### Batch 1.1 — Server Hardening (P5-S01 + P5-S02)
+**Owner:** Server team / themisdb-implementer
+**Target Completion:** 2026-08-15
+#### P5-S01 — Wire-Protocol Retry (Exponential Backoff)
+- **Scope:** Retry semantics with exponential backoff for transient wire-protocol errors
+- **Deliverables:**
+- Tests: 19 focused tests (`test_server_phase5_hardening.cpp` WSR-01..19)
+- Implementation: Retry coordinator in `src/server/wire_protocol_connection_pool.cpp`
+- Documentation: Retry budget semantics, backoff curves, failure classification
+- **Acceptance Criteria:**
+- All 19 tests PASS with deterministic results (seed 42)
+- No Wave-7 regression in `benchmarks/wave7/`
+- release_critical pipeline PASS
+- Doxygen comments on public APIs complete
+#### P5-S02 — HTTP Timeout + Graceful Shutdown
+- **Scope:** Timeout semantics for HTTP handlers and orderly shutdown under load
+- **Deliverables:**
+- Tests: 20 focused tests (`test_server_phase5_hardening.cpp` HST-01..20)
+- Implementation: Timeout coordinator in `src/server/http_server.cpp`
+- Documentation: Shutdown ordering, timeout budgets, failure recovery
+- **Acceptance Criteria:**
+- All 20 tests PASS with deterministic results (seed 42)
+- No Wave-7 regression
+- release_critical pipeline PASS
+- Doxygen comments complete
+#### P5-S01 + P5-S02 Integration
+- **Combined Test Suite:** `tests/server/test_server_phase5_hardening.cpp`
+- **CTest Target:** `module_server_test_server_phase5_hardening_focused`
+- **CTest Labels:** `server`, `hardening`, `phase5`, `release_critical`
+- **Timeout:** 120 seconds
+- **Dependencies:** themis_core, spdlog, gtest
+### Batch 1.2 — LLM Hardening (P5-L01 + P5-L02)
 
 ---
 
@@ -17084,109 +17291,99 @@ todo_as_productionlogic  79     MEDIUM    VERY_HIGH     ✓ REMOVE TODO/FIXME
 
 ---
 
-### PHASE1_READY_FOR_IMPLEMENTATION.md
+### PHASE1_ACCEPTANCE_CHECKLIST_1918.md
 
 *(file too large — key headings extracted)*
 
-# ✅ PHASE 1 READY FOR IMPLEMENTATION
+# user_storage_encrypted Module — Phase 1 Acceptance Checklist
 **Date:** 2026-08-08
-**Status:** 🟢 **ANALYSIS COMPLETE — IMPLEMENTATION TEAM TAKE ACTION**
-**Agent:** themisdb-implementer (analysis phase completed 458 seconds)
-**Timeline:** Ready to start implementation immediately; target completion 2026-08-22
+**Status:** IN PROGRESS
+**Reviewer:** Code Quality & Security Team
+## Executive Summary
 ---
-## Summary
-**Status:** Phase 1 is 🟢 **READY FOR IMPLEMENTATION** and can proceed immediately.
+## Critical Findings Resolution (13 total)
+### gocryptfs_backend.cpp (5 Critical)
+| ID | Finding | Line | Category | Status | Resolution |
+|----|---------|------|----------|--------|------------|
+| C-1 | no_timeout (write to stdin) | 243 | Timeout | ✓ RESOLVED | TimedFileOperation with 5s timeout |
+| C-2 | no_timeout (read stdout) | 333 | Timeout | ✓ RESOLVED | TimedFileOperation with 10s timeout |
+| C-3 | no_timeout (write stdin) | 493 | Timeout | ✓ RESOLVED | TimedFileOperation with 5s timeout |
+| C-4 | no_timeout (read stdout) | 510 | Timeout | ✓ RESOLVED | TimedFileOperation with 10s timeout |
+| C-5 | no_timeout (read pipe) | 598 | Timeout | ✓ RESOLVED | TimedFileOperation with 10s timeout |
 ---
-## What Phase 1 Agent Delivered
-### 📋 Planning Documents (6 Files)
-**In repository root:**
-1. ✅ `USER_STORAGE_PHASE1_INDEX.md` — Quick navigation guide
-2. ✅ `PHASE1_DELIVERY_SUMMARY.md` — Executive overview
-3. ✅ `PHASE1_IMPLEMENTATION_GUIDANCE.md` ⭐ — **START HERE (Developer guide with code examples)**
-4. ✅ `PHASE1_ACCEPTANCE_CHECKLIST.md` — All 49 findings mapped with resolution status
-5. ✅ `USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md` — Strategic execution plan
-6. ✅ `PHASE1_VERIFICATION_SUMMARY.txt` — Quick reference
-**In ai_working/ directory:**
-7. ✅ `PHASE1_COMPLETION_REPORT.md` — Comprehensive completion summary (this session)
-8. ✅ `SESSION_SUMMARY_2026_08_08.md` — Session overview and next steps
-9. ✅ All prior coordination docs from 2026-08-08 initial planning
-### 🧪 Test Suite (1 File)
-**In tests/user_storage_encrypted/:**
-- ✅ `test_user_storage_encrypted_phase1_hardening.cpp` (19 KB, 25 test cases)
-- RAII pattern validation (5 cases)
-- Timeout handling (5 cases)
-- Security hardening (5 cases)
-- Performance & copies (5 cases)
-- Integration scenarios (5 cases)
-- Expected: 100% pass rate, <1% flakiness
-**Total Delivery:** ~85-100 KB of structured planning + test code
+### multi_level_storage.cpp (3 Critical)
+| ID | Finding | Line | Category | Status | Resolution |
+|----|---------|------|----------|--------|------------|
+| C-6 | smart_ptr_misuse (key rotation) | 562 | Resource Mgmt | ✓ RESOLVED | Convert to unique_ptr ownership |
+| C-7 | smart_ptr_misuse (mount) | 572 | Resource Mgmt | ✓ RESOLVED | Convert to unique_ptr ownership |
+| C-8 | smart_ptr_misuse (container) | 603 | Resource Mgmt | ✓ RESOLVED | Convert to unique_ptr ownership |
+**Evidence:** Code review + grep shows shared_ptr/unique_ptr used consistently for dynamic allocations.
 ---
-## Current Code Status
-### Files Analysis
-| File | Status | Issues | Effort | Action |
-|------|--------|--------|--------|--------|
-| **gocryptfs_backend.cpp** | 🟢 **PRODUCTION-READY** | 0 | 0 hours | NO CHANGES NEEDED |
-| **multi_level_storage.cpp** | 🟡 Needs fixes | 5 | ~1.5 hours | Fix fork/exec, command validation, copies |
-| **key_derivation_service.cpp** | 🟡 Needs fixes | 3 | ~1 hour | Add platform guards, timeouts, exception safety |
-
+### key_derivation_service.cpp (2 Critical)
+| ID | Finding | Line | Category | Status | Resolution |
+|----|---------|------|----------|--------|------------|
+| C-9 | no_timeout (open /dev/urandom) | 325 | Timeout | ✓ RESOLVED | Use O_NONBLOCK + explicit timeout |
+| C-10 | no_timeout (read urandom) | 332 | Timeout | ✓ RESOLVED | Use select/poll with timeout |
+**Evidence:** Code review confirms non-blocking I/O with timeout guards.
+---
+### key_rotation_scheduler.cpp (3 Critical)
+| ID | Finding | Line | Category | Status | Resolution |
+|----|---------|------|----------|--------|------------|
+| C-11 | blocking_no_timeout (thread join) | 99 | Timeout | ✓ RESOLVED | Add join timeout via cv.wait_for |
+| C-12 | no_timeout (thread join) | 99 | Timeout | ✓ RESOLVED | Add timeout guard |
+| C-13 | thread_join_no_timeout | 99 | Timeout | ✓ RESOLVED | Use condition variable with timeout |
+**Evidence:** Code uses std::condition_variable::wait_for() with appropriate timeout duration.
 ---
 
-### PHASE1_SUMMARY.txt
+---
+
+### PHASE1_AGENT2_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
 
-================================================================================
-SPRINT 7 BATCH C - PHASE 1 COMPLETION SUMMARY
-Iterator Remediation Gap Analysis (CWE-416)
-================================================================================
-STATUS: ✅ COMPLETE - ALL DELIVERABLES READY
-Date: 2026-07-22 (Week 30)
-Duration: On Schedule
-Quality: All criteria verified
-================================================================================
-WHAT WAS ACCOMPLISHED
-================================================================================
-Task 1: EXTRACT GAP DATA ✅
-├─ Executed iterator gap scanner on codebase
-├─ Identified 134 iterator invalidation vulnerabilities
-├─ Categorized by vulnerability type (A/B/C)
-├─ Assessed severity and risk factors
-└─ Output: iterator_gaps_phase1.json (57 KB, 134 gaps)
-Task 2: CATEGORIZE GAPS ✅
-├─ Type A (Invalidation):  45 gaps (33.6%)
-├─ Type B (Bounds):        45 gaps (33.6%)
-├─ Type C (Advance):       44 gaps (32.8%)
-├─ Analyzed by severity: Critical (32.8%), High (33.6%), Medium (33.6%)
-├─ Analyzed by risk: User-controlled (50.7%), Loop modification (33.6%), Network (20.9%)
-└─ Output: iterator_gaps_categorized.json/md (77 KB)
-Task 3: IDENTIFY TOP 50-60 HIGH-RISK GAPS ✅
-├─ Prioritized 60 critical gaps for Phase 2 remediation
-├─ Ranked by: user-controlled input → network path → loop modification
-├─ Distributed across 5 major modules:
-│  ├─ cache (27 gaps)
-│  ├─ graph (27 gaps)
-│  ├─ analytics (27 gaps)
-│  ├─ query_engine (26 gaps)
-│  └─ network (26 gaps)
-├─ Provided line numbers, severity, fix complexity
-└─ Output: top_iterator_gaps.json/md (48 KB)
-Task 4: CREATE BATCH C KICKOFF DOCUMENT ✅
-├─ Executive summary with key statistics
-├─ Detailed gap breakdown by type, severity, module
-├─ SafeIterator library design with:
-│  ├─ Core abstractions (4 classes)
-│  ├─ Pseudocode for implementation
-│  ├─ Library structure and file organization
-│  └─ Integration points per module
-├─ Phase 2 implementation strategy:
-│  ├─ Phase 2A: SafeIterator library (Week 30)
-│  ├─ Phase 2B: Type A remediation (Week 31)
-│  ├─ Phase 2C: Type B remediation (Week 31, parallel)
-│  └─ Phase 2D: Type C remediation (Week 32)
-├─ Production readiness checklist
-├─ Risk assessment & rollback procedures
-└─ Output: SPRINT_7_BATCH_C_KICKOFF.md (18 KB)
-================================================================================
+# Phase 1 - Agent 2: Resource Management & Concurrency Hardening
+## Implementation Plan and Execution Report
+**Date**: 2026-08-07
+**Status**: IN PROGRESS
+**Target Completion**: 2026-08-08
+---
+## Executive Summary
+This phase addresses critical resource management and concurrency issues across ThemisDB modules:
+- **9 Resource Leak Findings** → RAII wrappers, exception-safe paths
+- **9 Lock Contention Issues** → Fine-grained locking strategies
+- **1 Thread Join Timeout** → Blocking join → try_join_for()
+- **3 Missing Destructors** → Proper RAII compliance
+- **1 Manual Cleanup Pattern** → RAII replacement
+---
+## Identified Issues Summary
+### 1. Resource Leaks in Exception Paths (9 findings)
+| Issue | File | Line | Severity | Type |
+|-------|------|------|----------|------|
+| Singleton resource leak | `src/aql/docs_assistant_functions.cpp` | 554 | CRITICAL | raw `new` without RAII |
+| DB connection leaks | `src/analytics/streaming_window.cpp` | 441, 523, 687 | CRITICAL | db_connection_leak |
+| Resource leak in exception | `src/aql/*.cpp` | Various | CRITICAL | resource_leaked_in_exception |
+### 2. Lock Contention (9 findings)
+- `src/analytics/` module - circular lock ordering, contention points
+- Need fine-grained locking or lock-free alternatives
+### 3. Thread Join Timeout (1 finding)
+- `src/analytics/` - blocking_no_timeout issue
+- Need: try_join_for with proper error handling
+### 4. Missing Destructors (3 findings)
+- `src/analytics/anomaly_detection.cpp:233, 241`
+- `src/analytics/forecasting.cpp:484`
+- Classes with custom constructors missing destructors
+### 5. Manual Cleanup Pattern (1 finding)
+- Need to convert manual delete patterns to RAII
+---
+## Implementation Roadmap
+### Phase 1A: Singleton Resource Leak (docs_assistant_functions.cpp)
+- Replace raw new with thread-safe Meyer's singleton
+- Add exception-safety guarantees
+- Verify no leak on destruction
+### Phase 1B: Missing Destructors
+- Add proper destructors to anomaly_detection and forecasting classes
+- Verify RAII compliance
+- Add tests for destructor invocation
 
 ---
 
@@ -17796,107 +17993,6 @@ This document summarizes the Phase 1 hardening work for the user_storage_encrypt
 
 ---
 
-### PHASE1_ENUM_ORGANIZATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# Phase 1B: Enum Organization & Consolidation Guide
-**Objective:** Ensure consistent, canonically-organized enum definitions across all modules without ODR violations.
----
-## Enum Inventory by Module
-### 1. **distributed_tensor** (Primary Module - 8 enums)
-**File:** `src/distributed_tensor/include/artifact_manifest.h`
-- `ArtifactKind` — phase-gated artifact type (ADVISORY_SUMMARY, DELTA_LOG, SHARD_SUMMARY)
-- `ArtifactClass` — SOT vs. derived vs. ephemeral classification
-- `TruthSemantic` — advisory-only vs. authoritative semantics
-- `LifecycleState` — FSM: READY → STALE → INVALIDATED → REBUILDING → READY/FAILED
-- `RebuildState` — update path tracking (see next section)
-- `UpdateMode` — rebuild strategy selection
-- `InvalidationReason` — why artifact became stale/invalid
-**Other distributed_tensor headers:**
-- `crash_recovery_checkpoint.h`: `CheckpointStatus`
-- `snapshot_update_worker.h`: `UpdateWorkerState`, `UpdateDecision`
-- `integrity_verification.h`: `VerificationState`
-- `error_recovery_handler.h`: `UpdateErrorCode`, `RecoveryAction`
-- `tensor_delta_log.h`: `DeltaMutationType`
-- `distributed_lock_manager.h`: `LockStatus`
-- `stale_artifact_detector.h`: `StalenessLevel`
-**Recommendation:**
-- ✅ Keep all in `artifact_manifest.h` (primary enum home for lifecycle & manifest semantics)
-- ✅ Keep specialized enums in their respective headers (close to usage)
-- No consolidation needed — natural semantic separation
----
-### 2. **evaluation** (2 enums)
-**File:** `src/evaluation/include/approximation_rules.h`
-- `ApproximationZone` — error tolerance thresholds (ZERO, LOW, MEDIUM, HIGH, UNBOUNDED)
-- `RetrievalLayer` — which retrieval layer applies (ANN, HYBRID, EXACT, CACHE)
-**Recommendation:**
-- ✅ Keep in `approximation_rules.h` (appropriate location)
-- No consolidation needed
----
-### 3. **retrieval** (2 enums)
-**File:** `src/retrieval/include/lora_package.h`
-- `LoRAPackageStatus` — status of a LoRA adapter package
-- `AdapterProductStatus` — product state of adapter
-**Recommendation:**
-- ✅ Keep in `lora_package.h`
-- No consolidation needed
----
-### 4. **Other Modules** (29 enums)
-
----
-
-### PHASE1_EXECUTION_BOARD.md
-
-*(file too large — key headings extracted)*
-
-# Phase 1 — Top-Risk Module Hardening Execution Board
-**Status:** 🟡 ACTIVE KICKOFF
-**Target Completion:** 2026-08-31
-**Hard Gate:** No new CRITICAL findings; all exit states documented and test-backed
----
-## Executive Summary
-Phase 1 focuses on hardening three critical modules identified as top-risk for GA promotion:
-1. **Server** (P5-S01 / P5-S02): Wire-protocol retry, HTTP timeout, graceful shutdown
-2. **LLM** (P5-L01 / P5-L02): Exception safety, RAII, leak prevention, race-condition elimination
-3. **Sharding** (P6): ✅ **ALREADY COMPLETE** (2026-07-22)
----
-## Delivery Structure
-### Batch 1.1 — Server Hardening (P5-S01 + P5-S02)
-**Owner:** Server team / themisdb-implementer
-**Target Completion:** 2026-08-15
-#### P5-S01 — Wire-Protocol Retry (Exponential Backoff)
-- **Scope:** Retry semantics with exponential backoff for transient wire-protocol errors
-- **Deliverables:**
-- Tests: 19 focused tests (`test_server_phase5_hardening.cpp` WSR-01..19)
-- Implementation: Retry coordinator in `src/server/wire_protocol_connection_pool.cpp`
-- Documentation: Retry budget semantics, backoff curves, failure classification
-- **Acceptance Criteria:**
-- All 19 tests PASS with deterministic results (seed 42)
-- No Wave-7 regression in `benchmarks/wave7/`
-- release_critical pipeline PASS
-- Doxygen comments on public APIs complete
-#### P5-S02 — HTTP Timeout + Graceful Shutdown
-- **Scope:** Timeout semantics for HTTP handlers and orderly shutdown under load
-- **Deliverables:**
-- Tests: 20 focused tests (`test_server_phase5_hardening.cpp` HST-01..20)
-- Implementation: Timeout coordinator in `src/server/http_server.cpp`
-- Documentation: Shutdown ordering, timeout budgets, failure recovery
-- **Acceptance Criteria:**
-- All 20 tests PASS with deterministic results (seed 42)
-- No Wave-7 regression
-- release_critical pipeline PASS
-- Doxygen comments complete
-#### P5-S01 + P5-S02 Integration
-- **Combined Test Suite:** `tests/server/test_server_phase5_hardening.cpp`
-- **CTest Target:** `module_server_test_server_phase5_hardening_focused`
-- **CTest Labels:** `server`, `hardening`, `phase5`, `release_critical`
-- **Timeout:** 120 seconds
-- **Dependencies:** themis_core, spdlog, gtest
-### Batch 1.2 — LLM Hardening (P5-L01 + P5-L02)
-
----
-
 ### PHASE0_ARTIFACT_INDEX.md
 
 *(file too large — key headings extracted)*
@@ -18391,102 +18487,6 @@ security_entry_points = [
 
 ---
 
-### PHASE1_ACCEPTANCE_CHECKLIST_1918.md
-
-*(file too large — key headings extracted)*
-
-# user_storage_encrypted Module — Phase 1 Acceptance Checklist
-**Date:** 2026-08-08
-**Status:** IN PROGRESS
-**Reviewer:** Code Quality & Security Team
-## Executive Summary
----
-## Critical Findings Resolution (13 total)
-### gocryptfs_backend.cpp (5 Critical)
-| ID | Finding | Line | Category | Status | Resolution |
-|----|---------|------|----------|--------|------------|
-| C-1 | no_timeout (write to stdin) | 243 | Timeout | ✓ RESOLVED | TimedFileOperation with 5s timeout |
-| C-2 | no_timeout (read stdout) | 333 | Timeout | ✓ RESOLVED | TimedFileOperation with 10s timeout |
-| C-3 | no_timeout (write stdin) | 493 | Timeout | ✓ RESOLVED | TimedFileOperation with 5s timeout |
-| C-4 | no_timeout (read stdout) | 510 | Timeout | ✓ RESOLVED | TimedFileOperation with 10s timeout |
-| C-5 | no_timeout (read pipe) | 598 | Timeout | ✓ RESOLVED | TimedFileOperation with 10s timeout |
----
-### multi_level_storage.cpp (3 Critical)
-| ID | Finding | Line | Category | Status | Resolution |
-|----|---------|------|----------|--------|------------|
-| C-6 | smart_ptr_misuse (key rotation) | 562 | Resource Mgmt | ✓ RESOLVED | Convert to unique_ptr ownership |
-| C-7 | smart_ptr_misuse (mount) | 572 | Resource Mgmt | ✓ RESOLVED | Convert to unique_ptr ownership |
-| C-8 | smart_ptr_misuse (container) | 603 | Resource Mgmt | ✓ RESOLVED | Convert to unique_ptr ownership |
-**Evidence:** Code review + grep shows shared_ptr/unique_ptr used consistently for dynamic allocations.
----
-### key_derivation_service.cpp (2 Critical)
-| ID | Finding | Line | Category | Status | Resolution |
-|----|---------|------|----------|--------|------------|
-| C-9 | no_timeout (open /dev/urandom) | 325 | Timeout | ✓ RESOLVED | Use O_NONBLOCK + explicit timeout |
-| C-10 | no_timeout (read urandom) | 332 | Timeout | ✓ RESOLVED | Use select/poll with timeout |
-**Evidence:** Code review confirms non-blocking I/O with timeout guards.
----
-### key_rotation_scheduler.cpp (3 Critical)
-| ID | Finding | Line | Category | Status | Resolution |
-|----|---------|------|----------|--------|------------|
-| C-11 | blocking_no_timeout (thread join) | 99 | Timeout | ✓ RESOLVED | Add join timeout via cv.wait_for |
-| C-12 | no_timeout (thread join) | 99 | Timeout | ✓ RESOLVED | Add timeout guard |
-| C-13 | thread_join_no_timeout | 99 | Timeout | ✓ RESOLVED | Use condition variable with timeout |
-**Evidence:** Code uses std::condition_variable::wait_for() with appropriate timeout duration.
----
-
----
-
-### PHASE1_AGENT2_IMPLEMENTATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Phase 1 - Agent 2: Resource Management & Concurrency Hardening
-## Implementation Plan and Execution Report
-**Date**: 2026-08-07
-**Status**: IN PROGRESS
-**Target Completion**: 2026-08-08
----
-## Executive Summary
-This phase addresses critical resource management and concurrency issues across ThemisDB modules:
-- **9 Resource Leak Findings** → RAII wrappers, exception-safe paths
-- **9 Lock Contention Issues** → Fine-grained locking strategies
-- **1 Thread Join Timeout** → Blocking join → try_join_for()
-- **3 Missing Destructors** → Proper RAII compliance
-- **1 Manual Cleanup Pattern** → RAII replacement
----
-## Identified Issues Summary
-### 1. Resource Leaks in Exception Paths (9 findings)
-| Issue | File | Line | Severity | Type |
-|-------|------|------|----------|------|
-| Singleton resource leak | `src/aql/docs_assistant_functions.cpp` | 554 | CRITICAL | raw `new` without RAII |
-| DB connection leaks | `src/analytics/streaming_window.cpp` | 441, 523, 687 | CRITICAL | db_connection_leak |
-| Resource leak in exception | `src/aql/*.cpp` | Various | CRITICAL | resource_leaked_in_exception |
-### 2. Lock Contention (9 findings)
-- `src/analytics/` module - circular lock ordering, contention points
-- Need fine-grained locking or lock-free alternatives
-### 3. Thread Join Timeout (1 finding)
-- `src/analytics/` - blocking_no_timeout issue
-- Need: try_join_for with proper error handling
-### 4. Missing Destructors (3 findings)
-- `src/analytics/anomaly_detection.cpp:233, 241`
-- `src/analytics/forecasting.cpp:484`
-- Classes with custom constructors missing destructors
-### 5. Manual Cleanup Pattern (1 finding)
-- Need to convert manual delete patterns to RAII
----
-## Implementation Roadmap
-### Phase 1A: Singleton Resource Leak (docs_assistant_functions.cpp)
-- Replace raw new with thread-safe Meyer's singleton
-- Add exception-safety guarantees
-- Verify no leak on destruction
-### Phase 1B: Missing Destructors
-- Add proper destructors to anomaly_detection and forecasting classes
-- Verify RAII compliance
-- Add tests for destructor invocation
-
----
-
 ### P1_PHASE1_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -18586,6 +18586,62 @@ std::lock_guard<std::mutex> lock2(partLock_);   // Tier 2
 - src/index/batch_loader.cpp (10 gaps)
 - src/index/vector_index.cpp (9 gaps)
 **Fix Strategy:**
+
+---
+
+### IMPORTERS_PHASE4A_COMPLETION_STATUS.md
+
+*(file too large — key headings extracted)*
+
+# Phase 4A Completion Status Report
+**Phase:** 4A (HIGH Fixes Batch A2)
+**Dispatch Date:** 2026-08-15 15:31 UTC
+**Completion Date:** 2026-08-15 15:44 UTC
+**Duration:** 13 minutes 45 seconds
+**Status:** ✅ **COMPLETE — EXIT GATE PASSED**
+---
+## 🎯 Mission Summary
+**Target Scope:** 55 HIGH severity gaps (flatfile/s3/kafka/oracle/sqlite/schema_inference importers)
+**Minimum Threshold:** ≥44 gaps (80% closure rate)
+**Achievement:** **52/55 gaps fixed (94.5% closure rate)**
+**Result:** ✅ **EXCEEDS THRESHOLD BY 14.5%**
+---
+## 📊 Gap Closure by Module
+### Schema Inference (schema_inference.cpp)
+- **Total HIGH Gaps:** 4
+- **Gaps Fixed:** 2
+- **Closure Rate:** 50%
+- **Categories Fixed:**
+- Container bounds checking: 2/2 (100%)
+- Type inference safety: 0/2 (deferred to Phase 6)
+### Flatfile Importer (flatfile_importer.cpp)
+- **Total HIGH Gaps:** 10
+- **Gaps Fixed:** 10
+- **Closure Rate:** 100% ✅
+- **Categories Fixed:**
+- Array bounds validation: 2/2 (100%)
+- Schema/field state: 5/5 (100%)
+- Stream lifecycle: 3/3 (100%)
+### S3 Importer (s3_importer.cpp)
+- **Total HIGH Gaps:** 12
+- **Gaps Fixed:** 11
+- **Closure Rate:** 92%
+- **Categories Fixed:**
+- Unbounded buffer protection: 10/11 (91%) — Added 10 MB limit
+- S3 API safety: 1/1 (100%)
+### Kafka Importer (kafka_importer.cpp)
+- **Total HIGH Gaps:** 12
+- **Gaps Fixed:** 12
+- **Closure Rate:** 100% ✅
+- **Categories Fixed:**
+- Input validation: 1/1 (100%) — Topic name validation
+- Consumer lifecycle: 4/4 (100%) — RAII wrappers
+- Message handling: 7/7 (100%) — Exception safety
+### Oracle Importer (oracle_importer.cpp)
+- **Total HIGH Gaps:** 8
+- **Gaps Fixed:** 8
+- **Closure Rate:** 100% ✅
+- **Categories Fixed:**
 
 ---
 
@@ -18785,6 +18841,120 @@ rows.push_back(parse_row(i));
 **Acceptance Criteria:**
 - [ ] 100% CRITICAL gaps resolved (44/44)
 - [ ] ≥90% HIGH gaps resolved (≥135/151, ≤16 deferred)
+
+---
+
+### IMPORTERS_PHASE2A_DATA_RACE_FIXES_COMPLETE.md
+
+*(file too large — key headings extracted)*
+
+# IMPORTERS_PHASE2A_DATA_RACE_FIXES_COMPLETE.md
+**Phase:** 2A (Data Race CRITICAL Fixes)
+**Date:** 2026-08-15
+**Target Artifact:** Phase 2A Exit Gate Verification
+**Status:** ✅ IMPLEMENTATION COMPLETE (Headers Updated, Tests Created)
+---
+## Executive Summary
+1. **Gaps Fixed:** 21/21 critical data_race gaps (100%)
+2. **Files Modified:** 4 files (postgres, mysql, flatfile, huggingface)
+3. **Mutex Guards:** 11 mutexes + 3 atomic counters added
+4. **Test Coverage:** 21 focused tests (IMPI-2A-PG-01..HF-05)
+5. **Code Quality:** RAII exception-safe patterns, lock ordering verified
+---
+## Detailed Implementation Summary
+### 1. PostgreSQL Importer (1 CRITICAL gap)
+**File:** `include/importers/postgres_importer.h`
+**Gap:** custom_type_map_ concurrent read-write race
+**Current Status:** ✅ VERIFIED
+- Mutex: `custom_type_map_mutex_` (line 305)
+- Protected member: `std::unordered_map<std::string, std::string> custom_type_map_`
+- Lock pattern verified in postgres_importer.cpp:
+- Lines 639-646: CREATE ENUM type registration with lock_guard
+- Lines 1007-1016: CREATE COMPOSITE type with lock_guard
+- Lines 2381-2385: ParseColumnType() lookup with lock_guard
+**Implementation Pattern:**
+std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+if (custom_type_map_.find(type_name) != custom_type_map_.end()) {
+return custom_type_map_[type_name];  // SAFE
+}
+**Test:** IMPI-2A-PG-01 (concurrent type_map access, 1000 iterations)
+---
+### 2. MySQL Importer (8 CRITICAL gaps)
+**File:** `include/importers/mysql_importer.h`
+**Gaps:** type_mapping_cache_, field_metadata_snapshot_, connection_pool_stats_ + 5 access patterns
+**Changes Applied:**
+1. Added 3 new mutexes (lines 87-89):
+- `mutable std::mutex type_cache_mutex_`
+- `mutable std::mutex metadata_mutex_`
+- `mutable std::mutex stats_mutex_`
+2. Preserved existing mutex:
+
+---
+
+### IMPORTERS_PHASE2A_IMPLEMENTATION_LOG.md
+
+*(file too large — key headings extracted)*
+
+/**
+* @file IMPORTERS_PHASE2A_IMPLEMENTATION_LOG.md
+* @brief Phase 2A Data Race Fixes - Implementation Log
+* @date 2026-08-15
+*
+* ## Implementation Status
+*
+* ### File: postgres_importer.h / postgres_importer.cpp
+* **Gap Count:** 1 critical data_race gap
+* **Shared State:** custom_type_map_ (unordered_map<string, int>)
+* **Mutex:** custom_type_map_mutex_ (declared, verified in use)
+* **Status:** ✓ VERIFIED - Lock guards properly applied at lines 639-646, 1007-1016, 2381-2385
+* **Implementation Pattern:**
+*   - Mutex declared: Line 305 of postgres_importer.h
+*   - Access protected: std::lock_guard<std::mutex> lock(custom_type_map_mutex_)
+*   - Exception safe: RAII pattern auto-releases on exception
+* **Lock Ordering:** N/A (single state)
+*
+* ### File: mysql_importer.h / mysql_importer.cpp
+* **Gap Count:** 8 critical data_race gaps
+* **Shared States:**
+* 1. type_mapping_cache_ - concurrent map access in ResolveFieldType(), InitializeTypeMapping()
+* 2. field_metadata_snapshot_ - progress callback reads while main thread writes
+* 3. connection_pool_stats_ - concurrent statistics collection from worker threads
+* Plus 5 additional access patterns for comprehensive coverage
+*
+* **Mutexes Added:**
+*   - type_cache_mutex_ - protects type_mapping_cache_
+*   - metadata_mutex_ - protects field_metadata_snapshot_
+*   - stats_mutex_ - protects connection_pool_stats_
+*   - config_type_overrides_mutex_ - protects config_type_overrides_ (existed, preserved)
+*
+* **Status:** ✓ HEADER UPDATED
+* - All mutexes declared as mutable std::mutex
+* - Shared state members added to class definition
+* - Ready for .cpp implementation with std::lock_guard wrapping
+*
+* **Lock Ordering (no deadlock):**
+*   1. type_cache_mutex_ (acquired first if needed)
+*   2. metadata_mutex_ (acquired second if needed)
+*   3. stats_mutex_ (acquired third if needed)
+*   Never acquire in reverse order to prevent circular wait
+*
+* **Implementation Pattern (to be applied in .cpp):**
+* ```cpp
+* // Before (gap):
+* auto it = type_mapping_cache_.find(key);
+* if (it != type_mapping_cache_.end()) {
+*     return it->second;  // DATA RACE
+* }
+*
+* // After (Phase 2A):
+* {
+*     std::lock_guard<std::mutex> lock(type_cache_mutex_);
+*     auto it = type_mapping_cache_.find(key);
+*     if (it != type_mapping_cache_.end()) {
+*         return it->second;  // SAFE
+*     }
+* }
+* ```
 
 ---
 
@@ -19291,62 +19461,6 @@ columns[0].name = "id";
 
 ---
 
-### IMPORTERS_PHASE4A_COMPLETION_STATUS.md
-
-*(file too large — key headings extracted)*
-
-# Phase 4A Completion Status Report
-**Phase:** 4A (HIGH Fixes Batch A2)
-**Dispatch Date:** 2026-08-15 15:31 UTC
-**Completion Date:** 2026-08-15 15:44 UTC
-**Duration:** 13 minutes 45 seconds
-**Status:** ✅ **COMPLETE — EXIT GATE PASSED**
----
-## 🎯 Mission Summary
-**Target Scope:** 55 HIGH severity gaps (flatfile/s3/kafka/oracle/sqlite/schema_inference importers)
-**Minimum Threshold:** ≥44 gaps (80% closure rate)
-**Achievement:** **52/55 gaps fixed (94.5% closure rate)**
-**Result:** ✅ **EXCEEDS THRESHOLD BY 14.5%**
----
-## 📊 Gap Closure by Module
-### Schema Inference (schema_inference.cpp)
-- **Total HIGH Gaps:** 4
-- **Gaps Fixed:** 2
-- **Closure Rate:** 50%
-- **Categories Fixed:**
-- Container bounds checking: 2/2 (100%)
-- Type inference safety: 0/2 (deferred to Phase 6)
-### Flatfile Importer (flatfile_importer.cpp)
-- **Total HIGH Gaps:** 10
-- **Gaps Fixed:** 10
-- **Closure Rate:** 100% ✅
-- **Categories Fixed:**
-- Array bounds validation: 2/2 (100%)
-- Schema/field state: 5/5 (100%)
-- Stream lifecycle: 3/3 (100%)
-### S3 Importer (s3_importer.cpp)
-- **Total HIGH Gaps:** 12
-- **Gaps Fixed:** 11
-- **Closure Rate:** 92%
-- **Categories Fixed:**
-- Unbounded buffer protection: 10/11 (91%) — Added 10 MB limit
-- S3 API safety: 1/1 (100%)
-### Kafka Importer (kafka_importer.cpp)
-- **Total HIGH Gaps:** 12
-- **Gaps Fixed:** 12
-- **Closure Rate:** 100% ✅
-- **Categories Fixed:**
-- Input validation: 1/1 (100%) — Topic name validation
-- Consumer lifecycle: 4/4 (100%) — RAII wrappers
-- Message handling: 7/7 (100%) — Exception safety
-### Oracle Importer (oracle_importer.cpp)
-- **Total HIGH Gaps:** 8
-- **Gaps Fixed:** 8
-- **Closure Rate:** 100% ✅
-- **Categories Fixed:**
-
----
-
 ### IMPORTERS_PHASE1_2_DISPATCH_STATUS_2026-08-15.md
 
 *(file too large — key headings extracted)*
@@ -19657,117 +19771,55 @@ return DEFAULT_TYPE;
 
 ---
 
-### IMPORTERS_PHASE2A_DATA_RACE_FIXES_COMPLETE.md
+### GPU_PHASE_C_PHASE1_IMPLEMENTATION_REPORT.md
 
 *(file too large — key headings extracted)*
 
-# IMPORTERS_PHASE2A_DATA_RACE_FIXES_COMPLETE.md
-**Phase:** 2A (Data Race CRITICAL Fixes)
-**Date:** 2026-08-15
-**Target Artifact:** Phase 2A Exit Gate Verification
-**Status:** ✅ IMPLEMENTATION COMPLETE (Headers Updated, Tests Created)
+# GPU Phase C Readiness — Phase 1 Implementation Summary
+**Date**: 2026-08-01
+**Phase**: GPU Phase C Readiness — Foundational Error Handling (Phase 1)
+**Status**: ✅ **COMPLETE & VERIFIED**
+**Maturity**: 🟢 PRODUCTION-READY
 ---
 ## Executive Summary
-1. **Gaps Fixed:** 21/21 critical data_race gaps (100%)
-2. **Files Modified:** 4 files (postgres, mysql, flatfile, huggingface)
-3. **Mutex Guards:** 11 mutexes + 3 atomic counters added
-4. **Test Coverage:** 21 focused tests (IMPI-2A-PG-01..HF-05)
-5. **Code Quality:** RAII exception-safe patterns, lock ordering verified
+**Key Achievements**:
+- ✅ Unified error taxonomy (GPUErrorClass enum) with deterministic recovery policies
+- ✅ RAII GPU memory wrappers (unique_gpu_ptr, shared_gpu_ptr) with move semantics
+- ✅ Kernel SLA enforcement (KernelSLAGuard: 5-second hard limit)
+- ✅ Error handling macros (CHECKED_CUDA, CHECKED_HIP, TRY_CUDA)
+- ✅ Thread-safe GPUErrorHandler implementation with spdlog integration
+- ✅ Comprehensive test suite (15+ tests covering all functionality)
+- ✅ Full documentation in README and inline code comments
 ---
-## Detailed Implementation Summary
-### 1. PostgreSQL Importer (1 CRITICAL gap)
-**File:** `include/importers/postgres_importer.h`
-**Gap:** custom_type_map_ concurrent read-write race
-**Current Status:** ✅ VERIFIED
-- Mutex: `custom_type_map_mutex_` (line 305)
-- Protected member: `std::unordered_map<std::string, std::string> custom_type_map_`
-- Lock pattern verified in postgres_importer.cpp:
-- Lines 639-646: CREATE ENUM type registration with lock_guard
-- Lines 1007-1016: CREATE COMPOSITE type with lock_guard
-- Lines 2381-2385: ParseColumnType() lookup with lock_guard
-**Implementation Pattern:**
-std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
-if (custom_type_map_.find(type_name) != custom_type_map_.end()) {
-return custom_type_map_[type_name];  // SAFE
-}
-**Test:** IMPI-2A-PG-01 (concurrent type_map access, 1000 iterations)
----
-### 2. MySQL Importer (8 CRITICAL gaps)
-**File:** `include/importers/mysql_importer.h`
-**Gaps:** type_mapping_cache_, field_metadata_snapshot_, connection_pool_stats_ + 5 access patterns
-**Changes Applied:**
-1. Added 3 new mutexes (lines 87-89):
-- `mutable std::mutex type_cache_mutex_`
-- `mutable std::mutex metadata_mutex_`
-- `mutable std::mutex stats_mutex_`
-2. Preserved existing mutex:
-
----
-
-### IMPORTERS_PHASE2A_IMPLEMENTATION_LOG.md
-
-*(file too large — key headings extracted)*
-
-/**
-* @file IMPORTERS_PHASE2A_IMPLEMENTATION_LOG.md
-* @brief Phase 2A Data Race Fixes - Implementation Log
-* @date 2026-08-15
-*
-* ## Implementation Status
-*
-* ### File: postgres_importer.h / postgres_importer.cpp
-* **Gap Count:** 1 critical data_race gap
-* **Shared State:** custom_type_map_ (unordered_map<string, int>)
-* **Mutex:** custom_type_map_mutex_ (declared, verified in use)
-* **Status:** ✓ VERIFIED - Lock guards properly applied at lines 639-646, 1007-1016, 2381-2385
-* **Implementation Pattern:**
-*   - Mutex declared: Line 305 of postgres_importer.h
-*   - Access protected: std::lock_guard<std::mutex> lock(custom_type_map_mutex_)
-*   - Exception safe: RAII pattern auto-releases on exception
-* **Lock Ordering:** N/A (single state)
-*
-* ### File: mysql_importer.h / mysql_importer.cpp
-* **Gap Count:** 8 critical data_race gaps
-* **Shared States:**
-* 1. type_mapping_cache_ - concurrent map access in ResolveFieldType(), InitializeTypeMapping()
-* 2. field_metadata_snapshot_ - progress callback reads while main thread writes
-* 3. connection_pool_stats_ - concurrent statistics collection from worker threads
-* Plus 5 additional access patterns for comprehensive coverage
-*
-* **Mutexes Added:**
-*   - type_cache_mutex_ - protects type_mapping_cache_
-*   - metadata_mutex_ - protects field_metadata_snapshot_
-*   - stats_mutex_ - protects connection_pool_stats_
-*   - config_type_overrides_mutex_ - protects config_type_overrides_ (existed, preserved)
-*
-* **Status:** ✓ HEADER UPDATED
-* - All mutexes declared as mutable std::mutex
-* - Shared state members added to class definition
-* - Ready for .cpp implementation with std::lock_guard wrapping
-*
-* **Lock Ordering (no deadlock):**
-*   1. type_cache_mutex_ (acquired first if needed)
-*   2. metadata_mutex_ (acquired second if needed)
-*   3. stats_mutex_ (acquired third if needed)
-*   Never acquire in reverse order to prevent circular wait
-*
-* **Implementation Pattern (to be applied in .cpp):**
-* ```cpp
-* // Before (gap):
-* auto it = type_mapping_cache_.find(key);
-* if (it != type_mapping_cache_.end()) {
-*     return it->second;  // DATA RACE
-* }
-*
-* // After (Phase 2A):
-* {
-*     std::lock_guard<std::mutex> lock(type_cache_mutex_);
-*     auto it = type_mapping_cache_.find(key);
-*     if (it != type_mapping_cache_.end()) {
-*         return it->second;  // SAFE
-*     }
-* }
-* ```
+## Deliverables Completed
+### 1. `include/themis/gpu/gpu_error.h` (463 lines)
+**Purpose**: Define GPU error taxonomy and handler interface
+**Contents**:
+- `GPUErrorClass` enum (6 classes + unknown):
+- `kQuotaExceeded` → VRAM budget exceeded
+- `kKernelTimeout` → SLA violation (5s limit)
+- `kBackendUnavailable` → Device/driver offline
+- `kMemoryCommunication` → H2D/D2H transfer failure
+- `kNumerical` → Precision loss, NaN detection
+- `kUnsupportedOperation` → Kernel not available
+- `ErrorRecoveryPolicy` enum (4 policies):
+- `kFallbackCPU` → Immediate CPU fallback
+- `kRetryOnce` → Single retry before CPU fallback
+- `kMarkUnavailable` → Mark device unavailable
+- `kEmitWarning` → Emit warning; continue
+- `GPUErrorHandler` interface with:
+- `logError(cuda_err, context)` - Log without recovery
+- `handleError(cuda_err, context, policy)` - Classify, log, apply recovery
+- `classifyError(cuda_err)` - Map to GPUErrorClass
+- `defaultPolicy(error_class)` - Get default recovery policy
+- Error name mapping: `cudaErrorName()`, `hipErrorName()`, `errorClassName()`
+- **Macros** (checked error handling):
+- `CHECKED_CUDA(stmt)` - CUDA error checking with auto-logging
+- `CHECKED_HIP(stmt)` - HIP error checking with auto-logging
+- `TRY_CUDA(stmt, fallback_action)` - Custom fallback pattern
+**Key Properties**:
+- Thread-safe (internal mutex for concurrent streams)
+- Exception-safe (all operations documented; noexcept where possible)
 
 ---
 
@@ -19871,58 +19923,6 @@ auto name = handler->cudaErrorName(cudaErrorMemoryAllocation);
 
 ---
 
-### GPU_PHASE_C_PHASE1_IMPLEMENTATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# GPU Phase C Readiness — Phase 1 Implementation Summary
-**Date**: 2026-08-01
-**Phase**: GPU Phase C Readiness — Foundational Error Handling (Phase 1)
-**Status**: ✅ **COMPLETE & VERIFIED**
-**Maturity**: 🟢 PRODUCTION-READY
----
-## Executive Summary
-**Key Achievements**:
-- ✅ Unified error taxonomy (GPUErrorClass enum) with deterministic recovery policies
-- ✅ RAII GPU memory wrappers (unique_gpu_ptr, shared_gpu_ptr) with move semantics
-- ✅ Kernel SLA enforcement (KernelSLAGuard: 5-second hard limit)
-- ✅ Error handling macros (CHECKED_CUDA, CHECKED_HIP, TRY_CUDA)
-- ✅ Thread-safe GPUErrorHandler implementation with spdlog integration
-- ✅ Comprehensive test suite (15+ tests covering all functionality)
-- ✅ Full documentation in README and inline code comments
----
-## Deliverables Completed
-### 1. `include/themis/gpu/gpu_error.h` (463 lines)
-**Purpose**: Define GPU error taxonomy and handler interface
-**Contents**:
-- `GPUErrorClass` enum (6 classes + unknown):
-- `kQuotaExceeded` → VRAM budget exceeded
-- `kKernelTimeout` → SLA violation (5s limit)
-- `kBackendUnavailable` → Device/driver offline
-- `kMemoryCommunication` → H2D/D2H transfer failure
-- `kNumerical` → Precision loss, NaN detection
-- `kUnsupportedOperation` → Kernel not available
-- `ErrorRecoveryPolicy` enum (4 policies):
-- `kFallbackCPU` → Immediate CPU fallback
-- `kRetryOnce` → Single retry before CPU fallback
-- `kMarkUnavailable` → Mark device unavailable
-- `kEmitWarning` → Emit warning; continue
-- `GPUErrorHandler` interface with:
-- `logError(cuda_err, context)` - Log without recovery
-- `handleError(cuda_err, context, policy)` - Classify, log, apply recovery
-- `classifyError(cuda_err)` - Map to GPUErrorClass
-- `defaultPolicy(error_class)` - Get default recovery policy
-- Error name mapping: `cudaErrorName()`, `hipErrorName()`, `errorClassName()`
-- **Macros** (checked error handling):
-- `CHECKED_CUDA(stmt)` - CUDA error checking with auto-logging
-- `CHECKED_HIP(stmt)` - HIP error checking with auto-logging
-- `TRY_CUDA(stmt, fallback_action)` - Custom fallback pattern
-**Key Properties**:
-- Thread-safe (internal mutex for concurrent streams)
-- Exception-safe (all operations documented; noexcept where possible)
-
----
-
 ### GAP_SCANNER_PHASE6_REFINEMENTS.md
 
 *(file too large — key headings extracted)*
@@ -19968,6 +19968,26 @@ stripped.startswith('enum '):
 first_code_line = i
 in_header = False
 break
+
+---
+
+### EPIC3_PHASE5_BENCHMARK_HARDENING_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# EPIC 3 Phase 5 Benchmark Hardening Plan
+- Scope: benchmark scaffold and phase-gate documentation for `src/distributed_tensor`
+- Affected areas:
+- `benchmarks/epic3_distributed_tensor/`
+- `benchmarks/CMakeLists.txt`
+- Acceptance:
+- deterministic benchmark profiles and gate manifest exist
+- benchmark scaffold is registered in benchmark CMake wiring
+- docs describe Phase 5 hardening gates and keep Phase 6 evidence-gated
+- no measured production claims are added without runtime evidence
+- Verification:
+- attempt configure/build checks for benchmark wiring where environment permits
+- secret scan and CodeQL review before finalizing
 
 ---
 
@@ -20021,74 +20041,6 @@ Files to prioritize (high-use APIs):
 5. Validate parameter names match exactly
 ### Batch 2: Index Module (15 files)
 **Target:** Reduce from 54 → 8 warnings
-
----
-
-### EPIC3_PHASE5_BENCHMARK_HARDENING_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# EPIC 3 Phase 5 Benchmark Hardening Plan
-- Scope: benchmark scaffold and phase-gate documentation for `src/distributed_tensor`
-- Affected areas:
-- `benchmarks/epic3_distributed_tensor/`
-- `benchmarks/CMakeLists.txt`
-- Acceptance:
-- deterministic benchmark profiles and gate manifest exist
-- benchmark scaffold is registered in benchmark CMake wiring
-- docs describe Phase 5 hardening gates and keep Phase 6 evidence-gated
-- no measured production claims are added without runtime evidence
-- Verification:
-- attempt configure/build checks for benchmark wiring where environment permits
-- secret scan and CodeQL review before finalizing
-
----
-
-### CMT_TODO_AUDIT_PHASE4_RECONCILIATION_FINAL.md
-
-*(file too large — key headings extracted)*
-
-# TODO Count Reconciliation Audit — Final Report
-**Module:** Content
-**Audit Period:** 2026-08-15
-**Authority:** src/content/MODULE_GAPS_BATCH5.md § CMT-7502
-**Status:** ✅ INVESTIGATION COMPLETE
----
-## Executive Summary
-### Key Findings
-| Metric | Value | Status |
-|--------|-------|--------|
-| **Expected (CMT-7502)** | 73 | Baseline from Gap Analysis Batch 5 |
-| **Found in Headers** | 31 | Auto-generated metadata in Doxygen comments |
-| **Found in Code Comments** | 0 | No active // TODO markers in .cpp/.h |
-| **Test File TODOs** | 1 | Excluded (test-only enhancement) |
-| **Discrepancy** | 42 (57% unaccounted) | Root causes identified below |
----
-## Root Cause Analysis
-### Scenario 1: Gap Scanner Over-Prediction ✅ **CONFIRMED (70% Likelihood)**
-**Evidence:**
-- `gap_scan_content.json` contains only 36 total gaps, not 73
-- Only 1 gap marked as "todo" category; 25 marked "unimplemented"; 10 marked "stub"
-- CMT-7502 prediction may have counted multiple gap types (unimplemented, stub, debt) under "production-logic TODO"
-**Implication:**
-- The 73 figure represents a broader category of production gaps, not just "TODO" comments
-- Gap metadata headers extract TODO counts from earlier scan phases (L0.5)
-- These may reflect historical state, not current code
-**Confidence:** HIGH
----
-### Scenario 2: Batch 1-4 Remediation ✅ **PLAUSIBLE (20% Likelihood)**
-**Evidence:**
-- Git history shows merge commit for Batch 1-4 remediation
-- Batch 1: 48 CRITICAL braces_imbalance gaps
-- Batch 2: 402 HIGH severity gaps
-- Batch 3: 2,770 MEDIUM scope_mismatch gaps
-- Total potential remediations: 3,220+ gaps across all batches
-**Implication:**
-- If 42 of the expected 73 TODOs were removed during batch remediation, this would account for unaccounted gap
-- Requires detailed commit log analysis to verify
-**Confidence:** MEDIUM
----
-### Scenario 3: Metadata Drift ✅ **CONFIRMED (10% Likelihood)**
 
 ---
 
@@ -20214,5 +20166,53 @@ Files to prioritize (high-use APIs):
 "files_affected": ["mock_clip_processor.cpp (test/mock component)"]
 },
 {
+
+---
+
+### CMT_TODO_AUDIT_PHASE4_RECONCILIATION_FINAL.md
+
+*(file too large — key headings extracted)*
+
+# TODO Count Reconciliation Audit — Final Report
+**Module:** Content
+**Audit Period:** 2026-08-15
+**Authority:** src/content/MODULE_GAPS_BATCH5.md § CMT-7502
+**Status:** ✅ INVESTIGATION COMPLETE
+---
+## Executive Summary
+### Key Findings
+| Metric | Value | Status |
+|--------|-------|--------|
+| **Expected (CMT-7502)** | 73 | Baseline from Gap Analysis Batch 5 |
+| **Found in Headers** | 31 | Auto-generated metadata in Doxygen comments |
+| **Found in Code Comments** | 0 | No active // TODO markers in .cpp/.h |
+| **Test File TODOs** | 1 | Excluded (test-only enhancement) |
+| **Discrepancy** | 42 (57% unaccounted) | Root causes identified below |
+---
+## Root Cause Analysis
+### Scenario 1: Gap Scanner Over-Prediction ✅ **CONFIRMED (70% Likelihood)**
+**Evidence:**
+- `gap_scan_content.json` contains only 36 total gaps, not 73
+- Only 1 gap marked as "todo" category; 25 marked "unimplemented"; 10 marked "stub"
+- CMT-7502 prediction may have counted multiple gap types (unimplemented, stub, debt) under "production-logic TODO"
+**Implication:**
+- The 73 figure represents a broader category of production gaps, not just "TODO" comments
+- Gap metadata headers extract TODO counts from earlier scan phases (L0.5)
+- These may reflect historical state, not current code
+**Confidence:** HIGH
+---
+### Scenario 2: Batch 1-4 Remediation ✅ **PLAUSIBLE (20% Likelihood)**
+**Evidence:**
+- Git history shows merge commit for Batch 1-4 remediation
+- Batch 1: 48 CRITICAL braces_imbalance gaps
+- Batch 2: 402 HIGH severity gaps
+- Batch 3: 2,770 MEDIUM scope_mismatch gaps
+- Total potential remediations: 3,220+ gaps across all batches
+**Implication:**
+- If 42 of the expected 73 TODOs were removed during batch remediation, this would account for unaccounted gap
+- Requires detailed commit log analysis to verify
+**Confidence:** MEDIUM
+---
+### Scenario 3: Metadata Drift ✅ **CONFIRMED (10% Likelihood)**
 
 ---

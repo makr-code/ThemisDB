@@ -164,20 +164,22 @@ jobs:
       - name: Write job summary
         if: always()
         run: |
-          echo "## AI Working Compaction" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| ----- | ----- |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Event | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Ref | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Dry run | \`${{ steps.opts.outputs.dry_run }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Flags | \`${{ steps.opts.outputs.flags }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          if [ -f ai_working/compact/COMPACT_RUN_SUMMARY.json ]; then
-            echo '```json' >> "$GITHUB_STEP_SUMMARY"
-            cat ai_working/compact/COMPACT_RUN_SUMMARY.json >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-          fi
+          {
+            echo "## AI Working Compaction"
+            echo ""
+            echo "| Field | Value |"
+            echo "| ----- | ----- |"
+            echo "| Event | \`${{ github.event_name }}\` |"
+            echo "| Ref | \`${{ github.ref_name }}\` |"
+            echo "| Dry run | \`${{ steps.opts.outputs.dry_run }}\` |"
+            echo "| Flags | \`${{ steps.opts.outputs.flags }}\` |"
+            echo ""
+            if [ -f ai_working/compact/COMPACT_RUN_SUMMARY.json ]; then
+              echo '```json'
+              cat ai_working/compact/COMPACT_RUN_SUMMARY.json
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
   # --------------------------------------------------------------------------
   # Job 2: Developer LLM Wiki sync
@@ -210,16 +212,16 @@ jobs:
       - name: Run developer LLM wiki sync
         id: wiki_sync
         run: |
-          SYNC_FLAGS="--apply-updates"
+          SYNC_FLAGS=(--apply-updates)
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
              [ "${{ inputs.llm_wiki_full_sync }}" = "true" ]; then
-            SYNC_FLAGS="$SYNC_FLAGS --full-sync"
+            SYNC_FLAGS+=(--full-sync)
           fi
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
              [ "${{ inputs.dry_run }}" = "true" ]; then
-            SYNC_FLAGS="$SYNC_FLAGS --dry-run"
+            SYNC_FLAGS+=(--dry-run)
           fi
-          python scripts/ai-dev-llm-wiki-sync.py $SYNC_FLAGS \
+          python scripts/ai-dev-llm-wiki-sync.py "${SYNC_FLAGS[@]}" \
             2>&1 | tee /tmp/wiki_sync.log
           echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
@@ -255,16 +257,18 @@ jobs:
       - name: Write job summary
         if: always()
         run: |
-          echo "## Developer LLM Wiki Sync" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| ----- | ----- |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Event | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Ref | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Exit code | \`${{ steps.wiki_sync.outputs.exit_code }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          if [ -f ai_context/developer_llm_wiki/WIKI_STATUS.json ]; then
-            echo '```json' >> "$GITHUB_STEP_SUMMARY"
-            cat ai_context/developer_llm_wiki/WIKI_STATUS.json >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-          fi
+          {
+            echo "## Developer LLM Wiki Sync"
+            echo ""
+            echo "| Field | Value |"
+            echo "| ----- | ----- |"
+            echo "| Event | \`${{ github.event_name }}\` |"
+            echo "| Ref | \`${{ github.ref_name }}\` |"
+            echo "| Exit code | \`${{ steps.wiki_sync.outputs.exit_code }}\` |"
+            echo ""
+            if [ -f ai_context/developer_llm_wiki/WIKI_STATUS.json ]; then
+              echo '```json'
+              cat ai_context/developer_llm_wiki/WIKI_STATUS.json
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
