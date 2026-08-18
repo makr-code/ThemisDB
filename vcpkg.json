@@ -1,6 +1,10 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "themisdb",
-  "version": "2.4.0",
+  "version": "1.3.0",
+  "description": "ThemisDB v1.3.0 - Multi-model database with native LLM integration",
+  "license": "MIT",
+  "builtin-baseline": "94a541197763a4f449a1b91478df48c0584a6256",
   "dependencies": [
     "zlib",
     "rocksdb",

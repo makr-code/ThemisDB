@@ -11,13 +11,25 @@ endif()
 
 if(EXISTS "${_the_vcpkg_root}")
     set(CMAKE_TOOLCHAIN_FILE "${_the_vcpkg_root}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+    set(_vcpkg_prefix_roots)
     if(WIN32)
         file(GLOB _vcpkg_packages "${_the_vcpkg_root}/packages/*_x64-windows")
+        list(APPEND _vcpkg_prefix_roots "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows")
+        list(APPEND _vcpkg_prefix_roots "${_the_vcpkg_root}/installed/x64-windows")
     else()
         file(GLOB _vcpkg_packages "${_the_vcpkg_root}/packages/*_x64-linux")
+        list(APPEND _vcpkg_prefix_roots "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-linux")
+        list(APPEND _vcpkg_prefix_roots "${_the_vcpkg_root}/installed/x64-linux")
+    endif()
+    if(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}")
+        list(APPEND _vcpkg_prefix_roots "${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}")
+    endif()
+    if(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${_the_vcpkg_root}/installed/${VCPKG_TARGET_TRIPLET}")
+        list(APPEND _vcpkg_prefix_roots "${_the_vcpkg_root}/installed/${VCPKG_TARGET_TRIPLET}")
     endif()
     message(STATUS "vcpkg root: ${_the_vcpkg_root}")
     message(STATUS "vcpkg package dirs: ${_vcpkg_packages}")
+    message(STATUS "vcpkg prefix roots: ${_vcpkg_prefix_roots}")
     foreach(_pkg_dir ${_vcpkg_packages})
         list(APPEND CMAKE_PREFIX_PATH 
             "${_pkg_dir}/lib/cmake"
@@ -26,6 +38,18 @@ if(EXISTS "${_the_vcpkg_root}")
         )
         list(APPEND CMAKE_LIBRARY_PATH "${_pkg_dir}/lib")
         list(APPEND CMAKE_INCLUDE_PATH "${_pkg_dir}/include")
+    endforeach()
+    foreach(_prefix_root ${_vcpkg_prefix_roots})
+        if(EXISTS "${_prefix_root}")
+            list(APPEND CMAKE_PREFIX_PATH "${_prefix_root}")
+            list(APPEND CMAKE_PREFIX_PATH
+                "${_prefix_root}/lib/cmake"
+                "${_prefix_root}/share"
+                "${_prefix_root}/lib"
+            )
+            list(APPEND CMAKE_LIBRARY_PATH "${_prefix_root}/lib")
+            list(APPEND CMAKE_INCLUDE_PATH "${_prefix_root}/include")
+        endif()
     endforeach()
 
     # Pre-seed ZLIB variables from vcpkg package layout if present
@@ -298,14 +322,22 @@ endif()
 if(nlohmann_json_FOUND)
     message(STATUS "nlohmann_json found")
 else()
-    # nlohmann_json is a CRITICAL dependency - ALWAYS fail if not found
-    message(FATAL_ERROR 
-        "nlohmann_json library not found. This is a critical dependency and cannot be skipped. Install via:\n"
-        "  - vcpkg: vcpkg install nlohmann-json\n"
-        "  - Debian/Ubuntu: sudo apt-get install nlohmann-json3-dev\n"
-        "  - Fedora/RHEL: sudo dnf install nlohmann-json-devel\n"
-        "  - macOS: brew install nlohmann-json"
-    )
+    set(_themis_nlohmann_fallback "${CMAKE_CURRENT_SOURCE_DIR}/include/nlohmann/json.hpp")
+    if(THEMIS_DIAGNOSTIC_MODE AND EXISTS "${_themis_nlohmann_fallback}")
+        add_library(nlohmann_json::nlohmann_json INTERFACE IMPORTED)
+        set_target_properties(nlohmann_json::nlohmann_json PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/include"
+        )
+        message(WARNING "nlohmann_json config not found; diagnostic fallback active at include/nlohmann/json.hpp")
+    else()
+        message(FATAL_ERROR 
+            "nlohmann_json library not found. This is a required core dependency. Install via:\n"
+            "  - vcpkg: vcpkg install nlohmann-json\n"
+            "  - Debian/Ubuntu: sudo apt-get install nlohmann-json3-dev\n"
+            "  - Fedora/RHEL: sudo dnf install nlohmann-json-devel\n"
+            "  - macOS: brew install nlohmann-json"
+        )
+    endif()
 endif()
 
 # Boost: Try CONFIG first, fall back to MODULE if not found
@@ -701,8 +733,8 @@ if(THEMIS_ENABLE_MIMALLOC)
         message(STATUS "mimalloc found - enabling high-performance memory allocation")
         add_compile_definitions(THEMIS_HAS_MIMALLOC=1)
     else()
-        # If explicitly enabled, it should always be available
-        message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON but mimalloc not found. Install via: vcpkg install mimalloc OR apt install libmimalloc-dev")
+        message(WARNING "THEMIS_ENABLE_MIMALLOC=ON but mimalloc not found - falling back to the default allocator")
+        set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Enable mimalloc" FORCE)
     endif()
 endif()
 

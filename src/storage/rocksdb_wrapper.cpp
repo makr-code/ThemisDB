@@ -2888,7 +2888,7 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
     return std::string_view(s.data(), s.size());
 }
 
-#endif // THEMIS_ROCKSDB_AVAILABLE
-
 } // namespace themis
+
+#endif // THEMIS_ROCKSDB_AVAILABLE
 

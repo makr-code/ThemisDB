@@ -65,8 +65,8 @@
     },
     {
       "name": "windows-release",
-      "displayName": "Windows x64: Release (vcpkg required)",
-      "description": "Production release build for Windows. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "displayName": "Windows x64: Release (strict)",
+      "description": "Production release build for Windows. Core dependencies are mandatory; no silent fallback in normal release builds.",
       "inherits": "windows-base",
       "condition": {
         "type": "equals",
@@ -76,13 +76,14 @@
       "binaryDir": "${sourceDir}/build-msvc-windows-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "THEMIS_EDITION": "COMMUNITY"
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_DIAGNOSTIC_MODE": "OFF"
       }
     },
     {
       "name": "windows-debug",
-      "displayName": "Windows x64: Debug (vcpkg required)",
-      "description": "Development debug build for Windows. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "displayName": "Windows x64: Debug (strict)",
+      "description": "Development debug build for Windows. Core dependencies are mandatory; build must fail instead of silently falling back.",
       "inherits": "windows-base",
       "condition": {
         "type": "equals",
@@ -92,7 +93,8 @@
       "binaryDir": "${sourceDir}/build-msvc-windows-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "THEMIS_EDITION": "COMMUNITY"
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_DIAGNOSTIC_MODE": "OFF"
       }
     },
     {
@@ -140,13 +142,14 @@
     },
     {
       "name": "community-release-allow-missing-rocksdb",
-      "displayName": "Configure: Community Debug (DIAGNOSTIC: allow missing RocksDB)",
-      "description": "DIAGNOSTIC PRESET ONLY - for troubleshooting missing RocksDB in development scenarios. Uses Debug mode to allow THEMIS_ALLOW_MISSING_ROCKSDB=ON (Release builds enforce strict dependency checking). RocksDB-dependent targets still require librocksdb-dev or vcpkg rocksdb before build/link. See SETUP.md for dependency installation instructions.",
+      "displayName": "Configure: Community Debug (DIAGNOSTIC ONLY)",
+      "description": "DIAGNOSTIC PRESET ONLY - explicit bootstrap troubleshooting mode. It may allow missing RocksDB during diagnosis, but normal developer and release presets are strict.",
       "inherits": "community-release",
       "binaryDir": "${sourceDir}/build-community-debug-allow-missing-rocksdb",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_ALLOW_MISSING_ROCKSDB": "ON",
+        "THEMIS_DIAGNOSTIC_MODE": "ON",
         "THEMIS_EDITION": "COMMUNITY"
       }
     },

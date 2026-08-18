@@ -1,0 +1,295 @@
+name: Maintenance — Build Error Issues
+
+# Aggregates build/docker errors from failed CI runs and creates consolidated GitHub issues.
+# Triggered after ci-build.yml or docker-image.yml workflows complete.
+
+on:
+  workflow_run:
+    workflows: ["CI — Build", "Docker Image CI/CD"]
+    types: [completed]
+  schedule:
+    - cron: '0 9 * * MON-FRI'  # Monday-Friday at 9:00 UTC
+  workflow_dispatch:
+    inputs:
+      lookback_minutes:
+        description: 'Minutes to look back for failed runs (default: 1440 = 24h)'
+        required: false
+        default: '1440'
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: maintenance-build-issues
+  cancel-in-progress: true
+
+jobs:
+  aggregate-build-errors:
+    name: 📋 Aggregate & Create Build Error Issues
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@1a4ff0f1957aaf2ff5e47caf5cc3570f2a7b9476  # v4.0.4
+        with:
+          node-version: '20'
+
+      - name: Fetch failed workflow runs and error artifacts
+        id: fetch
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Determine look-back window
+            let lookbackMs = 24 * 60 * 60 * 1000; // 24 hours default
+            if (context.eventName === 'workflow_dispatch' && process.env.LOOKBACK_MINUTES) {
+              lookbackMs = parseInt(process.env.LOOKBACK_MINUTES) * 60 * 1000;
+            }
+            
+            const since = new Date(Date.now() - lookbackMs).toISOString();
+            
+            console.log('──────────────────────────────────────────────');
+            console.log('Build Error Aggregation');
+            console.log('──────────────────────────────────────────────');
+            console.log(`Look-back: ${lookbackMs / 1000 / 60 / 60} hours`);
+            console.log(`Since: ${since}`);
+            
+            // Fetch failed workflow runs
+            const workflows = ['CI — Build', 'Docker Image CI/CD'];
+            const artifactDir = '/tmp/error-artifacts';
+            if (!fs.existsSync(artifactDir)) {
+              fs.mkdirSync(artifactDir, { recursive: true });
+            }
+            
+            let downloadedCount = 0;
+            
+            for (const workflowName of workflows) {
+              const { data: wfList } = await github.rest.actions.listRepoWorkflows({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 5,
+              });
+              
+              const wf = wfList.workflows.find(w => w.name === workflowName);
+              if (!wf) {
+                console.log(`  ⏭️  Workflow not found: ${workflowName}`);
+                continue;
+              }
+              
+              const { data: runs } = await github.rest.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: wf.id,
+                status: 'completed',
+                conclusion: 'failure',
+                created: `>=${since}`,
+                per_page: 15,
+              });
+              
+              console.log(`  ${workflowName}: ${runs.workflow_runs.length} failed run(s)`);
+              
+              // Download error artifacts from each run
+              for (const run of runs.workflow_runs) {
+                const { data: artifacts } = await github.rest.actions.listWorkflowRunArtifacts({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: run.id,
+                });
+                
+                const errorArtifacts = artifacts.artifacts.filter(a => 
+                  a.name.includes('error') || a.name.startsWith('ctest-results')
+                );
+                
+                for (const artifact of errorArtifacts) {
+                  try {
+                    console.log(`    📥 Downloading ${artifact.name} from run #${run.id}`);
+                    
+                    // Download the artifact zip using the authenticated GitHub API
+                    const response = await github.request('GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/zip', {
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      artifact_id: artifact.id,
+                      request: { redirect: 'follow' },
+                    });
+                    
+                    // response.data is an ArrayBuffer when redirect is followed
+                    const zipPath = path.join(artifactDir, `${artifact.name}-${run.id}.zip`);
+                    fs.writeFileSync(zipPath, Buffer.from(response.data));
+                    
+                    // Extract zip to a named subdirectory
+                    const extractDir = path.join(artifactDir, `${artifact.name}-${run.id}`);
+                    fs.mkdirSync(extractDir, { recursive: true });
+                    
+                    const { execSync } = require('child_process');
+                    execSync(`unzip -o "${zipPath}" -d "${extractDir}"`, { stdio: 'pipe' });
+                    
+                    // Write metadata alongside extracted files
+                    fs.writeFileSync(
+                      path.join(extractDir, `_metadata.json`),
+                      JSON.stringify({
+                        name: artifact.name,
+                        run_id: run.id,
+                        run_number: run.run_number,
+                        workflow: workflowName,
+                        created_at: run.created_at,
+                      }, null, 2)
+                    );
+                    
+                    downloadedCount++;
+                  } catch (e) {
+                    core.warning(`Failed to download artifact: ${artifact.name} — ${e.message}`);
+                  }
+                }
+              }
+            }
+            
+            console.log(`  Downloaded: ${downloadedCount} artifact(s)`);
+            
+            core.setOutput('artifact_count', downloadedCount);
+            core.setOutput('has_artifacts', downloadedCount > 0 ? 'true' : 'false');
+            core.setOutput('artifact_dir', artifactDir);
+
+      - name: Aggregate errors from artifacts
+        id: aggregate
+        shell: bash
+        env:
+          ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
+          OUTPUT_FILE: /tmp/aggregated-errors.md
+        run: |
+          node ${{ github.workspace }}/.github/scripts/aggregate-build-errors.js
+          
+          # Output the markdown for use in next steps
+          if [ -f /tmp/aggregated-errors.md ]; then
+            {
+              echo 'report_markdown<<EOF'
+              cat /tmp/aggregated-errors.md
+              echo EOF
+            } >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create or update chronic build failure issue
+        if: steps.aggregate.outputs.chronic_errors > 0
+        uses: ./.github/actions/manage-governance-issue
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: '🔴 Chronic Build Failures — Error Report'
+          body: |
+            ## Build Error Aggregation Report
+            
+            **Aggregation Period**: Last 24 hours  
+            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            ${{ steps.aggregate.outputs.report_markdown }}
+            
+            ### Debugging Tips
+            1. **Navigate to Actions tab** → Find the failed workflow run
+            2. **Download artifacts**: Look for `*-errors.json` files
+            3. **Review error details**: Each error includes file, line, and message
+            4. **Search codebase**: Find similar issues via grep or IDE symbol search
+            5. **Check CI logs**: Full build logs available in workflow run details
+            
+            ---
+            
+            **Labels**: `ci/failure,ci/build-error`  
+            **Severity**: High (blocking builds)  
+            **Priority**: Address chronic errors immediately
+          labels: 'ci/failure,ci/build-error,maintenance'
+          close-if-empty: 'false'
+
+      - name: Send Slack notification for chronic errors
+        if: steps.aggregate.outputs.chronic_errors > 0
+        uses: ./.github/actions/notify-chronic-errors
+        with:
+          error-report-file: /tmp/aggregated-errors.md
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          chronic-threshold: '3'
+          include-remediation-hints: 'true'
+        continue-on-error: true
+
+      - name: Send Discord notification for chronic errors
+        if: steps.aggregate.outputs.chronic_errors > 0
+        uses: ./.github/actions/notify-chronic-errors
+        with:
+          error-report-file: /tmp/aggregated-errors.md
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          chronic-threshold: '3'
+          include-remediation-hints: 'true'
+        continue-on-error: true
+
+      - name: Create issue for each error type (if needed)
+        if: steps.fetch.outputs.has_artifacts == 'true'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read aggregated report
+            const reportFile = '/tmp/aggregated-errors.md';
+            if (!fs.existsSync(reportFile)) {
+              console.log('No aggregated report found.');
+              return;
+            }
+            
+            const reportMarkdown = fs.readFileSync(reportFile, 'utf8');
+            
+            // Check for critical errors and create separate tracking issue if needed
+            if (reportMarkdown.includes('CRITICAL') || reportMarkdown.includes('Chronic')) {
+              console.log('✅ Critical/chronic errors detected - main issue created');
+            } else {
+              console.log('✅ Error aggregation complete - no critical issues');
+            }
+
+      - name: Print error aggregation summary
+        if: always()
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Build Error Aggregation Complete"
+          echo "──────────────────────────────────────────────"
+          echo "Total unique errors: ${{ steps.aggregate.outputs.total_errors }}"
+          echo "Chronic errors (≥3x): ${{ steps.aggregate.outputs.chronic_errors }}"
+          if [ -f /tmp/aggregated-errors.md ]; then
+            echo ""
+            echo "Aggregated Report:"
+            head -50 /tmp/aggregated-errors.md
+            echo "... (see full report in GitHub issue)"
+          fi
+          echo "──────────────────────────────────────────────"
+
+      - name: Collect error metrics for Prometheus/Grafana
+        if: always()
+        shell: bash
+        env:
+          ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
+          METRICS_DIR: /tmp/error-metrics
+          OUTPUT_FORMAT: json,prometheus,markdown
+        run: |
+          mkdir -p /tmp/error-metrics
+          node ${{ github.workspace }}/.github/scripts/collect-build-metrics.js
+
+      - name: Upload metrics artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-metrics
+          path: /tmp/error-metrics/
+          retention-days: 90
+
+      - name: Publish Error Dashboard
+        if: always() && steps.fetch.outputs.has_artifacts == 'true'
+        uses: ./.github/actions/publish-error-dashboard
+        with:
+          metrics-artifact: error-metrics
+          create-issue: ${{ steps.aggregate.outputs.chronic_errors > 0 }}
+          dashboard-title: '📊 Build Error Dashboard — Run #${{ github.run_number }}'
+          send-slack: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+        continue-on-error: true

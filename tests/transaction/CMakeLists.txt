@@ -577,7 +577,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_phase2.cpp")
         TIER unit
         KIND focused
         TIMEOUT 120
-        LABELS transaction phase-2 distributed-coordination 2pc 3pc timeout-retry in-doubt-recovery
+        LABELS transaction phase-2 distributed-coordination 2pc 3pc timeout-retry in-doubt-recovery release_critical
     )
 
     message(STATUS "  Phase 2: Distributed Coordination: 2PC/3PC protocol, timeout/retry, in-doubt recovery")
@@ -612,7 +612,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_saga_compensation_phase2.c
         TIER unit
         KIND focused
         TIMEOUT 120
-        LABELS transaction phase-2 saga-orchestration compensation idempotency failure-handling
+        LABELS transaction phase-2 saga-orchestration compensation idempotency failure-handling release_critical
     )
 
     message(STATUS "  Phase 2: SAGA/Compensation: idempotency, orchestration, retry storms, recovery")
@@ -649,7 +649,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_fault_injection_phase3.cpp
         TIER unit
         KIND focused
         TIMEOUT 120
-        LABELS transaction phase-3 fault-injection chaos-engineering cascading-failures
+        LABELS transaction phase-3 fault-injection chaos-engineering cascading-failures release_critical
     )
 
     message(STATUS "  Phase 3: Fault Injection: cross-shard, chaos, cascading recovery")

@@ -1,0 +1,143 @@
+name: Publish Error Dashboard
+description: Generate and publish build error monitoring dashboards
+
+inputs:
+  metrics-artifact:
+    description: Name of metrics artifact containing error-metrics.json
+    required: false
+    default: build-error-metrics
+  metrics-dir:
+    description: Directory containing metrics files
+    required: false
+    default: ./metrics
+  issue-number:
+    description: GitHub issue number to update with dashboard
+    required: false
+  create-issue:
+    description: Create new issue if not specified
+    required: false
+    default: 'true'
+  dashboard-title:
+    description: Title for dashboard issue
+    required: false
+    default: 'Build Error Monitoring Dashboard'
+  send-slack:
+    description: Send Slack notification with dashboard link
+    required: false
+    default: 'false'
+  slack-webhook:
+    description: Slack webhook URL for notifications
+    required: false
+
+outputs:
+  dashboard-url:
+    description: URL to the generated dashboard
+    value: ${{ steps.publish.outputs.dashboard-url }}
+  dashboard-issue:
+    description: GitHub issue number for dashboard
+    value: ${{ steps.publish.outputs.dashboard-issue }}
+  grafana-json-url:
+    description: URL to Grafana dashboard JSON
+    value: ${{ steps.publish.outputs.grafana-json-url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Download metrics
+      if: inputs.metrics-artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.metrics-artifact }}
+        path: ${{ inputs.metrics-dir }}
+      continue-on-error: true
+
+    - name: Generate dashboards
+      shell: node {0}
+      env:
+        METRICS_DIR: ${{ inputs.metrics-dir }}
+        DASHBOARD_DIR: ./dashboards
+      run: |
+        require('child_process').execSync(
+          `node .github/scripts/generate-dashboards.js`,
+          { stdio: 'inherit' }
+        );
+
+    - name: Create/Update Dashboard Issue
+      id: publish
+      shell: bash
+      if: inputs.create-issue == 'true' || inputs.issue-number
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        ISSUE_NUMBER: ${{ inputs.issue-number }}
+        DASHBOARD_TITLE: ${{ inputs.dashboard-title }}
+      run: |
+        set -e
+        
+        # Read dashboard markdown
+        DASHBOARD_CONTENT=$(cat ./dashboards/DASHBOARD.md)
+        
+        # Create or update issue
+        if [ -z "$ISSUE_NUMBER" ]; then
+          # Create new issue
+          RESPONSE=$(gh issue create \
+            --title "$DASHBOARD_TITLE" \
+            --body "$DASHBOARD_CONTENT" \
+            --label "documentation,ci/monitoring" \
+            --no-edit)
+          ISSUE_NUM=$(echo "$RESPONSE" | grep -oP '#\K[0-9]+' || echo "")
+        else
+          # Update existing issue
+          gh issue edit "$ISSUE_NUMBER" --body "$DASHBOARD_CONTENT"
+          ISSUE_NUM=$ISSUE_NUMBER
+        fi
+        
+        echo "dashboard-issue=$ISSUE_NUM" >> $GITHUB_OUTPUT
+        echo "dashboard-url=${{ github.server_url }}/${{ github.repository }}/issues/$ISSUE_NUM" >> $GITHUB_OUTPUT
+        echo "grafana-json-url=${{ github.server_url }}/${{ github.repository }}/raw/dashboards/grafana-dashboard.json" >> $GITHUB_OUTPUT
+        
+        echo "✅ Dashboard published: Issue #$ISSUE_NUM"
+
+    - name: Upload dashboard artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: error-dashboard
+        path: dashboards/
+        retention-days: 90
+      continue-on-error: true
+
+    - name: Send Slack Notification
+      if: inputs.send-slack == 'true' && inputs.slack-webhook
+      shell: bash
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack-webhook }}
+        DASHBOARD_ISSUE: ${{ steps.publish.outputs.dashboard-issue }}
+        DASHBOARD_URL: ${{ steps.publish.outputs.dashboard-url }}
+      run: |
+        if [ -z "$SLACK_WEBHOOK" ]; then
+          echo "⏭️  Slack webhook not configured, skipping notification"
+          exit 0
+        fi
+        
+        DASHBOARD_CONTENT=$(cat ./dashboards/DASHBOARD.md | head -n 50)
+        
+        curl -X POST "$SLACK_WEBHOOK" \
+          -H 'Content-Type: application/json' \
+          -d "{
+            \"blocks\": [
+              {
+                \"type\": \"header\",
+                \"text\": {
+                  \"type\": \"plain_text\",
+                  \"text\": \"📊 Build Error Dashboard Updated\"
+                }
+              },
+              {
+                \"type\": \"section\",
+                \"text\": {
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"New monitoring dashboard available: <\$DASHBOARD_URL|Issue #\$DASHBOARD_ISSUE>\"
+                }
+              }
+            ]
+          }" || echo "⚠️  Slack notification failed (webhook may be invalid)"
+      continue-on-error: true

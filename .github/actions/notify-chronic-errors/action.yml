@@ -1,0 +1,54 @@
+name: 'Notify Chronic Build Errors'
+description: |
+  Sends rich notifications to Slack/Discord for chronic build failures.
+  Detects errors appearing in N consecutive runs and formats actionable alerts.
+
+inputs:
+  error-report-file:
+    description: 'Path to aggregated error JSON or markdown report'
+    required: true
+  webhook-url:
+    description: 'Slack or Discord webhook URL (from secrets)'
+    required: false
+    default: ''
+  chronic-threshold:
+    description: 'Number of consecutive runs required to trigger notification (default: 3)'
+    required: false
+    default: '3'
+  platform:
+    description: 'Notification platform: slack or discord (auto-detect from URL if not specified)'
+    required: false
+    default: 'auto'
+  include-remediation-hints:
+    description: 'Include suggested remediation actions (default: true)'
+    required: false
+    default: 'true'
+
+outputs:
+  notification-sent:
+    description: 'true if notification was sent, false otherwise'
+    value: ${{ steps.notify.outputs.notification_sent }}
+  notification-url:
+    description: 'URL to the notification message (if platform supports it)'
+    value: ${{ steps.notify.outputs.message_url }}
+  chronic-count:
+    description: 'Number of chronic errors detected'
+    value: ${{ steps.notify.outputs.chronic_count }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Send chronic error notifications
+      id: notify
+      shell: node {0}
+      env:
+        ERROR_REPORT_FILE: ${{ inputs.error-report-file }}
+        WEBHOOK_URL: ${{ inputs.webhook-url }}
+        CHRONIC_THRESHOLD: ${{ inputs.chronic-threshold }}
+        PLATFORM: ${{ inputs.platform }}
+        INCLUDE_REMEDIATION: ${{ inputs.include-remediation-hints }}
+        GITHUB_OWNER: ${{ github.repository_owner }}
+        GITHUB_REPO: ${{ github.repository }}
+        GITHUB_RUN_ID: ${{ github.run_id }}
+        GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: ${{ github.action_path }}/notify-errors.js

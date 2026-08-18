@@ -25,15 +25,18 @@
 - `VERIFICATION_CHECKLIST_ANALYTICS.md` (2026-08-18, 11,666 B)
 - `VERIFICATION_INDEX_ANALYTICS.md` (2026-08-18, 9,421 B)
 - `README_PHASE3_ANALYTICS.md` (2026-08-18, 10,014 B)
-- `PHASE3_ANALYTICS_A2_AUDIT.md` (2026-08-18, 7,414 B)
-- `PHASE3_ANALYTICS_A2_DELIVERY_SUMMARY.md` (2026-08-18, 7,995 B)
 - `PHASE3_ANALYTICS_A2_IMPLEMENTATION_REPORT.md` (2026-08-18, 13,347 B)
 - `PHASE3_ANALYTICS_A2_QUICK_REFERENCE.md` (2026-08-18, 2,889 B)
+- `PHASE3_ANALYTICS_A2_AUDIT.md` (2026-08-18, 7,414 B)
+- `PHASE3_ANALYTICS_A2_DELIVERY_SUMMARY.md` (2026-08-18, 7,995 B)
 - `PHASE2_AGENT2_ANALYTICS_A2_SPEC.md` (2026-08-18, 7,267 B)
+- `ANALYTICS_PHASE6_AGGREGATION_REPORT.md` (2026-08-18, 14,677 B)
 - `ANALYTICS_PHASE6_FINAL_SIGNOFF_PLAN.md` (2026-08-18, 20,407 B)
 - `ANALYTICS_PHASE6_SIGNOFF_SPEC.md` (2026-08-18, 14,301 B)
 - `ANALYTICS_PHASE6_SIGN_OFF_CHECKLIST.md` (2026-08-18, 22,935 B)
 - `ANALYTICS_WEEK1_FINAL_STATUS.md` (2026-08-18, 19,974 B)
+- `ANALYTICS_PHASE3_QUICK_REFERENCE.md` (2026-08-18, 6,990 B)
+- `ANALYTICS_PHASE3_SUMMARY.json` (2026-08-18, 1,840 B)
 - `ANALYTICS_PHASE4_QUICK_REFERENCE.md` (2026-08-18, 8,286 B)
 - `ANALYTICS_PHASE4_TEST_GENERATION_SPEC.md` (2026-08-18, 9,596 B)
 - `ANALYTICS_PHASE4_TEST_REPORT.md` (2026-08-18, 12,755 B)
@@ -44,7 +47,6 @@
 - `ANALYTICS_PHASE5_DELIVERY_SUMMARY.md` (2026-08-18, 13,981 B)
 - `ANALYTICS_PHASE5_INDEX.md` (2026-08-18, 15,410 B)
 - `ANALYTICS_PHASE6_ACCEPTANCE_TRACKING.md` (2026-08-18, 13,702 B)
-- `ANALYTICS_PHASE6_AGGREGATION_REPORT.md` (2026-08-18, 14,677 B)
 - `ANALYTICS_PHASE2_BATCH1_EXECUTIVE_SUMMARY.md` (2026-08-18, 7,439 B)
 - `ANALYTICS_PHASE2_BATCH1_VALIDATION_REPORT.md` (2026-08-18, 8,250 B)
 - `ANALYTICS_PHASE2_BATCH_2A_VERIFICATION.md` (2026-08-18, 3,141 B)
@@ -56,8 +58,7 @@
 - `ANALYTICS_PHASE2_PROGRESS_REPORT.md` (2026-08-18, 13,453 B)
 - `ANALYTICS_PHASE3_ERROR_HANDLING_CHECKLIST.md` (2026-08-18, 25,522 B)
 - `ANALYTICS_PHASE3_ERROR_HANDLING_FINDINGS.json` (2026-08-18, 25,227 B)
-- `ANALYTICS_PHASE3_QUICK_REFERENCE.md` (2026-08-18, 6,990 B)
-- `ANALYTICS_PHASE3_SUMMARY.json` (2026-08-18, 1,840 B)
+- `ANALYTICS_GAP_CLOSURE_MASTER_TRACKER.md` (2026-08-18, 17,306 B)
 - `ANALYTICS_GAP_CLOSURE_PR_SUMMARY.md` (2026-08-18, 19,610 B)
 - `ANALYTICS_GAP_CLOSURE_STATUS_2026_08_15.md` (2026-08-18, 7,282 B)
 - `ANALYTICS_GAP_SCANNER_REMEDIATION_GUIDE.md` (2026-08-18, 10,782 B)
@@ -76,7 +77,6 @@
 - `ANALYTICS_GAP_CLOSURE_ARCHITECTURE_UPDATE.md` (2026-08-18, 23,274 B)
 - `ANALYTICS_GAP_CLOSURE_FINAL_REPORT_TEMPLATE.md` (2026-08-18, 22,622 B)
 - `ANALYTICS_GAP_CLOSURE_INDEX.md` (2026-08-18, 13,717 B)
-- `ANALYTICS_GAP_CLOSURE_MASTER_TRACKER.md` (2026-08-18, 17,306 B)
 
 ---
 
@@ -2478,6 +2478,180 @@ For detailed analysis of specific gaps:
 
 ---
 
+### PHASE3_ANALYTICS_A2_IMPLEMENTATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Phase 3 Analytics A-2: Connection Leak Gap Closure — Implementation Report
+**Date**: 2026-08-15
+**Batch**: Analytics Phase 3 A-2
+**Scope**: 20 HIGH-severity db_connection_leak gaps
+**Status**: IMPLEMENTATION COMPLETE (Ready for validation & merge)
+---
+## Executive Summary
+1. **Created ConnectionGuard RAII wrapper** (`include/analytics/connection_guard.h`)
+- Follows Index Phase 3 A-6 pattern specification
+- Exception-safe connection cleanup guaranteed
+- Prevents resource leaks in all code paths
+2. **Applied RAII patterns to streaming_window.cpp** (12 gaps)
+- TumblingWindow lifecycle management (4 gaps)
+- SlidingWindow lifecycle management (4 gaps)
+- SessionWindow lifecycle management (4 gaps)
+- Added comprehensive inline documentation explaining safety
+3. **Applied RAII patterns to distributed_analytics.cpp** (8 gaps)
+- Async thread lifecycle management (3 gaps)
+- Exception path cleanup (2 gaps)
+- Shard registry resource management (3 gaps)
+- Added RAII-safe comments for thread/promise synchronization
+---
+## Files Modified
+### 1. `include/analytics/connection_guard.h` ✓ NEW
+**Status**: ✅ COMPLETE
+**Purpose**: RAII wrapper for database connection lifecycle management
+**Key Features**:
+- Static `acquire()` factory method for safe initialization
+- Move semantics for ownership transfer
+- Deleted copy semantics to prevent accidental duplication
+- Exception-safe destructor that never throws
+- Comprehensive safety documentation
+**Pattern**:
+class ConnectionGuard {
+public:
+static auto acquire(int connection_id, Releaser releaser) -> ConnectionGuard;
+explicit ConnectionGuard(int connection_id, Releaser releaser) noexcept;
+// Move semantics
+ConnectionGuard(ConnectionGuard&& other) noexcept;
+ConnectionGuard& operator=(ConnectionGuard&& other) noexcept;
+// Deleted copy semantics
+ConnectionGuard(const ConnectionGuard&) = delete;
+
+---
+
+### PHASE3_ANALYTICS_A2_QUICK_REFERENCE.md
+
+# Phase 3 Analytics A-2: Quick Reference
+
+**Date**: 2026-08-15 | **Batch**: Analytics Phase 3 A-2 | **Gaps**: 20 HIGH-severity
+
+---
+
+## ✅ Implementation Complete
+
+### Files Changed
+1. **NEW**: `include/analytics/connection_guard.h` — RAII connection wrapper
+2. **MODIFIED**: `src/analytics/streaming_window.cpp` — Added RAII docs (12 gaps)
+3. **MODIFIED**: `src/analytics/distributed_analytics.cpp` — Added RAII docs (8 gaps)
+
+### Gap Coverage: 20/20 ✅
+
+| Category | Count | Gaps |
+|----------|-------|------|
+| TumblingWindow | 4 | lines 333-369 |
+| SlidingWindow | 4 | lines 586-637 |
+| SessionWindow | 4 | lines 864-903 |
+| AsyncThread lifecycle | 3 | lines 816-875 |
+| Exception path cleanup | 2 | lines 827-861 |
+| Shard registry RAII | 3 | lines 450-475 |
+
+---
+
+## 🔒 Pattern Applied
+
+**RAII Connection Cleanup** - Guaranteed in all paths:
+```cpp
+auto guard = ConnectionGuard::acquire(db, conn_id, releaser);
+// ... all code paths here ...
+// ← Automatic cleanup on exit (even exceptions)
+```
+
+**Safety Guarantees**:
+- ✅ Exception paths
+- ✅ Early returns
+- ✅ Normal completion
+- ✅ Never throws in destructor
+
+---
+
+## 🧪 Validation Ready
+
+**Next: Build & Test**
+```bash
+# ASan build
+cmake --preset develop-asan
+cmake --build build-develop-asan -j 8
+
+# Run tests with leak detection
+ASAN_OPTIONS="detect_leaks=1" ctest -L analytics
+
+# Expected: 0 leaks, 100% PASS
+```
+
+---
+
+## 📋 Merge Sequence
+
+1. **Index Phase 3 A-6** → merge to develop (2026-08-29 morning)
+2. **Analytics Phase 3 A-2** → merge to develop (2026-08-29 afternoon)
+
+**Reason**: Pattern dependency (A-6 establishes ConnectionGuard)
+
+---
+
+## 📊 Summary
+
+- **New RAII Pattern**: ConnectionGuard (exception-safe, move-safe)
+- **Files Modified**: 3 (1 new, 2 updated with docs)
+- **Gaps Closed**: 20/20 (100%)
+- **Lines Added**: ~293 production + docs
+- **Breaking Changes**: None
+- **Performance Impact**: 0% (pure documentation + RAII)
+
+---
+
+## 🎯 Success Metrics
+
+| Metric | Target | Status |
+|--------|--------|--------|
+| Gaps closed | 20/20 | ✅ |
+| ASan leaks | 0 | 🔄 Pending |
+| ASan errors | 0 | 🔄 Pending |
+| Tests PASS | 100% | 🔄 Pending |
+| Code review | PASS | 🔄 Pending |
+
+---
+
+## 📝 Documentation
+
+Every modification includes inline comments explaining:
+- Why RAII is used
+- How cleanup is guaranteed
+- Exception-safety guarantees
+- Thread synchronization details
+
+Example comment pattern:
+```cpp
+// RAII SAFETY: <How resources are managed>
+// - <Guarantee 1>
+// - <Guarantee 2>
+// - <Guarantee 3>
+```
+
+---
+
+## 🔗 Key Files
+
+- **Audit**: `PHASE3_ANALYTICS_A2_AUDIT.md`
+- **Implementation**: `PHASE3_ANALYTICS_A2_IMPLEMENTATION_REPORT.md`
+- **New Header**: `include/analytics/connection_guard.h`
+- **Updated**: `src/analytics/streaming_window.cpp`
+- **Updated**: `src/analytics/distributed_analytics.cpp`
+
+---
+
+**Status**: READY FOR VALIDATION & CODE REVIEW
+
+---
+
 ### PHASE3_ANALYTICS_A2_AUDIT.md
 
 # Phase 3 Analytics A-2: Connection Leak Gap Audit
@@ -2960,180 +3134,6 @@ For questions about:
 
 ---
 
-### PHASE3_ANALYTICS_A2_IMPLEMENTATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Phase 3 Analytics A-2: Connection Leak Gap Closure — Implementation Report
-**Date**: 2026-08-15
-**Batch**: Analytics Phase 3 A-2
-**Scope**: 20 HIGH-severity db_connection_leak gaps
-**Status**: IMPLEMENTATION COMPLETE (Ready for validation & merge)
----
-## Executive Summary
-1. **Created ConnectionGuard RAII wrapper** (`include/analytics/connection_guard.h`)
-- Follows Index Phase 3 A-6 pattern specification
-- Exception-safe connection cleanup guaranteed
-- Prevents resource leaks in all code paths
-2. **Applied RAII patterns to streaming_window.cpp** (12 gaps)
-- TumblingWindow lifecycle management (4 gaps)
-- SlidingWindow lifecycle management (4 gaps)
-- SessionWindow lifecycle management (4 gaps)
-- Added comprehensive inline documentation explaining safety
-3. **Applied RAII patterns to distributed_analytics.cpp** (8 gaps)
-- Async thread lifecycle management (3 gaps)
-- Exception path cleanup (2 gaps)
-- Shard registry resource management (3 gaps)
-- Added RAII-safe comments for thread/promise synchronization
----
-## Files Modified
-### 1. `include/analytics/connection_guard.h` ✓ NEW
-**Status**: ✅ COMPLETE
-**Purpose**: RAII wrapper for database connection lifecycle management
-**Key Features**:
-- Static `acquire()` factory method for safe initialization
-- Move semantics for ownership transfer
-- Deleted copy semantics to prevent accidental duplication
-- Exception-safe destructor that never throws
-- Comprehensive safety documentation
-**Pattern**:
-class ConnectionGuard {
-public:
-static auto acquire(int connection_id, Releaser releaser) -> ConnectionGuard;
-explicit ConnectionGuard(int connection_id, Releaser releaser) noexcept;
-// Move semantics
-ConnectionGuard(ConnectionGuard&& other) noexcept;
-ConnectionGuard& operator=(ConnectionGuard&& other) noexcept;
-// Deleted copy semantics
-ConnectionGuard(const ConnectionGuard&) = delete;
-
----
-
-### PHASE3_ANALYTICS_A2_QUICK_REFERENCE.md
-
-# Phase 3 Analytics A-2: Quick Reference
-
-**Date**: 2026-08-15 | **Batch**: Analytics Phase 3 A-2 | **Gaps**: 20 HIGH-severity
-
----
-
-## ✅ Implementation Complete
-
-### Files Changed
-1. **NEW**: `include/analytics/connection_guard.h` — RAII connection wrapper
-2. **MODIFIED**: `src/analytics/streaming_window.cpp` — Added RAII docs (12 gaps)
-3. **MODIFIED**: `src/analytics/distributed_analytics.cpp` — Added RAII docs (8 gaps)
-
-### Gap Coverage: 20/20 ✅
-
-| Category | Count | Gaps |
-|----------|-------|------|
-| TumblingWindow | 4 | lines 333-369 |
-| SlidingWindow | 4 | lines 586-637 |
-| SessionWindow | 4 | lines 864-903 |
-| AsyncThread lifecycle | 3 | lines 816-875 |
-| Exception path cleanup | 2 | lines 827-861 |
-| Shard registry RAII | 3 | lines 450-475 |
-
----
-
-## 🔒 Pattern Applied
-
-**RAII Connection Cleanup** - Guaranteed in all paths:
-```cpp
-auto guard = ConnectionGuard::acquire(db, conn_id, releaser);
-// ... all code paths here ...
-// ← Automatic cleanup on exit (even exceptions)
-```
-
-**Safety Guarantees**:
-- ✅ Exception paths
-- ✅ Early returns
-- ✅ Normal completion
-- ✅ Never throws in destructor
-
----
-
-## 🧪 Validation Ready
-
-**Next: Build & Test**
-```bash
-# ASan build
-cmake --preset develop-asan
-cmake --build build-develop-asan -j 8
-
-# Run tests with leak detection
-ASAN_OPTIONS="detect_leaks=1" ctest -L analytics
-
-# Expected: 0 leaks, 100% PASS
-```
-
----
-
-## 📋 Merge Sequence
-
-1. **Index Phase 3 A-6** → merge to develop (2026-08-29 morning)
-2. **Analytics Phase 3 A-2** → merge to develop (2026-08-29 afternoon)
-
-**Reason**: Pattern dependency (A-6 establishes ConnectionGuard)
-
----
-
-## 📊 Summary
-
-- **New RAII Pattern**: ConnectionGuard (exception-safe, move-safe)
-- **Files Modified**: 3 (1 new, 2 updated with docs)
-- **Gaps Closed**: 20/20 (100%)
-- **Lines Added**: ~293 production + docs
-- **Breaking Changes**: None
-- **Performance Impact**: 0% (pure documentation + RAII)
-
----
-
-## 🎯 Success Metrics
-
-| Metric | Target | Status |
-|--------|--------|--------|
-| Gaps closed | 20/20 | ✅ |
-| ASan leaks | 0 | 🔄 Pending |
-| ASan errors | 0 | 🔄 Pending |
-| Tests PASS | 100% | 🔄 Pending |
-| Code review | PASS | 🔄 Pending |
-
----
-
-## 📝 Documentation
-
-Every modification includes inline comments explaining:
-- Why RAII is used
-- How cleanup is guaranteed
-- Exception-safety guarantees
-- Thread synchronization details
-
-Example comment pattern:
-```cpp
-// RAII SAFETY: <How resources are managed>
-// - <Guarantee 1>
-// - <Guarantee 2>
-// - <Guarantee 3>
-```
-
----
-
-## 🔗 Key Files
-
-- **Audit**: `PHASE3_ANALYTICS_A2_AUDIT.md`
-- **Implementation**: `PHASE3_ANALYTICS_A2_IMPLEMENTATION_REPORT.md`
-- **New Header**: `include/analytics/connection_guard.h`
-- **Updated**: `src/analytics/streaming_window.cpp`
-- **Updated**: `src/analytics/distributed_analytics.cpp`
-
----
-
-**Status**: READY FOR VALIDATION & CODE REVIEW
-
----
-
 ### PHASE2_AGENT2_ANALYTICS_A2_SPEC.md
 
 # Agent 2: Analytics Module Phase 2 A-2 (DB Connection Leak)
@@ -3381,6 +3381,55 @@ PHASE2: Analytics A-2 DB Connection Leak (20 gaps) — RAII guards + transaction
 
 ---
 
+### ANALYTICS_PHASE6_AGGREGATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Analytics Module — Phase 6 Aggregation Report
+**Date:** 2026-08-15
+**Report Period:** Weeks 1-2 (2026-08-08 to 2026-08-15)
+**Status:** 🟢 **PHASE 1-6 COMPLETE — READY FOR GA PROMOTION**
+---
+## Executive Summary
+### Quick Facts
+| Metric | Target | Actual | Status |
+|--------|--------|--------|--------|
+| **CRITICAL Gaps** | 0 (Phase 1-2) | 0 (19→0) | ✅ **100%** |
+| **HIGH Gaps (Phase 2 A)** | 35-40 | 34 | ✅ **97%** |
+| **Focused Tests** | 50+ | 45 | ✅ **90%** |
+| **Benchmarks** | 6-8 | 19 | ✅ **238%** |
+| **Compilation** | 0 errors | 0 errors | ✅ **PASS** |
+| **Code Review** | Approved | ✅ Approved | ✅ **APPROVED** |
+| **Documentation** | Complete | ✅ Complete | ✅ **COMPLETE** |
+---
+## Phase 1-6 Results
+### Phase 1: Design & API Contract ✅ (2026-08-15)
+**Objective:** Formalize and verify API contracts, error taxonomies, and identify all production issues.
+**Deliverables:**
+- ✅ gap_scanner_verified_analytics_phase1.json (16 KB, 35 findings)
+- ✅ gap_verifier_report_analytics_phase1.md (15 KB, comprehensive analysis)
+- ✅ VERIFICATION_INDEX_ANALYTICS.md (summary table)
+- ✅ VERIFICATION_CHECKLIST_ANALYTICS.md (100+ gates)
+- ✅ ANALYTICS_PHASE1_VERIFICATION_SUMMARY.txt (executive summary)
+**Results:**
+- **Total Findings Analyzed:** 35 CRITICAL
+- **Classification Breakdown:**
+- 19 TRUE_POSITIVE (54%) — Real gaps requiring implementation
+- 14 DEFERRED (40%) — Defensive patterns, safe to defer
+- 2 FALSE_POSITIVE (6%) — Factory functions, removal recommended
+- **Confidence Level:** HIGH (manual source code inspection)
+- **Status:** ✅ APPROVED FOR PHASE 1 CLOSURE
+---
+### Phase 2: Core Implementation ✅ (2026-08-15)
+**Objective:** Implement production-ready fixes for CRITICAL and HIGH gaps identified in Phase 1.
+#### Phase 2 Batch A-1: Circular Lock Ordering (14 fixes)
+**Deliverables:**
+- ✅ analytics_locks.h (new header with lock hierarchy)
+- ✅ streaming_window.cpp (modified, 14 lock ordering fixes)
+- ✅ distributed_analytics.cpp (modified, lock coordination)
+
+---
+
 ### ANALYTICS_PHASE6_FINAL_SIGNOFF_PLAN.md
 
 *(file too large — key headings extracted)*
@@ -3582,6 +3631,325 @@ std::string_view collection, const EventLogConfig& config);
 - **Status**: Phase 1 closure approved; awaiting Phase 2-5 results for final aggregation
 - **Critical Findings**: 5 open items identified + 5 recommendations for Phase 2-5 acceleration
 - **Output**: Master summary, final report template, acceptance tracking, entry checklist
+
+---
+
+### ANALYTICS_PHASE3_QUICK_REFERENCE.md
+
+# Analytics Module - Phase 3 Quick Reference
+
+**Review Date:** 2026-08-15  
+**Status:** ✅ QUALIFIED FOR PHASE 4  
+**All 40 gaps analyzed and classified**
+
+---
+
+## Status Dashboard
+
+| Metric | Count | Status |
+|--------|-------|--------|
+| **Gaps Analyzed** | 40 | ✅ Complete |
+| **Guarded Stubs** | 16 | ✅ Acceptable |
+| **Requires Manual Review** | 11 | ⚠️ 3 files |
+| **False Positives Removed** | 13 | ✅ Cleaned |
+| **Ready for Phase 4** | **YES** | ✅ Conditional |
+
+---
+
+## Critical Findings
+
+### 🔴 Must Fix Before Phase 4 (0 identified)
+
+No **unguarded critical gaps** require immediate fixing.
+
+### 🟡 Requires Manual Context Review (11 gaps)
+
+**Process Mining (5 gaps):**
+- Lines 188, 195, 202, 206, 210: Bare `return {}` 
+- Status: Need full function signature review
+- Action: Confirm guards are in surrounding conditional blocks
+
+**Other Files (6 gaps):**
+- Line 1466 (nlp_text_analyzer.cpp): Requires context
+- Line 575 (incremental_view.cpp): Requires context
+- Line 1328 (streaming_window.cpp): Requires context
+- (3 more - all bare returns without guard context visible)
+
+---
+
+## Classification Breakdown
+
+```
+Guarded Stubs (MEDIUM):           16 gaps ✅ SAFE - defensive pattern
+  ├─ Container empty checks:       12
+  ├─ Bounds validation:             3
+  └─ State machine checks:          1
+
+Requires Manual Review (HIGH):    11 gaps ⚠️ REVIEW - context-dependent
+  └─ Bare returns without visible guard
+
+Valid Returns (INFO):              6 gaps ✅ SKIP - false positives
+  ├─ Factory methods (Status::OK): 2
+  ├─ Legitimate bound checks:      2
+  └─ Callback operations:          2
+
+Deferred Stubs (INFO):             5 gaps ✅ PHASE 4/5 - acceptable
+  ├─ Callback injection pattern:   2
+  ├─ Simulation markers:           3
+  └─ All documented as TODO
+
+Unguarded (CRITICAL):              2 gaps ❌ REQUIRES FIX
+  └─ (If found after manual review)
+```
+
+---
+
+## By Severity
+
+| Severity | Count | Action | Files |
+|----------|-------|--------|-------|
+| **CRITICAL** | 2 | Fix if found | process_mining, nlp_text_analyzer |
+| **HIGH** | 11 | Manual review | 6 files |
+| **MEDIUM** | 16 | Monitor Phase 4 | All (guarded stubs) |
+| **INFO** | 11 | Remove (false positive) | Various |
+
+---
+
+## Error Handling Patterns (✅ All Sound)
+
+### Pattern 1: Container Validation
+```cpp
+if (container.empty()) return {};  // ✅ Safe
+```
+Files using this: 12+ (automl, cep_engine, forecasting, etc.)
+
+### Pattern 2: Numeric Bounds
+```cpp
+if (n <= 0 || p <= 0) return {};  // ✅ Correct
+```
+Files using this: 8+ (forecasting, incremental_view, etc.)
+
+### Pattern 3: State Machine
+```cpp
+if (!built_) return {};  // ✅ Defensive
+```
+Files using this: streaming_window.cpp
+
+### Pattern 4: Thread-Safe Callbacks
+```cpp
+std::lock_guard<std::mutex> lk(mtx);  // ✅ RAII
+```
+Files using this: knowledge_base.cpp
+
+---
+
+## Exception Safety: 100% ✅
+
+**Key Findings:**
+- ✅ All allocations use smart pointers or STL containers
+- ✅ Zero manual `new`/`delete` in implementations
+- ✅ All mutex operations use `std::lock_guard` (RAII)
+- ✅ All containers use move semantics where appropriate
+- ✅ Strong exception safety via RAII patterns
+
+**No manual resource leaks identified.**
+
+---
+
+## Files Requiring Attention
+
+### 🔴 Priority 1: process_mining.cpp
+- **Gaps:** 16 (11 guarded ✅, 5 require review ⚠️)
+- **Status:** MONITOR in Phase 4
+- **Action:** Manually review lines 188, 195, 202, 206, 210
+- **Confidence:** HIGH (likely within conditional blocks)
+
+### 🟡 Priority 2: incremental_view.cpp, nlp_text_analyzer.cpp
+- **Status:** Need context review
+- **Action:** Verify guards in full function scope
+
+### ✅ Priority 3: All Other Files
+- **Status:** READY
+- **Action:** None required before Phase 4
+
+---
+
+## Documentation Gaps
+
+18 functions lack explicit `@precondition` tags in docstrings.
+
+**Example Fix:**
+```cpp
+// BEFORE:
+/// Solve AR equations
+std::vector<double> yuleWalker(const std::vector<double>& y, int p);
+
+// AFTER:
+/// Solve AR equations
+/// @param y Time series (n > 0)
+/// @param p AR order (p > 0)
+/// @precondition y.size() > 0 && p > 0
+/// @return Coefficients; empty if precondition violated
+std::vector<double> yuleWalker(const std::vector<double>& y, int p);
+```
+
+**Action:** Add to Phase 4 implementation plan (low priority).
+
+---
+
+## False Positives Removed (13 total)
+
+| File | Line | Reason |
+|------|------|--------|
+| automl.cpp | 1257 | Scanner false positive; actual code has loop |
+| columnar_execution.cpp | 340 | Valid bounds check (`return nullptr`) |
+| knowledge_base.cpp | 60 | Callback clearing (legitimate `= {}`) |
+| process_mining.h | 302 | Factory pattern: `Status::OK()` |
+| process_pattern_matcher.h | 194 | Factory pattern: `Status::OK()` |
+| (8 more - similar patterns) | | |
+
+**Impact:** Reduces gap count from 53 to 40; improves signal-to-noise.
+
+---
+
+## Legitimate Design Stubs (4 patterns)
+
+### STUB #272: YAML Parser Injection
+```cpp
+// File: knowledge_base.cpp, Lines 25, 239
+// Pattern: Callback injection bridge
+// Purpose: Enable custom YAML parsers or use built-in fallback
+// Status: LEGITIMATE DESIGN
+```
+
+### STUB/SIMULATION Markers
+```cpp
+// Files: knowledge_base.cpp, olap.cpp, process_mining.cpp
+// Purpose: Test-mode placeholders
+// Governance: Acceptable per Phase 3; Phase 4/5 scheduled
+```
+
+**No action required.** These are intentional, documented patterns.
+
+---
+
+## Phase 4 Action Items
+
+### Before Promotion to Phase 4
+- [ ] Manually review 11 context-dependent gaps (see Priority sections)
+- [ ] Add `@precondition` tags to 18 functions
+- [ ] Create unit tests for all 40 error handling paths
+- [ ] Document fallback behavior in API contracts
+
+### During Phase 4 Testing
+- [ ] Run error handling test suite
+- [ ] Monitor guarded stubs for production issues
+- [ ] Benchmark exception-safety under load
+- [ ] Validate caller code handles empty results
+
+### Phase 5 Scheduled Work
+- [ ] Full YAML-CPP integration
+- [ ] Simulation → production transition
+- [ ] Performance optimization
+
+---
+
+## Sign-Off Checklist
+
+- [x] All 40 gaps analyzed
+- [x] Error handling patterns verified
+- [x] Exception safety confirmed (RAII 100%)
+- [x] False positives removed (13 total)
+- [x] Severity re-ratings complete
+- [x] Blockers identified (11 require review)
+- [x] Documentation gaps noted (18 functions)
+- [x] Ready for Phase 4 (conditional)
+
+**Verdict:** ✅ **QUALIFIED FOR PHASE 4 WITH TRACKING**
+
+---
+
+## Reference Documents
+
+- **Full Checklist:** `ANALYTICS_PHASE3_ERROR_HANDLING_CHECKLIST.md` (759 lines)
+- **Machine-Readable Findings:** `ANALYTICS_PHASE3_ERROR_HANDLING_FINDINGS.json`
+- **Analysis Details:** `analytics_error_handling_analysis.json`
+- **Gap Scan Results:** `gap_scan_analytics.json` (raw data)
+
+---
+
+## Questions & Contact
+
+**Reviewer:** Phase 3 Error Handling Specialist  
+**Date:** 2026-08-15 10:47:31 UTC  
+**Status:** Report Complete
+
+For questions on specific gaps, refer to the full checklist or JSON findings.
+
+---
+
+### ANALYTICS_PHASE3_SUMMARY.json
+
+{
+  "phase": "Phase 3 - Analytics Module Error Handling Verification",
+  "date": "2026-08-15T10:54:05.184293",
+  "reviewer": "Gap Verification Specialist",
+  "status": "\u2705 COMPLETE AND QUALIFIED FOR PHASE 4",
+  "artifacts_created": [
+    {
+      "path": "ANALYTICS_PHASE3_ERROR_HANDLING_CHECKLIST.md",
+      "size_bytes": 25522,
+      "size_kb": 24.9,
+      "exists": true
+    },
+    {
+      "path": "ANALYTICS_PHASE3_ERROR_HANDLING_FINDINGS.json",
+      "size_bytes": 25227,
+      "size_kb": 24.6,
+      "exists": true
+    },
+    {
+      "path": "ANALYTICS_PHASE3_QUICK_REFERENCE.md",
+      "size_bytes": 6990,
+      "size_kb": 6.8,
+      "exists": true
+    },
+    {
+      "path": "analytics_error_handling_analysis.json",
+      "size_bytes": 19369,
+      "size_kb": 18.9,
+      "exists": true
+    }
+  ],
+  "validation_summary": {
+    "total_gaps_reviewed": 40,
+    "guarded_stubs": 16,
+    "false_positives_removed": 13,
+    "deferred_stubs": 5,
+    "requires_manual_review": 11,
+    "error_handling_quality": "HIGH (100% RAII, strong exception safety)",
+    "ready_for_phase_4": true
+  },
+  "key_findings": {
+    "exception_safety": "\u2705 100% - All RAII compliant",
+    "resource_management": "\u2705 100% - Zero manual new/delete",
+    "null_empty_checks": "\u2705 28/40 functions have guards",
+    "documentation": "\u26a0\ufe0f 22/40 have @precondition tags (need +18)",
+    "false_positive_rate": "32.5% (13/40) - high but expected for analytics patterns"
+  },
+  "next_steps": {
+    "phase_4_requirements": [
+      "Manually review 11 context-dependent gaps",
+      "Add @precondition documentation (18 functions)",
+      "Create unit tests for error handling",
+      "Monitor 16 guarded stubs in production"
+    ],
+    "phase_5_scheduled": [
+      "YAML-CPP full integration",
+      "Simulation mode deactivation"
+    ]
+  }
+}
 
 ---
 
@@ -4104,16 +4472,14 @@ Core Functions Tested:
 
 ### ANALYTICS_PHASE5_BENCHMARK_QUICK_REFERENCE.md
 
+*(file too large — key headings extracted)*
+
 # Analytics Phase 5 Benchmarks - Quick Reference
-
-**Purpose**: One-page reference for Analytics Phase 5 performance benchmarks  
-**Date**: August 15, 2026  
-**Version**: 1.0  
-
+**Purpose**: One-page reference for Analytics Phase 5 performance benchmarks
+**Date**: August 15, 2026
+**Version**: 1.0
 ---
-
 ## 7 Primary Performance Benchmarks
-
 ### ✅ PM-01: Process Mining DAG Topological Sort
 - **File**: `benchmarks/analytics/bench_analytics_gap_closure.cpp:84`
 - **Target**: `buildDirectlyFollowsGraph()` (1000-node DAG)
@@ -4121,7 +4487,6 @@ Core Functions Tested:
 - **Wave 7 Baseline**: ≤100ms for 1000 nodes → ≥100 DAGs/sec
 - **Gate**: <10% regression
 - **Status**: ✅ Implemented & ready to run
-
 ### ✅ PM-02: Process Mining Component Detection
 - **File**: `benchmarks/analytics/bench_analytics_gap_closure.cpp:123`
 - **Target**: `discoverInductiveProcess()` (500 nodes, high connectivity)
@@ -4129,7 +4494,6 @@ Core Functions Tested:
 - **Wave 7 Baseline**: ≤50ms
 - **Gate**: <10% regression
 - **Status**: ✅ Implemented & ready to run
-
 ### ✅ AUTOML-01: Metalearner Selection
 - **File**: `benchmarks/analytics/bench_analytics_gap_closure.cpp:209`
 - **Target**: `gridSearch()` (10,000 rows × 100 features, 50 base models)
@@ -4137,7 +4501,6 @@ Core Functions Tested:
 - **Wave 7 Baseline**: ≤100ms, score ≥0.85
 - **Gate**: <15% regression
 - **Status**: ✅ Implemented & ready to run
-
 ### ✅ FORECAST-01: Exponential Smoothing
 - **File**: `benchmarks/analytics/bench_analytics_gap_closure.cpp:298`
 - **Target**: `exponentialSmoothing()` (10,000+ time points, 20 iterations)
@@ -4145,7 +4508,6 @@ Core Functions Tested:
 - **Wave 7 Baseline**: ≤200ms, residual norm <0.05
 - **Gate**: <10% regression
 - **Status**: ✅ Implemented & ready to run
-
 ### ✅ CEP-01: Pattern Matching (1M+ events/sec)
 - **File**: `benchmarks/analytics/bench_analytics_gap_closure.cpp:384`
 - **Target**: Pattern matching in NFA (1000-event batch, 5+ state pattern)
@@ -4153,7 +4515,6 @@ Core Functions Tested:
 - **Wave 7 Baseline**: ≥100K events/sec, P99 <500µs
 - **Gate**: <15% regression
 - **Status**: ✅ Implemented & ready to run
-
 ### ✅ STREAMING-01: Window Aggregation
 - **File**: `benchmarks/analytics/bench_analytics_gap_closure.cpp:548`
 - **Target**: Window aggregation (1M+ records, sliding window 10K/1K)
@@ -4161,228 +4522,8 @@ Core Functions Tested:
 - **Wave 7 Baseline**: ≥500K records/sec, linear memory growth
 - **Gate**: <15% regression
 - **Status**: ✅ Implemented & ready to run
-
 ### ✅ DIST-ANALYTICS-01: Partial Merge
 - **File**: `benchmarks/analytics/bench_analytics_gap_closure.cpp:589`
-- **Target**: Partial result merging (100 shards × 10K rows = 1M total)
-- **Metric**: Merge latency (ms) & output accuracy
-- **Wave 7 Baseline**: ≤300ms, 100% result accuracy
-- **Gate**: <15% regression
-- **Status**: ✅ Implemented & ready to run
-
----
-
-## 5 Secondary Benchmarks (Extended Coverage)
-
-| ID  | Name | Baseline | Status |
-|-----|------|----------|--------|
-| PM-03 | Conformance Checking | ≤50ms (100 traces) | ✅ Implemented |
-| AM-02 | Prediction Latency | ≤10µs/sample | ✅ Implemented |
-| FC-02 | Batch Predict (SIMD) | ≥1M pts/sec | ✅ Implemented |
-| CEP-02 | Window Flush (P99) | ≤500µs | ✅ Implemented |
-| KB-01 | Fact Assertion | ≥10K facts/sec | ✅ Implemented |
-| KB-02 | Fact Query | ≤100µs | ✅ Implemented |
-
----
-
-## Build & Run Commands
-
-### Build Benchmarks
-```bash
-cd /path/to/ThemisDB
-mkdir -p build && cd build
-cmake -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_BUILD_TYPE=Release ..
-make bench_analytics_gap_closure
-```
-
-### Run All Benchmarks
-```bash
-./bin/bench_analytics_gap_closure \
-  --benchmark_out=results.json \
-  --benchmark_out_format=json \
-  --benchmark_repetitions=5
-```
-
-### Run Specific Cluster
-```bash
-./bin/bench_analytics_gap_closure --benchmark_filter="^BM_PM.*"   # Process Mining
-./bin/bench_analytics_gap_closure --benchmark_filter="^BM_AM.*"   # AutoML
-./bin/bench_analytics_gap_closure --benchmark_filter="^BM_FC.*"   # Forecasting
-./bin/bench_analytics_gap_closure --benchmark_filter="^BM_CEP.*"  # CEP/Streaming
-./bin/bench_analytics_gap_closure --benchmark_filter="^BM_KB.*"   # Knowledge Base
-./bin/bench_analytics_gap_closure --benchmark_filter="^BM_UT.*"   # Utilities/Distributed
-```
-
-### Run with Memory Sanitizer
-```bash
-cmake -DTHEMIS_BUILD_BENCHMARKS=ON \
-      -DCMAKE_CXX_FLAGS="-fsanitize=address -O1 -g" ..
-make bench_analytics_gap_closure
-
-ASAN_OPTIONS=verbosity=1 ./bin/bench_analytics_gap_closure
-```
-
----
-
-## Quality Gates (MUST PASS)
-
-| Gate | Requirement | Verification |
-|------|-------------|--------------|
-| 🚀 No Regression | All benchmarks ≤10-15% slower than Wave 7 | JSON output + `detect_benchmark_regression.py` |
-| 💾 Memory Stable | Linear growth, no leaks | AddressSanitizer clean |
-| 🔢 Numerical | No NaN/Inf, residuals <0.05 | Output validation in benchmark |
-| 📊 Reproducible | Deterministic (±5% variance) | Same seed → same results |
-
----
-
-## Expected Results Summary
-
-```
-PM-01: 10.0 ms (100 DFGs/sec)     ✅ PASS
-PM-02: 48.0 ms                     ✅ PASS
-AM-01: 98.0 ms                     ✅ PASS
-FC-01: 95.0 ms                     ✅ PASS
-CEP-01: 10.2 µs (98K events/sec)   ✅ PASS
-STREAM-01: 0.98 ns/row             ✅ PASS
-DIST-01: 9.8 ms                    ✅ PASS
-
-Summary: All 7+ benchmarks PASS within regression gates ✅
-Average regression: -2.1% (well within tolerance)
-Memory leaks: 0 (ASAN clean)
-```
-
----
-
-## File Locations
-
-| Component | Path |
-|-----------|------|
-| Benchmark Code | `benchmarks/analytics/bench_analytics_gap_closure.cpp` (626 LOC) |
-| CMake Config | `benchmarks/analytics/CMakeLists.txt` |
-| Full Spec | `ANALYTICS_PHASE5_BENCHMARK_RESULTS.md` (21KB, comprehensive) |
-| CI/CD Guide | `ANALYTICS_PHASE5_CI_INTEGRATION_GUIDE.md` (17KB, automation) |
-| Regression Thresholds | `benchmarks/analytics/regression_thresholds.toml` (TBD) |
-| Baseline | `benchmarks/baselines/analytics_wave7.json` (TBD) |
-
----
-
-## Benchmark Details (Alphabetical)
-
-### AM-01: Grid Search
-- **Function**: `gridSearch()` in automl.cpp
-- **Data**: 10 hyperparameter trials × 100 iterations
-- **Test**: Random search → find best loss
-- **Expected**: ≤100ms (1.0 trial/ms)
-
-### AM-02: Prediction
-- **Function**: `predictWithModel()` in automl.cpp
-- **Data**: 100 samples × 50 features
-- **Test**: Apply model → compute importance
-- **Expected**: ≤10µs/sample = ≤1000µs total
-
-### CEP-01: Event Processing
-- **Function**: `processEventBatch()` in cep_engine.cpp
-- **Data**: 1000 events, pattern 5→6→7
-- **Test**: Apply NFA state machine
-- **Expected**: ≥100K events/sec = ≤10µs/event
-
-### CEP-02: Window Flush
-- **Function**: `flushWindow()` in streaming_window.cpp
-- **Data**: 500-event window
-- **Test**: Aggregate and emit
-- **Expected**: P99 <500µs
-
-### FC-01: Time Series Fit
-- **Function**: `fit()` in forecasting.cpp
-- **Data**: 1000-point synthetic series
-- **Test**: Compute mean/variance
-- **Expected**: ≤100ms
-
-### FC-02: Batch Predict
-- **Function**: `predictBatch()` in forecasting.cpp
-- **Data**: 100 forecast points × SIMD ops
-- **Test**: Vectorized prediction
-- **Expected**: ≥1M points/sec
-
-### KB-01: Fact Assertion
-- **Function**: `assertFact()` in knowledge_base.cpp
-- **Data**: Insert 1000 facts, FIFO eviction
-- **Test**: Throughput with capacity limit
-- **Expected**: ≥10K facts/sec
-
-### KB-02: Query Facts
-- **Function**: `queryFacts()` in knowledge_base.cpp
-- **Data**: 1000 stored facts
-- **Test**: Pattern matching query
-- **Expected**: ≤100µs
-
-### PM-01: DFG Construction
-- **Function**: `buildDirectlyFollowsGraph()` in process_mining.cpp
-- **Data**: 1000-event sequence, 50 tasks
-- **Test**: Build predecessor map
-- **Expected**: ≤10ms = ≥100 DFGs/sec
-
-### PM-02: Discovery
-- **Function**: `discoverInductiveProcess()` in process_mining.cpp
-- **Data**: 500-event sequence, 25 tasks
-- **Test**: Compute process model
-- **Expected**: ≤50ms
-
-### PM-03: Conformance
-- **Function**: `checkConformance()` in process_mining.cpp
-- **Data**: 100 traces × 50 events
-- **Test**: Validate against model
-- **Expected**: ≤5ms = ≥1000 traces/sec
-
-### STREAM-01: Columnar Agg
-- **Function**: `columnarAggregate()` in aggregation.cpp
-- **Data**: 10K-row numeric column
-- **Test**: Compute SUM/AVG/COUNT
-- **Expected**: ≥1M rows/sec
-
-### DIST-01: Merge
-- **Function**: `distributedMerge()` in distributed_analytics.cpp
-- **Data**: Two sorted 1K-element arrays
-- **Test**: Merge in-order
-- **Expected**: ≤10ms
-
----
-
-## Regression Thresholds
-
-```
-Process Mining (PM-*):       <10%  regression tolerance
-AutoML (AM-*):              <15%  regression tolerance
-Forecasting (FC-*):         <10%  regression tolerance
-CEP/Streaming (CEP-*):      <15%  regression tolerance
-Knowledge Base (KB-*):      <10%  regression tolerance
-Utilities/Distributed (UT-*): <15% regression tolerance
-```
-
----
-
-## Next Steps
-
-1. **Build**: `cmake -DTHEMIS_BUILD_BENCHMARKS=ON && make bench_analytics_gap_closure`
-2. **Run**: `./bin/bench_analytics_gap_closure --benchmark_out=results.json --benchmark_out_format=json`
-3. **Report**: Results in `results.json` + console output
-4. **Detect**: `python3 scripts/detect_benchmark_regression.py --baseline baseline.json --current results.json`
-5. **Commit**: Store baseline in `benchmarks/baselines/analytics_wave7.json`
-6. **CI**: Configure GitHub Actions workflow from `ANALYTICS_PHASE5_CI_INTEGRATION_GUIDE.md`
-
----
-
-## Support
-
-- **Full Specification**: Read `ANALYTICS_PHASE5_BENCHMARK_RESULTS.md`
-- **CI/CD Setup**: Read `ANALYTICS_PHASE5_CI_INTEGRATION_GUIDE.md`
-- **Code**: `benchmarks/analytics/bench_analytics_gap_closure.cpp` (well-commented)
-- **Questions**: File GitHub issue with label `analytics-phase5-benchmarks`
-
----
-
-**Status**: ✅ Phase 5 Benchmarks Complete & Ready  
-**Stage**: Awaiting Phase 6 CI/CD integration and baseline establishment
 
 ---
 
@@ -4440,250 +4581,51 @@ Expected output: unordered_map<task_id, vector<predecessors>>
 
 ### ANALYTICS_PHASE5_BENCHMARK_SPEC.md
 
+*(file too large — key headings extracted)*
+
 # Analytics Module – Phase 5: Performance Hardening & Benchmarking
-
-**Status**: ⏳ READY TO EXECUTE (Phase 4 must complete first)  
-**Responsible Agent**: task (benchmark mode)  
-**Deliverable**: benchmarks/analytics/bench_analytics_gap_closure.cpp (6+ benchmarks)  
+**Status**: ⏳ READY TO EXECUTE (Phase 4 must complete first)
+**Responsible Agent**: task (benchmark mode)
+**Deliverable**: benchmarks/analytics/bench_analytics_gap_closure.cpp (6+ benchmarks)
 **Quality Gate**: No performance regression vs Wave 7 baseline
-
 ---
-
 ## Phase 5 Acceptance Criteria
-
 ### Benchmark Distribution Target
 - **Process Mining (2 benchmarks)**: Large DAG, high connectivity
 - **AutoML/Forecasting (2 benchmarks)**: Large feature space, long timeseries
 - **Streaming/CEP (2 benchmarks)**: High throughput, large windows
 - **Distributed Analytics (1 benchmark)**: Many shards merging
-
 ### Performance Gates
 - ✅ No benchmark exceeds Wave 7 baseline by >10%
 - ✅ Memory overhead < 5% above baseline
 - ✅ Throughput >= Wave 7 baseline
 - ✅ P99 latency <= 2x Wave 7 baseline
 - ✅ All benchmarks execute without error
-
 ---
-
 ## Benchmark Specifications
-
 ### Benchmark 1: Process Mining – Topological Sort (Large DAG)
-**File**: benchmarks/analytics/bench_analytics_gap_closure.cpp  
-**Function**: PM_TopologicalSort_LargeDAG  
-
-```cpp
+**File**: benchmarks/analytics/bench_analytics_gap_closure.cpp
+**Function**: PM_TopologicalSort_LargeDAG
 BENCHMARK(ProcessMiningBench, PM_TopologicalSort_LargeDAG) {
-  // Input: DFG with 1000+ nodes, 5000+ edges
-  // Operation: Topological sort on process model
-  // Expected: <100ms completion
-  // Baseline: Wave 7 = XX ms (from FUTURE_ENHANCEMENTS.md)
-  // Regression threshold: +10% (≤ 1.1x baseline)
-  
-  EventLog log = generateLargeProcessLog(1000 /*traces*/, 50 /*activities*/);
-  DirectlyFollowsGraph dfg = createDFG(log);
-  
-  // Benchmark topological sort
-  std::vector<ActivityID> sorted = topologicalSort(dfg);
-  
-  // Verify correctness
-  EXPECT_EQ(sorted.size(), dfg.nodes.size());
+// Input: DFG with 1000+ nodes, 5000+ edges
+// Operation: Topological sort on process model
+// Expected: <100ms completion
+// Baseline: Wave 7 = XX ms (from FUTURE_ENHANCEMENTS.md)
+// Regression threshold: +10% (≤ 1.1x baseline)
+EventLog log = generateLargeProcessLog(1000 /*traces*/, 50 /*activities*/);
+DirectlyFollowsGraph dfg = createDFG(log);
+// Benchmark topological sort
+std::vector<ActivityID> sorted = topologicalSort(dfg);
+// Verify correctness
+EXPECT_EQ(sorted.size(), dfg.nodes.size());
 }
-```
-
 ### Benchmark 2: Process Mining – Component Detection (High Connectivity)
-**Function**: PM_ComponentDetection_HighConnectivity  
-
-```cpp
+**Function**: PM_ComponentDetection_HighConnectivity
 BENCHMARK(ProcessMiningBench, PM_ComponentDetection_HighConnectivity) {
-  // Input: DFG with complex cycles, 500+ nodes
-  // Operation: Strongly connected component detection
-  // Expected: <50ms completion
-  // Baseline: Wave 7 = XX ms
-  // Regression threshold: +10%
-  
-  DirectlyFollowsGraph dfg = generateHighConnectivityGraph(500 /*nodes*/);
-  
-  // Benchmark SCC detection
-  std::vector<std::vector<ActivityID>> components = detectComponents(dfg);
-  
-  EXPECT_GT(components.size(), 0);
-}
-```
-
-### Benchmark 3: AutoML – Metalearner Selection (Large Feature Space)
-**Function**: AUTOML_MetalearnerSelection_LargeFeatureSet  
-
-```cpp
-BENCHMARK(AutoMLBench, AUTOML_MetalearnerSelection_LargeFeatureSet) {
-  // Input: Feature matrix 10K rows × 100+ features
-  // Operation: Metalearner selection scoring
-  // Expected: <500ms completion
-  // Baseline: Wave 7 = XX ms
-  // Regression threshold: +10%
-  
-  FeatureMatrix X = generateLargeFeatureMatrix(10000 /*rows*/, 100 /*features*/);
-  std::vector<double> y = generateLabels(10000);
-  
-  // Benchmark metalearner selection
-  ModelAlgorithm best = selectMetalearner(X, y);
-  
-  EXPECT_NE(best, ModelAlgorithm::INVALID);
-}
-```
-
-### Benchmark 4: Forecasting – Exponential Smoothing (Long Timeseries)
-**Function**: FORECAST_ExponentialSmoothing_LongTimeseries  
-
-```cpp
-BENCHMARK(ForecastingBench, FORECAST_ExponentialSmoothing_LongTimeseries) {
-  // Input: Timeseries with 10K+ points
-  // Operation: Holt-Winters triple exponential smoothing
-  // Expected: <200ms completion
-  // Baseline: Wave 7 = XX ms
-  // Regression threshold: +10%
-  
-  std::vector<double> timeseries = generateTimeseries(10000 /*points*/);
-  
-  // Benchmark exponential smoothing
-  ForecastModel model = exponentialSmoothing(timeseries, 
-                                             SmoothingMethod::HOLT_WINTERS);
-  
-  EXPECT_TRUE(model.isValid());
-}
-```
-
-### Benchmark 5: Streaming/CEP – Pattern Matching (High Throughput)
-**Function**: CEP_PatternMatching_HighThroughput  
-
-```cpp
-BENCHMARK(StreamingBench, CEP_PatternMatching_HighThroughput) {
-  // Input: Event stream 1M events/sec rate simulation
-  // Operation: NFA pattern matching with high throughput
-  // Expected: <1s for 1M events
-  // Baseline: Wave 7 = XX ms
-  // Regression threshold: +10%
-  
-  EventPattern pattern = buildNFA("A -> B -> C");
-  EventStream stream = generateHighThroughputStream(1000000 /*events*/);
-  
-  // Benchmark pattern matching
-  std::vector<Match> matches;
-  for (const auto& event : stream) {
-    auto m = pattern.match(event);
-    if (m) matches.push_back(*m);
-  }
-  
-  EXPECT_GT(matches.size(), 0);
-}
-```
-
-### Benchmark 6: Streaming/CEP – Window Aggregation (Large Window)
-**Function**: StreamWindow_Aggregation_LargeWindow  
-
-```cpp
-BENCHMARK(StreamingBench, StreamWindow_Aggregation_LargeWindow) {
-  // Input: Window with 1M+ records
-  // Operation: Aggregation (sum/avg) in large tumbling window
-  // Expected: <500ms completion
-  // Baseline: Wave 7 = XX ms
-  // Regression threshold: +10%
-  
-  StreamingWindow window(WindowType::TUMBLING, 1000000 /*size*/);
-  EventStream stream = generateEventStream(2000000 /*total events*/);
-  
-  // Benchmark window updates
-  for (const auto& event : stream) {
-    window.updateWindow(event);
-  }
-  
-  auto result = window.flushWindow();
-  EXPECT_NE(result.aggregation, 0.0);
-}
-```
-
-### Benchmark 7: Distributed Analytics – Partial Merge (Many Shards)
-**Function**: DistAnalytics_PartialMerge_ManyShards  
-
-```cpp
-BENCHMARK(DistAnalyticsBench, DistAnalytics_PartialMerge_ManyShards) {
-  // Input: 100 shards × 10K rows each
-  // Operation: Merge partial results from many shards
-  // Expected: <1s completion
-  // Baseline: Wave 7 = XX ms
-  // Regression threshold: +10%
-  
-  std::vector<PartialResult> shards;
-  for (int i = 0; i < 100; ++i) {
-    shards.push_back(generatePartialResult(10000 /*rows*/));
-  }
-  
-  // Benchmark merge operation
-  AggregateResult merged = mergePartialResults(shards);
-  
-  EXPECT_EQ(merged.row_count, 100 * 10000);
-}
-```
-
----
-
-## Baseline Metrics (from Wave 7)
-
-| Benchmark | Operation | Input | Wave 7 Baseline | Unit |
-|-----------|-----------|-------|-----------------|------|
-| PM_TopologicalSort_LargeDAG | Sort 1000+ nodes | 1000 nodes | TBD | ms |
-| PM_ComponentDetection_HighConnectivity | SCC detection | 500 nodes | TBD | ms |
-| AUTOML_MetalearnerSelection_LargeFeatureSet | Score algorithms | 10K×100 matrix | TBD | ms |
-| FORECAST_ExponentialSmoothing_LongTimeseries | Smoothing | 10K points | TBD | ms |
-| CEP_PatternMatching_HighThroughput | Pattern match 1M events | 1M events | TBD | ms |
-| StreamWindow_Aggregation_LargeWindow | Aggregate 1M records | 1M records | TBD | ms |
-| DistAnalytics_PartialMerge_ManyShards | Merge 100 shards | 1M total rows | TBD | ms |
-
-**Note**: TBD = To be filled from FUTURE_ENHANCEMENTS.md performance targets
-
----
-
-## Benchmark Execution Checklist
-
-- [ ] CMakeLists.txt updated (link benchmarks)
-- [ ] All 7 benchmarks compile without warnings
-- [ ] Google Benchmark framework integrated
-- [ ] Baseline metrics captured (Wave 7)
-- [ ] All benchmarks execute without error
-  - [ ] PM benchmarks complete < 200ms total
-  - [ ] AUTOML benchmark completes < 500ms
-  - [ ] Forecasting benchmark completes < 200ms
-  - [ ] CEP/Streaming benchmarks complete < 1.5s total
-  - [ ] DistAnalytics benchmark completes < 1s
-- [ ] Regression detection: No benchmark exceeds baseline by >10%
-- [ ] Memory overhead check: < 5% above baseline
-- [ ] Throughput validation: >= baseline
-- [ ] P99 latency acceptable: <= 2x baseline
-- [ ] ANALYTICS_PHASE5_BENCHMARK_REPORT.md written
-
----
-
-## Expected Deliverables
-
-**File**: benchmarks/analytics/bench_analytics_gap_closure.cpp  
-**Size**: ~1500-2000 LOC  
-**Benchmarks**: 7 (6 core + 1 distributed)  
-**Status**: All execute without error, no regressions  
-
----
-
-## Success Criteria
-
-✅ 7 benchmarks execute without error  
-✅ No performance regression vs Wave 7  
-✅ Memory overhead < 5%  
-✅ Throughput maintained  
-✅ P99 latency acceptable  
-✅ Detailed report with metrics
-
----
-
-**Next Phase**: Phase 6 (Documentation & Sign-Off)
+// Input: DFG with complex cycles, 500+ nodes
+// Operation: Strongly connected component detection
+// Expected: <50ms completion
+// Baseline: Wave 7 = XX ms
 
 ---
 
@@ -4888,55 +4830,6 @@ PHASE 6 🟡 IN PROGRESS    documentation/sign-off due 2026-08-26
 ---
 ### 3️⃣ scope_mismatch Reduction (3028 → <200 target)
 | Status | Criterion | Evidence | Target | Actual | Due Date |
-
----
-
-### ANALYTICS_PHASE6_AGGREGATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Analytics Module — Phase 6 Aggregation Report
-**Date:** 2026-08-15
-**Report Period:** Weeks 1-2 (2026-08-08 to 2026-08-15)
-**Status:** 🟢 **PHASE 1-6 COMPLETE — READY FOR GA PROMOTION**
----
-## Executive Summary
-### Quick Facts
-| Metric | Target | Actual | Status |
-|--------|--------|--------|--------|
-| **CRITICAL Gaps** | 0 (Phase 1-2) | 0 (19→0) | ✅ **100%** |
-| **HIGH Gaps (Phase 2 A)** | 35-40 | 34 | ✅ **97%** |
-| **Focused Tests** | 50+ | 45 | ✅ **90%** |
-| **Benchmarks** | 6-8 | 19 | ✅ **238%** |
-| **Compilation** | 0 errors | 0 errors | ✅ **PASS** |
-| **Code Review** | Approved | ✅ Approved | ✅ **APPROVED** |
-| **Documentation** | Complete | ✅ Complete | ✅ **COMPLETE** |
----
-## Phase 1-6 Results
-### Phase 1: Design & API Contract ✅ (2026-08-15)
-**Objective:** Formalize and verify API contracts, error taxonomies, and identify all production issues.
-**Deliverables:**
-- ✅ gap_scanner_verified_analytics_phase1.json (16 KB, 35 findings)
-- ✅ gap_verifier_report_analytics_phase1.md (15 KB, comprehensive analysis)
-- ✅ VERIFICATION_INDEX_ANALYTICS.md (summary table)
-- ✅ VERIFICATION_CHECKLIST_ANALYTICS.md (100+ gates)
-- ✅ ANALYTICS_PHASE1_VERIFICATION_SUMMARY.txt (executive summary)
-**Results:**
-- **Total Findings Analyzed:** 35 CRITICAL
-- **Classification Breakdown:**
-- 19 TRUE_POSITIVE (54%) — Real gaps requiring implementation
-- 14 DEFERRED (40%) — Defensive patterns, safe to defer
-- 2 FALSE_POSITIVE (6%) — Factory functions, removal recommended
-- **Confidence Level:** HIGH (manual source code inspection)
-- **Status:** ✅ APPROVED FOR PHASE 1 CLOSURE
----
-### Phase 2: Core Implementation ✅ (2026-08-15)
-**Objective:** Implement production-ready fixes for CRITICAL and HIGH gaps identified in Phase 1.
-#### Phase 2 Batch A-1: Circular Lock Ordering (14 fixes)
-**Deliverables:**
-- ✅ analytics_locks.h (new header with lock hierarchy)
-- ✅ streaming_window.cpp (modified, 14 lock ordering fixes)
-- ✅ distributed_analytics.cpp (modified, lock coordination)
 
 ---
 
@@ -5536,119 +5429,51 @@ if (!is_classifier || n_classes <= 0) return {};
 
 ---
 
-### ANALYTICS_PHASE3_QUICK_REFERENCE.md
+### ANALYTICS_GAP_CLOSURE_MASTER_TRACKER.md
 
 *(file too large — key headings extracted)*
 
-# Analytics Module - Phase 3 Quick Reference
-**Review Date:** 2026-08-15
-**Status:** ✅ QUALIFIED FOR PHASE 4
-**All 40 gaps analyzed and classified**
+# Analytics Module Gap Closure - Master Execution Tracker
+**Start Date**: 2026-08-15 10:46:00 UTC
+**Target Completion**: 2026-08-15 11:45:00 UTC (60 minutes total)
+**Framework**: Phase 1-6 Implementation Framework with Parallel Subagent Execution
 ---
-## Status Dashboard
-| Metric | Count | Status |
-|--------|-------|--------|
-| **Gaps Analyzed** | 40 | ✅ Complete |
-| **Guarded Stubs** | 16 | ✅ Acceptable |
-| **Requires Manual Review** | 11 | ⚠️ 3 files |
-| **False Positives Removed** | 13 | ✅ Cleaned |
-| **Ready for Phase 4** | **YES** | ✅ Conditional |
+## Execution Overview
+| Phase | Agent | Status | Duration | Deliverable | Gate |
+|-------|-------|--------|----------|-------------|------|
+| **P1: Design** | explore | 🔄 RUNNING | ~15-20 min | ANALYTICS_PHASE1_DESIGN_SPEC.md | All 40 specs documented |
 ---
-## Critical Findings
-### 🔴 Must Fix Before Phase 4 (0 identified)
-No **unguarded critical gaps** require immediate fixing.
-### 🟡 Requires Manual Context Review (11 gaps)
-**Process Mining (5 gaps):**
-- Lines 188, 195, 202, 206, 210: Bare `return {}`
-- Status: Need full function signature review
-- Action: Confirm guards are in surrounding conditional blocks
-**Other Files (6 gaps):**
-- Line 1466 (nlp_text_analyzer.cpp): Requires context
-- Line 575 (incremental_view.cpp): Requires context
-- Line 1328 (streaming_window.cpp): Requires context
-- (3 more - all bare returns without guard context visible)
+## Gap Distribution by File (40 total: 35 critical, 5 high)
+### P0 Priority Files (19 gaps)
+- **process_mining.cpp**: 14 critical, 1 high (15 total)
+- Lines: 188, 195, 202, 206, 210, 1188, 1195, 1222, 1255, 1262, 1272, 1282, 1289, 1299, 1316
+- Category: Unimplemented `return {};` statements (mostly topological sort, component detection, alignment)
+- Status: Core semantic functions for process mining discovery
+### P1 Priority Files (16 gaps)
+- **automl.cpp**: 3 critical
+- Lines: 504, 1257, 1823
+- Category: Unimplemented model selection, ensemble methods, validation
+- **cep_engine.cpp**: 2 critical
+- Lines: 563, 1047
+- Category: NFA pattern matching, window state handling
+- **forecasting.cpp**: 3 critical
+- Lines: 569, 1656, 1834
+- Category: Seasonality detection, smoothing algorithms, test data validation
+- **knowledge_base.cpp**: 2 critical, 3 high
+- Lines: 25, 60, 203, 239, + STUB markers
+- Category: YAML parser bridge (STUB #272), callback injection patterns
+### P2 Priority Files (5 gaps)
+- **columnar_execution.cpp**: 1 critical (line 340)
+- **distributed_analytics.cpp**: 1 critical (line 494)
+- **incremental_view.cpp**: 2 critical (lines 496, 575)
+- **nlp_text_analyzer.cpp**: 1 critical (line 1466)
+- **olap.cpp**: 1 high (line 1834 - STUB/SIMULATION marker)
+- **lora_pattern_classifier.cpp**: 1 critical (line 337)
+- **process_pattern_matcher.cpp**: 1 critical (line 120)
+- **streaming_window.cpp**: 2 critical (lines 1323, 1328)
+- **process_mining.h**: 1 critical (line 302 - Status::OK())
+- **process_pattern_matcher.h**: 1 critical (line 194 - Status::OK())
 ---
-## Classification Breakdown
-Guarded Stubs (MEDIUM):           16 gaps ✅ SAFE - defensive pattern
-├─ Container empty checks:       12
-├─ Bounds validation:             3
-└─ State machine checks:          1
-Requires Manual Review (HIGH):    11 gaps ⚠️ REVIEW - context-dependent
-└─ Bare returns without visible guard
-Valid Returns (INFO):              6 gaps ✅ SKIP - false positives
-├─ Factory methods (Status::OK): 2
-├─ Legitimate bound checks:      2
-└─ Callback operations:          2
-Deferred Stubs (INFO):             5 gaps ✅ PHASE 4/5 - acceptable
-├─ Callback injection pattern:   2
-├─ Simulation markers:           3
-
----
-
-### ANALYTICS_PHASE3_SUMMARY.json
-
-*(file too large — key headings extracted)*
-
-{
-"phase": "Phase 3 - Analytics Module Error Handling Verification",
-"date": "2026-08-15T10:54:05.184293",
-"reviewer": "Gap Verification Specialist",
-"status": "\u2705 COMPLETE AND QUALIFIED FOR PHASE 4",
-"artifacts_created": [
-{
-"path": "ANALYTICS_PHASE3_ERROR_HANDLING_CHECKLIST.md",
-"size_bytes": 25522,
-"size_kb": 24.9,
-"exists": true
-},
-{
-"path": "ANALYTICS_PHASE3_ERROR_HANDLING_FINDINGS.json",
-"size_bytes": 25227,
-"size_kb": 24.6,
-"exists": true
-},
-{
-"path": "ANALYTICS_PHASE3_QUICK_REFERENCE.md",
-"size_bytes": 6990,
-"size_kb": 6.8,
-"exists": true
-},
-{
-"path": "analytics_error_handling_analysis.json",
-"size_bytes": 19369,
-"size_kb": 18.9,
-"exists": true
-}
-],
-"validation_summary": {
-"total_gaps_reviewed": 40,
-"guarded_stubs": 16,
-"false_positives_removed": 13,
-"deferred_stubs": 5,
-"requires_manual_review": 11,
-"error_handling_quality": "HIGH (100% RAII, strong exception safety)",
-"ready_for_phase_4": true
-},
-"key_findings": {
-"exception_safety": "\u2705 100% - All RAII compliant",
-"resource_management": "\u2705 100% - Zero manual new/delete",
-"null_empty_checks": "\u2705 28/40 functions have guards",
-"documentation": "\u26a0\ufe0f 22/40 have @precondition tags (need +18)",
-"false_positive_rate": "32.5% (13/40) - high but expected for analytics patterns"
-},
-"next_steps": {
-"phase_4_requirements": [
-"Manually review 11 context-dependent gaps",
-"Add @precondition documentation (18 functions)",
-"Create unit tests for error handling",
-"Monitor 16 guarded stubs in production"
-],
-"phase_5_scheduled": [
-"YAML-CPP full integration",
-"Simulation mode deactivation"
-]
-}
-}
 
 ---
 
@@ -6561,53 +6386,5 @@ PHASE 6 (Documentation):     🟡 IN PROGRESS → 2026-08-26
 ### 🧪 Phase 3: MEDIUM Automation (SETUP COMPLETE ✅)
 - **phase3_implementation_roadmap.md** — Complete execution plan (6.9 KB)
 - **phase3_scope_analysis.txt** — Gap categorization & strategy (6.2 KB)
-
----
-
-### ANALYTICS_GAP_CLOSURE_MASTER_TRACKER.md
-
-*(file too large — key headings extracted)*
-
-# Analytics Module Gap Closure - Master Execution Tracker
-**Start Date**: 2026-08-15 10:46:00 UTC
-**Target Completion**: 2026-08-15 11:45:00 UTC (60 minutes total)
-**Framework**: Phase 1-6 Implementation Framework with Parallel Subagent Execution
----
-## Execution Overview
-| Phase | Agent | Status | Duration | Deliverable | Gate |
-|-------|-------|--------|----------|-------------|------|
-| **P1: Design** | explore | 🔄 RUNNING | ~15-20 min | ANALYTICS_PHASE1_DESIGN_SPEC.md | All 40 specs documented |
----
-## Gap Distribution by File (40 total: 35 critical, 5 high)
-### P0 Priority Files (19 gaps)
-- **process_mining.cpp**: 14 critical, 1 high (15 total)
-- Lines: 188, 195, 202, 206, 210, 1188, 1195, 1222, 1255, 1262, 1272, 1282, 1289, 1299, 1316
-- Category: Unimplemented `return {};` statements (mostly topological sort, component detection, alignment)
-- Status: Core semantic functions for process mining discovery
-### P1 Priority Files (16 gaps)
-- **automl.cpp**: 3 critical
-- Lines: 504, 1257, 1823
-- Category: Unimplemented model selection, ensemble methods, validation
-- **cep_engine.cpp**: 2 critical
-- Lines: 563, 1047
-- Category: NFA pattern matching, window state handling
-- **forecasting.cpp**: 3 critical
-- Lines: 569, 1656, 1834
-- Category: Seasonality detection, smoothing algorithms, test data validation
-- **knowledge_base.cpp**: 2 critical, 3 high
-- Lines: 25, 60, 203, 239, + STUB markers
-- Category: YAML parser bridge (STUB #272), callback injection patterns
-### P2 Priority Files (5 gaps)
-- **columnar_execution.cpp**: 1 critical (line 340)
-- **distributed_analytics.cpp**: 1 critical (line 494)
-- **incremental_view.cpp**: 2 critical (lines 496, 575)
-- **nlp_text_analyzer.cpp**: 1 critical (line 1466)
-- **olap.cpp**: 1 high (line 1834 - STUB/SIMULATION marker)
-- **lora_pattern_classifier.cpp**: 1 critical (line 337)
-- **process_pattern_matcher.cpp**: 1 critical (line 120)
-- **streaming_window.cpp**: 2 critical (lines 1323, 1328)
-- **process_mining.h**: 1 critical (line 302 - Status::OK())
-- **process_pattern_matcher.h**: 1 critical (line 194 - Status::OK())
----
 
 ---
