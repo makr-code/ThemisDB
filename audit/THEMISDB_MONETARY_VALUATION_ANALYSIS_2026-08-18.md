@@ -9,7 +9,8 @@
 ## Abstract
 
 Diese Studie quantifiziert den monetären Wert von ThemisDB in zwei Zuständen (**Stand jetzt** vs. **production-ready**) anhand eines reproduzierbaren Modells aus (a) TCO-ROI, (b) Replikationskosten mit/ohne KI-Entwicklung, (c) Bewertungs-Multiplikatoren und (d) Governance-/Execution-Discounts.  
-Die Ergebnisse zeigen einen **EV-Lift von +€26M bis +€47M** beim Übergang von „Stand jetzt“ zu „production-ready“ sowie eine signifikante **Cost-to-Recreate-Reduktion um 60%–73,3%** durch KI-beschleunigte Entwicklung.
+Die Ergebnisse zeigen einen **EV-Lift von +€26M bis +€47M** beim Übergang von „Stand jetzt“ zu „production-ready“ sowie eine signifikante **Cost-to-Recreate-Reduktion um 60%–73,3%** durch KI-beschleunigte Entwicklung.  
+Zusätzlich erweitert diese Fassung die rein quantitative Sicht um eine **Build-vs-Buy-Interpretation**, eine **Kundensegment- und Einsatzfalllogik**, eine **No-Go-Abgrenzung** sowie eine **strukturierte Forschungsagenda** für die nächste Vertiefungsstufe.
 
 ---
 
@@ -18,6 +19,9 @@ Die Ergebnisse zeigen einen **EV-Lift von +€26M bis +€47M** beim Übergang v
 1. Wie hoch ist der monetäre Wert von ThemisDB im aktuellen Zustand im Vergleich zu einem production-ready Zustand?
 2. Wie groß ist der wirtschaftliche Vorteil (ROI, Payback) gegenüber alternativen Architekturansätzen?
 3. Wie unterscheiden sich Replikationskosten „ohne KI“ vs. „mit KI“ methodisch und quantitativ?
+4. Wann ist für Dritte Lizenzkauf rationaler als Eigenbau oder Open-Source-Patchwork?
+5. Welche Kundensegmente und Einsatzfelder weisen den höchsten ökonomischen und strategischen Fit auf?
+6. Welche Aussagen des Berichts sind bereits intern belastbar, und wo ist zusätzliche externe Validierung erforderlich?
 
 ---
 
@@ -214,3 +218,260 @@ Alle im Bericht ausgewiesenen Rechenergebnisse sind direkt aus den Tabellenwerte
 Unter den dokumentierten Repository-Annahmen ist ThemisDB sowohl im Stand jetzt als auch production-ready monetär tragfähig.  
 Der dominante Werthebel ist der Übergang in den governance-seitig vollständig freigegebenen Produktionszustand; der dominante Kostenhebel ist KI-beschleunigte Entwicklung.
 
+---
+
+## 12. Make, Buy or Rebuild?
+
+## 12.1 Kernaussage
+
+Aus den vorliegenden Zahlen folgt: Für die Mehrheit potenzieller Käufer ist **Lizenzkauf** wirtschaftlich rationaler als **Eigenbau** oder **Open-Source-Patchwork**, sobald mindestens einer der folgenden Faktoren relevant ist:
+
+1. **Regulatorischer oder operativer Zwang zu On-Prem / Air-Gap / Souveränität**
+2. **Hohe Integrations- und Verfügbarkeitsanforderungen**
+3. **Zeitkritische Markteinführung**
+4. **Fehlende interne Plattformmannschaft mit DB-, AI-, Security- und Compliance-Kompetenz**
+
+Der Eigenbau wird erst dann rational, wenn ein Dritter gleichzeitig
+
+- sehr große interne Engineering-Kapazität,
+- einen langen Planungshorizont,
+- proprietäre Sonderanforderungen,
+- und die Bereitschaft zur Übernahme von Betriebs-, Compliance- und Zertifizierungsrisiken
+
+mitbringt.
+
+## 12.2 Build-vs-Buy-Interpretation aus den Replikationskosten
+
+Die Replikationskosten liegen nach dem internen Modell bei:
+
+- **ohne KI:** €2,400M direkte Kosten bzw. **€3,195M Vollkosten**
+- **mit KI:** €0,640M–€0,960M direkte Kosten bzw. **€0,852M–€1,278M Vollkosten**
+
+Demgegenüber stehen dokumentierte Lizenzpreisanker von:
+
+- **Community:** €0
+- **Enterprise:** €5.000/Jahr Basissubskription zzgl. Add-ons
+- **Hyperscaler/OEM:** €250.000/Jahr Basispaket
+
+Selbst unter KI-beschleunigter Entwicklung bleibt damit die Kostenrelation asymmetrisch: Die Lizenzkosten liegen für die meisten Einsatzprofile deutlich unter den modellierten Vollkosten eines Nachbaus. Der Bericht stützt daher die These, dass KI zwar den **Code-Erstellungsaufwand** reduziert, nicht aber den **Systemintegrations-, Hardening-, Sicherheits-, Zertifizierungs- und Vertriebsaufwand** eliminiert.
+
+## 12.3 Entscheidungsmatrix
+
+| Situation | Präferenz | Begründung |
+|---|---|---|
+| KRITIS / Behörden / Defense / Air-Gap | **Buy** | Souveränität, Auditierbarkeit und schnelleres Hardening dominieren |
+| Regulierte Enterprise mit On-Prem-AI-Bedarf | **Buy / Hybrid** | Time-to-value und Integrationsvorteil stärker als Eigenbau-These |
+| Sehr großer Plattformanbieter mit eigener DB-/AI-Organisation | **Build / Hybrid** | Eigenbau nur bei sehr hoher Skalierung und Sonderanforderungen plausibel |
+| Kostengetriebene Standard-Cloud-Workloads ohne Compliance-Druck | **Nicht primär ThemisDB** | Hyperscaler-/Managed-Angebote ökonomisch und organisatorisch einfacher |
+
+## 12.4 Mit KI vs. ohne KI
+
+**Ohne KI** erscheint der Nachbau für die meisten Dritten ökonomisch unattraktiv.  
+**Mit KI** sinkt der reine Replikationsaufwand stark, aber die eigentlichen Hürden verschieben sich auf:
+
+- produktionsreife Architekturentscheidungen,
+- Sicherheits- und Betriebsprozesse,
+- Compliance-Nachweise,
+- Domänenwissen für KRITIS / Defense / Souveränität,
+- Beschaffung, Integration und Supportfähigkeit.
+
+Damit wird der Moat kleiner auf der Ebene „Code schreiben“, aber größer auf der Ebene „vertrauenswürdig betreiben und verkaufen“.
+
+---
+
+## 13. Potenzielle Kunden und Beschaffungslogik
+
+## 13.1 Priorisierte Zielsegmente
+
+| Segment | Primärer Schmerz | Kaufmotiv | Beschaffungslogik |
+|---|---|---|---|
+| **KRITIS-Betreiber** | Cloud-/Souveränitätsgrenzen, Audit- und Verfügbarkeitsdruck | Compliance, Air-Gap, Kostenkontrolle | formaler Beschaffungsprozess, hoher Nachweisbedarf |
+| **Behörden / öffentliche Verwaltung** | Datensouveränität, EU-/nationaler Kontrollanspruch | europäische On-Prem-Alternative | Vergabe-/Rahmenvertragslogik |
+| **Verteidigung / sicherheitsnahe Integratoren** | abgeschottete Netze, Multi-Domain-Datenlage | Air-Gap + Resilienz + AI lokal | lange Sales-Zyklen, hohe Vertragswerte |
+| **Industrie 4.0 / Edge-Produktion** | Latenz, Netztrennung, OT/IT-Nähe | lokale KI und Multi-Model-Datenhaltung | Pilot → Werksrollout |
+| **Regulierte Enterprise** | Cloud-Risiko, Governance, Integrationskomplexität | TCO-Vorteil plus On-Prem-AI | IT-/Security-getriebene Kaufentscheidung |
+| **OEM-/Plattformpartner** | Bedarf an integrierbarer Daten-/AI-Schicht | OEMisierung und Differenzierung | strategische Partnerschaft |
+| **AI-on-Prem-Workloads** | lokale Inferenz, Datenresidenz | Vermeidung externer API-/Cloud-Abhängigkeit | projektbezogene technische Bewertung |
+
+## 13.2 Wer zahlt am wahrscheinlichsten?
+
+Die höchste kurzfristige Zahlungsbereitschaft ist dort zu erwarten, wo **Nicht-Kauf** oder **falsche Architekturwahl** operative oder regulatorische Kosten erzeugt. Das spricht zuerst für:
+
+1. KRITIS
+2. Behörden / öffentliche Verwaltung
+3. Verteidigung / sicherheitsnahe Integratoren
+4. regulierte Enterprise-Kunden mit On-Prem-AI-Anforderungen
+
+SMB- und generische Cloud-Segmente bleiben zwar preislich adressierbar, sind aber im Vergleich weniger attraktiv, weil dort die Differenzierung schwächer und die Alternativen einfacher konsumierbar sind.
+
+---
+
+## 14. Empfohlene Einsatzfelder
+
+## 14.1 Use-Case-Matrix
+
+| Einsatzfeld | Fit | Warum |
+|---|---|---|
+| **Air-Gap-Datenplattform mit lokaler AI** | **MUSS-FIT** | ThemisDB adressiert genau die Kombination aus On-Prem, Multi-Model und AI |
+| **KRITIS-/Sicherheitslagebild / Entscheidungsunterstützung** | **MUSS-FIT** | regulatorischer und operativer Druck begünstigt lokale integrierte Plattformen |
+| **Industrie- / Edge-Analytics mit lokaler Inferenz** | **SOLL-FIT** | stark bei Latenz, Souveränität und gemischten Datenmodellen |
+| **Regulierte Enterprise-Wissens- und Retrieval-Systeme** | **SOLL-FIT** | Mehrwert, wenn Retrieval, Governance und lokale Modelle kombiniert werden |
+| **Allgemeine Standard-Web-Apps mit rein relationalem Profil** | **NICHT-PRIMÄR-FIT** | spezialisierte oder gemanagte Standarddatenbanken meist einfacher |
+| **rein cloud-native, nicht regulierte Commodity-Workloads** | **NO-GO / NIEDRIGER FIT** | Hyperscaler-Ökosysteme gewinnen bei Einfachheit und Betrieb |
+
+## 14.2 Edition-Fit
+
+| Einsatzmuster | Empfohlene Edition |
+|---|---|
+| Evaluierung, Entwicklerzugang, kleine Pilotierung | **Community** |
+| regulierte Produktion, Security-/Audit-Bedarf, bis 100 Knoten | **Enterprise** |
+| OEM, Multi-Region, hohe Integrations- und SLA-Anforderungen | **Hyperscaler / OEM** |
+
+---
+
+## 15. Wettbewerbsalternativen und Economic Switching Logic
+
+## 15.1 Reale Alternativen
+
+Die praktische Konkurrenz für ThemisDB besteht nicht nur aus anderen Datenbanken, sondern aus vier Beschaffungsalternativen:
+
+1. **Eigenbau**
+2. **Open-Source-Patchwork**
+3. **Hyperscaler-/Managed-Services**
+4. **klassische Spezialdatenbanken / Einzelprodukte**
+
+## 15.2 Economic Switching Logic
+
+Lizenzkauf wird wirtschaftlich klar besser, wenn
+
+- mehrere Datenmodelle zusammengeführt werden müssen,
+- AI lokal und nicht API-basiert laufen soll,
+- ein souveräner oder abgeschotteter Betrieb gefordert ist,
+- Audit- und Betriebsverantwortung nicht auf mehrere Produkte fragmentiert werden soll,
+- und die Opportunitätskosten verspäteter Markteinführung relevant sind.
+
+Eigenbau oder Patchwork bleibt nur dann plausibel, wenn der Käufer
+
+- bestehende Plattformbausteine bereits besitzt,
+- keine kurze Time-to-Market braucht,
+- den Integrationsaufwand organisatorisch absorbieren kann,
+- und nicht primär von regulatorischer Nachweisfähigkeit lebt.
+
+## 15.3 Strategische Lesart
+
+Der stärkste strukturelle Vorteil von ThemisDB liegt nicht in einem einzelnen Feature, sondern in der **Bündelung** von:
+
+- Multi-Model-Datenhaltung,
+- lokaler AI/LLM-Nutzung,
+- Air-Gap-/On-Prem-Betrieb,
+- Sicherheits- und Auditierbarkeitsargumenten,
+- sowie einer Lizenzlogik, die deutlich unter den Nachbaukosten liegt.
+
+---
+
+## 16. Adoptionsbarrieren, No-Go-Use-Cases und Einwände
+
+## 16.1 Relevante Adoptionsbarrieren
+
+1. **Zertifizierungs- und Compliance-Status** ist kaufentscheidend, insbesondere in KRITIS-/Behördenumfeldern.
+2. **Vendor-Risk** bleibt relevant, solange externe Referenzkunden, belastbare SLA-Historie und längerfristige Betriebsnachweise noch wachsen.
+3. **Integrationsaufwand** kann bei tief eingebetteten Enterprise-Landschaften hoch sein.
+4. **Talent- und Betriebsmodell** auf Kundenseite kann die Einführung bremsen.
+5. **Roadmap-Risiko** wirkt dort, wo Käufer sehr langfristige Standardisierung verlangen.
+
+## 16.2 Wann ThemisDB noch nicht die richtige Wahl ist
+
+ThemisDB ist nicht die ökonomisch beste Standardantwort für:
+
+- unregulierte Commodity-SaaS-Workloads,
+- rein relationale Anwendungen ohne AI-/Souveränitätsbedarf,
+- Teams, die maximale Bequemlichkeit in Managed-Cloud-Diensten priorisieren,
+- Kunden mit extrem niedriger Bereitschaft zu On-Prem-/Betriebsverantwortung.
+
+## 16.3 Typische Einwände
+
+| Einwand | Implikation für den Bericht |
+|---|---|
+| „Mit KI kann man das doch nachbauen.“ | Gegenüberstellung von Code-Replikation vs. Betriebs-/Compliance-Reife ausbauen |
+| „Wir nutzen einfach mehrere Open-Source-Produkte.“ | Integrations-, Audit- und Betriebsfragmentierung quantitativ verdeutlichen |
+| „Hyperscaler sind organisatorisch einfacher.“ | Nur für nicht-regulierte Cloud-Workloads uneingeschränkt richtig |
+| „Wir warten auf mehr Marktbelege.“ | Externe Validierungsagenda explizit machen |
+
+---
+
+## 17. Proof Burden, Evidenzlücken und Forschungsagenda
+
+## 17.1 Welche Aussagen sind intern gut gestützt?
+
+Relativ gut intern gestützt sind aktuell:
+
+- TCO-Richtungseffekte je Szenario
+- Replikationskostenbandbreiten mit und ohne KI
+- Preisanker der Editionen
+- produktionsreifebezogene Argumentation via Audit- und Readiness-Artefakte
+
+## 17.2 Welche Aussagen brauchen zusätzliche externe Validierung?
+
+Externe Validierung ist insbesondere nötig für:
+
+1. reale Zahlungsbereitschaft je Kundensegment
+2. Vergleichspreise und Total-Cost alternativer Marktangebote
+3. Beschaffungslogiken in Behörden- und Defense-Segmenten
+4. Referenz-Deployments, SLA-Historien und Conversion-Raten
+5. Markt-Multiples, Exit-Prämien und Sovereignty-Premiums außerhalb der Repository-Sicht
+
+## 17.3 Umfassender Rechercheplan mit Subagents
+
+| Subagent | Fokus | Kernoutput |
+|---|---|---|
+| **A — Build-vs-Buy Economics** | Lizenzkosten vs. Nachbau vs. Patchwork | Entscheidungsbaum nach Größe, Kritikalität, Compliance, Integrationsgrad |
+| **B — Customer Segmentation & ICP** | Käuferprofile und Schmerzpunkte | priorisierte ICP-Liste mit Kaufmotiven und Beschaffungsweg |
+| **C — Use-Case & Deployment Fit** | sinnvolle Einsatzfelder | Muss-/Soll-/Nicht-Fit-Matrix |
+| **D — Competitive Alternatives** | reale Alternativen | Vergleich nach Kosten, Lock-in, Compliance, Air-Gap, AI |
+| **E — Pricing & Willingness to Pay** | Preisarchitektur und Zahlungsbereitschaft | Preisanker, objections, mögliche Segmentpreise |
+| **F — Compliance / Sovereignty / Procurement** | Regulierung als Kaufhebel | Beschaffungsargumentation für KRITIS, Behörden, Defense |
+| **G — Replicability & Defensibility** | replizierbare vs. nicht replizierbare Moats | Moat-Matrix |
+| **H — Adoption Risks & Objections** | Nichtkaufgründe | Risk Register plus Gegenmaßnahmen |
+| **I — Evidence Validation** | Belastbarkeit der Aussagen | Evidenzklassen und externe Validierungsagenda |
+
+## 17.4 Pflichtfragen für jeden Subagent
+
+Jeder Teilstrang sollte dieselben Mindestfragen beantworten:
+
+1. Zielsegment / Stakeholder
+2. Kaufanlass und Problem
+3. Alternative Vorgehensweisen
+4. Wirtschaftliche Entscheidungskriterien
+5. Risiken und Einwände
+6. Required Evidence
+7. Relevanz für Pricing, Go-to-Market und Bewertung
+
+## 17.5 Reihenfolge der Recherche
+
+1. Build-vs-Buy
+2. Kundensegmente
+3. Einsatzfelder
+4. Wettbewerbsalternativen
+5. Pricing / Willingness to Pay
+6. Compliance / Procurement
+7. Defensibility
+8. Evidenzlücken und Red-Team-Gegenargumente
+
+## 17.6 Erwartete Endartefakte
+
+- überarbeiteter Entscheidungsbericht
+- ICP- und Use-Case-Matrix
+- Build-vs-Buy-Decision-Framework
+- Risiko-/Einwandkapitel
+- Liste offener externer Validierungen
+- Management Summary für Investoren, Käufer und Vertrieb
+
+---
+
+## 18. Verdichtete Handlungsempfehlung
+
+1. **Lizenz statt Nachbau** sollte als Default-Narrativ für regulierte, sicherheitskritische und souveränitätsgetriebene Käufer geführt werden.
+2. **Build-vs-Buy** muss im nächsten Bericht nicht nur kostenbasiert, sondern auch zeit-, governance- und risikobasiert argumentiert werden.
+3. **Go-to-Market** sollte zuerst auf KRITIS, Behörden, Defense und regulierte Enterprise-Segmente ausgerichtet werden.
+4. **No-Go-Transparenz** erhöht Glaubwürdigkeit: Der Bericht sollte offen benennen, dass generische Commodity-Cloud-Workloads derzeit keine Primärdomäne von ThemisDB sind.
+5. **Externe Validierung** ist die nächste Pflichtstufe, damit aus einer intern belastbaren Bewertungsunterlage eine investoren- und vertriebsfeste Marktthese wird.
