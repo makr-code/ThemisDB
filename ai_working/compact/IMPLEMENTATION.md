@@ -19,26 +19,26 @@
 - `WEEK1_IMPLEMENTATION_STATUS.md` (2026-08-18, 9,834 B)
 - `VOICE_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 10,026 B)
 - `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-18, 17,036 B)
-- `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
 - `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
+- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
+- `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
-- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
-- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
 - `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
+- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
 - `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
+- `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
 - `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
-- `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
-- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
-- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-18, 13,507 B)
+- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
+- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_5_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 11,681 B)
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
@@ -52,11 +52,12 @@
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
-- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
+- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
+- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
 - `IMPLEMENTATION_PLAN_8_ITEMS_2026-05-25.md` (2026-08-18, 1,274 B)
@@ -64,14 +65,13 @@
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 9,018 B)
 - `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,655 B)
 - `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
-- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
 - `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
 - `FP_DETECTION_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,430 B)
 - `COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 16,526 B)
-- `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
 - `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
+- `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-18, 17,764 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 10,935 B)
 
@@ -1558,6 +1558,273 @@ Per CLAUDE.md and modern C++ best practices:
 
 ---
 
+### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Updates Module v1.1.0 Final Implementation Summary
+**Date**: 2026-08-08
+**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
+**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
+**Duration**: ~3 hours (parallelized agent execution)
+---
+## Executive Summary
+### Key Deliverables
+| Block | Scope | Status | Evidence |
+|-------|-------|--------|----------|
+| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
+| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
+| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
+---
+## Block 1: Gap Remediation (CRITICAL Findings)
+### Completion Status: 17/22 CRITICAL Fixed (77%)
+**Remediated Components:**
+#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
+// Added thread synchronization for column family handles
+std::mutex cf_mutex_;  // Protects column_families_ and related access
+- All column family operations (getOrCreate, read, write) now protected
+- Thread-safe concurrent access from multiple update threads
+- Zero data race violations in focused tests
+#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
+**Resource Leak Fixes (2/2):**
+- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
+- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
+- Exception-safe resource management with automatic deallocation
+**Timeout Handling (6/6):**
+// Condition variable timeout
+cv.wait_for(lock, std::chrono::seconds(5));
+// Thread join timeout with deadline tracking
+std::this_thread::sleep_for(std::chrono::milliseconds(100));
+if (!joined) {
+LOG_WARNING("Thread join timeout, detaching");
+thread.detach();
+}
+- All blocking operations have bounded timeouts
+- Graceful fallback when timeouts exceeded
+- Prevents deadlocks and hangs
+
+---
+
+### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
+
+# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
+
+## Status Overview (2026-08-07)
+
+| Phase | Name | Status | Progress | Target | Completion |
+|-------|------|--------|----------|--------|------------|
+| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
+| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
+| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
+| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
+
+## Implementation Batches
+
+### Batch 1: Phase 2-Core Hardening (CURRENT)
+**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
+
+**Objectives:**
+- [~] Builder fail-fast logic for null/invalid dependencies
+- [~] Null-checks and error messages in content_toolbox_bridge
+- [~] Registry initialization/reset semantics validation
+- [~] IT-13..IT-20 edge-case tests
+- [~] Build validation on linux-release
+
+**Key Files:**
+- src/toolbox/toolbox_builder.cpp - Builder validation
+- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
+- src/toolbox/toolbox_registry.cpp - Registry semantics
+- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
+- src/toolbox/ROADMAP.md - Update Phase 2 progress
+
+**Expected Deliverables:**
+- ✅ All Phase 2 items at 80%→95% completion
+- ✅ Mixed-content scenarios validated
+- ✅ IT-13..IT-20 tests pass
+- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
+- ✅ Build succeeds
+
+---
+
+### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
+
+**Objectives:**
+- Unify incident taxonomy across 4 execution planes
+- Add Prometheus metrics for all error classes
+- Implement deterministic stress fixtures
+- Extend test coverage (IT-13..IT-20)
+
+**Key Files:**
+- src/toolbox/SECURITY.md - Incident taxonomy
+- src/toolbox/ingestion_toolbox.cpp - Metrics
+- src/toolbox/content_toolbox_bridge.cpp - Metrics
+- src/toolbox/toolbox_registry.cpp - Error tracking
+- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
+
+**Expected Deliverables:**
+- ✅ Incident taxonomy documented
+- ✅ New metrics in getMetricsText()
+- ✅ Stress fixtures demonstrate deterministic behavior
+- ✅ Phase 3 progress 75%→90%
+
+---
+
+### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
+
+**Objectives:**
+- Validate proxy-benchmark behavior
+- Establish p95/p99 envelopes
+- Expand native toolbox benchmark suite
+- Certify GATE-TBX-P1..P6
+
+**Key Files:**
+- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
+- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
+- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
+- src/toolbox/ROADMAP.md - Phase 5 progress
+
+**Expected Deliverables:**
+- ✅ GATE-TBX-P1..P6 baseline measurements
+- ✅ p95/p99 envelopes documented
+- ✅ No regression > 10% vs baseline
+- ✅ Phase 5 progress 50%→85%
+
+---
+
+### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
+
+**Objectives:**
+- Operationalize PRODUCTION_REQUIREMENTS.md
+- Update cross-links in all docs
+- 100% Production-Readiness Checklist
+- Prepare release notes
+
+**Key Files:**
+- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
+- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
+- docs/toolbox/ - Public docs
+- CHANGELOG.md - Q4 2026 entries
+- src/toolbox/ROADMAP.md - Final status
+
+**Expected Deliverables:**
+- ✅ All docs consistent and current
+- ✅ Production-Readiness 100%
+- ✅ Release notes ready
+- ✅ Phase 6 progress 100%
+
+---
+
+## Verification Procedures
+
+### Batch 1 (Phase 2) Validation
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release -L toolbox -V
+# Verify new metrics in toolbox.getMetricsText()
+# Verify IT-13..IT-20 tests all pass
+```
+
+### Batch 2 (Phase 3) Validation
+```bash
+cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
+./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
+# Verify stress scenarios complete without deadlock
+# Verify Prometheus metrics for all error classes
+```
+
+### Batch 3 (Phase 5) Validation
+```bash
+cmake --build --preset linux-release --target bench_toolbox_native_workloads
+./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
+# Verify all gates meet thresholds
+# Verify p95/p99 percentiles consistent across runs
+```
+
+### Batch 4 (Phase 6) Validation
+```bash
+# Validate doc links
+grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
+# Verify Production-Readiness Checklist
+grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
+# Verify CHANGELOG entries
+grep -c "Q4 2026" CHANGELOG.md
+```
+
+---
+
+## Timeline & Milestones
+
+| Batch | Weeks | Deliverables | Status |
+|-------|-------|--------------|--------|
+| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
+| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
+| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
+| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
+
+---
+
+## Quality Gates
+
+### Code Quality
+- [ ] No new CodeQL alerts (Phase 2-6)
+- [ ] All focused test targets pass
+- [ ] Build succeeds on linux-release preset
+- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
+
+### Functional
+- [ ] Mixed-content scenarios validated
+- [ ] Soft-fail + fail-fast behaviors tested
+- [ ] All error paths exercised
+- [ ] Metrics emitted correctly
+- [ ] Stress tests complete without deadlock
+
+### Performance
+- [ ] GATE-TBX-P1..P6 meet thresholds
+- [ ] p95/p99 envelopes established
+- [ ] No regression > 10% vs baseline
+
+### Documentation
+- [ ] Cross-links consistent
+- [ ] Production requirements documented
+- [ ] Release notes prepared
+- [ ] Roadmap 100% synchronized
+
+---
+
+## Key Risks & Mitigations
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|-----------|
+| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
+| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
+| Proxy-benchmark regression | Low | High | Native suite early validation |
+| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
+
+---
+
+## Success Criteria (All Batches)
+
+✅ Phase 1: Design/API contracts frozen (Complete)
+✅ Phase 2: Core hardening 80%→95%, mixed-content validated
+✅ Phase 3: Incident taxonomy unified, metrics complete
+✅ Phase 4: 96+ focused tests passing (Complete)
+✅ Phase 5: GATE-TBX-P1..P6 gates certified
+✅ Phase 6: Production-Readiness 100%, docs synced
+
+---
+
+**Last Updated:** 2026-08-07 18:33 UTC
+**Next Review:** Upon Batch 1 completion (agent notification)
+
+---
+
 ### TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -1604,53 +1871,6 @@ Per CLAUDE.md and modern C++ best practices:
 ---
 ## Phase 2: Distributed Coordination Hardening ✓ COMPLETE
 ### Implementation Status
-
----
-
-### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Updates Module v1.1.0 Final Implementation Summary
-**Date**: 2026-08-08
-**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
-**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
-**Duration**: ~3 hours (parallelized agent execution)
----
-## Executive Summary
-### Key Deliverables
-| Block | Scope | Status | Evidence |
-|-------|-------|--------|----------|
-| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
-| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
-| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
----
-## Block 1: Gap Remediation (CRITICAL Findings)
-### Completion Status: 17/22 CRITICAL Fixed (77%)
-**Remediated Components:**
-#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
-// Added thread synchronization for column family handles
-std::mutex cf_mutex_;  // Protects column_families_ and related access
-- All column family operations (getOrCreate, read, write) now protected
-- Thread-safe concurrent access from multiple update threads
-- Zero data race violations in focused tests
-#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
-**Resource Leak Fixes (2/2):**
-- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
-- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
-- Exception-safe resource management with automatic deallocation
-**Timeout Handling (6/6):**
-// Condition variable timeout
-cv.wait_for(lock, std::chrono::seconds(5));
-// Thread join timeout with deadline tracking
-std::this_thread::sleep_for(std::chrono::milliseconds(100));
-if (!joined) {
-LOG_WARNING("Thread join timeout, detaching");
-thread.detach();
-}
-- All blocking operations have bounded timeouts
-- Graceful fallback when timeouts exceeded
-- Prevents deadlocks and hangs
 
 ---
 
@@ -2117,223 +2337,53 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 
 ---
 
-### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
+### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
 
-# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
+*(file too large — key headings extracted)*
 
-## Status Overview (2026-08-07)
-
-| Phase | Name | Status | Progress | Target | Completion |
-|-------|------|--------|----------|--------|------------|
-| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
-| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
-| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
-| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
-
-## Implementation Batches
-
-### Batch 1: Phase 2-Core Hardening (CURRENT)
-**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
-
-**Objectives:**
-- [~] Builder fail-fast logic for null/invalid dependencies
-- [~] Null-checks and error messages in content_toolbox_bridge
-- [~] Registry initialization/reset semantics validation
-- [~] IT-13..IT-20 edge-case tests
-- [~] Build validation on linux-release
-
-**Key Files:**
-- src/toolbox/toolbox_builder.cpp - Builder validation
-- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
-- src/toolbox/toolbox_registry.cpp - Registry semantics
-- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
-- src/toolbox/ROADMAP.md - Update Phase 2 progress
-
-**Expected Deliverables:**
-- ✅ All Phase 2 items at 80%→95% completion
-- ✅ Mixed-content scenarios validated
-- ✅ IT-13..IT-20 tests pass
-- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
-- ✅ Build succeeds
-
+# Tensor Module Complete Implementation - Master Plan & Status
+**Date Initiated**: 2026-08-07
+**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
+**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
+**Total Effort**: ~750-900 engineer-hours
+**Agent Count**: 9 specialized sub-agents (3 per stream)
 ---
-
-### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
-
-**Objectives:**
-- Unify incident taxonomy across 4 execution planes
-- Add Prometheus metrics for all error classes
-- Implement deterministic stress fixtures
-- Extend test coverage (IT-13..IT-20)
-
-**Key Files:**
-- src/toolbox/SECURITY.md - Incident taxonomy
-- src/toolbox/ingestion_toolbox.cpp - Metrics
-- src/toolbox/content_toolbox_bridge.cpp - Metrics
-- src/toolbox/toolbox_registry.cpp - Error tracking
-- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
-
-**Expected Deliverables:**
-- ✅ Incident taxonomy documented
-- ✅ New metrics in getMetricsText()
-- ✅ Stress fixtures demonstrate deterministic behavior
-- ✅ Phase 3 progress 75%→90%
-
+## Executive Summary
+**Key Characteristics**:
+- ✅ Parallel sub-agent execution (3 agents per stream)
+- ✅ Weekly merge & integration checkpoints
+- ✅ Clear deliverables and success criteria per block
+- ✅ Risk mitigation strategies documented
+- ✅ Backward compatible within major release line
+- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
 ---
-
-### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
-
-**Objectives:**
-- Validate proxy-benchmark behavior
-- Establish p95/p99 envelopes
-- Expand native toolbox benchmark suite
-- Certify GATE-TBX-P1..P6
-
-**Key Files:**
-- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
-- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
-- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
-- src/toolbox/ROADMAP.md - Phase 5 progress
-
-**Expected Deliverables:**
-- ✅ GATE-TBX-P1..P6 baseline measurements
-- ✅ p95/p99 envelopes documented
-- ✅ No regression > 10% vs baseline
-- ✅ Phase 5 progress 50%→85%
-
----
-
-### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
-
-**Objectives:**
-- Operationalize PRODUCTION_REQUIREMENTS.md
-- Update cross-links in all docs
-- 100% Production-Readiness Checklist
-- Prepare release notes
-
-**Key Files:**
-- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
-- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
-- docs/toolbox/ - Public docs
-- CHANGELOG.md - Q4 2026 entries
-- src/toolbox/ROADMAP.md - Final status
-
-**Expected Deliverables:**
-- ✅ All docs consistent and current
-- ✅ Production-Readiness 100%
-- ✅ Release notes ready
-- ✅ Phase 6 progress 100%
-
----
-
-## Verification Procedures
-
-### Batch 1 (Phase 2) Validation
-```bash
-cmake --preset linux-release
-cmake --build --preset linux-release
-ctest --preset linux-release -L toolbox -V
-# Verify new metrics in toolbox.getMetricsText()
-# Verify IT-13..IT-20 tests all pass
-```
-
-### Batch 2 (Phase 3) Validation
-```bash
-cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
-./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
-# Verify stress scenarios complete without deadlock
-# Verify Prometheus metrics for all error classes
-```
-
-### Batch 3 (Phase 5) Validation
-```bash
-cmake --build --preset linux-release --target bench_toolbox_native_workloads
-./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
-# Verify all gates meet thresholds
-# Verify p95/p99 percentiles consistent across runs
-```
-
-### Batch 4 (Phase 6) Validation
-```bash
-# Validate doc links
-grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
-# Verify Production-Readiness Checklist
-grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
-# Verify CHANGELOG entries
-grep -c "Q4 2026" CHANGELOG.md
-```
-
----
-
-## Timeline & Milestones
-
-| Batch | Weeks | Deliverables | Status |
-|-------|-------|--------------|--------|
-| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
-| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
-| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
-| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
-
----
-
-## Quality Gates
-
-### Code Quality
-- [ ] No new CodeQL alerts (Phase 2-6)
-- [ ] All focused test targets pass
-- [ ] Build succeeds on linux-release preset
-- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
-
-### Functional
-- [ ] Mixed-content scenarios validated
-- [ ] Soft-fail + fail-fast behaviors tested
-- [ ] All error paths exercised
-- [ ] Metrics emitted correctly
-- [ ] Stress tests complete without deadlock
-
-### Performance
-- [ ] GATE-TBX-P1..P6 meet thresholds
-- [ ] p95/p99 envelopes established
-- [ ] No regression > 10% vs baseline
-
-### Documentation
-- [ ] Cross-links consistent
-- [ ] Production requirements documented
-- [ ] Release notes prepared
-- [ ] Roadmap 100% synchronized
-
----
-
-## Key Risks & Mitigations
-
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
-| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
-| Proxy-benchmark regression | Low | High | Native suite early validation |
-| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
-
----
-
-## Success Criteria (All Batches)
-
-✅ Phase 1: Design/API contracts frozen (Complete)
-✅ Phase 2: Core hardening 80%→95%, mixed-content validated
-✅ Phase 3: Incident taxonomy unified, metrics complete
-✅ Phase 4: 96+ focused tests passing (Complete)
-✅ Phase 5: GATE-TBX-P1..P6 gates certified
-✅ Phase 6: Production-Readiness 100%, docs synced
-
----
-
-**Last Updated:** 2026-08-07 18:33 UTC
-**Next Review:** Upon Batch 1 completion (agent notification)
+## Master Timeline & Milestones
+August 2026          September 2026      October 2026        November 2026       January 2027
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
+│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
+│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
+│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
+│ Exec             │                  │                  │  (48-72h runs)    │              │
+│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
+### Detailed Milestones
+**Week 1-3 (Aug 7-27): Stream A Active Execution**
+- A1: Index/bridge concurrent hardening tests implemented
+- A2: Unified diagnostics architecture designed
+- A3: Baseline benchmark measurements collected
+**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
+- All A1/A2/A3 blocks complete and validated
+- Pull request created for Stream A: feature/tensor-q3-hardening
+- Merge to develop: Aug 30-31
+**Week 4 (Sept 1): Stream B Launch**
+- Edge case scenario inventory (B1) compiled
+- Stress test design (B2) finalized
+- P95/P99 measurement protocol (B3) prepared
+**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
+- B1: Edge case handling implemented, 20-30 tests
+- B2: Stress suite designed and parametrized
+- B3: CI measurement runs scheduled
+**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
 
 ---
 
@@ -2520,56 +2570,6 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 **Status:** ✅ All Phase 2 T2.3 acceptance criteria met and verified
-
----
-
-### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Tensor Module Complete Implementation - Master Plan & Status
-**Date Initiated**: 2026-08-07
-**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
-**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
-**Total Effort**: ~750-900 engineer-hours
-**Agent Count**: 9 specialized sub-agents (3 per stream)
----
-## Executive Summary
-**Key Characteristics**:
-- ✅ Parallel sub-agent execution (3 agents per stream)
-- ✅ Weekly merge & integration checkpoints
-- ✅ Clear deliverables and success criteria per block
-- ✅ Risk mitigation strategies documented
-- ✅ Backward compatible within major release line
-- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
----
-## Master Timeline & Milestones
-August 2026          September 2026      October 2026        November 2026       January 2027
-┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
-│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
-│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
-│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
-│ Exec             │                  │                  │  (48-72h runs)    │              │
-│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
-└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
-### Detailed Milestones
-**Week 1-3 (Aug 7-27): Stream A Active Execution**
-- A1: Index/bridge concurrent hardening tests implemented
-- A2: Unified diagnostics architecture designed
-- A3: Baseline benchmark measurements collected
-**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
-- All A1/A2/A3 blocks complete and validated
-- Pull request created for Stream A: feature/tensor-q3-hardening
-- Merge to develop: Aug 30-31
-**Week 4 (Sept 1): Stream B Launch**
-- Edge case scenario inventory (B1) compiled
-- Stress test design (B2) finalized
-- P95/P99 measurement protocol (B3) prepared
-**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
-- B1: Edge case handling implemented, 20-30 tests
-- B2: Stress suite designed and parametrized
-- B3: CI measurement runs scheduled
-**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
 
 ---
 
@@ -3330,105 +3330,6 @@ This comprehensive RAII hardening of the LLM module significantly improves resou
 
 ---
 
-### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
-**Date Created:** 2026-07-05
-**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
-**Artifacts:** 11 Files | ~60KB Documentation
-**Verification:** Script Tested (DRY_RUN Mode) ✅
----
-## 📋 Executive Summary
-### Deliverables
-✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
-✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
-✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
-✅ **Comprehensive Documentation** — Implementation index + quick reference
-✅ **Success Metrics** — Baseline/target tracking across all epics
-### Key Metrics
-| Item | Value |
-|------|-------|
-| Total Epics | 5 |
-| Total Sub-Issues | 23 |
-| Total GitHub Issues to Create | 28 |
-| Estimated Total Effort | 580 hours |
-| Timeline | 30 weeks (W31-W49, 2026) |
-| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
-| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
-| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
-| Production Readiness Target | v2.4 Stable |
----
-## 🎯 The Five Epics (Concretely Verifiable)
-### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
-**Critical Path Item — Blocks All Module Work**
-| Item | Value |
-|------|-------|
-| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
-| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
-| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
-| **Effort** | 80 hours |
-| **Deliverable** | v1.5.0 Stable Release |
-| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
-**Sub-Issues:**
-- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
-- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
-- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
-**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
----
-
----
-
-### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# PR Version Targeting Implementation Summary
-> **Status:** Complete (2026-08-18)
-> **Author:** Copilot Task Agent
-> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
----
-## Overview
-This implementation enables **every PR to have a target version** that:
-1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
-2. ✅ Maps to GitHub milestones for release scope tracking
-3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
-4. ✅ Supports automated validation and release manager workflows
----
-## What Was Implemented
-### Block 1: Governance & Documentation (Complete ✓)
-**Files Created:**
-1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
-- Comprehensive policy for version-targeted PRs
-- Valid version formats (SemVer, pre-releases, backlog)
-- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
-- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
-- Release manager workflow and pre-release checklist
-- FAQ and troubleshooting
-2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
-- Step-by-step milestone creation guide
-- Recommended milestone structure (stable, pre-release, backlog)
-- Milestone description templates with examples
-- Pre-release checklist for release managers
-- Quarterly backlog triage process
-**Files Modified:**
-1. **`.github/pull_request_template.md`**
-- Added mandatory "Target Version" field at top of template
-- Included selection criteria and link to governance policy
-- Provides dropdown of valid version formats
-2. **`RELEASE_STRATEGY.md`** (§2.1.1)
-- Documented PR version targeting integration with milestone model
-- Explained traceability, changelog automation, and scope validation
-3. **`VERSIONING.md`** (§2.1)
-- Added PR version targeting guidance
-- Selection criteria table for different PR types
-- Reference to full policy documentation
----
-### Block 2: Automation & Validation (Complete ✓)
-
----
-
 ### Q3_2026_EPIC_IMPLEMENTATION_INDEX.md
 
 # Q3 2026 Epic Implementation Index
@@ -3791,60 +3692,102 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY.md
+### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Phase A Implementation Summary (Q3 2026)
-## Status: ✅ IMPLEMENTATION COMPLETE
-**Date:** 2026-08-08
-**Scope:** Updates Module Comprehensive Hardening Plan - Phase A (Weeks 1-4)
-**Priority:** Items 1-2 Complete, Item 3 Benchmark Gates Designed
+# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
+**Date Created:** 2026-07-05
+**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
+**Artifacts:** 11 Files | ~60KB Documentation
+**Verification:** Script Tested (DRY_RUN Mode) ✅
 ---
-## DELIVERABLES
-### Item 1: Rollback Hardening ✅ COMPLETE
-#### Modified Files (2)
-- **`include/updates/update_state_machine.h`**
-- Added `RollbackFallbackStrategy` enum with 3 strategies: IMMEDIATE_ABORT, PARTIAL_CONTINUE, DEFER
-- Added `RollbackCallback` type for post-rollback notification
-- Added 6 new public methods:
-- `setRollbackCallback()` - Register rollback completion callback
-- `rollbackToLatestCheckpoint()` - Partial rollback to latest checkpoint
-- `rollbackToCheckpointWithFallback()` - Rollback with failure handling strategy
-- `checkpointCount()` - Query checkpoint count
-- `hasPendingRollback()` - Check for deferred rollbacks
-- `emitRollbackDiagnostic()` - Emit diagnostic on rollback attempt (ERROR level)
-- Added private members for fallback strategy tracking and deferred rollback queue
-- **`src/updates/update_state_machine.cpp`**
-- Implemented all 6 new rollback methods
-- `setRollbackCallback()`: Stores callback for invocation
-- `rollbackToLatestCheckpoint()`: Finds and rolls back to most recent checkpoint
-- `rollbackToCheckpointWithFallback()`: Implements 3 fallback strategies:
-- IMMEDIATE_ABORT: Fail-fast, return false
-- PARTIAL_CONTINUE: Log but continue, return true (optimistic)
-- DEFER: Queue for retry, return false, set `has_pending_rollback_` flag
-- `checkpointCount()`: Returns checkpoint vector size
-- `hasPendingRollback()`: Returns whether deferred_rollbacks_ is non-empty
-- `emitRollbackDiagnostic()`: Logs at WARN (success) or ERROR (failure) level; invokes callback
-#### Modified Files (2)
-- **`include/updates/coordinated_update_manager.h`**
-- Added 5 new public methods for coordinated rollback:
-- `coordinatedRollback()` - Reverse-sequence rollback (leader first, then replicas)
-- `coordinatedRollbackWithIsolation()` - Per-node isolation on failure (no cascade)
-- `hasIsolatedNodes()` - Check if any nodes are isolated
-- `isolatedNodeCount()` - Get count of isolated nodes
-- Added 2 private helper methods:
-- `performNodeRollback()` - Rollback a single node (local or remote)
-- `isolateNode()` - Mark node as failed and isolated
-- Added private member `std::vector<std::string> isolated_nodes_` to track failures
-- **`src/updates/coordinated_update_manager.cpp`**
-- Implemented coordinated rollback methods
-- `performNodeRollback()`: Calls local HotReloadEngine::rollback or mocks remote
-- `isolateNode()`: Marks node status FAILED, adds to isolated_nodes_ list
-- `coordinatedRollback()`: Iterates nodes in reverse sequence (leader first), stops on any failure
-- `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
-- Returns CoordinatedUpdateResult with per-node statuses and aggregate success
-#### Test Files (1)
+## 📋 Executive Summary
+### Deliverables
+✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
+✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
+✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
+✅ **Comprehensive Documentation** — Implementation index + quick reference
+✅ **Success Metrics** — Baseline/target tracking across all epics
+### Key Metrics
+| Item | Value |
+|------|-------|
+| Total Epics | 5 |
+| Total Sub-Issues | 23 |
+| Total GitHub Issues to Create | 28 |
+| Estimated Total Effort | 580 hours |
+| Timeline | 30 weeks (W31-W49, 2026) |
+| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
+| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
+| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
+| Production Readiness Target | v2.4 Stable |
+---
+## 🎯 The Five Epics (Concretely Verifiable)
+### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
+**Critical Path Item — Blocks All Module Work**
+| Item | Value |
+|------|-------|
+| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
+| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
+| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
+| **Effort** | 80 hours |
+| **Deliverable** | v1.5.0 Stable Release |
+| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
+**Sub-Issues:**
+- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
+- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
+- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
+**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
+---
+
+---
+
+### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# PR Version Targeting Implementation Summary
+> **Status:** Complete (2026-08-18)
+> **Author:** Copilot Task Agent
+> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
+---
+## Overview
+This implementation enables **every PR to have a target version** that:
+1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
+2. ✅ Maps to GitHub milestones for release scope tracking
+3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
+4. ✅ Supports automated validation and release manager workflows
+---
+## What Was Implemented
+### Block 1: Governance & Documentation (Complete ✓)
+**Files Created:**
+1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
+- Comprehensive policy for version-targeted PRs
+- Valid version formats (SemVer, pre-releases, backlog)
+- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
+- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
+- Release manager workflow and pre-release checklist
+- FAQ and troubleshooting
+2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
+- Step-by-step milestone creation guide
+- Recommended milestone structure (stable, pre-release, backlog)
+- Milestone description templates with examples
+- Pre-release checklist for release managers
+- Quarterly backlog triage process
+**Files Modified:**
+1. **`.github/pull_request_template.md`**
+- Added mandatory "Target Version" field at top of template
+- Included selection criteria and link to governance policy
+- Provides dropdown of valid version formats
+2. **`RELEASE_STRATEGY.md`** (§2.1.1)
+- Documented PR version targeting integration with milestone model
+- Explained traceability, changelog automation, and scope validation
+3. **`VERSIONING.md`** (§2.1)
+- Added PR version targeting guidance
+- Selection criteria table for different PR types
+- Reference to full policy documentation
+---
+### Block 2: Automation & Validation (Complete ✓)
 
 ---
 
@@ -3902,6 +3845,165 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 - `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
 - Returns CoordinatedUpdateResult with per-node statuses and aggregate success
 #### Test Files (1)
+
+---
+
+### PHASE_A_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase A Implementation Summary (Q3 2026)
+## Status: ✅ IMPLEMENTATION COMPLETE
+**Date:** 2026-08-08
+**Scope:** Updates Module Comprehensive Hardening Plan - Phase A (Weeks 1-4)
+**Priority:** Items 1-2 Complete, Item 3 Benchmark Gates Designed
+---
+## DELIVERABLES
+### Item 1: Rollback Hardening ✅ COMPLETE
+#### Modified Files (2)
+- **`include/updates/update_state_machine.h`**
+- Added `RollbackFallbackStrategy` enum with 3 strategies: IMMEDIATE_ABORT, PARTIAL_CONTINUE, DEFER
+- Added `RollbackCallback` type for post-rollback notification
+- Added 6 new public methods:
+- `setRollbackCallback()` - Register rollback completion callback
+- `rollbackToLatestCheckpoint()` - Partial rollback to latest checkpoint
+- `rollbackToCheckpointWithFallback()` - Rollback with failure handling strategy
+- `checkpointCount()` - Query checkpoint count
+- `hasPendingRollback()` - Check for deferred rollbacks
+- `emitRollbackDiagnostic()` - Emit diagnostic on rollback attempt (ERROR level)
+- Added private members for fallback strategy tracking and deferred rollback queue
+- **`src/updates/update_state_machine.cpp`**
+- Implemented all 6 new rollback methods
+- `setRollbackCallback()`: Stores callback for invocation
+- `rollbackToLatestCheckpoint()`: Finds and rolls back to most recent checkpoint
+- `rollbackToCheckpointWithFallback()`: Implements 3 fallback strategies:
+- IMMEDIATE_ABORT: Fail-fast, return false
+- PARTIAL_CONTINUE: Log but continue, return true (optimistic)
+- DEFER: Queue for retry, return false, set `has_pending_rollback_` flag
+- `checkpointCount()`: Returns checkpoint vector size
+- `hasPendingRollback()`: Returns whether deferred_rollbacks_ is non-empty
+- `emitRollbackDiagnostic()`: Logs at WARN (success) or ERROR (failure) level; invokes callback
+#### Modified Files (2)
+- **`include/updates/coordinated_update_manager.h`**
+- Added 5 new public methods for coordinated rollback:
+- `coordinatedRollback()` - Reverse-sequence rollback (leader first, then replicas)
+- `coordinatedRollbackWithIsolation()` - Per-node isolation on failure (no cascade)
+- `hasIsolatedNodes()` - Check if any nodes are isolated
+- `isolatedNodeCount()` - Get count of isolated nodes
+- Added 2 private helper methods:
+- `performNodeRollback()` - Rollback a single node (local or remote)
+- `isolateNode()` - Mark node as failed and isolated
+- Added private member `std::vector<std::string> isolated_nodes_` to track failures
+- **`src/updates/coordinated_update_manager.cpp`**
+- Implemented coordinated rollback methods
+- `performNodeRollback()`: Calls local HotReloadEngine::rollback or mocks remote
+- `isolateNode()`: Marks node status FAILED, adds to isolated_nodes_ list
+- `coordinatedRollback()`: Iterates nodes in reverse sequence (leader first), stops on any failure
+- `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
+- Returns CoordinatedUpdateResult with per-node statuses and aggregate success
+#### Test Files (1)
+
+---
+
+### PHASE_A1_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
+**Date**: 2026-08-08
+**Status**: Implementation Complete for Regex Detection Engine
+**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+---
+## Change Summary
+### Overview
+Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
+1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
+2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
+3. **Explicit Error Handling**: Clear error states instead of silent failures
+---
+## Files Modified
+### 1. Test Infrastructure
+#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
+- **Lines**: 328 total
+- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
+- **Tests Implemented**:
+- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
+- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
+- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
+- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
+- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
+- `PH-06`: Saga logger concurrent write safety (10+ threads)
+- `PH-07`: Audit logger timeout and cancellation (graceful stop)
+- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
+**Key Features**:
+class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
+// Each test includes:
+// 1. Clear scenario description
+// 2. Documented input/expected output
+// 3. Multiple edge cases per scenario
+// 4. No silent failures (explicit assertions)
+// 5. Helper methods for test data generation
+};
+#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
+- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
+- **Scope**: `PrivacyAuditHardeningFocusedTests`
+- **Timeout**: 60 seconds
+- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+---
+### 2. Regex Detection Engine Hardening
+#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
+- **Added Methods** (all [[nodiscard]] per best practices):
+
+---
+
+### PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md
+
+*(file too large — key headings extracted)*
+
+# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
+**Date**: 2026-08-08
+**Status**: Implementation Complete for Regex Detection Engine
+**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+---
+## Change Summary
+### Overview
+Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
+1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
+2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
+3. **Explicit Error Handling**: Clear error states instead of silent failures
+---
+## Files Modified
+### 1. Test Infrastructure
+#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
+- **Lines**: 328 total
+- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
+- **Tests Implemented**:
+- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
+- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
+- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
+- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
+- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
+- `PH-06`: Saga logger concurrent write safety (10+ threads)
+- `PH-07`: Audit logger timeout and cancellation (graceful stop)
+- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
+**Key Features**:
+class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
+// Each test includes:
+// 1. Clear scenario description
+// 2. Documented input/expected output
+// 3. Multiple edge cases per scenario
+// 4. No silent failures (explicit assertions)
+// 5. Helper methods for test data generation
+};
+#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
+- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
+- **Scope**: `PrivacyAuditHardeningFocusedTests`
+- **Timeout**: 60 seconds
+- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+---
+### 2. Regex Detection Engine Hardening
+#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
+- **Added Methods** (all [[nodiscard]] per best practices):
 
 ---
 
@@ -4468,108 +4570,6 @@ ctest -R "PH0[18]_" -V --output-on-failure
 - **Prepared by**: AI Implementation Agent
 - **Date**: 2026-08-08
 - **Status**: Ready for implementation
-
----
-
-### PHASE_A1_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
-**Date**: 2026-08-08
-**Status**: Implementation Complete for Regex Detection Engine
-**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
----
-## Change Summary
-### Overview
-Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
-1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
-2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
-3. **Explicit Error Handling**: Clear error states instead of silent failures
----
-## Files Modified
-### 1. Test Infrastructure
-#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
-- **Lines**: 328 total
-- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
-- **Tests Implemented**:
-- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
-- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
-- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
-- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
-- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
-- `PH-06`: Saga logger concurrent write safety (10+ threads)
-- `PH-07`: Audit logger timeout and cancellation (graceful stop)
-- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
-**Key Features**:
-class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
-// Each test includes:
-// 1. Clear scenario description
-// 2. Documented input/expected output
-// 3. Multiple edge cases per scenario
-// 4. No silent failures (explicit assertions)
-// 5. Helper methods for test data generation
-};
-#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
-- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
-- **Scope**: `PrivacyAuditHardeningFocusedTests`
-- **Timeout**: 60 seconds
-- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
----
-### 2. Regex Detection Engine Hardening
-#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
-- **Added Methods** (all [[nodiscard]] per best practices):
-
----
-
-### PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md
-
-*(file too large — key headings extracted)*
-
-# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
-**Date**: 2026-08-08
-**Status**: Implementation Complete for Regex Detection Engine
-**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
----
-## Change Summary
-### Overview
-Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
-1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
-2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
-3. **Explicit Error Handling**: Clear error states instead of silent failures
----
-## Files Modified
-### 1. Test Infrastructure
-#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
-- **Lines**: 328 total
-- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
-- **Tests Implemented**:
-- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
-- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
-- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
-- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
-- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
-- `PH-06`: Saga logger concurrent write safety (10+ threads)
-- `PH-07`: Audit logger timeout and cancellation (graceful stop)
-- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
-**Key Features**:
-class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
-// Each test includes:
-// 1. Clear scenario description
-// 2. Documented input/expected output
-// 3. Multiple edge cases per scenario
-// 4. No silent failures (explicit assertions)
-// 5. Helper methods for test data generation
-};
-#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
-- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
-- **Scope**: `PrivacyAuditHardeningFocusedTests`
-- **Timeout**: 60 seconds
-- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
----
-### 2. Regex Detection Engine Hardening
-#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
-- **Added Methods** (all [[nodiscard]] per best practices):
 
 ---
 
@@ -5232,59 +5232,6 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 
 ---
 
-### P0_P1_P2_IMPLEMENTATION_STATUS.md
-
-*(file too large — key headings extracted)*
-
-# P0/P1/P2 Implementation Status Summary
-**Last Updated:** 2026-07-22T16:40:00Z
-## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
-### P0-D01: FA3 Kernel-Audit ✅
-- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
-- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
-- [x] Acceptance: P0-GATE-01 passed
-### P0-D02: NVFP4 Capability-Assessment ✅
-- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
-- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
-- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
-### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
-- [ ] Status: Needs completion
-- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
-- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
-### P0-D04: Baseline-Benchmark ⏳
-- [ ] Status: Needs completion
-- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
-- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
----
-## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
-### P1-D01: `ISSMPlugin` Interface ✅
-- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
-- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
-- [x] SSMStateSnapshot struct with HLC binding
-- [ ] **GATE:** Needs human architect sign-off on:
-- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
-- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
-- [ ] Owner and migration path for Phase 2+ persistence
-### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
-- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
-- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
-### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
-- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
-### P1-D04: Infini-attention CPU-Fallback ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
-- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
-### P1-D05: Drift-Metriken ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
-- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
-
----
-
 ### P2_D03_D04_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -5391,6 +5338,59 @@ The implementation hooks both components into production systems:
 
 ---
 
+### P0_P1_P2_IMPLEMENTATION_STATUS.md
+
+*(file too large — key headings extracted)*
+
+# P0/P1/P2 Implementation Status Summary
+**Last Updated:** 2026-07-22T16:40:00Z
+## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
+### P0-D01: FA3 Kernel-Audit ✅
+- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
+- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
+- [x] Acceptance: P0-GATE-01 passed
+### P0-D02: NVFP4 Capability-Assessment ✅
+- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
+- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
+- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
+### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
+- [ ] Status: Needs completion
+- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
+- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
+### P0-D04: Baseline-Benchmark ⏳
+- [ ] Status: Needs completion
+- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
+- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
+---
+## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
+### P1-D01: `ISSMPlugin` Interface ✅
+- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
+- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
+- [x] SSMStateSnapshot struct with HLC binding
+- [ ] **GATE:** Needs human architect sign-off on:
+- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
+- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
+- [ ] Owner and migration path for Phase 2+ persistence
+### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
+- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
+- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
+### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
+- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
+### P1-D04: Infini-attention CPU-Fallback ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
+- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
+### P1-D05: Drift-Metriken ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
+- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
+
+---
+
 ### NEXT_PHASE_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
@@ -5478,6 +5478,57 @@ The implementation hooks both components into production systems:
 |---|---|---|
 | `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
 | `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
+
+---
+
+### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
+**Implementation Date:** 2026-08-15 15:30 UTC
+**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
+**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
+---
+## Executive Summary
+- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
+- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
+- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
+- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
+**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
+---
+## What Was Implemented
+### 1. Phase 3A Agent Dispatched
+**Agent ID:** `importers-phase3a-high-batch-a`
+**Name:** importers-phase3a-high-batch-a1
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:30 UTC
+**Status:** 🟡 Running
+**Scope:** 58 HIGH gaps
+- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
+- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
+- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
+**Target Completion:** Sep 19, 2026 (2-3 weeks)
+**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
+**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
+### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
+**Agent ID:** `importers-phase4a-high-batch-a`
+**Name:** importers-phase4a-high-batch-a2
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:31 UTC
+**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
+**Scope:** 55 HIGH gaps
+- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
+- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
+- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
+- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
+- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
+- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
+**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
+**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
+**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
+### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
+**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
 
 ---
 
@@ -5808,57 +5859,6 @@ Updated `ai_working/00_START_HERE.md`:
 
 ---
 
-### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
-**Implementation Date:** 2026-08-15 15:30 UTC
-**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
-**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
----
-## Executive Summary
-- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
-- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
-- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
-- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
-**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
----
-## What Was Implemented
-### 1. Phase 3A Agent Dispatched
-**Agent ID:** `importers-phase3a-high-batch-a`
-**Name:** importers-phase3a-high-batch-a1
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:30 UTC
-**Status:** 🟡 Running
-**Scope:** 58 HIGH gaps
-- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
-- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
-- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
-**Target Completion:** Sep 19, 2026 (2-3 weeks)
-**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
-**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
-### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
-**Agent ID:** `importers-phase4a-high-batch-a`
-**Name:** importers-phase4a-high-batch-a2
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:31 UTC
-**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
-**Scope:** 55 HIGH gaps
-- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
-- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
-- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
-- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
-- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
-- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
-**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
-**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
-**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
-### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
-**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
-
----
-
 ### GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md
 
 *(file too large — key headings extracted)*
@@ -6097,42 +6097,6 @@ AFTER ALL BATCHES (Target):
 
 ---
 
-### CMT-7504_IMPLEMENTATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# CMT-7504 Implementation Guide
-## Documentation Linkset Synchronization Remediation Steps
-**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
-**Target Completion:** 2026-08-31
-**Estimated Effort:** 2 hours (execution + testing)
----
-## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
-### Step 1.1: Add Bidirectional Cross-Links
-#### A. Update Root README.md
-**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
-**Add this block:**
-### 🟠 Content Module Status Snapshot
-**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
-**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
----
-#### B. Update Root ROADMAP.md
-**Location:** Immediately after the "## Current Status" section (around line 50)
-**Add this subsection:**
-## Content Module Status
-**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
-See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
-- Complete phase-by-phase status
-- Current in-progress work (hardening, benchmarking, diagnostics)
-- Planned features (3-6 months and 6-12 months targets)
-- Production readiness checklist
-**Key Milestones:**
-- Phase 1-5 Complete (core implementation, error handling, tests, performance)
-- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
-**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
-
----
-
 ### CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -6180,6 +6144,42 @@ Example: attempt=0→0ms, attempt=1→150ms, attempt=2→225ms, attempt=3→337m
 - `src/chimera/batch_executor.cpp` (10 lines)
 **Features**:
 - `IBatchAdapter`: Mixin interface for queuing and flushing
+
+---
+
+### CMT-7504_IMPLEMENTATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# CMT-7504 Implementation Guide
+## Documentation Linkset Synchronization Remediation Steps
+**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
+**Target Completion:** 2026-08-31
+**Estimated Effort:** 2 hours (execution + testing)
+---
+## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
+### Step 1.1: Add Bidirectional Cross-Links
+#### A. Update Root README.md
+**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
+**Add this block:**
+### 🟠 Content Module Status Snapshot
+**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
+**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
+---
+#### B. Update Root ROADMAP.md
+**Location:** Immediately after the "## Current Status" section (around line 50)
+**Add this subsection:**
+## Content Module Status
+**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
+See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
+- Complete phase-by-phase status
+- Current in-progress work (hardening, benchmarking, diagnostics)
+- Planned features (3-6 months and 6-12 months targets)
+- Production readiness checklist
+**Key Milestones:**
+- Phase 1-5 Complete (core implementation, error handling, tests, performance)
+- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
+**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
 
 ---
 

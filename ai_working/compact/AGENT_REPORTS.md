@@ -14,11 +14,11 @@
 
 - `PHASE_5_6_AGENT_SPECS.md` (2026-08-18, 18,639 B)
 - `PHASE_3_4_AGENT_SPECS.md` (2026-08-18, 9,671 B)
-- `PHASE_2_2_AGENT1_RESULTS.md` (2026-08-18, 17,526 B)
 - `PHASE_2_2_AGENT2_RESULTS.md` (2026-08-18, 16,848 B)
+- `PHASE_2_2_AGENT1_RESULTS.md` (2026-08-18, 17,526 B)
+- `INGESTION_PHASE_5_AGENT_SPECS.md` (2026-08-18, 12,636 B)
 - `INGESTION_PHASE_2_AGENT_SPECS.md` (2026-08-18, 12,229 B)
 - `INGESTION_PHASE_3_4_AGENT_SPECS.md` (2026-08-18, 12,436 B)
-- `INGESTION_PHASE_5_AGENT_SPECS.md` (2026-08-18, 12,636 B)
 - `AGENT3_DELIVERY_CHECKLIST.md` (2026-08-18, 7,349 B)
 
 ---
@@ -336,6 +336,55 @@
 
 ---
 
+### PHASE_2_2_AGENT2_RESULTS.md
+
+*(file too large — key headings extracted)*
+
+# PHASE 2.2 — AGENT 2: Path Constraints & Constraint Propagation Test Validation
+**Report Date**: 2026-07-01
+**Scope**: Test Gate Validation for `src/graph/path_constraints.cpp`
+**Status**: ✅ GATE READY FOR PROMOTION
+---
+## EXECUTIVE SUMMARY
+### Test Gate Status: ✅ PASSED
+| Metric | Result |
+|--------|--------|
+| **Semantic Tests (Existing)** | 10/10 PASS ✅ |
+| **Constraint Propagation Tests** | 0 (Planned Future Phase) |
+| **Code Changes Required** | 0 |
+| **Blocking Issues** | None |
+| **Production Readiness** | YES ✅ |
+---
+## 1. TEST INFRASTRUCTURE ANALYSIS
+### 1.1 Existing Test Suite
+**File**: `tests/graph/test_path_constraints_semantic.cpp`
+**Lines**: 193
+**Test Count**: 10
+**Test Framework**: Google Test (gtest)
+**CMake Integration**: Automatic via `tests/graph/CMakeLists.txt` (line glob pattern)
+#### Test Registry Target Name
+- **CMake Target**: `module_graph_test_path_constraints_semantic_focused`
+- **CTest Name**: `test_path_constraints_semantic_GraphFocusedTests`
+- **Tier**: unit
+- **Timeout**: 120 seconds
+### 1.2 Semantic Test Suite (SC-01 through SC-10)
+#### SC-01: AddSemanticConstraintSmokeTest ✅
+TEST(PathConstraintsSemanticFocusedTests, SC01_AddSemanticConstraintSmokeTest)
+- **Purpose**: Verify `addSemanticConstraint()` API smoke test
+- **Coverage**: API attachment, ontology integration, no crash
+- **Status**: PASS
+- **Risk**: LOW
+#### SC-02: ValidateWithoutGraphMgrIsEmpty ✅
+TEST(PathConstraintsSemanticFocusedTests, SC02_ValidateWithoutGraphMgrIsEmpty)
+- **Purpose**: Validate `validateSemanticPath()` graceful degradation when graph_mgr is null
+- **Coverage**: Edge case handling, empty violations with no manager
+- **Status**: PASS
+- **Risk**: LOW (defensive pattern verified in gap analysis)
+#### SC-03: ValidEdgeTypeAccepted ✅
+TEST(PathConstraintsSemanticFocusedTests, SC03_ValidEdgeTypeAccepted)
+
+---
+
 ### PHASE_2_2_AGENT1_RESULTS.md
 
 *(file too large — key headings extracted)*
@@ -385,52 +434,57 @@
 
 ---
 
-### PHASE_2_2_AGENT2_RESULTS.md
+### INGESTION_PHASE_5_AGENT_SPECS.md
 
 *(file too large — key headings extracted)*
 
-# PHASE 2.2 — AGENT 2: Path Constraints & Constraint Propagation Test Validation
-**Report Date**: 2026-07-01
-**Scope**: Test Gate Validation for `src/graph/path_constraints.cpp`
-**Status**: ✅ GATE READY FOR PROMOTION
+# Ingestion Module Phase 5 — Review & CI Integration Agent Specs
+**Target Agent:** `themisdb-reviewer`
+**Scope:** Continuous review during Phases 2–4; final aggregation
+**Timeline:** Aug 29 – Sep 19, 2026 (continuous monitoring + 4 review checkpoints)
+**Deliverable:** INGESTION_PHASE_5_COMPLIANCE_REPORT.md + GA sign-off readiness
 ---
-## EXECUTIVE SUMMARY
-### Test Gate Status: ✅ PASSED
-| Metric | Result |
-|--------|--------|
-| **Semantic Tests (Existing)** | 10/10 PASS ✅ |
-| **Constraint Propagation Tests** | 0 (Planned Future Phase) |
-| **Code Changes Required** | 0 |
-| **Blocking Issues** | None |
-| **Production Readiness** | YES ✅ |
+## Agent Configuration
+Agent Type: themisdb-reviewer
+Focus Area: ingestion module gap closure
+Scope: Continuous code review + aggregated compliance reporting
+Entry Point: Monitor develop branch for Phase 2–4 commits
+Review Checkpoints: 4 gates (one per week)
+Output Pattern: Per-checkpoint review summary + final compliance report
+Validation: Benchmark regression analysis, test coverage correlation, security assessment
+Merge Target: develop (read-only; flag issues in PR comments)
+Report: INGESTION_PHASE_5_COMPLIANCE_REPORT.md
 ---
-## 1. TEST INFRASTRUCTURE ANALYSIS
-### 1.1 Existing Test Suite
-**File**: `tests/graph/test_path_constraints_semantic.cpp`
-**Lines**: 193
-**Test Count**: 10
-**Test Framework**: Google Test (gtest)
-**CMake Integration**: Automatic via `tests/graph/CMakeLists.txt` (line glob pattern)
-#### Test Registry Target Name
-- **CMake Target**: `module_graph_test_path_constraints_semantic_focused`
-- **CTest Name**: `test_path_constraints_semantic_GraphFocusedTests`
-- **Tier**: unit
-- **Timeout**: 120 seconds
-### 1.2 Semantic Test Suite (SC-01 through SC-10)
-#### SC-01: AddSemanticConstraintSmokeTest ✅
-TEST(PathConstraintsSemanticFocusedTests, SC01_AddSemanticConstraintSmokeTest)
-- **Purpose**: Verify `addSemanticConstraint()` API smoke test
-- **Coverage**: API attachment, ontology integration, no crash
-- **Status**: PASS
-- **Risk**: LOW
-#### SC-02: ValidateWithoutGraphMgrIsEmpty ✅
-TEST(PathConstraintsSemanticFocusedTests, SC02_ValidateWithoutGraphMgrIsEmpty)
-- **Purpose**: Validate `validateSemanticPath()` graceful degradation when graph_mgr is null
-- **Coverage**: Edge case handling, empty violations with no manager
-- **Status**: PASS
-- **Risk**: LOW (defensive pattern verified in gap analysis)
-#### SC-03: ValidEdgeTypeAccepted ✅
-TEST(PathConstraintsSemanticFocusedTests, SC03_ValidEdgeTypeAccepted)
+## Review Checkpoint Schedule
+### Checkpoint 1: Phase 2 Completion Review (Week of Aug 29, 2026)
+**Input:** All 41 CRITICAL fixes merged to develop
+**Scope:** Code review of CRITICAL-tier commits
+**Timeline:** 2–3 days after Phase 2 completes
+**Review Tasks:**
+- [ ] Verify all 41 CRITICAL findings have corresponding fixes in develop
+- [ ] Check test coverage: 1 test case per fix minimum (41+ tests)
+- [ ] Validate test case naming convention (INGESTION-<CATEGORY>-<NUMBER>)
+- [ ] Run test suite: `ctest --preset community-release -L ingestion -V`
+- [ ] ThreadSanitizer validation (data race fixes): 0 TSAN warnings
+- [ ] AddressSanitizer validation (resource leak fixes): 0 ASAN leak reports
+- [ ] Benchmark comparison: Baseline vs. current build (no regression)
+- [ ] Security scan: CodeQL no new issues
+- [ ] Check clang-format compliance (0 formatting issues)
+- [ ] Verify GitHub issue references or FUTURE_ENHANCEMENTS.md entries exist
+**Review Criteria Pass/Fail:**
+- **PASS:** All 41 CRITICAL fixes verified + tested + no regressions
+- **FAIL:** If test coverage <100%, regressions detected, or TSAN/ASAN warnings
+**Checkpoint 1 Output:**
+- `INGESTION_PHASE_5_CHECKPOINT_1.json`:
+{
+"checkpoint": 1,
+"date": "2026-08-29",
+"phase": 2,
+"scope": "41 CRITICAL fixes",
+"status": "PASS | FAIL",
+"findings": {
+"verified_fixes": 41,
+"test_coverage_percent": 100,
 
 ---
 
@@ -870,60 +924,6 @@ result += tokens[i];
 void ingestion_manager::processCheckpoint() {
 // No timing information
 }
-
----
-
-### INGESTION_PHASE_5_AGENT_SPECS.md
-
-*(file too large — key headings extracted)*
-
-# Ingestion Module Phase 5 — Review & CI Integration Agent Specs
-**Target Agent:** `themisdb-reviewer`
-**Scope:** Continuous review during Phases 2–4; final aggregation
-**Timeline:** Aug 29 – Sep 19, 2026 (continuous monitoring + 4 review checkpoints)
-**Deliverable:** INGESTION_PHASE_5_COMPLIANCE_REPORT.md + GA sign-off readiness
----
-## Agent Configuration
-Agent Type: themisdb-reviewer
-Focus Area: ingestion module gap closure
-Scope: Continuous code review + aggregated compliance reporting
-Entry Point: Monitor develop branch for Phase 2–4 commits
-Review Checkpoints: 4 gates (one per week)
-Output Pattern: Per-checkpoint review summary + final compliance report
-Validation: Benchmark regression analysis, test coverage correlation, security assessment
-Merge Target: develop (read-only; flag issues in PR comments)
-Report: INGESTION_PHASE_5_COMPLIANCE_REPORT.md
----
-## Review Checkpoint Schedule
-### Checkpoint 1: Phase 2 Completion Review (Week of Aug 29, 2026)
-**Input:** All 41 CRITICAL fixes merged to develop
-**Scope:** Code review of CRITICAL-tier commits
-**Timeline:** 2–3 days after Phase 2 completes
-**Review Tasks:**
-- [ ] Verify all 41 CRITICAL findings have corresponding fixes in develop
-- [ ] Check test coverage: 1 test case per fix minimum (41+ tests)
-- [ ] Validate test case naming convention (INGESTION-<CATEGORY>-<NUMBER>)
-- [ ] Run test suite: `ctest --preset community-release -L ingestion -V`
-- [ ] ThreadSanitizer validation (data race fixes): 0 TSAN warnings
-- [ ] AddressSanitizer validation (resource leak fixes): 0 ASAN leak reports
-- [ ] Benchmark comparison: Baseline vs. current build (no regression)
-- [ ] Security scan: CodeQL no new issues
-- [ ] Check clang-format compliance (0 formatting issues)
-- [ ] Verify GitHub issue references or FUTURE_ENHANCEMENTS.md entries exist
-**Review Criteria Pass/Fail:**
-- **PASS:** All 41 CRITICAL fixes verified + tested + no regressions
-- **FAIL:** If test coverage <100%, regressions detected, or TSAN/ASAN warnings
-**Checkpoint 1 Output:**
-- `INGESTION_PHASE_5_CHECKPOINT_1.json`:
-{
-"checkpoint": 1,
-"date": "2026-08-29",
-"phase": 2,
-"scope": "41 CRITICAL fixes",
-"status": "PASS | FAIL",
-"findings": {
-"verified_fixes": 41,
-"test_coverage_percent": 100,
 
 ---
 

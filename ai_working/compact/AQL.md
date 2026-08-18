@@ -16,8 +16,8 @@
 - `aql_consolidation_phase_2_4_summary.md` (2026-08-18, 8,418 B)
 - `aql_enhancements_v1.6.0.md` (2026-08-18, 2,208 B)
 - `EPIC_004_AQL_MUTATIONS_PHASE_1.md` (2026-08-18, 7,214 B)
-- `AQL_V2_0_0_PHASE_1_COMPLETION_SUMMARY.md` (2026-08-18, 11,684 B)
 - `AQL_PHASE4_5_6_COMPREHENSIVE_PLAN.md` (2026-08-18, 18,296 B)
+- `AQL_V2_0_0_PHASE_1_COMPLETION_SUMMARY.md` (2026-08-18, 11,684 B)
 
 ---
 
@@ -864,6 +864,56 @@ W43-W45: [004-D] Documentation + integration testing
 
 ---
 
+### AQL_PHASE4_5_6_COMPREHENSIVE_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# AQL Module — Phases 4-6 Comprehensive Implementation Plan
+**Status:** 🚀 PLANNING → EXECUTION
+**Timeline:** 2026-07-19 → 2027-Q1
+**Target Release:** v1.7.0 (Phase 4-5) → v1.8.0 (Phase 6)
+---
+## Executive Summary
+All three remaining phases (4-6) will be implemented sequentially to complete the AQL module hardening roadmap:
+- **Phase 4 (Q4 2026):** Error Handling & Edge Cases - Unified error taxonomy + fail-closed behavior standardization
+- **Phase 6 (Q1 2027):** Performance & Benchmarking - Release gates + p95/p99 validation
+---
+## Phase 4: Error Handling and Edge Cases (Target: Q4 2026)
+### Scope
+### Work Blocks
+#### Block 4.1: Error Taxonomy Definition (1 week)
+- **Task 4.1.1:** Define canonical error types across validation, translation, bridge, and provider surfaces
+- [ ] Create `include/aql/aql_error_types.h` with enum classes:
+- `ValidationError` (MalformedAQL, InjectionAttempt, SchemaMismatch, UnsupportedOperator)
+- `TranslationError` (GenerationFailed, RetryExhausted, ContextOverflow, ProviderUnavailable)
+- `BridgeError` (ExecutionFailed, TimeoutExceeded, InvalidSchema, ResourceExhausted)
+- `ProviderError` (InferFailed, RAGFailed, EmbedFailed, FinetuneFailed)
+- [ ] Add structured error context (operation_type, component, timestamp, user_id, diagnostic_hint)
+- [ ] Update ROADMAP.md Phase 4.1 status
+- **Task 4.1.2:** Document error recovery paths per error type
+- [ ] Create `src/aql/ERROR_RECOVERY_MATRIX.md` mapping error → recovery action
+- [ ] Define explicit fail-closed vs fail-open decisions per operation type
+- [ ] Add recovery-attempt limits and backoff strategies
+#### Block 4.2: Validation Component Hardening (1.5 weeks)
+- **Task 4.2.1:** Standardize error handling in `llm_aql_handler.cpp::validateAQLWithParser()`
+- [ ] Replace generic error strings with structured error types
+- [ ] Add detailed error context (line number, token position, schema field involved)
+- [ ] Implement diagnostic hints for production triage (e.g., "field 'age' missing from schema")
+- [ ] Add metrics for error type distribution (Prometheus)
+- **Task 4.2.2:** Harden edge cases in schema validation
+- [ ] Handle missing collection metadata gracefully (fail-closed with diagnostic)
+- [ ] Handle null/empty schema context (explicit error, not silent)
+- [ ] Handle type mismatches in field definitions (detect + report)
+- [ ] Test with property-based fuzzing (empty schema, null fields, malformed metadata)
+#### Block 4.3: Translation Pipeline Error Handling (1.5 weeks)
+- **Task 4.3.1:** Standardize error handling in `translateNLToAQL()` path
+- [ ] Wrap LLM generation with structured error context
+- [ ] Replace current "validation failed" with specific error reason (schema mismatch, unsupported syntax)
+- [ ] Implement retry-on-error with detailed logging per retry (attempt count, error reason)
+- [ ] Add circuit breaker error propagation (fail-closed when breaker trips)
+
+---
+
 ### AQL_V2_0_0_PHASE_1_COMPLETION_SUMMARY.md
 
 # AQL 2.0.0 Completion — Phase 1 Summary
@@ -1136,55 +1186,5 @@ All 4 API contracts are **FROZEN** as of **2026-08-06**. Future amendments requi
 
 *Last Updated: 2026-08-06*  
 *Status: ✅ FROZEN & READY FOR TEAM ASSIGNMENT*
-
----
-
-### AQL_PHASE4_5_6_COMPREHENSIVE_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# AQL Module — Phases 4-6 Comprehensive Implementation Plan
-**Status:** 🚀 PLANNING → EXECUTION
-**Timeline:** 2026-07-19 → 2027-Q1
-**Target Release:** v1.7.0 (Phase 4-5) → v1.8.0 (Phase 6)
----
-## Executive Summary
-All three remaining phases (4-6) will be implemented sequentially to complete the AQL module hardening roadmap:
-- **Phase 4 (Q4 2026):** Error Handling & Edge Cases - Unified error taxonomy + fail-closed behavior standardization
-- **Phase 6 (Q1 2027):** Performance & Benchmarking - Release gates + p95/p99 validation
----
-## Phase 4: Error Handling and Edge Cases (Target: Q4 2026)
-### Scope
-### Work Blocks
-#### Block 4.1: Error Taxonomy Definition (1 week)
-- **Task 4.1.1:** Define canonical error types across validation, translation, bridge, and provider surfaces
-- [ ] Create `include/aql/aql_error_types.h` with enum classes:
-- `ValidationError` (MalformedAQL, InjectionAttempt, SchemaMismatch, UnsupportedOperator)
-- `TranslationError` (GenerationFailed, RetryExhausted, ContextOverflow, ProviderUnavailable)
-- `BridgeError` (ExecutionFailed, TimeoutExceeded, InvalidSchema, ResourceExhausted)
-- `ProviderError` (InferFailed, RAGFailed, EmbedFailed, FinetuneFailed)
-- [ ] Add structured error context (operation_type, component, timestamp, user_id, diagnostic_hint)
-- [ ] Update ROADMAP.md Phase 4.1 status
-- **Task 4.1.2:** Document error recovery paths per error type
-- [ ] Create `src/aql/ERROR_RECOVERY_MATRIX.md` mapping error → recovery action
-- [ ] Define explicit fail-closed vs fail-open decisions per operation type
-- [ ] Add recovery-attempt limits and backoff strategies
-#### Block 4.2: Validation Component Hardening (1.5 weeks)
-- **Task 4.2.1:** Standardize error handling in `llm_aql_handler.cpp::validateAQLWithParser()`
-- [ ] Replace generic error strings with structured error types
-- [ ] Add detailed error context (line number, token position, schema field involved)
-- [ ] Implement diagnostic hints for production triage (e.g., "field 'age' missing from schema")
-- [ ] Add metrics for error type distribution (Prometheus)
-- **Task 4.2.2:** Harden edge cases in schema validation
-- [ ] Handle missing collection metadata gracefully (fail-closed with diagnostic)
-- [ ] Handle null/empty schema context (explicit error, not silent)
-- [ ] Handle type mismatches in field definitions (detect + report)
-- [ ] Test with property-based fuzzing (empty schema, null fields, malformed metadata)
-#### Block 4.3: Translation Pipeline Error Handling (1.5 weeks)
-- **Task 4.3.1:** Standardize error handling in `translateNLToAQL()` path
-- [ ] Wrap LLM generation with structured error context
-- [ ] Replace current "validation failed" with specific error reason (schema mismatch, unsupported syntax)
-- [ ] Implement retry-on-error with detailed logging per retry (attempt count, error reason)
-- [ ] Add circuit breaker error propagation (fail-closed when breaker trips)
 
 ---
