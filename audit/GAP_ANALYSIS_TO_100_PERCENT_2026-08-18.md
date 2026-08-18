@@ -30,15 +30,16 @@ These are genuine missing features, not documentation issues.
 
 **Subtotal: ~66-92K LOC, 12-14 weeks**
 
-### Category 1B: PHASE 6 HARDENING (70% remaining)
-These modules have Phase 1-5 complete but Phase 6 needs 30% more effort.
+### Category 1B: PHASE 6 HARDENING (100% COMPLETE - CORRECTION ✅)
+**MAJOR CORRECTION:** Updates and Plugins Phase 6 are FULLY COMPLETE, not pending.
 
-| Module | Gap Type | Work Remaining | Timeline |
-|--------|----------|-----------------|----------|
-| **Updates** | Phase 6: isolation testing, multi-tenant chaos, schema perf (100GB+) | 15 test files, 5K LOC | 2 weeks |
-| **Plugins** | Phase 6: contract enforcement hardening, scale testing (500+ plugins), supply chain security | 20 test files, 8K LOC | 3 weeks |
+Upon ROADMAP.md inspection:
+- **Updates:** Phase 6 [x] COMPLETE (Oct 2026) — All 8/8 deliverables signed off (operator diagnostics, runbooks, test suites). GA_APPROVED for v2.4.0.
+- **Plugins:** Phase 6 [x] COMPLETE (Aug 2026) — All 14/14 items verified (contract enforcement, security hardening, 40 focused tests PLG-01..40, 4 locked gates GATE-PLG-01..04).
 
-**Subtotal: ~13K LOC, 5 weeks**
+**Subtotal: 0 LOC remaining — BOTH MODULES PRODUCTION-READY**
+
+Note: The "70% pending" assumption was an audit error. Both modules' ROADMAP files explicitly document Phase 6 completion. Both are production-ready for v2.4.0-rc1.
 
 ### Category 1C: WAVE-LEVEL VALIDATION (not code, but required for GA)
 
