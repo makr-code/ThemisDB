@@ -115,6 +115,8 @@ std::vector<std::string> TieredIndexManager::listIndexes() const {
     std::vector<std::string> names;
     names.reserve(registry_.size());
     for (const auto& [k, _] : registry_) names.push_back(k);
+    // Sort for deterministic iteration order (registry_ is unordered_map)
+    std::sort(names.begin(), names.end());
     return names;
 }
 
@@ -126,6 +128,8 @@ std::vector<std::string> TieredIndexManager::listIndexesByTier(
     for (const auto& [k, v] : registry_) {
         if (v.tier == tier) names.push_back(k);
     }
+    // Sort for deterministic iteration order (registry_ is unordered_map)
+    std::sort(names.begin(), names.end());
     return names;
 }
 

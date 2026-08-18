@@ -296,6 +296,13 @@ TEST_F(ZstdCompressionSecurityTest, CompressNullPointerWithZeroSize) {
     EXPECT_TRUE(result->empty());
 }
 
+TEST_F(ZstdCompressionSecurityTest, RejectNullPointerWithNonZeroSize) {
+    auto result = zstd_compress_safe(nullptr, 1, 3);
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT);
+}
+
 TEST_F(ZstdCompressionSecurityTest, CompressSingleByte) {
     uint8_t byte = 0x42;
     auto result = zstd_compress_safe(&byte, 1, 3);

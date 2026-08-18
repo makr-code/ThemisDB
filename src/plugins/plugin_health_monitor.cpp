@@ -657,4 +657,3 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
 } // namespace plugins
 } // namespace themis
 
-

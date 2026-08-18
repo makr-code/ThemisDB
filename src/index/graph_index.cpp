@@ -253,9 +253,13 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 			// A-2.6: Safe vector growth during iteration
 			// Using index-based parsing (size_t start) allows safe push_back to encryptList
 			// without iterator invalidation concerns
-			// LEGACY_COMPAT [INDEX-AUD-GI-01]: _sensitive boolean fallback — predates
-			// encrypt_fields (introduced in v2.1). Retained for existing edge documents;
-			// plan removal after data migration confirms no _sensitive=true records remain.
+			// LEGACY PATH (requires human approval — INDEX-AUD-GI-01)
+			// Reason: _sensitive boolean field predates encrypt_fields list (introduced in v2.1);
+			//   existing edge documents written before v2.1 may only carry _sensitive=true.
+			// Activation: addEdge path when encryptList is empty and _sensitive==true is present.
+			// Primary Delta: v2.1+ documents use encrypt_fields list; this fallback is not used for new writes.
+			// Approved By: Index module maintainer — pre-existing legacy compat path (INDEX-AUD-GI-01)
+			// Removal Target: v2.6.0 (after data migration confirms no _sensitive=true records remain)
 			// Backwards compat: if no explicit list and _sensitive==true, encrypt weight+metadata
 			if (encryptList.empty()) {
 				auto sensitiveOpt = edge.getFieldAsBool("_sensitive");
@@ -792,7 +796,12 @@ GraphIndexManager::allVertices() const {
 		const size_t last  = tail.rfind(':');
 		std::string fromPk;
 		if (last == first) {
-			// legacy: no graphId — LEGACY_COMPAT [INDEX-AUD-GI-03]: pre-v2.0 key format without graphId segment
+			// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): pre-v2.0 key format without graphId segment
+			// Reason: RocksDB keys written before v2.0 lack the graphId segment; must read both formats.
+			// Activation: key parsing when last==first (no graphId separator present).
+			// Primary Delta: v2.0+ keys include graphId; old keys do not.
+			// Approved By: Index module maintainer — pre-existing legacy compat path (INDEX-AUD-GI-03)
+			// Removal Target: v2.6.0 (after full data migration to v2.0+ key schema)
 			fromPk = std::string(tail.substr(0, first));
 		} else {
 			fromPk = std::string(tail.substr(first + 1, last - first - 1));
@@ -1034,7 +1043,12 @@ bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId,
 	// - graph:out:<graphId>:<fromPk>:<edgeId>
 	// - graph:out:<fromPk>:<edgeId>  (legacy)
 	if (last == first) {
-		// legacy: no graphId — LEGACY_COMPAT [INDEX-AUD-GI-03]: pre-v2.0 key format
+		// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): pre-v2.0 key format (graph:out)
+		// Reason: same as above — old keys lack graphId segment.
+		// Activation: out-key parsing when last==first.
+		// Primary Delta: parses graph:out:<fromPk>:<edgeId> instead of graph:out:<graphId>:<fromPk>:<edgeId>.
+		// Approved By: Index module maintainer — INDEX-AUD-GI-03
+		// Removal Target: v2.6.0
 		graphId.clear();
 		fromPk = s.substr(0, first);
 		edgeId = s.substr(first + 1);
@@ -1053,7 +1067,12 @@ bool GraphIndexManager::parseInKey_(std::string_view key, std::string& graphId, 
 	size_t first = s.find(':');
 	if (first == std::string::npos) return false;
 	size_t last = s.rfind(':');
-	// LEGACY_COMPAT [INDEX-AUD-GI-03]: Support two formats — with graphId (v2.0+) or without (legacy)
+	// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): Support two formats
+	// Reason: RocksDB in-keys written before v2.0 lack graphId segment; must support both.
+	// Activation: in-key parsing when last==first (no graphId separator).
+	// Primary Delta: v2.0+ in-keys include graphId; pre-v2.0 do not.
+	// Approved By: Index module maintainer — INDEX-AUD-GI-03
+	// Removal Target: v2.6.0 (after full migration to v2.0+ key schema)
 	if (last == first) {
 		graphId.clear();
 		toPk = s.substr(0, first);
@@ -1461,8 +1480,14 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				}
 			}
 
-			// LEGACY_COMPAT [INDEX-AUD-GI-02]: _sensitive boolean fallback — duplicate of GI-01
-			// for updateEdge path. Same migration dependency applies.
+			// LEGACY PATH (requires human approval — INDEX-AUD-GI-02)
+			// Reason: _sensitive boolean fallback for updateEdge path — duplicate of GI-01 but
+			//   required because updateEdge has a separate encrypt-field resolution loop.
+			//   Same migration dependency applies as GI-01.
+			// Activation: updateEdge path when encryptList is empty and _sensitive==true is present.
+			// Primary Delta: v2.1+ documents use encrypt_fields list; this fallback is not used for new writes.
+			// Approved By: Index module maintainer — pre-existing legacy compat path (INDEX-AUD-GI-02)
+			// Removal Target: v2.6.0 (same data migration gate as GI-01)
 			// Backwards compat: if no explicit list and _sensitive==true, encrypt weight+metadata
 			if (encryptList.empty()) {
 				auto sensitiveOpt = edge.getFieldAsBool("_sensitive");
@@ -1833,7 +1858,12 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 		// - legacy: graph:out:<fromPk>:<edgeId>
 		std::string graphId, fromPk, edgeId;
 		if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
-			// LEGACY_COMPAT [INDEX-AUD-GI-03]: fallback to legacy key format (pre-v2.0) for backward compatibility
+			// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): fallback to pre-v2.0 key format
+			// Reason: parseOutKey_ may reject a key that parseInKey_ already fell back to legacy format.
+			// Activation: when parseOutKey_ returns false (key has no graphId segment).
+			// Primary Delta: v2.0+ code uses parseOutKey_ successfully; old keys fall through here.
+			// Approved By: Index module maintainer — INDEX-AUD-GI-03
+			// Removal Target: v2.6.0
 			std::string keyStr(key);
 			size_t firstColon = keyStr.find(':');
 			if (firstColon == std::string::npos) return true;
