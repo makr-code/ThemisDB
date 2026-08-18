@@ -48,6 +48,7 @@ jobs:
           fetch-depth: 0
 
       - name: Validate CMakeLists dependency hashes
+        id: check-hashes
         run: |
           set -euo pipefail
           
@@ -56,7 +57,6 @@ jobs:
           
           echo "Checking CMakeLists.txt and cmake/ for dependency hash integrity..."
           
-          # Load known-good hashes from docs/governance/SBOM_APPROVED_VERSIONS.md if it exists.
           APPROVED_HASHES_FILE="docs/governance/SBOM_APPROVED_VERSIONS.md"
           
           if [ ! -f "$APPROVED_HASHES_FILE" ]; then
@@ -64,14 +64,9 @@ jobs:
             exit 0
           fi
           
-          HASH_MISMATCHES=0
-          
-          # Extract hashes from CMakeLists.txt (pattern: URL_HASH SHA256=abcd...)
           while IFS= read -r line; do
             if [[ "$line" =~ URL_HASH.*SHA256=([a-f0-9]+) ]]; then
               HASH="${BASH_REMATCH[1]}"
-              
-              # Check if hash is in approved list.
               if ! grep -q "^- SHA256: $HASH" "$APPROVED_HASHES_FILE"; then
                 echo "::warning::Hash $HASH not in approved SBOM registry (may be new dependency)"
               fi
@@ -81,13 +76,11 @@ jobs:
           echo "✓ Hash validation passed (with warnings for new dependencies)"
 
       - name: Generate and validate SBOM (CycloneDX)
+        id: check-sbom-generate
         run: |
           set -euo pipefail
           
           echo "Generating SBOM in CycloneDX format..."
-          
-          # Simple SBOM generator (stub for demonstration).
-          # In production, use syft, cyclonedx-npm, or similar.
           
           SBOM_FILE="build/sbom.json"
           mkdir -p build
@@ -141,43 +134,26 @@ jobs:
           echo "✓ SBOM generation and registry check passed"
 
       - name: Validate SBOM edition consistency
+        id: check-sbom-edition
         run: |
           set -euo pipefail
           
           TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
-          APPROVED_SBOM_FILE="docs/governance/SBOM_APPROVED_VERSIONS.md"
           
           case "$TARGET_BRANCH" in
-            community|minimal)
-              # Community SBOM must not include enterprise/hyperscaler/military components.
-              FORBIDDEN_COMPONENTS="llm_wiki.*enterprise|search.*advanced|geo_clustering|gpu"
-              ;;
-            enterprise)
-              # Enterprise can include enterprise but not military/hyperscaler-only.
-              FORBIDDEN_COMPONENTS="gpu|military_crypto"
-              ;;
-            hyperscaler)
-              # Hyperscaler can include all except military.
-              FORBIDDEN_COMPONENTS="military_crypto|restricted_export"
-              ;;
-            military)
-              # Military can include all.
-              FORBIDDEN_COMPONENTS=""
-              ;;
-            develop)
-              # Develop can include all (gating happens at release branch time).
-              FORBIDDEN_COMPONENTS=""
-              ;;
-            *)
-              FORBIDDEN_COMPONENTS=""
-              ;;
+            community|minimal)  FORBIDDEN_COMPONENTS="llm_wiki.*enterprise|search.*advanced|geo_clustering|gpu" ;;
+            enterprise)         FORBIDDEN_COMPONENTS="gpu|military_crypto" ;;
+            hyperscaler)        FORBIDDEN_COMPONENTS="military_crypto|restricted_export" ;;
+            military|develop)   FORBIDDEN_COMPONENTS="" ;;
+            *)                  FORBIDDEN_COMPONENTS="" ;;
           esac
           
           if [ -n "$FORBIDDEN_COMPONENTS" ]; then
             echo "Checking for forbidden components for $TARGET_BRANCH..."
-            
             if grep -Er "$FORBIDDEN_COMPONENTS" "build/sbom.json" 2>/dev/null; then
-              echo "::error::SBOM contains forbidden components for $TARGET_BRANCH"
+              ERR="SBOM contains forbidden components for branch '$TARGET_BRANCH'"
+              echo "::error::$ERR"
+              echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
               exit 1
             fi
           fi
@@ -185,13 +161,11 @@ jobs:
           echo "✓ SBOM edition consistency validation passed"
 
       - name: Detect private vs public SBOM variance
+        id: check-sbom-variance
         run: |
           set -euo pipefail
           
           echo "Checking for private plugin variance in SBOM..."
-          
-          # If private plugins are included in the build, they should ONLY appear
-          # in enterprise/hyperscaler/military SBOM, not community.
           
           PRIVATE_PLUGINS=$(find plugins/private -name "plugin.toml" -o -name "plugin.json" 2>/dev/null || echo "")
           
@@ -203,45 +177,40 @@ jobs:
           TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
           
           if [[ "$TARGET_BRANCH" == "community" ]] || [[ "$TARGET_BRANCH" == "minimal" ]]; then
-            # Community SBOM must NOT reference any private plugins.
             if grep -q "plugins/private" build/sbom.json 2>/dev/null; then
-              echo "::error::Private plugins found in community SBOM!"
+              ERR="Private plugins found in community SBOM"
+              echo "::error::$ERR"
+              echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
               exit 1
             fi
           fi
           
           echo "✓ Private/public SBOM variance check passed"
 
+      - name: Collect error summary for comment
+        id: collect-errors
+        if: failure()
+        run: |
+          SUMMARY=""
+          for step_out in \
+            "${{ steps.check-sbom-edition.outputs.error_summary }}" \
+            "${{ steps.check-sbom-variance.outputs.error_summary }}"; do
+            [ -n "$step_out" ] && SUMMARY="${SUMMARY}${step_out}\n"
+          done
+          echo "summary=${SUMMARY}" >> "$GITHUB_OUTPUT"
+
       - name: Post hash/SBOM validation result
         if: always() && github.event.pull_request.number != ''
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: ./.github/actions/post-failure-comment
         with:
-          script: |
-            const prNumber = context.issue.number;
-            if (!prNumber) {
-              core.info('No PR context — skipping comment (push or workflow_dispatch trigger)');
-              return;
-            }
-
-            const conclusion = '${{ job.status }}' === 'success' ? 'success' : 'failure';
-            const msg = conclusion === 'success'
-              ? '✅ Hash & SBOM validation PASSED'
-              : '❌ Hash & SBOM validation FAILED';
-            
-            await github.rest.issues.createComment({
-              issue_number: prNumber,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## Wave C Policy Gate: Hash & SBOM Integrity
-            
-            ${msg}
-            
-            - ✅ Dependency hash integrity check
-            - ✅ SBOM generation and registry consistency
-            - ✅ Edition-correct SBOM composition
-            - ✅ Private plugin variance detection
-            
-            Approved SBOM registry: \`docs/governance/SBOM_APPROVED_VERSIONS.md\`
-            
-            See \`.github/workflows/09-pr-gates_hash-sbom-validation.yml\` for details.`
-            });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          gate-name: Hash & SBOM Integrity
+          workflow-file: 09-pr-gates_hash-sbom-validation.yml
+          job-status: ${{ job.status }}
+          checklist: |
+            - ${{ steps.check-hashes.outcome == 'success' && '✅' || '❌' }} Dependency hash integrity check
+            - ${{ steps.check-sbom-generate.outcome == 'success' && '✅' || '❌' }} SBOM generation and registry consistency
+            - ${{ steps.check-sbom-edition.outcome == 'success' && '✅' || '❌' }} Edition-correct SBOM composition
+            - ${{ steps.check-sbom-variance.outcome == 'success' && '✅' || '❌' }} Private plugin variance detection
+            - ℹ️ Approved SBOM registry: `docs/governance/SBOM_APPROVED_VERSIONS.md`
+          error-summary: ${{ steps.collect-errors.outputs.summary }}
