@@ -71,11 +71,29 @@ struct FileDelta {
  * currently installed files instead of downloading full replacements.
  *
  * Expected bandwidth savings: 70-90 % for typical incremental releases.
+ * 
+ * ### Patch Ordering (enforce_order)
+ * When enforce_order is true, patches are applied in dependency order as computed
+ * by topological sort based on FileDelta::depends_on and FileDelta::apply_order.
+ * 
+ * - Circular dependencies are detected and rejected (error code 7402)
+ * - Missing dependencies are detected and rejected (error code 7404)
+ * - Order violations at runtime are logged but don't fail the update (error code 7403)
  */
 struct DeltaManifest {
     std::string from_version; ///< Base version (e.g. "1.4.0")
     std::string to_version;   ///< Target version (e.g. "1.5.0")
     std::vector<FileDelta> deltas;
+    
+    /// @brief Enable strict patch ordering based on dependencies.
+    /// When true, patches are applied in topological order.
+    /// When false, patches are applied in manifest order (backward compatible).
+    bool enforce_order = false;
+    
+    /// @brief Global dependency hints (applied to all patches).
+    /// Useful when many patches have a common dependency (e.g., a config file).
+    /// Individual FileDelta::depends_on takes precedence over these.
+    std::vector<std::string> implicit_dependencies;
 
     /// Convenience: total bytes that need to be downloaded (sum of patch_size)
     uint64_t totalPatchSize() const;
@@ -166,6 +184,13 @@ public:
      * If any single file fails steps 1-4 the engine falls back to a sentinel
      * error in DeltaApplyResult::files_fallback without aborting other files.
      *
+     * ### Ordering Enforcement
+     * When manifest.enforce_order is true:
+     *  - Patches are sorted by topological sort based on FileDelta::depends_on
+     *  - Circular dependencies are detected and cause the update to fail (7402)
+     *  - Missing dependencies in the manifest are detected (7404)
+     *  - Runtime violations are logged but don't fail the update (7403)
+     *
      * @param manifest  DeltaManifest returned by findDelta()
      * @return          Aggregate result
      */
@@ -219,6 +244,23 @@ private:
     std::vector<DeltaManifest> registered_deltas_;
 
     void reportProgress(int pct, const std::string& msg);
+    
+    /// @brief Compute apply order using topological sort on dependencies.
+    /// @param manifest The manifest with patch dependencies
+    /// @return Ordered list of FileDelta, or empty on error (7402=circular, 7404=missing)
+    /// @error_code 7402 Circular dependency detected in patch ordering
+    /// @error_code 7404 Dependency file missing in manifest
+    std::vector<FileDelta> computeApplyOrder(const DeltaManifest& manifest);
+    
+    /// @brief Validate that all dependencies exist in the manifest.
+    /// @return true if valid, false if dependency missing
+    /// @error_code 7404 Dependency file missing in manifest
+    bool validateDependencies(const DeltaManifest& manifest);
+    
+    /// @brief Detect circular dependencies using DFS.
+    /// @return true if circular dependency found, false otherwise
+    /// @error_code 7402 Circular dependency detected in patch ordering
+    bool hasCircularDependency(const std::vector<FileDelta>& deltas);
 
     // Per-algorithm generate/apply helpers
     bool generatePatchZstdDict(

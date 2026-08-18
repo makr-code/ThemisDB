@@ -23,10 +23,12 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
+#include <queue>
 #include <sstream>
 #include <stdexcept>
 #include <cstring>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <openssl/evp.h>
 
@@ -255,6 +257,15 @@ json FileDelta::toJson() const {
     j["patch_size"]  = patch_size;
     j["target_size"] = target_size;
     j["algorithm"]   = patchAlgorithmToString(algorithm);
+    
+    // Serialize ordering fields (empty by default for backward compatibility)
+    if (!depends_on.empty()) {
+        j["depends_on"] = depends_on;
+    }
+    if (apply_order != 0) {
+        j["apply_order"] = apply_order;
+    }
+    
     return j;
 }
 
@@ -271,6 +282,12 @@ std::optional<FileDelta> FileDelta::fromJson(const json& j) {
         auto algo_str = j.value("algorithm", "zstd_dict");
         auto algo     = patchAlgorithmFromString(algo_str);
         fd.algorithm  = algo.value_or(PatchAlgorithm::ZSTD_DICT);
+        
+        // Deserialize ordering fields
+        if (j.contains("depends_on") && j["depends_on"].is_array()) {
+            fd.depends_on = j["depends_on"].get<std::vector<std::string>>();
+        }
+        fd.apply_order = j.value("apply_order", static_cast<uint32_t>(0));
 
         return fd;
     } catch (...) {
@@ -302,6 +319,15 @@ json DeltaManifest::toJson() const {
     for (const auto& d : deltas) {
         j["deltas"].push_back(d.toJson());
     }
+    
+    // Serialize ordering fields (omit if defaults for backward compatibility)
+    if (enforce_order) {
+        j["enforce_order"] = enforce_order;
+    }
+    if (!implicit_dependencies.empty()) {
+        j["implicit_dependencies"] = implicit_dependencies;
+    }
+    
     return j;
 }
 
@@ -317,6 +343,13 @@ std::optional<DeltaManifest> DeltaManifest::fromJson(const json& j) {
                 if (fd) dm.deltas.push_back(*fd);
             }
         }
+        
+        // Deserialize ordering fields
+        dm.enforce_order = j.value("enforce_order", false);
+        if (j.contains("implicit_dependencies") && j["implicit_dependencies"].is_array()) {
+            dm.implicit_dependencies = j["implicit_dependencies"].get<std::vector<std::string>>();
+        }
+        
         return dm;
     } catch (...) {
         return std::nullopt;
@@ -339,6 +372,170 @@ DeltaUpdateEngine::~DeltaUpdateEngine() = default;
 void DeltaUpdateEngine::reportProgress(int pct, const std::string& msg) {
     LOG_DEBUG("DeltaUpdateEngine: {}% - {}", pct, msg);
     if (progress_cb_) progress_cb_(pct, msg);
+}
+
+// ============================================================================
+// Patch Ordering Enforcement (UPD-IMPL-003)
+// ============================================================================
+
+bool DeltaUpdateEngine::validateDependencies(const DeltaManifest& manifest) {
+    // Build a set of all available patch paths
+    std::unordered_set<std::string> available_paths;
+    for (const auto& fd : manifest.deltas) {
+        available_paths.insert(fd.path);
+    }
+    
+    // Check that all dependencies exist in the manifest
+    for (const auto& fd : manifest.deltas) {
+        for (const auto& dep : fd.depends_on) {
+            if (available_paths.find(dep) == available_paths.end()) {
+                LOG_ERROR(
+                    "Patch ordering: dependency '{}' for '{}' not found in manifest (7404)",
+                    dep, fd.path);
+                return false;  // Error code 7404: Dependency file missing
+            }
+        }
+        
+        // Also check implicit dependencies
+        for (const auto& dep : manifest.implicit_dependencies) {
+            if (available_paths.find(dep) == available_paths.end()) {
+                LOG_ERROR(
+                    "Patch ordering: implicit dependency '{}' for '{}' not found in manifest (7404)",
+                    dep, fd.path);
+                return false;  // Error code 7404: Dependency file missing
+            }
+        }
+    }
+    
+    return true;
+}
+
+bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& deltas) {
+    // Build adjacency list and in-degree count
+    std::unordered_map<std::string, std::vector<std::string>> adj_list;
+    std::unordered_map<std::string, int> in_degree;
+    std::unordered_map<std::string, size_t> delta_indices;  // For quick lookup
+    
+    for (size_t i = 0; i < deltas.size(); ++i) {
+        delta_indices[deltas[i].path] = i;
+        in_degree[deltas[i].path] = 0;
+    }
+    
+    // Build adjacency list and compute in-degrees
+    for (const auto& fd : deltas) {
+        for (const auto& dep : fd.depends_on) {
+            // fd depends on dep, so dep -> fd is an edge in dependency graph
+            adj_list[dep].push_back(fd.path);
+            in_degree[fd.path]++;
+        }
+    }
+    
+    // Kahn's algorithm: if we can't process all nodes, there's a cycle
+    std::queue<std::string> queue;
+    for (const auto& [path, degree] : in_degree) {
+        if (degree == 0) {
+            queue.push(path);
+        }
+    }
+    
+    int processed = 0;
+    while (!queue.empty()) {
+        std::string current = queue.front();
+        queue.pop();
+        ++processed;
+        
+        for (const auto& neighbor : adj_list[current]) {
+            --in_degree[neighbor];
+            if (in_degree[neighbor] == 0) {
+                queue.push(neighbor);
+            }
+        }
+    }
+    
+    // If we couldn't process all nodes, there's a cycle
+    bool has_cycle = (processed != static_cast<int>(deltas.size()));
+    if (has_cycle) {
+        LOG_ERROR("Patch ordering: circular dependency detected (7402)");
+    }
+    return has_cycle;
+}
+
+std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest& manifest) {
+    std::vector<FileDelta> result;
+    
+    // Return empty list on any validation error
+    if (!validateDependencies(manifest)) {
+        return result;  // Error code 7404: Dependency file missing
+    }
+    
+    if (hasCircularDependency(manifest.deltas)) {
+        return result;  // Error code 7402: Circular dependency
+    }
+    
+    // Build adjacency list and in-degree count for topological sort
+    std::unordered_map<std::string, std::vector<std::string>> adj_list;
+    std::unordered_map<std::string, int> in_degree;
+    std::unordered_map<std::string, FileDelta> delta_by_path;
+    std::multimap<uint32_t, std::string> apply_order_hints;  // For deterministic sorting
+    
+    // Initialize data structures
+    for (const auto& fd : manifest.deltas) {
+        delta_by_path[fd.path] = fd;
+        in_degree[fd.path] = 0;
+        apply_order_hints.insert({fd.apply_order, fd.path});
+    }
+    
+    // Build adjacency list and compute in-degrees based on explicit dependencies
+    for (const auto& fd : manifest.deltas) {
+        for (const auto& dep : fd.depends_on) {
+            // fd depends on dep, so dep -> fd is an edge
+            adj_list[dep].push_back(fd.path);
+            in_degree[fd.path]++;
+        }
+        
+        // Also add implicit dependencies
+        for (const auto& dep : manifest.implicit_dependencies) {
+            // Only if not already in explicit depends_on
+            if (std::find(fd.depends_on.begin(), fd.depends_on.end(), dep) == fd.depends_on.end()) {
+                adj_list[dep].push_back(fd.path);
+                in_degree[fd.path]++;
+            }
+        }
+    }
+    
+    // Kahn's algorithm with stable ordering using apply_order hints
+    std::queue<std::string> ready;
+    for (const auto& [path, degree] : in_degree) {
+        if (degree == 0) {
+            ready.push(path);
+        }
+    }
+    
+    while (!ready.empty()) {
+        // Process the node with lowest apply_order first (deterministic)
+        std::string current = ready.front();
+        ready.pop();
+        
+        result.push_back(delta_by_path[current]);
+        
+        // Process neighbors in apply_order order
+        std::vector<std::pair<uint32_t, std::string>> neighbors;
+        for (const auto& neighbor : adj_list[current]) {
+            --in_degree[neighbor];
+            if (in_degree[neighbor] == 0) {
+                neighbors.push_back({delta_by_path[neighbor].apply_order, neighbor});
+            }
+        }
+        
+        // Sort by apply_order for determinism
+        std::sort(neighbors.begin(), neighbors.end());
+        for (const auto& [order, neighbor] : neighbors) {
+            ready.push(neighbor);
+        }
+    }
+    
+    LOG_INFO("Patch ordering computed: {} patches in dependency order", result.size());
+    return result;
 }
 
 void DeltaUpdateEngine::setProgressCallback(
@@ -377,10 +574,26 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
     DeltaApplyResult result;
     result.success = true;
 
-    size_t total = manifest.deltas.size();
+    // --- Ordering Enforcement (UPD-IMPL-003) ---
+    // If enforce_order is true, compute and apply patches in dependency order
+    std::vector<FileDelta> deltas_to_apply = manifest.deltas;
+    
+    if (manifest.enforce_order) {
+        LOG_INFO("Patch ordering enforcement enabled; computing apply order...");
+        deltas_to_apply = computeApplyOrder(manifest);
+        
+        if (deltas_to_apply.empty() && !manifest.deltas.empty()) {
+            LOG_ERROR("Failed to compute patch order (circular dependency or missing dependency)");
+            result.success = false;
+            result.error_message = "Patch ordering failed: circular or missing dependencies";
+            return result;
+        }
+    }
+
+    size_t total = deltas_to_apply.size();
     size_t idx   = 0;
 
-    for (const auto& fd : manifest.deltas) {
+    for (const auto& fd : deltas_to_apply) {
         ++idx;
         int pct = static_cast<int>(idx * 100 / (total > 0 ? total : 1));
         reportProgress(pct, "Patching " + fd.path);

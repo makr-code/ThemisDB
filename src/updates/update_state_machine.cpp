@@ -157,10 +157,14 @@ std::optional<Checkpoint> Checkpoint::fromJson(const json& j) {
 // UpdateStateMachine
 // ============================================================================
 
-UpdateStateMachine::UpdateStateMachine(const std::string& log_path)
-    : log_path_(log_path) {
+UpdateStateMachine::UpdateStateMachine(const std::string& log_path,
+                                       const std::string& checkpoints_log_path)
+    : log_path_(log_path), checkpoints_log_path_(checkpoints_log_path) {
     if (!log_path_.empty()) {
         loadPersistedState();
+    }
+    if (!checkpoints_log_path_.empty()) {
+        loadCheckpoints();
     }
 }
 
@@ -393,6 +397,61 @@ void UpdateStateMachine::appendLogEntry(const UpdateTransactionEntry& entry) {
     }
 }
 
+void UpdateStateMachine::persistCheckpoint(const Checkpoint& cp) {
+    // Error Code: 7401 - Checkpoint file write failed
+    try {
+        std::ofstream f(checkpoints_log_path_, std::ios::app);
+        if (f) {
+            f << cp.toJson().dump() << "\n";
+            LOG_DEBUG("UpdateStateMachine: persisted checkpoint {} to {}", cp.id, checkpoints_log_path_);
+        } else {
+            LOG_ERROR("UpdateStateMachine: failed to open checkpoints log file for writing: {}", checkpoints_log_path_);
+        }
+    } catch (const std::exception& e) {
+        LOG_ERROR("UpdateStateMachine: failed to persist checkpoint: {} (Error Code: 7401)", e.what());
+    }
+}
+
+void UpdateStateMachine::loadCheckpoints() {
+    // Error Code: 7402 - Checkpoint file read failed
+    try {
+        std::ifstream f(checkpoints_log_path_);
+        if (!f) {
+            return;  // No checkpoints log yet – clean start
+        }
+
+        std::string line;
+        uint64_t max_id = 0;
+        
+        while (std::getline(f, line)) {
+            if (line.empty()) continue;
+            try {
+                auto j = json::parse(line);
+                auto cp = Checkpoint::fromJson(j);
+                if (cp) {
+                    checkpoints_.push_back(*cp);
+                    max_id = std::max(max_id, cp->id);
+                    LOG_DEBUG("UpdateStateMachine: loaded checkpoint {} from persistent log", cp->id);
+                }
+            } catch (const std::exception& e) {
+                LOG_WARN("UpdateStateMachine: skipping malformed checkpoint line: {}", e.what());
+            }
+        }
+
+        // Set next checkpoint ID to be one more than the highest loaded ID
+        if (max_id > 0) {
+            next_checkpoint_id_ = max_id + 1;
+        }
+        
+        if (!checkpoints_.empty()) {
+            LOG_INFO("UpdateStateMachine: loaded {} checkpoints from {}", 
+                     checkpoints_.size(), checkpoints_log_path_);
+        }
+    } catch (const std::exception& e) {
+        LOG_ERROR("UpdateStateMachine: failed to load checkpoints: {} (Error Code: 7402)", e.what());
+    }
+}
+
 /*static*/
 std::string UpdateStateMachine::stateName(UpdateState s) {
     return stateToString(s);
@@ -411,6 +470,7 @@ CheckpointId UpdateStateMachine::createCheckpoint(const std::string& description
     CheckpointId assigned_id = 0;
     std::string  snap_version;
     UpdateState  snap_state;
+    Checkpoint   cp_to_persist;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -426,10 +486,17 @@ CheckpointId UpdateStateMachine::createCheckpoint(const std::string& description
         cp.timestamp   = std::chrono::system_clock::now();
 
         checkpoints_.push_back(cp);
+        cp_to_persist  = cp;  // Copy for persistence outside the lock
         assigned_id = cp.id;
 
         LOG_INFO("UpdateStateMachine: checkpoint {} created (state={}, version={}, desc={})",
                  assigned_id, stateToString(snap_state), snap_version, description);
+    }
+
+    // Persist checkpoint outside the lock to avoid holding it during I/O
+    // Error Code: 7401 - Checkpoint file write failed
+    if (!checkpoints_log_path_.empty()) {
+        persistCheckpoint(cp_to_persist);
     }
 
     // Audit trail – record outside the lock to avoid holding it during I/O
@@ -457,10 +524,57 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     UpdateState to_state;
     std::string notify_version;
     bool found = false;
+    bool is_idempotent = false;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
 
+        // Increment attempt counter for all rollback attempts (idempotent or not)
+        rollback_attempt_count_++;
+
+        // Check if this is an idempotent call (same checkpoint as last rollback)
+        if (last_rollback_id_.has_value() && last_rollback_id_.value() == id) {
+            // This is an idempotent rollback call – already rolled back to this checkpoint
+            is_idempotent = true;
+            last_rollback_was_idempotent_ = true;
+            last_rollback_time_ = std::chrono::system_clock::now();
+
+            LOG_WARN("UpdateStateMachine: idempotent rollback to checkpoint {} (attempt #{})",
+                     id, rollback_attempt_count_);
+
+            // Record the idempotent attempt in the transaction log
+            UpdateTransactionEntry entry{
+                state_.load(std::memory_order_relaxed), 
+                state_.load(std::memory_order_relaxed),
+                current_version_,
+                "rollback_idempotent checkpoint " + std::to_string(id),
+                std::chrono::system_clock::now()
+            };
+            transaction_log_.push_back(entry);
+            if (!log_path_.empty()) {
+                appendLogEntry(entry);
+            }
+
+            // Audit trail for idempotent call
+            if (history_logger_) {
+                auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+
+                UpdateHistoryEntry e;
+                e.who           = "state_machine";
+                e.timestamp_ms  = now_ms;
+                e.from_version  = current_version_;
+                e.to_version    = current_version_;
+                e.event_type    = "rollback_idempotent";
+                e.success       = true;
+                e.error_message = "checkpoint_id=" + std::to_string(id);
+                history_logger_->record(e);
+            }
+
+            return true;  // Idempotent calls are considered successful
+        }
+
+        // Find the target checkpoint
         auto it = std::find_if(checkpoints_.begin(), checkpoints_.end(),
                                [id](const Checkpoint& cp) { return cp.id == id; });
         if (it == checkpoints_.end()) {
@@ -471,8 +585,14 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
         from_state = state_.load(std::memory_order_relaxed);
         to_state   = it->state;
 
+        // Perform the actual rollback (state change)
         current_version_ = it->version;
         state_.store(to_state, std::memory_order_release);
+
+        // Update rollback tracking
+        last_rollback_id_ = id;
+        last_rollback_time_ = std::chrono::system_clock::now();
+        last_rollback_was_idempotent_ = false;
 
         // Discard checkpoints newer than the target
         checkpoints_.erase(it + 1, checkpoints_.end());
@@ -481,7 +601,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
         UpdateTransactionEntry entry{
             from_state, to_state,
             current_version_,
-            "rollback to checkpoint " + std::to_string(id),
+            "rollback_attempt checkpoint " + std::to_string(id),
             std::chrono::system_clock::now()
         };
         transaction_log_.push_back(entry);
@@ -489,8 +609,8 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
             appendLogEntry(entry);
         }
 
-        LOG_INFO("UpdateStateMachine: rolled back to checkpoint {} (state={}, version={})",
-                 id, stateToString(to_state), current_version_);
+        LOG_INFO("UpdateStateMachine: rolled back to checkpoint {} (state={}, version={}, attempt #{})",
+                 id, stateToString(to_state), current_version_, rollback_attempt_count_);
 
         notify_version = current_version_;
         callbacks_copy = callbacks_;
@@ -514,7 +634,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
         e.timestamp_ms  = now_ms;
         e.from_version  = "";  // pre-rollback version already overwritten
         e.to_version    = notify_version;
-        e.event_type    = "checkpoint_rollback";
+        e.event_type    = "rollback_attempt";
         e.success       = true;
         e.error_message = "checkpoint_id=" + std::to_string(id);
         history_logger_->record(e);
@@ -622,6 +742,81 @@ void UpdateStateMachine::emitRollbackDiagnostic(CheckpointId checkpoint_id,
             LOG_ERROR("UpdateStateMachine: rollback callback threw: {}", e.what());
         }
     }
+}
+
+bool UpdateStateMachine::isRollbackSafe(CheckpointId id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Check: checkpoint exists
+    auto it = std::find_if(checkpoints_.begin(), checkpoints_.end(),
+                           [id](const Checkpoint& cp) { return cp.id == id; });
+    if (it == checkpoints_.end()) {
+        LOG_WARN("UpdateStateMachine::isRollbackSafe({}) – checkpoint not found", id);
+        return false;
+    }
+
+    // Check: checkpoint state differs from current state (no-op rollback is allowed but not "safe")
+    UpdateState current = state_.load(std::memory_order_acquire);
+    if (it->state == current) {
+        LOG_WARN("UpdateStateMachine::isRollbackSafe({}) – checkpoint state matches current, no rollback needed", id);
+        return false;  // Already at target state; rollback is a no-op
+    }
+
+    // Check: no in-flight update in progress
+    if (has_inflight_update_) {
+        LOG_WARN("UpdateStateMachine::isRollbackSafe({}) – in-flight update detected, rollback unsafe", id);
+        return false;
+    }
+
+    // All checks passed; rollback is safe
+    LOG_DEBUG("UpdateStateMachine::isRollbackSafe({}) – safe to rollback", id);
+    return true;
+}
+
+bool UpdateStateMachine::validateRollbackState(CheckpointId id, const std::string& reason) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Find the target checkpoint
+    auto it = std::find_if(checkpoints_.begin(), checkpoints_.end(),
+                           [id](const Checkpoint& cp) { return cp.id == id; });
+    if (it == checkpoints_.end()) {
+        LOG_ERROR("UpdateStateMachine::validateRollbackState({}) – checkpoint not found: {}", id, reason);
+        return false;
+    }
+
+    // Verify current state matches checkpoint state
+    UpdateState current = state_.load(std::memory_order_acquire);
+    if (current != it->state) {
+        LOG_ERROR("UpdateStateMachine::validateRollbackState({}) – state mismatch; current={}, expected={}; reason={}",
+                  id, stateToString(current), stateToString(it->state), reason);
+        return false;
+    }
+
+    // Verify current version matches checkpoint version
+    if (current_version_ != it->version) {
+        LOG_ERROR("UpdateStateMachine::validateRollbackState({}) – version mismatch; current='{}', expected='{}'; reason={}",
+                  id, current_version_, it->version, reason);
+        return false;
+    }
+
+    // Validation passed
+    LOG_INFO("UpdateStateMachine::validateRollbackState({}) – rollback state validated successfully", id);
+    return true;
+}
+
+CheckpointId UpdateStateMachine::lastRollbackCheckpoint() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return last_rollback_id_.has_value() ? last_rollback_id_.value() : 0;
+}
+
+uint32_t UpdateStateMachine::rollbackAttemptCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return rollback_attempt_count_;
+}
+
+bool UpdateStateMachine::isLastRollbackIdempotent() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return last_rollback_was_idempotent_;
 }
 
 } // namespace updates
