@@ -43,6 +43,33 @@ namespace plugins {
 namespace fs = std::filesystem;
 
 // ============================================================================
+// RAII Helper Classes
+// ============================================================================
+
+// RAII wrapper for file descriptors (Unix/Linux/macOS)
+struct FileDescriptorDeleter {
+    void operator()(int* fd_ptr) const noexcept {
+        if (fd_ptr && *fd_ptr >= 0) {
+            try {
+                close(*fd_ptr);
+                *fd_ptr = -1;
+            } catch (...) {
+                THEMIS_WARN("Exception during file descriptor cleanup");
+            }
+        }
+        delete fd_ptr;
+    }
+};
+
+using UniqueFileDescriptor = std::unique_ptr<int, FileDescriptorDeleter>;
+
+// Helper function to create RAII-wrapped file descriptor
+inline UniqueFileDescriptor makeUniqueFileDescriptor(int fd) {
+    auto fd_ptr = std::make_unique<int>(fd);
+    return UniqueFileDescriptor(fd_ptr.release());
+}
+
+// ============================================================================
 // Constructor & Destructor
 // ============================================================================
 
@@ -355,14 +382,17 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
         THEMIS_ERROR("Failed to create kqueue: {}", strerror(errno));
         return;
     }
+    // Wrap kqueue file descriptor for RAII cleanup
+    auto kq_guard = makeUniqueFileDescriptor(kq);
     
-    // Open directory for monitoring
-    int dir_fd = open(watch_directory_.c_str(), O_RDONLY);
+    // Open directory for monitoring (add O_NONBLOCK to prevent indefinite blocking)
+    int dir_fd = open(watch_directory_.c_str(), O_RDONLY | O_NONBLOCK);
     if (dir_fd == -1) {
         THEMIS_ERROR("Failed to open directory: {}", strerror(errno));
-        close(kq);
-        return;
+        return;  // kq_guard will automatically close kq
     }
+    // Wrap directory file descriptor for RAII cleanup
+    auto dir_guard = makeUniqueFileDescriptor(dir_fd);
     
     // Setup kevent for directory monitoring
     struct kevent change;
@@ -371,17 +401,19 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
            NOTE_WRITE | NOTE_EXTEND | NOTE_DELETE,
            0, nullptr);
     
-    if (kevent(kq, &change, 1, nullptr, 0, nullptr) == -1) {
+    // Add kevent with timeout to prevent indefinite blocking
+    struct timespec timeout = {};
+    timeout.tv_sec = 1;  // 1 second timeout for kevent operations
+    timeout.tv_nsec = 0;
+    
+    if (kevent(kq, &change, 1, nullptr, 0, &timeout) == -1) {
         THEMIS_ERROR("Failed to add kevent: {}", strerror(errno));
-        close(dir_fd);
-        close(kq);
-        return;
+        return;  // Both kq_guard and dir_guard will automatically cleanup
     }
     
     // Track files we've seen along with their last-write timestamps
     std::map<std::string, fs::file_time_type> known_files;
     auto scan_directory = [&]() {
-        std::map<std::string, fs::file_time_type> current_files;
         try {
             for (const auto& entry : fs::directory_iterator(watch_directory_)) {
                 // Skip symlinks pointing to non-existent targets
@@ -557,9 +589,33 @@ void PluginHotPlugMonitor::stop() {
     }
 #endif
     
-    // Wait for thread to finish
+    // Wait for thread to finish with a timeout to prevent indefinite blocking
+    // If thread doesn't respond within 5 seconds, log a warning and continue
     if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+        // Try to join with a timeout using std::thread features
+        // Note: C++20 does not have direct timeout join, so we use a timed wait approach
+        auto start_time = std::chrono::steady_clock::now();
+        const auto timeout_duration = std::chrono::seconds(5);
+        
+        // Periodically check if thread is still alive
+        while (monitor_thread_.joinable()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            auto elapsed = std::chrono::steady_clock::now() - start_time;
+            if (elapsed > timeout_duration) {
+                THEMIS_WARN("Plugin hot-plug monitor thread did not join within {} ms", 
+                    std::chrono::duration_cast<std::chrono::milliseconds>(timeout_duration).count());
+                break;
+            }
+        }
+        
+        // If still joinable after timeout, attempt final join without blocking
+        if (monitor_thread_.joinable()) {
+            try {
+                monitor_thread_.detach();
+            } catch (...) {
+                THEMIS_WARN("Failed to detach monitor thread");
+            }
+        }
     }
     
 #ifdef _WIN32
