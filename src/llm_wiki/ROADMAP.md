@@ -259,8 +259,7 @@ See `research/implementation_influence/by_module.md` for detailed mappings.
 
 ---
 
-**Last Updated:** 2026-08-01  
-**Next Sync:** After Batch 1 completion (Phase 3.5 + comprehensive tests)
+**Last Updated:** 2026-08-18 (Wave B LLM Wiki Phase 3-4 gap closure: LWP-RT-01, LWP-GATE-01, LWP-PERF-01 complete)
 
 ## Program Execution Model — Wave Context
 
