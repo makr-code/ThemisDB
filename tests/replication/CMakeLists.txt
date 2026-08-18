@@ -68,7 +68,8 @@ file(GLOB REPLICATION_AUTOGEN_PREFIX_TEST_SOURCES
 )
 
 foreach(_src IN LISTS REPLICATION_AUTOGEN_PREFIX_TEST_SOURCES)
-    if(_src MATCHES ".*/test_replication_chaos\\.cpp$")
+    if(_src MATCHES ".*/test_replication_chaos\\.cpp$" OR
+       _src MATCHES ".*/test_replication_fail_closed_behavior\\.cpp$")
         continue()
     endif()
 

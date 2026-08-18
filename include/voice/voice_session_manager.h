@@ -455,6 +455,6 @@ private:
         const std::string& session_id,
         int64_t timeout_ms
     );
-};;
+};
 
 }} // namespace themis::voice

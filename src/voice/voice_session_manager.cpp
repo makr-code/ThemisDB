@@ -727,20 +727,6 @@ bool VoiceSessionManager::teardownSessionLocked(
         return false;
     }
     
-    // Apply grace period
-    const int64_t grace_ms = std::min(
-        timeout_config_.closing_grace_period_ms,
-        timeout_ms - elapsed
-    );
-    
-    if (grace_ms > 0) {
-        // In production, this would allow for cleanup operations
-        // For now, just track the time
-        std::this_thread::sleep_for(std::chrono::milliseconds(
-            std::min(grace_ms, 10LL)  // Sleep minimum time to allow other threads
-        ));
-    }
-    
     // Finalize: transition to TERMINATED and release resources
     it->second.state = SessionState::TERMINATED;
     const int64_t final_time = nowMs();

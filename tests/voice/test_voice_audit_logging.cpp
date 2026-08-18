@@ -15,6 +15,7 @@
 #include <sstream>
 #include <algorithm>
 #include <thread>
+#include <cstdio>
 #include <nlohmann/json.hpp>
 
 #include "voice/voice_audit_logger.h"

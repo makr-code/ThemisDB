@@ -353,19 +353,16 @@ void LagAlertManager::evaluateReplicaAlerts(ReplicaState&      state,
 
 void LagAlertManager::emitAlert(const AlertEvent& event)
 {
-    // Note: Caller must hold state_mutex_
-    // CRITICAL: Copy the callback while holding the lock, then invoke outside the lock
-    // to avoid deadlock if callback tries to update replica lag.
-    
+    // Note: Caller must hold state_mutex_.
+    // Adopt the caller-held lock so we can safely unlock/lock around callback.
+    std::unique_lock<std::mutex> lock(state_mutex_, std::adopt_lock);
+
     AlertCallback cb;
-    {
-        // Still holding state_mutex_ here; just copy the callback
-        cb = alert_callback_;
-    }
-    
+    cb = alert_callback_;
+
     // Release lock before invoking callback to avoid potential deadlocks
-    state_mutex_.unlock();
-    
+    lock.unlock();
+
     try {
         if (cb) {
             cb(event);
@@ -373,9 +370,10 @@ void LagAlertManager::emitAlert(const AlertEvent& event)
     } catch (...) {
         // Suppress exceptions from callback to ensure alert infrastructure stays robust
     }
-    
+
     // Re-acquire lock for caller
-    state_mutex_.lock();
+    lock.lock();
+    lock.release();  // caller's lock_guard still owns final unlock
 }
 
 int64_t LagAlertManager::currentTimeMs()

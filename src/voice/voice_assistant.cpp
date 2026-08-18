@@ -187,7 +187,7 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
  * @param next_state Proposed next state
  * @return true if transition is valid; false if transition violates state machine
  */
-[[nodiscard]] bool isValidSessionStateTransition(
+[[maybe_unused, nodiscard]] bool isValidSessionStateTransition(
     const std::string& current_state,
     const std::string& next_state) {
     
@@ -244,7 +244,7 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
  * @param session_id Session identifier (optional)
  * @param additional_context Additional diagnostic info (optional)
  */
-void diagnosticStreamRejection(
+[[maybe_unused]] void diagnosticStreamRejection(
     const std::string& reason,
     int error_code,
     const std::string& session_id = "",

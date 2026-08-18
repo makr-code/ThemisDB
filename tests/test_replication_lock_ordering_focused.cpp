@@ -64,6 +64,7 @@ TEST_F(ReplicationLockOrderingTest, ConcurrentSlotCreation_NoDeadlock)
     std::vector<std::thread> threads;
     std::atomic<int> success_count(0);
     std::atomic<int> error_count(0);
+    std::atomic<int> retrieval_mismatch_count(0);
 
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back([&, i]() {
@@ -74,7 +75,9 @@ TEST_F(ReplicationLockOrderingTest, ConcurrentSlotCreation_NoDeadlock)
                     ++success_count;
                     // Verify slot is immediately accessible
                     auto retrieved = manager->getSlot(slot_name);
-                    ASSERT_EQ(retrieved, slot);
+                    if (retrieved != slot) {
+                        ++retrieval_mismatch_count;
+                    }
                 }
             } catch (const std::exception& e) {
                 ++error_count;
@@ -88,6 +91,7 @@ TEST_F(ReplicationLockOrderingTest, ConcurrentSlotCreation_NoDeadlock)
 
     EXPECT_EQ(success_count, 10);
     EXPECT_EQ(error_count, 0);
+    EXPECT_EQ(retrieval_mismatch_count, 0);
     EXPECT_EQ(manager->slotCount(), 10);
 }
 

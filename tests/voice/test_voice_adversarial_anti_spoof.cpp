@@ -14,10 +14,16 @@
 #include <string>
 #include <chrono>
 #include <cmath>
+#include <cstdlib>
+#include <numbers>
 
 namespace themis {
 namespace voice {
 namespace test {
+
+namespace {
+constexpr double kPi = std::numbers::pi_v<double>;
+}
 
 // ============================================================================
 // Helper Functions
@@ -38,12 +44,12 @@ std::vector<uint8_t> generateLiveAudioSample(size_t num_samples = 16000) {
     // Generate synthetic live audio with envelope modulation
     for (size_t i = 0; i < num_samples; ++i) {
         // Natural envelope (varies over time)
-        double envelope = 0.5 + 0.3 * std::sin(2.0 * M_PI * i / 8000.0);
+        double envelope = 0.5 + 0.3 * std::sin(2.0 * kPi * i / 8000.0);
         
         // Carrier with harmonics (simulates speech formants)
-        double carrier = std::sin(2.0 * M_PI * 200 * i / 16000.0) +
-                         0.5 * std::sin(2.0 * M_PI * 400 * i / 16000.0) +
-                         0.3 * std::sin(2.0 * M_PI * 800 * i / 16000.0);
+        double carrier = std::sin(2.0 * kPi * 200 * i / 16000.0) +
+                         0.5 * std::sin(2.0 * kPi * 400 * i / 16000.0) +
+                         0.3 * std::sin(2.0 * kPi * 800 * i / 16000.0);
         
         // Combine with random jitter (natural speech variation)
         double random_jitter = (std::rand() % 1000) / 10000.0 - 0.05;
@@ -78,7 +84,7 @@ std::vector<uint8_t> generateReplayAttackSample(size_t num_samples = 16000) {
     // Generate short snippet and repeat it (simulating loop/replay)
     std::vector<int16_t> snippet(1600);  // 100ms snippet
     for (size_t i = 0; i < snippet.size(); ++i) {
-        double sample = 0.3 * std::sin(2.0 * M_PI * 300 * i / 16000.0);
+        double sample = 0.3 * std::sin(2.0 * kPi * 300 * i / 16000.0);
         snippet[i] = static_cast<int16_t>(sample * 32767.0);
     }
     
@@ -112,7 +118,7 @@ std::vector<uint8_t> generateNoisyLiveAudioSample(size_t num_samples = 16000) {
         
         // Add noise: 20% noise ratio
         double noise = (std::rand() % 1000) / 5000.0 - 0.1;  // White noise
-        noise += 0.05 * std::sin(2.0 * M_PI * 50 * i / 16000.0);  // Hum
+        noise += 0.05 * std::sin(2.0 * kPi * 50 * i / 16000.0);  // Hum
         
         double noisy_sample = pcm_sample / 32767.0 + noise * 0.2;
         noisy_sample = std::max(-1.0, std::min(1.0, noisy_sample));

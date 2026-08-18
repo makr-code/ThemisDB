@@ -224,6 +224,15 @@ MembershipChangeEntry MembershipChangeManager::proposeAdd(
         wal_->append(wal_entry);
         entry.log_index = wal_->getCurrentSequence();
     }
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_ &&
+            pending_->phase == MembershipChangeEntry::Phase::JOINT &&
+            pending_->old_members == entry.old_members &&
+            pending_->new_members == entry.new_members) {
+            pending_->log_index = entry.log_index;
+        }
+    }
     return entry;
 }
 
@@ -272,23 +281,71 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
         wal_->append(wal_entry);
         entry.log_index = wal_->getCurrentSequence();
     }
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_ &&
+            pending_->phase == MembershipChangeEntry::Phase::JOINT &&
+            pending_->old_members == entry.old_members &&
+            pending_->new_members == entry.new_members) {
+            pending_->log_index = entry.log_index;
+        }
+    }
     return entry;
 }
 
 void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (!pending_ || pending_->phase != MembershipChangeEntry::Phase::JOINT) {
-        return;  // Stale callback – ignore
+    MembershipChangeEntry commit;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!pending_ || pending_->phase != MembershipChangeEntry::Phase::JOINT) {
+            return;  // Stale callback – ignore
+        }
+        if (pending_->log_index != log_index) {
+            return;  // Mismatch – ignore
+        }
+        // Write the COMMIT entry so followers know to finalise
+        commit = writeEntry(
+            MembershipChangeEntry::Phase::COMMIT,
+            pending_->old_members,
+            pending_->new_members);
+        pending_ = commit;
+    }  // LOCK RELEASED: WAL append happens outside lock
+
+    if (wal_) {
+        WALEntry wal_entry;
+        wal_entry.operation    = "MEMBERSHIP_CHANGE";
+        wal_entry.collection   = "__raft_config__";
+        wal_entry.document_id  = "commit";
+        std::ostringstream oss;
+        oss << "{\"phase\":\"commit\",\"old\":[";
+        bool first = true;
+        for (const auto& m : commit.old_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "],\"new\":[";
+        first = true;
+        for (const auto& m : commit.new_members) {
+            if (!first) oss << ",";
+            oss << "\"" << m << "\"";
+            first = false;
+        }
+        oss << "]}";
+        wal_entry.data = oss.str();
+        wal_->append(wal_entry);
+        commit.log_index = wal_->getCurrentSequence();
     }
-    if (pending_->log_index != log_index) {
-        return;  // Mismatch – ignore
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (pending_ &&
+            pending_->phase == MembershipChangeEntry::Phase::COMMIT &&
+            pending_->old_members == commit.old_members &&
+            pending_->new_members == commit.new_members) {
+            pending_->log_index = commit.log_index;
+        }
     }
-    // Write the COMMIT entry so followers know to finalise
-    auto commit = writeEntry(
-        MembershipChangeEntry::Phase::COMMIT,
-        pending_->old_members,
-        pending_->new_members);
-    pending_ = commit;
 }
 
 void MembershipChangeManager::onNewConfigCommitted() {
