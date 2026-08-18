@@ -102,13 +102,16 @@ void GPUMemoryManager::RollbackAllocationUnderLock(const std::string &tenant_id,
 bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::string &tag, const std::string &tenant_id) {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
     // Hints count against the VRAM budget so that reserved headroom is
-    // protected from other callers.
-    const uint64_t new_total = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;
+    // protected from other callers.  Use a separate budget_check variable for
+    // the limit test so that gpu_memory_allocated_ only tracks committed bytes
+    // and hint_reserved_bytes_ is not double-counted on subsequent allocations.
+    const uint64_t budget_check = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;
+    const uint64_t new_total    = gpu_memory_allocated_ + size_bytes;
 
     auto logger = spdlog::get("gpu");
 
     // Check global edition limit.
-    if (new_total > max_vram) {
+    if (budget_check > max_vram) {
         if (logger) {
             logger->warn("Allocation denied: global limit exceeded (current={}, requested={}, limit={})",
                         gpu_memory_allocated_, size_bytes, max_vram);

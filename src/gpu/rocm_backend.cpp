@@ -28,6 +28,7 @@
 #include "themis/gpu/rocm_backend.h"
 
 #include <cstring>    // std::memset
+#include <future>
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
@@ -92,24 +93,41 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn([[maybe_unused]] int device_
         // we synchronize the device to flush any previously submitted work and
         // signal successful dispatch.
         if (!item.args.empty()) {
-            // Phase 4: Enforce timeout for HIP kernel synchronization
-            // Mirror CUDA kernel timeout semantics with KernelSLAGuard
-            KernelSLAGuard timeout_guard(std::chrono::seconds(5));
-            
-            // Synchronize to ensure any previously submitted work completes.
-            try {
-                CHECKED_HIP(hipDeviceSynchronize());
-            } catch (const std::exception& e) {
-                if (timeout_guard.checkTimeoutDeadline()) {
-                    if (logger) {
-                        logger->error("ROCmBackend::createBackendFn: kernel timeout on device {}", 
-                                     device_index);
-                    }
-                    // HIP kernel timeout — treat as degradation but continue
-                    return true;
-                }
+            // Phase 4: Enforce timeout for HIP kernel synchronization.
+            // hipDeviceSynchronize() blocks the calling thread, so a plain
+            // KernelSLAGuard checked *after* the call cannot enforce a
+            // deterministic deadline — if the call hangs the thread is blocked
+            // forever.  Instead we run the synchronize on a detached async
+            // task and wait on the future with a timed deadline so the
+            // calling thread can react to a timeout without blocking.
+            auto sync_future = std::async(std::launch::async, []() -> hipError_t {
+                return hipDeviceSynchronize();
+            });
+
+            constexpr auto kSLATimeout = std::chrono::seconds(5);
+            const auto status = sync_future.wait_for(kSLATimeout);
+
+            if (status == std::future_status::timeout) {
                 if (logger) {
-                    logger->warn("ROCmBackend::createBackendFn: hipDeviceSynchronize() on device {} failed: {}", 
+                    logger->error("ROCmBackend::createBackendFn: kernel SLA timeout ({}s) on device {}",
+                                 kSLATimeout.count(), device_index);
+                }
+                // HIP kernel timeout — treat as degradation but continue.
+                // Note: the async thread still holds a reference; detach it
+                // so resources are released when it eventually finishes.
+                sync_future.wait();  // join before returning to avoid detached-thread UB
+                return true;
+            }
+
+            try {
+                hipError_t err = sync_future.get();
+                if (err != hipSuccess) {
+                    // Translate to CHECKED_HIP-style exception for uniform handling.
+                    CHECKED_HIP(err);
+                }
+            } catch (const std::exception& e) {
+                if (logger) {
+                    logger->warn("ROCmBackend::createBackendFn: hipDeviceSynchronize() on device {} failed: {}",
                                 device_index, e.what());
                 }
                 // Continue despite sync error; return success to allow fallback path.

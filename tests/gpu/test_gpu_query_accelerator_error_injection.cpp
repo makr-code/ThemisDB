@@ -18,6 +18,7 @@
 
 #include "themis/gpu/query_accelerator.h"
 #include <gtest/gtest.h>
+#include <algorithm>
 #include <cstring>
 #include <vector>
 #include <cmath>

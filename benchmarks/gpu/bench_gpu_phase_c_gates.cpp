@@ -16,6 +16,7 @@
  */
 
 #include <benchmark/benchmark.h>
+#include <algorithm>
 #include <vector>
 #include <chrono>
 #include <cmath>
@@ -58,7 +59,9 @@ class GPUPhaseCBenchmark : public benchmark::Fixture {
   }
   
   void SetUp(const ::benchmark::State& state) override {
-    ASSERT_NE(handler, nullptr);
+    if (!handler) {
+      state.SkipWithError("GPUErrorHandler::Create() returned nullptr");
+    }
   }
 };
 

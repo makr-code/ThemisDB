@@ -462,19 +462,21 @@ class FullPipelineTest : public ::testing::Test {
     accelerator = std::make_shared<GPUQueryAccelerator>();
   }
   
-  // Simulate a full query pipeline
+  // Simulate a full query pipeline.
+  // @param data    Input floats to aggregate.
+  // @param force_cpu  When true, simulate a GPU failure and force CPU fallback.
   struct QueryResult {
     bool used_gpu = false;
     float result = 0.0f;
   };
   
-  QueryResult simulate_query(const std::vector<float>& data) {
+  QueryResult simulate_query(const std::vector<float>& data, bool force_cpu = false) {
     // Simulate query: try GPU, fallback to CPU on error
     QueryResult qr;
     
     // Try GPU path
-    bool gpu_available = true;
-    bool gpu_succeeded = true;
+    bool gpu_available = !force_cpu;
+    bool gpu_succeeded = !force_cpu;
     
     if (gpu_available && gpu_succeeded) {
       // GPU path succeeded
@@ -527,7 +529,7 @@ TEST_F(FullPipelineTest, FullPipeline_GPUToCPUQuota) {
   EXPECT_EQ(error_info.recovery_policy, ErrorRecoveryPolicy::kFallbackCPU);
   
   // Fallback to CPU
-  auto result = simulate_query(data);
+  auto result = simulate_query(data, /*force_cpu=*/true);
   EXPECT_FALSE(result.used_gpu);
   EXPECT_FLOAT_EQ(result.result, 15.0f);
 }
@@ -550,7 +552,7 @@ TEST_F(FullPipelineTest, FullPipeline_GPUToCPUTimeout) {
   EXPECT_EQ(error_info.recovery_policy, ErrorRecoveryPolicy::kFallbackCPU);
   
   // Fallback to CPU
-  auto result = simulate_query(data);
+  auto result = simulate_query(data, /*force_cpu=*/true);
   EXPECT_FALSE(result.used_gpu);
   EXPECT_FLOAT_EQ(result.result, 15.0f);
 }
@@ -573,7 +575,7 @@ TEST_F(FullPipelineTest, FullPipeline_GPUToCPUCommunication) {
   EXPECT_EQ(error_info.recovery_policy, ErrorRecoveryPolicy::kRetryOnce);
   
   // After retry fails, fallback to CPU
-  auto result = simulate_query(data);
+  auto result = simulate_query(data, /*force_cpu=*/true);
   EXPECT_FALSE(result.used_gpu);
   EXPECT_FLOAT_EQ(result.result, 15.0f);
 }

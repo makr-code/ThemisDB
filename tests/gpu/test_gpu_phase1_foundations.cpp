@@ -42,6 +42,7 @@
 #include <memory>
 #include <thread>
 #include <chrono>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -286,15 +287,19 @@ TEST_F(UniqueGPUPtrTest, BasicAllocationAndDeallocation) {
   unique_gpu_ptr<float> ptr2(nullptr);
   EXPECT_FALSE(ptr2) << "unique_gpu_ptr constructed from nullptr should be null";
   
-  // Construct from raw pointer (simulated)
+  // Construct from raw pointer (simulated); release before destruction so that
+  // the host allocation is freed via delete, not cudaFree/hipFree.
   float* raw_ptr = new float(3.14f);
   unique_gpu_ptr<float> ptr3(raw_ptr);
   EXPECT_TRUE(ptr3) << "unique_gpu_ptr constructed from valid pointer should be truthy";
   EXPECT_EQ(ptr3.get(), raw_ptr) << "get() should return the stored pointer";
+  delete ptr3.release();  // return ownership to host allocator
 }
 
 /// Test 4.2: unique_gpu_ptr move semantics
 TEST_F(UniqueGPUPtrTest, MoveSemanticsWork) {
+  // Move constructor; release final owner so the host allocation is freed via
+  // delete rather than cudaFree/hipFree.
   float* raw_ptr = new float(2.71f);
   unique_gpu_ptr<float> src(raw_ptr);
   
@@ -313,6 +318,7 @@ TEST_F(UniqueGPUPtrTest, MoveSemanticsWork) {
   
   EXPECT_FALSE(dst) << "Source should be null after move assignment";
   EXPECT_TRUE(dst2) << "Destination should own the pointer after move assignment";
+  delete dst2.release();  // return ownership to host allocator
 }
 
 /// Test 4.3: unique_gpu_ptr release transfers ownership
@@ -339,11 +345,16 @@ TEST_F(UniqueGPUPtrTest, ResetCleansUpOldPointer) {
   unique_gpu_ptr<float> managed(ptr1);
   EXPECT_EQ(managed.get(), ptr1) << "Should manage first pointer";
   
-  // Reset to new pointer (should clean up ptr1)
+  // Before reset, take back ptr1 so it is freed via delete (not cudaFree/hipFree).
+  managed.release();
+  delete ptr1;
+
+  // Now manage ptr2
   managed.reset(ptr2);
   EXPECT_EQ(managed.get(), ptr2) << "Should now manage second pointer";
   
-  // Reset to nullptr
+  // Reset to nullptr; release ptr2 to avoid cudaFree/hipFree on host memory.
+  delete managed.release();
   managed.reset();
   EXPECT_FALSE(managed) << "Should be null after reset()";
 }
