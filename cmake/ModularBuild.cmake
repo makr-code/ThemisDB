@@ -221,6 +221,7 @@ set(THEMIS_BASE_SOURCES
     # Core utilities and cross-cutting concerns
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
+    ../src/utils/error_contracts.cpp
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
     ../src/utils/zstd_codec.cpp

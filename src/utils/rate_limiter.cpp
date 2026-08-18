@@ -64,20 +64,25 @@ bool RateLimiter::try_acquire(double tokens) {
     return false;
 }
 
-void RateLimiter::acquire(double tokens) {
-    if (tokens <= 0.0) return;
+bool RateLimiter::acquire_with_timeout(double tokens, std::chrono::milliseconds timeout) {
+    if (tokens <= 0.0) return true;
     std::unique_lock<std::mutex> lk(mutex_);
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (true) {
         refill_locked();
         if (tokens_ >= tokens) {
             tokens_ -= tokens;
-            return;
+            return true;
         }
-        // Compute precise sleep duration so we don't busy-wait.
+        const auto now = std::chrono::steady_clock::now();
+        if (now >= deadline) {
+            return false;
+        }
+
+        // Compute the smaller of the refill time and the remaining timeout.
         auto wait = wait_for_locked(tokens);
-        // Cap single sleep at 50 ms to remain responsive to rate changes.
-        constexpr std::chrono::duration<double> max_sleep{0.05};
-        auto sleep_dur = std::min(wait, max_sleep);
+        auto remaining = std::chrono::duration_cast<std::chrono::duration<double>>(deadline - now);
+        auto sleep_dur = std::min(wait, remaining);
         cv_.wait_for(lk, sleep_dur);
     }
 }

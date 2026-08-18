@@ -100,7 +100,8 @@ enum class ErrorSeverity : uint8_t {
     Fatal      = 0,  ///< Unrecoverable; cascading failure risk
     Error      = 1,  ///< Functional failure; requires explicit intervention
     Warning    = 2,  ///< Degradation; fallback available
-    Degraded   = 3   ///< Performance impact; service nominal
+    Degraded   = 3,  ///< Performance impact; service nominal
+    Critical   = Fatal  ///< Compatibility alias for fail-closed callers
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

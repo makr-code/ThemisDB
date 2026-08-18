@@ -346,6 +346,7 @@ private:
 
     // Rollback helper (Phase 3 Hardening) — called under lock for exception recovery.
     // Decrements both global and per-tenant counters; idempotent and noexcept.
+    friend class AllocationGuard;
     void RollbackAllocationUnderLock(const std::string& tenant_id, uint64_t size_bytes);
 };
 

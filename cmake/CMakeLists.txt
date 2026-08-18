@@ -2568,6 +2568,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
+    ../src/utils/error_contracts.cpp
     ../src/utils/cursor.cpp
     ../src/utils/tracing.cpp
     

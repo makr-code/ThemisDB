@@ -2262,8 +2262,9 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
     
     // Check license_feature gate if required
     if (!manifest.license_feature.empty()) {
-        auto license_gate = themis::runtime::getLicenseGate();
-        if (!license_gate || !license_gate->hasFeature(manifest.license_feature)) {
+        std::string license_error;
+        auto& license_gate = themis::license::RuntimeLicenseGate::instance();
+        if (!license_gate.isFeatureAllowed(manifest.license_feature, license_error)) {
             error_details = "License feature '" + manifest.license_feature + "' not granted";
             return ManifestErrorCode::PLUGIN_LICENSE_DENIED;
         }

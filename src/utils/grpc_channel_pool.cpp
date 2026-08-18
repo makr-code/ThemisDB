@@ -329,7 +329,8 @@ void GrpcChannelPool::reportSuccess(const std::string& target) {
     }
 }
 
-void GrpcChannelPool::reportFailure(const std::string& target) {
+void GrpcChannelPool::reportFailure(const std::string& target, uint16_t error_code) {
+    (void)error_code;
     std::lock_guard<std::mutex> lk(cb_mutex_);
     auto& cb = circuit_breakers_[target];
 

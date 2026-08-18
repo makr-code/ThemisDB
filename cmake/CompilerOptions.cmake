@@ -285,6 +285,16 @@ if(MSVC)
         set(ENV{LIBPATH} "${_themis_msvc_lib_paths_joined}")
         message(STATUS "MSVC linker environment seeded: ${_themis_msvc_lib_paths_joined}")
     endif()
+
+    set(CMAKE_TRY_COMPILE_PLATFORM_VARIABLES
+        CMAKE_LIBRARY_PATH
+        CMAKE_INCLUDE_PATH
+        CMAKE_PREFIX_PATH
+        VCToolsInstallDir
+        WindowsSdkDir
+        WindowsSDKVersion
+        WindowsSDKLibVersion
+    )
     
     # Release-specific options for SIMD optimization
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
