@@ -95,7 +95,9 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*principle_json);
                 argument.principle_basis = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (const nlohmann::json::exception& ex) {
+                THEMIS_WARN("Failed to parse principle_basis JSON: {}", ex.what());
+            }
         }
         
         auto counter_json = entity.getFieldAsString("counterarguments");
@@ -103,7 +105,9 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*counter_json);
                 argument.counterarguments = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (const nlohmann::json::exception& ex) {
+                THEMIS_WARN("Failed to parse counterarguments JSON: {}", ex.what());
+            }
         }
         
         auto supports_json = entity.getFieldAsString("supports");
@@ -111,7 +115,9 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*supports_json);
                 argument.supports = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (const nlohmann::json::exception& ex) {
+                THEMIS_WARN("Failed to parse supports JSON: {}", ex.what());
+            }
         }
         
         return argument;
@@ -179,7 +185,9 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*supporting_json);
                 decision.supporting_philosophies = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (const nlohmann::json::exception& ex) {
+                THEMIS_WARN("Failed to parse supporting_philosophies JSON: {}", ex.what());
+            }
         }
         
         auto chain_json = entity.getFieldAsString("argument_chain_ids");
@@ -187,7 +195,9 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*chain_json);
                 decision.argument_chain_ids = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (const nlohmann::json::exception& ex) {
+                THEMIS_WARN("Failed to parse argument_chain_ids JSON: {}", ex.what());
+            }
         }
         
         return decision;
@@ -260,14 +270,20 @@ public:
             if (!s) return {};
             try {
                 return nlohmann::json::parse(*s).get<std::vector<std::string>>();
-            } catch (...) { return {}; }
+            } catch (const nlohmann::json::exception& ex) {
+                THEMIS_WARN("Failed to parse JSON array field '{}': {}", field, ex.what());
+                return {};
+            }
         };
         auto parse_string_map = [&](const char* field) -> std::map<std::string, std::string> {
             auto s = entity.getFieldAsString(field);
             if (!s) return {};
             try {
                 return nlohmann::json::parse(*s).get<std::map<std::string, std::string>>();
-            } catch (...) { return {}; }
+            } catch (const nlohmann::json::exception& ex) {
+                THEMIS_WARN("Failed to parse JSON map field '{}': {}", field, ex.what());
+                return {};
+            }
         };
         
         profile.main_theses = parse_string_vec("main_theses");

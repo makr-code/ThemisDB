@@ -47,6 +47,7 @@ void SynthesisMatrixBuilder::validateSummary(const SchoolPositionSummary& summar
         throw SchemaValidationError(
             "verdict must be PROHIBIT|PERMIT|CONDITIONAL|ABSTAIN, got: " + summary.verdict);
     }
+    // COMPLEXITY FIX: Ensure confidence is in valid range before access (HIGH: uninitialized_access)
     if (summary.confidence < 0.0f || summary.confidence > 1.0f) {
         throw SchemaValidationError("confidence must be in [0.0, 1.0]");
     }
