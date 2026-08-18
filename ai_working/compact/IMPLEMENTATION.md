@@ -24,21 +24,21 @@
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
-- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
 - `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
-- `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
+- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
 - `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
+- `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
-- `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
 - `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
+- `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
-- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
-- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-18, 13,507 B)
+- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
+- `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_5_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 11,681 B)
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-18, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-18, 19,108 B)
@@ -52,9 +52,9 @@
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
-- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
+- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
 - `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
@@ -70,8 +70,8 @@
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
 - `FP_DETECTION_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,430 B)
 - `COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 16,526 B)
-- `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
 - `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 10,517 B)
+- `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-18, 16,162 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-18, 17,764 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 10,935 B)
 
@@ -2337,6 +2337,56 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 
 ---
 
+### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Tensor Module Complete Implementation - Master Plan & Status
+**Date Initiated**: 2026-08-07
+**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
+**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
+**Total Effort**: ~750-900 engineer-hours
+**Agent Count**: 9 specialized sub-agents (3 per stream)
+---
+## Executive Summary
+**Key Characteristics**:
+- ✅ Parallel sub-agent execution (3 agents per stream)
+- ✅ Weekly merge & integration checkpoints
+- ✅ Clear deliverables and success criteria per block
+- ✅ Risk mitigation strategies documented
+- ✅ Backward compatible within major release line
+- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
+---
+## Master Timeline & Milestones
+August 2026          September 2026      October 2026        November 2026       January 2027
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
+│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
+│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
+│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
+│ Exec             │                  │                  │  (48-72h runs)    │              │
+│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
+### Detailed Milestones
+**Week 1-3 (Aug 7-27): Stream A Active Execution**
+- A1: Index/bridge concurrent hardening tests implemented
+- A2: Unified diagnostics architecture designed
+- A3: Baseline benchmark measurements collected
+**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
+- All A1/A2/A3 blocks complete and validated
+- Pull request created for Stream A: feature/tensor-q3-hardening
+- Merge to develop: Aug 30-31
+**Week 4 (Sept 1): Stream B Launch**
+- Edge case scenario inventory (B1) compiled
+- Stress test design (B2) finalized
+- P95/P99 measurement protocol (B3) prepared
+**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
+- B1: Edge case handling implemented, 20-30 tests
+- B2: Stress suite designed and parametrized
+- B3: CI measurement runs scheduled
+**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
+
+---
+
 ### T2.3_IMPLEMENTATION_VERIFICATION.md
 
 # Phase 2 T2.3 Implementation Verification Report
@@ -2520,107 +2570,6 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 **Status:** ✅ All Phase 2 T2.3 acceptance criteria met and verified
-
----
-
-### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Tensor Module Complete Implementation - Master Plan & Status
-**Date Initiated**: 2026-08-07
-**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
-**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
-**Total Effort**: ~750-900 engineer-hours
-**Agent Count**: 9 specialized sub-agents (3 per stream)
----
-## Executive Summary
-**Key Characteristics**:
-- ✅ Parallel sub-agent execution (3 agents per stream)
-- ✅ Weekly merge & integration checkpoints
-- ✅ Clear deliverables and success criteria per block
-- ✅ Risk mitigation strategies documented
-- ✅ Backward compatible within major release line
-- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
----
-## Master Timeline & Milestones
-August 2026          September 2026      October 2026        November 2026       January 2027
-┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
-│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
-│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
-│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
-│ Exec             │                  │                  │  (48-72h runs)    │              │
-│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
-└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
-### Detailed Milestones
-**Week 1-3 (Aug 7-27): Stream A Active Execution**
-- A1: Index/bridge concurrent hardening tests implemented
-- A2: Unified diagnostics architecture designed
-- A3: Baseline benchmark measurements collected
-**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
-- All A1/A2/A3 blocks complete and validated
-- Pull request created for Stream A: feature/tensor-q3-hardening
-- Merge to develop: Aug 30-31
-**Week 4 (Sept 1): Stream B Launch**
-- Edge case scenario inventory (B1) compiled
-- Stress test design (B2) finalized
-- P95/P99 measurement protocol (B3) prepared
-**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
-- B1: Edge case handling implemented, 20-30 tests
-- B2: Stress suite designed and parametrized
-- B3: CI measurement runs scheduled
-**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
-
----
-
-### SPRINT_8_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
-**Date:** 2026-06-30
-**Sprint:** 8 - Move Semantics Remediation
-**Phase:** 1A - LLM + Query Modules
-**Status:** ✅ IN PROGRESS
----
-## EXECUTIVE SUMMARY
-- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
-- **CWE-415:** Double Free (move assignment doesn't clean up)
-- **CWE-672:** Use After Free (moved-from objects accessed)
-### Key Metrics
-| Metric | Value |
-|--------|-------|
-| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
-| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
-| **Files Fixed (Phase 1A)** | 4 files |
-| **Test Files Created** | 2 comprehensive test suites |
-| **Estimated Time Savings** | 200+ hours of manual security review |
----
-## IMPLEMENTATION DETAILS
-### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
-**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
-**Fix Applied:**
-- ✅ Added move constructor with `noexcept`
-- ✅ Added move assignment operator with self-assignment check
-- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
-- ✅ Added Doxygen comments with CWE mappings
-**Key Implementation:**
-// Header: Added after destructor
-MultiLoRAManager(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager(const MultiLoRAManager&) = delete;
-MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
-// Implementation: Proper ownership transfer with valid moved-from state
-MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
-: config_(std::move(other.config_)),
-loras_(std::move(other.loras_)),
-// ... all members moved
-eviction_thread_(std::move(other.eviction_thread_))
-// ...
-{
-// Reset source to valid empty state
-other.total_vram_bytes_ = 0;
-other.eviction_thread_running_.store(false);
 
 ---
 
@@ -2964,6 +2913,57 @@ ctest -R "StorageEngine" -V
 ---
 
 **End of Sprint 8 Phase 1B Move Semantics Implementation Summary**
+
+---
+
+### SPRINT_8_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
+**Date:** 2026-06-30
+**Sprint:** 8 - Move Semantics Remediation
+**Phase:** 1A - LLM + Query Modules
+**Status:** ✅ IN PROGRESS
+---
+## EXECUTIVE SUMMARY
+- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
+- **CWE-415:** Double Free (move assignment doesn't clean up)
+- **CWE-672:** Use After Free (moved-from objects accessed)
+### Key Metrics
+| Metric | Value |
+|--------|-------|
+| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
+| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
+| **Files Fixed (Phase 1A)** | 4 files |
+| **Test Files Created** | 2 comprehensive test suites |
+| **Estimated Time Savings** | 200+ hours of manual security review |
+---
+## IMPLEMENTATION DETAILS
+### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
+**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
+**Fix Applied:**
+- ✅ Added move constructor with `noexcept`
+- ✅ Added move assignment operator with self-assignment check
+- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
+- ✅ Added Doxygen comments with CWE mappings
+**Key Implementation:**
+// Header: Added after destructor
+MultiLoRAManager(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager(const MultiLoRAManager&) = delete;
+MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
+// Implementation: Proper ownership transfer with valid moved-from state
+MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
+: config_(std::move(other.config_)),
+loras_(std::move(other.loras_)),
+// ... all members moved
+eviction_thread_(std::move(other.eviction_thread_))
+// ...
+{
+// Reset source to valid empty state
+other.total_vram_bytes_ = 0;
+other.eviction_thread_running_.store(false);
 
 ---
 
@@ -3327,55 +3327,6 @@ This comprehensive RAII hardening of the LLM module significantly improves resou
 **Report Generated:** 2026-08-17
 **Module Version:** 0.0.48
 **Reviewed By:** Copilot Code Review Agent
-
----
-
-### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# PR Version Targeting Implementation Summary
-> **Status:** Complete (2026-08-18)
-> **Author:** Copilot Task Agent
-> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
----
-## Overview
-This implementation enables **every PR to have a target version** that:
-1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
-2. ✅ Maps to GitHub milestones for release scope tracking
-3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
-4. ✅ Supports automated validation and release manager workflows
----
-## What Was Implemented
-### Block 1: Governance & Documentation (Complete ✓)
-**Files Created:**
-1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
-- Comprehensive policy for version-targeted PRs
-- Valid version formats (SemVer, pre-releases, backlog)
-- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
-- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
-- Release manager workflow and pre-release checklist
-- FAQ and troubleshooting
-2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
-- Step-by-step milestone creation guide
-- Recommended milestone structure (stable, pre-release, backlog)
-- Milestone description templates with examples
-- Pre-release checklist for release managers
-- Quarterly backlog triage process
-**Files Modified:**
-1. **`.github/pull_request_template.md`**
-- Added mandatory "Target Version" field at top of template
-- Included selection criteria and link to governance policy
-- Provides dropdown of valid version formats
-2. **`RELEASE_STRATEGY.md`** (§2.1.1)
-- Documented PR version targeting integration with milestone model
-- Explained traceability, changelog automation, and scope validation
-3. **`VERSIONING.md`** (§2.1)
-- Added PR version targeting guidance
-- Selection criteria table for different PR types
-- Reference to full policy documentation
----
-### Block 2: Automation & Validation (Complete ✓)
 
 ---
 
@@ -3791,6 +3742,55 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
+### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# PR Version Targeting Implementation Summary
+> **Status:** Complete (2026-08-18)
+> **Author:** Copilot Task Agent
+> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
+---
+## Overview
+This implementation enables **every PR to have a target version** that:
+1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
+2. ✅ Maps to GitHub milestones for release scope tracking
+3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
+4. ✅ Supports automated validation and release manager workflows
+---
+## What Was Implemented
+### Block 1: Governance & Documentation (Complete ✓)
+**Files Created:**
+1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
+- Comprehensive policy for version-targeted PRs
+- Valid version formats (SemVer, pre-releases, backlog)
+- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
+- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
+- Release manager workflow and pre-release checklist
+- FAQ and troubleshooting
+2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
+- Step-by-step milestone creation guide
+- Recommended milestone structure (stable, pre-release, backlog)
+- Milestone description templates with examples
+- Pre-release checklist for release managers
+- Quarterly backlog triage process
+**Files Modified:**
+1. **`.github/pull_request_template.md`**
+- Added mandatory "Target Version" field at top of template
+- Included selection criteria and link to governance policy
+- Provides dropdown of valid version formats
+2. **`RELEASE_STRATEGY.md`** (§2.1.1)
+- Documented PR version targeting integration with milestone model
+- Explained traceability, changelog automation, and scope validation
+3. **`VERSIONING.md`** (§2.1)
+- Added PR version targeting guidance
+- Selection criteria table for different PR types
+- Reference to full policy documentation
+---
+### Block 2: Automation & Validation (Complete ✓)
+
+---
+
 ### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
 *(file too large — key headings extracted)*
@@ -3902,6 +3902,108 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 - `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
 - Returns CoordinatedUpdateResult with per-node statuses and aggregate success
 #### Test Files (1)
+
+---
+
+### PHASE_A1_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
+**Date**: 2026-08-08
+**Status**: Implementation Complete for Regex Detection Engine
+**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+---
+## Change Summary
+### Overview
+Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
+1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
+2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
+3. **Explicit Error Handling**: Clear error states instead of silent failures
+---
+## Files Modified
+### 1. Test Infrastructure
+#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
+- **Lines**: 328 total
+- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
+- **Tests Implemented**:
+- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
+- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
+- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
+- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
+- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
+- `PH-06`: Saga logger concurrent write safety (10+ threads)
+- `PH-07`: Audit logger timeout and cancellation (graceful stop)
+- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
+**Key Features**:
+class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
+// Each test includes:
+// 1. Clear scenario description
+// 2. Documented input/expected output
+// 3. Multiple edge cases per scenario
+// 4. No silent failures (explicit assertions)
+// 5. Helper methods for test data generation
+};
+#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
+- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
+- **Scope**: `PrivacyAuditHardeningFocusedTests`
+- **Timeout**: 60 seconds
+- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+---
+### 2. Regex Detection Engine Hardening
+#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
+- **Added Methods** (all [[nodiscard]] per best practices):
+
+---
+
+### PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md
+
+*(file too large — key headings extracted)*
+
+# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
+**Date**: 2026-08-08
+**Status**: Implementation Complete for Regex Detection Engine
+**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+---
+## Change Summary
+### Overview
+Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
+1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
+2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
+3. **Explicit Error Handling**: Clear error states instead of silent failures
+---
+## Files Modified
+### 1. Test Infrastructure
+#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
+- **Lines**: 328 total
+- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
+- **Tests Implemented**:
+- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
+- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
+- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
+- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
+- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
+- `PH-06`: Saga logger concurrent write safety (10+ threads)
+- `PH-07`: Audit logger timeout and cancellation (graceful stop)
+- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
+**Key Features**:
+class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
+// Each test includes:
+// 1. Clear scenario description
+// 2. Documented input/expected output
+// 3. Multiple edge cases per scenario
+// 4. No silent failures (explicit assertions)
+// 5. Helper methods for test data generation
+};
+#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
+- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
+- **Scope**: `PrivacyAuditHardeningFocusedTests`
+- **Timeout**: 60 seconds
+- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+---
+### 2. Regex Detection Engine Hardening
+#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
+- **Added Methods** (all [[nodiscard]] per best practices):
 
 ---
 
@@ -4468,108 +4570,6 @@ ctest -R "PH0[18]_" -V --output-on-failure
 - **Prepared by**: AI Implementation Agent
 - **Date**: 2026-08-08
 - **Status**: Ready for implementation
-
----
-
-### PHASE_A1_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
-**Date**: 2026-08-08
-**Status**: Implementation Complete for Regex Detection Engine
-**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
----
-## Change Summary
-### Overview
-Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
-1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
-2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
-3. **Explicit Error Handling**: Clear error states instead of silent failures
----
-## Files Modified
-### 1. Test Infrastructure
-#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
-- **Lines**: 328 total
-- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
-- **Tests Implemented**:
-- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
-- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
-- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
-- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
-- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
-- `PH-06`: Saga logger concurrent write safety (10+ threads)
-- `PH-07`: Audit logger timeout and cancellation (graceful stop)
-- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
-**Key Features**:
-class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
-// Each test includes:
-// 1. Clear scenario description
-// 2. Documented input/expected output
-// 3. Multiple edge cases per scenario
-// 4. No silent failures (explicit assertions)
-// 5. Helper methods for test data generation
-};
-#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
-- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
-- **Scope**: `PrivacyAuditHardeningFocusedTests`
-- **Timeout**: 60 seconds
-- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
----
-### 2. Regex Detection Engine Hardening
-#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
-- **Added Methods** (all [[nodiscard]] per best practices):
-
----
-
-### PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md
-
-*(file too large — key headings extracted)*
-
-# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
-**Date**: 2026-08-08
-**Status**: Implementation Complete for Regex Detection Engine
-**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
----
-## Change Summary
-### Overview
-Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
-1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
-2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
-3. **Explicit Error Handling**: Clear error states instead of silent failures
----
-## Files Modified
-### 1. Test Infrastructure
-#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
-- **Lines**: 328 total
-- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
-- **Tests Implemented**:
-- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
-- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
-- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
-- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
-- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
-- `PH-06`: Saga logger concurrent write safety (10+ threads)
-- `PH-07`: Audit logger timeout and cancellation (graceful stop)
-- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
-**Key Features**:
-class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
-// Each test includes:
-// 1. Clear scenario description
-// 2. Documented input/expected output
-// 3. Multiple edge cases per scenario
-// 4. No silent failures (explicit assertions)
-// 5. Helper methods for test data generation
-};
-#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
-- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
-- **Scope**: `PrivacyAuditHardeningFocusedTests`
-- **Timeout**: 60 seconds
-- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
----
-### 2. Regex Detection Engine Hardening
-#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
-- **Added Methods** (all [[nodiscard]] per best practices):
 
 ---
 
@@ -5232,59 +5232,6 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 
 ---
 
-### P0_P1_P2_IMPLEMENTATION_STATUS.md
-
-*(file too large — key headings extracted)*
-
-# P0/P1/P2 Implementation Status Summary
-**Last Updated:** 2026-07-22T16:40:00Z
-## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
-### P0-D01: FA3 Kernel-Audit ✅
-- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
-- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
-- [x] Acceptance: P0-GATE-01 passed
-### P0-D02: NVFP4 Capability-Assessment ✅
-- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
-- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
-- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
-### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
-- [ ] Status: Needs completion
-- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
-- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
-### P0-D04: Baseline-Benchmark ⏳
-- [ ] Status: Needs completion
-- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
-- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
----
-## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
-### P1-D01: `ISSMPlugin` Interface ✅
-- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
-- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
-- [x] SSMStateSnapshot struct with HLC binding
-- [ ] **GATE:** Needs human architect sign-off on:
-- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
-- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
-- [ ] Owner and migration path for Phase 2+ persistence
-### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
-- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
-- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
-### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
-- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
-### P1-D04: Infini-attention CPU-Fallback ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
-- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
-### P1-D05: Drift-Metriken ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
-- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
-
----
-
 ### P2_D03_D04_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -5388,6 +5335,59 @@ The implementation hooks both components into production systems:
 - **Thread-Safe**: All access guarded by `history_mutex_`
 ---
 ### 2. LLMPluginManager RocksDB State Store Integration
+
+---
+
+### P0_P1_P2_IMPLEMENTATION_STATUS.md
+
+*(file too large — key headings extracted)*
+
+# P0/P1/P2 Implementation Status Summary
+**Last Updated:** 2026-07-22T16:40:00Z
+## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
+### P0-D01: FA3 Kernel-Audit ✅
+- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
+- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
+- [x] Acceptance: P0-GATE-01 passed
+### P0-D02: NVFP4 Capability-Assessment ✅
+- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
+- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
+- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
+### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
+- [ ] Status: Needs completion
+- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
+- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
+### P0-D04: Baseline-Benchmark ⏳
+- [ ] Status: Needs completion
+- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
+- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
+---
+## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
+### P1-D01: `ISSMPlugin` Interface ✅
+- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
+- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
+- [x] SSMStateSnapshot struct with HLC binding
+- [ ] **GATE:** Needs human architect sign-off on:
+- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
+- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
+- [ ] Owner and migration path for Phase 2+ persistence
+### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
+- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
+- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
+### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
+- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
+### P1-D04: Infini-attention CPU-Fallback ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
+- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
+### P1-D05: Drift-Metriken ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
+- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
 
 ---
 
@@ -6097,42 +6097,6 @@ AFTER ALL BATCHES (Target):
 
 ---
 
-### CMT-7504_IMPLEMENTATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# CMT-7504 Implementation Guide
-## Documentation Linkset Synchronization Remediation Steps
-**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
-**Target Completion:** 2026-08-31
-**Estimated Effort:** 2 hours (execution + testing)
----
-## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
-### Step 1.1: Add Bidirectional Cross-Links
-#### A. Update Root README.md
-**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
-**Add this block:**
-### 🟠 Content Module Status Snapshot
-**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
-**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
----
-#### B. Update Root ROADMAP.md
-**Location:** Immediately after the "## Current Status" section (around line 50)
-**Add this subsection:**
-## Content Module Status
-**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
-See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
-- Complete phase-by-phase status
-- Current in-progress work (hardening, benchmarking, diagnostics)
-- Planned features (3-6 months and 6-12 months targets)
-- Production readiness checklist
-**Key Milestones:**
-- Phase 1-5 Complete (core implementation, error handling, tests, performance)
-- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
-**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
-
----
-
 ### CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -6180,6 +6144,42 @@ Example: attempt=0→0ms, attempt=1→150ms, attempt=2→225ms, attempt=3→337m
 - `src/chimera/batch_executor.cpp` (10 lines)
 **Features**:
 - `IBatchAdapter`: Mixin interface for queuing and flushing
+
+---
+
+### CMT-7504_IMPLEMENTATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# CMT-7504 Implementation Guide
+## Documentation Linkset Synchronization Remediation Steps
+**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
+**Target Completion:** 2026-08-31
+**Estimated Effort:** 2 hours (execution + testing)
+---
+## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
+### Step 1.1: Add Bidirectional Cross-Links
+#### A. Update Root README.md
+**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
+**Add this block:**
+### 🟠 Content Module Status Snapshot
+**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
+**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
+---
+#### B. Update Root ROADMAP.md
+**Location:** Immediately after the "## Current Status" section (around line 50)
+**Add this subsection:**
+## Content Module Status
+**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
+See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
+- Complete phase-by-phase status
+- Current in-progress work (hardening, benchmarking, diagnostics)
+- Planned features (3-6 months and 6-12 months targets)
+- Production readiness checklist
+**Key Milestones:**
+- Phase 1-5 Complete (core implementation, error handling, tests, performance)
+- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
+**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
 
 ---
 

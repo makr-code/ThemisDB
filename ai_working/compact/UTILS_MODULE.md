@@ -12,13 +12,65 @@
 
 ## Source Files
 
+- `UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md` (2026-08-18, 22,058 B)
 - `UTILS_MODULE_IMPLEMENTATION_DELIVERY_INDEX.md` (2026-08-18, 12,608 B)
 - `UTILS_MODULE_IMPLEMENTATION_EXECUTIVE_SUMMARY.md` (2026-08-18, 17,536 B)
-- `UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md` (2026-08-18, 22,058 B)
 
 ---
 
 ## Compacted Content
+
+### UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md
+
+*(file too large — key headings extracted)*
+
+# Utils Module Implementation Status Tracker
+## Q3 2026 - Q1 2027 Comprehensive Plan
+**Plan Date:** 2026-08-08
+**Last Updated:** 2026-08-08 14:25 UTC
+**Overall Status:** ✅ Phase A Wave 1 Complete, A.3+B.3 In Progress
+---
+## Executive Summary
+**Key Achievements:**
+- ✅ Phase A.1 (Privacy/Audit Hardening) COMPLETE - 254 lines of production code, 441 lines of tests
+- ✅ Phase A.2 (Diagnostics Review) COMPLETE - 9 findings identified, 4-week roadmap created
+- 🔄 Phase A.3 (Benchmarks) IN PROGRESS - Measuring privacy scan overhead, compression throughput
+- 🔄 Phase B.3 (Crypto Docs) IN PROGRESS - L0→L4 documentation architecture
+**Critical Blocker:**
+- 🔴 CRIT-001: Error code collision [7300-7305] blocks Phase A.2 implementation
+- 📄 Resolution guide: PHASE_A2_CRIT001_RESOLUTION_GUIDE.md (10.5 KB)
+- ⏰ Deadline: 2026-08-09
+---
+## Detailed Phase Breakdown
+### PHASE A: Hardening & Diagnostics (Q3 2026)
+#### ✅ A.1: Privacy/Audit Helper Hardening
+**Status:** COMPLETE ✅
+**Agent:** themisdb-implementer
+**Duration:** ~9 minutes (546 seconds)
+**Deliverables:** 6 files (3 production, 3 documentation)
+| Deliverable | Type | Lines | Status |
+|-------------|------|-------|--------|
+| regex_detection_engine.h (hardening methods) | Header | +50 | ✅ |
+| regex_detection_engine.cpp (UTF-8, ReDoS, bounds) | Production | +175 | ✅ |
+| test_utils_privacy_audit_hardening.cpp (PH-01..08) | Test | 441 | ✅ |
+| PHASE_A1_IMPLEMENTATION_SUMMARY.md | Doc | 475 | ✅ |
+| PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md | Doc | 328 | ✅ |
+| PHASE_A1_VERIFICATION_CHECKLIST.md | Doc | 600 | ✅ |
+**Hardening Components:**
+1. `validateUTF8Input()` - UTF-8 sequence validation, BOM handling
+2. `detectReDoSPattern()` - Nested quantifier detection, alternation overlap
+3. `checkInputBounds()` - Input size limits (10MB default, configurable)
+**Test Coverage (8 tests):**
+- PH-01: Unicode normalization (combining chars, BOM, emoji)
+- PH-02: Multibyte regex edge cases (UTF-8, mixed scripts, malformed)
+- PH-03: Audit buffer overflow (10K+ entries)
+- PH-04: Rate limiting under load (1000+ scans/sec)
+- PH-05: Pseudonymization edge cases (null, empty, oversized)
+- PH-06: Concurrent write safety (multiple threads)
+- PH-07: Timeout/cancellation (graceful shutdown)
+- PH-08: ReDoS prevention (catastrophic backtracking)
+
+---
 
 ### UTILS_MODULE_IMPLEMENTATION_DELIVERY_INDEX.md
 
@@ -117,57 +169,5 @@
 - Organize sub-ranges by category
 - Maintain backward compatibility
 **Timeline:**
-
----
-
-### UTILS_MODULE_IMPLEMENTATION_STATUS_TRACKER.md
-
-*(file too large — key headings extracted)*
-
-# Utils Module Implementation Status Tracker
-## Q3 2026 - Q1 2027 Comprehensive Plan
-**Plan Date:** 2026-08-08
-**Last Updated:** 2026-08-08 14:25 UTC
-**Overall Status:** ✅ Phase A Wave 1 Complete, A.3+B.3 In Progress
----
-## Executive Summary
-**Key Achievements:**
-- ✅ Phase A.1 (Privacy/Audit Hardening) COMPLETE - 254 lines of production code, 441 lines of tests
-- ✅ Phase A.2 (Diagnostics Review) COMPLETE - 9 findings identified, 4-week roadmap created
-- 🔄 Phase A.3 (Benchmarks) IN PROGRESS - Measuring privacy scan overhead, compression throughput
-- 🔄 Phase B.3 (Crypto Docs) IN PROGRESS - L0→L4 documentation architecture
-**Critical Blocker:**
-- 🔴 CRIT-001: Error code collision [7300-7305] blocks Phase A.2 implementation
-- 📄 Resolution guide: PHASE_A2_CRIT001_RESOLUTION_GUIDE.md (10.5 KB)
-- ⏰ Deadline: 2026-08-09
----
-## Detailed Phase Breakdown
-### PHASE A: Hardening & Diagnostics (Q3 2026)
-#### ✅ A.1: Privacy/Audit Helper Hardening
-**Status:** COMPLETE ✅
-**Agent:** themisdb-implementer
-**Duration:** ~9 minutes (546 seconds)
-**Deliverables:** 6 files (3 production, 3 documentation)
-| Deliverable | Type | Lines | Status |
-|-------------|------|-------|--------|
-| regex_detection_engine.h (hardening methods) | Header | +50 | ✅ |
-| regex_detection_engine.cpp (UTF-8, ReDoS, bounds) | Production | +175 | ✅ |
-| test_utils_privacy_audit_hardening.cpp (PH-01..08) | Test | 441 | ✅ |
-| PHASE_A1_IMPLEMENTATION_SUMMARY.md | Doc | 475 | ✅ |
-| PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md | Doc | 328 | ✅ |
-| PHASE_A1_VERIFICATION_CHECKLIST.md | Doc | 600 | ✅ |
-**Hardening Components:**
-1. `validateUTF8Input()` - UTF-8 sequence validation, BOM handling
-2. `detectReDoSPattern()` - Nested quantifier detection, alternation overlap
-3. `checkInputBounds()` - Input size limits (10MB default, configurable)
-**Test Coverage (8 tests):**
-- PH-01: Unicode normalization (combining chars, BOM, emoji)
-- PH-02: Multibyte regex edge cases (UTF-8, mixed scripts, malformed)
-- PH-03: Audit buffer overflow (10K+ entries)
-- PH-04: Rate limiting under load (1000+ scans/sec)
-- PH-05: Pseudonymization edge cases (null, empty, oversized)
-- PH-06: Concurrent write safety (multiple threads)
-- PH-07: Timeout/cancellation (graceful shutdown)
-- PH-08: ReDoS prevention (catastrophic backtracking)
 
 ---

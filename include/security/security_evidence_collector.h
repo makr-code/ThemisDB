@@ -139,6 +139,24 @@ struct ChangeManagementEvidence {
     nlohmann::json toJson() const;
 };
 
+/**
+ * @brief Export metrics for audit export reliability and performance tracking.
+ *
+ * Captures timing and event counts for export operations, enabling reliability
+ * validation (atomicity, idempotency) and performance gate enforcement.
+ */
+struct ExportMetrics {
+    int64_t export_start_ms = 0;    ///< Export operation start timestamp (Unix ms)
+    int64_t export_end_ms = 0;      ///< Export operation end timestamp (Unix ms)
+    uint64_t events_sent = 0;       ///< Total events transmitted
+    uint64_t events_confirmed = 0;  ///< Events successfully confirmed at destination
+    uint32_t resend_count = 0;      ///< Number of resend/retry attempts
+    bool atomicity_guaranteed = false; ///< True when export guarantees all-or-nothing
+    bool idempotency_verified = false; ///< True when duplicate detection is enabled
+
+    nlohmann::json toJson() const;
+};
+
 struct SecurityEvidenceBundle {
     std::string bundle_id;                   ///< Unique bundle identifier
     int64_t collected_at_ms = 0;             ///< Bundle collection timestamp
@@ -261,6 +279,38 @@ public:
      */
     bool verifyRetention(const std::string& evidence_store_path) const;
 
+    /**
+     * @brief Verify export atomicity: all-or-nothing delivery semantics.
+     *
+     * Returns true when the export implementation guarantees that either all
+     * events are successfully exported or none are, preventing partial/corrupt
+     * evidence exports.
+     *
+     * @return true if export atomicity is guaranteed, false otherwise.
+     */
+    bool export_atomicity_guarantee() const noexcept;
+
+    /**
+     * @brief Verify export idempotency: duplicate detection on retry.
+     *
+     * Returns true when the export implementation detects and deduplicates
+     * retried exports, preventing duplicate events in the evidence store
+     * across export retry attempts.
+     *
+     * @return true if export idempotency checking is enabled, false otherwise.
+     */
+    bool export_idempotency_check() const noexcept;
+
+    /**
+     * @brief Get export metrics from the last export operation.
+     *
+     * Provides timing and event counts for reliability analysis and
+     * performance gate validation. Updated after each export operation.
+     *
+     * @return ExportMetrics from the last export, or default-constructed if no export yet.
+     */
+    ExportMetrics lastExportMetrics() const noexcept;
+
     const Config& config() const noexcept { return config_; }
 
 private:
@@ -269,6 +319,7 @@ private:
     RBAC*               rbac_;
     utils::AuditLogger* audit_logger_;
     mutable std::mutex  mutex_;
+    mutable ExportMetrics last_export_metrics_;  ///< Metrics from last export operation
 
     AuditLogExport         collectAuditLog(
         std::chrono::system_clock::time_point from,

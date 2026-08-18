@@ -22,6 +22,30 @@ Production-grade security stack with transport/auth/access-control, encryption/k
     - [x] Query masking tests: P-MASK-01..P-MASK-02 (PII redaction, audit trail) (2026-08-07)
     - [x] Phase 3 benchmarks: P-MRG-01..P-MRG-05 in bench_security_phase3_policy_gates.cpp (2026-08-07)
     - [x] Production validation: real-query-workload simulation + policy-merge/atomicity validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
+  - [~] Phase 4a Audit Export Hardening — Wave C Batch 1 (Target: Q4 2026)
+    - [~] High-volume stress tests for audit export reliability (Target: Q4 2026)
+      - [x] EXPORT-STRESS-01..EXPORT-STRESS-10: 10 focused stress test cases in `src/security/test_audit_export_stress_focused.cpp` (2026-08-18)
+      - [x] Sustained load validation: 1000+ events/sec for 5 seconds (2026-08-18)
+      - [x] Atomicity under concurrent exports: 4 threads × 10 exports each (2026-08-18)
+      - [x] Idempotency with duplicate detection via bundle IDs (2026-08-18)
+      - [x] Crash-recovery checkpoint validation at 10% intervals (2026-08-18)
+      - [x] Client disconnect and recovery scenarios (2026-08-18)
+      - [x] Memory pressure graceful degradation (2026-08-18)
+      - [x] Event loss detection and reliability gates (2026-08-18)
+      - [x] Export latency p95/p99 under sustained load (2026-08-18)
+      - [x] Recovery time after disconnect: ≤2s gate (2026-08-18)
+    - [~] Audit export reliability gates and metrics (Target: Q4 2026)
+      - [x] ExportMetrics struct: export_start_ms, export_end_ms, events_sent, events_confirmed, resend_count (include/security/security_evidence_collector.h) (2026-08-18)
+      - [x] export_atomicity_guarantee() method: all-or-nothing semantics (2026-08-18)
+      - [x] export_idempotency_check() method: deduplication on retry (2026-08-18)
+      - [x] lastExportMetrics() method: retrieve metrics from last export (2026-08-18)
+      - [x] Crash-recovery mechanism: checkpoint at 10% export intervals (2026-08-18)
+    - [~] Export performance benchmark gates (Target: Q4 2026)
+      - [x] bench_audit_export_gates.cpp with 5 benchmarks: latency, rate, file throughput, recovery time, atomicity/idempotency checks (2026-08-18)
+      - [x] Export rate gate: ≥10,000 events/sec (p99) (2026-08-18)
+      - [x] Export latency gate: ≤500ms per 1000-event batch (p99) (2026-08-18)
+      - [x] Recovery time gate: ≤2s after disconnect (p99) (2026-08-18)
+      - [x] Gate manifest baseline: benchmarks/wave9/audit_export_gate_manifest.json (2026-08-18)
 
 ## Planned Features
 
@@ -91,8 +115,13 @@ Production-grade security stack with transport/auth/access-control, encryption/k
   - [x] Tests: test_security_phase3_policy_hardening_focused.cpp (2026-08-07)
   - [x] Benchmarks: bench_security_phase3_policy_gates.cpp (2026-08-07)
   - [x] Production integration validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
+- [~] Phase 4a audit export hardening: high-volume stress tests + reliability gates + benchmarks (EXPORT-STRESS-01..10, E-ATOMIC, E-IDEM, E-LATENCY gates) (Target: Q4 2026)
+  - [x] Tests: test_audit_export_stress_focused.cpp with 10 focused stress cases (2026-08-18)
+  - [x] Benchmarks: bench_audit_export_gates.cpp with export rate/latency/recovery gates (2026-08-18)
+  - [x] Metrics implementation: ExportMetrics + reliability gate methods (2026-08-18)
+  - [x] Gate baseline: benchmarks/wave9/audit_export_gate_manifest.json (2026-08-18)
 - [x] Benchmark CMakeLists registered: benchmarks/security/CMakeLists.txt
-- Nachweise: security focused tests, auth/policy regressions, crypto/key-provider tests, security benchmarks (Phase 1-5)
+- Nachweise: security focused tests, auth/policy regressions, crypto/key-provider tests, security benchmarks, audit export stress/gates (Phase 1-4a)
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 
 ## Known Issues and Limitations
