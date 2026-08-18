@@ -139,12 +139,16 @@ std::string extractiveSummary(
     // Re-sort selected sentences back into document order
     std::sort(selected_indices.begin(), selected_indices.end());
 
-    std::string result;
+    // Optimization: Use stringstream for efficient string building in loop
+    // Complexity: O(n) linear time, avoids O(n²) reallocation behavior
+    std::ostringstream ss;
+    bool first = true;
     for (size_t idx : selected_indices) {
-        if (!result.empty()) result += ' ';
-        result += all_sentences[idx];
+        if (!first) ss << ' ';
+        ss << all_sentences[idx];
+        first = false;
     }
-    return result;
+    return ss.str();
 }
 
 /// Build an abstractive (LLM-based) summary prompt for one document.

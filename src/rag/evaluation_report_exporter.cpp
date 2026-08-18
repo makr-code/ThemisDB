@@ -25,26 +25,32 @@ namespace themis::rag::judge {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
+    // Optimize: Use std::string with proper reserve to avoid reallocation
+    // Worst-case: each character becomes \uXXXX (6 chars), but typically 1-2
+    // Reserve to account for escaped sequences without runtime reallocation
+    // Complexity: O(n) linear time, minimal allocations
     std::string out;
-    out.reserve(s.size() + 8);
+    // Reserve conservative estimate: assume average 30% growth for escaping
+    out.reserve(s.size() + (s.size() / 3));
+    
     for (unsigned char c : s) {
         switch (c) {
-            case '"':  out += "\\\""; break;
-            case '\\': out += "\\\\"; break;
-            case '\b': out += "\\b";  break;
-            case '\f': out += "\\f";  break;
-            case '\n': out += "\\n";  break;
-            case '\r': out += "\\r";  break;
-            case '\t': out += "\\t";  break;
+            case '"':  out.append("\\\""); break;
+            case '\\': out.append("\\\\"); break;
+            case '\b': out.append("\\b");  break;
+            case '\f': out.append("\\f");  break;
+            case '\n': out.append("\\n");  break;
+            case '\r': out.append("\\r");  break;
+            case '\t': out.append("\\t");  break;
             default:
                 if (c < 0x20) {
-                    // control character → \uXXXX
+                    // control character → \uXXXX (6 chars)
                     char buf[8];
                     std::snprintf(buf, sizeof(buf), "\\u%04x",
                                   static_cast<unsigned>(c));
-                    out += buf;
+                    out.append(buf);
                 } else {
-                    out += static_cast<char>(c);
+                    out.push_back(static_cast<char>(c));
                 }
                 break;
         }
@@ -53,17 +59,22 @@ std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
 }
 
 std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
+    // Optimize: Use std::string with proper reserve to avoid reallocation
+    // Common HTML entities: & (5 chars), <, >, ", ' (each 4-6 chars)
+    // Reserve conservative estimate: assume average 40% growth for escaping
+    // Complexity: O(n) linear time, minimal allocations
     std::string out;
-    out.reserve(s.size() + 16);
+    out.reserve(s.size() + (s.size() / 2));
+    
     for (unsigned char c : s) {
         switch (c) {
-            case '&':  out += "&amp;";  break;
-            case '<':  out += "&lt;";   break;
-            case '>':  out += "&gt;";   break;
-            case '"':  out += "&quot;"; break;
-            case '\'': out += "&#39;";  break;
+            case '&':  out.append("&amp;");  break;
+            case '<':  out.append("&lt;");   break;
+            case '>':  out.append("&gt;");   break;
+            case '"':  out.append("&quot;"); break;
+            case '\'': out.append("&#39;");  break;
             default:
-                out += static_cast<char>(c);
+                out.push_back(static_cast<char>(c));
                 break;
         }
     }

@@ -126,7 +126,7 @@ public:
      * @throws std::invalid_argument if the configuration violates the capacity
      *         invariants or default_cost is non-positive.
      */
-    explicit GraphQueryCache(Config config = Config{});
+    explicit GraphQueryCache(Config config);
 
     GraphQueryCache(const GraphQueryCache&) = delete;
     GraphQueryCache& operator=(const GraphQueryCache&) = delete;
@@ -219,9 +219,9 @@ private:
     // -----------------------------------------------------------------------
 
     struct Entry {
-        ResultSet    result;
+        ResultSet    result{};
         double       cost{1.0};
-        std::chrono::steady_clock::time_point inserted_at;
+        std::chrono::steady_clock::time_point inserted_at{};
     };
 
     // LRU list node: the key stored in the ordering list.
@@ -233,8 +233,8 @@ private:
 
     struct L1Tier {
         std::unordered_map<std::string,
-                           std::pair<Entry, LruList::iterator>> map;
-        LruList lru;   ///< Front = MRU, back = LRU victim.
+                           std::pair<Entry, LruList::iterator>> map{};
+        LruList lru{};   ///< Front = MRU, back = LRU victim.
     };
 
     // -----------------------------------------------------------------------
@@ -242,13 +242,13 @@ private:
     // -----------------------------------------------------------------------
 
     struct L2Entry {
-        Entry        entry;
-        LruList::iterator lru_it;
+        Entry        entry{};
+        LruList::iterator lru_it{};
     };
 
     struct L2Tier {
-        std::unordered_map<std::string, L2Entry> map;
-        LruList lru;   ///< Used for recency ordering; eviction score combines cost + recency.
+        std::unordered_map<std::string, L2Entry> map{};
+        LruList lru{};   ///< Used for recency ordering; eviction score combines cost + recency.
     };
 
     // -----------------------------------------------------------------------

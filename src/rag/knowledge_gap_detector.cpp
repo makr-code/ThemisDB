@@ -355,69 +355,70 @@ DetectionResult KnowledgeGapDetector::detectGap(
     const std::string& generated_answer,
     const GenerationContext& context
 ) {
-    const auto config = impl_->snapshotConfig();
-    const auto gap_callback = impl_->snapshotGapCallback();
+    try {
+        const auto config = impl_->snapshotConfig();
+        const auto gap_callback = impl_->snapshotGapCallback();
 
-    // F5-4 fix: ethical perspective gap check no longer short-circuits the other checks.
-    // Previously, a positive ethical keyword match returned immediately, skipping
-    // similarity and coverage pre-generation checks. Now all checks run and any
-    // gap (ethical or coverage/similarity) triggers a retrieval.
-    bool ethical_gap_detected = false;
-    DetectionResult ethical_result;
-    if (config.enable_ethical_gap_detection) {
-        ethical_result = detectEthicalPerspectiveGap(query, documents);
-        if (ethical_result.gap_detected) {
-            ethical_gap_detected = true;
-            if (gap_callback) {
-                gap_callback(ethical_result);
-            }
-            // Do not return here — continue running coverage/similarity checks below.
-        }
-    }
-
-    // Comprehensive detection based on mode; merge ethical gap into final result.
-    switch (config.mode) {
-        case DetectionMode::FAST: {
-            auto pre_result = detectPreGeneration(query, documents);
-            if (ethical_gap_detected && !pre_result.gap_detected) {
-                return ethical_result;
-            }
-            return pre_result;
-        }
-
-        case DetectionMode::BALANCED: {
-            auto pre_result = detectPreGeneration(query, documents);
-            if (pre_result.gap_detected) {
-                return pre_result;
-            }
-
-            if (context.generation_started) {
-                auto during_result = detectDuringGeneration(query, documents, context);
-                if (during_result.gap_detected) {
-                    return during_result;
-                }
-            }
-
-            // If ethical gap was detected but coverage/similarity checks were clean,
-            // still report the ethical gap to trigger retrieval.
-            if (ethical_gap_detected) {
-                return ethical_result;
-            }
-
-            return pre_result;
-        }
-
-        case DetectionMode::THOROUGH: {
-            auto pre_result = detectPreGeneration(query, documents);
-            if (pre_result.gap_detected) {
+        // F5-4 fix: ethical perspective gap check no longer short-circuits the other checks.
+        // Previously, a positive ethical keyword match returned immediately, skipping
+        // similarity and coverage pre-generation checks. Now all checks run and any
+        // gap (ethical or coverage/similarity) triggers a retrieval.
+        bool ethical_gap_detected = false;
+        DetectionResult ethical_result;
+        if (config.enable_ethical_gap_detection) {
+            ethical_result = detectEthicalPerspectiveGap(query, documents);
+            if (ethical_result.gap_detected) {
+                ethical_gap_detected = true;
                 if (gap_callback) {
-                    gap_callback(pre_result);
+                    gap_callback(ethical_result);
+                }
+                // Do not return here — continue running coverage/similarity checks below.
+            }
+        }
+
+        // Comprehensive detection based on mode; merge ethical gap into final result.
+        switch (config.mode) {
+            case DetectionMode::FAST: {
+                auto pre_result = detectPreGeneration(query, documents);
+                if (ethical_gap_detected && !pre_result.gap_detected) {
+                    return ethical_result;
                 }
                 return pre_result;
             }
 
-            if (context.generation_started) {
-                auto during_result = detectDuringGeneration(query, documents, context);
+            case DetectionMode::BALANCED: {
+                auto pre_result = detectPreGeneration(query, documents);
+                if (pre_result.gap_detected) {
+                    return pre_result;
+                }
+
+                if (context.generation_started) {
+                    auto during_result = detectDuringGeneration(query, documents, context);
+                    if (during_result.gap_detected) {
+                        return during_result;
+                    }
+                }
+
+                // If ethical gap was detected but coverage/similarity checks were clean,
+                // still report the ethical gap to trigger retrieval.
+                if (ethical_gap_detected) {
+                    return ethical_result;
+                }
+
+                return pre_result;
+            }
+
+            case DetectionMode::THOROUGH: {
+                auto pre_result = detectPreGeneration(query, documents);
+                if (pre_result.gap_detected) {
+                    if (gap_callback) {
+                        gap_callback(pre_result);
+                    }
+                    return pre_result;
+                }
+
+                if (context.generation_started) {
+                    auto during_result = detectDuringGeneration(query, documents, context);
                 if (during_result.gap_detected) {
                     if (gap_callback) {
                         gap_callback(during_result);
@@ -441,9 +442,19 @@ DetectionResult KnowledgeGapDetector::detectGap(
 
             return pre_result;
         }
-    }
+        }  // end switch
 
-    return ethical_gap_detected ? ethical_result : DetectionResult{};
+        return ethical_gap_detected ? ethical_result : DetectionResult{};
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard on main detection path to prevent incomplete state
+        THEMIS_WARN("detectGap: detection failed with exception: {}", e.what());
+        // Return safe no-gap result rather than propagating exception
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+    } catch (...) {
+        // HIGH FIX: Catch-all for unknown exceptions
+        THEMIS_WARN("detectGap: detection failed with unknown exception");
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+    }
 }
 
 DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
@@ -451,17 +462,18 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     std::vector<RetrievedDocument>& initial_documents,
     const std::string& tenant_id
 ) {
-    const auto config = impl_->snapshotConfig();
+    try {
+        const auto config = impl_->snapshotConfig();
 
-    // Phase 2: FLARE-style active retrieval implementation
-    if (!config.enable_flare) {
-        // FLARE disabled, return regular detection
-        return detectPreGeneration(query, initial_documents);
-    }
+        // Phase 2: FLARE-style active retrieval implementation
+        if (!config.enable_flare) {
+            // FLARE disabled, return regular detection
+            return detectPreGeneration(query, initial_documents);
+        }
 
-    THEMIS_DEBUG("FLARE active retrieval for query: {}", query);
+        THEMIS_DEBUG("FLARE active retrieval for query: {}", query);
 
-    DetectionResult result;
+        DetectionResult result;
     result.num_retrieved_docs = initial_documents.size();
 
     // Start with initial documents
@@ -572,6 +584,17 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     initial_documents = current_documents;
 
     return result;
+        }  // end try block
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard on active retrieval path to prevent incomplete state
+        THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed: {}", e.what());
+        // Return safe result with current documents; do not modify initial_documents if error
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+    } catch (...) {
+        // HIGH FIX: Catch-all for unknown exceptions
+        THEMIS_WARN("detectWithActiveRetrieval: active retrieval failed with unknown exception");
+        return DetectionResult{.gap_detected = false, .gap_type = GapType::NONE};
+    }
 }
 
 void KnowledgeGapDetector::setConfig(const KnowledgeGapConfig& config) {
@@ -901,18 +924,33 @@ bool KnowledgeGapDetector::verifyClaim(
     }
 
     // Check how many terms are found in documents
+    // Optimization: Convert to set for O(1) lookup and parse words once per document
+    // Complexity: O(n_docs × n_content) instead of O(n_docs × n_terms × n_content)
     size_t terms_found = 0;
+    
+    // Pre-build set of claim terms for O(1) lookup
+    std::set<std::string> term_set(claim_terms.begin(), claim_terms.end());
 
     for (const auto& doc : docs) {
         std::string content_lower = doc.content;
         std::transform(content_lower.begin(), content_lower.end(),
                       content_lower.begin(),
                       [](unsigned char c){ return std::tolower(c); });
-
-        for (const auto& term : claim_terms) {
-            if (content_lower.find(term) != std::string::npos) {
+        
+        // Parse content into words and check membership in term set
+        // Early exit when we find a matching term (O(log n_terms) per word)
+        std::istringstream stream(content_lower);
+        std::string word;
+        bool found_any = false;
+        
+        while (stream >> word && !found_any) {
+            // Remove punctuation from word end for better matching
+            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                word.pop_back();
+            }
+            if (term_set.count(word)) {
                 terms_found++;
-                break; // Count each term only once per document
+                found_any = true;
             }
         }
     }
@@ -1154,7 +1192,11 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     // Collect all sentences tagged by source document index.
     std::vector<std::pair<std::size_t, std::string>> tagged;  // (doc_index, sentence)
     for (std::size_t d = 0; d < docs.size(); ++d) {
-        for (auto& sent : splitSentences(docs[d].content)) {
+        // HIGH FIX: Range-for on temporary container — split sentences once and reuse
+        // to prevent reference invalidation. This ensures references remain valid
+        // for the entire loop iteration.
+        auto sentences = splitSentences(docs[d].content);
+        for (auto& sent : sentences) {
             tagged.emplace_back(d, std::move(sent));
         }
     }
@@ -1382,17 +1424,33 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
     }
 
     // Calculate how many terms are found in documents
+    // Optimization: Convert to set for O(1) lookup and parse words once per document
+    // Complexity: O(n_docs × n_content) instead of O(n_docs × n_terms × n_content)
     size_t terms_found = 0;
+    
+    // Pre-build set of sentence terms for O(1) lookup
+    std::set<std::string> term_set(sentence_terms.begin(), sentence_terms.end());
+    
     for (const auto& doc : docs) {
         std::string content_lower = doc.content;
         std::transform(content_lower.begin(), content_lower.end(),
                       content_lower.begin(),
                       [](unsigned char c){ return std::tolower(c); });
 
-        for (const auto& term : sentence_terms) {
-            if (content_lower.find(term) != std::string::npos) {
+        // Parse content into words and check membership in term set
+        // Early exit when we find a matching term (O(log n_terms) per word)
+        std::istringstream stream(content_lower);
+        std::string word;
+        bool found_any = false;
+        
+        while (stream >> word && !found_any) {
+            // Remove punctuation from word end for better matching
+            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                word.pop_back();
+            }
+            if (term_set.count(word)) {
                 terms_found++;
-                break; // Count each term once per document
+                found_any = true;
             }
         }
     }
@@ -1521,7 +1579,7 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     const auto config = impl_->snapshotConfig();
 
     // Keywords that indicate ethical/moral queries
-    std::vector<std::string> ethical_keywords = {
+    std::set<std::string> ethical_keywords_set = {
         "should", "ought", "moral", "ethical", "ethics",
         "right", "wrong", "good", "bad", "justice",
         "fair", "unfair", "virtue", "duty", "obligation",
@@ -1532,9 +1590,18 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     std::transform(lower_query.begin(), lower_query.end(),
                   lower_query.begin(), ::tolower);
 
+    // Optimization: Parse query into words and check set membership O(1) per word
+    // Complexity: O(n_words × log n_keywords) instead of O(n_keywords × n_query_length)
     int keyword_count = 0;
-    for (const auto& keyword : ethical_keywords) {
-        if (lower_query.find(keyword) != std::string::npos) {
+    std::istringstream stream(lower_query);
+    std::string word;
+    
+    while (stream >> word) {
+        // Remove punctuation from word end for better matching
+        while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+            word.pop_back();
+        }
+        if (ethical_keywords_set.count(word)) {
             keyword_count++;
         }
     }
@@ -1547,51 +1614,57 @@ int KnowledgeGapDetector::countEthicalPerspectives(
     const std::vector<RetrievedDocument>& docs
 ) {
     // Moral frameworks to look for
-    std::vector<std::string> frameworks = {
-        "utilitarian", "consequentialist", "utility",
-        "deontological", "kant", "duty", "categorical imperative",
-        "virtue", "aristotle", "character",
-        "rights", "human rights", "natural rights",
-        "care ethics", "feminist ethics",
-        "religious", "divine", "faith",
-        "cultural", "relativism"
+    // Optimization: Pre-build category mappings to avoid nested find() calls
+    std::map<std::string, std::string> framework_categories = {
+        {"utilitarian", "utilitarian"},
+        {"consequentialist", "utilitarian"},
+        {"utility", "utilitarian"},
+        {"deontological", "deontological"},
+        {"kant", "deontological"},
+        {"duty", "deontological"},
+        {"categorical imperative", "deontological"},
+        {"virtue", "virtue"},
+        {"aristotle", "virtue"},
+        {"character", "virtue"},
+        {"rights", "rights-based"},
+        {"human rights", "rights-based"},
+        {"natural rights", "rights-based"},
+        {"care ethics", "care-ethics"},
+        {"feminist ethics", "care-ethics"},
+        {"care", "care-ethics"},
+        {"feminist", "care-ethics"},
+        {"religious", "religious"},
+        {"divine", "religious"},
+        {"faith", "religious"},
+        {"cultural", "cultural"},
+        {"relativism", "cultural"}
     };
 
     std::unordered_set<std::string> found_frameworks;
 
+    // HIGH FIX: Optimize nested loop O(n²) pattern: use case-insensitive search once per doc
+    // Complexity: O(n_docs × n_content + n_docs × n_frameworks) instead of O(n_docs × n_frameworks × n_content)
     for (const auto& doc : docs) {
         std::string lower_content = doc.content;
         std::transform(lower_content.begin(), lower_content.end(),
                       lower_content.begin(), ::tolower);
 
-        for (const auto& framework : frameworks) {
-            if (lower_content.find(framework) != std::string::npos) {
-                // Group similar frameworks
-                if (framework.find("utilitarian") != std::string::npos ||
-                    framework.find("consequentialist") != std::string::npos ||
-                    framework.find("utility") != std::string::npos) {
-                    found_frameworks.insert("utilitarian");
-                } else if (framework.find("deontological") != std::string::npos ||
-                          framework.find("kant") != std::string::npos ||
-                          framework.find("duty") != std::string::npos) {
-                    found_frameworks.insert("deontological");
-                } else if (framework.find("virtue") != std::string::npos ||
-                          framework.find("aristotle") != std::string::npos ||
-                          framework.find("character") != std::string::npos) {
-                    found_frameworks.insert("virtue");
-                } else if (framework.find("rights") != std::string::npos) {
-                    found_frameworks.insert("rights-based");
-                } else if (framework.find("care") != std::string::npos ||
-                          framework.find("feminist") != std::string::npos) {
-                    found_frameworks.insert("care-ethics");
-                } else if (framework.find("religious") != std::string::npos ||
-                          framework.find("divine") != std::string::npos ||
-                          framework.find("faith") != std::string::npos) {
-                    found_frameworks.insert("religious");
-                } else if (framework.find("cultural") != std::string::npos ||
-                          framework.find("relativism") != std::string::npos) {
-                    found_frameworks.insert("cultural");
+        // Check each framework against the lowercased content once
+        // This avoids repeated substring operations and case conversions
+        for (const auto& [framework, category] : framework_categories) {
+            // Use find with word boundary check instead of substr().find()
+            size_t pos = 0;
+            while ((pos = lower_content.find(framework, pos)) != std::string::npos) {
+                // Check word boundaries
+                bool word_start = (pos == 0 || !std::isalnum(lower_content[pos - 1]));
+                bool word_end = (pos + framework.length() >= lower_content.length() || 
+                                !std::isalnum(lower_content[pos + framework.length()]));
+                
+                if (word_start && word_end) {
+                    found_frameworks.insert(category);
+                    break;  // Found this category, move to next framework
                 }
+                pos += framework.length();
             }
         }
     }

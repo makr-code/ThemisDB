@@ -17,6 +17,7 @@
 #include <vector>
 #include <memory>
 #include <stdexcept>
+#include <atomic>
 
 namespace themis::rag {
 
@@ -144,7 +145,7 @@ public:
 
 private:
     DPRVectorizerConfig config_;
-    bool initialized_ = false;
+    std::atomic<bool> initialized_{false};
 
     // Opaque implementation details (PIMPL)
     class Impl;

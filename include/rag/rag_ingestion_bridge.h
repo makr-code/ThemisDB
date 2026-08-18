@@ -47,6 +47,22 @@ struct IndexResult {
  * @brief Bridge that connects the `toolbox::IngestionToolbox` to the RAG
  *        pipeline, enabling document indexing and entity-enriched retrieval.
  *
+ * ## Thread Safety
+ * All public methods are **thread-safe**. The bridge holds no mutable state
+ * beyond constructor-injected shared pointers (toolbox, vector_writer, graph_writer).
+ * Concurrent calls to indexDocument(), enrichRetrievedDocuments(), or
+ * extractEntitiesForContext() are safe and do not race.
+ *
+ * ## Complexity Analysis
+ * - **indexDocument()**: O(m * e) where m = text.size(), e = entity extraction overhead
+ *   - Delegates to IngestionToolbox (typically linear in document length)
+ *   - IVectorWriter and IGraphWriter sinks are O(1) per chunk/entity
+ * - **enrichRetrievedDocuments()**: O(d * e) where d = docs.size(), e = entity extraction
+ *   - Single pass over document list
+ *   - Entity extraction per document
+ * - **extractEntitiesForContext()**: O(t) where t = text.size()
+ *   - Direct delegation to IngestionToolbox::extractEntities()
+ *
  * ## Motivation
  *
  * `AQLIngestionBridge` enriches in-flight AQL `INSERT` payloads at query time.
@@ -83,10 +99,6 @@ struct IndexResult {
  * document is re-indexed, the `IVectorWriter` sink replaces existing records
  * keyed by `chunk_id`, making the operation idempotent.
  *
- * ## Thread-safety
- * All public methods are thread-safe.  The bridge holds no mutable state
- * beyond the constructor-injected shared pointers.
- *
  * ## Usage
  * @code
  * auto toolbox = themis::toolbox::IngestionToolbox::createDefault();
@@ -97,7 +109,7 @@ struct IndexResult {
  * if (!result.ok) { LOG_ERROR("index failed: {}", result.error); }
  *
  * // Enrich retrieved documents before re-ranking
- * bridge->enrichRetrievedDocuments(retrieved_docs, query_text);
+ * bridge->enrichRetrievedDocuments(retrieved_docs);
  * @endcode
  */
 class RAGIngestionBridge {
@@ -134,27 +146,58 @@ public:
      * @brief Index a document by running the full ingestion workflow and
      *        writing extracted chunks and entities to the configured sinks.
      *
-     * Steps:
-     *  1. Runs `WorkflowEngine::execute()` on the text to produce a
+     * ## Workflow
+     *  1. Validates input size (text <= kMaxDocumentChars, collection <= kMaxCollectionChars).
+     *  2. Runs `WorkflowEngine::execute()` on the text to produce a
      *     `BaseEntitySet` (NER nodes, vector chunks, quality score).
      *     If workflow execution is unavailable or fails, a minimal fallback
      *     entity set is generated from direct entity extraction plus one
      *     canonical retrieval chunk so indexing remains usable.
-     *  2. Writes all `VectorRecord` chunks to the `IVectorWriter` sink
+     *  3. Writes all `VectorRecord` chunks to the `IVectorWriter` sink
      *     (if configured).
-     *  3. Writes all `BaseEntity` nodes and `EntityRelation` edges to the
+     *  4. Writes all `BaseEntity` nodes and `EntityRelation` edges to the
      *     `IGraphWriter` sink (if configured).
-     *  4. Returns an `IndexResult` describing the outcome.
+     *  5. Returns an `IndexResult` describing the outcome.
      *
+     * ## Idempotency
      * The returned `doc_id` has the form `"<collection>/<doc_hash>"` where
      * `doc_hash` is a stable 16-character hex digest of the input text.
+     * Re-indexing the same text produces the same `doc_id` and overwrite
+     * previous records in the vector and graph sinks.
      *
-     * @param text        UTF-8 text to index.  Empty text is a safe no-op
-     *                    that returns `IndexResult{.ok=false, .error="empty input"}`.
+     * @param text        UTF-8 text to index.  Empty text is rejected with
+     *                    `IndexResult{.ok=false, .error="empty input"}`.
+     *                    Text larger than kMaxDocumentChars (5 MiB) is rejected.
      * @param collection  Logical collection name (e.g. "legal-docs", "default").
-     * @param mime        MIME type hint (default: `"text/plain"`).
-     * @param filename    Filename hint for workflow routing (default: `"document.txt"`).
-     * @return `IndexResult` describing the operation outcome.
+     *                    Must be <= kMaxCollectionChars (256 chars).
+     *                    Default: "default".
+     * @param mime        MIME type hint for workflow routing (e.g. "text/plain", "text/html").
+     *                    Default: "text/plain".
+     * @param filename    Filename hint for workflow routing (e.g. "document.txt").
+     *                    Default: "document.txt".
+     *
+     * @return IndexResult with:
+     *   - ok: true on success, false on failure (validation, I/O, etc.)
+     *   - doc_id: assigned document identifier (format: "<collection>/<hash>")
+     *   - collection: echoed collection name
+     *   - entity_count: number of NER entities extracted
+     *   - vector_count: number of vector chunks written
+     *   - error: human-readable error message when ok == false
+     *
+     * @pre toolbox must not be null (checked in constructor)
+     * @pre text.size() <= kMaxDocumentChars (5 MiB)
+     * @pre collection.size() <= kMaxCollectionChars (256 chars)
+     *
+     * @post if ok == true: doc_id is non-empty and deterministic from text
+     * @post if ok == false: error message is non-empty and human-readable
+     * @post vector_count reflects records written to vector_writer (0 if null)
+     * @post entity_count reflects records written to graph_writer (0 if null)
+     *
+     * @note Does not throw: empty text returns IndexResult{ok=false, error="empty input"}
+     *
+     * @note Complexity: O(m * e) where m = text.size(), e = extraction overhead
+     * @note Thread-safe: no mutable shared state modified
+     * @note Fail-closed: malformed input returns IndexResult.ok=false, not exception
      */
     IndexResult indexDocument(
         const std::string& text,
@@ -189,22 +232,38 @@ public:
     /**
      * @brief Enrich a list of retrieved documents with NER entity context.
      *
-     * For each document in @p docs, this method first canonicalises retrieval
-     * metadata for downstream RAG stages:
-     *  - `metadata["content"]` is backfilled from `RetrievedDocument::content`
-     *  - `metadata["source"]` is backfilled from `RetrievedDocument::id`
+     * ## Processing
+     * For each document in @p docs:
+     *  1. Canonicalizes retrieval metadata:
+     *     - Sets `metadata["content"]` from `RetrievedDocument::content` (if empty)
+     *     - Sets `metadata["source"]` from `RetrievedDocument::id` (if empty)
+     *  2. Runs `extractEntitiesForContext()` on the document content
+     *  3. If entities are found, appends a compact entity context string to
+     *     `metadata["_entities"]` for downstream re-rankers and prompt builders
      *
-     * It then runs `extractEntitiesForContext()` on the document content and,
-     * when entities are found, appends a compact entity context string to
-     * `metadata["_entities"]`.
+     * ## Failure Handling (Fail-Closed)
+     * Documents without content or stable id are skipped (not modified).
+     * Documents that yield no entities still retain the canonical `content`/`source`
+     * metadata backfill. This operation is safe to call on an empty vector (no-op).
      *
-     * Documents without content or stable id are skipped (fail-closed). Documents
-     * that yield no entities still retain the canonical `content`/`source`
-     * metadata backfill.
-     * This operation is safe to call on an empty vector (no-op).
+     * ## Complexity
+     * - **Time**: O(d * e) where d = docs.size(), e = entity extraction overhead
+     * - **Space**: O(1) auxiliary (modifies docs in-place)
      *
-     * @param docs  Retrieved documents to enrich (modified in place).
-     * @return The number of documents that received at least one entity.
+     * @param docs  Retrieved documents to enrich (modified in-place).
+     *              Safe to pass empty vector (no-op).
+     *
+     * @return Number of documents that received at least one entity.
+     *         (Note: all documents may still be enriched with content/source metadata)
+     *
+     * @pre docs not null (vector, not pointer)
+     * @post docs[i].metadata["content"] is set if previously empty
+     * @post docs[i].metadata["source"] is set if previously empty
+     * @post docs[i].metadata["_entities"] is set if entities were found
+     *
+     * @note Complexity: O(d * e) where d = docs.size(), e = extraction overhead
+     * @note Thread-safe: each document processed independently
+     * @note Fail-closed: documents without content/id are silently skipped
      */
     std::size_t enrichRetrievedDocuments(
         std::vector<judge::RetrievedDocument>& docs
@@ -214,10 +273,21 @@ public:
      * @brief Extract entities from @p text for use as RAG prompt context.
      *
      * Thin wrapper around `IngestionToolbox::extractEntities()`.
+     * Runs Named Entity Recognition on the text and returns normalized entity nodes.
      *
-     * @param text  UTF-8 text to process.
-     * @return Extracted and normalised entity nodes; empty when extraction
-     *         yields no results or the text is empty.
+     * @param text  UTF-8 text to process. Empty text is handled gracefully
+     *              and returns an empty vector (no error).
+     *
+     * @return Extracted and normalised entity nodes; empty vector when:
+     *   - text is empty
+     *   - extraction yields no results
+     *   - extraction fails (fail-closed)
+     *
+     * @note Complexity: O(t) where t = text.size()
+     * @note Thread-safe: stateless delegation to IngestionToolbox
+     * @note Fail-closed: extraction failures return empty vector, not exception
+     *
+     * @see buildEntityContext() to format entities into LLM prompt context
      */
     std::vector<ingestion::BaseEntity> extractEntitiesForContext(
         const std::string& text
@@ -227,14 +297,35 @@ public:
      * @brief Build a compact LLM context string from a list of entities.
      *
      * Formats the entity list as a single line for injection into an LLM
-     * prompt.  Example output:
+     * prompt. Each entity is formatted as `TYPE display_name:entity_id`.
+     *
+     * ## Format Example
      * @code
      * "Extracted entities: LEGAL_PROVISION law:BGB:§823 | ORGANIZATION org:abc12"
      * @endcode
-     * Returns an empty string when @p entities is empty.
      *
-     * @param entities  Entities to summarise.
-     * @return Formatted context string; empty when entities is empty.
+     * ## Behavior
+     * - Empty entity list returns empty string (no "Extracted entities:" prefix)
+     * - Single entity: prefix + entity
+     * - Multiple entities: prefix + entity1 | entity2 | ...
+     * - Used by downstream re-rankers and prompt builders
+     *
+     * ## Complexity
+     * - **Time**: O(n) where n = entities.size()
+     * - **Space**: O(n) for output string
+     *
+     * @param entities  Entities to summarise. Empty vector returns empty string.
+     *
+     * @return Formatted context string suitable for LLM prompt injection;
+     *         empty string when entities is empty or contains no displayable entities.
+     *
+     * @note Complexity: O(n) where n = entities.size()
+     * @note Stateless function (no mutable state)
+     * @note Thread-safe: pure function, no concurrency issues
+     * @note Fail-closed: malformed entities result in skipping that entity, not error
+     *
+     * @see enrichRetrievedDocuments() uses this to populate metadata["_entities"]
+     * @see extractEntitiesForContext() to extract entities before calling this
      */
     static std::string buildEntityContext(
         const std::vector<ingestion::BaseEntity>& entities

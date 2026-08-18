@@ -62,7 +62,7 @@ public:
      * @param shard_id Shard identifier
      * @param config Circuit breaker configuration
      */
-    explicit CircuitBreaker(const std::string& shard_id, const Config& config = {});
+    explicit CircuitBreaker(const std::string& shard_id, const Config& config);
 
     /**
      * @brief Record a successful request
@@ -296,8 +296,7 @@ public:
      */
     CircuitBreaker& getOrCreateCircuitBreaker(
         const std::string& shard_id,
-        const CircuitBreaker::Config& config = {});
-
+        const CircuitBreaker::Config& config = CircuitBreaker::Config());
     /**
      * @brief Check if shard is available
      * @param shard_id Shard identifier

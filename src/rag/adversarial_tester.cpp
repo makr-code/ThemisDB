@@ -174,7 +174,10 @@ std::string lexicalSubstitute(const std::string& query, size_t variant_index)
     // If no substitution was found, append variant number to produce a
     // distinct string.
     if (applied == 0) {
-        result += " (variant " + std::to_string(variant_index + 1) + ")";
+        // Optimization: Use stringstream for efficient string building
+        std::ostringstream ss;
+        ss << result << " (variant " << (variant_index + 1) << ")";
+        return ss.str();
     }
     return result;
 }

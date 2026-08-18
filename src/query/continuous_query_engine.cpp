@@ -215,7 +215,7 @@ ContinuousQueryEngineImpl::subscribe(const std::string& name,
     auto queue  = std::make_shared<ResultQueue>();
     auto stream = std::make_shared<CQResultStreamImpl>(queue);
     it->second.subscribers.push_back(std::move(queue));
-    return stream;
+    return Ok(std::static_pointer_cast<CQResultStream>(stream));
 }
 
 std::vector<ContinuousQueryInfo>

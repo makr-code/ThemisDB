@@ -311,5 +311,3 @@ void emitStoragePressureEvent(
 
 }  // namespace storage
 }  // namespace themis
-
-#endif  // THEMIS_STORAGE_ERROR_DIAGNOSTICS_H_

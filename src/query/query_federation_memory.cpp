@@ -81,7 +81,7 @@ bool MemoryPolicy::isUnderPressure(uint64_t current_bytes) const {
     return getPressureLevel(current_bytes) >= PressureLevel::ELEVATED;
 }
 
-void MemoryPolicy::recordPressureEvent(const MemoryPressureEvent& event) {
+void MemoryPolicy::recordPressureEvent(const MemoryPressureEvent& event) const {
     pressure_events_.push_back(event);
 
     std::string level_str;
@@ -196,7 +196,7 @@ bool ResultAccumulator::addResultWithSize(
     }
 
     // Add the batch
-    ResultBatch batch{
+    MemoryPolicy::ResultBatch batch{
         total_batch_count_++,
         size_bytes,
         shard_id,

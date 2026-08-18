@@ -23,7 +23,7 @@
 #include <unordered_map>
 
 // Logging support
-#include "themis/base/logger.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace storage {

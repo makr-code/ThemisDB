@@ -12,6 +12,7 @@
 
 #include "query/continuous_query_planner.h"
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 #include <cctype>
 #include <fmt/format.h>
 

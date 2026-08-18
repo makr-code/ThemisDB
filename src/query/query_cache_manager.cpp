@@ -134,8 +134,8 @@ std::optional<nlohmann::json> QueryCacheManager::get(
     if (basic_cache_) {
         // For basic cache, let it compute the fingerprint internally
         auto cache_result = basic_cache_->get(query, params);
-        if (cache_result.has_value() && cache_result->found) {
-            result = cache_result->result;
+        if (cache_result.has_value() && cache_result.value().found) {
+            result = cache_result.value().result;
         }
     } else if (adaptive_cache_) {
         // For adaptive cache, we need the fingerprint

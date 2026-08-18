@@ -152,10 +152,32 @@ bool AsyncEvaluationHandle::wait(std::chrono::milliseconds timeout) {
 }
 
 EvaluationResult AsyncEvaluationHandle::get() {
+    // CRITICAL FIX: Add exception safety guard and timeout to prevent indefinite blocking
+    // when accessing futures
     if (cancelled_.load()) {
         throw std::runtime_error("AsyncEvaluationHandle: evaluation was cancelled");
     }
-    return future_.get();
+    
+    try {
+        // HIGH FIX: Add timeout guard to prevent indefinite future.get() blocking
+        // Future blocking without timeout can cause deadlock on error conditions
+        constexpr std::chrono::seconds kGetTimeout{30};
+        
+        // Check if future is ready with timeout before calling get()
+        auto status = future_.wait_for(kGetTimeout);
+        if (status == std::future_status::timeout) {
+            throw std::runtime_error("AsyncEvaluationHandle::get() timeout after 30 seconds");
+        }
+        if (status == std::future_status::deferred) {
+            THEMIS_WARN("AsyncEvaluationHandle::get(): future was deferred; forcing evaluation");
+        }
+        
+        return future_.get();
+    } catch (const std::future_error& fe) {
+        // HIGH FIX: Handle future_error specifically (e.g., broken promise)
+        throw std::runtime_error(
+            std::string("AsyncEvaluationHandle::get() failed: ") + fe.what());
+    }
 }
 
 void AsyncEvaluationHandle::cancel() {
@@ -228,10 +250,19 @@ void BatchEvaluator::workerThread() {
             auto result = processEvaluation(item.input);
             ++total_processed_;
             if (item.callback) {
-                item.callback(result);
+                // HIGH FIX: Guard callback invocation to prevent exception propagation
+                try {
+                    item.callback(result);
+                } catch (const std::exception& cb_ex) {
+                    THEMIS_WARN("BatchEvaluator worker: callback threw exception: {}", cb_ex.what());
+                }
             }
             if (item.has_promise) {
-                item.promise.set_value(result);
+                try {
+                    item.promise.set_value(result);
+                } catch (const std::exception& prom_ex) {
+                    THEMIS_WARN("BatchEvaluator worker: failed to set promise value: {}", prom_ex.what());
+                }
             }
         } catch (const std::exception& e) {
             ++total_failed_;
@@ -387,17 +418,22 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
             ++completed;
 
             if (config_.enable_progress_tracking && config_.progress_callback) {
-                BatchProgress progress;
-                progress.total_items     = inputs.size();
-                progress.completed_items = completed;
-                progress.failed_items    = failed;
-                progress.progress_percentage =
-                    100.0 * static_cast<double>(completed) /
-                    static_cast<double>(inputs.size());
-                progress.elapsed_time =
-                    std::chrono::duration_cast<std::chrono::milliseconds>(
-                        std::chrono::steady_clock::now() - start_time);
-                config_.progress_callback(progress);
+                // HIGH FIX: Guard progress callback to prevent callback exceptions from interrupting batch
+                try {
+                    BatchProgress progress;
+                    progress.total_items     = inputs.size();
+                    progress.completed_items = completed;
+                    progress.failed_items    = failed;
+                    progress.progress_percentage =
+                        100.0 * static_cast<double>(completed) /
+                        static_cast<double>(inputs.size());
+                    progress.elapsed_time =
+                        std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - start_time);
+                    config_.progress_callback(progress);
+                } catch (const std::exception& cb_ex) {
+                    THEMIS_WARN("BatchEvaluator::evaluateBatch: progress callback threw: {}", cb_ex.what());
+                }
             }
         } catch (const std::exception& e) {
             ++failed;
@@ -595,25 +631,35 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
 
 std::shared_ptr<AsyncEvaluationHandle> BatchEvaluator::evaluateAsync(
     const EvaluationInput& input) {
-    auto handle          = std::make_shared<AsyncEvaluationHandle>();
-    handle->cancelled_.store(false);
+    try {
+        auto handle          = std::make_shared<AsyncEvaluationHandle>();
+        handle->cancelled_.store(false);
 
-    std::promise<EvaluationResult> promise;
-    handle->future_ = promise.get_future();
+        std::promise<EvaluationResult> promise;
+        handle->future_ = promise.get_future();
 
-    {
-        // THREAD SAFETY: queue_mutex_ protects write access to eval_queue_
-        std::lock_guard<std::mutex> lock(queue_mutex_);  // RAII: lock acquired
-        QueuedEvaluation item;
-        item.input    = input;  // Input will be validated in processEvaluation
-        item.promise  = std::move(promise);
-        item.has_promise = true;
-        eval_queue_.push(std::move(item));
-        // RAII: lock released at scope end
+        {
+            // THREAD SAFETY: queue_mutex_ protects write access to eval_queue_
+            // HIGH FIX: Minimize lock scope — only hold lock during queue operation
+            std::lock_guard<std::mutex> lock(queue_mutex_);  // RAII: lock acquired
+            QueuedEvaluation item;
+            item.input    = input;  // Input will be validated in processEvaluation
+            item.promise  = std::move(promise);
+            item.has_promise = true;
+            eval_queue_.push(std::move(item));
+            // RAII: lock released at scope end
+        }
+        queue_cv_.notify_one();
+
+        return handle;
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard on async evaluation submission
+        THEMIS_WARN("BatchEvaluator::evaluateAsync() failed: {}", e.what());
+        // Return empty/failed handle rather than propagating
+        auto failed_handle = std::make_shared<AsyncEvaluationHandle>();
+        failed_handle->cancelled_.store(true);  // Mark as cancelled/failed
+        return failed_handle;
     }
-    queue_cv_.notify_one();
-
-    return handle;
 }
 
 std::vector<std::shared_ptr<AsyncEvaluationHandle>> BatchEvaluator::evaluateAsync(

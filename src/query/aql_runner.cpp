@@ -65,7 +65,7 @@ collectGeometries(query::QueryEngine& engine,
     auto ents = engine.executeAndEntitiesWithFallback(scan_q, false);
     std::vector<std::pair<std::string, geo::GeometryInfo>> out;
     if (!ents) return out;
-    out.reserve(ents->size());
+    out.reserve(ents.value().size());
     std::size_t skipped = 0;
     for (const auto& e : *ents) {
         try {
@@ -358,7 +358,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
                 );
             }
             query::QueryResult qr;
-            qr.rows.reserve(res->size());
+            qr.rows.reserve(res.value().size());
             for (auto& e : *res) {
                 qr.rows.push_back(entityToResultRow(e));
             }
@@ -376,8 +376,8 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     }
 
     nlohmann::json arr = nlohmann::json::array();
-    for (const auto& row : jit_result->rows) arr.push_back(row);
-    reopt_guard.finish(jit_result->rows.size());
+    for (const auto& row : jit_result.value().rows) arr.push_back(row);
+    reopt_guard.finish(jit_result.value().rows.size());
     // Q2: Structured audit — federated result merge (conjunctive path)
     THEMIS_INFO("[audit] {{\"event\":\"federation_result_merge\","
                 "\"result_count\":{},\"truncated\":false,"
