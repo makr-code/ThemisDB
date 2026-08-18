@@ -68,8 +68,8 @@ static constexpr const char* B64_CHARS =
 
 /*static*/ std::string CrashRecoveryManager::base64Decode(const std::string& s) {
     // Build decode LUT: valid b64 char → 6-bit value; 0xFF = invalid
-    unsigned char lut[256];
-    std::memset(lut, 0xFF, sizeof(lut));
+    std::array<unsigned char, 256> lut;
+    lut.fill(0xFF);
     for (int i = 0; i < 64; ++i)
         lut[static_cast<unsigned char>(B64_CHARS[i])] = static_cast<unsigned char>(i);
     lut[static_cast<unsigned char>('=')] = 0;
@@ -135,13 +135,11 @@ CrashRecoveryManager::deserialize(const std::string& line) {
                 e.operation.new_value = base64Decode(j["new"].get<std::string>());
         }
         return e;
-    } catch (const json::exception&) {
+    } catch (const json::exception& e) [[likely]] {
+        THEMIS_DEBUG("JSON parse error in deserialize: {}", e.what());
         return std::nullopt;
-    } catch (const std::string&) {
-        return std::nullopt;
-    } catch (const char*) {
-        return std::nullopt;
-    } catch (...) {
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Unexpected exception in deserialize: {}", e.what());
         return std::nullopt;
     }
 }

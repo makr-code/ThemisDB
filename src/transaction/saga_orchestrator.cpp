@@ -132,8 +132,10 @@ std::string SAGAOrchestrator::renderWorkflow(const SAGADefinition& saga) const {
     oss << "SAGA: " << saga.name << "\n";
     oss << "----------------------------------------\n";
 
+    // Build dependents map: for each step, which steps depend on it
     std::unordered_map<std::string, std::vector<std::string>> dependents;
     for (const auto& step : saga.steps) {
+        // Initialize entry for all step names
         dependents.emplace(step.name, std::vector<std::string>{});
     }
     for (const auto& step : saga.steps) {
@@ -142,8 +144,9 @@ std::string SAGAOrchestrator::renderWorkflow(const SAGADefinition& saga) const {
         }
     }
 
+    // Render workflow with dependency information
     for (const auto& step : saga.steps) {
-        const auto it = dependents.find(step.name);
+        auto it = dependents.find(step.name);
         if (it == dependents.end() || it->second.empty()) {
             oss << step.name << " (terminal)\n";
             continue;

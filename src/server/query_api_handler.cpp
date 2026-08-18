@@ -325,7 +325,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 if (!result) {
                     res = {make_error_status(result.error().message()), 0};
                 } else {
-                    res = {make_ok_status(), result->size()};
+                    res = {make_ok_status(), result.value().size()};
                 }
             } else {
                 if (optimize) {

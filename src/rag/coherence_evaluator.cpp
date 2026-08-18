@@ -302,7 +302,9 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
     // Simple contradiction detection using negation patterns
     // In production, this would use NLI model to check for contradictions
     
-    std::vector<std::string> negation_words = {
+    // Convert to set for O(1) lookup during word parsing
+    // Complexity: O(n_sentences² × n_chars) instead of O(n_sentences² × n_negations × n_chars)
+    std::set<std::string> negation_words_set = {
         "not", "no", "never", "cannot", "can't", "won't", "don't", "doesn't",
         "isn't", "aren't", "wasn't", "weren't", "however", "but", "although"
     };
@@ -316,13 +318,39 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
             std::transform(sent_i.begin(), sent_i.end(), sent_i.begin(), ::tolower);
             std::transform(sent_j.begin(), sent_j.end(), sent_j.begin(), ::tolower);
             
-            // Check if one has negation and other doesn't, but share common words
+            // Check if sentences have negation words by parsing once
+            // Optimization: extract words and check set membership O(log n) instead of O(n)
             bool i_has_negation = false;
             bool j_has_negation = false;
             
-            for (const auto& neg : negation_words) {
-                if (sent_i.find(neg) != std::string::npos) i_has_negation = true;
-                if (sent_j.find(neg) != std::string::npos) j_has_negation = true;
+            // Parse sent_i words and check for negations
+            if (!i_has_negation) {
+                std::istringstream stream_i(sent_i);
+                std::string word;
+                while (stream_i >> word && !i_has_negation) {
+                    // Remove punctuation from word end
+                    while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                        word.pop_back();
+                    }
+                    if (negation_words_set.count(word)) {
+                        i_has_negation = true;
+                    }
+                }
+            }
+            
+            // Parse sent_j words and check for negations
+            if (!j_has_negation) {
+                std::istringstream stream_j(sent_j);
+                std::string word;
+                while (stream_j >> word && !j_has_negation) {
+                    // Remove punctuation from word end
+                    while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+                        word.pop_back();
+                    }
+                    if (negation_words_set.count(word)) {
+                        j_has_negation = true;
+                    }
+                }
             }
             
             // If one is negated and other isn't, check for common key terms

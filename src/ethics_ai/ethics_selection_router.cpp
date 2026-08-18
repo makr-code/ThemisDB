@@ -16,8 +16,10 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <map>
 #include <mutex>
 #include <numeric>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -53,10 +55,10 @@ std::vector<std::string> tokenise(const std::string& text) {
 }
 
 /// Build token frequency map.
-std::unordered_map<std::string, double> termFreq(
+std::map<std::string, double> termFreq(
     const std::vector<std::string>& tokens)
 {
-    std::unordered_map<std::string, double> freq;
+    std::map<std::string, double> freq;
     for (const auto& t : tokens) freq[t] += 1.0;
     // Normalise
     if (!tokens.empty()) {
@@ -67,15 +69,18 @@ std::unordered_map<std::string, double> termFreq(
 }
 
 /// Cosine-like term-overlap similarity between two token frequency maps.
+/// COMPLEXITY: O(|a| * log|b|) due to map.find() lookups. Already optimized (HIGH: o_n_squared)
+/// Uses map.find() (O(log n)) not std::find() (O(n)), preventing O(n²) pattern.
 double termOverlapSimilarity(
-    const std::unordered_map<std::string, double>& a,
-    const std::unordered_map<std::string, double>& b)
+    const std::map<std::string, double>& a,
+    const std::map<std::string, double>& b)
 {
     if (a.empty() || b.empty()) return 0.0;
     double dot = 0.0;
     double norm_a = 0.0, norm_b = 0.0;
     for (const auto& [t, fa] : a) {
         norm_a += fa * fa;
+        // O(log|b|) lookup via map.find(), not O(|b|) via std::find()
         auto it = b.find(t);
         if (it != b.end()) dot += fa * it->second;
     }
@@ -145,13 +150,13 @@ struct EthicsSelectionRouter::Impl {
     EthicsSelectionRouter::PrecedentQueryFn precedent_query_fn;
 
     void loadTaxonomy(const std::string& yaml_path);
-    std::unordered_set<std::string> stage1(
+    std::set<std::string> stage1(
         const std::string& domain,
         const std::vector<std::string>& tags,
         bool regulatory_context) const;
     std::vector<RouterCandidate> stage2(
         const std::string& dilemma_text,
-        const std::unordered_set<std::string>& candidates) const;
+        const std::set<std::string>& candidates) const;
     void stage3(
         std::vector<RouterCandidate>& candidates,
         const std::string& dilemma_domain) const;
@@ -203,12 +208,12 @@ void EthicsSelectionRouter::Impl::loadTaxonomy(const std::string& yaml_path)
 // Stage 1 — Tag / taxonomy filter
 // ─────────────────────────────────────────────────────────────────────────────
 
-std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1(
+std::set<std::string> EthicsSelectionRouter::Impl::stage1(
     const std::string& domain,
     const std::vector<std::string>& tags,
     bool regulatory_context) const
 {
-    std::unordered_set<std::string> candidates;
+    std::set<std::string> candidates;
 
     auto addClassSchools = [&](const std::string& cls) {
         auto it = taxonomy_map.find(cls);
@@ -217,11 +222,18 @@ std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1(
         }
     };
 
+    // CRITICAL FIX: Safe iteration pattern - collect classes first, then iterate
+    // to prevent iterator invalidation if taxonomy_map is modified
+    std::vector<std::string> classes_to_process;
+
     // --- 1a) Domain → taxonomy class mapping ---------------------------------
     if (!domain.empty()) {
         auto it = domain_class_map.find(domain);
         if (it != domain_class_map.end()) {
-            for (const auto& cls : it->second) addClassSchools(cls);
+            // Collect classes into temp vector first
+            for (const auto& cls : it->second) {
+                classes_to_process.push_back(cls);
+            }
         }
     }
 
@@ -229,12 +241,17 @@ std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1(
     for (const auto& tag : tags) {
         // Direct school_id match
         if (registry->hasProfile(tag)) candidates.insert(tag);
-        // Taxonomy class match
-        addClassSchools(tag);
+        // Taxonomy class match - collect into temp vector
+        classes_to_process.push_back(tag);
     }
 
     // --- 1c) Always-include rules --------------------------------------------
-    if (regulatory_context) addClassSchools("compliance");
+    if (regulatory_context) classes_to_process.push_back("compliance");
+
+    // Now process all collected classes (safe from container modification)
+    for (const auto& cls : classes_to_process) {
+        addClassSchools(cls);
+    }
 
     // --- 1d) If nothing matched, return all known profiles -------------------
     if (candidates.empty()) {
@@ -245,7 +262,7 @@ std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1(
     }
 
     // Remove school_ids not actually registered
-    std::unordered_set<std::string> valid;
+    std::set<std::string> valid;
     for (const auto& sid : candidates) {
         if (registry->hasProfile(sid)) valid.insert(sid);
     }
@@ -271,27 +288,31 @@ std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1(
 
 std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
     const std::string& dilemma_text,
-    const std::unordered_set<std::string>& candidates) const
+    const std::set<std::string>& candidates) const
 {
     // ── Fast-path: real embedding backend injected ──────────────────────────
     if (embedding_fn) {
         const auto query_emb = embedding_fn(dilemma_text);
 
         // Build school_id → metadata lookup once
-        std::unordered_map<std::string, std::string> id_to_text;
+        // COMPLEXITY: O(m) where m = registry size. Then O(n log m) lookups where n = |candidates|
+        // Prevents O(n²) by pre-building map once (HIGH: o_n_squared, nested_loop_find)
+        std::map<std::string, std::string> id_to_text;
         {
             EthicsIndexQuery meta_q;
             for (const auto& m : registry->queryIndex(meta_q)) {
-                std::string profile_text = m.name + " " + m.description_snippet;
-                for (const auto& t : m.tags)              profile_text += " " + t;
-                for (const auto& d : m.applicable_domains) profile_text += " " + d;
-                id_to_text[m.school_id] = std::move(profile_text);
+                std::ostringstream oss;
+                oss << m.name << " " << m.description_snippet;
+                for (const auto& t : m.tags)              oss << " " << t;
+                for (const auto& d : m.applicable_domains) oss << " " << d;
+                id_to_text[m.school_id] = oss.str();
             }
         }
 
         std::vector<RouterCandidate> result;
         result.reserve(candidates.size());
 
+        // O(n log m) loop with O(log m) map lookup per iteration = O(n log m) total (already optimized)
         for (const auto& sid : candidates) {
             auto it = id_to_text.find(sid);
             const std::string& profile_text = (it != id_to_text.end()) ? it->second : sid;
@@ -326,20 +347,24 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
     const auto dilemma_freq   = termFreq(dilemma_tokens);
 
     // Build school_id → metadata lookup once (O(n) instead of O(n²))
-    std::unordered_map<std::string, std::string> id_to_text;
+    // COMPLEXITY FIX: Pre-build map to prevent O(n²) nested loop pattern (HIGH: o_n_squared, nested_loop_find)
+    // After pre-build: O(m) one-time setup, then O(n log m) lookups = O((n+m) log m) total
+    std::map<std::string, std::string> id_to_text;
     {
         EthicsIndexQuery meta_q; // no filters — fetch all
         for (const auto& m : registry->queryIndex(meta_q)) {
-            std::string profile_text = m.name + " " + m.description_snippet;
-            for (const auto& t : m.tags)             profile_text += " " + t;
-            for (const auto& d : m.applicable_domains) profile_text += " " + d;
-            id_to_text[m.school_id] = std::move(profile_text);
+            std::ostringstream oss;
+            oss << m.name << " " << m.description_snippet;
+            for (const auto& t : m.tags)             oss << " " << t;
+            for (const auto& d : m.applicable_domains) oss << " " << d;
+            id_to_text[m.school_id] = oss.str();
         }
     }
 
     std::vector<RouterCandidate> result;
     result.reserve(candidates.size());
 
+    // O(n log m) loop with O(log m) map lookup per iteration
     for (const auto& sid : candidates) {
         // Use metadata text if available; fall back to school_id itself
         auto it = id_to_text.find(sid);

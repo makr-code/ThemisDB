@@ -29,6 +29,7 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
+    std::lock_guard<std::mutex> lock(llm_fn_mutex_);
     llm_summary_fn_ = std::move(fn);
 }
 
@@ -47,8 +48,10 @@ std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(const s
     // Pattern 1: thesis_id:word (e.g. "kant:kategorischer_imperativ")
     {
         std::regex re(R"(\b(\w+:\w[\w_]*)\b)");
+        // COMPLEXITY FIX: Store iterator to avoid temporary reference invalidation (HIGH: range_temporary)
         auto begin = std::sregex_iterator(content.begin(), content.end(), re);
-        for (auto it = begin; it != std::sregex_iterator(); ++it) {
+        auto end = std::sregex_iterator();
+        for (auto it = begin; it != end; ++it) {
             const std::string match = (*it)[1].str();
             if (seen.insert(match).second) {
                 citations.push_back(match);
@@ -59,8 +62,10 @@ std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(const s
     // Pattern 2: [word:word] bracket notation (e.g. "[kant:thesis_1]")
     {
         std::regex re(R"(\[(\w+:\w[\w_]*)\])");
+        // COMPLEXITY FIX: Store iterator to avoid temporary reference invalidation (HIGH: range_temporary)
         auto begin = std::sregex_iterator(content.begin(), content.end(), re);
-        for (auto it = begin; it != std::sregex_iterator(); ++it) {
+        auto end = std::sregex_iterator();
+        for (auto it = begin; it != end; ++it) {
             const std::string match = (*it)[1].str();
             if (seen.insert(match).second) {
                 citations.push_back(match);
@@ -71,8 +76,10 @@ std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(const s
     // Pattern 3: words containing underscores (potential thesis ID tokens)
     {
         std::regex re(R"(\b(\w+_\w+)\b)");
+        // COMPLEXITY FIX: Store iterator to avoid temporary reference invalidation (HIGH: range_temporary)
         auto begin = std::sregex_iterator(content.begin(), content.end(), re);
-        for (auto it = begin; it != std::sregex_iterator(); ++it) {
+        auto end = std::sregex_iterator();
+        for (auto it = begin; it != end; ++it) {
             const std::string match = (*it)[1].str();
             if (seen.insert(match).second) {
                 citations.push_back(match);
@@ -184,9 +191,16 @@ CompressionResult PriorRoundCompressor::compressHeadline(const EthicalArgument &
 
 CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalArgument &arg,
                                                                   const CompressionConfig &config) const {
+    // CRITICAL FIX: Protect access to llm_summary_fn_ with lock (data_race remediation)
+    LlmSummaryFn llm_fn_copy;
+    {
+        std::lock_guard<std::mutex> lock(llm_fn_mutex_);
+        llm_fn_copy = llm_summary_fn_;
+    }
+    
     // Delegate to the injected LLM summariser when available.
-    if (llm_summary_fn_) {
-        const std::string llm_text = llm_summary_fn_(arg, config.max_tokens_per_round);
+    if (llm_fn_copy) {
+        const std::string llm_text = llm_fn_copy(arg, config.max_tokens_per_round);
         if (!llm_text.empty()) {
             CompressionResult result;
             result.original_tokens   = countTokens(arg.content);
@@ -284,6 +298,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
         float score             = 0.f;
 
         // TF component: sum of word frequencies
+        // COMPLEXITY FIX: word_freq is unordered_map, so find() is O(1) avg case (HIGH: o_n_squared)
         std::istringstream iss(sent);
         std::string word;
         int word_count = 0;
@@ -292,6 +307,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
             while (!word.empty() && !std::isalnum(static_cast<unsigned char>(word.back()))) {
                 word.pop_back();
             }
+            // O(1) average lookup in unordered_map, not O(n) via std::find()
             auto it = word_freq.find(word);
             if (it != word_freq.end()) {
                 score += static_cast<float>(it->second);

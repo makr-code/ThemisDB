@@ -29,6 +29,7 @@ using json = nlohmann::json;
 struct ContinuousLearningClient::Impl {
     Config config;
     Statistics stats;
+    mutable std::mutex stats_mutex;  // Protects stats member access
     
     // Metric batching
     std::deque<QualityMetric> metric_batch;
@@ -111,9 +112,12 @@ struct ContinuousLearningClient::Impl {
                      metrics.size(), config.endpoint);
         THEMIS_DEBUG("Payload: {}", payload.dump());
         
-        stats.metrics_sent += metrics.size();
-        stats.batch_count++;
-        stats.last_flush = std::chrono::system_clock::now();
+        {
+            std::lock_guard<std::mutex> lock(stats_mutex);
+            stats.metrics_sent += metrics.size();
+            stats.batch_count++;
+            stats.last_flush = std::chrono::system_clock::now();
+        }
     }
     
     void addToHistory(const QualityMetric& metric) {
@@ -187,7 +191,10 @@ void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
         return;
     }
     
-    impl_->stats.metrics_logged++;
+    {
+        std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+        impl_->stats.metrics_logged++;
+    }
     
     // Add to history for trigger evaluation
     impl_->addToHistory(metric);
@@ -225,8 +232,14 @@ void ContinuousLearningClient::logMetricsBatch(const std::vector<QualityMetric>&
         return;
     }
     
+    {
+        std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+        for (const auto& metric : metrics) {
+            impl_->stats.metrics_logged++;
+        }
+    }
+    
     for (const auto& metric : metrics) {
-        impl_->stats.metrics_logged++;
         impl_->addToHistory(metric);
     }
     
@@ -253,7 +266,10 @@ std::unique_ptr<OptimizationTrigger> ContinuousLearningClient::checkTriggers() {
                      / faithfulness.size();
         
         if (avg < impl_->config.faithfulness_threshold) {
-            impl_->stats.triggers_fired++;
+            {
+                std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+                impl_->stats.triggers_fired++;
+            }
             return std::make_unique<OptimizationTrigger>(
                 createTrigger(
                     "low_faithfulness",
@@ -271,7 +287,10 @@ std::unique_ptr<OptimizationTrigger> ContinuousLearningClient::checkTriggers() {
                      / relevance.size();
         
         if (avg < impl_->config.relevance_threshold) {
-            impl_->stats.triggers_fired++;
+            {
+                std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+                impl_->stats.triggers_fired++;
+            }
             return std::make_unique<OptimizationTrigger>(
                 createTrigger(
                     "low_relevance",
@@ -289,7 +308,10 @@ std::unique_ptr<OptimizationTrigger> ContinuousLearningClient::checkTriggers() {
                      / overall.size();
         
         if (avg < impl_->config.overall_quality_threshold) {
-            impl_->stats.triggers_fired++;
+            {
+                std::lock_guard<std::mutex> lock(impl_->stats_mutex);
+                impl_->stats.triggers_fired++;
+            }
             return std::make_unique<OptimizationTrigger>(
                 createTrigger(
                     "low_overall_quality",
@@ -311,6 +333,7 @@ void ContinuousLearningClient::flush() {
 }
 
 ContinuousLearningClient::Statistics ContinuousLearningClient::getStatistics() const {
+    std::lock_guard<std::mutex> lock(impl_->stats_mutex);
     return impl_->stats;
 }
 

@@ -112,6 +112,50 @@
   callbacks, and removed the raw `std::tm*` time-conversion path flagged by the
   critical ownership finding.
 
+### BATCH1-RAG (2026-08-18)
+**continuous_learning_orchestrator.cpp: 11 issues fixed (3 critical + 8 high)**
+- Data race fixes: Thread-safe guards for learning_loop_active and learning_thread state
+  * Lines 174-186: Exception-safe thread creation with atomic flags
+  * Lines 196-201: TOCTOU prevention with synchronized flag changes
+- Blocking operation timeouts: weak_ptr.lock() guards in wireLiveSignalProviders
+  * Lines 1322-1379: Fail-fast semantics for expired weak_ptr conditions
+  * Improved error messages and diagnostic logging
+- Exception safety: Comprehensive guards on core functions
+  * Lines 674-701: saveMetrics() with exception guard and flush
+  * Lines 705-761: loadMetrics() with exception guard
+  * Lines 363-424: runPromptOptimization() with try/catch
+  * Lines 426-517: runRetrievalOptimization() with try/catch
+- Resource limits: Join timeout monitoring (Line 219-221)
+
+**knowledge_gap_detector.cpp: 8 issues fixed (0 critical + 8 high)**
+- Exception safety guards: Comprehensive error handling on main entry points
+  * Lines 445-457: detectGap() with try/catch for fail-closed behavior
+  * Lines 586-598: detectWithActiveRetrieval() with try/catch
+- Range-for on temporary fix:
+  * Line 1195: Store splitSentences() result before iteration (reference validity)
+- Performance optimization for nested loops:
+  * Line 1645: Optimize countEthicalPerspectives() O(n²) pattern
+  * Direct find() with word boundaries vs substr().find() operations
+- Thread safety: shared_mutex pattern ensures safe state snapshots
+  * snapshotConfig() and related callbacks use read-write locks
+
+**batch_evaluator.cpp: 7 issues fixed (1 critical + 6 high)**
+- Thread safety and timeouts on AsyncEvaluationHandle:
+  * Lines 155-182: CRITICAL: 30-second timeout on future.wait_for()
+  * Handles future_error exceptions explicitly
+  * Prevents indefinite blocking on failed promises
+- Exception safety guards on callbacks and promises:
+  * Line 253-266: Isolate callback exceptions from worker thread
+  * Line 421-444: Isolate progress callback exceptions from batch processing
+  * Promise exception setting with inner try/catch guard
+- Async evaluation robustness:
+  * Lines 643-661: Exception guard on evaluateAsync() submission
+  * Return failed handle on exception vs propagating
+  * Minimize lock scope to reduce contention
+
+**Summary:** All three files updated with production-ready exception safety and timeout
+enforcement. No breaking API changes. RAII principles preserved throughout.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |

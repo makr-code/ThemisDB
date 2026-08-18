@@ -142,6 +142,40 @@ if(NOT TARGET retrieval_metrics_test)
 endif()
 
 # ============================================================================
+# artifact_lifecycle_test — GTest coverage for artifact lifecycle (EPIC 2.6)
+# ============================================================================
+
+if(NOT TARGET artifact_lifecycle_test)
+    find_package(GTest QUIET)
+    if(GTest_FOUND AND TARGET themis_evaluation)
+        add_executable(artifact_lifecycle_test
+            artifact_lifecycle_test.cc
+        )
+
+        target_include_directories(artifact_lifecycle_test PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../src/evaluation
+        )
+
+        target_link_libraries(artifact_lifecycle_test PRIVATE
+            themis_evaluation
+            GTest::gtest_main
+        )
+
+        target_compile_features(artifact_lifecycle_test PRIVATE cxx_std_17)
+
+        add_test(
+            NAME artifact_lifecycle_test
+            COMMAND artifact_lifecycle_test
+        )
+        set_tests_properties(artifact_lifecycle_test PROPERTIES
+            LABELS "evaluation;epic2;lifecycle"
+        )
+    else()
+        message(STATUS "artifact_lifecycle_test: GTest or themis_evaluation not available – skipped")
+    endif()
+endif()
+
+# ============================================================================
 # ablation_framework_test — GTest coverage for ablation framework (Issue #5439)
 # ============================================================================
 

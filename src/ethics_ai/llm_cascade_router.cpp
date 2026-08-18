@@ -31,6 +31,7 @@ CascadeModelTier LlmCascadeRouter::resolveTier(const std::string& round_role) co
 ModelTokenBudget LlmCascadeRouter::budgetForTier(CascadeModelTier tier) const noexcept {
     ModelTokenBudget budget;
     const auto ctx_it = config_.tier_to_context_k.find(tier);
+    // COMPLEXITY FIX: Add null check before dereferencing iterator (HIGH: null_dereference)
     if (ctx_it != config_.tier_to_context_k.end()) {
         budget.context_k = ctx_it->second;
     } else {

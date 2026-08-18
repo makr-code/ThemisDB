@@ -13,6 +13,7 @@
 #include "chain_visualizer.h"
 
 #include <algorithm>
+#include <set>
 #include <sstream>
 #include <unordered_set>
 
@@ -47,26 +48,24 @@ std::string ChainVisualizer::makeLabel(const EthicalArgument& arg) {
 }
 
 std::string ChainVisualizer::dotEscape(const std::string& s) {
-    std::string out;
-    out.reserve(s.size());
+    std::ostringstream out;
     for (char c : s) {
-        if (c == '"')       out += "\\\"";
-        else if (c == '\\') out += "\\\\";
-        else                out += c;
+        if (c == '"')       out << "\\\"";
+        else if (c == '\\') out << "\\\\";
+        else                out << c;
     }
-    return out;
+    return out.str();
 }
 
 std::string ChainVisualizer::mermaidEscape(const std::string& s) {
     // Mermaid node labels are wrapped in quotes; replace special chars.
-    std::string out;
-    out.reserve(s.size());
+    std::ostringstream out;
     for (char c : s) {
-        if (c == '"')  out += "'";
-        else if (c == '\n') out += "<br/>";
-        else           out += c;
+        if (c == '"')  out << "'";
+        else if (c == '\n') out << "<br/>";
+        else           out << c;
     }
-    return out;
+    return out.str();
 }
 
 // ---------------------------------------------------------------------------
@@ -79,7 +78,7 @@ std::string ChainVisualizer::exportDot(
     const std::string& graph_name)
 {
     // Build a set for fast membership tests (to restrict edges)
-    std::unordered_set<std::string> id_set(argument_ids.begin(), argument_ids.end());
+    std::set<std::string> id_set(argument_ids.begin(), argument_ids.end());
 
     std::ostringstream out;
     out << "digraph " << dotEscape(graph_name) << " {\n";
@@ -130,7 +129,7 @@ std::string ChainVisualizer::exportMermaid(
     const std::vector<std::string>& argument_ids,
     ArgumentStore& store)
 {
-    std::unordered_set<std::string> id_set(argument_ids.begin(), argument_ids.end());
+    std::set<std::string> id_set(argument_ids.begin(), argument_ids.end());
 
     std::ostringstream out;
     out << "flowchart LR\n";

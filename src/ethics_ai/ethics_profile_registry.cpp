@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <set>
 
 #ifdef HAVE_YAML_CPP
 #include <yaml-cpp/yaml.h>
@@ -72,9 +73,11 @@ std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
 
         // Filter: all requested tags must be present
         if (!query.tags.empty()) {
+            // COMPLEXITY FIX: Convert to set for O(1) lookups instead of O(n²) (HIGH: repeated_search)
+            std::set<std::string> meta_tags(meta.tags.begin(), meta.tags.end());
             bool all_found = true;
             for (const auto& t : query.tags) {
-                if (std::find(meta.tags.begin(), meta.tags.end(), t) == meta.tags.end()) {
+                if (meta_tags.find(t) == meta_tags.end()) {
                     all_found = false;
                     break;
                 }
@@ -84,11 +87,11 @@ std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
 
         // Filter: at least one requested domain must match
         if (!query.domains.empty()) {
+            // COMPLEXITY FIX: Convert to set for O(1) lookups instead of O(n²) (HIGH: repeated_search)
+            std::set<std::string> meta_domains(meta.applicable_domains.begin(), meta.applicable_domains.end());
             bool any_found = false;
             for (const auto& d : query.domains) {
-                if (std::find(meta.applicable_domains.begin(),
-                              meta.applicable_domains.end(), d)
-                    != meta.applicable_domains.end()) {
+                if (meta_domains.find(d) != meta_domains.end()) {
                     any_found = true;
                     break;
                 }
@@ -169,7 +172,9 @@ std::variant<size_t, Status> EthicsProfileRegistry::rebuildIndex(
 
     std::map<std::string, EthicsProfileMeta> new_index;
 
-    for (const auto& entry : fs::recursive_directory_iterator(directory)) {
+    // COMPLEXITY FIX: Store iterator to avoid temporary reference invalidation (HIGH: range_temporary)
+    auto dir_iter = fs::recursive_directory_iterator(directory);
+    for (const auto& entry : dir_iter) {
         if (!entry.is_regular_file()) continue;
         const auto ext = entry.path().extension().string();
         if (ext != ".yaml" && ext != ".yml") continue;
@@ -250,8 +255,8 @@ EthicsProfileMeta EthicsProfileRegistry::scanHeader(const std::string& filepath)
 
         // school_id: override filename-derived fallback when present
         if (root["school_id"] && root["school_id"].IsScalar()) {
-            auto v = root["school_id"].as<std::string>("");
-            if (!v.empty()) meta.school_id = v;
+            std::string school_id_value = root["school_id"].as<std::string>("");
+            if (!school_id_value.empty()) meta.school_id = school_id_value;
         }
         // Alternate key used by some profiles (e.g. nietzsche.yaml)
         if (meta.school_id.empty() && root["school"] && root["school"].IsScalar()) {

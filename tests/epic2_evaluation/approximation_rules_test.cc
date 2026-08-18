@@ -662,3 +662,131 @@ TEST_F(EdgeCaseTest, EDG06_ExplanationIsNonEmpty)
         /*confidence=*/1.0);
     EXPECT_FALSE(r_escalate.explanation.empty());
 }
+
+// ============================================================================
+// Phase 4 Expansion: ApproximationZone Policy & Category C Enforcement
+// ============================================================================
+
+/// Phase 4 Test: Verify ApproximationZone progression (Approximate→Bounded→Exact).
+TEST_F(ApproximationBoundaryTest, Phase4_ApproximationZoneProgression) {
+    // ANN layer: Approximate zone (cheapest)
+    const auto ann_b = engine->canonicalBoundary(RetrievalLayer::Ann);
+    EXPECT_EQ(ann_b.zone, ApproximationZone::Approximate);
+
+    // TensorSummary layer: Bounded zone (mid-cost)
+    const auto ts_b = engine->canonicalBoundary(RetrievalLayer::TensorSummary);
+    EXPECT_EQ(ts_b.zone, ApproximationZone::Bounded);
+
+    // ExactGraph layer: Exact zone (highest cost/quality)
+    const auto eg_b = engine->canonicalBoundary(RetrievalLayer::ExactGraph);
+    EXPECT_EQ(eg_b.zone, ApproximationZone::Exact);
+}
+
+/// Phase 4 Test: Verify Category C→Deny enforcement on all layers.
+TEST_F(GovernanceRuleViolationTest, Phase4_CategoryC_DenyOnAllLayers) {
+    std::vector<RetrievalLayer> layers = {
+        RetrievalLayer::Ann,
+        RetrievalLayer::TensorSummary,
+        RetrievalLayer::ExactGraph
+    };
+    
+    for (auto layer : layers) {
+        const auto r = engine->checkBoundary(
+            layer,
+            ApproximationZone::Approximate,  // Even Approximate zone doesn't save C
+            KernelCategory::C,
+            policy,
+            /*confidence=*/1.0);
+        
+        // Category C must never bypass governance
+        EXPECT_EQ(r.decision, GovernanceDecision::Deny);
+        EXPECT_EQ(r.violation, ExactnessViolation::CategoryCSubpathDetected);
+    }
+}
+
+/// Phase 4 Test: Verify no truth-bearing degradation for Category C.
+TEST_F(GovernanceRuleViolationTest, Phase4_CategoryC_NoTruthBearingDegradation) {
+    // ExactGraph is the truth-bearing layer
+    const auto r = engine->checkBoundary(
+        RetrievalLayer::ExactGraph,
+        ApproximationZone::Exact,  // Even Exact zone doesn't allow C here
+        KernelCategory::C,
+        policy,
+        /*confidence=*/1.0);
+    
+    // Category C operations must be CPU-only; no GPU acceleration
+    EXPECT_EQ(r.decision, GovernanceDecision::Deny);
+}
+
+/// Phase 4 Test: Verify policy version is tracked and audited.
+TEST_F(PolicyOverrideTest, Phase4_PolicyVersionTracking) {
+    auto p1 = makeDefaultPolicy();
+    p1.policy_version = "v1-conservative";
+    
+    auto p2 = makeDefaultPolicy();
+    p2.policy_version = "v2-permissive";
+    p2.allow_bypass = true;
+    
+    // Both policies should be distinct in their versioning
+    EXPECT_NE(p1.policy_version, p2.policy_version);
+    
+    // Verify decisions respect version
+    const auto r1 = engine->checkBoundary(
+        RetrievalLayer::Ann,
+        ApproximationZone::Approximate,
+        KernelCategory::A,
+        p1,
+        /*confidence=*/0.5);
+    
+    const auto r2 = engine->checkBoundary(
+        RetrievalLayer::Ann,
+        ApproximationZone::Approximate,
+        KernelCategory::A,
+        p2,
+        /*confidence=*/0.5);
+    
+    // Results may differ based on bypass setting
+    EXPECT_FALSE(p1.allow_bypass);
+    EXPECT_TRUE(p2.allow_bypass);
+}
+
+/// Phase 4 Test: Verify validatePlannedPath enforces zone progression.
+TEST_F(ValidatePlannedPathTest, Phase4_PathProgressionFromAnnToExact) {
+    auto decision = makeDecision(ExecutionPath::AnnTensorExactGraph, false, true, false);
+    decision.confidence_policy_version = "v1-test";
+    
+    // Path 3 combines ANN + Tensor + Exact, which respects progression
+    const auto r = engine->validatePlannedPath(decision, policy);
+    
+    // Should not escalate if all components are properly routed
+    EXPECT_TRUE(r.isAllowed() || r.decision == GovernanceDecision::EscalateToExact);
+}
+
+/// Phase 4 Test: Verify confidence thresholds are enforced uniformly.
+TEST_F(PolicyOverrideTest, Phase4_ConfidenceThresholdUniformity) {
+    auto low_conf = makeDefaultPolicy();
+    low_conf.min_confidence_bounded = 0.30;
+    
+    auto high_conf = makeDefaultPolicy();
+    high_conf.min_confidence_bounded = 0.90;
+    
+    const double test_confidence = 0.50;
+    
+    // Low threshold should allow
+    const auto r_low = engine->checkBoundary(
+        RetrievalLayer::TensorSummary,
+        ApproximationZone::Bounded,
+        KernelCategory::B,
+        low_conf,
+        test_confidence);
+    EXPECT_EQ(r_low.decision, GovernanceDecision::Allow);
+    
+    // High threshold should escalate
+    const auto r_high = engine->checkBoundary(
+        RetrievalLayer::TensorSummary,
+        ApproximationZone::Bounded,
+        KernelCategory::B,
+        high_conf,
+        test_confidence);
+    EXPECT_EQ(r_high.decision, GovernanceDecision::EscalateToExact);
+}

@@ -432,7 +432,6 @@ std::vector<float> LearnableRotaryEmbedding::train(
             }
         }
     }
-    }
      
     setTrainingMode(false);
     return loss_history;

@@ -252,7 +252,8 @@ DPRVectorizer::~DPRVectorizer() = default;
 // ─────────────────────────────────────────────────────────────────────
 
 void DPRVectorizer::initialize() {
-    if (initialized_) {
+    // Check without acquiring lock (atomic operation)
+    if (initialized_.load()) {
         return;
     }
 
@@ -372,14 +373,16 @@ void DPRVectorizer::initialize() {
         throw;
     }
 
-    initialized_ = true;
+    // Set initialized flag (atomic store, thread-safe)
+    initialized_.store(true);
 }
 
 // ─────────────────────────────────────────────────────────────────────
 
 bool DPRVectorizer::isInitialized() const {
     std::lock_guard<std::mutex> lock(impl_->state_mutex);
-    return initialized_ && impl_->query_encoder_loaded && impl_->passage_encoder_loaded;
+    // initialized_ is atomic, safe to read; impl_ members are protected by mutex
+    return initialized_.load() && impl_->query_encoder_loaded && impl_->passage_encoder_loaded;
 }
 
 // ─────────────────────────────────────────────────────────────────────

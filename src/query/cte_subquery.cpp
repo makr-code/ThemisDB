@@ -763,7 +763,7 @@ Result<bool> SubqueryEvaluator::evaluateExistsSubquery(
                 );
             }
             
-            return Ok(!result->empty());
+            return Ok(!result.value().empty());
             
         } else if (translation.success) {
             auto result = queryEngine.executeAndEntitiesWithFallback(translation.conjunctive_query);

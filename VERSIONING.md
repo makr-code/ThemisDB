@@ -60,6 +60,27 @@ Additionally, the CMake build system reads the version at configure time via the
 
 The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). For GA governance claims, `VERSION`/`RELEASE_TYPE` must be interpreted together with the active promotion evidence state; until Section 9 sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md`, v2.4.0 GA promotion remains pending.
 
+### 2.1 Pull Request Version Targeting
+
+Every PR must declare a **target version** at merge time. This maps the PR to a GitHub milestone and enables:
+
+- **Release scope tracking**: milestone aggregates all PRs targeting a release
+- **Changelog generation**: PR titles/numbers are recorded in `CHANGELOG.md`
+- **Roadmap alignment**: PR scope is validated against planned features in `ROADMAP.md`
+
+**PR Version Selection:**
+
+| PR Type | Target Version | Example |
+|---------|----------------|---------|
+| New feature | Next planned MINOR | `v2.5.0-alpha1` for feature work on develop |
+| Bug fix (current RC/stable) | Current release or patch | `v2.4.0-rc1` or `v2.4.1` |
+| Bug fix (general) | Next MINOR | `v2.5.0-alpha1` |
+| Documentation | Feature version | Same as documented feature |
+| Security patch | Current stable first | `v2.4.0` then backport to `v2.4.1` |
+| Infrastructure / Refactoring | Next MINOR or backlog | `v2.5.0-alpha1` or `[Unreleased]` |
+
+See [docs/governance/PR_VERSION_TARGETING.md](docs/governance/PR_VERSION_TARGETING.md) for detailed selection criteria and release manager workflow.
+
 ---
 
 ## 3. Release Types

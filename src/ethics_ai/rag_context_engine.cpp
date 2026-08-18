@@ -18,6 +18,7 @@
 #include <cmath>
 #include <deque>
 #include <iomanip>
+#include <set>
 #include <sstream>
 #include <unordered_set>
 
@@ -30,6 +31,12 @@ RAGContextEngine::RAGContextEngine(std::shared_ptr<ArgumentStore> store) : store
 std::variant<RAGContext, Status> RAGContextEngine::buildContext(const std::string &dilemma_description,
                                                                 const std::vector<std::string> &philosophy_schools,
                                                                 const std::string &category) {
+    // ArgumentStore acquires its own internal mutex on every operation.
+    // Do NOT hold store_access_mutex_ across this entire method; doing so
+    // would serialize all buildContext() calls and include CPU-heavy similarity
+    // scoring inside the critical section.  Thread safety for store_ access is
+    // already provided by ArgumentStore's internal locking.
+
     RAGContext context;
 
     // Pattern 1: Find similar dilemmas
@@ -43,6 +50,7 @@ std::variant<RAGContext, Status> RAGContextEngine::buildContext(const std::strin
         auto args_result = store_->getArgumentsByPhilosophy(school, {}, 20);
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&args_result)) {
             std::vector<std::string> arg_ids;
+            arg_ids.reserve(args->size());
             for (const auto &arg : *args) {
                 arg_ids.push_back(arg.id);
             }
@@ -204,9 +212,12 @@ RAGContextEngine::traverseArgumentChain(const std::string &start_argument_id, si
         return std::vector<std::string>{};
     }
 
+    // ArgumentStore is internally thread-safe; no outer mutex needed here.
+    // Removing store_access_mutex_ prevents serializing the entire BFS loop.
+
     // BFS traversal following `supports` / `counterarguments` links.
     std::vector<std::string> visited_order;
-    std::unordered_set<std::string> visited;
+    std::set<std::string> visited;
     // Use a deque for proper FIFO BFS ordering.
     // Each entry: (argument_id, depth)
     std::deque<std::pair<std::string, size_t>> frontier;

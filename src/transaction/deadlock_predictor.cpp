@@ -61,19 +61,16 @@ void DeadlockPredictor::recordTransaction(
     }
 
     // Store the pattern (deduplicate by exact key sequence).
-    bool found = false;
-    for (auto& p : patterns_) {
-        if (p.keys == locks_acquired) {
-            ++p.frequency;
-            // Running average of hold time.
-            p.hold_time = std::chrono::microseconds(
-                (p.hold_time.count() * (p.frequency - 1) + duration.count()) /
-                p.frequency);
-            found = true;
-            break;
-        }
-    }
-    if (!found) {
+    auto pattern_it = std::find_if(patterns_.begin(), patterns_.end(),
+        [&locks_acquired](const auto& p) { return p.keys == locks_acquired; });
+    
+    if (pattern_it != patterns_.end()) {
+        ++pattern_it->frequency;
+        // Running average of hold time.
+        pattern_it->hold_time = std::chrono::microseconds(
+            (pattern_it->hold_time.count() * (pattern_it->frequency - 1) + duration.count()) /
+            pattern_it->frequency);
+    } else {
         LockPattern pat;
         pat.keys       = locks_acquired;
         pat.hold_time  = duration;

@@ -351,7 +351,7 @@ class ArtifactLifecycleManager {
      * @param state Lifecycle state to evaluate.
      * @return true if the artifact is INVALIDATED or FAILED and needs rebuild.
      */
-    [[nodiscard]] static bool requiresImmedateRebuild(LifecycleState state) noexcept;
+    [[nodiscard]] static bool requiresImmediateRebuild(LifecycleState state) noexcept;
 
     // -----------------------------------------------------------------------
     // State Transitions

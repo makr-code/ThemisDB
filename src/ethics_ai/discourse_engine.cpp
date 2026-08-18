@@ -295,6 +295,7 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(const s
         std::lock_guard<std::mutex> lock(debates_mutex_);
         auto it = debate_arguments_.find(debate_id);
         if (it != debate_arguments_.end()) {
+            prev_arg_ids.reserve(it->second.size());
             for (const auto &arg : it->second) {
                 prev_arg_ids.push_back(arg.id);
             }

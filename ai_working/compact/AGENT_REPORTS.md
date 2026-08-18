@@ -12,8 +12,8 @@
 
 ## Source Files
 
-- `PHASE_3_4_AGENT_SPECS.md` (2026-08-18, 9,671 B)
 - `PHASE_5_6_AGENT_SPECS.md` (2026-08-18, 18,639 B)
+- `PHASE_3_4_AGENT_SPECS.md` (2026-08-18, 9,671 B)
 - `PHASE_2_2_AGENT1_RESULTS.md` (2026-08-18, 17,526 B)
 - `PHASE_2_2_AGENT2_RESULTS.md` (2026-08-18, 16,848 B)
 - `INGESTION_PHASE_2_AGENT_SPECS.md` (2026-08-18, 12,229 B)
@@ -24,6 +24,58 @@
 ---
 
 ## Compacted Content
+
+### PHASE_5_6_AGENT_SPECS.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Gap Closure — Phase 5-6 Agent Specifications
+**Document Type:** Agent task queue (for manual dispatch concurrent with Phase 2-4)
+**Status:** Ready for dispatch (est. 2026-08-25 after Phase 2 A-1 completes)
+**Target Phases:** Phase 5 (Review & Validation), Phase 6 (Documentation & Closure)
+---
+## Phase 5: Review & Validation (themisdb-reviewer — TBD Agent ID)
+**Agent Type:** themisdb-reviewer
+**Duration:** Concurrent with Phases 2-4 (ongoing checkpoints)
+**Dependency:** Phase 2 A-1 completion (2026-08-20 expected)
+**Key Deliverable:** Code review + CI/CD gate sign-off for all gap fixes
+### Prompt Template
+## Task: Index Module Gap Closure — Code Review & CI/CD Validation (Phase 5)
+**Repository:** makr-code/ThemisDB
+**Target Module:** src/index
+**Input:** Gap closure PRs from Phases 2-4 (commit hashes TBD by implementers)
+### Phase 5 Checkpoints
+#### Checkpoint 1 (CP-1): Phase 2 CRITICAL Gaps
+**Target Date:** 2026-08-25
+**Gaps Reviewed:** 29 CRITICAL (exception_in_destructor, iterator_invalidation, gpu_memory_leak, braces_imbalance)
+**Code Review Checklist:**
+- [x] All fixes follow RAII and modern C++ best practices (see CLAUDE.md, .github/instructions/cpp-*)
+- [x] Destructors are `noexcept` or safely wrapped (exception_in_destructor fixes)
+- [x] Iterators re-fetched after container mutations (iterator_invalidation fixes)
+- [x] GPU memory allocation/deallocation pairs balanced (gpu_memory_leak fixes)
+- [x] File-level brace nesting correct and consistent (braces_imbalance fixes)
+- [x] Public API documentation updated (if any API changes)
+- [x] Test coverage comprehensive: ≥10 focused test cases per batch
+**CI/CD Gates:**
+- [x] Compile: all presets (develop-strict, etc.) without warnings
+- [x] AddressSanitizer (ASan) PASS: 0 memory errors
+- [x] Focused tests PASS: test_index_destructor_safety, test_index_iterator_validity, test_index_gpu_memory_safety
+- [x] No performance regressions (benchmark baseline comparison)
+**Sign-Off Criteria:**
+- All review comments addressed
+- All CI/CD gates PASS
+- Ready for merge to develop
+#### Checkpoint 2 (CP-2): Phase 3 HIGH Locks & Connections (Batches A-5..7)
+**Target Date:** 2026-09-01
+**Gaps Reviewed:** ~500-800 HIGH (circular_lock_ordering, db_connection_leak, deadlock_risk)
+**Code Review Checklist:**
+- [x] Lock acquisition order enforced (circular_lock_ordering fixes)
+- [x] Canonical lock hierarchy documented (comments or config)
+- [x] Connection allocation/deallocation pairs balanced (db_connection_leak fixes)
+- [x] Timeout guards added for blocking operations (deadlock_risk fixes)
+- [x] ThreadSanitizer annotations correct (if applicable)
+
+---
 
 ### PHASE_3_4_AGENT_SPECS.md
 
@@ -281,58 +333,6 @@
 
 **Last Updated:** 2026-08-15 10:53 UTC  
 **Status:** Ready for dispatch (awaiting Phase 2 completion)
-
----
-
-### PHASE_5_6_AGENT_SPECS.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Gap Closure — Phase 5-6 Agent Specifications
-**Document Type:** Agent task queue (for manual dispatch concurrent with Phase 2-4)
-**Status:** Ready for dispatch (est. 2026-08-25 after Phase 2 A-1 completes)
-**Target Phases:** Phase 5 (Review & Validation), Phase 6 (Documentation & Closure)
----
-## Phase 5: Review & Validation (themisdb-reviewer — TBD Agent ID)
-**Agent Type:** themisdb-reviewer
-**Duration:** Concurrent with Phases 2-4 (ongoing checkpoints)
-**Dependency:** Phase 2 A-1 completion (2026-08-20 expected)
-**Key Deliverable:** Code review + CI/CD gate sign-off for all gap fixes
-### Prompt Template
-## Task: Index Module Gap Closure — Code Review & CI/CD Validation (Phase 5)
-**Repository:** makr-code/ThemisDB
-**Target Module:** src/index
-**Input:** Gap closure PRs from Phases 2-4 (commit hashes TBD by implementers)
-### Phase 5 Checkpoints
-#### Checkpoint 1 (CP-1): Phase 2 CRITICAL Gaps
-**Target Date:** 2026-08-25
-**Gaps Reviewed:** 29 CRITICAL (exception_in_destructor, iterator_invalidation, gpu_memory_leak, braces_imbalance)
-**Code Review Checklist:**
-- [x] All fixes follow RAII and modern C++ best practices (see CLAUDE.md, .github/instructions/cpp-*)
-- [x] Destructors are `noexcept` or safely wrapped (exception_in_destructor fixes)
-- [x] Iterators re-fetched after container mutations (iterator_invalidation fixes)
-- [x] GPU memory allocation/deallocation pairs balanced (gpu_memory_leak fixes)
-- [x] File-level brace nesting correct and consistent (braces_imbalance fixes)
-- [x] Public API documentation updated (if any API changes)
-- [x] Test coverage comprehensive: ≥10 focused test cases per batch
-**CI/CD Gates:**
-- [x] Compile: all presets (develop-strict, etc.) without warnings
-- [x] AddressSanitizer (ASan) PASS: 0 memory errors
-- [x] Focused tests PASS: test_index_destructor_safety, test_index_iterator_validity, test_index_gpu_memory_safety
-- [x] No performance regressions (benchmark baseline comparison)
-**Sign-Off Criteria:**
-- All review comments addressed
-- All CI/CD gates PASS
-- Ready for merge to develop
-#### Checkpoint 2 (CP-2): Phase 3 HIGH Locks & Connections (Batches A-5..7)
-**Target Date:** 2026-09-01
-**Gaps Reviewed:** ~500-800 HIGH (circular_lock_ordering, db_connection_leak, deadlock_risk)
-**Code Review Checklist:**
-- [x] Lock acquisition order enforced (circular_lock_ordering fixes)
-- [x] Canonical lock hierarchy documented (comments or config)
-- [x] Connection allocation/deallocation pairs balanced (db_connection_leak fixes)
-- [x] Timeout guards added for blocking operations (deadlock_risk fixes)
-- [x] ThreadSanitizer annotations correct (if applicable)
 
 ---
 

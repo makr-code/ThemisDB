@@ -52,6 +52,22 @@ Canonical pre-release suffixes are `-alphaN`, `-betaN`, and `-rcN`. Legacy forms
 | `rc` | `v2.4.0-rc1` | `v2.4.0-rc1` | `## [Unreleased]` until cut, then `## [2.4.0-rc1] - YYYY-MM-DD` |
 | `stable` | `v2.4.0` | `v2.4.0` | `## [Unreleased]` until cut, then `## [2.4.0] - YYYY-MM-DD` |
 
+## 2.1.1 PR Version Targeting Integration
+
+Every pull request MUST declare a **target version** that maps to a GitHub milestone. This ensures:
+
+- **Traceability**: each PR is linked to its planned release
+- **Changelog automation**: PR metadata feeds into `CHANGELOG.md` entries
+- **Release scope validation**: maintainers can verify PR scope against planned features
+
+**Rules:**
+- PR author selects from active milestones in `.github/pull_request_template.md` (Target Version field)
+- Milestone must exist on GitHub before PR is merged
+- PR is assigned the corresponding milestone by automation or manual review
+- Release manager uses milestone scope to validate release readiness
+
+See [docs/governance/PR_VERSION_TARGETING.md](docs/governance/PR_VERSION_TARGETING.md) for full policy, selection criteria, and release manager workflow.
+
 ## 2.2 AI-/Agent Governance Alignment
 
 - `COPILOT_INSTRUCTIONS.md` and `.github/copilot-instructions.md` define how AI/agent documentation updates must keep `BRANCHING_STRATEGY.md`, `VERSIONING.md`, this file, `CHANGELOG.md`, `ROADMAP.md`, and `FUTURE_ENHANCEMENTS.md` synchronized.
