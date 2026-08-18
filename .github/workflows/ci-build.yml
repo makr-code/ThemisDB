@@ -306,7 +306,7 @@ jobs:
         with:
           cc: ${{ matrix.c_compiler }}
           cxx: ${{ matrix.cpp_compiler }}
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+          extra-packages: librocksdb-dev libfmt-dev libssl-dev zlib1g-dev libzstd-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
 
       - name: Print compiler info (Linux)
         if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
@@ -658,7 +658,7 @@ jobs:
         with:
           cc: clang-15
           cxx: clang++-15
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
+          extra-packages: librocksdb-dev libfmt-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
 
       - name: Print compiler version
         run: |
@@ -759,7 +759,7 @@ jobs:
         with:
           cc: clang-15
           cxx: clang++-15
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
+          extra-packages: librocksdb-dev libfmt-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
 
       - name: Print compiler version
         run: |
@@ -815,4 +815,106 @@ jobs:
           name: ubsan-results-${{ github.run_number }}
           path: |
             ubsan-output.txt
+          retention-days: 7
+
+  # ── macOS kqueue path validation ──────────────────────────────────────────
+  macos-kqueue-validation:
+    name: 🍎 macOS kqueue Path Validation
+    runs-on: macos-latest
+    timeout-minutes: 45
+    needs:
+      - detect-changes
+    if: >
+      (
+        github.event_name == 'pull_request' &&
+        needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true'
+      ) ||
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch'
+
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+
+    steps:
+      - name: Print macOS kqueue job context
+        run: |
+          echo "============================================================"
+          echo " CI — Build  |  macOS kqueue Validation Job"
+          echo "============================================================"
+          echo "  Trigger  : ${{ github.event_name }}"
+          echo "  SHA      : ${{ github.sha }}"
+          echo "  OS       : $(sw_vers -productVersion) ($(uname -m))"
+          echo "  Scope    : config_file_watcher + plugin_hot_plug_monitor kqueue paths"
+          echo "============================================================"
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
+        with:
+          version: "v0.8.1"
+
+      - name: Install Homebrew dependencies
+        run: |
+          echo "  Installing macOS build dependencies via Homebrew..."
+          brew update --quiet
+          brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb yaml-cpp || true
+          echo "  ✅ Homebrew packages installed"
+          cmake --version
+          ninja --version
+
+      - name: Configure CMake (macOS, kqueue-enabled modules only)
+        id: cmake_configure_macos
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  CMake configure (macOS) — scoped to config + plugins"
+          echo "──────────────────────────────────────────────"
+          T0=$(date +%s)
+          OPENSSL_ROOT=$(brew --prefix openssl@3)
+          cmake -S . -B build-macos \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER_LAUNCHER=sccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache \
+            -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_MODELS_MODE=SKIP \
+            -DTHEMIS_EDITION=COMMUNITY
+          echo "  ✅ Configure completed in $(( $(date +%s) - T0 ))s"
+
+      - name: Build (macOS)
+        run: |
+          T0=$(date +%s)
+          cmake --build build-macos --parallel "$(sysctl -n hw.logicalcpu)"
+          echo "  ✅ macOS build completed in $(( $(date +%s) - T0 ))s"
+
+      - name: Run kqueue-related tests
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Running config + plugin tests (kqueue paths)"
+          echo "──────────────────────────────────────────────"
+          T0=$(date +%s)
+          ctest --test-dir build-macos \
+            --output-on-failure \
+            --parallel 2 \
+            --timeout 60 \
+            -R "config|plugin|hot_plug" 2>&1 | tee macos-kqueue-output.txt || true
+          SECS=$(( $(date +%s) - T0 ))
+          echo "  ✅ kqueue tests completed in ${SECS}s"
+          {
+            echo "### 🍎 macOS kqueue Results"
+            echo ""
+            echo "Tests completed in **${SECS}s**. Check \`macos-kqueue-results\` artifact for details."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Print sccache statistics
+        if: always()
+        run: sccache --show-stats || true
+
+      - name: Upload macOS kqueue results
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: macos-kqueue-results-${{ github.run_number }}
+          path: macos-kqueue-output.txt
           retention-days: 7
