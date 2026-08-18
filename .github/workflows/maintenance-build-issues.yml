@@ -188,6 +188,26 @@ jobs:
           labels: 'ci/failure,ci/build-error,maintenance'
           close-if-empty: 'false'
 
+      - name: Send Slack notification for chronic errors
+        if: steps.aggregate.outputs.chronic_errors > 0 && secrets.SLACK_WEBHOOK_URL != ''
+        uses: ./.github/actions/notify-chronic-errors
+        with:
+          error-report-file: /tmp/aggregated-errors.md
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          chronic-threshold: '3'
+          include-remediation-hints: 'true'
+        continue-on-error: true
+
+      - name: Send Discord notification for chronic errors
+        if: steps.aggregate.outputs.chronic_errors > 0 && secrets.DISCORD_WEBHOOK_URL != ''
+        uses: ./.github/actions/notify-chronic-errors
+        with:
+          error-report-file: /tmp/aggregated-errors.md
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          chronic-threshold: '3'
+          include-remediation-hints: 'true'
+        continue-on-error: true
+
       - name: Create issue for each error type (if needed)
         if: steps.aggregate.outputs.has_artifacts == 'true'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
