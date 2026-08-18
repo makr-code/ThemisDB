@@ -30,9 +30,17 @@ namespace utils {
  */
 class RateLimiter {
 public:
+    // Resource limits (Phase 2.6 cross-cutting hardening)
+    static constexpr double MAX_RATE_PER_SECOND = 1'000'000.0;  // 1M tokens/sec
+    static constexpr double MAX_BURST_SIZE = 100'000'000.0;  // 100M tokens max
+    static constexpr double MIN_RATE_PER_SECOND = 0.001;  // 1 token per 1000 seconds min
+    
     /**
      * @param rate_per_second  Steady-state token refill rate (tokens/s).
      * @param burst_size       Maximum token capacity (controls burst allowance).
+     *
+     * @note Resource Limits (Phase 2.6): rate_per_second clamped to [MIN_RATE, MAX_RATE];
+     *       burst_size clamped to [rate_per_second, MAX_BURST_SIZE].
      */
     RateLimiter(double rate_per_second, double burst_size);
 

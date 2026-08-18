@@ -46,8 +46,14 @@ namespace utils {
  */
 class GrpcChannelPool {
 public:
+    // Resource limits (Phase 2.6 cross-cutting hardening)
+    static constexpr size_t DEFAULT_MAX_CHANNELS_PER_TARGET = 10;
+    static constexpr size_t MAX_CHANNELS_PER_TARGET = 1000;  // Hard limit
+    static constexpr size_t DEFAULT_MAX_TOTAL_CHANNELS = 10'000;  // Across all targets
+    static constexpr size_t MAX_CONCURRENT_STREAMS = 1000;  // Per channel
+    
     struct Config {
-        size_t max_channels_per_target = 10;          ///< Max channels per target
+        size_t max_channels_per_target = DEFAULT_MAX_CHANNELS_PER_TARGET;  ///< Max channels per target
         std::chrono::seconds idle_timeout{30};        ///< Channel idle timeout
         std::chrono::seconds connect_timeout{5};      ///< Connection timeout
         std::chrono::seconds acquire_timeout{10};     ///< Timeout for acquiring channel

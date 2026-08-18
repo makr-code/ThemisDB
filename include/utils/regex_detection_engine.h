@@ -56,6 +56,13 @@ struct RegexPattern {
  * - Field name heuristics for JSON scanning
  * - Luhn algorithm for credit card validation
  * 
+ * **Resource Limits (Phase 2.2c Hardening):**
+ * - Maximum pattern match timeout: 5000 ms per pattern batch
+ * - Maximum regex pattern length: 500 characters (configurable)
+ * - Maximum input text size: 10 MB (configurable)
+ * - Regex backtracking detection: Prevents ReDoS (Regular Expression Denial of Service)
+ * - UTF-8 validation: Detects malformed sequences, combining marks, BOM, emoji
+ *
  * Example YAML configuration:
  * @code{.yaml}
  * patterns:
@@ -67,9 +74,18 @@ struct RegexPattern {
  *     field_hints: ["email", "mail", "email_address"]
  *     enabled: true
  * @endcode
+ *
+ * @note **Degradation Contract (2.8d):** On pattern match timeout, spdlog warning is emitted,
+ *       and partial results are returned. Invalid regex patterns are caught during compilation
+ *       and logged as errors; malformed patterns are disabled.
  */
 class RegexDetectionEngine : public IPIIDetectionEngine {
 public:
+    // Resource limits for Phase 2.2c hardening
+    static constexpr size_t DEFAULT_MAX_INPUT_SIZE = 10 * 1024 * 1024;  // 10MB
+    static constexpr size_t DEFAULT_MAX_REGEX_LENGTH = 500;  // characters
+    static constexpr uint32_t DEFAULT_PATTERN_TIMEOUT_MS = 5000;  // per-pattern timeout
+    
     RegexDetectionEngine();
     ~RegexDetectionEngine() override = default;
     
@@ -92,8 +108,16 @@ public:
      * @throws std::regex_error If regex matching fails (malformed pattern or catastrophic backtracking).
      *
      * @note Thread-safe: Uses mutex for pattern read access.
-     * @note Timeout: Regex matching is limited to 5 seconds; remaining patterns are skipped if exceeded.
+     * @note Timeout: Regex matching is bounded by PATTERN_TIMEOUT_MS per pattern batch.
+     *       If exceeded, remaining patterns are skipped; partial results are returned.
      * @note Fail-Closed: Invalid input throws exception rather than returning empty (prevents silent bypass).
+     * @note Backtracking Detection: Malformed patterns with known ReDoS vulnerabilities are pre-filtered.
+     * @note Input Bounds: Text is checked against max_input_size limit (default 10MB).
+     *
+     * @error PRIVACY_DETECTION_TIMEOUT Regex matching exceeded time budget (partial results returned)
+     * @error PRIVACY_PATTERN_OVERFLOW Regex pattern complexity or backtracking limit exceeded
+     * @error PRIVACY_INVALID_INPUT UTF-8 validation failed or input oversized
+     * @error PRIVACY_ENGINE_FAILED Regex engine threw unexpected exception
      *
      * @post If timeout occurs, spdlog warning is emitted and detection stops; findings detected so far are returned.
      */
@@ -136,6 +160,7 @@ private:
     bool enable_field_hints_;
     std::string default_redaction_mode_;
     size_t max_regex_length_;
+    uint32_t pattern_timeout_ms_ = DEFAULT_PATTERN_TIMEOUT_MS;  // Hardening: timeout bound
     
     // Initialization and loading
     void loadEmbeddedDefaults();

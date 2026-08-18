@@ -284,21 +284,41 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
 }
 
 size_t Serialization::Decoder::beginArray() {
+    // Phase 2.4c Hardening: Check nesting depth to prevent stack overflow
+    if (nesting_depth_ >= MAX_NESTING_DEPTH) {
+        throw std::length_error(
+            fmt::format("Deserialization nesting depth exceeds maximum {} (detected crafted/corrupt input)",
+                       MAX_NESTING_DEPTH));
+    }
+    nesting_depth_++;
     readTag();
     return readUInt32();
 }
 
 void Serialization::Decoder::endArray() {
-    // No-op
+    // Phase 2.4c Hardening: Decrement nesting depth on array exit
+    if (nesting_depth_ > 0) {
+        nesting_depth_--;
+    }
 }
 
 size_t Serialization::Decoder::beginObject() {
+    // Phase 2.4c Hardening: Check nesting depth to prevent stack overflow
+    if (nesting_depth_ >= MAX_NESTING_DEPTH) {
+        throw std::length_error(
+            fmt::format("Deserialization nesting depth exceeds maximum {} (detected crafted/corrupt input)",
+                       MAX_NESTING_DEPTH));
+    }
+    nesting_depth_++;
     readTag();
     return readUInt32();
 }
 
 void Serialization::Decoder::endObject() {
-    // No-op
+    // Phase 2.4c Hardening: Decrement nesting depth on object exit
+    if (nesting_depth_ > 0) {
+        nesting_depth_--;
+    }
 }
 
 bool Serialization::Decoder::hasMore() const {

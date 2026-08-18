@@ -213,6 +213,24 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
         );
     }
     
+    // Phase 2.4a Hardening: Check compression ratio to detect decompression bombs
+    if (compressed.size() > 0) {
+        size_t ratio = decompressed_size / compressed.size();
+        if (ratio > compression::MAX_COMPRESSION_RATIO) {
+            const auto err_msg = fmt::format(
+                "Decompression bomb detected: ratio {}x exceeds max {}x",
+                ratio, compression::MAX_COMPRESSION_RATIO);
+            THEMIS_ERROR("{}", err_msg);
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::COMPRESSION_BOMB_DETECTED, err_msg,
+                "zstd_decompress_safe", ErrorSeverity::Error, /*is_recoverable=*/false));
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                err_msg
+            );
+        }
+    }
+    
     // Step 5: Allocate output buffer with exception safety
     std::vector<uint8_t> output;
     try {
