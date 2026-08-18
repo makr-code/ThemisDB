@@ -15,7 +15,6 @@
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
-#include "utils/thread_join_utils.h"
 #include <algorithm>
 
 namespace themis {
@@ -60,9 +59,7 @@ void PluginHealthMonitor::stopMonitoring() {
     running_ = false;
 
     if (monitor_thread_.joinable()) {
-        if (!themis::utils::joinThreadWithin(monitor_thread_)) {
-            THEMIS_WARN("PluginHealthMonitor: monitor thread did not join within timeout, continuing shutdown");
-        }
+        monitor_thread_.join();
     }
 
     THEMIS_INFO("PluginHealthMonitor: stopped");
@@ -659,5 +656,4 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
 
 } // namespace plugins
 } // namespace themis
-
 

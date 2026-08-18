@@ -1046,6 +1046,7 @@ bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId,
 		// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): pre-v2.0 key format (graph:out)
 		// Reason: same as above — old keys lack graphId segment.
 		// Activation: out-key parsing when last==first.
+		// Primary Delta: parses graph:out:<fromPk>:<edgeId> instead of graph:out:<graphId>:<fromPk>:<edgeId>.
 		// Approved By: Index module maintainer — INDEX-AUD-GI-03
 		// Removal Target: v2.6.0
 		graphId.clear();

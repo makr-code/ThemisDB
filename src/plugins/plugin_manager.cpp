@@ -1517,9 +1517,8 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
                 getSymbol(old_handle, "destroyPlugin"));
         }
 
-        // Release old instance ownership and atomically install new instance.
-        // Using get()+reset() rather than release() to ensure the unique_ptr is
-        // explicitly nulled before the new pointer is assigned.
+        // Detach the old instance before publishing the replacement so teardown
+        // can run after the registry entry has been updated.
         old_raw = entry.instance.get();
         entry.instance.release();
         new_instance_guard.release();

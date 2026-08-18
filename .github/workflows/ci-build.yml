@@ -858,7 +858,7 @@ jobs:
         run: |
           echo "  Installing macOS build dependencies via Homebrew..."
           brew update --quiet
-          brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb yaml-cpp || true
+          brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb yaml-cpp
           echo "  ✅ Homebrew packages installed"
           cmake --version
           ninja --version
@@ -890,6 +890,7 @@ jobs:
 
       - name: Run kqueue-related tests
         run: |
+          set -o pipefail
           echo "──────────────────────────────────────────────"
           echo "  Running config + plugin tests (kqueue paths)"
           echo "──────────────────────────────────────────────"
@@ -898,7 +899,7 @@ jobs:
             --output-on-failure \
             --parallel 2 \
             --timeout 60 \
-            -R "config|plugin|hot_plug" 2>&1 | tee macos-kqueue-output.txt || true
+            -R "config|plugin|hot_plug" 2>&1 | tee macos-kqueue-output.txt
           SECS=$(( $(date +%s) - T0 ))
           echo "  ✅ kqueue tests completed in ${SECS}s"
           {

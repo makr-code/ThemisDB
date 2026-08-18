@@ -21,6 +21,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
+#include <memory>
 #include <regex>
 #include <sstream>
 
@@ -703,4 +704,3 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
 
 } // namespace plugins
 } // namespace themis
-

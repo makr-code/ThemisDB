@@ -13,7 +13,6 @@
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
-#include "utils/thread_join_utils.h"
 #include <filesystem>
 #include <map>
 #include <thread>
@@ -561,11 +560,9 @@ void PluginHotPlugMonitor::stop() {
     }
 #endif
     
-    // Wait for thread to finish
+    // Wait for thread to finish before allowing object destruction.
     if (monitor_thread_.joinable()) {
-        if (!themis::utils::joinThreadWithin(monitor_thread_)) {
-            THEMIS_WARN("PluginHotPlugMonitor: monitor thread did not join within timeout, continuing shutdown");
-        }
+        monitor_thread_.join();
     }
     
 #ifdef _WIN32

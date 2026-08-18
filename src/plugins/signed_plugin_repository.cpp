@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <iomanip>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 
@@ -336,4 +337,3 @@ bool SignedPluginRepository::verifyEd25519Signature(
 
 } // namespace plugins
 } // namespace themis
-

@@ -58,7 +58,7 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
 /**
  * @brief Safely compress data using ZSTD with parameter validation.
  *
- * @param data Input buffer pointer (must not be nullptr).
+ * @param data Input buffer pointer (must not be nullptr when size > 0).
  * @param size Size in bytes (must not exceed MAX_ZSTD_INPUT_SIZE).
  * @param level Compression level (1-22); values outside range are auto-clamped to [1-22].
  * @return Result containing compressed data or error description.

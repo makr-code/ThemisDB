@@ -96,7 +96,7 @@ public:
          * @error_contract
          * | Condition | ErrorCode | Severity | Logging | Recovery |
          * |-----------|-----------|----------|---------|----------|
-         * | Memory exhaustion during resize | std::bad_alloc (SERIALIZATION_FAILED 9080) | Critical | – | Propagates exception |
+         * | Memory exhaustion while encode* operations append/grow the buffer | std::bad_alloc (SERIALIZATION_FAILED 9080) | Critical | – | Propagates exception |
          *
          * @bounded_resources Nesting depth is limited by available stack space; callers
          *   are responsible for bounding the number of nested begin/end calls.
