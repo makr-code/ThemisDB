@@ -336,6 +336,13 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     CallTranscript empty;
     if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
 
+    // CRITICAL GAP 11: Reject empty RTP packets fail-closed
+    if (rtp_packet.empty()) {
+        THEMIS_WARN("SipCallSession: empty RTP packet rejected (error 6910)");
+        if (impl_->on_error) impl_->on_error("Empty RTP packet");
+        return empty;
+    }
+
     // TASK 2.6: Enforce max session duration
     int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
@@ -346,19 +353,23 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     }
 
     // TASK 2.6: RTP packet validation (error code 6910)
+    // CRITICAL GAP 12: Reject oversized RTP packets
     if (rtp_packet.size() < 12) {
         THEMIS_WARN("SipCallSession: RTP packet too small ({} bytes), rejecting (error 6910)", 
                     rtp_packet.size());
         return empty;
     }
     if (!isRtpVersion2(rtp_packet)) {
-        THEMIS_WARN("SipCallSession: invalid RTP version, rejecting packet (error 6910)");
+        // CRITICAL GAP 13: Reject malformed RTP frames without valid headers
+        THEMIS_WARN("SipCallSession: invalid RTP version or malformed header, rejecting packet (error 6910)");
         return empty;
     }
     
-    if (rtp_packet.size() > 65536) {
-        THEMIS_WARN("SipCallSession: RTP packet too large ({} bytes), rejecting (error 6910)",
-                    rtp_packet.size());
+    // CRITICAL GAP 12 (continued): Enforce oversized packet limit
+    static constexpr size_t kMaxRtpPacketSize = 32 * 1024;
+    if (rtp_packet.size() > kMaxRtpPacketSize) {
+        THEMIS_WARN("SipCallSession: RTP packet exceeds size limit ({} > {} bytes), rejecting (error 6910)",
+                    rtp_packet.size(), kMaxRtpPacketSize);
         return empty;
     }
 
@@ -376,8 +387,12 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     }
 
     // TASK 2.6: Audio buffer size limits (anti-DoS)
-    if (impl_->pcm_buffer.size() + payload.size() > 10 * 1024 * 1024) {  // 10 MB limit
-        THEMIS_WARN("SipCallSession: audio buffer would exceed limit, rejecting packet (error 6910)");
+    // CRITICAL GAP 13: Oversized session buffer rejection
+    static constexpr size_t kMaxSessionRtpBufferBytes = 256 * 1024 * 1024;
+    if (impl_->pcm_buffer.size() + payload.size() > kMaxSessionRtpBufferBytes) {
+        THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",
+                     impl_->pcm_buffer.size(), payload.size(), kMaxSessionRtpBufferBytes);
+        if (impl_->on_error) impl_->on_error("Session buffer overflow");
         return empty;  // Fail-closed
     }
 
