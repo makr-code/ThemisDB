@@ -152,13 +152,27 @@ std::vector<uint8_t> ExportEncryption::deriveJobDEK(uint32_t key_version) const 
 }
 
 std::vector<uint8_t> ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
-    if (!config_.enabled) {
+    // FIXED: Protect ALL config_ reads with mutex to prevent data races
+    bool enabled;
+    std::string kek_id;
+    std::string job_id;
+    std::shared_ptr<themis::KeyProvider> key_provider;
+    
+    {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
+        enabled = config_.enabled;
+        kek_id = config_.kek_id;
+        job_id = config_.job_id;
+        key_provider = config_.key_provider;
+    }
+    
+    if (!enabled) {
         return plaintext;
     }
-    if (config_.kek_id.empty() || !config_.key_provider) {
+    if (kek_id.empty() || !key_provider) {
         throw std::invalid_argument("ExportEncryption: encryption enabled but kek_id/key_provider missing");
     }
-    if (config_.job_id.empty()) {
+    if (job_id.empty()) {
         throw std::invalid_argument("ExportEncryption: job_id must not be empty");
     }
 
@@ -167,11 +181,17 @@ std::vector<uint8_t> ExportEncryption::encrypt(const std::vector<uint8_t> &plain
     uint32_t key_version = 0;
     {
         std::lock_guard<std::mutex> lk(key_provider_mutex_);
-        key_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;
+        key_version = key_provider->getKeyMetadata(kek_id).version;
     }
 
-    // Derive per-job DEK.
-    auto dek = deriveJobDEK(key_version);
+    // Create a temporary config with captured values for deriveJobDEK
+    ExportEncryptionConfig temp_cfg;
+    temp_cfg.enabled = true;
+    temp_cfg.kek_id = kek_id;
+    temp_cfg.job_id = job_id;
+    temp_cfg.key_provider = key_provider;
+    ExportEncryption temp_helper(temp_cfg);
+    auto dek = temp_helper.deriveJobDEK(key_version);
 
     // Generate a random 12-byte IV.
     std::vector<uint8_t> iv(IV_LEN);
@@ -181,7 +201,7 @@ std::vector<uint8_t> ExportEncryption::encrypt(const std::vector<uint8_t> &plain
     }
 
     // Build AAD.
-    auto aad = buildAAD(config_.job_id, config_.kek_id, key_version, iv);
+    auto aad = buildAAD(job_id, kek_id, key_version, iv);
 
     // AES-256-GCM encrypt.
     std::vector<uint8_t> ciphertext(plaintext.size());
@@ -242,13 +262,13 @@ std::vector<uint8_t> ExportEncryption::encrypt(const std::vector<uint8_t> &plain
     // Assemble the container:
     //   [magic][format_ver][job_id][kek_id][key_version][iv][ct_len][ct][tag]
     std::vector<uint8_t> container;
-    container.reserve(4 + 4 + 4 + config_.job_id.size() + 4 + config_.kek_id.size() + 4 + IV_LEN + 8 + plaintext.size()
+    container.reserve(4 + 4 + 4 + job_id.size() + 4 + kek_id.size() + 4 + IV_LEN + 8 + plaintext.size()
                       + TAG_LEN);
 
     writeBytes(container, MAGIC, 4);
     writeU32(container, FORMAT_VER);
-    writeString(container, config_.job_id);
-    writeString(container, config_.kek_id);
+    writeString(container, job_id);
+    writeString(container, kek_id);
     writeU32(container, key_version);
     writeBytes(container, iv.data(), IV_LEN);
     writeU64(container, static_cast<uint64_t>(ciphertext.size()));
@@ -257,13 +277,22 @@ std::vector<uint8_t> ExportEncryption::encrypt(const std::vector<uint8_t> &plain
 
     THEMIS_INFO("ExportEncryption: encrypted {} bytes -> {} bytes "
                 "(job_id={}, kek_id={}, key_ver={})",
-                plaintext.size(), container.size(), config_.job_id, config_.kek_id, key_version);
+                plaintext.size(), container.size(), job_id, kek_id, key_version);
 
     return container;
 }
 
 std::vector<uint8_t> ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
-    if (!config_.enabled) {
+    // FIXED: Protect config_.enabled read with mutex
+    bool enabled;
+    std::shared_ptr<themis::KeyProvider> key_provider;
+    {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
+        enabled = config_.enabled;
+        key_provider = config_.key_provider;
+    }
+    
+    if (!enabled) {
         return container;
     }
 
@@ -331,7 +360,7 @@ std::vector<uint8_t> ExportEncryption::decrypt(const std::vector<uint8_t> &conta
     // ── Derive DEK ────────────────────────────────────────────────────────
     // Temporarily override the config job_id / kek_id with values read
     // from the file header so that the DEK derivation matches encryption.
-    if (!config_.key_provider) {
+    if (!key_provider) {
         throw std::invalid_argument("ExportEncryption: key_provider is null");
     }
     if (file_kek_id.empty()) {
@@ -341,9 +370,11 @@ std::vector<uint8_t> ExportEncryption::decrypt(const std::vector<uint8_t> &conta
     // Use the job_id from the file; fall back to config_.job_id if the
     // header job_id matches (normal case) or the caller deliberately sets
     // it. Build a temporary config just for derivation.
-    ExportEncryptionConfig dec_cfg = config_;
-    dec_cfg.kek_id                 = file_kek_id;
-    dec_cfg.job_id                 = file_job_id;
+    ExportEncryptionConfig dec_cfg;
+    dec_cfg.enabled = true;
+    dec_cfg.kek_id = file_kek_id;
+    dec_cfg.job_id = file_job_id;
+    dec_cfg.key_provider = key_provider;
     ExportEncryption dec_helper(dec_cfg);
     auto dek = dec_helper.deriveJobDEK(key_version);
 
@@ -415,7 +446,14 @@ std::vector<uint8_t> ExportEncryption::decrypt(const std::vector<uint8_t> &conta
 }
 
 void ExportEncryption::encryptFile(const std::string &src_path, const std::string &dst_path) const {
-    if (!config_.enabled) {
+    // FIXED: Protect config_.enabled read with mutex
+    bool enabled;
+    {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
+        enabled = config_.enabled;
+    }
+    
+    if (!enabled) {
         // Copy the file as-is when encryption is disabled.
         if (src_path != dst_path) {
             std::ifstream src(src_path, std::ios::binary);
@@ -464,7 +502,14 @@ void ExportEncryption::encryptFile(const std::string &src_path, const std::strin
 }
 
 void ExportEncryption::decryptFile(const std::string &src_path, const std::string &dst_path) const {
-    if (!config_.enabled) {
+    // FIXED: Protect config_.enabled read with mutex
+    bool enabled;
+    {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
+        enabled = config_.enabled;
+    }
+    
+    if (!enabled) {
         if (src_path != dst_path) {
             std::ifstream src(src_path, std::ios::binary);
             if (!src.is_open()) {

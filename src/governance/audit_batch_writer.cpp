@@ -297,9 +297,17 @@ void AuditBatchWriter::flushThread() {
             std::chrono::milliseconds(config_.flush_interval_ms)
         );
         
-        if (!pending_entries_.empty()) {
-            flush();
+        // FIXED: Acquire lock before checking pending_entries_ to prevent data race
+        {
+            std::lock_guard<std::mutex> lock(buffer_mutex_);
+            if (!pending_entries_.empty()) {
+                // Release lock before flush to avoid holding lock during I/O
+            } else {
+                continue;  // No entries to flush, go back to sleep
+            }
         }
+        // Lock released here; safe to call flush() without deadlock
+        flush();
     }
 }
 
@@ -315,22 +323,22 @@ AuditBatchWriter::WriteResult AuditBatchWriter::flushBatch(
         return result;
     }
     
-    // Create checkpoint
+    // Create checkpoint with atomically-captured sequence numbers
+    int64_t current_batch_seq = batch_sequence_counter_.fetch_add(1);
+    int64_t first_seq = entry_sequence_counter_.load();
+    
     auto checkpoint = createCheckpoint(batch, "pending");
     if (config_.enable_checkpoints) {
         persistCheckpoint(checkpoint);
     }
     
-    // Write entries to manager
-    // Note: In real implementation, this would be atomic
-    int64_t first_seq = entry_sequence_counter_.load();
-    
+    // Write entries to manager with atomic sequence counter updates
     for (const auto& entry : batch) {
         try {
             // Note: Real implementation would batch these writes
             manager_->addEntry(entry);
             result.entries_written++;
-            entry_sequence_counter_++;
+            entry_sequence_counter_.fetch_add(1);  // FIXED: Use atomic fetch_add instead of ++ race
         } catch (const std::exception& e) {
             result.entries_failed++;
             result.error_message = e.what();
@@ -370,7 +378,6 @@ AuditBatchWriter::WriteResult AuditBatchWriter::flushBatch(
         }
     }
     
-    batch_sequence_counter_++;
     return result;
 }
 

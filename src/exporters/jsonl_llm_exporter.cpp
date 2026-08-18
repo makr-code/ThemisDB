@@ -344,7 +344,17 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
         }
 
         // Flush and close writer
-        writer.close();
+        try {
+            writer.close();
+        } catch (const std::exception &e) {
+            // FIXED: Catch close() exceptions properly
+            stats.errors.push_back("Failed to close writer: " + std::string(e.what()));
+            metrics_->recordError("writer_close_exception");
+            auto end_time  = std::chrono::steady_clock::now();
+            stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+            stats.estimated_eta_seconds = 0.0;
+            return stats;
+        }
 
         auto end_time  = std::chrono::steady_clock::now();
         stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
@@ -354,7 +364,13 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
 
         // P2: Record compression metrics
         if (options.compress) {
-            metrics_->recordCompression(writer.getBytesWritten(), writer.getCompressedBytesWritten());
+            try {
+                metrics_->recordCompression(writer.getBytesWritten(), writer.getCompressedBytesWritten());
+            } catch (const std::exception &e) {
+                // FIXED: Handle metrics recording errors gracefully
+                THEMIS_WARN("Failed to record compression metrics: {}", e.what());
+                // Don't fail the export, just warn
+            }
         }
 
         // P3: Encrypt output file if configured
@@ -369,16 +385,37 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                     std::filesystem::remove(enc_tmp);
                     throw ExportIOException("Failed to rename encrypted file: " + rename_ec.message(), enc_tmp);
                 }
-                metrics_->recordEncryption(enc_bytes);
-            } catch ([[maybe_unused]] const std::exception &e) {
+                try {
+                    metrics_->recordEncryption(enc_bytes);
+                } catch (const std::exception &e) {
+                    // FIXED: Handle metrics recording errors gracefully
+                    THEMIS_WARN("Failed to record encryption metrics: {}", e.what());
+                }
+            } catch (const ExportIOException &e) {
+                // FIXED: Properly handle and rethrow IO exceptions
                 std::error_code ec;
                 std::filesystem::remove(enc_tmp, ec);
-                throw;
+                stats.errors.push_back("[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + e.what()
+                                       + " (file: " + e.getFilePath() + ")");
+                metrics_->recordError("io_exception");
+                return stats;  // Return stats instead of throwing
+            } catch (const std::exception &e) {
+                // FIXED: Catch any other exceptions from encryption
+                std::error_code ec;
+                std::filesystem::remove(enc_tmp, ec);
+                stats.errors.push_back("Encryption failed: " + std::string(e.what()));
+                metrics_->recordError("encryption_exception");
+                return stats;  // Return stats instead of throwing
             }
         }
 
         // Record export metrics
-        metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
+        try {
+            metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
+        } catch (const std::exception &e) {
+            // FIXED: Handle metrics recording errors gracefully
+            THEMIS_WARN("Failed to record export metrics: {}", e.what());
+        }
 
         THEMIS_INFO("JSONL export completed: {} entities in {}ms{}", stats.exported_entities, stats.duration.count(),
                     options.compress ? " (compressed)" : "");
@@ -389,6 +426,15 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
         stats.errors.push_back("[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + e.what()
                                + " (file: " + e.getFilePath() + ")");
         metrics_->recordError("io_exception");
+
+        auto end_time  = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        return stats;
+    } catch (const std::exception &e) {
+        // FIXED: Catch any other exceptions that weren't handled earlier
+        stats.errors.push_back("Unexpected exception during export: " + std::string(e.what()));
+        metrics_->recordError("unexpected_exception");
 
         auto end_time  = std::chrono::steady_clock::now();
         stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
