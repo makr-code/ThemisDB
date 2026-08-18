@@ -16,6 +16,18 @@ namespace voice {
 
 namespace {
 
+/// Threshold for extremely low audio variance (indicates synthetic/replayed)
+constexpr double LOW_VARIANCE_THRESHOLD = 0.001;
+
+/// Threshold for detecting clipped waveforms (saturation)
+constexpr double CLIPPING_THRESHOLD = 0.95;
+
+/// Spectral entropy threshold for live audio (synthetic has lower entropy)
+constexpr double MIN_SPECTRAL_ENTROPY = 0.4;
+
+/// Maximum allowed silence duration for live audio (ms)
+constexpr size_t MAX_SILENCE_DURATION_MS = 500;
+
 [[nodiscard]] std::vector<double> parsePcm16Le(const std::string& audio_data) {
     if (audio_data.empty() || (audio_data.size() % 2) != 0) {
         return {};

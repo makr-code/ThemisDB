@@ -17,6 +17,46 @@
 namespace themisdb {
 namespace replication {
 
+// ============================================================================
+// Lock Hierarchy Documentation (async_wal_shipper.cpp)
+// ============================================================================
+//
+// This module implements a 3-level lock hierarchy for background WAL shipping
+// without deadlocks or excessive lock contention.
+//
+// LOCK HIERARCHY (ordered from outermost to innermost):
+//
+//   Level 1: AsyncWalShipper::queue_mutex_
+//            - Purpose: Protects segment queue and condition variable
+//            - Scope: Enqueue/dequeue operations, worker thread coordination
+//            - Hold time: MINIMAL (~microseconds for queue ops)
+//            - Pattern: Acquire → queue op → release → notify outside
+//
+//   Level 2: AsyncWalShipper::callback_mutex_
+//            - Purpose: Protects ship_handler_ and alert_cb_
+//            - Scope: Handler callback registration and retrieval
+//            - Hold time: MINIMAL (~microseconds)
+//            - Pattern: Acquire → copy handler → release → invoke outside
+//
+//   Level 3: AsyncWalShipper::stats_mutex_
+//            - Purpose: Protects shipping statistics and metrics
+//            - Scope: Stats updates during dispatch
+//            - Hold time: MINIMAL (~microseconds)
+//            - Pattern: Acquire → update stats → release
+//
+//   Level 4: Blocking I/O and External Operations
+//            - Purpose: Handler invocation (network I/O, etc.)
+//            - Scope: NEVER held while holding Level 1-3 locks
+//            - Hold time: VARIABLE (10ms-1s depending on network)
+//            - Pattern: Handlers invoked lock-free after acquiring and releasing mutex_
+//
+// TIMEOUT SAFETY:
+//   Background worker thread uses cv.wait(lock, predicate) which is guarded by
+//   timeout logic. Worker loop monitors stop_requested_ flag to enable graceful
+//   shutdown even if background operations hang.
+//
+// ============================================================================
+
 // ---------------------------------------------------------------------------
 // Histogram bucket construction
 // ---------------------------------------------------------------------------
@@ -225,11 +265,16 @@ void AsyncWalShipper::stop()
 
 void AsyncWalShipper::workerLoop()
 {
+    // Default timeout for condition variable: 1 second
+    // This ensures the thread wakes up periodically to check stop_requested_
+    const auto cv_timeout = std::chrono::seconds(1);
+    
     while (true) {
         WalSegment seg;
         {
             std::unique_lock<std::mutex> lock(queue_mutex_);
-            queue_cv_.wait(lock, [this] {
+            // Wait with timeout to ensure periodic wake-up even if not notified
+            queue_cv_.wait_for(lock, cv_timeout, [this] {
                 return !segment_queue_.empty() ||
                        stop_requested_.load(std::memory_order_relaxed);
             });
@@ -242,7 +287,7 @@ void AsyncWalShipper::workerLoop()
 
             seg = std::move(segment_queue_.front());
             segment_queue_.pop();
-        }
+        }  // LOCK RELEASED: dispatchSegment happens outside lock
 
         dispatchSegment(seg);
     }

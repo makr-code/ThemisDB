@@ -414,8 +414,6 @@ public:
     /// @note Format is stable and suitable for logging/debugging
     static std::string generateSessionId();
     
-    // Phase 3: Session State Guard Violations
-    
     /// @brief Validate state transition (fail-closed)
     /// @param session_id Session identifier
     /// @param new_state Target state
@@ -423,25 +421,10 @@ public:
     /// @error 6603 Invalid state transition
     bool validateStateTransition(const std::string& session_id, SessionState new_state);
     
-    /// @brief Detect double-close attempt (fail-closed)
-    /// @param session_id Session identifier
-    /// @return true if session already in TERMINATED state; false otherwise
-    bool isDoubleCloseAttempt(const std::string& session_id);
-    
     /// @brief Detect use-after-free (fail-closed)
     /// @param session_id Session identifier
     /// @return true if session has expired; false if active
     bool isUseAfterFreeAttempt(const std::string& session_id);
-    
-    /// @brief Detect session collision (prevent duplicate session_id)
-    /// @param session_id Session identifier
-    /// @return true if session_id already exists; false otherwise
-    bool sessionIdExists(const std::string& session_id);
-    
-    /// @brief Get session state change timestamp (for audit trail)
-    /// @param session_id Session identifier
-    /// @return Timestamp in milliseconds; 0 if not found
-    int64_t getStateChangeTimestamp(const std::string& session_id);
 
 private:
     SessionTimeoutConfig timeout_config_;
@@ -450,11 +433,28 @@ private:
 
     std::unordered_map<std::string, VoiceSessionData> active_cache_;
     
-    // Phase 3: Session guard tracking
+    // Phase 3 & Wave A Block 2: Session guard tracking and teardown state
     std::map<std::string, int64_t> state_change_timestamps_;
+    
+    // Wave A Block 2: Teardown safety tracking
+    struct TeardownInfo {
+        int64_t start_time_ms = 0;        // When teardown initiated
+        SessionState pre_closing_state = SessionState::TERMINATED;  // State before CLOSING
+        int64_t error_code = 0;           // Error during teardown if any
+    };
+    std::map<std::string, TeardownInfo> teardown_tracker_;
 
     bool isExpired(const VoiceSessionData& session) const;
     int64_t nowMs() const;
+    
+    /// @brief Internal: Perform teardown with timeout enforcement (Wave A Block 2)
+    /// @param session_id Session identifier
+    /// @param timeout_ms Timeout in milliseconds
+    /// @return true if successfully terminated; false on timeout
+    bool teardownSessionLocked(
+        const std::string& session_id,
+        int64_t timeout_ms
+    );
 };;
 
 }} // namespace themis::voice

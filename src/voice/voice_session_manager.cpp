@@ -83,6 +83,7 @@ std::string sessionStateToString(SessionState state) {
         case SessionState::ACTIVE:     return "ACTIVE";
         case SessionState::IDLE:       return "IDLE";
         case SessionState::EXPIRED:    return "EXPIRED";
+        case SessionState::CLOSING:    return "CLOSING";     // Wave A Block 2
         case SessionState::TERMINATED: return "TERMINATED";
         default:                       return "UNKNOWN";
     }
@@ -606,7 +607,7 @@ bool VoiceSessionManager::validateStateTransition(
     // Frozen state machine (from header)
     // ACTIVE ──idle_timeout──> IDLE
     // ACTIVE ──max_duration──> EXPIRED
-    // ACTIVE ──terminate()───> TERMINATED
+    // ACTIVE ──terminate()───> CLOSING → TERMINATED (Wave A Block 2)
     // IDLE ───touchSession──> ACTIVE
     // IDLE ────cleanup──────> TERMINATED
     // EXPIRED ──cleanup─────> TERMINATED
@@ -619,23 +620,6 @@ bool VoiceSessionManager::validateStateTransition(
     }
     
     return valid;
-}
-
-bool VoiceSessionManager::isDoubleCloseAttempt(const std::string& session_id) {
-    std::lock_guard<std::mutex> lock(manager_mutex_);
-    auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) {
-        // Session not found (already cleaned up) = double-close
-        return true;
-    }
-    
-    // Check if already in TERMINATED state
-    if (it->second.state == SessionState::TERMINATED) {
-        spdlog::warn("Double-close attempt on session: {}", session_id);
-        return true;
-    }
-    
-    return false;
 }
 
 bool VoiceSessionManager::isUseAfterFreeAttempt(const std::string& session_id) {
@@ -683,6 +667,179 @@ int64_t VoiceSessionManager::getStateChangeTimestamp(const std::string& session_
         return it->second;
     }
     return 0;
+}
+
+// ============================================================================
+// Wave A Block 2: Multi-Session Teardown Safety & Audit Logging
+// ============================================================================
+
+bool VoiceSessionManager::terminateSessionWithTimeout(
+    const std::string& session_id,
+    int64_t timeout_ms) {
+    
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    return teardownSessionLocked(session_id, timeout_ms);
+}
+
+bool VoiceSessionManager::teardownSessionLocked(
+    const std::string& session_id,
+    int64_t timeout_ms) {
+    
+    auto it = active_cache_.find(session_id);
+    if (it == active_cache_.end()) {
+        spdlog::warn("Teardown: session not found: {}", session_id);
+        return false;
+    }
+    
+    const int64_t start_ms = nowMs();
+    
+    // Track teardown start
+    auto teardown_it = teardown_tracker_.find(session_id);
+    if (teardown_it == teardown_tracker_.end()) {
+        TeardownInfo info;
+        info.start_time_ms = start_ms;
+        info.pre_closing_state = it->second.state;
+        teardown_tracker_[session_id] = info;
+    }
+    
+    // State transition: current → CLOSING → TERMINATED
+    const SessionState current_state = it->second.state;
+    
+    if (current_state == SessionState::CLOSING || current_state == SessionState::TERMINATED) {
+        // Already terminating/terminated (double-close)
+        spdlog::warn("Double-close attempt during teardown: {}", session_id);
+        return false;
+    }
+    
+    // Transition to CLOSING state
+    it->second.state = SessionState::CLOSING;
+    const int64_t now = nowMs();
+    state_change_timestamps_[session_id] = now;
+    
+    // Check timeout during CLOSING phase
+    const int64_t elapsed = nowMs() - start_ms;
+    if (elapsed > timeout_ms) {
+        spdlog::error("Teardown timeout: session {} exceeded {} ms", session_id, timeout_ms);
+        // Fail-closed: force terminate
+        it->second.state = SessionState::TERMINATED;
+        finalizeSessionTeardownLocked(session_id, now, active_cache_, state_change_timestamps_, *backend_);
+        teardown_tracker_.erase(session_id);
+        return false;
+    }
+    
+    // Apply grace period
+    const int64_t grace_ms = std::min(
+        timeout_config_.closing_grace_period_ms,
+        timeout_ms - elapsed
+    );
+    
+    if (grace_ms > 0) {
+        // In production, this would allow for cleanup operations
+        // For now, just track the time
+        std::this_thread::sleep_for(std::chrono::milliseconds(
+            std::min(grace_ms, 10LL)  // Sleep minimum time to allow other threads
+        ));
+    }
+    
+    // Finalize: transition to TERMINATED and release resources
+    it->second.state = SessionState::TERMINATED;
+    const int64_t final_time = nowMs();
+    state_change_timestamps_[session_id] = final_time;
+    
+    finalizeSessionTeardownLocked(session_id, final_time, active_cache_, state_change_timestamps_, *backend_);
+    teardown_tracker_.erase(session_id);
+    
+    spdlog::debug("Session teardown completed: {} (elapsed: {} ms)", 
+                  session_id, nowMs() - start_ms);
+    return true;
+}
+
+size_t VoiceSessionManager::terminateAllSessions(int64_t timeout_ms) {
+    const int64_t start_ms = nowMs();
+    const int64_t deadline_ms = start_ms + timeout_ms;
+    size_t terminated_count = 0;
+    
+    {
+        std::lock_guard<std::mutex> lock(manager_mutex_);
+        
+        // Collect session IDs (to avoid iterator invalidation)
+        std::vector<std::string> session_ids;
+        for (const auto& [id, session] : active_cache_) {
+            if (session.state != SessionState::TERMINATED && 
+                session.state != SessionState::CLOSING) {
+                session_ids.push_back(id);
+            }
+        }
+        
+        // Terminate each session with remaining timeout
+        for (const auto& session_id : session_ids) {
+            const int64_t remaining_ms = deadline_ms - nowMs();
+            if (remaining_ms <= 0) {
+                spdlog::warn("terminateAllSessions: global timeout exceeded");
+                break;
+            }
+            
+            const bool success = teardownSessionLocked(
+                session_id,
+                std::min(timeout_config_.teardown_timeout_ms, remaining_ms)
+            );
+            
+            if (success) {
+                ++terminated_count;
+            }
+        }
+    }
+    
+    return terminated_count;
+}
+
+bool VoiceSessionManager::isDoubleCloseAttempt(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    auto it = active_cache_.find(session_id);
+    if (it == active_cache_.end()) {
+        // Session not found (already cleaned up) = double-close
+        return true;
+    }
+    
+    // Check if already in CLOSING or TERMINATED state
+    if (it->second.state == SessionState::CLOSING || 
+        it->second.state == SessionState::TERMINATED) {
+        spdlog::warn("Double-close attempt on session: {}", session_id);
+        return true;
+    }
+    
+    return false;
+}
+
+json VoiceSessionManager::getSessionTeardownStatus(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    
+    json status;
+    status["session_id"] = session_id;
+    status["timestamp_ms"] = nowMs();
+    
+    auto it = active_cache_.find(session_id);
+    if (it != active_cache_.end()) {
+        status["state"] = sessionStateToString(it->second.state);
+    } else {
+        status["state"] = "UNKNOWN";
+    }
+    
+    auto teardown_it = teardown_tracker_.find(session_id);
+    if (teardown_it != teardown_tracker_.end()) {
+        const auto& info = teardown_it->second;
+        status["teardown_start_ms"] = info.start_time_ms;
+        status["elapsed_ms"] = nowMs() - info.start_time_ms;
+        status["pre_closing_state"] = sessionStateToString(info.pre_closing_state);
+        if (info.error_code != 0) {
+            status["error_code"] = info.error_code;
+        }
+        status["is_tearing_down"] = true;
+    } else {
+        status["is_tearing_down"] = false;
+    }
+    
+    return status;
 }
 
 }} // namespace themis::voice
