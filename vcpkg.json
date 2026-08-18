@@ -1,0 +1,11 @@
+{
+  "name": "themisdb",
+  "version": "2.4.0",
+  "dependencies": [
+    "zlib",
+    "rocksdb",
+    "fmt",
+    "spdlog",
+    "nlohmann-json"
+  ]
+}
