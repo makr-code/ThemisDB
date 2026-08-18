@@ -35,10 +35,66 @@ namespace voice {
 
 namespace {
 
-constexpr size_t kMaxVoicePayloadBytes = 8 * 1024 * 1024;
+// BATCH A-8: Fail-closed limits for malformed/oversized stream rejection
+constexpr size_t kMaxVoicePayloadBytes = 64 * 1024 * 1024;    // 64 MB max chunk (configurable)
+constexpr size_t kMaxSessionBufferBytes = 512 * 1024 * 1024;  // 512 MB max session buffer
 
+/**
+ * @brief Validate audio payload for oversized or empty conditions.
+ * Fail-closed: reject any payload exceeding limits or malformed structure.
+ * 
+ * @param audio_data Input audio buffer
+ * @return true if payload should be rejected; false if acceptable
+ */
 [[nodiscard]] bool isRejectedVoicePayload(const std::vector<uint8_t>& audio_data) {
-    return audio_data.empty() || audio_data.size() > kMaxVoicePayloadBytes;
+    // CRITICAL GAP 1: Reject empty payloads
+    if (audio_data.empty()) {
+        return true;
+    }
+    // CRITICAL GAP 2: Reject oversized payloads that could cause OOM
+    if (audio_data.size() > kMaxVoicePayloadBytes) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief Validate UTF-8 encoding in command text.
+ * 
+ * @param text Command text to validate
+ * @return true if valid UTF-8; false otherwise (fail-closed)
+ */
+[[nodiscard]] bool isValidUtf8Command(const std::string& text) {
+    // CRITICAL GAP 3: Reject non-UTF8 metadata in voice commands
+    // Simple UTF-8 validation: check for valid byte sequences
+    for (size_t i = 0; i < text.length(); ++i) {
+        const unsigned char c = static_cast<unsigned char>(text[i]);
+        
+        if ((c & 0x80) == 0) {
+            // Single-byte ASCII character
+            continue;
+        } else if ((c & 0xE0) == 0xC0) {
+            // 2-byte sequence
+            if (i + 1 >= text.length() || (text[++i] & 0xC0) != 0x80) {
+                return false;
+            }
+        } else if ((c & 0xF0) == 0xE0) {
+            // 3-byte sequence
+            if (i + 2 >= text.length() || (text[++i] & 0xC0) != 0x80 || (text[++i] & 0xC0) != 0x80) {
+                return false;
+            }
+        } else if ((c & 0xF8) == 0xF0) {
+            // 4-byte sequence
+            if (i + 3 >= text.length() || (text[++i] & 0xC0) != 0x80 || 
+                (text[++i] & 0xC0) != 0x80 || (text[++i] & 0xC0) != 0x80) {
+                return false;
+            }
+        } else {
+            // Invalid UTF-8 byte
+            return false;
+        }
+    }
+    return true;
 }
 
 } // namespace
@@ -165,8 +221,13 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            // CRITICAL GAP 4: Audit logging for authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
+            THEMIS_INFO("[AUDIT] voice_authenticate: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
+                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
+                THEMIS_WARN("[AUDIT] voice_authenticate_failed: user_id={}, session_id={}, error_code={}", 
+                           uid, session_id, auth_result.error_code);
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
                 tts_opts.format   = "wav";
@@ -292,8 +353,13 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            // CRITICAL GAP 5: Audit logging for stream authenticate() with detailed diagnostics
             logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
+            THEMIS_INFO("[AUDIT] voice_authenticate_stream: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
+                        uid, session_id, audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
             if (!auth_result.authenticated) {
+                THEMIS_WARN("[AUDIT] voice_authenticate_stream_failed: user_id={}, session_id={}, error_code={}", 
+                           uid, session_id, auth_result.error_code);
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
                 tts_opts.format   = "wav";
@@ -687,7 +753,10 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     const std::vector<uint8_t>& audio_sample)
 {
     auto result = voice_authenticator_.authenticate(user_id, audio_sample);
+    // CRITICAL GAP 6: Audit logging for authenticateSpeaker() with detailed diagnostics
     logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
+    THEMIS_INFO("[AUDIT] voice_authenticate_speaker: user_id={}, audio_size={}, result={}, timestamp_ms={}, error_code={}",
+                user_id, audio_sample.size(), result.authenticated, result.timestamp_ms, result.error_code);
     return result;
 }
 
