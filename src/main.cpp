@@ -18,7 +18,6 @@
 
 #include "utils/cli_parser_utils.h"
 #include "utils/logger.h"
-#include "utils/supporters_util.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -442,7 +441,6 @@ int main(int argc, char* argv[]) {
     utils::Logger::shutdown();
     
     std::cout << "\n=== Demo completed successfully! ===" << std::endl;
-    std::cout << utils::get_supporter_message() << std::endl;
     std::cout << "Check vccdb.log for detailed logs" << std::endl;
     
     return 0;
