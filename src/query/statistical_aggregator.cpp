@@ -145,7 +145,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateStdDevPop(const std::vect
         return variance;  // Propagate error
     }
     
-    return Ok(nlohmann::json(std::sqrt(variance->get<double>())));
+    return Ok(nlohmann::json(std::sqrt(variance.value().get<double>())));
 }
 
 // ============================================================================
