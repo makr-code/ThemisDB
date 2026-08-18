@@ -19,22 +19,22 @@
 - `WEEK1_IMPLEMENTATION_STATUS.md` (2026-08-18, 9,834 B)
 - `VOICE_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 10,026 B)
 - `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-18, 17,036 B)
-- `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
-- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
+- `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
+- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
 - `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
 - `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 14,655 B)
-- `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,940 B)
+- `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
+- `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
 - `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
 - `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
-- `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
@@ -57,7 +57,6 @@
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
-- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
 - `IMPLEMENTATION_PLAN_8_ITEMS_2026-05-25.md` (2026-08-18, 1,274 B)
@@ -65,6 +64,7 @@
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 9,018 B)
 - `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,655 B)
 - `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
+- `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
 - `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
@@ -1558,273 +1558,6 @@ Per CLAUDE.md and modern C++ best practices:
 
 ---
 
-### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Updates Module v1.1.0 Final Implementation Summary
-**Date**: 2026-08-08
-**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
-**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
-**Duration**: ~3 hours (parallelized agent execution)
----
-## Executive Summary
-### Key Deliverables
-| Block | Scope | Status | Evidence |
-|-------|-------|--------|----------|
-| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
-| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
-| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
----
-## Block 1: Gap Remediation (CRITICAL Findings)
-### Completion Status: 17/22 CRITICAL Fixed (77%)
-**Remediated Components:**
-#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
-// Added thread synchronization for column family handles
-std::mutex cf_mutex_;  // Protects column_families_ and related access
-- All column family operations (getOrCreate, read, write) now protected
-- Thread-safe concurrent access from multiple update threads
-- Zero data race violations in focused tests
-#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
-**Resource Leak Fixes (2/2):**
-- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
-- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
-- Exception-safe resource management with automatic deallocation
-**Timeout Handling (6/6):**
-// Condition variable timeout
-cv.wait_for(lock, std::chrono::seconds(5));
-// Thread join timeout with deadline tracking
-std::this_thread::sleep_for(std::chrono::milliseconds(100));
-if (!joined) {
-LOG_WARNING("Thread join timeout, detaching");
-thread.detach();
-}
-- All blocking operations have bounded timeouts
-- Graceful fallback when timeouts exceeded
-- Prevents deadlocks and hangs
-
----
-
-### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
-
-# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
-
-## Status Overview (2026-08-07)
-
-| Phase | Name | Status | Progress | Target | Completion |
-|-------|------|--------|----------|--------|------------|
-| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
-| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
-| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
-| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
-
-## Implementation Batches
-
-### Batch 1: Phase 2-Core Hardening (CURRENT)
-**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
-
-**Objectives:**
-- [~] Builder fail-fast logic for null/invalid dependencies
-- [~] Null-checks and error messages in content_toolbox_bridge
-- [~] Registry initialization/reset semantics validation
-- [~] IT-13..IT-20 edge-case tests
-- [~] Build validation on linux-release
-
-**Key Files:**
-- src/toolbox/toolbox_builder.cpp - Builder validation
-- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
-- src/toolbox/toolbox_registry.cpp - Registry semantics
-- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
-- src/toolbox/ROADMAP.md - Update Phase 2 progress
-
-**Expected Deliverables:**
-- ✅ All Phase 2 items at 80%→95% completion
-- ✅ Mixed-content scenarios validated
-- ✅ IT-13..IT-20 tests pass
-- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
-- ✅ Build succeeds
-
----
-
-### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
-
-**Objectives:**
-- Unify incident taxonomy across 4 execution planes
-- Add Prometheus metrics for all error classes
-- Implement deterministic stress fixtures
-- Extend test coverage (IT-13..IT-20)
-
-**Key Files:**
-- src/toolbox/SECURITY.md - Incident taxonomy
-- src/toolbox/ingestion_toolbox.cpp - Metrics
-- src/toolbox/content_toolbox_bridge.cpp - Metrics
-- src/toolbox/toolbox_registry.cpp - Error tracking
-- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
-
-**Expected Deliverables:**
-- ✅ Incident taxonomy documented
-- ✅ New metrics in getMetricsText()
-- ✅ Stress fixtures demonstrate deterministic behavior
-- ✅ Phase 3 progress 75%→90%
-
----
-
-### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
-
-**Objectives:**
-- Validate proxy-benchmark behavior
-- Establish p95/p99 envelopes
-- Expand native toolbox benchmark suite
-- Certify GATE-TBX-P1..P6
-
-**Key Files:**
-- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
-- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
-- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
-- src/toolbox/ROADMAP.md - Phase 5 progress
-
-**Expected Deliverables:**
-- ✅ GATE-TBX-P1..P6 baseline measurements
-- ✅ p95/p99 envelopes documented
-- ✅ No regression > 10% vs baseline
-- ✅ Phase 5 progress 50%→85%
-
----
-
-### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
-
-**Objectives:**
-- Operationalize PRODUCTION_REQUIREMENTS.md
-- Update cross-links in all docs
-- 100% Production-Readiness Checklist
-- Prepare release notes
-
-**Key Files:**
-- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
-- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
-- docs/toolbox/ - Public docs
-- CHANGELOG.md - Q4 2026 entries
-- src/toolbox/ROADMAP.md - Final status
-
-**Expected Deliverables:**
-- ✅ All docs consistent and current
-- ✅ Production-Readiness 100%
-- ✅ Release notes ready
-- ✅ Phase 6 progress 100%
-
----
-
-## Verification Procedures
-
-### Batch 1 (Phase 2) Validation
-```bash
-cmake --preset linux-release
-cmake --build --preset linux-release
-ctest --preset linux-release -L toolbox -V
-# Verify new metrics in toolbox.getMetricsText()
-# Verify IT-13..IT-20 tests all pass
-```
-
-### Batch 2 (Phase 3) Validation
-```bash
-cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
-./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
-# Verify stress scenarios complete without deadlock
-# Verify Prometheus metrics for all error classes
-```
-
-### Batch 3 (Phase 5) Validation
-```bash
-cmake --build --preset linux-release --target bench_toolbox_native_workloads
-./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
-# Verify all gates meet thresholds
-# Verify p95/p99 percentiles consistent across runs
-```
-
-### Batch 4 (Phase 6) Validation
-```bash
-# Validate doc links
-grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
-# Verify Production-Readiness Checklist
-grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
-# Verify CHANGELOG entries
-grep -c "Q4 2026" CHANGELOG.md
-```
-
----
-
-## Timeline & Milestones
-
-| Batch | Weeks | Deliverables | Status |
-|-------|-------|--------------|--------|
-| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
-| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
-| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
-| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
-
----
-
-## Quality Gates
-
-### Code Quality
-- [ ] No new CodeQL alerts (Phase 2-6)
-- [ ] All focused test targets pass
-- [ ] Build succeeds on linux-release preset
-- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
-
-### Functional
-- [ ] Mixed-content scenarios validated
-- [ ] Soft-fail + fail-fast behaviors tested
-- [ ] All error paths exercised
-- [ ] Metrics emitted correctly
-- [ ] Stress tests complete without deadlock
-
-### Performance
-- [ ] GATE-TBX-P1..P6 meet thresholds
-- [ ] p95/p99 envelopes established
-- [ ] No regression > 10% vs baseline
-
-### Documentation
-- [ ] Cross-links consistent
-- [ ] Production requirements documented
-- [ ] Release notes prepared
-- [ ] Roadmap 100% synchronized
-
----
-
-## Key Risks & Mitigations
-
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
-| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
-| Proxy-benchmark regression | Low | High | Native suite early validation |
-| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
-
----
-
-## Success Criteria (All Batches)
-
-✅ Phase 1: Design/API contracts frozen (Complete)
-✅ Phase 2: Core hardening 80%→95%, mixed-content validated
-✅ Phase 3: Incident taxonomy unified, metrics complete
-✅ Phase 4: 96+ focused tests passing (Complete)
-✅ Phase 5: GATE-TBX-P1..P6 gates certified
-✅ Phase 6: Production-Readiness 100%, docs synced
-
----
-
-**Last Updated:** 2026-08-07 18:33 UTC
-**Next Review:** Upon Batch 1 completion (agent notification)
-
----
-
 ### TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -1871,6 +1604,53 @@ grep -c "Q4 2026" CHANGELOG.md
 ---
 ## Phase 2: Distributed Coordination Hardening ✓ COMPLETE
 ### Implementation Status
+
+---
+
+### UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Updates Module v1.1.0 Final Implementation Summary
+**Date**: 2026-08-08
+**Status**: ✅ **COMPLETE - Ready for v2.4.0 GA Promotion**
+**Scope**: Blocks 1-4 (Gap Remediation, Phase 2-3 Hardening, Benchmark Expansion, Documentation)
+**Duration**: ~3 hours (parallelized agent execution)
+---
+## Executive Summary
+### Key Deliverables
+| Block | Scope | Status | Evidence |
+|-------|-------|--------|----------|
+| **Block 2-3** | Phase 2-3 Hardening + Diagnostics | ✅ COMPLETE | 20 UPH tests (100% pass), unified error taxonomy |
+| **Block 3** | Benchmark Expansion | ✅ COMPLETE | 4 suites, 7/7 gates PASS (UPDP-1..7) |
+| **Block 4** | Documentation & Release Readiness | ✅ COMPLETE | AUDIT closed, MODULE_EVIDENCE, ROADMAP signed off |
+---
+## Block 1: Gap Remediation (CRITICAL Findings)
+### Completion Status: 17/22 CRITICAL Fixed (77%)
+**Remediated Components:**
+#### 1. manifest_database.cpp (4/4 CRITICAL data_race) ✅
+// Added thread synchronization for column family handles
+std::mutex cf_mutex_;  // Protects column_families_ and related access
+- All column family operations (getOrCreate, read, write) now protected
+- Thread-safe concurrent access from multiple update threads
+- Zero data race violations in focused tests
+#### 2. parallel_downloader.cpp (8/9 CRITICAL) ✅
+**Resource Leak Fixes (2/2):**
+- Created `FileRaii` RAII wrapper for automatic FILE* cleanup
+- Created `CurlRaii` RAII wrapper for automatic CURL handle cleanup
+- Exception-safe resource management with automatic deallocation
+**Timeout Handling (6/6):**
+// Condition variable timeout
+cv.wait_for(lock, std::chrono::seconds(5));
+// Thread join timeout with deadline tracking
+std::this_thread::sleep_for(std::chrono::milliseconds(100));
+if (!joined) {
+LOG_WARNING("Thread join timeout, detaching");
+thread.detach();
+}
+- All blocking operations have bounded timeouts
+- Graceful fallback when timeouts exceeded
+- Prevents deadlocks and hangs
 
 ---
 
@@ -2337,6 +2117,226 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 
 ---
 
+### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
+
+# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
+
+## Status Overview (2026-08-07)
+
+| Phase | Name | Status | Progress | Target | Completion |
+|-------|------|--------|----------|--------|------------|
+| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
+| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
+| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
+| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
+
+## Implementation Batches
+
+### Batch 1: Phase 2-Core Hardening (CURRENT)
+**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
+
+**Objectives:**
+- [~] Builder fail-fast logic for null/invalid dependencies
+- [~] Null-checks and error messages in content_toolbox_bridge
+- [~] Registry initialization/reset semantics validation
+- [~] IT-13..IT-20 edge-case tests
+- [~] Build validation on linux-release
+
+**Key Files:**
+- src/toolbox/toolbox_builder.cpp - Builder validation
+- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
+- src/toolbox/toolbox_registry.cpp - Registry semantics
+- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
+- src/toolbox/ROADMAP.md - Update Phase 2 progress
+
+**Expected Deliverables:**
+- ✅ All Phase 2 items at 80%→95% completion
+- ✅ Mixed-content scenarios validated
+- ✅ IT-13..IT-20 tests pass
+- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
+- ✅ Build succeeds
+
+---
+
+### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
+
+**Objectives:**
+- Unify incident taxonomy across 4 execution planes
+- Add Prometheus metrics for all error classes
+- Implement deterministic stress fixtures
+- Extend test coverage (IT-13..IT-20)
+
+**Key Files:**
+- src/toolbox/SECURITY.md - Incident taxonomy
+- src/toolbox/ingestion_toolbox.cpp - Metrics
+- src/toolbox/content_toolbox_bridge.cpp - Metrics
+- src/toolbox/toolbox_registry.cpp - Error tracking
+- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
+
+**Expected Deliverables:**
+- ✅ Incident taxonomy documented
+- ✅ New metrics in getMetricsText()
+- ✅ Stress fixtures demonstrate deterministic behavior
+- ✅ Phase 3 progress 75%→90%
+
+---
+
+### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
+
+**Objectives:**
+- Validate proxy-benchmark behavior
+- Establish p95/p99 envelopes
+- Expand native toolbox benchmark suite
+- Certify GATE-TBX-P1..P6
+
+**Key Files:**
+- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
+- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
+- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
+- src/toolbox/ROADMAP.md - Phase 5 progress
+
+**Expected Deliverables:**
+- ✅ GATE-TBX-P1..P6 baseline measurements
+- ✅ p95/p99 envelopes documented
+- ✅ No regression > 10% vs baseline
+- ✅ Phase 5 progress 50%→85%
+
+---
+
+### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
+
+**Objectives:**
+- Operationalize PRODUCTION_REQUIREMENTS.md
+- Update cross-links in all docs
+- 100% Production-Readiness Checklist
+- Prepare release notes
+
+**Key Files:**
+- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
+- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
+- docs/toolbox/ - Public docs
+- CHANGELOG.md - Q4 2026 entries
+- src/toolbox/ROADMAP.md - Final status
+
+**Expected Deliverables:**
+- ✅ All docs consistent and current
+- ✅ Production-Readiness 100%
+- ✅ Release notes ready
+- ✅ Phase 6 progress 100%
+
+---
+
+## Verification Procedures
+
+### Batch 1 (Phase 2) Validation
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release -L toolbox -V
+# Verify new metrics in toolbox.getMetricsText()
+# Verify IT-13..IT-20 tests all pass
+```
+
+### Batch 2 (Phase 3) Validation
+```bash
+cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
+./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
+# Verify stress scenarios complete without deadlock
+# Verify Prometheus metrics for all error classes
+```
+
+### Batch 3 (Phase 5) Validation
+```bash
+cmake --build --preset linux-release --target bench_toolbox_native_workloads
+./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
+# Verify all gates meet thresholds
+# Verify p95/p99 percentiles consistent across runs
+```
+
+### Batch 4 (Phase 6) Validation
+```bash
+# Validate doc links
+grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
+# Verify Production-Readiness Checklist
+grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
+# Verify CHANGELOG entries
+grep -c "Q4 2026" CHANGELOG.md
+```
+
+---
+
+## Timeline & Milestones
+
+| Batch | Weeks | Deliverables | Status |
+|-------|-------|--------------|--------|
+| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
+| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
+| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
+| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
+
+---
+
+## Quality Gates
+
+### Code Quality
+- [ ] No new CodeQL alerts (Phase 2-6)
+- [ ] All focused test targets pass
+- [ ] Build succeeds on linux-release preset
+- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
+
+### Functional
+- [ ] Mixed-content scenarios validated
+- [ ] Soft-fail + fail-fast behaviors tested
+- [ ] All error paths exercised
+- [ ] Metrics emitted correctly
+- [ ] Stress tests complete without deadlock
+
+### Performance
+- [ ] GATE-TBX-P1..P6 meet thresholds
+- [ ] p95/p99 envelopes established
+- [ ] No regression > 10% vs baseline
+
+### Documentation
+- [ ] Cross-links consistent
+- [ ] Production requirements documented
+- [ ] Release notes prepared
+- [ ] Roadmap 100% synchronized
+
+---
+
+## Key Risks & Mitigations
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|-----------|
+| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
+| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
+| Proxy-benchmark regression | Low | High | Native suite early validation |
+| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
+
+---
+
+## Success Criteria (All Batches)
+
+✅ Phase 1: Design/API contracts frozen (Complete)
+✅ Phase 2: Core hardening 80%→95%, mixed-content validated
+✅ Phase 3: Incident taxonomy unified, metrics complete
+✅ Phase 4: 96+ focused tests passing (Complete)
+✅ Phase 5: GATE-TBX-P1..P6 gates certified
+✅ Phase 6: Production-Readiness 100%, docs synced
+
+---
+
+**Last Updated:** 2026-08-07 18:33 UTC
+**Next Review:** Upon Batch 1 completion (agent notification)
+
+---
+
 ### T2.3_IMPLEMENTATION_VERIFICATION.md
 
 # Phase 2 T2.3 Implementation Verification Report
@@ -2570,57 +2570,6 @@ August 2026          September 2026      October 2026        November 2026      
 - B2: Stress suite designed and parametrized
 - B3: CI measurement runs scheduled
 **Week 8-10 (Oct 1-22): Stream B Integration & Closure**
-
----
-
-### SPRINT_8_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
-**Date:** 2026-06-30
-**Sprint:** 8 - Move Semantics Remediation
-**Phase:** 1A - LLM + Query Modules
-**Status:** ✅ IN PROGRESS
----
-## EXECUTIVE SUMMARY
-- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
-- **CWE-415:** Double Free (move assignment doesn't clean up)
-- **CWE-672:** Use After Free (moved-from objects accessed)
-### Key Metrics
-| Metric | Value |
-|--------|-------|
-| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
-| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
-| **Files Fixed (Phase 1A)** | 4 files |
-| **Test Files Created** | 2 comprehensive test suites |
-| **Estimated Time Savings** | 200+ hours of manual security review |
----
-## IMPLEMENTATION DETAILS
-### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
-**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
-**Fix Applied:**
-- ✅ Added move constructor with `noexcept`
-- ✅ Added move assignment operator with self-assignment check
-- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
-- ✅ Added Doxygen comments with CWE mappings
-**Key Implementation:**
-// Header: Added after destructor
-MultiLoRAManager(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
-MultiLoRAManager(const MultiLoRAManager&) = delete;
-MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
-// Implementation: Proper ownership transfer with valid moved-from state
-MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
-: config_(std::move(other.config_)),
-loras_(std::move(other.loras_)),
-// ... all members moved
-eviction_thread_(std::move(other.eviction_thread_))
-// ...
-{
-// Reset source to valid empty state
-other.total_vram_bytes_ = 0;
-other.eviction_thread_running_.store(false);
 
 ---
 
@@ -2964,6 +2913,57 @@ ctest -R "StorageEngine" -V
 ---
 
 **End of Sprint 8 Phase 1B Move Semantics Implementation Summary**
+
+---
+
+### SPRINT_8_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# SPRINT 8: MOVE SEMANTICS REMEDIATION — PHASE 1A IMPLEMENTATION SUMMARY
+**Date:** 2026-06-30
+**Sprint:** 8 - Move Semantics Remediation
+**Phase:** 1A - LLM + Query Modules
+**Status:** ✅ IN PROGRESS
+---
+## EXECUTIVE SUMMARY
+- **CWE-457:** Use of Uninitialized Variable (moved-from state not valid)
+- **CWE-415:** Double Free (move assignment doesn't clean up)
+- **CWE-672:** Use After Free (moved-from objects accessed)
+### Key Metrics
+| Metric | Value |
+|--------|-------|
+| **Total Gaps Identified** | 171 files (122 LLM + 49 Query) |
+| **Phase 1A Target** | 22 critical gaps (12 LLM + 10 Query) |
+| **Files Fixed (Phase 1A)** | 4 files |
+| **Test Files Created** | 2 comprehensive test suites |
+| **Estimated Time Savings** | 200+ hours of manual security review |
+---
+## IMPLEMENTATION DETAILS
+### 1. MultiLoRAManager (`include/llm/multi_lora_manager.h` + `src/llm/multi_lora_manager.cpp`)
+**Issue:** Class with `std::unique_ptr<std::thread>` and other unique resources but missing move semantics.
+**Fix Applied:**
+- ✅ Added move constructor with `noexcept`
+- ✅ Added move assignment operator with self-assignment check
+- ✅ Deleted copy constructor and copy assignment operator (Rule of Five)
+- ✅ Added Doxygen comments with CWE mappings
+**Key Implementation:**
+// Header: Added after destructor
+MultiLoRAManager(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
+MultiLoRAManager(const MultiLoRAManager&) = delete;
+MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
+// Implementation: Proper ownership transfer with valid moved-from state
+MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
+: config_(std::move(other.config_)),
+loras_(std::move(other.loras_)),
+// ... all members moved
+eviction_thread_(std::move(other.eviction_thread_))
+// ...
+{
+// Reset source to valid empty state
+other.total_vram_bytes_ = 0;
+other.eviction_thread_running_.store(false);
 
 ---
 
@@ -3327,6 +3327,56 @@ This comprehensive RAII hardening of the LLM module significantly improves resou
 **Report Generated:** 2026-08-17
 **Module Version:** 0.0.48
 **Reviewed By:** Copilot Code Review Agent
+
+---
+
+### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
+**Date Created:** 2026-07-05
+**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
+**Artifacts:** 11 Files | ~60KB Documentation
+**Verification:** Script Tested (DRY_RUN Mode) ✅
+---
+## 📋 Executive Summary
+### Deliverables
+✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
+✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
+✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
+✅ **Comprehensive Documentation** — Implementation index + quick reference
+✅ **Success Metrics** — Baseline/target tracking across all epics
+### Key Metrics
+| Item | Value |
+|------|-------|
+| Total Epics | 5 |
+| Total Sub-Issues | 23 |
+| Total GitHub Issues to Create | 28 |
+| Estimated Total Effort | 580 hours |
+| Timeline | 30 weeks (W31-W49, 2026) |
+| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
+| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
+| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
+| Production Readiness Target | v2.4 Stable |
+---
+## 🎯 The Five Epics (Concretely Verifiable)
+### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
+**Critical Path Item — Blocks All Module Work**
+| Item | Value |
+|------|-------|
+| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
+| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
+| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
+| **Effort** | 80 hours |
+| **Deliverable** | v1.5.0 Stable Release |
+| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
+**Sub-Issues:**
+- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
+- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
+- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
+**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
+---
 
 ---
 
@@ -3741,57 +3791,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
-**Date Created:** 2026-07-05
-**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
-**Artifacts:** 11 Files | ~60KB Documentation
-**Verification:** Script Tested (DRY_RUN Mode) ✅
----
-## 📋 Executive Summary
-### Deliverables
-✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
-✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
-✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
-✅ **Comprehensive Documentation** — Implementation index + quick reference
-✅ **Success Metrics** — Baseline/target tracking across all epics
-### Key Metrics
-| Item | Value |
-|------|-------|
-| Total Epics | 5 |
-| Total Sub-Issues | 23 |
-| Total GitHub Issues to Create | 28 |
-| Estimated Total Effort | 580 hours |
-| Timeline | 30 weeks (W31-W49, 2026) |
-| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
-| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
-| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
-| Production Readiness Target | v2.4 Stable |
----
-## 🎯 The Five Epics (Concretely Verifiable)
-### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
-**Critical Path Item — Blocks All Module Work**
-| Item | Value |
-|------|-------|
-| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
-| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
-| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
-| **Effort** | 80 hours |
-| **Deliverable** | v1.5.0 Stable Release |
-| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
-**Sub-Issues:**
-- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
-- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
-- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
-**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
----
-
----
-
-### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
+### PHASE_A_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
@@ -3848,7 +3848,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY.md
+### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
 *(file too large — key headings extracted)*
 
@@ -5481,57 +5481,6 @@ The implementation hooks both components into production systems:
 
 ---
 
-### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
-**Implementation Date:** 2026-08-15 15:30 UTC
-**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
-**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
----
-## Executive Summary
-- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
-- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
-- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
-- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
-**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
----
-## What Was Implemented
-### 1. Phase 3A Agent Dispatched
-**Agent ID:** `importers-phase3a-high-batch-a`
-**Name:** importers-phase3a-high-batch-a1
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:30 UTC
-**Status:** 🟡 Running
-**Scope:** 58 HIGH gaps
-- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
-- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
-- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
-**Target Completion:** Sep 19, 2026 (2-3 weeks)
-**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
-**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
-### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
-**Agent ID:** `importers-phase4a-high-batch-a`
-**Name:** importers-phase4a-high-batch-a2
-**Type:** general-purpose (themisdb-implementer)
-**Dispatch Time:** 2026-08-15 15:31 UTC
-**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
-**Scope:** 55 HIGH gaps
-- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
-- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
-- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
-- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
-- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
-- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
-**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
-**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
-**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
-### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
-**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
-
----
-
 ### IMPLEMENTATION_ACTIONS_COMPLETED.md
 
 *(file too large — key headings extracted)*
@@ -5856,6 +5805,57 @@ Updated `ai_working/00_START_HERE.md`:
 - Previous: Thread detach on timeout (potential leak)
 - Current: Background cleanup thread with proper join (no leak)
 - Documented implementation strategy with detailed comments
+
+---
+
+### IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Importers Module Gap Closure: Implementation Complete (Phases 3-6)
+**Implementation Date:** 2026-08-15 15:30 UTC
+**Status:** ✅ COMPLETE — All agents dispatched, Phases 5-6 prepared
+**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
+---
+## Executive Summary
+- **Phases 1-2:** ✅ COMPLETE (37 CRITICAL/HIGH gaps fixed, all quality gates verified)
+- **Phases 3-4:** 🟡 RUNNING (113 HIGH gaps, 2 parallel agents dispatched)
+- **Phase 5:** 🟢 QUEUED (87 MEDIUM/LOW gaps, 3 parallel batches, ready for ~Aug 25 dispatch)
+- **Phase 6:** 🟢 QUEUED (Final review & certification, ready for ~Oct 3 dispatch)
+**Gap Closure Target:** ≥189/282 gaps (67%) by Oct 15, 2026
+---
+## What Was Implemented
+### 1. Phase 3A Agent Dispatched
+**Agent ID:** `importers-phase3a-high-batch-a`
+**Name:** importers-phase3a-high-batch-a1
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:30 UTC
+**Status:** 🟡 Running
+**Scope:** 58 HIGH gaps
+- postgres_importer.cpp: 31 gaps (null_dereference, uninitialized_access, O(n²) patterns, exception_safety)
+- mysql_importer.cpp: 15 gaps (result_set handling, field_validation, cursor_iteration)
+- mongo_importer.cpp: 12 gaps (document_parsing, cursor_traversal, schema_matching)
+**Target Completion:** Sep 19, 2026 (2-3 weeks)
+**Exit Gate:** ≥47/58 (80%) HIGH gaps fixed, 0 warnings, ≥95% tests PASS, benchmarks stable
+**Output Artifact:** IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md
+### 2. Phase 4A Agent Dispatched (Parallel with Phase 3A)
+**Agent ID:** `importers-phase4a-high-batch-a`
+**Name:** importers-phase4a-high-batch-a2
+**Type:** general-purpose (themisdb-implementer)
+**Dispatch Time:** 2026-08-15 15:31 UTC
+**Status:** 🟡 Running (Concurrent with Phase 3A, no file conflicts)
+**Scope:** 55 HIGH gaps
+- flatfile_importer.cpp: 10 gaps (column_validation, field_validator_state, schema_cache)
+- s3_importer.cpp: 12 gaps (object_stream_handling, prefix_validation, stream_lifecycle)
+- kafka_importer.cpp: 12 gaps (consumer_init, partition_handling, message_deserialization)
+- oracle_importer.cpp: 8 gaps (native_type_mapping, connector_availability)
+- sqlite_importer.cpp: 9 gaps (schema_inference, transaction_handling)
+- schema_inference.cpp: 4 gaps (type_inference, constraint_detection)
+**Target Completion:** Sep 19, 2026 (concurrent with Phase 3A)
+**Exit Gate:** ≥44/55 (80%) HIGH gaps fixed, connector paths stable, release gates stable
+**Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
+### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
+**Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
 
 ---
 
