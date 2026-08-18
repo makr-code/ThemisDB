@@ -21,6 +21,7 @@ permissions:
   contents: read
   actions: read
   issues: write
+  pull-requests: write
 
 concurrency:
   group: maintenance-build-issues
@@ -35,6 +36,83 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Post build failure comment on triggering PR
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            if (!run) {
+              core.info('No workflow_run payload — skipping PR comment.');
+              return;
+            }
+
+            // Resolve PRs: prefer embedded pull_requests array, fall back to search by head SHA.
+            let prNumbers = (run.pull_requests || []).map(pr => pr.number);
+            if (prNumbers.length === 0 && run.head_sha) {
+              const { data: prs } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 10,
+              });
+              const matched = prs.filter(pr => pr.head.sha === run.head_sha);
+              prNumbers = matched.map(pr => pr.number);
+            }
+
+            if (prNumbers.length === 0) {
+              core.info('No open PRs associated with triggering run — skipping PR comment.');
+              return;
+            }
+
+            const workflowName = run.name || 'CI Build';
+            const runUrl = run.html_url || `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${run.id}`;
+            const marker = '<!-- maintenance-build-issues-comment -->';
+
+            const body = [
+              marker,
+              `## ❌ Build Failure Detected: ${workflowName}`,
+              '',
+              `**Workflow run:** [${run.run_number ? '#' + run.run_number : run.id}](${runUrl})`,
+              `**Branch:** \`${run.head_branch || 'unknown'}\``,
+              `**Commit:** \`${(run.head_sha || '').substring(0, 8)}\``,
+              `**Triggered by:** ${run.triggering_actor ? '@' + run.triggering_actor.login : 'unknown'}`,
+              '',
+              '### What to do',
+              '1. Open the [workflow run](' + runUrl + ') and expand the failed job.',
+              '2. Download the `*-errors.json` artifact (if present) for structured error details.',
+              '3. A tracking issue will be created automatically if this error is chronic (≥ 3 occurrences).',
+              '',
+              '> This comment is updated automatically on each failed run. Resolve the build failure to clear it.',
+            ].join('\n');
+
+            for (const prNumber of prNumbers) {
+              const { data: comments } = await github.rest.issues.listComments({
+                issue_number: prNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 100,
+              });
+              const existing = comments.find(c => c.body && c.body.includes(marker));
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  comment_id: existing.id,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body,
+                });
+                core.info(`Updated PR #${prNumber} build failure comment.`);
+              } else {
+                await github.rest.issues.createComment({
+                  issue_number: prNumber,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body,
+                });
+                core.info(`Created PR #${prNumber} build failure comment.`);
+              }
+            }
 
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4

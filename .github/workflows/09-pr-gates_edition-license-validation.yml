@@ -48,54 +48,34 @@ jobs:
           fetch-depth: 0
 
       - name: Validate edition matrix consistency
+        id: check-edition-matrix
         run: |
           set -euo pipefail
           
           TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
           echo "Target branch: $TARGET_BRANCH"
           
-          # Define allowed editions per branch.
           case "$TARGET_BRANCH" in
-            community)
-              ALLOWED_EDITIONS="public"
-              ;;
-            minimal)
-              ALLOWED_EDITIONS="public"
-              ;;
-            enterprise)
-              ALLOWED_EDITIONS="public,enterprise"
-              ;;
-            hyperscaler)
-              ALLOWED_EDITIONS="public,enterprise,hyperscaler"
-              ;;
-            military)
-              ALLOWED_EDITIONS="public,enterprise,military"
-              ;;
-            develop)
-              ALLOWED_EDITIONS="public,enterprise,hyperscaler,military"
-              ;;
-            *)
-              ALLOWED_EDITIONS="public"
-              ;;
+            community)  ALLOWED_EDITIONS="public" ;;
+            minimal)    ALLOWED_EDITIONS="public" ;;
+            enterprise) ALLOWED_EDITIONS="public,enterprise" ;;
+            hyperscaler) ALLOWED_EDITIONS="public,enterprise,hyperscaler" ;;
+            military)   ALLOWED_EDITIONS="public,enterprise,military" ;;
+            develop)    ALLOWED_EDITIONS="public,enterprise,hyperscaler,military" ;;
+            *)          ALLOWED_EDITIONS="public" ;;
           esac
           
           echo "Allowed editions for $TARGET_BRANCH: $ALLOWED_EDITIONS"
           
-          # Find all plugin.toml/plugin.json files and validate allowed_editions.
           INVALID_EDITIONS=0
           MANIFEST_FILES=$(find plugins -name "plugin.toml" -o -name "plugin.json" 2>/dev/null || echo "")
           
           while IFS= read -r manifest_file; do
             [ -z "$manifest_file" ] && continue
-            
-            # Extract allowed_editions from manifest.
             DECLARED_EDITIONS=$(grep -oP 'allowed_editions\s*=\s*"?\K[^"]*' "$manifest_file" || echo "")
             [ -z "$DECLARED_EDITIONS" ] && continue
-            
-            # Check each declared edition against allowed list.
             for edition in $(echo "$DECLARED_EDITIONS" | tr ',' '\n'); do
-              edition=$(echo "$edition" | xargs)  # trim whitespace
-              
+              edition=$(echo "$edition" | xargs)
               if ! echo "$ALLOWED_EDITIONS" | grep -q "$edition"; then
                 echo "::error::$manifest_file declares edition '$edition' not allowed on branch '$TARGET_BRANCH'"
                 ((INVALID_EDITIONS++)) || true
@@ -104,28 +84,27 @@ jobs:
           done <<< "$MANIFEST_FILES"
           
           if [ $INVALID_EDITIONS -gt 0 ]; then
-            echo "::error::$INVALID_EDITIONS manifest(s) have incompatible edition declarations"
+            ERR="$INVALID_EDITIONS manifest(s) have incompatible edition declarations for branch '$TARGET_BRANCH'"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
             exit 1
           fi
           
           echo "✓ Edition matrix validation passed"
 
       - name: Validate license_feature gates
+        id: check-license-gates
         run: |
           set -euo pipefail
           
           TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
           
-          # Community builds must NOT require commercial/enterprise licenses.
           if [[ "$TARGET_BRANCH" == "community" ]] || [[ "$TARGET_BRANCH" == "minimal" ]]; then
-            
             INVALID_LICENSES=0
             MANIFEST_FILES=$(find plugins -name "plugin.toml" -o -name "plugin.json" 2>/dev/null || echo "")
             
             while IFS= read -r manifest_file; do
               [ -z "$manifest_file" ] && continue
-              
-              # Check for enterprise-only license features in community plugins.
               if grep -qE 'license_feature.*=.*"(ENTERPRISE|HYPERSCALER|MILITARY)"' "$manifest_file"; then
                 echo "::error::$manifest_file declares enterprise license feature in community-targetable plugin"
                 ((INVALID_LICENSES++)) || true
@@ -133,7 +112,9 @@ jobs:
             done <<< "$MANIFEST_FILES"
             
             if [ $INVALID_LICENSES -gt 0 ]; then
-              echo "::error::$INVALID_LICENSES plugin(s) have restricted license features in community build"
+              ERR="$INVALID_LICENSES plugin(s) have restricted license features in community build"
+              echo "::error::$ERR"
+              echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
               exit 1
             fi
           fi
@@ -141,6 +122,7 @@ jobs:
           echo "✓ License feature validation passed"
 
       - name: Detect enterprise/hyperscaler/military markers in community paths
+        id: check-edition-markers
         run: |
           set -euo pipefail
           
@@ -154,11 +136,8 @@ jobs:
             ENTERPRISE_MARKERS=0
             
             while IFS= read -r file; do
-              # Look for edition markers in code (e.g., THEMIS_ENTERPRISE_ONLY, THEMIS_MILITARY_ONLY).
               if [[ "$file" =~ \.(cpp|h|hpp)$ ]]; then
                 if grep -q "THEMIS_ENTERPRISE_ONLY\|THEMIS_HYPERSCALER_ONLY\|THEMIS_MILITARY_ONLY" "$file"; then
-                  # These are OK if they guard the feature (compilation flags).
-                  # But if they're shipping as-is in community, that's a leak.
                   if ! grep -q "#ifdef THEMIS_ENTERPRISE_ONLY\|#ifdef THEMIS_HYPERSCALER_ONLY\|#ifdef THEMIS_MILITARY_ONLY" "$file"; then
                     echo "::warning::Edition marker found in $file but may not be properly guarded"
                   fi
@@ -173,29 +152,29 @@ jobs:
           
           echo "✓ Enterprise/military marker detection passed"
 
+      - name: Collect error summary for comment
+        id: collect-errors
+        if: failure()
+        run: |
+          SUMMARY=""
+          for step_out in \
+            "${{ steps.check-edition-matrix.outputs.error_summary }}" \
+            "${{ steps.check-license-gates.outputs.error_summary }}"; do
+            [ -n "$step_out" ] && SUMMARY="${SUMMARY}${step_out}\n"
+          done
+          echo "summary=${SUMMARY}" >> "$GITHUB_OUTPUT"
+
       - name: Post edition validation result
         if: always() && github.event_name == 'pull_request'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: ./.github/actions/post-failure-comment
         with:
-          script: |
-            const conclusion = '${{ job.status }}' === 'success' ? 'success' : 'failure';
-            const msg = conclusion === 'success'
-              ? '✅ Edition & License validation PASSED'
-              : '❌ Edition & License validation FAILED';
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## Wave C Policy Gate: Edition & License Validation
-            
-            ${msg}
-            
-            - ✅ Edition matrix consistency check
-            - ✅ License feature gate validation
-            - ✅ Enterprise/military marker detection
-            
-            Target branch: \`${{ github.base_ref || 'develop' }}\`
-            
-            See \`.github/workflows/09-pr-gates_edition-license-validation.yml\` for details.`
-            });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          gate-name: Edition & License Validation
+          workflow-file: 09-pr-gates_edition-license-validation.yml
+          job-status: ${{ job.status }}
+          checklist: |
+            - ${{ steps.check-edition-matrix.outcome == 'success' && '✅' || '❌' }} Edition matrix consistency check
+            - ${{ steps.check-license-gates.outcome == 'success' && '✅' || '❌' }} License feature gate validation
+            - ${{ steps.check-edition-markers.outcome == 'success' && '✅' || '❌' }} Enterprise/military marker detection
+            - ℹ️ Target branch: `${{ github.base_ref || 'develop' }}`
+          error-summary: ${{ steps.collect-errors.outputs.summary }}
