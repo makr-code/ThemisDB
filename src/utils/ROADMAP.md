@@ -36,9 +36,15 @@ Production-usable shared utility behavior exists for observability, privacy proc
   - [x] 2.2: Error registry implementation (audit, privacy, key, compression, runtime) - COMPLETE  
   - [x] 2.3: Observability plane hardening (audit_logger, logger, tracing, saga_logger) - COMPLETE 2026-08-17
     - [x] 2.3a: audit_logger RAII for POSIX file descriptors (FdGuard, eliminates raw close leaks) - COMPLETE 2026-08-17
+  - [x] 2.2c: Privacy plane NER & Regex detection hardening - COMPLETE 2026-08-18
+    - [x] 2.2c-1: ner_detection_engine timeout bounds (5000ms), gazetteer validation, fail-closed on unavailable
+    - [x] 2.2c-2: regex_detection_engine ReDoS detection, per-pattern timeout, malformed pattern exception handling
   - [x] 2.4: Privacy & Key plane hardening (pii, hkdf, pki) - COMPLETE 2026-08-17
     - [x] 2.4a: pki_client cert pinning fail-closed enforcement via `CURLOPT_PINNEDPUBLICKEY` (hex + sha256// inputs) - COMPLETE 2026-08-17
     - [x] 2.4b: pki_client password callback bounds hardening (`buf`/`size` validation, bounded copy) - COMPLETE 2026-08-17
+  - [x] 2.4a (compression): zstd_codec decompression bomb detection (1024x ratio), concurrent safety documented - COMPLETE 2026-08-18
+  - [x] 2.4b (compression): lz4_codec worst-case buffer sizing, block-size overflow, library unavailable fallback - COMPLETE 2026-08-18
+  - [x] 2.4c (compression): serialization MAX_NESTING_DEPTH=32 stack overflow protection, schema mismatch errors - COMPLETE 2026-08-18
   - [x] 2.5: Compression & Runtime plane hardening (codecs, thread_pool, rate_limiter) - COMPLETE 2026-08-17
     - [x] 2.5a: thread_pool_manager bounded-shutdown joins (joinThreadWithin) - COMPLETE 2026-08-17
     - [x] 2.5b: thread_pool_manager getStatistics() data-race guard - COMPLETE 2026-08-17
@@ -50,9 +56,10 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
   - [x] 2.7: Explicit error codes for all hotspots (7300-7363) - COMPLETE 2026-08-17
   - [x] 2.8: Graceful degradation for external service failures - COMPLETE 2026-08-17
-  - [x] 2.9: Bounded resource checks for all high-fan-out helpers - COMPLETE 2026-08-17
+  - [x] 2.9: Bounded resource checks for all high-fan-out helpers - COMPLETE 2026-08-18
     - [x] 2.9a: error_registry concurrent read/write synchronization via `std::shared_mutex` - COMPLETE 2026-08-17
-  - [x] 2.10: Doxygen error contracts for public APIs - COMPLETE 2026-08-17
+    - [x] 2.9d: High-fan-out helper resource limit documentation (9 headers updated with @note tags) - COMPLETE 2026-08-18
+  - [x] 2.10: Doxygen error contracts for public APIs - COMPLETE 2026-08-18
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-safe behavior across privacy, crypto, compression, and observability helpers (Target: Q4 2026)
@@ -116,7 +123,8 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] core shared helper surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [x] remaining hardening tasks closed for high-fan-out helpers (8 critical/high gap clusters closed 2026-08-17; Phase 2-4 complete)
+- [x] remaining hardening tasks closed for high-fan-out helpers (Phase 2.2c and 2.4a-c hardening complete 2026-08-18; total 11 critical/high gap clusters closed across 2026-08-17 and 2026-08-18)
+- [x] Phase 2 hardening fully complete (Privacy plane: NER/Regex; Compression plane: ZSTD/LZ4/Serialization; Cross-cutting resource limits documented)
 - [~] broader release benchmark stabilization complete (Target: Q1 2027)
 
 ## Known Issues and Limitations

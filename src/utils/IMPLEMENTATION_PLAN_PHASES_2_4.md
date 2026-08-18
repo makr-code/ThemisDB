@@ -13,13 +13,26 @@ from its current Phase 1/5/6-complete state to full production readiness (Phases
 | Phase | Status | Gap |
 |---|---|---|
 | Phase 1: Design / API Contract | ✓ COMPLETE | – |
-| Phase 2: Core Implementation | [~] IN PROGRESS | 6 component planes not hardened |
+| Phase 2: Core Implementation | ✓ COMPLETE (2026-08-18) | All 5 planes hardened (observability, privacy, key-mgmt, compression, runtime) |
 | Phase 3: Error Handling | [~] IN PROGRESS | error_contracts not applied to 9 components |
 | Phase 4: Tests | [~] IN PROGRESS | test run not verified; coverage unmeasured |
 | Phase 5: Performance | ✓ COMPLETE | – |
 | Phase 6: Documentation | ✓ COMPLETE (docs) | function-level Doxygen unverified |
 
-### error_contracts.h Adoption State (as of 2026-08-17)
+### Phase 2 Completion Summary (2026-08-18)
+
+**All Phase 2.2c and Phase 2.4a-c items completed:**
+- [x] Phase 2.2c: Privacy plane (NER & Regex detection engines hardened with timeouts, ReDoS protection, gazetteer validation)
+- [x] Phase 2.4a: Compression plane ZSTD hardened (decompression bomb detection 1024x ratio, concurrent safety)
+- [x] Phase 2.4b: Compression plane LZ4 hardened (buffer sizing, block-size overflow, lib unavailable fallback)
+- [x] Phase 2.4c: Compression plane Serialization hardened (nesting depth protection, schema validation)
+- [x] Phase 2.6: Cross-cutting resource limits documented in 9 helper headers with @note tags
+
+**14 files modified, 286 lines added:**
+- 9 header files with resource limit documentation and @error_contract tags
+- 5 implementation files with hardening logic (timeout enforcement, bounds checking, error handling)
+
+### error_contracts.h Adoption State (as of 2026-08-18)
 
 Adopted: `error_contracts.cpp`, `error_registry.cpp`, `lz4_codec.cpp`, `pii_detection_engine.cpp`,
 `pki_client.cpp`, `retention_manager.cpp`, `zstd_codec.cpp`
