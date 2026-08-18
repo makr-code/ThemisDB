@@ -555,6 +555,247 @@ jobs:
             --diff-file workflow_changes.txt
 
   # ────────────────────────────────────────────────────────────────────────────
+  # WAVE C BATCH 3 — GATE 9: Scoped Checkout Validation
+  # Prevents private submodules from being fetched in community builds
+  # Applies to: PRs targeting community/minimal branches
+  # ────────────────────────────────────────────────────────────────────────────
+  scoped-checkout-validation:
+    name: Scoped Checkout Validation (Wave C Batch 3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'community' || github.base_ref == 'minimal')
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Validate private submodules are scoped for community
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          # Private plugin submodules that must be scoped (shallow or disabled)
+          PRIVATE_PLUGINS = {
+              "plugins/themisdb_ethic_ai",
+              "plugins/themisdb_storage",
+              "plugins/themisdb_importer",
+          }
+
+          gitmodules = Path(".gitmodules").read_text(encoding="utf-8")
+          blocks = re.split(r'(?=\[submodule\s)', gitmodules)
+           
+          errors = []
+          for block in blocks:
+              # Extract submodule path
+              path_match = re.search(r'path\s*=\s*(.+)', block)
+              if not path_match:
+                  continue
+              submod_path = path_match.group(1).strip()
+               
+              if submod_path in PRIVATE_PLUGINS:
+                  # Check if shallow is set
+                  has_shallow = re.search(r'shallow\s*=\s*true', block)
+                  if not has_shallow:
+                      errors.append(
+                          f"FAIL-CLOSED: {submod_path} is a private plugin "
+                          f"but does not have shallow=true in .gitmodules. "
+                          f"Community builds must not fetch full private repositories."
+                      )
+
+          if errors:
+              for err in errors:
+                  print(f"::error::{err}")
+              sys.exit(1)
+           
+          print("✅ Scoped checkout validation passed: all private plugins are properly scoped.")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # WAVE C BATCH 2 — GATE 9: Plugin Manifest Edition/License/Boundary Validation
+  # Fail-closed validation of edition restrictions, license gates, and public/private boundaries
+  # Applies to: PRs targeting all protected branches
+  # ────────────────────────────────────────────────────────────────────────────
+  manifest-edition-gates:
+    name: Plugin Manifest Edition Gates (Wave C Batch 2)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military","minimal"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed manifest files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -E "plugin\.json|manifest.*\.json" > changed_manifests.txt || true
+          echo "Manifest files changed: $(wc -l < changed_manifests.txt)"
+
+      - name: Validate plugin manifests against schema and fail-closed gates
+        run: |
+          python3 - <<'PY'
+          import json
+          import re
+          import sys
+          from pathlib import Path
+
+          # Load all plugin manifest files
+          changed_manifests = []
+          manifest_file = Path("changed_manifests.txt")
+          if manifest_file.exists():
+              changed_manifests = [p.strip() for p in manifest_file.read_text().splitlines() if p.strip()]
+
+          if not changed_manifests:
+              print("✅ No plugin manifest changes detected")
+              sys.exit(0)
+
+          # Edition validation rules
+          VALID_EDITIONS = {"minimal", "community", "enterprise", "hyperscaler", "military"}
+          VISIBILITY_VALUES = {"public", "private", "restricted"}
+          LICENSE_FEATURE_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_.-]*$")
+
+          errors = []
+          for manifest_path in changed_manifests:
+              p = Path(manifest_path)
+              if not p.exists():
+                  continue
+
+              try:
+                  manifest_content = json.loads(p.read_text())
+              except json.JSONDecodeError as e:
+                  errors.append(f"[SCHEMA] {manifest_path}: Invalid JSON - {e}")
+                  continue
+
+              # Validate allowed_editions field
+              if "allowed_editions" in manifest_content:
+                  allowed_eds = manifest_content["allowed_editions"]
+                  if not isinstance(allowed_eds, list):
+                      errors.append(f"[SCHEMA] {manifest_path}: 'allowed_editions' must be array, got {type(allowed_eds).__name__}")
+                  else:
+                      for edition in allowed_eds:
+                          if edition not in VALID_EDITIONS:
+                              errors.append(f"[VALIDATION] {manifest_path}: Invalid edition '{edition}' in allowed_editions. Valid: {', '.join(VALID_EDITIONS)}")
+
+              # Validate license_feature format
+              if "license_feature" in manifest_content:
+                  license_feature = manifest_content["license_feature"]
+                  if license_feature and not LICENSE_FEATURE_PATTERN.match(license_feature):
+                      errors.append(f"[VALIDATION] {manifest_path}: 'license_feature' '{license_feature}' violates pattern ^[a-z0-9][a-z0-9_.-]*$")
+
+              # Validate visibility field
+              if "visibility" in manifest_content:
+                  visibility = manifest_content["visibility"]
+                  if visibility not in VISIBILITY_VALUES:
+                      errors.append(f"[SCHEMA] {manifest_path}: Invalid visibility '{visibility}'. Valid: {', '.join(VISIBILITY_VALUES)}")
+
+              # Boundary check: path contains "private/" but visibility != "private"
+              if "private" in manifest_path.lower():
+                  visibility = manifest_content.get("visibility", "public")
+                  if visibility != "private":
+                      errors.append(f"[BOUNDARY] {manifest_path}: Path contains 'private/' but visibility is '{visibility}', not 'private'")
+
+              # Boundary check: visibility="private" in community edition
+              visibility = manifest_content.get("visibility", "public")
+              target_branch = "${{ github.base_ref }}"
+              if visibility == "private" and target_branch in ("community", "minimal"):
+                  errors.append(f"[BOUNDARY] {manifest_path}: Private plugin cannot target {target_branch} edition")
+
+          if errors:
+              print("::error::Plugin Manifest Validation FAILED (fail-closed):")
+              for err in errors:
+                  print(f"  {err}")
+              sys.exit(1)
+
+          print(f"✅ Manifest validation passed: {len(changed_manifests)} manifest(s) validated")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # WAVE C BATCH 3 — GATE 10: Private-Credential Scanning
+  # Enhanced credential detection beyond standard patterns
+  # Applies to: PRs targeting all protected branches
+  # ────────────────────────────────────────────────────────────────────────────
+  private-credential-scan:
+    name: Private-Credential Scanning (Wave C Batch 3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military","minimal"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-only "origin/${{ github.base_ref }}...HEAD" > changed_files.txt
+          echo "Files changed: $(wc -l < changed_files.txt)"
+
+      - name: Scan for private credentials (AWS/Azure/GCP/OAuth/SSH)
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          # Credential patterns (CRITICAL and HIGH severity)
+          CREDENTIAL_PATTERNS = {
+              "aws_access_key": (r"AKIA[0-9A-Z]{16}", "CRITICAL"),
+              "aws_secret_key": (r"aws_secret_access_key\s*[:=]\s*['\"]([^'\"]{20,})['\"]", "CRITICAL"),
+              "azure_connection": (r"DefaultEndpointsProtocol=https;AccountName=.*;AccountKey=.{80,}", "CRITICAL"),
+              "azure_key": (r"SharedAccessKey=.{20,}", "CRITICAL"),
+              "gcp_api_key": (r"AIza[0-9A-Za-z\-_]{35}", "HIGH"),
+              "gcp_service_account": (r'"type":\s*"service_account".*"private_key":', "CRITICAL"),
+              "oauth_token": (r"oauth_token\s*[:=]\s*['\"]([a-zA-Z0-9\-_.]{50,})['\"]", "CRITICAL"),
+              "github_token": (r"ghp_[A-Za-z0-9_]{36}", "CRITICAL"),
+              "github_oauth": (r"gho_[A-Za-z0-9_]{36}", "CRITICAL"),
+              "github_pat": (r"github_pat_[A-Za-z0-9_]{36}", "CRITICAL"),
+              "ssh_private_key": (r"-----BEGIN RSA PRIVATE KEY-----", "CRITICAL"),
+              "openssh_private_key": (r"-----BEGIN OPENSSH PRIVATE KEY-----", "CRITICAL"),
+              "pgp_private_key": (r"-----BEGIN PGP PRIVATE KEY BLOCK-----", "CRITICAL"),
+              "private_secret_env": (r"\$\{\{.*secrets\.[A-Z_]*PRIVATE[A-Z_]*\}\}", "CRITICAL"),
+              "db_password": (r"db_password\s*[:=]\s*['\"]([^'\"]{8,})['\"]", "HIGH"),
+          }
+
+          changed_files = Path("changed_files.txt").read_text().splitlines()
+          critical_found = False
+          matches_summary = []
+
+          for filepath in changed_files:
+              p = Path(filepath)
+              if not p.exists() or not p.is_file():
+                  continue
+
+              try:
+                  content = p.read_text(errors="replace")
+              except Exception:
+                  continue
+
+              line_num = 0
+              for line in content.splitlines():
+                  line_num += 1
+                  for pattern_name, (pattern, severity) in CREDENTIAL_PATTERNS.items():
+                      if re.search(pattern, line, re.IGNORECASE):
+                          msg = f"[{severity}] {pattern_name} detected at {filepath}:{line_num}"
+                          print(f"::error::{msg}")
+                          matches_summary.append(f"{severity}: {pattern_name}")
+                          if severity == "CRITICAL":
+                              critical_found = True
+
+          if critical_found:
+              print("\n::error::FAIL-CLOSED: Critical credential patterns found in PR diff. Do not commit secrets.")
+              sys.exit(1)
+
+          if matches_summary:
+              print(f"\n⚠️  Found {len(set(matches_summary))} credential pattern(s)")
+          else:
+              print("✅ No private credential patterns detected in PR diff")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
   # Secret Scanning — Active TruffleHog scan on PR diff (non-blocking initially)
   # Catches staged secrets before they land in history.
   # Promotion path: set fail-on-match: true after a stabilization period.
@@ -684,6 +925,8 @@ jobs:
       - scanner-delta-report
       - submodule-commit-pins
       - workflow-boundary-guard
+      - scoped-checkout-validation
+      - private-credential-scan
       - secret-scan
     steps:
       - name: Write summary
@@ -702,6 +945,8 @@ jobs:
             echo "| Scanner Delta Report | ${{ needs.scanner-delta-report.result }} |"
             echo "| Submodule Commit Pins | ${{ needs.submodule-commit-pins.result }} |"
             echo "| Workflow Boundary Guard | ${{ needs.workflow-boundary-guard.result }} |"
+            echo "| Scoped Checkout Validation (Wave C B3) | ${{ needs.scoped-checkout-validation.result }} |"
+            echo "| Private-Credential Scanning (Wave C B3) | ${{ needs.private-credential-scan.result }} |"
             echo "| Secret Scanning (non-blocking) | ${{ needs.secret-scan.result }} |"
           } >> "$GITHUB_STEP_SUMMARY"
 

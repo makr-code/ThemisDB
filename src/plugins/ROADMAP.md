@@ -163,7 +163,13 @@ Wave C begins only after Wave B exit criteria are met.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave C Scope for `plugins`
-- [ ] Plugins: enforce private/public plugin boundaries, edition/license validation, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
+- [~] Plugins: enforce private/public plugin boundaries, edition/license validation, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
+  - [x] Wave C Batch 2: Manifest Fail-Closed Validation (2026-08-18)
+    - [x] Enhanced validation methods: validateManifestEditionRestrictions(), validateManifestPublicPrivateBoundary()
+    - [x] Error codes [8700-8799]: PLUGIN_EDITION_MISMATCH, PLUGIN_LICENSE_DENIED, PLUGIN_LICENSE_FEATURE_INVALID, PLUGIN_ALLOWED_EDITIONS_MALFORMED, PLUGIN_PRIVATE_IN_COMMUNITY, PLUGIN_PATH_VISIBILITY_MISMATCH, PLUGIN_RESTRICTED_NO_CONTEXT
+    - [x] ≥16 focused test cases in test_plugin_manifest_edition_gates_focused.cpp (TESTS: TEST-1..TEST-16)
+    - [x] CI gate enhancement: manifest-edition-gates job in .github/workflows/ci-pr-gates.yml
+    - [x] Manifest schema enforcement via JSON Schema validation
 
 ### Wave C Entry Gate (prerequisite from Wave B)
 - [ ] Wave B gate is closed: retrieval chain baselines stable, ACM observability gates closed, hardware baselines confirmed (Target: Q4 2026)

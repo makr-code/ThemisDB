@@ -582,6 +582,34 @@ struct MarketplaceManifest : public PluginManifest {
 };
 
 /**
+ * @brief Manifest Validation Error Codes (Wave C Batch 2)
+ * 
+ * Error codes [8700-8799] reserved for plugin manifest edition/license/boundary validation.
+ * These codes enable fail-closed validation of edition restrictions, license gates,
+ * and public/private visibility boundaries.
+ * 
+ * Usage: Check against these codes when manifest validation fails during plugin load.
+ */
+enum class ManifestErrorCode {
+    // Success
+    MANIFEST_OK = 0,
+    
+    // Edition and license validation (8700-8719)
+    PLUGIN_EDITION_MISMATCH = 8700,      ///< Plugin's allowed_editions does not include current edition
+    PLUGIN_LICENSE_DENIED = 8701,        ///< license_feature required but not granted by license gate
+    PLUGIN_LICENSE_FEATURE_INVALID = 8702, ///< license_feature field format invalid
+    PLUGIN_ALLOWED_EDITIONS_MALFORMED = 8703, ///< allowed_editions not an array or invalid values
+    
+    // Public/private boundary violations (8720-8739)
+    PLUGIN_PRIVATE_IN_COMMUNITY = 8720,  ///< visibility="private" but edition="community" (fail-closed)
+    PLUGIN_PATH_VISIBILITY_MISMATCH = 8721, ///< Plugin path contains "private/" but not marked private
+    PLUGIN_RESTRICTED_NO_CONTEXT = 8722, ///< visibility="restricted" without scoped checkout context
+    
+    // Reserved (8740-8799)
+    PLUGIN_MANIFEST_VALIDATION_ERROR = 8799 ///< Generic manifest validation error
+};
+
+/**
  * @brief Validates plugin manifests against the ThemisDB marketplace schema v2.
  *
  * Provides structural and semantic validation of plugin.json content without
