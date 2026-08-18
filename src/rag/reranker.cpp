@@ -123,10 +123,13 @@ bool isWorldWritable(const std::filesystem::path& path, std::error_code& ec) {
 /// Tokenise @p text into lower-cased words, stripping punctuation.
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
+    tokens.reserve(text.size() / 5);  // Estimate: average token ~5 chars
     std::string cur;
+    cur.reserve(20);  // Reserve space for typical token length
+    
     for (unsigned char ch : text) {
         if (std::isalnum(ch)) {
-            cur += static_cast<char>(std::tolower(ch));
+            cur.push_back(static_cast<char>(std::tolower(ch)));
         } else if (!cur.empty()) {
             if (cur.size() > 2) {   // skip very short tokens
                 tokens.push_back(cur);
@@ -156,8 +159,19 @@ std::unordered_map<std::string, size_t> bigramFreq(
     const std::vector<std::string>& tokens)
 {
     std::unordered_map<std::string, size_t> bf;
+    // Optimization: reserve capacity based on expected bigram count
+    // Complexity: O(n) with efficient string building
+    bf.reserve(tokens.size() > 1 ? tokens.size() - 1 : 0);
+    
     for (size_t i = 0; i + 1 < tokens.size(); ++i) {
-        ++bf[tokens[i] + " " + tokens[i + 1]];
+        // Build bigram string efficiently: " token1 token2 "
+        std::string bigram;
+        bigram.reserve(tokens[i].size() + tokens[i+1].size() + 3);
+        bigram.push_back(' ');
+        bigram.append(tokens[i]);
+        bigram.push_back(' ');
+        bigram.append(tokens[i + 1]);
+        ++bf[bigram];
     }
     return bf;
 }
