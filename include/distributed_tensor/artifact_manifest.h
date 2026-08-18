@@ -299,6 +299,19 @@ class ArtifactManifest {
   /// @return true if manifest has all required metadata, false otherwise.
   [[nodiscard]] bool is_complete() const noexcept;
 
+  /// Validate manifest invariants (SG-DT-01 Fail-Closed).
+  ///
+  /// Checks all manifest invariants:
+  ///   - artifact_id is non-empty
+  ///   - At least one shard placement exists with replication_factor >= 1
+  ///   - version is set
+  ///   - artifact_class constraints are satisfied
+  ///
+  /// Returns false on any invariant violation to enforce fail-closed semantics.
+  ///
+  /// @return true if all invariants hold; false otherwise.
+  [[nodiscard]] bool validate() const noexcept;
+
  protected:
   /// Artifact identifier.
   std::string artifact_id_;
