@@ -426,89 +426,94 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
 void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
-    if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
-        return;
-    }
+    try {
+        if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
+            return;
+        }
 
-    // Compute a combined objective from user feedback and evaluation confidence
-    // scores so that the Bayesian optimizer learns from both explicit signals
-    // (thumbs up/down) and implicit evaluation quality (RAGJudge confidence).
-    size_t total   = 0;
-    size_t success = 0;
-    double total_eval_score  = 0.0;
-    size_t eval_score_count  = 0;
+        // Compute a combined objective from user feedback and evaluation confidence
+        // scores so that the Bayesian optimizer learns from both explicit signals
+        // (thumbs up/down) and implicit evaluation quality (RAGJudge confidence).
+        size_t total   = 0;
+        size_t success = 0;
+        double total_eval_score  = 0.0;
+        size_t eval_score_count  = 0;
 
-    for (const auto& interaction : impl_->interactions) {
-        if (interaction.user_feedback.has_value()) {
-            total++;
-            if (interaction.user_feedback.value() == FeedbackType::POSITIVE) {
-                success++;
+        for (const auto& interaction : impl_->interactions) {
+            if (interaction.user_feedback.has_value()) {
+                total++;
+                if (interaction.user_feedback.value() == FeedbackType::POSITIVE) {
+                    success++;
+                }
+            }
+            if (interaction.confidence_score > 0.0) {
+                total_eval_score += interaction.confidence_score;
+                eval_score_count++;
             }
         }
-        if (interaction.confidence_score > 0.0) {
-            total_eval_score += interaction.confidence_score;
-            eval_score_count++;
+
+        if (total == 0 && eval_score_count == 0) return;
+
+        // Weighted combination: 60 % user feedback, 40 % evaluation confidence.
+        // Fall back to the neutral baseline when one source has no data.
+        double feedback_rate = (total > 0)
+            ? static_cast<double>(success) / static_cast<double>(total)
+            : kDefaultObjectiveScore;
+        double eval_rate = (eval_score_count > 0)
+            ? total_eval_score / static_cast<double>(eval_score_count)
+            : kDefaultObjectiveScore;
+        double combined_objective = kUserFeedbackWeight * feedback_rate
+                                  + kEvalConfidenceWeight * eval_rate;
+
+        // Use BayesianOptimizer to suggest new retrieval parameters
+        std::unordered_map<std::string, ParameterBounds> param_bounds;
+        param_bounds["top_k"]               = {1.0, 20.0};
+        param_bounds["similarity_threshold"] = {0.5,  0.95};
+
+        BayesianOptimizer optimizer(param_bounds);
+
+        // Seed with the current observed performance
+        std::unordered_map<std::string, double> current_params;
+        current_params["top_k"] = static_cast<double>(
+            impl_->current_retrieval_params.top_k);
+        current_params["similarity_threshold"] =
+            impl_->current_retrieval_params.similarity_threshold;
+        optimizer.observe(current_params, combined_objective);
+
+        // Get suggested parameters and persist them
+        auto suggested = optimizer.suggest();
+
+        impl_->current_retrieval_params.top_k = static_cast<size_t>(
+            std::clamp(std::round(suggested["top_k"]), 1.0, 20.0));
+        impl_->current_retrieval_params.similarity_threshold =
+            std::clamp(suggested["similarity_threshold"], 0.5, 0.95);
+
+        // Record retrieval optimization event
+        ImprovementEvent event;
+        event.timestamp        = std::chrono::system_clock::now();
+        event.component        = "retrieval";
+        event.improvement_type = "RetrievalOptimization";
+        event.metric_before    = combined_objective;
+        event.metric_after     = combined_objective; // updated after A/B test
+
+        std::ostringstream desc;
+        desc << "Suggested retrieval params: top_k="
+             << impl_->current_retrieval_params.top_k
+             << " similarity_threshold="
+             << impl_->current_retrieval_params.similarity_threshold
+             << " (objective=" << combined_objective << ")";
+        event.description = desc.str();
+
+        impl_->stats.recent_improvements.push_back(event);
+        impl_->stats.retrieval_optimizations++;
+
+        // Deploy A/B test if enabled
+        if (impl_->config.enable_ab_testing) {
+            deployABTest("retrieval_opt");
         }
-    }
-
-    if (total == 0 && eval_score_count == 0) return;
-
-    // Weighted combination: 60 % user feedback, 40 % evaluation confidence.
-    // Fall back to the neutral baseline when one source has no data.
-    double feedback_rate = (total > 0)
-        ? static_cast<double>(success) / static_cast<double>(total)
-        : kDefaultObjectiveScore;
-    double eval_rate = (eval_score_count > 0)
-        ? total_eval_score / static_cast<double>(eval_score_count)
-        : kDefaultObjectiveScore;
-    double combined_objective = kUserFeedbackWeight * feedback_rate
-                              + kEvalConfidenceWeight * eval_rate;
-
-    // Use BayesianOptimizer to suggest new retrieval parameters
-    std::unordered_map<std::string, ParameterBounds> param_bounds;
-    param_bounds["top_k"]               = {1.0, 20.0};
-    param_bounds["similarity_threshold"] = {0.5,  0.95};
-
-    BayesianOptimizer optimizer(param_bounds);
-
-    // Seed with the current observed performance
-    std::unordered_map<std::string, double> current_params;
-    current_params["top_k"] = static_cast<double>(
-        impl_->current_retrieval_params.top_k);
-    current_params["similarity_threshold"] =
-        impl_->current_retrieval_params.similarity_threshold;
-    optimizer.observe(current_params, combined_objective);
-
-    // Get suggested parameters and persist them
-    auto suggested = optimizer.suggest();
-
-    impl_->current_retrieval_params.top_k = static_cast<size_t>(
-        std::clamp(std::round(suggested["top_k"]), 1.0, 20.0));
-    impl_->current_retrieval_params.similarity_threshold =
-        std::clamp(suggested["similarity_threshold"], 0.5, 0.95);
-
-    // Record retrieval optimization event
-    ImprovementEvent event;
-    event.timestamp        = std::chrono::system_clock::now();
-    event.component        = "retrieval";
-    event.improvement_type = "RetrievalOptimization";
-    event.metric_before    = combined_objective;
-    event.metric_after     = combined_objective; // updated after A/B test
-
-    std::ostringstream desc;
-    desc << "Suggested retrieval params: top_k="
-         << impl_->current_retrieval_params.top_k
-         << " similarity_threshold="
-         << impl_->current_retrieval_params.similarity_threshold
-         << " (objective=" << combined_objective << ")";
-    event.description = desc.str();
-
-    impl_->stats.recent_improvements.push_back(event);
-    impl_->stats.retrieval_optimizations++;
-
-    // Deploy A/B test if enabled
-    if (impl_->config.enable_ab_testing) {
-        deployABTest("retrieval_opt");
+    } catch (const std::exception& e) {
+        // HIGH FIX: Exception guard on optimization to prevent incomplete state
+        THEMIS_WARN("runRetrievalOptimization: failed: {}", e.what());
     }
 }
 
