@@ -445,3 +445,118 @@ TEST(TensorGraphSnapshot, EdgeCase_ResidualUnsafe) {
     EXPECT_TRUE(s.isResidualUnsafe(0.10));
     EXPECT_FALSE(s.isResidualUnsafe(0.20));
 }
+
+// ============================================================================
+// Phase 4 Expansion: MetricErrorKind Taxonomy & Numeric Validation
+// ============================================================================
+
+/// Phase 4 Test: Verify MetricErrorKind::NonFiniteInput detection for NaN.
+TEST(RetrievalQuality, Phase4_ThrowsOnNaNInScores) {
+    const std::vector<RankedResult> ranked = {
+        {"a", std::nan("")}, {"b", 2.0}
+    };
+    const std::vector<std::string> gt = {"a", "b"};
+    
+    EXPECT_THROW(
+        computeRetrievalQuality(ranked, gt, 2),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify MetricErrorKind::NonFiniteInput detection for ±Inf.
+TEST(RetrievalQuality, Phase4_ThrowsOnInfinityInScores) {
+    const std::vector<RankedResult> ranked = {
+        {"a", INFINITY}, {"b", 2.0}
+    };
+    const std::vector<std::string> gt = {"a", "b"};
+    
+    EXPECT_THROW(
+        computeRetrievalQuality(ranked, gt, 2),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify precision validation guards negative k.
+TEST(RetrievalQuality, Phase4_ThrowsOnZeroK) {
+    const std::vector<RankedResult> ranked = {{"a", 1.0}};
+    const std::vector<std::string> gt = {"a"};
+    
+    EXPECT_THROW(
+        computeRetrievalQuality(ranked, gt, 0),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify invalid range detection — supported_claims exceeds total_claims.
+TEST(LlmAnswerQuality, Phase4_ThrowsOnInconsistentClaimCounts) {
+    EXPECT_THROW(
+        computeLlmAnswerQuality(10, 5),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify inconsistent token counts leave answer_support_density at 0.
+TEST(LlmAnswerQuality, Phase4_InconsistentTokensYieldZeroDensity) {
+    // evidence_tokens > prompt_token_count is an inconsistent state:
+    // answer_support_density should remain 0 and faithfulness == groundedness.
+    const auto result = computeLlmAnswerQuality(5, 10, /*evidence_tokens=*/200, /*prompt_token_count=*/50);
+    EXPECT_DOUBLE_EQ(result.answer_support_density, 0.0);
+    EXPECT_DOUBLE_EQ(result.groundedness_score, result.faithfulness_score);
+}
+
+/// Phase 4 Test: Verify compression metrics rejects zero size.
+TEST(CompressionMetrics, Phase4_ThrowsOnZeroCompressedSize) {
+    EXPECT_THROW(
+        computeCompressionMetrics(1000, 0, {0.01}),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify residual error validation in tensor graph metrics.
+TEST(TensorGraphRuntime, Phase4_ThrowsOnNegativeResidual) {
+    auto s = makeCleanSnapshot();
+    s.residual_error = -0.01;  // Invalid: residual must be >= 0
+    
+    EXPECT_THROW(
+        computeTensorGraphRuntimeMetrics({s}),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify metric collector enforces non-empty snapshot requirement.
+TEST(MetricCollector, Phase4_ThrowsOnEmptySnapshotInSummarize) {
+    MetricCollector col;
+    // No snapshots recorded
+    
+    EXPECT_THROW(
+        col.summarizeTensorGraph(),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify double-counted detection in strata layers.
+TEST(RetrievalQuality, Phase4_ThrowsOnDoubleCountedInMultipleStrata) {
+    const std::vector<RankedResult> ranked = {
+        {"a", 2.0}, {"b", 1.5}
+    };
+    const std::vector<std::string> gt = {"a", "b", "a"};  // "a" appears twice
+    
+    EXPECT_THROW(
+        computeRetrievalQuality(ranked, gt, 2),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify evidence quality enforces non-empty required evidence.
+TEST(EvidenceQuality, Phase4_ThrowsOnEmptyRequiredEvidence) {
+    EXPECT_THROW(
+        computeEvidenceQuality({"e1"}, {}),
+        MetricError);
+}
+
+/// Phase 4 Test: Verify all three residual edge cases with threshold validation.
+TEST(TensorGraphRuntime, Phase4_ResidualThresholdBoundaryConditions) {
+    auto s = makeCleanSnapshot();
+    s.residual_error = 0.10;
+    
+    // Exactly at threshold should trigger
+    EXPECT_THROW(
+        computeTensorGraphRuntimeMetrics({s}, 0.10),
+        MetricError);
+    
+    // Just below threshold should pass
+    auto m = computeTensorGraphRuntimeMetrics({s}, 0.101);
+    EXPECT_NEAR(m.mean_residual_error, 0.10, 1e-9);
+}

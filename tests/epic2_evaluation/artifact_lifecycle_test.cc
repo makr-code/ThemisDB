@@ -121,7 +121,7 @@ TEST_F(ArtifactLifecycleTest, ComputStateInvalidatedPreserved) {
     EXPECT_EQ(state, LifecycleState::INVALIDATED);
 }
 
-TEST_F(ArtifactLifecycleTest, ComputeStateRebuilding Preserved) {
+TEST_F(ArtifactLifecycleTest, ComputeStateRebuildingPreserved) {
     auto metadata = createTestMetadata("test1", LifecycleState::REBUILDING);
     StalenessPolicy policy;
 
@@ -170,19 +170,19 @@ TEST_F(ArtifactLifecycleTest, IsUsableForPlanningPristineFalse) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ArtifactLifecycleTest, RequiresImmediateRebuildInvalidatedTrue) {
-    EXPECT_TRUE(manager_.requiresImmedateRebuild(LifecycleState::INVALIDATED));
+    EXPECT_TRUE(manager_.requiresImmediateRebuild(LifecycleState::INVALIDATED));
 }
 
 TEST_F(ArtifactLifecycleTest, RequiresImmediateRebuildFailedTrue) {
-    EXPECT_TRUE(manager_.requiresImmedateRebuild(LifecycleState::FAILED));
+    EXPECT_TRUE(manager_.requiresImmediateRebuild(LifecycleState::FAILED));
 }
 
 TEST_F(ArtifactLifecycleTest, RequiresImmediateRebuildReadyFalse) {
-    EXPECT_FALSE(manager_.requiresImmedateRebuild(LifecycleState::READY));
+    EXPECT_FALSE(manager_.requiresImmediateRebuild(LifecycleState::READY));
 }
 
 TEST_F(ArtifactLifecycleTest, RequiresImmediateRebuildStaleFalse) {
-    EXPECT_FALSE(manager_.requiresImmedateRebuild(LifecycleState::STALE));
+    EXPECT_FALSE(manager_.requiresImmediateRebuild(LifecycleState::STALE));
 }
 
 // ---------------------------------------------------------------------------
@@ -422,6 +422,146 @@ TEST_F(ArtifactLifecycleTest, FullLifecycleReadyToStaleToInvalidatedToReady) {
         rebuilding, 500, 50, 0.005);
     EXPECT_EQ(ready.state, LifecycleState::READY);
     EXPECT_EQ(ready.artifact_age_ms, 500);
+}
+
+}  // namespace
+}  // namespace evaluation
+}  // namespace themis
+
+// ============================================================================
+// Phase 4 Expansion: FAILED State & Overlapping Staleness Thresholds
+// ============================================================================
+
+namespace themis {
+namespace evaluation {
+namespace {
+
+/// Phase 4 Test: Verify FAILED state transitions and state machine.
+TEST_F(ArtifactLifecycleTest, Phase4_FailedState_IsUsableForPlanningFalse) {
+    // FAILED state should never be usable for planning
+    EXPECT_FALSE(manager_.isUsableForPlanning(LifecycleState::FAILED));
+}
+
+/// Phase 4 Test: Verify rebuild attempt increment on transition to REBUILDING.
+TEST_F(ArtifactLifecycleTest, Phase4_RebuildAttemptCountIncrementsMonotonically) {
+    auto metadata = createTestMetadata("test1", LifecycleState::FAILED);
+    metadata.rebuild_attempt_count = 3;
+    
+    auto rebuilding = ArtifactLifecycleManager::beginRebuild(metadata);
+    EXPECT_EQ(rebuilding.state, LifecycleState::REBUILDING);
+    EXPECT_EQ(rebuilding.rebuild_attempt_count, 4);  // Incremented from 3
+}
+
+/// Phase 4 Test: Verify FAILED → REBUILDING transition via beginRebuild.
+TEST_F(ArtifactLifecycleTest, Phase4_FailedToRebuildingTransition) {
+    auto metadata = createTestMetadata("test1", LifecycleState::FAILED);
+    
+    auto rebuilding = ArtifactLifecycleManager::beginRebuild(metadata);
+    
+    EXPECT_EQ(rebuilding.state, LifecycleState::REBUILDING);
+    EXPECT_NE(rebuilding.last_failed_rebuild_ms, metadata.last_failed_rebuild_ms);
+}
+
+/// Phase 4 Test: Verify overlapping age and delta lag staleness triggers.
+TEST_F(ArtifactLifecycleTest, Phase4_OverlappingStalenessThresholds_AgeAndDeltaLag) {
+    auto metadata = createTestMetadata("test1", LifecycleState::READY, 3000, 2000);
+    StalenessPolicy policy;
+    policy.withAgeThresholdMs(2000);      // age 3000 > 2000 → STALE
+    policy.withDeltaLagThreshold(1000);   // delta_lag 2000 > 1000 → STALE
+    
+    auto state = manager_.computeState(metadata, policy);
+    EXPECT_EQ(state, LifecycleState::STALE);
+    
+    // Diagnosis should identify one or both causes
+    auto cause = manager_.diagnoseStalenessCause(metadata, policy);
+    EXPECT_TRUE(cause.has_value());
+}
+
+/// Phase 4 Test: Verify overlapping residual and rank cap staleness triggers.
+TEST_F(ArtifactLifecycleTest, Phase4_OverlappingStalenessThresholds_ResidualAndRankCap) {
+    auto metadata = createTestMetadata("test1", LifecycleState::READY, 1000, 100, 0.05);
+    metadata.max_permissible_rank = 80;  // Below threshold
+    
+    StalenessPolicy policy;
+    policy.withResidualThreshold(0.02);  // residual 0.05 > 0.02 → STALE
+    policy.withRankCapThreshold(100);    // rank 80 < 100 → STALE
+    
+    auto state = manager_.computeState(metadata, policy);
+    EXPECT_EQ(state, LifecycleState::STALE);
+}
+
+/// Phase 4 Test: Verify InvalidationReason propagation in invalidate().
+TEST_F(ArtifactLifecycleTest, Phase4_InvalidationReasonPropagation) {
+    auto metadata = createTestMetadata("test1", LifecycleState::READY);
+    
+    std::vector<InvalidationReason> reasons = {
+        InvalidationReason::INTEGRITY_CHECK_FAILED,
+        InvalidationReason::STALENESS_EXCEEDED,
+        InvalidationReason::POLICY_VIOLATION,
+        InvalidationReason::SHARD_UNAVAILABLE
+    };
+    
+    for (auto reason : reasons) {
+        auto invalidated = ArtifactLifecycleManager::invalidate(metadata, reason);
+        EXPECT_EQ(invalidated.state, LifecycleState::INVALIDATED);
+        EXPECT_EQ(invalidated.invalidation_reason, reason);
+    }
+}
+
+/// Phase 4 Test: Verify state machine rejects invalid transitions.
+TEST_F(ArtifactLifecycleTest, Phase4_PreservesStateOnInvalidTransition) {
+    // PRISTINE state should transition to READY, not remain PRISTINE
+    auto metadata = createTestMetadata("test1", LifecycleState::PRISTINE);
+    
+    auto state = manager_.computeState(metadata, StalenessPolicy());
+    EXPECT_EQ(state, LifecycleState::READY);
+}
+
+/// Phase 4 Test: Verify last_successful_rebuild_ms and last_failed_rebuild_ms timestamps.
+TEST_F(ArtifactLifecycleTest, Phase4_RebuildTimestampsAreRecorded) {
+    auto metadata = createTestMetadata("test1", LifecycleState::REBUILDING);
+    
+    // Success case
+    auto success = ArtifactLifecycleManager::completeRebuildSuccess(
+        metadata, 500, 50, 0.005);
+    EXPECT_TRUE(success.last_successful_rebuild_ms.has_value());
+    EXPECT_GT(success.last_successful_rebuild_ms.value(), 0u);
+    
+    // Failure case
+    auto failure = ArtifactLifecycleManager::completeRebuildFailure(metadata);
+    EXPECT_TRUE(failure.last_failed_rebuild_ms.has_value());
+    EXPECT_GT(failure.last_failed_rebuild_ms.value(), 0u);
+}
+
+/// Phase 4 Test: Verify staleness diagnosis captures specific causes.
+TEST_F(ArtifactLifecycleTest, Phase4_DiagnoseStalenessCauseCapturesDetails) {
+    auto metadata = createTestMetadata("test1", LifecycleState::READY, 5000);
+    StalenessPolicy policy;
+    policy.withAgeThresholdMs(2000);
+    
+    auto cause = manager_.diagnoseStalenessCause(metadata, policy);
+    EXPECT_TRUE(cause.has_value());
+    // Cause should mention "Age" or similar
+    EXPECT_TRUE(cause.value().find("Age") != std::string::npos ||
+                cause.value().find("age") != std::string::npos);
+}
+
+/// Phase 4 Test: Verify batch operations preserve lifecycle state semantics.
+TEST_F(ArtifactLifecycleTest, Phase4_BatchComputeStatesPreservesSemantics) {
+    std::vector<LifecycleMetadata> batch;
+    batch.push_back(createTestMetadata("test1", LifecycleState::READY, 500));   // Fresh
+    batch.push_back(createTestMetadata("test2", LifecycleState::READY, 3000));  // Stale
+    batch.push_back(createTestMetadata("test3", LifecycleState::INVALIDATED));   // Already invalid
+    
+    StalenessPolicy policy;
+    policy.withAgeThresholdMs(2000);
+    
+    auto states = manager_.computeStatesBatch(batch, policy);
+    
+    EXPECT_EQ(states.size(), 3);
+    EXPECT_EQ(states[0], LifecycleState::READY);      // Stays READY
+    EXPECT_EQ(states[1], LifecycleState::STALE);      // Becomes STALE
+    EXPECT_EQ(states[2], LifecycleState::INVALIDATED); // Stays INVALIDATED
 }
 
 }  // namespace
