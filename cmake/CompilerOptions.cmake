@@ -263,6 +263,28 @@ if(MSVC)
         link_directories("${_VC_TOOLS_DIR}/lib/x64")
         message(STATUS "Added MSVC lib path: ${_VC_TOOLS_DIR}/lib/x64")
     endif()
+
+    # Seed the MSVC linker environment for try_compile and nested CMake checks.
+    # The implicit Windows system libraries are resolved through LIB/LIBPATH,
+    # so CMake configure steps must carry these paths even when VsDevCmd was
+    # not able to fully populate the shell environment.
+    set(_themis_msvc_lib_paths)
+    if(_VC_TOOLS_DIR AND EXISTS "${_VC_TOOLS_DIR}/lib/x64")
+        list(APPEND _themis_msvc_lib_paths "${_VC_TOOLS_DIR}/lib/x64")
+    endif()
+    if(EXISTS "${_WIN_SDK_UCRT_LIB_PATH}")
+        list(APPEND _themis_msvc_lib_paths "${_WIN_SDK_UCRT_LIB_PATH}")
+    endif()
+    if(EXISTS "${_WIN_SDK_LIB_PATH}")
+        list(APPEND _themis_msvc_lib_paths "${_WIN_SDK_LIB_PATH}")
+    endif()
+    if(_themis_msvc_lib_paths)
+        list(REMOVE_DUPLICATES _themis_msvc_lib_paths)
+        string(JOIN ";" _themis_msvc_lib_paths_joined ${_themis_msvc_lib_paths})
+        set(ENV{LIB} "${_themis_msvc_lib_paths_joined}")
+        set(ENV{LIBPATH} "${_themis_msvc_lib_paths_joined}")
+        message(STATUS "MSVC linker environment seeded: ${_themis_msvc_lib_paths_joined}")
+    endif()
     
     # Release-specific options for SIMD optimization
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
