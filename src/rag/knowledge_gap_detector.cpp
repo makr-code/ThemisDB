@@ -1587,50 +1587,71 @@ int KnowledgeGapDetector::countEthicalPerspectives(
     const std::vector<RetrievedDocument>& docs
 ) {
     // Moral frameworks to look for
-    std::vector<std::string> frameworks = {
-        "utilitarian", "consequentialist", "utility",
-        "deontological", "kant", "duty", "categorical imperative",
-        "virtue", "aristotle", "character",
-        "rights", "human rights", "natural rights",
-        "care ethics", "feminist ethics",
-        "religious", "divine", "faith",
-        "cultural", "relativism"
+    // Optimization: Pre-build category mappings to avoid nested find() calls
+    std::map<std::string, std::string> framework_categories = {
+        {"utilitarian", "utilitarian"},
+        {"consequentialist", "utilitarian"},
+        {"utility", "utilitarian"},
+        {"deontological", "deontological"},
+        {"kant", "deontological"},
+        {"duty", "deontological"},
+        {"categorical imperative", "deontological"},
+        {"virtue", "virtue"},
+        {"aristotle", "virtue"},
+        {"character", "virtue"},
+        {"rights", "rights-based"},
+        {"human rights", "rights-based"},
+        {"natural rights", "rights-based"},
+        {"care ethics", "care-ethics"},
+        {"feminist ethics", "care-ethics"},
+        {"care", "care-ethics"},
+        {"feminist", "care-ethics"},
+        {"religious", "religious"},
+        {"divine", "religious"},
+        {"faith", "religious"},
+        {"cultural", "cultural"},
+        {"relativism", "cultural"}
     };
 
     std::unordered_set<std::string> found_frameworks;
 
+    // Optimization: For each document, parse into words and check against framework map
+    // Complexity: O(n_docs × n_words × log n_frameworks) instead of O(n_docs × n_frameworks × n_content)
     for (const auto& doc : docs) {
         std::string lower_content = doc.content;
         std::transform(lower_content.begin(), lower_content.end(),
                       lower_content.begin(), ::tolower);
 
-        for (const auto& framework : frameworks) {
-            if (lower_content.find(framework) != std::string::npos) {
-                // Group similar frameworks
-                if (framework.find("utilitarian") != std::string::npos ||
-                    framework.find("consequentialist") != std::string::npos ||
-                    framework.find("utility") != std::string::npos) {
-                    found_frameworks.insert("utilitarian");
-                } else if (framework.find("deontological") != std::string::npos ||
-                          framework.find("kant") != std::string::npos ||
-                          framework.find("duty") != std::string::npos) {
-                    found_frameworks.insert("deontological");
-                } else if (framework.find("virtue") != std::string::npos ||
-                          framework.find("aristotle") != std::string::npos ||
-                          framework.find("character") != std::string::npos) {
-                    found_frameworks.insert("virtue");
-                } else if (framework.find("rights") != std::string::npos) {
-                    found_frameworks.insert("rights-based");
-                } else if (framework.find("care") != std::string::npos ||
-                          framework.find("feminist") != std::string::npos) {
-                    found_frameworks.insert("care-ethics");
-                } else if (framework.find("religious") != std::string::npos ||
-                          framework.find("divine") != std::string::npos ||
-                          framework.find("faith") != std::string::npos) {
-                    found_frameworks.insert("religious");
-                } else if (framework.find("cultural") != std::string::npos ||
-                          framework.find("relativism") != std::string::npos) {
-                    found_frameworks.insert("cultural");
+        // Parse content into words and check for frameworks
+        // Use word boundary detection for multi-word frameworks
+        size_t pos = 0;
+        while (pos < lower_content.length()) {
+            // Skip whitespace
+            while (pos < lower_content.length() && std::isspace(lower_content[pos])) {
+                pos++;
+            }
+            if (pos >= lower_content.length()) break;
+            
+            // Try to match frameworks starting from current position
+            bool matched = false;
+            for (const auto& [framework, category] : framework_categories) {
+                if (lower_content.substr(pos).find(framework) == 0) {
+                    // Check word boundary after framework
+                    size_t end_pos = pos + framework.length();
+                    if (end_pos >= lower_content.length() || 
+                        !std::isalnum(lower_content[end_pos])) {
+                        found_frameworks.insert(category);
+                        pos = end_pos;
+                        matched = true;
+                        break;
+                    }
+                }
+            }
+            
+            // Skip to next word if no match
+            if (!matched) {
+                while (pos < lower_content.length() && !std::isspace(lower_content[pos])) {
+                    pos++;
                 }
             }
         }
