@@ -16,9 +16,9 @@
 - `PHASE_3_4_AGENT_SPECS.md` (2026-08-18, 9,671 B)
 - `PHASE_2_2_AGENT1_RESULTS.md` (2026-08-18, 17,526 B)
 - `PHASE_2_2_AGENT2_RESULTS.md` (2026-08-18, 16,848 B)
+- `INGESTION_PHASE_5_AGENT_SPECS.md` (2026-08-18, 12,636 B)
 - `INGESTION_PHASE_2_AGENT_SPECS.md` (2026-08-18, 12,229 B)
 - `INGESTION_PHASE_3_4_AGENT_SPECS.md` (2026-08-18, 12,436 B)
-- `INGESTION_PHASE_5_AGENT_SPECS.md` (2026-08-18, 12,636 B)
 - `AGENT3_DELIVERY_CHECKLIST.md` (2026-08-18, 7,349 B)
 
 ---
@@ -431,6 +431,60 @@ TEST(PathConstraintsSemanticFocusedTests, SC02_ValidateWithoutGraphMgrIsEmpty)
 - **Risk**: LOW (defensive pattern verified in gap analysis)
 #### SC-03: ValidEdgeTypeAccepted ✅
 TEST(PathConstraintsSemanticFocusedTests, SC03_ValidEdgeTypeAccepted)
+
+---
+
+### INGESTION_PHASE_5_AGENT_SPECS.md
+
+*(file too large — key headings extracted)*
+
+# Ingestion Module Phase 5 — Review & CI Integration Agent Specs
+**Target Agent:** `themisdb-reviewer`
+**Scope:** Continuous review during Phases 2–4; final aggregation
+**Timeline:** Aug 29 – Sep 19, 2026 (continuous monitoring + 4 review checkpoints)
+**Deliverable:** INGESTION_PHASE_5_COMPLIANCE_REPORT.md + GA sign-off readiness
+---
+## Agent Configuration
+Agent Type: themisdb-reviewer
+Focus Area: ingestion module gap closure
+Scope: Continuous code review + aggregated compliance reporting
+Entry Point: Monitor develop branch for Phase 2–4 commits
+Review Checkpoints: 4 gates (one per week)
+Output Pattern: Per-checkpoint review summary + final compliance report
+Validation: Benchmark regression analysis, test coverage correlation, security assessment
+Merge Target: develop (read-only; flag issues in PR comments)
+Report: INGESTION_PHASE_5_COMPLIANCE_REPORT.md
+---
+## Review Checkpoint Schedule
+### Checkpoint 1: Phase 2 Completion Review (Week of Aug 29, 2026)
+**Input:** All 41 CRITICAL fixes merged to develop
+**Scope:** Code review of CRITICAL-tier commits
+**Timeline:** 2–3 days after Phase 2 completes
+**Review Tasks:**
+- [ ] Verify all 41 CRITICAL findings have corresponding fixes in develop
+- [ ] Check test coverage: 1 test case per fix minimum (41+ tests)
+- [ ] Validate test case naming convention (INGESTION-<CATEGORY>-<NUMBER>)
+- [ ] Run test suite: `ctest --preset community-release -L ingestion -V`
+- [ ] ThreadSanitizer validation (data race fixes): 0 TSAN warnings
+- [ ] AddressSanitizer validation (resource leak fixes): 0 ASAN leak reports
+- [ ] Benchmark comparison: Baseline vs. current build (no regression)
+- [ ] Security scan: CodeQL no new issues
+- [ ] Check clang-format compliance (0 formatting issues)
+- [ ] Verify GitHub issue references or FUTURE_ENHANCEMENTS.md entries exist
+**Review Criteria Pass/Fail:**
+- **PASS:** All 41 CRITICAL fixes verified + tested + no regressions
+- **FAIL:** If test coverage <100%, regressions detected, or TSAN/ASAN warnings
+**Checkpoint 1 Output:**
+- `INGESTION_PHASE_5_CHECKPOINT_1.json`:
+{
+"checkpoint": 1,
+"date": "2026-08-29",
+"phase": 2,
+"scope": "41 CRITICAL fixes",
+"status": "PASS | FAIL",
+"findings": {
+"verified_fixes": 41,
+"test_coverage_percent": 100,
 
 ---
 
@@ -870,60 +924,6 @@ result += tokens[i];
 void ingestion_manager::processCheckpoint() {
 // No timing information
 }
-
----
-
-### INGESTION_PHASE_5_AGENT_SPECS.md
-
-*(file too large — key headings extracted)*
-
-# Ingestion Module Phase 5 — Review & CI Integration Agent Specs
-**Target Agent:** `themisdb-reviewer`
-**Scope:** Continuous review during Phases 2–4; final aggregation
-**Timeline:** Aug 29 – Sep 19, 2026 (continuous monitoring + 4 review checkpoints)
-**Deliverable:** INGESTION_PHASE_5_COMPLIANCE_REPORT.md + GA sign-off readiness
----
-## Agent Configuration
-Agent Type: themisdb-reviewer
-Focus Area: ingestion module gap closure
-Scope: Continuous code review + aggregated compliance reporting
-Entry Point: Monitor develop branch for Phase 2–4 commits
-Review Checkpoints: 4 gates (one per week)
-Output Pattern: Per-checkpoint review summary + final compliance report
-Validation: Benchmark regression analysis, test coverage correlation, security assessment
-Merge Target: develop (read-only; flag issues in PR comments)
-Report: INGESTION_PHASE_5_COMPLIANCE_REPORT.md
----
-## Review Checkpoint Schedule
-### Checkpoint 1: Phase 2 Completion Review (Week of Aug 29, 2026)
-**Input:** All 41 CRITICAL fixes merged to develop
-**Scope:** Code review of CRITICAL-tier commits
-**Timeline:** 2–3 days after Phase 2 completes
-**Review Tasks:**
-- [ ] Verify all 41 CRITICAL findings have corresponding fixes in develop
-- [ ] Check test coverage: 1 test case per fix minimum (41+ tests)
-- [ ] Validate test case naming convention (INGESTION-<CATEGORY>-<NUMBER>)
-- [ ] Run test suite: `ctest --preset community-release -L ingestion -V`
-- [ ] ThreadSanitizer validation (data race fixes): 0 TSAN warnings
-- [ ] AddressSanitizer validation (resource leak fixes): 0 ASAN leak reports
-- [ ] Benchmark comparison: Baseline vs. current build (no regression)
-- [ ] Security scan: CodeQL no new issues
-- [ ] Check clang-format compliance (0 formatting issues)
-- [ ] Verify GitHub issue references or FUTURE_ENHANCEMENTS.md entries exist
-**Review Criteria Pass/Fail:**
-- **PASS:** All 41 CRITICAL fixes verified + tested + no regressions
-- **FAIL:** If test coverage <100%, regressions detected, or TSAN/ASAN warnings
-**Checkpoint 1 Output:**
-- `INGESTION_PHASE_5_CHECKPOINT_1.json`:
-{
-"checkpoint": 1,
-"date": "2026-08-29",
-"phase": 2,
-"scope": "41 CRITICAL fixes",
-"status": "PASS | FAIL",
-"findings": {
-"verified_fixes": 41,
-"test_coverage_percent": 100,
 
 ---
 

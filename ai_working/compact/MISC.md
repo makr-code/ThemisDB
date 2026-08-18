@@ -12,24 +12,20 @@
 
 ## Source Files
 
+- `winget-packaging-plan.md` (2026-08-18, 723 B)
+- `wire_protocol_server_compile_fix_plan_2026-06-21.md` (2026-08-18, 574 B)
+- `workflow_analysis_report.txt` (2026-08-18, 10,478 B)
+- `workflow_validation_report.txt` (2026-08-18, 35,720 B)
+- `utils_benchmark_results.json` (2026-08-18, 3,703 B)
+- `vctools_user_env_backup.txt` (2026-08-18, 15 B)
+- `vcvars64-env.txt` (2026-08-18, 18,334 B)
+- `vcvars_after_unset.txt` (2026-08-18, 1,986 B)
 - `vsdevcmd-env.txt` (2026-08-18, 8,289 B)
 - `vulkan_detection_gpu_usage_fix_plan_2026-05-17.md` (2026-08-18, 972 B)
 - `vulkan_reference_pipeline_ann_llama_plan_2026-05-17.md` (2026-08-18, 1,381 B)
 - `w1-s13-plan.txt` (2026-08-18, 324 B)
 - `w5-index-batch-plan.txt` (2026-08-18, 861 B)
 - `w5-sharding-plan.txt` (2026-08-18, 489 B)
-- `winget-packaging-plan.md` (2026-08-18, 723 B)
-- `wire_protocol_server_compile_fix_plan_2026-06-21.md` (2026-08-18, 574 B)
-- `workflow_analysis_report.txt` (2026-08-18, 10,478 B)
-- `workflow_validation_report.txt` (2026-08-18, 35,720 B)
-- `tmp_tracking_priorities_comment.md` (2026-08-18, 3,051 B)
-- `tmp_tracking_stub_priorities.md` (2026-08-18, 4,721 B)
-- `unity-namespace-refactoring-plan.md` (2026-08-18, 6,666 B)
-- `unity_build_analysis.json` (2026-08-18, 14,924 B)
-- `utils_benchmark_results.json` (2026-08-18, 3,703 B)
-- `vctools_user_env_backup.txt` (2026-08-18, 15 B)
-- `vcvars64-env.txt` (2026-08-18, 18,334 B)
-- `vcvars_after_unset.txt` (2026-08-18, 1,986 B)
 - `test_scan_quick.json` (2026-08-18, 15,810,135 B)
 - `tmp_ai_blueprint_4931.md` (2026-08-18, 508 B)
 - `tmp_api_blueprint.md` (2026-08-18, 252 B)
@@ -37,6 +33,10 @@
 - `tmp_scraper_blueprint.md` (2026-08-18, 556 B)
 - `tmp_tensor_blueprint.md` (2026-08-18, 444 B)
 - `tmp_tracker_new_modules.md` (2026-08-18, 360 B)
+- `tmp_tracking_priorities_comment.md` (2026-08-18, 3,051 B)
+- `tmp_tracking_stub_priorities.md` (2026-08-18, 4,721 B)
+- `unity-namespace-refactoring-plan.md` (2026-08-18, 6,666 B)
+- `unity_build_analysis.json` (2026-08-18, 14,924 B)
 - `test_scan_include.json` (2026-08-18, 15,810,134 B)
 - `test_report_quick.json` (2026-08-18, 15,809,288 B)
 - `test_report_quick.md` (2026-08-18, 312 B)
@@ -52,9 +52,9 @@
 - `template_update_results.json` (2026-08-18, 94 B)
 - `tensor_graph_llama_e2e_plan_2026-06-07.md` (2026-08-18, 11,114 B)
 - `server_benchmark_module_regrouping_plan_2026-06-15.md` (2026-08-18, 993 B)
-- `scan_tests.json` (2026-08-18, 84,863,612 B)
 - `scanner_improvements_mapping.md` (2026-08-18, 5,157 B)
 - `scanner_integration_guide.md` (2026-08-18, 7,348 B)
+- `scan_tests.json` (2026-08-18, 84,863,612 B)
 - `scan_src.json` (2026-08-18, 57,616,190 B)
 - `scan_include.json` (2026-08-18, 13,348,836 B)
 - `scan_results.md` (2026-08-18, 148 B)
@@ -62,10 +62,10 @@
 - `scan_graph_with_impact.json` (2026-08-18, 851,541 B)
 - `scan_full.json` (2026-08-18, 44,886,537 B)
 - `scan_benchmarks.json` (2026-08-18, 8,503,660 B)
-- `sample_validation_metadata.json` (2026-08-18, 14,303 B)
 - `sample_validation_metadata_src.json` (2026-08-18, 36,875 B)
 - `sample_validation_assessment_src.json` (2026-08-18, 58,008 B)
 - `sample_validation_assessment_src.md` (2026-08-18, 22,854 B)
+- `sample_validation_metadata.json` (2026-08-18, 14,303 B)
 - `phase_1_4_enhancement_results.json` (2026-08-18, 1,065 B)
 - `pipeline_metrics.json` (2026-08-18, 181 B)
 - `pipeline_report.md` (2026-08-18, 1,258 B)
@@ -98,26 +98,27 @@
 - `fp_tuning_delta_report.json` (2026-08-18, 7,553 B)
 - `fp_tuning_delta_report.md` (2026-08-18, 2,854 B)
 - `full_scan_log.txt` (2026-08-18, 531 B)
-- `docs_module_alignment_report_2026-05-31.json` (2026-08-18, 59,046 B)
-- `docs_module_alignment_report_2026-05-31.md` (2026-08-18, 1,155 B)
-- `dokifi_level_orchestration_example.md` (2026-08-18, 6,113 B)
 - `dokifi_scope_limiting_examples.md` (2026-08-18, 6,881 B)
 - `developer_docs_inventory.json` (2026-08-18, 320,164 B)
 - `developer_docs_inventory_report.md` (2026-08-18, 78,052 B)
+- `docs_module_alignment_report_2026-05-31.json` (2026-08-18, 59,046 B)
+- `docs_module_alignment_report_2026-05-31.md` (2026-08-18, 1,155 B)
+- `dokifi_level_orchestration_example.md` (2026-08-18, 6,113 B)
 - `ctest_llm_adapter_fix_plan_2026-06-18.md` (2026-08-18, 1,160 B)
 - `cmake_config_after_unset.txt` (2026-08-18, 45,824 B)
 - `cmt_7503_verification_report.json` (2026-08-18, 11,307 B)
 - `benchmark_module_regrouping_plan_2026-06-15.md` (2026-08-18, 883 B)
 - `cascade_test_2026-06-25.md` (2026-08-18, 4,345 B)
+- `b04_grpc_numeric_in_hardening_plan_2026-06-18.md` (2026-08-18, 1,242 B)
+- `backup_integrity_followup_plan_2026-07-19.md` (2026-08-18, 876 B)
 - `automation_completion_report.json` (2026-08-18, 2,402 B)
 - `automation_completion_summary.json` (2026-08-18, 3,381 B)
 - `awesome-cpp-themisdb-evaluierung.md` (2026-08-18, 29,815 B)
 - `b04_grpc_error_mapping_plan_2026-06-18.md` (2026-08-18, 1,026 B)
-- `b04_grpc_numeric_in_hardening_plan_2026-06-18.md` (2026-08-18, 1,242 B)
-- `backup_integrity_followup_plan_2026-07-19.md` (2026-08-18, 876 B)
 - `active_stubs.txt` (2026-08-18, 31,289 B)
 - `adaptive_thinking_llama_inference_design_plan_v1_22_2026-05-29.md` (2026-08-18, 8,130 B)
 - `all_issues_created.json` (2026-08-18, 140 B)
+- `WORKFLOW_ANALYSIS_REPORT.md` (2026-08-18, 16,163 B)
 - `WORKFLOW_COMPLETION_REPORT.md` (2026-08-18, 8,940 B)
 - `WORKFLOW_CONFIGURATION_SUMMARY.md` (2026-08-18, 8,468 B)
 - `WORKFLOW_FIX_PLAN.md` (2026-08-18, 12,439 B)
@@ -132,32 +133,32 @@
 - `WEEK2_QUICK_REFERENCE.md` (2026-08-18, 9,138 B)
 - `WORKFLOW_ACTIVATION_REPORT.md` (2026-08-18, 7,539 B)
 - `WORKFLOW_ANALYSIS_INDEX.md` (2026-08-18, 8,948 B)
-- `WORKFLOW_ANALYSIS_REPORT.md` (2026-08-18, 16,163 B)
+- `VOICE_MODULE_5683_VALIDATION_REPORT.md` (2026-08-18, 16,549 B)
+- `VALIDATION_ASSESSMENT_GUIDE.md` (2026-08-18, 5,939 B)
 - `VERIFICATION_CHECKLIST.md` (2026-08-18, 10,202 B)
 - `VERIFICATION_REPORT.md` (2026-08-18, 4,849 B)
 - `VOICE_ANALYSIS_INDEX.md` (2026-08-18, 7,051 B)
 - `VOICE_ANALYSIS_SUMMARY.txt` (2026-08-18, 8,036 B)
 - `VOICE_DUPLICATE_SYMBOLS_ANALYSIS.md` (2026-08-18, 10,954 B)
-- `VOICE_MODULE_5683_VALIDATION_REPORT.md` (2026-08-18, 16,549 B)
 - `V2_4_0_DOCUMENTATION_CONSOLIDATION_SUMMARY.md` (2026-08-18, 10,248 B)
 - `VALIDATED_REMEDIATION_BACKLOG.md` (2026-08-18, 780 B)
 - `VALIDATION_ANALYSIS_REPORT.json` (2026-08-18, 18,638 B)
 - `VALIDATION_ANALYSIS_SUMMARY.md` (2026-08-18, 1,440 B)
-- `VALIDATION_ASSESSMENT_GUIDE.md` (2026-08-18, 5,939 B)
 - `USER_STORAGE_ENCRYPTION_COMPLETE_INDEX.md` (2026-08-18, 16,572 B)
 - `USER_STORAGE_ENCRYPTION_INITIATIVE_SUMMARY.md` (2026-08-18, 15,606 B)
 - `USER_STORAGE_ENCRYPTION_PHASES_2_6_ROADMAP.md` (2026-08-18, 21,861 B)
+- `TRANSACTION_MODULE_STATUS_VALIDATION_2026_08_07.md` (2026-08-18, 15,139 B)
+- `TRANSACTION_SCOPE_ANALYSIS.md` (2026-08-18, 11,284 B)
 - `TRANSACTION_SCOPE_FIXES_REPORT.md` (2026-08-18, 14,910 B)
 - `TRANSACTION_SCOPE_REMEDIATION_INDEX.md` (2026-08-18, 9,507 B)
 - `UNITY_BUILD_VALIDATION_SESSION_REPORT.md` (2026-08-18, 8,526 B)
-- `TRANSACTION_ISSUE_5679_CLOSURE_SUMMARY.md` (2026-08-18, 6,155 B)
-- `TRANSACTION_MODULE_STATUS_VALIDATION_2026_08_07.md` (2026-08-18, 15,139 B)
-- `TRANSACTION_SCOPE_ANALYSIS.md` (2026-08-18, 11,284 B)
+- `TIER1_MODULE_HARDENING_PLAN.md` (2026-08-18, 2,672 B)
 - `TIER1_PRIORITY_MATRIX.md` (2026-08-18, 11,295 B)
 - `TIER2_MODULE_HARDENING_GUIDE.md` (2026-08-18, 14,781 B)
 - `TODO_DEMO_RUNTIME_FIXES_2026-05-28.md` (2026-08-18, 5,706 B)
 - `TODO_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md` (2026-08-18, 5,066 B)
 - `TODO_TENSOR.md` (2026-08-18, 4,910 B)
+- `TRANSACTION_ISSUE_5679_CLOSURE_SUMMARY.md` (2026-08-18, 6,155 B)
 - `TENSOR_Q3_QUICK_REFERENCE.md` (2026-08-18, 9,390 B)
 - `TEST_BENCHMARK_MANIFEST.md` (2026-08-18, 13,715 B)
 - `THEMISDB_COPILOT_GRAPH_RAG_ARCH_ANALYSIS_2026-06-10.md` (2026-08-18, 926 B)
@@ -166,16 +167,13 @@
 - `THREAD_SAFETY_FIXES_SUMMARY.md` (2026-08-18, 6,893 B)
 - `THREAD_SAFETY_SUMMARY.md` (2026-08-18, 7,081 B)
 - `THREAD_SAFETY_VERIFICATION_REPORT.md` (2026-08-18, 20,575 B)
-- `TIER1_MODULE_HARDENING_PLAN.md` (2026-08-18, 2,672 B)
 - `STUB_REMEDIATION_SUMMARY.md` (2026-08-18, 7,122 B)
 - `SYSTEM_OVERVIEW.md` (2026-08-18, 17,440 B)
 - `TENSOR_A3_CHECKPOINT_REPORT.md` (2026-08-18, 15,316 B)
 - `TENSOR_A3_VALIDATION_STRATEGY.md` (2026-08-18, 22,585 B)
-- `SPRINT_BACKLOG_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md` (2026-08-18, 6,733 B)
 - `START_HERE.md` (2026-08-18, 6,064 B)
 - `START_HERE_PHASES_1A_5.md` (2026-08-18, 11,557 B)
 - `STATUS_UPDATE_HONEST_ASSESSMENT.md` (2026-08-18, 7,974 B)
-- `SPRINT_8_MOVE_REMEDIATION_GUIDE.md` (2026-08-18, 11,614 B)
 - `SPRINT_8_MOVE_SEMANTICS_KICKOFF.md` (2026-08-18, 8,251 B)
 - `SPRINT_8_MOVE_SEMANTICS_REMEDIATION_GUIDE.md` (2026-08-18, 10,864 B)
 - `SPRINT_8_PHASE_1B_PLAN.md` (2026-08-18, 7,451 B)
@@ -185,6 +183,7 @@
 - `SPRINT_8_PHASE_2B_TYPE_B_C_REMEDIATION.md` (2026-08-18, 15,969 B)
 - `SPRINT_8_PHASE_2_5_ROADMAP.md` (2026-08-18, 10,318 B)
 - `SPRINT_8_REMEDIATION_REPORT.md` (2026-08-18, 1,448 B)
+- `SPRINT_BACKLOG_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md` (2026-08-18, 6,733 B)
 - `SPRINT_8_COMPLETION_SUMMARY.md` (2026-08-18, 10,649 B)
 - `SPRINT_8_DELIVERY_SUMMARY.md` (2026-08-18, 10,522 B)
 - `SPRINT_8_EXECUTIVE_SUMMARY.md` (2026-08-18, 6,455 B)
@@ -192,17 +191,16 @@
 - `SPRINT_8_INDEX.md` (2026-08-18, 9,111 B)
 - `SPRINT_8_INTERIM_STATUS_REPORT.md` (2026-08-18, 10,309 B)
 - `SPRINT_8_MOVE_KICKOFF.md` (2026-08-18, 7,946 B)
+- `SPRINT_8_MOVE_REMEDIATION_GUIDE.md` (2026-08-18, 11,614 B)
 - `SPRINT_7_EXECUTIVE_SUMMARY.txt` (2026-08-18, 8,386 B)
 - `SPRINT_7_PHASE_1_PREPARATION.md` (2026-08-18, 1,756 B)
-- `SESSION_SUMMARY.md` (2026-08-18, 8,691 B)
 - `SESSION_SUMMARY.txt` (2026-08-18, 11,688 B)
 - `SESSION_SUMMARY_2026_08_08.md` (2026-08-18, 12,968 B)
 - `SESSION_SUMMARY_2026_08_10.md` (2026-08-18, 13,625 B)
 - `SHARDING_MODULE_STATUS_2026-07-18.md` (2026-08-18, 14,170 B)
 - `SMART_HEADER_FORMAT_GUIDE.md` (2026-08-18, 10,123 B)
 - `SOURCECODE_DOCUMENTATION_7PHASE_TEMPLATE.md` (2026-08-18, 9,006 B)
-- `SCANNER_LANDSCAPE.txt` (2026-08-18, 11,148 B)
-- `SCANNER_LOGGING_ENHANCEMENT_2026-06-02.md` (2026-08-18, 11,182 B)
+- `SESSION_SUMMARY.md` (2026-08-18, 8,691 B)
 - `SCANNER_PIPELINE_OOP_DESIGN.md` (2026-08-18, 23,214 B)
 - `SCANNER_REFACTOR_PLAN_2026-05-21.md` (2026-08-18, 682 B)
 - `SCANNER_TOOLSET_OVERVIEW.md` (2026-08-18, 15,494 B)
@@ -220,14 +218,16 @@
 - `SCANNER_FEEDBACK_REPORT.json` (2026-08-18, 32,803 B)
 - `SCANNER_FEEDBACK_REPORT.md` (2026-08-18, 20,089 B)
 - `SCANNER_IMPROVEMENT_TODO_2026-06-02.md` (2026-08-18, 14,687 B)
+- `SCANNER_LANDSCAPE.txt` (2026-08-18, 11,148 B)
+- `SCANNER_LOGGING_ENHANCEMENT_2026-06-02.md` (2026-08-18, 11,182 B)
 - `RESEARCH_BACKLOG_TRACKER.md` (2026-08-18, 10,541 B)
 - `ROOTCAUSE_ANALYSIS_FP_CATEGORIES.json` (2026-08-18, 5,718 B)
 - `ROOTCAUSE_ANALYSIS_MARKDOWN.md` (2026-08-18, 3,680 B)
-- `README.md` (2026-08-18, 4,061 B)
 - `README_CP1_REMEDIATION.md` (2026-08-18, 7,408 B)
 - `README_INGESTION_COORDINATION.txt` (2026-08-18, 8,089 B)
 - `RELEASE_APPROVER_QUICK_REFERENCE.md` (2026-08-18, 6,235 B)
 - `REMEDIATION_EXECUTIVE_SUMMARY.md` (2026-08-18, 10,135 B)
+- `QUICKSTART.md` (2026-08-18, 6,073 B)
 - `QUICKWINS_PR_PREP_2026-05-31.md` (2026-08-18, 4,498 B)
 - `QUICKWINS_QW28_QW36_DOCUMENTATION.md` (2026-08-18, 21,725 B)
 - `QUICK_REFERENCE_PHASES_1A_5.md` (2026-08-18, 6,618 B)
@@ -236,10 +236,10 @@
 - `RAII_COMPLETION_SUMMARY.md` (2026-08-18, 9,565 B)
 - `RAII_FIX_PLAN.md` (2026-08-18, 2,566 B)
 - `RAII_WORK_INDEX.md` (2026-08-18, 9,238 B)
+- `README.md` (2026-08-18, 4,061 B)
+- `QUERY_MODULE_DEVELOPMENT_STATUS_CLOSURE.md` (2026-08-18, 14,124 B)
 - `QUERY_OPTIMIZER_THREAD_SAFETY_IMPLEMENTATION.md` (2026-08-18, 14,947 B)
 - `QUERY_PHASES_1_6_DASHBOARD.md` (2026-08-18, 22,120 B)
-- `QUICKSTART.md` (2026-08-18, 6,073 B)
-- `QUERY_MODULE_DEVELOPMENT_STATUS_CLOSURE.md` (2026-08-18, 14,124 B)
 - `Q3_2026_PHASE_2_VALIDATION_SUMMARY.md` (2026-08-18, 11,080 B)
 - `Q3_2026_QUICK_REFERENCE.md` (2026-08-18, 8,171 B)
 - `Q3_2026_VALIDATION_REPORT.md` (2026-08-18, 5,523 B)
@@ -260,6 +260,7 @@
 - `PHASE_D_PREPARATION_PLAN.md` (2026-08-18, 17,650 B)
 - `PLUGINS_PHASE_2_SUMMARY.md` (2026-08-18, 5,115 B)
 - `PLUGINS_ROADMAP_IMPLEMENTATION.md` (2026-08-18, 3,672 B)
+- `PHASE_A2_INDEX.md` (2026-08-18, 8,173 B)
 - `PHASE_A2_RESOLUTION_TRACKER.md` (2026-08-18, 12,582 B)
 - `PHASE_A2_RESOLUTION_TRACKER_1363.md` (2026-08-18, 12,582 B)
 - `PHASE_A2_REVIEW_FINDINGS.md` (2026-08-18, 7,498 B)
@@ -281,7 +282,7 @@
 - `PHASE_A2_EXECUTIVE_SUMMARY.md` (2026-08-18, 9,674 B)
 - `PHASE_A2_EXECUTIVE_SUMMARY.txt` (2026-08-18, 7,134 B)
 - `PHASE_A2_EXECUTIVE_SUMMARY_5432.md` (2026-08-18, 9,674 B)
-- `PHASE_A2_INDEX.md` (2026-08-18, 8,173 B)
+- `PHASE_5_TASK_TRACKING.md` (2026-08-18, 15,890 B)
 - `PHASE_6B_COMPLETE_INDEX.md` (2026-08-18, 14,220 B)
 - `PHASE_6B_COMPLETE_INDEX_9565.md` (2026-08-18, 14,220 B)
 - `PHASE_6B_DELIVERY_SUMMARY.md` (2026-08-18, 6,825 B)
@@ -292,7 +293,6 @@
 - `PHASE_5_EXECUTIVE_SUMMARY.md` (2026-08-18, 11,682 B)
 - `PHASE_5_LLM_WIKI_HARDENING_DETAILED_PLAN.md` (2026-08-18, 19,758 B)
 - `PHASE_5_READINESS_REPORT.txt` (2026-08-18, 19,412 B)
-- `PHASE_5_TASK_TRACKING.md` (2026-08-18, 15,890 B)
 - `PHASE_3_PLUGIN_EXTERNALIZATION_DETAILED_PLAN.md` (2026-08-18, 19,797 B)
 - `PHASE_3_PR_PREPARATION_PLAN.md` (2026-08-18, 14,497 B)
 - `PHASE_4_5_COMPLETION_SUMMARY.md` (2026-08-18, 15,776 B)
@@ -308,7 +308,6 @@
 - `PHASE_2_INTEGRATION_TESTING_PLAN.md` (2026-08-18, 10,424 B)
 - `PHASE_2_LAUNCH_PLAN_2026-08-18.md` (2026-08-18, 10,875 B)
 - `PHASE_2_PERFORMANCE_SCALABILITY_DETAILED_PLAN.md` (2026-08-18, 18,843 B)
-- `PHASE_2_2_DOCS_UPDATE.md` (2026-08-18, 13,323 B)
 - `PHASE_2_3_DELIVERY_SUMMARY.md` (2026-08-18, 15,445 B)
 - `PHASE_2_3_DELIVERY_SUMMARY_7284.md` (2026-08-18, 15,445 B)
 - `PHASE_2_3_INDEX.md` (2026-08-18, 10,565 B)
@@ -316,12 +315,12 @@
 - `PHASE_2_3_ONTOLOGY_MANAGER_IMPLEMENTATION.md` (2026-08-18, 9,060 B)
 - `PHASE_2_3_VERIFICATION_SUMMARY.md` (2026-08-18, 12,561 B)
 - `PHASE_2_3_VERIFICATION_SUMMARY_9462.md` (2026-08-18, 12,561 B)
-- `PHASE_2.2_QUICK_REFERENCE.txt` (2026-08-18, 6,808 B)
 - `PHASE_2.2_SUMMARY.md` (2026-08-18, 15,047 B)
 - `PHASE_2.2_VERIFICATION.md` (2026-08-18, 10,354 B)
 - `PHASE_2.4_COMPLETE_STATUS_SUMMARY.md` (2026-08-18, 9,740 B)
 - `PHASE_2B_DELIVERY_SUMMARY.md` (2026-08-18, 16,934 B)
 - `PHASE_2B_DELIVERY_SUMMARY_2341.md` (2026-08-18, 16,934 B)
+- `PHASE_2_2_DOCS_UPDATE.md` (2026-08-18, 13,323 B)
 - `PHASE_1_6_INTERIM_SUMMARY.md` (2026-08-18, 6,387 B)
 - `PHASE_1_BUILD_VALIDATION_LOG.md` (2026-08-18, 19,680 B)
 - `PHASE_1_CODEBASE_READINESS_CHECKPOINT.md` (2026-08-18, 8,817 B)
@@ -331,7 +330,7 @@
 - `PHASE_1_VERIFICATION_INDEX.md` (2026-08-18, 9,337 B)
 - `PHASE_2.2_ARTIFACTS_INDEX.md` (2026-08-18, 8,370 B)
 - `PHASE_2.2_CODE_INSPECTION_LOG.md` (2026-08-18, 12,589 B)
-- `PHASE_11_COMPLETION_SUMMARY.md` (2026-08-18, 10,823 B)
+- `PHASE_2.2_QUICK_REFERENCE.txt` (2026-08-18, 6,808 B)
 - `PHASE_11_FINE_TUNING_RESULTS.md` (2026-08-18, 10,088 B)
 - `PHASE_11_FP_ANALYSIS_REPORT.md` (2026-08-18, 7,636 B)
 - `PHASE_1A_ACTION_CHECKLIST.md` (2026-08-18, 14,614 B)
@@ -340,18 +339,21 @@
 - `PHASE_0_3_COMPLETION_REPORT.md` (2026-08-18, 12,961 B)
 - `PHASE_0_4_COMPLETION_REPORT.md` (2026-08-18, 15,962 B)
 - `PHASE_0_X_UNIFIED_SUMMARY.md` (2026-08-18, 17,694 B)
+- `PHASE_11_COMPLETION_SUMMARY.md` (2026-08-18, 10,823 B)
+- `P1_BLOCKER_ESCALATION_SUMMARY.md` (2026-08-18, 6,757 B)
 - `P2_D05_QUICK_REF.md` (2026-08-18, 2,144 B)
 - `ONNX_CLIP_DEVELOPMENT_STATUS_COMPLETION_REPORT.md` (2026-08-18, 10,289 B)
 - `ONNX_CLIP_V0.3.0_MASTER_PLAN.md` (2026-08-18, 6,216 B)
 - `ORCHESTRATION_GUIDE.md` (2026-08-18, 13,881 B)
 - `P1_BLOCKER_ESCALATION_LOG.md` (2026-08-18, 7,908 B)
-- `P1_BLOCKER_ESCALATION_SUMMARY.md` (2026-08-18, 6,757 B)
-- `NEXT_PHASE_30_60_90_BACKLOG.md` (2026-08-18, 3,376 B)
 - `NEXT_PHASE_KICKOFF_SUMMARY.md` (2026-08-18, 9,628 B)
 - `NEXT_PHASE_STATUS.md` (2026-08-18, 13,867 B)
 - `NEXT_QUICKWINS_TODO_2026-05-31.md` (2026-08-18, 60,388 B)
 - `NEXT_STEPS_SUMMARY.md` (2026-08-18, 6,313 B)
 - `NEXT_STEPS_SUMMARY_2763.md` (2026-08-18, 6,313 B)
+- `NEXT_PHASE_30_60_90_BACKLOG.md` (2026-08-18, 3,376 B)
+- `MODULE_HARDENING_TIER1_GUIDE.md` (2026-08-18, 9,373 B)
+- `MODULE_MATURITY_MATRIX.md` (2026-08-18, 10,868 B)
 - `MODULE_MATURITY_REPORT_v1.md` (2026-08-18, 4,364 B)
 - `MODULE_MATURITY_v1.json` (2026-08-18, 159,589 B)
 - `MODULE_README_AUDIT_AND_REMEDIATION_2026_08_10.md` (2026-08-18, 11,520 B)
@@ -362,20 +364,20 @@
 - `MASTER_MANIFEST.md` (2026-08-18, 962 B)
 - `MERGE_GATE_AUDIT_LOG.md` (2026-08-18, 1,349 B)
 - `MODULE_DOCUMENTATION_GUIDE.md` (2026-08-18, 10,198 B)
-- `MODULE_HARDENING_TIER1_GUIDE.md` (2026-08-18, 9,373 B)
-- `MODULE_MATURITY_MATRIX.md` (2026-08-18, 10,868 B)
-- `LLM_ANALYSIS_INDEX.md` (2026-08-18, 7,840 B)
-- `L1_MODULE_UPDATE_PLAN.json` (2026-08-18, 2,708 B)
 - `L2_REPORT_COMPLETE.md` (2026-08-18, 16,206 B)
 - `L3_ARCHITECTURE_SECTION.md` (2026-08-18, 2,641 B)
 - `L3_CHANGELOG_SECTION.md` (2026-08-18, 2,062 B)
 - `L3_README_SECTION.md` (2026-08-18, 1,821 B)
 - `L3_ROOT_DOCUMENTATION_UPDATE_PLAN.md` (2026-08-18, 10,025 B)
-- `L0_scan_log.txt` (2026-08-18, 1,255,085 B)
+- `LLM_ANALYSIS_INDEX.md` (2026-08-18, 7,840 B)
 - `L1_MODULE_ORCHESTRATION_REPORT.json` (2026-08-18, 6,056 B)
+- `L1_MODULE_UPDATE_PLAN.json` (2026-08-18, 2,708 B)
+- `L0_scan_log.txt` (2026-08-18, 1,255,085 B)
+- `L0_5_STATISTICS_REPORT.md` (2026-08-18, 14,712 B)
 - `L0_CROSS_MODULE_ANALYSIS.md` (2026-08-18, 8,439 B)
 - `L0_ORCHESTRATION_REPORT.md` (2026-08-18, 12,088 B)
 - `L0_README.md` (2026-08-18, 8,769 B)
+- `ISSUE_SET.md` (2026-08-18, 26,986 B)
 - `ISSUE_SET_MISSING_IMPLEMENTIERUNGEN_2026-05-25.json` (2026-08-18, 3,175 B)
 - `ISSUE_SET_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md` (2026-08-18, 9,582 B)
 - `KERNEL_CLASSIFICATION_REVIEW.md` (2026-08-18, 21,189 B)
@@ -383,9 +385,6 @@
 - `L0_5_DELIVERY_REPORT.md` (2026-08-18, 11,557 B)
 - `L0_5_EXECUTIVE_SUMMARY.md` (2026-08-18, 10,023 B)
 - `L0_5_REMEDIATION_PLAYBOOK.md` (2026-08-18, 9,282 B)
-- `L0_5_STATISTICS_REPORT.md` (2026-08-18, 14,712 B)
-- `ISSUE_5622_VALIDATION_REPORT.md` (2026-08-18, 18,821 B)
-- `ISSUE_5640_DELIVERY_SUMMARY.md` (2026-08-18, 7,567 B)
 - `ISSUE_5651_CLOSURE_SUMMARY.md` (2026-08-18, 11,271 B)
 - `ISSUE_5659_CLOSURE_SUMMARY.md` (2026-08-18, 16,237 B)
 - `ISSUE_5660_CLOSURE_SUMMARY.md` (2026-08-18, 10,559 B)
@@ -394,9 +393,6 @@
 - `ISSUE_5674_CLOSURE_SUMMARY.md` (2026-08-18, 16,628 B)
 - `ISSUE_5676_CLOSURE_SUMMARY.md` (2026-08-18, 11,960 B)
 - `ISSUE_5678_COMPLETION_SUMMARY.md` (2026-08-18, 11,333 B)
-- `ISSUE_SET.md` (2026-08-18, 26,986 B)
-- `INGESTION_KICKOFF_SUMMARY.md` (2026-08-18, 12,320 B)
-- `INGESTION_PHASE_1_VERIFICATION_REPORT.json` (2026-08-18, 15,540 B)
 - `INTEGRATION_CHECKLIST_2026-06-10.md` (2026-08-18, 6,268 B)
 - `INTEGRATION_ROLLBACK_PLAYBOOK.md` (2026-08-18, 11,558 B)
 - `INTELLISENSE_SCANNER_BEST_PRACTICE_2026-05-21.md` (2026-08-18, 2,636 B)
@@ -404,12 +400,16 @@
 - `ISSUE_5622_CLOSURE_INDEX.md` (2026-08-18, 7,625 B)
 - `ISSUE_5622_CLOSURE_REPORT.md` (2026-08-18, 9,816 B)
 - `ISSUE_5622_GITHUB_CLOSURE_COMMENT.md` (2026-08-18, 5,334 B)
-- `IMPORTERS_SESSION_SUMMARY_2026-08-15.md` (2026-08-18, 11,169 B)
+- `ISSUE_5622_VALIDATION_REPORT.md` (2026-08-18, 18,821 B)
+- `ISSUE_5640_DELIVERY_SUMMARY.md` (2026-08-18, 7,567 B)
 - `INDEX_START_HERE_2026_08_08.md` (2026-08-18, 10,882 B)
 - `INGESTION_EXECUTIVE_SUMMARY.txt` (2026-08-18, 12,655 B)
+- `INGESTION_KICKOFF_SUMMARY.md` (2026-08-18, 12,320 B)
+- `INGESTION_PHASE_1_VERIFICATION_REPORT.json` (2026-08-18, 15,540 B)
 - `IMPORTERS_PHASES_3_6_DISPATCH_PLAN.md` (2026-08-18, 18,125 B)
-- `IMPORTERS_DISPATCH_MANIFEST_2026-08-15.md` (2026-08-18, 11,662 B)
+- `IMPORTERS_SESSION_SUMMARY_2026-08-15.md` (2026-08-18, 11,169 B)
 - `IMPORTERS_LIVE_COORDINATION_STATUS_2026-08-15.md` (2026-08-18, 13,177 B)
+- `IMPORTERS_DISPATCH_MANIFEST_2026-08-15.md` (2026-08-18, 11,662 B)
 - `HIGH1_BLOCKER_RESOLUTION_SUMMARY.md` (2026-08-18, 10,616 B)
 - `HIGH_A_REMEDIATION_SUMMARY.md` (2026-08-18, 16,860 B)
 - `HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (2026-08-18, 25,420 B)
@@ -426,23 +426,26 @@
 - `GITHUB_ISSUES_VERIFIED_FINDINGS.json` (2026-08-18, 10,153 B)
 - `GATE_VERIFICATION_FRAMEWORK_ACCESS_MODEL.md` (2026-08-18, 9,470 B)
 - `FLASH_ATTENTION_E8_PILOT_VALIDATION.md` (2026-08-18, 25,245 B)
-- `EPIC_5517_RESEARCH_REVIEW_CONSOLIDATION.md` (2026-08-18, 13,641 B)
-- `EPIC_5517_START_HERE.md` (2026-08-18, 11,772 B)
 - `EVALUATION_MODULE_HARDENING_SUMMARY.md` (2026-08-18, 11,639 B)
 - `EXECUTIVE_DASHBOARD.md` (2026-08-18, 13,028 B)
 - `EXTERNAL_SUBMODULE_ABGRENZUNG_ANALYSIS.md` (2026-08-18, 6,884 B)
 - `FALSIFICATION_TEST_RESULTS.md` (2026-08-18, 6,345 B)
-- `EPIC_001_PHASE_1_4_SPRINT_8_9.md` (2026-08-18, 5,274 B)
-- `EPIC_002_MODULE_HARDENING.md` (2026-08-18, 7,329 B)
-- `EPIC_003_PHASE_6_SCANNER.md` (2026-08-18, 8,100 B)
-- `EPIC_005_DISTRIBUTED_CONSISTENCY.md` (2026-08-18, 8,901 B)
-- `EPIC_3_4_PHASE_1_COMPLETION.md` (2026-08-18, 8,461 B)
 - `EPIC_3_4_PHASE_3_4_COMPLETION.md` (2026-08-18, 9,821 B)
 - `EPIC_5517_BRANCH_SETUP_GUIDE.md` (2026-08-18, 11,491 B)
 - `EPIC_5517_DOCUMENTATION_INDEX.md` (2026-08-18, 15,706 B)
 - `EPIC_5517_PHASE_1_COMPLETION_SUMMARY.md` (2026-08-18, 14,565 B)
 - `EPIC_5517_PR_VALIDATION_CHECKLIST.md` (2026-08-18, 12,427 B)
 - `EPIC_5517_QUICK_START.md` (2026-08-18, 9,157 B)
+- `EPIC_5517_RESEARCH_REVIEW_CONSOLIDATION.md` (2026-08-18, 13,641 B)
+- `EPIC_5517_START_HERE.md` (2026-08-18, 11,772 B)
+- `Du bist ein senior C++ Documentation Eng.md` (2026-08-18, 2,153 B)
+- `ENFORCEMENT_WAIVERS.md` (2026-08-18, 2,092 B)
+- `ENHANCED_ISSUES_EXAMPLE.md` (2026-08-18, 11,813 B)
+- `EPIC_001_PHASE_1_4_SPRINT_8_9.md` (2026-08-18, 5,274 B)
+- `EPIC_002_MODULE_HARDENING.md` (2026-08-18, 7,329 B)
+- `EPIC_003_PHASE_6_SCANNER.md` (2026-08-18, 8,100 B)
+- `EPIC_005_DISTRIBUTED_CONSISTENCY.md` (2026-08-18, 8,901 B)
+- `EPIC_3_4_PHASE_1_COMPLETION.md` (2026-08-18, 8,461 B)
 - `DOCKER_BUILD_VALIDATION_FINAL.md` (2026-08-18, 8,932 B)
 - `DOCUMENTATION_COMPLIANCE_REPORT.md` (2026-08-18, 21,526 B)
 - `DOCUMENTATION_GUIDELINES.md` (2026-08-18, 3,973 B)
@@ -450,12 +453,6 @@
 - `DOCUMENTATION_PROJECT_SUMMARY.md` (2026-08-18, 11,201 B)
 - `DOCUMENTATION_PROPAGATION_COMPLETION_REPORT.md` (2026-08-18, 13,120 B)
 - `DOC_BACKFILL_PLAN_20260604.md` (2026-08-18, 701 B)
-- `Du bist ein senior C++ Documentation Eng.md` (2026-08-18, 2,153 B)
-- `ENFORCEMENT_WAIVERS.md` (2026-08-18, 2,092 B)
-- `ENHANCED_ISSUES_EXAMPLE.md` (2026-08-18, 11,813 B)
-- `DELIVERY_SUMMARY_2026-08-08.md` (2026-08-18, 10,735 B)
-- `DELIVERY_SUMMARY_L1_L2_L3.md` (2026-08-18, 8,889 B)
-- `DEVELOPER_DOCS_MODULE_TODO_2026-05-31.md` (2026-08-18, 35,011 B)
 - `DEVELOPER_DOCS_PHASE_WORKLOAD.md` (2026-08-18, 9,212 B)
 - `DEVELOPMENT_OPPORTUNITIES.md` (2026-08-18, 13,747 B)
 - `DIAGNOSTIC_AUDIT.md` (2026-08-18, 15,573 B)
@@ -463,6 +460,12 @@
 - `DISTRIBUTED_KNOWLEDGE_PROJECT_SUMMARY.md` (2026-08-18, 12,054 B)
 - `DISTRIBUTED_KNOWLEDGE_VALIDATION_REPORT.md` (2026-08-18, 11,046 B)
 - `DISTRIBUTED_KNOWLEDGE_VALIDATION_SUMMARY.md` (2026-08-18, 3,033 B)
+- `D1-01_COMPLETION_EVIDENCE.md` (2026-08-18, 17,774 B)
+- `DELIVERABLES_SUMMARY_2026_08_08.md` (2026-08-18, 13,823 B)
+- `DELIVERY_SUMMARY_2026-08-08.md` (2026-08-18, 10,735 B)
+- `DELIVERY_SUMMARY_L1_L2_L3.md` (2026-08-18, 8,889 B)
+- `DEVELOPER_DOCS_MODULE_TODO_2026-05-31.md` (2026-08-18, 35,011 B)
+- `CP1_REMEDIATION_STATUS_2026_08_15_EOD.md` (2026-08-18, 10,878 B)
 - `CP1_RE_REVIEW_GATE_DECISION_2026-08-22.md` (2026-08-18, 11,712 B)
 - `CP1_STRATEGIC_BRIEFING.md` (2026-08-18, 14,221 B)
 - `CRITICAL_FINDINGS_VERIFICATION.md` (2026-08-18, 4,637 B)
@@ -470,34 +473,34 @@
 - `CRITICAL_FIXES_SUMMARY.md` (2026-08-18, 5,082 B)
 - `CROSS_MODULE_INTEGRATION_MAP.md` (2026-08-18, 11,893 B)
 - `CURRENT_SESSION_DEPLOYMENT.md` (2026-08-18, 13,143 B)
-- `D1-01_COMPLETION_EVIDENCE.md` (2026-08-18, 17,774 B)
-- `DELIVERABLES_SUMMARY_2026_08_08.md` (2026-08-18, 13,823 B)
-- `COPY_OVERHEAD_REDUCTION_DELIVERY.md` (2026-08-18, 8,919 B)
 - `CORE_QUICKWIN_PLAN_2026-05-27.md` (2026-08-18, 33,411 B)
 - `CORE_QUICKWIN_PLAN_2026-05-31_NEXT_BLOCKS.md` (2026-08-18, 14,943 B)
 - `CP1_CRITICAL1_DANGLING_POINTERS_COMPLETION.md` (2026-08-18, 9,923 B)
 - `CP1_EXECUTIVE_SUMMARY_FOR_LEADERSHIP.md` (2026-08-18, 11,962 B)
 - `CP1_MILESTONE_COORDINATION_SUMMARY_2026-08-22.md` (2026-08-18, 12,958 B)
 - `CP1_REMEDIATION_EXECUTIVE_SUMMARY.md` (2026-08-18, 12,602 B)
-- `CP1_REMEDIATION_STATUS_2026_08_15_EOD.md` (2026-08-18, 10,878 B)
+- `COPY_OVERHEAD_REDUCTION_DELIVERY.md` (2026-08-18, 8,919 B)
+- `CONSOLIDATION_PLAN.md` (2026-08-18, 15,304 B)
 - `CONSOLIDATION_REPAIR_PLAN.md` (2026-08-18, 11,787 B)
 - `CONSOLIDATION_STATUS.md` (2026-08-18, 9,077 B)
-- `CODE_MATURITY_INTEGRATION_INDEX.md` (2026-08-18, 14,468 B)
-- `CODE_REVIEW_FINDINGS.md` (2026-08-18, 17,078 B)
 - `COMMIT_MESSAGE_PHASE_C_VERIFICATION.txt` (2026-08-18, 6,224 B)
 - `COMMIT_PLAN_QUICKWINS_2026-05-31.md` (2026-08-18, 4,871 B)
 - `COMMIT_SUMMARY_QW1_QW41_2026-06-02.md` (2026-08-18, 4,366 B)
 - `COMPENDIUM_V2_4_0_UPDATE_GUIDE.md` (2026-08-18, 5,296 B)
-- `CONSOLIDATION_PLAN.md` (2026-08-18, 15,304 B)
-- `CMT_7502_EXECUTIVE_SUMMARY.txt` (2026-08-18, 8,776 B)
-- `CMT_7502_TODO_RECONCILIATION_REPORT.md` (2026-08-18, 9,746 B)
-- `CMT_7503_VERIFICATION_REPORT.md` (2026-08-18, 13,601 B)
-- `CMT_TODO_AUDIT_COMPLETE_INDEX.md` (2026-08-18, 10,852 B)
 - `CMT_TODO_AUDIT_EXECUTIVE_SUMMARY.md` (2026-08-18, 7,835 B)
 - `CMT_TODO_AUDIT_EXECUTIVE_SUMMARY_CP1.md` (2026-08-18, 7,676 B)
 - `CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md` (2026-08-18, 2,897 B)
 - `CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md` (2026-08-18, 5,787 B)
 - `CODE_MATURITY_HEADER_DOCUMENTATION.md` (2026-08-18, 19,254 B)
+- `CODE_MATURITY_INTEGRATION_INDEX.md` (2026-08-18, 14,468 B)
+- `CODE_REVIEW_FINDINGS.md` (2026-08-18, 17,078 B)
+- `CMT-CRITICAL-1-VERIFICATION-2026-08-15.md` (2026-08-18, 17,902 B)
+- `CMT-CRITICAL-1-VERIFICATION-INDEX.md` (2026-08-18, 10,447 B)
+- `CMT_7502_DATA_AUDIT.json` (2026-08-18, 9,960 B)
+- `CMT_7502_EXECUTIVE_SUMMARY.txt` (2026-08-18, 8,776 B)
+- `CMT_7502_TODO_RECONCILIATION_REPORT.md` (2026-08-18, 9,746 B)
+- `CMT_7503_VERIFICATION_REPORT.md` (2026-08-18, 13,601 B)
+- `CMT_TODO_AUDIT_COMPLETE_INDEX.md` (2026-08-18, 10,852 B)
 - `CLAUDE.md` (2026-08-18, 2,982 B)
 - `CLEANUP_2026-06-02.md` (2026-08-18, 2,721 B)
 - `CLUSTERED_ISSUES_REPORT.md` (2026-08-18, 19,107 B)
@@ -506,219 +509,28 @@
 - `CMT-CRITICAL-1-FINAL-STATUS-2026-08-15.md` (2026-08-18, 12,016 B)
 - `CMT-CRITICAL-1-QUICK-REFERENCE.md` (2026-08-18, 4,753 B)
 - `CMT-CRITICAL-1-TEST-ROADMAP-2026-08-15.md` (2026-08-18, 13,175 B)
-- `CMT-CRITICAL-1-VERIFICATION-2026-08-15.md` (2026-08-18, 17,902 B)
-- `CMT-CRITICAL-1-VERIFICATION-INDEX.md` (2026-08-18, 10,447 B)
-- `CMT_7502_DATA_AUDIT.json` (2026-08-18, 9,960 B)
-- `BRACES_CHECK_FALSE_POSITIVE_ANALYSIS_2026-06-21.md` (2026-08-18, 8,745 B)
-- `BRACE_FIX_REPORT.md` (2026-08-18, 1,347 B)
-- `BRANCHING_STRATEGY.md` (2026-08-18, 10,757 B)
-- `BRANCH_MIGRATION_INVENTORY.md` (2026-08-18, 4,255 B)
-- `BUILD_CONFIG_HARDENING_AUDIT.md` (2026-08-18, 8,331 B)
 - `BUILD_CONFIG_HARDENING_IMPLEMENTATION.md` (2026-08-18, 10,130 B)
 - `BUILD_CONFIG_HARDENING_SUMMARY.md` (2026-08-18, 8,382 B)
 - `BUILD_SYSTEM_INVESTIGATION_2026-07-19.md` (2026-08-18, 7,955 B)
 - `BUILD_VERIFICATION_REPORT.md` (2026-08-18, 10,129 B)
 - `CHANGES_APPLIED.txt` (2026-08-18, 7,481 B)
+- `BRACES_CHECK_FALSE_POSITIVE_ANALYSIS_2026-06-21.md` (2026-08-18, 8,745 B)
+- `BRACE_FIX_REPORT.md` (2026-08-18, 1,347 B)
+- `BRANCHING_STRATEGY.md` (2026-08-18, 10,757 B)
+- `BRANCH_MIGRATION_INVENTORY.md` (2026-08-18, 4,255 B)
+- `BUILD_CONFIG_HARDENING_AUDIT.md` (2026-08-18, 8,331 B)
 - `BENCHMARK_GATES_REFERENCE.md` (2026-08-18, 12,978 B)
 - `BEST_PRACTICE_SCANNER_INTEGRATION.md` (2026-08-18, 16,389 B)
 - `BLOCKS_2_4_COMPLETION_REPORT.md` (2026-08-18, 12,007 B)
-- `04-lint-docs_markdown-linkcheck.yml` (2026-08-18, 10,820 B)
-- `A2_REMEDIATION_COMPLETION.md` (2026-08-18, 16,551 B)
 - `ANALYSIS_COMPLETE.txt` (2026-08-18, 12,560 B)
 - `ANALYSIS_EXECUTIVE_SUMMARY.md` (2026-08-18, 6,856 B)
+- `04-lint-docs_markdown-linkcheck.yml` (2026-08-18, 10,820 B)
+- `A2_REMEDIATION_COMPLETION.md` (2026-08-18, 16,551 B)
 - `.mlc_config.json` (2026-08-18, 1,042 B)
 
 ---
 
 ## Compacted Content
-
-### vsdevcmd-env.txt
-
-# Cleaned VsDevCmd environment dump
-# Original diagnostic dump removed to avoid stale Insiders paths.
-# To recreate original: open "x64 Native Tools Command Prompt for VS 2022" and run:
-#   set > ai_working\\vsdevcmd-env.original.txt
-
-ALLUSERSPROFILE=C:\ProgramData
-APPDATA=C:\Users\mkrueger\AppData\Roaming
-CommonProgramFiles=C:\Program Files\Common Files
-CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
-CommonProgramW6432=C:\Program Files\Common Files
-COMPUTERNAME=DESKTOP-712S8LO
-
-# MSVC toolset (installed)
-PATH=C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Windows\system32
-
-# Minimalized dump finished.
-ComSpec=C:\WINDOWS\system32\cmd.exe
-DokanLibrary2=C:\Program Files\Dokan\Dokan Library-2.2.1\
-DokanLibrary2_LibraryPath_x64=C:\Program Files\Dokan\Dokan Library-2.2.1\lib\
-DokanLibrary2_LibraryPath_x86=C:\Program Files\Dokan\Dokan Library-2.2.1\x86\lib\
-DriverData=C:\Windows\System32\Drivers\DriverData
-EFC_32736_1262719628=1
-EFC_32736_1592913036=1
-EFC_32736_2283032206=1
-EFC_32736_2775293581=1
-EFC_32736_3789132940=1
-EFC_32736_4126798990=1
-ERR=1
-FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
-FPS_BROWSER_USER_PROFILE_STRING=Default
-GOPATH=C:\Users\mkrueger\go
-HOMEDRIVE=C:
-HOMEPATH=\Users\mkrueger
-IntelliJ IDEA=C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;
-JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\
-LOCALAPPDATA=C:\Users\mkrueger\AppData\Local
-LOGONSERVER=\\DESKTOP-712S8LO
-NUMBER_OF_PROCESSORS=20
-OneDrive=C:\Users\mkrueger\OneDrive
-OneDriveConsumer=C:\Users\mkrueger\OneDrive
-OS=Windows_NT
-Path=C:\Program Files\PowerShell\7;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\coreutils\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin;C:\VulkanSDK\1.4.350.0\Bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin;C:\Program Files\Python313\Scripts\;C:\Program Files\Python313\;C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\Go\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\GitHub CLI\;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\doxygen\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2026.1.1\;C:\Program Files\PuTTY\;C:\Program Files\CMake\bin;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\;C:\Users\mkrueger\AppData\Local\Microsoft\WindowsApps;C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mkrueger\.dotnet\tools;C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;C:\Users\mkrueger\AppData\Local\Programs\Ollama;C:\Users\mkrueger\go\bin;C:\Users\mkrueger\AppData\Local\GitHubDesktop\bin;C:\Users\mkrueger\AppData\Roaming\npm;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\nektos.act_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\Tools;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe\sccache-v0.10.0-x86_64-pc-windows-msvc;C:\Users\mkrueger\.local\bin;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\GitHub.Copilot_Microsoft.Winget.Source_8wekyb3d8bbwe;;c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\scripts\noConfigScripts
-PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW;.CPL
-POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
-PROCESSOR_ARCHITECTURE=AMD64
-PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 165 Stepping 5, GenuineIntel
-PROCESSOR_LEVEL=6
-PROCESSOR_REVISION=a505
-ProgramData=C:\ProgramData
-ProgramFiles=C:\Program Files
-ProgramFiles(x86)=C:\Program Files (x86)
-ProgramW6432=C:\Program Files
-PROMPT=$P$G
-PSModulePath=C:\Users\mkrueger\Dokumente\PowerShell\Modules;C:\Program Files\PowerShell\Modules;c:\program files\powershell\7\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\PowerShell\Modules\
-PUBLIC=C:\Users\Public
-PyCharm=C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;
-SESSIONNAME=RDP-Tcp#0
-SW_SIM_HYDRA=C:\Program Files\Common Files\SolidWorks Shared\Simulation Worker Agent\
-SW_SIM_MPIT=INTELMPI
-SW_SIM_TEMP=C:\ProgramData\SOLIDWORKS\SW_net_sim_temp\
-SystemDrive=C:
-SystemRoot=C:\WINDOWS
-TEMP=C:\Users\mkrueger\AppData\Local\Temp
-TMP=C:\Users\mkrueger\AppData\Local\Temp
-USERDOMAIN=DESKTOP-712S8LO
-USERDOMAIN_ROAMINGPROFILE=DESKTOP-712S8LO
-USERNAME=mkrueger
-USERPROFILE=C:\Users\mkrueger
-VK_SDK_PATH=C:\VulkanSDK\1.4.350.0
-VSCMD_DEBUG=2
-VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
-VULKAN_SDK=C:\VulkanSDK\1.4.350.0
-windir=C:\WINDOWS
-_NT_ALT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
-_NT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
-AI_AGENT=github_copilot_vscode_agent
-COPILOT_AGENT=1
-GIT_PAGER=cat
-GIT_MERGE_AUTOEDIT=no
-GIT_EDITOR=:
-DEBIAN_FRONTEND=noninteractive
-TERM_PROGRAM=vscode
-TERM_PROGRAM_VERSION=1.126.0
-LANG=de_DE.UTF-8
-COLORTERM=truecolor
-COPILOT_DEBUG_NONCE=69f755af657d4201c034444616ca3e07
-GIT_ASKPASS=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass.sh
-VSCODE_GIT_ASKPASS_NODE=C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\Code.exe
-VSCODE_GIT_ASKPASS_EXTRA_ARGS=
-VSCODE_GIT_ASKPASS_MAIN=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass-main.js
-VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-a5e09ccfee-sock
-PYTHONSTARTUP=c:\Users\mkrueger\AppData\Roaming\Code\User\workspaceStorage\4c25e91a8b358a76f7623d9bcc021d7a\ms-python.python\pythonrc.py
-PYTHON_BASIC_REPL=1
-PYDEVD_DISABLE_FILE_VALIDATION=1
-VSCODE_DEBUGPY_ADAPTER_ENDPOINTS=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\.noConfigDebugAdapterEndpoints\endpoint-17964f0698e32828.txt
-BUNDLED_DEBUGPY_PATH=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy
-VSCODE_INJECTION=1
-
----
-
-### vulkan_detection_gpu_usage_fix_plan_2026-05-17.md
-
-# Vulkan Detection & GPU Usage Fix Plan (2026-05-17)
-
-## Scope
-- Ensure Vulkan is enabled by default for non-MINIMAL editions unless explicitly overridden.
-- Ensure modular LLM build uses real Vulkan LoRA kernels instead of simulation-only fallback.
-
-## Files
-- cmake/CMakeLists.txt
-- cmake/ModularBuild.cmake
-
-## Acceptance Criteria
-- `THEMIS_ENABLE_VULKAN` defaults to ON at configure time (except explicit overrides / MINIMAL).
-- Modular LLM source list includes `src/llm/lora_framework/kernels/vulkan_kernels.cpp`.
-- `src/llm/lora_framework/kernels/vulkan_embedding_lookup.cpp` is not selected as primary modular Vulkan kernel path.
-- Benchmark target `bench_vulkan_lora` builds successfully with `windows-bench-release` preset.
-
-## Verification
-- Rebuild `bench_vulkan_lora` with `cmake --build --preset windows-bench-release --target bench_vulkan_lora --parallel 4`.
-- Re-check generated unity source list and/or build output for selected Vulkan kernel source file.
-
----
-
-### vulkan_reference_pipeline_ann_llama_plan_2026-05-17.md
-
-# Vulkan Reference Pipeline Plan (ANN + LLM) - 2026-05-17
-
-## Goal
-Build a reference Vulkan-oriented benchmark pipeline analogous to LoRA runtime validation, starting with ANN/GPU vector index and adding explicit backend evidence in benchmark output.
-
-## Scope
-- Update `benchmarks/bench_gpu_vector_index.cpp` to:
-  - re-enable Vulkan benchmark paths (instead of CPU-only comment blocks)
-  - keep CPU baselines
-  - add backend evidence counters/labels (`active_backend`, `gpu_active`)
-  - fail-safe skip when Vulkan backend cannot initialize
-- Run targeted benchmark build + smoke execution.
-- Update `PERFORMANCE_EXPECTATIONS.md` with the new reference-pipeline status and measured CPU-vs-Vulkan comparison if available.
-
-## Acceptance Criteria
-1. Benchmark target compiles on `windows-bench-release`.
-2. `bench_gpu_vector_index --benchmark_list_tests` contains Vulkan benchmark entries.
-3. Vulkan benchmarks either:
-   - run and emit backend evidence (`active_backend=VULKAN`, `gpu_active=1`), or
-   - skip with explicit reason (no silent fallback).
-4. Performance doc is updated with current result and audit status.
-
-## Validation
-- Build: `cmake --build --preset windows-bench-release --target bench_gpu_vector_index --parallel 4`
-- List tests: `bench_gpu_vector_index.exe --benchmark_list_tests=true`
-- Smoke: filtered run of CPU + Vulkan search benchmarks with JSON output.
-
----
-
-### w1-s13-plan.txt
-
-W1-S13 plan
-- Add comment-only false-positive scanner annotations in the 11 requested storage .cpp files.
-- Mirror existing annotation style from database_connection_manager.cpp and wom_tree.cpp.
-- Update src/storage/MODULE_GAPS.md with the requested W1-S13 remediation-log row.
-- Do not change logic, run tests, or commit.
-
----
-
-### w5-index-batch-plan.txt
-
-W5 Index batch plan
-- Scope: src/index/secondary_index.cpp, src/index/vector_index.cpp, src/index/graph_index.cpp, src/index/MODULE_GAPS.md.
-- Secondary index: remove nested metadata loader lambdas that capture manager state; materialize metadata snapshots directly in updateIndexesForDelete_ overloads.
-- Vector index: harden critical sections by snapshotting cache/index state before nested callbacks and by avoiding repeated direct member access patterns flagged as data races/null misuse in add/search/reindex paths.
-- Graph index: replace nested temporal-field lambdas with non-capturing/local helper logic so temporal scans do not close over mutable state; preserve topologyLoaded_ atomic behavior.
-- Validation: run docs lint for MODULE_GAPS.md, inspect git diff, secret scan touched files, commit requested message, run CodeQL checker, report progress.
-
----
-
-### w5-sharding-plan.txt
-
-W5-Sharding implementation plan
-- Inspect shard_router merge/cross-shard join paths and add merged version metadata propagation.
-- Inspect stream_protocol critical data-race hotspots and guard shared session/task state with existing mutexes/atomics.
-- Inspect redundancy_strategy critical data-race/version-tracking hotspots and add minimal synchronization/version metadata.
-- Update MODULE_GAPS remediation log, run docs lint, verify targeted files via git diff, secret scan, and commit.
-
----
 
 ### winget-packaging-plan.md
 
@@ -1034,529 +846,6 @@ Total workflows found: 22
 
 ---
 
-### tmp_tracking_priorities_comment.md
-
-## Update: Zusätzliche Doku-Issues verknüpft und priorisiert
-
-Neu angelegte Zusatz-Issues:
-- #4914 Toolchain (MkDocs/Publishing)
-- #4915 API (OpenAPI/Generator)
-- #4916 i18n (de/en/es/fr/ja)
-- #4917 Docs-Meta (QA/Generated/Reports)
-- #4918 Compendium non-chapter
-- #4919 Root AI-Governance/Versioning
-
-### Empfohlene Bearbeitungsreihenfolge
-1. P1: #4914, #4915
-2. P2: #4919, #4916
-3. P3: #4917, #4918
-
-### Begründung
-- Toolchain/API zuerst, da sie viele Folge-Dokuänderungen technisch/strukturell beeinflussen.
-- Danach Governance/Versioning und i18n für konsistente Inhalte.
-- Abschließend Meta- und Compendium-Konsolidierung als Cleanup/Hardening.
-
-### Abhängigkeiten zu bestehenden Root-Issues
-- #4908 Einstiegspfad
-- #4909 Governance/Community
-- #4910 Release/Planung
-- #4911 Architektur/Audit/Security
-- #4912 Performance
-- #4913 Root-Artefakte/Betriebslogs
-
----
-
-## Doxygen-Auswertung (maschinenfreundlich)
-
-source_log: build/doxygen/doxygen-warnings.log
-timestamp: 2026-05-11
-
-metrics:
-	total: 716
-	undocumented: 31
-	param_mismatch: 152 (baseline) -> 121 (current) [-31, 20% reduction]
-	unsupported_xml_html_tag: 241 -> 28 (after DX-001)
-
-dx002_progress:
-	status: Phase 1 Complete
-	baseline_param_violations: 152
-	current_param_violations: 121
-	fixed: 31 (20% reduction)
-	patches_applied: 5 files (rag_judge, vram_secure_clear, graph_query_optimizer, timeseries, query_federation)
-	strategy: Split overloaded function documentation to match individual signatures
-	breakdown:
-		- too_many: 56 -> 44 (-12)
-		- param_mismatch: 73 -> 61 (-12)
-		- no_args_with_param: 17 -> 15 (-2)
-	phase_2: Target 20 high-priority files, reduce to ≤50 total violations
-
-module_ranking:
-	- { module: query, count: 69 }
-	- { module: index, count: 54 }
-	- { module: plugins, count: 40 }
-	- { module: rag, count: 39 }
-	- { module: content, count: 38 }
-	- { module: analytics, count: 35 }
-	- { module: utils, count: 30 }
-	- { module: server, count: 27 }
-	- { module: process, count: 26 }
-	- { module: storage, count: 24 }
-	- { module: llm, count: 24 }
-	- { module: auth, count: 21 }
-	- { module: search, count: 20 }
-	- { module: temporal, count: 19 }
-	- { module: graph, count: 16 }
-
-agent_queue:
-	- id: DX-001
-		status: done
-		priority: P1
-		type: syntax
-		selector: "Unsupported xml/html tag"
-		scope: "include/query/**"
-		target: "Q2 2026"
-		result: "query unsupported-tag warnings 19 -> 0"
-	- id: DX-002
-		status: open
-		priority: P1
-		type: param
-		selector: "too many @param|argument .* @param"
-		scope: "include/**"
-		target: "Q2 2026"
-	- id: DX-003
-		priority: P2
-		type: undocumented
-		selector: "is not documented"
-		scope: "include/query/**|include/index/**|include/server/**"
-		target: "Q2 2026"
-	- id: DX-004
-		priority: P3
-		type: undocumented
-		selector: "is not documented"
-		scope: "include/plugins/**|include/rag/**|include/content/**|include/analytics/**"
-		target: "Q3 2026"
-
-definition_of_done:
-	- "Count(Unsupported xml/html tag) == 0"
-	- "Count(too many @param) == 0"
-	- "Count(argument .* @param) == 0"
-	- "UNDOC in DX-003 scopes == 0"
-
----
-
-### tmp_tracking_stub_priorities.md
-
-## Update: Große Stub-/Simulation-Umsetzungen priorisiert (Core/Security/Tensor)
-
-Neu verlinkte Issues:
-- #4920 Core/Server Feature-Gates
-- #4921 Security/Sharding SignedRequestVerifier
-- #4922 Security/HSM PKCS#11
-- #4923 Tensor TNSRTask Persistenz
-- #4924 TensorRouter Template-Topologie
-- #4925 HissReshaper pure-binary QTT
-- #4926 HyperIndexBuilder FK-Propagation
-- #4927 UTR semantische Encoder
-
-### Priorisierung
-1. P1 (Sicherheits- und Betriebsblocker)
-- #4921
-- #4922
-- #4920
-
-2. P2 (Persistenz-/Konsistenzkern Tensor)
-- #4923
-- #4924
-
-3. P3 (Qualitäts-/Ranking-/Semantikverbesserungen Tensor)
-- #4925
-- #4926
-- #4927
-
-### Reihenfolgebegründung
-- P1 zuerst wegen direkter Sicherheits- und Produktionsauswirkung.
-- P2 danach, weil Persistenz-/Topologie-Korrektheit Grundlage für belastbare Tensor-Pipelines ist.
-- P3 anschließend für Qualitäts- und Retrieval-Verbesserung auf stabiler Basis.
-
----
-
-## Doxygen-Audit 2026-05-11 (maschinell ausgewertet)
-
-Quelle:
-- build/doxygen/doxygen-warnings.log
-
-Kennzahlen:
-- TOTAL: 716
-- UNDOC ("is not documented"): 31
-- PARAM (kaputte/inkonsistente @param): 152
-- UNSUPPORTED_TAG (XML/HTML-Tags in Kommentaren): 241
-
-Top-Module nach Warnungsvolumen:
-- query: 69
-- index: 54
-- plugins: 40
-- rag: 39
-- content: 38
-- analytics: 35
-- utils: 30
-- server: 27
-- process: 26
-- storage: 24
-- llm: 24
-- auth: 21
-- search: 20
-- temporal: 19
-- graph: 16
-
-## TODO-Backlog fuer KI-Agents (Copilot/Ollama)
-
-Status-Legende:
-- [ ] offen
-- [~] in Bearbeitung
-- [x] erledigt
-
-### P1: Doxygen-Kommentarsyntax korrigieren (schneller, hoher Hebel)
-
-- [x] Unsupported XML/HTML Tags bereinigen (Target: Q2 2026)
-	- Fokusdatei-Cluster: include/query/*
-	- Regel: Platzhalter wie NAME/COLLECTION/AQL_BODY statt Winkelklammer-Tags verwenden.
-	- Ergebnis (2026-05-11): query-spezifisch 19 -> 0 Unsupported-Tags.
-	- Akzeptanz: erreicht.
-
-- [~] @param-Inkonsistenzen reparieren - Phase 1 (Target: Q2 2026)
-	- PHASE 1 COMPLETE: 152 -> 121 violations (-31, 20% reduction) ✅
-	- Patched files (5): rag_judge.h, vram_secure_clear.h, graph_query_optimizer.h, timeseries.h, query_federation.h
-	- Strategy: Split overloaded function docs to match individual signatures
-	- Remaining (121): param_mismatch=61, too_many=44, no_args_with_param=15
-	- Phase 2: Target next 20 high-priority files, reduce to ≤50 violations
-
-### P2: Fehlende API-Dokumentation in Hotspot-Modulen
-
-- [ ] Modul query: Public API-Doku vervollstaendigen (Target: Q2 2026)
-	- Scope: include/query/*.h
-	- Akzeptanz: Keine "is not documented"-Warnungen fuer query.
-
-- [ ] Modul index: Public API-Doku vervollstaendigen (Target: Q2 2026)
-	- Scope: include/index/*.h
-	- Akzeptanz: Keine "is not documented"-Warnungen fuer index.
-
-- [ ] Modul server: Public API-Doku vervollstaendigen (Target: Q2 2026)
-	- Scope: include/server/*.h
-	- Akzeptanz: Keine "is not documented"-Warnungen fuer server.
-
-### P3: Restliche Module in Batches normalisieren
-
-- [ ] Batch A: plugins, rag, content, analytics (Target: Q3 2026)
-- [ ] Batch B: utils, process, storage, llm (Target: Q3 2026)
-- [ ] Batch C: auth, search, temporal, graph (Target: Q3 2026)
-
-## Agent-Runbook (direkt kopierbare Arbeitsauftraege)
-
-Hinweis Routing in diesem Repo:
-- C++-Header/Source-Aufgaben bevorzugt lokal via @ollama.
-- Architektur/Review-Freigaben via Standard-Copilot.
-
-Prompt 1 (Syntax-Fix, query):
-- "@ollama /local Repariere in include/query/*.h alle Doxygen-Warnungen vom Typ 'Unsupported xml/html tag'. Ersetze problematische <...>-Token durch doxygen-sichere Darstellung. Keine Verhaltensaenderung am Code. Liefere Patch + Liste behobener Warnungen."
-
-Prompt 2 (@param-Fix, modulweit):
-- "@ollama /local Pruefe in include/**/*.h alle Doxygen-Kommentare auf @param-Konsistenz. Entferne ueberzaehlige @param, korrigiere Namen exakt gemaess Signatur und ergaenze fehlende Parameterdoku nur bei Public APIs. Liefere Patch + Vorher/Nachher-Zaehlung."
-
-Prompt 3 (UNDOC, server):
-- "@ollama /local Dokumentiere in include/server/*.h alle oeffentlichen Klassen/Methoden/Struct-Felder mit Doxygen (@brief, @param, @return, @throws wo relevant). Kein Stub-Text, sondern konkrete Semantik, Fehlerfaelle und Ownership-Hinweise."
-
-Prompt 4 (Review-Gate):
-- "Fuehre Code-Review auf Doxygen-Aenderungen durch: Fokus auf fachlich korrekte Semantik in Kommentaren, keine API-Aenderung, keine falschen Guarantees. Markiere Blocker."
-
-## Re-Run / Verifikation
-
-- [ ] Audit erneut laufen lassen und Kennzahlen aktualisieren (Target: Q2 2026)
-	- Kommando: C:/Program Files/doxygen/bin/doxygen.exe Doxyfile.audit
-	- Danach maschinell pruefen:
-		- Count("Unsupported xml/html tag") == 0
-		- Count("too many @param") == 0
-		- Count("argument .* @param") == 0
-		- UNDOC pro Zielmodul == 0
-
----
-
-### unity-namespace-refactoring-plan.md
-
-# Unity Build Namespace Refactoring Plan - ThemisDB Graph Module
-
-**Date:** 2026-06-19
-**Objective:** Fix namespace structure for 21 .cpp files to compile correctly with Unity build (MSVC_UNITY_BUILD=ON)
-
-## Problem Analysis
-
-When files are concatenated in Unity build mode, namespace declarations from different files create compilation errors:
-- Some files open `namespace themis { namespace acceleration {`
-- Others open `namespace themis { namespace index {`
-- Others open `namespace themis { namespace graph {`
-- Others open just `namespace themis {`
-- Some files are missing closing braces
-
-**Solution:** Standardize all files to use `namespace themis { namespace graph {` by:
-1. File #1 ONLY opens namespaces
-2. Files #2-20 remove ALL namespace declarations
-3. File #21 ONLY closes namespaces
-
-## File-by-File Refactoring Specification
-
-### FILE 1: src/acceleration/ai_hardware_dispatcher.cpp
-**Current:** `namespace themis { namespace acceleration {`
-**Action:** Change namespace from `acceleration` to `graph`
-**Line Changes:**
-- Line 123: Keep `namespace themis {`
-- Line 124: Change `namespace acceleration {` → `namespace graph {`
-
-**Replacement:**
-```cpp
-namespace themis {
-namespace graph {
-```
-
----
-
-### FILE 2: src/index/graph_auto_buffer.cpp
-**Current:** `namespace themis { ... } // namespace themis`
-**Action:** Remove all namespace opens/closes
-**Line Changes:**
-- Line 28: Remove `namespace themis {`
-- Line 408: Remove `} // namespace themis`
-
-**Replacements:**
-```
-1. Remove line 28: "namespace themis {"
-2. Remove line 408: "} // namespace themis"
-```
-
----
-
-### FILE 3: src/index/spatial_index.cpp
-**Current:** `namespace themis { namespace index { ... } // namespace index } // namespace themis`
-**Action:** Remove all namespace opens/closes
-**Line Changes:**
-- Lines 30-31: Remove `namespace themis { namespace index {`
-- End of file: Remove `}  // namespace index` and `}  // namespace themis`
-
----
-
-### FILE 4: src/index/temporal_graph.cpp
-**Current:** `namespace themis { ... } // namespace themis`
-**Action:** Remove all namespace opens/closes
-
----
-
-### FILE 5: src/index/property_graph.cpp
-**Current:** `namespace themis { ... } // namespace themis`
-**Action:** Remove all namespace opens/closes
-
----
-
-### FILE 6: src/index/edge_types.cpp
-**Current:** `namespace themis { ... } // namespace themis`
-**Action:** Remove all namespace opens/closes
-
----
-
-### FILE 7: src/index/process_graph.cpp
-**Current:** `namespace themis { ... } // namespace themis`
-**Action:** Remove all namespace opens/closes
-
----
-
-### FILE 8: src/index/gnn_embeddings.cpp
-**Current:** `namespace themis { ... } // namespace themis`
-**Action:** Remove all namespace opens/closes
-
----
-
-### FILE 9: src/index/graph_analytics.cpp
-**Current:** `namespace themis { ... } // namespace themis`
-**Action:** Remove all namespace opens/closes
-
----
-
-### FILE 10: src/graph/graph_query_optimizer.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes (file #1 will open them)
-
----
-
-### FILE 11: src/graph/explain_plan.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes
-
----
-
-### FILE 12: src/graph/ontology_manager.cpp
-**Current:** `namespace themis { namespace graph { ... [BUG: MISSING CLOSING BRACES]`
-**Action:** Remove namespace opens/closes (will be closed by file #21)
-**NOTE:** This file is currently missing `} // namespace graph` and `} // namespace themis`
-
----
-
-### FILE 13: src/graph/knowledge_graph_reasoner.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes
-
----
-
-### FILE 14: src/graph/rotate_completion.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes
-
----
-
-### FILE 15: src/query/result_stream.cpp
-**Current:** `namespace themis { namespace query { ... } // namespace query } // namespace themis`
-**Action:** Remove ALL namespace opens/closes (change query to graph is not needed for Unity)
-**NOTE:** This file is in wrong namespace but will be corrected by removing opens/closes
-
----
-
-### FILE 16: src/graph/path_constraints.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes
-
----
-
-### FILE 17: src/graph/distributed_graph.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes
-
----
-
-### FILE 18: src/graph/gpu_traversal.cpp
-**Current:** `namespace themis { namespace graph { ... [COMPLEX: has multiple anonymous namespaces and cuda_impl namespace]`
-**Action:** Remove only the themis/graph namespace opens/closes, preserve anonymous namespaces and cuda_impl
-
----
-
-### FILE 19: src/graph/parallel_traversal.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes
-
----
-
-### FILE 20: src/graph/scheduled_edge_refresh.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** Remove namespace opens/closes
-
----
-
-### FILE 21: src/graph/graph_query_rewriter.cpp
-**Current:** `namespace themis { namespace graph { ... } // namespace graph } // namespace themis`
-**Action:** KEEP AS IS - This is the ONLY file that should have closing braces
-
----
-
-## Verification Steps
-
-After applying changes:
-
-1. **Build verification:**
-   ```bash
-   cmake --build --preset windows-release --target themis_graph --parallel 1
-   ```
-
-2. **Namespace validation:** Verify compilation unit has proper scope
-
-3. **Test execution:**
-   ```bash
-   ctest --preset windows-release --filter "graph" --verbose
-   ```
-
-## Risk Assessment
-
-**High Risk Items:**
-- FILE 12 (ontology_manager.cpp): Currently has missing closing braces - this fix corrects existing bug
-- FILE 15 (result_stream.cpp): In wrong namespace - removal puts it in correct context
-
-**Medium Risk Items:**
-- FILE 18 (gpu_traversal.cpp): Multiple internal namespaces - ensure we don't accidentally remove cuda_impl
-- FILE 1 (ai_hardware_dispatcher.cpp): Changing from acceleration to graph namespace
-
-**Low Risk Items:**
-- FILES 2-20 (except 12,15,18): Simple removal of consistent namespace opens/closes
-
-## Implementation Order
-
-1. Apply all replacements using multi_replace_string_in_file (parallel execution)
-2. Run compilation test
-3. If compilation fails, diagnose and fix incrementally
-4. Run full test suite
-
----
-
-### unity_build_analysis.json
-
-*(file too large — key headings extracted)*
-
-{
-"themis_graph": {
-"module": "themis_graph",
-"files_analyzed": 21,
-"files": [
-{
-"index": 1,
-"file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
-"opens": 113,
-"closes": 113,
-"balance": 0,
-"cumulative_balance": 0,
-"namespace_opens": [
-[
-123,
-"themis"
-],
-[
-124,
-"acceleration"
-]
-],
-"namespace_closes": [
-953,
-954
-]
-},
-{
-"index": 2,
-"file": "src\\index\\graph_auto_buffer.cpp",
-"opens": 83,
-"closes": 83,
-"balance": 0,
-"cumulative_balance": 0,
-"namespace_opens": [
-[
-28,
-"themis"
-]
-],
-"namespace_closes": [
-408
-]
-},
-{
-"index": 3,
-"file": "src\\index\\spatial_index.cpp",
-"opens": 240,
-"closes": 240,
-"balance": 0,
-"cumulative_balance": 0,
-"namespace_opens": [
-[
-30,
-"themis"
-],
-[
-31,
-"index"
-]
-
----
-
 ### utils_benchmark_results.json
 
 {
@@ -1790,6 +1079,194 @@ POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
 
 ---
 
+### vsdevcmd-env.txt
+
+# Cleaned VsDevCmd environment dump
+# Original diagnostic dump removed to avoid stale Insiders paths.
+# To recreate original: open "x64 Native Tools Command Prompt for VS 2022" and run:
+#   set > ai_working\\vsdevcmd-env.original.txt
+
+ALLUSERSPROFILE=C:\ProgramData
+APPDATA=C:\Users\mkrueger\AppData\Roaming
+CommonProgramFiles=C:\Program Files\Common Files
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+CommonProgramW6432=C:\Program Files\Common Files
+COMPUTERNAME=DESKTOP-712S8LO
+
+# MSVC toolset (installed)
+PATH=C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Windows\system32
+
+# Minimalized dump finished.
+ComSpec=C:\WINDOWS\system32\cmd.exe
+DokanLibrary2=C:\Program Files\Dokan\Dokan Library-2.2.1\
+DokanLibrary2_LibraryPath_x64=C:\Program Files\Dokan\Dokan Library-2.2.1\lib\
+DokanLibrary2_LibraryPath_x86=C:\Program Files\Dokan\Dokan Library-2.2.1\x86\lib\
+DriverData=C:\Windows\System32\Drivers\DriverData
+EFC_32736_1262719628=1
+EFC_32736_1592913036=1
+EFC_32736_2283032206=1
+EFC_32736_2775293581=1
+EFC_32736_3789132940=1
+EFC_32736_4126798990=1
+ERR=1
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+FPS_BROWSER_USER_PROFILE_STRING=Default
+GOPATH=C:\Users\mkrueger\go
+HOMEDRIVE=C:
+HOMEPATH=\Users\mkrueger
+IntelliJ IDEA=C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;
+JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\
+LOCALAPPDATA=C:\Users\mkrueger\AppData\Local
+LOGONSERVER=\\DESKTOP-712S8LO
+NUMBER_OF_PROCESSORS=20
+OneDrive=C:\Users\mkrueger\OneDrive
+OneDriveConsumer=C:\Users\mkrueger\OneDrive
+OS=Windows_NT
+Path=C:\Program Files\PowerShell\7;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\coreutils\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin;C:\VulkanSDK\1.4.350.0\Bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin;C:\Program Files\Python313\Scripts\;C:\Program Files\Python313\;C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\Go\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\GitHub CLI\;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\doxygen\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2026.1.1\;C:\Program Files\PuTTY\;C:\Program Files\CMake\bin;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\;C:\Users\mkrueger\AppData\Local\Microsoft\WindowsApps;C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mkrueger\.dotnet\tools;C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;C:\Users\mkrueger\AppData\Local\Programs\Ollama;C:\Users\mkrueger\go\bin;C:\Users\mkrueger\AppData\Local\GitHubDesktop\bin;C:\Users\mkrueger\AppData\Roaming\npm;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\nektos.act_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\Tools;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe\sccache-v0.10.0-x86_64-pc-windows-msvc;C:\Users\mkrueger\.local\bin;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\GitHub.Copilot_Microsoft.Winget.Source_8wekyb3d8bbwe;;c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\scripts\noConfigScripts
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW;.CPL
+POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
+PROCESSOR_ARCHITECTURE=AMD64
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 165 Stepping 5, GenuineIntel
+PROCESSOR_LEVEL=6
+PROCESSOR_REVISION=a505
+ProgramData=C:\ProgramData
+ProgramFiles=C:\Program Files
+ProgramFiles(x86)=C:\Program Files (x86)
+ProgramW6432=C:\Program Files
+PROMPT=$P$G
+PSModulePath=C:\Users\mkrueger\Dokumente\PowerShell\Modules;C:\Program Files\PowerShell\Modules;c:\program files\powershell\7\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\PowerShell\Modules\
+PUBLIC=C:\Users\Public
+PyCharm=C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;
+SESSIONNAME=RDP-Tcp#0
+SW_SIM_HYDRA=C:\Program Files\Common Files\SolidWorks Shared\Simulation Worker Agent\
+SW_SIM_MPIT=INTELMPI
+SW_SIM_TEMP=C:\ProgramData\SOLIDWORKS\SW_net_sim_temp\
+SystemDrive=C:
+SystemRoot=C:\WINDOWS
+TEMP=C:\Users\mkrueger\AppData\Local\Temp
+TMP=C:\Users\mkrueger\AppData\Local\Temp
+USERDOMAIN=DESKTOP-712S8LO
+USERDOMAIN_ROAMINGPROFILE=DESKTOP-712S8LO
+USERNAME=mkrueger
+USERPROFILE=C:\Users\mkrueger
+VK_SDK_PATH=C:\VulkanSDK\1.4.350.0
+VSCMD_DEBUG=2
+VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
+VULKAN_SDK=C:\VulkanSDK\1.4.350.0
+windir=C:\WINDOWS
+_NT_ALT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
+_NT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
+AI_AGENT=github_copilot_vscode_agent
+COPILOT_AGENT=1
+GIT_PAGER=cat
+GIT_MERGE_AUTOEDIT=no
+GIT_EDITOR=:
+DEBIAN_FRONTEND=noninteractive
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.126.0
+LANG=de_DE.UTF-8
+COLORTERM=truecolor
+COPILOT_DEBUG_NONCE=69f755af657d4201c034444616ca3e07
+GIT_ASKPASS=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass.sh
+VSCODE_GIT_ASKPASS_NODE=C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\Code.exe
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass-main.js
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-a5e09ccfee-sock
+PYTHONSTARTUP=c:\Users\mkrueger\AppData\Roaming\Code\User\workspaceStorage\4c25e91a8b358a76f7623d9bcc021d7a\ms-python.python\pythonrc.py
+PYTHON_BASIC_REPL=1
+PYDEVD_DISABLE_FILE_VALIDATION=1
+VSCODE_DEBUGPY_ADAPTER_ENDPOINTS=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\.noConfigDebugAdapterEndpoints\endpoint-17964f0698e32828.txt
+BUNDLED_DEBUGPY_PATH=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy
+VSCODE_INJECTION=1
+
+---
+
+### vulkan_detection_gpu_usage_fix_plan_2026-05-17.md
+
+# Vulkan Detection & GPU Usage Fix Plan (2026-05-17)
+
+## Scope
+- Ensure Vulkan is enabled by default for non-MINIMAL editions unless explicitly overridden.
+- Ensure modular LLM build uses real Vulkan LoRA kernels instead of simulation-only fallback.
+
+## Files
+- cmake/CMakeLists.txt
+- cmake/ModularBuild.cmake
+
+## Acceptance Criteria
+- `THEMIS_ENABLE_VULKAN` defaults to ON at configure time (except explicit overrides / MINIMAL).
+- Modular LLM source list includes `src/llm/lora_framework/kernels/vulkan_kernels.cpp`.
+- `src/llm/lora_framework/kernels/vulkan_embedding_lookup.cpp` is not selected as primary modular Vulkan kernel path.
+- Benchmark target `bench_vulkan_lora` builds successfully with `windows-bench-release` preset.
+
+## Verification
+- Rebuild `bench_vulkan_lora` with `cmake --build --preset windows-bench-release --target bench_vulkan_lora --parallel 4`.
+- Re-check generated unity source list and/or build output for selected Vulkan kernel source file.
+
+---
+
+### vulkan_reference_pipeline_ann_llama_plan_2026-05-17.md
+
+# Vulkan Reference Pipeline Plan (ANN + LLM) - 2026-05-17
+
+## Goal
+Build a reference Vulkan-oriented benchmark pipeline analogous to LoRA runtime validation, starting with ANN/GPU vector index and adding explicit backend evidence in benchmark output.
+
+## Scope
+- Update `benchmarks/bench_gpu_vector_index.cpp` to:
+  - re-enable Vulkan benchmark paths (instead of CPU-only comment blocks)
+  - keep CPU baselines
+  - add backend evidence counters/labels (`active_backend`, `gpu_active`)
+  - fail-safe skip when Vulkan backend cannot initialize
+- Run targeted benchmark build + smoke execution.
+- Update `PERFORMANCE_EXPECTATIONS.md` with the new reference-pipeline status and measured CPU-vs-Vulkan comparison if available.
+
+## Acceptance Criteria
+1. Benchmark target compiles on `windows-bench-release`.
+2. `bench_gpu_vector_index --benchmark_list_tests` contains Vulkan benchmark entries.
+3. Vulkan benchmarks either:
+   - run and emit backend evidence (`active_backend=VULKAN`, `gpu_active=1`), or
+   - skip with explicit reason (no silent fallback).
+4. Performance doc is updated with current result and audit status.
+
+## Validation
+- Build: `cmake --build --preset windows-bench-release --target bench_gpu_vector_index --parallel 4`
+- List tests: `bench_gpu_vector_index.exe --benchmark_list_tests=true`
+- Smoke: filtered run of CPU + Vulkan search benchmarks with JSON output.
+
+---
+
+### w1-s13-plan.txt
+
+W1-S13 plan
+- Add comment-only false-positive scanner annotations in the 11 requested storage .cpp files.
+- Mirror existing annotation style from database_connection_manager.cpp and wom_tree.cpp.
+- Update src/storage/MODULE_GAPS.md with the requested W1-S13 remediation-log row.
+- Do not change logic, run tests, or commit.
+
+---
+
+### w5-index-batch-plan.txt
+
+W5 Index batch plan
+- Scope: src/index/secondary_index.cpp, src/index/vector_index.cpp, src/index/graph_index.cpp, src/index/MODULE_GAPS.md.
+- Secondary index: remove nested metadata loader lambdas that capture manager state; materialize metadata snapshots directly in updateIndexesForDelete_ overloads.
+- Vector index: harden critical sections by snapshotting cache/index state before nested callbacks and by avoiding repeated direct member access patterns flagged as data races/null misuse in add/search/reindex paths.
+- Graph index: replace nested temporal-field lambdas with non-capturing/local helper logic so temporal scans do not close over mutable state; preserve topologyLoaded_ atomic behavior.
+- Validation: run docs lint for MODULE_GAPS.md, inspect git diff, secret scan touched files, commit requested message, run CodeQL checker, report progress.
+
+---
+
+### w5-sharding-plan.txt
+
+W5-Sharding implementation plan
+- Inspect shard_router merge/cross-shard join paths and add merged version metadata propagation.
+- Inspect stream_protocol critical data-race hotspots and guard shared session/task state with existing mutexes/atomics.
+- Inspect redundancy_strategy critical data-race/version-tracking hotspots and add minimal synchronization/version metadata.
+- Update MODULE_GAPS remediation log, run docs lint, verify targeted files via git diff, secret scan, and commit.
+
+---
+
 ### test_scan_quick.json
 
 *(file too large — key headings extracted)*
@@ -1859,29 +1336,30 @@ POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
 
 ### tmp_ai_blueprint_4931.md
 
-*(file too large — key headings extracted)*
-
 ## AI Update Blueprint
+
 ### Dateien, die konkret aktualisiert werden müssen
 - src/ai/ai_plugin_generator.cpp
 - src/ai/README.md
 - src/ai/ROADMAP.md
 - src/ai/FUTURE_ENHANCEMENTS.md
+
 ### Was genau zu ändern ist
 - Modulzweck, Public Surface, Konfigurationspfade, Abhängigkeiten und Failure Modes für das ai-Modul dokumentieren.
+- Die Dokumentation so formulieren, dass die AI die Produktionslogik des Generators, die erwarteten Eingaben/Ausgaben und die offenen Lücken direkt aus dem Ticket ableiten kann.
 
 ---
 
 ### tmp_api_blueprint.md
 
-*(file too large — key headings extracted)*
-
 ## AI Update Blueprint
+
 ### Dateien, die konkret aktualisiert werden müssen
 - docs/openapi.yaml
 - openapitools.json
 - docs/apis/**
 - docs/api/**
+
 ### Was genau zu ändern ist
 - OpenAPI-Spezifikation, Generator-Workflow und API-Referenz konsolidieren.
 
@@ -1889,21 +1367,23 @@ POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
 
 ### tmp_review_audit_block.md
 
-*(file too large — key headings extracted)*
-
 ## Review / Sourcecode Audit Pflicht
+
 Vor dem Schließen dieses Issues ist ein Review- und Audit-Nachweis erforderlich.
+
 ### Muss vor Abschluss dokumentiert werden
 - [ ] Fachreview gegen die passenden Doku-/Code-Checklisten durchgeführt
 - [ ] Sourcecode-Audit bzw. Dokumentationsaudit durchgeführt
 - [ ] Ergebnis als Kommentar oder verlinkter Report dokumentiert
 - [ ] Relevante Dateien / betroffene Bereiche sind im Review festgehalten
+
 ### Verbindliche Referenzen
 - [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
 - [docs/SYSTEMATISCHER_REVIEWPLAN.md](docs/SYSTEMATISCHER_REVIEWPLAN.md)
 - [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md)
 - [docs/de/development/SOURCE_CODE_AUDIT.md](docs/de/development/SOURCE_CODE_AUDIT.md)
 - [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md)
+
 ### Abschlusskriterium
 Dieses Issue darf erst geschlossen werden, wenn der Review-/Audit-Nachweis nachvollziehbar verlinkt ist.
 
@@ -1960,6 +1440,236 @@ Neu angelegte Modul-Issues:
 - #4933 tensor
 ### Einordnung
 - ai und scraper hatten bisher keine begleitenden Modul-Markdown-Dateien.
+
+---
+
+### tmp_tracking_priorities_comment.md
+
+*(file too large — key headings extracted)*
+
+## Update: Zusätzliche Doku-Issues verknüpft und priorisiert
+Neu angelegte Zusatz-Issues:
+- #4914 Toolchain (MkDocs/Publishing)
+- #4915 API (OpenAPI/Generator)
+- #4916 i18n (de/en/es/fr/ja)
+- #4917 Docs-Meta (QA/Generated/Reports)
+- #4918 Compendium non-chapter
+- #4919 Root AI-Governance/Versioning
+### Empfohlene Bearbeitungsreihenfolge
+1. P1: #4914, #4915
+2. P2: #4919, #4916
+3. P3: #4917, #4918
+### Begründung
+- Toolchain/API zuerst, da sie viele Folge-Dokuänderungen technisch/strukturell beeinflussen.
+- Danach Governance/Versioning und i18n für konsistente Inhalte.
+- Abschließend Meta- und Compendium-Konsolidierung als Cleanup/Hardening.
+### Abhängigkeiten zu bestehenden Root-Issues
+- #4908 Einstiegspfad
+- #4909 Governance/Community
+- #4910 Release/Planung
+- #4911 Architektur/Audit/Security
+- #4912 Performance
+- #4913 Root-Artefakte/Betriebslogs
+---
+## Doxygen-Auswertung (maschinenfreundlich)
+source_log: build/doxygen/doxygen-warnings.log
+timestamp: 2026-05-11
+metrics:
+total: 716
+undocumented: 31
+param_mismatch: 152 (baseline) -> 121 (current) [-31, 20% reduction]
+unsupported_xml_html_tag: 241 -> 28 (after DX-001)
+dx002_progress:
+status: Phase 1 Complete
+baseline_param_violations: 152
+current_param_violations: 121
+fixed: 31 (20% reduction)
+patches_applied: 5 files (rag_judge, vram_secure_clear, graph_query_optimizer, timeseries, query_federation)
+strategy: Split overloaded function documentation to match individual signatures
+breakdown:
+- too_many: 56 -> 44 (-12)
+- param_mismatch: 73 -> 61 (-12)
+- no_args_with_param: 17 -> 15 (-2)
+phase_2: Target 20 high-priority files, reduce to ≤50 total violations
+module_ranking:
+- { module: query, count: 69 }
+- { module: index, count: 54 }
+- { module: plugins, count: 40 }
+- { module: rag, count: 39 }
+- { module: content, count: 38 }
+
+---
+
+### tmp_tracking_stub_priorities.md
+
+*(file too large — key headings extracted)*
+
+## Update: Große Stub-/Simulation-Umsetzungen priorisiert (Core/Security/Tensor)
+Neu verlinkte Issues:
+- #4920 Core/Server Feature-Gates
+- #4921 Security/Sharding SignedRequestVerifier
+- #4922 Security/HSM PKCS#11
+- #4923 Tensor TNSRTask Persistenz
+- #4924 TensorRouter Template-Topologie
+- #4925 HissReshaper pure-binary QTT
+- #4926 HyperIndexBuilder FK-Propagation
+- #4927 UTR semantische Encoder
+### Priorisierung
+1. P1 (Sicherheits- und Betriebsblocker)
+- #4921
+- #4922
+- #4920
+2. P2 (Persistenz-/Konsistenzkern Tensor)
+- #4923
+- #4924
+3. P3 (Qualitäts-/Ranking-/Semantikverbesserungen Tensor)
+- #4925
+- #4926
+- #4927
+### Reihenfolgebegründung
+- P1 zuerst wegen direkter Sicherheits- und Produktionsauswirkung.
+- P2 danach, weil Persistenz-/Topologie-Korrektheit Grundlage für belastbare Tensor-Pipelines ist.
+- P3 anschließend für Qualitäts- und Retrieval-Verbesserung auf stabiler Basis.
+---
+## Doxygen-Audit 2026-05-11 (maschinell ausgewertet)
+Quelle:
+- build/doxygen/doxygen-warnings.log
+Kennzahlen:
+- TOTAL: 716
+- UNDOC ("is not documented"): 31
+- PARAM (kaputte/inkonsistente @param): 152
+- UNSUPPORTED_TAG (XML/HTML-Tags in Kommentaren): 241
+Top-Module nach Warnungsvolumen:
+- query: 69
+- index: 54
+- plugins: 40
+- rag: 39
+- content: 38
+- analytics: 35
+- utils: 30
+- server: 27
+- process: 26
+- storage: 24
+- llm: 24
+- auth: 21
+- search: 20
+- temporal: 19
+
+---
+
+### unity-namespace-refactoring-plan.md
+
+*(file too large — key headings extracted)*
+
+# Unity Build Namespace Refactoring Plan - ThemisDB Graph Module
+**Date:** 2026-06-19
+**Objective:** Fix namespace structure for 21 .cpp files to compile correctly with Unity build (MSVC_UNITY_BUILD=ON)
+## Problem Analysis
+When files are concatenated in Unity build mode, namespace declarations from different files create compilation errors:
+- Some files open `namespace themis { namespace acceleration {`
+- Others open `namespace themis { namespace index {`
+- Others open `namespace themis { namespace graph {`
+- Others open just `namespace themis {`
+- Some files are missing closing braces
+**Solution:** Standardize all files to use `namespace themis { namespace graph {` by:
+1. File #1 ONLY opens namespaces
+2. Files #2-20 remove ALL namespace declarations
+3. File #21 ONLY closes namespaces
+## File-by-File Refactoring Specification
+### FILE 1: src/acceleration/ai_hardware_dispatcher.cpp
+**Current:** `namespace themis { namespace acceleration {`
+**Action:** Change namespace from `acceleration` to `graph`
+**Line Changes:**
+- Line 123: Keep `namespace themis {`
+- Line 124: Change `namespace acceleration {` → `namespace graph {`
+**Replacement:**
+namespace themis {
+namespace graph {
+---
+### FILE 2: src/index/graph_auto_buffer.cpp
+**Current:** `namespace themis { ... } // namespace themis`
+**Action:** Remove all namespace opens/closes
+**Line Changes:**
+- Line 28: Remove `namespace themis {`
+- Line 408: Remove `} // namespace themis`
+**Replacements:**
+1. Remove line 28: "namespace themis {"
+2. Remove line 408: "} // namespace themis"
+---
+### FILE 3: src/index/spatial_index.cpp
+**Current:** `namespace themis { namespace index { ... } // namespace index } // namespace themis`
+**Action:** Remove all namespace opens/closes
+**Line Changes:**
+- Lines 30-31: Remove `namespace themis { namespace index {`
+- End of file: Remove `}  // namespace index` and `}  // namespace themis`
+---
+
+---
+
+### unity_build_analysis.json
+
+*(file too large — key headings extracted)*
+
+{
+"themis_graph": {
+"module": "themis_graph",
+"files_analyzed": 21,
+"files": [
+{
+"index": 1,
+"file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+"opens": 113,
+"closes": 113,
+"balance": 0,
+"cumulative_balance": 0,
+"namespace_opens": [
+[
+123,
+"themis"
+],
+[
+124,
+"acceleration"
+]
+],
+"namespace_closes": [
+953,
+954
+]
+},
+{
+"index": 2,
+"file": "src\\index\\graph_auto_buffer.cpp",
+"opens": 83,
+"closes": 83,
+"balance": 0,
+"cumulative_balance": 0,
+"namespace_opens": [
+[
+28,
+"themis"
+]
+],
+"namespace_closes": [
+408
+]
+},
+{
+"index": 3,
+"file": "src\\index\\spatial_index.cpp",
+"opens": 240,
+"closes": 240,
+"balance": 0,
+"cumulative_balance": 0,
+"namespace_opens": [
+[
+30,
+"themis"
+],
+[
+31,
+"index"
+]
 
 ---
 
@@ -2702,14 +2412,6 @@ Acceptance:
 
 ---
 
-### scan_tests.json
-
-*(file too large — key headings extracted)*
-
-
-
----
-
 ### scanner_improvements_mapping.md
 
 *(file too large — key headings extracted)*
@@ -2797,6 +2499,14 @@ from scanners.gs3_step01_thread_safety_improved import ThreadSafetyScannerImprov
 #   scanner = ThreadSafetyScanner()
 # Mit:
 #   scanner = ThreadSafetyScannerImproved()
+
+---
+
+### scan_tests.json
+
+*(file too large — key headings extracted)*
+
+
 
 ---
 
@@ -3035,73 +2745,6 @@ from scanners.gs3_step01_thread_safety_improved import ThreadSafetyScannerImprov
 
 ---
 
-### sample_validation_metadata.json
-
-*(file too large — key headings extracted)*
-
-{
-"sample_date": "2026-07-20T10:13:23.393264Z",
-"seed": 42,
-"source_aggregate": "/tmp/themis_gap_scan_tuned/gap_scan_v3_aggregate.json",
-"sample_size": 50,
-"total_gaps": 30015,
-"by_severity": {
-"MEDIUM": 12,
-"CRITICAL": 6,
-"INFO": 22,
-"HIGH": 9,
-"LOW": 1
-},
-"by_category": {
-"performance": 11,
-"audit_logging": 2,
-"pointer_arithmetic": 1,
-"uncaught_exception": 2,
-"copy_overhead": 3,
-"uninitialized_access": 1,
-"observability": 1,
-"db_connection_leak": 1,
-"legacy_duplication": 1,
-"no_health_check": 1,
-"range_temporary": 1,
-"no_retry_logic": 1,
-"abi_safety": 4,
-"null_dereference": 1,
-"delete_no_nullptr": 1,
-"data_race": 1,
-"lock_contention": 1,
-"smart_ptr_misuse": 1,
-"string_concat_loop": 1,
-"determinism": 2,
-"o_n_squared": 1,
-"repeated_lookup": 1,
-"llm_ai_safety": 7,
-"repeated_search": 1,
-"hardcoded_path": 1,
-"new_without_delete": 1
-},
-"by_module": {
-"plugins": 1,
-"importers": 2,
-"base": 1,
-"query": 2,
-"performance": 1,
-"network": 2,
-"index": 2,
-"transaction": 1,
-"themis": 1,
-"content": 2,
-"storage": 3,
-"security": 1,
-"auth": 2,
-"core": 1,
-"analytics": 2,
-"aql": 3,
-"cdc": 1,
-"llm": 10,
-
----
-
 ### sample_validation_metadata_src.json
 
 *(file too large — key headings extracted)*
@@ -3274,6 +2917,73 @@ from scanners.gs3_step01_thread_safety_improved import ThreadSafetyScannerImprov
 ## Einzelbewertung
 | # | File | Line | Type | Sev | Bewertung | Konf. | Begründung |
 |---:|---|---:|---|---|---|---:|---|
+
+---
+
+### sample_validation_metadata.json
+
+*(file too large — key headings extracted)*
+
+{
+"sample_date": "2026-07-20T10:13:23.393264Z",
+"seed": 42,
+"source_aggregate": "/tmp/themis_gap_scan_tuned/gap_scan_v3_aggregate.json",
+"sample_size": 50,
+"total_gaps": 30015,
+"by_severity": {
+"MEDIUM": 12,
+"CRITICAL": 6,
+"INFO": 22,
+"HIGH": 9,
+"LOW": 1
+},
+"by_category": {
+"performance": 11,
+"audit_logging": 2,
+"pointer_arithmetic": 1,
+"uncaught_exception": 2,
+"copy_overhead": 3,
+"uninitialized_access": 1,
+"observability": 1,
+"db_connection_leak": 1,
+"legacy_duplication": 1,
+"no_health_check": 1,
+"range_temporary": 1,
+"no_retry_logic": 1,
+"abi_safety": 4,
+"null_dereference": 1,
+"delete_no_nullptr": 1,
+"data_race": 1,
+"lock_contention": 1,
+"smart_ptr_misuse": 1,
+"string_concat_loop": 1,
+"determinism": 2,
+"o_n_squared": 1,
+"repeated_lookup": 1,
+"llm_ai_safety": 7,
+"repeated_search": 1,
+"hardcoded_path": 1,
+"new_without_delete": 1
+},
+"by_module": {
+"plugins": 1,
+"importers": 2,
+"base": 1,
+"query": 2,
+"performance": 1,
+"network": 2,
+"index": 2,
+"transaction": 1,
+"themis": 1,
+"content": 2,
+"storage": 3,
+"security": 1,
+"auth": 2,
+"core": 1,
+"analytics": 2,
+"aql": 3,
+"cdc": 1,
+"llm": 10,
 
 ---
 
@@ -4648,148 +4358,6 @@ gs3_orchestrator.py: error: unrecognized arguments: include tests benchmarks
 
 ---
 
-### docs_module_alignment_report_2026-05-31.json
-
-*(file too large — key headings extracted)*
-
-{
-"summary": {
-"generated_at": "2026-08-17 10:56:31",
-"modules_analyzed": 67,
-"modules_with_risks": 0,
-"modules_without_docs_links": 0,
-"modules_with_stale_docs": 0,
-"modules_with_workload_underestimate_risk": 0
-},
-"modules": [
-{
-"module": "observability",
-"plan_files": [
-"src/observability/FUTURE_ENHANCEMENTS.md",
-"src/observability/MODULE_GAPS.md"
-],
-"plan_open_tasks": 12,
-"plan_checkbox_total": 43,
-"plan_newest": "2026-08-17",
-"related_docs_count": 33,
-"related_docs_high_relevance_count": 32,
-"related_docs_open_tasks_high_relevance": 50,
-"docs_newest": "2026-08-17",
-"docs_minus_plan_days": -1,
-"status": "OK",
-"risk_score": 0,
-"high_relevance_docs": [
-"docs/en/observability/PRIMARY_SOURCES.md",
-"docs/de/observability/PRIMARY_SOURCES.md",
-"docs/de/observability/README.md",
-"docs/observability/README.md",
-"docs/en/observability/siem_dashboard_user_guide.md",
-"docs/en/observability/siem_integration.md",
-"docs/de/observability/observability_tracing.md",
-"docs/de/observability/siem_integration.md"
-]
-},
-{
-"module": "core",
-"plan_files": [
-"src/core/FUTURE_ENHANCEMENTS.md",
-"src/core/MODULE_GAPS.md"
-],
-"plan_open_tasks": 11,
-"plan_checkbox_total": 15,
-"plan_newest": "2026-08-17",
-"related_docs_count": 19,
-"related_docs_high_relevance_count": 18,
-"related_docs_open_tasks_high_relevance": 17,
-"docs_newest": "2026-08-17",
-"docs_minus_plan_days": -1,
-"status": "OK",
-"risk_score": 0,
-"high_relevance_docs": [
-"docs/en/core/PRIMARY_SOURCES.md",
-"docs/de/core/PRIMARY_SOURCES.md",
-"docs/de/core/architecture.md",
-"docs/core/README.md",
-"docs/core/ROADMAP.md",
-"docs/core/API.md",
-
----
-
-### docs_module_alignment_report_2026-05-31.md
-
-*(file too large — key headings extracted)*
-
-# Docs-zu-Planungs-Abgleich (Module)
-## Methode
-- Quelle pro Modul: src/<module>/FUTURE_ENHANCEMENTS.md und src/<module>/MODULE_GAPS.md
-- Vergleichsziel: docs/**/*.md
-- Relevanzprinzip: neuere Dokumente werden hoeher gewichtet als alte
-- Zusatzgewicht: docs/en/<module>/..., docs/de/<module>/..., PRIMARY_SOURCES.md
-- Abwertung: archive/ARCHIVED/implementation-history/audit-reports
-## Zusammenfassung
-- Generiert: 2026-08-17 10:56:31
-- Module analysiert: 67
-- Module mit Risiko: 0
-- Ohne Docs-Link: 0
-- Mit veralteten Docs (>30 Tage hinter Plan): 0
-- Risiko Workload-Unterschaetzung: 0
-## Top-Risiko-Module
-| Modul | Status | Risiko-Score | Plan offene Tasks | High-Rel Docs | High-Rel offene Tasks | Docs minus Plan (Tage) |
-|---|---:|---:|---:|---:|---:|---:|
-## Hinweise zur Nutzung
-- Prioritaet 1: Status NO_DOC_LINK und HIGH_RISK_MISALIGNMENT
-- Prioritaet 2: Module mit stark negativem Docs-minus-Plan-Wert
-- Prioritaet 3: Module mit vielen offenen Plan-Tasks, aber kaum offene High-Rel-Doku-Tasks
-## Artefakte
-- JSON: ai_working/docs_module_alignment_report_2026-05-31.json
-- Report: ai_working/docs_module_alignment_report_2026-05-31.md
-
----
-
-### dokifi_level_orchestration_example.md
-
-*(file too large — key headings extracted)*
-
-# Dokifi Level-Based Orchestration — Practical Example (2026-06-25)
-## Scenario: Update Root CHANGELOG.md with new feature
-User issues:
-/dokifi L3
-## System Response (Automated L0→L3 Verification)
-### Step 1: Check L2 Status (Informative Report)
-[INFO] L2 (Developer Aggregates)...
-ℹ️  ai_working/gap_scanner_results.json: last updated 2026-06-25 09:15 (0.2 days ago)
-ℹ️  ai_working/module_doc_summary.md: last updated 2026-06-25 11:20 (fresh)
-⚠️  ai_working/changelog_snapshot.md: last updated 2026-06-20 08:45 (5.2 days old — consider refresh)
-✅  ROADMAP.md (L3-peer): up-to-date (0 days)
-✅  FUTURE_ENHANCEMENTS.md (L3-peer): up-to-date (0.2 days)
-STATUS: ℹ️ L2 AVAILABLE (age recommendations shown, but proceeding with L3 update)
-### Step 2: Proceed with L3 Update
-Since L2 is fresh, system proceeds to:
-[UPDATE] CHANGELOG.md (L3)
-Source: ai_working/changelog_snapshot.md (L2 aggregate)
-Add: New feature "Graph Query Vectorization" with date 2026-06-25
-Link: src/graph/ROADMAP.md (L1 source), tests/graph/FUTURE_ENHANCEMENTS.md
-Validate: Naming (UPPER_SNAKE ✅), Structure (version/date/features ✅), Duktus (neutral, evidence-based ✅)
-[UPDATE] README.md (L3)
-Source: ai_working/feature_summary.md (L2)
-Sync: Feature list with new "Graph Query Vectorization" entry
-Link: CHANGELOG.md date, ROADMAP.md phase
-[VALIDATE] Peer L3 Coherence
-- SECURITY.md: ✅ No new security implications (audit passed)
-- ROADMAP.md: ✅ "Graph Query Vectorization" phase listed
-- FUTURE_ENHANCEMENTS.md: ✅ No conflicts with planned features
-STATUS: ✅ L3 UPDATE COMPLETE
-### Step 3: Conformance Report
-CONFORMANCE REPORT (L3):
-✅ Naming:        CHANGELOG.md, README.md conform to UPPER_SNAKE
-✅ Structure:     Version headers, date markers, feature lists intact
-✅ Duktus:        Technical, precise, evidence-backed claims
-✅ SOT Mapping:   L2 aggregates → L3 summary coherent, linked
-✅ L3-Peer Check: No conflicts between CHANGELOG, README, ROADMAP, SECURITY
-✅ Release:       No draft/unstable markers in root docs
-
----
-
 ### dokifi_scope_limiting_examples.md
 
 *(file too large — key headings extracted)*
@@ -4951,6 +4519,148 @@ STATUS: ✅ L1 UPDATE COMPLETE (scoped to src/graph/ only)
 | STUB_INVENTORY.md | specialist | yes | Inventory of non-production code paths and simulation markers. |
 | UNUSED_FUNCTIONS_REPORT.md | specialist | yes | Maintenance report for dead or unreferenced source symbols. |
 | VCCDB Design.md | core | yes | Core architecture/design note for the primary source system. |
+
+---
+
+### docs_module_alignment_report_2026-05-31.json
+
+*(file too large — key headings extracted)*
+
+{
+"summary": {
+"generated_at": "2026-08-17 10:56:31",
+"modules_analyzed": 67,
+"modules_with_risks": 0,
+"modules_without_docs_links": 0,
+"modules_with_stale_docs": 0,
+"modules_with_workload_underestimate_risk": 0
+},
+"modules": [
+{
+"module": "observability",
+"plan_files": [
+"src/observability/FUTURE_ENHANCEMENTS.md",
+"src/observability/MODULE_GAPS.md"
+],
+"plan_open_tasks": 12,
+"plan_checkbox_total": 43,
+"plan_newest": "2026-08-17",
+"related_docs_count": 33,
+"related_docs_high_relevance_count": 32,
+"related_docs_open_tasks_high_relevance": 50,
+"docs_newest": "2026-08-17",
+"docs_minus_plan_days": -1,
+"status": "OK",
+"risk_score": 0,
+"high_relevance_docs": [
+"docs/en/observability/PRIMARY_SOURCES.md",
+"docs/de/observability/PRIMARY_SOURCES.md",
+"docs/de/observability/README.md",
+"docs/observability/README.md",
+"docs/en/observability/siem_dashboard_user_guide.md",
+"docs/en/observability/siem_integration.md",
+"docs/de/observability/observability_tracing.md",
+"docs/de/observability/siem_integration.md"
+]
+},
+{
+"module": "core",
+"plan_files": [
+"src/core/FUTURE_ENHANCEMENTS.md",
+"src/core/MODULE_GAPS.md"
+],
+"plan_open_tasks": 11,
+"plan_checkbox_total": 15,
+"plan_newest": "2026-08-17",
+"related_docs_count": 19,
+"related_docs_high_relevance_count": 18,
+"related_docs_open_tasks_high_relevance": 17,
+"docs_newest": "2026-08-17",
+"docs_minus_plan_days": -1,
+"status": "OK",
+"risk_score": 0,
+"high_relevance_docs": [
+"docs/en/core/PRIMARY_SOURCES.md",
+"docs/de/core/PRIMARY_SOURCES.md",
+"docs/de/core/architecture.md",
+"docs/core/README.md",
+"docs/core/ROADMAP.md",
+"docs/core/API.md",
+
+---
+
+### docs_module_alignment_report_2026-05-31.md
+
+*(file too large — key headings extracted)*
+
+# Docs-zu-Planungs-Abgleich (Module)
+## Methode
+- Quelle pro Modul: src/<module>/FUTURE_ENHANCEMENTS.md und src/<module>/MODULE_GAPS.md
+- Vergleichsziel: docs/**/*.md
+- Relevanzprinzip: neuere Dokumente werden hoeher gewichtet als alte
+- Zusatzgewicht: docs/en/<module>/..., docs/de/<module>/..., PRIMARY_SOURCES.md
+- Abwertung: archive/ARCHIVED/implementation-history/audit-reports
+## Zusammenfassung
+- Generiert: 2026-08-17 10:56:31
+- Module analysiert: 67
+- Module mit Risiko: 0
+- Ohne Docs-Link: 0
+- Mit veralteten Docs (>30 Tage hinter Plan): 0
+- Risiko Workload-Unterschaetzung: 0
+## Top-Risiko-Module
+| Modul | Status | Risiko-Score | Plan offene Tasks | High-Rel Docs | High-Rel offene Tasks | Docs minus Plan (Tage) |
+|---|---:|---:|---:|---:|---:|---:|
+## Hinweise zur Nutzung
+- Prioritaet 1: Status NO_DOC_LINK und HIGH_RISK_MISALIGNMENT
+- Prioritaet 2: Module mit stark negativem Docs-minus-Plan-Wert
+- Prioritaet 3: Module mit vielen offenen Plan-Tasks, aber kaum offene High-Rel-Doku-Tasks
+## Artefakte
+- JSON: ai_working/docs_module_alignment_report_2026-05-31.json
+- Report: ai_working/docs_module_alignment_report_2026-05-31.md
+
+---
+
+### dokifi_level_orchestration_example.md
+
+*(file too large — key headings extracted)*
+
+# Dokifi Level-Based Orchestration — Practical Example (2026-06-25)
+## Scenario: Update Root CHANGELOG.md with new feature
+User issues:
+/dokifi L3
+## System Response (Automated L0→L3 Verification)
+### Step 1: Check L2 Status (Informative Report)
+[INFO] L2 (Developer Aggregates)...
+ℹ️  ai_working/gap_scanner_results.json: last updated 2026-06-25 09:15 (0.2 days ago)
+ℹ️  ai_working/module_doc_summary.md: last updated 2026-06-25 11:20 (fresh)
+⚠️  ai_working/changelog_snapshot.md: last updated 2026-06-20 08:45 (5.2 days old — consider refresh)
+✅  ROADMAP.md (L3-peer): up-to-date (0 days)
+✅  FUTURE_ENHANCEMENTS.md (L3-peer): up-to-date (0.2 days)
+STATUS: ℹ️ L2 AVAILABLE (age recommendations shown, but proceeding with L3 update)
+### Step 2: Proceed with L3 Update
+Since L2 is fresh, system proceeds to:
+[UPDATE] CHANGELOG.md (L3)
+Source: ai_working/changelog_snapshot.md (L2 aggregate)
+Add: New feature "Graph Query Vectorization" with date 2026-06-25
+Link: src/graph/ROADMAP.md (L1 source), tests/graph/FUTURE_ENHANCEMENTS.md
+Validate: Naming (UPPER_SNAKE ✅), Structure (version/date/features ✅), Duktus (neutral, evidence-based ✅)
+[UPDATE] README.md (L3)
+Source: ai_working/feature_summary.md (L2)
+Sync: Feature list with new "Graph Query Vectorization" entry
+Link: CHANGELOG.md date, ROADMAP.md phase
+[VALIDATE] Peer L3 Coherence
+- SECURITY.md: ✅ No new security implications (audit passed)
+- ROADMAP.md: ✅ "Graph Query Vectorization" phase listed
+- FUTURE_ENHANCEMENTS.md: ✅ No conflicts with planned features
+STATUS: ✅ L3 UPDATE COMPLETE
+### Step 3: Conformance Report
+CONFORMANCE REPORT (L3):
+✅ Naming:        CHANGELOG.md, README.md conform to UPPER_SNAKE
+✅ Structure:     Version headers, date markers, feature lists intact
+✅ Duktus:        Technical, precise, evidence-backed claims
+✅ SOT Mapping:   L2 aggregates → L3 summary coherent, linked
+✅ L3-Peer Check: No conflicts between CHANGELOG, README, ROADMAP, SECURITY
+✅ Release:       No draft/unstable markers in root docs
 
 ---
 
@@ -5168,6 +4878,45 @@ PREREQUISITES DETECTED (blocking target update):
 
 ---
 
+### b04_grpc_numeric_in_hardening_plan_2026-06-18.md
+
+*(file too large — key headings extracted)*
+
+# B-04 gRPC Numeric IN Hardening Plan (2026-06-18)
+## Scope
+- Harden `FilteredVectorSearch` fallback handling for numeric `in` filters.
+- Add regression tests for mixed-type and invalid numeric `in` payloads.
+- Keep behavior backward-compatible for existing `_key`/`_id` and string attribute filters.
+## Acceptance Criteria
+- Numeric `in` works for top-level numeric attributes.
+- Completely invalid numeric `in` payloads do not crash and are handled via unsupported-filter path.
+- Existing focused gRPC tests remain green.
+## Files
+- `src/api/themisdb_grpc_service.cpp`
+- `tests/themisdb/test_themisdb_grpc_service.cpp`
+- `FUTURE_ENHANCEMENTS.md` (progress sync)
+## Verification
+- Build: `cmake --build --preset windows-release --target test_themisdb_grpc_service --parallel 16`
+
+---
+
+### backup_integrity_followup_plan_2026-07-19.md
+
+*(file too large — key headings extracted)*
+
+# Backup integrity follow-up plan (2026-07-19)
+- Acceptance:
+- `Result<void>` helpers compile correctly in integrity paths.
+- Missing integrity manifest remains backward-compatible, but manifest parse/open failures fail verification.
+- `decompressBackup()` preserves the specific verification error code.
+- Public API docs match actual `Result<>` behavior and do not promise quarantine behavior that is not implemented.
+- Focused backup integration tests cover missing-manifest success and corrupted manifest/data failure paths.
+- Validation:
+- Inspect relevant CI workflow failures for this branch/PR.
+- Run focused build/test for `backup_recovery_integration_test` or the smallest available storage-focused target.
+
+---
+
 ### automation_completion_report.json
 
 *(file too large — key headings extracted)*
@@ -5372,45 +5121,6 @@ Hinweis zu Cap'n Proto vs FlatBuffers:
 
 ---
 
-### b04_grpc_numeric_in_hardening_plan_2026-06-18.md
-
-*(file too large — key headings extracted)*
-
-# B-04 gRPC Numeric IN Hardening Plan (2026-06-18)
-## Scope
-- Harden `FilteredVectorSearch` fallback handling for numeric `in` filters.
-- Add regression tests for mixed-type and invalid numeric `in` payloads.
-- Keep behavior backward-compatible for existing `_key`/`_id` and string attribute filters.
-## Acceptance Criteria
-- Numeric `in` works for top-level numeric attributes.
-- Completely invalid numeric `in` payloads do not crash and are handled via unsupported-filter path.
-- Existing focused gRPC tests remain green.
-## Files
-- `src/api/themisdb_grpc_service.cpp`
-- `tests/themisdb/test_themisdb_grpc_service.cpp`
-- `FUTURE_ENHANCEMENTS.md` (progress sync)
-## Verification
-- Build: `cmake --build --preset windows-release --target test_themisdb_grpc_service --parallel 16`
-
----
-
-### backup_integrity_followup_plan_2026-07-19.md
-
-*(file too large — key headings extracted)*
-
-# Backup integrity follow-up plan (2026-07-19)
-- Acceptance:
-- `Result<void>` helpers compile correctly in integrity paths.
-- Missing integrity manifest remains backward-compatible, but manifest parse/open failures fail verification.
-- `decompressBackup()` preserves the specific verification error code.
-- Public API docs match actual `Result<>` behavior and do not promise quarantine behavior that is not implemented.
-- Focused backup integration tests cover missing-manifest success and corrupted manifest/data failure paths.
-- Validation:
-- Inspect relevant CI workflow failures for this branch/PR.
-- Run focused build/test for `backup_recovery_integration_test` or the smallest available storage-focused target.
-
----
-
 ### active_stubs.txt
 
 *(file too large — key headings extracted)*
@@ -5483,6 +5193,59 @@ B) Policy Engine
 "total_issues": 65,
 "coverage_percent": 100
 }
+
+---
+
+### WORKFLOW_ANALYSIS_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Comprehensive GitHub Workflows CI Analysis Report
+**Generated:** 2026-08-16
+**Repository:** ThemisDB
+**Scope:** All workflows in `.github/workflows/` and composite actions in `.github/actions/`
+---
+## Executive Summary
+| Metric | Value |
+|--------|-------|
+| **Total Workflows** | 23 |
+| **Total Composite Actions** | 3 |
+| **CRITICAL Issues** | 1 |
+| **HIGH Issues** | 0 |
+| **MEDIUM Issues** | 2 |
+| **LOW Issues** | 0 |
+| **Overall Health** | ⚠️ **PASSING WITH ISSUES** |
+---
+## Analysis Sections
+### 1. YAML Syntax & Structure Validation
+**Status:** ✅ **PASS**
+- All 23 workflow files have valid YAML syntax
+- All 3 composite action files have valid YAML syntax
+- No syntax parsing errors detected
+---
+### 2. Workflow Trigger Configuration
+**Status:** ✅ **PASS**
+All workflows have valid trigger configurations:
+| Workflow | Triggers | Notes |
+|----------|----------|-------|
+| automation-community.yml | pull_request_target, issues | Community automation |
+| ci-benchmarks.yml | schedule, workflow_dispatch | Scheduled performance tests |
+| ci-build.yml | push, pull_request, workflow_dispatch | Main build pipeline |
+| ci-pr-gates.yml | pull_request, push, workflow_dispatch | PR validation gates |
+| ci-release.yml | push, release, workflow_dispatch | Release automation |
+| codeql.yml | push, pull_request, workflow_dispatch | Code security scanning |
+| compliance-supply-chain.yml | pull_request, push, release, schedule, workflow_dispatch | Supply chain compliance |
+| copilot-ollama-router-ci.yml | push, pull_request, workflow_dispatch | Copilot integration testing |
+| copilot-regression-guard.yml | pull_request, workflow_dispatch | Copilot regression testing |
+| docker-image.yml | workflow_run, workflow_dispatch | Docker image building |
+| edition-hyperscaler-ci.yml | workflow_dispatch, push | Hyperscaler edition testing |
+| fortify.yml | schedule, workflow_dispatch | Security scanning (Fortify) |
+| fuzzing.yml | schedule, workflow_dispatch | Fuzzing tests |
+| maintenance-cache-warming.yml | schedule, workflow_dispatch | Cache maintenance |
+| maintenance-ci-health.yml | schedule, workflow_dispatch | CI health monitoring |
+| maintenance-docs.yml | push, pull_request, schedule, workflow_dispatch | Documentation management |
+| maintenance-issues.yml | schedule, workflow_dispatch | Issue automation |
+| quality-static-analysis.yml | pull_request, schedule, workflow_dispatch | Static analysis |
 
 ---
 
@@ -6189,56 +5952,105 @@ ci-release.yml Line 594
 
 ---
 
-### WORKFLOW_ANALYSIS_REPORT.md
+### VOICE_MODULE_5683_VALIDATION_REPORT.md
 
 *(file too large — key headings extracted)*
 
-# Comprehensive GitHub Workflows CI Analysis Report
-**Generated:** 2026-08-16
-**Repository:** ThemisDB
-**Scope:** All workflows in `.github/workflows/` and composite actions in `.github/actions/`
+# Voice Module Development Status Issue #5683 - Validation Report
+**Date:** 2026-08-08
+**Issue:** makr-code/ThemisDB#5683
+**Module:** voice
+**Roadmap Path:** src/voice/ROADMAP.md
+**Future Path:** src/voice/FUTURE_ENHANCEMENTS.md
 ---
 ## Executive Summary
-| Metric | Value |
-|--------|-------|
-| **Total Workflows** | 23 |
-| **Total Composite Actions** | 3 |
-| **CRITICAL Issues** | 1 |
-| **HIGH Issues** | 0 |
-| **MEDIUM Issues** | 2 |
-| **LOW Issues** | 0 |
-| **Overall Health** | ⚠️ **PASSING WITH ISSUES** |
 ---
-## Analysis Sections
-### 1. YAML Syntax & Structure Validation
-**Status:** ✅ **PASS**
-- All 23 workflow files have valid YAML syntax
-- All 3 composite action files have valid YAML syntax
-- No syntax parsing errors detected
+## Part 1: Roadmap Priorities Validation
+### Issue Claimed Priorities (from problem statement):
+- [~] Session and streaming hardening for fail-closed behavior under malformed or oversized input (Target: Q3 2026)
+- [~] Wake-word and intent path stability tuning under noisy real-world input profiles (Target: Q3 2026)
+- [~] Benchmark and regression gate consolidation for voice-heavy release profiles (Target: Q3 2026)
+- [ ] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026)
+- [ ] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026)
+- [ ] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026)
+- [ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)
+- [ ] Extend multi-session concurrency coverage for prolonged workloads (Target: Q1 2027)
+### Source ROADMAP.md Verification
+**File Location:** `/home/runner/work/ThemisDB/ThemisDB/src/voice/ROADMAP.md`
+**Validated:** YES - EXACT MATCH
+**In Progress section (lines 11-15):**
+- ✓ `[~] Session and streaming hardening for fail-closed behavior under malformed or oversized input (Target: Q3 2026)`
+- ✓ `[~] Wake-word and intent path stability tuning under noisy real-world input profiles (Target: Q3 2026)`
+- ✓ `[~] Benchmark and regression gate consolidation for voice-heavy release profiles (Target: Q3 2026)`
+**Short-term Planned Features (lines 20-22):**
+- ✓ `[ ] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026)`
+- ✓ `[ ] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026)`
+- ✓ `[ ] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026)`
+**Mid-term Planned Features (lines 25-27):**
+- ✓ `[ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)`
+- ✓ `[ ] Extend multi-session concurrency coverage for prolonged workloads (Target: Q1 2027)`
+### Conclusion: ✅ ROADMAP EXTRACTION VALID AND COMPLETE
 ---
-### 2. Workflow Trigger Configuration
-**Status:** ✅ **PASS**
-All workflows have valid trigger configurations:
-| Workflow | Triggers | Notes |
-|----------|----------|-------|
-| automation-community.yml | pull_request_target, issues | Community automation |
-| ci-benchmarks.yml | schedule, workflow_dispatch | Scheduled performance tests |
-| ci-build.yml | push, pull_request, workflow_dispatch | Main build pipeline |
-| ci-pr-gates.yml | pull_request, push, workflow_dispatch | PR validation gates |
-| ci-release.yml | push, release, workflow_dispatch | Release automation |
-| codeql.yml | push, pull_request, workflow_dispatch | Code security scanning |
-| compliance-supply-chain.yml | pull_request, push, release, schedule, workflow_dispatch | Supply chain compliance |
-| copilot-ollama-router-ci.yml | push, pull_request, workflow_dispatch | Copilot integration testing |
-| copilot-regression-guard.yml | pull_request, workflow_dispatch | Copilot regression testing |
-| docker-image.yml | workflow_run, workflow_dispatch | Docker image building |
-| edition-hyperscaler-ci.yml | workflow_dispatch, push | Hyperscaler edition testing |
-| fortify.yml | schedule, workflow_dispatch | Security scanning (Fortify) |
-| fuzzing.yml | schedule, workflow_dispatch | Fuzzing tests |
-| maintenance-cache-warming.yml | schedule, workflow_dispatch | Cache maintenance |
-| maintenance-ci-health.yml | schedule, workflow_dispatch | CI health monitoring |
-| maintenance-docs.yml | push, pull_request, schedule, workflow_dispatch | Documentation management |
-| maintenance-issues.yml | schedule, workflow_dispatch | Issue automation |
-| quality-static-analysis.yml | pull_request, schedule, workflow_dispatch | Static analysis |
+## Part 2: Future Enhancements Validation
+### Issue Claimed Focus Points:
+- Preserve stable assistant/session interfaces for existing consumers.
+- Keep session state transitions deterministic under equivalent inputs.
+- Ensure auth and safety checks run before privileged voice operations.
+
+---
+
+### VALIDATION_ASSESSMENT_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# Gap Validation Assessment Guide
+## Overview
+✅ **Representative sample generated:** 50 gaps stratified by severity and category
+📊 **Total gaps in dataset:** 18,795
+🎯 **Assessment required:** TP (True Positive) vs FP (False Positive)
+⏱️ **Time estimate:** 1-2 hours for manual review
+---
+## Files Generated
+### 1. **SAMPLE_VALIDATION_TEMPLATE.md** (Main Assessment Document)
+Contains all 50 gaps with:
+- **File location** and line number
+- **Gap description** (what the scanner detected)
+- **Function context** (~15 lines of code around the issue)
+- **Assessment checkboxes:** TP / FP / ? (uncertain)
+- **Notes field:** Reasoning for your assessment
+### 2. **sample_validation_metadata.json** (Sample Statistics)
+{
+"sample_size": 50,
+"total_gaps": 18795,
+"by_severity": {
+"CRITICAL": 8,    (16%)
+"HIGH": 20,       (40%)
+"MEDIUM": 22      (44%)
+},
+"by_category": {
+"llm_ai_safety": 6,
+"performance": 10,
+"data_race": 2,
+"...": "..."
+},
+"by_module": {
+"server": 9,
+"llm": 9,
+"query": 4,
+"...": "..."
+}
+}
+---
+## Assessment Process
+### Step 1: Open Template
+Open `ai_working/SAMPLE_VALIDATION_TEMPLATE.md` in your editor.
+### Step 2: For Each Gap (1-50)
+For every gap section:
+1. **Read the description** - What does the scanner claim?
+2. **Review the function context** - Is the context sufficient? (±12 lines around the target)
+3. **Assess correctness:**
+- **TP** = The code has a real issue (e.g., resource leak, race condition, null dereference)
+- **FP** = The code is safe/correct (scanner misidentified a pattern)
 
 ---
 
@@ -6506,53 +6318,6 @@ $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/wake_word_detector.cpp>
 
 ---
 
-### VOICE_MODULE_5683_VALIDATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Voice Module Development Status Issue #5683 - Validation Report
-**Date:** 2026-08-08
-**Issue:** makr-code/ThemisDB#5683
-**Module:** voice
-**Roadmap Path:** src/voice/ROADMAP.md
-**Future Path:** src/voice/FUTURE_ENHANCEMENTS.md
----
-## Executive Summary
----
-## Part 1: Roadmap Priorities Validation
-### Issue Claimed Priorities (from problem statement):
-- [~] Session and streaming hardening for fail-closed behavior under malformed or oversized input (Target: Q3 2026)
-- [~] Wake-word and intent path stability tuning under noisy real-world input profiles (Target: Q3 2026)
-- [~] Benchmark and regression gate consolidation for voice-heavy release profiles (Target: Q3 2026)
-- [ ] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026)
-- [ ] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026)
-- [ ] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026)
-- [ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)
-- [ ] Extend multi-session concurrency coverage for prolonged workloads (Target: Q1 2027)
-### Source ROADMAP.md Verification
-**File Location:** `/home/runner/work/ThemisDB/ThemisDB/src/voice/ROADMAP.md`
-**Validated:** YES - EXACT MATCH
-**In Progress section (lines 11-15):**
-- ✓ `[~] Session and streaming hardening for fail-closed behavior under malformed or oversized input (Target: Q3 2026)`
-- ✓ `[~] Wake-word and intent path stability tuning under noisy real-world input profiles (Target: Q3 2026)`
-- ✓ `[~] Benchmark and regression gate consolidation for voice-heavy release profiles (Target: Q3 2026)`
-**Short-term Planned Features (lines 20-22):**
-- ✓ `[ ] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026)`
-- ✓ `[ ] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026)`
-- ✓ `[ ] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026)`
-**Mid-term Planned Features (lines 25-27):**
-- ✓ `[ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)`
-- ✓ `[ ] Extend multi-session concurrency coverage for prolonged workloads (Target: Q1 2027)`
-### Conclusion: ✅ ROADMAP EXTRACTION VALID AND COMPLETE
----
-## Part 2: Future Enhancements Validation
-### Issue Claimed Focus Points:
-- Preserve stable assistant/session interfaces for existing consumers.
-- Keep session state transitions deterministic under equivalent inputs.
-- Ensure auth and safety checks run before privileged voice operations.
-
----
-
 ### V2_4_0_DOCUMENTATION_CONSOLIDATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -6735,61 +6500,6 @@ Per ROADMAP.md §Implementation vs Documentation Gap Classification:
 
 ---
 
-### VALIDATION_ASSESSMENT_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# Gap Validation Assessment Guide
-## Overview
-✅ **Representative sample generated:** 50 gaps stratified by severity and category
-📊 **Total gaps in dataset:** 18,795
-🎯 **Assessment required:** TP (True Positive) vs FP (False Positive)
-⏱️ **Time estimate:** 1-2 hours for manual review
----
-## Files Generated
-### 1. **SAMPLE_VALIDATION_TEMPLATE.md** (Main Assessment Document)
-Contains all 50 gaps with:
-- **File location** and line number
-- **Gap description** (what the scanner detected)
-- **Function context** (~15 lines of code around the issue)
-- **Assessment checkboxes:** TP / FP / ? (uncertain)
-- **Notes field:** Reasoning for your assessment
-### 2. **sample_validation_metadata.json** (Sample Statistics)
-{
-"sample_size": 50,
-"total_gaps": 18795,
-"by_severity": {
-"CRITICAL": 8,    (16%)
-"HIGH": 20,       (40%)
-"MEDIUM": 22      (44%)
-},
-"by_category": {
-"llm_ai_safety": 6,
-"performance": 10,
-"data_race": 2,
-"...": "..."
-},
-"by_module": {
-"server": 9,
-"llm": 9,
-"query": 4,
-"...": "..."
-}
-}
----
-## Assessment Process
-### Step 1: Open Template
-Open `ai_working/SAMPLE_VALIDATION_TEMPLATE.md` in your editor.
-### Step 2: For Each Gap (1-50)
-For every gap section:
-1. **Read the description** - What does the scanner claim?
-2. **Review the function context** - Is the context sufficient? (±12 lines around the target)
-3. **Assess correctness:**
-- **TP** = The code has a real issue (e.g., resource leak, race condition, null dereference)
-- **FP** = The code is safe/correct (scanner misidentified a pattern)
-
----
-
 ### USER_STORAGE_ENCRYPTION_COMPLETE_INDEX.md
 
 *(file too large — key headings extracted)*
@@ -6933,6 +6643,102 @@ END: 2026-12-19 → v1.0.0 RELEASE
 - Verify rotation completeness under concurrent load (no dropped rotations)
 - IRotationStore crash recovery (resume interrupted rotations)
 - Rotation audit log entries created atomically with key updates
+
+---
+
+### TRANSACTION_MODULE_STATUS_VALIDATION_2026_08_07.md
+
+*(file too large — key headings extracted)*
+
+# Transaction Module Status Validation Report
+**Date:** 2026-08-07
+**Issue:** #5679
+**Module:** transaction
+**Status:** Production-Ready
+---
+## 1. Roadmap Validation (vs ROADMAP.md)
+### Current Status Assessment
+#### In Progress Items [~]
+- **Transaction hardening wave for distributed safety, timeout semantics, and recovery guarantees (Target: Q3 2026)**
+- ✓ `ITransactionCoordinator` unified interface for all commit protocols completed (Issue #5374)
+- ○ Complete remaining cross-shard failure-injection coverage for coordinator and participant transitions
+- ○ Tighten timeout and rollback determinism under sustained contention and mixed workloads
+#### Short-term Planned Features (Q4 2026)
+- [ ] Harden coordinator crash-recovery and in-doubt transaction reconciliation policies
+- [ ] Expand transaction diagnostics and explainability for lock/queue/latency bottlenecks
+- [ ] Strengthen SAGA orchestration safeguards for partial remote failures and retries
+#### Mid-term Planned Features (Q1 2027)
+- [ ] Advance distributed transaction throughput hardening without weakening safety invariants
+- [ ] Extend OCC and serializable conflict telemetry to improve operator tuning loops
+- [ ] Expand audit/export integration hardening for large retention windows
+### Implementation Phases Status
+| Phase | Name | Status | Evidence |
+|-------|------|--------|----------|
+| 1 | Lifecycle and Isolation Safety | Active | test_transaction_isolation.cpp, test_transaction_manager.cpp |
+| 3 | SAGA and Compensation Reliability | Active | test_saga_orchestrator.cpp, test_saga_operation.cpp |
+| 4 | Performance and Operational Hardening | Planning | benchmarks available; verification pending |
+| 5 | Documentation and Release Readiness | Active | ROADMAP.md, ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md kept current |
+### Production Readiness Checklist Status
+| Item | Status | Evidence |
+|------|--------|----------|
+| Isolation level implementations | ✓ VERIFIED | test_transaction_isolation_levels.cpp, test_transaction_ssi.cpp |
+| SAGA orchestration | ✓ VERIFIED | test_saga_orchestrator.cpp, test_distributed_saga.cpp* |
+| Deadlock detection | ✓ VERIFIED | test_adaptive_deadlock_prevention.cpp |
+| Transaction batching | ✓ VERIFIED | test_transaction_batcher.cpp |
+| Auditing capability | ✓ VERIFIED | test_transaction_auditor.cpp |
+| Timeout behavior | ✓ VERIFIED | test_transaction_timeout.cpp |
+| OCC support | ✓ VERIFIED | test_transaction_occ.cpp |
+| Retry/recovery semantics | ✓ VERIFIED | test_transaction_retry.cpp, test_cross_coordinator_wal_recovery.cpp |
+---
+## 2. Future Enhancements Validation (vs FUTURE_ENHANCEMENTS.md)
+### Scope Validation
+#### Core Focus Areas
+
+---
+
+### TRANSACTION_SCOPE_ANALYSIS.md
+
+*(file too large — key headings extracted)*
+
+# Transaction Module Scope & Initialization Gap Analysis
+**Date:** 2026-08-18
+**Scope:** `/src/transaction/` (18 C++ files)
+**Issue Count:** 1,455 total (1,413 scope_mismatch, 41 uninitialized_access, 1 uninitialized_array)
+---
+## Executive Summary
+The transaction module has significant scope and initialization violations:
+2. **uninitialized_access (41 HIGH)**: Variables accessed before initialization or missing default initialization
+3. **uninitialized_array (1 HIGH)**: Array allocated but not properly initialized (C-style memset)
+4. **Generic patterns**: Exception handling gaps (generic_catch, unchecked_result, uncaught_exception)
+---
+## Root Cause Analysis
+### 1. Scope Violations (scope_mismatch)
+**Pattern:** Variables declared at function/module scope when they should be block-scoped.
+**Examples:**
+- **deadlock_predictor.cpp:64-87** - Multiple vectors/maps created early, used incrementally
+- **distributed_saga.cpp:75-95** - `adj` map built over multiple iterations, `color` map initialized then iterated
+**Impact:**
+- Longer variable lifetime than necessary
+- Risk of use-after-free if scope boundaries aren't strict
+- Harder to reason about variable validity
+**C++20/17 Best Practice:**
+- Move declarations immediately before first use
+- Use structured bindings where appropriate
+- Apply `[[maybe_unused]]` if intentionally unused
+---
+### 2. Uninitialized Access Patterns
+**Pattern A: Conditional Initialization**
+// Example from distributed_saga.cpp:87-98
+std::function<bool(const std::string&)> dfs = [...]; // Declared here
+for (const auto& name : names) {
+if (color[name] == Color::WHITE && dfs(name)) { // Used here
+// dfs closure captures uninitialized adj map entry
+}
+}
+**Pattern B: Aggregate Type Missing Default Init**
+// Example from merge_engine.cpp:46-52
+Conflict c;  // No explicit initialization
+c.type = ...;  // Incrementally assigned
 
 ---
 
@@ -7080,148 +6886,52 @@ Deep structural issue in Unity build configuration:
 
 ---
 
-### TRANSACTION_ISSUE_5679_CLOSURE_SUMMARY.md
+### TIER1_MODULE_HARDENING_PLAN.md
 
 *(file too large — key headings extracted)*
 
-# Issue #5679 Closure Summary: Transaction Module Status Validation
-## Overview
-## Validation Results
-### ✓ Roadmap Priorities Validated
-- **In Progress (Q3 2026):** Transaction hardening wave for distributed safety
-- ✓ Completed: ITransactionCoordinator unified interface (Issue #5374)
-- ○ In Progress: Cross-shard failure-injection coverage
-- ○ In Progress: Timeout/rollback determinism hardening
-- **Planned (Q4 2026):** Coordinator crash-recovery, diagnostics, SAGA safeguards
-- **Planned (Q1 2027):** Throughput hardening, OCC telemetry, audit hardening
-### ✓ Future Enhancements Validated
-- **Scope:** Reliability, operational hardening, performance hardening — all confirmed
-- **Completed:** Stub #279 - Distributed Transaction Manager Phase-2 fail-closed behavior
-- **Constraints:** 4 design constraints tracked; 3 active, 1 targeted for Q4 2026
-### ✓ Test Evidence Gathered
-**Comprehensive Test Coverage:**
-- 16 focused unit tests identified and verified
-- Tests located in: `tests/transaction/` and `tests/` root directories
-- All tests registered in CMakeLists.txt with module labels and timeout configurations
-**Test Breakdown:**
-| Category | Tests | Files |
-|----------|-------|-------|
-| Lifecycle & Isolation | 5 | test_transaction_{manager, manager_comprehensive, isolation, isolation_levels, bulk} |
-| SAGA Orchestration | 2 | test_{saga_orchestrator, distributed_saga} |
-### ✓ Acceptance Criteria Status
-**Core Acceptance Criteria (10):** ✓ All PASSED
-1. ACID lifecycle isolation enforcement
-2. Begin/Prepare/Commit/Abort state machine correctness
-3. Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
-4. 2PC prepare/commit/abort protocol correctness
-5. SAGA step orchestration and compensation
-6. Deadlock detection and prevention
-7. Timeout semantics and deterministic rollback
-8. Transaction batching with adaptive policies
-9. Audit trail recording and querying
-10. Retry and crash-recovery safety
-**Extended Acceptance Criteria (4):** ○ Tracked for future delivery
-- AC-11: Distributed in-doubt reconciliation (Target: Q4 2026)
-- AC-12: Compensation idempotency under retries (Target: Q4 2026)
-- AC-13: Tail-latency envelope stability (Target: Q1 2027)
-- AC-14: Distributed throughput hardening (Target: Q1 2027)
-### ✓ Build and Documentation Status
-
----
-
-### TRANSACTION_MODULE_STATUS_VALIDATION_2026_08_07.md
-
-*(file too large — key headings extracted)*
-
-# Transaction Module Status Validation Report
-**Date:** 2026-08-07
-**Issue:** #5679
-**Module:** transaction
-**Status:** Production-Ready
----
-## 1. Roadmap Validation (vs ROADMAP.md)
-### Current Status Assessment
-#### In Progress Items [~]
-- **Transaction hardening wave for distributed safety, timeout semantics, and recovery guarantees (Target: Q3 2026)**
-- ✓ `ITransactionCoordinator` unified interface for all commit protocols completed (Issue #5374)
-- ○ Complete remaining cross-shard failure-injection coverage for coordinator and participant transitions
-- ○ Tighten timeout and rollback determinism under sustained contention and mixed workloads
-#### Short-term Planned Features (Q4 2026)
-- [ ] Harden coordinator crash-recovery and in-doubt transaction reconciliation policies
-- [ ] Expand transaction diagnostics and explainability for lock/queue/latency bottlenecks
-- [ ] Strengthen SAGA orchestration safeguards for partial remote failures and retries
-#### Mid-term Planned Features (Q1 2027)
-- [ ] Advance distributed transaction throughput hardening without weakening safety invariants
-- [ ] Extend OCC and serializable conflict telemetry to improve operator tuning loops
-- [ ] Expand audit/export integration hardening for large retention windows
-### Implementation Phases Status
-| Phase | Name | Status | Evidence |
-|-------|------|--------|----------|
-| 1 | Lifecycle and Isolation Safety | Active | test_transaction_isolation.cpp, test_transaction_manager.cpp |
-| 3 | SAGA and Compensation Reliability | Active | test_saga_orchestrator.cpp, test_saga_operation.cpp |
-| 4 | Performance and Operational Hardening | Planning | benchmarks available; verification pending |
-| 5 | Documentation and Release Readiness | Active | ROADMAP.md, ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md kept current |
-### Production Readiness Checklist Status
-| Item | Status | Evidence |
-|------|--------|----------|
-| Isolation level implementations | ✓ VERIFIED | test_transaction_isolation_levels.cpp, test_transaction_ssi.cpp |
-| SAGA orchestration | ✓ VERIFIED | test_saga_orchestrator.cpp, test_distributed_saga.cpp* |
-| Deadlock detection | ✓ VERIFIED | test_adaptive_deadlock_prevention.cpp |
-| Transaction batching | ✓ VERIFIED | test_transaction_batcher.cpp |
-| Auditing capability | ✓ VERIFIED | test_transaction_auditor.cpp |
-| Timeout behavior | ✓ VERIFIED | test_transaction_timeout.cpp |
-| OCC support | ✓ VERIFIED | test_transaction_occ.cpp |
-| Retry/recovery semantics | ✓ VERIFIED | test_transaction_retry.cpp, test_cross_coordinator_wal_recovery.cpp |
----
-## 2. Future Enhancements Validation (vs FUTURE_ENHANCEMENTS.md)
-### Scope Validation
-#### Core Focus Areas
-
----
-
-### TRANSACTION_SCOPE_ANALYSIS.md
-
-*(file too large — key headings extracted)*
-
-# Transaction Module Scope & Initialization Gap Analysis
-**Date:** 2026-08-18
-**Scope:** `/src/transaction/` (18 C++ files)
-**Issue Count:** 1,455 total (1,413 scope_mismatch, 41 uninitialized_access, 1 uninitialized_array)
----
-## Executive Summary
-The transaction module has significant scope and initialization violations:
-2. **uninitialized_access (41 HIGH)**: Variables accessed before initialization or missing default initialization
-3. **uninitialized_array (1 HIGH)**: Array allocated but not properly initialized (C-style memset)
-4. **Generic patterns**: Exception handling gaps (generic_catch, unchecked_result, uncaught_exception)
----
-## Root Cause Analysis
-### 1. Scope Violations (scope_mismatch)
-**Pattern:** Variables declared at function/module scope when they should be block-scoped.
-**Examples:**
-- **deadlock_predictor.cpp:64-87** - Multiple vectors/maps created early, used incrementally
-- **distributed_saga.cpp:75-95** - `adj` map built over multiple iterations, `color` map initialized then iterated
-**Impact:**
-- Longer variable lifetime than necessary
-- Risk of use-after-free if scope boundaries aren't strict
-- Harder to reason about variable validity
-**C++20/17 Best Practice:**
-- Move declarations immediately before first use
-- Use structured bindings where appropriate
-- Apply `[[maybe_unused]]` if intentionally unused
----
-### 2. Uninitialized Access Patterns
-**Pattern A: Conditional Initialization**
-// Example from distributed_saga.cpp:87-98
-std::function<bool(const std::string&)> dfs = [...]; // Declared here
-for (const auto& name : names) {
-if (color[name] == Color::WHITE && dfs(name)) { // Used here
-// dfs closure captures uninitialized adj map entry
-}
-}
-**Pattern B: Aggregate Type Missing Default Init**
-// Example from merge_engine.cpp:46-52
-Conflict c;  // No explicit initialization
-c.type = ...;  // Incrementally assigned
+# Module Hardening — Tier 1 Phase (Started 2026-07-17)
+## Objective
+## Strategy
+1. **Triage by Severity**: CRITICAL gaps first, then HIGH
+2. **Identify Shared Root Causes**: Fix patterns affecting multiple modules
+3. **Larger Batches**: Per user preference, address multiple related gaps per commit
+4. **Validation**: Re-run scanner suite after each batch to measure progress
+## Current Focus: llm Module (Rank 1)
+- **Current Gaps**: 19,838 total
+- CRITICAL: ~3,200
+- HIGH: ~16,600
+- **Target**: -4,960 gaps (25% reduction)
+- **Estimated Effort**: ~8 weeks
+- **Issue**: #5195
+## Implementation Plan
+### Phase 1: Baseline & Triage (Week 1) — 🟠 IN PROGRESS
+- [ ] Run full Phase 1-10 scanner suite on `src/llm/` to establish current baseline
+- [ ] Generate gap report by category and severity
+- [ ] Identify top 10 gap patterns by frequency
+- [ ] Map gaps to affected files
+- [ ] Prioritize CRITICAL gaps for immediate fixes
+### Phase 2: CRITICAL Gap Remediation (Week 2-3)
+- [ ] Address top CRITICAL security gaps (CWE-787, CWE-416, etc.)
+- [ ] Fix CRITICAL concurrency issues (race conditions, deadlocks)
+- [ ] Resolve CRITICAL memory safety gaps (use-after-free, buffer overflows)
+- [ ] Validate fixes with targeted tests
+- [ ] Re-scan to confirm gap reduction
+### Phase 3: HIGH Priority Patterns (Week 4-6)
+- [ ] Fix HIGH reliability gaps (error handling, timeout patterns)
+- [ ] Address HIGH OOP design violations
+- [ ] Resolve HIGH const-correctness issues
+- [ ] Fix HIGH ownership/lifetime gaps
+- [ ] Implement shared fixes for cross-module patterns
+### Phase 4: Validation & Metrics (Week 7-8)
+- [ ] Run full validation test suite
+- [ ] Measure actual gap reduction vs. target
+- [ ] Document fixes in module README
+- [ ] Update issue #5195 with progress
+- [ ] Generate completion report
+## Next Modules (After llm)
+2. **server** (16,183 gaps) - #5196
+3. **sharding** (9,296 gaps) - #5197
 
 ---
 
@@ -7472,6 +7182,55 @@ Abweichung bis ±20 % bei Grenzfällen (z. B. LLM Embedding-Batches).
 - `include/storage/tensor_router.h`
 - `tests/test_tensor_router.cpp` (neue Tests TR-pilot-01..TR-pilot-04)
 ---
+
+---
+
+### TRANSACTION_ISSUE_5679_CLOSURE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Issue #5679 Closure Summary: Transaction Module Status Validation
+## Overview
+## Validation Results
+### ✓ Roadmap Priorities Validated
+- **In Progress (Q3 2026):** Transaction hardening wave for distributed safety
+- ✓ Completed: ITransactionCoordinator unified interface (Issue #5374)
+- ○ In Progress: Cross-shard failure-injection coverage
+- ○ In Progress: Timeout/rollback determinism hardening
+- **Planned (Q4 2026):** Coordinator crash-recovery, diagnostics, SAGA safeguards
+- **Planned (Q1 2027):** Throughput hardening, OCC telemetry, audit hardening
+### ✓ Future Enhancements Validated
+- **Scope:** Reliability, operational hardening, performance hardening — all confirmed
+- **Completed:** Stub #279 - Distributed Transaction Manager Phase-2 fail-closed behavior
+- **Constraints:** 4 design constraints tracked; 3 active, 1 targeted for Q4 2026
+### ✓ Test Evidence Gathered
+**Comprehensive Test Coverage:**
+- 16 focused unit tests identified and verified
+- Tests located in: `tests/transaction/` and `tests/` root directories
+- All tests registered in CMakeLists.txt with module labels and timeout configurations
+**Test Breakdown:**
+| Category | Tests | Files |
+|----------|-------|-------|
+| Lifecycle & Isolation | 5 | test_transaction_{manager, manager_comprehensive, isolation, isolation_levels, bulk} |
+| SAGA Orchestration | 2 | test_{saga_orchestrator, distributed_saga} |
+### ✓ Acceptance Criteria Status
+**Core Acceptance Criteria (10):** ✓ All PASSED
+1. ACID lifecycle isolation enforcement
+2. Begin/Prepare/Commit/Abort state machine correctness
+3. Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
+4. 2PC prepare/commit/abort protocol correctness
+5. SAGA step orchestration and compensation
+6. Deadlock detection and prevention
+7. Timeout semantics and deterministic rollback
+8. Transaction batching with adaptive policies
+9. Audit trail recording and querying
+10. Retry and crash-recovery safety
+**Extended Acceptance Criteria (4):** ○ Tracked for future delivery
+- AC-11: Distributed in-doubt reconciliation (Target: Q4 2026)
+- AC-12: Compensation idempotency under retries (Target: Q4 2026)
+- AC-13: Tail-latency envelope stability (Target: Q1 2027)
+- AC-14: Distributed throughput hardening (Target: Q1 2027)
+### ✓ Build and Documentation Status
 
 ---
 
@@ -7847,55 +7606,6 @@ observability::MetricsCollector* metrics_collector_ = nullptr;
 
 ---
 
-### TIER1_MODULE_HARDENING_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Module Hardening — Tier 1 Phase (Started 2026-07-17)
-## Objective
-## Strategy
-1. **Triage by Severity**: CRITICAL gaps first, then HIGH
-2. **Identify Shared Root Causes**: Fix patterns affecting multiple modules
-3. **Larger Batches**: Per user preference, address multiple related gaps per commit
-4. **Validation**: Re-run scanner suite after each batch to measure progress
-## Current Focus: llm Module (Rank 1)
-- **Current Gaps**: 19,838 total
-- CRITICAL: ~3,200
-- HIGH: ~16,600
-- **Target**: -4,960 gaps (25% reduction)
-- **Estimated Effort**: ~8 weeks
-- **Issue**: #5195
-## Implementation Plan
-### Phase 1: Baseline & Triage (Week 1) — 🟠 IN PROGRESS
-- [ ] Run full Phase 1-10 scanner suite on `src/llm/` to establish current baseline
-- [ ] Generate gap report by category and severity
-- [ ] Identify top 10 gap patterns by frequency
-- [ ] Map gaps to affected files
-- [ ] Prioritize CRITICAL gaps for immediate fixes
-### Phase 2: CRITICAL Gap Remediation (Week 2-3)
-- [ ] Address top CRITICAL security gaps (CWE-787, CWE-416, etc.)
-- [ ] Fix CRITICAL concurrency issues (race conditions, deadlocks)
-- [ ] Resolve CRITICAL memory safety gaps (use-after-free, buffer overflows)
-- [ ] Validate fixes with targeted tests
-- [ ] Re-scan to confirm gap reduction
-### Phase 3: HIGH Priority Patterns (Week 4-6)
-- [ ] Fix HIGH reliability gaps (error handling, timeout patterns)
-- [ ] Address HIGH OOP design violations
-- [ ] Resolve HIGH const-correctness issues
-- [ ] Fix HIGH ownership/lifetime gaps
-- [ ] Implement shared fixes for cross-module patterns
-### Phase 4: Validation & Metrics (Week 7-8)
-- [ ] Run full validation test suite
-- [ ] Measure actual gap reduction vs. target
-- [ ] Document fixes in module README
-- [ ] Update issue #5195 with progress
-- [ ] Generate completion report
-## Next Modules (After llm)
-2. **server** (16,183 gaps) - #5196
-3. **sharding** (9,296 gaps) - #5197
-
----
-
 ### STUB_REMEDIATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -8100,64 +7810,6 @@ A **complete end-to-end system** for finding, documenting, and tracking implemen
 
 ---
 
-### SPRINT_BACKLOG_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md
-
-*(file too large — key headings extracted)*
-
-# Sprint Backlog: Fehlende Implementierungen
-Stand: 2026-05-25
-Quelle: ai_working/TODO_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md
-## Ziele
-- Kritische Integrationsluecken in verteilten Pfaden schliessen.
-- Wire-Protokoll-Paritaet zu REST fuer Kernfunktionen herstellen.
-- Placeholder-Pfade in Backup/Training auf produktive Pfade umstellen.
-## Aufwandsskala
-- S: 1-2 PT
-- M: 3-5 PT
-- L: 6-10 PT
-- XL: 11+ PT
-## Sprint 1 (Stabilisierung, 2 Wochen)
-### BL-01: 2PC Phase-2 Remote-Zustellung fail-closed
-- Prioritaet: P0
-- Aufwand: M
-- Datei/Funktion:
-- src/transaction/distributed_transaction_manager.cpp
-- DistributedTransactionManager::runPhase2Unlocked
-- Aufgabe:
-- Skip-Pfad fuer Remote-Teilnehmer eliminieren.
-- Bei fehlender Remote-Dispatch-Konfiguration transaktionalen Fehler erzwingen statt stilles Weiterlaufen.
-- Telemetrie fuer zugestellte/nicht-zugestellte Phase-2-Entscheidungen ergaenzen.
-- Abhaengigkeiten:
-- Vorhandene phase2_rpc_fn/remote_phase2_dispatch Konfiguration in Produktionsprofilen.
-- Testfaelle:
-- Unit: callback-less participant ohne dispatcher => fail-closed.
-- Unit: dispatcher liefert false/throw => Fehlerstatus und sauberer Abort.
-- Integration: Multi-node COMMIT/ABORT wird fuer alle Teilnehmer zugestellt.
-- Definition of Done:
-- Kein stilles Skip von Remote-Teilnehmern mehr.
-- CTest fuer 2PC-Remote-Szenarien gruen.
-### BL-02: Protobuf Wire (themis::wire) Kernhandler produktiv verdrahten
-- Prioritaet: P0
-- Aufwand: L
-- Datei/Funktionen:
-- src/themis/wire_protocol_server.cpp
-- Aufgabe:
-- Standard-Wiring fuer Query/Geo/TS/Graph beim Serverstart herstellen.
-- 501/503 nur noch bei explizit deaktivierten Features erlauben.
-- Fehlercodes und Fehlermeldungen vereinheitlichen.
-- Abhaengigkeiten:
-- QueryEngine, Geo/TS/Graph Manager im Server-Setup verfuegbar.
-- Testfaelle:
-- Integration: Protobuf-Client AQL happy path.
-- Integration: Cursor paging close/reopen/ttl.
-- Integration: GEO_QUERY und GRAPH_TRAVERSE gegen bekannte Testdaten.
-- Negativ: Feature explizit deaktiviert => konsistente Fehlermeldung.
-- Definition of Done:
-- Keine 501/503 Fallbacks bei voll konfigurierter Instanz.
-- Protobuf-Regressionstests im CI-Set gruen.
-
----
-
 ### START_HERE.md
 
 *(file too large — key headings extracted)*
@@ -8291,57 +7943,6 @@ ThemisDB is in **active development**, not production-ready as a whole system. O
 2. **Set honest dates:** 4-6 week hardening phase before claiming "production-ready"
 3. **Focus team:** Deploy resources to top 5 modules (server, llm, sharding, storage, security)
 4. **Communicate:** Set user expectations — current release is BETA/ALPHA, not production
-
----
-
-### SPRINT_8_MOVE_REMEDIATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# Sprint 8 Move Semantics Remediation Guide
-**Date:** 2026-07-05
-**Status:** Ready for Phase 2-4 Implementation
-**Target:** 97 move semantics gaps across 50+ modules
----
-## 1. Remediation Patterns & Implementation Guide
-### Pattern A: Implicit Move Semantics
-**Problem:** Classes with moveable members but no explicit move semantics defined.
-**Symptoms:**
-- Compiler-generated move operations are copy-like or deleted
-- Use-after-move bugs from implicit shallow copies
-- Performance issues from unnecessary copies
-**Implementation Template:**
-// BEFORE:
-class DataBuffer {
-std::vector<uint8_t> data_;
-size_t capacity_ = 0;
-// No move semantics - defaults to implicitly deleted or copy
-};
-// AFTER:
-class DataBuffer {
-std::vector<uint8_t> data_;
-size_t capacity_ = 0;
-public:
-// Explicit move constructor
-DataBuffer(DataBuffer&& other) noexcept
-: data_(std::move(other.data_)), capacity_(other.capacity_) {
-other.capacity_ = 0; // Ensure source in valid state
-}
-// Explicit move assignment
-DataBuffer& operator=(DataBuffer&& other) noexcept {
-if (this != &other) {
-data_ = std::move(other.data_);
-capacity_ = other.capacity_;
-other.capacity_ = 0; // Ensure source in valid state
-}
-return *this;
-}
-// Delete copy semantics (optional, use with care)
-DataBuffer(const DataBuffer&) = delete;
-DataBuffer& operator=(const DataBuffer&) = delete;
-};
-**SafeMove Integration:**
-DataBuffer& operator=(DataBuffer&& other) noexcept {
 
 ---
 
@@ -8784,6 +8385,64 @@ Var: cur, Severity: LOW
 
 ---
 
+### SPRINT_BACKLOG_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md
+
+*(file too large — key headings extracted)*
+
+# Sprint Backlog: Fehlende Implementierungen
+Stand: 2026-05-25
+Quelle: ai_working/TODO_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md
+## Ziele
+- Kritische Integrationsluecken in verteilten Pfaden schliessen.
+- Wire-Protokoll-Paritaet zu REST fuer Kernfunktionen herstellen.
+- Placeholder-Pfade in Backup/Training auf produktive Pfade umstellen.
+## Aufwandsskala
+- S: 1-2 PT
+- M: 3-5 PT
+- L: 6-10 PT
+- XL: 11+ PT
+## Sprint 1 (Stabilisierung, 2 Wochen)
+### BL-01: 2PC Phase-2 Remote-Zustellung fail-closed
+- Prioritaet: P0
+- Aufwand: M
+- Datei/Funktion:
+- src/transaction/distributed_transaction_manager.cpp
+- DistributedTransactionManager::runPhase2Unlocked
+- Aufgabe:
+- Skip-Pfad fuer Remote-Teilnehmer eliminieren.
+- Bei fehlender Remote-Dispatch-Konfiguration transaktionalen Fehler erzwingen statt stilles Weiterlaufen.
+- Telemetrie fuer zugestellte/nicht-zugestellte Phase-2-Entscheidungen ergaenzen.
+- Abhaengigkeiten:
+- Vorhandene phase2_rpc_fn/remote_phase2_dispatch Konfiguration in Produktionsprofilen.
+- Testfaelle:
+- Unit: callback-less participant ohne dispatcher => fail-closed.
+- Unit: dispatcher liefert false/throw => Fehlerstatus und sauberer Abort.
+- Integration: Multi-node COMMIT/ABORT wird fuer alle Teilnehmer zugestellt.
+- Definition of Done:
+- Kein stilles Skip von Remote-Teilnehmern mehr.
+- CTest fuer 2PC-Remote-Szenarien gruen.
+### BL-02: Protobuf Wire (themis::wire) Kernhandler produktiv verdrahten
+- Prioritaet: P0
+- Aufwand: L
+- Datei/Funktionen:
+- src/themis/wire_protocol_server.cpp
+- Aufgabe:
+- Standard-Wiring fuer Query/Geo/TS/Graph beim Serverstart herstellen.
+- 501/503 nur noch bei explizit deaktivierten Features erlauben.
+- Fehlercodes und Fehlermeldungen vereinheitlichen.
+- Abhaengigkeiten:
+- QueryEngine, Geo/TS/Graph Manager im Server-Setup verfuegbar.
+- Testfaelle:
+- Integration: Protobuf-Client AQL happy path.
+- Integration: Cursor paging close/reopen/ttl.
+- Integration: GEO_QUERY und GRAPH_TRAVERSE gegen bekannte Testdaten.
+- Negativ: Feature explizit deaktiviert => konsistente Fehlermeldung.
+- Definition of Done:
+- Keine 501/503 Fallbacks bei voll konfigurierter Instanz.
+- Protobuf-Regressionstests im CI-Set gruen.
+
+---
+
 ### SPRINT_8_COMPLETION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -9132,6 +8791,57 @@ v[0].reset();  // Should be: temp.reset() or omit
 
 ---
 
+### SPRINT_8_MOVE_REMEDIATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# Sprint 8 Move Semantics Remediation Guide
+**Date:** 2026-07-05
+**Status:** Ready for Phase 2-4 Implementation
+**Target:** 97 move semantics gaps across 50+ modules
+---
+## 1. Remediation Patterns & Implementation Guide
+### Pattern A: Implicit Move Semantics
+**Problem:** Classes with moveable members but no explicit move semantics defined.
+**Symptoms:**
+- Compiler-generated move operations are copy-like or deleted
+- Use-after-move bugs from implicit shallow copies
+- Performance issues from unnecessary copies
+**Implementation Template:**
+// BEFORE:
+class DataBuffer {
+std::vector<uint8_t> data_;
+size_t capacity_ = 0;
+// No move semantics - defaults to implicitly deleted or copy
+};
+// AFTER:
+class DataBuffer {
+std::vector<uint8_t> data_;
+size_t capacity_ = 0;
+public:
+// Explicit move constructor
+DataBuffer(DataBuffer&& other) noexcept
+: data_(std::move(other.data_)), capacity_(other.capacity_) {
+other.capacity_ = 0; // Ensure source in valid state
+}
+// Explicit move assignment
+DataBuffer& operator=(DataBuffer&& other) noexcept {
+if (this != &other) {
+data_ = std::move(other.data_);
+capacity_ = other.capacity_;
+other.capacity_ = 0; // Ensure source in valid state
+}
+return *this;
+}
+// Delete copy semantics (optional, use with care)
+DataBuffer(const DataBuffer&) = delete;
+DataBuffer& operator=(const DataBuffer&) = delete;
+};
+**SafeMove Integration:**
+DataBuffer& operator=(DataBuffer&& other) noexcept {
+
+---
+
 ### SPRINT_7_EXECUTIVE_SUMMARY.txt
 
 *(file too large — key headings extracted)*
@@ -9226,60 +8936,6 @@ Once analysis and library are complete:
 ---
 **Created:** 2026-07-03 05:56 UTC
 **Timeline Target:** 2026-07-16 to 2026-07-22 (Week 30)
-
----
-
-### SESSION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Session Summary: ThemisDB Server Module Gap Closure — Phase 1 Complete
-**Date:** 2026-08-16
-**Branch:** copilot/implement-real-sourcecode-to-close-gaps
-**Status:** ✅ Phase 1 Complete, Phase 2-4 Ready for Execution
----
-## Accomplishments
-### Code Modernization Completed
-✅ **5 Files Modernized** with production-quality improvements:
-1. **query_api_handler.cpp**
-- Added 5× `vector::reserve()` calls for nested field path construction
-- Replaced 5× string += loops with `ostringstream` (O(n²) → O(n))
-- Added join result cardinality estimation with `reserve()`
-- **Gaps Fixed:** 10 (missing_vector_reserve, string_concat_loop)
-2. **auth_middleware.cpp**
-- Optimized `scopes_list` and `roles_str` construction with `ostringstream`
-- Eliminated O(n²) string building patterns
-- **Gaps Fixed:** 2 (string_concat_loop)
-3. **llm_api_handler.cpp**
-- Replaced 10× `json::get<T>()` with `get_ref<const T&>()`
-- Eliminated unnecessary temporary string allocations
-- Optimized high-frequency document extraction methods
-- **Gaps Fixed:** 10 (unnecessary_copy)
-4. **postgres_session.cpp**
-- Added `reserve()` to `sendParameterStatus()` method
-- Added `reserve()` to `sendRowDescription()` method
-- Improved PostgreSQL protocol message building performance
-- **Gaps Fixed:** 2 (missing_vector_reserve)
-5. **graph_api_handler.cpp**
-- Code clarity improvements in histogram bucket generation
-- **Gaps Fixed:** 1 (minor refactoring)
-### Session Metrics
-- **Total Files Modified:** 5
-- **Total Gaps Fixed:** ~25
-- **Lines Improved:** ~100
-- **Commits Created:** 4 (focused, reviewable)
-- **Performance Class Improvements:**
-- String building: O(n²) → O(n) in 8+ locations
-- Memory allocations: Reduced by ~50 in rapid-fire operations
-- JSON access: Eliminated 10+ temporary copies per call
-### Documentation Created
-✅ **Comprehensive Guides:**
-- `/tmp/SERVER_GAPS_MODERNIZATION_REPORT.md` — Executive summary with metrics
-- `ai_working/MEDIUM_LOW_GAP_CLOSURE_PLAN.md` — Detailed implementation roadmap
-- Pattern reference guide for 4 key modernization patterns
-- Testing strategy and commit guidelines
----
-## Next Phase (Ready to Execute)
 
 ---
 
@@ -9563,121 +9219,57 @@ new header inserted here
 
 ---
 
-### SCANNER_LANDSCAPE.txt
+### SESSION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-================================================================================
-THEMISDB GAP SCANNER LANDSCAPE
-================================================================================
-SCANNER GENEALOGY:
-┌────────────────────────────────────────────────────────────────────────────┐
-│                                                                              │
-│  GENERATION 1 (2025) — gap_scanner.py / gap_scanner_v2.py                  │
-│  └─ Early implementations, superseded                                       │
-│                                                                              │
-│  GENERATION 2 (2025) — gap_scanner_v3.py Orchestrator                      │
-│  ├─ Phase 1-4 Scanners (security, memory, reliability, concurrency)        │
-│  ├─ Phase 5 Scanners (type conversion, input validation, exception safety) │
-│  ├─ Phase 7-10 Scanners (audit, deprecated, perf, gpu, query, llm, obs)    │
-│  ├─ Wave 1-6 FP Filters (progressive context windows, semantic analysis)   │
-│  └─ STATUS: Orchestrator broken, individual modules have gaps              │
-│                                                                              │
-│  GENERATION 3 (2026-06-02) — gap_scanner_v3_phase11_*.py Suite ✅          │
-│  ├─ 6 Specialized Security Scanners (2,476 LOC)                            │
-│  ├─ Single Integration Module (173 LOC)                                    │
-│  ├─ Optimized Pattern Matching (25% FP reduction)                          │
-│  ├─ Full Repository Scan (4,458 gaps verified)                             │
-│  └─ STATUS: PRODUCTION-READY ✅                                             │
-│                                                                              │
-└────────────────────────────────────────────────────────────────────────────┘
-PROGRESSIVE CONTEXT CONCEPT:
-┌────────────────────────────────────────────────────────────────────────────┐
-│                                                                              │
-│  Each "Wave" or "Phase" uses different CONTEXT WINDOW sizes to reduce FP:  │
-│                                                                              │
-│  Example: CSRF Detection                                                    │
-│  ──────────────────────────────────                                         │
-│                                                                              │
-│  Wave 1 (±0 lines):        Line 42: app.post("/submit")                    │
-│                            → Flag: potential CSRF (too narrow)              │
-│                            → HIGH FP rate                                   │
-│                                                                              │
-│  Wave 3 (±5 lines):        Context lines 37-47:                            │
-│                            ├─ POST request parsing                          │
-│                            ├─ Form handling                                 │
-│                            ├─ Token validation (not found)                  │
-│                            └─ Gap detected with confidence                  │
-│                            → MEDIUM FP rate                                 │
-│                                                                              │
-│  Wave 5 (±10 lines):       Context lines 32-52:                            │
-│                            ├─ Request handling entry point                  │
-│                            ├─ Input parsing + form processing               │
-│                            ├─ Token validation search (wider window)        │
-│                            └─ Determines true positive vs. helper method    │
-│                            → LOWER FP rate                                  │
-│                                                                              │
-│  Wave 6 (Semantic):        Full AST + Control Flow Analysis:               │
-│                            ├─ Semantic understanding of POST handler        │
-│                            ├─ Data flow tracing                             │
-│                            ├─ Exception paths                               │
-│                            └─ Determine actual HTTP handler vs. utility fn  │
-│                            → LOWEST FP rate (but expensive)                 │
-│                                                                              │
-└────────────────────────────────────────────────────────────────────────────┘
-
+# Session Summary: ThemisDB Server Module Gap Closure — Phase 1 Complete
+**Date:** 2026-08-16
+**Branch:** copilot/implement-real-sourcecode-to-close-gaps
+**Status:** ✅ Phase 1 Complete, Phase 2-4 Ready for Execution
 ---
-
-### SCANNER_LOGGING_ENHANCEMENT_2026-06-02.md
-
-*(file too large — key headings extracted)*
-
-# Gap Scanner v3.1 — Logging Enhancement
-## Strukturierte Konsolen-Ausgabe pro Scan-Schritt
-**Datum**: 2. Juni 2026
-**Status**: ✅ Produktionsbereit
+## Accomplishments
+### Code Modernization Completed
+✅ **5 Files Modernized** with production-quality improvements:
+1. **query_api_handler.cpp**
+- Added 5× `vector::reserve()` calls for nested field path construction
+- Replaced 5× string += loops with `ostringstream` (O(n²) → O(n))
+- Added join result cardinality estimation with `reserve()`
+- **Gaps Fixed:** 10 (missing_vector_reserve, string_concat_loop)
+2. **auth_middleware.cpp**
+- Optimized `scopes_list` and `roles_str` construction with `ostringstream`
+- Eliminated O(n²) string building patterns
+- **Gaps Fixed:** 2 (string_concat_loop)
+3. **llm_api_handler.cpp**
+- Replaced 10× `json::get<T>()` with `get_ref<const T&>()`
+- Eliminated unnecessary temporary string allocations
+- Optimized high-frequency document extraction methods
+- **Gaps Fixed:** 10 (unnecessary_copy)
+4. **postgres_session.cpp**
+- Added `reserve()` to `sendParameterStatus()` method
+- Added `reserve()` to `sendRowDescription()` method
+- Improved PostgreSQL protocol message building performance
+- **Gaps Fixed:** 2 (missing_vector_reserve)
+5. **graph_api_handler.cpp**
+- Code clarity improvements in histogram bucket generation
+- **Gaps Fixed:** 1 (minor refactoring)
+### Session Metrics
+- **Total Files Modified:** 5
+- **Total Gaps Fixed:** ~25
+- **Lines Improved:** ~100
+- **Commits Created:** 4 (focused, reviewable)
+- **Performance Class Improvements:**
+- String building: O(n²) → O(n) in 8+ locations
+- Memory allocations: Reduced by ~50 in rapid-fire operations
+- JSON access: Eliminated 10+ temporary copies per call
+### Documentation Created
+✅ **Comprehensive Guides:**
+- `/tmp/SERVER_GAPS_MODERNIZATION_REPORT.md` — Executive summary with metrics
+- `ai_working/MEDIUM_LOW_GAP_CLOSURE_PLAN.md` — Detailed implementation roadmap
+- Pattern reference guide for 4 key modernization patterns
+- Testing strategy and commit guidelines
 ---
-## Überblick
-Der Gap Scanner v3.1 wurde um eine **vollständige strukturierte Logging-Infrastruktur** erweitert, die:
-- 📊 **Fortschrittsbalken** für Scan-Phasen anzeigt
-- ⏱️ **Timing-Informationen** pro Schritt erfasst
-- 🎨 **Farbige Ausgabe** für bessere Lesbarkeit (mit ASCII-Fallback für Windows)
-- 📋 **Strukturierte Zusammenfassungen** nach jeder Phase
----
-## Neue Komponenten
-### 1. `tools/gap_scanner_logging.py`
-Universales Logging-Modul mit folgenden Features:
-logger = create_logger(
-verbose=True,        # Ausführliche Ausgabe
-use_colors=True,     # ANSI Farbcodes
-use_unicode=None     # Auto-Detektion (ASCII auf Windows, Unicode auf Linux)
-)
-# Strukturierte Log-Ausgaben
-logger.header("Main Title")                              # Große Überschrift
-logger.stage_start("PHASE 1", "Phase Description")      # Phase-Start
-logger.step("Task Name", "Success message", "OK")       # Einzelner Schritt
-logger.progress(current, total, "Item Name")            # Fortschrittsbalken
-logger.stage_complete("Summary message")                # Phase-Ende
-logger.summary("Title", [("Label", value), ...])        # Statistik-Tabelle
-logger.timing_summary("Timing Report")                  # Zeitmessung
-logger.error("Error", "message", "details")            # Fehlermeldung
-logger.warning("Warning", "message")                    # Warnung
-logger.info("Info", "message")                          # Informationen
-#### Symbole & Status-Codes:
-- `✓` `[OK]` — Erfolgreich abgeschlossen
-- `⊘` `[SKIP]` — Übersprungen
-- `…` `[...]` — In Fortschritt
-- `✗` `[FAIL]` — Fehler
-- `⚠` `[WARN]` — Warnung
-- `ℹ` `[INFO]` — Informationen
-#### Farbschema:
-- **CYAN**: Phasen-Starts
-- **GREEN**: Erfolgreiche Schritte
-- **YELLOW**: Warnungen, Übersprungen
-- **RED**: Fehler
-- **BLUE**: Informationen
-- **MAGENTA**: Fortschrittsbalken
----
+## Next Phase (Ready to Execute)
 
 ---
 
@@ -10553,6 +10145,124 @@ Correct scoring: `[2 findings] = string param (HIGH), struct param (MEDIUM)`
 
 ---
 
+### SCANNER_LANDSCAPE.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+THEMISDB GAP SCANNER LANDSCAPE
+================================================================================
+SCANNER GENEALOGY:
+┌────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  GENERATION 1 (2025) — gap_scanner.py / gap_scanner_v2.py                  │
+│  └─ Early implementations, superseded                                       │
+│                                                                              │
+│  GENERATION 2 (2025) — gap_scanner_v3.py Orchestrator                      │
+│  ├─ Phase 1-4 Scanners (security, memory, reliability, concurrency)        │
+│  ├─ Phase 5 Scanners (type conversion, input validation, exception safety) │
+│  ├─ Phase 7-10 Scanners (audit, deprecated, perf, gpu, query, llm, obs)    │
+│  ├─ Wave 1-6 FP Filters (progressive context windows, semantic analysis)   │
+│  └─ STATUS: Orchestrator broken, individual modules have gaps              │
+│                                                                              │
+│  GENERATION 3 (2026-06-02) — gap_scanner_v3_phase11_*.py Suite ✅          │
+│  ├─ 6 Specialized Security Scanners (2,476 LOC)                            │
+│  ├─ Single Integration Module (173 LOC)                                    │
+│  ├─ Optimized Pattern Matching (25% FP reduction)                          │
+│  ├─ Full Repository Scan (4,458 gaps verified)                             │
+│  └─ STATUS: PRODUCTION-READY ✅                                             │
+│                                                                              │
+└────────────────────────────────────────────────────────────────────────────┘
+PROGRESSIVE CONTEXT CONCEPT:
+┌────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  Each "Wave" or "Phase" uses different CONTEXT WINDOW sizes to reduce FP:  │
+│                                                                              │
+│  Example: CSRF Detection                                                    │
+│  ──────────────────────────────────                                         │
+│                                                                              │
+│  Wave 1 (±0 lines):        Line 42: app.post("/submit")                    │
+│                            → Flag: potential CSRF (too narrow)              │
+│                            → HIGH FP rate                                   │
+│                                                                              │
+│  Wave 3 (±5 lines):        Context lines 37-47:                            │
+│                            ├─ POST request parsing                          │
+│                            ├─ Form handling                                 │
+│                            ├─ Token validation (not found)                  │
+│                            └─ Gap detected with confidence                  │
+│                            → MEDIUM FP rate                                 │
+│                                                                              │
+│  Wave 5 (±10 lines):       Context lines 32-52:                            │
+│                            ├─ Request handling entry point                  │
+│                            ├─ Input parsing + form processing               │
+│                            ├─ Token validation search (wider window)        │
+│                            └─ Determines true positive vs. helper method    │
+│                            → LOWER FP rate                                  │
+│                                                                              │
+│  Wave 6 (Semantic):        Full AST + Control Flow Analysis:               │
+│                            ├─ Semantic understanding of POST handler        │
+│                            ├─ Data flow tracing                             │
+│                            ├─ Exception paths                               │
+│                            └─ Determine actual HTTP handler vs. utility fn  │
+│                            → LOWEST FP rate (but expensive)                 │
+│                                                                              │
+└────────────────────────────────────────────────────────────────────────────┘
+
+---
+
+### SCANNER_LOGGING_ENHANCEMENT_2026-06-02.md
+
+*(file too large — key headings extracted)*
+
+# Gap Scanner v3.1 — Logging Enhancement
+## Strukturierte Konsolen-Ausgabe pro Scan-Schritt
+**Datum**: 2. Juni 2026
+**Status**: ✅ Produktionsbereit
+---
+## Überblick
+Der Gap Scanner v3.1 wurde um eine **vollständige strukturierte Logging-Infrastruktur** erweitert, die:
+- 📊 **Fortschrittsbalken** für Scan-Phasen anzeigt
+- ⏱️ **Timing-Informationen** pro Schritt erfasst
+- 🎨 **Farbige Ausgabe** für bessere Lesbarkeit (mit ASCII-Fallback für Windows)
+- 📋 **Strukturierte Zusammenfassungen** nach jeder Phase
+---
+## Neue Komponenten
+### 1. `tools/gap_scanner_logging.py`
+Universales Logging-Modul mit folgenden Features:
+logger = create_logger(
+verbose=True,        # Ausführliche Ausgabe
+use_colors=True,     # ANSI Farbcodes
+use_unicode=None     # Auto-Detektion (ASCII auf Windows, Unicode auf Linux)
+)
+# Strukturierte Log-Ausgaben
+logger.header("Main Title")                              # Große Überschrift
+logger.stage_start("PHASE 1", "Phase Description")      # Phase-Start
+logger.step("Task Name", "Success message", "OK")       # Einzelner Schritt
+logger.progress(current, total, "Item Name")            # Fortschrittsbalken
+logger.stage_complete("Summary message")                # Phase-Ende
+logger.summary("Title", [("Label", value), ...])        # Statistik-Tabelle
+logger.timing_summary("Timing Report")                  # Zeitmessung
+logger.error("Error", "message", "details")            # Fehlermeldung
+logger.warning("Warning", "message")                    # Warnung
+logger.info("Info", "message")                          # Informationen
+#### Symbole & Status-Codes:
+- `✓` `[OK]` — Erfolgreich abgeschlossen
+- `⊘` `[SKIP]` — Übersprungen
+- `…` `[...]` — In Fortschritt
+- `✗` `[FAIL]` — Fehler
+- `⚠` `[WARN]` — Warnung
+- `ℹ` `[INFO]` — Informationen
+#### Farbschema:
+- **CYAN**: Phasen-Starts
+- **GREEN**: Erfolgreiche Schritte
+- **YELLOW**: Warnungen, Übersprungen
+- **RED**: Fehler
+- **BLUE**: Informationen
+- **MAGENTA**: Fortschrittsbalken
+---
+
+---
+
 ### RESEARCH_BACKLOG_TRACKER.md
 
 *(file too large — key headings extracted)*
@@ -10718,53 +10428,6 @@ This analysis extracts why gaps are false positives and generates concrete tunin
 - **Confidence:** MEDIUM
 ### REQUIRE_PUBLIC_API
 - **Pattern:** Only flag public/exported functions
-
----
-
-### README.md
-
-*(file too large — key headings extracted)*
-
-# ai_working
-Geschützter Entwurfsraum für iterative KI-Artefakte.
-## Regeln
-- Kein produktiver Code als finale Quelle in diesem Verzeichnis
-- Erlaubt: Zwischenstände, Analyse-Notizen, temporäre Entwürfe
-- Vor Merge müssen relevante Ergebnisse in `src/`, `include/` oder `docs/` überführt werden
-- Temporäre Dateien müssen dem Ignore-Muster folgen (`*.tmp.*`, `debug_*`)
-## Erwarteter Workflow
-1. Entwurf in `ai_working/` erstellen
-2. Validieren und fachlich reviewen
-3. Reife Ergebnisse in Zielpfade migrieren
-4. Veraltete Entwurfsartefakte entfernen
-## Installation
-Keine Installation erforderlich; dieses Verzeichnis ist Teil des Repository-Inhalts.
-## Usage
-## Aktueller Fokus (Code-Maturity/GAP Framework)
-- Konsolidierungsplan: `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
-- Priorisierte TODO: `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
-- Aktueller Ausfuehrungsplan nach CTest-Registry-Stabilisierung: `ai_working/MODULE_GAPS_EXECUTION_PLAN_2026-06-08.md`
-## Aktuelle Scanner-Referenz (kanonisch)
-- Current-Management-Report: `ai_working/GAP_SCANNER_CURRENT_REPORT_2026-06-09.md`
-- Kanonische Scan-Basis: `ai_working/gap_scan_results.json`
-- Scope-Aufbereitung (Themis-core/tests/bench vs third-party): `ai_working/gap_scope_breakdown_20260604.md`
-- Legacy-Archiv alter v3-Reports: `ai_working/archive/gap_scanner_legacy_2026-06-09/`
-## Hierher verschobene AI-Artefakte (2026-05-26)
-Folgende Dateien wurden aus dem Root-Verzeichnis und `docs/` hierher verschoben,
-da sie keine Produktdokumentation, sondern KI-Agent-Arbeitsartefakte sind:
-### Phase-3-Ollama-Workflow
-- `PHASE3_ROADMAP.md` — Ollama-basierte Code-Generierungs-Roadmap
-- `PHASE3_CLEANUP_GUIDE.md` — Speicher-Cleanup für Ollama-Modelle
-- `PHASE3_OLLAMA_SETUP.md` — Ollama-Einrichtungsanleitung für lokale KI-Codegenerierung
-- `PHASE3_VALIDATION_CRITERIA.md` — PoC-Validierungs-Entscheidungsmatrix
-- `PHASE3_VALIDATION_NEXT_STEPS.md` — Nächste Schritte nach Phase-3-Validierung
-### Wave-A / ML-Implementierungsberichte
-- `WAVE_A_PHASE2_REPORT.md` — Wave-A-ML-Implementierungsbericht (Phase 2)
-- `WAVE_A_REMAINING_WORK.md` — Offene Punkte Wave A (Speculative Decoding, DPR, etc.)
-### Workflow-Berichte
-- `WORKFLOW_ACTIVATION_REPORT.md` — Gap-Scan + Issue-Erstellungs-Workflow
-- `WORKFLOW_COMPLETION_REPORT.md` — Abschlussbericht des 7-Phasen-Workflows
-### Temporäre Blueprints und Tracker
 
 ---
 
@@ -10967,6 +10630,56 @@ Check these module gap registers:
 ## Phase 2: Scope Minimization & Exception Safety ✅ COMPLETED
 ### Fix 4: Scope Minimization (deadlock_predictor.cpp)
 // BEFORE: bool found = false; for(...) { if(...) found = true; } if (!found) { }
+
+---
+
+### QUICKSTART.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Implementation Gap Audit — Quick Start
+## Summary
+**1,862 implementation gaps** detected across 57 modules → **Clustered into 13 actionable issues**
+### The Numbers
+- 🔴 **1,620 Unimplemented** code paths (critical)
+- 🟠 **384 STUB/MOCK** markers (needs documentation)
+- 🟡 **29+ TODO/FIXME** items (needs completion)
+---
+## Quick Navigation
+| File | Purpose |
+|------|---------|
+| **CLUSTERED_ISSUES_REPORT.md** | 📋 Full audit report with all details |
+| **ai_working/clustered_issues/*.md** | 📝 Individual issue templates (13 files) |
+| **tools/gap_scanner.py** | 🔍 Automated gap detection tool |
+| **tools/gap_clusterer.py** | 🔗 Clustering engine |
+| **ai_working/gap_scan_*.json** | 📊 Detailed scan results per module |
+---
+## The 13 Issues at a Glance
+### 🔴 CRITICAL Issues
+| ID | Title | Gaps | Modules |
+|----|-------|------|---------|
+| **META-001** | Complete unimplemented code paths | 1,620 | ALL 57 |
+| **MOD-acceleration** | GPU kernels & backends | 235 | acceleration |
+| **MOD-ingestion** | Data loading pipelines | 178 | ingestion |
+| **MOD-llm** | LLM integration | 151 | llm |
+| **MOD-security** | Auth, encryption, governance | 139 | security |
+| **MOD-index** | Vector & spatial indexing | 94 | index |
+| **MOD-storage** | Database layer | 84 | storage |
+### 🟠 HIGH Priority Issues
+| ID | Title | Gaps | Modules |
+|----|-------|------|---------|
+| **META-002** | Standardize STUB documentation | 384 | 46 modules |
+| **GROUP-001** | Data Layer & Indexing | 292 | sharding, network, tensor, geo, maintenance |
+| **GROUP-003** | ML/AI Integration | 264 | llm, ai, training, tensor, prompt_engineering |
+| **GROUP-002** | Query/Search Engine | 186 | query, search, rag, scheduler |
+| **GROUP-004** | Distributed Infrastructure | 107 | network, cache, replication, cdc |
+### 🟡 MEDIUM Priority
+| ID | Title | Gaps |
+|----|-------|------|
+| **META-003** | Resolve TODO/FIXME | 29+ |
+---
+## Create Issues on GitHub
+### Option A: Batch create all 13 issues
 
 ---
 
@@ -11377,6 +11090,106 @@ Changes: ~40 lines
 
 ---
 
+### README.md
+
+*(file too large — key headings extracted)*
+
+# ai_working
+Geschützter Entwurfsraum für iterative KI-Artefakte.
+## Regeln
+- Kein produktiver Code als finale Quelle in diesem Verzeichnis
+- Erlaubt: Zwischenstände, Analyse-Notizen, temporäre Entwürfe
+- Vor Merge müssen relevante Ergebnisse in `src/`, `include/` oder `docs/` überführt werden
+- Temporäre Dateien müssen dem Ignore-Muster folgen (`*.tmp.*`, `debug_*`)
+## Erwarteter Workflow
+1. Entwurf in `ai_working/` erstellen
+2. Validieren und fachlich reviewen
+3. Reife Ergebnisse in Zielpfade migrieren
+4. Veraltete Entwurfsartefakte entfernen
+## Installation
+Keine Installation erforderlich; dieses Verzeichnis ist Teil des Repository-Inhalts.
+## Usage
+## Aktueller Fokus (Code-Maturity/GAP Framework)
+- Konsolidierungsplan: `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
+- Priorisierte TODO: `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
+- Aktueller Ausfuehrungsplan nach CTest-Registry-Stabilisierung: `ai_working/MODULE_GAPS_EXECUTION_PLAN_2026-06-08.md`
+## Aktuelle Scanner-Referenz (kanonisch)
+- Current-Management-Report: `ai_working/GAP_SCANNER_CURRENT_REPORT_2026-06-09.md`
+- Kanonische Scan-Basis: `ai_working/gap_scan_results.json`
+- Scope-Aufbereitung (Themis-core/tests/bench vs third-party): `ai_working/gap_scope_breakdown_20260604.md`
+- Legacy-Archiv alter v3-Reports: `ai_working/archive/gap_scanner_legacy_2026-06-09/`
+## Hierher verschobene AI-Artefakte (2026-05-26)
+Folgende Dateien wurden aus dem Root-Verzeichnis und `docs/` hierher verschoben,
+da sie keine Produktdokumentation, sondern KI-Agent-Arbeitsartefakte sind:
+### Phase-3-Ollama-Workflow
+- `PHASE3_ROADMAP.md` — Ollama-basierte Code-Generierungs-Roadmap
+- `PHASE3_CLEANUP_GUIDE.md` — Speicher-Cleanup für Ollama-Modelle
+- `PHASE3_OLLAMA_SETUP.md` — Ollama-Einrichtungsanleitung für lokale KI-Codegenerierung
+- `PHASE3_VALIDATION_CRITERIA.md` — PoC-Validierungs-Entscheidungsmatrix
+- `PHASE3_VALIDATION_NEXT_STEPS.md` — Nächste Schritte nach Phase-3-Validierung
+### Wave-A / ML-Implementierungsberichte
+- `WAVE_A_PHASE2_REPORT.md` — Wave-A-ML-Implementierungsbericht (Phase 2)
+- `WAVE_A_REMAINING_WORK.md` — Offene Punkte Wave A (Speculative Decoding, DPR, etc.)
+### Workflow-Berichte
+- `WORKFLOW_ACTIVATION_REPORT.md` — Gap-Scan + Issue-Erstellungs-Workflow
+- `WORKFLOW_COMPLETION_REPORT.md` — Abschlussbericht des 7-Phasen-Workflows
+### Temporäre Blueprints und Tracker
+
+---
+
+### QUERY_MODULE_DEVELOPMENT_STATUS_CLOSURE.md
+
+*(file too large — key headings extracted)*
+
+# Query Module Development Status — Issue #5664 Closure Checklist
+## 2026-08-05
+### Issue Overview
+**Issue**: makr-code/ThemisDB#5664 — "[module:query] Development Status 2026-07-18"
+**Parent Epic**: makr-code/ThemisDB#5624
+**Module**: src/query/
+**Status**: READY FOR CLOSURE
+---
+## Closure Criteria (from Issue Description)
+### ✅ 1. All Module Acceptance Criteria Updated and Traceable
+| Criterion | Status | Evidence |
+|-----------|--------|----------|
+| ROADMAP.md current and aligned | ✅ COMPLETE | Validated against issue snapshot; all items synced |
+| FUTURE_ENHANCEMENTS.md current and aligned | ✅ COMPLETE | Risk backlog documented; adoption scenarios defined |
+| Phased deliverables tracked | ✅ COMPLETE | Phases 1-5 completion mapped per feature |
+| Acceptance for in-progress items defined | ✅ COMPLETE | Phase acceptance gates documented |
+| Planned features scheduled | ✅ COMPLETE | Targets Q3-Q4 2026 and Q1 2027 assigned |
+**Supporting Documents**:
+- QUERY_MODULE_STATUS_2026_08_05.md (comprehensive status report)
+- src/query/ROADMAP.md (updated and current)
+- src/query/FUTURE_ENHANCEMENTS.md (updated and current)
+- src/query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md (cross-module dependency documentation)
+---
+### ✅ 2. Evidence Updated (Build/Tests) or Explicit Justified Gap
+| Category | Status | Evidence |
+|----------|--------|----------|
+| Test Suite Mapped | ✅ COMPLETE | 31 focused test files identified in tests/query/CMakeLists.txt |
+| Test Case Count | ✅ COMPLETE | 500+ test cases across all suites catalogued |
+| Critical Path Coverage | ✅ COMPLETE | Parser, optimizer, executor, federation, cache all covered |
+| Phase Deliverable Tests | ✅ COMPLETE | AQL mutations (complete), DDL (complete), geospatial phase 1 (complete) |
+| Feature Test Mapping | ✅ COMPLETE | Each roadmap item linked to validation tests |
+| Performance Tests | 📋 DOCUMENTED GAP | Phase 4 SLA tests structure complete; build pending fmt dependency |
+| Wave 7 Benchmark Baseline | 📋 DOCUMENTED GAP | Infrastructure ready; execution scheduled 2026-09 |
+**Supporting Documents**:
+- QUERY_BUILD_TEST_EVIDENCE_2026_08_05.md (31 test files, 500+ test cases)
+- tests/query/CMakeLists.txt (test registration configuration)
+- Individual test files (test_*.cpp) with test case counts
+**Gap Justification**:
+- Build pending: fmt library dependency (critical for C++ compilation)
+- Contingency: Full documentation-based test evidence available
+- Remediation path: Install libfmt-dev or use vcpkg
+- Impact: Does NOT block module validation or issue closure
+- Wave 7 baseline: Infrastructure complete; execution timeline 2026-09
+- Scheduled per ROADMAP.md Phase 2 exit criteria
+- Not blocking current status validation
+- Part of ongoing Wave 7 program (separate from this module update)
+
+---
+
 ### QUERY_OPTIMIZER_THREAD_SAFETY_IMPLEMENTATION.md
 
 *(file too large — key headings extracted)*
@@ -11474,109 +11287,6 @@ Full implementation of query module hardening across 6 phases using parallel sub
 - Performance regression gates with benchmark thresholds
 ### Key Deliverables
 - [ ] `src/query/query_optimizer_v2.cpp` — Redesigned optimizer with safety checks
-
----
-
-### QUICKSTART.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Implementation Gap Audit — Quick Start
-## Summary
-**1,862 implementation gaps** detected across 57 modules → **Clustered into 13 actionable issues**
-### The Numbers
-- 🔴 **1,620 Unimplemented** code paths (critical)
-- 🟠 **384 STUB/MOCK** markers (needs documentation)
-- 🟡 **29+ TODO/FIXME** items (needs completion)
----
-## Quick Navigation
-| File | Purpose |
-|------|---------|
-| **CLUSTERED_ISSUES_REPORT.md** | 📋 Full audit report with all details |
-| **ai_working/clustered_issues/*.md** | 📝 Individual issue templates (13 files) |
-| **tools/gap_scanner.py** | 🔍 Automated gap detection tool |
-| **tools/gap_clusterer.py** | 🔗 Clustering engine |
-| **ai_working/gap_scan_*.json** | 📊 Detailed scan results per module |
----
-## The 13 Issues at a Glance
-### 🔴 CRITICAL Issues
-| ID | Title | Gaps | Modules |
-|----|-------|------|---------|
-| **META-001** | Complete unimplemented code paths | 1,620 | ALL 57 |
-| **MOD-acceleration** | GPU kernels & backends | 235 | acceleration |
-| **MOD-ingestion** | Data loading pipelines | 178 | ingestion |
-| **MOD-llm** | LLM integration | 151 | llm |
-| **MOD-security** | Auth, encryption, governance | 139 | security |
-| **MOD-index** | Vector & spatial indexing | 94 | index |
-| **MOD-storage** | Database layer | 84 | storage |
-### 🟠 HIGH Priority Issues
-| ID | Title | Gaps | Modules |
-|----|-------|------|---------|
-| **META-002** | Standardize STUB documentation | 384 | 46 modules |
-| **GROUP-001** | Data Layer & Indexing | 292 | sharding, network, tensor, geo, maintenance |
-| **GROUP-003** | ML/AI Integration | 264 | llm, ai, training, tensor, prompt_engineering |
-| **GROUP-002** | Query/Search Engine | 186 | query, search, rag, scheduler |
-| **GROUP-004** | Distributed Infrastructure | 107 | network, cache, replication, cdc |
-### 🟡 MEDIUM Priority
-| ID | Title | Gaps |
-|----|-------|------|
-| **META-003** | Resolve TODO/FIXME | 29+ |
----
-## Create Issues on GitHub
-### Option A: Batch create all 13 issues
-
----
-
-### QUERY_MODULE_DEVELOPMENT_STATUS_CLOSURE.md
-
-*(file too large — key headings extracted)*
-
-# Query Module Development Status — Issue #5664 Closure Checklist
-## 2026-08-05
-### Issue Overview
-**Issue**: makr-code/ThemisDB#5664 — "[module:query] Development Status 2026-07-18"
-**Parent Epic**: makr-code/ThemisDB#5624
-**Module**: src/query/
-**Status**: READY FOR CLOSURE
----
-## Closure Criteria (from Issue Description)
-### ✅ 1. All Module Acceptance Criteria Updated and Traceable
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| ROADMAP.md current and aligned | ✅ COMPLETE | Validated against issue snapshot; all items synced |
-| FUTURE_ENHANCEMENTS.md current and aligned | ✅ COMPLETE | Risk backlog documented; adoption scenarios defined |
-| Phased deliverables tracked | ✅ COMPLETE | Phases 1-5 completion mapped per feature |
-| Acceptance for in-progress items defined | ✅ COMPLETE | Phase acceptance gates documented |
-| Planned features scheduled | ✅ COMPLETE | Targets Q3-Q4 2026 and Q1 2027 assigned |
-**Supporting Documents**:
-- QUERY_MODULE_STATUS_2026_08_05.md (comprehensive status report)
-- src/query/ROADMAP.md (updated and current)
-- src/query/FUTURE_ENHANCEMENTS.md (updated and current)
-- src/query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md (cross-module dependency documentation)
----
-### ✅ 2. Evidence Updated (Build/Tests) or Explicit Justified Gap
-| Category | Status | Evidence |
-|----------|--------|----------|
-| Test Suite Mapped | ✅ COMPLETE | 31 focused test files identified in tests/query/CMakeLists.txt |
-| Test Case Count | ✅ COMPLETE | 500+ test cases across all suites catalogued |
-| Critical Path Coverage | ✅ COMPLETE | Parser, optimizer, executor, federation, cache all covered |
-| Phase Deliverable Tests | ✅ COMPLETE | AQL mutations (complete), DDL (complete), geospatial phase 1 (complete) |
-| Feature Test Mapping | ✅ COMPLETE | Each roadmap item linked to validation tests |
-| Performance Tests | 📋 DOCUMENTED GAP | Phase 4 SLA tests structure complete; build pending fmt dependency |
-| Wave 7 Benchmark Baseline | 📋 DOCUMENTED GAP | Infrastructure ready; execution scheduled 2026-09 |
-**Supporting Documents**:
-- QUERY_BUILD_TEST_EVIDENCE_2026_08_05.md (31 test files, 500+ test cases)
-- tests/query/CMakeLists.txt (test registration configuration)
-- Individual test files (test_*.cpp) with test case counts
-**Gap Justification**:
-- Build pending: fmt library dependency (critical for C++ compilation)
-- Contingency: Full documentation-based test evidence available
-- Remediation path: Install libfmt-dev or use vcpkg
-- Impact: Does NOT block module validation or issue closure
-- Wave 7 baseline: Infrastructure complete; execution timeline 2026-09
-- Scheduled per ROADMAP.md Phase 2 exit criteria
-- Not blocking current status validation
-- Part of ongoing Wave 7 program (separate from this module update)
 
 ---
 
@@ -12568,6 +12278,56 @@ Target: Q3 2026 Validation + Q4 2026 Phase 2 Implementation
 - include/plugins/plugin_registry.h (add timeout semantics)
 - src/plugins/plugin_registry.cpp (enhance concurrency)
 - tests/plugins/test_registry_concurrency_hardening.cpp (new focused test)
+
+---
+
+### PHASE_A2_INDEX.md
+
+*(file too large — key headings extracted)*
+
+# PHASE A2 BLOCK A2: UNIFIED DIAGNOSTICS
+## Complete Code Review & Implementation Documentation Index
+**Generated:** 2026-08-08
+**Status:** ✅ READY FOR IMPLEMENTATION
+**Scope:** ThemisDB Tensor Module Diagnostic Infrastructure Review
+---
+## 📑 DOCUMENT GUIDE
+### For Executive Leadership / Decision Makers
+**→ Start with: PHASE_A2_EXECUTIVE_SUMMARY.txt**
+- High-level findings overview (3 CRITICAL, 2 HIGH, 2 MEDIUM)
+- Impact assessment (MTTR improvement: 4+ hours → 15 minutes)
+- Implementation roadmap and timeline
+- Go/No-Go decision: ✅ GO — Begin immediately
+---
+### For Architects / Technical Leads
+**→ Start with: PHASE_A2_REVIEW_FINDINGS.md**
+- Complete findings summary with severity levels
+- Coverage analysis (current 3%, target 95%)
+- Phase-by-phase implementation breakdown
+- Approval checklist and next steps
+---
+### For Implementation Teams
+**→ Start with: PHASE_A2_CODE_REVIEW_SUMMARY.md**
+- Detailed findings with code examples (before/after)
+- Acceptance criteria for each finding
+- Validation checklist
+- Specific line numbers and modules to modify
+---
+### For QA / Test Engineers
+**→ Start with: DIAGNOSTIC_AUDIT.md (Section: Test Strategy)**
+- Complete test suite design (TDIAG-01..24)
+- Error path inventory (115+ paths)
+- Performance benchmarking requirements
+- Backward compatibility testing approach
+---
+### For Log Parser / Observability Teams
+**→ Start with: DIAGNOSTIC_AUDIT.md (Section: Format Validation & Backward Compatibility)**
+- Format stability contract documented
+- Error code taxonomy (TENSOR-7xxx, 8xxx, 9xxx)
+- Migration strategy for format changes
+- Backward compatibility notes
+---
+## 📊 DOCUMENT STRUCTURE
 
 ---
 
@@ -13647,53 +13407,57 @@ MEDIUM-1: Inconsistent Error Code Taxonomy
 
 ---
 
-### PHASE_A2_INDEX.md
+### PHASE_5_TASK_TRACKING.md
 
 *(file too large — key headings extracted)*
 
-# PHASE A2 BLOCK A2: UNIFIED DIAGNOSTICS
-## Complete Code Review & Implementation Documentation Index
-**Generated:** 2026-08-08
-**Status:** ✅ READY FOR IMPLEMENTATION
-**Scope:** ThemisDB Tensor Module Diagnostic Infrastructure Review
+# Phase 5: Task Tracking & Progress Report
+**Status:** Active Planning & Coordination
+**Last Updated:** 2026-07-28
+**Next Review:** 2026-08-04
 ---
-## 📑 DOCUMENT GUIDE
-### For Executive Leadership / Decision Makers
-**→ Start with: PHASE_A2_EXECUTIVE_SUMMARY.txt**
-- High-level findings overview (3 CRITICAL, 2 HIGH, 2 MEDIUM)
-- Impact assessment (MTTR improvement: 4+ hours → 15 minutes)
-- Implementation roadmap and timeline
-- Go/No-Go decision: ✅ GO — Begin immediately
+## Quick Status Summary
+| Category | Tasks | Completed | In Progress | Pending | Tests |
+|---|---|---|---|---|---|
+| Observability | 5 | 0 | 0 | 5 | 10 |
+| Error Classification | 4 | 0 | 0 | 4 | 10 |
+| Backup & Recovery | 5 | 0 | 0 | 5 | 10 |
+| SLA Validation | 4 | 0 | 0 | 4 | 10 |
+| Runbooks | 5 | 0 | 0 | 5 | 20 |
+| **TOTAL** | **23** | **0** | **0** | **23** | **60** |
 ---
-### For Architects / Technical Leads
-**→ Start with: PHASE_A2_REVIEW_FINDINGS.md**
-- Complete findings summary with severity levels
-- Coverage analysis (current 3%, target 95%)
-- Phase-by-phase implementation breakdown
-- Approval checklist and next steps
----
-### For Implementation Teams
-**→ Start with: PHASE_A2_CODE_REVIEW_SUMMARY.md**
-- Detailed findings with code examples (before/after)
-- Acceptance criteria for each finding
-- Validation checklist
-- Specific line numbers and modules to modify
----
-### For QA / Test Engineers
-**→ Start with: DIAGNOSTIC_AUDIT.md (Section: Test Strategy)**
-- Complete test suite design (TDIAG-01..24)
-- Error path inventory (115+ paths)
-- Performance benchmarking requirements
-- Backward compatibility testing approach
----
-### For Log Parser / Observability Teams
-**→ Start with: DIAGNOSTIC_AUDIT.md (Section: Format Validation & Backward Compatibility)**
-- Format stability contract documented
-- Error code taxonomy (TENSOR-7xxx, 8xxx, 9xxx)
-- Migration strategy for format changes
-- Backward compatibility notes
----
-## 📊 DOCUMENT STRUCTURE
+## Implementation Timeline (Weekly View)
+### ✅ Pre-Phase (Target: 2026-07-28)
+- [x] Create Phase 5 implementation plan document
+- [x] Define 26 implementation tasks
+- [x] Define 60 operational test cases
+- [x] Establish task tracking database
+- [ ] **Next:** Announce Phase 5 kickoff and assign task owners
+### 📅 Week 1 (Aug 5–11, 2026): Observability Instrumentation
+**Target:** Establish logging, metrics, and tracing framework
+**Tasks:**
+- [ ] **OBS-01:** Structured logging infrastructure
+- Design JSON logging format with context propagation
+- Implement base logger interface (`include/core/logging.hpp`)
+- Create implementation (`src/core/logging.cpp`)
+- Estimate: 3-4 days
+- [ ] **OBS-02:** Integrate logging into release-critical paths
+- Identify all critical paths (Wave 5/6/8 scope)
+- Add instrumentation at entry/exit/error points
+- Validate context propagation across async boundaries
+- Estimate: 2-3 days
+- [ ] **OBS-03:** Metrics collection framework
+- Design metrics interface for latency, throughput, errors
+- Implement metrics aggregator
+- Integrate prometheus/OpenMetrics format
+- Estimate: 3-4 days
+- [ ] **OBS-04:** Distributed tracing integration
+- Choose tracing backend (OpenTelemetry recommended)
+- Implement tracing interface
+- Add span instrumentation to critical paths
+- Estimate: 2-3 days
+**Tests to Write:**
+- OBS-01: Logging format validation
 
 ---
 
@@ -14194,60 +13958,6 @@ ADDITIONAL TESTS:
 - Integration tests:                 ~15-20 tests (per-component)
 STATUS: 🟡 PLANNING COMPLETE — Test implementations start Week 1
 ───────────────────────────────────────────────────────────────────────────────
-
----
-
-### PHASE_5_TASK_TRACKING.md
-
-*(file too large — key headings extracted)*
-
-# Phase 5: Task Tracking & Progress Report
-**Status:** Active Planning & Coordination
-**Last Updated:** 2026-07-28
-**Next Review:** 2026-08-04
----
-## Quick Status Summary
-| Category | Tasks | Completed | In Progress | Pending | Tests |
-|---|---|---|---|---|---|
-| Observability | 5 | 0 | 0 | 5 | 10 |
-| Error Classification | 4 | 0 | 0 | 4 | 10 |
-| Backup & Recovery | 5 | 0 | 0 | 5 | 10 |
-| SLA Validation | 4 | 0 | 0 | 4 | 10 |
-| Runbooks | 5 | 0 | 0 | 5 | 20 |
-| **TOTAL** | **23** | **0** | **0** | **23** | **60** |
----
-## Implementation Timeline (Weekly View)
-### ✅ Pre-Phase (Target: 2026-07-28)
-- [x] Create Phase 5 implementation plan document
-- [x] Define 26 implementation tasks
-- [x] Define 60 operational test cases
-- [x] Establish task tracking database
-- [ ] **Next:** Announce Phase 5 kickoff and assign task owners
-### 📅 Week 1 (Aug 5–11, 2026): Observability Instrumentation
-**Target:** Establish logging, metrics, and tracing framework
-**Tasks:**
-- [ ] **OBS-01:** Structured logging infrastructure
-- Design JSON logging format with context propagation
-- Implement base logger interface (`include/core/logging.hpp`)
-- Create implementation (`src/core/logging.cpp`)
-- Estimate: 3-4 days
-- [ ] **OBS-02:** Integrate logging into release-critical paths
-- Identify all critical paths (Wave 5/6/8 scope)
-- Add instrumentation at entry/exit/error points
-- Validate context propagation across async boundaries
-- Estimate: 2-3 days
-- [ ] **OBS-03:** Metrics collection framework
-- Design metrics interface for latency, throughput, errors
-- Implement metrics aggregator
-- Integrate prometheus/OpenMetrics format
-- Estimate: 3-4 days
-- [ ] **OBS-04:** Distributed tracing integration
-- Choose tracing backend (OpenTelemetry recommended)
-- Implement tracing interface
-- Add span instrumentation to critical paths
-- Estimate: 2-3 days
-**Tests to Write:**
-- OBS-01: Logging format validation
 
 ---
 
@@ -15007,54 +14717,6 @@ std::unordered_map<uint32_t, Stream> streams;
 
 ---
 
-### PHASE_2_2_DOCS_UPDATE.md
-
-*(file too large — key headings extracted)*
-
-# Phase 2.2 L3 Documentation Update Orchestration
-## Documentation Governance Agent 3 Sign-Off
-**Last Updated**: 2026-07-01
-**Source Level**: L3 (Root Governance & Product Docs)
-**SOT Domains**: architecture-governance, security, release-versioning
-**Canonical Sources**: ai_working/GRAPH_PHASE_2_GATE_ANALYSIS.md, ai_working/snapshot_graph_l1_testcoverage.md
-**Milestone**: DOC-WEEKLY-2026-27
-**Status**: ✅ COMPLETE
----
-## Operation Summary
-**Task**: Synchronize L3 root documentation with Phase 2.2 completion sign-off.
-**Scope**: 3 L3 files updated + 1 L1 orchestration summary created
----
-## File Operations Executed
-### 1. ROADMAP.md — Phase 2.2 Completion Entry
-**Operation**: UPDATE (L3 root governance)
-**Path**: `/ROADMAP.md` (lines 88-145)
-**SOT Domain**: architecture-governance (project-roadmap aggregate)
-**Level**: L3 (root governance)
-**Changes**:
-- Updated Risk Mitigation checklist (marked L3 update as COMPLETE)
-- Added new section: "🟢 Graph Module Completion Phase 2.2 (Q3 2026) — SIGN-OFF"
-- Added comprehensive Phase 2.2 gate assessment table with 39 test results
-- Added risk assessment summary (0 blockers, all defensive patterns verified)
-- Updated downstream milestone references
-**Content Sourced From**:
-**Validation**:
-- ✅ Cross-references to canonical sources correct
-- ✅ Test counts verified: 8 explain_plan + 6 cost_model + 14 path_constraints + 11 constraint_propagation = 39 ✓
-- ✅ Severity reclassifications (CRITICAL→INFO) match gate analysis findings #1-2
-- ✅ All claim assertions have upstream evidence
-- ✅ No contradictions with existing L2 content
-**Diff Preview**:
-- [~] **L3 root-doc update in progress** — this entry + SECURITY.md tier table + CHANGELOG.md entry
-+ [x] **L3 root-doc update completed** — ROADMAP/SECURITY.md/CHANGELOG.md entries signed off
-+
-+ ## 🟢 Graph Module Completion Phase 2.2 (Q3 2026) — SIGN-OFF
-+
-+ **Status:** ✅ **Phase 2.2 COMPLETE**
-+ **Timeline:** Week 2 (Completed: 2026-07-01)
-+ ...
-
----
-
 ### PHASE_2_3_DELIVERY_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -15416,60 +15078,6 @@ std::unordered_map<uint32_t, Stream> streams;
 
 ---
 
-### PHASE_2.2_QUICK_REFERENCE.txt
-
-*(file too large — key headings extracted)*
-
-╔══════════════════════════════════════════════════════════════════════════╗
-║                                                                          ║
-║          SPRINT 7: PHASE 2.2 — QUICK REFERENCE CARD                    ║
-║                                                                          ║
-║                    Graph Module Gap Remediation                         ║
-║                                                                          ║
-╚══════════════════════════════════════════════════════════════════════════╝
-STATUS: ✅ 100% COMPLETE & VERIFIED
-GAPS VERIFIED
-─────────────────────────────────────────────────────────────────────────
-Gap 2.2.1 | explain_plan.cpp:104  | toDot()         | PRODUCTION-QUALITY
-Gap 2.2.2 | explain_plan.cpp:164  | toJson()        | PRODUCTION-QUALITY
-Gap 2.2.3 | path_constraints.cpp:54 | mapErrorCode() | PRODUCTION-QUALITY
-Gap 2.2.4 | path_constraints.cpp:76 | Security vals | PRODUCTION-QUALITY
-MATURITY SCORES
-─────────────────────────────────────────────────────────────────────────
-explain_plan.cpp:        85/100 (PRODUCTION-READY)
-path_constraints.cpp:    93/100 (PRODUCTION-READY)
-DELIVERABLES
-─────────────────────────────────────────────────────────────────────────
-1. PHASE_2.2_VERIFICATION.md          11 KB  [Comprehensive]
-2. PHASE_2.2_SUMMARY.md               15 KB  [Executive]
-3. PHASE_2.2_CODE_INSPECTION_LOG.md   13 KB  [Line-by-line]
-4. results.md                         11 KB  [Findings]
-5. PHASE_2.2_ARTIFACTS_INDEX.md      8.2 KB  [Reference]
-6. src/graph/MODULE_GAPS.md        [UPDATED] [L1 SOT]
-Total: 58+ KB of documentation
-CODE INSPECTION
-─────────────────────────────────────────────────────────────────────────
-Lines Examined:          967 lines (225 + 742)
-Doxygen Audited:         87+ lines of documentation
-Iterator Safety:         ✅ Verified
-Security Validation:     ✅ Comprehensive
-RAII Compliance:         ✅ Full
-Memory Management:       ✅ No raw pointers
-Breaking Changes:        NONE
-Backward Compatibility:  MAINTAINED
-TEST SUITE
-─────────────────────────────────────────────────────────────────────────
-explain_plan:            7 tests  [test_query_explain.cpp]
-cost_model:              7 tests  [test_optimizer_cost_model.cpp]
-path_constraints:       25 tests  [test_path_constraints_*.cpp]
-─────────
-39 TOTAL  [All expected PASS]
-Expected Result:         ✅ 100% PASS
-Build Status:            Blocked by RocksDB (expected)
-Execution Timeline:      Phase 2.4
-
----
-
 ### PHASE_2.2_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -15716,6 +15324,54 @@ out << "digraph GraphExplainPlan {\n";
 **Code Quality:**
 - ✅ Lines added: 70 (clean, focused, no legacy paths)
 - ✅ Syntax validation: 68 braces, 335 parentheses (balanced)
+
+---
+
+### PHASE_2_2_DOCS_UPDATE.md
+
+*(file too large — key headings extracted)*
+
+# Phase 2.2 L3 Documentation Update Orchestration
+## Documentation Governance Agent 3 Sign-Off
+**Last Updated**: 2026-07-01
+**Source Level**: L3 (Root Governance & Product Docs)
+**SOT Domains**: architecture-governance, security, release-versioning
+**Canonical Sources**: ai_working/GRAPH_PHASE_2_GATE_ANALYSIS.md, ai_working/snapshot_graph_l1_testcoverage.md
+**Milestone**: DOC-WEEKLY-2026-27
+**Status**: ✅ COMPLETE
+---
+## Operation Summary
+**Task**: Synchronize L3 root documentation with Phase 2.2 completion sign-off.
+**Scope**: 3 L3 files updated + 1 L1 orchestration summary created
+---
+## File Operations Executed
+### 1. ROADMAP.md — Phase 2.2 Completion Entry
+**Operation**: UPDATE (L3 root governance)
+**Path**: `/ROADMAP.md` (lines 88-145)
+**SOT Domain**: architecture-governance (project-roadmap aggregate)
+**Level**: L3 (root governance)
+**Changes**:
+- Updated Risk Mitigation checklist (marked L3 update as COMPLETE)
+- Added new section: "🟢 Graph Module Completion Phase 2.2 (Q3 2026) — SIGN-OFF"
+- Added comprehensive Phase 2.2 gate assessment table with 39 test results
+- Added risk assessment summary (0 blockers, all defensive patterns verified)
+- Updated downstream milestone references
+**Content Sourced From**:
+**Validation**:
+- ✅ Cross-references to canonical sources correct
+- ✅ Test counts verified: 8 explain_plan + 6 cost_model + 14 path_constraints + 11 constraint_propagation = 39 ✓
+- ✅ Severity reclassifications (CRITICAL→INFO) match gate analysis findings #1-2
+- ✅ All claim assertions have upstream evidence
+- ✅ No contradictions with existing L2 content
+**Diff Preview**:
+- [~] **L3 root-doc update in progress** — this entry + SECURITY.md tier table + CHANGELOG.md entry
++ [x] **L3 root-doc update completed** — ROADMAP/SECURITY.md/CHANGELOG.md entries signed off
++
++ ## 🟢 Graph Module Completion Phase 2.2 (Q3 2026) — SIGN-OFF
++
++ **Status:** ✅ **Phase 2.2 COMPLETE**
++ **Timeline:** Week 2 (Completed: 2026-07-01)
++ ...
 
 ---
 
@@ -16177,55 +15833,57 @@ Line 123:             out << "  \"" << escapeJson(node.node_id) << "\" -> \""
 
 ---
 
-### PHASE_11_COMPLETION_SUMMARY.md
+### PHASE_2.2_QUICK_REFERENCE.txt
 
 *(file too large — key headings extracted)*
 
-# Phase 11 Security Hardening Scanner Suite — COMPLETION REPORT
-## Mission Accomplished ✓
-**Objective:** Implement complete Phase 11 Security Hardening Scanner Suite with 6 production-ready scanners.
-**Status:** **COMPLETE AND DEPLOYED**
----
-## What Was Delivered
-### 1. Six Production-Ready Scanners
-| Scanner | Size | Detection Scope | Status |
-|---------|------|---|--------|
-| **P11-1: Data Leak Detection** | 361 LOC | PII, secrets, sensitive logging, memory | ✓ Production |
-| **P11-2: Encryption Leak** | 326 LOC | Weak hashes, deprecated ciphers, ECB, hardcoded IVs | ✓ Production |
-| **P11-3: E2E Encryption** | 334 LOC | Transit/rest encryption gaps, missing verification | ✓ Complete |
-| **P11-4: Key Failure Detection** | 460 LOC | Hardcoded keys, weak RNG, no rotation | ✓ Production |
-| **P11-5: Attack Vectors** | 339 LOC | SQL/command injection, XSS, CSRF, auth bypass | ✓ Complete |
-| **P11-6: Military Hardening** | 363 LOC | FIPS 140-2, classified data, compartmentalization | ✓ Complete |
-| **Integration Module** | 173 LOC | Dynamic loading, aggregation, JSON export | ✓ Tested |
-| **Analysis Tools** | 120 LOC | FP analysis, confidence scoring, reporting | ✓ Deployed |
-**Total Implementation:** 2,476 LOC (all production-ready)
----
-## Execution Flow: What Happened
-### Phase 1: Initial Implementation (6 Scanners)
-- Implemented complete P11-1 (Data Leak) with 4 check methods
-- Implemented complete P11-2 (Encryption Leak) with 4 check methods
-- Implemented complete P11-3 (E2E Encryption) with 4 check methods
-- Implemented complete P11-4 (Key Failure) with 5 check methods
-- Implemented complete P11-5 (Attack Vectors) with 7 check methods
-- Implemented complete P11-6 (Military Hardening) with 7 check methods
-### Phase 2: Integration & Testing
-- Created integration module to load all 6 scanners
-- Tested scanner imports and dynamic loading
-- Verified JSON output format compatibility
-- Confirmed all scanners functional
-### Phase 3: Repository Scan
-- **Baseline Scan:** 23,670 gaps detected across all 6 scanners
-- Data Leak: 12,395 gaps (52% of total)
-- Military Hardening: 6,037 gaps (25% of total)
-- Attack Vectors: 2,566 gaps (11% of total)
-- Others: 2,672 gaps (11% of total)
-### Phase 4: FP Analysis
-Identified 4 major false positive patterns:
-1. **unzeroed_memory:** 11,683 gaps (49% of total) — Generic buffer allocations flagged as security-critical
-2. **missing_audit_log:** 4,049 gaps (17% of total) — All functions flagged, not just entry points
-3. **csrf_vulnerability:** 2,222 gaps (9% of total) — Test/documentation forms without context
-4. **classified_data_unprotected:** 937 gaps (4% of total) — Naming convention without actual plaintext storage
-### Phase 5: Fine-Tuning
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║          SPRINT 7: PHASE 2.2 — QUICK REFERENCE CARD                    ║
+║                                                                          ║
+║                    Graph Module Gap Remediation                         ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+STATUS: ✅ 100% COMPLETE & VERIFIED
+GAPS VERIFIED
+─────────────────────────────────────────────────────────────────────────
+Gap 2.2.1 | explain_plan.cpp:104  | toDot()         | PRODUCTION-QUALITY
+Gap 2.2.2 | explain_plan.cpp:164  | toJson()        | PRODUCTION-QUALITY
+Gap 2.2.3 | path_constraints.cpp:54 | mapErrorCode() | PRODUCTION-QUALITY
+Gap 2.2.4 | path_constraints.cpp:76 | Security vals | PRODUCTION-QUALITY
+MATURITY SCORES
+─────────────────────────────────────────────────────────────────────────
+explain_plan.cpp:        85/100 (PRODUCTION-READY)
+path_constraints.cpp:    93/100 (PRODUCTION-READY)
+DELIVERABLES
+─────────────────────────────────────────────────────────────────────────
+1. PHASE_2.2_VERIFICATION.md          11 KB  [Comprehensive]
+2. PHASE_2.2_SUMMARY.md               15 KB  [Executive]
+3. PHASE_2.2_CODE_INSPECTION_LOG.md   13 KB  [Line-by-line]
+4. results.md                         11 KB  [Findings]
+5. PHASE_2.2_ARTIFACTS_INDEX.md      8.2 KB  [Reference]
+6. src/graph/MODULE_GAPS.md        [UPDATED] [L1 SOT]
+Total: 58+ KB of documentation
+CODE INSPECTION
+─────────────────────────────────────────────────────────────────────────
+Lines Examined:          967 lines (225 + 742)
+Doxygen Audited:         87+ lines of documentation
+Iterator Safety:         ✅ Verified
+Security Validation:     ✅ Comprehensive
+RAII Compliance:         ✅ Full
+Memory Management:       ✅ No raw pointers
+Breaking Changes:        NONE
+Backward Compatibility:  MAINTAINED
+TEST SUITE
+─────────────────────────────────────────────────────────────────────────
+explain_plan:            7 tests  [test_query_explain.cpp]
+cost_model:              7 tests  [test_optimizer_cost_model.cpp]
+path_constraints:       25 tests  [test_path_constraints_*.cpp]
+─────────
+39 TOTAL  [All expected PASS]
+Expected Result:         ✅ 100% PASS
+Build Status:            Blocked by RocksDB (expected)
+Execution Timeline:      Phase 2.4
 
 ---
 
@@ -16631,6 +16289,109 @@ LLMAQLHandler::Config {
 
 ---
 
+### PHASE_11_COMPLETION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase 11 Security Hardening Scanner Suite — COMPLETION REPORT
+## Mission Accomplished ✓
+**Objective:** Implement complete Phase 11 Security Hardening Scanner Suite with 6 production-ready scanners.
+**Status:** **COMPLETE AND DEPLOYED**
+---
+## What Was Delivered
+### 1. Six Production-Ready Scanners
+| Scanner | Size | Detection Scope | Status |
+|---------|------|---|--------|
+| **P11-1: Data Leak Detection** | 361 LOC | PII, secrets, sensitive logging, memory | ✓ Production |
+| **P11-2: Encryption Leak** | 326 LOC | Weak hashes, deprecated ciphers, ECB, hardcoded IVs | ✓ Production |
+| **P11-3: E2E Encryption** | 334 LOC | Transit/rest encryption gaps, missing verification | ✓ Complete |
+| **P11-4: Key Failure Detection** | 460 LOC | Hardcoded keys, weak RNG, no rotation | ✓ Production |
+| **P11-5: Attack Vectors** | 339 LOC | SQL/command injection, XSS, CSRF, auth bypass | ✓ Complete |
+| **P11-6: Military Hardening** | 363 LOC | FIPS 140-2, classified data, compartmentalization | ✓ Complete |
+| **Integration Module** | 173 LOC | Dynamic loading, aggregation, JSON export | ✓ Tested |
+| **Analysis Tools** | 120 LOC | FP analysis, confidence scoring, reporting | ✓ Deployed |
+**Total Implementation:** 2,476 LOC (all production-ready)
+---
+## Execution Flow: What Happened
+### Phase 1: Initial Implementation (6 Scanners)
+- Implemented complete P11-1 (Data Leak) with 4 check methods
+- Implemented complete P11-2 (Encryption Leak) with 4 check methods
+- Implemented complete P11-3 (E2E Encryption) with 4 check methods
+- Implemented complete P11-4 (Key Failure) with 5 check methods
+- Implemented complete P11-5 (Attack Vectors) with 7 check methods
+- Implemented complete P11-6 (Military Hardening) with 7 check methods
+### Phase 2: Integration & Testing
+- Created integration module to load all 6 scanners
+- Tested scanner imports and dynamic loading
+- Verified JSON output format compatibility
+- Confirmed all scanners functional
+### Phase 3: Repository Scan
+- **Baseline Scan:** 23,670 gaps detected across all 6 scanners
+- Data Leak: 12,395 gaps (52% of total)
+- Military Hardening: 6,037 gaps (25% of total)
+- Attack Vectors: 2,566 gaps (11% of total)
+- Others: 2,672 gaps (11% of total)
+### Phase 4: FP Analysis
+Identified 4 major false positive patterns:
+1. **unzeroed_memory:** 11,683 gaps (49% of total) — Generic buffer allocations flagged as security-critical
+2. **missing_audit_log:** 4,049 gaps (17% of total) — All functions flagged, not just entry points
+3. **csrf_vulnerability:** 2,222 gaps (9% of total) — Test/documentation forms without context
+4. **classified_data_unprotected:** 937 gaps (4% of total) — Naming convention without actual plaintext storage
+### Phase 5: Fine-Tuning
+
+---
+
+### P1_BLOCKER_ESCALATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# P1 Blocker Escalation Summary
+**Completed:** 2026-08-14 19:10 UTC
+---
+## Task Completion Status
+### ✅ Escalation to Maintainers + Team (COMPLETE)
+**GitHub Issue Created:** #5939
+**Title:** 🔴 P1 BLOCKER: ODR Violations in Wave A1 Build Preventing All Downstream Work
+**URL:** https://github.com/makr-code/ThemisDB/issues/5939
+**Status:** Open, awaiting maintainer response
+**Issue Contents:**
+- Root cause analysis (ODR violations in `src/security/timestamp_authority` module)
+- Complete impact assessment (Blocks Wave A/B/7-13 program)
+- Maintainer action checklist with diagnostic commands
+- Timeline: Target resolution 2026-08-21
+- Success criteria for fix validation
+**Labels Applied:** `critical`, `blocker`, `Wave-A1-gate`, `p1-critical`, `build-failure`
+---
+### ✅ Fix Progress Monitoring (IN PROGRESS)
+**Escalation Tracking Document:** `P1_BLOCKER_ESCALATION_LOG.md`
+Monitoring Setup:
+- Target resolution date: **2026-08-21**
+- Phase 1: Diagnosis (next 24 hours)
+- Phase 2: Fix implementation (2026-08-20)
+- Phase 3: Verification (2026-08-21)
+- Phase 4: Notify & schedule re-verification (2026-08-21)
+Risk Mitigation:
+- Day 5 (2026-08-19): Escalate if no progress
+- Day 7 (2026-08-21): Executive decision point
+- Contingency timeline documented for 1-2 day / 1-week delays
+---
+### ⏳ A1 Build/Run Verification Re-run (SCHEDULED)
+**Scheduled Date:** 2026-09-04
+**Trigger:** Upon confirmation of fix completion (target 2026-08-21)
+**Action:** Wave Orchestrator to re-run `a1-transaction-build-run-verif` agent
+**Success Criteria for Re-run:**
+- All 36 transaction tests link successfully
+- Phase 2 tests (14+11): Pass with exit 0
+- Phase 3 tests (11): Pass with exit 0
+- Chaos evidence: Coordinator WAL replay + SAGA idempotency + circuit breaker
+- `release_critical` CI: Green on `develop`
+**Unblock Sequence:**
+1. A1 exits with PASS status
+2. A2-A5 parallel batches unblocked (2026-09-04)
+3. Wave A exit criteria validated (2026-10-02)
+
+---
+
 ### P2_D05_QUICK_REF.md
 
 *(file too large — key headings extracted)*
@@ -16873,108 +16634,6 @@ One Definition Rule (ODR) violations in security module prevent `libthemis_secur
 grep -rn "class TimestampAuthority" src/
 find src/ -name "*timestamp_authority*"
 grep -E "#pragma once|#ifndef" src/security/*.h src/governance/*.h
-
----
-
-### P1_BLOCKER_ESCALATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# P1 Blocker Escalation Summary
-**Completed:** 2026-08-14 19:10 UTC
----
-## Task Completion Status
-### ✅ Escalation to Maintainers + Team (COMPLETE)
-**GitHub Issue Created:** #5939
-**Title:** 🔴 P1 BLOCKER: ODR Violations in Wave A1 Build Preventing All Downstream Work
-**URL:** https://github.com/makr-code/ThemisDB/issues/5939
-**Status:** Open, awaiting maintainer response
-**Issue Contents:**
-- Root cause analysis (ODR violations in `src/security/timestamp_authority` module)
-- Complete impact assessment (Blocks Wave A/B/7-13 program)
-- Maintainer action checklist with diagnostic commands
-- Timeline: Target resolution 2026-08-21
-- Success criteria for fix validation
-**Labels Applied:** `critical`, `blocker`, `Wave-A1-gate`, `p1-critical`, `build-failure`
----
-### ✅ Fix Progress Monitoring (IN PROGRESS)
-**Escalation Tracking Document:** `P1_BLOCKER_ESCALATION_LOG.md`
-Monitoring Setup:
-- Target resolution date: **2026-08-21**
-- Phase 1: Diagnosis (next 24 hours)
-- Phase 2: Fix implementation (2026-08-20)
-- Phase 3: Verification (2026-08-21)
-- Phase 4: Notify & schedule re-verification (2026-08-21)
-Risk Mitigation:
-- Day 5 (2026-08-19): Escalate if no progress
-- Day 7 (2026-08-21): Executive decision point
-- Contingency timeline documented for 1-2 day / 1-week delays
----
-### ⏳ A1 Build/Run Verification Re-run (SCHEDULED)
-**Scheduled Date:** 2026-09-04
-**Trigger:** Upon confirmation of fix completion (target 2026-08-21)
-**Action:** Wave Orchestrator to re-run `a1-transaction-build-run-verif` agent
-**Success Criteria for Re-run:**
-- All 36 transaction tests link successfully
-- Phase 2 tests (14+11): Pass with exit 0
-- Phase 3 tests (11): Pass with exit 0
-- Chaos evidence: Coordinator WAL replay + SAGA idempotency + circuit breaker
-- `release_critical` CI: Green on `develop`
-**Unblock Sequence:**
-1. A1 exits with PASS status
-2. A2-A5 parallel batches unblocked (2026-09-04)
-3. Wave A exit criteria validated (2026-10-02)
-
----
-
-### NEXT_PHASE_30_60_90_BACKLOG.md
-
-*(file too large — key headings extracted)*
-
-# Next-Phase 30/60/90 Backlog (Production-Readiness Execution)
-**Branch target:** `develop`
-**Cadence:** weekly Friday phase-gate (build/test/bench/security)
-**Execution mode:** larger delivery blocks (A→E), no micro-fix sequencing
----
-## Scope Freeze Baseline (confirmed 2026-07-20)
-- [x] Graph Phase 2.4 completion baseline fixed
-- [x] Wave 5 hardening baseline fixed
-- [x] Wave 6 hardening baseline fixed
-- [x] Wave 7 hard-gate baseline fixed
-- [x] Block B complete (P3-03 + P3-04)
-- [x] Block C complete (P5-S01 + P5-S02)
----
-## Day 0-30 (Block A first + Block D preparation)
-### Block A — P3-01 + P3-02 (Graph optimizer + cache)
-- [x] P3-01 Query optimizer hardening (plan cache thread-safety + mutex, cost model)
-- [x] P3-02 Cache efficiency (GraphQueryCache: multi-tier/LRU/weighted eviction, 32 tests)
-- [x] Baseline and delta evidence recorded (latency/cache-hit)
-- [x] Gate: no regression vs existing graph suite, Wave-7 stays PASS
-### Block C — P5-S01 + P5-S02 (Server hardening)
-- [x] Wire protocol retry/backoff hardening
-- [x] HTTP timeout + graceful shutdown hardening
-- [x] Fault-injection gate established and documented
-- [x] Gate: transient recovery stable, no shutdown/connection leaks
-### Block D — P5-L01 + P5-L02 (LLM hardening)
-- [ ] Exception safety closure on critical paths
-- [ ] Leak-free lifecycle for load/unload/cache
-- [ ] Baseline memory profile + post-fix comparison archived
-- [ ] Gate: robust failure paths, memory gate green
-### Cross-cutting kickoff
-- [ ] Run `scripts/next_phase_kickoff.py` with available wave7/baseline artifacts
-- [ ] Open/refresh issue set for P3, P5-S, P5-L, P6, AQL-Phase-2
-- [ ] Confirm owners and acceptance gates per block
----
-## Day 31-60 (Block D execution + Block E start)
-### Block E — P6-01 + P6-02 + P6-03 (Sharding consistency + fault injection)
-- [ ] 2PC/3PC consistency and recovery hardening
-- [ ] Failover/rebalancing risk closure
-- [ ] Wave-8 soak/partition/degradation scenarios executed
-- [ ] Gate: recovery SLO met, no core consistency violations
-### AQL 2.0 parallel lane
-- [ ] Phase 2 DDL implementation and gate tests
-- [ ] Follow-up sequencing for geospatial/FTS
-- [ ] Breaking-change tracking kept in sync
 
 ---
 
@@ -17235,6 +16894,160 @@ git push origin copilot/close-gaps-implement-sourcecode-again:develop
 ### 4. **Execute Phase 2** (3-4 hours)
 **Reference**: `PHASE2_PHASE3_NEXT_STEPS.md` § Phase 2
 - Implement scope validation fixes
+
+---
+
+### NEXT_PHASE_30_60_90_BACKLOG.md
+
+*(file too large — key headings extracted)*
+
+# Next-Phase 30/60/90 Backlog (Production-Readiness Execution)
+**Branch target:** `develop`
+**Cadence:** weekly Friday phase-gate (build/test/bench/security)
+**Execution mode:** larger delivery blocks (A→E), no micro-fix sequencing
+---
+## Scope Freeze Baseline (confirmed 2026-07-20)
+- [x] Graph Phase 2.4 completion baseline fixed
+- [x] Wave 5 hardening baseline fixed
+- [x] Wave 6 hardening baseline fixed
+- [x] Wave 7 hard-gate baseline fixed
+- [x] Block B complete (P3-03 + P3-04)
+- [x] Block C complete (P5-S01 + P5-S02)
+---
+## Day 0-30 (Block A first + Block D preparation)
+### Block A — P3-01 + P3-02 (Graph optimizer + cache)
+- [x] P3-01 Query optimizer hardening (plan cache thread-safety + mutex, cost model)
+- [x] P3-02 Cache efficiency (GraphQueryCache: multi-tier/LRU/weighted eviction, 32 tests)
+- [x] Baseline and delta evidence recorded (latency/cache-hit)
+- [x] Gate: no regression vs existing graph suite, Wave-7 stays PASS
+### Block C — P5-S01 + P5-S02 (Server hardening)
+- [x] Wire protocol retry/backoff hardening
+- [x] HTTP timeout + graceful shutdown hardening
+- [x] Fault-injection gate established and documented
+- [x] Gate: transient recovery stable, no shutdown/connection leaks
+### Block D — P5-L01 + P5-L02 (LLM hardening)
+- [ ] Exception safety closure on critical paths
+- [ ] Leak-free lifecycle for load/unload/cache
+- [ ] Baseline memory profile + post-fix comparison archived
+- [ ] Gate: robust failure paths, memory gate green
+### Cross-cutting kickoff
+- [ ] Run `scripts/next_phase_kickoff.py` with available wave7/baseline artifacts
+- [ ] Open/refresh issue set for P3, P5-S, P5-L, P6, AQL-Phase-2
+- [ ] Confirm owners and acceptance gates per block
+---
+## Day 31-60 (Block D execution + Block E start)
+### Block E — P6-01 + P6-02 + P6-03 (Sharding consistency + fault injection)
+- [ ] 2PC/3PC consistency and recovery hardening
+- [ ] Failover/rebalancing risk closure
+- [ ] Wave-8 soak/partition/degradation scenarios executed
+- [ ] Gate: recovery SLO met, no core consistency violations
+### AQL 2.0 parallel lane
+- [ ] Phase 2 DDL implementation and gate tests
+- [ ] Follow-up sequencing for geospatial/FTS
+- [ ] Breaking-change tracking kept in sync
+
+---
+
+### MODULE_HARDENING_TIER1_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# Module Hardening — Tier 1 Implementation Guide
+**Date:** 2026-08-02
+**Phase:** Module Hardening (Q3-Q4 2026)
+**Objective:** 25% gap reduction across Top 10 modules (20,653 total gap fixes)
+---
+## Overview
+### Tier 1 Modules (Prioritized by Gap Count)
+| Rank | Module | Phase 1-5 Gaps | Target Reduction (25%) | Remaining | Est. Effort | Priority |
+|------|--------|---|-----|----------|--------|----------|
+| 1 | llm | 19,838 | -4,960 | 14,878 | ~8 weeks | 🟠 IN PROGRESS |
+| 2 | server | 16,183 | -4,046 | 12,137 | ~7 weeks | ⬜ Queued |
+| 3 | sharding | 9,296 | -2,324 | 6,972 | ~4 weeks | ⬜ Queued |
+| 4 | index | 7,633 | -1,908 | 5,725 | ~4 weeks | ⬜ Queued |
+| 5 | query | 7,327 | -1,832 | 5,495 | ~4 weeks | ⬜ Queued |
+| 6 | storage | 5,892 | -1,473 | 4,419 | ~3 weeks | ⬜ Queued |
+| 7 | analytics | 4,250 | -1,063 | 3,187 | ~2 weeks | ⬜ Queued |
+| 8 | rag | 4,100 | -1,025 | 3,075 | ~2 weeks | ⬜ Queued |
+| 9 | security | 3,814 | -954 | 2,860 | ~2 weeks | ⬜ Queued |
+| 10 | content | 3,278 | -820 | 2,458 | ~2 weeks | ⬜ Queued |
+**Tier 1 Total:** 82,611 gaps → 62,000 gaps (20,653 gap reduction)
+---
+## Module Hardening Strategy
+### Phase A: Root-Cause Analysis (Per Module)
+For each module, identify the top gap patterns:
+1. **Gap Category Breakdown**
+- Run Phase 1-6 scanners against module source
+- Identify distribution: S-1, S-2, S-3, M-1, M-2, C-1, etc.
+- Find patterns causing ≥80% of gaps
+2. **Shared Pattern Identification**
+- Compare top patterns across similar modules
+- Example: Memory safety patterns in server/llm/index
+- Create pattern-based remediation batches
+3. **Impact Assessment**
+- Estimate fix complexity per pattern
+- Identify architectural vs. localized issues
+- Prioritize by effort vs. gap reduction ratio
+### Phase B: Remediation Implementation (Per Module)
+1. **Batch Creation**
+- Group fixes by pattern type
+- Example: "Use-After-Free in LLM Module" batch
+- Target: 10-20 fixes per batch to reduce review overhead
+2. **Fix Development**
+
+---
+
+### MODULE_MATURITY_MATRIX.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Module Maturity Matrix — Historical Snapshot (2026-05-18)
+> [!IMPORTANT]
+> This document is a historical Phase-1 snapshot and is **not** the current canonical maturity source.
+>
+> Current canonical references:
+> - `ROADMAP.md` (root module status and active baseline)
+> - `README.md` (66/66 snapshot summary)
+> - `ai_working/gap_scan_report_2026-06-13.md` (current worklist baseline)
+> - `ai_working/GS3_SCAN_REPORT_2026_06_21.md` (latest full scan report)
+>
+> Update governance and tiering rules are defined in `DOCUMENTATION_GOVERNANCE.md`.
+**Generated from Phase 1 Gap Scanner v3**
+**Date:** 2026-05-18
+**Scope:** All 60 modules, 63,309 files, 18,238 gaps detected
+---
+## Status Definitions (Evidence-Based)
+| Status | Criteria | Example | Truthful? |
+|--------|----------|---------|-----------|
+| 🟢 **PRODUCTION** | <50 gaps, <5 CRITICAL | base, config, utils | YES, adopt widely |
+| 🟡 **HARDENING** | 50–500 gaps, <30 CRITICAL | auth, content, api | BETA, use with caution |
+| 🔴 **ACTIVE WORK** | 500–1,500 gaps, <200 CRITICAL | storage, query, index | ALPHA, avoid production |
+| 🚨 **BLOCKED/INCOMPLETE** | >1,500 gaps OR >200 CRITICAL | server, llm, sharding | NOT READY, simulation mode |
+---
+## Honest Module Status (by Gap Count + Severity)
+### 🟢 PRODUCTION READY (5 modules: <50 gaps each)
+| Module | Gaps | CRITICAL | HIGH | Assessment |
+|--------|------|----------|------|------------|
+| **base** | 12 | 0 | 4 | ✅ Solid foundation utilities |
+| **config** | 18 | 1 | 5 | ✅ Stable configuration layer |
+| **utils** | 28 | 2 | 8 | ✅ Helper functions functional |
+| **cache** | 35 | 3 | 10 | ✅ Cache layer works |
+| **plugins** | 42 | 4 | 12 | ✅ Plugin system operational |
+**Verdict:** Small, well-scoped modules with minimal gaps. Safe to use in production with occasional maintenance.
+---
+### 🟡 HARDENING (12 modules: 50–500 gaps)
+| Module | Gaps | CRITICAL | HIGH | Main Issues |
+|--------|------|----------|------|-----------|
+| **auth** | 145 | 35 | 42 | Missing input validation, hardcoded secrets |
+| **api** | 156 | 38 | 46 | Error handling gaps, timeout patterns |
+| **governance** | 168 | 41 | 49 | Validation gaps, policy edge cases |
+| **metadata** | 124 | 31 | 37 | NULL checks, error propagation |
+| **cdc** | 137 | 33 | 40 | Missing exception handling |
+| **chaos** | 142 | 34 | 41 | Test coverage, error scenarios |
+| **aql** | 151 | 37 | 44 | Parser edge cases, bounds checks |
+| **core** | 167 | 40 | 49 | DI container robustness |
+| **maintenance** | 133 | 32 | 39 | Schedule validation, cleanup |
+| **analytics** | 128 | 31 | 38 | Numeric stability |
 
 ---
 
@@ -17695,230 +17508,6 @@ ai_working/module_gaps/
 
 ---
 
-### MODULE_HARDENING_TIER1_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# Module Hardening — Tier 1 Implementation Guide
-**Date:** 2026-08-02
-**Phase:** Module Hardening (Q3-Q4 2026)
-**Objective:** 25% gap reduction across Top 10 modules (20,653 total gap fixes)
----
-## Overview
-### Tier 1 Modules (Prioritized by Gap Count)
-| Rank | Module | Phase 1-5 Gaps | Target Reduction (25%) | Remaining | Est. Effort | Priority |
-|------|--------|---|-----|----------|--------|----------|
-| 1 | llm | 19,838 | -4,960 | 14,878 | ~8 weeks | 🟠 IN PROGRESS |
-| 2 | server | 16,183 | -4,046 | 12,137 | ~7 weeks | ⬜ Queued |
-| 3 | sharding | 9,296 | -2,324 | 6,972 | ~4 weeks | ⬜ Queued |
-| 4 | index | 7,633 | -1,908 | 5,725 | ~4 weeks | ⬜ Queued |
-| 5 | query | 7,327 | -1,832 | 5,495 | ~4 weeks | ⬜ Queued |
-| 6 | storage | 5,892 | -1,473 | 4,419 | ~3 weeks | ⬜ Queued |
-| 7 | analytics | 4,250 | -1,063 | 3,187 | ~2 weeks | ⬜ Queued |
-| 8 | rag | 4,100 | -1,025 | 3,075 | ~2 weeks | ⬜ Queued |
-| 9 | security | 3,814 | -954 | 2,860 | ~2 weeks | ⬜ Queued |
-| 10 | content | 3,278 | -820 | 2,458 | ~2 weeks | ⬜ Queued |
-**Tier 1 Total:** 82,611 gaps → 62,000 gaps (20,653 gap reduction)
----
-## Module Hardening Strategy
-### Phase A: Root-Cause Analysis (Per Module)
-For each module, identify the top gap patterns:
-1. **Gap Category Breakdown**
-- Run Phase 1-6 scanners against module source
-- Identify distribution: S-1, S-2, S-3, M-1, M-2, C-1, etc.
-- Find patterns causing ≥80% of gaps
-2. **Shared Pattern Identification**
-- Compare top patterns across similar modules
-- Example: Memory safety patterns in server/llm/index
-- Create pattern-based remediation batches
-3. **Impact Assessment**
-- Estimate fix complexity per pattern
-- Identify architectural vs. localized issues
-- Prioritize by effort vs. gap reduction ratio
-### Phase B: Remediation Implementation (Per Module)
-1. **Batch Creation**
-- Group fixes by pattern type
-- Example: "Use-After-Free in LLM Module" batch
-- Target: 10-20 fixes per batch to reduce review overhead
-2. **Fix Development**
-
----
-
-### MODULE_MATURITY_MATRIX.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Module Maturity Matrix — Historical Snapshot (2026-05-18)
-> [!IMPORTANT]
-> This document is a historical Phase-1 snapshot and is **not** the current canonical maturity source.
->
-> Current canonical references:
-> - `ROADMAP.md` (root module status and active baseline)
-> - `README.md` (66/66 snapshot summary)
-> - `ai_working/gap_scan_report_2026-06-13.md` (current worklist baseline)
-> - `ai_working/GS3_SCAN_REPORT_2026_06_21.md` (latest full scan report)
->
-> Update governance and tiering rules are defined in `DOCUMENTATION_GOVERNANCE.md`.
-**Generated from Phase 1 Gap Scanner v3**
-**Date:** 2026-05-18
-**Scope:** All 60 modules, 63,309 files, 18,238 gaps detected
----
-## Status Definitions (Evidence-Based)
-| Status | Criteria | Example | Truthful? |
-|--------|----------|---------|-----------|
-| 🟢 **PRODUCTION** | <50 gaps, <5 CRITICAL | base, config, utils | YES, adopt widely |
-| 🟡 **HARDENING** | 50–500 gaps, <30 CRITICAL | auth, content, api | BETA, use with caution |
-| 🔴 **ACTIVE WORK** | 500–1,500 gaps, <200 CRITICAL | storage, query, index | ALPHA, avoid production |
-| 🚨 **BLOCKED/INCOMPLETE** | >1,500 gaps OR >200 CRITICAL | server, llm, sharding | NOT READY, simulation mode |
----
-## Honest Module Status (by Gap Count + Severity)
-### 🟢 PRODUCTION READY (5 modules: <50 gaps each)
-| Module | Gaps | CRITICAL | HIGH | Assessment |
-|--------|------|----------|------|------------|
-| **base** | 12 | 0 | 4 | ✅ Solid foundation utilities |
-| **config** | 18 | 1 | 5 | ✅ Stable configuration layer |
-| **utils** | 28 | 2 | 8 | ✅ Helper functions functional |
-| **cache** | 35 | 3 | 10 | ✅ Cache layer works |
-| **plugins** | 42 | 4 | 12 | ✅ Plugin system operational |
-**Verdict:** Small, well-scoped modules with minimal gaps. Safe to use in production with occasional maintenance.
----
-### 🟡 HARDENING (12 modules: 50–500 gaps)
-| Module | Gaps | CRITICAL | HIGH | Main Issues |
-|--------|------|----------|------|-----------|
-| **auth** | 145 | 35 | 42 | Missing input validation, hardcoded secrets |
-| **api** | 156 | 38 | 46 | Error handling gaps, timeout patterns |
-| **governance** | 168 | 41 | 49 | Validation gaps, policy edge cases |
-| **metadata** | 124 | 31 | 37 | NULL checks, error propagation |
-| **cdc** | 137 | 33 | 40 | Missing exception handling |
-| **chaos** | 142 | 34 | 41 | Test coverage, error scenarios |
-| **aql** | 151 | 37 | 44 | Parser edge cases, bounds checks |
-| **core** | 167 | 40 | 49 | DI container robustness |
-| **maintenance** | 133 | 32 | 39 | Schedule validation, cleanup |
-| **analytics** | 128 | 31 | 38 | Numeric stability |
-
----
-
-### LLM_ANALYSIS_INDEX.md
-
-*(file too large — key headings extracted)*
-
-# LLM Module Critical Gaps — Complete Analysis Index
-**Analysis Date:** 2026-08-17T11:06:56Z
-**Status:** COMPREHENSIVE ANALYSIS COMPLETE
-**Scope:** 12,474 total gaps in 37 LLM module files
----
-## 📋 Analysis Documents (Delivery Artifacts)
-### 1. **DELIVERY_LLM_GAPS_ANALYSIS.txt** (Primary Summary)
-**Purpose:** Executive summary with all key findings
-**Content:** 40+ KB, 880+ lines
-- Key findings and gap distribution
-- Current code status (positive + negative)
-- Actionable TODOs (#1, #2, #3)
-- Acceptance criteria checklist
-- Implementation roadmap (3 phases)
-- Risk assessment and mitigation
-- Success metrics and next steps
-**Use Case:** Start here for complete overview of findings
----
-### 2. **LLM_CRITICAL_GAPS_CLOSURE_PLAN.md** (Implementation Guide)
-**Purpose:** Detailed roadmap for fixing all 4 gap categories
-**Content:** 6.2 KB, 204 lines
-- 4 Critical gap categories with fix patterns
-- Code examples showing before/after
-- Implementation sequence (4 phases)
-- Acceptance criteria per category
-- Risk mitigation strategies
-- Dependencies and build requirements
-**Use Case:** Reference guide during implementation
----
-### 3. **LLM_GAPS_IMMEDIATE_ACTIONS.md** (Quick Reference)
-**Purpose:** Focused action items with effort estimates
-**Content:** 5.0 KB, 176 lines
-- 3 specific TODO items prioritized
-- Thread-safety and RAII assessment
-- Phase-by-phase implementation sequence
-- Risk assessment table
-- Success metrics checklist
-**Use Case:** Day-to-day execution tracking
----
-### 4. **LLM_MODULE_GAP_CLOSURE_EXECUTIVE_SUMMARY.md** (Technical Details)
-**Purpose:** Deep-dive technical analysis
-**Content:** 12 KB, 401 lines
-- Executive summary with key metrics
-- Critical gap categories detailed
-- TODO items with implementation steps
-- Specific file analysis (top 5 high-risk files)
-- Implementation roadmap with phases
-
----
-
-### L1_MODULE_UPDATE_PLAN.json
-
-*(file too large — key headings extracted)*
-
-{
-"timestamp": "2026-06-25 14:01:06",
-"level": "L1",
-"source": "gap_scan_results_verified_L0.5_full.json",
-"operation": "Module Documentation Update",
-"priority_modules": [
-"llm",
-"server",
-"query",
-"network",
-"graph",
-"cache"
-],
-"total_verified_gaps": 22160,
-"modules_updated": {
-"llm": {
-"path": "src/llm/",
-"verified_gaps": 3821,
-"severity_breakdown": {
-"CRITICAL": 1029,
-"HIGH": 1937,
-"MEDIUM": 854,
-"LOW": 1
-},
-"affected_files": 146,
-"docs_to_update": [
-"src/llm/MODULE_GAPS.md",
-"src/llm/README.md",
-"src/llm/ROADMAP.md",
-"src/llm/SECURITY.md"
-]
-},
-"server": {
-"path": "src/server/",
-"verified_gaps": 2172,
-"severity_breakdown": {
-"CRITICAL": 186,
-"HIGH": 468,
-"MEDIUM": 1513,
-"LOW": 5
-},
-"affected_files": 111,
-"docs_to_update": [
-"src/server/MODULE_GAPS.md",
-"src/server/README.md",
-"src/server/ROADMAP.md",
-"src/server/SECURITY.md"
-]
-},
-"query": {
-"path": "src/query/",
-"verified_gaps": 933,
-"severity_breakdown": {
-"CRITICAL": 131,
-"HIGH": 296,
-"MEDIUM": 502,
-"LOW": 4
-},
-"affected_files": 48,
-"docs_to_update": [
-
----
-
 ### L2_REPORT_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -18149,67 +17738,57 @@ The following external GitHub submodules are **explicitly excluded** from L0-L3 
 
 ---
 
-### L0_scan_log.txt
+### LLM_ANALYSIS_INDEX.md
 
 *(file too large — key headings extracted)*
 
-================================================================================
-ThemisDB Gap Scanner V3 Pipeline
-================================================================================
-[CONFIG] scan_mode=full, docs_doxygen=True
-================================================================================
-GAP SCANNER V3 PIPELINE EXECUTION
-================================================================================
-[SEMANTIC] Running Uniform Full Scanner...
-[UNIFORM] Start scan at C:\Projects\ThemisDB\src
-[UNIFORM] Resolved repo root: C:\Projects\ThemisDB
-[UNIFORM] Mode: full (docs_doxygen=True)
-[UNIFORM] phase1_braces_check: +105773 findings in 83.18s
-[UNIFORM] phase1_namespace_unity_check: +0 findings in 0.03s
-[UNIFORM] phase1_ai_simulation_stub_leak: +26 findings in 22.59s
-[UNIFORM] phase1_ai_todo_productionlogic: +2720 findings in 3.60s
-[UNIFORM] phase1_ai_error_handling_consistency: +744 findings in 207.83s
-[UNIFORM] phase1_ai_llm_prompt_injection: +0 findings in 0.23s
-[UNIFORM] phase1_ai_header_drift: +54 findings in 0.69s
-[UNIFORM] phase1_memory_safety: +786 findings in 8.82s
-[UNIFORM] phase1_error_handling: +1127 findings in 5.77s
-[UNIFORM] phase1_thread_safety: +1453 findings in 5.38s
-[UNIFORM] phase1_raii: failed after 0.00s
-[...] Scanning for SECURITY GAPS...
-acceleration                      3 gaps
-api                               1 gaps
-aql                              21 gaps
-auth                             21 gaps
-base                              4 gaps
-cache                            58 gaps
-chimera                           2 gaps
-config                            6 gaps
-content                          15 gaps
-ethics_ai                         1 gaps
-exporters                         2 gaps
-geo                               3 gaps
-graph                             4 gaps
-importers                        80 gaps
-index                             1 gaps
-ingestion                         5 gaps
-llm                              74 gaps
-maintenance                       2 gaps
-network                          16 gaps
-performance                      10 gaps
-plugins                           1 gaps
-prompt_engineering               36 gaps
-query                            60 gaps
-rag                              20 gaps
-replication                       1 gaps
-scheduler                         8 gaps
-scraper                           1 gaps
-search                            2 gaps
-security                         10 gaps
-server                          119 gaps
-sharding                          8 gaps
-storage                          52 gaps
-temporal                          9 gaps
-themis                            1 gaps
+# LLM Module Critical Gaps — Complete Analysis Index
+**Analysis Date:** 2026-08-17T11:06:56Z
+**Status:** COMPREHENSIVE ANALYSIS COMPLETE
+**Scope:** 12,474 total gaps in 37 LLM module files
+---
+## 📋 Analysis Documents (Delivery Artifacts)
+### 1. **DELIVERY_LLM_GAPS_ANALYSIS.txt** (Primary Summary)
+**Purpose:** Executive summary with all key findings
+**Content:** 40+ KB, 880+ lines
+- Key findings and gap distribution
+- Current code status (positive + negative)
+- Actionable TODOs (#1, #2, #3)
+- Acceptance criteria checklist
+- Implementation roadmap (3 phases)
+- Risk assessment and mitigation
+- Success metrics and next steps
+**Use Case:** Start here for complete overview of findings
+---
+### 2. **LLM_CRITICAL_GAPS_CLOSURE_PLAN.md** (Implementation Guide)
+**Purpose:** Detailed roadmap for fixing all 4 gap categories
+**Content:** 6.2 KB, 204 lines
+- 4 Critical gap categories with fix patterns
+- Code examples showing before/after
+- Implementation sequence (4 phases)
+- Acceptance criteria per category
+- Risk mitigation strategies
+- Dependencies and build requirements
+**Use Case:** Reference guide during implementation
+---
+### 3. **LLM_GAPS_IMMEDIATE_ACTIONS.md** (Quick Reference)
+**Purpose:** Focused action items with effort estimates
+**Content:** 5.0 KB, 176 lines
+- 3 specific TODO items prioritized
+- Thread-safety and RAII assessment
+- Phase-by-phase implementation sequence
+- Risk assessment table
+- Success metrics checklist
+**Use Case:** Day-to-day execution tracking
+---
+### 4. **LLM_MODULE_GAP_CLOSURE_EXECUTIVE_SUMMARY.md** (Technical Details)
+**Purpose:** Deep-dive technical analysis
+**Content:** 12 KB, 401 lines
+- Executive summary with key metrics
+- Critical gap categories detailed
+- TODO items with implementation steps
+- Specific file analysis (top 5 high-risk files)
+- Implementation roadmap with phases
 
 ---
 
@@ -18277,6 +17856,183 @@ themis                            1 gaps
 "src/server/api_version.cpp",
 "src/server/async_job_api_handler.cpp",
 "src/server/audit_api_handler.cpp",
+
+---
+
+### L1_MODULE_UPDATE_PLAN.json
+
+*(file too large — key headings extracted)*
+
+{
+"timestamp": "2026-06-25 14:01:06",
+"level": "L1",
+"source": "gap_scan_results_verified_L0.5_full.json",
+"operation": "Module Documentation Update",
+"priority_modules": [
+"llm",
+"server",
+"query",
+"network",
+"graph",
+"cache"
+],
+"total_verified_gaps": 22160,
+"modules_updated": {
+"llm": {
+"path": "src/llm/",
+"verified_gaps": 3821,
+"severity_breakdown": {
+"CRITICAL": 1029,
+"HIGH": 1937,
+"MEDIUM": 854,
+"LOW": 1
+},
+"affected_files": 146,
+"docs_to_update": [
+"src/llm/MODULE_GAPS.md",
+"src/llm/README.md",
+"src/llm/ROADMAP.md",
+"src/llm/SECURITY.md"
+]
+},
+"server": {
+"path": "src/server/",
+"verified_gaps": 2172,
+"severity_breakdown": {
+"CRITICAL": 186,
+"HIGH": 468,
+"MEDIUM": 1513,
+"LOW": 5
+},
+"affected_files": 111,
+"docs_to_update": [
+"src/server/MODULE_GAPS.md",
+"src/server/README.md",
+"src/server/ROADMAP.md",
+"src/server/SECURITY.md"
+]
+},
+"query": {
+"path": "src/query/",
+"verified_gaps": 933,
+"severity_breakdown": {
+"CRITICAL": 131,
+"HIGH": 296,
+"MEDIUM": 502,
+"LOW": 4
+},
+"affected_files": 48,
+"docs_to_update": [
+
+---
+
+### L0_scan_log.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+ThemisDB Gap Scanner V3 Pipeline
+================================================================================
+[CONFIG] scan_mode=full, docs_doxygen=True
+================================================================================
+GAP SCANNER V3 PIPELINE EXECUTION
+================================================================================
+[SEMANTIC] Running Uniform Full Scanner...
+[UNIFORM] Start scan at C:\Projects\ThemisDB\src
+[UNIFORM] Resolved repo root: C:\Projects\ThemisDB
+[UNIFORM] Mode: full (docs_doxygen=True)
+[UNIFORM] phase1_braces_check: +105773 findings in 83.18s
+[UNIFORM] phase1_namespace_unity_check: +0 findings in 0.03s
+[UNIFORM] phase1_ai_simulation_stub_leak: +26 findings in 22.59s
+[UNIFORM] phase1_ai_todo_productionlogic: +2720 findings in 3.60s
+[UNIFORM] phase1_ai_error_handling_consistency: +744 findings in 207.83s
+[UNIFORM] phase1_ai_llm_prompt_injection: +0 findings in 0.23s
+[UNIFORM] phase1_ai_header_drift: +54 findings in 0.69s
+[UNIFORM] phase1_memory_safety: +786 findings in 8.82s
+[UNIFORM] phase1_error_handling: +1127 findings in 5.77s
+[UNIFORM] phase1_thread_safety: +1453 findings in 5.38s
+[UNIFORM] phase1_raii: failed after 0.00s
+[...] Scanning for SECURITY GAPS...
+acceleration                      3 gaps
+api                               1 gaps
+aql                              21 gaps
+auth                             21 gaps
+base                              4 gaps
+cache                            58 gaps
+chimera                           2 gaps
+config                            6 gaps
+content                          15 gaps
+ethics_ai                         1 gaps
+exporters                         2 gaps
+geo                               3 gaps
+graph                             4 gaps
+importers                        80 gaps
+index                             1 gaps
+ingestion                         5 gaps
+llm                              74 gaps
+maintenance                       2 gaps
+network                          16 gaps
+performance                      10 gaps
+plugins                           1 gaps
+prompt_engineering               36 gaps
+query                            60 gaps
+rag                              20 gaps
+replication                       1 gaps
+scheduler                         8 gaps
+scraper                           1 gaps
+search                            2 gaps
+security                         10 gaps
+server                          119 gaps
+sharding                          8 gaps
+storage                          52 gaps
+temporal                          9 gaps
+themis                            1 gaps
+
+---
+
+### L0_5_STATISTICS_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# L0.5 Gap Verification - Final Statistics Report
+**Execution Date**: 2026-06-25
+**Verification Method**: Semantic Code Pattern Analysis + Source Context Review
+**Module Count**: 71 modules scanned
+**Codebase Size**: ~1M+ lines of C++
+---
+## Executive Metrics Summary
+### Processing Stats
+Raw Findings Aggregated          : 23,770
+Findings After Deduplication     : 23,770 (no duplicates found)
+Processing Time                  : ~12 minutes
+Average Time Per Finding         : 30ms
+Verification Confidence Level    : 90.7%
+Target Confidence Level          : >95%
+Gap to Target                    : -4.3 percentage points
+### Classification Results
+┌─────────────────────────────────────────────────────────────────┐
+│ FINAL CLASSIFICATION BREAKDOWN                                  │
+├─────────────────────────────────────────────────────────────────┤
+│ REAL_GAP              : 21,571  (90.7%)  ████████████████████   │
+│ FALSE_POSITIVE        :  1,610  ( 6.8%)  ███                   │
+│ GUARDED_STUB          :    536  ( 2.3%)  █                     │
+│ PLACEHOLDER           :     53  ( 0.2%)  —                     │
+├─────────────────────────────────────────────────────────────────┤
+│ TOTAL VERIFIED        : 23,770  (100%)                          │
+└─────────────────────────────────────────────────────────────────┘
+### Severity Distribution
+Severity    Count     %      Impact Level        Remediation Priority
+─────────────────────────────────────────────────────────────────────────
+CRITICAL    3,333    14.1%   🔴 Production Risk  IMMEDIATE (Weeks 1-4)
+HIGH        7,977    33.9%   🟠 Quality Risk     URGENT (Weeks 5-8)
+MEDIUM     10,759    45.8%   🟡 Code Debt       STANDARD (Weeks 9-12)
+LOW            91     0.4%   🟢 Nice-to-have     BACKLOG
+INFO            0     0.0%   ℹ️  Informational   N/A
+─────────────────────────────────────────────────────────────────────────
+TOTAL      22,160   100%     (Real Gaps Only)
+---
+## Detailed Breakdown by Category
+### Finding Patterns Distribution
 
 ---
 
@@ -18434,6 +18190,49 @@ themis                            1 gaps
 - Copy/paste format for Ollama
 - **Size**: ~50 KB (auto-generated)
 ---
+
+---
+
+### ISSUE_SET.md
+
+*(file too large — key headings extracted)*
+
+# ISSUE_SET.md
+# ThemisDB Issue Set
+## Hybrid Knowledge Retrieval Architecture, Evaluation, and Distributed Tensor Sharding
+**Status:** Draft
+**Date:** 2026-06-01
+---
+## Purpose
+This document contains the complete proposed GitHub issue set for implementing the ThemisDB target architecture.
+It includes:
+- 3 wrapper epics
+- 21 sub-issues
+- suggested ordering
+- repository document references
+---
+# EPIC 1
+## Title
+`[EPIC] Implement hybrid knowledge retrieval architecture (ANN -> Tensor -> Graph -> LLM/LoRA)`
+## Body
+## Summary
+Implement the target hybrid knowledge retrieval architecture for ThemisDB as a layered system:
+1. ANN Frontdoor
+2. Tensor Mid-Layer
+3. Graph Truth Layer
+4. LLM / LoRA Final Layer
+## Motivation
+The goal of this epic is to make the target architecture operational.
+## Scope
+This epic includes:
+- formalizing the ANN frontdoor,
+- defining and implementing tensor mid-layer abstractions,
+- formalizing graph truth validation,
+- evolving LoRA artifacts toward package/product lifecycle support,
+- implementing model-switch workflows,
+- integrating federated / cross-shard tensor summaries,
+- improving observability and governance boundaries.
+## Out of Scope
 
 ---
 
@@ -18796,154 +18595,6 @@ FILE* handle = fopen("file.txt", "r");
 data = parse_data(handle);  // Can throw
 fclose(handle);  // Never reached if exception
 // AFTER (Exception-Safe)
-
----
-
-### L0_5_STATISTICS_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# L0.5 Gap Verification - Final Statistics Report
-**Execution Date**: 2026-06-25
-**Verification Method**: Semantic Code Pattern Analysis + Source Context Review
-**Module Count**: 71 modules scanned
-**Codebase Size**: ~1M+ lines of C++
----
-## Executive Metrics Summary
-### Processing Stats
-Raw Findings Aggregated          : 23,770
-Findings After Deduplication     : 23,770 (no duplicates found)
-Processing Time                  : ~12 minutes
-Average Time Per Finding         : 30ms
-Verification Confidence Level    : 90.7%
-Target Confidence Level          : >95%
-Gap to Target                    : -4.3 percentage points
-### Classification Results
-┌─────────────────────────────────────────────────────────────────┐
-│ FINAL CLASSIFICATION BREAKDOWN                                  │
-├─────────────────────────────────────────────────────────────────┤
-│ REAL_GAP              : 21,571  (90.7%)  ████████████████████   │
-│ FALSE_POSITIVE        :  1,610  ( 6.8%)  ███                   │
-│ GUARDED_STUB          :    536  ( 2.3%)  █                     │
-│ PLACEHOLDER           :     53  ( 0.2%)  —                     │
-├─────────────────────────────────────────────────────────────────┤
-│ TOTAL VERIFIED        : 23,770  (100%)                          │
-└─────────────────────────────────────────────────────────────────┘
-### Severity Distribution
-Severity    Count     %      Impact Level        Remediation Priority
-─────────────────────────────────────────────────────────────────────────
-CRITICAL    3,333    14.1%   🔴 Production Risk  IMMEDIATE (Weeks 1-4)
-HIGH        7,977    33.9%   🟠 Quality Risk     URGENT (Weeks 5-8)
-MEDIUM     10,759    45.8%   🟡 Code Debt       STANDARD (Weeks 9-12)
-LOW            91     0.4%   🟢 Nice-to-have     BACKLOG
-INFO            0     0.0%   ℹ️  Informational   N/A
-─────────────────────────────────────────────────────────────────────────
-TOTAL      22,160   100%     (Real Gaps Only)
----
-## Detailed Breakdown by Category
-### Finding Patterns Distribution
-
----
-
-### ISSUE_5622_VALIDATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Issue #5622: Server Module Evidence Validation Report
-**Generated:** 2026-07-19T11:32:56.801Z
-**Status:** ✅ VALIDATION COMPLETE
-**Overall Assessment:** ALL PRIORITY ITEMS VALIDATED WITH MINOR RECOMMENDATIONS
----
-## 1. Roadmap Priorities Alignment ✅
-**File:** `/home/runner/work/ThemisDB/ThemisDB/src/server/ROADMAP.md`
-### 1.1 P0 Security/Code-Quality Remediation Wave Scope ✅
-- **Status:** Properly Scoped
-- **Finding:** P0 wave is clearly marked as `[~] In Progress` with Target: Q2 2026
-- **Concrete Tasks:**
-- **Assessment:** Both tasks are concrete, measurable, and time-bound ✅
-### 1.2 Phase 1-6 Task Descriptions Concreteness ✅
-- **Phase 1:** Security and Access Hardening
-- `[ ] Complete route-by-route auth gate audit for privileged server endpoints (Target: Q2 2026)`
-- `[ ] Close remaining scanner-confirmed high-severity auth/logging findings with regression tests (Target: Q2 2026)`
-- **Status:** Concrete, audit-trail based ✅
-- **Phase 2:** Protocol and Gateway Hardening
-- `[ ] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)`
-- `[ ] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)`
-- **Status:** Measurable (migration/retransmit scenarios) ✅
-- **Phase 3:** Validation and Contract Governance
-- `[ ] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)`
-- `[ ] Add stricter backward-compat checks for gRPC and REST versioning contracts (Target: Q4 2026)`
-- **Status:** Contract-driven, measurable ✅
-- **Phase 4:** Tests and Reliability Gates
-- `[ ] Expand integration and soak coverage for mixed protocol traffic (HTTP/gRPC/WebSocket/MQTT) (Target: Q4 2026)`
-- `[ ] Add deterministic fault-injection tests for distributed rate-limit and fallback behavior (Target: Q4 2026)`
-- **Status:** Specific protocol mix, deterministic criteria ✅
-- **Phase 5:** Performance and Operational Hardening
-- `[ ] Re-baseline server latency/throughput gates with production-like payload mixes (Target: Q1 2027)`
-- `[ ] Add adaptive tuning recommendations for queue/backpressure settings by deployment profile (Target: Q1 2027)`
-- **Status:** Quantifiable (latency/throughput gates) ✅
-- **Phase 6:** Documentation and Release Readiness
-- `[ ] Keep server developer docs aligned with source and routing behavior after each hardening wave (Target: Q2 2026)`
-- **Status:** Process-driven, clear ownership ✅
-### 1.3 Target Dates Realism Assessment ✅
-- **Q2 2026 (Active/Current Phase):** Security audit, auth hardening, high-severity findings
-- **Assessment:** On track; gap analysis completed (2,172 verified gaps, 654 actionable) ✅
-- **Q4 2026:** Protocol hardening, validation governance, mixed-protocol soak
-- **Assessment:** Realistic post Q2 completion; 6-month runway adequate ✅
-- **Q1 2027:** Performance re-baselining, operational tuning, WebAuthn integration
-- **Assessment:** Realistic post Q4; supports long-term hardening roadmap ✅
-### 1.4 Voice API Bearer-Token JWT/OIDC Validation (#302) Status ✅
-
----
-
-### ISSUE_5640_DELIVERY_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Issue #5640 Delivery Summary
-## Module Development Status: Distributed Tensor (2026-07-28)
-**Issue**: makr-code/ThemisDB#5640 - Module: distributed_tensor Development Status 2026-07-18
-**Status**: ✅ Test Infrastructure Completion Delivered
-**Branch**: `copilot/makr-codethemisdb-5640-distributed-tensor-developm`
-## Problem Statement
-The distributed_tensor module was missing evidence of focused test binaries in the build output:
-- Issue reported: 2026-07-18
-- Evidence gap: No `module_distributed_tensor_test_*_focused.exe` found in build output
-- Root cause: Test targets were not properly registered as focused tests in CMakeLists.txt
-## Solution Delivered
-### 1. Test Target Registration Fix
-**File**: `tests/epic3_distributed_tensor/CMakeLists.txt`
-#### What Was Fixed
-- `distributed_planner_test.cc` - Now generates `module_epic3_distributed_tensor_distributed_planner_test_focused`
-- All 11 `test_*.cpp` files properly registered via `themis_register_module_focused_test`
-- Standardized MODULE parameter to `epic3_distributed_tensor` across all registrations
-- Ensured consistent TIER (unit/benchmark), TIMEOUT (120s/300s), and LABELS
-#### Commits
-- `86f220d7`: Register all test targets as focused tests with proper module namespace
-- `421a75c9`: Standardize MODULE naming in all test registrations
-### 2. Documentation & Evidence Guidance
-**Files**:
-- `src/distributed_tensor/ROADMAP.md` - Updated Current Status section
-- `src/distributed_tensor/TEST_EVIDENCE_COLLECTION.md` - New comprehensive guide
-#### What Was Added
-- Updated ROADMAP with 2026-07-28 validation timestamp
-- Added "Test Evidence & Acceptance" section documenting:
-- All 12 configured focused test targets
-- Build and execution verification checklists
-- Phase-specific evidence requirements (3-7)
-- Acceptance criteria and production readiness gates
-#### Commits
-- `70028a2f`: Add test evidence collection guide for issue #5640
-### 3. Verification & CI Tooling
-**File**: `src/distributed_tensor/verify_tests.sh`
-#### What Was Added
-- Shell script for automated test target verification
-- Supports multiple binary locations and naming conventions
-- Produces clear summary of found/missing targets
-- Provides next steps for test execution
-#### Commits
-- `38b616df`: Add test verification script for CI evidence collection
-## Test Targets Now Properly Configured
 
 ---
 
@@ -19363,165 +19014,6 @@ Module development status issue requiring validation and refinement of:
 
 ---
 
-### ISSUE_SET.md
-
-*(file too large — key headings extracted)*
-
-# ISSUE_SET.md
-# ThemisDB Issue Set
-## Hybrid Knowledge Retrieval Architecture, Evaluation, and Distributed Tensor Sharding
-**Status:** Draft
-**Date:** 2026-06-01
----
-## Purpose
-This document contains the complete proposed GitHub issue set for implementing the ThemisDB target architecture.
-It includes:
-- 3 wrapper epics
-- 21 sub-issues
-- suggested ordering
-- repository document references
----
-# EPIC 1
-## Title
-`[EPIC] Implement hybrid knowledge retrieval architecture (ANN -> Tensor -> Graph -> LLM/LoRA)`
-## Body
-## Summary
-Implement the target hybrid knowledge retrieval architecture for ThemisDB as a layered system:
-1. ANN Frontdoor
-2. Tensor Mid-Layer
-3. Graph Truth Layer
-4. LLM / LoRA Final Layer
-## Motivation
-The goal of this epic is to make the target architecture operational.
-## Scope
-This epic includes:
-- formalizing the ANN frontdoor,
-- defining and implementing tensor mid-layer abstractions,
-- formalizing graph truth validation,
-- evolving LoRA artifacts toward package/product lifecycle support,
-- implementing model-switch workflows,
-- integrating federated / cross-shard tensor summaries,
-- improving observability and governance boundaries.
-## Out of Scope
-
----
-
-### INGESTION_KICKOFF_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Ingestion Module Gap Closure — Implementation Kickoff Summary
-**Date:** 2026-08-15
-**Status:** 🟢 COORDINATION FRAMEWORK COMPLETE — PHASE 1 LAUNCHED
-**Target Release:** v2.4.0 GA (Week of Sept 22, 2026)
----
-## What Was Implemented Today
-✅ **Phase 1 Agent Launched:**
-- Agent ID: `ingestion-gap-verifier-phase1` (running in background)
-- Task: Triage and classify 324 findings into 5 severity tiers
-- ETA Completion: 2026-08-22
-- Output: INGESTION_PHASE_1_VERIFICATION_REPORT.json
-✅ **Coordination Documentation Created (4 files):**
-1. `INGESTION_GAP_CLOSURE_COORDINATION.md` — Master plan, phase breakdown, timeline (16.9 KB)
-2. `INGESTION_PHASE_2_AGENT_SPECS.md` — CRITICAL fixes agent template (12.2 KB)
-3. `INGESTION_PHASE_3_4_AGENT_SPECS.md` — HIGH + MEDIUM/LOW fixes specs (12.4 KB)
-4. `INGESTION_PHASE_5_AGENT_SPECS.md` — Review & compliance specs (12.6 KB)
-**Total Documentation:** 54 KB of coordinated execution specs
----
-## 6-Phase Execution Model
-Gap Triage             CRITICAL Fixes           HIGH + MEDIUM/LOW Fixes     Continuous Review         Docs & Release
-[========]             [===============]          [=======================]   [===============]         [====]
-gap-verifier           themisdb-implementer      themisdb-implementer        themisdb-reviewer         doc-orchestrator
-41 findings classified + task agents
-PARALLEL STREAMS:
-Stream A: Phase 1 → Phase 2 (CRITICAL fixes: 41 findings)
-Stream B: Phase 3 (HIGH fixes: 103 findings, 3 parallel batches)
-Stream C: Phase 4 (MEDIUM/LOW: 180 findings, 3-4 parallel task agents)
-Stream D: Phase 5 (Continuous review monitoring Phases 2-4)
-Stream E: Phase 6 (Final documentation and GA sign-off)
----
-## Scope Summary
-| Metric | Value | Status |
-|---|---|---|
-| **Total Findings** | 324 | ✅ Verified |
-| **CRITICAL (Tier 2)** | 41 | Ready for Phase 2 |
-| **HIGH (Tier 3)** | 103 | Ready for Phase 3 |
-| **MEDIUM (Tier 4)** | 173 | Ready for Phase 4 |
-| **LOW (Tier 5)** | 7 | Ready for Phase 4 |
-| **Affected Files** | 34 | src/ingestion/, steps/ |
-| **Target Closure Rate** | ≥95% | (≥309 of 324 findings) |
----
-## Key Findings by Category
-
----
-
-### INGESTION_PHASE_1_VERIFICATION_REPORT.json
-
-*(file too large — key headings extracted)*
-
-{
-"phase": 1,
-"date": "2026-08-15",
-"source_file": "src/ingestion/MODULE_GAPS.md",
-"scan_timestamp": "2026-08-15T13:41:21.257602",
-"total_raw_findings": 178,
-"verification_status": "COMPLETE",
-"summary": {
-"total_raw": 178,
-"verified_gaps": 49,
-"false_positives_removed": 114,
-"downgrades": 153,
-"severity_distribution": {
-"CRITICAL": 25,
-"HIGH": 24,
-"MEDIUM": 15,
-"LOW": 0,
-"INFO": 114
-}
-},
-"tier_1_critical_blocking": {
-"count": 25,
-"description": "Real gaps requiring architecture review; unimplemented production code without guards",
-"examples": [
-{
-"file": "src/ingestion/steps/base_entity_assembler_step.cpp",
-"line": 53,
-"pattern": "return\\s+\\{\\s*\\};",
-"category": "unimplemented",
-"context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
-"original_severity": "CRITICAL",
-"verified_severity": "CRITICAL",
-"classification": "Real Gap",
-"rationale": "Unimplemented production code"
-},
-{
-"file": "src/ingestion/steps/base_entity_assembler_step.cpp",
-"line": 58,
-"pattern": "return\\s+\\{\\s*\\};",
-"category": "unimplemented",
-"context": "std::vector<std::string> supportedMimeTypes() const override { return {}; }",
-"original_severity": "CRITICAL",
-"verified_severity": "CRITICAL",
-"classification": "Real Gap",
-"rationale": "Unimplemented production code"
-},
-{
-"file": "src/ingestion/steps/chunk_embed_step.cpp",
-"line": 52,
-"pattern": "return\\s+\\{\\s*\\};",
-"category": "unimplemented",
-"context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
-"original_severity": "CRITICAL",
-"verified_severity": "CRITICAL",
-"classification": "Real Gap",
-"rationale": "Unimplemented production code"
-},
-{
-"file": "src/ingestion/steps/chunk_embed_step.cpp",
-"line": 57,
-
----
-
 ### INTEGRATION_CHECKLIST_2026-06-10.md
 
 *(file too large — key headings extracted)*
@@ -19878,61 +19370,105 @@ All mandatory production requirements are implemented and verified:
 
 ---
 
-### IMPORTERS_SESSION_SUMMARY_2026-08-15.md
+### ISSUE_5622_VALIDATION_REPORT.md
 
 *(file too large — key headings extracted)*
 
-# Session Summary: Importers Module Gap Closure Initiative
-**Session Date:** 2026-08-15
-**Session Objective:** Implement coordinated 6-phase sub-agent gap closure plan for 282 gaps in importers module
-**Status:** ✅ COMPLETE — Phase 1 executed, Phase 2A dispatched, Phases 2B-6 ready
+# Issue #5622: Server Module Evidence Validation Report
+**Generated:** 2026-07-19T11:32:56.801Z
+**Status:** ✅ VALIDATION COMPLETE
+**Overall Assessment:** ALL PRIORITY ITEMS VALIDATED WITH MINOR RECOMMENDATIONS
 ---
-## Work Completed This Session
-### 1. Phase 1 Triage Execution & Analysis ✅
-**Gap-Verifier Agent:** Autonomously analyzed all 282 gaps from src/importers/MODULE_GAPS.md
-- **Output:** IMPORTERS_PHASE1_GAP_TRIAGE.md (69 KB, 677 lines)
-- **Classification:**
-- TRUE_POSITIVE: 167 gaps (59.2%) — actionable production issues
-- GUARDED_STUB: 81 gaps (28.7%) — defensive patterns, lower risk
-- FALSE_POSITIVE: 23 gaps (8.2%) — remove from scope
-- DEFERRED: 11 gaps (3.9%) — manual review required
-- **Actionable Total:** 259 gaps (91.8% coverage)
-- **Severity Reassessment:**
-- CRITICAL: 28 gaps (down from 44) — unguarded data_race, iterator_invalidation, smart_ptr misuse
-- HIGH: 114 gaps (up from 151) — guarded patterns need timeout/exception handling
-- MEDIUM: 113 gaps — performance optimizations, documentation
-- LOW: 4 gaps — minor improvements
-- **Confidence:** 76.7% average (51.8% high-confidence, ready for implementation)
-- **Complexity Matrix:**
-- Tier-1 (133 gaps): Single file, <100 LOC, isolated fixes
-- Tier-2 (126 gaps): 2-8 files, 100-300 LOC, moderate coordination
-- Tier-3 (0 gaps): No cross-module work needed
-### 2. Master Coordination Framework ✅
-**File:** IMPORTERS_GAP_CLOSURE_COORDINATION.md (10.4 KB)
-- Phase status dashboard (6 phases tracked)
-- Gap inventory by severity/complexity/file
-- Quality gates & exit criteria (per-phase)
-- Blocker identification (data_race cluster: 21 gaps, exception_safety cluster: 13 gaps, iterator_invalidation: 3 gaps)
-- Progress tracking protocol (weekly status logs)
-- 10-week timeline (Aug 15 – Oct 15, 2026)
-### 3. Phase 2 Implementation Specifications ✅
-Created 3 detailed batch specifications (dispatch-ready):
-**Phase 2A: Data Race Fixes (21 CRITICAL gaps)**
-- File: IMPORTERS_PHASE2A_DATA_RACE_AGENT_SPEC.md (9.5 KB)
-- Scope: postgres, mysql, flatfile, huggingface (4 files)
-- Pattern: Add std::mutex + std::lock_guard
-- Tests: 21 focused (IMPI-2A-*), 1000+ iterations each
-- Status: **DISPATCHED & RUNNING** (agent ID: importers-phase2a-data-race)
-**Phase 2B: Exception Safety Fixes (13 HIGH gaps)**
-- File: IMPORTERS_PHASE2B_EXCEPTION_SAFETY_AGENT_SPEC.md (9.1 KB)
-- Scope: kafka, canonical_resolver, mdm_engine, audit_trail, postgres_importer_mdm, s3_importer (6 files)
-- Pattern: std::make_unique + try-catch
-- Tests: 13 focused (IMPI-2B-*), exception scenarios
-- Status: **SPEC READY**, awaits Phase 2A exit gate
-**Phase 2C: Iterator Invalidation Fixes (3 CRITICAL gaps)**
-- File: IMPORTERS_PHASE2C_ITERATOR_INVALIDATION_AGENT_SPEC.md (9.3 KB)
-- Scope: mdm_engine, deterministic_matcher, data_quality (3 files)
-- Pattern: Replace range-for with while + erase() or two-pass
+## 1. Roadmap Priorities Alignment ✅
+**File:** `/home/runner/work/ThemisDB/ThemisDB/src/server/ROADMAP.md`
+### 1.1 P0 Security/Code-Quality Remediation Wave Scope ✅
+- **Status:** Properly Scoped
+- **Finding:** P0 wave is clearly marked as `[~] In Progress` with Target: Q2 2026
+- **Concrete Tasks:**
+- **Assessment:** Both tasks are concrete, measurable, and time-bound ✅
+### 1.2 Phase 1-6 Task Descriptions Concreteness ✅
+- **Phase 1:** Security and Access Hardening
+- `[ ] Complete route-by-route auth gate audit for privileged server endpoints (Target: Q2 2026)`
+- `[ ] Close remaining scanner-confirmed high-severity auth/logging findings with regression tests (Target: Q2 2026)`
+- **Status:** Concrete, audit-trail based ✅
+- **Phase 2:** Protocol and Gateway Hardening
+- `[ ] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)`
+- `[ ] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)`
+- **Status:** Measurable (migration/retransmit scenarios) ✅
+- **Phase 3:** Validation and Contract Governance
+- `[ ] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)`
+- `[ ] Add stricter backward-compat checks for gRPC and REST versioning contracts (Target: Q4 2026)`
+- **Status:** Contract-driven, measurable ✅
+- **Phase 4:** Tests and Reliability Gates
+- `[ ] Expand integration and soak coverage for mixed protocol traffic (HTTP/gRPC/WebSocket/MQTT) (Target: Q4 2026)`
+- `[ ] Add deterministic fault-injection tests for distributed rate-limit and fallback behavior (Target: Q4 2026)`
+- **Status:** Specific protocol mix, deterministic criteria ✅
+- **Phase 5:** Performance and Operational Hardening
+- `[ ] Re-baseline server latency/throughput gates with production-like payload mixes (Target: Q1 2027)`
+- `[ ] Add adaptive tuning recommendations for queue/backpressure settings by deployment profile (Target: Q1 2027)`
+- **Status:** Quantifiable (latency/throughput gates) ✅
+- **Phase 6:** Documentation and Release Readiness
+- `[ ] Keep server developer docs aligned with source and routing behavior after each hardening wave (Target: Q2 2026)`
+- **Status:** Process-driven, clear ownership ✅
+### 1.3 Target Dates Realism Assessment ✅
+- **Q2 2026 (Active/Current Phase):** Security audit, auth hardening, high-severity findings
+- **Assessment:** On track; gap analysis completed (2,172 verified gaps, 654 actionable) ✅
+- **Q4 2026:** Protocol hardening, validation governance, mixed-protocol soak
+- **Assessment:** Realistic post Q2 completion; 6-month runway adequate ✅
+- **Q1 2027:** Performance re-baselining, operational tuning, WebAuthn integration
+- **Assessment:** Realistic post Q4; supports long-term hardening roadmap ✅
+### 1.4 Voice API Bearer-Token JWT/OIDC Validation (#302) Status ✅
+
+---
+
+### ISSUE_5640_DELIVERY_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Issue #5640 Delivery Summary
+## Module Development Status: Distributed Tensor (2026-07-28)
+**Issue**: makr-code/ThemisDB#5640 - Module: distributed_tensor Development Status 2026-07-18
+**Status**: ✅ Test Infrastructure Completion Delivered
+**Branch**: `copilot/makr-codethemisdb-5640-distributed-tensor-developm`
+## Problem Statement
+The distributed_tensor module was missing evidence of focused test binaries in the build output:
+- Issue reported: 2026-07-18
+- Evidence gap: No `module_distributed_tensor_test_*_focused.exe` found in build output
+- Root cause: Test targets were not properly registered as focused tests in CMakeLists.txt
+## Solution Delivered
+### 1. Test Target Registration Fix
+**File**: `tests/epic3_distributed_tensor/CMakeLists.txt`
+#### What Was Fixed
+- `distributed_planner_test.cc` - Now generates `module_epic3_distributed_tensor_distributed_planner_test_focused`
+- All 11 `test_*.cpp` files properly registered via `themis_register_module_focused_test`
+- Standardized MODULE parameter to `epic3_distributed_tensor` across all registrations
+- Ensured consistent TIER (unit/benchmark), TIMEOUT (120s/300s), and LABELS
+#### Commits
+- `86f220d7`: Register all test targets as focused tests with proper module namespace
+- `421a75c9`: Standardize MODULE naming in all test registrations
+### 2. Documentation & Evidence Guidance
+**Files**:
+- `src/distributed_tensor/ROADMAP.md` - Updated Current Status section
+- `src/distributed_tensor/TEST_EVIDENCE_COLLECTION.md` - New comprehensive guide
+#### What Was Added
+- Updated ROADMAP with 2026-07-28 validation timestamp
+- Added "Test Evidence & Acceptance" section documenting:
+- All 12 configured focused test targets
+- Build and execution verification checklists
+- Phase-specific evidence requirements (3-7)
+- Acceptance criteria and production readiness gates
+#### Commits
+- `70028a2f`: Add test evidence collection guide for issue #5640
+### 3. Verification & CI Tooling
+**File**: `src/distributed_tensor/verify_tests.sh`
+#### What Was Added
+- Shell script for automated test target verification
+- Supports multiple binary locations and naming conventions
+- Produces clear summary of found/missing targets
+- Provides next steps for test execution
+#### Commits
+- `38b616df`: Add test verification script for CI evidence collection
+## Test Targets Now Properly Configured
 
 ---
 
@@ -20040,6 +19576,122 @@ Status: ✅ DELIVERED
 
 ---
 
+### INGESTION_KICKOFF_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Ingestion Module Gap Closure — Implementation Kickoff Summary
+**Date:** 2026-08-15
+**Status:** 🟢 COORDINATION FRAMEWORK COMPLETE — PHASE 1 LAUNCHED
+**Target Release:** v2.4.0 GA (Week of Sept 22, 2026)
+---
+## What Was Implemented Today
+✅ **Phase 1 Agent Launched:**
+- Agent ID: `ingestion-gap-verifier-phase1` (running in background)
+- Task: Triage and classify 324 findings into 5 severity tiers
+- ETA Completion: 2026-08-22
+- Output: INGESTION_PHASE_1_VERIFICATION_REPORT.json
+✅ **Coordination Documentation Created (4 files):**
+1. `INGESTION_GAP_CLOSURE_COORDINATION.md` — Master plan, phase breakdown, timeline (16.9 KB)
+2. `INGESTION_PHASE_2_AGENT_SPECS.md` — CRITICAL fixes agent template (12.2 KB)
+3. `INGESTION_PHASE_3_4_AGENT_SPECS.md` — HIGH + MEDIUM/LOW fixes specs (12.4 KB)
+4. `INGESTION_PHASE_5_AGENT_SPECS.md` — Review & compliance specs (12.6 KB)
+**Total Documentation:** 54 KB of coordinated execution specs
+---
+## 6-Phase Execution Model
+Gap Triage             CRITICAL Fixes           HIGH + MEDIUM/LOW Fixes     Continuous Review         Docs & Release
+[========]             [===============]          [=======================]   [===============]         [====]
+gap-verifier           themisdb-implementer      themisdb-implementer        themisdb-reviewer         doc-orchestrator
+41 findings classified + task agents
+PARALLEL STREAMS:
+Stream A: Phase 1 → Phase 2 (CRITICAL fixes: 41 findings)
+Stream B: Phase 3 (HIGH fixes: 103 findings, 3 parallel batches)
+Stream C: Phase 4 (MEDIUM/LOW: 180 findings, 3-4 parallel task agents)
+Stream D: Phase 5 (Continuous review monitoring Phases 2-4)
+Stream E: Phase 6 (Final documentation and GA sign-off)
+---
+## Scope Summary
+| Metric | Value | Status |
+|---|---|---|
+| **Total Findings** | 324 | ✅ Verified |
+| **CRITICAL (Tier 2)** | 41 | Ready for Phase 2 |
+| **HIGH (Tier 3)** | 103 | Ready for Phase 3 |
+| **MEDIUM (Tier 4)** | 173 | Ready for Phase 4 |
+| **LOW (Tier 5)** | 7 | Ready for Phase 4 |
+| **Affected Files** | 34 | src/ingestion/, steps/ |
+| **Target Closure Rate** | ≥95% | (≥309 of 324 findings) |
+---
+## Key Findings by Category
+
+---
+
+### INGESTION_PHASE_1_VERIFICATION_REPORT.json
+
+*(file too large — key headings extracted)*
+
+{
+"phase": 1,
+"date": "2026-08-15",
+"source_file": "src/ingestion/MODULE_GAPS.md",
+"scan_timestamp": "2026-08-15T13:41:21.257602",
+"total_raw_findings": 178,
+"verification_status": "COMPLETE",
+"summary": {
+"total_raw": 178,
+"verified_gaps": 49,
+"false_positives_removed": 114,
+"downgrades": 153,
+"severity_distribution": {
+"CRITICAL": 25,
+"HIGH": 24,
+"MEDIUM": 15,
+"LOW": 0,
+"INFO": 114
+}
+},
+"tier_1_critical_blocking": {
+"count": 25,
+"description": "Real gaps requiring architecture review; unimplemented production code without guards",
+"examples": [
+{
+"file": "src/ingestion/steps/base_entity_assembler_step.cpp",
+"line": 53,
+"pattern": "return\\s+\\{\\s*\\};",
+"category": "unimplemented",
+"context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+"original_severity": "CRITICAL",
+"verified_severity": "CRITICAL",
+"classification": "Real Gap",
+"rationale": "Unimplemented production code"
+},
+{
+"file": "src/ingestion/steps/base_entity_assembler_step.cpp",
+"line": 58,
+"pattern": "return\\s+\\{\\s*\\};",
+"category": "unimplemented",
+"context": "std::vector<std::string> supportedMimeTypes() const override { return {}; }",
+"original_severity": "CRITICAL",
+"verified_severity": "CRITICAL",
+"classification": "Real Gap",
+"rationale": "Unimplemented production code"
+},
+{
+"file": "src/ingestion/steps/chunk_embed_step.cpp",
+"line": 52,
+"pattern": "return\\s+\\{\\s*\\};",
+"category": "unimplemented",
+"context": "plugins::PluginCapabilities getCapabilities() const override { return {}; }",
+"original_severity": "CRITICAL",
+"verified_severity": "CRITICAL",
+"classification": "Real Gap",
+"rationale": "Unimplemented production code"
+},
+{
+"file": "src/ingestion/steps/chunk_embed_step.cpp",
+"line": 57,
+
+---
+
 ### IMPORTERS_PHASES_3_6_DISPATCH_PLAN.md
 
 *(file too large — key headings extracted)*
@@ -20090,6 +19742,124 @@ Phase 2 (CRITICAL fixes: 37 gaps) is COMPLETE. All Phase 3-6 specifications are 
 - ✅ 0 new compilation warnings
 - ✅ Integration tests pass (connector availability stable)
 - ✅ p99 latency within ±5% baseline
+
+---
+
+### IMPORTERS_SESSION_SUMMARY_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Session Summary: Importers Module Gap Closure Initiative
+**Session Date:** 2026-08-15
+**Session Objective:** Implement coordinated 6-phase sub-agent gap closure plan for 282 gaps in importers module
+**Status:** ✅ COMPLETE — Phase 1 executed, Phase 2A dispatched, Phases 2B-6 ready
+---
+## Work Completed This Session
+### 1. Phase 1 Triage Execution & Analysis ✅
+**Gap-Verifier Agent:** Autonomously analyzed all 282 gaps from src/importers/MODULE_GAPS.md
+- **Output:** IMPORTERS_PHASE1_GAP_TRIAGE.md (69 KB, 677 lines)
+- **Classification:**
+- TRUE_POSITIVE: 167 gaps (59.2%) — actionable production issues
+- GUARDED_STUB: 81 gaps (28.7%) — defensive patterns, lower risk
+- FALSE_POSITIVE: 23 gaps (8.2%) — remove from scope
+- DEFERRED: 11 gaps (3.9%) — manual review required
+- **Actionable Total:** 259 gaps (91.8% coverage)
+- **Severity Reassessment:**
+- CRITICAL: 28 gaps (down from 44) — unguarded data_race, iterator_invalidation, smart_ptr misuse
+- HIGH: 114 gaps (up from 151) — guarded patterns need timeout/exception handling
+- MEDIUM: 113 gaps — performance optimizations, documentation
+- LOW: 4 gaps — minor improvements
+- **Confidence:** 76.7% average (51.8% high-confidence, ready for implementation)
+- **Complexity Matrix:**
+- Tier-1 (133 gaps): Single file, <100 LOC, isolated fixes
+- Tier-2 (126 gaps): 2-8 files, 100-300 LOC, moderate coordination
+- Tier-3 (0 gaps): No cross-module work needed
+### 2. Master Coordination Framework ✅
+**File:** IMPORTERS_GAP_CLOSURE_COORDINATION.md (10.4 KB)
+- Phase status dashboard (6 phases tracked)
+- Gap inventory by severity/complexity/file
+- Quality gates & exit criteria (per-phase)
+- Blocker identification (data_race cluster: 21 gaps, exception_safety cluster: 13 gaps, iterator_invalidation: 3 gaps)
+- Progress tracking protocol (weekly status logs)
+- 10-week timeline (Aug 15 – Oct 15, 2026)
+### 3. Phase 2 Implementation Specifications ✅
+Created 3 detailed batch specifications (dispatch-ready):
+**Phase 2A: Data Race Fixes (21 CRITICAL gaps)**
+- File: IMPORTERS_PHASE2A_DATA_RACE_AGENT_SPEC.md (9.5 KB)
+- Scope: postgres, mysql, flatfile, huggingface (4 files)
+- Pattern: Add std::mutex + std::lock_guard
+- Tests: 21 focused (IMPI-2A-*), 1000+ iterations each
+- Status: **DISPATCHED & RUNNING** (agent ID: importers-phase2a-data-race)
+**Phase 2B: Exception Safety Fixes (13 HIGH gaps)**
+- File: IMPORTERS_PHASE2B_EXCEPTION_SAFETY_AGENT_SPEC.md (9.1 KB)
+- Scope: kafka, canonical_resolver, mdm_engine, audit_trail, postgres_importer_mdm, s3_importer (6 files)
+- Pattern: std::make_unique + try-catch
+- Tests: 13 focused (IMPI-2B-*), exception scenarios
+- Status: **SPEC READY**, awaits Phase 2A exit gate
+**Phase 2C: Iterator Invalidation Fixes (3 CRITICAL gaps)**
+- File: IMPORTERS_PHASE2C_ITERATOR_INVALIDATION_AGENT_SPEC.md (9.3 KB)
+- Scope: mdm_engine, deterministic_matcher, data_quality (3 files)
+- Pattern: Replace range-for with while + erase() or two-pass
+
+---
+
+### IMPORTERS_LIVE_COORDINATION_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Importers Module Gap Closure: Live Coordination Status
+**Last Updated:** 2026-08-15 15:44 UTC
+**Overall Status:** ✅ BOTH Phase 3A & 4A COMPLETE (101/113 HIGH gaps, 89% closure)
+**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
+---
+## 🎯 Current Phase Status Dashboard
+### Phase 1: Triage ✅ COMPLETE
+- **Status:** All 282 gaps analyzed
+- **Actionable:** 259 gaps (76.7% confidence)
+- **Completion:** 2026-08-13
+### Phase 2: CRITICAL Fixes ✅ COMPLETE
+- **Status:** All 37 CRITICAL/HIGH gaps fixed
+- **Closure:** 37/37 (100%)
+- **Exit Gates:** All passed (0 warnings, ≥95% tests PASS, benchmarks stable)
+- **Completion:** 2026-08-14
+- **Quality:** ThreadSanitizer clean, LSAN clean, UBSan/ASAN clean
+### Phase 3A: HIGH Fixes (postgres/mysql/mongo) ✅ COMPLETE
+- **Status:** Exit gate PASSED
+- **Closure:** 49/58 (84% — exceeds 80% threshold)
+- **Module Breakdown:**
+- postgres_importer.cpp: 26/31 (84%)
+- mysql_importer.cpp: 13/15 (87%)
+- mongo_importer.cpp: 10/12 (83%)
+- **Categories Fixed:**
+- Null dereference protection: 18/20 (90%)
+- Uninitialized container access: 16/18 (89%)
+- Nested loop O(n²) optimization: 13/15 (87%)
+- Exception safety: 2/5 (40% + 3 deferred to Phase 6)
+- **Quality Gates:** All passed (0 warnings, 100% tests, benchmarks stable)
+- **Completion:** 2026-08-15 15:40 UTC
+- **Commit:** `0d410a5974`
+- **Artifacts:**
+- IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md (15 KB)
+- tests/test_importers_phase3_high_gaps.cpp (58 focused tests)
+### Phase 4A: HIGH Fixes (flatfile/s3/kafka/oracle/sqlite) ✅ COMPLETE
+- **Status:** Exit gate PASSED
+- **Closure:** 52/55 (94.5% — exceeds 80% threshold by 14.5%)
+- **Module Breakdown:**
+- flatfile_importer.cpp: 10/10 (100%)
+- s3_importer.cpp: 11/12 (92%)
+- kafka_importer.cpp: 12/12 (100%)
+- oracle_importer.cpp: 8/8 (100%)
+- sqlite_importer.cpp: 9/9 (100%)
+- schema_inference.cpp: 2/4 (50%)
+- **Categories Fixed:**
+- Container bounds checking: 12/12 (100%)
+- Unbounded buffer protection: 11/12 (92%)
+- Input validation: 12/12 (100%)
+- Stream/resource lifecycle: 17/19 (89%)
+- **Quality Gates:** All passed (0 warnings, ≥95% tests, benchmarks stable)
+- **Completion:** 2026-08-15 15:44 UTC (13 min 45 sec)
+- **Commit:** `IMPORTERS-P4-HIGH-A2: Fix 55 HIGH gaps (flatfile, s3, kafka, oracle, sqlite) — 94.5% closure`
+- **Artifacts:**
 
 ---
 
@@ -20151,66 +19921,6 @@ Phase 2 (CRITICAL fixes: 37 gaps) is COMPLETE. All Phase 3-6 specifications are 
 - ✅ Benchmarks IMRG-01..06 stable (±5% variance)
 - ✅ C++17 compliance verified
 - ✅ Parallel execution: No file conflicts with Phase 3A
-
----
-
-### IMPORTERS_LIVE_COORDINATION_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Importers Module Gap Closure: Live Coordination Status
-**Last Updated:** 2026-08-15 15:44 UTC
-**Overall Status:** ✅ BOTH Phase 3A & 4A COMPLETE (101/113 HIGH gaps, 89% closure)
-**Timeline:** Aug 15 – Oct 15, 2026 (10 weeks)
----
-## 🎯 Current Phase Status Dashboard
-### Phase 1: Triage ✅ COMPLETE
-- **Status:** All 282 gaps analyzed
-- **Actionable:** 259 gaps (76.7% confidence)
-- **Completion:** 2026-08-13
-### Phase 2: CRITICAL Fixes ✅ COMPLETE
-- **Status:** All 37 CRITICAL/HIGH gaps fixed
-- **Closure:** 37/37 (100%)
-- **Exit Gates:** All passed (0 warnings, ≥95% tests PASS, benchmarks stable)
-- **Completion:** 2026-08-14
-- **Quality:** ThreadSanitizer clean, LSAN clean, UBSan/ASAN clean
-### Phase 3A: HIGH Fixes (postgres/mysql/mongo) ✅ COMPLETE
-- **Status:** Exit gate PASSED
-- **Closure:** 49/58 (84% — exceeds 80% threshold)
-- **Module Breakdown:**
-- postgres_importer.cpp: 26/31 (84%)
-- mysql_importer.cpp: 13/15 (87%)
-- mongo_importer.cpp: 10/12 (83%)
-- **Categories Fixed:**
-- Null dereference protection: 18/20 (90%)
-- Uninitialized container access: 16/18 (89%)
-- Nested loop O(n²) optimization: 13/15 (87%)
-- Exception safety: 2/5 (40% + 3 deferred to Phase 6)
-- **Quality Gates:** All passed (0 warnings, 100% tests, benchmarks stable)
-- **Completion:** 2026-08-15 15:40 UTC
-- **Commit:** `0d410a5974`
-- **Artifacts:**
-- IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md (15 KB)
-- tests/test_importers_phase3_high_gaps.cpp (58 focused tests)
-### Phase 4A: HIGH Fixes (flatfile/s3/kafka/oracle/sqlite) ✅ COMPLETE
-- **Status:** Exit gate PASSED
-- **Closure:** 52/55 (94.5% — exceeds 80% threshold by 14.5%)
-- **Module Breakdown:**
-- flatfile_importer.cpp: 10/10 (100%)
-- s3_importer.cpp: 11/12 (92%)
-- kafka_importer.cpp: 12/12 (100%)
-- oracle_importer.cpp: 8/8 (100%)
-- sqlite_importer.cpp: 9/9 (100%)
-- schema_inference.cpp: 2/4 (50%)
-- **Categories Fixed:**
-- Container bounds checking: 12/12 (100%)
-- Unbounded buffer protection: 11/12 (92%)
-- Input validation: 12/12 (100%)
-- Stream/resource lifecycle: 17/19 (89%)
-- **Quality Gates:** All passed (0 warnings, ≥95% tests, benchmarks stable)
-- **Completion:** 2026-08-15 15:44 UTC (13 min 45 sec)
-- **Commit:** `IMPORTERS-P4-HIGH-A2: Fix 55 HIGH gaps (flatfile, s3, kafka, oracle, sqlite) — 94.5% closure`
-- **Artifacts:**
 
 ---
 
@@ -21007,102 +20717,6 @@ include/llm/attention/
 
 ---
 
-### EPIC_5517_RESEARCH_REVIEW_CONSOLIDATION.md
-
-*(file too large — key headings extracted)*
-
-# EPIC #5517: Research Review Backlog 2026 Consolidation & Prioritization
-## Document Purpose
-It serves as the single source of truth for:
-- Parent/Child issue linking strategy
-- Workstream classification (Draft/Finalize/Transfer)
-- Prioritization and status tracking
-- Branch and PR governance for this EPIC
-- Transition pathways from Research → Engineering
----
-## 1. EPIC Governance Overview
-### 1.1 EPIC Metadata
-| Field | Value |
-|---|---|
-| **EPIC Issue** | #5517 |
-| **Title** | Research Review Backlog 2026 (Consolidation & Prioritization) |
-| **EPIC Branch** | `epic/research-review-5517` |
-| **Target Merge** | `epic/research-review-5517` → `develop` |
-| **Status** | Active - Planning Phase |
-| **Owner** | @makr-code |
-| **Scope** | Research review consolidation, parent/child structure, workstream prioritization |
-### 1.2 Strategic Goals
-1. **Unified Parent/Child Structure**
-- All open `research-review` issues linked as sub-issues of EPIC #5517
-- Clear hierarchy visible in GitHub issue relationships
-- Traceable status per sub-issue via labels and comments
-2. **Draft vs Finalize Separation**
-- Clear labeling: `research-draft` vs `research-finalize`
-- Status tracking via label combinations
-- Explicit transition workflow documented
-3. **Transfer-to-Engineering Preparation**
-- Identify finalize-ready research for engineering handoff
-- Create templates for research → engineering issue conversion
-- Document acceptance criteria for transfer
----
-## 2. Workstreams & Classification
-### 2.1 Workstream Definitions
-#### Research Draft Track
-- **Label**: `workstream/research-draft`
-- **Status**: In active research exploration or conceptual phase
-- **Artifact**: Research documents, draft findings, open questions
-- **Next Step**: Transition to Research Finalization Track
-- **Owner**: Research lead + Module owner
-#### Research Finalization Track
-
----
-
-### EPIC_5517_START_HERE.md
-
-*(file too large — key headings extracted)*
-
-# EPIC #5517 - Start Here
-**EPIC**: #5517 - Research Review Backlog 2026 (Consolidation & Prioritization)
-**Status**: ✅ Phase 1 Complete
-**Branch**: `epic/research-review-5517`
-**Created**: 2026-08-08
----
-## Overview (1 Minute)
-EPIC #5517 consolidates all research-review issues into a unified, prioritized structure with:
-- **Clear workstreams** (draft → finalize → transfer → engineering)
-- **Unified hierarchy** (all research issues linked to parent #5517)
-- **Branch governance** (feature branches → epic branch → develop)
-- **Team guidance** (quick start, FAQs, checklists)
-We've created comprehensive governance documentation to enable this consolidation.
----
-## For First-Time Users (5 Minutes)
-### Start Here
-👉 **Read**: `ai_working/EPIC_5517_QUICK_START.md`
-- Overview of EPIC
-- Your role & quick start path
-- Common tasks with step-by-step instructions
-- Branch rules and FAQ
-### Then...
-Choose based on your role:
-**I'm a Research Lead or Contributor**
-→ Continue reading Quick Start § "Your Role"
-**I'm a Module Owner or Tech Lead**
-→ Read Quick Start § "If You're a Module Owner"
-**I'm Contributing Code/Docs to this EPIC**
-→ Read Quick Start § "If You're Contributing Code/Docs"
-**I'm Reviewing PRs for this EPIC**
-→ Read: `ai_working/EPIC_5517_PR_VALIDATION_CHECKLIST.md`
-**I'm Setting Up the Infrastructure**
-→ Read: `ai_working/EPIC_5517_BRANCH_SETUP_GUIDE.md`
----
-## Document Guide (Choose Your Path)
-### Path 1: Quick Orientation (15 minutes)
-1. **This file** - Overview (1 min) ✓
-2. **EPIC_5517_QUICK_START.md** - Team guide (5 min)
-3. **EPIC_5517_DOCUMENTATION_INDEX.md** - Navigation (5 min)
-
----
-
 ### EVALUATION_MODULE_HARDENING_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -21295,265 +20909,6 @@ if (!s.ok()) throw ...  // Checked immediately after
 This is completely safe but flagged as "no health check"
 - Sample 4: Structured binding `auto [a, b] = func()` flagged as "pointer arithmetic"
 auto [train, stats] = dec.decompose(data, shape, cfg);  // Flagged as pointer error
-
----
-
-### EPIC_001_PHASE_1_4_SPRINT_8_9.md
-
-*(file too large — key headings extracted)*
-
-# EPIC-001: Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency)
-**Status:** 🔵 Planned
-**Target Release:** v1.5.0 (2026-08-31)
-**Timeline:** 4 Weeks (W31-W34, 2026-07-28 to 2026-08-24)
-**Owner:** AI Gap Remediation Team
-**Scope:** 117 Critical Gaps (Move Semantics: 97, Concurrency: 20)
-## Epic Summary
-Complete Phase 1-4 Gap Remediation by addressing the final two critical batches:
-- **Sprint 8:** Move Semantics Hardening (97 gaps, CWE-570, CWE-252)
-- **Sprint 9:** Concurrency & Data Race Prevention (20 gaps, CWE-366, CWE-760)
-- **Integration:** Full v1.5.0 release gate validation
-This epic closes the Phase 1-4 remediation initiative at 95% gap closure rate and enables v1.5.0 stable release.
-## Success Criteria
-- ✅ **Sprint 8 (Move Semantics):** 97/97 gaps remediated and verified
-- ✅ **Sprint 9 (Concurrency):** 20/20 gaps remediated and verified
-- ✅ **Test Coverage:** All 1.236 Phase 1-4 test gates passing (100% pass rate)
-- ✅ **Quality Assurance:** Zero regressions in v1.5.0 build (< 2% performance delta)
-- ✅ **Security:** CodeQL + ThreadSanitizer + valgrind clean
-- ✅ **Release Ready:** v1.5.0 tagged and released on schedule
-## Key Deliverables
-| Deliverable | Target | Verification |
-|-------------|--------|--------------|
-| Move semantics implementation | 97 gaps | Move-safety test suite |
-| Concurrency fixes | 20 gaps | ThreadSanitizer verification |
-| Regression test suite | 1.236 tests | CTest full suite PASS |
-| Release notes | Complete | CHANGELOG.md updated |
-| Performance baseline | Stable | < 2% regression vs v1.4.0 |
-## Dependencies
-- **Prerequisite:** Phase 1-4 Sprint 5-7 complete (1.119 of 1.236 gaps, 90.5% ✅)
-- **Blocking:** None (independent phase)
-- **Supports:** EPIC-002 (Module Hardening), which starts in parallel W35
-## Sub-Issues
-### [001-A] Sprint 8 - Move Semantics Hardening (97 Gaps)
-- **Title:** `Sprint 8: Move Semantics Implementation (CWE-570, CWE-252)`
-- **Type:** Enhancement / Bug Fix
-- **Labels:** `phase-1-4-remediation`, `move-semantics`, `sprint-8`, `c++`
-- **Estimated Effort:** 40 hours
-- **Acceptance Criteria:**
-- All 97 gaps identified and categorized by module/file
-- Move constructors/assignment operators implemented (Rule of Five compliance)
-- Perfect forwarding applied where beneficial
-- Move-safety property-based tests added
-- Zero false positives in scanner re-run
-- Code review approval from maintainer
-### [001-B] Sprint 9 - Concurrency & Data Race Prevention (20 Gaps)
-- **Title:** `Sprint 9: Concurrency Safety - Data Race & Lock Ordering (CWE-366, CWE-760)`
-- **Type:** Enhancement / Bug Fix
-
----
-
-### EPIC_002_MODULE_HARDENING.md
-
-*(file too large — key headings extracted)*
-
-# EPIC-002: High-Gap Module Hardening (llm, server, query, sharding, index)
-**Status:** 🔵 Planned
-**Target Release:** v2.0.0 Stable (2026-09-30)
-**Timeline:** 8 Weeks (W35-W42, 2026-08-25 to 2026-10-18)
-**Owner:** Module Hardening Committee
-**Scope:** 22.085 Total Findings → 15.000 Findings (-32% reduction)
-## Epic Summary
-**Module Targets:**
-- **llm:** HIGH 18.885 → 12.000 (-36%)
-- **server:** HIGH 14.066 → 9.000 (-36%)
-- **query:** HIGH 12.959 → 8.000 (-38%)
-- **sharding:** HIGH 7.800 → 5.000 (-36%)
-- **index:** HIGH 6.503 → 4.000 (-38%)
-**Total Gap Reduction:** 59.213 HIGH → 38.000 HIGH (-35.8%, ~21.213 gaps fixed)
-## Success Criteria
-- ✅ **Module-Specific Targets:** Each module achieves target HIGH gap reduction
-- ✅ **Input Validation:** RequestValidator, InputValidator, RangeQueryValidator deployed
-- ✅ **Exception Safety:** QueryExecutor RAII wrapper, exception guarantee tests
-- ✅ **Distributed Consistency:** 2PC timeout hardening, FK validation verified
-- ✅ **Test Coverage:** 50+ new/updated tests across all modules
-- ✅ **Performance:** No regression in TPC-H workloads (< 2%)
-- ✅ **Production Ready:** All modules certified for v2.0.0 stable release
-## Key Deliverables
-| Module | Focus | Validator | Test Cases | Gaps Fixed |
-|--------|-------|-----------|-----------|-----------|
-| **llm** | Input validation, tensor bounds | InputValidator | 15+ | 450/1.011 |
-| **server** | HTTP request, connection safety | RequestValidator | 15+ | 900/2.279 |
-| **query** | Exception safety, resource cleanup | QueryExecutor | 15+ | 850/2.288 |
-| **sharding** | 2PC timeout, FK validation | TimeoutGuard | 10+ | 2.500/7.800 |
-| **index** | Range query, partition safety | RangeQueryValidator | 10+ | 2.200/6.503 |
-## Dependencies
-- **Prerequisite:** EPIC-001 v1.5.0 release complete (Sprint 8-9 done)
-- **Parallel:** EPIC-003 Phase 6 Scanner (starts W40, overlaps weeks 40-42)
-- **Supports:** EPIC-005 Distributed Consistency (uses 2PC hardening)
-## Sub-Issues
-### [002-A] LLM Module - Multi-LoRA Manager Input Validation (1.011 HIGH)
-- **Title:** `LLM: multi_lora_manager.cpp Input Validation & Bounds Checking`
-- **Type:** Enhancement / Bug Fix
-- **Labels:** `module-hardening`, `llm`, `input-validation`, `bounds-checking`
-- **Estimated Effort:** 30 hours
-- **Focus Files:** multi_lora_manager.cpp, llama_wrapper.cpp
-- **Acceptance Criteria:**
-- InputValidator wrapper class designed and integrated
-- Bounds checking for tensor operations implemented
-- 450/1.011 HIGH gaps remediated (45% target)
-- 15+ property-based tests for tensor validation
-
----
-
-### EPIC_003_PHASE_6_SCANNER.md
-
-*(file too large — key headings extracted)*
-
-# EPIC-003: Phase 6 Extended Scanner (5 New Patterns, 1.500-2.500 Gaps)
-**Status:** 🔵 Planned
-**Target Release:** v2.0.0 Stable (2026-10-31)
-**Timeline:** 8 Weeks (W40-W47, 2026-10-06 to 2026-11-23)
-**Owner:** Code Quality Scanner Team
-**Scope:** +5 New Scanner Categories, ~2.000 New Gaps Discovered
-## Epic Summary
-**Expected Impact:**
-- **New Scanners:** 5 categories
-- **New Patterns:** 48-55 rules
-- **Estimated Gaps:** 1.500-2.500 (target: 2.000)
-- **FP Rate Target:** < 15% (validation via manual spot-checks)
-- **Portfolio Growth:** 27 → 32 scanner categories
-## Success Criteria
-- ✅ **1.500-2.500 New Gaps Discovered:** Target 2.000 on themis_core scope
-- ✅ **FP Rate < 15%:** Validation through manual review of 100+ random samples
-- ✅ **CI/CD Integration:** Automated nightly scan with reports
-- ✅ **Zero Performance Regression:** < 15% overhead on standard build
-- ✅ **Documentation Complete:** Scanner guide, pattern specs, usage examples
-## Key Deliverables
-| Scanner | Patterns | Est. Gaps | FP Rate | Effort |
-|---------|----------|-----------|---------|--------|
-| **Type Conversion** | 8-10 | 300-500 | < 15% | 30h |
-| **Input Validation** | 10-12 | 400-600 | < 12% | 35h |
-| **Exception Safety** | 8-10 | 300-450 | < 18% | 30h |
-| **Uninitialized Vars** | 8-10 | 350-500 | < 20% | 30h |
-| **OOP Design** | 14-18 | 450-700 | < 25% | 35h |
-| **Integration & CI/CD** | — | — | — | 20h |
-## Dependencies
-- **Prerequisite:** Phase 1-5 scanner pipeline stable (22.085 deduplicated findings)
-- **Parallel:** EPIC-002 Module Hardening (starts W35, overlaps weeks 40-42)
-- **Supports:** v2.0.0 release (extends gap inventory, improves coverage)
-## Sub-Issues
-### [003-A] Type Conversion Safety Scanner (8-10 Patterns)
-- **Title:** `Scanner: Type Conversion & Implicit Cast Detection`
-- **Type:** Feature / Tool Enhancement
-- **Labels:** `phase-6-scanner`, `type-safety`, `implicit-conversion`, `tooling`
-- **Estimated Effort:** 30 hours
-- **Patterns to Detect:**
-- Implicit narrowing conversions (int→char, double→int, etc.)
-- Unsafe pointer/int conversions
-- Enum boundary violations
-- Sign-extension issues (signed→unsigned conversions)
-- Floating-point precision loss in casts
-- **Acceptance Criteria:**
-- 8-10 pattern rules fully implemented
-
----
-
-### EPIC_005_DISTRIBUTED_CONSISTENCY.md
-
-*(file too large — key headings extracted)*
-
-# EPIC-005: Distributed Consistency Hardening (2PC/WAL/Replication/Raft)
-**Status:** 🔵 Planned
-**Target Release:** v2.4 Stable (2026-11-30)
-**Timeline:** 10 Weeks (W40-W49, 2026-10-06 to 2026-12-07)
-**Owner:** Distributed Systems Team
-**Scope:** Unify commit-orchestration semantics, consolidate WAL recovery, verify cross-module consistency
-## Epic Summary
-**Key Issues Addressed:**
-- Issue #5373: Commit/Prepare/Abort/WAL/Recovery Inventory (2PC/3PC duplication)
-- Issue #5390: Cross-Shard FK Validation (already implemented, needs hardening)
-- Raft Membership Safety Audit (JOINT→COMMIT consensus verification)
-## Success Criteria
-- ✅ **2PC/3PC Protocol Unified:** Single coordinator implementation, ~400 lines duplicate code eliminated
-- ✅ **WAL Recovery Contract Unified:** Single recoverFromWAL interface, 4 paths consolidated
-- ✅ **FK Validation at Scale:** Batch validation API, < 50ms for 1K checks @ 10 shards
-- ✅ **Raft Membership Safety:** Property-based tests verify no split-brain
-- ✅ **Zero Regression:** TPC-H distributed workloads unchanged
-- ✅ **Production Ready:** v2.4 stable certified for hyperscale deployments
-## Key Deliverables
-| Deliverable | Scope | Verification |
-|-------------|-------|--------------|
-| Unified WAL recovery interface | recoverFromWAL() standardized | 4 recovery paths consolidated |
-| FK batch validation API | CrossShardForeignKeyValidator extension | Performance: < 50ms/1K @ 10 shards |
-| Raft membership audit | JOINT→COMMIT state machine review | 15+ property-based tests |
-| Integration tests | Full TPC-H workload | Zero regressions, latency < 2% |
-## Dependencies
-- **Prerequisite:** EPIC-002 Sharding module hardening (2PC timeout safety)
-- **Parallel:** EPIC-002 (weeks 40-42 overlap), EPIC-003 Phase 6 Scanner
-- **Supports:** v2.4 stable release, hyperscale production deployment
-## Sub-Issues
-### [005-A] 2PC/3PC Protocol Unification & Documentation
-- **Title:** `Distributed: 2PC/3PC Protocol Unification (Issue #5373 Continuation)`
-- **Type:** Enhancement / Refactoring
-- **Labels:** `distributed-consistency`, `2pc`, `refactoring`, `issue-5373`
-- **Estimated Effort:** 40 hours
-- **Scope:** Merge CrossShardTransactionCoordinator + TwoPhaseCommitCoordinator
-- **Key Tasks:**
-- Analyze both implementations (currently ~400 lines duplicate)
-- Define unified protocol state machine (prepare→precommit→commit/abort)
-- Merge implementations into single UnifiedTwoPhaseCommitCoordinator
-- Update protocol documentation
-- Migrate 3PC callback handling
-- **Acceptance Criteria:**
-- Single coordinator implementation active (zero duplicates)
-- Protocol specification document complete
-- 20+ protocol state machine tests PASS
-
----
-
-### EPIC_3_4_PHASE_1_COMPLETION.md
-
-*(file too large — key headings extracted)*
-
-# EPIC 3.4 Phase 1 Completion Summary
-**Issue:** #5432 - Define integrity, Merkle, and receipt-chain model for distributed tensor artifacts
-**Status:** ✅ PHASE 1 (Design/API Contract) COMPLETE
-**Date:** 2026-07-04
----
-## Executive Summary
-Phase 1 of EPIC 3.4 (Integrity Model) is complete. We have defined the full contract for:
-1. **Content-Hash Model** - SHA-256 integrity detection for artifact content
-2. **Merkle Fragment Verification** - O(log N) proof-based verification for shards
-3. **Receipt-Chain Verification** - Tamper-evident audit trail linking to package lineage
-4. **Provenance Integration** - Pluggable hooks for graph validation
-5. **Verification State Machine** - Complete state transition model
----
-## Phase 1 Deliverables
-### 1. Implementation Files (Ready for Phase 2)
-- **`src/distributed_tensor/include/integrity_verification.h`** (16.4 KB)
-- All public APIs and data structures for Phase 1
-- Doxygen-documented interfaces
-- Integration hooks and callbacks defined
-- **`src/distributed_tensor/src/integrity_verification.cc`** (9.4 KB)
-- Core implementation (SHA-256, Merkle proofs, receipt chains)
-- Error handling and logging
-- Utility functions
-### 2. Documentation (4 Comprehensive Guides)
-- **`docs/EPIC3_INTEGRITY_MODEL_IMPLEMENTATION.md`** (15.3 KB)
-- 14 detailed sections covering all aspects
-- Workflows, failure modes, recovery strategies
-- Performance analysis and optimization opportunities
-- **`docs/EPIC3_MERKLE_RECEIPT_INTEGRATION.md`** (12.4 KB)
-- Integration patterns with all dependent subsystems
-- Cross-epic dependencies and requirements
-- Example scenarios and workflows
-- **`docs/EPIC3_INTEGRITY_MODEL.md`** (Updated)
-- Phase roadmap updated with Phase 1 completion marker
-- Phase 2-7 tasks detailed
-- **`src/distributed_tensor/ROADMAP.md`** (Updated)
-- Project status reflecting 3.4 completion
-- Integration with other sub-issues
----
 
 ---
 
@@ -21833,6 +21188,505 @@ Depending on your involvement:
 |---|---|---|---|
 | **Draft** | `workstream/research-draft` | Actively exploring | Move to Finalize when findings are conclusive |
 ### Priority
+
+---
+
+### EPIC_5517_RESEARCH_REVIEW_CONSOLIDATION.md
+
+*(file too large — key headings extracted)*
+
+# EPIC #5517: Research Review Backlog 2026 Consolidation & Prioritization
+## Document Purpose
+It serves as the single source of truth for:
+- Parent/Child issue linking strategy
+- Workstream classification (Draft/Finalize/Transfer)
+- Prioritization and status tracking
+- Branch and PR governance for this EPIC
+- Transition pathways from Research → Engineering
+---
+## 1. EPIC Governance Overview
+### 1.1 EPIC Metadata
+| Field | Value |
+|---|---|
+| **EPIC Issue** | #5517 |
+| **Title** | Research Review Backlog 2026 (Consolidation & Prioritization) |
+| **EPIC Branch** | `epic/research-review-5517` |
+| **Target Merge** | `epic/research-review-5517` → `develop` |
+| **Status** | Active - Planning Phase |
+| **Owner** | @makr-code |
+| **Scope** | Research review consolidation, parent/child structure, workstream prioritization |
+### 1.2 Strategic Goals
+1. **Unified Parent/Child Structure**
+- All open `research-review` issues linked as sub-issues of EPIC #5517
+- Clear hierarchy visible in GitHub issue relationships
+- Traceable status per sub-issue via labels and comments
+2. **Draft vs Finalize Separation**
+- Clear labeling: `research-draft` vs `research-finalize`
+- Status tracking via label combinations
+- Explicit transition workflow documented
+3. **Transfer-to-Engineering Preparation**
+- Identify finalize-ready research for engineering handoff
+- Create templates for research → engineering issue conversion
+- Document acceptance criteria for transfer
+---
+## 2. Workstreams & Classification
+### 2.1 Workstream Definitions
+#### Research Draft Track
+- **Label**: `workstream/research-draft`
+- **Status**: In active research exploration or conceptual phase
+- **Artifact**: Research documents, draft findings, open questions
+- **Next Step**: Transition to Research Finalization Track
+- **Owner**: Research lead + Module owner
+#### Research Finalization Track
+
+---
+
+### EPIC_5517_START_HERE.md
+
+*(file too large — key headings extracted)*
+
+# EPIC #5517 - Start Here
+**EPIC**: #5517 - Research Review Backlog 2026 (Consolidation & Prioritization)
+**Status**: ✅ Phase 1 Complete
+**Branch**: `epic/research-review-5517`
+**Created**: 2026-08-08
+---
+## Overview (1 Minute)
+EPIC #5517 consolidates all research-review issues into a unified, prioritized structure with:
+- **Clear workstreams** (draft → finalize → transfer → engineering)
+- **Unified hierarchy** (all research issues linked to parent #5517)
+- **Branch governance** (feature branches → epic branch → develop)
+- **Team guidance** (quick start, FAQs, checklists)
+We've created comprehensive governance documentation to enable this consolidation.
+---
+## For First-Time Users (5 Minutes)
+### Start Here
+👉 **Read**: `ai_working/EPIC_5517_QUICK_START.md`
+- Overview of EPIC
+- Your role & quick start path
+- Common tasks with step-by-step instructions
+- Branch rules and FAQ
+### Then...
+Choose based on your role:
+**I'm a Research Lead or Contributor**
+→ Continue reading Quick Start § "Your Role"
+**I'm a Module Owner or Tech Lead**
+→ Read Quick Start § "If You're a Module Owner"
+**I'm Contributing Code/Docs to this EPIC**
+→ Read Quick Start § "If You're Contributing Code/Docs"
+**I'm Reviewing PRs for this EPIC**
+→ Read: `ai_working/EPIC_5517_PR_VALIDATION_CHECKLIST.md`
+**I'm Setting Up the Infrastructure**
+→ Read: `ai_working/EPIC_5517_BRANCH_SETUP_GUIDE.md`
+---
+## Document Guide (Choose Your Path)
+### Path 1: Quick Orientation (15 minutes)
+1. **This file** - Overview (1 min) ✓
+2. **EPIC_5517_QUICK_START.md** - Team guide (5 min)
+3. **EPIC_5517_DOCUMENTATION_INDEX.md** - Navigation (5 min)
+
+---
+
+### Du bist ein senior C++ Documentation Eng.md
+
+*(file too large — key headings extracted)*
+
+Du bist ein senior C++ Documentation Engineer fuer ThemisDB.
+Ziel:
+- Schreibe fehlende oder unzureichende Doxygen-Kommentare in .h/.hpp und bei Bedarf in .cpp.
+- Kommentare muessen korrekt, praezise und wartbar sein.
+Verbindliche Regeln:
+1) Keine Funktionsaenderung:
+- Aendere keine Signaturen, kein Verhalten, keine Includes, keine Formatierung ausser noetigen Kommentar-Einfuegungen.
+2) Doxygen-Qualitaet:
+- Nutze Doxygen-Tags konsistent: @brief, @param, @return, @throws, @tparam, @note, @warning.
+- Dokumentiere Zweck, Eingaben, Rueckgabewert, Fehler-/Edge-Case-Verhalten und Ownership/Lifetime-Vertraege.
+- Bei void-Funktionen kein @return.
+- Bei Templates immer @tparam und semantische Anforderungen dokumentieren.
+- Keine leeren Phrasen wie "This function does X". Schreibe konkret.
+3) Stil:
+- ASCII-only.
+- Deutsch oder Englisch ist ok, aber pro Datei konsistent bleiben.
+- Kurz, praezise, technisch.
+- Keine erfundenen Fehlerfaelle; nur dokumentieren, was aus Signatur/Code klar ableitbar ist.
+4) Priorisierung:
+- Erst oeffentliche Header-APIs.
+- Danach komplexe interne APIs mit Seiteneffekten.
+- Dann kritische .cpp-Implementierungen (nicht jede triviale private Hilfsfunktion).
+5) Edge Cases explizit:
+- Invalid input
+- Empty states
+- Timeouts/Cancellation (falls vorhanden)
+- Threading-/Nebenlaeufigkeitsannahmen (falls erkennbar)
+- Exception-/Fehlerverhalten
+6) Ausgabeformat:
+- Gib fuer jede geaenderte Datei einen klaren Patch/Block aus.
+- Struktur:
+FILE: <pfad>
+- Was wurde dokumentiert
+- Warum diese Doku noetig war
+- Codeblock mit den eingefuegten/aktualisierten Kommentaren
+Arbeitsmodus:
+- Arbeite schrittweise pro Datei.
+- Beginne mit den wichtigsten Header-Dateien.
+- Stoppe nicht nach einem Beispiel, sondern liefere systematisch mehrere Dateien.
+Start:
+Analysiere die erste geeignete Header-Datei und liefere direkt den ersten konkreten Doxygen-Update-Block.
+
+---
+
+### ENFORCEMENT_WAIVERS.md
+
+*(file too large — key headings extracted)*
+
+# Enforcement Waivers Log
+**Document:** Phase 3 Tier 1 Gate Waiver Tracking
+**Status:** Active (2026-Q4)
+**Purpose:** Immutable record of all Tier 1 gate waivers for compliance audit
+**Format:** Markdown table (append-only)
+**Schema Version:** 1.0
+---
+## Active Waivers
+| PR | Gate | Approver | Justification | Issue Date | Expires | Status |
+|-------|------|-----------|---------------|----------|---------|--------|
+| (none) | - | - | - | - | - | - |
+---
+## Waiver Schema
+- **PR**: Pull request number (e.g., `#12345`)
+- **Gate**: Gate ID from RELEASE_PROMOTION_GATE_POLICY.md (e.g., `T1-DOXYGEN-COVERAGE`)
+- **Approver**: GitHub username of release lead who approved (e.g., `@release-lead`)
+- **Justification**: Reason for waiver (max 500 characters)
+- **Issue Date**: Date waiver was issued (YYYY-MM-DD)
+- **Expires**: Expiration date (YYYY-MM-DD, typically 14 days from issue)
+- **Status**: `ACTIVE`, `EXPIRED`, or `REVOKED`
+---
+## Waiver Workflow
+1. Release lead posts comment on PR: `/approve-with-waiver <GATE_ID> "justification"`
+2. Waiver validator checks:
+- Approver is member of `@themisdb/release-leads` team
+- Gate ID is valid (Tier 1 only)
+- Justification is 10-500 characters
+3. If valid, waiver appended to this log with 14-day expiration
+4. Daily automation (09:00 UTC) identifies waivers expiring within 3 days
+5. Weekly automation (Monday 08:00 UTC) generates audit summary
+6. Gate status updates to `EXPIRED` after expiration date
+---
+## Escalation Policy
+If any gate receives **3+ waivers within 4 weeks**, escalate to Tier 0:
+1. Move gate from Tier 1 to Tier 0 in `RELEASE_PROMOTION_GATE_POLICY.md`
+2. Create GitHub issue: `[governance] <GATE_ID> - escalated to Tier 0`
+3. Assign to domain lead for resolution
+---
+## Review Schedule
+- **Daily:** Check expiring waivers (09:00 UTC via `12-governance_waiver-expiration-check.yml`)
+- **Weekly:** Audit summary and metrics (Monday 08:00 UTC via `12-governance_gate-audit-summary.yml`)
+- **Quarterly:** Policy review and gate threshold adjustments
+---
+
+---
+
+### ENHANCED_ISSUES_EXAMPLE.md
+
+*(file too large — key headings extracted)*
+
+# Enhanced GitHub Issues — Before & After Comparison
+## Problem: Generic Issues
+**Old Template (too generic):**
+# [HIGH] P1 — SECURITY Module Gap Analysis
+## Summary
+- Module: security
+- Total Gaps: 4,343
+- CRITICAL: 300 | HIGH: 3,320 | MEDIUM: 723
+## Breakdown by Category
+- reliability: 527 gaps
+- raii: 243 gaps
+- container: 148 gaps
+...
+## Top Files by Gap Density
+- src/auth/auth.cpp: 156 gaps (C:8, H:67, M:81)
+- src/utils/security.cpp: 123 gaps (C:5, H:89, M:29)
+...
+## Implementation Guide
+### Phase 1: Critical Fixes
+- [ ] src/auth/auth.cpp (8 critical gaps)
+- [ ] src/utils/security.cpp (5 critical gaps)
+### Phase 2: High Priority Fixes
+- [ ] src/auth/auth.cpp (67 high gaps)
+...
+## Acceptance Criteria
+- [ ] All CRITICAL gaps addressed
+- [ ] All HIGH gaps reviewed and prioritized
+- [ ] Documentation updated
+- [ ] Tests added for gap fixes
+- [ ] Code review completed
+**Problem:** Too vague for AI agents to act on. What does "fix gap" mean? What are success criteria?
+---
+## Solution: AI-Agent Ready Issues
+**New Template (detailed & actionable):**
+# 🔴 CRITICAL — SECURITY Module Gap Analysis & Remediation Guide
+**AI Agent Ready:** This issue contains detailed acceptance criteria, scope boundaries,
+and execution instructions for automated implementation.
+---
+## Executive Summary
+
+---
+
+### EPIC_001_PHASE_1_4_SPRINT_8_9.md
+
+*(file too large — key headings extracted)*
+
+# EPIC-001: Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency)
+**Status:** 🔵 Planned
+**Target Release:** v1.5.0 (2026-08-31)
+**Timeline:** 4 Weeks (W31-W34, 2026-07-28 to 2026-08-24)
+**Owner:** AI Gap Remediation Team
+**Scope:** 117 Critical Gaps (Move Semantics: 97, Concurrency: 20)
+## Epic Summary
+Complete Phase 1-4 Gap Remediation by addressing the final two critical batches:
+- **Sprint 8:** Move Semantics Hardening (97 gaps, CWE-570, CWE-252)
+- **Sprint 9:** Concurrency & Data Race Prevention (20 gaps, CWE-366, CWE-760)
+- **Integration:** Full v1.5.0 release gate validation
+This epic closes the Phase 1-4 remediation initiative at 95% gap closure rate and enables v1.5.0 stable release.
+## Success Criteria
+- ✅ **Sprint 8 (Move Semantics):** 97/97 gaps remediated and verified
+- ✅ **Sprint 9 (Concurrency):** 20/20 gaps remediated and verified
+- ✅ **Test Coverage:** All 1.236 Phase 1-4 test gates passing (100% pass rate)
+- ✅ **Quality Assurance:** Zero regressions in v1.5.0 build (< 2% performance delta)
+- ✅ **Security:** CodeQL + ThreadSanitizer + valgrind clean
+- ✅ **Release Ready:** v1.5.0 tagged and released on schedule
+## Key Deliverables
+| Deliverable | Target | Verification |
+|-------------|--------|--------------|
+| Move semantics implementation | 97 gaps | Move-safety test suite |
+| Concurrency fixes | 20 gaps | ThreadSanitizer verification |
+| Regression test suite | 1.236 tests | CTest full suite PASS |
+| Release notes | Complete | CHANGELOG.md updated |
+| Performance baseline | Stable | < 2% regression vs v1.4.0 |
+## Dependencies
+- **Prerequisite:** Phase 1-4 Sprint 5-7 complete (1.119 of 1.236 gaps, 90.5% ✅)
+- **Blocking:** None (independent phase)
+- **Supports:** EPIC-002 (Module Hardening), which starts in parallel W35
+## Sub-Issues
+### [001-A] Sprint 8 - Move Semantics Hardening (97 Gaps)
+- **Title:** `Sprint 8: Move Semantics Implementation (CWE-570, CWE-252)`
+- **Type:** Enhancement / Bug Fix
+- **Labels:** `phase-1-4-remediation`, `move-semantics`, `sprint-8`, `c++`
+- **Estimated Effort:** 40 hours
+- **Acceptance Criteria:**
+- All 97 gaps identified and categorized by module/file
+- Move constructors/assignment operators implemented (Rule of Five compliance)
+- Perfect forwarding applied where beneficial
+- Move-safety property-based tests added
+- Zero false positives in scanner re-run
+- Code review approval from maintainer
+### [001-B] Sprint 9 - Concurrency & Data Race Prevention (20 Gaps)
+- **Title:** `Sprint 9: Concurrency Safety - Data Race & Lock Ordering (CWE-366, CWE-760)`
+- **Type:** Enhancement / Bug Fix
+
+---
+
+### EPIC_002_MODULE_HARDENING.md
+
+*(file too large — key headings extracted)*
+
+# EPIC-002: High-Gap Module Hardening (llm, server, query, sharding, index)
+**Status:** 🔵 Planned
+**Target Release:** v2.0.0 Stable (2026-09-30)
+**Timeline:** 8 Weeks (W35-W42, 2026-08-25 to 2026-10-18)
+**Owner:** Module Hardening Committee
+**Scope:** 22.085 Total Findings → 15.000 Findings (-32% reduction)
+## Epic Summary
+**Module Targets:**
+- **llm:** HIGH 18.885 → 12.000 (-36%)
+- **server:** HIGH 14.066 → 9.000 (-36%)
+- **query:** HIGH 12.959 → 8.000 (-38%)
+- **sharding:** HIGH 7.800 → 5.000 (-36%)
+- **index:** HIGH 6.503 → 4.000 (-38%)
+**Total Gap Reduction:** 59.213 HIGH → 38.000 HIGH (-35.8%, ~21.213 gaps fixed)
+## Success Criteria
+- ✅ **Module-Specific Targets:** Each module achieves target HIGH gap reduction
+- ✅ **Input Validation:** RequestValidator, InputValidator, RangeQueryValidator deployed
+- ✅ **Exception Safety:** QueryExecutor RAII wrapper, exception guarantee tests
+- ✅ **Distributed Consistency:** 2PC timeout hardening, FK validation verified
+- ✅ **Test Coverage:** 50+ new/updated tests across all modules
+- ✅ **Performance:** No regression in TPC-H workloads (< 2%)
+- ✅ **Production Ready:** All modules certified for v2.0.0 stable release
+## Key Deliverables
+| Module | Focus | Validator | Test Cases | Gaps Fixed |
+|--------|-------|-----------|-----------|-----------|
+| **llm** | Input validation, tensor bounds | InputValidator | 15+ | 450/1.011 |
+| **server** | HTTP request, connection safety | RequestValidator | 15+ | 900/2.279 |
+| **query** | Exception safety, resource cleanup | QueryExecutor | 15+ | 850/2.288 |
+| **sharding** | 2PC timeout, FK validation | TimeoutGuard | 10+ | 2.500/7.800 |
+| **index** | Range query, partition safety | RangeQueryValidator | 10+ | 2.200/6.503 |
+## Dependencies
+- **Prerequisite:** EPIC-001 v1.5.0 release complete (Sprint 8-9 done)
+- **Parallel:** EPIC-003 Phase 6 Scanner (starts W40, overlaps weeks 40-42)
+- **Supports:** EPIC-005 Distributed Consistency (uses 2PC hardening)
+## Sub-Issues
+### [002-A] LLM Module - Multi-LoRA Manager Input Validation (1.011 HIGH)
+- **Title:** `LLM: multi_lora_manager.cpp Input Validation & Bounds Checking`
+- **Type:** Enhancement / Bug Fix
+- **Labels:** `module-hardening`, `llm`, `input-validation`, `bounds-checking`
+- **Estimated Effort:** 30 hours
+- **Focus Files:** multi_lora_manager.cpp, llama_wrapper.cpp
+- **Acceptance Criteria:**
+- InputValidator wrapper class designed and integrated
+- Bounds checking for tensor operations implemented
+- 450/1.011 HIGH gaps remediated (45% target)
+- 15+ property-based tests for tensor validation
+
+---
+
+### EPIC_003_PHASE_6_SCANNER.md
+
+*(file too large — key headings extracted)*
+
+# EPIC-003: Phase 6 Extended Scanner (5 New Patterns, 1.500-2.500 Gaps)
+**Status:** 🔵 Planned
+**Target Release:** v2.0.0 Stable (2026-10-31)
+**Timeline:** 8 Weeks (W40-W47, 2026-10-06 to 2026-11-23)
+**Owner:** Code Quality Scanner Team
+**Scope:** +5 New Scanner Categories, ~2.000 New Gaps Discovered
+## Epic Summary
+**Expected Impact:**
+- **New Scanners:** 5 categories
+- **New Patterns:** 48-55 rules
+- **Estimated Gaps:** 1.500-2.500 (target: 2.000)
+- **FP Rate Target:** < 15% (validation via manual spot-checks)
+- **Portfolio Growth:** 27 → 32 scanner categories
+## Success Criteria
+- ✅ **1.500-2.500 New Gaps Discovered:** Target 2.000 on themis_core scope
+- ✅ **FP Rate < 15%:** Validation through manual review of 100+ random samples
+- ✅ **CI/CD Integration:** Automated nightly scan with reports
+- ✅ **Zero Performance Regression:** < 15% overhead on standard build
+- ✅ **Documentation Complete:** Scanner guide, pattern specs, usage examples
+## Key Deliverables
+| Scanner | Patterns | Est. Gaps | FP Rate | Effort |
+|---------|----------|-----------|---------|--------|
+| **Type Conversion** | 8-10 | 300-500 | < 15% | 30h |
+| **Input Validation** | 10-12 | 400-600 | < 12% | 35h |
+| **Exception Safety** | 8-10 | 300-450 | < 18% | 30h |
+| **Uninitialized Vars** | 8-10 | 350-500 | < 20% | 30h |
+| **OOP Design** | 14-18 | 450-700 | < 25% | 35h |
+| **Integration & CI/CD** | — | — | — | 20h |
+## Dependencies
+- **Prerequisite:** Phase 1-5 scanner pipeline stable (22.085 deduplicated findings)
+- **Parallel:** EPIC-002 Module Hardening (starts W35, overlaps weeks 40-42)
+- **Supports:** v2.0.0 release (extends gap inventory, improves coverage)
+## Sub-Issues
+### [003-A] Type Conversion Safety Scanner (8-10 Patterns)
+- **Title:** `Scanner: Type Conversion & Implicit Cast Detection`
+- **Type:** Feature / Tool Enhancement
+- **Labels:** `phase-6-scanner`, `type-safety`, `implicit-conversion`, `tooling`
+- **Estimated Effort:** 30 hours
+- **Patterns to Detect:**
+- Implicit narrowing conversions (int→char, double→int, etc.)
+- Unsafe pointer/int conversions
+- Enum boundary violations
+- Sign-extension issues (signed→unsigned conversions)
+- Floating-point precision loss in casts
+- **Acceptance Criteria:**
+- 8-10 pattern rules fully implemented
+
+---
+
+### EPIC_005_DISTRIBUTED_CONSISTENCY.md
+
+*(file too large — key headings extracted)*
+
+# EPIC-005: Distributed Consistency Hardening (2PC/WAL/Replication/Raft)
+**Status:** 🔵 Planned
+**Target Release:** v2.4 Stable (2026-11-30)
+**Timeline:** 10 Weeks (W40-W49, 2026-10-06 to 2026-12-07)
+**Owner:** Distributed Systems Team
+**Scope:** Unify commit-orchestration semantics, consolidate WAL recovery, verify cross-module consistency
+## Epic Summary
+**Key Issues Addressed:**
+- Issue #5373: Commit/Prepare/Abort/WAL/Recovery Inventory (2PC/3PC duplication)
+- Issue #5390: Cross-Shard FK Validation (already implemented, needs hardening)
+- Raft Membership Safety Audit (JOINT→COMMIT consensus verification)
+## Success Criteria
+- ✅ **2PC/3PC Protocol Unified:** Single coordinator implementation, ~400 lines duplicate code eliminated
+- ✅ **WAL Recovery Contract Unified:** Single recoverFromWAL interface, 4 paths consolidated
+- ✅ **FK Validation at Scale:** Batch validation API, < 50ms for 1K checks @ 10 shards
+- ✅ **Raft Membership Safety:** Property-based tests verify no split-brain
+- ✅ **Zero Regression:** TPC-H distributed workloads unchanged
+- ✅ **Production Ready:** v2.4 stable certified for hyperscale deployments
+## Key Deliverables
+| Deliverable | Scope | Verification |
+|-------------|-------|--------------|
+| Unified WAL recovery interface | recoverFromWAL() standardized | 4 recovery paths consolidated |
+| FK batch validation API | CrossShardForeignKeyValidator extension | Performance: < 50ms/1K @ 10 shards |
+| Raft membership audit | JOINT→COMMIT state machine review | 15+ property-based tests |
+| Integration tests | Full TPC-H workload | Zero regressions, latency < 2% |
+## Dependencies
+- **Prerequisite:** EPIC-002 Sharding module hardening (2PC timeout safety)
+- **Parallel:** EPIC-002 (weeks 40-42 overlap), EPIC-003 Phase 6 Scanner
+- **Supports:** v2.4 stable release, hyperscale production deployment
+## Sub-Issues
+### [005-A] 2PC/3PC Protocol Unification & Documentation
+- **Title:** `Distributed: 2PC/3PC Protocol Unification (Issue #5373 Continuation)`
+- **Type:** Enhancement / Refactoring
+- **Labels:** `distributed-consistency`, `2pc`, `refactoring`, `issue-5373`
+- **Estimated Effort:** 40 hours
+- **Scope:** Merge CrossShardTransactionCoordinator + TwoPhaseCommitCoordinator
+- **Key Tasks:**
+- Analyze both implementations (currently ~400 lines duplicate)
+- Define unified protocol state machine (prepare→precommit→commit/abort)
+- Merge implementations into single UnifiedTwoPhaseCommitCoordinator
+- Update protocol documentation
+- Migrate 3PC callback handling
+- **Acceptance Criteria:**
+- Single coordinator implementation active (zero duplicates)
+- Protocol specification document complete
+- 20+ protocol state machine tests PASS
+
+---
+
+### EPIC_3_4_PHASE_1_COMPLETION.md
+
+*(file too large — key headings extracted)*
+
+# EPIC 3.4 Phase 1 Completion Summary
+**Issue:** #5432 - Define integrity, Merkle, and receipt-chain model for distributed tensor artifacts
+**Status:** ✅ PHASE 1 (Design/API Contract) COMPLETE
+**Date:** 2026-07-04
+---
+## Executive Summary
+Phase 1 of EPIC 3.4 (Integrity Model) is complete. We have defined the full contract for:
+1. **Content-Hash Model** - SHA-256 integrity detection for artifact content
+2. **Merkle Fragment Verification** - O(log N) proof-based verification for shards
+3. **Receipt-Chain Verification** - Tamper-evident audit trail linking to package lineage
+4. **Provenance Integration** - Pluggable hooks for graph validation
+5. **Verification State Machine** - Complete state transition model
+---
+## Phase 1 Deliverables
+### 1. Implementation Files (Ready for Phase 2)
+- **`src/distributed_tensor/include/integrity_verification.h`** (16.4 KB)
+- All public APIs and data structures for Phase 1
+- Doxygen-documented interfaces
+- Integration hooks and callbacks defined
+- **`src/distributed_tensor/src/integrity_verification.cc`** (9.4 KB)
+- Core implementation (SHA-256, Merkle proofs, receipt chains)
+- Error handling and logging
+- Utility functions
+### 2. Documentation (4 Comprehensive Guides)
+- **`docs/EPIC3_INTEGRITY_MODEL_IMPLEMENTATION.md`** (15.3 KB)
+- 14 detailed sections covering all aspects
+- Workflows, failure modes, recovery strategies
+- Performance analysis and optimization opportunities
+- **`docs/EPIC3_MERKLE_RECEIPT_INTEGRATION.md`** (12.4 KB)
+- Integration patterns with all dependent subsystems
+- Cross-epic dependencies and requirements
+- Example scenarios and workflows
+- **`docs/EPIC3_INTEGRITY_MODEL.md`** (Updated)
+- Phase roadmap updated with Phase 1 completion marker
+- Phase 2-7 tasks detailed
+- **`src/distributed_tensor/ROADMAP.md`** (Updated)
+- Project status reflecting 3.4 completion
+- Integration with other sub-issues
+---
 
 ---
 
@@ -22129,291 +21983,6 @@ if (!trained_) return {};  // Marked as CRITICAL stub
 ## Validation
 - Run a Doxygen syntax/build check after the edits.
 - Review diff for comment-only changes.
-
----
-
-### Du bist ein senior C++ Documentation Eng.md
-
-*(file too large — key headings extracted)*
-
-Du bist ein senior C++ Documentation Engineer fuer ThemisDB.
-Ziel:
-- Schreibe fehlende oder unzureichende Doxygen-Kommentare in .h/.hpp und bei Bedarf in .cpp.
-- Kommentare muessen korrekt, praezise und wartbar sein.
-Verbindliche Regeln:
-1) Keine Funktionsaenderung:
-- Aendere keine Signaturen, kein Verhalten, keine Includes, keine Formatierung ausser noetigen Kommentar-Einfuegungen.
-2) Doxygen-Qualitaet:
-- Nutze Doxygen-Tags konsistent: @brief, @param, @return, @throws, @tparam, @note, @warning.
-- Dokumentiere Zweck, Eingaben, Rueckgabewert, Fehler-/Edge-Case-Verhalten und Ownership/Lifetime-Vertraege.
-- Bei void-Funktionen kein @return.
-- Bei Templates immer @tparam und semantische Anforderungen dokumentieren.
-- Keine leeren Phrasen wie "This function does X". Schreibe konkret.
-3) Stil:
-- ASCII-only.
-- Deutsch oder Englisch ist ok, aber pro Datei konsistent bleiben.
-- Kurz, praezise, technisch.
-- Keine erfundenen Fehlerfaelle; nur dokumentieren, was aus Signatur/Code klar ableitbar ist.
-4) Priorisierung:
-- Erst oeffentliche Header-APIs.
-- Danach komplexe interne APIs mit Seiteneffekten.
-- Dann kritische .cpp-Implementierungen (nicht jede triviale private Hilfsfunktion).
-5) Edge Cases explizit:
-- Invalid input
-- Empty states
-- Timeouts/Cancellation (falls vorhanden)
-- Threading-/Nebenlaeufigkeitsannahmen (falls erkennbar)
-- Exception-/Fehlerverhalten
-6) Ausgabeformat:
-- Gib fuer jede geaenderte Datei einen klaren Patch/Block aus.
-- Struktur:
-FILE: <pfad>
-- Was wurde dokumentiert
-- Warum diese Doku noetig war
-- Codeblock mit den eingefuegten/aktualisierten Kommentaren
-Arbeitsmodus:
-- Arbeite schrittweise pro Datei.
-- Beginne mit den wichtigsten Header-Dateien.
-- Stoppe nicht nach einem Beispiel, sondern liefere systematisch mehrere Dateien.
-Start:
-Analysiere die erste geeignete Header-Datei und liefere direkt den ersten konkreten Doxygen-Update-Block.
-
----
-
-### ENFORCEMENT_WAIVERS.md
-
-*(file too large — key headings extracted)*
-
-# Enforcement Waivers Log
-**Document:** Phase 3 Tier 1 Gate Waiver Tracking
-**Status:** Active (2026-Q4)
-**Purpose:** Immutable record of all Tier 1 gate waivers for compliance audit
-**Format:** Markdown table (append-only)
-**Schema Version:** 1.0
----
-## Active Waivers
-| PR | Gate | Approver | Justification | Issue Date | Expires | Status |
-|-------|------|-----------|---------------|----------|---------|--------|
-| (none) | - | - | - | - | - | - |
----
-## Waiver Schema
-- **PR**: Pull request number (e.g., `#12345`)
-- **Gate**: Gate ID from RELEASE_PROMOTION_GATE_POLICY.md (e.g., `T1-DOXYGEN-COVERAGE`)
-- **Approver**: GitHub username of release lead who approved (e.g., `@release-lead`)
-- **Justification**: Reason for waiver (max 500 characters)
-- **Issue Date**: Date waiver was issued (YYYY-MM-DD)
-- **Expires**: Expiration date (YYYY-MM-DD, typically 14 days from issue)
-- **Status**: `ACTIVE`, `EXPIRED`, or `REVOKED`
----
-## Waiver Workflow
-1. Release lead posts comment on PR: `/approve-with-waiver <GATE_ID> "justification"`
-2. Waiver validator checks:
-- Approver is member of `@themisdb/release-leads` team
-- Gate ID is valid (Tier 1 only)
-- Justification is 10-500 characters
-3. If valid, waiver appended to this log with 14-day expiration
-4. Daily automation (09:00 UTC) identifies waivers expiring within 3 days
-5. Weekly automation (Monday 08:00 UTC) generates audit summary
-6. Gate status updates to `EXPIRED` after expiration date
----
-## Escalation Policy
-If any gate receives **3+ waivers within 4 weeks**, escalate to Tier 0:
-1. Move gate from Tier 1 to Tier 0 in `RELEASE_PROMOTION_GATE_POLICY.md`
-2. Create GitHub issue: `[governance] <GATE_ID> - escalated to Tier 0`
-3. Assign to domain lead for resolution
----
-## Review Schedule
-- **Daily:** Check expiring waivers (09:00 UTC via `12-governance_waiver-expiration-check.yml`)
-- **Weekly:** Audit summary and metrics (Monday 08:00 UTC via `12-governance_gate-audit-summary.yml`)
-- **Quarterly:** Policy review and gate threshold adjustments
----
-
----
-
-### ENHANCED_ISSUES_EXAMPLE.md
-
-*(file too large — key headings extracted)*
-
-# Enhanced GitHub Issues — Before & After Comparison
-## Problem: Generic Issues
-**Old Template (too generic):**
-# [HIGH] P1 — SECURITY Module Gap Analysis
-## Summary
-- Module: security
-- Total Gaps: 4,343
-- CRITICAL: 300 | HIGH: 3,320 | MEDIUM: 723
-## Breakdown by Category
-- reliability: 527 gaps
-- raii: 243 gaps
-- container: 148 gaps
-...
-## Top Files by Gap Density
-- src/auth/auth.cpp: 156 gaps (C:8, H:67, M:81)
-- src/utils/security.cpp: 123 gaps (C:5, H:89, M:29)
-...
-## Implementation Guide
-### Phase 1: Critical Fixes
-- [ ] src/auth/auth.cpp (8 critical gaps)
-- [ ] src/utils/security.cpp (5 critical gaps)
-### Phase 2: High Priority Fixes
-- [ ] src/auth/auth.cpp (67 high gaps)
-...
-## Acceptance Criteria
-- [ ] All CRITICAL gaps addressed
-- [ ] All HIGH gaps reviewed and prioritized
-- [ ] Documentation updated
-- [ ] Tests added for gap fixes
-- [ ] Code review completed
-**Problem:** Too vague for AI agents to act on. What does "fix gap" mean? What are success criteria?
----
-## Solution: AI-Agent Ready Issues
-**New Template (detailed & actionable):**
-# 🔴 CRITICAL — SECURITY Module Gap Analysis & Remediation Guide
-**AI Agent Ready:** This issue contains detailed acceptance criteria, scope boundaries,
-and execution instructions for automated implementation.
----
-## Executive Summary
-
----
-
-### DELIVERY_SUMMARY_2026-08-08.md
-
-*(file too large — key headings extracted)*
-
-# User Storage Encrypted Module: Hardening Delivery Summary
-**Date:** 2026-08-08
-**Session Duration:** ~3.5 hours (virtual; ~7 hours agent execution)
-**Status:** BATCHES 1-2 COMPLETE ✅ | BATCHES 3-5 PLANNED & SPECIFIED
----
-## 🎯 Achievements This Session
-### BATCH 1: Timeout & I/O Safety ✅ COMPLETE
-**Deliverables:**
-- TimedFileOperation class (280 LOC, production-ready)
-- PipeGuard RAII class (250 LOC, exception-safe)
-- Integration test suite (343 LOC, 14 test cases)
-- 5 critical no-timeout issues fixed
-**Quality Improvements:**
-- Eliminated 5 blocking no-timeout I/O operations
-- All I/O now bounded (5s write, 10s read default)
-- Exception-safe resource management verified
-- Modern C++20 implementation (auto, std::chrono, RAII, CRTP)
-**Test Coverage:**
-- PipeGuard: creation, closing, move semantics, destruction
-- TimedFileOperation: read, write, timeout scenarios, exception safety
-- Integration: exception propagation, file descriptor cleanup
----
-### BATCH 2: Command Injection & Performance ✅ COMPLETE
-**Deliverables:**
-- CommandArgumentValidator with whitelist validation
-- Hex key encoding optimization (80% faster)
-- Correlation ID infrastructure (UUID-based)
-- Security test suite (370 LOC, 17 test cases)
-**Security Improvements:**
-- 100% command injection prevention (execvp safety)
-- Path validation: no .. sequences, absolute/relative
-- Flag validation: 14 safe gocryptfs flags only
-- 15+ attack patterns tested and blocked
-**Performance Improvements:**
-- Hex encoding: 0.5ms → <0.1ms (80% faster)
-- Stack overhead: 96 bytes → 0 bytes
-- Function calls: 32 → 1 (97% reduction)
-- USEG-PERF-01 gate: ✅ PASS
-**Test Coverage:**
-- CommandArgumentValidator: path traversal, injection, flags
-- Performance: benchmark verification
-- Integration: end-to-end malicious input patterns
-- 17 focused test cases (USEG-INJ-01..17)
----
-## 📊 Cumulative Quality Progress
-
----
-
-### DELIVERY_SUMMARY_L1_L2_L3.md
-
-*(file too large — key headings extracted)*
-
-# L1 → L2 → L3 Documentation Propagation Cycle: DELIVERY SUMMARY
-**Execution Date**: 2026-06-25
-**Execution Time**: 14:00:24Z - 14:15:00Z (approximately 15 minutes)
-**Status**: ✅ **COMPLETE AND VERIFIED**
----
-## DELIVERABLES COMPLETED
-### L1 - Module Documentation Level (DONE)
-**6 Priority Modules Updated with L0.5 Verified Data**:
-| Module | MODULE_GAPS.md | Gap Count | CRITICAL | HIGH | Files Modified |
-|--------|---|---:|---:|---:|---|
-| LLM | ✅ Updated | 3,821 | 1,029 | 1,937 | src/llm/MODULE_GAPS.md |
-| Server | ✅ Updated | 2,172 | 186 | 468 | src/server/MODULE_GAPS.md |
-| Query | ✅ Updated | 933 | 131 | 296 | src/query/MODULE_GAPS.md |
-| Network | ✅ Updated | 368 | 22 | 221 | src/network/MODULE_GAPS.md |
-| Graph | ✅ Updated | 248 | 18 | 45 | src/graph/MODULE_GAPS.md |
-| Cache | ✅ Updated | 127 | 10 | 74 | src/cache/MODULE_GAPS.md |
-| **TOTAL** | **6/6** | **9,669** | **1,396** | **3,041** | |
-**L1 Artifacts Created**:
-- ✅ `L1_module_gaps_llm.md` - LLM gap template
-- ✅ `L1_module_gaps_server.md` - Server gap template
-- ✅ `L1_module_gaps_query.md` - Query gap template
-- ✅ `L1_module_gaps_network.md` - Network gap template
-- ✅ `L1_module_gaps_graph.md` - Graph gap template
-- ✅ `L1_module_gaps_cache.md` - Cache gap template
-- ✅ `L1_MODULE_ORCHESTRATION_REPORT.json` - L1 metadata
-- ✅ `L1_MODULE_UPDATE_PLAN.json` - L1 execution plan
-**L1 Status**: 100% COMPLETE
----
-### L2 - Aggregate Documentation Level (DONE)
-**Cross-Module Analysis Generated**:
-| Artifact | Content | Status |
-|---|---|---|
-| `MODULE_SNAPSHOT_AGGREGATE_L2.md` | 9,669 priority gaps analyzed | ✅ Created |
-| Cross-dependency matrix | LLM → Server, LLM → Query, Server → Network risks mapped | ✅ Documented |
-| Risk assessment | High/Medium/Low categorization | ✅ Complete |
-| Remediation roadmap | 3-phase Q3 2026 plan with timing | ✅ Established |
-| Testing strategy | Unit/integration/benchmark coverage by module | ✅ Outlined |
-**L2 Key Findings**:
-- 1,215 combined CRITICAL gaps in LLM ↔ Server dependency
-- 1,085 performance-related gaps across LLM/Server/Query
-- 274 data race findings requiring concurrency review
-- Q3 2026 Phase 1: Fix 60-70% of CRITICAL gaps (~838-977 issues)
-**L2 Status**: 100% COMPLETE
----
-
----
-
-### DEVELOPER_DOCS_MODULE_TODO_2026-05-31.md
-
-*(file too large — key headings extracted)*
-
-# Developer-Doku Modul-Todo (Inventory-basiert)
-Datum: 2026-05-31
-Quelle: ai_working/developer_docs_inventory_report.md
-Scope: src-Module, Fokus auf 11 Core-Dokumente pro Modul
-## Ziel
-## Status-Update docs-vs-planungs Abgleich (2026-05-31)
-- [x] Analyzer erneut ausgefuehrt: `ai_working/analyze_docs_module_alignment.py`
-- [x] Priority-A Module abgeglichen: `core`, `importers`, `replication`
-- [x] Ergebnis im Report: 62 Module analysiert, 0 Risikomodule
-- [x] Veraltete Docs gegen neuere Planungsquellen (`FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`) bereinigt
-- [x] Welle-1-PRIMARY_SOURCES weiter normalisiert: `query`, `network`, `storage` (jeweils `docs/en` und `docs/de`)
-- [x] Welle-2-PRIMARY_SOURCES normalisiert: `llm`, `rag`, `voice` (jeweils `docs/en` und `docs/de`)
-## Status-Update Cross-Tree Developer Docs (2026-06-01)
-- [x] Scope-Audit für Root-Dokumente in `src/`, `include/`, `tests/`, `benchmarks/` durchgeführt
-- [x] `include/` Root-Dokumente ergänzt und untereinander verlinkt
-### Gestaffelte Rollout-Welle (abgeschlossen 2026-06-01)
-- [x] `tests/config/` und `tests/data/` mit Root-gleichwertigen Developer-Einstiegsdokumenten ergänzt
-- [x] `include/` modulweise Priorisierung nach API-Risiko/Nutzungsgrad mit Akzeptanzkriterien erfasst
-- [x] **Alle `include/<module>/`-Verzeichnisse vollständig dokumentiert** — 100% Abdeckung aller 60 Module
-## Core-Dokumente (11)
-- README.md
-- ARCHITECTURE.md
-- MODULE_GAPS.md (out of scope laut Guide)
-- ROADMAP.md
-- FUTURE_ENHANCEMENTS.md
-- CHANGELOG.md
-- SECURITY.md
-- AUDIT.md
-- PERFORMANCE_EXPECTATIONS.md
-- PRODUCTION_REQUIREMENTS.md
-- VCCDB Design.md (deprecated, readonly)
 
 ---
 
@@ -22762,6 +22331,297 @@ ctest --preset community-release -R bench_dk_release_gates -V
 
 ---
 
+### D1-01_COMPLETION_EVIDENCE.md
+
+*(file too large — key headings extracted)*
+
+# Wave D Phase 1 (D1-01) - Completion Evidence Report
+**Task**: Production-ready crash-recovery and SAGA orchestration hardening
+**Status**: ✅ COMPLETE
+**Date**: 2026-08-17
+**Targets**: Q3 2026 hardening criteria (AC-5, AC-6, AC-8, AC-9, AC-10)
+---
+## 1. Implementation Summary
+### 1.1 Deliverables Completed
+#### D1-01a: Coordinator Crash-Recovery (AC-6) ✅
+- **Location**: `src/transaction/distributed_transaction_manager.{h,cpp}`
+- **Status**: IMPLEMENTED & VERIFIED
+- **Implementation**:
+- WAL replay in `recoverInDoubtTransactions()` (existing, verified for ≤5s resolution)
+- In-doubt transaction reconciliation with deterministic rollback
+- Idempotent recovery logic validated
+- Timeout: ≤5 seconds for in-doubt resolution
+- Documentation: Enhanced with AC-6 requirements
+**Tests Covering AC-6**:
+- `InDoubtReconciliation_CommitCountTracked`
+- `InDoubtReconciliation_WalReplay`
+- `InDoubtReconciliation_ParticipantRecovery`
+- `FailureRecovery_PrepareAbortFollowedByNewTransaction`
+#### D1-01b: SAGA Orchestration Hardening (AC-9/AC-10) ✅
+- **Location**: `include/transaction/saga_orchestrator.{h,cpp}`
+- **Status**: IMPLEMENTED & ENHANCED
+- **Implementation**:
+- Circuit breaker pattern (threshold: 5 consecutive failures, configurable)
+- Compensation idempotency tracking via new `CompensationLog` class
+- State machine: CLOSED → OPEN → HALF_OPEN
+- Per-step failure tracking with mutex protection
+- Thread-safe concurrent retry handling
+**New Components**:
+struct SAGAOrchestratorConfig {
+uint32_t circuit_breaker_threshold{5};                    // AC-10
+std::chrono::milliseconds circuit_breaker_timeout{30s};   // AC-10
+};
+**New Methods**:
+- `isCircuitBreakerOpen(step_name): bool`
+- `recordCircuitBreakerFailure(step_name): void`
+- `recordCircuitBreakerSuccess(step_name): void`
+**Tests Covering AC-9/AC-10**:
+- `SAGAOrchestration_PartialRemoteFailure`
+- `SAGAOrchestration_NetworkDegradation`
+- `SAGAOrchestration_CascadingFailure`
+- `RetryStormHandling_CircuitBreakerTrip`
+- `RetryStormHandling_BoundedRetries`
+#### D1-01c: Timeout Semantics (AC-5) ✅
+
+---
+
+### DELIVERABLES_SUMMARY_2026_08_08.md
+
+*(file too large — key headings extracted)*
+
+# 📦 Complete Deliverables Summary: Phase 1 Analysis
+**Session Date:** 2026-08-08
+**Session Duration:** Full execution (initial planning + Phase 1 agent completion)
+**Status:** ✅ **ALL DELIVERABLES READY — IMPLEMENTATION CAN PROCEED**
+---
+## Executive Summary
+**Current Status:**
+- ✅ 6-phase roadmap created (2026-08-08 → 2026-12-19)
+- ✅ Phase 1 analysis complete (gap findings categorized, patterns identified)
+- ✅ Implementation guidance provided (11 targeted fixes, ~3.5-4 hours effort)
+- ✅ Comprehensive test suite created (25 hardening test cases)
+- ✅ Acceptance criteria defined (success gates, sign-off template)
+- 🟢 **READY FOR IMPLEMENTATION**
+---
+## Complete File Inventory
+### Phase 1 Planning Documents (In Repository Root)
+**Created by themisdb-implementer agent:**
+1. ✅ `USER_STORAGE_PHASE1_INDEX.md`
+- Purpose: Quick navigation for all stakeholders
+- Size: 9.7 KB
+- Contents: File overview, roadmap, key patterns
+2. ✅ `PHASE1_DELIVERY_SUMMARY.md`
+- Purpose: Executive overview with risk assessment
+- Size: 11 KB
+- Contents: Status, findings breakdown, deliverables, timeline
+3. ✅ `PHASE1_IMPLEMENTATION_GUIDANCE.md` ⭐ **DEVELOPER GUIDE**
+- Purpose: File-by-file implementation guide with code examples
+- Size: 13 KB
+- Contents: Specific issues, fixes, code patterns, validation procedures
+- **ACTION:** Developers start here
+4. ✅ `PHASE1_ACCEPTANCE_CHECKLIST.md`
+- Purpose: Detailed mapping of all 49 findings with resolution status
+- Size: 14 KB
+- Contents: Finding-by-finding checklist, approval template, sign-off
+5. ✅ `USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md`
+- Purpose: Strategic 5-phase execution plan
+- Size: 6.8 KB
+- Contents: Phase breakdown, risk mitigation, timeline estimates
+6. ✅ `PHASE1_VERIFICATION_SUMMARY.txt`
+- Purpose: Quick reference for verification procedures
+- Size: 2-3 KB
+- Contents: Test commands, validation checklist
+### Coordination Infrastructure (In ai_working/)
+
+---
+
+### DELIVERY_SUMMARY_2026-08-08.md
+
+*(file too large — key headings extracted)*
+
+# User Storage Encrypted Module: Hardening Delivery Summary
+**Date:** 2026-08-08
+**Session Duration:** ~3.5 hours (virtual; ~7 hours agent execution)
+**Status:** BATCHES 1-2 COMPLETE ✅ | BATCHES 3-5 PLANNED & SPECIFIED
+---
+## 🎯 Achievements This Session
+### BATCH 1: Timeout & I/O Safety ✅ COMPLETE
+**Deliverables:**
+- TimedFileOperation class (280 LOC, production-ready)
+- PipeGuard RAII class (250 LOC, exception-safe)
+- Integration test suite (343 LOC, 14 test cases)
+- 5 critical no-timeout issues fixed
+**Quality Improvements:**
+- Eliminated 5 blocking no-timeout I/O operations
+- All I/O now bounded (5s write, 10s read default)
+- Exception-safe resource management verified
+- Modern C++20 implementation (auto, std::chrono, RAII, CRTP)
+**Test Coverage:**
+- PipeGuard: creation, closing, move semantics, destruction
+- TimedFileOperation: read, write, timeout scenarios, exception safety
+- Integration: exception propagation, file descriptor cleanup
+---
+### BATCH 2: Command Injection & Performance ✅ COMPLETE
+**Deliverables:**
+- CommandArgumentValidator with whitelist validation
+- Hex key encoding optimization (80% faster)
+- Correlation ID infrastructure (UUID-based)
+- Security test suite (370 LOC, 17 test cases)
+**Security Improvements:**
+- 100% command injection prevention (execvp safety)
+- Path validation: no .. sequences, absolute/relative
+- Flag validation: 14 safe gocryptfs flags only
+- 15+ attack patterns tested and blocked
+**Performance Improvements:**
+- Hex encoding: 0.5ms → <0.1ms (80% faster)
+- Stack overhead: 96 bytes → 0 bytes
+- Function calls: 32 → 1 (97% reduction)
+- USEG-PERF-01 gate: ✅ PASS
+**Test Coverage:**
+- CommandArgumentValidator: path traversal, injection, flags
+- Performance: benchmark verification
+- Integration: end-to-end malicious input patterns
+- 17 focused test cases (USEG-INJ-01..17)
+---
+## 📊 Cumulative Quality Progress
+
+---
+
+### DELIVERY_SUMMARY_L1_L2_L3.md
+
+*(file too large — key headings extracted)*
+
+# L1 → L2 → L3 Documentation Propagation Cycle: DELIVERY SUMMARY
+**Execution Date**: 2026-06-25
+**Execution Time**: 14:00:24Z - 14:15:00Z (approximately 15 minutes)
+**Status**: ✅ **COMPLETE AND VERIFIED**
+---
+## DELIVERABLES COMPLETED
+### L1 - Module Documentation Level (DONE)
+**6 Priority Modules Updated with L0.5 Verified Data**:
+| Module | MODULE_GAPS.md | Gap Count | CRITICAL | HIGH | Files Modified |
+|--------|---|---:|---:|---:|---|
+| LLM | ✅ Updated | 3,821 | 1,029 | 1,937 | src/llm/MODULE_GAPS.md |
+| Server | ✅ Updated | 2,172 | 186 | 468 | src/server/MODULE_GAPS.md |
+| Query | ✅ Updated | 933 | 131 | 296 | src/query/MODULE_GAPS.md |
+| Network | ✅ Updated | 368 | 22 | 221 | src/network/MODULE_GAPS.md |
+| Graph | ✅ Updated | 248 | 18 | 45 | src/graph/MODULE_GAPS.md |
+| Cache | ✅ Updated | 127 | 10 | 74 | src/cache/MODULE_GAPS.md |
+| **TOTAL** | **6/6** | **9,669** | **1,396** | **3,041** | |
+**L1 Artifacts Created**:
+- ✅ `L1_module_gaps_llm.md` - LLM gap template
+- ✅ `L1_module_gaps_server.md` - Server gap template
+- ✅ `L1_module_gaps_query.md` - Query gap template
+- ✅ `L1_module_gaps_network.md` - Network gap template
+- ✅ `L1_module_gaps_graph.md` - Graph gap template
+- ✅ `L1_module_gaps_cache.md` - Cache gap template
+- ✅ `L1_MODULE_ORCHESTRATION_REPORT.json` - L1 metadata
+- ✅ `L1_MODULE_UPDATE_PLAN.json` - L1 execution plan
+**L1 Status**: 100% COMPLETE
+---
+### L2 - Aggregate Documentation Level (DONE)
+**Cross-Module Analysis Generated**:
+| Artifact | Content | Status |
+|---|---|---|
+| `MODULE_SNAPSHOT_AGGREGATE_L2.md` | 9,669 priority gaps analyzed | ✅ Created |
+| Cross-dependency matrix | LLM → Server, LLM → Query, Server → Network risks mapped | ✅ Documented |
+| Risk assessment | High/Medium/Low categorization | ✅ Complete |
+| Remediation roadmap | 3-phase Q3 2026 plan with timing | ✅ Established |
+| Testing strategy | Unit/integration/benchmark coverage by module | ✅ Outlined |
+**L2 Key Findings**:
+- 1,215 combined CRITICAL gaps in LLM ↔ Server dependency
+- 1,085 performance-related gaps across LLM/Server/Query
+- 274 data race findings requiring concurrency review
+- Q3 2026 Phase 1: Fix 60-70% of CRITICAL gaps (~838-977 issues)
+**L2 Status**: 100% COMPLETE
+---
+
+---
+
+### DEVELOPER_DOCS_MODULE_TODO_2026-05-31.md
+
+*(file too large — key headings extracted)*
+
+# Developer-Doku Modul-Todo (Inventory-basiert)
+Datum: 2026-05-31
+Quelle: ai_working/developer_docs_inventory_report.md
+Scope: src-Module, Fokus auf 11 Core-Dokumente pro Modul
+## Ziel
+## Status-Update docs-vs-planungs Abgleich (2026-05-31)
+- [x] Analyzer erneut ausgefuehrt: `ai_working/analyze_docs_module_alignment.py`
+- [x] Priority-A Module abgeglichen: `core`, `importers`, `replication`
+- [x] Ergebnis im Report: 62 Module analysiert, 0 Risikomodule
+- [x] Veraltete Docs gegen neuere Planungsquellen (`FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`) bereinigt
+- [x] Welle-1-PRIMARY_SOURCES weiter normalisiert: `query`, `network`, `storage` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-2-PRIMARY_SOURCES normalisiert: `llm`, `rag`, `voice` (jeweils `docs/en` und `docs/de`)
+## Status-Update Cross-Tree Developer Docs (2026-06-01)
+- [x] Scope-Audit für Root-Dokumente in `src/`, `include/`, `tests/`, `benchmarks/` durchgeführt
+- [x] `include/` Root-Dokumente ergänzt und untereinander verlinkt
+### Gestaffelte Rollout-Welle (abgeschlossen 2026-06-01)
+- [x] `tests/config/` und `tests/data/` mit Root-gleichwertigen Developer-Einstiegsdokumenten ergänzt
+- [x] `include/` modulweise Priorisierung nach API-Risiko/Nutzungsgrad mit Akzeptanzkriterien erfasst
+- [x] **Alle `include/<module>/`-Verzeichnisse vollständig dokumentiert** — 100% Abdeckung aller 60 Module
+## Core-Dokumente (11)
+- README.md
+- ARCHITECTURE.md
+- MODULE_GAPS.md (out of scope laut Guide)
+- ROADMAP.md
+- FUTURE_ENHANCEMENTS.md
+- CHANGELOG.md
+- SECURITY.md
+- AUDIT.md
+- PERFORMANCE_EXPECTATIONS.md
+- PRODUCTION_REQUIREMENTS.md
+- VCCDB Design.md (deprecated, readonly)
+
+---
+
+### CP1_REMEDIATION_STATUS_2026_08_15_EOD.md
+
+*(file too large — key headings extracted)*
+
+# CP-1 Remediation Execution Status — 2026-08-15 EOD
+**Document Status:** 🟢 **TWO OF THREE BLOCKERS CLEARED**
+**Time:** 2026-08-15 15:45 UTC
+**CP-1 Re-Review Gate:** 2026-08-22 13:58 UTC (7 days remaining)
+---
+## Executive Summary
+- **🟢 HIGH-2 (TODO Count Audit):** COMPLETE ✅ (Agent 3: gap-verifier)
+- **🟢 HIGH-1 (Doxygen Headers):** COMPLETE ✅ (Agent 2: themisdb-implementer)
+- **⏳ CRITICAL-1 (Dangling Pointers):** IN PROGRESS (Agent 1: themisdb-implementer)
+---
+## Blocker-by-Blocker Status
+### 🟢 HIGH-2: TODO Count Reconciliation — CLEARED ✅
+**Tasks Completed:** 4/4
+| Task | Status | Key Finding |
+|------|--------|-------------|
+| CMT-TODO-AUDIT-01 | ✅ Complete | Gap scan metadata verified (36 gaps, timestamp current 2026-08-15 15:35 UTC) |
+| CMT-TODO-AUDIT-02 | ✅ Complete | Batch 1–4 history analyzed (baseline current, no TODO removals needed) |
+| CMT-TODO-AUDIT-03 | ✅ Complete | Ripgrep scan done (0 blocking TODOs in production code) |
+| CMT-TODO-AUDIT-04 | ✅ Complete | Deferred features reviewed (73 items tracked in CONTENT_DEFERRED_FEATURES.md) |
+**Root Cause Analysis:**
+- **Symptom:** Gap scan reports 73, but ripgrep finds only 0–13
+- **Misinterpretation:** These are different measurement systems
+- Gap Scan (36): Code-level implementation gaps (unimplemented functions, stubs)
+- Ripgrep (0): Literal "// TODO" strings in production code
+- Deferred Features (73): GitHub-tracked roadmap items (separate system)
+- **Verdict:** No contradiction — metrics are complementary
+**CP-1 Gate Criteria for HIGH-2 (All MET):**
+- ✅ TODO discrepancy explained (different metrics)
+- ✅ Gap scan accuracy validated (36 gaps, tool verified)
+- ✅ All TODOs classified (73 deferred + 0 production blocking)
+- ✅ CONTENT_DEFERRED_FEATURES.md ready (all 73 items)
+- ✅ FUTURE_ENHANCEMENTS.md ready for sync
+**Deliverables:**
+- `CMT_TODO_AUDIT_RECONCILIATION_REPORT.md` (14 KB)
+- `CMT_TODO_AUDIT_EXECUTIVE_SUMMARY.md` (7.7 KB)
+**Ready for CP-1 Re-Review:** ✅ **YES**
+---
+### 🟢 HIGH-1: Doxygen Headers — COMPLETE ✅
+**Tasks Completed:** 4/4
+
+---
+
 ### CP1_RE_REVIEW_GATE_DECISION_2026-08-22.md
 
 *(file too large — key headings extracted)*
@@ -23095,157 +22955,6 @@ AND: Query succeeds with reduced confidence
 
 ---
 
-### D1-01_COMPLETION_EVIDENCE.md
-
-*(file too large — key headings extracted)*
-
-# Wave D Phase 1 (D1-01) - Completion Evidence Report
-**Task**: Production-ready crash-recovery and SAGA orchestration hardening
-**Status**: ✅ COMPLETE
-**Date**: 2026-08-17
-**Targets**: Q3 2026 hardening criteria (AC-5, AC-6, AC-8, AC-9, AC-10)
----
-## 1. Implementation Summary
-### 1.1 Deliverables Completed
-#### D1-01a: Coordinator Crash-Recovery (AC-6) ✅
-- **Location**: `src/transaction/distributed_transaction_manager.{h,cpp}`
-- **Status**: IMPLEMENTED & VERIFIED
-- **Implementation**:
-- WAL replay in `recoverInDoubtTransactions()` (existing, verified for ≤5s resolution)
-- In-doubt transaction reconciliation with deterministic rollback
-- Idempotent recovery logic validated
-- Timeout: ≤5 seconds for in-doubt resolution
-- Documentation: Enhanced with AC-6 requirements
-**Tests Covering AC-6**:
-- `InDoubtReconciliation_CommitCountTracked`
-- `InDoubtReconciliation_WalReplay`
-- `InDoubtReconciliation_ParticipantRecovery`
-- `FailureRecovery_PrepareAbortFollowedByNewTransaction`
-#### D1-01b: SAGA Orchestration Hardening (AC-9/AC-10) ✅
-- **Location**: `include/transaction/saga_orchestrator.{h,cpp}`
-- **Status**: IMPLEMENTED & ENHANCED
-- **Implementation**:
-- Circuit breaker pattern (threshold: 5 consecutive failures, configurable)
-- Compensation idempotency tracking via new `CompensationLog` class
-- State machine: CLOSED → OPEN → HALF_OPEN
-- Per-step failure tracking with mutex protection
-- Thread-safe concurrent retry handling
-**New Components**:
-struct SAGAOrchestratorConfig {
-uint32_t circuit_breaker_threshold{5};                    // AC-10
-std::chrono::milliseconds circuit_breaker_timeout{30s};   // AC-10
-};
-**New Methods**:
-- `isCircuitBreakerOpen(step_name): bool`
-- `recordCircuitBreakerFailure(step_name): void`
-- `recordCircuitBreakerSuccess(step_name): void`
-**Tests Covering AC-9/AC-10**:
-- `SAGAOrchestration_PartialRemoteFailure`
-- `SAGAOrchestration_NetworkDegradation`
-- `SAGAOrchestration_CascadingFailure`
-- `RetryStormHandling_CircuitBreakerTrip`
-- `RetryStormHandling_BoundedRetries`
-#### D1-01c: Timeout Semantics (AC-5) ✅
-
----
-
-### DELIVERABLES_SUMMARY_2026_08_08.md
-
-*(file too large — key headings extracted)*
-
-# 📦 Complete Deliverables Summary: Phase 1 Analysis
-**Session Date:** 2026-08-08
-**Session Duration:** Full execution (initial planning + Phase 1 agent completion)
-**Status:** ✅ **ALL DELIVERABLES READY — IMPLEMENTATION CAN PROCEED**
----
-## Executive Summary
-**Current Status:**
-- ✅ 6-phase roadmap created (2026-08-08 → 2026-12-19)
-- ✅ Phase 1 analysis complete (gap findings categorized, patterns identified)
-- ✅ Implementation guidance provided (11 targeted fixes, ~3.5-4 hours effort)
-- ✅ Comprehensive test suite created (25 hardening test cases)
-- ✅ Acceptance criteria defined (success gates, sign-off template)
-- 🟢 **READY FOR IMPLEMENTATION**
----
-## Complete File Inventory
-### Phase 1 Planning Documents (In Repository Root)
-**Created by themisdb-implementer agent:**
-1. ✅ `USER_STORAGE_PHASE1_INDEX.md`
-- Purpose: Quick navigation for all stakeholders
-- Size: 9.7 KB
-- Contents: File overview, roadmap, key patterns
-2. ✅ `PHASE1_DELIVERY_SUMMARY.md`
-- Purpose: Executive overview with risk assessment
-- Size: 11 KB
-- Contents: Status, findings breakdown, deliverables, timeline
-3. ✅ `PHASE1_IMPLEMENTATION_GUIDANCE.md` ⭐ **DEVELOPER GUIDE**
-- Purpose: File-by-file implementation guide with code examples
-- Size: 13 KB
-- Contents: Specific issues, fixes, code patterns, validation procedures
-- **ACTION:** Developers start here
-4. ✅ `PHASE1_ACCEPTANCE_CHECKLIST.md`
-- Purpose: Detailed mapping of all 49 findings with resolution status
-- Size: 14 KB
-- Contents: Finding-by-finding checklist, approval template, sign-off
-5. ✅ `USER_STORAGE_PHASE1_IMPLEMENTATION_PLAN.md`
-- Purpose: Strategic 5-phase execution plan
-- Size: 6.8 KB
-- Contents: Phase breakdown, risk mitigation, timeline estimates
-6. ✅ `PHASE1_VERIFICATION_SUMMARY.txt`
-- Purpose: Quick reference for verification procedures
-- Size: 2-3 KB
-- Contents: Test commands, validation checklist
-### Coordination Infrastructure (In ai_working/)
-
----
-
-### COPY_OVERHEAD_REDUCTION_DELIVERY.md
-
-*(file too large — key headings extracted)*
-
-# Copy Overhead Systematic Reduction - Delivery Report
-**Date**: 2026-08-17
-**Status**: ✅ COMPLETE - Phase 1 (High-Impact Files)
-## Executive Summary
-**Metrics**:
-- **Total Gaps Addressed**: 88 (80% target: 111)
-- **Files Optimized**: 3 primary + 20+ secondary
-- **Optimization Patterns Applied**: 5 types
-- **Expected Throughput Improvement**: 5-15% on high-concurrency paths
-## Phase 1 Optimizations (Completed)
-### 1. postgres_session.cpp (62 → 13 remaining)
-**Optimization**: Vector pre-allocation with `.reserve()` calls
-**Impact**: Eliminated N-1 reallocations in PostgreSQL protocol message building
-#### Optimized Methods:
-- **handleExecute()** (lines 551, 602)
-- `fields.reserve(info.selectColumns.size())` - avoids field descriptor reallocation
-- `row_vals.reserve(fields.size())` - avoids string row value reallocation
-- **handleDescribe()** (line 726, 791)
-- `fields.reserve()` for statement/portal description
-- **sendRowDescription()** (line 1046)
-- Pre-allocates payload buffer: `2 + fields.size() * 30` bytes
-- Eliminates repeated reallocations for field metadata
-- **sendDataRow()** (line 1099)
-- Pre-allocates payload buffer based on actual value sizes
-- Calculation: `2 + Σ(4 + value[i].size())`
-- **sendDataRowBinary()** (line 1125)
-- Pre-allocates buffer for binary data rows
-- **sendCommandComplete()** (line 1169)
-- Reserves: `commandTag.size() + 1`
-- **sendParameterDescription()** (line 1184)
-- Reserves: `2 + paramTypes.size() * 4`
-- **sendCopyInResponse()** (line 1215)
-- Reserves: `3 + formatCodes.size() * 2`
-- **sendCopyOutResponse()** (line 1239)
-- Reserves: `3 + formatCodes.size() * 2`
-- **sendCopyBothResponse()** (line 1260)
-- Reserves: `3 + formatCodes.size() * 2`
-- **sendErrorResponse()** (line 1304)
-- Reserves: `8 + severity.size() + code.size() + message.size()`
-**Validation**: ✅ Syntax validated (clang++)
-
----
-
 ### CORE_QUICKWIN_PLAN_2026-05-27.md
 
 *(file too large — key headings extracted)*
@@ -23483,49 +23192,100 @@ return std::nullopt;  // ✅ Consistent optional semantics
 
 ---
 
-### CP1_REMEDIATION_STATUS_2026_08_15_EOD.md
+### COPY_OVERHEAD_REDUCTION_DELIVERY.md
 
 *(file too large — key headings extracted)*
 
-# CP-1 Remediation Execution Status — 2026-08-15 EOD
-**Document Status:** 🟢 **TWO OF THREE BLOCKERS CLEARED**
-**Time:** 2026-08-15 15:45 UTC
-**CP-1 Re-Review Gate:** 2026-08-22 13:58 UTC (7 days remaining)
----
+# Copy Overhead Systematic Reduction - Delivery Report
+**Date**: 2026-08-17
+**Status**: ✅ COMPLETE - Phase 1 (High-Impact Files)
 ## Executive Summary
-- **🟢 HIGH-2 (TODO Count Audit):** COMPLETE ✅ (Agent 3: gap-verifier)
-- **🟢 HIGH-1 (Doxygen Headers):** COMPLETE ✅ (Agent 2: themisdb-implementer)
-- **⏳ CRITICAL-1 (Dangling Pointers):** IN PROGRESS (Agent 1: themisdb-implementer)
+**Metrics**:
+- **Total Gaps Addressed**: 88 (80% target: 111)
+- **Files Optimized**: 3 primary + 20+ secondary
+- **Optimization Patterns Applied**: 5 types
+- **Expected Throughput Improvement**: 5-15% on high-concurrency paths
+## Phase 1 Optimizations (Completed)
+### 1. postgres_session.cpp (62 → 13 remaining)
+**Optimization**: Vector pre-allocation with `.reserve()` calls
+**Impact**: Eliminated N-1 reallocations in PostgreSQL protocol message building
+#### Optimized Methods:
+- **handleExecute()** (lines 551, 602)
+- `fields.reserve(info.selectColumns.size())` - avoids field descriptor reallocation
+- `row_vals.reserve(fields.size())` - avoids string row value reallocation
+- **handleDescribe()** (line 726, 791)
+- `fields.reserve()` for statement/portal description
+- **sendRowDescription()** (line 1046)
+- Pre-allocates payload buffer: `2 + fields.size() * 30` bytes
+- Eliminates repeated reallocations for field metadata
+- **sendDataRow()** (line 1099)
+- Pre-allocates payload buffer based on actual value sizes
+- Calculation: `2 + Σ(4 + value[i].size())`
+- **sendDataRowBinary()** (line 1125)
+- Pre-allocates buffer for binary data rows
+- **sendCommandComplete()** (line 1169)
+- Reserves: `commandTag.size() + 1`
+- **sendParameterDescription()** (line 1184)
+- Reserves: `2 + paramTypes.size() * 4`
+- **sendCopyInResponse()** (line 1215)
+- Reserves: `3 + formatCodes.size() * 2`
+- **sendCopyOutResponse()** (line 1239)
+- Reserves: `3 + formatCodes.size() * 2`
+- **sendCopyBothResponse()** (line 1260)
+- Reserves: `3 + formatCodes.size() * 2`
+- **sendErrorResponse()** (line 1304)
+- Reserves: `8 + severity.size() + code.size() + message.size()`
+**Validation**: ✅ Syntax validated (clang++)
+
 ---
-## Blocker-by-Blocker Status
-### 🟢 HIGH-2: TODO Count Reconciliation — CLEARED ✅
-**Tasks Completed:** 4/4
-| Task | Status | Key Finding |
-|------|--------|-------------|
-| CMT-TODO-AUDIT-01 | ✅ Complete | Gap scan metadata verified (36 gaps, timestamp current 2026-08-15 15:35 UTC) |
-| CMT-TODO-AUDIT-02 | ✅ Complete | Batch 1–4 history analyzed (baseline current, no TODO removals needed) |
-| CMT-TODO-AUDIT-03 | ✅ Complete | Ripgrep scan done (0 blocking TODOs in production code) |
-| CMT-TODO-AUDIT-04 | ✅ Complete | Deferred features reviewed (73 items tracked in CONTENT_DEFERRED_FEATURES.md) |
-**Root Cause Analysis:**
-- **Symptom:** Gap scan reports 73, but ripgrep finds only 0–13
-- **Misinterpretation:** These are different measurement systems
-- Gap Scan (36): Code-level implementation gaps (unimplemented functions, stubs)
-- Ripgrep (0): Literal "// TODO" strings in production code
-- Deferred Features (73): GitHub-tracked roadmap items (separate system)
-- **Verdict:** No contradiction — metrics are complementary
-**CP-1 Gate Criteria for HIGH-2 (All MET):**
-- ✅ TODO discrepancy explained (different metrics)
-- ✅ Gap scan accuracy validated (36 gaps, tool verified)
-- ✅ All TODOs classified (73 deferred + 0 production blocking)
-- ✅ CONTENT_DEFERRED_FEATURES.md ready (all 73 items)
-- ✅ FUTURE_ENHANCEMENTS.md ready for sync
-**Deliverables:**
-- `CMT_TODO_AUDIT_RECONCILIATION_REPORT.md` (14 KB)
-- `CMT_TODO_AUDIT_EXECUTIVE_SUMMARY.md` (7.7 KB)
-**Ready for CP-1 Re-Review:** ✅ **YES**
+
+### CONSOLIDATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Gap Scanner v3 — Konsolidierungs-Plan
+**Status:** Phase 11 production-ready, Phase 1-10 broken. Plan: Konsolidierung mit Phase 11 als Basis.
 ---
-### 🟢 HIGH-1: Doxygen Headers — COMPLETE ✅
-**Tasks Completed:** 4/4
+## 1. DIAGNOSE: Aktueller Zustand
+### Was funktioniert ✅
+Phase 11 Suite (2,476 LOC):
+├─ gap_scanner_v3_phase11_integration.py       ✅ Orchestrator funktioniert
+├─ gap_scanner_v3_phase11_data_leak.py         ✅ 151 Gaps korrekt
+├─ gap_scanner_v3_phase11_encryption_leak.py   ✅ 115 Gaps
+├─ gap_scanner_v3_phase11_e2e_encryption.py    ✅ 1,183 Gaps
+├─ gap_scanner_v3_phase11_key_failure.py       ✅ 1,358 Gaps
+├─ gap_scanner_v3_phase11_attack_vectors.py    ✅ 600 Gaps (nach Phase 12 revert)
+├─ gap_scanner_v3_phase11_military_hardening.py ✅ 1,051 Gaps
+└─ gap_scanner_v3_phase11_legacy_duplication.py ✅ ~50 Gaps (nicht gezählt)
+Metrik: 4,458 Gaps total, verified reproducible
+### Was broken ist ❌
+gap_scanner_v3.py (Main Orchestrator):
+├─ Error: Fails when loading RAII scanner (Phase 2)
+├─ Root Cause: RAIIGapScanner.__init__() hat unvollständige Implementierung
+├─ Affected: Phase 1-4, Phase 5, Phase 7-10, Wave filters
+└─ Impact: Kann nicht alle Phasen gleichzeitig ausführen
+Phase 1-4 Individual Scanners:
+├─ gap_scanner_v3_security.py       ⚠️  Partial (missing CWE patterns)
+├─ gap_scanner_v3_memory.py         ❌ Missing methods (_is_raii_wrapper_cleanup)
+├─ gap_scanner_v3_reliability.py    ⚠️  Incomplete exception handling
+├─ gap_scanner_v3_concurrency.py    ⚠️  Deadlock detection weak
+└─ Tests: Keine aktuellen Test-Results verfügbar
+Phase 5 Scanners:
+├─ gap_scanner_v3_type_conversion.py ⚠️  Type narrowing detection
+├─ gap_scanner_v3_input_validation.py ⚠️  Sanitization checks
+└─ Status: Einzelne Scanner existieren, aber keine Integration
+Wave 1-6 Filters:
+├─ gap_scanner_v3_wave4_fp_filters.py           (Which version is active?)
+├─ gap_scanner_v3_wave5_parallel_filters.py     (Multiple v1/v2/v3 exist)
+├─ gap_scanner_v3_wave5_aggressive_fp_filters.py (3 Versionen!)
+├─ gap_scanner_v3_wave6_semantic_filters.py     (Not tested in production)
+└─ Status: Verwirrende Versionslandschaft, keine klare Aktivierungsstrategie
+---
+## 2. KONSOLIDIERUNGS-STRATEGIE
+### Option A: "Phase 11 Only" (RECOMMENDED)
+**Umfang:** Minimale Konsolidierung
+**Was wird gemacht:**
+1. Phase 11 Suite als offizielle Baseline markieren
 
 ---
 
@@ -23631,103 +23391,6 @@ gs3_step03_key_failure.py
 gs3_step03_attack_vectors.py
 gs3_step03_military_hardening.py
 gs3_step03_legacy_duplication.py
-
----
-
-### CODE_MATURITY_INTEGRATION_INDEX.md
-
-*(file too large — key headings extracted)*
-
-# 🎯 Code Maturity & Gap Audit Integration — Complete Index
-> ⚠️ Konsolidierungshinweis (2026-05-20)
-> Dieses Dokument beschreibt historische/parallel gewachsene Teile des Frameworks.
-> Aktueller Realignment-Plan und priorisierte TODO:
-> - `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
-> - `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
-**Date:** 2026-05-18
-**Author:** ThemisDB Development Team
-**Status:** ✅ Documentation Complete
----
-## 📋 Executive Summary
-┌─────────────────────────────────────────────────────────────┐
-│  EVERY SOURCE FILE HAS AN AUTO-GENERATED HEADER             │
-├─────────────────────────────────────────────────────────────┤
-│  • Quality Score (0-100)                                     │
-│  • Maturity Level (🟢 DRAFT → 🟢 PRODUCTION-READY)           │
-│  • Open Issues (TODOs, STUBs, Simulations, DeadCode)         │
-│  • Revision History (Last 5 commits)                         │
-│  • Version Number (auto-incremented)                         │
-└─────────────────────────────────────────────────────────────┘
-↓
-(feeds into)
-↓
-┌─────────────────────────────────────────────────────────────┐
-│  MONTHLY GAP AUDIT GENERATES MODULE-LEVEL DOCUMENTATION     │
-├─────────────────────────────────────────────────────────────┤
-│  • Aggregates file-level metrics                             │
-│  • Groups gaps by category & priority                        │
-│  • Creates module documentation (developers view)            │
-│  • Clusters into GitHub issues (tracking)                    │
-└─────────────────────────────────────────────────────────────┘
----
-## 📂 File Structure & Components
-### 1. Header Template (Source File Level)
-**Location:** Every `.cpp`, `.h`, `.hpp`, `.py`, `.php` file
-**Format:** Commented box with metrics
-**Example File:** `src/api/grpc_server.cpp` (lines 1-22)
-╔═══════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                             ║
-╠═══════════════════════════════════════════════════════════════╣
-File:            grpc_server.cpp
-Version:         0.0.15
-Last Modified:   2026-04-15 18:48:33
-Author:          unknown
-╠═══════════════════════════════════════════════════════════════╣
-
----
-
-### CODE_REVIEW_FINDINGS.md
-
-*(file too large — key headings extracted)*
-
-# Code Review Findings: Distributed Tensor Gap Closure Implementation
-**Date:** 2026-08-18
-**Reviewer:** themisdb-reviewer (turn 0, 358s analysis)
-**Commit:** `1d7b70fe97` - "Implement distributed_tensor module gaps: RocksDB integration, checkpoint resume, logging"
-**Decision:** REQUEST_CHANGES (2 critical, 3 high-priority, 2 medium-priority issues)
----
-## Executive Summary
-2. **Silent path substitution in open()** — second open(path2) ignores new path, can hide configuration errors
-Additionally, **two high-priority diagnostic issues** reduce production operability:
-3. Incomplete RocksDB error code mapping (Aborted, TimedOut, Locked fall through to generic error)
-4. Silent error paths in checkpoint recovery (8 validation failures not logged)
----
-## Critical Issues (MUST FIX)
-### Issue #1: Incomplete Checkpoint Recovery State Restoration
-**Severity:** HIGH-RISK
-**File:** `src/distributed_tensor/src/snapshot_update_worker.cc`
-**Lines:** 526–676 (recoverFromCheckpoint method)
-**Status:** ❌ NOT FIXED (fix in progress)
-#### Problem
-The `recoverFromCheckpoint()` method executes a 9-step validation pipeline:
-- Steps 1–6: Validate checkpoint integrity (data, manifest, delta window, residual, freshness, state machine)
-- Step 7: Increment retry counters
-- Step 9: Log success
-**However, step 8 ("Prepare state machine transition") creates a recovered manifest but never uses it:**
-// Line 659-671
-ArtifactManifest recovered_manifest = checkpoint.current_manifest;
-recovered_manifest.rebuild_state = RebuildState::REBUILDING;
-recovered_manifest.lifecycle_state = LifecycleState::UPDATING;
-// Comment indicates intent but code doesn't follow through:
-// "Store recovered state for later use (this would normally be persisted)"
-// "For now, we trust the checkpoint restoration above"
-// ...
-return true;  // Recovery successful - caller will use checkpoint state
-The recovered manifest is **created but abandoned**. The caller in `processTask()` (line 147) only checks the boolean:
-if (!recoverFromCheckpoint(task.artifact_id)) {
-// Handle failure
-}
-// No code to retrieve or use the recovered state
 
 ---
 
@@ -23924,257 +23587,6 @@ FILES CHANGED:
 | Kapitel 31 — API Protocols | `docs/de/apis/`, `docs/de/rpc_grpc/` | ✅ Ready (sources current) |
 **Action:** Rebuild from current `docs/de/` sources (which are v2.4.0-aligned).
 ### 3. Feature & Module Highlights for v2.4.0
-
----
-
-### CONSOLIDATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Gap Scanner v3 — Konsolidierungs-Plan
-**Status:** Phase 11 production-ready, Phase 1-10 broken. Plan: Konsolidierung mit Phase 11 als Basis.
----
-## 1. DIAGNOSE: Aktueller Zustand
-### Was funktioniert ✅
-Phase 11 Suite (2,476 LOC):
-├─ gap_scanner_v3_phase11_integration.py       ✅ Orchestrator funktioniert
-├─ gap_scanner_v3_phase11_data_leak.py         ✅ 151 Gaps korrekt
-├─ gap_scanner_v3_phase11_encryption_leak.py   ✅ 115 Gaps
-├─ gap_scanner_v3_phase11_e2e_encryption.py    ✅ 1,183 Gaps
-├─ gap_scanner_v3_phase11_key_failure.py       ✅ 1,358 Gaps
-├─ gap_scanner_v3_phase11_attack_vectors.py    ✅ 600 Gaps (nach Phase 12 revert)
-├─ gap_scanner_v3_phase11_military_hardening.py ✅ 1,051 Gaps
-└─ gap_scanner_v3_phase11_legacy_duplication.py ✅ ~50 Gaps (nicht gezählt)
-Metrik: 4,458 Gaps total, verified reproducible
-### Was broken ist ❌
-gap_scanner_v3.py (Main Orchestrator):
-├─ Error: Fails when loading RAII scanner (Phase 2)
-├─ Root Cause: RAIIGapScanner.__init__() hat unvollständige Implementierung
-├─ Affected: Phase 1-4, Phase 5, Phase 7-10, Wave filters
-└─ Impact: Kann nicht alle Phasen gleichzeitig ausführen
-Phase 1-4 Individual Scanners:
-├─ gap_scanner_v3_security.py       ⚠️  Partial (missing CWE patterns)
-├─ gap_scanner_v3_memory.py         ❌ Missing methods (_is_raii_wrapper_cleanup)
-├─ gap_scanner_v3_reliability.py    ⚠️  Incomplete exception handling
-├─ gap_scanner_v3_concurrency.py    ⚠️  Deadlock detection weak
-└─ Tests: Keine aktuellen Test-Results verfügbar
-Phase 5 Scanners:
-├─ gap_scanner_v3_type_conversion.py ⚠️  Type narrowing detection
-├─ gap_scanner_v3_input_validation.py ⚠️  Sanitization checks
-└─ Status: Einzelne Scanner existieren, aber keine Integration
-Wave 1-6 Filters:
-├─ gap_scanner_v3_wave4_fp_filters.py           (Which version is active?)
-├─ gap_scanner_v3_wave5_parallel_filters.py     (Multiple v1/v2/v3 exist)
-├─ gap_scanner_v3_wave5_aggressive_fp_filters.py (3 Versionen!)
-├─ gap_scanner_v3_wave6_semantic_filters.py     (Not tested in production)
-└─ Status: Verwirrende Versionslandschaft, keine klare Aktivierungsstrategie
----
-## 2. KONSOLIDIERUNGS-STRATEGIE
-### Option A: "Phase 11 Only" (RECOMMENDED)
-**Umfang:** Minimale Konsolidierung
-**Was wird gemacht:**
-1. Phase 11 Suite als offizielle Baseline markieren
-
----
-
-### CMT_7502_EXECUTIVE_SUMMARY.txt
-
-*(file too large — key headings extracted)*
-
-╔════════════════════════════════════════════════════════════════════════════╗
-║                    PHASE 1A RECONCILIATION SUMMARY                         ║
-║                    L0.5 Scanner TODO Count Discrepancy                     ║
-╚════════════════════════════════════════════════════════════════════════════╝
-CRITICAL FINDINGS
-═════════════════════════════════════════════════════════════════════════════
-1. ACTUAL TODO AUDIT
-✓ Real TODO comments in production code: 0
-✓ TODO() macro calls: 0
-✓ TODO in control flow (if/while/return): 0
-✓ TODO in critical paths: 0
-VERDICT: NO PRODUCTION TODOs FOUND
-2. METADATA ANALYSIS
-✓ Files with TODO=1 metadata: 13 (not 23)
-✓ Sum of TODO values: 13 (not 73)
-✓ Discrepancy: -60 items (82% gap)
-VERDICT: STALE GAP METADATA FROM OLDER SCAN
-3. ROOT CAUSE
-✓ MODULE_GAPS.md contains hardcoded "todo_as_productionlogic: 73"
-✓ Current gap_scan_content.json has only 36 gaps (not 3222)
-✓ Scan timestamp is outdated (Phase 5 filtering reference)
-VERDICT: STALE L0.5 SCAN DATA (NEEDS REFRESH)
-4. DEFERRED FEATURES STATUS
-✓ All 73 deferred items documented in CONTENT_DEFERRED_FEATURES.md
-✓ Each item mapped to GitHub issue (#5820–#5962)
-✓ All items non-blocking for v2.4.0 GA
-✓ Target releases: v2.5.0, v2.6.0+
-VERDICT: PROPERLY TRACKED AND DOCUMENTED
-═════════════════════════════════════════════════════════════════════════════
-KEY METRICS
-═════════════════════════════════════════════════════════════════════════════
-Metric                              Claimed    Actual    Discrepancy
-─────────────────────────────────────────────────────────────────────────
-TODO comments in code               N/A        0         ✓ ZERO
-Files with TODO=1 metadata          23         13        -10 files
-Sum of TODO metadata values         73         13        -60 items
-Deferred features documented        73         73        ✓ MATCH
-Production-blocking TODOs           —          0         ✓ NONE
-GA readiness                        —          ✅ READY  ✓ CERTIFIED
-═════════════════════════════════════════════════════════════════════════════
-CLASSIFICATION SUMMARY (73 Deferred Items)
-═════════════════════════════════════════════════════════════════════════════
-Deferred Optimizations              34         Q4 2026   ✓ v2.5.0
-Deferred Features                   21         2027-Q1+  ✓ v2.5.0+
-Vendor Integrations                 12         Pending   ✓ Conditional
-Edge Case Handling                  6          Low       ✓ v2.4.1+
-─────────────────────────────────────────────────────────────────────────────
-TOTAL DEFERRED (Non-Blocking)        73         ✓ TRACKED & DOCUMENTED
-
----
-
-### CMT_7502_TODO_RECONCILIATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Phase 1A Task: L0.5 Scanner TODO Count Reconciliation Report
-**Execution Date:** 2026-08-15
-**Reconciliation Status:** COMPLETE
-**Critical Finding:** MAJOR DISCREPANCY IDENTIFIED
----
-## Executive Summary
-| Metric | Claimed | Actual | Discrepancy |
-|--------|---------|--------|-------------|
-| TODO count (L0.5 scanner) | 73 | 0 | **-73 (100% gap)** |
-| TODO comments in src/content/*.cpp | N/A | 0 | N/A |
-| Files with TODO=1 metadata | 23 (per task background) | 13 | -10 files |
-| Sum of TODO values in metadata | 73 | 13 | -60 items |
-**Conclusion:** The 73 count is a **FALSE POSITIVE** or **STALE DATA** from an earlier scanner run.
----
-## Detailed Audit
-### 1. Audit Methodology
-#### A. Scanner Detection Logic (L0.5)
-The `gs3_step01_ai_todo_productionlogic.py` scanner looks for:
-- TODO(...) function/macro patterns
-- TODO in control flow (if, while, return statements)
-- TODO_CHECK, TODO_UNIMPL, CHECK_TODO macros
-- TODO comments in critical paths (validate, verify, authenticate, etc.)
-**Note:** This scanner is designed to detect "TODO as actual code", not simple TODO comments.
-#### B. Code Audit Results
-Searched for all scanner patterns:
-# Pattern: TODO(...) macros
-grep -rn "TODO\s*(" src/content/*.cpp
-Result: 0 matches
-# Pattern: TODO in control flow
-grep -rn "if\s*(\s*TODO\|while\s*(\s*TODO\|return\s*TODO" src/content/*.cpp
-Result: 0 matches
-# Pattern: TODO_CHECK, TODO_UNIMPL, CHECK_TODO
-grep -rn "TODO_CHECK\|TODO_UNIMPL\|CHECK_TODO" src/content/*.cpp
-Result: 0 matches
-# Pattern: TODO in critical paths
-grep -rn "TODO.*validate\|TODO.*verify\|TODO.*secure\|TODO.*auth\|TODO.*permission" src/content/*.cpp
-Result: 0 matches
-# Pattern: Simple TODO comments
-grep -rn "// TODO\|/\* TODO" src/content/*.cpp
-Result: 0 matches
-
----
-
-### CMT_7503_VERIFICATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# CMT-7503 Scope Mismatch Verification Report
-## Phase 4 Task — Adapter Scope Safety Analysis
-**Report Date:** 2026-08-15T11:02:55Z
-**Task:** Verify Scope Mismatch Findings (CMT-7503)
-**Status:** ✅ **VERIFICATION COMPLETE — ALL FALSE POSITIVES CONFIRMED**
-**Recommendation:** **NO FIXES REQUIRED — READY FOR PRODUCTION RELEASE**
----
-## Executive Summary
-The CMT-7503 specification claimed **3 critical scope_mismatch findings** in adapter implementations:
-- `image_extractor_adapter.cpp:25-26`
-- `pdf_extractor_adapter.cpp:26`
-- Third adapter file (not explicitly named)
-**Verification Finding:** All 7 adapter files examined. **Zero actual scope issues found.**
-| Metric | Value |
-|--------|-------|
-| **Files Examined** | 7 |
-| **Scope Issues Found** | 0 |
-| **Production-Ready** | 7/7 (100%) |
-| **False Positive Rate** | 100% |
-| **Test Coverage** | 90-96% (Excellent) |
-| **Recommendation** | Clear to Release ✓ |
----
-## Detailed Findings
-### Target File 1: `image_extractor_adapter.cpp` (Lines 25-26)
-**Alleged Issue:** RAII member initialization scope mismatch
-**File Header Status:** Already marked as verified false positive (Line 6-8)
-#### Code Examination
-// Lines 24-29
-class ImageExtractorAdapter : public ingestion::IFormatExtractor {
-public:
-ImageExtractorAdapter() {
-PluginConfig cfg;
-processor_.initialize(cfg);
-}
-#### Analysis
-**What the scanner saw:** Constructor with `{}` body and member initialization pattern
-**What's actually happening:**
-- `processor_` is a **member variable** (type `ImageProcessor`)
-- It's **stack-allocated** within class scope
-- Constructor calls `.initialize(cfg)` on the **already-existing member object**
-- No new objects are created in the constructor
-- No pointers are returned
-
----
-
-### CMT_TODO_AUDIT_COMPLETE_INDEX.md
-
-*(file too large — key headings extracted)*
-
-# CMT-TODO-AUDIT: Complete Investigation Index
-**Generated:** 2026-08-15 16:49:55 UTC
-**Module:** Content (src/content/)
-**Authority:** src/content/MODULE_GAPS_BATCH5.md § CMT-7502
-**Status:** ✅ COMPLETE & VERIFIED
----
-## 📋 Audit Overview
-**Result:** ✅ **All 73 expected TODOs fully accounted for (31 verified + 42 plausibly removed)**
----
-## 📦 Complete Artifact Inventory
-### Primary Audit Deliverables
-#### 1. Phase 1: Gap Scan Metadata Verification ✅
-**File:** `CMT_TODO_AUDIT_PHASE1_GAP_SCAN_VERIFICATION.json` (6.8 KB)
-**Purpose:** Analyze gap scanner output and root cause of 73 vs. 36 discrepancy
-**Contents:**
-- Authority source and expectations (CMT-7502)
-- Gap scanner metrics (36 total gaps: 25 unimpl, 10 stub, 1 TODO)
-- Pattern classification analysis
-- Root cause analysis (3 scenarios)
-- Assessment of gap scanner accuracy
----
-#### 2. Phase 3: Direct Code Scan & Gap Classification ✅
-**File:** `CMT_TODO_AUDIT_PHASE3_DIRECT_CODE_SCAN.json` (6.5 KB)
-**Purpose:** Comprehensive scan of all .cpp/.h files for TODO/FIXME comments
-**Contents:**
-- Scan methodology (patterns searched, files included, exclusions)
-- Production code results: 0 active TODO comments
-- Metadata embedding analysis: 31 TODOs in Doxygen headers
-- File-by-file breakdown (19 files with metadata TODOs)
-- Gap type classification (optimization, feature, vendor, test)
-- Production readiness assessment
-**Key Finding:** No active TODO comments in production code; 31 TODOs embedded in auto-generated Doxygen metadata.
----
-#### 3. Phase 4: Reconciliation & Output Artifacts ✅
-**File:** `CMT_TODO_AUDIT_PHASE4_RECONCILIATION_FINAL.md` (7.0 KB)
-**Purpose:** Synthesize findings and reconcile all 73 expected TODOs
-**Contents:**
-- Reconciliation verdict: 31 verified + 42 removed (plausible)
-- Root cause analysis with confidence ratings
-- Verified account of 73 TODOs (100% accounted)
-- Acceptance criteria assessment (6/6 PASS)
-- Confidence assessment for each finding
-**Key Finding:** 73 expected TODOs fully reconciled; no production blockers identified; acceptance criteria 6/6 PASS.
 
 ---
 
@@ -24427,6 +23839,471 @@ Version:         0.0.15                                             ║
 Last Modified:   2026-04-15 18:48:33                                ║
 Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
+
+---
+
+### CODE_MATURITY_INTEGRATION_INDEX.md
+
+*(file too large — key headings extracted)*
+
+# 🎯 Code Maturity & Gap Audit Integration — Complete Index
+> ⚠️ Konsolidierungshinweis (2026-05-20)
+> Dieses Dokument beschreibt historische/parallel gewachsene Teile des Frameworks.
+> Aktueller Realignment-Plan und priorisierte TODO:
+> - `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
+> - `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
+**Date:** 2026-05-18
+**Author:** ThemisDB Development Team
+**Status:** ✅ Documentation Complete
+---
+## 📋 Executive Summary
+┌─────────────────────────────────────────────────────────────┐
+│  EVERY SOURCE FILE HAS AN AUTO-GENERATED HEADER             │
+├─────────────────────────────────────────────────────────────┤
+│  • Quality Score (0-100)                                     │
+│  • Maturity Level (🟢 DRAFT → 🟢 PRODUCTION-READY)           │
+│  • Open Issues (TODOs, STUBs, Simulations, DeadCode)         │
+│  • Revision History (Last 5 commits)                         │
+│  • Version Number (auto-incremented)                         │
+└─────────────────────────────────────────────────────────────┘
+↓
+(feeds into)
+↓
+┌─────────────────────────────────────────────────────────────┐
+│  MONTHLY GAP AUDIT GENERATES MODULE-LEVEL DOCUMENTATION     │
+├─────────────────────────────────────────────────────────────┤
+│  • Aggregates file-level metrics                             │
+│  • Groups gaps by category & priority                        │
+│  • Creates module documentation (developers view)            │
+│  • Clusters into GitHub issues (tracking)                    │
+└─────────────────────────────────────────────────────────────┘
+---
+## 📂 File Structure & Components
+### 1. Header Template (Source File Level)
+**Location:** Every `.cpp`, `.h`, `.hpp`, `.py`, `.php` file
+**Format:** Commented box with metrics
+**Example File:** `src/api/grpc_server.cpp` (lines 1-22)
+╔═══════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                             ║
+╠═══════════════════════════════════════════════════════════════╣
+File:            grpc_server.cpp
+Version:         0.0.15
+Last Modified:   2026-04-15 18:48:33
+Author:          unknown
+╠═══════════════════════════════════════════════════════════════╣
+
+---
+
+### CODE_REVIEW_FINDINGS.md
+
+*(file too large — key headings extracted)*
+
+# Code Review Findings: Distributed Tensor Gap Closure Implementation
+**Date:** 2026-08-18
+**Reviewer:** themisdb-reviewer (turn 0, 358s analysis)
+**Commit:** `1d7b70fe97` - "Implement distributed_tensor module gaps: RocksDB integration, checkpoint resume, logging"
+**Decision:** REQUEST_CHANGES (2 critical, 3 high-priority, 2 medium-priority issues)
+---
+## Executive Summary
+2. **Silent path substitution in open()** — second open(path2) ignores new path, can hide configuration errors
+Additionally, **two high-priority diagnostic issues** reduce production operability:
+3. Incomplete RocksDB error code mapping (Aborted, TimedOut, Locked fall through to generic error)
+4. Silent error paths in checkpoint recovery (8 validation failures not logged)
+---
+## Critical Issues (MUST FIX)
+### Issue #1: Incomplete Checkpoint Recovery State Restoration
+**Severity:** HIGH-RISK
+**File:** `src/distributed_tensor/src/snapshot_update_worker.cc`
+**Lines:** 526–676 (recoverFromCheckpoint method)
+**Status:** ❌ NOT FIXED (fix in progress)
+#### Problem
+The `recoverFromCheckpoint()` method executes a 9-step validation pipeline:
+- Steps 1–6: Validate checkpoint integrity (data, manifest, delta window, residual, freshness, state machine)
+- Step 7: Increment retry counters
+- Step 9: Log success
+**However, step 8 ("Prepare state machine transition") creates a recovered manifest but never uses it:**
+// Line 659-671
+ArtifactManifest recovered_manifest = checkpoint.current_manifest;
+recovered_manifest.rebuild_state = RebuildState::REBUILDING;
+recovered_manifest.lifecycle_state = LifecycleState::UPDATING;
+// Comment indicates intent but code doesn't follow through:
+// "Store recovered state for later use (this would normally be persisted)"
+// "For now, we trust the checkpoint restoration above"
+// ...
+return true;  // Recovery successful - caller will use checkpoint state
+The recovered manifest is **created but abandoned**. The caller in `processTask()` (line 147) only checks the boolean:
+if (!recoverFromCheckpoint(task.artifact_id)) {
+// Handle failure
+}
+// No code to retrieve or use the recovered state
+
+---
+
+### CMT-CRITICAL-1-VERIFICATION-2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# CMT-CRITICAL-1: Dangling Pointers Fix — Verification Report
+**Date:** 2026-08-15 16:48 UTC
+**Status:** ✅ **COMPLETE AND VERIFIED**
+**Authority:** CONTENT_BATCH5_CP1_BLOCKER_REMEDIATION.md § CRITICAL-1
+**Authority:** ai_working/CONTENT_BATCH5_EXECUTION_FINAL_STATUS_2026-08-15.md § Stream D findings
+---
+## Executive Summary
+| Criterion | Status | Evidence |
+|-----------|--------|----------|
+| **getByMimeType() fixed** | ✅ | include/content/content_type.h:94 returns `std::optional<ContentType>` |
+| **getByExtension() fixed** | ✅ | include/content/content_type.h:100 returns `std::optional<ContentType>` |
+| **detectFromBlob() fixed** | ✅ | include/content/content_type.h:106 returns `std::optional<ContentType>` |
+| **Implementation correct** | ✅ | src/content/content_type.cpp:122–229 return values (copies), not pointers |
+| **All callers updated** | ✅ | 8+ caller sites verified using optional pattern (no use-after-free) |
+| **Test suite complete** | ✅ | tests/test_content_type_registry_optional.cpp: 20+ test cases covering CMT-FIN-36..40 |
+| **Memory safety** | ✅ | std::optional<ContentType> owns returned value (RAII-safe, no leaks) |
+---
+## Problem Analysis (Original Blocker)
+### Unsafe Pattern (BEFORE)
+// BROKEN: Returns raw pointer to loop variable (dangling after loop ends)
+const ContentType* ContentTypeRegistry::getByMimeType(const std::string& mime_type) {
+for (const auto& ct : registry_) {  // <- stack-allocated loop variable
+if (ct.mime_type == mime_type) {
+return &ct;  // <- DANGLING POINTER! (ct destroyed when loop ends)
+}
+}
+return nullptr;
+}
+**Risk:** Caller stores/uses pointer → use-after-free memory violation → UBSan alert
+### Safe Pattern (AFTER)
+// FIXED: Returns owned copy via std::optional (RAII-safe)
+std::optional<ContentType> ContentTypeRegistry::getByMimeType(const std::string& mime_type) const {
+for (const auto& ct : registry_) {
+if (ct.mime_type == mime_type) {
+return ct;  // <- Safe: returns copy (value ownership transferred to optional)
+}
+}
+return std::nullopt;
+}
+**Safety:** Caller gets owned copy → no use-after-free → 0 UBSan alerts
+---
+## Implementation Verification
+
+---
+
+### CMT-CRITICAL-1-VERIFICATION-INDEX.md
+
+*(file too large — key headings extracted)*
+
+# CMT-CRITICAL-1: Dangling Pointers Fix — Verification Index
+**Date:** 2026-08-15 16:48 UTC
+**Authority:** CONTENT_BATCH5_CP1_BLOCKER_REMEDIATION.md
+**Status:** ✅ **REMEDIATION COMPLETE AND VERIFIED**
+**Target:** CP-1 Re-Review Approval (2026-08-22 13:58 UTC)
+---
+## Quick Status
+| Element | Status | Location |
+|---------|--------|----------|
+| **Blocker** | ✅ RESOLVED | Dangling pointers eliminated |
+| **Fix** | ✅ IMPLEMENTED | 3 methods → std::optional |
+| **Callers** | ✅ UPDATED | 8+ sites in content_manager.cpp |
+| **Tests** | ✅ COMPLETE | 20 tests, 50+ assertions |
+| **Verification** | ✅ COMPLETE | This documentation |
+| **CP-1 Readiness** | ✅ READY | For 2026-08-22 re-review |
+---
+## Documentation Map
+### Core Verification Documents
+1. **CMT-CRITICAL-1-QUICK-REFERENCE.md** (This doc + 1-page summary)
+- **Purpose:** At-a-glance overview
+- **Audience:** Team leads, reviewers
+- **Content:** Problem → Solution → Verification summary
+- **Read Time:** 5 minutes
+2. **CMT-CRITICAL-1-VERIFICATION-2026-08-15.md** (17.5 KB)
+- **Purpose:** Comprehensive technical verification
+- **Audience:** Technical reviewers, security team
+- **Content:**
+- Problem analysis (before/after)
+- Header signature verification (3 methods)
+- Implementation verification (copy semantics)
+- Caller site verification (8+ locations)
+- Test suite verification (CMT-FIN-36..40)
+- Memory safety analysis
+- Risk assessment
+- **Read Time:** 30 minutes
+- **Mapping:** Acceptance criteria ↔ Evidence
+3. **CMT-CRITICAL-1-TEST-ROADMAP-2026-08-15.md** (13.1 KB)
+- **Purpose:** Test infrastructure and execution plan
+- **Audience:** QA engineers, CI/CD leads
+- **Content:**
+- Test suite assessment
+- Detailed test descriptions (CMT-FIN-36..40)
+- Verification examples (code snippets)
+- Test execution plan (build, run, expected output)
+- Coverage matrix
+- Sign-off criteria
+- **Read Time:** 25 minutes
+- **Action Items:** CI/CD execution checklist
+4. **CMT-CRITICAL-1-FINAL-STATUS-2026-08-15.md** (11.7 KB)
+
+---
+
+### CMT_7502_DATA_AUDIT.json
+
+*(file too large — key headings extracted)*
+
+{
+"reconciliation_task": "Phase 1A - L0.5 Scanner TODO Count Discrepancy",
+"execution_date": "2026-08-15T10:55:08Z",
+"status": "COMPLETE",
+"audit_findings": {
+"actual_todo_audit": {
+"description": "Comprehensive grep search for all TODO patterns in production code",
+"patterns_searched": [
+"TODO(...) macros",
+"TODO in control flow (if/while/return)",
+"TODO_CHECK, TODO_UNIMPL, CHECK_TODO macros",
+"TODO in critical paths (validate, verify, etc.)",
+"Simple TODO comments (// TODO, /* TODO */)"
+],
+"results": {
+"TODO_macros_found": 0,
+"TODO_in_control_flow_found": 0,
+"TODO_CHECK_patterns_found": 0,
+"TODO_in_critical_path_found": 0,
+"TODO_comments_found": 0,
+"total_production_todos": 0
+},
+"verdict": "NO PRODUCTION TODOs FOUND"
+},
+"metadata_analysis": {
+"description": "Analysis of auto-generated Doxygen gap metadata",
+"files_with_metadata": 13,
+"files_with_todo_1": 13,
+"files_with_todo_greater_1": 0,
+"sum_of_all_todo_values": 13,
+"claimed_in_module_gaps_md": 73,
+"discrepancy": {
+"expected": 73,
+"actual": 13,
+"gap": -60,
+"percent_gap": "82%"
+},
+"verdict": "STALE METADATA FROM OLDER SCAN"
+},
+"files_with_todo_metadata": [
+"content_metrics.cpp",
+"content_validator.cpp",
+"html_processor.cpp",
+"image_processor.cpp",
+"ingestion_plugin.cpp",
+"language_detector.cpp",
+"mock_clip_processor.cpp",
+"ocr_processor.cpp",
+"stt_processor.cpp",
+"text_processor.cpp",
+"tts_processor.cpp",
+"version_manager.cpp",
+"video_processor.cpp"
+],
+"root_cause_analysis": {
+
+---
+
+### CMT_7502_EXECUTIVE_SUMMARY.txt
+
+*(file too large — key headings extracted)*
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    PHASE 1A RECONCILIATION SUMMARY                         ║
+║                    L0.5 Scanner TODO Count Discrepancy                     ║
+╚════════════════════════════════════════════════════════════════════════════╝
+CRITICAL FINDINGS
+═════════════════════════════════════════════════════════════════════════════
+1. ACTUAL TODO AUDIT
+✓ Real TODO comments in production code: 0
+✓ TODO() macro calls: 0
+✓ TODO in control flow (if/while/return): 0
+✓ TODO in critical paths: 0
+VERDICT: NO PRODUCTION TODOs FOUND
+2. METADATA ANALYSIS
+✓ Files with TODO=1 metadata: 13 (not 23)
+✓ Sum of TODO values: 13 (not 73)
+✓ Discrepancy: -60 items (82% gap)
+VERDICT: STALE GAP METADATA FROM OLDER SCAN
+3. ROOT CAUSE
+✓ MODULE_GAPS.md contains hardcoded "todo_as_productionlogic: 73"
+✓ Current gap_scan_content.json has only 36 gaps (not 3222)
+✓ Scan timestamp is outdated (Phase 5 filtering reference)
+VERDICT: STALE L0.5 SCAN DATA (NEEDS REFRESH)
+4. DEFERRED FEATURES STATUS
+✓ All 73 deferred items documented in CONTENT_DEFERRED_FEATURES.md
+✓ Each item mapped to GitHub issue (#5820–#5962)
+✓ All items non-blocking for v2.4.0 GA
+✓ Target releases: v2.5.0, v2.6.0+
+VERDICT: PROPERLY TRACKED AND DOCUMENTED
+═════════════════════════════════════════════════════════════════════════════
+KEY METRICS
+═════════════════════════════════════════════════════════════════════════════
+Metric                              Claimed    Actual    Discrepancy
+─────────────────────────────────────────────────────────────────────────
+TODO comments in code               N/A        0         ✓ ZERO
+Files with TODO=1 metadata          23         13        -10 files
+Sum of TODO metadata values         73         13        -60 items
+Deferred features documented        73         73        ✓ MATCH
+Production-blocking TODOs           —          0         ✓ NONE
+GA readiness                        —          ✅ READY  ✓ CERTIFIED
+═════════════════════════════════════════════════════════════════════════════
+CLASSIFICATION SUMMARY (73 Deferred Items)
+═════════════════════════════════════════════════════════════════════════════
+Deferred Optimizations              34         Q4 2026   ✓ v2.5.0
+Deferred Features                   21         2027-Q1+  ✓ v2.5.0+
+Vendor Integrations                 12         Pending   ✓ Conditional
+Edge Case Handling                  6          Low       ✓ v2.4.1+
+─────────────────────────────────────────────────────────────────────────────
+TOTAL DEFERRED (Non-Blocking)        73         ✓ TRACKED & DOCUMENTED
+
+---
+
+### CMT_7502_TODO_RECONCILIATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Phase 1A Task: L0.5 Scanner TODO Count Reconciliation Report
+**Execution Date:** 2026-08-15
+**Reconciliation Status:** COMPLETE
+**Critical Finding:** MAJOR DISCREPANCY IDENTIFIED
+---
+## Executive Summary
+| Metric | Claimed | Actual | Discrepancy |
+|--------|---------|--------|-------------|
+| TODO count (L0.5 scanner) | 73 | 0 | **-73 (100% gap)** |
+| TODO comments in src/content/*.cpp | N/A | 0 | N/A |
+| Files with TODO=1 metadata | 23 (per task background) | 13 | -10 files |
+| Sum of TODO values in metadata | 73 | 13 | -60 items |
+**Conclusion:** The 73 count is a **FALSE POSITIVE** or **STALE DATA** from an earlier scanner run.
+---
+## Detailed Audit
+### 1. Audit Methodology
+#### A. Scanner Detection Logic (L0.5)
+The `gs3_step01_ai_todo_productionlogic.py` scanner looks for:
+- TODO(...) function/macro patterns
+- TODO in control flow (if, while, return statements)
+- TODO_CHECK, TODO_UNIMPL, CHECK_TODO macros
+- TODO comments in critical paths (validate, verify, authenticate, etc.)
+**Note:** This scanner is designed to detect "TODO as actual code", not simple TODO comments.
+#### B. Code Audit Results
+Searched for all scanner patterns:
+# Pattern: TODO(...) macros
+grep -rn "TODO\s*(" src/content/*.cpp
+Result: 0 matches
+# Pattern: TODO in control flow
+grep -rn "if\s*(\s*TODO\|while\s*(\s*TODO\|return\s*TODO" src/content/*.cpp
+Result: 0 matches
+# Pattern: TODO_CHECK, TODO_UNIMPL, CHECK_TODO
+grep -rn "TODO_CHECK\|TODO_UNIMPL\|CHECK_TODO" src/content/*.cpp
+Result: 0 matches
+# Pattern: TODO in critical paths
+grep -rn "TODO.*validate\|TODO.*verify\|TODO.*secure\|TODO.*auth\|TODO.*permission" src/content/*.cpp
+Result: 0 matches
+# Pattern: Simple TODO comments
+grep -rn "// TODO\|/\* TODO" src/content/*.cpp
+Result: 0 matches
+
+---
+
+### CMT_7503_VERIFICATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# CMT-7503 Scope Mismatch Verification Report
+## Phase 4 Task — Adapter Scope Safety Analysis
+**Report Date:** 2026-08-15T11:02:55Z
+**Task:** Verify Scope Mismatch Findings (CMT-7503)
+**Status:** ✅ **VERIFICATION COMPLETE — ALL FALSE POSITIVES CONFIRMED**
+**Recommendation:** **NO FIXES REQUIRED — READY FOR PRODUCTION RELEASE**
+---
+## Executive Summary
+The CMT-7503 specification claimed **3 critical scope_mismatch findings** in adapter implementations:
+- `image_extractor_adapter.cpp:25-26`
+- `pdf_extractor_adapter.cpp:26`
+- Third adapter file (not explicitly named)
+**Verification Finding:** All 7 adapter files examined. **Zero actual scope issues found.**
+| Metric | Value |
+|--------|-------|
+| **Files Examined** | 7 |
+| **Scope Issues Found** | 0 |
+| **Production-Ready** | 7/7 (100%) |
+| **False Positive Rate** | 100% |
+| **Test Coverage** | 90-96% (Excellent) |
+| **Recommendation** | Clear to Release ✓ |
+---
+## Detailed Findings
+### Target File 1: `image_extractor_adapter.cpp` (Lines 25-26)
+**Alleged Issue:** RAII member initialization scope mismatch
+**File Header Status:** Already marked as verified false positive (Line 6-8)
+#### Code Examination
+// Lines 24-29
+class ImageExtractorAdapter : public ingestion::IFormatExtractor {
+public:
+ImageExtractorAdapter() {
+PluginConfig cfg;
+processor_.initialize(cfg);
+}
+#### Analysis
+**What the scanner saw:** Constructor with `{}` body and member initialization pattern
+**What's actually happening:**
+- `processor_` is a **member variable** (type `ImageProcessor`)
+- It's **stack-allocated** within class scope
+- Constructor calls `.initialize(cfg)` on the **already-existing member object**
+- No new objects are created in the constructor
+- No pointers are returned
+
+---
+
+### CMT_TODO_AUDIT_COMPLETE_INDEX.md
+
+*(file too large — key headings extracted)*
+
+# CMT-TODO-AUDIT: Complete Investigation Index
+**Generated:** 2026-08-15 16:49:55 UTC
+**Module:** Content (src/content/)
+**Authority:** src/content/MODULE_GAPS_BATCH5.md § CMT-7502
+**Status:** ✅ COMPLETE & VERIFIED
+---
+## 📋 Audit Overview
+**Result:** ✅ **All 73 expected TODOs fully accounted for (31 verified + 42 plausibly removed)**
+---
+## 📦 Complete Artifact Inventory
+### Primary Audit Deliverables
+#### 1. Phase 1: Gap Scan Metadata Verification ✅
+**File:** `CMT_TODO_AUDIT_PHASE1_GAP_SCAN_VERIFICATION.json` (6.8 KB)
+**Purpose:** Analyze gap scanner output and root cause of 73 vs. 36 discrepancy
+**Contents:**
+- Authority source and expectations (CMT-7502)
+- Gap scanner metrics (36 total gaps: 25 unimpl, 10 stub, 1 TODO)
+- Pattern classification analysis
+- Root cause analysis (3 scenarios)
+- Assessment of gap scanner accuracy
+---
+#### 2. Phase 3: Direct Code Scan & Gap Classification ✅
+**File:** `CMT_TODO_AUDIT_PHASE3_DIRECT_CODE_SCAN.json` (6.5 KB)
+**Purpose:** Comprehensive scan of all .cpp/.h files for TODO/FIXME comments
+**Contents:**
+- Scan methodology (patterns searched, files included, exclusions)
+- Production code results: 0 active TODO comments
+- Metadata embedding analysis: 31 TODOs in Doxygen headers
+- File-by-file breakdown (19 files with metadata TODOs)
+- Gap type classification (optimization, feature, vendor, test)
+- Production readiness assessment
+**Key Finding:** No active TODO comments in production code; 31 TODOs embedded in auto-generated Doxygen metadata.
+---
+#### 3. Phase 4: Reconciliation & Output Artifacts ✅
+**File:** `CMT_TODO_AUDIT_PHASE4_RECONCILIATION_FINAL.md` (7.0 KB)
+**Purpose:** Synthesize findings and reconcile all 73 expected TODOs
+**Contents:**
+- Reconciliation verdict: 31 verified + 42 removed (plausible)
+- Root cause analysis with confidence ratings
+- Verified account of 73 TODOs (100% accounted)
+- Acceptance criteria assessment (6/6 PASS)
+- Confidence assessment for each finding
+**Key Finding:** 73 expected TODOs fully reconciled; no production blockers identified; acceptance criteria 6/6 PASS.
 
 ---
 
@@ -24843,382 +24720,6 @@ EXPECT_EQ(opt2.value().mime_type, "application/json");
 
 ---
 
-### CMT-CRITICAL-1-VERIFICATION-2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# CMT-CRITICAL-1: Dangling Pointers Fix — Verification Report
-**Date:** 2026-08-15 16:48 UTC
-**Status:** ✅ **COMPLETE AND VERIFIED**
-**Authority:** CONTENT_BATCH5_CP1_BLOCKER_REMEDIATION.md § CRITICAL-1
-**Authority:** ai_working/CONTENT_BATCH5_EXECUTION_FINAL_STATUS_2026-08-15.md § Stream D findings
----
-## Executive Summary
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| **getByMimeType() fixed** | ✅ | include/content/content_type.h:94 returns `std::optional<ContentType>` |
-| **getByExtension() fixed** | ✅ | include/content/content_type.h:100 returns `std::optional<ContentType>` |
-| **detectFromBlob() fixed** | ✅ | include/content/content_type.h:106 returns `std::optional<ContentType>` |
-| **Implementation correct** | ✅ | src/content/content_type.cpp:122–229 return values (copies), not pointers |
-| **All callers updated** | ✅ | 8+ caller sites verified using optional pattern (no use-after-free) |
-| **Test suite complete** | ✅ | tests/test_content_type_registry_optional.cpp: 20+ test cases covering CMT-FIN-36..40 |
-| **Memory safety** | ✅ | std::optional<ContentType> owns returned value (RAII-safe, no leaks) |
----
-## Problem Analysis (Original Blocker)
-### Unsafe Pattern (BEFORE)
-// BROKEN: Returns raw pointer to loop variable (dangling after loop ends)
-const ContentType* ContentTypeRegistry::getByMimeType(const std::string& mime_type) {
-for (const auto& ct : registry_) {  // <- stack-allocated loop variable
-if (ct.mime_type == mime_type) {
-return &ct;  // <- DANGLING POINTER! (ct destroyed when loop ends)
-}
-}
-return nullptr;
-}
-**Risk:** Caller stores/uses pointer → use-after-free memory violation → UBSan alert
-### Safe Pattern (AFTER)
-// FIXED: Returns owned copy via std::optional (RAII-safe)
-std::optional<ContentType> ContentTypeRegistry::getByMimeType(const std::string& mime_type) const {
-for (const auto& ct : registry_) {
-if (ct.mime_type == mime_type) {
-return ct;  // <- Safe: returns copy (value ownership transferred to optional)
-}
-}
-return std::nullopt;
-}
-**Safety:** Caller gets owned copy → no use-after-free → 0 UBSan alerts
----
-## Implementation Verification
-
----
-
-### CMT-CRITICAL-1-VERIFICATION-INDEX.md
-
-*(file too large — key headings extracted)*
-
-# CMT-CRITICAL-1: Dangling Pointers Fix — Verification Index
-**Date:** 2026-08-15 16:48 UTC
-**Authority:** CONTENT_BATCH5_CP1_BLOCKER_REMEDIATION.md
-**Status:** ✅ **REMEDIATION COMPLETE AND VERIFIED**
-**Target:** CP-1 Re-Review Approval (2026-08-22 13:58 UTC)
----
-## Quick Status
-| Element | Status | Location |
-|---------|--------|----------|
-| **Blocker** | ✅ RESOLVED | Dangling pointers eliminated |
-| **Fix** | ✅ IMPLEMENTED | 3 methods → std::optional |
-| **Callers** | ✅ UPDATED | 8+ sites in content_manager.cpp |
-| **Tests** | ✅ COMPLETE | 20 tests, 50+ assertions |
-| **Verification** | ✅ COMPLETE | This documentation |
-| **CP-1 Readiness** | ✅ READY | For 2026-08-22 re-review |
----
-## Documentation Map
-### Core Verification Documents
-1. **CMT-CRITICAL-1-QUICK-REFERENCE.md** (This doc + 1-page summary)
-- **Purpose:** At-a-glance overview
-- **Audience:** Team leads, reviewers
-- **Content:** Problem → Solution → Verification summary
-- **Read Time:** 5 minutes
-2. **CMT-CRITICAL-1-VERIFICATION-2026-08-15.md** (17.5 KB)
-- **Purpose:** Comprehensive technical verification
-- **Audience:** Technical reviewers, security team
-- **Content:**
-- Problem analysis (before/after)
-- Header signature verification (3 methods)
-- Implementation verification (copy semantics)
-- Caller site verification (8+ locations)
-- Test suite verification (CMT-FIN-36..40)
-- Memory safety analysis
-- Risk assessment
-- **Read Time:** 30 minutes
-- **Mapping:** Acceptance criteria ↔ Evidence
-3. **CMT-CRITICAL-1-TEST-ROADMAP-2026-08-15.md** (13.1 KB)
-- **Purpose:** Test infrastructure and execution plan
-- **Audience:** QA engineers, CI/CD leads
-- **Content:**
-- Test suite assessment
-- Detailed test descriptions (CMT-FIN-36..40)
-- Verification examples (code snippets)
-- Test execution plan (build, run, expected output)
-- Coverage matrix
-- Sign-off criteria
-- **Read Time:** 25 minutes
-- **Action Items:** CI/CD execution checklist
-4. **CMT-CRITICAL-1-FINAL-STATUS-2026-08-15.md** (11.7 KB)
-
----
-
-### CMT_7502_DATA_AUDIT.json
-
-*(file too large — key headings extracted)*
-
-{
-"reconciliation_task": "Phase 1A - L0.5 Scanner TODO Count Discrepancy",
-"execution_date": "2026-08-15T10:55:08Z",
-"status": "COMPLETE",
-"audit_findings": {
-"actual_todo_audit": {
-"description": "Comprehensive grep search for all TODO patterns in production code",
-"patterns_searched": [
-"TODO(...) macros",
-"TODO in control flow (if/while/return)",
-"TODO_CHECK, TODO_UNIMPL, CHECK_TODO macros",
-"TODO in critical paths (validate, verify, etc.)",
-"Simple TODO comments (// TODO, /* TODO */)"
-],
-"results": {
-"TODO_macros_found": 0,
-"TODO_in_control_flow_found": 0,
-"TODO_CHECK_patterns_found": 0,
-"TODO_in_critical_path_found": 0,
-"TODO_comments_found": 0,
-"total_production_todos": 0
-},
-"verdict": "NO PRODUCTION TODOs FOUND"
-},
-"metadata_analysis": {
-"description": "Analysis of auto-generated Doxygen gap metadata",
-"files_with_metadata": 13,
-"files_with_todo_1": 13,
-"files_with_todo_greater_1": 0,
-"sum_of_all_todo_values": 13,
-"claimed_in_module_gaps_md": 73,
-"discrepancy": {
-"expected": 73,
-"actual": 13,
-"gap": -60,
-"percent_gap": "82%"
-},
-"verdict": "STALE METADATA FROM OLDER SCAN"
-},
-"files_with_todo_metadata": [
-"content_metrics.cpp",
-"content_validator.cpp",
-"html_processor.cpp",
-"image_processor.cpp",
-"ingestion_plugin.cpp",
-"language_detector.cpp",
-"mock_clip_processor.cpp",
-"ocr_processor.cpp",
-"stt_processor.cpp",
-"text_processor.cpp",
-"tts_processor.cpp",
-"version_manager.cpp",
-"video_processor.cpp"
-],
-"root_cause_analysis": {
-
----
-
-### BRACES_CHECK_FALSE_POSITIVE_ANALYSIS_2026-06-21.md
-
-*(file too large — key headings extracted)*
-
-# False Positive Analysis: Braces Check Scanner
-**Date:** 2026-06-21
-**Scope:** Gap Scanner V3 Full Scan
-**Analyzed:** 130,177 total findings (105,244 braces-related)
----
-## Executive Summary
-| Metric | Value | Assessment |
-|--------|-------|------------|
-| **Braces Findings** | 105,244 | 80.8% of total scan output |
-| **Actual Issues Found** | 1 | ontology_manager.cpp (balance = -1) |
-| **False Positive Rate** | **99.99%** | 🔴 CRITICAL |
-| **Files Flagged** | 1,473 | Only 1-2 have real issues |
-| **Avg Confidence** | 0.68 | **Misleadingly high** |
----
-## Detailed Breakdown
-### Braces Findings Distribution
-scope_mismatch:            100,501 findings (95.5%)  ← Cascade false positives
-braces_imbalance_midfile:    4,398 findings (4.2%)
-braces_imbalance:              345 findings (0.3%)   ← Only real type
-─────────────────────────────────────────────────
-TOTAL:                     105,244 findings
-### Top 20 Files with Braces Issues
-| File | Findings | Real Issue? |
-|------|----------|------------|
-| index/secondary_index.cpp | 2,734 | ❓ Unknown |
-| replication/replication_manager.cpp | 823 | ❓ Unknown |
-| server/monitoring_api_handler.cpp | 750 | ❌ Unlikely |
-| server/mcp_server.cpp | 697 | ❌ Unlikely |
-| index/graph_index.cpp | 543 | ❌ Unlikely |
-| server/llm_api_handler.cpp | 539 | ❌ Unlikely |
-| index/process_graph.cpp | 514 | ✅ Yes (balance=0) |
-| server/rpc/rpc_service_impl.cpp | 512 | ❌ Unlikely |
-| content/content_manager.cpp | 507 | ❌ Unlikely |
-| cache/adaptive_query_cache.cpp | 492 | ❌ Unlikely |
----
-## Root Cause Analysis
-### Problem: Scope Stack Tracking is Broken
-The `_analyze_scope_context()` function attempts to track namespace/class/function/lambda scope with a stack:
-# ❌ Current Implementation Bug
-scope_stack = []
-# This regex pattern catches opening braces
-
----
-
-### BRACE_FIX_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Braces Imbalance Analysis Report
-## Summary
-Analyzed 20 LLM module files for brace imbalances using proper string/comment handling.
-## Findings
-### Status Overview
-### Note on grafana_metrics.cpp
-- **Simple counter result**: -3 (false positive)
-- **Proper analysis**: 0 (balanced)
-- **Cause**: Raw string literals R"(...)" contain braces that were counted by simple counter
-- **Fix**: No code changes needed - file is actually correct
-### Files Requiring Fixes
-1. **gguf_loader.cpp**: -3 imbalance (3 extra closing braces)
-2. **model_downloader.cpp**: -2 imbalance (2 extra closing braces)
-3. **inference_engine_enhanced.cpp**: +1 imbalance (1 missing closing brace)
-4. **llama_wrapper.cpp**: +2 imbalance (2 missing closing braces)
-5. **llm_model_storage.cpp**: +2 imbalance (2 missing closing braces)
-6. **streaming_handler.cpp**: +1 imbalance (1 missing closing brace)
-
----
-
-### BRANCHING_STRATEGY.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Branching Strategy
-> Status: Active
-> Purpose: canonical branch, edition, merge, and branch-normalization governance for ThemisDB
->
-> Canonical root governance set:
-## 1. Purpose
-This document defines the canonical Git branch model for ThemisDB across all editions.
-It exists to ensure:
-- clear mapping between product editions and release lanes
-- reproducible release preparation and tagging
-- deterministic merge and hotfix flows
-- clean classification and normalization of long-lived and historical branches
-- unambiguous rules for human maintainers, contributors, and AI agents
-## 2. Canonical Branch Model
-### 2.1 Permanent Branches
-- `develop` — primary integration branch
-- `minimal` — release lane for Minimal Edition
-- `community` — release lane for Community Edition
-- `enterprise` — release lane for Enterprise Edition
-- `hyperscaler` — release lane for Hyperscaler Edition
-- `military` — release lane for Military Edition
-### 2.2 Legacy Branches
-The following names are legacy-only and must not be used for new work:
-- `main` — historical name of the Community release lane; replaced by `community`
-- `millitary` — historical misspelling; replaced by `military`
-Rules:
-- no new feature, fix, release, or hotfix branch may target `main`
-- no new feature, fix, release, or hotfix branch may target `millitary`
-- any remaining references must be migrated to the canonical names
-## 3. Edition-to-Branch Mapping
-| Edition | Canonical Branch |
-|---|---|
-| Minimal | `minimal` |
-| Community | `community` |
-| Enterprise | `enterprise` |
-| Hyperscaler | `hyperscaler` |
-| Military | `military` |
-`develop` is not an edition branch. It is the integration branch for ongoing work.
-## 4. Default Branch Policy
-`develop` is the default branch for normal development and pull requests.
-
----
-
-### BRANCH_MIGRATION_INVENTORY.md
-
-*(file too large — key headings extracted)*
-
-# Branch Migration Inventory Template
-> Status: Active
-## 1. Scope
-Use this document to track the migration status of historical branches into the canonical branch set:
-- `develop`
-- `minimal`
-- `community`
-- `enterprise`
-- `hyperscaler`
-- `military`
-Historical or legacy branch names such as `main` and `millitary` must be tracked here until fully retired.
-## 2. Classification States
-Each historical branch must have exactly one state:
-- `keep-canonical`
-- `temporary-legacy`
-- `merged-can-delete`
-- `stale-archive`
-- `needs-human-decision`
-## 3. Inventory Columns
-Recommended fields per branch:
-|---|---|---|---|---|---|---|---|---|---|---|---|
-## 4. Initial Priority Waves
-### Wave 1 — Permanent / Legacy branch normalization
-|---|---|---|---|---|---|---|---|---|---|---|---|
-### Wave 2 — Historical release branches
-Populate with branches such as:
-- `release/*`
-- `release/community/*`
-- `release/enterprise/*`
-- `release/military/*`
-Template row:
-
----
-
-### BUILD_CONFIG_HARDENING_AUDIT.md
-
-*(file too large — key headings extracted)*
-
-# Build Configuration Hardening Audit Report
-**Date**: 2026-08-08
-**Status**: In Progress
-## Executive Summary
----
-## 1. CMakePresets.json Validation Results
-### Overview
-- **Total Configure Presets**: 28 (4 hidden base presets, 24 concrete presets)
-- **Total Build Presets**: 22
-- **Total Test Presets**: 19
-- **CMake Version Required**: 3.23.0
-### Edition Coverage
-| Edition | Config | Build | Test |
-|---------|--------|-------|------|
-| Community | 8 | 5 | 4 |
-| Enterprise | 4 | 4 | 4 |
-| Hyperscaler | 4 | 3 | 3 |
-| Military | 4 | 4 | 4 |
-| Linux | 2 | 2 | 1 |
-| Windows | 2 | 2 | 1 |
-| Special | 4 | 2 | 2 |
-### Validation Checks Passed
-✓ All build presets reference valid configure presets
-✓ All test presets reference valid configure presets
-✓ No duplicate binary directories
-✓ No obvious hardcoded environment paths
-✓ Inheritance chain integrity verified
----
-## 2. Test Infrastructure Audit Results
-### Test Coverage Summary
-- **Total Test Modules**: 528 directories
-- **Total Test Files**: 3,781 .cpp files
-- **Modules with Focused Tests**: 51 (9.7%)
-- **Focused Test Files**: 146
-- **Test Registrations**: 269+
-### Structure Validation
-✓ 603 CMakeLists.txt files found
-✓ 24 directories with tests but no CMakeLists.txt (20 are nested under parent CMakeLists)
-✓ 4 directories with explicit registration
-✓ Test timeout configuration present across modules
-### Registration Pattern Analysis
-- **Modules using focused test registration**: 591 (`themis_register_module_focused_test`)
-- **Modules using standard registration**: 4 (`themis_register_module_test`)
----
-## 3. Audit Findings
-
----
-
 ### BUILD_CONFIG_HARDENING_IMPLEMENTATION.md
 
 *(file too large — key headings extracted)*
@@ -25467,6 +24968,215 @@ Impact: Atomically deregister VRAM handles
 
 ---
 
+### BRACES_CHECK_FALSE_POSITIVE_ANALYSIS_2026-06-21.md
+
+*(file too large — key headings extracted)*
+
+# False Positive Analysis: Braces Check Scanner
+**Date:** 2026-06-21
+**Scope:** Gap Scanner V3 Full Scan
+**Analyzed:** 130,177 total findings (105,244 braces-related)
+---
+## Executive Summary
+| Metric | Value | Assessment |
+|--------|-------|------------|
+| **Braces Findings** | 105,244 | 80.8% of total scan output |
+| **Actual Issues Found** | 1 | ontology_manager.cpp (balance = -1) |
+| **False Positive Rate** | **99.99%** | 🔴 CRITICAL |
+| **Files Flagged** | 1,473 | Only 1-2 have real issues |
+| **Avg Confidence** | 0.68 | **Misleadingly high** |
+---
+## Detailed Breakdown
+### Braces Findings Distribution
+scope_mismatch:            100,501 findings (95.5%)  ← Cascade false positives
+braces_imbalance_midfile:    4,398 findings (4.2%)
+braces_imbalance:              345 findings (0.3%)   ← Only real type
+─────────────────────────────────────────────────
+TOTAL:                     105,244 findings
+### Top 20 Files with Braces Issues
+| File | Findings | Real Issue? |
+|------|----------|------------|
+| index/secondary_index.cpp | 2,734 | ❓ Unknown |
+| replication/replication_manager.cpp | 823 | ❓ Unknown |
+| server/monitoring_api_handler.cpp | 750 | ❌ Unlikely |
+| server/mcp_server.cpp | 697 | ❌ Unlikely |
+| index/graph_index.cpp | 543 | ❌ Unlikely |
+| server/llm_api_handler.cpp | 539 | ❌ Unlikely |
+| index/process_graph.cpp | 514 | ✅ Yes (balance=0) |
+| server/rpc/rpc_service_impl.cpp | 512 | ❌ Unlikely |
+| content/content_manager.cpp | 507 | ❌ Unlikely |
+| cache/adaptive_query_cache.cpp | 492 | ❌ Unlikely |
+---
+## Root Cause Analysis
+### Problem: Scope Stack Tracking is Broken
+The `_analyze_scope_context()` function attempts to track namespace/class/function/lambda scope with a stack:
+# ❌ Current Implementation Bug
+scope_stack = []
+# This regex pattern catches opening braces
+
+---
+
+### BRACE_FIX_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Braces Imbalance Analysis Report
+## Summary
+Analyzed 20 LLM module files for brace imbalances using proper string/comment handling.
+## Findings
+### Status Overview
+### Note on grafana_metrics.cpp
+- **Simple counter result**: -3 (false positive)
+- **Proper analysis**: 0 (balanced)
+- **Cause**: Raw string literals R"(...)" contain braces that were counted by simple counter
+- **Fix**: No code changes needed - file is actually correct
+### Files Requiring Fixes
+1. **gguf_loader.cpp**: -3 imbalance (3 extra closing braces)
+2. **model_downloader.cpp**: -2 imbalance (2 extra closing braces)
+3. **inference_engine_enhanced.cpp**: +1 imbalance (1 missing closing brace)
+4. **llama_wrapper.cpp**: +2 imbalance (2 missing closing braces)
+5. **llm_model_storage.cpp**: +2 imbalance (2 missing closing braces)
+6. **streaming_handler.cpp**: +1 imbalance (1 missing closing brace)
+
+---
+
+### BRANCHING_STRATEGY.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Branching Strategy
+> Status: Active
+> Purpose: canonical branch, edition, merge, and branch-normalization governance for ThemisDB
+>
+> Canonical root governance set:
+## 1. Purpose
+This document defines the canonical Git branch model for ThemisDB across all editions.
+It exists to ensure:
+- clear mapping between product editions and release lanes
+- reproducible release preparation and tagging
+- deterministic merge and hotfix flows
+- clean classification and normalization of long-lived and historical branches
+- unambiguous rules for human maintainers, contributors, and AI agents
+## 2. Canonical Branch Model
+### 2.1 Permanent Branches
+- `develop` — primary integration branch
+- `minimal` — release lane for Minimal Edition
+- `community` — release lane for Community Edition
+- `enterprise` — release lane for Enterprise Edition
+- `hyperscaler` — release lane for Hyperscaler Edition
+- `military` — release lane for Military Edition
+### 2.2 Legacy Branches
+The following names are legacy-only and must not be used for new work:
+- `main` — historical name of the Community release lane; replaced by `community`
+- `millitary` — historical misspelling; replaced by `military`
+Rules:
+- no new feature, fix, release, or hotfix branch may target `main`
+- no new feature, fix, release, or hotfix branch may target `millitary`
+- any remaining references must be migrated to the canonical names
+## 3. Edition-to-Branch Mapping
+| Edition | Canonical Branch |
+|---|---|
+| Minimal | `minimal` |
+| Community | `community` |
+| Enterprise | `enterprise` |
+| Hyperscaler | `hyperscaler` |
+| Military | `military` |
+`develop` is not an edition branch. It is the integration branch for ongoing work.
+## 4. Default Branch Policy
+`develop` is the default branch for normal development and pull requests.
+
+---
+
+### BRANCH_MIGRATION_INVENTORY.md
+
+*(file too large — key headings extracted)*
+
+# Branch Migration Inventory Template
+> Status: Active
+## 1. Scope
+Use this document to track the migration status of historical branches into the canonical branch set:
+- `develop`
+- `minimal`
+- `community`
+- `enterprise`
+- `hyperscaler`
+- `military`
+Historical or legacy branch names such as `main` and `millitary` must be tracked here until fully retired.
+## 2. Classification States
+Each historical branch must have exactly one state:
+- `keep-canonical`
+- `temporary-legacy`
+- `merged-can-delete`
+- `stale-archive`
+- `needs-human-decision`
+## 3. Inventory Columns
+Recommended fields per branch:
+|---|---|---|---|---|---|---|---|---|---|---|---|
+## 4. Initial Priority Waves
+### Wave 1 — Permanent / Legacy branch normalization
+|---|---|---|---|---|---|---|---|---|---|---|---|
+### Wave 2 — Historical release branches
+Populate with branches such as:
+- `release/*`
+- `release/community/*`
+- `release/enterprise/*`
+- `release/military/*`
+Template row:
+
+---
+
+### BUILD_CONFIG_HARDENING_AUDIT.md
+
+*(file too large — key headings extracted)*
+
+# Build Configuration Hardening Audit Report
+**Date**: 2026-08-08
+**Status**: In Progress
+## Executive Summary
+---
+## 1. CMakePresets.json Validation Results
+### Overview
+- **Total Configure Presets**: 28 (4 hidden base presets, 24 concrete presets)
+- **Total Build Presets**: 22
+- **Total Test Presets**: 19
+- **CMake Version Required**: 3.23.0
+### Edition Coverage
+| Edition | Config | Build | Test |
+|---------|--------|-------|------|
+| Community | 8 | 5 | 4 |
+| Enterprise | 4 | 4 | 4 |
+| Hyperscaler | 4 | 3 | 3 |
+| Military | 4 | 4 | 4 |
+| Linux | 2 | 2 | 1 |
+| Windows | 2 | 2 | 1 |
+| Special | 4 | 2 | 2 |
+### Validation Checks Passed
+✓ All build presets reference valid configure presets
+✓ All test presets reference valid configure presets
+✓ No duplicate binary directories
+✓ No obvious hardcoded environment paths
+✓ Inheritance chain integrity verified
+---
+## 2. Test Infrastructure Audit Results
+### Test Coverage Summary
+- **Total Test Modules**: 528 directories
+- **Total Test Files**: 3,781 .cpp files
+- **Modules with Focused Tests**: 51 (9.7%)
+- **Focused Test Files**: 146
+- **Test Registrations**: 269+
+### Structure Validation
+✓ 603 CMakeLists.txt files found
+✓ 24 directories with tests but no CMakeLists.txt (20 are nested under parent CMakeLists)
+✓ 4 directories with explicit registration
+✓ Test timeout configuration present across modules
+### Registration Pattern Analysis
+- **Modules using focused test registration**: 591 (`themis_register_module_focused_test`)
+- **Modules using standard registration**: 4 (`themis_register_module_test`)
+---
+## 3. Audit Findings
+
+---
+
 ### BENCHMARK_GATES_REFERENCE.md
 
 *(file too large — key headings extracted)*
@@ -25613,6 +25323,109 @@ UPH-16: NodeFailureDetection                ✅ PASS  2,145ms
 
 ---
 
+### ANALYSIS_COMPLETE.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+GITHUB WORKFLOWS CI ANALYSIS - FINAL SUMMARY
+Repository: ThemisDB
+Generated: 2026-08-16
+================================================================================
+TASK COMPLETED SUCCESSFULLY ✅
+================================================================================
+ANALYSIS DELIVERABLES
+================================================================================
+5 Comprehensive Reports Generated:
+1. WORKFLOW_ANALYSIS_INDEX.md
+→ Master navigation guide for all reports
+→ Helps you choose the right document
+→ 5-minute read
+2. WORKFLOW_QUICK_REFERENCE.md ⭐ START HERE
+→ Quick summaries of all 3 issues
+→ 1-line fixes with verification steps
+→ 5-minute read
+→ Perfect for: Developers who need quick answers
+3. WORKFLOW_ISSUES_SUMMARY.txt
+→ Executive summary with impact analysis
+→ Statistics and key takeaways
+→ 10-minute read
+→ Perfect for: Managers and decision makers
+4. WORKFLOW_ANALYSIS_REPORT.md
+→ Comprehensive technical analysis
+→ All 23 workflows examined in detail
+→ Risk assessment and recommendations
+→ 20-minute read
+→ Perfect for: DevOps and platform teams
+5. WORKFLOW_FIX_PLAN.md
+→ Step-by-step implementation guide
+→ Code snippets for all fixes
+→ Testing procedures and rollback plan
+→ 15-minute read + implementation
+→ Perfect for: Implementation team
+================================================================================
+ANALYSIS RESULTS
+================================================================================
+Workflows Analyzed:  23
+Composite Actions:   3
+Files Reviewed:      26
+Issues Found:        3
+🔴 CRITICAL:       1 (must fix today)
+🟡 MEDIUM:         2 (fix this sprint)
+✅ PASSING:        7 categories
+Overall Health:      ⚠️ PASSING WITH CRITICAL ISSUE
+
+---
+
+### ANALYSIS_EXECUTIVE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Gap Validation Analysis - Executive Summary
+**Date:** 2026-06-02
+**Analysis Method:** Automated heuristic classification of 50 stratified validation gaps
+**Full Dataset:** 18,795 gaps (after progressive context filtering)
+---
+## Key Findings
+### 1. Quality Assessment (50-Sample Analysis)
+True Positives (TP):    12/50 (24.0%) ⚠️
+False Positives (FP):   18/50 (36.0%)
+Uncertain (?):          20/50 (40.0%) ❓
+**Extrapolated to Full 18,795 Gaps:**
+- Estimated actionable gaps: ~4,510 (24%)
+- Estimated false positives: ~6,766 (36%)
+- Estimated uncertain: ~7,518 (40%)
+### 2. Severity Breakdown
+| Severity | TP Rate | Interpretation |
+|----------|---------|---|
+| **CRITICAL** | 50% (4/8) | Half are real issues - prioritize first |
+| **HIGH** | 15% (3/20) | Low hit rate - mostly false positives |
+| **MEDIUM** | 23% (5/22) | Low hit rate - requires filtering |
+**Insight:** CRITICAL gaps are most reliable (50% TP); HIGH/MEDIUM need heavy filtering.
+### 3. Category Analysis (High-Confidence TP Categories)
+| Category | TP Rate | Verdict |
+|----------|---------|--------|
+| **legacy_duplication** | 100% (1/1) | Real issues - review/remove |
+| **smart_ptr_misuse** | 100% (1/1) | Real issues - fix ownership |
+| **memory_order** | 100% (1/1) | Real issues - fix atomics |
+| **string_concat_loop** | 100% (1/1) | Real issue - optimize |
+| **repeated_search** | 100% (1/1) | Real issue - refactor |
+| **uncaught_exception** | 67% (2/3) | Mostly real - add handlers |
+**High False-Positive Categories (0% TP Rate):**
+- copy_overhead (0/3)
+- db_connection_leak (0/1)
+- no_health_check (0/1)
+- observability (0/2)
+- hardcoded_path (0/1)
+---
+## 4. Strategic Assessment
+### What Went Right ✅
+1. **Progressive Context Filtering:** 32.7% FP reduction (27,918 → 18,795) is excellent
+2. **CRITICAL Severity:** 50% TP rate suggests good scanner calibration for critical issues
+3. **100% TP Categories:** Some scanners (legacy, smart_ptr, memory_order) are perfectly tuned
+
+---
+
 ### 04-lint-docs_markdown-linkcheck.yml
 
 *(file too large — key headings extracted)*
@@ -25722,109 +25535,6 @@ emitFingerprintDiagnostic(
 query_key);
 return {};
 }
-
----
-
-### ANALYSIS_COMPLETE.txt
-
-*(file too large — key headings extracted)*
-
-================================================================================
-GITHUB WORKFLOWS CI ANALYSIS - FINAL SUMMARY
-Repository: ThemisDB
-Generated: 2026-08-16
-================================================================================
-TASK COMPLETED SUCCESSFULLY ✅
-================================================================================
-ANALYSIS DELIVERABLES
-================================================================================
-5 Comprehensive Reports Generated:
-1. WORKFLOW_ANALYSIS_INDEX.md
-→ Master navigation guide for all reports
-→ Helps you choose the right document
-→ 5-minute read
-2. WORKFLOW_QUICK_REFERENCE.md ⭐ START HERE
-→ Quick summaries of all 3 issues
-→ 1-line fixes with verification steps
-→ 5-minute read
-→ Perfect for: Developers who need quick answers
-3. WORKFLOW_ISSUES_SUMMARY.txt
-→ Executive summary with impact analysis
-→ Statistics and key takeaways
-→ 10-minute read
-→ Perfect for: Managers and decision makers
-4. WORKFLOW_ANALYSIS_REPORT.md
-→ Comprehensive technical analysis
-→ All 23 workflows examined in detail
-→ Risk assessment and recommendations
-→ 20-minute read
-→ Perfect for: DevOps and platform teams
-5. WORKFLOW_FIX_PLAN.md
-→ Step-by-step implementation guide
-→ Code snippets for all fixes
-→ Testing procedures and rollback plan
-→ 15-minute read + implementation
-→ Perfect for: Implementation team
-================================================================================
-ANALYSIS RESULTS
-================================================================================
-Workflows Analyzed:  23
-Composite Actions:   3
-Files Reviewed:      26
-Issues Found:        3
-🔴 CRITICAL:       1 (must fix today)
-🟡 MEDIUM:         2 (fix this sprint)
-✅ PASSING:        7 categories
-Overall Health:      ⚠️ PASSING WITH CRITICAL ISSUE
-
----
-
-### ANALYSIS_EXECUTIVE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Gap Validation Analysis - Executive Summary
-**Date:** 2026-06-02
-**Analysis Method:** Automated heuristic classification of 50 stratified validation gaps
-**Full Dataset:** 18,795 gaps (after progressive context filtering)
----
-## Key Findings
-### 1. Quality Assessment (50-Sample Analysis)
-True Positives (TP):    12/50 (24.0%) ⚠️
-False Positives (FP):   18/50 (36.0%)
-Uncertain (?):          20/50 (40.0%) ❓
-**Extrapolated to Full 18,795 Gaps:**
-- Estimated actionable gaps: ~4,510 (24%)
-- Estimated false positives: ~6,766 (36%)
-- Estimated uncertain: ~7,518 (40%)
-### 2. Severity Breakdown
-| Severity | TP Rate | Interpretation |
-|----------|---------|---|
-| **CRITICAL** | 50% (4/8) | Half are real issues - prioritize first |
-| **HIGH** | 15% (3/20) | Low hit rate - mostly false positives |
-| **MEDIUM** | 23% (5/22) | Low hit rate - requires filtering |
-**Insight:** CRITICAL gaps are most reliable (50% TP); HIGH/MEDIUM need heavy filtering.
-### 3. Category Analysis (High-Confidence TP Categories)
-| Category | TP Rate | Verdict |
-|----------|---------|--------|
-| **legacy_duplication** | 100% (1/1) | Real issues - review/remove |
-| **smart_ptr_misuse** | 100% (1/1) | Real issues - fix ownership |
-| **memory_order** | 100% (1/1) | Real issues - fix atomics |
-| **string_concat_loop** | 100% (1/1) | Real issue - optimize |
-| **repeated_search** | 100% (1/1) | Real issue - refactor |
-| **uncaught_exception** | 67% (2/3) | Mostly real - add handlers |
-**High False-Positive Categories (0% TP Rate):**
-- copy_overhead (0/3)
-- db_connection_leak (0/1)
-- no_health_check (0/1)
-- observability (0/2)
-- hardcoded_path (0/1)
----
-## 4. Strategic Assessment
-### What Went Right ✅
-1. **Progressive Context Filtering:** 32.7% FP reduction (27,918 → 18,795) is excellent
-2. **CRITICAL Severity:** 50% TP rate suggests good scanner calibration for critical issues
-3. **100% TP Categories:** Some scanners (legacy, smart_ptr, memory_order) are perfectly tuned
 
 ---
 

@@ -20,8 +20,8 @@
 - `VOICE_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-18, 10,026 B)
 - `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-18, 17,036 B)
 - `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-18, 18,307 B)
-- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,361 B)
+- `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-18, 7,025 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-18, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-18, 9,233 B)
 - `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-18, 7,015 B)
@@ -30,11 +30,11 @@
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,096 B)
 - `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-18, 10,444 B)
+- `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
 - `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 12,932 B)
 - `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-18, 11,857 B)
-- `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 13,559 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-18, 15,996 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 15,996 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-18, 8,970 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 13,507 B)
@@ -52,19 +52,19 @@
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-18, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-18, 8,022 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-18, 22,315 B)
+- `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 14,785 B)
 - `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-18, 5,500 B)
-- `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-18, 13,341 B)
-- `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-18, 23,919 B)
-- `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,655 B)
-- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
+- `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-18, 23,919 B)
 - `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-18, 14,353 B)
-- `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-18, 15,814 B)
 - `IMPLEMENTATION_PLAN_8_ITEMS_2026-05-25.md` (2026-08-18, 1,274 B)
 - `IMPLEMENTATION_ROADMAP.md` (2026-08-18, 14,252 B)
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-18, 9,018 B)
+- `IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,655 B)
+- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-18, 10,344 B)
+- `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-18, 6,764 B)
 - `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-18, 12,862 B)
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-18, 11,667 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-18, 11,147 B)
@@ -1605,6 +1605,55 @@ thread.detach();
 
 ---
 
+### TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Transaction Module Implementation Summary
+**Date:** 2026-08-08
+**Phases Implemented:** 1-4 Complete
+**Total Test Coverage:** 73+ focused tests
+**Performance Gates:** 12 benchmarks
+**Status:** READY FOR BUILD & EXECUTION VERIFICATION
+---
+## Executive Summary
+- **Phase 1:** 33 focused tests covering lifecycle, isolation, and error paths
+- **Phase 2:** 26 focused tests covering distributed coordination and SAGA
+- **Phase 3:** 14 focused tests covering fault injection and chaos engineering
+- **Phase 4:** 12 performance benchmarks for throughput, latency, and operational overhead
+---
+## Phase 1: Lifecycle and Isolation Safety ✓ COMPLETE
+### Implementation Status
+- **Status:** COMPLETE - Ready for build verification
+- **Target:** Q3 2026
+- **Tests Implemented:** 33
+- **Acceptance Criteria:** AC-1, AC-2, AC-3, AC-7
+### Deliverables
+1. **test_transaction_lifecycle_phase1.cpp** (19 KB)
+- 12 tests covering lifecycle state machine, concurrent transactions, isolation levels
+- AC-1: ACID Lifecycle Isolation (10 threads × 5 txns stress test)
+- AC-2: Begin/Prepare/Commit/Abort guardrails (double-operation prevention)
+- AC-3: Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
+2. **test_transaction_isolation_contention_phase1.cpp** (20 KB)
+- 10 tests covering isolation edge cases and lock contention
+- AC-3: Isolation semantics under contention (9 threads × 8 txns)
+- AC-7: Timeout determinism (short timeouts under contention)
+3. **test_transaction_error_path_determinism_phase1.cpp** (17 KB)
+- 11 tests covering timeout, rollback, and error recovery
+- AC-2: Error consistency across retries (5 attempts)
+- AC-7: Rollback determinism and timeout behavior
+### Test Evidence
+- 33 focused tests registered in CMakeLists.txt
+- All tests use `themis_register_module_test()` macro
+- Timeout: 120s per test, labels: `transaction;phase-1;feature-specific`
+### Documentation
+- **PHASE_1_ACCEPTANCE_CHECKLIST.md** — Complete evidence and verification plan
+---
+## Phase 2: Distributed Coordination Hardening ✓ COMPLETE
+### Implementation Status
+
+---
+
 ### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
 
 # Toolbox Module - Complete Implementation Tracking (Phase 2-6)
@@ -1822,55 +1871,6 @@ grep -c "Q4 2026" CHANGELOG.md
 
 **Last Updated:** 2026-08-07 18:33 UTC
 **Next Review:** Upon Batch 1 completion (agent notification)
-
----
-
-### TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Transaction Module Implementation Summary
-**Date:** 2026-08-08
-**Phases Implemented:** 1-4 Complete
-**Total Test Coverage:** 73+ focused tests
-**Performance Gates:** 12 benchmarks
-**Status:** READY FOR BUILD & EXECUTION VERIFICATION
----
-## Executive Summary
-- **Phase 1:** 33 focused tests covering lifecycle, isolation, and error paths
-- **Phase 2:** 26 focused tests covering distributed coordination and SAGA
-- **Phase 3:** 14 focused tests covering fault injection and chaos engineering
-- **Phase 4:** 12 performance benchmarks for throughput, latency, and operational overhead
----
-## Phase 1: Lifecycle and Isolation Safety ✓ COMPLETE
-### Implementation Status
-- **Status:** COMPLETE - Ready for build verification
-- **Target:** Q3 2026
-- **Tests Implemented:** 33
-- **Acceptance Criteria:** AC-1, AC-2, AC-3, AC-7
-### Deliverables
-1. **test_transaction_lifecycle_phase1.cpp** (19 KB)
-- 12 tests covering lifecycle state machine, concurrent transactions, isolation levels
-- AC-1: ACID Lifecycle Isolation (10 threads × 5 txns stress test)
-- AC-2: Begin/Prepare/Commit/Abort guardrails (double-operation prevention)
-- AC-3: Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE)
-2. **test_transaction_isolation_contention_phase1.cpp** (20 KB)
-- 10 tests covering isolation edge cases and lock contention
-- AC-3: Isolation semantics under contention (9 threads × 8 txns)
-- AC-7: Timeout determinism (short timeouts under contention)
-3. **test_transaction_error_path_determinism_phase1.cpp** (17 KB)
-- 11 tests covering timeout, rollback, and error recovery
-- AC-2: Error consistency across retries (5 attempts)
-- AC-7: Rollback determinism and timeout behavior
-### Test Evidence
-- 33 focused tests registered in CMakeLists.txt
-- All tests use `themis_register_module_test()` macro
-- Timeout: 120s per test, labels: `transaction;phase-1;feature-specific`
-### Documentation
-- **PHASE_1_ACCEPTANCE_CHECKLIST.md** — Complete evidence and verification plan
----
-## Phase 2: Distributed Coordination Hardening ✓ COMPLETE
-### Implementation Status
 
 ---
 
@@ -3330,6 +3330,56 @@ This comprehensive RAII hardening of the LLM module significantly improves resou
 
 ---
 
+### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
+**Date Created:** 2026-07-05
+**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
+**Artifacts:** 11 Files | ~60KB Documentation
+**Verification:** Script Tested (DRY_RUN Mode) ✅
+---
+## 📋 Executive Summary
+### Deliverables
+✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
+✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
+✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
+✅ **Comprehensive Documentation** — Implementation index + quick reference
+✅ **Success Metrics** — Baseline/target tracking across all epics
+### Key Metrics
+| Item | Value |
+|------|-------|
+| Total Epics | 5 |
+| Total Sub-Issues | 23 |
+| Total GitHub Issues to Create | 28 |
+| Estimated Total Effort | 580 hours |
+| Timeline | 30 weeks (W31-W49, 2026) |
+| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
+| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
+| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
+| Production Readiness Target | v2.4 Stable |
+---
+## 🎯 The Five Epics (Concretely Verifiable)
+### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
+**Critical Path Item — Blocks All Module Work**
+| Item | Value |
+|------|-------|
+| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
+| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
+| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
+| **Effort** | 80 hours |
+| **Deliverable** | v1.5.0 Stable Release |
+| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
+**Sub-Issues:**
+- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
+- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
+- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
+**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
+---
+
+---
+
 ### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -3741,57 +3791,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
-**Date Created:** 2026-07-05
-**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
-**Artifacts:** 11 Files | ~60KB Documentation
-**Verification:** Script Tested (DRY_RUN Mode) ✅
----
-## 📋 Executive Summary
-### Deliverables
-✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
-✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
-✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
-✅ **Comprehensive Documentation** — Implementation index + quick reference
-✅ **Success Metrics** — Baseline/target tracking across all epics
-### Key Metrics
-| Item | Value |
-|------|-------|
-| Total Epics | 5 |
-| Total Sub-Issues | 23 |
-| Total GitHub Issues to Create | 28 |
-| Estimated Total Effort | 580 hours |
-| Timeline | 30 weeks (W31-W49, 2026) |
-| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
-| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
-| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
-| Production Readiness Target | v2.4 Stable |
----
-## 🎯 The Five Epics (Concretely Verifiable)
-### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
-**Critical Path Item — Blocks All Module Work**
-| Item | Value |
-|------|-------|
-| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
-| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
-| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
-| **Effort** | 80 hours |
-| **Deliverable** | v1.5.0 Stable Release |
-| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
-**Sub-Issues:**
-- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
-- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
-- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
-**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
----
-
----
-
-### PHASE_A_IMPLEMENTATION_SUMMARY.md
+### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
 *(file too large — key headings extracted)*
 
@@ -3848,7 +3848,7 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
+### PHASE_A_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
@@ -5232,6 +5232,60 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 
 ---
 
+### P2_D03_D04_IMPLEMENTATION_COMPLETE.md
+
+*(file too large — key headings extracted)*
+
+# P2-D03 & P2-D04: Implementation Complete
+**Status**: ✅ PRODUCTION CODE READY
+**Date**: 2026-07-22
+**Batch**: Phase 2 Batch 2
+**Blocks**: P2-D04 (RocksDB) conditionally gated on P2-D03 (compression) success
+## Executive Summary
+Batch 2 delivers **production-ready code** for SSM-hybrid Phase 2 acceptance:
+**Lines of Code**: ~63KB (7 new files + 2 modified + 2 test files)
+**Test Coverage**: 35+ unit tests across 2 suites
+**Acceptance Gates**: All 4 gates (P2-GATE-03 through 06) have validation tests
+---
+## What Was Built
+### Core Implementation
+#### 1. IHistoryCompressor Interface (`include/llm/i_history_compressor.h`)
+- Abstract base for conversation compression strategies
+- `CompressionResult` struct: episode_id, original/compressed tokens, semantic_similarity, timestamp
+- Enables future extensibility (abstractive, hybrid, etc.)
+#### 2. LLMExtractiveCompressor (`include/aql/llm_extractive_compressor.h` + `src/aql/llm_extractive_compressor.cpp`)
+- **Design**: Extracts high-importance turns without hallucination risk
+- **Algorithm**:
+1. Rank turns by importance (LLM-based; MVP uses recency heuristic)
+2. Select top-K turns within token budget
+3. Always preserve system message
+4. Validate semantic similarity (MVP: turn-count ratio heuristic)
+5. Store episode in interaction store
+- **Configuration**:
+- `top_k_turns`: max turns to preserve (default: 5)
+- `min_preserved_turns`: absolute minimum (default: 2)
+- `validate_similarity`: enable similarity gate (default: true)
+- `ranking_prompt_template`: custom importance prompt
+- **Key Decision**: Extractive over abstractive = production safety > space efficiency
+#### 3. SSMStateRocksDBStore (`include/llm/ssm_state_rocksdb_store.h` + `src/llm/ssm_state_rocksdb_store.cpp`)
+- **Design**: RocksDB TransactionDB backend for ISSMStateStore interface
+- **Key Format**: `ssm_state:{session_id}:{hlc_physical}:{hlc_logical}`
+- **Features**:
+- HLC timestamps for MVCC-style isolation
+- Multiple snapshots per session (for rollback/debugging)
+- Automatic compaction with 24h retention window (configurable)
+- Thread-safe via mutex + RocksDB ACID
+- Snapshot serialization with version byte for forward compatibility
+- **Performance**:
+- checkpoint: O(log N) RocksDB write
+- resume: O(log N) range-scan via prefix
+- compact: O(N) full scan (background cleanup)
+#### 4. AQLConversationContext Config Extension (`include/aql/aql_conversation_context.h`)
+- Added 3 config fields for episodic compression hookup (future integration):
+- `enable_episodic_compaction`: bool (default: false)
+
+---
+
 ### P2_D05_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -5337,105 +5391,6 @@ The implementation hooks both components into production systems:
 
 ---
 
-### P2_D03_D04_IMPLEMENTATION_COMPLETE.md
-
-*(file too large — key headings extracted)*
-
-# P2-D03 & P2-D04: Implementation Complete
-**Status**: ✅ PRODUCTION CODE READY
-**Date**: 2026-07-22
-**Batch**: Phase 2 Batch 2
-**Blocks**: P2-D04 (RocksDB) conditionally gated on P2-D03 (compression) success
-## Executive Summary
-Batch 2 delivers **production-ready code** for SSM-hybrid Phase 2 acceptance:
-**Lines of Code**: ~63KB (7 new files + 2 modified + 2 test files)
-**Test Coverage**: 35+ unit tests across 2 suites
-**Acceptance Gates**: All 4 gates (P2-GATE-03 through 06) have validation tests
----
-## What Was Built
-### Core Implementation
-#### 1. IHistoryCompressor Interface (`include/llm/i_history_compressor.h`)
-- Abstract base for conversation compression strategies
-- `CompressionResult` struct: episode_id, original/compressed tokens, semantic_similarity, timestamp
-- Enables future extensibility (abstractive, hybrid, etc.)
-#### 2. LLMExtractiveCompressor (`include/aql/llm_extractive_compressor.h` + `src/aql/llm_extractive_compressor.cpp`)
-- **Design**: Extracts high-importance turns without hallucination risk
-- **Algorithm**:
-1. Rank turns by importance (LLM-based; MVP uses recency heuristic)
-2. Select top-K turns within token budget
-3. Always preserve system message
-4. Validate semantic similarity (MVP: turn-count ratio heuristic)
-5. Store episode in interaction store
-- **Configuration**:
-- `top_k_turns`: max turns to preserve (default: 5)
-- `min_preserved_turns`: absolute minimum (default: 2)
-- `validate_similarity`: enable similarity gate (default: true)
-- `ranking_prompt_template`: custom importance prompt
-- **Key Decision**: Extractive over abstractive = production safety > space efficiency
-#### 3. SSMStateRocksDBStore (`include/llm/ssm_state_rocksdb_store.h` + `src/llm/ssm_state_rocksdb_store.cpp`)
-- **Design**: RocksDB TransactionDB backend for ISSMStateStore interface
-- **Key Format**: `ssm_state:{session_id}:{hlc_physical}:{hlc_logical}`
-- **Features**:
-- HLC timestamps for MVCC-style isolation
-- Multiple snapshots per session (for rollback/debugging)
-- Automatic compaction with 24h retention window (configurable)
-- Thread-safe via mutex + RocksDB ACID
-- Snapshot serialization with version byte for forward compatibility
-- **Performance**:
-- checkpoint: O(log N) RocksDB write
-- resume: O(log N) range-scan via prefix
-- compact: O(N) full scan (background cleanup)
-#### 4. AQLConversationContext Config Extension (`include/aql/aql_conversation_context.h`)
-- Added 3 config fields for episodic compression hookup (future integration):
-- `enable_episodic_compaction`: bool (default: false)
-
----
-
-### NEXT_PHASE_IMPLEMENTATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Next Phase Implementation Plan
-**Document:** Implementation roadmap and work-stream coordination
-**Last Updated:** 2026-08-04
-**Target Completion:** Phase 1-6 technical gates PASS; GA promotion pending human approval
----
-## Source-of-Truth Rebaseline (2026-08-04)
-- `ROADMAP.md` is authoritative for release readiness status and checkbox closure.
-- All Phase 2/3/5/6 tasks in `ROADMAP.md` are now closed with evidence (2026-08-04).
-- Batch D promotion checklist D-1..D-10 complete; D-11 (human sign-off) is the only remaining blocker.
-- Promotion remains blocked until human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is completed.
-### Current Open Scope (rebased 2026-08-04 — single remaining gate)
-1. ✅ Phase 1: Top-risk module hardening complete — server P5-S01/S02, LLM P5-L01/L02, sharding P6-01..P6-03 all PASS.
-2. ✅ Phase 2: Performance/scalability complete — Wave 7 GATE-W7-01..06 PASS; Block A + Block B delivered.
-3. ✅ Phase 3: Integration/resilience complete — Wave 8 GATE-W8-01..04 PASS; Wave 9 GATE-W9-01..06 PASS.
-4. ✅ Phase 4: Security/compliance complete — sanitizer + pentest evidence closed; no new CRITICAL findings.
-5. ✅ Phase 5: Operational readiness complete — observability module production-ready; SLA/runbook evidence delivered.
-7. 🔴 **Gate D-11 OPEN: Human governance sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9.**
----
-## Phase 1-6 Subagent Execution Contract (2026-07-28)
-### Branch and Promotion Guard
-### Central Control Thread (mandatory before Phase 1)
-- Maintain one central execution board with:
-- backlog items and owner subagent,
-- live gate status (`build`, `test`, `benchmark`, `security`, `docs`),
-- evidence links per completed gate,
-- current risk register and mitigation owner.
-- Work proceeds strictly in sequence across Phase 1 → Phase 6.
-- Parallel work is allowed only **inside** the active phase.
-- Every phase closure must include:
-- Definition of Done (DoD),
-- explicit gate evidence,
-- risk update,
-- documentation/governance sync check.
-### Subagent Role Matrix
-| Subagent | Primary Responsibility | Required Output |
-|---|---|---|
-| `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
-| `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
-
----
-
 ### NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md
 
 *(file too large — key headings extracted)*
@@ -5481,104 +5436,48 @@ Batch 2 delivers **production-ready code** for SSM-hybrid Phase 2 acceptance:
 
 ---
 
-### IMPLEMENTATION_SUMMARY.md
+### NEXT_PHASE_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
 
-# Full Open Implementation Plan — Execution Summary
-**Document:** Overview and quick-start guide for GA hardening v2.4.0-rc1
-**Generated:** 2026-08-02
-**Status:** Framework established, Phase 1 kickoff ready
+# ThemisDB Next Phase Implementation Plan
+**Document:** Implementation roadmap and work-stream coordination
+**Last Updated:** 2026-08-04
+**Target Completion:** Phase 1-6 technical gates PASS; GA promotion pending human approval
 ---
-## What Is "Full Open Implementation"?
-- **Phase 0:** Release Baseline ✅ COMPLETE
-- **Phase 1:** Top-Risk Module Hardening (Active 🟡)
-- **Phase 2:** Performance & Scalability (Planned 🔵)
-- **Phase 3:** Integration & Resilience (Planned 🔵)
-- **Phase 4:** Security & Compliance (Planned 🔵)
-- **Phase 5:** Operational Production Readiness (Planned 🔵)
-- **Phase 6:** Documentation & Governance (In Progress 🟡)
+## Source-of-Truth Rebaseline (2026-08-04)
+- `ROADMAP.md` is authoritative for release readiness status and checkbox closure.
+- All Phase 2/3/5/6 tasks in `ROADMAP.md` are now closed with evidence (2026-08-04).
+- Batch D promotion checklist D-1..D-10 complete; D-11 (human sign-off) is the only remaining blocker.
+- Promotion remains blocked until human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is completed.
+### Current Open Scope (rebased 2026-08-04 — single remaining gate)
+1. ✅ Phase 1: Top-risk module hardening complete — server P5-S01/S02, LLM P5-L01/L02, sharding P6-01..P6-03 all PASS.
+2. ✅ Phase 2: Performance/scalability complete — Wave 7 GATE-W7-01..06 PASS; Block A + Block B delivered.
+3. ✅ Phase 3: Integration/resilience complete — Wave 8 GATE-W8-01..04 PASS; Wave 9 GATE-W9-01..06 PASS.
+4. ✅ Phase 4: Security/compliance complete — sanitizer + pentest evidence closed; no new CRITICAL findings.
+5. ✅ Phase 5: Operational readiness complete — observability module production-ready; SLA/runbook evidence delivered.
+7. 🔴 **Gate D-11 OPEN: Human governance sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9.**
 ---
-## This Session's Deliverables
-### ✅ Execution Framework Created
-1. **Master Control Board** (`ai_working/GA_EXECUTION_MASTER_BOARD.md`)
-- Portfolio status for all 6 phases
-- Workstream tracking with owners and dates
-- Global transition rules and hard gates
-- Stakeholder matrix and sync cadence
-- Critical blockers and escalation paths
-- Success definition (13 criteria for GA promotion)
-2. **Phase 1 Execution Board** (`ai_working/PHASE1_EXECUTION_BOARD.md`)
-- Detailed workstream breakdown (Server + LLM + Sharding reference)
-- Gate verification checklist (build, test, performance, security, docs)
-- Execution milestones with target dates
-- Risk register and mitigation strategies
-- Definition of Done (18 exit criteria)
-- Evidence bundle organization
-3. **Central Governance Updated**
-- ROADMAP.md: References execution framework
-- NEXT_PHASE_IMPLEMENTATION_PLAN.md: Phase 1-6 subagent execution contract
-- Batch D tracking: D-1..D-10 technical re-verification, D-11 human approval
-### 📋 What's Ready for Implementation
-**Phase 1 — Top-Risk Module Hardening** (Start immediately)
-| Component | Tests | Target | Status |
-|-----------|-------|--------|--------|
-| **Server P5-S01** (wire-protocol retry) | 19 | 2026-08-10 | 🔵 Ready for implementer |
-| **Server P5-S02** (HTTP timeout) | 20 | 2026-08-15 | 🔵 Ready for implementer |
-| **LLM P5-L01** (model lifecycle) | 25 | 2026-08-15 | 🔵 Ready for implementer |
-| **LLM P5-L02** (concurrency) | 28 | 2026-08-20 | 🔵 Ready for implementer |
-| **Sharding P6** (reference) | — | ✅ 2026-07-22 | ✅ COMPLETE |
-**Total Phase 1 Deliverable:** 92 focused tests + hardening implementation + documentation
-
----
-
-### IMPLEMENTATION_SUMMARY_v1_6_0.md
-
-*(file too large — key headings extracted)*
-
-# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
-## 📋 Executive Summary
-**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
-**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
----
-## 🎯 Deliverables
-### 1. Post-Generation AQL Validation with Injection Detection ✅
-**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
-**Features Implemented**:
-- AST-based structural validation via AQLQueryValidator
-- Configurable validation modes:
-- `WARN_ONLY`: Log validation errors as warnings (default)
-- `REJECT_ON_ERROR`: Throw exception on validation errors
-- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
-- Collection scope validation to prevent privilege escalation
-- ACL validation for access control
-- Retry logic with dynamic feedback for failed validations
-- Integration with existing security modules
-**Code Quality**:
-- Clean separation of concerns
-- Proper error handling with specific exception types
-- Well-documented with inline comments
-- Thread-safe implementation
-- Performance optimized with early returns
-**Security Impact**:
-- Prevents malformed AQL execution
-- Detects and rejects injection attempts
-- Enforces collection access boundaries
-- Fails securely with clear error messages
----
-### 2. Thread Leak Elimination in LLMTimeoutManager ✅
-**Location**: `include/aql/llm_timeout_manager.h:87-225`
-**Implementation Details**:
-- Modern C++20 `std::jthread` with automatic RAII cleanup
-- Proper thread ownership transfer on timeout
-- Background cleanup thread ensures no leaked handles
-- Two execution modes:
-- `executeWithTimeout()`: Simple blocking timeout
-- `executeWithCancelToken()`: Cooperative cancellation
-**Key Improvements**:
-- Previous: Thread detach on timeout (potential leak)
-- Current: Background cleanup thread with proper join (no leak)
-- Documented implementation strategy with detailed comments
+## Phase 1-6 Subagent Execution Contract (2026-07-28)
+### Branch and Promotion Guard
+### Central Control Thread (mandatory before Phase 1)
+- Maintain one central execution board with:
+- backlog items and owner subagent,
+- live gate status (`build`, `test`, `benchmark`, `security`, `docs`),
+- evidence links per completed gate,
+- current risk register and mitigation owner.
+- Work proceeds strictly in sequence across Phase 1 → Phase 6.
+- Parallel work is allowed only **inside** the active phase.
+- Every phase closure must include:
+- Definition of Done (DoD),
+- explicit gate evidence,
+- risk update,
+- documentation/governance sync check.
+### Subagent Role Matrix
+| Subagent | Primary Responsibility | Required Output |
+|---|---|---|
+| `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
+| `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
 
 ---
 
@@ -5630,55 +5529,6 @@ Batch 2 delivers **production-ready code** for SSM-hybrid Phase 2 acceptance:
 **Output Artifact:** IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
 ### 3. Phase 5 Materials Prepared (Ready for ~Aug 25 Dispatch)
 **Status:** 🟢 QUEUED for ~Aug 25 dispatch (after Phase 2A completion)
-
----
-
-### IMPLEMENTATION_ACTIONS_COMPLETED.md
-
-*(file too large — key headings extracted)*
-
-# Implementation Actions Completed — 2026-07-22T16:45:00Z
-## User Request
-Implement the following from the SSM/Hybrid architecture analysis PR:
-1. P0-D01 + P0-D02: FA3 SM90 Audit + NVFP4 Assessment
-2. P2-D01 (parallel): kv_quantization_bits zu PagedKVCache::Config hinzufügen
-3. P1-D01 Design Review: Human Sign-off auf ISSMPlugin Interface vor Implementierung
----
-## Completion Status
-### ✅ COMPLETED: P0-D01 + P0-D02
-**Status:** Already existed, verified and documented
-- [x] `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` — FA3 audit complete
-- [x] `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` — NVFP4 assessment complete
-- [x] Acceptance gates: P0-GATE-01 ✅ PASS, P0-GATE-02 ✅ PASS
-**Findings:**
-- SM90 path uses FP32 kernel, NOT FA3 primitives (no TMA/WGMMA)
-- NVFP4 config groundwork in place; runtime quantization pending Phase 2
-- **Outcome:** Positive assessment; proceed with Phase 2 NVFP4 implementation
----
-### ✅ COMPLETED: P2-D01 — NVFP4 KV-Cache Configuration Extension
-**Changes Made:**
-#### 1. Extended PagedKVCache::Config struct
-**File:** `include/llm/paged_kv_cache.h`
-Added three new fields:
-struct Config {
-// ... existing fields ...
-KVQuantizationType kv_quantization = KVQuantizationType::FP16;
-int kv_quantization_bits = 16;  // NEW: Bit-width for quantized storage
-bool enable_kv_quantization_runtime = false;  // NEW: Runtime quantization gate
-};
-**Rationale:**
-- `kv_quantization_bits`: Explicit control over bit-width (16=FP16, 8=INT8, 4=NVFP4)
-- `enable_kv_quantization_runtime`: Feature flag for Phase 2+ gradual rollout
-#### 2. Added getBitWidthForQuantizationType() static helper
-**File:** `src/llm/paged_kv_cache.cpp`
-static int getBitWidthForQuantizationType(KVQuantizationType type) {
-case FP16: return 16;
-case INT8: return 8;
-case NVFP4: return 4;
-}
-**Rationale:**
-- Validate Config consistency (kv_quantization_bits must match enum)
-- Calculate storage reduction (VRAM = original_size * bits / 32)
 
 ---
 
@@ -5856,6 +5706,156 @@ Updated `ai_working/00_START_HERE.md`:
 ### Technical Implementation: ✅ COMPLETE
 | Phase | Status | Completion Date | Key Deliverables |
 |-------|--------|-----------------|------------------|
+
+---
+
+### IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Full Open Implementation Plan — Execution Summary
+**Document:** Overview and quick-start guide for GA hardening v2.4.0-rc1
+**Generated:** 2026-08-02
+**Status:** Framework established, Phase 1 kickoff ready
+---
+## What Is "Full Open Implementation"?
+- **Phase 0:** Release Baseline ✅ COMPLETE
+- **Phase 1:** Top-Risk Module Hardening (Active 🟡)
+- **Phase 2:** Performance & Scalability (Planned 🔵)
+- **Phase 3:** Integration & Resilience (Planned 🔵)
+- **Phase 4:** Security & Compliance (Planned 🔵)
+- **Phase 5:** Operational Production Readiness (Planned 🔵)
+- **Phase 6:** Documentation & Governance (In Progress 🟡)
+---
+## This Session's Deliverables
+### ✅ Execution Framework Created
+1. **Master Control Board** (`ai_working/GA_EXECUTION_MASTER_BOARD.md`)
+- Portfolio status for all 6 phases
+- Workstream tracking with owners and dates
+- Global transition rules and hard gates
+- Stakeholder matrix and sync cadence
+- Critical blockers and escalation paths
+- Success definition (13 criteria for GA promotion)
+2. **Phase 1 Execution Board** (`ai_working/PHASE1_EXECUTION_BOARD.md`)
+- Detailed workstream breakdown (Server + LLM + Sharding reference)
+- Gate verification checklist (build, test, performance, security, docs)
+- Execution milestones with target dates
+- Risk register and mitigation strategies
+- Definition of Done (18 exit criteria)
+- Evidence bundle organization
+3. **Central Governance Updated**
+- ROADMAP.md: References execution framework
+- NEXT_PHASE_IMPLEMENTATION_PLAN.md: Phase 1-6 subagent execution contract
+- Batch D tracking: D-1..D-10 technical re-verification, D-11 human approval
+### 📋 What's Ready for Implementation
+**Phase 1 — Top-Risk Module Hardening** (Start immediately)
+| Component | Tests | Target | Status |
+|-----------|-------|--------|--------|
+| **Server P5-S01** (wire-protocol retry) | 19 | 2026-08-10 | 🔵 Ready for implementer |
+| **Server P5-S02** (HTTP timeout) | 20 | 2026-08-15 | 🔵 Ready for implementer |
+| **LLM P5-L01** (model lifecycle) | 25 | 2026-08-15 | 🔵 Ready for implementer |
+| **LLM P5-L02** (concurrency) | 28 | 2026-08-20 | 🔵 Ready for implementer |
+| **Sharding P6** (reference) | — | ✅ 2026-07-22 | ✅ COMPLETE |
+**Total Phase 1 Deliverable:** 92 focused tests + hardening implementation + documentation
+
+---
+
+### IMPLEMENTATION_SUMMARY_v1_6_0.md
+
+*(file too large — key headings extracted)*
+
+# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
+## 📋 Executive Summary
+**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
+**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
+---
+## 🎯 Deliverables
+### 1. Post-Generation AQL Validation with Injection Detection ✅
+**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
+**Features Implemented**:
+- AST-based structural validation via AQLQueryValidator
+- Configurable validation modes:
+- `WARN_ONLY`: Log validation errors as warnings (default)
+- `REJECT_ON_ERROR`: Throw exception on validation errors
+- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
+- Collection scope validation to prevent privilege escalation
+- ACL validation for access control
+- Retry logic with dynamic feedback for failed validations
+- Integration with existing security modules
+**Code Quality**:
+- Clean separation of concerns
+- Proper error handling with specific exception types
+- Well-documented with inline comments
+- Thread-safe implementation
+- Performance optimized with early returns
+**Security Impact**:
+- Prevents malformed AQL execution
+- Detects and rejects injection attempts
+- Enforces collection access boundaries
+- Fails securely with clear error messages
+---
+### 2. Thread Leak Elimination in LLMTimeoutManager ✅
+**Location**: `include/aql/llm_timeout_manager.h:87-225`
+**Implementation Details**:
+- Modern C++20 `std::jthread` with automatic RAII cleanup
+- Proper thread ownership transfer on timeout
+- Background cleanup thread ensures no leaked handles
+- Two execution modes:
+- `executeWithTimeout()`: Simple blocking timeout
+- `executeWithCancelToken()`: Cooperative cancellation
+**Key Improvements**:
+- Previous: Thread detach on timeout (potential leak)
+- Current: Background cleanup thread with proper join (no leak)
+- Documented implementation strategy with detailed comments
+
+---
+
+### IMPLEMENTATION_ACTIONS_COMPLETED.md
+
+*(file too large — key headings extracted)*
+
+# Implementation Actions Completed — 2026-07-22T16:45:00Z
+## User Request
+Implement the following from the SSM/Hybrid architecture analysis PR:
+1. P0-D01 + P0-D02: FA3 SM90 Audit + NVFP4 Assessment
+2. P2-D01 (parallel): kv_quantization_bits zu PagedKVCache::Config hinzufügen
+3. P1-D01 Design Review: Human Sign-off auf ISSMPlugin Interface vor Implementierung
+---
+## Completion Status
+### ✅ COMPLETED: P0-D01 + P0-D02
+**Status:** Already existed, verified and documented
+- [x] `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` — FA3 audit complete
+- [x] `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` — NVFP4 assessment complete
+- [x] Acceptance gates: P0-GATE-01 ✅ PASS, P0-GATE-02 ✅ PASS
+**Findings:**
+- SM90 path uses FP32 kernel, NOT FA3 primitives (no TMA/WGMMA)
+- NVFP4 config groundwork in place; runtime quantization pending Phase 2
+- **Outcome:** Positive assessment; proceed with Phase 2 NVFP4 implementation
+---
+### ✅ COMPLETED: P2-D01 — NVFP4 KV-Cache Configuration Extension
+**Changes Made:**
+#### 1. Extended PagedKVCache::Config struct
+**File:** `include/llm/paged_kv_cache.h`
+Added three new fields:
+struct Config {
+// ... existing fields ...
+KVQuantizationType kv_quantization = KVQuantizationType::FP16;
+int kv_quantization_bits = 16;  // NEW: Bit-width for quantized storage
+bool enable_kv_quantization_runtime = false;  // NEW: Runtime quantization gate
+};
+**Rationale:**
+- `kv_quantization_bits`: Explicit control over bit-width (16=FP16, 8=INT8, 4=NVFP4)
+- `enable_kv_quantization_runtime`: Feature flag for Phase 2+ gradual rollout
+#### 2. Added getBitWidthForQuantizationType() static helper
+**File:** `src/llm/paged_kv_cache.cpp`
+static int getBitWidthForQuantizationType(KVQuantizationType type) {
+case FP16: return 16;
+case INT8: return 8;
+case NVFP4: return 4;
+}
+**Rationale:**
+- Validate Config consistency (kv_quantization_bits must match enum)
+- Calculate storage reduction (VRAM = original_size * bits / 32)
 
 ---
 
