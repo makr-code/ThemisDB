@@ -13,6 +13,7 @@
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <filesystem>
 #include <map>
 #include <thread>
@@ -349,33 +350,39 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
 #ifdef __APPLE__
 
 void PluginHotPlugMonitor::watchDirectoryMacOS() {
+    // RAII guard for POSIX file descriptors to ensure close() on all paths.
+    struct FdGuard {
+        int fd{-1};
+        FdGuard() = default;
+        ~FdGuard() noexcept { if (fd >= 0) ::close(fd); }
+        FdGuard(const FdGuard&) = delete;
+        FdGuard& operator=(const FdGuard&) = delete;
+    };
+
     // Use kqueue for macOS
-    int kq = kqueue();
-    if (kq == -1) {
+    FdGuard kq_guard; kq_guard.fd = kqueue();
+    if (kq_guard.fd == -1) {
         THEMIS_ERROR("Failed to create kqueue: {}", strerror(errno));
         return;
     }
     
     // Open directory for monitoring
-    int dir_fd = open(watch_directory_.c_str(), O_RDONLY);
-    if (dir_fd == -1) {
+    FdGuard dir_fd_guard; dir_fd_guard.fd = open(watch_directory_.c_str(), O_RDONLY);
+    if (dir_fd_guard.fd == -1) {
         THEMIS_ERROR("Failed to open directory: {}", strerror(errno));
-        close(kq);
-        return;
+        return;  // kq_guard closes kq automatically
     }
     
     // Setup kevent for directory monitoring
     struct kevent change;
-    EV_SET(&change, dir_fd, EVFILT_VNODE,
+    EV_SET(&change, dir_fd_guard.fd, EVFILT_VNODE,
            EV_ADD | EV_ENABLE | EV_CLEAR,
            NOTE_WRITE | NOTE_EXTEND | NOTE_DELETE,
            0, nullptr);
     
-    if (kevent(kq, &change, 1, nullptr, 0, nullptr) == -1) {
+    if (kevent(kq_guard.fd, &change, 1, nullptr, 0, nullptr) == -1) {
         THEMIS_ERROR("Failed to add kevent: {}", strerror(errno));
-        close(dir_fd);
-        close(kq);
-        return;
+        return;  // dir_fd_guard and kq_guard close their fds automatically
     }
     
     // Track files we've seen along with their last-write timestamps
@@ -437,7 +444,7 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
     timeout.tv_nsec = 0;
     
     while (running_) {
-        int nev = kevent(kq, nullptr, 0, &event, 1, &timeout);
+        int nev = kevent(kq_guard.fd, nullptr, 0, &event, 1, &timeout);
         
         if (nev < 0) {
             if (errno != EINTR) {
@@ -451,9 +458,6 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
             scan_directory();
         }
     }
-    
-    close(dir_fd);
-    close(kq);
 }
 
 #endif // __APPLE__
@@ -559,7 +563,9 @@ void PluginHotPlugMonitor::stop() {
     
     // Wait for thread to finish
     if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+        if (!themis::utils::joinThreadWithin(monitor_thread_)) {
+            THEMIS_WARN("PluginHotPlugMonitor: monitor thread did not join within timeout, continuing shutdown");
+        }
     }
     
 #ifdef _WIN32

@@ -15,6 +15,7 @@
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 
 namespace themis {
@@ -59,7 +60,9 @@ void PluginHealthMonitor::stopMonitoring() {
     running_ = false;
 
     if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+        if (!themis::utils::joinThreadWithin(monitor_thread_)) {
+            THEMIS_WARN("PluginHealthMonitor: monitor thread did not join within timeout, continuing shutdown");
+        }
     }
 
     THEMIS_INFO("PluginHealthMonitor: stopped");

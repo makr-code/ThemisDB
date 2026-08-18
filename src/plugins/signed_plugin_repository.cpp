@@ -27,6 +27,19 @@
 
 namespace {
 
+/**
+ * @brief Custom deleters for OpenSSL EVP handle types.
+ *
+ * Used with std::unique_ptr to guarantee exception-safe cleanup of EVP_PKEY
+ * and EVP_MD_CTX objects inside verifyEd25519Signature().
+ */
+struct EvpPkeyDeleter {
+    void operator()(EVP_PKEY* p) const noexcept { if (p) EVP_PKEY_free(p); }
+};
+struct EvpMdCtxDeleter {
+    void operator()(EVP_MD_CTX* p) const noexcept { if (p) EVP_MD_CTX_free(p); }
+};
+
 // Decode a standard Base64 string into raw bytes.
 // Returns empty vector on malformed input.
 std::vector<uint8_t> base64Decode(const std::string& encoded) {
@@ -298,26 +311,26 @@ bool SignedPluginRepository::verifyEd25519Signature(
         return false;
     }
     // Load the raw Ed25519 public key via OpenSSL EVP_PKEY.
-    EVP_PKEY* pkey = EVP_PKEY_new_raw_public_key(
-        EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size());
-    if (!pkey) {
+    // unique_ptr ensures cleanup on all paths (including exception unwind).
+    std::unique_ptr<EVP_PKEY, EvpPkeyDeleter> pkey_guard(
+        EVP_PKEY_new_raw_public_key(
+            EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size()));
+    if (!pkey_guard) {
         return false;
     }
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) {
-        EVP_PKEY_free(pkey);
+    std::unique_ptr<EVP_MD_CTX, EvpMdCtxDeleter> ctx_guard(EVP_MD_CTX_new());
+    if (!ctx_guard) {
         return false;
     }
     bool ok = false;
-    if (EVP_DigestVerifyInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
+    if (EVP_DigestVerifyInit(ctx_guard.get(), nullptr, nullptr, nullptr, pkey_guard.get()) == 1) {
         int rc = EVP_DigestVerify(
-            ctx,
+            ctx_guard.get(),
             signature.data(), signature.size(),
             reinterpret_cast<const uint8_t*>(message.data()), message.size());
         ok = (rc == 1);
     }
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(pkey);
+    // unique_ptr handles EVP_MD_CTX_free and EVP_PKEY_free on scope exit
     return ok;
 }
 

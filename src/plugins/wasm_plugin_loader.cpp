@@ -44,6 +44,34 @@ namespace plugins {
 
 namespace {
 
+#ifdef THEMIS_WASM_WASMTIME
+/**
+ * @brief RAII owner for all Wasmtime handles belonging to one plugin instance.
+ *
+ * Stored on the heap via WasmHostAPI::wasm_instance_ (void*) and destroyed by
+ * `delete b` in WasmHostAPI::~WasmHostAPI().  The destructor calls the
+ * wasmtime C-API free functions in the correct teardown order
+ * (linker → module → store → engine) so that no handle leaks occur even when
+ * an exception unwinds the stack before setRuntimeInstance() is called.
+ */
+struct WasmtimeBundle {
+    wasmtime_engine_t*  engine{nullptr};
+    wasmtime_store_t*   store{nullptr};
+    wasmtime_linker_t*  linker{nullptr};
+    wasmtime_module_t*  module{nullptr};
+    wasmtime_instance_t instance{};
+
+    ~WasmtimeBundle() noexcept {
+        if (linker)  wasmtime_linker_delete(linker);
+        if (module)  wasmtime_module_delete(module);
+        if (store)   wasmtime_store_delete(store);
+        if (engine)  wasmtime_engine_delete(engine);
+    }
+    WasmtimeBundle(const WasmtimeBundle&)            = delete;
+    WasmtimeBundle& operator=(const WasmtimeBundle&) = delete;
+};
+#endif // THEMIS_WASM_WASMTIME
+
 WasmPluginLoadFn& wasmPluginLoadFnStorage() {
     static WasmPluginLoadFn fn;
     return fn;
@@ -277,14 +305,7 @@ std::unique_ptr<IThemisPlugin> loadWasmPlugin(
         }
 
         // Bundle all handles into a heap-allocated structure stored in
-        // WasmHostAPI::wasm_instance_ (freed in ~WasmHostAPI).
-        struct WasmtimeBundle {
-            wasmtime_engine_t*  engine;
-            wasmtime_store_t*   store;
-            wasmtime_linker_t*  linker;
-            wasmtime_module_t*  module;
-            wasmtime_instance_t instance;
-        };
+        // WasmHostAPI::wasm_instance_ (freed in ~WasmHostAPI via delete).
         auto* bundle = new WasmtimeBundle{engine, store, linker, module, instance};
 
         auto api = std::make_unique<WasmHostAPI>(WasmPluginRuntime::WASMTIME, module_name);
@@ -348,19 +369,8 @@ WasmHostAPI::~WasmHostAPI() {
     switch (runtime_) {
 #ifdef THEMIS_WASM_WASMTIME
     case WasmPluginRuntime::WASMTIME: {
-        struct WasmtimeBundle {
-            wasmtime_engine_t*  engine;
-            wasmtime_store_t*   store;
-            wasmtime_linker_t*  linker;
-            wasmtime_module_t*  module;
-            wasmtime_instance_t instance;
-        };
         auto* b = static_cast<WasmtimeBundle*>(wasm_instance_);
-        wasmtime_linker_delete(b->linker);
-        wasmtime_module_delete(b->module);
-        wasmtime_store_delete(b->store);
-        wasmtime_engine_delete(b->engine);
-        delete b;
+        delete b;   // WasmtimeBundle::~WasmtimeBundle() handles all free calls
         break;
     }
 #endif

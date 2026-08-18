@@ -81,34 +81,35 @@ size_t curlHeaderCallback(char* buffer, size_t size, size_t nitems, void* userp)
     return size * nitems;
 }
 
+// RAII deleter for EVP_MD_CTX to ensure cleanup on all paths (including exceptions).
+struct EvpMdCtxDeleter {
+    void operator()(EVP_MD_CTX* p) const noexcept { if (p) EVP_MD_CTX_free(p); }
+};
+
 // Compute hex-encoded SHA-256 of a file.
 std::string sha256HexFile(const std::string& path) {
     std::ifstream f(path, std::ios::binary);
     if (!f) return {};
 
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    std::unique_ptr<EVP_MD_CTX, EvpMdCtxDeleter> ctx(EVP_MD_CTX_new());
     if (!ctx) return {};
 
-    if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(ctx);
+    if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
         return {};
     }
 
     std::array<char, 8192> buf{};
     while (f.read(buf.data(), static_cast<std::streamsize>(buf.size())) || f.gcount() > 0) {
-        if (EVP_DigestUpdate(ctx, buf.data(), static_cast<size_t>(f.gcount())) != 1) {
-            EVP_MD_CTX_free(ctx);
+        if (EVP_DigestUpdate(ctx.get(), buf.data(), static_cast<size_t>(f.gcount())) != 1) {
             return {};
         }
     }
 
     std::array<unsigned char, EVP_MAX_MD_SIZE> digest{};
     unsigned int digest_len = 0;
-    if (EVP_DigestFinal_ex(ctx, digest.data(), &digest_len) != 1) {
-        EVP_MD_CTX_free(ctx);
+    if (EVP_DigestFinal_ex(ctx.get(), digest.data(), &digest_len) != 1) {
         return {};
     }
-    EVP_MD_CTX_free(ctx);
 
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
