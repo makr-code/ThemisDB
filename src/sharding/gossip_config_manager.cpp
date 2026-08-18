@@ -14,7 +14,13 @@
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
 #include "sharding/prometheus_metrics.h"
+#if __has_include("shard_rpc.pb.h")
 #include "shard_rpc.pb.h"
+#elif __has_include("proto_generated/shard_rpc.pb.h")
+#include "proto_generated/shard_rpc.pb.h"
+#else
+#error "Required protobuf header shard_rpc.pb.h not found."
+#endif
 #include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>

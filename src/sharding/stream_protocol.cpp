@@ -41,7 +41,7 @@
 #endif
 
 namespace themisdb {
-namespace sharding {
+namespace streaming {
 
 // ============================================================================
 // CRC32 Helper
@@ -1731,6 +1731,6 @@ void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
     }
 }
 
-} // namespace sharding
+} // namespace streaming
 } // namespace themisdb
 

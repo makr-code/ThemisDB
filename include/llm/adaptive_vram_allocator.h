@@ -155,7 +155,7 @@ public:
      * @param ptr Output pointer to allocated memory
      * @return true if allocation succeeded
      */
-    bool allocateWithFragmentation(size_t bytes, void** ptr);
+    bool allocateWithFragmentation(size_t bytes, void** ptr) noexcept;
 
     /**
      * @brief Handle out-of-memory situations
@@ -167,7 +167,7 @@ public:
      * 
      * @return true if recovery succeeded
      */
-    bool handleOutOfMemory();
+    bool handleOutOfMemory() noexcept;
 
     /**
      * @brief Calculate KV cache size per token
@@ -177,7 +177,7 @@ public:
      * @param model Model configuration
      * @return Bytes per token for KV cache
      */
-    static size_t calculateKVCacheSizePerToken(const ModelConfig& model);
+    static size_t calculateKVCacheSizePerToken(const ModelConfig& model) noexcept;
 
     /**
      * @brief Calculate model size based on quantization
@@ -186,7 +186,7 @@ public:
      * @param precision_bytes Bytes per parameter (2=FP16, 4=FP32, 1=INT8, 0.5=Q4)
      * @return Total model size in bytes
      */
-    static size_t calculateModelSize(size_t num_parameters, float precision_bytes);
+    static size_t calculateModelSize(size_t num_parameters, float precision_bytes) noexcept;
 
     /**
      * @brief Estimate activation memory
@@ -200,7 +200,7 @@ public:
         const ModelConfig& model,
         size_t batch_size,
         size_t seq_length
-    );
+    ) noexcept;
 
 private:
     class Impl;

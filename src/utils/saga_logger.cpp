@@ -149,45 +149,42 @@ void SAGALogger::logStep(const SAGAStep& step) {
         }.dump();
         
         if (step_json.size() > 1024 * 1024) {  // 1MB per step limit
-            ErrorContext ctx{
-                ErrorCode::ERR_AUDIT_BUFFER_OVERFLOW,
+            auto ctx = makeErrorContext(
+                ErrorCode::AUDIT_BUFFER_OVERFLOW,
                 "SAGA step payload exceeds 1MB limit",
-                "saga_logger",
-                "observability",
-                ErrorSeverity::WARNING,
-                true,
-                "Reduce payload size or batch steps"
-            };
+                "SAGALogger::logStep",
+                ErrorSeverity::Warning,
+                true);
+            ctx.category = ErrorCategory::SagaLogging;
+            ctx.recovery_hint = "Reduce payload size or batch steps";
             logErrorContext(ctx);
             return;  // Skip this step
         }
     } catch (const std::exception& e) {
-        ErrorContext ctx{
-            ErrorCode::ERR_AUDIT_SERIALIZATION_FAILED,
+        auto ctx = makeErrorContext(
+            ErrorCode::SERIALIZATION_FAILED,
             fmt::format("SAGA step serialization failed: {}", e.what()),
-            "saga_logger",
-            "observability",
-            ErrorSeverity::ERROR,
-            true,
-            "Verify SAGA step payload structure"
-        };
+            "SAGALogger::logStep",
+            ErrorSeverity::Error,
+            true);
+        ctx.category = ErrorCategory::SagaLogging;
+        ctx.recovery_hint = "Verify SAGA step payload structure";
         logErrorContext(ctx);
         return;
     }
     
     // Check if buffer would overflow (ERR_SAGA_EVENT_LOSS)
     if (buffer_.size() >= cfg_.batch_size) {
-        ErrorContext ctx{
-            ErrorCode::ERR_SAGA_EVENT_LOSS,
+        auto ctx = makeErrorContext(
+            ErrorCode::AUDIT_BUFFER_OVERFLOW,
             "SAGA step buffer full; triggering auto-flush",
-            "saga_logger",
-            "observability",
-            ErrorSeverity::WARNING,
-            true,
-            "Increase batch_size configuration"
-        };
+            "SAGALogger::logStep",
+            ErrorSeverity::Warning,
+            true);
+        ctx.category = ErrorCategory::SagaLogging;
+        ctx.recovery_hint = "Increase batch_size configuration";
         logErrorContext(ctx);
-        
+
         // Auto-flush to make room
         if (!buffer_.empty()) {
             signAndFlushBatch();
@@ -213,16 +210,15 @@ void SAGALogger::flush() {
         try {
             signAndFlushBatch();
         } catch (const std::exception& e) {
-            // Phase 2.7: Log flush failure (ERR_SAGA_EVENT_LOSS)
-            ErrorContext ctx{
-                ErrorCode::ERR_SAGA_EVENT_LOSS,
+            // Phase 2.7: Log flush failure
+            auto ctx = makeErrorContext(
+                ErrorCode::AUDIT_FLUSH_FAILED,
                 fmt::format("SAGA batch flush failed: {}", e.what()),
-                "saga_logger",
-                "observability",
-                ErrorSeverity::CRITICAL,
-                false,
-                "Check disk space and PKI service availability"
-            };
+                "SAGALogger::flush",
+                ErrorSeverity::Critical,
+                false);
+            ctx.category = ErrorCategory::SagaLogging;
+            ctx.recovery_hint = "Check disk space and PKI service availability";
             logErrorContext(ctx);
             // Rethrow to ensure caller knows about failure
             throw;
@@ -667,9 +663,8 @@ void SAGALogger::logErrorContext(const ErrorContext& ctx) {
     // Phase 2.3: Log error context to stderr to avoid recursion
     // when normal logging fails during buffer overflow or flush failures
     try {
-        auto json_err = ctx.toJSON();
-        std::cerr << "[SAGA_LOGGER_ERROR] " << json_err.dump() << "\n";
-    } catch (const std::exception& e) {
+        std::cerr << "[SAGA_LOGGER_ERROR] " << ctx.toJSON() << "\n";
+    } catch (const std::exception&) {
         // Ultimate fallback: plain text to stderr
         std::cerr << "[SAGA_LOGGER_ERROR] Code=" << static_cast<int>(ctx.code)
                   << " Msg=" << ctx.message << "\n";

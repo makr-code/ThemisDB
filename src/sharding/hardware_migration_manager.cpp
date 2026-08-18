@@ -19,7 +19,7 @@
 #include <chrono>
 #include <iomanip>
 
-namespace themisdb {
+namespace themis {
 namespace sharding {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -382,4 +382,4 @@ bool HardwareMigrationManager::waitForDrain(const std::string& shard_id,
 }
 
 } // namespace sharding
-} // namespace themisdb
+} // namespace themis

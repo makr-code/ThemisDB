@@ -5,7 +5,7 @@
  * @date 2026-08-17
  */
 
-#include "themis/gpu/gpu_cuda_error_hardening.h"
+#include "gpu/gpu_cuda_error_hardening.h"
 
 // All implementations are inline in the header file.
 // This file exists for potential future dynamic lookup tables

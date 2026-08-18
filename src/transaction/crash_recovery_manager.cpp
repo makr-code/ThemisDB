@@ -135,7 +135,7 @@ CrashRecoveryManager::deserialize(const std::string& line) {
                 e.operation.new_value = base64Decode(j["new"].get<std::string>());
         }
         return e;
-    } catch (const json::exception& e) [[likely]] {
+    } catch (const json::exception& e) {
         THEMIS_DEBUG("JSON parse error in deserialize: {}", e.what());
         return std::nullopt;
     } catch (const std::exception& e) {

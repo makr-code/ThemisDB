@@ -25,7 +25,7 @@ RaftWALIntegration::RaftWALIntegration(const Config& config)
 
 /** @brief Stop active replication role during teardown. */
 RaftWALIntegration::~RaftWALIntegration() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (is_leader_) {
         stopWALShipper();
     } else {
@@ -101,7 +101,7 @@ std::optional<WALEntry> RaftWALIntegration::read(const LSN& lsn) {
     // WALManager has its own internal synchronization; holding mutex_ across a
     // blocking disk read would prevent concurrent writes from progressing.
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::timed_mutex> lock(mutex_);
         if (!is_leader_) {
             return std::nullopt;  // Only leader serves reads for linearizability
         }
@@ -111,7 +111,7 @@ std::optional<WALEntry> RaftWALIntegration::read(const LSN& lsn) {
 
 /** @brief Transition integration into leader mode and start shipper. */
 void RaftWALIntegration::onBecomeLeader() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     if (is_leader_) {
         return;  // Already leader
@@ -124,7 +124,7 @@ void RaftWALIntegration::onBecomeLeader() {
 
 /** @brief Transition integration into follower mode and start applier side. */
 void RaftWALIntegration::onBecomeFollower() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     if (!is_leader_) {
         return;  // Already follower
@@ -137,7 +137,7 @@ void RaftWALIntegration::onBecomeFollower() {
 
 /** @brief Advance commit-related compaction state to snapshot boundary. */
 void RaftWALIntegration::compact(uint64_t snapshot_index) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     // Truncate Raft log entries up to snapshot_index
     // These are now captured in the snapshot
@@ -151,7 +151,7 @@ void RaftWALIntegration::compact(uint64_t snapshot_index) {
 
 /** @brief Return cached leader/follower mode. */
 bool RaftWALIntegration::isLeader() const {
-    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(mutex_));
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     return is_leader_;
 }
 
@@ -197,7 +197,7 @@ bool RaftWALIntegration::hasQuorum(const std::set<std::string>& acks) const {
 
 /** @brief Mark follower acknowledgments up to match index and notify writers. */
 void RaftWALIntegration::onAppendEntriesResponse(const std::string& follower_id, uint64_t match_index) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     // Mark acknowledgment for all pending writes up to match_index
     bool any_newly_committed = false;

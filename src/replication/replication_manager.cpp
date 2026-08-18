@@ -16,6 +16,7 @@
  */
 
 #include "replication/replication_manager.h"
+#include "replication/geo_placement.h"
 #include <stdexcept>
 #include "replication/multi_master_replication.h"
 #include "utils/logger.h"

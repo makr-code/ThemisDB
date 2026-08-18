@@ -899,6 +899,11 @@ private:
     
     /// Exclusive lock for adapter cache modifications (loading/unloading)
     mutable std::mutex adapter_cache_lock_;
+
+    /// Compatibility fallback lock for legacy code paths that still use mutex_.
+    /// Retained to satisfy legacy implementation code and tests without
+    /// changing unrelated concurrency behavior.
+    mutable std::mutex mutex_;
     
     /// Exclusive lock for telemetry updates (statistics)
     mutable std::mutex metrics_lock_;

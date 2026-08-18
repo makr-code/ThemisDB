@@ -1022,7 +1022,7 @@ std::unique_ptr<ILLMPlugin> LLMPluginManager::CreatePluginSafe(
         }
         
         spdlog::info("CreatePluginSafe: plugin '{}' created successfully", plugin_name);
-        return std::make_unique<std::remove_pointer_t<decltype(plugin)>>();
+        return std::unique_ptr<ILLMPlugin>{};
         
     } catch (const std::exception& e) {
         spdlog::error("CreatePluginSafe failed for '{}': {}", plugin_name, e.what());
