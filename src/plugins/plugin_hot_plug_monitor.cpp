@@ -17,6 +17,7 @@
 #include <map>
 #include <thread>
 #include <chrono>
+#include <future>
 #include <algorithm>
 #include <set>
 
@@ -414,6 +415,7 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
     // Track files we've seen along with their last-write timestamps
     std::map<std::string, fs::file_time_type> known_files;
     auto scan_directory = [&]() {
+        std::map<std::string, fs::file_time_type> current_files;
         try {
             for (const auto& entry : fs::directory_iterator(watch_directory_)) {
                 // Skip symlinks pointing to non-existent targets
@@ -484,8 +486,7 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
         }
     }
     
-    close(dir_fd);
-    close(kq);
+    // dir_guard and kq_guard automatically close dir_fd and kq via RAII
 }
 
 #endif // __APPLE__
@@ -589,32 +590,26 @@ void PluginHotPlugMonitor::stop() {
     }
 #endif
     
-    // Wait for thread to finish with a timeout to prevent indefinite blocking
-    // If thread doesn't respond within 5 seconds, log a warning and continue
+    // Join the monitor thread. The thread's loop checks running_ (now false)
+    // and will exit at the next kevent/inotify/ReadDirectoryChangesW timeout
+    // (all configured with a 1-second poll interval). Block here using a
+    // helper thread that signals a promise when the join completes, so we can
+    // enforce an overall deadline without mis-using joinable().
     if (monitor_thread_.joinable()) {
-        // Try to join with a timeout using std::thread features
-        // Note: C++20 does not have direct timeout join, so we use a timed wait approach
-        auto start_time = std::chrono::steady_clock::now();
+        std::promise<void> joined_promise;
+        auto joined_future = joined_promise.get_future();
+        std::thread joiner([this, p = std::move(joined_promise)]() mutable {
+            monitor_thread_.join();
+            p.set_value();
+        });
+        joiner.detach();
+
         const auto timeout_duration = std::chrono::seconds(5);
-        
-        // Periodically check if thread is still alive
-        while (monitor_thread_.joinable()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            auto elapsed = std::chrono::steady_clock::now() - start_time;
-            if (elapsed > timeout_duration) {
-                THEMIS_WARN("Plugin hot-plug monitor thread did not join within {} ms", 
-                    std::chrono::duration_cast<std::chrono::milliseconds>(timeout_duration).count());
-                break;
-            }
-        }
-        
-        // If still joinable after timeout, attempt final join without blocking
-        if (monitor_thread_.joinable()) {
-            try {
-                monitor_thread_.detach();
-            } catch (...) {
-                THEMIS_WARN("Failed to detach monitor thread");
-            }
+        if (joined_future.wait_for(timeout_duration) != std::future_status::ready) {
+            THEMIS_WARN("Plugin hot-plug monitor thread did not join within {} ms",
+                std::chrono::duration_cast<std::chrono::milliseconds>(timeout_duration).count());
+            // The joiner thread will eventually finish the join and clean up;
+            // we do not detach monitor_thread_ here to avoid use-after-free.
         }
     }
     
