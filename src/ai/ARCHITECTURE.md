@@ -16,13 +16,14 @@ Wave C C1/C2 safety-gate and telemetry integrations also extend into production 
 3. Request payload is serialized to JSON.
 4. Endpoint invocation uses configured transport (`endpoint_invoke_fn`) or curl fallback.
 5. Response JSON is parsed and mapped into `GeneratedPlugin`.
-6. Mandatory fields are checked before success is returned.
+6. Optional sandbox gating materializes a per-run artifact bundle into `sandbox_dir`, verifies round-trip readability, copies the bundle into `output_dir`, and then invokes any configured callback policy.
+7. Mandatory fields and optional policy gates are checked before success is returned.
 
 ## Core Contracts
 
 | Contract | Behavior |
 |---|---|
-| `AIPluginGenerator::Config` | defines endpoint URL, timeout, paths, and optional custom invoker |
+| `AIPluginGenerator::Config` | defines endpoint URL, timeout, sandbox/output artifact paths, and optional transport/policy hooks |
 | `validatePrompt` | local guardrail against malformed/oversized request text |
 | `generatePlugin` | end-to-end orchestration and error normalization |
 | `GeneratedPlugin` mapping | converts endpoint payload into typed plugin artifacts |
@@ -40,6 +41,7 @@ Wave C C1/C2 safety-gate and telemetry integrations also extend into production 
 - Invalid JSON fails closed with parse-error context.
 - Missing mandatory `implementation_code` fails closed.
 - Validation errors are returned before any endpoint call.
+- Sandbox materialization or callback verification failures reject the generated plugin fail-closed.
 
 ## Sourcecode Verification (Module: ai/architecture)
 

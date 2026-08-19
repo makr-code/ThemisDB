@@ -11,6 +11,10 @@
 
 #include <gtest/gtest.h>
 #include "ai/ai_plugin_generator.h"
+#include <atomic>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <limits>
 #include <stdexcept>
 #include <string>
@@ -18,6 +22,27 @@
 using namespace themis::plugins::ai;
 
 namespace {
+
+namespace fs = std::filesystem;
+
+struct ScopedTempDir {
+    fs::path path;
+
+    explicit ScopedTempDir(const std::string& prefix) {
+        static std::atomic<std::uint64_t> counter{0};
+        path = fs::temp_directory_path() /
+               (prefix + "_" +
+                std::to_string(static_cast<std::uint64_t>(
+                    std::chrono::system_clock::now().time_since_epoch().count())) +
+                "_" + std::to_string(counter.fetch_add(1, std::memory_order_relaxed)));
+        fs::create_directories(path);
+    }
+
+    ~ScopedTempDir() {
+        std::error_code ec;
+        fs::remove_all(path, ec);
+    }
+};
 
 AIPluginGenerator makeGenerator() {
     AIPluginGenerator::Config cfg;
@@ -391,22 +416,61 @@ TEST(AIPluginGeneratorTest, APG21_GeneratePluginRejectsOversizedSerializedReques
     EXPECT_NE(result.error().message().find("request size limit"), std::string::npos);
 }
 
-// APG-22: sandbox gate fails closed when callback is missing.
-TEST(AIPluginGeneratorTest, APG22_SandboxGateMissingCallbackFailsClosed) {
+// APG-22: sandbox gate materializes artifacts even when no callback is configured.
+TEST(AIPluginGeneratorTest, APG22_SandboxGateMaterializesArtifactsWithoutCallback) {
+    ScopedTempDir sandbox_dir("themis_apg22_sandbox");
+    ScopedTempDir output_dir("themis_apg22_output");
     AIPluginGenerator::Config cfg;
     cfg.enable_sandbox_gate = true;
+    cfg.sandbox_dir = sandbox_dir.path.string();
+    cfg.output_dir = output_dir.path.string();
 
     auto gen = makeGeneratorFromConfig(std::move(cfg));
     auto result = gen.generatePlugin(validPrompt());
-    EXPECT_FALSE(result.has_value());
-    EXPECT_NE(result.error().message().find("sandbox_verify_fn is not configured"), std::string::npos);
-    EXPECT_EQ(gen.getStats().sandbox_rejections, 1u);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_NE(result.value().security_report.find("Sandbox artifact materialization: pass"),
+              std::string::npos);
+    EXPECT_EQ(gen.getStats().sandbox_rejections, 0u);
+    EXPECT_EQ(gen.getStats().successes, 1u);
+
+    std::size_t sandbox_bundle_count = 0;
+    fs::path sandbox_manifest;
+    for (const auto& entry : fs::directory_iterator(sandbox_dir.path)) {
+        if (entry.is_directory()) {
+            ++sandbox_bundle_count;
+            sandbox_manifest = entry.path() / "manifest.json";
+        }
+    }
+    EXPECT_EQ(sandbox_bundle_count, 1u);
+    ASSERT_TRUE(fs::exists(sandbox_manifest));
+
+    std::size_t output_bundle_count = 0;
+    fs::path output_manifest;
+    for (const auto& entry : fs::directory_iterator(output_dir.path)) {
+        if (entry.is_directory()) {
+            ++output_bundle_count;
+            output_manifest = entry.path() / "manifest.json";
+        }
+    }
+    EXPECT_EQ(output_bundle_count, 1u);
+    ASSERT_TRUE(fs::exists(output_manifest));
+
+    std::ifstream manifest_stream(sandbox_manifest);
+    ASSERT_TRUE(manifest_stream.good());
+    const std::string manifest_json((std::istreambuf_iterator<char>(manifest_stream)),
+                                    std::istreambuf_iterator<char>());
+    EXPECT_FALSE(manifest_json.empty());
+    EXPECT_NE(manifest_json.find("build_dependencies"), std::string::npos);
 }
 
 // APG-23: sandbox gate propagates callback rejections and counts them.
 TEST(AIPluginGeneratorTest, APG23_SandboxGateFailurePropagatesAndCountsRejection) {
+    ScopedTempDir sandbox_dir("themis_apg23_sandbox");
+    ScopedTempDir output_dir("themis_apg23_output");
     AIPluginGenerator::Config cfg;
     cfg.enable_sandbox_gate = true;
+    cfg.sandbox_dir = sandbox_dir.path.string();
+    cfg.output_dir = output_dir.path.string();
     cfg.sandbox_verify_fn = [](const GeneratedPlugin&) -> themis::Result<void> {
         return tl::unexpected(themis::Error(
             themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -420,10 +484,14 @@ TEST(AIPluginGeneratorTest, APG23_SandboxGateFailurePropagatesAndCountsRejection
     EXPECT_EQ(gen.getStats().sandbox_rejections, 1u);
 }
 
-// APG-24: sandbox gate appends pass status when callback succeeds.
+// APG-24: sandbox gate appends callback pass status when callback succeeds.
 TEST(AIPluginGeneratorTest, APG24_SandboxGateSuccessAppendsSecurityReport) {
+    ScopedTempDir sandbox_dir("themis_apg24_sandbox");
+    ScopedTempDir output_dir("themis_apg24_output");
     AIPluginGenerator::Config cfg;
     cfg.enable_sandbox_gate = true;
+    cfg.sandbox_dir = sandbox_dir.path.string();
+    cfg.output_dir = output_dir.path.string();
     cfg.sandbox_verify_fn = [](const GeneratedPlugin&) -> themis::Result<void> {
         return {};
     };
@@ -431,7 +499,10 @@ TEST(AIPluginGeneratorTest, APG24_SandboxGateSuccessAppendsSecurityReport) {
     auto gen = makeGeneratorFromConfig(std::move(cfg));
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_NE(result.value().security_report.find("Sandbox verification: pass"), std::string::npos);
+    EXPECT_NE(result.value().security_report.find("Sandbox artifact materialization: pass"),
+              std::string::npos);
+    EXPECT_NE(result.value().security_report.find("Sandbox verification callback: pass"),
+              std::string::npos);
     EXPECT_EQ(gen.getStats().successes, 1u);
 }
 

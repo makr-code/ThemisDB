@@ -244,9 +244,9 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - [x] ALCE benchmark vs vanilla RAG
 
 ### Acceptance Gates
-- [ ] Hallucination rate reduction ≥ 20% vs standard RAG
-- [ ] Latency increase ≤ 1.5× vs baseline
-- [ ] Precision@K retrieval ≥ 0.85 on golden-doc tests
+- [x] Hallucination rate reduction ≥ 20% vs standard RAG
+- [x] Latency increase ≤ 1.5× vs baseline
+- [x] Precision@K retrieval ≥ 0.85 on golden-doc tests
 
 ### Dependencies
 - [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)

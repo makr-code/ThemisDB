@@ -28385,6 +28385,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_rotate_completion.cpp")
 endif()
 
 # ============================================================================
+# Wave B B2: RotatE acceptance gates vs. TransE baseline
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_rotate_completion_acceptance.cpp")
+    message(STATUS "Adding RotatE acceptance-gate tests (KGC-ACC-01..03)")
+
+    add_executable(test_rotate_completion_acceptance_focused
+        graph/test_rotate_completion_acceptance.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/rotate_completion.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+    )
+
+    target_include_directories(test_rotate_completion_acceptance_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_rotate_completion_acceptance_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rotate_completion_acceptance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_rotate_completion_acceptance_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rotate_completion_acceptance_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  RotatEAcceptance: KGC-ACC-01..03 (TransE baseline, MRR/Hits@10, top-20 latency)")
+endif()
+
+# ============================================================================
 # Wave B B1: Self-RAG ALCE benchmark simulation (ALCE-01..ALCE-05)
 # ============================================================================
 
@@ -28456,6 +28494,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_task_lora_ablation.cpp")
     )
 
     message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3-task, avg_improvement, weight sizes)")
+endif()
+
+# ============================================================================
+# Wave B B3: Multi-Task LoRA acceptance gates (MTL-01..13)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_multitask_lora_acceptance_gates.cpp")
+    message(STATUS "Adding Multi-Task LoRA acceptance-gate tests (MTL-01..13)")
+
+    add_executable(test_multitask_lora_acceptance_gates_focused
+        training/test_multitask_lora_acceptance_gates.cpp
+        ${THEMIS_ROOT_DIR}/src/training/multi_task_lora.cpp
+    )
+
+    target_include_directories(test_multitask_lora_acceptance_gates_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_multitask_lora_acceptance_gates_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multitask_lora_acceptance_gates_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_multitask_lora_acceptance_gates_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multitask_lora_acceptance_gates_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  MultiTaskLoRAAcceptance: MTL-01..13 (routing, convergence, performance gain, overhead, ablation)")
 endif()
 
 # ============================================================================

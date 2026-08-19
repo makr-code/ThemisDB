@@ -352,7 +352,6 @@ public:
 private:
     // Forward declaration for private helpers that take ShardEntry parameters.
     struct ShardEntry;
-
     // ---------------------------------------------------------------
     // Internal helpers
     // ---------------------------------------------------------------

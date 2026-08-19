@@ -18,6 +18,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <filesystem>
 #include <optional>
 #include <string>
 #include <vector>
@@ -144,9 +145,11 @@ public:
         std::string llm_endpoint = "http://localhost:8080";
         /// Optional allowlist of permitted LLM endpoints (if empty, all endpoints allowed).
         std::vector<std::string> allowed_llm_endpoints;
-        /// Directory for sandboxed plugin execution/verification (requires enable_sandbox_gate=true).
+        /// Directory used for sandbox verification work artifacts when enable_sandbox_gate=true.
+        /// Generated source files and a manifest snapshot are materialized into a per-run subdirectory.
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
-        /// Directory where generated plugins are stored (for diagnostics/audit).
+        /// Directory where generated plugin artifacts are persisted for diagnostics/audit when
+        /// enable_sandbox_gate=true. A per-run copy of the generated source bundle is written here.
         std::string output_dir = "./generated_plugins";
         /// Maximum HTTP timeout for endpoint invocation (milliseconds).
         long timeout_ms = 10000;
@@ -167,8 +170,12 @@ public:
         /// Callback for federated telemetry reporting (required if enable_c2_federated_telemetry=true).
         FederatedTelemetryFn c2_federated_telemetry_fn;
         /// Enable optional sandbox verification gate for generated code artifacts.
+        /// When enabled, the generator materializes generated files into sandbox_dir/output_dir,
+        /// verifies that the artifact bundle can be written/read back fail-closed, and then
+        /// optionally invokes sandbox_verify_fn for additional policy checks.
         bool enable_sandbox_gate = false;
-        /// Callback invoked to verify a generated plugin before it is returned (required if enable_sandbox_gate=true).
+        /// Optional callback invoked after built-in artifact materialization/verification succeeds.
+        /// Return an Error to reject the generated plugin.
         SandboxVerifyFn sandbox_verify_fn;
     };
 

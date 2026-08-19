@@ -11,6 +11,8 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Added
+- `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: sandbox gate now materializes generated source bundles into `sandbox_dir`, verifies write/read round-trips fail-closed, copies artifacts into `output_dir`, and then runs optional `sandbox_verify_fn` policy hooks.
+- `tests/test_ai_plugin_generator.cpp`: APG-22..24 now cover sandbox artifact materialization without callbacks, callback rejection after materialization, and callback success reporting.
 - `benchmarks/bench_ai_plugin_generator.cpp`: dedicated AI module benchmark target for prompt validation, generation success path, and malformed-response error path coverage.
 - `include/ai/cai_ethics_integration.h` + `src/ai/cai_ethics_integration.cpp`: CAI Safety Module (Wave C C1, issue #5040) — bridges `ConstitutionalReasoningEngine` with `EthicsEvaluator` for unified safety-score gating (≥ 0.80 threshold).
 - `tests/test_cai_safety_module.cpp`: 15 unit/benchmark tests (CAI-01…CAI-12, `EvaluateUsesProvidedLlmFunction`, `EvaluateFallsBackWhenProvidedLlmFunctionReturnsEmptyOutput`, `CAI-BENCH-01`) covering 21 built-in principles registry, critic-revision cycle (≤ 2 rounds), EthicsEvaluator integration, prompt-runner wiring, acceptance-gate logic, latency budget (≤ 2000 ms), and 500-sample human safety benchmark.
@@ -20,6 +22,8 @@ The format is based on Keep a Changelog.
 - `src/llm/constitutional_reasoning_engine.cpp`: expanded `loadDefaultPrinciples()` from 4 to **21** built-in domain-agnostic principles — satisfies Wave C C1 "20+ rules" registry requirement (issue #5040).
 - `tests/test_ai_plugin_generator.cpp`: added APG-26..30 schema-validation tests covering oversized `cmake_code`, oversized `security_report`, oversized `version` (default fallback), oversized manifest `description` (truncation), and oversized `build_dependencies` entries (silent drop).
 - `tests/test_ai_plugin_generator.cpp`: added APG-INT-01 full happy-path integration test with a deterministic endpoint fixture exercising all output fields, schema constraints, and stats in a single round-trip — closes Phase 4 integration-suite item.
+- `tests/graph/test_rotate_completion_acceptance.cpp`: added KGC-ACC-01..03 acceptance coverage for the AI Wave B RotatE package — deterministic TransE baseline comparison, MRR/Hits@10 gate checks, top-20 latency gate, and `KGCompletionEngine`/`KnowledgeGraphReasoner` integration behavior.
+- `tests/training/test_multitask_lora_acceptance_gates.cpp`: acceptance-gate suite is now registered in CMake and enforces the Wave B gain/overhead/routing/convergence gates for multi-task LoRA.
 
 ### Fixed
 - `src/ai/ai_plugin_generator.cpp`: Null pointer + size_t overflow guard in `curlWriteCallback` (HIGH).
@@ -30,6 +34,8 @@ The format is based on Keep a Changelog.
 - `src/llm/constitutional_reasoning_engine.cpp` + `src/ai/cai_ethics_integration.cpp`: caller-provided CAI prompt runners now drive critique/revision generation instead of being ignored; empty callback output still falls back to the deterministic rule-based path.
 - `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: started Wave C production-runtime integration in `AIPluginGenerator` with opt-in C1/C2 hooks — C1 CAI safety-gate callback (`enable_c1_cai_safety_gate`, `c1_cai_eval_fn`, threshold enforcement) and C2 federated telemetry callback (`enable_c2_federated_telemetry`, `c2_federated_telemetry_fn`) now execute in the generation path with fail-closed behavior.
 - `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: completed hardening block for issue #5040 by enforcing field-level `required_capabilities`/`dependencies` validation (entry limits, token checks, duplicate rejection) and endpoint safety controls (optional allow-list + request/response size limits).
+- `src/training/multi_task_lora.cpp`: `runAblationStudy()` now computes a real per-task single-adapter baseline instead of routing through an invalid `shared_rank=0` training path, unblocking the Wave B acceptance suite.
+- `tests/rag/test_self_rag_alce.cpp`: ALCE acceptance coverage now enforces the latency-ratio and hallucination-reduction gates instead of logging diagnostics only.
 - `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: completed optional sandbox verification gate wiring (`enable_sandbox_gate`, `sandbox_verify_fn`) and added per-instance runtime stats (`getStats`) for validation/transport/http/parse/safety/sandbox/success outcome tracking.
 - `tests/test_ai_plugin_generator.cpp`: added APG-09..11 focused tests covering C1 safety-gate pass/reject behavior and C2 telemetry hook invocation.
 - `tests/test_ai_plugin_generator.cpp`: added APG-22..25 coverage for sandbox gate fail-closed/success paths and stats counter tracking.
@@ -47,6 +53,7 @@ The format is based on Keep a Changelog.
 - Focused CMake targets added for all three Wave B test suites.
 
 ### Changed
+- `include/ai/README.md` + `src/ai/README.md` + `src/ai/ARCHITECTURE.md` + `src/ai/ROADMAP.md` + `src/ai/FUTURE_ENHANCEMENTS.md`: synchronized AI module documentation to reflect benchmark registration and enforced sandbox artifact verification behavior.
 - `benchmarks/CMakeLists.txt`: registers `bench_ai_plugin_generator` in the standard benchmark suite.
 - `src/ai/PERFORMANCE_EXPECTATIONS.md` + `src/ai/ROADMAP.md` + `src/ai/AUDIT.md`: close AI-AUD-03 by mapping dedicated AI benchmark coverage and marking benchmark-target roadmap items complete.
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.

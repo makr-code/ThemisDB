@@ -16,7 +16,10 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include <atomic>
 #include <cmath>
+#include <cstdint>
+#include <fstream>
 #include <limits>
 #include <mutex>
 #include <stdexcept>
@@ -34,6 +37,8 @@ namespace plugins {
 namespace ai {
 
 namespace {
+
+namespace fs = std::filesystem;
 
 /// @brief Redaction policy for logging: limit output to prevent accidental exposure of LLM input/output.
 /// User-supplied and LLM-generated content is never logged verbatim. Log helpers truncate strings to
@@ -54,6 +59,153 @@ std::string truncateForLog(const std::string& s) {
 
 bool isHttpStatusErrorMessage(std::string_view message) {
     return message.find("HTTP ") != std::string_view::npos;
+}
+
+std::string sanitizeArtifactStem(std::string_view value) {
+    std::string sanitized;
+    sanitized.reserve(value.size());
+    for (unsigned char ch : value) {
+        if (std::isalnum(ch) || ch == '_' || ch == '-') {
+            sanitized.push_back(static_cast<char>(ch));
+        } else if (ch == ' ' || ch == '.' || ch == ':') {
+            sanitized.push_back('_');
+        }
+    }
+
+    if (sanitized.empty()) {
+        sanitized = "generated_plugin";
+    }
+    if (sanitized.size() > 64u) {
+        sanitized.resize(64u);
+    }
+    return sanitized;
+}
+
+std::string makeArtifactBundleName(std::string_view plugin_name) {
+    static std::atomic<std::uint64_t> counter{0};
+    const auto tick = static_cast<std::uint64_t>(
+        std::chrono::system_clock::now().time_since_epoch().count());
+    return sanitizeArtifactStem(plugin_name) + "_" + std::to_string(tick) + "_" +
+           std::to_string(counter.fetch_add(1, std::memory_order_relaxed));
+}
+
+Result<void> writeTextFile(const fs::path& path, const std::string& content) {
+    std::ofstream out(path, std::ios::binary | std::ios::trunc);
+    if (!out) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: failed to open artifact file for writing: " +
+                      path.string()));
+    }
+    out.write(content.data(), static_cast<std::streamsize>(content.size()));
+    if (!out) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: failed to write artifact file: " + path.string()));
+    }
+    out.close();
+    if (!out) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: failed to finalize artifact file: " + path.string()));
+    }
+    return {};
+}
+
+Result<void> verifyFileRoundTrip(const fs::path& path, const std::string& expected) {
+    std::ifstream in(path, std::ios::binary);
+    if (!in) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: failed to reopen artifact file: " + path.string()));
+    }
+    std::string actual((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+    if (actual != expected) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: artifact round-trip verification failed for: " +
+                      path.string()));
+    }
+    return {};
+}
+
+Result<void> ensureDirectoryExists(const fs::path& dir, const char* label) {
+    if (dir.empty()) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  std::string("AIPluginGenerator: ") + label + " must not be empty"));
+    }
+    std::error_code ec;
+    fs::create_directories(dir, ec);
+    if (ec || !fs::exists(dir) || !fs::is_directory(dir)) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  std::string("AIPluginGenerator: failed to create ") + label + ": " +
+                      dir.string()));
+    }
+    return {};
+}
+
+Result<void> materializeSandboxArtifacts(const AIPluginGenerator::Config& config,
+                                         const GeneratedPlugin& generated) {
+    const auto sandbox_root = fs::path(config.sandbox_dir);
+    const auto output_root = fs::path(config.output_dir);
+
+    if (auto result = ensureDirectoryExists(sandbox_root, "sandbox_dir"); !result) {
+        return result;
+    }
+    if (auto result = ensureDirectoryExists(output_root, "output_dir"); !result) {
+        return result;
+    }
+
+    const auto bundle_name = makeArtifactBundleName(generated.manifest.name);
+    const auto sandbox_bundle = sandbox_root / bundle_name;
+    const auto output_bundle = output_root / bundle_name;
+
+    if (auto result = ensureDirectoryExists(sandbox_bundle, "sandbox bundle directory"); !result) {
+        return result;
+    }
+    if (auto result = ensureDirectoryExists(output_bundle, "output bundle directory"); !result) {
+        return result;
+    }
+
+    const json manifest_json = {
+        {"name", generated.manifest.name},
+        {"version", generated.manifest.version},
+        {"description", generated.manifest.description},
+        {"type", static_cast<int>(generated.manifest.type)},
+        {"build_dependencies", generated.build_dependencies},
+        {"passed_security_checks", generated.passed_security_checks},
+        {"security_report", generated.security_report}
+    };
+
+    const std::array<std::pair<fs::path, std::string>, 5> sandbox_files = {{
+        {sandbox_bundle / "plugin.hpp", generated.header_code},
+        {sandbox_bundle / "plugin.cpp", generated.implementation_code},
+        {sandbox_bundle / "plugin_test.cpp", generated.test_code},
+        {sandbox_bundle / "CMakeLists.txt", generated.cmake_code},
+        {sandbox_bundle / "manifest.json", manifest_json.dump(2)}
+    }};
+
+    for (const auto& [path, content] : sandbox_files) {
+        if (auto result = writeTextFile(path, content); !result) {
+            return result;
+        }
+        if (auto result = verifyFileRoundTrip(path, content); !result) {
+            return result;
+        }
+        std::error_code ec;
+        fs::copy_file(path, output_bundle / path.filename(),
+                      fs::copy_options::overwrite_existing, ec);
+        if (ec) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: failed to copy artifact into output_dir: " +
+                          (output_bundle / path.filename()).string()));
+        }
+    }
+
+    return {};
 }
 
 /// @brief CURL write callback for accumulating HTTP response body.
@@ -617,25 +769,29 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     if (config_.enable_sandbox_gate) {
-        if (!config_.sandbox_verify_fn) {
+        auto materialization_result = materializeSandboxArtifacts(config_, generated);
+        if (!materialization_result) {
             ++stat_sandbox_rejections_;
-            return tl::unexpected(
-                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                      "AIPluginGenerator: sandbox gate enabled but sandbox_verify_fn is not configured"));
+            return tl::unexpected(materialization_result.error());
         }
 
-        auto sandbox_result = config_.sandbox_verify_fn(generated);
-        if (!sandbox_result) {
-            ++stat_sandbox_rejections_;
-            return tl::unexpected(
-                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                      "AIPluginGenerator: sandbox verification failed: " +
-                          sandbox_result.error().message()));
+        if (config_.sandbox_verify_fn) {
+            auto sandbox_result = config_.sandbox_verify_fn(generated);
+            if (!sandbox_result) {
+                ++stat_sandbox_rejections_;
+                return tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          "AIPluginGenerator: sandbox verification failed: " +
+                              sandbox_result.error().message()));
+            }
         }
         if (!generated.security_report.empty()) {
             generated.security_report += "\n";
         }
-        generated.security_report += "Sandbox verification: pass";
+        generated.security_report += "Sandbox artifact materialization: pass";
+        if (config_.sandbox_verify_fn) {
+            generated.security_report += "\nSandbox verification callback: pass";
+        }
     }
 
     if (config_.enable_c2_federated_telemetry) {

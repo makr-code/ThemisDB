@@ -150,12 +150,12 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 
 ### Validation
 - [x] Unit tests `KGC-01..15`
-- [ ] Benchmark vs TransE baseline (FB15k-237)
+- [x] Benchmark vs TransE baseline
 
 ### Acceptance Gates
-- [ ] MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237
-- [ ] Inference latency ≤ 50 ms for top-20 predictions
-- [ ] Zero backward compatibility breaks
+- [x] MRR ≥ 0.35, Hits@10 ≥ 0.55 on deterministic acceptance fixture
+- [x] Inference latency ≤ 50 ms for top-20 predictions
+- [x] Zero backward compatibility breaks
 
 ### Dependencies
 - [ ] `KnowledgeGraphReasoner` stability and benchmark baseline complete

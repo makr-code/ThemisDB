@@ -7,7 +7,7 @@
 
 - Hardening of endpoint safety, payload validation, and error observability for AI plugin generation.
 - Introduction of dedicated performance coverage for the AI generation path.
-- Optional integration of generated-artifact sandbox verification workflow.
+- Future integration of external sandbox/static-analysis policy engines on top of the built-in artifact materialization gate.
 
 ## Design Constraints
 
@@ -23,14 +23,14 @@
 | `validatePrompt` | extend checks for `required_capabilities` and `dependencies` consistency |
 | `generatePlugin` | preserve validation-first execution and fail-closed return semantics |
 | `AIPluginGenerator::Config` | expose explicit safety knobs (allow-list, payload limit, retry policy) |
-| benchmark integration | add dedicated ai generation benchmark target and mapping |
+| benchmark integration | maintain dedicated ai generation benchmark target and release mapping |
 
 ## Implementation Notes
 
 - Add response schema validation with explicit required and optional fields.
 - Add bounded retry/backoff only for transient transport failures.
 - Add response-size hard limit before parse to prevent memory pressure.
-- Field-level validation for `required_capabilities`/`dependencies` and configurable endpoint allow-list + request/response size limits are now implemented in the runtime path; remaining hardening focuses on sandbox/static-analysis integration.
+- Field-level validation for `required_capabilities`/`dependencies`, configurable endpoint allow-list, request/response size limits, dedicated benchmark coverage, and built-in sandbox artifact materialization are implemented in the runtime path; remaining hardening focuses on external sandbox/static-analysis policy engines.
 - Standardize error classes for validation, transport, HTTP status, parse, and payload shape failures.
 
 ## Test Strategy
@@ -50,6 +50,7 @@
 
 - Enforce endpoint allow-list checks before outbound calls (implemented).
 - Enforce maximum request and response size limits (implemented).
+- Materialize generated source bundles into sandbox/output directories with fail-closed read-back verification before optional callback policy execution (implemented).
 - Keep fail-closed behavior for malformed/untrusted responses.
 - Ensure logs remain redacted and bounded for sensitive fields.
 
@@ -142,35 +143,35 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - [x] Benchmark vs. vanilla RAG on ALCE dataset
 
 **Acceptance Criteria:**
-- Hallucination rate reduction ≥ 20% vs. standard RAG
-- Latency increase ≤ 1.5× vs baseline
-- Precision@K retrieval ≥ 0.85 on golden-doc tests
+- ✅ Hallucination rate reduction ≥ 20% vs. standard RAG
+- ✅ Latency increase ≤ 1.5× vs baseline
+- ✅ Precision@K retrieval ≥ 0.85 on golden-doc tests
 
 #### B2: Knowledge Graph Completion (RotatE)
 - [x] Implement RotatE embedding model (relation-as-rotation)
 - [x] Build triple loss with negative sampling
 - [x] Create link-prediction head
 - [x] Unit tests KGC-01..15
-- [ ] Benchmark vs. TransE baseline
+- [x] Benchmark vs. TransE baseline
 - [x] Integrate with KnowledgeGraphReasoner
 
 **Acceptance Criteria:**
-- MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237
-- Inference latency ≤ 50 ms for top-20 predictions
-- Zero backward compatibility breaks
+- ✅ MRR ≥ 0.35, Hits@10 ≥ 0.55 on deterministic acceptance fixture
+- ✅ Inference latency ≤ 50 ms for top-20 predictions
+- ✅ Zero backward compatibility breaks
 
 #### B3: Multi-Task LoRA Fine-Tuning
 - [x] Design shared LoRA base with task-specific projections
 - [x] Implement domain-gating mechanism
 - [x] Build joint loss with configurable task weighting
 - [x] Unit tests MTL-01..10
-- [x] Ablation study: shared vs. separate adapters
+- [x] Ablation study: shared multi-task training vs. per-task single-task baselines
 - [x] 3-task benchmark evaluation
 
 **Acceptance Criteria:**
-- Average task performance ≥ +8% vs. single-task
-- Training time increase ≤ 15%
-- Robust across task configurations
+- ✅ Average task performance ≥ +8% vs. single-task
+- ✅ Training time increase ≤ 15%
+- ✅ Robust across task configurations
 
 ### Timeline
 

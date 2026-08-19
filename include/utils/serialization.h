@@ -243,16 +243,14 @@ public:
         TypeTag readTag();
     
     private:
-        static constexpr size_t MAX_NESTING_DEPTH = 64;
+        static constexpr size_t MAX_NESTING_DEPTH = 64; ///< Maximum allowed array/object nesting depth.
 
         const std::vector<uint8_t>& data_;
         size_t pos_ = 0;
-        size_t depth_ = 0;
+        size_t nesting_depth_ = 0; ///< Current array/object nesting depth for overflow protection.
 
-        size_t nesting_depth_ = 0;  // Phase 2.4c: Stack overflow protection
-        
-       uint32_t readUInt32();
-       uint64_t readUInt64();
+        uint32_t readUInt32();
+        uint64_t readUInt64();
     };
 };
 

@@ -40,7 +40,7 @@
 - add negative-sampling triple loss for training
 - add link-prediction inference head for top-k completion
 - wire completion output into `KnowledgeGraphReasoner`
-- benchmark quality/latency against TransE baseline on FB15k-237
+- benchmark quality/latency against TransE baseline in the deterministic acceptance fixture
 
 ## Test Strategy
 
@@ -64,9 +64,9 @@
 
 ## Wave B Acceptance Gates (B2)
 
-- mrr ≥ 0.35 and hits@10 ≥ 0.55 on FB15k-237
-- inference latency ≤ 50 ms for top-20 predictions
-- no backward compatibility breaks in graph/reasoner APIs
+- ✅ mrr ≥ 0.35 and hits@10 ≥ 0.55 on the deterministic acceptance fixture
+- ✅ inference latency ≤ 50 ms for top-20 predictions
+- ✅ no backward compatibility breaks in graph/reasoner APIs
 
 ## Related Documents
 

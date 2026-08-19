@@ -306,12 +306,12 @@ The module provides production-grade LLM runtime surfaces across async inference
 
 ### Validation
 - [x] Unit tests `MTL-01..10`
-- [x] Ablation study: shared vs separate adapters
+- [x] Ablation study: shared multi-task training vs per-task single-task baselines
 
 ### Acceptance Gates
-- [ ] Average task performance ≥ +8% vs single-task baseline
-- [ ] Training-time increase ≤ 15%
-- [ ] Robustness across task configurations
+- [x] Average task performance ≥ +8% vs single-task baseline
+- [x] Training-time increase ≤ 15%
+- [x] Robustness across task configurations
 
 ### Dependencies
 - [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)

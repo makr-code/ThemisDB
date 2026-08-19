@@ -170,26 +170,11 @@ public:
      * @param adapter_id LoRA adapter ID
      * @return Effective batch size considering weights
      */
-        // ---------------------------------------------------------------------------
+    float calculateEffectiveBatchSize(const std::string& adapter_id) const;
+
+    // ---------------------------------------------------------------------------
     // Callback bridges for graph edge persistence (stub #304)
     // ---------------------------------------------------------------------------
-    /**
-     * @brief Function type for injecting a real graph edge creation backend.
-     *
-     * @param from_key  Source vertex key (feedback record key)
-     * @param to_key    Target vertex key (adapter record key)
-     * @param edge_type Edge label (e.g. "belongs_to_adapter")
-     * @return true if the edge was persisted successfully
-     */
-
-    /**
-     * @brief Function type for injecting a real graph edge deletion backend.
-     *
-     * @param from_key  Source vertex key
-     * @param to_key    Target vertex key
-     * @param edge_type Edge label
-     * @return true if the edge was removed successfully
-     */
 
     /**
      * @brief Inject a real graph-edge creation backend.
@@ -208,8 +193,6 @@ public:
      * Thread-safe: uses an internal mutex.
      */
     void setRemoveGraphLinkFn(RemoveGraphLinkFn fn);
-
-float calculateEffectiveBatchSize(const std::string& adapter_id) const;
 
 private:
     Config config_;

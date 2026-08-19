@@ -13,6 +13,7 @@
 #include "llm/paged_kv_cache.h"
 #include <cmath>
 #include <algorithm>
+#include <cmath>
 
 namespace themis {
 namespace llm {
