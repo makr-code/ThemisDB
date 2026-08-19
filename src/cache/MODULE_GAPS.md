@@ -88,7 +88,7 @@ This file documents all documentation and code quality gaps in the **cache** mod
 
 | Gap | File | Fix |
 |-----|------|-----|
-| `null_dereference` (57 instances) | `bounded_lru_cache.cpp` | Null-guards added before all raw pointer dereferences in linked-list helpers |
+| `null_dereference` (57 instances) | `bounded_lru_cache.cpp` | `[[unlikely]]` null-guards added at `get()`, `put()`, `remove()`, `moveToFront()`, `removeNode()`, `addToFront()`, `removeLRU()`, `contains()`; doubly-linked node cycle-break added in `removeNode()`/`removeLRU()` |
 | `circular_lock_ordering` (114 instances) | `distributed_cache_coordinator.cpp`, `cache_replication_coordinator.cpp`, `redis_cache_coordinator.cpp` | Lock hierarchy documented with `// LOCK ORDER:` comments; `std::scoped_lock` applied where simultaneous acquisition is safe |
 
 ### FALSE POSITIVE Analysis

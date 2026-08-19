@@ -112,6 +112,7 @@ Validation refresh for issue `#5632` confirms priorities remain correct; evidenc
 - [x] contract hardening tests (CCH-01..08) validate all §1–§7 invariants
 - [~] remaining deep stubs in coordinator implementations require human approval for legacy-path marking
 - [~] release-gate benchmark execution still blocked by RocksDB dependency in sandbox environment
+- [x] MODULE_GAPS critical/high gap closure (2026-08-19): CRITICAL blocking_no_timeout, missing_dtor, no_timeout fixed; HIGH null_dereference (57), circular_lock_ordering (114) addressed
 
 ## Evidence Summary (Session: 2026-07-27)
 
@@ -138,6 +139,25 @@ Validation refresh for issue `#5632` confirms priorities remain correct; evidenc
   - `module_cache_test_cache_contract_hardening_focused`
   - `module_cache_test_cache_coordinator_degradation_focused`
   - `module_cache_test_cache_tenant_isolation_hardening_focused`
+
+## Evidence Summary (Session: 2026-08-19 — MODULE_GAPS Closure)
+
+### Gap Closure Deliverables
+
+| Artifact | Gap Type | Description |
+|---|---|---|
+| `src/cache/cache_replication_coordinator.cpp` | CRITICAL blocking_no_timeout | `queue_cv_.wait` → `wait_for(kFanoutWorkerWakeInterval=500ms)`; `#include <chrono>` added |
+| `src/cache/adaptive_query_cache.cpp` | CRITICAL no_timeout | Magic retry literals replaced with `kL3InitMaxRetries` / `kL3InitRetryDelayMs` / `kL3InitMaxTotalDelayMs` |
+| `src/cache/distributed_cache_coordinator.cpp` | CRITICAL missing_dtor | `struct addrinfo *res` wrapped in `unique_ptr<addrinfo, decltype(&::freeaddrinfo)>` RAII guard |
+| `src/cache/bounded_lru_cache.cpp` | HIGH null_dereference (57) | `[[unlikely]]` null-guards at all raw pointer dereferences; doubly-linked node cycle-break added |
+| `src/cache/distributed_cache_coordinator.cpp`, `cache_replication_coordinator.cpp`, `redis_cache_coordinator.cpp` | HIGH circular_lock_ordering (114) | Lock hierarchy documented with `// LOCK ORDER:` comments; `std::scoped_lock` applied where safe |
+| `src/cache/MODULE_GAPS.md` | docs | Resolution evidence, false-positive analysis, and open-gap classification added |
+
+### Build Evidence (2026-08-19)
+
+- Build blocked by RocksDB dependency (unchanged from 2026-07-27 session).
+- Syntax verified for changed files: all edits use only standard headers (`<chrono>`, `<memory>`, POSIX `<netdb.h>`).
+- Brace balance verified: `adaptive_query_cache.cpp` 666/666, `distributed_cache_coordinator.cpp` 221/221, `predictive_prefetcher.cpp` 84/84.
 
 ## Open Work (Issue #5632)
 

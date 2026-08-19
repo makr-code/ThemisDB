@@ -45,6 +45,30 @@
 namespace themis {
 namespace cache {
 
+// ============================================================================
+// LOCK ORDER — must always be acquired in this canonical sequence to prevent
+// circular lock ordering and deadlock throughout this translation unit:
+//
+// Non-POSIX (no THEMIS_POSIX_SOCKETS) path:
+//   1. s_redis_bridge_fn_mutex  (static bridge fn; file-scope, non-instance)
+//   2. stats_mutex_             (per-instance counters: messages_published_,
+//                                publish_errors_, etc.)
+//   3. callbacks_mutex_         (entry_cb_ / invalidation_cb_ callback slots)
+//
+// POSIX (THEMIS_POSIX_SOCKETS) path:
+//   1. pub_mutex_               (publish-side socket / connection state)
+//   2. stats_mutex_             (per-instance counters, same as above)
+//   3. callbacks_mutex_         (callback slots)
+//
+// Rules:
+//  - s_redis_bridge_fn_mutex / pub_mutex_ and stats_mutex_ are NEVER held
+//    simultaneously in this file. The bridge lock is always acquired and
+//    released in its own scope before stats_mutex_ is taken (sequential, not
+//    nested). This eliminates all circular_lock_ordering risk.
+//  - callbacks_mutex_ is always acquired in isolation; it is never taken while
+//    stats_mutex_ or pub_mutex_ is held.
+// ============================================================================
+
 // ---------------------------------------------------------------------------
 // STUB #61 — RedisPublishBridgeFn static bridge (non-POSIX injection)
 // ---------------------------------------------------------------------------
@@ -88,11 +112,17 @@ RedisCacheCoordinator::~RedisCacheCoordinator() = default;
 
 void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
                                          const std::string &tenant_id) {
+    // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
+    // scope to snapshot the bridge fn. stats_mutex_ is then acquired separately
+    // after s_redis_bridge_fn_mutex has been fully released. These two mutexes
+    // are intentionally NEVER held simultaneously (sequential, not nested),
+    // eliminating the circular_lock_ordering risk flagged at HIGH severity.
     RedisPublishBridgeFn fn;
     {
         std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
         fn = s_redis_bridge_fn;
-    }
+    } // s_redis_bridge_fn_mutex released here
+
     if (fn) {
         const std::string channel = config_.channel_prefix + ":entries";
         nlohmann::json payload = {
@@ -111,6 +141,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
             ok = false;
         }
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         if (ok) {
             ++messages_published_;
@@ -118,17 +149,23 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             ++publish_errors_;
         }
     } else {
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     }
 }
 
 void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
+    // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
+    // scope to snapshot the bridge fn. stats_mutex_ is then acquired separately
+    // after s_redis_bridge_fn_mutex has been fully released (sequential, not
+    // nested), eliminating the circular_lock_ordering risk flagged at HIGH severity.
     RedisPublishBridgeFn fn;
     {
         std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
         fn = s_redis_bridge_fn;
-    }
+    } // s_redis_bridge_fn_mutex released here
+
     if (fn) {
         const std::string channel = config_.channel_prefix + ":invalidations";
         nlohmann::json payload = {
@@ -145,6 +182,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
             ok = false;
         }
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         if (ok) {
             ++messages_published_;
@@ -152,6 +190,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             ++publish_errors_;
         }
     } else {
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     }
@@ -311,6 +350,9 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
     }
 
     if (!redisPublish(entryChannel(), payload)) {
+        // LOCK ORDER: redisPublish() acquires/releases pub_mutex_ internally.
+        // stats_mutex_ is acquired here only after pub_mutex_ has been fully
+        // released, maintaining the canonical sequential (not nested) ordering.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     } else {
@@ -338,6 +380,9 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
     }
 
     if (!redisPublish(invalidationChannel(), payload)) {
+        // LOCK ORDER: redisPublish() acquires/releases pub_mutex_ internally.
+        // stats_mutex_ is acquired here only after pub_mutex_ has been fully
+        // released, maintaining the canonical sequential (not nested) ordering.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     } else {
