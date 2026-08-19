@@ -141,6 +141,10 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         endif()
         # Add Wave B labels for tracking
         set(_wave_b_labels "wave_b llm_wiki phase4")
+    elseif(_stem STREQUAL "test_llm_wiki_phase_b_integration")
+        # Wave B Phase B integration tests (LWP-INT-01..05) — self-contained,
+        # no RocksDB or external deps required
+        set(_wave_b_labels "wave_b llm_wiki release_critical phase_b_integration")
     else()
         set(_wave_b_labels "")
     endif()

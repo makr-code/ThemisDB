@@ -90,10 +90,10 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Representative-hardware p95/p99 baselines are refreshed for sharding, replication, GPU, voice, and transaction (Target: Q4 2026)
 
 ### Wave A Closure Batch (current execution order)
-- [~] Batch A1 — Transaction verification + chaos evidence: close build/run verification, coordinator crash-recovery validation, retry-storm control, and deterministic timeout/rollback evidence in `src/transaction/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A1 — Transaction verification + chaos evidence: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-TIMEOUT-01..03, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02 delivered (83 tests total, registered `release_critical` 2026-08-19); build/CI execution evidence still pending. See `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` (Target: Q3–Q4 2026)
 - [x] Batch A2 — Replication geo placement + WAL lag controls: deliver placement policy, async cross-region WAL shipping, lag alerts, and stronger failover diagnostics in `src/replication/ROADMAP.md` (Target: Q3–Q4 2026) — ✅ COMPLETE 2026-08-18
-- [~] Batch A3 — Voice fail-closed hardening: reject malformed/oversized streams, harden liveness/anti-spoof regressions, and prove safe multi-session teardown in `src/voice/ROADMAP.md` (Target: Q3–Q4 2026)
-- [~] Batch A4 — GPU fallback/timeout safety: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and prove clean CPU degradation in `src/gpu/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A3 — Voice fail-closed hardening: VOICE-CHAOS-01..12, stream validation (8 tests), adversarial anti-spoof (12+ tests), multi-session teardown all delivered 2026-08-18. See `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; representative-hardware baselines and CI green still pending (Target: Q3–Q4 2026)
+- [~] Batch A4 — GPU fallback/timeout safety: GPU-TIMEOUT-01..12 (KernelSLAGuard enforcement), GPU-EXHAUST-01..12, GPU-FALLBACK-01..12 all delivered and registered `release_critical`. See `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; CUDA-call reduction (340→170) and representative-hardware baselines still pending (Target: Q3–Q4 2026)
 - [x] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026) — ✅ technical closure complete 2026-08-17 (`src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`)
 - [x] **Batch A-Query** — Query planning determinism + exception safety + null safety: timeout safety (24 gaps), exception safety at boundaries (46 gaps), determinism gates (8 gaps), null safety validation (15 gaps) ✅ **COMPLETE 2026-08-17** — 69+ HIGH gaps fixed, all exit criteria met. See `ai_working/WAVE_A_QUERY_MODULE_FINAL_CLOSURE_2026_08_17.md`
 - [x] **Batch A-Support** — Process (Phase 1-6 ✅), Failover (Phase 2+3 ✅), Updates (Phase 2-6 ✅) production-ready integration for v2.4.0 GA — See `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md`
@@ -102,7 +102,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 ### Wave B — Performance Consolidation (Q3–Q4 2026)
 - [x] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026, COMPLETE 2026-08-17/18 per `src/search/ROADMAP.md` + `src/search/WAVE_B_DOCUMENTATION_CLOSURE.md`)
 - [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026, COMPLETE 2026-08-17 per `src/access_model/ROADMAP.md`)
-- [~] LLM Wiki Phase B: advance only after measurable and reproducible RocksDB retrieval, cache hit-rate, and query-latency gates (Target: Q3–Q4 2026) — LWP-RT-01/LWP-GATE-01/LWP-PERF-01 complete; Phase-B RocksDB representative-hardware closure pending
+- [~] LLM Wiki Phase B: Phase B integration tests delivered (LWP-INT-01..05, 16 tests, `tests/llm/test_llm_wiki_phase_b_integration.cpp`, registered `wave_b release_critical` 2026-08-19); RocksDB representative-hardware retrieval/cache/latency closure still pending (Target: Q3–Q4 2026)
 
 ### Wave B Exit Criteria (Gate to Wave C)
 - [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded

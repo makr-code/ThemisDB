@@ -152,12 +152,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: Phase 2/3 focused tests (P23-01..08) and release-gate benchmarks (GP23-01..06) are already delivered.
-- [~] Chaos/fault-injection evidence: focused timeout/fallback/resource-safety CPU-only regressions are now covered; broader resource-exhaustion and all-path fault-injection suites remain open.
-- [~] Fail-closed verification: timeout enforcement now avoids unsafe stream destruction and focused regressions prove clean CPU fallback on timeout/exception paths, but full all-path proof is still pending.
-- [ ] Representative-hardware p95/p99 baselines: representative-hardware refresh remains open for backend and acceleration paths; `bench_gpu_a8_baselines` is now wired into the benchmark build for evidence capture.
-- [~] `release_critical` coverage: timeout/fallback/resource-exhaustion focused targets are now registered `release_critical`, but full green-on-`develop` evidence remains open.
-  - 2026-08-18: current develop evidence gap is CI-lane specific, not test-registration specific; push-side `ci-pr-gates` passed while `ci-build` has not yet yielded a completed release-critical proof point for GPU.
-- [~] Next closure batch: resource-exhaustion and representative-hardware closure remain open after the delivered CUDA-call/RAII/timeout/fallback hardening.
+- [x] Kernel SLA timeout enforcement: `KernelSLAGuard` delivered in `include/themis/gpu/gpu_timeout.h`; 12 deterministic timeout-enforcement tests (GPU-TIMEOUT-01..12) implemented in `tests/gpu/test_gpu_wave_a_timeout_closure.cpp` (registered `release_critical` 2026-08-19). See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
+- [x] Resource-exhaustion and all-path CPU-fallback: `test_gpu_resource_exhaustion.cpp` (GPU-EXHAUST-01..12) and `test_gpu_fallback_all_paths.cpp` (GPU-FALLBACK-01..12) registered `release_critical` 2026-08-18.
+- [~] Unchecked CUDA call reduction: 340 calls identified; Phase C pre-requisite is 50% (→170); in progress.
+- [~] RAII lifecycle gap closure: 57 gaps identified; `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` deliver wrapper infrastructure; full gap closure in progress.
+- [ ] Representative-hardware p95/p99 baselines: `bench_gpu_a8_baselines.cpp` wired into benchmark build; hardware execution evidence pending.
+- [~] `release_critical` coverage: Wave A targets registered; green-on-`develop` execution evidence still pending.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
