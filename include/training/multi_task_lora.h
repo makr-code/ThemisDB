@@ -88,13 +88,13 @@ struct TaskMetrics {
  * 
  * Tracks performance gates required for Wave B (Q1-Q2 2027):
  *  - avg_perf_gain: Average task performance gain vs single-task baseline (target: ≥ +8%)
- *  - training_time_overhead: Training time increase vs single-task (target: ≤ 15%)
+ *  - training_time_overhead: Training time increase vs aggregated per-task single-task baselines (target: ≤ 15%)
  *  - task_routing_latency_ms: Average task routing latency (target: ≤ 10ms)
  *  - convergence_stable: Whether training converged stably across epochs
  */
 struct AcceptanceGateMetrics {
     double avg_perf_gain         = 0.0;   ///< Avg performance gain ≥ +8% (Wave B gate)
-    double training_time_overhead = 0.0;  ///< Training time overhead ≤ 15% (Wave B gate)
+    double training_time_overhead = 0.0;  ///< Training time overhead vs aggregated per-task baselines ≤ 15%
     double task_routing_latency_ms = 0.0; ///< Task routing latency ≤ 10ms (Wave B gate)
     bool   convergence_stable    = false; ///< Convergence validated across epochs
     size_t convergence_epochs    = 0;     ///< Epochs to reach stable loss
@@ -265,14 +265,14 @@ public:
     MTLTrainResult benchmarkThreeTaskTransfer(size_t num_samples = 100);
 
     /**
-     * @brief Run ablation study comparing shared vs separate-adapter training.
+     * @brief Run ablation study comparing shared multi-task training vs per-task single-task baselines.
      *
-     * Compares two adapter configurations:
+     * Compares two training configurations:
      *  - Shared base with per-task heads (current implementation)
-     *  - Separate per-task adapters (baseline)
+     *  - One independently trained single-task model per task, aggregated as the baseline
      *
      * @param samples Training samples for evaluation.
-     * @return Pair of (shared_result, separate_result) for comparison.
+     * @return Pair of (shared_result, baseline_result) for comparison.
      */
     std::pair<MTLTrainResult, MTLTrainResult> runAblationStudy(
        const std::vector<MTLSample>& samples);

@@ -448,7 +448,7 @@ public:
             samples.push_back(s_c);
         }
         
-        // Train the multi-task model
+        // Train the multi-task model for the benchmark configuration.
         return train(samples);
     }
 
@@ -458,20 +458,23 @@ public:
             throw std::runtime_error("runAblationStudy: no samples provided");
 
         // First result: shared-base (current implementation)
+        const auto shared_start = std::chrono::steady_clock::now();
         MTLTrainResult shared_result = train(samples);
+        const auto shared_end = std::chrono::steady_clock::now();
+        const double shared_train_seconds =
+            std::chrono::duration<double>(shared_end - shared_start).count();
 
-        // Second result: separate-adapter baseline.
+        // Second result: per-task single-task baseline.
         //
-        // Train one task-specific adapter per task on its own samples and
-        // aggregate the resulting metrics. This provides a real single-task
-        // baseline without relying on an unsupported shared_rank=0 code path.
+        // Train one single-task model per task on its own samples and aggregate
+        // the resulting metrics. This provides a real single-task baseline
+        // without relying on an unsupported shared_rank=0 code path.
         MTLTrainResult separate_result;
         separate_result.success = true;
         separate_result.epochs_run = cfg_.epochs;
 
-        double weighted_loss_sum = 0.0;
         size_t weighted_sample_sum = 0;
-        double task_accuracy_sum = 0.0;
+        double baseline_joint_loss_sum = 0.0;
         double baseline_train_seconds = 0.0;
 
         for (const auto& task : tasks_) {
@@ -504,34 +507,40 @@ public:
 
             const auto& metrics = task_result.per_task.front();
             separate_result.per_task.push_back(metrics);
-            weighted_loss_sum += metrics.train_loss * static_cast<double>(metrics.num_samples);
             weighted_sample_sum += metrics.num_samples;
-            task_accuracy_sum += metrics.accuracy;
+            baseline_joint_loss_sum +=
+                task_result.joint_loss * static_cast<double>(metrics.num_samples);
         }
-
         if (weighted_sample_sum > 0) {
             separate_result.joint_loss =
-                weighted_loss_sum / static_cast<double>(weighted_sample_sum);
+                baseline_joint_loss_sum / static_cast<double>(weighted_sample_sum);
         }
         if (!separate_result.per_task.empty()) {
             const double baseline_accuracy =
-                task_accuracy_sum / static_cast<double>(separate_result.per_task.size());
+                std::accumulate(separate_result.per_task.begin(), separate_result.per_task.end(), 0.0,
+                    [](double acc, const TaskMetrics& metrics) {
+                        return acc + metrics.accuracy;
+                    }) / static_cast<double>(separate_result.per_task.size());
             const double shared_accuracy =
                 std::accumulate(shared_result.per_task.begin(), shared_result.per_task.end(), 0.0,
                     [](double acc, const TaskMetrics& metrics) {
                         return acc + metrics.accuracy;
                     }) / static_cast<double>(shared_result.per_task.size());
             if (baseline_accuracy > 0.0) {
-                separate_result.avg_improvement =
-                    ((shared_accuracy - baseline_accuracy) / baseline_accuracy) * 100.0;
+                shared_result.avg_improvement =
+                    (shared_accuracy - baseline_accuracy) / baseline_accuracy;
+                shared_result.acceptance_gates.avg_perf_gain =
+                    shared_result.avg_improvement * 100.0;
             }
         }
-        separate_result.acceptance_gates = shared_result.acceptance_gates;
+        separate_result.avg_improvement = 0.0;
+        separate_result.acceptance_gates.avg_perf_gain = 0.0;
         if (baseline_train_seconds > 0.0) {
-            const size_t task_count = std::max<size_t>(1, tasks_.size());
-            separate_result.acceptance_gates.training_time_overhead =
-                std::min(15.0, 5.0 * static_cast<double>(task_count));
+            shared_result.acceptance_gates.training_time_overhead =
+                std::max(0.0, ((shared_train_seconds - baseline_train_seconds)
+                    / baseline_train_seconds) * 100.0);
         }
+        separate_result.acceptance_gates.training_time_overhead = 0.0;
 
         return {shared_result, separate_result};
     }

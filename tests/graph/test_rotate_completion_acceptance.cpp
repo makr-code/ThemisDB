@@ -51,7 +51,7 @@ RotatEConfig acceptanceCfg() {
     return cfg;
 }
 
-std::vector<KGTriple> acceptanceTriples() {
+std::vector<KGTriple> acceptanceTrainingTriples() {
     return {
         {"alice", "mentor_of", "bob"},
         {"bob", "mentor_of", "carol"},
@@ -63,17 +63,22 @@ std::vector<KGTriple> acceptanceTriples() {
         {"globex", "located_in", "paris"},
         {"initech", "located_in", "rome"},
         {"alice", "works_at", "acme"},
-        {"bob", "works_at", "acme"},
-        {"carol", "works_at", "globex"},
         {"dave", "works_at", "initech"},
-        {"erin", "works_at", "initech"},
         {"frank", "works_at", "globex"},
         {"alice", "lives_in", "berlin"},
+        {"dave", "lives_in", "rome"},
+        {"frank", "lives_in", "paris"},
+    };
+}
+
+std::vector<KGTriple> acceptanceEvalTriples() {
+    return {
+        {"bob", "works_at", "acme"},
+        {"carol", "works_at", "globex"},
+        {"erin", "works_at", "initech"},
         {"bob", "lives_in", "berlin"},
         {"carol", "lives_in", "paris"},
-        {"dave", "lives_in", "rome"},
         {"erin", "lives_in", "rome"},
-        {"frank", "lives_in", "paris"},
     };
 }
 
@@ -304,7 +309,8 @@ std::vector<double> latencySamplesMs(RotatEModel& model,
 
 TEST(RotateCompletionAcceptanceTest, KGC_ACC_01_RotatEBeatsTransEAndMeetsQualityGates) {
     auto config = acceptanceCfg();
-    const auto triples = acceptanceTriples();
+    const auto training_triples = acceptanceTrainingTriples();
+    const auto eval_triples = acceptanceEvalTriples();
     const auto entities = acceptanceEntities();
     const auto relations = acceptanceRelations();
 
@@ -315,7 +321,7 @@ TEST(RotateCompletionAcceptanceTest, KGC_ACC_01_RotatEBeatsTransEAndMeetsQuality
     for (const auto& relation : relations) {
         rotate_model.addRelation(relation);
     }
-    const auto rotate_result = rotate_model.train(triples);
+    const auto rotate_result = rotate_model.train(training_triples);
     ASSERT_TRUE(rotate_result.success);
 
     TransEBaselineModel transe_model(config.embedding_dim);
@@ -325,10 +331,10 @@ TEST(RotateCompletionAcceptanceTest, KGC_ACC_01_RotatEBeatsTransEAndMeetsQuality
     for (const auto& relation : relations) {
         transe_model.addRelation(relation);
     }
-    transe_model.train(triples, config.epochs, config.learning_rate);
+    transe_model.train(training_triples, config.epochs, config.learning_rate);
 
     const auto rotate_metrics = evaluatePredictions(
-        triples,
+        eval_triples,
         [&](const std::string& head, const std::string& relation) {
             return rotate_model.rankTail(head, relation, entities.size());
         },
@@ -336,7 +342,7 @@ TEST(RotateCompletionAcceptanceTest, KGC_ACC_01_RotatEBeatsTransEAndMeetsQuality
             return rotate_model.rankHead(relation, tail, entities.size());
         });
     const auto transe_metrics = evaluatePredictions(
-        triples,
+        eval_triples,
         [&](const std::string& head, const std::string& relation) {
             return transe_model.rankTail(head, relation, entities.size());
         },
@@ -352,7 +358,7 @@ TEST(RotateCompletionAcceptanceTest, KGC_ACC_01_RotatEBeatsTransEAndMeetsQuality
 
 TEST(RotateCompletionAcceptanceTest, KGC_ACC_02_Top20InferenceLatencyWithinGate) {
     auto config = acceptanceCfg();
-    const auto triples = acceptanceTriples();
+    const auto triples = acceptanceTrainingTriples();
 
     RotatEModel model(config);
     for (const auto& entity : acceptanceEntities()) {
@@ -381,7 +387,7 @@ TEST(RotateCompletionAcceptanceTest, KGC_ACC_03_KGCompletionEnginePreservesPubli
     for (const auto& relation : acceptanceRelations()) {
         engine.addRelation(relation);
     }
-    ASSERT_TRUE(engine.train(acceptanceTriples()).success);
+    ASSERT_TRUE(engine.train(acceptanceTrainingTriples()).success);
 
     KnowledgeGraphReasoner reasoner;
     engine.setReasoner(&reasoner, 1000.0);

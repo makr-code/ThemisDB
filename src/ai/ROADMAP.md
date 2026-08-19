@@ -136,7 +136,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Domain-gating mechanism
 - [x] Joint loss with configurable task weighting
 - [x] Unit tests MTL-01..10
-- [x] Shared-vs-separate adapter ablation
+- [x] Shared-vs-single-task baseline ablation
 - [x] 3-task benchmark evaluation
 
 ### Acceptance Gates

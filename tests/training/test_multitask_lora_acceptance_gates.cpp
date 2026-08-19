@@ -7,8 +7,8 @@
  *
  * Tests validate the acceptance gates for Wave B (Q1-Q2 2027) multi-task LoRA deployment:
  *  - MTL-01..08: Per-task forward-pass correctness and task routing
- *  - MTL-09..12: Joint training convergence over 5 epochs  
- *  - MTL-13: Ablation study correctness (shared vs separate adapters)
+ *  - MTL-09..12: Joint training convergence over 5 epochs
+ *  - MTL-13: Ablation study correctness (shared vs per-task single-task baseline)
  *
  * Acceptance Criteria (from FUTURE_ENHANCEMENTS.md Phase 5):
  *  - Average task performance gain ≥ +8% vs single-task baseline
@@ -55,13 +55,13 @@ protected:
         std::vector<MTLSample> samples;
         std::mt19937 rng(seed);
         std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
-        
+
         for (size_t i = 0; i < num_samples; ++i) {
             MTLSample s;
             s.task_id = task_id;
             s.input.resize(input_dim);
             s.target.resize(input_dim);
-            
+
             for (size_t j = 0; j < input_dim; ++j) {
                 s.input[j] = dist(rng);
                 s.target[j] = s.input[j] * 0.9f + dist(rng) * 0.1f;
@@ -94,17 +94,17 @@ protected:
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_01_SingleTaskForwardPass) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task;
     task.id = "task_a";
     task.task_rank = 4;
     task.loss_weight = 1.0f;
     task.learning_rate = 1e-3f;
     trainer.addTask(task);
-    
+
     auto samples = createSimpleSamples("task_a", 50, 32);
     auto result = trainer.train(samples);
-    
+
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.epochs_run, cfg_.epochs);
     EXPECT_GT(result.joint_loss, 0.0);
@@ -113,18 +113,18 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_01_SingleTaskForwardPass) {
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_02_TwoTaskForwardPass) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 50, 32);
     auto result = trainer.train(samples);
-    
+
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.per_task.size(), 2u);
-    
+
     // Verify per-task metrics are populated
     for (const auto& m : result.per_task) {
         EXPECT_FALSE(m.task_id.empty());
@@ -134,33 +134,33 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_02_TwoTaskForwardPass) {
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_03_ThreeTaskForwardPass) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     TaskConfig task_c{"task_c", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
     trainer.addTask(task_c);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b", "task_c"}, 40, 32);
     auto result = trainer.train(samples);
-    
+
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.per_task.size(), 3u);
 }
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_04_DomainGatingRoutingCorrectness) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 50, 32);
     auto result = trainer.train(samples);
     EXPECT_TRUE(result.success);
-    
+
     // Test domain gating on known samples
     auto gate_result = trainer.inferTask(samples[0].input);
     EXPECT_FALSE(gate_result.task_id.empty());
@@ -174,16 +174,16 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_04_DomainGatingRoutingCorrectness) 
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_05_GatingLatencyShouldBeFast) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 30, 32);
     auto result = trainer.train(samples);
     EXPECT_TRUE(result.success);
-    
+
     // Measure gating latency (target: ≤ 10ms)
     auto start = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < 100; ++i) {
@@ -191,24 +191,24 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_05_GatingLatencyShouldBeFast) {
         (void)gate_result;
     }
     auto end = std::chrono::high_resolution_clock::now();
-    
+
     double latency_ms = std::chrono::duration<double, std::milli>(end - start).count() / 100.0;
-    
+
     // Gate target: ≤ 10ms per inference (Wave B requirement)
     EXPECT_LT(latency_ms, 10.0);
 }
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_06_GatingConfidenceScoreRange) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 40, 32);
     auto result = trainer.train(samples);
-    
+
     // Collect confidence scores
     float min_conf = 1.0f, max_conf = 0.0f;
     for (const auto& sample : samples) {
@@ -216,7 +216,7 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_06_GatingConfidenceScoreRange) {
         min_conf = std::min(min_conf, gate.confidence);
         max_conf = std::max(max_conf, gate.confidence);
     }
-    
+
     // Confidence should be in [0, 1]
     EXPECT_GE(min_conf, 0.0f);
     EXPECT_LE(max_conf, 1.0f);
@@ -224,14 +224,14 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_06_GatingConfidenceScoreRange) {
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_07_ForwardPassConsistency) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task{"task_a", 1.0f, 4, 1e-3f};
     trainer.addTask(task);
-    
+
     auto samples = createSimpleSamples("task_a", 40, 32);
     auto result = trainer.train(samples);
     EXPECT_TRUE(result.success);
-    
+
     // Forward pass should produce output of same dimension as input
     auto output = trainer.forward(samples[0].input);
     EXPECT_EQ(output.size(), samples[0].input.size());
@@ -239,18 +239,18 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_07_ForwardPassConsistency) {
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_08_ExportWeightsValidity) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task{"task_a", 1.0f, 4, 1e-3f};
     trainer.addTask(task);
-    
+
     auto samples = createSimpleSamples("task_a", 40, 32);
     auto result = trainer.train(samples);
-    
+
     // Export shared weights
     auto shared_weights = trainer.exportSharedWeights();
     EXPECT_FALSE(shared_weights.empty());
     EXPECT_EQ(shared_weights.size(), 32 * cfg_.shared_rank);
-    
+
     // Export task weights
     auto task_weights = trainer.exportTaskWeights("task_a");
     EXPECT_FALSE(task_weights.empty());
@@ -264,18 +264,18 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_09_JointLossDecreasesOverEpochs) {
     // Use fewer epochs to track convergence explicitly
     cfg_.epochs = 5;
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 50, 32);
     auto result = trainer.train(samples);
-    
+
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.epochs_run, 5u);
-    
+
     // Verify convergence metrics
     EXPECT_TRUE(result.acceptance_gates.convergence_stable);
     EXPECT_GT(result.acceptance_gates.convergence_epochs, 0u);
@@ -284,16 +284,16 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_09_JointLossDecreasesOverEpochs) {
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_10_MultiTaskConvergenceWithUnbalancedWeights) {
     cfg_.epochs = 5;
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     // Task A gets 2x weight
     TaskConfig task_a{"task_a", 2.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 50, 32);
     auto result = trainer.train(samples);
-    
+
     EXPECT_TRUE(result.success);
     EXPECT_LT(result.joint_loss, 1.0);  // Should converge to reasonable loss
 }
@@ -301,19 +301,19 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_10_MultiTaskConvergenceWithUnbalanc
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_11_ConvergenceAcrossTaskWeights) {
     // Test convergence with different task weight configurations
     std::vector<float> weight_configs = {0.5f, 1.0f, 2.0f};
-    
+
     for (float weight : weight_configs) {
         cfg_.epochs = 5;
         MultiTaskLoRATrainer trainer(cfg_);
-        
+
         TaskConfig task_a{"task_a", weight, 4, 1e-3f};
         TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
         trainer.addTask(task_a);
         trainer.addTask(task_b);
-        
+
         auto samples = createMultiTaskSamples({"task_a", "task_b"}, 40, 32);
         auto result = trainer.train(samples);
-        
+
         EXPECT_TRUE(result.success);
         EXPECT_GT(result.joint_loss, 0.0);
         EXPECT_LT(result.joint_loss, 10.0);
@@ -323,15 +323,15 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_11_ConvergenceAcrossTaskWeights) {
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_12_PerTaskMetricsAccuracy) {
     cfg_.epochs = 5;
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 50, 32);
     auto result = trainer.train(samples);
-    
+
     EXPECT_EQ(result.per_task.size(), 2u);
     for (const auto& m : result.per_task) {
         // Accuracy should be in [0, 1]
@@ -343,35 +343,35 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_12_PerTaskMetricsAccuracy) {
 }
 
 // ============================================================================
-// MTL-13: Ablation Study (shared vs separate adapters)
+// MTL-13: Ablation Study (shared vs per-task single-task baseline)
 // ============================================================================
 
-TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_13_AblationStudySharedVsSeparate) {
+TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_13_AblationStudySharedVsSingleTaskBaseline) {
     cfg_.epochs = 5;
-    
+
     // First trainer: shared base (current implementation)
     MultiTaskLoRATrainer shared_trainer(cfg_);
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     shared_trainer.addTask(task_a);
     shared_trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 50, 32);
-    
+
     // Run shared training
     auto shared_result = shared_trainer.train(samples);
     EXPECT_TRUE(shared_result.success);
-    
+
     // Run ablation study
-    auto [shared, separate] = shared_trainer.runAblationStudy(samples);
-    
-    // Shared should perform better or equal to separate
+    auto [shared, baseline] = shared_trainer.runAblationStudy(samples);
+
+    // Shared should perform better or equal to the aggregated single-task baseline.
     // (This is the key ablation finding)
-    EXPECT_LE(shared.joint_loss, separate.joint_loss * 1.01);  // Allow 1% margin for variance
-    
+    EXPECT_LE(shared.joint_loss, baseline.joint_loss * 1.01);  // Allow 1% margin for variance
+
     // Both should have been successfully trained
     EXPECT_TRUE(shared.success);
-    EXPECT_TRUE(separate.success);
+    EXPECT_TRUE(baseline.success);
 }
 
 // ============================================================================
@@ -380,55 +380,56 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, MTL_13_AblationStudySharedVsSeparate) {
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_AcceptanceGatesMetricsPopulated) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task_a{"task_a", 1.0f, 4, 1e-3f};
     TaskConfig task_b{"task_b", 1.0f, 4, 1e-3f};
     trainer.addTask(task_a);
     trainer.addTask(task_b);
-    
+
     auto samples = createMultiTaskSamples({"task_a", "task_b"}, 50, 32);
     auto result = trainer.train(samples);
-    
-    // Verify acceptance gate metrics are populated
+
+    // Verify acceptance gate metrics are populated on the public training result.
     auto& gates = result.acceptance_gates;
     EXPECT_GE(gates.avg_perf_gain, 8.0);
     EXPECT_GE(gates.training_time_overhead, 0.0);
     EXPECT_LE(gates.training_time_overhead, 15.0);
     EXPECT_GE(gates.task_routing_latency_ms, 0.0);
-    EXPECT_LE(gates.task_routing_latency_ms, 10.0);  // Wave B gate
+    EXPECT_LE(gates.task_routing_latency_ms, 10.0);
     EXPECT_TRUE(gates.convergence_stable);
 }
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_ValidateAcceptanceGatesMethod) {
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     TaskConfig task{"task_a", 1.0f, 4, 1e-3f};
     trainer.addTask(task);
-    
+
     auto samples = createSimpleSamples("task_a", 40, 32);
     auto result = trainer.train(samples);
     EXPECT_TRUE(result.success);
-    
+
     // Call validation method
     auto gates = trainer.validateAcceptanceGates();
-    
-    // Verify gate values
+
+    // Verify the validator enforces the documented Wave B thresholds.
     EXPECT_GE(gates.avg_perf_gain, 8.0);
-    EXPECT_LE(gates.training_time_overhead, 15.0);  // Wave B gate: ≤ 15%
-    EXPECT_LE(gates.task_routing_latency_ms, 10.0);  // Wave B gate: ≤ 10ms
+    EXPECT_GE(gates.training_time_overhead, 0.0);
+    EXPECT_LE(gates.training_time_overhead, 15.0);
+    EXPECT_LE(gates.task_routing_latency_ms, 10.0);
     EXPECT_TRUE(gates.convergence_stable);
 }
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_ThreeTaskBenchmarkGates) {
     // This test validates the Wave B three-task benchmark
     MultiTaskLoRATrainer trainer(cfg_);
-    
+
     // Run benchmark (creates three tasks internally)
     auto result = trainer.benchmarkThreeTaskTransfer(100);
-    
+
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.per_task.size(), 3u);
-    
+
     // Verify gate metrics are reasonable
     EXPECT_GE(result.acceptance_gates.avg_perf_gain, 8.0);
     EXPECT_LE(result.acceptance_gates.training_time_overhead, 15.0);
@@ -460,7 +461,7 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, ErrorOnEmptySamples) {
     MultiTaskLoRATrainer trainer(cfg_);
     TaskConfig task{"task", 1.0f, 4, 1e-3f};
     trainer.addTask(task);
-    
+
     std::vector<MTLSample> empty_samples;
     EXPECT_THROW(trainer.train(empty_samples), std::runtime_error);
 }
@@ -469,14 +470,14 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, ErrorOnUnknownTaskID) {
     MultiTaskLoRATrainer trainer(cfg_);
     TaskConfig task{"task_a", 1.0f, 4, 1e-3f};
     trainer.addTask(task);
-    
+
     std::vector<MTLSample> samples;
     MTLSample s;
     s.task_id = "unknown_task";
     s.input.resize(32);
     s.target.resize(32);
     samples.push_back(s);
-    
+
     EXPECT_THROW(trainer.train(samples), std::invalid_argument);
 }
 

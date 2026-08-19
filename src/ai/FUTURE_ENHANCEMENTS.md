@@ -165,7 +165,7 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - [x] Implement domain-gating mechanism
 - [x] Build joint loss with configurable task weighting
 - [x] Unit tests MTL-01..10
-- [x] Ablation study: shared vs. separate adapters
+- [x] Ablation study: shared multi-task training vs. per-task single-task baselines
 - [x] 3-task benchmark evaluation
 
 **Acceptance Criteria:**

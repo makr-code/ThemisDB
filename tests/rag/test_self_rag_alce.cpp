@@ -210,12 +210,12 @@ TEST(SelfRAGALCETest, ALCE_01_LatencyRatioWithinBound) {
     // so the acceptance gate is stable in local and CI environments.
     constexpr size_t kIterations = 64;
     long long vanilla_ns = 0;
-    auto t0 = std::chrono::steady_clock::now();
     for (size_t i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
         vanilla_cb(query, 5);
+        auto t1 = std::chrono::steady_clock::now();
+        vanilla_ns += std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
     }
-    auto t1 = std::chrono::steady_clock::now();
-    vanilla_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 
     // Self-RAG: full refinement loop.
     SelfRAGController ctrl(goldenCfg());
@@ -233,14 +233,14 @@ TEST(SelfRAGALCETest, ALCE_01_LatencyRatioWithinBound) {
     }
 
     long long self_rag_ns = 0;
-    t0 = std::chrono::steady_clock::now();
     for (size_t i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
         auto res = ctrl.runRefinementLoop(query, 0.0);
+        auto t1 = std::chrono::steady_clock::now();
         EXPECT_EQ(res.total_rounds_used, 1u);
+        self_rag_ns += std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
         ctrl.reset();
     }
-    t1 = std::chrono::steady_clock::now();
-    self_rag_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 
     // The acceptance gate is latency ≤ 1.5× vanilla.
     const double latency_ratio = vanilla_ns > 0
