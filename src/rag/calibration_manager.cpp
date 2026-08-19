@@ -10,6 +10,7 @@
  */
 
 #include "rag/calibration_manager.h"
+#include "utils/checksum_utils.h"
 #include "utils/logger.h"
 
 #include <algorithm>
