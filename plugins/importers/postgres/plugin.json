@@ -46,5 +46,6 @@
     "pg_dump"
   ],
   "auto_load": false,
-  "load_priority": 50
+  "load_priority": 50,
+  "visibility": "public"
 }

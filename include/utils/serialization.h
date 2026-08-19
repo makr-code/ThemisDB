@@ -133,10 +133,10 @@ public:
      * return safe defaults (0, false, empty string/vector) rather than
      * crashing on malformed or truncated input.
      *
-     * @note Nesting depth: Encoded arrays/objects may be nested up to the
-     *   available stack depth. Crafted inputs with extreme nesting may cause
-     *   stack overflow; callers that accept untrusted input should bound
-     *   maximum nesting depth externally.
+     * @note Nesting depth: Decoder enforces a hard maximum nesting depth of
+     *   128 container levels. Once exceeded, beginArray()/beginObject()
+     *   return 0 and advance to a fail-safe state to prevent unbounded
+     *   recursion on malformed or adversarial input.
      *
      * @error_contract
      * | Condition | ErrorCode | Severity | Logging | Recovery |
@@ -251,8 +251,8 @@ public:
 
         size_t nesting_depth_ = 0;  // Phase 2.4c: Stack overflow protection
         
-        uint32_t readUInt32();
-        uint64_t readUInt64();
+       uint32_t readUInt32();
+       uint64_t readUInt64();
     };
 };
 

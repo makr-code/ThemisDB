@@ -137,6 +137,7 @@
 - [ ] **Test Gate:** Device-01 to Device-06 focused tests (detection, capability, selection)
 - [ ] **Benchmark Gate:** Detection latency ≤100ms, capability query accuracy >99%
 - **Target:** Q4 2026 | **Severity:** MEDIUM
+- **2026-08-19 update:** `DeviceManager` now supports deterministic injected capability snapshots for focused validation, synthesizes a CPU fallback on empty probe results, and has explicit coverage for cache reuse, refresh re-probe, best-device selection, and observability logging. Remaining work: runtime capability thresholds and benchmark evidence on real GPU hardware.
 
 ### Critical Path 5: Performance Profiling & Telemetry (IMPL + DOC)
 - [ ] **IMPL Gap:** Implement GPU kernel performance profiling

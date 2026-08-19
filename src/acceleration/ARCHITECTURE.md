@@ -24,7 +24,7 @@ The Acceleration module implements backend discovery, capability-driven dispatch
 
 ## 3. Runtime Control Flow
 
-1. Registry and device manager probe available capabilities.
+1. Registry and device manager probe available capabilities, using runtime discovery by default or an injected deterministic snapshot in focused validation.
 2. Runtime selection chooses matching backend surfaces by requirements.
 3. Workloads route through selected backend or deterministic fallback path.
 4. Plugin/shader security checks gate dynamic execution surfaces.
@@ -41,6 +41,7 @@ The Acceleration module implements backend discovery, capability-driven dispatch
 ## 5. Concurrency Model
 
 - runtime selection is initialized once and then consumed concurrently
+- device probing is cache-backed and can be deterministically overridden in focused tests without changing production selection code
 - backend operations support concurrent workload execution paths
 - multi-device and resource-control paths coordinate shared state explicitly
 

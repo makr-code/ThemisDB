@@ -38,7 +38,7 @@ TEST_F(SerializationTest, DecoderUInt32BoundsOverflow) {
     };
     
     Serialization::Decoder decoder(truncated);
-    TypeTag tag = decoder.readTag();
+    auto tag = decoder.readTag();
     EXPECT_EQ(tag, Serialization::TypeTag::UINT32);
     
     // Attempting to read 4 bytes from empty buffer should not crash
@@ -114,7 +114,7 @@ TEST_F(SerializationTest, DecoderBinaryBoundsOverflow) {
 TEST_F(SerializationTest, DecoderFloatVectorBoundsOverflow) {
     // Scenario: Float vector claims 1000 floats (4000 bytes) but has only 100
     std::vector<uint8_t> malformed;
-    malformed.push_back(static_cast<uint8_t>(Serialization::TypeTag::FLOAT_VECTOR));
+    malformed.push_back(static_cast<uint8_t>(Serialization::TypeTag::VECTOR_FLOAT));
     
     // Count: 1000 floats
     malformed.push_back(0xE8);  // 1000 in LE
@@ -140,7 +140,7 @@ TEST_F(SerializationTest, DecoderFloatVectorBoundsOverflow) {
 
 TEST_F(SerializationTest, RoundTripUInt32) {
     encoder.encodeUInt32(0xDEADBEEF);
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     uint32_t decoded = decoder.decodeUInt32();
@@ -150,7 +150,7 @@ TEST_F(SerializationTest, RoundTripUInt32) {
 
 TEST_F(SerializationTest, RoundTripUInt64) {
     encoder.encodeUInt64(0x0123456789ABCDEFULL);
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     uint64_t decoded = decoder.decodeUInt64();
@@ -161,7 +161,7 @@ TEST_F(SerializationTest, RoundTripUInt64) {
 TEST_F(SerializationTest, RoundTripString) {
     std::string original = "Hello, World! テスト";
     encoder.encodeString(original);
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     std::string decoded = decoder.decodeString();
@@ -172,7 +172,7 @@ TEST_F(SerializationTest, RoundTripString) {
 TEST_F(SerializationTest, RoundTripBinary) {
     std::vector<uint8_t> original = {0x00, 0x11, 0x22, 0x33, 0xFF, 0xFE};
     encoder.encodeBinary(original);
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     std::vector<uint8_t> decoded = decoder.decodeBinary();
@@ -183,7 +183,7 @@ TEST_F(SerializationTest, RoundTripBinary) {
 TEST_F(SerializationTest, RoundTripFloatVector) {
     std::vector<float> original = {1.0f, 2.5f, 3.14159f, -0.5f};
     encoder.encodeFloatVector(original);
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     std::vector<float> decoded = decoder.decodeFloatVector();
@@ -209,7 +209,7 @@ TEST_F(SerializationTest, EmptyBuffer) {
 
 TEST_F(SerializationTest, EmptyString) {
     encoder.encodeString("");
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     std::string decoded = decoder.decodeString();
@@ -219,7 +219,7 @@ TEST_F(SerializationTest, EmptyString) {
 
 TEST_F(SerializationTest, EmptyBinary) {
     encoder.encodeBinary(std::vector<uint8_t>());
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     std::vector<uint8_t> decoded = decoder.decodeBinary();
@@ -231,7 +231,7 @@ TEST_F(SerializationTest, LargeString) {
     // Create a large string (1MB)
     std::string large(1024 * 1024, 'A');
     encoder.encodeString(large);
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     std::string decoded = decoder.decodeString();
@@ -243,7 +243,7 @@ TEST_F(SerializationTest, LargeBinary) {
     // Create large binary data (2MB)
     std::vector<uint8_t> large(2 * 1024 * 1024, 0xAB);
     encoder.encodeBinary(large);
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     Serialization::Decoder decoder(buffer);
     std::vector<uint8_t> decoded = decoder.decodeBinary();
@@ -255,7 +255,7 @@ TEST_F(SerializationTest, TruncatedInMiddleOfRead) {
     // Encode multiple values
     encoder.encodeUInt32(12345);
     encoder.encodeString("test");
-    auto buffer = encoder.getBuffer();
+    auto buffer = encoder.finish();
     
     // Truncate buffer mid-way
     std::vector<uint8_t> truncated(buffer.begin(), buffer.begin() + buffer.size() / 2);
@@ -271,4 +271,3 @@ TEST_F(SerializationTest, TruncatedInMiddleOfRead) {
 
 } // namespace utils
 } // namespace themis
-

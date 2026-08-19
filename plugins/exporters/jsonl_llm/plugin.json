@@ -22,5 +22,6 @@
     ]
   },
   "auto_load": false,
-  "load_priority": 5
+  "load_priority": 5,
+  "visibility": "public"
 }

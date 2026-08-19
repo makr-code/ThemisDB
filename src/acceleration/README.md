@@ -31,6 +31,7 @@ In scope:
 - plugin and shader validation for acceleration runtime surfaces
 - multi-GPU and resource-management coordination paths
 - acceleration-specific observability and runtime diagnostics
+- deterministic device-probe injection for focused hardware-detection tests
 
 Out of scope:
 - higher-level business logic in consuming modules
@@ -40,6 +41,7 @@ Out of scope:
 ## Known Limitations
 
 - runtime behavior depends on hardware, driver, and build-flag configuration
+- when runtime discovery yields no usable accelerator snapshot, the module exposes a synthetic `CPU Fallback` device and keeps backend selection fail-closed
 - some backend combinations remain deployment-specific and environment-dependent
 - advanced distributed and plugin scenarios require continuous hardening evidence
 
@@ -59,6 +61,7 @@ Out of scope:
   - src/acceleration/vllm_resource_manager.cpp
 - Verified behavior surfaces:
   - backend selection and fallback dispatch
+  - deterministic device probing, CPU-fallback synthesis, and focused test injection
   - plugin and shader trust/validation controls
   - multi-device and resource-management integration
 - Note:

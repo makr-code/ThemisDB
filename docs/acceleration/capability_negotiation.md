@@ -38,6 +38,9 @@ This guarantee holds at two levels:
    `GeoKernelFallbackDispatcher` wrap a primary (GPU) kernel dispatch table and
    a fallback (CPU) table, routing unsupported or transiently failing operations
    to the CPU path.
+3. **Probe-level fallback** — `DeviceManager` caches the latest capability
+   snapshot and emits a synthetic `CPU Fallback` device when discovery yields
+   no accelerator entries.
 
 ---
 
@@ -221,6 +224,21 @@ when the caller does not supply custom ones:
 ---
 
 ## Runtime Backend Selection
+
+### DeviceManager probe bridge
+
+`DeviceManager` is the canonical bridge between low-level hardware discovery and
+registry-level backend selection:
+
+- production path: call `themis::gpu::DeviceDiscovery::Enumerate()`
+- focused validation path: call `DeviceManager::setEnumerateFn()` with an
+  injected `std::vector<DeviceCapabilityInfo>`
+- empty-result safety: synthesize a single `CPU Fallback` device (`index == -1`)
+  so capability negotiation remains fail-closed and observable
+
+This keeps the runtime selection code identical across production and focused
+tests while allowing deterministic validation of cache reuse, refresh re-probe,
+best-device selection, and CPU fallback behavior on headless CI.
 
 ### initializeRuntime()
 
