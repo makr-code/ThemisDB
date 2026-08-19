@@ -19,24 +19,23 @@
 - `fp_wave2_top10_triage.md` (2026-08-19, 3,475 B)
 - `fp_delta_wave2_report.json` (2026-08-19, 19,808 B)
 - `fp_delta_wave2_report.md` (2026-08-19, 4,340 B)
-- `WAVE_GATE_DASHBOARD.md` (2026-08-19, 13,138 B)
-- `WAVE_D_DEPENDENCY_RESOLUTION_GUIDE.md` (2026-08-19, 12,980 B)
 - `WAVE_D_FINAL_DEPENDENCY_LIST.md` (2026-08-19, 3,126 B)
 - `WAVE_D_PARALLEL_EXECUTION_CONSOLIDATION.md` (2026-08-19, 16,454 B)
 - `WAVE_D_PREREQUISITE_VERIFICATION_2026_08_15.md` (2026-08-19, 24,353 B)
 - `WAVE_D_SESSION_SUMMARY.md` (2026-08-19, 8,579 B)
-- `WAVE_C_IMPLEMENTATION_TRACKER.md` (2026-08-19, 6,629 B)
+- `WAVE_GATE_DASHBOARD.md` (2026-08-19, 13,138 B)
 - `WAVE_C_PREPARATION_PLAN_2026_08_18.md` (2026-08-19, 13,617 B)
 - `WAVE_D_D4_00_BUILD_ENVIRONMENT_STATUS.md` (2026-08-19, 11,393 B)
 - `WAVE_D_D4_00_CONTINUATION_REPORT.md` (2026-08-19, 13,146 B)
 - `WAVE_D_D4_00_EVIDENCE_TEMPLATE.md` (2026-08-19, 11,406 B)
 - `WAVE_D_D4_00_SESSION_STATUS.md` (2026-08-19, 11,172 B)
 - `WAVE_D_D4_00_TEST_EXECUTION_PLAN.md` (2026-08-19, 10,140 B)
+- `WAVE_D_DEPENDENCY_RESOLUTION_GUIDE.md` (2026-08-19, 12,980 B)
 - `WAVE_B_STATUS_UPDATE_2026_08_18_POST_LLM_WIKI.md` (2026-08-19, 12,029 B)
 - `WAVE_B_VERIFICATION_REPORT.md` (2026-08-19, 15,307 B)
 - `WAVE_C_BASELINE_LOCK.md` (2026-08-19, 15,882 B)
 - `WAVE_C_BASELINE_LOCK_QUICK_REFERENCE.md` (2026-08-19, 7,180 B)
-- `WAVE_B_FINAL_CHECKLIST.md` (2026-08-19, 5,118 B)
+- `WAVE_C_IMPLEMENTATION_TRACKER.md` (2026-08-19, 6,629 B)
 - `WAVE_B_FINAL_CONSOLIDATION_REPORT_2026_08_18.md` (2026-08-19, 13,891 B)
 - `WAVE_B_LLM_WIKI_PHASE_B_DECISION.md` (2026-08-19, 11,181 B)
 - `WAVE_B_QUERY_IMPLEMENTATION_STRATEGY.md` (2026-08-19, 17,551 B)
@@ -47,6 +46,7 @@
 - `WAVE_B_EXECUTION_PLAN_2026_08_18.md` (2026-08-19, 17,805 B)
 - `WAVE_B_EXECUTION_SESSION_SUMMARY_2026_08_18.md` (2026-08-19, 11,390 B)
 - `WAVE_B_EXIT_CRITERIA_VALIDATION_REPORT_2026_08_18.md` (2026-08-19, 17,476 B)
+- `WAVE_B_FINAL_CHECKLIST.md` (2026-08-19, 5,118 B)
 - `WAVE_A_TESTING_AND_VALIDATION_STRATEGY.md` (2026-08-19, 18,689 B)
 - `WAVE_B_ACCEPTANCE_CHECKLIST.md` (2026-08-19, 7,428 B)
 - `WAVE_B_ACCEPTANCE_GATES_SUMMARY.md` (2026-08-19, 14,309 B)
@@ -59,7 +59,6 @@
 - `WAVE_A_SESSION_COMPLETION_SUMMARY_2026-08-16.md` (2026-08-19, 13,398 B)
 - `WAVE_A_SESSION_SUMMARY_2026-08-16.md` (2026-08-19, 11,706 B)
 - `WAVE_A_SHARDING_CLOSURE_COORDINATION.md` (2026-08-19, 4,849 B)
-- `WAVE_A_EXECUTIVE_SUMMARY_FOR_USER.md` (2026-08-19, 6,126 B)
 - `WAVE_A_EXIT_SIGN_OFF_PREPARATION_2026_08_18.md` (2026-08-19, 16,784 B)
 - `WAVE_A_FINAL_SIGN_OFF_CHECKLIST.md` (2026-08-19, 13,981 B)
 - `WAVE_A_INTERMEDIATE_PROGRESS_2026-08-16-14-30.md` (2026-08-19, 13,359 B)
@@ -72,6 +71,7 @@
 - `WAVE_A_CI_BLOCKERS_REMEDIATION.md` (2026-08-19, 7,392 B)
 - `WAVE_A_CLOSURE_INTEGRATION_TEMPLATE.md` (2026-08-19, 7,720 B)
 - `WAVE_A_COMPREHENSIVE_STATUS_2026-08-16-14-45.md` (2026-08-19, 18,959 B)
+- `WAVE_A_EXECUTIVE_SUMMARY_FOR_USER.md` (2026-08-19, 6,126 B)
 - `WAVE_A_1C_1D_IMPLEMENTATION_PLAN.md` (2026-08-19, 3,604 B)
 - `WAVE_A_1C_1D_VERIFICATION.md` (2026-08-19, 8,587 B)
 - `WAVE_A_8_AGENT_EXECUTION_STATUS.md` (2026-08-19, 11,301 B)
@@ -91,6 +91,7 @@
 - `WAVE_A8_IMPLEMENTATION_PLAN.md` (2026-08-19, 4,170 B)
 - `WAVE_A8_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 14,808 B)
 - `WAVE_A8_IMPLEMENTATION_SUMMARY.txt` (2026-08-19, 9,640 B)
+- `WAVE1_SERVER_LLM_TICKETS_2026-05-25.json` (2026-08-19, 5,616 B)
 - `WAVE1_SERVER_LLM_TICKETS_2026-05-25.md` (2026-08-19, 6,533 B)
 - `WAVE2_ANALYSIS_START.md` (2026-08-19, 1,642 B)
 - `WAVE2_COMPLETION_ANALYSIS.md` (2026-08-19, 8,978 B)
@@ -104,12 +105,11 @@
 - `WAVE1_ISSUE_MAPPING_2026-05-25.md` (2026-08-19, 441 B)
 - `WAVE1_PRIVATE_PLUGIN_SUBMODULE_STATUS_2026_08_10.md` (2026-08-19, 9,224 B)
 - `WAVE1_REMEDIATION_REVISED_PRIORITIES_2026-06-21.md` (2026-08-19, 6,065 B)
-- `WAVE1_SERVER_LLM_TICKETS_2026-05-25.json` (2026-08-19, 5,616 B)
-- `SPRINT8_WAVE3_KICKOFF.md` (2026-08-19, 5,287 B)
 - `SPRINT8_WAVE2_FINAL_REPORT.md` (2026-08-19, 9,771 B)
 - `SPRINT8_WAVE2_SUMMARY.txt` (2026-08-19, 7,147 B)
 - `SPRINT8_WAVE3_ANALYSIS_REPORT.md` (2026-08-19, 5,633 B)
 - `SPRINT8_WAVE3_FINAL_REPORT.md` (2026-08-19, 10,969 B)
+- `SPRINT8_WAVE3_KICKOFF.md` (2026-08-19, 5,287 B)
 - `SCAN_TOP20_ACTIONABLE_WAVE1.md` (2026-08-19, 10,422 B)
 - `PHASE_2_WAVE_B_SERVER_MODULE_PLAN_2026-08-18.md` (2026-08-19, 11,077 B)
 - `GITHUB_ISSUES_WAVE1_TRACKING_2026-06-21.md` (2026-08-19, 5,349 B)
@@ -809,99 +809,6 @@ Scope: full src+include scan (3183 files)
 
 ---
 
-### WAVE_GATE_DASHBOARD.md
-
-*(file too large — key headings extracted)*
-
-# Wave A/B/C/D Gate Fulfillment Dashboard
-**Status:** Batch 6 Phase 6.2 — Wave Gate Dashboard
-**Date:** 2026-08-14
-**Last Updated:** Per root ROADMAP.md Section "Program Execution Model"
----
-## Overview
----
-## Wave A: Runtime Reliability (Q3–Q4 2026)
-### Gate Definitions (from ROADMAP.md §Wave A Exit Criteria)
-| Gate | Definition | Target | Status |
-|------|-----------|--------|--------|
-| **A-01** | Deterministic chaos evidence for transaction/sharding/replication recovery | Q4 2026 | 🟡 In Progress |
-| **A-02** | Fail-closed behavior verified for all distributed and acceleration paths | Q4 2026 | 🟡 In Progress |
-| **A-03** | `release_critical` CI green on `develop` for all Wave A impacted modules | Q4 2026 | 🟡 In Progress |
-| **A-04** | Representative-hardware p95/p99 baselines refreshed for all Wave A modules | Q4 2026 | 📋 Planned |
-### Module Status (Wave A Impacted)
-| Module | Phase | P95/P99 Baseline | Chaos Evidence | Fail-Closed | Critical Tests | Status |
-|--------|-------|------------------|-----------------|-----------|-----------------|--------|
-| **process** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **failover** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **updates** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **maintenance** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **replication** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **network** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **storage** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **acceleration** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
-| **gpu** | 5 | ❌ None | 🟡 Draft | ⚠️ Partial | 6/8 | 🟡 In Progress |
-| **distributed_tensor** | 6 | ⚠️ Partial | ✅ Complete | ✅ Complete | 8/8 | ✅ On Track |
-| **voice** | 4 | ❌ None | ❌ None | ⚠️ Partial | 4/8 | 🟡 In Progress |
-**Wave A Exit Gate Status:** 🟡 **IN PROGRESS** (6/11 modules at Phase 6, 2/11 at Phase 5)
-### Wave A Remediation Tasks
-| Task | Owner | Target | Priority |
-|------|-------|--------|----------|
-| Complete p95/p99 baselines for all Wave A modules | — | Q4 2026 | P0 |
-| Chaos: transaction coordinator crash recovery validation | process | Q3 2026 | P0 |
-| Chaos: sharding topology-change rebalance hardening | sharding | Q3 2026 | P0 |
-| Chaos: failover determinism + topology validation | failover | Q3 2026 | P0 |
-| Fail-closed: GPU graceful CPU degradation | gpu | Q4 2026 | P1 |
-| Fail-closed: voice stream malformed/oversized rejection | voice | Q4 2026 | P1 |
-| `release_critical` CI green for all modules | — | Q4 2026 | P0 |
----
-## Wave B: Performance Consolidation (Q3–Q4 2026)
-
----
-
-### WAVE_D_DEPENDENCY_RESOLUTION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# Wave D D4-00 — Dependency Resolution Log & Guide
-**Date:** 2026-08-17
-**Session:** Wave D Build Verification (Attempts 1-4)
-**Branch:** copilot/implement-real-sourcecode-to-close-gaps (PR #5962)
----
-## Executive Summary
----
-## Complete Dependency Installation Checklist
-### All Required Packages (One-Time Setup)
-# Run all at once:
-sudo apt-get update && sudo apt-get install -y \
-libfmt-dev \
-libspdlog-dev \
-nlohmann-json3-dev \
-libmimalloc-dev \
-libyaml-cpp-dev \
-libcurl4-openssl-dev \
-libboost-dev
-### Individual Package Details
-| # | Package | Purpose | Status | Install Command |
-|---|---------|---------|--------|-----------------|
-| 1 | `libfmt-dev` | C++ formatting library | ✅ Installed | `sudo apt-get install libfmt-dev` |
-| 2 | `libspdlog-dev` | Structured logging | ✅ Installed | `sudo apt-get install libspdlog-dev` |
-| 3 | `nlohmann-json3-dev` | JSON parsing | ✅ Installed | `sudo apt-get install nlohmann-json3-dev` |
-| 4 | `libmimalloc-dev` | Memory allocator | ✅ Installed | `sudo apt-get install libmimalloc-dev` |
-| 5 | `libyaml-cpp-dev` | YAML configuration | ✅ Installed | `sudo apt-get install libyaml-cpp-dev` |
-| 6 | `libcurl4-openssl-dev` | HTTP/TLS client | ✅ Installed | `sudo apt-get install libcurl4-openssl-dev` |
-| 7 | `libboost-dev` | Boost library suite | ✅ Installed | `sudo apt-get install libboost-dev` |
----
-## Build Attempt Timeline
-### Attempt 1: Initial Build
-**Command:** `cmake --build --preset community-release-allow-missing-rocksdb --parallel 16`
-**Status:** ❌ FAILED at 2.3% (34 targets compiled)
-**Error:**
-/home/runner/work/ThemisDB/ThemisDB/src/utils/self_awareness.cpp:15:10:
-fatal error: yaml-cpp/yaml.h: No such file or directory
-15 | #include <yaml-cpp/yaml.h>
-
----
-
 ### WAVE_D_FINAL_DEPENDENCY_LIST.md
 
 # Wave D D4-00 — Final Complete Dependency List
@@ -1337,183 +1244,52 @@ Wave D D4-00 build verification and test execution can proceed immediately in th
 
 ---
 
-### WAVE_C_IMPLEMENTATION_TRACKER.md
+### WAVE_GATE_DASHBOARD.md
 
-# Wave C Implementation Tracking (Q4 2026)
+*(file too large — key headings extracted)*
 
-## Execution Status: STARTED 2026-08-18
-
+# Wave A/B/C/D Gate Fulfillment Dashboard
+**Status:** Batch 6 Phase 6.2 — Wave Gate Dashboard
+**Date:** 2026-08-14
+**Last Updated:** Per root ROADMAP.md Section "Program Execution Model"
 ---
-
-## Batch 1: Audit High-Volume Export Reliability ⏳
-
-**Status:** Starting Implementation  
-**Target:** 4-5 days
-
-### Scope Analysis (from Audit Explorer Report)
-
-**Current State:**
-- Throughput capability: ~1,000-5,000 ops/sec (mutex serialization bottleneck)
-- Target: ≥100,000 ops/sec (GATE-W9-01)
-- Gap: 20-100x shortfall in throughput capacity
-- In-memory only (no persistence layer)
-- No background retention worker thread
-- No batch signing API (1 mutex per entry = throughput cliff)
-
-**Critical Risk Areas Identified:**
-- HuggingFace hub client: 10 CRITICAL data races (lines 207, 408, 591)
-- Export encryption: 11 CRITICAL findings (EVP_CIPHER_CTX not mutex-protected)
-- JSONL LLM exporter: 1 CRITICAL uncaught exception in redaction path
-- Blocking operations in hub client with no timeout bounds
-
-**Load-Handling Gaps (to implement):**
-- [x] Audit integrity infrastructure analyzed (existing: good design, poor scaling)
-- [ ] Lock-free or sharded signing strategy (per-tenant/per-rule buckets)
-- [ ] Batch signing API to amortize mutex overhead
-- [ ] Persistent storage backend (RocksDB) for durability  
-- [ ] Background retention worker to prevent OOM
-- [ ] High-volume entry buffering and concurrent submission
-- [ ] Crash recovery checkpoints with watermark tracking
-- [ ] Export atomicity under 1000+ events/sec load
-- [ ] P95/P99 performance baselines locked in release gates
-- [ ] Fix 10 CRITICAL data races in exporters (blocking this Batch 1)
-
-### Implementation Tasks
-
-#### Task 1: Audit High-Volume Entry Handler (1 day)
-- Create `AuditBatchWriter` class for buffered, concurrent writes
-- Implement lock-free submission queue (or bounded queue with backpressure)
-- Add periodic flush with timeout to prevent stale buffering
-- Guarantee atomicity of batch writes to underlying storage
-- **Files to create/modify:**
-  - `include/governance/audit_batch_writer.h` (new)
-  - `src/governance/audit_batch_writer.cpp` (new)
-  - `include/governance/governance_audit_integrity.h` (extend)
-  - `src/governance/governance_audit_integrity.cpp` (extend)
-
-#### Task 2: Export Reliability Gates (1 day)
-- Extend `AuditIntegrityManager` with idempotency token tracking
-- Add crash-recovery checkpoint support (sequence numbers, hashes)
-- Implement atomic export operations
-- Add checksum/hash verification on export completion
-- **Files to modify:**
-  - `include/governance/governance_audit_integrity.h`
-  - `src/governance/governance_audit_integrity.cpp`
-  - `src/exporters/streaming_exporter.cpp` (audit export path)
-
-#### Task 3: Stress Tests & Crash Recovery (1-1.5 days)
-- Create `test_audit_high_volume_stress.cpp` — 1000+ events/sec sustained
-- Add crash simulation and recovery validation
-- Test idempotency under concurrent submissions
-- Validate p95/p99 latency gates (signing ≤1ms, verification ≤10ms)
-- **Files to create:**
-  - `tests/integration/test_audit_high_volume_stress.cpp` (new)
-  - `tests/integration/test_audit_crash_recovery.cpp` (new)
-  - `tests/integration/test_audit_export_atomicity.cpp` (new)
-
-#### Task 4: Performance Baseline & Benchmarks (1-1.5 days)
-- Create benchmark under `benchmarks/governance/bench_audit_export_high_volume.cpp`
-- Lock p95/p99 baselines for:
-  - Entry signing latency
-  - Batch write throughput
-  - Export throughput
-  - Verification performance under load
-- Integrate into release-critical gates
-- **Files to create/modify:**
-  - `benchmarks/governance/bench_audit_export_high_volume.cpp` (new)
-  - `.github/workflows/ci-pr-gates.yml` (add audit export gate)
-
-### Success Criteria
-- [x] Framework design complete (audit explorer + manual review)
-- [ ] `AuditBatchWriter` with concurrency and atomicity
-- [ ] Crash-recovery checkpoint mechanism tested
-- [ ] Idempotency tokens validated end-to-end
-- [ ] Stress tests demonstrate stable throughput at 1000+ events/sec
-- [ ] P95/P99 latency locked in release gates
-- [ ] No regressions in existing audit functionality
-- [ ] Export remains trustworthy under sustained load
-
+## Overview
 ---
-
-## Batch 2: CI Policy Gates Phase 3 — Manifest Fail-Closed Validation ⏳
-
-**Status:** Analysis Phase  
-**Target:** 3-4 days
-
-### Scope Analysis
-- **Existing Infrastructure:**
-  - `PluginManager::isEditionSupported()` — compile-time edition gate
-  - `PluginManager::isLicensed()` — runtime license gate
-  - Plugin manifest JSON fields: `visibility`, `allowed_editions`, `license_feature`
-  - Some plugins already use these fields (Azure/S3/GCS/Mongo)
-  - Others still missing (HuggingFace, exporters)
-
-- **Policy-Enforcement Gaps (to implement):**
-  - [ ] Consistent schema validation for all plugin manifests
-  - [ ] Runtime fail-closed when edition/license mismatches
-  - [ ] CI gate blocking invalid manifests in PRs
-  - [ ] Comprehensive tests for boundary violation detection
-  - [ ] Integration with pre-release validation workflows
-
-### Implementation Tasks
-- (To be defined after full Batch 1 completion)
-
+## Wave A: Runtime Reliability (Q3–Q4 2026)
+### Gate Definitions (from ROADMAP.md §Wave A Exit Criteria)
+| Gate | Definition | Target | Status |
+|------|-----------|--------|--------|
+| **A-01** | Deterministic chaos evidence for transaction/sharding/replication recovery | Q4 2026 | 🟡 In Progress |
+| **A-02** | Fail-closed behavior verified for all distributed and acceleration paths | Q4 2026 | 🟡 In Progress |
+| **A-03** | `release_critical` CI green on `develop` for all Wave A impacted modules | Q4 2026 | 🟡 In Progress |
+| **A-04** | Representative-hardware p95/p99 baselines refreshed for all Wave A modules | Q4 2026 | 📋 Planned |
+### Module Status (Wave A Impacted)
+| Module | Phase | P95/P99 Baseline | Chaos Evidence | Fail-Closed | Critical Tests | Status |
+|--------|-------|------------------|-----------------|-----------|-----------------|--------|
+| **process** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **failover** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **updates** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **maintenance** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **replication** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **network** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **storage** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **acceleration** | 6 | ⚠️ Partial | 🟡 Draft | ✅ Complete | 8/8 | 🟡 On Track |
+| **gpu** | 5 | ❌ None | 🟡 Draft | ⚠️ Partial | 6/8 | 🟡 In Progress |
+| **distributed_tensor** | 6 | ⚠️ Partial | ✅ Complete | ✅ Complete | 8/8 | ✅ On Track |
+| **voice** | 4 | ❌ None | ❌ None | ⚠️ Partial | 4/8 | 🟡 In Progress |
+**Wave A Exit Gate Status:** 🟡 **IN PROGRESS** (6/11 modules at Phase 6, 2/11 at Phase 5)
+### Wave A Remediation Tasks
+| Task | Owner | Target | Priority |
+|------|-------|--------|----------|
+| Complete p95/p99 baselines for all Wave A modules | — | Q4 2026 | P0 |
+| Chaos: transaction coordinator crash recovery validation | process | Q3 2026 | P0 |
+| Chaos: sharding topology-change rebalance hardening | sharding | Q3 2026 | P0 |
+| Chaos: failover determinism + topology validation | failover | Q3 2026 | P0 |
+| Fail-closed: GPU graceful CPU degradation | gpu | Q4 2026 | P1 |
+| Fail-closed: voice stream malformed/oversized rejection | voice | Q4 2026 | P1 |
+| `release_critical` CI green for all modules | — | Q4 2026 | P0 |
 ---
-
-## Batch 3: CI Policy Gates Phase 3 — Community Leak Prevention ⏳
-
-**Status:** Analysis Phase  
-**Target:** 3-4 days
-
-### Scope Analysis
-- **Existing Infrastructure:**
-  - `governance-gates.yml` — maturity verification workflow
-  - `ci-pr-gates.yml` — PR gate workflow
-  - Branch model: `develop`, `community`, `enterprise`, `hyperscaler`, `military`
-  - Private plugin submodules in `.gitmodules`
-
-- **Leak-Prevention Gaps (to implement):**
-  - [ ] Scoped checkout preventing private credential/source leakage
-  - [ ] Negative testing for private sources in Community builds
-  - [ ] SBOM generation and hash verification gates
-  - [ ] CI conditional logic ensuring no private artifacts in Community lane
-  - [ ] Comprehensive documentation of community build safety
-
-### Implementation Tasks
-- (To be defined after full Batch 1 completion)
-
----
-
-## Batch 4: Integration & Sign-Off ⏳
-
-**Status:** Not Started  
-**Target:** 1-2 days
-
-### Scope
-- Verify all Wave C exit criteria met
-- Create closure evidence summary
-- Gate Wave D entry with passed evidence
-- Human sign-off
-
----
-
-## Execution Log
-
-### 2026-08-18 12:55 UTC
-- Started Wave C Implementation Plan
-- Created analysis and tracking document
-- Identified existing infrastructure vs. gaps
-- Audit explorer running (ETA ~5 min)
-- Proceeding with Batch 1 task breakdown
-
----
-
-## Notes
-
-- Using memory system to track key findings and decision points
-- Audit explorer agent running in background — will notify on completion
-- Implementation follows TDD pattern: tests → code → baseline
-- All work targets `develop` branch per Wave C governance model
+## Wave B: Performance Consolidation (Q3–Q4 2026)
 
 ---
 
@@ -2987,6 +2763,50 @@ Release v2.4.0 to Production 🚀
 
 ---
 
+### WAVE_D_DEPENDENCY_RESOLUTION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# Wave D D4-00 — Dependency Resolution Log & Guide
+**Date:** 2026-08-17
+**Session:** Wave D Build Verification (Attempts 1-4)
+**Branch:** copilot/implement-real-sourcecode-to-close-gaps (PR #5962)
+---
+## Executive Summary
+---
+## Complete Dependency Installation Checklist
+### All Required Packages (One-Time Setup)
+# Run all at once:
+sudo apt-get update && sudo apt-get install -y \
+libfmt-dev \
+libspdlog-dev \
+nlohmann-json3-dev \
+libmimalloc-dev \
+libyaml-cpp-dev \
+libcurl4-openssl-dev \
+libboost-dev
+### Individual Package Details
+| # | Package | Purpose | Status | Install Command |
+|---|---------|---------|--------|-----------------|
+| 1 | `libfmt-dev` | C++ formatting library | ✅ Installed | `sudo apt-get install libfmt-dev` |
+| 2 | `libspdlog-dev` | Structured logging | ✅ Installed | `sudo apt-get install libspdlog-dev` |
+| 3 | `nlohmann-json3-dev` | JSON parsing | ✅ Installed | `sudo apt-get install nlohmann-json3-dev` |
+| 4 | `libmimalloc-dev` | Memory allocator | ✅ Installed | `sudo apt-get install libmimalloc-dev` |
+| 5 | `libyaml-cpp-dev` | YAML configuration | ✅ Installed | `sudo apt-get install libyaml-cpp-dev` |
+| 6 | `libcurl4-openssl-dev` | HTTP/TLS client | ✅ Installed | `sudo apt-get install libcurl4-openssl-dev` |
+| 7 | `libboost-dev` | Boost library suite | ✅ Installed | `sudo apt-get install libboost-dev` |
+---
+## Build Attempt Timeline
+### Attempt 1: Initial Build
+**Command:** `cmake --build --preset community-release-allow-missing-rocksdb --parallel 16`
+**Status:** ❌ FAILED at 2.3% (34 targets compiled)
+**Error:**
+/home/runner/work/ThemisDB/ThemisDB/src/utils/self_awareness.cpp:15:10:
+fatal error: yaml-cpp/yaml.h: No such file or directory
+15 | #include <yaml-cpp/yaml.h>
+
+---
+
 ### WAVE_B_STATUS_UPDATE_2026_08_18_POST_LLM_WIKI.md
 
 # Wave B Status Update: LLM Wiki Phase 3-4 COMPLETE ✅
@@ -3601,59 +3421,183 @@ Wave C is COMPLETE when ALL of:
 
 ---
 
-### WAVE_B_FINAL_CHECKLIST.md
+### WAVE_C_IMPLEMENTATION_TRACKER.md
 
-*(file too large — key headings extracted)*
+# Wave C Implementation Tracking (Q4 2026)
 
-# Wave B Completion Final Checklist
-**Status**: ✅ COMPLETE
-**Date**: 2026-08-17
-**Module**: Search (Retrieval Chain Integration)
-## Phase 1: Critical Gap Verification
-### CRITICAL-1: no_timeout
-- [x] Gap identified: no_timeout in search_result_stream.cpp:52
-- [x] Implementation verified: Default 30s timeout in Config struct
-- [x] Enforcement verified: Lines 69-73 check timeout after search
-- [x] Logging verified: THEMIS_WARN provides diagnostics
-- [x] Conclusion: FIXED and VERIFIED ✅
-### CRITICAL-2: exception_in_destructor
-- [x] Gap identified: exception_in_destructor in hybrid_search.cpp:97
-- [x] Implementation verified: Destructor marked noexcept
-- [x] No exception-throwing code confirmed
-- [x] RAII patterns verified for all members
-- [x] Conclusion: FIXED and VERIFIED ✅
-## Phase 2: High Severity Gap Assessment
-### Gap Scanner Output Analysis
-- [x] Total gaps identified: 854
-- [x] HIGH severity: 71 gaps
-- [x] CRITICAL severity: 2 gaps (addressed above)
-- [x] False positives verified: 70/71 (98.6%)
-- [x] Non-blocking patterns: 1/71 (1.4%)
-- [x] Actionable gaps: 0/71 (0%)
-### Gap Categories Verified
-- [x] scope_mismatch (770): False positives from auto-detection
-- [x] uninitialized_access (11): Include statements flagged; actual code OK
-- [x] todo_as_productionlogic (40): File header metadata, not code comments
-- [x] repeated_search (4): Intentional loop structures
-- [x] Other (58): Deferred to Phase 7 or non-blocking
-### Code Quality Verification
-- [x] All 22 files: Brace balance verified
-- [x] All constructors: Member initialization verified
-- [x] All destructors: Exception safety (noexcept) verified
-- [x] All methods: Error handling comprehensive
-- [x] Memory safety: RAII patterns throughout
-## Phase 3: Test Infrastructure Validation
-### Phase 2 Integration Tests
-- [x] test_search_distributed_merge_phase2.cpp exists
-- [x] Tests P2-01..P2-08 defined (8 total)
-- [x] Merge hardening scenarios covered
-- [x] Degradation flags verified
-- [x] Edge cases included
-### Phase 4 Stress Tests
-- [x] test_search_distributed_merge_stress.cpp exists
-- [x] Tests SDS-01..SDS-16 defined (16 total)
-- [x] Concurrent merge scenarios covered
-- [x] Shard failure injection included
+## Execution Status: STARTED 2026-08-18
+
+---
+
+## Batch 1: Audit High-Volume Export Reliability ⏳
+
+**Status:** Starting Implementation  
+**Target:** 4-5 days
+
+### Scope Analysis (from Audit Explorer Report)
+
+**Current State:**
+- Throughput capability: ~1,000-5,000 ops/sec (mutex serialization bottleneck)
+- Target: ≥100,000 ops/sec (GATE-W9-01)
+- Gap: 20-100x shortfall in throughput capacity
+- In-memory only (no persistence layer)
+- No background retention worker thread
+- No batch signing API (1 mutex per entry = throughput cliff)
+
+**Critical Risk Areas Identified:**
+- HuggingFace hub client: 10 CRITICAL data races (lines 207, 408, 591)
+- Export encryption: 11 CRITICAL findings (EVP_CIPHER_CTX not mutex-protected)
+- JSONL LLM exporter: 1 CRITICAL uncaught exception in redaction path
+- Blocking operations in hub client with no timeout bounds
+
+**Load-Handling Gaps (to implement):**
+- [x] Audit integrity infrastructure analyzed (existing: good design, poor scaling)
+- [ ] Lock-free or sharded signing strategy (per-tenant/per-rule buckets)
+- [ ] Batch signing API to amortize mutex overhead
+- [ ] Persistent storage backend (RocksDB) for durability  
+- [ ] Background retention worker to prevent OOM
+- [ ] High-volume entry buffering and concurrent submission
+- [ ] Crash recovery checkpoints with watermark tracking
+- [ ] Export atomicity under 1000+ events/sec load
+- [ ] P95/P99 performance baselines locked in release gates
+- [ ] Fix 10 CRITICAL data races in exporters (blocking this Batch 1)
+
+### Implementation Tasks
+
+#### Task 1: Audit High-Volume Entry Handler (1 day)
+- Create `AuditBatchWriter` class for buffered, concurrent writes
+- Implement lock-free submission queue (or bounded queue with backpressure)
+- Add periodic flush with timeout to prevent stale buffering
+- Guarantee atomicity of batch writes to underlying storage
+- **Files to create/modify:**
+  - `include/governance/audit_batch_writer.h` (new)
+  - `src/governance/audit_batch_writer.cpp` (new)
+  - `include/governance/governance_audit_integrity.h` (extend)
+  - `src/governance/governance_audit_integrity.cpp` (extend)
+
+#### Task 2: Export Reliability Gates (1 day)
+- Extend `AuditIntegrityManager` with idempotency token tracking
+- Add crash-recovery checkpoint support (sequence numbers, hashes)
+- Implement atomic export operations
+- Add checksum/hash verification on export completion
+- **Files to modify:**
+  - `include/governance/governance_audit_integrity.h`
+  - `src/governance/governance_audit_integrity.cpp`
+  - `src/exporters/streaming_exporter.cpp` (audit export path)
+
+#### Task 3: Stress Tests & Crash Recovery (1-1.5 days)
+- Create `test_audit_high_volume_stress.cpp` — 1000+ events/sec sustained
+- Add crash simulation and recovery validation
+- Test idempotency under concurrent submissions
+- Validate p95/p99 latency gates (signing ≤1ms, verification ≤10ms)
+- **Files to create:**
+  - `tests/integration/test_audit_high_volume_stress.cpp` (new)
+  - `tests/integration/test_audit_crash_recovery.cpp` (new)
+  - `tests/integration/test_audit_export_atomicity.cpp` (new)
+
+#### Task 4: Performance Baseline & Benchmarks (1-1.5 days)
+- Create benchmark under `benchmarks/governance/bench_audit_export_high_volume.cpp`
+- Lock p95/p99 baselines for:
+  - Entry signing latency
+  - Batch write throughput
+  - Export throughput
+  - Verification performance under load
+- Integrate into release-critical gates
+- **Files to create/modify:**
+  - `benchmarks/governance/bench_audit_export_high_volume.cpp` (new)
+  - `.github/workflows/ci-pr-gates.yml` (add audit export gate)
+
+### Success Criteria
+- [x] Framework design complete (audit explorer + manual review)
+- [ ] `AuditBatchWriter` with concurrency and atomicity
+- [ ] Crash-recovery checkpoint mechanism tested
+- [ ] Idempotency tokens validated end-to-end
+- [ ] Stress tests demonstrate stable throughput at 1000+ events/sec
+- [ ] P95/P99 latency locked in release gates
+- [ ] No regressions in existing audit functionality
+- [ ] Export remains trustworthy under sustained load
+
+---
+
+## Batch 2: CI Policy Gates Phase 3 — Manifest Fail-Closed Validation ⏳
+
+**Status:** Analysis Phase  
+**Target:** 3-4 days
+
+### Scope Analysis
+- **Existing Infrastructure:**
+  - `PluginManager::isEditionSupported()` — compile-time edition gate
+  - `PluginManager::isLicensed()` — runtime license gate
+  - Plugin manifest JSON fields: `visibility`, `allowed_editions`, `license_feature`
+  - Some plugins already use these fields (Azure/S3/GCS/Mongo)
+  - Others still missing (HuggingFace, exporters)
+
+- **Policy-Enforcement Gaps (to implement):**
+  - [ ] Consistent schema validation for all plugin manifests
+  - [ ] Runtime fail-closed when edition/license mismatches
+  - [ ] CI gate blocking invalid manifests in PRs
+  - [ ] Comprehensive tests for boundary violation detection
+  - [ ] Integration with pre-release validation workflows
+
+### Implementation Tasks
+- (To be defined after full Batch 1 completion)
+
+---
+
+## Batch 3: CI Policy Gates Phase 3 — Community Leak Prevention ⏳
+
+**Status:** Analysis Phase  
+**Target:** 3-4 days
+
+### Scope Analysis
+- **Existing Infrastructure:**
+  - `governance-gates.yml` — maturity verification workflow
+  - `ci-pr-gates.yml` — PR gate workflow
+  - Branch model: `develop`, `community`, `enterprise`, `hyperscaler`, `military`
+  - Private plugin submodules in `.gitmodules`
+
+- **Leak-Prevention Gaps (to implement):**
+  - [ ] Scoped checkout preventing private credential/source leakage
+  - [ ] Negative testing for private sources in Community builds
+  - [ ] SBOM generation and hash verification gates
+  - [ ] CI conditional logic ensuring no private artifacts in Community lane
+  - [ ] Comprehensive documentation of community build safety
+
+### Implementation Tasks
+- (To be defined after full Batch 1 completion)
+
+---
+
+## Batch 4: Integration & Sign-Off ⏳
+
+**Status:** Not Started  
+**Target:** 1-2 days
+
+### Scope
+- Verify all Wave C exit criteria met
+- Create closure evidence summary
+- Gate Wave D entry with passed evidence
+- Human sign-off
+
+---
+
+## Execution Log
+
+### 2026-08-18 12:55 UTC
+- Started Wave C Implementation Plan
+- Created analysis and tracking document
+- Identified existing infrastructure vs. gaps
+- Audit explorer running (ETA ~5 min)
+- Proceeding with Batch 1 task breakdown
+
+---
+
+## Notes
+
+- Using memory system to track key findings and decision points
+- Audit explorer agent running in background — will notify on completion
+- Implementation follows TDD pattern: tests → code → baseline
+- All work targets `develop` branch per Wave C governance model
 
 ---
 
@@ -4154,6 +4098,62 @@ All 4 layers integrated via `LayeredRetrievalOrchestrator` (verified 2026-08-17)
 - **Test File**: benchmarks/search/bench_search_release_gates.cpp::SRCP_2_DistributedMergeThroughput
 - **Variance**: 60,923–64,771 results/sec across runs (±3.0%)
 #### Gate SRCP-3: Reranking Overhead
+
+---
+
+### WAVE_B_FINAL_CHECKLIST.md
+
+*(file too large — key headings extracted)*
+
+# Wave B Completion Final Checklist
+**Status**: ✅ COMPLETE
+**Date**: 2026-08-17
+**Module**: Search (Retrieval Chain Integration)
+## Phase 1: Critical Gap Verification
+### CRITICAL-1: no_timeout
+- [x] Gap identified: no_timeout in search_result_stream.cpp:52
+- [x] Implementation verified: Default 30s timeout in Config struct
+- [x] Enforcement verified: Lines 69-73 check timeout after search
+- [x] Logging verified: THEMIS_WARN provides diagnostics
+- [x] Conclusion: FIXED and VERIFIED ✅
+### CRITICAL-2: exception_in_destructor
+- [x] Gap identified: exception_in_destructor in hybrid_search.cpp:97
+- [x] Implementation verified: Destructor marked noexcept
+- [x] No exception-throwing code confirmed
+- [x] RAII patterns verified for all members
+- [x] Conclusion: FIXED and VERIFIED ✅
+## Phase 2: High Severity Gap Assessment
+### Gap Scanner Output Analysis
+- [x] Total gaps identified: 854
+- [x] HIGH severity: 71 gaps
+- [x] CRITICAL severity: 2 gaps (addressed above)
+- [x] False positives verified: 70/71 (98.6%)
+- [x] Non-blocking patterns: 1/71 (1.4%)
+- [x] Actionable gaps: 0/71 (0%)
+### Gap Categories Verified
+- [x] scope_mismatch (770): False positives from auto-detection
+- [x] uninitialized_access (11): Include statements flagged; actual code OK
+- [x] todo_as_productionlogic (40): File header metadata, not code comments
+- [x] repeated_search (4): Intentional loop structures
+- [x] Other (58): Deferred to Phase 7 or non-blocking
+### Code Quality Verification
+- [x] All 22 files: Brace balance verified
+- [x] All constructors: Member initialization verified
+- [x] All destructors: Exception safety (noexcept) verified
+- [x] All methods: Error handling comprehensive
+- [x] Memory safety: RAII patterns throughout
+## Phase 3: Test Infrastructure Validation
+### Phase 2 Integration Tests
+- [x] test_search_distributed_merge_phase2.cpp exists
+- [x] Tests P2-01..P2-08 defined (8 total)
+- [x] Merge hardening scenarios covered
+- [x] Degradation flags verified
+- [x] Edge cases included
+### Phase 4 Stress Tests
+- [x] test_search_distributed_merge_stress.cpp exists
+- [x] Tests SDS-01..SDS-16 defined (16 total)
+- [x] Concurrent merge scenarios covered
+- [x] Shard failure injection included
 
 ---
 
@@ -4743,61 +4743,6 @@ User requested **"weiter implementieren"** (continue implementing). Response:
 **Deliverables Expected**:
 - ✓ MULTISHARD_GATE_VALIDATION_REPORT.md
 - ✓ Build requirements documentation
-
----
-
-### WAVE_A_EXECUTIVE_SUMMARY_FOR_USER.md
-
-*(file too large — key headings extracted)*
-
-# Wave A Implementation: Executive Summary for User
-**User Request**: "weiter implementieren" (continue implementing)
-**Date**: 2026-08-16
-**Status**: 67% Complete (2 of 3 parallel agents finished, 1 still running)
----
-## WHAT WAS ACCOMPLISHED THIS SESSION
-### 1. Comprehensive Gap Assessment ✅
-- Identified 53% baseline completion (103 CRITICAL gaps across 5 modules)
-- Prioritized gaps by module and severity
-- Created detailed 5-batch implementation roadmap
-- Estimated 150 total hours over 5-6 weeks
-### 2. 3 Parallel Implementer Agents Launched ✅
-**Agent 1 - Batch A-6 (Transaction)**: ✅ COMPLETE (321 seconds)
-- Fixed iterator safety (data corruption risk)
-- Added timeout parameters (deadlock prevention)
-- Implemented SAGA lifecycle (resource leak prevention)
-- 3 critical data safety gaps closed
-- 9 new unit tests passing
-- Status: ✅ PRODUCTION READY
-**Agent 2 - Batch A-7a (Sharding)**: ✅ COMPLETE (362 seconds)
-- Documented + enforced lock ordering hierarchy
-- Added timeout enforcement to 8 consensus operations
-- Created exponential backoff retry strategy
-- 40+ data safety gaps closed
-- 12+ new unit tests
-- Status: ✅ PRODUCTION READY
-**Agent 3 - Batch A-7b (Replication)**: 🔄 RUNNING (387 seconds elapsed)
-- Implementing geographic placement policy (NEW)
-- Implementing async WAL shipping (NEW)
-- Implementing lag alert manager (NEW)
-- Adding timeout enforcement to cross-region operations
-- Expected completion: Within 1-2 hours
-- Status: 🔄 IN PROGRESS (75% estimated)
-### 3. Implementation Guides Prepared ✅
-**Batch A-8 (Voice + GPU)**: ✅ READY
-- 28 hours of detailed specifications
-- Voice: Liveness detection, anti-spoof, audit logging
-- GPU: CUDA safety wrappers, unified memory coordination, timeouts
-- 26 unit test specifications
-- Ready for launch after A-7 completion
-**Batch A-9 (Chaos Testing)**: ✅ READY
-- 24 hours of integration + stress test specifications
-- 60+ unit tests, 20+ stress tests, 15+ chaos tests
-- Multi-module fault injection scenarios
-- Performance baseline validation
-**Batch A-10 (Final Validation)**: ✅ READY
-- 12 hours of final validation gates
-- ThreadSanitizer + AddressSanitizer validation
 
 ---
 
@@ -5391,6 +5336,61 @@ lt_it->second.waiters.remove(req);
 - **Location**: src/transaction/transaction_batcher.cpp:225
 - **Problem**: `flush_cv_.wait()` without timeout blocks indefinitely if `batch_in_progress_` flag gets stuck
 - **Consequence**: Permanent deadlock blocking all new transactions
+
+---
+
+### WAVE_A_EXECUTIVE_SUMMARY_FOR_USER.md
+
+*(file too large — key headings extracted)*
+
+# Wave A Implementation: Executive Summary for User
+**User Request**: "weiter implementieren" (continue implementing)
+**Date**: 2026-08-16
+**Status**: 67% Complete (2 of 3 parallel agents finished, 1 still running)
+---
+## WHAT WAS ACCOMPLISHED THIS SESSION
+### 1. Comprehensive Gap Assessment ✅
+- Identified 53% baseline completion (103 CRITICAL gaps across 5 modules)
+- Prioritized gaps by module and severity
+- Created detailed 5-batch implementation roadmap
+- Estimated 150 total hours over 5-6 weeks
+### 2. 3 Parallel Implementer Agents Launched ✅
+**Agent 1 - Batch A-6 (Transaction)**: ✅ COMPLETE (321 seconds)
+- Fixed iterator safety (data corruption risk)
+- Added timeout parameters (deadlock prevention)
+- Implemented SAGA lifecycle (resource leak prevention)
+- 3 critical data safety gaps closed
+- 9 new unit tests passing
+- Status: ✅ PRODUCTION READY
+**Agent 2 - Batch A-7a (Sharding)**: ✅ COMPLETE (362 seconds)
+- Documented + enforced lock ordering hierarchy
+- Added timeout enforcement to 8 consensus operations
+- Created exponential backoff retry strategy
+- 40+ data safety gaps closed
+- 12+ new unit tests
+- Status: ✅ PRODUCTION READY
+**Agent 3 - Batch A-7b (Replication)**: 🔄 RUNNING (387 seconds elapsed)
+- Implementing geographic placement policy (NEW)
+- Implementing async WAL shipping (NEW)
+- Implementing lag alert manager (NEW)
+- Adding timeout enforcement to cross-region operations
+- Expected completion: Within 1-2 hours
+- Status: 🔄 IN PROGRESS (75% estimated)
+### 3. Implementation Guides Prepared ✅
+**Batch A-8 (Voice + GPU)**: ✅ READY
+- 28 hours of detailed specifications
+- Voice: Liveness detection, anti-spoof, audit logging
+- GPU: CUDA safety wrappers, unified memory coordination, timeouts
+- 26 unit test specifications
+- Ready for launch after A-7 completion
+**Batch A-9 (Chaos Testing)**: ✅ READY
+- 24 hours of integration + stress test specifications
+- 60+ unit tests, 20+ stress tests, 15+ chaos tests
+- Multi-module fault injection scenarios
+- Performance baseline validation
+**Batch A-10 (Final Validation)**: ✅ READY
+- 12 hours of final validation gates
+- ThreadSanitizer + AddressSanitizer validation
 
 ---
 
@@ -6333,6 +6333,73 @@ PHASE 5: PERFORMANCE & HARDENING (COMPLETE)
 
 ---
 
+### WAVE1_SERVER_LLM_TICKETS_2026-05-25.json
+
+*(file too large — key headings extracted)*
+
+{
+"generated_at": "2026-05-25",
+"scope": [
+"server",
+"llm"
+],
+"tickets": [
+{
+"id": "W1-S01",
+"priority": "P0",
+"module": "server",
+"title": "server Query API - Data-Race und Timeout-Kernpfade schliessen",
+"files": [
+"src/server/query_api_handler.cpp"
+],
+"focus_types": [
+"data_race",
+"no_timeout",
+"null_dereference"
+],
+"github_issue_number": 5348,
+"github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5348"
+},
+{
+"id": "W1-S02",
+"priority": "P0",
+"module": "server",
+"title": "server HTTP Core - Concurrency-Hotspots entkoppeln",
+"files": [
+"src/server/http_server.cpp"
+],
+"focus_types": [
+"data_race",
+"iterator_invalidation",
+"no_timeout"
+],
+"github_issue_number": 5349,
+"github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5349"
+},
+{
+"id": "W1-S03",
+"priority": "P1",
+"module": "server",
+"title": "server MCP + Voice Handler - Null-/Pointer-Guards standardisieren",
+"files": [
+"src/server/mcp_server.cpp",
+"src/server/voice_api_handler.cpp"
+],
+"focus_types": [
+"null_dereference",
+"pointer_arithmetic"
+]
+},
+{
+"id": "W1-S04",
+"priority": "P1",
+"module": "server",
+"title": "server Postgres Session + RPC Service - Retry/Timeout Verhalten haerten",
+"files": [
+"src/server/postgres_session.cpp",
+
+---
+
 ### WAVE1_SERVER_LLM_TICKETS_2026-05-25.md
 
 *(file too large — key headings extracted)*
@@ -6945,124 +7012,6 @@ branch = develop
 
 ---
 
-### WAVE1_SERVER_LLM_TICKETS_2026-05-25.json
-
-*(file too large — key headings extracted)*
-
-{
-"generated_at": "2026-05-25",
-"scope": [
-"server",
-"llm"
-],
-"tickets": [
-{
-"id": "W1-S01",
-"priority": "P0",
-"module": "server",
-"title": "server Query API - Data-Race und Timeout-Kernpfade schliessen",
-"files": [
-"src/server/query_api_handler.cpp"
-],
-"focus_types": [
-"data_race",
-"no_timeout",
-"null_dereference"
-],
-"github_issue_number": 5348,
-"github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5348"
-},
-{
-"id": "W1-S02",
-"priority": "P0",
-"module": "server",
-"title": "server HTTP Core - Concurrency-Hotspots entkoppeln",
-"files": [
-"src/server/http_server.cpp"
-],
-"focus_types": [
-"data_race",
-"iterator_invalidation",
-"no_timeout"
-],
-"github_issue_number": 5349,
-"github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5349"
-},
-{
-"id": "W1-S03",
-"priority": "P1",
-"module": "server",
-"title": "server MCP + Voice Handler - Null-/Pointer-Guards standardisieren",
-"files": [
-"src/server/mcp_server.cpp",
-"src/server/voice_api_handler.cpp"
-],
-"focus_types": [
-"null_dereference",
-"pointer_arithmetic"
-]
-},
-{
-"id": "W1-S04",
-"priority": "P1",
-"module": "server",
-"title": "server Postgres Session + RPC Service - Retry/Timeout Verhalten haerten",
-"files": [
-"src/server/postgres_session.cpp",
-
----
-
-### SPRINT8_WAVE3_KICKOFF.md
-
-*(file too large — key headings extracted)*
-
-# Sprint 8 Wave 3: Complex Control Flow Move Semantics Remediation
-**Date:** 2026-07-05
-**Wave 3 Scope:** 20 Tier 3 Medium gaps (Complex control flow)
-**Status:** 🟡 ANALYSIS & KICKOFF
-**Target:** 18 gaps fixed + 2 documented FP (90% fix rate)
----
-## Wave 3 Overview
-### Previous Waves Status
-- **Wave 1:** ✅ 8/8 fixed (Category A: `.clear()` after move)
-- **Wave 2:** ✅ 4 fixed + 16 documented FP (Category B: Member access after move)
-- **Total Fixed So Far:** 12 gaps, **80% accuracy** on identification
-### Wave 3 Characteristics
-- **Complexity:** HIGH (control flow analysis required)
-- **Pattern Type:** Conditional moves, loops, state machines, exception paths
-- **False Positive Risk:** MEDIUM-HIGH (30-40% estimated)
-- **Modules:** sharding, storage, training, gpu, analytics, other
----
-## Strategy: Smart Analysis Before Fixing
-### Step 1: Analyze Control Flow
-For each gap, analyze:
-- Is the move conditional (if/else)?
-- Is the moved-from variable ever actually accessed after move?
-- Is the access safe due to scoping or control flow?
-- What's the loop/exception context?
-### Step 2: Categorize as
-- **TRUE GAP:** Definite moved-from usage (fix immediately)
-- **CONDITIONAL:** Move happens in branch, access outside (analyze carefully)
-- **FALSE POSITIVE:** Control flow ensures safety (document)
-### Step 3: Implement Conservative Fixes
-- Restructure control flow if needed
-- Add guards or conditions
-- Document moved-from state explicitly if necessary
----
-## Wave 3 Expected Gaps (20 total)
-Based on categories from Gap Report:
-### Category C: Complex Flow After Move (18 gaps, primary focus)
-**Pattern:** Move in complex control flow, then use variable
-- Conditional moves (if/else branches)
-- Loop-related patterns
-- Exception path patterns
-- State machine patterns
-- Async/callback patterns
-### Category D: Partial False Positives (2 gaps expected)
-**Pattern:** Valid reuse patterns that look like moved-from
-
----
-
 ### SPRINT8_WAVE2_FINAL_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -7259,6 +7208,57 @@ for (const auto& [txn_id, failed_shards] : retries) {
 - **Moved-From Access:** NONE after line 3472
 - **Safety:** Member variable implicitly reset on next iteration
 **Pattern Category:** Member variable extraction in loop
+
+---
+
+### SPRINT8_WAVE3_KICKOFF.md
+
+*(file too large — key headings extracted)*
+
+# Sprint 8 Wave 3: Complex Control Flow Move Semantics Remediation
+**Date:** 2026-07-05
+**Wave 3 Scope:** 20 Tier 3 Medium gaps (Complex control flow)
+**Status:** 🟡 ANALYSIS & KICKOFF
+**Target:** 18 gaps fixed + 2 documented FP (90% fix rate)
+---
+## Wave 3 Overview
+### Previous Waves Status
+- **Wave 1:** ✅ 8/8 fixed (Category A: `.clear()` after move)
+- **Wave 2:** ✅ 4 fixed + 16 documented FP (Category B: Member access after move)
+- **Total Fixed So Far:** 12 gaps, **80% accuracy** on identification
+### Wave 3 Characteristics
+- **Complexity:** HIGH (control flow analysis required)
+- **Pattern Type:** Conditional moves, loops, state machines, exception paths
+- **False Positive Risk:** MEDIUM-HIGH (30-40% estimated)
+- **Modules:** sharding, storage, training, gpu, analytics, other
+---
+## Strategy: Smart Analysis Before Fixing
+### Step 1: Analyze Control Flow
+For each gap, analyze:
+- Is the move conditional (if/else)?
+- Is the moved-from variable ever actually accessed after move?
+- Is the access safe due to scoping or control flow?
+- What's the loop/exception context?
+### Step 2: Categorize as
+- **TRUE GAP:** Definite moved-from usage (fix immediately)
+- **CONDITIONAL:** Move happens in branch, access outside (analyze carefully)
+- **FALSE POSITIVE:** Control flow ensures safety (document)
+### Step 3: Implement Conservative Fixes
+- Restructure control flow if needed
+- Add guards or conditions
+- Document moved-from state explicitly if necessary
+---
+## Wave 3 Expected Gaps (20 total)
+Based on categories from Gap Report:
+### Category C: Complex Flow After Move (18 gaps, primary focus)
+**Pattern:** Move in complex control flow, then use variable
+- Conditional moves (if/else branches)
+- Loop-related patterns
+- Exception path patterns
+- State machine patterns
+- Async/callback patterns
+### Category D: Partial False Positives (2 gaps expected)
+**Pattern:** Valid reuse patterns that look like moved-from
 
 ---
 
