@@ -275,8 +275,7 @@ LDAP *LDAPConnectionPool::createConnection() {
     srch_tv.tv_usec = 0;
     ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
 
-    int referrals_off = LDAP_OPT_OFF;
-    rc                = ldap_set_option(ld, LDAP_OPT_REFERRALS, &referrals_off);
+    rc = ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF);
     if (rc != LDAP_SUCCESS) {
         spdlog::error("LDAPConnectionPool: failed to disable referrals: {}", ldap_err2string(rc));
         ldap_unbind_ext_s(ld, nullptr, nullptr);

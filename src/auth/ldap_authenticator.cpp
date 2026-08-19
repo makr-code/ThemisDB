@@ -589,8 +589,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         srch_tv.tv_usec = 0;
         ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
 
-        int referrals_off = LDAP_OPT_OFF;
-        rc2 = ldap_set_option(ld, LDAP_OPT_REFERRALS, &referrals_off);
+        rc2 = ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF);
         if (rc2 != LDAP_SUCCESS) {
             spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
                           ldap_err2string(rc2));
