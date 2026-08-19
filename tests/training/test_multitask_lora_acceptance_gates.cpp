@@ -391,11 +391,12 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_AcceptanceGatesMetricsPopulated) 
     
     // Verify acceptance gate metrics are populated
     auto& gates = result.acceptance_gates;
-    EXPECT_GE(gates.avg_perf_gain, 0.0);
+    EXPECT_GE(gates.avg_perf_gain, 8.0);
     EXPECT_GE(gates.training_time_overhead, 0.0);
-    EXPECT_LT(gates.training_time_overhead, 100.0);  // Sanity check
+    EXPECT_LE(gates.training_time_overhead, 15.0);
     EXPECT_GE(gates.task_routing_latency_ms, 0.0);
     EXPECT_LE(gates.task_routing_latency_ms, 10.0);  // Wave B gate
+    EXPECT_TRUE(gates.convergence_stable);
 }
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_ValidateAcceptanceGatesMethod) {
@@ -412,9 +413,10 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_ValidateAcceptanceGatesMethod) {
     auto gates = trainer.validateAcceptanceGates();
     
     // Verify gate values
-    EXPECT_GE(gates.avg_perf_gain, 0.0);
+    EXPECT_GE(gates.avg_perf_gain, 8.0);
     EXPECT_LE(gates.training_time_overhead, 15.0);  // Wave B gate: ≤ 15%
     EXPECT_LE(gates.task_routing_latency_ms, 10.0);  // Wave B gate: ≤ 10ms
+    EXPECT_TRUE(gates.convergence_stable);
 }
 
 TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_ThreeTaskBenchmarkGates) {
@@ -428,7 +430,8 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, WaveB_ThreeTaskBenchmarkGates) {
     EXPECT_EQ(result.per_task.size(), 3u);
     
     // Verify gate metrics are reasonable
-    EXPECT_GE(result.acceptance_gates.avg_perf_gain, 0.0);
+    EXPECT_GE(result.acceptance_gates.avg_perf_gain, 8.0);
+    EXPECT_LE(result.acceptance_gates.training_time_overhead, 15.0);
     EXPECT_LE(result.acceptance_gates.task_routing_latency_ms, 10.0);
 }
 

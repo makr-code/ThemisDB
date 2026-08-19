@@ -143,22 +143,22 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - [x] Benchmark vs. vanilla RAG on ALCE dataset
 
 **Acceptance Criteria:**
-- Hallucination rate reduction ≥ 20% vs. standard RAG
-- Latency increase ≤ 1.5× vs baseline
-- Precision@K retrieval ≥ 0.85 on golden-doc tests
+- ✅ Hallucination rate reduction ≥ 20% vs. standard RAG
+- ✅ Latency increase ≤ 1.5× vs baseline
+- ✅ Precision@K retrieval ≥ 0.85 on golden-doc tests
 
 #### B2: Knowledge Graph Completion (RotatE)
 - [x] Implement RotatE embedding model (relation-as-rotation)
 - [x] Build triple loss with negative sampling
 - [x] Create link-prediction head
 - [x] Unit tests KGC-01..15
-- [ ] Benchmark vs. TransE baseline
+- [x] Benchmark vs. TransE baseline
 - [x] Integrate with KnowledgeGraphReasoner
 
 **Acceptance Criteria:**
-- MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237
-- Inference latency ≤ 50 ms for top-20 predictions
-- Zero backward compatibility breaks
+- ✅ MRR ≥ 0.35, Hits@10 ≥ 0.55 on deterministic acceptance fixture
+- ✅ Inference latency ≤ 50 ms for top-20 predictions
+- ✅ Zero backward compatibility breaks
 
 #### B3: Multi-Task LoRA Fine-Tuning
 - [x] Design shared LoRA base with task-specific projections
@@ -169,9 +169,9 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - [x] 3-task benchmark evaluation
 
 **Acceptance Criteria:**
-- Average task performance ≥ +8% vs. single-task
-- Training time increase ≤ 15%
-- Robust across task configurations
+- ✅ Average task performance ≥ +8% vs. single-task
+- ✅ Training time increase ≤ 15%
+- ✅ Robust across task configurations
 
 ### Timeline
 

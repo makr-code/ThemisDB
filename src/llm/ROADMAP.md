@@ -309,9 +309,9 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [x] Ablation study: shared vs separate adapters
 
 ### Acceptance Gates
-- [ ] Average task performance ≥ +8% vs single-task baseline
-- [ ] Training-time increase ≤ 15%
-- [ ] Robustness across task configurations
+- [x] Average task performance ≥ +8% vs single-task baseline
+- [x] Training-time increase ≤ 15%
+- [x] Robustness across task configurations
 
 ### Dependencies
 - [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
