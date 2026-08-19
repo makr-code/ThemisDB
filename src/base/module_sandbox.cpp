@@ -412,7 +412,11 @@ bool ModuleSandbox::applyMemoryLimit() {
 
     if (!platform_->cgroup_v2_active) {
         // Fall back to RLIMIT_AS (virtual address space).
-        getrlimit(RLIMIT_AS, &platform_->saved_mem_limit);
+        // GAP-FIX unchecked_result: check getrlimit return value and warn on
+        // failure so that a failed save does not silently corrupt the saved limit.
+        if (getrlimit(RLIMIT_AS, &platform_->saved_mem_limit) != 0) {
+            launch_warnings_.push_back("getrlimit(RLIMIT_AS) failed – saved memory limit may be invalid");
+        }
 
         struct rlimit new_limit{};
         new_limit.rlim_cur = static_cast<rlim_t>(config_.max_memory_mb) * 1024 * 1024;
@@ -476,7 +480,11 @@ bool ModuleSandbox::applyCpuLimit() {
 
     // RLIMIT_CPU caps total CPU-seconds regardless of cgroup v2 availability.
     if (config_.max_cpu_time_seconds > 0) {
-        getrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit);
+        // GAP-FIX unchecked_result: check getrlimit return value and warn on
+        // failure so that a failed save does not silently corrupt the saved limit.
+        if (getrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit) != 0) {
+            launch_warnings_.push_back("getrlimit(RLIMIT_CPU) failed – saved CPU limit may be invalid");
+        }
 
         struct rlimit new_limit{};
         new_limit.rlim_cur = static_cast<rlim_t>(config_.max_cpu_time_seconds);
@@ -595,7 +603,9 @@ bool ModuleSandbox::setupCgroupV2() {
     }
 
     platform_->cgroup_v2_active = true;
-    spdlog::debug("ModuleSandbox({}): cgroup v2 active at {}", module_name_, cg_path);
+    // GAP-FIX sensitive_data_logging: cg_path encodes module name + PID;
+    // keep this at debug level (not warn/info) to limit exposure in prod logs.
+    spdlog::debug("ModuleSandbox({}): cgroup v2 sandbox active", module_name_);
     return true;
 }
 

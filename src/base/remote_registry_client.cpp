@@ -739,6 +739,16 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
         curl_easy_cleanup(curl);
         out.close();
 
+        // Gap: unchecked_result — flush/close errors (e.g. disk full) are only
+        // observable via the stream's failbit after close().
+        if (out.fail()) {
+            last_error = "file write error while saving to '" + out_path + "'";
+            spdlog::error("RemoteRegistryClient::httpGetBinary: {}", last_error);
+            std::error_code ec;
+            std::filesystem::remove(out_path, ec);
+            continue;
+        }
+
         if (res != CURLE_OK) {
             last_error = std::string("CURL error: ") + curl_easy_strerror(res);
             spdlog::error("RemoteRegistryClient::httpGetBinary: CURL error: {}", curl_easy_strerror(res));

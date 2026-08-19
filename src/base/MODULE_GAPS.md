@@ -82,6 +82,28 @@ This file documents all documentation and code quality gaps in the **base** modu
 
 ---
 
+## Gap Type Analysis Notes
+
+### `scope_mismatch` (692 instances — MEDIUM, primarily false positives)
+
+Manual analysis of the 692 `scope_mismatch` entries reveals they are the product of the gap scanner flagging **fully qualified C++ standard library names** (`std::string`, `std::vector`, etc.) used inside `namespace themis::modules {}` and `namespace themis::resource {}` blocks. These are intentional qualifications that follow ThemisDB coding conventions (no `using namespace std` in production code). Adding `using namespace std` would worsen code readability and introduce name-collision risks.
+
+**Disposition**: No code changes. Remaining `scope_mismatch` entries that are not false positives will be addressed in targeted follow-up work with line-level scanner output.
+
+### `todo_as_productionlogic` (16 instances — MEDIUM)
+
+These flags are triggered by `STAGED:` and `STAGE:` comment prefixes in `module_loader.cpp`. The code paths are fully implemented production logic; `STAGED:` is a logging/diagnostic label for the staged-loading feature, not an unfinished TODO. The scanner incorrectly classifies the `STAGED` prefix as a TODO marker.
+
+**Disposition**: No code changes. Comments clarified in `module_loader.cpp` where needed.
+
+### `braces_imbalance` (5 instances — CRITICAL/HIGH in scanner output)
+
+The scanner reports `braces_imbalance` at `hot_reload_manager.cpp:1` and similar locations. Manual inspection of all 10 base module source files confirms syntactically correct brace matching throughout. These are scanner false positives caused by file-header comment block markers being miscounted.
+
+**Disposition**: No code changes. Files compile cleanly.
+
+---
+
 ## Closure Record
 
 **Closed by commit: base-gap-closures-2026-08-19**
