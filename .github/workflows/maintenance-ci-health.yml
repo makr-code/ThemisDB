@@ -57,12 +57,9 @@ jobs:
           echo "                  chronic failures, emit step summary report."
           echo "============================================================"
 
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
-
       - name: Collect workflow run statistics
         id: stats
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const lookbackDays = parseInt('${{ inputs.lookback_days || 7 }}', 10);
@@ -197,7 +194,7 @@ jobs:
           echo "──────────────────────────────────────────────"
 
       - name: Upload CI health report artifact
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: ci-health-report-${{ github.run_id }}
           path: /tmp/ci-health-report.md
@@ -205,7 +202,7 @@ jobs:
 
       - name: Open or update chronic failure issue
         if: steps.stats.outputs.chronic_count != '0' && steps.stats.outputs.chronic_count != ''
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const chronic = '${{ steps.stats.outputs.chronic_workflows }}';
@@ -289,7 +286,7 @@ jobs:
 
       - name: Close chronic failure issue when recovered
         if: steps.stats.outputs.chronic_count == '0'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const markerType = '<!-- ci-health:type:chronic-failure -->';

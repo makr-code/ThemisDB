@@ -71,7 +71,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Run AI inference
         id: inference
@@ -107,7 +107,7 @@ jobs:
     steps:
       - name: Determine milestone from PR target version
         id: milestone
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -129,7 +129,7 @@ jobs:
 
       - name: Apply milestone to PR
         if: steps.milestone.outputs.milestone != ''
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -201,7 +201,7 @@ jobs:
 
       - name: Parse AI analysis and apply labels
         id: parse_labels
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -249,7 +249,7 @@ jobs:
 
       - name: Apply semantic labels to PR
         if: steps.parse_labels.outputs.semantic_labels != ''
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -296,7 +296,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Request review from CODEOWNERS
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request;
