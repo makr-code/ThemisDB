@@ -29,6 +29,12 @@ This file documents all documentation and code quality gaps in the **analytics**
 - [x] Noted: `db_connection_leak` for `streaming_window.cpp:441,523,687` — connection ownership contract documented with RAII boundary comments; actual connection management is delegated to the caller via `ConnectionGuard` per the existing architecture contract.
 - [x] Phase 3 ROADMAP items closed: fail-closed verified for Arrow IPC/Parquet/Feather/Flight, consistent `spdlog::debug` late-record diagnostics added to SlidingWindow, SessionWindow, HoppingWindow.
 
+### Gap Closure Update (2026-08-19 — Batch 5)
+
+- [x] Closed: `ShardEntry_redeclaration` in `distributed_analytics.h` — redundant forward declaration `struct ShardEntry;` at class scope (line 155) removed; full definition at line 424 (now 422) remains. The duplicate declaration caused standalone compilation errors.
+- [x] Closed: `bounded_execution_policy_missing` — `BoundedExecutionPolicy` struct added to `analytics_api_contract.h` (§8); policy-aware `MLServingClient::infer(req, policy)` overload and `IAnalyticsExporter::exportToFile(batch, path, options, policy)` wrapper implemented with concurrency + timeout enforcement; `TIMEOUT`/`POLICY_REJECTED` status codes added to `MLServingStatus`; `POLICY_REJECTED` added to `ExportStatus`.
+- [ ] Open: `sanitizeUserContent_prefix_hardcoded` — 13-pattern injection prefix list in `llm_process_analyzer.cpp` is a static in-code list; should be externalized to operator-configurable file (Target: Q4 2026, tracked in ROADMAP §Phase 2).
+
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave B Gaps** (~300 IMPL gaps): OLAP optimization, streaming-join backpressure, model-serving circuit-breaker enhancement, distributed merge diagnostics
 - **Wave B DOC Gaps** (~200): Performance tuning guide, failure-mode runbook, operator dashboard documentation

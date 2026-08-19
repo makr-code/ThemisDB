@@ -57,6 +57,8 @@
 
 // Re-use DataPoint for seamless integration with the anomaly detection module.
 #include "analytics/anomaly_detection.h"
+// BoundedExecutionPolicy for policy-aware inference overloads.
+#include "analytics/analytics_api_contract.h"
 
 namespace themisdb {
 namespace analytics {
@@ -105,10 +107,12 @@ struct MLServingRequest {
 
 /** Status codes returned by MLServingResponse. */
 enum class MLServingStatus {
-    OK,           ///< Inference completed successfully
-    UNAVAILABLE,  ///< Backend or model not available
-    INVALID_INPUT,///< Input shape/type mismatch
-    BACKEND_ERROR ///< Internal backend error (see error_message)
+    OK,             ///< Inference completed successfully
+    UNAVAILABLE,    ///< Backend or model not available
+    INVALID_INPUT,  ///< Input shape/type mismatch
+    BACKEND_ERROR,  ///< Internal backend error (see error_message)
+    TIMEOUT,        ///< Inference did not complete within the policy deadline
+    POLICY_REJECTED,///< Request rejected because the BoundedExecutionPolicy concurrency limit was exceeded
 };
 
 /**
@@ -304,6 +308,32 @@ public:
 
     /** Run inference using the active backend. */
     MLServingResponse infer(const MLServingRequest& req);
+
+    /**
+     * @brief Run inference with bounded execution enforcement.
+     *
+     * Enforces the resource limits declared by @p policy before dispatching
+     * to the underlying backend.  Specifically:
+     *
+     *   - **Concurrency**: if `policy.max_concurrent_requests > 0` and the
+     *     number of in-flight `infer()` calls on this client instance already
+     *     equals that limit, the call returns `POLICY_REJECTED` immediately.
+     *   - **Timeout**: if `policy.max_latency_ms > 0` and the backend call
+     *     has not returned within that many milliseconds the call returns
+     *     `TIMEOUT`.  The backend call itself may continue in a detached
+     *     thread; callers must not re-use the client for further calls until
+     *     the previous call has fully returned.
+     *
+     * When `!policy.isConstrained()` this overload is equivalent to the
+     * unconstrained `infer(req)`.
+     *
+     * @param req     Inference request.
+     * @param policy  Resource limits to enforce.
+     * @return MLServingResponse; status is `POLICY_REJECTED` or `TIMEOUT` on
+     *         policy violation, otherwise same as the unconstrained overload.
+     */
+    MLServingResponse infer(const MLServingRequest&                      req,
+                            const ::themis::analytics::BoundedExecutionPolicy& policy);
 
     /**
      * Convenience overload: converts the numeric fields of @p point into a

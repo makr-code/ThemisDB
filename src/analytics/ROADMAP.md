@@ -87,6 +87,7 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] TF Serving secure transport baseline: HTTPS default + explicit plaintext opt-in (`allow_insecure_transport`) (Completed 2026-08-19)
   - [x] LLM response schema hardening for fraud/5R/prediction tasks (type/range/bounds checks) (Completed 2026-08-19)
   - [x] prompt injection mitigation in LLM process analyzer: `sanitizeUserContent()` strips control characters and known injection prefixes from all user-supplied JSON fields before prompt embedding (Completed 2026-08-19)
+  - [ ] externalize `sanitizeUserContent()` injection prefix list from static in-code list to a configuration file (Target: Q4 2026; current 13-pattern static list in `llm_process_analyzer.cpp` is functional but not operator-tunable)
   - [x] fail-closed behavior verified for Arrow IPC/Parquet/Feather export (`throwArrowUnavailable()`) and Arrow Flight in-process fallback (Completed 2026-08-19)
   - [x] multiplication overflow fix in circuit breaker exponential backoff: bit-shift capped to 30 to prevent UB when `recovery_attempts ≥ 32` (Completed 2026-08-19)
 
@@ -116,6 +117,11 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] exponential backoff recovery mechanism
 - [~] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
   - **Concrete plan**: Define a `BoundedExecutionPolicy` struct (max_latency_ms, max_concurrent_requests, queue_depth) in `analytics_api_contract.h`; apply to `MLServingClient::infer()` (ONNX + TF Serving paths) and `AnalyticsExporter::exportToFile()` using the existing circuit-breaker infrastructure as the enforcement layer. Tracked as Wave B exit criterion.
+  - [x] `BoundedExecutionPolicy` struct added to `analytics_api_contract.h` with full field semantics and enforcement contract documentation (Completed 2026-08-19)
+  - [x] `MLServingClient::infer(req, policy)` overload implemented: concurrency (`max_concurrent_requests`) and timeout (`max_latency_ms`) enforcement; new `TIMEOUT` and `POLICY_REJECTED` status codes added to `MLServingStatus` (Completed 2026-08-19)
+  - [x] `IAnalyticsExporter::exportToFile(batch, path, options, policy)` non-virtual wrapper implemented: concurrency and timeout enforcement using atomic in-flight counter; `POLICY_REJECTED` added to `ExportStatus` (Completed 2026-08-19)
+  - [ ] add targeted tests for policy enforcement paths in serving and export (Target: Q4 2026)
+  - [ ] integrate `BoundedExecutionPolicy` into `MLServingConfig` and `ExportOptions` for per-client/default policy configuration (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior across optional-backend and degraded states (Completed 2026-08-19)
