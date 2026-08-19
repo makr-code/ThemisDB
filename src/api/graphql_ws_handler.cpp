@@ -76,8 +76,7 @@ GraphQLWsHandler::handleFrame(std::string_view frame_text)
         msg = json::parse(frame_text);
     } catch (const json::exception& ex) {
         THEMIS_WARN("GraphQLWsHandler: invalid JSON frame: {}", ex.what());
-        // Close-worthy parse error; return an error but let the transport close.
-        return {};
+        return {buildError("", std::string("Invalid JSON frame: ") + ex.what())};
     }
 
     const std::string type = msg.value("type", "");
@@ -97,7 +96,7 @@ GraphQLWsHandler::handleFrame(std::string_view frame_text)
     // All subsequent messages require the connection to be initialised.
     if (!connected_.load(std::memory_order_relaxed)) {
         THEMIS_WARN("GraphQLWsHandler: message '{}' received before connection_init", type);
-        return {};
+        return {buildError(id, "connection_init required before this message type")};
     }
 
     std::vector<std::string> frames;
@@ -105,15 +104,20 @@ GraphQLWsHandler::handleFrame(std::string_view frame_text)
     if (type == "subscribe") {
         if (id.empty()) {
             THEMIS_WARN("GraphQLWsHandler: subscribe message missing 'id'");
-            return {};
+            return {buildError("", "subscribe message missing required 'id'")};
         }
         frames = handleSubscribe(id, payload_json);
     } else if (type == "complete") {
+        if (id.empty()) {
+            THEMIS_WARN("GraphQLWsHandler: complete message missing 'id'");
+            return {buildError("", "complete message missing required 'id'")};
+        }
         frames = handleComplete(id);
     } else if (type == "pong") {
         // pong is a no-op on the server side.
     } else {
         THEMIS_WARN("GraphQLWsHandler: unknown message type '{}'", type);
+        return {buildError(id, "unknown GraphQL WS message type: " + type)};
     }
 
     // Flush CDC-queued next frames accumulated since the last handleFrame call.

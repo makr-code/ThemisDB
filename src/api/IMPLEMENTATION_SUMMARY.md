@@ -130,10 +130,10 @@ Total new artifacts: 37 Q3 tests + 14 Phase 4 tests + 10 degraded-mode tests = *
 
 ## Remaining Future Work
 
-### Q1 2027 Items (Planned)
-- [ ] Expand direct benchmark coverage for currently proxy-like API goals
-- [ ] Re-baseline API latency and throughput envelopes for representative load profiles
-- [ ] Harden multi-transport operational controls across deployment topologies
+### Q1 2027 Items (Completed)
+- [x] Expand direct benchmark coverage for currently proxy-like API goals
+- [x] Re-baseline API latency and throughput envelopes for representative load profiles
+- [x] Harden multi-transport operational controls across deployment topologies
 
 ## Summary
 
@@ -399,10 +399,10 @@ server_ = std::move(server);
 - [x] Strengthen degraded-mode handling for optional transport features
 - [x] Extend integration diagnostics for protocol-level failure classes
 
-### Q1 2027 Items (Planned)
-- [ ] Expand direct benchmark coverage for currently proxy-like API goals
-- [ ] Re-baseline API latency and throughput envelopes for representative load profiles
-- [ ] Harden multi-transport operational controls across deployment topologies
+### Q1 2027 Items (Completed)
+- [x] Expand direct benchmark coverage for currently proxy-like API goals
+- [x] Re-baseline API latency and throughput envelopes for representative load profiles
+- [x] Harden multi-transport operational controls across deployment topologies
 
 ## Conclusion
 

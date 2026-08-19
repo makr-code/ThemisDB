@@ -13,6 +13,7 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "api/ws_handler.h"
+#include "api/audit_logger.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 
@@ -130,8 +131,21 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         // "cdc:subscribe" scope is required for the change-stream endpoint.
         const auto result = auth_->authorize(token, "cdc:subscribe");
         if (!result.authorized) {
-            THEMIS_WARN("WsChangeHandler: auth rejected for /v2/changes – {}",
+            THEMIS_WARN("WsChangeHandler audit: auth rejected for /v2/changes – {}",
                         result.reason);
+
+            // Emit structured audit event so compliance sinks capture the
+            // rejection (Wave B/C: missing_audit_log finding — ws_handler.cpp).
+            themis::graphql::AuditLogBuilder(
+                themis::graphql::AuditLogEntry::EventType::AuthorizationFailure)
+                .operationName("WsChangeHandler::validate")
+                .operationType("WebSocket/CDC")
+                .user(result.user_id.empty() ? "<anonymous>" : result.user_id)
+                .error("cdc:subscribe authorization rejected: " + result.reason)
+                .metadata("endpoint", "/v2/changes")
+                .metadata("scope_required", "cdc:subscribe")
+                .log();
+
             decision.reject_status = http::status::unauthorized;
             decision.reject_reason = "Unauthorized: " + result.reason;
             return decision;
@@ -282,4 +296,3 @@ void WsChangeHandler::HandleWebSocketMessage(const std::string& rawMessage) {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
-

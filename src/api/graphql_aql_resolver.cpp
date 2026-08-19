@@ -17,6 +17,7 @@
 #include "api/graphql_aql_resolver.h"
 #include "api/graphql.h"
 #include "query/query_resource_limits.h"
+#include <limits>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -24,6 +25,48 @@
 // Explicit namespace wrapping to survive Unity build concatenation issues
 namespace themis {
 namespace graphql {
+
+namespace {
+constexpr uint32_t kMaxComplexityScoringDepth = 64U;
+
+uint32_t checkedAdd(uint32_t lhs, uint32_t rhs) {
+    if (rhs > std::numeric_limits<uint32_t>::max() - lhs) {
+        throw std::runtime_error("GraphQL complexity overflow");
+    }
+    return lhs + rhs;
+}
+
+uint32_t checkedMul(uint32_t lhs, uint32_t rhs) {
+    if (lhs != 0U
+        && rhs > std::numeric_limits<uint32_t>::max() / lhs) {
+        throw std::runtime_error("GraphQL complexity overflow");
+    }
+    return lhs * rhs;
+}
+
+uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
+    if (depth > kMaxComplexityScoringDepth) {
+        throw std::runtime_error("GraphQL complexity depth overflow");
+    }
+
+    uint32_t local = 0;
+    for (const auto& field : fields) {
+        const uint32_t argument_cost = static_cast<uint32_t>(field.arguments.size());
+        const uint32_t field_cost =
+            checkedMul(1U + argument_cost, depth + 1U);
+        local = checkedAdd(local, field_cost);
+
+        if (field.name == "aql" || field.name == "aqlMutation") {
+            local = checkedAdd(local, 50U);
+        }
+
+        if (!field.selections.empty()) {
+            local = checkedAdd(local, scoreFieldsBounded(field.selections, depth + 1U));
+        }
+    }
+    return local;
+}
+} // namespace
 
 std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget) {
     std::ostringstream oss;
@@ -39,23 +82,7 @@ uint32_t GraphQLComplexityEstimator::estimate(const std::shared_ptr<Document>& d
 
     uint32_t score = 0;
     for (const auto& op : doc->operations) {
-        // Base cost per selected field + depth penalty.
-        std::function<uint32_t(const std::vector<Field>&, uint32_t)> scoreFields =
-            [&](const std::vector<Field>& fields, uint32_t depth) -> uint32_t {
-                uint32_t local = 0;
-                for (const auto& field : fields) {
-                    local += (1U + static_cast<uint32_t>(field.arguments.size())) * (depth + 1U);
-                    if (field.name == "aql" || field.name == "aqlMutation") {
-                        local += 50U;
-                    }
-                    if (!field.selections.empty()) {
-                        local += scoreFields(field.selections, depth + 1U);
-                    }
-                }
-                return local;
-            };
-
-        score += scoreFields(op.selections, 0);
+        score = checkedAdd(score, scoreFieldsBounded(op.selections, 0));
     }
     return score;
 }
@@ -179,7 +206,7 @@ ExecutionContext::Resolver GraphQLAqlResolverFactory::makeAqlQueryResolver(
             (void)limits;
             auto result = Value::string("OK");
             return result;
-        } catch (...) {
+        } catch (const std::exception&) {
             return Value::null();
         }
     };

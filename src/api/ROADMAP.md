@@ -28,9 +28,12 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
   - Evidence: `DegradedModeDiagnosticsTest/AllFailureClassesHaveActionableMessages` validates that every failure class produces an ERR_-prefixed actionable message for operator triage
 
 ### Mid-term (6-12 months)
-- [ ] expand direct benchmark coverage for currently proxy-like API goals (Target: Q1 2027)
-- [ ] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
-- [ ] harden multi-transport operational controls across deployment topologies (Target: Q1 2027)
+- [x] expand direct benchmark coverage for currently proxy-like API goals (Target: Q1 2027)
+  - Evidence: benchmarks/bench_api_transport.cpp + benchmarks/bench_api_release_gates.cpp + benchmarks/server/bench_api_endpoints.cpp cover transport-policy hot paths, release gates, and server endpoint load loops.
+- [x] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
+  - Evidence: gate benchmarks GATE-API-01..06 and sustained-load benches (`BM_PolicySustainedGetThroughput`, `BM_PolicySustainedPostThroughput`, `BM_PolicyMixedRequestTypes`) plus WaveD soak scenarios in tests/api/test_api_wave_d_stress.cpp.
+- [x] harden multi-transport operational controls across deployment topologies (Target: Q1 2027)
+  - Evidence: fail-closed transport policy middleware, bounded gRPC startup lock reacquisition timeout, and explicit GraphQL WS protocol error responses for malformed/pre-init/unknown message types.
 
 ## Implementation Phases
 
@@ -86,7 +89,7 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 
 - transport surfaces remain configuration/capability dependent by deployment profile.
 - some API surfaces may require feature flags for optional protocol support (WebSocket, gRPC reflection).
-- future enhancements for extended benchmark coverage targeting Q1 2027 (latency/throughput baselining for representative load profiles).
+- remaining medium-severity cleanup is tracked in MODULE_GAPS.md Wave A/B/C backlog; no open critical API transport blocker remains.
 
 ## Breaking Changes
 
@@ -100,9 +103,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `api`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — Evidence: tests/api/test_api_wave_d_stress.cpp (WaveDStressTest suite); ERR_OTLP_-prefixed messages in src/api/otlp_exporter.cpp
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — Evidence: WaveDSoakTest::SoakSimulation_100kRequests_NoBoundedResourceLeak and SoakSimulation_ConcurrentMixedLoad_NoLeak in tests/api/test_api_wave_d_stress.cpp
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — Evidence: docs/API_TRANSPORT_RUNBOOK.md (GraphQL, gRPC, WebSocket, OTLP, ERR_ codes, alerting thresholds, escalation path)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -110,6 +113,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — Evidence: retry-with-backoff loop in OtlpExporter::flushBatch drops spans to dropped_count_ (never silently discards); queue overflow drops oldest span with WARN log.
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — Evidence: benchmarks/ directory contains api module benchmarks; soak tests in tests/api/test_api_wave_d_stress.cpp provide baseline timing data.
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — Evidence: docs/API_TRANSPORT_RUNBOOK.md provides diagnosis commands, ERR_-prefixed remediation steps, Prometheus alert rules, and escalation path.

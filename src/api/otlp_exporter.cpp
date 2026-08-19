@@ -265,7 +265,9 @@ void OtlpExporter::enqueue(SpanData span) {
                 prom_dropped_->Increment(1.0);
             }
 #endif
-            THEMIS_WARN("OtlpExporter: queue full ({}) — oldest span dropped", config_.max_queue_size);
+            THEMIS_WARN("OtlpExporter: ERR_OTLP_QUEUE_FULL — queue at capacity ({}) and oldest span was "
+                    "dropped; increase max_queue_size or reduce flush_interval_ms to avoid data loss",
+                    config_.max_queue_size);
         }
         queue_.push_back(std::move(span));
     }
@@ -385,7 +387,9 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
         curl        = curl_easy_init();
         owns_handle = true;
         if (!curl) {
-            THEMIS_ERROR("OtlpExporter: curl_easy_init() failed — {} spans lost", batch.size());
+            THEMIS_ERROR("OtlpExporter: ERR_OTLP_CURL_INIT_FAILED — curl_easy_init() returned null; "
+                    "{} spans lost. Verify libcurl is correctly linked and the process has "
+                    "sufficient memory.", batch.size());
             const auto n = static_cast<uint64_t>(batch.size());
             dropped_count_.fetch_add(n, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -422,10 +426,26 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, tmp_headers);
     }
 
+    // -----------------------------------------------------------------------
+    // Retry loop with exponential back-off.
+    //
+    // Policy:
+    //   • max_attempts  = 1 + config_.max_export_retries  (first attempt is
+    //                     attempt 0; retries start at attempt 1)
+    //   • Initial delay = config_.retry_initial_delay_ms (default: 50 ms)
+    //   • Back-off      = delay_ms *= 2 after each failed attempt
+    //   • Retriable errors: CURLE_COULDNT_CONNECT, CURLE_OPERATION_TIMEDOUT,
+    //                       CURLE_SEND_ERROR, CURLE_RECV_ERROR, HTTP 429, 503
+    //   • Non-retriable : configuration errors, auth failures (4xx except 429)
+    //
+    // If all attempts fail the batch is counted in dropped_count_ and the
+    // ERR_OTLP_EXPORT_FAILED message is emitted so operators can act on it.
+    // See docs/API_TRANSPORT_RUNBOOK.md § ERR_OTLP_EXPORT_FAILED.
+    // -----------------------------------------------------------------------
     for (int attempt = 0; attempt < max_attempts; ++attempt) {
         if (attempt > 0) {
-            THEMIS_INFO("OtlpExporter: retry attempt {}/{} after {}ms back-off", attempt, config_.max_export_retries,
-                        delay_ms);
+            THEMIS_INFO("OtlpExporter: retry attempt {}/{} after {}ms back-off (ERR_OTLP_EXPORT_RETRY)",
+                        attempt, config_.max_export_retries, delay_ms);
             std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
             delay_ms *= 2;
         }
@@ -464,16 +484,18 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
 
         if (res != CURLE_OK) {
             const bool retriable = has_more_attempts && isRetriableCurlError(res);
-            THEMIS_WARN("OtlpExporter: export failed (curl error: {}){}", curl_easy_strerror(res),
-                        retriable ? " — will retry" : " — spans lost");
+            THEMIS_WARN("OtlpExporter: ERR_OTLP_EXPORT_FAILED — curl error: {}{}",
+                        curl_easy_strerror(res),
+                        retriable ? " — will retry" : " — spans lost; check ERR_OTLP_COLLECTOR_UNREACHABLE");
             if (!retriable) {
                 break;
             }
         } else {
             // Non-2xx HTTP response
             const bool retriable = has_more_attempts && isRetriableHttpCode(http_code);
-            THEMIS_WARN("OtlpExporter: collector returned HTTP {}{}", http_code,
-                        retriable ? " — will retry" : " — spans lost");
+            THEMIS_WARN("OtlpExporter: ERR_OTLP_EXPORT_FAILED — collector returned HTTP {}{}",
+                        http_code,
+                        retriable ? " — will retry" : " — spans lost; verify OTLP_ENDPOINT and collector health");
             if (!retriable) {
                 break;
             }
