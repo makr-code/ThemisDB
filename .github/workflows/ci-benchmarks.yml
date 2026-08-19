@@ -545,7 +545,7 @@ jobs:
       - name: Build sharding release-gate benchmarks
         run: |
           cd build
-          cmake --build . --config Release --target bench_sharding_release_gates -j$(nproc)
+          cmake --build . --config Release --target bench_sharding_release_gates --parallel "$(nproc)"
 
       - name: Run SRG-01..06 Benchmarks
         run: |
