@@ -566,8 +566,6 @@ nlohmann::json LoraStatsFunction::execute(
             error["error"] = "Adapter not found";
             return error;
         }
-        const auto& adapter_info = *adapter_info_opt;
-
         // Build stats object
         json stats;
         

@@ -754,10 +754,10 @@ private:
                         try {
                             pred.proximity_distance = static_cast<uint32_t>(
                                 std::stoul(current().value));
-                        } catch (const std::out_of_range& e) {
+                        } catch (const std::out_of_range&) {
                             THEMIS_WARN("aql_parser: NEAR predicate distance value overflow '{}', using default 0", current().value);
                             pred.proximity_distance = 0;
-                        } catch (const std::invalid_argument& e) {
+                        } catch (const std::invalid_argument&) {
                             THEMIS_WARN("aql_parser: NEAR predicate distance '{}' is not a valid number, using default 0", current().value);
                             pred.proximity_distance = 0;
                         }
@@ -942,7 +942,7 @@ private:
             } catch (const std::out_of_range&) {
                 throw std::runtime_error(
                     "Graph traversal min depth '" + current().value + "' is out of integer range");
-            }
+            } catch (const std::invalid_argument&) {
             if (minDepth < 0) {
                 throw std::runtime_error("Graph traversal min depth must be >= 0");
             }
@@ -962,7 +962,7 @@ private:
             } catch (const std::out_of_range&) {
                 throw std::runtime_error(
                     "Graph traversal max depth '" + current().value + "' is out of integer range");
-            }
+            } catch (const std::invalid_argument&) {
             if (maxDepth > kMaxTraversalDepth) {
                 throw std::runtime_error(
                     "Graph traversal max depth " + std::to_string(maxDepth) +

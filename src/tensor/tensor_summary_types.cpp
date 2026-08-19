@@ -100,7 +100,7 @@ ShardSummary SummaryFactory::createShardSummary(
 // ShardSummary freshness checking implementation
 // ============================================================================
 
-bool ShardSummary::isStale(const std::string& now_timestamp) const noexcept {
+bool ShardSummary::isStale([[maybe_unused]] const std::string& now_timestamp) const noexcept {
     // First check explicit state
     if (freshness_state == SummaryFreshnessState::STALE ||
         freshness_state == SummaryFreshnessState::INVALID) {
@@ -134,7 +134,9 @@ bool ShardSummary::isStale(const std::string& now_timestamp) const noexcept {
         }
 
         auto update_time_t = std::mktime(&tm);
-        long age_seconds = std::difftime(now_time_t, update_time_t);
+        const auto age_seconds = std::chrono::duration_cast<std::chrono::seconds>(
+            now - std::chrono::system_clock::from_time_t(update_time_t))
+                                       .count();
 
         return age_seconds > static_cast<long>(freshness_ttl_seconds);
     } catch (...) {

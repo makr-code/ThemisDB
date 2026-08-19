@@ -147,7 +147,6 @@ private:
     std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
     void appendJsonLine(const std::string& path, const nlohmann::json& j);
     std::string generateBatchId() const;
-    void logErrorContext(const ErrorContext& ctx);
     
     std::shared_ptr<FieldEncryption> enc_;
     std::shared_ptr<VCCPKIClient> pki_;

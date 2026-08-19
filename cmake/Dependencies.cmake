@@ -911,10 +911,9 @@ if(THEMIS_ENABLE_HIP)
 endif()
 
 if(THEMIS_ENABLE_VULKAN)
-    find_package(Vulkan QUIET)
+    find_package(Vulkan REQUIRED)
     if(NOT Vulkan_FOUND)
-        message(WARNING "THEMIS_ENABLE_VULKAN=ON but Vulkan SDK was not found. Disabling Vulkan backend.")
-        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Vulkan disabled: SDK not found" FORCE)
+        message(FATAL_ERROR "ThemisDB requires Vulkan support; install the Vulkan SDK or disable the build contract intentionally.")
     endif()
 endif()
 

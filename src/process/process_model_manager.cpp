@@ -1098,7 +1098,7 @@ nlohmann::json ProcessModelManager::getConsistencyDiagnostics() const
                     corrupted_ids.push_back(rec.id);
                 }
             }
-        } catch (const std::exception& ex) {
+        } catch (const std::exception&) {
             corrupted_count++;
             corrupted_ids.push_back(std::string(key));
         }

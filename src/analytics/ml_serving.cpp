@@ -247,7 +247,7 @@ bool ONNXServingBackend::isAvailable() const {
     return true; // ONNX Runtime linked at compile time
 }
 
-MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
+MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
     Stopwatch sw;
     MLServingResponse resp;
 
@@ -619,10 +619,11 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
 struct MLServingClient::Impl {
     std::unique_ptr<IMLServingBackend> backend;
     MLBackendType requested_type;
+    MLServingConfig config;
     /// In-flight request counter, used by the BoundedExecutionPolicy enforcement.
     std::atomic<uint32_t> inflight_count{0u};
 
-    Impl(const MLServingConfig &cfg) : requested_type(cfg.backend) {
+    Impl(const MLServingConfig &cfg) : requested_type(cfg.backend), config(cfg) {
         switch (cfg.backend) {
             case MLBackendType::ONNX_RUNTIME:
                 backend = std::make_unique<ONNXServingBackend>(cfg.onnx_config);

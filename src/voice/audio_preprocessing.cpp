@@ -409,7 +409,6 @@ PreprocessingResult AudioPreprocessingPipeline::process(
 
     // TASK 2.2: Bounded chunk handling — reject frames > 512KB immediately
     // Error code 6700: Input size validation failed
-    static constexpr size_t kMaxAudioFrameSizeBytes = 512 * 1024;  // 512 KB
     if (raw_audio.size() > kMaxAudioFrameSizeBytes) {
         res.error_message = "Audio frame exceeds maximum size (512KB) - error 6700";
         spdlog::error("AudioPreprocessingPipeline::process: input size {} bytes exceeds limit (error 6700)",

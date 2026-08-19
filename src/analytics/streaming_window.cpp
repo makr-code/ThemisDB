@@ -1321,6 +1321,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     updateWatermark(record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
     int64_t ev_us = toMicros(record.event_time);
+    bool record_added = false;
 
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;

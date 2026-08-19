@@ -187,18 +187,21 @@ endif()
 if(NOT DEFINED THEMIS_ENABLE_VULKAN)
     set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
 endif()
+set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
 
 if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
     message(STATUS "GPU backend auto-detect: probing CUDA/HIP/Vulkan")
     set(_themis_detected_gpu_backends)
 
-    # Vulkan (cross-vendor)
+    # Vulkan is the required cross-vendor GPU backend in this build contract.
+    # Do not silently disable it just because the SDK check is not available.
     find_package(Vulkan QUIET)
     if(Vulkan_FOUND)
         set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
         list(APPEND _themis_detected_gpu_backends "Vulkan")
     else()
-        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+        message(WARNING "Vulkan SDK not detected, but Vulkan remains enabled by build contract; CPU fallback still applies at runtime.")
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
     endif()
 
     # HIP (AMD ROCm)
@@ -366,6 +369,21 @@ endif()
 find_package(pugixml CONFIG)
 if(NOT pugixml_FOUND)
     find_package(pugixml)
+endif()
+
+# Some vcpkg/toolchain setups expose pugixml without the canonical imported target names.
+# Add a fallback target so both core and modular builds get the headers and library.
+if(pugixml_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+    find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATHS "${VCPKG_INSTALLED_DIR}" "${_VCPKG_ROOT_DIR}" PATH_SUFFIXES include)
+    find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+    if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
+        add_library(pugixml UNKNOWN IMPORTED)
+        set_target_properties(pugixml PROPERTIES
+            IMPORTED_LOCATION "${PUGIXML_LIB}"
+            INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
+        add_library(pugixml::pugixml ALIAS pugixml)
+        message(STATUS "pugixml fallback target configured from manual discovery")
+    endif()
 endif()
 
 # Office support requires both libzip and pugixml

@@ -2099,11 +2099,24 @@ function(themis_build_modular)
     if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
         list(APPEND _themis_storage_deps Vulkan::Vulkan)
     endif()
+    if(DEFINED THEMIS_LZ4_TARGET AND NOT "${THEMIS_LZ4_TARGET}" STREQUAL "")
+        list(APPEND _themis_storage_deps ${THEMIS_LZ4_TARGET})
+    endif()
+    if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
+        list(APPEND _themis_storage_deps ${THEMIS_SNAPPY_TARGET})
+    endif()
 
     themis_add_module(storage
         SOURCES ${THEMIS_STORAGE_SOURCES}
         DEPENDENCIES ${_themis_storage_deps}
     )
+
+    if(DEFINED THEMIS_LZ4_TARGET AND NOT "${THEMIS_LZ4_TARGET}" STREQUAL "")
+        target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_LZ4)
+    endif()
+    if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
+        target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_SNAPPY)
+    endif()
 
     if(THEMIS_HAS_ROCKSDB_TENSOR)
         target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_ROCKSDB_TENSOR)
@@ -2128,8 +2141,19 @@ function(themis_build_modular)
     )
         # Ensure pugixml is found before checking for its targets
         # (this module may be included before find_package(pugixml) is called in CMakeLists.txt)
-        if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml)
+        if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
             find_package(pugixml CONFIG QUIET)
+        endif()
+        if(pugixml_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+            find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATH_SUFFIXES include)
+            find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+            if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
+                add_library(pugixml UNKNOWN IMPORTED)
+                set_target_properties(pugixml PROPERTIES
+                    IMPORTED_LOCATION "${PUGIXML_LIB}"
+                    INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
+                add_library(pugixml::pugixml ALIAS pugixml)
+            endif()
         endif()
     if(TARGET TBB::tbb)
         list(APPEND _themis_security_deps TBB::tbb)
@@ -2241,6 +2265,11 @@ function(themis_build_modular)
             themis_security
     )
 
+    if(DEFINED THEMIS_ZSTD_TARGET AND NOT "${THEMIS_ZSTD_TARGET}" STREQUAL "")
+        target_link_libraries(themis_transaction PUBLIC ${THEMIS_ZSTD_TARGET})
+        target_compile_definitions(themis_transaction PUBLIC THEMIS_HAS_ZSTD)
+    endif()
+
     set(_themis_query_deps
         themis_base
         themis_storage
@@ -2299,6 +2328,9 @@ function(themis_build_modular)
     # transitive references without introducing cycles among static libs.
     if(onnxruntime_FOUND)
         list(APPEND _themis_query_deps onnxruntime::onnxruntime)
+    endif()
+    if(TARGET httplib::httplib)
+        list(APPEND _themis_query_deps httplib::httplib)
     endif()
     
     themis_add_module(query

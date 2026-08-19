@@ -504,7 +504,6 @@ private:
     void forwardToSiem(const nlohmann::json& event);
     void loadChainState();
     void saveChainState();
-    void logErrorContext(const ErrorContext& ctx);
     std::string computeEntryHash(const nlohmann::json& entry) const;
     static std::string securityEventTypeToString(SecurityEventType type);
     
