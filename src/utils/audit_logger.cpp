@@ -18,6 +18,7 @@
 #include <fmt/format.h>
 
 #include <filesystem>
+#include <iostream>
 #include <openssl/sha.h>
 #include <sstream>
 #include <iomanip>
@@ -1939,4 +1940,3 @@ AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
 
 } // namespace utils
 } // namespace themis
-
