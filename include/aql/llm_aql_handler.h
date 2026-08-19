@@ -207,7 +207,7 @@ public:
             .max_retries = 1,
             .timeout_ms = 5000,
             .reject_on_error = false,
-            .log_level = "warn"
+            .log_level = spdlog::level::warn
         };
 
         /// @brief LLM client for text/AQL generation (Phase 0.4 integration)

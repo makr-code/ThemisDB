@@ -118,10 +118,10 @@ public:
      * return safe defaults (0, false, empty string/vector) rather than
      * crashing on malformed or truncated input.
      *
-     * @note Nesting depth: Decoder enforces a maximum nesting depth of 256
-     *   arrays/objects. When the limit is exceeded, beginArray()/beginObject()
-     *   return 0 and move the decoder to EOF so callers cannot loop on the
-     *   same malformed input.
+     * @note Nesting depth: Encoded arrays/objects may be nested up to the
+     *   available stack depth. Crafted inputs with extreme nesting may cause
+     *   stack overflow; callers that accept untrusted input should bound
+     *   maximum nesting depth externally.
      *
      * @error_contract
      * | Condition | ErrorCode | Severity | Logging | Recovery |
@@ -185,21 +185,9 @@ public:
          */
         std::vector<float> decodeFloatVector();
         
-        /**
-         * @brief Begins decoding an array container.
-         *
-         * @return Declared element count, or 0 if the nesting-depth guard trips
-         *   before the array header can be consumed.
-         */
         size_t beginArray();
         void endArray();
         
-        /**
-         * @brief Begins decoding an object container.
-         *
-         * @return Declared field count, or 0 if the nesting-depth guard trips
-         *   before the object header can be consumed.
-         */
         size_t beginObject();
         void endObject();
         
@@ -208,11 +196,8 @@ public:
         TypeTag readTag();
     
     private:
-        static constexpr size_t MAX_NESTING_DEPTH = 256;
-
         const std::vector<uint8_t>& data_;
         size_t pos_ = 0;
-        size_t depth_ = 0;
         
         uint32_t readUInt32();
         uint64_t readUInt64();

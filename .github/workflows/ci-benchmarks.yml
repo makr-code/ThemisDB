@@ -531,10 +531,9 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             build-essential ninja-build \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libkrb5-dev \
-            libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev libyaml-cpp-dev \
-            libboost-system-dev libboost-filesystem-dev libbenchmark-dev \
-            libcurl4-openssl-dev libpugixml-dev pkg-config
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
+            libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
+            libboost-system-dev libbenchmark-dev pkg-config
 
       - name: Configure build
         run: |

@@ -103,14 +103,13 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
     }
 
     std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
-    rocksdb::DB* raw_db = nullptr;
-    rocksdb::Status s = rocksdb::DB::Open(
-        rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &raw_db);
+    std::unique_ptr<rocksdb::DB> db_ptr;
+    rocksdb::Status s = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_ptr);
+    db_ = std::move(db_ptr);
     if (!s.ok()) {
         throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
                                  + "': " + s.ToString());
     }
-    db_.reset(raw_db);
 
     // Identify the blacklist CF handle; keep all others for proper cleanup.
     for (size_t i = 0; i < existing_cfs.size(); ++i) {

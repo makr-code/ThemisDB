@@ -325,7 +325,6 @@ size_t Serialization::Decoder::beginObject() {
                        depth_, MAX_NESTING_DEPTH),
             "Serialization::Decoder::beginObject",
             ErrorSeverity::Error, /*is_recoverable=*/false));
-        pos_ = data_.size();
         return 0;  // Return 0 to signal error
     }
     
