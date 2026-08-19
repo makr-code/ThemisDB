@@ -104,7 +104,6 @@ jobs:
           }
           SBOM_EOF
           
-          TARGET_BRANCH="${{ github.base_ref || 'develop' }}"
           APPROVED_SBOM_FILE="docs/governance/SBOM_APPROVED_VERSIONS.md"
           
           if [ ! -f "$APPROVED_SBOM_FILE" ]; then

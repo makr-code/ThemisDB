@@ -52,6 +52,15 @@
  * - Supports key versioning for audit trail
  * - Memory-safe key material handling (RAII, zero-wiping)
  *
+ * ## Bounded Resource Constraints
+ * The LEKManager enforces strict resource bounds to prevent unbounded memory growth:
+ * - **Key Cache**: In-memory LEK cache limited to 90 entries (approximately 90 days of keys)
+ * - **Revocation List**: In-memory revocation tracking limited to 1000 entries
+ * - **Key Derivation**: HKDF derivation timeout set to 30 seconds (fail-closed if exceeded)
+ * - **Rotation Worker**: Check interval configurable; default 1 hour (minimum 10 seconds)
+ * - **Database Keys**: Each LEK stored in RocksDB under deterministic key: `lek:encrypted:<YYYY-MM-DD>`
+ * - **Encryption Overhead**: LEK encrypted with KEK using AES-GCM (16-byte nonce + ciphertext)
+ *
  * @see HKDFHelper for key derivation implementation
  * @see AuditLogger for rotation event tracking
  */

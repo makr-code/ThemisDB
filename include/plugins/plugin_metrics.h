@@ -16,6 +16,7 @@
 #include <string>
 #include <deque>
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <mutex>
 #include <chrono>
@@ -121,7 +122,7 @@ public:
      * @brief Get all plugin statistics
      * @return Map of plugin name to statistics
      */
-    std::map<std::string, PluginStats> getAllStats() const;
+    std::unordered_map<std::string, PluginStats> getAllStats() const;
     
     /**
      * @brief Reset statistics for a plugin
@@ -135,7 +136,7 @@ public:
     void resetAll();
     
 private:
-    std::map<std::string, PluginStats> stats_;
+    std::unordered_map<std::string, PluginStats> stats_;
     mutable std::mutex mutex_;
     
     // Helper to ensure plugin stats exist

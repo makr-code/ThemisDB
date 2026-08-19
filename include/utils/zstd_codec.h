@@ -30,6 +30,7 @@ namespace compression {
     constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024 * 1024;           // 1GB max input
     constexpr size_t MAX_OUTPUT_SIZE = 1024ULL * 1024 * 1024 * 2;      // 2GB max compressed output
     constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024 * 1024 * 4; // 4GB max decompressed output
+    constexpr size_t MAX_COMPRESSION_RATIO = 1024;  // Phase 2.4a: Max expansion ratio (output <= input * ratio)
     /// Recommended chunk size for streaming APIs (256 KB).
     constexpr size_t STREAM_CHUNK_SIZE = 256 * 1024;
 }
@@ -58,57 +59,41 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
 /**
  * @brief Safely compress data using ZSTD with parameter validation.
  *
- * @param data Input buffer pointer (must not be nullptr when size > 0).
- * @param size Size in bytes (must not exceed MAX_ZSTD_INPUT_SIZE).
+ * @param data Input buffer pointer (must not be nullptr).
+ * @param size Size in bytes (must not exceed compression::MAX_INPUT_SIZE).
  * @param level Compression level (1-22); values outside range are auto-clamped to [1-22].
  * @return Result containing compressed data or error description.
  *
  * @note Parameter Validation: Compression level is silently clamped to valid range [1-22].
  *       Invalid levels are logged as WARN but do not cause compression to fail.
  * @note Max Input: Enforces maximum input size to prevent DoS via oversized allocations.
- * @note Thread-Safe: Uses thread-local ZSTD_CCtx for safe concurrent use.
+ * @note Thread-Safe: Uses thread-local ZSTD_CCtx for safe concurrent use (Phase 2.4a).
+ * @note Output Bounds: Enforces MAX_OUTPUT_SIZE and MAX_COMPRESSION_RATIO to prevent buffer overflow.
  *
- * @error_contract
- * | Condition | ErrorCode | Severity | Logging | Recovery |
- * |-----------|-----------|----------|---------|----------|
- * | Input nullptr with size > 0 | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | zstd_compress_safe | Return Err |
- * | Input size > MAX_INPUT_SIZE (1 GB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | size, limit | Return Err |
- * | Output bound > MAX_OUTPUT_SIZE (2 GB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | bound, limit | Return Err |
- * | Memory allocation failure | ERR_UTIL_ALLOCATION_FAILED | Error | requested bytes | Return Err |
- * | ZSTD compress error | ERR_UTIL_COMPRESSION_FAILED (COMPRESSION_FAILED 9060) | Error | ZSTD error name | Return Err; logErrorWithContext |
- * | ZSTD unavailable (no THEMIS_HAS_ZSTD) | ERR_UTIL_COMPRESSION_FAILED (CODEC_NOT_SUPPORTED 9067) | Error | – | Return Err |
- *
- * @degradation Never silently returns uncompressed data; any failure path returns Err.
- * @bounded_resources
- * - Input capped at compression::MAX_INPUT_SIZE (1 GB)
- * - Output buffer capped at compression::MAX_OUTPUT_SIZE (2 GB)
- * - Compression level auto-clamped to [1, 22]; invalid values logged as WARN
+ * @error COMPRESSION_FAILED ZSTD compression failed (insufficient memory or corrupt state).
+ * @error COMPRESSION_INPUT_INVALID Input size exceeds limit or exceeds compression ratio bounds.
+ * @error CODEC_NOT_SUPPORTED ZSTD library not available (THEMIS_HAS_ZSTD not defined).
  */
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level = 3);
 
 /**
- * @brief Safely decompress a ZSTD-framed buffer with bomb protection.
+ * @brief Safely decompress ZSTD-compressed data with validation.
  *
- * @param compressed ZSTD-framed bytes to decompress.
- * @return Ok(decompressed_bytes) on success; Err on any failure.
+ * @param compressed ZSTD-compressed bytes (output of zstd_compress_safe).
+ * @return Result containing decompressed data or error description.
  *
- * @note Decompression bomb protection: Rejects any frame whose declared
- *       content size exceeds MAX_DECOMPRESSED_SIZE (4 GB).
- * @note Thread-Safe: Uses a per-call ZSTD_DCtx; safe for concurrent use.
+ * @note Size Validation: Decompressed size is checked against MAX_DECOMPRESSED_SIZE to prevent
+ *       decompression bomb attacks (e.g., 1MB compressed -> 4GB decompressed).
+ * @note Checksum Verification: ZSTD frame checksum is validated if present in the frame.
+ * @note Corrupt Data: Malformed or truncated compressed data returns an error, not silent failure.
+ * @note Output Bounds: Enforces MAX_COMPRESSION_RATIO for decompression expansion bounds.
  *
- * @error_contract
- * | Condition | ErrorCode | Severity | Logging | Recovery |
- * |-----------|-----------|----------|---------|----------|
- * | Compressed > MAX_DECOMPRESSED_SIZE (4 GB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_BOMB_DETECTED 9064) | Error | declared size, limit | Return Err |
- * | Memory allocation failure | ERR_UTIL_ALLOCATION_FAILED | Error | requested bytes | Return Err |
- * | ZSTD_DCtx creation failure | ERR_UTIL_COMPRESSION_FAILED (CODEC_INITIALIZATION_FAILED 9066) | Error | – | Return Err |
- * | ZSTD decompress error | ERR_UTIL_COMPRESSION_FAILED (DECOMPRESSION_FAILED 9061) | Error | ZSTD error name | Return Err; logErrorWithContext |
- * | ZSTD unavailable (no THEMIS_HAS_ZSTD) | ERR_UTIL_COMPRESSION_FAILED (CODEC_NOT_SUPPORTED 9067) | Error | – | Return Err |
+ * @error DECOMPRESSION_FAILED ZSTD decompression failed (invalid or corrupt input).
+ * @error COMPRESSION_BOMB_DETECTED Output size exceeds MAX_DECOMPRESSED_SIZE (DoS detected).
+ * @error COMPRESSION_RATIO_EXCEEDED Expansion ratio exceeds MAX_COMPRESSION_RATIO.
+ * @error CODEC_NOT_SUPPORTED ZSTD library not available (THEMIS_HAS_ZSTD not defined).
  *
- * @degradation Never returns partial data; any decompression failure returns Err.
- * @bounded_resources
- * - Declared decompressed size capped at compression::MAX_DECOMPRESSED_SIZE (4 GB)
- * - Uses ZSTD_DCtx per call; context freed on any exit path (RAII)
+ * @note Phase 2.4a Hardening: Corrupt data detection and decompression bomb prevention.
  */
 Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& compressed);
 

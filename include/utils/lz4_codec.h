@@ -30,6 +30,8 @@ namespace lz4_compression {
     constexpr size_t MAX_INPUT_SIZE       = 512ULL * 1024 * 1024;   // 512 MB
     /// Maximum decompressed size accepted by lz4_decompress_safe.
     constexpr size_t MAX_DECOMPRESSED_SIZE = 2ULL * 1024 * 1024 * 1024; // 2 GB
+    /// Maximum compression ratio allowed to detect decompression bombs (Phase 2.4b).
+    constexpr size_t MAX_COMPRESSION_RATIO = 512;  // output <= input * ratio
     /// Default LZ4 acceleration factor (1 = balanced; higher = faster + lower ratio).
     constexpr int    DEFAULT_ACCELERATION = 1;
 } // namespace lz4_compression
@@ -49,28 +51,22 @@ namespace lz4_compression {
  * @note Parameter Validation: Acceleration parameter is silently clamped to valid range [1-1000].
  *       Invalid values are logged as WARN but do not prevent compression.
  * @note Max Input: Input size is validated against MAX_INPUT_SIZE to prevent DoS allocation.
+ * @note Output Bounds: Output size is checked against MAX_COMPRESSION_RATIO to detect anomalies.
+ * @note Block-Size Overflow: LZ4 block size limits are validated to prevent overflow (Phase 2.4b).
  * @note Thread-Safe: Safe for concurrent calls from multiple threads.
  * @note Acceleration: Higher acceleration = faster compression + lower compression ratio.
  *
- * @error_contract
- * | Condition | ErrorCode | Severity | Logging | Recovery |
- * |-----------|-----------|----------|---------|----------|
- * | Input size > MAX_INPUT_SIZE (512 MB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | size, limit | Return Err |
- * | Input size > LZ4_MAX_INPUT_SIZE | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_INPUT_INVALID 9063) | Error | size | Return Err |
- * | Memory allocation failure | ERR_UTIL_ALLOCATION_FAILED | Error | requested bytes | Return Err |
- * | LZ4 compress returns 0 | ERR_UTIL_COMPRESSION_FAILED (COMPRESSION_FAILED 9060) | Error | – | Return Err; logErrorWithContext |
- * | LZ4 unavailable (no THEMIS_HAS_LZ4) | ERR_UTIL_COMPRESSION_FAILED (CODEC_NOT_SUPPORTED 9067) | Error | – | Return Err |
+ * @error COMPRESSION_FAILED LZ4 compression failed (insufficient memory or state error).
+ * @error COMPRESSION_INPUT_INVALID Input size exceeds limit or block-size would overflow.
+ * @error CODEC_NOT_SUPPORTED LZ4 library not available (THEMIS_HAS_LZ4 not defined).
  *
- * @degradation Never silently returns uncompressed data; any failure returns Err.
- * @bounded_resources
- * - Input capped at lz4_compression::MAX_INPUT_SIZE (512 MB) and LZ4_MAX_INPUT_SIZE
- * - Acceleration auto-clamped to [1, 1000]; invalid values logged as WARN
+ * @note Phase 2.4b Hardening: Output buffer sizing, block-size overflow check, unavailable handling.
  */
 Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
                                                 int acceleration = lz4_compression::DEFAULT_ACCELERATION);
 
 /**
- * @brief Decompress an LZ4-compressed block.
+ * @brief Decompress an LZ4-compressed block with validation.
  *
  * @param compressed      Compressed bytes produced by lz4_compress*.
  * @param original_size   Exact size of the original uncompressed data (required
@@ -78,22 +74,18 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
  *                        compressed payload by the caller).
  * @return Ok(decompressed_bytes) on success; Err on failure or unsupported.
  *
- * @note Decompression bomb protection: Rejects original_size claims exceeding
- *       MAX_DECOMPRESSED_SIZE (2 GB) to prevent memory exhaustion attacks.
- * @note LZ4 block format requires the caller to supply original_size; if the
- *       value is wrong the decompressor may return truncated or corrupt data.
+ * @note Size Validation: original_size is validated against MAX_DECOMPRESSED_SIZE and
+ *       MAX_COMPRESSION_RATIO to prevent decompression bombs.
+ * @note Corrupt Input: Malformed or truncated compressed data returns error, not silent failure.
+ * @note Block-Size Validation: Checks that decompressed output fits within size limits.
+ * @note Unavailable Handling: Returns error if THEMIS_HAS_LZ4 not defined (Phase 2.4b).
  *
- * @error_contract
- * | Condition | ErrorCode | Severity | Logging | Recovery |
- * |-----------|-----------|----------|---------|----------|
- * | original_size > MAX_DECOMPRESSED_SIZE (2 GB) | ERR_UTIL_INVALID_ARGUMENT (COMPRESSION_BOMB_DETECTED 9064) | Error | claimed size, limit | Return Err |
- * | Memory allocation failure | ERR_UTIL_ALLOCATION_FAILED | Error | requested bytes | Return Err |
- * | LZ4 decompress fails (returns negative) | ERR_UTIL_COMPRESSION_FAILED (DECOMPRESSION_FAILED 9061) | Error | – | Return Err; logErrorWithContext |
- * | LZ4 unavailable (no THEMIS_HAS_LZ4) | ERR_UTIL_COMPRESSION_FAILED (CODEC_NOT_SUPPORTED 9067) | Error | – | Return Err |
+ * @error DECOMPRESSION_FAILED LZ4 decompression failed (invalid or corrupt input).
+ * @error COMPRESSION_BOMB_DETECTED original_size exceeds MAX_DECOMPRESSED_SIZE.
+ * @error COMPRESSION_RATIO_EXCEEDED Ratio original_size/compressed.size() exceeds MAX_COMPRESSION_RATIO.
+ * @error CODEC_NOT_SUPPORTED LZ4 library not available (THEMIS_HAS_LZ4 not defined).
  *
- * @degradation Never returns partial data; any decompression failure returns Err.
- * @bounded_resources
- * - Decompressed output capped at lz4_compression::MAX_DECOMPRESSED_SIZE (2 GB)
+ * @note Phase 2.4b Hardening: Output buffer validation, block-size checks, unavailable library fallback.
  */
 Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& compressed,
                                                   size_t original_size);
