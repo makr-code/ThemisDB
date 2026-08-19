@@ -172,6 +172,8 @@ jobs:
 
       - name: Install syft
         uses: anchore/sbom-action/download-syft@e22c389904149dbc22b58101806040fa8d37a610  # v0
+        with:
+          path: .github/tools/bin
 
       - name: Generate source SBOM (CycloneDX)
         uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610  # v0
@@ -453,7 +455,7 @@ jobs:
 
       - name: Start ThemisDB container
         run: |
-          docker compose -f docker-compose.yml up -d themisdb
+          docker compose -f docker-compose.yml up -d themis
           for _ in $(seq 1 30); do
             if curl -sk "${THEMIS_ADMIN_ENDPOINT}/v1/health" | grep -q "ok"; then
               echo "ThemisDB ready"; break
