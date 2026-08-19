@@ -2,7 +2,7 @@
 
 **Generated:** 2026-08-19  
 **Topics:** 20  
-**Total source files grouped:** 1689  
+**Total source files grouped:** 1703  
 
 > Auto-generated LLM-wiki index following the Karpathy LLM Wiki pattern.
 > Each page below is a compact knowledge blob for one topic.
@@ -17,18 +17,18 @@
 - [BATCH_DELIVERY.md](BATCH_DELIVERY.md) — 248 source files
 - [CICD.md](CICD.md) — 4 source files
 - [EXECUTION.md](EXECUTION.md) — 20 source files
-- [FINAL_REPORTS.md](FINAL_REPORTS.md) — 37 source files
+- [FINAL_REPORTS.md](FINAL_REPORTS.md) — 38 source files
 - [GAP_CLOSURE.md](GAP_CLOSURE.md) — 148 source files
 - [GA_CLOSURE.md](GA_CLOSURE.md) — 11 source files
-- [IMPLEMENTATION.md](IMPLEMENTATION.md) — 68 source files
-- [MISC.md](MISC.md) — 573 source files
-- [PHASE_REPORTS.md](PHASE_REPORTS.md) — 372 source files
+- [IMPLEMENTATION.md](IMPLEMENTATION.md) — 71 source files
+- [MISC.md](MISC.md) — 578 source files
+- [PHASE_REPORTS.md](PHASE_REPORTS.md) — 376 source files
 - [PROCESS_MODULE.md](PROCESS_MODULE.md) — 4 source files
 - [SECURITY.md](SECURITY.md) — 3 source files
 - [STREAM_REPORTS.md](STREAM_REPORTS.md) — 12 source files
 - [UPDATES_MODULE.md](UPDATES_MODULE.md) — 2 source files
 - [UTILS_MODULE.md](UTILS_MODULE.md) — 3 source files
-- [WAVE_REPORTS.md](WAVE_REPORTS.md) — 101 source files
+- [WAVE_REPORTS.md](WAVE_REPORTS.md) — 102 source files
 
 ## Usage for LLM Agents
 

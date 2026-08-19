@@ -16,9 +16,9 @@
 - `PHASE_3_4_AGENT_SPECS.md` (2026-08-19, 9,671 B)
 - `PHASE_2_2_AGENT1_RESULTS.md` (2026-08-19, 17,526 B)
 - `PHASE_2_2_AGENT2_RESULTS.md` (2026-08-19, 16,848 B)
+- `INGESTION_PHASE_3_4_AGENT_SPECS.md` (2026-08-19, 12,436 B)
 - `INGESTION_PHASE_5_AGENT_SPECS.md` (2026-08-19, 12,636 B)
 - `INGESTION_PHASE_2_AGENT_SPECS.md` (2026-08-19, 12,229 B)
-- `INGESTION_PHASE_3_4_AGENT_SPECS.md` (2026-08-19, 12,436 B)
 - `AGENT3_DELIVERY_CHECKLIST.md` (2026-08-19, 7,349 B)
 
 ---
@@ -431,6 +431,57 @@ TEST(PathConstraintsSemanticFocusedTests, SC02_ValidateWithoutGraphMgrIsEmpty)
 - **Risk**: LOW (defensive pattern verified in gap analysis)
 #### SC-03: ValidEdgeTypeAccepted ✅
 TEST(PathConstraintsSemanticFocusedTests, SC03_ValidEdgeTypeAccepted)
+
+---
+
+### INGESTION_PHASE_3_4_AGENT_SPECS.md
+
+*(file too large — key headings extracted)*
+
+# Ingestion Module Phases 3–4 — HIGH + MEDIUM/LOW Fixes Agent Dispatch Specs
+**Target Agents:**
+- **Phase 3:** `themisdb-implementer` (HIGH severity, 103 findings, parallel batches)
+- **Phase 4:** `task` agents × 3–4 (MEDIUM/LOW severity, 180 findings, lightweight throughput)
+**Timeline:**
+- Phase 3: Aug 29 – Sep 12, 2026 (parallel with Phase 2)
+- Phase 4: Sep 5 – Sep 12, 2026 (parallel with Phase 3)
+**Deliverables:**
+- INGESTION_PHASE_3_BATCH_A1_COMPLETION.md (44 HIGH from top 5 files)
+- INGESTION_PHASE_3_BATCH_A2_COMPLETION.md (38 HIGH from next 10 files)
+- INGESTION_PHASE_3_BATCH_A3_COMPLETION.md (21 HIGH from remaining files)
+- INGESTION_PHASE_4_BATCH_1_COMPLETION.md through BATCH_4_COMPLETION.md (180 MEDIUM/LOW)
+---
+## Phase 3: HIGH Fixes Implementation Guide
+### Overview
+- **Scope:** 103 HIGH severity findings across 34 files
+- **Categories:** String concatenation loops, resource leaks, copy overhead, iterator safety, performance metrics
+- **Strategy:** Batch-by-file-risk, parallel themisdb-implementer execution
+- **Quality Gate:** ≥90% have integration tests; benchmarks neutral or improved
+### Batch A1: Top 5 High-Risk Files (44 HIGH findings)
+**Timeline:** Aug 29 – Sep 5, 2026
+**Agent:** `themisdb-implementer` (Dedicated to Batch A1)
+#### File 1: ingestion_manager.cpp (12 HIGH)
+**Fix Patterns:**
+1. **String Concatenation Loop** (3 instances @ lines 234, 456, 567)
+// BEFORE:
+std::string result;
+for (const auto& token : tokens) {
+result += token + ", ";  // String concatenation in loop
+}
+// AFTER:
+std::string result;
+result.reserve(tokens.size() * 16);  // Pre-allocate
+for (size_t i = 0; i < tokens.size(); ++i) {
+if (i > 0) result += ", ";
+result += tokens[i];
+}
+// Or use std::vector<std::string> + std::string::join equivalent
+**Test:** Test with varying sizes; benchmark string build time
+2. **Missing Latency Metrics** (2 instances @ lines 289, 512)
+// BEFORE:
+void ingestion_manager::processCheckpoint() {
+// No timing information
+}
 
 ---
 
@@ -873,57 +924,6 @@ Phase 2 is complete when:
 
 **Target Date:** Sep 5, 2026  
 **Status:** Ready for Agent Dispatch (as of 2026-08-15)
-
----
-
-### INGESTION_PHASE_3_4_AGENT_SPECS.md
-
-*(file too large — key headings extracted)*
-
-# Ingestion Module Phases 3–4 — HIGH + MEDIUM/LOW Fixes Agent Dispatch Specs
-**Target Agents:**
-- **Phase 3:** `themisdb-implementer` (HIGH severity, 103 findings, parallel batches)
-- **Phase 4:** `task` agents × 3–4 (MEDIUM/LOW severity, 180 findings, lightweight throughput)
-**Timeline:**
-- Phase 3: Aug 29 – Sep 12, 2026 (parallel with Phase 2)
-- Phase 4: Sep 5 – Sep 12, 2026 (parallel with Phase 3)
-**Deliverables:**
-- INGESTION_PHASE_3_BATCH_A1_COMPLETION.md (44 HIGH from top 5 files)
-- INGESTION_PHASE_3_BATCH_A2_COMPLETION.md (38 HIGH from next 10 files)
-- INGESTION_PHASE_3_BATCH_A3_COMPLETION.md (21 HIGH from remaining files)
-- INGESTION_PHASE_4_BATCH_1_COMPLETION.md through BATCH_4_COMPLETION.md (180 MEDIUM/LOW)
----
-## Phase 3: HIGH Fixes Implementation Guide
-### Overview
-- **Scope:** 103 HIGH severity findings across 34 files
-- **Categories:** String concatenation loops, resource leaks, copy overhead, iterator safety, performance metrics
-- **Strategy:** Batch-by-file-risk, parallel themisdb-implementer execution
-- **Quality Gate:** ≥90% have integration tests; benchmarks neutral or improved
-### Batch A1: Top 5 High-Risk Files (44 HIGH findings)
-**Timeline:** Aug 29 – Sep 5, 2026
-**Agent:** `themisdb-implementer` (Dedicated to Batch A1)
-#### File 1: ingestion_manager.cpp (12 HIGH)
-**Fix Patterns:**
-1. **String Concatenation Loop** (3 instances @ lines 234, 456, 567)
-// BEFORE:
-std::string result;
-for (const auto& token : tokens) {
-result += token + ", ";  // String concatenation in loop
-}
-// AFTER:
-std::string result;
-result.reserve(tokens.size() * 16);  // Pre-allocate
-for (size_t i = 0; i < tokens.size(); ++i) {
-if (i > 0) result += ", ";
-result += tokens[i];
-}
-// Or use std::vector<std::string> + std::string::join equivalent
-**Test:** Test with varying sizes; benchmark string build time
-2. **Missing Latency Metrics** (2 instances @ lines 289, 512)
-// BEFORE:
-void ingestion_manager::processCheckpoint() {
-// No timing information
-}
 
 ---
 
