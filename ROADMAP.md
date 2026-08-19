@@ -77,8 +77,8 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 
 ### Wave A — Runtime Reliability First (Q3–Q4 2026)
 - [ ] Transaction: close build/run verification, then complete crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation (Target: Q3–Q4 2026)
-- [ ] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026)
-- [ ] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026)
+- [x] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026, technical closure evidence complete 2026-08-17 in `src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`)
+- [x] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026, COMPLETED 2026-08-18)
 - [ ] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026)
 - [ ] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026)
 - [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06), Failover (Phase 2+3 ✅ 2026-07-29), Updates (Phase 2-6 ✅ 2026-08-06) — all production-ready for v2.4.0 GA
@@ -91,23 +91,23 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 
 ### Wave A Closure Batch (current execution order)
 - [~] Batch A1 — Transaction verification + chaos evidence: close build/run verification, coordinator crash-recovery validation, retry-storm control, and deterministic timeout/rollback evidence in `src/transaction/ROADMAP.md` (Target: Q3–Q4 2026)
-- [~] Batch A2 — Replication geo placement + WAL lag controls: deliver placement policy, async cross-region WAL shipping, lag alerts, and stronger failover diagnostics in `src/replication/ROADMAP.md` (Target: Q3–Q4 2026) — **Failover Phase 2+3 dependency satisfied** ✅
+- [x] Batch A2 — Replication geo placement + WAL lag controls: deliver placement policy, async cross-region WAL shipping, lag alerts, and stronger failover diagnostics in `src/replication/ROADMAP.md` (Target: Q3–Q4 2026) — ✅ COMPLETE 2026-08-18
 - [~] Batch A3 — Voice fail-closed hardening: reject malformed/oversized streams, harden liveness/anti-spoof regressions, and prove safe multi-session teardown in `src/voice/ROADMAP.md` (Target: Q3–Q4 2026)
 - [~] Batch A4 — GPU fallback/timeout safety: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and prove clean CPU degradation in `src/gpu/ROADMAP.md` (Target: Q3–Q4 2026)
-- [~] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026) — **Failover concurrency guards + Updates coordinated rollout support** ✅
+- [x] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026) — ✅ technical closure complete 2026-08-17 (`src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`)
 - [x] **Batch A-Query** — Query planning determinism + exception safety + null safety: timeout safety (24 gaps), exception safety at boundaries (46 gaps), determinism gates (8 gaps), null safety validation (15 gaps) ✅ **COMPLETE 2026-08-17** — 69+ HIGH gaps fixed, all exit criteria met. See `ai_working/WAVE_A_QUERY_MODULE_FINAL_CLOSURE_2026_08_17.md`
 - [x] **Batch A-Support** — Process (Phase 1-6 ✅), Failover (Phase 2+3 ✅), Updates (Phase 2-6 ✅) production-ready integration for v2.4.0 GA — See `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md`
 - [ ] Each Wave A module keeps one local closure evidence block covering focused regressions, chaos/fault-injection evidence, fail-closed verification, representative-hardware p95/p99 baselines, and `release_critical` coverage (Target: Q3 2026)
 
 ### Wave B — Performance Consolidation (Q3–Q4 2026)
-- [ ] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026)
-- [ ] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026)
-- [ ] LLM Wiki Phase B: advance only after measurable and reproducible RocksDB retrieval, cache hit-rate, and query-latency gates (Target: Q3–Q4 2026)
+- [x] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026, COMPLETE 2026-08-17/18 per `src/search/ROADMAP.md` + `src/search/WAVE_B_DOCUMENTATION_CLOSURE.md`)
+- [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026, COMPLETE 2026-08-17 per `src/access_model/ROADMAP.md`)
+- [~] LLM Wiki Phase B: advance only after measurable and reproducible RocksDB retrieval, cache hit-rate, and query-latency gates (Target: Q3–Q4 2026) — LWP-RT-01/LWP-GATE-01/LWP-PERF-01 complete; Phase-B RocksDB representative-hardware closure pending
 
 ### Wave B Exit Criteria (Gate to Wave C)
-- [ ] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026)
-- [ ] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026)
-- [ ] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026)
+- [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded
+- [x] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026) — GATE-ACM-01..06 closed
+- [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; LLM Wiki Phase-B representative-hardware closure still open
 
 ### Wave C — Security Production Validation (Q4 2026)
 - [x] **Track 1 — Security module:** ✅ COMPLETE 2026-08-18 — Vault/HSM/PKI integration validation, provider failover (4 scenarios, all fail-closed), real RLS/query workloads (20k+ rows, p99 SLA verified), concurrent policy updates (32k events, zero data races), and policy-conflict edge cases (deterministic deny-precedence proven). Evidence: `src/security/WAVE_C_CLOSURE_EVIDENCE.md`
