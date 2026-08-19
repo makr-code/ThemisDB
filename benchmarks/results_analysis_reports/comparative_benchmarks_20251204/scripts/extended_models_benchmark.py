@@ -156,7 +156,7 @@ def benchmark_geo_mongodb() -> BenchmarkResult:
     result = BenchmarkResult("Geospatial", "MongoDB", "Radius Search")
     
     try:
-        client = MongoClient("mongodb://benchmark:benchmark123@localhost:27017/")
+        client = MongoClient("mongodb://localhost:27017/")
         db = client["benchmark"]
         coll = db["geo_locations"]
         coll.drop()
@@ -298,7 +298,7 @@ def benchmark_timeseries_mongodb() -> BenchmarkResult:
     result = BenchmarkResult("Time-Series", "MongoDB", "Hourly Aggregation")
     
     try:
-        client = MongoClient("mongodb://benchmark:benchmark123@localhost:27017/")
+        client = MongoClient("mongodb://localhost:27017/")
         db = client["benchmark"]
         coll = db["ts_metrics"]
         coll.drop()
@@ -477,7 +477,7 @@ def benchmark_bpmn_mongodb() -> BenchmarkResult:
     result = BenchmarkResult("BPMN Process", "MongoDB", "Process Query")
     
     try:
-        client = MongoClient("mongodb://benchmark:benchmark123@localhost:27017/")
+        client = MongoClient("mongodb://localhost:27017/")
         db = client["benchmark"]
         coll = db["bpmn_processes"]
         coll.drop()

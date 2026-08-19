@@ -366,7 +366,7 @@ class DatabaseLoader:
     
     def load_to_mongodb(self, articles: Iterator[Dict[str, Any]], batch_size: int = 1000):
         """Load articles into MongoDB"""
-        client = MongoClient("mongodb://benchmark:benchmark123@localhost:27017/")
+        client = MongoClient("mongodb://localhost:27017/")
         db = client["benchmark"]
         coll = db["wikipedia_articles"]
         

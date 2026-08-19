@@ -211,7 +211,7 @@ def benchmark_document_vector_polyglot() -> BenchmarkResult:
     result = BenchmarkResult("Document+Vector", "MongoDB", "Document Query")
     
     try:
-        client = MongoClient("mongodb://benchmark:benchmark123@localhost:27017/")
+        client = MongoClient("mongodb://localhost:27017/")
         db = client["benchmark"]
         docs_collection = db["fair_docs"]
         docs_collection.drop()
@@ -303,7 +303,7 @@ def benchmark_olap_document_polyglot() -> BenchmarkResult:
     result = BenchmarkResult("OLAP+Document", "MongoDB", "Aggregation")
     
     try:
-        client = MongoClient("mongodb://benchmark:benchmark123@localhost:27017/")
+        client = MongoClient("mongodb://localhost:27017/")
         db = client["benchmark"]
         stats_collection = db["fair_stats"]
         stats_collection.drop()

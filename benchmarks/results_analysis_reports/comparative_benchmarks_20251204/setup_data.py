@@ -207,7 +207,7 @@ def verify_databases():
     
     checks = {
         "PostgreSQL": ("postgresql://benchmark:benchmark123@localhost:5432/benchmark", "psycopg2"),
-        "MongoDB": ("mongodb://benchmark:benchmark123@localhost:27017/", "pymongo"),
+        "MongoDB": ("mongodb://localhost:27017/", "pymongo"),
         "ThemisDB": ("http://localhost:8765/health", "httpx"),
         "Neo4j": ("http://localhost:7474", "httpx"),
         "ClickHouse": ("http://localhost:8123", "httpx"),
