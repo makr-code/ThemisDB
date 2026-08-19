@@ -10,10 +10,13 @@
 # ============================================================================
 FROM ubuntu:24.04 AS base
 
+ARG EXTRA_CA_CERT_B64=""
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_ROOT=/opt/vcpkg
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # Fetch pinned vcpkg source archive at Docker build time to avoid
 # in-container git TLS/proxy trust-chain issues.
@@ -28,6 +31,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 python3 perl nasm autoconf \
         automake libtool && \
+    if [ -n "${EXTRA_CA_CERT_B64}" ]; then \
+        echo "${EXTRA_CA_CERT_B64}" | base64 -d > /usr/local/share/ca-certificates/themis-extra-ca.crt && \
+        update-ca-certificates; \
+    fi && \
     rm -rf /var/lib/apt/lists/* && \
     echo "47536d30e8ba854bc283776d5be67401e230aca55054ce439f712c2e7b21f5d05b86aa64438252e91390601eefe26710bfc83c5fb154d6737940f334c6c932a0  /tmp/vcpkg-glibc" | sha512sum -c - && \
     tar -xzf /tmp/vcpkg.tar.gz -C /opt && \
