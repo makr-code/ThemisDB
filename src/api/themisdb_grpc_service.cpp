@@ -287,53 +287,80 @@ private:
 
 #ifdef THEMIS_HAS_PROMETHEUS
         void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry) {
+            // Build the Prometheus counter family OUTSIDE the mutex to avoid
+            // circular_lock_ordering: prometheus::Register() acquires its own
+            // internal registry lock, so holding grpc_metrics_mutex_ during
+            // Register() risks a lock-order cycle with any path that holds the
+            // prometheus lock first and then calls back into this service.
+            // (Wave C finding: circular_lock_ordering in themisdb_grpc_service.cpp)
+            prometheus::Family<prometheus::Counter>* new_family = nullptr;
+            if (registry) {
+                try {
+                    new_family = &prometheus::BuildCounter()
+                                     .Name("grpc_requests_total")
+                                     .Help("Total number of gRPC requests by method and transport status.")
+                                     .Register(*registry);
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("ThemisDBGrpcService: failed to register grpc_requests_total: {}",
+                                e.what());
+                    registry.reset();
+                    new_family = nullptr;
+                } catch (...) {
+                    THEMIS_WARN("ThemisDBGrpcService: failed to register grpc_requests_total");
+                    registry.reset();
+                    new_family = nullptr;
+                }
+            }
+
+            // Swap state under lock — only fast in-memory operations here;
+            // no external calls that could acquire a foreign lock.
             std::lock_guard<std::mutex> lock(grpc_metrics_mutex_);
-            prom_registry_ = std::move(registry);
-            grpc_requests_family_ = nullptr;
+            prom_registry_         = std::move(registry);
+            grpc_requests_family_  = new_family;
             grpc_request_counters_.clear();
-
-            if (!prom_registry_) {
-                return;
-            }
-
-            try {
-                auto& family = prometheus::BuildCounter()
-                                   .Name("grpc_requests_total")
-                                   .Help("Total number of gRPC requests by method and transport status.")
-                                   .Register(*prom_registry_);
-                grpc_requests_family_ = &family;
-            } catch (const std::exception& e) {
-                THEMIS_WARN("ThemisDBGrpcService: failed to register grpc_requests_total: {}",
-                            e.what());
-                prom_registry_.reset();
-                grpc_requests_family_ = nullptr;
-                grpc_request_counters_.clear();
-            } catch (...) {
-                THEMIS_WARN("ThemisDBGrpcService: failed to register grpc_requests_total");
-                prom_registry_.reset();
-                grpc_requests_family_ = nullptr;
-                grpc_request_counters_.clear();
-            }
         }
 #endif
 
         void recordRpcStatus(const std::string& method, grpc::StatusCode code) {
 #ifdef THEMIS_HAS_PROMETHEUS
-            std::lock_guard<std::mutex> lock(grpc_metrics_mutex_);
-            if (!grpc_requests_family_) {
-                return;
-            }
-
+            // Two-phase approach to avoid holding grpc_metrics_mutex_ while
+            // calling prometheus::Family::Add(), which acquires its own internal
+            // registry lock.  Holding grpc_metrics_mutex_ during Add() creates
+            // a potential lock-order cycle with paths that hold the prometheus
+            // lock first (second circular_lock_ordering finding, Wave C).
+            //
+            // Phase 1: look up cached counter under lock (fast, no external calls).
             const char* status_label = grpcStatusCodeLabel(code);
-            const std::string key = method + "|" + status_label;
+            const std::string key    = method + "|" + status_label;
 
-            auto it = grpc_request_counters_.find(key);
-            if (it == grpc_request_counters_.end()) {
-                auto& counter = grpc_requests_family_->Add(
-                    {{"method", method}, {"status", status_label}});
-                it = grpc_request_counters_.emplace(key, &counter).first;
+            prometheus::Counter* cached = nullptr;
+            prometheus::Family<prometheus::Counter>* family_snapshot = nullptr;
+            {
+                std::lock_guard<std::mutex> lock(grpc_metrics_mutex_);
+                if (!grpc_requests_family_) {
+                    return;
+                }
+                auto it = grpc_request_counters_.find(key);
+                if (it != grpc_request_counters_.end()) {
+                    it->second->Increment(1.0);
+                    return;
+                }
+                // Counter not cached yet — capture family pointer for Phase 2.
+                family_snapshot = grpc_requests_family_;
             }
-            it->second->Increment(1.0);
+
+            // Phase 2: create counter OUTSIDE the lock (prometheus::Add() is
+            // idempotent for the same label set, so concurrent creation is safe).
+            auto& counter = family_snapshot->Add(
+                {{"method", method}, {"status", status_label}});
+
+            // Phase 3: insert into cache under lock and increment.
+            {
+                std::lock_guard<std::mutex> lock(grpc_metrics_mutex_);
+                // Re-check: another thread may have inserted while we were in Phase 2.
+                auto [it, inserted] = grpc_request_counters_.emplace(key, &counter);
+                it->second->Increment(1.0);
+            }
 #else
             (void)method;
             (void)code;

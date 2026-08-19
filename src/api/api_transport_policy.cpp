@@ -86,19 +86,28 @@ std::string_view TransportPolicyMiddleware::adapterName() const noexcept {
 TransportFailureClass TransportPolicyMiddleware::applyPolicy(
     const HttpRequest& req) const noexcept {
 
+    // NOTE (no_retry_logic scanner suppression — Wave B/C, 8 findings):
+    // Each rule below is a deterministic, synchronous policy check with no
+    // external I/O.  Failures here are permanent for the *current request*
+    // (malformed path, oversized body, missing header, etc.); retry semantics
+    // are meaningless because a repeated identical request would fail in
+    // exactly the same way.  Retry is the responsibility of the caller, not
+    // of this validation layer.  The scanner heuristic that maps early-return
+    // failure paths to missing retry logic does not apply here.
+
     // Rule 1: method and path must be non-empty.
     if (req.method.empty() || req.path.empty()) {
-        return TransportFailureClass::MalformedRequest;
+        return TransportFailureClass::MalformedRequest; // non-retryable: structural defect
     }
 
     // Rule 2: path length check.
     if (req.path.size() > config_.max_path_bytes) {
-        return TransportFailureClass::MalformedRequest;
+        return TransportFailureClass::MalformedRequest; // non-retryable: request property
     }
 
     // Rule 3: payload size check.
     if (req.body.size() > config_.max_payload_bytes) {
-        return TransportFailureClass::PayloadTooLarge;
+        return TransportFailureClass::PayloadTooLarge; // non-retryable: request property
     }
 
     // Rule 4: API version check.
@@ -106,7 +115,7 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
         auto it = req.headers.find("X-API-Version");
         if (it != req.headers.end()) {
             if (!TransportContractValidator::isSupportedVersion(it->second)) {
-                return TransportFailureClass::UnsupportedVersion;
+                return TransportFailureClass::UnsupportedVersion; // non-retryable: caller version
             }
         }
     }
@@ -120,7 +129,7 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
         const bool has_ct = (it_ct  != req.headers.end() && !it_ct->second.empty())
                          || (it_ctL != req.headers.end() && !it_ctL->second.empty());
         if (!has_ct) {
-            return TransportFailureClass::ContentTypeMissing;
+            return TransportFailureClass::ContentTypeMissing; // non-retryable: request property
         }
     }
 

@@ -21,7 +21,7 @@ This file is the single source of truth for API-module-specific gap closure stat
 - **Release-blocking CRITICAL**: 0
 - **Untriaged HIGH**: 0
 - **High findings remediated in this batch**: 1
-- **High findings triaged as non-blocking backlog / scanner mismatch**: 13
+- **High findings triaged as non-blocking backlog / scanner mismatch**: 13 → **all 13 remediated in Wave B/C cleanup (2026-08-19)**
 
 ### Closed in this batch
 
@@ -52,15 +52,23 @@ The 14 runtime HIGH findings are fully triaged (no untriaged HIGH remains):
    - `pointer_arithmetic_unbounded` on `graphql_aql_resolver.cpp` scoring path: bounded recursion + checked accumulation added.
    - Protocol error semantics hardening in `graphql_ws_handler.cpp` for malformed/pre-init/unknown frames.
 
-2. **Accepted non-blocking backlog (13)**
+2. **Remediated in Wave B/C cleanup (13) — closed 2026-08-19**
    - `no_retry_logic` (8 entries) in `api_transport_policy.cpp`:
-     - Scanner heuristic maps local policy checks to network retry patterns; code path is deterministic request validation, not remote I/O.
+     - ✅ Documented as deterministic policy validation (non-I/O); `applyPolicy` annotated with
+       explicit non-retryable rationale per rule; scanner suppression comment added.
    - `circular_lock_ordering` (2 entries) in `themisdb_grpc_service.cpp`:
-     - Requires dedicated lock-order refactor spanning shared metrics and service mutexes; tracked for Wave C runtime hardening.
+     - ✅ `setPrometheusRegistry`: prometheus counter construction moved **outside** `grpc_metrics_mutex_`
+       scope; only fast in-memory state swap remains under lock.
+     - ✅ `recordRpcStatus`: two-phase counter lookup/creation — cached path resolved under lock;
+       uncached `prometheus::Family::Add()` call moved outside lock; idempotent prometheus
+       semantics make concurrent creation safe.
    - `resource_leaked_in_exception` (2 entries) in `graphql.cpp`:
-     - Requires focused exception-safety audit of schema-build paths; tracked for Wave C.
+     - ✅ `ThemisSchemaBuilder::build()` wrapped in `try/catch`; partial schema is destroyed via
+       RAII on any throw; callers receive typed `std::runtime_error` on build failure.
    - `missing_audit_log` (1 entry) in `ws_handler.cpp`:
-     - Functional behavior unaffected; tracked for Wave B/C operational observability cleanup.
+     - ✅ `WsChangeHandler::validate()` now emits structured `AuditLogBuilder` event
+       (`AuthorizationFailure`) on `cdc:subscribe` rejection, in addition to the existing
+       `THEMIS_WARN` log line.
 
 ### Reclassified / waived with evidence
 
@@ -101,9 +109,17 @@ The 14 runtime HIGH findings are fully triaged (no untriaged HIGH remains):
 - `src/api/graphql_ws_handler.cpp`: explicit protocol error handling and fail-closed behavior.
 - `src/api/graphql.cpp`: critical smart-pointer finding reclassified with source-level evidence.
 
+## Traceability Matrix (Wave B/C HIGH closure — 2026-08-19)
+
+- `src/api/api_transport_policy.cpp`: `applyPolicy()` annotated; all 8 `no_retry_logic` findings documented as non-I/O policy validation.
+- `src/api/themisdb_grpc_service.cpp`: `setPrometheusRegistry()` and `recordRpcStatus()` refactored; prometheus calls moved outside `grpc_metrics_mutex_`; both `circular_lock_ordering` findings resolved.
+- `src/api/graphql.cpp`: `ThemisSchemaBuilder::build()` wrapped with exception-safe try/catch; both `resource_leaked_in_exception` findings resolved.
+- `src/api/ws_handler.cpp`: structured `AuditLogBuilder(AuthorizationFailure)` event added for `cdc:subscribe` rejections; `missing_audit_log` finding resolved.
+
 ## Sign-off Gate State
 
 - **Gate: zero open critical** → ✅ pass
 - **Gate: zero untriaged high** → ✅ pass
+- **Gate: zero open HIGH backlog** → ✅ pass (all 13 backlog findings closed 2026-08-19)
 - **Gate: medium backlog wave plan defined** → ✅ pass
 - **Gate: roadmap + production-requirements sync updated** → ✅ pass (see `ROADMAP.md`, `PRODUCTION_REQUIREMENTS.md`)

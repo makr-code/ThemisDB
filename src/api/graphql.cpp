@@ -1198,19 +1198,31 @@ std::shared_ptr<Value> Schema::introspect(const Field &field) const {
 }
 
 Schema ThemisSchemaBuilder::build() {
+    // All schema sub-builders use value-type RAII (TypeDefinition, FieldDefinition,
+    // std::unordered_map<string, TypeDefinition>).  If any sub-builder throws
+    // (e.g., std::bad_alloc from container growth), the partially-built Schema
+    // object is destroyed via normal stack unwinding — no resource leak.
+    // The try/catch below converts any raw exception to std::runtime_error so
+    // callers receive a clean, typed failure (resource_leaked_in_exception
+    // Wave C finding — schema-build paths in graphql.cpp).
     Schema schema;
-
-    // Add custom geo scalar types
-    addGeoScalarTypes(schema);
-
-    addDocumentTypes(schema);
-    addGraphTypes(schema);
-    addVectorTypes(schema);
-    addTimeseriesTypes(schema);
-    addQueryType(schema);
-    addMutationType(schema);
-    addSubscriptionType(schema);
-
+    try {
+        addGeoScalarTypes(schema);
+        addDocumentTypes(schema);
+        addGraphTypes(schema);
+        addVectorTypes(schema);
+        addTimeseriesTypes(schema);
+        addQueryType(schema);
+        addMutationType(schema);
+        addSubscriptionType(schema);
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("ThemisSchemaBuilder::build failed during schema construction: ")
+            + e.what());
+    } catch (...) {
+        throw std::runtime_error(
+            "ThemisSchemaBuilder::build failed during schema construction: unknown error");
+    }
     return schema;
 }
 
