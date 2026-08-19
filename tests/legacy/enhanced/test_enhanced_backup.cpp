@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
+#include "../../test_crypto_material_utils.h"
 #include <filesystem>
 #include <string>
 #include <thread>
@@ -80,15 +81,7 @@ TEST_F(EnhancedBackupTest, BackupWithEncryption) {
     // Create backup with encryption
     themis::BackupOptions options;
     options.encrypt = true;
-    options.encryption_key = [] {
-        static constexpr char kHex[] = "0123456789abcdef";
-        std::string key;
-        key.reserve(32);
-        for (std::size_t i = 0; i < 32; ++i) {
-            key.push_back(kHex[(i * 7 + 1) % 16]);
-        }
-        return key;
-    }();
+    options.encryption_key = themis::tests::makeDeterministicHexKey(32);
     options.verify_after_backup = true;
     
     std::error_code ec;

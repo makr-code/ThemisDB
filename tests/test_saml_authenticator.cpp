@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "auth/saml_authenticator.h"
 #include "auth/auth_error.h"
+#include "test_crypto_material_utils.h"
 #include <chrono>
 #include <stdexcept>
 #include <string>
@@ -20,30 +21,6 @@ using namespace themis::auth;
 // Test helpers
 // ============================================================================
 
-// Minimal self-signed PEM certificate for testing (RSA 2048-bit, CN=test-idp)
-// Generated with: openssl req -x509 -newkey rsa:2048 -nodes -subj "/CN=test-idp"
-static const char* TEST_IDP_CERT_PEM = R"(
------BEGIN CERTIFICATE-----
-MIIDBzCCAe+gAwIBAgIUUQsDiuQPF+t50DNG8YV3LvTxi2cwDQYJKoZIhvcNAQEL
-BQAwEzERMA8GA1UEAwwIdGVzdC1pZHAwHhcNMjYwMjIyMDYxOTEwWhcNMzYwMjIw
-MDYxOTEwWjATMREwDwYDVQQDDAh0ZXN0LWlkcDCCASIwDQYJKoZIhvcNAQEBBQAD
-ggEPADCCAQoCggEBAORs1ephG0CVlbPA+qd/caAPtLx2b6Pv1mYmRovXfCwe8y8E
-4h4lL8iU9mpv76W/fB90ttP6gkHXZ8Ewn0eWWBsS/3VUf0pK51QhckfOKQlubUXq
-UKEjl/nQtc69HDjHK8y8MWaN6zRQlo4T04Mq+dK8C31cxH4YN+sNcEyUppqoBUTT
-usPyP+jWavT+peOHSqDATpObacwU2GPmZ6ghmfuCMVKWgy6BHeOixak9B+flFwaz
-HV3+7UPo4Ffbq+aVAWeoF5mZhK2i/GhtTv+/+2xNdP+fD2QuYG1zL88f63v5yCL3
-dmJ3f8oLIte6GMlJ61YxTvteRxN4OtruboDXt4sCAwEAAaNTMFEwHQYDVR0OBBYE
-FP/GrEKRzDWlO155kiw6Bs9loxB+MB8GA1UdIwQYMBaAFP/GrEKRzDWlO155kiw6
-Bs9loxB+MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAFlX2uuX
-A80JlynN3JJRJ5OhpWX8eQZQsmjXengQ1QVMqQ9GamUh4efRSHnkxcevlETnpsZ0
-dMV7W37x8eDHqmT07RnjsKSb++3gYgB8wCd2fTj/rm88GAK1mZ9txO8H4MJggN0M
-D1eVSgLx0nnt9S8LsA8sRjo/ObLExTtL5Br/F1UkaQT1fANwfJPihNlqTPbDbdVn
-AAq2y/6qHeaVpbDc+O4HuWx17HgwpKU4juhrZZzBvcAym5BEHvM2pu9R94tgVEmn
-4JMbZ/Y/w8J6ttLEQGPfc+GfSskjNEUX4jyY+TZMq2S2fl/7X2jfNu+tHT+FeG/B
-6Jp+vzG3iVyfyH8=
------END CERTIFICATE-----
-)";
-
 // Build a minimal SAMLConfig for testing (signature verification disabled)
 static SAMLConfig makeTestConfig() {
     SAMLConfig cfg;
@@ -51,7 +28,7 @@ static SAMLConfig makeTestConfig() {
     cfg.sp_acs_url      = "https://myapp.example.com/saml/acs";
     cfg.idp_sso_url     = "https://idp.example.com/sso";
     cfg.idp_entity_id   = "https://test-idp.example.com/metadata";
-    cfg.idp_certificate_pem = TEST_IDP_CERT_PEM;
+    cfg.idp_certificate_pem = themis::tests::getSamlIdpCertificatePem();
     cfg.require_signed_response  = false;
     cfg.require_signed_assertion = false;
     return cfg;
@@ -799,56 +776,6 @@ TEST(SAMLAuthenticatorTest, ProcessResponseRejectsRequireEncryptedAssertionWithP
 //       return SecretsManager::getSecret("saml/sp-private-key");
 //   };
 // ---------------------------------------------------------------------------
-[[nodiscard]] static std::string bioToString(BIO* bio) {
-    BUF_MEM* mem = nullptr;
-    BIO_get_mem_ptr(bio, &mem);
-    return mem ? std::string(mem->data, mem->length) : std::string{};
-}
-
-[[nodiscard]] static std::string generateTestPrivateKeyPem() {
-    EVP_PKEY_CTX* keygen_ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
-    if (!keygen_ctx) {
-        throw std::runtime_error("failed to allocate RSA keygen context");
-    }
-
-    EVP_PKEY* pkey = nullptr;
-    BIO* key_bio = nullptr;
-    try {
-        if (EVP_PKEY_keygen_init(keygen_ctx) != 1 ||
-            EVP_PKEY_CTX_set_rsa_keygen_bits(keygen_ctx, 2048) != 1 ||
-            EVP_PKEY_keygen(keygen_ctx, &pkey) != 1) {
-            throw std::runtime_error("failed to generate RSA keypair");
-        }
-
-        key_bio = BIO_new(BIO_s_mem());
-        if (!key_bio ||
-            PEM_write_bio_PrivateKey(key_bio, pkey, nullptr, nullptr, 0, nullptr, nullptr) != 1) {
-            throw std::runtime_error("failed to serialize RSA private key");
-        }
-
-        auto pem = bioToString(key_bio);
-        BIO_free(key_bio);
-        EVP_PKEY_free(pkey);
-        EVP_PKEY_CTX_free(keygen_ctx);
-        return pem;
-    } catch (...) {
-        BIO_free(key_bio);
-        EVP_PKEY_free(pkey);
-        EVP_PKEY_CTX_free(keygen_ctx);
-        throw;
-    }
-}
-
-[[nodiscard]] static const std::string& getTestSpPrivateKeyPem() {
-    static const std::string pem = generateTestPrivateKeyPem();
-    return pem;
-}
-
-[[nodiscard]] static const std::string& getWrongSpPrivateKeyPem() {
-    static const std::string pem = generateTestPrivateKeyPem();
-    return pem;
-}
-
 // Base64-encode raw bytes using OpenSSL BIO (no line breaks)
 static std::string base64EncodeBytes(const std::vector<uint8_t>& data) {
     BIO* b64 = BIO_new(BIO_f_base64());
@@ -957,7 +884,7 @@ static void buildRealEncryptedAssertionResponseB64(
 }
 
 TEST(SAMLAuthenticatorTest, ProcessResponseDecryptsEncryptedAssertion) {
-    const auto& sp_private_key_pem = getTestSpPrivateKeyPem();
+    const auto& sp_private_key_pem = themis::tests::getTestSpPrivateKeyPem();
     // Configure SP with a private key loader (loaded from test key material –
     // in production this would come from an HSM or KMS).
     auto cfg = makeTestConfig();
@@ -1023,7 +950,7 @@ TEST(SAMLAuthenticatorTest, ProcessResponseDecryptionFailsWithWrongKey) {
 
     // Provide a different (freshly generated) key – it won't match the one used
     // to encrypt the assertion, so RSA-OAEP decryption must fail.
-    const auto& wrong_key_pem = getWrongSpPrivateKeyPem();
+    const auto& wrong_key_pem = themis::tests::getWrongSpPrivateKeyPem();
     cfg.sp_private_key_loader = [wrong_key_pem]() { return wrong_key_pem; };
     SAMLAuthenticator auth(cfg);
 
@@ -1035,7 +962,7 @@ TEST(SAMLAuthenticatorTest, ProcessResponseDecryptionFailsWithWrongKey) {
 
     std::string b64;
     ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
-        getTestSpPrivateKeyPem(), assertion_xml, b64));
+        themis::tests::getTestSpPrivateKeyPem(), assertion_xml, b64));
 
     try {
         auth.processResponse(b64);
