@@ -12,7 +12,7 @@ This document tracks the current evidence state for the core module status issue
 
 - Preset: `windows-release`
 - Focused target pattern: `module_core_test_*_focused.exe`
-- Result: focused module binary was not found in `build-msvc-windows-release/bin_out`
+- Result: focused module binary was not found in `build-msvc-windows-release/bin`
 - Status: evidence gap documented in issue #5638
 
 ## Focused Test Registration Evidence (source-verifiable, validated 2026-07-28)

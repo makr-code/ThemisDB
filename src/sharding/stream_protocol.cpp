@@ -692,8 +692,8 @@ void StreamSession::addFile(const StreamFileInfo& file) {
         return;
     }
     
-    if (file.file_name.empty()) {
-        spdlog::error("StreamSession::addFile: file has empty file_name, rejecting");
+    if (file.collection_name.empty()) {
+        spdlog::error("StreamSession::addFile: file has empty collection_name, rejecting");
         return;
     }
     
@@ -1064,8 +1064,8 @@ void StreamPlan::addSession(std::unique_ptr<StreamSession> session) {
         return;
     }
     
-    if (session->getSessionId().empty()) {
-        spdlog::error("StreamPlan::addSession: session has empty session_id, rejecting");
+    if (session->getSessionId() == 0) {
+        spdlog::error("StreamPlan::addSession: session has invalid session_id=0, rejecting");
         return;
     }
     

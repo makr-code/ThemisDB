@@ -1,6 +1,6 @@
 param(
     [int]$Repetitions = 100,
-    [string]$ExePath = 'build-msvc-windows-release\bin_out\test_self_rag_alce_focused.exe'
+    [string]$ExePath = 'build-msvc-windows-release\bin\test_self_rag_alce_focused.exe'
 )
 
 if (-not (Test-Path $ExePath)) { Write-Error "Executable not found: $ExePath"; exit 2 }

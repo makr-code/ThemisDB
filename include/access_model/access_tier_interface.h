@@ -374,6 +374,8 @@ public:
      */
     virtual std::chrono::milliseconds estimatePromotionLatency(
         TierLevel from_tier, std::size_t data_size_bytes) const {
+        (void)from_tier;
+        (void)data_size_bytes;
         return std::chrono::milliseconds(-1);
     }
 

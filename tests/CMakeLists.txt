@@ -49,18 +49,18 @@ endif()
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/TestPolicy.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/RegisterModuleTests.cmake)
 
-# Global output directory for all test binaries → prefer shared bin_out when available
-if(DEFINED _themis_bin_out)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${_themis_bin_out}")
+# Global output directory for all test binaries → prefer shared bin when available
+if(DEFINED _themis_bin_dir)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${_themis_bin_dir}")
 else()
     # Fallback for older configure flows
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
 # Prefer isolating module-focused tests into per-module subdirectories to avoid
-# concurrent linking/writing into the same `bin_out` path which can trigger
+# concurrent linking/writing into the same `bin/` path which can trigger
 # LNK1104 when multiple parallel linkers race on the same filename.
-set(THEMIS_TESTS_RUNTIME_SUBDIR "${CMAKE_BINARY_DIR}/bin_out_tests_by_module" CACHE PATH "Per-module test binary output base dir")
+set(THEMIS_TESTS_RUNTIME_SUBDIR "${CMAKE_BINARY_DIR}/bin/tests_by_module" CACHE PATH "Per-module test binary output base dir")
 file(MAKE_DIRECTORY "${THEMIS_TESTS_RUNTIME_SUBDIR}")
 
 # Helper: set per-target runtime output to a module-scoped folder
@@ -179,11 +179,11 @@ foreach(_t IN LISTS _all_targets)
             get_target_property(_type ${_t} TYPE)
             if(_type STREQUAL "EXECUTABLE")
                 set_target_properties(${_t} PROPERTIES
-                    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}"
-                    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Debug"
-                    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Release"
-                    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/RelWithDebInfo"
-                    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/MinSizeRel"
+                    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/tests/${_t}"
+                    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin/tests/${_t}/Debug"
+                    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin/tests/${_t}/Release"
+                    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin/tests/${_t}/RelWithDebInfo"
+                    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin/tests/${_t}/MinSizeRel"
                 )
             endif()
         endif()
@@ -2912,7 +2912,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
         LABELS "graph;distributed;shards;unit"
         TIMEOUT 120
         ENVIRONMENT_MODIFICATION
-            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin\\;${CMAKE_BINARY_DIR}/bin_out"
+            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
 
     # TEMP WORKAROUND: These targets experience LNK1104 file-lock during parallel build on Windows.
@@ -2964,7 +2964,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
         LABELS "graph;distributed;shared_mutex;concurrency;focused;unit"
         TIMEOUT 60
         ENVIRONMENT_MODIFICATION
-            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin\\;${CMAKE_BINARY_DIR}/bin_out"
+            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
 
     message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")

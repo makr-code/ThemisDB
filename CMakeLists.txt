@@ -225,22 +225,22 @@ include(cmake/validation/FeatureValidation.cmake)
 
 # Redirect runtime/library/archive outputs to separate folders on Windows to
 # avoid parallel linker/file-lock collisions in shared `bin/` during large
-# parallel builds. Tests and runtime loaders should prefer the `bin_out` path
+# parallel builds. Tests and runtime loaders should prefer the `bin/` path
 # added below; PATH modifications in tests are updated accordingly.
 if(WIN32)
-    set(_themis_bin_out "${CMAKE_BINARY_DIR}/bin")
+    set(_themis_bin_dir "${CMAKE_BINARY_DIR}/bin")
     set(_themis_lib_out "${CMAKE_BINARY_DIR}/lib")
-    file(MAKE_DIRECTORY "${_themis_bin_out}")
+    file(MAKE_DIRECTORY "${_themis_bin_dir}")
     file(MAKE_DIRECTORY "${_themis_lib_out}")
 
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${_themis_bin_out})
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${_themis_bin_out})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${_themis_bin_dir})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${_themis_bin_dir})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${_themis_lib_out})
 
     foreach(_cfg IN ITEMS Debug Release RelWithDebInfo MinSizeRel)
         string(TOUPPER "${_cfg}" _ucfg)
-        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
-        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_dir})
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_dir})
         set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_ucfg} ${_themis_lib_out})
     endforeach()
 endif()

@@ -157,14 +157,14 @@ public:
             options.compression = rocksdb::kSnappyCompression;
         }
 
-        rocksdb::DB* raw_db = nullptr;
-        const auto status = rocksdb::DB::Open(options, config.db_path, &raw_db);
+        std::unique_ptr<rocksdb::DB> db;
+        const auto status = rocksdb::DB::Open(options, config.db_path, &db);
 
         if (!status.ok()) {
             throw std::runtime_error(std::string("Failed to open RocksDB: ") + status.ToString());
         }
 
-        db_ = std::unique_ptr<rocksdb::DB>(raw_db);
+        db_ = std::move(db);
         config_ = config;
     }
 

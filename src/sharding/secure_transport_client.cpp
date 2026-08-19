@@ -49,10 +49,10 @@ SecureTransportClient::SecureTransportClient(const Config& config)
             reinterpret_cast<const uint8_t*>(input.data()),
             input.size(),
             std::max(1, config_.compression_level));
-        if (!compressed_bytes || compressed_bytes->empty()) {
+        if (!compressed_bytes || (*compressed_bytes).empty()) {
             return false;
         }
-        output.assign(compressed_bytes->begin(), compressed_bytes->end());
+        output.assign((*compressed_bytes).begin(), (*compressed_bytes).end());
         return true;
     });
     

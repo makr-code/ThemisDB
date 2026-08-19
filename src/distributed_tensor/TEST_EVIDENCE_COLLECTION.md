@@ -60,7 +60,7 @@ Expected test targets in binary output:
 - [ ] No linker errors or undefined symbol references
 - [ ] Build time < 5 minutes for focused tests only
 
-**Evidence Artifact**: `build-<preset>/bin_out/module_epic3_distributed_tensor_*_focused{.exe,.out}`
+**Evidence Artifact**: `build-<preset>/bin/tests_by_module/distributed_tensor/module_epic3_distributed_tensor_*_focused{.exe,.out}`
 
 ### Phase 2: Test Execution
 - [ ] All 12 test targets execute without crashes
@@ -180,7 +180,7 @@ The module is production-ready when:
    - Action: Document build log and execution results
 
 2. **Collect Evidence**
-   - Capture binary list from `build-<preset>/bin_out/`
+   - Capture binary list from `build-<preset>/bin/`
    - Capture CTest output with test results
    - Capture benchmark metrics
 

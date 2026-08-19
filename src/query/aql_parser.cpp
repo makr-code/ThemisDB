@@ -810,10 +810,10 @@ private:
                 }
                 try {
                     pred.boost = std::stod(current().value);
-                } catch (const std::out_of_range& e) {
+                } catch (const std::out_of_range&) {
                     THEMIS_WARN("aql_parser: SEARCH BOOST value overflow '{}', using default 1.0", current().value);
                     pred.boost = 1.0;
-                } catch (const std::invalid_argument& e) {
+                } catch (const std::invalid_argument&) {
                     THEMIS_WARN("aql_parser: SEARCH BOOST value '{}' is not a valid number, using default 1.0", current().value);
                     pred.boost = 1.0;
                 }
@@ -870,10 +870,10 @@ private:
             }
             try {
                 node->top_boost = std::stod(current().value);
-            } catch (const std::out_of_range& e) {
+            } catch (const std::out_of_range&) {
                 THEMIS_WARN("aql_parser: SEARCH top-level BOOST value overflow '{}', using default 1.0", current().value);
                 node->top_boost = 1.0;
-            } catch (const std::invalid_argument& e) {
+            } catch (const std::invalid_argument&) {
                 THEMIS_WARN("aql_parser: SEARCH top-level BOOST value '{}' is not a valid number, using default 1.0", current().value);
                 node->top_boost = 1.0;
             }
@@ -943,6 +943,9 @@ private:
                 throw std::runtime_error(
                     "Graph traversal min depth '" + current().value + "' is out of integer range");
             } catch (const std::invalid_argument&) {
+                throw std::runtime_error(
+                    "Graph traversal min depth '" + current().value + "' is not a valid integer");
+            }
             if (minDepth < 0) {
                 throw std::runtime_error("Graph traversal min depth must be >= 0");
             }
@@ -963,6 +966,9 @@ private:
                 throw std::runtime_error(
                     "Graph traversal max depth '" + current().value + "' is out of integer range");
             } catch (const std::invalid_argument&) {
+                throw std::runtime_error(
+                    "Graph traversal max depth '" + current().value + "' is not a valid integer");
+            }
             if (maxDepth > kMaxTraversalDepth) {
                 throw std::runtime_error(
                     "Graph traversal max depth " + std::to_string(maxDepth) +

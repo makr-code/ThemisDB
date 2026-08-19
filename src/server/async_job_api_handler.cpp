@@ -502,7 +502,7 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     auto span = Tracer::startSpan("handleSubmit");
     
     // OP-CORRELATION-ID-001: Extract and thread correlation ID from request
-    std::string correlation_id = std::string(req[http::field::custom]);  // X-Correlation-ID
+    std::string correlation_id = std::string(req["X-Correlation-ID"]);
     if (correlation_id.empty()) {
         // Generate new correlation ID if not provided
         static std::atomic<uint64_t> correlation_counter{0};

@@ -1,6 +1,6 @@
 param(
-    [string[]]$targets = @("C:\Projects\ThemisDB\build-msvc-windows-release\bin_out\test_phase1_flash_attention.exe"),
-    [string]$bin = 'C:\Projects\ThemisDB\build-msvc-windows-release\bin_out',
+    [string[]]$targets = @("C:\Projects\ThemisDB\build-msvc-windows-release\bin\test_phase1_flash_attention.exe"),
+    [string]$bin = 'C:\Projects\ThemisDB\build-msvc-windows-release\bin',
     [string]$dumpbin = 'C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64\dumpbin.exe',
     [string]$out = 'C:\Projects\ThemisDB\tmp_recursive_deps.txt'
 )
@@ -21,7 +21,7 @@ function Get-Dependents($path){
     return $deps | Select-Object -Unique
 }
 function Resolve-Name($name){
-    # check in bin_out
+    # check in bin
     $binpath = Join-Path $bin $name
     if(Test-Path $binpath){ return @{status='in_bin'; path=$binpath} }
     # check where (on PATH)

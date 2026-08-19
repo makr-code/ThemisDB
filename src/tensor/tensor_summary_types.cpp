@@ -122,7 +122,6 @@ bool ShardSummary::isStale([[maybe_unused]] const std::string& now_timestamp) co
         // Simple timestamp parsing: expect ISO-8601 format
         // Get current time or use provided timestamp
         auto now = std::chrono::system_clock::now();
-        auto now_time_t = std::chrono::system_clock::to_time_t(now);
 
         // Parse last_update_timestamp (simplified parsing)
         std::tm tm = {};

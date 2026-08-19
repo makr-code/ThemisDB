@@ -169,9 +169,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
     // OP-CORRELATION-ID-001: Extract correlation ID from request headers
-    std::string correlation_id = std::string(
-        req[boost::http::field::custom]  // X-Correlation-ID header
-    );
+    std::string correlation_id = std::string(req["X-Correlation-ID"]);
     if (correlation_id.empty()) {
         // Generate new correlation ID if not provided (unique per request)
         static std::atomic<uint64_t> get_counter{0};
@@ -484,7 +482,6 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                                     // Vector<float>: Serialize as JSON array
                                     const auto& vec = std::get<std::vector<float>>(v);
                                     nlohmann::json j_arr = nlohmann::json::array();
-                                    j_arr.reserve(vec.size());  // OPTIMIZATION: Pre-allocate to avoid reallocations
                                     for (float val : vec) j_arr.push_back(val);
                                     std::string json_str = j_arr.dump();
                                     plain_bytes.assign(json_str.begin(), json_str.end());

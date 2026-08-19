@@ -270,8 +270,8 @@ ctest --preset community-release-allow-missing-rocksdb -L training -V
 
 **Expected Benchmark Execution**:
 ```bash
-./build-community-debug-allow-missing-rocksdb/bin_out_tests/bench_lora_training
-./build-community-debug-allow-missing-rocksdb/bin_out_tests/bench_gpu_training_cycle
+./build-community-debug-allow-missing-rocksdb/bin/bench_lora_training
+./build-community-debug-allow-missing-rocksdb/bin/bench_gpu_training_cycle
 ```
 
 ---

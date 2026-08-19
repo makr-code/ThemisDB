@@ -374,6 +374,18 @@ private:
     void logBeginStateForRecovery(const DistributedTransaction& txn);
 
     /**
+     * @brief Log operation append event for transaction recovery replay.
+     * @param txn_id Transaction identifier.
+     * @param shard_id Participant shard identifier.
+     * @param operation Operation payload appended to transaction state.
+     */
+    void logOperationAddedForRecovery(
+        const std::string& txn_id,
+        const std::string& shard_id,
+        const nlohmann::json& operation
+    );
+
+    /**
      * @brief Log a durable 2PC decision or completion marker for recovery.
      * @param txn Distributed transaction
      * @param commit True for COMMIT, false for ABORT.

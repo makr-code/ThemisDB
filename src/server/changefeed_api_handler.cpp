@@ -300,13 +300,11 @@ ChangefeedApiHandler::ChangefeedApiHandler(
     delivery_tracker_.start();
 }
 
-http://response<http::string_body> ChangefeedApiHandler::handleGet(
+http::response<http::string_body> ChangefeedApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
     // OP-CORRELATION-ID-001: Extract correlation ID from request headers
-    std::string correlation_id = std::string(
-        req[http::field::custom]  // X-Correlation-ID header
-    );
+    std::string correlation_id = std::string(req["X-Correlation-ID"]);
     if (correlation_id.empty()) {
         // Generate new correlation ID if not provided
         static std::atomic<uint64_t> cdf_counter{0};

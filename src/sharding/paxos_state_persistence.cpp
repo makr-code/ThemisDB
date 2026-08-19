@@ -25,6 +25,8 @@ using json     = nlohmann::json;
 namespace themisdb {
 namespace sharding {
 
+using themis::sharding::PaxosWALEntryType;
+
 namespace {
 
 ConsensusLogEntry buildConsensusEntryFromAcceptedValue(const std::string& value,

@@ -754,6 +754,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/aql/aql_migration_assistant.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/classify_bridge.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/docs_assistant_functions.cpp>
+    ../src/query/scope_enforcer.cpp
 
     # Security: AQL injection detection (uses AQLParser)
     ../src/security/aql_injection_detector.cpp
@@ -1116,6 +1117,23 @@ set(THEMIS_SHARDING_SOURCES
     # Phase 5 — LoRA Artifact Distribution
     ../src/sharding/lora_artifact_distribution.cpp
 )
+
+# Do not gate this on TARGET existence. The proto library is created later in the
+# same configure pass and the target may not exist yet when this source list is
+# assembled. Only omit the protobuf-dependent sharding sources when protobuf is
+# genuinely unavailable, otherwise the build will lose the concrete implementations
+# that satisfy the link-time references from other sharding modules.
+if(NOT Protobuf_FOUND)
+    list(REMOVE_ITEM THEMIS_SHARDING_SOURCES
+        ../src/sharding/shard_rpc_server.cpp
+        ../src/server/rpc/blob_transfer_handler.cpp
+        ../src/sharding/gossip_config_manager.cpp
+        ../src/sharding/gossip_consensus_adapter.cpp
+        ../src/sharding/shard_resource_manager.cpp
+        ../src/sharding/distributed_coordinator.cpp
+    )
+    message(WARNING "Protobuf not found: excluding protobuf-dependent sharding RPC/gossip sources")
+endif()
 
 set(THEMIS_LLM_SOURCES
     # LLM core components
@@ -1793,7 +1811,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_client_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
+    ../src/server/grpc_web_proxy_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/wasm_handler_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
@@ -1900,6 +1918,20 @@ set(THEMIS_NETWORK_SOURCES
     # RPC service implementation (handleGet/handlePut/handleQuery/handleVectorSearch)
     ../src/server/rpc/rpc_service_impl.cpp
 )
+
+if(NOT MessagePack_FOUND)
+    list(REMOVE_ITEM THEMIS_NETWORK_SOURCES
+        ../src/server/buffer_binary_protocol.cpp
+    )
+    message(WARNING "MessagePack not found: excluding buffer_binary_protocol.cpp from themis_network")
+endif()
+
+if(NOT Protobuf_FOUND)
+    list(REMOVE_ITEM THEMIS_NETWORK_SOURCES
+        ../src/themis/wire_protocol_server.cpp
+    )
+    message(WARNING "Protobuf not found: excluding themis::wire protocol server source from themis_network")
+endif()
 
 set(THEMIS_GEO_SOURCES
     # Geospatial processing

@@ -50,6 +50,11 @@ private:
 template<typename E>
 unexpected(E) -> unexpected<E>;
 
+template<typename E>
+unexpected<std::decay_t<E>> make_unexpected(E&& e) {
+    return unexpected<std::decay_t<E>>(std::forward<E>(e));
+}
+
 template<typename T, typename E>
 /** @brief Expected. */
 class expected {

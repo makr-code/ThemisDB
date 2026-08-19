@@ -145,16 +145,16 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
             break;
         }
 
-        if (result->items.empty()) {
+        if ((*result).items.empty()) {
             break;
         }
 
         std::string chunk_data;
-        for (const auto& item : result->items) {
+        for (const auto& item : (*result).items) {
             chunk_data += item.dump();
             chunk_data += '\n';
         }
-        total += result->items.size();
+        total += (*result).items.size();
         fragments.push_back(std::move(chunk_data));
     }
 
