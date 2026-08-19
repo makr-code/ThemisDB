@@ -4,7 +4,7 @@
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=2, L=0
+ * @note Gap Summary: total=2; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, blocking_no_timeout=0(fixed), C=1, H=5, M=2, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
@@ -14,9 +14,17 @@
 // Licensed under MIT License
 
 #include "cache/cache_replication_coordinator.h"
+#include <chrono>
 #include <stdexcept>
 #include "utils/logger.h"
 #include <unordered_map>
+
+namespace {
+// Maximum time the fanout worker blocks waiting for new queue items.
+// A bounded deadline ensures the thread re-checks stopping_ periodically,
+// guarding against indefinite hangs during abnormal shutdown sequences.
+constexpr auto kFanoutWorkerWakeInterval = std::chrono::milliseconds(500);
+} // namespace
 
 namespace themis {
 namespace cache {
@@ -307,7 +315,10 @@ void CacheReplicationCoordinator::fanoutWorker() {
         FanoutItem item;
         {
             std::unique_lock<std::mutex> lk(queue_mutex_);
-            queue_cv_.wait(lk, [this] {
+            // Use wait_for with a bounded deadline to prevent indefinite blocking.
+            // The worker wakes up at least every kFanoutWorkerWakeInterval and
+            // re-checks stopping_, so abnormal shutdown paths cannot hang forever.
+            queue_cv_.wait_for(lk, kFanoutWorkerWakeInterval, [this] {
                 return !fanout_queue_.empty() || stopping_;
             });
             if (stopping_ && fanout_queue_.empty()) {
