@@ -540,7 +540,7 @@ jobs:
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_BUILD_TESTS=ON
+            -DTHEMIS_BUILD_TESTS=OFF
 
       - name: Build sharding release-gate benchmarks
         run: |
@@ -560,7 +560,7 @@ jobs:
           echo "├─ SRG-05: shard health check"
           echo "└─ SRG-06: route lookup (64-shard)"
           
-          ./benchmarks/sharding/bench_sharding_release_gates \
+          ./bin_out/bench_sharding_release_gates \
             --benchmark_out=${{ env.ARTIFACT_DIR }}/srg-results.json \
             --benchmark_out_format=json \
             2>&1 | tee ${{ env.ARTIFACT_DIR }}/srg-output.log

@@ -72,7 +72,8 @@ endif()
 
 # Preflight for externally provided toolchain file
 # Common failure: CMAKE_TOOLCHAIN_FILE points to missing repo-local vcpkg path.
-if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")
+# Guard: skip when CMAKE_TOOLCHAIN_FILE is empty (community/system-package builds set it to "").
+if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "" AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")
     if(THEMIS_AUTO_BOOTSTRAP_DEPS)
         find_program(THEMIS_GIT_EXECUTABLE git)
         if(NOT THEMIS_GIT_EXECUTABLE)

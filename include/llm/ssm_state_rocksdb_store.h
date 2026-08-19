@@ -78,7 +78,7 @@ public:
     };
 
     /**
-     * @brief Construct an SSM RocksDB store.
+     * @brief Construct an SSM RocksDB store with explicit configuration.
      *
      * @param db RocksDB TransactionDB instance (not owned; must outlive this store)
      * @param cf Optional column family handle (nullptr = use default)
@@ -89,8 +89,18 @@ public:
      */
     explicit SSMStateRocksDBStore(
         rocksdb::TransactionDB* db,
-        rocksdb::ColumnFamilyHandle* cf = nullptr,
-        const Config& config = Config());
+        rocksdb::ColumnFamilyHandle* cf,
+        const Config& config);
+
+    /**
+     * @brief Construct an SSM RocksDB store with default configuration.
+     *
+     * @param db RocksDB TransactionDB instance (not owned; must outlive this store)
+     * @param cf Optional column family handle (nullptr = use default)
+     */
+    explicit SSMStateRocksDBStore(
+        rocksdb::TransactionDB* db,
+        rocksdb::ColumnFamilyHandle* cf = nullptr);
 
     ~SSMStateRocksDBStore();
 

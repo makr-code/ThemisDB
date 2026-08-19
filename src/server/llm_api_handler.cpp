@@ -559,8 +559,8 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                     );
                 }
 
-                rag_context.documents.reserve(retrieval_result->size());
-                for (const auto& result : *retrieval_result) {
+                rag_context.documents.reserve(retrieval_result.value().size());
+                for (const auto& result : retrieval_result.value()) {
                     const auto content_opt = extractRagDocumentContent(result.entity);
                     const auto source = extractRagDocumentSource(result.pk, result.entity);
                     if (!content_opt.has_value() || source.empty()) {
@@ -577,13 +577,13 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                 }
 
                 if (rag_context.documents.empty()) {
-                    const std::string reason = retrieval_result->empty()
+                    const std::string reason = retrieval_result.value().empty()
                         ? "No documents matched the retrieval query"
                         : "Retrieved documents are missing required source/content fields";
                     return createErrorResponse(
                         http::status::service_unavailable,
                         "RAG retrieval returned no usable documents",
-                        reason + " (retrieved=" + std::to_string(retrieval_result->size()) +
+                        reason + " (retrieved=" + std::to_string(retrieval_result.value().size()) +
                             ", rejected=" + std::to_string(rejected_documents) + ")"
                     );
                 }

@@ -11,6 +11,7 @@
 
 #include "rag/delegate_evaluator.h"
 #include "document/round_trip_editor.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <atomic>

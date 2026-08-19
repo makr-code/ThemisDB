@@ -3697,8 +3697,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_sharding_release_gates.cpp
         ${THEMIS_ROOT_DIR}/src
     )
     target_link_libraries(bench_sharding_release_gates PRIVATE
-        themis_core ${BENCHMARK_LIBS} OpenSSL::SSL OpenSSL::Crypto
-        spdlog::spdlog nlohmann_json::nlohmann_json RocksDB::rocksdb Threads::Threads
+        ${BENCHMARK_LIBS}
     )
     themis_apply_benchmark_release_flags(bench_sharding_release_gates)
     install(TARGETS bench_sharding_release_gates

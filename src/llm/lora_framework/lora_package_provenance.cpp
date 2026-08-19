@@ -477,7 +477,7 @@ LoRAPackage ProvenanceHashLedger::appendPackage(LoRAPackage pkg) {
     std::lock_guard<std::mutex> lock(impl_->mu);
 
     if (pkg.package_id.empty()) {
-        pkg.package_id = generateId();
+        pkg.package_id = generateId_pkg();
     }
     if (pkg.created_at.empty()) {
         pkg.created_at = nowISO8601_pkg();
@@ -532,7 +532,7 @@ AdapterProduct ProvenanceHashLedger::appendProduct(AdapterProduct product) {
     std::lock_guard<std::mutex> lock(impl_->mu);
 
     if (product.product_id.empty()) {
-        product.product_id = generateId();
+        product.product_id = generateId_pkg();
     }
     if (product.created_at.empty()) {
         product.created_at = nowISO8601_pkg();
@@ -590,7 +590,7 @@ DistributionReceipt ProvenanceHashLedger::appendReceipt(DistributionReceipt rece
     std::lock_guard<std::mutex> lock(impl_->mu);
 
     if (receipt.receipt_id.empty()) {
-        receipt.receipt_id = generateId();
+        receipt.receipt_id = generateId_pkg();
     }
     if (receipt.distribution_timestamp.empty()) {
         receipt.distribution_timestamp = nowISO8601_pkg();
@@ -686,7 +686,7 @@ ReceiptManifest ProvenanceHashLedger::createManifest(
             "ProvenanceHashLedger::createManifest: artifact_id must be non-empty");
     }
     ReceiptManifest manifest;
-    manifest.manifest_id = generateId();
+    manifest.manifest_id = generateId_pkg();
     manifest.event_type  = event_type;
     manifest.artifact_id = artifact_id;
     manifest.created_at  = nowISO8601_pkg();
@@ -768,7 +768,7 @@ ShardLedgerEntry ProvenanceHashLedger::appendShardEntry(ShardLedgerEntry entry) 
     std::lock_guard<std::mutex> lock(impl_->mu);
 
     if (entry.entry_id.empty()) {
-        entry.entry_id = generateId();
+        entry.entry_id = generateId_pkg();
     }
     if (entry.placement_timestamp.empty()) {
         entry.placement_timestamp = nowISO8601_pkg();

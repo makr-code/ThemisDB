@@ -10,6 +10,7 @@
  */
 
 #include "voice/voice_assistant.h"
+#include "utils/logger.h"
 #include <chrono>
 #include <sstream>
 #include <iomanip>

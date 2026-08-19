@@ -31,6 +31,12 @@ SSMStateRocksDBStore::SSMStateRocksDBStore(
     }
 }
 
+SSMStateRocksDBStore::SSMStateRocksDBStore(
+    rocksdb::TransactionDB* db,
+    rocksdb::ColumnFamilyHandle* cf)
+    : SSMStateRocksDBStore(db, cf, Config{}) {
+}
+
 SSMStateRocksDBStore::~SSMStateRocksDBStore() {
     // DB and CF are not owned; cleanup is caller's responsibility
 }

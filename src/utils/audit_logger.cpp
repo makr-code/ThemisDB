@@ -11,6 +11,7 @@
 
 
 #include "utils/audit_logger.h"
+#include <iostream>
 #include <stdexcept>
 #include "utils/error_contracts.h"
 #include "utils/logger.h"
