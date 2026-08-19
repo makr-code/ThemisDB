@@ -1490,7 +1490,7 @@ void ThemisSchemaBuilder::addQueryType(Schema &schema) {
     FieldDefinition schemaVersionField;
     schemaVersionField.name        = "schemaVersion";
     schemaVersionField.description = "GraphQL schema version, incremented whenever "
-                                     "new types or fields are added. Independent of "
+                                     "additional types or fields are added. Independent of "
                                      "the API version.";
     schemaVersionField.type        = {"String", true, false, nullptr};
     queryType.fields.push_back(schemaVersionField);
@@ -1664,7 +1664,7 @@ void ThemisSchemaBuilder::addSubscriptionType(Schema &schema) {
 
     FieldDefinition docField;
     docField.name        = "document";
-    docField.description = "The new document state (null for DELETED events)";
+    docField.description = "The document state after the change (null for DELETED events)";
     docField.type        = {"JSON", false, false, nullptr};
     changeEventType.fields.push_back(docField);
 

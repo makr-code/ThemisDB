@@ -36,6 +36,14 @@ uint32_t checkedAdd(uint32_t lhs, uint32_t rhs) {
     return lhs + rhs;
 }
 
+uint32_t checkedMul(uint32_t lhs, uint32_t rhs) {
+    if (lhs != 0U
+        && rhs > std::numeric_limits<uint32_t>::max() / lhs) {
+        throw std::runtime_error("GraphQL complexity overflow");
+    }
+    return lhs * rhs;
+}
+
 uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
     if (depth > kMaxComplexityScoringDepth) {
         throw std::runtime_error("GraphQL complexity depth overflow");
@@ -44,7 +52,8 @@ uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
     uint32_t local = 0;
     for (const auto& field : fields) {
         const uint32_t argument_cost = static_cast<uint32_t>(field.arguments.size());
-        const uint32_t field_cost = (1U + argument_cost) * (depth + 1U);
+        const uint32_t field_cost =
+            checkedMul(1U + argument_cost, depth + 1U);
         local = checkedAdd(local, field_cost);
 
         if (field.name == "aql" || field.name == "aqlMutation") {

@@ -144,20 +144,6 @@ Output: files, diff, tests, scanner-delta; keep it concise.
 Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
 ```
 
-- [ ] HIGH | api | no_retry_logic | src/api/api_transport_policy.cpp:90
-```text
-// ROUTING HINT: ollama-local
-// Model: gemma4:latest
-// Class: ReliabilityRetry
-// Location: src/api/api_transport_policy.cpp:90
-// Problem: no_retry_logic
-// Description: RPC/network call without retry logic — transient failures will propagate
-// Context: const HttpRequest& request) const noexcept {        // Rule 1: method and path must be non-empty.      if (request.me...
-Task: Fix this finding only with minimal changes.
-Output: files, diff, tests, scanner-delta; keep it concise.
-Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
-```
-
 - [ ] HIGH | content | missing_doxygen_comment | src/content/content_manager.cpp:69
 ```text
 // ROUTING HINT: ollama-local
@@ -1399,34 +1385,6 @@ Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxyge
 // Problem: missing_doxygen_comment
 // Description: Public declaration 'if' is missing a Doxygen comment
 // Context: if (h < 0 || l < 0) return false;
-Task: Fix this finding only with minimal changes.
-Output: files, diff, tests, scanner-delta; keep it concise.
-Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
-```
-
-- [ ] HIGH | api | resource_leaked_in_exception | src/api/graphql.cpp:1493
-```text
-// ROUTING HINT: ollama-local
-// Model: gemma4:latest
-// Class: MemorySafety
-// Location: src/api/graphql.cpp:1493
-// Problem: resource_leaked_in_exception
-// Description: Exception path may leak resource
-// Context: n/a
-Task: Fix this finding only with minimal changes.
-Output: files, diff, tests, scanner-delta; keep it concise.
-Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
-```
-
-- [ ] HIGH | api | circular_lock_ordering | src/api/themisdb_grpc_service.cpp:291
-```text
-// ROUTING HINT: ollama-local
-// Model: gemma4:latest
-// Class: General
-// Location: src/api/themisdb_grpc_service.cpp:291
-// Problem: circular_lock_ordering
-// Description: Potential deadlock: lock order grpc_metrics_mutex_ then g_api_grpc_service_mutex
-// Context: n/a
 Task: Fix this finding only with minimal changes.
 Output: files, diff, tests, scanner-delta; keep it concise.
 Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
@@ -3261,34 +3219,6 @@ Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxyge
 // Problem: missing_doxygen_comment
 // Description: Public declaration 'if' is missing a Doxygen comment
 // Context: if (ends_with("és", 3)) return strip(3, "er");
-Task: Fix this finding only with minimal changes.
-Output: files, diff, tests, scanner-delta; keep it concise.
-Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
-```
-
-- [ ] HIGH | api | pointer_arithmetic_unbounded | src/api/graphql_aql_resolver.cpp:47
-```text
-// ROUTING HINT: ollama-local
-// Model: gemma4:latest
-// Class: MemorySafety
-// Location: src/api/graphql_aql_resolver.cpp:47
-// Problem: pointer_arithmetic_unbounded
-// Description: Pointer/array access without visible bounds check
-// Context: uint32_t local = 0;      for (const auto& field : fields) {          const uint32_t argument_cost = static_cast<uint3...
-Task: Fix this finding only with minimal changes.
-Output: files, diff, tests, scanner-delta; keep it concise.
-Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
-```
-
-- [ ] HIGH | api | missing_audit_log | src/api/ws_handler.cpp:131
-```text
-// ROUTING HINT: ollama-local
-// Model: gemma4:latest
-// Class: General
-// Location: src/api/ws_handler.cpp:131
-// Problem: missing_audit_log
-// Description: Security function "authorize" missing audit log
-// Context: const auto result = auth_->authorize(token, "cdc:subscribe");
 Task: Fix this finding only with minimal changes.
 Output: files, diff, tests, scanner-delta; keep it concise.
 Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.

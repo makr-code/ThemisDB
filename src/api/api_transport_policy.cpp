@@ -84,27 +84,27 @@ std::string_view TransportPolicyMiddleware::adapterName() const noexcept {
 // ---------------------------------------------------------------------------
 
 TransportFailureClass TransportPolicyMiddleware::applyPolicy(
-    const HttpRequest& request) const noexcept {
+    const HttpRequest& req) const noexcept {
 
     // Rule 1: method and path must be non-empty.
-    if (request.method.empty() || request.path.empty()) {
+    if (req.method.empty() || req.path.empty()) {
         return TransportFailureClass::MalformedRequest;
     }
 
     // Rule 2: path length check.
-    if (request.path.size() > config_.max_path_bytes) {
+    if (req.path.size() > config_.max_path_bytes) {
         return TransportFailureClass::MalformedRequest;
     }
 
     // Rule 3: payload size check.
-    if (request.body.size() > config_.max_payload_bytes) {
+    if (req.body.size() > config_.max_payload_bytes) {
         return TransportFailureClass::PayloadTooLarge;
     }
 
     // Rule 4: API version check.
     if (config_.enforce_api_version) {
-        auto it = request.headers.find("X-API-Version");
-        if (it != request.headers.end()) {
+        auto it = req.headers.find("X-API-Version");
+        if (it != req.headers.end()) {
             if (!TransportContractValidator::isSupportedVersion(it->second)) {
                 return TransportFailureClass::UnsupportedVersion;
             }
@@ -113,12 +113,12 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
 
     // Rule 5: Content-Type enforcement for mutating methods with a body.
     if (config_.enforce_content_type
-        && TransportContractValidator::requiresContentType(request.method)
-        && !request.body.empty()) {
-        auto it_ct  = request.headers.find("Content-Type");
-        auto it_ctL = request.headers.find("content-type");
-        const bool has_ct = (it_ct  != request.headers.end() && !it_ct->second.empty())
-                         || (it_ctL != request.headers.end() && !it_ctL->second.empty());
+        && TransportContractValidator::requiresContentType(req.method)
+        && !req.body.empty()) {
+        auto it_ct  = req.headers.find("Content-Type");
+        auto it_ctL = req.headers.find("content-type");
+        const bool has_ct = (it_ct  != req.headers.end() && !it_ct->second.empty())
+                         || (it_ctL != req.headers.end() && !it_ctL->second.empty());
         if (!has_ct) {
             return TransportFailureClass::ContentTypeMissing;
         }

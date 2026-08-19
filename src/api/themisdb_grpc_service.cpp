@@ -72,8 +72,7 @@ namespace {
 using themis::api::aqlEscapeLiteral;
 using themis::api::isValidAqlIdentifier;
 
-std::mutex g_api_grpc_service_mutex;
-themis::api::ThemisDBGrpcService::ServiceFn g_api_grpc_service_fn;
+std::shared_ptr<themis::api::ThemisDBGrpcService::ServiceFn> g_api_grpc_service_fn;
 
 /// Escape a string for safe embedding inside an AQL single-quoted literal.
 /// Replaces backslashes and single-quotes to prevent AQL injection.
@@ -1854,8 +1853,10 @@ void ThemisDBGrpcService::buildImpl() {
     // Try injected accessor (for non-proto builds wiring an external service).
     ServiceFn fn;
     {
-        std::lock_guard<std::mutex> lock(g_api_grpc_service_mutex);
-        fn = g_api_grpc_service_fn;
+        auto fn_ptr = std::atomic_load(&g_api_grpc_service_fn);
+        if (fn_ptr) {
+            fn = *fn_ptr;
+        }
     }
     if (fn) {
         try {
@@ -1877,8 +1878,10 @@ void ThemisDBGrpcService::buildImpl() {
 ThemisDBGrpcService::~ThemisDBGrpcService() = default;
 
 void ThemisDBGrpcService::setServiceFn(ServiceFn fn) {
-    std::lock_guard<std::mutex> lock(g_api_grpc_service_mutex);
-    g_api_grpc_service_fn = std::move(fn);
+    std::atomic_store(
+        &g_api_grpc_service_fn,
+        fn ? std::make_shared<ServiceFn>(std::move(fn))
+           : std::shared_ptr<ServiceFn>{});
 }
 
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -1903,5 +1906,4 @@ void* ThemisDBGrpcService::service() {
 
 } // namespace api
 } // namespace themis
-
 
