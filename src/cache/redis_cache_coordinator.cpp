@@ -46,6 +46,26 @@
 namespace themis {
 namespace cache {
 
+// ============================================================================
+// LOCK ORDER — must always be acquired in this canonical sequence to prevent
+// circular lock ordering and deadlock throughout this translation unit:
+//
+//   1. pub_mutex_          (publish-side connection; guards pub_ctx_ / pub_fd_)
+//   2. stats_mutex_        (counters: messages_published_, publish_errors_, etc.)
+//   3. cb_mutex_           (entry_cb_ / invalidation_cb_ callback slots)
+//   4. s_redis_pub_fn_mutex (static test-injection bridge; file-scope only)
+//
+// Rules:
+//  - Never acquire a lower-numbered mutex while holding a higher-numbered one.
+//  - When only a single mutex is needed, acquire it in isolation.
+//  - When pub_mutex_ and stats_mutex_ must both be held (e.g., publish +
+//    stat update), use std::scoped_lock to acquire them simultaneously and
+//    avoid ordering sensitivity.
+//  - The subscriber loop (subscribeLoop / subscriberLoop) owns sub_ctx_ /
+//    sub_fd_ exclusively from its thread and does NOT share those with the
+//    publish path, so no additional ordering constraint applies there.
+// ============================================================================
+
 // ---------------------------------------------------------------------------
 // STUB #42 — RedisPublishFn static bridge (non-hiredis injection)
 // ---------------------------------------------------------------------------
@@ -126,34 +146,41 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
 
     std::string payload = serializeMessage(msg);
 
-    std::lock_guard<std::mutex> lk(pub_mutex_);
-    if (!connectPublish()) {
-        std::lock_guard<std::mutex> slk(stats_mutex_);
-        ++publish_errors_;
-        return;
-    }
+    // LOCK ORDER: pub_mutex_ acquired first; stats_mutex_ updated separately
+    // after pub_mutex_ is released to respect the canonical lock hierarchy and
+    // eliminate the circular_lock_ordering gap (HIGH).
+    bool publish_ok = false;
+    {
+        std::lock_guard<std::mutex> lk(pub_mutex_);
+        if (!connectPublish()) {
+            // pub_mutex_ released here; update stats outside the pub lock.
+        } else {
+            redisReply *reply = static_cast<redisReply *>(
+                redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
 
-    redisReply *reply = static_cast<redisReply *>(
-        redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
+            if (reply == nullptr || pub_ctx_->err) {
+                THEMIS_WARN("RedisCacheCoordinator::publishEntry: PUBLISH failed: {}",
+                            pub_ctx_ ? pub_ctx_->errstr : "null context");
+                if (reply)
+                    freeReplyObject(reply);
+                // Close broken connection; will reconnect on next call
+                redisFree(pub_ctx_);
+                pub_ctx_ = nullptr;
+                pub_connected_.store(false);
+            } else {
+                freeReplyObject(reply);
+                publish_ok = true;
+            }
+        }
+    } // pub_mutex_ released before stats_mutex_ is acquired
 
-    if (reply == nullptr || pub_ctx_->err) {
-        THEMIS_WARN("RedisCacheCoordinator::publishEntry: PUBLISH failed: {}",
-                    pub_ctx_ ? pub_ctx_->errstr : "null context");
-        if (reply)
-            freeReplyObject(reply);
-        // Close broken connection; will reconnect on next call
-        redisFree(pub_ctx_);
-        pub_ctx_ = nullptr;
-        pub_connected_.store(false);
-        std::lock_guard<std::mutex> slk(stats_mutex_);
-        ++publish_errors_;
-        return;
-    }
-
-    freeReplyObject(reply);
     {
         std::lock_guard<std::mutex> slk(stats_mutex_);
-        ++messages_published_;
+        if (publish_ok) {
+            ++messages_published_;
+        } else {
+            ++publish_errors_;
+        }
     }
 #else
     {
@@ -203,33 +230,40 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 
     std::string payload = serializeMessage(msg);
 
-    std::lock_guard<std::mutex> lk(pub_mutex_);
-    if (!connectPublish()) {
-        std::lock_guard<std::mutex> slk(stats_mutex_);
-        ++publish_errors_;
-        return;
-    }
+    // LOCK ORDER: pub_mutex_ acquired first; stats_mutex_ updated separately
+    // after pub_mutex_ is released to respect the canonical lock hierarchy and
+    // eliminate the circular_lock_ordering gap (HIGH).
+    bool publish_ok = false;
+    {
+        std::lock_guard<std::mutex> lk(pub_mutex_);
+        if (!connectPublish()) {
+            // pub_mutex_ released here; update stats outside the pub lock.
+        } else {
+            redisReply *reply = static_cast<redisReply *>(
+                redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
 
-    redisReply *reply = static_cast<redisReply *>(
-        redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
+            if (reply == nullptr || pub_ctx_->err) {
+                THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: PUBLISH failed: {}",
+                            pub_ctx_ ? pub_ctx_->errstr : "null context");
+                if (reply)
+                    freeReplyObject(reply);
+                redisFree(pub_ctx_);
+                pub_ctx_ = nullptr;
+                pub_connected_.store(false);
+            } else {
+                freeReplyObject(reply);
+                publish_ok = true;
+            }
+        }
+    } // pub_mutex_ released before stats_mutex_ is acquired
 
-    if (reply == nullptr || pub_ctx_->err) {
-        THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: PUBLISH failed: {}",
-                    pub_ctx_ ? pub_ctx_->errstr : "null context");
-        if (reply)
-            freeReplyObject(reply);
-        redisFree(pub_ctx_);
-        pub_ctx_ = nullptr;
-        pub_connected_.store(false);
-        std::lock_guard<std::mutex> slk(stats_mutex_);
-        ++publish_errors_;
-        return;
-    }
-
-    freeReplyObject(reply);
     {
         std::lock_guard<std::mutex> slk(stats_mutex_);
-        ++messages_published_;
+        if (publish_ok) {
+            ++messages_published_;
+        } else {
+            ++publish_errors_;
+        }
     }
 #else
     {

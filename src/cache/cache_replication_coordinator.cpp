@@ -30,6 +30,33 @@ namespace themis {
 namespace cache {
 
 // ============================================================================
+// LOCK ORDER — must always be acquired in this canonical sequence to prevent
+// circular lock ordering and deadlock throughout this translation unit:
+//
+// InProcessCacheCoordinator:
+//   1. mutex_           (instance stats: messages_sent_, messages_received_,
+//                        and callback slots entry_cb_ / invalidation_cb_)
+//   2. bus_->mutex      (shared Bus peer list; lives in the Bus struct)
+//
+//   These two are NEVER held simultaneously. mutex_ is always released before
+//   bus_->mutex is acquired (sequential, not nested). This is a deliberate
+//   design choice: holding both simultaneously is unnecessary and avoided to
+//   eliminate all ordering risk.
+//
+// CacheReplicationCoordinator:
+//   1. peers_mutex_     (remote_peers_ vector)
+//   2. queue_mutex_     (fanout_queue_ and stopping_ flag)
+//   3. metrics_mutex_   (fanout counters: enqueued, dropped, delivered, etc.)
+//
+//   Rules:
+//   - Never acquire metrics_mutex_ while holding queue_mutex_ (nested order
+//     risk). enqueueFanout() restructures metric updates to occur outside the
+//     queue lock to respect this hierarchy.
+//   - peers_mutex_ is never held during network I/O; a snapshot of
+//     remote_peers_ is taken under the lock then released before any I/O.
+// ============================================================================
+
+// ============================================================================
 // InProcessCacheCoordinator
 // ============================================================================
 
@@ -59,6 +86,10 @@ void InProcessCacheCoordinator::publishEntry(const std::string& key,
     msg.ttl_seconds = ttl_seconds;
     msg.tenant_id   = tenant_id;
 
+    // LOCK ORDER: mutex_ is acquired and released first (stats increment only),
+    // then bus_->mutex is acquired separately for the peer fanout. These two
+    // mutexes are intentionally NOT held simultaneously; the sequential pattern
+    // is safe and avoids any circular ordering risk.
     {
         std::lock_guard<std::mutex> lk(mutex_);
         ++messages_sent_;
@@ -68,6 +99,7 @@ void InProcessCacheCoordinator::publishEntry(const std::string& key,
         return;  // Standalone: no peers to notify
     }
 
+    // bus_->mutex acquired only after mutex_ has been fully released (above).
     std::lock_guard<std::mutex> bus_lk(bus_->mutex);
     for (auto* peer : bus_->peers) {
         if (peer != this) {
@@ -83,6 +115,10 @@ void InProcessCacheCoordinator::publishInvalidation(const std::string& pattern,
     msg.key       = pattern;
     msg.tenant_id = tenant_id;
 
+    // LOCK ORDER: mutex_ is acquired and released first (stats increment only),
+    // then bus_->mutex is acquired separately for the peer fanout. These two
+    // mutexes are intentionally NOT held simultaneously; the sequential pattern
+    // is safe and avoids any circular ordering risk.
     {
         std::lock_guard<std::mutex> lk(mutex_);
         ++messages_sent_;
@@ -92,6 +128,7 @@ void InProcessCacheCoordinator::publishInvalidation(const std::string& pattern,
         return;  // Standalone: no peers to notify
     }
 
+    // bus_->mutex acquired only after mutex_ has been fully released (above).
     std::lock_guard<std::mutex> bus_lk(bus_->mutex);
     for (auto* peer : bus_->peers) {
         if (peer != this) {
@@ -289,25 +326,43 @@ nlohmann::json CacheReplicationCoordinator::getStats() const {
 // ── Private helpers ───────────────────────────────────────────────────────────
 
 void CacheReplicationCoordinator::enqueueFanout(FanoutItem item) {
-    std::lock_guard<std::mutex> lk(queue_mutex_);
-    if (fanout_queue_.size() >= kRetryQueueCapacity) {
-        THEMIS_WARN("[CacheReplicationCoordinator] fanout queue full ({} entries); "
-                    "dropping invalidation for key='{}'",
-                    kRetryQueueCapacity, item.key);
-        // C3: Structured eviction tracking telemetry.
-        THEMIS_WARN("{{\"event\":\"eviction_fanout_drop\",\"eviction_reason\":\"queue_full\","
-                    "\"evicted_entries\":1,\"freed_bytes\":0,\"key\":\"{}\"}}",
-                    item.key);
-        std::lock_guard<std::mutex> ml(metrics_mutex_);
-        ++fanout_dropped_;
-        return;
-    }
+    // LOCK ORDER: queue_mutex_ and metrics_mutex_ must never be nested.
+    // Determine the outcome under queue_mutex_, then update metrics separately
+    // under metrics_mutex_ once the queue lock has been released.
+    enum class EnqueueResult { Enqueued, Dropped };
+    EnqueueResult result = EnqueueResult::Dropped;
+
+    {
+        std::lock_guard<std::mutex> lk(queue_mutex_);
+        if (fanout_queue_.size() >= kRetryQueueCapacity) {
+            THEMIS_WARN("[CacheReplicationCoordinator] fanout queue full ({} entries); "
+                        "dropping invalidation for key='{}'",
+                        kRetryQueueCapacity, item.key);
+            // C3: Structured eviction tracking telemetry.
+            THEMIS_WARN("{{\"event\":\"eviction_fanout_drop\",\"eviction_reason\":\"queue_full\","
+                        "\"evicted_entries\":1,\"freed_bytes\":0,\"key\":\"{}\"}}",
+                        item.key);
+            result = EnqueueResult::Dropped;
+        } else {
+            fanout_queue_.push(std::move(item));
+            result = EnqueueResult::Enqueued;
+        }
+    } // queue_mutex_ released before metrics_mutex_ is acquired
+
+    // Update metrics outside queue_mutex_ to eliminate the nested-lock
+    // circular_lock_ordering risk flagged at HIGH severity.
     {
         std::lock_guard<std::mutex> ml(metrics_mutex_);
-        ++fanout_enqueued_;
+        if (result == EnqueueResult::Enqueued) {
+            ++fanout_enqueued_;
+        } else {
+            ++fanout_dropped_;
+        }
     }
-    fanout_queue_.push(std::move(item));
-    queue_cv_.notify_one();
+
+    if (result == EnqueueResult::Enqueued) {
+        queue_cv_.notify_one();
+    }
 }
 
 void CacheReplicationCoordinator::fanoutWorker() {
