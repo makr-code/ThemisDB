@@ -17,7 +17,6 @@
 
 #include <algorithm>
 #include <iomanip>
-#include <memory>
 #include <sstream>
 #include <stdexcept>
 
@@ -28,18 +27,38 @@
 
 namespace {
 
-/**
- * @brief Custom deleters for OpenSSL EVP handle types.
- *
- * Used with std::unique_ptr to guarantee exception-safe cleanup of EVP_PKEY
- * and EVP_MD_CTX objects inside verifyEd25519Signature().
- */
-struct EvpPkeyDeleter {
-    void operator()(EVP_PKEY* p) const noexcept { if (p) EVP_PKEY_free(p); }
+// RAII wrapper for OpenSSL BIO
+struct BioDeleter {
+    void operator()(BIO* bio) const noexcept {
+        if (bio) {
+            BIO_free_all(bio);
+        }
+    }
 };
+
+using UniqueBio = std::unique_ptr<BIO, BioDeleter>;
+
+// RAII wrapper for OpenSSL EVP_MD_CTX
 struct EvpMdCtxDeleter {
-    void operator()(EVP_MD_CTX* p) const noexcept { if (p) EVP_MD_CTX_free(p); }
+    void operator()(EVP_MD_CTX* ctx) const noexcept {
+        if (ctx) {
+            EVP_MD_CTX_free(ctx);
+        }
+    }
 };
+
+using UniqueEvpMdCtx = std::unique_ptr<EVP_MD_CTX, EvpMdCtxDeleter>;
+
+// RAII wrapper for OpenSSL EVP_PKEY
+struct EvpPkeyDeleter {
+    void operator()(EVP_PKEY* pkey) const noexcept {
+        if (pkey) {
+            EVP_PKEY_free(pkey);
+        }
+    }
+};
+
+using UniqueEvpPkey = std::unique_ptr<EVP_PKEY, EvpPkeyDeleter>;
 
 // Decode a standard Base64 string into raw bytes.
 // Returns empty vector on malformed input.
@@ -48,15 +67,26 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
         return {};
     }
     // OpenSSL BIO chain: base64 filter -> memory source
+    // Using RAII wrapper to ensure cleanup even if exception occurs
     BIO* b64 = BIO_new(BIO_f_base64());
+    if (!b64) {
+        return {};
+    }
+    
     BIO* mem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
-    b64 = BIO_push(b64, mem);
-    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    if (!mem) {
+        BIO_free(b64);
+        return {};
+    }
+    
+    // Wrap both BIOs in RAII wrapper; BIO_push chains them
+    UniqueBio bio_guard(BIO_push(b64, mem));
+    BIO_set_flags(bio_guard.get(), BIO_FLAGS_BASE64_NO_NL);
 
     // Upper bound for decoded output
     std::vector<uint8_t> buf(encoded.size());
-    int decoded_len = BIO_read(b64, buf.data(), static_cast<int>(buf.size()));
-    BIO_free_all(b64);
+    int decoded_len = BIO_read(bio_guard.get(), buf.data(), static_cast<int>(buf.size()));
+    // bio_guard automatically frees both BIOs when it goes out of scope
 
     if (decoded_len <= 0) {
         return {};
@@ -311,29 +341,32 @@ bool SignedPluginRepository::verifyEd25519Signature(
     if (public_key.size() != 32 || signature.size() != 64) {
         return false;
     }
-    // Load the raw Ed25519 public key via OpenSSL EVP_PKEY.
-    // unique_ptr ensures cleanup on all paths (including exception unwind).
-    std::unique_ptr<EVP_PKEY, EvpPkeyDeleter> pkey_guard(
-        EVP_PKEY_new_raw_public_key(
-            EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size()));
-    if (!pkey_guard) {
+    // Load the raw Ed25519 public key via OpenSSL EVP_PKEY using RAII wrapper
+    EVP_PKEY* pkey_raw = EVP_PKEY_new_raw_public_key(
+        EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size());
+    if (!pkey_raw) {
         return false;
     }
-    std::unique_ptr<EVP_MD_CTX, EvpMdCtxDeleter> ctx_guard(EVP_MD_CTX_new());
-    if (!ctx_guard) {
-        return false;
+    UniqueEvpPkey pkey(pkey_raw);
+    
+    // Create EVP_MD_CTX using RAII wrapper to ensure cleanup
+    UniqueEvpMdCtx ctx(EVP_MD_CTX_new());
+    if (!ctx) {
+        return false;  // pkey and ctx will be automatically freed
     }
+    
     bool ok = false;
-    if (EVP_DigestVerifyInit(ctx_guard.get(), nullptr, nullptr, nullptr, pkey_guard.get()) == 1) {
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
         int rc = EVP_DigestVerify(
-            ctx_guard.get(),
+            ctx.get(),
             signature.data(), signature.size(),
             reinterpret_cast<const uint8_t*>(message.data()), message.size());
         ok = (rc == 1);
     }
-    // unique_ptr handles EVP_MD_CTX_free and EVP_PKEY_free on scope exit
+    // Both ctx and pkey automatically freed when they go out of scope
     return ok;
 }
 
 } // namespace plugins
 } // namespace themis
+

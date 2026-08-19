@@ -23,6 +23,7 @@
 #include "security/encryption.h"
 #include "utils/error_contracts.h"
 #include "utils/pki_client.h"
+#include "utils/error_contracts.h"
 
 namespace themis {
 namespace utils {
@@ -212,6 +213,12 @@ struct AuditLoggerConfig {
 /** @brief Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now). */
 class AuditLogger {
 public:
+    // Resource limits (Phase 2.6 cross-cutting hardening)
+    static constexpr size_t DEFAULT_MAX_BUFFER_SIZE = 1024ULL * 1024 * 1024;  // 1GB
+    static constexpr size_t DEFAULT_MAX_QUEUED_EVENTS = 10'000;  // Queue depth
+    static constexpr size_t MAX_EVENT_SIZE = 10 * 1024 * 1024;  // 10MB per event
+    static constexpr size_t MAX_QUEUE_DEPTH = 100'000;  // Hard limit
+    
     AuditLogger(std::shared_ptr<themis::FieldEncryption> enc,
                 std::shared_ptr<VCCPKIClient> pki,
                 AuditLoggerConfig cfg);
@@ -509,6 +516,12 @@ private:
     // Anomaly detection helpers
     void updateTaskBaseline(const std::string& task_id, double execution_time_ms);
     double calculateZScore(double value, double mean, double stddev) const;
+     
+    /**
+     * @brief Log error context for diagnostics
+     * @param ctx Error context with details about the error
+     */
+    void logErrorContext(const ErrorContext& ctx);
 };
 
 // ---------------------------------------------------------------------------

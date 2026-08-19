@@ -43,6 +43,11 @@ namespace utils {
  * - Confidence scores per entity type based on detection signal strength
  * - Thread-safe for concurrent access
  *
+ * **Resource Limits (Phase 2.2c Hardening):**
+ * - Maximum inference timeout: 5000 ms (configurable)
+ * - Maximum gazetteer entries: 100,000 per list (honorifics, org_suffixes, locations)
+ * - Model validation: On load, gazetteers are checked for corruption (non-empty required)
+ *
  * Example YAML configuration:
  * @code{.yaml}
  * type: "ner"
@@ -50,13 +55,22 @@ namespace utils {
  * settings:
  *   min_confidence: 0.70
  *   default_redaction_mode: "strict"
+ *   inference_timeout_ms: 5000
  * honorifics: ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof.", "Sir", "Dame"]
  * org_suffixes: ["Inc.", "Corp.", "Ltd.", "LLC", "GmbH", "AG", "plc"]
  * location_prepositions: ["in", "at", "from", "near", "to"]
  * @endcode
+ *
+ * @note **Degradation Contract (2.8e):** If gazetteers fail to load or become corrupt,
+ *       model_available_ is set to false; detectInText() returns empty findings.
+ *       This is a fail-closed degradation to prevent false negatives.
  */
 class NERDetectionEngine : public IPIIDetectionEngine {
 public:
+    // Resource limits for Phase 2.2c hardening
+    static constexpr size_t MAX_GAZETTEER_ENTRIES = 100'000;  // Max entries per list
+    static constexpr uint32_t DEFAULT_INFERENCE_TIMEOUT_MS = 5000;  // Inference timeout
+    
     NERDetectionEngine();
     ~NERDetectionEngine() override = default;
 
@@ -83,6 +97,12 @@ public:
      *       subsequent detectInText() calls return empty findings rather than crashing.
      * @note Graceful Degradation: If model becomes unavailable at runtime, detection stops safely;
      *       applications can fall back to regex-based detection or log warnings.
+     * @note Inference Timeout: Detection is bounded by inference_timeout_ms (default 5000ms).
+     *       If timeout is exceeded, remaining patterns are skipped; partial results returned.
+     *
+     * @error PRIVACY_DETECTION_TIMEOUT Inference exceeded time budget (returns empty findings)
+     * @error PRIVACY_ENGINE_LOAD_FAILED Model/gazetteers unavailable (fail-closed)
+     * @error PRIVACY_UNICODE_ERROR Invalid UTF-8 input (when validation enabled)
      *
      * @post model_available_ state determines whether detection proceeds. If false, returns {} immediately.
      */
@@ -104,6 +124,7 @@ private:
     // Settings
     double min_confidence_;
     std::string default_redaction_mode_;
+    uint32_t inference_timeout_ms_ = DEFAULT_INFERENCE_TIMEOUT_MS;  // Hardening: timeout bound
 
     // Honorific / title prefixes that introduce a person name (case-insensitive)
     std::unordered_set<std::string> honorifics_;

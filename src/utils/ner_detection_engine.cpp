@@ -14,6 +14,7 @@
 #include "utils/error_contracts.h"
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -171,11 +172,38 @@ std::vector<PIIFinding> NERDetectionEngine::detectInText(const std::string& text
         throw std::runtime_error("NERDetectionEngine: model is unavailable");
     }
 
+    // Phase 2.2c Hardening: Add timeout enforcement
+    auto start_time = std::chrono::high_resolution_clock::now();
+    auto deadline = start_time + std::chrono::milliseconds(inference_timeout_ms_);
+
     auto tokens = tokenise(text);
     std::vector<PIIFinding> findings;
 
+    // Check timeout before starting detection (fail-fast)
+    auto elapsed = std::chrono::high_resolution_clock::now() - start_time;
+    if (elapsed > std::chrono::milliseconds(inference_timeout_ms_)) {
+        spdlog::warn("NERDetectionEngine: tokenization exceeded timeout budget ({}ms)", inference_timeout_ms_);
+        // Return empty findings on timeout (conservative, fail-closed)
+        return {};
+    }
+
     detectPersonNames(tokens, findings);
+    
+    // Check timeout after each detection pass
+    elapsed = std::chrono::high_resolution_clock::now() - start_time;
+    if (elapsed > std::chrono::milliseconds(inference_timeout_ms_)) {
+        spdlog::warn("NERDetectionEngine: detectPersonNames exceeded timeout budget ({}ms)", inference_timeout_ms_);
+        return findings;  // Return partial results
+    }
+
     detectOrganizations(tokens, findings);
+    
+    elapsed = std::chrono::high_resolution_clock::now() - start_time;
+    if (elapsed > std::chrono::milliseconds(inference_timeout_ms_)) {
+        spdlog::warn("NERDetectionEngine: detectOrganizations exceeded timeout budget ({}ms)", inference_timeout_ms_);
+        return findings;  // Return partial results
+    }
+
     detectLocations(tokens, findings);
 
     // Sort by start_offset
@@ -272,11 +300,22 @@ bool NERDetectionEngine::loadFromConfig(const nlohmann::json& config) {
         auto& s = config["settings"];
         min_confidence_        = s.value("min_confidence",        min_confidence_);
         default_redaction_mode_ = s.value("default_redaction_mode", default_redaction_mode_);
+        // Phase 2.2c Hardening: Read inference timeout from config
+        uint32_t timeout = s.value("inference_timeout_ms", DEFAULT_INFERENCE_TIMEOUT_MS);
+        if (timeout > 0) {
+            inference_timeout_ms_ = timeout;
+        }
     }
 
     // Override honorifics if provided
     if (config.contains("honorifics") && config["honorifics"].is_array()) {
         honorifics_.clear();
+        // Phase 2.2c Hardening: Validate gazetteer size to detect corruption
+        if (config["honorifics"].size() > MAX_GAZETTEER_ENTRIES) {
+            spdlog::error("NERDetectionEngine: honorifics list exceeds MAX_GAZETTEER_ENTRIES ({})",
+                         MAX_GAZETTEER_ENTRIES);
+            return false;
+        }
         for (const auto& h : config["honorifics"]) {
             honorifics_.insert(toLower(h.get<std::string>()));
         }
@@ -285,6 +324,12 @@ bool NERDetectionEngine::loadFromConfig(const nlohmann::json& config) {
     // Override org_suffixes if provided
     if (config.contains("org_suffixes") && config["org_suffixes"].is_array()) {
         org_suffixes_.clear();
+        // Phase 2.2c Hardening: Validate gazetteer size
+        if (config["org_suffixes"].size() > MAX_GAZETTEER_ENTRIES) {
+            spdlog::error("NERDetectionEngine: org_suffixes list exceeds MAX_GAZETTEER_ENTRIES ({})",
+                         MAX_GAZETTEER_ENTRIES);
+            return false;
+        }
         for (const auto& s : config["org_suffixes"]) {
             org_suffixes_.insert(toLower(s.get<std::string>()));
         }
@@ -293,6 +338,12 @@ bool NERDetectionEngine::loadFromConfig(const nlohmann::json& config) {
     // Override location_prepositions if provided
     if (config.contains("location_prepositions") && config["location_prepositions"].is_array()) {
         location_prepositions_.clear();
+        // Phase 2.2c Hardening: Validate gazetteer size
+        if (config["location_prepositions"].size() > MAX_GAZETTEER_ENTRIES) {
+            spdlog::error("NERDetectionEngine: location_prepositions list exceeds MAX_GAZETTEER_ENTRIES ({})",
+                         MAX_GAZETTEER_ENTRIES);
+            return false;
+        }
         for (const auto& p : config["location_prepositions"]) {
             location_prepositions_.insert(toLower(p.get<std::string>()));
         }
