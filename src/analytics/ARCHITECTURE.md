@@ -1,6 +1,6 @@
 # Architecture - Analytics Module
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-08-19 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -41,6 +41,9 @@ The analytics module is a multi-surface runtime for analytical workloads. It com
 - optional-backend paths fail with structured errors when capabilities are unavailable.
 - runtime execution paths preserve fail-closed behavior on invalid inputs or unsupported operations.
 - distributed analytics paths can return partial outcomes according to module policy.
+- model artifact import supports explicit SHA-256 integrity verification and fail-closed rejection on mismatch.
+- external TF Serving integration enforces secure transport defaults and blocks plaintext HTTP unless explicitly enabled.
+- LLM analytics output is schema-validated with type, range, and payload-bound checks before response materialization.
 
 ## Gap Closure Work (Phase 2, 2026-08-15)
 

@@ -11,6 +11,10 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
+- Security hardening (2026-08-19): `ModelServingEngine::loadModel` now supports explicit SHA-256 integrity verification and optional fail-closed enforcement via `ModelServingConfig::require_model_integrity`.
+- Security hardening (2026-08-19): `TFServingConfig` switched to secure defaults (`https://`, `verify_ssl=true`) and blocks plaintext HTTP unless `allow_insecure_transport=true` is explicitly configured.
+- Reliability hardening (2026-08-19): `LLMProcessAnalyzer::validateResponse` now enforces stricter schema/type/range checks and bounded payload limits for fraud, 5R, and prediction tasks.
+- Test coverage extended for integrity verification, insecure transport gating, and strict LLM response validation behavior.
 - Module documentation synchronized and validated (2026-07-19): All roadmap artifacts, future enhancements, and API documentation aligned to source-verifiable module behavior.
 - Documentation governance: ROADMAP.md, FUTURE_ENHANCEMENTS.md, README.md, ARCHITECTURE.md, SECURITY.md, PRODUCTION_REQUIREMENTS.md, and CHANGELOG.md all updated with current validation date.
 - Added MODULE_EVIDENCE.md to document build/test evidence and closure criteria verification.

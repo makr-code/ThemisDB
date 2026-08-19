@@ -242,5 +242,55 @@ enum class ForecastModelCapability : unsigned int {
     return (static_cast<unsigned int>(set) & static_cast<unsigned int>(flag)) != 0u;
 }
 
+// ============================================================================
+// § 8  Bounded Execution Policy
+//
+// Defines resource limits applied uniformly to ML-serving inference calls
+// (MLServingClient::infer()) and analytics export operations
+// (IAnalyticsExporter::exportToFile()).  Enforcement uses the existing
+// circuit-breaker infrastructure as the back-end.
+//
+// Target: Wave B / Q4 2026.
+// ============================================================================
+
+/**
+ * @brief Resource and latency limits applied to bounded-execution operations.
+ *
+ * Callers embed a `BoundedExecutionPolicy` in their request or configuration
+ * to declare the acceptable resource envelope for a single operation.  The
+ * enforcing layer (circuit-breaker or semaphore) rejects calls that would
+ * violate the limits before dispatching to the back-end.
+ *
+ * ### Field semantics
+ * - `max_latency_ms`           — wall-clock timeout in milliseconds; 0 = no timeout.
+ * - `max_concurrent_requests`  — maximum in-flight requests sharing one policy
+ *                                 instance; 0 = unlimited.
+ * - `queue_depth`              — maximum number of requests allowed to wait when
+ *                                 the concurrency limit is reached; 0 = no queuing
+ *                                 (reject immediately on saturation).
+ *
+ * ### Enforcement contract
+ * When a call is rejected due to policy limits, the enforcing component MUST
+ * return an appropriate status code (`MLServingStatus::TIMEOUT` /
+ * `AnalyticsErrorCode::STREAM_BACKPRESSURE`) and MUST NOT block the caller
+ * beyond `max_latency_ms` milliseconds.
+ */
+struct BoundedExecutionPolicy {
+    /// Wall-clock timeout in milliseconds.  0 means no timeout enforced.
+    uint32_t max_latency_ms          = 0u;
+    /// Maximum number of concurrent operations.  0 means unlimited.
+    uint32_t max_concurrent_requests = 0u;
+    /// Maximum depth of the waiting queue when the concurrency limit is full.
+    /// 0 means callers are rejected immediately on saturation (no queuing).
+    uint32_t queue_depth             = 0u;
+
+    /// Returns true when this policy imposes at least one limit.
+    [[nodiscard]] constexpr bool isConstrained() const noexcept {
+        return max_latency_ms != 0u
+            || max_concurrent_requests != 0u
+            || queue_depth != 0u;
+    }
+};
+
 } // namespace analytics
 } // namespace themis

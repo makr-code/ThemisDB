@@ -1,4 +1,4 @@
-> **Status:** 2026-07-19 – mit aktuellem Analytics-Code (`analytics_export.cpp`) abgeglichen.
+> **Status:** 2026-08-19 – mit aktuellem Analytics-Code (`analytics_export.cpp`, `model_serving.cpp`, `ml_serving.cpp`, `llm_process_analyzer.cpp`) abgeglichen.
 
 # ThemisDB Analytics Module - Production Requirements
 
@@ -19,6 +19,9 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Analytics-
 - **MUST:** Analytics-Export-Zugriffskontrolle aktiv.
 - **MUST:** Arrow-Flight-Endpoint mit Auth-Middleware abgesichert.
 - **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+- **MUST:** Modell-Importe aus externen Quellen mit Integritätsnachweis (mind. SHA-256) absichern; bei Integritätsmismatch Fail-Closed.
+- **MUST:** Externes TF-Serving in Produktion über TLS (`https://`) betreiben; unverschlüsseltes HTTP nur in expliziten Nicht-Produktionsszenarien zulässig.
+- **MUST:** LLM-Analyseantworten über task-spezifische Schema-/Typ-/Range-Validierung prüfen, bevor Inhalte in Entscheidungslogik übernommen werden.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
 ## Verbindliche Sicherheitsanforderungen
@@ -26,6 +29,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Analytics-
 - Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
 - Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
 - Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+- Integritäts- oder Transport-Policy-Verstöße müssen deterministisch und reproduzierbar als Fehler zurückgegeben werden.
 
 ## Betriebsgrenzen
 

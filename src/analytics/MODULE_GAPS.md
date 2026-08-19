@@ -4,9 +4,39 @@ This file documents all documentation and code quality gaps in the **analytics**
 
 ## Summary
 
-- **Total Gaps**: 3696
+- **Total Gaps**: 3696 (scanner snapshot; see Gap Closure Updates for code-level reductions)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5); Batch 4 closures applied 2026-08-19
+
+### CRITICAL Gaps — Current Status (post-Batch 4)
+- **Closed (code fixed)**: `prompt_injection`, `multiplication_overflow` (circuit breaker backoff), `missing_dtor` ×3, `iterator_invalidation` (jit_aggregation), `model_integrity_gap`, `no_transit_encryption` ×4
+- **Closed (false positive / stale)**: `braces_imbalance` ×4 (all files depth=0 verified), `iterator_invalidation` automl:325 + olap:543 (stale line refs, code safe)
+- **Noted / architecture-delegated**: `db_connection_leak` ×3 in streaming_window (connection ownership delegated to caller via ConnectionGuard RAII contract)
+- **Remaining CRITICAL code-fixable**: 0
+
+### Gap Closure Update (2026-08-19 — Batch 4)
+
+- [x] Closed: `model_integrity_gap` for model import path by adding SHA-256 verification API and fail-closed enforcement toggle in `model_serving`.
+- [x] Closed: `no_transit_encryption` defaults in TF serving path by switching to HTTPS default and explicit insecure transport opt-in.
+- [x] Closed: `unvalidated_llm_output` hardening for fraud/5R/prediction tasks with strict schema/type/range/bounds validation.
+- [x] Closed: `prompt_injection` in `llm_process_analyzer.cpp` — added `sanitizeUserContent()` helper that strips control characters (0x00–0x1F except \t/\n/\r), truncates oversized content (>32 KiB flood guard), and case-insensitively redacts known injection prefixes ("System:", "Ignore all", "### instruction", etc.). Applied to ALL data embeddings in `generatePrompt()` across all four task types. Logged via `spdlog::warn` when injection attempt is detected.
+- [x] Closed: `multiplication_overflow` in `distributed_analytics.cpp` — the circuit breaker exponential backoff `config_.circuit_breaker_recovery_delay_ms * (1U << cb_info.recovery_attempts)` was UB when `recovery_attempts ≥ 32`. Fixed by capping the shift to `min(recovery_attempts, 30U)`.
+- [x] Closed: `missing_dtor` in `anomaly_detection.cpp:233,241` — `~IFNode() = default;` and `~ITree() = default;` (previously closed in Phase 2 A-2).
+- [x] Closed: `missing_dtor` in `forecasting.cpp:484` — `~HoltWintersParams() = default;` (previously closed in Phase 2 A-2).
+- [x] Closed: `iterator_invalidation` in `jit_aggregation.cpp:309` — post-emplace re-fetch (previously closed in Phase 2 A-2).
+- [x] Noted: `braces_imbalance` for `anomaly_detection.cpp`, `automl.cpp`, `cep_engine.cpp`, `distributed_analytics.cpp` — verified FALSE POSITIVE; all files have depth=0 brace balance.
+- [x] Noted: `iterator_invalidation` for `automl.cpp:325` and `olap.cpp:543` — stale scanner line references; current code at those locations is safe (LabelEncoder::decode, std::map operator[] in separate iteration phase).
+- [x] Noted: `db_connection_leak` for `streaming_window.cpp:441,523,687` — connection ownership contract documented with RAII boundary comments; actual connection management is delegated to the caller via `ConnectionGuard` per the existing architecture contract.
+- [x] Phase 3 ROADMAP items closed: fail-closed verified for Arrow IPC/Parquet/Feather/Flight, consistent `spdlog::debug` late-record diagnostics added to SlidingWindow, SessionWindow, HoppingWindow.
+
+### Gap Closure Update (2026-08-19 — Batch 5)
+
+- [x] Closed: `ShardEntry_redeclaration` in `distributed_analytics.h` — redundant forward declaration `struct ShardEntry;` at class scope (line 155) removed; full definition at line 424 (now 422) remains. The duplicate declaration caused standalone compilation errors.
+- [x] Closed: `bounded_execution_policy_missing` — `BoundedExecutionPolicy` struct added to `analytics_api_contract.h` (§8); policy-aware `MLServingClient::infer(req, policy)` overload and `IAnalyticsExporter::exportToFile(batch, path, options, policy)` wrapper implemented with concurrency + timeout enforcement; `TIMEOUT`/`POLICY_REJECTED` status codes added to `MLServingStatus`; `POLICY_REJECTED` added to `ExportStatus`.
+- [x] Closed: `sanitizeUserContent_prefix_hardcoded` — see Batch 6 above (Completed 2026-08-19 Batch 6).
+
+- [x] Closed: `sanitizeUserContent_prefix_hardcoded` — injection prefix list externalized to operator-configurable file; `LLMConfig::injection_prefix_config_path` added; `loadInjectionPrefixes()` helper loads from file with built-in 13-pattern fallback; `Impl` caches the loaded list at construction; `sanitizeUserContent()` now accepts the prefix vector as a parameter; default config file shipped at `config/analytics/injection_prefixes.txt` (Completed 2026-08-19 Batch 6).
+- [x] Closed: `bounded_execution_policy_not_in_config` — `BoundedExecutionPolicy default_policy` added to `MLServingConfig`; `MLServingClient::infer(req)` routes through `infer(req, default_policy)` when the policy is constrained; `BoundedExecutionPolicy policy` added to `ExportOptions`; `IAnalyticsExporter::exportToFile(batch, path, options, policy)` resolves the effective policy as explicit-policy > options.policy; 15 focused regression tests added in `test_analytics_bounded_execution_policy.cpp` (BEP-01..BEP-15) (Completed 2026-08-19 Batch 6).
 
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave B Gaps** (~300 IMPL gaps): OLAP optimization, streaming-join backpressure, model-serving circuit-breaker enhancement, distributed merge diagnostics

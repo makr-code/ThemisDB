@@ -485,14 +485,33 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             ++windows_opened_;
         }
 
+        // Enforce max_distinct_partition_keys: drop if this is a new unseen key and the
+        // per-window cardinality limit is already reached. This bounds memory when a high-
+        // cardinality key space (e.g. per-user IDs) saturates a single time bucket.
+        bool key_rejected = false;
+        auto& win_slot = open_windows_[idx];
+        if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
+            win_slot.seen_partition_keys.count(record.partition_key) == 0 &&
+            win_slot.seen_partition_keys.size() >= config_.max_distinct_partition_keys) {
+            ++records_dropped_;
+            ++partition_keys_rejected_;
+            key_rejected = true;
+            record_added = false;
+            spdlog::debug("TumblingWindow: dropped record (max_distinct_partition_keys={} reached for slot {})",
+                          config_.max_distinct_partition_keys, idx);
+        }
+
         // Enforce max_records_per_window: drop the record when the window is full.
-        if (config_.max_records_per_window > 0 &&
+        if (!key_rejected && config_.max_records_per_window > 0 &&
             open_windows_[idx].records.size() >= config_.max_records_per_window) {
             ++records_dropped_;
             record_added = false;
             spdlog::debug("TumblingWindow: dropped record (window full, limit={})",
                           config_.max_records_per_window);
-        } else {
+        } else if (!key_rejected) {
+            if (!record.partition_key.empty()) {
+                win_slot.seen_partition_keys.insert(record.partition_key);
+            }
             if (ev_us < wm && config_.watermark.allow_late_data) {
                 ++late_records_;
             }
@@ -550,6 +569,7 @@ WindowStats TumblingWindow::getStats() const {
     s.late_records     = late_records_.load();
     s.results_emitted  = results_emitted_.load();
     s.windows_evicted  = windows_evicted_.load();
+    s.partition_keys_rejected = partition_keys_rejected_.load();
     return s;
 }
 
@@ -772,6 +792,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
+        spdlog::debug("SlidingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
@@ -786,6 +807,23 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
+
+        // Enforce max_distinct_partition_keys: reject record early if it introduces a new
+        // key beyond the configured cardinality cap. This bounds the key-space tracked by
+        // seen_partition_keys_ and prevents unbounded memory growth under high-cardinality
+        // partition key workloads.
+        if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
+            seen_partition_keys_.count(record.partition_key) == 0 &&
+            seen_partition_keys_.size() >= config_.max_distinct_partition_keys) {
+            ++records_dropped_;
+            ++partition_keys_rejected_;
+            record_added = false;
+            spdlog::debug("SlidingWindow: dropped record (max_distinct_partition_keys={} reached, key='{}')",
+                          config_.max_distinct_partition_keys, record.partition_key);
+        } else {
+            if (!record.partition_key.empty()) {
+                seen_partition_keys_.insert(record.partition_key);
+            }
 
         ensureWindowsExist(record.event_time, record.partition_key);
 
@@ -807,6 +845,8 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
             ++late_records_;
         }
 
+        } // end key-cardinality else
+
         pending = closeExpiredWindows(wm);
         cb      = callback_;
     } // mutex_ released
@@ -817,7 +857,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    return true;
+    return record_added;
 }
 
 void SlidingWindow::flush() {
@@ -844,6 +884,7 @@ WindowStats SlidingWindow::getStats() const {
     s.late_records     = late_records_.load();
     s.results_emitted  = results_emitted_.load();
     s.windows_evicted  = windows_evicted_.load();
+    s.partition_keys_rejected = partition_keys_rejected_.load();
     return s;
 }
 
@@ -973,6 +1014,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
+        spdlog::debug("SessionWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
@@ -1283,6 +1325,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
+        spdlog::debug("HoppingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
@@ -1290,6 +1333,24 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
+
+        // Enforce max_distinct_partition_keys: reject records with new unseen keys when
+        // the cardinality cap is already reached, bounding memory in key-explosion scenarios.
+        bool hop_key_rejected = false;
+        if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
+            seen_partition_keys_.count(record.partition_key) == 0 &&
+            seen_partition_keys_.size() >= config_.max_distinct_partition_keys) {
+            ++records_dropped_;
+            ++partition_keys_rejected_;
+            hop_key_rejected = true;
+            record_added = false;
+            spdlog::debug("HoppingWindow: dropped record (max_distinct_partition_keys={} reached, key='{}')",
+                          config_.max_distinct_partition_keys, record.partition_key);
+        } else if (!record.partition_key.empty()) {
+            seen_partition_keys_.insert(record.partition_key);
+        }
+
+        if (!hop_key_rejected) {
         ensureWindowsExist(record.event_time);
 
         for (auto &w : windows_) {
@@ -1308,6 +1369,8 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         if (ev_us < wm && config_.watermark.allow_late_data) {
             ++late_records_;
         }
+        } // end !hop_key_rejected
+
         pending = closeExpiredWindows(wm);
         cb      = callback_;
     } // mutex_ released
@@ -1318,7 +1381,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    return true;
+    return record_added;
 }
 
 void HoppingWindow::flush() {
@@ -1345,6 +1408,7 @@ WindowStats HoppingWindow::getStats() const {
     s.late_records     = late_records_.load();
     s.results_emitted  = results_emitted_.load();
     s.windows_evicted  = windows_evicted_.load();
+    s.partition_keys_rejected = partition_keys_rejected_.load();
     return s;
 }
 

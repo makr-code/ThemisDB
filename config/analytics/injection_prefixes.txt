@@ -1,0 +1,38 @@
+# LLMProcessAnalyzer — Prompt-Injection Prefix Configuration
+#
+# Each non-empty, non-comment line in this file is treated as a lower-case
+# injection prefix that sanitizeUserContent() will redact from any user-supplied
+# data before it is embedded in an LLM prompt.  All patterns are matched
+# case-insensitively against a sliding window over the input.
+#
+# Rules:
+#   - Lines beginning with '#' are ignored (comments).
+#   - Empty lines are ignored.
+#   - All patterns are stored in lower-case; mixed-case entries are normalised
+#     automatically at load time.
+#   - Patterns are matched as prefixes: "ignore all" will redact the entire
+#     remainder of the match position, not just the prefix itself.
+#
+# Operator notes:
+#   - To disable a built-in pattern, remove it from this file.  The file
+#     completely replaces the built-in 13-pattern list when it produces at
+#     least one entry.
+#   - If the file produces no entries (all lines are comments or empty), the
+#     built-in list is used as a fallback.
+#   - Deploy this file to a path accessible by the ThemisDB process and set
+#     LLMConfig::injection_prefix_config_path at initialisation time.
+#
+# Default (built-in) patterns replicated here for operator customisation:
+system:
+### system
+### instruction
+ignore all
+ignore previous
+disregard
+forget all previous
+you are now
+act as
+jailbreak
+</system>
+<|im_start|>
+<|system|>

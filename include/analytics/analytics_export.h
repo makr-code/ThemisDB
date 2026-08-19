@@ -13,6 +13,10 @@
 #pragma once
 
 #include "arrow_export.h"
+#include "analytics/analytics_api_contract.h"
+#include <atomic>
+#include <chrono>
+#include <future>
 #include <string>
 #include <memory>
 #include <functional>
@@ -27,7 +31,8 @@ enum class ExportStatus {
     SUCCESS,
     FAILED,
     PARTIAL,
-    NOT_SUPPORTED
+    NOT_SUPPORTED,
+    POLICY_REJECTED ///< Export rejected because a BoundedExecutionPolicy limit was exceeded
 };
 
 /**
@@ -51,6 +56,13 @@ struct ExportOptions {
     int compression_level = 3;
     size_t batch_size = 10000;  // Rows per batch
     bool include_metadata = true;
+
+    /// Per-export execution policy.  When constrained (any non-zero limit)
+    /// this policy is applied as the fallback when the caller invokes the
+    /// policy-aware exportToFile(batch, path, options, policy) overload with
+    /// an unconstrained explicit policy.  Enables a single-configuration-point
+    /// default without modifying every call site.
+    BoundedExecutionPolicy policy;
 };
 
 /**
@@ -77,12 +89,16 @@ public:
     virtual ~IAnalyticsExporter() = default;
 
     /// @brief Move constructor for polymorphic analytics exporter base.
-    /// @note Move semantics: abstract base carries no data members; derived classes must delegate here.
-    IAnalyticsExporter(IAnalyticsExporter&&) noexcept = default;
+    /// @note Resets the in-flight counter on move; derived classes must delegate here.
+    IAnalyticsExporter(IAnalyticsExporter&&) noexcept
+        : inflight_export_count_(0u) {}
 
     /// @brief Move assignment operator for polymorphic analytics exporter base.
-    /// @note Move semantics: no-op on data-less abstract base; derived classes extend this.
-    IAnalyticsExporter& operator=(IAnalyticsExporter&&) noexcept = default;
+    /// @note Resets the in-flight counter; derived classes extend this.
+    IAnalyticsExporter& operator=(IAnalyticsExporter&&) noexcept {
+        inflight_export_count_.store(0u, std::memory_order_relaxed);
+        return *this;
+    }
 
     IAnalyticsExporter(const IAnalyticsExporter&) = delete;
     IAnalyticsExporter& operator=(const IAnalyticsExporter&) = delete;
@@ -102,6 +118,44 @@ public:
         const ArrowRecordBatch& batch,
         const std::string& output_path,
         const ExportOptions& options = ExportOptions()) = 0;
+
+    /**
+     * @brief Export a RecordBatch to file with bounded-execution enforcement.
+     *
+     * Non-virtual wrapper that applies the resource limits declared by
+     * @p policy before delegating to the virtual `exportToFile()`:
+     *
+     *   - **Concurrency**: if `policy.max_concurrent_requests > 0` and the
+     *     number of in-flight `exportToFile()` calls on this exporter instance
+     *     already equals that limit, the call returns `POLICY_REJECTED`
+     *     immediately without touching the filesystem.
+     *   - **Timeout**: if `policy.max_latency_ms > 0` and the virtual call
+     *     has not returned within that many milliseconds, `POLICY_REJECTED` is
+     *     returned.  The virtual call may still be executing in a detached
+     *     thread; the caller must not destroy the exporter until the call
+     *     completes.
+     *
+     * When `!policy.isConstrained()` this overload is equivalent to calling
+     * the virtual `exportToFile(batch, output_path, options)` directly.
+     *
+     * @param batch        Record batch to export.
+     * @param output_path  Destination file path.
+     * @param options      Export format and compression settings.
+     * @param policy       Resource limits to enforce.
+     * @return ExportResult; status is `POLICY_REJECTED` on policy violation,
+     *         otherwise identical to the unconstrained overload.
+     */
+    [[nodiscard]] ExportResult exportToFile(
+        const ArrowRecordBatch&              batch,
+        const std::string&                   output_path,
+        const ExportOptions&                 options,
+        const BoundedExecutionPolicy&        policy);
+
+private:
+    /// In-flight request counter used by the BoundedExecutionPolicy wrapper.
+    mutable std::atomic<uint32_t> inflight_export_count_{0u};
+
+public:
 
     /**
      * @brief Export a RecordBatch to string (for small datasets)

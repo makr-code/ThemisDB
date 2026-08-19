@@ -256,6 +256,15 @@ public:
         std::vector<ShardExecutionInfo> shard_info;
         size_t successful_shards = 0;
         size_t total_shards = 0;
+        /// Wall-clock duration of the entire executeDistributed() call in milliseconds.
+        double total_execution_ms = 0.0;
+        /// Time spent in the result-merge phase only (mergeResults). Excludes scatter/gather.
+        double merge_duration_ms = 0.0;
+        /// Actionable operator-facing remediation hints. Populated when failures, timeouts,
+        /// circuit-breaker trips, or high shard-failure rates are detected. Each entry is
+        /// a self-contained, human-readable hint suitable for surfacing in operator dashboards
+        /// or logs (e.g. "Shard 'shard_a' circuit breaker is OPEN — verify shard health").
+        std::vector<std::string> operator_hints;
     };
 
     // ------------------------------------------------------------------

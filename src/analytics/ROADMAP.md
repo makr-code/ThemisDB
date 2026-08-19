@@ -83,13 +83,20 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] `benchmarks/analytics/bench_streaming_window.cpp` added (7 benchmarks covering throughput, eviction, flush latency)
   - [x] `benchmarks/analytics/bench_analytics_distributed_coordinator.cpp` added (4 release gates: DC-01..DC-04)
 - [~] consistency hardening for optional dependency and fallback behavior (Target: Q3 2026)
+  - [x] model import integrity guardrails: optional SHA-256 verification API + fail-closed enforcement toggle (`require_model_integrity`) (Completed 2026-08-19)
+  - [x] TF Serving secure transport baseline: HTTPS default + explicit plaintext opt-in (`allow_insecure_transport`) (Completed 2026-08-19)
+  - [x] LLM response schema hardening for fraud/5R/prediction tasks (type/range/bounds checks) (Completed 2026-08-19)
+  - [x] prompt injection mitigation in LLM process analyzer: `sanitizeUserContent()` strips control characters and known injection prefixes from all user-supplied JSON fields before prompt embedding (Completed 2026-08-19)
+  - [x] externalize `sanitizeUserContent()` injection prefix list to a configuration file: `LLMConfig::injection_prefix_config_path` added; `loadInjectionPrefixes()` loads from file with 13-pattern fallback; `config/analytics/injection_prefixes.txt` shipped as default template (Completed 2026-08-19 Batch 6)
+  - [x] fail-closed behavior verified for Arrow IPC/Parquet/Feather export (`throwArrowUnavailable()`) and Arrow Flight in-process fallback (Completed 2026-08-19)
+  - [x] multiplication overflow fix in circuit breaker exponential backoff: bit-shift capped to 30 to prevent UB when `recovery_attempts ≥ 32` (Completed 2026-08-19)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] strengthen bounded-memory behavior in high-cardinality streaming windows (Target: Q4 2026)
-- [ ] extend integration regression coverage for serving and export failure classes (Target: Q4 2026)
-- [ ] improve distributed merge diagnostics and operator-facing telemetry (Target: Q4 2026)
+- [x] strengthen bounded-memory behavior in high-cardinality streaming windows (Completed 2026-08-19)
+- [x] extend integration regression coverage for serving and export failure classes (Completed 2026-08-19)
+- [x] improve distributed merge diagnostics and operator-facing telemetry (Completed 2026-08-19)
 
 ### Mid-term (6-12 months)
 - [ ] add/expand dedicated benchmarks for currently proxy-covered analytics paths (Target: Q1 2027)
@@ -108,11 +115,26 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] circuit breaker pattern with state machine
   - [x] bounded queue and backpressure handling
   - [x] exponential backoff recovery mechanism
-- [ ] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
+- [~] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
+  - **Concrete plan**: Define a `BoundedExecutionPolicy` struct (max_latency_ms, max_concurrent_requests, queue_depth) in `analytics_api_contract.h`; apply to `MLServingClient::infer()` (ONNX + TF Serving paths) and `AnalyticsExporter::exportToFile()` using the existing circuit-breaker infrastructure as the enforcement layer. Tracked as Wave B exit criterion.
+  - [x] `BoundedExecutionPolicy` struct added to `analytics_api_contract.h` with full field semantics and enforcement contract documentation (Completed 2026-08-19)
+  - [x] `MLServingClient::infer(req, policy)` overload implemented: concurrency (`max_concurrent_requests`) and timeout (`max_latency_ms`) enforcement; new `TIMEOUT` and `POLICY_REJECTED` status codes added to `MLServingStatus` (Completed 2026-08-19)
+  - [x] `IAnalyticsExporter::exportToFile(batch, path, options, policy)` non-virtual wrapper implemented: concurrency and timeout enforcement using atomic in-flight counter; `POLICY_REJECTED` added to `ExportStatus` (Completed 2026-08-19)
+  - [x] `BoundedExecutionPolicy default_policy` integrated into `MLServingConfig`: `infer(req)` routes through `infer(req, default_policy)` when constrained (Completed 2026-08-19 Batch 6)
+  - [x] `BoundedExecutionPolicy policy` integrated into `ExportOptions`: used as fallback in `exportToFile(…, policy)` when the explicit policy is unconstrained (Completed 2026-08-19 Batch 6)
+  - [x] 15 targeted regression tests added for policy enforcement paths (BEP-01..BEP-15 in `test_analytics_bounded_execution_policy.cpp`) (Completed 2026-08-19 Batch 6)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior across optional-backend and degraded states (Target: Q4 2026)
-- [ ] enforce consistent diagnostics for parse/input/state validation failures (Target: Q4 2026)
+- [x] standardize fail-closed behavior across optional-backend and degraded states (Completed 2026-08-19)
+  - [x] fail-closed policy for insecure TF Serving transport (Completed 2026-08-19)
+  - [x] fail-closed policy for model import integrity mismatch (Completed 2026-08-19)
+  - [x] prompt injection mitigation in LLM analyzer: `sanitizeUserContent()` helper (Completed 2026-08-19)
+  - [x] fail-closed verified for Arrow IPC/Parquet/Feather export (`throwArrowUnavailable()`) and Arrow Flight in-process fallback (Completed 2026-08-19)
+  - [x] multiplication overflow in circuit breaker backoff fixed: shift capped to 30 bits (Completed 2026-08-19)
+- [x] enforce consistent diagnostics for parse/input/state validation failures (Completed 2026-08-19)
+  - [x] stricter LLM JSON schema validation for high-risk tasks (Completed 2026-08-19)
+  - [x] consistent `spdlog::debug` late-record diagnostics added to SlidingWindow, SessionWindow, HoppingWindow (TumblingWindow was already done) (Completed 2026-08-19)
+  - [x] OLAP input validation diagnostics (empty collection, GroupingSets mode) already present (Verified 2026-08-19)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for high-load streaming, distributed merge, and integration failure paths (Completed 2026-07-29 — test_analytics_contract_hardening_focused.cpp, ANC-01..ANC-16)
@@ -151,6 +173,14 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
    - [x] Degraded-mode throughput ≥ 80% of normal (DC-04)
 - [x] comprehensive test coverage for distributed coordinator
    - [x] `tests/analytics/test_analytics_distributed_coordinator_focused.cpp` — CB-01..CB-04, CM-01..CM-04, TO-01..TO-06 tests (2026-08-15)
+- [x] BoundedExecutionPolicy integrated into MLServingConfig and ExportOptions (Batch 6, 2026-08-19)
+   - [x] `MLServingConfig::default_policy` — per-client default applied to every `infer()` call
+   - [x] `ExportOptions::policy` — per-export default used as fallback in `exportToFile(…, policy)`
+   - [x] `test_analytics_bounded_execution_policy.cpp` — BEP-01..BEP-15 regression tests (2026-08-19)
+- [x] injection prefix list externalized from static code to operator-configurable file (Batch 6, 2026-08-19)
+   - [x] `LLMConfig::injection_prefix_config_path` field added
+   - [x] `loadInjectionPrefixes()` helper with built-in 13-pattern fallback
+   - [x] `config/analytics/injection_prefixes.txt` default template shipped
 
 ## Known Issues and Limitations
 
