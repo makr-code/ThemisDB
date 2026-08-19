@@ -1,16 +1,20 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-08-12
+Datum: 2026-08-19
 Status: Active
 
 ## Summary
 
-- Added: 6262
+- Added: 6447
 - Removed: 0
 - Changed: 0
 
 ## Added
 
+- .github/workflows/09-pr-gates_community-fail-closed.yml
+- .github/workflows/09-pr-gates_edition-license-validation.yml
+- .github/workflows/09-pr-gates_hash-sbom-validation.yml
+- .github/workflows/09-pr-gates_private-plugin-boundary-enforcement.yml
 - .github/workflows/automation-community.yml
 - .github/workflows/ci-benchmarks.yml
 - .github/workflows/ci-build.yml
@@ -23,23 +27,21 @@ Status: Active
 - .github/workflows/docker-image.yml
 - .github/workflows/edition-hyperscaler-ci.yml
 - .github/workflows/fortify.yml
+- .github/workflows/fuzzing.yml
 - .github/workflows/governance-gates.yml
+- .github/workflows/maintenance-ai-working.yml
+- .github/workflows/maintenance-build-issues.yml
 - .github/workflows/maintenance-cache-warming.yml
 - .github/workflows/maintenance-ci-health.yml
 - .github/workflows/maintenance-docs.yml
-- .github/workflows/maintenance-gs3-gaps.yml
-- .github/workflows/maintenance-security-alerts.yml
+- .github/workflows/maintenance-issues.yml
 - .github/workflows/quality-static-analysis.yml
 - .github/workflows/release-changelog.yml
+- .github/workflows/security-consolidated.yml
 - .github/workflows/security-pentest-quarterly.yml
-- .github/workflows/security-scan.yml
-- .github/workflows/security-scanning.yml
-- .github/workflows/security.yml
-- AI_WIKI_INTEGRATION_PLAYBOOK.md
-- BRANCHING_STRATEGY.md
+- .github/workflows/validate-distributed-knowledge.yml
+- .github/workflows/validate-pr-version-targeting.yml
 - CHANGELOG.md
-- DOCUMENTATION_GOVERNANCE.md
-- FUTURE_ENHANCEMENTS.md
 - INDEX.md
 - RELEASE_STRATEGY.md
 - ROADMAP.md
@@ -63,6 +65,8 @@ Status: Active
 - ai_context/MODULES_AND_NAMESPACES.md
 - ai_context/MODULE_DOCUMENTATION_REMEDIATION_CHECKLIST.md
 - ai_context/OOP_AND_SOC_PRINCIPLES.md
+- ai_context/PHASE_1_6_CHECKLIST.md
+- ai_context/PHASE_1_6_IMPLEMENTATION_FRAMEWORK.md
 - ai_context/README.md
 - ai_context/RESEARCH_INTEGRATION_AUDIT_2026_08_09.md
 - ai_context/UTILS_MODULE_STATUS_2026_07_18.md
@@ -77,6 +81,7 @@ Status: Active
 - ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - ai_context/developer_llm_wiki/INDEX.md
 - ai_context/developer_llm_wiki/MODULES_AND_APIS.md
+- ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - ai_context/memory_management_policy.md
 - docs/00_DOCUMENTATION_INDEX.md
 - docs/ARCHIVED/README.md
@@ -206,12 +211,7 @@ Status: Active
 - docs/ARCHIVED/implementation-summaries/INDEX.md
 - docs/ARCHIVED/implementation-summaries/INTEGRATION_CHANGES_SUMMARY.md
 - docs/ARCHIVED/implementation-summaries/INTEGRATION_CHECKLIST.md
-- docs/ARCHIVED/implementation-summaries/INTEGRATION_CODE_DETAILS.md
-- docs/ARCHIVED/implementation-summaries/INTEGRATION_COMPLETE_SUMMARY.md
-- docs/ARCHIVED/implementation-summaries/INTEGRATION_E2E_TESTS_IMPLEMENTATION.md
-- docs/ARCHIVED/implementation-summaries/INTEGRATION_ISSUES.md
-- docs/ARCHIVED/implementation-summaries/INTEGRATION_TEST_REPORT.md
-- ... truncated (6062 more)
+- ... truncated (6247 more)
 
 ## Removed
 

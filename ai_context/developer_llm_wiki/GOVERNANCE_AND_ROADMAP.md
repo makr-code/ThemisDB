@@ -1,56 +1,20 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-08-12
+Datum: 2026-08-19
 Status: Active
-
-## AI_WIKI_INTEGRATION_PLAYBOOK.md
-- Kategorie: governance_and_docs
-- Hash: `4bebc6b94e1a9ce5`
-- Titel: AI Wiki Integration Playbook fuer ThemisDB
-- Auszug:
-  - Datum: 2026-07-28
-  - Status: Active
-  - Bezug: Uebertragung des LLM-Wiki-Musters auf ThemisDB Development-Management und AI Vibe Coding
-
-## BRANCHING_STRATEGY.md
-- Kategorie: governance_and_docs
-- Hash: `8b912515f16cc1f1`
-- Titel: ThemisDB Branching Strategy
-- Auszug:
-  - > Status: Active
-  - > Purpose: canonical branch, edition, merge, and branch-normalization governance for ThemisDB
-  - >
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `51edf7e4119015fe`
+- Hash: `0b8ff1617bde68e7`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
   - The format is based on Keep a Changelog (https://keepachangelog.com/en/1.0.0/),
   - and this project adheres to Semantic Versioning (https://semver.org/spec/v2.0.0.html).
 
-## DOCUMENTATION_GOVERNANCE.md
-- Kategorie: governance_and_docs
-- Hash: `a78355d61903df95`
-- Titel: Documentation Governance And Update Strategy
-- Auszug:
-  - **Status:** Active
-  - **Effective Date:** 2026-06-25
-  - **Scope:** Root, module, and generated docs in this repository
-
-## FUTURE_ENHANCEMENTS.md
-- Kategorie: governance_and_docs
-- Hash: `553066e789d4c9b9`
-- Titel: ThemisDB — Open Stub Replacement Matrix
-- Auszug:
-  - <!-- Status: current | generated: 2026-07-20 | source: src/*/FUTURE_ENHANCEMENTS.md + src/ROADMAP.md -->
-  - <!-- Primary (Quelle der Wahrheit): src/ROADMAP.md -->
-  - <!-- Datum: 2026-07-20 -->
-
 ## INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `500029b23bccc42e`
+- Hash: `e154bbb883d56f1a`
 - Titel: ThemisDB Root Index
 - Auszug:
   - Datum: 2026-07-28
@@ -59,7 +23,7 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `2a4ee0697bdee597`
+- Hash: `9945e1949bee17d9`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - > Status: Active
@@ -68,16 +32,16 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `c3a2986b47479b9c`
+- Hash: `05ed002cb9a87071`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-rc1
-  - **Last Updated:** 2026-08-10
+  - **Last Updated:** 2026-08-18
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
-- Hash: `8e081ff8ff7d8c2e`
+- Hash: `bd2c7bd19aa91c90`
 - Titel: ThemisDB — Versioning Policy
 - Auszug:
   - > **Status:** Active
@@ -122,7 +86,7 @@ Status: Active
 
 ## ai_context/COPILOT_INSTRUCTIONS.md
 - Kategorie: governance_and_docs
-- Hash: `f9f48ee55226cea7`
+- Hash: `4591a034dfe6a749`
 - Titel: Copilot Instructions (Repository-wide)
 - Auszug:
   - Datum: 2026-08-07
@@ -131,7 +95,7 @@ Status: Active
 
 ## ai_context/DEVELOPER_LLM_WIKI_FRAMEWORK.md
 - Kategorie: governance_and_docs
-- Hash: `7aa00d24bfdf5174`
+- Hash: `a413bc90e0f5cbdb`
 - Titel: Developer LLM Wiki Framework (ThemisDB)
 - Auszug:
   - Datum: 2026-08-12
@@ -255,9 +219,27 @@ Status: Active
   - **Status:** Active
   - **Primary:** include/**/*.h, src/*/ARCHITECTURE.md
 
+## ai_context/PHASE_1_6_CHECKLIST.md
+- Kategorie: governance_and_docs
+- Hash: `ef2ab22254ba9e81`
+- Titel: Phase 1-6 Implementation Checklist — Quick Reference
+- Auszug:
+  - **Version:** 2.4.0
+  - **Date:** 2026-08-15
+  - **Status:** 🟢 Active
+
+## ai_context/PHASE_1_6_IMPLEMENTATION_FRAMEWORK.md
+- Kategorie: governance_and_docs
+- Hash: `5ce9360b620a7f89`
+- Titel: Phase 1-6 Implementation Framework for Module Development
+- Auszug:
+  - **Version:** 2.4.0
+  - **Date Created:** 2026-08-15
+  - **Status:** 🟢 Active Guidance Document
+
 ## ai_context/README.md
 - Kategorie: governance_and_docs
-- Hash: `b8e1a46cb8ef1883`
+- Hash: `53b267f757d8ed4d`
 - Titel: ai_context
 - Auszug:
   - Datum: 2026-07-28
@@ -347,16 +329,16 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `7165c68cdb7eff89`
+- Hash: `501cca75266fbb75`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-08-12
+  - Datum: 2026-08-19
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `3fd861e6d3438881`
+- Hash: `75dd660c181a0761`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
   - Datum: 2026-08-12
@@ -365,10 +347,10 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `ca1f840f44c2c20b`
+- Hash: `90b6891cf7f93654`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-08-12
+  - Datum: 2026-08-19
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
@@ -377,9 +359,18 @@ Status: Active
 - Hash: `22ba7d663316dc33`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-08-12
+  - Datum: 2026-08-19
   - Status: Active
   - - Kategorie: modules_and_api
+
+## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
+- Kategorie: governance_and_docs
+- Hash: `8c99c7e62b18fedb`
+- Titel: Developer LLM Wiki — Delta Report
+- Auszug:
+  - Datum: 2026-08-12
+  - Status: Active
+  - - Added: 6262
 
 ## ai_context/memory_management_policy.md
 - Kategorie: governance_and_docs
@@ -722,3 +713,12 @@ Status: Active
   - **ThemisDB Change Data Capture - Complete Implementation Report**
   - Version: 2.0 (Final)
   - Date: 2026-02-20
+
+## docs/ARCHIVED/implementation-summaries/CDC_COMPLETE_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `242f76ef29e1fd19`
+- Titel: CDC Module - Complete Implementation Summary
+- Auszug:
+  - The CDC (Change Data Capture) module has been successfully upgraded from **< 50%** to **90% production ready** through comprehensive implementation of P0 and P1 features across multiple sessions.
+  - ---
+  - **Total Commits**: 19
