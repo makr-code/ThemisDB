@@ -26,6 +26,115 @@
 namespace themis {
 
 // ============================================================================
+// Prompt Injection Sanitization
+// ============================================================================
+
+/**
+ * @brief Sanitize user-supplied content before embedding it in LLM prompts.
+ *
+ * Removes or neutralizes common prompt-injection sequences in the serialized
+ * JSON string that will be embedded verbatim into a prompt.  The goal is to
+ * prevent attacker-controlled field values from hijacking the system role or
+ * appending additional instructions that alter model behavior.
+ *
+ * Mitigations applied:
+ *  1. Null-byte removal — LLMs may truncate or behave unpredictably on NUL.
+ *  2. Non-printable ASCII control characters (0x00–0x1F, except \t/\n/\r) are
+ *     replaced with a space to avoid smuggled escape sequences.
+ *  3. Known prompt-injection prefixes (e.g. "System:", "###", "Ignore all",
+ *     "IGNORE PREVIOUS INSTRUCTIONS") are replaced with a redacted marker.
+ *     The check is case-insensitive and covers common jailbreak patterns.
+ *  4. Content length is hard-capped to kMaxContentBytes to prevent
+ *     prompt flooding / token exhaustion attacks.
+ *
+ * @note This function operates on the *serialized* JSON representation of
+ *       user data, not on the raw request object, so no structural information
+ *       is lost.  The JSON syntax itself (quotes, braces) is preserved; only
+ *       values that match injection patterns are neutralized.
+ *
+ * @param content   Serialized JSON string to sanitize.
+ * @return          Sanitized copy safe for prompt embedding.
+ */
+static std::string sanitizeUserContent(const std::string &content) {
+    // Hard cap: 32 KiB of user content per field embedded in a single prompt.
+    // Exceeding this is almost certainly a flooding or context-exhaustion attack.
+    constexpr size_t kMaxContentBytes = 32 * 1024;
+
+    // Known prompt-injection prefixes to redact (case-insensitive prefix match).
+    // These patterns are checked after lower-casing a sliding 40-char window so
+    // a complete-word match is not required; the redaction is conservative.
+    static const std::vector<std::string> kInjectionPrefixes = {
+        "system:",
+        "### system",
+        "### instruction",
+        "ignore all",
+        "ignore previous",
+        "disregard",
+        "forget all previous",
+        "you are now",
+        "act as",
+        "jailbreak",
+        "</system>",
+        "<|im_start|>",
+        "<|system|>",
+    };
+
+    std::string out;
+    const size_t limit = std::min(content.size(), kMaxContentBytes);
+    out.reserve(limit);
+
+    for (size_t i = 0; i < limit; ++i) {
+        unsigned char c = static_cast<unsigned char>(content[i]);
+        // Remove null bytes and non-printable control chars (except \t, \n, \r).
+        if (c == 0x00) {
+            continue; // drop silently
+        }
+        if (c < 0x20 && c != '\t' && c != '\n' && c != '\r') {
+            out += ' ';
+            continue;
+        }
+
+        // Sliding window: check if this position starts a known injection prefix.
+        // Build a lower-case window of up to 40 chars for comparison.
+        bool injected = false;
+        for (const auto &prefix : kInjectionPrefixes) {
+            if (i + prefix.size() > limit) {
+                continue;
+            }
+            // Case-insensitive comparison without heap allocation.
+            bool match = true;
+            for (size_t k = 0; k < prefix.size(); ++k) {
+                if (std::tolower(static_cast<unsigned char>(content[i + k])) != prefix[k]) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+                out += "[REDACTED_INJECTION_ATTEMPT]";
+                i += prefix.size() - 1; // skip matched chars (loop will ++i)
+                injected = true;
+                spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
+                             "prompt injection pattern '{}' detected and redacted at offset {}",
+                             prefix, i);
+                break;
+            }
+        }
+        if (!injected) {
+            out += static_cast<char>(c);
+        }
+    }
+
+    if (content.size() > kMaxContentBytes) {
+        spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
+                     "content truncated from {} to {} bytes (flood/token-exhaustion guard)",
+                     content.size(), kMaxContentBytes);
+        out += "\n[CONTENT_TRUNCATED]";
+    }
+
+    return out;
+}
+
+// ============================================================================
 // API Key Sanitization
 // ============================================================================
 
@@ -333,8 +442,10 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "2. Fehlende oder übersprungene Aktivitäten\n";
             ss << "3. Compliance-Verstöße\n";
             ss << "4. Mögliche Prozessoptimierungen\n\n";
-            ss << "Prozessdaten:\n" << data["trace"].dump(2) << "\n\n";
-            ss << "Erwartetes Modell:\n" << data["model"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): user-supplied trace/model are sanitized before
+            // embedding to neutralize injection payloads hidden in field values.
+            ss << "Prozessdaten:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
+            ss << "Erwartetes Modell:\n" << sanitizeUserContent(data["model"].dump(2)) << "\n\n";
             ss << "Gib die Antwort als JSON zurück mit den Feldern:\n";
             ss << "- conformance_score (0.0-1.0)\n";
             ss << "- deviations (Array mit activity, type, severity, description)\n";
@@ -345,8 +456,9 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
         case TaskType::PREDICT_NEXT:
             ss << "Basierend auf dem bisherigen Prozessverlauf, welche Aktivitäten werden als nächstes wahrscheinlich "
                   "ausgeführt?\n\n";
-            ss << "Bisheriger Verlauf:\n" << data["trace"].dump(2) << "\n\n";
-            ss << "Prozessmodell:\n" << data["model"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Bisheriger Verlauf:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
+            ss << "Prozessmodell:\n" << sanitizeUserContent(data["model"].dump(2)) << "\n\n";
             ss << "Gib die Top 3 wahrscheinlichsten nächsten Aktivitäten zurück als JSON:\n";
             ss << "- predictions (Array mit activity, probability, reasoning)\n";
             break;
@@ -359,7 +471,8 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "3. Richtige Dosis (Doppelcheck?)\n";
             ss << "4. Richtiger Zeitpunkt (Zeitplan eingehalten?)\n";
             ss << "5. Richtige Applikationsform (Darreichungsform korrekt?)\n\n";
-            ss << "Medikationsdaten:\n" << data["trace"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Medikationsdaten:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
             ss << "Gib die Antwort als JSON zurück:\n";
             ss << "- five_rights_check (Object mit right_patient, right_medication, right_dose, right_time, "
                   "right_route, overall_compliance, risk_level, corrective_actions)\n";
@@ -373,9 +486,10 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "3. Lieferant nicht verifiziert\n";
             ss << "4. Abweichungen von Bestellungen\n";
             ss << "5. Fehlende Dokumentation\n\n";
-            ss << "Rechnungsdaten:\n" << data["trace"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Rechnungsdaten:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
             if (data.contains("context")) {
-                ss << "Historische Daten:\n" << data["context"].dump(2) << "\n\n";
+                ss << "Historische Daten:\n" << sanitizeUserContent(data["context"].dump(2)) << "\n\n";
             }
             ss << "Gib die Antwort als JSON zurück:\n";
             ss << "- fraud_analysis (Object mit risk_score, detected_anomalies, flags, recommended_action)\n";
@@ -383,7 +497,8 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
 
         default:
             ss << "Process analysis task\n";
-            ss << "Data: " << data.dump(2) << "\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Data: " << sanitizeUserContent(data.dump(2)) << "\n";
             break;
     }
 

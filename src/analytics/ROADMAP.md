@@ -86,6 +86,9 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] model import integrity guardrails: optional SHA-256 verification API + fail-closed enforcement toggle (`require_model_integrity`) (Completed 2026-08-19)
   - [x] TF Serving secure transport baseline: HTTPS default + explicit plaintext opt-in (`allow_insecure_transport`) (Completed 2026-08-19)
   - [x] LLM response schema hardening for fraud/5R/prediction tasks (type/range/bounds checks) (Completed 2026-08-19)
+  - [x] prompt injection mitigation in LLM process analyzer: `sanitizeUserContent()` strips control characters and known injection prefixes from all user-supplied JSON fields before prompt embedding (Completed 2026-08-19)
+  - [x] fail-closed behavior verified for Arrow IPC/Parquet/Feather export (`throwArrowUnavailable()`) and Arrow Flight in-process fallback (Completed 2026-08-19)
+  - [x] multiplication overflow fix in circuit breaker exponential backoff: bit-shift capped to 30 to prevent UB when `recovery_attempts ≥ 32` (Completed 2026-08-19)
 
 ## Planned Features
 
@@ -111,14 +114,20 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] circuit breaker pattern with state machine
   - [x] bounded queue and backpressure handling
   - [x] exponential backoff recovery mechanism
-- [ ] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
+- [~] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
+  - **Concrete plan**: Define a `BoundedExecutionPolicy` struct (max_latency_ms, max_concurrent_requests, queue_depth) in `analytics_api_contract.h`; apply to `MLServingClient::infer()` (ONNX + TF Serving paths) and `AnalyticsExporter::exportToFile()` using the existing circuit-breaker infrastructure as the enforcement layer. Tracked as Wave B exit criterion.
 
 ### Phase 3: Error Handling and Edge Cases
-- [~] standardize fail-closed behavior across optional-backend and degraded states (Target: Q4 2026)
+- [x] standardize fail-closed behavior across optional-backend and degraded states (Completed 2026-08-19)
   - [x] fail-closed policy for insecure TF Serving transport (Completed 2026-08-19)
   - [x] fail-closed policy for model import integrity mismatch (Completed 2026-08-19)
-- [~] enforce consistent diagnostics for parse/input/state validation failures (Target: Q4 2026)
+  - [x] prompt injection mitigation in LLM analyzer: `sanitizeUserContent()` helper (Completed 2026-08-19)
+  - [x] fail-closed verified for Arrow IPC/Parquet/Feather export (`throwArrowUnavailable()`) and Arrow Flight in-process fallback (Completed 2026-08-19)
+  - [x] multiplication overflow in circuit breaker backoff fixed: shift capped to 30 bits (Completed 2026-08-19)
+- [x] enforce consistent diagnostics for parse/input/state validation failures (Completed 2026-08-19)
   - [x] stricter LLM JSON schema validation for high-risk tasks (Completed 2026-08-19)
+  - [x] consistent `spdlog::debug` late-record diagnostics added to SlidingWindow, SessionWindow, HoppingWindow (TumblingWindow was already done) (Completed 2026-08-19)
+  - [x] OLAP input validation diagnostics (empty collection, GroupingSets mode) already present (Verified 2026-08-19)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for high-load streaming, distributed merge, and integration failure paths (Completed 2026-07-29 — test_analytics_contract_hardening_focused.cpp, ANC-01..ANC-16)

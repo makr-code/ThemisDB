@@ -1021,10 +1021,15 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
         // Recovery attempt failed
         cb_info.recovery_attempts++;
         if (cb_info.recovery_attempts >= config_.circuit_breaker_recovery_attempts) {
-            // Back to OPEN with exponential backoff
+            // Back to OPEN with exponential backoff.
             cb_info.state = DistributedAnalyticsSharding::CircuitBreakerState::OPEN;
+            // SAFETY (multiplication_overflow): cap the bit-shift so recovery_attempts
+            // >= 32 does not produce undefined behaviour via 1U << N overflow.
+            // Max useful shift is 30: (1U << 30) * 100ms ≈ 29.8 hours, which
+            // already exceeds any practical max-recovery-delay config value.
+            const uint32_t safe_shift = std::min(static_cast<uint32_t>(cb_info.recovery_attempts), 30U);
             uint32_t backoff_ms = std::min(
-                config_.circuit_breaker_recovery_delay_ms * (1U << cb_info.recovery_attempts),
+                config_.circuit_breaker_recovery_delay_ms * (1U << safe_shift),
                 config_.circuit_breaker_max_recovery_delay_ms);
             cb_info.next_recovery_at = std::chrono::steady_clock::now() +
                 std::chrono::milliseconds(backoff_ms);

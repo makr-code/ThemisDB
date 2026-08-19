@@ -772,6 +772,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
+        spdlog::debug("SlidingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
@@ -973,6 +974,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
+        spdlog::debug("SessionWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
@@ -1283,6 +1285,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
+        spdlog::debug("HoppingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
