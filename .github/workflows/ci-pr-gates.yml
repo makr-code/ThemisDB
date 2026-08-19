@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -212,7 +212,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'minimal')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -267,7 +267,7 @@ jobs:
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
@@ -294,7 +294,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -369,7 +369,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       - name: Setup C++ build dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
@@ -400,7 +400,7 @@ jobs:
 
       - name: Upload release-critical triage bundle
         if: always()
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: release-critical-triage-${{ github.run_number }}
           path: |
@@ -421,7 +421,7 @@ jobs:
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' && github.base_ref == 'develop')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Derive SOURCE_DATE_EPOCH from HEAD commit
         id: source_date_epoch
@@ -464,7 +464,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'develop' || github.base_ref == 'community')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -526,7 +526,7 @@ jobs:
 
       - name: Upload delta report
         if: always()
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: scanner-delta-${{ github.run_number }}
           path: ai_working/delta/
@@ -545,7 +545,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Verify Wave-1 submodule commit pins
         run: |
@@ -591,7 +591,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'develop')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -633,7 +633,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'minimal')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Validate private submodules are scoped for community
         run: |
@@ -690,7 +690,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military","minimal"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -791,7 +791,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military","minimal"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -891,7 +891,7 @@ jobs:
           echo "  Detector   : verified secrets only (--only-verified)"
           echo "============================================================"
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
 
@@ -968,7 +968,7 @@ jobs:
 
       - name: Upload TruffleHog results
         if: always()
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: trufflehog-results-${{ github.run_number }}
           path: trufflehog-results.json
