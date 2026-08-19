@@ -480,8 +480,6 @@ TEST_F(MultiTaskLoRAAcceptanceGatesTest, ErrorOnUnknownTaskID) {
     EXPECT_THROW(trainer.train(samples), std::invalid_argument);
 }
 
-} // namespace (anonymous)
-
 // Test main not needed for gtest, but can be explicit:
 // int main(int argc, char** argv) {
 //     ::testing::InitGoogleTest(&argc, argv);
