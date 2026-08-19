@@ -58,7 +58,10 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MAPPING_FILE = REPO_ROOT / "benchmarks" / "benchmark_target_mapping.json"
-PERF_EXPECTATIONS = REPO_ROOT / "PERFORMANCE_EXPECTATIONS.md"
+PERF_EXPECTATIONS_CANDIDATES = (
+    REPO_ROOT / "PERFORMANCE_EXPECTATIONS.md",
+    REPO_ROOT / "docs" / "performance" / "PERFORMANCE_EXPECTATIONS.md",
+)
 BENCHMARKS_DIR = REPO_ROOT / "benchmarks"
 
 REQUIRED_ENTRY_FIELDS = {"primary_benchmark", "file"}
@@ -132,14 +135,30 @@ def _resolve_bench_file(fname: str) -> tuple[Path, bool]:
     Lookup order:
     1. BENCHMARKS_DIR / fname  (standard: benchmarks/…)
     2. REPO_ROOT / fname       (fallback: external/… or other repo-root-relative paths)
+    3. Recursive basename match under benchmarks/ for modules that moved into
+       subdirectories such as benchmarks/server/.
     """
+    candidates = (
+        BENCHMARKS_DIR / fname,
+        REPO_ROOT / fname,
+    )
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate, True
+
+    recursive_matches = sorted(BENCHMARKS_DIR.rglob(Path(fname).name))
+    if len(recursive_matches) == 1:
+        return recursive_matches[0], True
+
     candidate = BENCHMARKS_DIR / fname
-    if candidate.exists():
-        return candidate, True
-    fallback = REPO_ROOT / fname
-    if fallback.exists():
-        return fallback, True
     return candidate, False
+
+
+def _resolve_perf_expectations() -> Path | None:
+    for candidate in PERF_EXPECTATIONS_CANDIDATES:
+        if candidate.exists():
+            return candidate
+    return None
 
 
 def check_files_exist(data: dict) -> bool:
@@ -244,12 +263,14 @@ def _collect_md_target_ids() -> set[str]:
     Extract every token of the form UPPER_PREFIX-DIGIT(S) from table rows
     in PERFORMANCE_EXPECTATIONS.md, filtering out known non-SLO prefixes.
     """
-    if not PERF_EXPECTATIONS.exists():
-        _warn(f"PERFORMANCE_EXPECTATIONS.md not found at {PERF_EXPECTATIONS}; "
-              "skipping cross-reference check")
+    perf_expectations = _resolve_perf_expectations()
+    if perf_expectations is None:
+        searched = ", ".join(str(path) for path in PERF_EXPECTATIONS_CANDIDATES)
+        _warn("PERFORMANCE_EXPECTATIONS.md not found; "
+              f"searched: {searched}; skipping cross-reference check")
         return set()
 
-    content = PERF_EXPECTATIONS.read_text(encoding="utf-8", errors="replace")
+    content = perf_expectations.read_text(encoding="utf-8", errors="replace")
     # Match tokens at the start of a table cell: | TOKEN |
     raw = re.findall(r'^\|\s*([A-Z]{1,4}-\d+[a-z]?)\s', content,
                      re.MULTILINE)
