@@ -53,6 +53,7 @@
 
 #include "analytics/model_serving.h"
 
+#include <cctype>
 #include <deque>
 #include <iomanip>
 #include <mutex>
@@ -96,6 +97,24 @@ inline int64_t nowMs() noexcept {
 inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
     auto end = std::chrono::steady_clock::now();
     return std::chrono::duration<double, std::milli>(end - start).count();
+}
+
+std::string normalizeSha256HexOrThrow(const std::string& expected_sha256_hex) {
+    if (expected_sha256_hex.size() != 64) {
+        throw std::invalid_argument(
+            "ModelServingEngine::loadModel expected_sha256_hex must be 64 hex characters");
+    }
+
+    std::string normalized = expected_sha256_hex;
+    for (char& c : normalized) {
+        const unsigned char uc = static_cast<unsigned char>(c);
+        if (!std::isxdigit(uc)) {
+            throw std::invalid_argument(
+                "ModelServingEngine::loadModel expected_sha256_hex must be valid hexadecimal");
+        }
+        c = static_cast<char>(std::tolower(uc));
+    }
+    return normalized;
 }
 
 // ----------------------------------------------------------------------------
@@ -433,8 +452,9 @@ void ModelServingEngine::loadModel(const std::string &name, const std::string &v
         throw std::invalid_argument("ModelServingEngine::loadModel expected_sha256_hex must not be empty");
     }
 
+    const auto normalized_expected_sha256 = normalizeSha256HexOrThrow(expected_sha256_hex);
     const auto actual_sha256 = sha256Hex(serialized_data);
-    if (actual_sha256 != expected_sha256_hex) {
+    if (actual_sha256 != normalized_expected_sha256) {
         throw std::runtime_error("ModelServingEngine::loadModel integrity check failed (SHA-256 mismatch)");
     }
 

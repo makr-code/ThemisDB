@@ -952,25 +952,33 @@ ExportResult IAnalyticsExporter::exportToFile(
 
     // ── Concurrency enforcement ──────────────────────────────────────────────
     if (effective_policy.max_concurrent_requests > 0u) {
-        const uint32_t current = inflight_export_count_.load(std::memory_order_relaxed);
-        if (current >= effective_policy.max_concurrent_requests) {
-            ExportResult result;
-            result.status  = ExportStatus::POLICY_REJECTED;
-            result.message = "BoundedExecutionPolicy: max_concurrent_requests ("
-                             + std::to_string(effective_policy.max_concurrent_requests)
-                             + ") exceeded (current=" + std::to_string(current) + ")";
-            spdlog::warn("IAnalyticsExporter::exportToFile: export rejected by "
-                         "BoundedExecutionPolicy (max_concurrent_requests={}, current={})",
-                         effective_policy.max_concurrent_requests, current);
-            return result;
+        uint32_t concurrent_snapshot = inflight_export_count_.load(std::memory_order_relaxed);
+        while (true) {
+            if (concurrent_snapshot >= effective_policy.max_concurrent_requests) {
+                ExportResult result;
+                result.status  = ExportStatus::POLICY_REJECTED;
+                result.message = "BoundedExecutionPolicy: max_concurrent_requests ("
+                                 + std::to_string(effective_policy.max_concurrent_requests)
+                                 + ") exceeded (current=" + std::to_string(concurrent_snapshot) + ")";
+                spdlog::warn("IAnalyticsExporter::exportToFile: export rejected by "
+                             "BoundedExecutionPolicy (max_concurrent_requests={}, current={})",
+                             effective_policy.max_concurrent_requests, concurrent_snapshot);
+                return result;
+            }
+            if (inflight_export_count_.compare_exchange_weak(
+                    concurrent_snapshot, concurrent_snapshot + 1u, std::memory_order_acq_rel,
+                    std::memory_order_relaxed)) {
+                break;
+            }
         }
+    } else {
+        inflight_export_count_.fetch_add(1u, std::memory_order_acq_rel);
     }
 
     // RAII guard for in-flight count.
-    inflight_export_count_.fetch_add(1u, std::memory_order_relaxed);
     struct Guard {
         std::atomic<uint32_t> &counter;
-        ~Guard() { counter.fetch_sub(1u, std::memory_order_relaxed); }
+        ~Guard() { counter.fetch_sub(1u, std::memory_order_acq_rel); }
     } guard{inflight_export_count_};
 
     // ── Timeout enforcement ──────────────────────────────────────────────────

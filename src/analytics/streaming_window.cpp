@@ -817,6 +817,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
             seen_partition_keys_.size() >= config_.max_distinct_partition_keys) {
             ++records_dropped_;
             ++partition_keys_rejected_;
+            record_added = false;
             spdlog::debug("SlidingWindow: dropped record (max_distinct_partition_keys={} reached, key='{}')",
                           config_.max_distinct_partition_keys, record.partition_key);
         } else {
@@ -856,7 +857,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    return true;
+    return record_added;
 }
 
 void SlidingWindow::flush() {
@@ -1342,6 +1343,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             hop_key_rejected = true;
+            record_added = false;
             spdlog::debug("HoppingWindow: dropped record (max_distinct_partition_keys={} reached, key='{}')",
                           config_.max_distinct_partition_keys, record.partition_key);
         } else if (!record.partition_key.empty()) {
@@ -1379,7 +1381,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    return true;
+    return record_added;
 }
 
 void HoppingWindow::flush() {

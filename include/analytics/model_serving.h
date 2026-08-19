@@ -304,7 +304,7 @@ public:
      * serialized_data. The load operation fails closed on mismatch.
      *
      * @param expected_sha256_hex  Expected SHA-256 digest (64 lowercase hex chars).
-     * @throws std::invalid_argument if expected_sha256_hex is empty.
+     * @throws std::invalid_argument if expected_sha256_hex is empty or not valid 64-char hex.
      * @throws std::runtime_error    if digest mismatch.
      */
     void loadModel(const std::string& name,

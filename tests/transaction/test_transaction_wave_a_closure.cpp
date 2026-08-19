@@ -32,6 +32,7 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace themis {
@@ -94,6 +95,14 @@ class WALReplaySimulator {
             }
         }
         return resolved;
+    }
+
+    void markPreparedPrefix(int count) {
+        const int limit = std::min(count, static_cast<int>(wal_.size()));
+        for (int i = 0; i < limit; ++i) {
+            wal_[static_cast<size_t>(i)].state = TxnState::PREPARED;
+            wal_[static_cast<size_t>(i)].in_doubt = false;
+        }
     }
 
     bool anyInDoubt() const {
@@ -343,18 +352,20 @@ TEST_F(TransactionWaveARecoveryTest, TxnRecovery01_CleanRestart) {
 TEST_F(TransactionWaveARecoveryTest, TxnRecovery02_CrashDuring2PCPrepare) {
     // Simulate crash during prepare: half prepared, half still in-doubt
     WALReplaySimulator sim(50);
-    // Mark 25 as prepared (not in-doubt)
-    for (int i = 0; i < 25; ++i) {
-        // Access via non-const ref is needed; simulator does not expose this
-        // so we rely on the constructor — all 50 start IN_DOUBT as expected
-    }
+    sim.markPreparedPrefix(25);
 
     int resolved = sim.replayAndResolve();
-    EXPECT_EQ(resolved, 50) << "Crash-during-prepare: all 50 in-doubt must be resolved";
+    EXPECT_EQ(resolved, 25) << "Crash-during-prepare: only in-doubt entries are resolved";
     EXPECT_FALSE(sim.anyInDoubt());
-    for (const auto& rec : sim.wal()) {
-        EXPECT_EQ(rec.state, TxnState::ABORTED)
-            << "Conservative policy: crash-during-prepare → ABORTED";
+    for (size_t i = 0; i < sim.wal().size(); ++i) {
+        const auto& rec = sim.wal()[i];
+        if (i < 25) {
+            EXPECT_EQ(rec.state, TxnState::PREPARED)
+                << "Prepared entries remain PREPARED during replay";
+        } else {
+            EXPECT_EQ(rec.state, TxnState::ABORTED)
+                << "Conservative policy: remaining in-doubt entries are ABORTED";
+        }
     }
 }
 

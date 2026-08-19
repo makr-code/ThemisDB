@@ -684,38 +684,53 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req) {
 
 MLServingResponse MLServingClient::infer(const MLServingRequest &req,
                                          const ::themis::analytics::BoundedExecutionPolicy &policy) {
+    if (!impl_->backend) {
+        MLServingResponse resp;
+        resp.status        = MLServingStatus::UNAVAILABLE;
+        resp.error_message = "No backend configured";
+        return resp;
+    }
+
     // Fast path: no limits declared.
     if (!policy.isConstrained()) {
-        return infer(req);
+        return impl_->backend->infer(req);
     }
 
     // ── Concurrency enforcement ──────────────────────────────────────────────
     if (policy.max_concurrent_requests > 0u) {
-        const uint32_t current = impl_->inflight_count.load(std::memory_order_relaxed);
-        if (current >= policy.max_concurrent_requests) {
-            MLServingResponse resp;
-            resp.status        = MLServingStatus::POLICY_REJECTED;
-            resp.error_message = "BoundedExecutionPolicy: max_concurrent_requests ("
-                                 + std::to_string(policy.max_concurrent_requests)
-                                 + ") exceeded (current=" + std::to_string(current) + ")";
-            spdlog::warn("MLServingClient::infer: request rejected by BoundedExecutionPolicy "
-                         "(max_concurrent_requests={}, current={})",
-                         policy.max_concurrent_requests, current);
-            return resp;
+        uint32_t concurrent_snapshot = impl_->inflight_count.load(std::memory_order_relaxed);
+        while (true) {
+            if (concurrent_snapshot >= policy.max_concurrent_requests) {
+                MLServingResponse resp;
+                resp.status        = MLServingStatus::POLICY_REJECTED;
+                resp.error_message = "BoundedExecutionPolicy: max_concurrent_requests ("
+                                     + std::to_string(policy.max_concurrent_requests)
+                                     + ") exceeded (current=" + std::to_string(concurrent_snapshot) + ")";
+                spdlog::warn("MLServingClient::infer: request rejected by BoundedExecutionPolicy "
+                             "(max_concurrent_requests={}, current={})",
+                             policy.max_concurrent_requests, concurrent_snapshot);
+                return resp;
+            }
+            if (impl_->inflight_count.compare_exchange_weak(
+                    concurrent_snapshot, concurrent_snapshot + 1u, std::memory_order_acq_rel,
+                    std::memory_order_relaxed)) {
+                break;
+            }
         }
+    } else {
+        impl_->inflight_count.fetch_add(1u, std::memory_order_acq_rel);
     }
 
     // Track in-flight count with RAII guard.
-    impl_->inflight_count.fetch_add(1u, std::memory_order_relaxed);
     struct Guard {
         std::atomic<uint32_t> &counter;
-        ~Guard() { counter.fetch_sub(1u, std::memory_order_relaxed); }
+        ~Guard() { counter.fetch_sub(1u, std::memory_order_acq_rel); }
     } guard{impl_->inflight_count};
 
     // ── Timeout enforcement ──────────────────────────────────────────────────
     if (policy.max_latency_ms > 0u) {
-        auto fut = std::async(std::launch::async, [this, &req]() {
-            return infer(req);
+        auto fut = std::async(std::launch::async, [this, req]() {
+            return impl_->backend->infer(req);
         });
         const auto deadline = std::chrono::milliseconds(policy.max_latency_ms);
         if (fut.wait_for(deadline) == std::future_status::timeout) {
@@ -730,7 +745,7 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
         return fut.get();
     }
 
-    return infer(req);
+    return impl_->backend->infer(req);
 }
 
 MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_name, const DataPoint &point,
