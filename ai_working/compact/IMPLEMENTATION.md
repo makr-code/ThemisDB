@@ -22,10 +22,10 @@
 - `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-19, 18,307 B)
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,361 B)
 - `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-19, 7,025 B)
-- `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-19, 7,627 B)
 - `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-19, 9,233 B)
-- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-19, 7,015 B)
+- `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-19, 7,627 B)
 - `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-19, 14,655 B)
+- `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-19, 7,015 B)
 - `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 11,940 B)
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 15,096 B)
 - `REPLICATION_WAL_IMPLEMENTATION_2026_08_18.md` (2026-08-19, 8,453 B)
@@ -36,47 +36,47 @@
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-19, 13,559 B)
 - `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 12,932 B)
 - `POLICY_CONFLICT_DETECTION_IMPLEMENTATION_REPORT.md` (2026-08-19, 13,596 B)
-- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-19, 15,996 B)
 - `PHASE_B_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,117 B)
-- `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,507 B)
+- `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 15,996 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-19, 13,507 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-19, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-19, 8,970 B)
+- `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,507 B)
 - `PHASE_5_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 11,681 B)
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-19, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-19, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 15,485 B)
 - `PHASE_2_IMPLEMENTATION_GUIDE.md` (2026-08-19, 8,733 B)
 - `PHASE_2_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 12,152 B)
-- `PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md` (2026-08-19, 17,400 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN.md` (2026-08-19, 6,986 B)
 - `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-19, 6,986 B)
 - `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-19, 5,374 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT.md` (2026-08-19, 17,400 B)
+- `PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md` (2026-08-19, 17,400 B)
 - `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-19, 22,315 B)
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-19, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-19, 8,022 B)
+- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-19, 5,500 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 14,785 B)
-- `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-19, 5,500 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (2026-08-19, 23,919 B)
 - `NEXT_PHASE_IMPLEMENTATION_PLAN_5865.md` (2026-08-19, 23,919 B)
+- `IMPLEMENTATION_SUMMARY.md` (2026-08-19, 5,981 B)
+- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-19, 10,344 B)
 - `IMPORTERS_IMPLEMENTATION_STATUS_2026-08-15.md` (2026-08-19, 14,353 B)
 - `IMPLEMENTATION_ACTIONS_COMPLETED.md` (2026-08-19, 6,764 B)
 - `IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-19, 15,814 B)
 - `IMPLEMENTATION_PLAN_8_ITEMS_2026-05-25.md` (2026-08-19, 1,274 B)
 - `IMPLEMENTATION_ROADMAP.md` (2026-08-19, 14,252 B)
 - `IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-19, 9,018 B)
-- `IMPLEMENTATION_SUMMARY.md` (2026-08-19, 5,981 B)
-- `IMPLEMENTATION_SUMMARY_v1_6_0.md` (2026-08-19, 10,344 B)
 - `GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md` (2026-08-19, 11,147 B)
 - `GEO_EXTERNALIZATION_IMPLEMENTATION_SUMMARY_2026_08_10.md` (2026-08-19, 12,862 B)
 - `GEO_PLACEMENT_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 11,667 B)
 - `FP_DETECTION_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 11,430 B)
 - `COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-19, 16,526 B)
-- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 10,517 B)
 - `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-19, 16,162 B)
+- `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 10,517 B)
 - `AUDIT_INTEGRITY_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 10,390 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 10,935 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-19, 17,764 B)
@@ -1880,201 +1880,6 @@ grep -c "Q4 2026" CHANGELOG.md
 
 ---
 
-### THREAD_SAFETY_IMPLEMENTATION_REPORT.md
-
-# Thread-Safety Fixes Implementation Report - LLM Module
-
-## Date: 2026-08-17
-
-## Overview
-Fixed thread-safety and data-race gaps in the LLM module per MODULE_GAPS.md specifications. 
-Addressed 11 data races, 2 missing sync issues, and related circular lock ordering and deadlock risks.
-
----
-
-## Fixes Implemented
-
-### 1. AsyncInferenceEngine (async_inference_engine.cpp/h)
-
-#### Issue: `engine_start_time_` Data Race
-- **Problem**: Line 649 reads `engine_start_time_` without synchronization in public const method `getWorkerStats()`
-- **Impact**: Data race - concurrent access from timeout monitor thread and stats query thread
-- **Fix**: 
-  - Added `mutable std::mutex stats_time_mutex_` to header (line 387)
-  - Protected all reads of `engine_start_time_` with `stats_time_mutex_` lock
-  - Updated `getWorkerStats()` to acquire lock before accessing (lines 625-631)
-
-#### Issue: Constructor Race on `active_plugin_`
-- **Problem**: Assignment of `active_plugin_` without explicit lock in constructors (lines 37, 69, 105, 133)
-- **Impact**: While safe in practice (constructor runs before threads), inconsistent with lock semantics
-- **Fix**:
-  - Added explicit `std::lock_guard<std::shared_mutex> lock(plugin_mutex_)` around all `active_plugin_` assignments
-  - Applies to all 4 constructors (lines 28-160)
-  - Establishes clear happens-before relationship for first worker thread access
-
-#### Issue: Lock Ordering Documentation
-- **Problem**: 108 circular_lock_ordering findings - no documented lock ordering invariants
-- **Fix**:
-  - Added comprehensive LOCK ORDERING INVARIANTS documentation in header (lines 318-336)
-  - Defined canonical lock acquisition order:
-    1. plugin_mutex_ (R/W lock for hot-swap)
-    2. queue_mutex_ (protects request_queue_)
-    3. tracking_mutex_ (protects active_requests_)
-    4. latency_mutex_ (protects latency_samples_)
-    5. cache_meta_mutex_ (protects cache metadata)
-    6. policy_mutex_ (protects prompt_policy_)
-    7. stats_time_mutex_ (protects engine_start_time_)
-  - Prevents deadlock by enforcing strict lock ordering across module
-
----
-
-### 2. LLMPluginManager (llm_plugin_manager.cpp/h)
-
-#### Issue: VRAM Allocator Race Condition
-- **Problem**: `vram_allocator_.registerExternal()` called without lock in `loadModel()` (line 397)
-  - Followed by `vram_handles_[model_id]` assignment under mutex
-  - Race condition between allocation and handle storage
-- **Impact**: Data race - concurrent access with `unloadModel()` or `getHealthStatus()`
-- **Fix**:
-  - Added `mutable std::mutex vram_mutex_` to header (line 438)
-  - All vram_allocator_ operations now protected by vram_mutex_
-  - Updated `loadModel()` to acquire vram_mutex_ before registerExternal() (lines 397-401)
-  - Updated `unloadModel()` to use vram_mutex_ instead of generic mutex_ (lines 410-421)
-
-#### Issue: Unprotected VRAM Stats Access
-- **Problem**: `getHealthStatus()` and `getVRAMStats()` call `vram_allocator_.getStats()` without synchronization
-- **Impact**: Race with concurrent loadModel/unloadModel modifications
-- **Fix**:
-  - Protected `getHealthStatus()` VRAM stat reading with vram_mutex_ (lines 589-598)
-  - Protected `getVRAMStats()` with vram_mutex_ (lines 603-606)
-  - Used lambda pattern for minimal critical section
-
----
-
-### 3. ActiveVRAMAllocator (active_vram_allocator.cpp/h)
-
-#### Issue: Inconsistent Atomic Operations
-- **Problem**: `next_id_` uses atomic operations inconsistently with memory ordering
-- **Status**: Already uses `std::memory_order_relaxed` correctly for monotonic counter
-- **Verification**: All `next_id_.fetch_add()` calls use consistent memory ordering
-
-#### Issue: Stats Protection
-- **Status**: `stats_` properly protected by `mu_` mutex in all public accessors
-- **Verification**: `getStats()` method holds mu_ during read (line 408)
-
----
-
-## Summary of Changes
-
-### Files Modified
-
-1. **include/llm/async_inference_engine.h**
-   - Added `stats_time_mutex_` member (line 387)
-   - Added LOCK ORDERING INVARIANTS documentation (lines 318-336)
-
-2. **src/llm/async_inference_engine.cpp**
-   - Fixed `getWorkerStats()` to protect `engine_start_time_` read (lines 625-631)
-   - Fixed all 4 constructors to use explicit plugin_mutex_ locks (lines 28-160)
-
-3. **include/llm/llm_plugin_manager.h**
-   - Added `vram_mutex_` member (line 438)
-   - Added documentation for VRAM synchronization (lines 437-439)
-
-4. **src/llm/llm_plugin_manager.cpp**
-   - Fixed `loadModel()` VRAM registration (lines 397-401)
-   - Fixed `unloadModel()` VRAM deregistration (lines 410-421)
-   - Fixed `getHealthStatus()` VRAM stats access (lines 589-598)
-   - Fixed `getVRAMStats()` VRAM stats access (lines 603-606)
-
----
-
-## Thread-Safety Guarantees After Fixes
-
-### AsyncInferenceEngine
-✅ No data races on `engine_start_time_` - protected by stats_time_mutex_
-✅ Consistent lock ordering prevents circular waits
-✅ Plugin hot-swap is thread-safe with shared_mutex
-✅ Request queue operations protected by queue_mutex_
-✅ Active request tracking protected by tracking_mutex_
-✅ Statistics use atomic<> with consistent memory ordering
-
-### LLMPluginManager
-✅ VRAM allocator operations atomically protected by vram_mutex_
-✅ No races between loadModel/unloadModel/getHealthStatus
-✅ Adapter publisher access protected by mutex_
-✅ Plugin registry protected by mutex_
-
-### ActiveVRAMAllocator
-✅ Stats protected by mu_ in all public methods
-✅ Atomic operations use consistent memory ordering
-✅ Handle allocation/deallocation properly synchronized
-
----
-
-## Verification Strategy
-
-### Phase 1: Compilation
-- All changes follow RAII pattern with std::lock_guard/std::unique_lock
-- No manual lock/unlock calls
-- Compatible with modern C++20 standards
-
-### Phase 2: Static Analysis
-- ThreadSanitizer (develop-tsan preset) can detect remaining races
-- Code review for lock ordering violations
-
-### Phase 3: Runtime Testing
-- Stress tests with concurrent model load/unload
-- Concurrent inference and VRAM pressure monitoring
-- Deadline-based timeout verification
-
----
-
-## Lock Ordering Enforcement
-
-The following functions MUST follow the canonical lock order or acquire only one lock:
-
-**Functions with multiple locks:**
-- `AsyncInferenceEngine::submit()` - queue_mutex_ then tracking_mutex_
-- `AsyncInferenceEngine::processRequest()` - plugin_mutex_ (shared), then cache operations
-- `AsyncInferenceEngine::timeoutMonitorLoop()` - queue_mutex_, tracking_mutex_
-- `LLMPluginManager::loadModel()` - mutex_, then vram_mutex_
-- `LLMPluginManager::unloadModel()` - vram_mutex_, then mutex_ (NO DEADLOCK due to lock order)
-
-**Never acquire in reverse order:**
-- Lock 7 then Lock 1 = DEADLOCK
-- Lock 4 then Lock 2 = DEADLOCK
-
----
-
-## Future Considerations
-
-1. **Lock Contention Reduction** (15 instances of high contention)
-   - Consider read-write locks for frequently-read stats
-   - Implement lock-free data structures for counters
-
-2. **Deadlock Prevention Testing**
-   - Add chaos-monkey style tests that alternate lock orders
-   - ThreadSanitizer deadlock detection enabled
-
-3. **Performance Profiling**
-   - Profile lock hold times under high concurrency
-   - Consider splitting latency_samples_ into per-thread storage
-
----
-
-## Compliance Status
-
-✅ Data races: 11 occurrences addressed
-✅ Missing sync: 2 occurrences addressed  
-✅ Circular lock ordering: 108 occurrences documented with invariants
-✅ Lock contention: 15 occurrences identified for optimization
-✅ Deadlock risk: 11 occurrences mitigated with lock ordering
-✅ Primitive no volatile: 22 occurrences - using atomic<> where needed
-
-All fixes follow RAII principles and modern C++ threading best practices.
-
----
-
 ### TIER1_IMPLEMENTATION_GUIDE.md
 
 # Tier 1 Hardening Implementation Guide (2026-08-02)
@@ -2343,6 +2148,251 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 
 ---
 
+### THREAD_SAFETY_IMPLEMENTATION_REPORT.md
+
+# Thread-Safety Fixes Implementation Report - LLM Module
+
+## Date: 2026-08-17
+
+## Overview
+Fixed thread-safety and data-race gaps in the LLM module per MODULE_GAPS.md specifications. 
+Addressed 11 data races, 2 missing sync issues, and related circular lock ordering and deadlock risks.
+
+---
+
+## Fixes Implemented
+
+### 1. AsyncInferenceEngine (async_inference_engine.cpp/h)
+
+#### Issue: `engine_start_time_` Data Race
+- **Problem**: Line 649 reads `engine_start_time_` without synchronization in public const method `getWorkerStats()`
+- **Impact**: Data race - concurrent access from timeout monitor thread and stats query thread
+- **Fix**: 
+  - Added `mutable std::mutex stats_time_mutex_` to header (line 387)
+  - Protected all reads of `engine_start_time_` with `stats_time_mutex_` lock
+  - Updated `getWorkerStats()` to acquire lock before accessing (lines 625-631)
+
+#### Issue: Constructor Race on `active_plugin_`
+- **Problem**: Assignment of `active_plugin_` without explicit lock in constructors (lines 37, 69, 105, 133)
+- **Impact**: While safe in practice (constructor runs before threads), inconsistent with lock semantics
+- **Fix**:
+  - Added explicit `std::lock_guard<std::shared_mutex> lock(plugin_mutex_)` around all `active_plugin_` assignments
+  - Applies to all 4 constructors (lines 28-160)
+  - Establishes clear happens-before relationship for first worker thread access
+
+#### Issue: Lock Ordering Documentation
+- **Problem**: 108 circular_lock_ordering findings - no documented lock ordering invariants
+- **Fix**:
+  - Added comprehensive LOCK ORDERING INVARIANTS documentation in header (lines 318-336)
+  - Defined canonical lock acquisition order:
+    1. plugin_mutex_ (R/W lock for hot-swap)
+    2. queue_mutex_ (protects request_queue_)
+    3. tracking_mutex_ (protects active_requests_)
+    4. latency_mutex_ (protects latency_samples_)
+    5. cache_meta_mutex_ (protects cache metadata)
+    6. policy_mutex_ (protects prompt_policy_)
+    7. stats_time_mutex_ (protects engine_start_time_)
+  - Prevents deadlock by enforcing strict lock ordering across module
+
+---
+
+### 2. LLMPluginManager (llm_plugin_manager.cpp/h)
+
+#### Issue: VRAM Allocator Race Condition
+- **Problem**: `vram_allocator_.registerExternal()` called without lock in `loadModel()` (line 397)
+  - Followed by `vram_handles_[model_id]` assignment under mutex
+  - Race condition between allocation and handle storage
+- **Impact**: Data race - concurrent access with `unloadModel()` or `getHealthStatus()`
+- **Fix**:
+  - Added `mutable std::mutex vram_mutex_` to header (line 438)
+  - All vram_allocator_ operations now protected by vram_mutex_
+  - Updated `loadModel()` to acquire vram_mutex_ before registerExternal() (lines 397-401)
+  - Updated `unloadModel()` to use vram_mutex_ instead of generic mutex_ (lines 410-421)
+
+#### Issue: Unprotected VRAM Stats Access
+- **Problem**: `getHealthStatus()` and `getVRAMStats()` call `vram_allocator_.getStats()` without synchronization
+- **Impact**: Race with concurrent loadModel/unloadModel modifications
+- **Fix**:
+  - Protected `getHealthStatus()` VRAM stat reading with vram_mutex_ (lines 589-598)
+  - Protected `getVRAMStats()` with vram_mutex_ (lines 603-606)
+  - Used lambda pattern for minimal critical section
+
+---
+
+### 3. ActiveVRAMAllocator (active_vram_allocator.cpp/h)
+
+#### Issue: Inconsistent Atomic Operations
+- **Problem**: `next_id_` uses atomic operations inconsistently with memory ordering
+- **Status**: Already uses `std::memory_order_relaxed` correctly for monotonic counter
+- **Verification**: All `next_id_.fetch_add()` calls use consistent memory ordering
+
+#### Issue: Stats Protection
+- **Status**: `stats_` properly protected by `mu_` mutex in all public accessors
+- **Verification**: `getStats()` method holds mu_ during read (line 408)
+
+---
+
+## Summary of Changes
+
+### Files Modified
+
+1. **include/llm/async_inference_engine.h**
+   - Added `stats_time_mutex_` member (line 387)
+   - Added LOCK ORDERING INVARIANTS documentation (lines 318-336)
+
+2. **src/llm/async_inference_engine.cpp**
+   - Fixed `getWorkerStats()` to protect `engine_start_time_` read (lines 625-631)
+   - Fixed all 4 constructors to use explicit plugin_mutex_ locks (lines 28-160)
+
+3. **include/llm/llm_plugin_manager.h**
+   - Added `vram_mutex_` member (line 438)
+   - Added documentation for VRAM synchronization (lines 437-439)
+
+4. **src/llm/llm_plugin_manager.cpp**
+   - Fixed `loadModel()` VRAM registration (lines 397-401)
+   - Fixed `unloadModel()` VRAM deregistration (lines 410-421)
+   - Fixed `getHealthStatus()` VRAM stats access (lines 589-598)
+   - Fixed `getVRAMStats()` VRAM stats access (lines 603-606)
+
+---
+
+## Thread-Safety Guarantees After Fixes
+
+### AsyncInferenceEngine
+✅ No data races on `engine_start_time_` - protected by stats_time_mutex_
+✅ Consistent lock ordering prevents circular waits
+✅ Plugin hot-swap is thread-safe with shared_mutex
+✅ Request queue operations protected by queue_mutex_
+✅ Active request tracking protected by tracking_mutex_
+✅ Statistics use atomic<> with consistent memory ordering
+
+### LLMPluginManager
+✅ VRAM allocator operations atomically protected by vram_mutex_
+✅ No races between loadModel/unloadModel/getHealthStatus
+✅ Adapter publisher access protected by mutex_
+✅ Plugin registry protected by mutex_
+
+### ActiveVRAMAllocator
+✅ Stats protected by mu_ in all public methods
+✅ Atomic operations use consistent memory ordering
+✅ Handle allocation/deallocation properly synchronized
+
+---
+
+## Verification Strategy
+
+### Phase 1: Compilation
+- All changes follow RAII pattern with std::lock_guard/std::unique_lock
+- No manual lock/unlock calls
+- Compatible with modern C++20 standards
+
+### Phase 2: Static Analysis
+- ThreadSanitizer (develop-tsan preset) can detect remaining races
+- Code review for lock ordering violations
+
+### Phase 3: Runtime Testing
+- Stress tests with concurrent model load/unload
+- Concurrent inference and VRAM pressure monitoring
+- Deadline-based timeout verification
+
+---
+
+## Lock Ordering Enforcement
+
+The following functions MUST follow the canonical lock order or acquire only one lock:
+
+**Functions with multiple locks:**
+- `AsyncInferenceEngine::submit()` - queue_mutex_ then tracking_mutex_
+- `AsyncInferenceEngine::processRequest()` - plugin_mutex_ (shared), then cache operations
+- `AsyncInferenceEngine::timeoutMonitorLoop()` - queue_mutex_, tracking_mutex_
+- `LLMPluginManager::loadModel()` - mutex_, then vram_mutex_
+- `LLMPluginManager::unloadModel()` - vram_mutex_, then mutex_ (NO DEADLOCK due to lock order)
+
+**Never acquire in reverse order:**
+- Lock 7 then Lock 1 = DEADLOCK
+- Lock 4 then Lock 2 = DEADLOCK
+
+---
+
+## Future Considerations
+
+1. **Lock Contention Reduction** (15 instances of high contention)
+   - Consider read-write locks for frequently-read stats
+   - Implement lock-free data structures for counters
+
+2. **Deadlock Prevention Testing**
+   - Add chaos-monkey style tests that alternate lock orders
+   - ThreadSanitizer deadlock detection enabled
+
+3. **Performance Profiling**
+   - Profile lock hold times under high concurrency
+   - Consider splitting latency_samples_ into per-thread storage
+
+---
+
+## Compliance Status
+
+✅ Data races: 11 occurrences addressed
+✅ Missing sync: 2 occurrences addressed  
+✅ Circular lock ordering: 108 occurrences documented with invariants
+✅ Lock contention: 15 occurrences identified for optimization
+✅ Deadlock risk: 11 occurrences mitigated with lock ordering
+✅ Primitive no volatile: 22 occurrences - using atomic<> where needed
+
+All fixes follow RAII principles and modern C++ threading best practices.
+
+---
+
+### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Tensor Module Complete Implementation - Master Plan & Status
+**Date Initiated**: 2026-08-07
+**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
+**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
+**Total Effort**: ~750-900 engineer-hours
+**Agent Count**: 9 specialized sub-agents (3 per stream)
+---
+## Executive Summary
+**Key Characteristics**:
+- ✅ Parallel sub-agent execution (3 agents per stream)
+- ✅ Weekly merge & integration checkpoints
+- ✅ Clear deliverables and success criteria per block
+- ✅ Risk mitigation strategies documented
+- ✅ Backward compatible within major release line
+- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
+---
+## Master Timeline & Milestones
+August 2026          September 2026      October 2026        November 2026       January 2027
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
+│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
+│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
+│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
+│ Exec             │                  │                  │  (48-72h runs)    │              │
+│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
+### Detailed Milestones
+**Week 1-3 (Aug 7-27): Stream A Active Execution**
+- A1: Index/bridge concurrent hardening tests implemented
+- A2: Unified diagnostics architecture designed
+- A3: Baseline benchmark measurements collected
+**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
+- All A1/A2/A3 blocks complete and validated
+- Pull request created for Stream A: feature/tensor-q3-hardening
+- Merge to develop: Aug 30-31
+**Week 4 (Sept 1): Stream B Launch**
+- Edge case scenario inventory (B1) compiled
+- Stress test design (B2) finalized
+- P95/P99 measurement protocol (B3) prepared
+**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
+- B1: Edge case handling implemented, 20-30 tests
+- B2: Stress suite designed and parametrized
+- B3: CI measurement runs scheduled
+**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
+
+---
+
 ### T2.3_IMPLEMENTATION_VERIFICATION.md
 
 # Phase 2 T2.3 Implementation Verification Report
@@ -2526,56 +2576,6 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 **Status:** ✅ All Phase 2 T2.3 acceptance criteria met and verified
-
----
-
-### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Tensor Module Complete Implementation - Master Plan & Status
-**Date Initiated**: 2026-08-07
-**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
-**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
-**Total Effort**: ~750-900 engineer-hours
-**Agent Count**: 9 specialized sub-agents (3 per stream)
----
-## Executive Summary
-**Key Characteristics**:
-- ✅ Parallel sub-agent execution (3 agents per stream)
-- ✅ Weekly merge & integration checkpoints
-- ✅ Clear deliverables and success criteria per block
-- ✅ Risk mitigation strategies documented
-- ✅ Backward compatible within major release line
-- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
----
-## Master Timeline & Milestones
-August 2026          September 2026      October 2026        November 2026       January 2027
-┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
-│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
-│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
-│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
-│ Exec             │                  │                  │  (48-72h runs)    │              │
-│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
-└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
-### Detailed Milestones
-**Week 1-3 (Aug 7-27): Stream A Active Execution**
-- A1: Index/bridge concurrent hardening tests implemented
-- A2: Unified diagnostics architecture designed
-- A3: Baseline benchmark measurements collected
-**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
-- All A1/A2/A3 blocks complete and validated
-- Pull request created for Stream A: feature/tensor-q3-hardening
-- Merge to develop: Aug 30-31
-**Week 4 (Sept 1): Stream B Launch**
-- Edge case scenario inventory (B1) compiled
-- Stress test design (B2) finalized
-- P95/P99 measurement protocol (B3) prepared
-**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
-- B1: Edge case handling implemented, 20-30 tests
-- B2: Stress suite designed and parametrized
-- B3: CI measurement runs scheduled
-**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
 
 ---
 
@@ -4085,63 +4085,6 @@ ConflictType conflict_type;
 
 ---
 
-### PHASE_A_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Phase A Implementation Summary (Q3 2026)
-## Status: ✅ IMPLEMENTATION COMPLETE
-**Date:** 2026-08-08
-**Scope:** Updates Module Comprehensive Hardening Plan - Phase A (Weeks 1-4)
-**Priority:** Items 1-2 Complete, Item 3 Benchmark Gates Designed
----
-## DELIVERABLES
-### Item 1: Rollback Hardening ✅ COMPLETE
-#### Modified Files (2)
-- **`include/updates/update_state_machine.h`**
-- Added `RollbackFallbackStrategy` enum with 3 strategies: IMMEDIATE_ABORT, PARTIAL_CONTINUE, DEFER
-- Added `RollbackCallback` type for post-rollback notification
-- Added 6 new public methods:
-- `setRollbackCallback()` - Register rollback completion callback
-- `rollbackToLatestCheckpoint()` - Partial rollback to latest checkpoint
-- `rollbackToCheckpointWithFallback()` - Rollback with failure handling strategy
-- `checkpointCount()` - Query checkpoint count
-- `hasPendingRollback()` - Check for deferred rollbacks
-- `emitRollbackDiagnostic()` - Emit diagnostic on rollback attempt (ERROR level)
-- Added private members for fallback strategy tracking and deferred rollback queue
-- **`src/updates/update_state_machine.cpp`**
-- Implemented all 6 new rollback methods
-- `setRollbackCallback()`: Stores callback for invocation
-- `rollbackToLatestCheckpoint()`: Finds and rolls back to most recent checkpoint
-- `rollbackToCheckpointWithFallback()`: Implements 3 fallback strategies:
-- IMMEDIATE_ABORT: Fail-fast, return false
-- PARTIAL_CONTINUE: Log but continue, return true (optimistic)
-- DEFER: Queue for retry, return false, set `has_pending_rollback_` flag
-- `checkpointCount()`: Returns checkpoint vector size
-- `hasPendingRollback()`: Returns whether deferred_rollbacks_ is non-empty
-- `emitRollbackDiagnostic()`: Logs at WARN (success) or ERROR (failure) level; invokes callback
-#### Modified Files (2)
-- **`include/updates/coordinated_update_manager.h`**
-- Added 5 new public methods for coordinated rollback:
-- `coordinatedRollback()` - Reverse-sequence rollback (leader first, then replicas)
-- `coordinatedRollbackWithIsolation()` - Per-node isolation on failure (no cascade)
-- `hasIsolatedNodes()` - Check if any nodes are isolated
-- `isolatedNodeCount()` - Get count of isolated nodes
-- Added 2 private helper methods:
-- `performNodeRollback()` - Rollback a single node (local or remote)
-- `isolateNode()` - Mark node as failed and isolated
-- Added private member `std::vector<std::string> isolated_nodes_` to track failures
-- **`src/updates/coordinated_update_manager.cpp`**
-- Implemented coordinated rollback methods
-- `performNodeRollback()`: Calls local HotReloadEngine::rollback or mocks remote
-- `isolateNode()`: Marks node status FAILED, adds to isolated_nodes_ list
-- `coordinatedRollback()`: Iterates nodes in reverse sequence (leader first), stops on any failure
-- `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
-- Returns CoordinatedUpdateResult with per-node statuses and aggregate success
-#### Test Files (1)
-
----
-
 ### PHASE_A_IMPLEMENTATION_SUMMARY_1475.md
 
 *(file too large — key headings extracted)*
@@ -4252,54 +4195,60 @@ ConflictType conflict_type;
 
 ---
 
-### PHASE_A1_IMPLEMENTATION_SUMMARY.md
+### PHASE_A_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
-**Date**: 2026-08-08
-**Status**: Implementation Complete for Regex Detection Engine
-**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+# Phase A Implementation Summary (Q3 2026)
+## Status: ✅ IMPLEMENTATION COMPLETE
+**Date:** 2026-08-08
+**Scope:** Updates Module Comprehensive Hardening Plan - Phase A (Weeks 1-4)
+**Priority:** Items 1-2 Complete, Item 3 Benchmark Gates Designed
 ---
-## Change Summary
-### Overview
-Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
-1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
-2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
-3. **Explicit Error Handling**: Clear error states instead of silent failures
----
-## Files Modified
-### 1. Test Infrastructure
-#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
-- **Lines**: 328 total
-- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
-- **Tests Implemented**:
-- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
-- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
-- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
-- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
-- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
-- `PH-06`: Saga logger concurrent write safety (10+ threads)
-- `PH-07`: Audit logger timeout and cancellation (graceful stop)
-- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
-**Key Features**:
-class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
-// Each test includes:
-// 1. Clear scenario description
-// 2. Documented input/expected output
-// 3. Multiple edge cases per scenario
-// 4. No silent failures (explicit assertions)
-// 5. Helper methods for test data generation
-};
-#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
-- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
-- **Scope**: `PrivacyAuditHardeningFocusedTests`
-- **Timeout**: 60 seconds
-- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
----
-### 2. Regex Detection Engine Hardening
-#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
-- **Added Methods** (all [[nodiscard]] per best practices):
+## DELIVERABLES
+### Item 1: Rollback Hardening ✅ COMPLETE
+#### Modified Files (2)
+- **`include/updates/update_state_machine.h`**
+- Added `RollbackFallbackStrategy` enum with 3 strategies: IMMEDIATE_ABORT, PARTIAL_CONTINUE, DEFER
+- Added `RollbackCallback` type for post-rollback notification
+- Added 6 new public methods:
+- `setRollbackCallback()` - Register rollback completion callback
+- `rollbackToLatestCheckpoint()` - Partial rollback to latest checkpoint
+- `rollbackToCheckpointWithFallback()` - Rollback with failure handling strategy
+- `checkpointCount()` - Query checkpoint count
+- `hasPendingRollback()` - Check for deferred rollbacks
+- `emitRollbackDiagnostic()` - Emit diagnostic on rollback attempt (ERROR level)
+- Added private members for fallback strategy tracking and deferred rollback queue
+- **`src/updates/update_state_machine.cpp`**
+- Implemented all 6 new rollback methods
+- `setRollbackCallback()`: Stores callback for invocation
+- `rollbackToLatestCheckpoint()`: Finds and rolls back to most recent checkpoint
+- `rollbackToCheckpointWithFallback()`: Implements 3 fallback strategies:
+- IMMEDIATE_ABORT: Fail-fast, return false
+- PARTIAL_CONTINUE: Log but continue, return true (optimistic)
+- DEFER: Queue for retry, return false, set `has_pending_rollback_` flag
+- `checkpointCount()`: Returns checkpoint vector size
+- `hasPendingRollback()`: Returns whether deferred_rollbacks_ is non-empty
+- `emitRollbackDiagnostic()`: Logs at WARN (success) or ERROR (failure) level; invokes callback
+#### Modified Files (2)
+- **`include/updates/coordinated_update_manager.h`**
+- Added 5 new public methods for coordinated rollback:
+- `coordinatedRollback()` - Reverse-sequence rollback (leader first, then replicas)
+- `coordinatedRollbackWithIsolation()` - Per-node isolation on failure (no cascade)
+- `hasIsolatedNodes()` - Check if any nodes are isolated
+- `isolatedNodeCount()` - Get count of isolated nodes
+- Added 2 private helper methods:
+- `performNodeRollback()` - Rollback a single node (local or remote)
+- `isolateNode()` - Mark node as failed and isolated
+- Added private member `std::vector<std::string> isolated_nodes_` to track failures
+- **`src/updates/coordinated_update_manager.cpp`**
+- Implemented coordinated rollback methods
+- `performNodeRollback()`: Calls local HotReloadEngine::rollback or mocks remote
+- `isolateNode()`: Marks node status FAILED, adds to isolated_nodes_ list
+- `coordinatedRollback()`: Iterates nodes in reverse sequence (leader first), stops on any failure
+- `coordinatedRollbackWithIsolation()`: Same reverse order but isolates failed nodes and continues
+- Returns CoordinatedUpdateResult with per-node statuses and aggregate success
+#### Test Files (1)
 
 ---
 
@@ -4683,6 +4632,57 @@ ctest -R "PH0[18]_" -V --output-on-failure
 
 ---
 
+### PHASE_A1_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
+**Date**: 2026-08-08
+**Status**: Implementation Complete for Regex Detection Engine
+**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+---
+## Change Summary
+### Overview
+Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
+1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
+2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
+3. **Explicit Error Handling**: Clear error states instead of silent failures
+---
+## Files Modified
+### 1. Test Infrastructure
+#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
+- **Lines**: 328 total
+- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
+- **Tests Implemented**:
+- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
+- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
+- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
+- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
+- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
+- `PH-06`: Saga logger concurrent write safety (10+ threads)
+- `PH-07`: Audit logger timeout and cancellation (graceful stop)
+- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
+**Key Features**:
+class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
+// Each test includes:
+// 1. Clear scenario description
+// 2. Documented input/expected output
+// 3. Multiple edge cases per scenario
+// 4. No silent failures (explicit assertions)
+// 5. Helper methods for test data generation
+};
+#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
+- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
+- **Scope**: `PrivacyAuditHardeningFocusedTests`
+- **Timeout**: 60 seconds
+- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+---
+### 2. Regex Detection Engine Hardening
+#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
+- **Added Methods** (all [[nodiscard]] per best practices):
+
+---
+
 ### PHASE_5_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -4984,54 +4984,6 @@ election_term = ++current_term_;  // ✅ INSIDE LOCK
 
 ---
 
-### PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md
-
-*(file too large — key headings extracted)*
-
-# Phase 2-3 Implementation: Key Code Changes Summary
-**Date:** 2026-08-08
-**Status:** Implementation Blueprint Ready
-## Summary of Deliverables
----
-## Component 1: Error Codes & Diagnostic Framework ✅
-### Files Created:
-1. **include/user_storage_encrypted/error_codes.hpp** ✅
-- 32 explicit error codes (ErrorCode enum, 1xxx-5xxx categories)
-- DiagnosticEvent struct with JSON serialization
-- Global handler registration API
-- Status: COMPLETE
-2. **include/user_storage_encrypted/command_timeout_manager.hpp** ✅
-- Timeout tracking via std::chrono::steady_clock
-- Graceful process termination (SIGTERM → SIGKILL)
-- Resource cleanup guarantees
-- Status: COMPLETE
-3. **src/user_storage_encrypted/diagnostic_events.cpp** ✅
-- DiagnosticEvent::toJsonString() implementation
-- Global event handler dispatch
-- Default spdlog integration
-- Status: COMPLETE
-### Build Integration ✅
-- **src/user_storage_encrypted/CMakeLists.txt** - Updated to include diagnostic_events.cpp
-### Lines of Code:
-- error_codes.hpp: 202 lines
-- command_timeout_manager.hpp: 110 lines
-- diagnostic_events.cpp: 101 lines
-- **Total: 413 lines of new foundation code**
----
-## Component 2: GoCryptFS Backend Hardening
-### File: src/user_storage_encrypted/gocryptfs_backend.cpp
-#### 2.1A: Include Updates ✅ (Lines 21-41)
-**Status:** COMPLETE
-#include "gocryptfs_backend.hpp"
-#include "timed_file_operation.hpp"
-#include "pipe_guard.hpp"
-#include "error_codes.hpp"                    // NEW
-#include "command_timeout_manager.hpp"        // NEW
-#include <spdlog/spdlog.h>                     // NEW
-// ... rest of includes
-
----
-
 ### PHASE_2_3_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
@@ -5239,6 +5191,54 @@ election_term = ++current_term_;  // ✅ INSIDE LOCK
 
 ---
 
+### PHASE_2_3_IMPLEMENTATION_BLUEPRINT_6398.md
+
+*(file too large — key headings extracted)*
+
+# Phase 2-3 Implementation: Key Code Changes Summary
+**Date:** 2026-08-08
+**Status:** Implementation Blueprint Ready
+## Summary of Deliverables
+---
+## Component 1: Error Codes & Diagnostic Framework ✅
+### Files Created:
+1. **include/user_storage_encrypted/error_codes.hpp** ✅
+- 32 explicit error codes (ErrorCode enum, 1xxx-5xxx categories)
+- DiagnosticEvent struct with JSON serialization
+- Global handler registration API
+- Status: COMPLETE
+2. **include/user_storage_encrypted/command_timeout_manager.hpp** ✅
+- Timeout tracking via std::chrono::steady_clock
+- Graceful process termination (SIGTERM → SIGKILL)
+- Resource cleanup guarantees
+- Status: COMPLETE
+3. **src/user_storage_encrypted/diagnostic_events.cpp** ✅
+- DiagnosticEvent::toJsonString() implementation
+- Global event handler dispatch
+- Default spdlog integration
+- Status: COMPLETE
+### Build Integration ✅
+- **src/user_storage_encrypted/CMakeLists.txt** - Updated to include diagnostic_events.cpp
+### Lines of Code:
+- error_codes.hpp: 202 lines
+- command_timeout_manager.hpp: 110 lines
+- diagnostic_events.cpp: 101 lines
+- **Total: 413 lines of new foundation code**
+---
+## Component 2: GoCryptFS Backend Hardening
+### File: src/user_storage_encrypted/gocryptfs_backend.cpp
+#### 2.1A: Include Updates ✅ (Lines 21-41)
+**Status:** COMPLETE
+#include "gocryptfs_backend.hpp"
+#include "timed_file_operation.hpp"
+#include "pipe_guard.hpp"
+#include "error_codes.hpp"                    // NEW
+#include "command_timeout_manager.hpp"        // NEW
+#include <spdlog/spdlog.h>                     // NEW
+// ... rest of includes
+
+---
+
 ### PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md
 
 *(file too large — key headings extracted)*
@@ -5390,6 +5390,59 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 
 ---
 
+### P0_P1_P2_IMPLEMENTATION_STATUS.md
+
+*(file too large — key headings extracted)*
+
+# P0/P1/P2 Implementation Status Summary
+**Last Updated:** 2026-07-22T16:40:00Z
+## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
+### P0-D01: FA3 Kernel-Audit ✅
+- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
+- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
+- [x] Acceptance: P0-GATE-01 passed
+### P0-D02: NVFP4 Capability-Assessment ✅
+- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
+- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
+- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
+### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
+- [ ] Status: Needs completion
+- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
+- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
+### P0-D04: Baseline-Benchmark ⏳
+- [ ] Status: Needs completion
+- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
+- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
+---
+## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
+### P1-D01: `ISSMPlugin` Interface ✅
+- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
+- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
+- [x] SSMStateSnapshot struct with HLC binding
+- [ ] **GATE:** Needs human architect sign-off on:
+- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
+- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
+- [ ] Owner and migration path for Phase 2+ persistence
+### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
+- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
+- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
+### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
+- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
+### P1-D04: Infini-attention CPU-Fallback ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
+- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
+### P1-D05: Drift-Metriken ⏳
+- [ ] Status: Needs implementation
+- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
+- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
+
+---
+
 ### P2_D03_D04_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -5496,59 +5549,6 @@ The implementation hooks both components into production systems:
 
 ---
 
-### P0_P1_P2_IMPLEMENTATION_STATUS.md
-
-*(file too large — key headings extracted)*
-
-# P0/P1/P2 Implementation Status Summary
-**Last Updated:** 2026-07-22T16:40:00Z
-## Phase 0 (Q3/2026) - Voraussetzungen und Hygiene
-### P0-D01: FA3 Kernel-Audit ✅
-- [x] File: `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` (completed)
-- [x] Finding: SM90 path uses FP32 kernel, NOT FA3-specific primitives (no TMA/WGMMA)
-- [x] Acceptance: P0-GATE-01 passed
-### P0-D02: NVFP4 Capability-Assessment ✅
-- [x] File: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md` (completed)
-- [x] Finding: NVFP4 config groundwork in place, runtime quantization pending Phase 2
-- [x] Acceptance: P0-GATE-02 passed (positive assessment for P2 proceed)
-### P0-D03: GGUF/llama.cpp SSM-Ökosystem-Status ⏳
-- [ ] Status: Needs completion
-- [ ] File: `docs/architecture/ssm-gguf-mamba-status.md`
-- [ ] Deliverable: Model availability, llama_model_params flags, security/governance checks
-### P0-D04: Baseline-Benchmark ⏳
-- [ ] Status: Needs completion
-- [ ] File: `benchmarks/ssm_baseline/baseline_phase0.json`
-- [ ] Deliverable: Latency/VRAM/throughput for 512/2048/8192 token sequences
----
-## Phase 1 (Q3/2026) - POC — Plugin-Infrastruktur und State-Skeleton
-### P1-D01: `ISSMPlugin` Interface ✅
-- [x] File: `include/llm/i_ssm_plugin.h` (implemented)
-- [x] Interface extends `ILLMPlugin` with updateState/getStateSnapshot/restoreState/resetState
-- [x] SSMStateSnapshot struct with HLC binding
-- [ ] **GATE:** Needs human architect sign-off on:
-- [ ] SSMStateStore distribution strategy (replication vs shard_partitioned)
-- [ ] Failure semantics (fail-closed/fail-open) on cross-shard loss
-- [ ] Owner and migration path for Phase 2+ persistence
-### P1-D02: `SSMStateStore` Interface + In-Memory Implementation ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `include/llm/ssm_state_store.h` [PROPOSED]
-- [ ] Implementation: `src/llm/ssm_state_store.cpp` [PROPOSED]
-- [ ] Contract: checkpoint(), resume(), invalidate(), compact()
-### P1-D03: Synthetischer SSM-Stub-Plugin ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/ssm_stub_plugin.cpp` [PROPOSED]
-- [ ] Simulation: Fixed random state (Seed=42), THEMIS_SSM_STUB_MODE flag
-### P1-D04: Infini-attention CPU-Fallback ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/attention/infini_attention_cpu.cpp` [PROPOSED]
-- [ ] Backend::INFINI_COMPRESSIVE with CPU fallback
-### P1-D05: Drift-Metriken ⏳
-- [ ] Status: Needs implementation
-- [ ] File: `src/llm/grafana_metrics.cpp` (extend)
-- [ ] Metrics: themis_factual_drift_score, themis_ssm_state_checkpoints_total
-
----
-
 ### NEXT_PHASE_IMPLEMENTATION_PLAN.md
 
 *(file too large — key headings extracted)*
@@ -5636,6 +5636,106 @@ The implementation hooks both components into production systems:
 |---|---|---|
 | `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
 | `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
+
+---
+
+### IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Transaction Module Memory & RAII Safety Fixes - Implementation Summary
+**Date:** 2026-08-18
+**Status:** ✅ COMPLETE
+**Quality:** PRODUCTION-READY
+---
+## Overview
+---
+## Issues Resolved
+### Issue 1: saga_orchestrator_plugin.cpp:210 - new_without_raii
+- **Severity:** CRITICAL
+- **Problem:** Raw `new` without error handling
+- **Solution:** Added try-catch, null validation, error logging
+- **Result:** ✅ FIXED
+### Issue 2: saga_orchestrator_plugin.cpp:214 - delete_no_nullptr
+- **Severity:** CRITICAL
+- **Problem:** Raw `delete` without null check or exception safety
+- **Solution:** Added noexcept, null check, comprehensive exception handling
+- **Result:** ✅ FIXED
+### Issue 3: Module-Wide RAII Compliance
+- **Severity:** HIGH
+- **Finding:** All other transaction module files already using proper smart pointers
+- **Result:** ✅ NO ADDITIONAL ISSUES FOUND
+---
+## Files Modified
+### 1. `src/transaction/saga_plugin/saga_orchestrator_plugin.cpp`
+- **Lines:** 275 (was 217)
+- **Changes:**
+- Added spdlog include
+- Enhanced createPlugin() (1 → 29 lines)
+- Enhanced destroyPlugin() (1 → 35 lines)
+- Added comprehensive Doxygen documentation
+- **Status:** ✅ Exception-safe, production-ready
+### 2. `src/transaction/ARCHITECTURE.md`
+- **Lines:** 130 (was 99)
+- **Changes:**
+- Added Section 6.1: Memory Management & RAII Patterns
+- Documented core principles and applied patterns
+- Documented C plugin interface exception rationale
+- **Status:** ✅ Comprehensive guidance provided
+---
+## Key Improvements
+### Exception Safety
+✅ createPlugin() throws std::bad_alloc on allocation failure
+
+---
+
+### IMPLEMENTATION_SUMMARY_v1_6_0.md
+
+*(file too large — key headings extracted)*
+
+# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
+## 📋 Executive Summary
+**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
+**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
+---
+## 🎯 Deliverables
+### 1. Post-Generation AQL Validation with Injection Detection ✅
+**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
+**Features Implemented**:
+- AST-based structural validation via AQLQueryValidator
+- Configurable validation modes:
+- `WARN_ONLY`: Log validation errors as warnings (default)
+- `REJECT_ON_ERROR`: Throw exception on validation errors
+- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
+- Collection scope validation to prevent privilege escalation
+- ACL validation for access control
+- Retry logic with dynamic feedback for failed validations
+- Integration with existing security modules
+**Code Quality**:
+- Clean separation of concerns
+- Proper error handling with specific exception types
+- Well-documented with inline comments
+- Thread-safe implementation
+- Performance optimized with early returns
+**Security Impact**:
+- Prevents malformed AQL execution
+- Detects and rejects injection attempts
+- Enforces collection access boundaries
+- Fails securely with clear error messages
+---
+### 2. Thread Leak Elimination in LLMTimeoutManager ✅
+**Location**: `include/aql/llm_timeout_manager.h:87-225`
+**Implementation Details**:
+- Modern C++20 `std::jthread` with automatic RAII cleanup
+- Proper thread ownership transfer on timeout
+- Background cleanup thread ensures no leaked handles
+- Two execution modes:
+- `executeWithTimeout()`: Simple blocking timeout
+- `executeWithCancelToken()`: Cooperative cancellation
+**Key Improvements**:
+- Previous: Thread detach on timeout (potential leak)
+- Current: Background cleanup thread with proper join (no leak)
+- Documented implementation strategy with detailed comments
 
 ---
 
@@ -5916,106 +6016,6 @@ Updated `ai_working/00_START_HERE.md`:
 
 ---
 
-### IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Transaction Module Memory & RAII Safety Fixes - Implementation Summary
-**Date:** 2026-08-18
-**Status:** ✅ COMPLETE
-**Quality:** PRODUCTION-READY
----
-## Overview
----
-## Issues Resolved
-### Issue 1: saga_orchestrator_plugin.cpp:210 - new_without_raii
-- **Severity:** CRITICAL
-- **Problem:** Raw `new` without error handling
-- **Solution:** Added try-catch, null validation, error logging
-- **Result:** ✅ FIXED
-### Issue 2: saga_orchestrator_plugin.cpp:214 - delete_no_nullptr
-- **Severity:** CRITICAL
-- **Problem:** Raw `delete` without null check or exception safety
-- **Solution:** Added noexcept, null check, comprehensive exception handling
-- **Result:** ✅ FIXED
-### Issue 3: Module-Wide RAII Compliance
-- **Severity:** HIGH
-- **Finding:** All other transaction module files already using proper smart pointers
-- **Result:** ✅ NO ADDITIONAL ISSUES FOUND
----
-## Files Modified
-### 1. `src/transaction/saga_plugin/saga_orchestrator_plugin.cpp`
-- **Lines:** 275 (was 217)
-- **Changes:**
-- Added spdlog include
-- Enhanced createPlugin() (1 → 29 lines)
-- Enhanced destroyPlugin() (1 → 35 lines)
-- Added comprehensive Doxygen documentation
-- **Status:** ✅ Exception-safe, production-ready
-### 2. `src/transaction/ARCHITECTURE.md`
-- **Lines:** 130 (was 99)
-- **Changes:**
-- Added Section 6.1: Memory Management & RAII Patterns
-- Documented core principles and applied patterns
-- Documented C plugin interface exception rationale
-- **Status:** ✅ Comprehensive guidance provided
----
-## Key Improvements
-### Exception Safety
-✅ createPlugin() throws std::bad_alloc on allocation failure
-
----
-
-### IMPLEMENTATION_SUMMARY_v1_6_0.md
-
-*(file too large — key headings extracted)*
-
-# AQL Query Hardening & Enhancement (v1.6.0) - Implementation Summary
-## 📋 Executive Summary
-**Status**: ✅ **COMPLETE AND PRODUCTION-READY**
-**Commit**: 4ba0f1b307 - "feat(aql): AQL Query Hardening & Enhancement (v1.6.0)"
----
-## 🎯 Deliverables
-### 1. Post-Generation AQL Validation with Injection Detection ✅
-**Location**: `src/aql/llm_aql_handler.cpp:1488-1527`
-**Features Implemented**:
-- AST-based structural validation via AQLQueryValidator
-- Configurable validation modes:
-- `WARN_ONLY`: Log validation errors as warnings (default)
-- `REJECT_ON_ERROR`: Throw exception on validation errors
-- `RETRY_ON_ERROR`: Re-invoke LLM with error feedback
-- Collection scope validation to prevent privilege escalation
-- ACL validation for access control
-- Retry logic with dynamic feedback for failed validations
-- Integration with existing security modules
-**Code Quality**:
-- Clean separation of concerns
-- Proper error handling with specific exception types
-- Well-documented with inline comments
-- Thread-safe implementation
-- Performance optimized with early returns
-**Security Impact**:
-- Prevents malformed AQL execution
-- Detects and rejects injection attempts
-- Enforces collection access boundaries
-- Fails securely with clear error messages
----
-### 2. Thread Leak Elimination in LLMTimeoutManager ✅
-**Location**: `include/aql/llm_timeout_manager.h:87-225`
-**Implementation Details**:
-- Modern C++20 `std::jthread` with automatic RAII cleanup
-- Proper thread ownership transfer on timeout
-- Background cleanup thread ensures no leaked handles
-- Two execution modes:
-- `executeWithTimeout()`: Simple blocking timeout
-- `executeWithCancelToken()`: Cooperative cancellation
-**Key Improvements**:
-- Previous: Thread detach on timeout (potential leak)
-- Current: Background cleanup thread with proper join (no leak)
-- Documented implementation strategy with detailed comments
-
----
-
 ### GPU_PHASE_2_3_4_IMPLEMENTATION_GUIDE.md
 
 *(file too large — key headings extracted)*
@@ -6254,6 +6254,42 @@ AFTER ALL BATCHES (Target):
 
 ---
 
+### CMT-7504_IMPLEMENTATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# CMT-7504 Implementation Guide
+## Documentation Linkset Synchronization Remediation Steps
+**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
+**Target Completion:** 2026-08-31
+**Estimated Effort:** 2 hours (execution + testing)
+---
+## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
+### Step 1.1: Add Bidirectional Cross-Links
+#### A. Update Root README.md
+**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
+**Add this block:**
+### 🟠 Content Module Status Snapshot
+**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
+**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
+---
+#### B. Update Root ROADMAP.md
+**Location:** Immediately after the "## Current Status" section (around line 50)
+**Add this subsection:**
+## Content Module Status
+**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
+See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
+- Complete phase-by-phase status
+- Current in-progress work (hardening, benchmarking, diagnostics)
+- Planned features (3-6 months and 6-12 months targets)
+- Production readiness checklist
+**Key Milestones:**
+- Phase 1-5 Complete (core implementation, error handling, tests, performance)
+- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
+**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
+
+---
+
 ### CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
@@ -6301,42 +6337,6 @@ Example: attempt=0→0ms, attempt=1→150ms, attempt=2→225ms, attempt=3→337m
 - `src/chimera/batch_executor.cpp` (10 lines)
 **Features**:
 - `IBatchAdapter`: Mixin interface for queuing and flushing
-
----
-
-### CMT-7504_IMPLEMENTATION_GUIDE.md
-
-*(file too large — key headings extracted)*
-
-# CMT-7504 Implementation Guide
-## Documentation Linkset Synchronization Remediation Steps
-**Task:** Phase 5 Batch D — Documentation Linkset Synchronization
-**Target Completion:** 2026-08-31
-**Estimated Effort:** 2 hours (execution + testing)
----
-## PHASE 1: IMMEDIATE REMEDIATION (Priority 1 — Before Merging CMT-7504)
-### Step 1.1: Add Bidirectional Cross-Links
-#### A. Update Root README.md
-**Location:** After line 42 (after "ROADMAP.md for the full 66-module table.")
-**Add this block:**
-### 🟠 Content Module Status Snapshot
-**Status:** 🟡 **HARDENING** — Multi-format ingestion and processing runtime surfaces.
-**Verification:** Run `markdown-link-check README.md` to verify new links resolve.
----
-#### B. Update Root ROADMAP.md
-**Location:** Immediately after the "## Current Status" section (around line 50)
-**Add this subsection:**
-## Content Module Status
-**Current Status:** 🟡 **HARDENING** (Phase 1-6 in progress; Phase 6B/Batch 5 active)
-See [src/content/ROADMAP.md](src/content/ROADMAP.md) for:
-- Complete phase-by-phase status
-- Current in-progress work (hardening, benchmarking, diagnostics)
-- Planned features (3-6 months and 6-12 months targets)
-- Production readiness checklist
-**Key Milestones:**
-- Phase 1-5 Complete (core implementation, error handling, tests, performance)
-- Phase 6 In Progress (documentation and acceptance; Phase 6B/Batch 5 active)
-**Verification:** Run `markdown-link-check ROADMAP.md` to verify links.
 
 ---
 

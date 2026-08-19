@@ -21,6 +21,7 @@
 - `iterator_gaps_categorized.md` (2026-08-19, 14,787 B)
 - `high_gap_focus_2026-05-25.json` (2026-08-19, 12,555 B)
 - `gap_verifier_report_updates.md` (2026-08-19, 15,014 B)
+- `gap_scanner_verified_llm.json` (2026-08-19, 335,366 B)
 - `gap_scanner_verified_server_high_a.json` (2026-08-19, 6,174 B)
 - `gap_scanner_verified_updates.json` (2026-08-19, 15,205 B)
 - `gap_scope_breakdown_20260604.json` (2026-08-19, 7,715 B)
@@ -30,7 +31,8 @@
 - `gap_verifier_report_graph.md` (2026-08-19, 13,466 B)
 - `gap_verifier_report_ingestion.md` (2026-08-19, 9,377 B)
 - `gap_verifier_report_llm.md` (2026-08-19, 14,972 B)
-- `gap_scanner_verified_llm.json` (2026-08-19, 335,366 B)
+- `gap_scanner_verified_graph.json` (2026-08-19, 6,664 B)
+- `gap_scan_temporal.json` (2026-08-19, 7,031 B)
 - `gap_scan_tensor.json` (2026-08-19, 14,572 B)
 - `gap_scan_themis.json` (2026-08-19, 7,014 B)
 - `gap_scan_timeseries.json` (2026-08-19, 5,028 B)
@@ -46,7 +48,7 @@
 - `gap_scanner_false_positive_analysis.md` (2026-08-19, 10,576 B)
 - `gap_scanner_results.json` (2026-08-19, 2,920 B)
 - `gap_scanner_verified_failover.json` (2026-08-19, 7,574 B)
-- `gap_scanner_verified_graph.json` (2026-08-19, 6,664 B)
+- `gap_scan_onnx_clip.json` (2026-08-19, 2,097 B)
 - `gap_scan_performance.json` (2026-08-19, 6,192 B)
 - `gap_scan_pipeline_v3_summary.json` (2026-08-19, 561 B)
 - `gap_scan_plugins.json` (2026-08-19, 3,781 B)
@@ -65,7 +67,7 @@
 - `gap_scan_sharding.json` (2026-08-19, 14,811 B)
 - `gap_scan_stable_diffusion.json` (2026-08-19, 1,722 B)
 - `gap_scan_storage.json` (2026-08-19, 23,923 B)
-- `gap_scan_temporal.json` (2026-08-19, 7,031 B)
+- `gap_scan_content.json` (2026-08-19, 10,221 B)
 - `gap_scan_core.json` (2026-08-19, 2,380 B)
 - `gap_scan_distributed_knowledge.json` (2026-08-19, 1,098 B)
 - `gap_scan_document.json` (2026-08-19, 682 B)
@@ -85,7 +87,6 @@
 - `gap_scan_metadata.json` (2026-08-19, 1,825 B)
 - `gap_scan_network.json` (2026-08-19, 14,972 B)
 - `gap_scan_observability.json` (2026-08-19, 8,141 B)
-- `gap_scan_onnx_clip.json` (2026-08-19, 2,097 B)
 - `gap_scan_aggregate.json` (2026-08-19, 17 B)
 - `gap_scan_ai.json` (2026-08-19, 3,947 B)
 - `gap_scan_api.json` (2026-08-19, 6,224 B)
@@ -96,7 +97,6 @@
 - `gap_scan_chaos.json` (2026-08-19, 2,751 B)
 - `gap_scan_chimera.json` (2026-08-19, 1,539 B)
 - `gap_scan_config.json` (2026-08-19, 751 B)
-- `gap_scan_content.json` (2026-08-19, 10,221 B)
 - `SPRINT_8_GAP_REPORT.md` (2026-08-19, 7,823 B)
 - `SESSION_SUMMARY_GAP_CLOSURE_2026-08-15.md` (2026-08-19, 10,478 B)
 - `SHARDING_GAP_CLOSURE_ROADMAP.md` (2026-08-19, 8,701 B)
@@ -117,10 +117,13 @@
 - `PROCESS_GAPS_INTEGRATION_PLAYBOOK.md` (2026-08-19, 10,594 B)
 - `PROCESS_GAPS_LIVE_STATUS_DASHBOARD.md` (2026-08-19, 8,185 B)
 - `PLUGINS_GAP_REMEDIATION_COMPLETE.md` (2026-08-19, 13,918 B)
-- `LLM_MODULE_GAP_CLOSURE_EXECUTIVE_SUMMARY.md` (2026-08-19, 12,152 B)
-- `MEDIUM_LOW_GAP_CLOSURE_PLAN.md` (2026-08-19, 4,391 B)
 - `MODULE_GAPS_CONSOLIDATION_REPORT.md` (2026-08-19, 8,945 B)
 - `MODULE_GAPS_EXECUTION_PLAN_2026-06-08.md` (2026-08-19, 4,446 B)
+- `LLM_GAPS_INDEX_AND_NAVIGATION.md` (2026-08-19, 12,397 B)
+- `LLM_GAPS_QUICK_REFERENCE.md` (2026-08-19, 11,238 B)
+- `LLM_GAP_ELIMINATION_REPORT.md` (2026-08-19, 6,664 B)
+- `LLM_MODULE_GAP_CLOSURE_EXECUTIVE_SUMMARY.md` (2026-08-19, 12,152 B)
+- `MEDIUM_LOW_GAP_CLOSURE_PLAN.md` (2026-08-19, 4,391 B)
 - `LLM_CRITICAL_GAPS_CLOSURE_PLAN.md` (2026-08-19, 6,257 B)
 - `LLM_GAPS_ANALYSIS_COMPLETE.md` (2026-08-19, 10,518 B)
 - `LLM_GAPS_CLOSURE_FINAL_CONSOLIDATION.md` (2026-08-19, 11,285 B)
@@ -128,33 +131,30 @@
 - `LLM_GAPS_IMMEDIATE_ACTIONS.md` (2026-08-19, 5,078 B)
 - `LLM_GAPS_IMPLEMENTATION_CHECKLIST.md` (2026-08-19, 8,258 B)
 - `LLM_GAPS_IMPLEMENTATION_PLAN.md` (2026-08-19, 14,880 B)
-- `LLM_GAPS_INDEX_AND_NAVIGATION.md` (2026-08-19, 12,397 B)
-- `LLM_GAPS_QUICK_REFERENCE.md` (2026-08-19, 11,238 B)
-- `LLM_GAP_ELIMINATION_REPORT.md` (2026-08-19, 6,664 B)
 - `L1_module_gaps_cache.md` (2026-08-19, 3,948 B)
 - `L1_module_gaps_graph.md` (2026-08-19, 3,975 B)
 - `L1_module_gaps_llm.md` (2026-08-19, 3,992 B)
 - `L1_module_gaps_network.md` (2026-08-19, 3,969 B)
 - `L1_module_gaps_query.md` (2026-08-19, 3,976 B)
 - `L1_module_gaps_server.md` (2026-08-19, 3,986 B)
-- `INDEX_GAP_CLOSURE_MASTER_STATUS_2026-08-15_FINAL.md` (2026-08-19, 17,311 B)
-- `INDEX_GAP_CLOSURE_RESTART_SUMMARY_2026-08-15.md` (2026-08-19, 11,858 B)
-- `INGESTION_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 17,088 B)
 - `INDEX_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 13,951 B)
 - `INDEX_GAP_CLOSURE_LAUNCH_SUMMARY.md` (2026-08-19, 9,591 B)
 - `INDEX_GAP_CLOSURE_LIVE_STATUS_2026-08-15.md` (2026-08-19, 10,594 B)
-- `IMPORTERS_GAP_IMPLEMENTATION_QUICKSTART.md` (2026-08-19, 10,266 B)
+- `INDEX_GAP_CLOSURE_MASTER_STATUS_2026-08-15_FINAL.md` (2026-08-19, 17,311 B)
+- `INDEX_GAP_CLOSURE_RESTART_SUMMARY_2026-08-15.md` (2026-08-19, 11,858 B)
+- `INGESTION_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 17,088 B)
 - `IMPORTERS_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 12,947 B)
-- `HEADER_GAP_REMEDIATION_REPORT.md` (2026-08-19, 10,726 B)
+- `IMPORTERS_GAP_IMPLEMENTATION_QUICKSTART.md` (2026-08-19, 10,266 B)
 - `HIGH_GAP_SPRINT_BACKLOG_2026-05-25.md` (2026-08-19, 6,378 B)
+- `HEADER_GAP_REMEDIATION_REPORT.md` (2026-08-19, 10,726 B)
 - `GPU_MODULE_GAP_REMEDIATION_FINAL_REPORT.md` (2026-08-19, 16,728 B)
+- `GAP_ANALYSIS.md` (2026-08-19, 14,002 B)
+- `GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md` (2026-08-19, 8,919 B)
+- `GAP_ELIMINATION_PLAN.md` (2026-08-19, 2,582 B)
 - `GAP_SCANNER_CURRENT_REPORT_2026-06-09.md` (2026-08-19, 1,923 B)
 - `GAP_SCANNER_V3_ANALYSIS.md` (2026-08-19, 42,137 B)
 - `GAP_SCAN_RESCAN_REPORT_2026-05-25.md` (2026-08-19, 1,724 B)
 - `GAP_VERIFIER_INDEX_LLM.md` (2026-08-19, 13,210 B)
-- `GAP_ANALYSIS.md` (2026-08-19, 14,002 B)
-- `GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md` (2026-08-19, 8,919 B)
-- `GAP_ELIMINATION_PLAN.md` (2026-08-19, 2,582 B)
 - `FINAL_GAP_ELIMINATION_SUMMARY.md` (2026-08-19, 7,595 B)
 - `DT_GAPS_IMPLEMENTATION_PLAN.md` (2026-08-19, 11,302 B)
 - `DT_GAPS_TEST_AND_VERIFICATION_PLAN.md` (2026-08-19, 8,543 B)
@@ -657,6 +657,73 @@ Nur kleine, testbare Reparaturen mit hoher Sicherheit:
 - ✅ **Defensive guards** present (e.g., `if (!is_initialized_) return nullptr;`)
 - ⚠️ **1 possible gap** in config validation order (updates_config.cpp)
 ---
+
+---
+
+### gap_scanner_verified_llm.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "llm",
+"scan_timestamp": "2026-08-15T16:45:58",
+"analysis_version": "2.0-gap-verifier",
+"summary": {
+"total_raw": 13364,
+"verified_gaps": 942,
+"false_positives_removed": 12422,
+"downgrades": 1,
+"severity_distribution": {
+"CRITICAL": 77,
+"HIGH": 480,
+"MEDIUM": 370,
+"LOW": 14,
+"INFO": 1
+},
+"classification_summary": {
+"Real Gap": 786,
+"Guarded Stub": 0,
+"Test Mock": 1,
+"False-Positive": 0,
+"Placeholder": 35,
+"Requires Manual Review": 120
+}
+},
+"gap_type_analysis": {
+"pointer_arithmetic_unbounded": {
+"total": 118,
+"by_severity": {
+"HIGH": 118
+}
+},
+"circular_lock_ordering": {
+"total": 108,
+"by_severity": {
+"HIGH": 108
+}
+},
+"sensitive_data_logging": {
+"total": 83,
+"by_severity": {
+"MEDIUM": 83
+}
+},
+"no_retry_logic": {
+"total": 72,
+"by_severity": {
+"MEDIUM": 72
+}
+},
+"unchecked_result": {
+"total": 59,
+"by_severity": {
+"HIGH": 59
+}
+},
+"missing_resource_limits": {
+"total": 52,
+"by_severity": {
+"MEDIUM": 52
 
 ---
 
@@ -2307,70 +2374,452 @@ The verification workflow applies these decision rules:
 
 ---
 
-### gap_scanner_verified_llm.json
-
-*(file too large — key headings extracted)*
+### gap_scanner_verified_graph.json
 
 {
-"module": "llm",
-"scan_timestamp": "2026-08-15T16:45:58",
-"analysis_version": "2.0-gap-verifier",
-"summary": {
-"total_raw": 13364,
-"verified_gaps": 942,
-"false_positives_removed": 12422,
-"downgrades": 1,
-"severity_distribution": {
-"CRITICAL": 77,
-"HIGH": 480,
-"MEDIUM": 370,
-"LOW": 14,
-"INFO": 1
-},
-"classification_summary": {
-"Real Gap": 786,
-"Guarded Stub": 0,
-"Test Mock": 1,
-"False-Positive": 0,
-"Placeholder": 35,
-"Requires Manual Review": 120
+  "timestamp": "2026-06-25T14:45:00",
+  "level": "L1",
+  "scope": "graph",
+  "review_type": "ai_code_review",
+  "execution_status": "success",
+  "verification_summary": {
+    "total_findings_reviewed": 9,
+    "severity_changes": {
+      "critical_to_info": 8,
+      "high_to_ignore": 1
+    },
+    "false_positives": 1,
+    "verified_gaps": 0,
+    "guarded_stubs": 8,
+    "final_risk_level": "INFO (downgraded from CRITICAL)"
+  },
+  "verified_findings": [
+    {
+      "id": 1,
+      "file": "src/graph/rotate_completion.cpp",
+      "line": 95,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "if (!trained_) return {};",
+      "function": "entityEmbedding()",
+      "analysis": "Defensive check for untrained model; empty vector is correct semantic",
+      "is_gap": false,
+      "reason_for_downgrade": "Legitimate error handling pattern; expected by callers"
+    },
+    {
+      "id": 2,
+      "file": "src/graph/rotate_completion.cpp",
+      "line": 109,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "if (!trained_) return {};",
+      "function": "relationPhase()",
+      "analysis": "Same guard pattern as Finding 1; returns empty vector for untrained state",
+      "is_gap": false,
+      "reason_for_downgrade": "Consistent defensive pattern; production code quality"
+    },
+    {
+      "id": 3,
+      "file": "src/graph/rotate_completion.cpp",
+      "line": 166,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "if (n_ent == 0 || n_rel == 0 || triples.empty()) return {};",
+      "function": "train()",
+      "analysis": "Input validation guard; precondition check before expensive training loop",
+      "is_gap": false,
+      "reason_for_downgrade": "Normal validation pattern; real implementation follows guard"
+    },
+    {
+      "id": 4,
+      "file": "src/graph/explain_plan.cpp",
+      "line": 68,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "if (nodes.empty()) { return {}; }",
+      "function": "toDot()",
+      "analysis": "Empty plan → empty DOT output; correct semantics for edge case",
+      "is_gap": false,
+      "reason_for_downgrade": "Defensive edge-case handling; no real gap"
+    },
+    {
+      "id": 5,
+      "file": "src/graph/explain_plan.cpp",
+      "line": 92,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "if (nodes.empty()) { return {}; }",
+      "function": "toJson()",
+      "analysis": "Identical pattern to Finding 4; empty plan → empty JSON output",
+      "is_gap": false,
+      "reason_for_downgrade": "Consistent defensive pattern across toDot/toJson methods"
+    },
+    {
+      "id": 6,
+      "file": "src/graph/ontology_manager.cpp",
+      "line": 73,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "return {}; (in parseString on parse error)",
+      "function": "parseString()",
+      "analysis": "Documentation states 'Returns empty string on parse error'; guard matches docstring",
+      "is_gap": false,
+      "reason_for_downgrade": "Documented error signal; expected by parser callers"
+    },
+    {
+      "id": 7,
+      "file": "src/graph/ontology_manager.cpp",
+      "line": 200,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "return {}; (if no non-whitespace found in trimYaml)",
+      "function": "trimYaml()",
+      "analysis": "All-whitespace input → empty string trim result (correct behavior)",
+      "is_gap": false,
+      "reason_for_downgrade": "Standard trim() behavior; edge case handling"
+    },
+    {
+      "id": 8,
+      "file": "src/graph/scheduled_edge_refresh.cpp",
+      "line": 657,
+      "original_severity": "CRITICAL",
+      "new_severity": "INFO",
+      "classification": "GUARDED_STUB",
+      "context": "if (!embedding_fn_) { return {}; }",
+      "function": "discoverCandidateEdges()",
+      "analysis": "Defensive check for missing embedding function; returns empty vector (no candidates)",
+      "is_gap": false,
+      "reason_for_downgrade": "Graceful degradation pattern; production-quality defensive code"
+    },
+    {
+      "id": 9,
+      "file": "tests/graph/test_compute_graph_header.cpp",
+      "line": 93,
+      "original_severity": "HIGH",
+      "new_severity": "IGNORE",
+      "classification": "FALSE_POSITIVE",
+      "context": "Mock factory (marked test file)",
+      "function": "N/A",
+      "analysis": "File does not exist in tests/graph/ directory; no similar filename found",
+      "is_gap": false,
+      "reason_for_downgrade": "Non-existent file; L0 scanner artifact"
+    }
+  ],
+  "pattern_analysis": {
+    "guarded_error_handlers": 8,
+    "pattern_description": "Precondition/invariant checked (if guard) → semantic-correct return (empty/default) → real implementation follows",
+    "production_quality": "HIGH - Defensive programming patterns are expected and correct",
+    "false_positives": 1,
+    "false_positive_description": "Referenced file path does not exist; likely deleted or moved test file"
+  },
+  "action_items": [
+    {
+      "priority": "P0",
+      "action": "Update ARCHITECTURE.md graph section",
+      "detail": "Change '9 critical gaps' to '0 verified gaps; 8 guarded defensive patterns'"
+    },
+    {
+      "priority": "P1",
+      "action": "Update MODULE_GAPS.md",
+      "detail": "Reclassify findings as 'Info: Guarded Defensive Patterns' with explanations"
+    },
+    {
+      "priority": "P1",
+      "action": "Update ROADMAP.md",
+      "detail": "Remove false Phase 2 implementation timeline (already complete in production)"
+    },
+    {
+      "priority": "P2",
+      "action": "Improve L0 gap_scanner",
+      "detail": "Add path validation and filter for idiomatic error handlers; prevents false CRITICAL ratings"
+    },
+    {
+      "priority": "P2",
+      "action": "Sign-off release readiness",
+      "detail": "Graph module ready for community release; 0 verified gaps, 30 tests, full coverage"
+    }
+  ],
+  "recommendations": {
+    "release_readiness": "✅ READY - No verified gaps blocking functionality",
+    "risk_assessment": "✅ LOW - All findings reclassified as info-level patterns",
+    "owner_assignment": "N/A (no implementation required; all code is production-ready)",
+    "next_steps": "L1 documentation synchronization + L0 scanner improvement"
+  }
 }
-},
-"gap_type_analysis": {
-"pointer_arithmetic_unbounded": {
-"total": 118,
-"by_severity": {
-"HIGH": 118
+
+---
+
+### gap_scan_temporal.json
+
+{
+  "module": "temporal",
+  "summary": {
+    "total": 25,
+    "critical": 25,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\temporal\\bi_temporal.cpp",
+      "line_num": 181,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\bi_temporal.cpp",
+      "line_num": 200,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\bi_temporal.cpp",
+      "line_num": 218,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\bi_temporal.cpp",
+      "line_num": 246,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\bi_temporal.cpp",
+      "line_num": 336,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\interval_tree_index.cpp",
+      "line_num": 409,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == key_index_.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\snapshot_manager.cpp",
+      "line_num": 84,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\snapshot_manager.cpp",
+      "line_num": 89,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\system_versioned_table.cpp",
+      "line_num": 236,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\system_versioned_table.cpp",
+      "line_num": 247,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 53,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 78,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 116,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 137,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 236,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 254,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 454,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 515,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_aggregator.cpp",
+      "line_num": 578,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_cold_store.cpp",
+      "line_num": 203,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!ifs) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_cold_store.cpp",
+      "line_num": 208,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_compressor.cpp",
+      "line_num": 117,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (input.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_query_engine.cpp",
+      "line_num": 321,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_query_engine.cpp",
+      "line_num": 561,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (versions.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\temporal\\temporal_query_engine.cpp",
+      "line_num": 672,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (history.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    }
+  ]
 }
-},
-"circular_lock_ordering": {
-"total": 108,
-"by_severity": {
-"HIGH": 108
-}
-},
-"sensitive_data_logging": {
-"total": 83,
-"by_severity": {
-"MEDIUM": 83
-}
-},
-"no_retry_logic": {
-"total": 72,
-"by_severity": {
-"MEDIUM": 72
-}
-},
-"unchecked_result": {
-"total": 59,
-"by_severity": {
-"HIGH": 59
-}
-},
-"missing_resource_limits": {
-"total": 52,
-"by_severity": {
-"MEDIUM": 52
 
 ---
 
@@ -3338,154 +3787,96 @@ The verification workflow applies these decision rules:
 
 ### gap_scan_updates.json
 
+*(file too large — key headings extracted)*
+
 {
-  "module": "updates",
-  "summary": {
-    "total": 11,
-    "critical": 11,
-    "high": 0,
-    "medium": 0,
-    "low": 0
-  },
-  "gaps": [
-    {
-      "file": "src\\updates\\build_verifier.cpp",
-      "line_num": 90,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (b < 0) { return {}; }  // invalid character",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\delta_update_engine.cpp",
-      "line_num": 164,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!f) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\hardware_telemetry.cpp",
-      "line_num": 148,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!f.is_open()) { return {}; }",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\hardware_telemetry.cpp",
-      "line_num": 165,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\hardware_telemetry.cpp",
-      "line_num": 222,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\hardware_telemetry.cpp",
-      "line_num": 229,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\hardware_telemetry.cpp",
-      "line_num": 231,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\parallel_downloader.cpp",
-      "line_num": 207,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!f.is_open()) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\parallel_downloader.cpp",
-      "line_num": 210,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!ctx) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\parallel_downloader.cpp",
-      "line_num": 214,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\updates\\tenant_update_scheduler.cpp",
-      "line_num": 130,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    }
-  ]
-}
+"module": "updates",
+"summary": {
+"total": 11,
+"critical": 11,
+"high": 0,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\updates\\build_verifier.cpp",
+"line_num": 90,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (b < 0) { return {}; }  // invalid character",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\updates\\delta_update_engine.cpp",
+"line_num": 164,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!f) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\updates\\hardware_telemetry.cpp",
+"line_num": 148,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!f.is_open()) { return {}; }",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\updates\\hardware_telemetry.cpp",
+"line_num": 165,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\updates\\hardware_telemetry.cpp",
+"line_num": 222,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
 
 ---
 
 ### gap_scan_user_storage_encrypted.json
 
+*(file too large — key headings extracted)*
+
 {
-  "module": "user_storage_encrypted",
-  "summary": {
-    "total": 1,
-    "critical": 0,
-    "high": 1,
-    "medium": 0,
-    "low": 0
-  },
-  "gaps": [
-    {
-      "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
-      "line_num": 109,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// STUB/SIMULATION NOTE:",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    }
-  ]
+"module": "user_storage_encrypted",
+"summary": {
+"total": 1,
+"critical": 0,
+"high": 1,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+"line_num": 109,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE:",
+"severity": "high",
+"notes": "",
+"location": "src"
+}
+]
 }
 
 ---
@@ -3926,70 +4317,70 @@ Generated: 2026-06-02T12:40:50.366203
 
 ---
 
-### gap_scanner_verified_graph.json
+### gap_scan_onnx_clip.json
 
 *(file too large — key headings extracted)*
 
 {
-"timestamp": "2026-06-25T14:45:00",
-"level": "L1",
-"scope": "graph",
-"review_type": "ai_code_review",
-"execution_status": "success",
-"verification_summary": {
-"total_findings_reviewed": 9,
-"severity_changes": {
-"critical_to_info": 8,
-"high_to_ignore": 1
+"module": "onnx_clip",
+"summary": {
+"total": 7,
+"critical": 5,
+"high": 2,
+"medium": 0,
+"low": 0
 },
-"false_positives": 1,
-"verified_gaps": 0,
-"guarded_stubs": 8,
-"final_risk_level": "INFO (downgraded from CRITICAL)"
-},
-"verified_findings": [
+"gaps": [
 {
-"id": 1,
-"file": "src/graph/rotate_completion.cpp",
-"line": 95,
-"original_severity": "CRITICAL",
-"new_severity": "INFO",
-"classification": "GUARDED_STUB",
-"context": "if (!trained_) return {};",
-"function": "entityEmbedding()",
-"analysis": "Defensive check for untrained model; empty vector is correct semantic",
-"is_gap": false,
-"reason_for_downgrade": "Legitimate error handling pattern; expected by callers"
+"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+"line_num": 43,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB #94 \u2014 ModelHashFn static bridge (non-OpenSSL SHA-256 injection)",
+"severity": "high",
+"notes": "",
+"location": "src"
 },
 {
-"id": 2,
-"file": "src/graph/rotate_completion.cpp",
-"line": 109,
-"original_severity": "CRITICAL",
-"new_severity": "INFO",
-"classification": "GUARDED_STUB",
-"context": "if (!trained_) return {};",
-"function": "relationPhase()",
-"analysis": "Same guard pattern as Finding 1; returns empty vector for untrained state",
-"is_gap": false,
-"reason_for_downgrade": "Consistent defensive pattern; production code quality"
+"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+"line_num": 78,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
 },
 {
-"id": 3,
-"file": "src/graph/rotate_completion.cpp",
-"line": 166,
-"original_severity": "CRITICAL",
-"new_severity": "INFO",
-"classification": "GUARDED_STUB",
-"context": "if (n_ent == 0 || n_rel == 0 || triples.empty()) return {};",
-"function": "train()",
-"analysis": "Input validation guard; precondition check before expensive training loop",
-"is_gap": false,
-"reason_for_downgrade": "Normal validation pattern; real implementation follows guard"
+"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+"line_num": 83,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
 },
 {
-"id": 4,
-"file": "src/graph/explain_plan.cpp",
+"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+"line_num": 88,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+"line_num": 95,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
 
 ---
 
@@ -5098,23 +5489,23 @@ Generated: 2026-06-02T12:40:50.366203
 
 ---
 
-### gap_scan_temporal.json
+### gap_scan_content.json
 
 *(file too large — key headings extracted)*
 
 {
-"module": "temporal",
+"module": "content",
 "summary": {
-"total": 25,
+"total": 36,
 "critical": 25,
-"high": 0,
-"medium": 0,
+"high": 10,
+"medium": 1,
 "low": 0
 },
 "gaps": [
 {
-"file": "src\\temporal\\bi_temporal.cpp",
-"line_num": 181,
+"file": "src\\content\\archive_processor.cpp",
+"line_num": 979,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
 "context": "return {};",
@@ -5123,8 +5514,8 @@ Generated: 2026-06-02T12:40:50.366203
 "location": "src"
 },
 {
-"file": "src\\temporal\\bi_temporal.cpp",
-"line_num": 200,
+"file": "src\\content\\content_manager.cpp",
+"line_num": 98,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
 "context": "return {};",
@@ -5133,31 +5524,31 @@ Generated: 2026-06-02T12:40:50.366203
 "location": "src"
 },
 {
-"file": "src\\temporal\\bi_temporal.cpp",
-"line_num": 218,
+"file": "src\\content\\content_manager.cpp",
+"line_num": 201,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
+"context": "if (!hasAnyFilter) return {};",
 "severity": "critical",
 "notes": "",
 "location": "src"
 },
 {
-"file": "src\\temporal\\bi_temporal.cpp",
-"line_num": 246,
+"file": "src\\content\\content_manager.cpp",
+"line_num": 2723,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
+"context": "if (!sha256_ctx) return {};",
 "severity": "critical",
 "notes": "",
 "location": "src"
 },
 {
-"file": "src\\temporal\\bi_temporal.cpp",
-"line_num": 336,
+"file": "src\\content\\content_manager.cpp",
+"line_num": 2729,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
+"context": "if (!ok) return {};",
 "severity": "critical",
 "notes": "",
 "location": "src"
@@ -6343,73 +6734,6 @@ Generated: 2026-06-02T12:40:50.366203
 
 ---
 
-### gap_scan_onnx_clip.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "onnx_clip",
-"summary": {
-"total": 7,
-"critical": 5,
-"high": 2,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-"line_num": 43,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB #94 \u2014 ModelHashFn static bridge (non-OpenSSL SHA-256 injection)",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-"line_num": 78,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-"line_num": 83,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-"line_num": 88,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-"line_num": 95,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
 ### gap_scan_aggregate.json
 
 *(file too large — key headings extracted)*
@@ -6992,73 +7316,6 @@ Generated: 2026-06-02T12:40:50.366203
 }
 ]
 }
-
----
-
-### gap_scan_content.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "content",
-"summary": {
-"total": 36,
-"critical": 25,
-"high": 10,
-"medium": 1,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\content\\archive_processor.cpp",
-"line_num": 979,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\content\\content_manager.cpp",
-"line_num": 98,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\content\\content_manager.cpp",
-"line_num": 201,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!hasAnyFilter) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\content\\content_manager.cpp",
-"line_num": 2723,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!sha256_ctx) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\content\\content_manager.cpp",
-"line_num": 2729,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!ok) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
 
 ---
 
@@ -8047,106 +8304,6 @@ entry.instance = new PluginWrapper(...);
 
 ---
 
-### LLM_MODULE_GAP_CLOSURE_EXECUTIVE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# LLM Module Critical Gaps Closure — Executive Summary
-**Date:** 2026-08-17
-**Status:** ANALYSIS COMPLETE → READY FOR IMPLEMENTATION
-**Scope:** Closing 1,400+ IMPL gaps in 37 LLM module files
----
-## Executive Summary
-The ThemisDB LLM module contains **12,474 total gaps** (11,074 documentation + 1,400 implementation).
-This document outlines the **critical implementation gaps** that block production readiness and test validation.
-### Key Findings
-| Metric | Count | Status | Risk |
-|--------|-------|--------|------|
-| **Total Gaps** | 12,474 | PHASE 6 REMEDIATING | - |
-| **IMPL Gaps** (actionable code fixes) | ~1,400 | IDENTIFIED | HIGH |
-| **Critical Files** | 37 | MAPPED | HIGH |
-| **Thread-Safety Gaps** | 139 (128 circular_lock + 11 data_race) | NEEDS FIX | CRITICAL |
-| **RAII/Memory Gaps** | 289+ (manual cleanup, db leaks, gpu leaks) | NEEDS FIX | HIGH |
-| **Exception-Safety Gaps** | 13+ (destructors, null dereference) | NEEDS FIX | HIGH |
----
-## Critical Gap Categories
-### Category A: Thread-Safety (CRITICAL) — 139 Gaps
-**Status:** Some fixes already in place (std::mutex, std::lock_guard usage seen)
-**Action Required:** Complete thread-safety audit for circular lock ordering
-**Problem:**
-- 128 circular_lock_ordering instances indicate potential deadlock risks
-- 11 data_race instances show unsynchronized access to shared state
-- Some files have nested locks without documented lock hierarchy
-**Affected Files (Top 5):**
-1. llama_wrapper.cpp — 35 Critical, 76 High gaps
-2. ml_model_manager.cpp — 11 Critical, 48 High gaps
-3. gpu_memory_manager.cpp — 7 Critical, 28 High gaps
-4. grafana_metrics.cpp — 4 Critical, 32 High gaps
-5. production_validator.cpp — 2 Critical, 25 High gaps
-**Example Issue:**
-// Before (potential deadlock):
-void unsafeUpdate() {
-std::lock_guard<std::mutex> lock1(mutex1_);
-callFunctionThatLocksOtherMutex();  // If it tries mutex2, then another path locks mutex2 then mutex1 → deadlock
-}
-// Fix: Document lock hierarchy and ensure consistent ordering
-// Lock order: mutex1 → mutex2 → mutex3 (always in this order)
-**Estimated Effort:** 2-3 days of audit + fix
----
-### Category B: RAII & Resource Management (HIGH) — 289+ Gaps
-
----
-
-### MEDIUM_LOW_GAP_CLOSURE_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Server Module: MEDIUM/LOW Gap Closure Work Plan
-## Objective
-## Work Completed (Phase 1)
-- [x] Demonstrated gap analysis and prioritization methodology
-- [x] Established commit strategy and patterns
-- [x] Created performance improvement documentation
-**Gaps Fixed:** ~25
-**Files Modified:** 5
-## Next Actions (Phase 2-3)
-### Immediate (Next 50-100 gaps)
-1. **Continue postgres_session.cpp**
-- Complete remaining 50+ string_concat_loop patterns
-- Fix hardcoded paths where applicable
-2. **Process API Handlers (High Volume)**
-- audit_api_handler.cpp (38 MEDIUM)
-- ethics_api_handler.cpp (32 MEDIUM)
-- export_api_handler.cpp (43 MEDIUM)
-- Pattern: string += loops, unnecessary copies
-3. **Database Session Handlers**
-- mysql_session.cpp (28 MEDIUM)
-- http3_session.cpp (34 MEDIUM)
-- mqtt_session.cpp (18 MEDIUM)
-### Medium-term (100-500 gaps)
-4. **Exception Handling Pass**
-- Replace 119 catch(...) patterns with specific exceptions
-- Add proper error context logging
-5. **Copy Elimination Campaign**
-- Audit all nlohmann::json::get<T>() calls
-- Replace with get_ref<const T&>() systematically
-6. **Legacy Code Marking**
-- Mark 27 legacy_or_compat_path findings
-- Add LEGACY COMPATIBILITY comments with removal plans
-### Long-term (500-900+ gaps)
-7. **Hardcoded Path Configuration** (258 instances)
-- Create config injection layer
-- Update all handlers to use config-driven paths
-8. **Resource Management**
-- Add timeouts to blocking operations
-- Implement resource quotas
-- Fix delete_without_nullptr patterns
-## Key Patterns to Apply
-### Pattern 1: Vector Reserve
-// Before
-
----
-
 ### MODULE_GAPS_CONSOLIDATION_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -8245,6 +8402,231 @@ Eingangssignale fuer die Priorisierung:
 ### Phase 3: Validieren
 - passenden Focus-Test oder kleines Testpaket bauen/laufen lassen
 - wenn sinnvoll gezielten Modul-Build erneut ausfuehren
+
+---
+
+### LLM_GAPS_INDEX_AND_NAVIGATION.md
+
+*(file too large — key headings extracted)*
+
+# LLM Module Gaps Implementation - Complete Index & Navigation
+**Document:** Master Index for All Analysis, Planning, and Implementation Resources
+**Created:** 2026-08-15
+**Status:** ✅ ANALYSIS COMPLETE | READY FOR IMPLEMENTATION
+---
+## 🎯 Quick Navigation
+### ⭐ Start Here (Choose Your Path)
+**I'm a Project Manager / Decision Maker:**
+→ Read `LLM_GAPS_ANALYSIS_COMPLETE.md` (10 min)
+→ Then: `LLM_GAPS_EXECUTION_READY.md` (sections: Timeline, Risk & Rollback)
+**I'm an Implementation Lead / Tech Lead:**
+→ Read `LLM_GAPS_EXECUTION_READY.md` (Detailed Execution Plan)
+→ Then: `LLM_GAPS_IMPLEMENTATION_PLAN.md` (Strategy & Patterns)
+**I'm a Developer Implementing Fixes:**
+→ Read `LLM_GAPS_QUICK_REFERENCE.md` (Patterns + Examples)
+→ Then: `gap_verifier_report_llm.md` (Specific gap details)
+→ Reference: `LLM_GAPS_IMPLEMENTATION_CHECKLIST.md` (Step-by-step)
+**I Want a Data-Driven View:**
+→ Read: `gap_scanner_verified_llm.json` (Structured findings)
+→ Then: `gap_verifier_report_llm.md` (Executive summary)
+---
+## 📚 Document Directory
+### Analysis & Findings (from gap-verifier agent)
+| File | Type | Size | Purpose | Audience |
+|------|------|------|---------|----------|
+**Gap-Verifier Quality Metrics:**
+- Raw findings analyzed: 13,364
+- Verified gaps: 942 (7.1%)
+- False positives removed: 12,422 (92.9%)
+- Confidence level: 95%+ for CRITICAL findings
+---
+### Implementation Planning & Strategy (created by Copilot)
+| File | Type | Pages | Purpose | Audience |
+|------|------|-------|---------|----------|
+**Planning Quality Metrics:**
+
+---
+
+### LLM_GAPS_QUICK_REFERENCE.md
+
+*(file too large — key headings extracted)*
+
+# LLM Module Gaps - Quick Reference Guide
+**Purpose:** Quick lookup for gap types, patterns, and implementation approaches
+**Created:** 2026-08-15
+---
+## Gap Category Reference
+### 1. Thread-Safety Gaps
+| Pattern | Indicator | Fix Pattern | Priority |
+|---------|-----------|-------------|----------|
+| **data_race** | Unsynchronized access to shared state | Add mutex/atomic/lock_guard | CRITICAL |
+| **missing_volatile** | Primitives shared without volatile/atomic | Use std::atomic for simple types | HIGH |
+| **double_lock** | Attempting to acquire same lock twice | Use reader-writer lock or redesign | HIGH |
+**File Examples:** `async_inference_engine.cpp`, `shared_worker_pool.cpp`, `multi_lora_manager.cpp`
+### 2. Resource Management Gaps
+| Pattern | Indicator | Fix Pattern | Priority |
+|---------|-----------|-------------|----------|
+| **db_connection_leak** | DB connection not closed in all paths | Wrap in RAII; use connection pooling | HIGH |
+| **gpu_memory_leak** | GPU memory allocated but not freed | Wrap in CUDA memory guard; use RAII | HIGH |
+| **manual_cleanup** | Manual delete/close outside RAII | Replace with smart pointers; use RAII guards | HIGH |
+**File Examples:** `model_loader.cpp`, `llm_model_storage.cpp`, `wiki_index_store.cpp`
+### 3. Memory Safety Gaps
+| Pattern | Indicator | Fix Pattern | Priority |
+|---------|-----------|-------------|----------|
+| **null_dereference** | Pointer dereferenced without null check | Add null guard before dereference | HIGH |
+| **uninitialized_access** | Variable used before initialization | Initialize in constructor/declaration | HIGH |
+**File Examples:** `kv_cache_buffer.cpp`, `paged_kv_cache_manager.cpp`, `wiki_index_store.cpp`
+### 4. Performance Gaps
+| Pattern | Indicator | Fix Pattern | Priority |
+|---------|-----------|-------------|----------|
+| **string_concat_loop** | String concatenation in loop (O(n²)) | Use std::ostringstream or vector + join | HIGH |
+| **repeated_lookup** | Same key lookup multiple times | Cache result; extract before loop | MEDIUM |
+**File Examples:** `streaming_handler.cpp`, `prompt_evaluator.cpp`, `ai_orchestrator.cpp`
+### 5. Error Handling Gaps
+| Pattern | Indicator | Fix Pattern | Priority |
+
+---
+
+### LLM_GAP_ELIMINATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# LLM Module: Complete Gap Elimination Report
+**Date**: 2026-07-19
+**Status**: VERIFIED WITH FOLLOW-UP FIXES
+**Total Gaps Analyzed**: 21 across 11 files
+## Executive Summary
+All targeted LLM gap markers were analyzed and categorized. A follow-up audit on
+2026-07-19 found one remaining contract defect in the deterministic EmbeddedLLM
+fallback (`embedBatch()` returned empty vectors) and fixed it so batch
+embeddings now delegate to the validated single-text fallback path.
+The reviewed markers fall into **two categories**:
+1. **Intentional Fallback Paths** (18 gaps): Safe, documented alternatives when GPU APIs/features unavailable
+2. **Legitimate Build Alternatives** (3 gaps): Conditional compilation paths for different build configurations
+The remaining reviewed markers are documented runtime bridges or hardware/build
+fallbacks. After the `embedBatch()` contract fix, no audited marker in this
+report corresponds to a silent empty-result path.
+## Gap Inventory by Category
+### Category A: Intentional Fallback Paths (18 gaps) - PRODUCTION-READY
+These are DESIGNED fallbacks that improve system reliability when GPU APIs are unavailable.
+#### GPU Memory Management (9 gaps)
+| File | Gap Type | Count | Status | Resolution |
+|------|----------|-------|--------|-----------|
+**Error Handling**: Complete exception safety via RAII, structured error codes, comprehensive logging.
+**Production Status**: Fully tested; used in multi-model GPU serving scenarios.
+#### LoRA Framework GPU Operations (6 gaps)
+| File | Gap Type | Count | Status | Resolution |
+|------|----------|-------|--------|-----------|
+| gpu_tensor.cpp | STUB (CUDA dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
+| gpu_tensor.cpp | STUB (HIP dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
+**Architecture**: All use callback injection pattern with safe CPU fallbacks.
+**Error Handling**: Structured error propagation, graceful degradation.
+**Production Status**: Deployed in multi-GPU LoRA training scenarios; handles heterogeneous hardware.
+### Category B: Legitimate Build Alternatives (3 gaps) - PRODUCTION-READY
+These represent intentional conditional compilation paths for different build configurations.
+#### Adapter & Build-Time Alternatives (3 gaps)
+| File | Gap Type | Count | Status | Resolution |
+|------|----------|-------|--------|-----------|
+
+---
+
+### LLM_MODULE_GAP_CLOSURE_EXECUTIVE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# LLM Module Critical Gaps Closure — Executive Summary
+**Date:** 2026-08-17
+**Status:** ANALYSIS COMPLETE → READY FOR IMPLEMENTATION
+**Scope:** Closing 1,400+ IMPL gaps in 37 LLM module files
+---
+## Executive Summary
+The ThemisDB LLM module contains **12,474 total gaps** (11,074 documentation + 1,400 implementation).
+This document outlines the **critical implementation gaps** that block production readiness and test validation.
+### Key Findings
+| Metric | Count | Status | Risk |
+|--------|-------|--------|------|
+| **Total Gaps** | 12,474 | PHASE 6 REMEDIATING | - |
+| **IMPL Gaps** (actionable code fixes) | ~1,400 | IDENTIFIED | HIGH |
+| **Critical Files** | 37 | MAPPED | HIGH |
+| **Thread-Safety Gaps** | 139 (128 circular_lock + 11 data_race) | NEEDS FIX | CRITICAL |
+| **RAII/Memory Gaps** | 289+ (manual cleanup, db leaks, gpu leaks) | NEEDS FIX | HIGH |
+| **Exception-Safety Gaps** | 13+ (destructors, null dereference) | NEEDS FIX | HIGH |
+---
+## Critical Gap Categories
+### Category A: Thread-Safety (CRITICAL) — 139 Gaps
+**Status:** Some fixes already in place (std::mutex, std::lock_guard usage seen)
+**Action Required:** Complete thread-safety audit for circular lock ordering
+**Problem:**
+- 128 circular_lock_ordering instances indicate potential deadlock risks
+- 11 data_race instances show unsynchronized access to shared state
+- Some files have nested locks without documented lock hierarchy
+**Affected Files (Top 5):**
+1. llama_wrapper.cpp — 35 Critical, 76 High gaps
+2. ml_model_manager.cpp — 11 Critical, 48 High gaps
+3. gpu_memory_manager.cpp — 7 Critical, 28 High gaps
+4. grafana_metrics.cpp — 4 Critical, 32 High gaps
+5. production_validator.cpp — 2 Critical, 25 High gaps
+**Example Issue:**
+// Before (potential deadlock):
+void unsafeUpdate() {
+std::lock_guard<std::mutex> lock1(mutex1_);
+callFunctionThatLocksOtherMutex();  // If it tries mutex2, then another path locks mutex2 then mutex1 → deadlock
+}
+// Fix: Document lock hierarchy and ensure consistent ordering
+// Lock order: mutex1 → mutex2 → mutex3 (always in this order)
+**Estimated Effort:** 2-3 days of audit + fix
+---
+### Category B: RAII & Resource Management (HIGH) — 289+ Gaps
+
+---
+
+### MEDIUM_LOW_GAP_CLOSURE_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Server Module: MEDIUM/LOW Gap Closure Work Plan
+## Objective
+## Work Completed (Phase 1)
+- [x] Demonstrated gap analysis and prioritization methodology
+- [x] Established commit strategy and patterns
+- [x] Created performance improvement documentation
+**Gaps Fixed:** ~25
+**Files Modified:** 5
+## Next Actions (Phase 2-3)
+### Immediate (Next 50-100 gaps)
+1. **Continue postgres_session.cpp**
+- Complete remaining 50+ string_concat_loop patterns
+- Fix hardcoded paths where applicable
+2. **Process API Handlers (High Volume)**
+- audit_api_handler.cpp (38 MEDIUM)
+- ethics_api_handler.cpp (32 MEDIUM)
+- export_api_handler.cpp (43 MEDIUM)
+- Pattern: string += loops, unnecessary copies
+3. **Database Session Handlers**
+- mysql_session.cpp (28 MEDIUM)
+- http3_session.cpp (34 MEDIUM)
+- mqtt_session.cpp (18 MEDIUM)
+### Medium-term (100-500 gaps)
+4. **Exception Handling Pass**
+- Replace 119 catch(...) patterns with specific exceptions
+- Add proper error context logging
+5. **Copy Elimination Campaign**
+- Audit all nlohmann::json::get<T>() calls
+- Replace with get_ref<const T&>() systematically
+6. **Legacy Code Marking**
+- Mark 27 legacy_or_compat_path findings
+- Add LEGACY COMPATIBILITY comments with removal plans
+### Long-term (500-900+ gaps)
+7. **Hardcoded Path Configuration** (258 instances)
+- Create config injection layer
+- Update all handlers to use config-driven paths
+8. **Resource Management**
+- Add timeouts to blocking operations
+- Implement resource quotas
+- Fix delete_without_nullptr patterns
+## Key Patterns to Apply
+### Pattern 1: Vector Reserve
+// Before
 
 ---
 
@@ -8602,131 +8984,6 @@ For each batch:
 
 ---
 
-### LLM_GAPS_INDEX_AND_NAVIGATION.md
-
-*(file too large — key headings extracted)*
-
-# LLM Module Gaps Implementation - Complete Index & Navigation
-**Document:** Master Index for All Analysis, Planning, and Implementation Resources
-**Created:** 2026-08-15
-**Status:** ✅ ANALYSIS COMPLETE | READY FOR IMPLEMENTATION
----
-## 🎯 Quick Navigation
-### ⭐ Start Here (Choose Your Path)
-**I'm a Project Manager / Decision Maker:**
-→ Read `LLM_GAPS_ANALYSIS_COMPLETE.md` (10 min)
-→ Then: `LLM_GAPS_EXECUTION_READY.md` (sections: Timeline, Risk & Rollback)
-**I'm an Implementation Lead / Tech Lead:**
-→ Read `LLM_GAPS_EXECUTION_READY.md` (Detailed Execution Plan)
-→ Then: `LLM_GAPS_IMPLEMENTATION_PLAN.md` (Strategy & Patterns)
-**I'm a Developer Implementing Fixes:**
-→ Read `LLM_GAPS_QUICK_REFERENCE.md` (Patterns + Examples)
-→ Then: `gap_verifier_report_llm.md` (Specific gap details)
-→ Reference: `LLM_GAPS_IMPLEMENTATION_CHECKLIST.md` (Step-by-step)
-**I Want a Data-Driven View:**
-→ Read: `gap_scanner_verified_llm.json` (Structured findings)
-→ Then: `gap_verifier_report_llm.md` (Executive summary)
----
-## 📚 Document Directory
-### Analysis & Findings (from gap-verifier agent)
-| File | Type | Size | Purpose | Audience |
-|------|------|------|---------|----------|
-**Gap-Verifier Quality Metrics:**
-- Raw findings analyzed: 13,364
-- Verified gaps: 942 (7.1%)
-- False positives removed: 12,422 (92.9%)
-- Confidence level: 95%+ for CRITICAL findings
----
-### Implementation Planning & Strategy (created by Copilot)
-| File | Type | Pages | Purpose | Audience |
-|------|------|-------|---------|----------|
-**Planning Quality Metrics:**
-
----
-
-### LLM_GAPS_QUICK_REFERENCE.md
-
-*(file too large — key headings extracted)*
-
-# LLM Module Gaps - Quick Reference Guide
-**Purpose:** Quick lookup for gap types, patterns, and implementation approaches
-**Created:** 2026-08-15
----
-## Gap Category Reference
-### 1. Thread-Safety Gaps
-| Pattern | Indicator | Fix Pattern | Priority |
-|---------|-----------|-------------|----------|
-| **data_race** | Unsynchronized access to shared state | Add mutex/atomic/lock_guard | CRITICAL |
-| **missing_volatile** | Primitives shared without volatile/atomic | Use std::atomic for simple types | HIGH |
-| **double_lock** | Attempting to acquire same lock twice | Use reader-writer lock or redesign | HIGH |
-**File Examples:** `async_inference_engine.cpp`, `shared_worker_pool.cpp`, `multi_lora_manager.cpp`
-### 2. Resource Management Gaps
-| Pattern | Indicator | Fix Pattern | Priority |
-|---------|-----------|-------------|----------|
-| **db_connection_leak** | DB connection not closed in all paths | Wrap in RAII; use connection pooling | HIGH |
-| **gpu_memory_leak** | GPU memory allocated but not freed | Wrap in CUDA memory guard; use RAII | HIGH |
-| **manual_cleanup** | Manual delete/close outside RAII | Replace with smart pointers; use RAII guards | HIGH |
-**File Examples:** `model_loader.cpp`, `llm_model_storage.cpp`, `wiki_index_store.cpp`
-### 3. Memory Safety Gaps
-| Pattern | Indicator | Fix Pattern | Priority |
-|---------|-----------|-------------|----------|
-| **null_dereference** | Pointer dereferenced without null check | Add null guard before dereference | HIGH |
-| **uninitialized_access** | Variable used before initialization | Initialize in constructor/declaration | HIGH |
-**File Examples:** `kv_cache_buffer.cpp`, `paged_kv_cache_manager.cpp`, `wiki_index_store.cpp`
-### 4. Performance Gaps
-| Pattern | Indicator | Fix Pattern | Priority |
-|---------|-----------|-------------|----------|
-| **string_concat_loop** | String concatenation in loop (O(n²)) | Use std::ostringstream or vector + join | HIGH |
-| **repeated_lookup** | Same key lookup multiple times | Cache result; extract before loop | MEDIUM |
-**File Examples:** `streaming_handler.cpp`, `prompt_evaluator.cpp`, `ai_orchestrator.cpp`
-### 5. Error Handling Gaps
-| Pattern | Indicator | Fix Pattern | Priority |
-
----
-
-### LLM_GAP_ELIMINATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# LLM Module: Complete Gap Elimination Report
-**Date**: 2026-07-19
-**Status**: VERIFIED WITH FOLLOW-UP FIXES
-**Total Gaps Analyzed**: 21 across 11 files
-## Executive Summary
-All targeted LLM gap markers were analyzed and categorized. A follow-up audit on
-2026-07-19 found one remaining contract defect in the deterministic EmbeddedLLM
-fallback (`embedBatch()` returned empty vectors) and fixed it so batch
-embeddings now delegate to the validated single-text fallback path.
-The reviewed markers fall into **two categories**:
-1. **Intentional Fallback Paths** (18 gaps): Safe, documented alternatives when GPU APIs/features unavailable
-2. **Legitimate Build Alternatives** (3 gaps): Conditional compilation paths for different build configurations
-The remaining reviewed markers are documented runtime bridges or hardware/build
-fallbacks. After the `embedBatch()` contract fix, no audited marker in this
-report corresponds to a silent empty-result path.
-## Gap Inventory by Category
-### Category A: Intentional Fallback Paths (18 gaps) - PRODUCTION-READY
-These are DESIGNED fallbacks that improve system reliability when GPU APIs are unavailable.
-#### GPU Memory Management (9 gaps)
-| File | Gap Type | Count | Status | Resolution |
-|------|----------|-------|--------|-----------|
-**Error Handling**: Complete exception safety via RAII, structured error codes, comprehensive logging.
-**Production Status**: Fully tested; used in multi-model GPU serving scenarios.
-#### LoRA Framework GPU Operations (6 gaps)
-| File | Gap Type | Count | Status | Resolution |
-|------|----------|-------|--------|-----------|
-| gpu_tensor.cpp | STUB (CUDA dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
-| gpu_tensor.cpp | STUB (HIP dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
-**Architecture**: All use callback injection pattern with safe CPU fallbacks.
-**Error Handling**: Structured error propagation, graceful degradation.
-**Production Status**: Deployed in multi-GPU LoRA training scenarios; handles heterogeneous hardware.
-### Category B: Legitimate Build Alternatives (3 gaps) - PRODUCTION-READY
-These represent intentional conditional compilation paths for different build configurations.
-#### Adapter & Build-Time Alternatives (3 gaps)
-| File | Gap Type | Count | Status | Resolution |
-|------|----------|-------|--------|-----------|
-
----
-
 ### L1_module_gaps_cache.md
 
 *(file too large — key headings extracted)*
@@ -9045,6 +9302,156 @@ High-priority fixes for stability and performance:
 
 ---
 
+### INDEX_GAP_CLOSURE_COORDINATION.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Gap Closure — Multi-Phase Coordination (2026-08-15)
+**Status:** Execution in progress (Phase 1-2 agents launched 2026-08-15 10:53 UTC)
+**Target Completion:** ~2026-09-30 (5-6 weeks)
+**Overall Goal:** 7,712 → ≤4,600 remaining gaps (60% closure) + 100% CRITICAL resolution
+---
+## Executive Status (RESTART: 2026-08-15 13:31 UTC)
+| Phase | Agent | Status | Agent ID | Target Completion | Deliverable |
+|-------|-------|--------|----------|------------------|-------------|
+| Phase 1 | gap-verifier | ✅ COMPLETE | (completed) | 2026-08-15 | gap_index_phase1_verification.json + report |
+| Phase 4 | task agents | 🟢 RUNNING | index-phase4-medium-severity | 2026-09-15 | ~1,400 MEDIUM gaps fixed |
+| Phase 6 | doc-orchestrator | 📋 QUEUED | (queued) | 2026-09-30 | MODULE_GAPS.md + ROADMAP.md updated |
+**Status Update Notes:**
+- Phase 1: ✅ Complete (96.2% confidence, 79 TRUE_POSITIVE, 1,942 FP, 4,691 DEFERRED)
+- Phase 2: Restarted with A-2/A-3 focused agent (A-1 already done, A-4 verified false positive)
+- Phase 3 & 4: Launched in parallel per Phase 1-3-4 coordinated model
+- Phase 5: Concurrent code review gates (CP-1 awaits Phase 2 completion)
+- **Execution Model:** All phases running in parallel (Phases 2-5); Phase 6 queued for start 2026-09-23
+---
+## Phase 1: Triage & Prioritization
+**Agent:** gap-verifier (index-gap-phase1-triage)
+**Duration:** 3-5 days (est. 2026-08-20)
+**Key Deliverable:** `ai_working/gap_index_phase1_verification.json`
+### Objectives
+- Classify all 7,712 gaps with ≥95% confidence
+- Separate TRUE_POSITIVE (real bugs) from FALSE_POSITIVE (tooling artifacts)
+- Identify DEFERRED (valid but lower-priority)
+- Produce Phase 2-4 prioritized work queue
+### Success Criteria
+- ✅ All 29 CRITICAL gaps classified and confidence scored
+- ✅ All top-20 gaps from MODULE_GAPS.md verified
+- ✅ Sample analysis of patterns >100 instances (braces_imbalance_midfile, scope_mismatch, etc.)
+- ✅ Confidence aggregate ≥95%
+- ✅ JSON output with actionable recommendations
+### Dependencies
+- None (runs immediately)
+---
+## Phase 2: CRITICAL Gap Remediation
+**Agent:** themisdb-implementer (index-gap-phase2-critical)
+**Duration:** 5-8 days (est. 2026-08-25)
+**Key Deliverables:** 29 CRITICAL gaps fixed + focused tests
+### Batches
+
+---
+
+### INDEX_GAP_CLOSURE_LAUNCH_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Gap Closure — Implementation Launch Summary
+**Date:** 2026-08-15 10:53 UTC
+**Status:** ✅ IMPLEMENTATION LAUNCHED
+**Target Completion:** ~2026-09-30 (5-6 weeks)
+---
+## 🚀 Launch Status
+### Active Agents (2 agents running in parallel)
+| Agent | ID | Phase | Status | Target Completion |
+|-------|----|----|--------|------------------|
+| gap-verifier | index-gap-phase1-triage | Phase 1 (Triage) | 🟢 RUNNING | 2026-08-20 |
+| themisdb-implementer | index-gap-phase2-critical | Phase 2 (CRITICAL) | 🟢 RUNNING | 2026-08-25 |
+### Queued Agents (Ready for dispatch after Phase 2)
+| Agent | Phase | Trigger | Est. Start |
+|-------|-------|---------|-----------|
+| themisdb-implementer | Phase 3 (HIGH) | Phase 2 complete | 2026-08-25 |
+| task agents | Phase 4 (MEDIUM) | Phase 1 complete | 2026-08-20 |
+| themisdb-reviewer | Phase 5 (Review) | Phase 2 A-1 complete | 2026-08-20 |
+| doc-orchestrator | Phase 6 (Docs) | Phase 5 CP-4 complete | 2026-09-20 |
+---
+## 📊 Execution Plan Overview
+**Goal:** 7,712 gaps → ≤4,600 remaining (60% closure) + 100% CRITICAL resolution
+### Phase Breakdown
+| Phase | Gaps | Agent | Timeline | Status |
+|-------|------|-------|----------|--------|
+| **1: Triage** | 0 | gap-verifier | 5d (Aug 15–20) | 🟢 Running |
+| **2: CRITICAL** | 29 | themisdb-implementer | 5d (Aug 20–25) | 🟢 Running |
+| **3: HIGH** | 1,800 | themisdb-implementer | 20d (Aug 26–Sep 15) | 📋 Queued |
+| **4: MEDIUM** | 1,400 | task agents | 20d (Aug 26–Sep 15) | 📋 Queued |
+| **5: Review** | N/A | themisdb-reviewer | 30d (Aug 20–Sep 20) | 📋 Queued |
+| **6: Docs** | N/A | doc-orchestrator | 10d (Sep 20–30) | 📋 Queued |
+| **TOTAL** | **3,112** | **Multi-agent** | **5-6w** | ✅ Launched |
+### Target Metrics
+| Metric | Target | Status |
+|--------|--------|--------|
+| Total gaps fixed | 3,112 | In progress |
+| % closure | 60% (7,712→4,600) | In progress |
+| CRITICAL resolved | 100% (29/29) | In progress |
+| HIGH resolved | ≥60% (1,800+/3,057) | In progress |
+| MEDIUM resolved | ≥30% (1,400/4,623) | In progress |
+| Code review pass rate | 100% | Pending Phase 2 A-1 |
+| CI/CD gates PASS | 100% | Pending Phase 2 A-1 |
+---
+## 📁 Documentation & Coordination
+
+---
+
+### INDEX_GAP_CLOSURE_LIVE_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Gap Closure — LIVE STATUS (2026-08-15)
+## Executive Summary
+---
+## Agent Status Dashboard (LIVE)
+### Phase 2: Iterator + GPU Memory Fixes
+**Agent ID:** `index-phase2-iterator-gpu-reme` (themisdb-implementer)
+**Status:** 🟢 **RUNNING** (532s elapsed, 96 tool calls)
+**Target:** Complete by 2026-08-25
+**Work:** Batch A-2 (iterator invalidation), Batch A-3 (GPU memory)
+**Alert:** Phase 5 blocker notification sent (awaiting acknowledgment)
+**Next:** Remediate 6 critical findings by 2026-08-22
+---
+### Phase 3: HIGH-Severity Batches
+**Agent ID:** `index-phase3-high-severity` (themisdb-implementer)
+**Status:** 🟢 **RUNNING** (501s elapsed, 70 tool calls)
+**Target:** Complete by 2026-09-15
+**Work:** Circular lock ordering (A-5), DB connection leaks (A-6), generic patterns (A-7, A-8+)
+**Goal:** 1,800+ HIGH gaps fixed (60% of 3,057 total)
+**Progress:** On track for parallel execution with Phases 2/4/5
+---
+### Phase 4: MEDIUM-Severity Batches
+**Agent ID:** `index-phase4-medium-severity` (task agent)
+**Status:** 🟡 **IDLE** (just completed batch 1)
+**Work Completed:**
+- ✅ **Batch 1 (Scope Mismatch):** 17 fixes applied across 17 files
+- ✅ **Classification Quality:** 60% TRUE_POSITIVE rate (better than spec)
+- ✅ **Risk Level:** VERY_LOW (scope narrowing is safe C++)
+- ✅ **Execution Pace:** 11x ahead of required velocity (~46/day target)
+**Files Modified (Batch 1):**
+- ann_frontdoor.cpp, binary_quantizer.cpp, approximate_radius_search.cpp
+- graph_analytics.cpp (4 fixes), graph_auto_buffer.cpp
+- hnsw_layer_optimizer.cpp, hnsw_parameter_tuner.cpp
+- learnable_rope.cpp, learned_quantizer.cpp, multi_gpu_vector_index.cpp
+- gpu_vector_index_vulkan.cpp (2 fixes), gpu_vector_index.cpp
+- property_graph.cpp (2 fixes), spatial_index.cpp
+**Staged for Continuation:**
+- 119+ scope_mismatch candidates
+- 231 copy_overhead patterns
+- 8+ string_concat_loop patterns
+- 2,662 braces_imbalance candidates (expected 90%+ false positives)
+**Progress Metrics:**
+- Batch 1 Progress: 17/200 minimum (8.5% ✅)
+- Overall Phase 4: 17/1,400 target (1.2%)
+- Execution Pace: 11x ahead ✅
+**Next Steps:** Build validation → Continue batches 1-3
+
+---
+
 ### INDEX_GAP_CLOSURE_MASTER_STATUS_2026-08-15_FINAL.md
 
 *(file too large — key headings extracted)*
@@ -9197,153 +9604,48 @@ High-priority fixes for stability and performance:
 
 ---
 
-### INDEX_GAP_CLOSURE_COORDINATION.md
+### IMPORTERS_GAP_CLOSURE_COORDINATION.md
 
 *(file too large — key headings extracted)*
 
-# Index Module Gap Closure — Multi-Phase Coordination (2026-08-15)
-**Status:** Execution in progress (Phase 1-2 agents launched 2026-08-15 10:53 UTC)
-**Target Completion:** ~2026-09-30 (5-6 weeks)
-**Overall Goal:** 7,712 → ≤4,600 remaining gaps (60% closure) + 100% CRITICAL resolution
+# Importers Module Gap Closure Coordination Framework
+**Start Date:** 2026-08-15
+**Target Completion:** 2026-10-15 (10 weeks)
+**Scope:** 282 total gaps (44 Critical, 151 High, 82 Medium, 5 Low) across 27 files
+**Model:** 6-phase coordinated sub-agent execution with parallel phases 3-5
 ---
-## Executive Status (RESTART: 2026-08-15 13:31 UTC)
-| Phase | Agent | Status | Agent ID | Target Completion | Deliverable |
-|-------|-------|--------|----------|------------------|-------------|
-| Phase 1 | gap-verifier | ✅ COMPLETE | (completed) | 2026-08-15 | gap_index_phase1_verification.json + report |
-| Phase 4 | task agents | 🟢 RUNNING | index-phase4-medium-severity | 2026-09-15 | ~1,400 MEDIUM gaps fixed |
-| Phase 6 | doc-orchestrator | 📋 QUEUED | (queued) | 2026-09-30 | MODULE_GAPS.md + ROADMAP.md updated |
-**Status Update Notes:**
-- Phase 1: ✅ Complete (96.2% confidence, 79 TRUE_POSITIVE, 1,942 FP, 4,691 DEFERRED)
-- Phase 2: Restarted with A-2/A-3 focused agent (A-1 already done, A-4 verified false positive)
-- Phase 3 & 4: Launched in parallel per Phase 1-3-4 coordinated model
-- Phase 5: Concurrent code review gates (CP-1 awaits Phase 2 completion)
-- **Execution Model:** All phases running in parallel (Phases 2-5); Phase 6 queued for start 2026-09-23
----
-## Phase 1: Triage & Prioritization
-**Agent:** gap-verifier (index-gap-phase1-triage)
-**Duration:** 3-5 days (est. 2026-08-20)
-**Key Deliverable:** `ai_working/gap_index_phase1_verification.json`
-### Objectives
-- Classify all 7,712 gaps with ≥95% confidence
-- Separate TRUE_POSITIVE (real bugs) from FALSE_POSITIVE (tooling artifacts)
-- Identify DEFERRED (valid but lower-priority)
-- Produce Phase 2-4 prioritized work queue
-### Success Criteria
-- ✅ All 29 CRITICAL gaps classified and confidence scored
-- ✅ All top-20 gaps from MODULE_GAPS.md verified
-- ✅ Sample analysis of patterns >100 instances (braces_imbalance_midfile, scope_mismatch, etc.)
-- ✅ Confidence aggregate ≥95%
-- ✅ JSON output with actionable recommendations
-### Dependencies
-- None (runs immediately)
----
-## Phase 2: CRITICAL Gap Remediation
-**Agent:** themisdb-implementer (index-gap-phase2-critical)
-**Duration:** 5-8 days (est. 2026-08-25)
-**Key Deliverables:** 29 CRITICAL gaps fixed + focused tests
-### Batches
-
----
-
-### INDEX_GAP_CLOSURE_LAUNCH_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Gap Closure — Implementation Launch Summary
-**Date:** 2026-08-15 10:53 UTC
-**Status:** ✅ IMPLEMENTATION LAUNCHED
-**Target Completion:** ~2026-09-30 (5-6 weeks)
----
-## 🚀 Launch Status
-### Active Agents (2 agents running in parallel)
-| Agent | ID | Phase | Status | Target Completion |
-|-------|----|----|--------|------------------|
-| gap-verifier | index-gap-phase1-triage | Phase 1 (Triage) | 🟢 RUNNING | 2026-08-20 |
-| themisdb-implementer | index-gap-phase2-critical | Phase 2 (CRITICAL) | 🟢 RUNNING | 2026-08-25 |
-### Queued Agents (Ready for dispatch after Phase 2)
-| Agent | Phase | Trigger | Est. Start |
-|-------|-------|---------|-----------|
-| themisdb-implementer | Phase 3 (HIGH) | Phase 2 complete | 2026-08-25 |
-| task agents | Phase 4 (MEDIUM) | Phase 1 complete | 2026-08-20 |
-| themisdb-reviewer | Phase 5 (Review) | Phase 2 A-1 complete | 2026-08-20 |
-| doc-orchestrator | Phase 6 (Docs) | Phase 5 CP-4 complete | 2026-09-20 |
----
-## 📊 Execution Plan Overview
-**Goal:** 7,712 gaps → ≤4,600 remaining (60% closure) + 100% CRITICAL resolution
-### Phase Breakdown
-| Phase | Gaps | Agent | Timeline | Status |
-|-------|------|-------|----------|--------|
-| **1: Triage** | 0 | gap-verifier | 5d (Aug 15–20) | 🟢 Running |
-| **2: CRITICAL** | 29 | themisdb-implementer | 5d (Aug 20–25) | 🟢 Running |
-| **3: HIGH** | 1,800 | themisdb-implementer | 20d (Aug 26–Sep 15) | 📋 Queued |
-| **4: MEDIUM** | 1,400 | task agents | 20d (Aug 26–Sep 15) | 📋 Queued |
-| **5: Review** | N/A | themisdb-reviewer | 30d (Aug 20–Sep 20) | 📋 Queued |
-| **6: Docs** | N/A | doc-orchestrator | 10d (Sep 20–30) | 📋 Queued |
-| **TOTAL** | **3,112** | **Multi-agent** | **5-6w** | ✅ Launched |
-### Target Metrics
-| Metric | Target | Status |
-|--------|--------|--------|
-| Total gaps fixed | 3,112 | In progress |
-| % closure | 60% (7,712→4,600) | In progress |
-| CRITICAL resolved | 100% (29/29) | In progress |
-| HIGH resolved | ≥60% (1,800+/3,057) | In progress |
-| MEDIUM resolved | ≥30% (1,400/4,623) | In progress |
-| Code review pass rate | 100% | Pending Phase 2 A-1 |
-| CI/CD gates PASS | 100% | Pending Phase 2 A-1 |
----
-## 📁 Documentation & Coordination
-
----
-
-### INDEX_GAP_CLOSURE_LIVE_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Gap Closure — LIVE STATUS (2026-08-15)
 ## Executive Summary
+**Success Criteria:**
+- 100% CRITICAL gaps resolved (44 items)
+- ≥90% HIGH gaps resolved (≥135 of 151 items, ≤16 deferred)
+- ≥60% MEDIUM/LOW resolved (≥52 of 87 items)
+- All changes pass `release_critical` CI and benchmark gates (IMRG-01..06)
+- Zero new warnings introduced
 ---
-## Agent Status Dashboard (LIVE)
-### Phase 2: Iterator + GPU Memory Fixes
-**Agent ID:** `index-phase2-iterator-gpu-reme` (themisdb-implementer)
-**Status:** 🟢 **RUNNING** (532s elapsed, 96 tool calls)
-**Target:** Complete by 2026-08-25
-**Work:** Batch A-2 (iterator invalidation), Batch A-3 (GPU memory)
-**Alert:** Phase 5 blocker notification sent (awaiting acknowledgment)
-**Next:** Remediate 6 critical findings by 2026-08-22
+## Phase Status Dashboard
+| Phase | Name | Status | Target | Agent | Output Artifact |
+|-------|------|--------|--------|-------|-----------------|
+| **1** | Triage & Validation | ✅ **COMPLETE** | W1 (Aug 15) | gap-verifier | IMPORTERS_PHASE1_GAP_TRIAGE.md |
+**Phase 1 Results (2026-08-15):**
+- TRUE_POSITIVE: 167 gaps (59.2%) — production code issues
+- GUARDED_STUB: 81 gaps (28.7%) — defensive patterns, downgrade severity
+- FALSE_POSITIVE: 23 gaps (8.2%) — remove (no action)
+- DEFERRED: 11 gaps (3.9%) — manual review Phase 2
+- **Total Actionable:** 259 gaps (91.8%)
+- **Confidence:** 76.7% average (51.8% high-confidence, ready for implementation)
+**Phase 2 Complete Results (2026-08-15, Day 1):**
+- **Phase 2A (Data Race):** ✅ 21/21 CRITICAL gaps fixed (mutex + lock_guard RAII)
+- **Phase 2B (Exception Safety):** ✅ 13/13 HIGH gaps fixed (make_unique + try-catch RAII)
+- **Phase 2C (Iterator Invalidation):** ✅ 3/3 CRITICAL gaps verified safe (external containers, safe patterns)
+- **Total Phase 2:** ✅ 37 CRITICAL+HIGH gaps closed in 1 day
+- **Phase 2 Exit Gate:** ✅ MET (all tests complete, 0 new warnings, ready for Phase 3)
 ---
-### Phase 3: HIGH-Severity Batches
-**Agent ID:** `index-phase3-high-severity` (themisdb-implementer)
-**Status:** 🟢 **RUNNING** (501s elapsed, 70 tool calls)
-**Target:** Complete by 2026-09-15
-**Work:** Circular lock ordering (A-5), DB connection leaks (A-6), generic patterns (A-7, A-8+)
-**Goal:** 1,800+ HIGH gaps fixed (60% of 3,057 total)
-**Progress:** On track for parallel execution with Phases 2/4/5
----
-### Phase 4: MEDIUM-Severity Batches
-**Agent ID:** `index-phase4-medium-severity` (task agent)
-**Status:** 🟡 **IDLE** (just completed batch 1)
-**Work Completed:**
-- ✅ **Batch 1 (Scope Mismatch):** 17 fixes applied across 17 files
-- ✅ **Classification Quality:** 60% TRUE_POSITIVE rate (better than spec)
-- ✅ **Risk Level:** VERY_LOW (scope narrowing is safe C++)
-- ✅ **Execution Pace:** 11x ahead of required velocity (~46/day target)
-**Files Modified (Batch 1):**
-- ann_frontdoor.cpp, binary_quantizer.cpp, approximate_radius_search.cpp
-- graph_analytics.cpp (4 fixes), graph_auto_buffer.cpp
-- hnsw_layer_optimizer.cpp, hnsw_parameter_tuner.cpp
-- learnable_rope.cpp, learned_quantizer.cpp, multi_gpu_vector_index.cpp
-- gpu_vector_index_vulkan.cpp (2 fixes), gpu_vector_index.cpp
-- property_graph.cpp (2 fixes), spatial_index.cpp
-**Staged for Continuation:**
-- 119+ scope_mismatch candidates
-- 231 copy_overhead patterns
-- 8+ string_concat_loop patterns
-- 2,662 braces_imbalance candidates (expected 90%+ false positives)
-**Progress Metrics:**
-- Batch 1 Progress: 17/200 minimum (8.5% ✅)
-- Overall Phase 4: 17/1,400 target (1.2%)
-- Execution Pace: 11x ahead ✅
-**Next Steps:** Build validation → Continue batches 1-3
+## Gaps by Severity and Complexity
+### Critical (28 gaps post-verification, down from 44)
+**Revised Severity (Phase 1 Triage Results):**
+- **CRITICAL (28 gaps):** Unguarded data races, iterator invalidation, smart_ptr misuse
+- Data race cluster: 21 gaps (postgres, mysql, flatfile, huggingface, mdm_engine)
+- Iterator invalidation: 3 gaps (mdm_engine, deterministic_matcher, data_quality)
 
 ---
 
@@ -9395,101 +9697,6 @@ s3_importer.cpp:        16 gaps (5.7%)
 - [ ] Phase 5: ≥60% MEDIUM/LOW closure (≥52/87 gaps)
 - [ ] Phase 6: Code review approved, benchmarks stable, documentation synced
 **Overall Target:** 60-70% total gap remediation (~170-190 gaps) by 2026-10-15
-
----
-
-### IMPORTERS_GAP_CLOSURE_COORDINATION.md
-
-*(file too large — key headings extracted)*
-
-# Importers Module Gap Closure Coordination Framework
-**Start Date:** 2026-08-15
-**Target Completion:** 2026-10-15 (10 weeks)
-**Scope:** 282 total gaps (44 Critical, 151 High, 82 Medium, 5 Low) across 27 files
-**Model:** 6-phase coordinated sub-agent execution with parallel phases 3-5
----
-## Executive Summary
-**Success Criteria:**
-- 100% CRITICAL gaps resolved (44 items)
-- ≥90% HIGH gaps resolved (≥135 of 151 items, ≤16 deferred)
-- ≥60% MEDIUM/LOW resolved (≥52 of 87 items)
-- All changes pass `release_critical` CI and benchmark gates (IMRG-01..06)
-- Zero new warnings introduced
----
-## Phase Status Dashboard
-| Phase | Name | Status | Target | Agent | Output Artifact |
-|-------|------|--------|--------|-------|-----------------|
-| **1** | Triage & Validation | ✅ **COMPLETE** | W1 (Aug 15) | gap-verifier | IMPORTERS_PHASE1_GAP_TRIAGE.md |
-**Phase 1 Results (2026-08-15):**
-- TRUE_POSITIVE: 167 gaps (59.2%) — production code issues
-- GUARDED_STUB: 81 gaps (28.7%) — defensive patterns, downgrade severity
-- FALSE_POSITIVE: 23 gaps (8.2%) — remove (no action)
-- DEFERRED: 11 gaps (3.9%) — manual review Phase 2
-- **Total Actionable:** 259 gaps (91.8%)
-- **Confidence:** 76.7% average (51.8% high-confidence, ready for implementation)
-**Phase 2 Complete Results (2026-08-15, Day 1):**
-- **Phase 2A (Data Race):** ✅ 21/21 CRITICAL gaps fixed (mutex + lock_guard RAII)
-- **Phase 2B (Exception Safety):** ✅ 13/13 HIGH gaps fixed (make_unique + try-catch RAII)
-- **Phase 2C (Iterator Invalidation):** ✅ 3/3 CRITICAL gaps verified safe (external containers, safe patterns)
-- **Total Phase 2:** ✅ 37 CRITICAL+HIGH gaps closed in 1 day
-- **Phase 2 Exit Gate:** ✅ MET (all tests complete, 0 new warnings, ready for Phase 3)
----
-## Gaps by Severity and Complexity
-### Critical (28 gaps post-verification, down from 44)
-**Revised Severity (Phase 1 Triage Results):**
-- **CRITICAL (28 gaps):** Unguarded data races, iterator invalidation, smart_ptr misuse
-- Data race cluster: 21 gaps (postgres, mysql, flatfile, huggingface, mdm_engine)
-- Iterator invalidation: 3 gaps (mdm_engine, deterministic_matcher, data_quality)
-
----
-
-### HEADER_GAP_REMEDIATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
----
-title: "Header-to-Implementation Gap Remediation Report"
-date: 2026-08-03
-status: "COMPLETE"
----
-# Header-to-Implementation Gap Remediation — Final Report
-## Executive Summary
-- **Documentation** (25 headers): Added @note entries explaining header-only/interface nature
-- **Implementation Stubs** (14 files): Created .cpp files with basic structure and logging
-## Module-by-Module Summary
-### AUTH Module (7 gaps → 3 remaining)
-**Headers Documented as Header-Only (3):**
-1. `auth_principal_contract.h` - Frozen contract definition for auth principals
-2. `authorization_policy.h` - Interface delegated to OPA/Ranger adapters
-3. `eid_authenticator.h` - Interface delegated to eIDAS service providers
-**Stub .cpp Files Created (4):**
-1. `auth_event_bus.cpp` - In-process pub/sub for auth events with subscriber registry
-2. `auth_worker_thread_pool.cpp` - Async worker pool for LDAP/HTTP/validation tasks
-3. `passkey_authenticator.cpp` - WebAuthn credential validation and challenge generation
-4. `secure_memory.cpp` - Memory security utilities (zeroing, mlock, ASLR protection)
-**Gap Resolution:**
-- Originally 7 gaps identified
-- 4 gaps resolved with .cpp stub implementations
-- 3 gaps resolved with documentation (remain header-only by design)
----
-### SERVER Module (6 gaps → 0 remaining)
-**All 6 Gaps Documented as Header-Only:**
-1. `server_api_contract.h` - Frozen contract for server components
-2. `server_activation_profile.h` - Server activation profile configuration
-3. `rpc_service_impl.h` - Abstract RPC service interface
-4. `route_version_router.h` - URL versioning router (inline functions)
-5. `api_version_config.h` - API version constants (constexpr)
-6. `auth_scope_mapper.h` - Auth scope utility functions (inline)
----
-### LLM Module (26 gaps → 10 remaining)
-**Plugin Interfaces Documented (8):**
-- `llm_api_contract.h` - Frozen LLM contract definition
-- `i_llm_plugin.h` - LLM plugin interface (legacy compatibility)
-- `i_federated_inference_backend.h` - Federated inference plugin interface
-- `i_feedback_plugin.h` - Feedback mechanism plugin interface
-- `i_history_compressor.h` - History compression plugin interface
-- `i_ssm_plugin.h` - SSM/Mamba backend plugin interface
-- `themis_tool_interface.h` - Tool plugin interface
 
 ---
 
@@ -9556,6 +9763,56 @@ Scope: server, llm, query, sharding, index (nach Rescan)
 
 ---
 
+### HEADER_GAP_REMEDIATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+---
+title: "Header-to-Implementation Gap Remediation Report"
+date: 2026-08-03
+status: "COMPLETE"
+---
+# Header-to-Implementation Gap Remediation — Final Report
+## Executive Summary
+- **Documentation** (25 headers): Added @note entries explaining header-only/interface nature
+- **Implementation Stubs** (14 files): Created .cpp files with basic structure and logging
+## Module-by-Module Summary
+### AUTH Module (7 gaps → 3 remaining)
+**Headers Documented as Header-Only (3):**
+1. `auth_principal_contract.h` - Frozen contract definition for auth principals
+2. `authorization_policy.h` - Interface delegated to OPA/Ranger adapters
+3. `eid_authenticator.h` - Interface delegated to eIDAS service providers
+**Stub .cpp Files Created (4):**
+1. `auth_event_bus.cpp` - In-process pub/sub for auth events with subscriber registry
+2. `auth_worker_thread_pool.cpp` - Async worker pool for LDAP/HTTP/validation tasks
+3. `passkey_authenticator.cpp` - WebAuthn credential validation and challenge generation
+4. `secure_memory.cpp` - Memory security utilities (zeroing, mlock, ASLR protection)
+**Gap Resolution:**
+- Originally 7 gaps identified
+- 4 gaps resolved with .cpp stub implementations
+- 3 gaps resolved with documentation (remain header-only by design)
+---
+### SERVER Module (6 gaps → 0 remaining)
+**All 6 Gaps Documented as Header-Only:**
+1. `server_api_contract.h` - Frozen contract for server components
+2. `server_activation_profile.h` - Server activation profile configuration
+3. `rpc_service_impl.h` - Abstract RPC service interface
+4. `route_version_router.h` - URL versioning router (inline functions)
+5. `api_version_config.h` - API version constants (constexpr)
+6. `auth_scope_mapper.h` - Auth scope utility functions (inline)
+---
+### LLM Module (26 gaps → 10 remaining)
+**Plugin Interfaces Documented (8):**
+- `llm_api_contract.h` - Frozen LLM contract definition
+- `i_llm_plugin.h` - LLM plugin interface (legacy compatibility)
+- `i_federated_inference_backend.h` - Federated inference plugin interface
+- `i_feedback_plugin.h` - Feedback mechanism plugin interface
+- `i_history_compressor.h` - History compression plugin interface
+- `i_ssm_plugin.h` - SSM/Mamba backend plugin interface
+- `themis_tool_interface.h` - Tool plugin interface
+
+---
+
 ### GPU_MODULE_GAP_REMEDIATION_FINAL_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -9602,6 +9859,148 @@ Scope: server, llm, query, sharding, index (nach Rescan)
 | **SUBTOTAL** | **4** | **26** | **6** | **36** |
 ---
 ### Phase 3: Acceleration Path Hardening ✅
+
+---
+
+### GAP_ANALYSIS.md
+
+*(file too large — key headings extracted)*
+
+# GAP_ANALYSIS.md
+# ThemisDB Gap Analysis
+## From Current Hybrid RAG to Target Hybrid Knowledge Retrieval Architecture
+**Status:** Updated to reflect GS3 full-scan and recent fixes
+**Date:** 2026-06-27
+---
+## 1. Purpose
+- ANN Frontdoor
+- Tensor Mid-Layer
+- Graph Truth Layer
+- LLM / LoRA Final Layer
+---
+## 2. Summary
+### High-Level Gap Statement
+---
+## 3. Layer-by-Layer Gaps
+## 3.1 ANN Frontdoor Gaps
+### Present
+- vector-oriented retrieval logic
+- embedding-aware retrieval concepts
+### Missing / Incomplete
+- explicit ANN-frontdoor abstraction → **implementiert**: `AnnFrontdoor` in `include/index/ann_frontdoor.h`
+- unified HNSW/DiskANN strategy → **implementiert** in `AnnFrontdoor::planRetrieval()` / `planStrategy()`
+### Consequence
+### Current Focus
+- cross-cutting observability and reasoning traces
+- stronger end-to-end provenance and package governance
+- lifecycle hardening around package/model operations
+---
+## 3.2 Tensor Mid-Layer Gaps
+### Present
+
+---
+
+### GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Gap Closure Master Coordination Plan
+**Date:** 2026-08-15 17:07 UTC
+**Coordinator:** Copilot Main Agent
+**Status:** 🟢 READY TO LAUNCH
+---
+## Executive Summary
+**Total Gaps Across All Modules:** ~10,000+ (TRUE_POSITIVE: 300+)
+**Target Closure:** 50-60% reduction over 4-6 weeks
+**Coordinated Agents:** 6+ (parallel themes)
+**User Preference:** Larger remediation batches per commit ("weiter"/"nächster block")
+---
+## Module-by-Module Status
+### 1. **Index Module** 🟢 Phase 2 Remediation ACTIVE
+**Gap Scope:** 7,712 total | 79 TRUE_POSITIVE | 1,942 FALSE_POSITIVE | 4,691 DEFERRED
+**Phase Status:** Phase 2 (CRITICAL/HIGH fixes) remediation committed
+**Next Actions:**
+- Phase 2 A-2 (iterator invalidation, 8 gaps) — in progress
+- Phase 2 A-3 (GPU memory, 5 gaps) — in progress
+- Phase 2 A-5 (lock ordering, 11 gaps) — queued
+- Phase 2 A-6 (db_connection_leak, 34 gaps) — queued
+**Critical Blockers:** 6 findings from Phase 5 review (4 CRITICAL, 2 HIGH)
+- Exception-in-destructor (VectorIndexManager) ✅ FIXED
+- Unsafe raw delete (RAII violations) ✅ FIXED
+- GPU Vector Index destructor ✅ FIXED
+- Iterator invalidation (partition removal) ✅ FIXED
+- Missing CMake presets ✅ FIXED
+- Missing test coverage 🟡 IN_PROGRESS
+**Remediation Target:** 2026-08-22 (48-hour window + 7-day buffer)
+**Validation Gates:** ASan/TSan/UBSan 0 alerts, 100% test pass
+---
+### 2. **Analytics Module** 🟡 Phase 1 COMPLETE, Phase 2 ACTIVE
+**Gap Scope:** 412 total | 19 TRUE_POSITIVE | 14 DEFERRED | 2 FALSE_POSITIVE
+**Phase Status:** Phase 1 (CRITICAL validation) COMPLETE; Phase 2 Batch A-1 (lock ordering) COMPLETE
+**Next Actions:**
+- Phase 2 A-2 (db_connection_leak, 20 gaps) — queued
+- Phase 2 B (pointer_arithmetic + unchecked_result, 14 gaps) — queued
+- Phase 3 (scope_mismatch automation, 500+ gaps) — parallel execution
+**Execution Model:** 6-phase parallel workstreams with gap-verifier validation
+**Timeline:** 4-5 weeks for 50%+ closure
+**Validation Gates:** Deadlock prevention, thread safety verified
+---
+### 3. **LLM Module** 🟡 Phase 1 COMPLETE, Phase 2 Queued
+**Gap Scope:** 942 verified gaps (execution-ready analysis)
+**Phase Status:** Analysis complete; ready for Phase 2 implementation
+**Next Actions:**
+
+---
+
+### GAP_ELIMINATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# LLM Module Gap Elimination Plan
+## Strategy
+Instead of complete reimplementation, this plan:
+1. Replaces non-production fallback/simulation paths with real source-level implementations
+2. Adds comprehensive Doxygen documentation
+3. Implements missing error handling and logging
+4. Ensures all conditional paths are tested and documented
+## Gap Inventory (21 total across 11 files)
+### Block 1: GPU Memory Management (9 gaps)
+- `gpu_memory_manager.cpp`: 8 Simulation paths, 1 STUB
+- Action: Enhance VRAM tracking, better fallback documentation, production error paths
+### Block 2: LoRA Framework GPU Operations (6 gaps)
+- `custom_allreduce.cpp`: 2 STUB (P2P GPU copy, allreduce)
+- `gpu_utilization_monitor.cpp`: 2 STUB (Vulkan metrics, DirectX metrics)
+- `gpu_tensor.cpp`: 2 STUB (dtype-cast bridges for CUDA/HIP)
+- Action: Implement callback-based fallbacks + real implementations when available
+### Block 3: Core LLM Adapters (4 gaps)
+- `embedded_llm_stub.cpp`: 1 STUB (legitimate build-time alternative)
+- `llama_lora_adapter.cpp`: 1 STUB
+- `llama_grammar_adapter.cpp`: 1 STUB
+- `inline_training_engine.cpp`: 1 STUB
+- Action: Production-ready implementations + fallback strategies
+### Block 4: LoRA Training & Validation (2 gaps)
+- `quantization.cpp`: 1 STUB
+- `gpu_training_loop.cpp`: 1 STUB
+- `production_validator.cpp`: 1 Simulation
+- Action: Real implementations with proper error handling
+## Implementation Approach
+### Phase 1: Documentation Alignment
+- Add comprehensive Doxygen @file headers to all 11 files
+- Document runtime behavior and edge cases
+### Phase 2: Callback-Based Implementations
+- Use callback injection pattern (already established in codebase)
+- Provide default fallback implementations
+- Enable GPU-specific code paths when available
+### Phase 3: Testing & Verification
+- Verify existing tests pass
+- Add tests for fallback paths
+- Document test coverage
+## Production Readiness Criteria
+- [ ] All fallback paths have clear documentation
+- [ ] Error handling is complete and logged
+- [ ] Conditional compilation is clear (@ifdef markers)
+- [ ] Doxygen documentation covers all public APIs
+- [ ] Tests validate both GPU and CPU paths
 
 ---
 
@@ -9810,148 +10209,6 @@ Machine-readable verified findings suitable for automated processing and issue t
 },
 "findings": [
 {
-
----
-
-### GAP_ANALYSIS.md
-
-*(file too large — key headings extracted)*
-
-# GAP_ANALYSIS.md
-# ThemisDB Gap Analysis
-## From Current Hybrid RAG to Target Hybrid Knowledge Retrieval Architecture
-**Status:** Updated to reflect GS3 full-scan and recent fixes
-**Date:** 2026-06-27
----
-## 1. Purpose
-- ANN Frontdoor
-- Tensor Mid-Layer
-- Graph Truth Layer
-- LLM / LoRA Final Layer
----
-## 2. Summary
-### High-Level Gap Statement
----
-## 3. Layer-by-Layer Gaps
-## 3.1 ANN Frontdoor Gaps
-### Present
-- vector-oriented retrieval logic
-- embedding-aware retrieval concepts
-### Missing / Incomplete
-- explicit ANN-frontdoor abstraction → **implementiert**: `AnnFrontdoor` in `include/index/ann_frontdoor.h`
-- unified HNSW/DiskANN strategy → **implementiert** in `AnnFrontdoor::planRetrieval()` / `planStrategy()`
-### Consequence
-### Current Focus
-- cross-cutting observability and reasoning traces
-- stronger end-to-end provenance and package governance
-- lifecycle hardening around package/model operations
----
-## 3.2 Tensor Mid-Layer Gaps
-### Present
-
----
-
-### GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Gap Closure Master Coordination Plan
-**Date:** 2026-08-15 17:07 UTC
-**Coordinator:** Copilot Main Agent
-**Status:** 🟢 READY TO LAUNCH
----
-## Executive Summary
-**Total Gaps Across All Modules:** ~10,000+ (TRUE_POSITIVE: 300+)
-**Target Closure:** 50-60% reduction over 4-6 weeks
-**Coordinated Agents:** 6+ (parallel themes)
-**User Preference:** Larger remediation batches per commit ("weiter"/"nächster block")
----
-## Module-by-Module Status
-### 1. **Index Module** 🟢 Phase 2 Remediation ACTIVE
-**Gap Scope:** 7,712 total | 79 TRUE_POSITIVE | 1,942 FALSE_POSITIVE | 4,691 DEFERRED
-**Phase Status:** Phase 2 (CRITICAL/HIGH fixes) remediation committed
-**Next Actions:**
-- Phase 2 A-2 (iterator invalidation, 8 gaps) — in progress
-- Phase 2 A-3 (GPU memory, 5 gaps) — in progress
-- Phase 2 A-5 (lock ordering, 11 gaps) — queued
-- Phase 2 A-6 (db_connection_leak, 34 gaps) — queued
-**Critical Blockers:** 6 findings from Phase 5 review (4 CRITICAL, 2 HIGH)
-- Exception-in-destructor (VectorIndexManager) ✅ FIXED
-- Unsafe raw delete (RAII violations) ✅ FIXED
-- GPU Vector Index destructor ✅ FIXED
-- Iterator invalidation (partition removal) ✅ FIXED
-- Missing CMake presets ✅ FIXED
-- Missing test coverage 🟡 IN_PROGRESS
-**Remediation Target:** 2026-08-22 (48-hour window + 7-day buffer)
-**Validation Gates:** ASan/TSan/UBSan 0 alerts, 100% test pass
----
-### 2. **Analytics Module** 🟡 Phase 1 COMPLETE, Phase 2 ACTIVE
-**Gap Scope:** 412 total | 19 TRUE_POSITIVE | 14 DEFERRED | 2 FALSE_POSITIVE
-**Phase Status:** Phase 1 (CRITICAL validation) COMPLETE; Phase 2 Batch A-1 (lock ordering) COMPLETE
-**Next Actions:**
-- Phase 2 A-2 (db_connection_leak, 20 gaps) — queued
-- Phase 2 B (pointer_arithmetic + unchecked_result, 14 gaps) — queued
-- Phase 3 (scope_mismatch automation, 500+ gaps) — parallel execution
-**Execution Model:** 6-phase parallel workstreams with gap-verifier validation
-**Timeline:** 4-5 weeks for 50%+ closure
-**Validation Gates:** Deadlock prevention, thread safety verified
----
-### 3. **LLM Module** 🟡 Phase 1 COMPLETE, Phase 2 Queued
-**Gap Scope:** 942 verified gaps (execution-ready analysis)
-**Phase Status:** Analysis complete; ready for Phase 2 implementation
-**Next Actions:**
-
----
-
-### GAP_ELIMINATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# LLM Module Gap Elimination Plan
-## Strategy
-Instead of complete reimplementation, this plan:
-1. Replaces non-production fallback/simulation paths with real source-level implementations
-2. Adds comprehensive Doxygen documentation
-3. Implements missing error handling and logging
-4. Ensures all conditional paths are tested and documented
-## Gap Inventory (21 total across 11 files)
-### Block 1: GPU Memory Management (9 gaps)
-- `gpu_memory_manager.cpp`: 8 Simulation paths, 1 STUB
-- Action: Enhance VRAM tracking, better fallback documentation, production error paths
-### Block 2: LoRA Framework GPU Operations (6 gaps)
-- `custom_allreduce.cpp`: 2 STUB (P2P GPU copy, allreduce)
-- `gpu_utilization_monitor.cpp`: 2 STUB (Vulkan metrics, DirectX metrics)
-- `gpu_tensor.cpp`: 2 STUB (dtype-cast bridges for CUDA/HIP)
-- Action: Implement callback-based fallbacks + real implementations when available
-### Block 3: Core LLM Adapters (4 gaps)
-- `embedded_llm_stub.cpp`: 1 STUB (legitimate build-time alternative)
-- `llama_lora_adapter.cpp`: 1 STUB
-- `llama_grammar_adapter.cpp`: 1 STUB
-- `inline_training_engine.cpp`: 1 STUB
-- Action: Production-ready implementations + fallback strategies
-### Block 4: LoRA Training & Validation (2 gaps)
-- `quantization.cpp`: 1 STUB
-- `gpu_training_loop.cpp`: 1 STUB
-- `production_validator.cpp`: 1 Simulation
-- Action: Real implementations with proper error handling
-## Implementation Approach
-### Phase 1: Documentation Alignment
-- Add comprehensive Doxygen @file headers to all 11 files
-- Document runtime behavior and edge cases
-### Phase 2: Callback-Based Implementations
-- Use callback injection pattern (already established in codebase)
-- Provide default fallback implementations
-- Enable GPU-specific code paths when available
-### Phase 3: Testing & Verification
-- Verify existing tests pass
-- Add tests for fallback paths
-- Document test coverage
-## Production Readiness Criteria
-- [ ] All fallback paths have clear documentation
-- [ ] Error handling is complete and logged
-- [ ] Conditional compilation is clear (@ifdef markers)
-- [ ] Doxygen documentation covers all public APIs
-- [ ] Tests validate both GPU and CPU paths
 
 ---
 
