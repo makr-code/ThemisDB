@@ -209,6 +209,13 @@ struct TumblingWindowConfig {
     /// Records that arrive when a window is at capacity are dropped and counted
     /// in WindowStats::records_dropped.
     uint64_t max_records_per_window = 0;
+    /// Maximum number of distinct non-empty partition_key values tracked per
+    /// open window. 0 = unlimited. When the limit is reached, records carrying
+    /// a new (previously unseen) partition_key for that window are rejected and
+    /// counted in WindowStats::partition_keys_rejected.
+    /// Bounds memory in high-cardinality key spaces (e.g. per-user analytics
+    /// with millions of distinct user IDs sharing the same time bucket).
+    uint64_t max_distinct_partition_keys = 0;
 };
 
 struct SlidingWindowConfig {
@@ -222,6 +229,11 @@ struct SlidingWindowConfig {
     /// Maximum records accepted per open window. 0 = unlimited.
     /// Records that arrive when a window is at capacity are skipped for that window.
     uint64_t max_records_per_window = 0;
+    /// Maximum number of distinct non-empty partition_key values accepted across
+    /// the lifetime of this SlidingWindow instance. 0 = unlimited.
+    /// Records carrying a new unseen partition_key when the limit is already
+    /// reached are rejected and counted in WindowStats::partition_keys_rejected.
+    uint64_t max_distinct_partition_keys = 0;
 };
 
 struct SessionWindowConfig {
@@ -249,6 +261,11 @@ struct HoppingWindowConfig {
     /// Maximum records accepted per open window. 0 = unlimited.
     /// Records that arrive when a window is at capacity are skipped for that window.
     uint64_t max_records_per_window = 0;
+    /// Maximum number of distinct non-empty partition_key values accepted across
+    /// the lifetime of this HoppingWindow instance. 0 = unlimited.
+    /// Records carrying a new unseen partition_key when the limit is already
+    /// reached are rejected and counted in WindowStats::partition_keys_rejected.
+    uint64_t max_distinct_partition_keys = 0;
 };
 
 // ============================================================================
@@ -273,6 +290,11 @@ struct WindowStats {
     ///     still ingested into existing windows).
     /// A non-zero value indicates the window is operating under backpressure.
     uint64_t windows_evicted  = 0;
+    /// Incremented when a record is rejected because its non-empty partition_key
+    /// was not yet seen and max_distinct_partition_keys was already reached.
+    /// Only populated by TumblingWindow, SlidingWindow, and HoppingWindow;
+    /// SessionWindow uses max_open_sessions for the equivalent cardinality cap.
+    uint64_t partition_keys_rejected = 0;
 };
 
 // ============================================================================
@@ -333,6 +355,9 @@ private:
         std::chrono::system_clock::time_point end;
         std::vector<StreamRecord> records;
         std::string partition_key;
+        /// Tracks distinct non-empty partition_key values seen in this window.
+        /// Used to enforce TumblingWindowConfig::max_distinct_partition_keys.
+        std::unordered_set<std::string> seen_partition_keys;
     };
 
     // One window per time-slot
@@ -351,6 +376,9 @@ private:
     std::atomic<uint64_t> results_emitted_{0};
     /// Incremented when a window is force-evicted due to max_open_windows limit.
     std::atomic<uint64_t> windows_evicted_{0};
+    /// Incremented when a record is dropped because its partition_key exceeds
+    /// max_distinct_partition_keys for the current window slot.
+    std::atomic<uint64_t> partition_keys_rejected_{0};
     std::thread idle_thread_;
     std::atomic<bool> idle_running_{false};
     std::condition_variable idle_cv_;
@@ -432,9 +460,15 @@ private:
     std::atomic<uint64_t> results_emitted_{0};
     /// Incremented when new window creation is skipped due to max_open_windows limit.
     std::atomic<uint64_t> windows_evicted_{0};
+    /// Incremented when a record is rejected because its partition_key was not yet
+    /// seen and max_distinct_partition_keys was already reached.
+    std::atomic<uint64_t> partition_keys_rejected_{0};
 
     // O(1) duplicate-detection index keyed on window start (TODO #5)
     std::unordered_set<int64_t> window_start_set_;
+    /// Tracks distinct non-empty partition_key values seen across all ingest calls.
+    /// Protected by mutex_. Used to enforce SlidingWindowConfig::max_distinct_partition_keys.
+    std::unordered_set<std::string> seen_partition_keys_;
 
     // Idle-timeout background thread (TODO #1)
     std::thread idle_thread_;
@@ -591,9 +625,15 @@ private:
     std::atomic<uint64_t> results_emitted_{0};
     /// Incremented when new window creation is skipped due to max_open_windows limit.
     std::atomic<uint64_t> windows_evicted_{0};
+    /// Incremented when a record is rejected because its partition_key was not yet
+    /// seen and max_distinct_partition_keys was already reached.
+    std::atomic<uint64_t> partition_keys_rejected_{0};
 
     // O(1) duplicate-detection index keyed on window start (TODO #5)
     std::unordered_set<int64_t> window_start_set_;
+    /// Tracks distinct non-empty partition_key values seen across all ingest calls.
+    /// Protected by mutex_. Used to enforce HoppingWindowConfig::max_distinct_partition_keys.
+    std::unordered_set<std::string> seen_partition_keys_;
 
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);

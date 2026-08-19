@@ -744,6 +744,7 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
 
 DistributedAnalyticsSharding::DistributedResult
 DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
+    const auto t_start = std::chrono::steady_clock::now();
     // OBSERVABILITY: trace entry for distributed query dispatch
     spdlog::debug("DistributedAnalyticsSharding::executeDistributed: collection='{}', "
                   "tenant='{}', dimensions={}, measures={}",
@@ -794,6 +795,9 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         spdlog::warn("DistributedAnalyticsSharding: no healthy shards registered "
                      "for tenant '{}'",
                      query.tenant_id);
+        result.total_execution_ms =
+            std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - t_start).count();
         return result;
     }
 
@@ -926,6 +930,9 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                 spdlog::error("DistributedAnalyticsSharding: shard {} failed and "
                               "allow_partial_results=false; aborting merge",
                               info.shard_id);
+                result.total_execution_ms =
+                    std::chrono::duration<double, std::milli>(
+                        std::chrono::steady_clock::now() - t_start).count();
                 return result;
             }
         }
@@ -943,19 +950,103 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                           failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards, active.size());
             // Return partial shard_info without a merged result so the caller
             // can distinguish this from a full success.
+            result.total_execution_ms =
+                std::chrono::duration<double, std::milli>(
+                    std::chrono::steady_clock::now() - t_start).count();
             return result;
         }
     }
 
     if (partials.empty()) {
         spdlog::warn("DistributedAnalyticsSharding: all shards failed");
+        result.total_execution_ms =
+            std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - t_start).count();
         return result;
     }
 
     // ------------------------------------------------------------------
     // Merge
     // ------------------------------------------------------------------
+    const auto t_merge_start = std::chrono::steady_clock::now();
     result.merged = mergeResults(partials, query);
+    const auto t_merge_end = std::chrono::steady_clock::now();
+    result.merge_duration_ms =
+        std::chrono::duration<double, std::milli>(t_merge_end - t_merge_start).count();
+    result.total_execution_ms =
+        std::chrono::duration<double, std::milli>(t_merge_end - t_start).count();
+
+    // ------------------------------------------------------------------
+    // Operator remediation hints
+    // ------------------------------------------------------------------
+    // Identify the slowest shard for latency outlier hints.
+    double max_shard_ms   = 0.0;
+    std::string slow_shard;
+    bool any_timeout       = false;
+    bool any_circuit_open  = false;
+    size_t failed_count    = 0;
+    std::vector<std::string> open_cb_shards;
+
+    for (const auto &si : result.shard_info) {
+        if (!si.success) {
+            ++failed_count;
+            if (si.error.find("timeout") != std::string::npos) {
+                any_timeout = true;
+            }
+        }
+        if (si.circuit_state == CircuitBreakerState::OPEN) {
+            any_circuit_open = true;
+            open_cb_shards.push_back(si.shard_id);
+        }
+        if (si.execution_time_ms > max_shard_ms) {
+            max_shard_ms = si.execution_time_ms;
+            slow_shard   = si.shard_id;
+        }
+    }
+
+    if (any_timeout && config_.shard_timeout_ms > 0) {
+        result.operator_hints.push_back(
+            "One or more shards timed out; consider increasing shard_timeout_ms (current: " +
+            std::to_string(config_.shard_timeout_ms) + " ms) or inspecting shard health.");
+    }
+    for (const auto &s : open_cb_shards) {
+        result.operator_hints.push_back(
+            "Shard '" + s + "' circuit breaker is OPEN — verify shard reachability and restart if needed.");
+    }
+    if (result.total_shards > 0 && failed_count > 0) {
+        const double failure_pct =
+            100.0 * static_cast<double>(failed_count) / static_cast<double>(result.total_shards);
+        if (failure_pct > 10.0) {
+            std::ostringstream oss;
+            oss.precision(1);
+            oss << std::fixed << "High shard failure rate (" << failure_pct << "%, "
+                << failed_count << "/" << result.total_shards
+                << " shards) — check cluster connectivity and shard logs.";
+            result.operator_hints.push_back(oss.str());
+        }
+    }
+    if (result.successful_shards < result.total_shards) {
+        result.operator_hints.push_back(
+            "Partial result: " + std::to_string(result.successful_shards) + "/" +
+            std::to_string(result.total_shards) +
+            " shards responded — treat aggregated values with caution.");
+    }
+    if (!slow_shard.empty() && max_shard_ms > 1000.0) {
+        std::ostringstream oss;
+        oss.precision(0);
+        oss << std::fixed << "Shard '" << slow_shard << "' had the highest latency ("
+            << max_shard_ms << " ms) — consider load-balancing or rebalancing this shard.";
+        result.operator_hints.push_back(oss.str());
+    }
+
+    if (!result.operator_hints.empty()) {
+        spdlog::warn("DistributedAnalyticsSharding: {} operator hint(s) generated for "
+                     "collection='{}' ({}/{} shards OK, total={:.1f}ms)",
+                     result.operator_hints.size(), query.collection,
+                     result.successful_shards, result.total_shards,
+                     result.total_execution_ms);
+    }
+
     return result;
 }
 

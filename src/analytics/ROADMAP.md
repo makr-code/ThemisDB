@@ -94,9 +94,9 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] strengthen bounded-memory behavior in high-cardinality streaming windows (Target: Q4 2026)
-- [ ] extend integration regression coverage for serving and export failure classes (Target: Q4 2026)
-- [ ] improve distributed merge diagnostics and operator-facing telemetry (Target: Q4 2026)
+- [x] strengthen bounded-memory behavior in high-cardinality streaming windows (Completed 2026-08-19)
+- [x] extend integration regression coverage for serving and export failure classes (Completed 2026-08-19)
+- [x] improve distributed merge diagnostics and operator-facing telemetry (Completed 2026-08-19)
 
 ### Mid-term (6-12 months)
 - [ ] add/expand dedicated benchmarks for currently proxy-covered analytics paths (Target: Q1 2027)
