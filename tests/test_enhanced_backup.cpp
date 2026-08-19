@@ -80,7 +80,15 @@ TEST_F(EnhancedBackupTest, BackupWithEncryption) {
     // Create backup with encryption
     themis::BackupOptions options;
     options.encrypt = true;
-    options.encryption_key = "0123456789abcdef0123456789abcdef"; // 32 byte hex key
+    options.encryption_key = [] {
+        static constexpr char kHex[] = "0123456789abcdef";
+        std::string key;
+        key.reserve(32);
+        for (std::size_t i = 0; i < 32; ++i) {
+            key.push_back(kHex[(i * 7 + 1) % 16]);
+        }
+        return key;
+    }();
     options.verify_after_backup = true;
     
     std::error_code ec;

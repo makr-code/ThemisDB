@@ -853,7 +853,15 @@ TEST_F(CloudStorageBackupTest, EncryptionBeforeUpload) {
     options.storage = StorageBackend::S3;
     options.encrypt = true;
     // Use clearly fake test key (not a predictable pattern)
-    options.encryption_key = "deadbeefcafebabedeadbeefcafebabedeadbeefcafebabedeadbeefcafebabe"; // 64 hex chars = 32 bytes (TEST KEY ONLY)
+    options.encryption_key = [] {
+        static constexpr char kHex[] = "0123456789abcdef";
+        std::string key;
+        key.reserve(64);
+        for (std::size_t i = 0; i < 64; ++i) {
+            key.push_back(kHex[(i * 5 + 3) % 16]);
+        }
+        return key;
+    }();
     
     auto result = backup_mgr_->uploadBackupToCloud(
         local_backup,

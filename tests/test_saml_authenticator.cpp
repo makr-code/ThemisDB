@@ -2,6 +2,7 @@
 #include "auth/saml_authenticator.h"
 #include "auth/auth_error.h"
 #include <chrono>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -798,36 +799,55 @@ TEST(SAMLAuthenticatorTest, ProcessResponseRejectsRequireEncryptedAssertionWithP
 //       return SecretsManager::getSecret("saml/sp-private-key");
 //   };
 // ---------------------------------------------------------------------------
-static const char* TEST_SP_PRIVATE_KEY_PEM = R"(
------BEGIN PRIVATE KEY-----
-MIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCyArOwSummQcdj
-MwUnNf60EOzjrKn1slJZ977nuu538GKHSImk80d2kL6R6+WxHnm4zTW8aiB3/sEB
-OMszRH+EQNt0gpozyWEEQfJ6rRHnuXHOUE5lDVIAYctghCfUX1r0LoHby5LPap/X
-ViyoWORlq4YgcSr+6yHISiyfkTdTMCHb1Kn8yAaS5V7HnSCfcYHy7e31iqqEPE78
-gityTuVquwntCuIQ4dOEYIWFxagc1rMTdq2KPBgvmFu949stVp/474YaJ4ZNn5VN
-Idb9OGaASg55NmRxEOslQxIzwaUJFCitetfkScrzvMPXl7ukugdL4ADiBFJBccHz
-6F5sJUIHAgMBAAECgf9WiyEf9v0D15SiVxgC5IwrTefdtSf//QD44/ATzRzAlYCM
-k8tD8IzN3PO1/eZy05lGZs0buZCtFN828++H6Z4VS+kXCraydr9RoVvL0oAdFPfw
-uKQpaTzDkFHt1bTqAXIPbIzw7KWup9k1nNctAZR/O/iXL6jyvMCcKZsSIEyeJEdP
-dm0bNdJt0Cbb+rgSe29ayceAvnSC6vwmokrFGok6NuS0NZnGIE8Lr34n8lKARvkg
-/ZP4TMloglvD5KPTG9b4hd/r35JZDS1Yfi9t+E7AjUGjiEwxmHB2Qvn6ORg31QBz
-SUsFzzDgaBmqK6o/i4ywhb6d1wuSktmO+H9TihECgYEA4m76I2EVXOoo4cTHogon
-1fVGY6oBYFkm7GuMzeqWNgKTPy0LT70mgdWACh6mXhN9ZGNPXFMBb8/gDeo84qyY
-RLAeHxLKAVNbRlrqImZ+QJoLJRLnYdL1Bz9ZfCQ2CfcNAgV+iRZARV15mxhkgCca
-SpCBWaR/mi1O7I6RdlrldaUCgYEAyUEVm+fCKFgpajlO7Oonj4fL0EMujskCzTkj
-mpA+EXSJAdH7dtTEpGUoeOF4zqdI/A2T/AQ3hOZjqVisJlWXfe3i91xfgvDB9nmz
-IeuHveM2WakJhi/kKRSR0lNT7B7+oSuqPqnpHztSjdxjcbCc/R6VdCpv5ZapFa2K
-XxIfgTsCgYBIrGmn9T7QBW99lpSkEzJZ31DqJ+QtMi/l7VbRuBrh1s2/lwtsWj8D
-qKxhkxi+VO8Hyz/rV9C8PDGjBazo65Ara4MfYf5nkoNW/1LqG48l2Mr+6SROJ1Dx
-NInZ6B1X8WzBW1YTVYrnOGsRNjD7WJF9oQeC5+L0btpH3jIdlGrU6QKBgQCmuC8B
-h311VIuCftUeOF/rbDBwZ6cjC+wxPFt9SG7SoPp6sowhheMc2NwtP4OHlldEzq7A
-AHJJu13mRRnfa9pirPXvuus4mt/joi++MtKxgI9euUS1j+jwCyU92l/UZFzGAVk4
-LiN8BvW9pUwQO6HhojtnD1zBEg0iczAE0AufTwKBgGmTCvH3pktF07W4DRm4fOgy
-5hz2hO4Xs9r1i5KnNXyv6SgDin1uVUHfN534LFVysrNhcBjQET2jkhfKLU7HfnAX
-25PfIUtE1fgtnOJrugn+QG5VyFTTn3zOuOr+QNApGX6S+Tf99fqe04EUHxBiGreR
-sjBQfkZpAI5dcCIInmug
------END PRIVATE KEY-----
-)";
+[[nodiscard]] static std::string bioToString(BIO* bio) {
+    BUF_MEM* mem = nullptr;
+    BIO_get_mem_ptr(bio, &mem);
+    return mem ? std::string(mem->data, mem->length) : std::string{};
+}
+
+[[nodiscard]] static std::string generateTestPrivateKeyPem() {
+    EVP_PKEY_CTX* keygen_ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
+    if (!keygen_ctx) {
+        throw std::runtime_error("failed to allocate RSA keygen context");
+    }
+
+    EVP_PKEY* pkey = nullptr;
+    BIO* key_bio = nullptr;
+    try {
+        if (EVP_PKEY_keygen_init(keygen_ctx) != 1 ||
+            EVP_PKEY_CTX_set_rsa_keygen_bits(keygen_ctx, 2048) != 1 ||
+            EVP_PKEY_keygen(keygen_ctx, &pkey) != 1) {
+            throw std::runtime_error("failed to generate RSA keypair");
+        }
+
+        key_bio = BIO_new(BIO_s_mem());
+        if (!key_bio ||
+            PEM_write_bio_PrivateKey(key_bio, pkey, nullptr, nullptr, 0, nullptr, nullptr) != 1) {
+            throw std::runtime_error("failed to serialize RSA private key");
+        }
+
+        auto pem = bioToString(key_bio);
+        BIO_free(key_bio);
+        EVP_PKEY_free(pkey);
+        EVP_PKEY_CTX_free(keygen_ctx);
+        return pem;
+    } catch (...) {
+        BIO_free(key_bio);
+        EVP_PKEY_free(pkey);
+        EVP_PKEY_CTX_free(keygen_ctx);
+        throw;
+    }
+}
+
+[[nodiscard]] static const std::string& getTestSpPrivateKeyPem() {
+    static const std::string pem = generateTestPrivateKeyPem();
+    return pem;
+}
+
+[[nodiscard]] static const std::string& getWrongSpPrivateKeyPem() {
+    static const std::string pem = generateTestPrivateKeyPem();
+    return pem;
+}
 
 // Base64-encode raw bytes using OpenSSL BIO (no line breaks)
 static std::string base64EncodeBytes(const std::vector<uint8_t>& data) {
@@ -937,10 +957,11 @@ static void buildRealEncryptedAssertionResponseB64(
 }
 
 TEST(SAMLAuthenticatorTest, ProcessResponseDecryptsEncryptedAssertion) {
+    const auto& sp_private_key_pem = getTestSpPrivateKeyPem();
     // Configure SP with a private key loader (loaded from test key material –
     // in production this would come from an HSM or KMS).
     auto cfg = makeTestConfig();
-    cfg.sp_private_key_loader = []() { return std::string(TEST_SP_PRIVATE_KEY_PEM); };
+    cfg.sp_private_key_loader = [sp_private_key_pem]() { return sp_private_key_pem; };
     SAMLAuthenticator auth(cfg);
 
     // Fix clock to 2026-01-01T12:00:00Z so the assertion conditions are valid.
@@ -984,7 +1005,7 @@ TEST(SAMLAuthenticatorTest, ProcessResponseDecryptsEncryptedAssertion) {
 
     std::string b64;
     ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
-        TEST_SP_PRIVATE_KEY_PEM, assertion_xml, b64));
+        sp_private_key_pem, assertion_xml, b64));
 
     const SAMLClaims claims = auth.processResponse(b64);
 
@@ -1002,37 +1023,8 @@ TEST(SAMLAuthenticatorTest, ProcessResponseDecryptionFailsWithWrongKey) {
 
     // Provide a different (freshly generated) key – it won't match the one used
     // to encrypt the assertion, so RSA-OAEP decryption must fail.
-    const char* wrong_key_pem = R"(
------BEGIN PRIVATE KEY-----
-MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDYl6DByIHBZ0q8
-FC6tAfaLgiKOHX6VIxYKeQip7/Va/sWLi+gjPYly/tyNBhKrSiZ3kzEd8UmcGbA0
-J9IRx5KFre8DlIbQRtJuxoIbOIYhQANVJ9WZJYclQjGWhBIGWzdKggpWZ12dg5PJ
-dibVnAVT4D1pAlm0RftLLorEbOfHKHEzecMjolYsZvOj8WkkGIw/VgBgXYszspii
-hjK3D72mXa0DzfTY5Qn8vgOz2HHMjCA6JezmXEjlEeRihKuoyvUqz3AeP4pol9A1
-9gu8nVeVDB7LW8DCSsx5eR6MVmfYtcXgSJtxA9v3xrC6t+76Ov+sGJQD7zQruUP1
-zConnALbAgMBAAECggEAD3p6iw60sykaDqnUkhmXUG364TQbZTYOL65pn5dd7eRS
-IsBbVRVjOrwa79sUv3f7msUCmBSzwXuWe4uy+AFOp83/zD4zijPdevwltSNLdpnY
-AyBnI9wqNc/uskZ68UhYgbMcYQNfDdAm4hlW+iH9wXo/eT8pQPhVVpCbayErSTCp
-hAffJY1apit/qnSE13EX0Nq7BajTVp8QULScnuAt5g53Vg0OCXerWqvfgROzwjqF
-BIzMPwAR0klfpYKn4wjqqdpu+ffT/r+sMmscTBG2vYJVFJKHOmi/xVNxCQ+FDeqE
-pw5hK2eW4WFqzWe7bRB1Z/JPqKofGnwRUwwSTuPWMQKBgQD0ttpjkD+91fMOAY0C
-vM5Itifobnf5sOh8wVJlxgApsEMGKXP2DliDpB+wY8pRH8qSSNAqQ4aOFDYT475g
-RWy7c9YsW0hA04qz9YXxrd4GHtf7s0XhkKuZh116XLJPYzOFjlfuGlDP3SMmtPPz
-YToStFbu5A/TfgBvmPZkXWVwEQKBgQDilMLWhR5sTsrQurus/72HEjXHrshaTqYz
-ZWbHzeXpfccOIcxP0sqS2DyxcJ8KS5wuT7At1de8DbY9RmBU+HbBxqfiot0pdx2e
-4lLtzO+l5jKvB2GBPJwZ00uj8KRxzePXx2AW0R+kHXcCM8KSJHKQu/lPeUDuWfk6
-vAf1WJ8wKwKBgQCIGKmcdbz9dt+WCobB3v9asPPA8K8Izrp9p4aL03KDvOOJqcQ0
-NAZGMCDvmJAMTgH7GUOsPaG3osXwidh28iVmmyWhxaKJaxzYuNOldWzlOoIkGa/j
-ovHMkNwMEUGZpTIiNOfyI/CNqg7CmCCUWp5RiLpQYcXreUgEyK0/ZDHmAQKBgQCT
-emJrQNAxjQOD4tc/XmJdZWPt6fzskt6o+2pvyLvKQ5zpvOQAXOKPvAGdOQG7sMUi
-e6nf252FAKPKtGEFTYf2zrf90yYC1E5KWWPC9q5RnEkHFdXIScwNHzPPrFVM4cdY
-bqRDlbBzoN4SZ+BQQTr0q/U1XmX9/kAzk6nWbu2GawKBgQDlIPRWoPvBc+cC5XtU
-Eu6imuWL1FeA7Xv6hzSV4C/+InOgddejGebmIPSn/gg6DMpsuxzLU+TzwXgXJksv
-7GGJKqEroy5Q06e+3sc6yd260fDM8K/JIflRlT+H6AJKwA31keXmV+EBH7Uq1kFZ
-EqRd6vemBb1xoeIW4UwgSn0lgQ==
------END PRIVATE KEY-----
-)";
-    cfg.sp_private_key_loader = [wrong_key_pem]() { return std::string(wrong_key_pem); };
+    const auto& wrong_key_pem = getWrongSpPrivateKeyPem();
+    cfg.sp_private_key_loader = [wrong_key_pem]() { return wrong_key_pem; };
     SAMLAuthenticator auth(cfg);
 
     const std::string assertion_xml =
@@ -1043,7 +1035,7 @@ EqRd6vemBb1xoeIW4UwgSn0lgQ==
 
     std::string b64;
     ASSERT_NO_FATAL_FAILURE(buildRealEncryptedAssertionResponseB64(
-        TEST_SP_PRIVATE_KEY_PEM, assertion_xml, b64));
+        getTestSpPrivateKeyPem(), assertion_xml, b64));
 
     try {
         auth.processResponse(b64);

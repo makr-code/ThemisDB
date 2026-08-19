@@ -138,12 +138,12 @@ struct RetransmitSimulator {
             if (!dropped) {
                 // Exponential backoff approximation for retransmit timing:
                 // initial + 2^attempt * base_rtt
-                uint64_t rtt = base_rtt_ms * (1u << attempt);
+                uint64_t rtt = static_cast<uint64_t>(base_rtt_ms) * (uint64_t{1} << attempt);
                 total_ms += rtt;
                 return {true, total_ms};
             }
             // Packet was dropped; add one RTT for retransmit timer fire
-            total_ms += base_rtt_ms * (1u << attempt);
+            total_ms += static_cast<uint64_t>(base_rtt_ms) * (uint64_t{1} << attempt);
         }
         return {false, total_ms};
     }
