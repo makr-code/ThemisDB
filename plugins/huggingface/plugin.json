@@ -121,5 +121,6 @@
       "code": "examples/huggingface_ingestion_example.cpp"
     }
   ],
-  "documentation": "docs/plugins/HUGGINGFACE_INGESTION.md"
+  "documentation": "docs/plugins/HUGGINGFACE_INGESTION.md",
+  "visibility": "public"
 }

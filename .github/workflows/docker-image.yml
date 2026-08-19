@@ -225,6 +225,7 @@ jobs:
         build-args: |
           THEMIS_EDITION=COMMUNITY
           VERSION=${{ steps.version.outputs.version }}
+          VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
         # GitHub Actions cache backend: no external registry required.
         cache-from: type=gha
         cache-to: type=gha,mode=max

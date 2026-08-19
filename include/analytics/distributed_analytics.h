@@ -350,7 +350,7 @@ public:
         const themis::analytics::OLAPQuery& query);
 
 private:
-    // Forward declaration for internal shard bookkeeping
+    // Forward declaration for private helpers that take ShardEntry parameters.
     struct ShardEntry;
     // ---------------------------------------------------------------
     // Internal helpers

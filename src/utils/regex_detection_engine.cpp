@@ -11,7 +11,6 @@
 
 
 #include "utils/regex_detection_engine.h"
-#include "utils/error_contracts.h"
 #include <algorithm>
 #include <cctype>
 #include <chrono>
@@ -101,10 +100,6 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
     } catch (const std::exception& e) {
         last_error_ = std::string("Initialization failed: ") + e.what();
         spdlog::error("RegexDetectionEngine: {}", last_error_);
-        // Phase 3.12: Diagnostics integration
-        logErrorWithContext(makeErrorContext(
-            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED, last_error_,
-            "RegexDetectionEngine::init", ErrorSeverity::Error, /*is_recoverable=*/false));
         return false;
     }
 }
@@ -125,12 +120,7 @@ bool RegexDetectionEngine::reload(const nlohmann::json& config) {
         patterns_ = old_patterns;
         field_name_hints_ = old_field_hints;
         redaction_modes_ = old_redaction_modes;
-        const auto err_msg = std::string("Reload failed, retained previous patterns");
-        spdlog::error("RegexDetectionEngine: {}", err_msg);
-        // Phase 3.12: Diagnostics integration for reload failure
-        logErrorWithContext(makeErrorContext(
-            ErrorCode::PRIVACY_ENGINE_LOAD_FAILED, err_msg,
-            "RegexDetectionEngine::reload", ErrorSeverity::Warning, /*is_recoverable=*/true));
+        spdlog::error("RegexDetectionEngine: Reload failed, retained previous patterns");
         return false;
     }
     
@@ -163,10 +153,9 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
     
     std::vector<PIIFinding> findings;
     
-    // Timeout mechanism: track elapsed time during regex matching
-    // to detect and abort backtracking-prone patterns early
+    // Phase 2.2c Hardening: Use configurable timeout from pattern_timeout_ms_
     auto start_time = std::chrono::steady_clock::now();
-    constexpr std::chrono::milliseconds kRegexMatchTimeoutMs{5000}; // 5 second timeout
+    auto kRegexMatchTimeoutMs = std::chrono::milliseconds(pattern_timeout_ms_);
     
     for (const auto& pattern : patterns_) {
         if (!pattern.enabled) continue;
@@ -175,7 +164,7 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
         auto elapsed = std::chrono::steady_clock::now() - start_time;
         if (elapsed > kRegexMatchTimeoutMs) {
             spdlog::warn("RegexDetectionEngine: Regex matching exceeded {}ms timeout; aborting remaining patterns", 
-                        kRegexMatchTimeoutMs.count());
+                        pattern_timeout_ms_);
             break; // Timeout exceeded; stop processing remaining patterns
         }
         
@@ -199,7 +188,7 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
                     auto current_elapsed = std::chrono::steady_clock::now() - start_time;
                     if (current_elapsed > kRegexMatchTimeoutMs) {
                         spdlog::warn("RegexDetectionEngine: Pattern '{}' exceeded {}ms timeout during iteration", 
-                                    pattern.name, kRegexMatchTimeoutMs.count());
+                                    pattern.name, pattern_timeout_ms_);
                         goto pattern_timeout; // Break out of both loops
                     }
                 }
@@ -224,13 +213,11 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
                 findings.push_back(finding);
             }
         } catch (const std::regex_error& e) {
-            const auto err_msg = fmt::format("Regex matching failed for '{}': {}", pattern.name, e.what());
-            spdlog::error("RegexDetectionEngine: {}", err_msg);
-            // Phase 3.12: Malformed pattern error - log diagnostic context
-            logErrorWithContext(makeErrorContext(
-                ErrorCode::PRIVACY_PATTERN_OVERFLOW, err_msg,
-                "RegexDetectionEngine::detect", ErrorSeverity::Warning, /*is_recoverable=*/true));
-            // Continue with next pattern to ensure detection continues
+            // Phase 2.2c Hardening: Log with error code information
+            spdlog::error("RegexDetectionEngine: Regex matching failed for '{}': {} (error code: PRIVACY_ENGINE_FAILED)", 
+                          pattern.name, e.what());
+            // Malformed pattern error: log and continue with next pattern
+            // This ensures malformed patterns do not crash detection
         }
     }
     

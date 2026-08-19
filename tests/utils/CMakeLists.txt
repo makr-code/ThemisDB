@@ -284,6 +284,151 @@ else()
     message(STATUS "Privacy and Audit Hardening focused tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_utils_privacy_audit_hardening.cpp")
 endif()
 
+# NERDetectionEngine Focused Tests (Phase A.2 / Phase 2.2 hardening)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ner_detection_engine.cpp")
+    add_executable(module_utils_test_ner_detection_engine_focused
+        test_ner_detection_engine.cpp
+    )
+    target_include_directories(module_utils_test_ner_detection_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_utils_test_ner_detection_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(module_utils_test_ner_detection_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_test(
+        MODULE utils
+        NAME NERDetectionEngineFocusedTests
+        TARGET module_utils_test_ner_detection_engine_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS ner detection-engine privacy model-unavailable phase2
+    )
+    message(STATUS "  NERDetectionEngine: model availability, gazetteer degradation, config rollback, corrupt model handling")
+endif()
+
+# RegexDetectionEngine Focused Tests (Phase A.1 / Phase 2.2 hardening)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_regex_detection_engine.cpp")
+    add_executable(module_utils_test_regex_detection_engine_focused
+        test_regex_detection_engine.cpp
+    )
+    target_include_directories(module_utils_test_regex_detection_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_utils_test_regex_detection_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(module_utils_test_regex_detection_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_test(
+        MODULE utils
+        NAME RegexDetectionEngineFocusedTests
+        TARGET module_utils_test_regex_detection_engine_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS regex detection-engine privacy redos timeout phase2
+    )
+    message(STATUS "  RegexDetectionEngine: timeout, ReDoS detection, malformed patterns, UTF-8 validation, bounds checking")
+endif()
+
+# Serialization Focused Tests (Phase A.4 hardening)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serialization.cpp")
+    add_executable(module_utils_test_serialization_focused
+        test_serialization.cpp
+    )
+    target_include_directories(module_utils_test_serialization_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_utils_test_serialization_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(module_utils_test_serialization_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_test(
+        MODULE utils
+        NAME SerializationFocusedTests
+        TARGET module_utils_test_serialization_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS serialization bounds-check overflow malformed phase2
+    )
+    message(STATUS "  Serialization: buffer overflow prevention, malformed data, round-trip, oversized claims")
+endif()
+
+# TSAN Stress / Concurrency Tests (Phase 2.3 / Phase 5 — intended for TSAN-enabled builds)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsan_stress_concurrent.cpp")
+    add_executable(module_utils_test_tsan_stress_concurrent_focused
+        test_tsan_stress_concurrent.cpp
+    )
+    target_include_directories(module_utils_test_tsan_stress_concurrent_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_utils_test_tsan_stress_concurrent_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(module_utils_test_tsan_stress_concurrent_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_test(
+        MODULE utils
+        NAME TSANConcurrencyStressTests
+        TARGET module_utils_test_tsan_stress_concurrent_focused
+        TIER unit
+        KIND stress
+        TIMEOUT 120
+        LABELS tsan concurrency stress audit-logger thread-pool pii-scanner phase2 phase5
+    )
+    message(STATUS "  TSANConcurrencyStress: audit_logger 128-writer, thread_pool saturation, pii_stream_scanner parallel slots")
+endif()
+
+# Phase 1 Resource Management Tests (Phase 4.1 — RAII, threading, exception safety)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase1_resource_management.cpp")
+    add_executable(module_utils_test_phase1_resource_management_focused
+        test_phase1_resource_management.cpp
+    )
+    target_include_directories(module_utils_test_phase1_resource_management_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_utils_test_phase1_resource_management_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(module_utils_test_phase1_resource_management_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_test(
+        MODULE utils
+        NAME Phase1ResourceManagementTests
+        TARGET module_utils_test_phase1_resource_management_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS raii resource-management threading exception-safety phase1 phase4
+    )
+    message(STATUS "  Phase1ResourceManagement: RAII patterns, thread management, lock contention, destructor ordering")
+endif()
+
 # AUTOGEN PREFIX BLOCK: utils
 file(GLOB UTILS_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_*.cpp"

@@ -113,6 +113,23 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
             fmt::format("LZ4 decompressed size {} exceeds maximum {}",
                         original_size, lz4_compression::MAX_DECOMPRESSED_SIZE));
     }
+    
+    // Phase 2.4b Hardening: Check compression ratio to detect decompression bombs
+    if (compressed.size() > 0) {
+        size_t ratio = original_size / compressed.size();
+        if (ratio > lz4_compression::MAX_COMPRESSION_RATIO) {
+            const auto err_msg = fmt::format(
+                "LZ4 decompression bomb detected: ratio {}x exceeds max {}x",
+                ratio, lz4_compression::MAX_COMPRESSION_RATIO);
+            THEMIS_ERROR("{}", err_msg);
+            logErrorWithContext(makeErrorContext(
+                ErrorCode::COMPRESSION_BOMB_DETECTED, err_msg,
+                "lz4_decompress_safe", ErrorSeverity::Error, /*is_recoverable=*/false));
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                err_msg);
+        }
+    }
 
     std::vector<uint8_t> output;
     try {

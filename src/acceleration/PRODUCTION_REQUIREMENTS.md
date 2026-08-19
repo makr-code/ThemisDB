@@ -19,6 +19,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Hardware-B
 - **MUST:** Backend-Dispatch-Konfiguration; nur freigegebene Backends aktivieren.
 - **MUST:** Compute-Backend-Validierung aktiv; unbekannte Hardware-Backends abgewiesen.
 - **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+- **MUST:** Hardware-Discovery-Fehler oder leere Capability-Snapshots dürfen keinen undefinierten Zustand erzeugen; es muss ein expliziter CPU-Fallback-Sentinel bereitgestellt werden.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
 ## Verbindliche Sicherheitsanforderungen

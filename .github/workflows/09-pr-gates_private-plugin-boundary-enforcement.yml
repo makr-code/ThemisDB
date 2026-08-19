@@ -128,17 +128,14 @@ jobs:
           
           INVALID_REFS=0
           
-          while IFS= read -r line; do
-            if [[ "$line" =~ ^\[submodule ]]; then
-              SUBMOD_NAME=$(echo "$line" | sed 's/\[submodule "\([^"]*\)"\]/\1/')
-              if [[ "$SUBMOD_NAME" =~ private ]]; then
-                if grep -A 5 "^\[submodule \"$SUBMOD_NAME\"\]" .gitmodules | grep -q "branch = "; then
-                  echo "::error::Private submodule $SUBMOD_NAME uses branch ref instead of commit SHA"
-                  ((INVALID_REFS++)) || true
-                fi
-              fi
+          while IFS= read -r key; do
+            SUBMOD_NAME="${key#submodule.}"
+            SUBMOD_NAME="${SUBMOD_NAME%.path}"
+            if [[ "$SUBMOD_NAME" =~ private ]] && git config -f .gitmodules --get "submodule.${SUBMOD_NAME}.branch" >/dev/null; then
+              echo "::error::Private submodule $SUBMOD_NAME uses branch ref instead of commit SHA"
+              ((INVALID_REFS++)) || true
             fi
-          done < .gitmodules
+          done < <(git config -f .gitmodules --name-only --get-regexp '^submodule\..*\.path$' || true)
           
           if [ $INVALID_REFS -gt 0 ]; then
             ERR="$INVALID_REFS submodule(s) use branch refs instead of commit SHAs"

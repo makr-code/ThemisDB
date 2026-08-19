@@ -20,6 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - `src/acceleration/directx/directx_backend_full.cpp`: replaced inline `s_L2DistanceHLSL` / `s_CosineDistanceHLSL` strings with file-based loader (`find_ann_shader_path`) that searches for pre-compiled `.cso` files first, then falls back to `.hlsl` source compilation via `D3DCompile` at runtime.
+- `include/acceleration/device_manager.h`, `src/acceleration/device_manager.cpp`: added `DeviceManager::setEnumerateFn()` so focused tests and CPU-only validation can inject deterministic capability snapshots; empty snapshots now explicitly synthesize a `CPU Fallback` device while clearing the probe cache.
+- `tests/test_device_manager.cpp`, `tests/CMakeLists.txt`: expanded focused device-manager coverage for injected enumeration, cache reuse, refresh re-probe, CPU fallback synthesis, best-device selection, and startup log observability; fixed the focused-test registration path.
 - `src/acceleration/oneapi_backend.cpp` (CRITICAL gap remediation, closes #5384 quality items):
   - Replaced raw `sycl::queue* queue_` with `std::optional<sycl::queue> queue_` — eliminates `new_without_raii` and `smart_ptr_misuse` CRITICAL gaps.
   - Added `mutable std::mutex lifecycle_mutex_` protecting `initialize()` / `shutdown()` — eliminates `data_race` CRITICAL gap.
@@ -33,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Documentation
 - `src/acceleration/README.md`: Added **Public API Entry Points** table, **Configuration Surface** section (build flags + runtime knobs: `CapabilityRequirements`, `RetryPolicy`, `VLLMResourceManager::Config`), **Error Cases & Limits** section, usage snippet, and troubleshooting quick links; fixed build preset (`linux-ninja-release` → `linux-release`).
+- `include/acceleration/README.md`, `src/acceleration/README.md`, `src/acceleration/ARCHITECTURE.md`, `src/acceleration/PRODUCTION_REQUIREMENTS.md`, `src/acceleration/ROADMAP.md`, `src/acceleration/MODULE_GAPS_BATCH4.md`, `docs/acceleration/README.md`, and `docs/acceleration/capability_negotiation.md`: synchronized documentation for the `DeviceManager` probe bridge, CPU-fallback sentinel semantics, focused validation coverage, and fail-closed capability selection behavior.
 - `include/acceleration/README.md`: Added **Primary Entry Points** table, **Runtime Configuration Options**, **Runtime Behavior / Error Cases / Limits**, **Usage Snippets**, and **Troubleshooting** cross-links; fixed build preset.
 - `docs/acceleration/README.md`: Replaced auto-generated stub with a structured docs index: primary module docs, deep-dive pages, Installation and Usage guidance.
 - `docs/de/acceleration/README.md`: Updated OpenCL status (`🔜 Geplant` → `✅ Implementiert`); replaced hardcoded file count with reference to `MODULE_FUNCTION_USAGE_MAP.md`; added Installation section; updated validated timestamp.

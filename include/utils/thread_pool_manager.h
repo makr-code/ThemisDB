@@ -185,6 +185,12 @@ private:
  */
 class ThreadPoolManager {
 public:
+    // Resource limits (Phase 2.6 cross-cutting hardening)
+    static constexpr size_t DEFAULT_QUEUE_DEPTH = 10'000;  // Tasks queued per pool
+    static constexpr size_t MAX_QUEUE_DEPTH = 100'000;  // Hard limit
+    static constexpr size_t MAX_THREAD_COUNT = 1024;  // Per-pool thread limit
+    static constexpr size_t DEFAULT_THREAD_COUNT = 4;  // Typical IO pool size
+    
     enum class PoolType {
         IO,        // Network, File I/O operations
         CPU,       // CPU-bound operations

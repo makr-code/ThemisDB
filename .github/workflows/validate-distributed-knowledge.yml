@@ -133,10 +133,12 @@ jobs:
             -R module_distributed_knowledge_test \
             --output-junit test-results.xml
           
-          echo "### Test Results Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- Status: ✅ All 58 tests passed" >> $GITHUB_STEP_SUMMARY
-          echo "- Module: distributed_knowledge" >> $GITHUB_STEP_SUMMARY
-          echo "- Coverage: ACA, LFC, FRM, CSS, FDC (5 surfaces)" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### Test Results Summary"
+            echo "- Status: ✅ All 58 tests passed"
+            echo "- Module: distributed_knowledge"
+            echo "- Coverage: ACA, LFC, FRM, CSS, FDC (5 surfaces)"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   validate-benchmarks:
     name: Benchmark Validation (±5% gates)
@@ -183,18 +185,20 @@ jobs:
 
       - name: Verify benchmark gates
         run: |
-          echo "### Benchmark Gate Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Gate | Operation | Target | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|-----------|--------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| DKRG-01 | Insert | ≥100k/s | ✓ |" >> $GITHUB_STEP_SUMMARY
-          echo "| DKRG-02 | Neighbours | ≤500µs p99 | ✓ |" >> $GITHUB_STEP_SUMMARY
-          echo "| DKRG-03 | Path Query | ≤5ms p99 | ✓ |" >> $GITHUB_STEP_SUMMARY
-          echo "| DKRG-04 | LWW Merge | ≤100µs p99 | ✓ |" >> $GITHUB_STEP_SUMMARY
-          echo "| DKRG-05 | Federation Union | ≤5ms p99 | ✓ |" >> $GITHUB_STEP_SUMMARY
-          echo "| DKRG-06 | Serialization | ≤100µs p99 | ✓ |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Tolerance:** ±5% (std::set overhead <1%)" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### Benchmark Gate Results"
+            echo ""
+            echo "| Gate | Operation | Target | Status |"
+            echo "|------|-----------|--------|--------|"
+            echo "| DKRG-01 | Insert | ≥100k/s | ✓ |"
+            echo "| DKRG-02 | Neighbours | ≤500µs p99 | ✓ |"
+            echo "| DKRG-03 | Path Query | ≤5ms p99 | ✓ |"
+            echo "| DKRG-04 | LWW Merge | ≤100µs p99 | ✓ |"
+            echo "| DKRG-05 | Federation Union | ≤5ms p99 | ✓ |"
+            echo "| DKRG-06 | Serialization | ≤100µs p99 | ✓ |"
+            echo ""
+            echo "**Tolerance:** ±5% (std::set overhead <1%)"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   verify-gap-closure:
     name: Verify Gap Closure Pattern
@@ -248,12 +252,14 @@ jobs:
             exit 1
           fi
 
-          echo "### Gap Closure Verification" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Original Scan (2026-06-04):** 111 findings" >> $GITHUB_STEP_SUMMARY
-          echo "**Current Status:** ${CURRENT_FINDINGS} findings" >> $GITHUB_STEP_SUMMARY
-          echo "**Closure Rate:** ${CLOSURE_RATE}%" >> $GITHUB_STEP_SUMMARY
-          echo "**Pattern Closure:** ${PATTERN_CLOSURE}% < 20% ✅" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### Gap Closure Verification"
+            echo ""
+            echo "**Original Scan (2026-06-04):** 111 findings"
+            echo "**Current Status:** ${CURRENT_FINDINGS} findings"
+            echo "**Closure Rate:** ${CLOSURE_RATE}%"
+            echo "**Pattern Closure:** ${PATTERN_CLOSURE}% < 20% ✅"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   create-validation-summary:
     name: Create Validation Summary
@@ -323,7 +329,7 @@ jobs:
 
       - name: Summary report
         run: |
-          cat > $GITHUB_STEP_SUMMARY << 'EOF'
+          cat > "$GITHUB_STEP_SUMMARY" << 'EOF'
           # ✅ distributed_knowledge Module: Validation PASSED
           
           ## Summary

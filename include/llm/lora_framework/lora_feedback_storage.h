@@ -170,7 +170,9 @@ public:
      * @param adapter_id LoRA adapter ID
      * @return Effective batch size considering weights
      */
-        // ---------------------------------------------------------------------------
+    float calculateEffectiveBatchSize(const std::string& adapter_id) const;
+
+    // ---------------------------------------------------------------------------
     // Callback bridges for graph edge persistence (stub #304)
     // ---------------------------------------------------------------------------
 
@@ -191,8 +193,6 @@ public:
      * Thread-safe: uses an internal mutex.
      */
     void setRemoveGraphLinkFn(RemoveGraphLinkFn fn);
-
-float calculateEffectiveBatchSize(const std::string& adapter_id) const;
 
 private:
     Config config_;

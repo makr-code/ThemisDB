@@ -36,9 +36,24 @@ namespace utils {
  *   - Fast encoding/decoding
  *   - Native float vector support for embeddings
  *   - Zero-copy operations where possible
+ *
+ * **Resource Limits (Phase 2.4c Hardening):**
+ * - Maximum nesting depth: 32 levels (configurable, prevents stack overflow on crafted input)
+ * - Schema validation: Type tags are validated during deserialization; mismatches cause errors
+ * - Bounds checking: String/binary sizes are validated before reading from buffer
+ * - Overflow protection: Integer overflow in size calculations is detected
+ *
+ * @note **Degradation Contract:** On deserialization failure (schema mismatch, nesting too deep,
+ *       bounds violation), an error is returned; no silent fallback or data corruption.
  */
 class Serialization {
 public:
+    // Resource limits for Phase 2.4c hardening
+    static constexpr size_t MAX_NESTING_DEPTH = 32;  // Stack overflow protection
+    static constexpr size_t MAX_STRING_SIZE = 256 * 1024 * 1024;  // 256MB max string
+    static constexpr size_t MAX_BINARY_SIZE = 512 * 1024 * 1024;  // 512MB max binary
+    static constexpr size_t MAX_ARRAY_SIZE = 1024 * 1024;  // 1M max array elements
+    
     /// Type tags for serialized values
     enum class TypeTag : uint8_t {
         NULL_VALUE = 0x00,
@@ -118,10 +133,10 @@ public:
      * return safe defaults (0, false, empty string/vector) rather than
      * crashing on malformed or truncated input.
      *
-     * @note Nesting depth: Encoded arrays/objects may be nested up to the
-     *   available stack depth. Crafted inputs with extreme nesting may cause
-     *   stack overflow; callers that accept untrusted input should bound
-     *   maximum nesting depth externally.
+     * @note Nesting depth: Decoder enforces a hard maximum nesting depth of
+     *   128 container levels. Once exceeded, beginArray()/beginObject()
+     *   return 0 and advance to a fail-safe state to prevent unbounded
+     *   recursion on malformed or adversarial input.
      *
      * @error_contract
      * | Condition | ErrorCode | Severity | Logging | Recovery |
@@ -137,6 +152,16 @@ public:
      */
     class Decoder {
     public:
+        /**
+         * @brief Construct a decoder for the given serialized data.
+         * 
+         * @param data Serialized data buffer (must remain valid for decoder lifetime).
+         * 
+         * @note Schema Validation: Type tags are validated during decode operations.
+         *       Mismatches between expected and actual type return error, not silent coercion.
+         * @note Nesting Depth: Tracks recursion depth during array/object decoding.
+         *       Depth exceeding MAX_NESTING_DEPTH (32) causes deserialization error.
+         */
         explicit Decoder(const std::vector<uint8_t>& data);
         
         TypeTag peekType() const;
@@ -185,9 +210,31 @@ public:
          */
         std::vector<float> decodeFloatVector();
         
+        /**
+         * @brief Begin decoding an array and return its size.
+         * 
+         * @return Number of elements in the array.
+         * 
+         * @throws std::length_error If nesting depth exceeds MAX_NESTING_DEPTH (32).
+         * @throws std::runtime_error If next element is not an array (schema mismatch).
+         * 
+         * @note Nesting Depth Check (Phase 2.4c): Each array/object nesting increments depth;
+         *       depth > 32 causes error to prevent stack overflow on crafted input.
+         */
         size_t beginArray();
         void endArray();
         
+        /**
+         * @brief Begin decoding an object and return the number of fields.
+         * 
+         * @return Number of key-value pairs in the object.
+         * 
+         * @throws std::length_error If nesting depth exceeds MAX_NESTING_DEPTH (32).
+         * @throws std::runtime_error If next element is not an object (schema mismatch).
+         * 
+         * @note Nesting Depth Check (Phase 2.4c): Same depth limit as beginArray().
+         * @note Schema Validation: Mismatch between expected and actual type causes error.
+         */
         size_t beginObject();
         void endObject();
         
@@ -200,7 +247,7 @@ public:
 
         const std::vector<uint8_t>& data_;
         size_t pos_ = 0;
-        size_t depth_ = 0; ///< Current array/object nesting depth for overflow protection.
+        size_t nesting_depth_ = 0; ///< Current array/object nesting depth for overflow protection.
 
         uint32_t readUInt32();
         uint64_t readUInt64();

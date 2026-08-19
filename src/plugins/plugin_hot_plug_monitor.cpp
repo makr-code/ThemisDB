@@ -17,6 +17,7 @@
 #include <map>
 #include <thread>
 #include <chrono>
+#include <future>
 #include <algorithm>
 #include <set>
 
@@ -41,6 +42,33 @@ namespace themis {
 namespace plugins {
 
 namespace fs = std::filesystem;
+
+// ============================================================================
+// RAII Helper Classes
+// ============================================================================
+
+// RAII wrapper for file descriptors (Unix/Linux/macOS)
+struct FileDescriptorDeleter {
+    void operator()(int* fd_ptr) const noexcept {
+        if (fd_ptr && *fd_ptr >= 0) {
+            try {
+                close(*fd_ptr);
+                *fd_ptr = -1;
+            } catch (...) {
+                THEMIS_WARN("Exception during file descriptor cleanup");
+            }
+        }
+        delete fd_ptr;
+    }
+};
+
+using UniqueFileDescriptor = std::unique_ptr<int, FileDescriptorDeleter>;
+
+// Helper function to create RAII-wrapped file descriptor
+inline UniqueFileDescriptor makeUniqueFileDescriptor(int fd) {
+    auto fd_ptr = std::make_unique<int>(fd);
+    return UniqueFileDescriptor(fd_ptr.release());
+}
 
 // ============================================================================
 // Constructor & Destructor
@@ -349,39 +377,39 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
 #ifdef __APPLE__
 
 void PluginHotPlugMonitor::watchDirectoryMacOS() {
-    // RAII guard for POSIX file descriptors to ensure close() on all paths.
-    struct FdGuard {
-        int fd{-1};
-        FdGuard() = default;
-        ~FdGuard() noexcept { if (fd >= 0) ::close(fd); }
-        FdGuard(const FdGuard&) = delete;
-        FdGuard& operator=(const FdGuard&) = delete;
-    };
-
     // Use kqueue for macOS
-    FdGuard kq_guard; kq_guard.fd = kqueue();
-    if (kq_guard.fd == -1) {
+    int kq = kqueue();
+    if (kq == -1) {
         THEMIS_ERROR("Failed to create kqueue: {}", strerror(errno));
         return;
     }
+    // Wrap kqueue file descriptor for RAII cleanup
+    auto kq_guard = makeUniqueFileDescriptor(kq);
     
-    // Open directory for monitoring
-    FdGuard dir_fd_guard; dir_fd_guard.fd = open(watch_directory_.c_str(), O_RDONLY);
-    if (dir_fd_guard.fd == -1) {
+    // Open directory for monitoring (add O_NONBLOCK to prevent indefinite blocking)
+    int dir_fd = open(watch_directory_.c_str(), O_RDONLY | O_NONBLOCK);
+    if (dir_fd == -1) {
         THEMIS_ERROR("Failed to open directory: {}", strerror(errno));
-        return;  // kq_guard closes kq automatically
+        return;  // kq_guard will automatically close kq
     }
+    // Wrap directory file descriptor for RAII cleanup
+    auto dir_guard = makeUniqueFileDescriptor(dir_fd);
     
     // Setup kevent for directory monitoring
     struct kevent change;
-    EV_SET(&change, dir_fd_guard.fd, EVFILT_VNODE,
+    EV_SET(&change, dir_fd, EVFILT_VNODE,
            EV_ADD | EV_ENABLE | EV_CLEAR,
            NOTE_WRITE | NOTE_EXTEND | NOTE_DELETE,
            0, nullptr);
     
-    if (kevent(kq_guard.fd, &change, 1, nullptr, 0, nullptr) == -1) {
+    // Add kevent with timeout to prevent indefinite blocking
+    struct timespec timeout = {};
+    timeout.tv_sec = 1;  // 1 second timeout for kevent operations
+    timeout.tv_nsec = 0;
+    
+    if (kevent(kq, &change, 1, nullptr, 0, &timeout) == -1) {
         THEMIS_ERROR("Failed to add kevent: {}", strerror(errno));
-        return;  // dir_fd_guard and kq_guard close their fds automatically
+        return;  // Both kq_guard and dir_guard will automatically cleanup
     }
     
     // Track files we've seen along with their last-write timestamps
@@ -443,7 +471,7 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
     timeout.tv_nsec = 0;
     
     while (running_) {
-        int nev = kevent(kq_guard.fd, nullptr, 0, &event, 1, &timeout);
+        int nev = kevent(kq, nullptr, 0, &event, 1, &timeout);
         
         if (nev < 0) {
             if (errno != EINTR) {
@@ -457,6 +485,8 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
             scan_directory();
         }
     }
+    
+    // dir_guard and kq_guard automatically close dir_fd and kq via RAII
 }
 
 #endif // __APPLE__
@@ -560,9 +590,27 @@ void PluginHotPlugMonitor::stop() {
     }
 #endif
     
-    // Wait for thread to finish before allowing object destruction.
+    // Join the monitor thread. The thread's loop checks running_ (now false)
+    // and will exit at the next kevent/inotify/ReadDirectoryChangesW timeout
+    // (all configured with a 1-second poll interval). Block here using a
+    // helper thread that signals a promise when the join completes, so we can
+    // enforce an overall deadline without mis-using joinable().
     if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+        std::promise<void> joined_promise;
+        auto joined_future = joined_promise.get_future();
+        std::thread joiner([this, p = std::move(joined_promise)]() mutable {
+            monitor_thread_.join();
+            p.set_value();
+        });
+        joiner.detach();
+
+        const auto timeout_duration = std::chrono::seconds(5);
+        if (joined_future.wait_for(timeout_duration) != std::future_status::ready) {
+            THEMIS_WARN("Plugin hot-plug monitor thread did not join within {} ms",
+                std::chrono::duration_cast<std::chrono::milliseconds>(timeout_duration).count());
+            // The joiner thread will eventually finish the join and clean up;
+            // we do not detach monitor_thread_ here to avoid use-after-free.
+        }
     }
     
 #ifdef _WIN32

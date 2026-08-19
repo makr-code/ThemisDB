@@ -1018,13 +1018,13 @@ std::unique_ptr<ILLMPlugin> LLMPluginManager::CreatePluginSafe(
         // 2. Null check on plugin creation (GAP-4-2)
         // 3. Exception handler for init failures (GAP-4-3)
         
-        void* factory = nullptr; // Would get factory from registry
+        auto factory = static_cast<void*>(nullptr); // Would get factory from registry
         if (!factory) {
             spdlog::error("CreatePluginSafe: factory not found for '{}'", plugin_name);
             throw std::runtime_error("Plugin factory not found: " + plugin_name);
         }
         
-        void* plugin = nullptr; // Would call factory->Create()
+        auto plugin = static_cast<void*>(nullptr); // Would call factory->Create()
         if (!plugin) {
             spdlog::error("CreatePluginSafe: factory returned null for '{}'", plugin_name);
             throw std::runtime_error("Plugin factory returned null: " + plugin_name);
@@ -1195,4 +1195,3 @@ struct ConcurrentInferenceTracker {
 
 } // namespace llm
 } // namespace themis
-
