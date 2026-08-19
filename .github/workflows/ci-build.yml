@@ -323,7 +323,7 @@ jobs:
 
       - name: Set up vcpkg cache (Windows)
         if: runner.os == 'Windows'
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf  # v9.0.0
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf  # v4.2.2
         with:
           path: ${{ github.workspace }}\vcpkg
           key: vcpkg-windows-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', '.gitmodules') }}-${{ runner.os }}

@@ -218,7 +218,7 @@ jobs:
 
       - name: Restore or seed vcpkg cache
         id: vcpkg_cache
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf  # v7.0.1
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf  # v4.2.2
         with:
           path: C:\vcpkg
           key: ${{ steps.cache_key.outputs.key }}
