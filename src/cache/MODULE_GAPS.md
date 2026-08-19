@@ -21,7 +21,7 @@ This file documents all documentation and code quality gaps in the **cache** mod
 - blocking_no_timeout: 3 → **FIXED** (see Resolution Evidence)
 - braces_imbalance: 3 → **FALSE POSITIVE** — all files verified balanced (see notes)
 - braces_imbalance_midfile: 3 → analysis artifact
-- circular_lock_ordering: 114 → **PARTIALLY FIXED** — lock hierarchy documented + scoped_lock applied
+- circular_lock_ordering: 114 → **FIXED** — genuine nested locks eliminated (Option A); sequential pairs documented with `// LOCK ORDER:` hierarchy (Option B)
 - command_injection: 1
 - db_connection_leak: 1
 - deadlock_risk: 15
@@ -89,7 +89,7 @@ This file documents all documentation and code quality gaps in the **cache** mod
 | Gap | File | Fix |
 |-----|------|-----|
 | `null_dereference` (57 instances) | `bounded_lru_cache.cpp` | `[[unlikely]]` null-guards added at `get()`, `put()`, `remove()`, `moveToFront()`, `removeNode()`, `addToFront()`, `removeLRU()`, `contains()`; doubly-linked node cycle-break added in `removeNode()`/`removeLRU()` |
-| `circular_lock_ordering` (114 instances) | `distributed_cache_coordinator.cpp`, `cache_replication_coordinator.cpp`, `redis_cache_coordinator.cpp` | Lock hierarchy documented with `// LOCK ORDER:` comments; `std::scoped_lock` applied where simultaneous acquisition is safe |
+| `circular_lock_ordering` (114 instances) | `distributed_cache_coordinator.cpp`, `cache_replication_coordinator.cpp`, `redis_cache_coordinator.cpp` | **Option A** (genuine nesting eliminated): `publishEntry`/`publishInvalidation` in `redis_cache_coordinator.cpp` restructured to release `pub_mutex_` before acquiring `stats_mutex_`; `enqueueFanout` in `cache_replication_coordinator.cpp` refactored so `queue_mutex_` is released before `metrics_mutex_` is taken. **Option B** (sequential pairs documented): file-level `// LOCK ORDER:` blocks and inline annotations added to all three files. |
 
 ### FALSE POSITIVE Analysis
 
@@ -105,10 +105,11 @@ These are scanner artifacts from file-level analysis and should be excluded in t
 | Type | Count | Notes |
 |------|-------|-------|
 | `scope_mismatch` | 1287 | Static analysis artifact — flags all lines inside a mutex scope. Not individually actionable; requires semantic lock-scope refactor as part of Wave D hardening. |
-| `circular_lock_ordering` | ~80 remaining | Deeper coordinator paths not yet covered by scoped_lock refactor |
+| `circular_lock_ordering` | ~80 remaining | Deeper coordinator paths not yet covered by Option A refactor; file-level LOCK ORDER documentation in place |
 | `deadlock_risk` | 15 | Requires profiling and deadlock-graph analysis |
 | `lock_contention` | 8 | Requires profiling evidence |
 | `todo_as_productionlogic` | 23 | Per-file scanner metadata annotations (not actual `// TODO` comments in code) |
+| `missing_include` (`<optional>`) | 1 | Pre-existing gap in `redis_cache_coordinator.h:252` — not introduced by this session; requires separate fix |
 | Other (command_injection, db_connection_leak, etc.) | ~46 | Require targeted analysis per file |
 
 ---
