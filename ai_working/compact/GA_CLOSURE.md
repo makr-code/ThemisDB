@@ -14,14 +14,14 @@
 
 - `V240_GA_PROMOTION_FINAL_ATTESTATION.md` (2026-08-19, 9,760 B)
 - `PHASE_1A_GA_SIGN_OFF_DETAILED_PLAN.md` (2026-08-19, 18,993 B)
-- `GA_V2_4_0_EXECUTIVE_SUMMARY.md` (2026-08-19, 12,485 B)
-- `GA_V2_4_0_FINAL_STATUS_REPORT.md` (2026-08-19, 13,401 B)
 - `GA_V2_4_0_PROMOTION_CHECKLIST.md` (2026-08-19, 7,044 B)
 - `GA_V2_4_0_PROMOTION_RUNBOOK.md` (2026-08-19, 11,910 B)
 - `GA_V2_4_0_STATUS_SUMMARY.md` (2026-08-19, 13,084 B)
 - `GA_EXECUTION_MASTER_BOARD.md` (2026-08-19, 13,496 B)
 - `GA_SIGN_OFF_PREPARATION_SUMMARY.md` (2026-08-19, 11,063 B)
 - `GA_SIGN_OFF_QUICK_REFERENCE.md` (2026-08-19, 5,174 B)
+- `GA_V2_4_0_EXECUTIVE_SUMMARY.md` (2026-08-19, 12,485 B)
+- `GA_V2_4_0_FINAL_STATUS_REPORT.md` (2026-08-19, 13,401 B)
 - `FINAL_GA_READINESS_CHECKLIST.md` (2026-08-19, 18,009 B)
 
 ---
@@ -268,100 +268,6 @@ ctest --preset community-release -L release_critical --verbose
 - ✅ Wave 7/8/9 gates PASS
 - ✅ Security Lead sign-off obtained
 - ✅ Module gap audit confirms zero new CRITICALs
-
----
-
-### GA_V2_4_0_EXECUTIVE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# GA v2.4.0 PROMOTION — EXECUTIVE STATUS & ACTION SUMMARY
-**Date:** 2026-08-07 15:30 UTC
-**Status:** 🔴 BLOCKED — Awaiting RocksDB Dependency Resolution
-**Time in Current State:** ~25 minutes
-**Estimated Time to Release (if unblocked):** 1–2 hours
----
-## CRITICAL STATUS OVERVIEW
-### Current Situation
-GA v2.4.0 promotion is **functionally complete** but **operationally blocked** by a single external dependency issue:
-| Component | Status | Details |
-|-----------|--------|---------|
-| **Release Infrastructure** | ✅ READY | Merge/tag scripts, CI gates, documentation all complete |
-| **Security & Compliance** | ✅ PASS | Sanitizer evidence ✅, Pentest evidence ✅, No CRITICAL findings ✅ |
-| **Module Status** | ✅ PASS | All phases 1–6 complete, frozen v1.x+ contracts |
-| **Documentation** | ✅ COMPLETE | 5 comprehensive guides created; CHANGELOG/VERSIONING/ROADMAP updated |
-| **Benchmark Build** | ❌ FAILED | RocksDB dependency missing (prevents Wave 7/8/9 benchmarks) |
-| **Gate Validation** | ❌ BLOCKED | No benchmark results to validate |
-| **Human Sign-Off** | ❌ BLOCKED | Awaiting gate validation results |
-| **Merge & Release** | ❌ BLOCKED | Awaiting gate validation & sign-off |
-### The Blocker
-**Missing Dependency:** RocksDB (required for release-profile benchmark builds)
-**Error:**
-CMake Error at cmake/Dependencies.cmake:214:
-RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.
-**Impact:** Cannot build benchmark suite → Cannot validate gates → Cannot proceed to release
----
-## WHAT MUST HAPPEN NEXT (IN PRIORITY ORDER)
-### 1️⃣ IMMEDIATE: Resolve RocksDB Dependency (Action Required NOW)
-**Choose ONE option:**
-| Option | Time | Complexity | Recommended |
-|--------|------|-----------|-------------|
-| **A: System Package (apt)** | 5–10 min | Simple | ✅ YES |
-| **B: vcpkg Compilation** | 45–60 min | Medium | If A unavailable |
-| **C: Baseline Validation** | 10 min | Simple | Fallback only |
-**Option A (RECOMMENDED):**
-sudo apt-get update && sudo apt-get install -y librocksdb-dev librocksdb8.9
-**If successful:** Continue to Step 2
----
-
----
-
-### GA_V2_4_0_FINAL_STATUS_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# GA v2.4.0 Promotion — FINAL STATUS REPORT
-**Date:** 2026-08-07 15:35 UTC
-**Session Duration:** ~20 minutes
-**Current Status:** 🔴 **BLOCKED** — Awaiting RocksDB Dependency Resolution
----
-## EXECUTIVE SUMMARY
----
-## WHAT WAS ACCOMPLISHED IN THIS SESSION
-### ✅ Automated Infrastructure Created
-1. **`benchmarks/ga_v2_4_0_gate_validation.py`** (8.3 KB)
-- Validates all Wave 7/8/9 benchmark results against thresholds
-- Orchestrates 6 critical Wave 9 hard gates
-- Ready to run upon benchmark completion
-2. **`scripts/ga_v2_4_0_release_merge_and_tag.sh`** (7.9 KB)
-- Automates develop → community merge
-- Creates v2.4.0 tag with annotation
-- Verifies CI gates before proceeding
-- Validates human sign-off requirement
-- Ready to execute post-approval
-### ✅ Comprehensive Documentation Created
-1. **`ai_working/START_HERE.md`** (Quick action guide)
-- Three action options to unblock RocksDB
-- 2-minute overview of situation
-- Links to full documentation
-2. **`ai_working/GA_V2_4_0_EXECUTIVE_SUMMARY.md`** (12.2 KB)
-- Detailed status of all promotion components
-- Decision tree for RocksDB resolution
-- Timeline scenarios (Option A/B/C)
-- Command reference for each phase
-3. **`ai_working/GA_V2_4_0_PROMOTION_RUNBOOK.md`** (11.8 KB)
-- Phase 1–5 execution guide with CLI commands
-- CI gate verification procedures
-- Rollback & contingency planning
-- Success criteria & verification steps
-4. **`ai_working/GA_V2_4_0_PROMOTION_CHECKLIST.md`** (6.9 KB)
-- 11-section verification matrix
-- Pre-release requirements
-- Gate status tracking
-5. **`ai_working/RELEASE_APPROVER_QUICK_REFERENCE.md`** (6.1 KB)
-- 5-minute quick reference for human approver
-- Section 9 signature block guidance
-- Deferred items decision matrix
 
 ---
 
@@ -1496,6 +1402,100 @@ Once you sign off and complete the merge/tag:
 **Prepared:** 2026-08-05  
 **Status:** Ready for human sign-off  
 **Timeline:** ~45 minutes from start to completion
+
+---
+
+### GA_V2_4_0_EXECUTIVE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# GA v2.4.0 PROMOTION — EXECUTIVE STATUS & ACTION SUMMARY
+**Date:** 2026-08-07 15:30 UTC
+**Status:** 🔴 BLOCKED — Awaiting RocksDB Dependency Resolution
+**Time in Current State:** ~25 minutes
+**Estimated Time to Release (if unblocked):** 1–2 hours
+---
+## CRITICAL STATUS OVERVIEW
+### Current Situation
+GA v2.4.0 promotion is **functionally complete** but **operationally blocked** by a single external dependency issue:
+| Component | Status | Details |
+|-----------|--------|---------|
+| **Release Infrastructure** | ✅ READY | Merge/tag scripts, CI gates, documentation all complete |
+| **Security & Compliance** | ✅ PASS | Sanitizer evidence ✅, Pentest evidence ✅, No CRITICAL findings ✅ |
+| **Module Status** | ✅ PASS | All phases 1–6 complete, frozen v1.x+ contracts |
+| **Documentation** | ✅ COMPLETE | 5 comprehensive guides created; CHANGELOG/VERSIONING/ROADMAP updated |
+| **Benchmark Build** | ❌ FAILED | RocksDB dependency missing (prevents Wave 7/8/9 benchmarks) |
+| **Gate Validation** | ❌ BLOCKED | No benchmark results to validate |
+| **Human Sign-Off** | ❌ BLOCKED | Awaiting gate validation results |
+| **Merge & Release** | ❌ BLOCKED | Awaiting gate validation & sign-off |
+### The Blocker
+**Missing Dependency:** RocksDB (required for release-profile benchmark builds)
+**Error:**
+CMake Error at cmake/Dependencies.cmake:214:
+RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.
+**Impact:** Cannot build benchmark suite → Cannot validate gates → Cannot proceed to release
+---
+## WHAT MUST HAPPEN NEXT (IN PRIORITY ORDER)
+### 1️⃣ IMMEDIATE: Resolve RocksDB Dependency (Action Required NOW)
+**Choose ONE option:**
+| Option | Time | Complexity | Recommended |
+|--------|------|-----------|-------------|
+| **A: System Package (apt)** | 5–10 min | Simple | ✅ YES |
+| **B: vcpkg Compilation** | 45–60 min | Medium | If A unavailable |
+| **C: Baseline Validation** | 10 min | Simple | Fallback only |
+**Option A (RECOMMENDED):**
+sudo apt-get update && sudo apt-get install -y librocksdb-dev librocksdb8.9
+**If successful:** Continue to Step 2
+---
+
+---
+
+### GA_V2_4_0_FINAL_STATUS_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# GA v2.4.0 Promotion — FINAL STATUS REPORT
+**Date:** 2026-08-07 15:35 UTC
+**Session Duration:** ~20 minutes
+**Current Status:** 🔴 **BLOCKED** — Awaiting RocksDB Dependency Resolution
+---
+## EXECUTIVE SUMMARY
+---
+## WHAT WAS ACCOMPLISHED IN THIS SESSION
+### ✅ Automated Infrastructure Created
+1. **`benchmarks/ga_v2_4_0_gate_validation.py`** (8.3 KB)
+- Validates all Wave 7/8/9 benchmark results against thresholds
+- Orchestrates 6 critical Wave 9 hard gates
+- Ready to run upon benchmark completion
+2. **`scripts/ga_v2_4_0_release_merge_and_tag.sh`** (7.9 KB)
+- Automates develop → community merge
+- Creates v2.4.0 tag with annotation
+- Verifies CI gates before proceeding
+- Validates human sign-off requirement
+- Ready to execute post-approval
+### ✅ Comprehensive Documentation Created
+1. **`ai_working/START_HERE.md`** (Quick action guide)
+- Three action options to unblock RocksDB
+- 2-minute overview of situation
+- Links to full documentation
+2. **`ai_working/GA_V2_4_0_EXECUTIVE_SUMMARY.md`** (12.2 KB)
+- Detailed status of all promotion components
+- Decision tree for RocksDB resolution
+- Timeline scenarios (Option A/B/C)
+- Command reference for each phase
+3. **`ai_working/GA_V2_4_0_PROMOTION_RUNBOOK.md`** (11.8 KB)
+- Phase 1–5 execution guide with CLI commands
+- CI gate verification procedures
+- Rollback & contingency planning
+- Success criteria & verification steps
+4. **`ai_working/GA_V2_4_0_PROMOTION_CHECKLIST.md`** (6.9 KB)
+- 11-section verification matrix
+- Pre-release requirements
+- Gate status tracking
+5. **`ai_working/RELEASE_APPROVER_QUICK_REFERENCE.md`** (6.1 KB)
+- 5-minute quick reference for human approver
+- Section 9 signature block guidance
+- Deferred items decision matrix
 
 ---
 

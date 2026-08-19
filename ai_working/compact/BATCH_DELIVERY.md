@@ -22,27 +22,25 @@
 - `block_2_4_implementation_plan.md` (2026-08-19, 2,262 B)
 - `batch_creation_results.json` (2026-08-19, 1,433 B)
 - `WAVE_B_BATCH_DELIVERY_FINAL_REPORT.md` (2026-08-19, 10,768 B)
-- `WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 18,279 B)
-- `WAVE_A_BATCH_1A_TEST_SPECIFICATION.md` (2026-08-19, 13,399 B)
-- `WAVE_A_BATCH_1A_VERIFICATION_CHECKLIST.md` (2026-08-19, 8,564 B)
 - `WAVE_A_BATCH_A8_A9_EXECUTION_LIVE_2026-08-18.md` (2026-08-19, 5,946 B)
 - `WAVE_A_BATCH_A8_VOICE_GPU_IMPLEMENTATION_GUIDE.md` (2026-08-19, 18,525 B)
 - `WAVE_A_BLOCK2_FINAL_CLOSURE_2026_08_18.md` (2026-08-19, 18,297 B)
 - `WAVE_A_BLOCK2_IMPLEMENTATION_PLAN_2026_08_18.md` (2026-08-19, 18,003 B)
 - `WAVE_A_BLOCK2_PARTIAL_CLOSURE_2026_08_18.md` (2026-08-19, 14,552 B)
+- `WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 18,279 B)
+- `WAVE_A_BATCH_1A_TEST_SPECIFICATION.md` (2026-08-19, 13,399 B)
+- `WAVE_A_BATCH_1A_VERIFICATION_CHECKLIST.md` (2026-08-19, 8,564 B)
 - `VERIFICATION_INDEX_AUTH_BATCH4.txt` (2026-08-19, 11,970 B)
-- `UPDATES_BATCH2_COMPLETION_REPORT.md` (2026-08-19, 17,262 B)
-- `UPDATES_BATCH4_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 14,266 B)
 - `UPDATES_BATCH5_FINALIZATION.md` (2026-08-19, 15,769 B)
 - `UPDATES_BLOCK1_PHASE1_COMPLETION_REPORT.md` (2026-08-19, 12,558 B)
 - `UPDATES_BLOCK1_PHASE1_FINAL_SUMMARY.md` (2026-08-19, 12,670 B)
 - `UPDATES_BLOCK1_REMEDIATION_GUIDE.md` (2026-08-19, 12,912 B)
 - `UPDATES_BATCH1_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 16,428 B)
+- `UPDATES_BATCH2_COMPLETION_REPORT.md` (2026-08-19, 17,262 B)
+- `UPDATES_BATCH4_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 14,266 B)
 - `TOOLBOX_BATCH_2_PHASE3_PLAN.md` (2026-08-19, 2,665 B)
 - `TOOLBOX_BATCH_3_PHASE5_PLAN.md` (2026-08-19, 2,992 B)
 - `TOOLBOX_BATCH_COORDINATION_MASTER.md` (2026-08-19, 11,228 B)
-- `SPRINT_8_BATCH_D_PHASE_2_3_PLAN.md` (2026-08-19, 14,619 B)
-- `SPRINT_8_BATCH_D_PHASE_2_KICKOFF.md` (2026-08-19, 7,658 B)
 - `SPRINT_7_BATCH_C_KICKOFF.md` (2026-08-19, 18,387 B)
 - `SPRINT_7_BATCH_C_PHASE1_COMPLETION_REPORT.md` (2026-08-19, 13,635 B)
 - `SPRINT_7_BATCH_C_PHASE1_INDEX.txt` (2026-08-19, 10,394 B)
@@ -50,6 +48,8 @@
 - `SPRINT_8_BATCH_D_KICKOFF.md` (2026-08-19, 8,934 B)
 - `SPRINT_8_BATCH_D_PHASE_1_REMEDIATION_REPORT.md` (2026-08-19, 10,963 B)
 - `SPRINT_8_BATCH_D_PHASE_2_3_COMPLETE_STATUS.md` (2026-08-19, 9,013 B)
+- `SPRINT_8_BATCH_D_PHASE_2_3_PLAN.md` (2026-08-19, 14,619 B)
+- `SPRINT_8_BATCH_D_PHASE_2_KICKOFF.md` (2026-08-19, 7,658 B)
 - `SECURITY_BATCH4_IMPLEMENTATION_PLAN_2026-08-17.md` (2026-08-19, 1,410 B)
 - `SECURITY_MODULE_GAPS_BATCH4_MASTER_PLAN.md` (2026-08-19, 12,494 B)
 - `SECURITY_MODULE_GAPS_BATCH_A_REFERENCE.md` (2026-08-19, 6,200 B)
@@ -70,35 +70,36 @@
 - `REPLICATION_GAPS_BATCH4_A1_COMPLETION_REPORT.md` (2026-08-19, 13,666 B)
 - `RAG_BATCH2_DATARACE_REMEDIATION_REPORT.md` (2026-08-19, 11,008 B)
 - `Q3_2026_BATCH_1_2_COMPLETION_SUMMARY.txt` (2026-08-19, 15,228 B)
-- `PHASE_2.4_BATCH_2_EXECUTION_FINAL.md` (2026-08-19, 8,911 B)
 - `PHASE_2.4_BATCH_4_IMPLEMENTATION_PLAN.md` (2026-08-19, 11,984 B)
+- `PHASE_2.4_BATCH_2_EXECUTION_FINAL.md` (2026-08-19, 8,911 B)
 - `PHASE_1_6_BATCH_SUMMARY.md` (2026-08-19, 10,412 B)
+- `PHASE4_BLOCK3_CACHE_COMPLETION.md` (2026-08-19, 8,516 B)
 - `PHASE4_BLOCK1_QUERY_COMPLETION.md` (2026-08-19, 6,994 B)
 - `PHASE4_BLOCK2_IMPORTERS_COMPLETION.md` (2026-08-19, 7,375 B)
-- `PHASE4_BLOCK3_CACHE_COMPLETION.md` (2026-08-19, 8,516 B)
+- `PHASE3_BATCH_B1_INDEX.md` (2026-08-19, 5,036 B)
+- `PHASE3_BATCH_B1_INDEX_7998.md` (2026-08-19, 5,036 B)
 - `PHASE3_BATCH_B1_COMPLETION_REPORT.md` (2026-08-19, 15,117 B)
 - `PHASE3_BATCH_B1_COMPLETION_REPORT_6720.md` (2026-08-19, 15,117 B)
 - `PHASE3_BATCH_B1_EXECUTION_SUMMARY.md` (2026-08-19, 8,883 B)
 - `PHASE3_BATCH_B1_EXECUTION_SUMMARY_7213.md` (2026-08-19, 8,883 B)
-- `PHASE3_BATCH_B1_INDEX.md` (2026-08-19, 5,036 B)
-- `PHASE3_BATCH_B1_INDEX_7998.md` (2026-08-19, 5,036 B)
 - `OBSERVABILITY_BLOCK_B_EXECUTION_SUMMARY.md` (2026-08-19, 7,584 B)
 - `OBSERVABILITY_BLOCK_B_IMPLEMENTATION_PLAN.md` (2026-08-19, 16,689 B)
+- `NETWORK_MODULE_GAPS_BATCH4_MASTER_INDEX.md` (2026-08-19, 10,548 B)
+- `NETWORK_MODULE_GAPS_BATCH4_QUICK_REFERENCE.md` (2026-08-19, 8,847 B)
 - `NETWORK_BATCH4_1_AGENT_SPEC.md` (2026-08-19, 9,356 B)
 - `NETWORK_BATCH4_1_CRITICAL_FIXES_CHECKLIST.md` (2026-08-19, 17,417 B)
 - `NETWORK_MODULE_GAPS_BATCH4_ANALYSIS.md` (2026-08-19, 15,482 B)
 - `NETWORK_MODULE_GAPS_BATCH4_EXECUTIVE_SUMMARY.md` (2026-08-19, 10,531 B)
-- `NETWORK_MODULE_GAPS_BATCH4_MASTER_INDEX.md` (2026-08-19, 10,548 B)
-- `NETWORK_MODULE_GAPS_BATCH4_QUICK_REFERENCE.md` (2026-08-19, 8,847 B)
-- `IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md` (2026-08-19, 14,775 B)
 - `IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md` (2026-08-19, 16,713 B)
+- `IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md` (2026-08-19, 14,775 B)
 - `HIGH_A_BATCH_INDEX.md` (2026-08-19, 4,463 B)
 - `GPU_BATCH1_FINAL_SUMMARY.md` (2026-08-19, 6,629 B)
 - `GPU_BLOCK_3_FINAL_DELIVERY.md` (2026-08-19, 14,569 B)
-- `CRITICAL_FIXES_BATCH1_REPORT.md` (2026-08-19, 12,762 B)
 - `CUDA_BATCH2_BUILD_VERIFICATION_REPORT.md` (2026-08-19, 6,166 B)
 - `CUDA_BATCH2_VERIFICATION_CHECKLIST.md` (2026-08-19, 7,939 B)
 - `CUDA_ERROR_HARDENING_BATCH2_SUMMARY.md` (2026-08-19, 11,669 B)
+- `CRITICAL_FIXES_BATCH1_REPORT.md` (2026-08-19, 12,762 B)
+- `CONTENT_BATCH5_EXECUTION_FINAL_STATUS_2026-08-15.md` (2026-08-19, 14,919 B)
 - `CONTENT_BATCH5_EXECUTION_MANIFEST.md` (2026-08-19, 14,195 B)
 - `CONTENT_BATCH5_FINAL_EXECUTION_STATUS_2026-08-15.md` (2026-08-19, 11,824 B)
 - `CONTENT_BATCH5_FINAL_REPORT_2026-08-15.md` (2026-08-19, 15,653 B)
@@ -117,10 +118,8 @@
 - `CONTENT_BATCH5_CP1_REMEDIATION_MASTER_INDEX.md` (2026-08-19, 13,043 B)
 - `CONTENT_BATCH5_CP1_TEAM_LEAD_QUICKREF.md` (2026-08-19, 9,385 B)
 - `CONTENT_BATCH5_EXECUTION_DASHBOARD_2026-08-15.md` (2026-08-19, 10,593 B)
-- `CONTENT_BATCH5_EXECUTION_FINAL_STATUS_2026-08-15.md` (2026-08-19, 14,919 B)
 - `CONCURRENT_HARDENING_BLOCK_A1_SUMMARY.md` (2026-08-19, 17,663 B)
 - `CMT_7502_BATCH5_DELIVERY_SIGN_OFF.md` (2026-08-19, 10,366 B)
-- `BLOCK_5_COMPREHENSIVE_PLAN.md` (2026-08-19, 16,560 B)
 - `BLOCK_5_FINAL_SUMMARY.md` (2026-08-19, 12,787 B)
 - `BLOCK_5_MASTER_SUMMARY.md` (2026-08-19, 15,817 B)
 - `BLOCK_5_VERIFICATION_REPORT.md` (2026-08-19, 20,837 B)
@@ -129,6 +128,15 @@
 - `BLOCK_D_GATE_VERIFICATION_AND_BLOCK_E_PLAN.md` (2026-08-19, 19,899 B)
 - `BLOCK_E_KICKOFF_CHECKLIST.md` (2026-08-19, 10,943 B)
 - `BLOCK_E_QUICK_REFERENCE.md` (2026-08-19, 3,849 B)
+- `BATCH_HIGH_A_EXECUTION_LOG.txt` (2026-08-19, 23,881 B)
+- `BATCH_PHASE2_DELIVERY_SUMMARY.md` (2026-08-19, 13,826 B)
+- `BATCH_PHASE2_MASTER_INDEX.md` (2026-08-19, 9,655 B)
+- `BATCH_PHASE2_PROGRESS_TRACKER.md` (2026-08-19, 9,611 B)
+- `BATCH_SAFETY_FIXES_QUERY_DELIVERY.md` (2026-08-19, 11,098 B)
+- `BLOCK_5_COMPREHENSIVE_PLAN.md` (2026-08-19, 16,560 B)
+- `BATCH_A8_QUICK_REFERENCE.md` (2026-08-19, 9,395 B)
+- `BATCH_A9_CHAOS_TESTING_PLAN.md` (2026-08-19, 4,786 B)
+- `BATCH_A9_COMMIT_STRATEGY.md` (2026-08-19, 14,850 B)
 - `BATCH_A9_DETAILED_FIXES.md` (2026-08-19, 16,489 B)
 - `BATCH_A9_GPU_SAFETY_IMPLEMENTATION.md` (2026-08-19, 10,222 B)
 - `BATCH_A9_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,712 B)
@@ -138,12 +146,6 @@
 - `BATCH_COMPLETION_REPORT_2026-06-10.md` (2026-08-19, 9,311 B)
 - `BATCH_COORDINATION_2026-06-10.md` (2026-08-19, 5,822 B)
 - `BATCH_EXECUTION_FINAL_REPORT_2026-06-10.md` (2026-08-19, 8,271 B)
-- `BATCH_HIGH_A_EXECUTION_LOG.txt` (2026-08-19, 23,881 B)
-- `BATCH_PHASE2_DELIVERY_SUMMARY.md` (2026-08-19, 13,826 B)
-- `BATCH_PHASE2_MASTER_INDEX.md` (2026-08-19, 9,655 B)
-- `BATCH_PHASE2_PROGRESS_TRACKER.md` (2026-08-19, 9,611 B)
-- `BATCH_SAFETY_FIXES_QUERY_DELIVERY.md` (2026-08-19, 11,098 B)
-- `BATCH_A5_A6_A7_A8_ROADMAP.md` (2026-08-19, 12,415 B)
 - `BATCH_A5_CIRCULAR_LOCK_ORDERING_PLAN.md` (2026-08-19, 9,382 B)
 - `BATCH_A5_DELIVERY_MANIFEST.md` (2026-08-19, 11,484 B)
 - `BATCH_A5_EXECUTION_PLAN.md` (2026-08-19, 9,491 B)
@@ -155,12 +157,6 @@
 - `BATCH_A7B_DELIVERY_SUMMARY.md` (2026-08-19, 15,474 B)
 - `BATCH_A8_CRITICAL_HARDENING_SUMMARY.md` (2026-08-19, 20,203 B)
 - `BATCH_A8_IMPLEMENTATION_REPORT.md` (2026-08-19, 12,875 B)
-- `BATCH_A8_QUICK_REFERENCE.md` (2026-08-19, 9,395 B)
-- `BATCH_A9_CHAOS_TESTING_PLAN.md` (2026-08-19, 4,786 B)
-- `BATCH_A9_COMMIT_STRATEGY.md` (2026-08-19, 14,850 B)
-- `BATCH_5_PHASE_1_VALIDATION_AND_TRACKING.md` (2026-08-19, 7,063 B)
-- `BATCH_5_QUICK_REFERENCE.md` (2026-08-19, 10,914 B)
-- `BATCH_5_UNIFIED_DIAGNOSTICS_SPEC.md` (2026-08-19, 26,983 B)
 - `BATCH_7_13_REMAINING_MODULES_INVENTORY.md` (2026-08-19, 20,205 B)
 - `BATCH_A0_EXECUTION_PLAN.md` (2026-08-19, 7,547 B)
 - `BATCH_A1_COMPLETION_SUMMARY.md` (2026-08-19, 8,343 B)
@@ -173,18 +169,29 @@
 - `BATCH_A2_QUICK_REFERENCE.md` (2026-08-19, 8,698 B)
 - `BATCH_A3_GPU_MEMORY_LEAK_PLAN.md` (2026-08-19, 6,862 B)
 - `BATCH_A4_BRACES_IMBALANCE_REPORT.md` (2026-08-19, 5,634 B)
-- `BATCH_4_PHASE6_DETAILED_IMPLEMENTATION.md` (2026-08-19, 16,381 B)
-- `BATCH_5_6_PLANNING.md` (2026-08-19, 3,852 B)
-- `BATCH_5_EXECUTIVE_SUMMARY.md` (2026-08-19, 11,623 B)
-- `BATCH_5_GAP_ANALYSIS_AND_FIX_PLAN.md` (2026-08-19, 20,937 B)
-- `BATCH_5_IMPLEMENTATION_TEMPLATES.md` (2026-08-19, 22,903 B)
-- `BATCH_5_PHASE_1A_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 17,452 B)
+- `BATCH_A5_A6_A7_A8_ROADMAP.md` (2026-08-19, 12,415 B)
 - `BATCH_5_PHASE_1B_GPU_MEMORY_DELIVERY.md` (2026-08-19, 18,813 B)
 - `BATCH_5_PHASE_1B_QUICK_REFERENCE.md` (2026-08-19, 10,018 B)
 - `BATCH_5_PHASE_1_DAILY_REPORT_20260817.md` (2026-08-19, 10,789 B)
 - `BATCH_5_PHASE_1_DETAILED_IMPLEMENTATION_PLAN.md` (2026-08-19, 16,764 B)
 - `BATCH_5_PHASE_1_EXECUTION_COMPLETE.md` (2026-08-19, 11,851 B)
 - `BATCH_5_PHASE_1_FINAL_VERIFICATION_MANIFEST.md` (2026-08-19, 10,710 B)
+- `BATCH_5_PHASE_1_VALIDATION_AND_TRACKING.md` (2026-08-19, 7,063 B)
+- `BATCH_5_QUICK_REFERENCE.md` (2026-08-19, 10,914 B)
+- `BATCH_5_UNIFIED_DIAGNOSTICS_SPEC.md` (2026-08-19, 26,983 B)
+- `BATCH_3_PHASE5_DETAILED_IMPLEMENTATION.md` (2026-08-19, 9,188 B)
+- `BATCH_4_A1_EXECUTIVE_SUMMARY.md` (2026-08-19, 6,929 B)
+- `BATCH_4_A1_FINAL_SIGN_OFF.md` (2026-08-19, 9,696 B)
+- `BATCH_4_EXECUTION_PLAN.md` (2026-08-19, 3,535 B)
+- `BATCH_4_ORCHESTRATION_SPEC.md` (2026-08-19, 13,958 B)
+- `BATCH_4_PHASE6_DETAILED_IMPLEMENTATION.md` (2026-08-19, 16,381 B)
+- `BATCH_5_6_PLANNING.md` (2026-08-19, 3,852 B)
+- `BATCH_5_EXECUTIVE_SUMMARY.md` (2026-08-19, 11,623 B)
+- `BATCH_5_GAP_ANALYSIS_AND_FIX_PLAN.md` (2026-08-19, 20,937 B)
+- `BATCH_5_IMPLEMENTATION_TEMPLATES.md` (2026-08-19, 22,903 B)
+- `BATCH_5_PHASE_1A_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 17,452 B)
+- `BATCH6_CONSOLIDATION_REPORT.md` (2026-08-19, 12,677 B)
+- `BATCH6_DELIVERY_SUMMARY.md` (2026-08-19, 15,258 B)
 - `BATCH6_NAVIGATION_GUIDE.md` (2026-08-19, 13,778 B)
 - `BATCH_1_COMPLETION_REPORT.md` (2026-08-19, 8,841 B)
 - `BATCH_3_4_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 11,285 B)
@@ -194,12 +201,6 @@
 - `BATCH_3_INDEX.md` (2026-08-19, 10,307 B)
 - `BATCH_3_KEY_DERIVATION_SCHEDULER_SPEC.md` (2026-08-19, 18,805 B)
 - `BATCH_3_PHASE5_COMPLETION_REPORT.md` (2026-08-19, 16,203 B)
-- `BATCH_3_PHASE5_DETAILED_IMPLEMENTATION.md` (2026-08-19, 9,188 B)
-- `BATCH_4_A1_EXECUTIVE_SUMMARY.md` (2026-08-19, 6,929 B)
-- `BATCH_4_A1_FINAL_SIGN_OFF.md` (2026-08-19, 9,696 B)
-- `BATCH_4_EXECUTION_PLAN.md` (2026-08-19, 3,535 B)
-- `BATCH_4_ORCHESTRATION_SPEC.md` (2026-08-19, 13,958 B)
-- `BATCH4_CHANGES_SUMMARY.md` (2026-08-19, 7,828 B)
 - `BATCH4_COMPLETION_SUMMARY.txt` (2026-08-19, 12,152 B)
 - `BATCH4_EXCEPTION_SAFETY_IMPLEMENTATION_PLAN.md` (2026-08-19, 2,677 B)
 - `BATCH4_EXECUTIVE_SUMMARY.md` (2026-08-19, 8,116 B)
@@ -212,11 +213,6 @@
 - `BATCH5_EXECUTION_SUMMARY_2026-08-15.md` (2026-08-19, 12,773 B)
 - `BATCH5_EXECUTIVE_SUMMARY.txt` (2026-08-19, 10,732 B)
 - `BATCH5_PERFORMANCE_GAPS_IMPLEMENTATION_PLAN.md` (2026-08-19, 10,006 B)
-- `BATCH6_CONSOLIDATION_REPORT.md` (2026-08-19, 12,677 B)
-- `BATCH6_DELIVERY_SUMMARY.md` (2026-08-19, 15,258 B)
-- `BATCH4_1_PHASE_C_COMPLETION_REPORT.md` (2026-08-19, 12,902 B)
-- `BATCH4_1_PHASE_C_ESCALATION.md` (2026-08-19, 9,390 B)
-- `BATCH4_1_PHASE_C_SPEC.md` (2026-08-19, 11,182 B)
 - `BATCH4_1_PHASE_D_COMPLETION_REPORT.md` (2026-08-19, 12,051 B)
 - `BATCH4_1_PHASE_D_SPEC.md` (2026-08-19, 8,905 B)
 - `BATCH4_1_PHASE_E_COMPLETION_REPORT.md` (2026-08-19, 13,905 B)
@@ -228,13 +224,7 @@
 - `BATCH4_A2_DELIVERY_SUMMARY.md` (2026-08-19, 8,804 B)
 - `BATCH4_A2_EXECUTION_SUMMARY.md` (2026-08-19, 8,069 B)
 - `BATCH4_A2_VERIFICATION_REPORT.md` (2026-08-19, 15,449 B)
-- `BATCH2_RAII_IMPLEMENTATION_GUIDE.md` (2026-08-19, 13,313 B)
-- `BATCH2_RAII_VERIFICATION_REPORT.txt` (2026-08-19, 12,818 B)
-- `BATCH3_DELIVERY.md` (2026-08-19, 9,301 B)
-- `BATCH3_ERROR_CODES.md` (2026-08-19, 11,170 B)
-- `BATCH3_FILES_MODIFIED.txt` (2026-08-19, 8,954 B)
-- `BATCH3_LEAK_PREVENTION_SUMMARY.md` (2026-08-19, 17,681 B)
-- `BATCH3_PERFORMANCE_SUMMARY.md` (2026-08-19, 7,672 B)
+- `BATCH4_CHANGES_SUMMARY.md` (2026-08-19, 7,828 B)
 - `BATCH3_QUICK_REFERENCE.md` (2026-08-19, 8,102 B)
 - `BATCH3_THREAD_SAFETY_DELIVERY.md` (2026-08-19, 15,830 B)
 - `BATCH4_1_BLOCKERS.md` (2026-08-19, 1,493 B)
@@ -244,6 +234,22 @@
 - `BATCH4_1_PHASE_B_COMPLETION_REPORT.md` (2026-08-19, 7,040 B)
 - `BATCH4_1_PHASE_B_VALIDATION.md` (2026-08-19, 5,625 B)
 - `BATCH4_1_PHASE_C_ANALYSIS.md` (2026-08-19, 9,284 B)
+- `BATCH4_1_PHASE_C_COMPLETION_REPORT.md` (2026-08-19, 12,902 B)
+- `BATCH4_1_PHASE_C_ESCALATION.md` (2026-08-19, 9,390 B)
+- `BATCH4_1_PHASE_C_SPEC.md` (2026-08-19, 11,182 B)
+- `BATCH2_CHANGE_SUMMARY.txt` (2026-08-19, 14,307 B)
+- `BATCH2_DELIVERABLES_MANIFEST.txt` (2026-08-19, 11,988 B)
+- `BATCH2_DELIVERY_SUMMARY.txt` (2026-08-19, 12,858 B)
+- `BATCH2_MANIFEST_VALIDATION_SUMMARY.md` (2026-08-19, 12,338 B)
+- `BATCH2_RAII_DELIVERY_SUMMARY.md` (2026-08-19, 11,798 B)
+- `BATCH2_RAII_IMPLEMENTATION_GUIDE.md` (2026-08-19, 13,313 B)
+- `BATCH2_RAII_VERIFICATION_REPORT.txt` (2026-08-19, 12,818 B)
+- `BATCH3_DELIVERY.md` (2026-08-19, 9,301 B)
+- `BATCH3_ERROR_CODES.md` (2026-08-19, 11,170 B)
+- `BATCH3_FILES_MODIFIED.txt` (2026-08-19, 8,954 B)
+- `BATCH3_LEAK_PREVENTION_SUMMARY.md` (2026-08-19, 17,681 B)
+- `BATCH3_PERFORMANCE_SUMMARY.md` (2026-08-19, 7,672 B)
+- `BATCH1_CHANGE_SUMMARY.txt` (2026-08-19, 9,495 B)
 - `BATCH1_COMPLETION_SUMMARY.md` (2026-08-19, 9,013 B)
 - `BATCH1_CRITICAL_AGENT_COORDINATION_2026-08-18.md` (2026-08-19, 7,438 B)
 - `BATCH1_CRITICAL_FINDINGS_REMEDIATION.md` (2026-08-19, 12,198 B)
@@ -254,12 +260,6 @@
 - `BATCH1_NULL_SAFETY_IMPLEMENTATION.md` (2026-08-19, 12,840 B)
 - `BATCH1_SCOPE_MISMATCH_ANALYSIS.md` (2026-08-19, 6,524 B)
 - `BATCH1_VALIDATION_CHECKLIST.txt` (2026-08-19, 10,142 B)
-- `BATCH2_CHANGE_SUMMARY.txt` (2026-08-19, 14,307 B)
-- `BATCH2_DELIVERABLES_MANIFEST.txt` (2026-08-19, 11,988 B)
-- `BATCH2_DELIVERY_SUMMARY.txt` (2026-08-19, 12,858 B)
-- `BATCH2_MANIFEST_VALIDATION_SUMMARY.md` (2026-08-19, 12,338 B)
-- `BATCH2_RAII_DELIVERY_SUMMARY.md` (2026-08-19, 11,798 B)
-- `BATCH1_CHANGE_SUMMARY.txt` (2026-08-19, 9,495 B)
 
 ---
 
@@ -1237,367 +1237,6 @@ All four modules successfully completed Wave B Next Batch Recommendations:
 
 ---
 
-### WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Wave A Batch 1A — Timeout Safety Consolidation Implementation Summary
-**Date:** 2026-08-17 18:06:48
-**Status:** ✅ COMPLETE
-**Scope:** Query module timeout enforcement (12 blocking_no_timeout + 12 no_timeout gaps)
-## Executive Summary
-## Changes Implemented
-### 1. ✅ query_canceller.cpp — Registry Timeout Safety (VERIFIED COMPLETE)
-**Status:** Already production-ready from previous implementation
-**Key Features:**
-- All registry operations use `std::timed_mutex` with `kLockTimeout = 200ms`
-- Lock acquisition failures result in safe fallback (token still valid, just not cancelable via registry)
-- No indefinite blocking on mutex contention
-- All timeout events logged with request context
-- RAII pattern with `std::unique_lock` ensures exception-safe cleanup
-**Methods Protected:**
-- `registerQuery()` — token creation with registry lock
-- `cancel()` — cancellation propagation with timeout guard
-- `unregisterQuery()` — cleanup with timeout fallback
----
-### 2. ✅ query_compiler.cpp — Compilation Timeout Enforcement (NEWLY IMPLEMENTED)
-**Changes:**
-#### 2a. Enhanced Header Documentation (query_compiler.h)
-**Config struct:**
-struct Config {
-// ... existing fields ...
-/**
-* @brief Maximum compile time in milliseconds before falling back.
-*
-* **Wave A Timeout Safety (§12, ROADMAP.md):**
-* Compilation is strictly bounded by this deadline. If specialisation
-* would exceed this timeout, the compiler aborts the compilation,
-* marks the entry as failed, and falls back to the interpreted path
-* indefinitely.
-*
-* **SLA Reasoning:**
-* - Default: 100 ms (generous for template specialisation on modern CPUs)
-* - Rationale: Ensures compilation overhead never dominates query latency
-* - Failure mode: Silent fallback to cold path with no loss of correctness
-* - Logging: All timeout events logged with query key for observability
-* - Future: When THEMIS_HAS_LLVM_JIT is enabled, LLVM compilation
-*   will also respect this deadline with early abort.
-*/
-uint64_t compilation_timeout_ms = 100;
-};
-
----
-
-### WAVE_A_BATCH_1A_TEST_SPECIFICATION.md
-
-*(file too large — key headings extracted)*
-
-# Wave A Batch 1A — Timeout Safety Test Specification
-**Date:** 2026-08-17
-**Module:** src/query (query_compiler, query_executor, query_canceller)
-**Wave:** A (Runtime Reliability First)
-**Gates:** ROADMAP.md §12-13
-## Test Objectives
-Verify that all timeout safety implementations enforce deterministic behavior:
-1. No indefinite blocking on any path
-2. Timeout-expired operations fail gracefully with fallback
-3. All timeout events are observable via logging
-4. Federated timeout edge cases handled correctly
-5. Cancellation and timeout signals coexist without race conditions
----
-## Unit Test Cases
-### Test Suite 1: query_compiler Timeout Enforcement
-**Test File:** tests/query/test_query_compiler_timeout.cpp
-#### TC1.1: Compilation Within Deadline
-**Precondition:** config.compilation_timeout_ms = 100ms, normal executor
-**Action:** Call compile() then execute() at hot_threshold
-**Expected:**
-- Entry.is_compiled = true
-- Stats.compilations incremented
-- Stats.compilation_timeouts = 0
-- Log: INFO message with actual compilation time
-#### TC1.2: Compilation Timeout — Specialisation Aborted
-**Precondition:** config.compilation_timeout_ms = 100ms, mock executor that sleeps
-**Action:** Mock executor sleeps 200ms; trigger specialisation at hot_threshold
-**Expected:**
-- Entry.compile_failed = true
-- Entry.is_compiled = false
-- Stats.compilation_timeouts incremented
-- Log: WARN message with "exceeded deadline"
-- Future execute() calls use cold path indefinitely
-#### TC1.3: Compilation Exception Handling
-**Precondition:** config.compilation_timeout_ms = 100ms, executor throws
-**Action:** Executor throws std::runtime_error; trigger specialisation
-**Expected:**
-- Entry.compile_failed = true
-- Stats.compilation_failures incremented
-- Execution continues with cold path
-- No propagation of executor exception
-#### TC1.4: Compilation Timeout Edge Case — Exactly at Deadline
-**Precondition:** config.compilation_timeout_ms = 100ms
-**Action:** Specialisation takes exactly 100ms
-**Expected:**
-- Should NOT timeout (deadline check uses `>`, not `>=`)
-- Entry.is_compiled = true
-- Stats.compilation_timeouts = 0
-
----
-
-### WAVE_A_BATCH_1A_VERIFICATION_CHECKLIST.md
-
-# Wave A Batch 1A — Verification Checklist
-
-**Date:** 2026-08-17 18:30:00 UTC  
-**Task:** Timeout Safety Consolidation for Query Module  
-**Status:** Implementation Complete, Awaiting Verification  
-
----
-
-## Implementation Completeness Checklist
-
-### Code Changes
-
-- [x] **query_compiler.cpp** — Timeout enforcement
-  - [x] Deadline tracking in trySpecialise()
-  - [x] Early abort on timeout exceeded
-  - [x] Fallback to interpreted path
-  - [x] All timeout events logged with context
-  - [x] No [[maybe_unused]] placeholder code
-  - [x] Exception handling (std::exception + catch-all)
-
-- [x] **query_compiler.h** — SLA documentation
-  - [x] Explicit rationale for 100ms timeout
-  - [x] Failure mode documented (silent fallback)
-  - [x] Default value justified
-  - [x] Future LLVM backend noted
-
-- [x] **query_executor.cpp** — Execution timeout
-  - [x] isExecutionTimeoutExceeded() helper implemented
-  - [x] Timeout check in execute() loop
-  - [x] Timeout check in execute_streaming() loop
-  - [x] Materialised throws on timeout
-  - [x] Streaming returns early on timeout
-  - [x] Cancellation + timeout coexistence safe
-  - [x] All timeout events logged
-
-- [x] **query_executor.h** — SLA documentation
-  - [x] ExecutionContext.timeout_ms documented
-  - [x] Default value (0 = no timeout) explained
-  - [x] Dual behavior clarified (throw vs partial)
-  - [x] isExecutionTimeoutExceeded() signature added
-  - [x] execution_start_ field added
-
-- [x] **query_canceller.cpp/h** — Verified complete
-  - [x] All mutex operations use timed_mutex
-  - [x] kLockTimeout = 200ms applied consistently
-  - [x] Lock acquisition failures handled safely
-
-### Documentation
-
-- [x] Doxygen comments added to all timeout-aware APIs
-- [x] SLA reasoning documented (why each timeout value)
-- [x] Failure modes documented (what happens on timeout)
-- [x] Fallback behavior documented (degradation path)
-- [x] Logging examples provided (expected output)
-
-### Testing
-
-- [x] Test specification created (21+ test cases)
-- [x] Unit test coverage defined (15 tests)
-- [x] Integration test coverage defined (3 tests)
-- [x] Chaos/stress test scenarios defined (3 tests)
-- [x] Performance regression test plan (3 tests)
-- [x] Observability test scenarios (5 tests)
-
-### Code Quality
-
-- [x] Brace balance verified (4/4 files balanced)
-- [x] Includes verified (chrono, fmt, logger added)
-- [x] RAII compliance (all mutex ops use std::unique_lock)
-- [x] Exception safety (all timeouts caught + logged)
-- [x] Modern C++ patterns (auto, const-correctness, std::function)
-- [x] No raw pointers in public APIs
-
----
-
-## Wave A Acceptance Criteria Fulfillment
-
-| Criterion | Status | Evidence Location |
-|-----------|--------|-------------------|
-| All timeout paths use std::timed_mutex with kLockTimeout | ✅ | query_canceller.cpp:51,65,89 |
-| No blocking operations without fallback | ✅ | All modules have documented fallback |
-| Timeout-expired tokens cleaned up deterministically | ✅ | query_executor.h: execution flow ensures cleanup |
-| Federated timeout edge cases wired to boundary | ✅ | query_federation_timeout.cpp integration |
-| All timeout handling documented (reason, fallback, SLA) | ✅ | All .h files have comprehensive Doxygen |
-
----
-
-## Pre-Merge Verification Tasks
-
-### Automated Checks (CI)
-
-- [ ] **Syntax Check:** No compilation errors
-- [ ] **Brace Balance:** Verified (4/4 files)
-- [ ] **Include Chain:** All headers present (chrono, fmt, logger)
-- [ ] **Warnings:** No new warnings introduced
-- [ ] **Symbol Resolution:** All types resolved (steady_clock, std::runtime_error, etc.)
-
-### Code Review Checklist
-
-- [ ] **Timeout Logic:** Deadline checks are correct (> not >=)
-- [ ] **Exception Safety:** All exceptions caught, no resource leaks
-- [ ] **Logging:** Every timeout path has corresponding WARN/INFO
-- [ ] **Thread Safety:** Atomic operations used for cancellation signal
-- [ ] **Performance:** No unnecessary overhead when timeout_ms = 0
-- [ ] **Documentation:** Every timeout-aware API has Doxygen
-
-### Functional Testing (Local)
-
-- [ ] **Compilation Timeout:** Mock slow executor, verify timeout + fallback
-- [ ] **Execution Timeout (Materialised):** Verify exception thrown
-- [ ] **Execution Timeout (Streaming):** Verify partial results returned
-- [ ] **Cancellation + Timeout:** Verify cancellation takes precedence
-- [ ] **Registry Lock Timeout:** Verify no deadlock on contention
-- [ ] **Statistics Tracking:** Verify counters incremented correctly
-
----
-
-## Commit History
-
-- [x] **Commit 1:** Wave A Batch 1A implementation
-  - Hash: 48bf074f25
-  - Message: Comprehensive timeout safety across all components
-  - Files: 4 changed (+135 lines, -24 lines)
-
----
-
-## Documentation Deliverables
-
-| Artifact | Location | Status |
-|----------|----------|--------|
-| **Implementation Summary** | ai_working/WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md | ✅ Complete |
-| **Test Specification** | ai_working/WAVE_A_BATCH_1A_TEST_SPECIFICATION.md | ✅ Complete |
-| **Verification Checklist** | ai_working/WAVE_A_BATCH_1A_VERIFICATION_CHECKLIST.md | ✅ Complete |
-| **Code Comments** | include/query/*.h + src/query/*.cpp | ✅ Complete |
-
----
-
-## Known Limitations & Caveats
-
-1. **Timeout granularity:** Row iteration boundaries (not sub-millisecond)
-   - Acceptable for query execution (rows typically >> 1ms)
-   - Future: Signal handler integration for finer granularity
-
-2. **Compiler specialisation timeout:** Simple elapsed time check
-   - Current: Post-compilation verification
-   - Future: Interrupt LLVM compilation via signal when THEMIS_HAS_LLVM_JIT
-
-3. **Federated query timeout:** Works orthogonally with per-shard timeouts
-   - Both timeout layers independent
-   - Early abort in federation layer TBD (future work)
-
-4. **No distributed tracing integration yet**
-   - Timeout events logged locally
-   - Future: Wire to OpenTelemetry/Jaeger for distributed context
-
----
-
-## Sign-Off Checklist
-
-### Implementation Owner
-
-- [x] All code changes reviewed for correctness
-- [x] All documentation complete and accurate
-- [x] No regressions expected (backward compatible)
-- [x] Test plan sufficient for production validation
-
-### Code Review Readiness
-
-- [x] Ready for peer review
-- [x] All Wave A §12-13 acceptance criteria met
-- [x] No blocking issues remain
-
-### CI/CD Readiness
-
-- [x] Syntax verified (brace balance, includes)
-- [x] No new warnings expected
-- [x] Test plan provided for CI execution
-- [x] Performance baseline exists (no regression expected)
-
----
-
-## Next Steps (Post-Merge)
-
-### Immediate (Same Day)
-
-1. Run CI pipeline on merge:
-   - [ ] All unit tests pass (tests/query/test_query_*timeout*.cpp)
-   - [ ] Compilation successful on all platforms
-   - [ ] No new warnings on develop-strict
-
-2. Verify logs in CI:
-   - [ ] No spurious WARN logs (only on actual timeouts)
-   - [ ] All timeout messages format correctly
-   - [ ] Statistics counters update correctly
-
-### Short-Term (Next Sprint)
-
-1. Add integration tests to test suite (TC4.1-4.3)
-2. Instrument federated query layer (TC4.3 chaos test)
-3. Run 24-hour chaos test (TC5.1-5.3)
-4. Collect performance baselines (TC6.1-6.3)
-
-### Medium-Term (Next Wave)
-
-1. Integrate execution timeout into query federation layer
-2. Add OpenTelemetry/Jaeger support for timeout events
-3. Implement signal handler for sub-millisecond timeout precision (future LLVM)
-4. Design timeout retry logic for federated queries (exponential backoff)
-
----
-
-## Rollback Plan
-
-If issues discovered during testing:
-
-1. **Simple revert:** `git revert 48bf074f25`
-2. **Impact:** Reverts all timeout enforcement
-   - Registry ops go back to post-acquisition timeout logging
-   - Compiler specialisation goes back to post-hoc timing
-   - Executor goes back to no timeout checks
-3. **Mitigation:** Full feature was opt-in (timeout_ms defaults to 0)
-
----
-
-## References
-
-**Wave A Specification:**
-- ROADMAP.md §78-99 (Wave A program model)
-- ROADMAP.md §12-13 acceptance criteria (timeout safety)
-
-**Implementation:**
-- ai_working/WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md
-- commit 48bf074f25
-
-**Testing:**
-- ai_working/WAVE_A_BATCH_1A_TEST_SPECIFICATION.md
-
-**Related Code:**
-- src/query/query_federation_timeout.cpp (federated timeout patterns)
-- src/query/query_canceller.{h,cpp} (registry timeout implementation)
-- include/query/query_resource_limits.h (resource constraint framework)
-
----
-
-**Verification Checklist Status:** COMPLETE  
-**Ready for Merge:** YES  
-**Ready for Release:** PENDING CI GREEN ✅  
-
-**Last Updated:** 2026-08-17 18:30:00 UTC  
-**Next Review:** Post-merge CI completion
-
----
-
 ### WAVE_A_BATCH_A8_A9_EXECUTION_LIVE_2026-08-18.md
 
 # Wave A Completion — Batch A-8 & A-9 Execution Summary (Live)
@@ -2011,6 +1650,367 @@ test_voice_adversarial_anti_spoof.cpp (451 lines)
 
 ---
 
+### WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Wave A Batch 1A — Timeout Safety Consolidation Implementation Summary
+**Date:** 2026-08-17 18:06:48
+**Status:** ✅ COMPLETE
+**Scope:** Query module timeout enforcement (12 blocking_no_timeout + 12 no_timeout gaps)
+## Executive Summary
+## Changes Implemented
+### 1. ✅ query_canceller.cpp — Registry Timeout Safety (VERIFIED COMPLETE)
+**Status:** Already production-ready from previous implementation
+**Key Features:**
+- All registry operations use `std::timed_mutex` with `kLockTimeout = 200ms`
+- Lock acquisition failures result in safe fallback (token still valid, just not cancelable via registry)
+- No indefinite blocking on mutex contention
+- All timeout events logged with request context
+- RAII pattern with `std::unique_lock` ensures exception-safe cleanup
+**Methods Protected:**
+- `registerQuery()` — token creation with registry lock
+- `cancel()` — cancellation propagation with timeout guard
+- `unregisterQuery()` — cleanup with timeout fallback
+---
+### 2. ✅ query_compiler.cpp — Compilation Timeout Enforcement (NEWLY IMPLEMENTED)
+**Changes:**
+#### 2a. Enhanced Header Documentation (query_compiler.h)
+**Config struct:**
+struct Config {
+// ... existing fields ...
+/**
+* @brief Maximum compile time in milliseconds before falling back.
+*
+* **Wave A Timeout Safety (§12, ROADMAP.md):**
+* Compilation is strictly bounded by this deadline. If specialisation
+* would exceed this timeout, the compiler aborts the compilation,
+* marks the entry as failed, and falls back to the interpreted path
+* indefinitely.
+*
+* **SLA Reasoning:**
+* - Default: 100 ms (generous for template specialisation on modern CPUs)
+* - Rationale: Ensures compilation overhead never dominates query latency
+* - Failure mode: Silent fallback to cold path with no loss of correctness
+* - Logging: All timeout events logged with query key for observability
+* - Future: When THEMIS_HAS_LLVM_JIT is enabled, LLVM compilation
+*   will also respect this deadline with early abort.
+*/
+uint64_t compilation_timeout_ms = 100;
+};
+
+---
+
+### WAVE_A_BATCH_1A_TEST_SPECIFICATION.md
+
+*(file too large — key headings extracted)*
+
+# Wave A Batch 1A — Timeout Safety Test Specification
+**Date:** 2026-08-17
+**Module:** src/query (query_compiler, query_executor, query_canceller)
+**Wave:** A (Runtime Reliability First)
+**Gates:** ROADMAP.md §12-13
+## Test Objectives
+Verify that all timeout safety implementations enforce deterministic behavior:
+1. No indefinite blocking on any path
+2. Timeout-expired operations fail gracefully with fallback
+3. All timeout events are observable via logging
+4. Federated timeout edge cases handled correctly
+5. Cancellation and timeout signals coexist without race conditions
+---
+## Unit Test Cases
+### Test Suite 1: query_compiler Timeout Enforcement
+**Test File:** tests/query/test_query_compiler_timeout.cpp
+#### TC1.1: Compilation Within Deadline
+**Precondition:** config.compilation_timeout_ms = 100ms, normal executor
+**Action:** Call compile() then execute() at hot_threshold
+**Expected:**
+- Entry.is_compiled = true
+- Stats.compilations incremented
+- Stats.compilation_timeouts = 0
+- Log: INFO message with actual compilation time
+#### TC1.2: Compilation Timeout — Specialisation Aborted
+**Precondition:** config.compilation_timeout_ms = 100ms, mock executor that sleeps
+**Action:** Mock executor sleeps 200ms; trigger specialisation at hot_threshold
+**Expected:**
+- Entry.compile_failed = true
+- Entry.is_compiled = false
+- Stats.compilation_timeouts incremented
+- Log: WARN message with "exceeded deadline"
+- Future execute() calls use cold path indefinitely
+#### TC1.3: Compilation Exception Handling
+**Precondition:** config.compilation_timeout_ms = 100ms, executor throws
+**Action:** Executor throws std::runtime_error; trigger specialisation
+**Expected:**
+- Entry.compile_failed = true
+- Stats.compilation_failures incremented
+- Execution continues with cold path
+- No propagation of executor exception
+#### TC1.4: Compilation Timeout Edge Case — Exactly at Deadline
+**Precondition:** config.compilation_timeout_ms = 100ms
+**Action:** Specialisation takes exactly 100ms
+**Expected:**
+- Should NOT timeout (deadline check uses `>`, not `>=`)
+- Entry.is_compiled = true
+- Stats.compilation_timeouts = 0
+
+---
+
+### WAVE_A_BATCH_1A_VERIFICATION_CHECKLIST.md
+
+# Wave A Batch 1A — Verification Checklist
+
+**Date:** 2026-08-17 18:30:00 UTC  
+**Task:** Timeout Safety Consolidation for Query Module  
+**Status:** Implementation Complete, Awaiting Verification  
+
+---
+
+## Implementation Completeness Checklist
+
+### Code Changes
+
+- [x] **query_compiler.cpp** — Timeout enforcement
+  - [x] Deadline tracking in trySpecialise()
+  - [x] Early abort on timeout exceeded
+  - [x] Fallback to interpreted path
+  - [x] All timeout events logged with context
+  - [x] No [[maybe_unused]] placeholder code
+  - [x] Exception handling (std::exception + catch-all)
+
+- [x] **query_compiler.h** — SLA documentation
+  - [x] Explicit rationale for 100ms timeout
+  - [x] Failure mode documented (silent fallback)
+  - [x] Default value justified
+  - [x] Future LLVM backend noted
+
+- [x] **query_executor.cpp** — Execution timeout
+  - [x] isExecutionTimeoutExceeded() helper implemented
+  - [x] Timeout check in execute() loop
+  - [x] Timeout check in execute_streaming() loop
+  - [x] Materialised throws on timeout
+  - [x] Streaming returns early on timeout
+  - [x] Cancellation + timeout coexistence safe
+  - [x] All timeout events logged
+
+- [x] **query_executor.h** — SLA documentation
+  - [x] ExecutionContext.timeout_ms documented
+  - [x] Default value (0 = no timeout) explained
+  - [x] Dual behavior clarified (throw vs partial)
+  - [x] isExecutionTimeoutExceeded() signature added
+  - [x] execution_start_ field added
+
+- [x] **query_canceller.cpp/h** — Verified complete
+  - [x] All mutex operations use timed_mutex
+  - [x] kLockTimeout = 200ms applied consistently
+  - [x] Lock acquisition failures handled safely
+
+### Documentation
+
+- [x] Doxygen comments added to all timeout-aware APIs
+- [x] SLA reasoning documented (why each timeout value)
+- [x] Failure modes documented (what happens on timeout)
+- [x] Fallback behavior documented (degradation path)
+- [x] Logging examples provided (expected output)
+
+### Testing
+
+- [x] Test specification created (21+ test cases)
+- [x] Unit test coverage defined (15 tests)
+- [x] Integration test coverage defined (3 tests)
+- [x] Chaos/stress test scenarios defined (3 tests)
+- [x] Performance regression test plan (3 tests)
+- [x] Observability test scenarios (5 tests)
+
+### Code Quality
+
+- [x] Brace balance verified (4/4 files balanced)
+- [x] Includes verified (chrono, fmt, logger added)
+- [x] RAII compliance (all mutex ops use std::unique_lock)
+- [x] Exception safety (all timeouts caught + logged)
+- [x] Modern C++ patterns (auto, const-correctness, std::function)
+- [x] No raw pointers in public APIs
+
+---
+
+## Wave A Acceptance Criteria Fulfillment
+
+| Criterion | Status | Evidence Location |
+|-----------|--------|-------------------|
+| All timeout paths use std::timed_mutex with kLockTimeout | ✅ | query_canceller.cpp:51,65,89 |
+| No blocking operations without fallback | ✅ | All modules have documented fallback |
+| Timeout-expired tokens cleaned up deterministically | ✅ | query_executor.h: execution flow ensures cleanup |
+| Federated timeout edge cases wired to boundary | ✅ | query_federation_timeout.cpp integration |
+| All timeout handling documented (reason, fallback, SLA) | ✅ | All .h files have comprehensive Doxygen |
+
+---
+
+## Pre-Merge Verification Tasks
+
+### Automated Checks (CI)
+
+- [ ] **Syntax Check:** No compilation errors
+- [ ] **Brace Balance:** Verified (4/4 files)
+- [ ] **Include Chain:** All headers present (chrono, fmt, logger)
+- [ ] **Warnings:** No new warnings introduced
+- [ ] **Symbol Resolution:** All types resolved (steady_clock, std::runtime_error, etc.)
+
+### Code Review Checklist
+
+- [ ] **Timeout Logic:** Deadline checks are correct (> not >=)
+- [ ] **Exception Safety:** All exceptions caught, no resource leaks
+- [ ] **Logging:** Every timeout path has corresponding WARN/INFO
+- [ ] **Thread Safety:** Atomic operations used for cancellation signal
+- [ ] **Performance:** No unnecessary overhead when timeout_ms = 0
+- [ ] **Documentation:** Every timeout-aware API has Doxygen
+
+### Functional Testing (Local)
+
+- [ ] **Compilation Timeout:** Mock slow executor, verify timeout + fallback
+- [ ] **Execution Timeout (Materialised):** Verify exception thrown
+- [ ] **Execution Timeout (Streaming):** Verify partial results returned
+- [ ] **Cancellation + Timeout:** Verify cancellation takes precedence
+- [ ] **Registry Lock Timeout:** Verify no deadlock on contention
+- [ ] **Statistics Tracking:** Verify counters incremented correctly
+
+---
+
+## Commit History
+
+- [x] **Commit 1:** Wave A Batch 1A implementation
+  - Hash: 48bf074f25
+  - Message: Comprehensive timeout safety across all components
+  - Files: 4 changed (+135 lines, -24 lines)
+
+---
+
+## Documentation Deliverables
+
+| Artifact | Location | Status |
+|----------|----------|--------|
+| **Implementation Summary** | ai_working/WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md | ✅ Complete |
+| **Test Specification** | ai_working/WAVE_A_BATCH_1A_TEST_SPECIFICATION.md | ✅ Complete |
+| **Verification Checklist** | ai_working/WAVE_A_BATCH_1A_VERIFICATION_CHECKLIST.md | ✅ Complete |
+| **Code Comments** | include/query/*.h + src/query/*.cpp | ✅ Complete |
+
+---
+
+## Known Limitations & Caveats
+
+1. **Timeout granularity:** Row iteration boundaries (not sub-millisecond)
+   - Acceptable for query execution (rows typically >> 1ms)
+   - Future: Signal handler integration for finer granularity
+
+2. **Compiler specialisation timeout:** Simple elapsed time check
+   - Current: Post-compilation verification
+   - Future: Interrupt LLVM compilation via signal when THEMIS_HAS_LLVM_JIT
+
+3. **Federated query timeout:** Works orthogonally with per-shard timeouts
+   - Both timeout layers independent
+   - Early abort in federation layer TBD (future work)
+
+4. **No distributed tracing integration yet**
+   - Timeout events logged locally
+   - Future: Wire to OpenTelemetry/Jaeger for distributed context
+
+---
+
+## Sign-Off Checklist
+
+### Implementation Owner
+
+- [x] All code changes reviewed for correctness
+- [x] All documentation complete and accurate
+- [x] No regressions expected (backward compatible)
+- [x] Test plan sufficient for production validation
+
+### Code Review Readiness
+
+- [x] Ready for peer review
+- [x] All Wave A §12-13 acceptance criteria met
+- [x] No blocking issues remain
+
+### CI/CD Readiness
+
+- [x] Syntax verified (brace balance, includes)
+- [x] No new warnings expected
+- [x] Test plan provided for CI execution
+- [x] Performance baseline exists (no regression expected)
+
+---
+
+## Next Steps (Post-Merge)
+
+### Immediate (Same Day)
+
+1. Run CI pipeline on merge:
+   - [ ] All unit tests pass (tests/query/test_query_*timeout*.cpp)
+   - [ ] Compilation successful on all platforms
+   - [ ] No new warnings on develop-strict
+
+2. Verify logs in CI:
+   - [ ] No spurious WARN logs (only on actual timeouts)
+   - [ ] All timeout messages format correctly
+   - [ ] Statistics counters update correctly
+
+### Short-Term (Next Sprint)
+
+1. Add integration tests to test suite (TC4.1-4.3)
+2. Instrument federated query layer (TC4.3 chaos test)
+3. Run 24-hour chaos test (TC5.1-5.3)
+4. Collect performance baselines (TC6.1-6.3)
+
+### Medium-Term (Next Wave)
+
+1. Integrate execution timeout into query federation layer
+2. Add OpenTelemetry/Jaeger support for timeout events
+3. Implement signal handler for sub-millisecond timeout precision (future LLVM)
+4. Design timeout retry logic for federated queries (exponential backoff)
+
+---
+
+## Rollback Plan
+
+If issues discovered during testing:
+
+1. **Simple revert:** `git revert 48bf074f25`
+2. **Impact:** Reverts all timeout enforcement
+   - Registry ops go back to post-acquisition timeout logging
+   - Compiler specialisation goes back to post-hoc timing
+   - Executor goes back to no timeout checks
+3. **Mitigation:** Full feature was opt-in (timeout_ms defaults to 0)
+
+---
+
+## References
+
+**Wave A Specification:**
+- ROADMAP.md §78-99 (Wave A program model)
+- ROADMAP.md §12-13 acceptance criteria (timeout safety)
+
+**Implementation:**
+- ai_working/WAVE_A_BATCH_1A_IMPLEMENTATION_SUMMARY.md
+- commit 48bf074f25
+
+**Testing:**
+- ai_working/WAVE_A_BATCH_1A_TEST_SPECIFICATION.md
+
+**Related Code:**
+- src/query/query_federation_timeout.cpp (federated timeout patterns)
+- src/query/query_canceller.{h,cpp} (registry timeout implementation)
+- include/query/query_resource_limits.h (resource constraint framework)
+
+---
+
+**Verification Checklist Status:** COMPLETE  
+**Ready for Merge:** YES  
+**Ready for Release:** PENDING CI GREEN ✅  
+
+**Last Updated:** 2026-08-17 18:30:00 UTC  
+**Next Review:** Post-merge CI completion
+
+---
+
 ### VERIFICATION_INDEX_AUTH_BATCH4.txt
 
 ═══════════════════════════════════════════════════════════════════════════════
@@ -2233,105 +2233,6 @@ Repository: /home/runner/work/ThemisDB/ThemisDB
 Module: auth (src/auth/)
 
 ═══════════════════════════════════════════════════════════════════════════════
-
----
-
-### UPDATES_BATCH2_COMPLETION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Updates Module Batch 2 - Schema Migration Stabilization
-## Complete Implementation Report
-**Repository**: makr-code/ThemisDB
-**Branch**: develop
-**Date**: 2026-08-14
-**Status**: ✅ **PRODUCTION-READY - ALL 48 FINDINGS RESOLVED**
----
-## Executive Summary
-- ✅ **28 HIGH**: Uninitialized access findings → **RESOLVED**
-- ✅ **8 HIGH**: Resource leak findings → **RESOLVED**
-- ✅ **3 MEDIUM**: Logic improvement findings → **RESOLVED**
-- ✅ **9 OTHER**: Mixed findings → **RESOLVED**
-**Maturity Score**: Improved from 86/100 to **100/100**
-**Test Coverage**: 51 comprehensive test cases added
-**Production Grade**: Shipping-ready, no stubs or TODOs
----
-## Category 1: Uninitialized Access (28 HIGH findings)
-### Problem Statement
-### Root Causes Identified
-1. `version_` was assigned but not validated
-2. No initialization guard flag to assert state
-3. `ConcreteMigrationContext` could be constructed in partial state
-4. LOG calls at function entry before assertion checks
-### Fixes Applied (UM-SMD-01..10)
-#### UM-SMD-01: ConcreteMigrationContext Constructor Validation
-**File**: `src/updates/schema_migration.cpp:95-130`
-explicit ConcreteMigrationContext(const std::string& ver,
-IMigrationStorage* store)
-{
-// FIX UM-SMD-01..10: Validate inputs before initialization
-if (ver.empty()) {
-throw std::invalid_argument("ConcreteMigrationContext: version cannot be empty");
-}
-if (store == nullptr) {
-throw std::invalid_argument("ConcreteMigrationContext: storage pointer cannot be null");
-}
-version = ver;
-storage = store;
-is_initialized_ = true;
-}
-**Impact**: Prevents construction of invalid context objects.
-
----
-
-### UPDATES_BATCH4_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-/**
-* @file UPDATES_BATCH4_IMPLEMENTATION_SUMMARY.md
-* @brief Implementation Summary for Updates Module Batch 4 - Performance & Correctness Fixes
-* @date 2026-08-14
-*
-* ## Executive Summary
-*
-* Completed implementation of 21 findings across 8 files in the Updates module.
-* All fixes are production-ready and address performance optimization, correctness,
-* and timeout handling concerns.
-*
-* **Status**: ✅ COMPLETE
-* **Tests Created**: 25+ test cases (all passing)
-* **Error Codes Addressed**: 7470-7491
-*
-* ---
-*/
-# Updates Module Batch 4 - Implementation Report
-## Summary of Changes
-### Category 1: String Concatenation Loops (6 findings) ✅
-**Problem**: String += in loops causes O(n²) complexity
-#### 1.1 in_place_schema_migrator.cpp (Lines 225-231)
-**Error Code**: 7470
-**Before**:
-"in-place additive migration: added " +
-std::to_string(result.added_columns.size()) + " column(s)"
-**After**:
-// Use ostringstream for efficient string building (Error Code: 7470)
-std::ostringstream msg_stream;
-msg_stream << "in-place additive migration: added "
-<< result.added_columns.size() << " column(s)";
-auto ver_result = version_mgr.createSchemaVersion(
-table_name,
-author,
-msg_stream.str());
-**Impact**: O(n) complexity for message building, improved performance
----
-#### 1.2 notification_webhook.cpp (Lines 195-204)
-**Error Code**: 7471
-**Before**:
-std::string files_str;
-for (const auto& f : payload.files_updated) {
-if (!files_str.empty()) files_str += "\n";
-files_str += f;
 
 ---
 
@@ -2580,6 +2481,105 @@ process_migration(*migration);  // exception-safe
 - **Location**:
 - Line 435: setPerformanceProvider uses lock_guard (verified)
 - Line 465: collect() uses lock_guard (verified)
+
+---
+
+### UPDATES_BATCH2_COMPLETION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# Updates Module Batch 2 - Schema Migration Stabilization
+## Complete Implementation Report
+**Repository**: makr-code/ThemisDB
+**Branch**: develop
+**Date**: 2026-08-14
+**Status**: ✅ **PRODUCTION-READY - ALL 48 FINDINGS RESOLVED**
+---
+## Executive Summary
+- ✅ **28 HIGH**: Uninitialized access findings → **RESOLVED**
+- ✅ **8 HIGH**: Resource leak findings → **RESOLVED**
+- ✅ **3 MEDIUM**: Logic improvement findings → **RESOLVED**
+- ✅ **9 OTHER**: Mixed findings → **RESOLVED**
+**Maturity Score**: Improved from 86/100 to **100/100**
+**Test Coverage**: 51 comprehensive test cases added
+**Production Grade**: Shipping-ready, no stubs or TODOs
+---
+## Category 1: Uninitialized Access (28 HIGH findings)
+### Problem Statement
+### Root Causes Identified
+1. `version_` was assigned but not validated
+2. No initialization guard flag to assert state
+3. `ConcreteMigrationContext` could be constructed in partial state
+4. LOG calls at function entry before assertion checks
+### Fixes Applied (UM-SMD-01..10)
+#### UM-SMD-01: ConcreteMigrationContext Constructor Validation
+**File**: `src/updates/schema_migration.cpp:95-130`
+explicit ConcreteMigrationContext(const std::string& ver,
+IMigrationStorage* store)
+{
+// FIX UM-SMD-01..10: Validate inputs before initialization
+if (ver.empty()) {
+throw std::invalid_argument("ConcreteMigrationContext: version cannot be empty");
+}
+if (store == nullptr) {
+throw std::invalid_argument("ConcreteMigrationContext: storage pointer cannot be null");
+}
+version = ver;
+storage = store;
+is_initialized_ = true;
+}
+**Impact**: Prevents construction of invalid context objects.
+
+---
+
+### UPDATES_BATCH4_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+/**
+* @file UPDATES_BATCH4_IMPLEMENTATION_SUMMARY.md
+* @brief Implementation Summary for Updates Module Batch 4 - Performance & Correctness Fixes
+* @date 2026-08-14
+*
+* ## Executive Summary
+*
+* Completed implementation of 21 findings across 8 files in the Updates module.
+* All fixes are production-ready and address performance optimization, correctness,
+* and timeout handling concerns.
+*
+* **Status**: ✅ COMPLETE
+* **Tests Created**: 25+ test cases (all passing)
+* **Error Codes Addressed**: 7470-7491
+*
+* ---
+*/
+# Updates Module Batch 4 - Implementation Report
+## Summary of Changes
+### Category 1: String Concatenation Loops (6 findings) ✅
+**Problem**: String += in loops causes O(n²) complexity
+#### 1.1 in_place_schema_migrator.cpp (Lines 225-231)
+**Error Code**: 7470
+**Before**:
+"in-place additive migration: added " +
+std::to_string(result.added_columns.size()) + " column(s)"
+**After**:
+// Use ostringstream for efficient string building (Error Code: 7470)
+std::ostringstream msg_stream;
+msg_stream << "in-place additive migration: added "
+<< result.added_columns.size() << " column(s)";
+auto ver_result = version_mgr.createSchemaVersion(
+table_name,
+author,
+msg_stream.str());
+**Impact**: O(n) complexity for message building, improved performance
+---
+#### 1.2 notification_webhook.cpp (Lines 195-204)
+**Error Code**: 7471
+**Before**:
+std::string files_str;
+for (const auto& f : payload.files_updated) {
+if (!files_str.empty()) files_str += "\n";
+files_str += f;
 
 ---
 
@@ -3041,314 +3041,6 @@ Before creating pull request:
 
 ---
 
-### SPRINT_8_BATCH_D_PHASE_2_3_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Sprint 8 Batch D Phase 2-3: Complete Use-After-Move Remediation Plan
-**Status:** Phase 2 KICKOFF
-**Date:** 2026-07-03 07:45 UTC
-**Phase 1 Result:** 8/8 gaps CLOSED ✅
-**Phase 2-3 Target:** 89 remaining gaps
-**User Preference:** Larger batches per commit (weiter/"next block")
----
-## 🎯 Executive Summary
-### Gap Distribution
-- **Priority 2 (Days 2-3):** ~20 gaps (SagaOrchestrator, Cross-shard transaction, Shard placement)
-- **Priority 3 (Days 4-7):** ~22 gaps (Transaction coordinator, Partition coordinator, Model manager)
-- **Unclassified (Days 8+):** ~47 gaps (architectural, complex refactors)
-- **Total:** 89 gaps
-### Success Criteria
-- [ ] Phase 2: ≥80% Priority 2 gaps (16+ gaps) remediated
-- [ ] Phase 3: ≥80% Priority 3 gaps (17+ gaps) remediated
-- [ ] All 97 Batch D gaps closed by 2026-07-04 23:59 UTC
-- [ ] Zero new gaps introduced
-- [ ] 100% test pass rate
-- [ ] Production-ready code
----
-## 📊 Phase 2: Priority 2 Gaps (Days 2-3) - ~20 Gaps
-### Group A: SagaOrchestrator Template Snapshot (Gap A-3 expansion)
-**File:** `src/transaction/saga_orchestrator.cpp`
-**Gaps:** 8-12 related template storage scenarios
-**Complexity:** MEDIUM
-**Estimated Time:** 90 min total (8-10 min per gap)
-#### Pattern Recognition
-// Pattern 1: Template moved to storage, original accessed
-SagaTemplate tmpl = buildTemplate();
-templates_[name] = std::move(tmpl);
-tmpl.validate();  // ❌ UB
-// Pattern 2: Template definition moved, metadata accessed
-SAGADefinition def = loadDefinition();
-definitions_.push_back(std::move(def));
-def.getName();  // ❌ UB
-// Pattern 3: Nested template move in construction
-createAndStore(std::move(template_obj));
-template_obj.status();  // ❌ UB
-#### Remediation Strategy (3 sub-patterns)
-1. **Pre-Move Snapshot** (5 gaps)
-- Capture template ID, name, version before move
-- Store snapshot in registry
-- Access via snapshot, never original
-
----
-
-### SPRINT_8_BATCH_D_PHASE_2_KICKOFF.md
-
-# Sprint 8 Batch D Phase 2: Kickoff Summary
-
-**Status:** 🚀 READY FOR EXECUTION  
-**Date:** 2026-07-03 07:45 UTC  
-**Duration:** ~4.5 hours (Phase 2), ~8-10 hours (Phase 3)  
-**Target Completion:** 2026-07-04 23:59 UTC
-
----
-
-## 📊 Current State
-
-### Phase 1: ✅ COMPLETE (2026-07-03 06:30-06:50)
-- 8/8 Priority 1 gaps remediated
-- Production-ready code in place
-- Comprehensive test suite (13 tests, 100% pass)
-- Commit: Phase 1 REMEDIATION_REPORT merged
-
-### Phase 2: 🚀 LAUNCHING NOW
-- **89 remaining gaps** (97 initial - 8 Phase 1)
-- **3 priority groups** (A, B, C) with 20 gaps total
-- **Execution time:** 4.5 hours
-- **Target:** 16+ gaps closed (80% of Phase 2)
-
----
-
-## 🎯 Phase 2 Execution Plan
-
-### Group A: SagaOrchestrator Template Snapshots (8-12 gaps)
-**File:** `src/transaction/saga_orchestrator.cpp`  
-**Pattern:** Template moved to storage, original accessed → UB  
-**Fix:** Pre-move snapshot pattern  
-**Effort:** 90 min total
-
-**Pattern Examples:**
-```cpp
-// BEFORE (Multiple instances)
-SAGADefinition def = loadDefinition();
-templates_[name] = std::move(def);
-def.getName();  // ❌ UB
-
-// AFTER
-SAGADefinition def = loadDefinition();
-auto def_id = def.getId();  // Capture before move
-templates_[name] = std::move(def);
-auto retrieved = templates_snapshots_[def_id];  // Access via snapshot
-retrieved.getName();  // ✅ SAFE
-```
-
-**Checklist:**
-- [ ] Find all std::move() points in saga_orchestrator.cpp
-- [ ] Implement TemplateSnapshot struct
-- [ ] Add templates_snapshots_ map for registry
-- [ ] Apply pre-move capture pattern to each location
-- [ ] Add 8-12 unit tests
-- [ ] Verify all queries use snapshots
-- [ ] Commit batch: "Fix Group A: SagaOrchestrator (8-12 gaps)"
-
----
-
-### Group B: Cross-Shard Transaction Protocol (4-5 gaps)
-**Files:**
-- `src/sharding/cross_shard_transaction.cpp` (3 gaps)
-- `src/transaction/transaction_executor.cpp` (2 gaps)
-
-**Pattern:** Transaction moved between protocol phases, state accessed → UB  
-**Fix:** TransactionHandle + ID-based registry  
-**Effort:** 120 min total
-
-**Pattern Examples:**
-```cpp
-// BEFORE (Multiple instances)
-Transaction tx = buildTransaction();
-auto result = executor->execute(std::move(tx));
-if (tx.status() == PENDING) {  // ❌ UB
-    // ...
-}
-
-// AFTER
-Transaction tx = buildTransaction();
-auto tx_handle = TransactionHandle{tx.getId(), tx.captureState()};
-auto result = executor->execute(std::move(tx));
-auto stored_tx = txn_registry_->get(tx_handle.txn_id);
-if (stored_tx->status() == PENDING) {  // ✅ SAFE
-    // ...
-}
-```
-
-**Checklist:**
-- [ ] Create TransactionHandle struct
-- [ ] Create txn_registry_ for ID-based lookup
-- [ ] Implement captureState() in Transaction
-- [ ] Update executor to handle TransactionHandle
-- [ ] Apply pattern to 4-5 locations
-- [ ] Add 4-5 integration tests
-- [ ] Test full 2PC flow
-- [ ] Commit batch: "Fix Group B: Cross-shard transaction (4-5 gaps)"
-
----
-
-### Group C: Shard Placement State (4-5 gaps)
-**File:** `src/distributed/shard_placement.cpp`  
-**Pattern:** Placement state/coordinator moved, original accessed → UB  
-**Fix:** PlacementHandle + placement registry  
-**Effort:** 60 min total
-
-**Pattern Examples:**
-```cpp
-// BEFORE (Multiple instances)
-Coordinator coord = buildCoordinator();
-decisions_.push_back(std::move(coord));
-auto placement = coord.getPlacementDecision();  // ❌ UB
-
-// AFTER
-Coordinator coord = buildCoordinator();
-auto placement_handle = PlacementHandle{coord.getId(), coord.getDecision()};
-decisions_.push_back(std::move(coord));
-auto stored_placement = placement_registry_->get(placement_handle.id);
-// Access stored_placement, never original  // ✅ SAFE
-```
-
-**Checklist:**
-- [ ] Create PlacementHandle struct
-- [ ] Create placement_registry_ map
-- [ ] Apply pre-capture pattern to all move points
-- [ ] Add 4-5 unit tests
-- [ ] Test placement accuracy preserved
-- [ ] Commit batch: "Fix Group C: Shard placement (4-5 gaps)"
-
----
-
-## 📈 Success Metrics (Phase 2)
-
-| Metric | Target | Success |
-|--------|--------|---------|
-| Gaps Closed | ≥16 (80% of 20) | ALL groups >80% |
-| Test Pass Rate | 100% | 20+ new tests passing |
-| Breaking Changes | 0 | Backward compatible |
-| Performance Impact | Neutral | No regression |
-| New Gaps Introduced | 0 | Gap count ≤89 |
-
----
-
-## 🧪 Testing Requirements (Phase 2)
-
-### Per-Group Test Suite
-```cpp
-// Group A: SagaOrchestrator
-TEST(MoveSemantics, SagaTemplateSnapshotPattern) {
-  SagaOrchestrator orch;
-  auto tmpl_id = template.getId();
-  orch.addTemplate(std::move(template));
-  
-  auto snapshot = orch.getSnapshot(tmpl_id);
-  EXPECT_TRUE(snapshot.isValid());
-}
-
-// Group B: Cross-shard Transaction
-TEST(MoveSemantics, TransactionHandlePattern) {
-  auto txn = buildTransaction();
-  auto handle = TransactionHandle::from(txn);
-  executor->execute(std::move(txn));
-  
-  auto stored = registry->get(handle.txn_id);
-  EXPECT_EQ(stored->status(), handle.state.status);
-}
-
-// Group C: Shard Placement
-TEST(MoveSemantics, PlacementHandlePattern) {
-  auto placement = buildPlacement();
-  auto handle = PlacementHandle::from(placement);
-  registry->add(std::move(placement));
-  
-  auto retrieved = registry->get(handle.id);
-  EXPECT_EQ(retrieved->shards(), handle.shards);
-}
-```
-
-### Integration Test
-- Full SagaOrchestrator workflow (create → execute → query)
-- Full 2PC flow (prepare → commit → verify)
-- Full placement decision workflow (analyze → decide → verify)
-
----
-
-## 🚀 Execution Timeline (Phase 2)
-
-| Time | Task | Effort | Status |
-|------|------|--------|--------|
-| 08:00-09:30 | Group A Implementation + Tests | 90 min | ⏳ TODO |
-| 09:30-11:30 | Group B Implementation + Tests | 120 min | ⏳ TODO |
-| 11:30-12:30 | Group C Implementation + Tests | 60 min | ⏳ TODO |
-| 12:30-13:00 | Integration + Code Review | 30 min | ⏳ TODO |
-| 13:00 | **Phase 2 COMPLETE** | — | ✅ TARGET |
-
-**Phase 3 (Days 4-7):** 22 gaps, ~8-10 hours  
-**Final Delivery (Hour 28):** All 97 gaps, production-ready
-
----
-
-## 📋 Commit Strategy (User Preference: Larger Batches)
-
-**Phase 2 Commits (3 total):**
-1. `Sprint8-Batch-D-Phase2-GroupA`: SagaOrchestrator (8-12 gaps)
-2. `Sprint8-Batch-D-Phase2-GroupB`: Cross-shard transaction (4-5 gaps)
-3. `Sprint8-Batch-D-Phase2-GroupC`: Shard placement (4-5 gaps)
-
-**Testing before each commit:**
-- Full module test suite passing
-- Affected component integration tests passing
-- New tests added and passing
-- No new gaps detected
-
----
-
-## ✅ Phase 2 Completion Checklist
-
-- [ ] Group A: 8-12 SagaOrchestrator gaps fixed + tested
-- [ ] Group B: 4-5 Cross-shard transaction gaps fixed + tested
-- [ ] Group C: 4-5 Shard placement gaps fixed + tested
-- [ ] Phase 2 total: 20+ gaps closed
-- [ ] All new tests passing (20+ test cases)
-- [ ] No performance regression detected
-- [ ] All 3 commits merged to develop
-- [ ] Phase 2 completion report written
-- [ ] **Progress Update:** 28/97 gaps closed (29%)
-
----
-
-## 🎯 Next Phase (Phase 3)
-
-Once Phase 2 complete, immediately start Phase 3:
-- **Group D:** Transaction Coordinator Suite (8+ gaps)
-- **Group E:** Partition Coordinator Suite (7+ gaps)
-- **Group F:** Model Manager Ownership (7+ gaps)
-- **Total:** 22+ gaps
-- **Effort:** 8-10 hours
-- **Target:** 2026-07-03 22:00 UTC (all phases complete by end of day)
-
----
-
-## 📞 Support
-
-**Questions on patterns?** → SPRINT_8_BATCH_D_GAP_ANALYSIS.md  
-**C++ best practices?** → .github/instructions/cpp-best-practices.instructions.md  
-**Documentation?** → DOCUMENTATION_GOVERNANCE.md
-
----
-
-**Status:** ✅ READY FOR PHASE 2 EXECUTION  
-**Start Time:** 2026-07-03 07:45 UTC  
-**Target Phase 2 Complete:** 2026-07-03 13:00 UTC  
-**Final Sprint 8 Complete:** 2026-07-04 23:59 UTC
-
----
-
 ### SPRINT_7_BATCH_C_KICKOFF.md
 
 *(file too large — key headings extracted)*
@@ -3451,55 +3143,256 @@ Medium:     3 gaps (7%)  - One-shot paths, bounded containers
 
 ### SPRINT_7_BATCH_C_PHASE1_INDEX.txt
 
-*(file too large — key headings extracted)*
-
 ================================================================================
 SPRINT 7 BATCH C - ITERATOR REMEDIATION (CWE-416)
 Phase 1: Gap Analysis & Prioritization
 ================================================================================
+
 PHASE 1 STATUS: ✅ COMPLETE
+
 Completion Date: 2026-07-22 (Week 30)
 Duration: As scheduled
 All Deliverables: Ready
+
 ================================================================================
 PHASE 1 DELIVERABLES (7 files)
 ================================================================================
+
 1. SPRINT_7_BATCH_C_KICKOFF.md (18 KB)
-└─ Comprehensive phase kickoff document
-└─ Includes: Executive summary, gap breakdown, SafeIterator design,
-Phase 2 strategy, risk assessment, rollback procedures
-└─ Audience: Project managers, architects, implementation team
+   └─ Comprehensive phase kickoff document
+   └─ Includes: Executive summary, gap breakdown, SafeIterator design, 
+                Phase 2 strategy, risk assessment, rollback procedures
+   └─ Audience: Project managers, architects, implementation team
+
 2. SPRINT_7_BATCH_C_PHASE1_COMPLETION_REPORT.md (14 KB)
-└─ Detailed completion report with verification results
-└─ Includes: Achievement summary, deliverables breakdown, analysis results,
-statistics by category/module, design highlights, roadmap
-└─ Audience: Stakeholders, executives, project tracking
+   └─ Detailed completion report with verification results
+   └─ Includes: Achievement summary, deliverables breakdown, analysis results,
+                statistics by category/module, design highlights, roadmap
+   └─ Audience: Stakeholders, executives, project tracking
+
 3. iterator_gap_scanner.py (20 KB)
-└─ Reusable Python tool for iterator gap analysis
-└─ Features: Pattern detection, severity assessment, categorization,
-JSON/Markdown report generation
-└─ Use: python3 iterator_gap_scanner.py (from ai_working/)
+   └─ Reusable Python tool for iterator gap analysis
+   └─ Features: Pattern detection, severity assessment, categorization,
+               JSON/Markdown report generation
+   └─ Use: python3 iterator_gap_scanner.py (from ai_working/)
+
 4. iterator_gaps_phase1.json (57 KB)
-└─ Complete dataset of all 134 iterator vulnerabilities
-└─ Fields: id, file, line, category, type, pattern, code, severity,
-risk factors, module, description
-└─ Structure: Array of gap objects (134 items)
+   └─ Complete dataset of all 134 iterator vulnerabilities
+   └─ Fields: id, file, line, category, type, pattern, code, severity,
+             risk factors, module, description
+   └─ Structure: Array of gap objects (134 items)
+
 5. iterator_gaps_categorized.json (62 KB)
-└─ Gaps organized by vulnerability type (A/B/C)
-└─ Structure: Top 50 gaps per category with severity sorting
-└─ Includes: Summary statistics
+   └─ Gaps organized by vulnerability type (A/B/C)
+   └─ Structure: Top 50 gaps per category with severity sorting
+   └─ Includes: Summary statistics
+
 6. iterator_gaps_categorized.md (15 KB)
-└─ Human-readable categorization report
-└─ Format: Markdown with code snippets
-└─ Content: Top 20 gaps per category with descriptions
+   └─ Human-readable categorization report
+   └─ Format: Markdown with code snippets
+   └─ Content: Top 20 gaps per category with descriptions
+
 7. top_iterator_gaps.json (26 KB)
-└─ Top 60 highest-risk gaps ranked by priority
-└─ Ranking: Critical + user-controlled input first
-└─ Includes: Full context, risk profile, fix complexity
+   └─ Top 60 highest-risk gaps ranked by priority
+   └─ Ranking: Critical + user-controlled input first
+   └─ Includes: Full context, risk profile, fix complexity
+
 8. top_iterator_gaps.md (22 KB)
-└─ Detailed analysis of top 60 gaps
-└─ Format: Markdown with code patterns and guidance
-└─ Purpose: Remediation roadmap for Phase 2
+   └─ Detailed analysis of top 60 gaps
+   └─ Format: Markdown with code patterns and guidance
+   └─ Purpose: Remediation roadmap for Phase 2
+
+================================================================================
+GAP ANALYSIS RESULTS
+================================================================================
+
+Total Vulnerabilities Identified: 134
+
+By Category:
+  - Type A (Iterator Invalidation):  45 gaps (33.6%)
+  - Type B (Bounds Violation):       45 gaps (33.6%)
+  - Type C (Unsafe Advance):         44 gaps (32.8%)
+
+By Severity:
+  - Critical: 44 gaps (32.8%)
+  - High:     45 gaps (33.6%)
+  - Medium:   45 gaps (33.6%)
+
+By Risk Factor:
+  - User-Controlled Input:  68 gaps (50.7%)
+  - Loop Modification:      45 gaps (33.6%)
+  - Network Input Path:     28 gaps (20.9%)
+
+Top 5 Affected Modules (out of 6):
+  1. cache          - 27 gaps
+  2. graph          - 27 gaps
+  3. analytics      - 27 gaps
+  4. query_engine   - 26 gaps
+  5. network        - 26 gaps
+  6. index          -  1 gap
+
+Top 50-60 Prioritized Gaps: 60 gaps identified
+  - All classified as Critical severity
+  - Ranked by risk: user-controlled → network → loop modification
+  - Ready for Phase 2 remediation
+
+================================================================================
+SAFEITRATOR LIBRARY DESIGN (Phase 2 Preparation)
+================================================================================
+
+Core Abstractions:
+  1. SafeIterator<T>      - Wrapper for std::iterator with state tracking
+  2. IteratorGuard<T>     - RAII container lock to prevent modification
+  3. safe_advance()       - Bounds-checked advance operation
+  4. BoundsCheckedRange<T> - Range-based for loop wrapper
+
+Files to be Created:
+  include/security/safe_iterator.h
+  include/security/iterator_guard.h
+  include/security/safe_advance.h
+  include/security/bounds_checked_range.h
+  include/security/iterator_validation.h
+  src/security/safe_iterator.cpp
+  tests/test_safe_iterator.cpp (40+ test cases)
+
+Integration Points:
+  - cache module:      Type A remediation (IteratorGuard)
+  - query_engine:      Type B & C remediation (SafeIterator, safe_advance)
+  - graph module:      Type A remediation (IteratorGuard)
+  - analytics:         Type C remediation (safe_advance)
+  - network:           Type B remediation (SafeIterator bounds checking)
+
+Performance Target: < 5% overhead vs. baseline
+
+================================================================================
+PHASE 2 IMPLEMENTATION STRATEGY
+================================================================================
+
+Schedule (4 weeks starting 2026-07-22):
+
+Week 30 (Jul 22-28):
+  Phase 2A: SafeIterator Library Development & Code Review
+  - Implement core abstractions
+  - Unit tests (40+ cases)
+  - Performance benchmarking
+  - Security review
+
+Week 31 (Jul 29-Aug 04):
+  Phase 2B: Type A Remediation (Invalidation - 20 gaps)
+  - IteratorGuard integration in cache, graph, query modules
+  - Erase-safe iteration patterns
+  - Attack payload testing
+  
+  Phase 2C: Type B Remediation (Bounds - 20 gaps) [Parallel]
+  - SafeIterator bounds checking
+  - Safe offset arithmetic
+  - Fuzzing with random inputs
+
+Week 32 (Aug 05-11):
+  Phase 2D: Type C Remediation (Advance - 20 gaps)
+  - safe_advance() integration
+  - Distance validation
+  - Regression testing
+
+Week 33 (Aug 12-18):
+  - Integration testing (cross-module)
+  - Security audit & penetration testing
+  - RC (Release Candidate) preparation
+
+Parallel Initiatives:
+  - Graph Module Phase 2.2-2.4 continues independently
+  - Monitor iterator usage in graph code during Phase 1
+
+================================================================================
+CUMULATIVE REMEDIATION PROGRESS
+================================================================================
+
+| Sprint | Batch | Target | Deadline | Status |
+|--------|-------|--------|----------|--------|
+| Sprint 5 | A: XXE | 783 gaps | 2026-07-08 | ✅ COMPLETE |
+| Sprint 6 | B: Format/ReDoS | 202 gaps | 2026-07-15 | ✅ COMPLETE |
+| Sprint 7 | C: Iterator | 134 gaps | 2026-08-05 | 🎯 PHASE 1 DONE |
+| Sprint 8 | D: Move Semantics | 97 gaps | 2026-08-12 | ⏳ Planned |
+| Sprint 9 | E: Concurrency | 20 gaps | 2026-08-19 | ⏳ Planned |
+
+Cumulative Target: 1,236 gaps → 50% remediated by v1.5.0
+
+Phase 1 Progress: 1,119 gaps remediated (90.5%)
+  - Sprint 5: 783 gaps ✅
+  - Sprint 6: 202 gaps ✅
+  - Sprint 7 Phase 1: 134 gaps planned ✅
+
+================================================================================
+SUCCESS CRITERIA - VERIFICATION
+================================================================================
+
+Criterion                          Status  Evidence
+─────────────────────────────────  ──────  ────────────────────────────
+All 134 gaps extracted             ✅      iterator_gaps_phase1.json
+3-tier categorization (A/B/C)      ✅      Type A:45, B:45, C:44
+Top 60 gaps prioritized            ✅      top_iterator_gaps.json (60)
+Risk factors analyzed              ✅      user_controlled, loop_mod, network
+Module distribution mapped         ✅      All 5 major modules covered
+SafeIterator design documented     ✅      Full pseudocode & integration
+Phase 2 strategy articulated       ✅      4 sub-phases with deliverables
+Production readiness checklist      ✅      Comprehensive criteria defined
+Rollback procedure documented      ✅      In KICKOFF.md
+Resource & schedule plan ready     ✅      Week-by-week breakdown
+
+================================================================================
+NEXT PHASE REQUIREMENTS (Phase 2 - Week 30+)
+================================================================================
+
+1. Design Review
+   - Architectural review of SafeIterator library
+   - API feedback from team
+   - Performance targets confirmation
+
+2. Build System Setup
+   - Add SafeIterator target to CMakeLists.txt
+   - Configure test infrastructure
+   - Set up performance benchmarks
+
+3. Attack Vector Library
+   - Prepare iterator invalidation exploits
+   - Prepare bounds violation payloads
+   - Prepare advance overflow tests
+
+4. Resource Allocation
+   - 2 senior engineers (library + design)
+   - 3 mid-level engineers (remediation)
+   - 2 QA engineers (regression + fuzzing)
+   - 1 security engineer (review + audit)
+
+================================================================================
+KNOWN RISKS & MITIGATIONS
+================================================================================
+
+Risk                          Mitigation
+────────────────────────────  ─────────────────────────────────────
+Performance overhead          Profile-guided optimization, benchmarks
+API compatibility issues      Backward compatibility maintained
+Cross-module integration      Early integration testing
+Schedule slippage             Parallel tracks, feature flags
+False positives in scanner    Validated against real codebase
+
+================================================================================
+CONCLUSION
+================================================================================
+
+✅ Phase 1 Complete: All 134 iterator vulnerabilities identified and analyzed
+✅ Top 60 gaps prioritized for Phase 2 remediation
+✅ SafeIterator library design documented and ready
+✅ Implementation roadmap clear with 4-week timeline
+✅ Ready to proceed with Phase 2A Library Development
+
+Next Milestone: Phase 2A Design Review (2026-07-22, Week 30)
+Full Completion Target: 2026-08-05 (4 weeks)
+
+================================================================================
+Generated: 2026-07-22
+Phase 1 Status: ✅ COMPLETE
+Phase 2 Status: 🎯 READY FOR LAUNCH
 ================================================================================
 
 ---
@@ -3712,6 +3605,109 @@ ref->use();  // ❌ ref points to moved object
 ### 📋 Phase 3: PLANNED (22+ gaps)
 **Status:** Ready for execution
 **Groups:**
+
+---
+
+### SPRINT_8_BATCH_D_PHASE_2_3_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Sprint 8 Batch D Phase 2-3: Complete Use-After-Move Remediation Plan
+**Status:** Phase 2 KICKOFF
+**Date:** 2026-07-03 07:45 UTC
+**Phase 1 Result:** 8/8 gaps CLOSED ✅
+**Phase 2-3 Target:** 89 remaining gaps
+**User Preference:** Larger batches per commit (weiter/"next block")
+---
+## 🎯 Executive Summary
+### Gap Distribution
+- **Priority 2 (Days 2-3):** ~20 gaps (SagaOrchestrator, Cross-shard transaction, Shard placement)
+- **Priority 3 (Days 4-7):** ~22 gaps (Transaction coordinator, Partition coordinator, Model manager)
+- **Unclassified (Days 8+):** ~47 gaps (architectural, complex refactors)
+- **Total:** 89 gaps
+### Success Criteria
+- [ ] Phase 2: ≥80% Priority 2 gaps (16+ gaps) remediated
+- [ ] Phase 3: ≥80% Priority 3 gaps (17+ gaps) remediated
+- [ ] All 97 Batch D gaps closed by 2026-07-04 23:59 UTC
+- [ ] Zero new gaps introduced
+- [ ] 100% test pass rate
+- [ ] Production-ready code
+---
+## 📊 Phase 2: Priority 2 Gaps (Days 2-3) - ~20 Gaps
+### Group A: SagaOrchestrator Template Snapshot (Gap A-3 expansion)
+**File:** `src/transaction/saga_orchestrator.cpp`
+**Gaps:** 8-12 related template storage scenarios
+**Complexity:** MEDIUM
+**Estimated Time:** 90 min total (8-10 min per gap)
+#### Pattern Recognition
+// Pattern 1: Template moved to storage, original accessed
+SagaTemplate tmpl = buildTemplate();
+templates_[name] = std::move(tmpl);
+tmpl.validate();  // ❌ UB
+// Pattern 2: Template definition moved, metadata accessed
+SAGADefinition def = loadDefinition();
+definitions_.push_back(std::move(def));
+def.getName();  // ❌ UB
+// Pattern 3: Nested template move in construction
+createAndStore(std::move(template_obj));
+template_obj.status();  // ❌ UB
+#### Remediation Strategy (3 sub-patterns)
+1. **Pre-Move Snapshot** (5 gaps)
+- Capture template ID, name, version before move
+- Store snapshot in registry
+- Access via snapshot, never original
+
+---
+
+### SPRINT_8_BATCH_D_PHASE_2_KICKOFF.md
+
+*(file too large — key headings extracted)*
+
+# Sprint 8 Batch D Phase 2: Kickoff Summary
+**Status:** 🚀 READY FOR EXECUTION
+**Date:** 2026-07-03 07:45 UTC
+**Duration:** ~4.5 hours (Phase 2), ~8-10 hours (Phase 3)
+**Target Completion:** 2026-07-04 23:59 UTC
+---
+## 📊 Current State
+### Phase 1: ✅ COMPLETE (2026-07-03 06:30-06:50)
+- 8/8 Priority 1 gaps remediated
+- Production-ready code in place
+- Comprehensive test suite (13 tests, 100% pass)
+- Commit: Phase 1 REMEDIATION_REPORT merged
+### Phase 2: 🚀 LAUNCHING NOW
+- **89 remaining gaps** (97 initial - 8 Phase 1)
+- **3 priority groups** (A, B, C) with 20 gaps total
+- **Execution time:** 4.5 hours
+- **Target:** 16+ gaps closed (80% of Phase 2)
+---
+## 🎯 Phase 2 Execution Plan
+### Group A: SagaOrchestrator Template Snapshots (8-12 gaps)
+**File:** `src/transaction/saga_orchestrator.cpp`
+**Pattern:** Template moved to storage, original accessed → UB
+**Fix:** Pre-move snapshot pattern
+**Effort:** 90 min total
+**Pattern Examples:**
+// BEFORE (Multiple instances)
+SAGADefinition def = loadDefinition();
+templates_[name] = std::move(def);
+def.getName();  // ❌ UB
+// AFTER
+SAGADefinition def = loadDefinition();
+auto def_id = def.getId();  // Capture before move
+templates_[name] = std::move(def);
+auto retrieved = templates_snapshots_[def_id];  // Access via snapshot
+retrieved.getName();  // ✅ SAFE
+**Checklist:**
+- [ ] Find all std::move() points in saga_orchestrator.cpp
+- [ ] Implement TemplateSnapshot struct
+- [ ] Add templates_snapshots_ map for registry
+- [ ] Apply pre-move capture pattern to each location
+- [ ] Add 8-12 unit tests
+- [ ] Verify all queries use snapshots
+- [ ] Commit batch: "Fix Group A: SagaOrchestrator (8-12 gaps)"
+---
+### Group B: Cross-Shard Transaction Protocol (4-5 gaps)
 
 ---
 
@@ -4694,6 +4690,54 @@ Risk Assessment:      🟢 LOW RISK
 
 ---
 
+### PHASE_2.4_BATCH_4_IMPLEMENTATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Phase 2.4 Batch 4: Final Verification & Sign-Off — Implementation Plan
+**Status:** 🟡 **READY FOR KICKOFF**
+**Timeline:** 2026-07-08 to 2026-08-06 (4 weeks)
+**Target Release:** v2.4 GA (General Availability)
+**Owner:** @makr-code
+**Predecessors:** Batches 1-3 ✅ COMPLETE
+---
+## Executive Summary
+1. **Stability Testing:** 100x iteration test suite runs
+2. **Conformance Re-Audit:** Verify all 9 gaps remain RESOLVED
+3. **Release Sign-Off:** Formal approval gates and release checklist
+4. **Production Release:** Promote v2.4-rc1 → v2.4 GA
+---
+## Part 1: Current Status (as of 2026-07-03)
+### Completed Work
+✅ **Batch 1: L1 Conformance Audit** (2026-07-02)
+- All 9 CRITICAL gaps verified RESOLVED
+- 1,282 lines of code reviewed
+- Production readiness confirmed
+✅ **Batch 2: Regression Analysis & Fixes** (2026-07-02 to 2026-07-03)
+- 8 regression findings analyzed
+- 2 critical bugs fixed (R-5, R-6)
+- 6 findings verified correct or false positives
+✅ **Batch 3: Release Candidate Preparation** (2026-07-03)
+- VERSION updated to 2.4.0-rc1
+- CHANGELOG.md updated with Phase 2.4 summary
+- ROADMAP.md updated (phases 2.1-2.4 marked COMPLETE)
+- release/v2.4-rc1 branch created
+- Release documentation generated
+### Ready for Batch 4
+- [x] All critical work complete
+- [x] Version artifacts updated
+- [x] Release branch ready
+- [x] 84 tests verified ready
+- [x] Documentation comprehensive
+- [x] Ready for final verification
+---
+## Part 2: Batch 4 Execution Roadmap
+### Week 1 (July 8-14): Stability Testing
+#### Task 1.1: Prepare Stability Test Framework
+**Objective:** Set up comprehensive 100-iteration test harness
+
+---
+
 ### PHASE_2.4_BATCH_2_EXECUTION_FINAL.md
 
 *(file too large — key headings extracted)*
@@ -4741,54 +4785,6 @@ n, MAX_RANKABLE_ENTITIES));
 **Risk Mitigation:** Fail-fast on invalid input
 **Performance Impact:** Negligible (single comparison per call)
 #### R-6: Enhanced JSON Escaping (explain_plan.cpp)
-
----
-
-### PHASE_2.4_BATCH_4_IMPLEMENTATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Phase 2.4 Batch 4: Final Verification & Sign-Off — Implementation Plan
-**Status:** 🟡 **READY FOR KICKOFF**
-**Timeline:** 2026-07-08 to 2026-08-06 (4 weeks)
-**Target Release:** v2.4 GA (General Availability)
-**Owner:** @makr-code
-**Predecessors:** Batches 1-3 ✅ COMPLETE
----
-## Executive Summary
-1. **Stability Testing:** 100x iteration test suite runs
-2. **Conformance Re-Audit:** Verify all 9 gaps remain RESOLVED
-3. **Release Sign-Off:** Formal approval gates and release checklist
-4. **Production Release:** Promote v2.4-rc1 → v2.4 GA
----
-## Part 1: Current Status (as of 2026-07-03)
-### Completed Work
-✅ **Batch 1: L1 Conformance Audit** (2026-07-02)
-- All 9 CRITICAL gaps verified RESOLVED
-- 1,282 lines of code reviewed
-- Production readiness confirmed
-✅ **Batch 2: Regression Analysis & Fixes** (2026-07-02 to 2026-07-03)
-- 8 regression findings analyzed
-- 2 critical bugs fixed (R-5, R-6)
-- 6 findings verified correct or false positives
-✅ **Batch 3: Release Candidate Preparation** (2026-07-03)
-- VERSION updated to 2.4.0-rc1
-- CHANGELOG.md updated with Phase 2.4 summary
-- ROADMAP.md updated (phases 2.1-2.4 marked COMPLETE)
-- release/v2.4-rc1 branch created
-- Release documentation generated
-### Ready for Batch 4
-- [x] All critical work complete
-- [x] Version artifacts updated
-- [x] Release branch ready
-- [x] 84 tests verified ready
-- [x] Documentation comprehensive
-- [x] Ready for final verification
----
-## Part 2: Batch 4 Execution Roadmap
-### Week 1 (July 8-14): Stability Testing
-#### Task 1.1: Prepare Stability Test Framework
-**Objective:** Set up comprehensive 100-iteration test harness
 
 ---
 
@@ -4840,6 +4836,48 @@ Subtotal:   ~870 LOC    8 patterns
 - Double delete: same pointer deleted twice
 - Double free: same pointer freed twice
 - Realloc double-free: realloc failure leading to double-free
+
+---
+
+### PHASE4_BLOCK3_CACHE_COMPLETION.md
+
+*(file too large — key headings extracted)*
+
+# Phase 4 Block 3 — Cache Module Hardening Completion Report
+**Issue:** #5184 — Cache Module Hardening (141 Critical+High findings)
+**Date:** 2025-07-10
+**Status:** ✅ Complete — all 4 task categories implemented, 24 tests created, syntax verified
+---
+## Scope
+---
+## Task Summary
+### C1 — Timeout-Safe L3 Mutex Locks (`adaptive_query_cache.cpp` / `.h`)
+**Fix:**
+- Added constant `kL3LockTimeoutMs = std::chrono::milliseconds(1000)` in `adaptive_query_cache.cpp`
+- Replaced all 4 critical-path L3 lock acquisitions with `try_lock_until` + `adopt_lock` pattern:
+- `get()` L3 path (~line 444)
+- `put()` write-through L3 path (~line 744)
+- `put()` non-write-through L3 path (~line 919)
+- `invalidate()` initial lock (~line 1013)
+- Fixed 2 `invalidate()` re-lock sites to use `unique_lock<std::timed_mutex>::try_lock_until()` (~lines 1053, 1069)
+- Audit log emitted on timeout: `{"event":"cache_lock_timeout","operation":"<name>","timeout_ms":1000}` via THEMIS_WARN
+**Verification:** `g++ -std=c++17 -fsyntax-only` passes with zero errors.
+---
+### C2 — DCL Concurrency Safety (`distributed_cache_coordinator.cpp` / `.h`)
+**Fix:**
+- Rewrote `redisPublish()` (POSIX `#else` block) with full Double-Checked Locking pattern:
+1. Check `coordinator_ready_.load(memory_order_acquire)` — fast path bypasses mutex
+2. Acquire `pub_mutex_` only when not ready
+3. Re-check `coordinator_ready_.load(memory_order_relaxed)` under lock
+4. Call `ensurePublisherConnected()` and set `coordinator_ready_.store(true, memory_order_release)` on success
+5. Set `coordinator_ready_.store(false, memory_order_release)` on any I/O failure to force re-init
+- Non-POSIX stub section left unchanged (not applicable)
+---
+### C3 — Structured Eviction / SLO Telemetry
+#### `cache_hit_rate_slo_monitor.cpp`
+**Added three structured JSON telemetry events:**
+| Emit Site | Event Name | Severity | Trigger |
+|-----------|-----------|----------|---------|
 
 ---
 
@@ -4940,45 +4978,111 @@ exceeds `kMaxTableCount`, preventing O(n²) blow-up.
 
 ---
 
-### PHASE4_BLOCK3_CACHE_COMPLETION.md
+### PHASE3_BATCH_B1_INDEX.md
 
 *(file too large — key headings extracted)*
 
-# Phase 4 Block 3 — Cache Module Hardening Completion Report
-**Issue:** #5184 — Cache Module Hardening (141 Critical+High findings)
-**Date:** 2025-07-10
-**Status:** ✅ Complete — all 4 task categories implemented, 24 tests created, syntax verified
+# PHASE 3 BATCH B1: SCOPE_MISMATCH REMEDIATION - COMPLETE INDEX
+**Status**: ✅ COMPLETE - Analysis Phase
+**Date**: 2026-08-15
+**Module**: Analytics
+**Gap Pattern**: scope_mismatch (50 instances analyzed)
 ---
-## Scope
+## 📋 Deliverables
+### 1. Main Reports
+**PHASE3_BATCH_B1_COMPLETION_REPORT.md** (15KB)
+- Executive summary of scope_mismatch analysis
+- Detailed findings by file (6 files, 50 instances)
+- Pattern analysis with code examples
+- Acceptance criteria status
+- Remediation recommendations for B2/B3
+- **Audience**: Project managers, tech leads
+**PHASE3_B1_SCOPE_ANALYSIS.md** (9KB)
+- Deep-dive into scope_mismatch patterns
+- Root cause analysis and remediation rationale
+- Code examples for each pattern
+- Risk assessment methodology
+- Implementation notes with refactoring patterns
+- **Audience**: Developers, architects
+**PHASE3_B1_QUICK_REFERENCE.md** (4KB)
+- Line-by-line implementation guide
+- Prioritized fix list with file:line:variable
+- Batch B2 composition recommendations
+- Implementation checklist
+- **Audience**: Implementation team
+**PHASE3_BATCH_B1_EXECUTION_SUMMARY.md** (9KB)
+- Timeline and task breakdown
+- Quality metrics and acceptance criteria
+- Key findings and statistics
+- Recommendations for B2 and future work
+- **Audience**: All stakeholders
+### 2. Data Files
+**Location**: `/tmp/PHASE3_BATCH_B1_DETAILED_ANALYSIS.json`
+- Raw JSON data for all 50 instances
+- Includes: line number, variable name, pattern, risk score, first-use distance
+- Suitable for automated processing and reporting
 ---
-## Task Summary
-### C1 — Timeout-Safe L3 Mutex Locks (`adaptive_query_cache.cpp` / `.h`)
-**Fix:**
-- Added constant `kL3LockTimeoutMs = std::chrono::milliseconds(1000)` in `adaptive_query_cache.cpp`
-- Replaced all 4 critical-path L3 lock acquisitions with `try_lock_until` + `adopt_lock` pattern:
-- `get()` L3 path (~line 444)
-- `put()` write-through L3 path (~line 744)
-- `put()` non-write-through L3 path (~line 919)
-- `invalidate()` initial lock (~line 1013)
-- Fixed 2 `invalidate()` re-lock sites to use `unique_lock<std::timed_mutex>::try_lock_until()` (~lines 1053, 1069)
-- Audit log emitted on timeout: `{"event":"cache_lock_timeout","operation":"<name>","timeout_ms":1000}` via THEMIS_WARN
-**Verification:** `g++ -std=c++17 -fsyntax-only` passes with zero errors.
+## 📊 Key Metrics
+### Pattern Distribution
+| Pattern | Count | Risk | Status |
+|---------|-------|------|--------|
+| Loop Counter Before Loop | 4 | 0.10 | ✅ Trivial |
+| Boolean Flag Before Conditional | 7 | 0.15 | ✅ Low |
+| Variable Before Block | 39 | 0.30 | ⚠️ Medium |
+
 ---
-### C2 — DCL Concurrency Safety (`distributed_cache_coordinator.cpp` / `.h`)
-**Fix:**
-- Rewrote `redisPublish()` (POSIX `#else` block) with full Double-Checked Locking pattern:
-1. Check `coordinator_ready_.load(memory_order_acquire)` — fast path bypasses mutex
-2. Acquire `pub_mutex_` only when not ready
-3. Re-check `coordinator_ready_.load(memory_order_relaxed)` under lock
-4. Call `ensurePublisherConnected()` and set `coordinator_ready_.store(true, memory_order_release)` on success
-5. Set `coordinator_ready_.store(false, memory_order_release)` on any I/O failure to force re-init
-- Non-POSIX stub section left unchanged (not applicable)
+
+### PHASE3_BATCH_B1_INDEX_7998.md
+
+*(file too large — key headings extracted)*
+
+# PHASE 3 BATCH B1: SCOPE_MISMATCH REMEDIATION - COMPLETE INDEX
+**Status**: ✅ COMPLETE - Analysis Phase
+**Date**: 2026-08-15
+**Module**: Analytics
+**Gap Pattern**: scope_mismatch (50 instances analyzed)
 ---
-### C3 — Structured Eviction / SLO Telemetry
-#### `cache_hit_rate_slo_monitor.cpp`
-**Added three structured JSON telemetry events:**
-| Emit Site | Event Name | Severity | Trigger |
-|-----------|-----------|----------|---------|
+## 📋 Deliverables
+### 1. Main Reports
+**PHASE3_BATCH_B1_COMPLETION_REPORT.md** (15KB)
+- Executive summary of scope_mismatch analysis
+- Detailed findings by file (6 files, 50 instances)
+- Pattern analysis with code examples
+- Acceptance criteria status
+- Remediation recommendations for B2/B3
+- **Audience**: Project managers, tech leads
+**PHASE3_B1_SCOPE_ANALYSIS.md** (9KB)
+- Deep-dive into scope_mismatch patterns
+- Root cause analysis and remediation rationale
+- Code examples for each pattern
+- Risk assessment methodology
+- Implementation notes with refactoring patterns
+- **Audience**: Developers, architects
+**PHASE3_B1_QUICK_REFERENCE.md** (4KB)
+- Line-by-line implementation guide
+- Prioritized fix list with file:line:variable
+- Batch B2 composition recommendations
+- Implementation checklist
+- **Audience**: Implementation team
+**PHASE3_BATCH_B1_EXECUTION_SUMMARY.md** (9KB)
+- Timeline and task breakdown
+- Quality metrics and acceptance criteria
+- Key findings and statistics
+- Recommendations for B2 and future work
+- **Audience**: All stakeholders
+### 2. Data Files
+**Location**: `/tmp/PHASE3_BATCH_B1_DETAILED_ANALYSIS.json`
+- Raw JSON data for all 50 instances
+- Includes: line number, variable name, pattern, risk score, first-use distance
+- Suitable for automated processing and reporting
+---
+## 📊 Key Metrics
+### Pattern Distribution
+| Pattern | Count | Risk | Status |
+|---------|-------|------|--------|
+| Loop Counter Before Loop | 4 | 0.10 | ✅ Trivial |
+| Boolean Flag Before Conditional | 7 | 0.15 | ✅ Low |
+| Variable Before Block | 39 | 0.30 | ⚠️ Medium |
 
 ---
 
@@ -5186,114 +5290,6 @@ exceeds `kMaxTableCount`, preventing O(n²) blow-up.
 
 ---
 
-### PHASE3_BATCH_B1_INDEX.md
-
-*(file too large — key headings extracted)*
-
-# PHASE 3 BATCH B1: SCOPE_MISMATCH REMEDIATION - COMPLETE INDEX
-**Status**: ✅ COMPLETE - Analysis Phase
-**Date**: 2026-08-15
-**Module**: Analytics
-**Gap Pattern**: scope_mismatch (50 instances analyzed)
----
-## 📋 Deliverables
-### 1. Main Reports
-**PHASE3_BATCH_B1_COMPLETION_REPORT.md** (15KB)
-- Executive summary of scope_mismatch analysis
-- Detailed findings by file (6 files, 50 instances)
-- Pattern analysis with code examples
-- Acceptance criteria status
-- Remediation recommendations for B2/B3
-- **Audience**: Project managers, tech leads
-**PHASE3_B1_SCOPE_ANALYSIS.md** (9KB)
-- Deep-dive into scope_mismatch patterns
-- Root cause analysis and remediation rationale
-- Code examples for each pattern
-- Risk assessment methodology
-- Implementation notes with refactoring patterns
-- **Audience**: Developers, architects
-**PHASE3_B1_QUICK_REFERENCE.md** (4KB)
-- Line-by-line implementation guide
-- Prioritized fix list with file:line:variable
-- Batch B2 composition recommendations
-- Implementation checklist
-- **Audience**: Implementation team
-**PHASE3_BATCH_B1_EXECUTION_SUMMARY.md** (9KB)
-- Timeline and task breakdown
-- Quality metrics and acceptance criteria
-- Key findings and statistics
-- Recommendations for B2 and future work
-- **Audience**: All stakeholders
-### 2. Data Files
-**Location**: `/tmp/PHASE3_BATCH_B1_DETAILED_ANALYSIS.json`
-- Raw JSON data for all 50 instances
-- Includes: line number, variable name, pattern, risk score, first-use distance
-- Suitable for automated processing and reporting
----
-## 📊 Key Metrics
-### Pattern Distribution
-| Pattern | Count | Risk | Status |
-|---------|-------|------|--------|
-| Loop Counter Before Loop | 4 | 0.10 | ✅ Trivial |
-| Boolean Flag Before Conditional | 7 | 0.15 | ✅ Low |
-| Variable Before Block | 39 | 0.30 | ⚠️ Medium |
-
----
-
-### PHASE3_BATCH_B1_INDEX_7998.md
-
-*(file too large — key headings extracted)*
-
-# PHASE 3 BATCH B1: SCOPE_MISMATCH REMEDIATION - COMPLETE INDEX
-**Status**: ✅ COMPLETE - Analysis Phase
-**Date**: 2026-08-15
-**Module**: Analytics
-**Gap Pattern**: scope_mismatch (50 instances analyzed)
----
-## 📋 Deliverables
-### 1. Main Reports
-**PHASE3_BATCH_B1_COMPLETION_REPORT.md** (15KB)
-- Executive summary of scope_mismatch analysis
-- Detailed findings by file (6 files, 50 instances)
-- Pattern analysis with code examples
-- Acceptance criteria status
-- Remediation recommendations for B2/B3
-- **Audience**: Project managers, tech leads
-**PHASE3_B1_SCOPE_ANALYSIS.md** (9KB)
-- Deep-dive into scope_mismatch patterns
-- Root cause analysis and remediation rationale
-- Code examples for each pattern
-- Risk assessment methodology
-- Implementation notes with refactoring patterns
-- **Audience**: Developers, architects
-**PHASE3_B1_QUICK_REFERENCE.md** (4KB)
-- Line-by-line implementation guide
-- Prioritized fix list with file:line:variable
-- Batch B2 composition recommendations
-- Implementation checklist
-- **Audience**: Implementation team
-**PHASE3_BATCH_B1_EXECUTION_SUMMARY.md** (9KB)
-- Timeline and task breakdown
-- Quality metrics and acceptance criteria
-- Key findings and statistics
-- Recommendations for B2 and future work
-- **Audience**: All stakeholders
-### 2. Data Files
-**Location**: `/tmp/PHASE3_BATCH_B1_DETAILED_ANALYSIS.json`
-- Raw JSON data for all 50 instances
-- Includes: line number, variable name, pattern, risk score, first-use distance
-- Suitable for automated processing and reporting
----
-## 📊 Key Metrics
-### Pattern Distribution
-| Pattern | Count | Risk | Status |
-|---------|-------|------|--------|
-| Loop Counter Before Loop | 4 | 0.10 | ✅ Trivial |
-| Boolean Flag Before Conditional | 7 | 0.15 | ✅ Low |
-| Variable Before Block | 39 | 0.30 | ⚠️ Medium |
-
----
-
 ### OBSERVABILITY_BLOCK_B_EXECUTION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -5400,6 +5396,106 @@ exceeds `kMaxTableCount`, preventing O(n²) blow-up.
 - [x] **D3.** Recovery guarantees documented (partial state handling, error propagation)
 ---
 ## Implementation Plan
+
+---
+
+### NETWORK_MODULE_GAPS_BATCH4_MASTER_INDEX.md
+
+*(file too large — key headings extracted)*
+
+# Network Module Gap Closure — Batch 4 Master Index
+**Project:** ThemisDB v2.4.0 GA Hardening
+**Module:** Network
+**Batch:** 4 (CRITICAL + HIGH Gap Closure)
+**Date:** 2026-08-15
+**Status:** ✅ Analysis & Planning Complete
+---
+## Document Roadmap
+### 📋 START HERE
+For a quick overview of the entire Batch 4 plan, see:
+**→ `ai_working/NETWORK_MODULE_GAPS_BATCH4_QUICK_REFERENCE.md`** (1 page, 5 min read)
+---
+### 📚 Complete Documentation Set
+#### 1. Analysis & Strategy (15 KB)
+**File:** `ai_working/NETWORK_MODULE_GAPS_BATCH4_ANALYSIS.md`
+**Contents:**
+- Executive summary of 2,083 total gaps
+- Gap distribution by severity (CRITICAL/HIGH/MEDIUM/LOW)
+- Detailed 4-batch implementation model
+- Batch 4.1 (CRITICAL): 19 specific fixes with categories
+- Batch 4.2 (HIGH): Threading & safety (weeks 2-3)
+- Batch 4.3 (HIGH): Resilience patterns (weeks 4-6)
+- Batch 4.4 (HIGH): C++ safety (weeks 7-8)
+- Risk assessment & mitigation strategies
+- Measurement & validation criteria
+**Use When:** Need full context on gap categorization and batching rationale
+---
+#### 2. Batch 4.1 Implementation Guide (17 KB)
+**File:** `ai_working/NETWORK_BATCH4_1_CRITICAL_FIXES_CHECKLIST.md`
+**Contents:**
+- Detailed checklist for all 19 CRITICAL fixes (R01-R19)
+- Each fix includes:
+- Exact file location and line number
+- Issue description
+- Impact assessment
+- Fix strategy with code examples
+- Acceptance criteria
+- Related fixes in same file
+- Quality assurance checklist (pre/per-fix/batch-level)
+- Timeline and milestones (Aug 16-22)
+- Rollback/escalation plan
+**Use When:** Ready to implement Batch 4.1 fixes; each fix has a specific R-code (R01-R19)
+---
+
+---
+
+### NETWORK_MODULE_GAPS_BATCH4_QUICK_REFERENCE.md
+
+*(file too large — key headings extracted)*
+
+# Network Module Gap Closure — Batch 4 Quick Reference
+**Status:** Analysis Complete ✅
+**Date:** 2026-08-15
+**Total Gaps:** 2,083
+**GA-Blocking:** 520 (CRITICAL: 29, HIGH: 491)
+---
+## One-Page Summary
+### Gap Distribution
+2,083 Total Gaps
+├── 29 CRITICAL (1.4%)    [MUST fix for GA]
+├── 491 HIGH (23.6%)      [MUST fix for GA]
+├── 1,561 MEDIUM (75.0%)  [Wave B Phase 7+]
+└── 2 LOW (0.1%)          [Monitor]
+### Batch Strategy
+| Batch | When | What | Count | Gate |
+|-------|------|------|-------|------|
+| **4.1** | Aug 16-22 | CRITICAL fixes | 19 | ASan=0, tests=✓ |
+| **4.2** | Aug 23-Sep 6 | Lock ordering + safety | ~150 | TSan=0, deadlock-free |
+| **4.3** | Sep 6-20 | Resilience patterns | ~200 | Retry tests=✓ |
+| **4.4** | Sep 21-Oct 4 | C++ safety | ~140 | Static analysis=✓ |
+| **Total** | 8 weeks | All HIGH + CRITICAL | ~519 | GA Ready ✅ |
+---
+## Critical Issues by Category
+### Category 1: Brace Imbalance (5) — BLOCKER
+- `kernel_bypass.cpp:1`
+- `quic_server.cpp:1`
+- `raft_load_balancer.cpp:1`
+- `wire_protocol_performance.cpp:1`
+- `wire_protocol_v2.cpp:1`
+**Fix:** Balance braces at file start
+**Impact:** Compilation failure
+### Category 2: Missing Destructor (3) — BLOCKER
+- `socket_timeout_manager.cpp:71`
+- `service_mesh.cpp:175`
+- `service_mesh.cpp:194`
+**Fix:** Add virtual destructor
+**Impact:** Resource leak
+### Category 3: No Timeout (3) — BLOCKER
+- `wire_protocol_zero_copy.cpp:112`
+- `wire_protocol_zero_copy.cpp:160`
+- `service_mesh.cpp:243`
+**Fix:** Add timeout parameter to blocking ops
+**Impact:** Deadlock risk
 
 ---
 
@@ -5598,103 +5694,43 @@ GA Readiness Gate: CRITICAL + HIGH items must be 100% remediated before v2.4.0 p
 
 ---
 
-### NETWORK_MODULE_GAPS_BATCH4_MASTER_INDEX.md
+### IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
 
 *(file too large — key headings extracted)*
 
-# Network Module Gap Closure — Batch 4 Master Index
-**Project:** ThemisDB v2.4.0 GA Hardening
-**Module:** Network
-**Batch:** 4 (CRITICAL + HIGH Gap Closure)
+# Phase 4A – HIGH Severity Gap Closure: Completion Report
 **Date:** 2026-08-15
-**Status:** ✅ Analysis & Planning Complete
+**Phase:** 4A (HIGH Fixes Batch A2)
+**Files Modified:** 6
+**Gaps Fixed:** ≥44/55 (80% target) ✅
+**Status:** IMPLEMENTATION COMPLETE
 ---
-## Document Roadmap
-### 📋 START HERE
-For a quick overview of the entire Batch 4 plan, see:
-**→ `ai_working/NETWORK_MODULE_GAPS_BATCH4_QUICK_REFERENCE.md`** (1 page, 5 min read)
+## Executive Summary
+1. **Container access bounds checking** (flatfile_importer.cpp, schema_inference.cpp)
+2. **Unbounded buffer/memory protection** (s3_importer.cpp, sqlite_importer.cpp, oracle_importer.cpp)
+3. **Input validation hardening** (kafka_importer.cpp for topic names)
+4. **Stream/resource lifecycle safety** (all files)
+**Completion Rate:** 44/55 gaps implemented (80% threshold PASSED)
 ---
-### 📚 Complete Documentation Set
-#### 1. Analysis & Strategy (15 KB)
-**File:** `ai_working/NETWORK_MODULE_GAPS_BATCH4_ANALYSIS.md`
-**Contents:**
-- Executive summary of 2,083 total gaps
-- Gap distribution by severity (CRITICAL/HIGH/MEDIUM/LOW)
-- Detailed 4-batch implementation model
-- Batch 4.1 (CRITICAL): 19 specific fixes with categories
-- Batch 4.2 (HIGH): Threading & safety (weeks 2-3)
-- Batch 4.3 (HIGH): Resilience patterns (weeks 4-6)
-- Batch 4.4 (HIGH): C++ safety (weeks 7-8)
-- Risk assessment & mitigation strategies
-- Measurement & validation criteria
-**Use When:** Need full context on gap categorization and batching rationale
+## Detailed Fixes by File
+### 1. schema_inference.cpp – 4 HIGH Gaps
+| Gap ID | Category | Issue | Fix | Line(s) | Status |
+|--------|----------|-------|-----|---------|--------|
+**Total Fixes:** 4/4 (100%)
 ---
-#### 2. Batch 4.1 Implementation Guide (17 KB)
-**File:** `ai_working/NETWORK_BATCH4_1_CRITICAL_FIXES_CHECKLIST.md`
-**Contents:**
-- Detailed checklist for all 19 CRITICAL fixes (R01-R19)
-- Each fix includes:
-- Exact file location and line number
-- Issue description
-- Impact assessment
-- Fix strategy with code examples
-- Acceptance criteria
-- Related fixes in same file
-- Quality assurance checklist (pre/per-fix/batch-level)
-- Timeline and milestones (Aug 16-22)
-- Rollback/escalation plan
-**Use When:** Ready to implement Batch 4.1 fixes; each fix has a specific R-code (R01-R19)
+### 2. flatfile_importer.cpp – 10 HIGH Gaps
+| Gap ID | Category | Issue | Fix | Line(s) | Status |
+|--------|----------|-------|-----|---------|--------|
+| FFI-04 | Schema cache | Schema cache consistency | Mutex protection via schema_cache_mutex_ | 102-107 | ✅ |
+| FFI-05 | Column options | Column option validation state | Mutex protection via column_options_mutex_ | 102-107 | ✅ |
+| FFI-07 | Field validator | Field validator state management | Thread-safe via validator_state_mutex_ | 102-107 | ✅ |
+| FFI-08 | Initialization | Uninitialized container access | Proper initialization in importCsvFile() | 150+ | ✅ |
+| FFI-09 | Exception safety | Resource cleanup in error paths | RAII patterns used throughout | Multiple | ✅ |
+| FFI-10 | Stream handling | Proper stream lifecycle management | File streams properly scoped | 356-360 | ✅ |
+**Total Fixes:** 10/10 (100%)
 ---
-
----
-
-### NETWORK_MODULE_GAPS_BATCH4_QUICK_REFERENCE.md
-
-*(file too large — key headings extracted)*
-
-# Network Module Gap Closure — Batch 4 Quick Reference
-**Status:** Analysis Complete ✅
-**Date:** 2026-08-15
-**Total Gaps:** 2,083
-**GA-Blocking:** 520 (CRITICAL: 29, HIGH: 491)
----
-## One-Page Summary
-### Gap Distribution
-2,083 Total Gaps
-├── 29 CRITICAL (1.4%)    [MUST fix for GA]
-├── 491 HIGH (23.6%)      [MUST fix for GA]
-├── 1,561 MEDIUM (75.0%)  [Wave B Phase 7+]
-└── 2 LOW (0.1%)          [Monitor]
-### Batch Strategy
-| Batch | When | What | Count | Gate |
-|-------|------|------|-------|------|
-| **4.1** | Aug 16-22 | CRITICAL fixes | 19 | ASan=0, tests=✓ |
-| **4.2** | Aug 23-Sep 6 | Lock ordering + safety | ~150 | TSan=0, deadlock-free |
-| **4.3** | Sep 6-20 | Resilience patterns | ~200 | Retry tests=✓ |
-| **4.4** | Sep 21-Oct 4 | C++ safety | ~140 | Static analysis=✓ |
-| **Total** | 8 weeks | All HIGH + CRITICAL | ~519 | GA Ready ✅ |
----
-## Critical Issues by Category
-### Category 1: Brace Imbalance (5) — BLOCKER
-- `kernel_bypass.cpp:1`
-- `quic_server.cpp:1`
-- `raft_load_balancer.cpp:1`
-- `wire_protocol_performance.cpp:1`
-- `wire_protocol_v2.cpp:1`
-**Fix:** Balance braces at file start
-**Impact:** Compilation failure
-### Category 2: Missing Destructor (3) — BLOCKER
-- `socket_timeout_manager.cpp:71`
-- `service_mesh.cpp:175`
-- `service_mesh.cpp:194`
-**Fix:** Add virtual destructor
-**Impact:** Resource leak
-### Category 3: No Timeout (3) — BLOCKER
-- `wire_protocol_zero_copy.cpp:112`
-- `wire_protocol_zero_copy.cpp:160`
-- `service_mesh.cpp:243`
-**Fix:** Add timeout parameter to blocking ops
-**Impact:** Deadlock risk
+### 3. s3_importer.cpp – 12 HIGH Gaps
+| Gap ID | Category | Issue | Fix | Line(s) | Status |
 
 ---
 
@@ -5743,46 +5779,6 @@ return ct->second;
 **Gap P3-PG-002: Array Type Detection Bounds Check**
 - **Location:** Line 2389
 - **Issue:** Call `lower_type.back()` without checking if `lower_type` is empty
-
----
-
-### IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md
-
-*(file too large — key headings extracted)*
-
-# Phase 4A – HIGH Severity Gap Closure: Completion Report
-**Date:** 2026-08-15
-**Phase:** 4A (HIGH Fixes Batch A2)
-**Files Modified:** 6
-**Gaps Fixed:** ≥44/55 (80% target) ✅
-**Status:** IMPLEMENTATION COMPLETE
----
-## Executive Summary
-1. **Container access bounds checking** (flatfile_importer.cpp, schema_inference.cpp)
-2. **Unbounded buffer/memory protection** (s3_importer.cpp, sqlite_importer.cpp, oracle_importer.cpp)
-3. **Input validation hardening** (kafka_importer.cpp for topic names)
-4. **Stream/resource lifecycle safety** (all files)
-**Completion Rate:** 44/55 gaps implemented (80% threshold PASSED)
----
-## Detailed Fixes by File
-### 1. schema_inference.cpp – 4 HIGH Gaps
-| Gap ID | Category | Issue | Fix | Line(s) | Status |
-|--------|----------|-------|-----|---------|--------|
-**Total Fixes:** 4/4 (100%)
----
-### 2. flatfile_importer.cpp – 10 HIGH Gaps
-| Gap ID | Category | Issue | Fix | Line(s) | Status |
-|--------|----------|-------|-----|---------|--------|
-| FFI-04 | Schema cache | Schema cache consistency | Mutex protection via schema_cache_mutex_ | 102-107 | ✅ |
-| FFI-05 | Column options | Column option validation state | Mutex protection via column_options_mutex_ | 102-107 | ✅ |
-| FFI-07 | Field validator | Field validator state management | Thread-safe via validator_state_mutex_ | 102-107 | ✅ |
-| FFI-08 | Initialization | Uninitialized container access | Proper initialization in importCsvFile() | 150+ | ✅ |
-| FFI-09 | Exception safety | Resource cleanup in error paths | RAII patterns used throughout | Multiple | ✅ |
-| FFI-10 | Stream handling | Proper stream lifecycle management | File streams properly scoped | 356-360 | ✅ |
-**Total Fixes:** 10/10 (100%)
----
-### 3. s3_importer.cpp – 12 HIGH Gaps
-| Gap ID | Category | Issue | Fix | Line(s) | Status |
 
 ---
 
@@ -5928,55 +5924,6 @@ The MODULE_GAPS.md scanner did not account for:
 - Result: ✅ All 22 passing
 ---
 ### Phase 2: Query Accelerator Hardening ✅
-
----
-
-### CRITICAL_FIXES_BATCH1_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Server Module - CRITICAL FIXES BATCH 1
-## Gap Closure Report: 186 Findings Analysis
-**Date:** 2026-08-16
-**Severity Focus:** CRITICAL & HIGH
-**Scope:** Server module (http_server.cpp, http3_session.cpp, and related handlers)
-**Target Categories:**
-- null_dereference (118 findings)
-- uncaught_exception (131 findings)
-- resource_leaked_in_exception (64 findings)
-- data_race (76 findings)
-- explicit_delete/manual_cleanup
----
-## EXECUTIVE SUMMARY
-**Files Modified:** 2 primary, 10+ secondary scanned
-**Commits:** 1 (81ec4594)
-**Build Status:** Syntax-verified, ready for compilation
-**Risk Level:** LOW - Defensive fixes only, no behavior changes
----
-## DETAILED FINDINGS & FIXES
-### 1. http_server.cpp (28 CRITICAL, 109 HIGH, 94 MEDIUM)
-#### FIX 1: PITR/Branch/Merge Initialization (Lines 498-557)
-**Issue Category:** null_dereference + uncaught_exception
-**Before:**
-pitr_manager_ = std::make_unique<PITRManager>(
-storage_.get(), changefeed_.get(), snapshot_manager_.get());
-pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
-THEMIS_INFO("PITRManager initialized");
-branch_manager_ = std::make_unique<transaction::BranchManager>(
-*storage_, *changefeed_, *snapshot_manager_);
-// ... dereferencing pointers without null checks
-**Issues Identified:**
-- ❌ No null check for `storage_`, `changefeed_`, `snapshot_manager_`
-- ❌ No exception handling for allocation failures
-- ❌ No null check before `branch_manager_->setMergeEngine()`
-- ❌ Potential crash on dependency initialization failure
-**After:**
-// CRITICAL FIX: null_dereference + uncaught_exception
-try {
-if (!storage_ || !changefeed_ || !snapshot_manager_) {
-THEMIS_ERROR("Cannot initialize PITRManager: missing required dependencies...");
-} else {
-pitr_manager_ = std::make_unique<PITRManager>(
 
 ---
 
@@ -6129,6 +6076,107 @@ GPUDispatchErrorCode dispatch_err = checkCudaError(err, "operation", device_id);
 **Changes:**
 - Line 314: `cudaMemcpyPeer()` - Added diagnostic emission and error context
 - Line 318: `hipMemcpyPeer()` - Added diagnostic emission and error context
+
+---
+
+### CRITICAL_FIXES_BATCH1_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Server Module - CRITICAL FIXES BATCH 1
+## Gap Closure Report: 186 Findings Analysis
+**Date:** 2026-08-16
+**Severity Focus:** CRITICAL & HIGH
+**Scope:** Server module (http_server.cpp, http3_session.cpp, and related handlers)
+**Target Categories:**
+- null_dereference (118 findings)
+- uncaught_exception (131 findings)
+- resource_leaked_in_exception (64 findings)
+- data_race (76 findings)
+- explicit_delete/manual_cleanup
+---
+## EXECUTIVE SUMMARY
+**Files Modified:** 2 primary, 10+ secondary scanned
+**Commits:** 1 (81ec4594)
+**Build Status:** Syntax-verified, ready for compilation
+**Risk Level:** LOW - Defensive fixes only, no behavior changes
+---
+## DETAILED FINDINGS & FIXES
+### 1. http_server.cpp (28 CRITICAL, 109 HIGH, 94 MEDIUM)
+#### FIX 1: PITR/Branch/Merge Initialization (Lines 498-557)
+**Issue Category:** null_dereference + uncaught_exception
+**Before:**
+pitr_manager_ = std::make_unique<PITRManager>(
+storage_.get(), changefeed_.get(), snapshot_manager_.get());
+pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
+THEMIS_INFO("PITRManager initialized");
+branch_manager_ = std::make_unique<transaction::BranchManager>(
+*storage_, *changefeed_, *snapshot_manager_);
+// ... dereferencing pointers without null checks
+**Issues Identified:**
+- ❌ No null check for `storage_`, `changefeed_`, `snapshot_manager_`
+- ❌ No exception handling for allocation failures
+- ❌ No null check before `branch_manager_->setMergeEngine()`
+- ❌ Potential crash on dependency initialization failure
+**After:**
+// CRITICAL FIX: null_dereference + uncaught_exception
+try {
+if (!storage_ || !changefeed_ || !snapshot_manager_) {
+THEMIS_ERROR("Cannot initialize PITRManager: missing required dependencies...");
+} else {
+pitr_manager_ = std::make_unique<PITRManager>(
+
+---
+
+### CONTENT_BATCH5_EXECUTION_FINAL_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Content Module Batch 5 GA Finalization — Final Execution Status
+**Date:** 2026-08-15 14:45 UTC
+**Status:** 🔴 CP-1 GATE FAILED — REMEDIATION PHASE ACTIVE
+**Next Checkpoint:** CP-1 Re-Review on 2026-08-22 13:58 UTC
+---
+## Executive Summary
+**Content Module Batch 5 autonomous execution model deployed with 4 parallel streams.** As of 2026-08-15 14:45 UTC:
+- ✅ **Stream A (Doxygen Review)** — Complete, report delivered
+- ✅ **Stream C (Scope Fixes + Docs)** — Complete, 3 test files ready for merge
+- 🔄 **Stream B (TODO Classification)** — In progress (ETA: 5–10 min)
+- 🔧 **Stream D (Continuous Review)** — Complete, 3 critical blockers identified
+**GA Timeline:**
+- Target: 2026-08-29 (achievable if remediation completes by 2026-08-20 EOD)
+- Contingency: 2026-09-05 (+7 days if remediation extends)
+- Probability: 70% HIGH on-schedule completion
+---
+## Stream Status & Deliverables
+### ✅ Stream A: Doxygen Header Standardization & Maturity Verification
+**Agent:** `content-batch5-phase1-doxygen` (themisdb-reviewer)
+**Status:** IDLE, REPORT COMPLETE
+**Elapsed:** 382 seconds
+**Key Findings:**
+| Metric | Finding |
+|---|---|
+| Files analyzed | 47 (not 44 as expected) |
+| Template compliant | 21/47 (44.7%) |
+| Missing Doxygen entirely | 9 files |
+| Partial headers | 29+ files |
+| Gap Summary missing | 26 files (55.3%) — CRITICAL |
+| Maturity distribution | 40 PRODUCTION-READY, 6 BETA, 1 UNKNOWN |
+**CRITICAL BLOCKER (CRITICAL-1):**
+- **File:** `archive_processor_enhancements.cpp`
+- **Issue:** Missing all 4 required @note fields (Maturity, Score, Gap Summary, Status)
+- **Impact:** Compliance verification blocked
+- **Effort:** ~15 minutes to fix
+- **Severity:** BLOCKER for CP-1
+**HIGH BLOCKER (HIGH-1):**
+- **Issue:** 26 files missing @note Gap Summary metadata
+- **Impact:** 55.3% compliance gap; breaks CI/CD compliance checking
+- **Effort:** ~3–4 hours (parallelizable)
+- **Scope:** Core processors (Batch A: 15), medium (Batch B: 14), specialized (Batch C: 15)
+- **Severity:** HIGH, on critical path for CP-1
+**Deliverables Provided:**
+- CONTENT_BATCH5_CODE_REVIEW.md (findings-first review with examples)
+- EXECUTIVE_SUMMARY_BATCH5_PHASE1.md (leadership summary)
 
 ---
 
@@ -7007,58 +7055,6 @@ Confidence: 95%+ ✅
 
 ---
 
-### CONTENT_BATCH5_EXECUTION_FINAL_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Content Module Batch 5 GA Finalization — Final Execution Status
-**Date:** 2026-08-15 14:45 UTC
-**Status:** 🔴 CP-1 GATE FAILED — REMEDIATION PHASE ACTIVE
-**Next Checkpoint:** CP-1 Re-Review on 2026-08-22 13:58 UTC
----
-## Executive Summary
-**Content Module Batch 5 autonomous execution model deployed with 4 parallel streams.** As of 2026-08-15 14:45 UTC:
-- ✅ **Stream A (Doxygen Review)** — Complete, report delivered
-- ✅ **Stream C (Scope Fixes + Docs)** — Complete, 3 test files ready for merge
-- 🔄 **Stream B (TODO Classification)** — In progress (ETA: 5–10 min)
-- 🔧 **Stream D (Continuous Review)** — Complete, 3 critical blockers identified
-**GA Timeline:**
-- Target: 2026-08-29 (achievable if remediation completes by 2026-08-20 EOD)
-- Contingency: 2026-09-05 (+7 days if remediation extends)
-- Probability: 70% HIGH on-schedule completion
----
-## Stream Status & Deliverables
-### ✅ Stream A: Doxygen Header Standardization & Maturity Verification
-**Agent:** `content-batch5-phase1-doxygen` (themisdb-reviewer)
-**Status:** IDLE, REPORT COMPLETE
-**Elapsed:** 382 seconds
-**Key Findings:**
-| Metric | Finding |
-|---|---|
-| Files analyzed | 47 (not 44 as expected) |
-| Template compliant | 21/47 (44.7%) |
-| Missing Doxygen entirely | 9 files |
-| Partial headers | 29+ files |
-| Gap Summary missing | 26 files (55.3%) — CRITICAL |
-| Maturity distribution | 40 PRODUCTION-READY, 6 BETA, 1 UNKNOWN |
-**CRITICAL BLOCKER (CRITICAL-1):**
-- **File:** `archive_processor_enhancements.cpp`
-- **Issue:** Missing all 4 required @note fields (Maturity, Score, Gap Summary, Status)
-- **Impact:** Compliance verification blocked
-- **Effort:** ~15 minutes to fix
-- **Severity:** BLOCKER for CP-1
-**HIGH BLOCKER (HIGH-1):**
-- **Issue:** 26 files missing @note Gap Summary metadata
-- **Impact:** 55.3% compliance gap; breaks CI/CD compliance checking
-- **Effort:** ~3–4 hours (parallelizable)
-- **Scope:** Core processors (Batch A: 15), medium (Batch B: 14), specialized (Batch C: 15)
-- **Severity:** HIGH, on critical path for CP-1
-**Deliverables Provided:**
-- CONTENT_BATCH5_CODE_REVIEW.md (findings-first review with examples)
-- EXECUTIVE_SUMMARY_BATCH5_PHASE1.md (leadership summary)
-
----
-
 ### CONCURRENT_HARDENING_BLOCK_A1_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -7148,53 +7144,6 @@ std::atomic<size_t>& op_count;
 - Image & Media Processing: 4 items
 - Text Processing & Language Detection: 4 items
 **Status:** All 34 items documented with GitHub issues (#5820–#5847)
-
----
-
-### BLOCK_5_COMPREHENSIVE_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Block 5: Access Model Observable + Benchmark Gates
-## COMPREHENSIVE VERIFICATION & IMPLEMENTATION PLAN
-**Date:** 2026-08-18
-**Status:** Phase 5-6 Implementation Complete | Dynamic Verification In Progress
-**Branch:** `copilot/block-5-access-model-observable-benchmark-gates`
----
-## Executive Summary
-Block 5 closes 25+ CRITICAL/HIGH issues by delivering:
-✅ **Phase 5 Observability (375 LOC)**
-- Structured logging for all tier transitions
-- Correlation ID propagation through event chains
-- Prometheus metrics with 8-panel operator dashboard
-- 5 diagnostic runbook scenarios
-✅ **Phase 6 Testing & Hardening (3,210+ LOC)**
-- 15 E2E integration test scenarios
-- 10+ concurrency test patterns with ThreadSanitizer
-- 6 release-critical performance gates (GATE-ACM-01..06)
-- 20 observability validation test cases
-✅ **Benchmark Gates Verification (COMPLETE)**
-- GATE-ACM-01..06: All 6 gates READY for Wave B validation
-- Expected performance: Well within targets (±10% tolerance)
-- Measurement hygiene: Canonical RNG seed, wall-clock timing, CPU-only load
----
-## Implementation Summary
-### Phase 5: Observability & Diagnostics ✅ COMPLETE
-#### 5.1 Structured Logging (193 LOC)
-Files:
-include/access_model/access_model_logging.h (117 LOC)
-src/access_model/access_model_logging.cpp (76 LOC)
-Components:
-- TierTransitionLog: key, from_tier, to_tier, reason, latency_ms, status, correlation_id, thread_id
-- CoordinatorLifecycleLog: event_type, details, correlation_id, thread_id
-Integration Points: 5+ logging calls in AccessCoordinatorImpl
-#### 5.2 Correlation ID Propagation (182 LOC)
-Files:
-include/access_model/access_model_trace.h (95 LOC)
-src/access_model/access_model_trace.cpp (87 LOC)
-Components:
-- CorrelationID: std::string type alias
-- TraceContext: correlation_id, parent_span_id, start_time
 
 ---
 
@@ -7596,6 +7545,461 @@ CTest targets registered                 ✅ module_llm_*_focused (timeout 120)
 ## Execution Sequence
 Week 1 (Aug 10-16):  P6-01 design + infra setup + initial tests
 P6-03 chaos harness + network scenarios
+
+---
+
+### BATCH_HIGH_A_EXECUTION_LOG.txt
+
+*(file too large — key headings extracted)*
+
+╔═════════════════════════════════════════════════════════════════════════════╗
+║                    HIGH-A SEVERITY GAP REMEDIATION                          ║
+║                         EXECUTION LOG & SUMMARY                             ║
+╚═════════════════════════════════════════════════════════════════════════════╝
+EXECUTION START:      2026-08-16T09:26:42Z
+EXECUTION END:       2026-08-16T09:42:00Z
+TOTAL DURATION:      ~16 minutes
+OPERATOR:            Gap Verification Specialist
+BATCH:               HIGH-A Server Module Closure
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SCOPE & OBJECTIVES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Primary Task:    Close HIGH and MEDIUM severity gaps in Server module
+Target Files:    5 files identified with HIGH-severity issues
+Focus Categories:
+1. hardcoded_path (2 findings)
+2. copy_overhead (4 findings)
+3. string_concat_loop (1 finding)
+4. unnecessary_copy (4 findings)
+5. db_connection_leak (0 findings in this batch)
+Constraints:
+✅ Skip all CRITICAL gaps (Batch 1 only)
+✅ Use modern C++ patterns (C++17+)
+✅ Add inline documentation
+✅ Preserve API contracts
+✅ No memory leaks or UB
+✅ Verify syntax for all changes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXECUTION RESULTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RAW FINDINGS:         9 HIGH/MEDIUM severity gaps identified
+GAPS FIXED:           8 gaps remediated (100% fix rate)
+FALSE POSITIVES:      0 removed
+CRITICAL SKIPPED:     28 gaps (per constraints)
+SEVERITY BREAKDOWN:
+Original:  HIGH: 7, MEDIUM: 2
+After:     FIXED: 8, CRITICAL: 0
+FILES MODIFIED:       5 files
+1. src/server/postgres_session.cpp             [26 lines changed]
+2. src/server/import_wizard_builder.cpp        [14 lines changed]
+3. src/server/llm_api_handler.cpp              [25 lines changed]
+4. src/server/mcp_server.cpp                   [14 lines changed]
+5. src/server/replication_topology_api_handler.cpp [18 lines changed]
+TOTAL LINES CHANGED:  97 lines
+AVERAGE CHANGE SIZE:  19.4 lines/file
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DETAILED FIX SUMMARY
+
+---
+
+### BATCH_PHASE2_DELIVERY_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Index Module CRITICAL Gap Remediation Phase 2 — Delivery Summary
+**Repository:** makr-code/ThemisDB
+**Module:** src/index
+**Date:** 2026-08-15T10:54:49Z
+**Phase:** 2 (Batches A-1 to A-4)
+---
+## Executive Summary
+- **Batch A-1:** exception_in_destructor — ✅ COMPLETE (2/2 gaps fixed)
+- **Batch A-2:** iterator_invalidation — 🟡 PLANNED (remediation patterns documented)
+- **Batch A-3:** gpu_memory_leak — 🟡 PLANNED (audit procedures documented)
+- **Batch A-4:** braces_imbalance — ✅ VERIFIED (no action required, false positives)
+**Current Progress:** 2/29 CRITICAL gaps fixed (7% complete)
+---
+## Batch A-1: exception_in_destructor ✅ COMPLETE
+### Problem Statement
+1. `GraphAutoBuffer::~GraphAutoBuffer()` calls `stop()` (which may throw)
+2. `VectorAutoBuffer::~VectorAutoBuffer()` calls `stop()` (which may throw)
+**Risk:** Exception from destructor leads to abnormal program termination.
+### Solution Implemented
+**File Modifications:** 4 files (2 headers + 2 implementations)
+#### 1. include/index/graph_auto_buffer.h
+- ~GraphAutoBuffer();
++ ~GraphAutoBuffer() noexcept;
+#### 2. src/index/graph_auto_buffer.cpp
+-GraphAutoBuffer::~GraphAutoBuffer() {
+-    if (running_.load()) {
+-        stop();
+-    }
+-}
++GraphAutoBuffer::~GraphAutoBuffer() noexcept {
++    try {
++        if (running_.load()) {
++            stop();
++        }
++    } catch (const std::exception& e) {
++        THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: Exception during cleanup: {}", e.what());
++        // Continue cleanup; do not re-throw from destructor
++    } catch (...) {
++        THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: Unknown exception during cleanup");
++        // Continue cleanup; do not re-throw from destructor
+
+---
+
+### BATCH_PHASE2_MASTER_INDEX.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Phase 2 CRITICAL Gap Remediation — Master Index
+**Repository:** makr-code/ThemisDB
+**Module:** src/index
+**Phase:** 2 (Batches A-1 to A-4)
+**Status:** IN PROGRESS (A-1 Complete, A-2/A-3 Planned, A-4 Verified)
+**Date:** 2026-08-15
+---
+## Quick Navigation
+### 📊 Progress Tracking
+- **Main Status:** [`BATCH_PHASE2_PROGRESS_TRACKER.md`](./BATCH_PHASE2_PROGRESS_TRACKER.md)
+- **Delivery Summary:** [`BATCH_PHASE2_DELIVERY_SUMMARY.md`](./BATCH_PHASE2_DELIVERY_SUMMARY.md)
+- **Execution Plan:** [`BATCH_A1_EXECUTION_PLAN.md`](./BATCH_A1_EXECUTION_PLAN.md)
+### ✅ Batch A-1: exception_in_destructor (COMPLETE)
+- **Summary:** [`BATCH_A1_COMPLETION_SUMMARY.md`](./BATCH_A1_COMPLETION_SUMMARY.md)
+- **Status:** 2/2 CRITICAL gaps FIXED
+- **Changes:** 4 files modified (26 lines total)
+- **Pattern:** noexcept + try-catch + error logging
+### 🟡 Batch A-2: iterator_invalidation (PLANNED)
+- **Plan:** [`BATCH_A2_ITERATOR_INVALIDATION_PLAN.md`](./BATCH_A2_ITERATOR_INVALIDATION_PLAN.md)
+- **Status:** 0/8 gaps (analysis complete, remediation pending)
+- **Patterns:** Size caching, index-based access, deferred mutations
+- **Files:** 6-8 locations in vector_index, multi_vector_search, graph_index, etc.
+### 🟡 Batch A-3: gpu_memory_leak (PLANNED)
+- **Plan:** [`BATCH_A3_GPU_MEMORY_LEAK_PLAN.md`](./BATCH_A3_GPU_MEMORY_LEAK_PLAN.md)
+- **Status:** 0/5 gaps (analysis complete, remediation pending)
+- **Patterns:** RAII wrapper, error handling, cudaMalloc/cudaFree pairing
+- **Files:** CUDA graph traversal, GPU memory oversubscription
+### ✅ Batch A-4: braces_imbalance (VERIFIED)
+- **Report:** [`BATCH_A4_BRACES_IMBALANCE_REPORT.md`](./BATCH_A4_BRACES_IMBALANCE_REPORT.md)
+- **Status:** 0/6 gaps (false positives, no action required)
+- **Finding:** All 6 files have perfectly balanced braces
+- **Conclusion:** No structural changes needed
+---
+## 🎯 Key Metrics at a Glance
+Total CRITICAL Gaps:        29
+Fixed (A-1):                2
+Planned (A-2):              8
+Planned (A-3):              5
+Verified OK (A-4):          0 (false positives)
+──
+Remaining to Fix:          27
+Progress:                   7% (2/29 complete)
+Estimated Completion:      4-6 days
+---
+
+---
+
+### BATCH_PHASE2_PROGRESS_TRACKER.md
+
+*(file too large — key headings extracted)*
+
+# Phase 2 CRITICAL Gap Remediation: Batches A-1 to A-4 Progress Tracker
+**Repository:** ThemisDB (makr-code/ThemisDB)
+**Module:** src/index
+**Date:** 2026-08-15
+**Total CRITICAL Gaps:** 29
+## Executive Summary
+| Batch | Issue Type | Files | Status | Gaps Fixed | Notes |
+|-------|-----------|-------|--------|-----------|-------|
+| **A-1** | exception_in_destructor | 2 (4 total) | ✅ COMPLETE | 2/2 | Wrapped destructors in try-catch |
+| **A-2** | iterator_invalidation | 6-8 | 🟡 IN PROGRESS | 0/8 | Plan documented, remediation patterns ready |
+| **A-3** | gpu_memory_leak | 3-5 | 🟡 IN PROGRESS | 0/5 | Plan documented, audit procedures defined |
+| **A-4** | braces_imbalance | 6 | ✅ VERIFIED | 0/6 | False positives; no action required |
+| | | **TOTALS** | 🟡 IN PROGRESS | **2/29** | 7% complete |
+## Batch A-1: exception_in_destructor ✅ COMPLETE
+### Status: FIXED (2/2 gaps)
+**Files Modified:**
+1. ✅ `include/index/graph_auto_buffer.h` - Added `noexcept` to destructor
+2. ✅ `src/index/graph_auto_buffer.cpp` - Wrapped destructor in try-catch
+3. ✅ `include/index/vector_auto_buffer.h` - Added `noexcept` to destructor
+4. ✅ `src/index/vector_auto_buffer.cpp` - Wrapped destructor in try-catch
+### Changes Summary
+- **Pattern Applied:** Try-catch wrapper + noexcept specification + THEMIS_ERROR logging
+- **Lines Changed:** ~25 total (mix of header declarations and implementations)
+- **Validation:** Code review complete; syntax correct
+- **CRITICAL Gaps Fixed:**
+- [✅] exception_in_destructor @ graph_auto_buffer.cpp:52
+- [✅] exception_in_destructor @ vector_auto_buffer.cpp:66
+### Commit Ready
+fix(index): Batch A-1 exception_in_destructor — noexcept safety
+- Add noexcept to destructors in graph_auto_buffer and vector_auto_buffer
+- Wrap stop() calls in try-catch blocks to prevent exception propagation
+- Add THEMIS_ERROR logging for cleanup failures
+- Ensures destructors comply with C++ exception safety contract
+- Fixes CRITICAL gaps #52 and #66 in exception_in_destructor
+---
+## Batch A-2: iterator_invalidation 🟡 IN PROGRESS
+### Status: ANALYSIS COMPLETE, REMEDIATION PENDING
+**Files Flagged:**
+1. ⏳ `src/index/vector_index.cpp:80` - Index-based ID mapping
+2. ⏳ `src/index/multi_vector_search.cpp:224` - Score collection loop
+3. ⏳ `src/index/multi_vector_search.cpp:406` - Hybrid score fusion
+4. ⏳ `src/index/gpu_memory_oversubscription.cpp:230` - LRU list management
+5. ⏳ `src/index/graph_index.cpp:244` - Edge encryption list processing
+6. ⏳ `src/index/graph_index.cpp:247` - Edge encryption list processing
+7. ⏳ `src/index/graph_index.cpp:248` - Edge encryption list processing
+
+---
+
+### BATCH_SAFETY_FIXES_QUERY_DELIVERY.md
+
+*(file too large — key headings extracted)*
+
+# Query Module Safety Fixes - Batch Delivery Summary
+**Date**: 2026-08-16
+**Branch**: develop
+**Module**: src/query
+**Severity**: CRITICAL (4 issues)
+## Executive Summary
+Successfully resolved 4 CRITICAL safety gaps in the query module:
+1. **Iterator Invalidation** (query_rewrite_rule.cpp)
+2. **Multiplication Overflow** (tensor_aware_query_optimizer.cpp)
+3. **Resource Safety** (cq_watermark.cpp)
+4. **Blocking Timeout Enforcement** (query_canceller.cpp)
+All fixes maintain backward compatibility, preserve API contracts, and include comprehensive unit tests.
+---
+## Issue 1: Iterator Invalidation (query_rewrite_rule.cpp)
+### Problem
+The `collectOrChain()` function used unsafe iterator access patterns:
+- Direct iterator dereferencing with `find()` followed by `*it` access
+- Vector insert operations that could trigger reallocation during iteration
+- Potential use-after-free if iterator lifetimes weren't carefully managed
+**Locations**: Lines 82-117
+**Risk**: UAF, segmentation fault, heap corruption under concurrent or high-volume scenarios
+### Solution
+1. **Replaced iterator-based access with safer methods**:
+- Replaced `find()` → `*it` with `contains()` → `at()`
+- Added exception handling for JSON parsing errors
+- Eliminated iterator lifetime dependencies
+2. **Optimized vector operations**:
+- Added `reserve()` before bulk inserts to pre-allocate capacity
+- Replaced `insert()` with explicit loop and move semantics
+- Prevented reallocation-induced invalidation
+3. **Code Changes**:
+// Before: unsafe iterator access
+auto f = eq.find("field");
+auto v = eq.find("value");
+if (f == eq.end() || v == eq.end()) return false;
+const std::string field = f->get<std::string>();
+result.values.push_back(*v);
+// After: safe access with RAII
+if (!eq.contains("field") || !eq.contains("value")) return false;
+try {
+const std::string field = eq.at("field").get<std::string>();
+result.values.push_back(eq.at("value"));
+} catch (const nlohmann::json::exception&) {
+return false;
+}
+
+---
+
+### BLOCK_5_COMPREHENSIVE_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Block 5: Access Model Observable + Benchmark Gates
+## COMPREHENSIVE VERIFICATION & IMPLEMENTATION PLAN
+**Date:** 2026-08-18
+**Status:** Phase 5-6 Implementation Complete | Dynamic Verification In Progress
+**Branch:** `copilot/block-5-access-model-observable-benchmark-gates`
+---
+## Executive Summary
+Block 5 closes 25+ CRITICAL/HIGH issues by delivering:
+✅ **Phase 5 Observability (375 LOC)**
+- Structured logging for all tier transitions
+- Correlation ID propagation through event chains
+- Prometheus metrics with 8-panel operator dashboard
+- 5 diagnostic runbook scenarios
+✅ **Phase 6 Testing & Hardening (3,210+ LOC)**
+- 15 E2E integration test scenarios
+- 10+ concurrency test patterns with ThreadSanitizer
+- 6 release-critical performance gates (GATE-ACM-01..06)
+- 20 observability validation test cases
+✅ **Benchmark Gates Verification (COMPLETE)**
+- GATE-ACM-01..06: All 6 gates READY for Wave B validation
+- Expected performance: Well within targets (±10% tolerance)
+- Measurement hygiene: Canonical RNG seed, wall-clock timing, CPU-only load
+---
+## Implementation Summary
+### Phase 5: Observability & Diagnostics ✅ COMPLETE
+#### 5.1 Structured Logging (193 LOC)
+Files:
+include/access_model/access_model_logging.h (117 LOC)
+src/access_model/access_model_logging.cpp (76 LOC)
+Components:
+- TierTransitionLog: key, from_tier, to_tier, reason, latency_ms, status, correlation_id, thread_id
+- CoordinatorLifecycleLog: event_type, details, correlation_id, thread_id
+Integration Points: 5+ logging calls in AccessCoordinatorImpl
+#### 5.2 Correlation ID Propagation (182 LOC)
+Files:
+include/access_model/access_model_trace.h (95 LOC)
+src/access_model/access_model_trace.cpp (87 LOC)
+Components:
+- CorrelationID: std::string type alias
+- TraceContext: correlation_id, parent_span_id, start_time
+
+---
+
+### BATCH_A8_QUICK_REFERENCE.md
+
+*(file too large — key headings extracted)*
+
+# Batch A-8 Voice Module Hardening - Quick Reference
+## 🎯 Objective: Fix 13+ CRITICAL Security Gaps
+### Category Breakdown
+| Category | Gaps | Files | Solution |
+|----------|------|-------|----------|
+| **Session Lifecycle** | 6 (GAP 12-17) | voice_session_manager.cpp | State machine validation, empty field rejection |
+| **Teardown Safety** | 3 (GAP 18-20) | voice_session_manager.cpp | Timeout deadline (100ms), force-close, cleanup |
+| **Audit Logging** | 3 (GAP 21-23) | voice_assistant.cpp | [AUDIT] prefix on auth and state transitions |
+---
+## 📋 Constants Defined
+**In: `src/voice/voice_assistant.cpp` (Lines 44-47)**
+constexpr size_t MAX_VOICE_CHUNK_SIZE = 64 * 1024;        // GAP 6
+constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // GAP 7
+constexpr size_t MAX_SESSION_STREAMS = 10;                // GAP 8
+constexpr uint8_t VALID_FRAME_VERSION = 1;                // GAP 9
+---
+## 🛡️ Validation Functions
+**Location: `src/voice/voice_assistant.cpp` (Lines 60-137)**
+| Function | Purpose | Gap |
+|----------|---------|-----|
+| `isRejectedVoicePayload()` | Empty/oversized check | 1-2 |
+| `isValidFrameVersion()` | Frame version validation | 4 |
+| `isValidCompressionFormat()` | Codec format whitelist | 5 |
+| `validateStreamBufferCapacity()` | Cumulative buffer limit | 7 |
+| `isValidUtf8Command()` | UTF-8 metadata validation | 3 |
+---
+## 🔐 Stream Validation Checks
+**Location: `src/voice/voice_browser_streaming.cpp` (Lines 270-341)**
+| Check | Error Code | Gap | Line |
+|-------|-----------|-----|------|
+| Empty chunk rejection | 6920 | 7 | 270-275 |
+| Frame alignment check | 6904 | 8 | 288-294 |
+| Oversized frame limit | 6900 | 9 | 298-305 |
+| Buffer overflow guard | 6900 | 10 | 318-328 |
+| Chunk ordering validation | 6902 | 11 | 330-341 |
+---
+## 🔄 Session State Machine
+**Location: `src/voice/voice_session_manager.cpp`**
+
+---
+
+### BATCH_A9_CHAOS_TESTING_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Wave A Batch A-9: Chaos Testing & Fault Injection Implementation Plan
+**Status**: IN_PROGRESS
+**Target Branch**: develop
+**Estimated Duration**: 24 hours agent work
+## Deliverables
+### 1. Fault Injection Framework
+- [ ] FaultInjector base class (fault_injector.h)
+- [ ] CrashInjector for coordinator/node crashes
+- [ ] NetworkInjector for network faults (partition, delay, loss)
+- [ ] TimeoutInjector for timeout simulation
+- [ ] CorruptionInjector for data corruption
+- [ ] All with seeded RNG for reproducibility
+### 2. Transaction Chaos Tests (8-10 tests)
+- [ ] CoordinatorCrashRecovery
+- [ ] DeadlockDetectionAndBreak
+- [ ] LongRunningTransactionTimeout
+- [ ] CascadingRollbackScenario
+- [ ] PreCommitCrashRecovery
+- [ ] WALRecoveryAfterCrash
+- [ ] ConcurrentPrepareAndCommit
+**File**: tests/transaction/test_transaction_chaos.cpp
+### 3. Sharding Chaos Tests (6-8 tests)
+- [ ] MultiShardRebalanceUnderNetworkPartition
+- [ ] ConsensusTimeoutUnderLoad
+- [ ] CascadingShardFailure
+- [ ] LeaderElectionUnderPartition
+- [ ] ShardDataConsistencyAfterRecovery
+- [ ] CrossShardTransactionFailure
+**File**: tests/sharding/test_sharding_chaos_batch_a9.cpp
+### 4. Replication Chaos Tests (6-8 tests)
+- [ ] LagInjectionAndFailover
+- [ ] WALShippingUnderPacketLoss
+- [ ] GeographicPartitionRecovery
+- [ ] ReplicaResyncAfterCrash
+- [ ] QuorumRecoveryAfterPartition
+- [ ] ReplicationLagAlertAndAction
+**File**: tests/replication/test_replication_chaos.cpp
+### 5. Voice/GPU Adversarial Tests (4-6 tests)
+- [ ] VoiceAntiSpoofUnderAdversarialAttacks
+- [ ] VoiceReplayDetectionEdgeCases
+- [ ] GPUMemoryCorruptionDetection
+- [ ] CUDAKernelHangSimulation
+- [ ] GPUFailoverCrash
+**Files**: tests/voice/test_voice_adversarial.cpp, tests/gpu/test_gpu_adversarial.cpp
+### 6. Stress Tests (6 tests)
+- [ ] 10k ConcurrentTransactions
+- [ ] 5ShardsConcurrentWrites
+- [ ] 1000AsyncWALEntries
+
+---
+
+### BATCH_A9_COMMIT_STRATEGY.md
+
+*(file too large — key headings extracted)*
+
+# GPU Module Batch A-9 — Commit Strategy & Deployment Guide
+**Implementation Complete:** 2026-08-18 | **Ready for Production:** YES
+**Commit Strategy:** Larger batch commits (user preference)
+---
+## Overview
+Batch A-9 delivers comprehensive GPU safety hardening with 4 strategic commits:
+| Commit | Focus | Files | LOC | Purpose |
+|--------|-------|-------|-----|---------|
+| 1 | RAII wrappers | 1 new | 522 | GPU resource lifecycle management |
+| 2 | Safety patterns | 2 new, 1 mod | 670 | Error checking and fallback mechanisms |
+| 3 | Implementation | 1 new | 244 | Core safety hardening logic |
+| 4 | Testing | 1 mod | 100+ | Comprehensive test coverage |
+**Total Lines:** 1536+ new/modified | **Test Coverage:** 32 test cases | **Status:** ✅ Production-Ready
+---
+## Commit 1: RAII Wrapper Classes (GPU Resource Lifecycle)
+### Files
+- **NEW:** `include/gpu/gpu_raii_wrappers.hpp` (522 lines)
+### What's Included
+✅ **GPUMemoryHandle<T>** — Type-safe GPU memory allocation with:
+- Automatic allocation on construction
+- Automatic deallocation on destruction
+- Move-only semantics (no copying)
+- Size tracking and bounds validation
+- Typed access via getTyped()
+✅ **GPUStreamHandle** — CUDA stream management with:
+- Automatic stream creation/destruction
+- Synchronization with error checking
+- Idle state querying
+- Move-only ownership semantics
+✅ **GPUEventHandle** — GPU event management with:
+- Automatic event creation/destruction
+- Event recording in streams
+- Completion querying and waiting
+- Timing support
+✅ **Factory Functions** — Convenient RAII object creation:
+- `makeGPUMemory<T>(count)` — Create GPU memory
+- `makeGPUStream()` — Create GPU stream
+- `makeGPUEvent()` — Create GPU event
+### Safety Properties
+- **Zero memory leaks** — Destructor cleanup guaranteed
+- **No use-after-free** — Move-only semantics prevent accidental reuse
+- **Exception-safe** — Cleanup happens even on exception
+- **Thread-safe** — Safe for concurrent access
+- **Zero-overhead** — No runtime overhead vs manual management
+### Testing
 
 ---
 
@@ -8051,316 +8455,6 @@ When each agent completes:
 **Target**: v1.1.0-v1.2.0
 **Items Complete**: 5/5
 1. **JWT Validation Hardening** ✅
-
----
-
-### BATCH_HIGH_A_EXECUTION_LOG.txt
-
-*(file too large — key headings extracted)*
-
-╔═════════════════════════════════════════════════════════════════════════════╗
-║                    HIGH-A SEVERITY GAP REMEDIATION                          ║
-║                         EXECUTION LOG & SUMMARY                             ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-EXECUTION START:      2026-08-16T09:26:42Z
-EXECUTION END:       2026-08-16T09:42:00Z
-TOTAL DURATION:      ~16 minutes
-OPERATOR:            Gap Verification Specialist
-BATCH:               HIGH-A Server Module Closure
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SCOPE & OBJECTIVES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Primary Task:    Close HIGH and MEDIUM severity gaps in Server module
-Target Files:    5 files identified with HIGH-severity issues
-Focus Categories:
-1. hardcoded_path (2 findings)
-2. copy_overhead (4 findings)
-3. string_concat_loop (1 finding)
-4. unnecessary_copy (4 findings)
-5. db_connection_leak (0 findings in this batch)
-Constraints:
-✅ Skip all CRITICAL gaps (Batch 1 only)
-✅ Use modern C++ patterns (C++17+)
-✅ Add inline documentation
-✅ Preserve API contracts
-✅ No memory leaks or UB
-✅ Verify syntax for all changes
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-EXECUTION RESULTS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RAW FINDINGS:         9 HIGH/MEDIUM severity gaps identified
-GAPS FIXED:           8 gaps remediated (100% fix rate)
-FALSE POSITIVES:      0 removed
-CRITICAL SKIPPED:     28 gaps (per constraints)
-SEVERITY BREAKDOWN:
-Original:  HIGH: 7, MEDIUM: 2
-After:     FIXED: 8, CRITICAL: 0
-FILES MODIFIED:       5 files
-1. src/server/postgres_session.cpp             [26 lines changed]
-2. src/server/import_wizard_builder.cpp        [14 lines changed]
-3. src/server/llm_api_handler.cpp              [25 lines changed]
-4. src/server/mcp_server.cpp                   [14 lines changed]
-5. src/server/replication_topology_api_handler.cpp [18 lines changed]
-TOTAL LINES CHANGED:  97 lines
-AVERAGE CHANGE SIZE:  19.4 lines/file
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-DETAILED FIX SUMMARY
-
----
-
-### BATCH_PHASE2_DELIVERY_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Index Module CRITICAL Gap Remediation Phase 2 — Delivery Summary
-**Repository:** makr-code/ThemisDB
-**Module:** src/index
-**Date:** 2026-08-15T10:54:49Z
-**Phase:** 2 (Batches A-1 to A-4)
----
-## Executive Summary
-- **Batch A-1:** exception_in_destructor — ✅ COMPLETE (2/2 gaps fixed)
-- **Batch A-2:** iterator_invalidation — 🟡 PLANNED (remediation patterns documented)
-- **Batch A-3:** gpu_memory_leak — 🟡 PLANNED (audit procedures documented)
-- **Batch A-4:** braces_imbalance — ✅ VERIFIED (no action required, false positives)
-**Current Progress:** 2/29 CRITICAL gaps fixed (7% complete)
----
-## Batch A-1: exception_in_destructor ✅ COMPLETE
-### Problem Statement
-1. `GraphAutoBuffer::~GraphAutoBuffer()` calls `stop()` (which may throw)
-2. `VectorAutoBuffer::~VectorAutoBuffer()` calls `stop()` (which may throw)
-**Risk:** Exception from destructor leads to abnormal program termination.
-### Solution Implemented
-**File Modifications:** 4 files (2 headers + 2 implementations)
-#### 1. include/index/graph_auto_buffer.h
-- ~GraphAutoBuffer();
-+ ~GraphAutoBuffer() noexcept;
-#### 2. src/index/graph_auto_buffer.cpp
--GraphAutoBuffer::~GraphAutoBuffer() {
--    if (running_.load()) {
--        stop();
--    }
--}
-+GraphAutoBuffer::~GraphAutoBuffer() noexcept {
-+    try {
-+        if (running_.load()) {
-+            stop();
-+        }
-+    } catch (const std::exception& e) {
-+        THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: Exception during cleanup: {}", e.what());
-+        // Continue cleanup; do not re-throw from destructor
-+    } catch (...) {
-+        THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: Unknown exception during cleanup");
-+        // Continue cleanup; do not re-throw from destructor
-
----
-
-### BATCH_PHASE2_MASTER_INDEX.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Phase 2 CRITICAL Gap Remediation — Master Index
-**Repository:** makr-code/ThemisDB
-**Module:** src/index
-**Phase:** 2 (Batches A-1 to A-4)
-**Status:** IN PROGRESS (A-1 Complete, A-2/A-3 Planned, A-4 Verified)
-**Date:** 2026-08-15
----
-## Quick Navigation
-### 📊 Progress Tracking
-- **Main Status:** [`BATCH_PHASE2_PROGRESS_TRACKER.md`](./BATCH_PHASE2_PROGRESS_TRACKER.md)
-- **Delivery Summary:** [`BATCH_PHASE2_DELIVERY_SUMMARY.md`](./BATCH_PHASE2_DELIVERY_SUMMARY.md)
-- **Execution Plan:** [`BATCH_A1_EXECUTION_PLAN.md`](./BATCH_A1_EXECUTION_PLAN.md)
-### ✅ Batch A-1: exception_in_destructor (COMPLETE)
-- **Summary:** [`BATCH_A1_COMPLETION_SUMMARY.md`](./BATCH_A1_COMPLETION_SUMMARY.md)
-- **Status:** 2/2 CRITICAL gaps FIXED
-- **Changes:** 4 files modified (26 lines total)
-- **Pattern:** noexcept + try-catch + error logging
-### 🟡 Batch A-2: iterator_invalidation (PLANNED)
-- **Plan:** [`BATCH_A2_ITERATOR_INVALIDATION_PLAN.md`](./BATCH_A2_ITERATOR_INVALIDATION_PLAN.md)
-- **Status:** 0/8 gaps (analysis complete, remediation pending)
-- **Patterns:** Size caching, index-based access, deferred mutations
-- **Files:** 6-8 locations in vector_index, multi_vector_search, graph_index, etc.
-### 🟡 Batch A-3: gpu_memory_leak (PLANNED)
-- **Plan:** [`BATCH_A3_GPU_MEMORY_LEAK_PLAN.md`](./BATCH_A3_GPU_MEMORY_LEAK_PLAN.md)
-- **Status:** 0/5 gaps (analysis complete, remediation pending)
-- **Patterns:** RAII wrapper, error handling, cudaMalloc/cudaFree pairing
-- **Files:** CUDA graph traversal, GPU memory oversubscription
-### ✅ Batch A-4: braces_imbalance (VERIFIED)
-- **Report:** [`BATCH_A4_BRACES_IMBALANCE_REPORT.md`](./BATCH_A4_BRACES_IMBALANCE_REPORT.md)
-- **Status:** 0/6 gaps (false positives, no action required)
-- **Finding:** All 6 files have perfectly balanced braces
-- **Conclusion:** No structural changes needed
----
-## 🎯 Key Metrics at a Glance
-Total CRITICAL Gaps:        29
-Fixed (A-1):                2
-Planned (A-2):              8
-Planned (A-3):              5
-Verified OK (A-4):          0 (false positives)
-──
-Remaining to Fix:          27
-Progress:                   7% (2/29 complete)
-Estimated Completion:      4-6 days
----
-
----
-
-### BATCH_PHASE2_PROGRESS_TRACKER.md
-
-*(file too large — key headings extracted)*
-
-# Phase 2 CRITICAL Gap Remediation: Batches A-1 to A-4 Progress Tracker
-**Repository:** ThemisDB (makr-code/ThemisDB)
-**Module:** src/index
-**Date:** 2026-08-15
-**Total CRITICAL Gaps:** 29
-## Executive Summary
-| Batch | Issue Type | Files | Status | Gaps Fixed | Notes |
-|-------|-----------|-------|--------|-----------|-------|
-| **A-1** | exception_in_destructor | 2 (4 total) | ✅ COMPLETE | 2/2 | Wrapped destructors in try-catch |
-| **A-2** | iterator_invalidation | 6-8 | 🟡 IN PROGRESS | 0/8 | Plan documented, remediation patterns ready |
-| **A-3** | gpu_memory_leak | 3-5 | 🟡 IN PROGRESS | 0/5 | Plan documented, audit procedures defined |
-| **A-4** | braces_imbalance | 6 | ✅ VERIFIED | 0/6 | False positives; no action required |
-| | | **TOTALS** | 🟡 IN PROGRESS | **2/29** | 7% complete |
-## Batch A-1: exception_in_destructor ✅ COMPLETE
-### Status: FIXED (2/2 gaps)
-**Files Modified:**
-1. ✅ `include/index/graph_auto_buffer.h` - Added `noexcept` to destructor
-2. ✅ `src/index/graph_auto_buffer.cpp` - Wrapped destructor in try-catch
-3. ✅ `include/index/vector_auto_buffer.h` - Added `noexcept` to destructor
-4. ✅ `src/index/vector_auto_buffer.cpp` - Wrapped destructor in try-catch
-### Changes Summary
-- **Pattern Applied:** Try-catch wrapper + noexcept specification + THEMIS_ERROR logging
-- **Lines Changed:** ~25 total (mix of header declarations and implementations)
-- **Validation:** Code review complete; syntax correct
-- **CRITICAL Gaps Fixed:**
-- [✅] exception_in_destructor @ graph_auto_buffer.cpp:52
-- [✅] exception_in_destructor @ vector_auto_buffer.cpp:66
-### Commit Ready
-fix(index): Batch A-1 exception_in_destructor — noexcept safety
-- Add noexcept to destructors in graph_auto_buffer and vector_auto_buffer
-- Wrap stop() calls in try-catch blocks to prevent exception propagation
-- Add THEMIS_ERROR logging for cleanup failures
-- Ensures destructors comply with C++ exception safety contract
-- Fixes CRITICAL gaps #52 and #66 in exception_in_destructor
----
-## Batch A-2: iterator_invalidation 🟡 IN PROGRESS
-### Status: ANALYSIS COMPLETE, REMEDIATION PENDING
-**Files Flagged:**
-1. ⏳ `src/index/vector_index.cpp:80` - Index-based ID mapping
-2. ⏳ `src/index/multi_vector_search.cpp:224` - Score collection loop
-3. ⏳ `src/index/multi_vector_search.cpp:406` - Hybrid score fusion
-4. ⏳ `src/index/gpu_memory_oversubscription.cpp:230` - LRU list management
-5. ⏳ `src/index/graph_index.cpp:244` - Edge encryption list processing
-6. ⏳ `src/index/graph_index.cpp:247` - Edge encryption list processing
-7. ⏳ `src/index/graph_index.cpp:248` - Edge encryption list processing
-
----
-
-### BATCH_SAFETY_FIXES_QUERY_DELIVERY.md
-
-*(file too large — key headings extracted)*
-
-# Query Module Safety Fixes - Batch Delivery Summary
-**Date**: 2026-08-16
-**Branch**: develop
-**Module**: src/query
-**Severity**: CRITICAL (4 issues)
-## Executive Summary
-Successfully resolved 4 CRITICAL safety gaps in the query module:
-1. **Iterator Invalidation** (query_rewrite_rule.cpp)
-2. **Multiplication Overflow** (tensor_aware_query_optimizer.cpp)
-3. **Resource Safety** (cq_watermark.cpp)
-4. **Blocking Timeout Enforcement** (query_canceller.cpp)
-All fixes maintain backward compatibility, preserve API contracts, and include comprehensive unit tests.
----
-## Issue 1: Iterator Invalidation (query_rewrite_rule.cpp)
-### Problem
-The `collectOrChain()` function used unsafe iterator access patterns:
-- Direct iterator dereferencing with `find()` followed by `*it` access
-- Vector insert operations that could trigger reallocation during iteration
-- Potential use-after-free if iterator lifetimes weren't carefully managed
-**Locations**: Lines 82-117
-**Risk**: UAF, segmentation fault, heap corruption under concurrent or high-volume scenarios
-### Solution
-1. **Replaced iterator-based access with safer methods**:
-- Replaced `find()` → `*it` with `contains()` → `at()`
-- Added exception handling for JSON parsing errors
-- Eliminated iterator lifetime dependencies
-2. **Optimized vector operations**:
-- Added `reserve()` before bulk inserts to pre-allocate capacity
-- Replaced `insert()` with explicit loop and move semantics
-- Prevented reallocation-induced invalidation
-3. **Code Changes**:
-// Before: unsafe iterator access
-auto f = eq.find("field");
-auto v = eq.find("value");
-if (f == eq.end() || v == eq.end()) return false;
-const std::string field = f->get<std::string>();
-result.values.push_back(*v);
-// After: safe access with RAII
-if (!eq.contains("field") || !eq.contains("value")) return false;
-try {
-const std::string field = eq.at("field").get<std::string>();
-result.values.push_back(eq.at("value"));
-} catch (const nlohmann::json::exception&) {
-return false;
-}
-
----
-
-### BATCH_A5_A6_A7_A8_ROADMAP.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Phase 3 — HIGH-Severity Gap Remediation: EXECUTION ROADMAP
-**Date**: 2026-08-15
-**Overall Status**: Batch A-5 COMPLETE, A-6+ READY FOR INITIATION
-**Target**: Fix ≥1,800 HIGH-severity gaps (60% of 3,057)
-**Timeline**: 3-4 weeks (2026-08-15 to 2026-09-15)
----
-## Batch A-5: Circular Lock Ordering — STATUS COMPLETE ✓
-### Summary
-- **Issues**: 20 HIGH-severity circular_lock_ordering gaps
-- **Files Modified**: 4 (scheduled_edge_refresh.h/cpp, tensor_dedup_manager.cpp, tensor_fingerprint_graph.cpp)
-- **Fixes Implemented**: 3 critical structural changes + 17 documentation clarifications
-- **Risk Eliminated**: All circular wait deadlock conditions removed
-- **Status**: Ready for build/validation/merge
-### Deliverables
-- ✓ BATCH_A5_EXECUTION_PLAN.md
-- ✓ BATCH_A5_PROGRESS_REPORT.md
-- ✓ BATCH_A5_FINAL_REPORT.md
-- ✓ Code changes (4 files)
-- ✓ Lock hierarchy documentation
-- → ThreadSanitizer validation (NEXT)
-### Next Action
-1. Build with `cmake --preset community-asan`
-2. Run tests: `ctest -L graph,tensor -j 1 -VV`
-3. Verify: ≥2 consecutive PASS runs
-4. Merge to main
----
-## Batch A-6: Database Connection Leak — PLANNED
-### Gap Analysis
-- **Total Issues**: 34 HIGH-severity db_connection_leak gaps
-- **Scope**: Database connection lifecycle management
-- **Root Causes** (expected):
-- Missing connection cleanup in error paths
-- Exceptions in RAII guard destructors
-- Missing try-catch for connection release
-- Connection pool exhaustion scenarios
-### Implementation Approach
-#### Phase 1: Audit (1-2 days)
-1. Identify all database connection allocation sites
-2. Map deallocation/cleanup paths for each
-3. Identify error paths without cleanup
-4. Document connection ownership patterns
-#### Phase 2: Implement Fixes (2-3 days)
-1. Audit all db_connection_leak locations:
-- Ensure RAII pattern (connection obtained in constructor, released in destructor)
-- Verify try-catch for exception safety
-- Check smart_ptr usage (std::unique_ptr for exclusive ownership)
-2. Fix templates:
 
 ---
 
@@ -8893,309 +8987,6 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
 ### Category 2: Session Lifecycle Validation (6 gaps)
 | Gap | Issue | Solution | Location |
 |-----|-------|----------|----------|
-
----
-
-### BATCH_A8_QUICK_REFERENCE.md
-
-*(file too large — key headings extracted)*
-
-# Batch A-8 Voice Module Hardening - Quick Reference
-## 🎯 Objective: Fix 13+ CRITICAL Security Gaps
-### Category Breakdown
-| Category | Gaps | Files | Solution |
-|----------|------|-------|----------|
-| **Session Lifecycle** | 6 (GAP 12-17) | voice_session_manager.cpp | State machine validation, empty field rejection |
-| **Teardown Safety** | 3 (GAP 18-20) | voice_session_manager.cpp | Timeout deadline (100ms), force-close, cleanup |
-| **Audit Logging** | 3 (GAP 21-23) | voice_assistant.cpp | [AUDIT] prefix on auth and state transitions |
----
-## 📋 Constants Defined
-**In: `src/voice/voice_assistant.cpp` (Lines 44-47)**
-constexpr size_t MAX_VOICE_CHUNK_SIZE = 64 * 1024;        // GAP 6
-constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // GAP 7
-constexpr size_t MAX_SESSION_STREAMS = 10;                // GAP 8
-constexpr uint8_t VALID_FRAME_VERSION = 1;                // GAP 9
----
-## 🛡️ Validation Functions
-**Location: `src/voice/voice_assistant.cpp` (Lines 60-137)**
-| Function | Purpose | Gap |
-|----------|---------|-----|
-| `isRejectedVoicePayload()` | Empty/oversized check | 1-2 |
-| `isValidFrameVersion()` | Frame version validation | 4 |
-| `isValidCompressionFormat()` | Codec format whitelist | 5 |
-| `validateStreamBufferCapacity()` | Cumulative buffer limit | 7 |
-| `isValidUtf8Command()` | UTF-8 metadata validation | 3 |
----
-## 🔐 Stream Validation Checks
-**Location: `src/voice/voice_browser_streaming.cpp` (Lines 270-341)**
-| Check | Error Code | Gap | Line |
-|-------|-----------|-----|------|
-| Empty chunk rejection | 6920 | 7 | 270-275 |
-| Frame alignment check | 6904 | 8 | 288-294 |
-| Oversized frame limit | 6900 | 9 | 298-305 |
-| Buffer overflow guard | 6900 | 10 | 318-328 |
-| Chunk ordering validation | 6902 | 11 | 330-341 |
----
-## 🔄 Session State Machine
-**Location: `src/voice/voice_session_manager.cpp`**
-
----
-
-### BATCH_A9_CHAOS_TESTING_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Wave A Batch A-9: Chaos Testing & Fault Injection Implementation Plan
-**Status**: IN_PROGRESS
-**Target Branch**: develop
-**Estimated Duration**: 24 hours agent work
-## Deliverables
-### 1. Fault Injection Framework
-- [ ] FaultInjector base class (fault_injector.h)
-- [ ] CrashInjector for coordinator/node crashes
-- [ ] NetworkInjector for network faults (partition, delay, loss)
-- [ ] TimeoutInjector for timeout simulation
-- [ ] CorruptionInjector for data corruption
-- [ ] All with seeded RNG for reproducibility
-### 2. Transaction Chaos Tests (8-10 tests)
-- [ ] CoordinatorCrashRecovery
-- [ ] DeadlockDetectionAndBreak
-- [ ] LongRunningTransactionTimeout
-- [ ] CascadingRollbackScenario
-- [ ] PreCommitCrashRecovery
-- [ ] WALRecoveryAfterCrash
-- [ ] ConcurrentPrepareAndCommit
-**File**: tests/transaction/test_transaction_chaos.cpp
-### 3. Sharding Chaos Tests (6-8 tests)
-- [ ] MultiShardRebalanceUnderNetworkPartition
-- [ ] ConsensusTimeoutUnderLoad
-- [ ] CascadingShardFailure
-- [ ] LeaderElectionUnderPartition
-- [ ] ShardDataConsistencyAfterRecovery
-- [ ] CrossShardTransactionFailure
-**File**: tests/sharding/test_sharding_chaos_batch_a9.cpp
-### 4. Replication Chaos Tests (6-8 tests)
-- [ ] LagInjectionAndFailover
-- [ ] WALShippingUnderPacketLoss
-- [ ] GeographicPartitionRecovery
-- [ ] ReplicaResyncAfterCrash
-- [ ] QuorumRecoveryAfterPartition
-- [ ] ReplicationLagAlertAndAction
-**File**: tests/replication/test_replication_chaos.cpp
-### 5. Voice/GPU Adversarial Tests (4-6 tests)
-- [ ] VoiceAntiSpoofUnderAdversarialAttacks
-- [ ] VoiceReplayDetectionEdgeCases
-- [ ] GPUMemoryCorruptionDetection
-- [ ] CUDAKernelHangSimulation
-- [ ] GPUFailoverCrash
-**Files**: tests/voice/test_voice_adversarial.cpp, tests/gpu/test_gpu_adversarial.cpp
-### 6. Stress Tests (6 tests)
-- [ ] 10k ConcurrentTransactions
-- [ ] 5ShardsConcurrentWrites
-- [ ] 1000AsyncWALEntries
-
----
-
-### BATCH_A9_COMMIT_STRATEGY.md
-
-*(file too large — key headings extracted)*
-
-# GPU Module Batch A-9 — Commit Strategy & Deployment Guide
-**Implementation Complete:** 2026-08-18 | **Ready for Production:** YES
-**Commit Strategy:** Larger batch commits (user preference)
----
-## Overview
-Batch A-9 delivers comprehensive GPU safety hardening with 4 strategic commits:
-| Commit | Focus | Files | LOC | Purpose |
-|--------|-------|-------|-----|---------|
-| 1 | RAII wrappers | 1 new | 522 | GPU resource lifecycle management |
-| 2 | Safety patterns | 2 new, 1 mod | 670 | Error checking and fallback mechanisms |
-| 3 | Implementation | 1 new | 244 | Core safety hardening logic |
-| 4 | Testing | 1 mod | 100+ | Comprehensive test coverage |
-**Total Lines:** 1536+ new/modified | **Test Coverage:** 32 test cases | **Status:** ✅ Production-Ready
----
-## Commit 1: RAII Wrapper Classes (GPU Resource Lifecycle)
-### Files
-- **NEW:** `include/gpu/gpu_raii_wrappers.hpp` (522 lines)
-### What's Included
-✅ **GPUMemoryHandle<T>** — Type-safe GPU memory allocation with:
-- Automatic allocation on construction
-- Automatic deallocation on destruction
-- Move-only semantics (no copying)
-- Size tracking and bounds validation
-- Typed access via getTyped()
-✅ **GPUStreamHandle** — CUDA stream management with:
-- Automatic stream creation/destruction
-- Synchronization with error checking
-- Idle state querying
-- Move-only ownership semantics
-✅ **GPUEventHandle** — GPU event management with:
-- Automatic event creation/destruction
-- Event recording in streams
-- Completion querying and waiting
-- Timing support
-✅ **Factory Functions** — Convenient RAII object creation:
-- `makeGPUMemory<T>(count)` — Create GPU memory
-- `makeGPUStream()` — Create GPU stream
-- `makeGPUEvent()` — Create GPU event
-### Safety Properties
-- **Zero memory leaks** — Destructor cleanup guaranteed
-- **No use-after-free** — Move-only semantics prevent accidental reuse
-- **Exception-safe** — Cleanup happens even on exception
-- **Thread-safe** — Safe for concurrent access
-- **Zero-overhead** — No runtime overhead vs manual management
-### Testing
-
----
-
-### BATCH_5_PHASE_1_VALIDATION_AND_TRACKING.md
-
-*(file too large — key headings extracted)*
-
-# Batch 5 Phase 1: Daily Validation & Progress Tracking Workflow
-**Purpose:** Automated daily validation (ASan/TSan/tests) and weekly integration reports
-**Start Date:** 2026-08-17
-**Cadence:** Daily checks, Weekly reports
----
-## Daily Validation Checklist
-### Morning Validation (6 AM UTC)
-- [ ] Build with all sanitizers enabled
-- `cmake --preset community-release-allow-missing-rocksdb -DENABLE_ASAN=ON -DENABLE_UBSAN=ON`
-- `cmake --build . --parallel 16`
-- Check: 0 warnings
-- [ ] Run focused LLM module tests
-- `ctest -R "llm" -V --timeout 300 --no-compress-output`
-- Check: 100% pass rate
-- [ ] Run sanitizer checks
-- `ASAN_OPTIONS=detect_leaks=1:verbosity=1 ctest -R "gpu_memory|lora_training" --timeout 120`
-- `UBSAN_OPTIONS=print_stacktrace=1 ctest -R "gpu_memory|lora_training" --timeout 120`
-- Check: 0 errors reported
-### Afternoon Check (2 PM UTC)
-- [ ] Benchmark baseline comparison
-- Run: `benchmarks/llm_performance_baseline.py --compare-to-main`
-- Check: <5% regression
-- [ ] Integration tests
-- `ctest -R "llm_integration" -V --timeout 600`
-- Check: 100% pass rate
-### Evening Report (6 PM UTC)
-- [ ] Generate summary report
-- Build status (warnings count)
-- Test results (pass/fail/skip counts)
-- Sanitizer findings (if any)
-- Performance regression metrics
-- Upload to ai_working/daily_validation_YYYY-MM-DD.json
----
-## Weekly Integration Report (Friday 6 PM UTC)
-### Batch Status Summary
-Batch 5 Phase 1: CRITICAL Training & Memory Gaps
-Week of: 2026-08-17 to 2026-08-23
-Phase 1B (GPU Memory Manager):
-- Target: 7 CRITICAL gaps
-- Status: [____] In Progress
-- Completed: 0/7 (0%)
-- Build: Pending
-- Tests: Pending
-- Sanitizers: Pending
-
----
-
-### BATCH_5_QUICK_REFERENCE.md
-
-*(file too large — key headings extracted)*
-
-# BATCH 5 - QUICK REFERENCE: GAP INVENTORY & FIX CHECKLIST
-**Generated:** 2026-08-17
-**Total Gaps:** 67 across 6 files
-**Status:** Analysis Complete - Ready for Implementation
----
-## CRITICAL GAPS (BLOCKING RELEASE) - 2 TOTAL
-### 1. stub #289: GGUF Model Fallback Missing
-- **File:** lora_training_service.cpp:1851
-- **Function:** `LoRATrainingService::loadModelFromGGUF()`
-- **Issue:** Production inference fails without fallback when GGUF missing/corrupted
-- **Impact:** BLOCKING - GA release cannot proceed
-- **Fix Effort:** 2-3 days
-- **Status:** [ ] NOT STARTED
-- **Notes:** Implement fallback factory with caching + synthetic model generation
-### 2. REL-73: GPU Memory Not Cleared on Device Error
-- **File:** gpu_memory_manager.cpp:124
-- **Function:** `MemoryHolder::freeGPUMemory()`
-- **Issue:** Sensitive data left in VRAM when device switch fails
-- **Impact:** BLOCKING - Security vulnerability
-- **Fix Effort:** 1 day
-- **Status:** [ ] NOT STARTED
-- **Notes:** Add fallback CPU clear when device unavailable
----
-## HIGH-SEVERITY GAPS (18 TOTAL) - PRIORITY FIXES
-### GPU Memory Management (2 gaps)
-| Ref | File | Line | Issue | Fix Effort | Status |
-|-----|------|------|-------|-----------|--------|
-| REL-66 | gpu_memory_manager.cpp | 1147 | cudaFree error not handled | 1 day | [ ] |
-| REL-73 | gpu_memory_manager.cpp | 124 | cudaSetDevice error in cleanup | 1 day | [ ] |
-### Device Initialization (2 gaps)
-| Ref | File | Line | Issue | Fix Effort | Status |
-|-----|------|------|-------|-----------|--------|
-| REL-40 | multi_gpu_memory_coordinator.cpp | 71 | CUDA device set error | 1 day | [ ] |
-| REL-41 | multi_gpu_memory_coordinator.cpp | 131 | HIP device set error | 1 day | [ ] |
-### P2P Access Setup (4 gaps) - TRANSACTIONAL
-| Ref | File | Line | Issue | Fix Effort | Status |
-|-----|------|------|-------|-----------|--------|
-| REL-42 | multi_gpu_memory_coordinator.cpp | 350 | CUDA P2P forward error | 2 days | [ ] |
-| REL-43 | multi_gpu_memory_coordinator.cpp | 373 | CUDA P2P backward error | (with REL-42) | [ ] |
-| REL-44 | multi_gpu_memory_coordinator.cpp | 427 | HIP P2P forward error | 2 days | [ ] |
-| REL-45 | multi_gpu_memory_coordinator.cpp | 447 | HIP P2P backward error | (with REL-44) | [ ] |
-**Note:** These 4 gaps form a transaction - fix all or none. Recommended: Implement unified retry framework.
-### Synchronization Verification (2 gaps)
-| Ref | File | Line | Issue | Fix Effort | Status |
-
----
-
-### BATCH_5_UNIFIED_DIAGNOSTICS_SPEC.md
-
-*(file too large — key headings extracted)*
-
-# BATCH 5: Unified Error Handling & Diagnostics Specification
-## Overview
-**Target Duration:** 2 weeks
-**Priority:** HIGH (depends on BATCH 1-4 complete)
-**Depends On:** BATCH 1, 2, 3, 4 (all prior work)
-**Scope:** Cross-component unified diagnostics
-**Total Findings:** Cross-component (not isolated to single file)
-**Quality Level:** Production readiness for operators
----
-## Current State Analysis
-**Problem:** Components emit errors independently; operators have no unified view
-- Backend errors logged separately
-- Key derivation errors not linked
-- Scheduler diagnostics incomplete
-- Tier orchestration errors silent
-**Impact:**
-- Hard to debug multi-component failures
-- No end-to-end tracing across mount→derive→backend→schedule
-- Operators can't correlate events by correlation ID
-- Missing observability metrics
-**Goal:** Unified error handling + operator-facing diagnostics
----
-## Implementation Plan
-### PHASE 5.1: Standardized Fail-Safe Behavior (HIGH)
-#### Objective
-Define fail-safe semantics so operators know exactly what happened when something goes wrong.
-#### Fail-Safe Principle
-**"No silent failures. All errors explicit."**
-Whenever an operation fails:
-1. Return explicit error code (not undefined behavior)
-2. Include context (what, why, how to fix)
-3. Emit diagnostic event (for observability)
-4. No automatic fallback (operator decides next step)
-#### Fail-Safe Contracts Per Component
-**1. Backend (gocryptfs_backend.cpp)**
-namespace backend_contracts {
-// Mount operation fail-safe contract:
-enum class MountError {
-// Timeout - explicit: operation took too long
-kTimeoutWritingKey,      // Key delivery to gocryptfs timed out
-kTimeoutReadingOutput,   // Reading gocryptfs output timed out
-// Resource - explicit: missing resources
 
 ---
 
@@ -9790,6 +9581,764 @@ void function() {
 
 ---
 
+### BATCH_A5_A6_A7_A8_ROADMAP.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Phase 3 — HIGH-Severity Gap Remediation: EXECUTION ROADMAP
+**Date**: 2026-08-15
+**Overall Status**: Batch A-5 COMPLETE, A-6+ READY FOR INITIATION
+**Target**: Fix ≥1,800 HIGH-severity gaps (60% of 3,057)
+**Timeline**: 3-4 weeks (2026-08-15 to 2026-09-15)
+---
+## Batch A-5: Circular Lock Ordering — STATUS COMPLETE ✓
+### Summary
+- **Issues**: 20 HIGH-severity circular_lock_ordering gaps
+- **Files Modified**: 4 (scheduled_edge_refresh.h/cpp, tensor_dedup_manager.cpp, tensor_fingerprint_graph.cpp)
+- **Fixes Implemented**: 3 critical structural changes + 17 documentation clarifications
+- **Risk Eliminated**: All circular wait deadlock conditions removed
+- **Status**: Ready for build/validation/merge
+### Deliverables
+- ✓ BATCH_A5_EXECUTION_PLAN.md
+- ✓ BATCH_A5_PROGRESS_REPORT.md
+- ✓ BATCH_A5_FINAL_REPORT.md
+- ✓ Code changes (4 files)
+- ✓ Lock hierarchy documentation
+- → ThreadSanitizer validation (NEXT)
+### Next Action
+1. Build with `cmake --preset community-asan`
+2. Run tests: `ctest -L graph,tensor -j 1 -VV`
+3. Verify: ≥2 consecutive PASS runs
+4. Merge to main
+---
+## Batch A-6: Database Connection Leak — PLANNED
+### Gap Analysis
+- **Total Issues**: 34 HIGH-severity db_connection_leak gaps
+- **Scope**: Database connection lifecycle management
+- **Root Causes** (expected):
+- Missing connection cleanup in error paths
+- Exceptions in RAII guard destructors
+- Missing try-catch for connection release
+- Connection pool exhaustion scenarios
+### Implementation Approach
+#### Phase 1: Audit (1-2 days)
+1. Identify all database connection allocation sites
+2. Map deallocation/cleanup paths for each
+3. Identify error paths without cleanup
+4. Document connection ownership patterns
+#### Phase 2: Implement Fixes (2-3 days)
+1. Audit all db_connection_leak locations:
+- Ensure RAII pattern (connection obtained in constructor, released in destructor)
+- Verify try-catch for exception safety
+- Check smart_ptr usage (std::unique_ptr for exclusive ownership)
+2. Fix templates:
+
+---
+
+### BATCH_5_PHASE_1B_GPU_MEMORY_DELIVERY.md
+
+*(file too large — key headings extracted)*
+
+# Batch 5 Phase 1B: GPU Memory Manager Hardening - Final Delivery
+**Date:** 2026-08-17
+**Status:** ✅ COMPLETE
+**Critical Gaps Fixed:** 7/7
+---
+## Executive Summary
+### Completion Metrics
+| Metric | Target | Status |
+|--------|--------|--------|
+| CRITICAL gaps fixed | 7/7 | ✅ 7/7 |
+| Error codes implemented | [7300-7399] | ✅ 50 codes |
+| Fallback strategies | GPU→Pinned→CPU | ✅ Implemented |
+| Device health monitoring | Temperature checks | ✅ Implemented |
+| RAII cleanup hardening | All paths | ✅ Complete |
+| Error context logging | All operations | ✅ Complete |
+---
+## CRITICAL Gap Fixes Implemented
+### Gap Category 1: Memory Allocation Error Paths (3-4 gaps) ✅
+**Fixed Gaps:**
+1. **GPU_ALLOCATION_OVERFLOW (GAP #4)**
+- **Issue:** No detection of allocation size overflow
+- **Fix:** Added explicit overflow check in allocateGPU():
+if (bytes == 0 || bytes > std::numeric_limits<size_t>::max()) {
+spdlog::error("[{}] GPU allocation size overflow or zero: {} bytes",
+static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OVERFLOW), bytes);
+...
+}
+- **Error Code:** 7301
+- **Benefit:** Prevents integer overflow attacks and detects invalid allocation requests early
+2. **GPU_ALLOCATION_PRECHECK_FAILED (GAP #3)**
+- **Issue:** Device pre-validation not performed before allocation
+- **Fix:** Added device health check before allocation:
+auto gpu_health_it = gpu_health_status_.find(selected_gpu);
+if (gpu_health_it != gpu_health_status_.end() && !gpu_health_it->second) {
+spdlog::warn("[{}] GPU device {} is unhealthy, attempting fallback to CPU",
+static_cast<int>(GPUMemoryErrorCode::GPU_DEVICE_UNHEALTHY), selected_gpu);
+was_fallback = true;
+}
+- **Error Code:** 7302
+- **Benefit:** Prevents allocation attempts on unhealthy devices
+3. **GPU_ALLOCATION_OOM (GAP #1)**
+- **Issue:** CUDA allocation failures not handled with specific error codes
+
+---
+
+### BATCH_5_PHASE_1B_QUICK_REFERENCE.md
+
+*(file too large — key headings extracted)*
+
+# BATCH 5 PHASE 1B: GPU MEMORY MANAGER - QUICK REFERENCE GUIDE
+## Files Changed Summary
+Modified:  src/llm/gpu_memory_manager.cpp        [2435 lines → ~2650 lines]
+Created:   include/llm/gpu_memory_error_codes.h  [210 lines]
+## Key Code Changes
+### 1. Error Codes Header (NEW FILE)
+**File:** `include/llm/gpu_memory_error_codes.h`
+- 50 error codes in range [7300-7399]
+- Organized by category:
+- [7300-7309]: Allocation failures
+- [7310-7319]: Device/GPU failures
+- [7320-7329]: Cleanup and RAII failures
+- [7330-7339]: Fallback and recovery failures
+- [7340-7349]: Temperature/health monitoring failures
+enum class GPUMemoryErrorCode : int32_t {
+GPU_ALLOCATION_OOM = 7300,
+GPU_ALLOCATION_OVERFLOW = 7301,
+GPU_ALLOCATION_PRECHECK_FAILED = 7302,
+// ... 47 more codes
+THERMAL_THROTTLING = 7341,
+TEMPERATURE_CRITICAL = 7342,
+};
+### 2. MemoryHolder Destructor Enhancement
+**Location:** `src/llm/gpu_memory_manager.cpp` (Lines 89-169)
+**GAP FIXES:**
+- ✅ Gap #1: CUDA free errors caught and logged
+- ✅ Gap #2: Secure clear guaranteed even on device set failure
+**Changes:**
+// BEFORE:
+void freeGPUMemory() {
+if (gpu_available_) {
+cudaSetDevice(gpu_device_id_);  // No error check
+security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
+CUDA_CHECK(cudaFree(ptr_));  // Generic macro, not in destructor
+}
+}
+// AFTER:
+void freeGPUMemory() {
+if (gpu_available_) {
+cudaError_t set_err = cudaSetDevice(gpu_device_id_);
+if (set_err != cudaSuccess) {
+spdlog::warn("cudaSetDevice({}) failed: {}", gpu_device_id_, ...);
+
+---
+
+### BATCH_5_PHASE_1_DAILY_REPORT_20260817.md
+
+*(file too large — key headings extracted)*
+
+# Batch 5 Phase 1: Daily Progress Report — 2026-08-17
+**Date:** 2026-08-17 13:45 UTC
+**Duration:** 8 hours (started 05:45 UTC)
+**Status:** 🟡 PHASE 1B COMPLETE, PHASE 1A IN PROGRESS
+---
+## Executive Summary
+Batch 5 Phase 1 execution is proceeding on schedule:
+- **Phase 1B (GPU Memory Manager):** ✅ COMPLETE — 7/7 CRITICAL gaps fixed
+- **Phase 1A (LoRA Training Service):** 🔄 IN PROGRESS — 30 gaps, ~70% estimated complete
+- **Combined Delivery:** On track for 2026-08-20 completion
+**Program Status:** 643 + 7 = 650 CRITICAL gaps fixed (46% + 1% = 47% of 1,400 target)
+---
+## Phase 1B: GPU Memory Manager — Completion Report
+### Implementation Highlights
+**All 7 CRITICAL Gaps Addressed:**
+1. **Memory Allocation Error Paths** (4 gaps)
+- Pre-allocation validation (overflow detection, device checks)
+- 3-tier fallback strategy (GPU → Pinned CPU → Regular CPU)
+- Specific error codes [7300-7307] for each failure path
+2. **Error Cleanup & RAII** (3 gaps)
+- Enhanced MemoryHolder destructor with CUDA error handling
+- Guaranteed secure memory clearing before deallocation
+- Comprehensive error logging in cleanup paths
+3. **Device Management** (3 gaps)
+- Device health monitoring with thermal checks
+- Thermal throttling detection (≥75°C)
+- Critical condition detection (≥85°C)
+- Automatic device health status updates
+### Metrics
+| Metric | Value | Status |
+|--------|-------|--------|
+| Files Modified | 1 + 1 new | ✅ |
+| Lines Added | +215 to core, +210 new header | ✅ |
+| Error Codes Defined | 50 codes [7300-7399] | ✅ |
+| RAII Holders | 6 instances | ✅ |
+| CUDA Error Paths | 22 paths | ✅ |
+| Null Safety Checks | 9+ checks | ✅ |
+| Code Quality | All passes | ✅ |
+| Memory Leaks | 0 | ✅ |
+| Use-After-Free | 0 | ✅ |
+### Key Achievements
+✅ Exception-safe resource management (RAII)
+✅ Multi-tier allocation fallback strategy
+
+---
+
+### BATCH_5_PHASE_1_DETAILED_IMPLEMENTATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Batch 5 Phase 1: Detailed Implementation Plan (37 CRITICAL Gaps)
+**Start Date:** 2026-08-17
+**Target Completion:** 2026-08-20
+**Status:** 🟢 READY TO EXECUTE
+---
+## Executive Summary
+This document provides a line-by-line implementation plan for the 37 CRITICAL gaps in:
+- `src/llm/lora_framework/lora_training_service.cpp` (30 CRITICAL gaps)
+- `src/llm/gpu_memory_manager.cpp` (7 CRITICAL gaps)
+All work follows RAII patterns, modern C++ practices, and includes comprehensive error handling and validation.
+---
+## Phase 1A: lora_training_service.cpp (30 CRITICAL Gaps)
+### Gap Category 1: Loss Computation & Validation (5-6 gaps)
+**Issue:** Line 920 uses simulated validation accuracy
+result.validation_accuracy = 0.85f + (0.1f * current_metrics_.progress); // Simulated
+**Root Cause:** Validation metrics are not computed from actual model outputs
+**Fix:** Implement real validation loop that:
+1. Evaluates trained model on validation dataset
+2. Computes actual accuracy/F1/perplexity metrics
+3. Handles edge cases (empty dataset, NaN values, device failures)
+4. Returns deterministic results based on validation data
+**Acceptance Criteria:**
+- ✅ Validation runs on validation dataset, not on training set
+- ✅ Metrics reflect actual model performance
+- ✅ No hardcoded values in result computation
+- ✅ Errors handled with specific exception types
+- ✅ Logs include validation iteration count and timing
+**Files to Modify:**
+- `src/llm/lora_framework/lora_training_service.cpp`: validateModel() method
+- `include/llm/lora_framework/lora_training_service.h`: Add validation interface
+---
+### Gap Category 2: Training Initialization (8-10 gaps)
+**Issue:** Lines 1680-1864: Model loading returns nullptr on errors with fail-closed behavior
+if (model_path.empty()) {
+spdlog::error("GGUF model path is empty");
+return nullptr;  // CRITICAL: No error context, no recovery path
+}
+**Root Cause:** Error handling is incomplete; missing:
+- Initialization state machine
+
+---
+
+### BATCH_5_PHASE_1_EXECUTION_COMPLETE.md
+
+*(file too large — key headings extracted)*
+
+# 🎉 BATCH 5 PHASE 1 EXECUTION COMPLETE
+## Final Report & Status Update
+**Execution Date:** 2026-08-17 (05:45 UTC → 14:20 UTC)
+**Total Duration:** 8 hours 35 minutes
+**Status:** ✅ **COMPLETE & READY FOR TESTING**
+---
+## 🏆 MISSION ACCOMPLISHED
+### Phase 1 Execution Summary
+CRITICAL GAPS FIXED: 37/37 (100%)
+├─ Phase 1B (GPU Memory):        7/7 ✅
+└─ Phase 1A (Training Service): 30/30 ✅
+TIME TO DELIVERY: 8.5 hours
+VELOCITY: 4.4 gaps/hour
+CODE QUALITY: All gates pass
+PROGRAM PROGRESS: 643 → 680 gaps (46% → 48%)
+TRAJECTORY: On track for 93%+ by 2026-10-31 🚀
+---
+## 📊 EXECUTION METRICS
+### Phase 1B: GPU Memory Manager
+| Metric | Value | Status |
+|--------|-------|--------|
+| Time to delivery | 469 seconds | ✅ |
+| Gaps fixed | 7/7 | ✅ |
+| Error codes | 50 [7300-7399] | ✅ |
+| CUDA error paths | 22 hardened | ✅ |
+| Memory leaks | 0 | ✅ |
+| Use-after-free | 0 | ✅ |
+| Undefined behavior | 0 | ✅ |
+### Phase 1A: LoRA Training Service
+| Metric | Value | Status |
+|--------|-------|--------|
+| Time to delivery | 506 seconds | ✅ |
+| Gaps fixed | 30/30 | ✅ |
+| Error codes | 100 [7200-7299] | ✅ |
+| nullptr → exception | 15+ paths | ✅ |
+| Simulated code replaced | 5 areas | ✅ |
+| Exception types | 6+ hierarchies | ✅ |
+| Backward compatible | Yes | ✅ |
+### Combined Phase 1
+| Metric | Value | Status |
+|--------|-------|--------|
+| Total gaps | 37/37 | ✅ |
+| Total error codes | 150 codes | ✅ |
+| Files modified | 5 files | ✅ |
+| Lines added | ~935 LOC | ✅ |
+| RAII instances | 18+ | ✅ |
+
+---
+
+### BATCH_5_PHASE_1_FINAL_VERIFICATION_MANIFEST.md
+
+*(file too large — key headings extracted)*
+
+# Batch 5 Phase 1: Final Verification Manifest
+**Generated:** 2026-08-17 14:20 UTC
+**Status:** ✅ COMPLETE & READY FOR TESTING
+---
+## 🎯 Phase 1 Completion Summary
+### Core Metrics
+| Metric | Target | Delivered | Status |
+|--------|--------|-----------|--------|
+| CRITICAL gaps fixed | 37 | 37 | ✅ |
+| GPU Memory gaps | 7 | 7 | ✅ |
+| Training Service gaps | 30 | 30 | ✅ |
+| Specific error codes | 150 | 150 | ✅ |
+| Files modified | 5 | 5 | ✅ |
+| Total lines added | ~935 | ~935 | ✅ |
+| Memory leaks detected | 0 | 0 | ✅ |
+| Simulated code remaining | 0 | 0 | ✅ |
+### Phase 1B: GPU Memory Manager (7/7 Complete)
+**File:** `src/llm/gpu_memory_manager.cpp`
+**Changes:** +215 lines, 22 CUDA error paths hardened
+**Error Codes:** [7300-7399] (50 codes)
+**Gaps Fixed:**
+1. ✅ GPU allocation pre-checks
+2. ✅ Allocation fallback (GPU → Pinned CPU → CPU)
+3. ✅ Overflow detection
+4. ✅ Device health monitoring
+5. ✅ Thermal throttling detection (75°C, 85°C)
+6. ✅ RAII cleanup with error handling
+7. ✅ Secure memory clearing
+**New File:** `include/llm/gpu_memory_error_codes.h` (210 lines, 50 codes)
+**Quality Assurance:**
+- ✅ Exception-safe RAII
+- ✅ Null safety verified
+- ✅ No memory leaks (RAII)
+- ✅ No use-after-free
+- ✅ No undefined behavior
+- ✅ Overflow protection
+- ✅ Backward compatible
+### Phase 1A: LoRA Training Service (30/30 Complete)
+**File:** `src/llm/lora_framework/lora_training_service.cpp`
+**Changes:** +150 lines, 15+ nullptr paths replaced
+**Error Codes:** [7200-7299] (100 codes)
+**Gaps Fixed (by Category):**
+1. **Loss Computation & Validation (6 gaps)**
+- ✅ Real validation accuracy (not 0.85f + 0.1f*progress)
+- ✅ Holdout test set evaluation
+- ✅ NaN/Inf detection
+- ✅ Metric range validation
+
+---
+
+### BATCH_5_PHASE_1_VALIDATION_AND_TRACKING.md
+
+*(file too large — key headings extracted)*
+
+# Batch 5 Phase 1: Daily Validation & Progress Tracking Workflow
+**Purpose:** Automated daily validation (ASan/TSan/tests) and weekly integration reports
+**Start Date:** 2026-08-17
+**Cadence:** Daily checks, Weekly reports
+---
+## Daily Validation Checklist
+### Morning Validation (6 AM UTC)
+- [ ] Build with all sanitizers enabled
+- `cmake --preset community-release-allow-missing-rocksdb -DENABLE_ASAN=ON -DENABLE_UBSAN=ON`
+- `cmake --build . --parallel 16`
+- Check: 0 warnings
+- [ ] Run focused LLM module tests
+- `ctest -R "llm" -V --timeout 300 --no-compress-output`
+- Check: 100% pass rate
+- [ ] Run sanitizer checks
+- `ASAN_OPTIONS=detect_leaks=1:verbosity=1 ctest -R "gpu_memory|lora_training" --timeout 120`
+- `UBSAN_OPTIONS=print_stacktrace=1 ctest -R "gpu_memory|lora_training" --timeout 120`
+- Check: 0 errors reported
+### Afternoon Check (2 PM UTC)
+- [ ] Benchmark baseline comparison
+- Run: `benchmarks/llm_performance_baseline.py --compare-to-main`
+- Check: <5% regression
+- [ ] Integration tests
+- `ctest -R "llm_integration" -V --timeout 600`
+- Check: 100% pass rate
+### Evening Report (6 PM UTC)
+- [ ] Generate summary report
+- Build status (warnings count)
+- Test results (pass/fail/skip counts)
+- Sanitizer findings (if any)
+- Performance regression metrics
+- Upload to ai_working/daily_validation_YYYY-MM-DD.json
+---
+## Weekly Integration Report (Friday 6 PM UTC)
+### Batch Status Summary
+Batch 5 Phase 1: CRITICAL Training & Memory Gaps
+Week of: 2026-08-17 to 2026-08-23
+Phase 1B (GPU Memory Manager):
+- Target: 7 CRITICAL gaps
+- Status: [____] In Progress
+- Completed: 0/7 (0%)
+- Build: Pending
+- Tests: Pending
+- Sanitizers: Pending
+
+---
+
+### BATCH_5_QUICK_REFERENCE.md
+
+*(file too large — key headings extracted)*
+
+# BATCH 5 - QUICK REFERENCE: GAP INVENTORY & FIX CHECKLIST
+**Generated:** 2026-08-17
+**Total Gaps:** 67 across 6 files
+**Status:** Analysis Complete - Ready for Implementation
+---
+## CRITICAL GAPS (BLOCKING RELEASE) - 2 TOTAL
+### 1. stub #289: GGUF Model Fallback Missing
+- **File:** lora_training_service.cpp:1851
+- **Function:** `LoRATrainingService::loadModelFromGGUF()`
+- **Issue:** Production inference fails without fallback when GGUF missing/corrupted
+- **Impact:** BLOCKING - GA release cannot proceed
+- **Fix Effort:** 2-3 days
+- **Status:** [ ] NOT STARTED
+- **Notes:** Implement fallback factory with caching + synthetic model generation
+### 2. REL-73: GPU Memory Not Cleared on Device Error
+- **File:** gpu_memory_manager.cpp:124
+- **Function:** `MemoryHolder::freeGPUMemory()`
+- **Issue:** Sensitive data left in VRAM when device switch fails
+- **Impact:** BLOCKING - Security vulnerability
+- **Fix Effort:** 1 day
+- **Status:** [ ] NOT STARTED
+- **Notes:** Add fallback CPU clear when device unavailable
+---
+## HIGH-SEVERITY GAPS (18 TOTAL) - PRIORITY FIXES
+### GPU Memory Management (2 gaps)
+| Ref | File | Line | Issue | Fix Effort | Status |
+|-----|------|------|-------|-----------|--------|
+| REL-66 | gpu_memory_manager.cpp | 1147 | cudaFree error not handled | 1 day | [ ] |
+| REL-73 | gpu_memory_manager.cpp | 124 | cudaSetDevice error in cleanup | 1 day | [ ] |
+### Device Initialization (2 gaps)
+| Ref | File | Line | Issue | Fix Effort | Status |
+|-----|------|------|-------|-----------|--------|
+| REL-40 | multi_gpu_memory_coordinator.cpp | 71 | CUDA device set error | 1 day | [ ] |
+| REL-41 | multi_gpu_memory_coordinator.cpp | 131 | HIP device set error | 1 day | [ ] |
+### P2P Access Setup (4 gaps) - TRANSACTIONAL
+| Ref | File | Line | Issue | Fix Effort | Status |
+|-----|------|------|-------|-----------|--------|
+| REL-42 | multi_gpu_memory_coordinator.cpp | 350 | CUDA P2P forward error | 2 days | [ ] |
+| REL-43 | multi_gpu_memory_coordinator.cpp | 373 | CUDA P2P backward error | (with REL-42) | [ ] |
+| REL-44 | multi_gpu_memory_coordinator.cpp | 427 | HIP P2P forward error | 2 days | [ ] |
+| REL-45 | multi_gpu_memory_coordinator.cpp | 447 | HIP P2P backward error | (with REL-44) | [ ] |
+**Note:** These 4 gaps form a transaction - fix all or none. Recommended: Implement unified retry framework.
+### Synchronization Verification (2 gaps)
+| Ref | File | Line | Issue | Fix Effort | Status |
+
+---
+
+### BATCH_5_UNIFIED_DIAGNOSTICS_SPEC.md
+
+*(file too large — key headings extracted)*
+
+# BATCH 5: Unified Error Handling & Diagnostics Specification
+## Overview
+**Target Duration:** 2 weeks
+**Priority:** HIGH (depends on BATCH 1-4 complete)
+**Depends On:** BATCH 1, 2, 3, 4 (all prior work)
+**Scope:** Cross-component unified diagnostics
+**Total Findings:** Cross-component (not isolated to single file)
+**Quality Level:** Production readiness for operators
+---
+## Current State Analysis
+**Problem:** Components emit errors independently; operators have no unified view
+- Backend errors logged separately
+- Key derivation errors not linked
+- Scheduler diagnostics incomplete
+- Tier orchestration errors silent
+**Impact:**
+- Hard to debug multi-component failures
+- No end-to-end tracing across mount→derive→backend→schedule
+- Operators can't correlate events by correlation ID
+- Missing observability metrics
+**Goal:** Unified error handling + operator-facing diagnostics
+---
+## Implementation Plan
+### PHASE 5.1: Standardized Fail-Safe Behavior (HIGH)
+#### Objective
+Define fail-safe semantics so operators know exactly what happened when something goes wrong.
+#### Fail-Safe Principle
+**"No silent failures. All errors explicit."**
+Whenever an operation fails:
+1. Return explicit error code (not undefined behavior)
+2. Include context (what, why, how to fix)
+3. Emit diagnostic event (for observability)
+4. No automatic fallback (operator decides next step)
+#### Fail-Safe Contracts Per Component
+**1. Backend (gocryptfs_backend.cpp)**
+namespace backend_contracts {
+// Mount operation fail-safe contract:
+enum class MountError {
+// Timeout - explicit: operation took too long
+kTimeoutWritingKey,      // Key delivery to gocryptfs timed out
+kTimeoutReadingOutput,   // Reading gocryptfs output timed out
+// Resource - explicit: missing resources
+
+---
+
+### BATCH_3_PHASE5_DETAILED_IMPLEMENTATION.md
+
+*(file too large — key headings extracted)*
+
+# Batch 3 Implementation Guide: Phase 5-Performance & Benchmarking
+**Target Weeks:** 9-14 (Weeks after Batch 1-2 completion)
+**Status:** 📋 Ready to launch (awaiting Batch 2 completion)
+---
+## Phase 5 Completion Roadmap
+### Current State (Batch 1-2 completion)
+- ✅ Native benchmark suite exists (bench_toolbox_native_workloads.cpp, 260+ lines)
+- ✅ 6 primary gates defined (GATE-TBX-P1..P6)
+- ✅ Test data and fixtures prepared (kShortText, kMediumText, MakeMediumText)
+- ✅ Benchmark infrastructure operational (Google Benchmark + steady_clock)
+- 📋 Baseline measurements: NOT YET COLLECTED
+- 📋 p95/p99 envelopes: NOT YET ESTABLISHED
+### Phase 5 Objectives (Batch 3)
+| Objective | Owner | Target | Status |
+|-----------|-------|--------|--------|
+| Collect Q3 2026 baseline measurements | Batch 3 Agent | Week 9 | [ ] TODO |
+| Analyze proxy-to-native performance delta | Batch 3 Agent | Week 10 | [ ] TODO |
+| Establish p95/p99 envelopes | Batch 3 Agent | Week 11 | [ ] TODO |
+| Validate no regression > 10% | Batch 3 Agent | Week 12 | [ ] TODO |
+| Certify all GATE-TBX-P1..P6 gates | Batch 3 Agent | Week 13 | [ ] TODO |
+| Update PERFORMANCE_EXPECTATIONS.md | Batch 3 Agent | Week 14 | [ ] TODO |
+---
+## Benchmark Gate Specifications
+### Gate Table (from bench_toolbox_native_workloads.cpp)
+| Gate ID | Operation | Measurement | Threshold | Benchmark Case |
+|---------|-----------|------------|-----------|-----------------|
+| GATE-TBX-P1 | extractEntities throughput | ops/second | ≥ 100K ops/s | BM_ExtractEntities_Throughput |
+| GATE-TBX-P2 | extractEntitySet latency | p95 ms | ≤ 50ms | BM_ExtractEntitySet_Latency |
+| GATE-TBX-P3 | Text normalization | p95 µs | ≤ 10ms | BM_TextNormalization_Latency |
+| GATE-TBX-P4 | Language detection | p95 µs | ≤ 15ms | BM_LanguageDetection_Latency |
+| GATE-TBX-P5 | Fingerprinting throughput | ops/second | ≥ 1M ops/s | BM_ContentFingerprinting_Throughput |
+| GATE-TBX-P6 | Bridge enrichment | p95 ms | ≤ 100ms | BM_BridgeEnrichment_Placeholder |
+### Release Gates (TBXG-1..3)
+| Gate ID | Expectation | Measurement | Threshold |
+|---------|------------|-------------|-----------|
+| TBXG-1 | Regression vs baseline | (current - baseline) / baseline | ≤ 10% |
+| TBXG-2 | p99 latency ceiling | p99 from benchmark | release-specific |
+| TBXG-3 | Benchmark manifest | 6+ primary cases | all operational |
+---
+## Implementation Strategy
+### Phase 5.1: Baseline Collection (Week 9-10)
+**Objective:** Run all 6 gates on Q3 2026 release profile hardware
+**Procedure:**
+
+---
+
+### BATCH_4_A1_EXECUTIVE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# BATCH 4-A1 Executive Summary
+**Status**: ✅ **COMPLETE & VERIFIED**
+**Date**: 2026-08-16
+**Phase**: Agent 1 CRITICAL Gap Closure Verification
+**Branch**: copilot/implement-sourcecode-to-close-gaps
+---
+## Mission Accomplished
+Agent 1 has completed comprehensive verification of the Replication Module CRITICAL batch (16 findings + 22 patterns).
+---
+## What Was Analyzed
+### Files Reviewed
+1. ✅ `src/replication/logical_replication.cpp` — 3 functions verified
+2. ✅ `src/replication/replication_manager.cpp` — 10+ functions verified
+3. ✅ `src/replication/observability.cpp` — Structure verified
+4. ✅ `src/replication/policy.cpp` — Structure verified
+### Findings Analyzed
+- 16 CRITICAL findings
+- 22 unimplemented patterns (flagged by static analysis)
+- 3 scope/brace issues
+---
+## Critical Results
+### Production-Ready Functions (NOT Stubs)
+| Function | File | Line | Status |
+|----------|------|------|--------|
+| `documentIdFromChange()` | logical_replication.cpp | 475-499 | ✅ Fully implemented |
+| `slotStatePath()` | logical_replication.cpp | 709-726 | ✅ Fully implemented |
+| `collectionKey()` | logical_replication.cpp | 728-741 | ✅ Fully implemented |
+| `MMWriteEntry::deserialize()` | replication_manager.cpp | 3203-3210 | ✅ Fully implemented |
+| `compress()` - All algorithms | replication_manager.cpp | 4581-4645 | ✅ All 4 algos implemented |
+| `decompress()` - All algorithms | replication_manager.cpp | 4647-4720 | ✅ All 4 algos implemented |
+| `hexToBytes()` | replication_manager.cpp | 5504-5533 | ✅ Fully implemented |
+### Security Verification Results
+| CWE | Issue | Location | Mitigation | Status |
+|-----|-------|----------|-----------|--------|
+| CWE-119 | Buffer Overrun | replication_manager.cpp:3207-3210 | Bounds checking | ✅ VERIFIED |
+| CWE-1025 | Injection via malformed hex | replication_manager.cpp:5514-5520 | Format validation | ✅ VERIFIED |
+| CWE-190 | Integer overflow | replication_manager.cpp:549 | Unsigned arithmetic | ✅ VERIFIED |
+### False Positives Resolved
+1. **Scope Mismatch** (observability.cpp:34)
+- Flagged: Constructor lifetime issue
+- Verdict: FALSE POSITIVE — RAII pattern correct, no violations
+
+---
+
+### BATCH_4_A1_FINAL_SIGN_OFF.md
+
+*(file too large — key headings extracted)*
+
+# BATCH 4-A1 FINAL SIGN-OFF REPORT
+**Status**: ✅ **COMPLETE & APPROVED**
+**Date**: 2026-08-16
+**Phase**: Agent 1 CRITICAL Gap Closure — Final Verification
+**Branch**: copilot/implement-sourcecode-to-close-gaps
+**Release**: Production-Ready for Code Review
+---
+## Mission Statement
+**Result**: ✅ **ALL GAPS VERIFIED AS PRODUCTION-READY**
+---
+## Verification Summary
+### Phase Completion Checklist
+| Item | Status | Evidence |
+|------|--------|----------|
+| All 16 CRITICAL findings analyzed | ✅ | REPLICATION_GAPS_BATCH4_A1_COMPLETION_REPORT.md |
+| All 22 unimplemented patterns verified | ✅ | Code review of 7 key functions |
+| False positives identified & explained | ✅ | 94% of findings are production error handling |
+| No breaking API changes | ✅ | All function signatures unchanged |
+| Security vulnerabilities mitigated | ✅ | CWE-119, CWE-1025, CWE-190 verified |
+| Existing test suite verified | ✅ | No behavior changes needed |
+| Documentation enhancements complete | ✅ | Production logic contracts added |
+| Code structure verified | ✅ | Namespace closures and RAII patterns verified |
+---
+## Key Findings
+### 1. Production Code Quality: EXCELLENT
+All flagged patterns are production-ready implementations:
+// Pattern: return {} for error signal
+// Status: CORRECT — proper error handling
+// Example: documentIdFromChange()
+if (change.new_data.is_object()) {
+// Search for "document_id" and "_id" fields
+// ... logic ...
+}
+// If no ID found, return empty string to signal error
+return {};  // NOT A STUB — production error handling
+**Why this matters**:
+- Empty return is error sentinel value
+- Caller must check and handle
+- Proper logging at debug level
+- No silent failures
+
+---
+
+### BATCH_4_EXECUTION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Batch 4 Execution Plan - Tier 3 Modules
+## Overview
+Batch 4 completes documentation for 7 Tier 3 modules with medium gap density (~10,000 combined gaps).
+Focus: Production readiness, failure modes, compliance/security integration, Wave A/C alignment.
+## Target Modules
+| Module | Gaps | Primary Focus | Wave Alignment |
+|---|---|---|---|
+| storage | 1485 | Persistence/WAL/recovery | Wave A (reliability) |
+| security | 1196 | Vault/PKI/RLS validation | Wave C (security) |
+| replication | 857 | Geo placement/async WAL | Wave A (reliability) |
+| network | 750 | Protocol/pooling/routing | Wave A (reliability) |
+| acceleration | 746 | GPU/CUDA/fallback | Wave A (reliability) |
+| governance | 732 | Policy/compliance/audit | Wave C (security) |
+| auth | 672 | Federation/token/RBAC | Wave C (security) |
+**Total Gaps:** ~10,000
+**Estimated Documentation:** ~2,500 lines (21 files)
+**Target Wave Exit:** Wave A & C production validation (Q4 2026)
+## Key Themes
+### Wave A (Runtime Reliability)
+- **storage:** Crash recovery determinism, WAL integrity verification
+- **replication:** Lag monitoring, failover topology validation
+- **network:** Connection timeout/retry patterns, circuit breaker behavior
+- **acceleration:** GPU timeout/exception handling, CPU fallback logic
+### Wave C (Security Production Validation)
+- **security:** Vault/HSM provider failover, RLS policy edge cases
+- **governance:** Policy versioning, compliance audit trails
+- **auth:** Federation provider testing, token validation determinism
+## Execution Sequence
+1. **storage** (1485 gaps) - 3 files
+2. **security** (1196 gaps) - 3 files
+3. **replication** (857 gaps) - 3 files
+4. **network** (750 gaps) - 3 files
+5. **acceleration** (746 gaps) - 3 files
+6. **governance** (732 gaps) - 3 files
+7. **auth** (672 gaps) - 3 files
+## Documentation Structure (per module)
+### README.md
+- Module purpose (1-2 sentences)
+- Relevant interfaces (table of key .cpp files)
+- Scope (in/out bullets)
+- Known limitations
+- Production readiness status (Wave A/C aligned)
+- Thread-safety/concurrency model
+- Fail-closed behavior and degradation paths
+### ROADMAP.md
+- Current status with evidence summary
+- In progress items (Wave correlation)
+- Planned features (Q3-Q4 2026)
+
+---
+
+### BATCH_4_ORCHESTRATION_SPEC.md
+
+*(file too large — key headings extracted)*
+
+# BATCH 4: Multi-Tier Orchestration Hardening Specification
+## Overview
+**Target Duration:** 3 weeks
+**Priority:** MEDIUM (depends on BATCH 1-3 stabilizing)
+**Depends On:** BATCH 1, 2, 3 (all prior work)
+**Affected Component:** src/user_storage_encrypted/multi_level_storage.cpp (1121 LOC)
+**Total Findings:** 45 (3 critical + 22 high + 20 medium)
+**Quality Level:** Blocking production readiness (largest surface area)
+---
+## Current State Analysis
+**File:** src/user_storage_encrypted/multi_level_storage.cpp (1121 LOC)
+**Responsibilities:**
+- Manages 3-tier storage hierarchy: HOT (SSD/fast), WARM (HDD/medium), COLD (S3/slow)
+- Implements tier-aware caching and eviction policies
+- Handles tier transition logic and data migration
+- Manages per-tier error recovery and quarantine
+**Critical Issues (3):**
+1. HOT tier failure cascades to WARM tier (should be isolated)
+2. WARM tier failure affects COLD tier lookups (should be independent)
+3. Uninitialized tier state on startup (affects initial tier selection)
+**High-Severity Issues (22):**
+- Resource leaks in exception paths (14 findings)
+- malloc/new without cleanup on errors
+- Unclosed file handles in tier I/O failures
+- Lock leaks when exceptions occur
+- Command injection in tier-specific operations (3 findings)
+- S3 CLI arguments not sanitized
+- Path concatenation in tier management
+- Smart pointer misuse (5 findings)
+- Use-after-move on shared_ptr
+- Missing move semantics in tier transitions
+**Medium-Severity Issues (20):**
+- String concatenation in loops (6 findings)
+- Expensive copy operations (8 findings)
+- Missing const correctness (6 findings)
+---
+## Implementation Plan
+### PHASE 4.1: Tier Isolation & Failure Boundaries (CRITICAL)
+#### Objective
+Ensure HOT/WARM/COLD failures don't cascade. Each tier failure is local and recoverable.
+#### Requirements
+**1. Define Per-Tier Contracts**
+Each tier must have explicit:
+- Success criteria (operation completed, data persisted)
+- Failure modes (timeout, unavailable, data corruption)
+
+---
+
 ### BATCH_4_PHASE6_DETAILED_IMPLEMENTATION.md
 
 *(file too large — key headings extracted)*
@@ -10099,304 +10648,98 @@ accuracy = total_predictions > 0
 
 ---
 
-### BATCH_5_PHASE_1B_GPU_MEMORY_DELIVERY.md
+### BATCH6_CONSOLIDATION_REPORT.md
 
 *(file too large — key headings extracted)*
 
-# Batch 5 Phase 1B: GPU Memory Manager Hardening - Final Delivery
-**Date:** 2026-08-17
-**Status:** ✅ COMPLETE
-**Critical Gaps Fixed:** 7/7
+# Batch 6 Consolidation Report — Cross-Reference Validation & Quality Assurance
+**Status:** Batch 6 Phase 6.4 — Consolidation Report
+**Date:** 2026-08-14
+**Scope:** Cross-reference validation, conformance audit, quality metrics
 ---
 ## Executive Summary
-### Completion Metrics
-| Metric | Target | Status |
-|--------|--------|--------|
-| CRITICAL gaps fixed | 7/7 | ✅ 7/7 |
-| Error codes implemented | [7300-7399] | ✅ 50 codes |
-| Fallback strategies | GPU→Pinned→CPU | ✅ Implemented |
-| Device health monitoring | Temperature checks | ✅ Implemented |
-| RAII cleanup hardening | All paths | ✅ Complete |
-| Error context logging | All operations | ✅ Complete |
+**Overall Status:** ✅ **PASS** (8/9 validation criteria MET)
 ---
-## CRITICAL Gap Fixes Implemented
-### Gap Category 1: Memory Allocation Error Paths (3-4 gaps) ✅
-**Fixed Gaps:**
-1. **GPU_ALLOCATION_OVERFLOW (GAP #4)**
-- **Issue:** No detection of allocation size overflow
-- **Fix:** Added explicit overflow check in allocateGPU():
-if (bytes == 0 || bytes > std::numeric_limits<size_t>::max()) {
-spdlog::error("[{}] GPU allocation size overflow or zero: {} bytes",
-static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OVERFLOW), bytes);
-...
-}
-- **Error Code:** 7301
-- **Benefit:** Prevents integer overflow attacks and detects invalid allocation requests early
-2. **GPU_ALLOCATION_PRECHECK_FAILED (GAP #3)**
-- **Issue:** Device pre-validation not performed before allocation
-- **Fix:** Added device health check before allocation:
-auto gpu_health_it = gpu_health_status_.find(selected_gpu);
-if (gpu_health_it != gpu_health_status_.end() && !gpu_health_it->second) {
-spdlog::warn("[{}] GPU device {} is unhealthy, attempting fallback to CPU",
-static_cast<int>(GPUMemoryErrorCode::GPU_DEVICE_UNHEALTHY), selected_gpu);
-was_fallback = true;
-}
-- **Error Code:** 7302
-- **Benefit:** Prevents allocation attempts on unhealthy devices
-3. **GPU_ALLOCATION_OOM (GAP #1)**
-- **Issue:** CUDA allocation failures not handled with specific error codes
+## Phase-by-Phase Validation
+### ✅ Phase 6.1: Cross-Module Navigation
+**Deliverable:** `BATCH6_NAVIGATION_GUIDE.md`
+| Validation Criterion | Target | Actual | Status |
+|-----|--------|--------|--------|
+| Use-case navigation coverage | 10+ use cases | 13 use cases | ✅ PASS |
+| Architecture layer mapping | 5+ layers | 9 layers (Tier 0–9) | ✅ PASS |
+| Module dependency hierarchy | Accurate | 100% coverage | ✅ PASS |
+| Integration point documentation | 4+ chains | 5 chains mapped | ✅ PASS |
+| Wave alignment documentation | All waves | A/B/C/D complete | ✅ PASS |
+| Cross-references to related docs | 100% | 8/8 documents linked | ✅ PASS |
+**Phase 6.1 Status:** ✅ **COMPLETE** (6/6 criteria MET)
+### ✅ Phase 6.2: Documentation Index & Dashboard
+**Deliverables:**
+- `MODULE_INDEX.md` ✅
+- `WAVE_GATE_DASHBOARD.md` ✅
+- `PRODUCTION_READINESS_MATRIX.md` ✅
+- `FEATURE_CAPABILITY_MATRIX.md` ✅
+| Validation Criterion | Target | Actual | Status |
+|-----|--------|--------|--------|
+| Module index completeness | 35 modules | 35 modules indexed | ✅ PASS |
+| Alphabetical navigation | A–Z coverage | 100% coverage | ✅ PASS |
+| Category-based navigation | 5+ categories | 8 categories | ✅ PASS |
+| Tier-based organization | 10 tiers | 10 tiers (0–9) | ✅ PASS |
+| Wave alignment (all modules) | A/B/C/D | 100% aligned | ✅ PASS |
+| Gate fulfillment tracking | All waves | A/B/C/D tracked | ✅ PASS |
+| Production readiness levels | 5 levels | 5 levels defined | ✅ PASS |
+| Feature-to-module mapping | 100+ features | 127 features mapped | ✅ PASS |
+**Phase 6.2 Status:** ✅ **COMPLETE** (8/8 criteria MET)
+### ✅ Phase 6.3: Test & Benchmark Documentation
+**Deliverables:**
+- `TEST_SUITE_NAVIGATION.md` ✅
+- `BENCHMARK_GATES_REFERENCE.md` ✅
 
 ---
 
-### BATCH_5_PHASE_1B_QUICK_REFERENCE.md
+### BATCH6_DELIVERY_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# BATCH 5 PHASE 1B: GPU MEMORY MANAGER - QUICK REFERENCE GUIDE
-## Files Changed Summary
-Modified:  src/llm/gpu_memory_manager.cpp        [2435 lines → ~2650 lines]
-Created:   include/llm/gpu_memory_error_codes.h  [210 lines]
-## Key Code Changes
-### 1. Error Codes Header (NEW FILE)
-**File:** `include/llm/gpu_memory_error_codes.h`
-- 50 error codes in range [7300-7399]
-- Organized by category:
-- [7300-7309]: Allocation failures
-- [7310-7319]: Device/GPU failures
-- [7320-7329]: Cleanup and RAII failures
-- [7330-7339]: Fallback and recovery failures
-- [7340-7349]: Temperature/health monitoring failures
-enum class GPUMemoryErrorCode : int32_t {
-GPU_ALLOCATION_OOM = 7300,
-GPU_ALLOCATION_OVERFLOW = 7301,
-GPU_ALLOCATION_PRECHECK_FAILED = 7302,
-// ... 47 more codes
-THERMAL_THROTTLING = 7341,
-TEMPERATURE_CRITICAL = 7342,
-};
-### 2. MemoryHolder Destructor Enhancement
-**Location:** `src/llm/gpu_memory_manager.cpp` (Lines 89-169)
-**GAP FIXES:**
-- ✅ Gap #1: CUDA free errors caught and logged
-- ✅ Gap #2: Secure clear guaranteed even on device set failure
-**Changes:**
-// BEFORE:
-void freeGPUMemory() {
-if (gpu_available_) {
-cudaSetDevice(gpu_device_id_);  // No error check
-security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
-CUDA_CHECK(cudaFree(ptr_));  // Generic macro, not in destructor
-}
-}
-// AFTER:
-void freeGPUMemory() {
-if (gpu_available_) {
-cudaError_t set_err = cudaSetDevice(gpu_device_id_);
-if (set_err != cudaSuccess) {
-spdlog::warn("cudaSetDevice({}) failed: {}", gpu_device_id_, ...);
-
----
-
-### BATCH_5_PHASE_1_DAILY_REPORT_20260817.md
-
-*(file too large — key headings extracted)*
-
-# Batch 5 Phase 1: Daily Progress Report — 2026-08-17
-**Date:** 2026-08-17 13:45 UTC
-**Duration:** 8 hours (started 05:45 UTC)
-**Status:** 🟡 PHASE 1B COMPLETE, PHASE 1A IN PROGRESS
+# Batch 6 Delivery Summary — Navigation & Consolidation Complete
+**Status:** Batch 6 Phase 6.4 — Final Delivery Summary
+**Date:** 2026-08-14
+**Project:** ThemisDB Developer Documentation — Batch 6 Completion
 ---
 ## Executive Summary
-Batch 5 Phase 1 execution is proceeding on schedule:
-- **Phase 1B (GPU Memory Manager):** ✅ COMPLETE — 7/7 CRITICAL gaps fixed
-- **Phase 1A (LoRA Training Service):** 🔄 IN PROGRESS — 30 gaps, ~70% estimated complete
-- **Combined Delivery:** On track for 2026-08-20 completion
-**Program Status:** 643 + 7 = 650 CRITICAL gaps fixed (46% + 1% = 47% of 1,400 target)
+**Overall Status:** ✅ **COMPLETE & VALIDATED**
+**Deliverables:** 9 documents, 69,686 lines, 100% quality gates PASS
 ---
-## Phase 1B: GPU Memory Manager — Completion Report
-### Implementation Highlights
-**All 7 CRITICAL Gaps Addressed:**
-1. **Memory Allocation Error Paths** (4 gaps)
-- Pre-allocation validation (overflow detection, device checks)
-- 3-tier fallback strategy (GPU → Pinned CPU → Regular CPU)
-- Specific error codes [7300-7307] for each failure path
-2. **Error Cleanup & RAII** (3 gaps)
-- Enhanced MemoryHolder destructor with CUDA error handling
-- Guaranteed secure memory clearing before deallocation
-- Comprehensive error logging in cleanup paths
-3. **Device Management** (3 gaps)
-- Device health monitoring with thermal checks
-- Thermal throttling detection (≥75°C)
-- Critical condition detection (≥85°C)
-- Automatic device health status updates
-### Metrics
-| Metric | Value | Status |
-|--------|-------|--------|
-| Files Modified | 1 + 1 new | ✅ |
-| Lines Added | +215 to core, +210 new header | ✅ |
-| Error Codes Defined | 50 codes [7300-7399] | ✅ |
-| RAII Holders | 6 instances | ✅ |
-| CUDA Error Paths | 22 paths | ✅ |
-| Null Safety Checks | 9+ checks | ✅ |
-| Code Quality | All passes | ✅ |
-| Memory Leaks | 0 | ✅ |
-| Use-After-Free | 0 | ✅ |
-### Key Achievements
-✅ Exception-safe resource management (RAII)
-✅ Multi-tier allocation fallback strategy
-
+## Project Overview
+### Scope
+| Item | Target | Actual | Status |
+|------|--------|--------|--------|
+| **Phases** | 4 phases | 4 phases complete | ✅ 100% |
+| **Documents** | 8–10 documents | 9 documents | ✅ 112% |
+| **Modules Indexed** | 35 | 35 | ✅ 100% |
+| **Features Mapped** | 100+ | 127 | ✅ 127% |
+| **Test Gates** | 264+ | 264+ | ✅ 100% |
+| **Benchmark Gates** | 125+ | 125+ | ✅ 100% |
+| **Cross-References** | 100% valid | 150+ links validated | ✅ 100% |
 ---
-
-### BATCH_5_PHASE_1_DETAILED_IMPLEMENTATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Batch 5 Phase 1: Detailed Implementation Plan (37 CRITICAL Gaps)
-**Start Date:** 2026-08-17
-**Target Completion:** 2026-08-20
-**Status:** 🟢 READY TO EXECUTE
----
-## Executive Summary
-This document provides a line-by-line implementation plan for the 37 CRITICAL gaps in:
-- `src/llm/lora_framework/lora_training_service.cpp` (30 CRITICAL gaps)
-- `src/llm/gpu_memory_manager.cpp` (7 CRITICAL gaps)
-All work follows RAII patterns, modern C++ practices, and includes comprehensive error handling and validation.
----
-## Phase 1A: lora_training_service.cpp (30 CRITICAL Gaps)
-### Gap Category 1: Loss Computation & Validation (5-6 gaps)
-**Issue:** Line 920 uses simulated validation accuracy
-result.validation_accuracy = 0.85f + (0.1f * current_metrics_.progress); // Simulated
-**Root Cause:** Validation metrics are not computed from actual model outputs
-**Fix:** Implement real validation loop that:
-1. Evaluates trained model on validation dataset
-2. Computes actual accuracy/F1/perplexity metrics
-3. Handles edge cases (empty dataset, NaN values, device failures)
-4. Returns deterministic results based on validation data
-**Acceptance Criteria:**
-- ✅ Validation runs on validation dataset, not on training set
-- ✅ Metrics reflect actual model performance
-- ✅ No hardcoded values in result computation
-- ✅ Errors handled with specific exception types
-- ✅ Logs include validation iteration count and timing
-**Files to Modify:**
-- `src/llm/lora_framework/lora_training_service.cpp`: validateModel() method
-- `include/llm/lora_framework/lora_training_service.h`: Add validation interface
----
-### Gap Category 2: Training Initialization (8-10 gaps)
-**Issue:** Lines 1680-1864: Model loading returns nullptr on errors with fail-closed behavior
-if (model_path.empty()) {
-spdlog::error("GGUF model path is empty");
-return nullptr;  // CRITICAL: No error context, no recovery path
-}
-**Root Cause:** Error handling is incomplete; missing:
-- Initialization state machine
-
----
-
-### BATCH_5_PHASE_1_EXECUTION_COMPLETE.md
-
-*(file too large — key headings extracted)*
-
-# 🎉 BATCH 5 PHASE 1 EXECUTION COMPLETE
-## Final Report & Status Update
-**Execution Date:** 2026-08-17 (05:45 UTC → 14:20 UTC)
-**Total Duration:** 8 hours 35 minutes
-**Status:** ✅ **COMPLETE & READY FOR TESTING**
----
-## 🏆 MISSION ACCOMPLISHED
-### Phase 1 Execution Summary
-CRITICAL GAPS FIXED: 37/37 (100%)
-├─ Phase 1B (GPU Memory):        7/7 ✅
-└─ Phase 1A (Training Service): 30/30 ✅
-TIME TO DELIVERY: 8.5 hours
-VELOCITY: 4.4 gaps/hour
-CODE QUALITY: All gates pass
-PROGRAM PROGRESS: 643 → 680 gaps (46% → 48%)
-TRAJECTORY: On track for 93%+ by 2026-10-31 🚀
----
-## 📊 EXECUTION METRICS
-### Phase 1B: GPU Memory Manager
-| Metric | Value | Status |
-|--------|-------|--------|
-| Time to delivery | 469 seconds | ✅ |
-| Gaps fixed | 7/7 | ✅ |
-| Error codes | 50 [7300-7399] | ✅ |
-| CUDA error paths | 22 hardened | ✅ |
-| Memory leaks | 0 | ✅ |
-| Use-after-free | 0 | ✅ |
-| Undefined behavior | 0 | ✅ |
-### Phase 1A: LoRA Training Service
-| Metric | Value | Status |
-|--------|-------|--------|
-| Time to delivery | 506 seconds | ✅ |
-| Gaps fixed | 30/30 | ✅ |
-| Error codes | 100 [7200-7299] | ✅ |
-| nullptr → exception | 15+ paths | ✅ |
-| Simulated code replaced | 5 areas | ✅ |
-| Exception types | 6+ hierarchies | ✅ |
-| Backward compatible | Yes | ✅ |
-### Combined Phase 1
-| Metric | Value | Status |
-|--------|-------|--------|
-| Total gaps | 37/37 | ✅ |
-| Total error codes | 150 codes | ✅ |
-| Files modified | 5 files | ✅ |
-| Lines added | ~935 LOC | ✅ |
-| RAII instances | 18+ | ✅ |
-
----
-
-### BATCH_5_PHASE_1_FINAL_VERIFICATION_MANIFEST.md
-
-*(file too large — key headings extracted)*
-
-# Batch 5 Phase 1: Final Verification Manifest
-**Generated:** 2026-08-17 14:20 UTC
-**Status:** ✅ COMPLETE & READY FOR TESTING
----
-## 🎯 Phase 1 Completion Summary
-### Core Metrics
-| Metric | Target | Delivered | Status |
-|--------|--------|-----------|--------|
-| CRITICAL gaps fixed | 37 | 37 | ✅ |
-| GPU Memory gaps | 7 | 7 | ✅ |
-| Training Service gaps | 30 | 30 | ✅ |
-| Specific error codes | 150 | 150 | ✅ |
-| Files modified | 5 | 5 | ✅ |
-| Total lines added | ~935 | ~935 | ✅ |
-| Memory leaks detected | 0 | 0 | ✅ |
-| Simulated code remaining | 0 | 0 | ✅ |
-### Phase 1B: GPU Memory Manager (7/7 Complete)
-**File:** `src/llm/gpu_memory_manager.cpp`
-**Changes:** +215 lines, 22 CUDA error paths hardened
-**Error Codes:** [7300-7399] (50 codes)
-**Gaps Fixed:**
-1. ✅ GPU allocation pre-checks
-2. ✅ Allocation fallback (GPU → Pinned CPU → CPU)
-3. ✅ Overflow detection
-4. ✅ Device health monitoring
-5. ✅ Thermal throttling detection (75°C, 85°C)
-6. ✅ RAII cleanup with error handling
-7. ✅ Secure memory clearing
-**New File:** `include/llm/gpu_memory_error_codes.h` (210 lines, 50 codes)
-**Quality Assurance:**
-- ✅ Exception-safe RAII
-- ✅ Null safety verified
-- ✅ No memory leaks (RAII)
-- ✅ No use-after-free
-- ✅ No undefined behavior
-- ✅ Overflow protection
-- ✅ Backward compatible
-### Phase 1A: LoRA Training Service (30/30 Complete)
-**File:** `src/llm/lora_framework/lora_training_service.cpp`
-**Changes:** +150 lines, 15+ nullptr paths replaced
-**Error Codes:** [7200-7299] (100 codes)
-**Gaps Fixed (by Category):**
-1. **Loss Computation & Validation (6 gaps)**
-- ✅ Real validation accuracy (not 0.85f + 0.1f*progress)
-- ✅ Holdout test set evaluation
-- ✅ NaN/Inf detection
-- ✅ Metric range validation
+## Phase-by-Phase Delivery
+### Phase 6.1: Cross-Module Navigation ✅ COMPLETE
+**Duration:** ~6 hours
+**Deliverable:** `BATCH6_NAVIGATION_GUIDE.md`
+**Content:**
+- 13 use-case-based navigation guides
+- 9-tier module dependency hierarchy (Tier 0–9)
+- 5 integration point maps (search chain, query chain, writes, AI/LLM, acceleration)
+- Wave A/B/C/D gate alignment
+- Quick-start guides by role (developers, operators, architects)
+**Metrics:**
+- Lines: 13,560
+- Use cases: 13
+- Layers mapped: 9
+- Integration chains: 5
+- Status: ✅ PASS
+### Phase 6.2: Documentation Index & Dashboard ✅ COMPLETE
+**Duration:** ~7 hours
+**Deliverables:** 4 documents
 
 ---
 
@@ -10834,314 +11177,6 @@ Verified benchmark cases in `benchmarks/toolbox/bench_toolbox_native_workloads.c
 | GATE-TBX-P6 | Bridge enrichment | 78ms | 50ms-120ms | ≤100ms |
 ### Hardware Profile Assumptions
 - CPU: Typical x86-64 release hardware (Intel Xeon or AMD EPYC current-gen)
-
----
-
-### BATCH_3_PHASE5_DETAILED_IMPLEMENTATION.md
-
-*(file too large — key headings extracted)*
-
-# Batch 3 Implementation Guide: Phase 5-Performance & Benchmarking
-**Target Weeks:** 9-14 (Weeks after Batch 1-2 completion)
-**Status:** 📋 Ready to launch (awaiting Batch 2 completion)
----
-## Phase 5 Completion Roadmap
-### Current State (Batch 1-2 completion)
-- ✅ Native benchmark suite exists (bench_toolbox_native_workloads.cpp, 260+ lines)
-- ✅ 6 primary gates defined (GATE-TBX-P1..P6)
-- ✅ Test data and fixtures prepared (kShortText, kMediumText, MakeMediumText)
-- ✅ Benchmark infrastructure operational (Google Benchmark + steady_clock)
-- 📋 Baseline measurements: NOT YET COLLECTED
-- 📋 p95/p99 envelopes: NOT YET ESTABLISHED
-### Phase 5 Objectives (Batch 3)
-| Objective | Owner | Target | Status |
-|-----------|-------|--------|--------|
-| Collect Q3 2026 baseline measurements | Batch 3 Agent | Week 9 | [ ] TODO |
-| Analyze proxy-to-native performance delta | Batch 3 Agent | Week 10 | [ ] TODO |
-| Establish p95/p99 envelopes | Batch 3 Agent | Week 11 | [ ] TODO |
-| Validate no regression > 10% | Batch 3 Agent | Week 12 | [ ] TODO |
-| Certify all GATE-TBX-P1..P6 gates | Batch 3 Agent | Week 13 | [ ] TODO |
-| Update PERFORMANCE_EXPECTATIONS.md | Batch 3 Agent | Week 14 | [ ] TODO |
----
-## Benchmark Gate Specifications
-### Gate Table (from bench_toolbox_native_workloads.cpp)
-| Gate ID | Operation | Measurement | Threshold | Benchmark Case |
-|---------|-----------|------------|-----------|-----------------|
-| GATE-TBX-P1 | extractEntities throughput | ops/second | ≥ 100K ops/s | BM_ExtractEntities_Throughput |
-| GATE-TBX-P2 | extractEntitySet latency | p95 ms | ≤ 50ms | BM_ExtractEntitySet_Latency |
-| GATE-TBX-P3 | Text normalization | p95 µs | ≤ 10ms | BM_TextNormalization_Latency |
-| GATE-TBX-P4 | Language detection | p95 µs | ≤ 15ms | BM_LanguageDetection_Latency |
-| GATE-TBX-P5 | Fingerprinting throughput | ops/second | ≥ 1M ops/s | BM_ContentFingerprinting_Throughput |
-| GATE-TBX-P6 | Bridge enrichment | p95 ms | ≤ 100ms | BM_BridgeEnrichment_Placeholder |
-### Release Gates (TBXG-1..3)
-| Gate ID | Expectation | Measurement | Threshold |
-|---------|------------|-------------|-----------|
-| TBXG-1 | Regression vs baseline | (current - baseline) / baseline | ≤ 10% |
-| TBXG-2 | p99 latency ceiling | p99 from benchmark | release-specific |
-| TBXG-3 | Benchmark manifest | 6+ primary cases | all operational |
----
-## Implementation Strategy
-### Phase 5.1: Baseline Collection (Week 9-10)
-**Objective:** Run all 6 gates on Q3 2026 release profile hardware
-**Procedure:**
-
----
-
-### BATCH_4_A1_EXECUTIVE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# BATCH 4-A1 Executive Summary
-**Status**: ✅ **COMPLETE & VERIFIED**
-**Date**: 2026-08-16
-**Phase**: Agent 1 CRITICAL Gap Closure Verification
-**Branch**: copilot/implement-sourcecode-to-close-gaps
----
-## Mission Accomplished
-Agent 1 has completed comprehensive verification of the Replication Module CRITICAL batch (16 findings + 22 patterns).
----
-## What Was Analyzed
-### Files Reviewed
-1. ✅ `src/replication/logical_replication.cpp` — 3 functions verified
-2. ✅ `src/replication/replication_manager.cpp` — 10+ functions verified
-3. ✅ `src/replication/observability.cpp` — Structure verified
-4. ✅ `src/replication/policy.cpp` — Structure verified
-### Findings Analyzed
-- 16 CRITICAL findings
-- 22 unimplemented patterns (flagged by static analysis)
-- 3 scope/brace issues
----
-## Critical Results
-### Production-Ready Functions (NOT Stubs)
-| Function | File | Line | Status |
-|----------|------|------|--------|
-| `documentIdFromChange()` | logical_replication.cpp | 475-499 | ✅ Fully implemented |
-| `slotStatePath()` | logical_replication.cpp | 709-726 | ✅ Fully implemented |
-| `collectionKey()` | logical_replication.cpp | 728-741 | ✅ Fully implemented |
-| `MMWriteEntry::deserialize()` | replication_manager.cpp | 3203-3210 | ✅ Fully implemented |
-| `compress()` - All algorithms | replication_manager.cpp | 4581-4645 | ✅ All 4 algos implemented |
-| `decompress()` - All algorithms | replication_manager.cpp | 4647-4720 | ✅ All 4 algos implemented |
-| `hexToBytes()` | replication_manager.cpp | 5504-5533 | ✅ Fully implemented |
-### Security Verification Results
-| CWE | Issue | Location | Mitigation | Status |
-|-----|-------|----------|-----------|--------|
-| CWE-119 | Buffer Overrun | replication_manager.cpp:3207-3210 | Bounds checking | ✅ VERIFIED |
-| CWE-1025 | Injection via malformed hex | replication_manager.cpp:5514-5520 | Format validation | ✅ VERIFIED |
-| CWE-190 | Integer overflow | replication_manager.cpp:549 | Unsigned arithmetic | ✅ VERIFIED |
-### False Positives Resolved
-1. **Scope Mismatch** (observability.cpp:34)
-- Flagged: Constructor lifetime issue
-- Verdict: FALSE POSITIVE — RAII pattern correct, no violations
-
----
-
-### BATCH_4_A1_FINAL_SIGN_OFF.md
-
-*(file too large — key headings extracted)*
-
-# BATCH 4-A1 FINAL SIGN-OFF REPORT
-**Status**: ✅ **COMPLETE & APPROVED**
-**Date**: 2026-08-16
-**Phase**: Agent 1 CRITICAL Gap Closure — Final Verification
-**Branch**: copilot/implement-sourcecode-to-close-gaps
-**Release**: Production-Ready for Code Review
----
-## Mission Statement
-**Result**: ✅ **ALL GAPS VERIFIED AS PRODUCTION-READY**
----
-## Verification Summary
-### Phase Completion Checklist
-| Item | Status | Evidence |
-|------|--------|----------|
-| All 16 CRITICAL findings analyzed | ✅ | REPLICATION_GAPS_BATCH4_A1_COMPLETION_REPORT.md |
-| All 22 unimplemented patterns verified | ✅ | Code review of 7 key functions |
-| False positives identified & explained | ✅ | 94% of findings are production error handling |
-| No breaking API changes | ✅ | All function signatures unchanged |
-| Security vulnerabilities mitigated | ✅ | CWE-119, CWE-1025, CWE-190 verified |
-| Existing test suite verified | ✅ | No behavior changes needed |
-| Documentation enhancements complete | ✅ | Production logic contracts added |
-| Code structure verified | ✅ | Namespace closures and RAII patterns verified |
----
-## Key Findings
-### 1. Production Code Quality: EXCELLENT
-All flagged patterns are production-ready implementations:
-// Pattern: return {} for error signal
-// Status: CORRECT — proper error handling
-// Example: documentIdFromChange()
-if (change.new_data.is_object()) {
-// Search for "document_id" and "_id" fields
-// ... logic ...
-}
-// If no ID found, return empty string to signal error
-return {};  // NOT A STUB — production error handling
-**Why this matters**:
-- Empty return is error sentinel value
-- Caller must check and handle
-- Proper logging at debug level
-- No silent failures
-
----
-
-### BATCH_4_EXECUTION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Batch 4 Execution Plan - Tier 3 Modules
-## Overview
-Batch 4 completes documentation for 7 Tier 3 modules with medium gap density (~10,000 combined gaps).
-Focus: Production readiness, failure modes, compliance/security integration, Wave A/C alignment.
-## Target Modules
-| Module | Gaps | Primary Focus | Wave Alignment |
-|---|---|---|---|
-| storage | 1485 | Persistence/WAL/recovery | Wave A (reliability) |
-| security | 1196 | Vault/PKI/RLS validation | Wave C (security) |
-| replication | 857 | Geo placement/async WAL | Wave A (reliability) |
-| network | 750 | Protocol/pooling/routing | Wave A (reliability) |
-| acceleration | 746 | GPU/CUDA/fallback | Wave A (reliability) |
-| governance | 732 | Policy/compliance/audit | Wave C (security) |
-| auth | 672 | Federation/token/RBAC | Wave C (security) |
-**Total Gaps:** ~10,000
-**Estimated Documentation:** ~2,500 lines (21 files)
-**Target Wave Exit:** Wave A & C production validation (Q4 2026)
-## Key Themes
-### Wave A (Runtime Reliability)
-- **storage:** Crash recovery determinism, WAL integrity verification
-- **replication:** Lag monitoring, failover topology validation
-- **network:** Connection timeout/retry patterns, circuit breaker behavior
-- **acceleration:** GPU timeout/exception handling, CPU fallback logic
-### Wave C (Security Production Validation)
-- **security:** Vault/HSM provider failover, RLS policy edge cases
-- **governance:** Policy versioning, compliance audit trails
-- **auth:** Federation provider testing, token validation determinism
-## Execution Sequence
-1. **storage** (1485 gaps) - 3 files
-2. **security** (1196 gaps) - 3 files
-3. **replication** (857 gaps) - 3 files
-4. **network** (750 gaps) - 3 files
-5. **acceleration** (746 gaps) - 3 files
-6. **governance** (732 gaps) - 3 files
-7. **auth** (672 gaps) - 3 files
-## Documentation Structure (per module)
-### README.md
-- Module purpose (1-2 sentences)
-- Relevant interfaces (table of key .cpp files)
-- Scope (in/out bullets)
-- Known limitations
-- Production readiness status (Wave A/C aligned)
-- Thread-safety/concurrency model
-- Fail-closed behavior and degradation paths
-### ROADMAP.md
-- Current status with evidence summary
-- In progress items (Wave correlation)
-- Planned features (Q3-Q4 2026)
-
----
-
-### BATCH_4_ORCHESTRATION_SPEC.md
-
-*(file too large — key headings extracted)*
-
-# BATCH 4: Multi-Tier Orchestration Hardening Specification
-## Overview
-**Target Duration:** 3 weeks
-**Priority:** MEDIUM (depends on BATCH 1-3 stabilizing)
-**Depends On:** BATCH 1, 2, 3 (all prior work)
-**Affected Component:** src/user_storage_encrypted/multi_level_storage.cpp (1121 LOC)
-**Total Findings:** 45 (3 critical + 22 high + 20 medium)
-**Quality Level:** Blocking production readiness (largest surface area)
----
-## Current State Analysis
-**File:** src/user_storage_encrypted/multi_level_storage.cpp (1121 LOC)
-**Responsibilities:**
-- Manages 3-tier storage hierarchy: HOT (SSD/fast), WARM (HDD/medium), COLD (S3/slow)
-- Implements tier-aware caching and eviction policies
-- Handles tier transition logic and data migration
-- Manages per-tier error recovery and quarantine
-**Critical Issues (3):**
-1. HOT tier failure cascades to WARM tier (should be isolated)
-2. WARM tier failure affects COLD tier lookups (should be independent)
-3. Uninitialized tier state on startup (affects initial tier selection)
-**High-Severity Issues (22):**
-- Resource leaks in exception paths (14 findings)
-- malloc/new without cleanup on errors
-- Unclosed file handles in tier I/O failures
-- Lock leaks when exceptions occur
-- Command injection in tier-specific operations (3 findings)
-- S3 CLI arguments not sanitized
-- Path concatenation in tier management
-- Smart pointer misuse (5 findings)
-- Use-after-move on shared_ptr
-- Missing move semantics in tier transitions
-**Medium-Severity Issues (20):**
-- String concatenation in loops (6 findings)
-- Expensive copy operations (8 findings)
-- Missing const correctness (6 findings)
----
-## Implementation Plan
-### PHASE 4.1: Tier Isolation & Failure Boundaries (CRITICAL)
-#### Objective
-Ensure HOT/WARM/COLD failures don't cascade. Each tier failure is local and recoverable.
-#### Requirements
-**1. Define Per-Tier Contracts**
-Each tier must have explicit:
-- Success criteria (operation completed, data persisted)
-- Failure modes (timeout, unavailable, data corruption)
-
----
-
-### BATCH4_CHANGES_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Batch 4: Exception-Safety & Error Handling Fixes - CHANGES SUMMARY
-**Date:** 2026-08-17
-**Status:** IMPLEMENTATION COMPLETE
-**Files Modified:** 5 files
-## Files Changed and Changes Made
-### 1. src/llm/model_loader.cpp (3 changes)
-#### Change 1: ScopedLlamaLogCapture destructor
-- **Line:** 91-99
-- **Type:** Destructor exception-safety
-- **Change:** Mark with `noexcept`, wrap llama_log_set() in try-catch
-- **Details:**
-- Added noexcept specifier to destructor
-- Added try-catch wrapper for exception suppression
-- Enhanced logging with spdlog error and critical levels
-- Prevents exceptions from escaping destructor
-#### Change 2: Custom GGUF loader exception handler
-- **Line:** 1012-1014
-- **Type:** Exception context enhancement
-- **Change:** Add model_id and file path to error context
-- **Details:**
-- Enhanced log message with model_id and file path
-- Improved debugging visibility for GGUF validation failures
-- Changed from warn to warn with context
-#### Change 3: Async model load exception handler
-- **Line:** 617-622
-- **Type:** Exception context enhancement
-- **Change:** Add model_id and model_path to exception context
-- **Details:**
-- Enhanced error message with operation context
-- Includes model path for easier debugging
-- Preserves exception details
-#### Change 4: Preload model exception handler
-- **Line:** 486-489
-- **Type:** Exception context enhancement
-- **Change:** Add model_id to exception context
-- **Details:**
-- Enhanced context message for async preload failures
-- Better diagnostics for model loading issues
-### 2. src/llm/gpu_memory_manager.cpp (1 change)
-#### Change 1: MemoryHolder destructor
-- **Line:** 89-109
-- **Type:** Destructor exception-safety enhancement
-- **Change:** Mark with `noexcept`, ensure exception handling is robust
-- **Details:**
-- Added noexcept specifier
-- Ensured try-catch wrapper for freeGPUMemory/freePinnedMemory/freeCPUMemory
-- Enhanced catch block for unknown exceptions to use SPDLOG_CRITICAL
-### 3. src/llm/multi_lora_manager.cpp (3 changes)
-#### Change 1: Quantization failure exception handler
 
 ---
 
@@ -11766,246 +11801,6 @@ FINDINGS CLOSED: 14/14 (100%)
 
 ---
 
-### BATCH6_CONSOLIDATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# Batch 6 Consolidation Report — Cross-Reference Validation & Quality Assurance
-**Status:** Batch 6 Phase 6.4 — Consolidation Report
-**Date:** 2026-08-14
-**Scope:** Cross-reference validation, conformance audit, quality metrics
----
-## Executive Summary
-**Overall Status:** ✅ **PASS** (8/9 validation criteria MET)
----
-## Phase-by-Phase Validation
-### ✅ Phase 6.1: Cross-Module Navigation
-**Deliverable:** `BATCH6_NAVIGATION_GUIDE.md`
-| Validation Criterion | Target | Actual | Status |
-|-----|--------|--------|--------|
-| Use-case navigation coverage | 10+ use cases | 13 use cases | ✅ PASS |
-| Architecture layer mapping | 5+ layers | 9 layers (Tier 0–9) | ✅ PASS |
-| Module dependency hierarchy | Accurate | 100% coverage | ✅ PASS |
-| Integration point documentation | 4+ chains | 5 chains mapped | ✅ PASS |
-| Wave alignment documentation | All waves | A/B/C/D complete | ✅ PASS |
-| Cross-references to related docs | 100% | 8/8 documents linked | ✅ PASS |
-**Phase 6.1 Status:** ✅ **COMPLETE** (6/6 criteria MET)
-### ✅ Phase 6.2: Documentation Index & Dashboard
-**Deliverables:**
-- `MODULE_INDEX.md` ✅
-- `WAVE_GATE_DASHBOARD.md` ✅
-- `PRODUCTION_READINESS_MATRIX.md` ✅
-- `FEATURE_CAPABILITY_MATRIX.md` ✅
-| Validation Criterion | Target | Actual | Status |
-|-----|--------|--------|--------|
-| Module index completeness | 35 modules | 35 modules indexed | ✅ PASS |
-| Alphabetical navigation | A–Z coverage | 100% coverage | ✅ PASS |
-| Category-based navigation | 5+ categories | 8 categories | ✅ PASS |
-| Tier-based organization | 10 tiers | 10 tiers (0–9) | ✅ PASS |
-| Wave alignment (all modules) | A/B/C/D | 100% aligned | ✅ PASS |
-| Gate fulfillment tracking | All waves | A/B/C/D tracked | ✅ PASS |
-| Production readiness levels | 5 levels | 5 levels defined | ✅ PASS |
-| Feature-to-module mapping | 100+ features | 127 features mapped | ✅ PASS |
-**Phase 6.2 Status:** ✅ **COMPLETE** (8/8 criteria MET)
-### ✅ Phase 6.3: Test & Benchmark Documentation
-**Deliverables:**
-- `TEST_SUITE_NAVIGATION.md` ✅
-- `BENCHMARK_GATES_REFERENCE.md` ✅
-
----
-
-### BATCH6_DELIVERY_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Batch 6 Delivery Summary — Navigation & Consolidation Complete
-**Status:** Batch 6 Phase 6.4 — Final Delivery Summary
-**Date:** 2026-08-14
-**Project:** ThemisDB Developer Documentation — Batch 6 Completion
----
-## Executive Summary
-**Overall Status:** ✅ **COMPLETE & VALIDATED**
-**Deliverables:** 9 documents, 69,686 lines, 100% quality gates PASS
----
-## Project Overview
-### Scope
-| Item | Target | Actual | Status |
-|------|--------|--------|--------|
-| **Phases** | 4 phases | 4 phases complete | ✅ 100% |
-| **Documents** | 8–10 documents | 9 documents | ✅ 112% |
-| **Modules Indexed** | 35 | 35 | ✅ 100% |
-| **Features Mapped** | 100+ | 127 | ✅ 127% |
-| **Test Gates** | 264+ | 264+ | ✅ 100% |
-| **Benchmark Gates** | 125+ | 125+ | ✅ 100% |
-| **Cross-References** | 100% valid | 150+ links validated | ✅ 100% |
----
-## Phase-by-Phase Delivery
-### Phase 6.1: Cross-Module Navigation ✅ COMPLETE
-**Duration:** ~6 hours
-**Deliverable:** `BATCH6_NAVIGATION_GUIDE.md`
-**Content:**
-- 13 use-case-based navigation guides
-- 9-tier module dependency hierarchy (Tier 0–9)
-- 5 integration point maps (search chain, query chain, writes, AI/LLM, acceleration)
-- Wave A/B/C/D gate alignment
-- Quick-start guides by role (developers, operators, architects)
-**Metrics:**
-- Lines: 13,560
-- Use cases: 13
-- Layers mapped: 9
-- Integration chains: 5
-- Status: ✅ PASS
-### Phase 6.2: Documentation Index & Dashboard ✅ COMPLETE
-**Duration:** ~7 hours
-**Deliverables:** 4 documents
-
----
-
-### BATCH4_1_PHASE_C_COMPLETION_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# BATCH 4.1 PHASE C COMPLETION REPORT
-## Timeout Enforcement (R09-R11, R16)
-**Status:** ✅ COMPLETE
-**Date:** 2026-08-15 17:56 UTC
-**Commit:** `7403bc9d99`
-**Author:** Copilot SWE Agent
----
-## Executive Summary
-- **R16:** Fast-path pool acquire with try_lock_for (100µs, non-blocking)
-- **R09 & R11:** Portable non-blocking I/O + poll (5000ms, coordinated)
-- **R10:** Boost.Asio socket receive timeout (30000ms, mesh health probe)
----
-## Fixes Implemented
-### R16: Buffer Pool Acquire Timeout (15 min)
-**File:** `src/network/wire_protocol_performance.cpp` (lines 226-257)
-**Issue:** Lock contention on high-concurrency payloads could block indefinitely in acquire()
-**Solution:** Replace `std::mutex` with `std::timed_mutex`, add `try_lock_for(100µs)` timeout
-**Impact:** Graceful fallback to heap allocation on timeout, prevents deadlock on contended pool
-**Code Changes:**
-// Changed: std::mutex → std::timed_mutex
-mutable std::timed_mutex pool_mutex_;
-// Added timeout enforcement in acquire():
-std::unique_lock<std::timed_mutex> lock(pool_mutex_);
-if (!lock.try_lock_for(std::chrono::microseconds(100))) {
-// Timeout: fall through to heap allocation (acceptable for low-contention fast path)
-miss_count_.fetch_add(1, std::memory_order_relaxed);
-buf = std::make_unique<Buffer>();
-buf->reserve(slab_size_);
-buf->clear();
-return Handle(std::move(buf), this);
-}
-**Acceptance Criteria:**
-- ✅ Lock attempt times out after 100µs
-- ✅ Falls back to heap allocation without resource leak
-- ✅ Miss counter incremented for observability
-- ✅ No performance overhead on uncontended path (try_lock_for is STL-optimized)
-- ✅ Compiles without errors (verified with clang++ -std=c++17)
----
-### R09 & R11: Wire Protocol Write Timeout (50 min)
-**Files:** `src/network/wire_protocol_zero_copy.cpp`
-
----
-
-### BATCH4_1_PHASE_C_ESCALATION.md
-
-*(file too large — key headings extracted)*
-
-# Network Batch 4.1 — Phase C Implementation Status & Escalation
-**Status:** ⚠️ REQUIRES CLARIFICATION
-**Date:** 2026-08-15
-**Agent:** themisdb-implementer
-**Review Status:** Escalation Recommended
----
-## Executive Summary
-**Recommendation:** Escalate to human maintainer for clarification on:
-1. Implementation strategy preference (non-blocking I/O vs async vs other)
-2. Timeout value defaults
-3. Error handling contract
-4. Performance budget details for R16
----
-## Analysis Results
-### R09: wire_protocol_zero_copy.cpp:112 — Write Timeout
-**Location:** ZeroCopyFrameBuilder::writeTo() method
-**Blocking Operations:**
-- `::write(fd, ...)` - Line 109: header-only write
-- `::writev(fd, iov, 2)` - Line 119: scatter-gather write
-- `::WSASend()` - Line 104: Windows equivalent
-**Implementation Challenge:**
-These are direct syscalls that block when socket buffer is full. To add timeout:
-1. **Option A (Non-blocking + Poll):** Set socket to non-blocking, use poll/select with timeout
-- Pros: Portable, simple logic
-- Cons: Requires socket mode change (temporary)
-- Effort: ~30 min
-2. **Option B (Async I/O):** Refactor to async with cancellation token
-- Pros: Cleaner architecture
-- Cons: Large refactor, affects callers
-- Effort: ~2-3 hours
-**Decision Needed:** Which approach is preferred?
----
-### R11: wire_protocol_zero_copy.cpp:160 — Sendfile Timeout
-**Location:** ZeroCopyFrameBuilder::writeToWithSendfile() method
-**Blocking Operations:**
-- `::sendfile(socket_fd, payload_fd, &off, remaining)` - Line 162
-- Loop continuation around line 161
-**Implementation Challenge:**
-The sendfile loop already has EINTR/retry logic. Adding timeout requires:
-1. Track elapsed time across loop iterations
-2. Add deadline check on each iteration
-3. Return partial write count on timeout
-
----
-
-### BATCH4_1_PHASE_C_SPEC.md
-
-*(file too large — key headings extracted)*
-
-# Phase C Specification — Timeout Enforcement (R09-R11, R16)
-**Phase:** C (Timeout Enforcement & Deadlock Prevention)
-**Status:** ⏳ Queued for implementation after Phase B
-**Target Date:** Aug 18, 2026
-**Estimated Duration:** 3-4 hours
-**Agent:** themisdb-implementer
----
-## Executive Summary
-- **Deadlocks** (operations hang indefinitely)
-- **Resource exhaustion** (connections accumulate)
-- **Production incidents** (customer-facing impact)
-Each fix adds explicit timeout enforcement with proper cancellation/error handling.
----
-## Gap Details & Fixes
-### R09: wire_protocol_zero_copy.cpp:112 — Add Timeout to I/O Operation
-**File:** `src/network/wire_protocol_zero_copy.cpp`
-**Location:** Line 112
-**Issue:** No timeout on I/O operation (zerocopy read/write)
-**Severity:** CRITICAL (deadlock risk)
-**Current Code Pattern (Example):**
-// Missing timeout — will block forever on slow/hung connection
-auto result = readZeroCopy(buffer, size);  // ← NO TIMEOUT
-**Fix Strategy:**
-1. Add timeout parameter to readZeroCopy operation
-2. Implement cancellation token or std::chrono::duration parameter
-3. Return error (timeout_error) if operation exceeds limit
-4. Log timeout occurrence (diagnostic)
-**Implementation Guide:**
-- Use project's timeout pattern from `src/network/socket_timeout_manager.hpp` (if available)
-- Or add: `std::optional<TimeoutDuration> timeout = std::chrono::milliseconds(5000);`
-- Return: `TimeoutError` on exceeded duration
-- Test: Verify timeout triggers at correct interval
-**Acceptance Criteria:**
-- [ ] Timeout parameter added to readZeroCopy signature
-- [ ] Timeout enforced (operation stops after N ms)
-- [ ] Error handling: TimeoutError returned cleanly
-- [ ] No resource leaks on timeout
-- [ ] ThreadSanitizer: 0 deadlocks
-- [ ] Test: Timeout triggers within ±100ms of expected value
-**Related Fixes:**
-- R10 (service_mesh.cpp:243) — Also timeout enforcement
-- R04 (wire_protocol_performance.cpp:232) — Related wire protocol timeout
-
----
-
 ### BATCH4_1_PHASE_D_COMPLETION_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -12561,380 +12356,59 @@ return leader_seq - confirmed_lsn_copy;
 
 ---
 
-### BATCH2_RAII_IMPLEMENTATION_GUIDE.md
+### BATCH4_CHANGES_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# Batch 2: RAII Implementation Reference Guide
-## For Future Phases and Maintenance
----
-## Quick Reference: RAII Wrapper Usage Patterns
-### 1. File Operations
-**Problem Code (Manual Cleanup):**
-FILE* f = fopen("model.bin", "rb");
-if (!f) throw std::runtime_error("Cannot open file");
-try {
-// Read file
-size_t bytes = fread(buffer, 1, size, f);
-} catch (...) {
-fclose(f);  // Manual cleanup on error
-throw;
-}
-fclose(f);  // Manual cleanup on success
-**RAII Solution:**
-{
-ScopedFile f(fopen("model.bin", "rb"));
-if (!f) throw std::runtime_error("Cannot open file");
-// Read file - cleanup automatic on return or exception
-size_t bytes = fread(buffer, 1, size, f.get());
-}
-**API:**
-class ScopedFile {
-explicit ScopedFile(FILE* fp = nullptr) noexcept;
-~ScopedFile() noexcept;
-FILE* get() const noexcept;
-explicit operator bool() const noexcept;
-FILE* release() noexcept;
-void reset(FILE* fp = nullptr) noexcept;
-};
----
-### 2. OpenSSL Cryptographic Objects
-**Problem Code (Multiple Cleanup Points):**
-BIO* bio = BIO_new_mem_buf(data, size);
-EVP_PKEY* key = PEM_read_bio_PrivateKey(bio, ...);
-BIO_free(bio);  // First cleanup - but key might fail next
-if (!key) {
-return false;  // LEAK: pkey not allocated
-}
-EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-
----
-
-### BATCH2_RAII_VERIFICATION_REPORT.txt
-
-*(file too large — key headings extracted)*
-
-================================================================================
-BATCH 2: RAII & RESOURCE MANAGEMENT FIXES - VERIFICATION REPORT
-================================================================================
-Date: 2026-08-17
-Phase: Batch 2 (Following Batch 1 - Null Safety)
-Status: COMPLETE & VERIFIED
-================================================================================
-1. FILES CREATED
-================================================================================
-✓ include/llm/raii_wrappers.h (428 lines)
-- ScopedFile - FILE* handle wrapper
-- ScopedBIO - OpenSSL BIO wrapper
-- ScopedEVPKey - OpenSSL EVP_PKEY wrapper
-- ScopedEVPContext - OpenSSL EVP_MD_CTX wrapper
-- ScopedConnection<T> - Generic DB connection template
-- ScopedGPUBuffer - GPU memory buffer wrapper
-================================================================================
-2. FILES MODIFIED
-================================================================================
-✓ src/llm/adapter_registry.cpp
-Line 13: Added #include "llm/raii_wrappers.h"
-Lines 414-450: Converted to RAII-based implementation
-- BIO* → ScopedBIO
-- EVP_PKEY* → ScopedEVPKey
-- EVP_MD_CTX* → ScopedEVPContext
-- Removed: manual BIO_free(), EVP_PKEY_free(), EVP_MD_CTX_free()
-================================================================================
-3. CODE QUALITY METRICS
-================================================================================
-✓ Exception Safety: All RAII destructors are noexcept
-✓ Copy Prevention: All classes delete copy constructor/assignment
-✓ Move Support: All classes support move semantics
-✓ API Consistency: All classes have get(), release(), reset(), bool operator
-✓ Documentation: Comprehensive Doxygen comments for each class
-✓ Resource Cleanup: 100% automatic (no manual cleanup needed)
-✓ Initialization: All members properly initialized in constructor
-RAII Wrapper Classes Created:    6
-Methods per Wrapper:             5-6 methods
-Total RAII Code Lines:           ~400
-Manual Cleanup Statements:       0 (all automatic)
-================================================================================
-4. COMPILATION TESTING
-================================================================================
-✓ RAII wrapper header compiles standalone
-✓ adapter_registry.cpp includes new header without errors
-✓ No circular dependencies detected
-✓ All forward declarations correct for opaque types
-Test Output:
-RAII wrappers compile successfully!
-
----
-
-### BATCH3_DELIVERY.md
-
-*(file too large — key headings extracted)*
-
-# Updates Module Batch 3 - Exception Safety & Concurrency Fixes
-## Delivery Summary
-**Status**: ✅ COMPLETE
-**Date**: 2026-08-14
-**Findings Fixed**: 34/34
-**Test Cases**: 40+
-**Error Codes**: 7441-7469
----
-## Executive Summary
-### Key Achievements
-1. **Exception Safety**: 100% resource cleanup guaranteed through RAII wrappers
-2. **Performance**: O(n²) algorithms eliminated, pre-allocation throughout
-3. **Portability**: Cross-platform path handling (Windows/Linux/macOS)
-4. **Concurrency**: Thread-safe resource management with deterministic output
-5. **Code Quality**: Zero manual new/delete, RAII everywhere
----
-## File-by-File Status
-### 1. hot_reload_engine.cpp
-**Findings**: 6/6 RESOLVED
-**Error Codes**: 7441-7443
-| Finding | Issue | Fix | Status |
-|---------|-------|-----|--------|
-| 7441 | Legacy marker | Removed | ✅ |
-| 7442 | EVP_MD_CTX leak | EvpMdCtxRaii wrapper | ✅ |
-| 7443 | Iterator lifetime | Store locally | ✅ |
-**Changes**:
-- Added EvpMdCtxRaii class (46 lines)
-- Refactored calculateFileHash() to use RAII wrapper
-- Fixed listRollbackPoints() range-for safety
-- All error paths properly clean up resources
-**Impact**: No manual EVP_MD_CTX_free() calls, exception-safe
-### 2. in_place_schema_migrator.cpp
-**Findings**: 8/8 RESOLVED
-**Error Codes**: 7447-7452
-| Finding | Issue | Complexity | Fix | Status |
-|---------|-------|-----------|-----|--------|
-| 7447 | Map lookup | O(log n) | unordered_map | ✅ |
-| 7448 | Vector::find() | O(n²) | unordered_set | ✅ |
-| 7449 | Map lookup | O(log n) | unordered_map | ✅ |
-| 7450 | No pre-alloc | Multiple | reserve() | ✅ |
-| 7451 | += concat | O(n²) | ostringstream | ✅ |
-| 7452 | += concat | O(n²) | ostringstream | ✅ |
-**Changes**:
-- Replaced std::map with std::unordered_map (3 locations)
-
----
-
-### BATCH3_ERROR_CODES.md
-
-*(file too large — key headings extracted)*
-
-# Updates Module Batch 3 - Error Code Documentation
-## Overview
-Error codes [7441-7469] document all exception safety and concurrency fixes implemented in Updates Module Batch 3.
-## Error Code Reference
-### hot_reload_engine.cpp (7441-7443)
-**7441**: Legacy/compatibility marker removed
-- **Severity**: HIGH
-- **Type**: Resource Management
-- **File**: `hot_reload_engine.cpp`, line header
-- **Fix**: Removed legacy code path marker
-- **Status**: RESOLVED
-**7442**: EVP_MD_CTX resource leak in exception path
-- **Severity**: HIGH
-- **Type**: Exception Safety
-- **File**: `hot_reload_engine.cpp`, calculateFileHash()
-- **Issue**: Manual EVP_MD_CTX_free() calls in error paths
-- **Fix**: Implemented EvpMdCtxRaii wrapper class for automatic cleanup
-- **Pattern**: RAII with move semantics, non-copyable
-- **Verification**: All return paths properly clean up EVP_MD_CTX
-- **Status**: RESOLVED
-**7443**: Directory iterator temporary lifetime issue
-- **Severity**: HIGH
-- **Type**: Resource Safety
-- **File**: `hot_reload_engine.cpp`, listRollbackPoints()
-- **Issue**: Range-for loop on temporary directory_iterator
-- **Fix**: Store iterator locally to ensure valid lifetime
-- **Code**: `auto it = fs::directory_iterator(...); for (const auto& entry : it)`
-- **Verification**: Iterator remains valid throughout loop
-- **Status**: RESOLVED
-### in_place_schema_migrator.cpp (7447-7452)
-**7447**: O(n log n) map lookup optimization
-- **Severity**: MEDIUM
-- **Type**: Performance
-- **File**: `in_place_schema_migrator.cpp`, isAdditiveMigration()
-- **Issue**: std::map used for simple lookup (O(log n))
-- **Fix**: Replaced with std::unordered_map (O(1) average)
-- **Benefit**: Linear time instead of linearithmic
-- **Added**: reserve() pre-allocation
-- **Status**: RESOLVED
-**7448**: O(n²) vector::find() elimination
-- **Severity**: HIGH
-- **Type**: Algorithmic Complexity
-- **File**: `in_place_schema_migrator.cpp`, findAddedColumns()
-- **Issue**: vector::find() used in loop over another vector
-- **Fix**: Replaced std::map<string,bool> with std::unordered_set
-- **Complexity**: O(n²) → O(n)
-- **Added**: reserve() pre-allocation for output vector
-- **Status**: RESOLVED
-**7449**: Map to unordered_map in preview()
-- **Severity**: MEDIUM
-
----
-
-### BATCH3_FILES_MODIFIED.txt
-
-*(file too large — key headings extracted)*
-
-================================================================================
-BATCH 3: THREAD-SAFETY & SYNCHRONIZATION FIXES
-FILES MODIFIED INVENTORY
-================================================================================
-Date: 2026-08-17
-Status: IMPLEMENTATION COMPLETE
-Total Files: 8
-Total Lines Changed: ~300+ (documentation + synchronization primitives)
-================================================================================
-HEADER FILES (4 - Thread-Safety Hardening)
-================================================================================
-1. include/llm/multi_lora_manager.h
-├─ Lines: 1-27 → Added includes: <shared_mutex>, <condition_variable>, <atomic>
-├─ Lines: 289-320 → Enhanced class documentation with lock hierarchy
-├─ Lines: 872-990 → Replaced mutex_ with 3-layer hierarchy:
-│  ├─ adapter_state_lock_ (std::shared_mutex)
-│  ├─ adapter_cache_lock_ (std::mutex)
-│  ├─ metrics_lock_ (std::mutex)
-│  ├─ eviction_cv_ (std::condition_variable)
-│  ├─ eviction_thread_running_ (std::atomic<bool> + memory_order_acquire/release)
-│  └─ eviction_thread_done_ (std::atomic<bool> + memory_order_acquire/release)
-└─ Lock hierarchy comments added explaining protected resources
-2. include/llm/ml_model_manager.h
-├─ Lines: 13-31 → Added includes: <shared_mutex>, <condition_variable>
-├─ Lines: 212-252 → Enhanced class documentation with lock hierarchy
-├─ Lines: 484-535 → Replaced models_mutex_ with 3-layer hierarchy:
-│  ├─ model_lifecycle_lock_ (std::mutex)
-│  ├─ model_cache_lock_ (std::shared_mutex)
-│  ├─ metrics_lock_ (std::mutex)
-│  ├─ running_ (std::atomic<bool> + memory_order_acquire/release)
-│  ├─ total_requests_ (std::atomic<size_t> + memory_order_relaxed)
-│  ├─ successful_requests_ (std::atomic<size_t> + memory_order_relaxed)
-│  └─ failed_requests_ (std::atomic<size_t> + memory_order_relaxed)
-└─ Lock hierarchy comments added with protection annotations
-3. include/llm/continuous_batch_scheduler.h
-├─ Lines: 29-45 → Enhanced class documentation with lock hierarchy
-├─ Lines: 265-322 → Enhanced lock hierarchy documentation:
-│  ├─ Clarified mutex_ (std::mutex) protection scope
-│  ├─ Clarified cv_ (std::condition_variable) pairing
-│  ├─ Added: next_request_id_ (std::atomic<int> + memory_order_relaxed)
-│  ├─ Added: next_sequence_id_ (std::atomic<int> + memory_order_relaxed)
-│  └─ Added note: "No nested locks - external callbacks must not re-acquire mutex_"
-└─ Lock hierarchy comments clarifying callback safety
-4. include/llm/production_validator.h
-├─ Lines: 33-56 → Enhanced class documentation with lock hierarchy
-├─ Lines: 203-253 → Added 4-lock hierarchy:
-│  ├─ validation_state_lock_ (std::mutex)
-│  ├─ validation_queue_lock_ (std::mutex)
-│  ├─ metrics_lock_ (std::mutex)
-│  ├─ latency_mutex_ (std::mutex) [independent]
-│  ├─ stress_test_running_ (std::atomic<bool> + memory_order_acquire/release)
-│  ├─ total_requests_processed_ (std::atomic<size_t> + memory_order_relaxed)
-│  └─ total_failures_ (std::atomic<size_t> + memory_order_relaxed)
-└─ Lock hierarchy comments with protection annotations
-
----
-
-### BATCH3_LEAK_PREVENTION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Wave C Batch 3: CI Policy Gates Phase 3 — Community Leak Prevention & SBOM/Hash Verification
-## Implementation Summary
-**Date:** 2026-08-18
-**Target:** Q4 2026
-**Status:** Complete
-**Scope:** Prevent private source/credential leakage in Community builds and enforce SBOM integrity for releases
----
-## 1. Deliverables Completed
-### 1.1 Boundary Enforcement Tests (≥12 focused test cases)
-**File:** `tests/plugins/test_plugin_boundary_enforcement_focused.cpp`
-Test coverage:
-- ✅ **TEST-1:** Community build rejects private submodules (scoped-checkout test)
-- ✅ **TEST-2:** Private credential scanner detects leaked AWS keys
-- ✅ **TEST-3:** Private credential scanner detects leaked Azure keys
-- ✅ **TEST-4:** Private credential scanner detects leaked OAuth tokens
-- ✅ **TEST-5:** Private credential scanner detects leaked SSH/PGP keys
-- ✅ **TEST-6:** Enterprise lane can load private plugins, community cannot
-- ✅ **TEST-7:** SBOM hash verification passes when hashes match
-- ✅ **TEST-8:** SBOM hash verification fails (fail-closed) when SBOM missing
-- ✅ **TEST-9:** SBOM hash verification fails (fail-closed) when hash mismatches
-- ✅ **TEST-10:** Verify dependency list in SBOM contains no private sources
-- ✅ **TEST-11:** Negative test: verify scanner catches injected private credentials
-- ✅ **TEST-12:** Scoped-checkout validation blocks private submodules in community PR
-**Components:**
-- `CredentialScanner` class: 14 credential pattern detectors (AWS, Azure, GCP, OAuth, SSH, PGP)
-- `SBOMVerifier` class: SHA-256 SBOM hash generation and verification
-- `ScopedCheckoutValidator` class: Parse and validate .gitmodules entries
-### 1.2 SBOM/Hash Verification Benchmarks
-**File:** `benchmarks/security/bench_sbom_verification_gates.cpp`
-Performance gates:
-- ✅ SBOM parsing time for 100 dependencies < 100ms
-- ✅ SBOM parsing time for 500 dependencies < 100ms
-- ✅ Hash computation per 10 artifacts < 50ms
-- ✅ Hash computation per 50 artifacts < 50ms
-- ✅ Full SBOM verification cycle (100 deps) < 100ms
-- ✅ Full SBOM verification cycle (500 deps) < 100ms
-### 1.3 CI Workflow Extension — ci-pr-gates.yml
-**File:** `.github/workflows/ci-pr-gates.yml`
-New jobs added:
-1. **GATE 9: Scoped Checkout Validation** (lines ~557–595)
-- Runs on PRs targeting `community` and `minimal` branches
-- Validates private submodules have `shallow = true` in .gitmodules
-- **Fail-Closed:** PRs blocked if private plugins not scoped
-- Private plugins checked:
-- `plugins/themisdb_ethic_ai`
-- `plugins/themisdb_storage`
-
----
-
-### BATCH3_PERFORMANCE_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Batch 3 RAG Module Performance Optimization - Complete Summary
-## Project Overview
-## Key Results
-### Issues Fixed: 80+ (71% of 112+ target)
-- **String concatenation in loops**: 28/30 (93%)
-- **Nested loop find operations**: 25/25 (100%) ✓
-- **Cross-cutting optimizations**: 27
-- **Total confirmed**: 80+ issues
-### Files Modified: 7 Core RAG Components
-| File | Issues | Complexity Improvements |
-|---|---:|---|
-| evaluation_report_exporter.cpp | 8 | O(n²)→O(n) string escape |
-| coherence_evaluator.cpp | 15 | O(n³)→O(n² log n) contradiction detection |
-| knowledge_gap_detector.cpp | 25 | O(n²)→O(n) claim verification, O(n log n) aspect detection |
-| reranker.cpp | 8 | O(n²)→O(n) tokenization & bigrams |
-| document_summarizer.cpp | 6 | O(n²)→O(n) extractive summarization |
-| adversarial_tester.cpp | 6 | O(n²)→O(n) variant generation |
-| completeness_evaluator.cpp | 12 | O(n²)→O(n log n) aspect batching |
-## Technical Details
-### 1. String Escaping Optimization (evaluation_report_exporter.cpp)
-**Problem**: Character-by-character string concatenation with +=
-// Before: O(n²) with allocation thrashing
-for (char c : s) {
-out += escape_char(c);  // Repeated allocations
-}
-// After: O(n) with pre-allocated capacity
-out.reserve(s.size() + s.size()/3);
-for (char c : s) {
-out.append(escape_char(c));  // Efficient append
-}
-**Impact**: JSON/HTML export 10-40% faster
-### 2. Contradiction Detection (coherence_evaluator.cpp)
-**Problem**: Triple-nested loop with expensive operations
-// Before: O(n_sentences² × n_negations × n_content)
-for (auto& [i,j] : sentence_pairs)
-for (auto& neg : negation_words)      // 15 iterations
-if (sent_i.find(neg) != npos)     // O(n) search
-**Solution**: Vector→Set, word parsing, early exit
-// After: O(n_sentences² × n_words)
-std::set<string> negation_set = convert(negation_words);
-for (auto& word : parse_words(sent_i))
-if (negation_set.count(word))        // O(log 15)
-**Impact**: 50-80% faster contradiction detection
+# Batch 4: Exception-Safety & Error Handling Fixes - CHANGES SUMMARY
+**Date:** 2026-08-17
+**Status:** IMPLEMENTATION COMPLETE
+**Files Modified:** 5 files
+## Files Changed and Changes Made
+### 1. src/llm/model_loader.cpp (3 changes)
+#### Change 1: ScopedLlamaLogCapture destructor
+- **Line:** 91-99
+- **Type:** Destructor exception-safety
+- **Change:** Mark with `noexcept`, wrap llama_log_set() in try-catch
+- **Details:**
+- Added noexcept specifier to destructor
+- Added try-catch wrapper for exception suppression
+- Enhanced logging with spdlog error and critical levels
+- Prevents exceptions from escaping destructor
+#### Change 2: Custom GGUF loader exception handler
+- **Line:** 1012-1014
+- **Type:** Exception context enhancement
+- **Change:** Add model_id and file path to error context
+- **Details:**
+- Enhanced log message with model_id and file path
+- Improved debugging visibility for GGUF validation failures
+- Changed from warn to warn with context
+#### Change 3: Async model load exception handler
+- **Line:** 617-622
+- **Type:** Exception context enhancement
+- **Change:** Add model_id and model_path to exception context
+- **Details:**
+- Enhanced error message with operation context
+- Includes model path for easier debugging
+- Preserves exception details
+#### Change 4: Preload model exception handler
+- **Line:** 486-489
+- **Type:** Exception context enhancement
+- **Change:** Add model_id to exception context
+- **Details:**
+- Enhanced context message for async preload failures
+- Better diagnostics for model loading issues
+### 2. src/llm/gpu_memory_manager.cpp (1 change)
+#### Change 1: MemoryHolder destructor
+- **Line:** 89-109
+- **Type:** Destructor exception-safety enhancement
+- **Change:** Mark with `noexcept`, ensure exception handling is robust
+- **Details:**
+- Added noexcept specifier
+- Ensured try-catch wrapper for freeGPUMemory/freePinnedMemory/freeCPUMemory
+- Enhanced catch block for unknown exceptions to use SPDLOG_CRITICAL
+### 3. src/llm/multi_lora_manager.cpp (3 changes)
+#### Change 1: Quantization failure exception handler
 
 ---
 
@@ -13371,6 +12845,846 @@ ssize_t writeTo(int fd, std::chrono::milliseconds timeout = std::chrono::millise
 // In acceptLoop():
 std::optional<std::chrono::steady_clock::time_point> deadline;
 if (accept_timeout) {
+
+---
+
+### BATCH4_1_PHASE_C_COMPLETION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# BATCH 4.1 PHASE C COMPLETION REPORT
+## Timeout Enforcement (R09-R11, R16)
+**Status:** ✅ COMPLETE
+**Date:** 2026-08-15 17:56 UTC
+**Commit:** `7403bc9d99`
+**Author:** Copilot SWE Agent
+---
+## Executive Summary
+- **R16:** Fast-path pool acquire with try_lock_for (100µs, non-blocking)
+- **R09 & R11:** Portable non-blocking I/O + poll (5000ms, coordinated)
+- **R10:** Boost.Asio socket receive timeout (30000ms, mesh health probe)
+---
+## Fixes Implemented
+### R16: Buffer Pool Acquire Timeout (15 min)
+**File:** `src/network/wire_protocol_performance.cpp` (lines 226-257)
+**Issue:** Lock contention on high-concurrency payloads could block indefinitely in acquire()
+**Solution:** Replace `std::mutex` with `std::timed_mutex`, add `try_lock_for(100µs)` timeout
+**Impact:** Graceful fallback to heap allocation on timeout, prevents deadlock on contended pool
+**Code Changes:**
+// Changed: std::mutex → std::timed_mutex
+mutable std::timed_mutex pool_mutex_;
+// Added timeout enforcement in acquire():
+std::unique_lock<std::timed_mutex> lock(pool_mutex_);
+if (!lock.try_lock_for(std::chrono::microseconds(100))) {
+// Timeout: fall through to heap allocation (acceptable for low-contention fast path)
+miss_count_.fetch_add(1, std::memory_order_relaxed);
+buf = std::make_unique<Buffer>();
+buf->reserve(slab_size_);
+buf->clear();
+return Handle(std::move(buf), this);
+}
+**Acceptance Criteria:**
+- ✅ Lock attempt times out after 100µs
+- ✅ Falls back to heap allocation without resource leak
+- ✅ Miss counter incremented for observability
+- ✅ No performance overhead on uncontended path (try_lock_for is STL-optimized)
+- ✅ Compiles without errors (verified with clang++ -std=c++17)
+---
+### R09 & R11: Wire Protocol Write Timeout (50 min)
+**Files:** `src/network/wire_protocol_zero_copy.cpp`
+
+---
+
+### BATCH4_1_PHASE_C_ESCALATION.md
+
+*(file too large — key headings extracted)*
+
+# Network Batch 4.1 — Phase C Implementation Status & Escalation
+**Status:** ⚠️ REQUIRES CLARIFICATION
+**Date:** 2026-08-15
+**Agent:** themisdb-implementer
+**Review Status:** Escalation Recommended
+---
+## Executive Summary
+**Recommendation:** Escalate to human maintainer for clarification on:
+1. Implementation strategy preference (non-blocking I/O vs async vs other)
+2. Timeout value defaults
+3. Error handling contract
+4. Performance budget details for R16
+---
+## Analysis Results
+### R09: wire_protocol_zero_copy.cpp:112 — Write Timeout
+**Location:** ZeroCopyFrameBuilder::writeTo() method
+**Blocking Operations:**
+- `::write(fd, ...)` - Line 109: header-only write
+- `::writev(fd, iov, 2)` - Line 119: scatter-gather write
+- `::WSASend()` - Line 104: Windows equivalent
+**Implementation Challenge:**
+These are direct syscalls that block when socket buffer is full. To add timeout:
+1. **Option A (Non-blocking + Poll):** Set socket to non-blocking, use poll/select with timeout
+- Pros: Portable, simple logic
+- Cons: Requires socket mode change (temporary)
+- Effort: ~30 min
+2. **Option B (Async I/O):** Refactor to async with cancellation token
+- Pros: Cleaner architecture
+- Cons: Large refactor, affects callers
+- Effort: ~2-3 hours
+**Decision Needed:** Which approach is preferred?
+---
+### R11: wire_protocol_zero_copy.cpp:160 — Sendfile Timeout
+**Location:** ZeroCopyFrameBuilder::writeToWithSendfile() method
+**Blocking Operations:**
+- `::sendfile(socket_fd, payload_fd, &off, remaining)` - Line 162
+- Loop continuation around line 161
+**Implementation Challenge:**
+The sendfile loop already has EINTR/retry logic. Adding timeout requires:
+1. Track elapsed time across loop iterations
+2. Add deadline check on each iteration
+3. Return partial write count on timeout
+
+---
+
+### BATCH4_1_PHASE_C_SPEC.md
+
+*(file too large — key headings extracted)*
+
+# Phase C Specification — Timeout Enforcement (R09-R11, R16)
+**Phase:** C (Timeout Enforcement & Deadlock Prevention)
+**Status:** ⏳ Queued for implementation after Phase B
+**Target Date:** Aug 18, 2026
+**Estimated Duration:** 3-4 hours
+**Agent:** themisdb-implementer
+---
+## Executive Summary
+- **Deadlocks** (operations hang indefinitely)
+- **Resource exhaustion** (connections accumulate)
+- **Production incidents** (customer-facing impact)
+Each fix adds explicit timeout enforcement with proper cancellation/error handling.
+---
+## Gap Details & Fixes
+### R09: wire_protocol_zero_copy.cpp:112 — Add Timeout to I/O Operation
+**File:** `src/network/wire_protocol_zero_copy.cpp`
+**Location:** Line 112
+**Issue:** No timeout on I/O operation (zerocopy read/write)
+**Severity:** CRITICAL (deadlock risk)
+**Current Code Pattern (Example):**
+// Missing timeout — will block forever on slow/hung connection
+auto result = readZeroCopy(buffer, size);  // ← NO TIMEOUT
+**Fix Strategy:**
+1. Add timeout parameter to readZeroCopy operation
+2. Implement cancellation token or std::chrono::duration parameter
+3. Return error (timeout_error) if operation exceeds limit
+4. Log timeout occurrence (diagnostic)
+**Implementation Guide:**
+- Use project's timeout pattern from `src/network/socket_timeout_manager.hpp` (if available)
+- Or add: `std::optional<TimeoutDuration> timeout = std::chrono::milliseconds(5000);`
+- Return: `TimeoutError` on exceeded duration
+- Test: Verify timeout triggers at correct interval
+**Acceptance Criteria:**
+- [ ] Timeout parameter added to readZeroCopy signature
+- [ ] Timeout enforced (operation stops after N ms)
+- [ ] Error handling: TimeoutError returned cleanly
+- [ ] No resource leaks on timeout
+- [ ] ThreadSanitizer: 0 deadlocks
+- [ ] Test: Timeout triggers within ±100ms of expected value
+**Related Fixes:**
+- R10 (service_mesh.cpp:243) — Also timeout enforcement
+- R04 (wire_protocol_performance.cpp:232) — Related wire protocol timeout
+
+---
+
+### BATCH2_CHANGE_SUMMARY.txt
+
+*(file too large — key headings extracted)*
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  BATCH 2: RAII & RESOURCE MANAGEMENT FIXES                 ║
+║                           CHANGE SUMMARY                                    ║
+║                                                                             ║
+║                  Phase: Batch 2 (Following Batch 1)                        ║
+║                  Date: 2026-08-17                                          ║
+║                  Status: ✅ COMPLETE & VERIFIED                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OVERVIEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Batch 2 delivers comprehensive RAII (Resource Acquisition Is Initialization)
+and resource management improvements to the LLM module. The implementation
+provides exception-safe resource cleanup by replacing manual cleanup patterns
+with modern C++20 RAII wrappers.
+Key Achievement: ZERO manual cleanup statements remain (except in RAII
+destructors themselves), and 100% exception-safe resource management.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILES CREATED (1)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ include/llm/raii_wrappers.h (428 lines)
+Purpose: Central location for all RAII wrapper classes
+Six Production-Ready Wrapper Classes:
+1. ScopedFile
+- Wraps FILE* handles
+- Automatic fclose() on destruction
+- Move-enabled, copy-deleted
+- Exception-safe (noexcept destructor)
+2. ScopedBIO
+- Wraps OpenSSL BIO* objects
+- Automatic BIO_free() on destruction
+- Prevents double-free via copy prevention
+- Supports move semantics
+3. ScopedEVPKey
+- Wraps OpenSSL EVP_PKEY* objects
+- Automatic EVP_PKEY_free() on destruction
+- Critical for cryptographic operations
+- Guaranteed cleanup on exception
+4. ScopedEVPContext
+- Wraps OpenSSL EVP_MD_CTX* objects
+- Automatic EVP_MD_CTX_free() on destruction
+- Used for message digests and signatures
+- Exception-safe cleanup order
+5. ScopedConnection<DBHandle>
+- Generic template for database connections
+- User-provided close function
+- Flexible for various database types
+- Future use for db_connection_leak fixes
+
+---
+
+### BATCH2_DELIVERABLES_MANIFEST.txt
+
+*(file too large — key headings extracted)*
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║           BATCH 2: RAII & RESOURCE MANAGEMENT FIXES                       ║
+║                  DELIVERABLES MANIFEST                                     ║
+║                  Date: 2026-08-17                                          ║
+║                  Status: ✅ COMPLETE                                       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+================================================================================
+SOURCE CODE FILES
+================================================================================
+✅ CREATED: include/llm/raii_wrappers.h (14 KB, 428 lines)
+Purpose: Central header with all RAII wrapper classes
+Contents:
+- ScopedFile - FILE* handle wrapper
+- ScopedBIO - OpenSSL BIO wrapper
+- ScopedEVPKey - OpenSSL EVP_PKEY wrapper
+- ScopedEVPContext - OpenSSL EVP_MD_CTX wrapper
+- ScopedConnection<T> - Generic DB connection template
+- ScopedGPUBuffer - GPU memory buffer wrapper
+Key Metrics:
+- 6 production-ready wrapper classes
+- ~60-70 lines per class
+- Full Doxygen documentation
+- Exception-safe (all destructors noexcept)
+- Move semantics enabled
+- Zero dependencies (std library only)
+✅ MODIFIED: src/llm/adapter_registry.cpp (27 KB)
+Changes:
+- Line 13: Added #include "llm/raii_wrappers.h"
+- Lines 414-450: Converted signAdapter() to use RAII
+- Replaced 3 manual cleanup calls with RAII wrappers
+- Added inline documentation of RAII usage
+Key Improvements:
+- BIO*, EVP_PKEY*, EVP_MD_CTX* now RAII-managed
+- Zero manual cleanup statements
+- Exception-safe resource cleanup guaranteed
+- Net +3 LOC (includes + inline docs - cleanup)
+================================================================================
+DOCUMENTATION FILES
+================================================================================
+✅ BATCH2_RAII_DELIVERY_SUMMARY.md (12 KB)
+Purpose: Executive summary of Batch 2 delivery
+Sections:
+- Executive summary
+- Implementation details (all 6 RAII classes)
+- Files modified/created
+- Resource management patterns
+- RAII wrapper classes to create
+- Validation performed
+
+---
+
+### BATCH2_DELIVERY_SUMMARY.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+UPDATES MODULE BATCH 2
+SCHEMA MIGRATION STABILIZATION
+DELIVERY SUMMARY
+================================================================================
+PROJECT: ThemisDB Updates Module
+BRANCH: develop
+DATE: 2026-08-14
+STATUS: ✅ COMPLETE - PRODUCTION READY
+================================================================================
+EXECUTIVE SUMMARY
+================================================================================
+Successfully resolved all 48 findings in src/updates/schema_migration.cpp through
+systematic stabilization and hardening:
+• 28 HIGH findings (uninitialized access) → RESOLVED ✅
+•  8 HIGH findings (resource leaks) → RESOLVED ✅
+•  3 MEDIUM findings (logic improvements) → RESOLVED ✅
+•  9 OTHER findings (edge cases) → RESOLVED ✅
+Maturity Improvement: 86/100 → 100/100
+Test Coverage: New comprehensive suite with 51 test cases
+================================================================================
+SCOPE & DELIVERABLES
+================================================================================
+PRIMARY TARGET:
+src/updates/schema_migration.cpp (567 → 969 lines, enhanced)
+SUPPORTING FILES:
+include/updates/schema_migration.h (minor enhancements)
+tests/test_updates_schema_migration_batch2.cpp (NEW - 803 lines)
+DOCUMENTATION:
+UPDATES_BATCH2_COMPLETION_REPORT.md (comprehensive)
+BATCH2_DELIVERY_SUMMARY.txt (this file)
+================================================================================
+FINDINGS ADDRESSED
+================================================================================
+CATEGORY 1: UNINITIALIZED ACCESS (28 findings - UM-SMD-01..10)
+──────────────────────────────────
+ROOT CAUSE: version_, phase_, and container elements accessed before guaranteed
+initialization in LOG statements and operation handlers.
+SOLUTION:
+✓ Constructor validation for version and storage pointers
+✓ Initialization guard flag (is_initialized_)
+✓ Assertion method (assertInitialized()) at function entry
+✓ Defensive checks before container access
+KEY CHANGES:
+• ConcreteMigrationContext validates inputs (throw on invalid)
+• Impl struct includes is_initialized_ guard flag
+• All major functions assert initialization before use
+
+---
+
+### BATCH2_MANIFEST_VALIDATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Wave C Batch 2: CI Policy Gates Phase 3 — Manifest Fail-Closed Validation
+**Date:** 2026-08-18
+**Scope:** Plugin manifest validation for production-release safety (Q4 2026)
+**Status:** IMPLEMENTED
+## Overview
+## Implementation Summary
+### 1. Error Codes [8700-8799] — `include/plugins/plugin_interface.h`
+**Enum:** `ManifestErrorCode`
+| Code | Name | Meaning |
+|------|------|---------|
+| 8700 | `PLUGIN_EDITION_MISMATCH` | Plugin's allowed_editions does not include current edition |
+| 8701 | `PLUGIN_LICENSE_DENIED` | license_feature required but not granted by license gate |
+| 8702 | `PLUGIN_LICENSE_FEATURE_INVALID` | license_feature field format invalid |
+| 8703 | `PLUGIN_ALLOWED_EDITIONS_MALFORMED` | allowed_editions not an array or invalid values |
+| 8720 | `PLUGIN_PRIVATE_IN_COMMUNITY` | visibility="private" but edition="community" (fail-closed) |
+| 8721 | `PLUGIN_PATH_VISIBILITY_MISMATCH` | Plugin path contains "private/" but not marked private |
+| 8722 | `PLUGIN_RESTRICTED_NO_CONTEXT` | visibility="restricted" without scoped checkout context |
+| 8799 | `PLUGIN_MANIFEST_VALIDATION_ERROR` | Generic manifest validation error |
+### 2. Validation Methods — `src/plugins/plugin_manager.cpp` + `include/plugins/plugin_manager.h`
+#### `validateManifestEditionRestrictions()`
+- **Fail-Closed Logic:**
+1. Check if `allowed_editions` is non-empty AND current edition not in list → `PLUGIN_EDITION_MISMATCH`
+2. Check if `license_feature` format violates pattern `^[a-z0-9][a-z0-9_.-]*$` → `PLUGIN_LICENSE_FEATURE_INVALID`
+3. Check if `license_feature` is required BUT license gate returns false → `PLUGIN_LICENSE_DENIED`
+- **Returns:** `ManifestErrorCode::MANIFEST_OK` on success, specific error code on failure
+- **Location:** Lines 2217-2268 in plugin_manager.cpp
+#### `validateManifestPublicPrivateBoundary()`
+- **Fail-Closed Logic:**
+1. If `visibility="private"` AND `edition="community"` → `PLUGIN_PRIVATE_IN_COMMUNITY`
+2. If `plugin_path` contains "private/" but `visibility!="private"` → `PLUGIN_PATH_VISIBILITY_MISMATCH`
+3. If `visibility="restricted"` AND no `THEMISDB_SCOPED_CHECKOUT` context → `PLUGIN_RESTRICTED_NO_CONTEXT`
+- **Returns:** `ManifestErrorCode::MANIFEST_OK` on success, specific error code on failure
+- **Location:** Lines 2270-2306 in plugin_manager.cpp
+### 3. Test Coverage — ≥16 Focused Test Cases
+**File:** `tests/plugins/test_plugin_manifest_edition_gates_focused.cpp`
+| Test ID | Name | Scenario | Acceptance |
+|---------|------|----------|-----------|
+| TEST-1 | `PrivatePluginInCommunityEdition` | Deny load of private plugin when edition=community | FAIL-CLOSED ✅ |
+| TEST-3 | `MissingLicenseFeature` | Deny load when license_feature required but not granted | FAIL-CLOSED ✅ |
+| TEST-4 | `PublicPluginOnAnyEdition` | Allow public plugin on any edition (pass-through) | PASS-THROUGH ✅ |
+| TEST-5 | `RestrictedPluginWithContext` | Allow restricted plugin only with scoped checkout context | CONTEXT-GATE ✅ |
+| TEST-6 | `MalformedAllowedEditions` | Reject manifest with malformed allowed_editions (non-array) | SCHEMA-REJECT ✅ |
+| TEST-7 | `InvalidLicenseFeatureName` | Reject manifest with invalid license_feature name | PATTERN-REJECT ✅ |
+
+---
+
+### BATCH2_RAII_DELIVERY_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Batch 2: RAII & Resource Management Fixes - LLM Module
+## Delivery Summary
+**Date:** 2026-08-17
+**Phase:** Batch 2 (Following Batch 1 - Null Safety)
+**Status:** ✅ IMPLEMENTATION COMPLETE
+---
+## Executive Summary
+### Key Achievements
+✅ **New RAII Wrapper Library** - Created `include/llm/raii_wrappers.h` with 5 production-ready wrapper classes
+✅ **OpenSSL Resource Management** - Updated `adapter_registry.cpp` to use RAII for BIO, EVP_PKEY, EVP_MD_CTX
+✅ **Zero Manual Cleanup** - Eliminated manual `delete`, `fclose`, `BIO_free`, `EVP_*_free` patterns
+✅ **Exception-Safe** - All RAII destructors are `noexcept`, guaranteed cleanup on throw
+✅ **Move-Enabled** - All wrappers support move semantics for efficient resource transfer
+✅ **Zero Breaking Changes** - No public API modifications, internal-only improvements
+---
+## Implementation Details
+### Files Created
+#### 1. `include/llm/raii_wrappers.h` (428 lines)
+**Purpose:** Central location for all RAII wrapper classes used in LLM module.
+**Classes Implemented:**
+| Class | Purpose | Cleanup | Exception-Safe |
+|-------|---------|---------|---|
+| `ScopedFile` | FILE* handle wrapper | `fclose()` | ✅ noexcept |
+| `ScopedBIO` | OpenSSL BIO wrapper | `BIO_free()` | ✅ noexcept |
+| `ScopedEVPKey` | OpenSSL EVP_PKEY wrapper | `EVP_PKEY_free()` | ✅ noexcept |
+| `ScopedEVPContext` | OpenSSL EVP_MD_CTX wrapper | `EVP_MD_CTX_free()` | ✅ noexcept |
+| `ScopedConnection<T>` | Generic DB connection wrapper | User-provided close_fn | ✅ noexcept |
+| `ScopedGPUBuffer` | GPU memory buffer wrapper | User-provided free_fn | ✅ noexcept |
+**Features of Each Wrapper:**
+- **Delete Copy Semantics** - Prevents accidental ownership duplication
+- **Move Semantics** - Efficient resource transfer with move constructor/assignment
+- **Boolean Conversion** - `if (scoped_resource)` for null checks
+- **get()** - Access underlying raw pointer (non-owning)
+- **release()** - Transfer ownership (for interop with legacy code)
+- **reset()** - Replace managed resource with cleanup of old
+**Example Usage:**
+{
+ScopedBIO bio(BIO_new_mem_buf(data, size));
+if (!bio) throw std::runtime_error("BIO creation failed");
+ScopedEVPKey key(PEM_read_bio_PrivateKey(bio.get(), ...));
+// Use key and bio...
+}  // Automatic cleanup: bio and key freed via RAII destructors
+
+---
+
+### BATCH2_RAII_IMPLEMENTATION_GUIDE.md
+
+*(file too large — key headings extracted)*
+
+# Batch 2: RAII Implementation Reference Guide
+## For Future Phases and Maintenance
+---
+## Quick Reference: RAII Wrapper Usage Patterns
+### 1. File Operations
+**Problem Code (Manual Cleanup):**
+FILE* f = fopen("model.bin", "rb");
+if (!f) throw std::runtime_error("Cannot open file");
+try {
+// Read file
+size_t bytes = fread(buffer, 1, size, f);
+} catch (...) {
+fclose(f);  // Manual cleanup on error
+throw;
+}
+fclose(f);  // Manual cleanup on success
+**RAII Solution:**
+{
+ScopedFile f(fopen("model.bin", "rb"));
+if (!f) throw std::runtime_error("Cannot open file");
+// Read file - cleanup automatic on return or exception
+size_t bytes = fread(buffer, 1, size, f.get());
+}
+**API:**
+class ScopedFile {
+explicit ScopedFile(FILE* fp = nullptr) noexcept;
+~ScopedFile() noexcept;
+FILE* get() const noexcept;
+explicit operator bool() const noexcept;
+FILE* release() noexcept;
+void reset(FILE* fp = nullptr) noexcept;
+};
+---
+### 2. OpenSSL Cryptographic Objects
+**Problem Code (Multiple Cleanup Points):**
+BIO* bio = BIO_new_mem_buf(data, size);
+EVP_PKEY* key = PEM_read_bio_PrivateKey(bio, ...);
+BIO_free(bio);  // First cleanup - but key might fail next
+if (!key) {
+return false;  // LEAK: pkey not allocated
+}
+EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+
+---
+
+### BATCH2_RAII_VERIFICATION_REPORT.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+BATCH 2: RAII & RESOURCE MANAGEMENT FIXES - VERIFICATION REPORT
+================================================================================
+Date: 2026-08-17
+Phase: Batch 2 (Following Batch 1 - Null Safety)
+Status: COMPLETE & VERIFIED
+================================================================================
+1. FILES CREATED
+================================================================================
+✓ include/llm/raii_wrappers.h (428 lines)
+- ScopedFile - FILE* handle wrapper
+- ScopedBIO - OpenSSL BIO wrapper
+- ScopedEVPKey - OpenSSL EVP_PKEY wrapper
+- ScopedEVPContext - OpenSSL EVP_MD_CTX wrapper
+- ScopedConnection<T> - Generic DB connection template
+- ScopedGPUBuffer - GPU memory buffer wrapper
+================================================================================
+2. FILES MODIFIED
+================================================================================
+✓ src/llm/adapter_registry.cpp
+Line 13: Added #include "llm/raii_wrappers.h"
+Lines 414-450: Converted to RAII-based implementation
+- BIO* → ScopedBIO
+- EVP_PKEY* → ScopedEVPKey
+- EVP_MD_CTX* → ScopedEVPContext
+- Removed: manual BIO_free(), EVP_PKEY_free(), EVP_MD_CTX_free()
+================================================================================
+3. CODE QUALITY METRICS
+================================================================================
+✓ Exception Safety: All RAII destructors are noexcept
+✓ Copy Prevention: All classes delete copy constructor/assignment
+✓ Move Support: All classes support move semantics
+✓ API Consistency: All classes have get(), release(), reset(), bool operator
+✓ Documentation: Comprehensive Doxygen comments for each class
+✓ Resource Cleanup: 100% automatic (no manual cleanup needed)
+✓ Initialization: All members properly initialized in constructor
+RAII Wrapper Classes Created:    6
+Methods per Wrapper:             5-6 methods
+Total RAII Code Lines:           ~400
+Manual Cleanup Statements:       0 (all automatic)
+================================================================================
+4. COMPILATION TESTING
+================================================================================
+✓ RAII wrapper header compiles standalone
+✓ adapter_registry.cpp includes new header without errors
+✓ No circular dependencies detected
+✓ All forward declarations correct for opaque types
+Test Output:
+RAII wrappers compile successfully!
+
+---
+
+### BATCH3_DELIVERY.md
+
+*(file too large — key headings extracted)*
+
+# Updates Module Batch 3 - Exception Safety & Concurrency Fixes
+## Delivery Summary
+**Status**: ✅ COMPLETE
+**Date**: 2026-08-14
+**Findings Fixed**: 34/34
+**Test Cases**: 40+
+**Error Codes**: 7441-7469
+---
+## Executive Summary
+### Key Achievements
+1. **Exception Safety**: 100% resource cleanup guaranteed through RAII wrappers
+2. **Performance**: O(n²) algorithms eliminated, pre-allocation throughout
+3. **Portability**: Cross-platform path handling (Windows/Linux/macOS)
+4. **Concurrency**: Thread-safe resource management with deterministic output
+5. **Code Quality**: Zero manual new/delete, RAII everywhere
+---
+## File-by-File Status
+### 1. hot_reload_engine.cpp
+**Findings**: 6/6 RESOLVED
+**Error Codes**: 7441-7443
+| Finding | Issue | Fix | Status |
+|---------|-------|-----|--------|
+| 7441 | Legacy marker | Removed | ✅ |
+| 7442 | EVP_MD_CTX leak | EvpMdCtxRaii wrapper | ✅ |
+| 7443 | Iterator lifetime | Store locally | ✅ |
+**Changes**:
+- Added EvpMdCtxRaii class (46 lines)
+- Refactored calculateFileHash() to use RAII wrapper
+- Fixed listRollbackPoints() range-for safety
+- All error paths properly clean up resources
+**Impact**: No manual EVP_MD_CTX_free() calls, exception-safe
+### 2. in_place_schema_migrator.cpp
+**Findings**: 8/8 RESOLVED
+**Error Codes**: 7447-7452
+| Finding | Issue | Complexity | Fix | Status |
+|---------|-------|-----------|-----|--------|
+| 7447 | Map lookup | O(log n) | unordered_map | ✅ |
+| 7448 | Vector::find() | O(n²) | unordered_set | ✅ |
+| 7449 | Map lookup | O(log n) | unordered_map | ✅ |
+| 7450 | No pre-alloc | Multiple | reserve() | ✅ |
+| 7451 | += concat | O(n²) | ostringstream | ✅ |
+| 7452 | += concat | O(n²) | ostringstream | ✅ |
+**Changes**:
+- Replaced std::map with std::unordered_map (3 locations)
+
+---
+
+### BATCH3_ERROR_CODES.md
+
+*(file too large — key headings extracted)*
+
+# Updates Module Batch 3 - Error Code Documentation
+## Overview
+Error codes [7441-7469] document all exception safety and concurrency fixes implemented in Updates Module Batch 3.
+## Error Code Reference
+### hot_reload_engine.cpp (7441-7443)
+**7441**: Legacy/compatibility marker removed
+- **Severity**: HIGH
+- **Type**: Resource Management
+- **File**: `hot_reload_engine.cpp`, line header
+- **Fix**: Removed legacy code path marker
+- **Status**: RESOLVED
+**7442**: EVP_MD_CTX resource leak in exception path
+- **Severity**: HIGH
+- **Type**: Exception Safety
+- **File**: `hot_reload_engine.cpp`, calculateFileHash()
+- **Issue**: Manual EVP_MD_CTX_free() calls in error paths
+- **Fix**: Implemented EvpMdCtxRaii wrapper class for automatic cleanup
+- **Pattern**: RAII with move semantics, non-copyable
+- **Verification**: All return paths properly clean up EVP_MD_CTX
+- **Status**: RESOLVED
+**7443**: Directory iterator temporary lifetime issue
+- **Severity**: HIGH
+- **Type**: Resource Safety
+- **File**: `hot_reload_engine.cpp`, listRollbackPoints()
+- **Issue**: Range-for loop on temporary directory_iterator
+- **Fix**: Store iterator locally to ensure valid lifetime
+- **Code**: `auto it = fs::directory_iterator(...); for (const auto& entry : it)`
+- **Verification**: Iterator remains valid throughout loop
+- **Status**: RESOLVED
+### in_place_schema_migrator.cpp (7447-7452)
+**7447**: O(n log n) map lookup optimization
+- **Severity**: MEDIUM
+- **Type**: Performance
+- **File**: `in_place_schema_migrator.cpp`, isAdditiveMigration()
+- **Issue**: std::map used for simple lookup (O(log n))
+- **Fix**: Replaced with std::unordered_map (O(1) average)
+- **Benefit**: Linear time instead of linearithmic
+- **Added**: reserve() pre-allocation
+- **Status**: RESOLVED
+**7448**: O(n²) vector::find() elimination
+- **Severity**: HIGH
+- **Type**: Algorithmic Complexity
+- **File**: `in_place_schema_migrator.cpp`, findAddedColumns()
+- **Issue**: vector::find() used in loop over another vector
+- **Fix**: Replaced std::map<string,bool> with std::unordered_set
+- **Complexity**: O(n²) → O(n)
+- **Added**: reserve() pre-allocation for output vector
+- **Status**: RESOLVED
+**7449**: Map to unordered_map in preview()
+- **Severity**: MEDIUM
+
+---
+
+### BATCH3_FILES_MODIFIED.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+BATCH 3: THREAD-SAFETY & SYNCHRONIZATION FIXES
+FILES MODIFIED INVENTORY
+================================================================================
+Date: 2026-08-17
+Status: IMPLEMENTATION COMPLETE
+Total Files: 8
+Total Lines Changed: ~300+ (documentation + synchronization primitives)
+================================================================================
+HEADER FILES (4 - Thread-Safety Hardening)
+================================================================================
+1. include/llm/multi_lora_manager.h
+├─ Lines: 1-27 → Added includes: <shared_mutex>, <condition_variable>, <atomic>
+├─ Lines: 289-320 → Enhanced class documentation with lock hierarchy
+├─ Lines: 872-990 → Replaced mutex_ with 3-layer hierarchy:
+│  ├─ adapter_state_lock_ (std::shared_mutex)
+│  ├─ adapter_cache_lock_ (std::mutex)
+│  ├─ metrics_lock_ (std::mutex)
+│  ├─ eviction_cv_ (std::condition_variable)
+│  ├─ eviction_thread_running_ (std::atomic<bool> + memory_order_acquire/release)
+│  └─ eviction_thread_done_ (std::atomic<bool> + memory_order_acquire/release)
+└─ Lock hierarchy comments added explaining protected resources
+2. include/llm/ml_model_manager.h
+├─ Lines: 13-31 → Added includes: <shared_mutex>, <condition_variable>
+├─ Lines: 212-252 → Enhanced class documentation with lock hierarchy
+├─ Lines: 484-535 → Replaced models_mutex_ with 3-layer hierarchy:
+│  ├─ model_lifecycle_lock_ (std::mutex)
+│  ├─ model_cache_lock_ (std::shared_mutex)
+│  ├─ metrics_lock_ (std::mutex)
+│  ├─ running_ (std::atomic<bool> + memory_order_acquire/release)
+│  ├─ total_requests_ (std::atomic<size_t> + memory_order_relaxed)
+│  ├─ successful_requests_ (std::atomic<size_t> + memory_order_relaxed)
+│  └─ failed_requests_ (std::atomic<size_t> + memory_order_relaxed)
+└─ Lock hierarchy comments added with protection annotations
+3. include/llm/continuous_batch_scheduler.h
+├─ Lines: 29-45 → Enhanced class documentation with lock hierarchy
+├─ Lines: 265-322 → Enhanced lock hierarchy documentation:
+│  ├─ Clarified mutex_ (std::mutex) protection scope
+│  ├─ Clarified cv_ (std::condition_variable) pairing
+│  ├─ Added: next_request_id_ (std::atomic<int> + memory_order_relaxed)
+│  ├─ Added: next_sequence_id_ (std::atomic<int> + memory_order_relaxed)
+│  └─ Added note: "No nested locks - external callbacks must not re-acquire mutex_"
+└─ Lock hierarchy comments clarifying callback safety
+4. include/llm/production_validator.h
+├─ Lines: 33-56 → Enhanced class documentation with lock hierarchy
+├─ Lines: 203-253 → Added 4-lock hierarchy:
+│  ├─ validation_state_lock_ (std::mutex)
+│  ├─ validation_queue_lock_ (std::mutex)
+│  ├─ metrics_lock_ (std::mutex)
+│  ├─ latency_mutex_ (std::mutex) [independent]
+│  ├─ stress_test_running_ (std::atomic<bool> + memory_order_acquire/release)
+│  ├─ total_requests_processed_ (std::atomic<size_t> + memory_order_relaxed)
+│  └─ total_failures_ (std::atomic<size_t> + memory_order_relaxed)
+└─ Lock hierarchy comments with protection annotations
+
+---
+
+### BATCH3_LEAK_PREVENTION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Wave C Batch 3: CI Policy Gates Phase 3 — Community Leak Prevention & SBOM/Hash Verification
+## Implementation Summary
+**Date:** 2026-08-18
+**Target:** Q4 2026
+**Status:** Complete
+**Scope:** Prevent private source/credential leakage in Community builds and enforce SBOM integrity for releases
+---
+## 1. Deliverables Completed
+### 1.1 Boundary Enforcement Tests (≥12 focused test cases)
+**File:** `tests/plugins/test_plugin_boundary_enforcement_focused.cpp`
+Test coverage:
+- ✅ **TEST-1:** Community build rejects private submodules (scoped-checkout test)
+- ✅ **TEST-2:** Private credential scanner detects leaked AWS keys
+- ✅ **TEST-3:** Private credential scanner detects leaked Azure keys
+- ✅ **TEST-4:** Private credential scanner detects leaked OAuth tokens
+- ✅ **TEST-5:** Private credential scanner detects leaked SSH/PGP keys
+- ✅ **TEST-6:** Enterprise lane can load private plugins, community cannot
+- ✅ **TEST-7:** SBOM hash verification passes when hashes match
+- ✅ **TEST-8:** SBOM hash verification fails (fail-closed) when SBOM missing
+- ✅ **TEST-9:** SBOM hash verification fails (fail-closed) when hash mismatches
+- ✅ **TEST-10:** Verify dependency list in SBOM contains no private sources
+- ✅ **TEST-11:** Negative test: verify scanner catches injected private credentials
+- ✅ **TEST-12:** Scoped-checkout validation blocks private submodules in community PR
+**Components:**
+- `CredentialScanner` class: 14 credential pattern detectors (AWS, Azure, GCP, OAuth, SSH, PGP)
+- `SBOMVerifier` class: SHA-256 SBOM hash generation and verification
+- `ScopedCheckoutValidator` class: Parse and validate .gitmodules entries
+### 1.2 SBOM/Hash Verification Benchmarks
+**File:** `benchmarks/security/bench_sbom_verification_gates.cpp`
+Performance gates:
+- ✅ SBOM parsing time for 100 dependencies < 100ms
+- ✅ SBOM parsing time for 500 dependencies < 100ms
+- ✅ Hash computation per 10 artifacts < 50ms
+- ✅ Hash computation per 50 artifacts < 50ms
+- ✅ Full SBOM verification cycle (100 deps) < 100ms
+- ✅ Full SBOM verification cycle (500 deps) < 100ms
+### 1.3 CI Workflow Extension — ci-pr-gates.yml
+**File:** `.github/workflows/ci-pr-gates.yml`
+New jobs added:
+1. **GATE 9: Scoped Checkout Validation** (lines ~557–595)
+- Runs on PRs targeting `community` and `minimal` branches
+- Validates private submodules have `shallow = true` in .gitmodules
+- **Fail-Closed:** PRs blocked if private plugins not scoped
+- Private plugins checked:
+- `plugins/themisdb_ethic_ai`
+- `plugins/themisdb_storage`
+
+---
+
+### BATCH3_PERFORMANCE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Batch 3 RAG Module Performance Optimization - Complete Summary
+## Project Overview
+## Key Results
+### Issues Fixed: 80+ (71% of 112+ target)
+- **String concatenation in loops**: 28/30 (93%)
+- **Nested loop find operations**: 25/25 (100%) ✓
+- **Cross-cutting optimizations**: 27
+- **Total confirmed**: 80+ issues
+### Files Modified: 7 Core RAG Components
+| File | Issues | Complexity Improvements |
+|---|---:|---|
+| evaluation_report_exporter.cpp | 8 | O(n²)→O(n) string escape |
+| coherence_evaluator.cpp | 15 | O(n³)→O(n² log n) contradiction detection |
+| knowledge_gap_detector.cpp | 25 | O(n²)→O(n) claim verification, O(n log n) aspect detection |
+| reranker.cpp | 8 | O(n²)→O(n) tokenization & bigrams |
+| document_summarizer.cpp | 6 | O(n²)→O(n) extractive summarization |
+| adversarial_tester.cpp | 6 | O(n²)→O(n) variant generation |
+| completeness_evaluator.cpp | 12 | O(n²)→O(n log n) aspect batching |
+## Technical Details
+### 1. String Escaping Optimization (evaluation_report_exporter.cpp)
+**Problem**: Character-by-character string concatenation with +=
+// Before: O(n²) with allocation thrashing
+for (char c : s) {
+out += escape_char(c);  // Repeated allocations
+}
+// After: O(n) with pre-allocated capacity
+out.reserve(s.size() + s.size()/3);
+for (char c : s) {
+out.append(escape_char(c));  // Efficient append
+}
+**Impact**: JSON/HTML export 10-40% faster
+### 2. Contradiction Detection (coherence_evaluator.cpp)
+**Problem**: Triple-nested loop with expensive operations
+// Before: O(n_sentences² × n_negations × n_content)
+for (auto& [i,j] : sentence_pairs)
+for (auto& neg : negation_words)      // 15 iterations
+if (sent_i.find(neg) != npos)     // O(n) search
+**Solution**: Vector→Set, word parsing, early exit
+// After: O(n_sentences² × n_words)
+std::set<string> negation_set = convert(negation_words);
+for (auto& word : parse_words(sent_i))
+if (negation_set.count(word))        // O(log 15)
+**Impact**: 50-80% faster contradiction detection
+
+---
+
+### BATCH1_CHANGE_SUMMARY.txt
+
+*(file too large — key headings extracted)*
+
+================================================================================
+BATCH 1: NULL SAFETY CRITICAL FIXES - CHANGE SUMMARY
+================================================================================
+OBJECTIVE
+---------
+Implement null-safety critical fixes in top 3 high-impact LLM module files:
+1. llama_wrapper.cpp   (35 CRITICAL, 76 HIGH gaps)
+2. model_loader.cpp    (20 CRITICAL, 11 HIGH gaps)
+3. gguf_loader.cpp     (0 CRITICAL, 0 HIGH, 8 MEDIUM gaps)
+IMPLEMENTATION STATUS: ✅ COMPLETE
+Total Lines Added: ~270 production code + ~150 documentation
+New Validation Helpers: 15
+Files Modified: 3
+================================================================================
+BATCH 1.1: llama_wrapper.cpp - Null Safety Public API Entry Points
+================================================================================
+CHANGES MADE:
+• Added 5 validation helper functions in anonymous namespace
+• Enhanced generateRegular() with pre-condition validation
+• All public methods now validate model_loader_ and context handles
+• Token arrays validated after tokenizeInternal() results
+VALIDATION HELPERS ADDED:
+1. validateModelLoaderInitialized(loader, context)
+→ Guards against uninitialized model_loader_ member
+→ Throws std::runtime_error with context name
+2. validateCachedModel(cached, context)
+→ Validates model load result and handle validity
+→ Checks both model_handle and context_handle
+→ Throws std::runtime_error if nullptr
+3. validateLlamaHandles(model, context, context)
+→ Validates llama_model* and llama_context* pointers
+→ Separate diagnostics for each handle
+→ Throws std::runtime_error before dereference
+4. validateTokenArray(tokens, min_size, context)
+→ Prevents iteration over empty token vectors
+→ Validates all dimensions > 0
+→ Throws std::invalid_argument if empty
+5. (Helper already existed: sanitizePromptText)
+CODE CHANGES:
+Line 84-170:    Added validation helper functions
+Line 1234:      validateModelLoaderInitialized() call
+Line 1240:      validateCachedModel() call
+Line 1246:      validateLlamaHandles() call
+Line 1330:      validateTokenArray() call
+EXCEPTION SAFETY: ✅
+• All validation throws before dereference
+• No resource leaks on exception paths
+• Compatible with existing error handling
 
 ---
 
@@ -13903,323 +14217,5 @@ BATCH: 1 of ~3-4 planned batches
 ═══════════════════════════════════════════════════════════════════════════════
 FINDINGS ADDRESSED:
 Total CRITICAL findings: 186
-
----
-
-### BATCH2_CHANGE_SUMMARY.txt
-
-*(file too large — key headings extracted)*
-
-╔════════════════════════════════════════════════════════════════════════════╗
-║                  BATCH 2: RAII & RESOURCE MANAGEMENT FIXES                 ║
-║                           CHANGE SUMMARY                                    ║
-║                                                                             ║
-║                  Phase: Batch 2 (Following Batch 1)                        ║
-║                  Date: 2026-08-17                                          ║
-║                  Status: ✅ COMPLETE & VERIFIED                            ║
-╚════════════════════════════════════════════════════════════════════════════╝
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OVERVIEW
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Batch 2 delivers comprehensive RAII (Resource Acquisition Is Initialization)
-and resource management improvements to the LLM module. The implementation
-provides exception-safe resource cleanup by replacing manual cleanup patterns
-with modern C++20 RAII wrappers.
-Key Achievement: ZERO manual cleanup statements remain (except in RAII
-destructors themselves), and 100% exception-safe resource management.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FILES CREATED (1)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ include/llm/raii_wrappers.h (428 lines)
-Purpose: Central location for all RAII wrapper classes
-Six Production-Ready Wrapper Classes:
-1. ScopedFile
-- Wraps FILE* handles
-- Automatic fclose() on destruction
-- Move-enabled, copy-deleted
-- Exception-safe (noexcept destructor)
-2. ScopedBIO
-- Wraps OpenSSL BIO* objects
-- Automatic BIO_free() on destruction
-- Prevents double-free via copy prevention
-- Supports move semantics
-3. ScopedEVPKey
-- Wraps OpenSSL EVP_PKEY* objects
-- Automatic EVP_PKEY_free() on destruction
-- Critical for cryptographic operations
-- Guaranteed cleanup on exception
-4. ScopedEVPContext
-- Wraps OpenSSL EVP_MD_CTX* objects
-- Automatic EVP_MD_CTX_free() on destruction
-- Used for message digests and signatures
-- Exception-safe cleanup order
-5. ScopedConnection<DBHandle>
-- Generic template for database connections
-- User-provided close function
-- Flexible for various database types
-- Future use for db_connection_leak fixes
-
----
-
-### BATCH2_DELIVERABLES_MANIFEST.txt
-
-*(file too large — key headings extracted)*
-
-╔════════════════════════════════════════════════════════════════════════════╗
-║           BATCH 2: RAII & RESOURCE MANAGEMENT FIXES                       ║
-║                  DELIVERABLES MANIFEST                                     ║
-║                  Date: 2026-08-17                                          ║
-║                  Status: ✅ COMPLETE                                       ║
-╚════════════════════════════════════════════════════════════════════════════╝
-================================================================================
-SOURCE CODE FILES
-================================================================================
-✅ CREATED: include/llm/raii_wrappers.h (14 KB, 428 lines)
-Purpose: Central header with all RAII wrapper classes
-Contents:
-- ScopedFile - FILE* handle wrapper
-- ScopedBIO - OpenSSL BIO wrapper
-- ScopedEVPKey - OpenSSL EVP_PKEY wrapper
-- ScopedEVPContext - OpenSSL EVP_MD_CTX wrapper
-- ScopedConnection<T> - Generic DB connection template
-- ScopedGPUBuffer - GPU memory buffer wrapper
-Key Metrics:
-- 6 production-ready wrapper classes
-- ~60-70 lines per class
-- Full Doxygen documentation
-- Exception-safe (all destructors noexcept)
-- Move semantics enabled
-- Zero dependencies (std library only)
-✅ MODIFIED: src/llm/adapter_registry.cpp (27 KB)
-Changes:
-- Line 13: Added #include "llm/raii_wrappers.h"
-- Lines 414-450: Converted signAdapter() to use RAII
-- Replaced 3 manual cleanup calls with RAII wrappers
-- Added inline documentation of RAII usage
-Key Improvements:
-- BIO*, EVP_PKEY*, EVP_MD_CTX* now RAII-managed
-- Zero manual cleanup statements
-- Exception-safe resource cleanup guaranteed
-- Net +3 LOC (includes + inline docs - cleanup)
-================================================================================
-DOCUMENTATION FILES
-================================================================================
-✅ BATCH2_RAII_DELIVERY_SUMMARY.md (12 KB)
-Purpose: Executive summary of Batch 2 delivery
-Sections:
-- Executive summary
-- Implementation details (all 6 RAII classes)
-- Files modified/created
-- Resource management patterns
-- RAII wrapper classes to create
-- Validation performed
-
----
-
-### BATCH2_DELIVERY_SUMMARY.txt
-
-*(file too large — key headings extracted)*
-
-================================================================================
-UPDATES MODULE BATCH 2
-SCHEMA MIGRATION STABILIZATION
-DELIVERY SUMMARY
-================================================================================
-PROJECT: ThemisDB Updates Module
-BRANCH: develop
-DATE: 2026-08-14
-STATUS: ✅ COMPLETE - PRODUCTION READY
-================================================================================
-EXECUTIVE SUMMARY
-================================================================================
-Successfully resolved all 48 findings in src/updates/schema_migration.cpp through
-systematic stabilization and hardening:
-• 28 HIGH findings (uninitialized access) → RESOLVED ✅
-•  8 HIGH findings (resource leaks) → RESOLVED ✅
-•  3 MEDIUM findings (logic improvements) → RESOLVED ✅
-•  9 OTHER findings (edge cases) → RESOLVED ✅
-Maturity Improvement: 86/100 → 100/100
-Test Coverage: New comprehensive suite with 51 test cases
-================================================================================
-SCOPE & DELIVERABLES
-================================================================================
-PRIMARY TARGET:
-src/updates/schema_migration.cpp (567 → 969 lines, enhanced)
-SUPPORTING FILES:
-include/updates/schema_migration.h (minor enhancements)
-tests/test_updates_schema_migration_batch2.cpp (NEW - 803 lines)
-DOCUMENTATION:
-UPDATES_BATCH2_COMPLETION_REPORT.md (comprehensive)
-BATCH2_DELIVERY_SUMMARY.txt (this file)
-================================================================================
-FINDINGS ADDRESSED
-================================================================================
-CATEGORY 1: UNINITIALIZED ACCESS (28 findings - UM-SMD-01..10)
-──────────────────────────────────
-ROOT CAUSE: version_, phase_, and container elements accessed before guaranteed
-initialization in LOG statements and operation handlers.
-SOLUTION:
-✓ Constructor validation for version and storage pointers
-✓ Initialization guard flag (is_initialized_)
-✓ Assertion method (assertInitialized()) at function entry
-✓ Defensive checks before container access
-KEY CHANGES:
-• ConcreteMigrationContext validates inputs (throw on invalid)
-• Impl struct includes is_initialized_ guard flag
-• All major functions assert initialization before use
-
----
-
-### BATCH2_MANIFEST_VALIDATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Wave C Batch 2: CI Policy Gates Phase 3 — Manifest Fail-Closed Validation
-**Date:** 2026-08-18
-**Scope:** Plugin manifest validation for production-release safety (Q4 2026)
-**Status:** IMPLEMENTED
-## Overview
-## Implementation Summary
-### 1. Error Codes [8700-8799] — `include/plugins/plugin_interface.h`
-**Enum:** `ManifestErrorCode`
-| Code | Name | Meaning |
-|------|------|---------|
-| 8700 | `PLUGIN_EDITION_MISMATCH` | Plugin's allowed_editions does not include current edition |
-| 8701 | `PLUGIN_LICENSE_DENIED` | license_feature required but not granted by license gate |
-| 8702 | `PLUGIN_LICENSE_FEATURE_INVALID` | license_feature field format invalid |
-| 8703 | `PLUGIN_ALLOWED_EDITIONS_MALFORMED` | allowed_editions not an array or invalid values |
-| 8720 | `PLUGIN_PRIVATE_IN_COMMUNITY` | visibility="private" but edition="community" (fail-closed) |
-| 8721 | `PLUGIN_PATH_VISIBILITY_MISMATCH` | Plugin path contains "private/" but not marked private |
-| 8722 | `PLUGIN_RESTRICTED_NO_CONTEXT` | visibility="restricted" without scoped checkout context |
-| 8799 | `PLUGIN_MANIFEST_VALIDATION_ERROR` | Generic manifest validation error |
-### 2. Validation Methods — `src/plugins/plugin_manager.cpp` + `include/plugins/plugin_manager.h`
-#### `validateManifestEditionRestrictions()`
-- **Fail-Closed Logic:**
-1. Check if `allowed_editions` is non-empty AND current edition not in list → `PLUGIN_EDITION_MISMATCH`
-2. Check if `license_feature` format violates pattern `^[a-z0-9][a-z0-9_.-]*$` → `PLUGIN_LICENSE_FEATURE_INVALID`
-3. Check if `license_feature` is required BUT license gate returns false → `PLUGIN_LICENSE_DENIED`
-- **Returns:** `ManifestErrorCode::MANIFEST_OK` on success, specific error code on failure
-- **Location:** Lines 2217-2268 in plugin_manager.cpp
-#### `validateManifestPublicPrivateBoundary()`
-- **Fail-Closed Logic:**
-1. If `visibility="private"` AND `edition="community"` → `PLUGIN_PRIVATE_IN_COMMUNITY`
-2. If `plugin_path` contains "private/" but `visibility!="private"` → `PLUGIN_PATH_VISIBILITY_MISMATCH`
-3. If `visibility="restricted"` AND no `THEMISDB_SCOPED_CHECKOUT` context → `PLUGIN_RESTRICTED_NO_CONTEXT`
-- **Returns:** `ManifestErrorCode::MANIFEST_OK` on success, specific error code on failure
-- **Location:** Lines 2270-2306 in plugin_manager.cpp
-### 3. Test Coverage — ≥16 Focused Test Cases
-**File:** `tests/plugins/test_plugin_manifest_edition_gates_focused.cpp`
-| Test ID | Name | Scenario | Acceptance |
-|---------|------|----------|-----------|
-| TEST-1 | `PrivatePluginInCommunityEdition` | Deny load of private plugin when edition=community | FAIL-CLOSED ✅ |
-| TEST-3 | `MissingLicenseFeature` | Deny load when license_feature required but not granted | FAIL-CLOSED ✅ |
-| TEST-4 | `PublicPluginOnAnyEdition` | Allow public plugin on any edition (pass-through) | PASS-THROUGH ✅ |
-| TEST-5 | `RestrictedPluginWithContext` | Allow restricted plugin only with scoped checkout context | CONTEXT-GATE ✅ |
-| TEST-6 | `MalformedAllowedEditions` | Reject manifest with malformed allowed_editions (non-array) | SCHEMA-REJECT ✅ |
-| TEST-7 | `InvalidLicenseFeatureName` | Reject manifest with invalid license_feature name | PATTERN-REJECT ✅ |
-
----
-
-### BATCH2_RAII_DELIVERY_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Batch 2: RAII & Resource Management Fixes - LLM Module
-## Delivery Summary
-**Date:** 2026-08-17
-**Phase:** Batch 2 (Following Batch 1 - Null Safety)
-**Status:** ✅ IMPLEMENTATION COMPLETE
----
-## Executive Summary
-### Key Achievements
-✅ **New RAII Wrapper Library** - Created `include/llm/raii_wrappers.h` with 5 production-ready wrapper classes
-✅ **OpenSSL Resource Management** - Updated `adapter_registry.cpp` to use RAII for BIO, EVP_PKEY, EVP_MD_CTX
-✅ **Zero Manual Cleanup** - Eliminated manual `delete`, `fclose`, `BIO_free`, `EVP_*_free` patterns
-✅ **Exception-Safe** - All RAII destructors are `noexcept`, guaranteed cleanup on throw
-✅ **Move-Enabled** - All wrappers support move semantics for efficient resource transfer
-✅ **Zero Breaking Changes** - No public API modifications, internal-only improvements
----
-## Implementation Details
-### Files Created
-#### 1. `include/llm/raii_wrappers.h` (428 lines)
-**Purpose:** Central location for all RAII wrapper classes used in LLM module.
-**Classes Implemented:**
-| Class | Purpose | Cleanup | Exception-Safe |
-|-------|---------|---------|---|
-| `ScopedFile` | FILE* handle wrapper | `fclose()` | ✅ noexcept |
-| `ScopedBIO` | OpenSSL BIO wrapper | `BIO_free()` | ✅ noexcept |
-| `ScopedEVPKey` | OpenSSL EVP_PKEY wrapper | `EVP_PKEY_free()` | ✅ noexcept |
-| `ScopedEVPContext` | OpenSSL EVP_MD_CTX wrapper | `EVP_MD_CTX_free()` | ✅ noexcept |
-| `ScopedConnection<T>` | Generic DB connection wrapper | User-provided close_fn | ✅ noexcept |
-| `ScopedGPUBuffer` | GPU memory buffer wrapper | User-provided free_fn | ✅ noexcept |
-**Features of Each Wrapper:**
-- **Delete Copy Semantics** - Prevents accidental ownership duplication
-- **Move Semantics** - Efficient resource transfer with move constructor/assignment
-- **Boolean Conversion** - `if (scoped_resource)` for null checks
-- **get()** - Access underlying raw pointer (non-owning)
-- **release()** - Transfer ownership (for interop with legacy code)
-- **reset()** - Replace managed resource with cleanup of old
-**Example Usage:**
-{
-ScopedBIO bio(BIO_new_mem_buf(data, size));
-if (!bio) throw std::runtime_error("BIO creation failed");
-ScopedEVPKey key(PEM_read_bio_PrivateKey(bio.get(), ...));
-// Use key and bio...
-}  // Automatic cleanup: bio and key freed via RAII destructors
-
----
-
-### BATCH1_CHANGE_SUMMARY.txt
-
-*(file too large — key headings extracted)*
-
-================================================================================
-BATCH 1: NULL SAFETY CRITICAL FIXES - CHANGE SUMMARY
-================================================================================
-OBJECTIVE
----------
-Implement null-safety critical fixes in top 3 high-impact LLM module files:
-1. llama_wrapper.cpp   (35 CRITICAL, 76 HIGH gaps)
-2. model_loader.cpp    (20 CRITICAL, 11 HIGH gaps)
-3. gguf_loader.cpp     (0 CRITICAL, 0 HIGH, 8 MEDIUM gaps)
-IMPLEMENTATION STATUS: ✅ COMPLETE
-Total Lines Added: ~270 production code + ~150 documentation
-New Validation Helpers: 15
-Files Modified: 3
-================================================================================
-BATCH 1.1: llama_wrapper.cpp - Null Safety Public API Entry Points
-================================================================================
-CHANGES MADE:
-• Added 5 validation helper functions in anonymous namespace
-• Enhanced generateRegular() with pre-condition validation
-• All public methods now validate model_loader_ and context handles
-• Token arrays validated after tokenizeInternal() results
-VALIDATION HELPERS ADDED:
-1. validateModelLoaderInitialized(loader, context)
-→ Guards against uninitialized model_loader_ member
-→ Throws std::runtime_error with context name
-2. validateCachedModel(cached, context)
-→ Validates model load result and handle validity
-→ Checks both model_handle and context_handle
-→ Throws std::runtime_error if nullptr
-3. validateLlamaHandles(model, context, context)
-→ Validates llama_model* and llama_context* pointers
-→ Separate diagnostics for each handle
-→ Throws std::runtime_error before dereference
-4. validateTokenArray(tokens, min_size, context)
-→ Prevents iteration over empty token vectors
-→ Validates all dimensions > 0
-→ Throws std::invalid_argument if empty
-5. (Helper already existed: sanitizePromptText)
-CODE CHANGES:
-Line 84-170:    Added validation helper functions
-Line 1234:      validateModelLoaderInitialized() call
-Line 1240:      validateCachedModel() call
-Line 1246:      validateLlamaHandles() call
-Line 1330:      validateTokenArray() call
-EXCEPTION SAFETY: ✅
-• All validation throws before dereference
-• No resource leaks on exception paths
-• Compatible with existing error handling
 
 ---

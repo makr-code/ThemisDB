@@ -20,6 +20,7 @@
 - `iterator_gaps_categorized.json` (2026-08-19, 62,503 B)
 - `iterator_gaps_categorized.md` (2026-08-19, 14,787 B)
 - `high_gap_focus_2026-05-25.json` (2026-08-19, 12,555 B)
+- `gap_verifier_report_updates.md` (2026-08-19, 15,014 B)
 - `gap_scanner_verified_server_high_a.json` (2026-08-19, 6,174 B)
 - `gap_scanner_verified_updates.json` (2026-08-19, 15,205 B)
 - `gap_scope_breakdown_20260604.json` (2026-08-19, 7,715 B)
@@ -29,16 +30,7 @@
 - `gap_verifier_report_graph.md` (2026-08-19, 13,466 B)
 - `gap_verifier_report_ingestion.md` (2026-08-19, 9,377 B)
 - `gap_verifier_report_llm.md` (2026-08-19, 14,972 B)
-- `gap_verifier_report_updates.md` (2026-08-19, 15,014 B)
 - `gap_scanner_verified_llm.json` (2026-08-19, 335,366 B)
-- `gap_scan_scraper.json` (2026-08-19, 2,472 B)
-- `gap_scan_search.json` (2026-08-19, 13,182 B)
-- `gap_scan_security.json` (2026-08-19, 41,679 B)
-- `gap_scan_server.json` (2026-08-19, 10,811 B)
-- `gap_scan_sharding.json` (2026-08-19, 14,811 B)
-- `gap_scan_stable_diffusion.json` (2026-08-19, 1,722 B)
-- `gap_scan_storage.json` (2026-08-19, 23,923 B)
-- `gap_scan_temporal.json` (2026-08-19, 7,031 B)
 - `gap_scan_tensor.json` (2026-08-19, 14,572 B)
 - `gap_scan_themis.json` (2026-08-19, 7,014 B)
 - `gap_scan_timeseries.json` (2026-08-19, 5,028 B)
@@ -55,7 +47,25 @@
 - `gap_scanner_results.json` (2026-08-19, 2,920 B)
 - `gap_scanner_verified_failover.json` (2026-08-19, 7,574 B)
 - `gap_scanner_verified_graph.json` (2026-08-19, 6,664 B)
-- `gap_scan_content.json` (2026-08-19, 10,221 B)
+- `gap_scan_performance.json` (2026-08-19, 6,192 B)
+- `gap_scan_pipeline_v3_summary.json` (2026-08-19, 561 B)
+- `gap_scan_plugins.json` (2026-08-19, 3,781 B)
+- `gap_scan_process.json` (2026-08-19, 8,099 B)
+- `gap_scan_projects.json` (2026-08-19, 693 B)
+- `gap_scan_prompt_engineering.json` (2026-08-19, 9,385 B)
+- `gap_scan_query.json` (2026-08-19, 13,764 B)
+- `gap_scan_rag.json` (2026-08-19, 13,669 B)
+- `gap_scan_replication.json` (2026-08-19, 6,733 B)
+- `gap_scan_rpc_grpc.json` (2026-08-19, 424 B)
+- `gap_scan_scheduler.json` (2026-08-19, 13,180 B)
+- `gap_scan_scraper.json` (2026-08-19, 2,472 B)
+- `gap_scan_search.json` (2026-08-19, 13,182 B)
+- `gap_scan_security.json` (2026-08-19, 41,679 B)
+- `gap_scan_server.json` (2026-08-19, 10,811 B)
+- `gap_scan_sharding.json` (2026-08-19, 14,811 B)
+- `gap_scan_stable_diffusion.json` (2026-08-19, 1,722 B)
+- `gap_scan_storage.json` (2026-08-19, 23,923 B)
+- `gap_scan_temporal.json` (2026-08-19, 7,031 B)
 - `gap_scan_core.json` (2026-08-19, 2,380 B)
 - `gap_scan_distributed_knowledge.json` (2026-08-19, 1,098 B)
 - `gap_scan_document.json` (2026-08-19, 682 B)
@@ -76,17 +86,6 @@
 - `gap_scan_network.json` (2026-08-19, 14,972 B)
 - `gap_scan_observability.json` (2026-08-19, 8,141 B)
 - `gap_scan_onnx_clip.json` (2026-08-19, 2,097 B)
-- `gap_scan_performance.json` (2026-08-19, 6,192 B)
-- `gap_scan_pipeline_v3_summary.json` (2026-08-19, 561 B)
-- `gap_scan_plugins.json` (2026-08-19, 3,781 B)
-- `gap_scan_process.json` (2026-08-19, 8,099 B)
-- `gap_scan_projects.json` (2026-08-19, 693 B)
-- `gap_scan_prompt_engineering.json` (2026-08-19, 9,385 B)
-- `gap_scan_query.json` (2026-08-19, 13,764 B)
-- `gap_scan_rag.json` (2026-08-19, 13,669 B)
-- `gap_scan_replication.json` (2026-08-19, 6,733 B)
-- `gap_scan_rpc_grpc.json` (2026-08-19, 424 B)
-- `gap_scan_scheduler.json` (2026-08-19, 13,180 B)
 - `gap_scan_aggregate.json` (2026-08-19, 17 B)
 - `gap_scan_ai.json` (2026-08-19, 3,947 B)
 - `gap_scan_api.json` (2026-08-19, 6,224 B)
@@ -97,6 +96,7 @@
 - `gap_scan_chaos.json` (2026-08-19, 2,751 B)
 - `gap_scan_chimera.json` (2026-08-19, 1,539 B)
 - `gap_scan_config.json` (2026-08-19, 751 B)
+- `gap_scan_content.json` (2026-08-19, 10,221 B)
 - `SPRINT_8_GAP_REPORT.md` (2026-08-19, 7,823 B)
 - `SESSION_SUMMARY_GAP_CLOSURE_2026-08-15.md` (2026-08-19, 10,478 B)
 - `SHARDING_GAP_CLOSURE_ROADMAP.md` (2026-08-19, 8,701 B)
@@ -104,20 +104,19 @@
 - `SERVER_GAPS_EXECUTIVE_SUMMARY.md` (2026-08-19, 9,338 B)
 - `SERVER_GAPS_FINAL_RESULTS.md` (2026-08-19, 8,810 B)
 - `SERVER_GAPS_PROJECT_COMPLETE.md` (2026-08-19, 10,247 B)
-- `QUERY_OPTIMIZER_THREAD_SAFETY_GAPS.md` (2026-08-19, 8,525 B)
-- `QUERY_GAPS_CLOSURE_SUMMARY_2026_08_17.md` (2026-08-19, 7,358 B)
-- `QUERY_GAPS_IMPLEMENTATION_REPORT_2026_08_17.md` (2026-08-19, 15,238 B)
 - `QUERY_GAPS_IMPLEMENTATION_STATUS.md` (2026-08-19, 1,858 B)
 - `QUERY_MEDIUM_GAPS_FINAL_VERIFICATION_CHECKLIST.md` (2026-08-19, 7,988 B)
 - `QUERY_MEDIUM_GAPS_IMPLEMENTATION_REPORT.md` (2026-08-19, 14,265 B)
 - `QUERY_MEDIUM_GAPS_READY_FOR_REVIEW.md` (2026-08-19, 13,447 B)
 - `QUERY_MEDIUM_PERFORMANCE_GAPS_PLAN.md` (2026-08-19, 6,858 B)
-- `PLUGINS_GAP_REMEDIATION_COMPLETE.md` (2026-08-19, 13,918 B)
+- `QUERY_OPTIMIZER_THREAD_SAFETY_GAPS.md` (2026-08-19, 8,525 B)
+- `QUERY_GAPS_CLOSURE_SUMMARY_2026_08_17.md` (2026-08-19, 7,358 B)
+- `QUERY_GAPS_IMPLEMENTATION_REPORT_2026_08_17.md` (2026-08-19, 15,238 B)
 - `PROCESS_GAPS_CLOSURE_MASTER_PLAN.md` (2026-08-19, 6,994 B)
 - `PROCESS_GAPS_EXECUTIVE_SUMMARY.md` (2026-08-19, 7,642 B)
 - `PROCESS_GAPS_INTEGRATION_PLAYBOOK.md` (2026-08-19, 10,594 B)
 - `PROCESS_GAPS_LIVE_STATUS_DASHBOARD.md` (2026-08-19, 8,185 B)
-- `LLM_GAP_ELIMINATION_REPORT.md` (2026-08-19, 6,664 B)
+- `PLUGINS_GAP_REMEDIATION_COMPLETE.md` (2026-08-19, 13,918 B)
 - `LLM_MODULE_GAP_CLOSURE_EXECUTIVE_SUMMARY.md` (2026-08-19, 12,152 B)
 - `MEDIUM_LOW_GAP_CLOSURE_PLAN.md` (2026-08-19, 4,391 B)
 - `MODULE_GAPS_CONSOLIDATION_REPORT.md` (2026-08-19, 8,945 B)
@@ -131,35 +130,36 @@
 - `LLM_GAPS_IMPLEMENTATION_PLAN.md` (2026-08-19, 14,880 B)
 - `LLM_GAPS_INDEX_AND_NAVIGATION.md` (2026-08-19, 12,397 B)
 - `LLM_GAPS_QUICK_REFERENCE.md` (2026-08-19, 11,238 B)
+- `LLM_GAP_ELIMINATION_REPORT.md` (2026-08-19, 6,664 B)
 - `L1_module_gaps_cache.md` (2026-08-19, 3,948 B)
 - `L1_module_gaps_graph.md` (2026-08-19, 3,975 B)
 - `L1_module_gaps_llm.md` (2026-08-19, 3,992 B)
 - `L1_module_gaps_network.md` (2026-08-19, 3,969 B)
 - `L1_module_gaps_query.md` (2026-08-19, 3,976 B)
 - `L1_module_gaps_server.md` (2026-08-19, 3,986 B)
-- `INDEX_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 13,951 B)
-- `INDEX_GAP_CLOSURE_LAUNCH_SUMMARY.md` (2026-08-19, 9,591 B)
-- `INDEX_GAP_CLOSURE_LIVE_STATUS_2026-08-15.md` (2026-08-19, 10,594 B)
 - `INDEX_GAP_CLOSURE_MASTER_STATUS_2026-08-15_FINAL.md` (2026-08-19, 17,311 B)
 - `INDEX_GAP_CLOSURE_RESTART_SUMMARY_2026-08-15.md` (2026-08-19, 11,858 B)
 - `INGESTION_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 17,088 B)
-- `HIGH_GAP_SPRINT_BACKLOG_2026-05-25.md` (2026-08-19, 6,378 B)
-- `IMPORTERS_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 12,947 B)
+- `INDEX_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 13,951 B)
+- `INDEX_GAP_CLOSURE_LAUNCH_SUMMARY.md` (2026-08-19, 9,591 B)
+- `INDEX_GAP_CLOSURE_LIVE_STATUS_2026-08-15.md` (2026-08-19, 10,594 B)
 - `IMPORTERS_GAP_IMPLEMENTATION_QUICKSTART.md` (2026-08-19, 10,266 B)
+- `IMPORTERS_GAP_CLOSURE_COORDINATION.md` (2026-08-19, 12,947 B)
 - `HEADER_GAP_REMEDIATION_REPORT.md` (2026-08-19, 10,726 B)
+- `HIGH_GAP_SPRINT_BACKLOG_2026-05-25.md` (2026-08-19, 6,378 B)
 - `GPU_MODULE_GAP_REMEDIATION_FINAL_REPORT.md` (2026-08-19, 16,728 B)
-- `GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md` (2026-08-19, 8,919 B)
-- `GAP_ELIMINATION_PLAN.md` (2026-08-19, 2,582 B)
 - `GAP_SCANNER_CURRENT_REPORT_2026-06-09.md` (2026-08-19, 1,923 B)
 - `GAP_SCANNER_V3_ANALYSIS.md` (2026-08-19, 42,137 B)
 - `GAP_SCAN_RESCAN_REPORT_2026-05-25.md` (2026-08-19, 1,724 B)
 - `GAP_VERIFIER_INDEX_LLM.md` (2026-08-19, 13,210 B)
 - `GAP_ANALYSIS.md` (2026-08-19, 14,002 B)
+- `GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md` (2026-08-19, 8,919 B)
+- `GAP_ELIMINATION_PLAN.md` (2026-08-19, 2,582 B)
 - `FINAL_GAP_ELIMINATION_SUMMARY.md` (2026-08-19, 7,595 B)
 - `DT_GAPS_IMPLEMENTATION_PLAN.md` (2026-08-19, 11,302 B)
 - `DT_GAPS_TEST_AND_VERIFICATION_PLAN.md` (2026-08-19, 8,543 B)
-- `DELIVERY_LLM_GAPS_ANALYSIS.txt` (2026-08-19, 11,556 B)
 - `DISTRIBUTED_KNOWLEDGE_GAP_CLOSURE_FINAL_REPORT.md` (2026-08-19, 16,211 B)
+- `DELIVERY_LLM_GAPS_ANALYSIS.txt` (2026-08-19, 11,556 B)
 
 ---
 
@@ -620,6 +620,43 @@ Nur kleine, testbare Reparaturen mit hoher Sicherheit:
 ],
 [
 "smart_ptr_misuse",
+
+---
+
+### gap_verifier_report_updates.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Updates Module - Gap Verification & False Positive Analysis
+**Verification Date:** 2026-08-18
+**Reviewer:** Gap Verification Specialist
+**Focus:** Resource Leak (22), Uninitialized Access (38), Manual Cleanup (12), Data Race (10) - Total 82 findings
+---
+## Executive Summary
+**Total Raw Findings:** 175 (22 CRITICAL, 93 HIGH, 55 MEDIUM, 5 LOW)
+**Verified True Positives:** ~12 gaps (1 CRITICAL, 8 HIGH, 3 MEDIUM)
+**False Positives Removed:** ~70 findings (primarily logging statements, already-refactored code)
+**Severity Downgrades:** ~5 findings (guarded stubs, initialization-time races)
+**Wave A Impact:** 3 CRITICAL items require implementation; most other HIGH gaps already mitigated via RAII patterns
+---
+## Category-by-Category Analysis
+### 1. Resource Leak Issues (22 findings) → ~3 True Positives
+| Finding | File | Line | Pattern | Status | Classification | Verified Severity | Rationale |
+|---------|------|------|---------|--------|-----------------|------------------|-----------|
+**Resource Leak Summary:**
+- ✅ **70% already fixed** via RAII patterns (unique_ptr, ScopedOperationGuard, TempFileRaii)
+- ✅ **20% mitigated** via try-catch with proper cleanup
+- ⚠️ **10% requires verification** (parallel_downloader.cpp DB connection)
+---
+### 2. Uninitialized Access Issues (38 findings) → ~1 True Positive
+| Finding | File | Line | Pattern | Context | Status | Classification | Verified Severity | Rationale |
+|---------|------|------|---------|---------|--------|-----------------|------------------|-----------|
+**Uninitialized Access Summary:**
+- ✅ **95% false positives** from scanner misinterpreting LOG macros as "container access"
+- ✅ **All member variables initialized** in constructors or with default initialization
+- ✅ **Defensive guards** present (e.g., `if (!is_initialized_) return nullptr;`)
+- ⚠️ **1 possible gap** in config validation order (updates_config.cpp)
+---
 
 ---
 
@@ -2270,43 +2307,6 @@ The verification workflow applies these decision rules:
 
 ---
 
-### gap_verifier_report_updates.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Updates Module - Gap Verification & False Positive Analysis
-**Verification Date:** 2026-08-18
-**Reviewer:** Gap Verification Specialist
-**Focus:** Resource Leak (22), Uninitialized Access (38), Manual Cleanup (12), Data Race (10) - Total 82 findings
----
-## Executive Summary
-**Total Raw Findings:** 175 (22 CRITICAL, 93 HIGH, 55 MEDIUM, 5 LOW)
-**Verified True Positives:** ~12 gaps (1 CRITICAL, 8 HIGH, 3 MEDIUM)
-**False Positives Removed:** ~70 findings (primarily logging statements, already-refactored code)
-**Severity Downgrades:** ~5 findings (guarded stubs, initialization-time races)
-**Wave A Impact:** 3 CRITICAL items require implementation; most other HIGH gaps already mitigated via RAII patterns
----
-## Category-by-Category Analysis
-### 1. Resource Leak Issues (22 findings) → ~3 True Positives
-| Finding | File | Line | Pattern | Status | Classification | Verified Severity | Rationale |
-|---------|------|------|---------|--------|-----------------|------------------|-----------|
-**Resource Leak Summary:**
-- ✅ **70% already fixed** via RAII patterns (unique_ptr, ScopedOperationGuard, TempFileRaii)
-- ✅ **20% mitigated** via try-catch with proper cleanup
-- ⚠️ **10% requires verification** (parallel_downloader.cpp DB connection)
----
-### 2. Uninitialized Access Issues (38 findings) → ~1 True Positive
-| Finding | File | Line | Pattern | Context | Status | Classification | Verified Severity | Rationale |
-|---------|------|------|---------|---------|--------|-----------------|------------------|-----------|
-**Uninitialized Access Summary:**
-- ✅ **95% false positives** from scanner misinterpreting LOG macros as "container access"
-- ✅ **All member variables initialized** in constructors or with default initialization
-- ✅ **Defensive guards** present (e.g., `if (!is_initialized_) return nullptr;`)
-- ⚠️ **1 possible gap** in config validation order (updates_config.cpp)
----
-
----
-
 ### gap_scanner_verified_llm.json
 
 *(file too large — key headings extracted)*
@@ -2371,1092 +2371,6 @@ The verification workflow applies these decision rules:
 "total": 52,
 "by_severity": {
 "MEDIUM": 52
-
----
-
-### gap_scan_scraper.json
-
-{
-  "module": "scraper",
-  "summary": {
-    "total": 8,
-    "critical": 7,
-    "high": 1,
-    "medium": 0,
-    "low": 0
-  },
-  "gaps": [
-    {
-      "file": "src\\scraper\\scraper_api_client.cpp",
-      "line_num": 336,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {}; // curl not enabled",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\scraper\\scraper_plugin.cpp",
-      "line_num": 193,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "catch (...) { return {}; }",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\scraper\\scraper_plugin.cpp",
-      "line_num": 198,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!curl) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\scraper\\scraper_plugin.cpp",
-      "line_num": 212,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\scraper\\scraper_search_engine.cpp",
-      "line_num": 64,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (pos == std::string::npos) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\scraper\\scraper_search_engine.cpp",
-      "line_num": 178,
-      "category": "stub",
-      "pattern": "//\\s*PLACEHOLDER",
-      "context": "// Placeholder heuristics \u2014 look for search-intent words in many languages.",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\scraper\\scraper_search_engine.cpp",
-      "line_num": 318,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (p == std::string::npos) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "include\\scraper\\scraper_search_engine.h",
-      "line_num": 241,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "include"
-    }
-  ]
-}
-
----
-
-### gap_scan_search.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "search",
-"summary": {
-"total": 46,
-"critical": 46,
-"high": 0,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\search\\autocomplete.cpp",
-"line_num": 60,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\search\\autocomplete.cpp",
-"line_num": 114,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\search\\autocomplete.cpp",
-"line_num": 131,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\search\\autocomplete.cpp",
-"line_num": 169,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!analytics_) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\search\\autocomplete.cpp",
-"line_num": 172,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (metrics.top_queries.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_security.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "security",
-"summary": {
-"total": 139,
-"critical": 113,
-"high": 26,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\security\\ai_operation_guard.cpp",
-"line_num": 391,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\security\\ai_operation_guard.cpp",
-"line_num": 431,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\security\\ai_operation_guard.cpp",
-"line_num": 462,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\security\\ai_operation_guard.cpp",
-"line_num": 464,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\security\\behavioral_anomaly_detector.cpp",
-"line_num": 90,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (config_.burst_rate_threshold <= 0.0) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_server.json
-
-{
-  "module": "server",
-  "summary": {
-    "total": 37,
-    "critical": 28,
-    "high": 7,
-    "medium": 2,
-    "low": 0
-  },
-  "gaps": [
-    {
-      "file": "src\\server\\api_gateway.cpp",
-      "line_num": 979,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\api_gateway.cpp",
-      "line_num": 1007,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\api_key_mgmt_handler.cpp",
-      "line_num": 88,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (days <= 0) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\async_job_api_handler.cpp",
-      "line_num": 253,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (path.size() <= kPrefix.size()) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\async_job_api_handler.cpp",
-      "line_num": 254,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (path.rfind(kPrefix.data(), 0) != 0) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\cache_admin_api_handler.cpp",
-      "line_num": 69,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\grpc_web_proxy_handler.cpp",
-      "line_num": 187,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// STUB/SIMULATION NOTE:",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http2_session.cpp",
-      "line_num": 466,
-      "category": "todo",
-      "pattern": "//\\s*TODO[:\\s]",
-      "context": "// TODO: Use proper buffer management for production",
-      "severity": "medium",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http3_datagram.cpp",
-      "line_num": 142,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http3_production_config.cpp",
-      "line_num": 91,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {}; // Suppress Alt-Svc to prevent the client from retrying QUIC",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http3_session.cpp",
-      "line_num": 268,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http3_session.cpp",
-      "line_num": 278,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http3_session.cpp",
-      "line_num": 281,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http3_session.cpp",
-      "line_num": 298,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http_server.cpp",
-      "line_num": 117,
-      "category": "todo",
-      "pattern": "//\\s*TODO[:\\s]",
-      "context": "#include \"server/http_type_adapter.h\"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)",
-      "severity": "medium",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http_server.cpp",
-      "line_num": 9281,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (pos == std::string::npos) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http_server.cpp",
-      "line_num": 9364,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (pos == std::string::npos) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http_server.cpp",
-      "line_num": 11815,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// STUB/SIMULATION NOTE:",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\http_server.cpp",
-      "line_num": 12731,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\llm_api_handler.cpp",
-      "line_num": 437,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (pos == std::string::npos) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\mcp_server.cpp",
-      "line_num": 2688,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// STUB/SIMULATION NOTE:",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\mcp_server.cpp",
-      "line_num": 3064,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\mvcc_api_handler.cpp",
-      "line_num": 356,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (req.matches.size() < 2) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\query_api_handler.cpp",
-      "line_num": 3455,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (pos == std::string::npos) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\shard_repair_api_handler.cpp",
-      "line_num": 90,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\sse_connection_manager.cpp",
-      "line_num": 134,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\sse_connection_manager.cpp",
-      "line_num": 155,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\sse_connection_manager.cpp",
-      "line_num": 161,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\themis_core_grpc_service.cpp",
-      "line_num": 32,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// stubs generated from proto/themis_core.proto are available on the include",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\themis_core_grpc_service.cpp",
-      "line_num": 121,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// STUB/SIMULATION NOTE:",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\voice_api_handler.cpp",
-      "line_num": 1346,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (q_pos == std::string::npos) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\voice_api_handler.cpp",
-      "line_num": 1363,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\wal_api_handler.cpp",
-      "line_num": 211,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\server\\wal_grpc_service.cpp",
-      "line_num": 230,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// STUB/SIMULATION NOTE:",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "include\\server\\auth_middleware.h",
-      "line_num": 99,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "static ApiKeyConfig defaults() { return {}; }",
-      "severity": "critical",
-      "notes": "",
-      "location": "include"
-    },
-    {
-      "file": "include\\server\\mqtt_client_service.h",
-      "line_num": 548,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "std::string topicForEvent(const Changefeed::ChangeEvent&) const { return {}; }",
-      "severity": "critical",
-      "notes": "",
-      "location": "include"
-    },
-    {
-      "file": "include\\server\\prompt_engineering_grpc_service.h",
-      "line_num": 92,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// Stub service - full implementation available once proto is generated",
-      "severity": "high",
-      "notes": "",
-      "location": "include"
-    }
-  ]
-}
-
----
-
-### gap_scan_sharding.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "sharding",
-"summary": {
-"total": 51,
-"critical": 19,
-"high": 30,
-"medium": 2,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\sharding\\adaptive_shard_router.cpp",
-"line_num": 346,
-"category": "todo",
-"pattern": "//\\s*TODO[:\\s]",
-"context": "// TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:",
-"severity": "medium",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\sharding\\auto_rebalancer.cpp",
-"line_num": 65,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\sharding\\cloud_backup.cpp",
-"line_num": 78,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE:",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\sharding\\cloud_backup.cpp",
-"line_num": 157,
-"category": "stub",
-"pattern": "//\\s*PLACEHOLDER",
-"context": "// Placeholder behavior: return false to indicate SDK not integrated",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\sharding\\cloud_backup.cpp",
-"line_num": 190,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE (S3StorageProvider::download):",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_stable_diffusion.json
-
-{
-  "module": "stable_diffusion",
-  "summary": {
-    "total": 5,
-    "critical": 2,
-    "high": 3,
-    "medium": 0,
-    "low": 0
-  },
-  "gaps": [
-    {
-      "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-      "line_num": 525,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (buf.size() < 8u) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-      "line_num": 541,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\stable_diffusion\\tests\\test_sd_plugin_registrar.cpp",
-      "line_num": 28,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// Stub mode: no model_path in config \u2192 plugin not initialized",
-      "severity": "high",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "include\\stable_diffusion\\sd_generator.h",
-      "line_num": 92,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// Stub generator \u2013 used when stable-diffusion.cpp is not linked",
-      "severity": "high",
-      "notes": "",
-      "location": "include"
-    },
-    {
-      "file": "include\\stable_diffusion\\sd_generator.h",
-      "line_num": 124,
-      "category": "stub",
-      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-      "context": "// Stub pass-through: return the input image unchanged.",
-      "severity": "high",
-      "notes": "",
-      "location": "include"
-    }
-  ]
-}
-
----
-
-### gap_scan_storage.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "storage",
-"summary": {
-"total": 84,
-"critical": 69,
-"high": 15,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\storage\\backup_manager.cpp",
-"line_num": 1354,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE:",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\storage\\backup_manager.cpp",
-"line_num": 1362,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "//                   stub (raw-copy) mode.",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\storage\\backup_manager.cpp",
-"line_num": 1622,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE:",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\storage\\backup_manager.cpp",
-"line_num": 1825,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE:",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\storage\\backup_manager.cpp",
-"line_num": 1902,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE:",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_temporal.json
-
-{
-  "module": "temporal",
-  "summary": {
-    "total": 25,
-    "critical": 25,
-    "high": 0,
-    "medium": 0,
-    "low": 0
-  },
-  "gaps": [
-    {
-      "file": "src\\temporal\\bi_temporal.cpp",
-      "line_num": 181,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\bi_temporal.cpp",
-      "line_num": 200,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\bi_temporal.cpp",
-      "line_num": 218,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\bi_temporal.cpp",
-      "line_num": 246,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\bi_temporal.cpp",
-      "line_num": 336,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\interval_tree_index.cpp",
-      "line_num": 409,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (it == key_index_.end()) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\snapshot_manager.cpp",
-      "line_num": 84,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\snapshot_manager.cpp",
-      "line_num": 89,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\system_versioned_table.cpp",
-      "line_num": 236,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\system_versioned_table.cpp",
-      "line_num": 247,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 53,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 78,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 116,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 137,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 236,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 254,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 454,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 515,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_aggregator.cpp",
-      "line_num": 578,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_cold_store.cpp",
-      "line_num": 203,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!ifs) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_cold_store.cpp",
-      "line_num": 208,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_compressor.cpp",
-      "line_num": 117,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (input.empty()) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_query_engine.cpp",
-      "line_num": 321,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_query_engine.cpp",
-      "line_num": 561,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (versions.empty()) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\temporal\\temporal_query_engine.cpp",
-      "line_num": 672,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (history.empty()) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    }
-  ]
-}
 
 ---
 
@@ -4040,230 +2954,538 @@ The verification workflow applies these decision rules:
 
 ### gap_scan_training.json
 
-*(file too large — key headings extracted)*
-
 {
-"module": "training",
-"summary": {
-"total": 19,
-"critical": 15,
-"high": 4,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\training\\ada_lora_adapter.cpp",
-"line_num": 193,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (layers_.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\training\\auto_labeler.cpp",
-"line_num": 418,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\training\\auto_labeler.cpp",
-"line_num": 424,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\training\\database_domain_auto_labeler.cpp",
-"line_num": 32,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (pos == std::string::npos) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\training\\database_domain_auto_labeler.cpp",
-"line_num": 34,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (pos == std::string::npos) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
+  "module": "training",
+  "summary": {
+    "total": 19,
+    "critical": 15,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\training\\ada_lora_adapter.cpp",
+      "line_num": 193,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (layers_.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\auto_labeler.cpp",
+      "line_num": 418,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\auto_labeler.cpp",
+      "line_num": 424,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\database_domain_auto_labeler.cpp",
+      "line_num": 32,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (pos == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\database_domain_auto_labeler.cpp",
+      "line_num": 34,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (pos == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\database_domain_auto_labeler.cpp",
+      "line_num": 37,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (pos >= json.size() || json[pos] != '\"') return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\database_domain_auto_labeler.cpp",
+      "line_num": 40,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (end == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\database_domain_auto_labeler.cpp",
+      "line_num": 171,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (samples.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\knowledge_graph_enricher.cpp",
+      "line_num": 498,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\lora_data_selection.cpp",
+      "line_num": 333,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (samples.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\lora_data_selection.cpp",
+      "line_num": 365,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (samples.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\lora_data_selection.cpp",
+      "line_num": 490,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (scored.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\lora_data_selection.cpp",
+      "line_num": 508,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (from >= src.size()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\modality_parser.cpp",
+      "line_num": 85,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (start == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\provenance_tracker.cpp",
+      "line_num": 244,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\training\\provenance_tracker.cpp",
+      "line_num": 328,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "tests\\test_distributed_training_coordinator.cpp",
+      "line_num": 66,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "shard_router_ = nullptr;  // Placeholder",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_distributed_training_coordinator.cpp",
+      "line_num": 67,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "shard_topology_ = nullptr;  // Placeholder",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_training_phase2.cpp",
+      "line_num": 49,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock ILLMRouter",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}
 
 ---
 
 ### gap_scan_transaction.json
 
-*(file too large — key headings extracted)*
-
 {
-"module": "transaction",
-"summary": {
-"total": 16,
-"critical": 14,
-"high": 2,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\transaction\\crash_recovery_manager.cpp",
-"line_num": 262,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!f.is_open()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\transaction\\deadlock_predictor.cpp",
-"line_num": 225,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\transaction\\saga_orchestrator.cpp",
-"line_num": 217,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\transaction\\transaction_batcher.cpp",
-"line_num": 111,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\transaction\\transaction_manager.cpp",
-"line_num": 1547,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (isolation_ != IsolationLevel::SERIALIZABLE) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
+  "module": "transaction",
+  "summary": {
+    "total": 16,
+    "critical": 14,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\transaction\\crash_recovery_manager.cpp",
+      "line_num": 262,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!f.is_open()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\transaction\\deadlock_predictor.cpp",
+      "line_num": 225,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\transaction\\saga_orchestrator.cpp",
+      "line_num": 217,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\transaction\\transaction_batcher.cpp",
+      "line_num": 111,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\transaction\\transaction_manager.cpp",
+      "line_num": 1547,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (isolation_ != IsolationLevel::SERIALIZABLE) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\transaction\\transaction_manager.cpp",
+      "line_num": 1548,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!lock_manager_) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\transaction\\transaction_manager.cpp",
+      "line_num": 1556,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\transaction\\transaction_manager.cpp",
+      "line_num": 2021,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!history_mgr_) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\transaction\\distributed_saga.h",
+      "line_num": 49,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static DistributedSagaStatus OK()    { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\transaction\\distributed_transaction_manager.h",
+      "line_num": 207,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static DistributedTxnStatus OK() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\transaction\\saga_orchestrator.h",
+      "line_num": 48,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static SagaOrchestratorStatus OK()                       { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\transaction\\transaction_auditor.h",
+      "line_num": 70,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Status OK()                   { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\transaction\\transaction_batcher.h",
+      "line_num": 109,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Status OK()                   { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\transaction\\transaction_manager.h",
+      "line_num": 86,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Status OK() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_postgres_transactions.cpp",
+      "line_num": 411,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder test when PostgreSQL Wire is disabled",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_transaction_distributed_2pc.cpp",
+      "line_num": 67,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock participant",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}
 
 ---
 
 ### gap_scan_updates.json
 
-*(file too large — key headings extracted)*
-
 {
-"module": "updates",
-"summary": {
-"total": 11,
-"critical": 11,
-"high": 0,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\updates\\build_verifier.cpp",
-"line_num": 90,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (b < 0) { return {}; }  // invalid character",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\updates\\delta_update_engine.cpp",
-"line_num": 164,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!f) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\updates\\hardware_telemetry.cpp",
-"line_num": 148,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!f.is_open()) { return {}; }",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\updates\\hardware_telemetry.cpp",
-"line_num": 165,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\updates\\hardware_telemetry.cpp",
-"line_num": 222,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
+  "module": "updates",
+  "summary": {
+    "total": 11,
+    "critical": 11,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\updates\\build_verifier.cpp",
+      "line_num": 90,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (b < 0) { return {}; }  // invalid character",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\delta_update_engine.cpp",
+      "line_num": 164,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!f) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\hardware_telemetry.cpp",
+      "line_num": 148,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!f.is_open()) { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\hardware_telemetry.cpp",
+      "line_num": 165,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\hardware_telemetry.cpp",
+      "line_num": 222,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\hardware_telemetry.cpp",
+      "line_num": 229,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\hardware_telemetry.cpp",
+      "line_num": 231,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\parallel_downloader.cpp",
+      "line_num": 207,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!f.is_open()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\parallel_downloader.cpp",
+      "line_num": 210,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!ctx) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\parallel_downloader.cpp",
+      "line_num": 214,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\updates\\tenant_update_scheduler.cpp",
+      "line_num": 130,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    }
+  ]
+}
 
 ---
 
 ### gap_scan_user_storage_encrypted.json
 
-*(file too large — key headings extracted)*
-
 {
-"module": "user_storage_encrypted",
-"summary": {
-"total": 1,
-"critical": 0,
-"high": 1,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
-"line_num": 109,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE:",
-"severity": "high",
-"notes": "",
-"location": "src"
-}
-]
+  "module": "user_storage_encrypted",
+  "summary": {
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+      "line_num": 109,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    }
+  ]
 }
 
 ---
@@ -4771,22 +3993,859 @@ Generated: 2026-06-02T12:40:50.366203
 
 ---
 
-### gap_scan_content.json
+### gap_scan_performance.json
 
 *(file too large — key headings extracted)*
 
 {
-"module": "content",
+"module": "performance",
 "summary": {
-"total": 36,
-"critical": 25,
-"high": 10,
-"medium": 1,
+"total": 21,
+"critical": 17,
+"high": 4,
+"medium": 0,
 "low": 0
 },
 "gaps": [
 {
-"file": "src\\content\\archive_processor.cpp",
+"file": "src\\performance\\advanced_cache_manager.cpp",
+"line_num": 93,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE:",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\performance\\advanced_cache_manager.cpp",
+"line_num": 243,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (val.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\performance\\advanced_cache_manager.cpp",
+"line_num": 256,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (orig_size == 0) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\performance\\advanced_cache_manager.cpp",
+"line_num": 285,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (orig_size == 0) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\performance\\advanced_cache_manager.cpp",
+"line_num": 471,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!ps) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_pipeline_v3_summary.json
+
+*(file too large — key headings extracted)*
+
+{
+"scan_date": "2026-06-04T08:50:21.792147",
+"total_gaps": 33247,
+"total_modules": 67,
+"by_severity": {
+"critical": 2926,
+"high": 8106,
+"medium": 13127,
+"low": 9088
+},
+"scanner_summary": {
+"scanner": "ThemisDB Gap Scanner V3",
+"total_gaps": 33247,
+"execution_log": [
+{
+"scanner": "Uniform Full Scanner",
+"priority": "SEMANTIC",
+"gaps_found": 33247,
+"runtime_ms": 187916.2037372589,
+"status": "success"
+}
+]
+},
+"data_source": "ai_working\\gap_scan_results.json"
+}
+
+---
+
+### gap_scan_plugins.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "plugins",
+"summary": {
+"total": 13,
+"critical": 12,
+"high": 1,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\plugins\\oci_registry_client.cpp",
+"line_num": 102,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!f) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\plugins\\oci_registry_client.cpp",
+"line_num": 105,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!ctx) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\plugins\\oci_registry_client.cpp",
+"line_num": 109,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\plugins\\oci_registry_client.cpp",
+"line_num": 116,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\plugins\\oci_registry_client.cpp",
+"line_num": 124,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_process.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "process",
+"summary": {
+"total": 28,
+"critical": 24,
+"high": 4,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\process\\bpmn_serializer.cpp",
+"line_num": 85,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (a == std::string::npos) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\process\\bpmn_serializer.cpp",
+"line_num": 788,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (g.is_null()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\process\\cmmn_serializer.cpp",
+"line_num": 54,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (a == std::string::npos) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\process\\dmn_evaluator.cpp",
+"line_num": 460,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\process\\dmn_evaluator.cpp",
+"line_num": 480,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_projects.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "projects",
+"summary": {
+"total": 2,
+"critical": 2,
+"high": 0,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\projects\\in_memory_project_audit_log.cpp",
+"line_num": 86,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\projects\\project_versioning.cpp",
+"line_num": 95,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+}
+]
+}
+
+---
+
+### gap_scan_prompt_engineering.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "prompt_engineering",
+"summary": {
+"total": 31,
+"critical": 28,
+"high": 3,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\prompt_engineering\\chain_of_thought.cpp",
+"line_num": 89,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\prompt_engineering\\context_window_manager.cpp",
+"line_num": 189,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (profile.typed_theses.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\prompt_engineering\\feedback_collector.cpp",
+"line_num": 276,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\prompt_engineering\\feedback_collector.cpp",
+"line_num": 346,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\prompt_engineering\\feedback_collector.cpp",
+"line_num": 383,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_query.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "query",
+"summary": {
+"total": 48,
+"critical": 32,
+"high": 10,
+"medium": 6,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\query\\adaptive_optimizer.cpp",
+"line_num": 67,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\query\\aql_translator.cpp",
+"line_num": 1586,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\query\\aql_translator.cpp",
+"line_num": 1673,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\query\\aql_translator.cpp",
+"line_num": 1684,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!error.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\query\\aql_translator.cpp",
+"line_num": 1687,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!error.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_rag.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "rag",
+"summary": {
+"total": 47,
+"critical": 30,
+"high": 17,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\rag\\calibration_manager.cpp",
+"line_num": 132,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (predictions.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\rag\\calibration_manager.cpp",
+"line_num": 191,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\rag\\claim_extractor.cpp",
+"line_num": 42,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\rag\\continuous_learning_orchestrator.cpp",
+"line_num": 806,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE (residual):",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\rag\\document_splitter.cpp",
+"line_num": 128,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (text.empty() || overlap_tokens == 0) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_replication.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "replication",
+"summary": {
+"total": 22,
+"critical": 18,
+"high": 4,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\replication\\logical_replication.cpp",
+"line_num": 499,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\replication\\logical_replication.cpp",
+"line_num": 713,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (base.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\replication\\logical_replication.cpp",
+"line_num": 725,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (collection.empty() || document_id.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\replication\\replication_manager.cpp",
+"line_num": 2610,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (pos + 4 > raw.size()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\replication\\replication_manager.cpp",
+"line_num": 2612,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (pos + len > raw.size()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_rpc_grpc.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "rpc_grpc",
+"summary": {
+"total": 1,
+"critical": 0,
+"high": 1,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "tests\\test_shard_rpc_grpc.cpp",
+"line_num": 29,
+"category": "stub",
+"pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+"context": "// Mock request handler for testing",
+"severity": "high",
+"notes": "",
+"location": "tests"
+}
+]
+}
+
+---
+
+### gap_scan_scheduler.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "scheduler",
+"summary": {
+"total": 45,
+"critical": 45,
+"high": 0,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\scheduler\\task_audit_manager.cpp",
+"line_num": 632,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scheduler\\task_scheduler.cpp",
+"line_num": 128,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scheduler\\task_scheduler.cpp",
+"line_num": 1055,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scheduler\\task_scheduler.cpp",
+"line_num": 1599,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scheduler\\task_scheduler.cpp",
+"line_num": 2791,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_scraper.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "scraper",
+"summary": {
+"total": 8,
+"critical": 7,
+"high": 1,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\scraper\\scraper_api_client.cpp",
+"line_num": 336,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {}; // curl not enabled",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scraper\\scraper_plugin.cpp",
+"line_num": 193,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "catch (...) { return {}; }",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scraper\\scraper_plugin.cpp",
+"line_num": 198,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!curl) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scraper\\scraper_plugin.cpp",
+"line_num": 212,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\scraper\\scraper_search_engine.cpp",
+"line_num": 64,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (pos == std::string::npos) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_search.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "search",
+"summary": {
+"total": 46,
+"critical": 46,
+"high": 0,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\search\\autocomplete.cpp",
+"line_num": 60,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\search\\autocomplete.cpp",
+"line_num": 114,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\search\\autocomplete.cpp",
+"line_num": 131,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\search\\autocomplete.cpp",
+"line_num": 169,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!analytics_) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\search\\autocomplete.cpp",
+"line_num": 172,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (metrics.top_queries.empty()) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_security.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "security",
+"summary": {
+"total": 139,
+"critical": 113,
+"high": 26,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\security\\ai_operation_guard.cpp",
+"line_num": 391,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\security\\ai_operation_guard.cpp",
+"line_num": 431,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\security\\ai_operation_guard.cpp",
+"line_num": 462,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\security\\ai_operation_guard.cpp",
+"line_num": 464,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\security\\behavioral_anomaly_detector.cpp",
+"line_num": 90,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (config_.burst_rate_threshold <= 0.0) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_server.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "server",
+"summary": {
+"total": 37,
+"critical": 28,
+"high": 7,
+"medium": 2,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\server\\api_gateway.cpp",
 "line_num": 979,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
@@ -4796,8 +4855,8 @@ Generated: 2026-06-02T12:40:50.366203
 "location": "src"
 },
 {
-"file": "src\\content\\content_manager.cpp",
-"line_num": 98,
+"file": "src\\server\\api_gateway.cpp",
+"line_num": 1007,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
 "context": "return {};",
@@ -4806,31 +4865,299 @@ Generated: 2026-06-02T12:40:50.366203
 "location": "src"
 },
 {
-"file": "src\\content\\content_manager.cpp",
-"line_num": 201,
+"file": "src\\server\\api_key_mgmt_handler.cpp",
+"line_num": 88,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!hasAnyFilter) return {};",
+"context": "if (days <= 0) return {};",
 "severity": "critical",
 "notes": "",
 "location": "src"
 },
 {
-"file": "src\\content\\content_manager.cpp",
-"line_num": 2723,
+"file": "src\\server\\async_job_api_handler.cpp",
+"line_num": 253,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!sha256_ctx) return {};",
+"context": "if (path.size() <= kPrefix.size()) return {};",
 "severity": "critical",
 "notes": "",
 "location": "src"
 },
 {
-"file": "src\\content\\content_manager.cpp",
-"line_num": 2729,
+"file": "src\\server\\async_job_api_handler.cpp",
+"line_num": 254,
 "category": "unimplemented",
 "pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!ok) return {};",
+"context": "if (path.rfind(kPrefix.data(), 0) != 0) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_sharding.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "sharding",
+"summary": {
+"total": 51,
+"critical": 19,
+"high": 30,
+"medium": 2,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\sharding\\adaptive_shard_router.cpp",
+"line_num": 346,
+"category": "todo",
+"pattern": "//\\s*TODO[:\\s]",
+"context": "// TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:",
+"severity": "medium",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\sharding\\auto_rebalancer.cpp",
+"line_num": 65,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\sharding\\cloud_backup.cpp",
+"line_num": 78,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE:",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\sharding\\cloud_backup.cpp",
+"line_num": 157,
+"category": "stub",
+"pattern": "//\\s*PLACEHOLDER",
+"context": "// Placeholder behavior: return false to indicate SDK not integrated",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\sharding\\cloud_backup.cpp",
+"line_num": 190,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE (S3StorageProvider::download):",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_stable_diffusion.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "stable_diffusion",
+"summary": {
+"total": 5,
+"critical": 2,
+"high": 3,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+"line_num": 525,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (buf.size() < 8u) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+"line_num": 541,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\stable_diffusion\\tests\\test_sd_plugin_registrar.cpp",
+"line_num": 28,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// Stub mode: no model_path in config \u2192 plugin not initialized",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "include\\stable_diffusion\\sd_generator.h",
+"line_num": 92,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// Stub generator \u2013 used when stable-diffusion.cpp is not linked",
+"severity": "high",
+"notes": "",
+"location": "include"
+},
+{
+"file": "include\\stable_diffusion\\sd_generator.h",
+"line_num": 124,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// Stub pass-through: return the input image unchanged.",
+"severity": "high",
+"notes": "",
+"location": "include"
+}
+
+---
+
+### gap_scan_storage.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "storage",
+"summary": {
+"total": 84,
+"critical": 69,
+"high": 15,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\storage\\backup_manager.cpp",
+"line_num": 1354,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE:",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\storage\\backup_manager.cpp",
+"line_num": 1362,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "//                   stub (raw-copy) mode.",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\storage\\backup_manager.cpp",
+"line_num": 1622,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE:",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\storage\\backup_manager.cpp",
+"line_num": 1825,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE:",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\storage\\backup_manager.cpp",
+"line_num": 1902,
+"category": "stub",
+"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+"context": "// STUB/SIMULATION NOTE:",
+"severity": "high",
+"notes": "",
+"location": "src"
+},
+
+---
+
+### gap_scan_temporal.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "temporal",
+"summary": {
+"total": 25,
+"critical": 25,
+"high": 0,
+"medium": 0,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\temporal\\bi_temporal.cpp",
+"line_num": 181,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\temporal\\bi_temporal.cpp",
+"line_num": 200,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\temporal\\bi_temporal.cpp",
+"line_num": 218,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\temporal\\bi_temporal.cpp",
+"line_num": 246,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\temporal\\bi_temporal.cpp",
+"line_num": 336,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
 "severity": "critical",
 "notes": "",
 "location": "src"
@@ -6083,642 +6410,6 @@ Generated: 2026-06-02T12:40:50.366203
 
 ---
 
-### gap_scan_performance.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "performance",
-"summary": {
-"total": 21,
-"critical": 17,
-"high": 4,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\performance\\advanced_cache_manager.cpp",
-"line_num": 93,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE:",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\performance\\advanced_cache_manager.cpp",
-"line_num": 243,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (val.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\performance\\advanced_cache_manager.cpp",
-"line_num": 256,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (orig_size == 0) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\performance\\advanced_cache_manager.cpp",
-"line_num": 285,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (orig_size == 0) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\performance\\advanced_cache_manager.cpp",
-"line_num": 471,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!ps) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_pipeline_v3_summary.json
-
-*(file too large — key headings extracted)*
-
-{
-"scan_date": "2026-06-04T08:50:21.792147",
-"total_gaps": 33247,
-"total_modules": 67,
-"by_severity": {
-"critical": 2926,
-"high": 8106,
-"medium": 13127,
-"low": 9088
-},
-"scanner_summary": {
-"scanner": "ThemisDB Gap Scanner V3",
-"total_gaps": 33247,
-"execution_log": [
-{
-"scanner": "Uniform Full Scanner",
-"priority": "SEMANTIC",
-"gaps_found": 33247,
-"runtime_ms": 187916.2037372589,
-"status": "success"
-}
-]
-},
-"data_source": "ai_working\\gap_scan_results.json"
-}
-
----
-
-### gap_scan_plugins.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "plugins",
-"summary": {
-"total": 13,
-"critical": 12,
-"high": 1,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\plugins\\oci_registry_client.cpp",
-"line_num": 102,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!f) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\plugins\\oci_registry_client.cpp",
-"line_num": 105,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!ctx) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\plugins\\oci_registry_client.cpp",
-"line_num": 109,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\plugins\\oci_registry_client.cpp",
-"line_num": 116,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\plugins\\oci_registry_client.cpp",
-"line_num": 124,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_process.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "process",
-"summary": {
-"total": 28,
-"critical": 24,
-"high": 4,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\process\\bpmn_serializer.cpp",
-"line_num": 85,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (a == std::string::npos) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\process\\bpmn_serializer.cpp",
-"line_num": 788,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (g.is_null()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\process\\cmmn_serializer.cpp",
-"line_num": 54,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (a == std::string::npos) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\process\\dmn_evaluator.cpp",
-"line_num": 460,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\process\\dmn_evaluator.cpp",
-"line_num": 480,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_projects.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "projects",
-"summary": {
-"total": 2,
-"critical": 2,
-"high": 0,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\projects\\in_memory_project_audit_log.cpp",
-"line_num": 86,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\projects\\project_versioning.cpp",
-"line_num": 95,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-}
-]
-}
-
----
-
-### gap_scan_prompt_engineering.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "prompt_engineering",
-"summary": {
-"total": 31,
-"critical": 28,
-"high": 3,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\prompt_engineering\\chain_of_thought.cpp",
-"line_num": 89,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\prompt_engineering\\context_window_manager.cpp",
-"line_num": 189,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (profile.typed_theses.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\prompt_engineering\\feedback_collector.cpp",
-"line_num": 276,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\prompt_engineering\\feedback_collector.cpp",
-"line_num": 346,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\prompt_engineering\\feedback_collector.cpp",
-"line_num": 383,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_query.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "query",
-"summary": {
-"total": 48,
-"critical": 32,
-"high": 10,
-"medium": 6,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\query\\adaptive_optimizer.cpp",
-"line_num": 67,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\query\\aql_translator.cpp",
-"line_num": 1586,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\query\\aql_translator.cpp",
-"line_num": 1673,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\query\\aql_translator.cpp",
-"line_num": 1684,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!error.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\query\\aql_translator.cpp",
-"line_num": 1687,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (!error.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_rag.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "rag",
-"summary": {
-"total": 47,
-"critical": 30,
-"high": 17,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\rag\\calibration_manager.cpp",
-"line_num": 132,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (predictions.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\rag\\calibration_manager.cpp",
-"line_num": 191,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\rag\\claim_extractor.cpp",
-"line_num": 42,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\rag\\continuous_learning_orchestrator.cpp",
-"line_num": 806,
-"category": "stub",
-"pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
-"context": "// STUB/SIMULATION NOTE (residual):",
-"severity": "high",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\rag\\document_splitter.cpp",
-"line_num": 128,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (text.empty() || overlap_tokens == 0) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_replication.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "replication",
-"summary": {
-"total": 22,
-"critical": 18,
-"high": 4,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\replication\\logical_replication.cpp",
-"line_num": 499,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\replication\\logical_replication.cpp",
-"line_num": 713,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (base.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\replication\\logical_replication.cpp",
-"line_num": 725,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (collection.empty() || document_id.empty()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\replication\\replication_manager.cpp",
-"line_num": 2610,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (pos + 4 > raw.size()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\replication\\replication_manager.cpp",
-"line_num": 2612,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "if (pos + len > raw.size()) return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
-### gap_scan_rpc_grpc.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "rpc_grpc",
-"summary": {
-"total": 1,
-"critical": 0,
-"high": 1,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "tests\\test_shard_rpc_grpc.cpp",
-"line_num": 29,
-"category": "stub",
-"pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
-"context": "// Mock request handler for testing",
-"severity": "high",
-"notes": "",
-"location": "tests"
-}
-]
-}
-
----
-
-### gap_scan_scheduler.json
-
-*(file too large — key headings extracted)*
-
-{
-"module": "scheduler",
-"summary": {
-"total": 45,
-"critical": 45,
-"high": 0,
-"medium": 0,
-"low": 0
-},
-"gaps": [
-{
-"file": "src\\scheduler\\task_audit_manager.cpp",
-"line_num": 632,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\scheduler\\task_scheduler.cpp",
-"line_num": 128,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\scheduler\\task_scheduler.cpp",
-"line_num": 1055,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\scheduler\\task_scheduler.cpp",
-"line_num": 1599,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-{
-"file": "src\\scheduler\\task_scheduler.cpp",
-"line_num": 2791,
-"category": "unimplemented",
-"pattern": "return\\s+\\{\\s*\\};",
-"context": "return {};",
-"severity": "critical",
-"notes": "",
-"location": "src"
-},
-
----
-
 ### gap_scan_aggregate.json
 
 *(file too large — key headings extracted)*
@@ -7304,6 +6995,73 @@ Generated: 2026-06-02T12:40:50.366203
 
 ---
 
+### gap_scan_content.json
+
+*(file too large — key headings extracted)*
+
+{
+"module": "content",
+"summary": {
+"total": 36,
+"critical": 25,
+"high": 10,
+"medium": 1,
+"low": 0
+},
+"gaps": [
+{
+"file": "src\\content\\archive_processor.cpp",
+"line_num": 979,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\content\\content_manager.cpp",
+"line_num": 98,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\content\\content_manager.cpp",
+"line_num": 201,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!hasAnyFilter) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\content\\content_manager.cpp",
+"line_num": 2723,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!sha256_ctx) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+{
+"file": "src\\content\\content_manager.cpp",
+"line_num": 2729,
+"category": "unimplemented",
+"pattern": "return\\s+\\{\\s*\\};",
+"context": "if (!ok) return {};",
+"severity": "critical",
+"notes": "",
+"location": "src"
+},
+
+---
+
 ### SPRINT_8_GAP_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -7657,142 +7415,6 @@ Successfully executed **parallel multi-agent gap closure** for ThemisDB server m
 
 ---
 
-### QUERY_OPTIMIZER_THREAD_SAFETY_GAPS.md
-
-*(file too large — key headings extracted)*
-
-# Query Module Thread-Safety Hardening - Gap Analysis
-**Phase B Gate Deliverable** | Thread-safety reduction: 140 → 60+ gaps target
----
-## Executive Summary
----
-## Critical Gaps Identified
-### GAP-1: QueryOptimizer::per_query_cost_model_ — Race on attach/detach
-**Location:** `include/query/query_optimizer.h:296`, `src/query/query_optimizer.cpp:327-335`
-**Issue:**
-- Field: `mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_`
-- Methods `attachPerQueryCostModel()`, `perQueryCostModel()` use no synchronization
-- Multiple threads can race during concurrent optimization plans
-**Impact:** HIGH
-- Race condition leads to use-after-free or stale pointer dereference
-- Affects production on multi-threaded query planners
-**Fix Category:** Add `mutable std::mutex` + lock guards on all accesses
----
-### GAP-2: QueryOptimizer::advisor_cost_model_ — Concurrent state transitions
-**Location:** `include/query/query_optimizer.h:301`, `src/query/query_optimizer.cpp:339-347`
-**Issue:**
-- Field: `OptimizerCostModel advisor_cost_model_`
-- `setAdvisorCostConstants()` performs write without synchronization
-- `chooseOrderForAndQuery()` reads from `advisor_cost_model_` without lock
-- Multiple threads can see torn writes or stale values
-**Impact:** HIGH
-- Concurrent optimization plans get inconsistent cost model state
-- Silent correctness bug: plans chosen with wrong cost estimates
-**Fix Category:** Add `mutable std::mutex` + lock guards on read/write paths
----
-### GAP-3: QueryOptimizer::adaptive_stats_ and adaptive_selector_ — Concurrent initialization
-**Location:** `include/query/query_optimizer.h:365-366`, `src/query/query_optimizer.cpp`
-**Issue:**
-- Method `enableAdaptiveOptimization()` performs non-atomic initialization
-- Multiple concurrent callers can race on initialization
-- Multiple threads can initialize, leading to leaked instances
-
----
-
-### QUERY_GAPS_CLOSURE_SUMMARY_2026_08_17.md
-
-*(file too large — key headings extracted)*
-
-# Query Module Gaps Closure - Complete Summary
-**Date**: 2026-08-17
-**Status**: ✅ IMPLEMENTATION COMPLETE, READY FOR REVIEW
-**Branch**: `copilot/plan-implement-real-sourcecode`
-**Commits**:
-- `1bd84c82` - Query module gap fixes (5 HIGH-severity gaps)
-- `f345f9f0` - Build verification report
----
-## Mission Accomplished ✅
-### Execution Timeline
-| Phase | Duration | Status | Output |
-|-------|----------|--------|--------|
-| **Phase 2: Implementation** | 5 hrs | ✅ COMPLETE | 5 HIGH-severity gaps fixed with production code |
-| **TOTAL** | **~7.5 hrs** | **✅ READY** | Production-ready sourcecode + comprehensive reports |
----
-## Gap Closure Details
-### Analysis Results (Top 8 CRITICAL gaps)
-**Classification**:
-- 5/8 FALSE POSITIVES (scanner limitations with timed_mutex/timing patterns)
-- 3/8 ALREADY IMPLEMENTED (overflow detection, timeout enforcement)
-- **Result**: Identified 5 actionable HIGH-severity gaps in secondary tier
-### Implementation (5 HIGH-severity gaps fixed)
-| # | File | Issue | Fix | Impact |
-|---|------|-------|-----|--------|
-| 2 | aql_parser.cpp:73-76 | String += loop (O(n²) allocations) | Use std::ostringstream | +10-20% parser performance |
-### Code Quality Metrics
-**Production Standards**: ✅ ALL PASSED
-- ✅ RAII principles throughout
-- ✅ Const-correctness enforced
-- ✅ Defensive null checks applied systematically
-- ✅ Exception safety: strong guarantee at API boundaries
-- ✅ Performance improvements: +10-20% (string ops), +40% (LRU)
-- ✅ Logging: enhanced observability
-- ✅ Comments: clear design rationale
-**Code Review Readiness**: ✅ READY
-- 85 lines added, 10 lines removed
-- 4 files modified
-- All changes follow ThemisDB C++ conventions
-- No legacy paths introduced
-
----
-
-### QUERY_GAPS_IMPLEMENTATION_REPORT_2026_08_17.md
-
-*(file too large — key headings extracted)*
-
-# Query Module Gap Closure Implementation Report
-**Date**: 2026-08-17
-**Status**: ✅ COMPLETE
-**Commit**: `1bd84c82` - "Fix critical HIGH-severity gaps in query module"
-**Agent Execution**: analyze-query-gaps (explore) + implement-query-gaps (general-purpose)
----
-## Executive Summary
-1. **Analysis Phase** (explore agent, 45 min): Validated top 8 CRITICAL gaps
-- Result: 5 false positives, 3 already implemented
-- Identified 5 actionable HIGH-severity gaps requiring implementation
-2. **Implementation Phase** (general-purpose agent, 5 hrs): Delivered production-ready fixes
-- Gap 1: null_dereference (parallel_executor.cpp:201)
-- Gap 2: string_concat_loop (aql_parser.cpp:73-76)
-- Gap 3: catch_all_swallow (query_compiler.cpp:349)
-- Gap 4: uncaught_exception (query_compiler.cpp:165-206)
-- Gap 5: todo_as_productionlogic (query_cache.cpp:429-455)
-**Total Effort**: ~6 hours
-**Output**: 85 lines added, 10 lines removed, 4 files modified
-**Quality**: RAII-safe, exception-safe, performance-optimized
----
-## Analysis Results
-### Top 8 CRITICAL Gaps Classification
-| Rank | Gap | File:Line | Severity | Classification | Status |
-|------|-----|-----------|----------|-----------------|--------|
-| 1 | scope_mismatch | continuous_query_planner.cpp:24 | CRITICAL | FALSE_POS | ✅ No issue found |
-| 2 | blocking_no_timeout | query_canceller.cpp:49 | CRITICAL | FALSE_POS | ✅ Already fixed (kLockTimeout) |
-| 3 | no_timeout | query_canceller.cpp:49 | CRITICAL | FALSE_POS | ✅ Already fixed (timed_mutex) |
-| 4 | db_connection_leak | cq_watermark.cpp:60 | CRITICAL | FALSE_POS | ✅ No DB connections (atomics only) |
-| 6 | multiplication_overflow | tensor_aware_query_optimizer.cpp:113 | CRITICAL | REAL_IMPL | ✅ safeMul() implemented |
-| 7 | multiplication_overflow | tensor_aware_query_optimizer.cpp:118 | CRITICAL | REAL_IMPL | ✅ safeMul() applied |
-| 8 | multiplication_overflow | tensor_aware_query_optimizer.cpp:123 | CRITICAL | REAL_IMPL | ✅ safeMul() applied |
-**Conclusion**: All 8 CRITICAL gaps either false positives (5) or already implemented (3).
-**Real Work Identified**: 5 actionable HIGH-severity gaps in secondary tier.
----
-## Implementation Details
-### Gap 1: Null Dereference Prevention (parallel_executor.cpp:201)
-**Issue**: Task lambda dereferences input without null checks
-**Severity**: HIGH
-**Fix**: Add defensive checks before dereferencing
-// BEFORE
-tg.run([&, m]() {
-
----
-
 ### QUERY_GAPS_IMPLEMENTATION_STATUS.md
 
 *(file too large — key headings extracted)*
@@ -8042,55 +7664,139 @@ Eliminate unnecessary object copies through:
 
 ---
 
-### PLUGINS_GAP_REMEDIATION_COMPLETE.md
+### QUERY_OPTIMIZER_THREAD_SAFETY_GAPS.md
 
 *(file too large — key headings extracted)*
 
-# Plugins Module Gap Remediation - COMPLETE
-**Date:** 2026-08-18
-**Status:** ✅ PHASE 1 REMEDIATION COMPLETE
-**Total Gaps:** 138 (14 CRITICAL, 64 HIGH, 60 MEDIUM/LOW)
-**Remediation Scope:** 6 out of 10 modules (76% coverage by severity)
+# Query Module Thread-Safety Hardening - Gap Analysis
+**Phase B Gate Deliverable** | Thread-safety reduction: 140 → 60+ gaps target
 ---
 ## Executive Summary
-### Findings Resolution Status
-| Severity | Total | Addressed | % | Notes |
-|----------|-------|-----------|---|-------|
-| CRITICAL | 14 | 14 | 100% | ✅ All blocking issues fixed |
-| HIGH | 64 | 32 | 50% | ✅ Priority fixes (lock safety, resource mgmt, timeout) |
-| MEDIUM | 50+ | 5 | 10% | ✅ Performance optimizations + doc audit |
-| LOW | 20+ | 0 | 0% | Deferred to Phase 2 |
 ---
-## Phase 1 Implementation Results
-### 1. plugin_manager.cpp (76 findings → 6 CRITICAL fixed)
-**Issues Fixed:**
-- [x] **blocking_no_timeout (623)** - Fixed recursive dependency loading deadlock
-- [x] **double_lock (623)** - Replaced manual unlock/lock with RAII scopes
-- [x] **missing_lock (623)** - Added proper locking on plugin entry access
-- [x] **iterator_invalidation (988)** - Re-query iterators after recursive calls
-- [x] **new_without_raii (1127)** - Wrapped plugin instances in unique_ptr
-- [x] **smart_ptr_misuse (1130)** - Fixed raw pointer usage in hot-reload swap
-**Key Changes:**
-// BEFORE: Manual mutex unlock/lock pattern (double_lock risk)
-plugins_.at(name).instance = new_plugin;
-lock.unlock();
-// ... dependency loading ...
-lock.lock();
-// AFTER: RAII scopes with proper re-locking
-{
-std::lock_guard<std::mutex> scope_lock(entry->lock);
-// ... work inside scope ...
-}
-// Lock automatically released when scope exits
-{
-std::lock_guard<std::mutex> reload_lock(entry->lock);
-// Re-query iterator after recursive call
-auto it = plugins_.find(name);
-if (it != plugins_.end()) { ... }
-}
-// BEFORE: new/delete without RAII
-auto old_instance = entry.instance;
-entry.instance = new PluginWrapper(...);
+## Critical Gaps Identified
+### GAP-1: QueryOptimizer::per_query_cost_model_ — Race on attach/detach
+**Location:** `include/query/query_optimizer.h:296`, `src/query/query_optimizer.cpp:327-335`
+**Issue:**
+- Field: `mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_`
+- Methods `attachPerQueryCostModel()`, `perQueryCostModel()` use no synchronization
+- Multiple threads can race during concurrent optimization plans
+**Impact:** HIGH
+- Race condition leads to use-after-free or stale pointer dereference
+- Affects production on multi-threaded query planners
+**Fix Category:** Add `mutable std::mutex` + lock guards on all accesses
+---
+### GAP-2: QueryOptimizer::advisor_cost_model_ — Concurrent state transitions
+**Location:** `include/query/query_optimizer.h:301`, `src/query/query_optimizer.cpp:339-347`
+**Issue:**
+- Field: `OptimizerCostModel advisor_cost_model_`
+- `setAdvisorCostConstants()` performs write without synchronization
+- `chooseOrderForAndQuery()` reads from `advisor_cost_model_` without lock
+- Multiple threads can see torn writes or stale values
+**Impact:** HIGH
+- Concurrent optimization plans get inconsistent cost model state
+- Silent correctness bug: plans chosen with wrong cost estimates
+**Fix Category:** Add `mutable std::mutex` + lock guards on read/write paths
+---
+### GAP-3: QueryOptimizer::adaptive_stats_ and adaptive_selector_ — Concurrent initialization
+**Location:** `include/query/query_optimizer.h:365-366`, `src/query/query_optimizer.cpp`
+**Issue:**
+- Method `enableAdaptiveOptimization()` performs non-atomic initialization
+- Multiple concurrent callers can race on initialization
+- Multiple threads can initialize, leading to leaked instances
+
+---
+
+### QUERY_GAPS_CLOSURE_SUMMARY_2026_08_17.md
+
+*(file too large — key headings extracted)*
+
+# Query Module Gaps Closure - Complete Summary
+**Date**: 2026-08-17
+**Status**: ✅ IMPLEMENTATION COMPLETE, READY FOR REVIEW
+**Branch**: `copilot/plan-implement-real-sourcecode`
+**Commits**:
+- `1bd84c82` - Query module gap fixes (5 HIGH-severity gaps)
+- `f345f9f0` - Build verification report
+---
+## Mission Accomplished ✅
+### Execution Timeline
+| Phase | Duration | Status | Output |
+|-------|----------|--------|--------|
+| **Phase 2: Implementation** | 5 hrs | ✅ COMPLETE | 5 HIGH-severity gaps fixed with production code |
+| **TOTAL** | **~7.5 hrs** | **✅ READY** | Production-ready sourcecode + comprehensive reports |
+---
+## Gap Closure Details
+### Analysis Results (Top 8 CRITICAL gaps)
+**Classification**:
+- 5/8 FALSE POSITIVES (scanner limitations with timed_mutex/timing patterns)
+- 3/8 ALREADY IMPLEMENTED (overflow detection, timeout enforcement)
+- **Result**: Identified 5 actionable HIGH-severity gaps in secondary tier
+### Implementation (5 HIGH-severity gaps fixed)
+| # | File | Issue | Fix | Impact |
+|---|------|-------|-----|--------|
+| 2 | aql_parser.cpp:73-76 | String += loop (O(n²) allocations) | Use std::ostringstream | +10-20% parser performance |
+### Code Quality Metrics
+**Production Standards**: ✅ ALL PASSED
+- ✅ RAII principles throughout
+- ✅ Const-correctness enforced
+- ✅ Defensive null checks applied systematically
+- ✅ Exception safety: strong guarantee at API boundaries
+- ✅ Performance improvements: +10-20% (string ops), +40% (LRU)
+- ✅ Logging: enhanced observability
+- ✅ Comments: clear design rationale
+**Code Review Readiness**: ✅ READY
+- 85 lines added, 10 lines removed
+- 4 files modified
+- All changes follow ThemisDB C++ conventions
+- No legacy paths introduced
+
+---
+
+### QUERY_GAPS_IMPLEMENTATION_REPORT_2026_08_17.md
+
+*(file too large — key headings extracted)*
+
+# Query Module Gap Closure Implementation Report
+**Date**: 2026-08-17
+**Status**: ✅ COMPLETE
+**Commit**: `1bd84c82` - "Fix critical HIGH-severity gaps in query module"
+**Agent Execution**: analyze-query-gaps (explore) + implement-query-gaps (general-purpose)
+---
+## Executive Summary
+1. **Analysis Phase** (explore agent, 45 min): Validated top 8 CRITICAL gaps
+- Result: 5 false positives, 3 already implemented
+- Identified 5 actionable HIGH-severity gaps requiring implementation
+2. **Implementation Phase** (general-purpose agent, 5 hrs): Delivered production-ready fixes
+- Gap 1: null_dereference (parallel_executor.cpp:201)
+- Gap 2: string_concat_loop (aql_parser.cpp:73-76)
+- Gap 3: catch_all_swallow (query_compiler.cpp:349)
+- Gap 4: uncaught_exception (query_compiler.cpp:165-206)
+- Gap 5: todo_as_productionlogic (query_cache.cpp:429-455)
+**Total Effort**: ~6 hours
+**Output**: 85 lines added, 10 lines removed, 4 files modified
+**Quality**: RAII-safe, exception-safe, performance-optimized
+---
+## Analysis Results
+### Top 8 CRITICAL Gaps Classification
+| Rank | Gap | File:Line | Severity | Classification | Status |
+|------|-----|-----------|----------|-----------------|--------|
+| 1 | scope_mismatch | continuous_query_planner.cpp:24 | CRITICAL | FALSE_POS | ✅ No issue found |
+| 2 | blocking_no_timeout | query_canceller.cpp:49 | CRITICAL | FALSE_POS | ✅ Already fixed (kLockTimeout) |
+| 3 | no_timeout | query_canceller.cpp:49 | CRITICAL | FALSE_POS | ✅ Already fixed (timed_mutex) |
+| 4 | db_connection_leak | cq_watermark.cpp:60 | CRITICAL | FALSE_POS | ✅ No DB connections (atomics only) |
+| 6 | multiplication_overflow | tensor_aware_query_optimizer.cpp:113 | CRITICAL | REAL_IMPL | ✅ safeMul() implemented |
+| 7 | multiplication_overflow | tensor_aware_query_optimizer.cpp:118 | CRITICAL | REAL_IMPL | ✅ safeMul() applied |
+| 8 | multiplication_overflow | tensor_aware_query_optimizer.cpp:123 | CRITICAL | REAL_IMPL | ✅ safeMul() applied |
+**Conclusion**: All 8 CRITICAL gaps either false positives (5) or already implemented (3).
+**Real Work Identified**: 5 actionable HIGH-severity gaps in secondary tier.
+---
+## Implementation Details
+### Gap 1: Null Dereference Prevention (parallel_executor.cpp:201)
+**Issue**: Task lambda dereferences input without null checks
+**Severity**: HIGH
+**Fix**: Add defensive checks before dereferencing
+// BEFORE
+tg.run([&, m]() {
 
 ---
 
@@ -8289,46 +7995,55 @@ git merge --no-ff process-high-batch-2a \
 
 ---
 
-### LLM_GAP_ELIMINATION_REPORT.md
+### PLUGINS_GAP_REMEDIATION_COMPLETE.md
 
 *(file too large — key headings extracted)*
 
-# LLM Module: Complete Gap Elimination Report
-**Date**: 2026-07-19
-**Status**: VERIFIED WITH FOLLOW-UP FIXES
-**Total Gaps Analyzed**: 21 across 11 files
+# Plugins Module Gap Remediation - COMPLETE
+**Date:** 2026-08-18
+**Status:** ✅ PHASE 1 REMEDIATION COMPLETE
+**Total Gaps:** 138 (14 CRITICAL, 64 HIGH, 60 MEDIUM/LOW)
+**Remediation Scope:** 6 out of 10 modules (76% coverage by severity)
+---
 ## Executive Summary
-All targeted LLM gap markers were analyzed and categorized. A follow-up audit on
-2026-07-19 found one remaining contract defect in the deterministic EmbeddedLLM
-fallback (`embedBatch()` returned empty vectors) and fixed it so batch
-embeddings now delegate to the validated single-text fallback path.
-The reviewed markers fall into **two categories**:
-1. **Intentional Fallback Paths** (18 gaps): Safe, documented alternatives when GPU APIs/features unavailable
-2. **Legitimate Build Alternatives** (3 gaps): Conditional compilation paths for different build configurations
-The remaining reviewed markers are documented runtime bridges or hardware/build
-fallbacks. After the `embedBatch()` contract fix, no audited marker in this
-report corresponds to a silent empty-result path.
-## Gap Inventory by Category
-### Category A: Intentional Fallback Paths (18 gaps) - PRODUCTION-READY
-These are DESIGNED fallbacks that improve system reliability when GPU APIs are unavailable.
-#### GPU Memory Management (9 gaps)
-| File | Gap Type | Count | Status | Resolution |
-|------|----------|-------|--------|-----------|
-**Error Handling**: Complete exception safety via RAII, structured error codes, comprehensive logging.
-**Production Status**: Fully tested; used in multi-model GPU serving scenarios.
-#### LoRA Framework GPU Operations (6 gaps)
-| File | Gap Type | Count | Status | Resolution |
-|------|----------|-------|--------|-----------|
-| gpu_tensor.cpp | STUB (CUDA dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
-| gpu_tensor.cpp | STUB (HIP dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
-**Architecture**: All use callback injection pattern with safe CPU fallbacks.
-**Error Handling**: Structured error propagation, graceful degradation.
-**Production Status**: Deployed in multi-GPU LoRA training scenarios; handles heterogeneous hardware.
-### Category B: Legitimate Build Alternatives (3 gaps) - PRODUCTION-READY
-These represent intentional conditional compilation paths for different build configurations.
-#### Adapter & Build-Time Alternatives (3 gaps)
-| File | Gap Type | Count | Status | Resolution |
-|------|----------|-------|--------|-----------|
+### Findings Resolution Status
+| Severity | Total | Addressed | % | Notes |
+|----------|-------|-----------|---|-------|
+| CRITICAL | 14 | 14 | 100% | ✅ All blocking issues fixed |
+| HIGH | 64 | 32 | 50% | ✅ Priority fixes (lock safety, resource mgmt, timeout) |
+| MEDIUM | 50+ | 5 | 10% | ✅ Performance optimizations + doc audit |
+| LOW | 20+ | 0 | 0% | Deferred to Phase 2 |
+---
+## Phase 1 Implementation Results
+### 1. plugin_manager.cpp (76 findings → 6 CRITICAL fixed)
+**Issues Fixed:**
+- [x] **blocking_no_timeout (623)** - Fixed recursive dependency loading deadlock
+- [x] **double_lock (623)** - Replaced manual unlock/lock with RAII scopes
+- [x] **missing_lock (623)** - Added proper locking on plugin entry access
+- [x] **iterator_invalidation (988)** - Re-query iterators after recursive calls
+- [x] **new_without_raii (1127)** - Wrapped plugin instances in unique_ptr
+- [x] **smart_ptr_misuse (1130)** - Fixed raw pointer usage in hot-reload swap
+**Key Changes:**
+// BEFORE: Manual mutex unlock/lock pattern (double_lock risk)
+plugins_.at(name).instance = new_plugin;
+lock.unlock();
+// ... dependency loading ...
+lock.lock();
+// AFTER: RAII scopes with proper re-locking
+{
+std::lock_guard<std::mutex> scope_lock(entry->lock);
+// ... work inside scope ...
+}
+// Lock automatically released when scope exits
+{
+std::lock_guard<std::mutex> reload_lock(entry->lock);
+// Re-query iterator after recursive call
+auto it = plugins_.find(name);
+if (it != plugins_.end()) { ... }
+}
+// BEFORE: new/delete without RAII
+auto old_instance = entry.instance;
+entry.instance = new PluginWrapper(...);
 
 ---
 
@@ -8969,6 +8684,49 @@ For each batch:
 
 ---
 
+### LLM_GAP_ELIMINATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# LLM Module: Complete Gap Elimination Report
+**Date**: 2026-07-19
+**Status**: VERIFIED WITH FOLLOW-UP FIXES
+**Total Gaps Analyzed**: 21 across 11 files
+## Executive Summary
+All targeted LLM gap markers were analyzed and categorized. A follow-up audit on
+2026-07-19 found one remaining contract defect in the deterministic EmbeddedLLM
+fallback (`embedBatch()` returned empty vectors) and fixed it so batch
+embeddings now delegate to the validated single-text fallback path.
+The reviewed markers fall into **two categories**:
+1. **Intentional Fallback Paths** (18 gaps): Safe, documented alternatives when GPU APIs/features unavailable
+2. **Legitimate Build Alternatives** (3 gaps): Conditional compilation paths for different build configurations
+The remaining reviewed markers are documented runtime bridges or hardware/build
+fallbacks. After the `embedBatch()` contract fix, no audited marker in this
+report corresponds to a silent empty-result path.
+## Gap Inventory by Category
+### Category A: Intentional Fallback Paths (18 gaps) - PRODUCTION-READY
+These are DESIGNED fallbacks that improve system reliability when GPU APIs are unavailable.
+#### GPU Memory Management (9 gaps)
+| File | Gap Type | Count | Status | Resolution |
+|------|----------|-------|--------|-----------|
+**Error Handling**: Complete exception safety via RAII, structured error codes, comprehensive logging.
+**Production Status**: Fully tested; used in multi-model GPU serving scenarios.
+#### LoRA Framework GPU Operations (6 gaps)
+| File | Gap Type | Count | Status | Resolution |
+|------|----------|-------|--------|-----------|
+| gpu_tensor.cpp | STUB (CUDA dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
+| gpu_tensor.cpp | STUB (HIP dtype-cast) | 1 | ✅ PRODUCTION-READY | Callback-based; CPU round-trip fallback works |
+**Architecture**: All use callback injection pattern with safe CPU fallbacks.
+**Error Handling**: Structured error propagation, graceful degradation.
+**Production Status**: Deployed in multi-GPU LoRA training scenarios; handles heterogeneous hardware.
+### Category B: Legitimate Build Alternatives (3 gaps) - PRODUCTION-READY
+These represent intentional conditional compilation paths for different build configurations.
+#### Adapter & Build-Time Alternatives (3 gaps)
+| File | Gap Type | Count | Status | Resolution |
+|------|----------|-------|--------|-----------|
+
+---
+
 ### L1_module_gaps_cache.md
 
 *(file too large — key headings extracted)*
@@ -9287,156 +9045,6 @@ High-priority fixes for stability and performance:
 
 ---
 
-### INDEX_GAP_CLOSURE_COORDINATION.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Gap Closure — Multi-Phase Coordination (2026-08-15)
-**Status:** Execution in progress (Phase 1-2 agents launched 2026-08-15 10:53 UTC)
-**Target Completion:** ~2026-09-30 (5-6 weeks)
-**Overall Goal:** 7,712 → ≤4,600 remaining gaps (60% closure) + 100% CRITICAL resolution
----
-## Executive Status (RESTART: 2026-08-15 13:31 UTC)
-| Phase | Agent | Status | Agent ID | Target Completion | Deliverable |
-|-------|-------|--------|----------|------------------|-------------|
-| Phase 1 | gap-verifier | ✅ COMPLETE | (completed) | 2026-08-15 | gap_index_phase1_verification.json + report |
-| Phase 4 | task agents | 🟢 RUNNING | index-phase4-medium-severity | 2026-09-15 | ~1,400 MEDIUM gaps fixed |
-| Phase 6 | doc-orchestrator | 📋 QUEUED | (queued) | 2026-09-30 | MODULE_GAPS.md + ROADMAP.md updated |
-**Status Update Notes:**
-- Phase 1: ✅ Complete (96.2% confidence, 79 TRUE_POSITIVE, 1,942 FP, 4,691 DEFERRED)
-- Phase 2: Restarted with A-2/A-3 focused agent (A-1 already done, A-4 verified false positive)
-- Phase 3 & 4: Launched in parallel per Phase 1-3-4 coordinated model
-- Phase 5: Concurrent code review gates (CP-1 awaits Phase 2 completion)
-- **Execution Model:** All phases running in parallel (Phases 2-5); Phase 6 queued for start 2026-09-23
----
-## Phase 1: Triage & Prioritization
-**Agent:** gap-verifier (index-gap-phase1-triage)
-**Duration:** 3-5 days (est. 2026-08-20)
-**Key Deliverable:** `ai_working/gap_index_phase1_verification.json`
-### Objectives
-- Classify all 7,712 gaps with ≥95% confidence
-- Separate TRUE_POSITIVE (real bugs) from FALSE_POSITIVE (tooling artifacts)
-- Identify DEFERRED (valid but lower-priority)
-- Produce Phase 2-4 prioritized work queue
-### Success Criteria
-- ✅ All 29 CRITICAL gaps classified and confidence scored
-- ✅ All top-20 gaps from MODULE_GAPS.md verified
-- ✅ Sample analysis of patterns >100 instances (braces_imbalance_midfile, scope_mismatch, etc.)
-- ✅ Confidence aggregate ≥95%
-- ✅ JSON output with actionable recommendations
-### Dependencies
-- None (runs immediately)
----
-## Phase 2: CRITICAL Gap Remediation
-**Agent:** themisdb-implementer (index-gap-phase2-critical)
-**Duration:** 5-8 days (est. 2026-08-25)
-**Key Deliverables:** 29 CRITICAL gaps fixed + focused tests
-### Batches
-
----
-
-### INDEX_GAP_CLOSURE_LAUNCH_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Gap Closure — Implementation Launch Summary
-**Date:** 2026-08-15 10:53 UTC
-**Status:** ✅ IMPLEMENTATION LAUNCHED
-**Target Completion:** ~2026-09-30 (5-6 weeks)
----
-## 🚀 Launch Status
-### Active Agents (2 agents running in parallel)
-| Agent | ID | Phase | Status | Target Completion |
-|-------|----|----|--------|------------------|
-| gap-verifier | index-gap-phase1-triage | Phase 1 (Triage) | 🟢 RUNNING | 2026-08-20 |
-| themisdb-implementer | index-gap-phase2-critical | Phase 2 (CRITICAL) | 🟢 RUNNING | 2026-08-25 |
-### Queued Agents (Ready for dispatch after Phase 2)
-| Agent | Phase | Trigger | Est. Start |
-|-------|-------|---------|-----------|
-| themisdb-implementer | Phase 3 (HIGH) | Phase 2 complete | 2026-08-25 |
-| task agents | Phase 4 (MEDIUM) | Phase 1 complete | 2026-08-20 |
-| themisdb-reviewer | Phase 5 (Review) | Phase 2 A-1 complete | 2026-08-20 |
-| doc-orchestrator | Phase 6 (Docs) | Phase 5 CP-4 complete | 2026-09-20 |
----
-## 📊 Execution Plan Overview
-**Goal:** 7,712 gaps → ≤4,600 remaining (60% closure) + 100% CRITICAL resolution
-### Phase Breakdown
-| Phase | Gaps | Agent | Timeline | Status |
-|-------|------|-------|----------|--------|
-| **1: Triage** | 0 | gap-verifier | 5d (Aug 15–20) | 🟢 Running |
-| **2: CRITICAL** | 29 | themisdb-implementer | 5d (Aug 20–25) | 🟢 Running |
-| **3: HIGH** | 1,800 | themisdb-implementer | 20d (Aug 26–Sep 15) | 📋 Queued |
-| **4: MEDIUM** | 1,400 | task agents | 20d (Aug 26–Sep 15) | 📋 Queued |
-| **5: Review** | N/A | themisdb-reviewer | 30d (Aug 20–Sep 20) | 📋 Queued |
-| **6: Docs** | N/A | doc-orchestrator | 10d (Sep 20–30) | 📋 Queued |
-| **TOTAL** | **3,112** | **Multi-agent** | **5-6w** | ✅ Launched |
-### Target Metrics
-| Metric | Target | Status |
-|--------|--------|--------|
-| Total gaps fixed | 3,112 | In progress |
-| % closure | 60% (7,712→4,600) | In progress |
-| CRITICAL resolved | 100% (29/29) | In progress |
-| HIGH resolved | ≥60% (1,800+/3,057) | In progress |
-| MEDIUM resolved | ≥30% (1,400/4,623) | In progress |
-| Code review pass rate | 100% | Pending Phase 2 A-1 |
-| CI/CD gates PASS | 100% | Pending Phase 2 A-1 |
----
-## 📁 Documentation & Coordination
-
----
-
-### INDEX_GAP_CLOSURE_LIVE_STATUS_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Index Module Gap Closure — LIVE STATUS (2026-08-15)
-## Executive Summary
----
-## Agent Status Dashboard (LIVE)
-### Phase 2: Iterator + GPU Memory Fixes
-**Agent ID:** `index-phase2-iterator-gpu-reme` (themisdb-implementer)
-**Status:** 🟢 **RUNNING** (532s elapsed, 96 tool calls)
-**Target:** Complete by 2026-08-25
-**Work:** Batch A-2 (iterator invalidation), Batch A-3 (GPU memory)
-**Alert:** Phase 5 blocker notification sent (awaiting acknowledgment)
-**Next:** Remediate 6 critical findings by 2026-08-22
----
-### Phase 3: HIGH-Severity Batches
-**Agent ID:** `index-phase3-high-severity` (themisdb-implementer)
-**Status:** 🟢 **RUNNING** (501s elapsed, 70 tool calls)
-**Target:** Complete by 2026-09-15
-**Work:** Circular lock ordering (A-5), DB connection leaks (A-6), generic patterns (A-7, A-8+)
-**Goal:** 1,800+ HIGH gaps fixed (60% of 3,057 total)
-**Progress:** On track for parallel execution with Phases 2/4/5
----
-### Phase 4: MEDIUM-Severity Batches
-**Agent ID:** `index-phase4-medium-severity` (task agent)
-**Status:** 🟡 **IDLE** (just completed batch 1)
-**Work Completed:**
-- ✅ **Batch 1 (Scope Mismatch):** 17 fixes applied across 17 files
-- ✅ **Classification Quality:** 60% TRUE_POSITIVE rate (better than spec)
-- ✅ **Risk Level:** VERY_LOW (scope narrowing is safe C++)
-- ✅ **Execution Pace:** 11x ahead of required velocity (~46/day target)
-**Files Modified (Batch 1):**
-- ann_frontdoor.cpp, binary_quantizer.cpp, approximate_radius_search.cpp
-- graph_analytics.cpp (4 fixes), graph_auto_buffer.cpp
-- hnsw_layer_optimizer.cpp, hnsw_parameter_tuner.cpp
-- learnable_rope.cpp, learned_quantizer.cpp, multi_gpu_vector_index.cpp
-- gpu_vector_index_vulkan.cpp (2 fixes), gpu_vector_index.cpp
-- property_graph.cpp (2 fixes), spatial_index.cpp
-**Staged for Continuation:**
-- 119+ scope_mismatch candidates
-- 231 copy_overhead patterns
-- 8+ string_concat_loop patterns
-- 2,662 braces_imbalance candidates (expected 90%+ false positives)
-**Progress Metrics:**
-- Batch 1 Progress: 17/200 minimum (8.5% ✅)
-- Overall Phase 4: 17/1,400 target (1.2%)
-- Execution Pace: 11x ahead ✅
-**Next Steps:** Build validation → Continue batches 1-3
-
----
-
 ### INDEX_GAP_CLOSURE_MASTER_STATUS_2026-08-15_FINAL.md
 
 *(file too large — key headings extracted)*
@@ -9589,6 +9197,302 @@ High-priority fixes for stability and performance:
 
 ---
 
+### INDEX_GAP_CLOSURE_COORDINATION.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Gap Closure — Multi-Phase Coordination (2026-08-15)
+**Status:** Execution in progress (Phase 1-2 agents launched 2026-08-15 10:53 UTC)
+**Target Completion:** ~2026-09-30 (5-6 weeks)
+**Overall Goal:** 7,712 → ≤4,600 remaining gaps (60% closure) + 100% CRITICAL resolution
+---
+## Executive Status (RESTART: 2026-08-15 13:31 UTC)
+| Phase | Agent | Status | Agent ID | Target Completion | Deliverable |
+|-------|-------|--------|----------|------------------|-------------|
+| Phase 1 | gap-verifier | ✅ COMPLETE | (completed) | 2026-08-15 | gap_index_phase1_verification.json + report |
+| Phase 4 | task agents | 🟢 RUNNING | index-phase4-medium-severity | 2026-09-15 | ~1,400 MEDIUM gaps fixed |
+| Phase 6 | doc-orchestrator | 📋 QUEUED | (queued) | 2026-09-30 | MODULE_GAPS.md + ROADMAP.md updated |
+**Status Update Notes:**
+- Phase 1: ✅ Complete (96.2% confidence, 79 TRUE_POSITIVE, 1,942 FP, 4,691 DEFERRED)
+- Phase 2: Restarted with A-2/A-3 focused agent (A-1 already done, A-4 verified false positive)
+- Phase 3 & 4: Launched in parallel per Phase 1-3-4 coordinated model
+- Phase 5: Concurrent code review gates (CP-1 awaits Phase 2 completion)
+- **Execution Model:** All phases running in parallel (Phases 2-5); Phase 6 queued for start 2026-09-23
+---
+## Phase 1: Triage & Prioritization
+**Agent:** gap-verifier (index-gap-phase1-triage)
+**Duration:** 3-5 days (est. 2026-08-20)
+**Key Deliverable:** `ai_working/gap_index_phase1_verification.json`
+### Objectives
+- Classify all 7,712 gaps with ≥95% confidence
+- Separate TRUE_POSITIVE (real bugs) from FALSE_POSITIVE (tooling artifacts)
+- Identify DEFERRED (valid but lower-priority)
+- Produce Phase 2-4 prioritized work queue
+### Success Criteria
+- ✅ All 29 CRITICAL gaps classified and confidence scored
+- ✅ All top-20 gaps from MODULE_GAPS.md verified
+- ✅ Sample analysis of patterns >100 instances (braces_imbalance_midfile, scope_mismatch, etc.)
+- ✅ Confidence aggregate ≥95%
+- ✅ JSON output with actionable recommendations
+### Dependencies
+- None (runs immediately)
+---
+## Phase 2: CRITICAL Gap Remediation
+**Agent:** themisdb-implementer (index-gap-phase2-critical)
+**Duration:** 5-8 days (est. 2026-08-25)
+**Key Deliverables:** 29 CRITICAL gaps fixed + focused tests
+### Batches
+
+---
+
+### INDEX_GAP_CLOSURE_LAUNCH_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Gap Closure — Implementation Launch Summary
+**Date:** 2026-08-15 10:53 UTC
+**Status:** ✅ IMPLEMENTATION LAUNCHED
+**Target Completion:** ~2026-09-30 (5-6 weeks)
+---
+## 🚀 Launch Status
+### Active Agents (2 agents running in parallel)
+| Agent | ID | Phase | Status | Target Completion |
+|-------|----|----|--------|------------------|
+| gap-verifier | index-gap-phase1-triage | Phase 1 (Triage) | 🟢 RUNNING | 2026-08-20 |
+| themisdb-implementer | index-gap-phase2-critical | Phase 2 (CRITICAL) | 🟢 RUNNING | 2026-08-25 |
+### Queued Agents (Ready for dispatch after Phase 2)
+| Agent | Phase | Trigger | Est. Start |
+|-------|-------|---------|-----------|
+| themisdb-implementer | Phase 3 (HIGH) | Phase 2 complete | 2026-08-25 |
+| task agents | Phase 4 (MEDIUM) | Phase 1 complete | 2026-08-20 |
+| themisdb-reviewer | Phase 5 (Review) | Phase 2 A-1 complete | 2026-08-20 |
+| doc-orchestrator | Phase 6 (Docs) | Phase 5 CP-4 complete | 2026-09-20 |
+---
+## 📊 Execution Plan Overview
+**Goal:** 7,712 gaps → ≤4,600 remaining (60% closure) + 100% CRITICAL resolution
+### Phase Breakdown
+| Phase | Gaps | Agent | Timeline | Status |
+|-------|------|-------|----------|--------|
+| **1: Triage** | 0 | gap-verifier | 5d (Aug 15–20) | 🟢 Running |
+| **2: CRITICAL** | 29 | themisdb-implementer | 5d (Aug 20–25) | 🟢 Running |
+| **3: HIGH** | 1,800 | themisdb-implementer | 20d (Aug 26–Sep 15) | 📋 Queued |
+| **4: MEDIUM** | 1,400 | task agents | 20d (Aug 26–Sep 15) | 📋 Queued |
+| **5: Review** | N/A | themisdb-reviewer | 30d (Aug 20–Sep 20) | 📋 Queued |
+| **6: Docs** | N/A | doc-orchestrator | 10d (Sep 20–30) | 📋 Queued |
+| **TOTAL** | **3,112** | **Multi-agent** | **5-6w** | ✅ Launched |
+### Target Metrics
+| Metric | Target | Status |
+|--------|--------|--------|
+| Total gaps fixed | 3,112 | In progress |
+| % closure | 60% (7,712→4,600) | In progress |
+| CRITICAL resolved | 100% (29/29) | In progress |
+| HIGH resolved | ≥60% (1,800+/3,057) | In progress |
+| MEDIUM resolved | ≥30% (1,400/4,623) | In progress |
+| Code review pass rate | 100% | Pending Phase 2 A-1 |
+| CI/CD gates PASS | 100% | Pending Phase 2 A-1 |
+---
+## 📁 Documentation & Coordination
+
+---
+
+### INDEX_GAP_CLOSURE_LIVE_STATUS_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Index Module Gap Closure — LIVE STATUS (2026-08-15)
+## Executive Summary
+---
+## Agent Status Dashboard (LIVE)
+### Phase 2: Iterator + GPU Memory Fixes
+**Agent ID:** `index-phase2-iterator-gpu-reme` (themisdb-implementer)
+**Status:** 🟢 **RUNNING** (532s elapsed, 96 tool calls)
+**Target:** Complete by 2026-08-25
+**Work:** Batch A-2 (iterator invalidation), Batch A-3 (GPU memory)
+**Alert:** Phase 5 blocker notification sent (awaiting acknowledgment)
+**Next:** Remediate 6 critical findings by 2026-08-22
+---
+### Phase 3: HIGH-Severity Batches
+**Agent ID:** `index-phase3-high-severity` (themisdb-implementer)
+**Status:** 🟢 **RUNNING** (501s elapsed, 70 tool calls)
+**Target:** Complete by 2026-09-15
+**Work:** Circular lock ordering (A-5), DB connection leaks (A-6), generic patterns (A-7, A-8+)
+**Goal:** 1,800+ HIGH gaps fixed (60% of 3,057 total)
+**Progress:** On track for parallel execution with Phases 2/4/5
+---
+### Phase 4: MEDIUM-Severity Batches
+**Agent ID:** `index-phase4-medium-severity` (task agent)
+**Status:** 🟡 **IDLE** (just completed batch 1)
+**Work Completed:**
+- ✅ **Batch 1 (Scope Mismatch):** 17 fixes applied across 17 files
+- ✅ **Classification Quality:** 60% TRUE_POSITIVE rate (better than spec)
+- ✅ **Risk Level:** VERY_LOW (scope narrowing is safe C++)
+- ✅ **Execution Pace:** 11x ahead of required velocity (~46/day target)
+**Files Modified (Batch 1):**
+- ann_frontdoor.cpp, binary_quantizer.cpp, approximate_radius_search.cpp
+- graph_analytics.cpp (4 fixes), graph_auto_buffer.cpp
+- hnsw_layer_optimizer.cpp, hnsw_parameter_tuner.cpp
+- learnable_rope.cpp, learned_quantizer.cpp, multi_gpu_vector_index.cpp
+- gpu_vector_index_vulkan.cpp (2 fixes), gpu_vector_index.cpp
+- property_graph.cpp (2 fixes), spatial_index.cpp
+**Staged for Continuation:**
+- 119+ scope_mismatch candidates
+- 231 copy_overhead patterns
+- 8+ string_concat_loop patterns
+- 2,662 braces_imbalance candidates (expected 90%+ false positives)
+**Progress Metrics:**
+- Batch 1 Progress: 17/200 minimum (8.5% ✅)
+- Overall Phase 4: 17/1,400 target (1.2%)
+- Execution Pace: 11x ahead ✅
+**Next Steps:** Build validation → Continue batches 1-3
+
+---
+
+### IMPORTERS_GAP_IMPLEMENTATION_QUICKSTART.md
+
+*(file too large — key headings extracted)*
+
+# IMPORTERS Gap Closure Implementation — Quick Start Guide
+**Project:** Importers Module Gap Closure (282 gaps, 10-week execution)
+**Start Date:** 2026-08-15
+**Status:** Phase 0 COMPLETE; Phase 1 RUNNING
+**Master Coordination:** `ai_working/IMPORTERS_GAP_CLOSURE_COORDINATION.md`
+---
+## Phase-by-Phase Quick Links
+| Phase | Name | Status | Artifact | Agent |
+|-------|------|--------|----------|-------|
+| **0** | Framework Setup | ✅ COMPLETE | Master coordination + 6 specs | (Setup) |
+| **1** | Triage & Validation | 🟡 RUNNING | IMPORTERS_PHASE1_GAP_TRIAGE.md | `gap-verifier` (importers-phase1-triage) |
+| **2** | CRITICAL Fixes | ⏹ QUEUED | IMPORTERS_PHASE2_CRITICAL_FIXES_COMPLETE.md | `themisdb-implementer` |
+| **3** | HIGH Batch A1 | ⏹ QUEUED | IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md | `themisdb-implementer` |
+| **4** | HIGH Batch A2 | ⏹ QUEUED | IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md | `themisdb-implementer` |
+| **5** | MEDIUM/LOW | ⏹ QUEUED | IMPORTERS_PHASE5_MEDIUM_LOW_COMPLETE.md | `task` + `themisdb-implementer` |
+| **6** | Review & Certification | ⏹ QUEUED | IMPORTERS_PHASE6_FINAL_CLOSURE_CERTIFICATE.md | `themisdb-reviewer` |
+---
+## Gap Distribution Summary
+Total Gaps: 282
+By Severity:
+CRITICAL: 44 gaps (15.6%)  → Phase 2 (100% closure required)
+HIGH:     151 gaps (53.5%) → Phase 3-4 (≥90% closure required)
+MEDIUM:   82 gaps (29.1%) → Phase 5 (≥60% closure required)
+LOW:      5 gaps (1.8%)  → Phase 5 (≥60% closure required)
+By Complexity:
+Tier-1 (Simple):    ~40 gaps   → Phase 2 (days 1-2 per batch)
+Tier-2 (Moderate):  ~120 gaps  → Phase 2-4 (days 3-5 per batch)
+Tier-3 (Complex):   ~122 gaps  → Phase 3-5 (weeks 1-2 per batch)
+By File (Top 5):
+postgres_importer.cpp:  55 gaps (19.5%)
+mysql_importer.cpp:     38 gaps (13.5%)
+mongo_importer.cpp:     24 gaps (8.5%)
+flatfile_importer.cpp:  22 gaps (7.8%)
+s3_importer.cpp:        16 gaps (5.7%)
+... + 22 other files
+---
+## Success Criteria (Phase 6 Exit Gate)
+- [x] Phase 0: Framework setup complete
+- [ ] Phase 1: All 282 gaps classified (>90% confidence)
+- [ ] Phase 2: 100% CRITICAL closure (44/44 gaps)
+- [ ] Phase 3-4: ≥90% HIGH closure (≥135/151 gaps)
+- [ ] Phase 5: ≥60% MEDIUM/LOW closure (≥52/87 gaps)
+- [ ] Phase 6: Code review approved, benchmarks stable, documentation synced
+**Overall Target:** 60-70% total gap remediation (~170-190 gaps) by 2026-10-15
+
+---
+
+### IMPORTERS_GAP_CLOSURE_COORDINATION.md
+
+*(file too large — key headings extracted)*
+
+# Importers Module Gap Closure Coordination Framework
+**Start Date:** 2026-08-15
+**Target Completion:** 2026-10-15 (10 weeks)
+**Scope:** 282 total gaps (44 Critical, 151 High, 82 Medium, 5 Low) across 27 files
+**Model:** 6-phase coordinated sub-agent execution with parallel phases 3-5
+---
+## Executive Summary
+**Success Criteria:**
+- 100% CRITICAL gaps resolved (44 items)
+- ≥90% HIGH gaps resolved (≥135 of 151 items, ≤16 deferred)
+- ≥60% MEDIUM/LOW resolved (≥52 of 87 items)
+- All changes pass `release_critical` CI and benchmark gates (IMRG-01..06)
+- Zero new warnings introduced
+---
+## Phase Status Dashboard
+| Phase | Name | Status | Target | Agent | Output Artifact |
+|-------|------|--------|--------|-------|-----------------|
+| **1** | Triage & Validation | ✅ **COMPLETE** | W1 (Aug 15) | gap-verifier | IMPORTERS_PHASE1_GAP_TRIAGE.md |
+**Phase 1 Results (2026-08-15):**
+- TRUE_POSITIVE: 167 gaps (59.2%) — production code issues
+- GUARDED_STUB: 81 gaps (28.7%) — defensive patterns, downgrade severity
+- FALSE_POSITIVE: 23 gaps (8.2%) — remove (no action)
+- DEFERRED: 11 gaps (3.9%) — manual review Phase 2
+- **Total Actionable:** 259 gaps (91.8%)
+- **Confidence:** 76.7% average (51.8% high-confidence, ready for implementation)
+**Phase 2 Complete Results (2026-08-15, Day 1):**
+- **Phase 2A (Data Race):** ✅ 21/21 CRITICAL gaps fixed (mutex + lock_guard RAII)
+- **Phase 2B (Exception Safety):** ✅ 13/13 HIGH gaps fixed (make_unique + try-catch RAII)
+- **Phase 2C (Iterator Invalidation):** ✅ 3/3 CRITICAL gaps verified safe (external containers, safe patterns)
+- **Total Phase 2:** ✅ 37 CRITICAL+HIGH gaps closed in 1 day
+- **Phase 2 Exit Gate:** ✅ MET (all tests complete, 0 new warnings, ready for Phase 3)
+---
+## Gaps by Severity and Complexity
+### Critical (28 gaps post-verification, down from 44)
+**Revised Severity (Phase 1 Triage Results):**
+- **CRITICAL (28 gaps):** Unguarded data races, iterator invalidation, smart_ptr misuse
+- Data race cluster: 21 gaps (postgres, mysql, flatfile, huggingface, mdm_engine)
+- Iterator invalidation: 3 gaps (mdm_engine, deterministic_matcher, data_quality)
+
+---
+
+### HEADER_GAP_REMEDIATION_REPORT.md
+
+*(file too large — key headings extracted)*
+
+---
+title: "Header-to-Implementation Gap Remediation Report"
+date: 2026-08-03
+status: "COMPLETE"
+---
+# Header-to-Implementation Gap Remediation — Final Report
+## Executive Summary
+- **Documentation** (25 headers): Added @note entries explaining header-only/interface nature
+- **Implementation Stubs** (14 files): Created .cpp files with basic structure and logging
+## Module-by-Module Summary
+### AUTH Module (7 gaps → 3 remaining)
+**Headers Documented as Header-Only (3):**
+1. `auth_principal_contract.h` - Frozen contract definition for auth principals
+2. `authorization_policy.h` - Interface delegated to OPA/Ranger adapters
+3. `eid_authenticator.h` - Interface delegated to eIDAS service providers
+**Stub .cpp Files Created (4):**
+1. `auth_event_bus.cpp` - In-process pub/sub for auth events with subscriber registry
+2. `auth_worker_thread_pool.cpp` - Async worker pool for LDAP/HTTP/validation tasks
+3. `passkey_authenticator.cpp` - WebAuthn credential validation and challenge generation
+4. `secure_memory.cpp` - Memory security utilities (zeroing, mlock, ASLR protection)
+**Gap Resolution:**
+- Originally 7 gaps identified
+- 4 gaps resolved with .cpp stub implementations
+- 3 gaps resolved with documentation (remain header-only by design)
+---
+### SERVER Module (6 gaps → 0 remaining)
+**All 6 Gaps Documented as Header-Only:**
+1. `server_api_contract.h` - Frozen contract for server components
+2. `server_activation_profile.h` - Server activation profile configuration
+3. `rpc_service_impl.h` - Abstract RPC service interface
+4. `route_version_router.h` - URL versioning router (inline functions)
+5. `api_version_config.h` - API version constants (constexpr)
+6. `auth_scope_mapper.h` - Auth scope utility functions (inline)
+---
+### LLM Module (26 gaps → 10 remaining)
+**Plugin Interfaces Documented (8):**
+- `llm_api_contract.h` - Frozen LLM contract definition
+- `i_llm_plugin.h` - LLM plugin interface (legacy compatibility)
+- `i_federated_inference_backend.h` - Federated inference plugin interface
+- `i_feedback_plugin.h` - Feedback mechanism plugin interface
+- `i_history_compressor.h` - History compression plugin interface
+- `i_ssm_plugin.h` - SSM/Mamba backend plugin interface
+- `themis_tool_interface.h` - Tool plugin interface
+
+---
+
 ### HIGH_GAP_SPRINT_BACKLOG_2026-05-25.md
 
 *(file too large — key headings extracted)*
@@ -9652,152 +9556,6 @@ Scope: server, llm, query, sharding, index (nach Rescan)
 
 ---
 
-### IMPORTERS_GAP_CLOSURE_COORDINATION.md
-
-*(file too large — key headings extracted)*
-
-# Importers Module Gap Closure Coordination Framework
-**Start Date:** 2026-08-15
-**Target Completion:** 2026-10-15 (10 weeks)
-**Scope:** 282 total gaps (44 Critical, 151 High, 82 Medium, 5 Low) across 27 files
-**Model:** 6-phase coordinated sub-agent execution with parallel phases 3-5
----
-## Executive Summary
-**Success Criteria:**
-- 100% CRITICAL gaps resolved (44 items)
-- ≥90% HIGH gaps resolved (≥135 of 151 items, ≤16 deferred)
-- ≥60% MEDIUM/LOW resolved (≥52 of 87 items)
-- All changes pass `release_critical` CI and benchmark gates (IMRG-01..06)
-- Zero new warnings introduced
----
-## Phase Status Dashboard
-| Phase | Name | Status | Target | Agent | Output Artifact |
-|-------|------|--------|--------|-------|-----------------|
-| **1** | Triage & Validation | ✅ **COMPLETE** | W1 (Aug 15) | gap-verifier | IMPORTERS_PHASE1_GAP_TRIAGE.md |
-**Phase 1 Results (2026-08-15):**
-- TRUE_POSITIVE: 167 gaps (59.2%) — production code issues
-- GUARDED_STUB: 81 gaps (28.7%) — defensive patterns, downgrade severity
-- FALSE_POSITIVE: 23 gaps (8.2%) — remove (no action)
-- DEFERRED: 11 gaps (3.9%) — manual review Phase 2
-- **Total Actionable:** 259 gaps (91.8%)
-- **Confidence:** 76.7% average (51.8% high-confidence, ready for implementation)
-**Phase 2 Complete Results (2026-08-15, Day 1):**
-- **Phase 2A (Data Race):** ✅ 21/21 CRITICAL gaps fixed (mutex + lock_guard RAII)
-- **Phase 2B (Exception Safety):** ✅ 13/13 HIGH gaps fixed (make_unique + try-catch RAII)
-- **Phase 2C (Iterator Invalidation):** ✅ 3/3 CRITICAL gaps verified safe (external containers, safe patterns)
-- **Total Phase 2:** ✅ 37 CRITICAL+HIGH gaps closed in 1 day
-- **Phase 2 Exit Gate:** ✅ MET (all tests complete, 0 new warnings, ready for Phase 3)
----
-## Gaps by Severity and Complexity
-### Critical (28 gaps post-verification, down from 44)
-**Revised Severity (Phase 1 Triage Results):**
-- **CRITICAL (28 gaps):** Unguarded data races, iterator invalidation, smart_ptr misuse
-- Data race cluster: 21 gaps (postgres, mysql, flatfile, huggingface, mdm_engine)
-- Iterator invalidation: 3 gaps (mdm_engine, deterministic_matcher, data_quality)
-
----
-
-### IMPORTERS_GAP_IMPLEMENTATION_QUICKSTART.md
-
-*(file too large — key headings extracted)*
-
-# IMPORTERS Gap Closure Implementation — Quick Start Guide
-**Project:** Importers Module Gap Closure (282 gaps, 10-week execution)
-**Start Date:** 2026-08-15
-**Status:** Phase 0 COMPLETE; Phase 1 RUNNING
-**Master Coordination:** `ai_working/IMPORTERS_GAP_CLOSURE_COORDINATION.md`
----
-## Phase-by-Phase Quick Links
-| Phase | Name | Status | Artifact | Agent |
-|-------|------|--------|----------|-------|
-| **0** | Framework Setup | ✅ COMPLETE | Master coordination + 6 specs | (Setup) |
-| **1** | Triage & Validation | 🟡 RUNNING | IMPORTERS_PHASE1_GAP_TRIAGE.md | `gap-verifier` (importers-phase1-triage) |
-| **2** | CRITICAL Fixes | ⏹ QUEUED | IMPORTERS_PHASE2_CRITICAL_FIXES_COMPLETE.md | `themisdb-implementer` |
-| **3** | HIGH Batch A1 | ⏹ QUEUED | IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md | `themisdb-implementer` |
-| **4** | HIGH Batch A2 | ⏹ QUEUED | IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md | `themisdb-implementer` |
-| **5** | MEDIUM/LOW | ⏹ QUEUED | IMPORTERS_PHASE5_MEDIUM_LOW_COMPLETE.md | `task` + `themisdb-implementer` |
-| **6** | Review & Certification | ⏹ QUEUED | IMPORTERS_PHASE6_FINAL_CLOSURE_CERTIFICATE.md | `themisdb-reviewer` |
----
-## Gap Distribution Summary
-Total Gaps: 282
-By Severity:
-CRITICAL: 44 gaps (15.6%)  → Phase 2 (100% closure required)
-HIGH:     151 gaps (53.5%) → Phase 3-4 (≥90% closure required)
-MEDIUM:   82 gaps (29.1%) → Phase 5 (≥60% closure required)
-LOW:      5 gaps (1.8%)  → Phase 5 (≥60% closure required)
-By Complexity:
-Tier-1 (Simple):    ~40 gaps   → Phase 2 (days 1-2 per batch)
-Tier-2 (Moderate):  ~120 gaps  → Phase 2-4 (days 3-5 per batch)
-Tier-3 (Complex):   ~122 gaps  → Phase 3-5 (weeks 1-2 per batch)
-By File (Top 5):
-postgres_importer.cpp:  55 gaps (19.5%)
-mysql_importer.cpp:     38 gaps (13.5%)
-mongo_importer.cpp:     24 gaps (8.5%)
-flatfile_importer.cpp:  22 gaps (7.8%)
-s3_importer.cpp:        16 gaps (5.7%)
-... + 22 other files
----
-## Success Criteria (Phase 6 Exit Gate)
-- [x] Phase 0: Framework setup complete
-- [ ] Phase 1: All 282 gaps classified (>90% confidence)
-- [ ] Phase 2: 100% CRITICAL closure (44/44 gaps)
-- [ ] Phase 3-4: ≥90% HIGH closure (≥135/151 gaps)
-- [ ] Phase 5: ≥60% MEDIUM/LOW closure (≥52/87 gaps)
-- [ ] Phase 6: Code review approved, benchmarks stable, documentation synced
-**Overall Target:** 60-70% total gap remediation (~170-190 gaps) by 2026-10-15
-
----
-
-### HEADER_GAP_REMEDIATION_REPORT.md
-
-*(file too large — key headings extracted)*
-
----
-title: "Header-to-Implementation Gap Remediation Report"
-date: 2026-08-03
-status: "COMPLETE"
----
-# Header-to-Implementation Gap Remediation — Final Report
-## Executive Summary
-- **Documentation** (25 headers): Added @note entries explaining header-only/interface nature
-- **Implementation Stubs** (14 files): Created .cpp files with basic structure and logging
-## Module-by-Module Summary
-### AUTH Module (7 gaps → 3 remaining)
-**Headers Documented as Header-Only (3):**
-1. `auth_principal_contract.h` - Frozen contract definition for auth principals
-2. `authorization_policy.h` - Interface delegated to OPA/Ranger adapters
-3. `eid_authenticator.h` - Interface delegated to eIDAS service providers
-**Stub .cpp Files Created (4):**
-1. `auth_event_bus.cpp` - In-process pub/sub for auth events with subscriber registry
-2. `auth_worker_thread_pool.cpp` - Async worker pool for LDAP/HTTP/validation tasks
-3. `passkey_authenticator.cpp` - WebAuthn credential validation and challenge generation
-4. `secure_memory.cpp` - Memory security utilities (zeroing, mlock, ASLR protection)
-**Gap Resolution:**
-- Originally 7 gaps identified
-- 4 gaps resolved with .cpp stub implementations
-- 3 gaps resolved with documentation (remain header-only by design)
----
-### SERVER Module (6 gaps → 0 remaining)
-**All 6 Gaps Documented as Header-Only:**
-1. `server_api_contract.h` - Frozen contract for server components
-2. `server_activation_profile.h` - Server activation profile configuration
-3. `rpc_service_impl.h` - Abstract RPC service interface
-4. `route_version_router.h` - URL versioning router (inline functions)
-5. `api_version_config.h` - API version constants (constexpr)
-6. `auth_scope_mapper.h` - Auth scope utility functions (inline)
----
-### LLM Module (26 gaps → 10 remaining)
-**Plugin Interfaces Documented (8):**
-- `llm_api_contract.h` - Frozen LLM contract definition
-- `i_llm_plugin.h` - LLM plugin interface (legacy compatibility)
-- `i_federated_inference_backend.h` - Federated inference plugin interface
-- `i_feedback_plugin.h` - Feedback mechanism plugin interface
-- `i_history_compressor.h` - History compression plugin interface
-- `i_ssm_plugin.h` - SSM/Mamba backend plugin interface
-- `themis_tool_interface.h` - Tool plugin interface
-
----
-
 ### GPU_MODULE_GAP_REMEDIATION_FINAL_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -9844,110 +9602,6 @@ status: "COMPLETE"
 | **SUBTOTAL** | **4** | **26** | **6** | **36** |
 ---
 ### Phase 3: Acceleration Path Hardening ✅
-
----
-
-### GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md
-
-*(file too large — key headings extracted)*
-
-# Gap Closure Master Coordination Plan
-**Date:** 2026-08-15 17:07 UTC
-**Coordinator:** Copilot Main Agent
-**Status:** 🟢 READY TO LAUNCH
----
-## Executive Summary
-**Total Gaps Across All Modules:** ~10,000+ (TRUE_POSITIVE: 300+)
-**Target Closure:** 50-60% reduction over 4-6 weeks
-**Coordinated Agents:** 6+ (parallel themes)
-**User Preference:** Larger remediation batches per commit ("weiter"/"nächster block")
----
-## Module-by-Module Status
-### 1. **Index Module** 🟢 Phase 2 Remediation ACTIVE
-**Gap Scope:** 7,712 total | 79 TRUE_POSITIVE | 1,942 FALSE_POSITIVE | 4,691 DEFERRED
-**Phase Status:** Phase 2 (CRITICAL/HIGH fixes) remediation committed
-**Next Actions:**
-- Phase 2 A-2 (iterator invalidation, 8 gaps) — in progress
-- Phase 2 A-3 (GPU memory, 5 gaps) — in progress
-- Phase 2 A-5 (lock ordering, 11 gaps) — queued
-- Phase 2 A-6 (db_connection_leak, 34 gaps) — queued
-**Critical Blockers:** 6 findings from Phase 5 review (4 CRITICAL, 2 HIGH)
-- Exception-in-destructor (VectorIndexManager) ✅ FIXED
-- Unsafe raw delete (RAII violations) ✅ FIXED
-- GPU Vector Index destructor ✅ FIXED
-- Iterator invalidation (partition removal) ✅ FIXED
-- Missing CMake presets ✅ FIXED
-- Missing test coverage 🟡 IN_PROGRESS
-**Remediation Target:** 2026-08-22 (48-hour window + 7-day buffer)
-**Validation Gates:** ASan/TSan/UBSan 0 alerts, 100% test pass
----
-### 2. **Analytics Module** 🟡 Phase 1 COMPLETE, Phase 2 ACTIVE
-**Gap Scope:** 412 total | 19 TRUE_POSITIVE | 14 DEFERRED | 2 FALSE_POSITIVE
-**Phase Status:** Phase 1 (CRITICAL validation) COMPLETE; Phase 2 Batch A-1 (lock ordering) COMPLETE
-**Next Actions:**
-- Phase 2 A-2 (db_connection_leak, 20 gaps) — queued
-- Phase 2 B (pointer_arithmetic + unchecked_result, 14 gaps) — queued
-- Phase 3 (scope_mismatch automation, 500+ gaps) — parallel execution
-**Execution Model:** 6-phase parallel workstreams with gap-verifier validation
-**Timeline:** 4-5 weeks for 50%+ closure
-**Validation Gates:** Deadlock prevention, thread safety verified
----
-### 3. **LLM Module** 🟡 Phase 1 COMPLETE, Phase 2 Queued
-**Gap Scope:** 942 verified gaps (execution-ready analysis)
-**Phase Status:** Analysis complete; ready for Phase 2 implementation
-**Next Actions:**
-
----
-
-### GAP_ELIMINATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# LLM Module Gap Elimination Plan
-## Strategy
-Instead of complete reimplementation, this plan:
-1. Replaces non-production fallback/simulation paths with real source-level implementations
-2. Adds comprehensive Doxygen documentation
-3. Implements missing error handling and logging
-4. Ensures all conditional paths are tested and documented
-## Gap Inventory (21 total across 11 files)
-### Block 1: GPU Memory Management (9 gaps)
-- `gpu_memory_manager.cpp`: 8 Simulation paths, 1 STUB
-- Action: Enhance VRAM tracking, better fallback documentation, production error paths
-### Block 2: LoRA Framework GPU Operations (6 gaps)
-- `custom_allreduce.cpp`: 2 STUB (P2P GPU copy, allreduce)
-- `gpu_utilization_monitor.cpp`: 2 STUB (Vulkan metrics, DirectX metrics)
-- `gpu_tensor.cpp`: 2 STUB (dtype-cast bridges for CUDA/HIP)
-- Action: Implement callback-based fallbacks + real implementations when available
-### Block 3: Core LLM Adapters (4 gaps)
-- `embedded_llm_stub.cpp`: 1 STUB (legitimate build-time alternative)
-- `llama_lora_adapter.cpp`: 1 STUB
-- `llama_grammar_adapter.cpp`: 1 STUB
-- `inline_training_engine.cpp`: 1 STUB
-- Action: Production-ready implementations + fallback strategies
-### Block 4: LoRA Training & Validation (2 gaps)
-- `quantization.cpp`: 1 STUB
-- `gpu_training_loop.cpp`: 1 STUB
-- `production_validator.cpp`: 1 Simulation
-- Action: Real implementations with proper error handling
-## Implementation Approach
-### Phase 1: Documentation Alignment
-- Add comprehensive Doxygen @file headers to all 11 files
-- Document runtime behavior and edge cases
-### Phase 2: Callback-Based Implementations
-- Use callback injection pattern (already established in codebase)
-- Provide default fallback implementations
-- Enable GPU-specific code paths when available
-### Phase 3: Testing & Verification
-- Verify existing tests pass
-- Add tests for fallback paths
-- Document test coverage
-## Production Readiness Criteria
-- [ ] All fallback paths have clear documentation
-- [ ] Error handling is complete and logged
-- [ ] Conditional compilation is clear (@ifdef markers)
-- [ ] Doxygen documentation covers all public APIs
-- [ ] Tests validate both GPU and CPU paths
 
 ---
 
@@ -10197,6 +9851,110 @@ Machine-readable verified findings suitable for automated processing and issue t
 
 ---
 
+### GAP_CLOSURE_MASTER_COORDINATION_2026-08-15.md
+
+*(file too large — key headings extracted)*
+
+# Gap Closure Master Coordination Plan
+**Date:** 2026-08-15 17:07 UTC
+**Coordinator:** Copilot Main Agent
+**Status:** 🟢 READY TO LAUNCH
+---
+## Executive Summary
+**Total Gaps Across All Modules:** ~10,000+ (TRUE_POSITIVE: 300+)
+**Target Closure:** 50-60% reduction over 4-6 weeks
+**Coordinated Agents:** 6+ (parallel themes)
+**User Preference:** Larger remediation batches per commit ("weiter"/"nächster block")
+---
+## Module-by-Module Status
+### 1. **Index Module** 🟢 Phase 2 Remediation ACTIVE
+**Gap Scope:** 7,712 total | 79 TRUE_POSITIVE | 1,942 FALSE_POSITIVE | 4,691 DEFERRED
+**Phase Status:** Phase 2 (CRITICAL/HIGH fixes) remediation committed
+**Next Actions:**
+- Phase 2 A-2 (iterator invalidation, 8 gaps) — in progress
+- Phase 2 A-3 (GPU memory, 5 gaps) — in progress
+- Phase 2 A-5 (lock ordering, 11 gaps) — queued
+- Phase 2 A-6 (db_connection_leak, 34 gaps) — queued
+**Critical Blockers:** 6 findings from Phase 5 review (4 CRITICAL, 2 HIGH)
+- Exception-in-destructor (VectorIndexManager) ✅ FIXED
+- Unsafe raw delete (RAII violations) ✅ FIXED
+- GPU Vector Index destructor ✅ FIXED
+- Iterator invalidation (partition removal) ✅ FIXED
+- Missing CMake presets ✅ FIXED
+- Missing test coverage 🟡 IN_PROGRESS
+**Remediation Target:** 2026-08-22 (48-hour window + 7-day buffer)
+**Validation Gates:** ASan/TSan/UBSan 0 alerts, 100% test pass
+---
+### 2. **Analytics Module** 🟡 Phase 1 COMPLETE, Phase 2 ACTIVE
+**Gap Scope:** 412 total | 19 TRUE_POSITIVE | 14 DEFERRED | 2 FALSE_POSITIVE
+**Phase Status:** Phase 1 (CRITICAL validation) COMPLETE; Phase 2 Batch A-1 (lock ordering) COMPLETE
+**Next Actions:**
+- Phase 2 A-2 (db_connection_leak, 20 gaps) — queued
+- Phase 2 B (pointer_arithmetic + unchecked_result, 14 gaps) — queued
+- Phase 3 (scope_mismatch automation, 500+ gaps) — parallel execution
+**Execution Model:** 6-phase parallel workstreams with gap-verifier validation
+**Timeline:** 4-5 weeks for 50%+ closure
+**Validation Gates:** Deadlock prevention, thread safety verified
+---
+### 3. **LLM Module** 🟡 Phase 1 COMPLETE, Phase 2 Queued
+**Gap Scope:** 942 verified gaps (execution-ready analysis)
+**Phase Status:** Analysis complete; ready for Phase 2 implementation
+**Next Actions:**
+
+---
+
+### GAP_ELIMINATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# LLM Module Gap Elimination Plan
+## Strategy
+Instead of complete reimplementation, this plan:
+1. Replaces non-production fallback/simulation paths with real source-level implementations
+2. Adds comprehensive Doxygen documentation
+3. Implements missing error handling and logging
+4. Ensures all conditional paths are tested and documented
+## Gap Inventory (21 total across 11 files)
+### Block 1: GPU Memory Management (9 gaps)
+- `gpu_memory_manager.cpp`: 8 Simulation paths, 1 STUB
+- Action: Enhance VRAM tracking, better fallback documentation, production error paths
+### Block 2: LoRA Framework GPU Operations (6 gaps)
+- `custom_allreduce.cpp`: 2 STUB (P2P GPU copy, allreduce)
+- `gpu_utilization_monitor.cpp`: 2 STUB (Vulkan metrics, DirectX metrics)
+- `gpu_tensor.cpp`: 2 STUB (dtype-cast bridges for CUDA/HIP)
+- Action: Implement callback-based fallbacks + real implementations when available
+### Block 3: Core LLM Adapters (4 gaps)
+- `embedded_llm_stub.cpp`: 1 STUB (legitimate build-time alternative)
+- `llama_lora_adapter.cpp`: 1 STUB
+- `llama_grammar_adapter.cpp`: 1 STUB
+- `inline_training_engine.cpp`: 1 STUB
+- Action: Production-ready implementations + fallback strategies
+### Block 4: LoRA Training & Validation (2 gaps)
+- `quantization.cpp`: 1 STUB
+- `gpu_training_loop.cpp`: 1 STUB
+- `production_validator.cpp`: 1 Simulation
+- Action: Real implementations with proper error handling
+## Implementation Approach
+### Phase 1: Documentation Alignment
+- Add comprehensive Doxygen @file headers to all 11 files
+- Document runtime behavior and edge cases
+### Phase 2: Callback-Based Implementations
+- Use callback injection pattern (already established in codebase)
+- Provide default fallback implementations
+- Enable GPU-specific code paths when available
+### Phase 3: Testing & Verification
+- Verify existing tests pass
+- Add tests for fallback paths
+- Document test coverage
+## Production Readiness Criteria
+- [ ] All fallback paths have clear documentation
+- [ ] Error handling is complete and logged
+- [ ] Conditional compilation is clear (@ifdef markers)
+- [ ] Doxygen documentation covers all public APIs
+- [ ] Tests validate both GPU and CPU paths
+
+---
+
 ### FINAL_GAP_ELIMINATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -10349,6 +10107,57 @@ All 501 lines of changes maintain backward API compatibility and preserve fail-c
 
 ---
 
+### DISTRIBUTED_KNOWLEDGE_GAP_CLOSURE_FINAL_REPORT.md
+
+*(file too large — key headings extracted)*
+
+# distributed_knowledge Module: Gap Closure Final Report
+**Date:** 2026-08-15
+**Status:** ✅ **COMPLETE - All 111 findings resolved**
+**Version:** v2.0-Q3-production-ready
+---
+## Executive Summary
+**Final Metrics:**
+- **Findings Resolved:** 111/111 (100%)
+- **Files Modified:** 28 files across 10 core module files + documentation
+- **Batches Completed:** 5 (14 + 54 + 2 + 6 + 30 findings respectively)
+- **Implementation Timeline:** Phase 2-3 hardening per Q4 2026 roadmap
+- **Quality:** Production-ready, backward-compatible, zero breaking changes
+---
+## Batch Completion Summary
+### Batch 1: Exception Safety & Destructors ✅ COMPLETE
+**Status:** Merged, production-ready
+**Findings Resolved:** 14 critical findings
+| Category | Count | Status |
+|----------|-------|--------|
+| noexcept violations | 6 | ✅ Fixed |
+| missing move ctors | 3 | ✅ Fixed |
+| generic_catch blocks | 2 | ✅ Fixed |
+| exception safety docs | 3 | ✅ Added |
+**Files Modified:** 7
+- include/distributed_knowledge/lora_federation_coordinator.h
+- src/distributed_knowledge/lora_federation_coordinator.cpp
+- include/distributed_knowledge/federated_distillation_coordinator.h
+- src/distributed_knowledge/federated_distillation_coordinator.cpp
+- include/distributed_knowledge/cross_shard_feedback_sync.h
+- src/distributed_knowledge/cross_shard_feedback_sync.cpp
+- include/distributed_knowledge/distributed_knowledge_api_contract.h (§ 7)
+**Key Changes:**
+- 6 destructors marked `noexcept override`
+- 3 move constructors changed to `= default`
+- 2 `catch(...)` blocks replaced with `catch(const std::exception&)`
+- API contract § 7 added: "Exception Safety Contract" (~35 lines)
+**Deliverable Quality:** High - RAII-compliant, thread-safe, exception-safe
+---
+### Batch 2: Conflict Resolution Documentation ✅ COMPLETE
+**Status:** Merged, false-positives resolved
+**Findings Resolved:** 54 false-positive findings
+| Category | Count | Status |
+|----------|-------|--------|
+| undefined_conflict_resolution | 54 | ✅ Documented |
+
+---
+
 ### DELIVERY_LLM_GAPS_ANALYSIS.txt
 
 *(file too large — key headings extracted)*
@@ -10403,56 +10212,5 @@ Current: Comment placeholder, needs implementation
 Impact: HIGH - SSM state store won't work correctly
 Effort: 3-4 hours
 Fix: Initialize rocksdb::TransactionDB with proper error handling
-
----
-
-### DISTRIBUTED_KNOWLEDGE_GAP_CLOSURE_FINAL_REPORT.md
-
-*(file too large — key headings extracted)*
-
-# distributed_knowledge Module: Gap Closure Final Report
-**Date:** 2026-08-15
-**Status:** ✅ **COMPLETE - All 111 findings resolved**
-**Version:** v2.0-Q3-production-ready
----
-## Executive Summary
-**Final Metrics:**
-- **Findings Resolved:** 111/111 (100%)
-- **Files Modified:** 28 files across 10 core module files + documentation
-- **Batches Completed:** 5 (14 + 54 + 2 + 6 + 30 findings respectively)
-- **Implementation Timeline:** Phase 2-3 hardening per Q4 2026 roadmap
-- **Quality:** Production-ready, backward-compatible, zero breaking changes
----
-## Batch Completion Summary
-### Batch 1: Exception Safety & Destructors ✅ COMPLETE
-**Status:** Merged, production-ready
-**Findings Resolved:** 14 critical findings
-| Category | Count | Status |
-|----------|-------|--------|
-| noexcept violations | 6 | ✅ Fixed |
-| missing move ctors | 3 | ✅ Fixed |
-| generic_catch blocks | 2 | ✅ Fixed |
-| exception safety docs | 3 | ✅ Added |
-**Files Modified:** 7
-- include/distributed_knowledge/lora_federation_coordinator.h
-- src/distributed_knowledge/lora_federation_coordinator.cpp
-- include/distributed_knowledge/federated_distillation_coordinator.h
-- src/distributed_knowledge/federated_distillation_coordinator.cpp
-- include/distributed_knowledge/cross_shard_feedback_sync.h
-- src/distributed_knowledge/cross_shard_feedback_sync.cpp
-- include/distributed_knowledge/distributed_knowledge_api_contract.h (§ 7)
-**Key Changes:**
-- 6 destructors marked `noexcept override`
-- 3 move constructors changed to `= default`
-- 2 `catch(...)` blocks replaced with `catch(const std::exception&)`
-- API contract § 7 added: "Exception Safety Contract" (~35 lines)
-**Deliverable Quality:** High - RAII-compliant, thread-safe, exception-safe
----
-### Batch 2: Conflict Resolution Documentation ✅ COMPLETE
-**Status:** Merged, false-positives resolved
-**Findings Resolved:** 54 false-positive findings
-| Category | Count | Status |
-|----------|-------|--------|
-| undefined_conflict_resolution | 54 | ✅ Documented |
 
 ---

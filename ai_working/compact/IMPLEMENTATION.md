@@ -21,28 +21,28 @@
 - `USER_STORAGE_IMPLEMENTATION_COORDINATION.md` (2026-08-19, 17,036 B)
 - `UPDATES_IMPLEMENTATION_COMPLETION_SUMMARY.md` (2026-08-19, 18,307 B)
 - `TRANSACTION_MODULE_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,361 B)
-- `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-19, 9,233 B)
 - `TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md` (2026-08-19, 7,025 B)
-- `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-19, 14,655 B)
 - `THREAD_SAFETY_IMPLEMENTATION_REPORT.md` (2026-08-19, 7,627 B)
+- `TIER1_IMPLEMENTATION_GUIDE.md` (2026-08-19, 9,233 B)
 - `T2.3_IMPLEMENTATION_VERIFICATION.md` (2026-08-19, 7,015 B)
+- `TENSOR_IMPLEMENTATION_MASTER_PLAN.md` (2026-08-19, 14,655 B)
 - `SPRINT_8_PHASE_1B_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 11,940 B)
 - `SPRINT_8_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 15,096 B)
-- `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-19, 14,565 B)
 - `REPLICATION_WAL_IMPLEMENTATION_2026_08_18.md` (2026-08-19, 8,453 B)
-- `RAG_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 12,916 B)
+- `ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md` (2026-08-19, 14,565 B)
 - `RAII_IMPLEMENTATION_REPORT.md` (2026-08-19, 10,444 B)
+- `RAG_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 12,916 B)
+- `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-19, 11,857 B)
 - `Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md` (2026-08-19, 13,559 B)
 - `PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 12,932 B)
-- `Q3_2026_EPIC_IMPLEMENTATION_INDEX.md` (2026-08-19, 11,857 B)
 - `POLICY_CONFLICT_DETECTION_IMPLEMENTATION_REPORT.md` (2026-08-19, 13,596 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 15,996 B)
 - `PHASE_A_IMPLEMENTATION_SUMMARY_1475.md` (2026-08-19, 15,996 B)
 - `PHASE_B_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,117 B)
+- `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,507 B)
 - `PHASE_A1_IMPLEMENTATION_SUMMARY_3986.md` (2026-08-19, 13,507 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN.md` (2026-08-19, 8,970 B)
 - `PHASE_A1_HARDENING_IMPLEMENTATION_PLAN_8368.md` (2026-08-19, 8,970 B)
-- `PHASE_A1_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 13,507 B)
 - `PHASE_5_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 11,681 B)
 - `PHASE_5_IMPLEMENTATION_PLAN.md` (2026-08-19, 19,108 B)
 - `PHASE_5_IMPLEMENTATION_PLAN_5782.md` (2026-08-19, 19,108 B)
@@ -54,9 +54,9 @@
 - `PHASE_2_3_IMPLEMENTATION_PLAN_1393.md` (2026-08-19, 6,986 B)
 - `PHASE_2_4_IMPLEMENTATION_SUMMARY.txt` (2026-08-19, 5,374 B)
 - `PHASE_2_3_IMPLEMENTATION_BLUEPRINT.md` (2026-08-19, 17,400 B)
+- `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-19, 22,315 B)
 - `PHASE_1_6_IMPLEMENTATION_STATUS.md` (2026-08-19, 10,339 B)
 - `PHASE_11_IMPLEMENTATION_LOG.md` (2026-08-19, 8,022 B)
-- `PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md` (2026-08-19, 22,315 B)
 - `P2_D03_D04_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 13,341 B)
 - `P2_D05_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 14,785 B)
 - `P0_P1_P2_IMPLEMENTATION_STATUS.md` (2026-08-19, 5,500 B)
@@ -78,8 +78,8 @@
 - `CHIMERA_V1_1_0_V1_2_0_IMPLEMENTATION_COMPLETE.md` (2026-08-19, 10,517 B)
 - `CMT-7504_IMPLEMENTATION_GUIDE.md` (2026-08-19, 16,162 B)
 - `AUDIT_INTEGRITY_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 10,390 B)
-- `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-19, 17,764 B)
 - `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md` (2026-08-19, 10,935 B)
+- `ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md` (2026-08-19, 17,764 B)
 
 ---
 
@@ -1660,6 +1660,421 @@ thread.detach();
 
 ---
 
+### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
+
+# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
+
+## Status Overview (2026-08-07)
+
+| Phase | Name | Status | Progress | Target | Completion |
+|-------|------|--------|----------|--------|------------|
+| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
+| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
+| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
+| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
+| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
+
+## Implementation Batches
+
+### Batch 1: Phase 2-Core Hardening (CURRENT)
+**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
+
+**Objectives:**
+- [~] Builder fail-fast logic for null/invalid dependencies
+- [~] Null-checks and error messages in content_toolbox_bridge
+- [~] Registry initialization/reset semantics validation
+- [~] IT-13..IT-20 edge-case tests
+- [~] Build validation on linux-release
+
+**Key Files:**
+- src/toolbox/toolbox_builder.cpp - Builder validation
+- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
+- src/toolbox/toolbox_registry.cpp - Registry semantics
+- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
+- src/toolbox/ROADMAP.md - Update Phase 2 progress
+
+**Expected Deliverables:**
+- ✅ All Phase 2 items at 80%→95% completion
+- ✅ Mixed-content scenarios validated
+- ✅ IT-13..IT-20 tests pass
+- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
+- ✅ Build succeeds
+
+---
+
+### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
+
+**Objectives:**
+- Unify incident taxonomy across 4 execution planes
+- Add Prometheus metrics for all error classes
+- Implement deterministic stress fixtures
+- Extend test coverage (IT-13..IT-20)
+
+**Key Files:**
+- src/toolbox/SECURITY.md - Incident taxonomy
+- src/toolbox/ingestion_toolbox.cpp - Metrics
+- src/toolbox/content_toolbox_bridge.cpp - Metrics
+- src/toolbox/toolbox_registry.cpp - Error tracking
+- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
+
+**Expected Deliverables:**
+- ✅ Incident taxonomy documented
+- ✅ New metrics in getMetricsText()
+- ✅ Stress fixtures demonstrate deterministic behavior
+- ✅ Phase 3 progress 75%→90%
+
+---
+
+### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
+
+**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
+
+**Objectives:**
+- Validate proxy-benchmark behavior
+- Establish p95/p99 envelopes
+- Expand native toolbox benchmark suite
+- Certify GATE-TBX-P1..P6
+
+**Key Files:**
+- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
+- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
+- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
+- src/toolbox/ROADMAP.md - Phase 5 progress
+
+**Expected Deliverables:**
+- ✅ GATE-TBX-P1..P6 baseline measurements
+- ✅ p95/p99 envelopes documented
+- ✅ No regression > 10% vs baseline
+- ✅ Phase 5 progress 50%→85%
+
+---
+
+### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
+
+**Objectives:**
+- Operationalize PRODUCTION_REQUIREMENTS.md
+- Update cross-links in all docs
+- 100% Production-Readiness Checklist
+- Prepare release notes
+
+**Key Files:**
+- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
+- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
+- docs/toolbox/ - Public docs
+- CHANGELOG.md - Q4 2026 entries
+- src/toolbox/ROADMAP.md - Final status
+
+**Expected Deliverables:**
+- ✅ All docs consistent and current
+- ✅ Production-Readiness 100%
+- ✅ Release notes ready
+- ✅ Phase 6 progress 100%
+
+---
+
+## Verification Procedures
+
+### Batch 1 (Phase 2) Validation
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release -L toolbox -V
+# Verify new metrics in toolbox.getMetricsText()
+# Verify IT-13..IT-20 tests all pass
+```
+
+### Batch 2 (Phase 3) Validation
+```bash
+cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
+./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
+# Verify stress scenarios complete without deadlock
+# Verify Prometheus metrics for all error classes
+```
+
+### Batch 3 (Phase 5) Validation
+```bash
+cmake --build --preset linux-release --target bench_toolbox_native_workloads
+./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
+# Verify all gates meet thresholds
+# Verify p95/p99 percentiles consistent across runs
+```
+
+### Batch 4 (Phase 6) Validation
+```bash
+# Validate doc links
+grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
+# Verify Production-Readiness Checklist
+grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
+# Verify CHANGELOG entries
+grep -c "Q4 2026" CHANGELOG.md
+```
+
+---
+
+## Timeline & Milestones
+
+| Batch | Weeks | Deliverables | Status |
+|-------|-------|--------------|--------|
+| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
+| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
+| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
+| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
+
+---
+
+## Quality Gates
+
+### Code Quality
+- [ ] No new CodeQL alerts (Phase 2-6)
+- [ ] All focused test targets pass
+- [ ] Build succeeds on linux-release preset
+- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
+
+### Functional
+- [ ] Mixed-content scenarios validated
+- [ ] Soft-fail + fail-fast behaviors tested
+- [ ] All error paths exercised
+- [ ] Metrics emitted correctly
+- [ ] Stress tests complete without deadlock
+
+### Performance
+- [ ] GATE-TBX-P1..P6 meet thresholds
+- [ ] p95/p99 envelopes established
+- [ ] No regression > 10% vs baseline
+
+### Documentation
+- [ ] Cross-links consistent
+- [ ] Production requirements documented
+- [ ] Release notes prepared
+- [ ] Roadmap 100% synchronized
+
+---
+
+## Key Risks & Mitigations
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|-----------|
+| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
+| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
+| Proxy-benchmark regression | Low | High | Native suite early validation |
+| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
+
+---
+
+## Success Criteria (All Batches)
+
+✅ Phase 1: Design/API contracts frozen (Complete)
+✅ Phase 2: Core hardening 80%→95%, mixed-content validated
+✅ Phase 3: Incident taxonomy unified, metrics complete
+✅ Phase 4: 96+ focused tests passing (Complete)
+✅ Phase 5: GATE-TBX-P1..P6 gates certified
+✅ Phase 6: Production-Readiness 100%, docs synced
+
+---
+
+**Last Updated:** 2026-08-07 18:33 UTC
+**Next Review:** Upon Batch 1 completion (agent notification)
+
+---
+
+### THREAD_SAFETY_IMPLEMENTATION_REPORT.md
+
+# Thread-Safety Fixes Implementation Report - LLM Module
+
+## Date: 2026-08-17
+
+## Overview
+Fixed thread-safety and data-race gaps in the LLM module per MODULE_GAPS.md specifications. 
+Addressed 11 data races, 2 missing sync issues, and related circular lock ordering and deadlock risks.
+
+---
+
+## Fixes Implemented
+
+### 1. AsyncInferenceEngine (async_inference_engine.cpp/h)
+
+#### Issue: `engine_start_time_` Data Race
+- **Problem**: Line 649 reads `engine_start_time_` without synchronization in public const method `getWorkerStats()`
+- **Impact**: Data race - concurrent access from timeout monitor thread and stats query thread
+- **Fix**: 
+  - Added `mutable std::mutex stats_time_mutex_` to header (line 387)
+  - Protected all reads of `engine_start_time_` with `stats_time_mutex_` lock
+  - Updated `getWorkerStats()` to acquire lock before accessing (lines 625-631)
+
+#### Issue: Constructor Race on `active_plugin_`
+- **Problem**: Assignment of `active_plugin_` without explicit lock in constructors (lines 37, 69, 105, 133)
+- **Impact**: While safe in practice (constructor runs before threads), inconsistent with lock semantics
+- **Fix**:
+  - Added explicit `std::lock_guard<std::shared_mutex> lock(plugin_mutex_)` around all `active_plugin_` assignments
+  - Applies to all 4 constructors (lines 28-160)
+  - Establishes clear happens-before relationship for first worker thread access
+
+#### Issue: Lock Ordering Documentation
+- **Problem**: 108 circular_lock_ordering findings - no documented lock ordering invariants
+- **Fix**:
+  - Added comprehensive LOCK ORDERING INVARIANTS documentation in header (lines 318-336)
+  - Defined canonical lock acquisition order:
+    1. plugin_mutex_ (R/W lock for hot-swap)
+    2. queue_mutex_ (protects request_queue_)
+    3. tracking_mutex_ (protects active_requests_)
+    4. latency_mutex_ (protects latency_samples_)
+    5. cache_meta_mutex_ (protects cache metadata)
+    6. policy_mutex_ (protects prompt_policy_)
+    7. stats_time_mutex_ (protects engine_start_time_)
+  - Prevents deadlock by enforcing strict lock ordering across module
+
+---
+
+### 2. LLMPluginManager (llm_plugin_manager.cpp/h)
+
+#### Issue: VRAM Allocator Race Condition
+- **Problem**: `vram_allocator_.registerExternal()` called without lock in `loadModel()` (line 397)
+  - Followed by `vram_handles_[model_id]` assignment under mutex
+  - Race condition between allocation and handle storage
+- **Impact**: Data race - concurrent access with `unloadModel()` or `getHealthStatus()`
+- **Fix**:
+  - Added `mutable std::mutex vram_mutex_` to header (line 438)
+  - All vram_allocator_ operations now protected by vram_mutex_
+  - Updated `loadModel()` to acquire vram_mutex_ before registerExternal() (lines 397-401)
+  - Updated `unloadModel()` to use vram_mutex_ instead of generic mutex_ (lines 410-421)
+
+#### Issue: Unprotected VRAM Stats Access
+- **Problem**: `getHealthStatus()` and `getVRAMStats()` call `vram_allocator_.getStats()` without synchronization
+- **Impact**: Race with concurrent loadModel/unloadModel modifications
+- **Fix**:
+  - Protected `getHealthStatus()` VRAM stat reading with vram_mutex_ (lines 589-598)
+  - Protected `getVRAMStats()` with vram_mutex_ (lines 603-606)
+  - Used lambda pattern for minimal critical section
+
+---
+
+### 3. ActiveVRAMAllocator (active_vram_allocator.cpp/h)
+
+#### Issue: Inconsistent Atomic Operations
+- **Problem**: `next_id_` uses atomic operations inconsistently with memory ordering
+- **Status**: Already uses `std::memory_order_relaxed` correctly for monotonic counter
+- **Verification**: All `next_id_.fetch_add()` calls use consistent memory ordering
+
+#### Issue: Stats Protection
+- **Status**: `stats_` properly protected by `mu_` mutex in all public accessors
+- **Verification**: `getStats()` method holds mu_ during read (line 408)
+
+---
+
+## Summary of Changes
+
+### Files Modified
+
+1. **include/llm/async_inference_engine.h**
+   - Added `stats_time_mutex_` member (line 387)
+   - Added LOCK ORDERING INVARIANTS documentation (lines 318-336)
+
+2. **src/llm/async_inference_engine.cpp**
+   - Fixed `getWorkerStats()` to protect `engine_start_time_` read (lines 625-631)
+   - Fixed all 4 constructors to use explicit plugin_mutex_ locks (lines 28-160)
+
+3. **include/llm/llm_plugin_manager.h**
+   - Added `vram_mutex_` member (line 438)
+   - Added documentation for VRAM synchronization (lines 437-439)
+
+4. **src/llm/llm_plugin_manager.cpp**
+   - Fixed `loadModel()` VRAM registration (lines 397-401)
+   - Fixed `unloadModel()` VRAM deregistration (lines 410-421)
+   - Fixed `getHealthStatus()` VRAM stats access (lines 589-598)
+   - Fixed `getVRAMStats()` VRAM stats access (lines 603-606)
+
+---
+
+## Thread-Safety Guarantees After Fixes
+
+### AsyncInferenceEngine
+✅ No data races on `engine_start_time_` - protected by stats_time_mutex_
+✅ Consistent lock ordering prevents circular waits
+✅ Plugin hot-swap is thread-safe with shared_mutex
+✅ Request queue operations protected by queue_mutex_
+✅ Active request tracking protected by tracking_mutex_
+✅ Statistics use atomic<> with consistent memory ordering
+
+### LLMPluginManager
+✅ VRAM allocator operations atomically protected by vram_mutex_
+✅ No races between loadModel/unloadModel/getHealthStatus
+✅ Adapter publisher access protected by mutex_
+✅ Plugin registry protected by mutex_
+
+### ActiveVRAMAllocator
+✅ Stats protected by mu_ in all public methods
+✅ Atomic operations use consistent memory ordering
+✅ Handle allocation/deallocation properly synchronized
+
+---
+
+## Verification Strategy
+
+### Phase 1: Compilation
+- All changes follow RAII pattern with std::lock_guard/std::unique_lock
+- No manual lock/unlock calls
+- Compatible with modern C++20 standards
+
+### Phase 2: Static Analysis
+- ThreadSanitizer (develop-tsan preset) can detect remaining races
+- Code review for lock ordering violations
+
+### Phase 3: Runtime Testing
+- Stress tests with concurrent model load/unload
+- Concurrent inference and VRAM pressure monitoring
+- Deadline-based timeout verification
+
+---
+
+## Lock Ordering Enforcement
+
+The following functions MUST follow the canonical lock order or acquire only one lock:
+
+**Functions with multiple locks:**
+- `AsyncInferenceEngine::submit()` - queue_mutex_ then tracking_mutex_
+- `AsyncInferenceEngine::processRequest()` - plugin_mutex_ (shared), then cache operations
+- `AsyncInferenceEngine::timeoutMonitorLoop()` - queue_mutex_, tracking_mutex_
+- `LLMPluginManager::loadModel()` - mutex_, then vram_mutex_
+- `LLMPluginManager::unloadModel()` - vram_mutex_, then mutex_ (NO DEADLOCK due to lock order)
+
+**Never acquire in reverse order:**
+- Lock 7 then Lock 1 = DEADLOCK
+- Lock 4 then Lock 2 = DEADLOCK
+
+---
+
+## Future Considerations
+
+1. **Lock Contention Reduction** (15 instances of high contention)
+   - Consider read-write locks for frequently-read stats
+   - Implement lock-free data structures for counters
+
+2. **Deadlock Prevention Testing**
+   - Add chaos-monkey style tests that alternate lock orders
+   - ThreadSanitizer deadlock detection enabled
+
+3. **Performance Profiling**
+   - Profile lock hold times under high concurrency
+   - Consider splitting latency_samples_ into per-thread storage
+
+---
+
+## Compliance Status
+
+✅ Data races: 11 occurrences addressed
+✅ Missing sync: 2 occurrences addressed  
+✅ Circular lock ordering: 108 occurrences documented with invariants
+✅ Lock contention: 15 occurrences identified for optimization
+✅ Deadlock risk: 11 occurrences mitigated with lock ordering
+✅ Primitive no volatile: 22 occurrences - using atomic<> where needed
+
+All fixes follow RAII principles and modern C++ threading best practices.
+
+---
+
 ### TIER1_IMPLEMENTATION_GUIDE.md
 
 # Tier 1 Hardening Implementation Guide (2026-08-02)
@@ -1928,471 +2343,6 @@ Each scanner outputs gaps as a list of `{file, line, issue, severity, gap_id}` t
 
 ---
 
-### TOOLBOX_COMPLETE_IMPLEMENTATION_TRACKING.md
-
-# Toolbox Module - Complete Implementation Tracking (Phase 2-6)
-
-## Status Overview (2026-08-07)
-
-| Phase | Name | Status | Progress | Target | Completion |
-|-------|------|--------|----------|--------|------------|
-| Phase 1 | Design / API Contract | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 2 | Core Implementation | [~] IN PROGRESS | 80% → 95% | Q4 2026 | TBD |
-| Phase 3 | Error Handling & Edge Cases | [~] IN PROGRESS | 75% → 90% | Q4 2026 | TBD |
-| Phase 4 | Tests | ✅ COMPLETE | 100% | Q3 2026 | 2026-08-07 |
-| Phase 5 | Performance & Hardening | [~] IN PROGRESS | 50% → 85% | Q1 2027 | TBD |
-| Phase 6 | Documentation & Acceptance | ✅ COMPLETE | 100% | Q4 2026 | 2026-08-07 |
-
-## Implementation Batches
-
-### Batch 1: Phase 2-Core Hardening (CURRENT)
-**Status:** [~] IN PROGRESS (Agent: toolbox-phase2-hardening)
-
-**Objectives:**
-- [~] Builder fail-fast logic for null/invalid dependencies
-- [~] Null-checks and error messages in content_toolbox_bridge
-- [~] Registry initialization/reset semantics validation
-- [~] IT-13..IT-20 edge-case tests
-- [~] Build validation on linux-release
-
-**Key Files:**
-- src/toolbox/toolbox_builder.cpp - Builder validation
-- src/toolbox/content_toolbox_bridge.cpp - Bridge error handling
-- src/toolbox/toolbox_registry.cpp - Registry semantics
-- tests/toolbox/test_toolbox_contract_hardening_focused.cpp - Edge case tests
-- src/toolbox/ROADMAP.md - Update Phase 2 progress
-
-**Expected Deliverables:**
-- ✅ All Phase 2 items at 80%→95% completion
-- ✅ Mixed-content scenarios validated
-- ✅ IT-13..IT-20 tests pass
-- ✅ New metrics emitted (bridge_failures_total, registry_misuse_total)
-- ✅ Build succeeds
-
----
-
-### Batch 2: Phase 3-Fehlerbehandlung & Diagnostik (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_2_PHASE3_PLAN.md
-
-**Objectives:**
-- Unify incident taxonomy across 4 execution planes
-- Add Prometheus metrics for all error classes
-- Implement deterministic stress fixtures
-- Extend test coverage (IT-13..IT-20)
-
-**Key Files:**
-- src/toolbox/SECURITY.md - Incident taxonomy
-- src/toolbox/ingestion_toolbox.cpp - Metrics
-- src/toolbox/content_toolbox_bridge.cpp - Metrics
-- src/toolbox/toolbox_registry.cpp - Error tracking
-- tests/toolbox/test_toolbox_phase5.cpp - Stress scenarios
-
-**Expected Deliverables:**
-- ✅ Incident taxonomy documented
-- ✅ New metrics in getMetricsText()
-- ✅ Stress fixtures demonstrate deterministic behavior
-- ✅ Phase 3 progress 75%→90%
-
----
-
-### Batch 3: Phase 5-Performance & Benchmarking (PLANNED)
-
-**Plan:** See ai_working/TOOLBOX_BATCH_3_PHASE5_PLAN.md
-
-**Objectives:**
-- Validate proxy-benchmark behavior
-- Establish p95/p99 envelopes
-- Expand native toolbox benchmark suite
-- Certify GATE-TBX-P1..P6
-
-**Key Files:**
-- benchmarks/toolbox/bench_toolbox_release_gates.cpp - Gate validation
-- benchmarks/toolbox/bench_toolbox_native_workloads.cpp - Native suite
-- src/toolbox/PERFORMANCE_EXPECTATIONS.md - Baselines
-- src/toolbox/ROADMAP.md - Phase 5 progress
-
-**Expected Deliverables:**
-- ✅ GATE-TBX-P1..P6 baseline measurements
-- ✅ p95/p99 envelopes documented
-- ✅ No regression > 10% vs baseline
-- ✅ Phase 5 progress 50%→85%
-
----
-
-### Batch 4: Phase 6-Dokumentation & Abnahme (PLANNED)
-
-**Objectives:**
-- Operationalize PRODUCTION_REQUIREMENTS.md
-- Update cross-links in all docs
-- 100% Production-Readiness Checklist
-- Prepare release notes
-
-**Key Files:**
-- src/toolbox/PRODUCTION_REQUIREMENTS.md - Ops requirements
-- src/toolbox/FUTURE_ENHANCEMENTS.md - Cross-links update
-- docs/toolbox/ - Public docs
-- CHANGELOG.md - Q4 2026 entries
-- src/toolbox/ROADMAP.md - Final status
-
-**Expected Deliverables:**
-- ✅ All docs consistent and current
-- ✅ Production-Readiness 100%
-- ✅ Release notes ready
-- ✅ Phase 6 progress 100%
-
----
-
-## Verification Procedures
-
-### Batch 1 (Phase 2) Validation
-```bash
-cmake --preset linux-release
-cmake --build --preset linux-release
-ctest --preset linux-release -L toolbox -V
-# Verify new metrics in toolbox.getMetricsText()
-# Verify IT-13..IT-20 tests all pass
-```
-
-### Batch 2 (Phase 3) Validation
-```bash
-cmake --build --preset linux-release --target module_toolbox_test_toolbox_phase5_focused_focused
-./build/linux-release/tests/toolbox/module_toolbox_test_toolbox_phase5_focused --gtest_shuffle --gtest_repeat=3
-# Verify stress scenarios complete without deadlock
-# Verify Prometheus metrics for all error classes
-```
-
-### Batch 3 (Phase 5) Validation
-```bash
-cmake --build --preset linux-release --target bench_toolbox_native_workloads
-./build/linux-release/benchmarks/toolbox/bench_toolbox_native_workloads --benchmark_min_time=5s
-# Verify all gates meet thresholds
-# Verify p95/p99 percentiles consistent across runs
-```
-
-### Batch 4 (Phase 6) Validation
-```bash
-# Validate doc links
-grep -r "ROADMAP.md\|ARCHITECTURE.md\|FUTURE_ENHANCEMENTS.md" src/toolbox/*.md
-# Verify Production-Readiness Checklist
-grep -c "^\- \[x\]" src/toolbox/ROADMAP.md  # Should be high count
-# Verify CHANGELOG entries
-grep -c "Q4 2026" CHANGELOG.md
-```
-
----
-
-## Timeline & Milestones
-
-| Batch | Weeks | Deliverables | Status |
-|-------|-------|--------------|--------|
-| Batch 1 | 1-4 | Phase 2 Core Hardening | [~] IN PROGRESS |
-| Batch 2 | 5-8 | Phase 3 Fehlerbehandlung | [ ] PLANNED |
-| Batch 3 | 9-14 | Phase 5 Performance | [ ] PLANNED |
-| Batch 4 | 15-16 | Phase 6 Abnahme | [ ] PLANNED |
-
----
-
-## Quality Gates
-
-### Code Quality
-- [ ] No new CodeQL alerts (Phase 2-6)
-- [ ] All focused test targets pass
-- [ ] Build succeeds on linux-release preset
-- [x] Benchmark hygiene rules followed (bench_fixtures.h: kCanonicalRngSeed=42)
-
-### Functional
-- [ ] Mixed-content scenarios validated
-- [ ] Soft-fail + fail-fast behaviors tested
-- [ ] All error paths exercised
-- [ ] Metrics emitted correctly
-- [ ] Stress tests complete without deadlock
-
-### Performance
-- [ ] GATE-TBX-P1..P6 meet thresholds
-- [ ] p95/p99 envelopes established
-- [ ] No regression > 10% vs baseline
-
-### Documentation
-- [ ] Cross-links consistent
-- [ ] Production requirements documented
-- [ ] Release notes prepared
-- [ ] Roadmap 100% synchronized
-
----
-
-## Key Risks & Mitigations
-
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Phase 2 mixed-content gaps | Medium | High | Extended test coverage; real ingestion profiling |
-| Registry boundary violations | Low | Medium | Stress fixtures; concurrency sanitizer |
-| Proxy-benchmark regression | Low | High | Native suite early validation |
-| Doc drift during phases 2-5 | Medium | Low | Automated link checks; review gates |
-
----
-
-## Success Criteria (All Batches)
-
-✅ Phase 1: Design/API contracts frozen (Complete)
-✅ Phase 2: Core hardening 80%→95%, mixed-content validated
-✅ Phase 3: Incident taxonomy unified, metrics complete
-✅ Phase 4: 96+ focused tests passing (Complete)
-✅ Phase 5: GATE-TBX-P1..P6 gates certified
-✅ Phase 6: Production-Readiness 100%, docs synced
-
----
-
-**Last Updated:** 2026-08-07 18:33 UTC
-**Next Review:** Upon Batch 1 completion (agent notification)
-
----
-
-### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Tensor Module Complete Implementation - Master Plan & Status
-**Date Initiated**: 2026-08-07
-**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
-**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
-**Total Effort**: ~750-900 engineer-hours
-**Agent Count**: 9 specialized sub-agents (3 per stream)
----
-## Executive Summary
-**Key Characteristics**:
-- ✅ Parallel sub-agent execution (3 agents per stream)
-- ✅ Weekly merge & integration checkpoints
-- ✅ Clear deliverables and success criteria per block
-- ✅ Risk mitigation strategies documented
-- ✅ Backward compatible within major release line
-- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
----
-## Master Timeline & Milestones
-August 2026          September 2026      October 2026        November 2026       January 2027
-┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
-│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
-│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
-│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
-│ Exec             │                  │                  │  (48-72h runs)    │              │
-│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
-└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
-### Detailed Milestones
-**Week 1-3 (Aug 7-27): Stream A Active Execution**
-- A1: Index/bridge concurrent hardening tests implemented
-- A2: Unified diagnostics architecture designed
-- A3: Baseline benchmark measurements collected
-**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
-- All A1/A2/A3 blocks complete and validated
-- Pull request created for Stream A: feature/tensor-q3-hardening
-- Merge to develop: Aug 30-31
-**Week 4 (Sept 1): Stream B Launch**
-- Edge case scenario inventory (B1) compiled
-- Stress test design (B2) finalized
-- P95/P99 measurement protocol (B3) prepared
-**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
-- B1: Edge case handling implemented, 20-30 tests
-- B2: Stress suite designed and parametrized
-- B3: CI measurement runs scheduled
-**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
-
----
-
-### THREAD_SAFETY_IMPLEMENTATION_REPORT.md
-
-# Thread-Safety Fixes Implementation Report - LLM Module
-
-## Date: 2026-08-17
-
-## Overview
-Fixed thread-safety and data-race gaps in the LLM module per MODULE_GAPS.md specifications. 
-Addressed 11 data races, 2 missing sync issues, and related circular lock ordering and deadlock risks.
-
----
-
-## Fixes Implemented
-
-### 1. AsyncInferenceEngine (async_inference_engine.cpp/h)
-
-#### Issue: `engine_start_time_` Data Race
-- **Problem**: Line 649 reads `engine_start_time_` without synchronization in public const method `getWorkerStats()`
-- **Impact**: Data race - concurrent access from timeout monitor thread and stats query thread
-- **Fix**: 
-  - Added `mutable std::mutex stats_time_mutex_` to header (line 387)
-  - Protected all reads of `engine_start_time_` with `stats_time_mutex_` lock
-  - Updated `getWorkerStats()` to acquire lock before accessing (lines 625-631)
-
-#### Issue: Constructor Race on `active_plugin_`
-- **Problem**: Assignment of `active_plugin_` without explicit lock in constructors (lines 37, 69, 105, 133)
-- **Impact**: While safe in practice (constructor runs before threads), inconsistent with lock semantics
-- **Fix**:
-  - Added explicit `std::lock_guard<std::shared_mutex> lock(plugin_mutex_)` around all `active_plugin_` assignments
-  - Applies to all 4 constructors (lines 28-160)
-  - Establishes clear happens-before relationship for first worker thread access
-
-#### Issue: Lock Ordering Documentation
-- **Problem**: 108 circular_lock_ordering findings - no documented lock ordering invariants
-- **Fix**:
-  - Added comprehensive LOCK ORDERING INVARIANTS documentation in header (lines 318-336)
-  - Defined canonical lock acquisition order:
-    1. plugin_mutex_ (R/W lock for hot-swap)
-    2. queue_mutex_ (protects request_queue_)
-    3. tracking_mutex_ (protects active_requests_)
-    4. latency_mutex_ (protects latency_samples_)
-    5. cache_meta_mutex_ (protects cache metadata)
-    6. policy_mutex_ (protects prompt_policy_)
-    7. stats_time_mutex_ (protects engine_start_time_)
-  - Prevents deadlock by enforcing strict lock ordering across module
-
----
-
-### 2. LLMPluginManager (llm_plugin_manager.cpp/h)
-
-#### Issue: VRAM Allocator Race Condition
-- **Problem**: `vram_allocator_.registerExternal()` called without lock in `loadModel()` (line 397)
-  - Followed by `vram_handles_[model_id]` assignment under mutex
-  - Race condition between allocation and handle storage
-- **Impact**: Data race - concurrent access with `unloadModel()` or `getHealthStatus()`
-- **Fix**:
-  - Added `mutable std::mutex vram_mutex_` to header (line 438)
-  - All vram_allocator_ operations now protected by vram_mutex_
-  - Updated `loadModel()` to acquire vram_mutex_ before registerExternal() (lines 397-401)
-  - Updated `unloadModel()` to use vram_mutex_ instead of generic mutex_ (lines 410-421)
-
-#### Issue: Unprotected VRAM Stats Access
-- **Problem**: `getHealthStatus()` and `getVRAMStats()` call `vram_allocator_.getStats()` without synchronization
-- **Impact**: Race with concurrent loadModel/unloadModel modifications
-- **Fix**:
-  - Protected `getHealthStatus()` VRAM stat reading with vram_mutex_ (lines 589-598)
-  - Protected `getVRAMStats()` with vram_mutex_ (lines 603-606)
-  - Used lambda pattern for minimal critical section
-
----
-
-### 3. ActiveVRAMAllocator (active_vram_allocator.cpp/h)
-
-#### Issue: Inconsistent Atomic Operations
-- **Problem**: `next_id_` uses atomic operations inconsistently with memory ordering
-- **Status**: Already uses `std::memory_order_relaxed` correctly for monotonic counter
-- **Verification**: All `next_id_.fetch_add()` calls use consistent memory ordering
-
-#### Issue: Stats Protection
-- **Status**: `stats_` properly protected by `mu_` mutex in all public accessors
-- **Verification**: `getStats()` method holds mu_ during read (line 408)
-
----
-
-## Summary of Changes
-
-### Files Modified
-
-1. **include/llm/async_inference_engine.h**
-   - Added `stats_time_mutex_` member (line 387)
-   - Added LOCK ORDERING INVARIANTS documentation (lines 318-336)
-
-2. **src/llm/async_inference_engine.cpp**
-   - Fixed `getWorkerStats()` to protect `engine_start_time_` read (lines 625-631)
-   - Fixed all 4 constructors to use explicit plugin_mutex_ locks (lines 28-160)
-
-3. **include/llm/llm_plugin_manager.h**
-   - Added `vram_mutex_` member (line 438)
-   - Added documentation for VRAM synchronization (lines 437-439)
-
-4. **src/llm/llm_plugin_manager.cpp**
-   - Fixed `loadModel()` VRAM registration (lines 397-401)
-   - Fixed `unloadModel()` VRAM deregistration (lines 410-421)
-   - Fixed `getHealthStatus()` VRAM stats access (lines 589-598)
-   - Fixed `getVRAMStats()` VRAM stats access (lines 603-606)
-
----
-
-## Thread-Safety Guarantees After Fixes
-
-### AsyncInferenceEngine
-✅ No data races on `engine_start_time_` - protected by stats_time_mutex_
-✅ Consistent lock ordering prevents circular waits
-✅ Plugin hot-swap is thread-safe with shared_mutex
-✅ Request queue operations protected by queue_mutex_
-✅ Active request tracking protected by tracking_mutex_
-✅ Statistics use atomic<> with consistent memory ordering
-
-### LLMPluginManager
-✅ VRAM allocator operations atomically protected by vram_mutex_
-✅ No races between loadModel/unloadModel/getHealthStatus
-✅ Adapter publisher access protected by mutex_
-✅ Plugin registry protected by mutex_
-
-### ActiveVRAMAllocator
-✅ Stats protected by mu_ in all public methods
-✅ Atomic operations use consistent memory ordering
-✅ Handle allocation/deallocation properly synchronized
-
----
-
-## Verification Strategy
-
-### Phase 1: Compilation
-- All changes follow RAII pattern with std::lock_guard/std::unique_lock
-- No manual lock/unlock calls
-- Compatible with modern C++20 standards
-
-### Phase 2: Static Analysis
-- ThreadSanitizer (develop-tsan preset) can detect remaining races
-- Code review for lock ordering violations
-
-### Phase 3: Runtime Testing
-- Stress tests with concurrent model load/unload
-- Concurrent inference and VRAM pressure monitoring
-- Deadline-based timeout verification
-
----
-
-## Lock Ordering Enforcement
-
-The following functions MUST follow the canonical lock order or acquire only one lock:
-
-**Functions with multiple locks:**
-- `AsyncInferenceEngine::submit()` - queue_mutex_ then tracking_mutex_
-- `AsyncInferenceEngine::processRequest()` - plugin_mutex_ (shared), then cache operations
-- `AsyncInferenceEngine::timeoutMonitorLoop()` - queue_mutex_, tracking_mutex_
-- `LLMPluginManager::loadModel()` - mutex_, then vram_mutex_
-- `LLMPluginManager::unloadModel()` - vram_mutex_, then mutex_ (NO DEADLOCK due to lock order)
-
-**Never acquire in reverse order:**
-- Lock 7 then Lock 1 = DEADLOCK
-- Lock 4 then Lock 2 = DEADLOCK
-
----
-
-## Future Considerations
-
-1. **Lock Contention Reduction** (15 instances of high contention)
-   - Consider read-write locks for frequently-read stats
-   - Implement lock-free data structures for counters
-
-2. **Deadlock Prevention Testing**
-   - Add chaos-monkey style tests that alternate lock orders
-   - ThreadSanitizer deadlock detection enabled
-
-3. **Performance Profiling**
-   - Profile lock hold times under high concurrency
-   - Consider splitting latency_samples_ into per-thread storage
-
----
-
-## Compliance Status
-
-✅ Data races: 11 occurrences addressed
-✅ Missing sync: 2 occurrences addressed  
-✅ Circular lock ordering: 108 occurrences documented with invariants
-✅ Lock contention: 15 occurrences identified for optimization
-✅ Deadlock risk: 11 occurrences mitigated with lock ordering
-✅ Primitive no volatile: 22 occurrences - using atomic<> where needed
-
-All fixes follow RAII principles and modern C++ threading best practices.
-
----
-
 ### T2.3_IMPLEMENTATION_VERIFICATION.md
 
 # Phase 2 T2.3 Implementation Verification Report
@@ -2576,6 +2526,56 @@ ctest -R "conflict_quality_audit" --verbose
 
 ---
 **Status:** ✅ All Phase 2 T2.3 acceptance criteria met and verified
+
+---
+
+### TENSOR_IMPLEMENTATION_MASTER_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Tensor Module Complete Implementation - Master Plan & Status
+**Date Initiated**: 2026-08-07
+**Parent Issue**: #5674 (Tensor Module Development Status 2026-07-18)
+**Overall Timeline**: Aug 2026 - Jan 2027 (14 weeks)
+**Total Effort**: ~750-900 engineer-hours
+**Agent Count**: 9 specialized sub-agents (3 per stream)
+---
+## Executive Summary
+**Key Characteristics**:
+- ✅ Parallel sub-agent execution (3 agents per stream)
+- ✅ Weekly merge & integration checkpoints
+- ✅ Clear deliverables and success criteria per block
+- ✅ Risk mitigation strategies documented
+- ✅ Backward compatible within major release line
+- ✅ Traceability to ROADMAP.md and FUTURE_ENHANCEMENTS.md
+---
+## Master Timeline & Milestones
+August 2026          September 2026      October 2026        November 2026       January 2027
+┌──────────────────┬──────────────────┬──────────────────┬──────────────────┬──────────────┐
+│  Stream A (Q3)   │  Stream B Start   │  Stream B (Q4)   │  Stream C Start   │  Stream C+B  │
+│                  │  (Sept 1)         │                  │  (Nov 1)          │  Finalize    │
+│ A1/A2/A3         │  B1/B2/B3 Prep   │  B1/B2/B3 Exec   │  C1/C2/C3 Exec    │  (Jan 31)    │
+│ Exec             │                  │                  │  (48-72h runs)    │              │
+│ (Aug 31 close)   │                  │  (Oct 31 close)  │                   │              │
+└──────────────────┴──────────────────┴──────────────────┴──────────────────┴──────────────┘
+### Detailed Milestones
+**Week 1-3 (Aug 7-27): Stream A Active Execution**
+- A1: Index/bridge concurrent hardening tests implemented
+- A2: Unified diagnostics architecture designed
+- A3: Baseline benchmark measurements collected
+**Week 3-4 (Aug 22-31): Stream A Integration & Closure**
+- All A1/A2/A3 blocks complete and validated
+- Pull request created for Stream A: feature/tensor-q3-hardening
+- Merge to develop: Aug 30-31
+**Week 4 (Sept 1): Stream B Launch**
+- Edge case scenario inventory (B1) compiled
+- Stress test design (B2) finalized
+- P95/P99 measurement protocol (B3) prepared
+**Week 5-8 (Sept 1-Oct 1): Stream B Execution**
+- B1: Edge case handling implemented, 20-30 tests
+- B2: Stress suite designed and parametrized
+- B3: CI measurement runs scheduled
+**Week 8-10 (Oct 1-22): Stream B Integration & Closure**
 
 ---
 
@@ -2973,56 +2973,6 @@ other.eviction_thread_running_.store(false);
 
 ---
 
-### ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Roadmap Implementation Status Report
-**Date:** 2026-08-05
-**Report Period:** 2026-07-28 to 2026-08-05
-**Scope:** Phases 1-6 of the GA Closure + Private Plugin Wave 1 + LLM Wiki Implementation Plan
-**Overall Status:** 🟡 ON TRACK (Phase 1-2 mostly complete, Phase 3-4 planning complete, Phase 5-6 in design)
----
-## Executive Summary
-### Key Achievements This Sprint
-1. ✅ **Phase 2 Complete:** Private Plugin governance infrastructure fully implemented
-- CMake flags, manifest schema, validation guides, submodule registration
-- 4 Wave-1 plugin manifests created and documented
-- Community build validation matrix defined with 24+ test scenarios
-2. ✅ **Phase 3-4 Planned:** LLM Wiki implementation strategy finalized
-- 20+ test definitions (LWP-01..LWP-20 + gates + performance)
-- Q4 2026 weekly sprint plan
-- Risk assessment and acceptance criteria
-3. 🔴 **Phase 1 Blocked:** Awaiting human sign-off on GA_PROMOTION_SIGN_OFF.md §9
-- All technical gates PASS ✅
-- Section 9 signature block empty (human-only action)
----
-## Phase-by-Phase Status
-### Phase 1: GA Closure — 2026-08-11 Target
-**Status:** 🔴 BLOCKED (human sign-off required)
-**Technical Completion:**
-- [x] Wave 7/8/9 performance gates all PASS
-- [x] Sanitizer evidence bundle complete (ASan/UBSan/TSan zero defects)
-- [x] Penetration test evidence bundle complete (0 new Critical/High findings)
-- [x] Module gap review complete (server/llm/sharding documented)
-- [x] Release-critical CI gate active and validated
-- [x] Documentation synchronized (ROADMAP/CHANGELOG/VERSIONING/RELEASE_STRATEGY)
-- [x] Research backbone Soll-Ist matrix complete (6 modules, 21 aspects)
-- [x] Doxygen coverage audit passed (99.8% headers, >72% overall)
-**Governance Completion:**
-- [ ] Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md` signed by release approver
-- Release Approver name: ___________________
-- Signature/Reference: ___________________
-- Date: ___________________
-- [ ] `develop` → `community` merge reviewed and approved
-- [ ] `v2.4.0` tag created on approved merge commit
-**Milestone:** All items marked [x]; awaiting human sign-off in signature block (Section 9)
-**Deliverables Ready:**
-- `FINAL_GA_READINESS_CHECKLIST.md` — 72 go/no-go gates
-- `GA_PROMOTION_SIGN_OFF.md` — Sections 1-8 complete, Section 9 pending
-
----
-
 ### REPLICATION_WAL_IMPLEMENTATION_2026_08_18.md
 
 # Async WAL Shipping with Lag Alerts Implementation
@@ -3213,52 +3163,53 @@ Ready for integration into Wave A release branch.
 
 ---
 
-### RAG_PHASE_56_IMPLEMENTATION_SUMMARY.md
+### ROADMAP_IMPLEMENTATION_STATUS_2026_08_05.md
 
 *(file too large — key headings extracted)*
 
-# RAG Module Phase 5-6 Implementation Summary
-**Date:** 2026-08-18
-**Scope:** Phase 5 (Performance & Hardening) + Phase 6 (Documentation & Acceptance)
-**Status:** ✅ IMPLEMENTATION COMPLETE (pending build verification)
-**Target:** Wave B GA Release
+# ThemisDB Roadmap Implementation Status Report
+**Date:** 2026-08-05
+**Report Period:** 2026-07-28 to 2026-08-05
+**Scope:** Phases 1-6 of the GA Closure + Private Plugin Wave 1 + LLM Wiki Implementation Plan
+**Overall Status:** 🟡 ON TRACK (Phase 1-2 mostly complete, Phase 3-4 planning complete, Phase 5-6 in design)
 ---
-## Overview
+## Executive Summary
+### Key Achievements This Sprint
+1. ✅ **Phase 2 Complete:** Private Plugin governance infrastructure fully implemented
+- CMake flags, manifest schema, validation guides, submodule registration
+- 4 Wave-1 plugin manifests created and documented
+- Community build validation matrix defined with 24+ test scenarios
+2. ✅ **Phase 3-4 Planned:** LLM Wiki implementation strategy finalized
+- 20+ test definitions (LWP-01..LWP-20 + gates + performance)
+- Q4 2026 weekly sprint plan
+- Risk assessment and acceptance criteria
+3. 🔴 **Phase 1 Blocked:** Awaiting human sign-off on GA_PROMOTION_SIGN_OFF.md §9
+- All technical gates PASS ✅
+- Section 9 signature block empty (human-only action)
 ---
-## Phase 5: Performance & Hardening
-### 5.1 Performance Gate Framework (COMPLETE)
-**Deliverable:** `src/rag/GATE_VERIFICATION_FRAMEWORK.md`
-**8 Performance Gates Defined & Locked:**
-1. **GATE-RAG-RETR-01:** Dense vector search ≤50ms p95 (1K docs)
-2. **GATE-RAG-RETR-02:** Sparse BM25 search ≤10ms p95 (10K docs)
-3. **GATE-RAG-RETR-03:** Multi-index fusion ≤100ms p95
-4. **GATE-RAG-EVAL-01:** Relevance evaluation ≥100 eval/sec
-5. **GATE-RAG-EVAL-02:** Ethics/fairness overhead ≤50ms p95
-6. **GATE-RAG-EVAL-03:** LLM judge fallback ≤10ms
-7. **GATE-RAG-E2E-01:** Full RAG pipeline ≤500ms p95 (50K chunks)
-8. **GATE-RAG-E2E-02:** Memory stability <5% growth under 10K queries
-**Framework Features:**
-- Benchmark implementations in 4 benchmark files
-- Automated regression detection (±10% tolerance)
-- [PERF_GATE] stderr reporting for violations
-- Baseline capture procedure documented
-- Remediation playbook for each gate
-### 5.2 Benchmark Suite Integration (COMPLETE)
-**Deliverable:** `benchmarks/rag/bench_*.cpp` (4 files, 54 KB total)
-**Benchmark Targets:**
-1. `bench_rag_hybrid_retriever.cpp` (14 KB)
-- Dense + sparse fusion performance
-- Multi-index recall validation
-- Cache efficiency measurement
-2. `bench_rag_evaluation.cpp` (14 KB)
-- Quality evaluation gate performance
-- Batch evaluation throughput
-- Model inference latency
-3. `bench_rag_ethics.cpp` (18 KB)
-- Fairness detection overhead
-- Bias scoring performance
-- Compliance check latency
-4. `bench_delegate_evaluator.cpp` (7 KB)
+## Phase-by-Phase Status
+### Phase 1: GA Closure — 2026-08-11 Target
+**Status:** 🔴 BLOCKED (human sign-off required)
+**Technical Completion:**
+- [x] Wave 7/8/9 performance gates all PASS
+- [x] Sanitizer evidence bundle complete (ASan/UBSan/TSan zero defects)
+- [x] Penetration test evidence bundle complete (0 new Critical/High findings)
+- [x] Module gap review complete (server/llm/sharding documented)
+- [x] Release-critical CI gate active and validated
+- [x] Documentation synchronized (ROADMAP/CHANGELOG/VERSIONING/RELEASE_STRATEGY)
+- [x] Research backbone Soll-Ist matrix complete (6 modules, 21 aspects)
+- [x] Doxygen coverage audit passed (99.8% headers, >72% overall)
+**Governance Completion:**
+- [ ] Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md` signed by release approver
+- Release Approver name: ___________________
+- Signature/Reference: ___________________
+- Date: ___________________
+- [ ] `develop` → `community` merge reviewed and approved
+- [ ] `v2.4.0` tag created on approved merge commit
+**Milestone:** All items marked [x]; awaiting human sign-off in signature block (Section 9)
+**Deliverables Ready:**
+- `FINAL_GA_READINESS_CHECKLIST.md` — 72 go/no-go gates
+- `GA_PROMOTION_SIGN_OFF.md` — Sections 1-8 complete, Section 9 pending
 
 ---
 
@@ -3575,102 +3526,52 @@ This comprehensive RAII hardening of the LLM module significantly improves resou
 
 ---
 
-### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
+### RAG_PHASE_56_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
 
-# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
-**Date Created:** 2026-07-05
-**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
-**Artifacts:** 11 Files | ~60KB Documentation
-**Verification:** Script Tested (DRY_RUN Mode) ✅
----
-## 📋 Executive Summary
-### Deliverables
-✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
-✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
-✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
-✅ **Comprehensive Documentation** — Implementation index + quick reference
-✅ **Success Metrics** — Baseline/target tracking across all epics
-### Key Metrics
-| Item | Value |
-|------|-------|
-| Total Epics | 5 |
-| Total Sub-Issues | 23 |
-| Total GitHub Issues to Create | 28 |
-| Estimated Total Effort | 580 hours |
-| Timeline | 30 weeks (W31-W49, 2026) |
-| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
-| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
-| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
-| Production Readiness Target | v2.4 Stable |
----
-## 🎯 The Five Epics (Concretely Verifiable)
-### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
-**Critical Path Item — Blocks All Module Work**
-| Item | Value |
-|------|-------|
-| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
-| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
-| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
-| **Effort** | 80 hours |
-| **Deliverable** | v1.5.0 Stable Release |
-| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
-**Sub-Issues:**
-- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
-- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
-- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
-**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
----
-
----
-
-### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# PR Version Targeting Implementation Summary
-> **Status:** Complete (2026-08-18)
-> **Author:** Copilot Task Agent
-> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
+# RAG Module Phase 5-6 Implementation Summary
+**Date:** 2026-08-18
+**Scope:** Phase 5 (Performance & Hardening) + Phase 6 (Documentation & Acceptance)
+**Status:** ✅ IMPLEMENTATION COMPLETE (pending build verification)
+**Target:** Wave B GA Release
 ---
 ## Overview
-This implementation enables **every PR to have a target version** that:
-1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
-2. ✅ Maps to GitHub milestones for release scope tracking
-3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
-4. ✅ Supports automated validation and release manager workflows
 ---
-## What Was Implemented
-### Block 1: Governance & Documentation (Complete ✓)
-**Files Created:**
-1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
-- Comprehensive policy for version-targeted PRs
-- Valid version formats (SemVer, pre-releases, backlog)
-- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
-- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
-- Release manager workflow and pre-release checklist
-- FAQ and troubleshooting
-2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
-- Step-by-step milestone creation guide
-- Recommended milestone structure (stable, pre-release, backlog)
-- Milestone description templates with examples
-- Pre-release checklist for release managers
-- Quarterly backlog triage process
-**Files Modified:**
-1. **`.github/pull_request_template.md`**
-- Added mandatory "Target Version" field at top of template
-- Included selection criteria and link to governance policy
-- Provides dropdown of valid version formats
-2. **`RELEASE_STRATEGY.md`** (§2.1.1)
-- Documented PR version targeting integration with milestone model
-- Explained traceability, changelog automation, and scope validation
-3. **`VERSIONING.md`** (§2.1)
-- Added PR version targeting guidance
-- Selection criteria table for different PR types
-- Reference to full policy documentation
----
-### Block 2: Automation & Validation (Complete ✓)
+## Phase 5: Performance & Hardening
+### 5.1 Performance Gate Framework (COMPLETE)
+**Deliverable:** `src/rag/GATE_VERIFICATION_FRAMEWORK.md`
+**8 Performance Gates Defined & Locked:**
+1. **GATE-RAG-RETR-01:** Dense vector search ≤50ms p95 (1K docs)
+2. **GATE-RAG-RETR-02:** Sparse BM25 search ≤10ms p95 (10K docs)
+3. **GATE-RAG-RETR-03:** Multi-index fusion ≤100ms p95
+4. **GATE-RAG-EVAL-01:** Relevance evaluation ≥100 eval/sec
+5. **GATE-RAG-EVAL-02:** Ethics/fairness overhead ≤50ms p95
+6. **GATE-RAG-EVAL-03:** LLM judge fallback ≤10ms
+7. **GATE-RAG-E2E-01:** Full RAG pipeline ≤500ms p95 (50K chunks)
+8. **GATE-RAG-E2E-02:** Memory stability <5% growth under 10K queries
+**Framework Features:**
+- Benchmark implementations in 4 benchmark files
+- Automated regression detection (±10% tolerance)
+- [PERF_GATE] stderr reporting for violations
+- Baseline capture procedure documented
+- Remediation playbook for each gate
+### 5.2 Benchmark Suite Integration (COMPLETE)
+**Deliverable:** `benchmarks/rag/bench_*.cpp` (4 files, 54 KB total)
+**Benchmark Targets:**
+1. `bench_rag_hybrid_retriever.cpp` (14 KB)
+- Dense + sparse fusion performance
+- Multi-index recall validation
+- Cache efficiency measurement
+2. `bench_rag_evaluation.cpp` (14 KB)
+- Quality evaluation gate performance
+- Batch evaluation throughput
+- Model inference latency
+3. `bench_rag_ethics.cpp` (18 KB)
+- Fairness detection overhead
+- Bias scoring performance
+- Compliance check latency
+4. `bench_delegate_evaluator.cpp` (7 KB)
 
 ---
 
@@ -4036,6 +3937,105 @@ EPIC=002 python3 .github/scripts/create-q3-2026-epics.py  # EPIC-002 only
 
 ---
 
+### Q3_2026_IMPLEMENTATION_COMPLETE_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Q3 2026 Deep-Dive Implementation Plan - COMPLETE SUMMARY
+**Date Created:** 2026-07-05
+**Status:** ✅ COMPLETE - Ready for GitHub Issue Batch Creation
+**Artifacts:** 11 Files | ~60KB Documentation
+**Verification:** Script Tested (DRY_RUN Mode) ✅
+---
+## 📋 Executive Summary
+### Deliverables
+✅ **5 GitHub Epic Definitions** — Fully structured, ready for batch creation
+✅ **23 Sub-Issue Definitions** — Each with acceptance criteria & effort estimates
+✅ **Python Batch Creation Script** — Tested, idempotent, rate-limit aware
+✅ **Comprehensive Documentation** — Implementation index + quick reference
+✅ **Success Metrics** — Baseline/target tracking across all epics
+### Key Metrics
+| Item | Value |
+|------|-------|
+| Total Epics | 5 |
+| Total Sub-Issues | 23 |
+| Total GitHub Issues to Create | 28 |
+| Estimated Total Effort | 580 hours |
+| Timeline | 30 weeks (W31-W49, 2026) |
+| Phase 1-4 Gap Remediation | 117 remaining gaps (Move + Concurrency) |
+| Module Hardening Target | 22,068 → 15,000 HIGH gaps (-35%) |
+| New Scanner Categories | 5 categories (+1,500-2,500 gaps) |
+| Production Readiness Target | v2.4 Stable |
+---
+## 🎯 The Five Epics (Concretely Verifiable)
+### 1️⃣ EPIC-001: Phase 1-4 Closure (2026-08-31)
+**Critical Path Item — Blocks All Module Work**
+| Item | Value |
+|------|-------|
+| **Title** | Phase 1-4 Gap Remediation Sprint 8-9 (Move & Concurrency) |
+| **Scope** | 117 gaps (Move: 97, Concurrency: 20) |
+| **Sub-Issues** | 001-A, 001-B, 001-C (3 total) |
+| **Effort** | 80 hours |
+| **Deliverable** | v1.5.0 Stable Release |
+| **Success Metrics** | 1.236/1.236 tests PASS, zero regressions |
+**Sub-Issues:**
+- **001-A** (40h): Move Semantics — 97 gaps, Rule of Five compliance, move-safety tests
+- **001-B** (25h): Concurrency — 20 data races, ThreadSanitizer clean, lock ordering documented
+- **001-C** (15h): Release Gate — 1.236 test gates, CodeQL clean, v1.5.0 release
+**Definition File:** `ai_working/EPIC_001_PHASE_1_4_SPRINT_8_9.md`
+---
+
+---
+
+### PR_VERSION_TARGETING_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# PR Version Targeting Implementation Summary
+> **Status:** Complete (2026-08-18)
+> **Author:** Copilot Task Agent
+> **Implementation Duration:** 3 blocks (documented in engine-tools-report_progress)
+---
+## Overview
+This implementation enables **every PR to have a target version** that:
+1. ✅ Declares which release the PR targets (e.g., `v2.4.0`, `v2.5.0-alpha1`, `[Unreleased]`)
+2. ✅ Maps to GitHub milestones for release scope tracking
+3. ✅ Integrates with CHANGELOG and ROADMAP for release planning
+4. ✅ Supports automated validation and release manager workflows
+---
+## What Was Implemented
+### Block 1: Governance & Documentation (Complete ✓)
+**Files Created:**
+1. **`docs/governance/PR_VERSION_TARGETING.md`** (10.3 KB)
+- Comprehensive policy for version-targeted PRs
+- Valid version formats (SemVer, pre-releases, backlog)
+- Active milestone list (v2.4.0, v2.5.0-alpha1, etc.)
+- Selection criteria by PR type (feature, bugfix, docs, security, etc.)
+- Release manager workflow and pre-release checklist
+- FAQ and troubleshooting
+2. **`docs/governance/GITHUB_MILESTONES_SETUP.md`** (8.0 KB)
+- Step-by-step milestone creation guide
+- Recommended milestone structure (stable, pre-release, backlog)
+- Milestone description templates with examples
+- Pre-release checklist for release managers
+- Quarterly backlog triage process
+**Files Modified:**
+1. **`.github/pull_request_template.md`**
+- Added mandatory "Target Version" field at top of template
+- Included selection criteria and link to governance policy
+- Provides dropdown of valid version formats
+2. **`RELEASE_STRATEGY.md`** (§2.1.1)
+- Documented PR version targeting integration with milestone model
+- Explained traceability, changelog automation, and scope validation
+3. **`VERSIONING.md`** (§2.1)
+- Added PR version targeting guidance
+- Selection criteria table for different PR types
+- Reference to full policy documentation
+---
+### Block 2: Automation & Validation (Complete ✓)
+
+---
+
 ### POLICY_CONFLICT_DETECTION_IMPLEMENTATION_REPORT.md
 
 *(file too large — key headings extracted)*
@@ -4249,6 +4249,57 @@ ConflictType conflict_type;
 - `isValidForPatchingPublic()`: Public access for validation testing
 - `detectInstabilityPublic()`: Public access for instability testing
 - `isDeltaLogOverflowingPublic()`: Public access for overflow testing
+
+---
+
+### PHASE_A1_IMPLEMENTATION_SUMMARY.md
+
+*(file too large — key headings extracted)*
+
+# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
+**Date**: 2026-08-08
+**Status**: Implementation Complete for Regex Detection Engine
+**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
+---
+## Change Summary
+### Overview
+Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
+1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
+2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
+3. **Explicit Error Handling**: Clear error states instead of silent failures
+---
+## Files Modified
+### 1. Test Infrastructure
+#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
+- **Lines**: 328 total
+- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
+- **Tests Implemented**:
+- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
+- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
+- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
+- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
+- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
+- `PH-06`: Saga logger concurrent write safety (10+ threads)
+- `PH-07`: Audit logger timeout and cancellation (graceful stop)
+- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
+**Key Features**:
+class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
+// Each test includes:
+// 1. Clear scenario description
+// 2. Documented input/expected output
+// 3. Multiple edge cases per scenario
+// 4. No silent failures (explicit assertions)
+// 5. Helper methods for test data generation
+};
+#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
+- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
+- **Scope**: `PrivacyAuditHardeningFocusedTests`
+- **Timeout**: 60 seconds
+- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
+---
+### 2. Regex Detection Engine Hardening
+#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
+- **Added Methods** (all [[nodiscard]] per best practices):
 
 ---
 
@@ -4629,57 +4680,6 @@ ctest -R "PH0[18]_" -V --output-on-failure
 - Handle combining characters gracefully
 - Implement UnicodeDetectionEngine fallback
 4. Implementation approach:
-
----
-
-### PHASE_A1_IMPLEMENTATION_SUMMARY.md
-
-*(file too large — key headings extracted)*
-
-# Phase A.1 Privacy and Audit Helpers Hardening - Implementation Summary
-**Date**: 2026-08-08
-**Status**: Implementation Complete for Regex Detection Engine
-**Scope**: Hardening against edge cases and overload scenarios (Tests PH-01..08)
----
-## Change Summary
-### Overview
-Implemented Phase A.1 hardening for ThemisDB's utils module privacy and audit helpers, focusing on:
-1. **Test Infrastructure**: 8 focused hardening tests (PH-01..08)
-2. **Code Hardening**: Input validation, timeout protection, catastrophic backtracking prevention
-3. **Explicit Error Handling**: Clear error states instead of silent failures
----
-## Files Modified
-### 1. Test Infrastructure
-#### **File**: `tests/utils/test_utils_privacy_audit_hardening.cpp` (NEW)
-- **Lines**: 328 total
-- **Purpose**: 8 focused hardening tests covering edge cases and overload scenarios
-- **Tests Implemented**:
-- `PH-01`: Unicode normalization (combining characters, BOM, emoji, surrogates)
-- `PH-02`: Multibyte regex edge cases (emoji, mixed scripts, malformed UTF-8)
-- `PH-03`: Audit buffer overflow handling (10K+ rapid entries)
-- `PH-04`: Rate limiting under sustained load (1000+ scans/sec)
-- `PH-05`: Pseudonymization edge cases (null, empty, oversized inputs)
-- `PH-06`: Saga logger concurrent write safety (10+ threads)
-- `PH-07`: Audit logger timeout and cancellation (graceful stop)
-- `PH-08`: Regex catastrophic backtracking prevention (ReDoS patterns)
-**Key Features**:
-class UtilsPrivacyAuditHardeningTest : public ::testing::Test {
-// Each test includes:
-// 1. Clear scenario description
-// 2. Documented input/expected output
-// 3. Multiple edge cases per scenario
-// 4. No silent failures (explicit assertions)
-// 5. Helper methods for test data generation
-};
-#### **File**: `tests/utils/CMakeLists.txt` (MODIFIED)
-- **Change**: Added test registration for `module_utils_test_privacy_audit_hardening_focused`
-- **Scope**: `PrivacyAuditHardeningFocusedTests`
-- **Timeout**: 60 seconds
-- **Labels**: `privacy audit hardening pii pseudonymizer unicode rate-limiting`
----
-### 2. Regex Detection Engine Hardening
-#### **File**: `include/utils/regex_detection_engine.h` (MODIFIED)
-- **Added Methods** (all [[nodiscard]] per best practices):
 
 ---
 
@@ -5239,6 +5239,55 @@ election_term = ++current_term_;  // ✅ INSIDE LOCK
 
 ---
 
+### PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md
+
+*(file too large — key headings extracted)*
+
+# ThemisDB Phases 1A–5 Implementation Orchestration
+**Document:** Master execution plan for post-GA closure work
+**Status:** 🟡 ACTIVE — Scope-freeze baseline (2026-08-05)
+**Target Completion:** Phase 1A (2026-08-11), Phases 2–5 (2026-09–2027-01)
+**Owner:** AI Delivery Agent + Human Release Approver
+---
+## Executive Summary
+### Key Timeline
+| Phase | Name | Duration | Target End | Dependencies |
+|-------|------|----------|-----------|--------------|
+| 1A | GA Promotion Sign-Off Closure | 1-2 weeks | 2026-08-11 | NONE (sequential gate) |
+| 2 | Performance & Scalability Readiness | 6-8 weeks | 2026-09-30 | Phase 1A complete |
+| 3 | Plugin Externalization & Monetization | 8-10 weeks | 2026-10-31 | Phase 1A complete (parallel OK) |
+| 4 | Observability & Operations Hardening | 6-8 weeks | 2026-10-15 | Phase 1A complete (parallel OK) |
+| 5 | LLM Wiki Enterprise Plugin Hardening | 8-10 weeks | 2026-10-31 | Phase 1A complete (parallel OK) |
+---
+## Phase 1A — GA Promotion Sign-Off Closure
+### Scope
+### Deliverables
+1. ✅ Section 9 human sign-off completed by release approver
+2. ✅ All Batch D gates (D-1 through D-10) re-verified on current `develop` HEAD
+3. ✅ Wave 7 + Wave 9 hard gate evidence confirmed PASS
+4. ✅ Release tag `v2.4.0` created on `community` branch
+5. ✅ CHANGELOG.md entry published for v2.4.0 GA
+6. ✅ research/implementation_influence/by_module.md Soll-Ist matrix verified
+### Acceptance Criteria
+- [ ] `develop` HEAD passes full `release_critical` CTest suite
+- [ ] All Wave 7 hard gates (GATE-W7-01..06) confirmed PASS
+- [ ] All Wave 8 hard gates (GATE-W8-01..04) confirmed PASS
+- [ ] All Wave 9 hard gates (GATE-W9-01..06) confirmed PASS
+- [ ] Security Lead reviews and accepts GA_SANITIZER_EVIDENCE_BUNDLE.md
+- [ ] Security Lead reviews and accepts GA_PENTEST_EVIDENCE_BUNDLE.md
+- [ ] No new CRITICAL findings in server, llm, or sharding module gap registers
+- [ ] CHANGELOG.md `[Unreleased]` moved to `[2.4.0]` entry
+- [ ] VERSIONING.md version table updated to v2.4.0 GA stable status
+- [ ] ROADMAP.md updated with Phase 0-6 completion markers
+- [ ] research/implementation_influence/by_module.md Soll-Ist matrix verified (6 modules)
+- [ ] docs/DOXYGEN_COVERAGE_REPORT.md confirms >99% header coverage
+- [ ] `develop` → `community` merge approved
+- [ ] Tag `v2.4.0` created on `community` merge commit
+- [ ] Release artefact built from v2.4.0 tag (not develop HEAD)
+### Verification Checklist
+
+---
+
 ### PHASE_1_6_IMPLEMENTATION_STATUS.md
 
 *(file too large — key headings extracted)*
@@ -5338,55 +5387,6 @@ The Code Quality Scanner Roadmap Phase 1-6 implementation is tracking ahead of s
 - Context-aware detection (logging, assignment)
 - Confidence scoring (0.7–0.99)
 - File context filtering (test files excluded)
-
----
-
-### PHASE_1A_5_IMPLEMENTATION_ORCHESTRATION.md
-
-*(file too large — key headings extracted)*
-
-# ThemisDB Phases 1A–5 Implementation Orchestration
-**Document:** Master execution plan for post-GA closure work
-**Status:** 🟡 ACTIVE — Scope-freeze baseline (2026-08-05)
-**Target Completion:** Phase 1A (2026-08-11), Phases 2–5 (2026-09–2027-01)
-**Owner:** AI Delivery Agent + Human Release Approver
----
-## Executive Summary
-### Key Timeline
-| Phase | Name | Duration | Target End | Dependencies |
-|-------|------|----------|-----------|--------------|
-| 1A | GA Promotion Sign-Off Closure | 1-2 weeks | 2026-08-11 | NONE (sequential gate) |
-| 2 | Performance & Scalability Readiness | 6-8 weeks | 2026-09-30 | Phase 1A complete |
-| 3 | Plugin Externalization & Monetization | 8-10 weeks | 2026-10-31 | Phase 1A complete (parallel OK) |
-| 4 | Observability & Operations Hardening | 6-8 weeks | 2026-10-15 | Phase 1A complete (parallel OK) |
-| 5 | LLM Wiki Enterprise Plugin Hardening | 8-10 weeks | 2026-10-31 | Phase 1A complete (parallel OK) |
----
-## Phase 1A — GA Promotion Sign-Off Closure
-### Scope
-### Deliverables
-1. ✅ Section 9 human sign-off completed by release approver
-2. ✅ All Batch D gates (D-1 through D-10) re-verified on current `develop` HEAD
-3. ✅ Wave 7 + Wave 9 hard gate evidence confirmed PASS
-4. ✅ Release tag `v2.4.0` created on `community` branch
-5. ✅ CHANGELOG.md entry published for v2.4.0 GA
-6. ✅ research/implementation_influence/by_module.md Soll-Ist matrix verified
-### Acceptance Criteria
-- [ ] `develop` HEAD passes full `release_critical` CTest suite
-- [ ] All Wave 7 hard gates (GATE-W7-01..06) confirmed PASS
-- [ ] All Wave 8 hard gates (GATE-W8-01..04) confirmed PASS
-- [ ] All Wave 9 hard gates (GATE-W9-01..06) confirmed PASS
-- [ ] Security Lead reviews and accepts GA_SANITIZER_EVIDENCE_BUNDLE.md
-- [ ] Security Lead reviews and accepts GA_PENTEST_EVIDENCE_BUNDLE.md
-- [ ] No new CRITICAL findings in server, llm, or sharding module gap registers
-- [ ] CHANGELOG.md `[Unreleased]` moved to `[2.4.0]` entry
-- [ ] VERSIONING.md version table updated to v2.4.0 GA stable status
-- [ ] ROADMAP.md updated with Phase 0-6 completion markers
-- [ ] research/implementation_influence/by_module.md Soll-Ist matrix verified (6 modules)
-- [ ] docs/DOXYGEN_COVERAGE_REPORT.md confirms >99% header coverage
-- [ ] `develop` → `community` merge approved
-- [ ] Tag `v2.4.0` created on `community` merge commit
-- [ ] Release artefact built from v2.4.0 tag (not develop HEAD)
-### Verification Checklist
 
 ---
 
@@ -6404,57 +6404,6 @@ echo "2. IMPLEMENTATION DETAILS"
 
 ---
 
-### ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md
-
-*(file too large — key headings extracted)*
-
-# Access Model Phase 5-6 Implementation Plan
-**Document Version:** 1.0.0
-**Status:** Detailed Planning
-**Target:** Wave B Exit Criteria (Q3-Q4 2026)
-**Current Module Status:** Phases 1-4 COMPLETE; Phases 5-6 PLANNED
----
-## Context
-The Access Model module provides unified coordination between cache and storage tiers via:
-- **AccessCoordinator:** Central broker orchestrating promotions/demotions
-- **EvictionListener / PromotionListener:** Thin event interfaces from cache/storage
-- **AgeBasedPolicy:** Unified aging for tier transitions
-- **AccessMetrics:** Observability collectors
----
-## Phase 5: Observability & Diagnostics (Planned)
-### 5.1 Structured Logging for Tier Transitions
-**Objective:** Log all coordinator state transitions with structured context
-**Implementation Tasks:**
-1. **Create access_model_logging.h**
-- Define structured log entry types:
-- `TierTransitionLog` (key, from_tier, to_tier, reason, latency_ms)
-- `EvictionEventLog` (key, from_tier, eviction_reason, size_bytes)
-- `PromotionDecisionLog` (key, decision, access_count, age_secs)
-- Use spdlog/fmt integration for structured fields
-2. **Instrument AccessCoordinatorImpl**
-- Log on `start()`, `shutdown()`
-- Log on eviction event receipt: `onCacheEvicted_impl()`
-- Log on promotion event receipt: `onStorageAccess_impl()`
-- Log on promotion/demotion decision: `makePromotionDecision()`, `makeDemotionDecision()`
-- Log worker thread lifecycle: `workerMain()` entry/exit
-3. **Add Context Fields to Logs**
-- Correlation ID (trace context across events)
-- Thread ID (identifies worker threads)
-- Timestamp (millisecond precision)
-- Operation duration (for latency tracking)
-- Status (SUCCESS, REJECTED, FAILED)
-4. **Log Levels**
-- TRACE: detailed event processing (verbose)
-- DEBUG: decisions made, policy application
-- INFO: tier transitions, policy changes
-- WARN: rejected promotions, policy conflicts
-- ERROR: coordinator failures, thread pool errors
-**Acceptance Criteria:**
-- [ ] Structured log schema documented
-- [ ] All coordinator state transitions logged
-
----
-
 ### ACCESS_MODEL_PHASE_56_IMPLEMENTATION_SUMMARY.md
 
 *(file too large — key headings extracted)*
@@ -6508,5 +6457,56 @@ The Access Model module provides unified coordination between cache and storage 
 - All tests pass in <5 seconds
 - >85% coverage of AccessCoordinatorImpl
 - ASan/TSan/UBSan clean
+
+---
+
+### ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md
+
+*(file too large — key headings extracted)*
+
+# Access Model Phase 5-6 Implementation Plan
+**Document Version:** 1.0.0
+**Status:** Detailed Planning
+**Target:** Wave B Exit Criteria (Q3-Q4 2026)
+**Current Module Status:** Phases 1-4 COMPLETE; Phases 5-6 PLANNED
+---
+## Context
+The Access Model module provides unified coordination between cache and storage tiers via:
+- **AccessCoordinator:** Central broker orchestrating promotions/demotions
+- **EvictionListener / PromotionListener:** Thin event interfaces from cache/storage
+- **AgeBasedPolicy:** Unified aging for tier transitions
+- **AccessMetrics:** Observability collectors
+---
+## Phase 5: Observability & Diagnostics (Planned)
+### 5.1 Structured Logging for Tier Transitions
+**Objective:** Log all coordinator state transitions with structured context
+**Implementation Tasks:**
+1. **Create access_model_logging.h**
+- Define structured log entry types:
+- `TierTransitionLog` (key, from_tier, to_tier, reason, latency_ms)
+- `EvictionEventLog` (key, from_tier, eviction_reason, size_bytes)
+- `PromotionDecisionLog` (key, decision, access_count, age_secs)
+- Use spdlog/fmt integration for structured fields
+2. **Instrument AccessCoordinatorImpl**
+- Log on `start()`, `shutdown()`
+- Log on eviction event receipt: `onCacheEvicted_impl()`
+- Log on promotion event receipt: `onStorageAccess_impl()`
+- Log on promotion/demotion decision: `makePromotionDecision()`, `makeDemotionDecision()`
+- Log worker thread lifecycle: `workerMain()` entry/exit
+3. **Add Context Fields to Logs**
+- Correlation ID (trace context across events)
+- Thread ID (identifies worker threads)
+- Timestamp (millisecond precision)
+- Operation duration (for latency tracking)
+- Status (SUCCESS, REJECTED, FAILED)
+4. **Log Levels**
+- TRACE: detailed event processing (verbose)
+- DEBUG: decisions made, policy application
+- INFO: tier transitions, policy changes
+- WARN: rejected promotions, policy conflicts
+- ERROR: coordinator failures, thread pool errors
+**Acceptance Criteria:**
+- [ ] Structured log schema documented
+- [ ] All coordinator state transitions logged
 
 ---

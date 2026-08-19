@@ -1,11 +1,11 @@
 {
   "tool": "ai-working-compact",
   "version": "1.0.0",
-  "date": "2026-08-19T04:16:37.161533+00:00",
+  "date": "2026-08-19T07:53:03.513033+00:00",
   "dry_run": false,
   "stats": {
     "topics": 20,
-    "compact_pages_updated": 20,
+    "compact_pages_updated": 10,
     "files_archived": 0,
     "files_removed": 0
   }
