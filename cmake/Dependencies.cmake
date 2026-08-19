@@ -151,12 +151,15 @@ else()
         pkg_check_modules(zstd QUIET libzstd)
         if(zstd_FOUND)
             message(STATUS "zstd found via pkg-config")
-            # Create imported target for compatibility
-            add_library(zstd::zstd INTERFACE IMPORTED)
-            set_target_properties(zstd::zstd PROPERTIES
-                INTERFACE_INCLUDE_DIRECTORIES "${zstd_INCLUDE_DIRS}"
-                INTERFACE_LINK_LIBRARIES "${zstd_LIBRARIES}"
-            )
+            # Create imported target for compatibility when it was not
+            # already preloaded for RocksDB detection.
+            if(NOT TARGET zstd::zstd)
+                add_library(zstd::zstd INTERFACE IMPORTED)
+                set_target_properties(zstd::zstd PROPERTIES
+                    INTERFACE_INCLUDE_DIRECTORIES "${zstd_INCLUDE_DIRS}"
+                    INTERFACE_LINK_LIBRARIES "${zstd_LIBRARIES}"
+                )
+            endif()
         else()
             message(STATUS "zstd not found - using fallback compression")
         endif()

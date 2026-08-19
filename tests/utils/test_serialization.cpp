@@ -134,6 +134,36 @@ TEST_F(SerializationTest, DecoderFloatVectorBoundsOverflow) {
     EXPECT_TRUE(vec.empty() || vec.size() * sizeof(float) <= 96);
 }
 
+TEST_F(SerializationTest, DecoderArrayNestingDepthLimitMovesToEof) {
+    for (size_t i = 0; i < 257; ++i) {
+        encoder.beginArray(1);
+    }
+
+    Serialization::Decoder decoder(encoder.getBuffer());
+
+    for (size_t i = 0; i < 256; ++i) {
+        EXPECT_EQ(decoder.beginArray(), 1U);
+    }
+
+    EXPECT_EQ(decoder.beginArray(), 0U);
+    EXPECT_FALSE(decoder.hasMore());
+}
+
+TEST_F(SerializationTest, DecoderObjectNestingDepthLimitMovesToEof) {
+    for (size_t i = 0; i < 257; ++i) {
+        encoder.beginObject(1);
+    }
+
+    Serialization::Decoder decoder(encoder.getBuffer());
+
+    for (size_t i = 0; i < 256; ++i) {
+        EXPECT_EQ(decoder.beginObject(), 1U);
+    }
+
+    EXPECT_EQ(decoder.beginObject(), 0U);
+    EXPECT_FALSE(decoder.hasMore());
+}
+
 // ============================================================================
 // Test Correct Round-Trip Encoding/Decoding
 // ============================================================================
@@ -271,4 +301,3 @@ TEST_F(SerializationTest, TruncatedInMiddleOfRead) {
 
 } // namespace utils
 } // namespace themis
-

@@ -151,8 +151,6 @@ private:
  */
 class DistributedAnalyticsSharding {
 public:
-    // Forward declaration for internal shard bookkeeping
-    struct ShardEntry;
     /**
      * Configuration knobs.
      */
@@ -355,6 +353,9 @@ private:
     // ---------------------------------------------------------------
     // Internal helpers
     // ---------------------------------------------------------------
+
+    // Forward declaration for internal shard bookkeeping
+    struct ShardEntry;
 
     /**
      * Compute a stable string key for a result row's dimension values.

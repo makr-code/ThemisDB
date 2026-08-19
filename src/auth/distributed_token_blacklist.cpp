@@ -339,10 +339,10 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
         config_.column_family, rocksdb::ColumnFamilyOptions{}));
     
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-    std::unique_ptr<rocksdb::DB> db_ptr;
+    rocksdb::DB* raw_db = nullptr;
     rocksdb::Status status = rocksdb::DB::Open(
-        opts, config_.db_path, cf_descriptors, &cf_handles, &db_ptr);
-    db = db_ptr.release();
+        opts, config_.db_path, cf_descriptors, &cf_handles, &raw_db);
+    db = raw_db;
 
     if (!status.ok()) {
         throw std::runtime_error(
