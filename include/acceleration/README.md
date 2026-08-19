@@ -85,6 +85,7 @@ Builds without any GPU SDK must still compile successfully; only CPU fallback sy
 | `BackendRegistry::getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` | Access selected runtime backends after initialization. |
 | `BackendRegistry::deviceInfo()` | Read immutable device snapshot captured at runtime initialization. |
 | `DeviceManager::probeDevices()` / `refresh()` / `getBestDevice()` | Device discovery and cache-aware capability probing. |
+| `DeviceManager::setEnumerateFn()` | Inject deterministic capability snapshots for focused tests and CPU-only validation. |
 | `ANNKernelFallbackDispatcher` / `GeoKernelFallbackDispatcher` | Retry + fallback dispatch over frozen kernel invocation tables. |
 | `PluginLoader::loadPlugin()` / `loadPluginsFromDirectory()` | Dynamic backend-plugin loading surface. |
 | `error_codes.h` + `error_context.h` | Structured error codes and contextualized failure metadata. |
@@ -94,11 +95,13 @@ Builds without any GPU SDK must still compile successfully; only CPU fallback sy
 - `BackendRegistry::CapabilityRequirements`: configure required backend capabilities (precision/metrics/features) per operation category.
 - `RetryPolicy` (`kernel_fallback_dispatcher.h`): configure retry attempt count and exponential backoff behavior for transient device errors.
 - `VLLMResourceManager::Config`: configure GPU lease and utilization thresholds when sharing GPU resources with inference workloads.
+- `DeviceManager::setEnumerateFn()`: override runtime device discovery with an injected capability snapshot; empty snapshots still synthesize a CPU fallback device.
 
 ## Runtime Behavior, Error Cases, and Limits
 
 - `initializeRuntime()` should be called once during startup; selected backend pointers remain queryable afterwards.
 - If no compatible backend is found for requested requirements, selected-backend accessors can return `nullptr`.
+- `DeviceManager` always returns at least one device entry; if discovery yields no healthy accelerator snapshot, a synthetic `CPU Fallback` device is emitted with `index == -1`.
 - Fallback dispatchers treat `DeviceLost`, `OperationTimeout`, and `SynchronizationFailed` as transient and apply retry before CPU fallback.
 - Validation failures surface through `AccelerationErrorCode` values (`InvalidInputShape`, `InvalidInputDtype`, `InputRangeViolation`, etc.).
 - Builds without CUDA/HIP/Vulkan SDKs remain supported; CPU backends are the required baseline.

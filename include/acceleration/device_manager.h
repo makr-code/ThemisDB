@@ -13,6 +13,7 @@
 #pragma once
 
 #include <chrono>
+#include <functional>
 #include <mutex>
 #include <string>
 #include <vector>
@@ -41,6 +42,8 @@ namespace acceleration {
  */
 class DeviceManager {
 public:
+    using EnumerateFn = std::function<std::vector<DeviceCapabilityInfo>()>;
+
     /// Singleton accessor.
     static DeviceManager& instance();
 
@@ -65,6 +68,18 @@ public:
     /// Emit a structured log line (to std::cout) listing all probed devices
     /// and the selected best device.  Intended for startup observability.
     void logDeviceInfo();
+
+    /**
+     * @brief Register a custom device-enumeration callback.
+     *
+     * When set, @ref probeDevices() and @ref refresh() use this callback instead
+     * of the default GPU discovery bridge. This is intended for focused tests
+     * and CPU-only builds that need deterministic capability snapshots.
+     *
+     * @param fn Callback returning the full device snapshot. Pass an empty
+     *           function to restore default runtime discovery.
+     */
+    static void setEnumerateFn(EnumerateFn fn);
 
     /// Cache time-to-live: probe results are considered fresh for 60 seconds.
     static constexpr std::chrono::seconds kCacheTTL{60};

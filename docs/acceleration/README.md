@@ -39,6 +39,8 @@ cmake --build --preset linux-release
   und Grenzen.
 - Nutze `include/acceleration/README.md` für Public-API-Header, Entry-Points und
   Konfigurationsflächen.
+- Nutze `capability_negotiation.md` für den DeviceManager-Probe-Bridge-Vertrag
+  (`setEnumerateFn()`, CPU-Fallback-Sentinel, fail-closed Auswahl).
 - Nutze `troubleshooting.md` und `error_codes.md` für operative Diagnose und
   Fehleranalyse.
 

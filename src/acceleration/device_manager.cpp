@@ -52,6 +52,16 @@ namespace acceleration {
 
 namespace {
 
+std::mutex &enumerateFnMutex() {
+    static std::mutex mutex;
+    return mutex;
+}
+
+DeviceManager::EnumerateFn &enumerateFnStorage() {
+    static DeviceManager::EnumerateFn enumerate_fn;
+    return enumerate_fn;
+}
+
 // ---------------------------------------------------------------------------
 // File-local helpers
 // ---------------------------------------------------------------------------
@@ -106,6 +116,25 @@ DeviceCapabilityInfo fromGpuDeviceInfo(const themis::gpu::DeviceInfo &d) noexcep
 /// Enumerate devices from DeviceDiscovery and translate to DeviceCapabilityInfo.
 /// Returns at least one CPU fallback entry.
 std::vector<DeviceCapabilityInfo> enumerateDevices() {
+    DeviceManager::EnumerateFn enumerate_fn;
+    {
+        std::lock_guard<std::mutex> lock(enumerateFnMutex());
+        enumerate_fn = enumerateFnStorage();
+    }
+
+    if (enumerate_fn) {
+        auto injected = enumerate_fn();
+        if (injected.empty()) {
+            DeviceCapabilityInfo cpu;
+            cpu.index        = -1;
+            cpu.name         = "CPU Fallback";
+            cpu.backend_type = BackendType::CPU;
+            cpu.is_healthy   = true;
+            injected.push_back(cpu);
+        }
+        return injected;
+    }
+
     const auto gpu_devices = themis::gpu::DeviceDiscovery::Enumerate();
 
     std::vector<DeviceCapabilityInfo> result;
@@ -233,6 +262,15 @@ void DeviceManager::logDeviceInfo() {
 
     std::cout << "[acceleration] Best device: " << best.name << " (backend=" << static_cast<int>(best.backend_type)
               << ")" << std::endl;
+}
+
+void DeviceManager::setEnumerateFn(EnumerateFn fn) {
+    auto &manager = DeviceManager::instance();
+    std::lock_guard<std::mutex> cache_lock(manager.mutex_);
+    std::lock_guard<std::mutex> lock(::themis::acceleration::enumerateFnMutex());
+    enumerateFnStorage() = std::move(fn);
+    manager.cache_valid_ = false;
+    manager.cached_.clear();
 }
 
 } // namespace acceleration

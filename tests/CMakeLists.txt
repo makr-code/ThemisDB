@@ -21916,11 +21916,11 @@ endif()
 #   AC-10 A second initializeRuntime() call refreshes the cached selection
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/device/test_device_manager.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
     message(STATUS "Adding DeviceManager focused tests (acceleration, Issue #37, v1.7.0)")
 
     add_executable(test_device_manager_focused
-        device/test_device_manager.cpp
+        test_device_manager.cpp
     )
 
     target_include_directories(test_device_manager_focused PRIVATE
@@ -21947,7 +21947,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/device/test_device_manager.cpp")
 
     message(STATUS "  DeviceManager: probeDevices, cache TTL, refresh, getBestDevice, hasGPU, bestBackendType, logDeviceInfo, BackendRegistry::deviceInfo")
 else()
-    message(STATUS "DeviceManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/device/test_device_manager.cpp")
+    message(STATUS "DeviceManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
 endif()
 
 # ============================================================================

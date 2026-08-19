@@ -22,6 +22,34 @@
 
 using namespace themis::acceleration;
 
+namespace {
+
+DeviceCapabilityInfo makeDevice(int index, BackendType backend_type, const char* name, uint64_t free_vram_bytes,
+                                bool is_healthy = true, int compute_major = 0, int compute_minor = 0) {
+    DeviceCapabilityInfo device;
+    device.index            = index;
+    device.name             = name;
+    device.backend_type     = backend_type;
+    device.free_vram_bytes  = free_vram_bytes;
+    device.total_vram_bytes = free_vram_bytes;
+    device.is_healthy       = is_healthy;
+    device.compute_major    = compute_major;
+    device.compute_minor    = compute_minor;
+    if (!is_healthy) {
+        device.error_message = "synthetic failure";
+    }
+    return device;
+}
+
+class DeviceManagerInjectedEnumerationTest : public ::testing::Test {
+protected:
+    void TearDown() override {
+        DeviceManager::setEnumerateFn({});
+    }
+};
+
+} // namespace
+
 // =============================================================================
 // probeDevices() basics
 // =============================================================================
@@ -104,103 +132,61 @@ TEST(DeviceManagerTest, GetBestDevice_HasNonEmptyName) {
     EXPECT_FALSE(best.name.empty());
 }
 
-TEST(DeviceManagerTest, GetBestDevice_FromDeviceList_SelectsHighestFreeVRAM) {
-    // Simulate two CUDA devices with different free VRAM; verify the one
-    // with more free VRAM is selected.  We exercise this by constructing
-    // DeviceCapabilityInfo objects manually and applying the same selection
-    // logic as DeviceManager::getBestDevice().
+TEST_F(DeviceManagerInjectedEnumerationTest, GetBestDevice_SelectsHighestFreeVRAM) {
+    DeviceManager::setEnumerateFn([] {
+        return std::vector<DeviceCapabilityInfo>{
+            makeDevice(0, BackendType::CUDA, "GPU_A", 4ULL * 1024 * 1024 * 1024, true, 7, 0),
+            makeDevice(1, BackendType::CUDA, "GPU_B", 20ULL * 1024 * 1024 * 1024, true, 8, 0),
+            makeDevice(-1, BackendType::CPU, "CPU Fallback", 0)};
+    });
 
-    DeviceCapabilityInfo a;
-    a.index            = 0;
-    a.name             = "GPU_A";
-    a.backend_type     = BackendType::CUDA;
-    a.free_vram_bytes  = 4ULL * 1024 * 1024 * 1024;
-    a.is_healthy       = true;
-
-    DeviceCapabilityInfo b;
-    b.index            = 1;
-    b.name             = "GPU_B";
-    b.backend_type     = BackendType::CUDA;
-    b.free_vram_bytes  = 20ULL * 1024 * 1024 * 1024;
-    b.is_healthy       = true;
-
-    // Replicate selection logic: pick healthy non-CPU with max free_vram_bytes.
-    std::vector<DeviceCapabilityInfo> devices = {a, b};
-    const DeviceCapabilityInfo* best = nullptr;
-    for (const auto& d : devices) {
-        if (!d.is_healthy || d.backend_type == BackendType::CPU) continue;
-        if (!best || d.free_vram_bytes > best->free_vram_bytes) best = &d;
-    }
-
-    ASSERT_NE(best, nullptr);
-    EXPECT_EQ(best->name, "GPU_B");
+    const auto best = DeviceManager::instance().refresh();
+    ASSERT_EQ(best.size(), 3u);
+    EXPECT_EQ(DeviceManager::instance().getBestDevice().name, "GPU_B");
 }
 
-TEST(DeviceManagerTest, GetBestDevice_SkipsUnhealthyDevices) {
-    DeviceCapabilityInfo bad;
-    bad.index            = 0;
-    bad.name             = "Bad_GPU";
-    bad.backend_type     = BackendType::CUDA;
-    bad.free_vram_bytes  = 100ULL * 1024 * 1024 * 1024;
-    bad.is_healthy       = false;
-    bad.error_message    = "device lost";
+TEST_F(DeviceManagerInjectedEnumerationTest, GetBestDevice_SkipsUnhealthyDevices) {
+    DeviceManager::setEnumerateFn([] {
+        return std::vector<DeviceCapabilityInfo>{
+            makeDevice(0, BackendType::CUDA, "Bad_GPU", 100ULL * 1024 * 1024 * 1024, false, 8, 0),
+            makeDevice(1, BackendType::CUDA, "Good_GPU", 8ULL * 1024 * 1024 * 1024, true, 8, 0),
+            makeDevice(-1, BackendType::CPU, "CPU Fallback", 0)};
+    });
 
-    DeviceCapabilityInfo good;
-    good.index           = 1;
-    good.name            = "Good_GPU";
-    good.backend_type    = BackendType::CUDA;
-    good.free_vram_bytes = 8ULL * 1024 * 1024 * 1024;
-    good.is_healthy      = true;
+    EXPECT_EQ(DeviceManager::instance().refresh()[0].name, "Bad_GPU");
+    EXPECT_EQ(DeviceManager::instance().getBestDevice().name, "Good_GPU");
+}
 
-    std::vector<DeviceCapabilityInfo> devices = {bad, good};
-    const DeviceCapabilityInfo* best = nullptr;
-    for (const auto& d : devices) {
-        if (!d.is_healthy || d.backend_type == BackendType::CPU) continue;
-        if (!best || d.free_vram_bytes > best->free_vram_bytes) best = &d;
-    }
+TEST_F(DeviceManagerInjectedEnumerationTest, GetBestDevice_ReturnsCPUFallbackWhenNoHealthyGPUExists) {
+    DeviceManager::setEnumerateFn([] {
+        return std::vector<DeviceCapabilityInfo>{
+            makeDevice(0, BackendType::CUDA, "Bad_GPU", 100ULL * 1024 * 1024 * 1024, false, 8, 0),
+            makeDevice(-1, BackendType::CPU, "CPU Fallback", 0)};
+    });
 
-    ASSERT_NE(best, nullptr);
-    EXPECT_EQ(best->name, "Good_GPU");
+    const auto best = DeviceManager::instance().refresh();
+    ASSERT_EQ(best.size(), 2u);
+    EXPECT_EQ(DeviceManager::instance().getBestDevice().backend_type, BackendType::CPU);
 }
 
 // =============================================================================
 // hasGPU() / bestBackendType()
 // =============================================================================
 
-TEST(DeviceManagerTest, HasGPU_CPUFallbackOnly_ReturnsFalse) {
-    std::vector<DeviceCapabilityInfo> devices;
-    DeviceCapabilityInfo cpu;
-    cpu.name         = "CPU Fallback";
-    cpu.backend_type = BackendType::CPU;
-    cpu.is_healthy   = true;
-    devices.push_back(cpu);
-
-    bool found = false;
-    for (const auto& d : devices) {
-        if (d.is_healthy && d.backend_type != BackendType::CPU) {
-            found = true;
-            break;
-        }
-    }
-    EXPECT_FALSE(found);
+TEST_F(DeviceManagerInjectedEnumerationTest, HasGPU_CPUFallbackOnly_ReturnsFalse) {
+    DeviceManager::setEnumerateFn([] { return std::vector<DeviceCapabilityInfo>{makeDevice(-1, BackendType::CPU, "CPU Fallback", 0)}; });
+    EXPECT_FALSE(DeviceManager::instance().refresh().empty());
+    EXPECT_FALSE(DeviceManager::instance().hasGPU());
 }
 
-TEST(DeviceManagerTest, HasGPU_HealthyGPUPresent_ReturnsTrue) {
-    std::vector<DeviceCapabilityInfo> devices;
-    DeviceCapabilityInfo gpu;
-    gpu.name         = "Test_GPU";
-    gpu.backend_type = BackendType::CUDA;
-    gpu.is_healthy   = true;
-    devices.push_back(gpu);
-
-    bool found = false;
-    for (const auto& d : devices) {
-        if (d.is_healthy && d.backend_type != BackendType::CPU) {
-            found = true;
-            break;
-        }
-    }
-    EXPECT_TRUE(found);
+TEST_F(DeviceManagerInjectedEnumerationTest, HasGPU_HealthyGPUPresent_ReturnsTrue) {
+    DeviceManager::setEnumerateFn([] {
+        return std::vector<DeviceCapabilityInfo>{
+            makeDevice(0, BackendType::CUDA, "Test_GPU", 4ULL * 1024 * 1024 * 1024, true, 7, 5),
+            makeDevice(-1, BackendType::CPU, "CPU Fallback", 0)};
+    });
+    EXPECT_TRUE(DeviceManager::instance().refresh().size() >= 2u);
+    EXPECT_TRUE(DeviceManager::instance().hasGPU());
 }
 
 TEST(DeviceManagerTest, BestBackendType_ConsistentWithGetBestDevice) {
@@ -235,6 +221,47 @@ TEST(DeviceManagerTest, PrecisionFlags_CUDACompute80_SupportsBF16) {
     EXPECT_GE(sm, 80);  // both fp16 and bf16 thresholds met
 }
 
+TEST_F(DeviceManagerInjectedEnumerationTest, ProbeDevices_UsesInjectedEnumerationAndCachesResult) {
+    int calls = 0;
+    DeviceManager::setEnumerateFn([&calls] {
+        ++calls;
+        return std::vector<DeviceCapabilityInfo>{makeDevice(7, BackendType::CUDA, "Injected GPU", 6ULL * 1024 * 1024 * 1024, true, 8, 0)};
+    });
+
+    const auto first = DeviceManager::instance().probeDevices();
+    const auto second = DeviceManager::instance().probeDevices();
+
+    ASSERT_EQ(first.size(), 1u);
+    EXPECT_EQ(first.front().name, "Injected GPU");
+    EXPECT_EQ(second.front().name, "Injected GPU");
+    EXPECT_EQ(calls, 1);
+}
+
+TEST_F(DeviceManagerInjectedEnumerationTest, Refresh_ReprobesInjectedEnumeration) {
+    int calls = 0;
+    DeviceManager::setEnumerateFn([&calls] {
+        ++calls;
+        return std::vector<DeviceCapabilityInfo>{
+            makeDevice(calls, BackendType::CUDA, calls == 1 ? "GPU_First" : "GPU_Second", 3ULL * 1024 * 1024 * 1024, true, 8, 0)};
+    });
+
+    const auto first = DeviceManager::instance().refresh();
+    const auto second = DeviceManager::instance().refresh();
+
+    EXPECT_EQ(first.front().name, "GPU_First");
+    EXPECT_EQ(second.front().name, "GPU_Second");
+    EXPECT_EQ(calls, 2);
+}
+
+TEST_F(DeviceManagerInjectedEnumerationTest, ProbeDevices_EmptyInjectedListSynthesizesCPUFallback) {
+    DeviceManager::setEnumerateFn([] { return std::vector<DeviceCapabilityInfo>{}; });
+
+    const auto devices = DeviceManager::instance().refresh();
+    ASSERT_EQ(devices.size(), 1u);
+    EXPECT_EQ(devices.front().backend_type, BackendType::CPU);
+    EXPECT_EQ(devices.front().index, -1);
+}
+
 // =============================================================================
 // logDeviceInfo() smoke test
 // =============================================================================
@@ -242,6 +269,22 @@ TEST(DeviceManagerTest, PrecisionFlags_CUDACompute80_SupportsBF16) {
 TEST(DeviceManagerTest, LogDeviceInfo_DoesNotCrash) {
     // Just verify the method doesn't throw or abort.
     EXPECT_NO_THROW(DeviceManager::instance().logDeviceInfo());
+}
+
+TEST_F(DeviceManagerInjectedEnumerationTest, LogDeviceInfo_ReportsInjectedDeviceAndBestSelection) {
+    DeviceManager::setEnumerateFn([] {
+        return std::vector<DeviceCapabilityInfo>{
+            makeDevice(0, BackendType::CUDA, "Log_GPU", 9ULL * 1024 * 1024 * 1024, true, 8, 0),
+            makeDevice(-1, BackendType::CPU, "CPU Fallback", 0)};
+    });
+
+    testing::internal::CaptureStdout();
+    DeviceManager::instance().refresh();
+    DeviceManager::instance().logDeviceInfo();
+    const std::string output = testing::internal::GetCapturedStdout();
+
+    EXPECT_NE(output.find("Log_GPU"), std::string::npos);
+    EXPECT_NE(output.find("Best device: Log_GPU"), std::string::npos);
 }
 
 // =============================================================================
