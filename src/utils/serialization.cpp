@@ -291,11 +291,11 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
 
 size_t Serialization::Decoder::beginArray() {
     // Phase 2.4 Hardening: Check nesting depth to prevent stack overflow
-    if (depth_ >= MAX_NESTING_DEPTH) {
+    if (depth_ >= kMaxNestingDepth) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
             fmt::format("Array nesting depth limit exceeded: depth={} (max={})",
-                       depth_, MAX_NESTING_DEPTH),
+                       depth_, kMaxNestingDepth),
             "Serialization::Decoder::beginArray",
             ErrorSeverity::Error, /*is_recoverable=*/false));
         // Advance to EOF to prevent callers from retrying the same position
@@ -318,13 +318,14 @@ void Serialization::Decoder::endArray() {
 
 size_t Serialization::Decoder::beginObject() {
     // Phase 2.4 Hardening: Check nesting depth to prevent stack overflow
-    if (depth_ >= MAX_NESTING_DEPTH) {
+    if (depth_ >= kMaxNestingDepth) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
             fmt::format("Object nesting depth limit exceeded: depth={} (max={})",
-                       depth_, MAX_NESTING_DEPTH),
+                       depth_, kMaxNestingDepth),
             "Serialization::Decoder::beginObject",
             ErrorSeverity::Error, /*is_recoverable=*/false));
+        pos_ = data_.size();
         return 0;  // Return 0 to signal error
     }
     
