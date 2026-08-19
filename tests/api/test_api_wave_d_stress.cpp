@@ -15,6 +15,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <deque>
 #include <memory>
 #include <mutex>
 #include <sstream>
@@ -46,8 +47,8 @@ struct SimSpan {
 
 /// Thread-safe in-process span sink used instead of a live OTLP endpoint.
 /// Tracks accepted, dropped, and error spans with counters protected by a
-/// single mutex — intentionally mimicking the queue/drop semantics of
-/// OtlpExporter without the network I/O.
+/// single mutex while maintaining a bounded in-memory queue so concurrent
+/// submissions can observe real backlog and drop behavior without network I/O.
 class SimulatedSpanSink {
 public:
     static constexpr size_t kMaxQueueDepth = 2048;
@@ -61,21 +62,32 @@ public:
 
     /// Submit a span.  Returns true when accepted, false when dropped.
     bool submit(SimSpan span) {
-        std::lock_guard<std::mutex> lk(mtx_);
-        if (queue_depth_ >= kMaxQueueDepth) {
-            ++stats_.dropped;
-            return false;
+        const bool is_error_span = (span.status_code == 2);
+        {
+            std::lock_guard<std::mutex> lk(mtx_);
+            if (queue_.size() >= kMaxQueueDepth) {
+                ++stats_.dropped;
+                return false;
+            }
+            queue_.push_back(std::move(span));
+            const size_t queue_depth = queue_.size();
+            if (queue_depth > stats_.peak_queue_depth) {
+                stats_.peak_queue_depth = queue_depth;
+            }
+            if (is_error_span) {
+                ++stats_.error_spans;
+            }
+            ++stats_.accepted;
         }
-        ++queue_depth_;
-        if (queue_depth_ > stats_.peak_queue_depth) {
-            stats_.peak_queue_depth = queue_depth_;
+
+        // Yield once so concurrent producers can build backlog before this
+        // submitter drains its own accepted span from the bounded queue.
+        std::this_thread::yield();
+
+        {
+            std::lock_guard<std::mutex> lk(mtx_);
+            queue_.pop_front();
         }
-        if (span.status_code == 2) {
-            ++stats_.error_spans;
-        }
-        ++stats_.accepted;
-        // Immediately "export" (no I/O) to keep memory bounded.
-        --queue_depth_;
         return true;
     }
 
@@ -86,14 +98,14 @@ public:
 
     void reset() {
         std::lock_guard<std::mutex> lk(mtx_);
-        stats_      = {};
-        queue_depth_ = 0;
+        stats_ = {};
+        queue_.clear();
     }
 
 private:
     mutable std::mutex mtx_;
-    Stats  stats_;
-    size_t queue_depth_{0};
+    Stats               stats_;
+    std::deque<SimSpan> queue_;
 };
 
 /// Minimal HTTP adapter that records per-request error codes in the response

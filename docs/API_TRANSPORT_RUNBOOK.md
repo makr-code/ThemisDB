@@ -220,7 +220,7 @@ grep '"component":"aql_resolver"' /var/log/themisdb/api.log \
 
 ### ERR_API_UNAUTHORIZED
 
-**Description:** ****** is missing, expired, or has insufficient scope.
+**Description:** Authorization header bearer token or mTLS client credential is missing, expired, or has insufficient scope.
 
 **Remediation**
 1. Renew credentials: `POST /auth/token` with valid client credentials.

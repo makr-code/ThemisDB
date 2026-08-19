@@ -333,7 +333,6 @@ private:
             const char* status_label = grpcStatusCodeLabel(code);
             const std::string key    = method + "|" + status_label;
 
-            prometheus::Counter* cached = nullptr;
             prometheus::Family<prometheus::Counter>* family_snapshot = nullptr;
             {
                 std::lock_guard<std::mutex> lock(grpc_metrics_mutex_);
@@ -1933,4 +1932,3 @@ void* ThemisDBGrpcService::service() {
 
 } // namespace api
 } // namespace themis
-
