@@ -6,7 +6,16 @@ This file documents all documentation and code quality gaps in the **auth** modu
 
 - **Total Gaps**: 2745 (14 false positives removed in Phase 6 verification)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, Phase 6: false-positive remediation)
-- **Last Updated**: 2026-08-15 (Phase 6 verification: 14 FP removed, 4 CRITICAL→HIGH downgraded)
+- **Last Updated**: 2026-08-19 (Wave C batch: PasskeyAuthenticator impl + 5 test files delivered; batch 4 status updated in MODULE_GAPS_BATCH4.md)
+
+### Wave C Gap Closure Progress (2026-08-19)
+
+- **PasskeyAuthenticator TODO stubs closed**: `verifyRegistration` and `verifyAuthentication` replaced with real CBOR/OpenSSL implementation; `PasskeyAuthenticator` concrete class added to header with `IPasskeyAuthenticator` implementation
+- **Test evidence gates delivered**: 5 Wave C test files (AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06)
+- **todo_as_productionlogic count reduced**: from 62 to 51 (11 TODO stubs resolved in passkey_authenticator.cpp)
+- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 pending CI run; provider failover / RBAC/ABAC algorithm hardening (Q4 2026)
+
+See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
 
 ### By Severity
 

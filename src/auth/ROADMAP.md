@@ -80,6 +80,12 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
   - `exchangeToken()` non-HTTPS endpoint check throws PROVIDER_CAPABILITY_MISMATCH
 - [x] align session/trust behavior to shared bounded runtime contracts (Target: Q3 2026)
   - `session_manager.h` updated with bounded runtime contract cross-referencing auth_principal_contract.h
+- [x] PasskeyAuthenticator concrete class and real CBOR/OpenSSL verification (Target: Q4 2026)
+  - `include/auth/passkey_authenticator.h`: added `PasskeyAuthenticator` class implementing `IPasskeyAuthenticator`
+    with thread-safe in-memory credential store and pending-challenge lifecycle
+  - `src/auth/passkey_authenticator.cpp`: TODO stubs replaced with real base64url decode (OpenSSL BIO),
+    CBOR attestation-object parsing, authenticatorData parsing (rpIdHash, flags, signCount, AAGUID, credential ID,
+    COSE public key), ECDSA-P256/RS256 signature verification via `EVP_DigestVerify`, and sign_count clone detection
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior for malformed auth artifacts and degraded backends (Target: Q3 2026)
@@ -103,6 +109,12 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
     missing endpoint, multi-realm coexistence, realm count)
   - Delivered: ASY-01..08 (session/async: empty user_id, unknown session, expired session, idempotent terminate,
     terminateAllOther, sess_ prefix invariant, pruneExpired, per-user limit)
+- [x] Wave C test gates delivered (Target: Q4 2026)
+  - Delivered: `tests/auth/test_auth_wavec_authentication_methods.cpp` (AUTH-Auth-01..08: JWT/SAML/mTLS validation edge cases)
+  - Delivered: `tests/auth/test_auth_wavec_token_lifecycle.cpp` (AUTH-Token-01..08: SessionManager + DistributedTokenBlacklist lifecycle)
+  - Delivered: `tests/auth/test_auth_wavec_federation_providers.cpp` (AUTH-Provider-01..06: FederatedIdentityManager failover, degradation, realm management)
+  - Delivered: `tests/auth/test_auth_wavec_authorization.cpp` (AUTH-AuthZ-01..08: authorization policy contract types)
+  - Delivered: `tests/auth/test_auth_wavec_rate_limiting.cpp` (AUTH-RateLimit-01..06: AuthRateLimiter per-user, concurrency, reset)
 
 ### Phase 5: Performance and Hardening
 - [x] isRevoked() confirmed O(1) RocksDB point read (< 1 µs warm cache); hot path unaffected by background sync
@@ -135,6 +147,9 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] distributed blacklist RPC layer (TBLK/v1) fully implemented and tested (DBL-01..DBL-17)
 - [x] remaining hardening tasks closed for provider edge cases
 - [x] release-gate benchmark stabilization complete
+- [x] PasskeyAuthenticator TODO stubs replaced with real CBOR/OpenSSL verification logic (2026-08-19)
+- [x] Wave C test gates delivered: AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06 (2026-08-19)
+- [ ] Wave C benchmark gates executed (AUTH-GRG-01..06) — pending CI run
 
 ## Known Issues and Limitations
 
