@@ -405,14 +405,19 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
     hints.ai_family   = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
-    struct addrinfo *res       = nullptr;
+    // RAII guard for the addrinfo list returned by ::getaddrinfo().
+    // Using a unique_ptr with ::freeaddrinfo as the custom deleter ensures
+    // the OS-allocated linked list is always released, even if an exception
+    // is thrown or an early return is taken after getaddrinfo() succeeds.
+    struct addrinfo *res_raw = nullptr;
     const std::string port_str = std::to_string(config_.port);
-    if (::getaddrinfo(config_.host.c_str(), port_str.c_str(), &hints, &res) != 0) {
+    if (::getaddrinfo(config_.host.c_str(), port_str.c_str(), &hints, &res_raw) != 0) {
         return kInvalidSocket;
     }
+    std::unique_ptr<struct addrinfo, decltype(&::freeaddrinfo)> res(res_raw, ::freeaddrinfo);
 
     SocketFd fd = kInvalidSocket;
-    for (struct addrinfo *p = res; p != nullptr; p = p->ai_next) {
+    for (struct addrinfo *p = res.get(); p != nullptr; p = p->ai_next) {
         fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);
         if (fd == kInvalidSocket)
             continue;
@@ -430,7 +435,7 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
         ::close(fd);
         fd = kInvalidSocket;
     }
-    ::freeaddrinfo(res);
+    // res goes out of scope here; ::freeaddrinfo is called automatically.
     return fd;
 }
 
