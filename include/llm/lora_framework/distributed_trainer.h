@@ -221,7 +221,6 @@ public:
      * A real implementation uses MPI_Allreduce, Gloo allreduce, or a shared-
      * memory ring-reduce.
      */
-    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
 
     /**
      * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).

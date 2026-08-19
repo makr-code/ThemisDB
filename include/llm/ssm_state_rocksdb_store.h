@@ -55,27 +55,31 @@ namespace themis::llm {
  *
  * **Dependency Gate:** P2-D03 (L2 Episodic Memory) must succeed first
  */
+
+/**
+ * @brief Configuration for RocksDB SSM state store.
+ */
+struct SSMStateRocksDBStoreConfig {
+    // Column family name for SSM state (if nullptr, uses default CF)
+    std::string column_family_name = "ssm_state";
+
+    // Retention window for old snapshots (milliseconds)
+    int64_t retention_window_ms = 24 * 60 * 60 * 1000;  // 24 hours default
+
+    // Maximum snapshots per session to retain
+    int32_t max_snapshots_per_session = 100;
+
+    // Enable compression for stored snapshots
+    bool enable_compression = true;
+
+    // Sync writes to disk (safety vs performance tradeoff)
+    bool sync_on_checkpoint = false;
+};
+
 class SSMStateRocksDBStore final : public ISSMStateStore {
 public:
-    /**
-     * @brief Configuration for RocksDB SSM state store.
-     */
-    struct Config {
-        // Column family name for SSM state (if nullptr, uses default CF)
-        std::string column_family_name = "ssm_state";
-
-        // Retention window for old snapshots (milliseconds)
-        int64_t retention_window_ms = 24 * 60 * 60 * 1000;  // 24 hours default
-
-        // Maximum snapshots per session to retain
-        int32_t max_snapshots_per_session = 100;
-
-        // Enable compression for stored snapshots
-        bool enable_compression = true;
-
-        // Sync writes to disk (safety vs performance tradeoff)
-        bool sync_on_checkpoint = false;
-    };
+    /// Alias for backwards compatibility with nested Config usage.
+    using Config = SSMStateRocksDBStoreConfig;
 
     /**
      * @brief Construct an SSM RocksDB store.

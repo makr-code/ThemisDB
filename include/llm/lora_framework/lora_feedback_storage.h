@@ -173,31 +173,6 @@ public:
         // ---------------------------------------------------------------------------
     // Callback bridges for graph edge persistence (stub #304)
     // ---------------------------------------------------------------------------
-    /**
-     * @brief Function type for injecting a real graph edge creation backend.
-     *
-     * @param from_key  Source vertex key (feedback record key)
-     * @param to_key    Target vertex key (adapter record key)
-     * @param edge_type Edge label (e.g. "belongs_to_adapter")
-     * @return true if the edge was persisted successfully
-     */
-    using CreateGraphLinkFn = std::function<bool(
-        const std::string& from_key,
-        const std::string& to_key,
-        const std::string& edge_type)>;
-
-    /**
-     * @brief Function type for injecting a real graph edge deletion backend.
-     *
-     * @param from_key  Source vertex key
-     * @param to_key    Target vertex key
-     * @param edge_type Edge label
-     * @return true if the edge was removed successfully
-     */
-    using RemoveGraphLinkFn = std::function<bool(
-        const std::string& from_key,
-        const std::string& to_key,
-        const std::string& edge_type)>;
 
     /**
      * @brief Inject a real graph-edge creation backend.

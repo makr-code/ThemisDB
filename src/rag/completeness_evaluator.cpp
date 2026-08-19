@@ -15,6 +15,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <set>
 #include <sstream>
 #include <regex>
 #include <mutex>
