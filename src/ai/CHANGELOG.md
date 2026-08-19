@@ -11,6 +11,8 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Added
+- `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: sandbox gate now materializes generated source bundles into `sandbox_dir`, verifies write/read round-trips fail-closed, copies artifacts into `output_dir`, and then runs optional `sandbox_verify_fn` policy hooks.
+- `tests/test_ai_plugin_generator.cpp`: APG-22..24 now cover sandbox artifact materialization without callbacks, callback rejection after materialization, and callback success reporting.
 - `benchmarks/bench_ai_plugin_generator.cpp`: dedicated AI module benchmark target for prompt validation, generation success path, and malformed-response error path coverage.
 - `include/ai/cai_ethics_integration.h` + `src/ai/cai_ethics_integration.cpp`: CAI Safety Module (Wave C C1, issue #5040) — bridges `ConstitutionalReasoningEngine` with `EthicsEvaluator` for unified safety-score gating (≥ 0.80 threshold).
 - `tests/test_cai_safety_module.cpp`: 15 unit/benchmark tests (CAI-01…CAI-12, `EvaluateUsesProvidedLlmFunction`, `EvaluateFallsBackWhenProvidedLlmFunctionReturnsEmptyOutput`, `CAI-BENCH-01`) covering 21 built-in principles registry, critic-revision cycle (≤ 2 rounds), EthicsEvaluator integration, prompt-runner wiring, acceptance-gate logic, latency budget (≤ 2000 ms), and 500-sample human safety benchmark.
@@ -47,6 +49,7 @@ The format is based on Keep a Changelog.
 - Focused CMake targets added for all three Wave B test suites.
 
 ### Changed
+- `include/ai/README.md` + `src/ai/README.md` + `src/ai/ARCHITECTURE.md` + `src/ai/ROADMAP.md` + `src/ai/FUTURE_ENHANCEMENTS.md`: synchronized AI module documentation to reflect benchmark registration and enforced sandbox artifact verification behavior.
 - `benchmarks/CMakeLists.txt`: registers `bench_ai_plugin_generator` in the standard benchmark suite.
 - `src/ai/PERFORMANCE_EXPECTATIONS.md` + `src/ai/ROADMAP.md` + `src/ai/AUDIT.md`: close AI-AUD-03 by mapping dedicated AI benchmark coverage and marking benchmark-target roadmap items complete.
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.

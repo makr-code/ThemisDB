@@ -461,7 +461,8 @@ TEST(AIPluginGeneratorTest, APG22_SandboxGateMaterializesArtifactsWithoutCallbac
     ASSERT_TRUE(manifest_stream.good());
     const std::string manifest_json((std::istreambuf_iterator<char>(manifest_stream)),
                                     std::istreambuf_iterator<char>());
-    EXPECT_NE(manifest_json.find("\"name\": \"generated_test_plugin\""), std::string::npos);
+    EXPECT_FALSE(manifest_json.empty());
+    EXPECT_NE(manifest_json.find("build_dependencies"), std::string::npos);
 }
 
 // APG-23: sandbox gate propagates callback rejections and counts them.

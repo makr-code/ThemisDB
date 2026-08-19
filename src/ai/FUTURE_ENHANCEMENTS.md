@@ -7,7 +7,7 @@
 
 - Hardening of endpoint safety, payload validation, and error observability for AI plugin generation.
 - Introduction of dedicated performance coverage for the AI generation path.
-- Optional integration of generated-artifact sandbox verification workflow.
+- Future integration of external sandbox/static-analysis policy engines on top of the built-in artifact materialization gate.
 
 ## Design Constraints
 
@@ -23,14 +23,14 @@
 | `validatePrompt` | extend checks for `required_capabilities` and `dependencies` consistency |
 | `generatePlugin` | preserve validation-first execution and fail-closed return semantics |
 | `AIPluginGenerator::Config` | expose explicit safety knobs (allow-list, payload limit, retry policy) |
-| benchmark integration | add dedicated ai generation benchmark target and mapping |
+| benchmark integration | maintain dedicated ai generation benchmark target and release mapping |
 
 ## Implementation Notes
 
 - Add response schema validation with explicit required and optional fields.
 - Add bounded retry/backoff only for transient transport failures.
 - Add response-size hard limit before parse to prevent memory pressure.
-- Field-level validation for `required_capabilities`/`dependencies` and configurable endpoint allow-list + request/response size limits are now implemented in the runtime path; remaining hardening focuses on sandbox/static-analysis integration.
+- Field-level validation for `required_capabilities`/`dependencies`, configurable endpoint allow-list, request/response size limits, dedicated benchmark coverage, and built-in sandbox artifact materialization are implemented in the runtime path; remaining hardening focuses on external sandbox/static-analysis policy engines.
 - Standardize error classes for validation, transport, HTTP status, parse, and payload shape failures.
 
 ## Test Strategy
@@ -50,6 +50,7 @@
 
 - Enforce endpoint allow-list checks before outbound calls (implemented).
 - Enforce maximum request and response size limits (implemented).
+- Materialize generated source bundles into sandbox/output directories with fail-closed read-back verification before optional callback policy execution (implemented).
 - Keep fail-closed behavior for malformed/untrusted responses.
 - Ensure logs remain redacted and bounded for sensitive fields.
 

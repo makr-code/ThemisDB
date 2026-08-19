@@ -52,10 +52,10 @@ Ausgabemodell für generierten Code (`header_code`, `implementation_code`, `test
 
 | Feld | Default | Bedeutung |
 | --- | --- | --- |
-| `llm_endpoint` | `http://localhost:8080` | Ziel-Endpunkt für geplante LLM-Integration |
+| `llm_endpoint` | `http://localhost:8080` | Ziel-Endpunkt für die Runtime-Generierung; wird optional durch `endpoint_invoke_fn` oder `setLlmHttpPostFn()` übersteuert |
 | `allowed_llm_endpoints` | leer | Optionale Allow-List für `llm_endpoint`; bei gesetzter Liste werden nur explizit erlaubte Endpunkte akzeptiert |
-| `sandbox_dir` | `/tmp/themis_plugin_sandbox` | Geplantes Sandbox-Arbeitsverzeichnis |
-| `output_dir` | `./generated_plugins` | Geplantes Ausgabeziel für Artefakte |
+| `sandbox_dir` | `/tmp/themis_plugin_sandbox` | Arbeitsverzeichnis für Sandbox-Artefakte; pro Lauf wird ein Bundle mit Quellcode und Manifest materialisiert |
+| `output_dir` | `./generated_plugins` | Audit-/Diagnose-Ausgabeziel; erhält eine persistierte Kopie jedes Sandbox-Bundles |
 | `max_request_body_bytes` | `262144` | Hartes Limit für serialisierte Request-Größe |
 | `max_response_body_bytes` | `8388608` | Hartes Limit für Endpoint-Response-Größe |
 
@@ -64,6 +64,8 @@ Ausgabemodell für generierten Code (`header_code`, `implementation_code`, `test
 - `validatePrompt()` prüft `description` (leer / >8192 Zeichen) sowie strukturierte Felder (`required_capabilities`, `dependencies`) auf Limits, Token-Format und Duplikate.
 - `generatePlugin()` validiert zuerst; bei Validierungsfehlern wird derselbe Fehler zurückgegeben.
 - `generatePlugin()` erzwingt zusätzlich Request-/Response-Größenlimits und optionales Endpoint-Allow-Listing fail-closed.
+- Bei aktiviertem `enable_sandbox_gate` materialisiert `generatePlugin()` Header-, Implementierungs-, Test-, CMake- und Manifest-Artefakte in `sandbox_dir`, verifiziert den Schreib-/Lese-Roundtrip fail-closed und kopiert das Bundle nach `output_dir`.
+- `sandbox_verify_fn` ist optional und wird erst nach erfolgreicher Artefakt-Materialisierung ausgeführt; ein Callback-Fehler lehnt das generierte Plugin fail-closed ab.
 
 ## Usage Snippet
 
@@ -89,7 +91,7 @@ Header werden über den regulären ThemisDB-Build bereitgestellt; keine zusätzl
 
 ## Troubleshooting
 
-- **`ERR_PLUGIN_LOAD_FAILED` bei gültigem Prompt:** Aktuell erwartetes Verhalten (Phase-1, Endpunkt nicht verdrahtet).
+- **`ERR_PLUGIN_LOAD_FAILED` bei gültigem Prompt:** Prüfe Endpoint-Erreichbarkeit, Allow-List, Response-Format sowie aktivierte Sandbox-/C1-/C2-Gates.
 - **Zu lange Beschreibung:** `description` auf maximal 8192 Zeichen begrenzen.
 
 ## Siehe auch

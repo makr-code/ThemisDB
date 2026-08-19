@@ -27,7 +27,7 @@ In scope:
 
 Out of scope:
 - quality of endpoint model output beyond basic structural checks
-- full sandbox build pipeline for generated artifacts
+- deployment-specific external sandbox engines beyond the built-in artifact materialization and callback gate
 - higher-level plugin lifecycle orchestration outside the generator contract
 
 ## Runtime Behavior and Limits
@@ -40,6 +40,7 @@ Out of scope:
 - Debug logging truncates prompt content to a bounded prefix.
 - Optional Wave C runtime hooks can be enabled in `AIPluginGenerator::Config`:
   - C1 safety gate (`enable_c1_cai_safety_gate`) enforces a minimum CAI safety score via callback.
+  - Sandbox gate (`enable_sandbox_gate`) materializes generated source bundles into `sandbox_dir`, verifies read/write integrity, persists an audit copy into `output_dir`, and optionally invokes `sandbox_verify_fn`.
   - C2 telemetry forwarding (`enable_c2_federated_telemetry`) forwards local generation metrics via callback.
 - The same Wave C C1/C2 hook model is also available in production `LLMAQLHandler` runtime paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) with fail-closed behavior when enabled callbacks are missing or fail.
 

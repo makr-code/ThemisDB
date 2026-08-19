@@ -32,17 +32,17 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Add explicit redaction policy for diagnostic output fields (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [~] Integrate optional sandbox verification gate for generated code artifacts (hook implemented; end-to-end rollout pending) (Target: Q1 2027)
-- [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
+- [x] Integrate optional sandbox verification gate for generated code artifacts (artifact materialization + optional callback verification enforced in generator path) (Target: Q1 2027)
+- [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [x] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 
 ### Long-term (Q3 2027+)
 - [x] Wave C C1: Constitutional AI (CAI) safety module with 21 built-in principles, critic-revision loop, EthicsEvaluator integration, and CAI-01..15 + CAI-BENCH-01 coverage — `include/ai/cai_ethics_integration.h`, `tests/test_cai_safety_module.cpp`
 - [x] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, DP tuning, and FEDERATED-01..15 + FEDERATED-BENCH-01 coverage — `tests/test_federated_privacy_training.cpp`
 - [x] Human safety benchmark program for C1 (500 samples, 3 annotators) and convergence benchmark for C2 (10-node setup) — `tests/test_cai_safety_module.cpp` (CAI-BENCH-01), `tests/test_federated_privacy_training.cpp` (FEDERATED-BENCH-01)
-- [ ] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
-- [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
-- [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
+- [x] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
+- [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
+- [x] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 - [~] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027) — core impl + IEE integration + ALCE benchmark done
 - [~] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
 - [~] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
@@ -66,7 +66,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Integration suite with deterministic endpoint fixtures (Target: Q3 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
+- [x] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
 - [x] Enforce endpoint allow-list and payload size bounds (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
@@ -78,7 +78,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Validation-first execution path documented and verified
 - [x] Structured error handling for endpoint and parse failures verified
 - [x] Proxy benchmark mapping documented in performance expectations
-- [ ] Dedicated benchmark target registered
+- [x] Dedicated benchmark target registered
 - [x] Hardening follow-ups closed for endpoint safety controls
 
 ## Known Issues and Limitations
@@ -108,9 +108,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 - Joint paper: ThemisDB Integration of Research-Backed ML Features
 - Target venue window: MLSys 2028 / FAccT 2028
-- No dedicated benchmark executable exists for this module path yet.
+- Dedicated benchmark coverage exists via `benchmarks/bench_ai_plugin_generator.cpp` / `benchmarks/ai/bench_ai_plugin_generator.cpp`.
 - Advanced field-level prompt validation remains incomplete.
-- Sandbox verification for generated artifacts is not enforced in the current runtime path.
+- Sandbox artifact materialization and optional callback verification are enforced when `enable_sandbox_gate` is enabled; external sandbox engines remain deployment-specific.
 - Wave B ML enhancements are pending Wave A deployment completion and latency prerequisites.
 
 ## Wave B (Q1–Q2 2027) Tracking
@@ -203,7 +203,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - ✅ Response parsing with malformed input rejection
 - ✅ Output field validation (code size, manifest fields)
 - ✅ Optional C1 CAI safety gate (Wave C feature)
-- ◐ Optional sandbox verification hook implemented; end-to-end enforcement still pending
+- ✅ Optional sandbox artifact materialization + callback verification enforced in the generator path
 - ✅ Optional C2 federated telemetry (Wave C feature)
 - ✅ Observability counters for error classes
 
@@ -220,13 +220,13 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ### Known Limitations (MODULE_GAPS.md reference)
 - HIGH-severity scanner findings were reviewed and either remediated or reclassified with source-backed explanations (2026-07-19)
 - MEDIUM-priority scope/documentation gaps remain tracked in `MODULE_GAPS.md`
-- Dedicated benchmark target for the AI plugin generator path is still pending
-- Sandbox verification is implemented as an optional hook; rollout/enforcement remains open
+- Dedicated benchmark target for the AI plugin generator path is registered and tracked in benchmark docs
+- Sandbox verification now includes built-in artifact materialization, read-back verification, and optional callback enforcement
 
 ### Acceptance Criteria Status
 - [x] Validation-first execution path implemented and verified
 - [x] Structured error handling for all failure points
-- [~] Hardening follow-ups substantially complete: endpoint safety, payload validation, and observability counters are in place; benchmark/sandbox rollout remains open
+- [x] Hardening follow-ups complete for endpoint safety, payload validation, observability counters, benchmark coverage, and sandbox artifact verification
 - [x] API documentation complete and comprehensive
 - [x] Implementation semantics documented at function level
 - [x] Roadmap and Future Enhancements synchronized (2026-07-19)
