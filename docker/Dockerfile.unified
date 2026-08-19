@@ -14,8 +14,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_ROOT=/opt/vcpkg
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
-ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-ENV GIT_SSL_CAINFO=/etc/ssl/certs/ca-certificates.crt
+
+# Fetch pinned vcpkg source archive at Docker build time to avoid
+# in-container git TLS/proxy trust-chain issues.
+ADD https://github.com/microsoft/vcpkg/archive/10b7a178346f3f0abef60cecd5130e295afd8da4.tar.gz /tmp/vcpkg.tar.gz
 
 # Install build essentials (combined layer for efficiency)
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -24,11 +26,11 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 python3 perl nasm autoconf \
         automake libtool && \
-    git config --global http.sslCAInfo /etc/ssl/certs/ca-certificates.crt && \
     rm -rf /var/lib/apt/lists/* && \
-    git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
+    tar -xzf /tmp/vcpkg.tar.gz -C /opt && \
+    mv /opt/vcpkg-10b7a178346f3f0abef60cecd5130e295afd8da4 ${VCPKG_ROOT} && \
+    rm -f /tmp/vcpkg.tar.gz && \
     cd ${VCPKG_ROOT} && \
-    git checkout 10b7a178346f3f0abef60cecd5130e295afd8da4 && \
     ./bootstrap-vcpkg.sh -disableMetrics
 
 # ============================================================================
