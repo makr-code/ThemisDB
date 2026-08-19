@@ -118,7 +118,7 @@ const PluginMetrics::PluginStats& PluginMetrics::getStats(const std::string& plu
     return empty_stats;
 }
 
-std::map<std::string, PluginMetrics::PluginStats> PluginMetrics::getAllStats() const {
+std::unordered_map<std::string, PluginMetrics::PluginStats> PluginMetrics::getAllStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     return stats_;
