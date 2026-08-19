@@ -254,6 +254,14 @@ struct MLServingConfig {
     MLBackendType     backend      = MLBackendType::AUTO;
     ONNXBackendConfig onnx_config;
     TFServingConfig   tf_config;
+
+    /// Default execution policy applied automatically to every infer() call
+    /// when the caller does not supply an explicit BoundedExecutionPolicy.
+    /// When unconstrained (all fields zero, the default), the policy
+    /// enforcement layer is bypassed entirely to avoid overhead.
+    /// Set any non-zero field to activate per-client concurrency or
+    /// latency enforcement without modifying individual call sites.
+    ::themis::analytics::BoundedExecutionPolicy default_policy;
 };
 
 /**

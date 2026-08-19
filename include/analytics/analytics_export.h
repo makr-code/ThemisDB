@@ -56,6 +56,13 @@ struct ExportOptions {
     int compression_level = 3;
     size_t batch_size = 10000;  // Rows per batch
     bool include_metadata = true;
+
+    /// Per-export execution policy.  When constrained (any non-zero limit)
+    /// this policy is applied as the fallback when the caller invokes the
+    /// policy-aware exportToFile(batch, path, options, policy) overload with
+    /// an unconstrained explicit policy.  Enables a single-configuration-point
+    /// default without modifying every call site.
+    BoundedExecutionPolicy policy;
 };
 
 /**

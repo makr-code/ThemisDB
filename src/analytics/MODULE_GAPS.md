@@ -33,7 +33,10 @@ This file documents all documentation and code quality gaps in the **analytics**
 
 - [x] Closed: `ShardEntry_redeclaration` in `distributed_analytics.h` — redundant forward declaration `struct ShardEntry;` at class scope (line 155) removed; full definition at line 424 (now 422) remains. The duplicate declaration caused standalone compilation errors.
 - [x] Closed: `bounded_execution_policy_missing` — `BoundedExecutionPolicy` struct added to `analytics_api_contract.h` (§8); policy-aware `MLServingClient::infer(req, policy)` overload and `IAnalyticsExporter::exportToFile(batch, path, options, policy)` wrapper implemented with concurrency + timeout enforcement; `TIMEOUT`/`POLICY_REJECTED` status codes added to `MLServingStatus`; `POLICY_REJECTED` added to `ExportStatus`.
-- [ ] Open: `sanitizeUserContent_prefix_hardcoded` — 13-pattern injection prefix list in `llm_process_analyzer.cpp` is a static in-code list; should be externalized to operator-configurable file (Target: Q4 2026, tracked in ROADMAP §Phase 2).
+- [x] Closed: `sanitizeUserContent_prefix_hardcoded` — see Batch 6 above (Completed 2026-08-19 Batch 6).
+
+- [x] Closed: `sanitizeUserContent_prefix_hardcoded` — injection prefix list externalized to operator-configurable file; `LLMConfig::injection_prefix_config_path` added; `loadInjectionPrefixes()` helper loads from file with built-in 13-pattern fallback; `Impl` caches the loaded list at construction; `sanitizeUserContent()` now accepts the prefix vector as a parameter; default config file shipped at `config/analytics/injection_prefixes.txt` (Completed 2026-08-19 Batch 6).
+- [x] Closed: `bounded_execution_policy_not_in_config` — `BoundedExecutionPolicy default_policy` added to `MLServingConfig`; `MLServingClient::infer(req)` routes through `infer(req, default_policy)` when the policy is constrained; `BoundedExecutionPolicy policy` added to `ExportOptions`; `IAnalyticsExporter::exportToFile(batch, path, options, policy)` resolves the effective policy as explicit-policy > options.policy; 15 focused regression tests added in `test_analytics_bounded_execution_policy.cpp` (BEP-01..BEP-15) (Completed 2026-08-19 Batch 6).
 
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave B Gaps** (~300 IMPL gaps): OLAP optimization, streaming-join backpressure, model-serving circuit-breaker enhancement, distributed merge diagnostics

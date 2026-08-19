@@ -675,6 +675,10 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req) {
         resp.error_message = "No backend configured";
         return resp;
     }
+    // Apply the per-client default policy when configured (non-zero limits).
+    if (impl_->config.default_policy.isConstrained()) {
+        return infer(req, impl_->config.default_policy);
+    }
     return impl_->backend->infer(req);
 }
 

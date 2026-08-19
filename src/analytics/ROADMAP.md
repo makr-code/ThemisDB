@@ -87,7 +87,7 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] TF Serving secure transport baseline: HTTPS default + explicit plaintext opt-in (`allow_insecure_transport`) (Completed 2026-08-19)
   - [x] LLM response schema hardening for fraud/5R/prediction tasks (type/range/bounds checks) (Completed 2026-08-19)
   - [x] prompt injection mitigation in LLM process analyzer: `sanitizeUserContent()` strips control characters and known injection prefixes from all user-supplied JSON fields before prompt embedding (Completed 2026-08-19)
-  - [ ] externalize `sanitizeUserContent()` injection prefix list from static in-code list to a configuration file (Target: Q4 2026; current 13-pattern static list in `llm_process_analyzer.cpp` is functional but not operator-tunable)
+  - [x] externalize `sanitizeUserContent()` injection prefix list to a configuration file: `LLMConfig::injection_prefix_config_path` added; `loadInjectionPrefixes()` loads from file with 13-pattern fallback; `config/analytics/injection_prefixes.txt` shipped as default template (Completed 2026-08-19 Batch 6)
   - [x] fail-closed behavior verified for Arrow IPC/Parquet/Feather export (`throwArrowUnavailable()`) and Arrow Flight in-process fallback (Completed 2026-08-19)
   - [x] multiplication overflow fix in circuit breaker exponential backoff: bit-shift capped to 30 to prevent UB when `recovery_attempts ≥ 32` (Completed 2026-08-19)
 
@@ -120,8 +120,9 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] `BoundedExecutionPolicy` struct added to `analytics_api_contract.h` with full field semantics and enforcement contract documentation (Completed 2026-08-19)
   - [x] `MLServingClient::infer(req, policy)` overload implemented: concurrency (`max_concurrent_requests`) and timeout (`max_latency_ms`) enforcement; new `TIMEOUT` and `POLICY_REJECTED` status codes added to `MLServingStatus` (Completed 2026-08-19)
   - [x] `IAnalyticsExporter::exportToFile(batch, path, options, policy)` non-virtual wrapper implemented: concurrency and timeout enforcement using atomic in-flight counter; `POLICY_REJECTED` added to `ExportStatus` (Completed 2026-08-19)
-  - [ ] add targeted tests for policy enforcement paths in serving and export (Target: Q4 2026)
-  - [ ] integrate `BoundedExecutionPolicy` into `MLServingConfig` and `ExportOptions` for per-client/default policy configuration (Target: Q4 2026)
+  - [x] `BoundedExecutionPolicy default_policy` integrated into `MLServingConfig`: `infer(req)` routes through `infer(req, default_policy)` when constrained (Completed 2026-08-19 Batch 6)
+  - [x] `BoundedExecutionPolicy policy` integrated into `ExportOptions`: used as fallback in `exportToFile(…, policy)` when the explicit policy is unconstrained (Completed 2026-08-19 Batch 6)
+  - [x] 15 targeted regression tests added for policy enforcement paths (BEP-01..BEP-15 in `test_analytics_bounded_execution_policy.cpp`) (Completed 2026-08-19 Batch 6)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior across optional-backend and degraded states (Completed 2026-08-19)
@@ -172,6 +173,14 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
    - [x] Degraded-mode throughput ≥ 80% of normal (DC-04)
 - [x] comprehensive test coverage for distributed coordinator
    - [x] `tests/analytics/test_analytics_distributed_coordinator_focused.cpp` — CB-01..CB-04, CM-01..CM-04, TO-01..TO-06 tests (2026-08-15)
+- [x] BoundedExecutionPolicy integrated into MLServingConfig and ExportOptions (Batch 6, 2026-08-19)
+   - [x] `MLServingConfig::default_policy` — per-client default applied to every `infer()` call
+   - [x] `ExportOptions::policy` — per-export default used as fallback in `exportToFile(…, policy)`
+   - [x] `test_analytics_bounded_execution_policy.cpp` — BEP-01..BEP-15 regression tests (2026-08-19)
+- [x] injection prefix list externalized from static code to operator-configurable file (Batch 6, 2026-08-19)
+   - [x] `LLMConfig::injection_prefix_config_path` field added
+   - [x] `loadInjectionPrefixes()` helper with built-in 13-pattern fallback
+   - [x] `config/analytics/injection_prefixes.txt` default template shipped
 
 ## Known Issues and Limitations
 

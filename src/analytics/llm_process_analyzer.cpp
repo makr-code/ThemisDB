@@ -12,8 +12,10 @@
 
 #include "analytics/llm_process_analyzer.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <fstream>
 #include <iomanip>
 #include <list>
 #include <mutex>
@@ -28,6 +30,75 @@ namespace themis {
 // ============================================================================
 // Prompt Injection Sanitization
 // ============================================================================
+
+/// @brief Built-in default prompt-injection prefixes (lower-case).
+/// Applied when no operator-supplied config file is configured or when the
+/// file cannot be read.
+static const std::vector<std::string> kBuiltinInjectionPrefixes = {
+    "system:",
+    "### system",
+    "### instruction",
+    "ignore all",
+    "ignore previous",
+    "disregard",
+    "forget all previous",
+    "you are now",
+    "act as",
+    "jailbreak",
+    "</system>",
+    "<|im_start|>",
+    "<|system|>",
+};
+
+/**
+ * @brief Load the effective injection-prefix list for sanitizeUserContent().
+ *
+ * When @p config_path is non-empty the file is opened and each non-empty,
+ * non-comment line (lines starting with '#' are skipped) is lower-cased and
+ * added to the returned list.  If the path is empty, the file cannot be
+ * opened, or the file contains no qualifying lines, the built-in 13-pattern
+ * list is returned instead.
+ *
+ * @param config_path  Absolute or relative path to the operator-supplied
+ *                     prefix file.  Pass an empty string to use built-in defaults.
+ * @return             Effective lower-cased injection prefix list.
+ */
+static std::vector<std::string> loadInjectionPrefixes(const std::string &config_path) {
+    if (config_path.empty()) {
+        return kBuiltinInjectionPrefixes;
+    }
+
+    std::ifstream file(config_path);
+    if (!file.is_open()) {
+        spdlog::warn("LLMProcessAnalyzer: could not open injection prefix config '{}'; "
+                     "using built-in defaults ({} patterns)",
+                     config_path, kBuiltinInjectionPrefixes.size());
+        return kBuiltinInjectionPrefixes;
+    }
+
+    std::vector<std::string> prefixes;
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        // Normalize to lower-case for case-insensitive matching.
+        std::transform(line.begin(), line.end(), line.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        prefixes.push_back(std::move(line));
+    }
+
+    if (prefixes.empty()) {
+        spdlog::warn("LLMProcessAnalyzer: injection prefix config '{}' produced no entries; "
+                     "using built-in defaults ({} patterns)",
+                     config_path, kBuiltinInjectionPrefixes.size());
+        return kBuiltinInjectionPrefixes;
+    }
+
+    spdlog::info("LLMProcessAnalyzer: loaded {} injection prefixes from '{}'",
+                 prefixes.size(), config_path);
+    return prefixes;
+}
 
 /**
  * @brief Sanitize user-supplied content before embedding it in LLM prompts.
@@ -52,32 +123,16 @@ namespace themis {
  *       is lost.  The JSON syntax itself (quotes, braces) is preserved; only
  *       values that match injection patterns are neutralized.
  *
- * @param content   Serialized JSON string to sanitize.
- * @return          Sanitized copy safe for prompt embedding.
+ * @param content             Serialized JSON string to sanitize.
+ * @param injection_prefixes  Lower-case prefix list to redact; loaded via
+ *                            loadInjectionPrefixes() at construction time.
+ * @return                    Sanitized copy safe for prompt embedding.
  */
-static std::string sanitizeUserContent(const std::string &content) {
+static std::string sanitizeUserContent(const std::string &content,
+                                       const std::vector<std::string> &injection_prefixes) {
     // Hard cap: 32 KiB of user content per field embedded in a single prompt.
     // Exceeding this is almost certainly a flooding or context-exhaustion attack.
     constexpr size_t kMaxContentBytes = 32 * 1024;
-
-    // Known prompt-injection prefixes to redact (case-insensitive prefix match).
-    // These patterns are checked after lower-casing a sliding 40-char window so
-    // a complete-word match is not required; the redaction is conservative.
-    static const std::vector<std::string> kInjectionPrefixes = {
-        "system:",
-        "### system",
-        "### instruction",
-        "ignore all",
-        "ignore previous",
-        "disregard",
-        "forget all previous",
-        "you are now",
-        "act as",
-        "jailbreak",
-        "</system>",
-        "<|im_start|>",
-        "<|system|>",
-    };
 
     std::string out;
     const size_t limit = std::min(content.size(), kMaxContentBytes);
@@ -97,7 +152,7 @@ static std::string sanitizeUserContent(const std::string &content) {
         // Sliding window: check if this position starts a known injection prefix.
         // Build a lower-case window of up to 40 chars for comparison.
         bool injected = false;
-        for (const auto &prefix : kInjectionPrefixes) {
+        for (const auto &prefix : injection_prefixes) {
             if (i + prefix.size() > limit) {
                 continue;
             }
@@ -156,6 +211,11 @@ std::string sanitizeApiKey(const std::string &api_key) {
 struct LLMProcessAnalyzer::Impl {
     LLMConfig config;
 
+    /// Effective injection-prefix list, loaded at construction time.
+    /// Either the operator-supplied file contents (config.injection_prefix_config_path)
+    /// or the built-in kBuiltinInjectionPrefixes fallback.
+    std::vector<std::string> injection_prefixes;
+
     // Response cache entry
     struct CacheEntry {
         nlohmann::json response;
@@ -174,7 +234,9 @@ struct LLMProcessAnalyzer::Impl {
     // Statistics
     mutable CacheStats stats;
 
-    Impl(const LLMConfig &cfg) : config(cfg) {}
+    Impl(const LLMConfig &cfg)
+        : config(cfg)
+        , injection_prefixes(loadInjectionPrefixes(cfg.injection_prefix_config_path)) {}
 
     std::optional<nlohmann::json> getFromCache(const std::string &key) const {
         if (!config.enable_caching) {
@@ -444,8 +506,8 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "4. Mögliche Prozessoptimierungen\n\n";
             // SECURITY (prompt_injection): user-supplied trace/model are sanitized before
             // embedding to neutralize injection payloads hidden in field values.
-            ss << "Prozessdaten:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
-            ss << "Erwartetes Modell:\n" << sanitizeUserContent(data["model"].dump(2)) << "\n\n";
+            ss << "Prozessdaten:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
+            ss << "Erwartetes Modell:\n" << sanitizeUserContent(data["model"].dump(2), pImpl->injection_prefixes) << "\n\n";
             ss << "Gib die Antwort als JSON zurück mit den Feldern:\n";
             ss << "- conformance_score (0.0-1.0)\n";
             ss << "- deviations (Array mit activity, type, severity, description)\n";
@@ -457,8 +519,8 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "Basierend auf dem bisherigen Prozessverlauf, welche Aktivitäten werden als nächstes wahrscheinlich "
                   "ausgeführt?\n\n";
             // SECURITY (prompt_injection): sanitize before embedding.
-            ss << "Bisheriger Verlauf:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
-            ss << "Prozessmodell:\n" << sanitizeUserContent(data["model"].dump(2)) << "\n\n";
+            ss << "Bisheriger Verlauf:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
+            ss << "Prozessmodell:\n" << sanitizeUserContent(data["model"].dump(2), pImpl->injection_prefixes) << "\n\n";
             ss << "Gib die Top 3 wahrscheinlichsten nächsten Aktivitäten zurück als JSON:\n";
             ss << "- predictions (Array mit activity, probability, reasoning)\n";
             break;
@@ -472,7 +534,7 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "4. Richtiger Zeitpunkt (Zeitplan eingehalten?)\n";
             ss << "5. Richtige Applikationsform (Darreichungsform korrekt?)\n\n";
             // SECURITY (prompt_injection): sanitize before embedding.
-            ss << "Medikationsdaten:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
+            ss << "Medikationsdaten:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
             ss << "Gib die Antwort als JSON zurück:\n";
             ss << "- five_rights_check (Object mit right_patient, right_medication, right_dose, right_time, "
                   "right_route, overall_compliance, risk_level, corrective_actions)\n";
@@ -487,9 +549,9 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "4. Abweichungen von Bestellungen\n";
             ss << "5. Fehlende Dokumentation\n\n";
             // SECURITY (prompt_injection): sanitize before embedding.
-            ss << "Rechnungsdaten:\n" << sanitizeUserContent(data["trace"].dump(2)) << "\n\n";
+            ss << "Rechnungsdaten:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
             if (data.contains("context")) {
-                ss << "Historische Daten:\n" << sanitizeUserContent(data["context"].dump(2)) << "\n\n";
+                ss << "Historische Daten:\n" << sanitizeUserContent(data["context"].dump(2), pImpl->injection_prefixes) << "\n\n";
             }
             ss << "Gib die Antwort als JSON zurück:\n";
             ss << "- fraud_analysis (Object mit risk_score, detected_anomalies, flags, recommended_action)\n";
@@ -498,7 +560,7 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
         default:
             ss << "Process analysis task\n";
             // SECURITY (prompt_injection): sanitize before embedding.
-            ss << "Data: " << sanitizeUserContent(data.dump(2)) << "\n";
+            ss << "Data: " << sanitizeUserContent(data.dump(2), pImpl->injection_prefixes) << "\n";
             break;
     }
 
