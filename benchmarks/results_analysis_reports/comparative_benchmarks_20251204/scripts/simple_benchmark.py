@@ -43,7 +43,7 @@ console = Console()
 
 THEMISDB_URL = "http://localhost:8765"
 POSTGRESQL_CONN = "postgresql://benchmark:benchmark123@localhost:5432/benchmark"
-MONGODB_CONN = "mongodb://benchmark:benchmark123@localhost:27017/"
+MONGODB_CONN = "mongodb://localhost:27017/"
 
 WARMUP_ITERATIONS = 5
 BENCHMARK_ITERATIONS = 50

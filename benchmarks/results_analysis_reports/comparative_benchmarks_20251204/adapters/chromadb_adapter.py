@@ -125,7 +125,7 @@ class ChromaDBAdapter(BaseDatabaseAdapter):
         embedding = document.pop('embedding', None)
         if embedding is None:
             # Create deterministic pseudo-embedding from document
-            hash_val = hashlib.md5(json.dumps(document, sort_keys=True).encode()).hexdigest()
+            hash_val = hashlib.sha256(json.dumps(document, sort_keys=True).encode()).hexdigest()
             embedding = [float(int(hash_val[i:i+2], 16)) / 255.0 for i in range(0, 64, 2)]
             # Pad to 384 dimensions
             embedding = (embedding * 12)[:384]

@@ -41,7 +41,7 @@ console = Console()
 # Configuration
 THEMIS_URL = "http://localhost:8765"
 POSTGRES_CONN = "postgresql://benchmark:benchmark123@localhost:5432/benchmark"
-MONGODB_URI = "mongodb://benchmark:benchmark123@localhost:27017/"
+MONGODB_URI = "mongodb://localhost:27017/"
 
 class BenchmarkResults:
     def __init__(self, name: str):
