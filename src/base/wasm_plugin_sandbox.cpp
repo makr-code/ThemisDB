@@ -23,6 +23,7 @@
 #include <fstream>
 #include <spdlog/spdlog.h>
 #include <sstream>
+#include <unordered_set>
 
 namespace themis {
 namespace modules {
@@ -389,8 +390,11 @@ bool WasmPluginSandbox::loadFromFile(const std::string &path) {
 
     std::ifstream file(path, std::ios::binary | std::ios::ate);
     if (!file.is_open()) {
+        // GAP-FIX sensitive_data_logging: keep the full path in last_error_ for the
+        // caller but do not broadcast it to the log at ERROR level — file paths
+        // are treated as sensitive per MODULE_GAPS.md.
         last_error_ = "Cannot open WASM file: " + path;
-        spdlog::error("WasmPluginSandbox: {}", last_error_);
+        spdlog::error("WasmPluginSandbox: cannot open WASM file (see lastError() for details)");
         return false;
     }
 
@@ -629,17 +633,19 @@ bool WasmPluginSandbox::checkImportAllowlist() {
         return true;
     }
 
-    // Build a set of registered host function keys ("module.function")
-    std::vector<std::string> allowed;
-    allowed.reserve(host_fns_.size());
+    // GAP-FIX o_n_squared: build an unordered_set of allowed import keys so
+    // that the membership test inside the imports loop is O(1) on average
+    // rather than O(n) via std::find on a vector, reducing overall complexity
+    // from O(imports * host_fns) to O(imports + host_fns).
+    std::unordered_set<std::string> allowed_set;
+    allowed_set.reserve(host_fns_.size());
     for (const auto &hf : host_fns_) {
-        allowed.push_back(hf.module_name + "." + hf.function_name);
+        allowed_set.insert(hf.module_name + "." + hf.function_name);
     }
 
     std::vector<std::string> unknown;
     for (const auto &imp : module_info_.imports) {
-        bool found = std::find(allowed.begin(), allowed.end(), imp) != allowed.end();
-        if (!found) {
+        if (allowed_set.find(imp) == allowed_set.end()) {
             unknown.push_back(imp);
         }
     }
@@ -698,8 +704,13 @@ bool WasmPluginSandbox::launchOsSandbox(const std::string &module_name) {
         return false;
     }
 
-    for (const auto &w : os_sandbox_->launchWarnings()) {
-        load_warnings_.push_back("[OS sandbox] " + w);
+    // GAP-FIX string_concat_loop: capture launchWarnings() into a local to
+    // avoid re-calling the accessor on each iteration, and build the prefixed
+    // string with append() instead of operator+ to skip one temporary per call.
+    const auto& os_warnings = os_sandbox_->launchWarnings();
+    load_warnings_.reserve(load_warnings_.size() + os_warnings.size());
+    for (const auto &w : os_warnings) {
+        load_warnings_.push_back(std::string("[OS sandbox] ").append(w));
         spdlog::debug("WasmPluginSandbox: OS sandbox warning: {}", w);
     }
     return true;

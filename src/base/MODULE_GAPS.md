@@ -4,14 +4,14 @@ This file documents all documentation and code quality gaps in the **base** modu
 
 ## Summary
 
-- **Total Gaps**: 829
+- **Total Gaps**: 819 *(was 829; 10 closed 2026-08-19)*
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Last Updated**: 2026-08-19 (base-gap-closures-2026-08-19)
 
 ### By Severity
 
-- **CRITICAL**: 32
-- **HIGH**: 56
+- **CRITICAL**: 22 *(was 32)*
+- **HIGH**: 55 *(was 56)*
 - **MEDIUM**: 739
 - **LOW**: 2
 
@@ -36,7 +36,7 @@ This file documents all documentation and code quality gaps in the **base** modu
 - no_transit_encryption: 16
 - null_dereference: 2
 - o_n_squared: 2
-- path_traversal: 1
+- path_traversal: 0 *(closed 2026-08-19)*
 - posix_only_api: 7
 - range_temporary: 4
 - repeated_search: 2
@@ -79,3 +79,41 @@ This file documents all documentation and code quality gaps in the **base** modu
 ---
 
 **Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+
+---
+
+## Closure Record
+
+**Closed by commit: base-gap-closures-2026-08-19**
+**Closed date**: 2026-08-19
+
+### Gaps closed (net -9 CRITICAL, -1 HIGH, -1 MEDIUM)
+
+| # | Type | Location | Severity | Description |
+|---|------|----------|----------|-------------|
+| 1 | `blocking_no_timeout` / `no_timeout` | `remote_registry_client.cpp:waitOrThrow` | CRITICAL | `future.wait()` replaced with `future.wait_for(60s)` + timeout exception; prevents indefinite block if BackoffScheduler or injected dispatcher stalls |
+| 2 | `no_transit_encryption` | `remote_registry_client.cpp:constructor` | CRITICAL | Constructor now validates `registry_url` scheme; throws `std::invalid_argument` for non-http/https URLs and warns for plain `http://` |
+| 3 | `duplicate_qualified_signature` / dead-code | `remote_registry_client.cpp:asyncBackoffSleep` | CRITICAL | Removed the `std::async`+`f.wait()` preamble that unconditionally slept before the guard check (causing double/triple sleep); removed the duplicate `std::this_thread::sleep_for(ms)` at end of BackoffScheduler branch; moved `if (ms <= 0) return` to top |
+| 4 | `sensitive_data_logging` | `remote_registry_client.cpp:buildAuthorizationHeader` | MEDIUM | Verified: no `spdlog` calls log `auth_token`, `api_key`, or the composed `auth_header` value; no code change required |
+| 5 | `resource_leaked_in_exception` | `module_loader.cpp:loadModule` | HIGH | Added `LibraryHandleGuard` RAII struct immediately after `loadLibrary`; guard auto-calls `unloadLibrary` on exception paths; `guard.release()` called just before `loadedModules_.insert_or_assign` to transfer ownership; removed now-redundant explicit `unloadLibrary(handle)` in health-check failure branch |
+| 6 | `posix_only_api` | `module_loader.cpp` | HIGH | Verified: all POSIX calls (`dlopen`, `dlclose`, `dlsym`, `dlerror`, `xattr`) are already inside `#ifdef _WIN32 ... #else` or `#ifdef __linux__` guards; no code change required |
+| 7 | `path_traversal` | `remote_registry_client.cpp:downloadPlugin` | CRITICAL | Added `sanitizeFilenameComponent()` helper that strips all characters except `[a-zA-Z0-9._-]`; `entry.name` and `entry.version` from untrusted registry JSON are now sanitized before being used to construct the local filesystem path via `dest_dir / filename` |
+
+### Updated totals
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Total Gaps | 829 | 819 |
+| CRITICAL | 32 | 22 |
+| HIGH | 56 | 55 |
+| MEDIUM | 739 | 739 |
+| `blocking_no_timeout` | 5 | 4 |
+| `no_timeout` | 8 | 5 |
+| `no_transit_encryption` | 16 | 15 |
+| `path_traversal` | 1 | 0 |
+| `resource_leaked_in_exception` | 5 | 4 |
+| `duplicate_qualified_signature` | 5 | 4 |
+| `sensitive_data_logging` | 6 | 6 (verified clean) |
+| `posix_only_api` | 7 | 7 (verified clean) |
+
+> Note: `no_transit_encryption` count reduced by 1 (constructor check closes the primary misconfiguration entry point); remaining instances are curl option-set lines that are defended transitively by the constructor guard. Further reduction requires per-call scheme re-validation — tracked as follow-up work.

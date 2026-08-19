@@ -56,13 +56,28 @@ BackoffDispatcherState &dispatcherState() {
     return state;
 }
 
+/**
+ * @brief Wait on a future with a 60-second hard timeout.
+ *
+ * Replaces the previous unbounded `future.wait()` which could block forever
+ * if a BackoffScheduler or injected dispatcher stalled (gap:
+ * blocking_no_timeout / no_timeout).
+ *
+ * @param future  The future to wait on; must be valid.
+ * @param source  Human-readable label used in the exception message.
+ * @throws std::runtime_error if the future is invalid or times out.
+ */
 void waitOrThrow(std::future<void> &&future, const char *source) {
     if (!future.valid()) {
         throw std::runtime_error(std::string("RemoteRegistryClient: ") + source
                                  + " returned invalid future; ensure the dispatcher returns "
                                    "a valid future object");
     }
-    future.wait();
+    const auto status = future.wait_for(std::chrono::seconds(60));
+    if (status == std::future_status::timeout) {
+        throw std::runtime_error(std::string("RemoteRegistryClient: ") + source
+                                 + " timed out after 60 seconds");
+    }
 }
 
 // Optional externally provided dispatcher for delayed execution (e.g., TaskScheduler).
@@ -167,6 +182,30 @@ long clampedCurlTimeout(int config_timeout, int remaining_ms) {
     return static_cast<long>(effective > 0 ? effective : 1);
 }
 
+/**
+ * @brief Sanitize a plugin name or version string for use as a filename component.
+ *
+ * Replaces any character that is not an alphanumeric, hyphen, dot, or underscore
+ * with an underscore.  This prevents path-traversal attacks when the name/version
+ * originates from an untrusted registry response (gap: path_traversal).
+ *
+ * @param component  The raw name or version string from the registry.
+ * @return A filesystem-safe string that contains no path separators or control chars.
+ */
+std::string sanitizeFilenameComponent(const std::string &component) {
+    std::string out;
+    out.reserve(component.size());
+    for (char c : component) {
+        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '-' || c == '_'
+            || c == '.') {
+            out += c;
+        } else {
+            out += '_';
+        }
+    }
+    return out;
+}
+
 // CURL write callback: accumulates response body into a std::string.
 size_t writeStringCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     const size_t total = size * nmemb;
@@ -229,6 +268,22 @@ std::string sha256File(const std::string &path) {
 
 RemoteRegistryClient::RemoteRegistryClient(const RegistryConfig &config) : config_(config) {
     spdlog::info("RemoteRegistryClient: registry_url='{}' verify_ssl={}", config_.registry_url, config_.verify_ssl);
+
+    // Gap: no_transit_encryption — validate URL scheme at construction time so
+    // callers receive an early, clear error rather than a silent mis-configuration.
+    if (!config_.registry_url.empty()) {
+        const auto &url = config_.registry_url;
+        const bool is_https = (url.size() >= 8 && url.substr(0, 8) == "https://");
+        const bool is_http  = (url.size() >= 7 && url.substr(0, 7) == "http://");
+        if (!is_https && !is_http) {
+            throw std::invalid_argument(
+                "RemoteRegistryClient: registry_url must use http:// or https:// scheme: " + url);
+        }
+        if (is_http) {
+            spdlog::warn("RemoteRegistryClient: registry_url uses plaintext HTTP (not HTTPS); "
+                         "transit encryption is disabled. Use https:// for production.");
+        }
+    }
 }
 
 RemoteRegistryClient::~RemoteRegistryClient() = default;
@@ -309,6 +364,8 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEn
     }
 
     // Determine local file name: <name>-<version>.<platform_ext>
+    // Sanitize name and version to prevent path-traversal (gap: path_traversal):
+    // registry responses are untrusted; a crafted name/version could escape dest_dir.
 #if defined(_WIN32)
     const std::string ext = ".dll";
 #elif defined(__APPLE__)
@@ -316,7 +373,14 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEn
 #else
     const std::string ext = ".so";
 #endif
-    const std::string filename = entry.name + "-" + entry.version + ext;
+    const std::string safe_name    = sanitizeFilenameComponent(entry.name);
+    const std::string safe_version = sanitizeFilenameComponent(entry.version);
+    if (safe_name.empty()) {
+        result.error_message = "plugin name is empty or contains only unsafe characters";
+        spdlog::error("RemoteRegistryClient::downloadPlugin: {}", result.error_message);
+        return result;
+    }
+    const std::string filename = safe_name + "-" + safe_version + ext;
     std::filesystem::path dest_dir(config_.download_dir);
 
     // Create download directory if it doesn't exist.
@@ -400,20 +464,15 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(cons
 // =============================================================================
 
 /*static*/ void RemoteRegistryClient::asyncBackoffSleep(int ms) {
-    // Blocking sleep used by the synchronous retry loops in httpGet /
-    // httpGetBinary.  The async counterparts (listPluginsAsync, fetchPluginAsync,
-    // downloadPluginAsync) release the calling thread by running the entire
-    // operation — including this sleep — on a std::async worker thread.
-    // Dispatch the delay to a background thread via std::async so the
-    // sleep_for does not run on the calling (I/O) thread.  The calling thread
-    // blocks on f.wait() rather than inside sleep_for, which decouples the
-    // back-off mechanism from the caller and allows future integration with
-    // cooperative schedulers (e.g. C++20 coroutines or a fibre-based thread
-    // pool) to yield the caller during the wait without changing call sites.
-    // Thread-creation overhead (< 1 ms) is negligible relative to the minimum
-    // back-off of 500 ms.
-    auto f = std::async(std::launch::async, [ms] { std::this_thread::sleep_for(std::chrono::milliseconds(ms)); });
-    f.wait();
+    // Blocking delay used by the synchronous retry loops in httpGet /
+    // httpGetBinary.  The actual sleep is delegated to either an injected
+    // dispatcher (e.g. a TaskScheduler or test-controlled clock) or to the
+    // module-internal BackoffScheduler, which runs a single shared worker
+    // thread so that only one OS thread is sleeping at a time.
+    //
+    // The async variants (listPluginsAsync / fetchPluginAsync /
+    // downloadPluginAsync) run the entire retry loop — including these sleeps —
+    // on a dedicated background thread, so the calling thread is never blocked.
     if (ms <= 0) {
         return;
     }
@@ -450,12 +509,6 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(cons
     // thread per backoff when no dispatcher is injected.
     auto future = BackoffScheduler::instance().schedule(delay);
     waitOrThrow(std::move(future), "internal backoff scheduler for retry delay");
-    // Synchronous blocking sleep used by the synchronous (blocking) API path.
-    // When the caller needs non-blocking behaviour it should use the Async
-    // variants (listPluginsAsync / fetchPluginAsync / downloadPluginAsync)
-    // which run the entire retry loop — including these sleeps — on a dedicated
-    // background thread, freeing the calling thread immediately.
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {

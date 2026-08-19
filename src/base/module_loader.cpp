@@ -427,6 +427,18 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         updateMetrics(false, 0, result.errorCode);
         return result;
     }
+
+    // Gap: resource_leaked_in_exception — RAII guard ensures the library handle
+    // is released if any exception propagates before the handle is transferred
+    // to loadedModules_.  Call guard.release() just before insert_or_assign so
+    // the stored module owns the handle from that point onward.
+    struct LibraryHandleGuard {
+        void *h;
+        ModuleLoader *loader;
+        explicit LibraryHandleGuard(void *handle, ModuleLoader *l) : h(handle), loader(l) {}
+        ~LibraryHandleGuard() { if (h) { loader->unloadLibrary(h); } }
+        void release() { h = nullptr; }
+    } handleGuard(handle, this);
     
     // Step 7b: Extract metadata from loaded handle if not already valid
     // This optimizes by eliminating the double-load issue
@@ -466,9 +478,9 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         spdlog::debug("STAGE: ACTIVATING - {}", moduleName);
         
         if (!runHealthChecks(module, result)) {
-            // Health check failed - unload and return error
+            // Health check failed; handleGuard will call unloadLibrary(handle)
+            // automatically when it goes out of scope — no explicit call needed.
             spdlog::error("Health checks failed for module: {}", moduleName);
-            unloadLibrary(handle);
             // Log health check / activation failure to per-plugin audit trail
             auto& auditor = PluginSecurityAuditor::instance();
             auditor.logEvent({
@@ -492,6 +504,9 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     
     {
         std::unique_lock<std::shared_mutex> lk(modulesMutex_);
+        // Transfer ownership of the handle to the module map; release the
+        // RAII guard so it no longer calls unloadLibrary on destruction.
+        handleGuard.release();
         loadedModules_.insert_or_assign(module.name, module);
     }
     ModuleRegistry::instance().registerModule(module);

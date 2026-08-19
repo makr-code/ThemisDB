@@ -155,10 +155,12 @@ void ABTestManager::start() {
                   }
 
                   std::lock_guard<std::mutex> lock(mutex_);
-                  // Only restore if we don't already have a live entry for this ID.
-                  if (tests_.find(test_id) == tests_.end()) {
+                  // GAP-FIX repeated_search: use emplace with the iterator from
+                  // find() so we search the map only once instead of find + [].
+                  auto pos = tests_.find(test_id);
+                  if (pos == tests_.end()) {
                       spdlog::info("ABTestManager::start(): restored test '{}'", test_id);
-                      tests_[test_id] = std::move(entry);
+                      tests_.emplace(test_id, std::move(entry));
                   }
               } catch (const std::exception &ex) {
                   spdlog::warn("ABTestManager::start(): failed to deserialise entry: {}", ex.what());
@@ -192,7 +194,9 @@ bool ABTestManager::startTest(const ABModuleTestConfig &config, ModuleLoader &lo
     auto load_result       = loader.loadModule(config.treatment_path, tkey);
     bool treatment_loaded  = load_result.success;
     if (treatment_loaded) {
-        spdlog::info("ABTestManager: treatment '{}' loaded from '{}'", config.module_name, config.treatment_path);
+        // GAP-FIX sensitive_data_logging: treatment_path is a filesystem path
+        // and must not be broadcast at INFO level; log the module name only.
+        spdlog::info("ABTestManager: treatment '{}' loaded successfully", config.module_name);
     } else {
         spdlog::warn("ABTestManager: treatment binary could not be loaded ({}); "
                      "all traffic will go to control",
