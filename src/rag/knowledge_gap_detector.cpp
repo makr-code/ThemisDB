@@ -11,6 +11,7 @@
 
 #include "rag/knowledge_gap_detector.h"
 #include <cctype>
+#include <map>
 #include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>

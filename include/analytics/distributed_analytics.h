@@ -151,8 +151,6 @@ private:
  */
 class DistributedAnalyticsSharding {
 public:
-    // Forward declaration for internal shard bookkeeping
-    struct ShardEntry;
     /**
      * Configuration knobs.
      */
@@ -352,6 +350,9 @@ public:
         const themis::analytics::OLAPQuery& query);
 
 private:
+    // Forward declaration for private helpers that take ShardEntry parameters.
+    struct ShardEntry;
+
     // ---------------------------------------------------------------
     // Internal helpers
     // ---------------------------------------------------------------

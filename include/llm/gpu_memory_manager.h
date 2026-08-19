@@ -12,6 +12,7 @@
 
 #pragma once
 
+#include <atomic>
 #include <cstddef>
 #include <functional>
 #include <string>
