@@ -83,6 +83,9 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] `benchmarks/analytics/bench_streaming_window.cpp` added (7 benchmarks covering throughput, eviction, flush latency)
   - [x] `benchmarks/analytics/bench_analytics_distributed_coordinator.cpp` added (4 release gates: DC-01..DC-04)
 - [~] consistency hardening for optional dependency and fallback behavior (Target: Q3 2026)
+  - [x] model import integrity guardrails: optional SHA-256 verification API + fail-closed enforcement toggle (`require_model_integrity`) (Completed 2026-08-19)
+  - [x] TF Serving secure transport baseline: HTTPS default + explicit plaintext opt-in (`allow_insecure_transport`) (Completed 2026-08-19)
+  - [x] LLM response schema hardening for fraud/5R/prediction tasks (type/range/bounds checks) (Completed 2026-08-19)
 
 ## Planned Features
 
@@ -111,8 +114,11 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 - [ ] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior across optional-backend and degraded states (Target: Q4 2026)
-- [ ] enforce consistent diagnostics for parse/input/state validation failures (Target: Q4 2026)
+- [~] standardize fail-closed behavior across optional-backend and degraded states (Target: Q4 2026)
+  - [x] fail-closed policy for insecure TF Serving transport (Completed 2026-08-19)
+  - [x] fail-closed policy for model import integrity mismatch (Completed 2026-08-19)
+- [~] enforce consistent diagnostics for parse/input/state validation failures (Target: Q4 2026)
+  - [x] stricter LLM JSON schema validation for high-risk tasks (Completed 2026-08-19)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for high-load streaming, distributed merge, and integration failure paths (Completed 2026-07-29 — test_analytics_contract_hardening_focused.cpp, ANC-01..ANC-16)

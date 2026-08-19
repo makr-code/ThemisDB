@@ -8,6 +8,12 @@ This file documents all documentation and code quality gaps in the **analytics**
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
+### Gap Closure Update (2026-08-19)
+
+- [x] Closed: `model_integrity_gap` for model import path by adding SHA-256 verification API and fail-closed enforcement toggle in `model_serving`.
+- [x] Closed: `no_transit_encryption` defaults in TF serving path by switching to HTTPS default and explicit insecure transport opt-in.
+- [x] Closed: `unvalidated_llm_output` hardening for fraud/5R/prediction tasks with strict schema/type/range/bounds validation.
+
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave B Gaps** (~300 IMPL gaps): OLAP optimization, streaming-join backpressure, model-serving circuit-breaker enhancement, distributed merge diagnostics
 - **Wave B DOC Gaps** (~200): Performance tuning guide, failure-mode runbook, operator dashboard documentation

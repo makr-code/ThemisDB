@@ -196,10 +196,11 @@ private:
  * Configuration for TFServingBackend.
  */
 struct TFServingConfig {
-    std::string base_url   = "http://localhost:8501"; ///< TF Serving REST API base URL
-    int         timeout_ms = 5000;                    ///< HTTP request timeout
-    bool        verify_ssl = true;                    ///< Verify TLS certificates
-    std::string api_key;                              ///< Optional bearer token / API key
+    std::string base_url                 = "https://localhost:8501"; ///< TF Serving REST API base URL
+    int         timeout_ms               = 5000;                     ///< HTTP request timeout
+    bool        verify_ssl               = true;                     ///< Verify TLS certificates
+    bool        allow_insecure_transport = false;                    ///< Allow plaintext HTTP when explicitly enabled
+    std::string api_key;                                              ///< Optional bearer token / API key
 };
 
 /**
@@ -348,4 +349,3 @@ std::string mlBackendTypeName(MLBackendType type);
 
 } // namespace analytics
 } // namespace themisdb
-

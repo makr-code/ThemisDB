@@ -426,6 +426,20 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         return resp;
     }
 
+    const std::string &base_url = impl_->config.base_url;
+    const bool is_http = base_url.rfind("http://", 0) == 0;
+    if (is_http && !impl_->config.allow_insecure_transport) {
+        resp.status        = MLServingStatus::INVALID_INPUT;
+        resp.error_message
+            = "Insecure TF Serving transport blocked: HTTP requires allow_insecure_transport=true";
+        spdlog::warn("MLServing[TF]: blocked insecure transport for model '{}' (base_url={})", req.model_name, base_url);
+        return resp;
+    }
+    if (is_http && !impl_->config.verify_ssl) {
+        spdlog::warn("MLServing[TF]: insecure HTTP with TLS verification disabled for model '{}' (base_url={})",
+                     req.model_name, base_url);
+    }
+
     // Build JSON payload: { "inputs": { "<name>": [[...]] } }
     json payload;
     json inputs_json = json::object();
@@ -442,7 +456,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     spdlog::debug("MLServing[TF]: prepared payload for model '{}': {} bytes", req.model_name, json_body.size());
 
     // Build URL
-    std::string url = impl_->config.base_url + "/v1/models/" + req.model_name;
+    std::string url = base_url + "/v1/models/" + req.model_name;
     if (!req.model_version.empty()) {
         url += "/versions/" + req.model_version;
     }

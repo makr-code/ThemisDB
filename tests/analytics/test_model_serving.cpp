@@ -23,7 +23,11 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
+#include <iomanip>
+#include <openssl/sha.h>
+#include <sstream>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -101,6 +105,18 @@ static AutoMLModel trainRegressor(int n = 60) {
     cfg.ensemble            = false;
     cfg.random_seed         = 42;
     return automl.trainRegressor(data, cfg);
+}
+
+static std::string sha256Hex(std::string_view input) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (unsigned char byte : hash) {
+        oss << std::setw(2) << static_cast<int>(byte);
+    }
+    return oss.str();
 }
 
 // ============================================================================
@@ -450,6 +466,37 @@ TEST(ModelServingEngine, LoadModelThrowsOnDuplicate) {
 
     // Registering again with the same key must fail
     EXPECT_THROW(engine.loadModel("cls", "v1", blob), std::runtime_error);
+}
+
+TEST(ModelServingEngine, LoadModelWithIntegrityRejectsMismatch) {
+    ModelServingEngine source;
+    source.registerModel("cls", "v1", trainClassifier());
+    std::string blob = source.serializeModel("cls", "v1");
+
+    ModelServingEngine engine;
+    EXPECT_THROW(engine.loadModel("cls", "v1", blob, std::string(64, '0')), std::runtime_error);
+}
+
+TEST(ModelServingEngine, LoadModelWithIntegrityAcceptsValidHash) {
+    ModelServingEngine source;
+    source.registerModel("cls", "v1", trainClassifier());
+    std::string blob = source.serializeModel("cls", "v1");
+
+    ModelServingEngine engine;
+    ASSERT_NO_THROW(engine.loadModel("cls", "v1", blob, sha256Hex(blob)));
+    EXPECT_TRUE(engine.isRegistered("cls", "v1"));
+}
+
+TEST(ModelServingEngine, LoadModelRequiresHashWhenIntegrityConfigured) {
+    ModelServingConfig cfg;
+    cfg.require_model_integrity = true;
+    ModelServingEngine engine(cfg);
+
+    ModelServingEngine source;
+    source.registerModel("cls", "v1", trainClassifier());
+    std::string blob = source.serializeModel("cls", "v1");
+
+    EXPECT_THROW(engine.loadModel("cls", "v1", blob), std::invalid_argument);
 }
 
 // ============================================================================

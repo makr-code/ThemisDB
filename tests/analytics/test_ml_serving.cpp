@@ -234,6 +234,31 @@ TEST(TFServingBackendTest, CustomConfigConstruction) {
     EXPECT_NO_THROW(TFServingBackend backend(cfg));
 }
 
+TEST(TFServingBackendTest, DefaultConfigIsSecureByDefault) {
+    TFServingConfig cfg;
+    EXPECT_EQ("https://localhost:8501", cfg.base_url);
+    EXPECT_FALSE(cfg.allow_insecure_transport);
+    EXPECT_TRUE(cfg.verify_ssl);
+}
+
+TEST(TFServingBackendTest, InferRejectsHttpTransportWithoutExplicitOptIn) {
+#if defined(THEMIS_HAS_TF_SERVING) && defined(THEMIS_HAS_CURL)
+    TFServingConfig cfg;
+    cfg.base_url = "http://localhost:8501";
+    TFServingBackend backend(cfg);
+
+    MLServingRequest req;
+    req.model_name = "test_model";
+    req.inputs.push_back(MLTensor{"input", {1, 2}, {0.5f, 1.0f}});
+
+    auto resp = backend.infer(req);
+    EXPECT_EQ(MLServingStatus::INVALID_INPUT, resp.status);
+    EXPECT_NE(resp.error_message.find("Insecure"), std::string::npos);
+#else
+    GTEST_SKIP() << "TF Serving unavailable; insecure transport gate is runtime-only.";
+#endif
+}
+
 // ============================================================================
 // MLServingClient – AUTO backend
 // ============================================================================

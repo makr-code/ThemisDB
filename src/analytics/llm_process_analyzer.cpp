@@ -474,20 +474,94 @@ nlohmann::json LLMProcessAnalyzer::parseResponse(const std::string &raw_response
 // ============================================================================
 
 bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskType task_type) const {
+    constexpr std::size_t kMaxListSize      = 512;
+    constexpr std::size_t kMaxStringLength  = 4096;
+
+    const auto isBoundedString = [kMaxStringLength](const nlohmann::json &value) {
+        return value.is_string() && value.get_ref<const std::string &>().size() <= kMaxStringLength;
+    };
+
     switch (task_type) {
         case TaskType::ANALYZE_PROCESS:
             return response.contains("conformance_score") && response.contains("deviations")
                    && response.contains("compliance_issues") && response.contains("recommendations");
 
         case TaskType::PREDICT_NEXT:
-            return response.contains("predictions") && response["predictions"].is_array();
+            if (!response.contains("predictions") || !response["predictions"].is_array()) {
+                return false;
+            }
+            if (response["predictions"].size() > kMaxListSize) {
+                return false;
+            }
+            for (const auto &prediction : response["predictions"]) {
+                if (!prediction.is_object() || !prediction.contains("activity") || !prediction.contains("probability")
+                   || !prediction.contains("reasoning")) {
+                   return false;
+                }
+                if (!isBoundedString(prediction["activity"]) || !isBoundedString(prediction["reasoning"])
+                   || !prediction["probability"].is_number()) {
+                   return false;
+                }
+                const auto probability = prediction["probability"].get<double>();
+                if (probability < 0.0 || probability > 1.0) {
+                   return false;
+                }
+            }
+            return true;
 
         case TaskType::VERIFY_5R_RULE:
-            return response.contains("five_rights_check")
-                   && response["five_rights_check"].contains("overall_compliance");
+            if (!response.contains("five_rights_check") || !response["five_rights_check"].is_object()) {
+                return false;
+            }
+            if (!response["five_rights_check"].contains("overall_compliance")
+                || !response["five_rights_check"]["overall_compliance"].is_boolean()) {
+                return false;
+            }
+            if (response["five_rights_check"].contains("risk_level")
+                && !isBoundedString(response["five_rights_check"]["risk_level"])) {
+                return false;
+            }
+            if (response["five_rights_check"].contains("corrective_actions")) {
+                const auto &actions = response["five_rights_check"]["corrective_actions"];
+                if (!actions.is_array() || actions.size() > kMaxListSize) {
+                   return false;
+                }
+                for (const auto &action : actions) {
+                   if (!isBoundedString(action)) {
+                       return false;
+                   }
+                }
+            }
+            return true;
 
         case TaskType::DETECT_FRAUD:
-            return response.contains("fraud_analysis") && response["fraud_analysis"].contains("risk_score");
+            if (!response.contains("fraud_analysis") || !response["fraud_analysis"].is_object()
+                || !response["fraud_analysis"].contains("risk_score")
+                || !response["fraud_analysis"]["risk_score"].is_number()) {
+                return false;
+            }
+            {
+                const auto risk_score = response["fraud_analysis"]["risk_score"].get<double>();
+                if (risk_score < 0.0 || risk_score > 1.0) {
+                   return false;
+                }
+            }
+            if (response["fraud_analysis"].contains("detected_anomalies")) {
+                const auto &anomalies = response["fraud_analysis"]["detected_anomalies"];
+                if (!anomalies.is_array() || anomalies.size() > kMaxListSize) {
+                   return false;
+                }
+                for (const auto &anomaly : anomalies) {
+                   if (!isBoundedString(anomaly)) {
+                       return false;
+                   }
+                }
+            }
+            if (response["fraud_analysis"].contains("recommended_action")
+                && !isBoundedString(response["fraud_analysis"]["recommended_action"])) {
+                return false;
+            }
+            return true;
 
         default:
             return true; // Basic validation

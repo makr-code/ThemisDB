@@ -88,6 +88,9 @@ struct ModelServingConfig {
 
     /// Sliding-window size used to compute p99 latency.
     size_t latency_window   = 1'000;
+
+    /// Require SHA-256 integrity metadata for loadModel() operations.
+    bool   require_model_integrity = false;
 };
 
 // ============================================================================
@@ -287,10 +290,27 @@ public:
      * @throws std::invalid_argument if name or version is empty.
      * @throws std::runtime_error    if the registry is full or (name,version)
      *                                is already registered.
+     * @throws std::invalid_argument if integrity is required but no hash was provided.
+     * @throws std::runtime_error    if a provided SHA-256 hash does not match.
      */
     void loadModel(const std::string& name,
                    const std::string& version,
                    const std::string& serialized_data);
+
+    /**
+     * Deserialise and register a model with explicit SHA-256 integrity check.
+     *
+     * The caller provides the expected lowercase hex SHA-256 digest of
+     * serialized_data. The load operation fails closed on mismatch.
+     *
+     * @param expected_sha256_hex  Expected SHA-256 digest (64 lowercase hex chars).
+     * @throws std::invalid_argument if expected_sha256_hex is empty.
+     * @throws std::runtime_error    if digest mismatch.
+     */
+    void loadModel(const std::string& name,
+                   const std::string& version,
+                   const std::string& serialized_data,
+                   const std::string& expected_sha256_hex);
 
 private:
     struct Impl;

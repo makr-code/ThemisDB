@@ -1,6 +1,6 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-08-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/analytics/FUTURE_ENHANCEMENTS.md -->
 
 # Analytics Module — Public Header Future Enhancements
@@ -52,6 +52,8 @@ Planned enhancements to the **public header contract** in `include/analytics/`. 
 - Introduce `analytics_policy.h` to provide per-query resource quotas and access-policy contract.
 - Expose benchmark-reference latency and throughput notes alongside columnar and streaming hot paths.
 - Deprecate any legacy row-oriented APIs superseded by columnar execution and annotate migration paths.
+- extend model-serving contract from hash-integrity to signature/key-based verification metadata.
+- add explicit environment policy hooks for secure-only external inference endpoints.
 
 ### Long-Term
 
