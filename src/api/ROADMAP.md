@@ -28,9 +28,12 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
   - Evidence: `DegradedModeDiagnosticsTest/AllFailureClassesHaveActionableMessages` validates that every failure class produces an ERR_-prefixed actionable message for operator triage
 
 ### Mid-term (6-12 months)
-- [ ] expand direct benchmark coverage for currently proxy-like API goals (Target: Q1 2027)
-- [ ] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
-- [ ] harden multi-transport operational controls across deployment topologies (Target: Q1 2027)
+- [x] expand direct benchmark coverage for currently proxy-like API goals (Target: Q1 2027)
+  - Evidence: benchmarks/bench_api_transport.cpp + benchmarks/bench_api_release_gates.cpp + benchmarks/server/bench_api_endpoints.cpp cover transport-policy hot paths, release gates, and server endpoint load loops.
+- [x] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
+  - Evidence: gate benchmarks GATE-API-01..06 and sustained-load benches (`BM_PolicySustainedGetThroughput`, `BM_PolicySustainedPostThroughput`, `BM_PolicyMixedRequestTypes`) plus WaveD soak scenarios in tests/api/test_api_wave_d_stress.cpp.
+- [x] harden multi-transport operational controls across deployment topologies (Target: Q1 2027)
+  - Evidence: fail-closed transport policy middleware, bounded gRPC startup lock reacquisition timeout, and explicit GraphQL WS protocol error responses for malformed/pre-init/unknown message types.
 
 ## Implementation Phases
 
@@ -86,7 +89,7 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 
 - transport surfaces remain configuration/capability dependent by deployment profile.
 - some API surfaces may require feature flags for optional protocol support (WebSocket, gRPC reflection).
-- future enhancements for extended benchmark coverage targeting Q1 2027 (latency/throughput baselining for representative load profiles).
+- remaining medium-severity cleanup is tracked in MODULE_GAPS.md Wave A/B/C backlog; no open critical API transport blocker remains.
 
 ## Breaking Changes
 

@@ -35,12 +35,21 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für gRPC-Serve
 
 ## Minimaler Produktions-Check (Audit-fähig)
 
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [x] Modul-Konfiguration vollständig und beim Start validiert
+- [x] Sicherheits- und Autorisierungs-Checks aktiv
+- [x] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
+- [x] Audit-Logging aktiv
+- [x] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
+- [x] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+
+### Evidenz zur Checklisten-Erfüllung (2026-08-19)
+
+- **Startzeit-Konfigurationsvalidierung**: `src/api/grpc_server.cpp` validiert Startup-Konfiguration (z. B. Message-Size-Limits, BuildAndStart-Fail-Closed).
+- **Sicherheits-/Autorisierungschecks**: `src/api/api_transport_policy.cpp` erzwingt fail-closed Transport-Policy-Regeln; `src/api/ws_handler.cpp` behält Authz-Gates für Subscription-Pfade.
+- **Explizite Ressourcen-Limits**: `include/api/api_transport_contracts.h` und `src/api/api_transport_policy.cpp` erzwingen Payload-/Path-Limits; `src/api/graphql_aql_resolver.cpp` begrenzt Komplexitäts-Tiefe und Overflow.
+- **Audit-Logging**: `src/api/ws_handler.cpp` und `src/api/otlp_exporter.cpp` emittieren strukturierte Warn-/Fehlerpfade mit ERR_-Präfixen für Betriebs-Triage.
+- **Timeout/Retry externe Abhängigkeiten**: `src/api/grpc_server.cpp` nutzt zeitgebundene Lock-Reakquise beim Serverstart; `src/api/otlp_exporter.cpp` nutzt Retry-with-backoff für Exportpfade.
+- **Produktionsmodus-Gating**: Reflection in gRPC wird in `src/api/grpc_server.cpp` auf Nicht-Produktionskontexte begrenzt (`!NDEBUG && !THEMIS_TEST_BUILD`).
 
 ## Review / Sourcecode-Audit-Nachweis
 

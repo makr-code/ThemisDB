@@ -3274,7 +3274,7 @@ Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxyge
 // Location: src/api/graphql_aql_resolver.cpp:47
 // Problem: pointer_arithmetic_unbounded
 // Description: Pointer/array access without visible bounds check
-// Context: [&](const std::vector<Field>& fields, uint32_t depth) -> uint32_t {                  uint32_t local = 0;             ...
+// Context: uint32_t local = 0;      for (const auto& field : fields) {          const uint32_t argument_cost = static_cast<uint3...
 Task: Fix this finding only with minimal changes.
 Output: files, diff, tests, scanner-delta; keep it concise.
 Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.
