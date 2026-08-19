@@ -593,6 +593,9 @@ jobs:
       always() &&
       needs.publish-community.result == 'success'
     uses: ./.github/workflows/release-changelog.yml
+    permissions:
+      contents: read
+      pull-requests: read
     with:
       mode: update
       entry-title: "${{ github.ref_name }}"
