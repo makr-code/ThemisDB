@@ -22,6 +22,7 @@
 #include <chrono>
 #include <functional>
 #include <future>
+#include <rocksdb/db.h>
 
 namespace themis {
 namespace auth {

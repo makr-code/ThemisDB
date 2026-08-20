@@ -510,5 +510,3 @@ private:
 
 }  // namespace ingestion
 }  // namespace themis
-
-#endif  // THEMISDB_INCLUDE_INGESTION_BOUNDED_QUEUE_H

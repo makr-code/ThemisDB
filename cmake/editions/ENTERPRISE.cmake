@@ -3,6 +3,27 @@
 
 message(STATUS "Configuring ENTERPRISE edition...")
 
+if(NOT DEFINED THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "" OR NOT EXISTS "${THEMIS_LICENSE_FILE}")
+    message(FATAL_ERROR
+        "=============================================================\n"
+        "ENTERPRISE Edition REQUIRES embedded license file\n"
+        "=============================================================\n"
+        "\n"
+        "ENTERPRISE Edition cannot be configured without a valid\n"
+        "license file.\n"
+        "\n"
+        "Usage:\n"
+        "  cmake -B build -S . \\\n"
+        "    -DTHEMIS_EDITION=ENTERPRISE \\\n"
+        "    -DTHEMIS_LICENSE_FILE=/path/to/enterprise-license.json \\\n"
+        "    -DCMAKE_BUILD_TYPE=Release\n"
+        "\n"
+        "=============================================================\n"
+    )
+endif()
+
+message(STATUS "ENTERPRISE Edition: License requirement ENFORCED")
+
 # Hardware limits
 set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE STRING "GPU VRAM limit (GB)" FORCE)
 set(THEMIS_SHARDING_MAX_NODES 100 CACHE STRING "Maximum sharding nodes" FORCE)
@@ -24,47 +45,6 @@ endif()
 
 # Enterprise-specific features
 set(THEMIS_ENABLE_HSM_REAL ON CACHE BOOL "Real HSM available in ENTERPRISE edition")
-
-# ============================================================================
-# LICENSE REQUIREMENT FOR ENTERPRISE EDITION
-# ============================================================================
-# Release builds REQUIRE embedded license for production deployments
-# Debug builds are optional (for development)
-
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    if(NOT THEMIS_LICENSE_FILE)
-        message(FATAL_ERROR 
-            "=============================================================\n"
-            "ENTERPRISE Edition REQUIRES embedded license for Release build\n"
-            "=============================================================\n"
-            "\n"
-            "ENTERPRISE Edition is a commercial product that requires\n"
-            "a valid license for production deployments.\n"
-            "\n"
-            "Usage:\n"
-            "  cmake -B build -S . \\\n"
-            "    -DTHEMIS_EDITION=ENTERPRISE \\\n"
-            "    -DTHEMIS_LICENSE_FILE=/path/to/license.json \\\n"
-            "    -DCMAKE_BUILD_TYPE=Release\n"
-            "\n"
-            "Debug builds (development) do NOT require a license:\n"
-            "  cmake -B build -S . \\\n"
-            "    -DTHEMIS_EDITION=ENTERPRISE \\\n"
-            "    -DCMAKE_BUILD_TYPE=Debug\n"
-            "\n"
-            "Get license from: https://service.themisdb.org/license\n"
-            "Contact: licensing@themisdb.io\n"
-            "=============================================================\n"
-        )
-    endif()
-    message(STATUS "ENTERPRISE Edition: License requirement ENFORCED (Release)")
-elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    if(THEMIS_LICENSE_FILE)
-        message(STATUS "ENTERPRISE Edition: Debug with optional license")
-    else()
-        message(STATUS "ENTERPRISE Edition: Debug without license (development mode)")
-    endif()
-endif()
 
 # Tracing disabled by default but can be enabled
 if(NOT DEFINED THEMIS_ENABLE_TRACING)

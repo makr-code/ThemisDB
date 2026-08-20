@@ -318,6 +318,14 @@ public:
         ComplianceFramework fw,
         const ComplianceFrameworkRegistry& registry,
         const ComplianceContext& ctx);
+
+    /// Validate all enabled frameworks using a shared registry pointer
+    ComplianceValidationResult validateAll(
+        const std::vector<ComplianceFramework>& frameworks,
+        const std::shared_ptr<const ComplianceFrameworkRegistry>& registry,
+        const ComplianceContext& ctx) {
+        return validateAll(frameworks, *registry, ctx);
+    }
     
     /// Validate all enabled frameworks
     ComplianceValidationResult validateAll(

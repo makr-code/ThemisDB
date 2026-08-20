@@ -65,6 +65,7 @@ namespace llm {
 // Forward declarations
 class Subagent;
 class SubagentLifecycleManager;
+class ModelLoader;
 
 /**
  * @brief Result type for subagent operations.
@@ -72,7 +73,7 @@ class SubagentLifecycleManager;
  * Returns either a success value or an error string.
  */
 template <typename T>
-using SubagentResult = expected<T, std::string>;
+using SubagentResult = tl::expected<T, std::string>;
 
 /**
  * @brief Validation error for subagent configuration.

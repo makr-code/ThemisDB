@@ -15,7 +15,57 @@
 
 #pragma once
 
+#if defined(THEMIS_ENABLE_CUDA) && defined(__has_include)
+#if __has_include(<cuda_runtime.h>)
 #include <cuda_runtime.h>
+#define THEMIS_GPU_SAFE_OPS_HAS_CUDA 1
+#endif
+#endif
+
+#ifndef THEMIS_GPU_SAFE_OPS_HAS_CUDA
+#define THEMIS_GPU_SAFE_OPS_HAS_CUDA 0
+using cudaError_t = int;
+using cudaStream_t = void*;
+constexpr cudaError_t cudaSuccess = 0;
+constexpr cudaError_t cudaErrorNotReady = 34;
+constexpr cudaError_t cudaErrorMemoryAllocation = 2;
+constexpr cudaError_t cudaErrorInvalidConfiguration = 9;
+constexpr cudaError_t cudaErrorInvalidValue = 11;
+constexpr unsigned cudaStreamDefault = 0;
+
+inline const char* cudaGetErrorString(cudaError_t) noexcept {
+    return "CUDA runtime unavailable";
+}
+
+inline cudaError_t cudaSetDevice(int) noexcept {
+    return cudaSuccess;
+}
+
+inline cudaError_t cudaMalloc(void**, size_t) noexcept {
+    return 1;
+}
+
+inline cudaError_t cudaFree(void*) noexcept {
+    return cudaSuccess;
+}
+
+inline cudaError_t cudaStreamCreateWithPriority(cudaStream_t*, unsigned, int) noexcept {
+    return 1;
+}
+
+inline cudaError_t cudaStreamDestroy(cudaStream_t) noexcept {
+    return cudaSuccess;
+}
+
+inline cudaError_t cudaStreamSynchronize(cudaStream_t) noexcept {
+    return cudaSuccess;
+}
+
+inline cudaError_t cudaStreamQuery(cudaStream_t) noexcept {
+    return cudaSuccess;
+}
+#endif
+
 #include <memory>
 #include <stdexcept>
 #include <chrono>

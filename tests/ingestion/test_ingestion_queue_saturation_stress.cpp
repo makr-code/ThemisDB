@@ -408,4 +408,3 @@ TEST(IngestionQueueSaturationINGQ16, ResourceMonitorDistributedClusterSize) {
     EXPECT_EQ(per_node, 2000);  // 10000 / 5
 }
 
-}  // anonymous namespace

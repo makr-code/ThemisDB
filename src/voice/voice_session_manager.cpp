@@ -10,6 +10,8 @@
  */
 
 #include "voice/voice_session_manager.h"
+#include "utils/logger.h"
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <sstream>

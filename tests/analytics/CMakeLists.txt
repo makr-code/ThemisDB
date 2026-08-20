@@ -39,6 +39,18 @@ foreach(_src IN LISTS ANALYTICS_MODULE_TEST_SOURCES)
         )
     endif()
 
+    if(_stem STREQUAL "test_analytics_gap_closure")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/analytics/knowledge_base.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_analytics_bounded_execution_policy")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
+        )
+    endif()
+
     add_executable(${_target}
         "${_src}"
         ${_extra_sources}

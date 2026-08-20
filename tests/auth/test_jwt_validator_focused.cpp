@@ -1,8 +1,8 @@
 #include <chrono>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <unordered_set>
 #include <string>
 #include <vector>
 
@@ -13,24 +13,30 @@
 
 using namespace themis::auth;
 using nlohmann::json;
-using ::testing::_;
-using ::testing::Return;
-using ::testing::Throw;
 
 namespace themis {
 namespace auth {
 namespace tests {
 
 /**
- * @brief Mock TokenBlacklist for testing JTI revocation
+ * @brief Lightweight TokenBlacklist test double for JTI revocation
  */
 class MockTokenBlacklist : public TokenBlacklist {
-  public:
-    MOCK_METHOD(bool, isRevoked, (const std::string &), (const override));
-    MOCK_METHOD(void, revoke, (const std::string &, std::chrono::system_clock::time_point), (override));
-    MOCK_METHOD(void, clear, (), (override));
-    MOCK_METHOD(std::optional<std::chrono::system_clock::time_point>, getRevokedAt, (const std::string &),
-                (const override));
+    public:
+        bool isRevoked(const std::string &jti) const override {
+                return revoked_jtis_.count(jti) != 0;
+        }
+
+        void setRevoked(const std::string &jti, bool revoked) {
+                if (revoked) {
+                        revoked_jtis_.insert(jti);
+                } else {
+                        revoked_jtis_.erase(jti);
+                }
+        }
+
+    private:
+        std::unordered_set<std::string> revoked_jtis_;
 };
 
 // ============================================================================
@@ -175,7 +181,7 @@ TEST_F(JWTTokenBlacklistTest, RejectRevokedJTI) {
 
     // Simulate a revoked JTI
     std::string revoked_jti = "jti-12345";
-    EXPECT_CALL(*mock_blacklist_, isRevoked(revoked_jti)).WillOnce(Return(true));
+    mock_blacklist_->setRevoked(revoked_jti, true);
 
     // When a token with this JTI is validated, it should be rejected
     // (Implementation detail: the validator checks blacklist during parseAndValidate)
@@ -198,7 +204,7 @@ TEST_F(JWTTokenBlacklistTest, MissingJTIWithBlacklistAttached) {
     validator_.setTokenBlacklist(mock_blacklist_.get());
 
     // Mock reports not revoked when asked about empty jti
-    EXPECT_CALL(*mock_blacklist_, isRevoked("")).Times(::testing::AtLeast(0));
+    mock_blacklist_->setRevoked("", false);
 }
 
 // ============================================================================

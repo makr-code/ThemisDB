@@ -812,8 +812,10 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     std::vector<OLAPResult> partials;
     partials.reserve(active.size());
 
-    const bool has_timeout       = (config_.shard_timeout_ms > 0);
-    const auto per_shard_timeout = std::chrono::milliseconds(config_.shard_timeout_ms);
+    const uint32_t effective_timeout_ms =
+        (config_.shard_execution_timeout_ms > 0) ? config_.shard_execution_timeout_ms : config_.shard_timeout_ms;
+    const bool has_timeout = (effective_timeout_ms > 0);
+    const auto per_shard_timeout = std::chrono::milliseconds(effective_timeout_ms);
 
     const size_t parallel_limit
         = (config_.max_parallel_shards == 0) ? active.size() : std::min(active.size(), config_.max_parallel_shards);
@@ -888,7 +890,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                     ShardExecutionInfo info;
                     info.shard_id = entry.shard_id;
                     info.success  = false;
-                    info.error    = "timeout (" + std::to_string(config_.shard_timeout_ms) + " ms)";
+                    info.error    = "timeout (" + std::to_string(effective_timeout_ms) + " ms)";
 
                     // SAFETY CONTROL: Log timeout as a failure for circuit breaker
                     if (config_.enable_circuit_breaker) {
@@ -1004,10 +1006,10 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         }
     }
 
-    if (any_timeout && config_.shard_timeout_ms > 0) {
+    if (any_timeout && effective_timeout_ms > 0) {
         result.operator_hints.push_back(
             "One or more shards timed out; consider increasing shard_timeout_ms (current: " +
-            std::to_string(config_.shard_timeout_ms) + " ms) or inspecting shard health.");
+            std::to_string(effective_timeout_ms) + " ms) or inspecting shard health.");
     }
     for (const auto &s : open_cb_shards) {
         result.operator_hints.push_back(

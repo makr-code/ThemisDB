@@ -23,6 +23,8 @@
 #include "governance/policy_manager_versioned.h"
 
 #include <chrono>
+#include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <vector>
 
 namespace themis {

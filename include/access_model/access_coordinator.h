@@ -309,6 +309,41 @@ public:
      */
     virtual void onHotAccess(const AccessEvent& event) = 0;
 
+    /**
+     * @brief Convenience adapter for cache eviction events from legacy callers.
+     *
+     * This bridges the older listener-style API to the structured coordinator API.
+     */
+    virtual void onCacheEvicted(std::string_view key, TierLevel from_tier,
+                                std::size_t size_bytes, uint64_t access_count,
+                                std::chrono::seconds last_access_age_secs,
+                                std::string_view eviction_reason) {
+        EvictionEvent event;
+        event.key = std::string(key);
+        event.tier = from_tier;
+        event.reason = std::string(eviction_reason);
+        event.evicted_size_bytes = size_bytes;
+        event.access_count = access_count;
+        event.last_access_age_secs = last_access_age_secs;
+        onEviction(event);
+    }
+
+    /**
+     * @brief Convenience adapter for storage hot-access events from legacy callers.
+     *
+     * This bridges the older listener-style API to the structured coordinator API.
+     */
+    virtual void onStorageAccess(std::string_view key, TierLevel from_tier,
+                                uint64_t access_count,
+                                std::chrono::seconds access_window) {
+        AccessEvent event;
+        event.key = std::string(key);
+        event.current_tier = from_tier;
+        event.access_count = access_count;
+        event.access_window = access_window;
+        onHotAccess(event);
+    }
+
     /// ────────────────────────────────────────────────────────────────────
     /// Policy Configuration
     /// ────────────────────────────────────────────────────────────────────

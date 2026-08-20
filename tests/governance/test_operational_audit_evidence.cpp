@@ -47,6 +47,92 @@ protected:
     void TearDown() override {
         // Cleanup if needed
     }
+
+    static std::unordered_map<std::string, std::string> jsonToContext(
+        const nlohmann::json& j
+    ) {
+        std::unordered_map<std::string, std::string> context;
+        if (!j.is_object()) {
+            return context;
+        }
+        for (const auto& item : j.items()) {
+            if (item.value().is_string()) {
+                context[item.key()] = item.value().get<std::string>();
+            } else {
+                context[item.key()] = item.value().dump();
+            }
+        }
+        return context;
+    }
+
+    static OperationalEvent logEventCompat(
+        OperationalAuditLogger* logger,
+        OperationalEventType event_type,
+        const std::string& actor_id,
+        const std::string& actor_type,
+        const std::string& module_name,
+        const std::string& operation_name,
+        const std::string& resource_id,
+        const std::string& resource_type,
+        const std::string& action,
+        const std::string& result,
+        const std::string& classification,
+        int64_t operation_duration_us,
+        const std::vector<std::string>& compliance_tags,
+        const nlohmann::json& context_json,
+        const std::string& error_message = "",
+        const nlohmann::json& event_payload_json = nlohmann::json::object(),
+        const std::string& correlation_id = "",
+        const std::string& causality_parent_id = ""
+    ) {
+        OperationalEvent event;
+        event.event_type = event_type;
+        event.actor_id = actor_id;
+        event.actor_type = actor_type;
+        event.module_name = module_name;
+        event.operation_name = operation_name;
+        event.resource_id = resource_id;
+        event.resource_type = resource_type;
+        event.action = action;
+        event.result = result;
+        event.classification = classification;
+        event.operation_duration_us = operation_duration_us;
+        event.compliance_tags = compliance_tags;
+        event.context = jsonToContext(context_json);
+        event.error_message = error_message;
+        event.event_payload = event_payload_json.dump();
+        event.correlation_id = correlation_id;
+        event.causality_parent_id = causality_parent_id;
+        return logger->logEvent(event);
+    }
+
+    std::vector<ComplianceEvidence> collectEvidenceCompat(const std::string& requirement) {
+        return evidence_collector->collectEvidence(requirement, "test_collector");
+    }
+
+    ComplianceEvidence recordEvidenceCompat(
+        const std::string& requirement_id,
+        const std::string& requirement_type,
+        const std::string& evidence_type,
+        const std::string& description,
+        const std::string& source_event_id,
+        const nlohmann::json& data,
+        int64_t retention_days,
+        const std::string& audit_classification
+    ) {
+        ComplianceEvidence evidence;
+        evidence.requirement_id = requirement_id;
+        evidence.requirement_type = requirement_type;
+        evidence.evidence_type = evidence_type;
+        evidence.description = description;
+        evidence.source_event_id = source_event_id;
+        evidence.data_summary = data.dump();
+        evidence.audit_classification = audit_classification;
+        const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        evidence.retention_until_ms = now_ms + (retention_days * 24 * 3600 * 1000);
+        return evidence_collector->recordEvidence(evidence);
+    }
 };
 
 // ============================================================================
@@ -60,13 +146,13 @@ TEST_F(OperationalAuditTest, GOVObserv01_BasicEventLogging) {
     std::string test_policy = "policy_test_001";
     std::string test_resource = "resource_test_001";
     
-    nlohmann::json context = {{"test_context", "value"}};
+    std::unordered_map<std::string, std::string> context = {{"test_context", "value"}};
     
     // Log a policy evaluation event
     audit_logger->logPolicyEvaluation(
+        "corr_test_001",
         test_policy,
         "permit",
-        1500,  // 1.5ms operation time
         test_actor,
         context);
     
@@ -84,7 +170,7 @@ TEST_F(OperationalAuditTest, GOVObserv01_BasicEventLogging) {
     EXPECT_GT(event.timestamp_ms, 0);
     EXPECT_GT(event.sequence_number, 0);
     EXPECT_FALSE(event.event_id.empty());
-    EXPECT_EQ(event.operation_duration_us, 1500);
+    EXPECT_GE(event.operation_duration_us, 0);
     EXPECT_GT(event.logging_duration_us, 0);
     EXPECT_LT(event.logging_duration_us, 10000);  // Logging should be <10ms
 }
@@ -94,14 +180,17 @@ TEST_F(OperationalAuditTest, GOVObserv01_ComplianceCheckLogging) {
     
     std::string check_id = "check_001";
     std::string actor_id = "compliance_service";
-    std::vector<std::string> tags = {"EU_AI_ACT", "SOC2"};
+    std::unordered_map<std::string, std::string> context = {
+        {"tag_0", "EU_AI_ACT"},
+        {"tag_1", "SOC2"}
+    };
     
     audit_logger->logComplianceCheck(
+        "corr_check_001",
         check_id,
         "pass",
-        2500,
         actor_id,
-        tags);
+        context);
     
     auto events = audit_logger->queryEventsByActor(actor_id);
     ASSERT_GE(events.size(), 1);
@@ -109,7 +198,7 @@ TEST_F(OperationalAuditTest, GOVObserv01_ComplianceCheckLogging) {
     const auto& event = events.back();
     EXPECT_EQ(event.result, "pass");
     EXPECT_EQ(event.actor_id, actor_id);
-    for (const auto& tag : tags) {
+    for (const auto& tag : {std::string("EU_AI_ACT"), std::string("SOC2")}) {
         EXPECT_TRUE(std::find(event.compliance_tags.begin(),
                              event.compliance_tags.end(), tag) != event.compliance_tags.end());
     }
@@ -120,14 +209,15 @@ TEST_F(OperationalAuditTest, GOVObserv01_DataGovernanceLogging) {
     
     std::string resource_id = "user_pii_001";
     std::string actor_id = "dg_service";
-    nlohmann::json op_details = {{"columns_masked", 3}};
+    std::unordered_map<std::string, std::string> op_context = {{"columns_masked", "3"}};
     
     audit_logger->logDataGovernanceOp(
+        "corr_dg_001",
         "mask",
         resource_id,
+        true,
         actor_id,
-        800,
-        op_details);
+        op_context);
     
     auto events = audit_logger->queryEventsByResource(resource_id);
     ASSERT_GE(events.size(), 1);
@@ -148,8 +238,9 @@ TEST_F(OperationalAuditTest, GOVObserv02_EventCorrelation) {
     std::string actor = "policy_engine";
     
     // Log initial event with correlation ID
-    audit_logger->logEvent(
-        OperationalEventType::POLICY_EVALUATION,
+    logEventCompat(
+        audit_logger,
+        OperationalEventType::POLICY_EVALUATION_PERMIT,
         actor, "service", "policy_engine", "evaluate",
         "policy_1", "policy", "evaluate", "permit",
         "POLICY_DECISION", 1000, {"AUDIT"},
@@ -157,8 +248,9 @@ TEST_F(OperationalAuditTest, GOVObserv02_EventCorrelation) {
         correlation_id, "");
     
     // Log second related event with same correlation ID
-    audit_logger->logEvent(
-        OperationalEventType::COMPLIANCE_CHECK_PASSED,
+    logEventCompat(
+        audit_logger,
+        OperationalEventType::COMPLIANCE_CHECK_PASS,
         "compliance_service", "service", "compliance_engine", "check",
         "policy_1", "policy", "check", "pass",
         "COMPLIANCE_VERIFICATION", 500, {},
@@ -181,8 +273,9 @@ TEST_F(OperationalAuditTest, GOVObserv02_CausalityTracking) {
     
     // Log parent event
     auto parent_event = [&]() {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             actor, "service", "policy_engine", "evaluate",
             "policy_cause", "policy", "evaluate", "permit",
             "POLICY_DECISION", 1000, {},
@@ -195,8 +288,9 @@ TEST_F(OperationalAuditTest, GOVObserv02_CausalityTracking) {
     std::string parent_id = parent_event.event_id;
     
     // Log child event with parent causality
-    audit_logger->logEvent(
-        OperationalEventType::COMPLIANCE_CHECK_PASSED,
+    logEventCompat(
+        audit_logger,
+        OperationalEventType::COMPLIANCE_CHECK_PASS,
         actor, "service", "compliance_engine", "check",
         "policy_cause", "policy", "check", "pass",
         "COMPLIANCE_VERIFICATION", 500, {},
@@ -225,8 +319,9 @@ TEST_F(OperationalAuditTest, GOVObserv03_TimeRangeQueries) {
     
     // Log some events
     for (int i = 0; i < 3; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "actor_" + std::to_string(i), "service", "policy_engine", "eval",
             "res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", 100 * (i + 1), {},
@@ -266,8 +361,9 @@ TEST_F(OperationalAuditTest, GOVObserv04_EvidenceCollection) {
     
     // First, log some policy evaluation events
     for (int i = 0; i < 2; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "policy_service", "service", "policy_engine", "evaluate",
             "policy_" + std::to_string(i), "policy", "evaluate", "permit",
             "POLICY", 500, {"EU_AI_ACT"},
@@ -275,7 +371,7 @@ TEST_F(OperationalAuditTest, GOVObserv04_EvidenceCollection) {
     }
     
     // Collect evidence for requirement
-    evidence_collector->collectEvidence(req_type);
+    collectEvidenceCompat(req_type);
     
     // Verify evidence was collected
     auto evidence_list = evidence_collector->getEvidenceByRequirement(req_type);
@@ -294,8 +390,9 @@ TEST_F(OperationalAuditTest, GOVObserv04_EvidenceLinking) {
     // Test: Verify evidence linking to events
     
     // Log an event
-    audit_logger->logEvent(
-        OperationalEventType::POLICY_EVALUATION,
+    logEventCompat(
+        audit_logger,
+        OperationalEventType::POLICY_EVALUATION_PERMIT,
         "linker", "service", "policy_engine", "evaluate",
         "link_policy", "policy", "evaluate", "permit",
         "POLICY", 600, {},
@@ -306,7 +403,7 @@ TEST_F(OperationalAuditTest, GOVObserv04_EvidenceLinking) {
     std::string event_id = events.back().event_id;
     
     // Record evidence with link
-    evidence_collector->recordEvidence(
+    recordEvidenceCompat(
         "SOC2_CC7.2",
         "SOC2_CC7.2",
         "OPERATIONAL_EVENT",
@@ -333,8 +430,9 @@ TEST_F(OperationalAuditTest, GOVObserv05_EventExport) {
     
     // Log test events
     for (int i = 0; i < 2; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             export_actor, "service", "policy_engine", "eval",
             "exp_res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", 100 + i, {},
@@ -362,14 +460,15 @@ TEST_F(OperationalAuditTest, GOVObserv05_EvidenceExport) {
     std::string req_type = "ISO27001_A1";
     
     // Log events and collect evidence
-    audit_logger->logEvent(
+    logEventCompat(
+        audit_logger,
         OperationalEventType::POLICY_CREATED,
         "admin", "user", "policy_management", "create",
         "iso_policy", "policy", "create", "success",
         "POLICY_LIFECYCLE", 200, {"ISO27001"},
         nlohmann::json::object());
     
-    evidence_collector->collectEvidence(req_type);
+    collectEvidenceCompat(req_type);
     
     // Export evidence
     auto export_json = evidence_collector->exportEvidenceForAudit(req_type);
@@ -393,8 +492,9 @@ TEST_F(OperationalAuditTest, GOVObserv06_LoggingOverhead) {
     for (int i = 0; i < num_events; ++i) {
         int64_t simulated_op_duration = 10000 + (i * 100);  // 10ms base, increasing
         
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "perf_test", "service", "policy_engine", "eval",
             "perf_res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", simulated_op_duration, {},
@@ -422,8 +522,9 @@ TEST_F(OperationalAuditTest, GOVObserv06_CorrelationLatency) {
     
     // Log events with correlation
     for (int i = 0; i < 50; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "latency_test", "service", "policy_engine", "eval",
             "latency_res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", 100, {},
@@ -450,8 +551,9 @@ TEST_F(OperationalAuditTest, GOVObserv06_PerformanceMetrics) {
     
     // Log events
     for (int i = 0; i < 20; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "metrics_test", "service", "policy_engine", "eval",
             "metric_res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", 500 + (i * 10), {},
@@ -459,7 +561,8 @@ TEST_F(OperationalAuditTest, GOVObserv06_PerformanceMetrics) {
     }
     
     auto metrics = audit_logger->getPerformanceMetrics();
-    EXPECT_GT(metrics.total_operations, 0);
+    EXPECT_TRUE(metrics.contains("total_operations"));
+    EXPECT_GT(metrics["total_operations"].get<int64_t>(), 0);
     
     auto stats = audit_logger->getEventStatistics();
     EXPECT_TRUE(stats.contains("logging_latency_p50_us"));
@@ -475,8 +578,9 @@ TEST_F(OperationalAuditTest, GOVObserv06_PerformanceMetrics) {
 TEST_F(OperationalAuditTest, EdgeCase_NullCorrelationId) {
     // Test: Verify behavior with empty correlation IDs
     
-    audit_logger->logEvent(
-        OperationalEventType::POLICY_EVALUATION,
+    logEventCompat(
+        audit_logger,
+        OperationalEventType::POLICY_EVALUATION_PERMIT,
         "null_test", "service", "policy_engine", "eval",
         "null_res", "resource", "evaluate", "permit",
         "POLICY", 100, {},
@@ -517,8 +621,9 @@ TEST_F(OperationalAuditTest, EdgeCase_CircularBufferEviction) {
     
     // Log 10 events
     for (int i = 0; i < 10; ++i) {
-        small_logger.logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+            &small_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "eviction_test", "service", "policy_engine", "eval",
             "res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", 100, {},
@@ -539,8 +644,9 @@ TEST_F(OperationalAuditTest, ThreadSafety_ConcurrentLogging) {
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([&, t]() {
             for (int i = 0; i < events_per_thread; ++i) {
-                audit_logger->logEvent(
-                    OperationalEventType::POLICY_EVALUATION,
+                logEventCompat(
+        audit_logger,
+                    OperationalEventType::POLICY_EVALUATION_PERMIT,
                     "thread_" + std::to_string(t), "service", "policy_engine", "eval",
                     "res_" + std::to_string(t) + "_" + std::to_string(i), "resource", 
                     "evaluate", "permit",
@@ -565,8 +671,9 @@ TEST_F(OperationalAuditTest, ThreadSafety_ConcurrentQueries) {
     
     // Pre-populate with events
     for (int i = 0; i < 20; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "query_test_" + std::to_string(i % 4), "service", "policy_engine", "eval",
             "query_res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", 100, {},
@@ -606,7 +713,7 @@ TEST_F(OperationalAuditTest, Evidence_FingerprintIntegrity) {
     std::string evidence_id1, evidence_id2;
     
     // Record evidence twice with same data
-    evidence_collector->recordEvidence(
+    recordEvidenceCompat(
         "TEST_REQUIREMENT",
         "TEST_REQUIREMENT",
         "TEST_DATA",
@@ -621,7 +728,7 @@ TEST_F(OperationalAuditTest, Evidence_FingerprintIntegrity) {
         evidence_id1 = evidence1[0].evidence_id;
     }
     
-    evidence_collector->recordEvidence(
+    recordEvidenceCompat(
         "TEST_REQUIREMENT",
         "TEST_REQUIREMENT",
         "TEST_DATA",
@@ -643,7 +750,7 @@ TEST_F(OperationalAuditTest, Evidence_RetentionPolicy) {
     
     int64_t retention_days = 30;
     
-    evidence_collector->recordEvidence(
+    recordEvidenceCompat(
         "RETENTION_TEST",
         "RETENTION_TEST",
         "TEST_DATA",
@@ -658,7 +765,7 @@ TEST_F(OperationalAuditTest, Evidence_RetentionPolicy) {
         // Verify retention_until_ms is approximately 30 days in the future
         auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
-        int64_t expected_retention = now_ms + (retention_days * 24 * 3600 * 1000);
+        int64_t expected_retention = now_ms + (retention_days * 24LL * 3600LL * 1000LL);
         
         // Allow 1-minute variation
         int64_t tolerance_ms = 60000;
@@ -672,8 +779,9 @@ TEST_F(OperationalAuditTest, QueryByModule_MultipleEvents) {
     std::string test_module = "test_module_xyz";
     
     for (int i = 0; i < 5; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "module_test", "service", test_module, "eval",
             "mod_res_" + std::to_string(i), "resource", "evaluate", "permit",
             "POLICY", 100, {},
@@ -695,8 +803,9 @@ TEST_F(OperationalAuditTest, QueryByResource_MultipleEvents) {
     std::string test_resource = "test_resource_abc";
     
     for (int i = 0; i < 4; ++i) {
-        audit_logger->logEvent(
-            OperationalEventType::POLICY_EVALUATION,
+        logEventCompat(
+        audit_logger,
+            OperationalEventType::POLICY_EVALUATION_PERMIT,
             "actor_" + std::to_string(i), "service", "policy_engine", "eval",
             test_resource, "resource", "evaluate", "permit",
             "POLICY", 100, {},
@@ -723,10 +832,11 @@ TEST_F(OperationalAuditTest, PolicyLifecycle_AllEventTypes) {
     
     for (const auto& op : lifecycle_ops) {
         audit_logger->logPolicyLifecycle(
+            "corr_lifecycle_" + op,
             policy_id,
             op,
             admin,
-            nlohmann::json::object());
+            jsonToContext(nlohmann::json::object()));
     }
     
     auto events = audit_logger->queryEventsByActor(admin);
@@ -747,7 +857,7 @@ TEST_F(OperationalAuditTest, EventSerialization_JsonRoundTrip) {
     
     OperationalEvent original;
     original.event_id = "test_event_001";
-    original.event_type = OperationalEventType::POLICY_EVALUATION;
+    original.event_type = OperationalEventType::POLICY_EVALUATION_PERMIT;
     original.correlation_id = "corr_001";
     original.causality_parent_id = "parent_001";
     original.timestamp_ms = 1234567890000;
@@ -766,7 +876,7 @@ TEST_F(OperationalAuditTest, EventSerialization_JsonRoundTrip) {
     original.logging_duration_us = 250;
     original.context = {{"key", "value"}};
     original.error_message = "";
-    original.event_payload = {{"data", "payload"}};
+    original.event_payload = nlohmann::json({{"data", "payload"}}).dump();
     original.evidence_ids = {"ev1", "ev2"};
     
     // Serialize to JSON
@@ -797,7 +907,7 @@ TEST_F(OperationalAuditTest, EvidenceSerialization_JsonRoundTrip) {
     original.source_event_id = "event_001";
     original.fingerprint = "abc123def456";
     original.data_summary = "{\"test\": \"data\"}";
-    original.retention_until_ms = 1234567890000 + (365 * 24 * 3600 * 1000);
+    original.retention_until_ms = 1234567890000LL + (365LL * 24LL * 3600LL * 1000LL);
     original.audit_classification = "REGULATORY";
     original.metadata = {{"meta_key", "meta_value"}};
     
@@ -815,4 +925,6 @@ TEST_F(OperationalAuditTest, EvidenceSerialization_JsonRoundTrip) {
     EXPECT_EQ(restored.audit_classification, original.audit_classification);
 }
 
-}  // namespace themis::governance
+
+
+

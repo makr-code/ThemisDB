@@ -1207,6 +1207,12 @@ set(THEMIS_LICENSE_SIGNATURE "")
 
 # If license file is provided or auto-detected, read and parse it
 if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
+    string(TOLOWER "${THEMIS_LICENSE_FILE}" THEMIS_LICENSE_FILE_LOWER)
+    if(THEMIS_LICENSE_FILE_LOWER MATCHES "license_test\\.json|/config/.*_test\\.json|/certs/.*/license_test\\.json")
+        message(WARNING
+            "The license file '${THEMIS_LICENSE_FILE}' is a repository test fixture intended only for local development and CI validation. It must not be used in production or any customer deployment.")
+    endif()
+
     message(STATUS "Embedding license data from: ${THEMIS_LICENSE_FILE}")
     
     # Read the license file

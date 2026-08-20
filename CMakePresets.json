@@ -267,6 +267,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON"
       }
@@ -285,6 +286,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON"
       }
@@ -303,6 +305,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON"
       }
     },
@@ -320,6 +323,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON"
       }
     },
@@ -337,6 +341,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/enterprise/license_test.json",
         "THEMIS_ENABLE_GRPC": "ON",
         "THEMIS_ENABLE_TRACING": "ON"
       }
@@ -355,6 +360,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/enterprise/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_GRPC": "ON",
@@ -375,6 +381,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/enterprise/license_test.json",
         "THEMIS_ENABLE_GRPC": "ON",
         "THEMIS_ENABLE_TRACING": "ON"
       }
@@ -393,6 +400,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/enterprise/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_GRPC": "ON",
@@ -413,6 +421,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "MILITARY",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/military/license_test.json",
         "THEMIS_ENABLE_GRPC": "ON"
       }
     },
@@ -430,6 +439,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "MILITARY",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/military/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_GRPC": "ON"
@@ -449,6 +459,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "MILITARY",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/military/license_test.json",
         "THEMIS_ENABLE_GRPC": "ON"
       }
     },
@@ -466,6 +477,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "MILITARY",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/military/license_test.json",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_GRPC": "ON"

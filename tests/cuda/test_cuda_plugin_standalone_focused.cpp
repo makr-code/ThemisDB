@@ -12,8 +12,11 @@
 
 #include <gtest/gtest.h>
 
+// Conditional inclusion of CUDA plugin implementation
+#ifdef THEMIS_ENABLE_CUDA
+
 // Pull in the plugin implementation directly (no .so load required for unit tests)
-#include "cuda_plugin_config.h"
+#include "../../plugins/cuda/cuda_plugin_config.h"
 #include "acceleration/cuda_backend.h"
 #include "acceleration/multi_gpu_backend.h"
 #include "acceleration/faiss_gpu_backend.h"
@@ -23,6 +26,8 @@
 // (the CMakeLists links this test against the plugin .cpp via the focused-test
 // glob pattern).
 #include "../../plugins/cuda/cuda_plugin.cpp"
+
+using namespace themis::acceleration;
 
 using namespace themis::acceleration;
 
@@ -223,6 +228,17 @@ TEST(CUDAPluginEntryPoint, CreateBackendPluginReturnsNonNull)
     delete raw;  // PluginLoader takes ownership in production; we own it here.
 }
 
+#else
+
+TEST(CUDAPluginStandalone, SkippedWhenCudaDisabled)
+{
+    GTEST_SKIP() << "THEMIS_ENABLE_CUDA is not defined in this build";
+}
+
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// @test MixedPrecisionVectorBackend: FP16 wrapper reports "CUDA FP16".
@@ -256,3 +272,5 @@ int main(int argc, char** argv)
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+#endif

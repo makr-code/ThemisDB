@@ -25,10 +25,20 @@ certs/
 │   └── themisdb-intermediate-ca.crt
 ├── crl/                              # Certificate Revocation Lists
 │   └── themisdb-plugins.crl
-└── test/                             # Test-Zertifikate (NUR für Development!)
-    ├── test-ca.crt
-    └── test-plugin-signer.crt
+├── test/                             # Test-Zertifikate (NUR für Development!)
+│   ├── test-ca.crt
+│   └── test-plugin-signer.crt
+├── community/license_test.json       # TEST-ONLY License Fixture (not for production)
+├── enterprise/license_test.json      # TEST-ONLY License Fixture (not for production)
+├── hyperscaler/license_test.json     # TEST-ONLY License Fixture (not for production)
+├── military/license_test.json        # TEST-ONLY License Fixture (not for production)
+├── minimal/license_test.json         # TEST-ONLY License Fixture (not for production)
+└── ...
 ```
+
+> ⚠️ Diese License-JSON-Dateien sind explizit `development_and_ci_only`-Fixtures. Sie dienen nur für lokale Builds, CI-Tests und Demos und dürfen niemals für reale Deployments, Produkt-Signierung oder produktive Umgebungen verwendet werden.
+
+> Jeder Fixture-Import sollte `test_only: true` und `do_not_use_in_production: true` liefern; wenn ein Build ein echtes Produktions-Lizenz-Set verwendet, muss dies separat und nicht über die Test-Fixtures erfolgen.
 
 ---
 

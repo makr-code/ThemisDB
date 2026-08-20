@@ -1,6 +1,6 @@
-/**
+﻿/**
  * @file subagent_coordinator_impl.cpp
- * @brief Implementation of SubagentCoordinator — orchestrates parallel inference
+ * @brief Implementation of SubagentCoordinator â€” orchestrates parallel inference
  *        across multiple subagents with merge strategies and failure handling.
  */
 
@@ -224,7 +224,7 @@ public:
                         merge_success = true;
                     } else {
                         diagnostics_.merge_failed = true;
-                        diagnostics_.merge_error = merge_result.error();
+                        diagnostics_.merge_error = "Custom merge function failed";
                     }
                 }
                 break;
@@ -295,7 +295,7 @@ private:
 SubagentResult<std::unique_ptr<SubagentCoordinator>> SubagentCoordinator::create(
     std::shared_ptr<SubagentFactory> factory) {
     if (!factory) {
-        return make_unexpected("Factory is null");
+        return tl::make_unexpected(std::string("Factory is null"));
     }
     return make_expected<std::unique_ptr<SubagentCoordinator>>(
         std::make_unique<SubagentCoordinatorImpl>(factory)

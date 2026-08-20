@@ -409,5 +409,3 @@ private:
 
 }  // namespace ingestion
 }  // namespace themis
-
-#endif  // THEMISDB_INCLUDE_INGESTION_RESOURCE_MONITOR_H

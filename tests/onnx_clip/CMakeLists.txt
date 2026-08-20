@@ -39,8 +39,8 @@ foreach(_src IN LISTS ONNX_CLIP_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/tests
     )
     
-    # Link GoogleTest
-    target_link_libraries(${_target} PRIVATE gtest gtest_main)
+    # Link GoogleTest via imported CMake targets for correct per-config library resolution on Windows.
+    target_link_libraries(${_target} PRIVATE GTest::gtest GTest::gtest_main)
     
     # Link nlohmann_json for config structures
     find_package(nlohmann_json REQUIRED)

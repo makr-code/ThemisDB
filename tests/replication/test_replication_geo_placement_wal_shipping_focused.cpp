@@ -35,6 +35,8 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
+
 #include "replication/async_wal_shipper.h"
 #include "replication/geo_placement.h"
 #include "replication/replication_manager.h"
@@ -231,10 +233,10 @@ TEST_F(GeoPlacementTest, GEO07_ValidatePlacement_RequiredDCMissing)
     const auto v = mgr.validatePlacement(replicas, c);
     EXPECT_FALSE(v.is_valid);
     EXPECT_FALSE(v.violations.empty());
-    EXPECT_TRUE(
-        std::any_of(v.violations.begin(), v.violations.end(), [](const auto& s) {
-            return s.find("ap-southeast-1") != std::string::npos;
-        }))
+    EXPECT_TRUE(std::any_of(v.violations.begin(), v.violations.end(),
+                            [](const std::string& s) {
+                                return s.find("ap-southeast-1") != std::string::npos;
+                            }))
         << "Violation must mention the missing required DC";
 }
 
@@ -255,11 +257,10 @@ TEST_F(GeoPlacementTest, GEO08_ValidatePlacement_MinCopiesPerDCViolation)
     const auto v = mgr.validatePlacement(replicas, c);
     EXPECT_FALSE(v.is_valid);
     EXPECT_FALSE(v.violations.empty());
-    EXPECT_TRUE(
-        std::any_of(v.violations.begin(), v.violations.end(), [](const auto& s) {
-            return s.find("required") != std::string::npos ||
-                   s.find("require") != std::string::npos;
-        }))
+    EXPECT_TRUE(std::ranges::any_of(v.violations, [](const std::string& s) {
+                    return s.find("required") != std::string::npos ||
+                           s.find("require") != std::string::npos;
+                }))
         << "Violation must reference the min_copies_per_dc requirement";
 }
 

@@ -516,6 +516,18 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
     }
 }
 
+nlohmann::json AuditLogger::getEvents(int64_t, int64_t, const std::string&) const {
+    return nlohmann::json::array();
+}
+
+size_t AuditLogger::getTotalEventCount() const {
+    return 0;
+}
+
+void AuditLogger::clear() {
+    // Default no-op; concrete audit loggers may override.
+}
+
 // ============================================================================
 // Security Event Logging
 // ============================================================================

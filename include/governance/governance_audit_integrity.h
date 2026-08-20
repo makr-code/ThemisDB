@@ -21,6 +21,9 @@
 
 #pragma once
 
+#ifndef THEMIS_GOVERNANCE_AUDIT_INTEGRITY_H
+#define THEMIS_GOVERNANCE_AUDIT_INTEGRITY_H
+
 #include <string>
 #include <vector>
 #include <memory>

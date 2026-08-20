@@ -28,8 +28,8 @@ WeightedTieredLRUEvictionPolicy makePolicy(double frequency_weight = 0.3,
                                            double recency_weight = 0.7,
                                            bool adaptive_thresholds = true) {
     WeightedTieredLRUEvictionPolicy::Config config;
-    config.warm_access_threshold = 2;
-    config.hot_access_threshold = 5;
+    config.l2_promotion_threshold = 2;
+    config.l1_promotion_threshold = 5;
     config.frequency_weight = frequency_weight;
     config.recency_weight = recency_weight;
     config.frequency_decay_factor = 0.5;
@@ -57,7 +57,7 @@ TEST_F(Phase3CacheEfficiency, MultiTierEvictionHotTier) {
     for (int i = 0; i < 5; ++i) {
         policy_.record_hit("hot");
     }
-    EXPECT_EQ(policy_.tier_for_key("hot"), WeightedTieredLRUEvictionPolicy::Tier::Hot);
+    EXPECT_EQ(policy_.tier_for_key("hot"), WeightedTieredLRUEvictionPolicy::Tier::L1);
 }
 
 TEST_F(Phase3CacheEfficiency, MultiTierEvictionWarmTier) {
@@ -65,24 +65,24 @@ TEST_F(Phase3CacheEfficiency, MultiTierEvictionWarmTier) {
     for (int i = 0; i < 2; ++i) {
         policy_.record_hit("warm");
     }
-    EXPECT_EQ(policy_.tier_for_key("warm"), WeightedTieredLRUEvictionPolicy::Tier::Warm);
+    EXPECT_EQ(policy_.tier_for_key("warm"), WeightedTieredLRUEvictionPolicy::Tier::L2);
 }
 
 TEST_F(Phase3CacheEfficiency, MultiTierEvictionColdTier) {
     policy_.record_insert("cold", 1);
-    EXPECT_EQ(policy_.tier_for_key("cold"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
+    EXPECT_EQ(policy_.tier_for_key("cold"), WeightedTieredLRUEvictionPolicy::Tier::L3);
 }
 
 TEST_F(Phase3CacheEfficiency, MultiTierEvictionTierPromotion) {
     policy_.record_insert("promote", 1);
-    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
+    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::L3);
     policy_.record_hit("promote");
     policy_.record_hit("promote");
-    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::Warm);
+    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::L2);
     for (int i = 0; i < 3; ++i) {
         policy_.record_hit("promote");
     }
-    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::Hot);
+    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::L1);
 }
 
 TEST_F(Phase3CacheEfficiency, MultiTierEvictionOrderingUnderPressure) {
@@ -330,9 +330,9 @@ TEST_F(Phase3CacheEfficiency, IntegrationCacheInvalidationOnWriteOperations) {
     policy_.record_insert("users:1", 1);
     policy_.record_hit("users:1");
     policy_.record_hit("users:1");
-    EXPECT_NE(policy_.tier_for_key("users:1"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
+    EXPECT_NE(policy_.tier_for_key("users:1"), WeightedTieredLRUEvictionPolicy::Tier::L3);
     policy_.record_delete("users:1");
-    EXPECT_EQ(policy_.tier_for_key("users:1"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
+    EXPECT_EQ(policy_.tier_for_key("users:1"), WeightedTieredLRUEvictionPolicy::Tier::L3);
 }
 
 TEST_F(Phase3CacheEfficiency, IntegrationCacheWithoutPrefixEviction) {

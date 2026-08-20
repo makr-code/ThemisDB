@@ -146,7 +146,7 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, ForceCPU_Sort_AscendingCorrect) {
     // Intentionally use unsorted order to verify sort works
     std::reverse(rows.begin(), rows.end());
 
-    auto result = acc.sort(rows, [](const Row& r) { return r.id; }, SortOrder::ASCENDING);
+    auto result = acc.sort(rows, [](const Row& r) { return r.id; }, SortOrder::ASC);
 
     EXPECT_FALSE(result.used_gpu);
     EXPECT_EQ(result.rows.size(), 50u);
@@ -166,7 +166,7 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, ForceCPU_Sort_DescendingCorrect) {
     std::sort(rows.begin(), rows.end(),
               [](const Row& a, const Row& b) { return a.id < b.id; });
 
-    auto result = acc.sort(rows, [](const Row& r) { return r.id; }, SortOrder::DESCENDING);
+    auto result = acc.sort(rows, [](const Row& r) { return r.id; }, SortOrder::DESC);
 
     EXPECT_FALSE(result.used_gpu);
     EXPECT_EQ(result.rows.size(), 50u);
@@ -377,7 +377,7 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, Stats_ResetStats_ClearsAllCounters
 
     acc.dotProduct({1.0f}, {2.0f});
     acc.scan(makeRows(10));
-    acc.sort(makeRows(5), [](const Row& r) { return r.id; }, SortOrder::ASCENDING);
+    acc.sort(makeRows(5), [](const Row& r) { return r.id; }, SortOrder::ASC);
 
     auto stats_before = acc.getStats();
     EXPECT_GT(stats_before.total_dot_products, 0u);
@@ -392,4 +392,3 @@ TEST_F(GPUQueryAcceleratorErrorInjectionTest, Stats_ResetStats_ClearsAllCounters
     EXPECT_EQ(stats_after.total_sorts, 0u);
 }
 
-} // anonymous namespace

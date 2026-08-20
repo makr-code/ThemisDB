@@ -142,6 +142,12 @@ elseif(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_install
     set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/bin")
 endif()
 
+if(NOT _themis_vcpkg_bin_dir AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+    set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include")
+    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib")
+    set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+endif()
+
 # Auto-discover modularized test folders under tests/<module>/CMakeLists.txt.
 # integration is added separately with an explicit binary directory below.
 file(GLOB _TEST_MODULE_CMAKES
@@ -8914,6 +8920,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
 
     target_compile_definitions(test_knowledge_graph_reasoner_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
     )
 
     add_test(NAME KnowledgeGraphReasonerFocusedTests
@@ -8997,6 +9004,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_knowledge_graph_retriever_reason
 
     target_compile_definitions(test_kg_retriever_reasoning_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
     )
 
     add_test(NAME KGRetrieverReasoningFocusedTests
@@ -17130,6 +17138,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_ethics_ai_pipeline.cpp")
         ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/chain_visualizer.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
@@ -26710,6 +26719,18 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/lib/test_lib_rocksdb_integration.cpp" AND
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
+
+    if(WIN32)
+        add_custom_command(TARGET themis_tests_critical POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                    -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
+                    -D "VCPKG_BIN_DIR=${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin"
+                    -D "DST_DIR=$<TARGET_FILE_DIR:themis_tests_critical>"
+                    -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
+            COMMENT "Syncing runtime DLLs for themis_tests_critical"
+            VERBATIM
+        )
+    endif()
 endif()
 
 # Conditionally add LLM tests only when LLM is enabled

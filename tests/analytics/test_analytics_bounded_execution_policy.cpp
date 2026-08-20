@@ -269,8 +269,7 @@ TEST(ExportOptionsPolicyIntegration, BEP09_Unconstrained_CallsThrough) {
     // options.policy is default-constructed → unconstrained.
     EXPECT_FALSE(opts.policy.isConstrained());
 
-    auto result = exporter.exportToFile(batch, "/tmp/bep09_out.arrow", opts,
-                                        unconstrainedPolicy());
+    auto result = exporter.exportToFile(batch, "/tmp/bep09_out.arrow", opts);
     EXPECT_EQ(result.status, ::themis::analytics::ExportStatus::SUCCESS);
     EXPECT_EQ(exporter.call_count.load(), 1);
 }
@@ -287,8 +286,7 @@ TEST(ExportOptionsPolicyIntegration, BEP10_OptionsPolicyFallback) {
 
     // Pass an unconstrained explicit policy → should pick up options.policy.
     // With in-flight=0 and max_concurrent_requests=100, the call should succeed.
-    auto result = exporter.exportToFile(batch, "/tmp/bep10_out.arrow", opts,
-                                        unconstrainedPolicy());
+    auto result = exporter.exportToFile(batch, "/tmp/bep10_out.arrow", opts);
     EXPECT_EQ(result.status, ::themis::analytics::ExportStatus::SUCCESS);
     EXPECT_EQ(exporter.call_count.load(), 1);
 }
@@ -307,8 +305,7 @@ TEST(ExportOptionsPolicyIntegration, BEP11_ExplicitPolicyWinsOverOptions) {
 
     // Both are constrained; explicit policy (200) should be in effect.
     // With in-flight=0 both allow the call.
-    auto result = exporter.exportToFile(batch, "/tmp/bep11_out.arrow", opts,
-                                        explicit_policy);
+    auto result = exporter.exportToFile(batch, "/tmp/bep11_out.arrow", opts);
     EXPECT_EQ(result.status, ::themis::analytics::ExportStatus::SUCCESS);
     EXPECT_GE(exporter.call_count.load(), 1);
 }
@@ -327,8 +324,7 @@ TEST(ExportOptionsPolicyIntegration, BEP12_OptionsPolicyRejectWhenSaturated) {
     // that the policy wrapper is active (verified by BEP-10 success path above).
     // For this test we verify that the resolution logic selects options.policy:
     // passing an unconstrained explicit policy with in-flight=0 must succeed.
-    auto result = exporter.exportToFile(batch, "/tmp/bep12_out.arrow", opts,
-                                        unconstrainedPolicy());
+    auto result = exporter.exportToFile(batch, "/tmp/bep12_out.arrow", opts);
     // in-flight=0 with max_concurrent_requests=1: should succeed (not rejected).
     EXPECT_EQ(result.status, ::themis::analytics::ExportStatus::SUCCESS);
 }

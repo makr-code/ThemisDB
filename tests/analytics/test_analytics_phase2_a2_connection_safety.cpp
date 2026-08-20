@@ -688,11 +688,12 @@ TEST(Phase2A2ExceptionInDtorTest, CallbackExceptionDoesNotEscapeFlush) {
     EXPECT_EQ(1, destroy_called);
 
     // Case B: throwing flush — destructor must NOT re-throw
-    EXPECT_NO_THROW({
+    const auto construct_with_throwing_flush = [&destroy_called]() {
         FlushingOwner owner{
             []() { throw std::runtime_error("flush failed"); },
             destroy_called};
-    });
+    };
+    EXPECT_NO_THROW(construct_with_throwing_flush());
     EXPECT_EQ(2, destroy_called);
 }
 

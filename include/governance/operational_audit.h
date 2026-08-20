@@ -136,21 +136,26 @@ struct THEMIS_SECURITY_API OperationalEvent {
  */
 struct THEMIS_SECURITY_API ComplianceEvidence {
     std::string evidence_id;                  // Unique evidence identifier
-    std::string event_id;                     // Associated operational event
-    std::string compliance_requirement;       // EU AI Act §13, SOC 2 CC, ISO 27001 A.1, etc.
+    std::string requirement_id;               // Associated compliance requirement
+    std::string requirement_type;             // Requirement category (e.g., EU_AI_ACT_13)
     std::string evidence_type;                // "audit_log", "policy_snapshot", "approval", etc.
-    int64_t collected_at_ms = 0;             // When evidence was collected
-    int64_t evidence_timestamp_ms = 0;        // What the evidence proves (timestamp)
-    
-    // Evidence content
-    std::string evidence_description;         // Human-readable description
-    std::string evidence_content;             // Actual evidence (JSON or serialized)
+    int64_t collected_at_ms = 0;              // When evidence was collected
+    std::string description;                  // Human-readable description
+    std::string source_event_id;              // Associated operational event
     std::string fingerprint;                  // Hash of evidence for integrity
-    
-    // Linkage and retention
+    std::string data_summary;                 // Actual evidence summary or JSON payload
+    int64_t retention_until_ms = 0;           // Retention deadline
+    std::string audit_classification;         // Classification (REGULATORY, EU_REGULATED, etc.)
+    nlohmann::json metadata;                  // Additional metadata
+
+    // Compatibility aliases for older callers/tests
+    std::string event_id;                     // Associated operational event
+    std::string compliance_requirement;       // Legacy alias for requirement_id
+    int64_t evidence_timestamp_ms = 0;        // Legacy alias for collected_at_ms
+    std::string evidence_description;         // Legacy alias for description
+    std::string evidence_content;             // Legacy alias for data_summary
     std::vector<std::string> related_events;  // Other related events
     bool is_retained = true;                  // Whether to retain long-term
-    int64_t retention_until_ms = 0;          // Retention deadline
     
     /**
      * @brief Serialize to JSON

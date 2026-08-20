@@ -17,6 +17,7 @@
 #include <cstring>
 #include <iostream>
 #include <memory>
+#include <numbers>
 #include <vector>
 
 #ifdef THEMIS_GEO_CUDA
@@ -27,6 +28,10 @@
 
 namespace themis {
 namespace geo {
+
+namespace {
+constexpr double kPi = std::numbers::pi;
+}
 
 // ============================================================================
 // GeoBackendDispatcher Implementation
@@ -282,7 +287,7 @@ double GeoBackendDispatcher::haversineDistance(
     const Point& p2,
     double earth_radius_km) const noexcept {
     
-    constexpr double kDegToRad = M_PI / 180.0;
+    constexpr double kDegToRad = kPi / 180.0;
     
     double lat1_rad = p1.lat_deg * kDegToRad;
     double lat2_rad = p2.lat_deg * kDegToRad;
@@ -313,7 +318,7 @@ double GeoBackendDispatcher::vincentyDistance(
     constexpr int kMaxIterations = 100;
     
     // Convert degrees to radians
-    constexpr double kDegToRad = M_PI / 180.0;
+    constexpr double kDegToRad = kPi / 180.0;
     double lat1 = p1.lat_deg * kDegToRad;
     double lat2 = p2.lat_deg * kDegToRad;
     double lon1 = p1.lon_deg * kDegToRad;

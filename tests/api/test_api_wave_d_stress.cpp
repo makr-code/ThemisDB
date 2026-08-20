@@ -131,15 +131,15 @@ public:
         // Simulate rate-limit path
         if (req.headers.count("X-Fail-RateLimit")) {
             return tl::unexpected(themis::Error(
-                themis::errors::ErrorCode::ERR_API_RATE_LIMITED,
-                "ERR_API_RATE_LIMITED: request rate exceeds tenant quota — "
+                themis::errors::ErrorCode::ERR_API_RATE_LIMIT,
+                "ERR_API_RATE_LIMIT: request rate exceeds tenant quota — "
                 "reduce request frequency or contact support to raise limits"));
         }
 
         // Simulate transport-level OTLP exporter error
         if (req.headers.count("X-Fail-Otlp")) {
             return tl::unexpected(themis::Error(
-                themis::errors::ErrorCode::ERR_API_INTERNAL,
+                themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,
                 "ERR_OTLP_EXPORT_FAILED: span export to collector failed after retries — "
                 "verify OTLP_ENDPOINT is reachable and ERR_OTLP_COLLECTOR_UNREACHABLE "
                 "is not firing in the collector logs"));

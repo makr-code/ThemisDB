@@ -107,6 +107,10 @@ public:
     const T& operator*() const& { return value(); }
     T&& operator*() && { return std::move(value()); }
 
+    T* operator->() & noexcept { return &value(); }
+    const T* operator->() const& noexcept { return &value(); }
+    T* operator->() && noexcept { return &value(); }
+
     E& error() & {
         if (has_value()) {
             throw std::logic_error("expected has value, no error present");
@@ -389,6 +393,16 @@ Result<T> fromOptional(std::optional<T>&& opt, errors::ErrorCode errorCode,
         return tl::unexpected(Error(errorCode, std::move(context)));
     }
     return std::move(*opt);
+}
+
+// Backward-compatible helpers used by the LLM contracts.
+template<typename T>
+tl::expected<std::decay_t<T>, std::string> make_expected(T&& value) {
+    return tl::expected<std::decay_t<T>, std::string>(std::forward<T>(value));
+}
+
+inline tl::expected<void, std::string> make_expected() {
+    return tl::expected<void, std::string>();
 }
 
 } // namespace themis

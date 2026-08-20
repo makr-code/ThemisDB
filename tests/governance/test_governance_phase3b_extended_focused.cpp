@@ -679,4 +679,3 @@ TEST_F(Phase3BExtendedTest, P3BX12_RemediationHintCompleteness) {
     }
 }
 
-} // namespace

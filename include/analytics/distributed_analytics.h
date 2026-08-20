@@ -174,6 +174,10 @@ public:
         /// Timeout per shard in milliseconds. 0 = no timeout.
         uint32_t shard_timeout_ms = 30000;
 
+        /// Legacy alias retained for compatibility with older analytics tests.
+        /// When non-zero it overrides the generic timeout for shard execution.
+        uint32_t shard_execution_timeout_ms = 30000;
+
         /// Interval between background health-monitor sweeps.
         /// Default: 5 s.  Set to zero to disable the background monitor.
         std::chrono::milliseconds health_check_interval{5000};

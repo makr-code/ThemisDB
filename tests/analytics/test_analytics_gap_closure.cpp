@@ -637,12 +637,8 @@ TEST(KnowledgeBase, KB_05_assert_fact) {
     // Test: Assert fact to working memory
     // Verify: Fact stored
     KnowledgeBase kb;
-    Fact f;
-    f.subject = "Alice";
-    f.predicate = "knows";
-    f.object = "Bob";
-    kb.assertFact(f);
-    auto facts = kb.queryFacts({.subject = "Alice"});
+    kb.assertFact("Alice", "knows", "Bob");
+    auto facts = kb.getFacts();
     EXPECT_FALSE(facts.empty());
 }
 
@@ -653,19 +649,19 @@ TEST(KnowledgeBase, KB_06_query_facts) {
     // Test: Query working memory
     // Verify: Correct facts retrieved
     KnowledgeBase kb;
-    Fact f1, f2;
-    f1.subject = "John";
-    f1.predicate = "age";
-    f1.object = "30";
-    f2.subject = "Jane";
-    f2.predicate = "age";
-    f2.object = "28";
-    kb.assertFact(f1);
-    kb.assertFact(f2);
-    
-    auto results = kb.queryFacts({.subject = "John"});
-    EXPECT_EQ(results.size(), 1);
-    EXPECT_EQ(results[0].object, "30");
+    kb.assertFact("John", "age", "30");
+    kb.assertFact("Jane", "age", "28");
+
+    auto results = kb.getFacts("age");
+    EXPECT_EQ(results.size(), 2u);
+    bool found_john = false;
+    for (const auto& fact : results) {
+        if (fact.subject == "John" && fact.object == "30") {
+            found_john = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_john);
 }
 
 /**

@@ -63,6 +63,35 @@ public:
         return schools_;
     }
 
+    std::variant<PhilosophyProfile, Status> getProfile(const std::string& school_id) override {
+        for (const auto& meta : schools_) {
+            if (meta.school_id == school_id) {
+                PhilosophyProfile profile;
+                profile.school_id = meta.school_id;
+                profile.name = meta.name;
+                return profile;
+            }
+        }
+        return Status::Error("school_id not found");
+    }
+
+    std::variant<size_t, Status> rebuildIndex(const std::string& /*directory*/) override {
+        return schools_.size();
+    }
+
+    size_t indexSize() const override {
+        return schools_.size();
+    }
+
+    bool hasProfile(const std::string& school_id) const override {
+        for (const auto& meta : schools_) {
+            if (meta.school_id == school_id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 private:
     std::vector<EthicsProfileMeta> schools_;
 };

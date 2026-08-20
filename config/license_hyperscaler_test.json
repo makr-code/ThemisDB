@@ -10,5 +10,9 @@
   "max_cores": -1,
   "max_storage_tb": -1,
   "build_id": "hyperscaler-test",
-  "signature": ""
+  "signature": "",
+  "usage": "development_and_ci_only",
+  "test_only": true,
+  "do_not_use_in_production": true,
+  "source": "repository_test_fixture"
 }

@@ -27,6 +27,7 @@ using namespace themisdb::analytics;
 using OLAPQuery = themis::analytics::OLAPQuery;
 using OLAPResult = themis::analytics::OLAPResult;
 using Measure = themis::analytics::Measure;
+using CircuitBreakerState = DistributedAnalyticsSharding::CircuitBreakerState;
 
 // ============================================================================
 // Test Fixtures
@@ -449,5 +450,3 @@ TEST_F(DistributedAnalyticsSafetyTest, AllShardsCircuitOpen) {
     EXPECT_EQ(result.total_shards, 0u);
     EXPECT_EQ(result.successful_shards, 0u);
 }
-
-} // namespace test

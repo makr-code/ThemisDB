@@ -220,7 +220,11 @@ TEST(ServingExportIntegrationTests, SEI_06_TFServingInsecureTransportBlocked) {
 
     MLServingRequest req;
     req.model_name = "my-model";
-    req.inputs["x"] = {1.0f};
+    req.inputs.push_back(MLTensor{
+        .name = "x",
+        .shape = {1},
+        .data = {1.0f},
+    });
 
     MLServingResponse resp = backend.infer(req);
 
