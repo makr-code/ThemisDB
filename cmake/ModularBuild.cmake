@@ -1341,11 +1341,6 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
-    ../src/training/lora_data_selection.cpp
-    ../src/training/multi_task_lora.cpp
-    ../src/training/incremental_lora_trainer.cpp
-    ../src/training/lora_checkpoint_manager.cpp
-    ../src/training/adapter_serving.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
@@ -1394,7 +1389,6 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/coherence_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
     ../src/rag/continuous_learning_client.cpp
-    ../src/rag/continuous_learning_orchestrator.cpp
     ../src/rag/cot_evaluator.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/hallucination_dashboard.cpp
@@ -1441,6 +1435,25 @@ set(THEMIS_LLM_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/wake_word_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/stt_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/tts_processor.cpp>
+)
+
+set(THEMIS_TRAINING_SOURCES
+    ../src/training/auto_labeler.cpp
+    ../src/training/ada_lora_adapter.cpp
+    ../src/training/adalora_tt_bridge.cpp
+    ../src/training/adapter_serving.cpp
+    ../src/training/database_domain_auto_labeler.cpp
+    ../src/training/incremental_lora_trainer.cpp
+    ../src/training/knowledge_graph_enricher.cpp
+    ../src/training/lora_adapter.cpp
+    ../src/training/lora_adapter_merger.cpp
+    ../src/training/lora_checkpoint_manager.cpp
+    ../src/training/lora_data_selection.cpp
+    ../src/training/modality_parser.cpp
+    ../src/training/multi_task_lora.cpp
+    ../src/training/provenance_tracker.cpp
+    ../src/training/training_pipeline.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
 )
 
 if(THEMIS_ENABLE_GPU)
@@ -2408,6 +2421,9 @@ function(themis_build_modular)
             list(APPEND _themis_network_deps themis_llm_ext)
         endif()
     endif()
+    if(TARGET themis_training)
+        list(APPEND _themis_network_deps themis_training)
+    endif()
     if(THEMIS_MODULE_TIMESERIES)
         list(APPEND _themis_network_deps themis_timeseries)
     endif()
@@ -2520,20 +2536,23 @@ function(themis_build_modular)
                     find_package(absl CONFIG REQUIRED)
                 endif()
 
-                # Link gRPC and the Abseil pieces needed by generated service stubs.
-                target_link_libraries(themis_sharding PRIVATE
-                    gRPC::grpc++
-                    absl::abseil_dll
-                )
+                # Link gRPC directly, and only add the Abseil DLL target when the
+                # platform/package layout actually provides it.
+                target_link_libraries(themis_sharding PRIVATE gRPC::grpc++)
+                if(TARGET absl::abseil_dll)
+                    target_link_libraries(themis_sharding PRIVATE absl::abseil_dll)
+                endif()
                 if(MSVC)
-                    target_link_libraries(themis_sharding PRIVATE
-                        absl::absl_log
-                        absl::hash
-                        absl::raw_logging_internal
-                        absl::strings
-                        protobuf::libupb
-                        "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
-                    )
+                    if(TARGET absl::absl_log)
+                        target_link_libraries(themis_sharding PRIVATE
+                            absl::absl_log
+                            absl::hash
+                            absl::raw_logging_internal
+                            absl::strings
+                            protobuf::libupb
+                            "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
+                        )
+                    endif()
                 endif()
             endif()
             # Add include directory for generated proto headers
@@ -2696,6 +2715,53 @@ function(themis_build_modular)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
                 target_link_libraries(themis_llm_ext PUBLIC ${THEMIS_ROCKSDB_TARGET})
             endif()
+        endif()
+    endif()
+
+    if(THEMIS_TRAINING_SOURCES)
+        set(_themis_training_deps
+            themis_base
+            themis_storage
+            themis_security
+            themis_query
+        )
+        if(THEMIS_MODULE_GRAPH)
+            list(APPEND _themis_training_deps themis_graph)
+        endif()
+        if(THEMIS_MODULE_LLM)
+            list(APPEND _themis_training_deps themis_llm)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                list(APPEND _themis_training_deps themis_llm_ext)
+            endif()
+        endif()
+
+        themis_add_module(training
+            STATIC_MODULE
+            SOURCES ${THEMIS_TRAINING_SOURCES}
+            DEPENDENCIES ${_themis_training_deps}
+        )
+
+        if(onnxruntime_FOUND)
+            target_link_libraries(themis_training PUBLIC onnxruntime::onnxruntime)
+        endif()
+        if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
+            target_link_libraries(themis_training PUBLIC mimalloc)
+        endif()
+        if(THEMIS_ENABLE_JEMALLOC)
+            if(TARGET jemalloc::jemalloc)
+                target_link_libraries(themis_training PUBLIC jemalloc::jemalloc)
+            elseif(jemalloc_LIBRARIES)
+                target_link_libraries(themis_training PUBLIC ${jemalloc_LIBRARIES})
+            endif()
+        endif()
+        if(THEMIS_ENABLE_VULKAN)
+            target_compile_definitions(themis_training PUBLIC THEMIS_ENABLE_VULKAN)
+        endif()
+        if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
+            target_link_libraries(themis_training PUBLIC Vulkan::Vulkan)
+        endif()
+        if(DEFINED THEMIS_ROCKSDB_TARGET AND NOT "${THEMIS_ROCKSDB_TARGET}" STREQUAL "")
+            target_link_libraries(themis_training PUBLIC ${THEMIS_ROCKSDB_TARGET})
         endif()
     endif()
     
@@ -2880,6 +2946,10 @@ function(themis_build_modular)
         if(THEMIS_MODULE_LLM_SPLIT)
             list(APPEND THEMIS_ALL_MODULES themis_llm_ext)
         endif()
+    endif()
+
+    if(TARGET themis_training)
+        list(APPEND THEMIS_ALL_MODULES themis_training)
     endif()
     
     if(THEMIS_MODULE_GEO)

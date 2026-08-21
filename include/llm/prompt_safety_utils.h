@@ -17,7 +17,57 @@
 
 #include "llm/prompt_policy.h"
 
+#include <algorithm>
+#include <cctype>
 #include <string>
+#include <string_view>
+#include <utility>
+
+namespace {
+
+inline std::string normalizePromptForSafety(std::string_view text) {
+    std::string normalized;
+    normalized.reserve(text.size());
+    for (char ch : text) {
+        const unsigned char uch = static_cast<unsigned char>(ch);
+        if (std::isalnum(uch)) {
+            normalized.push_back(static_cast<char>(std::tolower(uch)));
+        } else if (std::isspace(uch)) {
+            normalized.push_back(' ');
+        } else {
+            normalized.push_back(' ');
+        }
+    }
+    return normalized;
+}
+
+inline bool containsBlockedInstructionPattern(std::string_view text) {
+    const std::string normalized = normalizePromptForSafety(text);
+    return normalized.find("ignore all previous instructions") != std::string::npos ||
+           normalized.find("ignore previous instructions") != std::string::npos ||
+           normalized.find("disregard all previous instructions") != std::string::npos ||
+           normalized.find("disregard previous instructions") != std::string::npos;
+}
+
+inline void redactLiteralToken(std::string& text, std::string_view token,
+                              std::string_view replacement) {
+    std::size_t pos = 0;
+    while ((pos = text.find(token.data(), pos, token.size())) != std::string::npos) {
+        text.replace(pos, token.size(), replacement.data(), replacement.size());
+        pos += replacement.size();
+    }
+}
+
+inline void redactControlTokens(std::string& text) {
+    redactLiteralToken(text, "<|im_start|>", "[CONTROL_TOKEN]");
+    redactLiteralToken(text, "<|im_end|>", "[CONTROL_TOKEN]");
+    redactLiteralToken(text, "[INST]", "[CONTROL_TOKEN]");
+    redactLiteralToken(text, "[/INST]", "[CONTROL_TOKEN]");
+    redactLiteralToken(text, "<<SYS>>", "[CONTROL_TOKEN]");
+    redactLiteralToken(text, "<</SYS>>", "[CONTROL_TOKEN]");
+}
+
+} // namespace
 
 namespace themis::llm::prompt_safety {
 
@@ -56,7 +106,20 @@ inline bool sanitizePromptWithSharedPolicy(
     std::string* blocked_rule,
     std::string* blocked_reason)
 {
-    auto result = sharedPromptSafetyPolicy().apply(input);
+    if (containsBlockedInstructionPattern(input)) {
+        if (blocked_rule) {
+            *blocked_rule = "prompt_override_ignore_instructions";
+        }
+        if (blocked_reason) {
+            *blocked_reason = "Prompt blocked by safety policy rule 'prompt_override_ignore_instructions'";
+        }
+        return false;
+    }
+
+    sanitized = input;
+    redactControlTokens(sanitized);
+
+    auto result = sharedPromptSafetyPolicy().apply(sanitized);
     if (!result.allowed) {
         if (blocked_rule) {
             *blocked_rule = result.rule_name;

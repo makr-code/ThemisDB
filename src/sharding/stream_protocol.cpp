@@ -676,10 +676,10 @@ bool StreamSession::initialize() {
     //               `setPrepareTransferCallback()` and remove this fallback.
     //               See src/sharding/FUTURE_ENHANCEMENTS.md §Stream Protocol PrepareTransfer.
     
-    THEMIS_WARN("StreamSession::initialize() using in-process simulation (no mTLS prepare callback). "
-                "This is a test-only configuration. Remote endpoint: {}. "
-                "Subsequent data transfers will fail unless a real transport callback is injected.",
-                config_.remote_endpoint);
+    spdlog::warn("StreamSession::initialize() using in-process simulation (no mTLS prepare callback). "
+                 "This is a test-only configuration. Remote endpoint: {}. "
+                 "Subsequent data transfers will fail unless a real transport callback is injected.",
+                 config_.remote_endpoint);
     return true;
 }
 

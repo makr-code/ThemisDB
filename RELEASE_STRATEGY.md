@@ -140,6 +140,17 @@ Rules:
 - One tag may point to multiple packaged outputs.
 - ZIP and MSI belong to the same release tag if they come from the same commit.
 
+### 3.1 Docker Image Tagging (Release Alignment)
+
+For Docker publication, image tags must preserve the canonical release tag identity and must not be derived from fallback timestamps during release publication.
+
+Rules:
+
+- For release publication, Docker image tags are derived from the resolved canonical Git tag at the release commit (`vX.Y.Z`, `enterprise-vX.Y.Z`, `hyperscaler-vX.Y.Z`, `military-vX.Y.Z`, `minimal-vX.Y.Z`).
+- In `workflow_run`-triggered Docker publication, version resolution must use tags that point to the triggering `head_sha`.
+- If a release-triggered publication cannot resolve a canonical release tag at `head_sha`, publication must fail fast.
+- Timestamp/dev fallback versions are allowed only for non-release/manual development publication paths.
+
 ## 4. Branches
 
 Canonical permanent branches:
@@ -413,6 +424,7 @@ pwsh scripts/release/new-winget-manifest.ps1 `
     -InstallerType zip `
     -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb-2.4.0-rc1-community-binary-x64.zip `
     -InstallerSha256 <SHA256_FROM_RELEASE> `
+    -PackageDependencies Microsoft.VCRedist.2015+.x64 `
     -IncludeGermanLocale
 
 # From an MSI release
@@ -424,7 +436,7 @@ pwsh scripts/release/new-winget-manifest.ps1 `
     -IncludeGermanLocale
 ```
 
-Versions with a pre-release suffix (`-alpha`, `-beta`, `-rc*`) automatically receive `IsPreRelease: true` in the installer manifest.
+Versions with a pre-release suffix (`-alpha`, `-beta`, `-rc*`) are represented by the package version itself, for example `2.4.0-alpha`. The WinGet installer manifest does not accept an `IsPreRelease` field in the current schema.
 
 ### Submitting a release
 
@@ -441,6 +453,7 @@ Rules:
 - Submit stable releases first. RC/alpha may follow after the stable PR is merged.
 - Never submit a version with a placeholder SHA256.
 - Validate locally before submitting: `winget validate --manifest packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>`
+- ZIP manifests must include `Microsoft.VCRedist.2015+.x64` so the portable binary can start on clean Windows machines.
 - After submission remove the Draft status on the PR to trigger Microsoft's automated validation pipeline.
 
 ### Pre-release policy

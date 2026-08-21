@@ -1514,6 +1514,7 @@ Manifests live in `packaging/winget/manifests/`. After each stable release:
        -InstallerType zip \
        -InstallerUrl <URL_FROM_GITHUB_RELEASE> \
        -InstallerSha256 <HASH_FROM_GITHUB_RELEASE> \
+         -PackageDependencies Microsoft.VCRedist.2015+.x64 \
        -IncludeGermanLocale
    ```
 2. Validate locally: `winget validate --manifest packaging/winget/manifests/t/ThemisDB/ThemisDB/<X.Y.Z>`

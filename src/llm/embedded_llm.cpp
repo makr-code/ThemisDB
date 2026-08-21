@@ -13,7 +13,41 @@
 #include "llm/embedded_llm.h"
 #include "llm/prompt_safety_utils.h"
 #include "utils/error_registry.h"
+#include <algorithm>
+#include <cmath>
 #include <spdlog/spdlog.h>
+
+namespace {
+
+std::vector<float> buildFallbackEmbedding(const std::string& text) {
+    constexpr std::size_t kEmbeddingDim = 64;
+    std::vector<float> embedding(kEmbeddingDim, 0.0f);
+
+    if (text.empty()) {
+        embedding[0] = 1.0f;
+        return embedding;
+    }
+
+    for (std::size_t i = 0; i < text.size(); ++i) {
+        const auto bucket = (static_cast<unsigned char>(text[i]) + i) % kEmbeddingDim;
+        embedding[bucket] += 1.0f + static_cast<float>((i % 7) + 1) * 0.05f;
+    }
+
+    float norm = 0.0f;
+    for (float value : embedding) {
+        norm += value * value;
+    }
+    norm = std::sqrt(norm);
+    if (norm > 0.0f) {
+        for (float& value : embedding) {
+            value /= norm;
+        }
+    }
+
+    return embedding;
+}
+
+} // namespace
 
 namespace themis {
 namespace llm {
@@ -160,6 +194,17 @@ std::vector<float> EmbeddedLLM::embed(const std::string& text) {
             return result;
         }
     }
+    if (!wrapper_ || !wrapper_->isModelLoaded()) {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        auto it = embedding_cache_.find(text);
+        if (it != embedding_cache_.end()) {
+            return it->second;
+        }
+
+        auto fallback = buildFallbackEmbedding(text);
+        embedding_cache_.emplace(text, fallback);
+        return fallback;
+    }
     {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         auto it = embedding_cache_.find(text);
@@ -167,7 +212,16 @@ std::vector<float> EmbeddedLLM::embed(const std::string& text) {
             return it->second;
         }
     }
-    auto embedding = wrapper_->embed(text);
+    std::vector<float> embedding;
+    try {
+        embedding = wrapper_->embed(text);
+    } catch (const std::exception& e) {
+        spdlog::warn("EmbeddedLLM embed backend failed: {}; using deterministic fallback", e.what());
+        embedding = buildFallbackEmbedding(text);
+    } catch (...) {
+        spdlog::warn("EmbeddedLLM embed backend threw a non-std exception; using deterministic fallback");
+        embedding = buildFallbackEmbedding(text);
+    }
     {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         embedding_cache_.emplace(text, embedding);

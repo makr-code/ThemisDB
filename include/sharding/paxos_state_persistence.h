@@ -9,6 +9,8 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
 #include "sharding/paxos_snapshot.h"
 #include "sharding/paxos_wal.h"
 
@@ -23,6 +25,10 @@
 
 namespace themisdb {
 namespace sharding {
+
+using LSN = themis::sharding::LSN;
+using PaxosWAL = themis::sharding::PaxosWAL;
+using PaxosSnapshotManager = themis::sharding::PaxosSnapshotManager;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DurableAcceptorState – what must survive a crash

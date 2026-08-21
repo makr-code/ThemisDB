@@ -16,7 +16,7 @@
         "CMAKE_SUPPRESS_DEVELOPER_WARNINGS": "ON",
         "THEMIS_ENABLE_COMPILER_CACHE": "ON",
         "THEMIS_COMPILER_CACHE_PROGRAM": "sccache",
-        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
@@ -36,8 +36,8 @@
       "description": "Windows base: MSVC x64 with vcpkg and GPU support. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg",
       "inherits": "vcpkg-base",
       "environment": {
-        "CMAKE_BUILD_PARALLEL_LEVEL": "16",
-        "SCCACHE_DIR": "$penv{USERPROFILE}/.cache/sccache/themisdb",
+        "CMAKE_BUILD_PARALLEL_LEVEL": "8",
+        "SCCACHE_DIR": "${sourceDir}/.cache/sccache",
         "VCToolsInstallDir": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207",
         "WindowsSdkDir": "C:/Program Files (x86)/Windows Kits/10",
         "WindowsSDKVersion": "10.0.26100.0",
@@ -49,7 +49,12 @@
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
         "THEMIS_ENABLE_GPU": "ON",
-        "THEMIS_ENABLE_HTTP_SERVER": "ON"
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
+        "THREADS_PREFER_PTHREAD_FLAG": "OFF",
+        "CMAKE_USE_PTHREADS_INIT": "OFF",
+        "CMAKE_HAVE_PTHREAD_H": "OFF",
+        "CMAKE_HAVE_PTHREADS_CREATE": "OFF",
+        "CMAKE_THREAD_LIBS_INIT": ""
       }
     },
     {
@@ -84,7 +89,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY",
-        "THEMIS_DIAGNOSTIC_MODE": "OFF"
+        "THEMIS_DIAGNOSTIC_MODE": "OFF",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -117,7 +124,9 @@
       "binaryDir": "${sourceDir}/build-gcc-linux-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "THEMIS_EDITION": "COMMUNITY"
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -144,7 +153,9 @@
       "binaryDir": "${sourceDir}/build-community-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "THEMIS_EDITION": "COMMUNITY"
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -237,7 +248,7 @@
     {
       "name": "nightly-bench-sweep",
       "displayName": "Nightly Benchmark Sweep (vcpkg required)",
-      "description": "Nightly benchmark sweep: Linux release with benchmarks enabled, GPU and LLM disabled. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "description": "Nightly benchmark sweep: Linux release with benchmarks enabled, GPU active, LLM disabled. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "linux-base",
       "condition": {
         "type": "equals",
@@ -248,7 +259,8 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_BUILD_BENCHMARKS": "ON",
-        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "OFF",
         "THEMIS_EDITION": "COMMUNITY"
       }
@@ -294,7 +306,7 @@
     {
       "name": "hyperscaler-release-windows",
       "displayName": "Hyperscaler Release (Windows) (vcpkg required)",
-      "description": "Production release build for Hyperscaler edition on Windows with benchmarks. Optimized for large-scale cloud deployments. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "description": "Production release build for Hyperscaler edition on Windows without tests or benchmarks. Optimized for large-scale cloud deployments. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "windows-base",
       "condition": {
         "type": "equals",
@@ -306,13 +318,14 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "HYPERSCALER",
         "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json",
-        "THEMIS_BUILD_BENCHMARKS": "ON"
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
       "name": "hyperscaler-release-linux",
       "displayName": "Hyperscaler Release (Linux) (vcpkg required)",
-      "description": "Production release build for Hyperscaler edition on Linux with benchmarks. Optimized for large-scale cloud deployments. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "description": "Production release build for Hyperscaler edition on Linux without tests or benchmarks. Optimized for large-scale cloud deployments. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "linux-base",
       "condition": {
         "type": "equals",
@@ -324,7 +337,8 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "HYPERSCALER",
         "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json",
-        "THEMIS_BUILD_BENCHMARKS": "ON"
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -343,7 +357,9 @@
         "THEMIS_EDITION": "ENTERPRISE",
         "THEMIS_LICENSE_FILE": "${sourceDir}/certs/enterprise/license_test.json",
         "THEMIS_ENABLE_GRPC": "ON",
-        "THEMIS_ENABLE_TRACING": "ON"
+        "THEMIS_ENABLE_TRACING": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -383,7 +399,9 @@
         "THEMIS_EDITION": "ENTERPRISE",
         "THEMIS_LICENSE_FILE": "${sourceDir}/certs/enterprise/license_test.json",
         "THEMIS_ENABLE_GRPC": "ON",
-        "THEMIS_ENABLE_TRACING": "ON"
+        "THEMIS_ENABLE_TRACING": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -422,7 +440,9 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "MILITARY",
         "THEMIS_LICENSE_FILE": "${sourceDir}/certs/military/license_test.json",
-        "THEMIS_ENABLE_GRPC": "ON"
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -460,7 +480,9 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "MILITARY",
         "THEMIS_LICENSE_FILE": "${sourceDir}/certs/military/license_test.json",
-        "THEMIS_ENABLE_GRPC": "ON"
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {

@@ -6,7 +6,8 @@ namespace llm {
 namespace applications {
 
 // Define PImpl for ThemisHelpLoRA to match header's forward declaration.
-struct applications::ThemisHelpLoRA::Impl {
+class ThemisHelpLoRA::Impl {
+public:
     Impl() { impl = createThemisHelpLoRA(); }
     std::shared_ptr<IThemisHelpLoRA> impl;
     bool isTrained() const { return impl ? impl->isTrained() : false; }

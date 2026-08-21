@@ -604,42 +604,51 @@ size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
     return evictLRUUnlocked();
 }
 
-size_t LazyModelLoader::evictLRUUnlocked(size_t /*target_vram_mb*/) {
+size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
     if (models_.empty()) {
         return 0;
     }
-    
-    // Find LRU unpinned model
-    CachedModel* lru_model = nullptr;
-    std::string lru_id;
-    auto oldest_time = std::chrono::system_clock::now();
-    
-    for (auto& [id, model] : models_) {
-        if (model->keep_loaded) {
-            continue;  // Skip pinned models
+
+    size_t total_freed_vram = 0;
+    bool evicted_any = false;
+
+    while (!models_.empty() && (target_vram_mb == 0 || total_freed_vram < target_vram_mb)) {
+        CachedModel* lru_model = nullptr;
+        std::string lru_id;
+        auto oldest_time = std::chrono::system_clock::now();
+
+        for (auto& [id, model] : models_) {
+            if (model->keep_loaded) {
+                continue;  // Skip pinned models
+            }
+
+            if (model->last_used < oldest_time) {
+                oldest_time = model->last_used;
+                lru_model = model.get();
+                lru_id = id;
+            }
         }
-        
-        if (model->last_used < oldest_time) {
-            oldest_time = model->last_used;
-            lru_model = model.get();
-            lru_id = id;
+
+        if (!lru_model) {
+            if (!evicted_any) {
+                spdlog::warn("All models are pinned, cannot evict");
+            }
+            break;
         }
+
+        const size_t freed_vram = lru_model->vram_mb;
+        spdlog::info("Evicting LRU model: {} (freed {} MB VRAM)", lru_id, freed_vram);
+
+        evictions_.fetch_add(1, std::memory_order_relaxed);
+        if (!unloadModelUnlocked(lru_id, true)) {
+            break;
+        }
+
+        evicted_any = true;
+        total_freed_vram += freed_vram;
     }
-    
-    if (!lru_model) {
-        spdlog::warn("All models are pinned, cannot evict");
-        return 0;
-    }
-    
-    size_t freed_vram = lru_model->vram_mb;
-    
-    spdlog::info("Evicting LRU model: {} (freed {} MB VRAM)", lru_id, freed_vram);
-    
-    evictions_.fetch_add(1, std::memory_order_relaxed);
-    
-    unloadModelUnlocked(lru_id, true);
-    
-    return freed_vram;
+
+    return total_freed_vram;
 }
 
 size_t LazyModelLoader::evictExpired() {

@@ -88,6 +88,32 @@ if(EXISTS "${_build_bin_dir}")
     endif()
 endif()
 
+set(_runtime_sync_script "${THEMIS_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake")
+if(EXISTS "${_runtime_sync_script}")
+    set(_runtime_sync_args
+        -DBIN_DIR=${_build_bin_dir}
+        -DDST_DIR=${_package_root}/bin
+    )
+    if(DEFINED THEMIS_VCPKG_ROOT AND DEFINED VCPKG_TARGET_TRIPLET AND NOT "${THEMIS_VCPKG_ROOT}" STREQUAL "" AND NOT "${VCPKG_TARGET_TRIPLET}" STREQUAL "")
+        list(APPEND _runtime_sync_args
+            -DVCPKG_BIN_DIR=${THEMIS_VCPKG_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/bin
+        )
+    endif()
+
+    execute_process(
+        COMMAND "${CMAKE_COMMAND}" ${_runtime_sync_args} -P "${_runtime_sync_script}"
+        RESULT_VARIABLE _sync_runtime_result
+        OUTPUT_VARIABLE _sync_runtime_output
+        ERROR_VARIABLE _sync_runtime_error
+    )
+    if(NOT _sync_runtime_result EQUAL 0)
+        message(FATAL_ERROR
+            "Failed to sync runtime DLLs into ZIP staging.\n"
+            "stdout:\n${_sync_runtime_output}\n"
+            "stderr:\n${_sync_runtime_error}")
+    endif()
+endif()
+
 # Keep tests/benchmarks in deploy package only when explicitly enabled.
 if(NOT THEMIS_PACKAGE_INCLUDE_TESTS)
     file(GLOB _themis_test_bins "${_package_root}/bin/test*.exe")

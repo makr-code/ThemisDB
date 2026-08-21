@@ -17,6 +17,7 @@ param(
     [ValidateSet("zip", "msi")]
     [string]$WingetInstallerType = "zip",
     [switch]$IncludeGermanWingetLocale,
+    [string[]]$WingetPackageDependencies = @("Microsoft.VCRedist.2015+.x64"),
 
     [switch]$PublishGitHub,
     [switch]$PublishDocker,
@@ -214,6 +215,10 @@ if ($GenerateWingetManifest) {
             "-InstallerType", $WingetInstallerType,
             "-ReleaseNotes", "Local release build for $Tag."
         )
+        if ($WingetInstallerType -eq "zip" -and $WingetPackageDependencies.Count -gt 0) {
+            $wingetArgumentList += @("-PackageDependencies")
+            $wingetArgumentList += $WingetPackageDependencies
+        }
         if ($IncludeGermanWingetLocale) {
             $wingetArgumentList += "-IncludeGermanLocale"
         }

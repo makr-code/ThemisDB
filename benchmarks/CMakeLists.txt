@@ -100,6 +100,7 @@ themis_log_suite_context("Benchmarks")
 
 # Include directories
 include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_BINARY_DIR}/proto_generated

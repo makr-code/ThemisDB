@@ -89,24 +89,53 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        fetch-depth: 0
+        # For workflow_run, build exactly the commit that triggered CI — Release.
+        ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
     - name: Determine version
       id: version
       env:
         EVENT_NAME: ${{ github.event_name }}
         GIT_REF: ${{ github.ref }}
-        RELEASE_TAG_NAME: ${{ github.event.release.tag_name || '' }}
+        WORKFLOW_RUN_HEAD_SHA: ${{ github.event.workflow_run.head_sha || '' }}
+        WORKFLOW_RUN_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch || '' }}
       run: |
         echo "──────────────────────────────────────────────"
         echo "  Version detection"
-        if [[ "${GIT_REF}" == refs/tags/v* ]]; then
+        RELEASE_TAG_NAME="$(jq -r '.release.tag_name // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
+        WORKFLOW_RUN_EVENT="$(jq -r '.workflow_run.event // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
+
+        RELEASE_TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+|enterprise-v[0-9]+\.[0-9]+\.[0-9]+|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+|military-v[0-9]+\.[0-9]+\.[0-9]+|minimal-v[0-9]+\.[0-9]+\.[0-9]+)$'
+
+        if [[ "${EVENT_NAME}" == "workflow_run" ]]; then
+          # Resolve release tag from the exact upstream run SHA.
+          git fetch --tags --force >/dev/null 2>&1 || true
+          VERSION="$(git tag --points-at "${WORKFLOW_RUN_HEAD_SHA}" | grep -E "${RELEASE_TAG_REGEX}" | head -n1 || true)"
+
+          if [[ -n "${VERSION}" ]]; then
+            echo "  Source   : workflow_run head SHA tag"
+          elif [[ "${WORKFLOW_RUN_HEAD_BRANCH}" =~ ${RELEASE_TAG_REGEX} ]]; then
+            # Fallback for unusual payload shapes where branch carries tag text.
+            VERSION="${WORKFLOW_RUN_HEAD_BRANCH}"
+            echo "  Source   : workflow_run head branch"
+          elif [[ "${WORKFLOW_RUN_EVENT}" == "release" ]]; then
+            echo "::error::workflow_run from release event but no canonical release tag could be resolved at head SHA ${WORKFLOW_RUN_HEAD_SHA}."
+            exit 1
+          else
+            VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
+            echo "  Source   : VERSION file + timestamp (workflow_run fallback)"
+          fi
+
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+        elif [[ "${GIT_REF}" == refs/tags/* ]]; then
           VERSION="${GIT_REF}"
           VERSION="${VERSION#refs/tags/}"
           echo "  Source   : git tag"
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
         elif [[ "${EVENT_NAME}" == "release" ]]; then
           VERSION="${RELEASE_TAG_NAME}"
-          VERSION="${VERSION#v}"
           echo "  Source   : release event"
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
         else
@@ -154,13 +183,14 @@ jobs:
       run: |
         VERSION="${{ steps.version.outputs.version }}"
         TAGS=""
+        RELEASE_TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+|enterprise-v[0-9]+\.[0-9]+\.[0-9]+|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+|military-v[0-9]+\.[0-9]+\.[0-9]+|minimal-v[0-9]+\.[0-9]+\.[0-9]+)$'
         REPO_LC="$(echo "${REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
         GHCR_REPO="ghcr.io/${REPO_LC}"
         DOCKERHUB_REPO="themisdb/themisdb"
         TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
 
-        # For released versions (tags/releases)
-        if [[ "${EVENT_NAME}" == "release" ]] || [[ "${GIT_REF}" == refs/tags/v* ]]; then
+        # For released versions, rely on resolved VERSION, not raw event ref.
+        if [[ "${VERSION}" =~ ${RELEASE_TAG_REGEX} ]]; then
           # themisdb/themisdb:1.0.0
           TAGS="${DOCKERHUB_REPO}:${VERSION}"
 
@@ -250,7 +280,7 @@ jobs:
               "type": "docker_build_failure",
               "severity": "critical",
               "message": "Docker image build failed — see Actions log for details",
-              "timestamp": "${{ github.event.head_commit.timestamp || '' }}"
+              "timestamp": "$(date -u +%FT%TZ)"
             }
           ]
         }

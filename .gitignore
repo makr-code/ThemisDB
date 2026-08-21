@@ -7,6 +7,11 @@ compendium/chrome/
 compendium/temp
 build-*/
 
+# sccache (local cache for build acceleration)
+.sccache/
+.sccache-*/
+.cache/
+
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md
 

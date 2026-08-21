@@ -132,7 +132,7 @@ ARG TARGETARCH
 
 WORKDIR /src
 
-COPY CMakeLists.txt VERSION ./
+COPY CMakeLists.txt VERSION LICENSE ./
 COPY cmake ./cmake
 COPY include ./include
 COPY src ./src

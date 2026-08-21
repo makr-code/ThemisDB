@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <mutex>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 
 #ifdef THEMIS_ENABLE_RNNOISE
 #  include <rnnoise.h>

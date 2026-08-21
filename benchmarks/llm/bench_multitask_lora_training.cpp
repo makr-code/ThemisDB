@@ -60,6 +60,15 @@ std::vector<MTLSample> createSyntheticSamples(
     return samples;
 }
 
+void markSyntheticProxyBenchmark(benchmark::State& state) {
+    // This benchmark intentionally exercises synthetic data + stubbed trainer internals.
+    // Keep it explicitly visible in benchmark artifacts so it is not mistaken as
+    // a full production-model throughput/latency measurement.
+    state.counters["synthetic_workload"] = 1;
+    state.counters["proxy_benchmark"] = 1;
+    state.counters["stubbed_trainer_path"] = 1;
+}
+
 } // anonymous namespace
 
 // =============================================================================
@@ -73,6 +82,7 @@ static void GATE_MTL_01_SingleTaskBaseline(benchmark::State& state) {
     cfg.batch_size = 32;
     cfg.learning_rate = 1e-3f;
     
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         MultiTaskLoRATrainer trainer(cfg);
         
@@ -101,6 +111,7 @@ static void GATE_MTL_02_MultiTaskSharedBase(benchmark::State& state) {
     cfg.batch_size = 32;
     cfg.learning_rate = 1e-3f;
     
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         MultiTaskLoRATrainer trainer(cfg);
         
@@ -145,6 +156,7 @@ static void GATE_MTL_03_TaskRoutingLatency(benchmark::State& state) {
     trainer.train(samples);
     
     // Now benchmark the routing latency
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         auto gate = trainer.inferTask(samples[0].input);
         benchmark::DoNotOptimize(gate);
@@ -178,6 +190,7 @@ static void GATE_MTL_04_ForwardPassThroughput(benchmark::State& state) {
     trainer.train(samples);
     
     // Benchmark forward pass throughput
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         auto output = trainer.forward(samples[0].input);
         benchmark::DoNotOptimize(output);
@@ -199,6 +212,7 @@ static void GATE_MTL_05_ThreeTaskTransferBenchmark(benchmark::State& state) {
     cfg.batch_size = 32;
     cfg.learning_rate = 1e-3f;
     
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         MultiTaskLoRATrainer trainer(cfg);
         
@@ -244,6 +258,7 @@ static void GATE_MTL_06_TrainingOverheadComparison(benchmark::State& state) {
     double single_time = std::chrono::duration<double>(single_end - single_start).count();
     
     // Measure multi-task training time
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         auto mtl_start = std::chrono::high_resolution_clock::now();
         
@@ -294,6 +309,7 @@ static void GATE_MTL_07_AcceptanceGateValidation(benchmark::State& state) {
     trainer.train(samples);
     
     // Benchmark the validation method
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         auto gates = trainer.validateAcceptanceGates();
         benchmark::DoNotOptimize(gates);
@@ -324,6 +340,7 @@ static void GATE_MTL_08_AblationStudySharedVsSeparate(benchmark::State& state) {
     
     auto samples = createSyntheticSamples({"task_a", "task_b"}, 100, 32);
     
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         auto [shared, separate] = trainer.runAblationStudy(samples);
         benchmark::DoNotOptimize(shared);
@@ -349,6 +366,7 @@ static void GATE_MTL_Scaling_InputDim(benchmark::State& state) {
     cfg.learning_rate = 1e-3f;
     cfg.input_dim = input_dim;
     
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         MultiTaskLoRATrainer trainer(cfg);
         
@@ -387,6 +405,7 @@ static void GATE_MTL_Scaling_TaskCount(benchmark::State& state) {
     cfg.batch_size = 32;
     cfg.learning_rate = 1e-3f;
     
+    markSyntheticProxyBenchmark(state);
     for (auto _ : state) {
         MultiTaskLoRATrainer trainer(cfg);
         
