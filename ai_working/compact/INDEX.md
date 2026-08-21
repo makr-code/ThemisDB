@@ -1,8 +1,8 @@
 # ai_working/compact — Index
 
-**Generated:** 2026-08-19  
+**Generated:** 2026-08-21  
 **Topics:** 20  
-**Total source files grouped:** 1703  
+**Total source files grouped:** 1706  
 
 > Auto-generated LLM-wiki index following the Karpathy LLM Wiki pattern.
 > Each page below is a compact knowledge blob for one topic.
@@ -15,7 +15,7 @@
 - [ANALYTICS.md](ANALYTICS.md) — 65 source files
 - [AQL.md](AQL.md) — 6 source files
 - [BATCH_DELIVERY.md](BATCH_DELIVERY.md) — 248 source files
-- [CICD.md](CICD.md) — 4 source files
+- [CICD.md](CICD.md) — 7 source files
 - [EXECUTION.md](EXECUTION.md) — 20 source files
 - [FINAL_REPORTS.md](FINAL_REPORTS.md) — 38 source files
 - [GAP_CLOSURE.md](GAP_CLOSURE.md) — 148 source files
