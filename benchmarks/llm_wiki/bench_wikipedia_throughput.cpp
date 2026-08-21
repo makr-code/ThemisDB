@@ -1,3 +1,9 @@
+// SIMULATION NOTE:
+// Purpose: Synthetic throughput benchmark for Wikipedia-style ingestion and checkpoint flows.
+// Activation: Always active in benchmark builds; never in production code paths.
+// Production Delta: This benchmark uses deterministic synthetic corpus generation rather than live Wikipedia documents or the production ingestion pipeline.
+// Removal Plan: Replace with real end-to-end pipeline benchmarks once the production ingestion/checkpoint implementation is benchmarkable.
+
 #include <benchmark/benchmark.h>
 
 #include <algorithm>

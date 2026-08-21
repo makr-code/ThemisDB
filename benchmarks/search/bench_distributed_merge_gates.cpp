@@ -1,3 +1,9 @@
+// SIMULATION NOTE:
+// Purpose: Synthetic distributed merge benchmark for shard aggregation and ranking escalation.
+// Activation: Always active in benchmark builds; it does not exercise the production distributed merge pipeline.
+// Production Delta: Shards are generated in-memory and merged with a deterministic sort, rather than the live distributed coordinator/runtime path.
+// Removal Plan: Replace with real distributed merge benchmarks once the coordinator and ranker APIs are exposed for benchmark instrumentation.
+
 #include <benchmark/benchmark.h>
 
 #include <algorithm>

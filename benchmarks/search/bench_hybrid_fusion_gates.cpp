@@ -1,3 +1,9 @@
+// SIMULATION NOTE:
+// Purpose: Synthetic hybrid fusion benchmark for BM25/vector normalization and RRF scoring paths.
+// Activation: Benchmark-only synthetic ranking workload.
+// Production Delta: The fused candidate lists are generated in-memory and normalized with artificial score transforms instead of the live search fusion runtime.
+// Removal Plan: Replace with direct production fusion benchmarks once the real fusion service is exposed for measurement.
+
 #include <benchmark/benchmark.h>
 
 #include <algorithm>

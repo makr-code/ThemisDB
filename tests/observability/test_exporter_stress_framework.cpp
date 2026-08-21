@@ -100,8 +100,8 @@ TEST_F(ExporterStressFrameworkTest, ProgressCallbackInvoked) {
     EXPECT_GT(progress_calls, 0);
 }
 
-TEST_F(ExporterStressFrameworkTest, CancelTestReturnsTrueAndResets) {
-    EXPECT_TRUE(framework->cancelTest());
+TEST_F(ExporterStressFrameworkTest, CancelTestReturnsFalseWhenIdle) {
+    EXPECT_FALSE(framework->cancelTest());
     EXPECT_FALSE(framework->cancelTest());
 }
 

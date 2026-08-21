@@ -1,3 +1,9 @@
+// SIMULATION NOTE:
+// Purpose: Synthetic search benchmark covering multimodal fusion, learning-to-rank, and concurrent indexing scenarios.
+// Activation: Benchmark-only synthetic data path for release-gate estimation.
+// Production Delta: Uses generated scores and in-memory merges instead of the live retrieval/runtime stack.
+// Removal Plan: Replace with production-path benchmarks once these search flows are exposed through the real runtime APIs.
+
 #include <benchmark/benchmark.h>
 
 #include <algorithm>

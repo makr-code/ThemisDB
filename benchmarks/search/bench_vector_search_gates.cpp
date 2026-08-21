@@ -1,3 +1,9 @@
+// SIMULATION NOTE:
+// Purpose: Synthetic vector-search benchmark for L2 and cosine batch queries.
+// Activation: Benchmark-only synthetic vector dataset and score path.
+// Production Delta: This does not call the production ANN/vector index implementation; it computes an in-memory distance model over generated vectors.
+// Removal Plan: Replace with real ANN/index benchmarks once the vector-search runtime exposes a stable benchmark harness.
+
 #include <benchmark/benchmark.h>
 
 #include <algorithm>

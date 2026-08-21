@@ -112,8 +112,17 @@ set(BENCHMARK_LIBS
 )
 
 function(themis_add_standard_benchmark target_name source_file)
-    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
-        message(STATUS "Benchmark source not found at ${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
+    set(_benchmark_source "${source_file}")
+    if(IS_ABSOLUTE "${source_file}")
+        set(_benchmark_source "${source_file}")
+    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
+        set(_benchmark_source "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
+    elseif(EXISTS "${source_file}")
+        set(_benchmark_source "${source_file}")
+    endif()
+
+    if(NOT EXISTS "${_benchmark_source}")
+        message(STATUS "Benchmark source not found at ${source_file}")
         return()
     endif()
 
@@ -122,7 +131,7 @@ function(themis_add_standard_benchmark target_name source_file)
     endif()
 
     add_executable(${target_name}
-            ${source_file}
+            "${_benchmark_source}"
     )
 
     target_link_libraries(${target_name} PRIVATE
@@ -2076,9 +2085,11 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/bench_governance_policy_latency.cpp")
     message(STATUS "Adding governance policy evaluation latency benchmarks")
 
-    add_executable(bench_governance_policy_latency
-        governance/bench_governance_policy_latency.cpp
-    )
+    if(NOT TARGET bench_governance_policy_latency)
+        add_executable(bench_governance_policy_latency
+            governance/bench_governance_policy_latency.cpp
+        )
+    endif()
 
     target_link_libraries(bench_governance_policy_latency PRIVATE
         ${BENCHMARK_LIBS}
@@ -3314,9 +3325,11 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/bench_exporters.cpp")
     message(STATUS "Adding Exporters throughput benchmarks")
 
-    add_executable(bench_exporters
-        exporters/bench_exporters.cpp
-    )
+    if(NOT TARGET bench_exporters)
+        add_executable(bench_exporters
+            exporters/bench_exporters.cpp
+        )
+    endif()
 
     target_link_libraries(bench_exporters PRIVATE
         themis_core

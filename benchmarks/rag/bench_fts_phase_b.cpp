@@ -1,3 +1,9 @@
+// SIMULATION NOTE:
+// Purpose: Synthetic FTS benchmark for phrase and proximity query acceleration work.
+// Activation: Always active in benchmark builds; not used in production query execution.
+// Production Delta: The corpus and match logic are deterministic synthetic tokens, not production FTS index state.
+// Removal Plan: Replace with module-level benchmarks against the production FTS indexer/query engine when those hooks are available.
+
 #include <benchmark/benchmark.h>
 
 #include <algorithm>

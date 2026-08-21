@@ -70,6 +70,7 @@ Ausführung erfolgt entweder über erzeugte Benchmark-Binaries (`bench_*`) oder 
 - Verbindlicher Standard: `BENCHMARK_STANDARDS.md`
 - Historische Summary/Report-Dateien unter `benchmarks/docs/` sind Kontext,
   aber nicht kanonisch fuer aktuelle Benchmark-Regeln.
+- Benchmarks, die synthetische oder emulierte Workloads statt echter Produktions-Implementierungen verwenden, müssen am Dateianfang einen `SIMULATION NOTE`-Block tragen. Die Markierung muss Zweck, Aktivierung, Produktionsdelta und Entfernungsplan benennen.
 - **Top-Level Benchmarks** (`benchmarks/bench*.cpp`, `benchmark_*.cpp`) bleiben nur für noch nicht migrierte oder bewusst globale Targets im Root erhalten.
 - **Modul-Benchmarks** folgen dem Muster `benchmarks/<module>/CMakeLists.txt` (analog `tests/<module>/...`), z. B. `benchmarks/ai/`, `benchmarks/analytics/`, `benchmarks/aql/`, `benchmarks/core/`, `benchmarks/query/`, `benchmarks/rag/`, `benchmarks/server/`, `benchmarks/transaction/`, `benchmarks/performance_optimizations/`.
 - **Manuelle/Script-basierte Benchmarks** (`*.py`, `*.sh`, `*.ps1`) sind absichtlich **nicht** als CTest-Gates registriert und werden über ihre Runner ausgeführt.

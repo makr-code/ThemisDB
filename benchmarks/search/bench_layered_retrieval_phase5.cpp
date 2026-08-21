@@ -1,3 +1,9 @@
+// SIMULATION NOTE:
+// Purpose: Synthetic layered retrieval benchmark for ANN/tensor/graph/LLM scoring composition.
+// Activation: Benchmark-only synthetic workload used for design validation and gate estimation.
+// Production Delta: The candidate scoring pipeline is emulated in-memory and not driven by the live retrieval runtime or model scoring stack.
+// Removal Plan: Replace with real runtime benchmarks when the production layered retrieval pipeline exposes benchmark hooks.
+
 #include <benchmark/benchmark.h>
 
 #include <algorithm>
