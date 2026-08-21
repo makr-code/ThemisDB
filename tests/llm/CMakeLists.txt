@@ -71,6 +71,11 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/subagent_coordinator_impl.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_workflow_orchestration_focused")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/task_decomposer.cpp
+        )
+    endif()
     if((_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration") AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
@@ -84,6 +89,32 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_real_embeddings")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_query_rewriter")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_query_rewriter")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_query_rewriter_validator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_reranker")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/llm_reranker.cpp
+            ${THEMIS_ROOT_DIR}/src/search/learning_to_rank.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_query_rewriter_validator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
         )
     endif()
     if(_stem STREQUAL "test_ssm_rocksdb_store" AND NOT TARGET themis_llm)
@@ -284,6 +315,11 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_query_rewriter" OR _stem STREQUAL "test_llm_query_rewriter_validator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
+        )
+    endif()
     if((_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration") AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
@@ -304,6 +340,17 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/ssm_state_rocksdb_store.cpp
         )
         target_link_libraries(${_target} PRIVATE rocksdb)
+    endif()
+    if(_stem STREQUAL "test_llm_workflow_orchestration_focused")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/task_decomposer.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_reranker")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/llm_reranker.cpp
+            ${THEMIS_ROOT_DIR}/src/search/learning_to_rank.cpp
+        )
     endif()
     # Module-wide policy: do not link gmock into LLM autofocused tests.
     # Keep runtime consistent with focused targets.

@@ -86,12 +86,18 @@ static LlmQueryRewriter::LlmBackend makeMockBackend(const std::string& response)
     return [response](const std::string& /*prompt*/) { return response; };
 }
 
+static LlmQueryRewriter makeParsingRewriter(const std::string& response) {
+    LlmQueryRewriter::Config cfg;
+    cfg.min_token_overlap_ratio = 0.0f;
+    return LlmQueryRewriter{cfg, makeMockBackend(response)};
+}
+
 TEST(LlmQueryRewriterWithBackend, ParsesNumberedLines) {
     const std::string mock_response =
         "1. rapid database write\n"
         "2. high-throughput record insertion\n"
         "3. quick data persistence\n";
-    LlmQueryRewriter rw{{}, makeMockBackend(mock_response)};
+    LlmQueryRewriter rw = makeParsingRewriter(mock_response);
     auto result = rw.rewrite("fast db insert");
 
     EXPECT_TRUE(result.llm_used);
@@ -121,7 +127,7 @@ TEST(LlmQueryRewriterWithBackend, DeduplicatesRewrites) {
         "1. machine learning query\n"
         "2. machine learning query\n"   // exact duplicate
         "3. MACHINE LEARNING QUERY\n";  // case-insensitive duplicate
-    LlmQueryRewriter rw{{}, makeMockBackend(mock_response)};
+    LlmQueryRewriter rw = makeParsingRewriter(mock_response);
     auto result = rw.rewrite("ml search");
 
     // All three lines are the same (case-insensitively), so exactly one survives
@@ -131,7 +137,7 @@ TEST(LlmQueryRewriterWithBackend, DeduplicatesRewrites) {
 
 TEST(LlmQueryRewriterWithBackend, DropsSameAsOriginal) {
     // LLM returns the original query verbatim — should be filtered out
-    LlmQueryRewriter rw{{}, makeMockBackend("1. my exact query\n2. different phrasing\n")};
+    LlmQueryRewriter rw = makeParsingRewriter("1. my exact query\n2. different phrasing\n");
     auto result = rw.rewrite("my exact query");
 
     for (const auto& r : result.rewrites) {
@@ -140,14 +146,14 @@ TEST(LlmQueryRewriterWithBackend, DropsSameAsOriginal) {
 }
 
 TEST(LlmQueryRewriterWithBackend, HandlesParenthesesNumbering) {
-    LlmQueryRewriter rw{{}, makeMockBackend("1) first rewrite\n2) second rewrite\n")};
+    LlmQueryRewriter rw = makeParsingRewriter("1) first rewrite\n2) second rewrite\n");
     auto result = rw.rewrite("query");
     ASSERT_GE(result.rewrites.size(), 1u);
     EXPECT_EQ(result.rewrites[0], "first rewrite");
 }
 
 TEST(LlmQueryRewriterWithBackend, HandlesColonNumbering) {
-    LlmQueryRewriter rw{{}, makeMockBackend("1: first rewrite\n2: second rewrite\n")};
+    LlmQueryRewriter rw = makeParsingRewriter("1: first rewrite\n2: second rewrite\n");
     auto result = rw.rewrite("query");
     ASSERT_GE(result.rewrites.size(), 1u);
     EXPECT_EQ(result.rewrites[0], "first rewrite");
@@ -215,7 +221,9 @@ TEST(LlmQueryRewriterWithBackend, BackendExceptionNoFallback) {
 // ============================================================================
 
 TEST(LlmQueryRewriterSetBackend, ReplacesNullBackend) {
-    LlmQueryRewriter rw;  // no backend
+    LlmQueryRewriter::Config cfg;
+    cfg.min_token_overlap_ratio = 0.0f;
+    LlmQueryRewriter rw{cfg};  // no backend
     rw.setBackend(makeMockBackend("1. better phrasing\n"));
     auto result = rw.rewrite("original query");
     EXPECT_TRUE(result.llm_used);
@@ -255,7 +263,7 @@ TEST(LlmQueryRewriterParsing, BlankLinesSkipped) {
         "\n"
         "2. second rewrite\n"
         "\n";
-    LlmQueryRewriter rw{{}, makeMockBackend(mock_response)};
+    LlmQueryRewriter rw = makeParsingRewriter(mock_response);
     auto result = rw.rewrite("test");
     ASSERT_EQ(result.rewrites.size(), 2u);
     EXPECT_EQ(result.rewrites[0], "first rewrite");
