@@ -16,6 +16,11 @@ message(STATUS "[benchmarks/geo] Configuring geo benchmark targets")
 
 file(GLOB GEO_BENCH_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp")
 
+# Migration compatibility:
+# These files are physically in geo/, but currently registered via top-level
+# benchmark targets to preserve existing target names.
+list(FILTER GEO_BENCH_SOURCES EXCLUDE REGEX "/bench_(spatial_index|spatial_join)\\.cpp$")
+
 foreach(_src IN LISTS GEO_BENCH_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "bench_geo_${_stem}")

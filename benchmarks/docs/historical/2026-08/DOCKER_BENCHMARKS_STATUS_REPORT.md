@@ -1,20 +1,83 @@
-# DOCKER_BENCHMARKS_STATUS_REPORT (Archived)
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
 
-Status: Archived redirect stub (2026-08-21)
+# Docker Comparative Benchmarking - Phase Status Report
 
-This status report was moved to historical docs during benchmark cleanup.
+**Datum:** 2025-12-09  
+**Version:** 1.0.1  
+**Status:** Gap-Identifikation abgeschlossen, Benchmark-Suite bereit
 
-Archived copy:
-- [historical/2026-08/DOCKER_BENCHMARKS_STATUS_REPORT.md](historical/2026-08/DOCKER_BENCHMARKS_STATUS_REPORT.md)
+---
 
-Canonical sources:
-- [../BENCHMARK_STANDARDS.md](../BENCHMARK_STANDARDS.md)
-- [../MEASUREMENT_HYGIENE.md](../MEASUREMENT_HYGIENE.md)
-- [../README.md](../README.md)
+## Zusammenfassung
 
-Usage:
-- Use canonical sources for current benchmark rules and active status.
-- Use archived copy only for historical context.
+Umfassende Docker-Benchmark-Infrastruktur zur Validierung der Performance-Gaps zwischen ThemisDB v1.0.1 und Konkurrenten wurde erfolgreich etabliert.
+<!-- TODO: verify against current version -->
+
+### Historische Gaps identifiziert (v1.0.0)
+
+**36 Performance Gaps insgesamt:**
+- 6 Critical Gaps (PostgreSQL dominiert alle Protokolle)
+- 23 High-Priority Gaps
+- 7 Medium-Priority Gaps
+
+### Hauptkonkurrenten nach Gaps
+
+1. **PostgreSQL 16** - 6 Critical Gaps (HTTPS/gRPC/Wire Protokolle)
+2. **CockroachDB** - 6 High Gaps (Distributed SQL Performance)
+3. **SingleStore** - 6 High Gaps (In-Memory Performance)
+4. **MySQL 8.0** - 6 High Gaps (Traditional CRUD)
+5. **MariaDB 11** - 6 High Gaps (MySQL-Kompatibilität)
+6. **TiDB** - 6 High Gaps (NewSQL Performance)
+
+---
+
+## Workload: Relational CRUD
+
+### Gap-Detailanalyse
+
+**PostgreSQL 16 TCP:**
+- ThemisDB: 0.798ms
+- PostgreSQL: 1.453ms
+- Gap: **-45.1%** (ThemisDB schlechter) 🔴
+- **Target v1.0.1:** 0.558ms (-30% Latenz-Reduktion)
+<!-- TODO: verify against current version -->
+
+**PostgreSQL 16 HTTP:**
+- ThemisDB: 1.010ms
+- PostgreSQL: 1.806ms
+- Gap: **-44.1%** (ThemisDB schlechter) 🔴
+- **Target v1.0.1:** 0.707ms (-30% Latenz-Reduktion)
+<!-- TODO: verify against current version -->
+
+**PostgreSQL 16 gRPC:**
+- ThemisDB: 0.807ms
+- PostgreSQL: 1.591ms
+- Gap: **-49.3%** (ThemisDB schlechter) 🔴 **CRITICAL**
+- **Target v1.0.1:** 0.565ms (-30% Latenz-Reduktion)
+<!-- TODO: verify against current version -->
+
+### v1.0.1 Verbesserungen (geplant)
+
+✅ **SIMD-Optimierungen** (35% Latenz-Reduktion)
+- Vectorisierte Vergleichs-Operationen
+- SSE4.2 / AVX2 für Sortierungen
+- Impact: PostgreSQL Gaps schließen zu ~25-30%
+
+✅ **Wire-Protocol Optimierung** (45% weniger Overhead)
+- Reduzierter Overhead für gRPC/Wire Protokolle
+- Bessere Connection-Pooling
+- Impact: gRPC/Wire Gaps zu 35-40% schließen
+
+✅ **Index-Rebuild Parallelisierung** (60% schneller)
+- Multi-threaded B-Tree Construction
+- Bessere Range-Query Performance
+- Impact: Range-Query Gaps zu 40-50% schließen
+
+✅ **Query-Optimizer Improvements**
+- Bessere Selectivity-Estimation
+- Improved Plan-Caching
+- Impact: CRUD-Gaps zu 20-30% schließen
 
 ---
 

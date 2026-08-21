@@ -14,6 +14,11 @@ message(STATUS "[benchmarks/storage] Configuring storage benchmark targets")
 
 file(GLOB STR_BENCH_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp")
 
+# Pilot migration compatibility:
+# These files are now physically located in storage/, but remain registered via
+# top-level benchmark targets to preserve existing target names.
+list(FILTER STR_BENCH_SOURCES EXCLUDE REGEX "/bench_(crud|mvcc|wal_stress)\\.cpp$")
+
 foreach(_src IN LISTS STR_BENCH_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "bench_storage_${_stem}")

@@ -6,6 +6,10 @@
 >
 > Einstiegspfad fuer neue Nutzer/Admins: [README.md](README.md) → [QUICKSTART.md](QUICKSTART.md) → [SETUP.md](SETUP.md) → [SUPPORT.md](SUPPORT.md)
 
+Kanonische Standards:
+- Tests: [tests/TESTING_STANDARDS.md](tests/TESTING_STANDARDS.md)
+- Benchmarks: [benchmarks/BENCHMARK_STANDARDS.md](benchmarks/BENCHMARK_STANDARDS.md)
+
 ---
 
 ## Update 2026-05-26 (wire/themis focused verification on windows-release)

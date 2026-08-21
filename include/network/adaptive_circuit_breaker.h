@@ -105,10 +105,14 @@ public:
             size_t success_threshold = 5;
 
             /// How long to keep the circuit OPEN before entering HALF_OPEN.
-            std::chrono::seconds open_timeout{60};
+            /// Accepts any std::chrono duration, e.g. seconds/milliseconds.
+            std::chrono::steady_clock::duration open_timeout{
+                std::chrono::seconds(60)};
 
             /// Maximum time in HALF_OPEN before falling back to OPEN.
-            std::chrono::seconds half_open_timeout{30};
+            /// Accepts any std::chrono duration, e.g. seconds/milliseconds.
+            std::chrono::steady_clock::duration half_open_timeout{
+                std::chrono::seconds(30)};
 
             /// Enable dynamic adjustment of @c failure_threshold at runtime.
             bool enable_adaptive_threshold = true;

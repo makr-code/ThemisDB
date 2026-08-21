@@ -16,6 +16,11 @@ file(GLOB SEC_BENCH_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp")
 
 foreach(_src IN LISTS SEC_BENCH_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
+
+    if(_stem STREQUAL "bench_security" OR _stem STREQUAL "bench_compliance_security_governance")
+        continue()
+    endif()
+
     set(_target "bench_security_${_stem}")
 
     if(TARGET ${_target})

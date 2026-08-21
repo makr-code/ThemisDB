@@ -1,7 +1,18 @@
-> ⚠️ **Historischer Testbericht** – Dieser Bericht beschreibt den Teststand zum Zeitpunkt der Erstellung.
-> Für aktuellen Stand: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release` ausführen.
-
 # Test Verification Summary
+
+Status: Historical snapshot
+Canonicality: Non-canonical for current test standards
+Last governance alignment: 2026-08-21
+
+Canonical references:
+- [TESTING_STANDARDS.md](TESTING_STANDARDS.md)
+- [../CTEST.md](../CTEST.md)
+- [README.md](README.md)
+
+Usage note:
+- This report may be used as historical context.
+- Do not use its numeric/project-wide claims as current status unless revalidated
+   against current CTest/build evidence.
 
 ## Overview
 This document provides verification and validation of the concurrent operations and LLM inference quality test suites added to ThemisDB.

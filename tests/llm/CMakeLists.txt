@@ -320,6 +320,22 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_wiki_edition_gates" OR
+       _stem STREQUAL "test_llm_wiki_performance" OR
+       _stem STREQUAL "test_llm_wiki_phase4_roundtrip" OR
+       _stem STREQUAL "test_llm_wiki_phase_b_integration")
+        if(TARGET themis_llm_wiki)
+            target_link_libraries(${_target} PRIVATE themis_llm_wiki)
+        else()
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
+            )
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llm_wiki
+            )
+        endif()
+    endif()
     if((_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration") AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp

@@ -1,7 +1,18 @@
-> ⚠️ **Historischer Testbericht** – Dieser Bericht beschreibt den Teststand zum Zeitpunkt der Erstellung.
-> Für aktuellen Stand: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release` ausführen.
-
 # Google Test Coverage Report - Core Functions and Interfaces
+
+Status: Historical snapshot
+Canonicality: Non-canonical for current test standards
+Last governance alignment: 2026-08-21
+
+Canonical references:
+- [TESTING_STANDARDS.md](TESTING_STANDARDS.md)
+- [../CTEST.md](../CTEST.md)
+- [README.md](README.md)
+
+Usage note:
+- This document remains valuable for historical coverage analysis.
+- Current status statements must be validated against current source, build and
+   CTest evidence.
 
 ## Executive Summary
 

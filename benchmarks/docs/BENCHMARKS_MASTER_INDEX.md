@@ -52,7 +52,7 @@ python3 docker_benchmarks_unified.py --workload all --duration 120
 - Highlights effects of 16 lock stripes under high concurrency
 
 ### 📄 WAL Stress (NEW)
-→ [`bench_wal_stress.cpp`](../bench_wal_stress.cpp)
+→ [`bench_wal_stress.cpp`](../storage/bench_wal_stress.cpp)
 - WAL sync vs no-sync across thread counts and batch sizes
 - Observes write stall behavior and fsync overhead
 
@@ -137,7 +137,7 @@ benchmarks/
 │   └── [More utilities...]
 │
 └── 📦 C++ Benchmark Suites (35+)
-    ├── bench_crud.cpp
+   ├── storage/bench_crud.cpp
     ├── bench_vector_search.cpp
     ├── bench_graph_traversal.cpp
     ├── bench_spatial_index.cpp
