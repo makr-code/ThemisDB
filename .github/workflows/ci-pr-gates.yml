@@ -45,9 +45,6 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
-  security-events: write
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -56,6 +53,8 @@ jobs:
     name: Preflight CI Policy + Workflow Lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
@@ -170,6 +169,8 @@ jobs:
     name: Wave C Policy Gates (Aggregated)
     runs-on: ubuntu-latest
     if: always()
+    permissions:
+      contents: read
     needs:
       - wavec-policy-gates-private-plugin
       - wavec-policy-gates-edition-license
@@ -208,6 +209,8 @@ jobs:
     name: Community Pipeline Policy
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     if: >
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'minimal')
@@ -265,6 +268,8 @@ jobs:
     name: High Exception Record Guard
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -290,6 +295,8 @@ jobs:
     name: Private Plugin Boundary Guard
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     if: >
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
@@ -365,6 +372,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     needs: preflight-ci-policy
+    permissions:
+      contents: read
     if: >
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)

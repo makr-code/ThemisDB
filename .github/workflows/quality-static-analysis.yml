@@ -39,12 +39,11 @@ on:
         default: false
 
 concurrency:
-  group: quality-static-analysis-${{ github.ref }}
+  group: ci-quality-static-analysis-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
-  security-events: write
 
 env:
   DOCS_COVERAGE_THRESHOLD: "90"
@@ -57,6 +56,9 @@ jobs:
     name: clang-tidy (community-release, Linux)
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    permissions:
+      contents: read
+      security-events: write
     # Run on workflow_dispatch only (expensive); schedule/PR skip unless explicitly triggered
     if: github.event_name == 'workflow_dispatch'
     steps:

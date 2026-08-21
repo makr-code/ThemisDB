@@ -27,7 +27,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: maintenance-ci-health
+  group: ci-maintenance-ci-health-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

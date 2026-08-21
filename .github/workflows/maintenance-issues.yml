@@ -89,10 +89,9 @@ permissions:
   contents: read
   actions: read
   security-events: read
-  issues: write
 
 concurrency:
-  group: maintenance-issues-${{ github.ref }}
+  group: ci-maintenance-issues-${{ github.ref }}
   cancel-in-progress: true
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -106,6 +105,10 @@ jobs:
     name: 🧭 GS3 Gap Triage
     runs-on: ubuntu-latest
     timeout-minutes: 35
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     if: >
       github.event_name == 'schedule' ||
       (github.event_name == 'workflow_dispatch' &&
@@ -576,6 +579,10 @@ jobs:
     name: 🛡️ Security Alert SLA Triage
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      security-events: read
+      issues: write
     if: >
       github.event_name == 'schedule' ||
       (github.event_name == 'workflow_dispatch' &&
