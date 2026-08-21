@@ -1,0 +1,189 @@
+name: Maintenance — PR Failure Diagnosis (Recommend-Only)
+
+# Recommend-only helper for failed PR workflow runs.
+# It never closes issues, never mutates code, and never applies labels.
+# It only posts or updates a diagnostic PR comment with failure evidence.
+
+on:
+  workflow_run:
+    workflows:
+      - "CI — Build"
+      - "CI — PR Gates"
+      - "Quality — Static Analysis"
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Optional workflow run ID for manual diagnosis'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: ci-maintenance-pr-failure-diagnosis-${{ github.event.workflow_run.id || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  diagnose-pr-failure:
+    name: PR Failure Diagnosebericht
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
+
+    steps:
+      - name: Print context
+        run: |
+          echo "============================================================"
+          echo " Maintenance — PR Failure Diagnosis (Recommend-Only)"
+          echo "============================================================"
+          echo "  Event            : ${{ github.event_name }}"
+          echo "  Workflow run ID  : ${{ github.event.workflow_run.id || inputs.run_id || 'n/a' }}"
+          echo "  Workflow name    : ${{ github.event.workflow_run.name || 'manual' }}"
+          echo "  Conclusion       : ${{ github.event.workflow_run.conclusion || 'n/a' }}"
+          echo "  Trigger actor    : ${{ github.actor }}"
+          echo "  Run ID           : ${{ github.run_id }}"
+          echo "============================================================"
+
+      - name: Generate and publish recommend-only diagnosis comment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        env:
+          RUN_ID_INPUT: ${{ inputs.run_id }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const marker = '<!-- maintenance-pr-failure-diagnosis -->';
+
+            const determineRun = async () => {
+              if (context.eventName === 'workflow_run') {
+                return context.payload.workflow_run;
+              }
+
+              const manualRunIdRaw = String(process.env.RUN_ID_INPUT || '').trim();
+              if (!manualRunIdRaw) {
+                core.notice('No run_id provided on workflow_dispatch; nothing to diagnose.');
+                return null;
+              }
+
+              const runId = Number.parseInt(manualRunIdRaw, 10);
+              if (!Number.isFinite(runId) || runId <= 0) {
+                core.setFailed(`Invalid run_id input: ${manualRunIdRaw}`);
+                return null;
+              }
+
+              const { data } = await github.rest.actions.getWorkflowRun({
+                owner,
+                repo,
+                run_id: runId,
+              });
+              return data;
+            };
+
+            const run = await determineRun();
+            if (!run) {
+              return;
+            }
+
+            if (run.conclusion !== 'failure') {
+              core.notice(`Run ${run.id} conclusion is '${run.conclusion}', no failure diagnosis comment required.`);
+              return;
+            }
+
+            if (run.event !== 'pull_request') {
+              core.notice(`Run ${run.id} is event '${run.event}', workflow comments are restricted to PR runs.`);
+              return;
+            }
+
+            const prRefs = Array.isArray(run.pull_requests) ? run.pull_requests : [];
+            if (prRefs.length === 0) {
+              core.notice(`Run ${run.id} has no associated PR in payload.`);
+              return;
+            }
+
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+              owner,
+              repo,
+              run_id: run.id,
+              per_page: 100,
+            });
+
+            const failedJobs = jobs.filter(j => ['failure', 'timed_out', 'cancelled'].includes(j.conclusion));
+            const topFailedJobs = failedJobs.slice(0, 6);
+
+            const jobLines = topFailedJobs.map(job => {
+              const failedSteps = (job.steps || []).filter(step => ['failure', 'timed_out', 'cancelled'].includes(step.conclusion || ''));
+              const firstFailedStep = failedSteps[0]?.name || 'n/a';
+              const started = job.started_at ? new Date(job.started_at).toISOString() : 'n/a';
+              return `- ${job.name} (conclusion: ${job.conclusion}, first failed step: ${firstFailedStep}, started: ${started})`;
+            });
+
+            const runUrl = run.html_url || `${context.serverUrl}/${owner}/${repo}/actions/runs/${run.id}`;
+            const shortSha = (run.head_sha || '').slice(0, 8) || 'n/a';
+            const workflowName = run.name || 'Unknown Workflow';
+
+            const recommendationLines = [
+              '1. Oeffne den fehlgeschlagenen Job und pruefe den ersten fehlerhaften Step.',
+              '2. Reproduziere lokal nur den betroffenen Scope (zielgerichteter Build/Test statt Full Run).',
+              '3. Wenn der Fehler infra- oder flake-verdaechtig ist: Re-Run + Vergleich der Job-Logs.',
+              '4. Wenn reproduzierbar: kleine Fix-PR mit klarer Root-Cause-Notiz und Testnachweis erstellen.'
+            ];
+
+            const body = [
+              marker,
+              `<!-- workflow-name:${workflowName} -->`,
+              '## Recommend-Only CI Failure Diagnose',
+              '',
+              `Workflow: ${workflowName}`,
+              `Run: ${runUrl}`,
+              `Branch: ${run.head_branch || 'n/a'}`,
+              `Commit: ${shortSha}`,
+              '',
+              'Beobachtung:',
+              ...(jobLines.length ? jobLines : ['- Keine fehlgeschlagenen Jobs aus der API abrufbar (moeglicherweise bereits bereinigt).']),
+              '',
+              'Empfohlene naechste Schritte:',
+              ...recommendationLines.map(line => `- ${line}`),
+              '',
+              'Hinweis: Dieser Workflow ist recommend-only. Keine Labels, keine Auto-Close-Aktionen, keine Code-Aenderungen.',
+              `Aktualisiert: ${new Date().toISOString()}`,
+            ].join('\n');
+
+            for (const prRef of prRefs) {
+              const issueNumber = prRef.number;
+              const { data: comments } = await github.rest.issues.listComments({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                per_page: 100,
+              });
+
+              const existing = comments.find(c =>
+                (c.body || '').includes(marker) &&
+                (c.body || '').includes(`<!-- workflow-name:${workflowName} -->`)
+              );
+
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existing.id,
+                  body,
+                });
+                core.notice(`Updated diagnose comment on PR #${issueNumber}.`);
+              } else {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  body,
+                });
+                core.notice(`Created diagnose comment on PR #${issueNumber}.`);
+              }
+            }
