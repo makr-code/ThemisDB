@@ -14,6 +14,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Artefakte
 
+- [AI_METADATA_AND_PROVENANCE.md](AI_METADATA_AND_PROVENANCE.md)
 - [MODULES_AND_APIS.md](MODULES_AND_APIS.md)
 - [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)
 - [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)
@@ -36,3 +37,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 4. CI-/Workflow- und Script-Metadaten
 
 Bei widerspruechlichen Aussagen wird markiert statt still ueberschrieben.
+
+## Canonical AI Metadata
+
+- Die Seite [AI_METADATA_AND_PROVENANCE.md](AI_METADATA_AND_PROVENANCE.md) ist die kanonische Entwicklerreferenz fuer Provenienz, Transformationsmetadaten und Degradationslogik.
+- Sie gilt fuer Wiki-Seiten, Claims, Graph-Kanten, Importpfade und Query-Ergebnisse.
+- Alle neuen AI-nahe Module sollten dieses Schema direkt verwenden, statt eigene Nebenschemata einzufuehren.

@@ -9,6 +9,13 @@
 
 ## Current Status
 
+### Module Positioning
+
+- Standalone semantic/wiki module under `src/llm_wiki/` with its own roadmap, architecture, and test surface
+- Strongly coupled to `llm` for orchestration and prompt planning
+- Strongly coupled to `llama_cpp` for local inference-backed retrieval and summarization flows
+- Uses `retrieval` and `metadata` as supporting engine modules, but owns the wiki/provenance contract itself
+
 ### Phase 1-2 Complete ✅
 - [x] `ILLMWikiPlugin` public C++ SDK interface defined
 - [x] `plugin.json` manifest with edition gating
@@ -35,6 +42,65 @@
   - [x] **NEW Wave B: Full ingest+query roundtrip tests (LWP-RT-01)** — 7 tests for end-to-end validation
   - [x] **NEW Wave B: Edition-gate negative tests (LWP-GATE-01)** — 12 tests across all build configurations
   - [x] **NEW Wave B: Performance tests (LWP-PERF-01)** — 10 tests validating p95<200ms at 5k chunks
+
+### Wiki Routing / Provenance Workstream (Target: Q3–Q4 2026)
+
+The implementation strategy is to keep one shared planning and cost model, then specialize it for wiki retrieval and provenance tracking instead of introducing a second planner.
+
+- [x] Treat `llm_wiki` as a standalone semantic core with direct coupling to `llm` and `llama_cpp`
+- [x] Reuse prompt-enhancement retrieval planning as the upstream control plane for wiki routing
+- [x] Persist workspace-level provenance and revision history for wiki state
+- [~] Extend the shared RAG cost input with wiki-specific routing signals (Target: Q3 2026)
+  - wiki evidence-package size
+  - provenance depth
+  - transform-chain length
+  - re-anchor required flag
+  - provenance confidence
+- [~] Route wiki requests through `llm_wiki` as the semantic core, while `llm` handles orchestration and `llama_cpp` handles local inference-backed summarization (Target: Q3 2026)
+- [~] Propagate provenance metadata into chunk, claim, and edge representations (Target: Q4 2026)
+- [ ] Add regression tests proving wiki-specific signals change retrieval estimates (Target: Q3 2026)
+- [ ] Add route-selection tests for prompt-enhancement-driven wiki routing (Target: Q4 2026)
+- [ ] Add stress coverage for synthetic chain growth, re-anchor triggering, and empty evidence packages (Target: Q4 2026)
+- [ ] Benchmark cache-hit, p95 retrieval, and re-anchor overhead on representative hardware (Target: Q4 2026)
+
+### Security and Governance Workstream (Target: Q4 2026)
+
+Security and governance controls are treated as orchestrated runtime gates with explicit timing and audit outputs.
+
+- [~] Enforce pre-ingest policy and entitlement gate before wiki state mutation (Target: Q4 2026)
+- [~] Enforce pre-extraction guardrail gate on raw and normalized content (Target: Q4 2026)
+- [ ] Enforce pre-synthesis evidence allowlist gate (origin class, confidence floor, chain-depth ceiling) (Target: Q4 2026)
+- [ ] Persist per-request governance evidence (policy snapshot, gate outcomes, reason codes, re-anchor flags) (Target: Q4 2026)
+- [ ] Add deterministic deny-path tests for policy and guardrail failures (Target: Q4 2026)
+- [ ] Add scheduled governance drift and provenance integrity checks (Target: Q4 2026)
+- [ ] Add release-gate checklist requiring security/governance test pass before module sign-off (Target: Q4 2026)
+
+### Adaptive Schema and Self-Tuning Workstream (Target: Q4 2026 - Q1 2027)
+
+The LLM Wiki should evolve from a static store into an adaptive ML-aware knowledge layer while keeping governance guarantees strict.
+
+- [~] Define stable-core entity contract (`schema_version`, `entity_type`, `provenance`, `confidence`, timestamps) (Target: Q4 2026)
+- [~] Define extension contract with namespaced keys and policy-scoped allowlists (Target: Q4 2026)
+- [ ] Implement capability registry for reader/writer/governance compatibility checks (Target: Q4 2026)
+- [ ] Implement schema migration runner (deterministic, idempotent, rollback-ready) (Target: Q1 2027)
+- [ ] Add adaptive ranking feedback loop from query outcomes, corrections, and re-anchor signals (Target: Q1 2027)
+- [ ] Add shadow-mode policy experiments for confidence-threshold tuning without production regressions (Target: Q1 2027)
+- [ ] Persist per-decision adaptation metadata for audit and explainability (Target: Q1 2027)
+- [ ] Add compatibility tests for mixed-version readers/writers and unknown extension payloads (Target: Q1 2027)
+- [ ] Add release gate requiring zero unauthorized extension writes and zero fail-open validation paths (Target: Q1 2027)
+
+### YAML Process Orchestration Workstream (Target: Q4 2026 - Q1 2027)
+
+YAML policy should act as the control plane for timing, stage gates, and bounded ML adaptation.
+
+- [x] Define baseline YAML process policy artifact (`src/llm_wiki/process/llm_wiki_process_policy.yaml`) (Target: Q4 2026)
+- [x] Define process policy schema (`src/llm_wiki/schema/llm_wiki_process_policy.schema.json`) (Target: Q4 2026)
+- [ ] Wire policy loader with startup validation + hot-reload safeguards (Target: Q4 2026)
+- [ ] Implement schedule classes (interactive, near-real-time, batch) from policy (Target: Q4 2026)
+- [ ] Enforce non-tunable safety invariants (`second_planner_allowed=false`, fail-closed validation, entitlement/guardrail gates) (Target: Q4 2026)
+- [ ] Implement ML knob optimizer with hard-bounds enforcement and canary promotion (Target: Q1 2027)
+- [ ] Persist adaptation decisions and rollback reasons as governance evidence (Target: Q1 2027)
+- [ ] Add deterministic tests for policy validation, knob-bound checks, and rollback triggers (Target: Q1 2027)
 
 ---
 
@@ -219,6 +285,11 @@
 - [ ] p95 query latency < 200ms at 5k chunks (Phase B)
 - [ ] Wikipedia throughput ≥ 5k articles/s
 - [ ] All 20+ tests passing with ≥ 98% pass rate across platforms
+- [ ] Stable-core schema validation enabled and fail-closed for malformed entities
+- [ ] Extension namespace allowlist enforcement verified across editions/workspaces
+- [ ] Mixed-version schema compatibility tests pass for reader/writer capability matrix
+- [ ] Migration runner validated for deterministic rerun and rollback
+- [ ] Adaptive policy updates produce measurable gain without security/governance regression
 - [ ] Documentation complete: ADR, runbook, dev guide, migration guide
 
 ---

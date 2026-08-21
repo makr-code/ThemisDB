@@ -3,6 +3,19 @@
 Datum: 2026-08-19
 Status: Active
 
+## Canonical AI Metadata / Provenance
+
+- Die kanonische ThemisDB-weite Provenienz- und Degradationslogik ist in [AI_METADATA_AND_PROVENANCE.md](AI_METADATA_AND_PROVENANCE.md) definiert.
+- Sie ersetzt keine MVCC- oder Graph-Historisierung, sondern ergaenzt diese um semantische Herkunft, Transformationspfad und Qualitaetsmetadaten.
+- Diese Logik ist fuer Wiki-LLM, RAG, Importer, Graph-Kanten und weitere AI-nahe Datenstroeme verbindlich.
+- Neue AI-Funktionen sollen zuerst dieses Schema pruefen, bevor eigene Metadatenfelder oder Driftmetriken eingefuehrt werden.
+
+## Governance Notes
+
+- Root-SOT bleibt massgeblich fuer Branching, Release und Dokumentationsgovernance.
+- Konflikte zwischen menschlich und synthetisch erzeugten Inhalten werden nicht still ueberschrieben, sondern als Provenienz- oder Drift-Finding markiert.
+- Re-Anchor und Review-Pflicht gelten ab kritischer synthetischer Kettenlaenge oder hoher Drift.
+
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
 - Hash: `0b8ff1617bde68e7`

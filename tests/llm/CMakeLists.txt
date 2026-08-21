@@ -145,8 +145,9 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             target_link_libraries(${_target} PRIVATE rocksdb)
         endif()
     endif()
-    if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases" OR
-       _stem STREQUAL "test_wiki_crossdep_focused")
+     if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases" OR
+         _stem STREQUAL "test_wiki_crossdep_focused" OR
+         _stem STREQUAL "test_llm_wiki_process_policy_manager")
         # Workspace state manager and edition gate are in themis_llm_wiki.
         # If the library target exists (added via src/llm_wiki), link it;
         # otherwise compile the sources directly for standalone focused builds.
@@ -165,7 +166,8 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     # LLM Wiki Phase 4 gap closure tests (Wave B)
     if(_stem STREQUAL "test_llm_wiki_phase4_roundtrip" OR 
        _stem STREQUAL "test_llm_wiki_edition_gates" OR
-       _stem STREQUAL "test_llm_wiki_performance")
+       _stem STREQUAL "test_llm_wiki_performance" OR
+       _stem STREQUAL "test_llm_wiki_provenance_focused")
         # These tests require workspace state manager and edition gate
         if(TARGET themis_llm_wiki)
             target_link_libraries(${_target} PRIVATE themis_llm_wiki)
@@ -320,10 +322,12 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
         )
     endif()
-    if(_stem STREQUAL "test_llm_wiki_edition_gates" OR
+     if(_stem STREQUAL "test_llm_wiki_edition_gates" OR
        _stem STREQUAL "test_llm_wiki_performance" OR
        _stem STREQUAL "test_llm_wiki_phase4_roundtrip" OR
-       _stem STREQUAL "test_llm_wiki_phase_b_integration")
+       _stem STREQUAL "test_llm_wiki_phase_b_integration" OR
+         _stem STREQUAL "test_llm_wiki_provenance_focused" OR
+         _stem STREQUAL "test_llm_wiki_process_policy_manager")
         if(TARGET themis_llm_wiki)
             target_link_libraries(${_target} PRIVATE themis_llm_wiki)
         else()

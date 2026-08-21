@@ -111,7 +111,7 @@ COPY benchmarks/ ./benchmarks/
 ENV VCPKG_TARGET_TRIPLET=x64-linux
 
 # Create build directory and configure
-RUN cmake --preset docker-release \
+RUN cmake --preset linux-release \
         -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
         -DTHEMIS_BUILD_TESTS="${BUILD_TESTS}" \
         -DTHEMIS_BUILD_BENCHMARKS="${BUILD_BENCHMARKS}" \

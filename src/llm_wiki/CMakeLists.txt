@@ -8,6 +8,7 @@
 add_library(themis_llm_wiki STATIC
     workspace_state_manager.cpp
     edition_gate.cpp
+    process_policy_manager.cpp
 )
 
 target_include_directories(themis_llm_wiki
