@@ -57,7 +57,13 @@ jobs:
               import yaml
           except Exception:
               import subprocess, sys
-              subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--quiet', 'pyyaml'])
+              # act / Debian 12 uses PEP 668 externally-managed Python by default.
+              # Use the explicit break-system-packages flag so the job remains
+              # runnable in local Docker-based emulation as well as GitHub runners.
+              subprocess.check_call([
+                  sys.executable,
+                  '-m', 'pip', 'install', '--quiet', '--break-system-packages', 'pyyaml'
+              ])
               import yaml
 
           root = Path('.github/workflows')
@@ -192,6 +198,7 @@ jobs:
           PY
 
       - name: Upload guardrails report artifact
+        if: ${{ !env.ACT }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: workflow-guardrails-report-${{ github.run_id }}
