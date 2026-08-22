@@ -2544,14 +2544,17 @@ function(themis_build_modular)
                 endif()
                 if(MSVC)
                     if(TARGET absl::absl_log)
-                        target_link_libraries(themis_sharding PRIVATE
+                        set(_sharding_absl_links
                             absl::absl_log
                             absl::hash
                             absl::raw_logging_internal
                             absl::strings
-                            protobuf::libupb
-                            "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
                         )
+                        if(TARGET protobuf::libupb)
+                            list(APPEND _sharding_absl_links protobuf::libupb)
+                        endif()
+                        list(APPEND _sharding_absl_links "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib")
+                        target_link_libraries(themis_sharding PRIVATE ${_sharding_absl_links})
                     endif()
                 endif()
             endif()

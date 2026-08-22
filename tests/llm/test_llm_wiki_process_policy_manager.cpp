@@ -48,6 +48,8 @@ stages:
   synthesize:
     enabled: true
     schedule: interactive
+    max_evidence_items: 3
+    min_provenance_confidence: 0.7
   validate:
     enabled: true
     schedule: interactive
@@ -92,6 +94,8 @@ TEST(LLMWikiProcessPolicyManagerTest, LoadsValidPolicyAndMaterializesFields) {
     EXPECT_TRUE(policy.validate.enabled);
     EXPECT_TRUE(policy.policy_snapshot_required);
     EXPECT_TRUE(policy.require_reason_codes);
+    EXPECT_EQ(policy.synthesize_max_evidence_items, 3);
+    EXPECT_DOUBLE_EQ(policy.synthesize_min_provenance_confidence, 0.7);
     ASSERT_EQ(policy.adjustable_knobs.size(), 1u);
     EXPECT_EQ(policy.adjustable_knobs.front(), "synthesize.max_evidence_items");
 }

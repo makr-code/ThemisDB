@@ -153,6 +153,13 @@ std::vector<std::string> parseStringList(const nlohmann::json& node) {
     return values;
 }
 
+int parsePositiveInt(const nlohmann::json& node,
+                     const char* key,
+                     int fallback = 0) {
+    const auto value = safeJsonAs<int>(node, key, fallback);
+    return value > 0 ? value : fallback;
+}
+
 } // namespace
 
 ProcessPolicyStatus ProcessPolicyManager::loadFromYaml(
@@ -223,6 +230,14 @@ ProcessPolicyStatus ProcessPolicyManager::loadFromYaml(
         policy.re_anchor = parseStage(
             stages.value("re_anchor", nlohmann::json::object()),
             ProcessSchedule::Batch);
+
+        const auto synthesize = stages.value("synthesize", nlohmann::json::object());
+        if (synthesize.is_object()) {
+            policy.synthesize_max_evidence_items =
+                parsePositiveInt(synthesize, "max_evidence_items", 0);
+            policy.synthesize_min_provenance_confidence =
+                safeJsonAs<double>(synthesize, "min_provenance_confidence", -1.0);
+        }
 
         const auto governance_it = root.find("governance");
         if (governance_it != root.end() && governance_it->is_object()) {

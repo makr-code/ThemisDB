@@ -180,6 +180,19 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
                 ${THEMIS_ROOT_DIR}/src/llm_wiki
             )
         endif()
+        if(TARGET themisdb_llm_wiki_cpp)
+            target_link_libraries(${_target} PRIVATE themisdb_llm_wiki_cpp)
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+            )
+        else()
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
+            )
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+            )
+        endif()
         # Add Wave B labels for tracking
         set(_wave_b_labels "wave_b llm_wiki phase4")
     elseif(_stem STREQUAL "test_llm_wiki_phase_b_integration")
@@ -337,6 +350,19 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             )
             target_include_directories(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/llm_wiki
+            )
+        endif()
+        if(TARGET themisdb_llm_wiki_cpp)
+            target_link_libraries(${_target} PRIVATE themisdb_llm_wiki_cpp)
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+            )
+        else()
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
+            )
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
             )
         endif()
     endif()

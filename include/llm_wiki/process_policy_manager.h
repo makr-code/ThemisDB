@@ -95,6 +95,11 @@ struct LLMWikiProcessPolicy {
     StagePolicy validate;
     StagePolicy re_anchor;
 
+    // Stage-level tuning values materialized from YAML.
+    // 0 / negative means "not configured".
+    int synthesize_max_evidence_items = 0;
+    double synthesize_min_provenance_confidence = -1.0;
+
     bool policy_snapshot_required = true;
     bool require_reason_codes = true;
 

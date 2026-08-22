@@ -1,223 +1,84 @@
-# Docker Build Strategy - Quick Reference
-**Erstellt:** 10. Januar 2026  
-**ThemisDB Version:** v1.4.0  
-**Aktualisiert:** Siehe [DOCKER_BUILD_CORRECTIONS.md](DOCKER_BUILD_CORRECTIONS.md) für Korrekturen
+# Docker Build Strategy Quick Reference
 
-> **✅ Korrekturen:** Ubuntu 26.04, lokales llama.cpp, MINIMAL Edition, Multi-Arch Support  
-> Siehe Details in [DOCKER_BUILD_CORRECTIONS.md](DOCKER_BUILD_CORRECTIONS.md)
+**Status:** current as of 2026-08-22  
+**Canonical build entrypoint:** [../Dockerfile](../Dockerfile)  
+**Supporting assets:** [../docker](../docker)
 
-> **⚡ vcpkg+aria2 Optimierung:** Download-Stabilität & Performance  
-> Siehe Details in [VCPKG_ARIA2_STRATEGY.md](VCPKG_ARIA2_STRATEGY.md)
+## Current architecture
 
----
+- The repository root [../Dockerfile](../Dockerfile) is the canonical Docker build file used by Docker Desktop and `docker buildx`.
+- Docker-related config, manifests, and compose files live in [../docker](../docker), not beside the root build file.
+- The build uses multi-stage layering: `base` -> `deps` -> `llama` -> `build` -> `runtime`.
+- BuildKit cache mounts are used for APT package caches and vcpkg caches.
+- The vcpkg clone step is guarded so a cached build directory does not fail with “destination path ... already exists and is not an empty directory”.
 
-## 🎯 Strategie-Übersicht
+## Why this layout
 
-### Download-Strategie: aria2 für vcpkg ⚡
+This repository uses a single root Dockerfile so the build is consistent for:
 
-**Status:** ✅ Implementiert in `Dockerfile.unified`
+- local development builds
+- Desktop Docker builds
+- CI/CD or remote buildx builds
+- cache-driven, repeatable rebuilds
+
+The folder [../docker](../docker) is reserved for supporting assets like config, manifests, compose, and references, while the root [../Dockerfile](../Dockerfile) remains the actual build entrypoint.
+
+## Local validation command
+
+```bash
+docker buildx build --progress=plain --load \
+  -f Dockerfile \
+  -t themisdb:test \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --build-arg ENABLE_LLM=OFF \
+  --build-arg ENABLE_GPU=OFF \
+  --build-arg BUILD_TESTS=OFF \
+  --build-arg BUILD_BENCHMARKS=OFF \
+  .
+```
+
+This is the minimal smoke test for the current Docker pipeline.
+
+## Cache strategy
+
+The important part is the BuildKit cache pattern used in [../Dockerfile](../Dockerfile):
 
 ```dockerfile
-# aria2 aktiviert für schnellere & stabilere Downloads
-export VCPKG_DOWNLOAD_TOOL=aria2
-export VCPKG_USE_ARIA2=1
-export VCPKG_DOWNLOADER=aria2
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    ...
+
+RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
+    --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked \
+    --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
+    ...
 ```
 
-**Vorteile:**
-- ⚡ **10-16x schneller** (16 parallele Verbindungen vs. 1 bei curl)
-- 🔄 **Auto-Retry** (5 Versuche bei Fehlern)
-- 💾 **Resume-fähig** (fortsetzbare Downloads)
-- 🛡️ **Robust** gegen Timeouts
+This keeps apt and vcpkg state reusable between rebuilds without forcing unstable host bind mounts.
 
-**Performance:**
-- Boost 1.86.0 (71 Pakete): ~6-10 Min statt ~12-18 Min
-- Mit Cache: ~1-2 Min statt ~2-4 Min
+## Common failure fixed
 
-📖 Siehe [VCPKG_ARIA2_STRATEGY.md](VCPKG_ARIA2_STRATEGY.md) für Details
+A recurring issue with cache-backed Docker builds is a stale pre-created vcpkg directory:
 
----
-
-### vcpkg Triple-Cache-Strategie 💾
-
-**Status:** ✅ Implementiert (11. Januar 2026)
-
-```dockerfile
-# 1. BuildKit Container-Cache (persistent zwischen Builds)
---mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked
---mount=type=cache,target=/opt/vcpkg/packages,sharing=locked
-
-# 2. Host-Cache Bind-Mounts (Ihre lokalen Verzeichnisse)
---mount=type=bind,source=vcpkg/downloads,target=/tmp/host-vcpkg-downloads,readonly
---mount=type=bind,source=vcpkg/packages,target=/tmp/host-vcpkg-packages,readonly
-
-# 3. vcpkg Binary Caching (kompilierte Packages als .zip)
-export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"
-
-# 4. Kopier-Logik (Host → Container vor vcpkg install)
-find /tmp/host-vcpkg-downloads ... | xargs cp -n /opt/vcpkg/downloads/
-find /tmp/host-vcpkg-packages -name "*_x64-linux" | xargs cp -rn /opt/vcpkg/packages/
+```text
+fatal: destination path '/opt/vcpkg' already exists and is not an empty directory.
 ```
 
-**Vorteile:**
-- 🚀 **Null Downloads** wenn Packages bereits im Host-Cache existieren
-- 💾 **~144 Packages** (~2.8GB) sofort verfügbar aus `./vcpkg/packages/`
-- ⚡ **Keine Rebuilds** für bereits kompilierte Dependencies
-- 🔄 **Automatisches Fallback** zu Download nur bei fehlenden Packages
-- 🎯 **Binary Caching** speichert kompilierte Packages als .zip (effizienter als Verzeichnisse)
+The Dockerfile now handles this explicitly by checking for the repository metadata before cloning vcpkg and by creating the cache directories before bootstrap.
 
-**Ablauf:**
-1. Host-Packages (`./vcpkg/packages/*_x64-linux`) → `/opt/vcpkg/packages/`
-2. Host-Downloads (`./vcpkg/downloads/*.tar.gz`) → `/opt/vcpkg/downloads/`
-3. vcpkg Binary Cache aktiviert → Packages als .zip gespeichert
-4. `vcpkg install` findet alle Dependencies bereits vor → **Skip Build**
-5. Nur fehlende Packages werden heruntergeladen/gebaut
+## Related files
 
-**Performance:**
-- Mit vollem Cache: **~30 Sekunden** statt ~10-15 Minuten
-- Kein GitHub-Netzwerk erforderlich für gecachte Packages
-- Robustheit gegen GitHub-Download-Timeouts
+- [../Dockerfile](../Dockerfile)
+- [README.md](README.md)
+- [../docker/config](../docker/config)
+- [../docker/docker-compose.dev.yml](../docker/docker-compose.dev.yml)
+- [../docker/docker-compose.yml](../docker/docker-compose.yml)
 
-**Referenz:**
-- [Reddit: vcpkg Docker Caching](https://www.reddit.com/r/cpp_questions/comments/1nb1cwo/how_to_solve_the_problem_of_vcpkg_needlessly/)
-- [vcpkg Binary Caching Docs](https://learn.microsoft.com/vcpkg/users/binarycaching)
+## Notes
 
----
-
-### 3-Stufige Build-Architektur
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│ STUFE 1: Base Images (build once, cache forever)           │
-├─────────────────────────────────────────────────────────────┤
-│ • vcpkg-base          → Bootstrapped vcpkg + build tools   │
-│ • vcpkg-deps-*        → Pre-compiled dependencies/edition  │
-│ • llama-base          → Pre-built llama.cpp (LLM)          │
-│ Build: Weekly or on dependency changes                     │
-└─────────────────────────────────────────────────────────────┘
-                                ↓
-┌─────────────────────────────────────────────────────────────┐
-│ STUFE 2: Application Build (fast, cacheable)               │
-├─────────────────────────────────────────────────────────────┤
-│ FROM vcpkg-deps-{edition}  → Select pre-built deps        │
-│ COPY source code           → Only changed on code updates  │
-│ RUN cmake + ninja          → Incremental builds            │
-│ Build: On every code change (~2-3 min)                     │
-└─────────────────────────────────────────────────────────────┘
-                                ↓
-┌─────────────────────────────────────────────────────────────┐
-│ STUFE 3: Runtime Image (minimal, production-ready)         │
-├─────────────────────────────────────────────────────────────┤
-│ FROM ubuntu:24.04          → Minimal base                  │
-│ COPY binary + libs         → Only runtime dependencies     │
-│ Result: ~400-600 MB production image                       │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🚀 Quick Start Commands
-
-### Lokale Entwicklung (10-15 Sekunden)
-```bash
-# 1. Build lokal (WSL oder Windows)
-cmake --build build-wsl --target themis_server -j8
-# ODER: cmake --build build-msvc --config Release --target themis_server
-
-# 2. Docker Image aus Binary
-docker build -f docker/Dockerfile.dev -t themisdb:dev . > logs/docker-build-dev.log 2>&1
-docker run -d -p 8080:8080 -p 18765:18765 themisdb:dev
-```
-
-### Unified Build (alle Editionen, 2-3 Minuten mit Cache)
-**Logs**: Alle Build-Logs werden in `./logs/` gespeichert.
-
-> Tipp: Nach Änderungen an `vcpkg-*.json` einen Hash übergeben, damit der deps-Layer neu gebaut wird: `--build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-community.json | cut -d' ' -f1)` (Linux) bzw. `$(Get-FileHash docker/vcpkg-community.json).Hash` (PowerShell).
-```bash
-# Minimal (IoT/Embedded)
-docker buildx build --build-arg THEMIS_EDITION=MINIMAL \
-  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-minimal.json | cut -d' ' -f1) \
-  -t themisdb:minimal -f docker/Dockerfile.unified .
-
-# Community
-docker buildx build --build-arg THEMIS_EDITION=COMMUNITY \
-  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-community.json | cut -d' ' -f1) \
-  -t themisdb:community -f docker/Dockerfile.unified .
-
-# Enterprise
-docker buildx build --build-arg THEMIS_EDITION=ENTERPRISE \
-  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-enterprise.json | cut -d' ' -f1) \
-  -t themisdb:enterprise -f docker/Dockerfile.unified .
-
-# Hyperscaler mit LLM
-docker buildx build --build-arg THEMIS_EDITION=HYPERSCALER \
-  --build-arg ENABLE_LLM=ON \
-  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-hyperscaler.json | cut -d' ' -f1) \
-  -t themisdb:hyperscaler \
-  -f docker/Dockerfile.unified .
-```
-
-### Base Images bauen (einmalig, ~15-20 Minuten)
-```bash
-# Lokal testen
-./docker/build-base-images.sh themisdb
-
-# Push to registry
-./docker/build-base-images.sh themisdb push
-```
-
-### Alle Editionen bauen
-```bash
-# Mit lokalem Cache
-./docker/build-all-editions.sh 1.4.0 themisdb/themisdb linux/amd64
-
-# Mit Push zu Registry
-./docker/build-all-editions.sh 1.4.0 themisdb/themisdb linux/amd64 --push
-
-# Multi-platform
-./docker/build-all-editions.sh 1.4.0 themisdb/themisdb "linux/amd64,linux/arm64" --push
-```
-
----
-
-## 📁 Neue Dateistruktur
-
-```
-docker/
-├── Dockerfile.unified          ⭐ Main build (all editions)
-├── Dockerfile.dev              ⭐ Fast dev (pre-built binary)
-├── Dockerfile.vcpkg-base       🏗️ Base vcpkg image
-├── Dockerfile.vcpkg-deps       🏗️ Pre-compiled dependencies
-├── Dockerfile.llama-base       🏗️ Pre-built llama.cpp
-│
-├── vcpkg-community.json        📦 Community dependencies
-├── vcpkg-enterprise.json       📦 Enterprise dependencies
-├── vcpkg-hyperscaler.json      📦 Hyperscaler dependencies
-│
-├── build-all-editions.sh       🔧 Build all editions
-├── build-base-images.sh        🔧 Build base images
-│
-├── BUILD_STAGES_GUIDE.md       📚 Stage documentation
-├── DOCKER_BUILD_OPTIMIZATION_ANALYSIS.md  📊 Analysis
-└── DOCKER_BUILD_STRATEGY_QUICKREF.md      📖 This file
-```
-
----
-
-## ⚡ Performance-Vergleich
-
-| Build-Typ | Vorher | Nachher | Verbesserung |
-|-----------|--------|---------|--------------|
-| **Erstbuild (kein Cache)** | 15-25 Min | 12-18 Min | ✅ 20-30% |
-| **Code-Änderung** | 15-25 Min | 1-3 Min | ⚡ **90-95%** |
-| **Dependency-Änderung** | 15-25 Min | 5-8 Min | ✅ 60-70% |
-| **Edition-Wechsel** | 15-25 Min | 3-5 Min | ⚡ **75-85%** |
-| **Lokales Testing** | 15-25 Min | 10-15 Sek | ⚡ **99%** |
-
----
-
-## 🔧 CI/CD Integration
-
+- GPU-enabled builds require Vulkan development packages in the container.
+- For minimal local validation, keep `ENABLE_GPU=OFF` unless the environment is intentionally configured for GPU builds.
+- `ENABLE_LLM` and build flags should be passed explicitly when the target image should omit optional features.
 ### GitHub Actions Beispiel
 ```yaml
 name: Docker Build
