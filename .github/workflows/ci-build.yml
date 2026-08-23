@@ -1,0 +1,81 @@
+name: CI — Build
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'plugins/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**'
+      - 'vcpkg.json'
+      - 'vcpkg-configuration.json'
+      - '.github/actions/**'
+      - '.github/workflows/ci-build.yml'
+  pull_request:
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'plugins/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**'
+      - 'vcpkg.json'
+      - 'vcpkg-configuration.json'
+      - '.github/actions/**'
+  workflow_dispatch:
+    inputs:
+      sanitizer:
+        description: 'Additional sanitizer job (asan|ubsan|none|both)'
+        required: false
+        default: 'none'
+        type: choice
+        options: [none, asan, ubsan, both]
+      debug_mode:
+        description: 'Enable extra verbose debug output'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  actions: read
+  issues: read
+  pull-requests: write
+  checks: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: |
+        echo "CI — Build wrapper delegating to reusable CMake build pipeline"
+      configure_command: |
+        cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
+      build_command: |
+        cmake --build build --parallel 16
+      validation_command: |
+        ctest --test-dir build --output-on-failure -j 1 --timeout 60
+      artifact_name: ctest-results-${{ github.run_number }}
+      artifact_paths: |
+        build/Testing
+        build/ctest-results.xml
+        build/ctest-output.txt
+      artifact_retention_days: '7'
+      summary_title: CI — Build
