@@ -24,6 +24,8 @@ name: CI — Release
 #   Windows windows-release : ZIP + WIX/MSI (WiX v3 required on runner)
 
 on:
+  schedule:
+    - cron: '0 3 * * *'
   push:
     tags:
       - 'v*'
@@ -79,7 +81,15 @@ jobs:
           REF_NAME="${{ github.ref_name }}"
           EDITION_INPUT="${{ inputs.edition || '' }}"
           TAG_INPUT="${{ inputs.tag_name || '' }}"
-          TARGET="${TAG_INPUT:-$REF_NAME}"
+
+          if [ "${EVENT}" = "schedule" ]; then
+            VERSION_FILE="$(tr -d '\r\n' < VERSION 2>/dev/null || echo '2.4.0')"
+            TARGET="v${VERSION_FILE}-nightly"
+            echo "Nightly release tag computed as: ${TARGET}"
+          else
+            TARGET="${TAG_INPUT:-$REF_NAME}"
+          fi
+
           CANONICAL_BRANCHES='^(develop|community|enterprise|hyperscaler|military|minimal)$'
           SEMVER_CORE='[0-9]+\.[0-9]+\.[0-9]+'
           SEMVER_SUFFIX='(-[0-9A-Za-z][0-9A-Za-z.-]*)?'
@@ -92,7 +102,7 @@ jobs:
           fi
 
           if [ -n "${TARGET}" ]; then
-            TAG_REGEX="^(v${SEMVER_CORE}${SEMVER_SUFFIX}|enterprise-v${SEMVER_CORE}${SEMVER_SUFFIX}|hyperscaler-v${SEMVER_CORE}${SEMVER_SUFFIX}|military-v${SEMVER_CORE}${SEMVER_SUFFIX}|minimal-v${SEMVER_CORE}${SEMVER_SUFFIX})$"
+            TAG_REGEX="^(v${SEMVER_CORE}${SEMVER_SUFFIX}|v${SEMVER_CORE}-nightly|enterprise-v${SEMVER_CORE}${SEMVER_SUFFIX}|hyperscaler-v${SEMVER_CORE}${SEMVER_SUFFIX}|military-v${SEMVER_CORE}${SEMVER_SUFFIX}|minimal-v${SEMVER_CORE}${SEMVER_SUFFIX})$"
             if ! echo "${TARGET}" | grep -Eq "${TAG_REGEX}"; then
               echo "::error::Invalid release tag format: ${TARGET}"
               exit 1
@@ -142,6 +152,7 @@ jobs:
       !cancelled() && (
         github.event_name == 'push' ||
         github.event_name == 'release' ||
+        github.event_name == 'schedule' ||
         github.event_name == 'workflow_dispatch'
       ) && needs.build-matrix.result == 'success'
 
@@ -177,13 +188,15 @@ jobs:
             EDITION=military; VERSION="${TAG#military-}"
           elif echo "${TAG}" | grep -qE '^minimal-v'; then
             EDITION=minimal; VERSION="${TAG#minimal-}"
+          elif echo "${TAG}" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+-nightly$'; then
+            EDITION=community; VERSION="${TAG#v}"; VERSION="${VERSION%-nightly}"
           else
-            EDITION=community; VERSION="${TAG}"
+            EDITION=community; VERSION="${TAG#v}"
           fi
           {
             echo "edition=${EDITION}"
             echo "version=${VERSION}"
-            echo "archive_name=themisdb-${EDITION}-${VERSION}-linux-x64"
+            echo "archive_name=themisdb-${EDITION}-${VERSION}-nightly-linux-x64"
           } >> "$GITHUB_OUTPUT"
 
       - name: Create fallback archive if no CPack TGZ present
