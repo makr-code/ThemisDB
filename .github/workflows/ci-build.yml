@@ -16,13 +16,20 @@ on:
       - 'vcpkg-configuration.json'
       - '.github/actions/**'
       - '.github/workflows/ci-build.yml'
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'README*'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
   pull_request:
     branches:
       - develop
-      - community
-      - enterprise
-      - hyperscaler
-      - military
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
     paths:
       - 'src/**'
       - 'include/**'
@@ -34,6 +41,13 @@ on:
       - 'vcpkg.json'
       - 'vcpkg-configuration.json'
       - '.github/actions/**'
+      - '.github/workflows/ci-build.yml'
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'README*'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
   workflow_dispatch:
     inputs:
       sanitizer:
@@ -57,51 +71,22 @@ permissions:
 
 jobs:
   build:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     uses: ./.github/workflows/cmake-build-pipeline.yml
     with:
       runs_on: ubuntu-latest
       shell: bash
       fetch_depth: '0'
-      submodules: false
+      submodules: true
       working_directory: .
-      setup_command: |
-        set -euo pipefail
-        echo "CI — Build wrapper delegating to reusable CMake build pipeline"
-
-        sudo apt-get update -qq
-        sudo apt-get install -y --no-install-recommends \
-          build-essential cmake ninja-build pkg-config \
-          librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
-          libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-          libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
-          libvulkan-dev glslc \
-          libboost-system-dev libboost-filesystem-dev \
-          libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
-          dpkg-dev rpm
-
-        git submodule sync -- vcpkg
-        git submodule update --init --recursive vcpkg
-
-        test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-          echo "::error::vcpkg submodule/toolchain missing before bootstrap"
-          exit 1
-        }
-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
-        export PATH="${VCPKG_ROOT}:${PATH}"
-        ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
-      configure_command: |
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
-        export PATH="${VCPKG_ROOT}:${PATH}"
-        cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
-      build_command: |
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
-        export PATH="${VCPKG_ROOT}:${PATH}"
-        cmake --build build --parallel 16
-      validation_command: |
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
-        export PATH="${VCPKG_ROOT}:${PATH}"
-        ctest --test-dir build --output-on-failure -j 1 --timeout 60
+      setup_command: >-
+        set -euo pipefail; echo "CI — Build wrapper delegating to reusable CMake build pipeline"; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; git submodule sync -- vcpkg; git submodule update --init --recursive vcpkg; test -f vcpkg/scripts/buildsystems/vcpkg.cmake || { echo "::error::vcpkg submodule/toolchain missing before bootstrap"; exit 1; }; export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+      configure_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
+      build_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake --build build --parallel 16
+      validation_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ctest --test-dir build --output-on-failure -j 1 --timeout 60
       artifact_name: ctest-results-${{ github.run_number }}
       artifact_paths: |
         build/Testing
