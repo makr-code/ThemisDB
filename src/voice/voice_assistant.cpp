@@ -18,7 +18,7 @@
 // Optional FFmpeg (libavformat + libavcodec) backend for audio format conversion.
 // Activated when the build defines THEMIS_HAS_FFMPEG (set by CMake when the
 // ffmpeg feature / libavformat is found).
-#if defined(THEMIS_HAS_FFMPEG) || defined(THEMIS_ENABLE_FFMPEG)
+#if (defined(THEMIS_HAS_FFMPEG) && THEMIS_HAS_FFMPEG) || (defined(THEMIS_ENABLE_FFMPEG) && THEMIS_ENABLE_FFMPEG)
 extern "C" {
 #  include <libavformat/avformat.h>
 #  include <libavcodec/avcodec.h>

@@ -17,6 +17,7 @@
 #include <optional>
 #include <memory>
 #include <chrono>
+#include <cstdint>
 
 #ifndef THEMIS_HAVE_GSSAPI
 #define THEMIS_HAVE_GSSAPI 0
@@ -27,11 +28,20 @@
 #include <windows.h>
 #include <sspi.h>
 #else
+#if defined(THEMIS_HAS_KERBEROS) && THEMIS_HAS_KERBEROS
+#if defined(__has_include)
 #if __has_include(<gssapi/gssapi.h>) && __has_include(<gssapi/gssapi_krb5.h>)
 #undef THEMIS_HAVE_GSSAPI
 #define THEMIS_HAVE_GSSAPI 1
 #include <gssapi/gssapi.h>
 #include <gssapi/gssapi_krb5.h>
+#endif
+#else
+#undef THEMIS_HAVE_GSSAPI
+#define THEMIS_HAVE_GSSAPI 1
+#include <gssapi/gssapi.h>
+#include <gssapi/gssapi_krb5.h>
+#endif
 #endif
 #endif
 

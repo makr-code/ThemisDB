@@ -360,8 +360,8 @@ set(libzip_FOUND OFF)
 if(libzip_FOUND)
     message(STATUS "libzip found - Archive processing available")
 else()
-    message(WARNING "libzip not found - Install with: vcpkg install libzip")
-    message(WARNING "Archive processing will not be available")
+    message(STATUS "libzip not found - Install with: vcpkg install libzip")
+    message(STATUS "Archive processing will not be available")
 endif()
 
 # pugixml is used by SAML/XML parsing and Office processing.

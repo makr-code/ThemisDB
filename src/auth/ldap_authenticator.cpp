@@ -32,7 +32,7 @@
 #  include <windows.h>
 #  include <winldap.h>
 #  define THEMIS_HAS_LDAP 1
-#elif defined(THEMIS_HAS_LDAP)
+#elif defined(THEMIS_HAS_LDAP) && THEMIS_HAS_LDAP
 #  include <ldap.h>
 #  include <lber.h>
 #endif
@@ -368,7 +368,7 @@ std::future<LDAPAuthResult> LDAPAuthenticator::authenticateAsync(
 // Platform-specific bind implementation
 // ===========================================================================
 
-#if defined(THEMIS_HAS_LDAP) && defined(_WIN32)
+#if defined(THEMIS_HAS_LDAP) && THEMIS_HAS_LDAP && defined(_WIN32)
 // ---------------------------------------------------------------------------
 // Windows WinLDAP implementation
 // ---------------------------------------------------------------------------
@@ -533,7 +533,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     return LDAPAuthResult::Success(username, dn, roles, groups);
 }
 
-#elif defined(THEMIS_HAS_LDAP)
+#elif defined(THEMIS_HAS_LDAP) && THEMIS_HAS_LDAP
 // ---------------------------------------------------------------------------
 // Unix / OpenLDAP implementation
 // ---------------------------------------------------------------------------
@@ -741,7 +741,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     return LDAPAuthResult::Failed(msg);
 }
 
-#endif  // defined(THEMIS_HAS_LDAP) && defined(_WIN32)
+#endif  // defined(THEMIS_HAS_LDAP) && THEMIS_HAS_LDAP && defined(_WIN32)
 
 } // namespace auth
 } // namespace themis

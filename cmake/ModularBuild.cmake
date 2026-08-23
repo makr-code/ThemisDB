@@ -1936,7 +1936,7 @@ if(NOT MessagePack_FOUND)
     list(REMOVE_ITEM THEMIS_NETWORK_SOURCES
         ../src/server/buffer_binary_protocol.cpp
     )
-    message(WARNING "MessagePack not found: excluding buffer_binary_protocol.cpp from themis_network")
+    message(STATUS "MessagePack not found: excluding buffer_binary_protocol.cpp from themis_network")
 endif()
 
 if(NOT Protobuf_FOUND)

@@ -25,6 +25,10 @@
         "otlp-http"
       ]
     },
+    {
+      "name": "krb5",
+      "platform": "!windows"
+    },
     "yaml-cpp",
     "curl",
     "boost",

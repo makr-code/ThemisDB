@@ -20,9 +20,9 @@
 #include <stdexcept>
 
 // FAISS headers (CPU path always available; GPU path gated on THEMIS_ENABLE_CUDA)
-#if defined(THEMIS_ENABLE_FAISS)
+#if defined(THEMIS_HAS_FAISS) && THEMIS_HAS_FAISS
   #include <faiss/IndexFlat.h>
-  #if defined(THEMIS_ENABLE_CUDA)
+    #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
     #include <faiss/gpu/StandardGpuResources.h>
     #include <faiss/gpu/GpuIndexFlat.h>
   #endif
@@ -82,8 +82,8 @@ struct GeoFaissKnn::Impl {
     // Parallel ECEF vectors for the indexed points (host copy)
     std::vector<float>       ecef_data; // flat [indexed_count × kDim]
 
-#if defined(THEMIS_ENABLE_FAISS)
-  #if defined(THEMIS_ENABLE_CUDA)
+#if defined(THEMIS_HAS_FAISS) && THEMIS_HAS_FAISS
+    #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
     std::unique_ptr<faiss::gpu::StandardGpuResources> gpu_res;
     std::unique_ptr<faiss::gpu::GpuIndexFlatL2>       gpu_index;
   #endif
@@ -115,9 +115,9 @@ struct GeoFaissKnn::Impl {
             return false;
         }
 
-#if defined(THEMIS_ENABLE_FAISS)
+#if defined(THEMIS_HAS_FAISS) && THEMIS_HAS_FAISS
         bool gpu_ok = false;
-  #if defined(THEMIS_ENABLE_CUDA)
+    #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
         if (!cfg.force_cpu) {
             try {
                 gpu_res   = std::make_unique<faiss::gpu::StandardGpuResources>();
@@ -164,13 +164,13 @@ struct GeoFaissKnn::Impl {
 
         const std::size_t keff = std::min(k, indexed_count);
 
-#if defined(THEMIS_ENABLE_FAISS)
+#if defined(THEMIS_HAS_FAISS) && THEMIS_HAS_FAISS
         std::vector<faiss::idx_t> idx(keff, -1);
         std::vector<float>        dists(keff, 0.0f);
 
         const float qvec[kDim] = {qx, qy, qz};
         try {
-  #if defined(THEMIS_ENABLE_CUDA)
+    #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
             if (use_gpu && gpu_index) {
                 gpu_index->search(1,
                                   qvec,

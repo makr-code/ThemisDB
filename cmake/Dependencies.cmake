@@ -507,7 +507,7 @@ if(msgpack_FOUND OR msgpack-cxx_FOUND)
     message(STATUS "MessagePack found - enabling binary buffer protocol")
     add_compile_definitions(THEMIS_HAS_MSGPACK=1)
 else()
-    message(WARNING "MessagePack not found - binary buffer protocol disabled")
+    message(STATUS "MessagePack not found - binary buffer protocol disabled")
 endif()
 
 # Kerberos/GSSAPI (enterprise SSO authentication - optional)

@@ -5,15 +5,11 @@
 file(GLOB_RECURSE _themis_cmake_scan_files
     "${CMAKE_SOURCE_DIR}/cmake/*.cmake"
 )
+list(FILTER _themis_cmake_scan_files EXCLUDE REGEX "deprecated_checks\\.cmake$")
 
 set(_themis_add_definitions_hits "")
 foreach(_themis_scan_file IN LISTS _themis_cmake_scan_files)
     if(EXISTS "${_themis_scan_file}")
-        file(TO_CMAKE_PATH "${_themis_scan_file}" _themis_scan_file_norm)
-        if(_themis_scan_file_norm MATCHES ".*/deprecated_checks\.cmake$")
-            continue()
-        endif()
-
         file(STRINGS "${_themis_scan_file}" _themis_scan_lines)
         set(_themis_scan_content "")
         foreach(_themis_scan_line IN LISTS _themis_scan_lines)

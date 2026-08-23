@@ -466,13 +466,19 @@ async function main() {
     console.log(`🟠 High: ${summary.by_severity[SEVERITY.HIGH] || 0}`);
     console.log(`🟡 Medium: ${summary.by_severity[SEVERITY.MEDIUM] || 0}`);
 
-    // Write GitHub Actions outputs
+    // Write GitHub Actions outputs when the script is running in GitHub Actions.
+    // Local validation and act runs do not define GITHUB_OUTPUT, so we skip this
+    // step instead of crashing the action.
     const outputsText = `error_count=${errors.length}
 error_types=${errorTypes.join(',')}
 has_errors=${errors.length > 0 ? 'true' : 'false'}
 critical_count=${summary.by_severity[SEVERITY.CRITICAL] || 0}`;
-    
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, outputsText + '\n');
+
+    if (process.env.GITHUB_OUTPUT) {
+      fs.appendFileSync(process.env.GITHUB_OUTPUT, outputsText + '\n');
+    } else {
+      console.log('ℹ️ GITHUB_OUTPUT not set; skipping GitHub Actions output export.');
+    }
 
   } catch (error) {
     console.error(`❌ Error processing build logs: ${error.message}`);

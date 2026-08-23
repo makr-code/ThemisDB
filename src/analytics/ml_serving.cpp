@@ -66,7 +66,7 @@
 #endif
 
 // ─── TF Serving HTTP client ────────────────────────────────────────────────
-#if defined(THEMIS_HAS_TF_SERVING) && defined(THEMIS_HAS_CURL)
+#if defined(THEMIS_HAS_TF_SERVING) && THEMIS_HAS_TF_SERVING && defined(THEMIS_HAS_CURL) && THEMIS_HAS_CURL
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #endif
@@ -387,7 +387,7 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
 // TFServingBackend – Impl
 // ============================================================================
 
-#if defined(THEMIS_HAS_TF_SERVING) && defined(THEMIS_HAS_CURL)
+#if defined(THEMIS_HAS_TF_SERVING) && THEMIS_HAS_TF_SERVING && defined(THEMIS_HAS_CURL) && THEMIS_HAS_CURL
 
 namespace {
 
@@ -582,7 +582,7 @@ TFServingBackend::TFServingBackend(const TFServingConfig &config) : impl_(std::m
 TFServingBackend::~TFServingBackend() = default;
 
 std::string TFServingBackend::backendName() const {
-#if !defined(THEMIS_HAS_CURL)
+#if !defined(THEMIS_HAS_CURL) || !THEMIS_HAS_CURL
     return "TF Serving (unavailable – rebuild with THEMIS_HAS_CURL=1)";
 #else
     return "TF Serving (unavailable – rebuild with THEMIS_HAS_TF_SERVING=1)";
@@ -594,7 +594,7 @@ bool TFServingBackend::isAvailable() const {
 }
 
 MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
-#if !defined(THEMIS_HAS_CURL)
+#if !defined(THEMIS_HAS_CURL) || !THEMIS_HAS_CURL
     spdlog::warn("MLServing[TF]: libcurl not compiled in – "
                  "rebuild with THEMIS_HAS_CURL=1");
     const char *msg = "TF Serving backend requires libcurl. "
