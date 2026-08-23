@@ -51,6 +51,14 @@ string(UUID THEMIS_BUILD_UUID
 
 set(THEMIS_BUILD_VERSION_STRING "${THEMIS_VERSION_STRING} (${THEMIS_BUILD_UUID})")
 
+# Expose build provenance to the parent directory scope and configure-time logs.
+# The root CMakeLists.txt prints the final banner after add_subdirectory(cmake),
+# so these values must survive the subdirectory boundary.
+set(THEMIS_BUILD_UUID "${THEMIS_BUILD_UUID}" CACHE INTERNAL "Build UUID derived from build provenance" FORCE)
+set(THEMIS_BUILD_VERSION_STRING "${THEMIS_BUILD_VERSION_STRING}" CACHE INTERNAL "Display string used by startup logs and --version output" FORCE)
+set(THEMIS_BUILD_ID "${THEMIS_BUILD_ID}" CACHE INTERNAL "Short Git SHA used for build provenance" FORCE)
+set(THEMIS_BUILD_TIMESTAMP "${THEMIS_BUILD_TIMESTAMP}" CACHE INTERNAL "UTC build timestamp used for build provenance" FORCE)
+
 add_compile_definitions(
     THEMIS_BUILD_UUID="${THEMIS_BUILD_UUID}"
     THEMIS_BUILD_VERSION_STRING="${THEMIS_BUILD_VERSION_STRING}"

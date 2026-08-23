@@ -32,6 +32,7 @@
 #include <iomanip>
 #include <cstring>
 #include <filesystem>
+#include <cstdint>
 
 namespace themis {
 namespace llm_wiki {
@@ -53,17 +54,17 @@ using json = nlohmann::json;
 static std::string computeSHA256(const std::string& data) noexcept {
     // For Phase 3, use a simplified hash that's deterministic.
     // In production, replace with actual SHA-256 (OpenSSL).
-    
+
     // Placeholder: use a simple FNV-1a variant for determinism
     // Real implementation would use EVP_sha256 from OpenSSL
-    unsigned long hash = 14695981039346656037ULL;  // FNV offset basis
-    const unsigned long prime = 1099511628211ULL;
-    
+    std::uint64_t hash = 14695981039346656037ULL;  // FNV offset basis
+    constexpr std::uint64_t prime = 1099511628211ULL;
+
     for (unsigned char c : data) {
         hash ^= c;
         hash *= prime;
     }
-    
+
     // Format as hex
     std::ostringstream oss;
     oss << "sha256:" << std::hex << std::setfill('0') << std::setw(16) << hash;

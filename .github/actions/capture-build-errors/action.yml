@@ -41,23 +41,5 @@ outputs:
     value: ${{ steps.capture.outputs.critical_count }}
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Capture build/test errors
-      id: capture
-      shell: node {0}
-      env:
-        BUILD_LOG_PATH: ${{ inputs.build-log-path }}
-        OUTPUT_FILE: ${{ inputs.output-file }}
-        ERROR_LIMIT: ${{ inputs.error-limit }}
-        WORKSPACE: ${{ inputs.workspace }}
-        INCLUDE_WARNINGS: ${{ inputs.include-warnings }}
-        RUN_ID: ${{ github.run_id }}
-        RUN_NUMBER: ${{ github.run_number }}
-        WORKFLOW: ${{ github.workflow }}
-        EVENT: ${{ github.event_name }}
-        REF: ${{ github.ref }}
-        SHA: ${{ github.sha }}
-        ACTOR: ${{ github.actor }}
-        MATRIX_OS: ${{ runner.os }}
-      run: ${{ github.action_path }}/capture-errors.js
+  using: 'node20'
+  main: 'capture-errors.js'

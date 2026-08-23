@@ -24,74 +24,53 @@ concurrency:
 jobs:
   hyperscaler-build:
     if: github.ref == 'refs/heads/hyperscaler'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          submodules: recursive
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    secrets: inherit
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      submodules: true
+      setup_command: |
+        set -euo pipefail
+        allowed_csv="${{ github.repository_owner }}"
+        if [ -n "${{ vars.HYPERSCALER_ALLOWED_ACTORS }}" ]; then
+          allowed_csv="${allowed_csv},${{ vars.HYPERSCALER_ALLOWED_ACTORS }}"
+        fi
 
-      - name: Authorize actor
-        env:
-          ACTOR: ${{ github.actor }}
-          OWNER: ${{ github.repository_owner }}
-          ALLOWED_ACTORS: ${{ vars.HYPERSCALER_ALLOWED_ACTORS }}
-        run: |
-          set -euo pipefail
-          allowed_csv="${OWNER}"
-          if [ -n "${ALLOWED_ACTORS:-}" ]; then
-            allowed_csv="${allowed_csv},${ALLOWED_ACTORS}"
+        IFS=',' read -ra allowed <<< "${allowed_csv}"
+        authorized="false"
+        for raw in "${allowed[@]}"; do
+          candidate="$(echo "${raw}" | xargs)"
+          if [ -n "${candidate}" ] && [ "${candidate}" = "${{ github.actor }}" ]; then
+            authorized="true"
+            break
           fi
+        done
 
-          IFS=',' read -ra allowed <<< "${allowed_csv}"
-          authorized="false"
-          for raw in "${allowed[@]}"; do
-            candidate="$(echo "${raw}" | xargs)"
-            if [ -n "${candidate}" ] && [ "${candidate}" = "${ACTOR}" ]; then
-              authorized="true"
-              break
-            fi
-          done
+        if [ "${authorized}" != "true" ]; then
+          echo "Actor '${{ github.actor }}' is not authorized for hyperscaler compile/sign pipeline."
+          exit 1
+        fi
 
-          if [ "${authorized}" != "true" ]; then
-            echo "Actor '${ACTOR}' is not authorized for hyperscaler compile/sign pipeline."
-            exit 1
-          fi
+        test -n "${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}" || { echo "Missing secret THEMIS_HYPERSCALER_LICENSE_B64"; exit 1; }
+        test -n "${{ secrets.THEMIS_BUILD_SIG }}" || { echo "Missing secret THEMIS_BUILD_SIG"; exit 1; }
 
-      - name: Validate hyperscaler secrets
-        env:
-          HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
-          BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
-        run: |
-          set -euo pipefail
-          test -n "${HYPERSCALER_LICENSE_B64}" || { echo "Missing secret THEMIS_HYPERSCALER_LICENSE_B64"; exit 1; }
-          test -n "${BUILD_SIG}" || { echo "Missing secret THEMIS_BUILD_SIG"; exit 1; }
+        test -f plugins/private/themisdb-hyperscaler-core/CMakeLists.txt \
+          || { echo "Missing private module plugins/private/themisdb-hyperscaler-core"; exit 1; }
+        test -f plugins/themisdb_plugin_signer/README.md \
+          || { echo "Missing private module plugins/themisdb_plugin_signer"; exit 1; }
 
-      - name: Validate private modules exist
-        run: |
-          set -euo pipefail
-          test -f plugins/private/themisdb-hyperscaler-core/CMakeLists.txt \
-            || { echo "Missing private module plugins/private/themisdb-hyperscaler-core"; exit 1; }
-          test -f plugins/themisdb_plugin_signer/README.md \
-            || { echo "Missing private module plugins/themisdb_plugin_signer"; exit 1; }
-
-      - name: Restore hyperscaler license
-        run: |
-          set -euo pipefail
-          mkdir -p /tmp/themis-hyperscaler
-          echo "${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}" | base64 -d > /tmp/themis-hyperscaler/license.json
-
-      - name: Configure (hyperscaler)
-        run: |
-          set -euo pipefail
-          cmake -S cmake -B build-hyperscaler \
-            -DTHEMIS_EDITION=HYPERSCALER \
-            -DTHEMIS_BUILD_CHANNEL=official \
-            -DTHEMIS_BUILD_SIG="${{ secrets.THEMIS_BUILD_SIG }}" \
-            -DTHEMIS_LICENSE_FILE=/tmp/themis-hyperscaler/license.json
-
-      - name: Build (hyperscaler)
-        run: |
-          set -euo pipefail
-          cmake --build build-hyperscaler --config Release --parallel 4
+        mkdir -p /tmp/themis-hyperscaler
+        echo "${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}" | base64 -d > /tmp/themis-hyperscaler/license.json
+      configure_command: |
+        set -euo pipefail
+        cmake -S cmake -B build-hyperscaler \
+          -DTHEMIS_EDITION=HYPERSCALER \
+          -DTHEMIS_BUILD_CHANNEL=official \
+          -DTHEMIS_BUILD_SIG="${{ secrets.THEMIS_BUILD_SIG }}" \
+          -DTHEMIS_LICENSE_FILE=/tmp/themis-hyperscaler/license.json
+      build_command: |
+        set -euo pipefail
+        cmake --build build-hyperscaler --config Release --parallel 4
+      summary_title: Build (hyperscaler)
 

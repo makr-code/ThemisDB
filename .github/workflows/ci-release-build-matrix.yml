@@ -15,10 +15,11 @@ permissions:
 
 jobs:
   build-matrix:
-    name: Build (${{ matrix.preset }} on ${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
-
+    if: >
+      inputs.build_matrix == 'all' ||
+      (inputs.build_matrix == 'community-only' && matrix.preset == 'community-release') ||
+      (inputs.build_matrix == 'linux-release-only' && matrix.preset == 'linux-release') ||
+      (inputs.build_matrix == 'windows-release-only' && matrix.preset == 'windows-release')
     strategy:
       fail-fast: false
       matrix:
@@ -41,33 +42,14 @@ jobs:
             cpack_generators: ZIP;WIX
             description: Production Windows build with vcpkg
 
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          fetch-depth: 0
-
-      - name: Check build_matrix filter
-        id: filter
-        shell: bash
-        run: |
-          MATRIX_INPUT="${{ inputs.build_matrix }}"
-          PRESET="${{ matrix.preset }}"
-          SKIP="false"
-          if [ -n "${MATRIX_INPUT}" ] && [ "${MATRIX_INPUT}" != "all" ]; then
-            case "${MATRIX_INPUT}" in
-              community-only)
-                [ "${PRESET}" != "community-release" ] && SKIP="true" ;;
-              linux-release-only)
-                [ "${PRESET}" != "linux-release" ] && SKIP="true" ;;
-              windows-release-only)
-                [ "${PRESET}" != "windows-release" ] && SKIP="true" ;;
-            esac
-          fi
-          echo "skip=${SKIP}" >> "$GITHUB_OUTPUT"
-
-      - name: Install Linux system dependencies (community-release)
-        if: matrix.preset == 'community-release' && steps.filter.outputs.skip != 'true'
-        run: |
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: ${{ matrix.os }}
+      shell: bash
+      fetch_depth: '0'
+      setup_command: |
+        set -euo pipefail
+        if [ "${{ matrix.preset }}" = "community-release" ]; then
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build pkg-config \
@@ -78,125 +60,72 @@ jobs:
             libboost-system-dev libboost-filesystem-dev \
             libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
             dpkg-dev rpm
-
-      - name: Install Linux packaging tools (linux-release)
-        if: matrix.preset == 'linux-release' && steps.filter.outputs.skip != 'true'
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends dpkg-dev rpm
-
-      - name: Preflight vcpkg submodule (linux/windows release presets)
-        if: >
-          steps.filter.outputs.skip != 'true' &&
-          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
-        shell: bash
-        run: |
-          set -euo pipefail
+        fi
+        if [ "${{ matrix.preset }}" = "linux-release" ]; then
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends dpkg-dev rpm
+        fi
+        if [ "${{ matrix.preset }}" = "linux-release" ] || [ "${{ matrix.preset }}" = "windows-release" ]; then
           git submodule sync -- vcpkg
           git submodule update --init --recursive vcpkg
-          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-            echo "::error::Missing vcpkg toolchain at vcpkg/scripts/buildsystems/vcpkg.cmake"
-            exit 1
-          }
-
-      - name: Set up vcpkg (Linux/Windows vcpkg presets)
-        if: >
-          steps.filter.outputs.skip != 'true' &&
-          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
-        shell: bash
-        run: |
           test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
             echo "::error::vcpkg submodule/toolchain missing before bootstrap"
             exit 1
           }
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>/dev/null || ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+        fi
+      configure_command: |
+        set -euo pipefail
+        cmake --preset ${{ matrix.preset }} 2>&1 | tee "configure-${{ matrix.preset }}.log"
+      build_command: |
+        set -euo pipefail
+        cmake --build --preset ${{ matrix.preset }} --parallel 2>&1 | tee "build-${{ matrix.preset }}.log"
+      validation_command: |
+        set -euo pipefail
+        ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60 2>&1 | tee "test-${{ matrix.preset }}.log"
 
-      - name: Configure
-        if: steps.filter.outputs.skip != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          cmake --preset ${{ matrix.preset }} 2>&1 | tee "configure-${{ matrix.preset }}.log"
+        cmake --install "${{ matrix.binaryDir }}" \
+          --prefix "${{ matrix.binaryDir }}/install" 2>&1 | tee "install-${{ matrix.preset }}.log"
 
-      - name: Build
-        if: steps.filter.outputs.skip != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          cmake --build --preset ${{ matrix.preset }} --parallel 2>&1 | tee "build-${{ matrix.preset }}.log"
+        BINARY_DIR="${{ matrix.binaryDir }}"
+        GENERATORS="${{ matrix.cpack_generators }}"
 
-      - name: Test
-        if: steps.filter.outputs.skip != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60 2>&1 | tee "test-${{ matrix.preset }}.log"
-
-      - name: Install (cmake --install)
-        if: steps.filter.outputs.skip != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          cmake --install "${{ matrix.binaryDir }}" \
-            --prefix "${{ matrix.binaryDir }}/install" 2>&1 | tee "install-${{ matrix.preset }}.log"
-
-      - name: Package (cpack)
-        if: steps.filter.outputs.skip != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          BINARY_DIR="${{ matrix.binaryDir }}"
-          GENERATORS="${{ matrix.cpack_generators }}"
-
-          if [[ "$RUNNER_OS" == "Windows" ]] || [[ "$(uname -s)" == MINGW* ]]; then
-            if ! command -v candle &>/dev/null 2>&1; then
-              GENERATORS="${GENERATORS//;WIX/}"
-              GENERATORS="${GENERATORS//WIX;/}"
-              GENERATORS="${GENERATORS//WIX/}"
-              echo "::notice::WiX (candle) not found - MSI generator skipped."
-            fi
+        if [[ "$RUNNER_OS" == "Windows" ]] || [[ "$(uname -s)" == MINGW* ]]; then
+          if ! command -v candle &>/dev/null 2>&1; then
+            GENERATORS="${GENERATORS//;WIX/}"
+            GENERATORS="${GENERATORS//WIX;/}"
+            GENERATORS="${GENERATORS//WIX/}"
+            echo "::notice::WiX (candle) not found - MSI generator skipped."
           fi
+        fi
 
-          mkdir -p packages
-          cd "${BINARY_DIR}"
-          for GEN in ${GENERATORS//;/ }; do
-            echo "--- Running CPack generator: ${GEN} ---"
-            cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-${{ matrix.preset }}.log" || \
-              echo "::warning::CPack generator ${GEN} failed - continuing."
-          done
-          echo "Packages produced:"
-          ls -lh "${GITHUB_WORKSPACE}/packages/" || true
+        mkdir -p packages
+        if [[ -z "${GENERATORS}" ]]; then
+          echo "::warning::No CPack generators configured for ${{ matrix.preset }}; packaging step skipped."
+          exit 0
+        fi
 
-      - name: Upload CPack packages
-        if: steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: packages-${{ matrix.preset }}-${{ github.run_number }}
-          path: packages/
-          retention-days: 90
-          if-no-files-found: ignore
-
-      - name: Upload build artifacts
-        if: steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: build-${{ matrix.preset }}-${{ github.run_number }}
-          path: |
-            ${{ matrix.binaryDir }}/themisdb*
-            ${{ matrix.binaryDir }}/*.exe
-            ${{ matrix.binaryDir }}/*.so
-            ${{ matrix.binaryDir }}/*.dll
-          retention-days: 30
-          if-no-files-found: ignore
-
-      - name: Upload triage logs
-        if: always() && steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: triage-${{ matrix.preset }}-${{ github.run_number }}
-          path: |
-            configure-${{ matrix.preset }}.log
-            build-${{ matrix.preset }}.log
-            test-${{ matrix.preset }}.log
-            install-${{ matrix.preset }}.log
-            cpack-*-${{ matrix.preset }}.log
-          retention-days: 30
-          if-no-files-found: ignore
+        cd "${BINARY_DIR}"
+        for GEN in ${GENERATORS//;/ }; do
+          echo "--- Running CPack generator: ${GEN} ---"
+          cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-${{ matrix.preset }}.log" || \
+            echo "::warning::CPack generator ${GEN} failed - continuing."
+        done
+        echo "Packages produced:"
+        ls -lh "${GITHUB_WORKSPACE}/packages/" || true
+      artifact_name: build-${{ matrix.preset }}-${{ github.run_number }}
+      artifact_paths: |
+        ${{ matrix.binaryDir }}/themisdb*
+        ${{ matrix.binaryDir }}/*.exe
+        ${{ matrix.binaryDir }}/*.so
+        ${{ matrix.binaryDir }}/*.dll
+        configure-${{ matrix.preset }}.log
+        build-${{ matrix.preset }}.log
+        test-${{ matrix.preset }}.log
+        install-${{ matrix.preset }}.log
+        cpack-*-${{ matrix.preset }}.log
+      artifact_name_secondary: packages-${{ matrix.preset }}-${{ github.run_number }}
+      artifact_paths_secondary: packages/
+      artifact_retention_days: '30'
+      artifact_retention_days_secondary: '90'
+      summary_title: Build (${{ matrix.preset }} on ${{ matrix.os }})

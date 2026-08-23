@@ -18,11 +18,11 @@ const fs = require('fs');
 const path = require('path');
 
 // Environment variables
-const buildLogPath = process.env.BUILD_LOG_PATH || '';
-const outputFile = process.env.OUTPUT_FILE || '';
-const errorLimit = parseInt(process.env.ERROR_LIMIT || '50', 10);
-const workspace = process.env.WORKSPACE || process.cwd();
-const includeSuppressed = (process.env.INCLUDE_WARNINGS || 'true') === 'true';
+const buildLogPath = process.env.BUILD_LOG_PATH || process.env.INPUT_BUILD_LOG_PATH || '';
+const outputFile = process.env.OUTPUT_FILE || process.env.INPUT_OUTPUT_FILE || '';
+const errorLimit = parseInt(process.env.ERROR_LIMIT || process.env.INPUT_ERROR_LIMIT || '50', 10);
+const workspace = process.env.WORKSPACE || process.env.INPUT_WORKSPACE || process.cwd();
+const includeSuppressed = (process.env.INCLUDE_WARNINGS || process.env.INPUT_INCLUDE_WARNINGS || 'true') === 'true';
 
 const runId = process.env.RUN_ID || '';
 const runNumber = process.env.RUN_NUMBER || '';
