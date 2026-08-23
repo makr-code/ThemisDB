@@ -185,6 +185,7 @@ jobs:
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
             libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libvulkan-dev \
             libboost-system-dev libboost-filesystem-dev \
             libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
             dpkg-dev rpm
