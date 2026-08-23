@@ -64,9 +64,9 @@ struct HSM_PKCS11_BIGNUM_Deleter {
 
 using HSM_PKCS11_EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, HSM_PKCS11_EVP_CIPHER_CTX_Deleter>;
 using HSM_PKCS11_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, HSM_PKCS11_EVP_MD_CTX_Deleter>;
-using HSM_PKCS11_X509_ptr = std::unique_ptr<X509, HSM_PKCS11_X509_Deleter>;
-using HSM_PKCS11_BIO_ptr = std::unique_ptr<BIO, HSM_PKCS11_BIO_Deleter>;
-using HSM_PKCS11_BIGNUM_ptr = std::unique_ptr<BIGNUM, HSM_PKCS11_BIGNUM_Deleter>;
+using HSM_P11_X509_ptr = std::unique_ptr<X509, HSM_PKCS11_X509_Deleter>;
+using HSM_P11_BIO_ptr = std::unique_ptr<BIO, HSM_PKCS11_BIO_Deleter>;
+using HSM_P11_BIGNUM_ptr = std::unique_ptr<BIGNUM, HSM_PKCS11_BIGNUM_Deleter>;
 
 } // anonymous namespace
 
@@ -581,11 +581,11 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
                 std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
                 if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
                     const unsigned char* p = der.data(); 
-                    X509_ptr x(d2i_X509(nullptr, &p, der.size()));
+                    HSM_P11_X509_ptr x(d2i_X509(nullptr, &p, der.size()));
                     if(x.get()){
                         ASN1_INTEGER* si = X509_get_serialNumber(x.get());
                         if(si){
-                            BIGNUM_ptr bn(ASN1_INTEGER_to_BN(si, nullptr));
+                            HSM_P11_BIGNUM_ptr bn(ASN1_INTEGER_to_BN(si, nullptr));
                             if(bn.get()){
                                 char* hex = BN_bn2hex(bn.get());
                                 if(hex){
@@ -1013,8 +1013,8 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         return false;
     }
     
-    BIO_ptr bio_ptr(bio);
-    X509_ptr x509(PEM_read_bio_X509(bio_ptr.get(), nullptr, nullptr, nullptr));
+    HSM_P11_BIO_ptr bio_ptr(bio);
+    HSM_P11_X509_ptr x509(PEM_read_bio_X509(bio_ptr.get(), nullptr, nullptr, nullptr));
     
     if(!x509.get()){
         THEMIS_ERROR("importCertificate: Failed to parse PEM certificate");
@@ -1043,7 +1043,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     ASN1_INTEGER* serial_int = X509_get_serialNumber(x509.get());
     std::string serial_hex;
     if(serial_int){
-        BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial_int, nullptr));
+        HSM_P11_BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial_int, nullptr));
         if(bn.get()){
             char* hex = BN_bn2hex(bn.get());
             if(hex){

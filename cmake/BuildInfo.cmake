@@ -37,6 +37,25 @@ set(THEMIS_BUILD_SIG ""
     "Base64-encoded Ed25519 signature over the build manifest. \
 Set by the CI sign step. Leave empty for community builds.")
 
+# ── Build UUID / display version ─────────────────────────────────────────────
+# The build UUID is derived from the current build inputs and embedded into all
+# compiled units. It acts as provenance metadata that travels with core and
+# plugin binaries for the same configure run.
+
+set(_THEMIS_BUILD_UUID_NAMESPACE "12345678-1234-5678-1234-567812345678")
+set(_THEMIS_BUILD_UUID_NAME "${THEMIS_BUILD_CHANNEL}|${PROJECT_VERSION}|${THEMIS_BUILD_ID}|${THEMIS_BUILD_TIMESTAMP}")
+string(UUID THEMIS_BUILD_UUID
+    NAMESPACE "${_THEMIS_BUILD_UUID_NAMESPACE}"
+    NAME "${_THEMIS_BUILD_UUID_NAME}"
+    TYPE SHA1)
+
+set(THEMIS_BUILD_VERSION_STRING "${THEMIS_VERSION_STRING} (${THEMIS_BUILD_UUID})")
+
+add_compile_definitions(
+    THEMIS_BUILD_UUID="${THEMIS_BUILD_UUID}"
+    THEMIS_BUILD_VERSION_STRING="${THEMIS_BUILD_VERSION_STRING}"
+)
+
 option(THEMIS_REQUIRE_REPRODUCIBLE_BUILD
     "Fail configure when BuildInfo.cmake cannot derive deterministic build metadata."
     OFF)
@@ -140,7 +159,7 @@ if("${THEMIS_BUILD_CHANNEL}" STREQUAL "official")
         set(_THEMIS_BUILD_VERSION_FOR_SIG "${_ver}")
     endif()
     set(_THEMIS_BUILD_MANIFEST
-        "${THEMIS_BUILD_CHANNEL}|${_THEMIS_BUILD_VERSION_FOR_SIG}|${THEMIS_BUILD_ID}|${THEMIS_BUILD_TIMESTAMP}")
+        "${THEMIS_BUILD_CHANNEL}|${THEMIS_BUILD_VERSION_FOR_SIG}|${THEMIS_BUILD_UUID}|${THEMIS_BUILD_ID}|${THEMIS_BUILD_TIMESTAMP}")
 
     find_package(Python3 COMPONENTS Interpreter QUIET)
     if(NOT Python3_Interpreter_FOUND)
@@ -181,8 +200,10 @@ configure_file("${_BUILD_INFO_IN}" "${_BUILD_INFO_OUT}" @ONLY)
 include_directories("${CMAKE_BINARY_DIR}/include")
 
 message(STATUS
-    "[BuildInfo] channel=${THEMIS_BUILD_CHANNEL}  "
+    "[BuildInfo] version=${THEMIS_BUILD_VERSION_STRING}  "
+    "channel=${THEMIS_BUILD_CHANNEL}  "
     "id=${THEMIS_BUILD_ID}  "
+    "uuid=${THEMIS_BUILD_UUID}  "
     "ts=${THEMIS_BUILD_TIMESTAMP}  "
     "ts_source=${_THEMIS_BUILD_TIMESTAMP_SOURCE}  "
     "sig=${THEMIS_BUILD_SIG}")

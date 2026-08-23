@@ -20,6 +20,7 @@
 #include <thread>
 #include <chrono>
 #include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace sharding {
@@ -153,7 +154,10 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
     }
 
     if (stale_thread.joinable()) {
-        themis::utils::joinThreadWithin(stale_thread);
+        const bool joined = themis::utils::joinThreadWithin(stale_thread);
+        if (!joined) {
+            spdlog::warn("HealthCheckSystem stale periodic thread join timed out");
+        }
     }
 
     std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
@@ -200,7 +204,10 @@ void HealthCheckSystem::stopPeriodicChecks() {
         thread_to_join = std::move(periodic_thread_);
     }
 
-    themis::utils::joinThreadWithin(thread_to_join);
+    const bool joined = themis::utils::joinThreadWithin(thread_to_join);
+    if (!joined) {
+        spdlog::warn("HealthCheckSystem periodic thread join timed out");
+    }
 }
 
 /** @brief Return latest cached cluster-health snapshot. */

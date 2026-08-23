@@ -1028,6 +1028,6 @@ endif()
 include(CPack)
 
 message(STATUS "==========================================")
-message(STATUS "ThemisDB ${THEMIS_VERSION} (${THEMIS_VERSION_STRING})")
+message(STATUS "ThemisDB ${THEMIS_VERSION} (${THEMIS_BUILD_VERSION_STRING})")
 message(STATUS "Edition: ${THEMIS_EDITION}")
 message(STATUS "==========================================")

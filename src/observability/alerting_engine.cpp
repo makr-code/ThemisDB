@@ -474,7 +474,10 @@ Result<void> AlertingEngine::resolveAlert(const std::string& alert_id) {
         active->status = AlertStatus::RESOLVED;
         active->resolved_at = std::chrono::system_clock::now();
         channel_result = dispatchToChannels(*active);
-        removeActiveAlertById(alert_id);
+        const bool removed = removeActiveAlertById(alert_id);
+        if (!removed) {
+            THEMIS_WARN("AlertingEngine: resolved alert '{}' was not removable from active set", alert_id);
+        }
     }
 
     Result<void> backend_result;

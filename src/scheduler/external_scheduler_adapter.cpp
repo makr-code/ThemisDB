@@ -604,15 +604,29 @@ SchedulerError ExternalSchedulerAdapter::pollExternalStatus(
     auto backoff_ms = initial_backoff_ms;
     int attempts = 0;
 
+    (void)external_config;
+
     while (attempts < max_retries) {
         try {
             // Poll external scheduler for task status.
             // External HTTP/API polling is not yet implemented; return
             // kCoordinationError so callers cannot mistake "not implemented"
             // for a successful status sync.
-            THEMIS_WARN("ExternalSchedulerAdapter: pollExternalStatus for task {} (external_id={}) "
+            const char* scheduler_name = "Unknown";
+            switch (scheduler_type) {
+                case ExternalSchedulerType::KUBERNETES_CRONJOB:
+                    scheduler_name = "Kubernetes CronJob";
+                    break;
+                case ExternalSchedulerType::AIRFLOW:
+                    scheduler_name = "Apache Airflow";
+                    break;
+                default:
+                    break;
+            }
+
+            THEMIS_WARN("ExternalSchedulerAdapter: pollExternalStatus for task {} (external_id={}, scheduler={}) "
                         "is not yet implemented — returning kCoordinationError",
-                        task_id, external_task_id);
+                        task_id, external_task_id, scheduler_name);
             return SchedulerError::kCoordinationError;
 
         } catch (const std::exception& ex) {

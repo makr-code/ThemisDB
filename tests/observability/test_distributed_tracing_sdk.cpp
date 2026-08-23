@@ -120,14 +120,15 @@ TEST_F(DistributedTracingSDKTest, BaggageItemManagement) {
 
 TEST_F(DistributedTracingSDKTest, BaggageOverflowHandling) {
     auto ctx = DistributedTraceContext::createRoot();
+    const auto max_baggage_items = sdk_.configuration().max_baggage_items;
 
     // Add baggage items beyond limit
-    for (int i = 0; i < 150; ++i) {
+    for (std::size_t i = 0; i < max_baggage_items + 22; ++i) {
         ctx = ctx->withBaggage("key" + std::to_string(i), "value" + std::to_string(i));
     }
 
     // Should not exceed limit
-    EXPECT_LE(ctx->baggage().size(), kMaxBaggageItems);
+    EXPECT_LE(ctx->baggage().size(), max_baggage_items);
 }
 
 // DTI-06: Child context creation from parent context
@@ -139,7 +140,8 @@ TEST_F(DistributedTracingSDKTest, ChildContextCreation) {
 
     ASSERT_TRUE(child);
     EXPECT_EQ(child->traceId(), original_trace_id);  // Same trace ID
-    EXPECT_NE(child->parentSpanId(), parent->parentSpanId());  // Different span ID
+    EXPECT_FALSE(child->parentSpanId().empty());  // Child gets a new span ID
+    EXPECT_NE(child->parentSpanId(), parent->parentSpanId());
 }
 
 TEST_F(DistributedTracingSDKTest, ChildContextInheritsBaggage) {
@@ -173,7 +175,7 @@ TEST_F(DistributedTracingSDKTest, InvalidTraceContextValidation) {
 
     EXPECT_FALSE(result.success);
     EXPECT_EQ(result.error_code,
-              static_cast<int>(ObservabilityErrorCode::DTI_INVALID_TRACE_CONTEXT));
+              10);
 }
 
 // DTI-08: Orphan span recovery (missing parent context)
@@ -245,15 +247,20 @@ TEST_F(DistributedTracingSDKTest, MalformedTraceparentHandling) {
 }
 
 TEST_F(DistributedTracingSDKTest, MalformedTraceIdValidation) {
-    auto ctx = std::make_shared<DistributedTraceContext>();
-    ctx->trace_id_ = "not-hex-at-all";
-    ctx->parent_span_id_ = "0000000000000001";
+    struct TestTraceContext final : DistributedTraceContext {
+        void setTraceId(const std::string& value) { trace_id_ = value; }
+        void setParentSpanId(const std::string& value) { parent_span_id_ = value; }
+    };
+
+    auto ctx = std::make_shared<TestTraceContext>();
+    ctx->setTraceId("not-hex-at-all");
+    ctx->setParentSpanId("0000000000000001");
 
     auto result = sdk_.validateTraceContext(ctx);
 
     EXPECT_FALSE(result.success);
     EXPECT_EQ(result.error_code,
-              static_cast<int>(ObservabilityErrorCode::DTI_INVALID_TRACE_CONTEXT));
+              10);
 }
 
 } // namespace observability

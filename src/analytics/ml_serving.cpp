@@ -372,7 +372,8 @@ bool ONNXServingBackend::isAvailable() const {
 
 MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
     spdlog::warn("MLServing[ONNX]: backend unavailable – rebuild with "
-                 "-DTHEMIS_HAS_ONNX=1 and install onnxruntime via vcpkg");
+                 "-DTHEMIS_HAS_ONNX=1 and install onnxruntime via vcpkg (requested model='{}')",
+                 req.model_name);
     MLServingResponse resp;
     resp.status        = MLServingStatus::UNAVAILABLE;
     resp.error_message = "ONNX Runtime backend not compiled in. "

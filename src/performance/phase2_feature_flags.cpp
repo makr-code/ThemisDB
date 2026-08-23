@@ -77,6 +77,7 @@ static void detect_x86_capabilities(HardwareCapabilities& caps) {
 
 // ARM NEON detection
 static void detect_arm_capabilities(HardwareCapabilities& caps) {
+    (void)caps;
 #if defined(__ARM_NEON) || defined(__aarch64__)
     caps.has_arm_neon = true;
 #endif

@@ -234,9 +234,7 @@ void ContinuousLearningClient::logMetricsBatch(const std::vector<QualityMetric>&
     
     {
         std::lock_guard<std::mutex> lock(impl_->stats_mutex);
-        for (const auto& metric : metrics) {
-            impl_->stats.metrics_logged++;
-        }
+        impl_->stats.metrics_logged += metrics.size();
     }
     
     for (const auto& metric : metrics) {

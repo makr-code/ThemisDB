@@ -399,10 +399,10 @@ struct CypherParser::Parser {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after SKIP");
             try {
                 ast.skip = std::stoll(t.value);
-            } catch (const std::out_of_range& e) {
+            } catch (const std::out_of_range&) {
                 THEMIS_WARN("cypher_parser::parseQuery: SKIP value overflow '{}'", t.value);
                 throw CypherParseError{"SKIP value '" + t.value + "' is out of integer range", t.position};
-            } catch (const std::invalid_argument& e) {
+            } catch (const std::invalid_argument&) {
                 THEMIS_WARN("cypher_parser::parseQuery: SKIP value '{}' is not a valid integer", t.value);
                 throw CypherParseError{"SKIP value '" + t.value + "' is not a valid integer", t.position};
             }
@@ -413,10 +413,10 @@ struct CypherParser::Parser {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after LIMIT");
             try {
                 ast.limit = std::stoll(t.value);
-            } catch (const std::out_of_range& e) {
+            } catch (const std::out_of_range&) {
                 THEMIS_WARN("cypher_parser::parseQuery: LIMIT value overflow '{}'", t.value);
                 throw CypherParseError{"LIMIT value '" + t.value + "' is out of integer range", t.position};
-            } catch (const std::invalid_argument& e) {
+            } catch (const std::invalid_argument&) {
                 THEMIS_WARN("cypher_parser::parseQuery: LIMIT value '{}' is not a valid integer", t.value);
                 throw CypherParseError{"LIMIT value '" + t.value + "' is not a valid integer", t.position};
             }
@@ -505,11 +505,11 @@ struct CypherParser::Parser {
             int64_t v;
             try {
                 v = std::stoll(current().value);
-            } catch (const std::out_of_range& e) {
+            } catch (const std::out_of_range&) {
                 THEMIS_WARN("cypher_parser::parseLiteralValue: integer overflow '{}'", current().value);
                 throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
                                        current().position};
-            } catch (const std::invalid_argument& e) {
+            } catch (const std::invalid_argument&) {
                 THEMIS_WARN("cypher_parser::parseLiteralValue: invalid integer '{}'", current().value);
                 throw CypherParseError{"Integer literal '" + current().value + "' is not a valid integer",
                                        current().position};
@@ -521,11 +521,11 @@ struct CypherParser::Parser {
             double v;
             try {
                 v = std::stod(current().value);
-            } catch (const std::out_of_range& e) {
+            } catch (const std::out_of_range&) {
                 THEMIS_WARN("cypher_parser::parseLiteralValue: float overflow '{}'", current().value);
                 throw CypherParseError{"Float literal '" + current().value + "' is out of range",
                                        current().position};
-            } catch (const std::invalid_argument& e) {
+            } catch (const std::invalid_argument&) {
                 THEMIS_WARN("cypher_parser::parseLiteralValue: invalid float '{}'", current().value);
                 throw CypherParseError{"Float literal '" + current().value + "' is not a valid float",
                                        current().position};

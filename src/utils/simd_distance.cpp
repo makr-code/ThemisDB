@@ -366,8 +366,10 @@ void batch_l2_distance_sq(const float* query, const float* database,
     // Process multiple database vectors with explicit prefetching
     // Query vector will be hot in L1 cache after first iteration
     for (std::size_t i = 0; i < n; ++i) {
-        // Prefetch next database vector while computing current one
-        // Prefetch first cache line and additional lines based on dimension
+        // Prefetch next database vector while computing current one.
+        // Keep the prefetch variables inside the feature-specific branches so the
+        // scalar path does not carry unused locals that MSVC warns about.
+        #if defined(__AVX2__) || defined(__AVX512F__) || defined(__aarch64__)
         if (i + 1 < n) {
             const float* next_vec = database + (i + 1) * dim;
             const std::size_t cache_lines_to_prefetch = (dim * sizeof(float) + CACHE_LINE_SIZE - 1) / CACHE_LINE_SIZE;
@@ -381,6 +383,7 @@ void batch_l2_distance_sq(const float* query, const float* database,
             }
             #endif
         }
+        #endif
         distances[i] = l2_distance_sq(query, database + i * dim, dim);
     }
 }

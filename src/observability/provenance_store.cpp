@@ -134,7 +134,7 @@ struct ParsedTimeIndexKey {
         record.fallback_mode             = j.value("fallback_mode", "");
         record.confidence_policy_version = j.value("confidence_policy_version", "");
         record.decision_duration_us      = j.value("decision_duration_us", int64_t{0});
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Gracefully handle parse errors
     }
     return record;

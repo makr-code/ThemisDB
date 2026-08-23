@@ -12,6 +12,8 @@
 
 #include "llm/paged_block_manager.h"
 #include <algorithm>
+#include <limits>
+#include <stdexcept>
 
 namespace themis {
 namespace llm {
@@ -36,7 +38,11 @@ void PagedBlockManager::initializeFreeList() {
     for (int i = 0; i < num_blocks; i++) {
         Block block;
         block.block_id = i;
-        block.physical_address = i * config_.block_size_tokens;
+        const std::size_t token_offset = static_cast<std::size_t>(i) * config_.block_size_tokens;
+        if (token_offset > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+            throw std::overflow_error("PagedBlockManager: physical_address exceeds int range");
+        }
+        block.physical_address = static_cast<int>(token_offset);
         block.is_free = true;
         block.memory_bytes = config_.block_size_tokens * config_.token_size_bytes;
         block.ref_count = 0;

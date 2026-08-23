@@ -328,7 +328,7 @@ GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) 
         GPUTensorBuffer buf(std::move(name), shape, dtype);
         std::memcpy(buf.data_.data(), p, data_size);
         return buf;
-    } catch (const std::runtime_error &e) {
+    } catch (const std::runtime_error &) {
         // Re-throw runtime errors (validation failures) as-is
         throw;
     } catch (const std::exception &e) {

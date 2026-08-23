@@ -531,12 +531,18 @@ void CrossShardTransactionCoordinator::stop() {
     running_.store(false);
     
     if (deadlock_detection_thread_.joinable()) {
-        themis::utils::joinThreadWithin(deadlock_detection_thread_);
+        const bool deadlock_joined = themis::utils::joinThreadWithin(deadlock_detection_thread_);
+        if (!deadlock_joined) {
+            spdlog::warn("CrossShardTransactionCoordinator: deadlock detection thread did not join within timeout");
+        }
     }
     
     // Stop PreCommit retry thread
     if (precommit_retry_thread_.joinable()) {
-        themis::utils::joinThreadWithin(precommit_retry_thread_);
+        const bool precommit_joined = themis::utils::joinThreadWithin(precommit_retry_thread_);
+        if (!precommit_joined) {
+            spdlog::warn("CrossShardTransactionCoordinator: precommit retry thread did not join within timeout");
+        }
     }
     
     spdlog::info("Cross-shard transaction coordinator stopped");
@@ -3600,11 +3606,11 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
                 
                 std::vector<std::string> still_failed;
                 for (const auto& shard_id : failed_shards) {
-                    auto txn_opt = getTransaction(txn_id);
-                    if (txn_opt) {
-                        const auto& txn = *txn_opt;
-                        const auto participant_it = txn.participants.find(shard_id);
-                        if (participant_it != txn.participants.end() &&
+                    auto txn_snapshot = getTransaction(txn_id);
+                    if (txn_snapshot) {
+                        const auto& txn_state = *txn_snapshot;
+                        const auto participant_it = txn_state.participants.find(shard_id);
+                        if (participant_it != txn_state.participants.end() &&
                             !participant_it->second.precommitted) {
                             still_failed.push_back(shard_id);
                         }

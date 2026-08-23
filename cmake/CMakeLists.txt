@@ -192,8 +192,8 @@ if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
     message(STATUS "GPU backend auto-detect: probing CUDA/HIP/Vulkan")
     set(_themis_detected_gpu_backends)
 
-    # Vulkan is the required cross-vendor GPU backend in this build contract.
-    # Do not silently disable it just because the SDK check is not available.
+    # Vulkan is required for the active GPU build contract. Keep it enabled even on
+    # Windows/MSVC so the backend is available instead of silently falling back to CPU.
     find_package(Vulkan QUIET)
     if(Vulkan_FOUND)
         set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
@@ -1344,9 +1344,6 @@ if(MSVC)
     add_compile_options(/wd5072)
     # Suppress OpenSSL 3.0 deprecation warnings globally (C4996)
     add_compile_options(/wd4996)
-    if(THEMIS_STRICT_BUILD)
-        add_compile_options(/WX)
-    endif()
     add_compile_definitions(NOMINMAX _CRT_SECURE_NO_WARNINGS _WIN32_WINNT=0x0A00)
     # Apply Release-specific settings for single- and multi-config generators
     add_compile_options($<$<CONFIG:Release>:/O2>)

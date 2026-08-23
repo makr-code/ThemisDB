@@ -29,6 +29,14 @@
 #include <map>
 #include <mutex>
 
+#ifndef THEMIS_BUILD_UUID
+#define THEMIS_BUILD_UUID "unknown"
+#endif
+
+#ifndef THEMIS_BUILD_VERSION_STRING
+#define THEMIS_BUILD_VERSION_STRING THEMIS_VERSION_STRING " (" THEMIS_BUILD_UUID ")"
+#endif
+
 // Platform headers for executable path
 #if defined(__linux__)
 #  include <unistd.h>
@@ -794,9 +802,7 @@ std::string formatBuildInfo(const BuildConfiguration& config) {
     oss << "  Compiler:           " << config.compiler << " " << config.compiler_version << "\n";
     oss << "  Build Type:         " << config.build_type << "\n";
     oss << "  Build Timestamp:    " << config.build_timestamp << "\n";
-#ifdef THEMIS_VERSION_STRING
-    oss << "  Version:            " << THEMIS_VERSION_STRING << "\n";
-#endif
+    oss << "  Version:            " << THEMIS_BUILD_VERSION_STRING << "\n";
     oss << "\n";
     
     // Module Status
@@ -846,11 +852,7 @@ std::string getVersionSummary() {
     const auto config = getBuildConfiguration();
     std::ostringstream oss;
     
-#ifdef THEMIS_VERSION_STRING
-    oss << "ThemisDB " << THEMIS_VERSION_STRING;
-#else
-    oss << "ThemisDB (version unknown)";
-#endif
+    oss << "ThemisDB " << THEMIS_BUILD_VERSION_STRING;
     
     oss << " [" << config.edition_type << " Edition]";
     oss << " [" << config.build_type << "]";

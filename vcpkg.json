@@ -19,7 +19,12 @@
     "grpc",
     "gtest",
     "benchmark",
-    "opentelemetry-cpp",
+    {
+      "name": "opentelemetry-cpp",
+      "features": [
+        "otlp-http"
+      ]
+    },
     "yaml-cpp",
     "curl",
     "boost",

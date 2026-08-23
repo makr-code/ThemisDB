@@ -44,6 +44,7 @@
 #include <curl/curl.h>
 
 #include <chrono>
+#include <climits>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -161,7 +162,7 @@ static const EVP_MD* selectDigest(const std::string& algo){
     return EVP_sha256();
 }
 
-static std::string hex(const std::vector<uint8_t>& data){
+[[maybe_unused]] static std::string hex(const std::vector<uint8_t>& data){
     static const char* d = "0123456789abcdef"; std::string out; out.reserve(data.size()*2);
     for(auto b: data){ out.push_back(d[(b>>4)&0xF]); out.push_back(d[b&0xF]); }
     return out;
@@ -583,7 +584,11 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
     try {
         // Convert DER to PEM format
         const unsigned char* p = cached_tsa_cert_.data();
-        X509_ptr cert(d2i_X509(nullptr, &p, cached_tsa_cert_.size()));
+        if (cached_tsa_cert_.size() > static_cast<std::size_t>(LONG_MAX)) {
+            THEMIS_ERROR("getTSACertificate error: cached TSA cert exceeds OpenSSL size limit");
+            return std::nullopt;
+        }
+        X509_ptr cert(d2i_X509(nullptr, &p, static_cast<long>(cached_tsa_cert_.size())));
         if(!cert) return std::nullopt;
         
         TSA_BIO_ptr bio(BIO_new(BIO_s_mem()));
@@ -628,6 +633,7 @@ std::string TimestampAuthority::getLastError() const { return last_error_; }
 bool eIDASTimestampValidator::validateeIDASTimestamp(
     const TimestampToken& token,
     const std::vector<std::string>& trust_anchors) {
+    (void)trust_anchors;
     
     validation_errors_.clear();
     

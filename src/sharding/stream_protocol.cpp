@@ -786,10 +786,16 @@ void StreamSession::abort(const std::string& reason) {
     cv_.notify_all();
     
     if (session_thread_.joinable()) {
-        themis::utils::joinThreadWithin(session_thread_);
+        const bool joined = themis::utils::joinThreadWithin(session_thread_);
+        if (!joined) {
+            spdlog::warn("StreamSession shutdown join timed out for session thread");
+        }
     }
     if (heartbeat_thread_.joinable()) {
-        themis::utils::joinThreadWithin(heartbeat_thread_);
+        const bool joined = themis::utils::joinThreadWithin(heartbeat_thread_);
+        if (!joined) {
+            spdlog::warn("StreamSession shutdown join timed out for heartbeat thread");
+        }
     }
     
     if (completion_callback) {
@@ -1096,7 +1102,10 @@ void StreamPlan::abort() {
     }
     
     if (executor_thread_.joinable()) {
-        themis::utils::joinThreadWithin(executor_thread_);
+        const bool joined = themis::utils::joinThreadWithin(executor_thread_);
+        if (!joined) {
+            spdlog::warn("StreamPlan shutdown join timed out for executor thread");
+        }
     }
 }
 
@@ -1213,7 +1222,10 @@ StreamTransferTask::StreamTransferTask(
 StreamTransferTask::~StreamTransferTask() {
     abort();
     if (transfer_thread_.joinable()) {
-        themis::utils::joinThreadWithin(transfer_thread_);
+        const bool joined = themis::utils::joinThreadWithin(transfer_thread_);
+        if (!joined) {
+            spdlog::warn("StreamTransferTask join timed out during destruction");
+        }
     }
 }
 

@@ -261,8 +261,7 @@ std::vector<RebalanceOperationConfig> RebalanceOperation::generateTopologyChange
     // Calculate shard distribution before and after
     size_t total_shards = config_.token_range_end - config_.token_range_start;
     size_t target_per_node = total_shards / new_topology.size();
-    size_t remainder = total_shards % new_topology.size();
-    
+
     // For node join: redistribute from overloaded nodes to new node
     // For node leave: redistribute from removed node to remaining nodes
     bool is_join = new_topology.size() > old_topology.size();

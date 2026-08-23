@@ -91,6 +91,7 @@ std::vector<QueryPlan> BaoOptimizer::generate_plans(const std::string& query) {
 }
 
 QueryPlan BaoOptimizer::select_plan(const std::string& query, const std::vector<QueryPlan>& plans) {
+    (void)query;
     if (plans.empty()) {
         return QueryPlan();
     }

@@ -673,7 +673,7 @@ void SAGALogger::logErrorContext(const ErrorContext& ctx) {
     try {
         auto json_err = ctx.toJSON();
         std::cerr << "[SAGA_LOGGER_ERROR] " << json_err << "\n";
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Ultimate fallback: plain text to stderr
         std::cerr << "[SAGA_LOGGER_ERROR] Code=" << static_cast<int>(ctx.code)
                   << " Msg=" << ctx.message << "\n";

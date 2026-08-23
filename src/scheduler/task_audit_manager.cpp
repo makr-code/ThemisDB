@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <stdexcept>
+#include <limits>
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
 #include <iomanip>
@@ -707,13 +708,20 @@ std::string TaskAuditManager::generateAuditEntryHMAC(const TaskAuditEvent& event
     nlohmann::json j = event.toJson(false);  // Don't mask for HMAC calculation
     std::string data = j.dump();
     
+    if (config_.audit_hmac_key.size() > static_cast<std::size_t>(std::numeric_limits<int>::max()) ||
+        data.size() > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        THEMIS_ERROR("TaskAuditManager: HMAC input too large (key_size={}, data_size={})",
+                     config_.audit_hmac_key.size(), data.size());
+        return "";
+    }
+
     // Calculate HMAC-SHA256
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int hash_len = 0;
     
     HMAC(EVP_sha256(),
-         config_.audit_hmac_key.data(), config_.audit_hmac_key.size(),
-         reinterpret_cast<const unsigned char*>(data.data()), data.size(),
+         config_.audit_hmac_key.data(), static_cast<int>(config_.audit_hmac_key.size()),
+         reinterpret_cast<const unsigned char*>(data.data()), static_cast<int>(data.size()),
          hash, &hash_len);
     
     // Convert to hex string

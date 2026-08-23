@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "active_policy": "themisdb_default_knowledge_spheres",
+  "default_sphere": "canonical",
+  "spheres": [
+    {
+      "sphere_id": "canonical",
+      "name": "Canonical Knowledge",
+      "status": "active",
+      "schema_version": "1.0",
+      "owner": "llm_platform",
+      "access_scope": "internal",
+      "source_of_truth": "themisdb_core_schema",
+      "retention_policy": "long",
+      "migration_target": null,
+      "is_protected": false,
+      "audit_log_ref": "audit://knowledge_sphere/canonical/2026-08-22"
+    },
+    {
+      "sphere_id": "process",
+      "name": "Process Knowledge",
+      "status": "active",
+      "schema_version": "1.0",
+      "owner": "llm_orchestration",
+      "access_scope": "internal",
+      "source_of_truth": "yaml_policy_registry",
+      "retention_policy": "standard",
+      "migration_target": null,
+      "is_protected": false,
+      "audit_log_ref": "audit://knowledge_sphere/process/2026-08-22"
+    },
+    {
+      "sphere_id": "derived",
+      "name": "Derived Knowledge",
+      "status": "active",
+      "schema_version": "1.0",
+      "owner": "llm_synthesis",
+      "access_scope": "internal",
+      "source_of_truth": "canonical+ingested_external",
+      "retention_policy": "standard",
+      "migration_target": null,
+      "is_protected": false,
+      "audit_log_ref": "audit://knowledge_sphere/derived/2026-08-22"
+    },
+    {
+      "sphere_id": "ingested_external",
+      "name": "Ingested External Knowledge",
+      "status": "active",
+      "schema_version": "1.0",
+      "owner": "ingestion_pipeline",
+      "access_scope": "internal",
+      "source_of_truth": "wikipedia_import",
+      "retention_policy": "short",
+      "migration_target": null,
+      "is_protected": false,
+      "audit_log_ref": "audit://knowledge_sphere/ingested_external/2026-08-22"
+    }
+  ]
+}
