@@ -545,6 +545,7 @@ Before tagging, verify manually:
 - artefacts were built successfully
 - package contents are plausible
 - LLM bundle check: release packages from `windows-release`, `linux-release`, and `community-release` presets must include TinyLlama GGUF runtime payload under `models/` (source default: `models`)
+- Licensing constraint: Gemma-family models are local-test assets only and must not be distributed in public/community release artifacts.
 - checksums were generated if required
 - SBOM + Supply-Chain evidence was generated and archived (policy: `docs/de/security/security_sbom.md`)
 - WinGet manifests were regenerated and validated (`winget validate`) if a Windows ZIP or MSI artefact changed

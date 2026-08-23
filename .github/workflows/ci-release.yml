@@ -281,6 +281,55 @@ jobs:
           ls -lh release/
           (cd release && sha256sum --check SHA256SUMS.txt)
 
+      - name: Enforce LLM model distribution policy
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TMP_LIST="$(mktemp)"
+          TMP_MODELS="$(mktemp)"
+
+          # Collect archive entry paths from all distributable archives.
+          for archive in release/*.zip release/*.tar.gz release/*.tgz; do
+            [ -f "${archive}" ] || continue
+            case "${archive}" in
+              *.zip)
+                unzip -Z1 "${archive}" >> "${TMP_LIST}"
+                ;;
+              *.tar.gz|*.tgz)
+                tar -tf "${archive}" >> "${TMP_LIST}"
+                ;;
+            esac
+          done
+
+          # Extract GGUF payload entries under models/ (path may be prefixed by archive root folder).
+          grep -Ei '(^|/)models/.*\.gguf$' "${TMP_LIST}" | sort -u > "${TMP_MODELS}" || true
+
+          if [ ! -s "${TMP_MODELS}" ]; then
+            echo "::error::No GGUF model payload found under models/ in release archives."
+            echo "Expected TinyLlama distribution payload according to release policy."
+            exit 1
+          fi
+
+          echo "GGUF entries found in release payloads:"
+          cat "${TMP_MODELS}"
+
+          # Distribution allowlist: tinyllama/default only.
+          if grep -Evi '(^|/)models/.*(tinyllama|default)\.gguf$' "${TMP_MODELS}" >/dev/null; then
+            echo "::error::Non-approved GGUF model detected in distributable payload (allowed: tinyllama/default only)."
+            grep -Evi '(^|/)models/.*(tinyllama|default)\.gguf$' "${TMP_MODELS}" || true
+            exit 1
+          fi
+
+          # Explicit deny-list for Gemma-family in distributable bundles.
+          if grep -Ei '(^|/)models/.*gemma.*\.gguf$' "${TMP_MODELS}" >/dev/null; then
+            echo "::error::Gemma-family GGUF payload detected in distributable release artifact."
+            grep -Ei '(^|/)models/.*gemma.*\.gguf$' "${TMP_MODELS}" || true
+            exit 1
+          fi
+
+          echo "Model distribution policy check passed."
+
   docker-image:
     name: Trigger Docker Image Workflow (non-blocking)
     runs-on: ubuntu-latest
