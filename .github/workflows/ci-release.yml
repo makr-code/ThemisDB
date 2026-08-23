@@ -71,6 +71,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Validate tag/edition policy
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           EVENT="${{ github.event_name }}"
@@ -79,6 +81,8 @@ jobs:
           TAG_INPUT="${{ inputs.tag_name || '' }}"
           TARGET="${TAG_INPUT:-$REF_NAME}"
           CANONICAL_BRANCHES='^(develop|community|enterprise|hyperscaler|military|minimal)$'
+          SEMVER_CORE='[0-9]+\.[0-9]+\.[0-9]+'
+          SEMVER_SUFFIX='(-[0-9A-Za-z][0-9A-Za-z.-]*)?'
 
           if [ "${EVENT}" = "workflow_dispatch" ]; then
             if ! echo "${REF_NAME}" | grep -Eq "${CANONICAL_BRANCHES}"; then
@@ -88,9 +92,28 @@ jobs:
           fi
 
           if [ -n "${TARGET}" ]; then
-            if ! echo "${TARGET}" | grep -Eq '^(v[0-9]+\.[0-9]+\.[0-9]+|enterprise-v[0-9]+\.[0-9]+\.[0-9]+|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+|military-v[0-9]+\.[0-9]+\.[0-9]+|minimal-v[0-9]+\.[0-9]+\.[0-9]+)$'; then
+            TAG_REGEX="^(v${SEMVER_CORE}${SEMVER_SUFFIX}|enterprise-v${SEMVER_CORE}${SEMVER_SUFFIX}|hyperscaler-v${SEMVER_CORE}${SEMVER_SUFFIX}|military-v${SEMVER_CORE}${SEMVER_SUFFIX}|minimal-v${SEMVER_CORE}${SEMVER_SUFFIX})$"
+            if ! echo "${TARGET}" | grep -Eq "${TAG_REGEX}"; then
               echo "::error::Invalid release tag format: ${TARGET}"
               exit 1
+            fi
+
+            # Protect stable candidate tags (e.g. v2.4.0-stable) from accidental overwrite.
+            if echo "${TARGET}" | grep -Eq '(^|-)stable([.-].*)?$'; then
+              API_URL="${{ github.api_url }}/repos/${{ github.repository }}/releases/tags/${TARGET}"
+              HTTP_CODE="$(curl -sS -o /tmp/release-by-tag.json -w "%{http_code}" \
+                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                -H "Accept: application/vnd.github+json" \
+                "${API_URL}")"
+
+              if [ "${HTTP_CODE}" = "200" ]; then
+                echo "::error::Stable tag release already exists and must not be overwritten: ${TARGET}"
+                exit 1
+              elif [ "${HTTP_CODE}" != "404" ]; then
+                echo "::error::Could not validate stable tag overwrite guard (HTTP ${HTTP_CODE})"
+                cat /tmp/release-by-tag.json || true
+                exit 1
+              fi
             fi
           fi
 
