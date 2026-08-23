@@ -92,34 +92,54 @@ jobs:
 
       - name: Setup
         if: inputs.setup_command != ''
-        shell: ${{ inputs.shell }}
-        working-directory: ${{ inputs.working_directory }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          SETUP_COMMAND: ${{ inputs.setup_command }}
         run: |
-          ${{ inputs.setup_command }}
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-setup.sh"
+          printf '%s\n' "$SETUP_COMMAND" > "$script_path"
+          bash "$script_path"
 
       - name: Configure
         id: configure
-        shell: ${{ inputs.shell }}
-        working-directory: ${{ inputs.working_directory }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          CONFIGURE_COMMAND: ${{ inputs.configure_command }}
         run: |
-          ${{ inputs.configure_command }}
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-configure.sh"
+          printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
+          bash "$script_path"
 
       - name: Build
         id: build
         continue-on-error: ${{ inputs.build_continue_on_error }}
-        shell: ${{ inputs.shell }}
-        working-directory: ${{ inputs.working_directory }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          BUILD_COMMAND: ${{ inputs.build_command }}
         run: |
-          ${{ inputs.build_command }}
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-build.sh"
+          printf '%s\n' "$BUILD_COMMAND" > "$script_path"
+          bash "$script_path"
 
       - name: Validation
         id: validation
         if: inputs.validation_command != ''
         continue-on-error: ${{ inputs.validation_continue_on_error }}
-        shell: ${{ inputs.shell }}
-        working-directory: ${{ inputs.working_directory }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          VALIDATION_COMMAND: ${{ inputs.validation_command }}
         run: |
-          ${{ inputs.validation_command }}
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-validation.sh"
+          printf '%s\n' "$VALIDATION_COMMAND" > "$script_path"
+          bash "$script_path"
 
       - name: Upload artifacts
         if: inputs.artifact_name != '' && inputs.artifact_paths != ''
@@ -141,15 +161,18 @@ jobs:
 
       - name: Build summary
         if: always()
-        shell: ${{ inputs.shell }}
-        working-directory: ${{ inputs.working_directory }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          VALIDATION_COMMAND: ${{ inputs.validation_command }}
         run: |
+          cd "$WORKING_DIRECTORY"
           {
             echo "### ${{ inputs.summary_title }}"
             echo ""
             echo "- Configure: ${{ steps.configure.outcome }}"
             echo "- Build: ${{ steps.build.outcome }}"
-            if [ "${{ inputs.validation_command }}" != "" ]; then
+            if [ -n "$VALIDATION_COMMAND" ]; then
               echo "- Validation: ${{ steps.validation.outcome }}"
             fi
           } >> "$GITHUB_STEP_SUMMARY"

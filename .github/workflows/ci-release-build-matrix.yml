@@ -14,118 +14,149 @@ permissions:
   actions: read
 
 jobs:
-  build-matrix:
-    if: >
-      inputs.build_matrix == 'all' ||
-      (inputs.build_matrix == 'community-only' && matrix.preset == 'community-release') ||
-      (inputs.build_matrix == 'linux-release-only' && matrix.preset == 'linux-release') ||
-      (inputs.build_matrix == 'windows-release-only' && matrix.preset == 'windows-release')
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - preset: community-release
-            os: ubuntu-latest
-            binaryDir: build-community-release
-            cpack_generators: ""
-            description: Community build with system packages
-
-          - preset: linux-release
-            os: ubuntu-latest
-            binaryDir: build-gcc-linux-release
-            cpack_generators: TGZ;DEB;RPM;ZIP
-            description: Production Linux build with native packages
-
-          - preset: windows-release
-            os: windows-latest
-            binaryDir: build-msvc-windows-release
-            cpack_generators: ZIP;WIX
-            description: Production Windows build with vcpkg
-
+  community-release:
+    if: inputs.build_matrix == 'all' || inputs.build_matrix == 'community-only'
     uses: ./.github/workflows/cmake-build-pipeline.yml
     with:
-      runs_on: ${{ matrix.os }}
+      runs_on: ubuntu-latest
       shell: bash
       fetch_depth: '0'
       setup_command: |
         set -euo pipefail
-        if [ "${{ matrix.preset }}" = "community-release" ]; then
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
-            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
-            libvulkan-dev glslc \
-            libboost-system-dev libboost-filesystem-dev \
-            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
-            dpkg-dev rpm
-        fi
-        if [ "${{ matrix.preset }}" = "linux-release" ]; then
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends dpkg-dev rpm
-        fi
-        if [ "${{ matrix.preset }}" = "linux-release" ] || [ "${{ matrix.preset }}" = "windows-release" ]; then
-          git submodule sync -- vcpkg
-          git submodule update --init --recursive vcpkg
-          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-            echo "::error::vcpkg submodule/toolchain missing before bootstrap"
-            exit 1
-          }
-          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>/dev/null || ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
-        fi
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          build-essential cmake ninja-build pkg-config \
+          librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+          libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+          libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+          libvulkan-dev glslc \
+          libboost-system-dev libboost-filesystem-dev \
+          libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
+          dpkg-dev rpm
       configure_command: |
         set -euo pipefail
-        cmake --preset ${{ matrix.preset }} 2>&1 | tee "configure-${{ matrix.preset }}.log"
+        cmake --preset community-release 2>&1 | tee configure-community-release.log
       build_command: |
         set -euo pipefail
-        cmake --build --preset ${{ matrix.preset }} --parallel 2>&1 | tee "build-${{ matrix.preset }}.log"
+        cmake --build --preset community-release --parallel 2>&1 | tee build-community-release.log
       validation_command: |
         set -euo pipefail
-        ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60 2>&1 | tee "test-${{ matrix.preset }}.log"
+        ctest --preset community-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-community-release.log
+      artifact_name: build-community-release-${{ github.run_number }}
+      artifact_paths: |
+        build-community-release/themisdb*
+        build-community-release/*.so
+        build-community-release/*.dll
+        configure-community-release.log
+        build-community-release.log
+        test-community-release.log
+      artifact_retention_days: '30'
+      summary_title: Build (community-release on ubuntu-latest)
 
-        cmake --install "${{ matrix.binaryDir }}" \
-          --prefix "${{ matrix.binaryDir }}/install" 2>&1 | tee "install-${{ matrix.preset }}.log"
+  linux-release:
+    if: inputs.build_matrix == 'all' || inputs.build_matrix == 'linux-release-only'
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      setup_command: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends dpkg-dev rpm
+        git submodule sync -- vcpkg
+        git submodule update --init --recursive vcpkg
+        test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
+          echo "::error::vcpkg submodule/toolchain missing before bootstrap"
+          exit 1
+        }
+        ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+      configure_command: |
+        set -euo pipefail
+        cmake --preset linux-release 2>&1 | tee configure-linux-release.log
+      build_command: |
+        set -euo pipefail
+        cmake --build --preset linux-release --parallel 2>&1 | tee build-linux-release.log
+      validation_command: |
+        set -euo pipefail
+        ctest --preset linux-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-linux-release.log
 
-        BINARY_DIR="${{ matrix.binaryDir }}"
-        GENERATORS="${{ matrix.cpack_generators }}"
-
-        if [[ "$RUNNER_OS" == "Windows" ]] || [[ "$(uname -s)" == MINGW* ]]; then
-          if ! command -v candle &>/dev/null 2>&1; then
-            GENERATORS="${GENERATORS//;WIX/}"
-            GENERATORS="${GENERATORS//WIX;/}"
-            GENERATORS="${GENERATORS//WIX/}"
-            echo "::notice::WiX (candle) not found - MSI generator skipped."
-          fi
-        fi
+        cmake --install build-gcc-linux-release --prefix build-gcc-linux-release/install 2>&1 | tee install-linux-release.log
 
         mkdir -p packages
-        if [[ -z "${GENERATORS}" ]]; then
-          echo "::warning::No CPack generators configured for ${{ matrix.preset }}; packaging step skipped."
-          exit 0
-        fi
-
-        cd "${BINARY_DIR}"
-        for GEN in ${GENERATORS//;/ }; do
+        for GEN in TGZ DEB RPM ZIP; do
           echo "--- Running CPack generator: ${GEN} ---"
-          cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-${{ matrix.preset }}.log" || \
+          cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-linux-release.log" || \
             echo "::warning::CPack generator ${GEN} failed - continuing."
         done
         echo "Packages produced:"
         ls -lh "${GITHUB_WORKSPACE}/packages/" || true
-      artifact_name: build-${{ matrix.preset }}-${{ github.run_number }}
+      artifact_name: build-linux-release-${{ github.run_number }}
       artifact_paths: |
-        ${{ matrix.binaryDir }}/themisdb*
-        ${{ matrix.binaryDir }}/*.exe
-        ${{ matrix.binaryDir }}/*.so
-        ${{ matrix.binaryDir }}/*.dll
-        configure-${{ matrix.preset }}.log
-        build-${{ matrix.preset }}.log
-        test-${{ matrix.preset }}.log
-        install-${{ matrix.preset }}.log
-        cpack-*-${{ matrix.preset }}.log
-      artifact_name_secondary: packages-${{ matrix.preset }}-${{ github.run_number }}
+        build-gcc-linux-release/themisdb*
+        build-gcc-linux-release/*.so
+        configure-linux-release.log
+        build-linux-release.log
+        test-linux-release.log
+        install-linux-release.log
+        cpack-*-linux-release.log
+      artifact_name_secondary: packages-linux-release-${{ github.run_number }}
       artifact_paths_secondary: packages/
       artifact_retention_days: '30'
       artifact_retention_days_secondary: '90'
-      summary_title: Build (${{ matrix.preset }} on ${{ matrix.os }})
+      summary_title: Build (linux-release on ubuntu-latest)
+
+  windows-release:
+    if: inputs.build_matrix == 'all' || inputs.build_matrix == 'windows-release-only'
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: windows-latest
+      shell: bash
+      fetch_depth: '0'
+      setup_command: |
+        set -euo pipefail
+        git submodule sync -- vcpkg
+        git submodule update --init --recursive vcpkg
+        test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
+          echo "::error::vcpkg submodule/toolchain missing before bootstrap"
+          exit 1
+        }
+        ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+      configure_command: |
+        set -euo pipefail
+        cmake --preset windows-release 2>&1 | tee configure-windows-release.log
+      build_command: |
+        set -euo pipefail
+        cmake --build --preset windows-release --parallel 2>&1 | tee build-windows-release.log
+      validation_command: |
+        set -euo pipefail
+        ctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log
+
+        cmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log
+
+        mkdir -p packages
+        for GEN in ZIP WIX; do
+          if ! command -v candle &>/dev/null 2>&1 && [ "${GEN}" = "WIX" ]; then
+            echo "::notice::WiX (candle) not found - MSI generator skipped."
+            continue
+          fi
+          echo "--- Running CPack generator: ${GEN} ---"
+          cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log" || \
+            echo "::warning::CPack generator ${GEN} failed - continuing."
+        done
+        echo "Packages produced:"
+        ls -lh "${GITHUB_WORKSPACE}/packages/" || true
+      artifact_name: build-windows-release-${{ github.run_number }}
+      artifact_paths: |
+        build-msvc-windows-release/*.exe
+        build-msvc-windows-release/*.dll
+        configure-windows-release.log
+        build-windows-release.log
+        test-windows-release.log
+        install-windows-release.log
+        cpack-*windows-release.log
+      artifact_name_secondary: packages-windows-release-${{ github.run_number }}
+      artifact_paths_secondary: packages/
+      artifact_retention_days: '30'
+      artifact_retention_days_secondary: '90'
+      summary_title: Build (windows-release on windows-latest)

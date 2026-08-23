@@ -17,11 +17,13 @@
 
 #include "gtest/gtest.h"
 #include "observability/operator_remediation_engine.h"
+#include <algorithm>
 #include <thread>
 #include <vector>
 #include <map>
 #include <chrono>
 #include <atomic>
+#include <limits>
 #include <cmath>
 
 namespace themis {

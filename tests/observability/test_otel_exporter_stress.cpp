@@ -279,5 +279,3 @@ TEST_F(OTelExporterStressTest, EventRecordingStress) {
 }
 
 }  // namespace themis::observability::tests
-
-}  // namespace themis::observability::tests
