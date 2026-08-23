@@ -29,7 +29,7 @@ jobs:
     with:
       runs_on: ubuntu-latest
       shell: bash
-      submodules: true
+      submodules: false
       setup_command: |
         set -euo pipefail
         allowed_csv="${{ github.repository_owner }}"

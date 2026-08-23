@@ -64,8 +64,8 @@ jobs:
         set -euo pipefail
         sudo apt-get update -qq
         sudo apt-get install -y --no-install-recommends dpkg-dev rpm
-        git submodule sync -- vcpkg
-        git submodule update --init --recursive vcpkg
+        git submodule sync -- vcpkg ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp external/GIUF
+        git submodule update --init --recursive vcpkg ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp external/GIUF || true
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
           echo "::error::vcpkg submodule/toolchain missing before bootstrap"
           exit 1
@@ -128,8 +128,8 @@ jobs:
       fetch_depth: '0'
       setup_command: |
         set -euo pipefail
-        git submodule sync -- vcpkg
-        git submodule update --init --recursive vcpkg
+        git submodule sync -- vcpkg ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp external/GIUF
+        git submodule update --init --recursive vcpkg ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp external/GIUF || true
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
           echo "::error::vcpkg submodule/toolchain missing before bootstrap"
           exit 1
