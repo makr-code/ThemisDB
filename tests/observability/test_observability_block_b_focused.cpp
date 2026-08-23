@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "observability/metrics_aggregator.h"
+#include "observability/metric_aggregator.h"
 #include "observability/metrics_collector.h"
 #include "observability/opentelemetry_tracer.h"
 #include "observability/provenance_store.h"

@@ -83,14 +83,27 @@ jobs:
 
         cmake --install build-gcc-linux-release --prefix build-gcc-linux-release/install 2>&1 | tee install-linux-release.log
 
-        mkdir -p packages
-        for GEN in TGZ DEB RPM ZIP; do
+        BUILD_DIR="${GITHUB_WORKSPACE}/build-gcc-linux-release"
+        PACKAGES_DIR="${GITHUB_WORKSPACE}/packages"
+        rm -rf "${PACKAGES_DIR}"
+        mkdir -p "${PACKAGES_DIR}"
+
+        for GEN in TGZ DEB RPM; do
           echo "--- Running CPack generator: ${GEN} ---"
-          cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-linux-release.log" || \
+          cpack --config "${BUILD_DIR}/CPackConfig.cmake" \
+            -DCPACK_PACKAGE_DIRECTORY="${PACKAGES_DIR}" \
+            -G "${GEN}" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-linux-release.log" || \
             echo "::warning::CPack generator ${GEN} failed - continuing."
         done
+
+        if ! find "${PACKAGES_DIR}" -maxdepth 1 \( -name '*.tar.gz' -o -name '*.tgz' -o -name '*.deb' -o -name '*.rpm' \) -print -quit | grep -q .; then
+          echo "::error::No Linux package artifacts were produced in ${PACKAGES_DIR}"
+          ls -la "${PACKAGES_DIR}" || true
+          exit 1
+        fi
+
         echo "Packages produced:"
-        ls -lh "${GITHUB_WORKSPACE}/packages/" || true
+        ls -lh "${PACKAGES_DIR}" || true
       artifact_name: build-linux-release-${{ github.run_number }}
       artifact_paths: |
         build-gcc-linux-release/themisdb*
@@ -134,18 +147,31 @@ jobs:
 
         cmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log
 
-        mkdir -p packages
+        BUILD_DIR="${GITHUB_WORKSPACE}/build-msvc-windows-release"
+        PACKAGES_DIR="${GITHUB_WORKSPACE}/packages"
+        rm -rf "${PACKAGES_DIR}"
+        mkdir -p "${PACKAGES_DIR}"
+
         for GEN in ZIP WIX; do
           if ! command -v candle &>/dev/null 2>&1 && [ "${GEN}" = "WIX" ]; then
             echo "::notice::WiX (candle) not found - MSI generator skipped."
             continue
           fi
           echo "--- Running CPack generator: ${GEN} ---"
-          cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log" || \
+          cpack --config "${BUILD_DIR}/CPackConfig.cmake" \
+            -DCPACK_PACKAGE_DIRECTORY="${PACKAGES_DIR}" \
+            -G "${GEN}" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log" || \
             echo "::warning::CPack generator ${GEN} failed - continuing."
         done
+
+        if ! find "${PACKAGES_DIR}" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then
+          echo "::error::No Windows package artifacts were produced in ${PACKAGES_DIR}"
+          ls -la "${PACKAGES_DIR}" || true
+          exit 1
+        fi
+
         echo "Packages produced:"
-        ls -lh "${GITHUB_WORKSPACE}/packages/" || true
+        ls -lh "${PACKAGES_DIR}" || true
       artifact_name: build-windows-release-${{ github.run_number }}
       artifact_paths: |
         build-msvc-windows-release/*.exe
