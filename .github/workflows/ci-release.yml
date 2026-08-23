@@ -446,6 +446,26 @@ jobs:
           ls -lh release/
           (cd release && sha256sum --check SHA256SUMS.txt)
 
+  docker-image:
+    name: Build/Publish Docker Image (non-blocking)
+    needs: validate-release-manifest
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'release' ||
+      github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    uses: ./.github/workflows/docker-image.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    with:
+      push_to_registry: 'true'
+      registry: 'ghcr.io'
+      tag_name: ${{ inputs.tag_name || github.ref_name }}
+    secrets: inherit
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Publish Community — no private credentials or private submodules
   # Community guardrail: RELEASE_STRATEGY.md §2.4
