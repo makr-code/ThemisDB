@@ -156,7 +156,6 @@ jobs:
           pattern: packages-*-${{ github.run_number }}
           merge-multiple: true
           path: release/
-          if-no-files-found: warn
 
       - name: Download Linux community binaries (fallback)
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
@@ -164,7 +163,6 @@ jobs:
           pattern: build-community-release-${{ github.run_number }}
           merge-multiple: true
           path: dist/
-          if-no-files-found: warn
 
       - name: Determine edition and version from tag
         id: version
@@ -238,7 +236,6 @@ jobs:
           name: release-packages-${{ github.run_number }}
           path: release/
           retention-days: 90
-          if-no-files-found: warn
 
   validate-release-manifest:
     name: Validate Release Manifest
@@ -251,7 +248,6 @@ jobs:
           pattern: release-packages-*
           merge-multiple: true
           path: release/
-          if-no-files-found: warn
 
       - name: Validate artifacts, checksums, and metadata
         run: |
@@ -377,7 +373,6 @@ jobs:
           pattern: release-packages-*
           merge-multiple: true
           path: release/
-          if-no-files-found: warn
 
       - name: Publish to GitHub Releases (community)
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
@@ -481,7 +476,6 @@ jobs:
           pattern: release-packages-*
           merge-multiple: true
           path: release/
-          if-no-files-found: warn
 
       - name: Validate private edition tag
         shell: bash

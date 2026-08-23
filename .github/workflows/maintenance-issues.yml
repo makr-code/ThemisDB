@@ -152,6 +152,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pyyaml
+
       - name: Prepare output directories
         run: mkdir -p ai_working/gs3
 
@@ -170,7 +175,7 @@ jobs:
             print("::error::SCAN_PATHS resolved to empty path list")
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
               fh.write("scan_failed=true\nscan_exit_code=2\n")
-            sys.exit(0)
+            raise SystemExit(2)
 
           output_json = Path("ai_working/gs3/gap_scan.json")
           output_md = Path("ai_working/gs3/gap_scan.md")
@@ -194,9 +199,10 @@ jobs:
             fh.write(f"scan_failed={'true' if scan_failed else 'false'}\n")
 
           if scan_failed:
-            print(f"::warning::GS3 scan failed with exit code {exit_code}")
-          else:
-            print(f"GS3 scan finished with exit code {exit_code}")
+            print(f"::error::GS3 scan failed with exit code {exit_code}")
+            raise SystemExit(exit_code)
+
+          print(f"GS3 scan finished with exit code {exit_code}")
           PY
 
       - name: Consolidate findings
