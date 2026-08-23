@@ -70,6 +70,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] `server`, `llm`, and `sharding` top-risk hardening complete: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered and evidence bundled; `sharding` P6 gate integration and sign-off artefacts complete.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 - [x] Phase 1-6 execution contract complete: all technical gates PASS; human sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`) is the only remaining GA blocker.
+- [x] Tools build-option transition complete: canonical flag for desktop tools is `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
 
 ## Program Execution Model (Wave A → B → C → D)
 

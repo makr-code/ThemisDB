@@ -232,7 +232,7 @@ models:
 )";
     
     ProcessModelRecord defaults;
-    defaults.domain = ProcessDomain::BPMN;
+    defaults.domain = ProcessDomain::BUSINESS;
     defaults.created_by = "test";
     
     // This should not leak resources even with standard YAML
@@ -266,7 +266,7 @@ models:
 )";
     
     ProcessModelRecord defaults;
-    defaults.domain = ProcessDomain::BPMN;
+    defaults.domain = ProcessDomain::BUSINESS;
     defaults.created_by = "test";
     
     // Should handle malformed YAML gracefully without resource leaks

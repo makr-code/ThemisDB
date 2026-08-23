@@ -27,30 +27,9 @@ Allowed examples:
 - `2.4.1`
 - `2.5.0`
 - `2.5.0-alpha1`
-- `2.5.0-beta1`
-- `2.4.0-rc1`
-
-Rules:
-
-- `MAJOR`: incompatible change
-- `MINOR`: new backward-compatible functionality
-- `PATCH`: backward-compatible fix
-- `alpha`, `beta`, `rc`: pre-release stages
-
-Canonical pre-release suffixes are `-alphaN`, `-betaN`, and `-rcN`. Legacy forms (`-alpha`, `-beta.N`, `-rc.N`, `-rc`) are accepted only for historical tags/changelog entries.
-
-## 2.1 Milestone Model Alignment (ROADMAP / FUTURE / CHANGELOG)
-
-- Release scope is planned in `ROADMAP.md` milestone sections.
-- Open enhancement backlog is tracked in `FUTURE_ENHANCEMENTS.md`.
-- `CHANGELOG.md` entries must map to the milestone scope and reference the related enhancement/backlog item when applicable.
 
 | `RELEASE_TYPE` value | Tag suffix example | Milestone naming pattern | Changelog entry pattern |
 |---|---|---|---|
-| `alpha` | `v2.5.0-alpha1` | `v2.5.0-alpha1` | `## [Unreleased]` until cut, then `## [2.5.0-alpha1] - YYYY-MM-DD` |
-| `beta` | `v2.5.0-beta1` | `v2.5.0-beta1` | `## [Unreleased]` until cut, then `## [2.5.0-beta1] - YYYY-MM-DD` |
-| `rc` | `v2.4.0-rc1` | `v2.4.0-rc1` | `## [Unreleased]` until cut, then `## [2.4.0-rc1] - YYYY-MM-DD` |
-| `stable` | `v2.4.0` | `v2.4.0` | `## [Unreleased]` until cut, then `## [2.4.0] - YYYY-MM-DD` |
 
 ## 2.1.1 PR Version Targeting Integration
 
@@ -73,20 +52,8 @@ See [docs/governance/PR_VERSION_TARGETING.md](docs/governance/PR_VERSION_TARGETI
 - `COPILOT_INSTRUCTIONS.md` and `.github/copilot-instructions.md` define how AI/agent documentation updates must keep `BRANCHING_STRATEGY.md`, `VERSIONING.md`, this file, `CHANGELOG.md`, `ROADMAP.md`, and `FUTURE_ENHANCEMENTS.md` synchronized.
 - Release documentation updates are only complete when versioning model, release type mapping, branch model, and changelog traceability remain consistent across these root documents.
 
-## 2.3 Current RC-To-Stable Gate Model
-
-For the current `v2.4.0-rc1` → `v2.4.0` path, release work follows a strict gate order on `develop` before promotion into any release lane:
-
-1. confirm Wave 7 with all six PASS gates on the current baseline
-2. keep `release_critical` CI green on `develop`
-3. close top-risk hardening for `server`, `llm`, and `sharding` with no new CRITICAL findings
-4. prove performance, resilience, security, and operational artefacts (Wave 5/6 retention, Wave 8, chaos/fault injection, sanitizer/recovery, penetration test, SLA, runbooks)
-5. promote the proven state from `develop` into the canonical release lane and tag only after the manual checks pass
-
 The root evidence set for this path is maintained in `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, and the referenced test/benchmark/runbook artefacts.
-
 ## 2.4 Private Plugin Release And Packaging Rules
-
 - Community release lanes (`develop` validation, `community` publication) must not require private credentials, private submodule checkout, or private artefact packaging.
 - Private plugins are consumed only through commit-pinned submodules under `plugins/private/*`, and those submodule paths should mirror the current plugin names after the corresponding private repositories are provisioned.
 - Private edition publication must use scoped credentials (GitHub App or deploy key) per family/edition; personal credentials and unscoped machine tokens are not allowed.
@@ -577,6 +544,7 @@ Before tagging, verify manually:
 - release notes exist
 - artefacts were built successfully
 - package contents are plausible
+- LLM bundle check: release packages from `windows-release`, `linux-release`, and `community-release` presets must include TinyLlama GGUF runtime payload under `models/` (source default: `models`)
 - checksums were generated if required
 - SBOM + Supply-Chain evidence was generated and archived (policy: `docs/de/security/security_sbom.md`)
 - WinGet manifests were regenerated and validated (`winget validate`) if a Windows ZIP or MSI artefact changed

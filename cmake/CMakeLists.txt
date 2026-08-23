@@ -5402,6 +5402,43 @@ else()
     message(STATUS "themisctl: disabled or source not found")
 endif()
 
+# ThemisDB Config Editor (wxWidgets desktop GUI)
+option(THEMIS_BUILD_TOOLS "Build optional desktop tools (includes wxWidgets config editor)" ON)
+
+if(THEMIS_BUILD_TOOLS AND EXISTS "${THEMIS_ROOT_DIR}/tools/themis_config_wx/main.cpp")
+    find_package(wxWidgets COMPONENTS core base adv QUIET)
+    find_package(yaml-cpp QUIET)
+
+    if(wxWidgets_FOUND AND yaml-cpp_FOUND)
+        include(${wxWidgets_USE_FILE})
+
+        add_executable(themis_config_wx
+            ${THEMIS_ROOT_DIR}/tools/themis_config_wx/main.cpp
+        )
+
+        set_target_properties(themis_config_wx PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+        )
+
+        target_compile_features(themis_config_wx PRIVATE cxx_std_20)
+        target_link_libraries(themis_config_wx PRIVATE ${wxWidgets_LIBRARIES} yaml-cpp)
+
+        install(TARGETS themis_config_wx
+            OPTIONAL
+            RUNTIME DESTINATION bin
+            COMPONENT tools
+        )
+
+        message(STATUS "themis_config_wx: enabled")
+    else()
+        message(WARNING "THEMIS_BUILD_TOOLS is ON, but themis_config_wx dependencies are missing (wxWidgets and/or yaml-cpp); target is skipped")
+    endif()
+endif()
+
 # Export CLI Tool (themis-export)
 if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
     add_executable(themis-export

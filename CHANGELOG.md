@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 - Audit/docs governance sync: root `AUDIT.md` converted to strict SOT navigation pointer, `audit/README.md` now contains explicit canonical `/audit` ↔ downstream `/docs` mapping, and root audit/security index links were aligned to canonical audit paths.
+- Build option transition note: wxWidgets config editor build flag standardized to `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
 
 ---
 

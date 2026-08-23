@@ -21,11 +21,8 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
         )
     elseif(_stem STREQUAL "test_critical_batch1_fixes")
-        list(APPEND _extra_sources
-            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
-            ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
-            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
-        )
+        # Process implementations are already provided by the linked core/query library.
+        # Adding them here creates LNK2005 duplicate definitions on MSVC.
     endif()
 
     add_executable(${_target}
@@ -76,11 +73,8 @@ foreach(_src IN LISTS PROCESS_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
         )
     elseif(_stem STREQUAL "test_critical_batch1_fixes")
-        list(APPEND _extra_sources
-            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
-            ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
-            ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
-        )
+        # Process implementations are already provided by the linked core/query library.
+        # Adding them here creates LNK2005 duplicate definitions on MSVC.
     endif()
 
     if(TARGET ${_target})

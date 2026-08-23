@@ -708,14 +708,28 @@ endif()
 
 if(_themis_models_mode STREQUAL "PACKAGE")
     if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
+        file(GLOB _themis_tinyllama_candidates
+            "${THEMIS_MODELS_SOURCE_DIR}/*tinyllama*.gguf"
+            "${THEMIS_MODELS_SOURCE_DIR}/*TinyLlama*.gguf"
+            "${THEMIS_MODELS_SOURCE_DIR}/default.gguf"
+        )
+
+        if(THEMIS_PACKAGE_INCLUDE_TINYLLAMA AND NOT _themis_tinyllama_candidates)
+            message(FATAL_ERROR
+                "models mode PACKAGE requires TinyLlama GGUF artifacts, but none were found in '${THEMIS_MODELS_SOURCE_DIR}'. "
+                "Provide TinyLlama files or set THEMIS_PACKAGE_INCLUDE_TINYLLAMA=OFF explicitly."
+            )
+        endif()
+
         if(THEMIS_PACKAGE_INCLUDE_TINYLLAMA)
             install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
                 DESTINATION models
                 COMPONENT models
                 OPTIONAL
                 FILES_MATCHING
-                PATTERN "*tinyllama*"
-                PATTERN "*TinyLlama*"
+                PATTERN "*tinyllama*.gguf"
+                PATTERN "*TinyLlama*.gguf"
+                PATTERN "default.gguf"
                 PATTERN "*gemma*" EXCLUDE
                 PATTERN "*Gemma*" EXCLUDE
             )

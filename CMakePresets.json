@@ -90,8 +90,12 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_DIAGNOSTIC_MODE": "OFF",
-        "THEMIS_BUILD_TESTS": "OFF",
-        "THEMIS_BUILD_BENCHMARKS": "OFF"
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_MODELS_MODE": "PACKAGE",
+        "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
+        "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF"
       }
     },
     {
@@ -126,7 +130,11 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_BUILD_TESTS": "OFF",
-        "THEMIS_BUILD_BENCHMARKS": "OFF"
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_MODELS_MODE": "PACKAGE",
+        "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
+        "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF"
       }
     },
     {
@@ -155,7 +163,11 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_BUILD_TESTS": "OFF",
-        "THEMIS_BUILD_BENCHMARKS": "OFF"
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_MODELS_MODE": "PACKAGE",
+        "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
+        "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF"
       }
     },
     {
