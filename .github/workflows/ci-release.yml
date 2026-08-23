@@ -125,196 +125,11 @@ jobs:
   # Build Matrix: community-release, linux-release, windows-release
   # ─────────────────────────────────────────────────────────────────────────────
   build-matrix:
-    name: "Build (${{ matrix.preset }} on ${{ matrix.os }})"
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
     needs: preflight-release-policy
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - preset: community-release
-            os: ubuntu-latest
-            binaryDir: build-community-release
-            cpack_generators: ""
-            description: Community build with system packages
-
-          - preset: linux-release
-            os: ubuntu-latest
-            binaryDir: build-gcc-linux-release
-            cpack_generators: TGZ;DEB;RPM;ZIP
-            description: Production Linux build with native packages
-
-          - preset: windows-release
-            os: windows-latest
-            binaryDir: build-msvc-windows-release
-            cpack_generators: ZIP;WIX
-            description: Production Windows build with vcpkg
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          fetch-depth: 0
-
-      - name: Check build_matrix filter
-        id: filter
-        run: |
-          MATRIX_INPUT="${{ inputs.build_matrix }}"
-          PRESET="${{ matrix.preset }}"
-          SKIP="false"
-          if [ -n "${MATRIX_INPUT}" ] && [ "${MATRIX_INPUT}" != "all" ]; then
-            case "${MATRIX_INPUT}" in
-              community-only)
-                [ "${PRESET}" != "community-release" ] && SKIP="true" ;;
-              linux-release-only)
-                [ "${PRESET}" != "linux-release" ] && SKIP="true" ;;
-              windows-release-only)
-                [ "${PRESET}" != "windows-release" ] && SKIP="true" ;;
-            esac
-          fi
-          echo "skip=${SKIP}" >> "$GITHUB_OUTPUT"
-        shell: bash
-
-      - name: Install Linux system dependencies (community-release)
-        if: matrix.preset == 'community-release' && steps.filter.outputs.skip != 'true'
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
-            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
-            libvulkan-dev \
-            libboost-system-dev libboost-filesystem-dev \
-            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
-            dpkg-dev rpm
-
-      - name: Install Linux packaging tools (linux-release)
-        if: matrix.preset == 'linux-release' && steps.filter.outputs.skip != 'true'
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends dpkg-dev rpm
-
-      - name: Preflight vcpkg submodule (linux/windows release presets)
-        if: >
-          steps.filter.outputs.skip != 'true' &&
-          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
-        shell: bash
-        run: |
-          set -euo pipefail
-          git submodule sync -- vcpkg
-          git submodule update --init --recursive vcpkg
-          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-            echo "::error::Missing vcpkg toolchain at vcpkg/scripts/buildsystems/vcpkg.cmake"
-            exit 1
-          }
-
-      - name: Set up vcpkg (Linux/Windows vcpkg presets)
-        if: >
-          steps.filter.outputs.skip != 'true' &&
-          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
-        shell: bash
-        run: |
-          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-            echo "::error::vcpkg submodule/toolchain missing before bootstrap"
-            exit 1
-          }
-          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>/dev/null || ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
-
-      - name: Configure
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          cmake --preset ${{ matrix.preset }} 2>&1 | tee "configure-${{ matrix.preset }}.log"
-        shell: bash
-
-      - name: Build
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          cmake --build --preset ${{ matrix.preset }} --parallel 2>&1 | tee "build-${{ matrix.preset }}.log"
-        shell: bash
-
-      - name: Test
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60 2>&1 | tee "test-${{ matrix.preset }}.log"
-        shell: bash
-
-      # ── CPack packaging ───────────────────────────────────────────────────
-      - name: Install (cmake --install)
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          cmake --install "${{ matrix.binaryDir }}" \
-            --prefix "${{ matrix.binaryDir }}/install" 2>&1 | tee "install-${{ matrix.preset }}.log"
-        shell: bash
-
-      - name: Package (cpack)
-        if: steps.filter.outputs.skip != 'true'
-        id: cpack
-        shell: bash
-        run: |
-          set -euo pipefail
-          BINARY_DIR="${{ matrix.binaryDir }}"
-          GENERATORS="${{ matrix.cpack_generators }}"
-
-          # On Windows runners WiX v3 (candle/light) is available via the
-          # "windows-2022" image; skip WIX silently if not found.
-          if [[ "$RUNNER_OS" == "Windows" ]] || [[ "$(uname -s)" == MINGW* ]]; then
-            if ! command -v candle &>/dev/null 2>&1; then
-              GENERATORS="${GENERATORS//;WIX/}"
-              GENERATORS="${GENERATORS//WIX;/}"
-              GENERATORS="${GENERATORS//WIX/}"
-              echo "::notice::WiX (candle) not found — MSI generator skipped."
-            fi
-          fi
-
-          mkdir -p packages
-          cd "${BINARY_DIR}"
-          for GEN in ${GENERATORS//;/ }; do
-            echo "--- Running CPack generator: ${GEN} ---"
-            cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-${{ matrix.preset }}.log" || \
-              echo "::warning::CPack generator ${GEN} failed — continuing."
-          done
-          echo "Packages produced:"
-          ls -lh "${GITHUB_WORKSPACE}/packages/" || true
-
-      - name: Upload CPack packages
-        if: steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
-        with:
-          name: packages-${{ matrix.preset }}-${{ github.run_number }}
-          path: packages/
-          retention-days: 90
-          if-no-files-found: ignore
-
-      - name: Upload build artifacts
-        if: steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
-        with:
-          name: build-${{ matrix.preset }}-${{ github.run_number }}
-          path: |
-            ${{ matrix.binaryDir }}/themisdb*
-            ${{ matrix.binaryDir }}/*.exe
-            ${{ matrix.binaryDir }}/*.so
-            ${{ matrix.binaryDir }}/*.dll
-          retention-days: 30
-          if-no-files-found: ignore
-
-      - name: Upload triage logs
-        if: always() && steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
-        with:
-          name: triage-${{ matrix.preset }}-${{ github.run_number }}
-          path: |
-            configure-${{ matrix.preset }}.log
-            build-${{ matrix.preset }}.log
-            test-${{ matrix.preset }}.log
-            install-${{ matrix.preset }}.log
-            cpack-*-${{ matrix.preset }}.log
-          retention-days: 30
-          if-no-files-found: ignore
+    uses: ./.github/workflows/ci-release-build-matrix.yml
+    with:
+      build_matrix: ${{ inputs.build_matrix || 'all' }}
+    secrets: inherit
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Package: consolidate CPack artifacts from all presets into a single release
@@ -474,6 +289,37 @@ jobs:
           RC=$?
           if [ "${RC}" -ne 0 ]; then
             echo "::warning::Docker workflow trigger failed (non-blocking), rc=${RC}."
+          fi
+          exit 0
+
+  ci-widget:
+    name: Trigger CI Widget Workflow (dry-run, non-blocking)
+    runs-on: ubuntu-latest
+    needs: validate-release-manifest
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'release' ||
+      github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Trigger ci-widget workflow (dry-run, best effort)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_REF: ${{ github.ref_name }}
+          TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
+        shell: bash
+        run: |
+          set +e
+          gh workflow run .github/workflows/ci-widget.yml \
+            --ref "${TARGET_REF}" \
+            -f dry_run=true \
+            -f source_workflow="CI - Release" \
+            -f tag_name="${TARGET_TAG}"
+          RC=$?
+          if [ "${RC}" -ne 0 ]; then
+            echo "::warning::Widget workflow trigger failed (non-blocking), rc=${RC}."
           fi
           exit 0
 
