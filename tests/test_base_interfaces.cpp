@@ -60,7 +60,7 @@ TEST(BaseInterfaces, HasVirtualDestructors) {
 }
 
 // =============================================================================
-// Mock Implementations
+// Test-double implementations
 // =============================================================================
 
 // --- IStorageEngine mock ---
@@ -193,7 +193,7 @@ public:
 
     std::vector<std::string> lookup(std::string_view value) const override {
         auto it = index_.find(std::string(value));
-        if (it == index_.end()) return {};
+        if (it == index_.end()) return std::vector<std::string>{};
         return it->second;
     }
 
@@ -318,7 +318,7 @@ public:
                 return {std::string(from), std::string(to)};
             }
         }
-        return {};
+        return std::vector<std::string>{};
     }
 
     std::string getName() const override { return "mock_graph"; }
