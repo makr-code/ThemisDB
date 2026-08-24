@@ -186,14 +186,14 @@ Evidence:
 - [ ] **AUTH-GRG-04:** Provider discovery latency ≤200ms
 - [ ] **AUTH-GRG-05:** Authorization check latency p99≤100µs
 - [ ] **AUTH-GRG-06:** Rate limit check latency ≤10µs
-- **Target:** Q4 2026 | **Status:** Pending CI benchmark run
+- **Target:** Q4 2026 | **Status:** CI dispatch started (run #40 / id 32765349559), evidence pending
 
 ## Priority Assessment and Action Plan
 
 ### P0 — Wave C Gate Blockers (resolve by Q4 2026 end)
 1. ✅ **Test evidence gates delivered (2026-08-19)** — all 5 Wave C test files created
 2. ✅ **PasskeyAuthenticator impl gap closed (2026-08-19)** — real CBOR/OpenSSL logic replacing TODO stubs
-3. [ ] **Benchmark gate execution** → AUTH-GRG-01..06 require CI benchmark run on representative hardware
+3. [~] **Benchmark gate execution** → AUTH-GRG-01..06 CI run dispatched (`CI — Benchmarks` #40 / id 32765349559); awaiting completion/evidence on representative hardware
 4. [ ] **Provider failover hardening** → Secondary provider logic + automatic recovery (Q4 2026)
 5. [ ] **RBAC/ABAC full algorithm** → Complex predicate support + delegation (Q4 2026)
 

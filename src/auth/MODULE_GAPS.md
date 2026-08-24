@@ -6,7 +6,7 @@ This file documents all documentation and code quality gaps in the **auth** modu
 
 - **Total Gaps**: 2745 (14 false positives removed in Phase 6 verification)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, Phase 6: false-positive remediation)
-- **Last Updated**: 2026-08-24 (Batch 5: unchecked_result, catch_all_swallow, resource_leaked_in_exception, circular_lock_ordering gap closures)
+- **Last Updated**: 2026-08-24 (Batch 6: AUTH-GRG CI dispatch + null-dereference hardening sweep)
 
 ### Wave C Gap Closure Progress (2026-08-24 Batch 5)
 
@@ -15,7 +15,7 @@ This file documents all documentation and code quality gaps in the **auth** modu
 - **catch_all_swallow gap closed (http_auth_async.cpp)**: `performConnectivityCheck` `catch(...)` block now logs at debug level before returning false
 - **catch_all_swallow + circular_lock_ordering gaps closed (auth_rate_limiter.cpp)**: `reset()` no longer holds `stats_mutex_` when calling sub-object `reset()` methods (eliminates deadlock potential); constructor and `incrementAndGetBreachCount()` Redis blocks now have logged exception guards
 - **resource_leaked_in_exception gaps closed (jwks_security.cpp)**: RAII wrappers (`UniqueX509`, `UniqueOSSLBuf`, `UniqueOSSLChar`) applied to `computeSPKIHashFromFile`, `computeSPKIHashFromPEM`, `getCertificateInfo` — resources freed on all exception paths
-- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 pending CI run; null_dereference (12); uninitialized_access (14); scope_mismatch (2213, mostly scanner artefacts); circular_lock_ordering remainder verified as false positives
+- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 awaiting completion/evidence from CI run #40; null_dereference hardening sweep delivered (rescan pending); uninitialized_access findings are scanner-header artefacts pending scanner-rule refinement; scope_mismatch remains scanner artefacts; circular_lock_ordering remainder verified as false positives/single-mutex patterns
 
 ### Wave C Gap Closure Progress (2026-08-19 Batch 4)
 
@@ -139,3 +139,20 @@ See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
    - Expected FP rate reduction: 78% → ~5% after 5 scanner refinements
    - Targeted re-scan of all modules to verify improvements
 
+4. **Wave C Auth benchmark gate execution tracking (AUTH-GRG-01..06):**
+   - CI workflow dispatched: `CI — Benchmarks` (`.github/workflows/ci-benchmarks.yml`)
+   - Run: `#40` (`32765349559`, `workflow_dispatch`, branch `develop`)
+   - Filter used: `bench_auth_hotpaths|AHP-`
+   - Status: pending completion; gate evidence capture follows on artifact publication
+
+5. **Batch 6 hardening sweep delivered (null_dereference focus):**
+   - `src/auth/jwks_security.cpp`: base64 BIO allocation/push and buffer-pointer guards
+   - `src/auth/totp_secret_encryption.cpp`: base64 encode/decode BIO guard checks
+   - `src/auth/saml_authenticator.cpp`: base64 buffer pointer guard in AuthnRequest encoding path
+   - `src/auth/mtls_authenticator.cpp`: PEM BIO-buffer and X509-name buffer guard checks
+   - `src/auth/rate_limiter_backend.cpp`, `src/auth/redis_token_blacklist.cpp`: Redis error-string guard helper to avoid null-pointer dereference on degraded contexts
+
+6. **Scanner-artefact governance closure notes:**
+   - `uninitialized_access` counts are currently dominated by auto-generated file-header comment patterns (`line 16`) and do not correspond to executable uninitialized-variable paths.
+   - `scope_mismatch` counts are scanner classification artefacts and remain non-actionable for production code changes.
+   - `circular_lock_ordering` remainder is tracked as verified single-mutex patterns/false positives unless future scans provide a concrete multi-lock path.

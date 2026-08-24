@@ -113,8 +113,16 @@ void InMemoryRateLimiterBackend::reset(const std::string& key)
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_REDIS
-
 std::atomic<uint64_t> RedisRateLimiterBackend::member_counter_{0};
+
+namespace {
+const char* redisErrStrSafe(const redisContext* ctx) {
+    if (!ctx || !ctx->errstr) {
+        return "unknown redis error";
+    }
+    return ctx->errstr;
+}
+} // namespace
 
 std::string RedisRateLimiterBackend::makeKey(const std::string& key) const
 {
@@ -136,7 +144,7 @@ bool RedisRateLimiterBackend::connect()
     if (!ctx_ || ctx_->err) {
         THEMIS_WARN("RedisRateLimiterBackend: connect to {}:{} failed: {}",
                     config_.host, config_.port,
-                    ctx_ ? ctx_->errstr : "allocation failure");
+                    ctx_ ? redisErrStrSafe(ctx_) : "allocation failure");
         if (ctx_) { redisFree(ctx_); ctx_ = nullptr; }
         return false;
     }
@@ -209,7 +217,7 @@ int64_t RedisRateLimiterBackend::increment(const std::string& key,
                      member.c_str()));
 
     if (!reply) {
-        THEMIS_WARN("RedisRateLimiterBackend::increment: command failed: {}", ctx_->errstr);
+        THEMIS_WARN("RedisRateLimiterBackend::increment: command failed: {}", redisErrStrSafe(ctx_));
         disconnect();
         return 0; // fail-open
     }
@@ -247,7 +255,7 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
                      window_us));
 
     if (!reply) {
-        THEMIS_WARN("RedisRateLimiterBackend::getCount: command failed: {}", ctx_->errstr);
+        THEMIS_WARN("RedisRateLimiterBackend::getCount: command failed: {}", redisErrStrSafe(ctx_));
         const_cast<RedisRateLimiterBackend*>(this)->disconnect();
         return 0;
     }
@@ -273,7 +281,7 @@ void RedisRateLimiterBackend::reset(const std::string& key)
     if (reply) {
         freeReplyObject(reply);
     } else {
-        THEMIS_WARN("RedisRateLimiterBackend::reset: command failed: {}", ctx_->errstr);
+        THEMIS_WARN("RedisRateLimiterBackend::reset: command failed: {}", redisErrStrSafe(ctx_));
         disconnect();
     }
 }
@@ -432,4 +440,3 @@ bool RedisRateLimiterBackend::reconnect()
 
 } // namespace auth
 } // namespace themis
-

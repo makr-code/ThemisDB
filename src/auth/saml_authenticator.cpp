@@ -197,6 +197,10 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string &input) 
 
     BUF_MEM *buf_ptr{};
     BIO_get_mem_ptr(mem_bio, &buf_ptr);
+    if (!buf_ptr || !buf_ptr->data || buf_ptr->length == 0) {
+        BIO_free_all(b64_bio);
+        return {};
+    }
     std::string encoded(buf_ptr->data, buf_ptr->length);
     BIO_free_all(b64_bio);
     return encoded;

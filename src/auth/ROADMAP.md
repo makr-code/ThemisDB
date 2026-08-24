@@ -14,6 +14,9 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] hardening of distributed revocation, federation, and policy-edge behavior (Target: Q3 2026)
 - [x] benchmark and release-gate consolidation for token/session hot paths (Target: Q3 2026)
 - [x] consistency hardening for async/provider-integration reliability (Target: Q3 2026)
+- [~] Wave C benchmark gate execution and evidence capture in CI (AUTH-GRG-01..06) (Target: Q4 2026)
+  - Dispatched: `CI — Benchmarks` run `#40` (`32765349559`) on `develop` with filter `bench_auth_hotpaths|AHP-`
+  - Pending: run completion on representative hardware and artifact-to-gate mapping evidence
 
 ## v1.2.0 Async Operations & Connection Pooling (Completed)
 
@@ -160,7 +163,7 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] PasskeyAuthenticator TODO stubs replaced with real CBOR/OpenSSL verification logic (2026-08-19)
 - [x] Wave C test gates delivered: AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06 (2026-08-19)
 - [x] Batch 5 gap closure: resource_leaked_in_exception (jwks_security.cpp RAII), unchecked_result (ldap_authenticator.cpp), catch_all_swallow (rate_limiter_backend.cpp, http_auth_async.cpp, auth_rate_limiter.cpp), circular_lock_ordering (auth_rate_limiter.cpp reset()) — delivered 2026-08-24
-- [ ] Wave C benchmark gates executed (AUTH-GRG-01..06) — pending CI run
+- [~] Wave C benchmark gates executed (AUTH-GRG-01..06) — CI run queued (`CI — Benchmarks` #40, run id `32765349559`)
 
 ## Known Issues and Limitations
 

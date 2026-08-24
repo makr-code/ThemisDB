@@ -45,15 +45,28 @@ using UniqueOSSLChar = std::unique_ptr<char, OpenSSLCharDeleter>;
 std::string base64Encode(const unsigned char* data, size_t len) {
     BIO* b64 = BIO_new(BIO_f_base64());
     BIO* bio = BIO_new(BIO_s_mem());
+    if (!b64 || !bio) {
+        BIO_free(b64);
+        BIO_free(bio);
+        throw std::runtime_error("JWKS: base64Encode BIO allocation failed");
+    }
     bio = BIO_push(b64, bio);
+    if (!bio) {
+        BIO_free_all(b64);
+        throw std::runtime_error("JWKS: base64Encode BIO push failed");
+    }
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
     BIO_write(bio, data, static_cast<int>(len));
     BIO_flush(bio);
     
-    BUF_MEM* bufferPtr;
+    BUF_MEM* bufferPtr = nullptr;
     BIO_get_mem_ptr(bio, &bufferPtr);
-    
+    if (!bufferPtr || !bufferPtr->data || bufferPtr->length == 0) {
+        BIO_free_all(bio);
+        return {};
+    }
+
     std::string result(bufferPtr->data, bufferPtr->length);
     
     BIO_free_all(bio);
@@ -498,4 +511,3 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
 
 } // namespace auth
 } // namespace themis
-

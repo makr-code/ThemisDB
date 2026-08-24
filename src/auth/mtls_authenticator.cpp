@@ -305,6 +305,10 @@ MTLSClaims MTLSAuthenticator::authenticateDER(const std::vector<uint8_t> &cert_d
 
     BUF_MEM *bptr = nullptr;
     BIO_get_mem_ptr(pem_bio.get(), &bptr);
+    if (!bptr || !bptr->data || bptr->length == 0) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "Certificate authentication failed",
+                                      "Failed to extract PEM buffer from OpenSSL BIO"));
+    }
     std::string pem(bptr->data, bptr->length);
     return authenticate(pem);
 }
@@ -394,6 +398,9 @@ std::string MTLSAuthenticator::x509NameToString(void *name_ptr) {
     X509_NAME_print_ex(bio.get(), name, 0, XN_FLAG_RFC2253);
     BUF_MEM *bptr = nullptr;
     BIO_get_mem_ptr(bio.get(), &bptr);
+    if (!bptr || !bptr->data || bptr->length == 0) {
+        return {};
+    }
     return std::string(bptr->data, bptr->length);
 }
 
