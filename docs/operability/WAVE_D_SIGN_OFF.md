@@ -108,25 +108,46 @@
 
 ---
 
-## Batch D5 — Wave D Gate Closure
+## Batch D6 — Remaining Items (Wave D Research / Module Hardening)
 
-**Status:** 🔲 Open — pending Batches D1–D4 completion and human sign-off
+**Status:** 🔲 Partially complete — hardware-blocked items require representative hardware sign-off
+
+> **Items completed in sandbox:**
+> - [x] **DistillationBoundedPolicy wiring** — `FederatedDistillationCoordinator::setBoundedPolicy()` implemented and enforced in `broadcastToStudents()` with FAIL_CLOSED semantics for `max_distillation_rounds` and `privacy_budget_hard_limit` caps. Evidence: `src/distributed_knowledge/federated_distillation_coordinator.cpp` + `include/distributed_knowledge/federated_distillation_coordinator.h` (2026-08-24).
+> - [x] **LDM-7 school YAML profiles** — 4 non-Western school profiles added to `assets/ethics_ai/`: `ubuntu_ethik.yaml`, `maori_tikanga.yaml`, `befreiungstheologie.yaml`, `hinduistische_ethik.yaml` (2026-08-24).
+
+> **Items hardware-blocked — require representative hardware execution:**
+> - [ ] **GATE-EUAI-AUDIT-01** — `bench_ldm.cpp` LAYERED_FULL / LAYERED_FAST baseline run on representative hardware. Instrumentation present in `benchmarks/ethics_ai/bench_ldm.cpp`. Pending hardware execution and result attachment.
+> - [ ] **DK-RG-01..06** — `bench_dk_release_gates.cpp` GATE-DKRG-01..06 baseline run on representative hardware. Instrumentation present in `benchmarks/distributed_knowledge/bench_dk_release_gates.cpp`. Pending hardware execution and result attachment.
+> - [ ] **Analytics Wave-B p95/p99** — `bench_analytics_release_gates.cpp` ARG-01..ARG-06 and `BM_AnalyticsChain_SustainedLoad` baseline run on representative hardware. Instrumentation present. Pending hardware execution and result attachment.
+> - [ ] **LDM-8 trained adapter matrices** — AdaLoRA bias corrector infrastructure (interfaces + identity/scalar correctors) exists; actual per-cultural-tradition adapter matrices require GPU training on institutional domain corpora (Fiqh, Wǔlún, Karuna). Pending hardware training.
+
+**Reviewer notes:**
+<!-- Attach hardware benchmark run logs / CI artifact links here when available -->
+
+**Approved by:** _(human sign-off required after hardware items are resolved)_
+**Date approved:** _(pending)_
+
+---
+
+
+
+## Final Sign-Off
+
+**Status:** 🔲 Open — pending Batches D1–D4, D6 completion and human sign-off
 
 **Gate closure checklist:**
 - [ ] Batch D1 approved (see above)
 - [ ] Batch D2 approved (see above)
 - [ ] Batch D3 runbook cross-links added
 - [ ] Batch D4 full soak evidence attached (see above)
+- [ ] Batch D6 hardware-blocked items resolved (GATE-EUAI-AUDIT-01, DK-RG-01..06, Analytics Wave-B, LDM-8 matrices)
 - [ ] `ROADMAP.md` Wave D items updated to `[x]`
 - [ ] `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9 (Batch D) updated with completion status
 - [ ] Human maintainer approves this document (signature below)
 
----
-
-## Final Sign-Off
-
 > By approving this document, the signing maintainer certifies that all Wave D
-> Operability Hardening batches (D1–D4) have been completed, evidence has been
+> Operability Hardening batches (D1–D6) have been completed, evidence has been
 > reviewed, and ThemisDB is ready to proceed past the Wave D gate.
 
 **Gate approved by:** _(human maintainer — name + GitHub username)_
