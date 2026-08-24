@@ -91,6 +91,15 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llama_cpp_real_inference" AND NOT THEMIS_BUILD_MODULAR)
+        # In non-modular builds the llama_cpp plugin sources are NOT compiled
+        # into themis_core.  Provide them directly so the test target links.
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_query_rewriter")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
