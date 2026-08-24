@@ -145,7 +145,7 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for analytics-critical paths (Completed 2026-07-29 — bench_analytics_release_gates.cpp, ARG-01..ARG-06)
-- [ ] validate p95/p99 behavior under representative production load profiles (Target: Q4 2026)
+- [~] validate p95/p99 behavior under representative production load profiles (Target: Q4 2026) — ARG-01..ARG-06 + BM_AnalyticsChain_SustainedLoad require representative hardware execution; instrumentation complete, baseline run sandbox-blocked; pending hardware sign-off
 
 ### Phase 6: Documentation and Acceptance
 - [x] core analytics module docs aligned to source-verifiable behavior

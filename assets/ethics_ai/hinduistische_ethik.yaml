@@ -1,0 +1,359 @@
+school_id: hinduistische_ethik
+name: Hindu Ethics (Dharma and Ahimsa)
+name_de: Hinduistische Ethik (Dharma und Ahimsa-Erweiterung)
+taxonomy_class: cultural_religious
+tags:
+- hinduismus
+- dharma
+- ahimsa
+- karma
+- moksha
+- satya
+- vedanta
+- indische_ethik
+- yoga_ethik
+- sanathana_dharma
+applicable_domains:
+- bioethics
+- environmental_ethics
+- social_justice
+- ai_governance
+- end_of_life
+- organizational_ethics
+convergence_compatible:
+- buddhistische_ethik
+- aristotelian
+- care_ethics
+- konfuzianismus
+cross_school_tensions:
+- own_thesis: ahimsa_satya
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: absolute_nonviolence_vs_outcome_calculus
+  rebuttal_cite_weight: 0.8
+- own_thesis: dharma_kosmische_ordnung
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: cosmic_contextual_duty_vs_universal_formal_law
+  rebuttal_cite_weight: 0.7
+- own_thesis: karma_intention
+  opposing_school: contractualism
+  opposing_thesis: original_position
+  tension_type: karmic_intention_ethics_vs_procedural_fairness
+  rebuttal_cite_weight: 0.65
+activation_conditions:
+- condition: dilemma.domains enthält bioethics ODER end_of_life
+  effect: always_active
+- condition: dilemma.tags enthält nonviolence ODER ahimsa ODER karma ODER dharma
+  effect: always_active
+- condition: dilemma.domains enthält environmental_ethics ODER ai_governance
+  effect: always_active
+- condition: dilemma.tags enthält india ODER vedanta ODER yoga ODER consciousness
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations: []
+  note: Ahimsa und Dharma sind fundamentale Lehraussagen; keine externe Regulierung überschreibt ethische Kernprinzipien
+domain_overrides:
+  bioethics:
+    weight_boost: 0.25
+    note: Ahimsa und Karma-Ethik sind zentral für bioethische Fragen im hinduistischen Kontext
+  environmental_ethics:
+    weight_boost: 0.2
+    note: Ahimsa gegenüber allen Lebewesen und Vasudhaiva Kutumbakam (Welt als Familie) als Umwelt-Ethik
+founders:
+- name: Vyasa (mythologisch-historisch)
+  years: ca. 5000 v. Chr. (traditionell) / ca. 3.-1. Jh. v. Chr. (modern)
+  nationality: Indisch
+  key_works:
+  - title: Mahabharata (inkl. Bhagavad Gita)
+    year: ca. 400 v. Chr. - 400 n. Chr.
+    significance: Zentrale Quelle hinduistischer Ethik; Bhagavad Gita als Kerntext der Dharma-Ethik
+  biography: Mythologischer Verfasser des Mahabharata; die Bhagavad Gita (Teil des Mahabharata) ist der bedeutendste Text
+    hinduistischer Ethik und Philosophie.
+- name: Adi Shankaracharya
+  years: 788-820 n. Chr.
+  nationality: Indisch (Kerala)
+  key_works:
+  - title: Brahmasutra-Bhashya
+    year: ca. 810 n. Chr.
+    significance: Advaita-Vedanta als nichtdualistische Philosophie; Atman = Brahman als ethisches Fundament
+  biography: Begründer des Advaita-Vedanta; seine nichtdualistische Metaphysik begründet universale ethische Gleichheit aller
+    Wesen.
+- name: Swami Vivekananda
+  years: 1863-1902
+  nationality: Indisch (Bengal)
+  key_works:
+  - title: Complete Works (9 Bände)
+    year: 1890-1902
+    significance: Synthese hinduistischer Ethik mit westlicher Philosophie und Sozialethik; Karma Yoga als gesellschaftlicher Dienst
+  biography: Reformer und Vertreter des Neo-Vedanta; verband hinduistische Ethik mit Sozialreform, Frauenrechten und globalem
+    interreligiösen Dialog.
+- name: Mahatma Gandhi
+  years: 1869-1948
+  nationality: Indisch (Gujarat)
+  key_works:
+  - title: The Story of My Experiments with Truth
+    year: 1927
+    significance: Ahimsa und Satyagraha als politische Praxis; Dharma als Grundlage des Widerstands
+  - title: 'Hind Swaraj'
+    year: 1909
+    significance: Politische Philosophie der Gewaltlosigkeit und Selbstverwaltung
+  biography: Freiheitskämpfer und Philosoph; entwickelte Ahimsa und Satyagraha als politische Methode; verband Dharma-Ethik
+    mit Sozialreform und Unabhängigkeitsbewegung.
+historical_context:
+  period: ca. 3000 v. Chr. bis heute; klassische Periode (Upanishaden, Gita) bis Gegenwart
+  philosophical_movement: Vedanta, Yoga-Ethik, Neo-Vedanta, Gandhi'scher Humanismus
+  zeitgeist: Dharma (kosmische Ordnung), Ahimsa (Nicht-Schaden), Karma (moralische Kausalität)
+  influences:
+  - source: Veda und Upanishaden (ca. 1500-200 v. Chr.)
+    impact: Grundlage von Dharma, Karma, Moksha als ethische Grundbegriffe
+  - source: Jainismus (Mahavira, 6. Jh. v. Chr.)
+    impact: Ahimsa als absolutes ethisches Prinzip; gemeinsamer Einfluss auf Gandhi
+  - source: Bhakti-Bewegung (6.-17. Jh.)
+    thinkers:
+    - Kabir
+    - Mirabai
+    - Tukaram
+    impact: Devotionale Ethik; soziale Gleichheit jenseits Kastensystem
+  reactions_against:
+  - Ritualismus ohne ethische Substanz (Brahmanismus)
+  - Kastensystem als Pervertierung des Dharma-Prinzips
+  - Materialismus (Charvaka) und Nihilismus
+main_theses:
+- thesis_id: hinduistische_ethik:dharma_kosmische_ordnung
+  name: Dharma — Kosmische Ordnung und kontextuelle Pflicht
+  description: Dharma bezeichnet die kosmische Ordnung und die ethischen Pflichten, die aus ihr folgen. Richtiges Handeln
+    ist kontextuell — situationsgemäß und rollengemäß — aber eingebettet in eine universale Ordnung.
+  explanation: 'Dharma (Sanskrit: Ordnung, Recht, Pflicht) umfasst kosmisches Recht
+
+    (rita), universale ethische Pflichten (samanya dharma) und situationsspezifische
+
+    Rollenpflichten (vishishta dharma).  Im Unterschied zu Kants kategorischem
+
+    Imperativ sind Dharma-Pflichten kontextuell: was richtiges Handeln ist, hängt
+
+    von Situation, Rolle und Stadium des Lebens (ashrama) ab.
+
+    In der KI-Ethik: KI-Systeme müssen kontextuelle Pflichten und nicht nur
+
+    abstrakte Universalregeln berücksichtigen.
+
+    '
+  implications:
+  - Ethik ist kontextuell, nicht nur formal-universalistisch
+  - Rollenpflichten sind moralisch relevant (ohne Hierarchismus zu rechtfertigen)
+  - KI-Systeme müssen situativen Kontext bei ethischen Entscheidungen berücksichtigen
+  - Kosmische Ordnung schließt ökologische und soziale Verantwortung ein
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 4
+  - 5
+  round_role_weights:
+    PRO: 0.85
+    SYNTHESIS: 0.85
+    REBUTTAL: 0.65
+- thesis_id: hinduistische_ethik:ahimsa_satya
+  name: Ahimsa und Satya — Nicht-Schaden und Wahrheit
+  description: Ahimsa (Nicht-Schaden, Gewaltlosigkeit) und Satya (Wahrheit) sind die höchsten ethischen Grundsätze des Hinduismus,
+    die Gandhi zur politischen Praxis entwickelte.
+  explanation: 'Ahimsa (avihiṃsā) gebietet das Unterlassen jeglichen Schadens —
+
+    physisch, verbal, mental — gegenüber allen Lebewesen.  Satya (Wahrheit) verpflichtet
+
+    zur Übereinstimmung von Gedanken, Worten und Taten.  Gandhis Satyagraha
+
+    (Kraft der Wahrheit) verbindet beide zu einer politischen Methode des
+
+    gewaltlosen Widerstands.
+
+    In der KI-Ethik: KI-Systeme müssen Schaden minimieren (Ahimsa) und transparent
+
+    (Satya) operieren; täuschende KI verletzt Satya; schädende KI verletzt Ahimsa.
+
+    '
+  implications:
+  - Gewaltlosigkeit als absolutes Prinzip in allen Handlungsbereichen
+  - Wahrheit als ethische Pflicht — Täuschung ist immer verboten
+  - KI-Systeme müssen transparent und nicht-täuschend sein (Satya)
+  - Minimierung von Schaden als primäres KI-Designprinzip (Ahimsa)
+  token_budget: 175
+  activation_rounds:
+  - 1
+  - 2
+  - 4
+  round_role_weights:
+    PRO: 0.9
+    SYNTHESIS: 0.8
+    REBUTTAL: 0.7
+- thesis_id: hinduistische_ethik:karma_intention
+  name: Karma und intentionale Handlung
+  description: Karma bezeichnet moralische Kausalität — Handlungen haben Folgen, aber die Absicht ist moralisch entscheidend.
+    Selbstloses Handeln ohne Erwartung von Früchten (Nishkama Karma) ist höchste Tugend.
+  explanation: 'Karma ist nicht Fatalismus, sondern moralische Kausalität: Handlungen
+
+    prägen Charakter und haben Konsequenzen.  Entscheidend ist die Absicht
+
+    (sankalpa), nicht nur das Ergebnis.  Nishkama Karma (Bhagavad Gita 3.19):
+
+    handeln ohne ego-getriebene Erwartung von Früchten — dies ist der Weg zur
+
+    Befreiung (Moksha).  In der KI-Ethik: intentionsbasierte Ethik ergänzt
+
+    konsequentialistische Analyse; schlechte Absicht hinter guten Ergebnissen
+
+    bleibt ethisch problematisch.
+
+    '
+  implications:
+  - Moralische Absicht und Einstellung sind entscheidend, nicht nur Outcomes
+  - Selbstloses Handeln als Ideal; egoistische Optimierung ist ethisch inferior
+  - Langfristige karmische Konsequenzen müssen in Technikfolgenabschätzung einbezogen werden
+  token_budget: 160
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 0.8
+    REBUTTAL: 0.7
+    SYNTHESIS: 0.75
+- thesis_id: hinduistische_ethik:vasudhaiva_kutumbakam
+  name: Vasudhaiva Kutumbakam — Die Welt ist eine Familie
+  description: '"Die Welt ist eine Familie" (Maha Upanishad 6.71) — ein Universalismus der Verwandtschaft, der alle Menschen
+    und Lebewesen als eine große Familie versteht.'
+  explanation: 'Vasudhaiva Kutumbakam (Sanskrit: वसुधैव कुटुम्बकम्) ist ein
+
+    Universalismus der Verbundenheit: alle Lebewesen sind miteinander verbunden
+
+    wie eine Familie.  Dies begründet globale Solidarität, Umweltverantwortung
+
+    und die Überwindung nationaler Grenzen.
+
+    In der KI-Ethik: KI-Systeme und ihre Auswirkungen betreffen die gesamte
+
+    Menschheitsfamilie — globale KI-Governance muss dieser Verbundenheit Rechnung tragen.
+
+    '
+  token_budget: 145
+  activation_rounds:
+  - 1
+  - 3
+  - 5
+  round_role_weights:
+    PRO: 0.75
+    SYNTHESIS: 0.8
+    REBUTTAL: 0.55
+secondary_theses:
+- thesis_id: hinduistische_ethik:moksha_befreiung
+  name: Moksha — Befreiung als ethisches Telos
+  description: Moksha (Befreiung aus dem Kreislauf von Geburt und Tod) ist das höchste Ziel menschlichen Lebens. Ethisches
+    Leben dient der spirituellen Entwicklung und letztlichen Befreiung.
+  token_budget: 130
+  activation_rounds:
+  - 3
+  - 4
+  - 5
+  round_role_weights:
+    SYNTHESIS: 0.75
+    PRO: 0.55
+- thesis_id: hinduistische_ethik:seva_dienst
+  name: Seva — Selbstloser Dienst als ethische Praxis
+  description: Seva (selbstloser Dienst an anderen) ist Karma Yoga in der Praxis — ethisches Handeln als Verehrung des Göttlichen
+    in jedem Menschen.
+  token_budget: 120
+  activation_rounds:
+  - 1
+  - 2
+  round_role_weights:
+    PRO: 0.7
+    REBUTTAL: 0.5
+decision_framework:
+  question_sequence:
+  - Entspricht die Handlung dem Dharma — der kosmischen Ordnung und den situativen Pflichten?
+  - Verletzt die Handlung das Prinzip Ahimsa (Nicht-Schaden) gegenüber allen Lebewesen?
+  - Entspringt die Handlung selbstloser Absicht (Nishkama Karma) oder ego-getriebenem Eigeninteresse?
+  - Fördert die Handlung Satya (Wahrheit und Transparenz)?
+  - Stärkt die Handlung das Bewusstsein universaler Verbundenheit (Vasudhaiva Kutumbakam)?
+  tests:
+  - name: Dharma-Test
+    procedure: Welches Dharma gilt in diesem Kontext? Entspricht die Handlung der situativen und universalen Ordnung?
+  - name: Ahimsa-Test
+    procedure: Schadet die Handlung einem Lebewesen — direkt oder indirekt, kurz- oder langfristig?
+  - name: Karma-Intentionstest
+    procedure: Entspringt die Handlung ego-freier, selbstloser Absicht oder ego-getriebenem Kalkül?
+strengths:
+- point: Kontextuelle Tiefe
+  elaboration: Dharma ermöglicht ethische Differenzierung nach Kontext und Rolle, ohne in relativistischen Situationalismus zu verfallen
+- point: Universales Mitgefühl
+  elaboration: Ahimsa gegenüber allen Lebewesen und Vasudhaiva Kutumbakam begründen globale und ökologische Verantwortung
+- point: Intentionsethik
+  elaboration: Karma-Ethik ergänzt konsequentialistische Analyse durch Fokus auf Absicht und Einstellung
+- point: Praxis-Wirksamkeit
+  elaboration: Gandhis Satyagraha ist das historisch bedeutsamste Beispiel ethischer Theorie in politischer Praxis
+weaknesses:
+- point: Kastensystem
+  elaboration: Historische Auslegungen von Dharma haben das Kastensystem legitimiert — ein Missbrauch des Konzepts, der explizit abgelehnt werden muss
+- point: Interne Vielfalt
+  elaboration: Hinduismus ist keine homogene Tradition; Advaita, Vishishtadvaita, Dvaita und andere Schulen haben unterschiedliche ethische Implikationen
+- point: Karma-Missverständnis
+  elaboration: Karma wird oft falistisch verstanden — als Legitimation von Ungleichheit; dies widerspricht dem Reformpotenzial der Tradition
+internal_debate:
+  advaita_vs_vishistadvaita:
+    issue: Ist das Selbst mit Brahman identisch (Advaita) oder nur verbunden (Vishishtadvaita)?
+    positions:
+    - 'Advaita Shankara: Atman = Brahman; Differenz ist Maya (Illusion)'
+    - 'Vishishtadvaita Ramanuja: Seelen sind real, aber Teil Brahmans; Bhakti als Weg'
+  kaste_vs_reform:
+    issue: Legitimiert Varna (Kaste) durch Dharma soziale Ungleichheit?
+    positions:
+    - 'Traditionalismus: Varna ist kosmische Ordnung, nicht soziale Hierarchie'
+    - 'Reform (Gandhi, Ambedkar-Kontra): Kastensystem ist Dharma-Verrat; universale Gleichheit ist das authentische Dharma'
+philosophical_positioning:
+  relation_to_buddhism: 'Gemeinsame Wurzeln: Karma, Ahimsa; Unterschied: Hinduismus bejaht Atman; Buddhismus lehnt dauerhaftes Selbst ab'
+  relation_to_care_ethics: 'Seva und Karuṇā überschneiden sich; hinduistische Ethik fügt kosmisch-metaphysischen Rahmen hinzu'
+  relation_to_kant: 'Dharma hat universale und kontextuelle Dimensionen; Ahimsa ist absoluter als Kants Beispiele; Intention gemeinsam'
+  relation_to_virtue_ethics: 'Nächste Verwandte: Dharma = Tugendordnung; Karma = Tugendpraxis; Moksha = Eudaimonia-Analogon'
+contemporary_extensions:
+- thinker: B. R. Ambedkar
+  contribution: 'Kritik des Kastensystems als Dharma-Pervertierung; Konversion zum Buddhismus als Befreiungsakt'
+- thinker: Sri Aurobindo
+  contribution: Integral Yoga als Verbindung von Dharma, Evolution und Transformation des Bewusstseins
+- thinker: Vandana Shiva
+  contribution: Dharma und ökologischer Feminismus; Ahimsa als Grundlage von Saatgutsouveränität und Biodiversität
+application_areas:
+- domain: Bioethik
+  issues:
+  - Ahimsa als Grundsatz für alle bioethischen Entscheidungen
+  - Karma-Ethik in der Medizin — Intention des Arztes ist ethisch bedeutsam
+  - Sterbeprozess als karmisch bedeutsam; Linderung von Leiden (Ahimsa) vor Lebensverlängerung
+- domain: KI-Governance
+  issues:
+  - 'Ahimsa für KI: Systeme müssen Schaden minimieren, auch indirekten'
+  - 'Satya für KI: Transparenz-Pflicht; täuschende KI verletzt Satya'
+  - 'Vasudhaiva Kutumbakam: globale KI-Governance muss alle Völker einschließen'
+- domain: Umweltethik
+  issues:
+  - Ahimsa gegenüber allen Lebewesen als Grundlage von Tierschutz und Naturschutz
+  - 'Shiva: Dharma als ökologische Pflicht zur Bewahrung der Biodiversität'
+famous_quotes:
+- quote: Ahimsa paramo dharma — Gewaltlosigkeit ist höchste Pflicht.
+  source: Mahabharata (traditionell)
+  context: Ahimsa als Kern des Dharma; Gandhi'sche Praxis der Satyagraha
+- quote: Vasudhaiva Kutumbakam — Die Welt ist eine Familie.
+  source: Maha Upanishad 6.71
+  context: Universalismus der Verbundenheit; Grundlage globaler Solidarität
+- quote: "Nishkama Karma — Handle, ohne nach den Früchten zu verlangen."
+  source: Bhagavad Gita 3.19 (Krishna zu Arjuna)
+  context: Selbstloses Handeln als höchste Tugend; Karma Yoga als ethischer Weg
+key_literature:
+  primary:
+  - 'Bhagavad Gita. Übersetzt von Georg Feuerstein. Shambhala, 2011.'
+  - 'Upanishaden. Übersetzt von Paul Deussen. Wissenschaftliche Buchgesellschaft, 1963.'
+  - 'Gandhi, Mohandas K. The Story of My Experiments with Truth. Navajivan, 1927.'
+  secondary:
+  - 'Vivekananda, Swami. Complete Works, Vol. 1-9. Advaita Ashrama, 1907-1922.'
+  - 'Chatterjee, Satischandra / Datta, Dhirendramohan. An Introduction to Indian Philosophy. University of Calcutta, 1950.'
+  - 'Shiva, Vandana. Staying Alive: Women, Ecology and Development. Zed Books, 1988.'
+  - 'Ambedkar, B. R. Annihilation of Caste. Self-published, 1936.'

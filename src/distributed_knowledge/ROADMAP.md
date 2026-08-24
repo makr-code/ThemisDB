@@ -75,7 +75,7 @@ Q3 2026 Status Update (2026-07-28):
   - Reference: Updated method docs in federated_rag_merger.h/cpp
   - Reference: Updated method docs in cross_shard_feedback_sync.h/cpp
 - [x] complete hardening for aggregation, merge, and sync coordinator internals (Target: Q4 2026) — `MergeHardeningPolicy` + `DistillationBoundedPolicy` added to API contract; trust-gate ACA-TRUST-01..05 tests added 2026-08-24
-- [x] align distillation and feedback behavior to bounded runtime contracts (Target: Q4 2026) — `DistillationBoundedPolicy` with FAIL_CLOSED enforcement defined 2026-08-24
+- [x] align distillation and feedback behavior to bounded runtime contracts (Target: Q4 2026) — `DistillationBoundedPolicy` with FAIL_CLOSED enforcement wired into `FederatedDistillationCoordinator` via `setBoundedPolicy()` 2026-08-24; enforced in `broadcastToStudents()` before any broadcast
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior for unsafe federation and trust-gate violations (Target: Q4 2026) — `IFederationTrustPolicy` + `AlwaysPermitTrustPolicy` + `DKErrorCode::TRUST_GATE_REJECTED` added 2026-08-24
