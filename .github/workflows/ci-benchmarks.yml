@@ -346,7 +346,8 @@ jobs:
             ninja-build librocksdb-dev libbenchmark-dev libfmt-dev libspdlog-dev \
             nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev \
             libzstd-dev zlib1g-dev libtbb-dev libcurl4-openssl-dev libssl-dev \
-            libpugixml-dev libyaml-cpp-dev libmimalloc-dev
+            libpugixml-dev libyaml-cpp-dev libmimalloc-dev \
+            libvulkan-dev glslc
 
       - name: Configure nightly sweep (system-packages, no vcpkg)
         run: |
@@ -354,12 +355,12 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_EDITION=COMMUNITY \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_BUILD_TESTS=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DTHEMIS_ENABLE_VULKAN=OFF \
-            -DTHEMIS_ENABLE_LLM=OFF \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_GPU=ON \
+            -DTHEMIS_ENABLE_VULKAN=ON \
+            -DTHEMIS_ENABLE_LLM=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
-            -DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF
+            -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 
       - name: Build all benchmark targets
         run: |

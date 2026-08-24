@@ -91,10 +91,14 @@ jobs:
         id: baseline
         run: |
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
+          import json, re, sys
           from pathlib import Path
           manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-          print(f"sha={manifest['builtin-baseline']}")
+          sha = manifest['builtin-baseline']
+          if not re.fullmatch(r'[0-9a-f]{40}', sha):
+              print(f"ERROR: builtin-baseline '{sha}' is not a valid 40-char hex SHA", file=sys.stderr)
+              sys.exit(1)
+          print(f"sha={sha}")
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
