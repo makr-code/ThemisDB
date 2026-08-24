@@ -127,14 +127,17 @@ The scanner flags `braces_imbalance` at line 1 for three files. Manual brace cou
 
 These are scanner artifacts from file-level analysis and should be excluded in the next gap scan pass.
 
-### Remaining Open Gaps
+### Remaining Genuine Open Items (Wave D Scope)
+
+The following items require profiling-backed or semantic lock-scope analysis and are
+tracked as Wave D hardening work in `src/cache/ROADMAP.md` (`Wave D Contribution for cache`):
 
 | Type | Count | Notes |
 |------|-------|-------|
-| `scope_mismatch` | 1287 | Static analysis artifact — flags all lines inside a mutex scope. Not individually actionable; requires semantic lock-scope refactor as part of Wave D hardening. |
-| `circular_lock_ordering` | ~80 remaining | Deeper coordinator paths not yet covered by Option A refactor; file-level LOCK ORDER documentation in place |
-| `deadlock_risk` | 15 | Requires profiling and deadlock-graph analysis |
-| `lock_contention` | 8 | Requires profiling evidence |
+| `scope_mismatch` | 1287 | Static analysis artifact — flags all lines inside a mutex scope. Not individually actionable; requires semantic lock-scope refactor and lock-scope redesign as part of Wave D hardening. |
+| `circular_lock_ordering` | ~80 remaining | Deeper coordinator paths not yet covered by Option A refactor; file-level LOCK ORDER documentation is in place, but remaining instances require semantic lock-order proof/profiling in Wave D. |
+| `deadlock_risk` | 15 | Requires profiling and deadlock-graph analysis in Wave D. |
+| `lock_contention` | 8 | Requires profiling evidence before lock decomposition in Wave D. |
 | `todo_as_productionlogic` | 23 | Per-file scanner metadata annotations (not actual `// TODO` comments in code) |
 | `missing_include` (`<optional>`) | 1 | Pre-existing gap in `redis_cache_coordinator.h:252` — not introduced by this session; requires separate fix |
 | `delete_no_nullptr` / `delete_without_nullptr` | 4 | **FALSE POSITIVE** — no raw `delete ptr;` in cache sources (see 2026-08-24 analysis) |

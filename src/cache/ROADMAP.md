@@ -233,6 +233,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
 - [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
 - [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [ ] Resolve remaining genuine open scanner categories requiring profiling/semantic analysis — `circular_lock_ordering` (~80), `deadlock_risk` (15), `lock_contention` (8), `scope_mismatch` (1287) — as Wave D hardening scope (Target: Q1 2027)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
