@@ -16,10 +16,7 @@ option(THEMIS_BENCHMARK_ENABLE_EXTENDED_STACK
 set(_themis_bench_profile_changes "")
 
 function(_themis_bench_profile_enable _feature _reason)
-    # Only auto-enable when the feature has never been set.
-    # An explicit -D<feature>=OFF on the command line marks the variable as DEFINED
-    # (it exists in the cache), so this guard respects user overrides.
-    if(NOT DEFINED ${_feature})
+    if(NOT DEFINED ${_feature} OR NOT ${_feature})
         set(${_feature} ON CACHE BOOL "${_reason}" FORCE)
         set(_themis_bench_profile_changes "${_themis_bench_profile_changes};${_feature}=ON" PARENT_SCOPE)
     endif()
@@ -52,9 +49,8 @@ endif()
 
 if(THEMIS_BENCHMARK_AUTO_ENABLE_CORE_RUNTIME)
     if(NOT THEMIS_ENABLE_GPU OR NOT THEMIS_ENABLE_HTTP_SERVER)
-        message(WARNING
-            "Benchmark runtime profile: THEMIS_ENABLE_GPU and/or THEMIS_ENABLE_HTTP_SERVER are OFF. "
-            "GPU/HTTP benchmark suites will be configuration-gated or skipped.")
+        message(FATAL_ERROR
+            "Benchmark runtime profile violation: THEMIS_ENABLE_GPU and THEMIS_ENABLE_HTTP_SERVER must be ON when THEMIS_BUILD_BENCHMARKS=ON.")
     endif()
 endif()
 
