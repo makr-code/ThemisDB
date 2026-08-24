@@ -245,6 +245,10 @@ std::string EditionManager::getUpgradeMessage(std::string_view feature_name) con
             msg << " Please verify your license is active and has not expired."
                    " Contact support@themisdb.io for assistance.";
             break;
+        case EditionType::MILITARY:
+            msg << " Please verify your Military Edition license with your"
+                   " authorized license provider.";
+            break;
         default:
             msg << " Please contact your license provider.";
             break;

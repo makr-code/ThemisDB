@@ -23,10 +23,10 @@
 
 ## 📊 Quick Comparison Table
 
-| Aspect | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
-|--------|---------|-----------|------------|-------------|
+| Aspect | MINIMAL | COMMUNITY | MILITARY | ENTERPRISE | HYPERSCALER |
+|--------|---------|-----------|----------|------------|-------------|
 | **Max Nodes** | 1 | **5** ✅ | **100** ✅ | ∞ |
-| **GPU VRAM** | 0 GB | 24 GB | 256 GB | ∞ |
+| **GPU VRAM** | 0 GB | 16 GB (1× T4) | 80 GB (2× A100 40G) | 320 GB (4× A100 80G) | ∞ |
 | **Max Shards** | 0 | 0 | 100 | ∞ |
 | **License** | Optional | Optional | Required (Release) ⚠️ | Mandatory ❌ |
 | **License (Debug)** | Optional | Optional | Optional | Mandatory |
@@ -120,13 +120,13 @@ Die COMMUNITY Edition ermöglicht **bis zu 5 Nodes** für kleine Cluster:
 │        COMMUNITY EDITION (v1.4.0)           │
 ├─────────────────────────────────────────────┤
 │ Max Nodes:        5 ✅ (NEU: 1 → 5)         │
-│ GPU VRAM:         24 GB                     │
+│ GPU VRAM:         16 GB (1× Tesla T4)                     │
 │ License:          Optional                  │
 │ Lizenz:           MIT (Open Source)         │
 │ Support:          Community (GitHub)        │
 ├─────────────────────────────────────────────┤
 │ ✅ Alle Kern-Features                       │
-│ ✅ GPU Acceleration (bis 24 GB)            │
+│ ✅ GPU Acceleration (bis 16 GB, 1× Tesla T4)            │
 │ ✅ LLM Support (Embedding, Inference)       │
 │ ✅ gRPC, HTTP/2, HTTP/3                     │
 │ ✅ WebSocket, SSE, GraphQL                  │
@@ -144,7 +144,7 @@ Die COMMUNITY Edition ermöglicht **bis zu 5 Nodes** für kleine Cluster:
 |------------|---------|---------------------|
 | **CPU** | 4 Cores | 8+ Cores pro Node |
 | **RAM** | 8 GB | 16-32 GB pro Node |
-| **GPU VRAM** | Optional | 8-24 GB (NVIDIA/AMD) |
+| **GPU VRAM** | Optional | 16 GB (NVIDIA Tesla T4) |
 | **Storage** | 100 GB | 500 GB - 1 TB SSD |
 | **Network** | 1 Gbps | 10 Gbps |
 
@@ -183,9 +183,9 @@ Die COMMUNITY Edition ermöglicht **bis zu 5 Nodes** für kleine Cluster:
 - Multi-Master Replication
 - Custom Plugins
 
-### GPU VRAM Limit: 24 GB
+### GPU VRAM Limit: 16 GB (1× Tesla T4)
 
-**24 GB ist ausreichend für:**
+**16 GB (1× Tesla T4) ist ausreichend für:
 - ✅ 1-10 Millionen Embeddings (OpenAI ada-002: 1536 dims)
 - ✅ Real-Time Vector Search (Top-1000 Candidates)
 - ✅ GPU-beschleunigte Sortierung (10B+ rows)
@@ -253,7 +253,7 @@ Die ENTERPRISE Edition unterstützt **bis zu 100 Nodes** für große Production-
 │       ENTERPRISE EDITION (v1.4.0)           │
 ├─────────────────────────────────────────────┤
 │ Max Nodes:        100 ✅ (NEU: 16 → 100)    │
-│ GPU VRAM:         256 GB                    │
+│ GPU VRAM:         320 GB (4× A100 80 GB)                    │
 │ License:          Required (Release) ⚠️     │
 │ License (Debug):  Optional ✅                │
 │ Support:          Commercial 24/7           │
@@ -278,7 +278,7 @@ Die ENTERPRISE Edition unterstützt **bis zu 100 Nodes** für große Production-
 |------------|---------|----------------------|
 | **CPU** | 8 Cores | 16+ Cores pro Node |
 | **RAM** | 32 GB | 64-128 GB pro Node |
-| **GPU VRAM** | Optional | 40-256 GB (Multi-GPU) |
+| **GPU VRAM** | Optional | 80-320 GB (Multi-GPU, NVIDIA A100) |
 | **Storage** | 1 TB SSD | 10+ TB NVMe pro Node |
 | **Network** | 10 Gbps | 25-100 Gbps |
 
@@ -335,15 +335,15 @@ cmake -B build -S . \
 - 🔐 Compliance-Anforderungen (GDPR, HIPAA, SOC2)
 - 💼 24/7 Commercial Support erforderlich
 - 🚀 High Availability & Disaster Recovery
-- 📊 Large-Scale Analytics (256 GB GPU)
+- 📊 Large-Scale Analytics (320 GB GPU (4× A100 80 GB))
 
 ❌ **Nicht geeignet für:**
 - Massive Scale (>100 Nodes) → Use HYPERSCALER
 - Custom OEM Features → Use HYPERSCALER
 
-### GPU VRAM Limit: 256 GB
+### GPU VRAM Limit: 320 GB (4× A100 80 GB)
 
-**256 GB ermöglicht:**
+**320 GB (4× A100 80 GB) ermöglicht:
 - ✅ Größere Models (7B, 13B Parameter LLMs)
 - ✅ 100M+ Embeddings auf Single GPU
 - ✅ 1000+ Concurrent Requests
@@ -471,7 +471,7 @@ cmake -B build -S . \
 | Feature | ENTERPRISE | HYPERSCALER |
 |---------|------------|-------------|
 | **Max Nodes** | 100 | ∞ |
-| **GPU VRAM** | 256 GB | ∞ |
+| **GPU VRAM** | 320 GB (4× A100 80G) | ∞ |
 | **License (Debug)** | Optional | Mandatory |
 | **Custom Features** | ❌ | ✅ |
 | **OEM Branding** | ❌ | ✅ |
@@ -522,7 +522,7 @@ cmake --build build --parallel 32
 | Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
 |---------|---------|-----------|------------|-------------|
 | **GPU Support** | ❌ | ✅ | ✅ | ✅ |
-| **Max GPU VRAM** | 0 GB | 24 GB | 256 GB | ∞ |
+| **Max GPU VRAM** | 0 GB | 16 GB | 80 GB | 320 GB | ∞ |
 | **CUDA** | ❌ | ✅ | ✅ | ✅ |
 | **Vulkan** | ❌ | ✅ | ✅ | ✅ |
 | **Multi-GPU** | ❌ | ❌ | ✅ | ✅ |
@@ -589,8 +589,8 @@ cmake --build build --parallel 32
 | Edition | Max GPU VRAM | Embeddings (1536d) | Use Case |
 |---------|-------------|-------------------|----------|
 | **MINIMAL** | 0 GB | 0 | Keine GPU |
-| **COMMUNITY** | 24 GB | 1-10M | Startups, SaaS |
-| **ENTERPRISE** | 256 GB | 10-100M | Large Production |
+| **COMMUNITY** | 16 GB | 1-10M | Startups, SaaS |
+| **ENTERPRISE** | 320 GB | 10-100M | Large Production |
 | **HYPERSCALER** | ∞ | 100M-1B+ | Global Scale |
 
 ### Storage Limits
@@ -759,8 +759,8 @@ cmake -B build -S . \
 
 **Edition Limits (v1.4.0):**
 - MINIMAL: 1 Node, 0 GB GPU, Optional License
-- COMMUNITY: **5 Nodes** ✅, 24 GB GPU, Optional License
-- ENTERPRISE: **100 Nodes** ✅, 256 GB GPU, **Required License (Release)** ⚠️
+- COMMUNITY: **5 Nodes** ✅, 16 GB GPU (1× T4), Optional License
+- ENTERPRISE: **100 Nodes** ✅, 320 GB GPU (4× A100 80 GB), **Required License (Release)** ⚠️
 - HYPERSCALER: ∞ Nodes, ∞ GPU, **Mandatory License** ❌
 
 **Wichtigste Änderungen:**

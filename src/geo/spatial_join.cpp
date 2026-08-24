@@ -12,7 +12,9 @@
 
 #include "geo/spatial_join.h"
 
+#include <algorithm>
 #include <cmath>
+#include <stdexcept>
 #include <unordered_map>
 
 #include "geo/geo_math.h"
@@ -65,6 +67,9 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
     // the R-tree returns keys (strings) and we need O(1) centroid lookup.
     // Build a map key -> (idx in inner) for centroid retrieval.
     // Since inner keys may not be unique, we store the first occurrence.
+    //
+    // Lookup-only index: used exclusively via find() for O(1) key→index resolution.
+    // Iteration order is never observed — unordered_map is safe here (false positive suppression).
     std::unordered_map<std::string, std::size_t> inner_key_idx;
     inner_key_idx.reserve(inner.size());
     for (std::size_t i = 0; i < inner.size(); ++i) {
@@ -108,6 +113,16 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
             }
         }
     }
+
+    // Sort by (key_a, key_b) to guarantee deterministic output ordering
+    // regardless of unordered_map hash iteration order.
+    std::sort(results.begin(), results.end(),
+              [](const SpatialJoinPair &lhs, const SpatialJoinPair &rhs) {
+                  if (lhs.key_a != rhs.key_a) {
+                      return lhs.key_a < rhs.key_a;
+                  }
+                  return lhs.key_b < rhs.key_b;
+              });
 
     return results;
 }
@@ -158,6 +173,9 @@ struct SpatialJoinIterator::Impl {
     void loadCandidates() {
         candidates.clear();
         cand_idx = 0;
+        if (!outer_ptr) {
+            throw std::invalid_argument("SpatialJoinIterator: outer collection must not be null");
+        }
         if (outer_idx >= outer_ptr->size()) {
             exhausted = true;
             return;
@@ -171,6 +189,12 @@ struct SpatialJoinIterator::Impl {
     bool advance() {
         if (exhausted) {
             return false;
+        }
+        if (!outer_ptr) {
+            throw std::invalid_argument("SpatialJoinIterator: outer collection must not be null");
+        }
+        if (!inner_ptr) {
+            throw std::invalid_argument("SpatialJoinIterator: inner collection must not be null");
         }
 
         while (outer_idx < outer_ptr->size()) {

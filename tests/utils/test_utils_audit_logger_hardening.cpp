@@ -181,8 +181,3 @@ TEST(AuditLoggerHardening, RotationSkippedWhenMaxFileSizeZero) {
     EXPECT_FALSE(fs::exists(log_path + ".1"));
     fs::remove_all(tmp_dir);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

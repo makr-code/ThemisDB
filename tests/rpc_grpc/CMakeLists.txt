@@ -17,6 +17,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_contract_hardening_focused.
             themis_core
             spdlog::spdlog
             Threads::Threads
+            $<$<BOOL:${THEMIS_ENABLE_GRPC}>:gRPC::grpc++>
         )
         target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
         themis_register_module_focused_test(

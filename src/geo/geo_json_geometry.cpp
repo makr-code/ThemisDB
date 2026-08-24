@@ -199,15 +199,18 @@ BBox GeoPolygon::bbox() const noexcept {
 }
 
 std::string GeoPolygon::toGeoJSON() const {
-    std::string result = R"({"type":"Polygon","coordinates":[)";
+    // Use ostringstream to avoid O(n²) string reallocations from repeated
+    // concatenation inside the ring loop.
+    std::ostringstream os;
+    os << R"({"type":"Polygon","coordinates":[)";
     for (std::size_t i = 0; i < rings_.size(); ++i) {
         if (i > 0) {
-            result += ",";
+            os << ",";
         }
-        result += coordsToJson(rings_[i]);
+        os << coordsToJson(rings_[i]);
     }
-    result += "]}";
-    return result;
+    os << "]}";
+    return os.str();
 }
 
 ValidationResult GeoPolygon::validate() const {
@@ -242,21 +245,25 @@ BBox GeoMultiPolygon::bbox() const noexcept {
 }
 
 std::string GeoMultiPolygon::toGeoJSON() const {
-    std::string result = R"({"type":"MultiPolygon","coordinates":[)";
+    // Use ostringstream to avoid O(n²) string reallocations from repeated
+    // concatenation inside the polygon loop.
+    std::ostringstream os;
+    os << R"({"type":"MultiPolygon","coordinates":[)";
     for (std::size_t i = 0; i < polygons_.size(); ++i) {
         if (i > 0) {
-            result += ",";
+            os << ",";
         }
-        // Extract the coordinates array from each polygon's GeoJSON
-        const auto polyJson = polygons_[i].toGeoJSON();
+        // Extract the coordinates array from each polygon's GeoJSON.
+        // toGeoJSON() returns by value; bind to const ref to avoid the copy.
+        const auto& polyJson = polygons_[i].toGeoJSON();
         // Find "coordinates":[...] and extract the [...] part
         const auto pos = polyJson.find("\"coordinates\":");
         if (pos != std::string::npos) {
-            result += polyJson.substr(pos + 14, polyJson.size() - pos - 15);
+            os << polyJson.substr(pos + 14, polyJson.size() - pos - 15);
         }
     }
-    result += "]}";
-    return result;
+    os << "]}";
+    return os.str();
 }
 
 ValidationResult GeoMultiPolygon::validate() const {
@@ -288,15 +295,18 @@ BBox GeoGeometryCollection::bbox() const noexcept {
 }
 
 std::string GeoGeometryCollection::toGeoJSON() const {
-    std::string result = R"({"type":"GeometryCollection","geometries":[)";
+    // Use ostringstream to avoid O(n²) string reallocations from repeated
+    // concatenation inside the geometry loop.
+    std::ostringstream os;
+    os << R"({"type":"GeometryCollection","geometries":[)";
     for (std::size_t i = 0; i < members_.size(); ++i) {
         if (i > 0) {
-            result += ",";
+            os << ",";
         }
-        result += members_[i]->toGeoJSON();
+        os << members_[i]->toGeoJSON();
     }
-    result += "]}";
-    return result;
+    os << "]}";
+    return os.str();
 }
 
 ValidationResult GeoGeometryCollection::validate() const {

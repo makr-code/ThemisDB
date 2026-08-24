@@ -207,8 +207,3 @@ TEST(RuntimeHardening, RateLimiterRefillsOverTime) {
     bool ok = limiter.try_acquire(1.0);
     EXPECT_TRUE(ok) << "rate limiter must refill tokens over time";
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

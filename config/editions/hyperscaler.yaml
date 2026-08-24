@@ -1,0 +1,283 @@
+# =============================================================================
+# ThemisDB HYPERSCALER Edition — Runtime Configuration
+# Version: 1.3.5+
+# Edition: HYPERSCALER
+# Target: Cloud-native, large-scale, multi-region, unlimited-node deployments
+# License: REQUIRED — set license.file to a valid hyperscaler-license.json
+# =============================================================================
+#
+# Features INCLUDED (all REQUIRED or ALLOWED):
+#   - All ENTERPRISE features
+#   - LLM (REQUIRED — forced ON by build)
+#   - GPU / CUDA (REQUIRED — forced ON; unlimited VRAM cap)
+#   - gRPC (REQUIRED)
+#   - OpenTelemetry tracing (REQUIRED)
+#   - Distributed training (ALLOWED, default ON in non-CI builds)
+#   - HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL Wire, SSE, MCP (all ALLOWED)
+#   - DiskANN (ALLOWED)
+#   - Real HSM (available)
+#   - Unlimited sharding nodes
+#   - Unlimited cache
+#
+# Hardware limits (enforced by build):
+#   GPU VRAM cap : unlimited (THEMIS_GPU_MAX_VRAM_GB=0)
+#   Max nodes    : unlimited (THEMIS_SHARDING_MAX_NODES=0)
+#   Max cache    : unlimited (THEMIS_MAX_CACHE_SIZE_MB=0)
+#
+# Usage:
+#   ./themis_server --config config/editions/hyperscaler.yaml
+#   or set THEMIS_CONFIG_ROOT=config/editions/hyperscaler.yaml
+#
+# NOTE: The build REQUIRES -DTHEMIS_LICENSE_FILE=/path/to/hyperscaler-license.json
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Edition identity
+# ---------------------------------------------------------------------------
+edition: HYPERSCALER
+
+# ---------------------------------------------------------------------------
+# Storage (RocksDB) — maximum throughput configuration
+# ---------------------------------------------------------------------------
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+
+  # Memory — configure to available system RAM; no hard cap in HYPERSCALER
+  memtable_size_mb: 1024
+  block_cache_size_mb: 8192       # Tune to available RAM (no hard limit)
+  block_cache_shard_bits: 6       # 64 shards; minimises lock contention at scale
+  cache_index_and_filter_blocks: true
+  pin_l0_filter_and_index_blocks_in_cache: true
+  partition_filters: true
+  high_pri_pool_ratio: 0.5
+  db_write_buffer_size_mb: 0
+
+  # Write
+  enable_wal: true
+  max_write_buffer_number: 6
+  min_write_buffer_number_to_merge: 2
+  allow_concurrent_memtable_write: true
+
+  # Compaction
+  max_background_compactions: 16
+  max_background_flushes: 8
+  level0_file_num_compaction_trigger: 4
+  level0_slowdown_writes_trigger: 20
+  level0_stop_writes_trigger: 36
+
+  # Bloom filter
+  bloom_bits_per_key: 10
+  whole_key_filtering: true
+
+  # Compression — prefer speed at this scale
+  compression_type: lz4
+  bottommost_compression_type: zstd
+
+  # File handles
+  max_open_files: -1        # Unlimited
+  bytes_per_sync: 1048576
+  wal_bytes_per_sync: 1048576
+
+  # Multi-path NVMe distribution (recommended for hyperscaler deployments)
+  # db_paths:
+  #   - path: "/mnt/nvme0/rocksdb"
+  #     target_size_bytes: 214748364800   # 200 GB
+  #   - path: "/mnt/nvme1/rocksdb"
+  #     target_size_bytes: 214748364800
+
+# ---------------------------------------------------------------------------
+# Server / networking
+# ---------------------------------------------------------------------------
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 64         # Scale to vCPU count in your pod/VM
+
+# Protocols — all available
+protocols:
+  grpc:
+    enabled: true            # REQUIRED in HYPERSCALER
+    port: 50051
+    max_message_size_mb: 256
+    keepalive_time_ms: 5000
+    keepalive_timeout_ms: 2000
+    max_concurrent_streams: 1000
+  http2:
+    enabled: true            # ALLOWED; recommended for public APIs
+  http3:
+    enabled: false           # ALLOWED; enable for QUIC/low-latency
+  websocket:
+    enabled: false           # ALLOWED
+    port: 8081
+  mqtt:
+    enabled: false           # ALLOWED
+    port: 1883
+  postgres_wire:
+    enabled: false           # ALLOWED
+    port: 5432
+  mcp:
+    enabled: false           # ALLOWED
+  sse:
+    enabled: false           # ALLOWED
+
+# ---------------------------------------------------------------------------
+# Security
+# ---------------------------------------------------------------------------
+security:
+  enable_tls: true
+  tls_cert: "/etc/themisdb/tls/cert.pem"
+  tls_key:  "/etc/themisdb/tls/key.pem"
+  # tls_ca:   "/etc/themisdb/tls/ca.pem"  # mutual TLS
+  enable_auth: true
+  enable_rbac: true
+  enable_field_encryption: true
+  enable_hsm: true           # Real HSM available
+  hsm:
+    provider: aws_kms        # software | aws_kms | azure_key_vault | pkcs11
+    # aws_kms_key_arn: "arn:aws:kms:..."
+    # azure_vault_url: "https://myvault.vault.azure.net/"
+
+# ---------------------------------------------------------------------------
+# Query engine
+# ---------------------------------------------------------------------------
+query:
+  max_query_size_bytes: 67108864  # 64 MB
+  query_timeout_seconds: 600
+  max_concurrent_queries: 10000
+
+# ---------------------------------------------------------------------------
+# Indexes
+# ---------------------------------------------------------------------------
+index:
+  enable_secondary_indexes: true
+  max_secondary_indexes_per_table: 100
+  enable_graph_indexes: true
+
+  # Vector indexes — GPU-accelerated HNSW
+  enable_vector_indexes: true
+  default_vector_distance_metric: cosine
+  hnsw_m: 64
+  hnsw_ef_construction: 500
+  hnsw_ef_search: 300
+
+  # DiskANN — ALLOWED in HYPERSCALER; recommended at large scale
+  enable_diskann: true
+
+# ---------------------------------------------------------------------------
+# Transactions (MVCC)
+# ---------------------------------------------------------------------------
+transaction:
+  enable_mvcc: true
+  default_snapshot_isolation_level: serializable
+  max_transaction_duration_seconds: 600
+  transaction_lock_timeout_seconds: 120
+
+# ---------------------------------------------------------------------------
+# LLM — REQUIRED in HYPERSCALER (forced ON by build)
+# ---------------------------------------------------------------------------
+llm:
+  enabled: true             # REQUIRED; forced ON by HYPERSCALER.cmake
+  model_path: "./models"
+  context_size: 32768
+  batch_size: 2048
+  gpu_layers: -1            # -1 = offload all layers to GPU
+  remote_inference: false
+
+# ---------------------------------------------------------------------------
+# GPU / acceleration — REQUIRED; unlimited VRAM cap
+# ---------------------------------------------------------------------------
+gpu:
+  enabled: true             # REQUIRED; forced ON by HYPERSCALER.cmake
+  backend: CUDA             # CUDA | HIP | OpenCL
+  device_id: 0
+  max_vram_gb: 0            # 0 = unlimited (THEMIS_GPU_MAX_VRAM_GB=0)
+  memory_fraction: 0.9
+
+  # Multi-GPU: specify additional device IDs
+  # additional_device_ids: [1, 2, 3]
+
+acceleration:
+  cuda_enabled: true        # REQUIRED; set alongside gpu.enabled=true
+  simd_enabled: true
+
+# ---------------------------------------------------------------------------
+# Sharding — unlimited nodes
+# ---------------------------------------------------------------------------
+sharding:
+  enabled: false            # Enable for multi-shard clusters
+  max_nodes: 0              # 0 = unlimited (THEMIS_SHARDING_MAX_NODES=0)
+  shard_id: 0
+  total_shards: 1
+  # peer_shards:
+  #   - id: 1
+  #     address: "themis-shard-1:50051"
+
+# ---------------------------------------------------------------------------
+# Replication — highly available, synchronous recommended
+# ---------------------------------------------------------------------------
+replication:
+  enabled: false
+  mode: sync
+  # replica_endpoints:
+  #   - "themis-replica-1:50051"
+  #   - "themis-replica-2:50051"
+  #   - "themis-replica-3:50051"
+
+# ---------------------------------------------------------------------------
+# Distributed training — ALLOWED in HYPERSCALER
+# ---------------------------------------------------------------------------
+distributed_training:
+  enabled: true             # ALLOWED; ON by default in non-CI HYPERSCALER builds
+  # coordinator_address: "themis-trainer-coordinator:50052"
+  # worker_count: 4
+
+# ---------------------------------------------------------------------------
+# Observability — tracing REQUIRED
+# ---------------------------------------------------------------------------
+logging:
+  level: info
+  format: json
+  output: stdout
+
+metrics:
+  enabled: true
+  prometheus_port: 9090
+
+tracing:
+  enabled: true             # REQUIRED; forced ON by HYPERSCALER.cmake
+  otlp_endpoint: "http://otel-collector:4317"
+  service_name: "themisdb-hyperscaler"
+  sampling_ratio: 0.05      # 5% sampling at scale; tune as needed
+
+# ---------------------------------------------------------------------------
+# Backup — cloud-native
+# ---------------------------------------------------------------------------
+backup:
+  enable_automatic_backups: true
+  backup_directory: "./backups"
+  backup_interval_hours: 1
+  max_backups_retained: 168  # 7 days at hourly cadence
+  cloud_backup: true
+  # cloud_provider: s3 | azure | gcs
+  # s3_bucket: "my-hyperscaler-backups"
+  # s3_region: "us-east-1"
+  # s3_endpoint: ""          # Leave empty for AWS; set for MinIO etc.
+
+# ---------------------------------------------------------------------------
+# Performance
+# ---------------------------------------------------------------------------
+performance:
+  worker_threads: 64
+  enable_mimalloc: true
+  enable_huge_pages: true
+  enable_rcu: true
+  io_uring: true            # Linux: use io_uring for async I/O when available
+
+# ---------------------------------------------------------------------------
+# Licensing
+# ---------------------------------------------------------------------------
+license:
+  # REQUIRED: path to a valid hyperscaler-license.json
+  # Also configure at build time: -DTHEMIS_LICENSE_FILE=/path/to/license.json
+  file: "/etc/themisdb/license/hyperscaler-license.json"

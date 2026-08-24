@@ -67,6 +67,15 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
 
         // Parallel processing using multiple threads; each thread owns a disjoint
         // index range of `out.mask` so no synchronisation is required on writes.
+        // Guard against thread_count_ == 0 (should never happen given the constructor,
+        // but protects against integer division-by-zero if invariant is violated).
+        if (thread_count_ == 0) {
+            THEMIS_WARN("CpuParallelBackend: thread_count_ is 0; falling back to single-threaded");
+            for (size_t i = 0; i < in.count; ++i) {
+                out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+            }
+            return out;
+        }
         const size_t batch_size = (in.count + thread_count_ - 1) / thread_count_;
 
         // Use std::async / std::future so we can detect long-running workers
@@ -320,7 +329,8 @@ class CudaBackend final : public ISpatialComputeBackend {
     }
 
     ~CudaBackend() {
-        freeCachedBuffers();
+        // d_cached_mbrs_a_, d_cached_mbrs_b_, and d_cached_results_ are RAII
+        // wrappers — their destructors call cudaFree automatically.
         cudaDeviceReset();
     }
 
@@ -379,23 +389,29 @@ class CudaBackend final : public ISpatialComputeBackend {
 
         // Upload geometry MBRs to device memory.
         cudaError_t e;
-        if ((e = cudaMemcpy(d_cached_mbrs_a_, mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
-            || (e = cudaMemcpy(d_cached_mbrs_b_, mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
-            || (e = cudaMemset(d_cached_results_, 0, res_sz)) != cudaSuccess) {
+        if ((e = cudaMemcpy(d_cached_mbrs_a_.get(), mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
+            || (e = cudaMemcpy(d_cached_mbrs_b_.get(), mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
+            || (e = cudaMemset(d_cached_results_.get(), 0, res_sz)) != cudaSuccess) {
             THEMIS_WARN("CUDA upload failed ({}), falling back to CPU-parallel", static_cast<int>(e));
             CpuParallelBackend cpu_fallback;
             return cpu_fallback.batchIntersects(in);
         }
 
         // Phase 1: dispatch pairwise MBR intersection kernel.
+        // n must be positive and fit in an int before computing the grid size.
+        if (n <= 0 || static_cast<size_t>(n) > static_cast<size_t>(INT_MAX)) {
+            THEMIS_WARN("CudaBackend: n={} out of valid range, falling back to CPU-parallel", n);
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
         const int blockSize = 256;
         const int gridSize  = (n + blockSize - 1) / blockSize;
-        cuda_pairwise_intersects_kernel<<<gridSize, blockSize>>>(d_cached_mbrs_a_, d_cached_mbrs_b_, d_cached_results_,
+        cuda_pairwise_intersects_kernel<<<gridSize, blockSize>>>(d_cached_mbrs_a_.get(), d_cached_mbrs_b_.get(), d_cached_results_.get(),
                                                                  n);
 
         e = cudaDeviceSynchronize();
         if (e == cudaSuccess) {
-            e = cudaMemcpy(out.mask.data(), d_cached_results_, res_sz, cudaMemcpyDeviceToHost);
+            e = cudaMemcpy(out.mask.data(), d_cached_results_.get(), res_sz, cudaMemcpyDeviceToHost);
         }
 
         if (e != cudaSuccess) {
@@ -518,40 +534,36 @@ class CudaBackend final : public ISpatialComputeBackend {
     bool is_available_;
     CpuParallelBackend cpu_exact_; // reused across calls for Phase 2 verification
 
-    // Cached device buffers — grown on demand, freed in destructor.
-    int cached_n_              = 0;
-    double *d_cached_mbrs_a_   = nullptr;
-    double *d_cached_mbrs_b_   = nullptr;
-    uint8_t *d_cached_results_ = nullptr;
-
-    void freeCachedBuffers() noexcept {
-        if (d_cached_mbrs_a_) {
-            cudaFree(d_cached_mbrs_a_);
-            d_cached_mbrs_a_ = nullptr;
-        }
-        if (d_cached_mbrs_b_) {
-            cudaFree(d_cached_mbrs_b_);
-            d_cached_mbrs_b_ = nullptr;
-        }
-        if (d_cached_results_) {
-            cudaFree(d_cached_results_);
-            d_cached_results_ = nullptr;
-        }
-        cached_n_ = 0;
-    }
+    // Cached device buffers — grown on demand, freed automatically via RAII.
+    int cached_n_ = 0;
+    CudaTypedBuffer<double>  d_cached_mbrs_a_;
+    CudaTypedBuffer<double>  d_cached_mbrs_b_;
+    CudaTypedBuffer<uint8_t> d_cached_results_;
 
     /// Ensure the cached device buffers are large enough for `n` pairs.
     /// Returns false on allocation failure (caller falls back to CPU).
     bool ensureCachedBuffers(int n, size_t mbr_sz, size_t res_sz) {
         if (n <= cached_n_)
             return true; // already large enough
-        freeCachedBuffers();
+        // Release current allocations before growing (RAII handles the free).
+        d_cached_mbrs_a_.free();
+        d_cached_mbrs_b_.free();
+        d_cached_results_.free();
+        cached_n_ = 0;
         cudaError_t e;
-        if ((e = cudaMalloc(&d_cached_mbrs_a_, mbr_sz)) != cudaSuccess
-            || (e = cudaMalloc(&d_cached_mbrs_b_, mbr_sz)) != cudaSuccess
-            || (e = cudaMalloc(&d_cached_results_, res_sz)) != cudaSuccess) {
-            freeCachedBuffers();
-            THEMIS_WARN("CUDA cudaMalloc failed ({})", static_cast<int>(e));
+        if ((e = d_cached_mbrs_a_.alloc(mbr_sz / sizeof(double))) != cudaSuccess) {
+            THEMIS_WARN("CUDA cudaMalloc failed for d_cached_mbrs_a_ ({})", static_cast<int>(e));
+            return false;
+        }
+        if ((e = d_cached_mbrs_b_.alloc(mbr_sz / sizeof(double))) != cudaSuccess) {
+            THEMIS_WARN("CUDA cudaMalloc failed for d_cached_mbrs_b_ ({})", static_cast<int>(e));
+            d_cached_mbrs_a_.free();
+            return false;
+        }
+        if ((e = d_cached_results_.alloc(res_sz / sizeof(uint8_t))) != cudaSuccess) {
+            THEMIS_WARN("CUDA cudaMalloc failed for d_cached_results_ ({})", static_cast<int>(e));
+            d_cached_mbrs_a_.free();
+            d_cached_mbrs_b_.free();
             return false;
         }
         cached_n_ = n;

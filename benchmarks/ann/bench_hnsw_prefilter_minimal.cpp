@@ -17,7 +17,7 @@ struct Dataset {
         std::mt19937 rng(seed);
         std::normal_distribution<float> nd(0.f, 1.f);
         for (int i=0;i<n;i++) {
-            float* row = &data[i*dim];
+            float* row = &data[static_cast<std::size_t>(i) * static_cast<std::size_t>(dim)];
             float norm = 0.f;
             for (int j=0;j<dim;j++) { row[j] = nd(rng); norm += row[j]*row[j]; }
             norm = std::sqrt(std::max(norm, 1e-6f));

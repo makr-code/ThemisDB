@@ -77,17 +77,13 @@ function(wave5_add_benchmark target_name source_file label)
         COMPONENT benchmarks
     )
 
-    # CTest registration: run with --benchmark_out for JSON capture
-    add_test(
-        NAME "${target_name}"
-        COMMAND "${target_name}"
-            --benchmark_out=${CMAKE_BINARY_DIR}/bench_results/${target_name}.json
-            --benchmark_out_format=json
-            --benchmark_min_time=0.1s
-    )
-    set_tests_properties("${target_name}" PROPERTIES
-        LABELS     "wave5;${label}"
-        TIMEOUT    120
+    # CTest registration: use canonical benchmark helper
+    themis_register_benchmark_ctest(
+        NAME         "${target_name}"
+        TARGET       "${target_name}"
+        MODULE       "wave5"
+        TIMEOUT      120
+        EXTRA_LABELS "${label}"
     )
 
     message(STATUS "[wave5] Registered ${target_name} (label: wave5;${label})")

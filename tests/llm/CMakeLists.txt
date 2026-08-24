@@ -117,6 +117,15 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llama_cpp_real_inference" AND NOT THEMIS_BUILD_MODULAR)
+        # In non-modular builds the llama_cpp plugin sources are NOT compiled
+        # into themis_core.  Provide them directly so the test target links.
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_query_rewriter")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
@@ -209,7 +218,14 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         if(_stem STREQUAL "test_llm_wiki_provenance_focused" AND TARGET themisdb_llm_wiki_cpp)
             target_link_libraries(${_target} PRIVATE themisdb_llm_wiki_cpp)
             target_include_directories(${_target} PRIVATE
-                ${_llm_wiki_private_include_dir}
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+            )
+        elseif(EXISTS "${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp")
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
+            )
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
             )
         endif()
         # Add Wave B labels for tracking
@@ -374,7 +390,14 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         if(_stem STREQUAL "test_llm_wiki_provenance_focused" AND TARGET themisdb_llm_wiki_cpp)
             target_link_libraries(${_target} PRIVATE themisdb_llm_wiki_cpp)
             target_include_directories(${_target} PRIVATE
-                ${_llm_wiki_private_include_dir}
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+            )
+        elseif(EXISTS "${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp")
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
+            )
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
             )
         endif()
     endif()

@@ -63,11 +63,13 @@ std::cout << themis::build_info::formatBuildInfo(config) << std::endl;
 #### edition.h
 **Compile-time edition configuration and feature gating**
 
-Defines three editions with different hardware limits and feature sets. Edition is set at compile-time via CMake and embedded into the binary.
+Defines five editions with different hardware limits and feature sets. Edition is set at compile-time via CMake and embedded into the binary.
 
 **Editions:**
-- **COMMUNITY**: Free, open-source (24GB GPU VRAM, single-node)
-- **ENTERPRISE**: Paid subscription (256GB GPU VRAM, up to 100 nodes)
+- **MINIMAL**: Lightweight/embedded (0 GB GPU VRAM cap — CPU fallback, 1 node)
+- **COMMUNITY**: Free, open-source (16 GB GPU VRAM — 1× Tesla T4, up to 5 nodes)
+- **ENTERPRISE**: Paid subscription (320 GB GPU VRAM — 4× A100 80 GB, up to 100 nodes)
+- **MILITARY**: Hardened/air-gapped (80 GB GPU VRAM — 2× A100 40 GB, up to 50 nodes)
 - **HYPERSCALER**: OEM/Custom (unlimited VRAM and nodes)
 
 **Key Types:**
@@ -83,8 +85,8 @@ Defines three editions with different hardware limits and feature sets. Edition 
 - `FEATURE_HSM` - Hardware security module integration
 
 **Hardware Constraints:**
-- `GPU_MAX_VRAM_GB` - Maximum GPU memory (24GB / 256GB / unlimited)
-- `SHARDING_MAX_NODES` - Maximum cluster nodes (1 / 100 / unlimited)
+- `GPU_MAX_VRAM_GB` - Maximum GPU memory (0 / 16 / 80 / 320 / 0=unlimited)
+- `SHARDING_MAX_NODES` - Maximum cluster nodes (1 / 5 / 50 / 100 / 0=unlimited)
 
 **Usage:**
 ```cpp
@@ -627,27 +629,42 @@ add_library(themis-base
 )
 
 # Set edition at configure time
-set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: COMMUNITY, ENTERPRISE, HYPERSCALER")
+set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, HYPERSCALER")
 
 target_compile_definitions(themis-base PUBLIC
     THEMIS_EDITION_STRING="${THEMIS_EDITION}"
 )
 
 # Set edition-specific limits
-if(THEMIS_EDITION STREQUAL "COMMUNITY")
+if(THEMIS_EDITION STREQUAL "MINIMAL")
     target_compile_definitions(themis-base PUBLIC
-        THEMIS_GPU_MAX_VRAM_GB=24
+        THEMIS_GPU_MAX_VRAM_GB=0
         THEMIS_SHARDING_MAX_NODES=1
+    )
+elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
+    target_compile_definitions(themis-base PUBLIC
+        THEMIS_GPU_MAX_VRAM_GB=16
+        THEMIS_SHARDING_MAX_NODES=5
     )
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     target_compile_definitions(themis-base PUBLIC
-        THEMIS_GPU_MAX_VRAM_GB=256
+        THEMIS_GPU_MAX_VRAM_GB=320
         THEMIS_SHARDING_MAX_NODES=100
         THEMIS_ENABLE_ENTERPRISE_PLUGINS=1
         THEMIS_ENABLE_MULTI_MASTER=1
         THEMIS_ENABLE_FIELD_ENCRYPTION=1
         THEMIS_ENABLE_RBAC=1
         THEMIS_ENABLE_HSM=1
+    )
+elseif(THEMIS_EDITION STREQUAL "MILITARY")
+    target_compile_definitions(themis-base PUBLIC
+        THEMIS_GPU_MAX_VRAM_GB=80
+        THEMIS_SHARDING_MAX_NODES=50
+    )
+elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    target_compile_definitions(themis-base PUBLIC
+        THEMIS_GPU_MAX_VRAM_GB=0
+        THEMIS_SHARDING_MAX_NODES=0
     )
 endif()
 ```

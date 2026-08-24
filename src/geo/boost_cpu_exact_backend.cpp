@@ -365,6 +365,10 @@ private:
 static std::unique_ptr<ISpatialComputeBackend> g_boost_backend;
 
 static void register_boost_backend() {
+    // INTENTIONAL: Static initialization guard — exceptions must not propagate out of
+    // static-init context. std::cerr fallback is used because the structured logger
+    // (THEMIS_WARN) may not yet be initialized at this point.
+    // Scanner findings generic_catch + uncaught_exception are confirmed false positives here.
     try {
         g_boost_backend = std::make_unique<BoostCpuExactBackend>();
     } catch (const std::exception& ex) {

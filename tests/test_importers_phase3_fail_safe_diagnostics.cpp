@@ -616,8 +616,3 @@ TEST_F(Phase3ErrorHandlingTest, IntegrationSuccessfulImportWithWarnings) {
     EXPECT_EQ(rows_imported, 10000);
     EXPECT_EQ(rows_failed, 0);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -98,6 +98,11 @@ endif()
 include("${THEMIS_BENCHMARK_ROOT}/cmake/SuiteGating.cmake")
 themis_log_suite_context("Benchmarks")
 
+# Canonical CTest registration helper for benchmark smoke entries.
+# Must be included before any add_subdirectory() that uses
+# themis_register_benchmark_ctest().
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/BenchmarkPolicy.cmake")
+
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}

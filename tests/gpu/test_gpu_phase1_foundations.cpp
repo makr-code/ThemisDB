@@ -526,8 +526,3 @@ TEST_F(AcceptanceTests, AllDeliverablesAreAccessible) {
   // Deliverable 5: Test Infrastructure (this very file!)
   EXPECT_TRUE(true) << "Test infrastructure is in place";
 }
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

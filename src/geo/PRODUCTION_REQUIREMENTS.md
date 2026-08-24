@@ -1,4 +1,5 @@
 > **Status:** 2026-06-01 – mit aktuellem Geo-Code (`tile_server.cpp`) abgeglichen.
+<!-- Links: FUTURE_ENHANCEMENTS.md · README.md · ROADMAP.md -->
 
 # ThemisDB Geo Module - Production Requirements
 

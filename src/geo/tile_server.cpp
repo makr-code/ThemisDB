@@ -60,6 +60,7 @@ TileCoord latLonToTile(double lon, double lat, uint32_t zoom) noexcept {
     const double x_f = (lon + 180.0) / 360.0 * n;
 
     // Tile row: inverse Mercator projection.
+    // Note: std::log below is the natural logarithm (math), not a logging call.
     const double lat_r = lat * kTilePi / 180.0;
     const double y_f   = (1.0 - std::log(std::tan(lat_r) + 1.0 / std::cos(lat_r)) / kTilePi) / 2.0 * n;
 

@@ -377,7 +377,3 @@ TEST_F(TensorMidLayerIntegrationTest, RedundancyDetectionPerformanceBaseline) {
         << "Redundancy detection took " << elapsed.count() << "ms (budget: 2ms)";
 }
 } } } // namespace themis::tensor::test
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

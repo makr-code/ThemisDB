@@ -399,13 +399,3 @@ TEST_F(AuditBatchWriterStressTest, BufferStats) {
 // ============================================================================
 // Wave C Test Configuration
 // ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    // Enable verbose logging for Wave C validation
-    ::testing::FLAGS_gtest_repeat = 1;
-    ::testing::FLAGS_gtest_shuffle = false;
-    
-    return RUN_ALL_TESTS();
-}

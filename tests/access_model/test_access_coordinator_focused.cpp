@@ -552,8 +552,3 @@ TEST_F(AccessCoordinatorFocusedTest, ACM08_ConcurrentPromotionAndMetricsRead) {
 // ============================================================================
 // Google Test Main
 // ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

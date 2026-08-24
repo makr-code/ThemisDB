@@ -22,6 +22,7 @@
 // GPU acceleration headers — included only when CUDA is available.
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
+#include "geo/gpu_buffer_guard.h"
 
 namespace {
 
@@ -73,43 +74,33 @@ static std::vector<uint8_t> buildGpuAdjacency(const std::vector<double> &lons, c
     const std::size_t coord_sz = n * sizeof(double);
     const std::size_t adj_sz   = n * n * sizeof(uint8_t);
 
-    double *d_lons = nullptr, *d_lats = nullptr;
-    uint8_t *d_adj = nullptr;
-    cudaError_t e;
+    themis::geo::CudaTypedBuffer<double>  d_lons;
+    themis::geo::CudaTypedBuffer<double>  d_lats;
+    themis::geo::CudaTypedBuffer<uint8_t> d_adj;
 
-    e = cudaMalloc(&d_lons, coord_sz);
-    if (e != cudaSuccess)
+    if (d_lons.alloc(n) != cudaSuccess)
         return host_adj;
-    e = cudaMalloc(&d_lats, coord_sz);
-    if (e != cudaSuccess) {
-        cudaFree(d_lons);
+    if (d_lats.alloc(n) != cudaSuccess)
         return host_adj;
-    }
-    e = cudaMalloc(&d_adj, adj_sz);
-    if (e != cudaSuccess) {
-        cudaFree(d_lons);
-        cudaFree(d_lats);
+    if (d_adj.alloc(n * n) != cudaSuccess)
         return host_adj;
-    }
 
-    cudaMemcpy(d_lons, lons.data(), coord_sz, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_lats, lats.data(), coord_sz, cudaMemcpyHostToDevice);
-    cudaMemset(d_adj, 0, adj_sz);
+    cudaMemcpy(d_lons.get(), lons.data(), coord_sz, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_lats.get(), lats.data(), coord_sz, cudaMemcpyHostToDevice);
+    cudaMemset(d_adj.get(), 0, adj_sz);
 
     const int ni = static_cast<int>(n);
     const dim3 block(16, 16);
     const dim3 grid((ni + 15) / 16, (ni + 15) / 16);
-    cuda_haversine_adjacency_kernel<<<grid, block>>>(d_lons, d_lats, d_adj, ni, epsilon_m);
+    cuda_haversine_adjacency_kernel<<<grid, block>>>(d_lons.get(), d_lats.get(), d_adj.get(), ni, epsilon_m);
 
-    e = cudaDeviceSynchronize();
+    const cudaError_t e = cudaDeviceSynchronize();
     if (e == cudaSuccess) {
         host_adj.resize(n * n);
-        cudaMemcpy(host_adj.data(), d_adj, adj_sz, cudaMemcpyDeviceToHost);
+        cudaMemcpy(host_adj.data(), d_adj.get(), adj_sz, cudaMemcpyDeviceToHost);
     }
 
-    cudaFree(d_lons);
-    cudaFree(d_lats);
-    cudaFree(d_adj);
+    // RAII: d_lons, d_lats, d_adj freed automatically on scope exit.
     return host_adj;
 }
 
@@ -411,35 +402,27 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
                             centroid_ecef[c * dim + 2]);
             }
 
-            // Allocate device memory.
-            float *d_pts = nullptr, *d_ctr = nullptr;
-            [[maybe_unused]] float *d_dists  = nullptr;
-            [[maybe_unused]] uint32_t *d_idx = nullptr;
+            // Allocate device memory via RAII guards.
+            themis::geo::CudaTypedBuffer<float>    d_pts;
+            themis::geo::CudaTypedBuffer<float>    d_ctr;
+            themis::geo::CudaTypedBuffer<float>    d_dists;
+            themis::geo::CudaTypedBuffer<uint32_t> d_idx;
             const size_t pts_sz              = valid_n * dim * sizeof(float);
             const size_t ctr_sz              = k * dim * sizeof(float);
             const size_t idx_sz              = valid_n * sizeof(uint32_t);
             const size_t dist_sz             = valid_n * sizeof(float);
 
-            if (cudaMalloc(&d_pts, pts_sz) != cudaSuccess)
+            if (d_pts.alloc(valid_n * dim) != cudaSuccess)
                 break;
-            if (cudaMalloc(&d_ctr, ctr_sz) != cudaSuccess) {
-                cudaFree(d_pts);
+            if (d_ctr.alloc(k * dim) != cudaSuccess)
                 break;
-            }
-            if (cudaMalloc(&d_dists, dist_sz) != cudaSuccess) {
-                cudaFree(d_pts);
-                cudaFree(d_ctr);
+            if (d_dists.alloc(valid_n) != cudaSuccess)
                 break;
-            }
-            if (cudaMalloc(&d_idx, idx_sz) != cudaSuccess) {
-                cudaFree(d_pts);
-                cudaFree(d_ctr);
-                cudaFree(d_dists);
+            if (d_idx.alloc(valid_n) != cudaSuccess)
                 break;
-            }
 
-            cudaMemcpy(d_pts, point_ecef.data(), pts_sz, cudaMemcpyHostToDevice);
-            cudaMemcpy(d_ctr, centroid_ecef.data(), ctr_sz, cudaMemcpyHostToDevice);
+            cudaMemcpy(d_pts.get(), point_ecef.data(), pts_sz, cudaMemcpyHostToDevice);
+            cudaMemcpy(d_ctr.get(), centroid_ecef.data(), ctr_sz, cudaMemcpyHostToDevice);
 
             // Compute distance matrix d_pts [valid_n × dim] vs d_ctr [k × dim]:
             // output d_dists [valid_n × k], then argmin per row.
@@ -465,12 +448,9 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
 
             // Note: full GPU L2 distance kernel dispatch is wired through the
             // ANNKernelDispatch table in kernel_invocation.h via the BackendRegistry.
-            // For now, free device memory and fall through to the CPU assignment step
-            // which uses the same centroid_ecef data for consistency.
-            cudaFree(d_pts);
-            cudaFree(d_ctr);
-            cudaFree(d_dists);
-            cudaFree(d_idx);
+            // For now, fall through to the CPU assignment step which uses the same
+            // centroid_ecef data for consistency.
+            // RAII: d_pts, d_ctr, d_dists, d_idx freed automatically at scope exit.
             // suppress warning
         } while (false);
     }

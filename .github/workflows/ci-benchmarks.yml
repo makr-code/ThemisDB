@@ -59,6 +59,33 @@ permissions:
 jobs:
 
   # ─────────────────────────────────────────────────────────────────────────
+  # Preflight: Build-Status Gate
+  # Reads the ci-build tracker issue to verify the last develop build succeeded.
+  # On scheduled runs this is enforced (hard failure); on workflow_dispatch a
+  # warning is emitted so that a human-triggered run is not blindly blocked.
+  # All benchmark jobs depend on this gate to avoid wasting runner resources
+  # on a broken tree.
+  # ─────────────────────────────────────────────────────────────────────────
+  preflight-build-status:
+    name: Preflight — Build Status Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          sparse-checkout: .github/actions/check-build-status
+          sparse-checkout-cone-mode: false
+      - name: Check last develop build status
+        uses: ./.github/actions/check-build-status
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # Hard-fail on scheduled runs; warn only on manual dispatch.
+          enforce: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
+          fail-if-missing: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
+
+  # ─────────────────────────────────────────────────────────────────────────
   # 1. Voice Benchmark (voice code changes + PR + dispatch)
   # Implements PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #4
   # ─────────────────────────────────────────────────────────────────────────
@@ -66,6 +93,7 @@ jobs:
     name: Voice Benchmark (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule') ||
       (github.event_name == 'workflow_dispatch' && (inputs.run_voice == true || inputs.run_voice == 'true'))
@@ -169,6 +197,7 @@ jobs:
   gpu-bench-cuda:
     name: GPU Benchmarks (CUDA, ${{ matrix.cuda_arch }})
     runs-on: [self-hosted, gpu-cuda]
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
        (github.event_name == 'push' && github.ref == 'refs/heads/community')) &&
@@ -233,6 +262,7 @@ jobs:
   gpu-bench-hip:
     name: GPU Benchmarks (HIP/ROCm)
     runs-on: [self-hosted, gpu-hip]
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
        (github.event_name == 'push' && github.ref == 'refs/heads/community')) &&
@@ -275,6 +305,7 @@ jobs:
   gpu-bench-cpu-fallback:
     name: GPU Benchmarks (CPU fallback — disabled-stub compile check)
     runs-on: ubuntu-latest
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
        (github.event_name == 'push' && github.ref == 'refs/heads/community')) &&
@@ -327,6 +358,7 @@ jobs:
     name: Nightly Benchmark Sweep (modules 2–35)
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule') ||
       (github.event_name == 'workflow_dispatch' && (inputs.run_nightly_sweep == true || inputs.run_nightly_sweep == 'true'))
@@ -355,12 +387,12 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_EDITION=COMMUNITY \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_GPU=ON \
             -DTHEMIS_ENABLE_VULKAN=ON \
-            -DTHEMIS_ENABLE_LLM=OFF \
+            -DTHEMIS_ENABLE_LLM=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
-            -DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF
+            -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 
       - name: Build all benchmark targets
         run: |
@@ -406,6 +438,7 @@ jobs:
     name: Wave D Observability Gates (Trace, Metrics, Exporter Stress)
     runs-on: ubuntu-22.04
     timeout-minutes: 120
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule') ||
       (github.event_name == 'workflow_dispatch' && (inputs.run_observability_gates == true || inputs.run_observability_gates == 'true'))
@@ -433,6 +466,8 @@ jobs:
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_OBSERVABILITY=ON \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build observability test targets
@@ -519,6 +554,7 @@ jobs:
     name: Sharding Release-Gate Benchmarks (SRG-01..06)
     runs-on: ubuntu-22.04
     timeout-minutes: 30
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule' && github.event.schedule == '0 2 * * *') ||
       (github.event_name == 'workflow_dispatch')
@@ -542,7 +578,9 @@ jobs:
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_BUILD_TESTS=OFF
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
 
       - name: Build sharding release-gate benchmarks
         run: |
@@ -633,6 +671,7 @@ jobs:
     name: Wave D Soak Tests (48-hour Endurance)
     runs-on: ubuntu-22.04
     timeout-minutes: 2880  # 48 hours
+    needs: [preflight-build-status]
     if: >
       (github.event_name == 'schedule' && github.event.schedule == '0 5 * * 0') ||
       (github.event_name == 'workflow_dispatch' && (inputs.run_soak_tests == true || inputs.run_soak_tests == 'true'))
@@ -660,6 +699,8 @@ jobs:
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_OBSERVABILITY=ON \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build soak test targets

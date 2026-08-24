@@ -1,0 +1,104 @@
+name: 'Check Build Status'
+description: |
+  Reads the ci-build tracker issue (set by ci-build.yml after each push to develop)
+  and fails the calling job when the last recorded build was unsuccessful.
+
+  The tracker issue is identified by the HTML marker
+  <!-- ci-build:type:build-status --> in its body.  The action checks whether
+  that issue carries the label `ci/build-failed`.
+
+  When `enforce` is 'true' (default) the action calls core.setFailed on a failed
+  or unknown build status.  Set `enforce: 'false'` to emit a warning instead and
+  allow the workflow to continue (useful for workflow_dispatch where a human is
+  explicitly triggering the run).
+
+  When no tracker issue is found the action can optionally treat the absence as
+  a warning instead of a hard failure (set `fail-if-missing: 'false'`).
+
+  Used by: ci-benchmarks.yml, ci-release.yml.
+
+inputs:
+  repo-token:
+    description: 'GitHub token with issues: read permission'
+    required: true
+  enforce:
+    description: |
+      When 'true' (default), fail the step if the build status is 'failed'.
+      When 'false', emit a warning and continue so the caller can decide.
+    required: false
+    default: 'true'
+  fail-if-missing:
+    description: |
+      When 'true' (default), treat a missing tracker issue as an error.
+      Set to 'false' to emit a warning and continue when no tracker issue exists.
+    required: false
+    default: 'true'
+
+outputs:
+  build-status:
+    description: "'ok', 'failed', or 'unknown' (no tracker issue found)"
+    value: ${{ steps.check.outputs.build-status }}
+  issue-number:
+    description: 'Number of the tracker issue, or empty when not found'
+    value: ${{ steps.check.outputs.issue-number }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check build-status tracker issue
+      id: check
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+      env:
+        ENFORCE: ${{ inputs.enforce }}
+        FAIL_IF_MISSING: ${{ inputs.fail-if-missing }}
+      with:
+        github-token: ${{ inputs.repo-token }}
+        script: |
+          const enforce      = process.env.ENFORCE      !== 'false';
+          const failIfMissing = process.env.FAIL_IF_MISSING !== 'false';
+          const marker = '<!-- ci-build:type:build-status -->';
+          const { owner, repo } = context.repo;
+
+          const allIssues = await github.paginate(github.rest.issues.listForRepo, {
+            owner, repo, state: 'open', per_page: 100,
+          });
+          const tracker = allIssues.find(i => (i.body || '').includes(marker));
+
+          if (!tracker) {
+            const msg = 'No ci-build tracker issue found (marker: <!-- ci-build:type:build-status -->).';
+            if (failIfMissing && enforce) {
+              core.setFailed(msg);
+            } else {
+              core.warning(msg);
+            }
+            core.setOutput('build-status', 'unknown');
+            core.setOutput('issue-number', '');
+            return;
+          }
+
+          core.setOutput('issue-number', String(tracker.number));
+          const labelNames = tracker.labels.map(l => l.name);
+          const issueUrl   = `https://github.com/${owner}/${repo}/issues/${tracker.number}`;
+
+          if (labelNames.includes('ci/build-failed')) {
+            core.setOutput('build-status', 'failed');
+            const msg =
+              `Last develop build is FAILED (tracker issue #${tracker.number} carries label \`ci/build-failed\`). ` +
+              `Fix the build on develop before running this workflow. Issue: ${issueUrl}`;
+            if (enforce) {
+              core.setFailed(msg);
+            } else {
+              core.warning(`⚠️  ${msg}`);
+            }
+          } else if (labelNames.includes('ci/build-ok')) {
+            core.setOutput('build-status', 'ok');
+            core.notice(`Build status: ✅ ok (tracker issue #${tracker.number})`);
+          } else {
+            // Labels present but neither ok nor failed — unknown, proceed with caution.
+            core.setOutput('build-status', 'unknown');
+            core.warning(
+              `Tracker issue #${tracker.number} has neither \`ci/build-ok\` nor \`ci/build-failed\` label. ` +
+              `Build status is unknown; proceeding with caution.`
+            );
+          }
+

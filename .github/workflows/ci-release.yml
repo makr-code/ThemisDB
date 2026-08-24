@@ -60,6 +60,7 @@ permissions:
   packages: write
   actions: read
   pull-requests: read
+  issues: read
 
 concurrency:
   group: ci-release-${{ github.ref }}
@@ -72,6 +73,19 @@ jobs:
     name: Preflight Release Policy
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout (sparse — action only)
+        if: github.event_name == 'schedule'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          sparse-checkout: .github/actions/check-build-status
+          sparse-checkout-cone-mode: false
+      - name: Check last develop build status (schedule gate)
+        if: github.event_name == 'schedule'
+        uses: ./.github/actions/check-build-status
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          enforce: 'true'
+          fail-if-missing: 'true'
       - name: Validate tag/edition policy
         env:
           GITHUB_TOKEN: ${{ github.token }}

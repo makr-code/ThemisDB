@@ -1,0 +1,290 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# ThemisDB — Canonical Label Definitions
+# Source of truth for all repository labels.
+# Managed by: .github/workflows/maintenance-labels.yml (schedule + workflow_dispatch)
+#
+# type: blocker  — blocks merge / requires immediate action
+# type: warning  — attention needed, not a hard merge blocker
+# type: info     — informational, no action required
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── ci/ — CI pipeline status (set/cleared by ci-build.yml and maintenance workflows) ──
+
+- name: "ci/build-failed"
+  color: "B60205"
+  description: "Build after merge failed; blocks next merge until resolved"
+  type: blocker
+
+- name: "ci/build-ok"
+  color: "0E8A16"
+  description: "Build after merge succeeded (replaces ci/build-failed)"
+  type: info
+
+- name: "ci/test-failed"
+  color: "B60205"
+  description: "Tests after merge build failed; blocks next merge"
+  type: blocker
+
+- name: "ci/test-ok"
+  color: "0E8A16"
+  description: "Tests green after merge (replaces ci/test-failed)"
+  type: info
+
+- name: "ci/failure"
+  color: "D93F0B"
+  description: "CI execution failures requiring action"
+  type: blocker
+
+- name: "ci/chronic-failure"
+  color: "B60205"
+  description: "Chronic CI failures (>30% rate) requiring remediation"
+  type: blocker
+
+- name: "ci/build-error"
+  color: "B60205"
+  description: "Build infrastructure error requiring action"
+  type: blocker
+
+- name: "ci/dependency-stale"
+  color: "E4E669"
+  description: "Stale or outdated dependencies detected"
+  type: warning
+
+# ── status/ — Process status (set by workflows and maintainers) ──
+
+- name: "status/needs-approval"
+  color: "FBCA04"
+  description: "Requires explicit maintainer approval before proceeding"
+  type: blocker
+
+- name: "status/needs-attention"
+  color: "FBCA04"
+  description: "Needs attention; not a hard merge blocker"
+  type: warning
+
+- name: "status/build-pending"
+  color: "0075CA"
+  description: "Post-merge build triggered and in progress"
+  type: info
+
+- name: "status/blocked"
+  color: "B60205"
+  description: "Blocked by an external dependency or unresolved issue"
+  type: blocker
+
+- name: "status/ready-to-merge"
+  color: "0E8A16"
+  description: "All PR gates green; approved for merge"
+  type: info
+
+# ── governance/ — Governance gate status (set by governance-gates.yml) ──
+
+- name: "governance/drift"
+  color: "E11D48"
+  description: "Branch protection or governance config has drifted from policy"
+  type: blocker
+
+- name: "governance/ok"
+  color: "0E8A16"
+  description: "Governance checks passed"
+  type: info
+
+- name: "governance/wave-gate-fail"
+  color: "B60205"
+  description: "Wave A/B/C/D exit criterion not yet met"
+  type: blocker
+
+- name: "governance/needs-attention"
+  color: "FBCA04"
+  description: "Governance item requires attention (waivers, drift, policy)"
+  type: warning
+
+# ── security/ — Security findings (set by maintenance-issues.yml) ──
+
+- name: "security"
+  color: "B60205"
+  description: "Open security finding requiring triage"
+  type: blocker
+
+- name: "security/critical"
+  color: "B60205"
+  description: "Critical security finding; immediate action required"
+  type: blocker
+
+- name: "security/pentest"
+  color: "D93F0B"
+  description: "Penetration test finding requiring follow-up"
+  type: warning
+
+# ── scanner/ — Quality and gap scanner tracking ──
+
+- name: "scanner/gs3"
+  color: "1D76DB"
+  description: "Gap scanner v3 finding"
+  type: warning
+
+- name: "scanner/runtime"
+  color: "1D76DB"
+  description: "Runtime scanner finding"
+  type: warning
+
+- name: "quality"
+  color: "5319E7"
+  description: "Quality and maintainability issue"
+  type: warning
+
+- name: "maintenance"
+  color: "E4E669"
+  description: "Maintenance task"
+  type: info
+
+# ── type: — Change type classification (set by actions/labeler and automation-community.yml) ──
+
+- name: "type:documentation"
+  color: "0075CA"
+  description: "Documentation change"
+  type: info
+
+- name: "type:test"
+  color: "0075CA"
+  description: "Test-only change"
+  type: info
+
+- name: "type:ci"
+  color: "0075CA"
+  description: "CI/CD or build system change"
+  type: info
+
+- name: "type:refactor"
+  color: "0075CA"
+  description: "Code refactoring without functional change"
+  type: info
+
+- name: "type:build"
+  color: "0075CA"
+  description: "Build system or dependency change"
+  type: info
+
+- name: "breaking-change"
+  color: "B60205"
+  description: "Introduces a breaking API or behavior change"
+  type: blocker
+
+- name: "migration-guide-needed"
+  color: "FBCA04"
+  description: "Requires a migration guide for consumers"
+  type: warning
+
+- name: "ai-generated"
+  color: "C5DEF5"
+  description: "AI-assisted change; requires maintainer review before merge"
+  type: warning
+
+- name: "release_critical"
+  color: "D93F0B"
+  description: "Change in a release-critical module; requires sign-off"
+  type: blocker
+
+# ── wave: — Roadmap wave classification (set by actions/labeler) ──
+
+- name: "wave:A"
+  color: "BFD4F2"
+  description: "Wave A module: access_model, search, sharding, replication, utils, updates, process, audit"
+  type: info
+
+- name: "wave:B"
+  color: "BFD4F2"
+  description: "Wave B module: acceleration, llm, retrieval, tensor, gpu"
+  type: info
+
+- name: "wave:C"
+  color: "BFD4F2"
+  description: "Wave C module: security, auth, governance"
+  type: info
+
+- name: "wave:D"
+  color: "BFD4F2"
+  description: "Wave D module: observability, maintenance"
+  type: info
+
+# ── area: — Module area classification (set by actions/labeler) ──
+
+- name: "area:acceleration"
+  color: "C2E0C6"
+  description: "Acceleration / GPU / CUDA subsystem"
+  type: info
+
+- name: "area:vector"
+  color: "C2E0C6"
+  description: "Vector search subsystem"
+  type: info
+
+- name: "area:graph"
+  color: "C2E0C6"
+  description: "Graph subsystem"
+  type: info
+
+- name: "area:storage"
+  color: "C2E0C6"
+  description: "Storage subsystem"
+  type: info
+
+- name: "area:llm"
+  color: "C2E0C6"
+  description: "LLM / prompt engineering subsystem"
+  type: info
+
+- name: "area:search"
+  color: "C2E0C6"
+  description: "Search / retrieval / RAG subsystem"
+  type: info
+
+- name: "area:security"
+  color: "C2E0C6"
+  description: "Security / auth subsystem"
+  type: info
+
+- name: "area:access-model"
+  color: "C2E0C6"
+  description: "Access model subsystem"
+  type: info
+
+- name: "area:sharding"
+  color: "C2E0C6"
+  description: "Sharding subsystem"
+  type: info
+
+- name: "area:replication"
+  color: "C2E0C6"
+  description: "Replication subsystem"
+  type: info
+
+- name: "area:updates"
+  color: "C2E0C6"
+  description: "Updates subsystem"
+  type: info
+
+- name: "area:process"
+  color: "C2E0C6"
+  description: "Process subsystem"
+  type: info
+
+- name: "area:audit"
+  color: "C2E0C6"
+  description: "Audit / CDC subsystem"
+  type: info
+
+- name: "area:observability"
+  color: "C2E0C6"
+  description: "Observability / telemetry subsystem"
+  type: info
+
+- name: "area:plugins"
+  color: "C2E0C6"
+  description: "Plugin subsystem"
+  type: info
+
+- name: "area:api"
+  color: "C2E0C6"
+  description: "API / gRPC subsystem"
+  type: info

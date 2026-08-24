@@ -63,8 +63,10 @@ TEST(EditionManager, SingletonReturnsSameInstance) {
 
 TEST(EditionManager, GetEditionTypeReturnsValidValue) {
     const EditionType et = EditionManager::instance().getEditionType();
-    EXPECT_TRUE(et == EditionType::COMMUNITY ||
+    EXPECT_TRUE(et == EditionType::MINIMAL    ||
+                et == EditionType::COMMUNITY  ||
                 et == EditionType::ENTERPRISE ||
+                et == EditionType::MILITARY   ||
                 et == EditionType::HYPERSCALER ||
                 et == EditionType::UNKNOWN);
 }
@@ -81,7 +83,8 @@ TEST(EditionManager, GetMaxNodesBounded) {
 
 TEST(EditionManager, GetMaxVRAMGBBounded) {
     const int max = EditionManager::instance().getMaxVRAMGB();
-    EXPECT_TRUE(max > 0 || max == -1);
+    // 0 means either no GPU (MINIMAL) or unlimited (HYPERSCALER); -1 also signals unlimited.
+    EXPECT_TRUE(max >= 0 || max == -1);
 }
 
 TEST(EditionManager, EditionInfoMatchesEditionHeader) {

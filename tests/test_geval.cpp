@@ -371,8 +371,3 @@ TEST_F(GEvalTest, PerformanceReasonable) {
     // Should complete in reasonable time (stub implementation should be fast)
     EXPECT_LT(duration.count(), 1000);  // Less than 1 second
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

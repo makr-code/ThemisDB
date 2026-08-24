@@ -49,9 +49,37 @@ benchmark structure and registration rules.
 ## 4. CMake and CTest Integration
 
 - Benchmark targets must be built deterministically by preset/target mapping.
-- CTest registration for benchmark smoke tests must be explicit and minimal.
+- CTest registration for benchmark smoke tests must use the canonical
+  `themis_register_benchmark_ctest()` helper from
+  `benchmarks/cmake/BenchmarkPolicy.cmake`.
+- Direct `add_test()` + `set_tests_properties()` calls are **forbidden** in
+  benchmark CMakeLists; they bypass `$<TARGET_FILE:...>` resolution and omit
+  the mandatory label schema.
 - Script-only benchmarks may remain outside CTest but must document runner flow.
-- No orphaned CTest entries pointing to missing benchmark binaries.
+- No orphaned CTest entries pointing to missing benchmark binaries; the helper
+  already guards against this automatically.
+
+### 4.1 Canonical Registration Pattern
+
+```cmake
+# Example: module-level smoke entry
+themis_register_benchmark_ctest(
+    NAME         bench_<module>_<workload>
+    TARGET       bench_<module>_<workload>
+    MODULE       "<module>"
+    TIMEOUT      120           # seconds; adjust for long-running suites
+    EXTRA_LABELS release_critical  # only when gate-critical
+)
+```
+
+The helper enforces:
+- `$<TARGET_FILE:TARGET>` resolution — CTest finds the binary regardless of
+  output directory structure.
+- Mandatory label set: `module:<module>;tier:benchmark;kind:smoke`.
+- JSON output written to `${CMAKE_BINARY_DIR}/bench_results/<target>.json`.
+- Standard `--benchmark_min_time=0.1s` unless overridden via `MIN_TIME`.
+- Guard: the entry is silently skipped when the target is not available (avoids
+  orphaned CTest entries when a benchmark is disabled by a feature flag).
 
 ## 5. Migration Rules for Existing Benchmarks
 
