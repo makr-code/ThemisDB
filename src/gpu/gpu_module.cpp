@@ -13,9 +13,32 @@
 #include "themis/gpu/gpu_module.h"
 
 #include "themis/gpu/feature_flags.h"
+#include "themis/gpu/rocm_backend.h"
+#include "themis/gpu/vulkan_backend.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace gpu {
+namespace {
+
+GPULauncher::BackendFn createDefaultLauncherBackend() {
+    auto& rocm_backend = ROCmBackend::GetInstance();
+    if (rocm_backend.isAvailable()) {
+        THEMIS_INFO("GPUModule: using ROCm backend for launcher dispatch");
+        return rocm_backend.createBackendFn();
+    }
+
+    auto& vulkan_backend = VulkanComputeBackend::GetInstance();
+    if (vulkan_backend.isAvailable()) {
+        THEMIS_INFO("GPUModule: using Vulkan backend for launcher dispatch");
+        return vulkan_backend.createBackendFn();
+    }
+
+    THEMIS_WARN("GPUModule: no GPU runtime available; using CPU fallback backend");
+    return rocm_backend.createBackendFn();
+}
+
+} // namespace
 
 // ============================================================================
 // Lifecycle
@@ -45,9 +68,7 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher
         if (backend) {
             launcher_ = std::make_unique<GPULauncher>(backend);
         } else {
-            // Default no-op backend: always succeeds (placeholder until real
-            // CUDA/ROCm backend is wired up).
-            launcher_ = std::make_unique<GPULauncher>([](const GPULauncher::WorkItem &) { return true; });
+            launcher_ = std::make_unique<GPULauncher>(createDefaultLauncherBackend());
         }
     }
 
