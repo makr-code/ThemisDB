@@ -17,6 +17,21 @@ namespace test {
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// @brief Write content to a file, creating directories as needed.
+/// @param path File path to write to
+/// @param content Optional content (default: empty file). Single-arg version creates empty file.
+inline void writeFile(const std::filesystem::path& path,
+                      const std::string& content = "") {
+    std::filesystem::create_directories(path.parent_path());
+    std::ofstream file(path);
+    if (!file) {
+        throw std::runtime_error("Failed to create file: " + path.string());
+    }
+    if (!content.empty()) {
+        file << content;
+    }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // ConfigFileWatcher unit tests
 // ─────────────────────────────────────────────────────────────────────────────
