@@ -136,6 +136,8 @@ public:
         // to ensure the health state written after an RPC outcome is visible.
         return healthy_.load(std::memory_order_acquire);
     }
+
+private:
     std::shared_ptr<grpc::ChannelCredentials> buildCredentials() const;
 
     /**
@@ -210,7 +212,10 @@ public:
         // memory_order fix: acquire pairs with release stores in invoke()
         // to ensure the health state is correctly visible across threads.
         return healthy_.load(std::memory_order_acquire);
-    } {
+    }
+
+private:
+    static std::mutex& bridgeMutex() {
         static std::mutex m;
         return m;
     }
@@ -255,4 +260,3 @@ public:
 }  // namespace themis
 
 #endif  // THEMIS_ENABLE_GRPC
-

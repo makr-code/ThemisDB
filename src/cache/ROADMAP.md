@@ -200,7 +200,7 @@ Validation refresh for issue `#5632` confirms priorities remain correct; evidenc
 - [x] Phase 4: focused regression tests delivered (CCH, CCD, CTI suites)
 - [x] Phase 5: benchmark gates and runbook delivered
 - [x] Phase 6: roadmap/FUTURE_ENHANCEMENTS updated, all phases marked
-- [x] build/test evidence refresh blocked by RocksDB dependency (see Evidence Summary — all code fixes verified via grep/line audit)
+- [~] build/test evidence refresh blocked by RocksDB dependency (see Evidence Summary — code fixes verified via grep/line audit while configure remains blocked)
 - [x] mark synced items and risks with explicit status transitions
 
 ## Closure Criteria (Issue #5632)
