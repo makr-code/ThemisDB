@@ -15,7 +15,7 @@ long-duration soak test coverage, and complete operator runbook coverage.
 - [x] Long-duration soak test registered (`wave_d;soak;not_release_critical`) (D2)
 - [x] Topology tuning guide published (D2)
 - [x] All 3 operator runbooks complete (C2 → D closure)
-- [ ] Human sign-off at `docs/operability/WAVE_D_SIGN_OFF.md` §Failover (pending)
+- [ ] Human sign-off at `docs/operability/WAVE_D_SIGN_OFF.md` §Failover — **awaiting human reviewer sign-off** (all evidence delivered; gate requires human action)
 
 ---
 
@@ -106,7 +106,7 @@ Three operator runbooks were delivered as part of C2 → D handoff:
 | Long-duration soak test exists | `test_failover_soak_60min.cpp` registered | ✅ |
 | Operator runbooks complete | 3 runbooks in `docs/operability/` | ✅ |
 | Representative-hardware soak run | Pending (self-hosted runner) | 🟡 |
-| Human sign-off | `docs/operability/WAVE_D_SIGN_OFF.md` §Failover | ⏳ |
+| Human sign-off | `docs/operability/WAVE_D_SIGN_OFF.md` §Failover | ⏳ awaiting human reviewer |
 
 ---
 

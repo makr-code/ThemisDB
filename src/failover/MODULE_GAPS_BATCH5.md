@@ -94,12 +94,11 @@
 
 ## Batch 5 Deliverables Checklist
 
-- [x] **README.md** — Enhanced with Wave A context, detection accuracy, promotion timing, split-brain prevention
-- [ ] **ROADMAP.md** — Updated with Wave A exit criteria, topology validation gates
+- [x] **ROADMAP.md** — Updated with Wave A exit criteria, topology validation gates
 - [x] **MODULE_GAPS_BATCH5.md** — This document (gap categorization, L0.5 verified)
-- [ ] **PRODUCTION_REQUIREMENTS.md** — Enhanced with failover scenarios, fencing strategy, recovery procedures
+- [x] **PRODUCTION_REQUIREMENTS.md** — Enhanced with failover scenarios, fencing strategy, recovery procedures (2026-08-24)
 - [x] **Test Gates Defined** — FO-Detect-01..06, FO-Promote-01..08, FO-Consensus-01..06
-- [ ] **Operator Runbooks** — Started; Q4 2026 completion target
+- [x] **Operator Runbooks** — Complete: `docs/operability/failover_runbook_split_brain.md`, `failover_runbook_fencing_override.md`, `failover_runbook_manual_recovery.md`, `failover_topology_tuning_guide.md`
 
 ---
 
