@@ -359,7 +359,7 @@ bool WasmPluginSandbox::hasRuntime() const noexcept {
 
 std::string WasmPluginSandbox::engineName() const {
     if (!runtime_) {
-        return {};
+        return std::string{};
     }
     return runtime_->engineName();
 }

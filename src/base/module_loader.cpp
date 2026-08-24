@@ -1166,7 +1166,7 @@ std::vector<HealthCheckResult> ModuleLoader::getHealthCheckResults(const std::st
     auto it = loadedModules_.find(moduleName);
     
     if (it == loadedModules_.end()) {
-        return {};
+        return std::vector<HealthCheckResult>{};
     }
     
     return it->second.healthChecks;
@@ -1548,7 +1548,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
     std::ifstream file(modulePath, std::ios::binary);
     if (!file) {
         spdlog::warn("readELFMetadata: cannot open: {}", modulePath);
-        return {};
+        return std::string{};
     }
 
     // Verify ELF magic number
@@ -1556,7 +1556,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
     file.read(reinterpret_cast<char*>(magic), 4);
     if (file.gcount() < 4 ||
         magic[0] != 0x7f || magic[1] != 'E' || magic[2] != 'L' || magic[3] != 'F') {
-        return {};
+        return std::string{};
     }
 
     file.seekg(0, std::ios::beg);
@@ -1995,4 +1995,3 @@ uint64_t ModuleLoader::watchdogCalculateBackoff(uint32_t consecutiveFailures) co
 
 } // namespace modules
 } // namespace themis
-

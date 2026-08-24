@@ -234,7 +234,7 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
 
     if (order.size() != nodes_.size()) {
         // Cycle exists — topological order is undefined.
-        return {};
+        return std::vector<std::string>{};
     }
     // Our edges are "from → to" where from is the dependent and to is the
     // dependency (inverse of the standard Kahn prerequisite direction).

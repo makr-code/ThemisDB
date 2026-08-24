@@ -469,7 +469,7 @@ std::string HotReloadManager::saveState(const std::string &name) {
         cb = state_save_cb_;
     }
     if (!cb) {
-        return {};
+        return std::string{};
     }
     try {
         auto state = cb(name);
@@ -480,7 +480,7 @@ std::string HotReloadManager::saveState(const std::string &name) {
         return state;
     } catch (const std::exception &ex) {
         spdlog::warn("HotReloadManager: state-save callback threw: {}", ex.what());
-        return {};
+        return std::string{};
     }
 }
 
@@ -511,7 +511,7 @@ bool HotReloadManager::restoreState(const std::string &name, const std::string &
     if (info.has_value()) {
         return ModuleVersion::fromMetadata(info->metadata);
     }
-    return {};
+    return ModuleVersion{};
 }
 
 } // namespace modules

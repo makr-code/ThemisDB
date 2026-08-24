@@ -303,24 +303,24 @@ size_t writeFileCallback(void *contents, size_t size, size_t nmemb, void *userp)
 std::string sha256File(const std::string &path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
-        return {};
+        return std::string{};
     }
 
     EVP_MD_CTX *ctx = EVP_MD_CTX_new();
     if (!ctx) {
-        return {};
+        return std::string{};
     }
 
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
         EVP_MD_CTX_free(ctx);
-        return {};
+        return std::string{};
     }
 
     std::array<char, 8192> buf{};
     while (file.read(buf.data(), static_cast<std::streamsize>(buf.size())) || file.gcount() > 0) {
         if (EVP_DigestUpdate(ctx, buf.data(), static_cast<size_t>(file.gcount())) != 1) {
             EVP_MD_CTX_free(ctx);
-            return {};
+            return std::string{};
         }
     }
 
@@ -328,7 +328,7 @@ std::string sha256File(const std::string &path) {
     unsigned int digest_len = 0;
     if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {
         EVP_MD_CTX_free(ctx);
-        return {};
+        return std::string{};
     }
     EVP_MD_CTX_free(ctx);
 
@@ -380,7 +380,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
         body = httpGet(url);
     } catch (const std::exception &ex) {
         spdlog::error("RemoteRegistryClient::listPlugins: HTTP error: {}", ex.what());
-        return {};
+        return std::vector<RegistryPluginEntry>{};
     }
 
     std::vector<RegistryPluginEntry> entries;
@@ -388,7 +388,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
         auto j = nlohmann::json::parse(body);
         if (!j.is_array()) {
             spdlog::error("RemoteRegistryClient::listPlugins: expected JSON array");
-            return {};
+            return std::vector<RegistryPluginEntry>{};
         }
         for (const auto &item : j) {
             RegistryPluginEntry entry;
@@ -597,7 +597,7 @@ std::string RemoteRegistryClient::buildAuthorizationHeader() const {
     if (!config_.api_key.empty()) {
         return "X-API-Key: " + config_.api_key;
     }
-    return {};
+    return std::string{};
 }
 
 std::string RemoteRegistryClient::httpGet(const std::string &url) {
