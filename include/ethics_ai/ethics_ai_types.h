@@ -777,6 +777,258 @@ private:
     std::vector<RoundAuditEntry> entries_;
 };
 
+// ============================================================================
+// LDM-6 — Dynamic Clustering via cross_school_tensions graph (Q1 2027)
+// ============================================================================
+
+/**
+ * @brief Edge in the cross-school tension graph.
+ *
+ * A directed or undirected weighted edge between two philosophical schools
+ * that represents the structural tension (disagreement potential) between them.
+ *
+ * @since LDM-6 (Target: Q1 2027)
+ */
+struct CrossSchoolTensionEdge {
+    std::string school_a;    ///< Source school identifier.
+    std::string school_b;    ///< Target school identifier.
+    /// Tension score in [0.0, 1.0]: 0 = fully aligned, 1 = maximally opposed.
+    double tension_score{0.0};
+};
+
+/**
+ * @brief Weighted graph of cross-school tensions used by LDM-6 dynamic clustering.
+ *
+ * Nodes are school identifiers; edges carry a `tension_score` weight.  The graph
+ * is used by `DynamicClusteringEngine` to group schools into Ebene-2 clusters
+ * such that high-tension pairs are separated into different clusters.
+ *
+ * @since LDM-6 (Target: Q1 2027)
+ */
+struct CrossSchoolTensionGraph {
+    /// All school identifiers that participate in the graph (node set).
+    std::vector<std::string> schools;
+    /// Weighted edges between schools.
+    std::vector<CrossSchoolTensionEdge> edges;
+
+    /// Look up the tension between two schools; returns 0.0 if no edge exists.
+    [[nodiscard]] double tensionBetween(const std::string& a, const std::string& b) const noexcept {
+        for (const auto& e : edges) {
+            if ((e.school_a == a && e.school_b == b) ||
+                (e.school_a == b && e.school_b == a)) {
+                return e.tension_score;
+            }
+        }
+        return 0.0;
+    }
+};
+
+/**
+ * @brief Assignment of schools to Ebene-2 discourse clusters.
+ *
+ * Produced by `DynamicClusteringEngine::cluster()`.  The Ebene-2 orchestrator
+ * consumes this assignment instead of a static school grouping.
+ *
+ * @since LDM-6 (Target: Q1 2027)
+ */
+struct ClusterAssignment {
+    /// Maps `school_id → cluster_index` (0-based).
+    std::map<std::string, std::size_t> school_to_cluster;
+    /// Number of distinct clusters; equals `max(school_to_cluster.values()) + 1`.
+    std::size_t cluster_count{0};
+
+    /// Return all school IDs assigned to `cluster_index`.
+    [[nodiscard]] std::vector<std::string> schoolsInCluster(std::size_t cluster_index) const {
+        std::vector<std::string> result;
+        for (const auto& [school, idx] : school_to_cluster) {
+            if (idx == cluster_index) { result.push_back(school); }
+        }
+        return result;
+    }
+};
+
+/**
+ * @brief Engine that produces a `ClusterAssignment` from a `CrossSchoolTensionGraph`.
+ *
+ * The clustering algorithm groups schools so that pairs with high tension_score
+ * are placed in different clusters when possible.  The implementation uses a
+ * greedy graph-colouring approach as a first approximation.
+ *
+ * @since LDM-6 (Target: Q1 2027)
+ */
+class DynamicClusteringEngine {
+public:
+    /**
+     * @brief Construct the engine.
+     *
+     * @param target_cluster_count  Desired number of output clusters.  The engine
+     *   may produce fewer clusters if the tension graph is sparse.  0 = auto
+     *   (engine selects √N clusters for N schools).
+     */
+    explicit DynamicClusteringEngine(std::size_t target_cluster_count = 0) noexcept
+        : target_cluster_count_(target_cluster_count) {}
+
+    /**
+     * @brief Compute a cluster assignment from the tension graph.
+     *
+     * @param graph   Weighted school tension graph.
+     * @return        Cluster assignment; empty if `graph.schools` is empty.
+     *
+     * @note Pure function: same graph + same target_cluster_count → same result.
+     */
+    [[nodiscard]] ClusterAssignment cluster(const CrossSchoolTensionGraph& graph) const;
+
+private:
+    std::size_t target_cluster_count_;
+};
+
+// ============================================================================
+// LDM-7 — Māori Ethics & Latin-American Liberation Theology (Q1 2027)
+// ============================================================================
+
+/**
+ * @brief Extended school identifiers for LDM-7 cultural ethics traditions.
+ *
+ * These string constants are used as `school_id` values in profiles and
+ * scoring pipelines.  Using constants avoids typos and eases refactoring.
+ *
+ * @since LDM-7 (Target: Q1 2027)
+ */
+namespace LDM7Schools {
+    /// Māori relational ethics (whakapapa, kaitiakitanga, mana).
+    inline constexpr const char* MAORI_ETHICS              = "maori_ethics";
+    /// Latin-American Liberation Theology (Dussel, Gutiérrez — preferential
+    /// option for the poor, structural justice).
+    inline constexpr const char* LATIN_LIBERATION_THEOLOGY = "latin_liberation_theology";
+} // namespace LDM7Schools
+
+/**
+ * @brief School descriptor for a non-western ethics tradition (LDM-7).
+ *
+ * Describes the cultural context, primary normative sources, and the initial
+ * bias correction factor used by the LDM-8 AdaLoRA adapter before it is
+ * trained on real feedback.
+ *
+ * @since LDM-7 (Target: Q1 2027)
+ */
+struct CulturalEthicsSchoolDescriptor {
+    /// Canonical school identifier (e.g. `LDM7Schools::MAORI_ETHICS`).
+    std::string school_id;
+    /// Human-readable name.
+    std::string display_name;
+    /// Short description of the cultural and philosophical context.
+    std::string cultural_context;
+    /// Key normative sources (e.g. "Te Tiriti o Waitangi", "Boff 1986").
+    std::vector<std::string> primary_norm_sources;
+    /// Initial bias correction factor applied to raw scores before LDM-8 adapts.
+    /// Value > 1.0 boosts the school; < 1.0 penalises; 1.0 = neutral.
+    double bias_correction_factor{1.0};
+};
+
+// ============================================================================
+// LDM-8 — AdaLoRA Adapter for non-western school score-bias correction (Q1 2027)
+// ============================================================================
+
+/**
+ * @brief Interface for per-school score-bias correction using AdaLoRA adapters.
+ *
+ * An implementation holds a trained adapter matrix for each non-western school
+ * and applies a learned correction to the raw Ebene-1 score before it enters
+ * the MetaVerdict synthesis.
+ *
+ * ## Contract
+ * - `applyBiasCorrection()` MUST be deterministic: same `school_id` + same
+ *   `raw_score` → same `corrected_score`.
+ * - Returned `corrected_score` MUST be in [0.0, 1.0] (clamped internally).
+ * - If `school_id` has no adapter matrix, the implementation MUST return
+ *   `raw_score` unchanged (identity transform).
+ *
+ * @since LDM-8 (Target: Q1 2027)
+ */
+class IAdaLoRABiasCorrector {
+public:
+    virtual ~IAdaLoRABiasCorrector() = default;
+
+    /**
+     * @brief Apply the per-school AdaLoRA bias correction.
+     *
+     * @param school_id   School whose adapter matrix should be applied.
+     * @param raw_score   Raw Ebene-1 score in [0.0, 1.0].
+     * @return            Corrected score, clamped to [0.0, 1.0].
+     */
+    [[nodiscard]] virtual double applyBiasCorrection(
+        const std::string& school_id, double raw_score) const noexcept = 0;
+
+    /**
+     * @brief Return true if an adapter matrix is available for `school_id`.
+     */
+    [[nodiscard]] virtual bool hasAdapter(const std::string& school_id) const noexcept = 0;
+};
+
+/**
+ * @brief Default identity bias corrector (no correction applied).
+ *
+ * Used as the initial fallback before real adapter matrices have been trained.
+ * Returns `raw_score` unchanged for every school.
+ */
+class IdentityAdaLoRABiasCorrector final : public IAdaLoRABiasCorrector {
+public:
+    [[nodiscard]] double applyBiasCorrection(
+        [[maybe_unused]] const std::string& /*school_id*/,
+        double raw_score) const noexcept override {
+        return raw_score;
+    }
+
+    [[nodiscard]] bool hasAdapter(
+        [[maybe_unused]] const std::string& /*school_id*/) const noexcept override {
+        return false;
+    }
+};
+
+/**
+ * @brief Configurable bias corrector backed by a per-school scalar adapter.
+ *
+ * Suitable for testing and for simple linear bias corrections before full
+ * AdaLoRA matrix adapters are available.  The adapter for each school is a
+ * single multiplicative factor applied to the raw score, then clamped to [0, 1].
+ */
+class ScalarAdaLoRABiasCorrector final : public IAdaLoRABiasCorrector {
+public:
+    /**
+     * @brief Register a scalar correction factor for a school.
+     *
+     * @param school_id  School identifier.
+     * @param factor     Multiplicative factor; clamped to [0.0, ∞) at use time.
+     */
+    void registerAdapter(const std::string& school_id, double factor) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        adapters_[school_id] = factor;
+    }
+
+    [[nodiscard]] double applyBiasCorrection(
+        const std::string& school_id, double raw_score) const noexcept override {
+        double factor = 1.0;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            const auto it = adapters_.find(school_id);
+            if (it != adapters_.end()) { factor = it->second; }
+        }
+        const double corrected = factor * raw_score;
+        if (corrected < 0.0) return 0.0;
+        if (corrected > 1.0) return 1.0;
+        return corrected;
+    }
+
+    [[nodiscard]] bool hasAdapter(const std::string& school_id) const noexcept override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return adapters_.count(school_id) != 0u;
+    }
+
+private:
+    mutable std::mutex            mutex_;
+    std::map<std::string, double> adapters_;
+};
+
 } // namespace ethics
 } // namespace plugins
 } // namespace themis

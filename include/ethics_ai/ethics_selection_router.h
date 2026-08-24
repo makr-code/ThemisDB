@@ -161,6 +161,31 @@ struct RouterConfig {
     /// Output directory for mandatory ChainVisualizer artifacts (DOT + Mermaid)
     /// emitted by decision/discourse runs. Empty disables file emission.
     std::string chain_visualizer_output_path;
+
+    // =========================================================================
+    // LDM hardening additions (Q4 2026)
+    // =========================================================================
+
+    /// Conflict detection threshold for extended debate rounds.
+    ///
+    /// When `convergence_score` falls **at or below** this ratio after any
+    /// Ebene-2 or Ebene-3 round, the orchestrator classifies the round as
+    /// CONFLICT and may apply extended-round logic.  A value of 0.0 effectively
+    /// disables conflict detection (every round is treated as converging).
+    ///
+    /// Valid range: [0.0, 1.0].  Default 0.6 matches the
+    /// `MetaVerdictThreshold` CONTESTED/TENDENCY boundary.
+    double conflict_threshold_ratio{0.6};
+
+    /// When true, the EthicsSelectionRouter snapshots the active profile set
+    /// at the start of each discourse round.  Dynamic profile reloads that
+    /// arrive during an in-flight round are applied only to the next round.
+    ///
+    /// Setting this to false (legacy behaviour) propagates reloads immediately,
+    /// which may cause non-deterministic mid-round school substitutions.
+    ///
+    /// @note Defaults to true; disable only for testing.
+    bool snapshot_profile_on_round_start{true};
 };
 
 /**

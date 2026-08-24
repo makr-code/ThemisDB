@@ -68,7 +68,7 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 
 ## In Progress
 
-- [~] hardening of streaming and distributed runtime limits under sustained load (Target: Q3 2026)
+- [x] hardening of streaming and distributed runtime limits under sustained load (Target: Q3 2026)
   - [x] `max_open_windows` / `max_records_per_window` runtime limits added to TumblingWindow, SlidingWindow, HoppingWindow
   - [x] `max_open_sessions` / `max_records_per_session` runtime limits added to SessionWindow
   - [x] `windows_evicted` counter added to `WindowStats` for all four window types
@@ -79,15 +79,18 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
     - [x] Comprehensive error-path handling for degradation scenarios (fail-closed design)
     - [x] Enhanced diagnostics: CircuitBreakerInfo, state transitions, recovery attempts tracked
     - [x] test_analytics_distributed_coordinator_safety.cpp — 24+ test scenarios (DCS-01..EDGE-02)
+  - [x] `StreamingRuntimeLimits` struct added to `analytics_api_contract.h`: `max_events_per_window`, `max_window_memory_bytes`, `BackPressureMode` (DROP/BLOCK/SHED) (2026-08-24)
+  - [x] `test_analytics_streaming_limits_focused.cpp` — SRL-01..10 tests added (2026-08-24)
 - [x] benchmark and release-gate consolidation for analytics-critical paths (Target: Q3 2026)
   - [x] `benchmarks/analytics/bench_streaming_window.cpp` added (7 benchmarks covering throughput, eviction, flush latency)
   - [x] `benchmarks/analytics/bench_analytics_distributed_coordinator.cpp` added (4 release gates: DC-01..DC-04)
-- [~] consistency hardening for optional dependency and fallback behavior (Target: Q3 2026)
+- [x] consistency hardening for optional dependency and fallback behavior (Target: Q3 2026)
   - [x] model import integrity guardrails: optional SHA-256 verification API + fail-closed enforcement toggle (`require_model_integrity`) (Completed 2026-08-19)
   - [x] TF Serving secure transport baseline: HTTPS default + explicit plaintext opt-in (`allow_insecure_transport`) (Completed 2026-08-19)
   - [x] LLM response schema hardening for fraud/5R/prediction tasks (type/range/bounds checks) (Completed 2026-08-19)
   - [x] prompt injection mitigation in LLM process analyzer: `sanitizeUserContent()` strips control characters and known injection prefixes from all user-supplied JSON fields before prompt embedding (Completed 2026-08-19)
   - [x] externalize `sanitizeUserContent()` injection prefix list to a configuration file: `LLMConfig::injection_prefix_config_path` added; `loadInjectionPrefixes()` loads from file with 13-pattern fallback; `config/analytics/injection_prefixes.txt` shipped as default template (Completed 2026-08-19 Batch 6)
+  - [x] `test_analytics_optional_fallback_focused.cpp` — OPF-01..08 tests for `MLServingStatus::UNAVAILABLE`, `AnalyticsErrorCode::STREAM_BACKPRESSURE`, and struct composition added (2026-08-24)
   - [x] fail-closed behavior verified for Arrow IPC/Parquet/Feather export (`throwArrowUnavailable()`) and Arrow Flight in-process fallback (Completed 2026-08-19)
   - [x] multiplication overflow fix in circuit breaker exponential backoff: bit-shift capped to 30 to prevent UB when `recovery_attempts ≥ 32` (Completed 2026-08-19)
 

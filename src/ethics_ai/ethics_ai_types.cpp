@@ -13,6 +13,7 @@
 #include "ethics_ai/ethics_ai_types.h"
 
 #include <algorithm>
+#include <limits>
 #include <cctype>
 #include <stdexcept>
 
@@ -100,6 +101,59 @@ ArgumentStrength stringToArgumentStrength(const std::string &str) {
     }
 
     throw std::invalid_argument("Invalid argument strength: " + str);
+}
+
+// ============================================================================
+// LDM-6 — DynamicClusteringEngine::cluster()
+// ============================================================================
+
+ClusterAssignment DynamicClusteringEngine::cluster(
+        const CrossSchoolTensionGraph& graph) const {
+    ClusterAssignment result;
+    if (graph.schools.empty()) {
+        return result;
+    }
+
+    // Determine target cluster count: user-supplied, or √N rounded up.
+    const std::size_t n = graph.schools.size();
+    std::size_t k = target_cluster_count_;
+    if (k == 0u) {
+        k = 1u;
+        while (k * k < n) { ++k; }
+    }
+    k = std::min(k, n); // cannot have more clusters than schools
+
+    // Greedy graph-colouring: assign each school to the cluster (0..k-1) that
+    // has the lowest cumulative tension with already-assigned schools.
+    std::vector<std::vector<double>> cluster_tension(k, std::vector<double>(n, 0.0));
+
+    for (std::size_t i = 0; i < n; ++i) {
+        const std::string& school = graph.schools[i];
+        std::size_t best_cluster  = 0u;
+        double      best_tension  = std::numeric_limits<double>::infinity();
+
+        for (std::size_t c = 0u; c < k; ++c) {
+            double tension = 0.0;
+            for (const auto& [assigned_school, assigned_cluster] : result.school_to_cluster) {
+                if (assigned_cluster == c) {
+                    tension += graph.tensionBetween(school, assigned_school);
+                }
+            }
+            if (tension < best_tension) {
+                best_tension  = tension;
+                best_cluster  = c;
+            }
+        }
+        result.school_to_cluster[school] = best_cluster;
+    }
+
+    // Count distinct clusters actually used.
+    std::size_t used = 0u;
+    for (const auto& [s, c] : result.school_to_cluster) {
+        if (c + 1u > used) { used = c + 1u; }
+    }
+    result.cluster_count = used;
+    return result;
 }
 
 } // namespace ethics
