@@ -4,6 +4,13 @@ file(GLOB LLM_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+set(_llm_wiki_private_include_dir
+    "${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include")
+set(_llm_wiki_private_orchestrator_header
+    "${_llm_wiki_private_include_dir}/wikipedia/wiki_workspace_orchestrator.h")
+set(_llm_wiki_private_orchestrator_source
+    "${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp")
+
 foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_llm_${_stem}_focused")
@@ -22,6 +29,16 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_llm_tinyllama_inference"
         OR _stem STREQUAL "test_llm_doku_rag"
         OR _stem STREQUAL "test_llm_adalora_doku_training")
+        continue()
+    endif()
+
+    if(_stem STREQUAL "test_llm_wiki_provenance_focused"
+        AND NOT TARGET themisdb_llm_wiki_cpp
+        AND (NOT EXISTS "${_llm_wiki_private_orchestrator_header}"
+             OR NOT EXISTS "${_llm_wiki_private_orchestrator_source}"))
+        message(STATUS
+            "Skipping ${_stem}: private LLM Wiki plugin sources are unavailable at "
+            "${_llm_wiki_private_orchestrator_source}")
         continue()
     endif()
 
@@ -189,17 +206,17 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
                 ${THEMIS_ROOT_DIR}/src/llm_wiki
             )
         endif()
-        if(TARGET themisdb_llm_wiki_cpp)
+        if(_stem STREQUAL "test_llm_wiki_provenance_focused" AND TARGET themisdb_llm_wiki_cpp)
             target_link_libraries(${_target} PRIVATE themisdb_llm_wiki_cpp)
             target_include_directories(${_target} PRIVATE
-                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+                ${_llm_wiki_private_include_dir}
             )
-        else()
+        elseif(_stem STREQUAL "test_llm_wiki_provenance_focused")
             target_sources(${_target} PRIVATE
-                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
+                ${_llm_wiki_private_orchestrator_source}
             )
             target_include_directories(${_target} PRIVATE
-                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+                ${_llm_wiki_private_include_dir}
             )
         endif()
         # Add Wave B labels for tracking
@@ -361,17 +378,17 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
                 ${THEMIS_ROOT_DIR}/src/llm_wiki
             )
         endif()
-        if(TARGET themisdb_llm_wiki_cpp)
+        if(_stem STREQUAL "test_llm_wiki_provenance_focused" AND TARGET themisdb_llm_wiki_cpp)
             target_link_libraries(${_target} PRIVATE themisdb_llm_wiki_cpp)
             target_include_directories(${_target} PRIVATE
-                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+                ${_llm_wiki_private_include_dir}
             )
-        else()
+        elseif(_stem STREQUAL "test_llm_wiki_provenance_focused")
             target_sources(${_target} PRIVATE
-                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
+                ${_llm_wiki_private_orchestrator_source}
             )
             target_include_directories(${_target} PRIVATE
-                ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
+                ${_llm_wiki_private_include_dir}
             )
         endif()
     endif()
