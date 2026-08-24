@@ -628,8 +628,3 @@ TEST(TransactionAuditorTest, AC25_DefaultLimitOf1000) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Test suite registration
 // ─────────────────────────────────────────────────────────────────────────────
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -647,8 +647,3 @@ TEST_F(LLMDeploymentPluginSourceTest, LocalSourceWithExistingFileIsSelected) {
         << "Plugin should deploy from a local source when the model file exists";
     EXPECT_EQ(result->model_id, "mymodel2");
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

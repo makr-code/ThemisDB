@@ -348,8 +348,3 @@ TEST_F(CDCAdminTest, CompactLog_IsIdempotent) {
     EXPECT_EQ(second.events_deleted, 0u);
     EXPECT_EQ(second.keys_compacted, 0u);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

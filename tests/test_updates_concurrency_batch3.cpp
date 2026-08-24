@@ -357,7 +357,3 @@ TEST_F(UpdatesModuleBatch3IntegrationTest, PerformanceRegressionTests) {
 }  // namespace themis_test
 
 // Entry point
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

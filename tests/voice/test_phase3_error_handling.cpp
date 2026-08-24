@@ -250,8 +250,3 @@ TEST_F(IntentEdgeCaseTest, TimeoutSafeDefault) {
 }
 
 }} // namespace themis::voice
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

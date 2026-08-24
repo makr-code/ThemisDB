@@ -662,8 +662,3 @@ TEST_F(OAuth2ProviderTest, DeterministicRandBytesProducesConsistentChallenge) {
 // ===========================================================================
 // main
 // ===========================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

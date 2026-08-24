@@ -151,9 +151,5 @@ TEST(EthicsAiComplianceFocused, CommunitySeparability_WITH_PRIVATE_ETHICS_AI_Off
     SUCCEED();
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
 
 #endif
