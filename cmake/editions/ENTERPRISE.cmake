@@ -25,7 +25,7 @@ endif()
 message(STATUS "ENTERPRISE Edition: License requirement ENFORCED")
 
 # Hardware limits
-set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE STRING "GPU VRAM limit (GB)" FORCE)
+set(THEMIS_GPU_MAX_VRAM_GB 320 CACHE STRING "GPU VRAM limit (GB)" FORCE)
 set(THEMIS_SHARDING_MAX_NODES 100 CACHE STRING "Maximum sharding nodes" FORCE)
 set(THEMIS_MAX_CACHE_SIZE_MB 4096 CACHE STRING "Maximum cache size (MB)" FORCE)
 
@@ -58,5 +58,5 @@ set(THEMIS_ENABLE_DISTRIBUTED_TRAINING OFF CACHE BOOL "Distributed training not 
 add_compile_definitions(THEMIS_ENTERPRISE_EDITION)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=100)
 
-message(STATUS "  Hardware limits: Up to 24 GB GPU VRAM, 100 nodes, 4 GB cache")
+message(STATUS "  Hardware limits: Up to 320 GB GPU VRAM (4× A100 80 GB), 100 nodes, 4 GB cache")
 message(STATUS "  Features: Advanced features + HSM + multi-shard")

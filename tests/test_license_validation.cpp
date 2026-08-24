@@ -221,12 +221,14 @@ TEST(EditionFeatureGates, EditionStringIsKnown) {
         << "' is not a recognised edition";
 }
 
-TEST(EditionFeatureGates, GpuVramLimitIsPositive) {
-    EXPECT_GT(themis::edition::GPU_MAX_VRAM_GB, 0);
+TEST(EditionFeatureGates, GpuVramLimitIsNonNegative) {
+    // 0 means no GPU (MINIMAL) or unlimited (HYPERSCALER); any non-negative value is valid.
+    EXPECT_GE(themis::edition::GPU_MAX_VRAM_GB, 0);
 }
 
-TEST(EditionFeatureGates, ShardingMaxNodesIsPositive) {
-    EXPECT_GT(themis::edition::SHARDING_MAX_NODES, 0);
+TEST(EditionFeatureGates, ShardingMaxNodesIsNonNegative) {
+    // 0 means unlimited (HYPERSCALER); any non-negative value is valid.
+    EXPECT_GE(themis::edition::SHARDING_MAX_NODES, 0);
 }
 
 TEST(EditionFeatureGates, IsFeatureEnabledUnknownReturnsFalse) {

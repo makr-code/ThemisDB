@@ -355,12 +355,12 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_EDITION=COMMUNITY \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_GPU=ON \
             -DTHEMIS_ENABLE_VULKAN=ON \
-            -DTHEMIS_ENABLE_LLM=OFF \
+            -DTHEMIS_ENABLE_LLM=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
-            -DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF
+            -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 
       - name: Build all benchmark targets
         run: |
@@ -433,6 +433,8 @@ jobs:
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_OBSERVABILITY=ON \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build observability test targets
@@ -542,7 +544,9 @@ jobs:
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_BUILD_TESTS=OFF
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
 
       - name: Build sharding release-gate benchmarks
         run: |
@@ -660,6 +664,8 @@ jobs:
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_OBSERVABILITY=ON \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build soak test targets

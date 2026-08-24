@@ -1339,12 +1339,13 @@ All components use internal `std::mutex` or `std::shared_mutex` for thread safet
 
 ## Edition Limits
 
-| Edition | VRAM Limit | Multi-GPU | MIG | Cluster Coord |
-|---------|-----------|-----------|-----|---------------|
-| Community | 0 GB (CPU-only) | ❌ | ❌ | ❌ |
-| Professional | 8 GB | ❌ | ❌ | ❌ |
-| Enterprise | 24 GB | ✅ | ✅ | ✅ |
-| Hyperscaler/Unlimited | No limit | ✅ | ✅ | ✅ |
+| Edition | VRAM Limit | Reference Hardware | Multi-GPU | MIG | Cluster Coord |
+|---------|-----------|-------------------|-----------|-----|---------------|
+| Minimal | 0 GB (CPU fallback only) | IoT/embedded, no GPU | ❌ | ❌ | ❌ |
+| Community | 16 GB | 1× Tesla T4 (16 GB) | ❌ | ❌ | ❌ |
+| Enterprise | 320 GB | 4× A100 80 GB | ✅ | ✅ | ✅ |
+| Military | 80 GB | 2× A100 40 GB | ✅ | ✅ | ❌ |
+| Hyperscaler | No limit | Custom/OEM cluster | ✅ | ✅ | ✅ |
 
 ## See Also
 

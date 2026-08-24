@@ -1,0 +1,493 @@
+# =============================================================================
+# ThemisDB — All-Editions Configuration Reference
+# Version: 1.3.5+
+#
+# This file consolidates the runtime configurations for all five ThemisDB
+# editions in a single YAML multi-document stream (--- separators).
+#
+# Editions:
+#   1. MINIMAL    — embedded, IoT, edge; no license required
+#   2. COMMUNITY  — default; small-to-medium deployments; no license required
+#   3. ENTERPRISE — production, regulated industries; license required
+#   4. HYPERSCALER — cloud-native, unlimited scale; license required
+#   5. MILITARY   — air-gapped, classified; license required
+#
+# Edition-Feature Matrix (from cmake/EditionMatrix.cmake):
+# ┌─────────────────────────┬─────────┬───────────┬────────────┬─────────────┬──────────┐
+# │ Feature                 │ MINIMAL │ COMMUNITY │ ENTERPRISE │ HYPERSCALER │ MILITARY │
+# ├─────────────────────────┼─────────┼───────────┼────────────┼─────────────┼──────────┤
+# │ LLM                     │ CPU-FB  │ ALLOWED   │ ALLOWED    │ REQUIRED    │ REQUIRED │
+# │ GPU / CUDA              │ FORBID  │ ALLOWED   │ ALLOWED    │ REQUIRED    │ ALLOWED  │
+# │ gRPC                    │ FORBID  │ ALLOWED   │ REQUIRED   │ REQUIRED    │ REQUIRED │
+# │ OpenTelemetry tracing   │ FORBID  │ -         │ ALLOWED    │ REQUIRED    │ ALLOWED  │
+# │ HTTP/2                  │ ALLOWED │ ALLOWED   │ ALLOWED    │ ALLOWED     │ ALLOWED  │
+# │ HTTP/3                  │ FORBID  │ ALLOWED   │ ALLOWED    │ ALLOWED     │ FORBID   │
+# │ WebSocket               │ ALLOWED │ ALLOWED   │ ALLOWED    │ ALLOWED     │ ALLOWED  │
+# │ MQTT                    │ ALLOWED │ ALLOWED   │ ALLOWED    │ ALLOWED     │ ALLOWED  │
+# │ PostgreSQL Wire         │ ALLOWED │ ALLOWED   │ ALLOWED    │ ALLOWED     │ ALLOWED  │
+# │ MCP                     │ FORBID  │ ALLOWED   │ ALLOWED    │ ALLOWED     │ FORBID   │
+# │ SSE                     │ ALLOWED │ ALLOWED   │ ALLOWED    │ ALLOWED     │ ALLOWED  │
+# │ DiskANN                 │ FORBID  │ ALLOWED   │ ALLOWED    │ ALLOWED     │ ALLOWED  │
+# │ Distributed training    │ FORBID  │ -         │ FORBID     │ ALLOWED     │ FORBID   │
+# │ Real HSM                │ FORBID  │ -         │ ON         │ available   │ REQUIRED │
+# │ Max GPU VRAM (GB)       │ 0       │ 8         │ 24         │ unlimited   │ 16       │
+# │ Max shard nodes         │ 1       │ 5         │ 100        │ unlimited   │ 50       │
+# │ Max cache (MB)          │ 128     │ 1024      │ 4096       │ unlimited   │ 2048     │
+# └─────────────────────────┴─────────┴───────────┴────────────┴─────────────┴──────────┘
+#
+# Usage:
+#   Individual edition files are preferred for production deployments.
+#   This file serves as a side-by-side reference and can also be used with
+#   a config-selector tool that reads the 'edition' key.
+#
+#   Individual files:
+#     config/editions/minimal.yaml
+#     config/editions/community.yaml      ← default
+#     config/editions/enterprise.yaml
+#     config/editions/hyperscaler.yaml
+#     config/editions/military.yaml
+# =============================================================================
+
+---
+# ============================================================
+# DOCUMENT 1: MINIMAL
+# ============================================================
+edition: MINIMAL
+
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+  memtable_size_mb: 64
+  block_cache_size_mb: 128
+  compression_type: lz4
+  bottommost_compression_type: zstd
+  max_open_files: 1000
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 4
+
+protocols:
+  grpc:       { enabled: false }   # FORBIDDEN
+  http2:      { enabled: false }
+  http3:      { enabled: false }   # FORBIDDEN
+  websocket:  { enabled: false }
+  mqtt:       { enabled: false }
+  postgres_wire: { enabled: false }
+  mcp:        { enabled: false }   # FORBIDDEN
+  sse:        { enabled: false }
+
+security:
+  enable_tls: false
+  enable_auth: false
+  enable_rbac: false
+  enable_field_encryption: false
+  enable_hsm: false               # FORBIDDEN
+
+llm:
+  enabled: true                   # CPU fallback only
+  gpu_layers: 0
+  remote_inference: false
+
+gpu:
+  enabled: false                  # FORBIDDEN at runtime
+  max_vram_gb: 0
+
+acceleration:
+  cuda_enabled: false
+  simd_enabled: true
+
+sharding:
+  enabled: false
+  max_nodes: 1
+
+replication:
+  enabled: false
+
+distributed_training:
+  enabled: false
+
+index:
+  enable_diskann: false           # FORBIDDEN
+
+logging:    { level: info,  format: text, output: stdout }
+metrics:    { enabled: true, prometheus_port: 9090 }
+tracing:    { enabled: false }   # FORBIDDEN
+
+backup:
+  enable_automatic_backups: false
+  backup_directory: "./backups"
+  cloud_backup: false
+
+performance:
+  worker_threads: 4
+  enable_mimalloc: false
+  enable_huge_pages: false
+
+license:
+  file: ""                        # No license required
+
+---
+# ============================================================
+# DOCUMENT 2: COMMUNITY  (default edition)
+# ============================================================
+edition: COMMUNITY
+
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+  memtable_size_mb: 256
+  block_cache_size_mb: 1024
+  compression_type: lz4
+  bottommost_compression_type: zstd
+  max_open_files: 5000
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 8
+
+protocols:
+  grpc:       { enabled: true,  port: 50051 }   # ALLOWED; default ON
+  http2:      { enabled: false }
+  http3:      { enabled: false }
+  websocket:  { enabled: false }
+  mqtt:       { enabled: false }
+  postgres_wire: { enabled: false }
+  mcp:        { enabled: false }
+  sse:        { enabled: false }
+
+security:
+  enable_tls: false
+  enable_auth: true
+  enable_rbac: true
+  enable_field_encryption: false
+  enable_hsm: false               # Real HSM not available in COMMUNITY
+
+llm:
+  enabled: true                   # ALLOWED; default ON
+  gpu_layers: 0                   # Set > 0 if GPU enabled
+  remote_inference: false
+
+gpu:
+  enabled: false                  # ALLOWED; set true if GPU available
+  max_vram_gb: 16
+
+acceleration:
+  cuda_enabled: false
+  simd_enabled: true
+
+sharding:
+  enabled: false
+  max_nodes: 5
+
+replication:
+  enabled: false
+
+distributed_training:
+  enabled: false                  # Not available in COMMUNITY
+
+index:
+  enable_diskann: false           # ALLOWED; enable if compiled in
+
+logging:    { level: info, format: json, output: stdout }
+metrics:    { enabled: true, prometheus_port: 9090 }
+tracing:    { enabled: false }   # Not available in COMMUNITY
+
+backup:
+  enable_automatic_backups: false
+  backup_directory: "./backups"
+  backup_interval_hours: 24
+  max_backups_retained: 14
+  cloud_backup: false
+
+performance:
+  worker_threads: 8
+  enable_mimalloc: false
+  enable_huge_pages: false
+
+license:
+  file: ""                        # No license required
+
+---
+# ============================================================
+# DOCUMENT 3: ENTERPRISE
+# ============================================================
+edition: ENTERPRISE
+
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+  memtable_size_mb: 512
+  block_cache_size_mb: 4096
+  compression_type: lz4
+  bottommost_compression_type: zstd
+  max_open_files: 10000
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 16
+
+protocols:
+  grpc:       { enabled: true, port: 50051, max_message_size_mb: 64 }  # REQUIRED
+  http2:      { enabled: true }
+  http3:      { enabled: false }
+  websocket:  { enabled: false }
+  mqtt:       { enabled: false }
+  postgres_wire: { enabled: false }
+  mcp:        { enabled: false }
+  sse:        { enabled: false }
+
+security:
+  enable_tls: true
+  tls_cert: "/etc/themisdb/tls/cert.pem"
+  tls_key:  "/etc/themisdb/tls/key.pem"
+  enable_auth: true
+  enable_rbac: true
+  enable_field_encryption: true
+  enable_hsm: true                # Real HSM available (HSM_REAL=ON)
+  hsm:
+    provider: software
+
+llm:
+  enabled: true
+  gpu_layers: 0
+  remote_inference: false
+
+gpu:
+  enabled: false                  # ALLOWED; set true if GPU available
+  max_vram_gb: 320
+
+acceleration:
+  cuda_enabled: false
+  simd_enabled: true
+
+sharding:
+  enabled: false
+  max_nodes: 100
+
+replication:
+  enabled: false
+  mode: sync
+
+distributed_training:
+  enabled: false                  # FORBIDDEN in ENTERPRISE
+
+index:
+  enable_diskann: false
+
+logging:    { level: info, format: json, output: stdout }
+metrics:    { enabled: true, prometheus_port: 9090 }
+tracing:
+  enabled: false                  # ALLOWED; set true to enable OpenTelemetry
+  # otlp_endpoint: "http://otel-collector:4317"
+
+backup:
+  enable_automatic_backups: true
+  backup_directory: "./backups"
+  backup_interval_hours: 6
+  max_backups_retained: 30
+  cloud_backup: false
+
+performance:
+  worker_threads: 16
+  enable_mimalloc: true
+  enable_huge_pages: false
+  enable_rcu: true
+
+license:
+  file: "/etc/themisdb/license/enterprise-license.json"  # REQUIRED
+
+---
+# ============================================================
+# DOCUMENT 4: HYPERSCALER
+# ============================================================
+edition: HYPERSCALER
+
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+  memtable_size_mb: 1024
+  block_cache_size_mb: 8192       # No hard cap; tune to available RAM
+  compression_type: lz4
+  bottommost_compression_type: zstd
+  max_open_files: -1              # Unlimited
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 64
+
+protocols:
+  grpc:       { enabled: true, port: 50051, max_message_size_mb: 256, max_concurrent_streams: 1000 }  # REQUIRED
+  http2:      { enabled: true }
+  http3:      { enabled: false }
+  websocket:  { enabled: false }
+  mqtt:       { enabled: false }
+  postgres_wire: { enabled: false }
+  mcp:        { enabled: false }
+  sse:        { enabled: false }
+
+security:
+  enable_tls: true
+  tls_cert: "/etc/themisdb/tls/cert.pem"
+  tls_key:  "/etc/themisdb/tls/key.pem"
+  enable_auth: true
+  enable_rbac: true
+  enable_field_encryption: true
+  enable_hsm: true
+  hsm:
+    provider: aws_kms
+
+llm:
+  enabled: true                   # REQUIRED; forced ON
+  gpu_layers: -1                  # Offload all layers to GPU
+  context_size: 32768
+  remote_inference: false
+
+gpu:
+  enabled: true                   # REQUIRED; forced ON
+  backend: CUDA
+  max_vram_gb: 0                  # 0 = unlimited
+  memory_fraction: 0.9
+
+acceleration:
+  cuda_enabled: true              # REQUIRED
+  simd_enabled: true
+
+sharding:
+  enabled: false
+  max_nodes: 0                    # 0 = unlimited
+
+replication:
+  enabled: false
+  mode: sync
+
+distributed_training:
+  enabled: true                   # ALLOWED; ON by default in HYPERSCALER
+
+index:
+  enable_diskann: true            # Recommended at scale
+
+logging:    { level: info, format: json, output: stdout }
+metrics:    { enabled: true, prometheus_port: 9090 }
+tracing:
+  enabled: true                   # REQUIRED; forced ON
+  otlp_endpoint: "http://otel-collector:4317"
+  service_name: "themisdb-hyperscaler"
+  sampling_ratio: 0.05
+
+backup:
+  enable_automatic_backups: true
+  backup_interval_hours: 1
+  max_backups_retained: 168
+  cloud_backup: true
+  # cloud_provider: s3
+
+performance:
+  worker_threads: 64
+  enable_mimalloc: true
+  enable_huge_pages: true
+  enable_rcu: true
+  io_uring: true
+
+license:
+  file: "/etc/themisdb/license/hyperscaler-license.json"  # REQUIRED
+
+---
+# ============================================================
+# DOCUMENT 5: MILITARY
+# ============================================================
+edition: MILITARY
+
+storage:
+  rocksdb_path: "/var/lib/themisdb/data"
+  wal_dir: "/var/lib/themisdb/wal"
+  memtable_size_mb: 512
+  block_cache_size_mb: 2048
+  compression_type: zstd
+  bottommost_compression_type: zstd
+  max_open_files: 8000
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 16
+
+protocols:
+  grpc:       { enabled: true, port: 50051, max_message_size_mb: 64 }  # REQUIRED
+  http2:      { enabled: false }
+  http3:      { enabled: false }   # FORBIDDEN
+  websocket:  { enabled: false }
+  mqtt:       { enabled: false }
+  postgres_wire: { enabled: false }
+  mcp:        { enabled: false }   # FORBIDDEN
+  sse:        { enabled: false }
+
+security:
+  enable_tls: true                 # MANDATORY
+  tls_cert: "/etc/themisdb/tls/cert.pem"
+  tls_key:  "/etc/themisdb/tls/key.pem"
+  tls_ca:   "/etc/themisdb/tls/ca.pem"   # Mutual TLS
+  tls_min_version: "1.3"
+  enable_auth: true
+  enable_rbac: true
+  enable_mac: true
+  enable_field_encryption: true
+  enable_hsm: true                 # REQUIRED (HSM_REAL=ON)
+  hsm:
+    provider: pkcs11
+    pkcs11_library: "/usr/lib/hsm/libpkcs11.so"
+  audit_auth: true
+  audit_data_access: true
+
+llm:
+  enabled: true                    # REQUIRED; local offline only
+  model_path: "/var/lib/themisdb/models"
+  gpu_layers: 0                    # 0 = CPU fallback; set > 0 if cleared GPU present
+  remote_inference: false          # FORBIDDEN; no external endpoints
+
+gpu:
+  enabled: false                   # ALLOWED; set true if cleared GPU hardware present
+  max_vram_gb: 80
+
+acceleration:
+  cuda_enabled: false
+  simd_enabled: true
+
+sharding:
+  enabled: false
+  max_nodes: 50
+
+replication:
+  enabled: false
+  mode: sync
+
+distributed_training:
+  enabled: false                   # FORBIDDEN
+
+index:
+  enable_diskann: false
+
+logging:    { level: warn, format: json, output: "/var/log/themisdb/server.log" }
+metrics:    { enabled: true, prometheus_port: 9090 }
+tracing:
+  enabled: false                   # ALLOWED but OFF; minimise side-channel exposure
+
+backup:
+  enable_automatic_backups: true
+  backup_directory: "/var/backup/themisdb"
+  backup_interval_hours: 4
+  max_backups_retained: 42
+  cloud_backup: false              # FORBIDDEN for air-gap; use classified storage
+
+performance:
+  worker_threads: 16
+  enable_mimalloc: true
+  enable_huge_pages: false
+  enable_rcu: true
+
+license:
+  file: "/etc/themisdb/license/military-license.json"  # REQUIRED

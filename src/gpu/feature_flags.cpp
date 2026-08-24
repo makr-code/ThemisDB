@@ -50,64 +50,77 @@ std::string GPUFeatureFlags::editionName() {
 /*
  * Feature defaults per edition:
  *
- * | Feature          | COMMUNITY | ENTERPRISE | HYPERSCALER |
- * |------------------|-----------|------------|-------------|
- * | MEMORY_POOL      |    yes    |    yes     |    yes      |
- * | ASYNC_LAUNCHER   |    yes    |    yes     |    yes      |
- * | MULTI_GPU        |    no     |    yes     |    yes      |
- * | TENSOR_OPS       |    no     |    yes     |    yes      |
- * | POLICY_GATE      |    yes    |    yes     |    yes      |
- * | AUDIT_LOG        |    yes    |    yes     |    yes      |
- * | METRICS          |    yes    |    yes     |    yes      |
- * | LOAD_BALANCER    |    no     |    yes     |    yes      |
- * | KERNEL_VALIDATOR |    yes    |    yes     |    yes      |
- * | ALERTS           |    yes    |    yes     |    yes      |
- * | WASM_SANDBOX     |    no     |    yes     |    yes      |
- * | MIG_MANAGER      |    no     |    yes     |    yes      |
- * | VULKAN_BACKEND   |    yes    |    yes     |    yes      |
- * | PEER_TO_PEER     |    no     |    yes     |    yes      |
+ * | Feature          | MINIMAL | COMMUNITY | ENTERPRISE | MILITARY | HYPERSCALER |
+ * |------------------|---------|-----------|------------|----------|-------------|
+ * | MEMORY_POOL      |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | ASYNC_LAUNCHER   |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | MULTI_GPU        |   no    |    no     |    yes     |   yes    |    yes      |
+ * | TENSOR_OPS       |   no    |    no     |    yes     |   yes    |    yes      |
+ * | POLICY_GATE      |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | AUDIT_LOG        |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | METRICS          |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | LOAD_BALANCER    |   no    |    no     |    yes     |   yes    |    yes      |
+ * | KERNEL_VALIDATOR |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | ALERTS           |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | WASM_SANDBOX     |   no    |    no     |    yes     |   no     |    yes      |
+ * | MIG_MANAGER      |   no    |    no     |    yes     |   yes    |    yes      |
+ * | VULKAN_BACKEND   |   no    |    yes    |    yes     |   yes    |    yes      |
+ * | PEER_TO_PEER     |   no    |    no     |    yes     |   yes    |    yes      |
+ *
+ * MINIMAL: VRAM cap is 0 — GPU execution is disabled; all GPU features are off.
+ * MILITARY: full GPU feature set except WASM_SANDBOX (air-gapped/hardened policy).
  */
 bool GPUFeatureFlags::editionDefaultFor(Feature f) {
     const auto ed = edition::GetEditionType();
 
-    // Multi-GPU features require Enterprise or above.
+    // MINIMAL: no GPU execution (VRAM cap = 0), all GPU features disabled.
+    if (ed == edition::EditionType::MINIMAL) {
+        return false;
+    }
+
+    // Multi-GPU features require Enterprise or above (incl. Military).
     if (f == Feature::MULTI_GPU || f == Feature::LOAD_BALANCER) {
         return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::MILITARY   ||
                ed == edition::EditionType::HYPERSCALER;
     }
 
-    // Tensor ops (GPU kernel execution) require Enterprise or above.
+    // Tensor ops (GPU kernel execution) require Enterprise or above (incl. Military).
     if (f == Feature::TENSOR_OPS) {
         return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::MILITARY   ||
                ed == edition::EditionType::HYPERSCALER;
     }
 
-    // WASM sandbox requires Enterprise or above (third-party kernel isolation).
+    // WASM sandbox requires Enterprise or Hyperscaler (not Military — air-gapped policy).
     if (f == Feature::WASM_SANDBOX) {
         return ed == edition::EditionType::ENTERPRISE ||
                ed == edition::EditionType::HYPERSCALER;
     }
 
-    // MIG partitioning requires Enterprise or above (hardware partitioning).
+    // MIG partitioning requires Enterprise or above (incl. Military).
     if (f == Feature::MIG_MANAGER) {
         return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::MILITARY   ||
                ed == edition::EditionType::HYPERSCALER;
     }
 
-    // Vulkan backend is available in all editions (cross-vendor, no CUDA/HIP needed).
+    // Vulkan backend is available in Community and above (cross-vendor, no CUDA/HIP needed).
     if (f == Feature::VULKAN_BACKEND) {
-        return ed != edition::EditionType::UNKNOWN;
+        return ed != edition::EditionType::UNKNOWN &&
+               ed != edition::EditionType::MINIMAL;
     }
 
-    // Peer-to-peer GPU transfers require Enterprise or above.
+    // Peer-to-peer GPU transfers require Enterprise or above (incl. Military).
     if (f == Feature::PEER_TO_PEER) {
         return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::MILITARY   ||
                ed == edition::EditionType::HYPERSCALER;
     }
 
-    // All other features are available in Community and above
-    // (i.e. always true for any known edition).
-    return ed != edition::EditionType::UNKNOWN;
+    // All other features are available in Community and above (any known edition except MINIMAL).
+    return ed != edition::EditionType::UNKNOWN &&
+           ed != edition::EditionType::MINIMAL;
 }
 
 void GPUFeatureFlags::initDefaults() {

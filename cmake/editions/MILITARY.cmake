@@ -26,7 +26,7 @@ endif()
 message(STATUS "MILITARY Edition: License requirement ENFORCED")
 
 # Hardware limits - conservative for secure, controlled deployments
-set(THEMIS_GPU_MAX_VRAM_GB 16 CACHE STRING "GPU VRAM limit (GB)" FORCE)
+set(THEMIS_GPU_MAX_VRAM_GB 80 CACHE STRING "GPU VRAM limit (GB)" FORCE)
 set(THEMIS_SHARDING_MAX_NODES 50 CACHE STRING "Maximum sharding nodes" FORCE)
 set(THEMIS_MAX_CACHE_SIZE_MB 2048 CACHE STRING "Maximum cache size (MB)" FORCE)
 
@@ -57,5 +57,5 @@ endif()
 add_compile_definitions(THEMIS_MILITARY_EDITION)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=50)
 
-message(STATUS "  Hardware limits: Up to 16 GB GPU VRAM, 50 nodes, 2 GB cache")
+message(STATUS "  Hardware limits: Up to 80 GB GPU VRAM (2× A100 40 GB), 50 nodes, 2 GB cache")
 message(STATUS "  Features: Hardened security + HSM + gRPC + local LLM/GPU (CPU fallback)")

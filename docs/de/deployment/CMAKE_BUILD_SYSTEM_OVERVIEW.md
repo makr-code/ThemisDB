@@ -76,7 +76,7 @@ ThemisDB nutzt ein modernes **3-Tier CMake Build System**, das Flexibilität mit
    ┌────▼─────┐            ┌───────▼────────┐        ┌───────▼──────┐
    │ MINIMAL  │            │   COMMUNITY    │        │  ENTERPRISE  │
    │ 1 node   │            │   5 nodes      │        │  100 nodes   │
-   │ 0 GB GPU │            │   24 GB GPU    │        │  256 GB GPU  │
+   │ 0 GB GPU │            │   16 GB GPU (1× T4)    │        │  320 GB GPU (4× A100 80G)  │
    │ Optional │            │   Optional     │        │  Required*   │
    │ License  │            │   License      │        │  License     │
    └────┬─────┘            └───────┬────────┘        └───────┬──────┘
@@ -196,7 +196,7 @@ Entscheidungsbaum für die richtige Edition:
       │ MINIMAL │           │COMMUNITY│  │       │ENTERPRIS│  │HYPERSCA │
       │         │           │         │  │       │   E     │  │  LER    │
       │ 1 node  │           │ 5 nodes │◄─┘       │100 nodes│  │∞ nodes  │
-      │ 0GB GPU │           │ 24GB GPU│          │256GB GPU│  │∞GB GPU  │
+      │ 0GB GPU │           │ 16GB GPU│          │320GB GPU│  │∞GB GPU  │
       │ License:│           │ License:│          │ License:│  │ License:│
       │Optional │           │Optional │          │Required*│  │Mandatory│
       └─────────┘           └─────────┘          └─────────┘  └─────────┘
@@ -228,7 +228,7 @@ Entscheidungsbaum für die richtige Edition:
 
 **Limits:**
 - Max **5 nodes**
-- Max 24 GB GPU VRAM
+- Max 16 GB GPU (1× T4) VRAM
 - Keine Enterprise Plugins
 - MIT Open Source Lizenz
 
@@ -241,7 +241,7 @@ Entscheidungsbaum für die richtige Edition:
 
 **Limits:**
 - Max **100 nodes**
-- Max 256 GB GPU VRAM
+- Max 320 GB GPU (4× A100 80G) VRAM
 - **License Required** (Release builds)
 - License Optional (Debug builds)
 

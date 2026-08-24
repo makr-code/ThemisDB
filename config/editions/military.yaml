@@ -1,0 +1,293 @@
+# =============================================================================
+# ThemisDB MILITARY Edition — Runtime Configuration
+# Version: 1.3.5+
+# Edition: MILITARY
+# Target: Air-gapped / classified / government / high-security deployments
+# License: REQUIRED — set license.file to a valid military-license.json
+# =============================================================================
+#
+# Features INCLUDED:
+#   - All ENTERPRISE features
+#   - LLM (REQUIRED — forced ON; local/offline llama.cpp inference only)
+#   - GPU / CUDA (ALLOWED — runtime CPU fallback enforced if no GPU present)
+#   - gRPC (REQUIRED — secure inter-node communications)
+#   - Real HSM for key management (REQUIRED — THEMIS_ENABLE_HSM_REAL=ON)
+#   - FIPS-140-2 compatible cipher suites (TLS enforcement)
+#   - OpenTelemetry tracing (ALLOWED, default OFF for operational security)
+#   - HTTP/2, WebSocket, MQTT, PostgreSQL Wire, SSE (all ALLOWED)
+#   - DiskANN (ALLOWED)
+#   - Multi-shard support (up to 50 nodes)
+#   - Advanced RBAC + mandatory access control (MAC)
+#   - Field-level encryption
+#
+# Features FORBIDDEN:
+#   - HTTP/3 (external protocol; FORBIDDEN for air-gap compliance)
+#   - MCP (external cloud protocol; FORBIDDEN)
+#   - Distributed training (FORBIDDEN in MILITARY)
+#   - Remote/cloud inference (LLM must be local)
+#   - Cloud backup (data must remain on-premises or in sovereign cloud)
+#
+# Hardware limits (enforced by build):
+#   GPU VRAM cap : 80 GB (2x A100 40 GB)
+#   Max nodes    : 50
+#   Max cache    : 2048 MB
+#
+# Usage:
+#   ./themis_server --config config/editions/military.yaml
+#   or set THEMIS_CONFIG_ROOT=config/editions/military.yaml
+#
+# SECURITY NOTE: All network endpoints should be behind a classified network
+# segment. Disable any protocol not required for your deployment.
+#
+# NOTE: The build REQUIRES -DTHEMIS_LICENSE_FILE=/path/to/military-license.json
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Edition identity
+# ---------------------------------------------------------------------------
+edition: MILITARY
+
+# ---------------------------------------------------------------------------
+# Storage (RocksDB) — hardened, controlled I/O
+# ---------------------------------------------------------------------------
+storage:
+  rocksdb_path: "/var/lib/themisdb/data"    # Use controlled, audited storage path
+  wal_dir: "/var/lib/themisdb/wal"          # Separate WAL to a dedicated volume
+
+  # Memory
+  memtable_size_mb: 512
+  block_cache_size_mb: 2048       # Matches THEMIS_MAX_CACHE_SIZE_MB=2048
+  block_cache_shard_bits: 4
+  cache_index_and_filter_blocks: true
+  pin_l0_filter_and_index_blocks_in_cache: true
+  partition_filters: true
+  high_pri_pool_ratio: 0.5
+  db_write_buffer_size_mb: 0
+
+  # Write
+  enable_wal: true
+  max_write_buffer_number: 4
+  min_write_buffer_number_to_merge: 1
+  allow_concurrent_memtable_write: true
+
+  # Compaction
+  max_background_compactions: 8
+  max_background_flushes: 4
+  level0_file_num_compaction_trigger: 4
+  level0_slowdown_writes_trigger: 20
+  level0_stop_writes_trigger: 36
+
+  # Bloom filter
+  bloom_bits_per_key: 10
+  whole_key_filtering: true
+
+  # Compression — use hardware-accelerated where available
+  compression_type: zstd         # zstd preferred; provides integrity checking
+  bottommost_compression_type: zstd
+
+  # File handles
+  max_open_files: 8000
+  bytes_per_sync: 1048576
+  wal_bytes_per_sync: 1048576
+
+  # Data-at-rest encryption handled by field_encryption + HSM (see security section)
+
+# ---------------------------------------------------------------------------
+# Server / networking — minimal attack surface
+# ---------------------------------------------------------------------------
+server:
+  host: "0.0.0.0"          # Restrict to classified network interface in production
+  port: 8080
+  worker_threads: 16
+
+# Protocols — minimal set; only enable what is operationally required
+protocols:
+  grpc:
+    enabled: true           # REQUIRED for inter-node secure communications
+    port: 50051
+    max_message_size_mb: 64
+    keepalive_time_ms: 10000
+    keepalive_timeout_ms: 5000
+  http2:
+    enabled: false          # ALLOWED; enable only if required
+  http3:
+    enabled: false          # FORBIDDEN in MILITARY — do not enable
+  websocket:
+    enabled: false          # ALLOWED; enable only if operationally required
+    port: 8081
+  mqtt:
+    enabled: false          # ALLOWED; typically used for sensor telemetry
+    port: 1883
+  postgres_wire:
+    enabled: false          # ALLOWED; enable for classified analytics clients
+    port: 5432
+  mcp:
+    enabled: false          # FORBIDDEN in MILITARY — do not enable
+  sse:
+    enabled: false          # ALLOWED
+
+# ---------------------------------------------------------------------------
+# Security — hardened; HSM required; FIPS-aligned cipher suites
+# ---------------------------------------------------------------------------
+security:
+  enable_tls: true          # MANDATORY for MILITARY edition
+  tls_cert: "/etc/themisdb/tls/cert.pem"
+  tls_key:  "/etc/themisdb/tls/key.pem"
+  tls_ca:   "/etc/themisdb/tls/ca.pem"   # Mutual TLS enforced
+  tls_min_version: "1.3"    # TLS 1.3 minimum; no TLS 1.2 unless unavoidable
+  # tls_cipher_suites:
+  #   - TLS_AES_256_GCM_SHA384
+  #   - TLS_CHACHA20_POLY1305_SHA256
+
+  enable_auth: true
+  enable_rbac: true
+  enable_mac: true          # Mandatory access control — MILITARY-specific
+  enable_field_encryption: true
+  enable_hsm: true          # REQUIRED (THEMIS_ENABLE_HSM_REAL=ON)
+  hsm:
+    provider: pkcs11        # pkcs11 for hardware HSM | software for dev/test only
+    pkcs11_library: "/usr/lib/hsm/libpkcs11.so"
+    # aws_kms_key_arn: ""   # For sovereign-cloud deployments only
+
+  # Audit logging of all authentication and authorization events
+  audit_auth: true
+  audit_data_access: true
+
+# ---------------------------------------------------------------------------
+# Query engine
+# ---------------------------------------------------------------------------
+query:
+  max_query_size_bytes: 16777216  # 16 MB
+  query_timeout_seconds: 300
+  max_concurrent_queries: 1000
+
+# ---------------------------------------------------------------------------
+# Indexes
+# ---------------------------------------------------------------------------
+index:
+  enable_secondary_indexes: true
+  max_secondary_indexes_per_table: 50
+  enable_graph_indexes: true
+
+  # Vector indexes
+  enable_vector_indexes: true
+  default_vector_distance_metric: cosine
+  hnsw_m: 32
+  hnsw_ef_construction: 400
+  hnsw_ef_search: 200
+
+  # DiskANN — ALLOWED in MILITARY
+  enable_diskann: false       # Set true if DiskANN compiled in
+
+# ---------------------------------------------------------------------------
+# Transactions (MVCC)
+# ---------------------------------------------------------------------------
+transaction:
+  enable_mvcc: true
+  default_snapshot_isolation_level: serializable
+  max_transaction_duration_seconds: 300
+  transaction_lock_timeout_seconds: 60
+
+# ---------------------------------------------------------------------------
+# LLM — REQUIRED; local/offline inference only (no remote calls)
+# ---------------------------------------------------------------------------
+llm:
+  enabled: true             # REQUIRED; forced ON by MILITARY.cmake
+  model_path: "/var/lib/themisdb/models"   # Local classified model store
+  context_size: 8192
+  batch_size: 512
+  gpu_layers: 0             # 0 = CPU fallback; set > 0 if GPU present
+  remote_inference: false   # FORBIDDEN — no external inference endpoints
+  # air_gap_mode: true      # Disables any model-hub download attempts
+
+# ---------------------------------------------------------------------------
+# GPU / acceleration — ALLOWED; cap 80 GB VRAM — 2x A100 40 GB; CPU fallback enforced
+# ---------------------------------------------------------------------------
+gpu:
+  enabled: false            # ALLOWED; set true if cleared GPU hardware is present
+  backend: CUDA
+  device_id: 0
+  max_vram_gb: 80           # Hard cap (THEMIS_GPU_MAX_VRAM_GB=80)
+  memory_fraction: 0.85
+
+acceleration:
+  cuda_enabled: false       # ALLOWED; set true when gpu.enabled=true
+  simd_enabled: true
+
+# ---------------------------------------------------------------------------
+# Sharding — up to 50 nodes; all inter-shard comms via mTLS + gRPC
+# ---------------------------------------------------------------------------
+sharding:
+  enabled: false            # Enable for classified multi-node clusters
+  max_nodes: 50             # Hard limit from THEMIS_SHARDING_MAX_NODES=50
+  shard_id: 0
+  total_shards: 1
+  # peer_shards:
+  #   - id: 1
+  #     address: "themis-shard-1:50051"
+
+# ---------------------------------------------------------------------------
+# Replication — synchronous; all links must be encrypted
+# ---------------------------------------------------------------------------
+replication:
+  enabled: false
+  mode: sync                # sync mandatory for classified data integrity
+  # replica_endpoints:
+  #   - "themis-replica-1:50051"
+  #   - "themis-replica-2:50051"
+
+# ---------------------------------------------------------------------------
+# Distributed training — FORBIDDEN in MILITARY
+# ---------------------------------------------------------------------------
+distributed_training:
+  enabled: false            # FORBIDDEN; do not enable
+
+# ---------------------------------------------------------------------------
+# Observability — minimal footprint; operational security constraints
+# ---------------------------------------------------------------------------
+logging:
+  level: warn               # Reduce log verbosity to limit side-channel exposure
+  format: json
+  output: "/var/log/themisdb/server.log"  # Centralised to secure audit store
+
+metrics:
+  enabled: true
+  prometheus_port: 9090     # Restrict to classified monitoring network
+
+tracing:
+  enabled: false            # ALLOWED but OFF by default (operational security)
+  # otlp_endpoint: "http://classified-otel:4317"
+  # service_name: "themisdb-military"
+  # sampling_ratio: 0.01    # Very low sampling if enabled
+
+# ---------------------------------------------------------------------------
+# Backup — on-premises / sovereign-cloud only; no public cloud
+# ---------------------------------------------------------------------------
+backup:
+  enable_automatic_backups: true
+  backup_directory: "/var/backup/themisdb"
+  backup_interval_hours: 4
+  max_backups_retained: 42  # ~7 days at 4-hour cadence
+  cloud_backup: false       # FORBIDDEN for air-gapped; use classified storage
+  # For sovereign-cloud: configure S3-compatible endpoint (MinIO, Ceph, etc.)
+  # cloud_provider: s3
+  # s3_bucket: "classified-db-backups"
+  # s3_endpoint: "https://classified-s3.internal"
+  # s3_tls_verify: true
+
+# ---------------------------------------------------------------------------
+# Performance
+# ---------------------------------------------------------------------------
+performance:
+  worker_threads: 16
+  enable_mimalloc: true
+  enable_huge_pages: false  # Evaluate based on hardware security clearance
+  enable_rcu: true
+
+# ---------------------------------------------------------------------------
+# Licensing
+# ---------------------------------------------------------------------------
+license:
+  # REQUIRED: path to a valid military-license.json
+  # Also configure at build time: -DTHEMIS_LICENSE_FILE=/path/to/license.json
+  file: "/etc/themisdb/license/military-license.json"

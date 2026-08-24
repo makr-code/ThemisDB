@@ -63,7 +63,12 @@ jobs:
       setup_command: |
         set -euo pipefail
         sudo apt-get update -qq
-        sudo apt-get install -y --no-install-recommends dpkg-dev rpm
+        sudo apt-get install -y --no-install-recommends \
+          build-essential cmake ninja-build pkg-config \
+          librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+          libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+          libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+          dpkg-dev rpm
         git submodule sync --recursive || true
         git submodule update --init --recursive --depth 1 || true
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {

@@ -82,10 +82,16 @@ BuildConfiguration getBuildConfiguration() {
     config.edition_name = std::string(edition_info.name);
     
     switch (edition_info.type) {
+        case edition::EditionType::MINIMAL:
+            config.edition_type = THEMIS_EDITION_STRING;
+            break;
         case edition::EditionType::COMMUNITY:
             config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::ENTERPRISE:
+            config.edition_type = THEMIS_EDITION_STRING;
+            break;
+        case edition::EditionType::MILITARY:
             config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::HYPERSCALER:

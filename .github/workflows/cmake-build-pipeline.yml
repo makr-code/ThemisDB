@@ -90,6 +90,12 @@ jobs:
           fetch-depth: ${{ inputs.fetch_depth }}
           submodules: ${{ inputs.submodules }}
 
+      - name: Setup MSVC environment (Windows only)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
+        with:
+          arch: x64
+
       - name: Setup
         if: inputs.setup_command != ''
         shell: bash
