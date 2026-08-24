@@ -1,11 +1,11 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-08-19
+Datum: 2026-08-24
 Status: Active
 
 ## Summary
 
-- Added: 6447
+- Added: 5808
 - Removed: 0
 - Changed: 0
 
@@ -19,7 +19,10 @@ Status: Active
 - .github/workflows/ci-benchmarks.yml
 - .github/workflows/ci-build.yml
 - .github/workflows/ci-pr-gates.yml
+- .github/workflows/ci-release-build-matrix.yml
 - .github/workflows/ci-release.yml
+- .github/workflows/ci-widget.yml
+- .github/workflows/cmake-build-pipeline.yml
 - .github/workflows/codeql.yml
 - .github/workflows/compliance-supply-chain.yml
 - .github/workflows/copilot-ollama-router-ci.yml
@@ -31,11 +34,11 @@ Status: Active
 - .github/workflows/governance-gates.yml
 - .github/workflows/maintenance-ai-working.yml
 - .github/workflows/maintenance-build-issues.yml
-- .github/workflows/maintenance-cache-warming.yml
 - .github/workflows/maintenance-ci-health.yml
 - .github/workflows/maintenance-docs.yml
 - .github/workflows/maintenance-issues.yml
-- .github/workflows/quality-static-analysis.yml
+- .github/workflows/maintenance-pr-failure-diagnosis.yml
+- .github/workflows/maintenance-workflow-guardrails-observe.yml
 - .github/workflows/release-changelog.yml
 - .github/workflows/security-consolidated.yml
 - .github/workflows/security-pentest-quarterly.yml
@@ -77,6 +80,7 @@ Status: Active
 - ai_context/api_contracts/llm.md
 - ai_context/api_contracts/storage.md
 - ai_context/api_contracts/transaction.md
+- ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md
 - ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - ai_context/developer_llm_wiki/INDEX.md
@@ -84,6 +88,7 @@ Status: Active
 - ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - ai_context/memory_management_policy.md
 - docs/00_DOCUMENTATION_INDEX.md
+- docs/API_TRANSPORT_RUNBOOK.md
 - docs/ARCHIVED/README.md
 - docs/ARCHIVED/gaps/GAP-002_FINAL_REPORT.md
 - docs/ARCHIVED/gaps/GAP-002_IMPLEMENTATION_COMPLETE.md
@@ -206,12 +211,7 @@ Status: Active
 - docs/ARCHIVED/implementation-summaries/IMPLEMENTATION_SUMMARY_KEYWORD_INDEX.md
 - docs/ARCHIVED/implementation-summaries/IMPLEMENTATION_SUMMARY_NLP_PR317.md
 - docs/ARCHIVED/implementation-summaries/IMPLEMENTATION_SUMMARY_PARTITION_HANDLING.md
-- docs/ARCHIVED/implementation-summaries/IMPLEMENTATION_THREADPOOL.md
-- docs/ARCHIVED/implementation-summaries/IMPLEMENTATION_VERIFICATION_REPORT.md
-- docs/ARCHIVED/implementation-summaries/INDEX.md
-- docs/ARCHIVED/implementation-summaries/INTEGRATION_CHANGES_SUMMARY.md
-- docs/ARCHIVED/implementation-summaries/INTEGRATION_CHECKLIST.md
-- ... truncated (6247 more)
+- ... truncated (5608 more)
 
 ## Removed
 

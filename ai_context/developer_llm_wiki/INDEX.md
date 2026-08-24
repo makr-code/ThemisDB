@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Index
 
-Datum: 2026-08-19
+Datum: 2026-08-24
 Status: Active
 Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, ai_context/COPILOT_INSTRUCTIONS.md
@@ -8,13 +8,12 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 ## Scope
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
-- Laufmodus: FULL_SYNC
-- Quellen gesamt: 6447
-- Quellen-Hash: `d78a5dfa06bd31f17f50c139827d61bc7450da27e8635d78cc3efa17c90dda79`
+- Laufmodus: INCREMENTAL
+- Quellen gesamt: 5808
+- Quellen-Hash: `c0ca28c9c2d544b49c161bc7c5955cdb9fcd92009cb057b69f058446210555fb`
 
 ## Artefakte
 
-- [AI_METADATA_AND_PROVENANCE.md](AI_METADATA_AND_PROVENANCE.md)
 - [MODULES_AND_APIS.md](MODULES_AND_APIS.md)
 - [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)
 - [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)
@@ -24,9 +23,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Source Distribution
 
-- modules_and_api: 2931
-- build_test_ci: 90
-- governance_and_docs: 3426
+- modules_and_api: 2287
+- build_test_ci: 93
+- governance_and_docs: 3428
 - misc: 0
 
 ## Source-Priority / Konfliktregel
@@ -37,9 +36,3 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 4. CI-/Workflow- und Script-Metadaten
 
 Bei widerspruechlichen Aussagen wird markiert statt still ueberschrieben.
-
-## Canonical AI Metadata
-
-- Die Seite [AI_METADATA_AND_PROVENANCE.md](AI_METADATA_AND_PROVENANCE.md) ist die kanonische Entwicklerreferenz fuer Provenienz, Transformationsmetadaten und Degradationslogik.
-- Sie gilt fuer Wiki-Seiten, Claims, Graph-Kanten, Importpfade und Query-Ergebnisse.
-- Alle neuen AI-nahe Module sollten dieses Schema direkt verwenden, statt eigene Nebenschemata einzufuehren.
