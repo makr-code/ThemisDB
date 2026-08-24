@@ -278,6 +278,43 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
     return selected;
 }
 
+/// @brief Build a term-frequency bag-of-words from a flat message collection.
+/// @details Tokenises each message body into lowercase words and accumulates
+///          counts.  Punctuation is stripped and empty tokens are discarded.
+/// @param msgs Collection of (role, content) pairs to aggregate.
+/// @return Mapping from word to occurrence count.
+static std::unordered_map<std::string, float> buildTermFrequency(
+    const std::vector<std::pair<std::string, std::string>>& msgs) {
+    std::unordered_map<std::string, float> tf;
+    for (const auto& [role, content] : msgs) {
+        (void)role; // role is not used for term frequency
+        std::string token;
+        for (unsigned char ch : content) {
+            if (std::isalnum(ch)) {
+                token.push_back(static_cast<char>(std::tolower(ch)));
+            } else {
+                if (!token.empty()) {
+                    tf[token] += 1.0f;
+                    token.clear();
+                }
+            }
+        }
+        if (!token.empty()) {
+            tf[token] += 1.0f;
+        }
+    }
+    return tf;
+}
+
+/// @brief Compute the L2 norm of a term-frequency vector.
+static float l2Norm(const std::unordered_map<std::string, float>& tf) {
+    float sum = 0.0f;
+    for (const auto& [_, v] : tf) {
+        sum += v * v;
+    }
+    return std::sqrt(sum);
+}
+
 float LLMExtractiveCompressor::computeSimilarity(
     const std::vector<std::pair<std::string, std::string>>& original,
     const std::vector<std::pair<std::string, std::string>>& compressed) {
@@ -286,16 +323,41 @@ float LLMExtractiveCompressor::computeSimilarity(
         return -1.0f;
     }
 
-    // TODO: Implement actual embedding-based similarity computation
-    // For now, use heuristic: preserve ratio of turn count
     if (original.empty()) {
         return 1.0f;
     }
 
-    float turn_ratio = static_cast<float>(compressed.size()) / original.size();
-    // Map turn ratio to similarity (conservative estimate)
-    float base_similarity = 0.7f + (turn_ratio * 0.3f);
-    return std::min(base_similarity, 1.0f);
+    // Cosine similarity over bag-of-words term frequencies.
+    // This is a deterministic, dependency-free approximation of semantic
+    // overlap that replaces the previous turn-count heuristic.  When a real
+    // embedding service is wired in this can be upgraded without changing the
+    // call sites.
+    const auto orig_tf = buildTermFrequency(original);
+    const auto comp_tf = buildTermFrequency(compressed);
+
+    if (orig_tf.empty() || comp_tf.empty()) {
+        // No text content — treat as fully similar to avoid spurious rejection.
+        return 1.0f;
+    }
+
+    // Dot product (iterate over the smaller vector for efficiency)
+    float dot = 0.0f;
+    for (const auto& [term, orig_val] : orig_tf) {
+        auto it = comp_tf.find(term);
+        if (it != comp_tf.end()) {
+            dot += orig_val * it->second;
+        }
+    }
+
+    const float norm_orig = l2Norm(orig_tf);
+    const float norm_comp = l2Norm(comp_tf);
+
+    if (norm_orig <= 0.0f || norm_comp <= 0.0f) {
+        return 0.0f;
+    }
+
+    const float cosine = dot / (norm_orig * norm_comp);
+    return std::min(std::max(cosine, 0.0f), 1.0f);
 }
 
 void LLMExtractiveCompressor::storeEpisode(const CompressionResult& result) {

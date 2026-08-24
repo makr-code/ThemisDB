@@ -237,6 +237,27 @@ It does not own a primary wave deliverable but must remain `release_critical`-gr
 and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
+## Wave A–D Gap Closure (2026-08-24)
+
+The following production-code gaps identified in `MODULE_GAPS.md` were addressed in this batch:
+
+### Wave A — Runtime Reliability
+- [x] **`llm_extractive_compressor.cpp`**: Replaced `todo_as_productionlogic` heuristic with deterministic bag-of-words cosine similarity for `computeSimilarity()`. The previous turn-count ratio gave non-monotonic similarity scores; the new implementation computes TF cosine over message content and is fully deterministic.
+- [x] **`docs_assistant_functions.cpp`** (×3): Elevated silent `catch(...)` blocks (lines 236, 278, 510) to `spdlog::debug` log entries. All three represent legitimate fallback paths (NLP/LLM unavailable) but must be observable in debug traces.
+- [x] **`classify_bridge.cpp`**: Elevated silent `catch(...)` (registry classify failure) to `spdlog::debug`.
+- [x] **`aql_query_validator.cpp`**: Elevated silent `catch(...)` (regex compile fallback) to `spdlog::debug`.
+- [x] **`aql_optimizer_advisor.cpp`**: Elevated silent `catch(...)` (regex compile fallback) to `spdlog::debug`.
+
+### Wave B — Performance / Resource
+- [x] **`aql_lora_finetuner.cpp:338`** (`smart_ptr_misuse`): Verified as scanner false positive — line 338 is a `samples_.push_back` call with no raw pointer involvement. No code change required; documented as confirmed false positive.
+
+### Wave C — Security
+- [x] **`aql_agent.cpp`** (`unvalidated_llm_output`): Added per-step response length guard (`max_tokens_per_step × 8 bytes`). Responses from misbehaving providers are now truncated with a `warn`-level log before being appended to the conversation string.
+- [x] **`aql_query_builder.cpp`** (`unvalidated_llm_output`): Added 256-byte per-suggestion length gate in `getCompletionSuggestions()`. AQL clause snippets exceeding this limit are discarded.
+
+### Wave D — Documentation / Operability
+- [x] Updated `ROADMAP.md` (this section) with Wave A–D gap closure evidence (2026-08-24).
+
 ### Wave D Contribution for `aql`
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
 - [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
