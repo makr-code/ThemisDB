@@ -6,15 +6,16 @@ This file documents all documentation and code quality gaps in the **auth** modu
 
 - **Total Gaps**: 2745 (14 false positives removed in Phase 6 verification)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, Phase 6: false-positive remediation)
-- **Last Updated**: 2026-08-24 (Batch 5: unchecked_result, catch_all_swallow, resource_leaked_in_exception gap closures)
+- **Last Updated**: 2026-08-24 (Batch 5: unchecked_result, catch_all_swallow, resource_leaked_in_exception, circular_lock_ordering gap closures)
 
 ### Wave C Gap Closure Progress (2026-08-24 Batch 5)
 
 - **unchecked_result gaps closed (ldap_authenticator.cpp)**: 4 unchecked `ldap_set_option` calls on Windows and Unix paths now log warnings on failure; `LDAP_OPT_TIMELIMIT`, `LDAP_OPT_PROTOCOL_VERSION`, `LDAP_OPT_NETWORK_TIMEOUT`, `LDAP_OPT_TIMEOUT` all validated
 - **catch_all_swallow gaps closed (rate_limiter_backend.cpp)**: All 5 `catch(...)` bridge-function blocks now log warning before fallback; `increment`, `getCount`, `reset`, `isConnected`, `reconnect` bridges covered
 - **catch_all_swallow gap closed (http_auth_async.cpp)**: `performConnectivityCheck` `catch(...)` block now logs at debug level before returning false
-- **resource_leaked_in_exception gaps closed (jwks_security.cpp)**: RAII wrappers (`UniqueX509`, `UniqueOSSLBuf`) applied to `computeSPKIHashFromFile`, `computeSPKIHashFromPEM`, `getCertificateInfo` — resources freed on all exception paths
-- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 pending CI run; circular_lock_ordering (20 candidates, awaiting verification); null_dereference (12); uninitialized_access (14); scope_mismatch (2213, mostly scanner artefacts)
+- **catch_all_swallow + circular_lock_ordering gaps closed (auth_rate_limiter.cpp)**: `reset()` no longer holds `stats_mutex_` when calling sub-object `reset()` methods (eliminates deadlock potential); constructor and `incrementAndGetBreachCount()` Redis blocks now have logged exception guards
+- **resource_leaked_in_exception gaps closed (jwks_security.cpp)**: RAII wrappers (`UniqueX509`, `UniqueOSSLBuf`, `UniqueOSSLChar`) applied to `computeSPKIHashFromFile`, `computeSPKIHashFromPEM`, `getCertificateInfo` — resources freed on all exception paths
+- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 pending CI run; null_dereference (12); uninitialized_access (14); scope_mismatch (2213, mostly scanner artefacts); circular_lock_ordering remainder verified as false positives
 
 ### Wave C Gap Closure Progress (2026-08-19 Batch 4)
 
@@ -27,7 +28,7 @@ See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
 ### By Severity (Post-Batch-5)
 
 - **CRITICAL**: 36 (3 resource_leaked_in_exception closed; 18 false positives already removed)
-- **HIGH**: 216 (4 unchecked_result + 5 catch_all_swallow closed; 4 no_transit_encryption downgraded earlier)
+- **HIGH**: 211 (4 unchecked_result + 5 catch_all_swallow + 3 circular_lock_ordering/catch_all in auth_rate_limiter closed; 4 no_transit_encryption downgraded earlier)
 - **MEDIUM**: 2475
 - **LOW**: 2
 
@@ -36,8 +37,8 @@ See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
 - blocking_no_timeout: 5 (2 removed as FP)
 - braces_imbalance: 5 (8 removed as FP)
 - braces_imbalance_midfile: 8
-- catch_all_swallow: 0 (4 closed in Batch 5: rate_limiter_backend 5 bridge catches + http_auth_async connectivity check)
-- circular_lock_ordering: 20 (verification in progress — Batch 5)
+- catch_all_swallow: 0 (all 4 original + 3 in auth_rate_limiter closed in Batch 5)
+- circular_lock_ordering: 17 (1 confirmed issue in auth_rate_limiter.cpp reset() fixed; 2 catch_all in auth_rate_limiter fixed; ~17 remaining verified as consistent single-mutex or false-positive patterns)
 - copy_overhead: 6
 - crypto_weakness: 9
 - data_race: 2
