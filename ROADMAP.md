@@ -126,13 +126,13 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - **Status:** ALL EXIT CRITERIA PASS — Ready for Wave D handoff (Q1 2027)
 
 ### Wave D — Operability Hardening (Q1 2027)
-- [ ] Observability expansion: distributed tracing, high-cardinality stress, exporter reliability, and operator remediation hints across core modules (Target: Q1 2027)
+- [~] Observability expansion: distributed tracing, high-cardinality stress, exporter reliability, and operator remediation hints across core modules (Target: Q1 2027) — Phase 2A/2B/2C plans documented in `docs/operability/WAVE_D_ROADMAP.md`; implementation pending Wave A/B hardware gate confirmation
 - [x] Publish runbooks for access-model promotion, replication lag/failover, sharding repair/rebalance, voice incident triage, and GPU fallback (Target: Q1 2027)
   — All 5 runbooks exist in `docs/operability/`; cross-links to D1 trace spans pending
 - [~] Add long-duration soak tests for sustained telemetry, replication traffic, distributed writes, and mixed acceleration workloads (Target: Q1 2027)
   — `tests/integration/test_replication_soak_60min.cpp`, `test_sharding_distributed_write_soak.cpp`, `test_telemetry_soak.cpp` created (labels: `wave_d;soak;not_release_critical`); full soak runs pending sign-off
 - [ ] Security audit: HTTP auth SSL/TLS configuration review (misconfigurability assessment, TLS verification whitelist documentation) — **Non-critical, follow-up from Phase 6 gap verification (2026-08-15)** (Target: Q1 2027)
-- [ ] Wave D sign-off: human approval at `docs/operability/WAVE_D_SIGN_OFF.md` after D1–D4 evidence is complete (Target: Q1 2027)
+- [ ] Wave D sign-off: human approval at `docs/operability/WAVE_D_SIGN_OFF.md` after D1–D4 evidence is complete (Target: Q1 2027) — sign-off document exists; D1-D4 completion prerequisites in progress
 
 ### Program-Level Success Criteria
 - [ ] All distributed and acceleration paths fail closed (Target: Q1 2027)
