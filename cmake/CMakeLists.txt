@@ -5311,6 +5311,11 @@ endif()
 # themisctl — Unified Management CLI (C++ tool, can be built independently)
 option(THEMIS_BUILD_THEMISCTL "Build themisctl unified management CLI" ON)
 if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
+    # cpp-httplib provides the HTTP client and is required for themisctl.
+    find_package(httplib QUIET)
+    if(NOT httplib_FOUND)
+        message(STATUS "themisctl: cpp-httplib not found — skipping themisctl build")
+    else()
     add_executable(themisctl
         ${THEMIS_ROOT_DIR}/tools/themisctl.cpp
     )
@@ -5334,11 +5339,7 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
         target_compile_options(themisctl PRIVATE "-I${CMAKE_HOME_DIRECTORY}/include")
     endif()
     
-    # cpp-httplib provides the HTTP client (header-only)
-    find_package(httplib QUIET)
-    if(httplib_FOUND)
-        target_link_libraries(themisctl PRIVATE httplib::httplib)
-    endif()
+    target_link_libraries(themisctl PRIVATE httplib::httplib)
     
     find_package(nlohmann_json QUIET)
     if(nlohmann_json_FOUND)
@@ -5400,6 +5401,7 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
     endif()
     
     message(STATUS "themisctl unified management CLI: ENABLED")
+    endif()
 else()
     message(STATUS "themisctl: disabled or source not found")
 endif()
