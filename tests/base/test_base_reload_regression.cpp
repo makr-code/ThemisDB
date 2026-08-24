@@ -214,6 +214,25 @@ TEST_F(ReloadPhaseOrderTest, ClearCallbacksPreventsDispatch) {
     EXPECT_EQ(counter.load(), 0) << "Callbacks must not fire after clearReloadCallbacks()";
 }
 
+/// If a callback unregisters the module during BEFORE_UNLOAD, reload must fail
+/// cleanly without dereferencing stale slot storage.
+TEST_F(ReloadPhaseOrderTest, CallbackUnregisterDuringReloadFailsCleanly) {
+    mgr_->registerModule("self_unregister_mod", *loader_);
+
+    mgr_->addReloadCallback([this](const std::string &name, HotReloadManager::ReloadPhase p) {
+        if (p == HotReloadManager::ReloadPhase::BEFORE_UNLOAD) {
+            mgr_->unregisterModule(name);
+        }
+    });
+
+    HotReloadResult result = mgr_->reloadModule("self_unregister_mod", "/nonexistent.so");
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.errorMessage.empty());
+
+    auto names = mgr_->registeredModules();
+    EXPECT_EQ(std::find(names.begin(), names.end(), "self_unregister_mod"), names.end());
+}
+
 /// Rollback phase callback: ROLLBACK must be emitted when rollback is called and
 /// the module has no backup (the rollback itself fails, but the phase must fire).
 TEST_F(ReloadPhaseOrderTest, RollbackPhaseEmittedOnRollbackAttempt) {

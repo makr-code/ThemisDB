@@ -309,6 +309,7 @@ private:
     struct ModuleSlot {
         std::string  name;
         ModuleLoader* loader = nullptr;        ///< Non-owning ptr to the loader
+        uint64_t registration_id = 0;          ///< Monotonic id to detect rebinds
 
         // Current live version
         std::string  current_path;
@@ -327,6 +328,7 @@ private:
     mutable std::shared_mutex mutex_;
 
     std::unordered_map<std::string, ModuleSlot> slots_;
+    uint64_t next_registration_id_ = 1;
 
     StateSaveCallback    state_save_cb_;
     StateRestoreCallback state_restore_cb_;

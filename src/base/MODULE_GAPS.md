@@ -4,15 +4,15 @@ This file documents all documentation and code quality gaps in the **base** modu
 
 ## Summary
 
-- **Total Gaps**: 803 *(was 819; 16 closed 2026-08-24)*
+- **Total Gaps**: 801 *(was 803; 2 closed 2026-08-24 in batch D)*
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: 2026-08-24 (base-gap-closures-batch-c)
+- **Last Updated**: 2026-08-24 (base-gap-closures-batch-d)
 
 ### By Severity
 
 - **CRITICAL**: 7 *(was 22)*  — 15 `no_transit_encryption` definitively closed; false-positive documentation added for remaining `blocking_no_timeout` / `missing_dtor`
-- **HIGH**: 53 *(was 55)* — 2 `manual_cleanup` + RAII resource-leak protection applied
-- **MEDIUM**: 741 *(was 739)* — +2 (new GAP-FIX analysis notes; no real code regressions)
+- **HIGH**: 51 *(was 53)* — 2 `null_dereference` closures in hot-reload runtime paths
+- **MEDIUM**: 741 *(was 739)* — +2 (analysis notes from batch C; no new regressions in batch D)
 - **LOW**: 2
 
 ### By Type
@@ -34,7 +34,7 @@ This file documents all documentation and code quality gaps in the **base** modu
 - module_doc_linkset_drift: 2
 - no_timeout: 8 *(documented as false positive — BackoffScheduler cv_.wait_until is bounded)*
 - no_transit_encryption: 0 *(was 16; constructor check + per-call requireHttpOrHttps close all instances)*
-- null_dereference: 2
+- null_dereference: 0 *(was 2; closed in batch D)*
 - o_n_squared: 2
 - path_traversal: 0 *(closed 2026-08-19)*
 - posix_only_api: 7
@@ -121,6 +121,26 @@ The scanner reports `braces_imbalance` at `hot_reload_manager.cpp:1` and similar
 ---
 
 ## Closure Record
+
+### Batch D — **Closed by commit: base-gap-closures-batch-d**
+**Closed date**: 2026-08-24
+
+#### Gaps closed (net -2 HIGH)
+
+| # | Type | Location | Severity | Description |
+|---|------|----------|----------|-------------|
+| 1 | `null_dereference` | `hot_reload_manager.cpp:reloadModule` | HIGH | Removed stale `ModuleSlot*` usage across unlock boundaries by snapshotting immutable pre-reload state (`loader_ptr`, prior path/version) and re-validating slot ownership before metadata commit |
+| 2 | `null_dereference` | `hot_reload_manager.cpp:rollback` | HIGH | Added explicit null-loader guard before unload/load path; rollback now fails with deterministic error instead of dereferencing a null loader |
+
+#### Updated totals
+
+| Metric | Before (batch C) | After (batch D) |
+|--------|--------|-------|
+| Total Gaps | 803 | 801 |
+| HIGH | 53 | 51 |
+| `null_dereference` | 2 | 0 |
+
+---
 
 ### Batch C — **Closed by commit: base-gap-closures-batch-c**
 **Closed date**: 2026-08-24

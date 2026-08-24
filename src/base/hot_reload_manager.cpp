@@ -44,6 +44,7 @@ void HotReloadManager::registerModule(const std::string &module_name, ModuleLoad
     auto &slot  = slots_[module_name];
     slot.name   = module_name;
     slot.loader = &loader;
+    slot.registration_id = next_registration_id_++;
 
     // Record the current version if the module is already loaded.
     auto info = loader.getModuleInfo(module_name);
@@ -72,7 +73,10 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     result.rollbackAvailable = false;
 
     // --- Validate registration under lock --------------------------------
-    ModuleSlot *slot_ptr = nullptr;
+    ModuleLoader *loader_ptr = nullptr;
+    std::string prior_path;
+    ModuleVersion prior_version;
+    uint64_t registration_id = 0;
     {
         std::unique_lock<std::shared_mutex> lock(mutex_);
         auto it = slots_.find(module_name);
@@ -83,23 +87,20 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
             stats_.failedReloads++;
             return result;
         }
-        slot_ptr = &it->second;
-    }
-
-    ModuleSlot &slot = *slot_ptr;
-
-    if (!slot.loader) {
-        result.errorMessage = "Module '" + module_name + "' has a null loader";
-        spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
-        {
-            std::unique_lock<std::shared_mutex> lock(mutex_);
+        loader_ptr    = it->second.loader;
+        prior_path    = it->second.current_path;
+        prior_version = it->second.current_version;
+        registration_id = it->second.registration_id;
+        if (!loader_ptr) {
+            result.errorMessage = "Module '" + module_name + "' has a null loader";
+            spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
             stats_.totalReloads++;
             stats_.failedReloads++;
+            return result;
         }
-        return result;
     }
 
-    result.previousVersion = slot.current_version.toString();
+    result.previousVersion = prior_version.toString();
 
     // --- Save state before unloading (optional) ---------------------------
     std::string saved_state;
@@ -117,7 +118,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     // This ensures the old module keeps running if the new one fails to load.
     const std::string new_module_key = module_name + "__hot_reload_candidate__";
 
-    auto load_result = slot.loader->loadModule(new_path, new_module_key);
+    auto load_result = loader_ptr->loadModule(new_path, new_module_key);
     if (!load_result.success) {
         result.errorMessage = "Failed to load new binary '" + new_path + "': " + load_result.errorMessage;
         spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
@@ -133,7 +134,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     // Capture new version before we remove the candidate entry.
     ModuleVersion new_version;
     {
-        auto new_info = slot.loader->getModuleInfo(new_module_key);
+        auto new_info = loader_ptr->getModuleInfo(new_module_key);
         if (new_info.has_value()) {
             new_version = ModuleVersion::fromMetadata(new_info->metadata);
         } else {
@@ -143,25 +144,25 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     }
 
     // --- Unload old binary -----------------------------------------------
-    slot.loader->unloadModule(module_name);
+    loader_ptr->unloadModule(module_name);
     notify(module_name, ReloadPhase::AFTER_UNLOAD);
 
     // --- Rename candidate entry to the canonical name ---------------------
     // The loader tracks modules by name; we loaded under a temp key.
     // Unload the temp key and re-load directly under the real name so that
     // callers can still call loader.getModuleInfo(module_name).
-    slot.loader->unloadModule(new_module_key);
+    loader_ptr->unloadModule(new_module_key);
 
-    auto final_result = slot.loader->loadModule(new_path, module_name);
+    auto final_result = loader_ptr->loadModule(new_path, module_name);
     if (!final_result.success) {
         // Extremely unlikely but handle: new binary disappeared between the
         // two loads.  Attempt to reload the old binary from the backup path.
         result.errorMessage = "Final load of new binary failed: " + final_result.errorMessage;
         spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
 
-        if (!slot.current_path.empty()) {
-            spdlog::warn("HotReloadManager: attempting emergency restore of '{}'", slot.current_path);
-            slot.loader->loadModule(slot.current_path, module_name);
+        if (!prior_path.empty()) {
+            spdlog::warn("HotReloadManager: attempting emergency restore of '{}'", prior_path);
+            loader_ptr->loadModule(prior_path, module_name);
         }
 
         {
@@ -173,17 +174,12 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     }
 
     // --- Preserve backup for rollback ------------------------------------
-    if (config_.enableRollback && !slot.current_path.empty()) {
-        slot.has_backup     = true;
-        slot.backup_path    = slot.current_path;
-        slot.backup_version = slot.current_version;
-    }
-
     // --- Launch sandbox for the new module (if configured) ---------------
     // Replacing slot.sandbox drops the old sandbox, calling ~ModuleSandbox()
     // which invokes shutdown() automatically.
+    std::unique_ptr<ModuleSandbox> new_sandbox;
     if (config_.sandboxConfig) {
-        auto new_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
+        new_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
         if (!new_sandbox->launch(module_name)) {
             spdlog::warn("HotReloadManager: sandbox launch warning for '{}': {}", module_name,
                          new_sandbox->lastError());
@@ -191,12 +187,40 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
         for (const auto &w : new_sandbox->launchWarnings()) {
             spdlog::debug("HotReloadManager: sandbox [{}]: {}", module_name, w);
         }
-        slot.sandbox = std::move(new_sandbox);
+        // sandbox is committed to the module slot under lock below.
+        // Keep local until slot re-validation is complete.
     }
 
-    // Update slot metadata.
-    slot.current_path    = new_path;
-    slot.current_version = new_version;
+    // Update slot metadata under lock. The module can be unregistered while
+    // reload I/O is running, so re-validate ownership before mutating state.
+    {
+        std::unique_lock<std::shared_mutex> lock(mutex_);
+        auto it = slots_.find(module_name);
+        if (it == slots_.end()
+            || it->second.loader != loader_ptr
+            || it->second.registration_id != registration_id) {
+            result.errorMessage = "Module '" + module_name
+                                  + "' was unregistered/rebound during reload; aborting";
+            spdlog::warn("HotReloadManager::reloadModule: {}", result.errorMessage);
+            stats_.totalReloads++;
+            stats_.failedReloads++;
+            lock.unlock();
+            loader_ptr->unloadModule(module_name);
+            return result;
+        }
+
+        ModuleSlot &slot = it->second;
+        if (config_.enableRollback && !prior_path.empty()) {
+            slot.has_backup     = true;
+            slot.backup_path    = prior_path;
+            slot.backup_version = prior_version;
+        }
+
+        slot.current_path    = new_path;
+        slot.current_version = new_version;
+        slot.sandbox         = std::move(new_sandbox);
+        result.rollbackAvailable = slot.has_backup;
+    }
 
     // --- Restore state (optional) ----------------------------------------
     if (config_.preserveState && !saved_state.empty()) {
@@ -215,7 +239,6 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
 
     result.success           = true;
     result.newVersion        = new_version.toString();
-    result.rollbackAvailable = slot.has_backup;
 
     {
         std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -263,6 +286,11 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
         loader_ptr             = slot.loader;
         backup_path            = slot.backup_path;
         backup_version         = slot.backup_version;
+        if (!loader_ptr) {
+            result.errorMessage = "Module '" + module_name + "' has a null loader";
+            spdlog::error("HotReloadManager::rollback: {}", result.errorMessage);
+            return result;
+        }
     }
 
     // Perform the unload/load outside the mutex to avoid holding the lock
