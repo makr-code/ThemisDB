@@ -1,7 +1,7 @@
 # ThemisDB Documentation Archive
 
-**Archive Updated:** February 7, 2026  
-**Version Status:** 1.5.0-dev (Alpha, targeting Beta/RC)
+**Archive Updated:** 2026-08-24  
+**Version Status:** 2.4.0-rc1 (GA hardening)
 
 ---
 
@@ -26,6 +26,9 @@ TODO lists and task tracking documents from earlier development phases. Current 
 
 ### 📁 `/implementation-summaries/`
 Implementation summary documents from completed features and migrations. These provide historical context for major system changes.
+
+### 📁 `/ai-working-history/`
+AI agent working documents from previous implementation sessions in `ai_working/`. These include implementation plans, execution logs, delivery summaries, phase reports, gap scanners, and issue-tracking artifacts from all phases prior to August 2026. Active stream instructions remain in `ai_working/00_START_HERE.md` and `ai_working/00_STREAM_B_START_HERE.md`.
 
 ---
 
@@ -71,6 +74,18 @@ This document was an **investigation report** identifying work to be done, not a
 **Reason:** Would contradict current LoRA framework status
 
 **Superseded By:** `docs/LLM_CORE_STATUS_MASTER.md` Section 5
+
+### Documentation Cleanup — AI Working History + Stale Docs (2026-08-24)
+
+**Milestone:** DOC-WEEKLY-2026-34
+
+All AI agent working session artifacts from `ai_working/` (1803 top-level files and 18 subdirectories) were moved to `docs/ARCHIVED/ai-working-history/` via `git mv`. Active stream entry files (`00_START_HERE.md`, `00_STREAM_B_START_HERE.md`) were retained in `ai_working/`.
+
+Additionally, 35 `docs/` files already marked as archive-candidates (stale-marker / ARCHIVIERUNGSHINWEIS headers) were moved to appropriate `docs/ARCHIVED/` subdirectories or removed where identical canonical copies already existed in the archive.
+
+**Subdirectories created:** `docs/ARCHIVED/ai-working-history/`
+
+---
 
 ### GAP, Roadmap, and TODO Archive (February 7, 2026)
 
