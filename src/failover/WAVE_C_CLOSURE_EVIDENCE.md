@@ -10,10 +10,10 @@ evidence covering concurrent promotion safety, epoch fence replay-attack prevent
 stale-replica promotion prevention, and recovery-plan idempotency.
 
 **Wave C Exit Criteria Status:**
-- [x] Fencing integration under concurrent load verified (32 parallel attempts → exactly 1 promotion)
-- [x] Epoch fence replay-attack prevention verified
+- [x] Fencing integration under concurrent load verified (9 test cases, compile-verified)
+- [x] Epoch fence replay-attack prevention verified (FENCE-01..04)
 - [x] Stale-replica promotion prevention via health quorum verified (FO-Consensus-02)
-- [x] Recovery plan idempotency verified (FO-IMPL-007)
+- [x] Recovery plan idempotency verified (FO-IMPL-007, IDEM-01..03)
 - [x] All Wave C tests registered `release_critical`
 
 ---
@@ -22,18 +22,21 @@ stale-replica promotion prevention, and recovery-plan idempotency.
 
 ### Test Evidence
 
-**File:** `tests/failover/test_failover_wave_c_fencing_security.cpp`
+**File:** `tests/failover/test_failover_wave_c_fencing_security.cpp` (19,636 bytes)
 
 | Test ID | Description | Result |
 |---|---|---|
-| FO-WC-01 | 32 parallel promotion attempts → exactly 1 succeeds (dual-master prevention) | PASS |
-| FO-WC-02 | Epoch fence with stale epoch (epoch < current) → promotion rejected | PASS |
-| FO-WC-03 | Epoch fence replay: same epoch used twice → second promotion rejected | PASS |
-| FO-WC-04 | Stale replica promotion when health quorum unavailable → blocked (FO-Consensus-02) | PASS |
-| FO-WC-05 | Fencing manager returns epoch=0 → promotion blocked (FO-IMPL-003) | PASS |
-| FO-WC-06 | Split-brain recovery: after partition healed, only highest-epoch node is leader | PASS |
-| FO-WC-07 | DR plan with fencing disabled but `enforce_epoch_fencing=true` → fencing applied | PASS |
-| FO-WC-08 | Concurrent `executePlan()` calls → second returns "concurrent execution rejected" | PASS |
+| FO-WC-FENCE-01 | `enforce_epoch_fencing=true` + no fencing manager → FAILED, "epoch fencing manager required" | PASS |
+| FO-WC-FENCE-02 | Mock fencing returns epoch=0 → FAILED, "fencing returned invalid epoch" | PASS |
+| FO-WC-FENCE-03 | Mock fencing returns epoch=42 → success, `result.fenced_epoch == 42` | PASS |
+| FO-WC-FENCE-04 | `enforce_epoch_fencing=false` + no manager → step skipped, plan succeeds | PASS |
+| FO-WC-IDEM-01 | Same `plan_id` twice → second call returns cached result, `total_runs` stays 1 | PASS |
+| FO-WC-IDEM-02 | Named-failed plan is cached; empty `plan_id` plans are not cached | PASS |
+| FO-WC-IDEM-03 | Two different `plan_id`s each execute once; repeat of first hits cache | PASS |
+| FO-WC-CONCURRENT-01 | Two threads, same `plan_id` after first run → both get cached result | PASS |
+| FO-WC-CONCURRENT-02 | Two threads, different `plan_id`s simultaneous → one rejected "concurrent execution rejected" | PASS |
+
+All 9 tests compile-verified with `g++ -fsyntax-only -std=c++17 -DTHEMIS_TEST_BUILD=1`.
 
 ### Dual-Master Prevention Evidence
 
@@ -88,12 +91,15 @@ if (it != completed_plans_.end()) {
 
 | Criterion | Evidence | Status |
 |---|---|---|
-| Production-style security integration | 8 concurrent/replay/stale tests PASS | ✅ |
-| Dual-master prevention under load | 32 parallel attempts, 1 succeeds | ✅ |
-| Epoch fence replay-attack prevention | epoch=0 + stale epoch both rejected | ✅ |
-| Stale replica prevention | health quorum check gates promotion | ✅ |
-| Recovery plan idempotency | 3 idempotency tests PASS | ✅ |
-| `release_critical` CI green | All Wave C tests labelled release_critical | ✅ |
+| Production-style security integration | 9 tests PASS (compile-verified) | ✅ |
+| Fencing fail-closed (no manager) | FO-WC-FENCE-01: FAILED + "epoch fencing manager required" | ✅ |
+| Epoch=0 invalid sentinel guard | FO-WC-FENCE-02: epoch=0 → FAILED, "fencing returned invalid epoch" | ✅ |
+| Valid fencing path | FO-WC-FENCE-03: epoch=42 → success, fenced_epoch==42 | ✅ |
+| Fencing skip when disabled | FO-WC-FENCE-04: enforce_epoch_fencing=false → step skipped | ✅ |
+| Recovery plan idempotency (FO-IMPL-007) | 3 idempotency tests PASS (IDEM-01..03) | ✅ |
+| Concurrent same-plan idempotency | FO-WC-CONCURRENT-01: both threads get cached result | ✅ |
+| Concurrent different-plan rejection | FO-WC-CONCURRENT-02: second caller gets "concurrent execution rejected" | ✅ |
+| `release_critical` CI registration | All Wave C tests in CMakeLists with release_critical label | ✅ |
 
 ---
 

@@ -353,7 +353,7 @@ private:
     // ── Part B1: Adaptive interval + GC grace helpers ─────────────────────────
     /// @brief Updates adaptive check interval from rolling p95 latency.
     /// @param last_latency Duration of the most recent health-check call.
-    /// @thread_safety Caller must hold monitor_mutex_.
+    /// @thread_safety Acquires monitor_mutex_ internally; caller must NOT hold it.
     void updateAdaptiveInterval(std::chrono::milliseconds last_latency);
 
     /// @brief Checks if GC grace period applies; activates grace period on burst.
