@@ -204,9 +204,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `observability`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — Plan documented in `docs/operability/WAVE_D_ROADMAP.md` Phase 2A (Target: Q1 2027)
+- [~] Contribute to or validate long-duration soak test coverage for this module's primary paths — 3 soak test files created (`tests/integration/`); full 60-minute runs pending representative hardware (Target: Q1 2027)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module — 5 operator runbooks published in `docs/operability/RUNBOOK_*.md` (2026-08-15) ✅
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
