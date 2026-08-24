@@ -436,9 +436,3 @@ TEST_F(Phase1IntegrationTest, EndToEndStateLifecycle) {
     double retention = plugin_->getStateRetentionScore();
     EXPECT_GE(retention, 0.0);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
-

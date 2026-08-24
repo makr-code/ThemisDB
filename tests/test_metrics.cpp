@@ -414,8 +414,3 @@ TEST_F(MetricsTest, PerformanceHistogramObserve) {
     
     std::cout << "Histogram observe: " << ns_per_op << " ns/op" << std::endl;
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

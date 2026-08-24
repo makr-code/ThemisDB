@@ -9,12 +9,12 @@ themis_add_standard_benchmark(bench_user_storage_encrypted_release_gates bench_u
 # Phase 5: Lifecycle benchmarks (mount, unmount, key derivation, key rotation, throughput)
 themis_add_standard_benchmark(bench_user_storage_encrypted_lifecycle_gates bench_user_storage_encrypted_lifecycle_gates.cpp)
 
-# Set release_critical label for lifecycle gates
-add_test(NAME bench_user_storage_encrypted_lifecycle_gates
-         COMMAND bench_user_storage_encrypted_lifecycle_gates)
-set_tests_properties(bench_user_storage_encrypted_lifecycle_gates
-  PROPERTIES
-    LABELS "user_storage_encrypted;release_critical;performance"
-    TIMEOUT 300
+# Register lifecycle gates as release_critical benchmark smoke entry.
+themis_register_benchmark_ctest(
+    NAME         bench_user_storage_encrypted_lifecycle_gates
+    TARGET       bench_user_storage_encrypted_lifecycle_gates
+    MODULE       "user_storage_encrypted"
+    TIMEOUT      300
+    EXTRA_LABELS release_critical
 )
 

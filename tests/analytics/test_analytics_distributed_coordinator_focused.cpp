@@ -566,8 +566,3 @@ TEST_F(SafetyControlsIntegrationTest, IntegrationTest_RecoverySequence_Completes
 
 }  // namespace analytics
 }  // namespace themisdb
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

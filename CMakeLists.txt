@@ -132,6 +132,18 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     if(THEMIS_GIT_EXECUTABLE)
         set(_themis_missing_submodules "")
         foreach(_themis_submodule IN ITEMS "vcpkg" "ffmpeg" "llama.cpp" "whisper.cpp" "stable-diffusion.cpp")
+            execute_process(
+                COMMAND ${THEMIS_GIT_EXECUTABLE} -C "${CMAKE_CURRENT_SOURCE_DIR}" ls-files -s -- "${_themis_submodule}"
+                RESULT_VARIABLE _themis_submodule_tracked_result
+                OUTPUT_VARIABLE _themis_submodule_tracked_output
+                ERROR_QUIET
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            if(NOT _themis_submodule_tracked_result EQUAL 0 OR
+               NOT _themis_submodule_tracked_output MATCHES "^160000 ")
+                continue()
+            endif()
+
             if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/.git" AND
                NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/CMakeLists.txt")
                 list(APPEND _themis_missing_submodules "${_themis_submodule}")
@@ -148,7 +160,7 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
             if(NOT _themis_submodule_result EQUAL 0)
                 message(WARNING
                     "Failed to initialize submodules (${_themis_missing_submodules}): ${_themis_submodule_error}\n"
-                    "You can run manually: git submodule update --init --recursive vcpkg ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp")
+                    "You can run manually: git submodule update --init --recursive ${_themis_missing_submodules}")
             endif()
         endif()
     endif()
@@ -700,9 +712,10 @@ set(_themis_models_mode "${THEMIS_MODELS_MODE}")
 if(_themis_models_mode STREQUAL "AUTO")
     if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
         set(_themis_models_mode "PACKAGE")
-        message(STATUS "models mode AUTO -> PACKAGE")
+        message(STATUS "models mode AUTO -> PACKAGE (models dir found)")
     else()
-        message(FATAL_ERROR "models mode AUTO resolved to PACKAGE, but directory not found: ${THEMIS_MODELS_SOURCE_DIR}")
+        set(_themis_models_mode "SKIP")
+        message(STATUS "models mode AUTO -> SKIP (models dir not found: ${THEMIS_MODELS_SOURCE_DIR})")
     endif()
 endif()
 

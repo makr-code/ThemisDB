@@ -92,7 +92,7 @@ jobs:
           exit-code: '0'
 
       - name: Upload Trivy SARIF to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
+        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
           sarif_file: trivy-results.sarif
           category: trivy
@@ -128,7 +128,7 @@ jobs:
 
       - name: Upload Gitleaks SARIF to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
+        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
           sarif_file: gitleaks.sarif
           category: gitleaks

@@ -49,16 +49,11 @@ foreach(_src IN LISTS NET_BENCH_SOURCES)
         COMPONENT benchmarks
     )
 
-    add_test(
-        NAME "${_target}"
-        COMMAND "${_target}"
-            --benchmark_out=${CMAKE_BINARY_DIR}/bench_results/${_target}.json
-            --benchmark_out_format=json
-            --benchmark_min_time=0.1s
-    )
-    set_tests_properties("${_target}" PROPERTIES
-        LABELS   "network;benchmark"
-        TIMEOUT  120
+    themis_register_benchmark_ctest(
+        NAME    "${_target}"
+        TARGET  "${_target}"
+        MODULE  "network"
+        TIMEOUT 120
     )
 
     message(STATUS "[benchmarks/network] Registered ${_target}")

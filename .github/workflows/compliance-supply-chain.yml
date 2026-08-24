@@ -91,10 +91,14 @@ jobs:
         id: baseline
         run: |
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
+          import json, re, sys
           from pathlib import Path
           manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-          print(f"sha={manifest['builtin-baseline']}")
+          sha = manifest['builtin-baseline']
+          if not re.fullmatch(r'[0-9a-f]{40}', sha):
+              print(f"ERROR: builtin-baseline '{sha}' is not a valid 40-char hex SHA", file=sys.stderr)
+              sys.exit(1)
+          print(f"sha={sha}")
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
@@ -376,7 +380,7 @@ jobs:
 
       - name: Upload SARIF to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
+        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
           sarif_file: dependency-freshness.sarif
           category: dependency-freshness

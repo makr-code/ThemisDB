@@ -49,6 +49,13 @@ Minimum validation gates for structural health:
 - Use TEST, TEST_F, and TEST_P according to the fixture/parameterization need.
 - Shared helpers must be in a local namespace (or anonymous namespace).
 - Avoid global helper symbol collisions across multiple test files.
+- **Do not define a custom `int main()`** that only calls
+  `::testing::InitGoogleTest` and `RUN_ALL_TESTS()`. Link `GTest::gtest_main`
+  instead and omit the function entirely. A custom `main()` is only permitted
+  when the binary has non-trivial setup not expressible through GTest fixtures
+  (e.g., a combined GTest + benchmark runner). In that case the file must not
+  link `GTest::gtest_main` and the reason must be documented in a comment above
+  the function.
 
 ### 3.2 Naming and Semantics
 
@@ -72,7 +79,48 @@ Minimum validation gates for structural health:
 
 - Module tests should be registered in module-local CMake files where possible.
 - Root-level registrations are allowed only when target ownership is clear.
-- Registration helpers should be preferred over ad-hoc per-test boilerplate.
+- Use `themis_register_module_test()` (from `tests/cmake/RegisterModuleTests.cmake`)
+  for all new module-level registrations — never raw `add_test()`.
+- Use `themis_register_test_target()` (from `tests/cmake/TestPolicy.cmake`)
+  when a test is registered at the root level without a module context.
+- Raw `add_test()` + `set_tests_properties()` blocks are **legacy patterns**;
+  any new or touched registration must migrate to the canonical helpers.
+
+### 4.1 Canonical Registration Patterns
+
+```cmake
+# New module-level registration (preferred)
+themis_register_module_test(
+    MODULE   "<module>"
+    NAME     "<ModuleName>Tests"
+    TARGET   test_<module>_<feature>
+    TIER     unit          # unit | integration | stress
+    KIND     focused       # standard | focused
+    TIMEOUT  60
+    LABELS   <tag1> <tag2>
+)
+
+# Focused test convenience wrapper
+themis_register_module_focused_test(
+    MODULE   "<module>"
+    NAME     "<ModuleName>FocusedTests"
+    TARGET   test_<module>_<feature>_focused
+    TIMEOUT  30
+)
+```
+
+### 4.2 Migration Status for Root tests/CMakeLists.txt
+
+The root `tests/CMakeLists.txt` contains a large number of legacy
+`add_test()` registrations predating the module helpers. These are migrated
+incrementally: any registration block touched in a PR must be converted to
+`themis_register_module_test()` or `themis_register_test_target()`.
+
+Priority migration order:
+1. Tests with no `$<TARGET_FILE:...>` in their COMMAND — highest risk of
+   "could not find executable" failures.
+2. Tests without labels — cannot be filtered by module or tier.
+3. Tests without explicit TIMEOUT — may run unbounded in CI.
 
 ## 5. Migration Rules for Existing Tests
 

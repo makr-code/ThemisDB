@@ -971,8 +971,3 @@ TEST(Integration, IT_10_memory_leak_detection) {
 // ============================================================================
 // Test Main Entry Point
 // ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

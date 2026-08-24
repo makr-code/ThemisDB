@@ -59,7 +59,7 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 
 ### Benchmark Gate — bench_ldm.cpp (Target: Q4 2026)
 
-- [~] Execute `benchmarks/ethics_ai/bench_ldm.cpp` suite; confirm baseline runtimes for LAYERED_FULL and LAYERED_FAST modes (Target: Q4 2026) — `GATE-EUAI-AUDIT-01` benchmark added 2026-08-09; baseline run pending hardware
+- [~] Execute `benchmarks/ethics_ai/bench_ldm.cpp` suite; confirm baseline runtimes for LAYERED_FULL and LAYERED_FAST modes (Target: Q4 2026) — `GATE-EUAI-AUDIT-01` benchmark added 2026-08-09; baseline run requires representative hardware execution — sandbox-blocked; pending hardware sign-off
 - [x] Art. 13 audit export overhead ≤5% regression vs baseline LAYERED_FULL run without audit export (Target: Q4 2026) ✅ **BM_LDM_AuditLog_Append + BM_LDM_AuditLog_ExportOnly added 2026-08-09**
 - [~] ChainVisualizer artifact generation overhead ≤10ms per run (Target: Q4 2026) — benchmark baseline instrumentation present; hardware confirmation pending
 - [ ] Gate MUST be green before any EU AI Act Art. 13/22 compliance claim appears in documentation (Target: Q4 2026)
@@ -102,9 +102,9 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 
 ### Short-term (3–6 months)
 
-- [ ] tighten conflict and convergence semantics for extended debate rounds (Target: Q4 2026)
-- [ ] expand regression depth for profile reload and selection-router edge cases (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for context/routing degradation incidents (Target: Q4 2026)
+- [x] tighten conflict and convergence semantics for extended debate rounds (Target: Q4 2026) — `conflict_threshold_ratio` added to `RouterConfig`; DH-01..08 tests added 2026-08-24
+- [x] expand regression depth for profile reload and selection-router edge cases (Target: Q4 2026) — `snapshot_profile_on_round_start` guard added; PR-01..08 tests added 2026-08-24
+- [~] improve operator-facing diagnostics for context/routing degradation incidents (Target: Q4 2026)
 
 ### Mid-term (6–12 months) — Layered Discourse Model (LDM)
 
@@ -153,12 +153,15 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 
 ### Long-term (12+ months)
 
-- [ ] **LDM-6**: Dynamisches Clustering basierend auf dem `cross_school_tensions`-Graph
-  des konkreten Dilemmas statt statischer taxonomy_class-Zuweisung (Target: Q3 2027)
-- [ ] **LDM-7**: Lateinamerikanische Befreiungstheologie (Dussel), Māori-Ethik,
-  Ubuntu-Ethik als neue Schulen in `assets/ethics_ai/` (Target: Q3 2027)
-- [ ] **LDM-8**: AdaLoRA-Adapter für nicht-westliche Schulen, um semantischen Score-BIAS
-  bei nicht-englischer Terminologie (Fiqh, Wǔlún, Karuna) auszugleichen (Target: Q4 2027)
+- [~] **LDM-6**: Dynamisches Clustering basierend auf dem `cross_school_tensions`-Graph
+  des konkreten Dilemmas statt statischer taxonomy_class-Zuweisung (Target: Q1 2027)
+  — `CrossSchoolTensionGraph`, `ClusterAssignment`, `DynamicClusteringEngine` API added 2026-08-24; greedy cluster impl in `ethics_ai_types.cpp`; LDM6-01..06 tests added
+- [x] **LDM-7**: Lateinamerikanische Befreiungstheologie (Dussel), Māori-Ethik,
+  Ubuntu-Ethik als neue Schulen in `assets/ethics_ai/` (Target: Q1 2027)
+  — `LDM7Schools` constants + `CulturalEthicsSchoolDescriptor` struct added 2026-08-24; LDM7-01..04 tests added; profile YAML files added 2026-08-24: `befreiungstheologie.yaml`, `maori_tikanga.yaml`, `ubuntu_ethik.yaml`, `hinduistische_ethik.yaml`
+- [~] **LDM-8**: AdaLoRA-Adapter für nicht-westliche Schulen, um semantischen Score-BIAS
+  bei nicht-englischer Terminologie (Fiqh, Wǔlún, Karuna) auszugleichen (Target: Q1 2027)
+  — `IAdaLoRABiasCorrector`, `IdentityAdaLoRABiasCorrector`, `ScalarAdaLoRABiasCorrector` added 2026-08-24; LDM8-01..04 tests added; trained adapter matrices require GPU hardware training — pending hardware execution
   - Ref: `docs/research/ethics_discourse_process_equality.md` §7 Offene Forschungsfragen
 - [ ] re-baseline p95/p99 envelopes for decision and context assembly under sustained load (Target: Q1 2027)
 - [ ] broaden benchmark depth for advanced compression/cascade/synthesis workflows (Target: Q1 2027)

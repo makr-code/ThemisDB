@@ -613,10 +613,6 @@ TEST_F(GPUCPUParityTest, Precision_BF16Tolerance) {
 // Main and Test Count Verification
 // ============================================================================
 
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
 
 /**
  * Phase 5 Test Case Summary:

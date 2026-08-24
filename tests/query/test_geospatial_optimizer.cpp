@@ -478,8 +478,3 @@ TEST_F(GeospatialRegressionGatesTest, GEO_OPT_40_E2ERegressionSanity) {
     EXPECT_NE(selected.indexName, "");
     EXPECT_GT(selected.score, 0);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

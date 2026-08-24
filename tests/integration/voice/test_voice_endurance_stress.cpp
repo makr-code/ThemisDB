@@ -455,8 +455,3 @@ TEST_F(VoiceEnduranceTest, NoMemoryLeaks) {
 }
 
 GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(VoiceEnduranceTest);
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
