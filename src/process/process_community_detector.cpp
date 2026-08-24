@@ -155,7 +155,6 @@ bool louvainPhase(
 
         float best_gain = 0.f;
         int best_comm = current_comm;
-        const float current_attachment = communityAttachment(u, comm_nodes[current_comm], g);
 
         // Evaluate each neighbouring community
         std::set<int> visited_comms;
@@ -165,10 +164,7 @@ bool louvainPhase(
             if (nc == current_comm) continue;
 
             const float gain = modularityGain(u, comm_nodes[nc], g, resolution);
-            const float target_attachment = communityAttachment(u, comm_nodes[nc], g);
-            // Prevent bridge-driven over-merges: only move if the node is more
-            // strongly attached to the target community than to its current one.
-            if (gain > best_gain && target_attachment > current_attachment) {
+            if (gain > best_gain) {
                 best_gain = gain;
                 best_comm = nc;
             }
@@ -461,4 +457,3 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::loadCommunities(
 
 } // namespace process
 } // namespace themis
-
