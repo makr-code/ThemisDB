@@ -190,17 +190,22 @@ for fpath in paths:
             if not content.strip():
                 continue
             uid_raw = f"{rel_path}::{heading}::{idx}::{content[:64]}"
-            chunk_id = "doku-" + hashlib.sha256(uid_raw.encode()).hexdigest()[:16]
+            sha256_hex = hashlib.sha256(uid_raw.encode()).hexdigest()  # 64 hex chars
+            chunk_id   = "doku-" + sha256_hex[:16]
+            # Placeholder hash-based embedding vector (64-dim, normalised).
+            # SHA-256 yields 32 bytes (64 hex chars). Extend to 128 hex chars for
+            # 64 values by concatenating a second SHA-256 of the reversed uid_raw.
+            # Real embeddings are added by the C++ builder when available.
+            sha256_ext = hashlib.sha256(uid_raw[::-1].encode()).hexdigest()
+            embed_hex  = sha256_hex + sha256_ext   # 128 hex chars → 64 byte pairs
             all_chunks.append({
-                "chunk_id":         chunk_id,
-                "source_path":      rel_path,
-                "section_heading":  heading,
-                "content":          content,
+                "chunk_id":           chunk_id,
+                "source_path":        rel_path,
+                "section_heading":    heading,
+                "content":            content,
                 "embedding_provider": "hash",
-                # Placeholder hash-based embedding vector (64-dim, normalised)
-                # Real embeddings are added by the C++ builder when available.
-                "embedding": [float(int(chunk_id[i:i+2], 16)) / 255.0
-                              for i in range(5, 5 + 128, 2)][:64]
+                "embedding": [float(int(embed_hex[i:i+2], 16)) / 255.0
+                              for i in range(0, 128, 2)]
             })
         file_count += 1
     except Exception as ex:
