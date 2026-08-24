@@ -16093,6 +16093,14 @@ if(THEMIS_ENABLE_LLM)
         "Model loading from ThemisDB: store, retrieve, checksum verify, hot-reload"
     )
 
+    add_llm_focused_test(
+        test_llm_inference_roles
+        llm/test_llm_inference_roles.cpp
+        LlmInferenceRolesFocusedTests
+        "llm;inference;roles;openai;chatml;unit"
+        "Role-aware Llama/OpenAI inference formatting: system/user/assistant preservation and request mapping"
+    )
+
     # GTest-based micro-benchmarks (registered as tests with longer timeout)
     add_llm_focused_test(
         bench_llm_continuous_batch_scheduler

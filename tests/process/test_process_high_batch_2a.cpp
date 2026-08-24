@@ -118,7 +118,7 @@ TEST_F(ProcessAgenticRagTest, EXS03_EncodeContextAttachments) {
             EXPECT_EQ(doc.similarity_score, 0.8);
             EXPECT_FALSE(doc.id.empty());
             // Verify safe string concatenation: "proc_att:instance:idx"
-            EXPECT_EQ(doc.id.substr(0, 8), "proc_att:");
+            EXPECT_EQ(doc.id.substr(0, 9), "proc_att:");
         }
     }
     EXPECT_EQ(att_count, 2);  // We added 2 attachments
@@ -304,8 +304,10 @@ TEST_F(VccVpbImporterTest, EXS13_ImportYamlActivities) {
     auto result = VccVpbImporter::importYaml(yaml);
     
     EXPECT_TRUE(result.ok);
-    EXPECT_TRUE(result.record.normalized.contains("activities"));
-    EXPECT_GT(result.record.normalized["activities"].size(), 0);
+    EXPECT_TRUE(result.record.normalized.contains("nodes"));
+    EXPECT_GT(result.record.normalized["nodes"].size(), 0);
+    EXPECT_TRUE(result.record.normalized.contains("edges"));
+    EXPECT_GT(result.record.normalized["edges"].size(), 0);
 }
 
 // EXS-14: Test importYaml edges parsing (static regex pre-compilation)
