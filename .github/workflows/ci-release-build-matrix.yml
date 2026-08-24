@@ -25,7 +25,7 @@ jobs:
         set -euo pipefail
         sudo apt-get update -qq
         sudo apt-get install -y --no-install-recommends \
-          build-essential cmake ninja-build pkg-config \
+          build-essential cmake ninja-build pkg-config sccache \
           librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
           libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
           libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
@@ -35,10 +35,14 @@ jobs:
           dpkg-dev rpm
       configure_command: |
         set -euo pipefail
+        export CMAKE_C_COMPILER_LAUNCHER=sccache
+        export CMAKE_CXX_COMPILER_LAUNCHER=sccache
         cmake --preset community-release 2>&1 | tee configure-community-release.log
       build_command: |
         set -euo pipefail
-        cmake --build --preset community-release --parallel 2>&1 | tee build-community-release.log
+        export CMAKE_C_COMPILER_LAUNCHER=sccache
+        export CMAKE_CXX_COMPILER_LAUNCHER=sccache
+        cmake --build --preset community-release --parallel 16 2>&1 | tee build-community-release.log
       validation_command: |
         set -euo pipefail
         ctest --preset community-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-community-release.log
@@ -64,10 +68,13 @@ jobs:
         set -euo pipefail
         sudo apt-get update -qq
         sudo apt-get install -y --no-install-recommends \
-          build-essential cmake ninja-build pkg-config \
+          build-essential cmake ninja-build pkg-config sccache ccache \
           librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
           libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
           libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+          libvulkan-dev glslc \
+          libboost-system-dev libboost-filesystem-dev \
+          libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
           dpkg-dev rpm
         git submodule sync --recursive || true
         git submodule update --init --recursive --depth 1 || true
@@ -75,23 +82,37 @@ jobs:
           echo "::error::vcpkg submodule/toolchain missing before bootstrap"
           exit 1
         }
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+        export PATH="${VCPKG_ROOT}:${PATH}"
         ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
       configure_command: |
         set -euo pipefail
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+        export PATH="${VCPKG_ROOT}:${PATH}"
+        export VCPKG_FORCE_SYSTEM_BINARIES=true
+        export CMAKE_C_COMPILER_LAUNCHER=sccache
+        export CMAKE_CXX_COMPILER_LAUNCHER=sccache
         cmake --preset linux-release 2>&1 | tee configure-linux-release.log
       build_command: |
         set -euo pipefail
-        cmake --build --preset linux-release --parallel 2>&1 | tee build-linux-release.log
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+        export PATH="${VCPKG_ROOT}:${PATH}"
+        export VCPKG_FORCE_SYSTEM_BINARIES=true
+        export CMAKE_C_COMPILER_LAUNCHER=sccache
+        export CMAKE_CXX_COMPILER_LAUNCHER=sccache
+        cmake --build --preset linux-release --parallel 16 2>&1 | tee build-linux-release.log
       validation_command: |
         set -euo pipefail
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+        export PATH="${VCPKG_ROOT}:${PATH}"
         ctest --preset linux-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-linux-release.log
-
-        cmake --install build-gcc-linux-release --prefix build-gcc-linux-release/install 2>&1 | tee install-linux-release.log
 
         BUILD_DIR="${GITHUB_WORKSPACE}/build-gcc-linux-release"
         PACKAGES_DIR="${GITHUB_WORKSPACE}/packages"
         rm -rf "${PACKAGES_DIR}"
         mkdir -p "${PACKAGES_DIR}"
+
+        cmake --install "${BUILD_DIR}" --prefix "${BUILD_DIR}/install" 2>&1 | tee install-linux-release.log
 
         for GEN in TGZ DEB RPM; do
           echo "--- Running CPack generator: ${GEN} ---"
@@ -133,6 +154,7 @@ jobs:
       fetch_depth: '0'
       setup_command: |
         set -euo pipefail
+        choco install -y sccache || echo "::warning::sccache install via choco failed; continuing without sccache cache."
         git submodule sync --recursive || true
         git submodule update --init --recursive --depth 1 || true
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
@@ -142,10 +164,14 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
       configure_command: |
         set -euo pipefail
+        export CMAKE_C_COMPILER_LAUNCHER=sccache
+        export CMAKE_CXX_COMPILER_LAUNCHER=sccache
         cmake --preset windows-release 2>&1 | tee configure-windows-release.log
       build_command: |
         set -euo pipefail
-        cmake --build --preset windows-release --parallel 2>&1 | tee build-windows-release.log
+        export CMAKE_C_COMPILER_LAUNCHER=sccache
+        export CMAKE_CXX_COMPILER_LAUNCHER=sccache
+        cmake --build --preset windows-release --parallel 16 2>&1 | tee build-windows-release.log
       validation_command: |
         set -euo pipefail
         ctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log
