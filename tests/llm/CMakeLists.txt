@@ -211,13 +211,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             target_include_directories(${_target} PRIVATE
                 ${_llm_wiki_private_include_dir}
             )
-        elseif(_stem STREQUAL "test_llm_wiki_provenance_focused")
-            target_sources(${_target} PRIVATE
-                ${_llm_wiki_private_orchestrator_source}
-            )
-            target_include_directories(${_target} PRIVATE
-                ${_llm_wiki_private_include_dir}
-            )
         endif()
         # Add Wave B labels for tracking
         set(_wave_b_labels "wave_b llm_wiki phase4")
@@ -380,13 +373,6 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         endif()
         if(_stem STREQUAL "test_llm_wiki_provenance_focused" AND TARGET themisdb_llm_wiki_cpp)
             target_link_libraries(${_target} PRIVATE themisdb_llm_wiki_cpp)
-            target_include_directories(${_target} PRIVATE
-                ${_llm_wiki_private_include_dir}
-            )
-        elseif(_stem STREQUAL "test_llm_wiki_provenance_focused")
-            target_sources(${_target} PRIVATE
-                ${_llm_wiki_private_orchestrator_source}
-            )
             target_include_directories(${_target} PRIVATE
                 ${_llm_wiki_private_include_dir}
             )
