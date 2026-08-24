@@ -14,8 +14,8 @@
  *
  * Design note: All diagnostic emission in AutoFailoverManager is routed through
  * emitDiagnostic(FailoverErrorCode, node_id, detail) which calls spdlog::error
- * and emitEvent().  Tests register event callbacks via addCallback() to capture
- * emitted events without external I/O.
+ * and emitEvent().  Tests register event callbacks via registerEventCallback() to
+ * capture emitted events without external I/O.
  */
 
 #ifdef THEMIS_TEST_BUILD
@@ -43,6 +43,13 @@ namespace {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/// Thin event value type for test-side accumulation.
+struct FailoverEvent {
+    FailoverEventType type;
+    std::string node_id;
+    std::string detail;
+};
+
 /// Returns a minimal config with side-effects disabled.
 AutoFailoverConfig makeObsConfig() {
     AutoFailoverConfig cfg;
@@ -66,9 +73,9 @@ AutoFailoverConfig makeObsConfig() {
 /// Thread-safe event accumulator for callback-based observation.
 class EventAccumulator {
 public:
-    void record(const FailoverEvent& ev) {
+    void record(FailoverEventType t, const std::string& id, const std::string& detail) {
         std::lock_guard<std::mutex> lk(mu_);
-        events_.push_back(ev);
+        events_.push_back({t, id, detail});
     }
 
     std::size_t count() const {
@@ -104,17 +111,16 @@ TEST(FailoverWaveDObservability, FO_WD_OBS_01_PromotionEventCallbacks) {
     AutoFailoverManager manager(cfg);
 
     EventAccumulator acc;
-    manager.addCallback([&](const FailoverEvent& ev) { acc.record(ev); });
+    manager.addCallback([&](FailoverEventType t, const std::string& id, const std::string& d) {
+        acc.record(t, id, d);
+    });
 
-    // Simulate a promotion path by adding a node and triggering failover
-    // (AutoFailoverManager::addMonitoredNode + forceFailover in test mode)
+    // Simulate a promotion path by adding a node (no-op in test mode) and verify
+    // the callback wiring compiles and the accumulator captures whatever is emitted.
     manager.addMonitoredNode("node-primary", NodeRole::PRIMARY);
     manager.addMonitoredNode("node-replica", NodeRole::REPLICA);
 
     // Verify callback registration succeeded (count >= 0, no crash)
-    // Actual promotion event firing depends on failover execution paths that
-    // require ReplicationManager; here we verify the callback wiring compiles
-    // and the accumulator captures whatever is emitted.
     EXPECT_NO_THROW(manager.getStatistics());
     // Callbacks are registered — cannot trigger full failover without ReplicationManager,
     // but the infrastructure for event emission is verified to compile and link correctly.
@@ -131,22 +137,23 @@ TEST(FailoverWaveDObservability, FO_WD_OBS_02_HeartbeatMissedOnTimeout) {
     AutoFailoverManager manager(cfg);
 
     EventAccumulator acc;
-    manager.addCallback([&](const FailoverEvent& ev) { acc.record(ev); });
-
-    // Inject a health-check override that always times out
-    manager.testSetHealthCheckOverride([](const std::string& /*node_id*/) {
-        std::this_thread::sleep_for(200ms);  // Exceeds 50ms timeout
-        return ClusterHealthStatus::HEALTHY;
+    manager.addCallback([&](FailoverEventType t, const std::string& id, const std::string& d) {
+        acc.record(t, id, d);
     });
 
-    manager.addMonitoredNode("node-slow", NodeRole::PRIMARY);
+    // Inject a health-check override that always times out.
+    // Returns an empty map; the important thing is the sleep exceeds the 50 ms timeout.
+    manager.testSetHealthCheckOverride([]() -> std::map<std::string, bool> {
+        std::this_thread::sleep_for(200ms);  // Exceeds 50 ms timeout
+        return {};
+    });
 
     // Perform one health check cycle — should emit HEARTBEAT_MISSED
     manager.testTriggerHealthCheck();
-    std::this_thread::sleep_for(300ms);  // Allow async timeout to propagate
+    // Allow the async task to reach steady-state (future is abandoned, not blocking here)
+    std::this_thread::sleep_for(300ms);
 
     // The HEARTBEAT_MISSED diagnostic is emitted via emitDiagnostic → emitEvent
-    // which maps to FailoverEventType::HEARTBEAT_MISSED
     EXPECT_TRUE(acc.hasType(FailoverEventType::HEARTBEAT_MISSED))
         << "FO-WD-OBS-02: HEARTBEAT_MISSED event must be emitted when health check times out";
 }
@@ -161,10 +168,12 @@ TEST(FailoverWaveDObservability, FO_WD_OBS_03_SplitBrainDetectedWithoutFencingMa
     AutoFailoverManager manager(cfg);  // No fencing manager configured
 
     EventAccumulator acc;
-    manager.addCallback([&](const FailoverEvent& ev) { acc.record(ev); });
+    manager.addCallback([&](FailoverEventType t, const std::string& id, const std::string& d) {
+        acc.record(t, id, d);
+    });
 
     // preventSplitBrain fails closed when no EpochFencingManager configured
-    // and emits QUORUM_CHECK_FAILED (mapped from SPLIT_BRAIN_DETECTED)
+    // and emits QUORUM_CHECK_FAILED or SPLIT_BRAIN_RISK_DETECTED
     bool result = manager.testCallPreventSplitBrain("node-candidate");
 
     EXPECT_FALSE(result)
@@ -185,18 +194,19 @@ TEST(FailoverWaveDObservability, FO_WD_OBS_04_NodeRejoinFailedAfterMaxAttempts) 
     AutoFailoverManager manager(cfg);
 
     EventAccumulator acc;
-    manager.addCallback([&](const FailoverEvent& ev) { acc.record(ev); });
+    manager.addCallback([&](FailoverEventType t, const std::string& id, const std::string& d) {
+        acc.record(t, id, d);
+    });
 
     // Inject a recovery hook that always fails
-    manager.testSetRecoveryOverride([](const std::string& /*node_id*/) {
-        return RecoveryResult::FAILED;
+    manager.testSetRecoveryOverride([](const std::string& /*node_id*/) -> bool {
+        return false;
     });
 
     manager.addMonitoredNode("node-failed", NodeRole::REPLICA);
 
     // Attempt recovery — after max_recovery_attempts=1, emits NODE_REJOIN_FAILED
     manager.testTriggerRecovery("node-failed");
-    std::this_thread::sleep_for(100ms);
 
     EXPECT_TRUE(acc.hasType(FailoverEventType::NODE_REJOIN_FAILED))
         << "FO-WD-OBS-04: NODE_REJOIN_FAILED must be emitted after exhausting recovery attempts";
@@ -213,14 +223,14 @@ TEST(FailoverWaveDObservability, FO_WD_OBS_05_StatisticsMonotonicallyIncreasing)
     const auto stats_before = manager.getStatistics();
 
     // Statistics must be valid (no negative values)
-    EXPECT_GE(stats_before.total_failovers, 0u)
-        << "FO-WD-OBS-05: total_failovers must be non-negative";
-    EXPECT_GE(stats_before.failed_failovers, 0u)
-        << "FO-WD-OBS-05: failed_failovers must be non-negative";
+    EXPECT_EQ(stats_before.total_failovers, 0u)
+        << "FO-WD-OBS-05: total_failovers must be 0 on fresh instance";
+    EXPECT_EQ(stats_before.failed_failovers, 0u)
+        << "FO-WD-OBS-05: failed_failovers must be 0 on fresh instance";
     EXPECT_LE(stats_before.failed_failovers, stats_before.total_failovers)
         << "FO-WD-OBS-05: failed_failovers must not exceed total_failovers";
-    EXPECT_GE(stats_before.total_recovery_attempts, 0u)
-        << "FO-WD-OBS-05: total_recovery_attempts must be non-negative";
+    EXPECT_EQ(stats_before.total_recovery_attempts, 0u)
+        << "FO-WD-OBS-05: total_recovery_attempts must be 0 on fresh instance";
 
     // Reset stats and verify baseline
     manager.resetStatistics();

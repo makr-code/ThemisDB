@@ -16,6 +16,7 @@
 #include <chrono>
 #include <condition_variable>
 #include <functional>
+#include <future>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -24,6 +25,7 @@
 #include <shared_mutex>
 #include <string>
 #include <thread>
+#include <unordered_map>
 #include <vector>
 
 #include "failover/failover_api_contract.h"
@@ -54,6 +56,9 @@ enum class FailoverEventType {
     RECOVERY_COMPLETED,
     NETWORK_PARTITION_DETECTED,
     QUEUE_PRESSURE,            // Emitted when queue depth exceeds pressure threshold
+    HEARTBEAT_MISSED,          // Emitted when a health-check call times out (maps from FailoverErrorCode::HEARTBEAT_MISSED)
+    SPLIT_BRAIN_RISK_DETECTED, // Emitted when split-brain prevention fails (maps from SPLIT_BRAIN_DETECTED)
+    NODE_REJOIN_FAILED,        // Emitted when a node exhausts recovery attempts (maps from FailoverErrorCode::NODE_REJOIN_FAILED)
 };
 
 /**
@@ -210,9 +215,15 @@ public:
         uint64_t total_retry_attempts{0};
         uint64_t successful_retries{0};
         uint64_t failed_retries{0};
+
+        // Recovery telemetry
+        uint64_t total_recovery_attempts{0};
     };
 
     Statistics getStatistics() const;
+    /// @brief Resets all statistics counters to zero.
+    /// @thread_safety Acquires stats_mutex_ internally; safe to call from any thread.
+    void resetStatistics();
 
     // Event callback registration
     using FailoverEventCallback = std::function<void(
@@ -252,6 +263,34 @@ public:
         std::function<std::map<std::string, bool>()> fn) {
         health_check_override_ = std::move(fn);
     }
+    // ── Wave D test helpers ──────────────────────────────────────────────────
+    /// Convenience constructor for unit tests — all optional dependencies set to null.
+    explicit AutoFailoverManager(const AutoFailoverConfig& config)
+        : AutoFailoverManager(config, nullptr, nullptr, nullptr, nullptr) {}
+
+    /// Registers an event callback (alias for registerEventCallback).
+    void addCallback(FailoverEventCallback cb) {
+        registerEventCallback(std::move(cb));
+    }
+    /// No-op node registration used in tests that don't need a real replication manager.
+    void addMonitoredNode(const std::string& /*node_id*/, NodeRole /*role*/) {}
+    /// Exposes preventSplitBrain under the test method name used by Wave D tests.
+    bool testCallPreventSplitBrain(const std::string& node_id) {
+        return preventSplitBrain(node_id);
+    }
+    /// Synchronously runs one performHealthChecks() cycle for test-controlled observation.
+    void testTriggerHealthCheck() {
+        performHealthChecks();
+    }
+    /// Synchronously runs attemptRecovery() for the given node.
+    bool testTriggerRecovery(const std::string& node_id) {
+        return attemptRecovery(node_id);
+    }
+    /// Installs a recovery hook that replaces the real node-reconnect logic.
+    /// The callable receives the node_id and returns true on simulated success.
+    void testSetRecoveryOverride(std::function<bool(const std::string&)> fn) {
+        recovery_override_ = std::move(fn);
+    }
 #endif
 
 private:
@@ -289,10 +328,10 @@ private:
     std::queue<FailoverTask> failover_queue_{};  // RAII: In-class initializer ensures empty state
 
     // Tracking
-    std::map<std::string, int> consecutive_failures_;
+    std::unordered_map<std::string, int> consecutive_failures_;
     mutable std::shared_mutex tracking_mutex_;
 
-    /// Monotonically increasing topology version; incremented on every node-set change.
+    /// Monotonically increasing topology version; incremented on every new node seen.
     std::atomic<uint64_t> topology_version_{0};
 
     /// @brief Captures an immutable topology snapshot under tracking_mutex_.
@@ -338,11 +377,11 @@ private:
     /// @thread_safety Called from monitoringLoop.
     void checkForNetworkPartitions();
     /// @brief Evaluates tracked failure counts and enqueues a FailoverTask if threshold exceeded.
-    ///        Uses topology snapshots to detect concurrent topology changes; retries up to 3 times.
+    ///        Uses topology snapshots to detect concurrent topology changes; retries once on race.
     /// @thread_safety Called from monitoringLoop under failover_mutex_.
     void detectNodeFailures();
     /// @brief Updates the per-node failure counter.
-    ///        Increments topology_version_ atomically when failure state changes.
+    ///        Increments topology_version_ atomically when a previously unseen node is first observed.
     /// @param node_id   The node whose health status changed.
     /// @param is_healthy True if the node is currently healthy.
     /// @thread_safety Must be called under tracking_mutex_.
@@ -440,9 +479,15 @@ private:
     void emitEvent(FailoverEventType type, const std::string& node_id, const std::string& detail) noexcept;
     void updateStatistics(const FailoverResult& result);
 
+    /// Stores a timed-out health-check future so the monitoring loop doesn't block.
+    /// Guarded by the single-threaded monitoringLoop; no additional locking required.
+    std::future<std::map<std::string, bool>> abandoned_health_check_future_;
+
 #ifdef THEMIS_TEST_BUILD
     /// Injectable health-check override; used only in unit tests.
     std::function<std::map<std::string, bool>()> health_check_override_;
+    /// Injectable recovery override; set via testSetRecoveryOverride(); used only in unit tests.
+    std::function<bool(const std::string&)> recovery_override_;
 #endif
 };
 

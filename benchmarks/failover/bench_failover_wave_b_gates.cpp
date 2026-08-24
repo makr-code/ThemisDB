@@ -69,11 +69,13 @@
 #include "failover/quorum_log.h"
 
 #include <algorithm>
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
 #include <mutex>
+#include <queue>
 #include <random>
 #include <string>
 #include <thread>

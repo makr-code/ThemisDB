@@ -283,18 +283,41 @@ void AutoFailoverManager::performHealthChecks() {
         return;
     }
 
+    // If a previous timed-out health-check task is still running, drain it first
+    // so we don't accumulate unbounded blocked futures.
+    if (abandoned_health_check_future_.valid()) {
+        if (abandoned_health_check_future_.wait_for(std::chrono::seconds(0))
+                == std::future_status::ready) {
+            try { abandoned_health_check_future_.get(); } catch (...) {}
+        } else {
+            // Previous task not yet done — skip this cycle to avoid blocking.
+            spdlog::debug("performHealthChecks: previous timed-out task still running; skipping cycle");
+            return;
+        }
+    }
+
     // Read the configured timeout before spawning the async task so the mutex
     // is not held across the future wait.
     const auto timeout_ms = getConfig().health_check_call_timeout_ms;
 
-    const auto t0 = std::chrono::steady_clock::now();
-    auto fut = std::async(std::launch::async, [this]() {
+    // Capture dependencies by value so the lambda never touches `this` after a timeout.
+    auto replication_mgr = replication_mgr_;
 #ifdef THEMIS_TEST_BUILD
-        if (health_check_override_) {
-            return health_check_override_();
+    auto override_fn = health_check_override_;
+#endif
+
+    const auto t0 = std::chrono::steady_clock::now();
+    auto fut = std::async(std::launch::async, [replication_mgr
+#ifdef THEMIS_TEST_BUILD
+        , override_fn
+#endif
+        ]() -> std::map<std::string, bool> {
+#ifdef THEMIS_TEST_BUILD
+        if (override_fn) {
+            return override_fn();
         }
 #endif
-        return replication_mgr_->getClusterHealth();
+        return replication_mgr->getClusterHealth();
     });
 
     if (fut.wait_for(timeout_ms) == std::future_status::timeout) {
@@ -303,6 +326,8 @@ void AutoFailoverManager::performHealthChecks() {
         emitDiagnostic(FailoverErrorCode::HEARTBEAT_MISSED, "",
                        "health-check call timed out after " +
                        std::to_string(timeout_ms.count()) + "ms");
+        // Move the future into the abandoned slot so its destructor doesn't block here.
+        abandoned_health_check_future_ = std::move(fut);
         return;
     }
 
@@ -645,11 +670,6 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
                      token.epoch, candidate);
     }
 
-    if (!replication_mgr_->triggerFailover(candidate)) {
-        spdlog::error("Leader election trigger failed for candidate {}", candidate);
-        return false;
-    }
-
     if (quorum_log_) {
         if (!quorum_log_->append(0, candidate, "PROMOTE")) {
             spdlog::error("selectAndPromoteReplica: quorum log write failed; blocking promotion");
@@ -657,6 +677,11 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
                            "quorum log write failed; promotion blocked");
             return false;
         }
+    }
+
+    if (!replication_mgr_->triggerFailover(candidate)) {
+        spdlog::error("Leader election trigger failed for candidate {}", candidate);
+        return false;
     }
 
     promoted_id = candidate;
@@ -746,6 +771,25 @@ bool AutoFailoverManager::isNetworkPartitionedFromQuorum() const {
 
 bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
     spdlog::info("Attempting recovery for node: {}", failed_node_id);
+
+#ifdef THEMIS_TEST_BUILD
+    if (recovery_override_) {
+        const bool ok = recovery_override_(failed_node_id);
+        {
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+            stats_.total_retry_attempts++;
+            stats_.total_recovery_attempts++;
+            if (ok) {
+                stats_.successful_retries++;
+            } else {
+                stats_.failed_retries++;
+                emitDiagnostic(FailoverErrorCode::NODE_REJOIN_FAILED, failed_node_id,
+                               "node failed to recover (recovery_override returned false)");
+            }
+        }
+        return ok;
+    }
+#endif
 
     // ROADMAP.md compliance: "attemptRecovery stats batch-updated: single lock acquisition
     // per call instead of per iteration"
@@ -965,6 +1009,15 @@ void AutoFailoverManager::emitDiagnostic(FailoverErrorCode code,
             case FailoverErrorCode::QUORUM_UNAVAILABLE:
                 event_type = FailoverEventType::QUORUM_CHECK_FAILED;
                 break;
+            case FailoverErrorCode::HEARTBEAT_MISSED:
+                event_type = FailoverEventType::HEARTBEAT_MISSED;
+                break;
+            case FailoverErrorCode::SPLIT_BRAIN_DETECTED:
+                event_type = FailoverEventType::SPLIT_BRAIN_RISK_DETECTED;
+                break;
+            case FailoverErrorCode::NODE_REJOIN_FAILED:
+                event_type = FailoverEventType::NODE_REJOIN_FAILED;
+                break;
             default:
                 event_type = FailoverEventType::FAILOVER_CANCELLED;
                 break;
@@ -1031,6 +1084,12 @@ void AutoFailoverManager::updateStatistics(const FailoverResult& result) {
         stats_.max_failover_time =
             *std::max_element(failover_durations_.begin(), failover_durations_.end());
     }
+}
+
+void AutoFailoverManager::resetStatistics() {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    stats_ = Statistics{};
+    failover_durations_.clear();
 }
 
 }  // namespace failover
