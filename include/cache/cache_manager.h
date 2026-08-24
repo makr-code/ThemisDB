@@ -11,7 +11,7 @@
  * - Event handler callbacks with move semantics
  * - Multi-cache coordination with moved-from state tracking
  * 
- * @see ThemisDB Remediation Roadmap: Sprint 8 Phase 1C
+ * @see ThemisDB Cache Module Roadmap: src/cache/ROADMAP.md
  */
 
 #pragma once

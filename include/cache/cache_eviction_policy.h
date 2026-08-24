@@ -11,7 +11,7 @@
  * - Policy state tracking and moved-from detection
  * - Multiple concrete strategies (LRU, LFU, FIFO, ARC)
  * 
- * @see ThemisDB Remediation Roadmap: Sprint 8 Phase 1C
+ * @see ThemisDB Cache Module Roadmap: src/cache/ROADMAP.md
  */
 
 #pragma once

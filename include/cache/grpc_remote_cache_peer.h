@@ -132,11 +132,10 @@ public:
     std::string address() const override { return config_.address; }
 
     bool isHealthy() const override {
-        return healthy_.load(std::memory_order_relaxed);
+        // memory_order fix: acquire pairs with release stores in sendRpc()
+        // to ensure the health state written after an RPC outcome is visible.
+        return healthy_.load(std::memory_order_acquire);
     }
-
-private:
-    /// Build gRPC channel credentials from config_.
     std::shared_ptr<grpc::ChannelCredentials> buildCredentials() const;
 
     /**
@@ -208,11 +207,10 @@ public:
     std::string address() const override { return config_.address; }
 
     bool isHealthy() const override {
-        return healthy_.load(std::memory_order_relaxed);
-    }
-
-private:
-    static std::mutex& bridgeMutex() {
+        // memory_order fix: acquire pairs with release stores in invoke()
+        // to ensure the health state is correctly visible across threads.
+        return healthy_.load(std::memory_order_acquire);
+    } {
         static std::mutex m;
         return m;
     }
@@ -231,17 +229,19 @@ private:
             fn = backendInvokeFn();
         }
         if (!fn) {
-            healthy_.store(false, std::memory_order_relaxed);
+            // memory_order fix: release so the false state is visible to
+            // any thread polling isHealthy() with acquire semantics.
+            healthy_.store(false, std::memory_order_release);
             throw std::runtime_error("GrpcRemoteCachePeer stub: gRPC transport unavailable");
         }
         bool ok = false;
         try {
             ok = fn(config_.address, type, key, tenant_id);
         } catch (...) {
-            healthy_.store(false, std::memory_order_relaxed);
+            healthy_.store(false, std::memory_order_release);
             throw;
         }
-        healthy_.store(ok, std::memory_order_relaxed);
+        healthy_.store(ok, std::memory_order_release);
         if (!ok) {
             throw std::runtime_error("GrpcRemoteCachePeer backend invocation failed");
         }

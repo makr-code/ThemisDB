@@ -27,8 +27,8 @@
 #include <algorithm>
 #include <cerrno>
 #include <chrono>
+#include <thread>
 #include <climits>
-#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 
@@ -72,6 +72,12 @@ namespace cache {
 namespace {
 std::mutex s_redis_pub_fn_mutex;
 std::function<bool(const std::string &, const std::string &)> s_redis_pub_fn;
+
+/// Bounded retry constants for the publisher path (no_retry_logic fix).
+/// Mirrors the subscriber backoff style but with a shorter cap to keep
+/// publish calls from blocking callers for too long.
+constexpr int kMaxPublishRetries   = 2;   ///< at most 2 reconnect+retry attempts
+constexpr int kPublishRetryDelayMs = 50;  ///< initial retry delay: 50 ms
 } // namespace
 
 void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
@@ -146,31 +152,38 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
 
     std::string payload = serializeMessage(msg);
 
+    // no_retry_logic fix: retry the publish+reconnect cycle up to kMaxPublishRetries
+    // times before giving up, using kPublishRetryDelayMs initial back-off.
     // LOCK ORDER: pub_mutex_ acquired first; stats_mutex_ updated separately
-    // after pub_mutex_ is released to respect the canonical lock hierarchy and
-    // eliminate the circular_lock_ordering gap (HIGH).
+    // after pub_mutex_ is released to respect the canonical lock hierarchy.
     bool publish_ok = false;
-    {
+    int retry_delay_ms = kPublishRetryDelayMs;
+    for (int attempt = 0; attempt <= kMaxPublishRetries && !publish_ok; ++attempt) {
+        if (attempt > 0) {
+            THEMIS_WARN("RedisCacheCoordinator::publishEntry: retry {}/{} after {}ms",
+                        attempt, kMaxPublishRetries, retry_delay_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+            retry_delay_ms *= 2;
+        }
         std::lock_guard<std::mutex> lk(pub_mutex_);
         if (!connectPublish()) {
-            // pub_mutex_ released here; update stats outside the pub lock.
-        } else {
-            redisReply *reply = static_cast<redisReply *>(
-                redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
+            continue; // will retry on next attempt
+        }
+        redisReply *reply = static_cast<redisReply *>(
+            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
 
-            if (reply == nullptr || pub_ctx_->err) {
-                THEMIS_WARN("RedisCacheCoordinator::publishEntry: PUBLISH failed: {}",
-                            pub_ctx_ ? pub_ctx_->errstr : "null context");
-                if (reply)
-                    freeReplyObject(reply);
-                // Close broken connection; will reconnect on next call
-                redisFree(pub_ctx_);
-                pub_ctx_ = nullptr;
-                pub_connected_.store(false);
-            } else {
+        if (reply == nullptr || pub_ctx_->err) {
+            THEMIS_WARN("RedisCacheCoordinator::publishEntry: PUBLISH failed: {}",
+                        pub_ctx_ ? pub_ctx_->errstr : "null context");
+            if (reply)
                 freeReplyObject(reply);
-                publish_ok = true;
-            }
+            // Close broken connection; will reconnect on next attempt
+            redisFree(pub_ctx_);
+            pub_ctx_ = nullptr;
+            pub_connected_.store(false);
+        } else {
+            freeReplyObject(reply);
+            publish_ok = true;
         }
     } // pub_mutex_ released before stats_mutex_ is acquired
 
@@ -230,30 +243,36 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 
     std::string payload = serializeMessage(msg);
 
-    // LOCK ORDER: pub_mutex_ acquired first; stats_mutex_ updated separately
-    // after pub_mutex_ is released to respect the canonical lock hierarchy and
-    // eliminate the circular_lock_ordering gap (HIGH).
+    // no_retry_logic fix: retry the publish+reconnect cycle up to kMaxPublishRetries
+    // times before giving up. LOCK ORDER: pub_mutex_ acquired first; stats_mutex_
+    // updated separately after pub_mutex_ is released (canonical lock hierarchy).
     bool publish_ok = false;
-    {
+    int retry_delay_ms = kPublishRetryDelayMs;
+    for (int attempt = 0; attempt <= kMaxPublishRetries && !publish_ok; ++attempt) {
+        if (attempt > 0) {
+            THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: retry {}/{} after {}ms",
+                        attempt, kMaxPublishRetries, retry_delay_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+            retry_delay_ms *= 2;
+        }
         std::lock_guard<std::mutex> lk(pub_mutex_);
         if (!connectPublish()) {
-            // pub_mutex_ released here; update stats outside the pub lock.
-        } else {
-            redisReply *reply = static_cast<redisReply *>(
-                redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
+            continue; // will retry on next attempt
+        }
+        redisReply *reply = static_cast<redisReply *>(
+            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
 
-            if (reply == nullptr || pub_ctx_->err) {
-                THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: PUBLISH failed: {}",
-                            pub_ctx_ ? pub_ctx_->errstr : "null context");
-                if (reply)
-                    freeReplyObject(reply);
-                redisFree(pub_ctx_);
-                pub_ctx_ = nullptr;
-                pub_connected_.store(false);
-            } else {
+        if (reply == nullptr || pub_ctx_->err) {
+            THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: PUBLISH failed: {}",
+                        pub_ctx_ ? pub_ctx_->errstr : "null context");
+            if (reply)
                 freeReplyObject(reply);
-                publish_ok = true;
-            }
+            redisFree(pub_ctx_);
+            pub_ctx_ = nullptr;
+            pub_connected_.store(false);
+        } else {
+            freeReplyObject(reply);
+            publish_ok = true;
         }
     } // pub_mutex_ released before stats_mutex_ is acquired
 
@@ -590,7 +609,7 @@ void RedisCacheCoordinator::subscribeLoop() {
 //   node are NOT propagated to peers, potentially causing stale reads across
 //   a distributed deployment for the duration of the cache TTL.
 // This is the PERMANENT FALLBACK for no-hiredis builds; it is not a temporary stub.
-// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md § "Redis Pub/Sub Invalidation (v1.6.0)"
+// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md (Redis pub/sub invalidation — planned)
 bool RedisCacheCoordinator::connectPublish() {
     return false;
 }

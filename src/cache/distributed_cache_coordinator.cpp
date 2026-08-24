@@ -287,6 +287,12 @@ namespace {
 /// Maximum back-off cap for the subscriber reconnect loop.
 /// The initial back-off is taken from config_.reconnect_interval_ms.
 constexpr int kReconnectBackoffMaxMs = 30000; ///< Maximum back-off: 30 seconds
+
+/// Bounded retry constants for the publisher PUBLISH path (no_retry_logic fix).
+/// The publish loop retries up to kMaxPublishRetries times with an initial
+/// kPublishRetryDelayMs delay (doubled each attempt) before giving up.
+constexpr int kMaxPublishRetries    = 2;   ///< at most 2 reconnect+retry attempts
+constexpr int kPublishRetryDelayMs  = 50;  ///< initial retry delay: 50 ms
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -591,65 +597,52 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
 }
 
 bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::string &payload) {
-    // C2: Double-checked locking — fast path when publisher is already connected.
-    // coordinator_ready_ is checked with acquire semantics before the mutex.
-    // A relaxed re-check under the lock is sufficient because the mutex provides
-    // the necessary ordering barrier for the initialisation payload.
-    if (!coordinator_ready_.load(std::memory_order_acquire)) {
+    // no_retry_logic fix: the publish path now retries up to kMaxPublishRetries
+    // times on send/recv failure, reconnecting before each retry attempt.
+    // This mirrors the subscriber loop's bounded back-off without introducing
+    // an unbounded blocking publish path.
+    const std::string cmd = buildRespCommand({"PUBLISH", channel, payload});
+    int retry_delay_ms = kPublishRetryDelayMs;
+
+    for (int attempt = 0; attempt <= kMaxPublishRetries; ++attempt) {
+        if (attempt > 0) {
+            THEMIS_WARN("RedisCacheCoordinator: PUBLISH retry {}/{} after {}ms",
+                        attempt, kMaxPublishRetries, retry_delay_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+            retry_delay_ms *= 2;
+        }
+
+        // C2: Double-checked locking — fast path when publisher is already connected.
+        // coordinator_ready_ is checked with acquire semantics before the mutex.
+        // A relaxed re-check under the lock is sufficient because the mutex provides
+        // the necessary ordering barrier for the initialisation payload.
         std::unique_lock<std::mutex> lk(pub_mutex_);
         if (!coordinator_ready_.load(std::memory_order_relaxed)) {
-            // Expensive path: establish/re-establish publisher connection.
             if (!ensurePublisherConnected()) {
-                return false;
+                continue; // will retry on next attempt
             }
             coordinator_ready_.store(true, std::memory_order_release);
         }
-        // Fall through — we hold pub_mutex_ and the connection is ready.
-        const std::string cmd = buildRespCommand({"PUBLISH", channel, payload});
+
         if (!sendAll(pub_fd_, cmd)) {
             THEMIS_WARN("RedisCacheCoordinator: PUBLISH send failed; will reconnect");
             closeSocket(pub_fd_);
             pub_ok_ = false;
             coordinator_ready_.store(false, std::memory_order_release);
-            return false;
+            continue;
         }
         std::string reply;
         if (!readLine(pub_fd_, reply)) {
             closeSocket(pub_fd_);
             pub_ok_ = false;
             coordinator_ready_.store(false, std::memory_order_release);
-            return false;
+            continue;
         }
         return !reply.empty() && reply[0] != '-';
     }
 
-    // Fast path: publisher already connected; still need the lock for I/O.
-    std::lock_guard<std::mutex> lk(pub_mutex_);
-
-    if (!ensurePublisherConnected()) {
-        return false;
-    }
-
-    // PUBLISH <channel> <payload>
-    const std::string cmd = buildRespCommand({"PUBLISH", channel, payload});
-    if (!sendAll(pub_fd_, cmd)) {
-        THEMIS_WARN("RedisCacheCoordinator: PUBLISH send failed; will reconnect");
-        closeSocket(pub_fd_);
-        pub_ok_ = false;
-        coordinator_ready_.store(false, std::memory_order_release);
-        return false;
-    }
-
-    // Read the integer reply (:N\r\n)
-    std::string reply;
-    if (!readLine(pub_fd_, reply)) {
-        closeSocket(pub_fd_);
-        pub_ok_ = false;
-        coordinator_ready_.store(false, std::memory_order_release);
-        return false;
-    }
-
-    return !reply.empty() && reply[0] != '-';
+    THEMIS_WARN("RedisCacheCoordinator: PUBLISH failed after {} attempts", kMaxPublishRetries + 1);
+    return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -813,7 +806,9 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
             received += static_cast<size_t>(n);
         }
         // Consume trailing \r\n
-        char crlf[2];
+        // uninitialized_array fix: zero-initialise so the array has a defined
+        // state regardless of whether MSG_WAITALL fills it (e.g., partial recv).
+        char crlf[2] = {};
         if (::recv(fd, crlf, 2, MSG_WAITALL) != 2)
             return false;
         return true;

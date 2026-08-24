@@ -11,7 +11,7 @@
  * - Moved-from state validation
  * - Access tracking for cache analytics
  * 
- * @see ThemisDB Remediation Roadmap: Sprint 8 Phase 1C
+ * @see ThemisDB Cache Module Roadmap: src/cache/ROADMAP.md
  */
 
 #pragma once

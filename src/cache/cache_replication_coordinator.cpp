@@ -175,7 +175,7 @@ void InProcessCacheCoordinator::deliver(const ReplicationMessage& msg) {
 }
 
 nlohmann::json InProcessCacheCoordinator::getStats() const {
-    uint64_t sent, received;
+    uint64_t sent = 0, received = 0;
     {
         std::lock_guard<std::mutex> lk(mutex_);
         sent     = messages_sent_;
@@ -298,7 +298,7 @@ bool CacheReplicationCoordinator::isConnected() const {
 }
 
 nlohmann::json CacheReplicationCoordinator::getStats() const {
-    uint64_t enqueued, dropped, delivered, retried, failed;
+    uint64_t enqueued = 0, dropped = 0, delivered = 0, retried = 0, failed = 0;
     {
         std::lock_guard<std::mutex> lk(metrics_mutex_);
         enqueued  = fanout_enqueued_;

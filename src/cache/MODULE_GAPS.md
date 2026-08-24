@@ -74,7 +74,34 @@ This file documents all documentation and code quality gaps in the **cache** mod
 
 ... and 1551 more gaps (dominated by scope_mismatch).
 
-## Resolution Evidence (2026-08-19)
+## Resolution Evidence (2026-08-24 — Gap Closure Session)
+
+### Fixes Applied
+
+| Gap | File(s) | Fix |
+|-----|---------|-----|
+| `uninitialized_array` (1) | `distributed_cache_coordinator.cpp:811` | `char crlf[2];` → `char crlf[2] = {};` — zero-initialises the 2-byte CRLF read buffer in the RESP bulk-string lambda |
+| `uninitialized_access` (2) | `cache_replication_coordinator.cpp:178,301` | `uint64_t sent, received;` → `= 0, = 0;`; `uint64_t enqueued, dropped, delivered, retried, failed;` → all `= 0` |
+| `missing_volatile` (4) | `include/cache/distributed_cache_coordinator.h:233-242` | Added `// THREAD SAFETY: always accessed under stats_mutex_` comment block and per-variable `///< guarded by stats_mutex_` inline annotations — mutex exclusion is the documented and sufficient protection; `std::atomic` is not required |
+| `memory_order` (1) | `src/cache/grpc_remote_cache_peer.cpp:130,141,144` `include/cache/grpc_remote_cache_peer.h:137,212,234,241,244` | All `healthy_.store(…, memory_order_relaxed)` → `memory_order_release`; all `healthy_.load(…, memory_order_relaxed)` → `memory_order_acquire` — ensures happens-before ordering between gRPC outcome stores and caller reads |
+| `generic_catch` (1) | `src/cache/semantic_cache.cpp:40,43,48` | Silent `catch (const std::string& ex)` and `catch (const char* ex)` blocks in `CacheEntry::fromJson()` now log via `THEMIS_DEBUG` |
+| `no_retry_logic` (2) | `src/cache/distributed_cache_coordinator.cpp:600-644` `src/cache/redis_cache_coordinator.cpp:149-230, 237-305` | Added `kMaxPublishRetries=2` / `kPublishRetryDelayMs=50` constants and bounded retry loops (doubling back-off) to `redisPublish()` (POSIX path) and `publishEntry()` + `publishInvalidation()` (hiredis path) |
+| `stale_doc_section_reference` (3) | `src/cache/grpc_remote_cache_peer.cpp:34` `src/cache/redis_cache_coordinator.cpp:612` `include/cache/cache_eviction_policy.h:14` `include/cache/cache_manager.h:14` `include/cache/lru_cache.h:14` | Replaced non-existent section anchors (`§"gRPC Remote Cache Peer Activation"`, `§"Redis Pub/Sub Invalidation (v1.6.0)"`, `Sprint 8 Phase 1C`) with valid, stable references (`src/cache/FUTURE_ENHANCEMENTS.md`, `src/cache/ROADMAP.md`) |
+| `module_doc_linkset_drift` (2) | `include/cache/ARCHITECTURE.md:1` `include/cache/FUTURE_ENHANCEMENTS.md:1` | Removed spurious `> **Build:** \`cmake --preset linux-release...\`` lines that were erroneously prepended to both docs — they reference a build command that does not belong in architectural documentation |
+
+### False Positive Analysis (2026-08-24)
+
+| Type | Count | Analysis | Disposition |
+|------|-------|----------|-------------|
+| `delete_no_nullptr` | 2 | No raw `delete ptr;` expressions exist anywhere in `src/cache/` or `include/cache/`. All hiredis `redisFree()` calls are null-guarded. Scanner likely matched `rocksdb::WriteBatch::Delete()` or keyword heuristic. | **FALSE POSITIVE** — no action |
+| `delete_without_nullptr` | 2 | Same as above. | **FALSE POSITIVE** — no action |
+| `missing_noexcept_on_move` | 2 | All move constructors/operators in scope already carry `noexcept`. Confirmed by manual review of all `include/cache/*.h` headers. | **FALSE POSITIVE** — no action |
+| `range_temporary` | 7 | No iterator-on-temporary patterns (`for (auto x : func())`) found in any cache source. Confirmed by full-file grep. | **FALSE POSITIVE** — no action |
+| `o_n_squared` | 1 | No nested O(n²) loops found. All candidate loops iterate disjoint collections or use hash-indexed lookups. | **FALSE POSITIVE** — no action |
+| `command_injection` | 1 | No `system()`, `popen()`, or `exec*()` calls exist anywhere in the cache module. RESP protocol command building uses only fixed format strings with binary-safe `%b` length prefixes. | **FALSE POSITIVE** — no action |
+| `db_connection_leak` | 1 | `SemanticCache` receives `rocksdb::TransactionDB*` as a constructor parameter — it does not own or open the connection. Ownership (and therefore RAII responsibility) belongs to the caller. | **FALSE POSITIVE** — not a leak |
+
+
 
 ### CRITICAL Gaps Fixed
 
@@ -110,7 +137,12 @@ These are scanner artifacts from file-level analysis and should be excluded in t
 | `lock_contention` | 8 | Requires profiling evidence |
 | `todo_as_productionlogic` | 23 | Per-file scanner metadata annotations (not actual `// TODO` comments in code) |
 | `missing_include` (`<optional>`) | 1 | Pre-existing gap in `redis_cache_coordinator.h:252` — not introduced by this session; requires separate fix |
-| Other (command_injection, db_connection_leak, etc.) | ~46 | Require targeted analysis per file |
+| `delete_no_nullptr` / `delete_without_nullptr` | 4 | **FALSE POSITIVE** — no raw `delete ptr;` in cache sources (see 2026-08-24 analysis) |
+| `range_temporary` | 7 | **FALSE POSITIVE** — no iterator-on-temporary patterns found (see 2026-08-24 analysis) |
+| `o_n_squared` | 1 | **FALSE POSITIVE** — no O(n²) loops identified (see 2026-08-24 analysis) |
+| `command_injection` | 1 | **FALSE POSITIVE** — no `system()`/`popen()`/`exec*()` calls (see 2026-08-24 analysis) |
+| `db_connection_leak` | 1 | **FALSE POSITIVE** — `SemanticCache` does not own the DB connection (see 2026-08-24 analysis) |
+| `missing_noexcept_on_move` | 2 | **FALSE POSITIVE** — all move ops already have `noexcept` (see 2026-08-24 analysis) |
 
 ---
 
