@@ -1,6 +1,6 @@
 # Audit Report - Failover Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-24 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -10,8 +10,8 @@
 | Build registration | pass |
 | Source set size | 2 implementation files in src/failover |
 | Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+| Open hardening findings | none (all closed 2026-08-24) |
+| Critical blockers | none |
 
 ## Verified Files
 
@@ -24,26 +24,25 @@
 
 ### Open
 
-1. [FO-AUD-01] dependency-degraded recovery behavior hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for dependency/fencing edge parity.
-- Action: close deterministic regressions across unavailable manager and timeout scenarios.
-
-2. [FO-AUD-02] queue-pressure and retry diagnostics need additional tightening.
-- Severity: medium
-- Evidence: active follow-up work for queue saturation and retry escalation visibility.
-- Action: unify telemetry and failure taxonomy for queue/retry critical paths.
-
-3. [FO-AUD-03] benchmark coverage for failover-native hot paths is limited.
-- Severity: low
-- Evidence: current mapping relies on a narrow proxy benchmark surface.
-- Action: introduce dedicated failover benchmark cases for queue worker and DR-step execution.
+*No open findings.*
 
 ### Closed
 
 - core failover runtime surfaces are present and source-verified.
 - documentation set is synchronized to source-verifiable claims.
 - changelog/roadmap role separation is aligned to governance pattern.
+- [FO-AUD-01] dependency-degraded recovery behavior hardening — **CLOSED 2026-08-24**.
+  Evidence: `stop()` bounded wait contracts, `processFailover()` fail-closed state transitions,
+  unavailable-manager guards in `checkAndWaitForQuorum()`, `preventSplitBrain()`, and
+  `selectAndPromoteReplica()`; covered by P23-01..08 and FCH-01..16 test suites.
+- [FO-AUD-02] queue-pressure and retry diagnostics — **CLOSED 2026-08-24**.
+  Evidence: `emitDiagnostic(FailoverErrorCode, node_id, detail)` unifies log+event dispatch;
+  queue-saturation metrics tracked in `stats_` (batch stats flush, `tasks_dropped_queue_full`,
+  `queue_pressure_events`); covered by chaos scenario test suite (17 cases).
+- [FO-AUD-03] benchmark coverage for failover-native hot paths — **CLOSED 2026-08-24**.
+  Evidence: `benchmarks/failover/bench_failover_release_gates.cpp` (FRG-01..06),
+  `benchmarks/failover/bench_failover_phase2_phase3_gates.cpp` (FP23-01..06),
+  `benchmarks/failover/bench_failover_wave_b_gates.cpp` (FWB-01..08).
 
 ## Compliance Snapshot
 

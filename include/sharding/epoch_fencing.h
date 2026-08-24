@@ -287,7 +287,7 @@ public:
                                  std::shared_ptr<IStonithProvider> stonith =
                                      std::make_shared<NullStonithProvider>());
 
-    ~EpochFencingManager();
+    virtual ~EpochFencingManager();
 
     // ── Epoch management ────────────────────────────────────────────────────
 
@@ -299,8 +299,10 @@ public:
      *
      * @param reason  Log message describing why the epoch was bumped.
      * @return New EpochToken with `epoch == currentEpoch()`.
+     * @note Virtual to enable test doubles that return controlled epoch values
+     *       (e.g. epoch=0 to exercise the invalid-epoch guard in failover paths).
      */
-    [[nodiscard]] EpochToken bumpEpoch(const std::string& reason);
+    [[nodiscard]] virtual EpochToken bumpEpoch(const std::string& reason);
 
     /**
      * @brief Return the current epoch without modifying it.
