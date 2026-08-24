@@ -46,9 +46,13 @@ if(NOT DEFINED THEMIS_ENABLE_VECTOR_SEARCH)
     endif()
 endif()
 
-# Vulkan backend (cross-platform, default)
+# Vulkan backend (cross-platform, default ON when GPU is enabled)
 if(NOT DEFINED THEMIS_ENABLE_VULKAN)
-    option(THEMIS_ENABLE_VULKAN "Enable Vulkan compute backend" ON)
+    if(THEMIS_ENABLE_GPU)
+        option(THEMIS_ENABLE_VULKAN "Enable Vulkan compute backend" ON)
+    else()
+        option(THEMIS_ENABLE_VULKAN "Enable Vulkan compute backend" OFF)
+    endif()
 endif()
 
 # ── AI Hardware / NPU backends ────────────────────────────────────────────────
