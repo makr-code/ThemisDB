@@ -15,7 +15,9 @@
  */
 
 #include <gtest/gtest.h>
+#include <mutex>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 #include <chrono>
 #include <thread>
@@ -26,6 +28,71 @@
 namespace themis {
 namespace cache {
 
+class TestEvictionListenerManager : public EvictionListenerManager {
+public:
+    uint64_t registerListener(std::shared_ptr<IEvictionListener> listener) override {
+        if (!listener) {
+            return 0;
+        }
+
+        std::lock_guard<std::mutex> lock(mutex_);
+        const uint64_t handle = next_handle_++;
+        listeners_.emplace(handle, std::move(listener));
+        return handle;
+    }
+
+    void unregisterListener(uint64_t handle) override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        listeners_.erase(handle);
+    }
+
+    void emitEvictionEvent(const CacheEvictionEvent& event) override {
+        std::vector<std::shared_ptr<IEvictionListener>> snapshot;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            snapshot.reserve(listeners_.size());
+            for (const auto& [_, listener] : listeners_) {
+                snapshot.push_back(listener);
+            }
+        }
+
+        for (const auto& listener : snapshot) {
+            if (listener) {
+                listener->onCacheEvicted(event);
+            }
+        }
+    }
+
+    void emitCapacityPressure(TierLevel from_tier, uint32_t current_capacity_percent,
+                              std::size_t recommended_eviction_count) override {
+        std::vector<std::shared_ptr<IEvictionListener>> snapshot;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            snapshot.reserve(listeners_.size());
+            for (const auto& [_, listener] : listeners_) {
+                snapshot.push_back(listener);
+            }
+        }
+
+        for (const auto& listener : snapshot) {
+            if (listener) {
+                listener->onCapacityPressure(from_tier, current_capacity_percent,
+                                             recommended_eviction_count);
+            }
+        }
+    }
+
+    std::size_t getListenerCount() const noexcept override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return listeners_.size();
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<uint64_t, std::shared_ptr<IEvictionListener>> listeners_;
+    uint64_t next_handle_ = 1;
+};
+
 /**
  * @brief Mock coordinator implementation for testing.
  * 
@@ -34,7 +101,7 @@ namespace cache {
 class MockAccessCoordinator : public access_model::AccessCoordinator {
 public:
     struct CapturedEvent {
-        CacheEvictionEvent event;
+        access_model::EvictionEvent event;
         std::chrono::system_clock::time_point received_at;
     };
 
@@ -43,34 +110,36 @@ public:
     std::size_t promotion_decisions = 0;
     std::size_t demotion_decisions = 0;
 
-    // EvictionListener implementation
-    void onCacheEvicted(const access_model::EvictionListener::EvictionEvent& event) override {
-        // Phase 3: Receive cache eviction events
-        // In real coordinator: analyze event and make promotion/demotion decision
+    // EvictionListener / AccessCoordinator legacy adapter
+    void onCacheEvicted(std::string_view key, access_model::TierLevel from_tier,
+                        std::size_t size_bytes, uint64_t access_count,
+                        std::chrono::seconds last_access_age_secs,
+                        std::string_view eviction_reason) override {
+        access_model::EvictionEvent event;
+        event.key = std::string(key);
+        event.tier = from_tier;
+        event.reason = std::string(eviction_reason);
+        event.evicted_size_bytes = size_bytes;
+        event.access_count = access_count;
+        event.last_access_age_secs = last_access_age_secs;
+
         CapturedEvent captured;
+        captured.event = event;
         captured.received_at = std::chrono::system_clock::now();
-        
-        // Convert from access_model::EvictionListener format to cache::CacheEvictionEvent
-        // (In real implementation, would be same type or mapped)
-        
         captured_events.push_back(captured);
 
-        // Decision logic (simplified for test)
         if (event.access_count > 10) {
-            promotion_decisions++;  // High-access → promote to warm storage
+            promotion_decisions++;
         } else if (event.access_count < 2) {
-            demotion_decisions++;   // Low-access → demote to cold storage
+            demotion_decisions++;
         }
     }
 
-    // PromotionListener implementation
-    void onStorageAccess(std::string_view key, access_model::TierLevel from_tier,
-                        uint64_t access_count,
-                        std::chrono::seconds access_window) override {
-        // Phase 3: Receive storage hot-access patterns
-        // Decide whether to promote to cache
+    void onStorageAccess(std::string_view, access_model::TierLevel,
+                         uint64_t access_count,
+                         std::chrono::seconds access_window) override {
         if (access_count / access_window.count() > 3) {
-            promotion_decisions++;  // High-frequency → promote to L3 cache
+            promotion_decisions++;
         }
     }
 
@@ -79,39 +148,37 @@ public:
         return true;
     }
 
+    void start() override {}
+
     void shutdown() override {}
     bool isRunning() const override { return true; }
 
     void setAgePolicy(const access_model::AgeBasedPolicy&) override {}
-    access_model::AgeBasedPolicy getAgePolicy() const override { return {}; }
 
-    void setPromotionThresholds(uint64_t, uint64_t, uint64_t) override {}
+    void setPromotionThresholds(uint64_t, uint64_t) override {}
 
-    access_model::TierPromotionResult promoteAsync(
-        std::string_view, access_model::TierLevel, access_model::TierLevel,
-        const access_model::TierAccessOptions&) override {
-        return {};
+    std::future<access_model::PromotionResult> promoteAsync(const std::string&, access_model::TierLevel,
+                                                            access_model::TierLevel, uint64_t) override {
+        return std::async(std::launch::deferred, [] { return access_model::PromotionResult{}; });
     }
 
-    access_model::DemotionPlan planDemotion(std::string_view, access_model::TierLevel,
-                                           access_model::TierLevel,
-                                           std::string_view) override {
-        return {};
+    std::optional<access_model::DemotionPlan> planDemotion(const std::string&, access_model::TierLevel,
+                                                           access_model::TierLevel, uint64_t) override {
+        return std::nullopt;
     }
 
-    access_model::DemotionResult executeDemotion(const access_model::DemotionPlan&,
-                                                const access_model::TierAccessOptions&) override {
-        return {};
+    std::optional<access_model::DemotionResult> executeDemotion(const std::string&) override {
+        return std::nullopt;
     }
 
-    access_model::AccessMetrics getKeyMetrics(std::string_view) const override { return {}; }
-    access_model::TierMetrics getTierMetrics(access_model::TierLevel) const override { return {}; }
+    access_model::AccessMetrics getKeyMetrics(const std::string&) override { return {}; }
+    access_model::AccessMetrics getTierMetrics(access_model::TierLevel) override { return {}; }
 
-    std::vector<access_model::AccessTransitionEvent> getRecentTransitions(std::size_t) const override {
+    access_model::AccessModelMetrics getAccessModelMetrics() override { return {}; }
+
+    std::vector<access_model::AccessTransitionEvent> getRecentTransitions(std::size_t) override {
         return {};
     }
-
-    std::string getLastCorrelationId(std::string_view) const override { return ""; }
 };
 
 /**
@@ -119,12 +186,9 @@ public:
  */
 class CacheEvictionCoordinatorIntegrationTest : public ::testing::Test {
 protected:
-    void SetUp() override {
-        listener_manager = createEvictionListenerManager();
-        ASSERT_NE(listener_manager, nullptr);
-    }
+    void SetUp() override { listener_manager = std::make_unique<TestEvictionListenerManager>(); }
 
-    std::unique_ptr<EvictionListenerManager> listener_manager;
+    std::unique_ptr<TestEvictionListenerManager> listener_manager;
 };
 
 /**

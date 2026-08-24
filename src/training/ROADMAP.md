@@ -42,6 +42,8 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [ ] unify diagnostics across dataset, training, and adapter incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
+- [x] AdaLoRAAdapter::saveToFile()/loadFromFile() checkpoint round-trip — LORA-04 updated (2026-08-24)
+- [x] AdaLoRA rebuild-gate contract — LORA-08 (cache HIT / MISS / force-rebuild, 4-phase test) (2026-08-24)
 - [ ] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Target: Q4 2026)
 - [ ] extend deterministic stress fixtures for training-lifecycle workloads (Target: Q4 2026)
 

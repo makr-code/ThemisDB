@@ -36,6 +36,8 @@ namespace plugins {
 
 using json = nlohmann::json;
 
+struct PluginManagerTestAccess;
+
 // Forward declarations
 class PluginHotPlugMonitor;
 struct HotPlugConfig;
@@ -82,6 +84,8 @@ using PluginReloadListener = std::function<void(const std::string& plugin_name, 
  */
 class PluginManager {
 private:
+    friend struct PluginManagerTestAccess;
+
     struct PluginEntry {
         std::string name;
         PluginType type;

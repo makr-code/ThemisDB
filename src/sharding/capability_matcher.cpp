@@ -303,9 +303,9 @@ double CapabilityMatcher::calculateSemanticScore(
     double shard_magnitude = 0.0;
     
     for (size_t i = 0; i < query_embedding.size(); ++i) {
-        dot_product += query_embedding[i] * shard_embedding[i];
-        query_magnitude += query_embedding[i] * query_embedding[i];
-        shard_magnitude += shard_embedding[i] * shard_embedding[i];
+        dot_product += static_cast<double>(query_embedding[i]) * static_cast<double>(shard_embedding[i]);
+        query_magnitude += static_cast<double>(query_embedding[i]) * static_cast<double>(query_embedding[i]);
+        shard_magnitude += static_cast<double>(shard_embedding[i]) * static_cast<double>(shard_embedding[i]);
     }
     
     if (query_magnitude == 0.0 || shard_magnitude == 0.0) {

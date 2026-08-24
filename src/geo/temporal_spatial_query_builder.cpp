@@ -15,10 +15,12 @@
 
 #include "geo/temporal_spatial_query_builder.h"
 
+#include <chrono>
 #include <stdexcept>
 
 #include "geo/temporal_spatial_query.h"
 #include "temporal/temporal_types.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace geo {
@@ -29,6 +31,9 @@ namespace geo {
 
 std::vector<std::pair<std::string, GeometryInfo>>
 BuiltTemporalSpatialQuery::execute(const themisdb::temporal::SystemVersionedTable &table) const {
+    THEMIS_TRACE("geo.temporal_spatial_query.execute: enter");
+    const auto t0 = std::chrono::steady_clock::now();
+
     // Resolve the effective temporal window
     themisdb::temporal::Timestamp as_of_start = temporal_.interval_start;
     themisdb::temporal::Timestamp as_of_end   = temporal_.interval_end;
@@ -78,6 +83,9 @@ BuiltTemporalSpatialQuery::execute(const themisdb::temporal::SystemVersionedTabl
             result.emplace_back(key, geom);
         }
     }
+    const auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - t0).count();
+    THEMIS_DEBUG("geo.temporal_spatial_query.execute: elapsed_us={} result_count={}", elapsed_us, result.size());
     return result;
 }
 

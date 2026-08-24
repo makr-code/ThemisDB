@@ -11,8 +11,43 @@
 
 
 #include "llm/embedded_llm.h"
+#include "llm/prompt_safety_utils.h"
 #include "utils/error_registry.h"
+#include <algorithm>
+#include <cmath>
 #include <spdlog/spdlog.h>
+
+namespace {
+
+std::vector<float> buildFallbackEmbedding(const std::string& text) {
+    constexpr std::size_t kEmbeddingDim = 64;
+    std::vector<float> embedding(kEmbeddingDim, 0.0f);
+
+    if (text.empty()) {
+        embedding[0] = 1.0f;
+        return embedding;
+    }
+
+    for (std::size_t i = 0; i < text.size(); ++i) {
+        const auto bucket = (static_cast<unsigned char>(text[i]) + i) % kEmbeddingDim;
+        embedding[bucket] += 1.0f + static_cast<float>((i % 7) + 1) * 0.05f;
+    }
+
+    float norm = 0.0f;
+    for (float value : embedding) {
+        norm += value * value;
+    }
+    norm = std::sqrt(norm);
+    if (norm > 0.0f) {
+        for (float& value : embedding) {
+            value /= norm;
+        }
+    }
+
+    return embedding;
+}
+
+} // namespace
 
 namespace themis {
 namespace llm {
@@ -159,6 +194,17 @@ std::vector<float> EmbeddedLLM::embed(const std::string& text) {
             return result;
         }
     }
+    if (!wrapper_ || !wrapper_->isModelLoaded()) {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        auto it = embedding_cache_.find(text);
+        if (it != embedding_cache_.end()) {
+            return it->second;
+        }
+
+        auto fallback = buildFallbackEmbedding(text);
+        embedding_cache_.emplace(text, fallback);
+        return fallback;
+    }
     {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         auto it = embedding_cache_.find(text);
@@ -166,7 +212,16 @@ std::vector<float> EmbeddedLLM::embed(const std::string& text) {
             return it->second;
         }
     }
-    auto embedding = wrapper_->embed(text);
+    std::vector<float> embedding;
+    try {
+        embedding = wrapper_->embed(text);
+    } catch (const std::exception& e) {
+        spdlog::warn("EmbeddedLLM embed backend failed: {}; using deterministic fallback", e.what());
+        embedding = buildFallbackEmbedding(text);
+    } catch (...) {
+        spdlog::warn("EmbeddedLLM embed backend threw a non-std exception; using deterministic fallback");
+        embedding = buildFallbackEmbedding(text);
+    }
     {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         embedding_cache_.emplace(text, embedding);
@@ -232,13 +287,76 @@ json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_toke
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
+    std::string sanitized_prompt;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!prompt_safety::sanitizePromptWithSharedPolicy(
+            request.prompt, sanitized_prompt, &blocked_rule, &blocked_reason)) {
+        spdlog::warn("EmbeddedLLM: prompt blocked by safety policy '{}': {}",
+                     blocked_rule, blocked_reason);
+        InferenceResponse resp;
+        resp.request_id = request.request_id;
+        resp.model_id = request.model_id;
+        resp.trace_id = request.trace_id;
+        resp.span_id = request.span_id;
+        resp.success = false;
+        resp.error_message = "Prompt blocked by safety policy: " + blocked_rule;
+        resp.metadata = json{{"llm_enabled", false}, {"backend", "safety-blocked"}, {"model_backend_ready", false}};
+        return resp;
+    }
+
+    InferenceRequest safe_req = request;
+    safe_req.prompt = std::move(sanitized_prompt);
+
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
         if (generate_full_fn_) {
-            return generate_full_fn_(request);
+            try {
+                auto response = generate_full_fn_(safe_req);
+                if (safe_req.stream_callback && !response.text.empty()) {
+                    try {
+                        safe_req.stream_callback(response.text);
+                    } catch (const std::exception& e) {
+                        spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
+                    } catch (...) {
+                        spdlog::warn("EmbeddedLLM stream callback threw a non-std exception; stream token delivery skipped");
+                    }
+                }
+                return response;
+            } catch (const std::exception& e) {
+                spdlog::warn("EmbeddedLLM generate bridge callback failed: {}", e.what());
+            } catch (...) {
+                spdlog::warn("EmbeddedLLM generate bridge callback threw a non-std exception; falling back to fail-closed path");
+            }
         }
     }
-    return wrapper_->generate(request);
+
+    if (!wrapper_ || !wrapper_->isModelLoaded()) {
+        InferenceResponse resp;
+        resp.request_id = safe_req.request_id;
+        resp.model_id = safe_req.model_id;
+        resp.model_used = safe_req.model_id;
+        resp.trace_id = safe_req.trace_id;
+        resp.span_id = safe_req.span_id;
+        resp.success = false;
+        resp.error_message = "LLM backend not initialized — configure a model or build with THEMIS_ENABLE_LLM";
+        resp.metadata = json{{"llm_enabled", false}, {"backend", "no-backend-fail-closed"}, {"model_backend_ready", false}};
+        return resp;
+    }
+
+    try {
+        return wrapper_->generate(safe_req);
+    } catch (const std::exception& e) {
+        InferenceResponse resp;
+        resp.request_id = safe_req.request_id;
+        resp.model_id = safe_req.model_id;
+        resp.trace_id = safe_req.trace_id;
+        resp.span_id = safe_req.span_id;
+        resp.success = false;
+        resp.error_message = e.what();
+        resp.metadata = json{{"llm_enabled", false}, {"backend", "no-backend-fail-closed"}, {"model_backend_ready", false}};
+        return resp;
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -269,11 +387,26 @@ std::string EmbeddedLLM::getModelInfo() const {
 }
 
 json EmbeddedLLM::getStats() const {
-    if (!wrapper_) {
-        return json{{"error", "No wrapper"}};
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    const bool has_backend = static_cast<bool>(generate_full_fn_);
+    const bool model_ready = wrapper_ && wrapper_->isModelLoaded();
+
+    json stats = json{
+        {"llm_enabled", false},
+        {"embedding_enabled", true},
+        {"initialized", true},
+        {"backend", has_backend ? "injected-callback" : (model_ready ? "llama-cpp-backend" : "no-backend-fail-closed")},
+        {"override_generate_backend", has_backend},
+        {"override_embedding_backend", static_cast<bool>(embed_fn_)},
+        {"model_backend_ready", model_ready}
+    };
+
+    if (wrapper_ && model_ready) {
+        auto perf = wrapper_->getPerformanceStats();
+        stats.update(perf);
     }
-    
-    return wrapper_->getPerformanceStats();
+
+    return stats;
 }
 
 void EmbeddedLLM::clearCache() {

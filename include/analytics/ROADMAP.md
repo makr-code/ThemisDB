@@ -1,6 +1,6 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-08-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/analytics/ROADMAP.md -->
 
 # Analytics Module — Public Header Roadmap
@@ -40,6 +40,7 @@ All 24 analytics headers are present. Public entry points exist for OLAP, column
 
 - [ ] Align streaming-window and CEP header docs around shared event-schema expectations (Target: 2026-Q3)
 - [ ] Document Arrow Flight server-capability matrix for batch-vs-streaming consumers (Target: 2026-Q3)
+- [x] Extend serving-header security contract with model-integrity and transport-policy controls (`model_serving.h`, `ml_serving.h`) (Completed 2026-08-19)
 
 ---
 

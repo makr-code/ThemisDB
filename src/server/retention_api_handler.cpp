@@ -129,7 +129,8 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
         }
         
         // Check if policy already exists
-        bool exists = (retention_manager.getPolicy(policy.name) != nullptr);
+        const auto existing_policy = retention_manager.getPolicy(policy.name);
+        bool exists = existing_policy.has_value() && existing_policy.value() != nullptr;
         
         if (!retention_manager.registerPolicy(policy)) {
             return json{

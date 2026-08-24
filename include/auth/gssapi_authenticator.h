@@ -17,14 +17,32 @@
 #include <optional>
 #include <memory>
 #include <chrono>
+#include <cstdint>
+
+#ifndef THEMIS_HAVE_GSSAPI
+#define THEMIS_HAVE_GSSAPI 0
+#endif
 
 #ifdef _WIN32
 #define SECURITY_WIN32
 #include <windows.h>
 #include <sspi.h>
 #else
+#if defined(THEMIS_HAS_KERBEROS) && THEMIS_HAS_KERBEROS
+#if defined(__has_include)
+#if __has_include(<gssapi/gssapi.h>) && __has_include(<gssapi/gssapi_krb5.h>)
+#undef THEMIS_HAVE_GSSAPI
+#define THEMIS_HAVE_GSSAPI 1
 #include <gssapi/gssapi.h>
 #include <gssapi/gssapi_krb5.h>
+#endif
+#else
+#undef THEMIS_HAVE_GSSAPI
+#define THEMIS_HAVE_GSSAPI 1
+#include <gssapi/gssapi.h>
+#include <gssapi/gssapi_krb5.h>
+#endif
+#endif
 #endif
 
 namespace themis {
@@ -77,10 +95,14 @@ struct GSSAPIAuthResult {
  * @brief GSSAPI/Kerberos authenticator for enterprise SSO integration
  * 
  * This class provides Kerberos v5 authentication using GSSAPI (Generic Security
- * Services API). It supports:
+ * Services API) when the platform headers are available. It supports:
  * - MIT Kerberos 5
  * - Active Directory
  * - Heimdal Kerberos
+ *
+ * If GSSAPI headers are not available at build time, the class still compiles
+ * but initialization fails closed and authentication returns an unsupported
+ * error instead of dereferencing missing system types.
  * 
  * Authentication flow:
  * 1. Server initializes with service principal and keytab
@@ -161,11 +183,13 @@ private:
     // Windows SSPI handles
     CredHandle server_creds_;
     TimeStamp creds_expiry_;
-#else
+#elif THEMIS_HAVE_GSSAPI
     // Unix GSSAPI handles
     gss_ctx_id_t context_;
     gss_cred_id_t server_creds_;
     gss_name_t server_name_;
+#else
+    // GSSAPI headers unavailable; no platform-specific handle state.
 #endif
     
     /**

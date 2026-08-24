@@ -174,6 +174,10 @@ public:
         /// Timeout per shard in milliseconds. 0 = no timeout.
         uint32_t shard_timeout_ms = 30000;
 
+        /// Legacy alias retained for compatibility with older analytics tests.
+        /// When non-zero it overrides the generic timeout for shard execution.
+        uint32_t shard_execution_timeout_ms = 30000;
+
         /// Interval between background health-monitor sweeps.
         /// Default: 5 s.  Set to zero to disable the background monitor.
         std::chrono::milliseconds health_check_interval{5000};
@@ -256,6 +260,15 @@ public:
         std::vector<ShardExecutionInfo> shard_info;
         size_t successful_shards = 0;
         size_t total_shards = 0;
+        /// Wall-clock duration of the entire executeDistributed() call in milliseconds.
+        double total_execution_ms = 0.0;
+        /// Time spent in the result-merge phase only (mergeResults). Excludes scatter/gather.
+        double merge_duration_ms = 0.0;
+        /// Actionable operator-facing remediation hints. Populated when failures, timeouts,
+        /// circuit-breaker trips, or high shard-failure rates are detected. Each entry is
+        /// a self-contained, human-readable hint suitable for surfacing in operator dashboards
+        /// or logs (e.g. "Shard 'shard_a' circuit breaker is OPEN — verify shard health").
+        std::vector<std::string> operator_hints;
     };
 
     // ------------------------------------------------------------------

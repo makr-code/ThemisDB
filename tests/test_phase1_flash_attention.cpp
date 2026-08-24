@@ -26,18 +26,40 @@ std::string getTestModelPath() {
     if (env_path && std::filesystem::exists(env_path)) {
         return env_path;
     }
-    
-    // Check default locations
-    std::vector<std::string> default_paths = {
-        "./models/tinyllama_1.1b.gguf",
-        "./models/llama3.2_1b.gguf",
-        "./models/phi3_mini.gguf",
-        "../models/tinyllama_1.1b.gguf"
+
+    const std::vector<std::filesystem::path> root_dirs = {
+        std::filesystem::current_path(),
+        std::filesystem::current_path() / "models",
+        std::filesystem::current_path() / ".." / "models",
+        std::filesystem::current_path() / ".." / ".." / "models"
     };
-    
-    for (const auto& path : default_paths) {
-        if (std::filesystem::exists(path)) {
-            return path;
+
+    for (const auto& root : root_dirs) {
+        for (const auto& candidate : {
+                "TinyLlama-1.1B-Chat-v1.0.gguf",
+                "tinyllama-1.1b-chat-v1.0.gguf",
+                "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+                "tinyllama_1.1b.gguf"}) {
+            auto path = root / candidate;
+            if (std::filesystem::exists(path) && std::filesystem::is_regular_file(path)) {
+                return path.string();
+            }
+        }
+
+        if (std::filesystem::exists(root) && std::filesystem::is_directory(root)) {
+            for (const auto& entry : std::filesystem::directory_iterator(root)) {
+                if (!entry.is_regular_file()) {
+                    continue;
+                }
+                const auto filename = entry.path().filename().string();
+                auto lower = filename;
+                std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) {
+                    return static_cast<char>(std::tolower(c));
+                });
+                if (lower.find("tinyllama") != std::string::npos && lower.find(".gguf") != std::string::npos) {
+                    return entry.path().string();
+                }
+            }
         }
     }
     
@@ -75,7 +97,7 @@ protected:
         model_path_ = getTestModelPath();
         
         if (model_path_.empty()) {
-            GTEST_SKIP() << "capability:model_available=false;reason=no_test_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
+            GTEST_SKIP() << "capability:model_available=false;reason=simulation_only_fallback_no_tinyllama_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
                          << compiledBackendSummary();
         }
     }

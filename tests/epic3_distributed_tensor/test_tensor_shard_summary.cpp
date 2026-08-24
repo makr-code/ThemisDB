@@ -26,7 +26,7 @@ using namespace themis::tensor;
 // ──────────────────────────────────────────────────────────────────────────────
 
 /// Milliseconds of a notional "past" refresh time that is still within TTL.
-constexpr int64_t kNowMs = 1_000_000'000'000LL; // arbitrary fixed "now"
+constexpr int64_t kNowMs = 1'000'000'000'000LL; // arbitrary fixed "now"
 constexpr int64_t kRecentMs = kNowMs - 60'000LL; // 60 s ago — within 1-hour TTL
 constexpr int64_t kExpiredMs = kNowMs - 7'200'000LL; // 2 hours ago — expired
 

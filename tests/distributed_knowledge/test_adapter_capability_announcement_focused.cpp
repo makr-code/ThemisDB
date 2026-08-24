@@ -281,11 +281,94 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultiplePublishersForSameShard) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// ACA-TRUST-01..05 — FederationTrustPolicy / fail-closed enforcement
+// ─────────────────────────────────────────────────────────────────────────────
+
+#include "distributed_knowledge/distributed_knowledge_api_contract.h"
+
+using namespace themis::distributed_knowledge;
+
+/**
+ * @test ACA-TRUST-01: AlwaysPermitTrustPolicy permits every announcement.
+ */
+TEST(FederationTrustPolicy, AlwaysPermitAllowsAll) {
+    AlwaysPermitTrustPolicy policy;
+    AdapterCapabilityAnnouncement ann;
+    ann.adapter_id = "adapter-trusted";
+    ann.shard_id   = "shard-01";
+    ann.is_active  = true;
+    EXPECT_EQ(policy.evaluateTrustGate(ann), TrustDecision::PERMIT);
+}
+
+/**
+ * @test ACA-TRUST-02: A custom reject policy returns REJECT for flagged adapters.
+ *
+ * Implements IFederationTrustPolicy inline to simulate a real domain blocklist.
+ */
+TEST(FederationTrustPolicy, CustomPolicyCanRejectAnnouncement) {
+    // Custom blocklist policy that rejects adapters with "untrusted" in the ID.
+    class BlocklistPolicy final : public IFederationTrustPolicy {
+    public:
+        [[nodiscard]] TrustDecision evaluateTrustGate(
+            const AdapterCapabilityAnnouncement& ann) const noexcept override {
+            if (ann.adapter_id.find("untrusted") != std::string::npos) {
+                return TrustDecision::REJECT;
+            }
+            return TrustDecision::PERMIT;
+        }
+    };
+
+    BlocklistPolicy policy;
+
+    AdapterCapabilityAnnouncement trusted;
+    trusted.adapter_id = "adapter-prod-001";
+    EXPECT_EQ(policy.evaluateTrustGate(trusted), TrustDecision::PERMIT);
+
+    AdapterCapabilityAnnouncement rejected;
+    rejected.adapter_id = "adapter-untrusted-ext";
+    EXPECT_EQ(policy.evaluateTrustGate(rejected), TrustDecision::REJECT);
+}
+
+/**
+ * @test ACA-TRUST-03: TrustDecision enum values are distinct.
+ */
+TEST(FederationTrustPolicy, TrustDecisionEnumValuesAreDistinct) {
+    EXPECT_NE(TrustDecision::PERMIT, TrustDecision::REJECT);
+}
+
+/**
+ * @test ACA-TRUST-04: DKErrorCode::TRUST_GATE_REJECTED is defined and distinct from
+ *                     all other codes.
+ */
+TEST(FederationTrustPolicy, TrustGateRejectedErrorCodeIsUnique) {
+    // Ensure the code compiles and is distinct from well-known codes.
+    EXPECT_NE(DKErrorCode::TRUST_GATE_REJECTED, DKErrorCode::OK);
+    EXPECT_NE(DKErrorCode::TRUST_GATE_REJECTED, DKErrorCode::FEDERATION_TIMEOUT);
+    EXPECT_NE(DKErrorCode::TRUST_GATE_REJECTED, DKErrorCode::INTERNAL_ERROR);
+    // TRUST_GATE_REJECTED is not retryable (fail-closed: the caller must fix the trust issue).
+    EXPECT_FALSE(isRetryableCode(DKErrorCode::TRUST_GATE_REJECTED));
+}
+
+/**
+ * @test ACA-TRUST-05: AlwaysPermitTrustPolicy polymorphic dispatch works correctly.
+ *
+ * Accesses the policy through the base-class pointer to confirm vtable dispatch.
+ */
+TEST(FederationTrustPolicy, PolymorphicDispatchThroughBasePointer) {
+    std::unique_ptr<IFederationTrustPolicy> policy =
+        std::make_unique<AlwaysPermitTrustPolicy>();
+
+    AdapterCapabilityAnnouncement ann;
+    ann.adapter_id = "adapter-any";
+    EXPECT_EQ(policy->evaluateTrustGate(ann), TrustDecision::PERMIT);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Test Summary
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*
- * Test Coverage Summary (ACA-01..ACA-10):
+ * Test Coverage Summary (ACA-01..ACA-10, ACA-TRUST-01..05):
  *
  * ACA-01: Announcement creation and JSON serialization
  * ACA-02: AdapterDomainType to string conversion for all types
@@ -298,6 +381,11 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultiplePublishersForSameShard) {
  * ACA-09: Empty adapter ID edge case
  * ACA-10: Multiple publishers for same shard
  *
- * Target: Q3 2026 Hardening - policy-edge semantics and cross-shard behavior.
- * Status: Focused unit test suite for capability announcement layer.
+ * ACA-TRUST-01: AlwaysPermitTrustPolicy permits every announcement
+ * ACA-TRUST-02: Custom policy can reject announcements by domain/ID
+ * ACA-TRUST-03: TrustDecision enum values are distinct
+ * ACA-TRUST-04: TRUST_GATE_REJECTED error code defined and non-retryable
+ * ACA-TRUST-05: Polymorphic dispatch through base pointer works
+ *
+ * Target: Q3-Q4 2026 Hardening - trust-gate fail-closed semantics.
  */

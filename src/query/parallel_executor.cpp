@@ -53,7 +53,7 @@ namespace themis {
  * @param timeout_seconds Maximum time to wait (default: 5 seconds).
  * @return true if wait completed within timeout; false if timeout exceeded.
  */
-inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) noexcept {
+inline bool waitWithTimeout(tbb::task_group& tg, [[maybe_unused]] double timeout_seconds = 5.0) noexcept {
     // TBB task_group::wait() is blocking and does not support timeouts natively.
     // For now, we simply call wait() directly. In future implementations, this
     // could be replaced with TBB 2021+ task_group mechanisms or custom timeout logic.
@@ -61,6 +61,7 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
     // LIMITATION: Cannot timeout on hung tasks without external mechanisms (e.g., watchdog threads).
     // Current behavior: blocks indefinitely if tasks hang (matching pre-1C behavior).
     // Mitigation: Callers should ensure tasks have their own timeout/cancellation logic.
+    (void)timeout_seconds;
     tg.wait();
     return true;  // Always returns true (wait completed)
 }

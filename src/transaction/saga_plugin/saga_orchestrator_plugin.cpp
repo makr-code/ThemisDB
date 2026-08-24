@@ -14,6 +14,7 @@
 #include "transaction/saga_orchestrator.h"
 
 #include <memory>
+#include <new>
 #include <nlohmann/json.hpp>
 #include <thread>
 #include <atomic>
@@ -212,29 +213,15 @@ private:
  * 
  * @note MEMORY OWNERSHIP:
  * - Caller is responsible for calling destroyPlugin() to free returned pointer
- * - Returned pointer is never nullptr (throws std::bad_alloc on failure)
- * - Exception safety: if allocation fails, throws exception; no dangling pointers
+ * - Returns nullptr on failure (C-ABI safe error reporting)
+ * - Exception safety: no exceptions escape this function
  * 
- * @return Pointer to newly allocated SagaOrchestratorPlugin instance
- * @throws std::bad_alloc if allocation fails
+ * @return Pointer to newly allocated SagaOrchestratorPlugin instance; nullptr on failure
  */
-extern "C" THEMIS_SAGA_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
-    try {
-        // Use new with RAII wrapper internally to ensure exception safety
-        // If std::make_unique-like semantics were available, we'd use it
-        auto* plugin = new themis::transaction::SagaOrchestratorPlugin();
-        if (!plugin) {
-            throw std::bad_alloc();
-        }
-        return plugin;
-    } catch (const std::bad_alloc&) {
-        // Propagate allocation failures - caller must handle or let process terminate
-        throw;
-    } catch (const std::exception& e) {
-        // Log any other exception and rethrow
-        spdlog::error("SagaOrchestratorPlugin creation failed: {}", e.what());
-        throw;
-    }
+extern "C" THEMIS_SAGA_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() noexcept {
+    // Keep C ABI boundary strictly non-throwing.
+    auto* plugin = new (std::nothrow) themis::transaction::SagaOrchestratorPlugin();
+    return plugin;
 }
 
 /**

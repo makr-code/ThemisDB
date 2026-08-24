@@ -17,6 +17,7 @@
 #include <chrono>
 #include <cstdint>
 #include <functional>
+#include <mutex>
 
 namespace themis {
 namespace observability {
@@ -225,7 +226,8 @@ public:
      * @brief Construct a mock backend.
      * @param failure_mode Failure mode to simulate.
      */
-    explicit MockExporterBackend(FailureMode failure_mode = FailureMode::NONE);
+    explicit MockExporterBackend(FailureMode failure_mode = FailureMode::NONE)
+        : failure_mode_(failure_mode) {}
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
@@ -261,6 +263,9 @@ public:
      * @return Map with keys: "export_calls", "successful_exports", "failed_exports", etc.
      */
     virtual std::map<std::string, double> getStatistics() = 0;
+
+protected:
+    FailureMode failure_mode_;
 };
 
 /**
@@ -402,6 +407,11 @@ public:
      */
     virtual std::string getGateName(std::size_t gate_index) const = 0;
 };
+
+std::unique_ptr<MockExporterBackend> createMockExporterBackend(
+    FailureMode failure_mode);
+
+std::unique_ptr<ExporterStressFramework> createExporterStressFramework();
 
 } // namespace observability
 } // namespace themis

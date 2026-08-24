@@ -195,7 +195,7 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
     json doc;
     doc["_id"]   = key;
 
-    auto sendCmd = [&](void* c, const std::vector<std::string>& cmd) -> std::string {
+    auto sendCmd = [&]([[maybe_unused]] void* c, const std::vector<std::string>& cmd) -> std::string {
     if (mock_command_fn_) return mock_command_fn_(cmd);
 #ifdef THEMIS_ENABLE_REDIS
     return executeHiredisCommand(c, cmd);

@@ -117,6 +117,43 @@ gh workflow run "ci-release.yml" --repo makr-code/ThemisDB --ref develop --field
 - Nach jeder Anhebung zuerst mehrere PR-Laeufe beobachten und nur bei stabiler Signalqualitaet weiter erhoehen.
 - Bei hoher False-Positive-Rate den Schwellwert voruebergehend zuruecksetzen und Doku-Luecken gezielt abbauen.
 
+## Label Policy
+
+### Kanonische Label-Definitionen
+Alle Repository-Labels sind in `.github/labels.yml` definiert (Name, Farbe, Beschreibung, Typ).
+Der Workflow `maintenance-labels.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
+an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
+
+### Label-Typen
+- **blocker** — blockiert Merge oder erfordert sofortige Maßnahme
+- **warning** — Aufmerksamkeit erforderlich, kein harter Merge-Blocker
+- **info** — informativ, keine Aktion erforderlich
+
+### Blocker-Labels (blockieren Merge via Branch Protection Rules)
+| Label | Gesetzt von | Gelöscht von |
+|---|---|---|
+| `ci/build-failed` | `ci-build.yml` (push → develop, Failure) | `ci-build.yml` bei nächstem Erfolg |
+| `ci/test-failed` | `ci-build.yml` (push → develop, Test-Failure) | `ci-build.yml` bei nächstem Erfolg |
+| `ci/failure` | `maintenance-build-issues.yml`, `maintenance-ci-health.yml` | manuell / nach Behebung |
+| `ci/chronic-failure` | `maintenance-ci-health.yml` (>30% Fehlerrate) | `maintenance-ci-health.yml` bei Erholung |
+| `ci/build-error` | `maintenance-build-issues.yml` | manuell |
+| `governance/drift` | `governance-gates.yml` | `governance-gates.yml` nach Korrektur |
+| `governance/wave-gate-fail` | `governance-gates.yml` | `governance-gates.yml` nach Gate-Erfüllung |
+| `security` | `maintenance-issues.yml` | nach Schließung des Issues |
+| `security/critical` | `maintenance-issues.yml` (critical findings) | nach Schließung des Issues |
+| `status/needs-approval` | `maintenance-ci-health.yml`, `maintenance-issues.yml` | manuell durch Maintainer |
+| `status/blocked` | manuell, `maintenance-build-issues.yml` | manuell |
+| `breaking-change` | `automation-community.yml` (AI-Analyse) | manuell |
+| `release_critical` | `actions/labeler` (path-basiert) | manuell |
+
+### Trigger-Policy für Workflows
+- **Schwere Build-Workflows** (C++ compile, test, scan, > 15 min) triggern **nur auf `push` zu kanonischen Branches**, nicht auf `pull_request`.
+  - Betrifft: `ci-build.yml`, `compliance-supply-chain.yml`
+- **Leichtgewichtige PR-Gate-Workflows** (Policy-Checks, Lint, < 5 min) triggern auf `pull_request`.
+  - Betrifft: `ci-pr-gates.yml`, `09-pr-gates_*.yml`, `governance-gates.yml`, `validate-*.yml`
+- Jeder PR-Workflow muss `concurrency` mit `cancel-in-progress: true` setzen.
+- `paths:` muss für PR-Workflows eng begrenzt sein — kein `src/**` oder `include/**` als einziges Muster.
+
 ## PR Governance for AI-Generated Changes
 - Pull Requests labeled `ai-generated` require maintainer review before merge.
 - Copilot PR summary/review support should be enabled in repository settings to assist human review, but does not replace maintainer approval.

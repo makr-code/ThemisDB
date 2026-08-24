@@ -46,6 +46,7 @@
 
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
+#include "../../test_crypto_material_utils.h"
 #include "utils/expected.h"
 
 namespace fs = std::filesystem;
@@ -852,8 +853,7 @@ TEST_F(CloudStorageBackupTest, EncryptionBeforeUpload) {
     BackupOptions options;
     options.storage = StorageBackend::S3;
     options.encrypt = true;
-    // Use clearly fake test key (not a predictable pattern)
-    options.encryption_key = "deadbeefcafebabedeadbeefcafebabedeadbeefcafebabedeadbeefcafebabe"; // 64 hex chars = 32 bytes (TEST KEY ONLY)
+    options.encryption_key = themis::tests::makeDeterministicHexKey(32, 5, 3);
     
     auto result = backup_mgr_->uploadBackupToCloud(
         local_backup,

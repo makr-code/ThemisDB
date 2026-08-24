@@ -271,11 +271,12 @@ public:
     /// Default maximum inference hops per `infer()` call.
     static constexpr int kDefaultMaxHops = 5;
     /// Hard upper cap (even if the caller requests more).
-    static constexpr int kHardMaxHops = 20;
+    inline static constexpr int kHardMaxHops = 20;
 
     // ── Life-cycle ──────────────────────────────────────────────────────────
 
     explicit KnowledgeGraphReasoner(int max_inference_hops = kDefaultMaxHops);
+    ~KnowledgeGraphReasoner() noexcept = default;
 
     KnowledgeGraphReasoner(const KnowledgeGraphReasoner&) = delete;
     KnowledgeGraphReasoner& operator=(const KnowledgeGraphReasoner&) = delete;

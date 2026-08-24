@@ -114,6 +114,10 @@ LLMValidationResult LLMValidationPipeline::execute(
     const std::string& schema_context)
 {
     auto start_time = std::chrono::high_resolution_clock::now();
+    const auto elapsedSinceStart = [&start_time]() {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::high_resolution_clock::now() - start_time);
+    };
     LLMValidationResult result;
 
     if (!impl_->llm_client || !impl_->llm_client->isReady()) {
@@ -121,7 +125,7 @@ LLMValidationResult LLMValidationPipeline::execute(
         result.error_message = "LLM client unavailable or not ready";
         result.attempts_made = 0;
         LLMMetricsCollector::instance().recordAQLGenerationAttempt(
-            false, 0, std::chrono::milliseconds(0), "client_unavailable");
+            false, 0, elapsedSinceStart(), "client_unavailable");
         spdlog::error("LLMValidationPipeline: client unavailable or not ready");
         return result;
     }
@@ -154,7 +158,7 @@ LLMValidationResult LLMValidationPipeline::execute(
                 result.error_message = "LLM generated empty response";
                 result.attempts_made = attempt + 1;
                 LLMMetricsCollector::instance().recordAQLGenerationAttempt(
-                    false, static_cast<int>(attempt + 1), std::chrono::milliseconds(0), "empty_response");
+                    false, static_cast<int>(attempt + 1), elapsedSinceStart(), "empty_response");
                 
                 spdlog::error("LLM generated empty response");
                 return result;
@@ -167,7 +171,7 @@ LLMValidationResult LLMValidationPipeline::execute(
             result.error_message = std::string("LLM generation failed: ") + e.what();
             result.attempts_made = attempt + 1;
             LLMMetricsCollector::instance().recordAQLGenerationAttempt(
-                false, static_cast<int>(attempt + 1), std::chrono::milliseconds(0), "generation_exception");
+                false, static_cast<int>(attempt + 1), elapsedSinceStart(), "generation_exception");
             
             spdlog::error("LLM generation exception: {}", e.what());
             return result;
@@ -182,12 +186,12 @@ LLMValidationResult LLMValidationPipeline::execute(
             result.validated_aql = generated_aql;
             result.attempts_made = attempt + 1;
             LLMMetricsCollector::instance().recordAQLGenerationAttempt(
-                true, static_cast<int>(attempt + 1), std::chrono::milliseconds(0), "success");
+                true, static_cast<int>(attempt + 1), elapsedSinceStart(), "success");
             
             spdlog::info("AQL validation succeeded (attempt {}/{})",
                         attempt + 1, impl_->config.max_retries + 1);
             LLMMetricsCollector::instance().recordAQLValidation(
-                true, std::chrono::milliseconds(0), "");
+                true, elapsedSinceStart(), "");
             
             return result;
         }
@@ -206,9 +210,9 @@ LLMValidationResult LLMValidationPipeline::execute(
             result.status = LLMValidationStatus::REJECTED;
             result.error_message = parse_result.diagnostics.error_message;
             LLMMetricsCollector::instance().recordAQLGenerationAttempt(
-                false, static_cast<int>(attempt + 1), std::chrono::milliseconds(0), "reject_on_error");
+                false, static_cast<int>(attempt + 1), elapsedSinceStart(), "reject_on_error");
             LLMMetricsCollector::instance().recordAQLValidation(
-                false, std::chrono::milliseconds(0), "parse_error");
+                false, elapsedSinceStart(), "parse_error");
 
             spdlog::error("AQL validation rejected: {} (reject_on_error=true)",
                          parse_result.diagnostics.error_message);
@@ -225,9 +229,9 @@ LLMValidationResult LLMValidationPipeline::execute(
             
             result.error_message = parse_result.diagnostics.error_message;
             LLMMetricsCollector::instance().recordAQLGenerationAttempt(
-                false, static_cast<int>(attempt + 1), std::chrono::milliseconds(0), "exhausted_retries");
+                false, static_cast<int>(attempt + 1), elapsedSinceStart(), "exhausted_retries");
             LLMMetricsCollector::instance().recordAQLValidation(
-                false, std::chrono::milliseconds(0), "parse_error");
+                false, elapsedSinceStart(), "parse_error");
             
             spdlog::error("AQL validation rejected: {} (retries_available={}, should_retry={})",
                          parse_result.diagnostics.error_message, can_retry, should_retry);

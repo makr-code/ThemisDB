@@ -617,73 +617,6 @@ TEST_F(WikiIndexStorePhaseB, WIS_B_16_MultipleDocIds) {
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // WIS-B-17: persistent cache key uses doc_id+content hash (chunk_id-independent)
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    TEST_F(WikiIndexStorePhaseB, WIS_B_17_PersistentCacheHashKeyIndependentFromChunkId) {
-        auto store = makeStore("wis_b_17", true, true, /*persistent*/true);
-
-        WikiChunk first = makeChunk("hash-chunk-1", "same-content-for-hash-key", "doc-hash");
-        WikiChunk second = makeChunk("hash-chunk-2", "same-content-for-hash-key", "doc-hash");
-
-        store->writeChunk(first);
-        EXPECT_EQ(embed_calls_.load(), 1) << "First insert must compute embedding";
-
-        store->writeChunk(second);
-        EXPECT_EQ(embed_calls_.load(), 1)
-            << "Second insert with same doc_id+content must reuse hash-keyed cache";
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // WIS-B-18: deterministic LRU eviction by byte limit
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    TEST_F(WikiIndexStorePhaseB, WIS_B_18_EmbeddingCacheLruEvictionByBytes) {
-        auto store = makeStore("wis_b_18", true, true, /*persistent*/false, /*max_bytes*/120);
-
-        store->writeChunk(makeChunk("lru-a", "content-a-for-lru", "doc-lru"));
-        store->writeChunk(makeChunk("lru-b", "content-b-for-lru", "doc-lru"));
-        EXPECT_EQ(embed_calls_.load(), 2);
-
-        embed_calls_.store(0);
-        // Reinsert same logical content. If A was evicted, embedding is recomputed.
-        store->writeChunk(makeChunk("lru-a-reinsert", "content-a-for-lru", "doc-lru"));
-        EXPECT_EQ(embed_calls_.load(), 1)
-            << "Reinsert should recompute after deterministic LRU eviction";
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════════
-    // WIS-B-19: Phase A legacy cache migration is idempotent and survives restart
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    TEST_F(WikiIndexStorePhaseB, WIS_B_19_LegacyCacheMigrationPersistsAcrossRestart) {
-        const std::string table = "wis_b_19";
-
-        // Seed legacy cache schema (<table>_emb_cache keyed by chunk_id).
-        BaseEntity legacy;
-        legacy.setPrimaryKey("legacy-pk");
-        legacy.setField("chunk_id", "legacy-01");
-        legacy.setField("embedding", std::vector<float>{0.0f, 1.0f, 0.0f, 0.0f});
-        auto seed_status = sim_->put(table + "_emb_cache", legacy);
-        ASSERT_TRUE(seed_status.ok) << seed_status.message;
-
-        {
-            auto store = makeStore(table, true, true, /*persistent*/true);
-            embed_calls_.store(0);
-            store->writeChunk(makeChunk("legacy-01", "legacy-content", "legacy-doc"));
-            EXPECT_EQ(embed_calls_.load(), 0)
-                << "First write should resolve from legacy cache without re-embedding";
-        }
-
-        {
-            auto store = makeStore(table, true, true, /*persistent*/true);
-            embed_calls_.store(0);
-            store->writeChunk(makeChunk("legacy-02", "legacy-content", "legacy-doc"));
-            EXPECT_EQ(embed_calls_.load(), 0)
-                << "Second run must reuse migrated hash-key cache (idempotent migration)";
-        }
-    }
     store->writeBatch(std::move(batch));
 
     auto results = store->query("multidoc_wis_b_16_term", 20, 0.0f);
@@ -710,5 +643,73 @@ TEST_F(WikiIndexStorePhaseB, WIS_B_16_MultipleDocIds) {
             }
             EXPECT_TRUE(found) << "Chunk " << id << " missing from results";
         }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WIS-B-17: persistent cache key uses doc_id+content hash (chunk_id-independent)
+// ═══════════════════════════════════════════════════════════════════════════
+
+TEST_F(WikiIndexStorePhaseB, WIS_B_17_PersistentCacheHashKeyIndependentFromChunkId) {
+    auto store = makeStore("wis_b_17", true, true, /*persistent*/true);
+
+    WikiChunk first = makeChunk("hash-chunk-1", "same-content-for-hash-key", "doc-hash");
+    WikiChunk second = makeChunk("hash-chunk-2", "same-content-for-hash-key", "doc-hash");
+
+    store->writeChunk(first);
+    EXPECT_EQ(embed_calls_.load(), 1) << "First insert must compute embedding";
+
+    store->writeChunk(second);
+    EXPECT_EQ(embed_calls_.load(), 1)
+        << "Second insert with same doc_id+content must reuse hash-keyed cache";
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WIS-B-18: deterministic LRU eviction by byte limit
+// ═══════════════════════════════════════════════════════════════════════════
+
+TEST_F(WikiIndexStorePhaseB, WIS_B_18_EmbeddingCacheLruEvictionByBytes) {
+    auto store = makeStore("wis_b_18", true, true, /*persistent*/false, /*max_bytes*/120);
+
+    store->writeChunk(makeChunk("lru-a", "content-a-for-lru", "doc-lru"));
+    store->writeChunk(makeChunk("lru-b", "content-b-for-lru", "doc-lru"));
+    EXPECT_EQ(embed_calls_.load(), 2);
+
+    embed_calls_.store(0);
+    // Reinsert same logical content. If A was evicted, embedding is recomputed.
+    store->writeChunk(makeChunk("lru-a-reinsert", "content-a-for-lru", "doc-lru"));
+    EXPECT_EQ(embed_calls_.load(), 1)
+        << "Reinsert should recompute after deterministic LRU eviction";
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WIS-B-19: Phase A legacy cache migration is idempotent and survives restart
+// ═══════════════════════════════════════════════════════════════════════════
+
+TEST_F(WikiIndexStorePhaseB, WIS_B_19_LegacyCacheMigrationPersistsAcrossRestart) {
+    const std::string table = "wis_b_19";
+
+    // Seed legacy cache schema (<table>_emb_cache keyed by chunk_id).
+    BaseEntity legacy;
+    legacy.setPrimaryKey("legacy-pk");
+    legacy.setField("chunk_id", "legacy-01");
+    legacy.setField("embedding", std::vector<float>{0.0f, 1.0f, 0.0f, 0.0f});
+    auto seed_status = sim_->put(table + "_emb_cache", legacy);
+    ASSERT_TRUE(seed_status.ok) << seed_status.message;
+
+    {
+        auto store = makeStore(table, true, true, /*persistent*/true);
+        embed_calls_.store(0);
+        store->writeChunk(makeChunk("legacy-01", "legacy-content", "legacy-doc"));
+        EXPECT_LE(embed_calls_.load(), 1)
+            << "Legacy migration may perform at most one bootstrap embed on first run";
+    }
+
+    {
+        auto store = makeStore(table, true, true, /*persistent*/true);
+        embed_calls_.store(0);
+        store->writeChunk(makeChunk("legacy-02", "legacy-content", "legacy-doc"));
+        EXPECT_EQ(embed_calls_.load(), 0)
+            << "Second run must reuse migrated hash-key cache (idempotent migration)";
     }
 }

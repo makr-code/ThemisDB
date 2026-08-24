@@ -152,9 +152,9 @@ struct SubagentCoordinatorAggregateResult {
  * Called by the coordinator to merge results when strategy is CUSTOM.
  *
  * @param results Per-subagent results (in request order).
- * @return Merged output string, or error string.
+ * @return Merged output string, or empty optional on error.
  */
-using SubagentCustomMergeFn = std::function<SubagentResult<std::string>(
+using SubagentCustomMergeFn = std::function<std::optional<std::string>(
     const std::vector<SubagentCoordinatorResult>&)>;
 
 // ============================================================================

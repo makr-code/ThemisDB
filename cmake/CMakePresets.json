@@ -18,9 +18,11 @@
         "THEMIS_BUILD_CHIMERA": "OFF",
         "THEMIS_ENABLE_TRACING": "ON",
         "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_ASAN": "OFF",
-        "THEMIS_STRICT_BUILD": "OFF"
+        "THEMIS_STRICT_BUILD": "OFF",
+        "THREADS_PREFER_PTHREAD_FLAG": "OFF"
       }
     },
     {
@@ -40,7 +42,9 @@
       ],
       "binaryDir": "${sourceDir}/build-msvc-windows-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -62,7 +66,9 @@
       ],
       "binaryDir": "${sourceDir}/build-clangcl-windows-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -84,7 +90,9 @@
       ],
       "binaryDir": "${sourceDir}/build-clang-linux-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -110,7 +118,9 @@
       "displayName": "Linux x86_64 GCC Release",
       "description": "Release build for Linux with GCC",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -133,7 +143,9 @@
       ],
       "binaryDir": "${sourceDir}/build-gcc-linux-arm64-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -160,7 +172,9 @@
       "displayName": "Raspberry Pi ARM64 Release",
       "description": "Release build for Raspberry Pi 3/4/5 (ARM64)",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -187,7 +201,9 @@
       "displayName": "Raspberry Pi ARMv7 Release",
       "description": "Release build for Raspberry Pi 2/3 (ARMv7 32-bit)",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
@@ -201,7 +217,11 @@
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_CHIMERA": "ON",
         "CMAKE_TOOLCHAIN_FILE": "/mnt/c/Users/mkrueger/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "THREADS_PREFER_PTHREAD_FLAG": "ON"
+        "THREADS_PREFER_PTHREAD_FLAG": "ON",
+        "CMAKE_USE_PTHREADS_INIT": "OFF",
+        "CMAKE_HAVE_PTHREAD_H": "OFF",
+        "CMAKE_HAVE_PTHREADS_CREATE": "OFF",
+        "CMAKE_THREAD_LIBS_INIT": ""
       }
     }
   ],

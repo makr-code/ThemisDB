@@ -4,8 +4,29 @@
 
 message(STATUS "Configuring MILITARY edition...")
 
+if(NOT DEFINED THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "" OR NOT EXISTS "${THEMIS_LICENSE_FILE}")
+    message(FATAL_ERROR
+        "=============================================================\n"
+        "MILITARY Edition REQUIRES embedded license file\n"
+        "=============================================================\n"
+        "\n"
+        "MILITARY Edition cannot be configured without a valid\n"
+        "license file.\n"
+        "\n"
+        "Usage:\n"
+        "  cmake -B build -S . \\\n"
+        "    -DTHEMIS_EDITION=MILITARY \\\n"
+        "    -DTHEMIS_LICENSE_FILE=/path/to/military-license.json \\\n"
+        "    -DCMAKE_BUILD_TYPE=Release\n"
+        "\n"
+        "=============================================================\n"
+    )
+endif()
+
+message(STATUS "MILITARY Edition: License requirement ENFORCED")
+
 # Hardware limits - conservative for secure, controlled deployments
-set(THEMIS_GPU_MAX_VRAM_GB 16 CACHE STRING "GPU VRAM limit (GB)" FORCE)
+set(THEMIS_GPU_MAX_VRAM_GB 80 CACHE STRING "GPU VRAM limit (GB)" FORCE)
 set(THEMIS_SHARDING_MAX_NODES 50 CACHE STRING "Maximum sharding nodes" FORCE)
 set(THEMIS_MAX_CACHE_SIZE_MB 2048 CACHE STRING "Maximum cache size (MB)" FORCE)
 
@@ -32,49 +53,9 @@ if(NOT DEFINED THEMIS_ENABLE_TRACING)
     set(THEMIS_ENABLE_TRACING OFF CACHE BOOL "Tracing optional in MILITARY edition")
 endif()
 
-# ============================================================================
-# LICENSE REQUIREMENT FOR MILITARY EDITION
-# ============================================================================
-# Release builds REQUIRE embedded license with military/government entitlements.
-# Debug builds are allowed without license (development environments only).
-
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    if(NOT THEMIS_LICENSE_FILE)
-        message(FATAL_ERROR
-            "=============================================================\n"
-            "MILITARY Edition REQUIRES embedded license for Release build\n"
-            "=============================================================\n"
-            "\n"
-            "MILITARY Edition is restricted software requiring\n"
-            "a valid government/military-grade license for deployment.\n"
-            "\n"
-            "Usage:\n"
-            "  cmake -B build -S . \\\n"
-            "    -DTHEMIS_EDITION=MILITARY \\\n"
-            "    -DTHEMIS_LICENSE_FILE=/path/to/military-license.json \\\n"
-            "    -DCMAKE_BUILD_TYPE=Release\n"
-            "\n"
-            "Debug builds (development) do NOT require a license:\n"
-            "  cmake -B build -S . \\\n"
-            "    -DTHEMIS_EDITION=MILITARY \\\n"
-            "    -DCMAKE_BUILD_TYPE=Debug\n"
-            "\n"
-            "Contact: licensing@themisdb.io\n"
-            "=============================================================\n"
-        )
-    endif()
-    message(STATUS "MILITARY Edition: License requirement ENFORCED (Release)")
-elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    if(THEMIS_LICENSE_FILE)
-        message(STATUS "MILITARY Edition: Debug with optional license")
-    else()
-        message(STATUS "MILITARY Edition: Debug without license (development mode)")
-    endif()
-endif()
-
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_MILITARY_EDITION)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=50)
 
-message(STATUS "  Hardware limits: Up to 16 GB GPU VRAM, 50 nodes, 2 GB cache")
+message(STATUS "  Hardware limits: Up to 80 GB GPU VRAM (2× A100 40 GB), 50 nodes, 2 GB cache")
 message(STATUS "  Features: Hardened security + HSM + gRPC + local LLM/GPU (CPU fallback)")

@@ -24,7 +24,7 @@ std::shared_ptr<lora::ILoRAOrchestrator> createLoRAOrchestrator() {
 namespace themis {
 namespace search {
 
-std::unique_ptr<ILlmReranker> createLlmReranker(const ILlmReranker::Config& cfg) {
+std::unique_ptr<ILlmReranker> createLlmReranker([[maybe_unused]] const ILlmReranker::Config& cfg) {
     return nullptr;
 }
 

@@ -10,6 +10,8 @@
  */
 
 #include "voice/voice_session_manager.h"
+#include "utils/logger.h"
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <sstream>
@@ -502,12 +504,11 @@ size_t VoiceSessionManager::expireOldSessions() {
     // CRITICAL GAP 19: Force-close all expired sessions within timeout
     // Implement force-close with deadline to prevent resource leaks
     const int64_t teardown_deadline_ms = now_ms + 100;  // 100ms total budget for all teardowns
-    const int64_t per_session_budget_ms = 10;  // 10ms max per session
     
     for (const auto& session_id : expired_ids) {
         // Check timeout and force-close if needed
-        int64_t elapsed_ms = nowMs() - now_ms;
-        if (elapsed_ms > teardown_deadline_ms) {
+        const int64_t current_ms = nowMs();
+        if (current_ms > teardown_deadline_ms) {
             THEMIS_WARN("VoiceSessionManager::expireOldSessions: teardown budget exceeded, force-closing remaining {} sessions",
                        expired_ids.size() - std::distance(expired_ids.begin(), 
                        std::find(expired_ids.begin(), expired_ids.end(), session_id)));

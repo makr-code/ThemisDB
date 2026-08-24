@@ -124,6 +124,27 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
         throw std::runtime_error("FederatedDistillationCoordinator: DP privacy budget exhausted");
     }
 
+    // ── DistillationBoundedPolicy enforcement ────────────────────────────────
+    if (bounded_policy_.isConstrained()) {
+        bool rounds_violated  = bounded_policy_.max_distillation_rounds != 0u &&
+                                current_round_ >= static_cast<uint64_t>(bounded_policy_.max_distillation_rounds);
+        bool budget_violated  = bounded_policy_.privacy_budget_hard_limit > 0.0 &&
+                                (total_epsilon_spent_ + config_.dp_epsilon) >= bounded_policy_.privacy_budget_hard_limit;
+
+        if (rounds_violated || budget_violated) {
+            ++policy_block_count_;
+            if (bounded_policy_.policy_gate_enforcement == PolicyGateEnforcement::FAIL_CLOSED) {
+                throw std::runtime_error(
+                    rounds_violated
+                        ? "FederatedDistillationCoordinator: max_distillation_rounds cap reached "
+                          "(DistillationBoundedPolicy FAIL_CLOSED)"
+                        : "FederatedDistillationCoordinator: privacy_budget_hard_limit would be exceeded "
+                          "(DistillationBoundedPolicy FAIL_CLOSED)");
+            }
+            // LOG_ONLY: record violation in stats but allow the operation to proceed.
+        }
+    }
+
     // ── Policy gate ───────────────────────────────────────────────────────────
     if (policy_gate_ && !policy_gate_(current_round_, pending_teacher_id_)) {
         ++policy_block_count_;
@@ -197,10 +218,15 @@ nlohmann::json FederatedDistillationCoordinator::getStats() const {
     return {{"current_round", current_round_},
             {"broadcast_count", broadcast_count_},
             {"rollback_count", rollback_count_},
+            {"policy_block_count", policy_block_count_},
             {"total_epsilon", total_epsilon_spent_},
             {"budget_remaining", privacyBudgetRemaining()},
             {"student_count", students_.size()},
             {"has_pending", has_pending_},
+            {"bounded_policy",
+             {{"constrained", bounded_policy_.isConstrained()},
+              {"max_distillation_rounds", bounded_policy_.max_distillation_rounds},
+              {"privacy_budget_hard_limit", bounded_policy_.privacy_budget_hard_limit}}},
             {"config",
              {{"dp_epsilon", config_.dp_epsilon},
               {"dp_delta", config_.dp_delta},
@@ -233,6 +259,11 @@ void FederatedDistillationCoordinator::registerStudent(const std::string &studen
 void FederatedDistillationCoordinator::setPolicyGate(PolicyGate gate) {
     std::lock_guard<std::mutex> lock(mutex_);
     policy_gate_ = std::move(gate);
+}
+
+void FederatedDistillationCoordinator::setBoundedPolicy(DistillationBoundedPolicy policy) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    bounded_policy_ = policy;
 }
 
 void FederatedDistillationCoordinator::setAuditCallback(std::function<void(const nlohmann::json &)> cb) {

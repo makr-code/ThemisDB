@@ -173,10 +173,14 @@ class ExporterStressFrameworkImpl : public ExporterStressFramework {
 public:
     ExporterStressFrameworkImpl()
         : cancel_test_(false),
+          active_test_(false),
           progress_callback_(nullptr) {}
 
     ExporterStressTestResult runStressTest(
         const ExporterStressTestConfig& config) override {
+
+        active_test_.store(true, std::memory_order_release);
+        cancel_test_.store(false, std::memory_order_release);
 
         ExporterStressTestResult result;
         result.config = config;
@@ -320,6 +324,8 @@ public:
             result.failure_reason = "One or more performance gates failed";
         }
 
+        active_test_.store(false, std::memory_order_release);
+        cancel_test_.store(false, std::memory_order_release);
         return result;
     }
 
@@ -453,9 +459,9 @@ public:
     }
 
     bool cancelTest() override {
-        bool expected = false;
-        if (cancel_test_.compare_exchange_strong(expected, true)) {
-            cancel_test_ = false;  // Reset for next test
+        bool expected = true;
+        if (active_test_.compare_exchange_strong(expected, false)) {
+            cancel_test_.store(true, std::memory_order_release);
             return true;
         }
         return false;
@@ -483,6 +489,7 @@ public:
 
 private:
     std::atomic<bool> cancel_test_;
+    std::atomic<bool> active_test_;
     std::function<void(std::uint32_t progress_percent)> progress_callback_;
 };
 

@@ -30,175 +30,97 @@ permissions:
 jobs:
   validate-build:
     name: Build Validation (distributed_knowledge)
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      setup_command: |
+        echo "Installing build dependencies..."
+        sudo apt-get update -qq
+        sudo apt-get install -y --quiet \
+          librocksdb-dev \
+          libfmt-dev \
+          ninja-build \
+          cmake \
+          build-essential \
+          pkg-config
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        run: |
-          echo "Installing build dependencies..."
-          sudo apt-get update -qq
-          sudo apt-get install -y --quiet \
-            librocksdb-dev \
-            libfmt-dev \
-            ninja-build \
-            cmake \
-            build-essential \
-            pkg-config
-
-      - name: Verify dependencies
-        run: |
-          echo "Verifying dependencies..."
-          echo "RocksDB:"
-          pkg-config --modversion rocksdb || echo "  (via library)"
-          echo "fmt:"
-          pkg-config --modversion fmt || echo "  (via library)"
-          echo "CMake:"
-          cmake --version | head -1
-          echo "Ninja:"
-          ninja --version
-          echo "Dependencies verified ✓"
-
-      - name: Create build directory
-        run: mkdir -p build-community-release
-
-      - name: Configure CMake (community-release)
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          cmake --preset community-release
-        timeout-minutes: 15
-
-      - name: Build distributed_knowledge tests
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          cmake --build --preset community-release \
-            --target module_distributed_knowledge_test_contract_hardening_focused \
-            --target module_distributed_knowledge_test_adapter_capability_focused \
-            --parallel 16 \
-            --verbose
-        timeout-minutes: 20
+        echo "Verifying dependencies..."
+        echo "RocksDB:"
+        pkg-config --modversion rocksdb || echo "  (via library)"
+        echo "fmt:"
+        pkg-config --modversion fmt || echo "  (via library)"
+        echo "CMake:"
+        cmake --version | head -1
+        echo "Ninja:"
+        ninja --version
+        echo "Dependencies verified ✓"
+      configure_command: |
+        cmake --preset community-release
+      build_command: |
+        cmake --build --preset community-release \
+          --target module_distributed_knowledge_test_contract_hardening_focused \
+          --target module_distributed_knowledge_test_adapter_capability_focused \
+          --parallel 16 \
+          --verbose
+      summary_title: Build Validation (distributed_knowledge)
 
   validate-unit-tests:
     name: Unit Tests (58 tests)
     needs: validate-build
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --quiet \
-            librocksdb-dev \
-            libfmt-dev \
-            ninja-build \
-            cmake \
-            build-essential
-
-      - name: Configure CMake
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          cmake --preset community-release
-
-      - name: Build all distributed_knowledge tests
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          cmake --build --preset community-release \
-            --parallel 16
-        timeout-minutes: 20
-
-      - name: Run unit tests
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          ctest --preset community-release \
-            -R module_distributed_knowledge_test \
-            --verbose \
-            --output-on-failure \
-            --timeout 300
-        timeout-minutes: 15
-
-      - name: Report test results
-        if: always()
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          ctest --preset community-release \
-            -R module_distributed_knowledge_test \
-            --output-junit test-results.xml
-          
-          {
-            echo "### Test Results Summary"
-            echo "- Status: ✅ All 58 tests passed"
-            echo "- Module: distributed_knowledge"
-            echo "- Coverage: ACA, LFC, FRM, CSS, FDC (5 surfaces)"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      setup_command: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --quiet \
+          librocksdb-dev \
+          libfmt-dev \
+          ninja-build \
+          cmake \
+          build-essential
+      configure_command: |
+        cmake --preset community-release
+      build_command: |
+        cmake --build --preset community-release \
+          --parallel 16
+      validation_command: |
+        ctest --preset community-release \
+          -R module_distributed_knowledge_test \
+          --verbose \
+          --output-on-failure \
+          --timeout 300
+      summary_title: Unit Tests (58 tests)
 
   validate-benchmarks:
     name: Benchmark Validation (±5% gates)
     needs: validate-build
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --quiet \
-            librocksdb-dev \
-            libfmt-dev \
-            ninja-build \
-            cmake \
-            build-essential
-
-      - name: Configure CMake
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          cmake --preset community-release
-
-      - name: Build benchmarks
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          cmake --build --preset community-release \
-            --target bench_dk_release_gates \
-            --parallel 16
-        timeout-minutes: 20
-
-      - name: Run release gate benchmarks
-        run: |
-          cd /home/runner/work/ThemisDB/ThemisDB
-          ctest --preset community-release \
-            -R bench_dk_release_gates \
-            --verbose \
-            --output-on-failure \
-            --timeout 600
-        timeout-minutes: 30
-
-      - name: Verify benchmark gates
-        run: |
-          {
-            echo "### Benchmark Gate Results"
-            echo ""
-            echo "| Gate | Operation | Target | Status |"
-            echo "|------|-----------|--------|--------|"
-            echo "| DKRG-01 | Insert | ≥100k/s | ✓ |"
-            echo "| DKRG-02 | Neighbours | ≤500µs p99 | ✓ |"
-            echo "| DKRG-03 | Path Query | ≤5ms p99 | ✓ |"
-            echo "| DKRG-04 | LWW Merge | ≤100µs p99 | ✓ |"
-            echo "| DKRG-05 | Federation Union | ≤5ms p99 | ✓ |"
-            echo "| DKRG-06 | Serialization | ≤100µs p99 | ✓ |"
-            echo ""
-            echo "**Tolerance:** ±5% (std::set overhead <1%)"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      setup_command: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --quiet \
+          librocksdb-dev \
+          libfmt-dev \
+          ninja-build \
+          cmake \
+          build-essential
+      configure_command: |
+        cmake --preset community-release
+      build_command: |
+        cmake --build --preset community-release \
+          --target bench_dk_release_gates \
+          --parallel 16
+      validation_command: |
+        ctest --preset community-release \
+          -R bench_dk_release_gates \
+          --verbose \
+          --output-on-failure \
+          --timeout 600
+      summary_title: Benchmark Validation (±5% gates)
 
   verify-gap-closure:
     name: Verify Gap Closure Pattern

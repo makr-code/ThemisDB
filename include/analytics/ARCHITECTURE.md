@@ -1,6 +1,6 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-08-19 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/analytics/ARCHITECTURE.md -->
 
 # Analytics Module — Public Header Architecture
@@ -98,5 +98,7 @@ For runtime composition — execution pipelines, ML-model lifecycle, and stream-
 - Columnar and JIT headers define the vectorised execution contract; callers must not assume arena layout or SIMD specifics.
 - Streaming headers model bounded-latency semantics; window and join state management is internal.
 - ML-serving headers expose model-lifecycle and inference APIs; model binaries are managed via `ModelServingManager`.
+- `model_serving.h` includes integrity-aware load paths (SHA-256 expected hash) and optional fail-closed enforcement controls.
+- `ml_serving.h` exposes secure-by-default TF transport policy with explicit plaintext opt-in.
 - Arrow export headers provide stable zero-copy transfer contracts for downstream analytics consumers.
 - LLM-integrated headers (`llm_process_analyzer.h`, `lora_pattern_classifier.h`) depend on `include/llm/` for model context.

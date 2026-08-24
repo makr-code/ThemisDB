@@ -16,6 +16,11 @@ file(GLOB SEC_BENCH_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp")
 
 foreach(_src IN LISTS SEC_BENCH_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
+
+    if(_stem STREQUAL "bench_security" OR _stem STREQUAL "bench_compliance_security_governance")
+        continue()
+    endif()
+
     set(_target "bench_security_${_stem}")
 
     if(TARGET ${_target})
@@ -49,16 +54,11 @@ foreach(_src IN LISTS SEC_BENCH_SOURCES)
         COMPONENT benchmarks
     )
 
-    add_test(
-        NAME "${_target}"
-        COMMAND "${_target}"
-            --benchmark_out=${CMAKE_BINARY_DIR}/bench_results/${_target}.json
-            --benchmark_out_format=json
-            --benchmark_min_time=0.1s
-    )
-    set_tests_properties("${_target}" PROPERTIES
-        LABELS   "security;benchmark"
-        TIMEOUT  120
+    themis_register_benchmark_ctest(
+        NAME    "${_target}"
+        TARGET  "${_target}"
+        MODULE  "security"
+        TIMEOUT 120
     )
 
     message(STATUS "[benchmarks/security] Registered ${_target}")

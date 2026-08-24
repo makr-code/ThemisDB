@@ -10,6 +10,7 @@
  */
 
 #include "voice/voice_intent_detector.h"
+#include <spdlog/spdlog.h>
 #include <algorithm>
 #include <sstream>
 #include <cctype>

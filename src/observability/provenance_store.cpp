@@ -134,7 +134,7 @@ struct ParsedTimeIndexKey {
         record.fallback_mode             = j.value("fallback_mode", "");
         record.confidence_policy_version = j.value("confidence_policy_version", "");
         record.decision_duration_us      = j.value("decision_duration_us", int64_t{0});
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Gracefully handle parse errors
     }
     return record;
@@ -157,14 +157,14 @@ public:
             options.compression = rocksdb::kSnappyCompression;
         }
 
-        rocksdb::DB* raw_db = nullptr;
-        const auto status = rocksdb::DB::Open(options, config.db_path, &raw_db);
+        rocksdb::DB* db_raw = nullptr;
+        const auto status = rocksdb::DB::Open(options, config.db_path, &db_raw);
 
         if (!status.ok()) {
             throw std::runtime_error(std::string("Failed to open RocksDB: ") + status.ToString());
         }
 
-        db_ = std::unique_ptr<rocksdb::DB>(raw_db);
+        db_.reset(db_raw);
         config_ = config;
     }
 

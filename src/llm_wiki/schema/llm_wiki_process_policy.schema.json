@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://themisdb.dev/schemas/llm_wiki/llm_wiki_process_policy.schema.json",
+  "title": "ThemisDB LLM Wiki Process Policy",
+  "description": "YAML/JSON policy schema for orchestration, governance gates, and ML control in the LLM Wiki module.",
+  "type": "object",
+  "required": [
+    "version",
+    "policy_id",
+    "mode",
+    "orchestration",
+    "stages",
+    "governance",
+    "ml_control",
+    "telemetry",
+    "rollout"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "shadow",
+        "canary",
+        "enforced"
+      ]
+    },
+    "orchestration": {
+      "type": "object",
+      "required": [
+        "planner_owner",
+        "second_planner_allowed",
+        "interactive_timeout_ms"
+      ],
+      "properties": {
+        "planner_owner": {
+          "type": "string"
+        },
+        "second_planner_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "interactive_timeout_ms": {
+          "type": "integer",
+          "minimum": 100
+        }
+      },
+      "additionalProperties": false
+    },
+    "stages": {
+      "type": "object",
+      "required": [
+        "ingest",
+        "extract",
+        "synthesize",
+        "validate",
+        "re_anchor"
+      ],
+      "additionalProperties": true
+    },
+    "governance": {
+      "type": "object",
+      "required": [
+        "policy_snapshot_required",
+        "require_reason_codes"
+      ],
+      "properties": {
+        "policy_snapshot_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "require_reason_codes": {
+          "type": "boolean",
+          "const": true
+        },
+        "allowlist": {
+          "type": "object",
+          "properties": {
+            "extension_namespaces": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "ml_control": {
+      "type": "object",
+      "required": [
+        "optimization_enabled",
+        "objective",
+        "learner",
+        "adjustable_knobs",
+        "hard_bounds",
+        "safety"
+      ],
+      "properties": {
+        "optimization_enabled": {
+          "type": "boolean"
+        },
+        "objective": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "learner": {
+          "type": "object",
+          "required": [
+            "algorithm"
+          ],
+          "properties": {
+            "algorithm": {
+              "type": "string",
+              "enum": [
+                "contextual_bandit",
+                "bayesian_optimization",
+                "reinforcement_learning"
+              ]
+            }
+          },
+          "additionalProperties": true
+        },
+        "adjustable_knobs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hard_bounds": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "safety": {
+          "type": "object",
+          "required": [
+            "never_adjust"
+          ],
+          "properties": {
+            "never_adjust": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "telemetry": {
+      "type": "object",
+      "required": [
+        "emit"
+      ],
+      "properties": {
+        "emit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "rollout": {
+      "type": "object",
+      "required": [
+        "canary_percent",
+        "promote_if",
+        "rollback_if"
+      ],
+      "properties": {
+        "canary_percent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "promote_if": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "rollback_if": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -50,7 +50,7 @@ IVRAMPolicy  (themis::gpu)
 - `themis::llm::lora::VRAMAllocator` applies the same gate for GPU backends (CUDA, HIP,
   Vulkan, DirectX, ROCm, ZLUDA).  CPU-backed allocators skip the policy check.
 - The canonical manager is a no-op gate when `isGPUEnabled()` returns false (e.g.
-  Community edition with a 0 GB VRAM limit), preserving backward compatibility.
+  Community edition with a 16 GB VRAM limit (1× Tesla T4)), preserving backward compatibility.
 
 ### Tenant Isolation
 

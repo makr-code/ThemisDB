@@ -16,6 +16,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 Der Sync-Lauf erzeugt und pflegt diese Artefakte:
 
+- `ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md` (kanonischer AI-Metadatensatz fuer Provenienz, Transformation und Degradation)
 - `ai_context/developer_llm_wiki/INDEX.md` (Einstieg, Scope, Prioritaetsregeln)
 - `ai_context/developer_llm_wiki/MODULES_AND_APIS.md` (modul-/API-bezogene Quellen)
 - `ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md` (Build/Test/CI/Operations)

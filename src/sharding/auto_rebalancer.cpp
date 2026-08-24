@@ -205,7 +205,10 @@ void AutoRebalancer::stop() {
     cv_.notify_all();
     
     if (monitor_thread_.joinable()) {
-        themis::utils::joinThreadWithin(monitor_thread_);
+        const bool joined = themis::utils::joinThreadWithin(monitor_thread_);
+        if (!joined) {
+            THEMIS_WARN("AutoRebalancer: monitor thread join timed out");
+        }
     }
     
     if (metrics_) {
@@ -944,8 +947,8 @@ void AutoRebalancer::handleTopologyChange() {
     
     if (metrics_) {
         metrics_->incrementCounter("themis_topology_changes_total");
-        metrics_->recordGauge("themis_cluster_nodes", 
-                             static_cast<double>(current_topology.size()));
+        metrics_->setGauge("themis_cluster_nodes", 
+                           static_cast<double>(current_topology.size()));
     }
 }
 

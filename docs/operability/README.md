@@ -2,7 +2,7 @@
 
 **Directory Purpose:** Wave D program coordination, operator runbooks, and distributed tracing/observability hardening  
 **Target Release:** Q1 2027 (ThemisDB v2.4.x GA + v2.5.0-rc1)  
-**Status:** 🟡 Phase 1 Planning (2026-08-15)  
+**Status:** 🟡 Phase 1-2 In Progress (updated 2026-08-24)  
 
 ---
 
@@ -141,10 +141,10 @@ Phase 5: Validation & Documentation (Dec 1 - Dec 15)
 ## Dependencies
 
 ### Prerequisites (Must be complete before Wave D official start)
-- [ ] **Wave A Exit Criteria:** Deterministic chaos evidence, fail-closed behavior, `release_critical` CI green
-- [ ] **Wave B Exit Criteria:** 4-layer retrieval chain stability, Access Model benchmarks closed
-- [ ] **Wave C Exit Criteria:** Security production validation, Audit reliability, CI policy gates
-- [ ] **GA Batch D:** Section 9 human sign-off obtained
+- [~] **Wave A Exit Criteria:** Transaction/Voice/GPU in-progress (hardware pending Q4 2026); Sharding/Replication ✅ complete
+- [~] **Wave B Exit Criteria:** Search ✅ / AccessModel ✅ complete; LLM Wiki RocksDB hardware evidence pending Q4 2026
+- [x] **Wave C Exit Criteria:** Security ✅ / Audit ✅ / CI policy gates ✅ — ALL PASS 2026-08-18
+- [ ] **GA Batch D:** Section 9 human sign-off obtained (D-1..D-10 technical gates PASS)
 
 ### Supporting Infrastructure (Already available)
 - ✅ **Observability Stack:** `src/observability/` with OpenTelemetry, tracer.cpp, metrics_collector.cpp
@@ -170,5 +170,5 @@ Phase 5: Validation & Documentation (Dec 1 - Dec 15)
 
 ---
 
-**Last Updated:** 2026-08-15  
-**Next Update:** Phase 1 completion (2026-08-31)
+**Last Updated:** 2026-08-24  
+**Next Update:** Phase 2 implementation start (pending Wave A hardware confirmation)

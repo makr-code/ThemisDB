@@ -3,6 +3,20 @@
 
 # Scientific Benchmark Suite - Implementation Complete ✅
 
+Status: Historical snapshot
+Canonicality: Non-canonical for current benchmark standards
+Last governance alignment: 2026-08-21
+
+Canonical references:
+- [../BENCHMARK_STANDARDS.md](../BENCHMARK_STANDARDS.md)
+- [../MEASUREMENT_HYGIENE.md](../MEASUREMENT_HYGIENE.md)
+- [../README.md](../README.md)
+
+Usage note:
+- Keep this file for historical implementation context.
+- Numeric targets/results must be revalidated before being used as current
+   baseline or release input.
+
 ## Executive Summary
 
 **Project:** Enhanced Benchmark Suite for ThemisDB  

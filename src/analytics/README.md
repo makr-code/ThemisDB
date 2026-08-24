@@ -1,6 +1,6 @@
 # ThemisDB Analytics Module
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-08-19 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
@@ -41,6 +41,12 @@ Out of scope:
 - runtime behavior depends on feature flags and available optional dependencies.
 - analytics execution paths include both local and distributed orchestration surfaces.
 - export and serving integrations can return structured not-supported or dependency errors when optional backends are unavailable.
+
+## Security Hardening (2026-08-19)
+
+- Model artifact loading now supports SHA-256 integrity verification via `ModelServingEngine::loadModel(..., expected_sha256_hex)` and fail-closed enforcement through `ModelServingConfig::require_model_integrity`.
+- TensorFlow Serving transport is secure-by-default (`https://` + `verify_ssl=true`); plaintext HTTP now requires explicit `allow_insecure_transport=true`.
+- LLM process response validation now enforces bounded schema constraints for fraud, 5R, and prediction payloads (type checks, range checks, and bounded list/string sizes).
 
 **Production Readiness Status (Batch 3 verified 2026-08-14):**
 - **Ready for production:** OLAP execution, tumbling/sliding/hopping/session windows, CEP rule matching, basic forecasting, anomaly detection

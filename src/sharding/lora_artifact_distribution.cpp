@@ -431,7 +431,9 @@ public:
         receipt.receipt_hash          = receipt_hash;
         receipt.batch_merkle_root     = root;
 
-        store_->storeReceipt(receipt);
+        if (!store_->storeReceipt(receipt)) {
+            throw std::runtime_error("distributeArtifact: failed to persist distribution receipt");
+        }
         setLastReceiptHash(target_shard_id, receipt_hash);
         return event_id;
     }
@@ -469,7 +471,11 @@ public:
             return false;
         }
         if (receipt->status == ArtifactDistributionStatus::Pending) {
-            store_->updateReceiptStatus(event_id, ArtifactDistributionStatus::InTransit);
+            const bool moved_to_in_transit =
+                store_->updateReceiptStatus(event_id, ArtifactDistributionStatus::InTransit);
+            if (!moved_to_in_transit) {
+                return false;
+            }
         }
         return store_->updateReceiptStatus(
             event_id,
@@ -518,9 +524,15 @@ public:
         recovery.receipt_hash          = receipt_hash;
         recovery.batch_merkle_root     = batch_root;
 
-        store_->storeReceipt(recovery);
+        if (!store_->storeReceipt(recovery)) {
+            throw std::runtime_error("recoverDistribution: failed to persist recovery receipt");
+        }
         // Mark original as Recovered
-        store_->updateReceiptStatus(failed_event_id, ArtifactDistributionStatus::Recovered);
+        const bool marked_recovered =
+            store_->updateReceiptStatus(failed_event_id, ArtifactDistributionStatus::Recovered);
+        if (!marked_recovered) {
+            return std::nullopt;
+        }
         setLastReceiptHash(failed->target_shard_id, receipt_hash);
         return recovery_event_id;
     }
@@ -602,7 +614,9 @@ public:
             snap.snapshot_id + shard_id + receipts_root
             + std::to_string(snap.confirmed_receipt_count));
 
-        store_->storeSnapshot(snap);
+        if (!store_->storeSnapshot(snap)) {
+            throw std::runtime_error("takeDistributionSnapshot: failed to persist shard snapshot");
+        }
 
         // Track known shard IDs for batch proof lookup
         std::lock_guard<std::mutex> lock(known_shards_mu_);

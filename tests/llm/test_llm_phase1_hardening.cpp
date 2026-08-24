@@ -796,8 +796,3 @@ TEST_F(LLMDistributedInferenceTests, LLM_DI_08_End2EndDistributedInference) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Test registration
 // ─────────────────────────────────────────────────────────────────────────────
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

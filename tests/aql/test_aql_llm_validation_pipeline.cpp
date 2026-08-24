@@ -24,6 +24,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <mutex>
 
 namespace themis { namespace aql { namespace test { 
 
@@ -102,16 +103,22 @@ public:
     }
 
     bool isReady() const override {
-        return ready_;
+        return ready_.load();
     }
     
     int call_count() const { return call_count_; }
     
-    void setResponse(const std::string& response) { response_ = response; }
+    void setResponse(const std::string& response) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        response_ = response;
+    }
 
-    void setReady(bool ready) { ready_ = ready; }
+    void setReady(bool ready) { ready_.store(ready); }
 
-    const std::vector<std::string>& prompts() const { return prompts_; }
+    std::vector<std::string> prompts() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return prompts_;
+    }
     
 private:
     llm::GenerationResult generateImpl(
@@ -121,17 +128,21 @@ private:
         (void)prompt;
         (void)options;
         call_count_++;
-        prompts_.push_back(prompt);
         llm::GenerationResult result;
         result.success = true;
-        result.text = response_;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            prompts_.push_back(prompt);
+            result.text = response_;
+        }
         result.finish_reason = "stop_sequence";
         return result;
     }
 
     std::string response_;
     std::atomic<int> call_count_;
-    bool ready_ = true;
+    std::atomic<bool> ready_{true};
+    mutable std::mutex mutex_;
     std::vector<std::string> prompts_;
 };
 
@@ -312,9 +323,10 @@ TEST_F(LLMValidationPipelineTest, RetryFeedbackIsInjectedIntoSubsequentPrompt) {
     );
 
     auto result = pipeline->execute("List all users", "");
+    const auto prompts = llm_client_->prompts();
     EXPECT_EQ(LLMValidationStatus::EXHAUSTED_RETRIES, result.status);
-    ASSERT_GE(llm_client_->prompts().size(), 2u);
-    EXPECT_NE(llm_client_->prompts()[1].find("Previous parser validation error"), std::string::npos);
+    ASSERT_GE(prompts.size(), 2u);
+    EXPECT_NE(prompts[1].find("Previous parser validation error"), std::string::npos);
 }
 
 // ============================================================================

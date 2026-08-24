@@ -18,10 +18,12 @@
 #pragma once
 
 #include <chrono>
+#include <cstdint>
 #include <functional>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -418,8 +420,69 @@ inline bool safeMemcpyDeviceToHost(void* host_ptr, const void* device_ptr, size_
 #endif
 }
 
+/**
+ * @brief Check whether at least one GPU device is available.
+ *
+ * @return true when a CUDA device is detected; false otherwise.
+ */
+inline bool isGPUAvailable() noexcept {
+#if THEMIS_BATCH_A9_HAS_CUDA
+    int device_count = 0;
+    const cudaError_t err = cudaGetDeviceCount(&device_count);
+    return (err == cudaSuccess) && (device_count > 0);
+#else
+    return false;
+#endif
+}
+
+/**
+ * @brief Validate allocation size for Batch A-9 safety constraints.
+ *
+ * @param size Allocation size in bytes.
+ * @return true for sizes in the allowed range; false otherwise.
+ */
+inline bool isAllocationValid(size_t size) noexcept {
+    constexpr size_t kMaxAllocationBytes = static_cast<size_t>(1ULL << 30);  // 1 GiB
+    return size > 0 && size <= kMaxAllocationBytes;
+}
+
+/**
+ * @brief Synchronize a CUDA stream with a bounded timeout.
+ *
+ * @param stream CUDA stream to synchronize; nullptr uses device-wide sync.
+ * @param timeout_ms Timeout in milliseconds.
+ * @return true on successful synchronization; false on timeout or CUDA error.
+ */
+inline bool streamSynchronizeWithTimeout(cudaStream_t stream, std::uint32_t timeout_ms) noexcept {
+#if THEMIS_BATCH_A9_HAS_CUDA
+    if (stream == nullptr) {
+        return cudaDeviceSynchronize() == cudaSuccess;
+    }
+
+    const auto start = std::chrono::steady_clock::now();
+    while (true) {
+        const cudaError_t err = cudaStreamQuery(stream);
+        if (err == cudaSuccess) {
+            return true;
+        }
+        if (err != cudaErrorNotReady) {
+            return false;
+        }
+
+        const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+        if (elapsed.count() >= timeout_ms) {
+            return false;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+#else
+    (void)stream;
+    (void)timeout_ms;
+    return true;
+#endif
+}
+
 }  // namespace batch_a9
 }  // namespace gpu
 }  // namespace themis
-
-#endif  // THEMIS_GPU_BATCH_A9_SAFETY_HPP

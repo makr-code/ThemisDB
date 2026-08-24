@@ -1,0 +1,109 @@
+version: 1
+policy_id: llm_wiki_default_process_v1
+mode: shadow
+
+orchestration:
+  planner_owner: prompt_engineering
+  second_planner_allowed: false
+  interactive_timeout_ms: 1500
+
+stages:
+  ingest:
+    enabled: true
+    schedule: near_realtime
+    batch_size: 128
+    idempotent: true
+    requires:
+      - entitlement_gate
+      - source_policy_gate
+  extract:
+    enabled: true
+    schedule: near_realtime
+    max_candidates_per_doc: 64
+    heuristic_first: true
+    llm_fallback: true
+  synthesize:
+    enabled: true
+    schedule: interactive
+    max_evidence_items: 24
+    min_provenance_confidence: 0.65
+  validate:
+    enabled: true
+    schedule: interactive
+    fail_closed: true
+    require_core_fields: true
+    reject_unauthorized_extensions: true
+  re_anchor:
+    enabled: true
+    schedule: batch
+    trigger:
+      confidence_lt: 0.55
+      transform_chain_gt: 6
+      instability_window: 3
+
+governance:
+  policy_snapshot_required: true
+  require_reason_codes: true
+  allowlist:
+    extension_namespaces:
+      - llm_wiki
+      - retrieval
+      - prompt_engineering
+      - metadata
+      - domain.science
+
+ml_control:
+  optimization_enabled: true
+  objective:
+    maximize:
+      - answer_utility
+      - provenance_confidence
+    minimize:
+      - re_anchor_rate
+      - deny_false_positive_rate
+      - p95_latency_ms
+  learner:
+    algorithm: contextual_bandit
+    update_window_requests: 500
+    exploration_rate: 0.05
+  adjustable_knobs:
+    - synthesize.max_evidence_items
+    - synthesize.min_provenance_confidence
+    - re_anchor.trigger.confidence_lt
+    - extract.max_candidates_per_doc
+  hard_bounds:
+    synthesize.min_provenance_confidence:
+      min: 0.5
+      max: 0.9
+    synthesize.max_evidence_items:
+      min: 8
+      max: 64
+    re_anchor.trigger.transform_chain_gt:
+      min: 2
+      max: 12
+  safety:
+    never_adjust:
+      - governance.policy_snapshot_required
+      - orchestration.second_planner_allowed
+      - stages.validate.fail_closed
+      - stages.ingest.requires
+
+telemetry:
+  emit:
+    - decision_id
+    - policy_snapshot_id
+    - selected_knobs
+    - outcome_metrics
+    - guardrail_category
+    - deny_reason_code
+
+rollout:
+  canary_percent: 5
+  promote_if:
+    min_requests: 5000
+    utility_gain_ge: 0.03
+    no_security_regression: true
+  rollback_if:
+    deny_rate_increase_gt: 0.02
+    re_anchor_rate_increase_gt: 0.05
+    p95_latency_increase_ms_gt: 30

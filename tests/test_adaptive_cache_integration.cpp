@@ -434,8 +434,3 @@ TEST_F(AdaptiveCacheIntegrationTest, WriteThroughMetricsCountsAllPuts) {
     EXPECT_EQ(cache.getEnhancedMetrics().write_through_writes.load(),
               static_cast<uint64_t>(n));
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

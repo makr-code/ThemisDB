@@ -11,10 +11,6 @@ param(
     [ValidateSet("zip", "msi")]
     [string]$InstallerType = "zip",
 
-    # Automatisch gesetzt, wenn Version ein Pre-Release-Suffix enthaelt (-rc, -alpha, -beta)
-    # Kann auch manuell erzwungen werden mit -IsPreRelease
-    [switch]$IsPreRelease,
-
     [string]$PackageIdentifier = "ThemisDB.ThemisDB",
     [string]$PackageName = "ThemisDB",
     [string]$Publisher = "ThemisDB Team",
@@ -26,6 +22,7 @@ param(
     [string]$ShortDescription = "Multi-model database system with ACID transactions",
     [string]$PortableRelativeFilePath = "bin\themis_server.exe",
     [string]$PortableCommandAlias = "themis_server",
+    [string[]]$PackageDependencies = @(),
     [string]$ReleaseNotes = "",
     [switch]$IncludeGermanLocale,
     [string]$GermanShortDescription = "Multi-Modell-Datenbanksystem mit ACID-Transaktionen",
@@ -50,6 +47,28 @@ function Assert-Sha256Format {
     if ($Value -notmatch '^[A-Fa-f0-9]{64}$') {
         throw "InstallerSha256 must be a 64 character hexadecimal SHA256 string."
     }
+}
+
+function Get-ZipRootFolderName {
+    param([string]$Url)
+
+    try {
+        $uri = [System.Uri]::new($Url)
+    } catch {
+        throw "InstallerUrl '$Url' is not a valid absolute URL."
+    }
+
+    $fileName = [System.IO.Path]::GetFileName($uri.AbsolutePath)
+    if ([string]::IsNullOrWhiteSpace($fileName)) {
+        throw "InstallerUrl '$Url' does not contain a ZIP file name."
+    }
+
+    $rootName = [System.IO.Path]::GetFileNameWithoutExtension($fileName)
+    if ([string]::IsNullOrWhiteSpace($rootName)) {
+        throw "InstallerUrl '$Url' does not yield a valid ZIP root folder name."
+    }
+
+    return $rootName
 }
 
 function ConvertTo-YamlScalar {
@@ -79,11 +98,8 @@ function ConvertTo-YamlBlock {
 Assert-VersionFormat -Value $Version
 Assert-Sha256Format -Value $InstallerSha256
 
-# Auto-Erkennung: Version mit Suffix (-alpha, -beta, -rc*) gilt als Pre-Release
-if (-not $IsPreRelease -and $Version -match '-') {
-    $IsPreRelease = $true
-}
-
+# Pre-release versions are represented via the package version string (e.g. 2.4.0-alpha).
+# Winget does not accept an IsPreRelease field in the installer manifest schema.
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "..\.."))
 $manifestRoot = if ([System.IO.Path]::IsPathRooted($OutputRoot)) {
     [System.IO.Path]::GetFullPath($OutputRoot)
@@ -125,16 +141,33 @@ $installerLines = @(
 )
 
 if ($InstallerType -eq "zip") {
+    if ($PackageDependencies.Count -eq 0) {
+        $PackageDependencies = @("Microsoft.VCRedist.2015+.x64")
+    }
+
+    $portableRelativePath = $PortableRelativeFilePath
+    $zipRootFolder = Get-ZipRootFolderName -Url $InstallerUrl
+    if (-not $portableRelativePath.StartsWith($zipRootFolder, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $portableRelativePath = Join-Path $zipRootFolder $portableRelativePath
+    }
+
     $installerLines += @(
         "  NestedInstallerType: portable",
         "  NestedInstallerFiles:",
-        "  - RelativeFilePath: $PortableRelativeFilePath",
+        "  - RelativeFilePath: $portableRelativePath",
         "    PortableCommandAlias: $PortableCommandAlias"
     )
-}
 
-if ($IsPreRelease) {
-    $installerLines += "IsPreRelease: true"
+    if ($PackageDependencies.Count -gt 0) {
+        $installerLines += @(
+            "  Dependencies:",
+            "    PackageDependencies:"
+        )
+
+        foreach ($dependency in $PackageDependencies) {
+            $installerLines += "    - PackageIdentifier: $dependency"
+        }
+    }
 }
 
 $installerLines += @(

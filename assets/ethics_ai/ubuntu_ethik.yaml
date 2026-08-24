@@ -1,0 +1,332 @@
+school_id: ubuntu_ethik
+name: Ubuntu Ethics
+name_de: Ubuntu-Ethik
+taxonomy_class: virtue
+tags:
+- ubuntu
+- gemeinschaft
+- kollektivismus
+- afrikanische_ethik
+- relationalitaet
+- menschlichkeit
+- ubuntu_philosophie
+- subsahara_afrika
+- ai_governance
+applicable_domains:
+- social_justice
+- ai_governance
+- organizational_ethics
+- community_rights
+- human_rights
+- bioethics
+convergence_compatible:
+- konfuzianismus
+- care_ethics
+- aristotelian
+- buddhistische_ethik
+cross_school_tensions:
+- own_thesis: umuntu_ngumuntu
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: communal_being_vs_autonomous_individual
+  rebuttal_cite_weight: 0.8
+- own_thesis: ubuntu_menschlichkeit
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: relational_dignity_vs_aggregate_utility
+  rebuttal_cite_weight: 0.75
+- own_thesis: ubuntu_menschlichkeit
+  opposing_school: rawls
+  opposing_thesis: original_position
+  tension_type: embedded_community_vs_procedural_neutrality
+  rebuttal_cite_weight: 0.7
+activation_conditions:
+- condition: dilemma.domains enthält social_justice ODER community_rights
+  effect: always_active
+- condition: dilemma.domains enthält ai_governance ODER organizational_ethics
+  effect: always_active
+- condition: dilemma.tags enthält community ODER collective ODER solidarity
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Ubuntu-Prinzip ist kulturell verwurzelt, aber universell anwendbar
+domain_overrides:
+  ai_governance:
+    weight_boost: 0.2
+    note: Kollektive Verantwortung und gemeinschaftliches Wohl als Governance-Maßstab
+  social_justice:
+    weight_boost: 0.3
+    note: Ubuntu-Ethik ist originärer Beitrag afrikanischer Perspektive zur Gerechtigkeitsdebatte
+founders:
+- name: Desmond Tutu
+  years: 1931-2021
+  nationality: Südafrikanisch
+  key_works:
+  - title: No Future Without Forgiveness
+    year: 1999
+    significance: Ubuntu als Grundlage der Wahrheits- und Versöhnungskommission Südafrikas
+  - title: God is not a Christian
+    year: 2011
+    significance: Ubuntu als universales ethisches Prinzip
+  biography: Erzbischof und Friedensnobelpreisträger; popularisierte Ubuntu als ethische Grundlage der Transformation
+    Südafrikas.
+- name: Augustine Nwoye
+  years: 1943-
+  nationality: Nigerianisch
+  key_works:
+  - title: Ubuntu Ethics and African Communal Philosophy
+    year: 2014
+    significance: Akademische Systematisierung der Ubuntu-Ethik
+  biography: Psychologe und Philosoph; systematisierte Ubuntu für akademischen Diskurs und interkulturelle Ethik.
+- name: Mogobe Ramose
+  years: 1950-
+  nationality: Südafrikanisch
+  key_works:
+  - title: African Philosophy through Ubuntu
+    year: 1999
+    significance: Philosophische Grundlegung von Ubuntu als eigenständige afrikanische Philosophietradition
+  biography: Philosoph; begründete Ubuntu als autonome philosophische Tradition jenseits westlicher Ethik.
+historical_context:
+  period: Vorindustrielle Zeit bis heute; akademische Formalisierung ab 1990er
+  philosophical_movement: Ubuntu-Philosophie, Afrikanische Philosophie, Befreiungstheologie Afrika
+  zeitgeist: Kollektive Menschlichkeit, Gemeinschaft als Conditio humana
+  influences:
+  - source: Bantu-Kulturen Subsahara-Afrikas
+    impact: Ubuntu als gemeinsames Wertesystem vieler Bantu-Völker
+  - source: Befreiungstheologie (Südafrika)
+    impact: Ubuntu als ethische Grundlage des Widerstands gegen Apartheid
+  - source: Afrikanischer Humanismus
+    thinkers:
+    - Kwame Nkrumah
+    - Julius Nyerere
+    impact: Politische Anwendung des Ubuntu-Gedankens (Ujamaa, Consciencism)
+  reactions_against:
+  - Westlicher atomistischer Individualismus
+  - Neoliberaler Marktindividualismus
+  - Koloniale Abwertung afrikanischer Philosophietraditionen
+main_theses:
+- thesis_id: ubuntu_ethik:umuntu_ngumuntu
+  name: Umuntu ngumuntu ngabantu — Ich bin, weil wir sind
+  description: 'Das Kernprinzip: Der Mensch ist Mensch durch andere Menschen. Individualität konstituiert sich durch Gemeinschaft,
+    nicht umgekehrt. Menschlichkeit ist grundlegend relational.'
+  explanation: '"Umuntu ngumuntu ngabantu" (Zulu/Nguni): Ich bin, weil wir sind.
+
+    Das Selbst ist kein atomistisches Individuum, sondern wird im Netz gegenseitiger
+
+    Anerkennungsverhältnisse konstituiert.  Ethisches Handeln heißt: Gemeinschaft
+
+    stärken, Verletzlichkeit anderer erkennen, Würde durch Verbundenheit schützen.
+
+    In der KI-Ethik: Systeme, die gemeinschaftliche Bindungen schwächen oder
+
+    Isolation fördern, handeln gegen das Ubuntu-Prinzip.
+
+    '
+  implications:
+  - Identität ist inhärent relational, nicht solipsistisch
+  - Gemeinschaftswohl hat Vorrang vor individuellem Vorteil
+  - KI-Systeme müssen Gemeinschaftsbindungen stärken, nicht auflösen
+  - Würde entsteht durch gegenseitige Anerkennung, nicht durch Rechtsansprüche allein
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 4
+  - 5
+  round_role_weights:
+    PRO: 0.9
+    SYNTHESIS: 0.85
+    REBUTTAL: 0.6
+- thesis_id: ubuntu_ethik:ubuntu_menschlichkeit
+  name: Ubuntu — Menschlichkeit durch Mitgefühl und Gemeinschaft
+  description: Ubuntu bezeichnet die Tugend der Menschlichkeit in ihrer gemeinschaftlichen Dimension — Mitgefühl, Großzügigkeit,
+    Verbundenheit. Eine Person mit Ubuntu ist warmherzig, fürsorglich und respektvoll.
+  explanation: 'Ubuntu ist keine abstrakte Pflicht, sondern gelebte Tugend.
+
+    Tugendhafte Handlung heißt: achtsam für die Bedürfnisse der Gemeinschaft sein,
+
+    teilen, vergeben, Heilung ermöglichen.  Der Wahrheits- und Versöhnungsprozess
+
+    Südafrikas ist das wichtigste politische Beispiel.  In der KI-Governance:
+
+    algorithmische Systeme müssen das Gemeinwohl, nicht nur individuelle Präferenzen,
+
+    optimieren.
+
+    '
+  implications:
+  - Fürsorge und Mitgefühl als Tugenden mit gemeinschaftlicher Basis
+  - Vergebung als aktiver Prozess kollektiver Heilung
+  - Teilen als ethische Verpflichtung, nicht bloße Großzügigkeit
+  token_budget: 160
+  activation_rounds:
+  - 1
+  - 2
+  - 4
+  round_role_weights:
+    PRO: 0.85
+    SYNTHESIS: 0.9
+    REBUTTAL: 0.6
+- thesis_id: ubuntu_ethik:kollektive_verantwortung
+  name: Kollektive Verantwortung und gemeinsames Schicksal
+  description: Entscheidungen betreffen nicht nur das Individuum, sondern die gesamte Gemeinschaft. Verantwortung ist gemeinschaftlich
+    getragen.
+  explanation: 'In Ubuntu-Gemeinschaften sind Entscheidungen kollektive Angelegenheiten:
+
+    ältere Mitglieder, Betroffene und zukünftige Generationen werden einbezogen.
+
+    Dies entspricht dem Indaba-Konsulationsprozess im südlichen Afrika.
+
+    In der KI-Governance: Entscheidungen über KI-Systeme müssen alle
+
+    Betroffenen einschließen, nicht nur die Nutzerinnen.
+
+    '
+  implications:
+  - Entscheidungsprozesse müssen gemeinschaftlich und inklusiv sein
+  - Schaden für einen Einzelnen betrifft die gesamte Gemeinschaft
+  - Intergenerationelle Verantwortung ist explizit
+  token_budget: 150
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 0.8
+    REBUTTAL: 0.7
+    SYNTHESIS: 0.75
+- thesis_id: ubuntu_ethik:wuerde_durch_verbundenheit
+  name: Würde durch Verbundenheit
+  description: Menschenwürde ist nicht abstrakt-individuell, sondern wird durch gemeinschaftliche Anerkennung konstituiert
+    und geschützt.
+  explanation: 'Während westliche Rechtstraditionen Würde als unveräußerliches Individualrecht
+
+    fassen, versteht Ubuntu Würde als gemeinschaftlich konstituiert: ich erfahre
+
+    Würde, weil andere mich als Mensch anerkennen.  Verlust von Würde entsteht
+
+    durch Ausgrenzung, Verachtung und Isolation.  KI-Systeme, die soziale
+
+    Ausgrenzung verstärken, verletzen Ubuntu-Würde.
+
+    '
+  token_budget: 140
+  activation_rounds:
+  - 1
+  - 3
+  - 5
+  round_role_weights:
+    PRO: 0.75
+    SYNTHESIS: 0.8
+    REBUTTAL: 0.6
+secondary_theses:
+- thesis_id: ubuntu_ethik:indaba_konsultation
+  name: Indaba — Konsultation und kollektiver Dialog
+  description: Der Indaba-Prozess (Zulu für Versammlung) ist ein Verfahren gemeinsamer Entscheidungsfindung durch Dialog aller
+    Beteiligten. Anerkanntes Konsultationsmodell auch in anglikanischer Kirchenpolitik.
+  token_budget: 120
+  activation_rounds:
+  - 2
+  - 3
+  - 4
+  round_role_weights:
+    SYNTHESIS: 0.85
+    PRO: 0.6
+- thesis_id: ubuntu_ethik:ukama_interverbundenheit
+  name: Ukama — Interverbundenheit und Zugehörigkeit
+  description: Ukama (Shona für Verwandtschaft/Beziehung) bezeichnet das Netz der gegenseitigen Verbundenheit, das alle
+    Lebewesen und Generationen umfasst.
+  token_budget: 110
+  activation_rounds:
+  - 1
+  - 2
+  round_role_weights:
+    PRO: 0.65
+    REBUTTAL: 0.5
+decision_framework:
+  question_sequence:
+  - Stärkt oder schwächt die Handlung die Gemeinschaft und gegenseitige Verbundenheit?
+  - Schützt die Handlung die Würde aller Betroffenen durch gemeinschaftliche Anerkennung?
+  - Sind alle betroffenen Stimmen im Entscheidungsprozess einbezogen (Indaba)?
+  - Entspringt die Handlung Mitgefühl und Großzügigkeit (Ubuntu) oder Eigeninteresse?
+  tests:
+  - name: Umuntu-Test
+    procedure: Würde die gesamte Gemeinschaft diese Handlung als menschlich anerkennen?
+  - name: Verbundenheits-Test
+    procedure: Stärkt oder schwächt die Handlung die sozialen Bindungen?
+  - name: Würde-Test
+    procedure: Wird die Würde aller Betroffenen durch Anerkennung geschützt?
+strengths:
+- point: Relationalität
+  elaboration: Berücksichtigt soziale Einbettung und gegenseitige Abhängigkeit als Grundlage von Identität und Ethik
+- point: Inklusivität
+  elaboration: Kollektive Entscheidungsprozesse schließen marginalisierte Stimmen ein
+- point: Versöhnungspotenzial
+  elaboration: Ubuntu-Ethik hat sich in der Praxis als Grundlage für Konfliktlösung und Wiederaufbau bewährt (Südafrika)
+- point: Intergenerationale Perspektive
+  elaboration: Zukünftige Generationen sind explizit Teil der ethischen Gemeinschaft
+weaknesses:
+- point: Spannungsfeld mit Individualrechten
+  elaboration: Kollektive Entscheidungen können individuelle Rechte und Minderheitenperspektiven übergehen
+- point: Skalierbarkeit
+  elaboration: Ubuntu-Konsultationsprozesse sind für kleine Gemeinschaften konzipiert; Skalierung auf Nationalstaaten oder globale Systeme ist komplex
+- point: Traditionelle Hierarchien
+  elaboration: In manchen Ubuntu-Praktiken sind Älteste-Hierarchien und Geschlechterdynamiken problematisch
+internal_debate:
+  kollektiv_vs_individuum:
+    issue: Wie verhält sich Ubuntu zu individuellen Rechten und persönlicher Autonomie?
+    positions:
+    - 'Ubuntu-Traditionalismus: Gemeinschaft vor Individuum; Rechte sind relational'
+    - 'Neo-Ubuntu: Synthese aus Gemeinschaft und Individualrechten; Ubuntu stärkt,
+      schränkt nicht ein'
+  kulturell_vs_universal:
+    issue: Ist Ubuntu ein kulturspezifisches oder universell anwendbares Prinzip?
+    positions:
+    - 'Partikularismus: Ubuntu ist afrikanisches Kulturerbe; Universalisierung ist Aneignung'
+    - 'Universalismus (Tutu): Ubuntu beschreibt menschliche Grundverfassung, die kulturübergreifend gilt'
+philosophical_positioning:
+  relation_to_kant: Ablehnung atomistischer Subjektivität; Würde durch Verbundenheit statt apriorische Autonomie
+  relation_to_utilitarianism: Teilt Gemeinwohl-Fokus; lehnt Aggregation ab — Gemeinschaft ist nicht die Summe von Individuen
+  relation_to_virtue_ethics: 'Nähe zu Aristoteles (soziales Wesen); aber Ubuntu ist explizit gemeinschaftskonstituierend'
+  relation_to_care_ethics: 'Starke Überschneidung: Beziehungssorge und gegenseitige Verantwortung; Ubuntu fügt kollektive Dimension hinzu'
+  relation_to_liberal_individualism: 'Fundamentaler Gegensatz: Gemeinschaftsidentität vs. vorsozialer Individualismus'
+contemporary_extensions:
+- thinker: Desmond Tutu
+  contribution: Ubuntu als Grundlage für Wahrheit und Versöhnung; universale Menschlichkeit
+- thinker: Thaddeus Metz
+  contribution: Analytisch-philosophische Begründung der Ubuntu-Ethik; Relation als fundamental-ethische Kategorie
+- thinker: Dirk Louw
+  contribution: Ubuntu und westliche Philosophie im Dialog; interkulturelles Brückenbauen
+application_areas:
+- domain: KI-Governance
+  issues:
+  - 'Gemeinschaftliche Regulierung: KI-Entscheidungen müssen Betroffene einbeziehen'
+  - 'Kollektiver Schaden: KI-Systeme, die Gemeinschaften fragmentieren, verletzen Ubuntu'
+  - 'Indaba-Modell für AI Policy: repräsentative Konsultation statt technokratische Entscheidung'
+- domain: Soziale Gerechtigkeit
+  issues:
+  - Solidarität als ethische Grundlage für Umverteilung
+  - Gemeinschaftliche Heilung nach kollektivem Trauma (post-colonial, post-conflict)
+- domain: Organisationsethik
+  issues:
+  - Ubuntu als Führungsmodell — Führung durch Einbeziehung, nicht Hierarchie
+  - Kollektive Verantwortung statt individueller Schuldzuweisung
+famous_quotes:
+- quote: Umuntu ngumuntu ngabantu — Ich bin, weil wir sind.
+  source: Zulu/Nguni-Sprichwort, universell im südlichen Afrika
+  context: Kernaussage der Ubuntu-Philosophie über relationale Konstitution des Selbst
+- quote: My humanity is bound up in yours, for we can only be human together.
+  source: Desmond Tutu, No Future Without Forgiveness (1999)
+  context: Ubuntu als Grundlage für Versöhnung und politische Transformation
+- quote: Ubuntu speaks of the very essence of being human.
+  source: Nelson Mandela
+  context: Ubuntu als national-ethisches Fundament des post-Apartheid Südafrika
+key_literature:
+  primary:
+  - 'Tutu, Desmond. No Future Without Forgiveness. Doubleday, 1999.'
+  - 'Ramose, Mogobe. African Philosophy through Ubuntu. Mond Books, 1999.'
+  - 'Nwoye, Augustine. Restoring Communal Harmony in Africa. Xlibris, 2014.'
+  secondary:
+  - 'Metz, Thaddeus. A Ubuntu-Based Bioethic. Developing World Bioethics 12(2), 2012.'
+  - 'Louw, Dirk J. Ubuntu and the Challenges of Multiculturalism in Post-Apartheid South Africa. Quest 15(1-2), 2001.'
+  - 'Eze, Michael Onyebuchi. Intellectual History in Contemporary South Africa. Palgrave Macmillan, 2010.'

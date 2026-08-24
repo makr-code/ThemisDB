@@ -24,6 +24,8 @@ name: CI — Release
 #   Windows windows-release : ZIP + WIX/MSI (WiX v3 required on runner)
 
 on:
+  schedule:
+    - cron: '0 3 * * *'
   push:
     tags:
       - 'v*'
@@ -58,6 +60,7 @@ permissions:
   packages: write
   actions: read
   pull-requests: read
+  issues: read
 
 concurrency:
   group: ci-release-${{ github.ref }}
@@ -70,15 +73,40 @@ jobs:
     name: Preflight Release Policy
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout (sparse — action only)
+        if: github.event_name == 'schedule'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          sparse-checkout: .github/actions/check-build-status
+          sparse-checkout-cone-mode: false
+      - name: Check last develop build status (schedule gate)
+        if: github.event_name == 'schedule'
+        uses: ./.github/actions/check-build-status
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          enforce: 'true'
+          fail-if-missing: 'true'
       - name: Validate tag/edition policy
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           EVENT="${{ github.event_name }}"
           REF_NAME="${{ github.ref_name }}"
           EDITION_INPUT="${{ inputs.edition || '' }}"
           TAG_INPUT="${{ inputs.tag_name || '' }}"
-          TARGET="${TAG_INPUT:-$REF_NAME}"
+
+          if [ "${EVENT}" = "schedule" ]; then
+            VERSION_FILE="$(tr -d '\r\n' < VERSION 2>/dev/null || echo '2.4.0')"
+            TARGET="v${VERSION_FILE}-nightly"
+            echo "Nightly release tag computed as: ${TARGET}"
+          else
+            TARGET="${TAG_INPUT:-$REF_NAME}"
+          fi
+
           CANONICAL_BRANCHES='^(develop|community|enterprise|hyperscaler|military|minimal)$'
+          SEMVER_CORE='[0-9]+\.[0-9]+\.[0-9]+'
+          SEMVER_SUFFIX='(-[0-9A-Za-z][0-9A-Za-z.-]*)?'
 
           if [ "${EVENT}" = "workflow_dispatch" ]; then
             if ! echo "${REF_NAME}" | grep -Eq "${CANONICAL_BRANCHES}"; then
@@ -88,9 +116,28 @@ jobs:
           fi
 
           if [ -n "${TARGET}" ]; then
-            if ! echo "${TARGET}" | grep -Eq '^(v[0-9]+\.[0-9]+\.[0-9]+|enterprise-v[0-9]+\.[0-9]+\.[0-9]+|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+|military-v[0-9]+\.[0-9]+\.[0-9]+|minimal-v[0-9]+\.[0-9]+\.[0-9]+)$'; then
+            TAG_REGEX="^(v${SEMVER_CORE}${SEMVER_SUFFIX}|v${SEMVER_CORE}-nightly|enterprise-v${SEMVER_CORE}${SEMVER_SUFFIX}|hyperscaler-v${SEMVER_CORE}${SEMVER_SUFFIX}|military-v${SEMVER_CORE}${SEMVER_SUFFIX}|minimal-v${SEMVER_CORE}${SEMVER_SUFFIX})$"
+            if ! echo "${TARGET}" | grep -Eq "${TAG_REGEX}"; then
               echo "::error::Invalid release tag format: ${TARGET}"
               exit 1
+            fi
+
+            # Protect stable candidate tags (e.g. v2.4.0-stable) from accidental overwrite.
+            if echo "${TARGET}" | grep -Eq '(^|-)stable([.-].*)?$'; then
+              API_URL="${{ github.api_url }}/repos/${{ github.repository }}/releases/tags/${TARGET}"
+              HTTP_CODE="$(curl -sS -o /tmp/release-by-tag.json -w "%{http_code}" \
+                -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                -H "Accept: application/vnd.github+json" \
+                "${API_URL}")"
+
+              if [ "${HTTP_CODE}" = "200" ]; then
+                echo "::error::Stable tag release already exists and must not be overwritten: ${TARGET}"
+                exit 1
+              elif [ "${HTTP_CODE}" != "404" ]; then
+                echo "::error::Could not validate stable tag overwrite guard (HTTP ${HTTP_CODE})"
+                cat /tmp/release-by-tag.json || true
+                exit 1
+              fi
             fi
           fi
 
@@ -102,195 +149,11 @@ jobs:
   # Build Matrix: community-release, linux-release, windows-release
   # ─────────────────────────────────────────────────────────────────────────────
   build-matrix:
-    name: "Build (${{ matrix.preset }} on ${{ matrix.os }})"
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
     needs: preflight-release-policy
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - preset: community-release
-            os: ubuntu-latest
-            binaryDir: build-community-release
-            cpack_generators: ""
-            description: Community build with system packages
-
-          - preset: linux-release
-            os: ubuntu-latest
-            binaryDir: build-gcc-linux-release
-            cpack_generators: TGZ;DEB;RPM;ZIP
-            description: Production Linux build with native packages
-
-          - preset: windows-release
-            os: windows-latest
-            binaryDir: build-msvc-windows-release
-            cpack_generators: ZIP;WIX
-            description: Production Windows build with vcpkg
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          fetch-depth: 0
-
-      - name: Check build_matrix filter
-        id: filter
-        run: |
-          MATRIX_INPUT="${{ inputs.build_matrix }}"
-          PRESET="${{ matrix.preset }}"
-          SKIP="false"
-          if [ -n "${MATRIX_INPUT}" ] && [ "${MATRIX_INPUT}" != "all" ]; then
-            case "${MATRIX_INPUT}" in
-              community-only)
-                [ "${PRESET}" != "community-release" ] && SKIP="true" ;;
-              linux-release-only)
-                [ "${PRESET}" != "linux-release" ] && SKIP="true" ;;
-              windows-release-only)
-                [ "${PRESET}" != "windows-release" ] && SKIP="true" ;;
-            esac
-          fi
-          echo "skip=${SKIP}" >> "$GITHUB_OUTPUT"
-        shell: bash
-
-      - name: Install Linux system dependencies (community-release)
-        if: matrix.preset == 'community-release' && steps.filter.outputs.skip != 'true'
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
-            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
-            libboost-system-dev libboost-filesystem-dev \
-            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
-            dpkg-dev rpm
-
-      - name: Install Linux packaging tools (linux-release)
-        if: matrix.preset == 'linux-release' && steps.filter.outputs.skip != 'true'
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends dpkg-dev rpm
-
-      - name: Preflight vcpkg submodule (linux/windows release presets)
-        if: >
-          steps.filter.outputs.skip != 'true' &&
-          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
-        shell: bash
-        run: |
-          set -euo pipefail
-          git submodule sync -- vcpkg
-          git submodule update --init --recursive vcpkg
-          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-            echo "::error::Missing vcpkg toolchain at vcpkg/scripts/buildsystems/vcpkg.cmake"
-            exit 1
-          }
-
-      - name: Set up vcpkg (Linux/Windows vcpkg presets)
-        if: >
-          steps.filter.outputs.skip != 'true' &&
-          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
-        shell: bash
-        run: |
-          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-            echo "::error::vcpkg submodule/toolchain missing before bootstrap"
-            exit 1
-          }
-          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>/dev/null || ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
-
-      - name: Configure
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          cmake --preset ${{ matrix.preset }} 2>&1 | tee "configure-${{ matrix.preset }}.log"
-        shell: bash
-
-      - name: Build
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          cmake --build --preset ${{ matrix.preset }} --parallel 2>&1 | tee "build-${{ matrix.preset }}.log"
-        shell: bash
-
-      - name: Test
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60 2>&1 | tee "test-${{ matrix.preset }}.log"
-        shell: bash
-
-      # ── CPack packaging ───────────────────────────────────────────────────
-      - name: Install (cmake --install)
-        if: steps.filter.outputs.skip != 'true'
-        run: |
-          set -euo pipefail
-          cmake --install "${{ matrix.binaryDir }}" \
-            --prefix "${{ matrix.binaryDir }}/install" 2>&1 | tee "install-${{ matrix.preset }}.log"
-        shell: bash
-
-      - name: Package (cpack)
-        if: steps.filter.outputs.skip != 'true'
-        id: cpack
-        shell: bash
-        run: |
-          set -euo pipefail
-          BINARY_DIR="${{ matrix.binaryDir }}"
-          GENERATORS="${{ matrix.cpack_generators }}"
-
-          # On Windows runners WiX v3 (candle/light) is available via the
-          # "windows-2022" image; skip WIX silently if not found.
-          if [[ "$RUNNER_OS" == "Windows" ]] || [[ "$(uname -s)" == MINGW* ]]; then
-            if ! command -v candle &>/dev/null 2>&1; then
-              GENERATORS="${GENERATORS//;WIX/}"
-              GENERATORS="${GENERATORS//WIX;/}"
-              GENERATORS="${GENERATORS//WIX/}"
-              echo "::notice::WiX (candle) not found — MSI generator skipped."
-            fi
-          fi
-
-          mkdir -p packages
-          cd "${BINARY_DIR}"
-          for GEN in ${GENERATORS//;/ }; do
-            echo "--- Running CPack generator: ${GEN} ---"
-            cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-${{ matrix.preset }}.log" || \
-              echo "::warning::CPack generator ${GEN} failed — continuing."
-          done
-          echo "Packages produced:"
-          ls -lh "${GITHUB_WORKSPACE}/packages/" || true
-
-      - name: Upload CPack packages
-        if: steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
-        with:
-          name: packages-${{ matrix.preset }}-${{ github.run_number }}
-          path: packages/
-          retention-days: 90
-          if-no-files-found: ignore
-
-      - name: Upload build artifacts
-        if: steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
-        with:
-          name: build-${{ matrix.preset }}-${{ github.run_number }}
-          path: |
-            ${{ matrix.binaryDir }}/themisdb*
-            ${{ matrix.binaryDir }}/*.exe
-            ${{ matrix.binaryDir }}/*.so
-            ${{ matrix.binaryDir }}/*.dll
-          retention-days: 30
-          if-no-files-found: ignore
-
-      - name: Upload triage logs
-        if: always() && steps.filter.outputs.skip != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
-        with:
-          name: triage-${{ matrix.preset }}-${{ github.run_number }}
-          path: |
-            configure-${{ matrix.preset }}.log
-            build-${{ matrix.preset }}.log
-            test-${{ matrix.preset }}.log
-            install-${{ matrix.preset }}.log
-            cpack-*-${{ matrix.preset }}.log
-          retention-days: 30
-          if-no-files-found: ignore
+    uses: ./.github/workflows/ci-release-build-matrix.yml
+    with:
+      build_matrix: ${{ inputs.build_matrix || 'all' }}
+    secrets: inherit
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Package: consolidate CPack artifacts from all presets into a single release
@@ -300,9 +163,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-matrix
     if: >
-      github.event_name == 'push' ||
-      github.event_name == 'release' ||
-      github.event_name == 'workflow_dispatch'
+      !cancelled() && (
+        github.event_name == 'push' ||
+        github.event_name == 'release' ||
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch'
+      ) && needs.build-matrix.result == 'success'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -336,13 +202,15 @@ jobs:
             EDITION=military; VERSION="${TAG#military-}"
           elif echo "${TAG}" | grep -qE '^minimal-v'; then
             EDITION=minimal; VERSION="${TAG#minimal-}"
+          elif echo "${TAG}" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+-nightly$'; then
+            EDITION=community; VERSION="${TAG#v}"; VERSION="${VERSION%-nightly}"
           else
-            EDITION=community; VERSION="${TAG}"
+            EDITION=community; VERSION="${TAG#v}"
           fi
           {
             echo "edition=${EDITION}"
             echo "version=${VERSION}"
-            echo "archive_name=themisdb-${EDITION}-${VERSION}-linux-x64"
+            echo "archive_name=themisdb-${EDITION}-${VERSION}-nightly-linux-x64"
           } >> "$GITHUB_OUTPUT"
 
       - name: Create fallback archive if no CPack TGZ present
@@ -374,10 +242,12 @@ jobs:
           done
 
           if [ ${#DIST_FILES[@]} -eq 0 ]; then
-            echo "::warning::No distributable files in release/ — manifest will be empty."
+            echo "::error::No distributable files in release/ after packaging; build artifacts did not produce a final release archive."
+            ls -la . || true
+            exit 1
           fi
 
-          sha256sum "${DIST_FILES[@]}" > SHA256SUMS.txt 2>/dev/null || touch SHA256SUMS.txt
+          sha256sum "${DIST_FILES[@]}" > SHA256SUMS.txt
           {
             echo "artifacts:"
             for f in "${DIST_FILES[@]}"; do
@@ -393,7 +263,6 @@ jobs:
           name: release-packages-${{ github.run_number }}
           path: release/
           retention-days: 90
-          if-no-files-found: warn
 
   validate-release-manifest:
     name: Validate Release Manifest
@@ -410,17 +279,138 @@ jobs:
       - name: Validate artifacts, checksums, and metadata
         run: |
           set -euo pipefail
-          test -f release/SHA256SUMS.txt || { echo "::error::SHA256SUMS.txt missing"; exit 1; }
-          test -f release/RELEASE_MANIFEST.txt || { echo "::error::RELEASE_MANIFEST.txt missing"; exit 1; }
+          if [ ! -f release/SHA256SUMS.txt ] || [ ! -f release/RELEASE_MANIFEST.txt ]; then
+            echo "::error::Release manifest or checksum file missing after packaging."
+            ls -la release/ || true
+            exit 1
+          fi
           # Require at least one archive (TGZ, ZIP, or source tarball)
           ARCHIVE_COUNT=$(find release -maxdepth 1 \( -name "*.tar.gz" -o -name "*.tgz" -o -name "*.zip" \) | wc -l)
           if [ "${ARCHIVE_COUNT}" -eq 0 ]; then
-            echo "::error::No archive (.tar.gz/.tgz/.zip) found in release packages."
+            echo "::error::No archive (.tar.gz/.tgz/.zip) found in release packages; packaging did not produce a distributable artifact."
+            ls -lh release/ || true
             exit 1
           fi
           echo "Archive count: ${ARCHIVE_COUNT}"
           ls -lh release/
           (cd release && sha256sum --check SHA256SUMS.txt)
+
+      - name: Enforce LLM model distribution policy
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TMP_LIST="$(mktemp)"
+          TMP_MODELS="$(mktemp)"
+
+          # Collect archive entry paths from all distributable archives.
+          for archive in release/*.zip release/*.tar.gz release/*.tgz; do
+            [ -f "${archive}" ] || continue
+            case "${archive}" in
+              *.zip)
+                unzip -Z1 "${archive}" >> "${TMP_LIST}"
+                ;;
+              *.tar.gz|*.tgz)
+                tar -tf "${archive}" >> "${TMP_LIST}"
+                ;;
+            esac
+          done
+
+          # Extract GGUF payload entries under models/ (path may be prefixed by archive root folder).
+          grep -Ei '(^|/)models/.*\.gguf$' "${TMP_LIST}" | sort -u > "${TMP_MODELS}" || true
+
+          if [ ! -s "${TMP_MODELS}" ]; then
+            echo "::error::No GGUF model payload found under models/ in release archives."
+            echo "Expected TinyLlama distribution payload according to release policy."
+            exit 1
+          fi
+
+          echo "GGUF entries found in release payloads:"
+          cat "${TMP_MODELS}"
+
+          # Distribution allowlist: tinyllama/default only.
+          if grep -Evi '(^|/)models/.*(tinyllama|default)\.gguf$' "${TMP_MODELS}" >/dev/null; then
+            echo "::error::Non-approved GGUF model detected in distributable payload (allowed: tinyllama/default only)."
+            grep -Evi '(^|/)models/.*(tinyllama|default)\.gguf$' "${TMP_MODELS}" || true
+            exit 1
+          fi
+
+          # Explicit deny-list for Gemma-family in distributable bundles.
+          if grep -Ei '(^|/)models/.*gemma.*\.gguf$' "${TMP_MODELS}" >/dev/null; then
+            echo "::error::Gemma-family GGUF payload detected in distributable release artifact."
+            grep -Ei '(^|/)models/.*gemma.*\.gguf$' "${TMP_MODELS}" || true
+            exit 1
+          fi
+
+          echo "Model distribution policy check passed."
+
+  docker-image:
+    name: Trigger Docker Image Workflow (non-blocking)
+    runs-on: ubuntu-latest
+    needs: validate-release-manifest
+    if: >
+      !cancelled() &&
+      needs.validate-release-manifest.result == 'success' && (
+        github.event_name == 'push' ||
+        github.event_name == 'release' ||
+        github.event_name == 'workflow_dispatch'
+      )
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Trigger docker-image workflow (best effort)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_REF: ${{ github.ref_name }}
+          TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
+        shell: bash
+        run: |
+          set +e
+          gh workflow run .github/workflows/docker-image.yml \
+            --ref "${TARGET_REF}" \
+            -f push_to_registry=true \
+            -f registry=ghcr.io \
+            -f tag_name="${TARGET_TAG}"
+          RC=$?
+          if [ "${RC}" -ne 0 ]; then
+            echo "::warning::Docker workflow trigger failed (non-blocking), rc=${RC}."
+          fi
+          exit 0
+
+  ci-widget:
+    name: Trigger CI Widget Workflow (dry-run, non-blocking)
+    runs-on: ubuntu-latest
+    needs: validate-release-manifest
+    if: >
+      !cancelled() &&
+      needs.validate-release-manifest.result == 'success' && (
+        github.event_name == 'push' ||
+        github.event_name == 'release' ||
+        github.event_name == 'workflow_dispatch'
+      )
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Trigger ci-widget workflow (dry-run, best effort)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_REF: ${{ github.ref_name }}
+          TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
+        shell: bash
+        run: |
+          set +e
+          gh workflow run .github/workflows/ci-widget.yml \
+            --ref "${TARGET_REF}" \
+            -f dry_run=true \
+            -f source_workflow="CI - Release" \
+            -f tag_name="${TARGET_TAG}"
+          RC=$?
+          if [ "${RC}" -ne 0 ]; then
+            echo "::warning::Widget workflow trigger failed (non-blocking), rc=${RC}."
+          fi
+          exit 0
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Publish Community — no private credentials or private submodules
@@ -430,13 +420,18 @@ jobs:
     name: Publish Community Release
     runs-on: ubuntu-latest
     needs: validate-release-manifest
-    # Only publish community on vX.Y.Z tags or explicit community dispatch
+    # Only publish community on vX.Y.Z tags or explicit community dispatch.
+    # Fail fast if the release did not produce a valid artifact set.
     if: >
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') &&
-       !startsWith(github.ref_name, 'enterprise-') &&
-       !startsWith(github.ref_name, 'hyperscaler-') &&
-       !startsWith(github.ref_name, 'military-')) ||
-      (github.event_name == 'workflow_dispatch' && inputs.edition == 'community')
+      !cancelled() &&
+      needs.validate-release-manifest.result == 'success' && (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') &&
+         !startsWith(github.ref_name, 'enterprise-') &&
+         !startsWith(github.ref_name, 'hyperscaler-') &&
+         !startsWith(github.ref_name, 'military-') &&
+         !startsWith(github.ref_name, 'minimal-')) ||
+        (github.event_name == 'workflow_dispatch' && inputs.edition == 'community')
+      )
     environment:
       name: community-release
 
@@ -529,14 +524,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: validate-release-manifest
     if: >
-      (github.event_name == 'push' && (
-        startsWith(github.ref_name, 'enterprise-v') ||
-        startsWith(github.ref_name, 'hyperscaler-v') ||
-        startsWith(github.ref_name, 'military-v') ||
-        startsWith(github.ref_name, 'minimal-v')
-      )) ||
-      (github.event_name == 'workflow_dispatch' &&
-       contains(fromJSON('["enterprise","hyperscaler","military","minimal"]'), inputs.edition))
+      !cancelled() &&
+      needs.validate-release-manifest.result == 'success' && (
+        (github.event_name == 'push' && (
+          startsWith(github.ref_name, 'enterprise-v') ||
+          startsWith(github.ref_name, 'hyperscaler-v') ||
+          startsWith(github.ref_name, 'military-v') ||
+          startsWith(github.ref_name, 'minimal-v')
+        )) ||
+        (github.event_name == 'workflow_dispatch' &&
+         contains(fromJSON('["enterprise","hyperscaler","military","minimal"]'), inputs.edition))
+      )
     environment:
       name: ${{ startsWith(github.ref_name, 'enterprise-v') && 'enterprise-release' || startsWith(github.ref_name, 'hyperscaler-v') && 'hyperscaler-release' || startsWith(github.ref_name, 'military-v') && 'military-release' || startsWith(github.ref_name, 'minimal-v') && 'minimal-release' || inputs.edition == 'enterprise' && 'enterprise-release' || inputs.edition == 'hyperscaler' && 'hyperscaler-release' || inputs.edition == 'military' && 'military-release' || inputs.edition == 'minimal' && 'minimal-release' || 'private-release' }}
 
@@ -554,6 +552,21 @@ jobs:
           pattern: release-packages-*
           merge-multiple: true
           path: release/
+
+      - name: Validate private edition tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ inputs.tag_name || github.ref_name }}"
+          case "${TAG}" in
+            enterprise-v*|hyperscaler-v*|military-v*|minimal-v*)
+              echo "Private release tag validated: ${TAG}"
+              ;;
+            *)
+              echo "::error::Private release publish was reached with an invalid tag: ${TAG}"
+              exit 1
+              ;;
+          esac
 
       - name: Determine edition
         id: edition
@@ -607,3 +620,113 @@ jobs:
       target-branch: "develop"
       dry-run: false
     secrets: inherit
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # LLM Inference Gate — optional blocking gate for release validation.
+  #
+  # Activation: include '[llm-gate]' in the commit message, or trigger
+  #             via workflow_dispatch.  Required: false for v1-beta;
+  #             promote to required: true for GA by updating branch protection.
+  #
+  # Uses the same ci-llm-inference.yml reusable workflow and the canonical
+  # HuggingFace TinyLlama GGUF model download path.
+  # ─────────────────────────────────────────────────────────────────────────────
+  llm-inference-gate:
+    name: LLM Inference Gate (optional)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    needs: validate-release-manifest
+    # Activate on '[llm-gate]' commit message keyword OR explicit dispatch.
+    if: >
+      always() &&
+      needs.validate-release-manifest.result == 'success' &&
+      (
+        contains(github.event.head_commit.message, '[llm-gate]') ||
+        github.event_name == 'workflow_dispatch'
+      )
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 1
+
+      - name: Restore model cache
+        id: cache-model
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/models
+          key: tinyllama-gguf-q4km-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
+          restore-keys: |
+            tinyllama-gguf-q4km-
+
+      - name: Download TinyLlama GGUF
+        if: steps.cache-model.outputs.cache-hit != 'true'
+        env:
+          MODEL_DIR: ${{ github.workspace }}/models
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ci-download-tinyllama.sh
+          bash scripts/ci-download-tinyllama.sh
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev libboost-system-dev \
+            libboost-filesystem-dev libpugixml-dev
+
+      - name: Build doku.db
+        env:
+          OUTPUT_DIR: ${{ github.workspace }}/build/test-assets
+          REPO_ROOT: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ci-build-doku-db.sh
+          bash scripts/ci-build-doku-db.sh
+
+      - name: Configure and build LLM inference tests
+        run: |
+          set -euo pipefail
+          mkdir -p internal llama.cpp vcpkg/downloads
+          cmake -S . -B build \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_LLM_INFERENCE_TESTS=ON \
+            -DTHEMIS_TEST_MODEL_DIR="${{ github.workspace }}/models" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -G Ninja
+          cmake --build build --parallel 8 \
+            --target \
+              module_llm_test_llm_tinyllama_inference_focused \
+              module_llm_test_llm_doku_rag_focused \
+              module_llm_test_llm_adalora_doku_training_focused
+
+      - name: Run all LLM inference CTest suites
+        env:
+          THEMIS_TEST_MODEL_PATH: ${{ github.workspace }}/models/tinyllama.gguf
+          THEMIS_DOKU_DB_PATH: ${{ github.workspace }}/build/test-assets/doku.db.json
+        run: |
+          set -euo pipefail
+          ctest --test-dir build \
+            --output-on-failure \
+            -j1 \
+            --timeout 300 \
+            -L "llm_inference|llm_rag_doku|adalora_training" \
+            --output-log build/ctest-llm-gate.log \
+            || CTEST_EXIT=$?
+          echo "LLM gate CTest exit: ${CTEST_EXIT:-0}"
+          exit "${CTEST_EXIT:-0}"
+
+      - name: Upload gate results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: llm-gate-results-${{ github.run_number }}
+          path: |
+            build/Testing/
+            build/ctest-llm-gate.log
+          retention-days: 14
+          if-no-files-found: ignore

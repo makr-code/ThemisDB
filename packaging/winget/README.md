@@ -36,6 +36,8 @@ pwsh ./scripts/release/publish-local-release.ps1 `
 	-IncludeGermanWingetLocale
 ```
 
+Portable ZIP-Releases deklarieren im Winget-Manifest eine VC++-Runtime-Abhängigkeit, damit die Installationsvalidierung auf einer sauberen Maschine die benötigten MSVC-Laufzeit-DLLs mitnachzieht. Der lokale Release-Flow uebergibt diese Abhaengigkeit automatisch.
+
 Fuer MSI-Artefakte im lokalen Release-Flow:
 
 ```powershell
@@ -48,6 +50,8 @@ pwsh ./scripts/release/publish-local-release.ps1 `
 ```
 
 Die Ausgabe landet unter `packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>/`.
+
+> Hinweis: Pre-Release-Versionen werden durch die Paketversion selbst codiert (z. B. `2.4.0-alpha`). Das `IsPreRelease`-Feld ist im aktuellen WinGet-Schema ungültig und wird nicht verwendet.
 
 ## Inhalt
 
@@ -67,6 +71,7 @@ Die Ausgabe landet unter `packaging/winget/manifests/t/ThemisDB/ThemisDB/<versio
 ## Hinweise
 
 - Bei ZIP-Artefakten referenziert die WinGet-Definition `bin\themis_server.exe` als portables Nested-Executable.
+- Bei ZIP-Artefakten wird eine Runtime-Abhaengigkeit fuer die VC++-Laufzeit mit eingetragen, damit `themis_server.exe` auf einer frischen Windows-VM startet.
 - Bei MSI-Artefakten wird ein natives MSI-Installer-Manifest ohne Nested-Portable-Eintrag erzeugt.
 - `LicenseUrl` und `ReleaseNotesUrl` werden auf den jeweiligen GitHub-Release-Tag gesetzt statt auf einen Branch-Namen.
 - Hash-Platzhalter dürfen nicht committed oder eingereicht werden; die Manifeste müssen immer aus einem konkreten Artefakt erzeugt werden.

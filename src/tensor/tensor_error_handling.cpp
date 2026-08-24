@@ -46,6 +46,8 @@ std::pair<bool, std::string> TensorErrorHandler::handleCompressionFailure(
     std::unique_ptr<ICompressionStrategy>        fallback_strategy,
     const CompressionConfig&                     config) {
 
+    (void)config;
+
     if (!fallback_strategy) {
         return {false, "No fallback strategy available"};
     }
@@ -59,7 +61,7 @@ std::pair<bool, std::string> TensorErrorHandler::handleCompressionFailure(
             logError(recovery_context);
             return {true, fallback_strategy->name()};
         }
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Fallback also failed
     }
 
@@ -168,6 +170,9 @@ CompressionResult CompressionGuard::execute(
     const std::vector<size_t>&  mode_sizes,
     const CompressionConfig&    config) noexcept {
 
+    (void)mode_sizes;
+    (void)config;
+
     if (!strategy_) {
         result_.success = false;
         result_.error_message = "No compression strategy available";
@@ -238,6 +243,10 @@ RoutingDecision RoutingGuard::execute(
     float                                 compression_ratio,
     const index::AnnQueryContext&         query_context) noexcept {
 
+    (void)candidate_count;
+    (void)compression_ratio;
+    (void)query_context;
+
     if (!strategy_) {
         result_.primary_target = "FALLBACK";
         result_.confidence = 0.0f;
@@ -303,6 +312,9 @@ CompressionResult FallbackCompressionStrategy::compressTTTrain(
     const storage::TTTrain&   train,
     const CompressionConfig&  config) const {
 
+    (void)train;
+    (void)config;
+
     // Try TT first, then fall back to simpler strategies
     CompressionResult result;
     result.success = true;
@@ -316,6 +328,9 @@ float FallbackCompressionStrategy::estimateRatio(
     std::size_t               dim,
     const CompressionConfig&  config) const {
 
+    (void)data;
+    (void)dim;
+    (void)config;
     return 2.0f;  // Conservative estimate
 }
 
@@ -324,6 +339,11 @@ CompressionResult FallbackCompressionStrategy::trySequentially(
     std::size_t               dim,
     const std::vector<size_t>& mode_sizes,
     const CompressionConfig&  config) const {
+
+    (void)data;
+    (void)dim;
+    (void)mode_sizes;
+    (void)config;
 
     // Try strategies in order of preference
     std::vector<std::string> strategies = {
@@ -370,6 +390,11 @@ RoutingDecision FallbackRoutingStrategy::route(
     float                                 compression_ratio,
     const index::AnnQueryContext&         query_context) const {
 
+    (void)summaries;
+    (void)candidate_count;
+    (void)compression_ratio;
+    (void)query_context;
+
     return createSafeDefault(summaries);
 }
 
@@ -378,11 +403,15 @@ bool FallbackRoutingStrategy::shouldRetryOnFailure(
     int                attempt_count,
     int                max_attempts) const noexcept {
 
+    (void)reason;
+
     return attempt_count < max_attempts;
 }
 
 RoutingDecision FallbackRoutingStrategy::createSafeDefault(
     const std::vector<BaseTensorSummary>& summaries) const noexcept {
+
+    (void)summaries;
 
     RoutingDecision decision;
     decision.primary_target = "FALLBACK";

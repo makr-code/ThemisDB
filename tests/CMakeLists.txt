@@ -49,18 +49,18 @@ endif()
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/TestPolicy.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/RegisterModuleTests.cmake)
 
-# Global output directory for all test binaries → prefer shared bin_out when available
-if(DEFINED _themis_bin_out)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${_themis_bin_out}")
+# Global output directory for all test binaries → prefer shared bin when available
+if(DEFINED _themis_bin_dir)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${_themis_bin_dir}")
 else()
     # Fallback for older configure flows
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
 # Prefer isolating module-focused tests into per-module subdirectories to avoid
-# concurrent linking/writing into the same `bin_out` path which can trigger
+# concurrent linking/writing into the same `bin/` path which can trigger
 # LNK1104 when multiple parallel linkers race on the same filename.
-set(THEMIS_TESTS_RUNTIME_SUBDIR "${CMAKE_BINARY_DIR}/bin_out_tests_by_module" CACHE PATH "Per-module test binary output base dir")
+set(THEMIS_TESTS_RUNTIME_SUBDIR "${CMAKE_BINARY_DIR}/bin/tests_by_module" CACHE PATH "Per-module test binary output base dir")
 file(MAKE_DIRECTORY "${THEMIS_TESTS_RUNTIME_SUBDIR}")
 
 # Helper: set per-target runtime output to a module-scoped folder
@@ -142,6 +142,12 @@ elseif(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_install
     set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/bin")
 endif()
 
+if(NOT _themis_vcpkg_bin_dir AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+    set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include")
+    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib")
+    set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin")
+endif()
+
 # Auto-discover modularized test folders under tests/<module>/CMakeLists.txt.
 # integration is added separately with an explicit binary directory below.
 file(GLOB _TEST_MODULE_CMAKES
@@ -179,11 +185,11 @@ foreach(_t IN LISTS _all_targets)
             get_target_property(_type ${_t} TYPE)
             if(_type STREQUAL "EXECUTABLE")
                 set_target_properties(${_t} PROPERTIES
-                    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}"
-                    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Debug"
-                    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Release"
-                    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/RelWithDebInfo"
-                    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/MinSizeRel"
+                    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/tests/${_t}"
+                    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin/tests/${_t}/Debug"
+                    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin/tests/${_t}/Release"
+                    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin/tests/${_t}/RelWithDebInfo"
+                    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin/tests/${_t}/MinSizeRel"
                 )
             endif()
         endif()
@@ -2912,7 +2918,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
         LABELS "graph;distributed;shards;unit"
         TIMEOUT 120
         ENVIRONMENT_MODIFICATION
-            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin\\;${CMAKE_BINARY_DIR}/bin_out"
+            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
 
     # TEMP WORKAROUND: These targets experience LNK1104 file-lock during parallel build on Windows.
@@ -2964,7 +2970,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
         LABELS "graph;distributed;shared_mutex;concurrency;focused;unit"
         TIMEOUT 60
         ENVIRONMENT_MODIFICATION
-            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin\\;${CMAKE_BINARY_DIR}/bin_out"
+            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
 
     message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
@@ -8914,6 +8920,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
 
     target_compile_definitions(test_knowledge_graph_reasoner_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
     )
 
     add_test(NAME KnowledgeGraphReasonerFocusedTests
@@ -8997,6 +9004,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_knowledge_graph_retriever_reason
 
     target_compile_definitions(test_kg_retriever_reasoning_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
     )
 
     add_test(NAME KGRetrieverReasoningFocusedTests
@@ -17130,6 +17138,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_ethics_ai_pipeline.cpp")
         ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/chain_visualizer.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
         ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
@@ -21156,6 +21165,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/failover/test_failover_chaos_scenarios.cp
     add_executable(test_failover_chaos_scenarios_focused
         failover/test_failover_chaos_scenarios.cpp
         ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp
     )
     target_include_directories(test_failover_chaos_scenarios_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -26710,6 +26720,18 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/lib/test_lib_rocksdb_integration.cpp" AND
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
+
+    if(WIN32)
+        add_custom_command(TARGET themis_tests_critical POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                    -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
+                    -D "VCPKG_BIN_DIR=${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/bin"
+                    -D "DST_DIR=$<TARGET_FILE_DIR:themis_tests_critical>"
+                    -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
+            COMMENT "Syncing runtime DLLs for themis_tests_critical"
+            VERBATIM
+        )
+    endif()
 endif()
 
 # Conditionally add LLM tests only when LLM is enabled

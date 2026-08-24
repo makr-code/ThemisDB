@@ -14,12 +14,13 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "themis/gpu/gpu_cuda_error_hardening.h"
-#include "themis/gpu/gpu_backend_dispatch_contract.h"
-#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+#include "gpu/gpu_cuda_error_hardening.h"
+#include "gpu/gpu_backend_dispatch_contract.h"
+#include "gpu/gpu_backend_dispatch_diagnostics.h"
+#include "themis/gpu/memory_pool.h"
+#include "themis/gpu/unified_memory.h"
 
 using ::testing::Eq;
-using ::testing::NotEq;
 using ::testing::StrictMock;
 using ::testing::Mock;
 
@@ -93,7 +94,8 @@ TEST_F(CudaErrorHardeningTest, CheckCudaErrorSuccess) {
 
 TEST_F(CudaErrorHardeningTest, UnifiedMemoryAllocateSuccess) {
     // This test verifies that successful allocation doesn't emit diagnostic
-    GPUUnifiedMemoryAllocator allocator;
+    auto& allocator = GPUUnifiedMemoryAllocator::GetInstance();
+    allocator.reset();
     
     // Small allocation that should succeed
     void* ptr = allocator.allocate(1024, "test_tag", "");
@@ -104,14 +106,16 @@ TEST_F(CudaErrorHardeningTest, UnifiedMemoryAllocateSuccess) {
 }
 
 TEST_F(CudaErrorHardeningTest, UnifiedMemoryPrefetchSuccess) {
-    GPUUnifiedMemoryAllocator allocator;
+    auto& allocator = GPUUnifiedMemoryAllocator::GetInstance();
+    allocator.reset();
     
     // Small allocation
     void* ptr = allocator.allocate(1024, "test_tag", "");
     
     if (ptr != nullptr) {
         // Prefetch should succeed (or gracefully fail with diagnostic)
-        bool result = allocator.prefetch(ptr, 1024, 0);
+        const bool result = allocator.prefetch(ptr, 1024, 0);
+        EXPECT_TRUE(result);
         EXPECT_TRUE(allocator.free(ptr));
     }
 }
@@ -160,15 +164,17 @@ TEST_F(CudaErrorHardeningTest, MemoryPoolDefragmentation) {
     GPUMemoryPool pool(1024 * 1024, 64 * 1024, 16);  // 1MB pool, 64KB slabs
     
     // Allocate some slabs
-    auto rec1 = pool.allocate(32 * 1024, "test1");
-    auto rec2 = pool.allocate(32 * 1024, "test2");
+    uint64_t rec1 = 0;
+    uint64_t rec2 = 0;
+    const bool ok1 = pool.tryAcquire(32 * 1024, "test1", rec1);
+    const bool ok2 = pool.tryAcquire(32 * 1024, "test2", rec2);
     
-    if (rec1.offset >= 0 && rec2.offset >= 0) {
+    if (ok1 && ok2) {
         // Free first slab to create fragmentation
-        pool.deallocate(rec1);
+        EXPECT_TRUE(pool.release(rec1));
         
         // Defragment and verify error handling
-        GPUMemoryPool::DefragmentationResult result = pool.defragment();
+        GPUMemoryPool::DefragResult result = pool.defragment();
         
         // Result should have valid structure with error tracking
         EXPECT_GE(result.data_move_errors, 0);
@@ -255,7 +261,8 @@ TEST_F(CudaErrorHardeningTest, ContractDiagnosticEmissionLatencyBound) {
 
 TEST_F(CudaErrorHardeningTest, UnifiedMemoryAllocatorIntegration) {
     // Integration test: verify unified memory allocator uses error handling
-    GPUUnifiedMemoryAllocator allocator;
+    auto& allocator = GPUUnifiedMemoryAllocator::GetInstance();
+    allocator.reset();
     
     // Test allocation and deallocation cycle
     void* ptr = allocator.allocate(512, "integration_test", "");
@@ -276,11 +283,12 @@ TEST_F(CudaErrorHardeningTest, GPUMemoryPoolIntegration) {
     GPUMemoryPool pool(512 * 1024, 32 * 1024, 16);  // 512KB pool, 32KB slabs
     
     // Allocate from pool
-    auto rec = pool.allocate(16 * 1024, "integration_test");
+    uint64_t rec = 0;
+    const bool ok = pool.tryAcquire(16 * 1024, "integration_test", rec);
     
-    if (rec.offset >= 0) {
+    if (ok) {
         // Deallocate from pool
-        bool freed = pool.deallocate(rec);
+        const bool freed = pool.release(rec);
         EXPECT_TRUE(freed);
     }
 }

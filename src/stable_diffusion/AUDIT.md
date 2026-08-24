@@ -26,8 +26,8 @@
 - Configure: `cmake --preset community-release-allow-missing-rocksdb -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DTHEMIS_ENABLE_GPU=OFF`
 - Build: `cmake --build build-community-debug-allow-missing-rocksdb --target test_sd_plugin test_sd_plugin_registrar --parallel 4`
 - Run:
-  - `./build-community-debug-allow-missing-rocksdb/bin_out/test_sd_plugin` → **62/62 passed**
-  - `./build-community-debug-allow-missing-rocksdb/bin_out/test_sd_plugin_registrar` → **12/12 passed**
+  - `./build-community-debug-allow-missing-rocksdb/bin/test_sd_plugin` → **62/62 passed**
+  - `./build-community-debug-allow-missing-rocksdb/bin/test_sd_plugin_registrar` → **12/12 passed**
 - Benchmark build attempt:
   - `cmake --build build-community-debug-allow-missing-rocksdb --target bench_stable_diffusion_release_gates --parallel 4`
   - **Blocked outside this module** by missing `rocksdb/db.h` in `src/storage/backup_manager.cpp` and an existing compile error in `src/storage/rocksdb_wrapper.cpp`.

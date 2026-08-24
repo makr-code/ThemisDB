@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-08-19
+Datum: 2026-08-24
 Status: Active
 
 ## include/acceleration/ai_hardware_dispatcher.h
@@ -200,7 +200,7 @@ Status: Active
 
 ## include/access_model/access_coordinator.h
 - Kategorie: modules_and_api
-- Hash: `911a2a117a1bb0ff`
+- Hash: `5a27f2cc93b2beba`
 - Titel: (binary or unreadable)
 
 ## include/access_model/access_metrics.h
@@ -220,7 +220,7 @@ Status: Active
 
 ## include/access_model/access_tier_interface.h
 - Kategorie: modules_and_api
-- Hash: `a819891debedd226`
+- Hash: `429059431ca57bf4`
 - Titel: (binary or unreadable)
 
 ## include/access_model/age_based_policy.h
@@ -235,7 +235,7 @@ Status: Active
 
 ## include/ai/ai_plugin_generator.h
 - Kategorie: modules_and_api
-- Hash: `20d62d61e3cd4dfc`
+- Hash: `cc512376514fe477`
 - Titel: (binary or unreadable)
 
 ## include/ai/cai_ethics_integration.h
@@ -250,7 +250,7 @@ Status: Active
 
 ## include/analytics/analytics_api_contract.h
 - Kategorie: modules_and_api
-- Hash: `a1e727d3ef753020`
+- Hash: `fa82b8eebe652b3f`
 - Titel: (binary or unreadable)
 
 ## include/analytics/analytics_engine.h
@@ -260,7 +260,7 @@ Status: Active
 
 ## include/analytics/analytics_export.h
 - Kategorie: modules_and_api
-- Hash: `3aba39f7852fc9c1`
+- Hash: `51bd2844d76453b6`
 - Titel: (binary or unreadable)
 
 ## include/analytics/anomaly_detection.h
@@ -325,7 +325,7 @@ Status: Active
 
 ## include/analytics/distributed_analytics.h
 - Kategorie: modules_and_api
-- Hash: `71a20786c84a48ee`
+- Hash: `16d6031643d14907`
 - Titel: (binary or unreadable)
 
 ## include/analytics/expert_system_engine.h
@@ -355,7 +355,7 @@ Status: Active
 
 ## include/analytics/llm_process_analyzer.h
 - Kategorie: modules_and_api
-- Hash: `baf87bd9fa668f2f`
+- Hash: `1d6872f93bb40669`
 - Titel: (binary or unreadable)
 
 ## include/analytics/lora_pattern_classifier.h
@@ -365,12 +365,12 @@ Status: Active
 
 ## include/analytics/ml_serving.h
 - Kategorie: modules_and_api
-- Hash: `5c9327012322d9a3`
+- Hash: `bfcb1d64b8198dc9`
 - Titel: (binary or unreadable)
 
 ## include/analytics/model_serving.h
 - Kategorie: modules_and_api
-- Hash: `93d93b81c8b97876`
+- Hash: `8f8a7d02440c708c`
 - Titel: (binary or unreadable)
 
 ## include/analytics/nlp_text_analyzer.h

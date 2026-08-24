@@ -31,7 +31,7 @@ AsyncInferenceEngine::AsyncInferenceEngine(
 ) : config_(config), plugin_(plugin) {
     
     if (!plugin_) {
-        throw std::invalid_argument("Plugin cannot be null");
+        spdlog::warn("AsyncInferenceEngine created with null plugin; requests will fail closed until a plugin is installed");
     }
     // Wrap raw pointer in a non-owning shared_ptr for hot-swap support.
     // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
@@ -67,9 +67,9 @@ AsyncInferenceEngine::AsyncInferenceEngine(
 AsyncInferenceEngine::AsyncInferenceEngine(
     std::shared_ptr<ILLMPlugin> plugin,
     const Config& config
-) : config_(config), plugin_(plugin.get()), owned_plugin_(std::move(plugin)) {
+) : config_(config), plugin_(plugin ? plugin.get() : nullptr), owned_plugin_(std::move(plugin)) {
     if (!plugin_) {
-        throw std::invalid_argument("Plugin cannot be null");
+        spdlog::warn("AsyncInferenceEngine created with null plugin; requests will fail closed until a plugin is installed");
     }
     // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
     // and to establish happens-before relationship with first worker access.
@@ -106,7 +106,7 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     std::shared_ptr<SharedWorkerPool> pool
 ) : config_(config), plugin_(plugin), shared_pool_(std::move(pool)) {
     if (!plugin_) {
-        throw std::invalid_argument("Plugin cannot be null");
+        spdlog::warn("AsyncInferenceEngine created with null plugin; requests will fail closed until a plugin is installed");
     }
     if (!shared_pool_) {
         throw std::invalid_argument("SharedWorkerPool cannot be null");
@@ -136,10 +136,10 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     std::shared_ptr<ILLMPlugin> plugin,
     const Config& config,
     std::shared_ptr<SharedWorkerPool> pool
-) : config_(config), plugin_(plugin.get()), owned_plugin_(std::move(plugin)),
+) : config_(config), plugin_(plugin ? plugin.get() : nullptr), owned_plugin_(std::move(plugin)),
     shared_pool_(std::move(pool)) {
     if (!plugin_) {
-        throw std::invalid_argument("Plugin cannot be null");
+        spdlog::warn("AsyncInferenceEngine created with null plugin; requests will fail closed until a plugin is installed");
     }
     if (!shared_pool_) {
         throw std::invalid_argument("SharedWorkerPool cannot be null");
@@ -953,6 +953,19 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     {
         std::shared_lock<std::shared_mutex> lock(plugin_mutex_);
         plugin_snapshot = active_plugin_;
+    }
+
+    if (!plugin_snapshot) {
+        InferenceResponse failed;
+        failed.request_id = request.request_id;
+        failed.model_id = request.request.model_id;
+        failed.success = false;
+        failed.error_message = "Plugin cannot be null";
+        failed.metadata["async"] = true;
+        failed.metadata["blocked"] = true;
+        failed.metadata["error"] = "Plugin cannot be null";
+        failed.metadata["queue_time_ms"] = queue_time;
+        return failed;
     }
 
     // Call plugin (blocking inference)

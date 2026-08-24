@@ -91,9 +91,7 @@ void WALShipper::stop() {
     cv_.notify_all();
     
     if (shipper_thread_ && shipper_thread_->joinable()) {
-        if (!shipper_thread_->try_join_for(std::chrono::seconds(30))) {
-            spdlog::error("WALShipper::stop: shipping thread did not exit within 30s timeout");
-        }
+        shipper_thread_->join();
     }
 }
 

@@ -13,6 +13,7 @@
 #include <chrono>
 #include <thread>
 #include <sstream>
+#include <spdlog/spdlog.h>
 
 namespace themis { namespace voice {
 

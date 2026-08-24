@@ -46,7 +46,12 @@
 
 #include <chrono>
 #include <cstdint>
+#include <map>
 #include <string>
+
+// Forward-declared in this header; full definition in adapter_capability_announcement.h.
+// Include that header directly when the full type is needed.
+namespace themis::distributed_knowledge { struct AdapterCapabilityAnnouncement; }
 
 namespace themis {
 namespace distributed_knowledge {
@@ -153,6 +158,10 @@ enum class DKErrorCode : int {
 
     /// Internal distributed knowledge component error.
     INTERNAL_ERROR = 8,
+
+    /// An incoming AdapterCapabilityAnnouncement was rejected by the trust gate.
+    /// The operation was not started (fail-closed).
+    TRUST_GATE_REJECTED = 9,
 };
 
 /// Returns true for codes where the caller should retry with back-off.
@@ -528,6 +537,226 @@ inline constexpr const char* kMergeStrategyRoundRobinDescription =
  *  - Pattern: `if (n == 0) aggregated[key] = 0.0; else compute_median(...)`
  *  - Result: Bounds-safe aggregation with clear error semantics
  */
+
+// ============================================================================
+// § 10  Merge Hardening Policy (Phase 2 / Q4 2026)
+//
+// Defines deterministic behaviour under multi-shard timeout permutations and
+// bounded deduplication windows.  Applied to FederatedRAGMerger and
+// LoRAFederationCoordinator to harden merge paths against partial failures.
+// ============================================================================
+
+/// Behaviour when a shard timeout or partial-shard situation is detected.
+enum class TimeoutBehavior : uint8_t {
+    /// Reject the entire merge if any shard exceeds the latency budget.
+    /// Provides the strictest consistency guarantee at the cost of availability.
+    FAIL_CLOSED  = 0,
+    /// Continue with available shards; missing shards are silently skipped.
+    /// Provides higher availability at the cost of completeness.
+    BEST_EFFORT  = 1,
+};
+
+/**
+ * @brief Per-operation merge hardening limits.
+ *
+ * Embed in merge or aggregation request structs to declare the acceptable
+ * resource envelope.  The enforcing layer checks these constraints before
+ * dispatching to the underlying merge engine.
+ *
+ * ### Field semantics
+ * - `max_merge_latency_ms`   — wall-clock budget for a complete merge; 0 = unlimited.
+ * - `dedup_window_size`      — maximum number of summary_ids/doc_ids kept in the
+ *                              deduplication sliding window; 0 = use component default.
+ * - `partial_shard_min_count`— minimum number of shards that must respond before a
+ *                              merge is accepted; 0 = accept any non-zero response set.
+ * - `timeout_behavior`       — controls what happens when shards exceed the budget.
+ *
+ * @since Phase 2 hardening (Q4 2026)
+ */
+struct MergeHardeningPolicy {
+    /// Wall-clock timeout for the complete merge round (milliseconds); 0 = no timeout.
+    uint64_t max_merge_latency_ms    = 0u;
+    /// Maximum number of entries retained in the dedup sliding window; 0 = default.
+    uint32_t dedup_window_size       = 0u;
+    /// Minimum number of shards whose responses are required; 0 = any non-empty set.
+    uint32_t partial_shard_min_count = 0u;
+    /// Action taken when shards time out or fall short of the minimum count.
+    TimeoutBehavior timeout_behavior = TimeoutBehavior::BEST_EFFORT;
+
+    /// Returns true when at least one limit is active.
+    [[nodiscard]] constexpr bool isConstrained() const noexcept {
+        return max_merge_latency_ms != 0u
+            || dedup_window_size    != 0u
+            || partial_shard_min_count != 0u
+            || timeout_behavior == TimeoutBehavior::FAIL_CLOSED;
+    }
+};
+
+// ============================================================================
+// § 11  Distillation Bounded Policy (Phase 2 / Q4 2026)
+//
+// Applies bounded runtime contracts to FederatedDistillationCoordinator so
+// that policy-gate violations surface as explicit errors rather than silent
+// degradation.
+// ============================================================================
+
+/// Enforcement mode for the distillation policy gate.
+enum class PolicyGateEnforcement : uint8_t {
+    /// Any policy violation immediately throws std::runtime_error (fail-closed).
+    FAIL_CLOSED = 0,
+    /// Log the violation but allow the operation to proceed (observability only).
+    LOG_ONLY    = 1,
+};
+
+/**
+ * @brief Bounded runtime contract for a FederatedDistillationCoordinator session.
+ *
+ * @invariant When `enforcement == FAIL_CLOSED`, every call to
+ *   `FederatedDistillationCoordinator::broadcastToStudents()` that would violate
+ *   `max_distillation_rounds` or `privacy_budget_hard_limit` MUST throw
+ *   `std::runtime_error` immediately.  Silent degradation is prohibited.
+ *
+ * @since Phase 2 hardening (Q4 2026)
+ */
+struct DistillationBoundedPolicy {
+    /// Maximum number of broadcast rounds allowed; 0 = unlimited.
+    uint32_t max_distillation_rounds  = 0u;
+    /// Hard DP epsilon budget cap applied before the coordinator's own budget.
+    /// 0.0 = use coordinator budget only.  Violation triggers FAIL_CLOSED.
+    double   privacy_budget_hard_limit = 0.0;
+    /// Gate enforcement mode.
+    PolicyGateEnforcement policy_gate_enforcement = PolicyGateEnforcement::FAIL_CLOSED;
+
+    /// Returns true when at least one bound is active.
+    [[nodiscard]] constexpr bool isConstrained() const noexcept {
+        return max_distillation_rounds != 0u || privacy_budget_hard_limit > 0.0;
+    }
+};
+
+// ============================================================================
+// § 12  Federation Trust Policy (Phase 3 / Q4 2026)
+//
+// Defines a fail-closed trust gate evaluated before any Aggregation or Merge
+// operation is started.  If the gate rejects an AdapterCapabilityAnnouncement,
+// the operation MUST NOT proceed and MUST return TRUST_GATE_REJECTED.
+// ============================================================================
+
+/// Outcome of a trust-gate evaluation.
+enum class TrustDecision : uint8_t {
+    /// Adapter is trusted; the operation may proceed.
+    PERMIT = 0,
+    /// Adapter is untrusted; the operation MUST NOT start (fail-closed).
+    REJECT = 1,
+};
+
+/**
+ * @brief Interface for per-announcement trust evaluation.
+ *
+ * Implement this interface to plug custom trust logic into the federation
+ * pipeline.  The default implementation (`AlwaysPermitTrustPolicy`) permits
+ * all adapters so that existing code paths remain unaffected.
+ *
+ * ## Fail-closed contract
+ * When `evaluateTrustGate()` returns `TrustDecision::REJECT`, the calling
+ * federation component MUST:
+ *  1. Not start any Aggregation, Merge, Distillation, or Sync operation.
+ *  2. Return `DKErrorCode::TRUST_GATE_REJECTED` (or throw `std::runtime_error`
+ *     with the message "trust gate rejected").
+ *  3. Emit a `TrustGateReject` diagnostic event if a
+ *     `DistributedKnowledgeDiagnosticEmitter` is attached.
+ *
+ * @since Phase 3 hardening (Q4 2026)
+ */
+class IFederationTrustPolicy {
+public:
+    virtual ~IFederationTrustPolicy() = default;
+
+    /**
+     * @brief Evaluate the trust gate for an incoming capability announcement.
+     *
+     * @param announcement  The announcement to evaluate.
+     * @return `TrustDecision::PERMIT` or `TrustDecision::REJECT`.
+     */
+    [[nodiscard]] virtual TrustDecision evaluateTrustGate(
+        const AdapterCapabilityAnnouncement& announcement) const noexcept = 0;
+};
+
+/**
+ * @brief Default trust policy: permits all adapters.
+ *
+ * Provides backward-compatible behaviour for components that have not yet
+ * been updated to use a custom trust policy.
+ */
+class AlwaysPermitTrustPolicy final : public IFederationTrustPolicy {
+public:
+    [[nodiscard]] TrustDecision evaluateTrustGate(
+        [[maybe_unused]] const AdapterCapabilityAnnouncement& /*announcement*/) const noexcept override {
+        return TrustDecision::PERMIT;
+    }
+};
+
+// ============================================================================
+// § 13  Diagnostic Event Model (Phase 3 / Q4 2026)
+//
+// Structured events emitted by the distributed_knowledge module for operator
+// visibility into federation incidents, merge failures, and dedup collisions.
+// ============================================================================
+
+/// Severity level for a diagnostic event.
+enum class DKDiagnosticSeverity : uint8_t {
+    INFO    = 0, ///< Informational; no action required.
+    WARNING = 1, ///< Degraded path taken; operator should investigate.
+    ERROR   = 2, ///< Operation failed; immediate attention recommended.
+    FATAL   = 3, ///< Unrecoverable failure; service restart may be required.
+};
+
+/// Type classification of a diagnostic event.
+enum class DKDiagnosticEventType : uint8_t {
+    MERGE_TIMEOUT        = 0, ///< A shard merge exceeded the latency budget.
+    DEDUP_COLLISION      = 1, ///< A duplicate doc_id or summary_id was detected.
+    PARTIAL_SHARD_MERGE  = 2, ///< Merge completed with fewer shards than requested.
+    TRUST_GATE_REJECT    = 3, ///< Trust gate rejected an incoming announcement.
+    FEDERATION_ROLLBACK  = 4, ///< A federation round was rolled back.
+    POLICY_VIOLATION     = 5, ///< A bounded-policy or budget constraint was violated.
+    PRIVACY_BUDGET_WARN  = 6, ///< DP epsilon approaching or at the budget ceiling.
+};
+
+/**
+ * @brief Structured diagnostic event emitted by distributed_knowledge components.
+ *
+ * All fields are populated by the emitting component before calling
+ * `DistributedKnowledgeDiagnosticEmitter::emit()`.  The `timestamp_utc`
+ * field is set automatically by the emitter if left empty.
+ *
+ * JSON-serialisable layout:
+ * @code
+ * {
+ *   "event_type": "MERGE_TIMEOUT",
+ *   "shard_id": "shard-us-east-1",
+ *   "operation_id": "merge-20260824-001",
+ *   "timestamp_utc": "2026-08-24T10:00:00Z",
+ *   "cause": "shard did not respond within 500 ms",
+ *   "severity": "WARNING"
+ * }
+ * @endcode
+ *
+ * @since Phase 3 hardening (Q4 2026)
+ */
+struct DKDiagnosticEvent {
+    DKDiagnosticEventType type{DKDiagnosticEventType::MERGE_TIMEOUT};
+    DKDiagnosticSeverity  severity{DKDiagnosticSeverity::WARNING};
+
+    /// Shard identifier involved in the incident (empty if not shard-specific).
+    std::string shard_id;
+    /// Unique identifier for the operation that triggered the event.
+    std::string operation_id;
+    /// ISO-8601 UTC timestamp; set automatically by emitter if empty.
+    std::string timestamp_utc;
+    /// Human-readable description of the root cause.
+    std::string cause;
+    /// Additional key/value pairs for structured log enrichment.
+    std::map<std::string, std::string> metadata;
+};
 
 } // namespace distributed_knowledge
 } // namespace themis

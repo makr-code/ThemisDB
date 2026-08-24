@@ -38,6 +38,7 @@
 #pragma once
 
 #include "llm/subagent_config.h"
+#include "llm/subagent_factory.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llm_correlation_context.h"
 #include "llm/token_quota_manager.h"

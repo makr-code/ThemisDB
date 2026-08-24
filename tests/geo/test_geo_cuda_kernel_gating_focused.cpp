@@ -286,8 +286,3 @@ TEST_F(GeoBackendDispatchTest, GPU_OPTIONAL_Dispatch_Consistency) {
 }  // namespace geo
 }  // namespace themis
 
-// Register fixtures for parameterized test generation if needed
-GTEST_API_ int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

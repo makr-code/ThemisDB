@@ -18,6 +18,7 @@
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace voice {

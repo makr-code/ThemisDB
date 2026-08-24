@@ -50,6 +50,17 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "[ OK ] Manifest valide" -ForegroundColor Green
 
+$installerManifestPath = Join-Path $srcDir "ThemisDB.ThemisDB.installer.yaml"
+if (-not (Test-Path $installerManifestPath)) {
+    throw "Installer manifest fehlt: $installerManifestPath"
+}
+
+$installerManifestContent = Get-Content -Path $installerManifestPath -Raw
+if ($installerManifestContent -match '(?m)^\s*InstallerType:\s*zip\s*$' -and
+    $installerManifestContent -notmatch '(?m)^\s*-\s*PackageIdentifier:\s*Microsoft\.VCRedist\.2015\+\.x64\s*$') {
+    throw "ZIP-WinGet-Manifeste muessen die VC++ Runtime-Abhaengigkeit Microsoft.VCRedist.2015+.x64 deklarieren."
+}
+
 # Fork sicherstellen
 Write-Host "[INFO] Fork von microsoft/winget-pkgs wird geprueft/erstellt ..." -ForegroundColor Cyan
 $forkExists = gh repo view "$ForkOwner/winget-pkgs" 2>&1
@@ -100,11 +111,13 @@ try {
 - Add manifests for ThemisDB $Version
 - Includes en-US and de-DE locales
 - Portable ZIP installer with ``bin\themis_server.exe``
+- ZIP manifests declare the VC++ runtime dependency ``Microsoft.VCRedist.2015+.x64``
 
 ### Verification
 - Manifests validated locally with ``winget validate``
 - SHA256 checksum sourced from official GitHub Release assets
 - Release URL: https://github.com/makr-code/ThemisDB/releases/tag/v$Version
+- Installer manifest contains the portable ZIP root folder path and runtime dependency
 
 ### Package Information
 ThemisDB is a high-performance multi-model database system with ACID transactions, graph traversals, vector search, time-series analytics, and a hybrid query language (AQL).

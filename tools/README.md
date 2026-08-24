@@ -15,6 +15,15 @@ Werkzeuge für Betrieb, Doku-Automation, Analyse und Daten-Ingestion.
 - `tools/module_docs_builder.py` – Generierung `docs/*/PRIMARY_SOURCES.md`
 - `tools/ci/*.py` – CI-/Doku-Automationsskripte
 
+## Relevante GUI-Tools
+
+- `tools/themis_config_editor/` – bestehender Tkinter-Konfigurationseditor
+- `tools/themis_config_wx/` – optionaler nativer wxWidgets-Konfigurationseditor (Tabbed Layout)
+
+Build-Flag fuer den wxWidgets-Editor:
+
+- `-DTHEMIS_BUILD_TOOLS=ON` (Default)
+
 ## Dry-Run / Selbsttest-Kommandos
 
 ```bash

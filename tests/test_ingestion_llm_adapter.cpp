@@ -38,13 +38,38 @@ std::string getTestModelPath() {
     if (env_path && std::filesystem::exists(env_path)) {
         return env_path;
     }
-    for (const auto& p : {
-            "./models/tinyllama_1.1b.gguf",
-            "./models/llama3.2_1b.gguf",
-            "./models/phi3_mini.gguf",
-            "./models/mistral-7b.Q4_K_M.gguf"}) {
-        if (std::filesystem::exists(p)) {
-            return p;
+
+    for (const auto& root : {
+            std::filesystem::path("."),
+            std::filesystem::path("./models"),
+            std::filesystem::path("../models"),
+            std::filesystem::path("../../models")}) {
+        for (const auto& candidate : {
+                "TinyLlama-1.1B-Chat-v1.0.gguf",
+                "tinyllama-1.1b-chat-v1.0.gguf",
+                "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+                "tinyllama_1.1b.gguf",
+                "test_model.gguf"}) {
+            auto path = root / candidate;
+            if (std::filesystem::exists(path) && std::filesystem::is_regular_file(path)) {
+                return path.string();
+            }
+        }
+
+        if (std::filesystem::exists(root) && std::filesystem::is_directory(root)) {
+            for (const auto& entry : std::filesystem::directory_iterator(root)) {
+                if (!entry.is_regular_file()) {
+                    continue;
+                }
+                const auto filename = entry.path().filename().string();
+                auto lower = filename;
+                std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) {
+                    return static_cast<char>(std::tolower(c));
+                });
+                if (lower.find("tinyllama") != std::string::npos && lower.find(".gguf") != std::string::npos) {
+                    return entry.path().string();
+                }
+            }
         }
     }
     return {};
@@ -411,8 +436,8 @@ protected:
         model_path_ = getTestModelPath();
         if (model_path_.empty()) {
             GTEST_SKIP()
-                << "No GGUF test model found. Set THEMIS_TEST_MODEL_PATH or "
-                   "place a model under ./models/ to enable integration tests.";
+                << "simulation-only fallback: no TinyLlama GGUF model found in models/. "
+                   "Set THEMIS_TEST_MODEL_PATH to the real model path before running integration tests.";
         }
     }
 

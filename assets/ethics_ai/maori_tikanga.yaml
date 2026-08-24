@@ -1,0 +1,339 @@
+school_id: maori_tikanga
+name: Māori Ethics (Tikanga Māori)
+name_de: Māori-Tikanga-Ethik
+taxonomy_class: cultural_religious
+tags:
+- maori
+- tikanga
+- whanaungatanga
+- kaitiakitanga
+- mana
+- wairua
+- mauri
+- te_ao_maori
+- pazifische_ethik
+- ozeanien
+applicable_domains:
+- environmental_ethics
+- social_justice
+- indigenous_rights
+- ai_governance
+- bioethics
+- land_rights
+convergence_compatible:
+- buddhistische_ethik
+- leopold
+- ubuntu_ethik
+- care_ethics
+cross_school_tensions:
+- own_thesis: kaitiakitanga
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: guardianship_responsibility_vs_utility_maximization
+  rebuttal_cite_weight: 0.85
+- own_thesis: mana_whenua
+  opposing_school: rawls
+  opposing_thesis: original_position
+  tension_type: ancestral_grounded_rights_vs_veil_of_ignorance
+  rebuttal_cite_weight: 0.8
+- own_thesis: whanaungatanga
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: relational_kinship_vs_universal_formal_law
+  rebuttal_cite_weight: 0.7
+activation_conditions:
+- condition: dilemma.domains enthält environmental_ethics ODER land_rights
+  effect: always_active
+- condition: dilemma.domains enthält indigenous_rights
+  effect: always_active
+- condition: dilemma.tags enthält guardianship ODER intergenerational ODER land ODER ocean
+  effect: boost_weight
+- condition: dilemma.domains enthält ai_governance
+  effect: always_active
+regulatory_constraints:
+  override_permitted: false
+  applicable_regulations:
+  - UN Declaration on the Rights of Indigenous Peoples (UNDRIP)
+  - Treaty of Waitangi (Aotearoa New Zealand)
+  note: Tikanga Māori sind verbindliche Kulturrechte; UNDRIP und Waitangi-Vertrag schaffen rechtlichen Schutzrahmen
+domain_overrides:
+  environmental_ethics:
+    weight_boost: 0.35
+    note: Kaitiakitanga ist ein originärer Beitrag pazifischer Ethik zum Umweltdiskurs
+  indigenous_rights:
+    weight_boost: 0.4
+    note: Tikanga ist primäres Rechtsrahmen indigener Ansprüche in Aotearoa/Pazifik
+founders:
+- name: Māui (mythologisch)
+  years: urzeit
+  nationality: Polynesisch
+  key_works:
+  - title: Māui-Mythen (mündliche Überlieferung)
+    year: vorkoloniale Zeit
+    significance: Trickster-Held und Kulturheros; verkörpert kreative Transgression im Dienst der Gemeinschaft
+  biography: Zentralfigur polynesischer Mythologie; seine Taten begründen kulturelle Normen und Beziehungen zur natürlichen Welt.
+- name: Te Kooti Arikirangi Te Turuki
+  years: 1832-1893
+  nationality: Māori (Aotearoa)
+  key_works:
+  - title: Ringatu-Lehren (mündlich)
+    year: ca. 1867-1893
+    significance: Religiöse und ethische Erneuerung auf Basis von Tikanga und biblischen Texten
+  biography: Gründer der Ringatu-Kirche; verkörperte Widerstand und kulturelle Resilienz gegenüber kolonialer Unterdrückung.
+- name: Sir Āpirana Ngata
+  years: 1874-1950
+  nationality: Māori (Ngāti Porou, Aotearoa)
+  key_works:
+  - title: Tikanga o ngā Tupuna (Bräuche der Vorfahren)
+    year: ca. 1920-1940
+    significance: Kodifizierung von Tikanga für die Nachwelt; Brücke zwischen Tradition und moderner Gesellschaft
+  biography: Staatsmann und Kulturbewahrer; trug wesentlich zur schriftlichen Fixierung und politischen Anerkennung von Tikanga bei.
+historical_context:
+  period: Präkoloniale Zeit bis heute; post-koloniale Revitalisierung ab 1970er
+  philosophical_movement: Tikanga Māori, Pazifische Philosophie, Dekolonisierung
+  zeitgeist: Kaitiakitanga (Hüterin), Whanaungatanga (Verwandtschaft), intergenerationale Verantwortung
+  influences:
+  - source: Polynesische Stammeskulturen
+    impact: Tikanga als gemeinsames Wertesystem austronesischer Kulturen
+  - source: Te Tiriti o Waitangi (1840)
+    impact: Rechtliche Basis für Māori-Rechte in Aotearoa; Streitpunkt und Versöhnungsrahmen
+  - source: Māori Renaissance (1970er-1990er)
+    thinkers:
+    - Dame Whina Cooper
+    - Ranginui Walker
+    impact: Revitalisierung von Tikanga, Sprache (Te Reo Māori) und politischer Souveränität
+  reactions_against:
+  - Koloniale Enteignung von Whenua (Land) als Tikanga-Verletzung
+  - Westliche Eigentumsethik als Widerspruch zu Kaitiakitanga
+  - Extraktiver Kapitalismus als Negation intergenerationaler Verantwortung
+main_theses:
+- thesis_id: maori_tikanga:kaitiakitanga
+  name: Kaitiakitanga — Wächterschaft und Treuhänderschaft der Erde
+  description: 'Kaitiakitanga bezeichnet die ethische Pflicht zur Hütung und Treuhänderschaft: Menschen sind nicht Eigentümer,
+    sondern Wächter der natürlichen Welt für zukünftige Generationen.'
+  explanation: 'Kaitiakitanga (von kaitiaki = Wächter/Treuhänder) bezeichnet die
+
+    Verantwortung, die Natur (Erde, Gewässer, Lebewesen) für zukünftige Generationen
+
+    zu erhalten.  Menschen sind keine Eigentümer der Natur, sondern handeln
+
+    treuhänderisch.  Dies steht im fundamentalen Gegensatz zu Eigentumskonzepten
+
+    westlicher Umweltrechtstraditionen.
+
+    In der KI-Governance: Kaitiakitanga verlangt, dass KI-Systeme auf Langfristigkeit
+
+    und Generationengerechtigkeit ausgerichtet werden, nicht auf kurzfristige
+
+    Gewinnmaximierung.
+
+    '
+  implications:
+  - Treuhänderschaft statt Eigentumsrecht für natürliche Ressourcen
+  - Intergenerationale Verantwortung als ethische Grundpflicht
+  - KI-Systeme müssen langfristige Umwelt- und Gesellschaftsfolgen berücksichtigen
+  - Extraktive Technologien verstoßen gegen Kaitiakitanga
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 4
+  - 5
+  round_role_weights:
+    PRO: 0.9
+    SYNTHESIS: 0.85
+    REBUTTAL: 0.65
+- thesis_id: maori_tikanga:whanaungatanga
+  name: Whanaungatanga — Verwandtschaft und relationale Verbundenheit
+  description: Whanaungatanga bezeichnet das ethische Prinzip der Verwandtschaft und gegenseitigen Verbundenheit, das alle
+    Beziehungen — zu Menschen, Vorfahren und natürlicher Welt — umfasst.
+  explanation: 'Whanaungatanga (von whānau = Familie/Verwandtschaft) bezeichnet
+
+    das Netz gegenseitiger Verbundenheit, das Menschen, Vorfahren (Tīpuna),
+
+    Nachkommen und natürliche Welt verbindet.  Ethische Entscheidungen fragen
+
+    immer: Wie wirkt sich dies auf alle Verwandtschaftsbeziehungen aus?
+
+    In der KI-Ethik: KI-Systeme müssen in Beziehungsnetzwerke eingebettet
+
+    sein, nicht isoliert individuelle Nutzenpräferenzen optimieren.
+
+    '
+  implications:
+  - Beziehungen zu Vorfahren und Nachkommen sind ethisch relevant
+  - Natürliche Wesen (Wasser, Wald, Berge) sind verwandtschaftlich verbunden
+  - Entscheidungen müssen Wirkungen auf das gesamte Beziehungsnetz berücksichtigen
+  token_budget: 160
+  activation_rounds:
+  - 1
+  - 2
+  - 4
+  round_role_weights:
+    PRO: 0.8
+    SYNTHESIS: 0.85
+    REBUTTAL: 0.6
+- thesis_id: maori_tikanga:mana
+  name: Mana — Autorität, Würde und spirituelle Kraft
+  description: Mana bezeichnet Würde, Autorität und spirituelle Kraft, die durch ehrenvolles Handeln erworben und durch
+    Schaden reduziert wird. Mana ist zugleich individuell und kollektiv.
+  explanation: 'Mana ist ein zentrales Konzept der Tikanga: es bezeichnet die
+
+    Würde, Autorität und spirituelle Kraft eines Menschen, einer Gruppe oder
+
+    eines Ortes.  Mana wird durch tugendhaftes Handeln gestärkt (mana tangata),
+
+    durch Wächterschaft über die Erde (mana whenua) und durch spirituelle
+
+    Integrität (mana atua).  Verletzungen von Mana erfordern Wiedergutmachung
+
+    (utu) und Heilung.
+
+    '
+  implications:
+  - Würde ist kollektiv und ort-gebunden, nicht nur individuell
+  - Verletzung von Mana erfordert Wiedergutmachung, nicht nur Strafe
+  - Technologie muss das Mana von Menschen und Gemeinschaften respektieren
+  token_budget: 150
+  activation_rounds:
+  - 1
+  - 3
+  - 5
+  round_role_weights:
+    PRO: 0.8
+    REBUTTAL: 0.75
+    SYNTHESIS: 0.7
+- thesis_id: maori_tikanga:mauri
+  name: Mauri — Lebensessenz und Integrität
+  description: Mauri bezeichnet die Lebensessenz oder -kraft, die in allen Wesen und Orten innewohnt. Ethisches Handeln erhält
+    und stärkt Mauri; Schaden schwächt oder zerstört sie.
+  explanation: 'Mauri ist die Lebensessenz, die in Menschen, Tieren, Pflanzen,
+
+    Gewässern und Orten innewohnt.  Ethisches Handeln (tikanga) respektiert und
+
+    stärkt Mauri; destruktives Handeln schwächt sie.  Für die Umweltethik:
+
+    Flüsse, Berge und Ökosysteme haben Mauri — ihre Zerstörung ist ein
+
+    ethisches Vergehen, nicht nur ein Ressourcenverlust.
+
+    Beispiel: In Aotearoa Neuseeland hat der Whanganui-Fluss 2017 Rechtspersönlichkeit
+
+    erhalten — ein institutioneller Ausdruck des Mauri-Konzepts.
+
+    '
+  token_budget: 140
+  activation_rounds:
+  - 2
+  - 3
+  - 4
+  round_role_weights:
+    PRO: 0.7
+    SYNTHESIS: 0.75
+    REBUTTAL: 0.6
+secondary_theses:
+- thesis_id: maori_tikanga:wairua
+  name: Wairua — Spiritualität und Transzendenz
+  description: Wairua bezeichnet die spirituelle Dimension allen Seins. Handlungen haben spirituelle Konsequenzen; Tikanga
+    verbindet Sichtbares und Unsichtbares.
+  token_budget: 120
+  activation_rounds:
+  - 3
+  - 4
+  - 5
+  round_role_weights:
+    SYNTHESIS: 0.7
+    PRO: 0.55
+- thesis_id: maori_tikanga:tapu_noa
+  name: Tapu und Noa — Heiligkeit und Profanität
+  description: Tapu (heilig, verboten) und Noa (frei, profan) strukturieren Handlungsräume. Verletzung von Tapu erfordert
+    Ritus und Heilung.
+  token_budget: 110
+  activation_rounds:
+  - 1
+  - 2
+  round_role_weights:
+    PRO: 0.6
+    REBUTTAL: 0.55
+decision_framework:
+  question_sequence:
+  - Stärkt oder schwächt die Handlung Kaitiakitanga (Treuhänderschaft für zukünftige Generationen)?
+  - Respektiert die Handlung Whanaungatanga (alle Verwandtschaftsbeziehungen zu Menschen, Vorfahren, Natur)?
+  - Stärkt oder verletzt die Handlung das Mana der Beteiligten und der Gemeinschaft?
+  - Erhält oder zerstört die Handlung die Mauri (Lebensessenz) der betroffenen Wesen und Orte?
+  - Entspricht die Handlung Tikanga — dem Weg des Richtigen und des Gemeinwohls?
+  tests:
+  - name: Kaitiakitanga-Test
+    procedure: Welche Folgen hat die Handlung für zukünftige Generationen und die natürliche Welt?
+  - name: Mana-Test
+    procedure: Erhöht oder verletzt die Handlung das Mana der Beteiligten und Gemeinschaften?
+  - name: Mauri-Test
+    procedure: Stärkt oder schwächt die Handlung die Lebensessenz der betroffenen Wesen und Orte?
+strengths:
+- point: Intergenerationale Ethik
+  elaboration: Kaitiakitanga verkörpert konsequente Langfristperspektive, die westliche Ethiktradition oft fehlt
+- point: Ökologische Tiefe
+  elaboration: Mauri und Whanaungatanga begründen ethische Beziehungen zu nicht-menschlichen Wesen und der Natur
+- point: Praxis-Verankertheit
+  elaboration: Tikanga ist keine abstrakte Theorie, sondern gelebte Praxis mit konkreten Riten und Institutionen
+- point: Rechtliche Anerkennbarkeit
+  elaboration: Tikanga-Konzepte haben internationale Rechtsrelevanz (UNDRIP, Waitangi-Tribunal, Naturrechtsprechung)
+weaknesses:
+- point: Kulturelle Spezifizität
+  elaboration: Tikanga ist eng an Māori-Kosmosvision gebunden; Übertragbarkeit auf andere Kontexte erfordert sorgfältige Adaption
+- point: Interne Vielfalt
+  elaboration: Tikanga ist nicht einheitlich; verschiedene iwi (Stämme) haben unterschiedliche Auslegungen
+- point: Spannung mit staatlichem Recht
+  elaboration: Konflikte zwischen Tikanga und neuseeländischem Common Law sind ungelöst
+internal_debate:
+  tradition_vs_adaption:
+    issue: Wie verbindlich sind traditionelle Tikanga-Formen in der Moderne?
+    positions:
+    - 'Traditionalismus: Tikanga muss in Originalform bewahrt werden'
+    - 'Progressive Māori: Tikanga ist ein lebendiges System, das sich anpasst'
+  souveraenitaet_vs_integration:
+    issue: Verhältnis Māori-Souveränität (Tino Rangatiratanga) zu neuseeländischem Staat
+    positions:
+    - 'Separatismus: eigene Rechtssysteme für Māori-Gebiete'
+    - 'Ko-Governance: gemeinsame Verwaltung als Ausdruck des Waitangi-Geistes'
+philosophical_positioning:
+  relation_to_environmental_ethics: 'Kaitiakitanga geht über Leopold und Carson hinaus: Natur als verwandte Person, nicht nur schützenswertes Gut'
+  relation_to_care_ethics: 'Whanaungatanga hat Care-Dimensionen; Tikanga fügt spirituelle und intergenerationale Tiefe hinzu'
+  relation_to_utilitarianism: 'Ablehnung: Kaitiakitanga kann nicht auf Nutzenkalkulation reduziert werden; intergenerationale Pflicht ist absolut'
+  relation_to_liberal_individualism: 'Fundamentaler Gegensatz: relationale, ort-gebundene Identität vs. atomistisches Individuum'
+contemporary_extensions:
+- thinker: Dame Anne Salmond
+  contribution: Tikanga und Ökologie; Whanganui-Fluss-Rechtspersönlichkeit als globales Modell
+- thinker: Moana Jackson
+  contribution: Māori-Souveränität und postkoloniale Rechtskritik; Dekolonisierung als ethisches Gebot
+- thinker: Sir Eddie Durie
+  contribution: Tikanga und neuseeländisches Recht; Brückenbauen zwischen Common Law und Māori-Recht
+application_areas:
+- domain: Umweltethik und Klimapolitik
+  issues:
+  - Kaitiakitanga als Grundlage für Klimagerechtigkeit und intergenerationale Klimapflichten
+  - Naturrechtspersönlichkeit (Flüsse, Ökosysteme) als Tikanga-inspirierten Rechtsschutz
+- domain: KI-Governance
+  issues:
+  - 'Kaitiakitanga für KI: langfristige Folgenverantwortung jenseits kurzfristiger Effizienz'
+  - 'Datensouveränität: Māori-Daten nach Tikanga — Te Mana Raraunga (Māori Data Sovereignty)'
+  - Intergenerationale KI-Folgenabschätzung als Pflicht
+- domain: Indigene Rechte
+  issues:
+  - Freies, vorheriges und informiertes Einverständnis (FPIC) als Tikanga-Prinzip
+  - Land- und Naturressourcenrechte nach Kaitiakitanga
+famous_quotes:
+- quote: Ko au te awa, ko te awa ko au — Der Fluss bin ich, ich bin der Fluss.
+  source: Māori-Spruch; Grundlage für Whanganui-Flusslegalität
+  context: Whanaungatanga als Verwandtschaft mit der natürlichen Welt; Grundlage des Naturrechts
+- quote: Tino Rangatiratanga — Absolute Souveränität und Selbstbestimmung.
+  source: Te Tiriti o Waitangi, Artikel 2 (Māori-Text), 1840
+  context: Rechtliche Grundlage für Māori-Souveränität und Kaitiakitanga-Praxis
+key_literature:
+  primary:
+  - 'Mead, Hirini Moko. Tikanga Māori: Living by Māori Values. Huia Publishers, 2003.'
+  - 'Walker, Ranginui. Ka Whawhai Tonu Matou: Struggle Without End. Penguin, 1990.'
+  - "Salmond, Anne. Tears of Rangi: Experiments Across Worlds. Auckland University Press, 2017."
+  secondary:
+  - 'Te Mana Raraunga. Principles of Māori Data Sovereignty. 2018.'
+  - 'Jackson, Moana. The Māori and the Criminal Justice System. Department of Justice, NZ, 1987.'
+  - 'Durie, Eddie. Māori Law. New Zealand Law Journal, 1994.'

@@ -29,132 +29,114 @@ permissions:
 
 jobs:
   fuzz:
-    name: AFL++ Fuzzing
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/cmake-build-pipeline.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      setup_command: |
+        sudo apt-get update && sudo apt-get install -y afl++
+        sudo apt-get install -y cmake ninja-build clang libboost-dev
+      configure_command: |
+        cmake -B build-fuzz \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DENABLE_FUZZING=ON \
+          -DCMAKE_C_COMPILER=afl-clang-lto \
+          -DCMAKE_CXX_COMPILER=afl-clang-lto++
+      build_command: |
+        cmake --build build-fuzz --target fuzz_targets
+      validation_command: |
+        set -euo pipefail
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        TARGET_INPUT="${{ github.event.inputs.target || 'all' }}"
 
-      - name: Install AFL++
-        run: sudo apt-get update && sudo apt-get install -y afl++
+        HARNESSES=(
+          aql_parser
+          gguf_loader
+          grammar
+          http_parser
+          jwt_rbac_config
+          ldap_dn
+          pii_redaction
+          postgres_importer
+          security_input_validator
+          security_policy_engine
+        )
 
-      - name: Install build dependencies
-        run: sudo apt-get install -y cmake ninja-build clang libboost-dev
+        declare -A CORPUS_MAP
+        CORPUS_MAP[aql_parser]="aql"
+        CORPUS_MAP[gguf_loader]="llm/gguf"
+        CORPUS_MAP[grammar]="llm/grammar"
+        CORPUS_MAP[http_parser]=""
+        CORPUS_MAP[jwt_rbac_config]="jwt"
+        CORPUS_MAP[ldap_dn]="ldap_dn"
+        CORPUS_MAP[pii_redaction]="pii"
+        CORPUS_MAP[postgres_importer]="importer"
+        CORPUS_MAP[security_input_validator]="input_validator"
+        CORPUS_MAP[security_policy_engine]="policy_engine"
 
-      - name: Configure with fuzzing preset
-        run: |
-          cmake -B build-fuzz \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DENABLE_FUZZING=ON \
-            -DCMAKE_C_COMPILER=afl-clang-lto \
-            -DCMAKE_CXX_COMPILER=afl-clang-lto++
+        declare -A DICT_MAP
+        DICT_MAP[aql_parser]="aql"
+        DICT_MAP[http_parser]="http"
+        DICT_MAP[jwt_rbac_config]="jwt rbac"
+        DICT_MAP[ldap_dn]="ldap_dn"
+        DICT_MAP[pii_redaction]="pii"
+        DICT_MAP[postgres_importer]="importer"
+        DICT_MAP[security_policy_engine]="policy_engine"
 
-      - name: Build fuzz targets
-        run: cmake --build build-fuzz --target fuzz_targets
+        mkdir -p /tmp/fuzz-dicts
 
-      - name: Run fuzzing (60 s per target)
-        run: |
-          set -euo pipefail
+        for HARNESS in "${HARNESSES[@]}"; do
+          if [[ "$TARGET_INPUT" != "all" && "$TARGET_INPUT" != "$HARNESS" ]]; then
+            echo "Skipping $HARNESS (not selected)"
+            continue
+          fi
 
-          TARGET_INPUT="${{ github.event.inputs.target || 'all' }}"
+          BINARY="./build-fuzz/fuzz/bin/${HARNESS}_harness"
+          CORPUS_SUBDIR="${CORPUS_MAP[$HARNESS]}"
+          CORPUS_DIR="fuzz/corpus/${CORPUS_SUBDIR}"
+          OUT_DIR="/tmp/fuzz-out/${HARNESS}"
+          DICT_ARGS=()
 
-          HARNESSES=(
-            aql_parser
-            gguf_loader
-            grammar
-            http_parser
-            jwt_rbac_config
-            ldap_dn
-            pii_redaction
-            postgres_importer
-            security_input_validator
-            security_policy_engine
-          )
+          if [[ ! -f "$BINARY" ]]; then
+            echo "Binary not found for $HARNESS — skipping"
+            continue
+          fi
 
-          # Corpus directory mapping (harness → corpus subfolder)
-          declare -A CORPUS_MAP
-          CORPUS_MAP[aql_parser]="aql"
-          CORPUS_MAP[gguf_loader]="llm/gguf"
-          CORPUS_MAP[grammar]="llm/grammar"
-          CORPUS_MAP[http_parser]=""
-          CORPUS_MAP[jwt_rbac_config]="jwt"
-          CORPUS_MAP[ldap_dn]="ldap_dn"
-          CORPUS_MAP[pii_redaction]="pii"
-          CORPUS_MAP[postgres_importer]="importer"
-          CORPUS_MAP[security_input_validator]="input_validator"
-          CORPUS_MAP[security_policy_engine]="policy_engine"
+          if [[ -z "$CORPUS_SUBDIR" || ! -d "$CORPUS_DIR" ]]; then
+            echo "Corpus directory not found for $HARNESS ($CORPUS_DIR) — skipping"
+            continue
+          fi
 
-          declare -A DICT_MAP
-          DICT_MAP[aql_parser]="aql"
-          DICT_MAP[http_parser]="http"
-          DICT_MAP[jwt_rbac_config]="jwt rbac"
-          DICT_MAP[ldap_dn]="ldap_dn"
-          DICT_MAP[pii_redaction]="pii"
-          DICT_MAP[postgres_importer]="importer"
-          DICT_MAP[security_policy_engine]="policy_engine"
-
-          mkdir -p /tmp/fuzz-dicts
-
-          for HARNESS in "${HARNESSES[@]}"; do
-            if [[ "$TARGET_INPUT" != "all" && "$TARGET_INPUT" != "$HARNESS" ]]; then
-              echo "Skipping $HARNESS (not selected)"
-              continue
-            fi
-
-            BINARY="./build-fuzz/fuzz/bin/${HARNESS}_harness"
-            CORPUS_SUBDIR="${CORPUS_MAP[$HARNESS]}"
-            CORPUS_DIR="fuzz/corpus/${CORPUS_SUBDIR}"
-            OUT_DIR="/tmp/fuzz-out/${HARNESS}"
-            DICT_ARGS=()
-
-            if [[ ! -f "$BINARY" ]]; then
-              echo "Binary not found for $HARNESS — skipping"
-              continue
-            fi
-
-            if [[ -z "$CORPUS_SUBDIR" || ! -d "$CORPUS_DIR" ]]; then
-              echo "Corpus directory not found for $HARNESS ($CORPUS_DIR) — skipping"
-              continue
-            fi
-
-            if [[ -n "${DICT_MAP[$HARNESS]:-}" ]]; then
-              COMBINED_DICT="/tmp/fuzz-dicts/${HARNESS}.dict"
-              : > "$COMBINED_DICT"
-              for DICT_NAME in ${DICT_MAP[$HARNESS]}; do
-                DICT_FILE="fuzz/dictionaries/${DICT_NAME}.dict"
-                if [[ -f "$DICT_FILE" ]]; then
-                  cat "$DICT_FILE" >> "$COMBINED_DICT"
-                  printf '\n' >> "$COMBINED_DICT"
-                fi
-              done
-
-              if [[ -s "$COMBINED_DICT" ]]; then
-                DICT_ARGS=(-x "$COMBINED_DICT")
+          if [[ -n "${DICT_MAP[$HARNESS]:-}" ]]; then
+            COMBINED_DICT="/tmp/fuzz-dicts/${HARNESS}.dict"
+            : > "$COMBINED_DICT"
+            for DICT_NAME in ${DICT_MAP[$HARNESS]}; do
+              DICT_FILE="fuzz/dictionaries/${DICT_NAME}.dict"
+              if [[ -f "$DICT_FILE" ]]; then
+                cat "$DICT_FILE" >> "$COMBINED_DICT"
+                printf '\n' >> "$COMBINED_DICT"
               fi
+            done
+
+            if [[ -s "$COMBINED_DICT" ]]; then
+              DICT_ARGS=(-x "$COMBINED_DICT")
             fi
+          fi
 
-            mkdir -p "$OUT_DIR"
-            echo "Fuzzing $HARNESS for 60 seconds..."
-            timeout 60 afl-fuzz \
-              "${DICT_ARGS[@]}" \
-              -i "$CORPUS_DIR" \
-              -o "$OUT_DIR" \
-              -- "$BINARY" @@ || true
-          done
-
-      - name: Upload crash artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: always()
-        with:
-          name: fuzz-crashes
-          path: /tmp/fuzz-out/*/crashes/
-          retention-days: 30
-
-      - name: Upload hang artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: always()
-        with:
-          name: fuzz-hangs
-          path: /tmp/fuzz-out/*/hangs/
-          retention-days: 30
+          mkdir -p "$OUT_DIR"
+          echo "Fuzzing $HARNESS for 60 seconds..."
+          timeout 60 afl-fuzz \
+            "${DICT_ARGS[@]}" \
+            -i "$CORPUS_DIR" \
+            -o "$OUT_DIR" \
+            -- "$BINARY" @@ || true
+        done
+      artifact_name: fuzz-crashes
+      artifact_paths: |
+        /tmp/fuzz-out/*/crashes/
+      artifact_name_secondary: fuzz-hangs
+      artifact_paths_secondary: |
+        /tmp/fuzz-out/*/hangs/
+      artifact_retention_days: '30'
+      artifact_retention_days_secondary: '30'
+      summary_title: AFL++ Fuzzing

@@ -19,31 +19,9 @@
 namespace themis {
 namespace scheduler {
 
-// ===== TaskExecutionResult serialization =====
-
-nlohmann::json TaskExecutionResult::toJson() const {
-    nlohmann::json j;
-    j["task_id"]      = task_id;
-    j["task_name"]    = task_name;
-    j["timestamp_ms"] = timestamp_ms;
-    j["duration_ms"]  = duration_ms;
-    j["success"]      = success;
-    j["output"]       = output;
-    j["error"]        = error;
-    return j;
-}
-
-TaskExecutionResult TaskExecutionResult::fromJson(const nlohmann::json& j) {
-    TaskExecutionResult r;
-    r.task_id      = j.value("task_id",      std::string{});
-    r.task_name    = j.value("task_name",    std::string{});
-    r.timestamp_ms = j.value("timestamp_ms", int64_t{0});
-    r.duration_ms  = j.value("duration_ms",  0.0);
-    r.success      = j.value("success",      false);
-    r.output       = j.contains("output") ? j["output"] : nlohmann::json{};
-    r.error        = j.value("error",        std::string{});
-    return r;
-}
+// TaskExecutionResult serialization is implemented in:
+// src/scheduler/task_execution_result.cpp
+// Keep a single canonical definition to avoid duplicate symbols at link time.
 
 // ===== TaskResultStore =====
 

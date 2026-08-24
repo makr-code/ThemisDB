@@ -35,6 +35,7 @@ LRUEvictionPolicy& LRUEvictionPolicy::operator=(LRUEvictionPolicy&& other) noexc
 }
 
 void LRUEvictionPolicy::record_hit(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record hit on moved-from policy");
     }
@@ -42,18 +43,22 @@ void LRUEvictionPolicy::record_hit(const std::string& key) {
 }
 
 void LRUEvictionPolicy::record_miss(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record miss on moved-from policy");
     }
 }
 
 void LRUEvictionPolicy::record_insert(const std::string& key, size_t size) {
+    (void)key;
+    (void)size;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record insert on moved-from policy");
     }
 }
 
 void LRUEvictionPolicy::record_delete(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record delete on moved-from policy");
     }
@@ -120,24 +125,29 @@ LFUEvictionPolicy& LFUEvictionPolicy::operator=(LFUEvictionPolicy&& other) noexc
 }
 
 void LFUEvictionPolicy::record_hit(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record hit on moved-from policy");
     }
 }
 
 void LFUEvictionPolicy::record_miss(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record miss on moved-from policy");
     }
 }
 
 void LFUEvictionPolicy::record_insert(const std::string& key, size_t size) {
+    (void)key;
+    (void)size;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record insert on moved-from policy");
     }
 }
 
 void LFUEvictionPolicy::record_delete(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record delete on moved-from policy");
     }
@@ -190,24 +200,29 @@ FIFOEvictionPolicy& FIFOEvictionPolicy::operator=(FIFOEvictionPolicy&& other) no
 }
 
 void FIFOEvictionPolicy::record_hit(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record hit on moved-from policy");
     }
 }
 
 void FIFOEvictionPolicy::record_miss(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record miss on moved-from policy");
     }
 }
 
 void FIFOEvictionPolicy::record_insert(const std::string& key, size_t size) {
+    (void)key;
+    (void)size;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record insert on moved-from policy");
     }
 }
 
 void FIFOEvictionPolicy::record_delete(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record delete on moved-from policy");
     }
@@ -266,24 +281,29 @@ ARCEvictionPolicy& ARCEvictionPolicy::operator=(ARCEvictionPolicy&& other) noexc
 }
 
 void ARCEvictionPolicy::record_hit(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record hit on moved-from policy");
     }
 }
 
 void ARCEvictionPolicy::record_miss(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record miss on moved-from policy");
     }
 }
 
 void ARCEvictionPolicy::record_insert(const std::string& key, size_t size) {
+    (void)key;
+    (void)size;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record insert on moved-from policy");
     }
 }
 
 void ARCEvictionPolicy::record_delete(const std::string& key) {
+    (void)key;
     if (is_moved_from_) {
         throw std::logic_error("Cannot record delete on moved-from policy");
     }

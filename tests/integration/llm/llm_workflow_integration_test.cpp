@@ -22,6 +22,8 @@
 #include "storage/rocksdb_wrapper.h"
 #include <gtest/gtest.h>
 #include <filesystem>
+#include <cstdlib>
+#include <algorithm>
 
 namespace themis {
 namespace test {
@@ -61,20 +63,53 @@ protected:
      * @brief Check if a model file exists at common locations
      */
     std::optional<std::string> FindTestModel() {
-        std::vector<std::string> search_paths = {
-            "./models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
-            "./models/test_model.gguf",
-            "/tmp/test_model.gguf",
-            "../models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
-            "../../models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+        const char* env_path = std::getenv("THEMIS_TEST_MODEL_PATH");
+        if (env_path && std::filesystem::exists(env_path)) {
+            return std::string(env_path);
+        }
+
+        const std::vector<std::filesystem::path> search_roots = {
+            std::filesystem::current_path(),
+            std::filesystem::current_path() / "models",
+            std::filesystem::current_path() / ".." / "models",
+            std::filesystem::current_path() / ".." / ".." / "models"
         };
-        
-        for (const auto& path : search_paths) {
-            if (std::filesystem::exists(path)) {
-                return path;
+
+        const std::vector<std::string> preferred_names = {
+            "TinyLlama-1.1B-Chat-v1.0.gguf",
+            "tinyllama-1.1b-chat-v1.0.gguf",
+            "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+            "tinyllama_1.1b.gguf",
+            "test_model.gguf"
+        };
+
+        for (const auto& root : search_roots) {
+            for (const auto& name : preferred_names) {
+                auto candidate = root / name;
+                if (std::filesystem::exists(candidate) && std::filesystem::is_regular_file(candidate)) {
+                    return candidate.string();
+                }
+            }
+
+            if (std::filesystem::exists(root) && std::filesystem::is_directory(root)) {
+                for (const auto& entry : std::filesystem::directory_iterator(root)) {
+                    if (!entry.is_regular_file()) {
+                        continue;
+                    }
+
+                    const auto filename = entry.path().filename().string();
+                    auto lower = filename;
+                    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) {
+                        return static_cast<char>(std::tolower(c));
+                    });
+
+                    if (lower.find("tinyllama") != std::string::npos && lower.find(".gguf") != std::string::npos) {
+                        return entry.path().string();
+                    }
+                }
             }
         }
-        
+
         return std::nullopt;
     }
     
@@ -96,7 +131,7 @@ TEST_F(LLMWorkflowIntegrationTest, ModelLoadingAndInitialization) {
     auto model_path_opt = FindTestModel();
     
     if (!model_path_opt.has_value()) {
-        GTEST_SKIP() << "No test model file found. Place a GGUF model at ./models/ to run this test.";
+        GTEST_SKIP() << "simulation-only fallback: no TinyLlama GGUF model found in ./models/; set THEMIS_TEST_MODEL_PATH to the real model path.";
         return;
     }
     

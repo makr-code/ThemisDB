@@ -44,7 +44,7 @@ This directory contains comprehensive performance benchmarks for ThemisDB's trai
 ### 1. Layer Construction Benchmarks
 
 ```bash
-./build-*/bin_out_tests/bench_lora_training --benchmark_filter="Construction"
+./build-*/bin/bench_lora_training --benchmark_filter="Construction"
 ```
 
 Measures:
@@ -58,7 +58,7 @@ Measures:
 ### 2. Forward Pass Benchmarks
 
 ```bash
-./build-*/bin_out_tests/bench_lora_training --benchmark_filter="Forward"
+./build-*/bin/bench_lora_training --benchmark_filter="Forward"
 ```
 
 Measures:
@@ -72,7 +72,7 @@ Measures:
 ### 3. Backward Pass Benchmarks
 
 ```bash
-./build-*/bin_out_tests/bench_lora_training --benchmark_filter="Backward"
+./build-*/bin/bench_lora_training --benchmark_filter="Backward"
 ```
 
 Measures:
@@ -86,7 +86,7 @@ Measures:
 ### 4. Memory Efficiency Benchmarks
 
 ```bash
-./build-*/bin_out_tests/bench_lora_training --benchmark_filter="Memory"
+./build-*/bin/bench_lora_training --benchmark_filter="Memory"
 ```
 
 Measures:
@@ -100,7 +100,7 @@ Measures:
 ### 5. Phase 5 Stress Test Benchmarks
 
 ```bash
-./build-*/bin_out_tests/bench_lora_training --benchmark_filter="Extended|Concurrent|LargeBatch"
+./build-*/bin/bench_lora_training --benchmark_filter="Extended|Concurrent|LargeBatch"
 ```
 
 #### Extended Training Session (1000+ steps)
@@ -136,7 +136,7 @@ Validates:
 ### 6. GPU Training Benchmarks
 
 ```bash
-./build-*/bin_out_tests/bench_gpu_training_cycle [--benchmark_filter="CUDA|HIP|Vulkan"]
+./build-*/bin/bench_gpu_training_cycle [--benchmark_filter="CUDA|HIP|Vulkan"]
 ```
 
 Measures (CUDA/HIP/Vulkan):
@@ -203,23 +203,23 @@ Means:
 ```bash
 # CPU benchmarks with all gates
 cd build-release
-./bin_out_tests/bench_lora_training \
+./bin/bench_lora_training \
   --benchmark_time_unit=us \
   --benchmark_repetitions=5 \
   --benchmark_display_aggregates_only=true
 
 # GPU benchmarks (if CUDA available)
-./bin_out_tests/bench_gpu_training_cycle \
+./bin/bench_gpu_training_cycle \
   --benchmark_time_unit=ms \
   --benchmark_repetitions=5 \
   --benchmark_display_aggregates_only=true
 
 # Generate JSON report for CI
-./bin_out_tests/bench_lora_training \
+./bin/bench_lora_training \
   --benchmark_out=perf_gates_cpu.json \
   --benchmark_out_format=json
 
-./bin_out_tests/bench_gpu_training_cycle \
+./bin/bench_gpu_training_cycle \
   --benchmark_out=perf_gates_gpu.json \
   --benchmark_out_format=json
 ```

@@ -208,7 +208,7 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_03_MaturityClassificationVerified) {
         }
         
         if (!matches) {
-            mismatches.push_back(filename + " (score=" + std::to_string(fields.score) + 
+            mismatches.push_back(std::string(filename) + " (score=" + std::to_string(fields.score) + 
                                ", maturity=" + fields.maturity + ")");
         }
         

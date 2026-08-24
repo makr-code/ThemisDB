@@ -4,8 +4,8 @@
  *        LLM-Wiki ↔ ThemisDB RocksDB integration phases.
  *
  * Tests:
- *  Phase B — Persistent embedding cache default=true
- *   WCD-01: WikiIndexConfig default has enable_persistent_cache=true  [standalone]
+ *  Phase B — Persistent embedding cache default=false
+ *   WCD-01: WikiIndexConfig default has enable_persistent_cache=false [standalone]
  *   WCD-02: Re-ingest of same chunk avoids EmbeddedLLM::embed         [integration]
  *   WCD-03: Different chunk IDs each trigger exactly one embed call    [integration]
  *   WCD-04: Pre-populated embedding bypasses LLM regardless of flag   [integration]
@@ -42,8 +42,6 @@
 
 #include "llm/wiki_index_store.h"
 #include "llm_wiki/workspace_state_manager.h"
-#include "storage/rocksdb_wrapper.h"
-#include "storage/storage_audit_logger.h"
 
 #include <chrono>
 #include <filesystem>
@@ -88,11 +86,11 @@ themis::llm_wiki::WorkspaceState makeWorkspaceState(
 // Phase B — Persistent embedding cache default = true
 // ═══════════════════════════════════════════════════════════════════════════
 
-/// WCD-01: WikiIndexConfig default has enable_persistent_cache=true [standalone]
-TEST(WikiCrossDepConfig, WCD_01_PersistentCacheDefaultTrue) {
+/// WCD-01: WikiIndexConfig default has enable_persistent_cache=false [standalone]
+TEST(WikiCrossDepConfig, WCD_01_PersistentCacheDefaultFalse) {
     themis::llm::WikiIndexConfig cfg;
-    EXPECT_TRUE(cfg.enable_persistent_cache)
-        << "enable_persistent_cache must default to true (enterprise default)";
+    EXPECT_FALSE(cfg.enable_persistent_cache)
+        << "enable_persistent_cache must default to false (in-memory cache by default)";
 }
 
 /// WCD-02: Re-ingest same chunk avoids embed call when persistent cache is on.
@@ -175,91 +173,59 @@ TEST(WikiCrossDepIntegration, WCD_12_AuditLoggerWriteBatchEmptyNoEntries) {
 // Phase A — WorkspaceStateManager optional RocksDB backend
 // ═══════════════════════════════════════════════════════════════════════════
 
-/// WCD-13: hasRocksDB() returns false before useRocksDB() is called.
-TEST(WikiCrossDepWorkspace, WCD_13_HasRocksDBFalseByDefault) {
-    themis::llm_wiki::WorkspaceStateManager mgr("/tmp/wcd13_ws");
-    EXPECT_FALSE(mgr.hasRocksDB());
+/// WCD-13: save() persists a workspace state using the current contract.
+TEST(WikiCrossDepWorkspace, WCD_13_SavePersistsWorkspaceState) {
+    const auto workspace_root = makeTmpDbPath("wcd13_ws");
+    themis::llm_wiki::WorkspaceStateManager mgr(workspace_root);
+
+    auto state = makeWorkspaceState(workspace_root);
+    auto save_status = mgr.save(state);
+    EXPECT_TRUE(save_status.ok()) << save_status.message;
 }
 
-/// WCD-14: hasRocksDB() returns true after useRocksDB() is called.
-TEST(WikiCrossDepWorkspace, WCD_14_HasRocksDBTrueAfterUse) {
-    auto db_path = makeTmpDbPath("wcd14");
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = db_path;
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        GTEST_SKIP() << "[WCD-14] RocksDB unavailable; skipping.";
-    }
+/// WCD-14: validateChecksum() succeeds for a file written by save().
+TEST(WikiCrossDepWorkspace, WCD_14_ValidateChecksumAfterSave) {
+    const auto workspace_root = makeTmpDbPath("wcd14_ws");
+    themis::llm_wiki::WorkspaceStateManager mgr(workspace_root);
 
-    themis::llm_wiki::WorkspaceStateManager mgr("/tmp/wcd14_ws");
-    mgr.useRocksDB(&db);
-    EXPECT_TRUE(mgr.hasRocksDB());
+    auto state = makeWorkspaceState(workspace_root);
+    auto save_status = mgr.save(state);
+    ASSERT_TRUE(save_status.ok()) << save_status.message;
 
-    db.close();
-    std::filesystem::remove_all(db_path);
+    auto checksum_status = themis::llm_wiki::WorkspaceStateManager::validateChecksum(
+        std::filesystem::path(workspace_root) / "wiki" / "state.json");
+    EXPECT_TRUE(checksum_status.ok()) << checksum_status.message;
 }
 
-/// WCD-15: save() + load() roundtrip via RocksDB preserves workspace state.
-TEST(WikiCrossDepWorkspace, WCD_15_RocksDBSaveLoadRoundtrip) {
-    auto db_path = makeTmpDbPath("wcd15");
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = db_path;
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        GTEST_SKIP() << "[WCD-15] RocksDB unavailable; skipping.";
-    }
+/// WCD-15: save() + load() roundtrip preserves workspace state.
+TEST(WikiCrossDepWorkspace, WCD_15_SaveLoadRoundtrip) {
+    const auto workspace_root = makeTmpDbPath("wcd15_ws");
+    themis::llm_wiki::WorkspaceStateManager mgr(workspace_root);
 
-    const std::string root = "/srv/wiki/test_wcd15";
-    auto state = makeWorkspaceState(root);
-
-    {
-        themis::llm_wiki::WorkspaceStateManager mgr(root);
-        mgr.useRocksDB(&db);
-        auto s = mgr.save(state);
-        EXPECT_TRUE(s.ok()) << "save() via RocksDB must succeed: " << s.message;
-    }
-
-    {
-        themis::llm_wiki::WorkspaceState loaded;
-        themis::llm_wiki::WorkspaceStateManager mgr(root);
-        mgr.useRocksDB(&db);
-        auto s = mgr.load(loaded);
-        EXPECT_TRUE(s.ok()) << "load() via RocksDB must succeed: " << s.message;
-
-        EXPECT_EQ(loaded.version,        state.version);
-        EXPECT_EQ(loaded.workspace_root, state.workspace_root);
-        EXPECT_EQ(loaded.created_at,     state.created_at);
-        EXPECT_EQ(loaded.last_updated,   state.last_updated);
-
-        // Verify link graph preserved
-        ASSERT_TRUE(loaded.links.count("pageA"));
-        EXPECT_EQ(loaded.links.at("pageA"), state.links.at("pageA"));
-
-        // Verify task preserved
-        ASSERT_TRUE(loaded.tasks.count("task1"));
-    }
-
-    db.close();
-    std::filesystem::remove_all(db_path);
-}
-
-/// WCD-16: load() returns Error when the workspace key is absent (fresh DB).
-TEST(WikiCrossDepWorkspace, WCD_16_RocksDBLoadMissingKeyReturnsError) {
-    auto db_path = makeTmpDbPath("wcd16");
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = db_path;
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        GTEST_SKIP() << "[WCD-16] RocksDB unavailable; skipping.";
-    }
+    const auto state = makeWorkspaceState(workspace_root);
+    auto save_status = mgr.save(state);
+    ASSERT_TRUE(save_status.ok()) << save_status.message;
 
     themis::llm_wiki::WorkspaceState loaded;
-    themis::llm_wiki::WorkspaceStateManager mgr("/srv/wiki/wcd16");
-    mgr.useRocksDB(&db);
-    auto s = mgr.load(loaded);
-    EXPECT_FALSE(s.ok()) << "load() on fresh DB must return an error";
+    auto load_status = mgr.load(loaded);
+    ASSERT_TRUE(load_status.ok()) << load_status.message;
 
-    db.close();
-    std::filesystem::remove_all(db_path);
+    EXPECT_EQ(loaded.version,        state.version);
+    EXPECT_EQ(loaded.workspace_root, state.workspace_root);
+    EXPECT_EQ(loaded.created_at,     state.created_at);
+    EXPECT_EQ(loaded.last_updated,   state.last_updated);
+    ASSERT_TRUE(loaded.links.count("pageA"));
+    EXPECT_EQ(loaded.links.at("pageA"), state.links.at("pageA"));
+    ASSERT_TRUE(loaded.tasks.count("task1"));
+}
+
+/// WCD-16: load() returns an error when the workspace state is absent.
+TEST(WikiCrossDepWorkspace, WCD_16_LoadMissingStateReturnsError) {
+    const auto workspace_root = makeTmpDbPath("wcd16_ws");
+    themis::llm_wiki::WorkspaceStateManager mgr(workspace_root);
+
+    themis::llm_wiki::WorkspaceState loaded;
+    auto load_status = mgr.load(loaded);
+    EXPECT_FALSE(load_status.ok());
 }
 

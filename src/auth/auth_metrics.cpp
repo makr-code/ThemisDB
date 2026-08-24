@@ -131,6 +131,11 @@ AuthMetrics::AuthMetrics(const Config& config)
 #endif
 
 void AuthMetrics::recordAuthAttempt(AuthMethod method, bool success, double duration_ms) {
+    (void)method;
+    (void)success;
+    (void)duration_ms;
+    (void)method;
+    (void)duration_ms;
     total_attempts_.fetch_add(1, std::memory_order_relaxed);
     
     if (success) {
@@ -158,10 +163,14 @@ void AuthMetrics::recordAuthAttempt(AuthMethod method, bool success, double dura
 }
 
 void AuthMetrics::recordAuthSuccess(AuthMethod method, double duration_ms) {
+    (void)method;
+    (void)duration_ms;
     recordAuthAttempt(method, true, duration_ms);
 }
 
 void AuthMetrics::recordAuthFailure(AuthMethod method, int error_code, double duration_ms) {
+    (void)method;
+    (void)duration_ms;
     recordAuthAttempt(method, false, duration_ms);
     recordError(error_code);
 }
@@ -179,6 +188,8 @@ void AuthMetrics::recordJWKSCacheMiss() {
 }
 
 void AuthMetrics::recordJWKSFetch(double duration_ms, bool success) {
+    (void)duration_ms;
+    (void)success;
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
     labels["result"] = success ? "success" : "failure";
@@ -192,12 +203,14 @@ void AuthMetrics::recordJWKSFetch(double duration_ms, bool success) {
 }
 
 void AuthMetrics::setJWKSCacheSize(int num_keys) {
+    (void)num_keys;
 #ifdef THEMIS_HAS_PROMETHEUS
     jwks_cache_size_.Add({}).Set(static_cast<double>(num_keys));
 #endif
 }
 
 void AuthMetrics::recordRateLimitExceeded(const std::string& type) {
+    (void)type;
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
     labels["type"] = type;
@@ -225,12 +238,14 @@ void AuthMetrics::recordAccountUnlock(const std::string& user_id) {
 }
 
 void AuthMetrics::setLockedAccountCount(int count) {
+    (void)count;
 #ifdef THEMIS_HAS_PROMETHEUS
     locked_accounts_current_.Add({}).Set(static_cast<double>(count));
 #endif
 }
 
 void AuthMetrics::recordError(int error_code) {
+    (void)error_code;
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
     labels["error_code"] = std::to_string(error_code);
@@ -239,6 +254,7 @@ void AuthMetrics::recordError(int error_code) {
 }
 
 void AuthMetrics::recordErrorByCategory(const std::string& category) {
+    (void)category;
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
     labels["category"] = category;
@@ -247,6 +263,8 @@ void AuthMetrics::recordErrorByCategory(const std::string& category) {
 }
 
 void AuthMetrics::recordTokenValidation(AuthMethod method, double duration_ms) {
+    (void)method;
+    (void)duration_ms;
 #ifdef THEMIS_HAS_PROMETHEUS
     if (config_.enable_histograms) {
         std::map<std::string, std::string> labels;
@@ -257,6 +275,7 @@ void AuthMetrics::recordTokenValidation(AuthMethod method, double duration_ms) {
 }
 
 void AuthMetrics::recordRevokedTokenCheck(bool was_revoked) {
+    (void)was_revoked;
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
     labels["result"] = was_revoked ? "revoked" : "valid";
@@ -265,6 +284,7 @@ void AuthMetrics::recordRevokedTokenCheck(bool was_revoked) {
 }
 
 void AuthMetrics::recordTOTPDrift(int step_offset) {
+    (void)step_offset;
     totp_drift_count_.fetch_add(1, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;
@@ -280,6 +300,9 @@ uint64_t AuthMetrics::getTOTPDriftCount() const {
 void AuthMetrics::recordCredentialStuffingAttempt(const std::string& user_id,
                                                    const std::string& ip,
                                                    const std::string& outcome) {
+    (void)user_id;
+    (void)ip;
+    (void)outcome;
     credential_stuffing_total_.fetch_add(1, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
     std::map<std::string, std::string> labels;

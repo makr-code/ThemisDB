@@ -754,6 +754,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/aql/aql_migration_assistant.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/classify_bridge.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/docs_assistant_functions.cpp>
+    ../src/query/scope_enforcer.cpp
 
     # Security: AQL injection detection (uses AQLParser)
     ../src/security/aql_injection_detector.cpp
@@ -1117,6 +1118,23 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/lora_artifact_distribution.cpp
 )
 
+# Do not gate this on TARGET existence. The proto library is created later in the
+# same configure pass and the target may not exist yet when this source list is
+# assembled. Only omit the protobuf-dependent sharding sources when protobuf is
+# genuinely unavailable, otherwise the build will lose the concrete implementations
+# that satisfy the link-time references from other sharding modules.
+if(NOT Protobuf_FOUND)
+    list(REMOVE_ITEM THEMIS_SHARDING_SOURCES
+        ../src/sharding/shard_rpc_server.cpp
+        ../src/server/rpc/blob_transfer_handler.cpp
+        ../src/sharding/gossip_config_manager.cpp
+        ../src/sharding/gossip_consensus_adapter.cpp
+        ../src/sharding/shard_resource_manager.cpp
+        ../src/sharding/distributed_coordinator.cpp
+    )
+    message(WARNING "Protobuf not found: excluding protobuf-dependent sharding RPC/gossip sources")
+endif()
+
 set(THEMIS_LLM_SOURCES
     # LLM core components
     ../src/llm/llm_interaction_store.cpp
@@ -1323,11 +1341,6 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
-    ../src/training/lora_data_selection.cpp
-    ../src/training/multi_task_lora.cpp
-    ../src/training/incremental_lora_trainer.cpp
-    ../src/training/lora_checkpoint_manager.cpp
-    ../src/training/adapter_serving.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
@@ -1376,7 +1389,6 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/coherence_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
     ../src/rag/continuous_learning_client.cpp
-    ../src/rag/continuous_learning_orchestrator.cpp
     ../src/rag/cot_evaluator.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/hallucination_dashboard.cpp
@@ -1423,6 +1435,25 @@ set(THEMIS_LLM_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/wake_word_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/stt_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/tts_processor.cpp>
+)
+
+set(THEMIS_TRAINING_SOURCES
+    ../src/training/auto_labeler.cpp
+    ../src/training/ada_lora_adapter.cpp
+    ../src/training/adalora_tt_bridge.cpp
+    ../src/training/adapter_serving.cpp
+    ../src/training/database_domain_auto_labeler.cpp
+    ../src/training/incremental_lora_trainer.cpp
+    ../src/training/knowledge_graph_enricher.cpp
+    ../src/training/lora_adapter.cpp
+    ../src/training/lora_adapter_merger.cpp
+    ../src/training/lora_checkpoint_manager.cpp
+    ../src/training/lora_data_selection.cpp
+    ../src/training/modality_parser.cpp
+    ../src/training/multi_task_lora.cpp
+    ../src/training/provenance_tracker.cpp
+    ../src/training/training_pipeline.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
 )
 
 if(THEMIS_ENABLE_GPU)
@@ -1793,7 +1824,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_client_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
+    ../src/server/grpc_web_proxy_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/wasm_handler_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
@@ -1900,6 +1931,20 @@ set(THEMIS_NETWORK_SOURCES
     # RPC service implementation (handleGet/handlePut/handleQuery/handleVectorSearch)
     ../src/server/rpc/rpc_service_impl.cpp
 )
+
+if(NOT MessagePack_FOUND)
+    list(REMOVE_ITEM THEMIS_NETWORK_SOURCES
+        ../src/server/buffer_binary_protocol.cpp
+    )
+    message(STATUS "MessagePack not found: excluding buffer_binary_protocol.cpp from themis_network")
+endif()
+
+if(NOT Protobuf_FOUND)
+    list(REMOVE_ITEM THEMIS_NETWORK_SOURCES
+        ../src/themis/wire_protocol_server.cpp
+    )
+    message(WARNING "Protobuf not found: excluding themis::wire protocol server source from themis_network")
+endif()
 
 set(THEMIS_GEO_SOURCES
     # Geospatial processing
@@ -2026,10 +2071,24 @@ function(themis_build_modular)
         list(APPEND _themis_base_deps Boost::system)
     endif()
     if(THEMIS_ENABLE_GRPC)
-        find_package(gRPC CONFIG)
-        find_package(Protobuf CONFIG)
-        if(gRPC_FOUND AND Protobuf_FOUND)
-            list(APPEND _themis_base_deps gRPC::grpc++ protobuf::libprotobuf)
+        # Dependencies.cmake already ran find_package(gRPC) with CONFIG+pkg-config fallback
+        # and created the gRPC::grpc++ imported target when found. Re-running CONFIG here
+        # would reset gRPC_FOUND to FALSE when only pkg-config is available, so guard
+        # on target existence instead of re-discovering.
+        if(NOT TARGET gRPC::grpc++)
+            find_package(gRPC QUIET CONFIG)
+        endif()
+        # Link gRPC independently: grpc_channel_pool.cpp and related sources are always
+        # compiled when THEMIS_ENABLE_GRPC=ON, so the library must be linked regardless
+        # of whether protobuf is also available as a CMake target.
+        if(TARGET gRPC::grpc++)
+            list(APPEND _themis_base_deps gRPC::grpc++)
+        endif()
+        if(NOT TARGET protobuf::libprotobuf)
+            find_package(Protobuf QUIET CONFIG)
+        endif()
+        if(TARGET protobuf::libprotobuf)
+            list(APPEND _themis_base_deps protobuf::libprotobuf)
         endif()
     endif()
     if(THEMIS_ENABLE_TRACING)
@@ -2099,11 +2158,24 @@ function(themis_build_modular)
     if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
         list(APPEND _themis_storage_deps Vulkan::Vulkan)
     endif()
+    if(DEFINED THEMIS_LZ4_TARGET AND NOT "${THEMIS_LZ4_TARGET}" STREQUAL "")
+        list(APPEND _themis_storage_deps ${THEMIS_LZ4_TARGET})
+    endif()
+    if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
+        list(APPEND _themis_storage_deps ${THEMIS_SNAPPY_TARGET})
+    endif()
 
     themis_add_module(storage
         SOURCES ${THEMIS_STORAGE_SOURCES}
         DEPENDENCIES ${_themis_storage_deps}
     )
+
+    if(DEFINED THEMIS_LZ4_TARGET AND NOT "${THEMIS_LZ4_TARGET}" STREQUAL "")
+        target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_LZ4)
+    endif()
+    if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
+        target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_SNAPPY)
+    endif()
 
     if(THEMIS_HAS_ROCKSDB_TENSOR)
         target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_ROCKSDB_TENSOR)
@@ -2128,8 +2200,19 @@ function(themis_build_modular)
     )
         # Ensure pugixml is found before checking for its targets
         # (this module may be included before find_package(pugixml) is called in CMakeLists.txt)
-        if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml)
+        if(NOT TARGET pugixml::shared AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
             find_package(pugixml CONFIG QUIET)
+        endif()
+        if(pugixml_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+            find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATH_SUFFIXES include)
+            find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+            if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
+                add_library(pugixml UNKNOWN IMPORTED)
+                set_target_properties(pugixml PROPERTIES
+                    IMPORTED_LOCATION "${PUGIXML_LIB}"
+                    INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
+                add_library(pugixml::pugixml ALIAS pugixml)
+            endif()
         endif()
     if(TARGET TBB::tbb)
         list(APPEND _themis_security_deps TBB::tbb)
@@ -2241,6 +2324,11 @@ function(themis_build_modular)
             themis_security
     )
 
+    if(DEFINED THEMIS_ZSTD_TARGET AND NOT "${THEMIS_ZSTD_TARGET}" STREQUAL "")
+        target_link_libraries(themis_transaction PUBLIC ${THEMIS_ZSTD_TARGET})
+        target_compile_definitions(themis_transaction PUBLIC THEMIS_HAS_ZSTD)
+    endif()
+
     set(_themis_query_deps
         themis_base
         themis_storage
@@ -2300,6 +2388,9 @@ function(themis_build_modular)
     if(onnxruntime_FOUND)
         list(APPEND _themis_query_deps onnxruntime::onnxruntime)
     endif()
+    if(TARGET httplib::httplib)
+        list(APPEND _themis_query_deps httplib::httplib)
+    endif()
     
     themis_add_module(query
         SOURCES ${THEMIS_QUERY_SOURCES}
@@ -2343,6 +2434,9 @@ function(themis_build_modular)
         if(THEMIS_MODULE_LLM_SPLIT)
             list(APPEND _themis_network_deps themis_llm_ext)
         endif()
+    endif()
+    if(TARGET themis_training)
+        list(APPEND _themis_network_deps themis_training)
     endif()
     if(THEMIS_MODULE_TIMESERIES)
         list(APPEND _themis_network_deps themis_timeseries)
@@ -2456,20 +2550,26 @@ function(themis_build_modular)
                     find_package(absl CONFIG REQUIRED)
                 endif()
 
-                # Link gRPC and the Abseil pieces needed by generated service stubs.
-                target_link_libraries(themis_sharding PRIVATE
-                    gRPC::grpc++
-                    absl::abseil_dll
-                )
+                # Link gRPC directly, and only add the Abseil DLL target when the
+                # platform/package layout actually provides it.
+                target_link_libraries(themis_sharding PRIVATE gRPC::grpc++)
+                if(TARGET absl::abseil_dll)
+                    target_link_libraries(themis_sharding PRIVATE absl::abseil_dll)
+                endif()
                 if(MSVC)
-                    target_link_libraries(themis_sharding PRIVATE
-                        absl::absl_log
-                        absl::hash
-                        absl::raw_logging_internal
-                        absl::strings
-                        protobuf::libupb
-                        "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
-                    )
+                    if(TARGET absl::absl_log)
+                        set(_sharding_absl_links
+                            absl::absl_log
+                            absl::hash
+                            absl::raw_logging_internal
+                            absl::strings
+                        )
+                        if(TARGET protobuf::libupb)
+                            list(APPEND _sharding_absl_links protobuf::libupb)
+                        endif()
+                        list(APPEND _sharding_absl_links "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib")
+                        target_link_libraries(themis_sharding PRIVATE ${_sharding_absl_links})
+                    endif()
                 endif()
             endif()
             # Add include directory for generated proto headers
@@ -2632,6 +2732,53 @@ function(themis_build_modular)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
                 target_link_libraries(themis_llm_ext PUBLIC ${THEMIS_ROCKSDB_TARGET})
             endif()
+        endif()
+    endif()
+
+    if(THEMIS_TRAINING_SOURCES)
+        set(_themis_training_deps
+            themis_base
+            themis_storage
+            themis_security
+            themis_query
+        )
+        if(THEMIS_MODULE_GRAPH)
+            list(APPEND _themis_training_deps themis_graph)
+        endif()
+        if(THEMIS_MODULE_LLM)
+            list(APPEND _themis_training_deps themis_llm)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                list(APPEND _themis_training_deps themis_llm_ext)
+            endif()
+        endif()
+
+        themis_add_module(training
+            STATIC_MODULE
+            SOURCES ${THEMIS_TRAINING_SOURCES}
+            DEPENDENCIES ${_themis_training_deps}
+        )
+
+        if(onnxruntime_FOUND)
+            target_link_libraries(themis_training PUBLIC onnxruntime::onnxruntime)
+        endif()
+        if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
+            target_link_libraries(themis_training PUBLIC mimalloc)
+        endif()
+        if(THEMIS_ENABLE_JEMALLOC)
+            if(TARGET jemalloc::jemalloc)
+                target_link_libraries(themis_training PUBLIC jemalloc::jemalloc)
+            elseif(jemalloc_LIBRARIES)
+                target_link_libraries(themis_training PUBLIC ${jemalloc_LIBRARIES})
+            endif()
+        endif()
+        if(THEMIS_ENABLE_VULKAN)
+            target_compile_definitions(themis_training PUBLIC THEMIS_ENABLE_VULKAN)
+        endif()
+        if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
+            target_link_libraries(themis_training PUBLIC Vulkan::Vulkan)
+        endif()
+        if(DEFINED THEMIS_ROCKSDB_TARGET AND NOT "${THEMIS_ROCKSDB_TARGET}" STREQUAL "")
+            target_link_libraries(themis_training PUBLIC ${THEMIS_ROCKSDB_TARGET})
         endif()
     endif()
     
@@ -2816,6 +2963,10 @@ function(themis_build_modular)
         if(THEMIS_MODULE_LLM_SPLIT)
             list(APPEND THEMIS_ALL_MODULES themis_llm_ext)
         endif()
+    endif()
+
+    if(TARGET themis_training)
+        list(APPEND THEMIS_ALL_MODULES themis_training)
     endif()
     
     if(THEMIS_MODULE_GEO)

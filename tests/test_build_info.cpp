@@ -39,6 +39,7 @@ TEST(BuildConfiguration, HasCompilerInfo) {
     EXPECT_FALSE(cfg.compiler_version.empty());
     EXPECT_FALSE(cfg.build_type.empty());
     EXPECT_FALSE(cfg.build_timestamp.empty());
+    EXPECT_STRNE(THEMIS_BUILD_UUID, "unknown");
 }
 
 TEST(BuildConfiguration, HasModules) {
@@ -81,6 +82,9 @@ TEST(BuildInfo, VersionSummaryNonEmpty) {
     const std::string summary = getVersionSummary();
     EXPECT_FALSE(summary.empty());
     EXPECT_NE(summary.find("ThemisDB"), std::string::npos);
+    EXPECT_NE(summary.find("("), std::string::npos);
+    EXPECT_NE(summary.find(")"), std::string::npos);
+    EXPECT_NE(summary.find(THEMIS_BUILD_UUID), std::string::npos);
 }
 
 TEST(BuildInfo, VersionSummaryContainsEdition) {

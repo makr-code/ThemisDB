@@ -5,7 +5,7 @@ This file documents all documentation and code quality gaps in the **aql** modul
 ## Summary
 
 - **Total Gaps (original scan)**: 1993
-- **Gaps Closed (2026-08-24 Wave A–D batch)**: 9 confirmed code gaps + 6 scanner false positives documented
+- **Gaps Closed (2026-08-24 Wave A–D batch)**: 9 confirmed code gaps + 7 scanner false positives documented
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: 2026-08-24 (Wave A–D gap closure batch)
 

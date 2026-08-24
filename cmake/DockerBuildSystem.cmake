@@ -29,6 +29,16 @@ endif()
 
 # Clean docker build context directory
 set(THEMIS_DOCKER_CONTEXT_DIR "${CMAKE_BINARY_DIR}/docker-context")
+set(THEMIS_DOCKER_CACHE_DIR "${CMAKE_BINARY_DIR}/.docker-cache"
+    CACHE PATH "Persistent local cache directory for docker buildx")
+set(THEMIS_DOCKER_BUILDX_CACHE_FROM ""
+    CACHE STRING "Optional buildx cache-from value; default is local cache dir")
+set(THEMIS_DOCKER_BUILDX_CACHE_TO ""
+    CACHE STRING "Optional buildx cache-to value; default is local cache dir")
+set(THEMIS_DOCKER_BUILDX_EXTRA_ARGS ""
+    CACHE STRING "Additional docker buildx arguments")
+
+file(MAKE_DIRECTORY "${THEMIS_DOCKER_CACHE_DIR}")
 
 # ============================================================================
 # Find Docker
@@ -144,13 +154,26 @@ function(add_docker_buildx_target)
 
     set(_docker_cmd
         "${DOCKER_EXECUTABLE}" buildx build
+        --progress=plain
+        --file "${ARGS_DOCKERFILE}"
         -t "${ARGS_TAG}"
-        -f "${ARGS_DOCKERFILE}"
     )
 
     if(ARGS_PLATFORM)
         list(APPEND _docker_cmd --platform "${ARGS_PLATFORM}")
     endif()
+
+    set(_cache_from "${THEMIS_DOCKER_BUILDX_CACHE_FROM}")
+    if(_cache_from STREQUAL "")
+        set(_cache_from "type=local,src=${THEMIS_DOCKER_CACHE_DIR}")
+    endif()
+    list(APPEND _docker_cmd --cache-from "${_cache_from}")
+
+    set(_cache_to "${THEMIS_DOCKER_BUILDX_CACHE_TO}")
+    if(_cache_to STREQUAL "")
+        set(_cache_to "type=local,dest=${THEMIS_DOCKER_CACHE_DIR},mode=max")
+    endif()
+    list(APPEND _docker_cmd --cache-to "${_cache_to}")
 
     if(THEMIS_DOCKER_BUILDX_PUSH)
         list(APPEND _docker_cmd --push)
@@ -164,13 +187,20 @@ function(add_docker_buildx_target)
         endforeach()
     endif()
 
+    if(THEMIS_DOCKER_BUILDX_EXTRA_ARGS)
+        separate_arguments(_extra_args NATIVE_COMMAND "${THEMIS_DOCKER_BUILDX_EXTRA_ARGS}")
+        foreach(_extra ${_extra_args})
+            list(APPEND _docker_cmd "${_extra}")
+        endforeach()
+    endif()
+
     list(APPEND _docker_cmd "${ARGS_BUILD_CONTEXT}")
 
     add_custom_target(${ARGS_NAME}
         DEPENDS docker-context
         COMMAND ${CMAKE_COMMAND} -E env DOCKER_BUILDKIT=1 ${_docker_cmd}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-        COMMENT "Building Docker image with buildx: ${ARGS_TAG}"
+        COMMENT "Building Docker image with buildx cache: ${ARGS_TAG}"
         VERBATIM
     )
 

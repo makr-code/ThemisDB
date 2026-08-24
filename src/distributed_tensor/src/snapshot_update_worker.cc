@@ -89,8 +89,10 @@ bool detectInstability(const DeltaWindow& window,
   }
   
   // High mutation density suggests thrashing
-  double total_mutations = window.countInserts() + window.countUpdates();
-  double mutation_frequency = total_mutations / window.entries.size();
+  const double total_mutations =
+      static_cast<double>(window.countInserts() + window.countUpdates());
+  const double mutation_frequency =
+      total_mutations / static_cast<double>(window.entries.size());
   if (mutation_frequency > kInstabilityThresholdMutationFreq) {
     return true;
   }
@@ -596,7 +598,7 @@ std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint
   const DeltaWindow& checkpoint_delta = checkpoint.delta_window;
 
   // Determine update type from checkpoint decision or current state
-  UpdateMode checkpoint_update_mode = UpdateMode::UNKNOWN;
+  UpdateMode checkpoint_update_mode = UpdateMode::NONE;
   switch (checkpoint.last_decision) {
     case static_cast<uint32_t>(UpdateDecision::PATCH):
       checkpoint_update_mode = UpdateMode::PATCH;
@@ -608,13 +610,19 @@ std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint
       checkpoint_update_mode = UpdateMode::REBUILD;
       break;
     default:
-      // Decide based on manifest state
-      if (checkpoint.current_manifest.rebuild_state == RebuildState::REBUILDING) {
-        checkpoint_update_mode = UpdateMode::REBUILD;
-      } else if (checkpoint.current_manifest.rebuild_state == RebuildState::PATCHING) {
-        checkpoint_update_mode = UpdateMode::PATCH;
-      } else if (checkpoint.current_manifest.rebuild_state == RebuildState::PARTIAL_REFITTING) {
-        checkpoint_update_mode = UpdateMode::PARTIAL_REFIT;
+      // Fallback to persisted manifest metadata when no explicit decision exists.
+      switch (checkpoint.current_manifest.rebuild_state) {
+        case RebuildState::PATCHED:
+          checkpoint_update_mode = UpdateMode::PATCH;
+          break;
+        case RebuildState::PARTIAL_REFITTED:
+          checkpoint_update_mode = UpdateMode::PARTIAL_REFIT;
+          break;
+        case RebuildState::PRISTINE:
+        case RebuildState::REBUILT:
+        default:
+          checkpoint_update_mode = UpdateMode::REBUILD;
+          break;
       }
       break;
   }
@@ -643,25 +651,22 @@ std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint
     return std::nullopt;
   }
 
-  // Step 6: State machine validation - check if current state allows recovery
-  RebuildState current_state = checkpoint.current_manifest.rebuild_state;
+  // Step 6: State machine validation - check if current lifecycle allows recovery
+  LifecycleState current_state = checkpoint.current_manifest.lifecycle_state;
   bool state_allows_recovery = false;
 
   switch (current_state) {
-    case RebuildState::REBUILDING:
-      // Can always recover from REBUILDING state
-      state_allows_recovery = true;
+    case LifecycleState::REBUILDING:
+      // In-progress rebuild state can be resumed.
+      state_allows_recovery = (checkpoint_update_mode != UpdateMode::NONE);
       break;
-    case RebuildState::PATCHING:
-      // Can recover from PATCHING if the mode matches
-      state_allows_recovery = (checkpoint_update_mode == UpdateMode::PATCH);
-      break;
-    case RebuildState::PARTIAL_REFITTING:
-      // Can recover from PARTIAL_REFITTING if the mode matches
-      state_allows_recovery = (checkpoint_update_mode == UpdateMode::PARTIAL_REFIT);
+    case LifecycleState::STALE:
+      // Stale artifacts can resume incremental paths.
+      state_allows_recovery = (checkpoint_update_mode == UpdateMode::PATCH ||
+                               checkpoint_update_mode == UpdateMode::PARTIAL_REFIT);
       break;
     default:
-      // Cannot recover from PATCHED, PARTIAL_REFITTED, REBUILT states
+      // READY/ACTIVE, INVALIDATED, FAILED are not resumable from checkpoints.
       state_allows_recovery = false;
       break;
   }
@@ -689,10 +694,22 @@ std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint
   }
 
   // Step 8: Prepare state machine transition
-  // Transition manifests to REBUILDING during recovery to ensure consistency
+  // Keep lifecycle in REBUILDING while preserving the chosen update path.
   ArtifactManifest recovered_manifest = checkpoint.current_manifest;
-  recovered_manifest.rebuild_state = RebuildState::REBUILDING;
-  recovered_manifest.lifecycle_state = LifecycleState::UPDATING;
+  switch (checkpoint_update_mode) {
+    case UpdateMode::PATCH:
+      recovered_manifest.rebuild_state = RebuildState::PATCHED;
+      break;
+    case UpdateMode::PARTIAL_REFIT:
+      recovered_manifest.rebuild_state = RebuildState::PARTIAL_REFITTED;
+      break;
+    case UpdateMode::REBUILD:
+    case UpdateMode::NONE:
+    default:
+      recovered_manifest.rebuild_state = RebuildState::REBUILT;
+      break;
+  }
+  recovered_manifest.lifecycle_state = LifecycleState::REBUILDING;
 
   // Step 9: Log recovery details for diagnostics
   spdlog::info("SnapshotBasedUpdateWorker::recoverFromCheckpoint: "

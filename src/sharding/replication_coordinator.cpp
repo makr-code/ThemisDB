@@ -14,7 +14,7 @@
 #include "utils/logger.h"
 #include <algorithm>
 
-namespace themisdb {
+namespace themis {
 namespace sharding {
 
 /**
@@ -268,4 +268,4 @@ void ReplicationCoordinator::cleanupPendingWrites() {
 }
 
 } // namespace sharding
-} // namespace themisdb
+} // namespace themis

@@ -38,11 +38,11 @@
 #include <sys/time.h>
 #endif
 
-#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
+#if defined(THEMIS_ENABLE_TRACING) && THEMIS_ENABLE_TRACING && defined(THEMIS_HAS_OPENTELEMETRY) && THEMIS_HAS_OPENTELEMETRY
 #include <boost/asio.hpp>
 #endif
 
-#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
+#if defined(THEMIS_ENABLE_TRACING) && THEMIS_ENABLE_TRACING && defined(THEMIS_HAS_OPENTELEMETRY) && THEMIS_HAS_OPENTELEMETRY
 #include <opentelemetry/exporters/otlp/otlp_http_exporter_factory.h>
 #include <opentelemetry/exporters/otlp/otlp_http_exporter_options.h>
 #include <opentelemetry/sdk/trace/simple_processor_factory.h>

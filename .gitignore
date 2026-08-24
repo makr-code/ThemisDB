@@ -7,6 +7,11 @@ compendium/chrome/
 compendium/temp
 build-*/
 
+# sccache (local cache for build acceleration)
+.sccache/
+.sccache-*/
+.cache/
+
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md
 
@@ -598,3 +603,7 @@ ai_working/*.py  # Temporary/auto-generated scripts
 /ingestion.log
 /themisdb.log
 tests/data/certificates/ca_cert.srl
+
+# Generated doku.db corpus (too large for git)
+test-assets/doku.db.json
+test-assets/doku.db

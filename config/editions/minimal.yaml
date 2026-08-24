@@ -1,0 +1,236 @@
+# =============================================================================
+# ThemisDB MINIMAL Edition — Runtime Configuration
+# Version: 1.3.5+
+# Edition: MINIMAL
+# Target: Embedded systems, IoT, edge devices, single-node deployments
+# License: Open-source (no license file required)
+# =============================================================================
+#
+# Features INCLUDED:
+#   - ACID transactions with MVCC
+#   - Multi-model storage: relational, graph, vector, document
+#   - Secondary indexes and graph indexes
+#   - Basic query engine (AQL)
+#   - REST API (HTTP/1.1)
+#   - LLM (CPU fallback only — llama.cpp, no GPU offload)
+#   - Vector indexes (HNSW, CPU)
+#   - Basic metrics (Prometheus)
+#   - Local backup
+#
+# Features FORBIDDEN:
+#   - gRPC
+#   - GPU / CUDA acceleration
+#   - OpenTelemetry tracing
+#   - HTTP/3
+#   - MCP
+#   - DiskANN
+#   - Distributed training
+#   - Horizontal sharding (1-node only)
+#   - Real HSM
+#
+# Hardware limits (enforced by build):
+#   GPU VRAM cap : 0 GB (no GPU runtime)
+#   Max nodes    : 1
+#   Max cache    : 128 MB
+#
+# Usage:
+#   ./themis_server --config config/editions/minimal.yaml
+#   or set THEMIS_CONFIG_ROOT=config/editions/minimal.yaml
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Edition identity
+# ---------------------------------------------------------------------------
+edition: MINIMAL
+
+# ---------------------------------------------------------------------------
+# Storage (RocksDB) — minimal footprint
+# ---------------------------------------------------------------------------
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+
+  # Memory — reduced for minimal footprint
+  memtable_size_mb: 64
+  block_cache_size_mb: 128         # Matches THEMIS_MAX_CACHE_SIZE_MB=128
+  block_cache_shard_bits: -1
+  cache_index_and_filter_blocks: true
+  pin_l0_filter_and_index_blocks_in_cache: false
+  partition_filters: true
+  high_pri_pool_ratio: 0.5
+  db_write_buffer_size_mb: 0
+
+  # Write
+  enable_wal: true
+  max_write_buffer_number: 2
+  min_write_buffer_number_to_merge: 1
+  allow_concurrent_memtable_write: true
+
+  # Compaction — minimal
+  max_background_compactions: 2
+  max_background_flushes: 2
+  level0_file_num_compaction_trigger: 4
+  level0_slowdown_writes_trigger: 20
+  level0_stop_writes_trigger: 36
+
+  # Bloom filter
+  bloom_bits_per_key: 10
+  whole_key_filtering: true
+
+  # Compression
+  compression_type: lz4
+  bottommost_compression_type: zstd
+
+  # File handles
+  max_open_files: 1000
+  bytes_per_sync: 1048576
+  wal_bytes_per_sync: 1048576
+
+# ---------------------------------------------------------------------------
+# Server / networking — HTTP/1.1 REST only
+# ---------------------------------------------------------------------------
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 4
+
+# Advanced protocols — all disabled in MINIMAL
+protocols:
+  grpc:
+    enabled: false         # FORBIDDEN in MINIMAL
+  http2:
+    enabled: false
+  http3:
+    enabled: false         # FORBIDDEN in MINIMAL
+  websocket:
+    enabled: false
+  mqtt:
+    enabled: false
+  postgres_wire:
+    enabled: false
+  mcp:
+    enabled: false         # FORBIDDEN in MINIMAL
+  sse:
+    enabled: false
+
+# ---------------------------------------------------------------------------
+# Security — basic auth, no HSM, no RBAC
+# ---------------------------------------------------------------------------
+security:
+  enable_tls: false
+  # tls_cert: "/etc/themisdb/tls/cert.pem"
+  # tls_key:  "/etc/themisdb/tls/key.pem"
+  enable_auth: false        # Enable for production
+  enable_rbac: false        # Not available in MINIMAL
+  enable_field_encryption: false
+  enable_hsm: false         # FORBIDDEN in MINIMAL (no real HSM)
+
+# ---------------------------------------------------------------------------
+# Query engine
+# ---------------------------------------------------------------------------
+query:
+  max_query_size_bytes: 1048576   # 1 MB
+  query_timeout_seconds: 30
+  max_concurrent_queries: 100
+
+# ---------------------------------------------------------------------------
+# Indexes
+# ---------------------------------------------------------------------------
+index:
+  enable_secondary_indexes: true
+  max_secondary_indexes_per_table: 10
+  enable_graph_indexes: true
+
+  # Vector indexes — CPU-only HNSW
+  enable_vector_indexes: true
+  default_vector_distance_metric: cosine
+  hnsw_m: 16
+  hnsw_ef_construction: 200
+  hnsw_ef_search: 50
+
+  # DiskANN disabled — FORBIDDEN in MINIMAL
+  enable_diskann: false
+
+# ---------------------------------------------------------------------------
+# Transactions (MVCC)
+# ---------------------------------------------------------------------------
+transaction:
+  enable_mvcc: true
+  default_snapshot_isolation_level: snapshot
+  max_transaction_duration_seconds: 60
+  transaction_lock_timeout_seconds: 10
+
+# ---------------------------------------------------------------------------
+# LLM — compiled in with CPU-only fallback; GPU disabled
+# ---------------------------------------------------------------------------
+llm:
+  enabled: true             # CPU fallback (THEMIS_ENABLE_LLM=ON in MINIMAL.cmake)
+  model_path: "./models"
+  context_size: 2048
+  batch_size: 256
+  gpu_layers: 0             # Must be 0: no GPU in MINIMAL
+  remote_inference: false   # No cloud calls; local inference only
+
+# ---------------------------------------------------------------------------
+# GPU / acceleration — disabled
+# ---------------------------------------------------------------------------
+gpu:
+  enabled: false            # FORBIDDEN at runtime (GPU VRAM cap = 0)
+  backend: none
+
+acceleration:
+  cuda_enabled: false       # FORBIDDEN in MINIMAL
+  simd_enabled: true        # SSE/AVX allowed at CPU level
+
+# ---------------------------------------------------------------------------
+# Sharding — single-node only
+# ---------------------------------------------------------------------------
+sharding:
+  enabled: false
+  max_nodes: 1              # Hard limit from THEMIS_SHARDING_MAX_NODES=1
+
+# ---------------------------------------------------------------------------
+# Replication — not available in MINIMAL
+# ---------------------------------------------------------------------------
+replication:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# Distributed training — FORBIDDEN
+# ---------------------------------------------------------------------------
+distributed_training:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# Observability
+# ---------------------------------------------------------------------------
+logging:
+  level: info
+  format: text
+  output: stdout
+
+metrics:
+  enabled: true
+  prometheus_port: 9090
+
+tracing:
+  enabled: false            # FORBIDDEN in MINIMAL
+
+# ---------------------------------------------------------------------------
+# Backup — local only
+# ---------------------------------------------------------------------------
+backup:
+  enable_automatic_backups: false
+  backup_directory: "./backups"
+  backup_interval_hours: 24
+  max_backups_retained: 7
+  cloud_backup: false       # No cloud storage in MINIMAL
+
+# ---------------------------------------------------------------------------
+# Performance
+# ---------------------------------------------------------------------------
+performance:
+  worker_threads: 4
+  enable_mimalloc: false
+  enable_huge_pages: false
+  enable_rcu: false

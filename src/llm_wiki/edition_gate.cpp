@@ -60,34 +60,34 @@ bool isLLMWikiFeatureEnabled(const char* feature_name) noexcept {
     return false;
 }
 
-Status enforcePluginGate(const char* operation_name) noexcept {
+PluginStatus enforcePluginGate(const char* operation_name) noexcept {
     if (!isLLMWikiEnabled()) {
         auto logger = spdlog::get("themisdb.llm_wiki");
         if (logger) {
             logger->warn("LLM Wiki plugin operation '{}' blocked: not available in this edition",
                         operation_name);
         }
-        return Status::PermissionDenied(
+        return PluginStatus::PermissionDenied(
             std::string("LLM Wiki plugin operation '") + operation_name +
             "' is not available in this ThemisDB edition. "
             "Upgrade to enterprise, hyperscaler, or military edition to use this feature.");
     }
-    return Status::Ok();
+    return PluginStatus::Ok();
 }
 
-Status enforceFeatureGate(const char* feature_name) noexcept {
+PluginStatus enforceFeatureGate(const char* feature_name) noexcept {
     if (!isLLMWikiFeatureEnabled(feature_name)) {
         auto logger = spdlog::get("themisdb.llm_wiki");
         if (logger) {
             logger->warn("LLM Wiki feature '{}' blocked: not available in this edition",
                         feature_name);
         }
-        return Status::PermissionDenied(
+        return PluginStatus::PermissionDenied(
             std::string("LLM Wiki feature '") + feature_name +
             "' is not available in this ThemisDB edition. "
             "Upgrade to enterprise or higher to use this feature.");
     }
-    return Status::Ok();
+    return PluginStatus::Ok();
 }
 
 } // namespace llm_wiki

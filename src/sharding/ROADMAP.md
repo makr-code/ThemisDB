@@ -160,21 +160,21 @@ This module is scoped to **Wave A — Runtime Reliability First** in the program
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave A Scope for `sharding`
-- [ ] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026)
+- [x] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026, technical closure complete 2026-08-17)
 
 ### Wave A Exit Criteria (this module's contribution)
-- [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
-- [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
-- [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
-- [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
+- [x] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026, completed via TXC/FLR/FI/SCR release-critical suites)
+- [x] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026, completed via thread-safety/lock-order/recovery policy hardening)
+- [x] `release_critical` CI green on `develop` (Target: Q4 2026, Wave A gate integration + blocker remediation complete)
+- [x] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026, SRG-01..06 baseline gates captured)
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: TXC-01..32, FLR-01..20, FI-01..40, and SCR-01..16 suites are delivered and referenced in this roadmap.
 - [x] Chaos/fault-injection evidence: Wave-8 fault-injection coverage is delivered in `tests/sharding/test_sharding_p6_fault_injection.cpp` and integrated into the gate board.
-- [~] Fail-closed verification: thread-safety and lock-order hardening are delivered, but the multi-shard exact gate under shard-failure injection remains pending.
-- [ ] Representative-hardware p95/p99 baselines: release-gate benchmarks exist, but representative-hardware refresh for routing/commit/migration paths remains open.
-- [ ] `release_critical` coverage: `release_critical` registration exists for focused gates, but green-on-`develop` evidence for the full Wave A path is still pending.
-- [ ] Next closure batch: finish `test_sharding_multishard_exact`, `bench_multishard_exact`, topology-change rebalance hardening, and long-run distributed write stress.
+- [x] Fail-closed verification: thread-safety and lock-order hardening plus multi-shard exact gate validation are complete (`MULTISHARD_GATE_VALIDATION_REPORT.md`).
+- [x] Representative-hardware p95/p99 baselines: Wave A baseline refresh completed with SRG-01..06 gates (`benchmarks/sharding/WAVE_A_BASELINE_REPORT.md`).
+- [x] `release_critical` coverage: Wave A gate integration and blocker remediation complete for sharding closure (`src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`).
+- [x] Next closure batch: completed 2026-08-17; technical closure evidence consolidated in `src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.

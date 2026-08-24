@@ -4,7 +4,16 @@
 
 ## Overview
 
-The LLM wiki module provides plugin-based integration for external knowledge sources (Confluence, Notion, internal wikis) into ThemisDB's LLM context window, enabling controlled knowledge base access with guardrails, access policies, and dynamic workspace isolation.
+The LLM wiki module is a standalone semantic knowledge core within ThemisDB. It provides plugin-based integration for external knowledge sources (Confluence, Notion, internal wikis) into ThemisDB's LLM workflow, and it is strongly coupled to `llm` for orchestration and to `llama_cpp` for local inference-backed retrieval, summarization, and generation support. The module enables controlled knowledge base access with guardrails, access policies, and dynamic workspace isolation.
+
+## Dependencies
+
+- `llm` for orchestration, prompt planning, and response assembly
+- `llama_cpp` for local inference-backed retrieval and summarization flows
+- `prompt_engineering` for retrieval planning and prompt enhancement handoff
+- `retrieval` for semantic search and ranking support
+- `metadata` for provenance, revision, and audit integration
+- RocksDB for persistent workspace state and Phase B cache support
 
 ## Design Principles
 
@@ -14,6 +23,129 @@ The LLM wiki module provides plugin-based integration for external knowledge sou
 4. **Query Optimization:** Caching and indexing for efficient knowledge retrieval
 5. **Guardrails:** LLM-specific safety checks and rate limiting
 6. **Audit Trail:** All knowledge access logged for compliance and debugging
+
+## Adaptive Schema Evolution Policy
+
+The LLM Wiki schema is intentionally extensible, but evolution must be controlled to preserve determinism, compatibility, and auditability.
+
+### Stable Core vs Extension Surface
+
+Stable core fields are mandatory for all persisted wiki entities:
+
+- `schema_version`
+- `entity_type`
+- `provenance`
+- `confidence`
+- `created_at`
+- `updated_at`
+
+All non-core additions must live in an `extensions` object and must not redefine core semantics.
+
+### Extension Rules
+
+1. Extensions must use namespaced keys to avoid collisions.
+2. Unknown extensions are ignored by readers by default (forward compatibility).
+3. Writers may emit only extension namespaces enabled by policy for the current edition and workspace.
+4. Security-sensitive extensions require explicit allowlist approval in governance policy.
+5. Any extension that affects retrieval ranking, confidence, or allow-deny behavior must be auditable.
+
+### Versioning and Migration Contract
+
+1. Minor schema versions may add optional fields and extension namespaces.
+2. Major schema versions may change semantics and require explicit migration plans.
+3. Every migration must provide:
+   - deterministic transformation rules
+   - backward-read behavior definition
+   - rollback behavior
+   - migration audit events
+4. Migrations must be idempotent and safe to rerun.
+5. Legacy compatibility shims are forbidden unless explicitly human-approved and time-bounded.
+
+### Capability Registry
+
+Schema evolution is governed through capability declarations:
+
+- Reader capability: which schema versions and extension namespaces can be interpreted.
+- Writer capability: which schema versions and extension namespaces may be emitted.
+- Governance capability: which policy packs are required for sensitive extensions.
+
+Capabilities are evaluated at startup and on policy refresh to prevent partial-rollout inconsistencies.
+
+### Validation Policy
+
+Validation must fail closed for:
+
+- missing core fields
+- malformed provenance
+- invalid confidence domain
+- unauthorized extension namespaces
+- extension payloads that violate policy constraints
+
+Validation may soft-ignore unknown but policy-safe extensions while preserving the raw payload for future-compatible reads.
+
+### Reference Schema Artifact
+
+The reference schema for persisted wiki entities is defined in:
+
+- `src/llm_wiki/schema/llm_wiki_entity.schema.json`
+
+This artifact is the canonical contract for stable-core fields, extension namespace constraints, provenance structure, and governance payload shape.
+
+## Scientific Adaptation Loop
+
+The module should adapt using a scientific control loop:
+
+1. Observe: collect request, retrieval, governance, and re-anchor telemetry.
+2. Hypothesize: derive candidate policy or weighting adjustments.
+3. Experiment: evaluate on shadow or canary traffic within bounded risk.
+4. Validate: require measurable gain without governance regression.
+5. Deploy: promote the new policy and capture rollback handles.
+
+### Learning Signals
+
+- answer utility feedback
+- correction or override frequency
+- re-anchor frequency
+- provenance confidence drift
+- deny-path and guardrail trigger rates
+
+### Safety Constraints For Adaptation
+
+- No adaptation may bypass entitlement, guardrail, or provenance validation gates.
+- Adaptive ranking changes must remain explainable via persisted decision metadata.
+- Confidence threshold changes require policy versioning and audit traceability.
+
+## YAML Process Orchestration Control Plane
+
+LLM Wiki process execution is orchestrated through a versioned YAML policy so adaptation behavior can be changed without code edits.
+
+- Policy artifact: `src/llm_wiki/process/llm_wiki_process_policy.yaml`
+- Policy schema: `src/llm_wiki/schema/llm_wiki_process_policy.schema.json`
+
+### Runtime Contract
+
+1. Load YAML policy at startup and on controlled refresh points.
+2. Validate policy against schema and governance constraints.
+3. Materialize stage plan (`ingest`, `extract`, `synthesize`, `validate`, `re_anchor`).
+4. Execute stage gates according to schedule class (interactive, near-real-time, batch).
+5. Emit decision telemetry for each request and adaptation cycle.
+
+### How ML Works With The Policy
+
+The ML controller does not rewrite arbitrary process logic. It optimizes only approved knobs inside policy-defined hard bounds.
+
+1. Observe outcomes: utility, latency, deny rate, re-anchor rate, confidence drift.
+2. Propose knob updates (for example evidence size or confidence thresholds).
+3. Apply in `shadow` or `canary` mode first.
+4. Promote only if policy goals improve and security metrics do not regress.
+5. Roll back automatically when rollback thresholds are violated.
+
+### Non-Negotiable Safety Invariants
+
+- `second_planner_allowed` must remain `false`.
+- Fail-closed validation must stay enabled.
+- Entitlement and guardrail gates are never tunable by ML.
+- Policy snapshots and reason codes are mandatory for auditable decisions.
 
 ## Architecture Diagram
 

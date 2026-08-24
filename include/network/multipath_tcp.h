@@ -122,7 +122,7 @@ public:
     // Non-copyable, movable.
     MptcpSubflowManager(const MptcpSubflowManager&)            = delete;
     MptcpSubflowManager& operator=(const MptcpSubflowManager&) = delete;
-    MptcpSubflowManager(MptcpSubflowManager&&) noexcept        noexcept = default;
+    MptcpSubflowManager(MptcpSubflowManager&&) noexcept = default;
     MptcpSubflowManager& operator=(MptcpSubflowManager&&) noexcept = default;
 
     // -------------------------------------------------------------------------

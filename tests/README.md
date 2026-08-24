@@ -36,6 +36,9 @@ Führen Sie `ctest` vollständig oder gefiltert (`-R`) aus, um betroffene Module
 
 ## Richtlinien
 
+- Verbindlicher Standard: `TESTING_STANDARDS.md`
+- Historische Summary/Report-Dateien in `tests/` sind Kontext, aber nicht
+  kanonisch fuer aktuelle Testregeln.
 - Neue Tests als deterministische `test_*.cpp`
 - Keine stillen Flaky-Retries in Testlogik
 - Fixtures unter `tests/fixtures/`, wenn wiederverwendbar
@@ -52,3 +55,5 @@ Führen Sie `ctest` vollständig oder gefiltert (`-R`) aus, um betroffene Module
 
 - Build-Quelle der Wahrheit: [`../CMakePresets.json`](../CMakePresets.json)
 - Root-Quickstart: [`../README.md`](../README.md)
+- Teststandard (kanonisch): [`TESTING_STANDARDS.md`](TESTING_STANDARDS.md)
+- Mapping Alt -> Kanonisch (Tests/Benchmarks): [`TEST_BENCHMARK_DOC_CANONICAL_MAPPING.md`](TEST_BENCHMARK_DOC_CANONICAL_MAPPING.md)

@@ -227,7 +227,7 @@ int main() {
         std::printf("[Error 1 — query_exception_handling_ok=false]\n");
         std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
                     error_stats.avg_ns, error_stats.p50_ns, error_stats.p95_ns, error_stats.p99_ns);
-        std::printf("  min: %.1f ns,  max: %.1f ns\n");
+        std::printf("  min: %.1f ns,  max: %.1f ns\n", error_stats.min_ns, error_stats.max_ns);
         const double overhead_pct = (error_stats.avg_ns / nominal_stats.avg_ns - 1.0) * 100.0;
         std::printf("  overhead: %.1f%% vs. nominal\n\n", overhead_pct);
     }
@@ -242,7 +242,7 @@ int main() {
         std::printf("[Error 2 — index_buffer_safety_ok=false]\n");
         std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
                     error_stats.avg_ns, error_stats.p50_ns, error_stats.p95_ns, error_stats.p99_ns);
-        std::printf("  min: %.1f ns,  max: %.1f ns\n");
+        std::printf("  min: %.1f ns,  max: %.1f ns\n", error_stats.min_ns, error_stats.max_ns);
         const double overhead_pct = (error_stats.avg_ns / nominal_stats.avg_ns - 1.0) * 100.0;
         std::printf("  overhead: %.1f%% vs. nominal\n\n", overhead_pct);
     }
@@ -257,7 +257,7 @@ int main() {
         std::printf("[Error 3 — query_thread_safety_ok=false]\n");
         std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
                     error_stats.avg_ns, error_stats.p50_ns, error_stats.p95_ns, error_stats.p99_ns);
-        std::printf("  min: %.1f ns,  max: %.1f ns\n");
+        std::printf("  min: %.1f ns,  max: %.1f ns\n", error_stats.min_ns, error_stats.max_ns);
         const double overhead_pct = (error_stats.avg_ns / nominal_stats.avg_ns - 1.0) * 100.0;
         std::printf("  overhead: %.1f%% vs. nominal\n\n", overhead_pct);
     }
@@ -274,7 +274,7 @@ int main() {
         std::printf("[Error 4 — Multiple safety checks failed]\n");
         std::printf("  avg: %.1f ns,  p50: %.1f ns,  p95: %.1f ns,  p99: %.1f ns\n",
                     error_stats.avg_ns, error_stats.p50_ns, error_stats.p95_ns, error_stats.p99_ns);
-        std::printf("  min: %.1f ns,  max: %.1f ns\n");
+        std::printf("  min: %.1f ns,  max: %.1f ns\n", error_stats.min_ns, error_stats.max_ns);
         const double overhead_pct = (error_stats.avg_ns / nominal_stats.avg_ns - 1.0) * 100.0;
         std::printf("  overhead: %.1f%% vs. nominal\n\n", overhead_pct);
     }

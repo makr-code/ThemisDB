@@ -21,7 +21,7 @@ Documentation in `docs/de/performance/*` suggests GPU acceleration is:
 - ❌ Available by default (FALSE)
 - ❌ Automatically used (FALSE)
 
-**Reality:** Without explicit build flags (`-DTHEMIS_ENABLE_CUDA=ON`, `-DTHEMIS_ENABLE_VULKAN=ON`), **no GPU acceleration** occurs, even in ENTERPRISE edition with 256 GB VRAM limit.
+**Reality:** Without explicit build flags (`-DTHEMIS_ENABLE_CUDA=ON`, `-DTHEMIS_ENABLE_VULKAN=ON`), **no GPU acceleration** occurs, even in ENTERPRISE edition with 320 GB VRAM limit.
 
 ---
 
@@ -30,8 +30,8 @@ Documentation in `docs/de/performance/*` suggests GPU acceleration is:
 | Edition | Documented VRAM Limit | GPU Backends (Default) | Actual GPU Usage | Gap |
 |---------|----------------------|------------------------|------------------|-----|
 | **MINIMAL** | 0 GB | Explicitly OFF | ❌ No GPU | ✅ Correct |
-| **COMMUNITY** | 24 GB | OFF (must enable) | ❌ No GPU (unless manually built) | 🔴 HIGH |
-| **ENTERPRISE** | 256 GB | OFF (must enable) | ❌ No GPU (unless manually built) | 🔴 HIGH |
+| **COMMUNITY** | 16 GB | OFF (must enable) | ❌ No GPU (unless manually built) | 🔴 HIGH |
+| **ENTERPRISE** | 320 GB | OFF (must enable) | ❌ No GPU (unless manually built) | 🔴 HIGH |
 | **HYPERSCALER** | Unlimited | OFF (must enable) | ❌ No GPU (unless manually built) | 🔴 HIGH |
 
 ---
@@ -85,8 +85,8 @@ bool CUDAVectorBackend::isAvailable() const noexcept {
 
 **Documentation (edition.h):**
 ```cpp
-// COMMUNITY: 24 GB (consumer-grade GPU like RTX 4090)
-// ENTERPRISE: 256 GB (data center GPU like A100/H100)
+// COMMUNITY: 16 GB (consumer-grade GPU like RTX 4090)
+// ENTERPRISE: 320 GB (data center GPU like A100/H100)
 constexpr int GPU_MAX_VRAM_GB = THEMIS_GPU_MAX_VRAM_GB;
 ```
 
@@ -97,7 +97,7 @@ elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     # BUT: CUDA/Vulkan are still OFF by default!
 ```
 
-**Gap:** VRAM limit is set to 24 GB, but **no GPU backends are enabled**, making the limit meaningless.
+**Gap:** VRAM limit is set to 16 GB, but **no GPU backends are enabled**, making the limit meaningless.
 
 ---
 
@@ -198,8 +198,8 @@ cmake --build build
 
 3. **Update edition docs:**
    - MINIMAL: "GPU disabled" ✅ (correct)
-   - COMMUNITY: "GPU optional (24 GB limit **when enabled**)"
-   - ENTERPRISE: "GPU optional (256 GB limit **when enabled**)"
+   - COMMUNITY: "GPU optional (16 GB limit **when enabled**)"
+   - ENTERPRISE: "GPU optional (320 GB limit **when enabled**)"
 
 4. **Mark performance benchmarks:**
    - Specify GPU backend used
@@ -261,7 +261,7 @@ The documentation creates an impression that GPU acceleration is:
 - Available and working ✅ (when built with GPU flags)
 - Ready to use ❌ (false - requires recompilation)
 
-**Without explicit build flags, no GPU acceleration occurs**, even in ENTERPRISE edition with 256 GB VRAM limit.
+**Without explicit build flags, no GPU acceleration occurs**, even in ENTERPRISE edition with 320 GB VRAM limit.
 
 **Action required:** Update documentation to clarify that GPU backends are compile-time optional and OFF by default.
 

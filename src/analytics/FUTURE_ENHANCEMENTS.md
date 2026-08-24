@@ -1,6 +1,6 @@
 # Analytics Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-08-19 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -51,3 +51,5 @@
 - maintain fail-closed behavior for malformed data and unsupported capability paths.
 - keep bounded resource policies for memory and queue-driven ingestion pressure.
 - ensure diagnostics are actionable for operational incident triage.
+- evolve from hash-based model integrity checks to signature/key-based trust-chain verification for model artifacts.
+- add production policy checks that reject non-TLS serving endpoints outside explicitly approved environments.

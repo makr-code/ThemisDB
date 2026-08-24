@@ -579,7 +579,3 @@ TEST_F(UpdatesRAIIIntegrationTest, UP_FIN_25_CompilerWarningsFree) {
 }  // namespace themis
 
 // Run tests
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

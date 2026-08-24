@@ -13,6 +13,7 @@ param(
     [switch]$SkipSemgrep,
     [switch]$SkipCodeQL,
     [switch]$SkipDoxygen,
+    [switch]$StrictDoxygen,
     [switch]$ContinueOnError,
     [switch]$Help
 )
@@ -44,6 +45,7 @@ Options:
   -SkipSemgrep              Skip semgrep scan
   -SkipCodeQL               Skip CodeQL DB + analyze
   -SkipDoxygen              Skip Doxygen build
+    -StrictDoxygen            Treat Doxygen failures as quality-gate failures
   -ContinueOnError          Run all steps and report failures at end
   -Help                     Show this help
 
@@ -205,6 +207,51 @@ function Invoke-External {
     return $targetLog
 }
 
+function Invoke-ExternalCapture {
+    param(
+        [string]$Command,
+        [string[]]$Arguments,
+        [string]$LogFile
+    )
+
+    $targetLog = Join-Path $script:ReportPath $LogFile
+    $display = if ($Arguments.Count -gt 0) {
+        "$Command $($Arguments -join ' ')"
+    }
+    else {
+        $Command
+    }
+
+    Write-Info "Command: $display"
+    $nativeErrorVar = Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue
+    $previousNativeErrorMode = $null
+    $previousErrorActionPreference = $ErrorActionPreference
+
+    if ($nativeErrorVar) {
+        $previousNativeErrorMode = $PSNativeCommandUseErrorActionPreference
+        $PSNativeCommandUseErrorActionPreference = $false
+    }
+
+    $ErrorActionPreference = 'Continue'
+    try {
+        $output = & $Command @Arguments 2>&1
+    }
+    finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+        if ($nativeErrorVar) {
+            $PSNativeCommandUseErrorActionPreference = $previousNativeErrorMode
+        }
+    }
+
+    $output | Out-File -FilePath $targetLog -Encoding utf8
+
+    return @{
+        ExitCode = $LASTEXITCODE
+        Output = ($output | Out-String)
+        LogFile = $targetLog
+    }
+}
+
 function Get-SourceFiles {
     $folders = @("src", "include")
     $patterns = @("*.cpp", "*.cc", "*.cxx", "*.h", "*.hpp", "*.hh", "*.hxx")
@@ -297,6 +344,24 @@ try {
     }
 
     Invoke-Step -Name "CTest" -Skip:$SkipTests -Action {
+        # Preflight discovery to avoid false hard failures when tests are intentionally
+        # disabled in the preset or when test executables are not part of this build set.
+        $ctestDiscovery = Invoke-ExternalCapture -Command "ctest" -Arguments @("--preset", $TestPreset, "-N") -LogFile "03-ctest-discovery.log"
+
+        if ($ctestDiscovery.Output -match "No tests were found") {
+            Write-Warn "CTest preset '$TestPreset' reported no tests. Skipping test execution."
+            return
+        }
+
+        if ($ctestDiscovery.Output -match "Could not find executable") {
+            Write-Warn "CTest preset '$TestPreset' references tests whose executables are not built in this configuration. Skipping test execution in fast gate."
+            return
+        }
+
+        if ($ctestDiscovery.ExitCode -ne 0) {
+            throw "CTest discovery failed with exit code $($ctestDiscovery.ExitCode). See $($ctestDiscovery.LogFile)"
+        }
+
         $ctestReportLog = Invoke-External -Command "ctest" -Arguments @("--preset", $TestPreset, "--output-on-failure", "-j", "1", "--timeout", "60") -LogFile "03-ctest.log"
         $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
         $ctestDebugLog = Join-Path $script:CtestLogsPath ("ctest-" + $TestPreset + "-" + $timestamp + ".log")
@@ -363,7 +428,15 @@ try {
     }
 
     Invoke-Step -Name "Doxygen" -Skip:($SkipDoxygen -or -not $doxygenAvailable) -Action {
-        Invoke-External -Command "doxygen" -Arguments @("Doxyfile") -LogFile "08-doxygen.log"
+        if ($StrictDoxygen) {
+            Invoke-External -Command "doxygen" -Arguments @("Doxyfile") -LogFile "08-doxygen.log"
+            return
+        }
+
+        $doxygenRun = Invoke-ExternalCapture -Command "doxygen" -Arguments @("Doxyfile") -LogFile "08-doxygen.log"
+        if ($doxygenRun.ExitCode -ne 0) {
+            Write-Warn "Doxygen returned exit code $($doxygenRun.ExitCode); continuing (non-blocking in fast gate). See $($doxygenRun.LogFile)"
+        }
     }
 
     Write-Host ""

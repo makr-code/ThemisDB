@@ -37,6 +37,11 @@ class VcpkgLicenseAuditTests(unittest.TestCase):
         self.assertTrue(audit.evaluate_platform_expression("linux | osx", {"linux", "x64"}))
         self.assertFalse(audit.evaluate_platform_expression("windows & !uwp", {"linux", "x64"}))
 
+    def test_repo_manifest_requires_builtin_baseline(self) -> None:
+        manifest = json.loads((REPO_ROOT / "vcpkg.json").read_text(encoding="utf-8"))
+        self.assertIn("builtin-baseline", manifest)
+        self.assertRegex(manifest["builtin-baseline"], r"^[0-9a-f]{40}$")
+
     def test_dependency_walk_includes_default_and_feature_dependencies(self) -> None:
         manifest = {
             "builtin-baseline": "test-baseline",

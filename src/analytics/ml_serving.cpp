@@ -45,7 +45,9 @@
 #include "analytics/ml_serving.h"
 
 #include <algorithm>
+#include <atomic>
 #include <chrono>
+#include <future>
 #include <mutex>
 #include <shared_mutex>
 #include <spdlog/spdlog.h>
@@ -64,7 +66,7 @@
 #endif
 
 // ─── TF Serving HTTP client ────────────────────────────────────────────────
-#if defined(THEMIS_HAS_TF_SERVING) && defined(THEMIS_HAS_CURL)
+#if defined(THEMIS_HAS_TF_SERVING) && THEMIS_HAS_TF_SERVING && defined(THEMIS_HAS_CURL) && THEMIS_HAS_CURL
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #endif
@@ -245,7 +247,7 @@ bool ONNXServingBackend::isAvailable() const {
     return true; // ONNX Runtime linked at compile time
 }
 
-MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
+MLServingResponse ONNXServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
     Stopwatch sw;
     MLServingResponse resp;
 
@@ -370,7 +372,8 @@ bool ONNXServingBackend::isAvailable() const {
 
 MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
     spdlog::warn("MLServing[ONNX]: backend unavailable – rebuild with "
-                 "-DTHEMIS_HAS_ONNX=1 and install onnxruntime via vcpkg");
+                 "-DTHEMIS_HAS_ONNX=1 and install onnxruntime via vcpkg (requested model='{}')",
+                 req.model_name);
     MLServingResponse resp;
     resp.status        = MLServingStatus::UNAVAILABLE;
     resp.error_message = "ONNX Runtime backend not compiled in. "
@@ -384,7 +387,7 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
 // TFServingBackend – Impl
 // ============================================================================
 
-#if defined(THEMIS_HAS_TF_SERVING) && defined(THEMIS_HAS_CURL)
+#if defined(THEMIS_HAS_TF_SERVING) && THEMIS_HAS_TF_SERVING && defined(THEMIS_HAS_CURL) && THEMIS_HAS_CURL
 
 namespace {
 
@@ -426,6 +429,20 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         return resp;
     }
 
+    const std::string &base_url = impl_->config.base_url;
+    const bool is_http = base_url.rfind("http://", 0) == 0;
+    if (is_http && !impl_->config.allow_insecure_transport) {
+        resp.status        = MLServingStatus::INVALID_INPUT;
+        resp.error_message
+            = "Insecure TF Serving transport blocked: HTTP requires allow_insecure_transport=true";
+        spdlog::warn("MLServing[TF]: blocked insecure transport for model '{}' (base_url={})", req.model_name, base_url);
+        return resp;
+    }
+    if (is_http && !impl_->config.verify_ssl) {
+        spdlog::warn("MLServing[TF]: insecure HTTP with TLS verification disabled for model '{}' (base_url={})",
+                     req.model_name, base_url);
+    }
+
     // Build JSON payload: { "inputs": { "<name>": [[...]] } }
     json payload;
     json inputs_json = json::object();
@@ -442,7 +459,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     spdlog::debug("MLServing[TF]: prepared payload for model '{}': {} bytes", req.model_name, json_body.size());
 
     // Build URL
-    std::string url = impl_->config.base_url + "/v1/models/" + req.model_name;
+    std::string url = base_url + "/v1/models/" + req.model_name;
     if (!req.model_version.empty()) {
         url += "/versions/" + req.model_version;
     }
@@ -565,7 +582,7 @@ TFServingBackend::TFServingBackend(const TFServingConfig &config) : impl_(std::m
 TFServingBackend::~TFServingBackend() = default;
 
 std::string TFServingBackend::backendName() const {
-#if !defined(THEMIS_HAS_CURL)
+#if !defined(THEMIS_HAS_CURL) || !THEMIS_HAS_CURL
     return "TF Serving (unavailable – rebuild with THEMIS_HAS_CURL=1)";
 #else
     return "TF Serving (unavailable – rebuild with THEMIS_HAS_TF_SERVING=1)";
@@ -577,7 +594,7 @@ bool TFServingBackend::isAvailable() const {
 }
 
 MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest &req) {
-#if !defined(THEMIS_HAS_CURL)
+#if !defined(THEMIS_HAS_CURL) || !THEMIS_HAS_CURL
     spdlog::warn("MLServing[TF]: libcurl not compiled in – "
                  "rebuild with THEMIS_HAS_CURL=1");
     const char *msg = "TF Serving backend requires libcurl. "
@@ -603,8 +620,11 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
 struct MLServingClient::Impl {
     std::unique_ptr<IMLServingBackend> backend;
     MLBackendType requested_type;
+    MLServingConfig config;
+    /// In-flight request counter, used by the BoundedExecutionPolicy enforcement.
+    std::atomic<uint32_t> inflight_count{0u};
 
-    Impl(const MLServingConfig &cfg) : requested_type(cfg.backend) {
+    Impl(const MLServingConfig &cfg) : requested_type(cfg.backend), config(cfg) {
         switch (cfg.backend) {
             case MLBackendType::ONNX_RUNTIME:
                 backend = std::make_unique<ONNXServingBackend>(cfg.onnx_config);
@@ -657,6 +677,76 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req) {
         resp.error_message = "No backend configured";
         return resp;
     }
+    // Apply the per-client default policy when configured (non-zero limits).
+    if (impl_->config.default_policy.isConstrained()) {
+        return infer(req, impl_->config.default_policy);
+    }
+    return impl_->backend->infer(req);
+}
+
+MLServingResponse MLServingClient::infer(const MLServingRequest &req,
+                                         const ::themis::analytics::BoundedExecutionPolicy &policy) {
+    if (!impl_->backend) {
+        MLServingResponse resp;
+        resp.status        = MLServingStatus::UNAVAILABLE;
+        resp.error_message = "No backend configured";
+        return resp;
+    }
+
+    // Fast path: no limits declared.
+    if (!policy.isConstrained()) {
+        return impl_->backend->infer(req);
+    }
+
+    // ── Concurrency enforcement ──────────────────────────────────────────────
+    if (policy.max_concurrent_requests > 0u) {
+        uint32_t concurrent_snapshot = impl_->inflight_count.load(std::memory_order_relaxed);
+        while (true) {
+            if (concurrent_snapshot >= policy.max_concurrent_requests) {
+                MLServingResponse resp;
+                resp.status        = MLServingStatus::POLICY_REJECTED;
+                resp.error_message = "BoundedExecutionPolicy: max_concurrent_requests ("
+                                     + std::to_string(policy.max_concurrent_requests)
+                                     + ") exceeded (current=" + std::to_string(concurrent_snapshot) + ")";
+                spdlog::warn("MLServingClient::infer: request rejected by BoundedExecutionPolicy "
+                             "(max_concurrent_requests={}, current={})",
+                             policy.max_concurrent_requests, concurrent_snapshot);
+                return resp;
+            }
+            if (impl_->inflight_count.compare_exchange_weak(
+                    concurrent_snapshot, concurrent_snapshot + 1u, std::memory_order_acq_rel,
+                    std::memory_order_relaxed)) {
+                break;
+            }
+        }
+    } else {
+        impl_->inflight_count.fetch_add(1u, std::memory_order_acq_rel);
+    }
+
+    // Track in-flight count with RAII guard.
+    struct Guard {
+        std::atomic<uint32_t> &counter;
+        ~Guard() { counter.fetch_sub(1u, std::memory_order_acq_rel); }
+    } guard{impl_->inflight_count};
+
+    // ── Timeout enforcement ──────────────────────────────────────────────────
+    if (policy.max_latency_ms > 0u) {
+        auto fut = std::async(std::launch::async, [this, req]() {
+            return impl_->backend->infer(req);
+        });
+        const auto deadline = std::chrono::milliseconds(policy.max_latency_ms);
+        if (fut.wait_for(deadline) == std::future_status::timeout) {
+            MLServingResponse resp;
+            resp.status        = MLServingStatus::TIMEOUT;
+            resp.error_message = "BoundedExecutionPolicy: inference did not complete within "
+                                 + std::to_string(policy.max_latency_ms) + " ms";
+            spdlog::warn("MLServingClient::infer: request timed out after {} ms (policy deadline)",
+                         policy.max_latency_ms);
+            return resp;
+        }
+        return fut.get();
+    }
+
     return impl_->backend->infer(req);
 }
 
@@ -718,6 +808,10 @@ std::string mlServingStatusName(MLServingStatus status) {
             return "INVALID_INPUT";
         case MLServingStatus::BACKEND_ERROR:
             return "BACKEND_ERROR";
+        case MLServingStatus::TIMEOUT:
+            return "TIMEOUT";
+        case MLServingStatus::POLICY_REJECTED:
+            return "POLICY_REJECTED";
         default:
             return "UNKNOWN";
     }

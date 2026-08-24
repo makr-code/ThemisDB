@@ -512,11 +512,11 @@ TEST_F(ResourcePoolingTest, RP_13_TimeoutPreventsIndefiniteWait) {
     auto [err1, conn1] = pool.acquire();
 
     // Simulate timeout-aware acquire
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
     auto timeout = std::chrono::milliseconds(100);
     
     auto [err2, conn2] = pool.acquire();
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
+    auto elapsed = std::chrono::steady_clock::now() - start;
 
     // Verify: Attempt made quickly (not indefinite wait)
     EXPECT_EQ(err2, PoolErrorCode::POOL_EXHAUSTED);

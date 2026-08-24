@@ -1,11 +1,11 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-08-19
+Datum: 2026-08-24
 Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `0b8ff1617bde68e7`
+- Hash: `4e1fceca512891bd`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -23,7 +23,7 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `9945e1949bee17d9`
+- Hash: `5e8ed9316a5ca8e5`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - > Status: Active
@@ -32,7 +32,7 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `05ed002cb9a87071`
+- Hash: `0cd8fec433cf5b0a`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -95,7 +95,7 @@ Status: Active
 
 ## ai_context/DEVELOPER_LLM_WIKI_FRAMEWORK.md
 - Kategorie: governance_and_docs
-- Hash: `a413bc90e0f5cbdb`
+- Hash: `645c2b94dcccd046`
 - Titel: Developer LLM Wiki Framework (ThemisDB)
 - Auszug:
   - Datum: 2026-08-12
@@ -194,7 +194,7 @@ Status: Active
 
 ## ai_context/MODULES_AND_NAMESPACES.md
 - Kategorie: governance_and_docs
-- Hash: `535d76a0862987a3`
+- Hash: `56c77ac57e84cbff`
 - Titel: Modules & Namespaces Overview
 - Auszug:
   - **Datum:** 2026-08-03
@@ -327,50 +327,59 @@ Status: Active
   - **Status:** Active
   - **Module:** transaction (Coordinator, 2PC/3PC/SAGA patterns)
 
+## ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md
+- Kategorie: governance_and_docs
+- Hash: `41f3f76355f52007`
+- Titel: Developer LLM Wiki -- Canonical AI Metadata and Provenance
+- Auszug:
+  - Datum: 2026-08-21
+  - Status: Active
+  - Bezug: ThemisDB-weites Provenienz- und Degradationsmodell fuer menschliche, hybride und LLM-synthetische Inhalte
+
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `501cca75266fbb75`
+- Hash: `9b34be8b84cce20f`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-08-19
+  - Datum: 2026-08-24
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `75dd660c181a0761`
+- Hash: `f332c6c4e7169fff`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
-  - Datum: 2026-08-12
+  - Datum: 2026-08-19
   - Status: Active
-  - - Kategorie: governance_and_docs
+  - - Die kanonische ThemisDB-weite Provenienz- und Degradationslogik ist in AI_METADATA_AND_PROVENANCE.md (AI_METADATA_AND_PROVENANCE.md) definiert.
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `90b6891cf7f93654`
+- Hash: `9c54e156d93796ec`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-08-19
+  - Datum: 2026-08-24
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `22ba7d663316dc33`
+- Hash: `dfe7013b480f1aeb`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-08-19
+  - Datum: 2026-08-24
   - Status: Active
   - - Kategorie: modules_and_api
 
 ## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `8c99c7e62b18fedb`
+- Hash: `03c9da11ae438680`
 - Titel: Developer LLM Wiki — Delta Report
 - Auszug:
-  - Datum: 2026-08-12
+  - Datum: 2026-08-19
   - Status: Active
-  - - Added: 6262
+  - - Added: 6447
 
 ## ai_context/memory_management_policy.md
 - Kategorie: governance_and_docs
@@ -389,6 +398,15 @@ Status: Active
   - Stand: 2026-08-12
   - Status: aktiv gepflegt
   - Diese Uebersicht verlinkt nur auf stabile Einstiegsseiten und reduziert Root-Rauschen.
+
+## docs/API_TRANSPORT_RUNBOOK.md
+- Kategorie: governance_and_docs
+- Hash: `aeccbb6a8a2f6852`
+- Titel: API Transport Operations Runbook
+- Auszug:
+  - **ThemisDB API Transport Critical-Path Operations Guide**
+  - Version: 1.0
+  - Last Updated: 2026-08-19
 
 ## docs/ARCHIVED/README.md
 - Kategorie: governance_and_docs
@@ -704,21 +722,3 @@ Status: Active
   - Dieses Dokument zeigt, wie ein Bauamt-Shard seine Capabilities an das ThemisDB-Routing-System mitteilt. Die Mitteilung erfolgt als **fortschreibendes YAML-Dokument**, das kontinuierlich aktualisiert wird.
   - ```
   - ┌─────────────────────────────────────────────────────────────┐
-
-## docs/ARCHIVED/implementation-summaries/CDC_100_PERCENT_COMPLETE.md
-- Kategorie: governance_and_docs
-- Hash: `d6c7ffb6151636d0`
-- Titel: CDC Module: 100% Production Ready
-- Auszug:
-  - **ThemisDB Change Data Capture - Complete Implementation Report**
-  - Version: 2.0 (Final)
-  - Date: 2026-02-20
-
-## docs/ARCHIVED/implementation-summaries/CDC_COMPLETE_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `242f76ef29e1fd19`
-- Titel: CDC Module - Complete Implementation Summary
-- Auszug:
-  - The CDC (Change Data Capture) module has been successfully upgraded from **< 50%** to **90% production ready** through comprehensive implementation of P0 and P1 features across multiple sessions.
-  - ---
-  - **Total Commits**: 19

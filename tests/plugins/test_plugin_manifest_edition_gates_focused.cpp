@@ -28,6 +28,27 @@ inline int unsetenv(const char* name) {
 using namespace themis::plugins;
 using json = nlohmann::json;
 
+namespace themis::plugins {
+
+struct PluginManagerTestAccess {
+    static ManifestErrorCode validateManifestPublicPrivateBoundary(
+        PluginManager& manager,
+        const PluginManifest& manifest,
+        const std::string& plugin_path,
+        std::string& error_details) {
+        return manager.validateManifestPublicPrivateBoundary(manifest, plugin_path, error_details);
+    }
+
+    static ManifestErrorCode validateManifestEditionRestrictions(
+        PluginManager& manager,
+        const PluginManifest& manifest,
+        std::string& error_details) {
+        return manager.validateManifestEditionRestrictions(manifest, error_details);
+    }
+};
+
+} // namespace themis::plugins
+
 // Helper: Normalize edition name (case-insensitive)
 static inline std::string normalizeEditionName(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(),
@@ -65,12 +86,12 @@ TEST_F(PluginManifestEditionGatesTest, TEST_1_PrivatePluginInCommunityEdition) {
     auto manifest = createBaseManifest("private_plugin", "private");
     std::string error;
     
-    auto result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/plugins/private_plugin.so", error);
+    auto result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/plugins/private_plugin.so", error);
     
     // Should fail in community edition
     // Note: Only fails if current edition is community
-    if (normalizeEditionName(std::string(edition::EDITION_STRING)) == "community") {
+    if (normalizeEditionName(std::string(themis::edition::EDITION_STRING)) == "community") {
         EXPECT_EQ(result, ManifestErrorCode::PLUGIN_PRIVATE_IN_COMMUNITY);
         EXPECT_FALSE(error.empty());
     }
@@ -85,9 +106,9 @@ TEST_F(PluginManifestEditionGatesTest, TEST_2_EnterpriseOnlyPluginInCommunity) {
         "");
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     
-    if (normalizeEditionName(std::string(edition::EDITION_STRING)) == "community") {
+    if (normalizeEditionName(std::string(themis::edition::EDITION_STRING)) == "community") {
         EXPECT_EQ(result, ManifestErrorCode::PLUGIN_EDITION_MISMATCH);
         EXPECT_NE(error.find("not allowed"), std::string::npos);
     }
@@ -102,7 +123,7 @@ TEST_F(PluginManifestEditionGatesTest, TEST_3_MissingLicenseFeature) {
         "premium_connector");
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     
     // Assuming the license feature is not granted in test environment
     // This test documents the expected fail-closed behavior
@@ -119,9 +140,9 @@ TEST_F(PluginManifestEditionGatesTest, TEST_4_PublicPluginOnAnyEdition) {
         "");
     std::string error;
     
-    auto edition_result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
-    auto boundary_result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/plugins/public_plugin.so", error);
+    auto edition_result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
+    auto boundary_result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/plugins/public_plugin.so", error);
     
     EXPECT_EQ(edition_result, ManifestErrorCode::MANIFEST_OK);
     EXPECT_EQ(boundary_result, ManifestErrorCode::MANIFEST_OK);
@@ -138,14 +159,14 @@ TEST_F(PluginManifestEditionGatesTest, TEST_5_RestrictedPluginWithContext) {
     
     // First, try WITHOUT context
     unsetenv("THEMISDB_SCOPED_CHECKOUT");
-    auto result_without = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/plugins/restricted_plugin.so", error);
+    auto result_without = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/plugins/restricted_plugin.so", error);
     EXPECT_EQ(result_without, ManifestErrorCode::PLUGIN_RESTRICTED_NO_CONTEXT);
     
     // Then, try WITH context
     setenv("THEMISDB_SCOPED_CHECKOUT", "true", 1);
-    auto result_with = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/plugins/restricted_plugin.so", error);
+    auto result_with = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/plugins/restricted_plugin.so", error);
     EXPECT_EQ(result_with, ManifestErrorCode::MANIFEST_OK);
     
     unsetenv("THEMISDB_SCOPED_CHECKOUT");
@@ -183,7 +204,7 @@ TEST_F(PluginManifestEditionGatesTest, TEST_7_InvalidLicenseFeatureName) {
         "INVALID-FEATURE");  // Uppercase not allowed; must match ^[a-z0-9][a-z0-9_.-]*$
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     EXPECT_EQ(result, ManifestErrorCode::PLUGIN_LICENSE_FEATURE_INVALID);
 }
 
@@ -194,8 +215,8 @@ TEST_F(PluginManifestEditionGatesTest, TEST_8a_PrivatePathPublicVisibility) {
         "public");  // visibility is public but path indicates private
     std::string error;
     
-    auto result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/path/to/private/plugin.so", error);
+    auto result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/path/to/private/plugin.so", error);
     
     EXPECT_EQ(result, ManifestErrorCode::PLUGIN_PATH_VISIBILITY_MISMATCH);
 }
@@ -207,11 +228,11 @@ TEST_F(PluginManifestEditionGatesTest, TEST_8b_PrivatePathPrivateVisibility) {
         "private");
     std::string error;
     
-    auto result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/path/to/private/plugin.so", error);
+    auto result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/path/to/private/plugin.so", error);
     
     // Should pass boundary check when visibility matches path
-    if (normalizeEditionName(std::string(edition::EDITION_STRING)) != "community") {
+    if (normalizeEditionName(std::string(themis::edition::EDITION_STRING)) != "community") {
         EXPECT_EQ(result, ManifestErrorCode::MANIFEST_OK);
     }
 }
@@ -223,8 +244,8 @@ TEST_F(PluginManifestEditionGatesTest, TEST_8c_WindowsPrivatePathMismatch) {
         "public");
     std::string error;
     
-    auto result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "C:\\path\\private\\plugin.dll", error);
+    auto result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "C:\\path\\private\\plugin.dll", error);
     
     EXPECT_EQ(result, ManifestErrorCode::PLUGIN_PATH_VISIBILITY_MISMATCH);
 }
@@ -237,8 +258,8 @@ TEST_F(PluginManifestEditionGatesTest, TEST_8d_RestrictedWithoutScopedContext) {
     std::string error;
     
     unsetenv("THEMISDB_SCOPED_CHECKOUT");
-    auto result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/plugins/restricted.so", error);
+    auto result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/plugins/restricted.so", error);
     
     EXPECT_EQ(result, ManifestErrorCode::PLUGIN_RESTRICTED_NO_CONTEXT);
 }
@@ -252,9 +273,9 @@ TEST_F(PluginManifestEditionGatesTest, TEST_9_SelectiveEditionAllowance) {
         "");
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     
-    const auto current = normalizeEditionName(std::string(edition::EDITION_STRING));
+    const auto current = normalizeEditionName(std::string(themis::edition::EDITION_STRING));
     if (current == "community" || current == "hyperscaler" || current == "military") {
         EXPECT_EQ(result, ManifestErrorCode::PLUGIN_EDITION_MISMATCH);
     } else if (current == "minimal" || current == "enterprise") {
@@ -271,7 +292,7 @@ TEST_F(PluginManifestEditionGatesTest, TEST_10_ValidLicenseFeatureFormat) {
         "valid_feature_123");  // Matches ^[a-z0-9][a-z0-9_.-]*$
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     
     // Should pass format validation (may fail on license gate availability)
     EXPECT_TRUE(result == ManifestErrorCode::MANIFEST_OK ||
@@ -289,10 +310,10 @@ TEST_F(PluginManifestEditionGatesTest, TEST_11_EditionCaseInsensitive) {
     manifest.allowed_editions = {"Community", "ENTERPRISE"};
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     
     // After normalization, "Community" should match current edition if community
-    if (normalizeEditionName(std::string(edition::EDITION_STRING)) == "community") {
+    if (normalizeEditionName(std::string(themis::edition::EDITION_STRING)) == "community") {
         EXPECT_EQ(result, ManifestErrorCode::MANIFEST_OK);
     }
 }
@@ -307,13 +328,13 @@ TEST_F(PluginManifestEditionGatesTest, TEST_12_CombinedValidation) {
     std::string error1, error2;
     
     // Both checks should be performed independently
-    auto edition_result = plugin_manager.validateManifestEditionRestrictions(manifest, error1);
-    auto boundary_result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/plugins/private/complex.so", error2);
+    auto edition_result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error1);
+    auto boundary_result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/plugins/private/complex.so", error2);
     
     // Results depend on current edition and license state
     // But we verify both methods complete and may return errors
-    if (normalizeEditionName(std::string(edition::EDITION_STRING)) == "community") {
+    if (normalizeEditionName(std::string(themis::edition::EDITION_STRING)) == "community") {
         EXPECT_EQ(boundary_result, ManifestErrorCode::PLUGIN_PRIVATE_IN_COMMUNITY);
     }
 }
@@ -327,7 +348,7 @@ TEST_F(PluginManifestEditionGatesTest, TEST_13_EmptyAllowedEditionsAllowsAll) {
         "");
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     EXPECT_EQ(result, ManifestErrorCode::MANIFEST_OK);
 }
 
@@ -340,7 +361,7 @@ TEST_F(PluginManifestEditionGatesTest, TEST_14_LicenseFeatureSpecialChars) {
         "feature-with.underscores_and-dashes");  // Valid format
     std::string error;
     
-    auto result = plugin_manager.validateManifestEditionRestrictions(manifest, error);
+    auto result = PluginManagerTestAccess::validateManifestEditionRestrictions(plugin_manager, manifest, error);
     
     // Should pass format validation
     EXPECT_TRUE(result == ManifestErrorCode::MANIFEST_OK ||
@@ -372,15 +393,11 @@ TEST_F(PluginManifestEditionGatesTest, TEST_16_VisibilityDefaultsToPublic) {
     auto manifest = createBaseManifest("visibility_default", "");  // Empty string for visibility
     std::string error;
     
-    auto result = plugin_manager.validateManifestPublicPrivateBoundary(
-        manifest, "/plugins/default.so", error);
+    auto result = PluginManagerTestAccess::validateManifestPublicPrivateBoundary(
+        plugin_manager, manifest, "/plugins/default.so", error);
     
     // Should treat empty as public and pass
     EXPECT_EQ(result, ManifestErrorCode::MANIFEST_OK);
 }
 
 // Run all tests
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

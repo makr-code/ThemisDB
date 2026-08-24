@@ -1,0 +1,1363 @@
+# ThemisDB RAG Golden Dataset
+# ─────────────────────────────────────────────────────────────────────────────
+# Format:
+#   id                   — unique test identifier (RAG-GD-NNN)
+#   category             — thematic grouping
+#   question             — natural-language retrieval query
+#                          RULE: must NOT contain any expected_keyword
+#   expected_keywords    — list of strings; at least one must appear in Top-5
+#                          RULE: keywords are specific terms from source document
+#   expected_source_hint — optional source/doc_id hint (case-insensitive)
+#   knowledge_level      — one of: general | specific | specialized
+#   rarity_tier          — required "rare" for knowledge_level=specialized
+#   min_recall_score     — minimum fraction [0..1] for Recall@5 gate
+#   source_document      — relative path from repository root (governance)
+#   source_section       — heading/section where the fact was extracted
+#   indexed_at           — ISO date when source document was processed
+#
+# Hard gates:
+#   - Minimum size: >= 110 entries
+#   - Distribution: 20% general / 30% specific / 50% specialized (±3%)
+#   - Question policy: question text must not contain any expected_keyword
+#   - Provenance: source_document, source_section, indexed_at required
+# Acceptance gates:
+#   - RAG-08 keyword hit in Top-5
+#   - RAG-09 overall Recall@5 >= 0.80
+#   - RAG-10 source hint gate
+#   - RAG-11 latency median gate
+#   - RAG-12 dataset schema/size/distribution/provenance guard
+
+version: 3
+dataset_name: themisdb_rag_golden_dataset
+created: "2026-08-24"
+description: >
+  Scientific golden dataset for ThemisDB RAG quality gating.
+  v3: questions never contain expected_keywords; every entry carries
+  source_document/source_section/indexed_at provenance for governance.
+  Facts derived from actual repository documentation (docs/, src/*/ROADMAP.md).
+target_min_entries: 110
+target_distribution: {general: 0.20, specific: 0.30, specialized: 0.50}
+specialized_policy: rare_non_generic_mandatory
+question_policy: keywords_must_not_appear_in_question
+
+entries:
+
+  - id: RAG-GD-001
+    category: build-system
+    question: "What shared directory does every CMake build configuration in ThemisDB use to avoid reinstalling packages for each target?"
+    expected_keywords: [vcpkg_installed, x64-linux, x64-windows, arm64-linux]
+    expected_source_hint: BUILD_PRESETS
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_PRESETS.md
+    source_section: Shared vcpkg Installation
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-002
+    category: attention
+    question: "How does ThemisDB's memory-efficient attention avoid storing the full affinity matrix by processing data in cache-fitting tiles?"
+    expected_keywords: [online softmax, tiled computation, kernel fusion, I/O optimal]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Kernel Fusion
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-003
+    category: attention
+    question: "Which hardware compute APIs does the multi-backend attention in ThemisDB support in addition to NVIDIA proprietary interfaces?"
+    expected_keywords: [Vulkan, HIP, ROCm, CPU]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: "Key Features > Multi-Backend Support"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-004
+    category: training
+    question: "Which gradient aggregation methods does the distributed adapter fine-tuning coordinator offer for synchronising updates across cluster nodes?"
+    expected_keywords: [all_reduce, parameter_server, ring_all_reduce, gradient_accumulation_steps]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: Gradient Synchronization Strategies
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-005
+    category: sharding
+    question: "What distributed commit protocol does ThemisDB use to guarantee that writes are applied atomically across all participating database shards?"
+    expected_keywords: [Two-Phase Commit, 2PC, TrueTime, ACID]
+    expected_source_hint: DISTRIBUTED_TRANSACTIONS
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/DISTRIBUTED_TRANSACTIONS.md
+    source_section: Overview
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-006
+    category: sharding
+    question: "What percentage readiness has the retrieval path that spans more than one shard reached in the current hybrid rollout plan?"
+    expected_keywords: [35%, Phase B, thread-safety]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: Current Status
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-007
+    category: build-system
+    question: "How much disk space does the documentation state is saved by sharing one package installation directory rather than copying per build configuration?"
+    expected_keywords: [10-20 GB, vcpkg_installed, per-build]
+    expected_source_hint: BUILD_PRESETS
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_PRESETS.md
+    source_section: Shared vcpkg Installation
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-008
+    category: build-system
+    question: "Which C++ compiler package names must be installed on Ubuntu to satisfy the ThemisDB build prerequisites?"
+    expected_keywords: [gcc-11, g++-11, build-essential]
+    expected_source_hint: BUILD_LINUX
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_LINUX.md
+    source_section: Ubuntu 20.04+ / Debian 11+
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-009
+    category: roadmap
+    question: "What numbered phases structure the delivery workflow applied to every module in ThemisDB?"
+    expected_keywords: [Phase 1, Phase 2, Phase 3, Phase 4, Phase 5]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Implementation Phases
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-010
+    category: adapter
+    question: "Which class replaced the single-adapter manager that was declared obsolete and then deleted, and in which header does it reside?"
+    expected_keywords: [MultiLoRAManager, multi_lora_manager.h, vLLM-style]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-011
+    category: retrieval
+    question: "What three scoring algorithms does the wiki index store combine when returning ranked results for a query?"
+    expected_keywords: [BM25, HNSW, RRF]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Wiki Secondary Index
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-012
+    category: evaluation
+    question: "What ratio across the three knowledge tiers is enforced by the RAG quality gate for the curated evaluation set?"
+    expected_keywords: [20%, 30%, 50%, specialized, general, specific]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: RAG-12 gate
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-013
+    category: sharding
+    question: "What graph-based algorithm does ThemisDB employ to detect and break deadlocks among distributed transaction participants?"
+    expected_keywords: [Wait-For Graph, victim abort, deadlock detection, cycle detection]
+    expected_source_hint: DISTRIBUTED_TRANSACTIONS
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/DISTRIBUTED_TRANSACTIONS.md
+    source_section: Key Features
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-014
+    category: api
+    question: "Which three application-level protocols does the ThemisDB network transport layer expose to connecting clients?"
+    expected_keywords: [GraphQL, gRPC, WebSocket, /ws, ":50051"]
+    expected_source_hint: API_TRANSPORT_RUNBOOK
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/API_TRANSPORT_RUNBOOK.md
+    source_section: Transport Critical Paths
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-015
+    category: build-system
+    question: "What is the minimum version of the cross-platform build generator required to configure a ThemisDB project?"
+    expected_keywords: [3.20, cmake --version]
+    expected_source_hint: BUILD_LINUX
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_LINUX.md
+    source_section: "CMake >= 3.20"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-016
+    category: cdc
+    question: "What seven failure classes are defined in the CDC transport failure taxonomy?"
+    expected_keywords: [Transient, BackendUnreachable, AuthFailure, PayloadInvalid, BackpressureRequired, DuplicateEvent, InternalError]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 1 > Phase 1 Design"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-017
+    category: inference
+    question: "How does the continuous batch scheduler verify that sufficient memory blocks are available before admitting a new inference request?"
+    expected_keywords: [blocks_free, blocks_needed, ceiling division, block_size_tokens]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Block Availability Check
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-018
+    category: retrieval
+    question: "What is the default number of chunks processed per ingest batch when streaming documents into the wiki index?"
+    expected_keywords: [batch_size, 32, WikiIndexConfig, WriteBatch]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-019
+    category: evaluation
+    question: "What recall fraction and per-query time budget must the wiki index retrieval satisfy in its quality-gate unit tests?"
+    expected_keywords: ["Recall@5", 80%, 200 ms, max_chunks]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Test coverage
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-020
+    category: build-system
+    question: "What command-line option passed to the package manager bootstrap script disables anonymous telemetry collection?"
+    expected_keywords: [bootstrap-vcpkg.sh, -disableMetrics]
+    expected_source_hint: BUILD_LINUX
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_LINUX.md
+    source_section: vcpkg Setup
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-021
+    category: inference
+    question: "What is the allocation strategy used when creating a KV-cache block table for a request that has just entered the prefill stage?"
+    expected_keywords: [lazy allocation, BlockTable, sequence_id, placeholder]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Block Allocation
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-022
+    category: sharding
+    question: "What method on ThemisDB's global timestamp service does the coordinator call to hold off completing a transaction until the assigned time is provably past?"
+    expected_keywords: [now().latest, waitUntil, commit_time, truetime_]
+    expected_source_hint: DISTRIBUTED_TRANSACTIONS
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/DISTRIBUTED_TRANSACTIONS.md
+    source_section: TrueTime Integration
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-023
+    category: inference
+    question: "What is the KV-cache block token capacity that must be kept consistent between the paged cache and the scheduler configuration?"
+    expected_keywords: [block_size_tokens, 16, PagedKVCache]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Configuration
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-024
+    category: gpu-memory
+    question: "At what threshold does the GPU memory manager invoke its cache compaction routine?"
+    expected_keywords: [fragmentation_rate, 0.15, 15, defragment]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Pitfall 2: Ignoring Fragmentation"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-025
+    category: gpu-memory
+    question: "What out-of-memory event rate per request is the alerting threshold documented in the GPU monitoring guidelines?"
+    expected_keywords: [oom_rate, 0.01, 1%]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: Common Pitfalls
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-026
+    category: gpu-memory
+    question: "What percentage of memory savings does the prompt-sharing optimisation technique provide according to the GPU best-practices guide?"
+    expected_keywords: [prefix caching, 30-50%, shared prompts]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Do's and Don'ts"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-027
+    category: inference
+    question: "What request grouping size is documented as optimal for maximising model serving throughput?"
+    expected_keywords: [8-16, batch requests, continuous batching]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Do's and Don'ts > Performance"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-028
+    category: search
+    question: "What p99 latency ceiling is defined for the hybrid dispatch benchmark gate across a hundred-shard topology with ten thousand candidates?"
+    expected_keywords: [SRCP-1, 16.5, p99]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-029
+    category: search
+    question: "What minimum throughput must the result merge benchmark gate sustain when aggregating across sixty-four shards?"
+    expected_keywords: [45K, results/sec, merge throughput]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-030
+    category: search
+    question: "What maximum overhead in milliseconds is allowed for the result re-ordering benchmark gate when the language-model fallback path is active?"
+    expected_keywords: [5.5, reranking overhead]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-031
+    category: search
+    question: "What version string is recorded for the frozen API contract of the primary single-node hybrid search component?"
+    expected_keywords: [HybridSearch v2.0.0, frozen contract, SearchResultStream v2.0.0]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-032
+    category: search
+    question: "How many error codes and how many categories are defined in the search module error taxonomy header?"
+    expected_keywords: [32 error codes, 5 categories, search_error_codes.h]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-033
+    category: sharding
+    question: "What was the original count of detected thread-safety defects across shard boundaries and what was the remaining target after partial remediation?"
+    expected_keywords: [340+, 102]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-034
+    category: sharding
+    question: "What canonical mutex priority order is documented for the dual-consensus orchestrator class?"
+    expected_keywords: [state_mutex_, lock order, raft adapter]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-035
+    category: sharding
+    question: "How many GTest cases were delivered in the third Phase-6 sharding test file that exercises fault scenarios at scale?"
+    expected_keywords: [40, FI-01, test_sharding_p6_fault_injection]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-036
+    category: sharding
+    question: "Which test ID range exercises the scenario where shard-to-shard communication links are severed?"
+    expected_keywords: [FI-01, FI-15, network partition, test_sharding_p6_fault_injection]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-037
+    category: sharding
+    question: "What deterministic seed value is used across the sharding 2PC/3PC consistency and failover test suites?"
+    expected_keywords: [seed-42, seed=42, kShardContractSeed]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-01"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-038
+    category: cdc
+    question: "What maximum latency is allowed for the delivery-record tracking benchmark gate?"
+    expected_keywords: [CDG-01, trackDelivery, 500 µs]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-039
+    category: cdc
+    question: "What maximum latency is allowed for the single-event confirmation benchmark gate in the CDC module?"
+    expected_keywords: [CDG-02, acknowledge, 10 µs]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-040
+    category: cdc
+    question: "What maximum latency is allowed for the cumulative acknowledgement-up-to benchmark gate?"
+    expected_keywords: [CDG-03, acknowledgeUpTo, 200 µs]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-041
+    category: retrieval
+    question: "What wiki index configuration flag controls whether retrieved chunk embeddings are persisted to the storage backend?"
+    expected_keywords: [enable_persistent, WikiIndexConfig, fetchPersistedEmbedding]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-042
+    category: retrieval
+    question: "What configuration flag causes the index to determine the embedding vector size automatically on the first document write?"
+    expected_keywords: [auto_probe_dim, probeEmbeddingDim, dim_probed_]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-043
+    category: adapter
+    question: "What is the maximum number of simultaneously active adapter slots supported by the new multi-adapter configuration?"
+    expected_keywords: [max_lora_slots, 16, MultiLoRAManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: "Config Migration > New"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-044
+    category: adapter
+    question: "What time-to-live in seconds is the default for adapter expiry in the new multi-adapter configuration?"
+    expected_keywords: [lora_ttl, 1800, 30 min]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: "Config Migration > New"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-045
+    category: adapter
+    question: "What configuration field name in the new adapter manager expresses the maximum GPU memory budget for all loaded adapters?"
+    expected_keywords: [max_lora_vram_mb, max_memory_mb, VRAM limit]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-046
+    category: training
+    question: "Which gradient strategy has O(1) per-shard communication overhead and is recommended for clusters with more than eight nodes?"
+    expected_keywords: [ring_all_reduce, O(1), 8+ nodes, linear scaling]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: Ring All-Reduce
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-047
+    category: adapter
+    question: "In which product version was the original single-adapter manager class no longer available?"
+    expected_keywords: [v1.5.0, LoRAAdapterManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Removal Timeline
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-048
+    category: training
+    question: "What is the communication complexity per participating node for the balanced gradient averaging strategy, and which cluster sizes suit it best?"
+    expected_keywords: [all_reduce, O(N), 2-8 nodes]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: All-Reduce
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-049
+    category: retrieval
+    question: "What is the test ID range for the RocksDB-backed wiki index Phase-B integration test suite?"
+    expected_keywords: [test_wiki, phase b delivered]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-050
+    category: api
+    question: "On which port does ThemisDB's remote-procedure-call endpoint listen by default?"
+    expected_keywords: [gRPC, ":50051"]
+    expected_source_hint: API_TRANSPORT_RUNBOOK
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/API_TRANSPORT_RUNBOOK.md
+    source_section: Transport Critical Paths
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-051
+    category: search
+    question: "What quality ranking metric threshold does the advanced multimodal search benchmark require at top-10 depth?"
+    expected_keywords: [SRCP-ADV-1, "nDCG@10", 0.85, 20 ms]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: "Phase 5 > SRCP-ADV-1"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-052
+    category: search
+    question: "What is the total source line count of the search module implementations as stated in the build configuration audit?"
+    expected_keywords: ["5,223", 20 implementation]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Build Configuration Completion
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-053
+    category: gpu-memory
+    question: "What minimum percentage of total GPU memory must remain unallocated to avoid exhaustion according to the best-practices guide?"
+    expected_keywords: [10%, VRAM, safety margin]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Do's and Don'ts > Memory Management"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-054
+    category: sharding
+    question: "What canonical lock priority order is documented for the Raft consensus adapter, listing all four mutexes?"
+    expected_keywords: [state_mutex_, lock order, raft adapter]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-055
+    category: training
+    question: "What YAML field identifies which shard acts as the central orchestrator in a distributed fine-tuning job?"
+    expected_keywords: [coordinator_shard, lora_training]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: "Configuration > Basic Setup"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-056
+    category: sharding
+    question: "Which fault injection test IDs exercise the scenario where the transaction orchestrator process is terminated mid-protocol?"
+    expected_keywords: [FI-16, FI-25, coordinator failure, test_sharding_p6_fault_injection]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-057
+    category: sharding
+    question: "Which fault injection test IDs exercise scenarios where multiple components fail simultaneously or cascade?"
+    expected_keywords: [FI-26, FI-40, multi-failure]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-058
+    category: sharding
+    question: "Under what CTest label is the Phase-C gate test for retrieving data across more than one shard registered?"
+    expected_keywords: [ShardingMultiShardExactPhaseCGate, test_sharding_multishard_exact]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Phase C ctest gate"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-059
+    category: sharding
+    question: "Which function in the dual-consensus orchestrator was refactored to eliminate a deadlock during dual-mutex acquisition?"
+    expected_keywords: [grounding, scoped_lock, state_mutex_]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-060
+    category: sharding
+    question: "What two error states cause the shard coordinator to apply exponential delay before re-attempting the consensus re-join after a quorum failure?"
+    expected_keywords: [quorum loss, backoff, sync thread]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-061
+    category: search
+    question: "What is the maximum end-to-end latency allowed for the search term expansion benchmark gate across one thousand queries?"
+    expected_keywords: [55 ms, 1K queries]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-062
+    category: search
+    question: "What separate latency ceilings are specified for the accelerator path and the processor-only path in the hardware fallback benchmark gate?"
+    expected_keywords: [SRCP-4, 8.8, 11 ms, GPU]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-063
+    category: search
+    question: "What maximum stream-result flush time per one-thousand-element batch is required by the corresponding benchmark gate?"
+    expected_keywords: [stream flush, 11 ms, 1K batch]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-064
+    category: search
+    question: "What maximum overhead is allowed for the supervised rank-model benchmark gate in the advanced search test suite?"
+    expected_keywords: [SRCP-ADV-2, 25 ms, LTR]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-065
+    category: search
+    question: "What maximum throughput degradation is permitted when writing new data into the index while serving search queries?"
+    expected_keywords: [SRCP-ADV-3, 10%, latency increase]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-066
+    category: search
+    question: "What version string identifies the frozen API contract for the distributed multi-shard hybrid search component?"
+    expected_keywords: [DistributedHybridSearch v2.1.0, frozen contract]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-067
+    category: search
+    question: "What version string identifies the frozen API contract for the streaming search result component?"
+    expected_keywords: [SearchResultStream v2.0.0, frozen contract]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-068
+    category: search
+    question: "What boolean flag in the extended search statistics signals that a merge returned fewer results than the minimum viable set?"
+    expected_keywords: [underflow, SearchStats, DistributedHybridSearch]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 2 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-069
+    category: search
+    question: "What diagnostic flag indicates that overlapping result sets from different shards showed unexpectedly high score variance?"
+    expected_keywords: [overlap variance, SearchStats]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 2 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-070
+    category: search
+    question: "What field in the extended search statistics accumulates the cause string for each shard that did not return results?"
+    expected_keywords: [failed_shard_reasons, SearchStats]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 2 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-071
+    category: sharding
+    question: "What GTest test ID range covers the two-phase and three-phase commit consistency cases in the sharding Phase-6 hardening suite?"
+    expected_keywords: [TXC-01, TXC-32, 2PC, 3PC, test_sharding_phase6_hardening]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-01"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-072
+    category: sharding
+    question: "Which test ID range covers scenarios where the orchestrator process terminates and must be recovered via write-ahead log replay?"
+    expected_keywords: [FLR-01, FLR-20, WAL, test_sharding_phase6_hardening]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-02"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-073
+    category: sharding
+    question: "In which source file was the lock ordering violation between consistency state updates and metrics retrieval diagnosed?"
+    expected_keywords: [getMetrics, state_mutex_]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-074
+    category: sharding
+    question: "In which source file was the concurrent write hazard on the conflict notification callback field remediated?"
+    expected_keywords: [replica_consistency, replica consistency]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-075
+    category: sharding
+    question: "What threading hazard class was fixed by eliminating detached threads that held references to parent-owned state?"
+    expected_keywords: [background sync, atomic integer, state_mutex_]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-076
+    category: sharding
+    question: "What field in the background synchronisation thread is now read via an atomic primitive to prevent partially-visible integer updates?"
+    expected_keywords: [raw integer, atomic integer]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-077
+    category: sharding
+    question: "What repository path stores the Phase-6 sharding acceptance artefacts?"
+    expected_keywords: [docs/sharding/SHARDING_P6_SIGN_OFF.md, P6]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6 Sign-off"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-078
+    category: cdc
+    question: "What maximum latency is required for the consumer-group create and delete operations benchmark gate?"
+    expected_keywords: [CDG-04, createGroup, deleteGroup, 1 ms]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-079
+    category: cdc
+    question: "What maximum latency is required for the at-least-once event retrieval benchmark gate?"
+    expected_keywords: [CDG-05, fetchEventsAtLeastOnce, 5 ms]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-080
+    category: cdc
+    question: "What maximum time is required to drain a replay session in the CDC delivery benchmark?"
+    expected_keywords: [CDG-06, replay drain, 5 ms]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-081
+    category: cdc
+    question: "What test ID range covers delivery-tracker and consumer-group behaviour under degraded backend conditions?"
+    expected_keywords: [TRD-01, TRD-08, test_cdc_transport_degradation]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 2 Completion
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-082
+    category: cdc
+    question: "What test ID range covers replay session ordering, drain, cancel state machine, and sequence acknowledgement?"
+    expected_keywords: [rah-01, replay_ack, test_cdc_replay_ack_hardening, InMemory]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 4
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-083
+    category: cdc
+    question: "What test ID range covers admin health check, diagnostics surfaces, percentile histogram monotonicity, and JSON serialisation?"
+    expected_keywords: [dgh-01, test_cdc_diagnostics_hardening, healthCheck]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 3
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-084
+    category: sharding
+    question: "What named constant identifies the fixed random seed used in the sharding contract-hardening test suite?"
+    expected_keywords: [kShardContractSeed, SCR-01, SCR-16, test_sharding_contract_hardening_focused]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: Phase 4
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-085
+    category: retrieval
+    question: "What two method names implement the lazy read path and the lazy write path for the wiki index persistent embedding cache?"
+    expected_keywords: [fetchPersistedEmbedding, persistEmbedding, RocksDB]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-086
+    category: retrieval
+    question: "What member variable prevents the embedding dimension probe from executing more than once in the wiki index?"
+    expected_keywords: [dim_probed_, probeEmbeddingDim]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-087
+    category: adapter
+    question: "What semantic difference distinguishes the old auto-eviction flag from the new on-demand loading flag in the migrated adapter configuration?"
+    expected_keywords: [enable_lazy_load, enable_auto_unload, load on first use, evict unused adapters]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-088
+    category: adapter
+    question: "What field name replaced the maximum-cache-size setting in the new multi-adapter configuration structure?"
+    expected_keywords: [max_lora_slots, max_cache_size]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-089
+    category: adapter
+    question: "What field name replaced the adapter expiry time setting in the migrated multi-adapter configuration?"
+    expected_keywords: [lora_ttl, cache_ttl, "std::chrono::seconds"]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-090
+    category: adapter
+    question: "What deprecated method for manually triggering adapter-merge was replaced by a declarative configuration flag in the new API?"
+    expected_keywords: [switchAdapterWithFusion, enable_adapter_fusion, MultiLoRAManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Quick Migration Reference
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-091
+    category: attention
+    question: "What abstract method on the backend-specific attention interface returns memory usage statistics?"
+    expected_keywords: [getMemoryStats, IFlashAttention, AttentionMemoryStats]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: "Core Classes > IFlashAttention"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-092
+    category: attention
+    question: "What technique does the KV-cache manager use to allow multiple sequences to share a common prompt prefix without duplicating memory?"
+    expected_keywords: [KVCacheManager, Copy-on-Write, prefix sharing, forking]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Paged KV-Cache
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-093
+    category: inference
+    question: "What scheduler configuration field specifies the minimum number of free memory blocks before the low-memory policy activates?"
+    expected_keywords: [low_memory_threshold_blocks, blocks_free, config_]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Block Management
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-094
+    category: attention
+    question: "What CUDA compute capability code supports AMD RDNA architecture with 32-wide wave execution in the alternative GPU attention backend?"
+    expected_keywords: [FlashAttentionHIP, Wave32, RDNA, HIP]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Backend Implementations
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-095
+    category: attention
+    question: "Which CUDA architecture code in the ThemisDB attention backend targets the H100/H800 generation with TMA and warp specialisation support?"
+    expected_keywords: [SM90, TMA, warp specialization, Hopper]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Backend Implementations
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-096
+    category: attention
+    question: "Which CUDA architecture code represents the earliest supported Ampere processor with baseline second-generation attention optimisations?"
+    expected_keywords: [SM80, Ampere Early]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Backend Implementations
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-097
+    category: training
+    question: "What integer value is used as the default for the gradient accumulation step count in the distributed training configuration example?"
+    expected_keywords: [gradient_accumulation_steps, 4]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: "Configuration > Basic Setup"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-098
+    category: training
+    question: "In the central parameter aggregation gradient strategy, what YAML field assigns a relative throughput weight to each participating shard?"
+    expected_keywords: [parameter_server, per-shard, heterogeneous]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: Parameter Server
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-099
+    category: adapter
+    question: "What flag in the multi-adapter manager configuration enables multiple adapters to be applied within a single inference batch simultaneously?"
+    expected_keywords: [enable_multi_lora_batch, MultiLoRAManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: "Config Migration > New"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-100
+    category: attention
+    question: "What I/O complexity class characterises the bottleneck in conventional attention that the ThemisDB block-wise implementation was designed to overcome?"
+    expected_keywords: [n²d, quadratic]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Overview
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-101
+    category: cdc
+    question: "What predicate function in the CDC delivery contract header determines whether a transport failure class should trigger a stop-accepting-data response?"
+    expected_keywords: [isCdcFailClosedClass, CdcTransportFailureClass]
+    expected_source_hint: cdc_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 1
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-102
+    category: search
+    question: "What specific revision hash is cited in the search roadmap as completing the source file integration for all twenty search implementations?"
+    expected_keywords: [8888dc81]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Build Configuration Completion
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-103
+    category: search
+    question: "What hardware platform is documented as the baseline for search module Phase-5 benchmark gates?"
+    expected_keywords: [Intel Xeon, NVIDIA RTX, benchmarks/search/README.md]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-104
+    category: retrieval
+    question: "What test IDs within the Phase-B wiki index suite exercise simultaneous read operations and concurrent writer-plus-reader scenarios?"
+    expected_keywords: [test_wiki, phase b delivered, writer reader]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-105
+    category: inference
+    question: "What component maps sequence positions to physical memory blocks in the paged attention architecture?"
+    expected_keywords: [BlockTable, PagedKVCache]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: "Architecture > Components"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-106
+    category: sharding
+    question: "What C++ locking primitive was applied to dual-mutex operations to eliminate the identified deadlock in the orchestrator?"
+    expected_keywords: [scoped_lock, deadlock-free, state_mutex_]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-107
+    category: retrieval
+    question: "What query-embedding cache member was added to the wiki index store to ensure caching correctness under simultaneous queries?"
+    expected_keywords: [query_embed, embed_mutex, mutable]
+    expected_source_hint: llm_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Delivered
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-108
+    category: attention
+    question: "What is the responsibility of the top-level attention abstraction regarding back-end selection and throughput estimation prior to dispatch?"
+    expected_keywords: [FlashAttention, backend selection, auto route]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: "Core Classes > FlashAttention"
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-109
+    category: search
+    question: "How many test files and how many total test cases were produced by the search module Phase-4 test expansion?"
+    expected_keywords: [7 focused, 7 new test]
+    expected_source_hint: search_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 4 Completion Summary
+    indexed_at: 2026-08-24
+
+  - id: RAG-GD-110
+    category: sharding
+    question: "How many GTest cases in the second Phase-6 sharding hardening file cover restart and WAL-replay recovery scenarios?"
+    expected_keywords: [FLR-01, FLR-20, 20, test_sharding_phase6_hardening]
+    expected_source_hint: sharding_ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-02"
+    indexed_at: 2026-08-24

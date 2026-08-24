@@ -6,6 +6,77 @@
 
 ---
 
+## Baseline Model Evaluation Matrix (Release Candidate)
+
+**Status**: Active baseline policy (updated 2026-08-23)
+
+### A) Hard Gates (must pass, otherwise reject)
+
+- [ ] Safety/policy gates from `PRODUCTION_REQUIREMENTS.md` pass (prompt policy, validator, classifier/guardian, quota, monitoring).
+- [ ] LLM integration tests pass (`ctest -L llm --output-on-failure`).
+- [ ] No sanitizer regressions in validated profile (ASan/TSan/UBSan runbook scope).
+- [ ] Model artifact is runtime-compatible GGUF for release packaging.
+
+### B) Weighted Scoring (0-100)
+
+Use this score only after all hard gates pass.
+
+| Criterion | Weight | Measurement method | Pass threshold |
+|---|---:|---|---|
+| Quality on Themis RAG tasks | 30 | `tests/llm/test_wiki_rag_quality.cpp` + curated prompt set | Recall@5 >= 80% and no critical safety failures |
+| Runtime latency (TTFT + wall time) | 20 | Local Ollama API benchmark with fixed prompt batch | p95 wall-time <= baseline + 20% |
+| Throughput (tokens/s) | 15 | `eval_count / eval_duration` from Ollama generate API | >= baseline - 20% |
+| Resource efficiency (RAM/VRAM/disk) | 15 | model file size + runtime memory stats | Must fit deployment budget |
+| Context window adequacy | 10 | `ollama show <model>` context length | >= 32k for long-context tier |
+| Tooling capability fit | 10 | `ollama show <model>` capabilities | tools support required for tool paths |
+
+**Decision bands**:
+
+- **>= 85**: Primary baseline candidate
+- **70-84**: Secondary/specialized candidate
+- **< 70**: Not suitable as default baseline
+
+### C) Current Local Comparison Snapshot (2026-08-23)
+
+Source: local Ollama (`http://127.0.0.1:11434`).
+
+| Model | Size | Context | Quantization | Observed wall time (single fixed prompt) | Observed tokens/s | Capability notes |
+|---|---:|---:|---|---:|---:|---|
+| `gemma4:latest` | 9.6 GB | 131072 | Q4_K_M | 104878 ms | 70.49 | completion, tools, thinking, vision, audio |
+| `hf.co/yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF:Q8_0` | 12 GB | 131072 | Q8_0 | 171128 ms | 4.54 | completion, tools |
+
+### D) Baseline Recommendation
+
+- [x] **Local test standard**: `gemma4:latest`
+- [ ] Optional quality-tier model: 12B Q8 variant for offline or quality-priority workloads only
+- [x] **Distribution standard**: `tinyllama:latest` (`tinyllama_latest.gguf` in `models/`)
+
+### D.1) Licensing and Distribution Constraint (mandatory)
+
+- [x] Gemma-family models are permitted for local development and validation runs.
+- [x] Gemma-family models are **not** part of distributable runtime payloads.
+- [x] Public/community release artifacts must include TinyLlama GGUF payload as the default shipped model.
+- [x] CI/release packaging checks must fail if distributable bundles include non-approved model families.
+
+### E) Reproducible Local Benchmark Command
+
+```powershell
+$models=@('gemma4:latest','hf.co/yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF:Q8_0')
+$prompt='Gib in genau einem Satz den Zweck von ThemisDB als Multi-Model-Datenbank wieder.'
+foreach($m in $models){
+  $body=@{model=$m;prompt=$prompt;stream=$false}|ConvertTo-Json -Compress
+  $sw=[System.Diagnostics.Stopwatch]::StartNew()
+  $resp=curl.exe -sS -X POST http://127.0.0.1:11434/api/generate -H "Content-Type: application/json" -d $body
+  $sw.Stop()
+  $json=$resp|ConvertFrom-Json
+  $tps=0
+  if($json.eval_duration -gt 0){$tps=[math]::Round(($json.eval_count/($json.eval_duration/1e9)),2)}
+  Write-Host "MODEL=$m WALL_MS=$([int]$sw.Elapsed.TotalMilliseconds) TOKENS_PER_SEC=$tps"
+}
+```
+
+---
+
 ## Phase 1: Structural Fixes Validation
 
 ### 1.1 Braces Imbalance Fixes ✓

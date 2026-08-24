@@ -39,6 +39,7 @@
 
 #include <gtest/gtest.h>
 
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
@@ -62,7 +63,7 @@ static constexpr uint64_t kConcurrencySeed = 42;
 /// Represents a lock with ID for ordering verification
 struct OrderedLock {
     int lock_id;
-    mutable std::mutex mtx;
+    mutable std::timed_mutex mtx;
     int acquisition_order = 0;
 
     OrderedLock(int id) : lock_id(id) {}
@@ -138,7 +139,7 @@ TEST_F(ConcurrencySafetyTest, CS_01_SingleThreadLockAcquisition) {
 
     // Action: Acquire lock from single thread
     {
-        std::lock_guard<std::mutex> guard(lock1.mtx);
+        std::lock_guard<std::timed_mutex> guard(lock1.mtx);
         tracker_.recordAcquisition(lock1.lock_id);
     }
 
@@ -169,13 +170,13 @@ TEST_F(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering) {
         OrderedLock* second_lock = (second_id == 1) ? &lock1 : &lock2;
 
         {
-            std::lock_guard<std::mutex> guard1(first_lock->mtx);
+            std::lock_guard<std::timed_mutex> guard1(first_lock->mtx);
             tracker_.recordAcquisition(first_lock->lock_id);
             
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             
             {
-                std::lock_guard<std::mutex> guard2(second_lock->mtx);
+                std::lock_guard<std::timed_mutex> guard2(second_lock->mtx);
                 tracker_.recordAcquisition(second_lock->lock_id);
             }
         }
@@ -187,9 +188,9 @@ TEST_F(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering) {
     std::thread t2([&]() { acquire_locks(1, 2, thread2_done); });
 
     // Wait for completion with timeout
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
     while ((!thread1_done || !thread2_done) && 
-           (std::chrono::high_resolution_clock::now() - start) < timeout) {
+           (std::chrono::steady_clock::now() - start) < timeout) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
@@ -209,16 +210,16 @@ TEST_F(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering) {
 TEST_F(ConcurrencySafetyTest, CS_03_ThreeThreadCircularDependency) {
     // Gap: circular_lock_ordering (detect circular patterns)
     // Setup: Create three locks with deterministic ordering constraint
-    std::vector<OrderedLock> locks = {{1}, {2}, {3}};
+    std::array<OrderedLock, 3> locks = {OrderedLock{1}, OrderedLock{2}, OrderedLock{3}};
     std::vector<std::atomic<bool>> done(3);
-    std::vector<std::atomic<int>> timeout_count(3, 0);
+    std::vector<std::atomic<int>> timeout_count(3);
     std::chrono::milliseconds lock_timeout(1000);
 
     auto acquire_ordered = [&](int thread_id, const std::vector<int>& order) {
         // Try to acquire locks in specified order with timeout
         for (int lock_id : order) {
             OrderedLock& lock = locks[lock_id - 1];
-            std::unique_lock<std::mutex> ul(lock.mtx, std::defer_lock);
+            std::unique_lock<std::timed_mutex> ul(lock.mtx, std::defer_lock);
             if (ul.try_lock_for(lock_timeout)) {
                 tracker_.recordAcquisition(lock_id);
             } else {
@@ -234,10 +235,10 @@ TEST_F(ConcurrencySafetyTest, CS_03_ThreeThreadCircularDependency) {
     std::thread t2([&]() { acquire_ordered(1, {1, 2, 3}); });
     std::thread t3([&]() { acquire_ordered(2, {1, 2, 3}); });
 
-    auto start = std::chrono::high_resolution_clock::now();
+        auto start = std::chrono::steady_clock::now();
     auto wait_timeout = std::chrono::seconds(10);
     while ((!done[0] || !done[1] || !done[2]) &&
-           (std::chrono::high_resolution_clock::now() - start) < wait_timeout) {
+            (std::chrono::steady_clock::now() - start) < wait_timeout) {
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
 
@@ -264,7 +265,7 @@ TEST_F(ConcurrencySafetyTest, CS_04_LockAcquisitionTimeout) {
 
     // Action: Holder thread locks and holds indefinitely
     std::thread holder([&]() {
-        std::lock_guard<std::mutex> guard(lock.mtx);
+        std::lock_guard<std::timed_mutex> guard(lock.mtx);
         holder_acquired.store(true);
         std::this_thread::sleep_for(std::chrono::seconds(5));
     });
@@ -276,7 +277,7 @@ TEST_F(ConcurrencySafetyTest, CS_04_LockAcquisitionTimeout) {
 
     // Waiter tries to acquire with timeout
     std::thread waiter([&]() {
-        std::unique_lock<std::mutex> ul(lock.mtx, std::defer_lock);
+        std::unique_lock<std::timed_mutex> ul(lock.mtx, std::defer_lock);
         bool acquired = ul.try_lock_for(std::chrono::milliseconds(500));
         if (!acquired) {
             waiter_timed_out.store(true);
@@ -463,9 +464,11 @@ TEST_F(ConcurrencySafetyTest, CS_08_WindowEvictionLockContention) {
         int access_count = 0;
     };
 
-    std::vector<EvictableWindow> windows;
+    std::array<EvictableWindow, 3> windows{};
     for (int i = 0; i < 3; ++i) {
-        windows.push_back({std::mutex(), i, false, 0});
+        windows[i].id = i;
+        windows[i].evicted = false;
+        windows[i].access_count = 0;
     }
 
     std::atomic<int> evictions(0);
@@ -683,21 +686,21 @@ TEST_F(ConcurrencySafetyTest, CS_12_CodeGenerationThreadSafe) {
 TEST_F(ConcurrencySafetyTest, CS_13_LockOrderingSequence) {
     // Gap: circular_lock_ordering (enforce stage ordering)
     // Verify lock acquisition order: compile → execute → aggregate
-    std::vector<OrderedLock> stages = {{1}, {2}, {3}}; // compile, execute, aggregate
+    std::array<OrderedLock, 3> stages = {OrderedLock{1}, OrderedLock{2}, OrderedLock{3}}; // compile, execute, aggregate
     std::atomic<bool> completed(false);
 
     auto acquire_in_order = [&]() {
         // Acquire locks in order: compile (1) → execute (2) → aggregate (3)
         {
-            std::lock_guard<std::mutex> guard1(stages[0].mtx);
+            std::lock_guard<std::timed_mutex> guard1(stages[0].mtx);
             tracker_.recordAcquisition(1);
             
             {
-                std::lock_guard<std::mutex> guard2(stages[1].mtx);
+                std::lock_guard<std::timed_mutex> guard2(stages[1].mtx);
                 tracker_.recordAcquisition(2);
                 
                 {
-                    std::lock_guard<std::mutex> guard3(stages[2].mtx);
+                    std::lock_guard<std::timed_mutex> guard3(stages[2].mtx);
                     tracker_.recordAcquisition(3);
                 }
             }

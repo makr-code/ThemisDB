@@ -27,6 +27,8 @@ CompressionResult TTDecompositionStrategy::compress(
     const std::vector<size_t>& mode_sizes,
     const CompressionConfig&  config) const {
 
+    (void)mode_sizes;
+
     CompressionResult result;
     if (!data || dim == 0) {
         result.success = false;
@@ -50,6 +52,8 @@ CompressionResult TTDecompositionStrategy::compressTTTrain(
     const storage::TTTrain&   train,
     const CompressionConfig&  config) const {
 
+    (void)config;
+
     CompressionResult result;
     result.success = true;
     result.original_size = train.totalParams() * sizeof(float);
@@ -66,6 +70,9 @@ float TTDecompositionStrategy::estimateRatio(
     std::size_t               dim,
     const CompressionConfig&  config) const {
 
+    (void)data;
+    (void)dim;
+    (void)config;
     if (!data || dim == 0) return 1.0f;
     
     // Estimate based on dimension and epsilon
@@ -90,6 +97,9 @@ CompressionResult QuantizationStrategy::compress(
     const std::vector<size_t>& mode_sizes,
     const CompressionConfig&  config) const {
 
+    (void)config;
+    (void)mode_sizes;
+
     CompressionResult result;
     if (!data || dim == 0 || bits_ == 0) {
         result.success = false;
@@ -111,6 +121,8 @@ CompressionResult QuantizationStrategy::compressTTTrain(
     const storage::TTTrain&   train,
     const CompressionConfig&  config) const {
 
+    (void)config;
+
     CompressionResult result;
     result.success = true;
     result.original_size = train.totalParams() * sizeof(float);
@@ -127,6 +139,9 @@ float QuantizationStrategy::estimateRatio(
     std::size_t               dim,
     const CompressionConfig&  config) const {
 
+    (void)data;
+    (void)dim;
+    (void)config;
     if (bits_ == 0) return 1.0f;
     return (sizeof(float) * 8.0f) / bits_;
 }
@@ -146,6 +161,9 @@ CompressionResult SamplingStrategy::compress(
     std::size_t               dim,
     const std::vector<size_t>& mode_sizes,
     const CompressionConfig&  config) const {
+
+    (void)config;
+    (void)mode_sizes;
 
     CompressionResult result;
     if (!data || dim == 0 || ratio_ <= 0.0f) {
@@ -168,6 +186,8 @@ CompressionResult SamplingStrategy::compressTTTrain(
     const storage::TTTrain&   train,
     const CompressionConfig&  config) const {
 
+    (void)config;
+
     CompressionResult result;
     result.success = true;
     std::size_t sampled_params = static_cast<std::size_t>(train.totalParams() * ratio_);
@@ -185,6 +205,9 @@ float SamplingStrategy::estimateRatio(
     std::size_t               dim,
     const CompressionConfig&  config) const {
 
+    (void)data;
+    (void)dim;
+    (void)config;
     if (ratio_ <= 0.0f) return 1.0f;
     return 1.0f / ratio_;
 }
@@ -204,6 +227,9 @@ CompressionResult HashingStrategy::compress(
     std::size_t               dim,
     const std::vector<size_t>& mode_sizes,
     const CompressionConfig&  config) const {
+
+    (void)config;
+    (void)mode_sizes;
 
     CompressionResult result;
     if (!data || dim == 0 || bits_ == 0) {
@@ -226,6 +252,8 @@ CompressionResult HashingStrategy::compressTTTrain(
     const storage::TTTrain&   train,
     const CompressionConfig&  config) const {
 
+    (void)config;
+
     CompressionResult result;
     result.success = true;
     result.original_size = train.totalParams() * sizeof(float);
@@ -242,6 +270,9 @@ float HashingStrategy::estimateRatio(
     std::size_t               dim,
     const CompressionConfig&  config) const {
 
+    (void)data;
+    (void)dim;
+    (void)config;
     if (bits_ == 0) return 1.0f;
     return (dim * sizeof(float) * 8.0f) / bits_;
 }

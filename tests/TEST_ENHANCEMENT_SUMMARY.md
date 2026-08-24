@@ -1,7 +1,18 @@
-> ⚠️ **Historischer Testbericht** – Dieser Bericht beschreibt den Teststand zum Zeitpunkt der Erstellung.
-> Für aktuellen Stand: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release` ausführen.
-
 # Test and Benchmark Enhancement Summary
+
+Status: Historical snapshot
+Canonicality: Non-canonical for current standards
+Last governance alignment: 2026-08-21
+
+Canonical references:
+- Test rules: [TESTING_STANDARDS.md](TESTING_STANDARDS.md)
+- Benchmark rules: [../benchmarks/BENCHMARK_STANDARDS.md](../benchmarks/BENCHMARK_STANDARDS.md)
+- CTest run truth: [../CTEST.md](../CTEST.md)
+
+Usage note:
+- Keep as implementation history and context.
+- Do not treat listed counts/claims as current project baseline without
+	revalidation in current presets and pipelines.
 
 ## Overview
 

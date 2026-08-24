@@ -10,6 +10,9 @@ foreach(_src IN LISTS GEO_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_GeoFocusedTests")
 
     add_executable(${_target} "${_src}")
+    target_sources(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/src/geo/geo_backend_dispatch.cpp
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -46,6 +49,9 @@ foreach(_src IN LISTS GEO_AUTOGEN_PREFIX_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    target_sources(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/src/geo/geo_backend_dispatch.cpp
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

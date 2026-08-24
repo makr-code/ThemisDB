@@ -1,125 +1,84 @@
 # ThemisDB Docker Guide
 
-This directory contains Docker assets for building, running, and releasing ThemisDB container images.
+This directory contains the repository's Docker assets for builds, local execution, and release-oriented container workflows.
+
+## Canonical build entrypoint
+
+The build entrypoint for Docker Desktop and `docker buildx` is the root [../Dockerfile](../Dockerfile). This file is the authoritative assembly path for local image builds.
+
+The supporting files in this directory are deployment/configuration helpers and compose assets, not the main build file.
 
 ## Scope
 
-- Community image build and runtime assets
-- Docker Compose files for local development and test setups
-- Release tagging and publish conventions
-- Edition-specific Docker assets under `community/`, `enterprise/`, and `hyperscaler/`
+- root Docker image build for local and CI builds
+- cache-aware vcpkg and BuildKit setup
+- runtime and compose support for development/test workflows
+- edition-specific support files under [community](community), [enterprise](enterprise), and [hyperscaler](hyperscaler)
 
-## Docker Hub Repository
+## Local build
 
-Official public image repository:
-
-- `themisdb/themisdb`
-
-Current release tags:
-
-- `themisdb/themisdb:1.8.1-rc1`
-- `themisdb/themisdb:latest`
-
-Both tags currently resolve to the same image digest.
-
-## Quick Start
-
-Pull and run the current image:
+From the repository root:
 
 ```bash
-docker pull themisdb/themisdb:latest
-docker run --rm -p 8080:8080 themisdb/themisdb:latest
+docker buildx build --progress=plain --load \
+  -f Dockerfile \
+  -t themisdb:test \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --build-arg ENABLE_LLM=OFF \
+  --build-arg ENABLE_GPU=OFF \
+  --build-arg BUILD_TESTS=OFF \
+  --build-arg BUILD_BENCHMARKS=OFF \
+  .
 ```
 
-Use the explicit release candidate tag:
+This is the recommended smoke test for validating the root build path with cache-aware BuildKit layers.
 
-```bash
-docker pull themisdb/themisdb:1.8.1-rc1
-docker run --rm -p 8080:8080 themisdb/themisdb:1.8.1-rc1
+## Cache-aware build behavior
+
+The current build uses BuildKit cache mounts for:
+
+- apt package cache
+- vcpkg downloads
+- vcpkg buildtrees
+- vcpkg packages
+
+This avoids repeated re-downloads and keeps the Docker build reproducible across rebuilds.
+
+## Important note about stale cache directories
+
+A known failure mode is when a cached vcpkg directory already exists and the build tries to clone into it again:
+
+```text
+fatal: destination path '/opt/vcpkg' already exists and is not an empty directory.
 ```
 
-## Local Build (Docker Desktop)
+The root Dockerfile handles this by checking for the repository metadata before cloning and by creating the cache directories before bootstrap.
 
-Build locally from repository root:
+## Compose files
 
-```bash
-docker buildx build --progress=plain -t themis:community-llm-gpu .
-```
+The docker directory includes compose files for local scenarios, for example:
 
-Retag for Docker Hub release:
+- [docker-compose.yml](docker-compose.yml)
+- [docker-compose.dev.yml](docker-compose.dev.yml)
+- [docker-compose.test.yml](docker-compose.test.yml)
+- [docker-compose.gpu-examples.yml](docker-compose.gpu-examples.yml)
 
-```bash
-docker tag themis:community-llm-gpu themisdb/themisdb:1.8.1-rc1
-docker tag themis:community-llm-gpu themisdb/themisdb:latest
-```
-
-Push tags:
-
-```bash
-docker push themisdb/themisdb:1.8.1-rc1
-docker push themisdb/themisdb:latest
-```
-
-Verify remote tags and digest:
-
-```bash
-docker buildx imagetools inspect themisdb/themisdb:1.8.1-rc1
-docker buildx imagetools inspect themisdb/themisdb:latest
-```
-
-## Tagging Policy
-
-- Release candidates: `X.Y.Z-rcN` (example: `1.8.1-rc1`)
-- Stable releases: `X.Y.Z`
-- `latest` should normally point to the most recent stable release
-- If `latest` is intentionally moved to an RC for validation, document it in release notes and CI summaries
-
-## Compose Files
-
-This directory includes multiple compose files for specific scenarios:
-
-- `docker-compose.yml`: baseline setup
-- `docker-compose.dev.yml`: development-focused setup
-- `docker-compose.test.yml`: testing setup
-- `docker-compose.gpu-examples.yml`: GPU-focused examples
-
-Use for example:
+Example:
 
 ```bash
 docker compose -f docker-compose.dev.yml up -d --build
 ```
 
-## Troubleshooting
+## Quick reference
 
-Authentication error on push:
+See [DOCKER_BUILD_STRATEGY_QUICKREF.md](DOCKER_BUILD_STRATEGY_QUICKREF.md) for the current build strategy summary.
 
-```text
-Username and password required
-```
+## Related files
 
-Fix:
-
-```bash
-docker login
-docker push themisdb/themisdb:1.8.1-rc1
-```
-
-Check local tags:
-
-```bash
-docker image ls | grep themisdb/themisdb
-```
-
-Check manifest availability:
-
-```bash
-docker manifest inspect themisdb/themisdb:latest
-```
-
-## Related Files
-
-- `DOCKER_BUILD_STRATEGY_QUICKREF.md`
-- `DOCKERHUB_README.md`
-- `Dockerfile.unified`
-- `Dockerfile.themisdb`
-- `.github/workflows/04-release_dockerhub-publish-on-release.yml`
+- [../Dockerfile](../Dockerfile)
+- [DOCKER_BUILD_STRATEGY_QUICKREF.md](DOCKER_BUILD_STRATEGY_QUICKREF.md)
+- [DOCKERHUB_README.md](DOCKERHUB_README.md)
+- [docker-compose.yml](docker-compose.yml)
+- [docker-compose.dev.yml](docker-compose.dev.yml)
+- [docker-compose.test.yml](docker-compose.test.yml)
+- [docker-compose.gpu-examples.yml](docker-compose.gpu-examples.yml)

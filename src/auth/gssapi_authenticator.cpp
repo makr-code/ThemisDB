@@ -23,7 +23,7 @@
 #endif
 #endif
 
-#ifndef _WIN32
+#if !defined(_WIN32) && THEMIS_HAVE_GSSAPI
 #include <krb5.h>
 #endif
 
@@ -32,7 +32,7 @@ namespace auth {
 
 GSSAPIAuthenticator::GSSAPIAuthenticator()
     : initialized_(false)
-#ifndef _WIN32
+#if !defined(_WIN32) && THEMIS_HAVE_GSSAPI
     , context_(GSS_C_NO_CONTEXT)
     , server_creds_(GSS_C_NO_CREDENTIAL)
     , server_name_(GSS_C_NO_NAME)
@@ -117,7 +117,7 @@ bool GSSAPIAuthenticator::initializeServerCredentials() {
     creds_expiry_ = lifetime;
     return true;
     
-#else
+#elif THEMIS_HAVE_GSSAPI
     // Unix GSSAPI implementation
     OM_uint32 major_status, minor_status;
     gss_buffer_desc name_buf;
@@ -160,6 +160,9 @@ bool GSSAPIAuthenticator::initializeServerCredentials() {
     }
     
     return true;
+#else
+    THEMIS_ERROR("GSSAPI/Kerberos support is unavailable in this build");
+    return false;
 #endif
 }
 
@@ -271,7 +274,7 @@ bool GSSAPIAuthenticator::acceptSecurityContext(
     DeleteSecurityContext(&context);
     return !principal_name.empty();
     
-#else
+#elif THEMIS_HAVE_GSSAPI
     // Unix GSSAPI implementation
     OM_uint32 major_status, minor_status;
     gss_buffer_desc input_buffer;
@@ -335,6 +338,11 @@ bool GSSAPIAuthenticator::acceptSecurityContext(
     }
     
     return !principal_name.empty();
+#else
+    (void)input_token;
+    (void)principal_name;
+    THEMIS_ERROR("GSSAPI/Kerberos support is unavailable in this build");
+    return false;
 #endif
 }
 
@@ -395,7 +403,7 @@ void GSSAPIAuthenticator::cleanup() {
     
 #ifdef _WIN32
     FreeCredentialsHandle(&server_creds_);
-#else
+#elif THEMIS_HAVE_GSSAPI
     OM_uint32 minor_status;
     
     if (context_ != GSS_C_NO_CONTEXT) {
@@ -412,12 +420,14 @@ void GSSAPIAuthenticator::cleanup() {
         gss_release_name(&minor_status, &server_name_);
         server_name_ = GSS_C_NO_NAME;
     }
+#else
+    // No-op when GSSAPI headers are unavailable.
 #endif
     
     initialized_ = false;
 }
 
-#ifndef _WIN32
+#if !defined(_WIN32) && THEMIS_HAVE_GSSAPI
 std::string GSSAPIAuthenticator::getGSSAPIError(
     uint32_t major_status,
     uint32_t minor_status) const {
@@ -478,11 +488,10 @@ std::string GSSAPIAuthenticator::getGSSAPIError(
 std::string GSSAPIAuthenticator::getGSSAPIError(
     uint32_t major_status,
     uint32_t minor_status) const {
+    (void)major_status;
+    (void)minor_status;
     std::ostringstream oss;
-    oss << "SSPI Error: 0x" << std::hex << major_status;
-    if (minor_status != 0) {
-        oss << " (0x" << minor_status << ")";
-    }
+    oss << "GSSAPI support is unavailable in this build";
     return oss.str();
 }
 #endif

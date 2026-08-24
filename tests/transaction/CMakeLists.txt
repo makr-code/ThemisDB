@@ -656,3 +656,44 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_fault_injection_phase3.cpp
 else()
     message(STATUS "Phase 3 Fault Injection tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_fault_injection_phase3.cpp")
 endif()
+
+# ===== WAVE A CLOSURE EVIDENCE TESTS (Q3-Q4 2026) =====
+
+# Wave A Closure: TXN-RECOVERY, TXN-SAGA-HARDENING, TXN-TIMEOUT, TXN-BYZANTINE, TXN-XSHARD
+# AC-5/6/8/9/10/11/12: crash-recovery WAL replay, SAGA circuit-breaker, idempotent
+# compensation, exponential-backoff jitter, Byzantine prepare-vote rollback, cross-shard faults
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_wave_a_closure.cpp")
+    message(STATUS "Adding Wave A Closure evidence tests (transaction, Wave A 2026-08-19)")
+
+    add_executable(test_transaction_wave_a_closure
+        test_transaction_wave_a_closure.cpp
+    )
+
+    target_include_directories(test_transaction_wave_a_closure PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_transaction_wave_a_closure PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_wave_a_closure PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionWaveAClosureTests
+        TARGET test_transaction_wave_a_closure
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction wave_a release_critical chaos recovery saga timeout byzantine cross-shard
+    )
+
+    message(STATUS "  Wave A Closure: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-TIMEOUT-01..03, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02")
+else()
+    message(STATUS "Wave A Closure tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_wave_a_closure.cpp")
+endif()

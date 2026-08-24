@@ -1,83 +1,20 @@
-> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
-> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+# BENCHMARK_STATUS (Archived)
 
-# ThemisDB Multi-Shard RAID Benchmark - Status
+Status: Archived redirect stub (2026-08-21)
 
-**Datum:** 11. Dezember 2025
+This status document was moved to historical docs during benchmark cleanup.
 
-## ✅ Implementierte Komponenten
+Archived copy:
+- [historical/2026-08/BENCHMARK_STATUS.md](historical/2026-08/BENCHMARK_STATUS.md)
 
-### 1. Benchmark-Framework
-- **run_multi_shard_raid_benchmark.py** - Python Async Orchestrator (426 Zeilen)
-  - Workload-Generierung (OLTP/OLAP/Mixed/TimeSeries/VectorSearch)
-  - Konsistente Hashing für Shard-Verteilung
-  - Metriken-Erfassung (Throughput, Latenz P50/P95/P99, etc.)
-  - JSON-Ergebnis-Export
+Canonical sources:
+- [../BENCHMARK_STANDARDS.md](../BENCHMARK_STANDARDS.md)
+- [../MEASUREMENT_HYGIENE.md](../MEASUREMENT_HYGIENE.md)
+- [../README.md](../README.md)
 
-### 2. Infrastructure as Code
-- **docker-compose.multi-shard-raid.yml** - Multi-Shard Cluster
-  - 6 ThemisDB Shards mit konfigurierbarem RAID
-  - Prometheus für Metriken (9090)
-  - Grafana für Visualisierung (3000)
-  - Benchmark-Controller Service
-  - Data-Loader Service
-
-### 3. Daten-Management
-- **scripts/load_test_data.py** - Test-Daten Generator
-  - Faker-basierte realistische Dokumente (DE)
-  - Consistent Hashing für Shard-Verteilung
-  - Batch-Laden mit Progress-Tracking
-  - Unterstützt 100GB - 1TB Datenvolumina
-
-### 4. Ausführungs-Tools
-- **run_benchmark.ps1** - PowerShell Orchestrator
-  - Szenario-Management (S1-S8)
-  - Health-Checks vor/nach Tests
-  - Automatische Aufräumfunktion
-  - Logging und Result-Sammlung
-
-- **run_benchmark.sh** - Bash Orchestrator
-  - Identische Funktionalität für Linux
-
-### 5. Monitoring & Analyse
-- **monitoring/prometheus.yml** - Metriken-Config
-  - Shard Scrape Konfiguration
-  - NodeExporter Integration
-  - Service Discovery
-
-- **analyze_results.py** - Result-Analyzer
-  - Vergleichstabellen (RAID/Shards)
-  - Skalierungsanalyse
-  - Latenz/Durchsatz-Charateristiken
-  - Optimierungsempfehlungen
-
-### 6. Dokumentation
-- **MULTI_SHARD_RAID_BENCHMARK_PLAN.md** - Umfassender Test-Plan
-  - 8 Szenarien (S1-S8)
-  - Detaillierte Konfigurationen
-  - Workload-Spezifikationen
-  - Erwartete Ergebnisse
-
-- **MULTI_SHARD_RAID_QUICKSTART.md** - Quick-Start Guide
-  - Schnellstart-Beispiele
-  - Szenario-Übersicht
-  - Monitoring-Anleitung
-  - Troubleshooting-Tipps
-
-## 📊 Verfügbare Szenarien
-
-| ID | Shards | RAID | Workload | Daten | Dauer |
-|----|--------|------|----------|-------|-------|
-| S1 | 3 | RAID0 | OLTP | 100GB | 4h |
-| S2 | 3 | RAID1 | OLTP | 100GB | 6h |
-| S3 | 3 | RAID5 | OLTP | 100GB | 8h |
-| S4 | 6 | RAID10 | Mixed | 500GB | 12h |
-| S5 | 12 | RAID6 | OLAP | 1TB | 18h |
-| S6 | 24 | RAID10 | TimeSeries | 1TB | 24h |
-| S7 | 6 | RAID5 | VectorSearch | 500GB | 10h |
-| S8 | 12 | RAID1 | Mixed | 500GB | 16h |
-
-## 🚀 Quick-Start
+Usage:
+- Use canonical sources for current benchmark rules and active status.
+- Use archived copy only for historical context.
 
 ```bash
 # Scenario S1 (4 Stunden, schneller Test)

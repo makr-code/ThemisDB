@@ -21,6 +21,7 @@
 #include <cstdint>
 #include <string>
 #include <chrono>
+#include "updates/update_state_machine.h"
 #include <nlohmann/json.hpp>
 
 namespace themis {

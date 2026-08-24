@@ -221,7 +221,7 @@ bool DebeziumCDCImporter::tableAllowed(const std::string& table) const {
 // ============================================================================
 
 ImportStats DebeziumCDCImporter::importData(
-    const std::string& source_path,
+    [[maybe_unused]] const std::string& source_path,
     const ImportOptions& options,
     ProgressCallback progress_callback) {
 

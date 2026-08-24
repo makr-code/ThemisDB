@@ -772,15 +772,25 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
     
 #ifdef THEMIS_LLM_ENABLED
     if (!wrapper_) {
-        // Stub mode: return k tokens with peaked logits
+        // STUB/SIMULATION NOTE:
+        // Purpose: Return k syntactically valid draft tokens when THEMIS_LLM_ENABLED
+        //          is set but loadModel() has not been called (wrapper_ is null).
+        //          Keeps callers from null-dereferencing while producing a result
+        //          they can inspect in unit tests.
+        // Activation: THEMIS_LLM_ENABLED defined at build time AND loadModel() not
+        //             yet called (or model already unloaded).
+        // Production Delta: Peaked logits are not model-grounded; speculative-
+        //                   decoding acceptance rates will be low / zero.
+        // Removal Plan: Call loadModel() before generateDraftTokens(); wrapper_
+        //               will be non-null and the real path below executes.
         constexpr float kPeak      =  5.0f;
         constexpr float kBaseline  = -5.0f;
-        
+
         for (size_t i = 0; i < k; ++i) {
             // Deterministic token based on prompt hash
             int token_id = (i + 1) % static_cast<int>(result.vocab_size);
             result.tokens.push_back(token_id);
-            
+
             std::vector<float> logits(result.vocab_size, kBaseline);
             logits[token_id] = kPeak;
             result.logits.push_back(std::move(logits));
@@ -810,7 +820,20 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
         spdlog::warn("LlamaCppPlugin::generateDraftTokens failed: {}", e.what());
     }
 
-    // Fallback to deterministic peaked logits if real path failed
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a syntactically valid DraftTokensResult when the real
+    //          wrapper_->generateDraftTokens() returns an invalid result or
+    //          throws (network error, OOM, corrupt model, etc.).
+    // Activation: Reached only when the real path returns tokens.empty(),
+    //             a size mismatch between tokens/logits, vocab_size==0, or
+    //             an exception is thrown by LlamaWrapper::generateDraftTokens().
+    // Production Delta: Peaked logits are deterministic (token_id = (i+1) % vocab)
+    //                   and not grounded in model probability; speculative-decoding
+    //                   acceptance rates will be low and throughput gains lost.
+    // Removal Plan: Fix the underlying LlamaWrapper::generateDraftTokens() failure
+    //               so the real result is always valid.  Log the failure case and
+    //               surface it via metrics so it is visible to operators.
+    // Roadmap ref: src/llama_cpp/ROADMAP.md § "Speculative Decoding"
     constexpr float kPeak      =  5.0f;
     constexpr float kBaseline  = -5.0f;
     for (size_t i = 0; i < k; ++i) {
@@ -822,7 +845,16 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
         result.logits.push_back(std::move(logits));
     }
 #else
-    // Stub mode when THEMIS_LLM_ENABLED is not defined
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a syntactically valid DraftTokensResult when the build
+    //          was compiled WITHOUT THEMIS_LLM_ENABLED (no llama.cpp linkage).
+    // Activation: Entire `#else` branch — THEMIS_LLM_ENABLED not defined at
+    //             compile time.  No real model is ever available in this build.
+    // Production Delta: Identical to the real-path fallback above — peaked
+    //                   logits are not model-grounded; speculative decoding
+    //                   will not benefit from draft quality.
+    // Removal Plan: Rebuild with -DTHEMIS_LLM_ENABLED=ON and link llama.cpp.
+    //               See SETUP.md § "Enabling real LLM inference".
     constexpr float kPeak      =  5.0f;
     constexpr float kBaseline  = -5.0f;
     

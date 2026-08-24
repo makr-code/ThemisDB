@@ -16,6 +16,11 @@ message(STATUS "[benchmarks/geo] Configuring geo benchmark targets")
 
 file(GLOB GEO_BENCH_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp")
 
+# Migration compatibility:
+# These files are physically in geo/, but currently registered via top-level
+# benchmark targets to preserve existing target names.
+list(FILTER GEO_BENCH_SOURCES EXCLUDE REGEX "/bench_(spatial_index|spatial_join)\\.cpp$")
+
 foreach(_src IN LISTS GEO_BENCH_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "bench_geo_${_stem}")
@@ -51,16 +56,11 @@ foreach(_src IN LISTS GEO_BENCH_SOURCES)
         COMPONENT benchmarks
     )
 
-    add_test(
-        NAME "${_target}"
-        COMMAND "${_target}"
-            --benchmark_out=${CMAKE_BINARY_DIR}/bench_results/${_target}.json
-            --benchmark_out_format=json
-            --benchmark_min_time=0.1s
-    )
-    set_tests_properties("${_target}" PROPERTIES
-        LABELS   "geo;benchmark"
-        TIMEOUT  120
+    themis_register_benchmark_ctest(
+        NAME    "${_target}"
+        TARGET  "${_target}"
+        MODULE  "geo"
+        TIMEOUT 120
     )
 
     message(STATUS "[benchmarks/geo] Registered ${_target}")

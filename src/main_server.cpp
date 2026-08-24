@@ -739,7 +739,11 @@ int main(int argc, char* argv[]) {
 
     if (command_line_options.show_version) {
 #ifdef THEMIS_VERSION_STRING
+    #ifdef THEMIS_BUILD_VERSION_STRING
+        std::cout << THEMIS_BUILD_VERSION_STRING << std::endl;
+    #else
         std::cout << THEMIS_VERSION_STRING << std::endl;
+    #endif
 #else
         std::cout << "unknown" << std::endl;
 #endif
@@ -776,7 +780,11 @@ int main(int argc, char* argv[]) {
     
     THEMIS_INFO("=== Themis Multi-Model Database API Server ===");
 #ifdef THEMIS_VERSION_STRING
+#ifdef THEMIS_BUILD_VERSION_STRING
+    THEMIS_INFO("Version: {}", THEMIS_BUILD_VERSION_STRING);
+#else
     THEMIS_INFO("Version: {}", THEMIS_VERSION_STRING);
+#endif
 #else
     THEMIS_INFO("Version: unknown");
 #endif

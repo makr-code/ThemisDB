@@ -10,9 +10,25 @@ foreach(_src IN LISTS FAILOVER_PREFIX_TEST_SOURCES)
     set(_ctest "${_stem}_failover_FocusedTests")
     set(_extra_sources)
 
+    if(_stem STREQUAL "test_failover_wave_a_quorum_persistence")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+        )
+    endif()
+
     if(_stem STREQUAL "test_failover_chaos_scenarios")
         list(APPEND _extra_sources
             "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_failover_wave_a_health_timeout")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
         )
     endif()
 
@@ -25,7 +41,60 @@ foreach(_src IN LISTS FAILOVER_PREFIX_TEST_SOURCES)
     if(_stem STREQUAL "test_failover_phase2_phase3_focused")
         list(APPEND _extra_sources
             "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
             "${THEMIS_ROOT_DIR}/src/failover/disaster_recovery_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_failover_wave_a_fencing")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/disaster_recovery_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_failover_wave_c_fencing_security")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/disaster_recovery_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_failover_wave_a_topology_versioning")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_failover_wave_b_adaptive_health")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_failover_wave_b_consensus")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/disaster_recovery_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_failover_wave_d_observability")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp"
+            "${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp"
         )
     endif()
 
