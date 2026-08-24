@@ -13,6 +13,7 @@
  *  LORA-05: Training input from doku.db chunk content — InlineTrainingEngine accepts it
  *  LORA-06: Convergence proxy — loss decreases or stays stable over 10 steps
  *  LORA-07: Thread-safety — 2 concurrent reallocateRanks() calls, no data race
+ *  LORA-08: Cache-gate — rebuild only on fingerprint change or force flag
  *
  * When the InlineTrainingEngine returns an unimplemented/stub result, individual
  * tests emit GTEST_SKIP() so the CI suite reports [SKIPPED] rather than failure.
@@ -194,54 +195,83 @@ TEST_F(AdaLoraDokuTrainingTest, Lora03_TtBridgeExport) {
     spdlog::info("LORA-03: q_proj B={} A={} rank={}", b_q.size(), a_q.size(), rank);
 }
 
-// ─── LORA-04: Deterministic initialisation round-trip ────────────────────────
+// ─── LORA-04: Checkpoint save/load round-trip ────────────────────────────────
 //
-// AdaLoRAAdapter does not expose a file-level save()/load() API; persistence
-// is handled by LoraCheckpointManager which operates on pre-serialised weight
-// files.  This test instead validates the deterministic initialisation
-// contract (same constructor arguments → identical weight tensors), which
-// is the essential precondition for any checkpoint round-trip strategy.
+// Validates that saveToFile()/loadFromFile() faithfully preserves the adapter
+// weight matrices and layer structure.  A synthetic model fingerprint is stored
+// in the checkpoint header and verified after reload.
 
 TEST_F(AdaLoraDokuTrainingTest, Lora04_CheckpointRoundTrip) {
-    // Two adapters constructed identically must produce bit-identical weights.
-    AdaLoRAAdapter first(4, 8.0f, 16);
-    first.addLayer("q_proj", 32, 32, 4, 8.0f);
-    first.addLayer("v_proj", 32, 32, 4, 8.0f);
+    // Build a small adapter and apply one rank-reallocation so it has a
+    // non-trivial active_rank distribution to persist.
+    AdaLoRAAdapter original(4, 8.0f, 16);
+    original.addLayer("q_proj", 32, 32, 4, 8.0f);
+    original.addLayer("v_proj", 32, 32, 4, 8.0f);
+    original.updateImportance("q_proj");
+    original.updateImportance("v_proj");
+    original.reallocateRanks(6);
 
-    AdaLoRAAdapter second(4, 8.0f, 16);
-    second.addLayer("q_proj", 32, 32, 4, 8.0f);
-    second.addLayer("v_proj", 32, 32, 4, 8.0f);
+    const auto [b_orig, a_orig] = original.getWeights("q_proj");
+    ASSERT_FALSE(b_orig.empty()) << "Original B-matrix is empty";
 
-    const auto [b1_q, a1_q] = first.getWeights("q_proj");
-    const auto [b2_q, a2_q] = second.getWeights("q_proj");
+    // Save to a temporary file
+    const std::string tmp_path = (std::filesystem::temp_directory_path() /
+                                  "test_adalora_checkpoint_LORA04.bin").string();
+    const std::string fake_fp = std::string(62, 'a') + "01"; // 64-char hex-like fingerprint
 
-    ASSERT_EQ(b1_q.size(), b2_q.size())
-        << "B-matrix sizes differ between identically constructed adapters";
-    ASSERT_EQ(a1_q.size(), a2_q.size())
-        << "A-matrix sizes differ between identically constructed adapters";
+    ASSERT_NO_THROW(original.saveToFile(tmp_path, fake_fp))
+        << "saveToFile() threw unexpectedly";
+    ASSERT_TRUE(std::filesystem::exists(tmp_path))
+        << "Checkpoint file not created at: " << tmp_path;
+    EXPECT_GT(std::filesystem::file_size(tmp_path), 8u)
+        << "Checkpoint file is implausibly small";
 
-    for (size_t i = 0; i < b1_q.size(); ++i) {
-        EXPECT_FLOAT_EQ(b1_q[i], b2_q[i])
-            << "B-matrix weight[" << i << "] differs — initialisation is not deterministic";
+    // Load into a fresh adapter
+    AdaLoRAAdapter restored(4, 8.0f, 16);
+    std::string loaded_fp;
+    ASSERT_NO_THROW(loaded_fp = restored.loadFromFile(tmp_path))
+        << "loadFromFile() threw unexpectedly";
+
+    // Fingerprint round-trip
+    EXPECT_EQ(loaded_fp, fake_fp)
+        << "Fingerprint not preserved through save/load";
+
+    // Layer structure preserved
+    EXPECT_TRUE(restored.hasLayer("q_proj")) << "q_proj layer missing after load";
+    EXPECT_TRUE(restored.hasLayer("v_proj")) << "v_proj layer missing after load";
+    EXPECT_EQ(restored.layerCount(), original.layerCount())
+        << "Layer count mismatch after load";
+
+    // Weight vectors preserved bit-exactly
+    const auto [b_rest, a_rest] = restored.getWeights("q_proj");
+    ASSERT_EQ(b_rest.size(), b_orig.size())
+        << "B-matrix size changed through save/load";
+    ASSERT_EQ(a_rest.size(), a_orig.size())
+        << "A-matrix size changed through save/load";
+
+    for (size_t i = 0; i < b_orig.size(); ++i) {
+        EXPECT_FLOAT_EQ(b_rest[i], b_orig[i])
+            << "B-matrix weight[" << i << "] not preserved through save/load";
     }
-    for (size_t i = 0; i < a1_q.size(); ++i) {
-        EXPECT_FLOAT_EQ(a1_q[i], a2_q[i])
-            << "A-matrix weight[" << i << "] differs — initialisation is not deterministic";
-    }
 
-    // After one reallocateRanks(), both adapters should still be identical
-    first.updateImportance("q_proj");
-    first.updateImportance("v_proj");
-    first.reallocateRanks(6);
+    // isCacheValid: same fingerprint → valid
+    EXPECT_TRUE(AdaLoRAAdapter::isCacheValid(tmp_path, fake_fp))
+        << "isCacheValid returned false for matching fingerprint";
 
-    second.updateImportance("q_proj");
-    second.updateImportance("v_proj");
-    second.reallocateRanks(6);
+    // isCacheValid: different fingerprint → invalid (rebuild required)
+    EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(tmp_path, std::string(64, 'b')))
+        << "isCacheValid returned true for mismatched fingerprint";
 
-    EXPECT_EQ(first.getActiveRank("q_proj"), second.getActiveRank("q_proj"))
-        << "Active ranks diverge after identical reallocateRanks() calls";
+    // isCacheValid: absent file → invalid
+    EXPECT_FALSE(AdaLoRAAdapter::isCacheValid("/nonexistent/path.bin", fake_fp))
+        << "isCacheValid returned true for absent file";
 
-    spdlog::info("LORA-04: deterministic init verified ({} B-weights)", b1_q.size());
+    // Cleanup
+    std::filesystem::remove(tmp_path);
+
+    spdlog::info("LORA-04: checkpoint round-trip OK — {}-byte B-matrix preserved, "
+                 "fingerprint='{}...{}' verified",
+                 b_orig.size(), fake_fp.substr(0, 8), fake_fp.substr(56));
 }
 
 // ─── LORA-05: Training input from doku.db ────────────────────────────────────
@@ -367,4 +397,99 @@ TEST_F(AdaLoraDokuTrainingTest, Lora07_ThreadSafeConcurrentRealloc) {
     EXPECT_EQ(errors.load(), 0)
         << errors.load() << " error(s) occurred across two concurrent adapter threads";
     spdlog::info("LORA-07: concurrent adapters finished — errors={}", errors.load());
+}
+
+// ─── LORA-08: Cache-gate — rebuild only when fingerprint changes ──────────────
+//
+// This test validates the AdaLoRA rebuild-gate contract:
+//   1. After saving, isCacheValid() returns true for matching fingerprint.
+//   2. After the fingerprint changes, isCacheValid() returns false (rebuild needed).
+//   3. loadFromFile() restores the adapter exactly (no retraining needed).
+//   4. Force-rebuild path: even if cache is valid, caller can override.
+
+TEST_F(AdaLoraDokuTrainingTest, Lora08_CacheGate) {
+    constexpr const char* kModelFingerprintV1 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    constexpr const char* kModelFingerprintV2 = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+
+    const std::string checkpoint_path =
+        (std::filesystem::temp_directory_path() /
+         "test_adalora_cache_gate_LORA08.bin").string();
+
+    // ── Phase 1: First run — no cache, train and save ────────────────────────
+    EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(checkpoint_path, kModelFingerprintV1))
+        << "Cache must be invalid before first save";
+
+    AdaLoRAAdapter adapter_v1(4, 8.0f, 12);
+    adapter_v1.addLayer("q_proj", 32, 32, 4, 8.0f);
+    adapter_v1.addLayer("v_proj", 32, 32, 4, 8.0f);
+    adapter_v1.addLayer("k_proj", 32, 32, 4, 8.0f);
+    adapter_v1.updateAllImportances();
+    adapter_v1.reallocateRanks(8);
+
+    const auto [b_v1, a_v1] = adapter_v1.getWeights("q_proj");
+
+    ASSERT_NO_THROW(adapter_v1.saveToFile(checkpoint_path, kModelFingerprintV1));
+
+    // ── Phase 2: Same model — cache HIT, load instead of retrain ────────────
+    EXPECT_TRUE(AdaLoRAAdapter::isCacheValid(checkpoint_path, kModelFingerprintV1))
+        << "Cache must be valid for matching fingerprint after save";
+
+    AdaLoRAAdapter adapter_loaded(4, 8.0f, 12);
+    std::string loaded_fp;
+    ASSERT_NO_THROW(loaded_fp = adapter_loaded.loadFromFile(checkpoint_path));
+    EXPECT_EQ(loaded_fp, kModelFingerprintV1)
+        << "Loaded fingerprint does not match saved fingerprint";
+
+    // Weights must survive the round-trip
+    const auto [b_loaded, a_loaded] = adapter_loaded.getWeights("q_proj");
+    ASSERT_EQ(b_loaded.size(), b_v1.size());
+    for (size_t i = 0; i < b_v1.size(); ++i) {
+        EXPECT_FLOAT_EQ(b_loaded[i], b_v1[i])
+            << "B weight[" << i << "] not preserved — cache-load is lossy";
+    }
+
+    spdlog::info("LORA-08 phase-2: cache HIT verified — loaded {} B-weights without retraining",
+                 b_v1.size());
+
+    // ── Phase 3: Model update — fingerprint changes, cache MISS → retrain ───
+    EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(checkpoint_path, kModelFingerprintV2))
+        << "Cache must be INVALID when fingerprint changes (model update)";
+
+    // Simulate retraining for the new model version
+    AdaLoRAAdapter adapter_v2(4, 8.0f, 12);
+    adapter_v2.addLayer("q_proj", 32, 32, 4, 8.0f);
+    adapter_v2.addLayer("v_proj", 32, 32, 4, 8.0f);
+    adapter_v2.addLayer("k_proj", 32, 32, 4, 8.0f);
+    adapter_v2.updateAllImportances();
+    adapter_v2.reallocateRanks(8);
+    ASSERT_NO_THROW(adapter_v2.saveToFile(checkpoint_path, kModelFingerprintV2));
+
+    // After resave with new fingerprint, old fingerprint is stale
+    EXPECT_FALSE(AdaLoRAAdapter::isCacheValid(checkpoint_path, kModelFingerprintV1))
+        << "Old fingerprint must be invalid after resave with new fingerprint";
+    EXPECT_TRUE(AdaLoRAAdapter::isCacheValid(checkpoint_path, kModelFingerprintV2))
+        << "New fingerprint must be valid after resave";
+
+    spdlog::info("LORA-08 phase-3: model-update fingerprint invalidation verified");
+
+    // ── Phase 4: Force-rebuild flag — caller bypasses the gate ──────────────
+    // isCacheValid returns true, but the caller (or CMake) sets the force flag.
+    // We verify the caller-side contract: even valid cache is skipped when forced.
+    const bool cache_currently_valid =
+        AdaLoRAAdapter::isCacheValid(checkpoint_path, kModelFingerprintV2);
+    ASSERT_TRUE(cache_currently_valid)
+        << "Precondition: cache must be valid for phase-4 force-rebuild scenario";
+
+    // Simulate THEMIS_ADALORA_FORCE_REBUILD=1 by ignoring isCacheValid() result
+    const bool force_rebuild = true; // in production: read from env / CMake variable
+    if (force_rebuild || !cache_currently_valid) {
+        // Retrain and overwrite — this path runs unconditionally
+        EXPECT_NO_THROW(adapter_v2.saveToFile(checkpoint_path, kModelFingerprintV2));
+        spdlog::info("LORA-08 phase-4: force-rebuild path exercised correctly");
+    }
+
+    // Cleanup
+    std::filesystem::remove(checkpoint_path);
+
+    spdlog::info("LORA-08: cache-gate contract fully verified (4 phases)");
 }

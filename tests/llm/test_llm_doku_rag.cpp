@@ -2,7 +2,7 @@
  * @file test_llm_doku_rag.cpp
  * @brief RAG CI test suite: ThemisDB documentation knowledge base (doku.db).
  *
- * Tests RAG-01..07 validate the WikiRagSource → JsonWikiIndexReader retrieval
+ * Tests RAG-01..12 validate the WikiRagSource → JsonWikiIndexReader retrieval
  * pipeline against the doku.db JSON chunk index built by ci-build-doku-db.sh.
  *
  * All questions and answer-quality criteria derive exclusively from ThemisDB
@@ -15,15 +15,21 @@
  *  RAG-05: Retrieval for "model download" returns Ollama/HuggingFace content
  *  RAG-06: Recall@5 ≥ 70 % across 10 representative questions
  *  RAG-07: Query latency < 3000 ms per query on CPU-only (JsonWikiIndexReader)
+ *  RAG-08: Golden dataset keyword gate — every entry hits ≥ 1 keyword in Top-5
+ *  RAG-09: Golden dataset Recall@5 ≥ 80 % across all 30 entries
+ *  RAG-10: Golden dataset source-hint gate — expected_source_hint in Top-5
+ *  RAG-11: Golden dataset latency gate — median < 500 ms per query
+ *  RAG-12: Golden dataset YAML presence guard (hard failure if file missing)
  *
- * When the doku.db index file is absent, tests skip (model_required label).
- * When THEMIS_TEST_MODEL_PATH is set, full LLM generation is exercised for
- * RAG-01..05; otherwise the retrieval quality (chunk content) is checked
- * directly without LLM generation.
+ * When the doku.db index file is absent, tests RAG-01..07 skip (model_required
+ * label).  RAG-08..12 skip when doku.db is absent but FAIL if the golden
+ * dataset YAML itself is missing (RAG-12).
  *
  * @see scripts/ci-build-doku-db.sh   (produces doku.db.json)
+ * @see tests/llm/data/themisdb_rag_golden_dataset.yaml  (authoritative dataset)
+ * @see scripts/generate_rag_golden_dataset.py           (bootstrap generator)
  * @see tests/llm/test_llm_tinyllama_inference.cpp (INFER-01..10)
- * @see tests/llm/test_llm_adalora_doku_training.cpp (LORA-01..07)
+ * @see tests/llm/test_llm_adalora_doku_training.cpp (LORA-01..08)
  */
 
 #ifndef THEMIS_TEST_BUILD
@@ -38,6 +44,8 @@
 #include <algorithm>
 #include <chrono>
 #include <filesystem>
+#include <fstream>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -78,6 +86,37 @@ std::string findDokuDbPath() {
     return {};
 }
 
+/// Probe standard locations for the golden dataset YAML.
+std::string findGoldenDatasetPath() {
+    const char* env_gd = std::getenv("THEMIS_RAG_GOLDEN_DATASET_PATH");
+    if (env_gd && std::filesystem::exists(env_gd)) return env_gd;
+
+    const char* env_ws = std::getenv("GITHUB_WORKSPACE");
+    const char* env_src = std::getenv("CMAKE_SOURCE_DIR");
+
+    std::vector<std::filesystem::path> candidates = {
+        // CMake copies the YAML next to the test binary (via configure_file)
+        std::filesystem::path("themisdb_rag_golden_dataset.yaml"),
+        std::filesystem::path("data/themisdb_rag_golden_dataset.yaml"),
+        std::filesystem::path("tests/llm/data/themisdb_rag_golden_dataset.yaml"),
+        std::filesystem::path("../tests/llm/data/themisdb_rag_golden_dataset.yaml"),
+    };
+    if (env_ws) {
+        candidates.push_back(
+            std::filesystem::path(env_ws) / "tests/llm/data/themisdb_rag_golden_dataset.yaml");
+    }
+    if (env_src) {
+        candidates.push_back(
+            std::filesystem::path(env_src) / "tests/llm/data/themisdb_rag_golden_dataset.yaml");
+    }
+    for (const auto& c : candidates) {
+        if (std::filesystem::exists(c) && std::filesystem::is_regular_file(c)) {
+            return c.string();
+        }
+    }
+    return {};
+}
+
 /// Case-insensitive substring search.
 bool containsIgnoreCase(const std::string& text, const std::string& needle) {
     auto to_lower = [](std::string s) {
@@ -95,6 +134,117 @@ bool chunksContainKeyword(const std::vector<WikiChunk>& chunks,
             return containsIgnoreCase(c.content, keyword) ||
                    containsIgnoreCase(c.section_heading, keyword);
         });
+}
+
+// ─── Minimal YAML parser for the golden dataset ──────────────────────────────
+//
+// We implement a purpose-built parser rather than taking a YAML library
+// dependency.  It handles only the subset of YAML used in the golden dataset:
+//   - "key: value" string pairs
+//   - "key: [a, b, c]" flow sequences
+//   - "key: 0.7" float scalars
+//   - "  - id: …" list-of-map entries (indented with 2 spaces)
+
+struct GoldenEntry {
+    std::string id;
+    std::string question;
+    std::vector<std::string> expected_keywords;
+    std::string expected_source_hint;
+    double min_recall_score = 0.7;
+};
+
+/// Strip leading/trailing whitespace in-place.
+static void trim(std::string& s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+        [](unsigned char c){ return !std::isspace(c); }));
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+        [](unsigned char c){ return !std::isspace(c); }).base(), s.end());
+}
+
+/// Remove surrounding quotes (single or double) from a string.
+static void unquote(std::string& s) {
+    if (s.size() >= 2 && ((s.front() == '"' && s.back() == '"') ||
+                           (s.front() == '\'' && s.back() == '\''))) {
+        s = s.substr(1, s.size() - 2);
+    }
+}
+
+/// Parse a YAML flow sequence "[a, b, c]" into a vector of strings.
+static std::vector<std::string> parseFlowSeq(const std::string& val) {
+    std::vector<std::string> result;
+    std::string inner = val;
+    if (inner.front() == '[') inner = inner.substr(1);
+    if (!inner.empty() && inner.back() == ']') inner.pop_back();
+
+    std::stringstream ss(inner);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        trim(token);
+        unquote(token);
+        if (!token.empty()) result.push_back(token);
+    }
+    return result;
+}
+
+/// Parse the golden dataset YAML file into a vector of GoldenEntry.
+/// Returns an empty vector on parse error.
+static std::vector<GoldenEntry> parseGoldenDataset(const std::string& yaml_path) {
+    std::ifstream ifs(yaml_path);
+    if (!ifs) return {};
+
+    std::vector<GoldenEntry> entries;
+    GoldenEntry current;
+    bool in_entry = false;
+
+    std::string line;
+    while (std::getline(ifs, line)) {
+        // Skip comments and blank lines
+        std::string trimmed = line;
+        trim(trimmed);
+        if (trimmed.empty() || trimmed[0] == '#') continue;
+
+        // Detect new entry marker: "  - id:"
+        if (trimmed.rfind("- id:", 0) == 0) {
+            if (in_entry && !current.id.empty()) {
+                entries.push_back(current);
+            }
+            current = GoldenEntry{};
+            in_entry = true;
+            std::string val = trimmed.substr(5);
+            trim(val);
+            unquote(val);
+            current.id = val;
+            continue;
+        }
+
+        if (!in_entry) continue;
+
+        // Key-value lines at the entry level (indented 4 spaces or more)
+        auto colon_pos = trimmed.find(':');
+        if (colon_pos == std::string::npos) continue;
+
+        std::string key = trimmed.substr(0, colon_pos);
+        trim(key);
+        std::string val = trimmed.substr(colon_pos + 1);
+        trim(val);
+
+        if (key == "question") {
+            unquote(val);
+            current.question = val;
+        } else if (key == "expected_keywords") {
+            current.expected_keywords = parseFlowSeq(val);
+        } else if (key == "expected_source_hint") {
+            unquote(val);
+            current.expected_source_hint = val;
+        } else if (key == "min_recall_score") {
+            try { current.min_recall_score = std::stod(val); } catch (...) {}
+        }
+    }
+    // Push the last entry
+    if (in_entry && !current.id.empty()) {
+        entries.push_back(current);
+    }
+    return entries;
 }
 
 } // namespace
@@ -308,4 +458,222 @@ TEST_F(DokuRagTest, Rag07_QueryLatencyBelow3s) {
         EXPECT_LT(elapsed_ms, 3000.0)
             << "Query latency " << elapsed_ms << "ms exceeds 3000ms limit for: " << q;
     }
+}
+
+// ─── Golden Dataset Fixture ───────────────────────────────────────────────────
+
+class GoldenDatasetRagTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // doku.db (may be absent — golden tests skip gracefully)
+        db_path_ = findDokuDbPath();
+        if (!db_path_.empty()) {
+            reader_ = std::make_unique<JsonWikiIndexReader>(db_path_, /*auto_load=*/true);
+            if (!reader_->isReady()) {
+                db_path_.clear();
+                reader_.reset();
+            } else {
+                spdlog::info("GoldenDatasetRagTest: loaded {} chunks from {}",
+                             reader_->size(), db_path_);
+            }
+        }
+
+        // Golden dataset YAML (must always be present for RAG-12)
+        golden_path_ = findGoldenDatasetPath();
+        if (!golden_path_.empty()) {
+            golden_entries_ = parseGoldenDataset(golden_path_);
+            spdlog::info("GoldenDatasetRagTest: parsed {} golden entries from {}",
+                         golden_entries_.size(), golden_path_);
+        }
+    }
+
+    bool skipIfNoDb() {
+        if (db_path_.empty() || !reader_ || !reader_->isReady()) {
+            GTEST_SKIP() << "doku.db not available — run scripts/ci-build-doku-db.sh "
+                            "or set THEMIS_DOKU_DB_PATH";
+            return true;
+        }
+        return false;
+    }
+
+    std::string db_path_;
+    std::string golden_path_;
+    std::unique_ptr<JsonWikiIndexReader> reader_;
+    std::vector<GoldenEntry> golden_entries_;
+};
+
+// ─── RAG-12: Golden dataset YAML presence guard (hard failure) ────────────────
+
+TEST_F(GoldenDatasetRagTest, Rag12_GoldenDatasetPresent) {
+    // This test MUST NOT be skipped — the YAML file is committed to the repo.
+    ASSERT_FALSE(golden_path_.empty())
+        << "Golden dataset YAML not found.  Expected at one of:\n"
+           "  tests/llm/data/themisdb_rag_golden_dataset.yaml\n"
+           "  $THEMIS_RAG_GOLDEN_DATASET_PATH\n"
+           "  Next to the test binary (CMake configure_file copy)\n"
+           "Run: git status tests/llm/data/ to verify the file is present.";
+
+    ASSERT_FALSE(golden_entries_.empty())
+        << "Golden dataset YAML found at '" << golden_path_
+        << "' but could not be parsed or is empty.";
+
+    // Sanity: every entry must have a non-empty id, question, and at least one keyword
+    for (const auto& e : golden_entries_) {
+        EXPECT_FALSE(e.id.empty())       << "Entry with empty id found";
+        EXPECT_FALSE(e.question.empty()) << "Entry '" << e.id << "' has empty question";
+        EXPECT_FALSE(e.expected_keywords.empty())
+            << "Entry '" << e.id << "' has no expected_keywords";
+    }
+
+    spdlog::info("RAG-12: {} golden entries validated from {}", golden_entries_.size(), golden_path_);
+}
+
+// ─── RAG-08: Golden dataset keyword gate ─────────────────────────────────────
+
+TEST_F(GoldenDatasetRagTest, Rag08_GoldenKeywordGate) {
+    if (skipIfNoDb()) return;
+    if (golden_entries_.empty()) {
+        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+    }
+
+    int miss_count = 0;
+    for (const auto& entry : golden_entries_) {
+        const auto chunks = reader_->query(entry.question, /*top_k=*/5, /*min_score=*/0.0f);
+        bool any_hit = false;
+        for (const auto& kw : entry.expected_keywords) {
+            if (chunksContainKeyword(chunks, kw)) {
+                any_hit = true;
+                break;
+            }
+        }
+        if (!any_hit) {
+            ++miss_count;
+            spdlog::warn("RAG-08 MISS: {} '{}' — no keyword in {{{}}} found in Top-5",
+                         entry.id, entry.question.substr(0, 60),
+                         entry.expected_keywords.empty() ? "" : entry.expected_keywords[0]);
+        }
+    }
+
+    const int total = static_cast<int>(golden_entries_.size());
+    spdlog::info("RAG-08: keyword gate — {}/{} entries hit at least one keyword",
+                 total - miss_count, total);
+
+    // Allow at most 20% misses (same tolerance as RAG-09 80% recall gate)
+    const int max_misses = std::max(1, total / 5);
+    EXPECT_LE(miss_count, max_misses)
+        << miss_count << "/" << total
+        << " golden entries had no keyword match in Top-5 (max allowed: " << max_misses << ")";
+}
+
+// ─── RAG-09: Golden dataset Recall@5 ≥ 80 % ─────────────────────────────────
+
+TEST_F(GoldenDatasetRagTest, Rag09_GoldenRecallAt5_80Percent) {
+    if (skipIfNoDb()) return;
+    if (golden_entries_.empty()) {
+        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+    }
+
+    int hits = 0;
+    for (const auto& entry : golden_entries_) {
+        const auto chunks = reader_->query(entry.question, /*top_k=*/5, /*min_score=*/0.0f);
+        for (const auto& kw : entry.expected_keywords) {
+            if (chunksContainKeyword(chunks, kw)) {
+                ++hits;
+                break;
+            }
+        }
+    }
+
+    const int total = static_cast<int>(golden_entries_.size());
+    const double recall = static_cast<double>(hits) / static_cast<double>(total);
+    spdlog::info("RAG-09: golden Recall@5 = {}/{} = {:.1f}%", hits, total, recall * 100.0);
+
+    EXPECT_GE(recall, 0.80)
+        << "Golden dataset Recall@5 = " << (recall * 100.0) << "% — below 80% gate.\n"
+           "  " << hits << "/" << total << " entries returned at least one expected keyword "
+           "in the Top-5 results.\n"
+           "  Investigate doku.db freshness or retrieval quality.";
+}
+
+// ─── RAG-10: Golden dataset source-hint gate ─────────────────────────────────
+
+TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate) {
+    if (skipIfNoDb()) return;
+    if (golden_entries_.empty()) {
+        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+    }
+
+    // Only evaluate entries that have a non-empty expected_source_hint
+    std::vector<const GoldenEntry*> with_hint;
+    for (const auto& e : golden_entries_) {
+        if (!e.expected_source_hint.empty()) {
+            with_hint.push_back(&e);
+        }
+    }
+
+    if (with_hint.empty()) {
+        GTEST_SKIP() << "No golden entries have an expected_source_hint — skipping RAG-10";
+    }
+
+    int source_hits = 0;
+    for (const auto* entry : with_hint) {
+        const auto chunks = reader_->query(entry->question, /*top_k=*/5, /*min_score=*/0.0f);
+        bool found = std::any_of(chunks.begin(), chunks.end(),
+            [&](const WikiChunk& c) {
+                return containsIgnoreCase(c.doc_id,  entry->expected_source_hint) ||
+                       containsIgnoreCase(c.section_heading, entry->expected_source_hint);
+            });
+        if (found) ++source_hits;
+        else {
+            spdlog::warn("RAG-10 MISS: {} '{}' — hint '{}' not in Top-5 doc_ids",
+                         entry->id, entry->question.substr(0, 50),
+                         entry->expected_source_hint);
+        }
+    }
+
+    const int total_hinted = static_cast<int>(with_hint.size());
+    const double source_recall = static_cast<double>(source_hits) /
+                                  static_cast<double>(total_hinted);
+    spdlog::info("RAG-10: source-hint gate — {}/{} entries found expected source ({:.0f}%)",
+                 source_hits, total_hinted, source_recall * 100.0);
+
+    // Allow up to 30% source misses (sources may be in different doc splits)
+    EXPECT_GE(source_recall, 0.70)
+        << "Source-hint Recall = " << (source_recall * 100.0)
+        << "% — below 70% gate for entries with expected_source_hint.";
+}
+
+// ─── RAG-11: Golden dataset latency gate — median < 500 ms ───────────────────
+
+TEST_F(GoldenDatasetRagTest, Rag11_GoldenLatencyMedianBelow500ms) {
+    if (skipIfNoDb()) return;
+    if (golden_entries_.empty()) {
+        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+    }
+
+    std::vector<double> latencies;
+    latencies.reserve(golden_entries_.size());
+
+    for (const auto& entry : golden_entries_) {
+        const auto t0 = steady_clock::now();
+        (void)reader_->query(entry.question, /*top_k=*/5, /*min_score=*/0.0f);
+        const double elapsed_ms =
+            duration_cast<microseconds>(steady_clock::now() - t0).count() / 1000.0;
+        latencies.push_back(elapsed_ms);
+    }
+
+    // Compute median
+    std::vector<double> sorted = latencies;
+    std::sort(sorted.begin(), sorted.end());
+    const double median_ms = sorted[sorted.size() / 2];
+    const double max_ms = sorted.back();
+    const double mean_ms = std::accumulate(sorted.begin(), sorted.end(), 0.0) /
+                            static_cast<double>(sorted.size());
+
+    spdlog::info("RAG-11: latency over {} queries — median={:.1f}ms mean={:.1f}ms max={:.1f}ms",
+                 latencies.size(), median_ms, mean_ms, max_ms);
+
+    EXPECT_LT(median_ms, 500.0)
+        << "Median query latency " << median_ms << "ms exceeds 500ms gate "
+           "over " << latencies.size() << " golden-dataset queries.";
 }

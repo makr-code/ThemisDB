@@ -1,0 +1,249 @@
+# ThemisDB RAG Golden Dataset
+# ─────────────────────────────────────────────────────────────────────────────
+# Format:
+#   id                  — unique test identifier (RAG-GD-NNN)
+#   question            — natural-language retrieval query
+#   expected_keywords   — list of strings; at least one must appear in Top-5
+#   expected_source_hint— substring that should appear in a retrieved source/
+#                         doc_id field (case-insensitive, optional)
+#   min_recall_score    — minimum fraction [0..1] for Recall@5 gate
+#   category            — thematic grouping (informational only)
+#
+# Acceptance gate (RAG-09): overall Recall@5 across all entries >= 0.80
+# Keyword gate (RAG-08): every entry must hit >= 1 expected_keyword in Top-5
+# Source gate (RAG-10): expected_source_hint (if non-empty) must appear in
+#                        at least one Top-5 chunk's source/doc_id field
+# ─────────────────────────────────────────────────────────────────────────────
+
+version: 1
+dataset_name: themisdb_rag_golden_dataset
+created: "2026-08-24"
+description: >
+  Curated question/answer pairs for ThemisDB RAG quality gating.
+  Questions derive exclusively from ThemisDB documentation, roadmaps,
+  and architecture specifications.  This dataset is the authoritative
+  golden reference for RAG-08..RAG-12 test gates.
+
+entries:
+
+  # ── Category: Architecture ────────────────────────────────────────────────
+
+  - id: RAG-GD-001
+    category: architecture
+    question: "What is the purpose of WikiIndexStore in ThemisDB?"
+    expected_keywords: [WikiIndexStore, BM25, HNSW, RRF, retrieval]
+    expected_source_hint: "wiki_index"
+    min_recall_score: 0.8
+
+  - id: RAG-GD-002
+    category: architecture
+    question: "How does BM25 scoring work in the wiki retrieval pipeline?"
+    expected_keywords: [BM25, score, term, frequency, retrieval]
+    expected_source_hint: ""
+    min_recall_score: 0.8
+
+  - id: RAG-GD-003
+    category: architecture
+    question: "What is HNSW and how is it used for vector search?"
+    expected_keywords: [HNSW, vector, index, approximate, nearest]
+    expected_source_hint: ""
+    min_recall_score: 0.8
+
+  - id: RAG-GD-004
+    category: architecture
+    question: "Explain Reciprocal Rank Fusion (RRF) in ThemisDB"
+    expected_keywords: [RRF, rank, fusion, score, hybrid]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-005
+    category: architecture
+    question: "What is the role of RocksDB as the storage backend?"
+    expected_keywords: [RocksDB, storage, LSM, key-value]
+    expected_source_hint: ""
+    min_recall_score: 0.8
+
+  - id: RAG-GD-006
+    category: architecture
+    question: "How does the LLM plugin manager load and manage models?"
+    expected_keywords: [plugin, model, load, manager, LLM]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-007
+    category: architecture
+    question: "What is the WikiChunkSplitter and how does it split documents?"
+    expected_keywords: [WikiChunkSplitter, chunk, split, heading, sliding]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-008
+    category: architecture
+    question: "What streaming inference APIs does ThemisDB expose?"
+    expected_keywords: [stream, inference, token, callback, async]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  # ── Category: Roadmap / Wave Gates ───────────────────────────────────────
+
+  - id: RAG-GD-009
+    category: roadmap
+    question: "What are the six implementation phases in ThemisDB modules?"
+    expected_keywords: [Phase 1, Phase 2, Phase 3, Phase 4, Phase 5, Phase 6]
+    expected_source_hint: "ROADMAP"
+    min_recall_score: 0.8
+
+  - id: RAG-GD-010
+    category: roadmap
+    question: "What are the Wave A and Wave B exit criteria?"
+    expected_keywords: [Wave, exit, criteria, gate, chaos]
+    expected_source_hint: "ROADMAP"
+    min_recall_score: 0.7
+
+  - id: RAG-GD-011
+    category: roadmap
+    question: "What is the Production Readiness Checklist for modules?"
+    expected_keywords: [production, readiness, checklist, documented, verified]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-012
+    category: roadmap
+    question: "What does the GA promotion sign-off require?"
+    expected_keywords: [GA, sign-off, promotion, evidence, human]
+    expected_source_hint: ""
+    min_recall_score: 0.6
+
+  # ── Category: AdaLoRA / Training ─────────────────────────────────────────
+
+  - id: RAG-GD-013
+    category: adalora
+    question: "How does AdaLoRA perform importance-based rank pruning?"
+    expected_keywords: [AdaLoRA, rank, importance, pruning, reallocate]
+    expected_source_hint: ""
+    min_recall_score: 0.8
+
+  - id: RAG-GD-014
+    category: adalora
+    question: "What is the AdaLoraTTBridge and how does it export TT-cores?"
+    expected_keywords: [AdaLoraTTBridge, TT, tensor-train, export, core]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-015
+    category: adalora
+    question: "How are AdaLoRA adapter checkpoints saved and loaded?"
+    expected_keywords: [checkpoint, save, load, serialization, adapter]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-016
+    category: adalora
+    question: "How does the InlineTrainingEngine accept training input?"
+    expected_keywords: [InlineTrainingEngine, training, input, forward, step]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-017
+    category: adalora
+    question: "What LoRA scaling formula does ThemisDB use?"
+    expected_keywords: [LoRA, alpha, scaling, rank, matrix]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  # ── Category: Branch / Release Strategy ──────────────────────────────────
+
+  - id: RAG-GD-018
+    category: release
+    question: "What is the Community branch and who is it for?"
+    expected_keywords: [community, branch, release, open-source]
+    expected_source_hint: ""
+    min_recall_score: 0.8
+
+  - id: RAG-GD-019
+    category: release
+    question: "What is the difference between the develop and community branches?"
+    expected_keywords: [develop, community, branch, integration, release]
+    expected_source_hint: "BRANCHING"
+    min_recall_score: 0.7
+
+  - id: RAG-GD-020
+    category: release
+    question: "How are DEB and RPM packages generated in the release pipeline?"
+    expected_keywords: [DEB, RPM, package, CPack, linux]
+    expected_source_hint: ""
+    min_recall_score: 0.6
+
+  - id: RAG-GD-021
+    category: release
+    question: "What is the Military edition of ThemisDB?"
+    expected_keywords: [military, edition, branch, classified, hardened]
+    expected_source_hint: ""
+    min_recall_score: 0.6
+
+  # ── Category: CMake / Build Configuration ────────────────────────────────
+
+  - id: RAG-GD-022
+    category: build
+    question: "What are the available CMake presets for ThemisDB?"
+    expected_keywords: [preset, CMake, community-release, linux-release, configure]
+    expected_source_hint: "CMakePresets"
+    min_recall_score: 0.7
+
+  - id: RAG-GD-023
+    category: build
+    question: "What are the docs.db build modes in CMake?"
+    expected_keywords: [docs.db, AUTO, BUILD, PREBUILT, OFF, THEMIS_DOCS_DB_MODE]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-024
+    category: build
+    question: "How is sccache configured in the CI build setup?"
+    expected_keywords: [sccache, cache, build, mozilla, ccache]
+    expected_source_hint: ""
+    min_recall_score: 0.6
+
+  - id: RAG-GD-025
+    category: build
+    question: "Why does community-release require RocksDB to be installed?"
+    expected_keywords: [RocksDB, community, configure, dependency, librocksdb]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  # ── Category: API Contracts / Error Handling ──────────────────────────────
+
+  - id: RAG-GD-026
+    category: api
+    question: "What RAII patterns are used in ThemisDB resource management?"
+    expected_keywords: [RAII, resource, lifetime, unique_ptr, scope]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-027
+    category: api
+    question: "What error code ranges are defined per module in ThemisDB?"
+    expected_keywords: [error, code, range, module, exception]
+    expected_source_hint: ""
+    min_recall_score: 0.6
+
+  - id: RAG-GD-028
+    category: api
+    question: "How does the diagnostic emitter broadcast events thread-safely?"
+    expected_keywords: [diagnostic, emitter, listener, thread, broadcast]
+    expected_source_hint: ""
+    min_recall_score: 0.6
+
+  - id: RAG-GD-029
+    category: api
+    question: "How does ThemisDB handle model GGUF file loading?"
+    expected_keywords: [GGUF, model, load, llama.cpp, plugin]
+    expected_source_hint: ""
+    min_recall_score: 0.7
+
+  - id: RAG-GD-030
+    category: api
+    question: "What is the WikiRagSource and how does it integrate with the RAG pipeline?"
+    expected_keywords: [WikiRagSource, RAG, pipeline, retrieval, stage]
+    expected_source_hint: ""
+    min_recall_score: 0.7

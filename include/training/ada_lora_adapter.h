@@ -247,6 +247,64 @@ public:
     /** @brief Update the global rank budget. */
     void setRankBudget(size_t budget);
 
+    // -------------------------------------------------------------------------
+    // Persistence — adapter checkpoint save / load
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Persist the complete adapter state to a binary checkpoint file.
+     *
+     * The file format is self-describing:
+     *   - 8-byte magic ("ADALORA\0")
+     *   - 4-byte uint32 version (currently 1)
+     *   - 64-byte model fingerprint (SHA-256 hex, NUL-padded)
+     *   - 4-byte uint32 layer count
+     *   - For each layer (in insertion order):
+     *       - 4-byte uint32 name length
+     *       - name bytes (UTF-8, no NUL)
+     *       - 8-byte uint64 in_dim, out_dim, max_rank, active_rank
+     *       - 4-byte float alpha, importance
+     *       - B matrix: (in_dim × max_rank) float32 values
+     *       - A matrix: (max_rank × out_dim) float32 values
+     *
+     * @param path             Destination file path (parent directory must exist).
+     * @param model_fingerprint Optional SHA-256 fingerprint of the base model
+     *                          (64 hex chars); stored in the header for cache
+     *                          invalidation.  Empty string stores all-zero bytes.
+     * @throws std::runtime_error on I/O failure.
+     */
+    void saveToFile(const std::string& path,
+                    const std::string& model_fingerprint = "") const;
+
+    /**
+     * @brief Restore adapter state from a binary checkpoint file.
+     *
+     * Replaces all current layers with the layers stored in the file.
+     * The adapter's rank_budget is updated to match the stored budget
+     * (sum of stored max_ranks).
+     *
+     * @param path  Source file path.
+     * @return The model fingerprint string stored in the checkpoint header
+     *         (64 hex chars, may be all zeros if none was stored).
+     * @throws std::runtime_error on I/O failure or format mismatch.
+     */
+    std::string loadFromFile(const std::string& path);
+
+    /**
+     * @brief Check whether a saved checkpoint is still valid for the given model.
+     *
+     * Reads only the header of @p checkpoint_path and compares the stored
+     * fingerprint against @p current_fingerprint.
+     *
+     * @param checkpoint_path     Path to a checkpoint written by saveToFile().
+     * @param current_fingerprint SHA-256 fingerprint of the current base model.
+     * @return true  — checkpoint exists and fingerprint matches (no rebuild needed).
+     * @return false — checkpoint absent, unreadable, or fingerprint differs
+     *                 (rebuild required).
+     */
+    static bool isCacheValid(const std::string& checkpoint_path,
+                             const std::string& current_fingerprint);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

@@ -505,14 +505,34 @@ if(THEMIS_LLM_INFERENCE_TESTS)
         ${THEMIS_ROOT_DIR}/src/llm/lora_framework/llama_tokenizer.cpp
     )
 
-    # ── RAG-01..07: doku.db RAG tests ────────────────────────────────────
+    # ── RAG-01..12: doku.db RAG tests ────────────────────────────────────
     _add_llm_inference_ci_target(
         test_llm_doku_rag
         "llm;llm_rag_doku;model_required"
         180
     )
 
-    # ── LORA-01..07: AdaLoRA training tests ──────────────────────────────
+    # Copy the golden dataset YAML next to the test binary so RAG-08..12
+    # can find it without hard-coding source-tree paths at runtime.
+    set(_golden_yaml "${CMAKE_CURRENT_SOURCE_DIR}/data/themisdb_rag_golden_dataset.yaml")
+    if(EXISTS "${_golden_yaml}")
+        add_custom_command(
+            TARGET module_llm_test_llm_doku_rag_focused POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    "${_golden_yaml}"
+                    "$<TARGET_FILE_DIR:module_llm_test_llm_doku_rag_focused>/themisdb_rag_golden_dataset.yaml"
+            COMMENT "Copying RAG golden dataset YAML to test binary directory"
+        )
+        set_tests_properties(test_llm_doku_rag_LlmInferenceCITests PROPERTIES
+            ENVIRONMENT
+            "THEMIS_RAG_GOLDEN_DATASET_PATH=$<TARGET_FILE_DIR:module_llm_test_llm_doku_rag_focused>/themisdb_rag_golden_dataset.yaml"
+        )
+        message(STATUS "RAG golden dataset registered: ${_golden_yaml}")
+    else()
+        message(WARNING "RAG golden dataset not found: ${_golden_yaml} — RAG-08..12 will use fallback path search")
+    endif()
+
+    # ── LORA-01..08: AdaLoRA training + cache-gate tests ─────────────────
     _add_llm_inference_ci_target(
         test_llm_adalora_doku_training
         "llm;adalora_training"
