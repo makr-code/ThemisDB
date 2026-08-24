@@ -124,21 +124,24 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
         throw std::runtime_error("FederatedDistillationCoordinator: DP privacy budget exhausted");
     }
 
-    // ── DistillationBoundedPolicy enforcement (FAIL_CLOSED) ──────────────────
+    // ── DistillationBoundedPolicy enforcement ────────────────────────────────
     if (bounded_policy_.isConstrained()) {
-        if (bounded_policy_.max_distillation_rounds != 0u &&
-            current_round_ >= static_cast<uint64_t>(bounded_policy_.max_distillation_rounds)) {
+        bool rounds_violated  = bounded_policy_.max_distillation_rounds != 0u &&
+                                current_round_ >= static_cast<uint64_t>(bounded_policy_.max_distillation_rounds);
+        bool budget_violated  = bounded_policy_.privacy_budget_hard_limit > 0.0 &&
+                                (total_epsilon_spent_ + config_.dp_epsilon) >= bounded_policy_.privacy_budget_hard_limit;
+
+        if (rounds_violated || budget_violated) {
             ++policy_block_count_;
-            throw std::runtime_error(
-                "FederatedDistillationCoordinator: max_distillation_rounds cap reached "
-                "(DistillationBoundedPolicy FAIL_CLOSED)");
-        }
-        if (bounded_policy_.privacy_budget_hard_limit > 0.0 &&
-            (total_epsilon_spent_ + config_.dp_epsilon) > bounded_policy_.privacy_budget_hard_limit) {
-            ++policy_block_count_;
-            throw std::runtime_error(
-                "FederatedDistillationCoordinator: privacy_budget_hard_limit would be exceeded "
-                "(DistillationBoundedPolicy FAIL_CLOSED)");
+            if (bounded_policy_.policy_gate_enforcement == PolicyGateEnforcement::FAIL_CLOSED) {
+                throw std::runtime_error(
+                    rounds_violated
+                        ? "FederatedDistillationCoordinator: max_distillation_rounds cap reached "
+                          "(DistillationBoundedPolicy FAIL_CLOSED)"
+                        : "FederatedDistillationCoordinator: privacy_budget_hard_limit would be exceeded "
+                          "(DistillationBoundedPolicy FAIL_CLOSED)");
+            }
+            // LOG_ONLY: record violation in stats but allow the operation to proceed.
         }
     }
 

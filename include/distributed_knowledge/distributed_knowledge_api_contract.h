@@ -612,7 +612,7 @@ enum class PolicyGateEnforcement : uint8_t {
  * @brief Bounded runtime contract for a FederatedDistillationCoordinator session.
  *
  * @invariant When `enforcement == FAIL_CLOSED`, every call to
- *   `FederatedDistillationCoordinator::broadcastRound()` that would violate
+ *   `FederatedDistillationCoordinator::broadcastToStudents()` that would violate
  *   `max_distillation_rounds` or `privacy_budget_hard_limit` MUST throw
  *   `std::runtime_error` immediately.  Silent degradation is prohibited.
  *

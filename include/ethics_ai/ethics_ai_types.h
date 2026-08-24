@@ -896,10 +896,10 @@ private:
  */
 namespace LDM7Schools {
     /// Māori relational ethics (whakapapa, kaitiakitanga, mana).
-    inline constexpr const char* MAORI_ETHICS              = "maori_ethics";
+    inline constexpr const char* MAORI_ETHICS              = "maori_tikanga";
     /// Latin-American Liberation Theology (Dussel, Gutiérrez — preferential
     /// option for the poor, structural justice).
-    inline constexpr const char* LATIN_LIBERATION_THEOLOGY = "latin_liberation_theology";
+    inline constexpr const char* LATIN_LIBERATION_THEOLOGY = "befreiungstheologie";
 } // namespace LDM7Schools
 
 /**

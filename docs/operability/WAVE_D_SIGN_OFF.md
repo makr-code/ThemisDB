@@ -132,6 +132,8 @@
 
 
 
+## Final Sign-Off
+
 **Status:** 🔲 Open — pending Batches D1–D4, D6 completion and human sign-off
 
 **Gate closure checklist:**
@@ -143,10 +145,6 @@
 - [ ] `ROADMAP.md` Wave D items updated to `[x]`
 - [ ] `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9 (Batch D) updated with completion status
 - [ ] Human maintainer approves this document (signature below)
-
----
-
-## Final Sign-Off
 
 > By approving this document, the signing maintainer certifies that all Wave D
 > Operability Hardening batches (D1–D6) have been completed, evidence has been

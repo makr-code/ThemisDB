@@ -37,6 +37,7 @@
 #include "distributed_knowledge/distributed_knowledge_api_contract.h"
 
 #include <chrono>
+#include <ctime>
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -152,11 +153,10 @@ public:
      * @param event  Diagnostic event to broadcast (copied internally).
      */
     void emit(DKDiagnosticEvent event) {
+        std::lock_guard<std::mutex> lock(mutex_);
         if (event.timestamp_utc.empty()) {
             event.timestamp_utc = utcNow();
         }
-
-        std::lock_guard<std::mutex> lock(mutex_);
         for (auto& listener : listeners_) {
             if (!listener) { continue; }
             try {
@@ -276,8 +276,13 @@ private:
         const auto now  = std::chrono::system_clock::now();
         const auto time = std::chrono::system_clock::to_time_t(now);
         char buf[32]{};
-        // strftime is available in all supported platforms; no external dependency needed.
-        std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time));
+        std::tm tm_buf{};
+#if defined(_WIN32)
+        gmtime_s(&tm_buf, &time);
+#else
+        gmtime_r(&time, &tm_buf);
+#endif
+        std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
         return buf;
     }
 };

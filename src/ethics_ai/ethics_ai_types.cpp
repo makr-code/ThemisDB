@@ -125,8 +125,6 @@ ClusterAssignment DynamicClusteringEngine::cluster(
 
     // Greedy graph-colouring: assign each school to the cluster (0..k-1) that
     // has the lowest cumulative tension with already-assigned schools.
-    std::vector<std::vector<double>> cluster_tension(k, std::vector<double>(n, 0.0));
-
     for (std::size_t i = 0; i < n; ++i) {
         const std::string& school = graph.schools[i];
         std::size_t best_cluster  = 0u;
