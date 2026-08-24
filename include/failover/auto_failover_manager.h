@@ -324,10 +324,26 @@ private:
     std::vector<FailoverEventCallback> event_callbacks_;
 
     // Helper methods - monitoring loop
+    /// @brief Main monitoring loop; runs on monitoring_thread_. Polls health, partitions, failures.
+    /// @thread_safety Must only be called from monitoring_thread_.
     void monitoringLoop();
+    /// @brief Performs a bounded health-check round for all monitored nodes.
+    ///        Each individual call is capped by health_check_call_timeout_ms (default 5 s).
+    ///        On timeout, emits HEARTBEAT_MISSED diagnostic.
+    /// @thread_safety Called from monitoringLoop; must not be called from other threads.
     void performHealthChecks();
+    /// @brief Checks for evidence of a network partition and triggers handling if detected.
+    /// @thread_safety Called from monitoringLoop.
     void checkForNetworkPartitions();
+    /// @brief Evaluates tracked failure counts and enqueues a FailoverTask if threshold exceeded.
+    ///        Uses topology snapshots to detect concurrent topology changes; retries up to 3 times.
+    /// @thread_safety Called from monitoringLoop under failover_mutex_.
     void detectNodeFailures();
+    /// @brief Updates the per-node failure counter.
+    ///        Increments topology_version_ atomically when failure state changes.
+    /// @param node_id   The node whose health status changed.
+    /// @param is_healthy True if the node is currently healthy.
+    /// @thread_safety Must be called under tracking_mutex_.
     void updateFailureTracking(const std::string& node_id, bool is_healthy);
 
     /// Performs a single bounded health-check for one node.
@@ -347,10 +363,29 @@ private:
     bool checkAndApplyGcGrace(const std::string& node_id);
 
     // Helper methods - failover orchestration
+    /// @brief Main failover orchestration loop; drains the failover task queue.
+    /// @thread_safety Must only be called from failover_thread_.
     void failoverLoop();
+    /// @brief Processes a single failover task end-to-end.
+    ///        Transitions state machine through VERIFYING_FAILURE → CHECKING_QUORUM →
+    ///        STARTING_LEADER_ELECTION → UPDATING_METADATA → COMPLETING_FAILOVER.
+    /// @param task The failover task to execute.
+    /// @returns FailoverResult with success flag, promoted node id, and error detail.
+    /// @thread_safety Must only be called from failoverLoop.
     FailoverResult processFailover(const FailoverTask& task);
+    /// @brief Waits for cluster quorum to be confirmed; persists QUORUM_REACHED to QuorumLog.
+    /// @returns true if quorum reached within quorum_timeout_ms; false otherwise.
+    ///          Fail-closed: returns false if QuorumLog write fails.
+    /// @thread_safety Must only be called from failoverLoop.
     bool checkAndWaitForQuorum();
     bool startLeaderElection(const std::string& failed_node_id);
+    /// @brief Selects the best available replica and promotes it to primary.
+    ///        Persists PROMOTE to QuorumLog before promotion.
+    ///        Verifies fencing via preventSplitBrain() before any replica promotion.
+    /// @param failed_node_id  The node that failed and must be replaced.
+    /// @param[out] promoted_id  Set to the node ID of the promoted replica on success.
+    /// @returns true if promotion succeeded.
+    /// @thread_safety Must only be called from failoverLoop.
     bool selectAndPromoteReplica(const std::string& failed_node_id, std::string& promoted_id);
     bool activateSpareIfNeeded(const std::string& failed_node_id);
     bool updateMetadata(const std::string& old_leader_id, const std::string& new_leader_id);
@@ -381,6 +416,15 @@ private:
     bool waitForNodeRecovery(const std::string& node_id, uint32_t max_attempts);
 
     // State machine
+    /// @brief Transitions the orchestrator state machine to new_state.
+    ///        Logs a warning if the transition is not in the canonical table.
+    ///        Valid canonical transitions:
+    ///        IDLE → VERIFYING_FAILURE → CHECKING_QUORUM →
+    ///        STARTING_LEADER_ELECTION → LEADER_ELECTION_IN_PROGRESS →
+    ///        UPDATING_METADATA → COMPLETING_FAILOVER → IDLE.
+    ///        FAILED is reachable from any state; IDLE is always reachable as reset.
+    /// @param new_state Target state.
+    /// @thread_safety Must be called under failover_mutex_.
     void transitionState(FailoverOrchestratorState new_state);
 
     // Unified diagnostics helper — logs the canonical error code and fires event callbacks.

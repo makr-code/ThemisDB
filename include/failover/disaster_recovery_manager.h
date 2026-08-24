@@ -104,13 +104,37 @@ public:
         std::shared_ptr<themisdb::replication::ReplicationManager> replication_mgr,
         std::shared_ptr<sharding::EpochFencingManager> fencing_mgr);
 
+    /// @brief Executes a disaster recovery plan end-to-end.
+    ///        Idempotent: repeated calls with the same plan_id return the cached result
+    ///        without re-executing (FO-IMPL-007).
+    ///        Fail-closed: if epoch fencing is enforced and fencing_mgr_ is absent or
+    ///        returns an invalid epoch, the plan transitions to FAILED.
+    ///        Rejects concurrent executions (returns "concurrent execution rejected" error).
+    /// @param plan  The disaster recovery plan to execute. plan_id must be non-empty.
+    /// @returns DisasterRecoveryResult with success flag, final state, fenced_epoch, and error.
+    /// @throws Nothing — all exceptions are caught internally and surface as failed results.
+    /// @thread_safety Thread-safe; concurrent callers block on execution_mutex_.
     DisasterRecoveryResult executePlan(const DisasterRecoveryPlan& plan);
 
+    /// @brief Validates a disaster recovery plan without executing it.
+    /// @param plan   The plan to validate.
+    /// @param[out] error  Human-readable description of any validation failure.
+    /// @returns true if the plan is valid; false otherwise.
+    /// @thread_safety Thread-safe (read-only).
     bool validatePlan(const DisasterRecoveryPlan& plan, std::string& error) const;
 
+    /// @brief Registers a step hook to intercept or override a specific DR step.
+    ///        If the hook returns false, the step is treated as failed.
+    /// @param step  The step to intercept.
+    /// @param hook  Callable: `bool(const DisasterRecoveryPlan&, std::string& detail)`.
+    /// @thread_safety Must not be called concurrently with executePlan.
     void setStepHook(DisasterRecoveryStep step, StepHook hook);
+    /// @brief Removes all registered step hooks.
+    /// @thread_safety Must not be called concurrently with executePlan.
     void clearStepHooks();
 
+    /// @brief Returns the current execution state of this manager.
+    /// @thread_safety Thread-safe (atomic read).
     DisasterRecoveryState getState() const noexcept;
 
     struct Statistics {
@@ -121,6 +145,8 @@ public:
         std::chrono::milliseconds average_duration{0};
     };
 
+    /// @brief Returns a snapshot of accumulated execution statistics.
+    /// @thread_safety Thread-safe (mutex-protected).
     Statistics getStatistics() const;
 
 #ifdef THEMIS_TEST_BUILD
@@ -139,6 +165,14 @@ private:
         }
     };
 
+    /// @brief Runs a single DR step, using a registered hook if present.
+    /// @param step   The step to run.
+    /// @param state  The DisasterRecoveryState associated with this step.
+    /// @param plan   The plan being executed.
+    /// @param[out] result  Updated with step outcome.
+    /// @param[out] error   Human-readable failure detail on false return.
+    /// @param[out] fenced_epoch  Updated by EPOCH_FENCING step on success.
+    /// @returns true if the step succeeded.
     bool runStep(DisasterRecoveryStep step,
                  DisasterRecoveryState state,
                  const DisasterRecoveryPlan& plan,
@@ -148,6 +182,12 @@ private:
 
     bool runPrechecks(const DisasterRecoveryPlan& plan, std::string& detail);
     bool validateSnapshot(const DisasterRecoveryPlan& plan, std::string& detail);
+    /// @brief Applies epoch fencing via EpochFencingManager.
+    ///        Fail-closed: returns false if fencing_mgr_ is absent and enforce_epoch_fencing=true.
+    /// @param plan  The active DR plan.
+    /// @param[out] detail  Failure description on false return.
+    /// @param[out] fenced_epoch  Set to the epoch returned by the fencing manager on success.
+    /// @returns true if fencing succeeded or fencing is disabled.
     bool applyEpochFencing(const DisasterRecoveryPlan& plan, std::string& detail, uint64_t& fenced_epoch);
     bool runRestore(const DisasterRecoveryPlan& plan, std::string& detail);
     bool waitForCatchup(const DisasterRecoveryPlan& plan, std::string& detail);

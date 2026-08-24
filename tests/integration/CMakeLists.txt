@@ -662,6 +662,7 @@ foreach(_soak_test IN ITEMS
     test_replication_soak_60min
     test_sharding_distributed_write_soak
     test_telemetry_soak
+    test_failover_soak_60min
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
