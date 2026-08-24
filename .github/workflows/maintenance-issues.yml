@@ -462,14 +462,16 @@ jobs:
                 await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
               }
             };
-            await ensureLabel('quality', '5319E7', 'Quality and maintainability issues');
-            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 tracking');
-            await ensureLabel('security', 'B60205', 'Security findings requiring triage');
+            await ensureLabel('quality', '5319E7', 'Quality and maintainability issue');
+            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 finding');
+            await ensureLabel('scanner/runtime', '1D76DB', 'Runtime scanner finding');
+            await ensureLabel('security', 'B60205', 'Open security finding requiring triage');
+            await ensureLabel('security/critical', 'B60205', 'Critical security finding; immediate action required');
             await ensureLabel('status/needs-approval', 'FBCA04', 'Requires explicit maintainer approval');
 
             const hasCritical = Number.parseInt(process.env.CRITICAL_COUNT || '0', 10) > 0;
             const labels = hasCritical
-              ? ['quality', 'scanner/gs3', 'security', 'status/needs-approval']
+              ? ['quality', 'scanner/gs3', 'security', 'security/critical', 'status/needs-approval']
               : ['quality', 'scanner/gs3'];
 
             const shouldOpenIssue = String(process.env.SHOULD_OPEN_ISSUE || 'false') === 'true';
@@ -531,8 +533,8 @@ jobs:
                 await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
               }
             };
-            await ensureLabel('quality', '5319E7', 'Quality and maintainability issues');
-            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 tracking');
+            await ensureLabel('quality', '5319E7', 'Quality and maintainability issue');
+            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 finding');
 
             if (existing) {
               await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title, body, labels: ['quality', 'scanner/gs3'] });
@@ -632,7 +634,8 @@ jobs:
                 await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
               }
             };
-            await ensureLabel('security', 'B60205', 'Security findings requiring triage');
+            await ensureLabel('security', 'B60205', 'Open security finding requiring triage');
+            await ensureLabel('security/critical', 'B60205', 'Critical security finding; immediate action required');
             await ensureLabel('status/needs-approval', 'FBCA04', 'Requires explicit maintainer approval');
 
             const alerts = await github.paginate(github.rest.codeScanning.listAlertsForRepo, {
