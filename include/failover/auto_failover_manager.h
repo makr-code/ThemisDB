@@ -257,6 +257,8 @@ public:
 private:
     // Lock order (must be acquired in this order when nesting):
     //   failover_mutex_ → stats_mutex_ → callbacks_mutex_
+    //   tracking_mutex_ (exclusive) → monitor_mutex_  [only in checkAndApplyGcGrace]
+    // Never hold monitor_mutex_ and attempt to acquire tracking_mutex_.
     // Configuration and managers
     AutoFailoverConfig config_;
     std::unique_ptr<QuorumLog> quorum_log_;  ///< Optional durable quorum WAL; null if path not configured.
