@@ -90,6 +90,7 @@ struct GeoRTree::Impl {
     std::vector<std::string> intersects(const MBR& query_bbox) const {
         BgBox qbox = toBox(query_bbox);
         std::vector<std::string> result;
+        result.reserve(tree.size()); // worst-case: all entries match
         for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {
             result.push_back(it->second);
         }
@@ -102,6 +103,7 @@ struct GeoRTree::Impl {
         BgPoint qpt(x, y);
         BgBox   qbox(qpt, qpt);  // zero-area box at the query point
         std::vector<std::string> result;
+        result.reserve(tree.size()); // worst-case: all entries contain point
         for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {
             // The candidate MBR intersects the point; now verify containment.
             const BgBox& b = it->first;

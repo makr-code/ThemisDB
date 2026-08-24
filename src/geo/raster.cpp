@@ -63,7 +63,14 @@ bool RasterGrid::isNoData(float v) const noexcept {
     if (std::isnan(no_data_value)) {
         return std::isnan(v);
     }
-    return v == no_data_value;
+    // Use relative epsilon comparison for finite no-data sentinels to avoid
+    // false misses caused by float rounding near the sentinel value.
+    // abs_diff <= epsilon * scale  handles large sentinels (e.g. -9999.0f);
+    // the + min() term guards against the near-zero edge case.
+    const float abs_diff = std::abs(v - no_data_value);
+    const float scale    = std::abs(no_data_value);
+    return abs_diff <= std::numeric_limits<float>::epsilon() * scale
+                           + std::numeric_limits<float>::min();
 }
 
 bool RasterGrid::empty() const noexcept {

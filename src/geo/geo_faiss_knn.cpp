@@ -80,7 +80,7 @@ struct GeoFaissKnn::Impl {
     // dataset_map[faiss_idx] = original GeometryInfo index (accounts for skipped non-Points)
     std::vector<std::size_t> dataset_map;
     // Parallel ECEF vectors for the indexed points (host copy)
-    std::vector<float>       ecef_data; // flat [indexed_count × kDim]
+    std::vector<float>       ecef_data{}; // flat [indexed_count × kDim]
 
 #if defined(THEMIS_HAS_FAISS) && THEMIS_HAS_FAISS
     #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
@@ -97,6 +97,7 @@ struct GeoFaissKnn::Impl {
         indexed_count = 0;
         dataset_map.clear();
         ecef_data.clear();
+        ecef_data.reserve(dataset.size() * static_cast<std::size_t>(kDim)); // upper bound; shrinks after filtering
 
         for (std::size_t i = 0; i < dataset.size(); ++i) {
             const auto& g = dataset[i];
