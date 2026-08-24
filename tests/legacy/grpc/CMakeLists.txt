@@ -26,6 +26,7 @@ foreach(_src IN LISTS GRPC_MODULE_TEST_SOURCES)
         themis_core
         spdlog::spdlog
         Threads::Threads
+        $<$<BOOL:${THEMIS_ENABLE_GRPC}>:gRPC::grpc++>
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
