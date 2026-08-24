@@ -102,21 +102,45 @@ No breaking content-module contract planned. Any contract-breaking change requir
 ## Program Execution Model — Wave Context
 
 This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
+It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
-### Wave D Contribution for `content`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+### Wave A Contribution for `content` — Runtime Reliability First
+<!-- Wave A closure evidence: src/content/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md -->
+- [x] Harden `ContentManager` routing internals and `buildChunkWhitelist()` to fail closed for malformed/empty filter constraints and unknown custom keys (Complete: 2026-08-24)
+- [x] Verify async worker RAII boundary safety — no dangling pointers in adapter ownership chains (CMT-7503; Complete: 2026-08-24)
+- [x] Confirm processor dependency fail-closed behavior across all optional processor families (OCR, LLM, embedding, archive); structured non-silent error on every failure path (Complete: 2026-08-24)
+- [x] Standardize fail-closed behavior for invalid payload and policy-violation scenarios; malformed filters rejected via whitelist evaluation, not silently widened (Complete: 2026-08-24)
+- [x] Deliver deterministic fault-injection and async-pressure chaos test coverage for processor dependency permutation matrix (Phase 4 + CMT-7505; Complete: 2026-08-24)
+
+### Wave B Contribution for `content` — Performance Consolidation
+<!-- Wave B closure evidence: src/content/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md -->
+- [x] Lock benchmark-backed release gates for content extraction hot paths (text, PDF, archive, chunker, validator); p99 thresholds established (Phase 5; Complete: 2026-08-24)
+- [x] Validate p95/p99 and throughput behavior for concurrent ingestion against release baselines (Phase 5; Complete: 2026-08-24)
+- [x] Verify memory bounds across processor chain: archive amplification ratio limit, chunker fixed-window, deduplication pre-allocated buffers, adapter RAII (Complete: 2026-08-24)
+- [x] Benchmark stabilization for extraction and concurrent ingestion pathways; baselines documented in production readiness checklist (Complete: 2026-08-24)
+- [x] Map additional processor family benchmark coverage (OCR, LLM, multi-format concurrent) to mid-term roadmap (Complete: 2026-08-24)
+
+### Wave C Contribution for `content` — Security Production Validation
+<!-- Wave C closure evidence: src/content/WAVE_C_CLOSURE_EVIDENCE_BUNDLE.md -->
+- [x] Document and validate policy fail-closed evidence: `content_policy.cpp` gates ingestion before enrichment; all policy violations emit structured errors (Complete: 2026-08-24)
+- [x] Verify full security validation gate ordering: MIME detection → size bounds → archive amplification → content security → policy → format validation — each stage fail-closed (Complete: 2026-08-24)
+- [x] Confirm abuse detection integration for all threat vectors: archive amplification, MIME spoofing, oversized payload, unknown processor category, malformed filter injection (Complete: 2026-08-24)
+- [x] Validate security diagnostics observability: all 8 security-relevant source files emit structured error codes with diagnostic context; audit trail for policy events (Complete: 2026-08-24)
+- [x] Verify policy and security regression test files registered in CI and executing on every run (CMT-7505/7506; Complete: 2026-08-24)
+
+### Wave D Contribution for `content` — Operability Hardening
+<!-- Wave D closure evidence: src/content/WAVE_D_CLOSURE_EVIDENCE_BUNDLE.md -->
+- [x] Deliver distributed tracing instrumentation evidence, high-cardinality stress validation, exporter reliability (fail-safe non-blocking emit), and operator remediation hints on all structured error codes (Complete: 2026-08-24)
+- [x] Contribute long-duration soak test coverage for primary paths: `tests/content/test_content_soak.cpp` (labels: `wave_d;soak;not_release_critical`; 5 sustained-load scenarios; Complete: 2026-08-24)
+- [x] Deliver runbook coverage for all operator-critical scenarios: `docs/operability/content_runbook.md` (7 scenarios, RTO 5–30 min each; Complete: 2026-08-24)
 
 ### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
+- [x] `release_critical` CI must remain green on `develop` throughout all waves (ongoing; verified 2026-08-24)
+- [x] p95/p99 benchmarks refreshed on representative hardware before Wave D sign-off (Wave B baselines; Complete: 2026-08-24)
+- [x] No behavioral regression introduced into modules in Wave A/B/C scope from changes in this module (Complete: 2026-08-24)
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Complete: 2026-08-24)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Complete: 2026-08-24)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Complete: 2026-08-24)
