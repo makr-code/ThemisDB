@@ -1,6 +1,6 @@
 # ai_working/compact — Index
 
-**Generated:** 2026-08-23  
+**Generated:** 2026-08-24  
 **Topics:** 20  
 **Total source files grouped:** 1707  
 
