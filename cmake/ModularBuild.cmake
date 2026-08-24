@@ -2071,9 +2071,17 @@ function(themis_build_modular)
         list(APPEND _themis_base_deps Boost::system)
     endif()
     if(THEMIS_ENABLE_GRPC)
-        find_package(gRPC CONFIG)
-        find_package(Protobuf CONFIG)
-        if(gRPC_FOUND AND Protobuf_FOUND)
+        # Dependencies.cmake already ran find_package(gRPC) with CONFIG+pkg-config fallback
+        # and created the gRPC::grpc++ imported target when found. Re-running CONFIG here
+        # would reset gRPC_FOUND to FALSE when only pkg-config is available, so guard
+        # on target existence instead of re-discovering.
+        if(NOT TARGET gRPC::grpc++)
+            find_package(gRPC QUIET CONFIG)
+        endif()
+        if(NOT TARGET protobuf::libprotobuf)
+            find_package(Protobuf QUIET CONFIG)
+        endif()
+        if(TARGET gRPC::grpc++ AND TARGET protobuf::libprotobuf)
             list(APPEND _themis_base_deps gRPC::grpc++ protobuf::libprotobuf)
         endif()
     endif()
