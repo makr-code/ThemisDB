@@ -1668,6 +1668,39 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_BrokenAQL_ExhaustsRetries_Throws)
     }
 }
 
+TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_UsesValidationConfigRetryCount) {
+    int call_count = 0;
+    handler->setChatExecutor([&call_count](const std::vector<ChatMessage>&) -> std::string {
+        ++call_count;
+        return "FOR x";
+    });
+
+    LLMValidationPipelineConfig cfg;
+    cfg.max_retries = 0;
+    handler->setValidationPipelineConfig(cfg);
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+
+    EXPECT_THROW(handler->translateNLToAQL("Find all users"), LLMException);
+    EXPECT_EQ(call_count, 1) << "Expected exactly one attempt when max_retries=0";
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_UsesValidationConfigRetryCountWithExamples) {
+    int call_count = 0;
+    handler->setChatExecutor([&call_count](const std::vector<ChatMessage>&) -> std::string {
+        ++call_count;
+        return "FOR x";
+    });
+
+    LLMValidationPipelineConfig cfg;
+    cfg.max_retries = 2;
+    handler->setValidationPipelineConfig(cfg);
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+
+    AQLFewShotExampleLibrary lib;
+    EXPECT_THROW(handler->translateNLToAQLWithExamples("Find all users", lib), LLMException);
+    EXPECT_EQ(call_count, 3) << "Expected initial attempt + 2 retries when max_retries=2";
+}
+
 TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_SucceedsOnSecondAttempt) {
     // In RETRY_ON_ERROR mode, if the second attempt returns valid AQL, it must succeed.
     int call_count = 0;

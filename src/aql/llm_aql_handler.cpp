@@ -18,6 +18,7 @@
 #include <chrono>
 #include <cmath>
 #include <future>
+#include <limits>
 #include <regex>
 #include <unordered_set>
 #include <spdlog/spdlog.h>
@@ -255,6 +256,17 @@ std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::siz
 
     if (raw_feedback.empty()) {
         return {};
+    }
+
+    std::size_t getConfiguredRetryAttempts(TranslationValidationMode mode, const LLMValidationPipelineConfig& config) {
+        if (mode != TranslationValidationMode::RETRY_ON_ERROR) {
+            return 1;
+        }
+
+        if (config.max_retries >= std::numeric_limits<std::size_t>::max() - 1) {
+            return std::numeric_limits<std::size_t>::max();
+        }
+        return config.max_retries + 1;
     }
 
     std::string bounded = raw_feedback;
@@ -1717,8 +1729,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
                   nl_query.size() > 100 ? nl_query.substr(0, 100) + "..." : nl_query);
 
     const TranslationValidationMode mode = impl_->validation_mode_;
-    const size_t max_attempts
-        = (mode == TranslationValidationMode::RETRY_ON_ERROR) ? RetryPolicy::Config::defaults().max_retries + 1 : 1;
+    const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
     std::string validation_feedback;
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
@@ -1852,8 +1863,7 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
         sanitizePromptInput(schema_context, "schema_context", impl_->validation_limits_.max_schema_context_length);
 
         const TranslationValidationMode mode = impl_->validation_mode_;
-        const size_t max_attempts
-            = (mode == TranslationValidationMode::RETRY_ON_ERROR) ? RetryPolicy::Config::defaults().max_retries + 1 : 1;
+        const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
         std::string validation_feedback;
 
         for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
@@ -2098,8 +2108,7 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
     sanitizePromptInput(schema_context, "schema_context", impl_->validation_limits_.max_schema_context_length);
 
     const TranslationValidationMode mode = impl_->validation_mode_;
-    const size_t max_attempts
-        = (mode == TranslationValidationMode::RETRY_ON_ERROR) ? RetryPolicy::Config::defaults().max_retries + 1 : 1;
+    const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
     std::string validation_feedback;
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {

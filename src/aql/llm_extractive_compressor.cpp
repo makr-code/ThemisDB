@@ -10,13 +10,70 @@
 #include "utils/uuid.h"
 
 #include <algorithm>
-#include <numeric>
+#include <cctype>
 #include <cmath>
-#include <sstream>
 #include <chrono>
+#include <numeric>
+#include <spdlog/spdlog.h>
+#include <sstream>
 
 namespace themis {
 namespace aql {
+
+namespace {
+
+std::vector<int32_t> buildRecencyRanking(std::size_t history_size) {
+    std::vector<int32_t> indices;
+    indices.reserve(history_size);
+    for (int32_t i = static_cast<int32_t>(history_size); i-- > 0;) {
+        indices.push_back(i);
+    }
+    return indices;
+}
+
+std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t history_size) {
+    std::vector<int32_t> indices;
+    std::string current_number;
+    std::vector<bool> seen(history_size, false);
+
+    auto flush_number = [&]() {
+        if (current_number.empty()) {
+            return;
+        }
+        try {
+            const auto idx = std::stoi(current_number);
+            if (idx >= 0 && idx < static_cast<int32_t>(history_size) && !seen[static_cast<std::size_t>(idx)]) {
+                indices.push_back(idx);
+                seen[static_cast<std::size_t>(idx)] = true;
+            }
+        } catch (const std::exception&) {
+            // Ignore malformed fragments.
+        }
+        current_number.clear();
+    };
+
+    for (char ch : response) {
+        if (std::isdigit(static_cast<unsigned char>(ch))) {
+            current_number.push_back(ch);
+        } else {
+            flush_number();
+        }
+    }
+    flush_number();
+
+    if (indices.size() == history_size) {
+        return indices;
+    }
+
+    for (int32_t i = static_cast<int32_t>(history_size); i-- > 0;) {
+        if (!seen[static_cast<std::size_t>(i)]) {
+            indices.push_back(i);
+        }
+    }
+    return indices;
+}
+
+} // namespace
 
 LLMExtractiveCompressor::LLMExtractiveCompressor(
     LLMAQLHandler& handler,
@@ -121,8 +178,8 @@ std::unique_ptr<CompressionResult> LLMExtractiveCompressor::compressHistory(
 }
 
 bool LLMExtractiveCompressor::isAvailable() const {
-    // Check if LLM handler is functional
-    return true;  // TODO: Add actual availability check
+    auto llm_client = handler_.getLLMClient();
+    return llm_client != nullptr && llm_client->isReady();
 }
 
 std::string LLMExtractiveCompressor::getStatistics() const {
@@ -158,17 +215,22 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
         ranking_prompt.replace(pos, 7, turn_format.str());
     }
 
-    // Call LLM for ranking
     try {
-        // TODO: Use proper LLM call with timeout
-        // For now, return default ranking (most recent first)
-        std::vector<int32_t> indices;
-        for (int32_t i = history.size() - 1; i >= 0; --i) {
-            indices.push_back(i);
+        if (!isAvailable()) {
+            return buildRecencyRanking(history.size());
         }
-        return indices;
-    } catch (...) {
-        return {};
+
+        std::unordered_map<std::string, std::string> options;
+        options["max_tokens"] = "256";
+        options["temperature"] = "0.0";
+        const std::string ranking_response = handler_.executeInfer(ranking_prompt, "", "", options);
+        if (ranking_response.empty()) {
+            return buildRecencyRanking(history.size());
+        }
+        return parseRankedIndices(ranking_response, history.size());
+    } catch (const std::exception& ex) {
+        spdlog::warn("LLMExtractiveCompressor: ranking via LLM failed; using recency fallback: {}", ex.what());
+        return buildRecencyRanking(history.size());
     }
 }
 
@@ -253,8 +315,13 @@ void LLMExtractiveCompressor::storeEpisode(const CompressionResult& result) {
         episode.metadata["type"] = "episodic_summary";
 
         store_->createInteraction(episode);
+    } catch (const std::exception& ex) {
+        // Log and continue - failure to store shouldn't break compression.
+        spdlog::warn("LLMExtractiveCompressor: failed to persist episode {}: {}",
+                     result.episode_id, ex.what());
     } catch (...) {
-        // Log and continue - failure to store shouldn't break compression
+        spdlog::warn("LLMExtractiveCompressor: failed to persist episode {} due to unknown exception",
+                     result.episode_id);
     }
 }
 

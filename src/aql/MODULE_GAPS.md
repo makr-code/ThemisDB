@@ -79,6 +79,16 @@ This file documents all documentation and code quality gaps in the **aql** modul
 
 ... and 1973 more gaps.
 
+## Manual Remediation Batch (2026-08-24)
+
+Closed high-confidence production gaps in this batch:
+
+- Replaced hardcoded retry-attempt defaults in `translateNLToAQL*` with `validation_config.max_retries` wiring.
+- Replaced `LLMValidationPipeline` TODO-metric placeholders with real `LLMMetricsCollector` calls.
+- Added LLM readiness gate and parser-feedback reinjection in `LLMValidationPipeline` retry flow.
+- Replaced `LLMExtractiveCompressor::isAvailable()` TODO return path with real client readiness checks.
+- Replaced silent compressor persistence catch path with warning-level diagnostics.
+
 ---
 
 **Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).

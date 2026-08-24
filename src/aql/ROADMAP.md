@@ -44,6 +44,7 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - [x] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL: [TRANSLATION:GenerationFailed], [TRANSLATION:ProviderUnavailable] log tags)
   - [x] Block 4.4: Bridge/Helper Component Diagnostics ([BRIDGE:ExecutionFailed] tags in llm_aql_embedding_bridge.cpp)
   - [x] 2026-08-19 hardening follow-up: retry validation feedback is now sanitized/delimited before reuse in NL→AQL prompts; bridge fallback failures elevated to warning-level logs.
+  - [x] 2026-08-24 hardening follow-up: `translateNLToAQL*` retry attempt count now follows `validation_config.max_retries`; `LLMValidationPipeline` now gates on LLM client readiness and reinjects parser feedback on retry; `LLMExtractiveCompressor` TODO/silent-catch placeholders replaced by production logic and observability.
 - [x] **Q3 2026 BATCH 2: Consistency Hardening + Performance Gates** (2026-08-15)
   - [x] Unified error handling consistency across validation/translation/bridge (CONS-01..CONS-08 tests)
   - [x] Standardized log tag format: [COMPONENT:ErrorType] across all surfaces
