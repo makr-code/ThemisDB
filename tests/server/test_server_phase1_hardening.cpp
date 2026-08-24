@@ -670,8 +670,3 @@ TEST_F(ChaosFailureInjectionTests, SRV_39_RecoveryStabilization_EventualConsiste
 // ─────────────────────────────────────────────────────────────────────────────
 // Test registration (CTest metadata)
 // ─────────────────────────────────────────────────────────────────────────────
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

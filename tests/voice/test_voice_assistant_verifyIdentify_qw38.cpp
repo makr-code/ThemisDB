@@ -299,7 +299,3 @@ TEST_F(VoiceAssistantVerifyIdentifyTest, IdentifyVoiceProfiles_AuditTimestampSet
 
 }  // namespace
 } } // namespace themis::voice
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

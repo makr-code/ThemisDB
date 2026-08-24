@@ -281,8 +281,3 @@ TEST_F(GPUPhase23HardeningTest, ContractFailClosedFlags) {
 
 }  // namespace gpu
 }  // namespace themis
-
-int main(int argc, char* argv[]) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

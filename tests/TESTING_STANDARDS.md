@@ -49,6 +49,13 @@ Minimum validation gates for structural health:
 - Use TEST, TEST_F, and TEST_P according to the fixture/parameterization need.
 - Shared helpers must be in a local namespace (or anonymous namespace).
 - Avoid global helper symbol collisions across multiple test files.
+- **Do not define a custom `int main()`** that only calls
+  `::testing::InitGoogleTest` and `RUN_ALL_TESTS()`. Link `GTest::gtest_main`
+  instead and omit the function entirely. A custom `main()` is only permitted
+  when the binary has non-trivial setup not expressible through GTest fixtures
+  (e.g., a combined GTest + benchmark runner). In that case the file must not
+  link `GTest::gtest_main` and the reason must be documented in a comment above
+  the function.
 
 ### 3.2 Naming and Semantics
 

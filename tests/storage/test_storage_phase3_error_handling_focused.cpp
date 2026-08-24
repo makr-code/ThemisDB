@@ -373,8 +373,3 @@ TEST_F(StoragePhase3IntegrationTest, E2E_CapacityManagementFlow) {
 // ============================================================================
 // Main
 // ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

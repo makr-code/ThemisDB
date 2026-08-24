@@ -321,8 +321,3 @@ TEST_F(AdaptiveCacheFuzzTest, StressTestClearExpired) {
     uint64_t cleared = cache.clearExpired();
     EXPECT_GT(cleared, 0);
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

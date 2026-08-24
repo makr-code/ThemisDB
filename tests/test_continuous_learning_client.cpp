@@ -337,8 +337,3 @@ TEST_F(ContinuousLearningClientTest, EndToEndWorkflow) {
     EXPECT_GT(stats.metrics_logged, 0);
     EXPECT_GT(stats.triggers_fired, 0);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

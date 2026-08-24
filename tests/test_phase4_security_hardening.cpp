@@ -679,8 +679,3 @@ TEST_F(Phase4SecurityIntegrationTest, SEC_INT_02_IntegrationAcrossSecurityAreas)
 // ============================================================================
 // Main Test Entry Point
 // ============================================================================
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

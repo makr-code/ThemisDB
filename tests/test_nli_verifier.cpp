@@ -393,10 +393,6 @@ TEST_F(NLIVerifierTest, MultipleConsecutiveInferences) {
     }
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
 
 // ═══════════════════════════════════════════════════════════
 // Basic Verification Tests
@@ -776,9 +772,4 @@ TEST_F(NLIVerifierTest, SpecialCharacters) {
     auto result = verifier.verifyClaim(claim, document);
     
     EXPECT_TRUE(result.success);
-}
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
