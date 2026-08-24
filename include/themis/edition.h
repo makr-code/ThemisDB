@@ -17,10 +17,18 @@
  * This header is automatically configured by CMakeLists.txt
  * during the build process based on -DTHEMIS_EDITION setting.
  *
- * Three editions are supported:
- * - COMMUNITY: Free, open-source (24GB GPU VRAM, single-node only)
- * - ENTERPRISE: Paid subscription (256GB GPU VRAM, up to 100 nodes)
+ * Five editions are supported:
+ * - MINIMAL:     Lightweight/embedded (0 GB GPU VRAM cap — CPU fallback enforced, 1 node)
+ * - COMMUNITY:   Free, open-source (8 GB GPU VRAM, up to 5 nodes)
+ * - ENTERPRISE:  Paid subscription (24 GB GPU VRAM, up to 100 nodes)
+ * - MILITARY:    Hardened/air-gapped (16 GB GPU VRAM, up to 50 nodes)
  * - HYPERSCALER: OEM/Custom (unlimited VRAM and nodes)
+ *
+ * GPU availability: all editions compile with THEMIS_ENABLE_GPU=ON and
+ * use a CPU fallback path.  The edition VRAM cap (GPU_MAX_VRAM_GB) governs
+ * whether real GPU execution is permitted at runtime: a cap of 0 means
+ * GPU execution is disabled and every call is transparently redirected to
+ * the CPU fallback (MINIMAL edition).
  */
 
 #pragma once
@@ -46,18 +54,24 @@ constexpr std::string_view EDITION_STRING = THEMIS_EDITION_STRING;
 
 // Edition type enumeration
 enum class EditionType {
+    MINIMAL,       // Lightweight/embedded edition (CPU fallback, no GPU execution)
     COMMUNITY,     // Free/open-source edition
     ENTERPRISE,    // Paid subscription edition (100 nodes max)
+    MILITARY,      // Hardened/air-gapped edition
     HYPERSCALER,   // OEM/custom edition (unlimited)
     UNKNOWN        // Fallback for unrecognized editions
 };
 
 // Get edition type from compile-time string
 constexpr EditionType GetEditionType() {
-    if (EDITION_STRING == "COMMUNITY") {
+    if (EDITION_STRING == "MINIMAL") {
+        return EditionType::MINIMAL;
+    } else if (EDITION_STRING == "COMMUNITY") {
         return EditionType::COMMUNITY;
     } else if (EDITION_STRING == "ENTERPRISE") {
         return EditionType::ENTERPRISE;
+    } else if (EDITION_STRING == "MILITARY") {
+        return EditionType::MILITARY;
     } else if (EDITION_STRING == "HYPERSCALER") {
         return EditionType::HYPERSCALER;
     }
@@ -69,18 +83,26 @@ constexpr EditionType GetEditionType() {
 // ============================================================================
 
 // GPU Memory constraints (VRAM limit in GB)
-// COMMUNITY: 24 GB   (consumer-grade GPU like RTX 4090)
-// ENTERPRISE: 256 GB (data center GPU like A100/H100)
-// HYPERSCALER: Unlimited (custom, OEM deployments)
+// MINIMAL:     0 GB  — no GPU; CPU fallback enforced (IoT/embedded)
+// COMMUNITY:   8 GB  — consumer GPUs (e.g. RTX 3070/4060 class)
+// ENTERPRISE:  24 GB — professional GPUs (e.g. RTX 4090 / A5000 class)
+// MILITARY:    16 GB — controlled/hardened GPU deployments
+// HYPERSCALER: 0     — unlimited (OEM, custom deployments)
+//
+// Default (no CMake edition specified) matches COMMUNITY to stay conservative.
 #ifndef THEMIS_GPU_MAX_VRAM_GB
-#define THEMIS_GPU_MAX_VRAM_GB 24
+#define THEMIS_GPU_MAX_VRAM_GB 8
 #endif
 constexpr int GPU_MAX_VRAM_GB = THEMIS_GPU_MAX_VRAM_GB;
 
 // Sharding constraints (maximum number of shard nodes)
-// COMMUNITY: 5      (small clusters, HA setups, startups)
-// ENTERPRISE: 100   (distributed deployment)
-// HYPERSCALER: Unlimited (massive clustering)
+// MINIMAL:     1   (single-node only)
+// COMMUNITY:   5   (small clusters, HA setups, startups)
+// ENTERPRISE: 100  (distributed deployment)
+// MILITARY:    50  (controlled, air-gapped clusters)
+// HYPERSCALER:  0  — unlimited (massive clustering)
+//
+// Default (no CMake edition specified) matches MINIMAL to stay conservative.
 #ifndef THEMIS_SHARDING_MAX_NODES
 #define THEMIS_SHARDING_MAX_NODES 1
 #endif
