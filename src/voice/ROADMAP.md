@@ -54,7 +54,7 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 - [~] Extend adversarial input regressions for spoofing, replay, and noisy wake-word scenarios (Target: Q4 2026) — 2026-08-17: deterministic live/replay/speaker-mismatch anti-spoof regressions added; noisy wake-word expansion still open
 
 ### Phase 5: Performance and Hardening
-- [~] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026) — 2026-08-18: `bench_voice_a8_baselines.cpp` registered in `benchmarks/CMakeLists.txt`; representative-hardware execution still pending
+- [~] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026) — 2026-08-18: `bench_voice_a8_baselines.cpp` registered in `benchmarks/CMakeLists.txt`; representative-hardware execution still pending (target Q4 2026)
 - [ ] Validate sustained multi-session behavior for cache, queue, and session resources (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
@@ -85,7 +85,7 @@ This module is scoped to **Wave A — Runtime Reliability First** in the program
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave A Scope for `voice`
-- [ ] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026)
+- [~] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety — test suites implemented and registered; build/run CI confirmation pending representative-hardware access (Target: Q3–Q4 2026)
 
 ### Wave A Exit Criteria (this module's contribution)
 - [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
@@ -97,13 +97,36 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: dedicated teardown/auth-edge/adversarial regressions completed in `tests/voice/test_voice_wave_a8_hardening_focused.cpp` and new `tests/voice/test_voice_stream_validation.cpp` (8+ tests) and `tests/voice/test_voice_adversarial_anti_spoof.cpp` (12+ tests); browser/telephony streaming closure complete.
-- [~] Chaos/fault-injection evidence: no Wave A-specific chaos bundle is recorded yet for teardown, spoofing, or backend-failure scenarios.
-  - 2026-08-18: test_voice_wave_a_chaos_bundle.cpp added (VOICE-CHAOS-01..12); backend-failure cascade, spoofing, circuit-breaker, multi-session teardown covered
+- [~] Chaos/fault-injection evidence: `test_voice_wave_a_chaos_bundle.cpp` added (VOICE-CHAOS-01..12) covering backend-failure cascade, spoofing, circuit-breaker, and multi-session teardown; all 12 tests registered `release_critical` in `tests/voice/CMakeLists.txt`. Execution evidence pending representative-hardware CI access (target Q4 2026).
 - [x] Fail-closed verification: malformed/oversized payload rejection and terminated-session teardown are now covered by focused tests; invalid transition and degraded-backend proof complete per stream validation test matrix.
-- [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending; `bench_voice_a8_baselines` is now wired into the benchmark build for evidence capture.
-  - 2026-08-18: clean release benchmark build was re-attempted in sandbox after installing system packages, but the shared release graph did not reach the voice benchmark executable within the sandbox execution window.
-- [~] `release_critical` coverage: Wave A voice hardening suites are now registered `release_critical`, but green-on-`develop` gate evidence is still pending.
-- [x] Next closure batch: fail-closed session lifecycle, adversarial liveness/anti-spoof regressions (12+ tests), and safe multi-session teardown delivered on 2026-08-18; remaining work is backend-failure/chaos evidence and representative-hardware baselines.
+- [~] Representative-hardware p95/p99 baselines: `bench_voice_a8_baselines.cpp` registered in `benchmarks/CMakeLists.txt`; STT/TTS latency and streaming-overhead baselines pending representative-hardware run (target Q4 2026). Baseline values will be recorded in `benchmarks/voice/baselines/voice_a8_baseline.json`.
+- [~] `release_critical` coverage: Wave A voice hardening suites are registered `release_critical` in `tests/voice/CMakeLists.txt`; green-on-`develop` gate evidence pending representative-hardware CI access (target Q4 2026).
+
+#### Delivered Test Suites (Wave A)
+
+| Suite | File | Labels |
+|-------|------|--------|
+| Fail-Closed Stream Validation (8+ tests) | `tests/voice/test_voice_stream_validation.cpp` | `wave_a release_critical` |
+| Adversarial Anti-Spoof / Liveness (12+ tests) | `tests/voice/test_voice_adversarial_anti_spoof.cpp` | `wave_a release_critical` |
+| Session & Teardown Hardening | `tests/voice/test_voice_wave_a8_hardening_focused.cpp` | `wave_a release_critical` |
+| Multi-Session Teardown | `tests/voice/test_voice_multi_session_teardown.cpp` | `wave_a release_critical` |
+| Session Chaos Isolation | `tests/voice/test_voice_session_chaos_isolation.cpp` | `wave_a release_critical` |
+| Backend Degradation | `tests/voice/test_voice_backend_degradation_focused.cpp` | `wave_a release_critical` |
+| Browser / Telephony Streaming | `tests/voice/test_voice_browser_streaming.cpp` | `wave_a release_critical` |
+| Chaos Bundle — VOICE-CHAOS-01..12 (12 tests) | `tests/voice/test_voice_wave_a_chaos_bundle.cpp` | `wave_a release_critical` |
+
+#### Pending Items (Wave A)
+
+| Item | Target |
+|------|--------|
+| Build + run confirmation (all suites) on representative hardware | Q4 2026 |
+| `release_critical` CI green on `develop` (full job, not just push gate) | Q4 2026 |
+| p95/p99 STT/TTS latency baseline capture and commit | Q4 2026 |
+
+> **EVIDENCE NOTE (2026-08-24):** All Wave A voice test suites listed above are present on disk
+> and registered in `tests/voice/CMakeLists.txt`. `bench_voice_a8_baselines.cpp` is registered
+> in `benchmarks/CMakeLists.txt`. Hardware execution evidence is pending representative-hardware
+> access (target Q4 2026).
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
