@@ -146,6 +146,8 @@ bool chunksContainKeyword(const std::vector<WikiChunk>& chunks,
 //   - "key: 0.7" float scalars
 //   - "  - id: …" list-of-map entries (indented with 2 spaces)
 //   - additional string metadata fields: knowledge_level, rarity_tier
+//   - provenance fields (v3): source_document, source_section, indexed_at
+//   Policy: question text must NOT contain any expected_keyword (v3 rule)
 
 struct GoldenEntry {
     std::string id;
@@ -155,6 +157,10 @@ struct GoldenEntry {
     std::string knowledge_level;  // general | specific | specialized
     std::string rarity_tier;      // required "rare" for specialized
     double min_recall_score = 0.7;
+    // Provenance fields (required since dataset v3 — governance criterion)
+    std::string source_document;  // relative repo path, e.g. "docs/llm/FLASH_ATTENTION_ARCHITECTURE.md"
+    std::string source_section;   // heading path, e.g. "Kernel Fusion"
+    std::string indexed_at;       // ISO date when document was processed, e.g. "2026-08-24"
 };
 
 constexpr std::size_t kGoldenDatasetMinEntries = 110;
@@ -254,6 +260,15 @@ static std::vector<GoldenEntry> parseGoldenDataset(const std::string& yaml_path)
             current.rarity_tier = val;
         } else if (key == "min_recall_score") {
             try { current.min_recall_score = std::stod(val); } catch (...) {}
+        } else if (key == "source_document") {
+            unquote(val);
+            current.source_document = val;
+        } else if (key == "source_section") {
+            unquote(val);
+            current.source_section = val;
+        } else if (key == "indexed_at") {
+            unquote(val);
+            current.indexed_at = val;
         }
     }
     // Push the last entry
@@ -548,6 +563,11 @@ TEST_F(GoldenDatasetRagTest, Rag12_GoldenDatasetPresent) {
             EXPECT_EQ(e.rarity_tier, "rare")
                 << "Entry '" << e.id << "' must set rarity_tier=rare for specialized knowledge";
         }
+        // v3: provenance fields are mandatory for governance
+        EXPECT_FALSE(e.source_document.empty())
+            << "Entry '" << e.id << "' is missing source_document (v3 governance requirement)";
+        EXPECT_FALSE(e.indexed_at.empty())
+            << "Entry '" << e.id << "' is missing indexed_at (v3 governance requirement)";
     }
 
     const auto total = golden_entries_.size();

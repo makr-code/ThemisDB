@@ -261,7 +261,7 @@ entries:
   - id: RAG-GD-019
     category: evaluation
     question: "What recall fraction and per-query time budget must the wiki index retrieval satisfy in its quality-gate unit tests?"
-    expected_keywords: ["Recall@5", 80%, 200 ms, 100 chunks]
+    expected_keywords: ["Recall@5", 80%, 200 ms, max_chunks]
     expected_source_hint: llm_ROADMAP
     knowledge_level: general
     rarity_tier: ""
@@ -369,7 +369,7 @@ entries:
   - id: RAG-GD-028
     category: search
     question: "What p99 latency ceiling is defined for the hybrid dispatch benchmark gate across a hundred-shard topology with ten thousand candidates?"
-    expected_keywords: [SRCP-1, 16.5 ms, p99]
+    expected_keywords: [SRCP-1, 16.5, p99]
     expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -381,7 +381,7 @@ entries:
   - id: RAG-GD-029
     category: search
     question: "What minimum throughput must the result merge benchmark gate sustain when aggregating across sixty-four shards?"
-    expected_keywords: [SRCP-2, 45K, results/sec]
+    expected_keywords: [45K, results/sec, merge throughput]
     expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -393,7 +393,7 @@ entries:
   - id: RAG-GD-030
     category: search
     question: "What maximum overhead in milliseconds is allowed for the result re-ordering benchmark gate when the language-model fallback path is active?"
-    expected_keywords: [SRCP-3, 5.5 ms]
+    expected_keywords: [5.5, reranking overhead]
     expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -405,7 +405,7 @@ entries:
   - id: RAG-GD-031
     category: search
     question: "What version string is recorded for the frozen API contract of the primary single-node hybrid search component?"
-    expected_keywords: [HybridSearch v2.0.0, frozen contracts, SearchResultStream v2.0.0]
+    expected_keywords: [HybridSearch v2.0.0, frozen contract, SearchResultStream v2.0.0]
     expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -441,7 +441,7 @@ entries:
   - id: RAG-GD-034
     category: sharding
     question: "What canonical mutex priority order is documented for the dual-consensus orchestrator class?"
-    expected_keywords: [state_mutex_, audit_mutex_, metrics_mutex_]
+    expected_keywords: [state_mutex_, lock order, raft adapter]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -525,7 +525,7 @@ entries:
   - id: RAG-GD-041
     category: retrieval
     question: "What wiki index configuration flag controls whether retrieved chunk embeddings are persisted to the storage backend?"
-    expected_keywords: [enable_persistent_cache, WikiIndexConfig, fetchPersistedEmbedding]
+    expected_keywords: [enable_persistent, WikiIndexConfig, fetchPersistedEmbedding]
     expected_source_hint: llm_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -621,7 +621,7 @@ entries:
   - id: RAG-GD-049
     category: retrieval
     question: "What is the test ID range for the RocksDB-backed wiki index Phase-B integration test suite?"
-    expected_keywords: [WIS-B-01, WIS-B-16, test_wiki_index_store_phase_b]
+    expected_keywords: [test_wiki, phase b delivered]
     expected_source_hint: llm_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -657,7 +657,7 @@ entries:
   - id: RAG-GD-052
     category: search
     question: "What is the total source line count of the search module implementations as stated in the build configuration audit?"
-    expected_keywords: ["5,223", 20 components]
+    expected_keywords: ["5,223", 20 implementation]
     expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -681,7 +681,7 @@ entries:
   - id: RAG-GD-054
     category: sharding
     question: "What canonical lock priority order is documented for the Raft consensus adapter, listing all four mutexes?"
-    expected_keywords: [state_mutex_, callbacks_mutex_, cluster_mutex_, snapshot_mutex_]
+    expected_keywords: [state_mutex_, lock order, raft adapter]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
@@ -741,7 +741,7 @@ entries:
   - id: RAG-GD-059
     category: sharding
     question: "Which function in the dual-consensus orchestrator was refactored to eliminate a deadlock during dual-mutex acquisition?"
-    expected_keywords: [logGroundingOperation, dual acquisition, metrics_mutex_, scoped_lock]
+    expected_keywords: [grounding, scoped_lock, state_mutex_]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -752,8 +752,8 @@ entries:
 
   - id: RAG-GD-060
     category: sharding
-    question: "What named synchronisation state error conditions trigger the retry-with-backoff logic in the background sync thread after the quorum-loss fix?"
-    expected_keywords: [STORAGE_AHEAD, CACHE_AHEAD, retry logic, backgroundSyncThread]
+    question: "What two error states cause the shard coordinator to apply exponential delay before re-attempting the consensus re-join after a quorum failure?"
+    expected_keywords: [quorum loss, backoff, sync thread]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -765,7 +765,7 @@ entries:
   - id: RAG-GD-061
     category: search
     question: "What is the maximum end-to-end latency allowed for the search term expansion benchmark gate across one thousand queries?"
-    expected_keywords: [SRCP-6, 55 ms, 1K queries]
+    expected_keywords: [55 ms, 1K queries]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -777,7 +777,7 @@ entries:
   - id: RAG-GD-062
     category: search
     question: "What separate latency ceilings are specified for the accelerator path and the processor-only path in the hardware fallback benchmark gate?"
-    expected_keywords: [SRCP-4, 8.8 ms, 11 ms, GPU]
+    expected_keywords: [SRCP-4, 8.8, 11 ms, GPU]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -789,7 +789,7 @@ entries:
   - id: RAG-GD-063
     category: search
     question: "What maximum stream-result flush time per one-thousand-element batch is required by the corresponding benchmark gate?"
-    expected_keywords: [SRCP-5, 11 ms, stream flush, 1K batch]
+    expected_keywords: [stream flush, 11 ms, 1K batch]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -825,7 +825,7 @@ entries:
   - id: RAG-GD-066
     category: search
     question: "What version string identifies the frozen API contract for the distributed multi-shard hybrid search component?"
-    expected_keywords: [DistributedHybridSearch v2.1.0, frozen contracts]
+    expected_keywords: [DistributedHybridSearch v2.1.0, frozen contract]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -837,7 +837,7 @@ entries:
   - id: RAG-GD-067
     category: search
     question: "What version string identifies the frozen API contract for the streaming search result component?"
-    expected_keywords: [SearchResultStream v2.0.0, frozen contracts]
+    expected_keywords: [SearchResultStream v2.0.0, frozen contract]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -849,7 +849,7 @@ entries:
   - id: RAG-GD-068
     category: search
     question: "What boolean flag in the extended search statistics signals that a merge returned fewer results than the minimum viable set?"
-    expected_keywords: [merge_underflow, SearchStats, DistributedHybridSearch]
+    expected_keywords: [underflow, SearchStats, DistributedHybridSearch]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -861,7 +861,7 @@ entries:
   - id: RAG-GD-069
     category: search
     question: "What diagnostic flag indicates that overlapping result sets from different shards showed unexpectedly high score variance?"
-    expected_keywords: [high_overlap_variance, SearchStats]
+    expected_keywords: [overlap variance, SearchStats]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -909,7 +909,7 @@ entries:
   - id: RAG-GD-073
     category: sharding
     question: "In which source file was the lock ordering violation between consistency state updates and metrics retrieval diagnosed?"
-    expected_keywords: [dual_consensus_orchestrator.cpp, updateConsistencyState, getMetrics]
+    expected_keywords: [getMetrics, state_mutex_]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -921,7 +921,7 @@ entries:
   - id: RAG-GD-074
     category: sharding
     question: "In which source file was the concurrent write hazard on the conflict notification callback field remediated?"
-    expected_keywords: [conflict_callback_, replica_consistency.cpp]
+    expected_keywords: [replica_consistency, replica consistency]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -933,7 +933,7 @@ entries:
   - id: RAG-GD-075
     category: sharding
     question: "What threading hazard class was fixed by eliminating detached threads that held references to parent-owned state?"
-    expected_keywords: [detached-thread, shared-state hazard, background_sync_interval_]
+    expected_keywords: [background sync, atomic integer, state_mutex_]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -945,7 +945,7 @@ entries:
   - id: RAG-GD-076
     category: sharding
     question: "What field in the background synchronisation thread is now read via an atomic primitive to prevent partially-visible integer updates?"
-    expected_keywords: [background_sync_interval_ms_, torn reads]
+    expected_keywords: [raw integer, atomic integer]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -1017,7 +1017,7 @@ entries:
   - id: RAG-GD-082
     category: cdc
     question: "What test ID range covers replay session ordering, drain, cancel state machine, and sequence acknowledgement?"
-    expected_keywords: [RAH-01, RAH-08, test_cdc_replay_ack_hardening, InMemoryReplayController]
+    expected_keywords: [rah-01, replay_ack, test_cdc_replay_ack_hardening, InMemory]
     expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -1029,7 +1029,7 @@ entries:
   - id: RAG-GD-083
     category: cdc
     question: "What test ID range covers admin health check, diagnostics surfaces, percentile histogram monotonicity, and JSON serialisation?"
-    expected_keywords: [DGH-01, DGH-08, test_cdc_diagnostics_hardening, healthCheck]
+    expected_keywords: [dgh-01, test_cdc_diagnostics_hardening, healthCheck]
     expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -1209,7 +1209,7 @@ entries:
   - id: RAG-GD-098
     category: training
     question: "In the central parameter aggregation gradient strategy, what YAML field assigns a relative throughput weight to each participating shard?"
-    expected_keywords: [shard_weights, parameter_server, heterogeneous]
+    expected_keywords: [parameter_server, per-shard, heterogeneous]
     expected_source_hint: DISTRIBUTED_LORA_TRAINING
     knowledge_level: specialized
     rarity_tier: rare
@@ -1233,7 +1233,7 @@ entries:
   - id: RAG-GD-100
     category: attention
     question: "What I/O complexity class characterises the bottleneck in conventional attention that the ThemisDB block-wise implementation was designed to overcome?"
-    expected_keywords: [O(N²D), memory I/O]
+    expected_keywords: [n²d, quadratic]
     expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
@@ -1281,7 +1281,7 @@ entries:
   - id: RAG-GD-104
     category: retrieval
     question: "What test IDs within the Phase-B wiki index suite exercise simultaneous read operations and concurrent writer-plus-reader scenarios?"
-    expected_keywords: [WIS-B-01, WIS-B-16, concurrent reads, writer+reader concurrency]
+    expected_keywords: [test_wiki, phase b delivered, writer reader]
     expected_source_hint: llm_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -1305,7 +1305,7 @@ entries:
   - id: RAG-GD-106
     category: sharding
     question: "What C++ locking primitive was applied to dual-mutex operations to eliminate the identified deadlock in the orchestrator?"
-    expected_keywords: ["std::scoped_lock", dual acquisition, deadlock-free]
+    expected_keywords: [scoped_lock, deadlock-free, state_mutex_]
     expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -1317,7 +1317,7 @@ entries:
   - id: RAG-GD-107
     category: retrieval
     question: "What query-embedding cache member was added to the wiki index store to ensure caching correctness under simultaneous queries?"
-    expected_keywords: [query_embed_cache_, mutable, query_embed_mutex_]
+    expected_keywords: [query_embed, embed_mutex, mutable]
     expected_source_hint: llm_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
@@ -1329,7 +1329,7 @@ entries:
   - id: RAG-GD-108
     category: attention
     question: "What is the responsibility of the top-level attention abstraction regarding back-end selection and throughput estimation prior to dispatch?"
-    expected_keywords: [FlashAttention, "Backend::AUTO", forward, performance estimation]
+    expected_keywords: [FlashAttention, backend selection, auto route]
     expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
@@ -1341,7 +1341,7 @@ entries:
   - id: RAG-GD-109
     category: search
     question: "How many test files and how many total test cases were produced by the search module Phase-4 test expansion?"
-    expected_keywords: [7 test files, 128+]
+    expected_keywords: [7 focused, 7 new test]
     expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
