@@ -77,10 +77,10 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 Execution targets `develop` and must follow strict wave-gate sequencing.
 
 ### Wave A — Runtime Reliability First (Q3–Q4 2026)
-- [ ] Transaction: close build/run verification, then complete crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation (Target: Q3–Q4 2026)
+- [~] Transaction: close build/run verification, then complete crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation (Target: Q3–Q4 2026) — evidence bundle updated 2026-08-24: 83 tests registered `release_critical`, CI/Build + Chaos/Recovery index consolidated in `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; hardware execution pending Q4 2026
 - [x] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026, technical closure evidence complete 2026-08-17 in `src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`)
 - [x] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026, COMPLETED 2026-08-18)
-- [ ] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026)
+- [~] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026) — evidence bundle updated 2026-08-24: all Wave A test suites (VOICE-CHAOS-01..12, stream validation, anti-spoof, teardown) delivered; representative-hardware baselines pending Q4 2026; see `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
 - [ ] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026)
 - [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06), Failover (Phase 2+3 ✅ 2026-07-29), Updates (Phase 2-6 ✅ 2026-08-06) — all production-ready for v2.4.0 GA
 
@@ -98,12 +98,12 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026) — ✅ technical closure complete 2026-08-17 (`src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`)
 - [x] **Batch A-Query** — Query planning determinism + exception safety + null safety: timeout safety (24 gaps), exception safety at boundaries (46 gaps), determinism gates (8 gaps), null safety validation (15 gaps) ✅ **COMPLETE 2026-08-17** — 69+ HIGH gaps fixed, all exit criteria met. See `ai_working/WAVE_A_QUERY_MODULE_FINAL_CLOSURE_2026_08_17.md`
 - [x] **Batch A-Support** — Process (Phase 1-6 ✅), Failover (Phase 2+3 ✅), Updates (Phase 2-6 ✅) production-ready integration for v2.4.0 GA — See `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md`
-- [ ] Each Wave A module keeps one local closure evidence block covering focused regressions, chaos/fault-injection evidence, fail-closed verification, representative-hardware p95/p99 baselines, and `release_critical` coverage (Target: Q3 2026)
+- [~] Each Wave A module keeps one local closure evidence block covering focused regressions, chaos/fault-injection evidence, fail-closed verification, representative-hardware p95/p99 baselines, and `release_critical` coverage (Target: Q3 2026) — Transaction ✅ bundle updated 2026-08-24; Voice ✅ bundle updated 2026-08-24; GPU bundle update in progress (SA2 2026-08-24); Sharding ✅ 2026-08-17; Replication ✅ 2026-08-18
 
 ### Wave B — Performance Consolidation (Q3–Q4 2026)
 - [x] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026, COMPLETE 2026-08-17/18 per `src/search/ROADMAP.md` + `src/search/WAVE_B_DOCUMENTATION_CLOSURE.md`)
 - [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026, COMPLETE 2026-08-17 per `src/access_model/ROADMAP.md`)
-- [~] LLM Wiki Phase B: Phase B integration tests delivered (LWP-INT-01..05, 16 tests, `tests/llm/test_llm_wiki_phase_b_integration.cpp`, registered `wave_b release_critical` 2026-08-19); RocksDB representative-hardware retrieval/cache/latency closure still pending (Target: Q3–Q4 2026)
+- [~] LLM Wiki Phase B: Phase B integration tests delivered (LWP-INT-01..05, 16 tests, `tests/llm/test_llm_wiki_phase_b_integration.cpp`, registered `wave_b release_critical` 2026-08-19); Wave B closure evidence bundle created 2026-08-24 at `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`; in-memory mock disclosed as STUB; RocksDB representative-hardware retrieval/cache/latency closure still pending (Target: Q3–Q4 2026)
 
 ### Wave B Exit Criteria (Gate to Wave C)
 - [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded

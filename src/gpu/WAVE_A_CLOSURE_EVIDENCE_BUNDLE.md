@@ -78,18 +78,18 @@ hardening pass (2026-08-24).
 
 | Test ID | Description | Status |
 |---------|-------------|--------|
-| GPU-TIMEOUT-01 | Fresh guard not expired | ✅ Implemented |
-| GPU-TIMEOUT-02 | Remaining time positive on fresh guard | ✅ Implemented |
-| GPU-TIMEOUT-03 | Elapsed time increases monotonically | ✅ Implemented |
-| GPU-TIMEOUT-04 | Short 1ms SLA fires after 10ms sleep | ✅ Implemented |
-| GPU-TIMEOUT-05 | SLA duration correctly reported | ✅ Implemented |
-| GPU-TIMEOUT-06 | Default SLA = 5 seconds | ✅ Implemented |
-| GPU-TIMEOUT-07 | CPU fallback triggered when work exceeds budget | ✅ Implemented |
-| GPU-TIMEOUT-08 | No fallback when work fits within budget | ✅ Implemented |
-| GPU-TIMEOUT-09 | Move semantics preserve SLA duration | ✅ Implemented |
-| GPU-TIMEOUT-10 | 8 concurrent guards are fully independent | ✅ Implemented |
-| GPU-TIMEOUT-11 | Remaining time never exceeds initial SLA | ✅ Implemented |
-| GPU-TIMEOUT-12 | Guard stays non-expired within first 20ms of 50ms budget | ✅ Implemented |
+| GPU-TIMEOUT-01 | Fresh guard not expired | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-02 | Remaining time positive on fresh guard | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-03 | Elapsed time increases monotonically | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-04 | Short 1ms SLA fires after 10ms sleep | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-05 | SLA duration correctly reported | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-06 | Default SLA = 5 seconds | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-07 | CPU fallback triggered when work exceeds budget | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-08 | No fallback when work fits within budget | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-09 | Move semantics preserve SLA duration | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-10 | 8 concurrent guards are fully independent | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-11 | Remaining time never exceeds initial SLA | ✅ Implemented `[~]` CI execution pending |
+| GPU-TIMEOUT-12 | Guard stays non-expired within first 20ms of 50ms budget | ✅ Implemented `[~]` CI execution pending |
 
 **Test file:** `tests/gpu/test_gpu_wave_a_timeout_closure.cpp`  
 **Labels:** `wave_a timeout release_critical`
@@ -100,7 +100,7 @@ hardening pass (2026-08-24).
 
 | Test ID | Range | Status |
 |---------|-------|--------|
-| GPU-EXHAUST-01..12 | Resource exhaustion injection | ✅ Implemented 2026-08-18 |
+| GPU-EXHAUST-01..12 | Resource exhaustion injection | ✅ Implemented 2026-08-18 `[~]` CI execution pending |
 
 **Test file:** `tests/gpu/test_gpu_resource_exhaustion.cpp`
 
@@ -110,7 +110,7 @@ hardening pass (2026-08-24).
 
 | Test ID | Range | Status |
 |---------|-------|--------|
-| GPU-FALLBACK-01..12 | All error classes → correct fallback policy | ✅ Implemented 2026-08-18 |
+| GPU-FALLBACK-01..12 | All error classes → correct fallback policy | ✅ Implemented 2026-08-18 `[~]` CI execution pending |
 
 **Test file:** `tests/gpu/test_gpu_fallback_all_paths.cpp`
 
@@ -129,11 +129,11 @@ hardening pass (2026-08-24).
 
 | AC | Description | Evidence |
 |----|-------------|----------|
-| Unchecked CUDA call reduction | Reduce 340→170 (50%) for Phase C | 🟡 In Progress — Phase C pre-req |
-| RAII lifecycle gaps | Close 57 identified gaps | 🟡 In Progress — `gpu_safe_raii.h` + wrappers |
-| Kernel SLA timeout | Enforce 5s hard limit | ✅ KernelSLAGuard delivered + GPU-TIMEOUT-01..12 |
-| CPU degradation on every GPU failure | All error classes → CPU fallback | ✅ GPU-FALLBACK-01..12 |
-| Resource exhaustion safety | Fail-closed on exhaustion | ✅ GPU-EXHAUST-01..12 |
+| Unchecked CUDA call reduction | Reduce 340→170 (50%) for Phase C | 🟡 In Progress — audit complete 2026-08-24; `cuda_raii.h` wrappers added; `src/gpu/` open raw calls documented |
+| RAII lifecycle gaps | Close 57 identified gaps | 🟡 In Progress — `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `cuda_raii.h` (2026-08-24) deliver wrapper infrastructure |
+| Kernel SLA timeout | Enforce 5s hard limit | ✅ KernelSLAGuard delivered (`include/themis/gpu/gpu_timeout.h`) + GPU-TIMEOUT-01..12 `[~]` CI pending |
+| CPU degradation on every GPU failure | All error classes → CPU fallback | ✅ GPU-FALLBACK-01..12 `[~]` CI pending |
+| Resource exhaustion safety | Fail-closed on exhaustion | ✅ GPU-EXHAUST-01..12 `[~]` CI pending |
 | Bounded diagnostics | Diagnostic emission ≤100µs | ✅ GP23-04/05 |
 
 ---
@@ -142,10 +142,10 @@ hardening pass (2026-08-24).
 
 | Item | Status | Note |
 |------|--------|------|
-| Unchecked CUDA calls (340→170) | ⏳ In Progress | Phase C pre-requisite for production GPU path |
-| RAII lifecycle gap closure (57) | ⏳ In Progress | `include/gpu/gpu_safe_raii.h` wrappers available |
-| Representative-hardware p95/p99 | ⏳ Pending | `bench_gpu_a8_baselines.cpp` wired; hardware run pending |
-| `release_critical` CI green | ⏳ Pending | All Wave A targets registered; develop run pending |
+| Unchecked CUDA calls (340→170) | ⏳ In Progress | 2026-08-24: audit complete; `cuda_raii.h` wrappers added for stream/event/memory; all `src/gpu/` sites catalogued |
+| RAII lifecycle gap closure (57) | ⏳ In Progress | `include/gpu/gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `cuda_raii.h` (2026-08-24) provide wrapper coverage |
+| Representative-hardware p95/p99 | ⏳ Pending | `bench_gpu_a8_baselines.cpp` wired; hardware run pending Q4 2026 — EVIDENCE-NOTE recorded |
+| `release_critical` CI green | ⏳ Pending | All Wave A targets registered; green-on-`develop` execution evidence still pending |
 
 ---
 
@@ -161,4 +161,20 @@ hardening pass (2026-08-24).
 
 ---
 
+## KernelSLAGuard Verification (2026-08-24)
+
+`KernelSLAGuard` is confirmed present at `include/themis/gpu/gpu_timeout.h` (header)
+and actively deployed at the following call sites:
+
+| File | Sites | SLA |
+|------|-------|-----|
+| `src/gpu/query_accelerator.cpp` | 10 sites | `kGpuDispatchTimeout` or `5s` explicit |
+| `src/gpu/rocm_backend.cpp` | 1 site | `5s` explicit |
+
+**Status:** ✅ Kernel SLA timeout enforcement confirmed present and in use.
+Default SLA = 5 seconds (`DEFAULT_SLA_DURATION`). 5-second hard limit enforced.
+
+---
+
+*Updated 2026-08-24 — CUDA-Call Audit pass and RAII hardening*  
 *Generated by Wave A Closure Batch — 2026-08-19*
