@@ -6,31 +6,38 @@ This file documents all documentation and code quality gaps in the **auth** modu
 
 - **Total Gaps**: 2745 (14 false positives removed in Phase 6 verification)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, Phase 6: false-positive remediation)
-- **Last Updated**: 2026-08-19 (Wave C batch: PasskeyAuthenticator impl + 5 test files delivered; batch 4 status updated in MODULE_GAPS_BATCH4.md)
+- **Last Updated**: 2026-08-24 (Batch 5: unchecked_result, catch_all_swallow, resource_leaked_in_exception gap closures)
 
-### Wave C Gap Closure Progress (2026-08-19)
+### Wave C Gap Closure Progress (2026-08-24 Batch 5)
+
+- **unchecked_result gaps closed (ldap_authenticator.cpp)**: 4 unchecked `ldap_set_option` calls on Windows and Unix paths now log warnings on failure; `LDAP_OPT_TIMELIMIT`, `LDAP_OPT_PROTOCOL_VERSION`, `LDAP_OPT_NETWORK_TIMEOUT`, `LDAP_OPT_TIMEOUT` all validated
+- **catch_all_swallow gaps closed (rate_limiter_backend.cpp)**: All 5 `catch(...)` bridge-function blocks now log warning before fallback; `increment`, `getCount`, `reset`, `isConnected`, `reconnect` bridges covered
+- **catch_all_swallow gap closed (http_auth_async.cpp)**: `performConnectivityCheck` `catch(...)` block now logs at debug level before returning false
+- **resource_leaked_in_exception gaps closed (jwks_security.cpp)**: RAII wrappers (`UniqueX509`, `UniqueOSSLBuf`) applied to `computeSPKIHashFromFile`, `computeSPKIHashFromPEM`, `getCertificateInfo` — resources freed on all exception paths
+- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 pending CI run; circular_lock_ordering (20 candidates, awaiting verification); null_dereference (12); uninitialized_access (14); scope_mismatch (2213, mostly scanner artefacts)
+
+### Wave C Gap Closure Progress (2026-08-19 Batch 4)
 
 - **PasskeyAuthenticator TODO stubs closed**: `verifyRegistration` and `verifyAuthentication` replaced with real CBOR/OpenSSL implementation; `PasskeyAuthenticator` concrete class added to header with `IPasskeyAuthenticator` implementation
 - **Test evidence gates delivered**: 5 Wave C test files (AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06)
 - **todo_as_productionlogic count reduced**: from 62 to 51 (11 TODO stubs resolved in passkey_authenticator.cpp)
-- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 pending CI run; provider failover / RBAC/ABAC algorithm hardening (Q4 2026)
 
 See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
 
-### By Severity
+### By Severity (Post-Batch-5)
 
-- **CRITICAL**: 39 (18 false positives removed)
-- **HIGH**: 229 (4 no_transit_encryption downgraded + false positives removed)
+- **CRITICAL**: 36 (3 resource_leaked_in_exception closed; 18 false positives already removed)
+- **HIGH**: 216 (4 unchecked_result + 5 catch_all_swallow closed; 4 no_transit_encryption downgraded earlier)
 - **MEDIUM**: 2475
 - **LOW**: 2
 
-### By Type
+### By Type (Post-Batch-5)
 
 - blocking_no_timeout: 5 (2 removed as FP)
 - braces_imbalance: 5 (8 removed as FP)
 - braces_imbalance_midfile: 8
-- catch_all_swallow: 4
-- circular_lock_ordering: 20
+- catch_all_swallow: 0 (4 closed in Batch 5: rate_limiter_backend 5 bridge catches + http_auth_async connectivity check)
+- circular_lock_ordering: 20 (verification in progress — Batch 5)
 - copy_overhead: 6
 - crypto_weakness: 9
 - data_race: 2
@@ -56,7 +63,7 @@ See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
 - plaintext_transmission: 4
 - range_temporary: 4
 - repeated_search: 1
-- resource_leaked_in_exception: 5
+- resource_leaked_in_exception: 2 (3 closed in jwks_security.cpp Batch 5; 2 remaining in other files)
 - scope_mismatch: 2213
 - sensitive_data_logging: 155
 - shift_overflow: 2
@@ -64,9 +71,9 @@ See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
 - smart_ptr_misuse: 2
 - stale_doc_section_reference: 2
 - string_concat_loop: 18
-- todo_as_productionlogic: 62
+- todo_as_productionlogic: 51 (reduced from 62 in Batch 4)
 - uncaught_exception: 54
-- unchecked_result: 11
+- unchecked_result: 7 (4 closed in ldap_authenticator.cpp Batch 5)
 - uninitialized_access: 14
 - uninitialized_variable: 6
 

@@ -4,7 +4,7 @@
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=12, M=18, L=0
+ * @note Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=8, M=18, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
@@ -402,7 +402,10 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     if (ld) {
         // Set search time limit (seconds)
         ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
-        ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        const ULONG timelimit_result = ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        if (timelimit_result != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP search time limit: {}", timelimit_result);
+        }
 
         // Disable referral chasing — following attacker-controlled referrals can
         // redirect authentication to a rogue LDAP server.
@@ -433,7 +436,10 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
         // Set search time limit (seconds)
         ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
-        ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        const ULONG timelimit2_result = ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        if (timelimit2_result != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP search time limit: {}", timelimit2_result);
+        }
 
         // Disable referral chasing
         const ULONG referrals_result =
@@ -577,17 +583,29 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         owns_connection = true;
 
         int version = LDAP_VERSION3;
-        ldap_set_option(ld, LDAP_OPT_PROTOCOL_VERSION, &version);
+        rc2 = ldap_set_option(ld, LDAP_OPT_PROTOCOL_VERSION, &version);
+        if (rc2 != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP protocol version: {}",
+                          ldap_err2string(rc2));
+        }
 
         struct timeval conn_tv{};
         conn_tv.tv_sec  = config_.connection_timeout_seconds;
         conn_tv.tv_usec = 0;
-        ldap_set_option(ld, LDAP_OPT_NETWORK_TIMEOUT, &conn_tv);
+        rc2 = ldap_set_option(ld, LDAP_OPT_NETWORK_TIMEOUT, &conn_tv);
+        if (rc2 != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP network timeout: {}",
+                          ldap_err2string(rc2));
+        }
 
         struct timeval srch_tv{};
         srch_tv.tv_sec  = config_.search_timeout_seconds;
         srch_tv.tv_usec = 0;
-        ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
+        rc2 = ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
+        if (rc2 != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP search timeout: {}",
+                          ldap_err2string(rc2));
+        }
 
         rc2 = ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF);
         if (rc2 != LDAP_SUCCESS) {

@@ -4,7 +4,7 @@
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=2, M=4, L=0
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=4, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
@@ -32,6 +32,14 @@ namespace auth {
 // ============================================================================
 
 namespace {
+
+struct X509Deleter { void operator()(X509* p) const { X509_free(p); } };
+struct OpenSSLBufDeleter { void operator()(unsigned char* p) const { OPENSSL_free(p); } };
+using UniqueX509 = std::unique_ptr<X509, X509Deleter>;
+using UniqueOSSLBuf = std::unique_ptr<unsigned char, OpenSSLBufDeleter>;
+
+struct OpenSSLCharDeleter { void operator()(char* p) const { OPENSSL_free(p); } };
+using UniqueOSSLChar = std::unique_ptr<char, OpenSSLCharDeleter>;
 
 // Base64 encode
 std::string base64Encode(const unsigned char* data, size_t len) {
@@ -360,31 +368,29 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
         throw std::runtime_error("Failed to open certificate: " + cert_path);
     }
     
-    X509* cert = PEM_read_X509(fp, nullptr, nullptr, nullptr);
+    X509* cert_raw = PEM_read_X509(fp, nullptr, nullptr, nullptr);
     fclose(fp);
     
-    if (!cert) {
+    if (!cert_raw) {
         throw std::runtime_error("Failed to parse certificate: " + cert_path);
     }
+    UniqueX509 cert(cert_raw);
     
     // Extract SPKI (Subject Public Key Info)
-    unsigned char* spki = nullptr;
-    int spki_len = i2d_X509_PUBKEY(X509_get_X509_PUBKEY(cert), &spki);
+    unsigned char* spki_raw = nullptr;
+    int spki_len = i2d_X509_PUBKEY(X509_get_X509_PUBKEY(cert.get()), &spki_raw);
     
     if (spki_len <= 0) {
-        X509_free(cert);
         throw std::runtime_error("Failed to extract SPKI");
     }
+    UniqueOSSLBuf spki(spki_raw);
     
     // Compute SHA256 hash
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(spki, spki_len, hash);
+    SHA256(spki.get(), spki_len, hash);
     
     // Base64 encode
     std::string result = base64Encode(hash, SHA256_DIGEST_LENGTH);
-    
-    OPENSSL_free(spki);
-    X509_free(cert);
     
     return result;
 }
@@ -395,30 +401,28 @@ std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem
         throw std::runtime_error("Failed to create BIO");
     }
     
-    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    X509* cert_raw = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
     BIO_free(bio);
     
-    if (!cert) {
+    if (!cert_raw) {
         throw std::runtime_error("Failed to parse PEM certificate");
     }
+    UniqueX509 cert(cert_raw);
     
     // Extract SPKI
-    unsigned char* spki = nullptr;
-    int spki_len = i2d_X509_PUBKEY(X509_get_X509_PUBKEY(cert), &spki);
+    unsigned char* spki_raw = nullptr;
+    int spki_len = i2d_X509_PUBKEY(X509_get_X509_PUBKEY(cert.get()), &spki_raw);
     
     if (spki_len <= 0) {
-        X509_free(cert);
         throw std::runtime_error("Failed to extract SPKI");
     }
+    UniqueOSSLBuf spki(spki_raw);
     
     // Compute SHA256 hash
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(spki, spki_len, hash);
+    SHA256(spki.get(), spki_len, hash);
     
     std::string result = base64Encode(hash, SHA256_DIGEST_LENGTH);
-    
-    OPENSSL_free(spki);
-    X509_free(cert);
     
     return result;
 }
@@ -456,41 +460,38 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
         throw std::runtime_error("Failed to open certificate: " + cert_path);
     }
     
-    X509* cert = PEM_read_X509(fp, nullptr, nullptr, nullptr);
+    X509* cert_raw = PEM_read_X509(fp, nullptr, nullptr, nullptr);
     fclose(fp);
     
-    if (!cert) {
+    if (!cert_raw) {
         throw std::runtime_error("Failed to parse certificate: " + cert_path);
     }
+    UniqueX509 cert(cert_raw);
     
     // Subject
-    char* subject = X509_NAME_oneline(X509_get_subject_name(cert), nullptr, 0);
+    UniqueOSSLChar subject(X509_NAME_oneline(X509_get_subject_name(cert.get()), nullptr, 0));
     if (subject) {
-        info.subject = subject;
-        OPENSSL_free(subject);
+        info.subject = subject.get();
     }
     
     // Issuer
-    char* issuer = X509_NAME_oneline(X509_get_issuer_name(cert), nullptr, 0);
+    UniqueOSSLChar issuer(X509_NAME_oneline(X509_get_issuer_name(cert.get()), nullptr, 0));
     if (issuer) {
-        info.issuer = issuer;
-        OPENSSL_free(issuer);
+        info.issuer = issuer.get();
     }
     
     // Check expiration
     int day, sec;
-    const ASN1_TIME* notAfter = X509_get0_notAfter(cert);
+    const ASN1_TIME* notAfter = X509_get0_notAfter(cert.get());
     ASN1_TIME_diff(&day, &sec, nullptr, notAfter);
     info.is_expired = !(day > 0 || (day == 0 && sec > 0));
     
     // Key size
-    EVP_PKEY* pkey = X509_get_pubkey(cert);
+    EVP_PKEY* pkey = X509_get_pubkey(cert.get());
     if (pkey) {
         info.key_size_bits = EVP_PKEY_bits(pkey);
         EVP_PKEY_free(pkey);
     }
-    
-    X509_free(cert);
     
     return info;
 }
