@@ -1,7 +1,7 @@
 # ThemisDB Configuration Structure Guide
 
-**Version:** 1.1  
-**Last Updated:** April 20, 2026  
+**Version:** 1.2  
+**Last Updated:** August 24, 2026  
 
 ---
 
@@ -82,6 +82,14 @@ config/
 │   │   └── ha.example.yaml     # HA replication with failover
 │   └── sharding/               # Sharding Configuration
 │       └── with-metrics.yaml   # Sharding with metrics
+│
+├── editions/                   # 🏷️ Per-Edition Runtime Configurations
+│   ├── minimal.yaml            # MINIMAL edition — edge, IoT, single-node
+│   ├── community.yaml          # COMMUNITY edition — default (no license required)
+│   ├── enterprise.yaml         # ENTERPRISE edition — production, HSM, license required
+│   ├── hyperscaler.yaml        # HYPERSCALER edition — cloud-scale, license required
+│   ├── military.yaml           # MILITARY edition — air-gapped, hardened, license required
+│   └── all-editions.yaml       # Consolidated multi-document reference (all editions)
 │
 ├── core/                       # ✅ Canonical core runtime configuration
 │   ├── config.yaml             # Main server configuration
@@ -178,6 +186,36 @@ Update your code to use new paths:
 ---
 
 ## 📚 Configuration Categories
+
+### Editions (`editions/`)
+Per-edition runtime configurations — the authoritative starting point for deploying a specific edition.
+
+| File | Edition | License |
+|---|---|---|
+| `editions/minimal.yaml` | MINIMAL | None |
+| `editions/community.yaml` | COMMUNITY (default) | None |
+| `editions/enterprise.yaml` | ENTERPRISE | Required |
+| `editions/hyperscaler.yaml` | HYPERSCALER | Required |
+| `editions/military.yaml` | MILITARY | Required |
+| `editions/all-editions.yaml` | All (multi-doc reference) | — |
+
+**Edition-Feature Matrix summary:**
+
+| Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER | MILITARY |
+|---|---|---|---|---|---|
+| LLM | CPU-fallback | ALLOWED | ALLOWED | **REQUIRED** | **REQUIRED** (local only) |
+| GPU / CUDA | FORBIDDEN | ALLOWED (≤8 GB) | ALLOWED (≤24 GB) | **REQUIRED** (unlimited) | ALLOWED (≤16 GB) |
+| gRPC | FORBIDDEN | ALLOWED | **REQUIRED** | **REQUIRED** | **REQUIRED** |
+| Tracing (OTel) | FORBIDDEN | — | ALLOWED | **REQUIRED** | ALLOWED |
+| HTTP/3 | FORBIDDEN | ALLOWED | ALLOWED | ALLOWED | FORBIDDEN |
+| MCP | FORBIDDEN | ALLOWED | ALLOWED | ALLOWED | FORBIDDEN |
+| Distributed training | FORBIDDEN | — | FORBIDDEN | ALLOWED | FORBIDDEN |
+| Real HSM | FORBIDDEN | — | ON | available | **REQUIRED** |
+| Max shard nodes | 1 | 5 | 100 | unlimited | 50 |
+
+**Loading:** `ConfigLoader` via `--config config/editions/<edition>.yaml`
+
+---
 
 ### Security (`security/`)
 Sensitive authentication, encryption, and access control settings.

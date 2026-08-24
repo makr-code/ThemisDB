@@ -1,0 +1,254 @@
+# =============================================================================
+# ThemisDB COMMUNITY Edition — Runtime Configuration
+# Version: 1.3.5+
+# Edition: COMMUNITY  (default edition)
+# Target: Small to medium deployments, developers, open-source users
+# License: Open-source (no license file required)
+# =============================================================================
+#
+# Features INCLUDED (all ALLOWED, defaults match COMMUNITY.cmake):
+#   - ACID transactions with MVCC
+#   - Multi-model storage: relational, graph, vector, document
+#   - Secondary indexes, graph indexes, vector indexes (HNSW)
+#   - Full query engine (AQL, GraphQL)
+#   - REST API (HTTP/1.1)
+#   - LLM (optional — CPU or GPU; THEMIS_ENABLE_LLM default ON)
+#   - GPU / CUDA (optional — THEMIS_ENABLE_GPU default ON)
+#   - gRPC (optional — THEMIS_ENABLE_GRPC default ON)
+#   - HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL Wire, SSE (all ALLOWED)
+#   - MCP (Model Context Protocol — ALLOWED)
+#   - DiskANN (ALLOWED)
+#   - Prometheus metrics
+#   - Local backup
+#
+# Features NOT INCLUDED:
+#   - OpenTelemetry tracing (THEMIS_ENABLE_TRACING=OFF in COMMUNITY.cmake)
+#   - Real HSM (THEMIS_ENABLE_HSM_REAL=OFF)
+#   - Distributed training (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)
+#
+# Hardware limits (enforced by build):
+#   GPU VRAM cap : 8 GB
+#   Max nodes    : 5
+#   Max cache    : 1024 MB
+#
+# Usage:
+#   ./themis_server --config config/editions/community.yaml
+#   or set THEMIS_CONFIG_ROOT=config/editions/community.yaml
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Edition identity
+# ---------------------------------------------------------------------------
+edition: COMMUNITY
+
+# ---------------------------------------------------------------------------
+# Storage (RocksDB) — balanced for medium workloads
+# ---------------------------------------------------------------------------
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+
+  # Memory
+  memtable_size_mb: 256
+  block_cache_size_mb: 1024        # Matches THEMIS_MAX_CACHE_SIZE_MB=1024
+  block_cache_shard_bits: -1
+  cache_index_and_filter_blocks: true
+  pin_l0_filter_and_index_blocks_in_cache: true
+  partition_filters: true
+  high_pri_pool_ratio: 0.5
+  db_write_buffer_size_mb: 0
+
+  # Write
+  enable_wal: true
+  max_write_buffer_number: 3
+  min_write_buffer_number_to_merge: 1
+  allow_concurrent_memtable_write: true
+
+  # Compaction
+  max_background_compactions: 4
+  max_background_flushes: 2
+  level0_file_num_compaction_trigger: 4
+  level0_slowdown_writes_trigger: 20
+  level0_stop_writes_trigger: 36
+
+  # Bloom filter
+  bloom_bits_per_key: 10
+  whole_key_filtering: true
+
+  # Compression
+  compression_type: lz4
+  bottommost_compression_type: zstd
+
+  # File handles
+  max_open_files: 5000
+  bytes_per_sync: 1048576
+  wal_bytes_per_sync: 1048576
+
+# ---------------------------------------------------------------------------
+# Server / networking
+# ---------------------------------------------------------------------------
+server:
+  host: "0.0.0.0"
+  port: 8080
+  worker_threads: 8
+
+# Protocols — all ALLOWED; adjust to your deployment needs
+protocols:
+  grpc:
+    enabled: true           # ALLOWED; default ON per COMMUNITY.cmake
+    port: 50051
+  http2:
+    enabled: false          # ALLOWED; enable if needed
+  http3:
+    enabled: false          # ALLOWED; enable if needed
+  websocket:
+    enabled: false          # ALLOWED; enable if needed
+    port: 8081
+  mqtt:
+    enabled: false          # ALLOWED; enable if needed
+    port: 1883
+  postgres_wire:
+    enabled: false          # ALLOWED; enable if needed
+    port: 5432
+  mcp:
+    enabled: false          # ALLOWED; enable if needed
+  sse:
+    enabled: false          # ALLOWED; enable if needed
+
+# ---------------------------------------------------------------------------
+# Security
+# ---------------------------------------------------------------------------
+security:
+  enable_tls: false
+  # tls_cert: "/etc/themisdb/tls/cert.pem"
+  # tls_key:  "/etc/themisdb/tls/key.pem"
+  enable_auth: true
+  enable_rbac: true
+  enable_field_encryption: false
+  enable_hsm: false         # Real HSM NOT available in COMMUNITY (HSM_REAL=OFF)
+
+# ---------------------------------------------------------------------------
+# Query engine
+# ---------------------------------------------------------------------------
+query:
+  max_query_size_bytes: 4194304   # 4 MB
+  query_timeout_seconds: 60
+  max_concurrent_queries: 500
+
+# ---------------------------------------------------------------------------
+# Indexes
+# ---------------------------------------------------------------------------
+index:
+  enable_secondary_indexes: true
+  max_secondary_indexes_per_table: 20
+  enable_graph_indexes: true
+
+  # Vector indexes — HNSW (CPU or GPU)
+  enable_vector_indexes: true
+  default_vector_distance_metric: cosine
+  hnsw_m: 16
+  hnsw_ef_construction: 200
+  hnsw_ef_search: 100
+
+  # DiskANN — ALLOWED in COMMUNITY
+  enable_diskann: false      # Set true if DiskANN was compiled in
+
+# ---------------------------------------------------------------------------
+# Transactions (MVCC)
+# ---------------------------------------------------------------------------
+transaction:
+  enable_mvcc: true
+  default_snapshot_isolation_level: snapshot
+  max_transaction_duration_seconds: 120
+  transaction_lock_timeout_seconds: 30
+
+# ---------------------------------------------------------------------------
+# LLM — optional; defaults to ON per COMMUNITY.cmake
+# ---------------------------------------------------------------------------
+llm:
+  enabled: true             # ALLOWED; toggle off to save resources
+  model_path: "./models"
+  context_size: 4096
+  batch_size: 512
+  gpu_layers: 0             # Set > 0 if gpu.enabled=true and CUDA available
+  remote_inference: false
+
+# ---------------------------------------------------------------------------
+# GPU / acceleration — optional; defaults to ON per COMMUNITY.cmake
+# GPU VRAM hard cap: 8 GB (THEMIS_GPU_MAX_VRAM_GB=8)
+# ---------------------------------------------------------------------------
+gpu:
+  enabled: false            # ALLOWED; set true if GPU available
+  backend: CUDA             # CUDA | HIP | OpenCL
+  device_id: 0
+  max_vram_gb: 8            # Hard cap enforced by build
+  memory_fraction: 0.8
+
+acceleration:
+  cuda_enabled: false       # ALLOWED; set true when gpu.enabled=true
+  simd_enabled: true
+
+# ---------------------------------------------------------------------------
+# Sharding — up to 5 nodes
+# ---------------------------------------------------------------------------
+sharding:
+  enabled: false            # Enable for multi-node deployments
+  max_nodes: 5              # Hard limit from THEMIS_SHARDING_MAX_NODES=5
+  shard_id: 0
+  total_shards: 1
+
+# ---------------------------------------------------------------------------
+# Replication
+# ---------------------------------------------------------------------------
+replication:
+  enabled: false
+  # mode: async | sync
+  # replica_endpoints:
+  #   - "themis-replica-1:50051"
+
+# ---------------------------------------------------------------------------
+# Distributed training — NOT available in COMMUNITY (HSM_REAL=OFF)
+# ---------------------------------------------------------------------------
+distributed_training:
+  enabled: false
+
+# ---------------------------------------------------------------------------
+# Observability
+# ---------------------------------------------------------------------------
+logging:
+  level: info
+  format: json
+  output: stdout
+
+metrics:
+  enabled: true
+  prometheus_port: 9090
+
+tracing:
+  enabled: false            # Not available in COMMUNITY (TRACING=OFF in cmake)
+
+# ---------------------------------------------------------------------------
+# Backup
+# ---------------------------------------------------------------------------
+backup:
+  enable_automatic_backups: false
+  backup_directory: "./backups"
+  backup_interval_hours: 24
+  max_backups_retained: 14
+  cloud_backup: false
+
+# ---------------------------------------------------------------------------
+# Performance
+# ---------------------------------------------------------------------------
+performance:
+  worker_threads: 8
+  enable_mimalloc: false
+  enable_huge_pages: false
+  enable_rcu: false
+
+# ---------------------------------------------------------------------------
+# Licensing
+# ---------------------------------------------------------------------------
+license:
+  # No license file required for COMMUNITY edition
+  file: ""
