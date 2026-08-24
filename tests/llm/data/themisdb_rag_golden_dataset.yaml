@@ -2,1024 +2,1362 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Format:
 #   id                   — unique test identifier (RAG-GD-NNN)
+#   category             — thematic grouping
 #   question             — natural-language retrieval query
+#                          RULE: must NOT contain any expected_keyword
 #   expected_keywords    — list of strings; at least one must appear in Top-5
+#                          RULE: keywords are specific terms from source document
 #   expected_source_hint — optional source/doc_id hint (case-insensitive)
 #   knowledge_level      — one of: general | specific | specialized
 #   rarity_tier          — required "rare" for knowledge_level=specialized
 #   min_recall_score     — minimum fraction [0..1] for Recall@5 gate
-#   category             — thematic grouping (informational only)
+#   source_document      — relative path from repository root (governance)
+#   source_section       — heading/section where the fact was extracted
+#   indexed_at           — ISO date when source document was processed
 #
 # Hard gates:
 #   - Minimum size: >= 110 entries
 #   - Distribution: 20% general / 30% specific / 50% specialized (±3%)
-#   - Specialized policy: specialized entries must encode rare, non-generic points
+#   - Question policy: question text must not contain any expected_keyword
+#   - Provenance: source_document, source_section, indexed_at required
 # Acceptance gates:
 #   - RAG-08 keyword hit in Top-5
 #   - RAG-09 overall Recall@5 >= 0.80
 #   - RAG-10 source hint gate
 #   - RAG-11 latency median gate
-#   - RAG-12 dataset schema/size/distribution guard
+#   - RAG-12 dataset schema/size/distribution/provenance guard
 
-version: 2
+version: 3
 dataset_name: themisdb_rag_golden_dataset
 created: "2026-08-24"
 description: >
   Scientific golden dataset for ThemisDB RAG quality gating.
-  Curated with enforced size/distribution constraints and a mandatory
-  rare-specialized knowledge segment to reduce overlap with generic model priors.
+  v3: questions never contain expected_keywords; every entry carries
+  source_document/source_section/indexed_at provenance for governance.
+  Facts derived from actual repository documentation (docs/, src/*/ROADMAP.md).
 target_min_entries: 110
 target_distribution: {general: 0.20, specific: 0.30, specialized: 0.50}
-specialized_policy: "rare_non_generic_mandatory"
+specialized_policy: rare_non_generic_mandatory
+question_policy: keywords_must_not_appear_in_question
 
 entries:
 
   - id: RAG-GD-001
-    category: architecture
-    question: "What is WikiIndexStore architecture overview in ThemisDB?"
-    expected_keywords: [WikiIndexStore, retrieval, architecture, BM25, HNSW]
-    expected_source_hint: wiki_index
+    category: build-system
+    question: "What shared directory does every CMake build configuration in ThemisDB use to avoid reinstalling packages for each target?"
+    expected_keywords: [vcpkg_installed, x64-linux, x64-windows, arm64-linux]
+    expected_source_hint: BUILD_PRESETS
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_PRESETS.md
+    source_section: Shared vcpkg Installation
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-002
-    category: architecture
-    question: "What is BM25 retrieval fundamentals in ThemisDB?"
-    expected_keywords: [BM25, term, frequency, score, retrieval]
-    expected_source_hint: ""
+    category: attention
+    question: "How does ThemisDB's memory-efficient attention avoid storing the full affinity matrix by processing data in cache-fitting tiles?"
+    expected_keywords: [online softmax, tiled computation, kernel fusion, I/O optimal]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Kernel Fusion
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-003
-    category: architecture
-    question: "What is HNSW approximate nearest neighbor basics in ThemisDB?"
-    expected_keywords: [HNSW, vector, index, approximate, nearest]
-    expected_source_hint: ""
+    category: attention
+    question: "Which hardware compute APIs does the multi-backend attention in ThemisDB support in addition to NVIDIA proprietary interfaces?"
+    expected_keywords: [Vulkan, HIP, ROCm, CPU]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: "Key Features > Multi-Backend Support"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-004
-    category: architecture
-    question: "What is Reciprocal Rank Fusion concept in ThemisDB?"
-    expected_keywords: [RRF, rank, fusion, hybrid, score]
-    expected_source_hint: ""
+    category: training
+    question: "Which gradient aggregation methods does the distributed adapter fine-tuning coordinator offer for synchronising updates across cluster nodes?"
+    expected_keywords: [all_reduce, parameter_server, ring_all_reduce, gradient_accumulation_steps]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: Gradient Synchronization Strategies
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-005
-    category: architecture
-    question: "What is RocksDB storage backend role in ThemisDB?"
-    expected_keywords: [RocksDB, storage, LSM, key-value, backend]
-    expected_source_hint: ""
+    category: sharding
+    question: "What distributed commit protocol does ThemisDB use to guarantee that writes are applied atomically across all participating database shards?"
+    expected_keywords: [Two-Phase Commit, 2PC, TrueTime, ACID]
+    expected_source_hint: DISTRIBUTED_TRANSACTIONS
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/DISTRIBUTED_TRANSACTIONS.md
+    source_section: Overview
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-006
-    category: architecture
-    question: "What is LLM plugin manager purpose in ThemisDB?"
-    expected_keywords: [plugin, manager, model, LLM, load]
-    expected_source_hint: ""
+    category: sharding
+    question: "What percentage readiness has the retrieval path that spans more than one shard reached in the current hybrid rollout plan?"
+    expected_keywords: [35%, Phase B, thread-safety]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: Current Status
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-007
-    category: architecture
-    question: "What is WikiChunkSplitter high-level behavior in ThemisDB?"
-    expected_keywords: [WikiChunkSplitter, chunk, split, heading, window]
-    expected_source_hint: ""
+    category: build-system
+    question: "How much disk space does the documentation state is saved by sharing one package installation directory rather than copying per build configuration?"
+    expected_keywords: [10-20 GB, vcpkg_installed, per-build]
+    expected_source_hint: BUILD_PRESETS
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_PRESETS.md
+    source_section: Shared vcpkg Installation
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-008
-    category: architecture
-    question: "What is Streaming inference API overview in ThemisDB?"
-    expected_keywords: [stream, inference, token, callback, async]
-    expected_source_hint: ""
+    category: build-system
+    question: "Which C++ compiler package names must be installed on Ubuntu to satisfy the ThemisDB build prerequisites?"
+    expected_keywords: [gcc-11, g++-11, build-essential]
+    expected_source_hint: BUILD_LINUX
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_LINUX.md
+    source_section: Ubuntu 20.04+ / Debian 11+
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-009
     category: roadmap
-    question: "What is Implementation phases overview in ThemisDB?"
+    question: "What numbered phases structure the delivery workflow applied to every module in ThemisDB?"
     expected_keywords: [Phase 1, Phase 2, Phase 3, Phase 4, Phase 5]
-    expected_source_hint: ROADMAP
+    expected_source_hint: llm_ROADMAP
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Implementation Phases
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-010
-    category: roadmap
-    question: "What is Wave gate model overview in ThemisDB?"
-    expected_keywords: [Wave, gate, criteria, exit, validation]
-    expected_source_hint: ROADMAP
+    category: adapter
+    question: "Which class replaced the single-adapter manager that was declared obsolete and then deleted, and in which header does it reside?"
+    expected_keywords: [MultiLoRAManager, multi_lora_manager.h, vLLM-style]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-011
-    category: roadmap
-    question: "What is Production readiness checklist overview in ThemisDB?"
-    expected_keywords: [production, readiness, checklist, verified, documentation]
-    expected_source_hint: ""
+    category: retrieval
+    question: "What three scoring algorithms does the wiki index store combine when returning ranked results for a query?"
+    expected_keywords: [BM25, HNSW, RRF]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Wiki Secondary Index
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-012
-    category: roadmap
-    question: "What is GA promotion sign-off summary in ThemisDB?"
-    expected_keywords: [GA, sign-off, promotion, evidence, approval]
-    expected_source_hint: ""
+    category: evaluation
+    question: "What ratio across the three knowledge tiers is enforced by the RAG quality gate for the curated evaluation set?"
+    expected_keywords: [20%, 30%, 50%, specialized, general, specific]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: RAG-12 gate
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-013
-    category: release
-    question: "What is Community branch purpose in ThemisDB?"
-    expected_keywords: [community, branch, release, open-source, edition]
-    expected_source_hint: BRANCHING
+    category: sharding
+    question: "What graph-based algorithm does ThemisDB employ to detect and break deadlocks among distributed transaction participants?"
+    expected_keywords: [Wait-For Graph, victim abort, deadlock detection, cycle detection]
+    expected_source_hint: DISTRIBUTED_TRANSACTIONS
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/DISTRIBUTED_TRANSACTIONS.md
+    source_section: Key Features
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-014
-    category: release
-    question: "What is Develop vs community branch overview in ThemisDB?"
-    expected_keywords: [develop, community, integration, release, branch]
-    expected_source_hint: BRANCHING
+    category: api
+    question: "Which three application-level protocols does the ThemisDB network transport layer expose to connecting clients?"
+    expected_keywords: [GraphQL, gRPC, WebSocket, /ws, ":50051"]
+    expected_source_hint: API_TRANSPORT_RUNBOOK
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/API_TRANSPORT_RUNBOOK.md
+    source_section: Transport Critical Paths
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-015
-    category: release
-    question: "What is Linux package release overview in ThemisDB?"
-    expected_keywords: [DEB, RPM, package, CPack, linux]
-    expected_source_hint: ci-release
+    category: build-system
+    question: "What is the minimum version of the cross-platform build generator required to configure a ThemisDB project?"
+    expected_keywords: [3.20, cmake --version]
+    expected_source_hint: BUILD_LINUX
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_LINUX.md
+    source_section: "CMake >= 3.20"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-016
-    category: release
-    question: "What is Military edition overview in ThemisDB?"
-    expected_keywords: [military, edition, hardened, branch, release]
-    expected_source_hint: BRANCHING
+    category: cdc
+    question: "What seven failure classes are defined in the CDC transport failure taxonomy?"
+    expected_keywords: [Transient, BackendUnreachable, AuthFailure, PayloadInvalid, BackpressureRequired, DuplicateEvent, InternalError]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 1 > Phase 1 Design"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-017
-    category: build
-    question: "What is CMake presets overview in ThemisDB?"
-    expected_keywords: [CMake, preset, community-release, linux-release, configure]
-    expected_source_hint: CMakePresets
+    category: inference
+    question: "How does the continuous batch scheduler verify that sufficient memory blocks are available before admitting a new inference request?"
+    expected_keywords: [blocks_free, blocks_needed, ceiling division, block_size_tokens]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Block Availability Check
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-018
-    category: build
-    question: "What is docs.db build mode overview in ThemisDB?"
-    expected_keywords: [docs.db, AUTO, BUILD, PREBUILT, THEMIS_DOCS_DB_MODE]
-    expected_source_hint: ""
+    category: retrieval
+    question: "What is the default number of chunks processed per ingest batch when streaming documents into the wiki index?"
+    expected_keywords: [batch_size, 32, WikiIndexConfig, WriteBatch]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-019
-    category: build
-    question: "What is sccache usage in CI overview in ThemisDB?"
-    expected_keywords: [sccache, cache, build, mozilla, workflow]
-    expected_source_hint: setup-cpp-build
+    category: evaluation
+    question: "What recall fraction and per-query time budget must the wiki index retrieval satisfy in its quality-gate unit tests?"
+    expected_keywords: ["Recall@5", 80%, 200 ms, 100 chunks]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Test coverage
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-020
-    category: build
-    question: "What is RocksDB requirement in community preset in ThemisDB?"
-    expected_keywords: [RocksDB, community, configure, dependency, librocksdb]
-    expected_source_hint: Dependencies
+    category: build-system
+    question: "What command-line option passed to the package manager bootstrap script disables anonymous telemetry collection?"
+    expected_keywords: [bootstrap-vcpkg.sh, -disableMetrics]
+    expected_source_hint: BUILD_LINUX
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/build-guide/BUILD_LINUX.md
+    source_section: vcpkg Setup
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-021
-    category: api
-    question: "What is RAII principles in ThemisDB in ThemisDB?"
-    expected_keywords: [RAII, resource, lifetime, unique_ptr, scope]
-    expected_source_hint: ""
+    category: inference
+    question: "What is the allocation strategy used when creating a KV-cache block table for a request that has just entered the prefill stage?"
+    expected_keywords: [lazy allocation, BlockTable, sequence_id, placeholder]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Block Allocation
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-022
-    category: api
-    question: "What is Error code ranges by module overview in ThemisDB?"
-    expected_keywords: [error, code, range, module, taxonomy]
-    expected_source_hint: ""
+    category: sharding
+    question: "What method on ThemisDB's global timestamp service does the coordinator call to hold off completing a transaction until the assigned time is provably past?"
+    expected_keywords: [now().latest, waitUntil, commit_time, truetime_]
+    expected_source_hint: DISTRIBUTED_TRANSACTIONS
     knowledge_level: general
     rarity_tier: ""
     min_recall_score: 0.70
+    source_document: docs/DISTRIBUTED_TRANSACTIONS.md
+    source_section: TrueTime Integration
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-023
-    category: api
-    question: "How does WikiRagSource pipeline integration work in ThemisDB?"
-    expected_keywords: [WikiRagSource, pipeline, retrieval, stage, handler]
-    expected_source_hint: wiki_rag_source
+    category: inference
+    question: "What is the KV-cache block token capacity that must be kept consistent between the paged cache and the scheduler configuration?"
+    expected_keywords: [block_size_tokens, 16, PagedKVCache]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Configuration
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-024
-    category: architecture
-    question: "How does JsonWikiIndexReader loading behavior work in ThemisDB?"
-    expected_keywords: [JsonWikiIndexReader, load, chunk, query, index]
-    expected_source_hint: wiki_index_store
+    category: gpu-memory
+    question: "At what threshold does the GPU memory manager invoke its cache compaction routine?"
+    expected_keywords: [fragmentation_rate, 0.15, 15, defragment]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Pitfall 2: Ignoring Fragmentation"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-025
-    category: roadmap
-    question: "How does RAG-08 keyword gate interpretation work in ThemisDB?"
-    expected_keywords: [RAG-08, keyword, Top-5, gate, golden]
-    expected_source_hint: test_llm_doku_rag
+    category: gpu-memory
+    question: "What out-of-memory event rate per request is the alerting threshold documented in the GPU monitoring guidelines?"
+    expected_keywords: [oom_rate, 0.01, 1%]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: Common Pitfalls
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-026
-    category: roadmap
-    question: "How does RAG-09 recall gate interpretation work in ThemisDB?"
-    expected_keywords: [RAG-09, Recall@5, 80%, gate, entries]
-    expected_source_hint: test_llm_doku_rag
+    category: gpu-memory
+    question: "What percentage of memory savings does the prompt-sharing optimisation technique provide according to the GPU best-practices guide?"
+    expected_keywords: [prefix caching, 30-50%, shared prompts]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Do's and Don'ts"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-027
-    category: roadmap
-    question: "How does RAG-10 source hint gate behavior work in ThemisDB?"
-    expected_keywords: [RAG-10, source-hint, doc_id, Top-5, gate]
-    expected_source_hint: test_llm_doku_rag
+    category: inference
+    question: "What request grouping size is documented as optimal for maximising model serving throughput?"
+    expected_keywords: [8-16, batch requests, continuous batching]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Do's and Don'ts > Performance"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-028
-    category: roadmap
-    question: "How does RAG-11 latency gate behavior work in ThemisDB?"
-    expected_keywords: [RAG-11, latency, median, 500ms, query]
-    expected_source_hint: test_llm_doku_rag
+    category: search
+    question: "What p99 latency ceiling is defined for the hybrid dispatch benchmark gate across a hundred-shard topology with ten thousand candidates?"
+    expected_keywords: [SRCP-1, 16.5 ms, p99]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-029
-    category: roadmap
-    question: "How does RAG-12 dataset presence guard work in ThemisDB?"
-    expected_keywords: [RAG-12, dataset, YAML, presence, validation]
-    expected_source_hint: test_llm_doku_rag
+    category: search
+    question: "What minimum throughput must the result merge benchmark gate sustain when aggregating across sixty-four shards?"
+    expected_keywords: [SRCP-2, 45K, results/sec]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-030
-    category: adalora
-    question: "How does AdaLoRA rank reallocation flow work in ThemisDB?"
-    expected_keywords: [AdaLoRA, rank, importance, reallocate, adapter]
-    expected_source_hint: lora_framework
+    category: search
+    question: "What maximum overhead in milliseconds is allowed for the result re-ordering benchmark gate when the language-model fallback path is active?"
+    expected_keywords: [SRCP-3, 5.5 ms]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-031
-    category: adalora
-    question: "How does AdaLoRA checkpoint serialization work in ThemisDB?"
-    expected_keywords: [checkpoint, save, load, serialization, adapter]
-    expected_source_hint: lora_framework
+    category: search
+    question: "What version string is recorded for the frozen API contract of the primary single-node hybrid search component?"
+    expected_keywords: [HybridSearch v2.0.0, frozen contracts, SearchResultStream v2.0.0]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-032
-    category: adalora
-    question: "How does InlineTrainingEngine input contract work in ThemisDB?"
-    expected_keywords: [InlineTrainingEngine, training, input, forward, step]
-    expected_source_hint: lora_training_service
+    category: search
+    question: "How many error codes and how many categories are defined in the search module error taxonomy header?"
+    expected_keywords: [32 error codes, 5 categories, search_error_codes.h]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-033
-    category: adalora
-    question: "How does LoRA scaling parameterization work in ThemisDB?"
-    expected_keywords: [LoRA, alpha, scaling, rank, matrix]
-    expected_source_hint: lora
+    category: sharding
+    question: "What was the original count of detected thread-safety defects across shard boundaries and what was the remaining target after partial remediation?"
+    expected_keywords: [340+, 102]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-034
-    category: api
-    question: "How does GGUF model loading path work in ThemisDB?"
-    expected_keywords: [GGUF, model, load, llama.cpp, plugin]
-    expected_source_hint: lora_api_handler
+    category: sharding
+    question: "What canonical mutex priority order is documented for the dual-consensus orchestrator class?"
+    expected_keywords: [state_mutex_, audit_mutex_, metrics_mutex_]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-035
-    category: api
-    question: "How does Diagnostic emitter thread safety work in ThemisDB?"
-    expected_keywords: [diagnostic, emitter, listener, thread, broadcast]
-    expected_source_hint: updates_diagnostic_emitter
+    category: sharding
+    question: "How many GTest cases were delivered in the third Phase-6 sharding test file that exercises fault scenarios at scale?"
+    expected_keywords: [40, FI-01, test_sharding_p6_fault_injection]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-036
-    category: release
-    question: "How does Community release fallback lane semantics work in ThemisDB?"
-    expected_keywords: [community-release, fallback, lane, build, release]
-    expected_source_hint: RELEASE_STRATEGY
+    category: sharding
+    question: "Which test ID range exercises the scenario where shard-to-shard communication links are severed?"
+    expected_keywords: [FI-01, FI-15, network partition, test_sharding_p6_fault_injection]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-037
-    category: release
-    question: "How does linux-release packaging lane semantics work in ThemisDB?"
-    expected_keywords: [linux-release, DEB, RPM, CPack, ci-release]
-    expected_source_hint: ci-release
+    category: sharding
+    question: "What deterministic seed value is used across the sharding 2PC/3PC consistency and failover test suites?"
+    expected_keywords: [seed-42, seed=42, kShardContractSeed]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-01"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-038
-    category: build
-    question: "How does CMake docs database target behavior work in ThemisDB?"
-    expected_keywords: [docs_database, target, build, doku.db, json]
-    expected_source_hint: ci-build-doku-db
+    category: cdc
+    question: "What maximum latency is allowed for the delivery-record tracking benchmark gate?"
+    expected_keywords: [CDG-01, trackDelivery, 500 µs]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-039
-    category: architecture
-    question: "How does Wiki embedding cache purpose work in ThemisDB?"
-    expected_keywords: [embedding, cache, query, reuse, latency]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What maximum latency is allowed for the single-event confirmation benchmark gate in the CDC module?"
+    expected_keywords: [CDG-02, acknowledge, 10 µs]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-040
-    category: architecture
-    question: "How does Top-k retrieval parameter behavior work in ThemisDB?"
-    expected_keywords: [top_k, retrieval, query, rank, chunks]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What maximum latency is allowed for the cumulative acknowledgement-up-to benchmark gate?"
+    expected_keywords: [CDG-03, acknowledgeUpTo, 200 µs]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-041
-    category: architecture
-    question: "How does Min-score retrieval filter behavior work in ThemisDB?"
-    expected_keywords: [min_score, threshold, retrieval, filter, chunks]
-    expected_source_hint: wiki_index_store
+    category: retrieval
+    question: "What wiki index configuration flag controls whether retrieved chunk embeddings are persisted to the storage backend?"
+    expected_keywords: [enable_persistent_cache, WikiIndexConfig, fetchPersistedEmbedding]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-042
-    category: roadmap
-    question: "How does Source hint expectations in split docs work in ThemisDB?"
-    expected_keywords: [source-hint, split, section_heading, doc_id, matching]
-    expected_source_hint: test_llm_doku_rag
+    category: retrieval
+    question: "What configuration flag causes the index to determine the embedding vector size automatically on the first document write?"
+    expected_keywords: [auto_probe_dim, probeEmbeddingDim, dim_probed_]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-043
-    category: release
-    question: "How does ThemisDB branch governance mapping work in ThemisDB?"
-    expected_keywords: [develop, community, military, edition, governance]
-    expected_source_hint: BRANCHING_STRATEGY
+    category: adapter
+    question: "What is the maximum number of simultaneously active adapter slots supported by the new multi-adapter configuration?"
+    expected_keywords: [max_lora_slots, 16, MultiLoRAManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: "Config Migration > New"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-044
-    category: roadmap
-    question: "How does Golden dataset curation workflow work in ThemisDB?"
-    expected_keywords: [golden, dataset, curation, generator, authoritative]
-    expected_source_hint: generate_rag_golden_dataset
+    category: adapter
+    question: "What time-to-live in seconds is the default for adapter expiry in the new multi-adapter configuration?"
+    expected_keywords: [lora_ttl, 1800, 30 min]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: "Config Migration > New"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-045
-    category: api
-    question: "How does YAML flow-sequence parser constraints work in ThemisDB?"
-    expected_keywords: [YAML, flow-sequence, parser, expected_keywords, subset]
-    expected_source_hint: test_llm_doku_rag
+    category: adapter
+    question: "What configuration field name in the new adapter manager expresses the maximum GPU memory budget for all loaded adapters?"
+    expected_keywords: [max_lora_vram_mb, max_memory_mb, VRAM limit]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-046
-    category: roadmap
-    question: "How does RAG test skip policy without doku.db work in ThemisDB?"
-    expected_keywords: [skip, doku.db, model_required, gate, tests]
-    expected_source_hint: test_llm_doku_rag
+    category: training
+    question: "Which gradient strategy has O(1) per-shard communication overhead and is recommended for clusters with more than eight nodes?"
+    expected_keywords: [ring_all_reduce, O(1), 8+ nodes, linear scaling]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: Ring All-Reduce
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-047
-    category: build
-    question: "How does RocksDB dependency failure mode work in ThemisDB?"
-    expected_keywords: [RocksDB, dependency, configure, failure, community-release]
-    expected_source_hint: Dependencies
+    category: adapter
+    question: "In which product version was the original single-adapter manager class no longer available?"
+    expected_keywords: [v1.5.0, LoRAAdapterManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Removal Timeline
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-048
-    category: build
-    question: "How does sccache action pinning rationale work in ThemisDB?"
-    expected_keywords: [sccache-action, SHA, pin, workflow, cache]
-    expected_source_hint: setup-cpp-build
+    category: training
+    question: "What is the communication complexity per participating node for the balanced gradient averaging strategy, and which cluster sizes suit it best?"
+    expected_keywords: [all_reduce, O(N), 2-8 nodes]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: All-Reduce
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-049
-    category: build
-    question: "How does CMake configure_file dataset copy work in ThemisDB?"
-    expected_keywords: [configure_file, dataset, copy, binary, path]
-    expected_source_hint: tests/llm/CMakeLists
+    category: retrieval
+    question: "What is the test ID range for the RocksDB-backed wiki index Phase-B integration test suite?"
+    expected_keywords: [WIS-B-01, WIS-B-16, test_wiki_index_store_phase_b]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-050
-    category: roadmap
-    question: "How does Expected keyword design guidelines work in ThemisDB?"
-    expected_keywords: [expected_keywords, Top-5, recall, signal, retrieval]
-    expected_source_hint: themisdb_rag_golden_dataset
+    category: api
+    question: "On which port does ThemisDB's remote-procedure-call endpoint listen by default?"
+    expected_keywords: [gRPC, ":50051"]
+    expected_source_hint: API_TRANSPORT_RUNBOOK
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/API_TRANSPORT_RUNBOOK.md
+    source_section: Transport Critical Paths
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-051
-    category: roadmap
-    question: "How does Expected source hint design guidelines work in ThemisDB?"
-    expected_keywords: [expected_source_hint, doc_id, section_heading, hint, retrieval]
-    expected_source_hint: themisdb_rag_golden_dataset
+    category: search
+    question: "What quality ranking metric threshold does the advanced multimodal search benchmark require at top-10 depth?"
+    expected_keywords: [SRCP-ADV-1, "nDCG@10", 0.85, 20 ms]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: "Phase 5 > SRCP-ADV-1"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-052
-    category: roadmap
-    question: "How does Knowledge level taxonomy usage work in ThemisDB?"
-    expected_keywords: [knowledge_level, general, specific, specialized, taxonomy]
-    expected_source_hint: themisdb_rag_golden_dataset
+    category: search
+    question: "What is the total source line count of the search module implementations as stated in the build configuration audit?"
+    expected_keywords: ["5,223", 20 components]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Build Configuration Completion
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-053
-    category: roadmap
-    question: "How does Specialized rarity annotation usage work in ThemisDB?"
-    expected_keywords: [rarity_tier, rare, specialized, annotation, quality]
-    expected_source_hint: themisdb_rag_golden_dataset
+    category: gpu-memory
+    question: "What minimum percentage of total GPU memory must remain unallocated to avoid exhaustion according to the best-practices guide?"
+    expected_keywords: [10%, VRAM, safety margin]
+    expected_source_hint: GPU_MEMORY_BEST_PRACTICES
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/GPU_MEMORY_BEST_PRACTICES.md
+    source_section: "Do's and Don'ts > Memory Management"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-054
-    category: roadmap
-    question: "How does Golden dataset minimum size gate work in ThemisDB?"
-    expected_keywords: [minimum, 110, entries, gate, validation]
-    expected_source_hint: test_llm_doku_rag
+    category: sharding
+    question: "What canonical lock priority order is documented for the Raft consensus adapter, listing all four mutexes?"
+    expected_keywords: [state_mutex_, callbacks_mutex_, cluster_mutex_, snapshot_mutex_]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-055
-    category: roadmap
-    question: "How does Distribution gate tolerance rationale work in ThemisDB?"
-    expected_keywords: [distribution, tolerance, 20/30/50, ratio, validation]
-    expected_source_hint: test_llm_doku_rag
+    category: training
+    question: "What YAML field identifies which shard acts as the central orchestrator in a distributed fine-tuning job?"
+    expected_keywords: [coordinator_shard, lora_training]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
     knowledge_level: specific
     rarity_tier: ""
-    min_recall_score: 0.75
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: "Configuration > Basic Setup"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-056
-    category: adalora
-    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants in ThemisDB."
-    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
-    expected_source_hint: adalora_tt_bridge
+    category: sharding
+    question: "Which fault injection test IDs exercise the scenario where the transaction orchestrator process is terminated mid-protocol?"
+    expected_keywords: [FI-16, FI-25, coordinator failure, test_sharding_p6_fault_injection]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-057
-    category: architecture
-    question: "Describe the specialized behavior of Query embedding cache mutex strategy in ThemisDB."
-    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "Which fault injection test IDs exercise scenarios where multiple components fail simultaneously or cascade?"
+    expected_keywords: [FI-26, FI-40, multi-failure]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-03"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-058
-    category: architecture
-    question: "Describe the specialized behavior of Persistent embedding cache key design in ThemisDB."
-    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "Under what CTest label is the Phase-C gate test for retrieving data across more than one shard registered?"
+    expected_keywords: [ShardingMultiShardExactPhaseCGate, test_sharding_multishard_exact]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Phase C ctest gate"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-059
-    category: architecture
-    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics in ThemisDB."
-    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "Which function in the dual-consensus orchestrator was refactored to eliminate a deadlock during dual-mutex acquisition?"
+    expected_keywords: [logGroundingOperation, dual acquisition, metrics_mutex_, scoped_lock]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-060
-    category: architecture
-    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval in ThemisDB."
-    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "What named synchronisation state error conditions trigger the retry-with-backoff logic in the background sync thread after the quorum-loss fix?"
+    expected_keywords: [STORAGE_AHEAD, CACHE_AHEAD, retry logic, backgroundSyncThread]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-061
-    category: architecture
-    question: "Describe the specialized behavior of BM25 term-normalization edge behavior in ThemisDB."
-    expected_keywords: [BM25, normalization, term, frequency, score]
-    expected_source_hint: wiki_index_store
+    category: search
+    question: "What is the maximum end-to-end latency allowed for the search term expansion benchmark gate across one thousand queries?"
+    expected_keywords: [SRCP-6, 55 ms, 1K queries]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-062
-    category: architecture
-    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall in ThemisDB."
-    expected_keywords: [HNSW, efSearch, M, recall, latency]
-    expected_source_hint: wiki_index_store
+    category: search
+    question: "What separate latency ceilings are specified for the accelerator path and the processor-only path in the hardware fallback benchmark gate?"
+    expected_keywords: [SRCP-4, 8.8 ms, 11 ms, GPU]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-063
-    category: architecture
-    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics in ThemisDB."
-    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
-    expected_source_hint: wiki_rag_source
+    category: search
+    question: "What maximum stream-result flush time per one-thousand-element batch is required by the corresponding benchmark gate?"
+    expected_keywords: [SRCP-5, 11 ms, stream flush, 1K batch]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-064
-    category: roadmap
-    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits in ThemisDB."
-    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
-    expected_source_hint: ROADMAP
+    category: search
+    question: "What maximum overhead is allowed for the supervised rank-model benchmark gate in the advanced search test suite?"
+    expected_keywords: [SRCP-ADV-2, 25 ms, LTR]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-065
-    category: build
-    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases in ThemisDB."
-    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
-    expected_source_hint: CMakePresets
+    category: search
+    question: "What maximum throughput degradation is permitted when writing new data into the index while serving search queries?"
+    expected_keywords: [SRCP-ADV-3, 10%, latency increase]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-066
-    category: roadmap
-    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift in ThemisDB."
-    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
-    expected_source_hint: test_llm_doku_rag
+    category: search
+    question: "What version string identifies the frozen API contract for the distributed multi-shard hybrid search component?"
+    expected_keywords: [DistributedHybridSearch v2.1.0, frozen contracts]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-067
-    category: adalora
-    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 12 in ThemisDB."
-    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
-    expected_source_hint: adalora_tt_bridge
+    category: search
+    question: "What version string identifies the frozen API contract for the streaming search result component?"
+    expected_keywords: [SearchResultStream v2.0.0, frozen contracts]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 1 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-068
-    category: architecture
-    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 13 in ThemisDB."
-    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
-    expected_source_hint: wiki_index_store
+    category: search
+    question: "What boolean flag in the extended search statistics signals that a merge returned fewer results than the minimum viable set?"
+    expected_keywords: [merge_underflow, SearchStats, DistributedHybridSearch]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 2 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-069
-    category: architecture
-    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 14 in ThemisDB."
-    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
-    expected_source_hint: wiki_index_store
+    category: search
+    question: "What diagnostic flag indicates that overlapping result sets from different shards showed unexpectedly high score variance?"
+    expected_keywords: [high_overlap_variance, SearchStats]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 2 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-070
-    category: architecture
-    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 15 in ThemisDB."
-    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
-    expected_source_hint: wiki_index_store
+    category: search
+    question: "What field in the extended search statistics accumulates the cause string for each shard that did not return results?"
+    expected_keywords: [failed_shard_reasons, SearchStats]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 2 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-071
-    category: architecture
-    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 16 in ThemisDB."
-    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "What GTest test ID range covers the two-phase and three-phase commit consistency cases in the sharding Phase-6 hardening suite?"
+    expected_keywords: [TXC-01, TXC-32, 2PC, 3PC, test_sharding_phase6_hardening]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-01"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-072
-    category: architecture
-    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 17 in ThemisDB."
-    expected_keywords: [BM25, normalization, term, frequency, score]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "Which test ID range covers scenarios where the orchestrator process terminates and must be recovered via write-ahead log replay?"
+    expected_keywords: [FLR-01, FLR-20, WAL, test_sharding_phase6_hardening]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-02"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-073
-    category: architecture
-    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 18 in ThemisDB."
-    expected_keywords: [HNSW, efSearch, M, recall, latency]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "In which source file was the lock ordering violation between consistency state updates and metrics retrieval diagnosed?"
+    expected_keywords: [dual_consensus_orchestrator.cpp, updateConsistencyState, getMetrics]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-074
-    category: architecture
-    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 19 in ThemisDB."
-    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
-    expected_source_hint: wiki_rag_source
+    category: sharding
+    question: "In which source file was the concurrent write hazard on the conflict notification callback field remediated?"
+    expected_keywords: [conflict_callback_, replica_consistency.cpp]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-075
-    category: roadmap
-    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 20 in ThemisDB."
-    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
-    expected_source_hint: ROADMAP
+    category: sharding
+    question: "What threading hazard class was fixed by eliminating detached threads that held references to parent-owned state?"
+    expected_keywords: [detached-thread, shared-state hazard, background_sync_interval_]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-076
-    category: build
-    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 21 in ThemisDB."
-    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
-    expected_source_hint: CMakePresets
+    category: sharding
+    question: "What field in the background synchronisation thread is now read via an atomic primitive to prevent partially-visible integer updates?"
+    expected_keywords: [background_sync_interval_ms_, torn reads]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-077
-    category: roadmap
-    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 22 in ThemisDB."
-    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
-    expected_source_hint: test_llm_doku_rag
+    category: sharding
+    question: "What repository path stores the Phase-6 sharding acceptance artefacts?"
+    expected_keywords: [docs/sharding/SHARDING_P6_SIGN_OFF.md, P6]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6 Sign-off"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-078
-    category: adalora
-    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 23 in ThemisDB."
-    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
-    expected_source_hint: adalora_tt_bridge
+    category: cdc
+    question: "What maximum latency is required for the consumer-group create and delete operations benchmark gate?"
+    expected_keywords: [CDG-04, createGroup, deleteGroup, 1 ms]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-079
-    category: architecture
-    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 24 in ThemisDB."
-    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What maximum latency is required for the at-least-once event retrieval benchmark gate?"
+    expected_keywords: [CDG-05, fetchEventsAtLeastOnce, 5 ms]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-080
-    category: architecture
-    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 25 in ThemisDB."
-    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What maximum time is required to drain a replay session in the CDC delivery benchmark?"
+    expected_keywords: [CDG-06, replay drain, 5 ms]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: "Phase 5 > CDC benchmark gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-081
-    category: architecture
-    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 26 in ThemisDB."
-    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What test ID range covers delivery-tracker and consumer-group behaviour under degraded backend conditions?"
+    expected_keywords: [TRD-01, TRD-08, test_cdc_transport_degradation]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 2 Completion
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-082
-    category: architecture
-    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 27 in ThemisDB."
-    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What test ID range covers replay session ordering, drain, cancel state machine, and sequence acknowledgement?"
+    expected_keywords: [RAH-01, RAH-08, test_cdc_replay_ack_hardening, InMemoryReplayController]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 4
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-083
-    category: architecture
-    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 28 in ThemisDB."
-    expected_keywords: [BM25, normalization, term, frequency, score]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What test ID range covers admin health check, diagnostics surfaces, percentile histogram monotonicity, and JSON serialisation?"
+    expected_keywords: [DGH-01, DGH-08, test_cdc_diagnostics_hardening, healthCheck]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 3
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-084
-    category: architecture
-    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 29 in ThemisDB."
-    expected_keywords: [HNSW, efSearch, M, recall, latency]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "What named constant identifies the fixed random seed used in the sharding contract-hardening test suite?"
+    expected_keywords: [kShardContractSeed, SCR-01, SCR-16, test_sharding_contract_hardening_focused]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: Phase 4
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-085
-    category: architecture
-    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 30 in ThemisDB."
-    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
-    expected_source_hint: wiki_rag_source
+    category: retrieval
+    question: "What two method names implement the lazy read path and the lazy write path for the wiki index persistent embedding cache?"
+    expected_keywords: [fetchPersistedEmbedding, persistEmbedding, RocksDB]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-086
-    category: roadmap
-    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 31 in ThemisDB."
-    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
-    expected_source_hint: ROADMAP
+    category: retrieval
+    question: "What member variable prevents the embedding dimension probe from executing more than once in the wiki index?"
+    expected_keywords: [dim_probed_, probeEmbeddingDim]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Remaining
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-087
-    category: build
-    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 32 in ThemisDB."
-    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
-    expected_source_hint: CMakePresets
+    category: adapter
+    question: "What semantic difference distinguishes the old auto-eviction flag from the new on-demand loading flag in the migrated adapter configuration?"
+    expected_keywords: [enable_lazy_load, enable_auto_unload, load on first use, evict unused adapters]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-088
-    category: roadmap
-    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 33 in ThemisDB."
-    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
-    expected_source_hint: test_llm_doku_rag
+    category: adapter
+    question: "What field name replaced the maximum-cache-size setting in the new multi-adapter configuration structure?"
+    expected_keywords: [max_lora_slots, max_cache_size]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-089
-    category: adalora
-    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 34 in ThemisDB."
-    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
-    expected_source_hint: adalora_tt_bridge
+    category: adapter
+    question: "What field name replaced the adapter expiry time setting in the migrated multi-adapter configuration?"
+    expected_keywords: [lora_ttl, cache_ttl, "std::chrono::seconds"]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Config Migration
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-090
-    category: architecture
-    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 35 in ThemisDB."
-    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
-    expected_source_hint: wiki_index_store
+    category: adapter
+    question: "What deprecated method for manually triggering adapter-merge was replaced by a declarative configuration flag in the new API?"
+    expected_keywords: [switchAdapterWithFusion, enable_adapter_fusion, MultiLoRAManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: Quick Migration Reference
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-091
-    category: architecture
-    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 36 in ThemisDB."
-    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
-    expected_source_hint: wiki_index_store
+    category: attention
+    question: "What abstract method on the backend-specific attention interface returns memory usage statistics?"
+    expected_keywords: [getMemoryStats, IFlashAttention, AttentionMemoryStats]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: "Core Classes > IFlashAttention"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-092
-    category: architecture
-    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 37 in ThemisDB."
-    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
-    expected_source_hint: wiki_index_store
+    category: attention
+    question: "What technique does the KV-cache manager use to allow multiple sequences to share a common prompt prefix without duplicating memory?"
+    expected_keywords: [KVCacheManager, Copy-on-Write, prefix sharing, forking]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Paged KV-Cache
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-093
-    category: architecture
-    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 38 in ThemisDB."
-    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
-    expected_source_hint: wiki_index_store
+    category: inference
+    question: "What scheduler configuration field specifies the minimum number of free memory blocks before the low-memory policy activates?"
+    expected_keywords: [low_memory_threshold_blocks, blocks_free, config_]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: Block Management
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-094
-    category: architecture
-    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 39 in ThemisDB."
-    expected_keywords: [BM25, normalization, term, frequency, score]
-    expected_source_hint: wiki_index_store
+    category: attention
+    question: "What CUDA compute capability code supports AMD RDNA architecture with 32-wide wave execution in the alternative GPU attention backend?"
+    expected_keywords: [FlashAttentionHIP, Wave32, RDNA, HIP]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Backend Implementations
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-095
-    category: architecture
-    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 40 in ThemisDB."
-    expected_keywords: [HNSW, efSearch, M, recall, latency]
-    expected_source_hint: wiki_index_store
+    category: attention
+    question: "Which CUDA architecture code in the ThemisDB attention backend targets the H100/H800 generation with TMA and warp specialisation support?"
+    expected_keywords: [SM90, TMA, warp specialization, Hopper]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Backend Implementations
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-096
-    category: architecture
-    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 41 in ThemisDB."
-    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
-    expected_source_hint: wiki_rag_source
+    category: attention
+    question: "Which CUDA architecture code represents the earliest supported Ampere processor with baseline second-generation attention optimisations?"
+    expected_keywords: [SM80, Ampere Early]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Backend Implementations
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-097
-    category: roadmap
-    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 42 in ThemisDB."
-    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
-    expected_source_hint: ROADMAP
+    category: training
+    question: "What integer value is used as the default for the gradient accumulation step count in the distributed training configuration example?"
+    expected_keywords: [gradient_accumulation_steps, 4]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: "Configuration > Basic Setup"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-098
-    category: build
-    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 43 in ThemisDB."
-    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
-    expected_source_hint: CMakePresets
+    category: training
+    question: "In the central parameter aggregation gradient strategy, what YAML field assigns a relative throughput weight to each participating shard?"
+    expected_keywords: [shard_weights, parameter_server, heterogeneous]
+    expected_source_hint: DISTRIBUTED_LORA_TRAINING
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/DISTRIBUTED_LORA_TRAINING.md
+    source_section: Parameter Server
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-099
-    category: roadmap
-    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 44 in ThemisDB."
-    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
-    expected_source_hint: test_llm_doku_rag
+    category: adapter
+    question: "What flag in the multi-adapter manager configuration enables multiple adapters to be applied within a single inference batch simultaneously?"
+    expected_keywords: [enable_multi_lora_batch, MultiLoRAManager]
+    expected_source_hint: LORA_ADAPTER_MIGRATION
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/LORA_ADAPTER_MIGRATION.md
+    source_section: "Config Migration > New"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-100
-    category: adalora
-    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 45 in ThemisDB."
-    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
-    expected_source_hint: adalora_tt_bridge
+    category: attention
+    question: "What I/O complexity class characterises the bottleneck in conventional attention that the ThemisDB block-wise implementation was designed to overcome?"
+    expected_keywords: [O(N²D), memory I/O]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: Overview
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-101
-    category: architecture
-    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 46 in ThemisDB."
-    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
-    expected_source_hint: wiki_index_store
+    category: cdc
+    question: "What predicate function in the CDC delivery contract header determines whether a transport failure class should trigger a stop-accepting-data response?"
+    expected_keywords: [isCdcFailClosedClass, CdcTransportFailureClass]
+    expected_source_hint: cdc_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/cdc/ROADMAP.md
+    source_section: Phase 1
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-102
-    category: architecture
-    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 47 in ThemisDB."
-    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
-    expected_source_hint: wiki_index_store
+    category: search
+    question: "What specific revision hash is cited in the search roadmap as completing the source file integration for all twenty search implementations?"
+    expected_keywords: [8888dc81]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Build Configuration Completion
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-103
-    category: architecture
-    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 48 in ThemisDB."
-    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
-    expected_source_hint: wiki_index_store
+    category: search
+    question: "What hardware platform is documented as the baseline for search module Phase-5 benchmark gates?"
+    expected_keywords: [Intel Xeon, NVIDIA RTX, benchmarks/search/README.md]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 5
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-104
-    category: architecture
-    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 49 in ThemisDB."
-    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
-    expected_source_hint: wiki_index_store
+    category: retrieval
+    question: "What test IDs within the Phase-B wiki index suite exercise simultaneous read operations and concurrent writer-plus-reader scenarios?"
+    expected_keywords: [WIS-B-01, WIS-B-16, concurrent reads, writer+reader concurrency]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-105
-    category: architecture
-    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 50 in ThemisDB."
-    expected_keywords: [BM25, normalization, term, frequency, score]
-    expected_source_hint: wiki_index_store
+    category: inference
+    question: "What component maps sequence positions to physical memory blocks in the paged attention architecture?"
+    expected_keywords: [BlockTable, PagedKVCache]
+    expected_source_hint: PAGED_ATTENTION_INTEGRATION
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/PAGED_ATTENTION_INTEGRATION.md
+    source_section: "Architecture > Components"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-106
-    category: architecture
-    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 51 in ThemisDB."
-    expected_keywords: [HNSW, efSearch, M, recall, latency]
-    expected_source_hint: wiki_index_store
+    category: sharding
+    question: "What C++ locking primitive was applied to dual-mutex operations to eliminate the identified deadlock in the orchestrator?"
+    expected_keywords: ["std::scoped_lock", dual acquisition, deadlock-free]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Planned Features > Hybrid Retrieval Rollout Gates"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-107
-    category: architecture
-    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 52 in ThemisDB."
-    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
-    expected_source_hint: wiki_rag_source
+    category: retrieval
+    question: "What query-embedding cache member was added to the wiki index store to ensure caching correctness under simultaneous queries?"
+    expected_keywords: [query_embed_cache_, mutable, query_embed_mutex_]
+    expected_source_hint: llm_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/llm/ROADMAP.md
+    source_section: Phase B Delivered
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-108
-    category: roadmap
-    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 53 in ThemisDB."
-    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
-    expected_source_hint: ROADMAP
+    category: attention
+    question: "What is the responsibility of the top-level attention abstraction regarding back-end selection and throughput estimation prior to dispatch?"
+    expected_keywords: [FlashAttention, "Backend::AUTO", forward, performance estimation]
+    expected_source_hint: FLASH_ATTENTION_ARCHITECTURE
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: docs/llm/FLASH_ATTENTION_ARCHITECTURE.md
+    source_section: "Core Classes > FlashAttention"
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-109
-    category: build
-    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 54 in ThemisDB."
-    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
-    expected_source_hint: CMakePresets
+    category: search
+    question: "How many test files and how many total test cases were produced by the search module Phase-4 test expansion?"
+    expected_keywords: [7 test files, 128+]
+    expected_source_hint: search_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/search/ROADMAP.md
+    source_section: Phase 4 Completion Summary
+    indexed_at: 2026-08-24
 
   - id: RAG-GD-110
-    category: roadmap
-    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 55 in ThemisDB."
-    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
-    expected_source_hint: test_llm_doku_rag
+    category: sharding
+    question: "How many GTest cases in the second Phase-6 sharding hardening file cover restart and WAL-replay recovery scenarios?"
+    expected_keywords: [FLR-01, FLR-20, 20, test_sharding_phase6_hardening]
+    expected_source_hint: sharding_ROADMAP
     knowledge_level: specialized
     rarity_tier: rare
-    min_recall_score: 0.80
+    min_recall_score: 0.70
+    source_document: src/sharding/ROADMAP.md
+    source_section: "Recently Completed > P6-02"
+    indexed_at: 2026-08-24
