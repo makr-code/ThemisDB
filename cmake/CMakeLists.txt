@@ -857,10 +857,12 @@ endif()
 # These determine which functionality is available at build time
 
 # GPU Memory Limits: Edition-specific VRAM constraints
-# MINIMAL: No GPU, no LLM, no sharding - only core database features
-# COMMUNITY: 24 GB (typical gaming GPU, consumer hardware)
-# ENTERPRISE: 256 GB (data center grade A100/H100)
-# HYPERSCALER: Unlimited (custom, OEM deployments)
+# All limits reflect cumulative VRAM across all GPUs in a single system node.
+# MINIMAL:     0 GB    — no GPU; CPU fallback enforced (IoT/embedded)
+# COMMUNITY:  16 GB    — 1× Tesla T4 (entry-level inference node)
+# ENTERPRISE: 320 GB   — 4× A100 80 GB (standard 4-GPU server node)
+# MILITARY:    80 GB   — 2× A100 40 GB (controlled air-gapped deployment)
+# HYPERSCALER: unlimited — OEM, custom cluster deployments
 if(THEMIS_EDITION STREQUAL "MINIMAL")
     # MINIMAL Edition: Core database features only
     # No LLM, no GPU acceleration, no sharding, no replication, no advanced analytics
@@ -898,7 +900,7 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     message(STATUS "  Build time: ~5-10 minutes (vs ~30-40 for full build)")
     
 elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
-    set(THEMIS_GPU_MAX_VRAM_GB 8 CACHE INTERNAL "Max GPU VRAM for Community Edition")
+    set(THEMIS_GPU_MAX_VRAM_GB 16 CACHE INTERNAL "Max GPU VRAM for Community Edition (1x Tesla T4)")
     set(THEMIS_SHARDING_MAX_NODES 5 CACHE INTERNAL "Max sharding nodes for Community Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
     set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
@@ -932,7 +934,7 @@ elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     endif()
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
-    set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
+    set(THEMIS_GPU_MAX_VRAM_GB 320 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition (4x A100 80 GB)")
     set(THEMIS_SHARDING_MAX_NODES 100 CACHE INTERNAL "Max sharding nodes for Enterprise Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
     set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")

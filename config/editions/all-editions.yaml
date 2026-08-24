@@ -172,7 +172,7 @@ llm:
 
 gpu:
   enabled: false                  # ALLOWED; set true if GPU available
-  max_vram_gb: 8
+  max_vram_gb: 16
 
 acceleration:
   cuda_enabled: false
@@ -258,7 +258,7 @@ llm:
 
 gpu:
   enabled: false                  # ALLOWED; set true if GPU available
-  max_vram_gb: 24
+  max_vram_gb: 320
 
 acceleration:
   cuda_enabled: false
@@ -451,7 +451,7 @@ llm:
 
 gpu:
   enabled: false                   # ALLOWED; set true if cleared GPU hardware present
-  max_vram_gb: 16
+  max_vram_gb: 80
 
 acceleration:
   cuda_enabled: false

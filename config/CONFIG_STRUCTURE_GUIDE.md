@@ -204,7 +204,7 @@ Per-edition runtime configurations — the authoritative starting point for depl
 | Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER | MILITARY |
 |---|---|---|---|---|---|
 | LLM | CPU-fallback | ALLOWED | ALLOWED | **REQUIRED** | **REQUIRED** (local only) |
-| GPU / CUDA | FORBIDDEN | ALLOWED (≤8 GB) | ALLOWED (≤24 GB) | **REQUIRED** (unlimited) | ALLOWED (≤16 GB) |
+| GPU / CUDA | FORBIDDEN | ALLOWED (≤16 GB, 1× T4) | ALLOWED (≤320 GB, 4× A100 80G) | **REQUIRED** (unlimited) | ALLOWED (≤80 GB, 2× A100 40G) |
 | gRPC | FORBIDDEN | ALLOWED | **REQUIRED** | **REQUIRED** | **REQUIRED** |
 | Tracing (OTel) | FORBIDDEN | — | ALLOWED | **REQUIRED** | ALLOWED |
 | HTTP/3 | FORBIDDEN | ALLOWED | ALLOWED | ALLOWED | FORBIDDEN |

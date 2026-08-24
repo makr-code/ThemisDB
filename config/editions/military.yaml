@@ -28,7 +28,7 @@
 #   - Cloud backup (data must remain on-premises or in sovereign cloud)
 #
 # Hardware limits (enforced by build):
-#   GPU VRAM cap : 16 GB
+#   GPU VRAM cap : 80 GB (2x A100 40 GB)
 #   Max nodes    : 50
 #   Max cache    : 2048 MB
 #
@@ -201,13 +201,13 @@ llm:
   # air_gap_mode: true      # Disables any model-hub download attempts
 
 # ---------------------------------------------------------------------------
-# GPU / acceleration — ALLOWED; cap 16 GB VRAM; CPU fallback enforced
+# GPU / acceleration — ALLOWED; cap 80 GB VRAM — 2x A100 40 GB; CPU fallback enforced
 # ---------------------------------------------------------------------------
 gpu:
   enabled: false            # ALLOWED; set true if cleared GPU hardware is present
   backend: CUDA
   device_id: 0
-  max_vram_gb: 16           # Hard cap (THEMIS_GPU_MAX_VRAM_GB=16)
+  max_vram_gb: 80           # Hard cap (THEMIS_GPU_MAX_VRAM_GB=80)
   memory_fraction: 0.85
 
 acceleration:

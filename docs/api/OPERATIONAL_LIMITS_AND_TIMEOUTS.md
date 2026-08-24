@@ -78,7 +78,7 @@ All values are measured under standard operational conditions (Linux/x86_64, 64 
 |-------|-------|------------|--------------|
 | **Max models loaded concurrently** | 4 | Model manager slot allocator | New model load rejected with Status=RESOURCE_LIMIT; existing models remain loaded |
 | **Model load timeout** | 2 minutes | Model initialization timer | Load aborted; Status=INITIALIZATION_TIMEOUT; model remains unloaded |
-| **Max model VRAM per model** | 24 GB (Community), 256 GB (Enterprise) | GPU memory allocator | Load aborted; Status=OUT_OF_MEMORY; fallback to CPU (if configured) |
+| **Max model VRAM per model** | 16 GB (Community — 1× T4), 320 GB (Enterprise — 4× A100 80 GB) | GPU memory allocator | Load aborted; Status=OUT_OF_MEMORY; fallback to CPU (if configured) |
 | **Model cache size (memory, not VRAM)** | 8 GB | ModelCache LRU eviction | Oldest model evicted from RAM cache when new one exceeds 8 GB |
 
 ### 2.2 Inference Request Limits

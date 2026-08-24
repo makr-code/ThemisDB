@@ -19,9 +19,9 @@
  *
  * Five editions are supported:
  * - MINIMAL:     Lightweight/embedded (0 GB GPU VRAM cap — CPU fallback enforced, 1 node)
- * - COMMUNITY:   Free, open-source (8 GB GPU VRAM, up to 5 nodes)
- * - ENTERPRISE:  Paid subscription (24 GB GPU VRAM, up to 100 nodes)
- * - MILITARY:    Hardened/air-gapped (16 GB GPU VRAM, up to 50 nodes)
+ * - COMMUNITY:   Free, open-source (16 GB GPU VRAM — 1× Tesla T4, up to 5 nodes)
+ * - ENTERPRISE:  Paid subscription (320 GB GPU VRAM — 4× A100 80 GB, up to 100 nodes)
+ * - MILITARY:    Hardened/air-gapped (80 GB GPU VRAM — 2× A100 40 GB, up to 50 nodes)
  * - HYPERSCALER: OEM/Custom (unlimited VRAM and nodes)
  *
  * GPU availability: all editions compile with THEMIS_ENABLE_GPU=ON and
@@ -82,16 +82,18 @@ constexpr EditionType GetEditionType() {
 // HARDWARE CONSTRAINTS (Edition-specific limits)
 // ============================================================================
 
-// GPU Memory constraints (VRAM limit in GB)
+// GPU Memory constraints (VRAM limit in GB) — multi-GPU total per node
+// All limits reflect cumulative VRAM across all GPUs in a single system node.
+//
 // MINIMAL:     0 GB  — no GPU; CPU fallback enforced (IoT/embedded)
-// COMMUNITY:   8 GB  — consumer GPUs (e.g. RTX 3070/4060 class)
-// ENTERPRISE:  24 GB — professional GPUs (e.g. RTX 4090 / A5000 class)
-// MILITARY:    16 GB — controlled/hardened GPU deployments
-// HYPERSCALER: 0     — unlimited (OEM, custom deployments)
+// COMMUNITY:  16 GB  — 1× Tesla T4 (16 GB) — entry-level inference node
+// ENTERPRISE: 320 GB — 4× A100 80 GB       — standard 4-GPU server node
+// MILITARY:    80 GB — 2× A100 40 GB        — controlled air-gapped deployment
+// HYPERSCALER: 0     — unlimited            — OEM, custom cluster deployments
 //
 // Default (no CMake edition specified) matches COMMUNITY to stay conservative.
 #ifndef THEMIS_GPU_MAX_VRAM_GB
-#define THEMIS_GPU_MAX_VRAM_GB 8
+#define THEMIS_GPU_MAX_VRAM_GB 16
 #endif
 constexpr int GPU_MAX_VRAM_GB = THEMIS_GPU_MAX_VRAM_GB;
 

@@ -27,7 +27,7 @@
 #   - Distributed training (THEMIS_ENABLE_DISTRIBUTED_TRAINING=OFF)
 #
 # Hardware limits (enforced by build):
-#   GPU VRAM cap : 8 GB
+#   GPU VRAM cap : 16 GB (1x Tesla T4)
 #   Max nodes    : 5
 #   Max cache    : 1024 MB
 #
@@ -175,13 +175,13 @@ llm:
 
 # ---------------------------------------------------------------------------
 # GPU / acceleration — optional; defaults to ON per COMMUNITY.cmake
-# GPU VRAM hard cap: 8 GB (THEMIS_GPU_MAX_VRAM_GB=8)
+# GPU VRAM hard cap: 16 GB — 1x Tesla T4 (THEMIS_GPU_MAX_VRAM_GB=16)
 # ---------------------------------------------------------------------------
 gpu:
   enabled: false            # ALLOWED; set true if GPU available
   backend: CUDA             # CUDA | HIP | OpenCL
   device_id: 0
-  max_vram_gb: 8            # Hard cap enforced by build
+  max_vram_gb: 16            # Hard cap enforced by build
   memory_fraction: 0.8
 
 acceleration:
