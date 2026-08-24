@@ -24,6 +24,7 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [~] benchmark stabilization for core allocation, backend, and acceleration hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for quota denials, backend degradation, and fallback incidents (Target: Q3 2026)
 - [~] GPU query accelerator kernel launchers for common query types (Target: Q4 2026)
+  - 2026-08-24: Sprint 1 — Filter/Join/Aggregation GPU paths confirmed production-wired (Thrust); hashJoin GPU-path brace bug fixed (stray `}` closed `if (use_gpu)` prematurely, making `gpu_done` out of scope in CUDA/HIP builds); topK operation added (GPU: `thrust::partial_sort_copy` O(n log k), CPU: `std::partial_sort` fallback); `QueryShape::OpType::TOPK` added; 10 topK focused tests (QA-TOPK-01..10) added to `tests/gpu/test_gpu_query_accelerator.cpp`.
 - [~] GPU vector index CUDA backend integration and optimization (Target: Q4 2026)
 - [~] GPU vector index HIP backend feature-parity (Target: Q4 2026)
 

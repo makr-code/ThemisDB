@@ -34,6 +34,7 @@ struct QueryShape {
         AGGREGATE  = 2,
         JOIN       = 3,
         ANN_SEARCH = 4,  ///< Approximate nearest-neighbor vector similarity search
+        TOPK       = 5,  ///< Partial sort — return top-k rows by key (GPU: thrust::partial_sort)
     };
 
     OpType   op         = OpType::SCAN;

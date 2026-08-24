@@ -1,5 +1,6 @@
 #include "themis/gpu/query_accelerator.h"
 #include <gtest/gtest.h>
+#include <cstring>
 #include <string>
 #include <vector>
 
@@ -584,4 +585,135 @@ TEST_F(GPUQueryAcceleratorTest, DotProduct_UpdatesStats) {
     acc.dotProduct({3.0f}, {4.0f});
     EXPECT_EQ(acc.getStats().total_dot_products, 2u);
     EXPECT_EQ(acc.getStats().fp16_ops, 2u);
+}
+
+// ============================================================================
+// topK — Sprint 1 production implementation
+// ============================================================================
+
+TEST_F(GPUQueryAcceleratorTest, TopK_ASC_ReturnsSmallestK) {
+    // QA-TOPK-01: CPU path returns k smallest rows in ascending key order.
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(20, 1.0);
+    // rows have payloads 1.0, 2.0, ..., 20.0
+    auto result = acc.topK(rows, payloadVal, 5, GPUQueryAccelerator::SortOrder::ASC);
+
+    ASSERT_EQ(result.rows.size(), 5u);
+    // First should be the row with payload 1.0
+    EXPECT_NEAR(payloadVal(result.rows[0]), 1.0, 1e-5);
+    EXPECT_NEAR(payloadVal(result.rows[4]), 5.0, 1e-5);
+    // Must be sorted ascending
+    for (size_t i = 1; i < result.rows.size(); ++i) {
+        EXPECT_LE(payloadVal(result.rows[i - 1]), payloadVal(result.rows[i]));
+    }
+    EXPECT_EQ(acc.getStats().total_topk, 1u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_DESC_ReturnsLargestK) {
+    // QA-TOPK-02: CPU path returns k largest rows in descending key order.
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(20, 1.0);
+    auto result = acc.topK(rows, payloadVal, 3, GPUQueryAccelerator::SortOrder::DESC);
+
+    ASSERT_EQ(result.rows.size(), 3u);
+    EXPECT_NEAR(payloadVal(result.rows[0]), 20.0, 1e-5);
+    EXPECT_NEAR(payloadVal(result.rows[1]), 19.0, 1e-5);
+    EXPECT_NEAR(payloadVal(result.rows[2]), 18.0, 1e-5);
+    // Must be sorted descending
+    for (size_t i = 1; i < result.rows.size(); ++i) {
+        EXPECT_GE(payloadVal(result.rows[i - 1]), payloadVal(result.rows[i]));
+    }
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_KGreaterThanRows_ReturnsAllRowsSorted) {
+    // QA-TOPK-03: when k >= rows.size(), returns all rows fully sorted.
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(5, 10.0);
+    auto result = acc.topK(rows, payloadVal, 100, GPUQueryAccelerator::SortOrder::ASC);
+
+    ASSERT_EQ(result.rows.size(), 5u);
+    for (size_t i = 1; i < result.rows.size(); ++i) {
+        EXPECT_LE(payloadVal(result.rows[i - 1]), payloadVal(result.rows[i]));
+    }
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_EmptyInput_ReturnsEmpty) {
+    // QA-TOPK-04: empty input row set → empty result, no crash.
+    GPUQueryAccelerator acc(cpuConfig());
+    std::vector<GPUQueryAccelerator::Row> empty;
+    auto result = acc.topK(empty, payloadVal, 5);
+    EXPECT_TRUE(result.rows.empty());
+    // topK on empty input does not count as an operation.
+    EXPECT_EQ(acc.getStats().total_topk, 0u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_KZero_ReturnsEmpty) {
+    // QA-TOPK-05: k == 0 → empty result.
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(10);
+    auto result = acc.topK(rows, payloadVal, 0);
+    EXPECT_TRUE(result.rows.empty());
+    EXPECT_EQ(acc.getStats().total_topk, 0u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_SingleRow_ReturnsItself) {
+    // QA-TOPK-06: single-row input with k=1 returns that row unchanged.
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(1, 42.0);
+    auto result = acc.topK(rows, payloadVal, 1);
+    ASSERT_EQ(result.rows.size(), 1u);
+    EXPECT_NEAR(payloadVal(result.rows[0]), 42.0, 1e-5);
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_UpdatesStats) {
+    // QA-TOPK-07: Stats.total_topk increments on each successful call.
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(15);
+    acc.topK(rows, payloadVal, 3);
+    acc.topK(rows, payloadVal, 5);
+    EXPECT_EQ(acc.getStats().total_topk, 2u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_ResultContainedInInput) {
+    // QA-TOPK-08: every row returned by topK must be present in the original
+    //             input (no fabricated rows).
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(50, 0.0);
+    auto result = acc.topK(rows, payloadVal, 10, GPUQueryAccelerator::SortOrder::ASC);
+
+    ASSERT_EQ(result.rows.size(), 10u);
+    for (const auto& r : result.rows) {
+        bool found = false;
+        for (const auto& orig : rows) {
+            if (orig.id == r.id) { found = true; break; }
+        }
+        EXPECT_TRUE(found) << "topK returned a row not present in input (id=" << r.id << ")";
+    }
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_ReversedInput_CorrectOrder) {
+    // QA-TOPK-09: input in reverse order; topK ASC still returns lowest keys.
+    GPUQueryAccelerator acc(cpuConfig());
+    // Build rows with payloads in descending order: 20, 19, ..., 1
+    std::vector<GPUQueryAccelerator::Row> rows(20);
+    for (size_t i = 0; i < 20; ++i) {
+        rows[i].id = static_cast<uint64_t>(i);
+        float v = static_cast<float>(20 - i);
+        rows[i].data.resize(sizeof(float));
+        std::memcpy(rows[i].data.data(), &v, sizeof(float));
+    }
+
+    auto result = acc.topK(rows, payloadVal, 3, GPUQueryAccelerator::SortOrder::ASC);
+    ASSERT_EQ(result.rows.size(), 3u);
+    EXPECT_NEAR(payloadVal(result.rows[0]), 1.0, 1e-5);
+    EXPECT_NEAR(payloadVal(result.rows[1]), 2.0, 1e-5);
+    EXPECT_NEAR(payloadVal(result.rows[2]), 3.0, 1e-5);
+}
+
+TEST_F(GPUQueryAcceleratorTest, TopK_CPUFallback_NotGPU) {
+    // QA-TOPK-10: force_cpu=true → used_gpu must be false.
+    GPUQueryAccelerator acc(cpuConfig());
+    auto rows = makeRows(20);
+    auto result = acc.topK(rows, payloadVal, 5);
+    EXPECT_FALSE(result.used_gpu);
 }
