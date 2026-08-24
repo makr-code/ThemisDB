@@ -606,3 +606,113 @@ jobs:
       target-branch: "develop"
       dry-run: false
     secrets: inherit
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # LLM Inference Gate — optional blocking gate for release validation.
+  #
+  # Activation: include '[llm-gate]' in the commit message, or trigger
+  #             via workflow_dispatch.  Required: false for v1-beta;
+  #             promote to required: true for GA by updating branch protection.
+  #
+  # Uses the same ci-llm-inference.yml reusable workflow and the canonical
+  # HuggingFace TinyLlama GGUF model download path.
+  # ─────────────────────────────────────────────────────────────────────────────
+  llm-inference-gate:
+    name: LLM Inference Gate (optional)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    needs: validate-release-manifest
+    # Activate on '[llm-gate]' commit message keyword OR explicit dispatch.
+    if: >
+      always() &&
+      needs.validate-release-manifest.result == 'success' &&
+      (
+        contains(github.event.head_commit.message, '[llm-gate]') ||
+        github.event_name == 'workflow_dispatch'
+      )
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 1
+
+      - name: Restore model cache
+        id: cache-model
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/models
+          key: tinyllama-gguf-q4km-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
+          restore-keys: |
+            tinyllama-gguf-q4km-
+
+      - name: Download TinyLlama GGUF
+        if: steps.cache-model.outputs.cache-hit != 'true'
+        env:
+          MODEL_DIR: ${{ github.workspace }}/models
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ci-download-tinyllama.sh
+          bash scripts/ci-download-tinyllama.sh
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev libboost-system-dev \
+            libboost-filesystem-dev libpugixml-dev
+
+      - name: Build doku.db
+        env:
+          OUTPUT_DIR: ${{ github.workspace }}/build/test-assets
+          REPO_ROOT: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ci-build-doku-db.sh
+          bash scripts/ci-build-doku-db.sh
+
+      - name: Configure and build LLM inference tests
+        run: |
+          set -euo pipefail
+          mkdir -p internal llama.cpp vcpkg/downloads
+          cmake -S . -B build \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_LLM_INFERENCE_TESTS=ON \
+            -DTHEMIS_TEST_MODEL_DIR="${{ github.workspace }}/models" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -G Ninja
+          cmake --build build --parallel 8 \
+            --target \
+              module_llm_test_llm_tinyllama_inference_focused \
+              module_llm_test_llm_doku_rag_focused \
+              module_llm_test_llm_adalora_doku_training_focused
+
+      - name: Run all LLM inference CTest suites
+        env:
+          THEMIS_TEST_MODEL_PATH: ${{ github.workspace }}/models/tinyllama.gguf
+          THEMIS_DOKU_DB_PATH: ${{ github.workspace }}/build/test-assets/doku.db.json
+        run: |
+          set -euo pipefail
+          ctest --test-dir build \
+            --output-on-failure \
+            -j1 \
+            --timeout 300 \
+            -L "llm_inference|llm_rag_doku|adalora_training" \
+            --output-log build/ctest-llm-gate.log \
+            || CTEST_EXIT=$?
+          echo "LLM gate CTest exit: ${CTEST_EXIT:-0}"
+          exit "${CTEST_EXIT:-0}"
+
+      - name: Upload gate results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: llm-gate-results-${{ github.run_number }}
+          path: |
+            build/Testing/
+            build/ctest-llm-gate.log
+          retention-days: 14
+          if-no-files-found: ignore
