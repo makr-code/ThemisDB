@@ -6,15 +6,12 @@ This file documents all documentation and code quality gaps in the **auth** modu
 
 - **Total Gaps**: 2745 (14 false positives removed in Phase 6 verification)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, Phase 6: false-positive remediation)
-- **Last Updated**: 2026-08-24 (Batch 6: AUTH-GRG CI dispatch + null-dereference hardening sweep)
+- **Last Updated**: 2026-08-24 (Batch 7: audit_logger.h filename collision fix + AUTH-GRG CI status update)
 
-### Wave C Gap Closure Progress (2026-08-24 Batch 5)
+### Wave C Gap Closure Progress (2026-08-24 Batch 7)
 
-- **unchecked_result gaps closed (ldap_authenticator.cpp)**: 4 unchecked `ldap_set_option` calls on Windows and Unix paths now log warnings on failure; `LDAP_OPT_TIMELIMIT`, `LDAP_OPT_PROTOCOL_VERSION`, `LDAP_OPT_NETWORK_TIMEOUT`, `LDAP_OPT_TIMEOUT` all validated
-- **catch_all_swallow gaps closed (rate_limiter_backend.cpp)**: All 5 `catch(...)` bridge-function blocks now log warning before fallback; `increment`, `getCount`, `reset`, `isConnected`, `reconnect` bridges covered
-- **catch_all_swallow gap closed (http_auth_async.cpp)**: `performConnectivityCheck` `catch(...)` block now logs at debug level before returning false
-- **catch_all_swallow + circular_lock_ordering gaps closed (auth_rate_limiter.cpp)**: `reset()` no longer holds `stats_mutex_` when calling sub-object `reset()` methods (eliminates deadlock potential); constructor and `incrementAndGetBreachCount()` Redis blocks now have logged exception guards
-- **resource_leaked_in_exception gaps closed (jwks_security.cpp)**: RAII wrappers (`UniqueX509`, `UniqueOSSLBuf`, `UniqueOSSLChar`) applied to `computeSPKIHashFromFile`, `computeSPKIHashFromPEM`, `getCertificateInfo` — resources freed on all exception paths
+- **audit_logger.h filename collision resolved**: `include/api/audit_logger.h` (GraphQL-specific, `themis::graphql`) renamed to `include/api/graphql_audit_logger.h` to eliminate filename collision with `include/utils/audit_logger.h` (`themis::utils`). The two headers share the filename but are unrelated classes in different namespaces. Single consumer `src/api/ws_handler.cpp` updated; `include/api/README.md` updated. Collision was blocking scanner/tooling-based build validation.
+- **AUTH-GRG-01..06 CI run status**: `CI — Benchmarks` run #40 (`32765349559`) dispatched 2026-08-24T18:57Z, status `pending` as of 2026-08-24T19:20Z. Gate evidence capture (artifact publication + latency P99 measurement) will follow on run completion. No code changes required; status is awaiting CI infrastructure.
 - **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 awaiting completion/evidence from CI run #40; null_dereference hardening sweep delivered (rescan pending); uninitialized_access findings are scanner-header artefacts pending scanner-rule refinement; scope_mismatch remains scanner artefacts; circular_lock_ordering remainder verified as false positives/single-mutex patterns
 
 ### Wave C Gap Closure Progress (2026-08-19 Batch 4)
@@ -143,7 +140,8 @@ See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
    - CI workflow dispatched: `CI — Benchmarks` (`.github/workflows/ci-benchmarks.yml`)
    - Run: `#40` (`32765349559`, `workflow_dispatch`, branch `develop`)
    - Filter used: `bench_auth_hotpaths|AHP-`
-   - Status: pending completion; gate evidence capture follows on artifact publication
+   - Status: pending completion as of 2026-08-24T19:20Z; gate evidence capture follows on artifact publication
+   - Build validation unblocked: `include/api/audit_logger.h` filename collision resolved (renamed to `graphql_audit_logger.h`)
 
 5. **Batch 6 hardening sweep delivered (null_dereference focus):**
    - `src/auth/jwks_security.cpp`: base64 BIO allocation/push and buffer-pointer guards
