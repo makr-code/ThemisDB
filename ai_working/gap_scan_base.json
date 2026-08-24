@@ -1,26 +1,10 @@
 {
   "module": "base",
-  "summary": {
-    "total": 32,
-    "critical": 28,
-    "high": 4,
-    "medium": 0,
-    "low": 0
-  },
+  "summary": {},
   "gaps": [
     {
-      "file": "src\\base\\hot_reload_manager.cpp",
-      "line_num": 469,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!cb) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\hot_reload_manager.cpp",
-      "line_num": 479,
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 306,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -29,8 +13,8 @@
       "location": "src"
     },
     {
-      "file": "src\\base\\hot_reload_manager.cpp",
-      "line_num": 511,
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 311,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -39,8 +23,8 @@
       "location": "src"
     },
     {
-      "file": "src\\base\\module_loader.cpp",
-      "line_num": 1163,
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 316,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -49,8 +33,8 @@
       "location": "src"
     },
     {
-      "file": "src\\base\\module_loader.cpp",
-      "line_num": 1543,
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 323,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -59,7 +43,107 @@
       "location": "src"
     },
     {
-      "file": "src\\base\\module_loader.cpp",
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 331,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 383,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 391,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/remote_registry_client.cpp",
+      "line_num": 600,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/hot_reload_manager.cpp",
+      "line_num": 472,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/hot_reload_manager.cpp",
+      "line_num": 483,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/hot_reload_manager.cpp",
+      "line_num": 514,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/plugin_dependency_graph.cpp",
+      "line_num": 237,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/wasm_plugin_sandbox.cpp",
+      "line_num": 362,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/module_loader.cpp",
+      "line_num": 1169,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src/base/module_loader.cpp",
       "line_num": 1551,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
@@ -69,8 +153,8 @@
       "location": "src"
     },
     {
-      "file": "src\\base\\plugin_dependency_graph.cpp",
-      "line_num": 238,
+      "file": "src/base/module_loader.cpp",
+      "line_num": 1559,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -79,118 +163,8 @@
       "location": "src"
     },
     {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 207,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 211,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!ctx) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 215,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 224,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 232,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 271,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 279,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\remote_registry_client.cpp",
-      "line_num": 509,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "src\\base\\wasm_plugin_sandbox.cpp",
-      "line_num": 325,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!runtime_) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "src"
-    },
-    {
-      "file": "tests\\test_base_interfaces.cpp",
-      "line_num": 82,
-      "category": "stub",
-      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
-      "context": "// Mock Implementations",
-      "severity": "high",
-      "notes": "",
-      "location": "tests"
-    },
-    {
-      "file": "tests\\test_base_interfaces.cpp",
-      "line_num": 215,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (it == index_.end()) return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "tests"
-    },
-    {
-      "file": "tests\\test_base_interfaces.cpp",
-      "line_num": 340,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 119,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -199,28 +173,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_database_connection_manager.cpp",
-      "line_num": 26,
-      "category": "stub",
-      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
-      "context": "// Mock connection implementation for testing",
-      "severity": "high",
-      "notes": "",
-      "location": "tests"
-    },
-    {
-      "file": "tests\\test_database_connection_manager.cpp",
-      "line_num": 69,
-      "category": "stub",
-      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
-      "context": "// Mock connection manager for testing",
-      "severity": "high",
-      "notes": "",
-      "location": "tests"
-    },
-    {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 138,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 132,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -229,18 +183,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 151,
-      "category": "unimplemented",
-      "pattern": "return\\s+\\{\\s*\\};",
-      "context": "return {};",
-      "severity": "critical",
-      "notes": "",
-      "location": "tests"
-    },
-    {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 153,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 134,
       "category": "stub",
       "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
       "context": "// Mock path always returns 0 (count unknown)",
@@ -249,8 +193,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 172,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 153,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -259,8 +203,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 196,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 177,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -269,7 +213,17 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 201,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests/test_ingestion_database.cpp",
       "line_num": 220,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
@@ -279,8 +233,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 239,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 240,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -289,8 +243,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 259,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 282,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -299,8 +253,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 301,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 306,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -309,8 +263,8 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 325,
+      "file": "tests/test_ingestion_database.cpp",
+      "line_num": 332,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -319,12 +273,52 @@
       "location": "tests"
     },
     {
-      "file": "tests\\test_ingestion_database.cpp",
-      "line_num": 351,
+      "file": "tests/test_base_interfaces.cpp",
+      "line_num": 63,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock Implementations",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests/test_base_interfaces.cpp",
+      "line_num": 196,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == index_.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests/test_base_interfaces.cpp",
+      "line_num": 321,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
       "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests/test_database_connection_manager.cpp",
+      "line_num": 7,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock connection implementation for testing",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests/test_database_connection_manager.cpp",
+      "line_num": 50,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock connection manager for testing",
+      "severity": "high",
       "notes": "",
       "location": "tests"
     }
