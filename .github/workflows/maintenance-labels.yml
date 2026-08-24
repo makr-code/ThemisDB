@@ -3,9 +3,15 @@ name: Maintenance — Label Sync
 # ──────────────────────────────────────────────────────────────────────────────
 # Reads .github/labels.yml (canonical label definitions) and ensures all labels
 # exist in the repository with the correct color and description.
-# Runs on schedule (weekly) and workflow_dispatch.
+# Runs on schedule (weekly), on push to develop when labels files change, and
+# on manual workflow_dispatch with optional dry_run and label_filter inputs.
 # Does NOT delete labels that are not in the canonical list to avoid breaking
 # existing references in open issues/PRs.
+#
+# workflow_dispatch inputs:
+#   dry_run      — when true, logs planned changes without applying them.
+#   label_filter — when set, restricts sync to labels whose name starts with
+#                  this string (case-insensitive prefix match).
 # ──────────────────────────────────────────────────────────────────────────────
 
 on:
@@ -17,6 +23,17 @@ on:
       - '.github/labels.yml'
       - '.github/workflows/maintenance-labels.yml'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run — log planned changes without applying them'
+        required: false
+        default: 'false'
+        type: boolean
+      label_filter:
+        description: 'Only sync labels whose name starts with this prefix (leave empty for all)'
+        required: false
+        default: ''
+        type: string
 
 concurrency:
   group: maintenance-labels
