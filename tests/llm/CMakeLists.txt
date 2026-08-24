@@ -154,6 +154,18 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             target_link_libraries(${_target} PRIVATE rocksdb)
         endif()
     endif()
+    # Wave B eval metric tests (EVAL-01..10): Recall@k / MRR / p95 — same
+    # build setup as Phase B wiki integration tests.
+    if(_stem STREQUAL "test_wiki_eval_metrics")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
+        if(NOT TARGET themis_llm)
+            target_link_libraries(${_target} PRIVATE rocksdb)
+        endif()
+    endif()
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases" OR
          _stem STREQUAL "test_wiki_crossdep_focused" OR
          _stem STREQUAL "test_llm_wiki_process_policy_manager")
@@ -208,6 +220,10 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         # Wave B Phase B integration tests (LWP-INT-01..05) — self-contained,
         # no RocksDB or external deps required
         set(_wave_b_labels "wave_b llm_wiki release_critical phase_b_integration")
+    elseif(_stem STREQUAL "test_wiki_eval_metrics")
+        # Wave B eval metric gate tests (EVAL-01..10): Recall@k / MRR / p95.
+        # Gate criterion: Recall@5 >= 0.8 on synthetic corpus.
+        set(_wave_b_labels "wave_b llm_wiki release_critical eval_metrics")
     else()
         set(_wave_b_labels "")
     endif()

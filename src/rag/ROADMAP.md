@@ -53,7 +53,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Evidence**: `LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config&)` production constructor wires `engine->generate(prompt)` into `inference_fn_`; sets `mock_mode_active_ = false`. `defaultInference` (mock fallback) is only reachable when `config.allow_mock=true && config.use_mock_mode=true` — never in production. Gate `THEMIS_ENABLE_LLM_JUDGE` defaults ON in `cmake/features/LLMFeatures.cmake`.
   - **New Test Coverage**: `tests/rag/test_rag_phase_b_e2e.cpp` PHASE-B-E2E-05 (real engine, isMockMode=false) + PHASE-B-E2E-06 (gate disabled → unavailable).
   - When gate off or LLM unavailable → `LLMJudgeResult{score: -1, reason: "llm_unavailable"}`; never silent mock. ✅
-- [ ] Recall@k / MRR / p95-Reporting in `ILLMWikiPlugin::stats()`: `EvaluationStats::recall_at_k` (k=1,3,5,10), `mrr`, `p95_query_latency_ms`. (Target: Q4 2026)
+- [x] Recall@k / MRR / p95-Reporting in `WikiIndexStore::evaluateQuery()` / `getEvaluationStats()` / `resetEvaluationStats()`: `WikiEvalStats::recall_at_k` (k=1,3,5,10), `mrr`, `p95_query_latency_ms` — implemented 2026-08-24. (Target: Q4 2026)
 - [ ] Recall@k ≥ 0.8 at k=10 as gate criterion for LWP-01..08 acceptance tests. (Target: Q4 2026)
 
 #### FTS Enhancement
@@ -233,7 +233,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - [x] **[LLM-Judge real-mode]** Replace mock dispatch in `llm_judge_integration.cpp` with real LLM call when `THEMIS_ENABLE_LLM_JUDGE=ON`; return `Status::Unavailable` with structured diagnostic when LLM endpoint unreachable (Target: Q4 2026)
   - **Evidence**: `LLMJudgeIntegration(ILLMInferenceEngine*, Config)` production constructor; `callLLM` dispatches `inference_fn_(prompt)` only when `enable_llm_judge=true` and `inference_fn_` is non-null. Gate-disabled or no-backend path returns `{"score":-1,"reason":"llm_unavailable","success":false}`.
   - **New Test Coverage**: `tests/rag/test_rag_phase_b_e2e.cpp` PHASE-B-E2E-05..07.
-- [ ] **[Recall@k / MRR / p95 in stats()]** Implement `Recall@k`, `MRR`, and `p95` latency in `ILLMWikiPlugin::stats()`; values MUST be populated after ≥1 query call (Target: Q4 2026)
+- [x] **[Recall@k / MRR / p95 in stats()]** Implement `Recall@k`, `MRR`, and `p95` latency in `WikiIndexStore::evaluateQuery()` + `getEvaluationStats()` + `resetEvaluationStats()`; values populated after ≥1 evaluateQuery() call; 10 gate tests (EVAL-01..10) added — 2026-08-24 (Target: Q4 2026)
 - [ ] **[Recall@k gate]** `Recall@k ≥ 0.8` is a hard gate criterion for `LWP-01..LWP-08` pass/fail decision (Target: Q4 2026)
 - [ ] **[Observability dashboards]** Add Prometheus metrics for ANN/Tensor/Graph/LLM handoff quality per layer; Grafana dashboard panels with anomaly detection and root-cause hints (Target: Q4 2026)
 - [ ] **[Per-query retrieval guardrails]** Implement federated cost/pruning limits in `LayeredRetrievalOrchestrator`; validate SLO benchmarks in `benchmarks/search/` after changes (Target: Q4 2026)

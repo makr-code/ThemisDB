@@ -96,6 +96,9 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_gpu_wave_a_timeout_closure")
         list(APPEND _labels "wave_a" "timeout" "release_critical")
     endif()
+    if(_stem STREQUAL "test_gpu_stream_raii")
+        list(APPEND _labels "wave_a" "phase_c" "raii" "release_critical")
+    endif()
 
     themis_register_module_focused_test(
         MODULE gpu
