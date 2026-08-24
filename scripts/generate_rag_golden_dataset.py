@@ -11,7 +11,7 @@ Usage:
     python scripts/generate_rag_golden_dataset.py \
         --input  build/data/docs_database.json \
         --output /tmp/rag_golden_candidates.yaml \
-        [--max-entries 80] \
+        [--max-entries 110] \
         [--min-chunk-length 80]
 
 Environment variables:
@@ -21,6 +21,7 @@ Environment variables:
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import pathlib
 import re
@@ -50,6 +51,52 @@ _HEADING_PATTERNS = [
     re.compile(r"^#{1,4}\s+(.+)$", re.MULTILINE),   # Markdown headings
     re.compile(r"^([A-Z][A-Za-z ]{4,40})\s*$", re.MULTILINE),  # Capitalised lines
 ]
+
+_GENERAL_TERMS_RE = re.compile(
+    r"\b(overview|introduction|architecture|branch|release|workflow|guide|readme|"
+    r"build|cmake|preset|pipeline|community|develop)\b",
+    re.IGNORECASE,
+)
+
+_SPECIFIC_TERMS_RE = re.compile(
+    r"\b(wikiindexstore|wikiragsource|wikichunksplitter|jsonwikiindexreader|"
+    r"adalora|lora|plugin manager|source-hint|recall@5|rag-[0-9]+|gate)\b",
+    re.IGNORECASE,
+)
+
+_SPECIALIZED_RARE_TERMS_RE = re.compile(
+    r"\b(adalorattbridge|tensor-train|tt-core|rank-pruning|rrf|hnsw|bm25|"
+    r"themis_docs_db_mode|writebatch|fail-closed|chaos evidence|"
+    r"query_embed_cache|persistent embedding cache|diagnostic emitter)\b",
+    re.IGNORECASE,
+)
+
+_TARGET_GENERAL_RATIO = 0.20
+_TARGET_SPECIFIC_RATIO = 0.30
+_TARGET_SPECIALIZED_RATIO = 0.50
+
+
+def _classify_knowledge_level(text: str) -> tuple[str, str]:
+    """Classify text into (knowledge_level, rarity_tier)."""
+    if _SPECIALIZED_RARE_TERMS_RE.search(text):
+        return "specialized", "rare"
+    if _SPECIFIC_TERMS_RE.search(text):
+        return "specific", ""
+    if _GENERAL_TERMS_RE.search(text):
+        return "general", ""
+    # Default to specific for technical but non-rare chunks.
+    return "specific", ""
+
+
+def _compute_target_counts(total: int) -> dict[str, int]:
+    general = int(round(total * _TARGET_GENERAL_RATIO))
+    specific = int(round(total * _TARGET_SPECIFIC_RATIO))
+    specialized = total - general - specific
+    return {
+        "general": general,
+        "specific": specific,
+        "specialized": specialized,
+    }
 
 
 def _extract_keywords_from_text(text: str, max_kw: int = 5) -> list[str]:
@@ -114,6 +161,8 @@ def _entry_to_yaml(entry: dict[str, Any]) -> str:
         f"    question: {_yaml_str(entry['question'])}",
         "    expected_keywords: [" + ", ".join(entry['expected_keywords']) + "]",
         f"    expected_source_hint: {_yaml_str(entry['expected_source_hint'])}",
+        f"    knowledge_level: {entry['knowledge_level']}",
+        f"    rarity_tier: {_yaml_str(entry['rarity_tier'])}",
         f"    min_recall_score: {entry['min_recall_score']:.1f}",
         "",
     ]
@@ -145,14 +194,10 @@ def load_chunks(json_path: pathlib.Path) -> list[dict]:
 def generate_candidates(chunks: list[dict], max_entries: int,
                          min_chunk_length: int) -> list[dict]:
     """Generate candidate golden-dataset entries from *chunks*."""
-    entries: list[dict] = []
+    pool: list[dict[str, Any]] = []
     seen_topics: set[str] = set()
-    entry_idx = 0
 
     for chunk in chunks:
-        if len(entries) >= max_entries:
-            break
-
         # Extract text content
         content: str = (
             chunk.get("content") or
@@ -198,16 +243,59 @@ def generate_candidates(chunks: list[dict], max_entries: int,
         if not keywords:
             continue
 
-        entry_idx += 1
-        entries.append({
-            "id": f"RAG-GD-CAND-{entry_idx:03d}",
+        knowledge_level, rarity_tier = _classify_knowledge_level(content)
+        specialized_hits = len(_SPECIALIZED_RARE_TERMS_RE.findall(content))
+        specific_hits = len(_SPECIFIC_TERMS_RE.findall(content))
+        score = (specialized_hits * 4) + (specific_hits * 2) + len(keywords)
+
+        pool.append({
             "category": "generated",
-            "question": _make_question(topic, entry_idx),
+            "question": _make_question(topic, len(pool) + 1),
             "expected_keywords": keywords[:5],
             "expected_source_hint": source,
+            "knowledge_level": knowledge_level,
+            "rarity_tier": rarity_tier,
             "min_recall_score": 0.7,
+            "_score": score,
         })
 
+    # Select by target distribution.
+    targets = _compute_target_counts(max_entries)
+    by_level: dict[str, list[dict[str, Any]]] = {
+        "general": [],
+        "specific": [],
+        "specialized": [],
+    }
+    for item in pool:
+        by_level[item["knowledge_level"]].append(item)
+    for items in by_level.values():
+        items.sort(key=lambda x: x["_score"], reverse=True)
+
+    selected: list[dict[str, Any]] = []
+    for level in ("general", "specific", "specialized"):
+        selected.extend(by_level[level][:targets[level]])
+
+    # Backfill if some level lacks enough chunks.
+    if len(selected) < max_entries:
+        selected_ids = {id(x) for x in selected}
+        remainder = sorted(pool, key=lambda x: x["_score"], reverse=True)
+        for item in remainder:
+            if len(selected) >= max_entries:
+                break
+            if id(item) in selected_ids:
+                continue
+            selected.append(item)
+            selected_ids.add(id(item))
+
+    # Final trim and deterministic ordering by score.
+    selected = sorted(selected, key=lambda x: x["_score"], reverse=True)[:max_entries]
+
+    entries: list[dict[str, Any]] = []
+    for idx, item in enumerate(selected, start=1):
+        item = dict(item)
+        item["id"] = f"RAG-GD-CAND-{idx:03d}"
+        item.pop("_score", None)
+        entries.append(item)
     return entries
 
 
@@ -227,6 +315,10 @@ _HEADER = textwrap.dedent("""\
     dataset_name: themisdb_rag_golden_dataset_candidates
     description: >
       Automatically generated candidate entries.  Review and curate before use.
+    target_min_entries: 110
+    target_distribution: {general: 0.20, specific: 0.30, specialized: 0.50}
+    specialized_policy: >
+      Specialized entries must prioritize rare, non-generic domain knowledge points.
 
     entries:
 
@@ -271,8 +363,8 @@ def main() -> int:
     parser.add_argument("--output", "-o", type=pathlib.Path,
                         default=pathlib.Path("/tmp/rag_golden_candidates.yaml"),
                         help="Output YAML file path")
-    parser.add_argument("--max-entries", type=int, default=80,
-                        help="Maximum number of candidate entries to generate (default: 80)")
+    parser.add_argument("--max-entries", type=int, default=110,
+                        help="Maximum number of candidate entries to generate (default: 110)")
     parser.add_argument("--min-chunk-length", type=int, default=80,
                         help="Minimum chunk character length to consider (default: 80)")
     args = parser.parse_args()
@@ -299,6 +391,16 @@ def main() -> int:
     print(f"[rag-golden-gen] Loaded {len(chunks)} chunks", flush=True)
     entries = generate_candidates(chunks, args.max_entries, args.min_chunk_length)
     print(f"[rag-golden-gen] Generated {len(entries)} candidate entries", flush=True)
+
+    counts = collections.Counter(e["knowledge_level"] for e in entries)
+    total = max(1, len(entries))
+    print(
+        "[rag-golden-gen] Distribution: "
+        f"general={counts.get('general', 0)} ({counts.get('general', 0) / total:.1%}), "
+        f"specific={counts.get('specific', 0)} ({counts.get('specific', 0) / total:.1%}), "
+        f"specialized={counts.get('specialized', 0)} ({counts.get('specialized', 0) / total:.1%})",
+        flush=True,
+    )
 
     write_yaml(entries, args.output)
     print(f"[rag-golden-gen] Written to {args.output}", flush=True)

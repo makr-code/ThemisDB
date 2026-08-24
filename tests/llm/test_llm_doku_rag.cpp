@@ -16,10 +16,11 @@
  *  RAG-06: Recall@5 ≥ 70 % across 10 representative questions
  *  RAG-07: Query latency < 3000 ms per query on CPU-only (JsonWikiIndexReader)
  *  RAG-08: Golden dataset keyword gate — every entry hits ≥ 1 keyword in Top-5
- *  RAG-09: Golden dataset Recall@5 ≥ 80 % across all 30 entries
+ *  RAG-09: Golden dataset Recall@5 ≥ 80 % across all golden entries
  *  RAG-10: Golden dataset source-hint gate — expected_source_hint in Top-5
  *  RAG-11: Golden dataset latency gate — median < 500 ms per query
- *  RAG-12: Golden dataset YAML presence guard (hard failure if file missing)
+ *  RAG-12: Golden dataset schema/size/distribution guard
+ *          (>=110 entries; 20% general / 30% specific / 50% specialized)
  *
  * When the doku.db index file is absent, tests RAG-01..07 skip (model_required
  * label).  RAG-08..12 skip when doku.db is absent but FAIL if the golden
@@ -144,14 +145,23 @@ bool chunksContainKeyword(const std::vector<WikiChunk>& chunks,
 //   - "key: [a, b, c]" flow sequences
 //   - "key: 0.7" float scalars
 //   - "  - id: …" list-of-map entries (indented with 2 spaces)
+//   - additional string metadata fields: knowledge_level, rarity_tier
 
 struct GoldenEntry {
     std::string id;
     std::string question;
     std::vector<std::string> expected_keywords;
     std::string expected_source_hint;
+    std::string knowledge_level;  // general | specific | specialized
+    std::string rarity_tier;      // required "rare" for specialized
     double min_recall_score = 0.7;
 };
+
+constexpr std::size_t kGoldenDatasetMinEntries = 110;
+constexpr double kGoldenGeneralTarget = 0.20;
+constexpr double kGoldenSpecificTarget = 0.30;
+constexpr double kGoldenSpecializedTarget = 0.50;
+constexpr double kGoldenDistributionTolerance = 0.03;
 
 /// Strip leading/trailing whitespace in-place.
 static void trim(std::string& s) {
@@ -236,6 +246,12 @@ static std::vector<GoldenEntry> parseGoldenDataset(const std::string& yaml_path)
         } else if (key == "expected_source_hint") {
             unquote(val);
             current.expected_source_hint = val;
+        } else if (key == "knowledge_level") {
+            unquote(val);
+            current.knowledge_level = val;
+        } else if (key == "rarity_tier") {
+            unquote(val);
+            current.rarity_tier = val;
         } else if (key == "min_recall_score") {
             try { current.min_recall_score = std::stod(val); } catch (...) {}
         }
@@ -523,9 +539,50 @@ TEST_F(GoldenDatasetRagTest, Rag12_GoldenDatasetPresent) {
         EXPECT_FALSE(e.question.empty()) << "Entry '" << e.id << "' has empty question";
         EXPECT_FALSE(e.expected_keywords.empty())
             << "Entry '" << e.id << "' has no expected_keywords";
+        EXPECT_TRUE(
+            e.knowledge_level == "general" ||
+            e.knowledge_level == "specific" ||
+            e.knowledge_level == "specialized")
+            << "Entry '" << e.id << "' has invalid knowledge_level: '" << e.knowledge_level << "'";
+        if (e.knowledge_level == "specialized") {
+            EXPECT_EQ(e.rarity_tier, "rare")
+                << "Entry '" << e.id << "' must set rarity_tier=rare for specialized knowledge";
+        }
     }
 
-    spdlog::info("RAG-12: {} golden entries validated from {}", golden_entries_.size(), golden_path_);
+    const auto total = golden_entries_.size();
+    EXPECT_GE(total, kGoldenDatasetMinEntries)
+        << "Golden dataset too small: " << total
+        << " entries; requires at least " << kGoldenDatasetMinEntries;
+
+    std::size_t general_count = 0;
+    std::size_t specific_count = 0;
+    std::size_t specialized_count = 0;
+    for (const auto& e : golden_entries_) {
+        if (e.knowledge_level == "general") ++general_count;
+        else if (e.knowledge_level == "specific") ++specific_count;
+        else if (e.knowledge_level == "specialized") ++specialized_count;
+    }
+
+    const auto ratio = [&](const std::size_t count) {
+        return static_cast<double>(count) / static_cast<double>(total);
+    };
+    const auto general_ratio = ratio(general_count);
+    const auto specific_ratio = ratio(specific_count);
+    const auto specialized_ratio = ratio(specialized_count);
+
+    EXPECT_NEAR(general_ratio, kGoldenGeneralTarget, kGoldenDistributionTolerance)
+        << "General knowledge ratio mismatch: count=" << general_count
+        << ", total=" << total;
+    EXPECT_NEAR(specific_ratio, kGoldenSpecificTarget, kGoldenDistributionTolerance)
+        << "Specific knowledge ratio mismatch: count=" << specific_count
+        << ", total=" << total;
+    EXPECT_NEAR(specialized_ratio, kGoldenSpecializedTarget, kGoldenDistributionTolerance)
+        << "Specialized knowledge ratio mismatch: count=" << specialized_count
+        << ", total=" << total;
+
+    spdlog::info("RAG-12: {} entries validated (general={}, specific={}, specialized={}) from {}",
+                 golden_entries_.size(), general_count, specific_count, specialized_count, golden_path_);
 }
 
 // ─── RAG-08: Golden dataset keyword gate ─────────────────────────────────────

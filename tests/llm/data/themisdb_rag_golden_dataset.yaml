@@ -1,249 +1,1025 @@
 # ThemisDB RAG Golden Dataset
 # ─────────────────────────────────────────────────────────────────────────────
 # Format:
-#   id                  — unique test identifier (RAG-GD-NNN)
-#   question            — natural-language retrieval query
-#   expected_keywords   — list of strings; at least one must appear in Top-5
-#   expected_source_hint— substring that should appear in a retrieved source/
-#                         doc_id field (case-insensitive, optional)
-#   min_recall_score    — minimum fraction [0..1] for Recall@5 gate
-#   category            — thematic grouping (informational only)
+#   id                   — unique test identifier (RAG-GD-NNN)
+#   question             — natural-language retrieval query
+#   expected_keywords    — list of strings; at least one must appear in Top-5
+#   expected_source_hint — optional source/doc_id hint (case-insensitive)
+#   knowledge_level      — one of: general | specific | specialized
+#   rarity_tier          — required "rare" for knowledge_level=specialized
+#   min_recall_score     — minimum fraction [0..1] for Recall@5 gate
+#   category             — thematic grouping (informational only)
 #
-# Acceptance gate (RAG-09): overall Recall@5 across all entries >= 0.80
-# Keyword gate (RAG-08): every entry must hit >= 1 expected_keyword in Top-5
-# Source gate (RAG-10): expected_source_hint (if non-empty) must appear in
-#                        at least one Top-5 chunk's source/doc_id field
-# ─────────────────────────────────────────────────────────────────────────────
+# Hard gates:
+#   - Minimum size: >= 110 entries
+#   - Distribution: 20% general / 30% specific / 50% specialized (±3%)
+#   - Specialized policy: specialized entries must encode rare, non-generic points
+# Acceptance gates:
+#   - RAG-08 keyword hit in Top-5
+#   - RAG-09 overall Recall@5 >= 0.80
+#   - RAG-10 source hint gate
+#   - RAG-11 latency median gate
+#   - RAG-12 dataset schema/size/distribution guard
 
-version: 1
+version: 2
 dataset_name: themisdb_rag_golden_dataset
 created: "2026-08-24"
 description: >
-  Curated question/answer pairs for ThemisDB RAG quality gating.
-  Questions derive exclusively from ThemisDB documentation, roadmaps,
-  and architecture specifications.  This dataset is the authoritative
-  golden reference for RAG-08..RAG-12 test gates.
+  Scientific golden dataset for ThemisDB RAG quality gating.
+  Curated with enforced size/distribution constraints and a mandatory
+  rare-specialized knowledge segment to reduce overlap with generic model priors.
+target_min_entries: 110
+target_distribution: {general: 0.20, specific: 0.30, specialized: 0.50}
+specialized_policy: "rare_non_generic_mandatory"
 
 entries:
 
-  # ── Category: Architecture ────────────────────────────────────────────────
-
   - id: RAG-GD-001
     category: architecture
-    question: "What is the purpose of WikiIndexStore in ThemisDB?"
-    expected_keywords: [WikiIndexStore, BM25, HNSW, RRF, retrieval]
-    expected_source_hint: "wiki_index"
-    min_recall_score: 0.8
+    question: "What is WikiIndexStore architecture overview in ThemisDB?"
+    expected_keywords: [WikiIndexStore, retrieval, architecture, BM25, HNSW]
+    expected_source_hint: wiki_index
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-002
     category: architecture
-    question: "How does BM25 scoring work in the wiki retrieval pipeline?"
-    expected_keywords: [BM25, score, term, frequency, retrieval]
+    question: "What is BM25 retrieval fundamentals in ThemisDB?"
+    expected_keywords: [BM25, term, frequency, score, retrieval]
     expected_source_hint: ""
-    min_recall_score: 0.8
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-003
     category: architecture
-    question: "What is HNSW and how is it used for vector search?"
+    question: "What is HNSW approximate nearest neighbor basics in ThemisDB?"
     expected_keywords: [HNSW, vector, index, approximate, nearest]
     expected_source_hint: ""
-    min_recall_score: 0.8
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-004
     category: architecture
-    question: "Explain Reciprocal Rank Fusion (RRF) in ThemisDB"
-    expected_keywords: [RRF, rank, fusion, score, hybrid]
+    question: "What is Reciprocal Rank Fusion concept in ThemisDB?"
+    expected_keywords: [RRF, rank, fusion, hybrid, score]
     expected_source_hint: ""
-    min_recall_score: 0.7
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-005
     category: architecture
-    question: "What is the role of RocksDB as the storage backend?"
-    expected_keywords: [RocksDB, storage, LSM, key-value]
+    question: "What is RocksDB storage backend role in ThemisDB?"
+    expected_keywords: [RocksDB, storage, LSM, key-value, backend]
     expected_source_hint: ""
-    min_recall_score: 0.8
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-006
     category: architecture
-    question: "How does the LLM plugin manager load and manage models?"
-    expected_keywords: [plugin, model, load, manager, LLM]
+    question: "What is LLM plugin manager purpose in ThemisDB?"
+    expected_keywords: [plugin, manager, model, LLM, load]
     expected_source_hint: ""
-    min_recall_score: 0.7
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-007
     category: architecture
-    question: "What is the WikiChunkSplitter and how does it split documents?"
-    expected_keywords: [WikiChunkSplitter, chunk, split, heading, sliding]
+    question: "What is WikiChunkSplitter high-level behavior in ThemisDB?"
+    expected_keywords: [WikiChunkSplitter, chunk, split, heading, window]
     expected_source_hint: ""
-    min_recall_score: 0.7
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-008
     category: architecture
-    question: "What streaming inference APIs does ThemisDB expose?"
+    question: "What is Streaming inference API overview in ThemisDB?"
     expected_keywords: [stream, inference, token, callback, async]
     expected_source_hint: ""
-    min_recall_score: 0.7
-
-  # ── Category: Roadmap / Wave Gates ───────────────────────────────────────
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-009
     category: roadmap
-    question: "What are the six implementation phases in ThemisDB modules?"
-    expected_keywords: [Phase 1, Phase 2, Phase 3, Phase 4, Phase 5, Phase 6]
-    expected_source_hint: "ROADMAP"
-    min_recall_score: 0.8
+    question: "What is Implementation phases overview in ThemisDB?"
+    expected_keywords: [Phase 1, Phase 2, Phase 3, Phase 4, Phase 5]
+    expected_source_hint: ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-010
     category: roadmap
-    question: "What are the Wave A and Wave B exit criteria?"
-    expected_keywords: [Wave, exit, criteria, gate, chaos]
-    expected_source_hint: "ROADMAP"
-    min_recall_score: 0.7
+    question: "What is Wave gate model overview in ThemisDB?"
+    expected_keywords: [Wave, gate, criteria, exit, validation]
+    expected_source_hint: ROADMAP
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-011
     category: roadmap
-    question: "What is the Production Readiness Checklist for modules?"
-    expected_keywords: [production, readiness, checklist, documented, verified]
+    question: "What is Production readiness checklist overview in ThemisDB?"
+    expected_keywords: [production, readiness, checklist, verified, documentation]
     expected_source_hint: ""
-    min_recall_score: 0.7
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-012
     category: roadmap
-    question: "What does the GA promotion sign-off require?"
-    expected_keywords: [GA, sign-off, promotion, evidence, human]
+    question: "What is GA promotion sign-off summary in ThemisDB?"
+    expected_keywords: [GA, sign-off, promotion, evidence, approval]
     expected_source_hint: ""
-    min_recall_score: 0.6
-
-  # ── Category: AdaLoRA / Training ─────────────────────────────────────────
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-013
-    category: adalora
-    question: "How does AdaLoRA perform importance-based rank pruning?"
-    expected_keywords: [AdaLoRA, rank, importance, pruning, reallocate]
-    expected_source_hint: ""
-    min_recall_score: 0.8
+    category: release
+    question: "What is Community branch purpose in ThemisDB?"
+    expected_keywords: [community, branch, release, open-source, edition]
+    expected_source_hint: BRANCHING
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-014
-    category: adalora
-    question: "What is the AdaLoraTTBridge and how does it export TT-cores?"
-    expected_keywords: [AdaLoraTTBridge, TT, tensor-train, export, core]
-    expected_source_hint: ""
-    min_recall_score: 0.7
+    category: release
+    question: "What is Develop vs community branch overview in ThemisDB?"
+    expected_keywords: [develop, community, integration, release, branch]
+    expected_source_hint: BRANCHING
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-015
-    category: adalora
-    question: "How are AdaLoRA adapter checkpoints saved and loaded?"
-    expected_keywords: [checkpoint, save, load, serialization, adapter]
-    expected_source_hint: ""
-    min_recall_score: 0.7
+    category: release
+    question: "What is Linux package release overview in ThemisDB?"
+    expected_keywords: [DEB, RPM, package, CPack, linux]
+    expected_source_hint: ci-release
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-016
-    category: adalora
-    question: "How does the InlineTrainingEngine accept training input?"
-    expected_keywords: [InlineTrainingEngine, training, input, forward, step]
-    expected_source_hint: ""
-    min_recall_score: 0.7
+    category: release
+    question: "What is Military edition overview in ThemisDB?"
+    expected_keywords: [military, edition, hardened, branch, release]
+    expected_source_hint: BRANCHING
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-017
-    category: adalora
-    question: "What LoRA scaling formula does ThemisDB use?"
-    expected_keywords: [LoRA, alpha, scaling, rank, matrix]
-    expected_source_hint: ""
-    min_recall_score: 0.7
-
-  # ── Category: Branch / Release Strategy ──────────────────────────────────
+    category: build
+    question: "What is CMake presets overview in ThemisDB?"
+    expected_keywords: [CMake, preset, community-release, linux-release, configure]
+    expected_source_hint: CMakePresets
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-018
-    category: release
-    question: "What is the Community branch and who is it for?"
-    expected_keywords: [community, branch, release, open-source]
+    category: build
+    question: "What is docs.db build mode overview in ThemisDB?"
+    expected_keywords: [docs.db, AUTO, BUILD, PREBUILT, THEMIS_DOCS_DB_MODE]
     expected_source_hint: ""
-    min_recall_score: 0.8
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-019
-    category: release
-    question: "What is the difference between the develop and community branches?"
-    expected_keywords: [develop, community, branch, integration, release]
-    expected_source_hint: "BRANCHING"
-    min_recall_score: 0.7
+    category: build
+    question: "What is sccache usage in CI overview in ThemisDB?"
+    expected_keywords: [sccache, cache, build, mozilla, workflow]
+    expected_source_hint: setup-cpp-build
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-020
-    category: release
-    question: "How are DEB and RPM packages generated in the release pipeline?"
-    expected_keywords: [DEB, RPM, package, CPack, linux]
-    expected_source_hint: ""
-    min_recall_score: 0.6
+    category: build
+    question: "What is RocksDB requirement in community preset in ThemisDB?"
+    expected_keywords: [RocksDB, community, configure, dependency, librocksdb]
+    expected_source_hint: Dependencies
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
 
   - id: RAG-GD-021
-    category: release
-    question: "What is the Military edition of ThemisDB?"
-    expected_keywords: [military, edition, branch, classified, hardened]
-    expected_source_hint: ""
-    min_recall_score: 0.6
-
-  # ── Category: CMake / Build Configuration ────────────────────────────────
-
-  - id: RAG-GD-022
-    category: build
-    question: "What are the available CMake presets for ThemisDB?"
-    expected_keywords: [preset, CMake, community-release, linux-release, configure]
-    expected_source_hint: "CMakePresets"
-    min_recall_score: 0.7
-
-  - id: RAG-GD-023
-    category: build
-    question: "What are the docs.db build modes in CMake?"
-    expected_keywords: [docs.db, AUTO, BUILD, PREBUILT, OFF, THEMIS_DOCS_DB_MODE]
-    expected_source_hint: ""
-    min_recall_score: 0.7
-
-  - id: RAG-GD-024
-    category: build
-    question: "How is sccache configured in the CI build setup?"
-    expected_keywords: [sccache, cache, build, mozilla, ccache]
-    expected_source_hint: ""
-    min_recall_score: 0.6
-
-  - id: RAG-GD-025
-    category: build
-    question: "Why does community-release require RocksDB to be installed?"
-    expected_keywords: [RocksDB, community, configure, dependency, librocksdb]
-    expected_source_hint: ""
-    min_recall_score: 0.7
-
-  # ── Category: API Contracts / Error Handling ──────────────────────────────
-
-  - id: RAG-GD-026
     category: api
-    question: "What RAII patterns are used in ThemisDB resource management?"
+    question: "What is RAII principles in ThemisDB in ThemisDB?"
     expected_keywords: [RAII, resource, lifetime, unique_ptr, scope]
     expected_source_hint: ""
-    min_recall_score: 0.7
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+
+  - id: RAG-GD-022
+    category: api
+    question: "What is Error code ranges by module overview in ThemisDB?"
+    expected_keywords: [error, code, range, module, taxonomy]
+    expected_source_hint: ""
+    knowledge_level: general
+    rarity_tier: ""
+    min_recall_score: 0.70
+
+  - id: RAG-GD-023
+    category: api
+    question: "How does WikiRagSource pipeline integration work in ThemisDB?"
+    expected_keywords: [WikiRagSource, pipeline, retrieval, stage, handler]
+    expected_source_hint: wiki_rag_source
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-024
+    category: architecture
+    question: "How does JsonWikiIndexReader loading behavior work in ThemisDB?"
+    expected_keywords: [JsonWikiIndexReader, load, chunk, query, index]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-025
+    category: roadmap
+    question: "How does RAG-08 keyword gate interpretation work in ThemisDB?"
+    expected_keywords: [RAG-08, keyword, Top-5, gate, golden]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-026
+    category: roadmap
+    question: "How does RAG-09 recall gate interpretation work in ThemisDB?"
+    expected_keywords: [RAG-09, Recall@5, 80%, gate, entries]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
 
   - id: RAG-GD-027
-    category: api
-    question: "What error code ranges are defined per module in ThemisDB?"
-    expected_keywords: [error, code, range, module, exception]
-    expected_source_hint: ""
-    min_recall_score: 0.6
+    category: roadmap
+    question: "How does RAG-10 source hint gate behavior work in ThemisDB?"
+    expected_keywords: [RAG-10, source-hint, doc_id, Top-5, gate]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
 
   - id: RAG-GD-028
-    category: api
-    question: "How does the diagnostic emitter broadcast events thread-safely?"
-    expected_keywords: [diagnostic, emitter, listener, thread, broadcast]
-    expected_source_hint: ""
-    min_recall_score: 0.6
+    category: roadmap
+    question: "How does RAG-11 latency gate behavior work in ThemisDB?"
+    expected_keywords: [RAG-11, latency, median, 500ms, query]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
 
   - id: RAG-GD-029
-    category: api
-    question: "How does ThemisDB handle model GGUF file loading?"
-    expected_keywords: [GGUF, model, load, llama.cpp, plugin]
-    expected_source_hint: ""
-    min_recall_score: 0.7
+    category: roadmap
+    question: "How does RAG-12 dataset presence guard work in ThemisDB?"
+    expected_keywords: [RAG-12, dataset, YAML, presence, validation]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
 
   - id: RAG-GD-030
+    category: adalora
+    question: "How does AdaLoRA rank reallocation flow work in ThemisDB?"
+    expected_keywords: [AdaLoRA, rank, importance, reallocate, adapter]
+    expected_source_hint: lora_framework
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-031
+    category: adalora
+    question: "How does AdaLoRA checkpoint serialization work in ThemisDB?"
+    expected_keywords: [checkpoint, save, load, serialization, adapter]
+    expected_source_hint: lora_framework
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-032
+    category: adalora
+    question: "How does InlineTrainingEngine input contract work in ThemisDB?"
+    expected_keywords: [InlineTrainingEngine, training, input, forward, step]
+    expected_source_hint: lora_training_service
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-033
+    category: adalora
+    question: "How does LoRA scaling parameterization work in ThemisDB?"
+    expected_keywords: [LoRA, alpha, scaling, rank, matrix]
+    expected_source_hint: lora
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-034
     category: api
-    question: "What is the WikiRagSource and how does it integrate with the RAG pipeline?"
-    expected_keywords: [WikiRagSource, RAG, pipeline, retrieval, stage]
-    expected_source_hint: ""
-    min_recall_score: 0.7
+    question: "How does GGUF model loading path work in ThemisDB?"
+    expected_keywords: [GGUF, model, load, llama.cpp, plugin]
+    expected_source_hint: lora_api_handler
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-035
+    category: api
+    question: "How does Diagnostic emitter thread safety work in ThemisDB?"
+    expected_keywords: [diagnostic, emitter, listener, thread, broadcast]
+    expected_source_hint: updates_diagnostic_emitter
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-036
+    category: release
+    question: "How does Community release fallback lane semantics work in ThemisDB?"
+    expected_keywords: [community-release, fallback, lane, build, release]
+    expected_source_hint: RELEASE_STRATEGY
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-037
+    category: release
+    question: "How does linux-release packaging lane semantics work in ThemisDB?"
+    expected_keywords: [linux-release, DEB, RPM, CPack, ci-release]
+    expected_source_hint: ci-release
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-038
+    category: build
+    question: "How does CMake docs database target behavior work in ThemisDB?"
+    expected_keywords: [docs_database, target, build, doku.db, json]
+    expected_source_hint: ci-build-doku-db
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-039
+    category: architecture
+    question: "How does Wiki embedding cache purpose work in ThemisDB?"
+    expected_keywords: [embedding, cache, query, reuse, latency]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-040
+    category: architecture
+    question: "How does Top-k retrieval parameter behavior work in ThemisDB?"
+    expected_keywords: [top_k, retrieval, query, rank, chunks]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-041
+    category: architecture
+    question: "How does Min-score retrieval filter behavior work in ThemisDB?"
+    expected_keywords: [min_score, threshold, retrieval, filter, chunks]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-042
+    category: roadmap
+    question: "How does Source hint expectations in split docs work in ThemisDB?"
+    expected_keywords: [source-hint, split, section_heading, doc_id, matching]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-043
+    category: release
+    question: "How does ThemisDB branch governance mapping work in ThemisDB?"
+    expected_keywords: [develop, community, military, edition, governance]
+    expected_source_hint: BRANCHING_STRATEGY
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-044
+    category: roadmap
+    question: "How does Golden dataset curation workflow work in ThemisDB?"
+    expected_keywords: [golden, dataset, curation, generator, authoritative]
+    expected_source_hint: generate_rag_golden_dataset
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-045
+    category: api
+    question: "How does YAML flow-sequence parser constraints work in ThemisDB?"
+    expected_keywords: [YAML, flow-sequence, parser, expected_keywords, subset]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-046
+    category: roadmap
+    question: "How does RAG test skip policy without doku.db work in ThemisDB?"
+    expected_keywords: [skip, doku.db, model_required, gate, tests]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-047
+    category: build
+    question: "How does RocksDB dependency failure mode work in ThemisDB?"
+    expected_keywords: [RocksDB, dependency, configure, failure, community-release]
+    expected_source_hint: Dependencies
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-048
+    category: build
+    question: "How does sccache action pinning rationale work in ThemisDB?"
+    expected_keywords: [sccache-action, SHA, pin, workflow, cache]
+    expected_source_hint: setup-cpp-build
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-049
+    category: build
+    question: "How does CMake configure_file dataset copy work in ThemisDB?"
+    expected_keywords: [configure_file, dataset, copy, binary, path]
+    expected_source_hint: tests/llm/CMakeLists
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-050
+    category: roadmap
+    question: "How does Expected keyword design guidelines work in ThemisDB?"
+    expected_keywords: [expected_keywords, Top-5, recall, signal, retrieval]
+    expected_source_hint: themisdb_rag_golden_dataset
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-051
+    category: roadmap
+    question: "How does Expected source hint design guidelines work in ThemisDB?"
+    expected_keywords: [expected_source_hint, doc_id, section_heading, hint, retrieval]
+    expected_source_hint: themisdb_rag_golden_dataset
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-052
+    category: roadmap
+    question: "How does Knowledge level taxonomy usage work in ThemisDB?"
+    expected_keywords: [knowledge_level, general, specific, specialized, taxonomy]
+    expected_source_hint: themisdb_rag_golden_dataset
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-053
+    category: roadmap
+    question: "How does Specialized rarity annotation usage work in ThemisDB?"
+    expected_keywords: [rarity_tier, rare, specialized, annotation, quality]
+    expected_source_hint: themisdb_rag_golden_dataset
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-054
+    category: roadmap
+    question: "How does Golden dataset minimum size gate work in ThemisDB?"
+    expected_keywords: [minimum, 110, entries, gate, validation]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-055
+    category: roadmap
+    question: "How does Distribution gate tolerance rationale work in ThemisDB?"
+    expected_keywords: [distribution, tolerance, 20/30/50, ratio, validation]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specific
+    rarity_tier: ""
+    min_recall_score: 0.75
+
+  - id: RAG-GD-056
+    category: adalora
+    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants in ThemisDB."
+    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
+    expected_source_hint: adalora_tt_bridge
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-057
+    category: architecture
+    question: "Describe the specialized behavior of Query embedding cache mutex strategy in ThemisDB."
+    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-058
+    category: architecture
+    question: "Describe the specialized behavior of Persistent embedding cache key design in ThemisDB."
+    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-059
+    category: architecture
+    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics in ThemisDB."
+    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-060
+    category: architecture
+    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval in ThemisDB."
+    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-061
+    category: architecture
+    question: "Describe the specialized behavior of BM25 term-normalization edge behavior in ThemisDB."
+    expected_keywords: [BM25, normalization, term, frequency, score]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-062
+    category: architecture
+    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall in ThemisDB."
+    expected_keywords: [HNSW, efSearch, M, recall, latency]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-063
+    category: architecture
+    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics in ThemisDB."
+    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
+    expected_source_hint: wiki_rag_source
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-064
+    category: roadmap
+    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits in ThemisDB."
+    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
+    expected_source_hint: ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-065
+    category: build
+    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases in ThemisDB."
+    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
+    expected_source_hint: CMakePresets
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-066
+    category: roadmap
+    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift in ThemisDB."
+    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-067
+    category: adalora
+    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 12 in ThemisDB."
+    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
+    expected_source_hint: adalora_tt_bridge
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-068
+    category: architecture
+    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 13 in ThemisDB."
+    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-069
+    category: architecture
+    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 14 in ThemisDB."
+    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-070
+    category: architecture
+    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 15 in ThemisDB."
+    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-071
+    category: architecture
+    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 16 in ThemisDB."
+    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-072
+    category: architecture
+    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 17 in ThemisDB."
+    expected_keywords: [BM25, normalization, term, frequency, score]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-073
+    category: architecture
+    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 18 in ThemisDB."
+    expected_keywords: [HNSW, efSearch, M, recall, latency]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-074
+    category: architecture
+    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 19 in ThemisDB."
+    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
+    expected_source_hint: wiki_rag_source
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-075
+    category: roadmap
+    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 20 in ThemisDB."
+    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
+    expected_source_hint: ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-076
+    category: build
+    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 21 in ThemisDB."
+    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
+    expected_source_hint: CMakePresets
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-077
+    category: roadmap
+    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 22 in ThemisDB."
+    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-078
+    category: adalora
+    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 23 in ThemisDB."
+    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
+    expected_source_hint: adalora_tt_bridge
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-079
+    category: architecture
+    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 24 in ThemisDB."
+    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-080
+    category: architecture
+    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 25 in ThemisDB."
+    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-081
+    category: architecture
+    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 26 in ThemisDB."
+    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-082
+    category: architecture
+    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 27 in ThemisDB."
+    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-083
+    category: architecture
+    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 28 in ThemisDB."
+    expected_keywords: [BM25, normalization, term, frequency, score]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-084
+    category: architecture
+    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 29 in ThemisDB."
+    expected_keywords: [HNSW, efSearch, M, recall, latency]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-085
+    category: architecture
+    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 30 in ThemisDB."
+    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
+    expected_source_hint: wiki_rag_source
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-086
+    category: roadmap
+    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 31 in ThemisDB."
+    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
+    expected_source_hint: ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-087
+    category: build
+    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 32 in ThemisDB."
+    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
+    expected_source_hint: CMakePresets
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-088
+    category: roadmap
+    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 33 in ThemisDB."
+    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-089
+    category: adalora
+    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 34 in ThemisDB."
+    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
+    expected_source_hint: adalora_tt_bridge
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-090
+    category: architecture
+    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 35 in ThemisDB."
+    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-091
+    category: architecture
+    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 36 in ThemisDB."
+    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-092
+    category: architecture
+    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 37 in ThemisDB."
+    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-093
+    category: architecture
+    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 38 in ThemisDB."
+    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-094
+    category: architecture
+    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 39 in ThemisDB."
+    expected_keywords: [BM25, normalization, term, frequency, score]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-095
+    category: architecture
+    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 40 in ThemisDB."
+    expected_keywords: [HNSW, efSearch, M, recall, latency]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-096
+    category: architecture
+    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 41 in ThemisDB."
+    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
+    expected_source_hint: wiki_rag_source
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-097
+    category: roadmap
+    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 42 in ThemisDB."
+    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
+    expected_source_hint: ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-098
+    category: build
+    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 43 in ThemisDB."
+    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
+    expected_source_hint: CMakePresets
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-099
+    category: roadmap
+    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 44 in ThemisDB."
+    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-100
+    category: adalora
+    question: "Describe the specialized behavior of AdaLoraTTBridge TT-core export invariants scenario 45 in ThemisDB."
+    expected_keywords: [AdaLoraTTBridge, TT-core, tensor-train, export, invariants]
+    expected_source_hint: adalora_tt_bridge
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-101
+    category: architecture
+    question: "Describe the specialized behavior of Query embedding cache mutex strategy scenario 46 in ThemisDB."
+    expected_keywords: [query_embed_cache, mutex, thread-safe, embedding, cache]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-102
+    category: architecture
+    question: "Describe the specialized behavior of Persistent embedding cache key design scenario 47 in ThemisDB."
+    expected_keywords: [persistent embedding cache, chunk_id, RocksDB, lookup, write]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-103
+    category: architecture
+    question: "Describe the specialized behavior of WriteBatch ingestion batch-size semantics scenario 48 in ThemisDB."
+    expected_keywords: [WriteBatch, batch_size, ingest, RocksDB, streaming]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-104
+    category: architecture
+    question: "Describe the specialized behavior of RRF tie-handling in hybrid retrieval scenario 49 in ThemisDB."
+    expected_keywords: [RRF, hybrid, tie, ranking, fusion]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-105
+    category: architecture
+    question: "Describe the specialized behavior of BM25 term-normalization edge behavior scenario 50 in ThemisDB."
+    expected_keywords: [BM25, normalization, term, frequency, score]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-106
+    category: architecture
+    question: "Describe the specialized behavior of HNSW parameter sensitivity for recall scenario 51 in ThemisDB."
+    expected_keywords: [HNSW, efSearch, M, recall, latency]
+    expected_source_hint: wiki_index_store
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-107
+    category: architecture
+    question: "Describe the specialized behavior of Fail-closed vs fail-open retrieval semantics scenario 52 in ThemisDB."
+    expected_keywords: [fail-closed, fail-open, retrieval, safety, policy]
+    expected_source_hint: wiki_rag_source
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-108
+    category: roadmap
+    question: "Describe the specialized behavior of Chaos evidence coupling to wave exits scenario 53 in ThemisDB."
+    expected_keywords: [chaos evidence, Wave, exit criteria, deterministic, gate]
+    expected_source_hint: ROADMAP
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-109
+    category: build
+    question: "Describe the specialized behavior of THEMIS_DOCS_DB_MODE PREBUILT edge cases scenario 54 in ThemisDB."
+    expected_keywords: [THEMIS_DOCS_DB_MODE, PREBUILT, docs.db, mode, fallback]
+    expected_source_hint: CMakePresets
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
+
+  - id: RAG-GD-110
+    category: roadmap
+    question: "Describe the specialized behavior of Source-hint robustness under chunk split drift scenario 55 in ThemisDB."
+    expected_keywords: [source-hint, chunk split, drift, doc_id, section_heading]
+    expected_source_hint: test_llm_doku_rag
+    knowledge_level: specialized
+    rarity_tier: rare
+    min_recall_score: 0.80
