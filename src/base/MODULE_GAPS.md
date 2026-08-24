@@ -1,19 +1,39 @@
-# base — MODULE_GAPS.md (Phase 5 Verified)
+# base — MODULE_GAPS.md (Phase 5 Verified + Re-Scan Aligned)
 
 This file documents all documentation and code quality gaps in the **base** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
+## Re-Scan / Count-Abgleich (2026-08-24)
+
+- **Re-scan command**: `python tools/gap_scanner.py --repo . --output ai_working --module base`
+- **Current scanner artifact**: `ai_working/gap_scan_base.json`
+- **Current scanner counts**: Total **32** = CRITICAL **28** + HIGH **4** + MEDIUM **0** + LOW **0**
+- **Category split**: `unimplemented` **28**, `stub` **4**
+- **Scope split**: `src/**` **16**, `tests/**` **16**
+
+> Note: `tools/gap_scanner.py` currently writes the gap list correctly but leaves
+> `summary` empty; counts above are reconciled directly from the regenerated
+> `gaps` entries.
+
 ## Summary
 
-- **Total Gaps**: 801 *(was 803; 2 closed 2026-08-24 in batch D)*
+- **Total Gaps (Phase 5 baseline)**: 801 *(was 803; 2 closed 2026-08-24 in batch D)*
+- **Total Gaps (current module re-scan)**: 32 *(see re-scan section above)*
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: 2026-08-24 (base-gap-closures-batch-d)
+- **Last Updated**: 2026-08-24 (base-gap-closures-batch-d + re-scan count alignment)
 
-### By Severity
+### By Severity (Phase 5 baseline)
 
 - **CRITICAL**: 7 *(was 22)*  — 15 `no_transit_encryption` definitively closed; false-positive documentation added for remaining `blocking_no_timeout` / `missing_dtor`
 - **HIGH**: 51 *(was 53)* — 2 `null_dereference` closures in hot-reload runtime paths
 - **MEDIUM**: 741 *(was 739)* — +2 (analysis notes from batch C; no new regressions in batch D)
 - **LOW**: 2
+
+### By Severity (current module re-scan)
+
+- **CRITICAL**: 28
+- **HIGH**: 4
+- **MEDIUM**: 0
+- **LOW**: 0
 
 ### By Type
 
@@ -61,7 +81,7 @@ This file documents all documentation and code quality gaps in the **base** modu
 - [db_connection_leak] (HIGH — tracked, follow-up work)
 - [null_dereference] (HIGH — tracked, follow-up work)
 
-... and 796 more gaps.
+... and 796 more gaps in the Phase 5 baseline.
 
 ---
 
