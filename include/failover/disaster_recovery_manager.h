@@ -61,6 +61,9 @@ struct DisasterRecoveryConfig {
     bool require_quorum{true};
     bool enforce_epoch_fencing{true};
     bool allow_dry_run_without_managers{true};
+
+    /// Consensus timeout for each recovery step (configurable; default 30s).
+    std::chrono::milliseconds consensus_timeout_ms{30000};
 };
 
 struct DisasterRecoveryPlan {
@@ -120,6 +123,14 @@ public:
 
     Statistics getStatistics() const;
 
+#ifdef THEMIS_TEST_BUILD
+    /// @brief Clears the idempotency cache (test support only).
+    void clearIdempotencyCache() {
+        std::lock_guard<std::mutex> lock(idempotency_mutex_);
+        completed_plans_.clear();
+    }
+#endif
+
 private:
     struct EnumHash {
         template <typename T>
@@ -157,6 +168,11 @@ private:
 
     // Guards against concurrent invocations of executePlan.
     mutable std::mutex execution_mutex_;
+
+    /// @brief Guards idempotency map access.
+    mutable std::mutex idempotency_mutex_;
+    /// @brief Maps plan_id → cached result for idempotent execution (FO-IMPL-007).
+    std::unordered_map<std::string, DisasterRecoveryResult> completed_plans_;
 
     mutable std::mutex stats_mutex_;
     Statistics stats_;

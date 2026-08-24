@@ -18,14 +18,14 @@ Production failover runtime exists across automatic failover orchestration, disa
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under concurrent multi-node failover storms (Target: Q4 2026)
-- [ ] expand regressions for fencing/quorum dependency edge scenarios (Target: Q4 2026)
-- [ ] improve operator diagnostics for DR-step failure and retry escalation (Target: Q4 2026)
+- [x] tighten deterministic behavior under concurrent multi-node failover storms (Target: Q4 2026) — DELIVERED 2026-08-24: topology versioning (FO-IMPL-006), consensus quorum hardening (Wave B)
+- [x] expand regressions for fencing/quorum dependency edge scenarios (Target: Q4 2026) — DELIVERED: Wave A/C test suite (fencing, quorum persistence, concurrent promotion)
+- [x] improve operator diagnostics for DR-step failure and retry escalation (Target: Q4 2026) — DELIVERED: runbooks, WAVE_C_CLOSURE_EVIDENCE.md
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for failover and recovery orchestration overhead (Target: Q1 2027)
-- [ ] add dedicated benchmark coverage for failover manager and DR step pipelines (Target: Q1 2027)
-- [ ] harden long-running reliability under repeated failover/recovery cycles (Target: Q1 2027)
+- [x] re-baseline p95/p99 envelopes for failover and recovery orchestration overhead (Target: Q1 2027) — DELIVERED: `benchmarks/failover/bench_failover_wave_b_gates.cpp`
+- [x] add dedicated benchmark coverage for failover manager and DR step pipelines (Target: Q1 2027) — DELIVERED: FWB-01..08
+- [x] harden long-running reliability under repeated failover/recovery cycles (Target: Q1 2027) — DELIVERED: `tests/integration/test_failover_soak_60min.cpp` (SOAK-01..04)
 
 ## Implementation Phases
 
@@ -110,7 +110,7 @@ Production failover runtime exists across automatic failover orchestration, disa
 - [x] Q3 2026 hardening, benchmark stabilization, and diagnostics items closed
 - [x] remaining hardening tasks closed for dependency/queue/DR-step edge paths (Q4 2026)
 - [x] Phase 2/3 hot-path benchmarks delivered (FP23-01..FP23-06) (2026-07-29)
-- [ ] release benchmark stabilization p95/p99 re-baseline complete (Q1 2027)
+- [x] release benchmark stabilization p95/p99 re-baseline complete (Q1 2027) — DELIVERED 2026-08-24: `benchmarks/failover/bench_failover_wave_b_gates.cpp` FWB-01..08
 
 ## Known Issues and Limitations
 
@@ -130,9 +130,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `failover`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — DELIVERED: `src/failover/WAVE_D_CLOSURE_EVIDENCE.md`; observability test: `tests/failover/test_failover_wave_d_observability.cpp`
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — DELIVERED: `tests/integration/test_failover_soak_60min.cpp` (SOAK-01..04)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — DELIVERED: `docs/operability/failover_runbook_split_brain.md`, `failover_runbook_fencing_override.md`, `failover_runbook_manual_recovery.md`
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -140,6 +140,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — VERIFIED: fencing fail-closed (FO-IMPL-003), quorum-log fail-closed (FO-IMPL-004), topology versioning (FO-IMPL-006)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — DELIVERED: `benchmarks/failover/bench_failover_wave_b_gates.cpp` (FWB-01..08)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — DELIVERED: 3 runbooks in `docs/operability/`

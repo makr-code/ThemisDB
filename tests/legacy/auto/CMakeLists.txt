@@ -17,6 +17,7 @@ foreach(_src IN LISTS AUTO_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_auto_failover_manager")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp
         )
     endif()
 

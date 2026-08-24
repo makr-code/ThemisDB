@@ -27,6 +27,8 @@
 #include <vector>
 
 #include "failover/failover_api_contract.h"
+#include "failover/topology_snapshot.h"
+#include "failover/quorum_log.h"
 #include "replication/replication_manager.h"
 #include "sharding/epoch_fencing.h"
 #include "sharding/health_monitor.h"
@@ -98,6 +100,36 @@ struct AutoFailoverConfig {
     bool enable_automatic_recovery{true};
     std::chrono::milliseconds recovery_retry_interval{5000};            // 5 second retry
     uint32_t max_recovery_attempts{3};
+
+    /// Maximum time to wait for a single health-check call before treating the node as timed-out.
+    std::chrono::milliseconds health_check_call_timeout_ms{5000};       ///< 5 s default
+
+    /// Path to the quorum log WAL file. Empty = in-memory only (not durable).
+    std::string quorum_log_path;
+
+    // ── Part B1: Adaptive health-check interval ──────────────────────────────
+    /// Enable adaptive health-check interval based on rolling p95 latency.
+    bool adaptive_check_interval{false};
+    /// Number of samples for rolling p95 latency calculation (default 20).
+    uint32_t adaptive_check_samples{20};
+    /// Minimum allowed adaptive interval floor.
+    std::chrono::milliseconds adaptive_check_interval_min{100};
+    /// Maximum allowed adaptive interval ceiling.
+    std::chrono::milliseconds adaptive_check_interval_max{5000};
+    /// Number of failures in gc_grace_window that triggers GC grace period.
+    uint32_t gc_grace_failure_count{3};
+    /// Time window for GC grace burst detection.
+    std::chrono::milliseconds gc_grace_window{1000};
+    /// Grace period suppressing FAILED-state transitions after GC burst.
+    std::chrono::milliseconds gc_grace_period{2000};
+
+    // ── Part B2: Consensus quorum hardening ──────────────────────────────────
+    /// Timeout for quorum wait-for loop (default 30s, matches kHeartbeatTimeout * 10).
+    std::chrono::milliseconds quorum_timeout_ms{30000};
+    /// Enable deterministic tie-breaking: on split-vote, smallest node_id wins.
+    bool deterministic_tie_breaking{true};
+    /// Heartbeat coalescing: max heartbeats per second (0 = disabled).
+    uint32_t max_heartbeats_per_second{5};
 };
 
 /**
@@ -207,6 +239,19 @@ public:
                             const std::string& detail) {
         emitDiagnostic(code, node_id, detail);
     }
+    // FO-IMPL-003: exposes processFailover for Wave A fencing tests.
+    FailoverResult testProcessFailover(const std::string& failed_node_id) {
+        FailoverTask task;
+        task.failed_node_id = failed_node_id;
+        task.enqueued_at    = std::chrono::steady_clock::now();
+        return processFailover(task);
+    }
+    /// Override the health-check callable used inside performHealthChecks().
+    /// When set, replaces replication_mgr_->getClusterHealth() for unit testing.
+    void testSetHealthCheckOverride(
+        std::function<std::map<std::string, bool>()> fn) {
+        health_check_override_ = std::move(fn);
+    }
 #endif
 
 private:
@@ -214,6 +259,7 @@ private:
     //   failover_mutex_ → stats_mutex_ → callbacks_mutex_
     // Configuration and managers
     AutoFailoverConfig config_;
+    std::unique_ptr<QuorumLog> quorum_log_;  ///< Optional durable quorum WAL; null if path not configured.
     std::shared_ptr<themisdb::replication::ReplicationManager> replication_mgr_;
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
     std::shared_ptr<sharding::HotSpareManager> spare_manager_;
@@ -243,7 +289,30 @@ private:
     // Tracking
     std::map<std::string, int> consecutive_failures_;
     mutable std::shared_mutex tracking_mutex_;
+
+    /// Monotonically increasing topology version; incremented on every node-set change.
+    std::atomic<uint64_t> topology_version_{0};
+
+    /// @brief Captures an immutable topology snapshot under tracking_mutex_.
+    /// @thread_safety Caller must hold tracking_mutex_ (shared or exclusive).
+    TopologySnapshot captureTopologySnapshot() const;
     std::optional<FailoverResult> last_failover_result_;
+
+    // ── Part B1: Adaptive interval + GC grace state ──────────────────────────
+    /// Rolling latency samples for adaptive interval calculation. Protected by monitor_mutex_.
+    std::vector<std::chrono::milliseconds> health_check_latency_samples_;
+    /// Timestamps of recent failures for GC grace burst detection. Protected by tracking_mutex_.
+    std::vector<std::chrono::steady_clock::time_point> recent_failure_timestamps_;
+    /// Expiry time of the active GC grace period. Zero = no active grace period.
+    std::chrono::steady_clock::time_point gc_grace_expiry_{};
+    /// Current adaptive check interval (updated when adaptive_check_interval=true).
+    std::chrono::milliseconds current_check_interval_{500};
+
+    // ── Part B2: Quorum-hardening coalescing state ────────────────────────────
+    /// Last heartbeat coalescing window start. Protected by failover_mutex_.
+    std::chrono::steady_clock::time_point heartbeat_coalesce_window_start_{};
+    /// Heartbeat count in current coalescing window. Protected by failover_mutex_.
+    uint32_t heartbeat_coalesce_count_{0};
 
     // Statistics
     mutable std::mutex stats_mutex_;
@@ -261,6 +330,22 @@ private:
     void detectNodeFailures();
     void updateFailureTracking(const std::string& node_id, bool is_healthy);
 
+    /// Performs a single bounded health-check for one node.
+    /// @returns true if the node is healthy; false if unhealthy or timed-out.
+    bool performBoundedHealthCheck(const std::string& node_id) noexcept;
+
+    // ── Part B1: Adaptive interval + GC grace helpers ─────────────────────────
+    /// @brief Updates adaptive check interval from rolling p95 latency.
+    /// @param last_latency Duration of the most recent health-check call.
+    /// @thread_safety Caller must hold monitor_mutex_.
+    void updateAdaptiveInterval(std::chrono::milliseconds last_latency);
+
+    /// @brief Checks if GC grace period applies; activates grace period on burst.
+    /// @param node_id Node that experienced the failure.
+    /// @returns true if the failure should be suppressed (grace period active).
+    /// @thread_safety Must be called under tracking_mutex_ (exclusive).
+    bool checkAndApplyGcGrace(const std::string& node_id);
+
     // Helper methods - failover orchestration
     void failoverLoop();
     FailoverResult processFailover(const FailoverTask& task);
@@ -272,7 +357,20 @@ private:
     bool verifyFailoverCompletion(const FailoverTask& task);
 
     // Split-brain prevention
+    /// @brief Prevents split-brain by acquiring an exclusive epoch fence.
+    /// @details Fails closed when no EpochFencingManager is configured and
+    ///          enable_split_brain_prevention is true. Emits SPLIT_BRAIN_DETECTED
+    ///          diagnostic on failure.
+    /// @param failed_node_id Node being failed over.
+    /// @returns true if fencing succeeded or prevention is disabled; false if failed closed.
+    /// @thread_safety Must be called from failoverLoop thread only.
     bool preventSplitBrain(const std::string& failed_node_id);
+
+    /// @brief Selects the winning candidate on split-vote using deterministic tie-breaking.
+    /// @param candidates Non-empty vector of candidate node IDs with equal vote counts.
+    /// @returns The tie-breaking winner (smallest lexicographic node_id).
+    /// @thread_safety No locks required; operates on the passed-in copy.
+    std::string resolveSplitVote(const std::vector<std::string>& candidates) const;
 
     // Network partition handling
     bool handleNetworkPartition();
@@ -295,6 +393,11 @@ private:
     // Exception-safe guarantee: Basic (catches all exceptions from callbacks internally)
     void emitEvent(FailoverEventType type, const std::string& node_id, const std::string& detail) noexcept;
     void updateStatistics(const FailoverResult& result);
+
+#ifdef THEMIS_TEST_BUILD
+    /// Injectable health-check override; used only in unit tests.
+    std::function<std::map<std::string, bool>()> health_check_override_;
+#endif
 };
 
 }  // namespace failover
