@@ -663,6 +663,61 @@ else()
     message(FATAL_ERROR "Invalid THEMIS_DOCS_DB_MODE='${THEMIS_DOCS_DB_MODE}'. Allowed: AUTO, BUILD, PREBUILT, OFF")
 endif()
 
+# ─── AdaLoRA Rebuild-Gate (CMake target: adalora_cache_check) ────────────────
+#
+# Runs scripts/compute_model_fingerprint.py to determine whether the AdaLoRA
+# adapter checkpoint needs to be rebuilt.
+#
+# Decision logic (in priority order):
+#   1. THEMIS_ADALORA_FORCE_REBUILD=ON  → always rebuild (exits 2)
+#   2. THEMIS_LLM_MODEL_PATH not set    → skip gate silently (no-op stamp)
+#   3. Fingerprint matches cache        → up-to-date (exit 0)
+#   4. Fingerprint changed / no cache   → rebuild required (exit 2)
+#
+# The target writes one of two stamp files into THEMIS_ADALORA_CACHE_DIR:
+#   adalora_rebuild_required.stamp  — adapter must be retrained
+#   adalora_up_to_date.stamp        — cached adapter may be loaded directly
+#
+# Downstream targets that depend on the adapter can check for these stamps.
+
+option(THEMIS_ADALORA_FORCE_REBUILD
+    "Force AdaLoRA adapter rebuild regardless of cached fingerprint"
+    OFF)
+
+set(THEMIS_ADALORA_CACHE_DIR
+    "${CMAKE_BINARY_DIR}/cache/adalora"
+    CACHE PATH "Directory for AdaLoRA checkpoint and model fingerprint cache")
+
+find_package(Python3 COMPONENTS Interpreter QUIET)
+if(Python3_FOUND)
+    set(_adalora_fp_script "${CMAKE_SOURCE_DIR}/scripts/compute_model_fingerprint.py")
+    if(EXISTS "${_adalora_fp_script}")
+        # Build the environment overrides for the subprocess
+        set(_adalora_env_args "")
+        if(THEMIS_ADALORA_FORCE_REBUILD)
+            list(APPEND _adalora_env_args
+                "${CMAKE_COMMAND}" -E env "THEMIS_ADALORA_FORCE_REBUILD=1")
+        endif()
+
+        add_custom_target(adalora_cache_check
+            COMMAND
+                ${CMAKE_COMMAND} -E env
+                "THEMIS_ADALORA_CACHE_DIR=${THEMIS_ADALORA_CACHE_DIR}"
+                $<$<BOOL:${THEMIS_ADALORA_FORCE_REBUILD}>:THEMIS_ADALORA_FORCE_REBUILD=1>
+                "${Python3_EXECUTABLE}" "${_adalora_fp_script}"
+            COMMENT "AdaLoRA rebuild gate: checking model fingerprint…"
+            VERBATIM
+        )
+        message(STATUS "AdaLoRA cache-gate target 'adalora_cache_check' registered")
+        message(STATUS "  Cache dir: ${THEMIS_ADALORA_CACHE_DIR}")
+        message(STATUS "  Force rebuild: ${THEMIS_ADALORA_FORCE_REBUILD}")
+    else()
+        message(STATUS "AdaLoRA cache-gate: script not found at ${_adalora_fp_script} — target skipped")
+    endif()
+else()
+    message(STATUS "AdaLoRA cache-gate: Python3 not found — adalora_cache_check target skipped")
+endif()
+
 if(DEFINED THEMIS_RELEASE_ROOT_DOC_FILES)
     foreach(_themis_doc_file IN LISTS THEMIS_RELEASE_ROOT_DOC_FILES)
         if(EXISTS "${CMAKE_SOURCE_DIR}/${_themis_doc_file}")

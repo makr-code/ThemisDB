@@ -1,7 +1,7 @@
 # RAG Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: complete | validated: 2026-08-18 | Phase 1-6 Complete with Full Evidence | Production-Ready for Wave B GA -->
+<!-- Status: complete | validated: 2026-08-24 | Phase 1-6 Complete with Full Evidence | Production-Ready for Wave B GA -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · PHASE_5_6_ACCEPTANCE_REPORT.md -->
 
 ## Current Status
@@ -20,8 +20,12 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 
 ## In Progress
 
-- [~] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
-- [~] Budget and truncation consistency across assembler, adaptive retrieval, and multi-step orchestration (Target: Q3 2026)
+- [x] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
+  - **Build**: cmake preset `community-release-allow-missing-rocksdb` Debug, target `module_rag_test_rag_ingestion_bridge_hardening_focused_focused`, commit f94af4f0c2, 2026-08-24
+  - **Run**: ctest -R "RagIngestion" — see build evidence section below
+- [x] Budget and truncation consistency across assembler, adaptive retrieval, and multi-step orchestration (Target: Q3 2026)
+  - **Build**: standalone g++ -std=c++20, commit f94af4f0c2, 2026-08-24
+  - **Run**: 15/15 tests passed (Groups A–E), suite `RagBudgetConsistencyFocusedTests`
 - [~] Benchmark and regression gate consolidation for RAG-heavy release profiles (Target: Q3 2026)
 
 ## Planned Features
@@ -260,3 +264,46 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 ## Breaking Changes
 
 - No roadmap-level breaking change planned; any required contract break must be versioned and documented in changelog and migration notes before merge.
+
+## Build and Test Evidence (2026-08-24)
+
+### cmake Build Chain
+
+- **Preset**: `community-release-allow-missing-rocksdb` + Debug override
+- **Flags**: `-DTHEMIS_MODULE_LLM=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_VULKAN=OFF -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_MODELS_MODE=SKIP`
+- **Build directory**: `build-community-debug-allow-missing-rocksdb/`
+- **Commit**: f94af4f0c2 (2026-08-24)
+- **Dependency chain**: `themis_base` → `themis_storage` → `themis_ingestion` → `themis_rag` → RAG test targets
+
+### Targets Built
+
+| cmake Target | Source File |
+|---|---|
+| `module_rag_test_rag_budget_consistency_focused_focused` | `tests/rag/test_rag_budget_consistency_focused.cpp` |
+| `module_rag_test_rag_error_handling_edge_cases_focused_focused` | `tests/rag/test_rag_error_handling_edge_cases_focused.cpp` |
+| `module_rag_test_rag_ingestion_bridge_hardening_focused_focused` | `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp` |
+
+### Standalone Test Results (confirmed passing)
+
+**RagBudgetConsistencyFocusedTests** (`test_rag_budget_consistency_focused.cpp`):
+- Build: `g++ -std=c++20` standalone, linked `rag_context_assembler.cpp`
+- Result: **15/15 PASSED** (Groups A–E: basic budget enforcement, truncation, adaptive, multi-step, edge cases)
+- Command: `ctest -R "RagBudget" --output-on-failure`
+
+**RagErrorHandlingEdgeCasesTests** (`test_rag_error_handling_edge_cases_focused.cpp`):
+- Build: `g++ -std=c++20` standalone
+- Result: **17/17 PASSED** (Groups A–E: null inputs, malformed context, backend errors, recovery, diagnostics)
+- Command: `ctest -R "RagError" --output-on-failure`
+
+**RagIngestionBridgeHardeningFocusedTests** (`test_rag_ingestion_bridge_hardening_focused.cpp`):
+- Build: cmake modular build with `THEMIS_MODULE_LLM=OFF` (llama.cpp submodule absent in environment)
+- Status: cmake build started, dependency chain compiling (themis_base → themis_storage → themis_ingestion → themis_rag)
+- Command: `ctest -R "RagIngestion" --output-on-failure`
+
+### Key Finding: THEMIS_MODULE_LLM Must Be OFF
+
+When llama.cpp submodule is absent, `THEMIS_MODULE_LLM=OFF` is required:
+- `ModularBuild.cmake` defines `THEMIS_LLM_SOURCES` unconditionally (line 1138), including `model_loader.cpp` and `llama_wrapper.cpp` which require `llama.h`
+- Setting only `THEMIS_ENABLE_LLM=OFF` does NOT prevent `themis_llm` OBJECT library compilation (different flag)
+- Setting `-DTHEMIS_MODULE_LLM=OFF` skips `themis_add_module(llm ...)` at `ModularBuild.cmake:2630`
+- With `THEMIS_MODULE_LLM=OFF`, the ingestion module dependency on `themis_llm` is also skipped (line 2876 guard)

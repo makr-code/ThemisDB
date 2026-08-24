@@ -603,3 +603,7 @@ ai_working/*.py  # Temporary/auto-generated scripts
 /ingestion.log
 /themisdb.log
 tests/data/certificates/ca_cert.srl
+
+# Generated doku.db corpus (too large for git)
+test-assets/doku.db.json
+test-assets/doku.db
