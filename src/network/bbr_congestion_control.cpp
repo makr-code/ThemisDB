@@ -17,12 +17,25 @@
 #  include <netinet/tcp.h>
 #  include <sys/socket.h>
 #  include <unistd.h>
+#  include <cstdint>
 #  ifndef TCP_CONGESTION
 #    define TCP_CONGESTION 13
 #  endif
 #  ifndef TCP_CC_INFO
 #    define TCP_CC_INFO    26
 #  endif
+#  ifndef TCP_ECN
+#    define TCP_ECN        14
+#  endif
+// BBR congestion-control info structure (kernel 4.9+).
+// Not exposed by glibc; defined locally using standard integer types.
+struct tcp_bbr_info {
+    uint32_t bbr_bw_lo;       ///< Bandwidth estimate lower 32 bits (bytes/s)
+    uint32_t bbr_bw_hi;       ///< Bandwidth estimate upper 32 bits (bytes/s)
+    uint32_t bbr_min_rtt;     ///< Min-RTT estimate (microseconds)
+    uint32_t bbr_pacing_gain; ///< Pacing gain (scaled by 2^8)
+    uint32_t bbr_cwnd_gain;   ///< CWND gain (scaled by 2^8)
+};
 #endif // __linux__
 
 namespace themis {
@@ -113,13 +126,11 @@ CongestionDiagnostics BbrCongestionController::getDiagnostics() const noexcept {
     socklen_t optlen = sizeof(ti);
     if (::getsockopt(socket_fd_, IPPROTO_TCP, TCP_INFO, &ti, &optlen) == 0) {
         diag.srtt_us               = ti.tcpi_rtt;
-        diag.min_rtt_us            = ti.tcpi_min_rtt;
         diag.cwnd_bytes            = ti.tcpi_snd_cwnd * ti.tcpi_snd_mss;
         diag.inflight_bytes        = ti.tcpi_unacked * ti.tcpi_snd_mss;
         diag.rto_count             = ti.tcpi_total_retrans;
         diag.fast_retransmit_count = ti.tcpi_retrans;
         diag.has_loss              = (ti.tcpi_lost > 0);
-        diag.pacing_rate_bps       = ti.tcpi_pacing_rate * 8ULL;
     }
 
     // TCP_CC_INFO provides BBR-specific fields (bandwidth, min_rtt).

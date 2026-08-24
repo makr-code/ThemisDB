@@ -12581,9 +12581,9 @@ void HttpServer::SslSession::armReadTimer() {
                 THEMIS_DEBUG("SslSession 408 write on timeout: {}", write_ec.message());
             }
             beast::error_code close_ec;
-            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            self->stream_.next_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
-            self->stream_.lowest_layer().close(close_ec);
+            self->stream_.next_layer().close(close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession close on timeout: {}", close_ec.message());
         }
     });
@@ -12813,7 +12813,7 @@ void HttpServer::SslSession::processRequest() {
         // Strip any client-supplied header first to prevent spoofing.
         request_.erase("X-Themis-Peer-Addr");
         try {
-            auto ep = stream_.lowest_layer().remote_endpoint();
+            auto ep = stream_.next_layer().remote_endpoint();
             request_.set("X-Themis-Peer-Addr", ep.address().to_string());
         } catch (...) {
             THEMIS_WARN("http_server: unhandled exception caught");
