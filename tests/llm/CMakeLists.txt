@@ -185,7 +185,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             target_include_directories(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
             )
-        else()
+        elseif(EXISTS ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp)
             target_sources(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
             )
@@ -357,7 +357,7 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             target_include_directories(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/include
             )
-        else()
+        elseif(EXISTS ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp)
             target_sources(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/plugins/themisdb_llm_wiki/src/wikipedia/wiki_workspace_orchestrator.cpp
             )
