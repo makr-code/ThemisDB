@@ -112,6 +112,7 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build
@@ -199,6 +200,7 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build

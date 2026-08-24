@@ -160,6 +160,7 @@ jobs:
           cmake -S . -B "${{ env.CMAKE_BUILD_DIR }}" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
             -DTHEMIS_LLM_INFERENCE_TESTS=ON \
             -DTHEMIS_TEST_MODEL_DIR="${{ env.MODEL_DIR }}" \
             -DCMAKE_BUILD_TYPE=Release \
@@ -424,10 +425,12 @@ jobs:
       - name: Generate CTest summary
         run: |
           set -euo pipefail
-          echo "## LLM Inferencing CI Results" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Suite | Status |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## LLM Inferencing CI Results"
+            echo ""
+            echo "| Suite | Status |"
+            echo "|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
 
           infer_status="${{ needs.run-inference-suite.result }}"
           rag_status="${{ needs.run-rag-suite.result }}"
@@ -442,11 +445,13 @@ jobs:
             esac
           }
 
-          echo "| INFER-01..10 (llm_inference) | $(emoji $infer_status) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| RAG-01..07 (llm_rag_doku) | $(emoji $rag_status) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| LORA-01..07 (adalora_training) | $(emoji $adalora_status) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Run:** ${{ github.run_id }} | **Branch:** \`${{ github.ref_name }}\`" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "| INFER-01..10 (llm_inference) | $(emoji "$infer_status") |"
+            echo "| RAG-01..07 (llm_rag_doku) | $(emoji "$rag_status") |"
+            echo "| LORA-01..07 (adalora_training) | $(emoji "$adalora_status") |"
+            echo ""
+            echo "**Run:** ${{ github.run_id }} | **Branch:** \`${{ github.ref_name }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
           # Find and display any CTest XML
           if find all-results -name "*.xml" 2>/dev/null | grep -q .; then
