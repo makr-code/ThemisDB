@@ -73,6 +73,11 @@ on:
         required: false
         default: CMake Build
         type: string
+    secrets:
+      THEMIS_HYPERSCALER_LICENSE_B64:
+        required: false
+      THEMIS_BUILD_SIG:
+        required: false
 
 permissions:
   contents: read
@@ -102,6 +107,8 @@ jobs:
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
           SETUP_COMMAND: ${{ inputs.setup_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
           cd "$WORKING_DIRECTORY"
           script_path="$RUNNER_TEMP/cmake-build-setup.sh"
@@ -114,6 +121,8 @@ jobs:
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
           CONFIGURE_COMMAND: ${{ inputs.configure_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
           cd "$WORKING_DIRECTORY"
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
@@ -127,6 +136,8 @@ jobs:
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
           BUILD_COMMAND: ${{ inputs.build_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
           cd "$WORKING_DIRECTORY"
           script_path="$RUNNER_TEMP/cmake-build-build.sh"
@@ -141,6 +152,8 @@ jobs:
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
           VALIDATION_COMMAND: ${{ inputs.validation_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
           cd "$WORKING_DIRECTORY"
           script_path="$RUNNER_TEMP/cmake-build-validation.sh"
