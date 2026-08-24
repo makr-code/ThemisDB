@@ -3,7 +3,7 @@
 **Document Type:** Wave D Program Roadmap  
 **Target Release:** Q1 2027 (v2.4.x GA + v2.5.0-rc1)  
 **Scope:** Distributed tracing, operator runbooks, long-duration soak testing  
-**Status:** 🟡 Phase 1 Planning (2026-08-15)  
+**Status:** 🟡 Phase 1-2 In Progress (updated 2026-08-24)  
 **Branch:** develop  
 
 ---
@@ -13,14 +13,34 @@
 Wave D focuses on hardening operational capabilities across distributed and accelerated modules. Unlike Wave A (runtime reliability), Wave B (performance), and Wave C (security), Wave D emphasizes **operator visibility, runbook completeness, and sustained-load resilience**.
 
 ### Wave D Exit Criteria
-- [~] Wave A-C exit criteria confirmed on `develop` (in progress via gate verification)
+- [~] Wave A-C exit criteria confirmed on `develop` (Wave C ✅ complete; Wave A/B partial — hardware baselines pending Q4 2026)
 - [ ] Distributed tracing SDK pattern deployed across transaction/sharding/replication
 - [ ] High-cardinality metrics collection (shard-level, replication lag quantiles) operational
 - [ ] OpenTelemetry exporter reliability suite green (sustained 1000s events/sec stress)
-- [ ] 5 operator runbooks published (access-model, replication, sharding, voice, GPU)
-- [ ] Soak test suite executing (24-48 hour validated runs with recovery evidence)
+- [x] 5 operator runbooks published (access-model, replication, sharding, voice, GPU) ✅
+- [~] Soak test suite executing: 3 test files created; full 60-minute runs pending representative hardware
 - [ ] Observability integration verified against Wave 7-9 benchmark gates
 - [ ] Wave D sign-off document complete with human approval
+
+---
+
+## 2026-08-24 Progress Snapshot
+
+| Track | Status | Evidence |
+|---|---|---|
+| Wave A-C gate verification | [~] In progress | Wave C ✅ complete; Wave A/B partially complete — hardware baselines pending Q4 2026 |
+| Operator runbooks (5) | [x] Complete | `docs/operability/RUNBOOK_*.md` — all 5 published |
+| Long-duration soak tests | [~] Files created | `tests/integration/test_replication_soak_60min.cpp`, `test_sharding_distributed_write_soak.cpp`, `test_telemetry_soak.cpp`; full runs pending hardware |
+| Distributed tracing SDK | [ ] Not started | Phase 2A plan documented; awaiting Wave A gate confirmation |
+| High-cardinality metrics | [ ] Not started | Phase 2B plan documented; awaiting metric implementation |
+| Exporter reliability suite | [ ] Not started | Phase 2C plan documented; tests not yet created |
+| Remediation hints in runbooks | [~] Partial | 5 runbooks contain operator guidance; D1 cross-links to trace spans pending |
+| Wave D sign-off | [ ] Pending | Requires D1-D4 completion + human approval |
+
+### Cross-Cutting Dependency: Representative Hardware
+All soak test runs, p95/p99 baseline captures (Transaction/Voice/GPU), and OTel exporter stress tests
+require `self-hosted gpu-cuda` runner with CUDA 12.x.
+**Action required (human):** Bring up ≥1 representative-hardware runner for Q4 2026 runs.
 
 ---
 
@@ -281,5 +301,5 @@ See also:
 ---
 
 **Document Owner:** platform-release@themisdb  
-**Last Updated:** 2026-08-15  
+**Last Updated:** 2026-08-24  
 **Next Review:** Phase 2 completion (2026-09-15)

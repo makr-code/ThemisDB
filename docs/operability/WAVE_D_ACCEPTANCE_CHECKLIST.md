@@ -63,7 +63,7 @@
 - [x] `docs/operability/WAVE_D_ROADMAP.md` established
 - [x] `docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md` established (this file)
 - [x] 5 operator runbooks published: `RUNBOOK_ACCESS_MODEL_PROMOTION.md`, `RUNBOOK_GPU_FALLBACK_PERFORMANCE.md`, `RUNBOOK_REPLICATION_LAG_FAILOVER.md`, `RUNBOOK_SHARDING_TOPOLOGY_CHANGE.md`, `RUNBOOK_VOICE_INCIDENT_TRIAGE.md`
-- [ ] `docs/operability/README.md` created with directory index
+- [x] `docs/operability/README.md` updated with directory index and current status (2026-08-24)
 - [ ] Wave D markers added to root ROADMAP.md (template: Phase-6B for observability modules)
 
 ---

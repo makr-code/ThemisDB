@@ -65,7 +65,7 @@
 
 ## Batch D3 — Operator Runbooks × 5
 
-**Status:** ✅ Complete — all 5 runbooks already exist in `docs/operability/`
+**Status:** ✅ Complete — all 5 runbooks published in `docs/operability/` (confirmed 2026-08-24)
 
 **Evidence:**
 - [x] `docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md`
@@ -73,6 +73,9 @@
 - [x] `docs/operability/RUNBOOK_SHARDING_TOPOLOGY_CHANGE.md`
 - [x] `docs/operability/RUNBOOK_VOICE_INCIDENT_TRIAGE.md`
 - [x] `docs/operability/RUNBOOK_GPU_FALLBACK_PERFORMANCE.md`
+
+Each runbook includes: overview, prerequisites checklist, step-by-step procedure with decision trees,
+verification steps, rollback procedure, troubleshooting table, and evidence/logging checklist.
 
 **Remaining cross-link work:**
 - [ ] Each runbook cross-links the relevant trace span names from Batch D1
@@ -84,7 +87,7 @@
 
 ## Batch D4 — Long-Duration Soak Tests
 
-**Status:** 🔲 Open (tests exist; full soak run not yet executed)
+**Status:** 🔲 Open — test files created 2026-08-24; full soak run not yet executed (pending representative hardware)
 
 **Test files created:**
 - [x] `tests/integration/test_replication_soak_60min.cpp` — labels: `wave_d;soak;not_release_critical`
