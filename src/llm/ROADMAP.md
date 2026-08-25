@@ -131,6 +131,33 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
 - [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
+### Wave 2-B: RAII & Resource Safety (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-B, gap scanner verified 2026-08-25  
+> **Gap count:** 192 `db_connection_leak` (CRITICAL), 108 `resource_leaked_in_exception`, 118 `pointer_arithmetic_unbounded`
+
+- [ ] Implement `ScopedDbConnection` RAII wrapper — replace all 192 raw DB-connection acquires in `ml_model_manager.cpp`, `lora_storage_service_themisdb.cpp`, `inference_engine_enhanced.cpp` (Target: Q4 2026)
+  - Inputs: raw `getConnection()` call sites; bounded pool size config
+  - Outputs: RAII-wrapped connections released on scope exit or exception
+  - Constraints: zero new `db_connection_leak` findings post-fix; `valgrind --leak-check=full` clean
+  - Errors: pool exhaustion → `ErrorCode::LLM_RESOURCE_EXHAUSTED`; test: `tests/llm/test_llm_raii_db_connections.cpp`
+  - Perf: no throughput regression (benchmark: `bench_llm_hotpaths` LLM-01..LLM-08)
+- [ ] Fix 108 `resource_leaked_in_exception` — wrap all resource acquires before `throw` sites with RAII or try/catch cleanup in `distributed_training_coordinator.cpp`, `gpu_memory_manager.cpp` (Target: Q4 2026)
+- [ ] Bounds-check all pointer arithmetic in `gpu_memory_manager.cpp` (118 `pointer_arithmetic_unbounded`) — use `std::span` or explicit size validation before every pointer dereference (Target: Q4 2026)
+
+### Wave 2-C: LLM Stub Replacement (Target: Q4 2026)
+
+> **Source:** Semantic analysis 2026-08-25 — `inference_engine_enhanced.cpp` (8 stubs), `inline_training_engine.cpp` (5 stubs)
+
+- [ ] Replace 8 stubs in `inference_engine_enhanced.cpp`: speculative decode verify-step, CUDA kernel fusion for attention, KV-cache LRU eviction (Target: Q4 2026)
+  - Inputs: draft-model logits + verify-model logits; KV-cache capacity config
+  - Outputs: accepted token count, cache hit/miss metrics
+  - Tests: `tests/llm/test_inference_engine_stubs_wave2c.cpp` (8 test cases)
+- [ ] Complete `inline_training_engine.cpp` training loop (5 stubs → production): SGD/Adam gradient update, loss tracking, model-checkpoint persistence to RocksDB, cancellation/timeout support (Target: Q4 2026)
+  - Constraints: loss must decrease over 10 epochs on synthetic data (test criterion)
+  - Errors: checkpoint write failure, cancellation mid-epoch
+  - Tests: `tests/llm/test_inline_training_production.cpp`
+
 ---
 
 ## Wave A-8 Distributed Optimization Closure (2026-08-16)

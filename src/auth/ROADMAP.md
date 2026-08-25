@@ -45,6 +45,32 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 
 ## Planned Features
 
+### Wave 2-A: Auth Security Hardening (Target: Q3 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-A, gap scanner verified 2026-08-25  
+> **Gap count:** 155 `sensitive_data_logging` (HIGH), 7 `missing_audit_log` (CRITICAL), 22 `no_retry_logic`, 9 `crypto_weakness`
+
+- [ ] Sensitive data redaction: add redaction wrapper for all spdlog calls in `auth_audit_logger.cpp`, `password_policy.cpp`, token handlers — passwords, secrets, tokens replaced with `[REDACTED]` (Target: Q3 2026)
+  - Constraints: no plaintext secret in any log output; `grep -rn "password\|Bearer\|token" src/auth/*.cpp` → zero hits in log-write paths
+  - Tests: `tests/auth/test_auth_sensitive_data_redaction.cpp` (6 cases: password change, token grant, key rotation, revocation, federation, passkey)
+- [ ] Add missing audit events: failed authentication, key rotation, token revocation, role/permission change in `jwt_key_rotation_manager.cpp`, `auth_audit_logger.cpp` (7 gaps) (Target: Q3 2026)
+- [ ] Auth retry logic: exponential backoff for LDAP/OAuth timeouts in `ldap_connection_pool.cpp`, `federated_identity_manager.cpp` (22 `no_retry_logic` gaps) (Target: Q3 2026)
+  - Constraints: max 3 retries, base delay 100ms, factor 2×, jitter ±20ms
+  - Errors: all retries exhausted → fail-closed with PROVIDER_DEGRADED
+- [ ] Crypto weakness fixes: validate OpenSSL usage in `passkey_authenticator.cpp`, `mtls_authenticator.cpp` — no weak ciphers, proper ECDSA padding, secure key derivation (9 gaps) (Target: Q3 2026)
+
+### Wave 2-B: LDAP Stub Replacement (Target: Q4 2026)
+
+> **Source:** Semantic analysis 2026-08-25 — `ldap_authenticator.cpp` has ~12 stubbed functions
+
+- [ ] LDAP Connection Pool: real pool management (bind context, bounded size, timeout) in `ldap_authenticator.cpp` (Target: Q4 2026)
+  - Inputs: LDAP server config (host, port, bind-DN, timeout)
+  - Outputs: pooled LDAP connection with automatic rebind on staleness
+  - Errors: `LDAP_CONNECT_TIMEOUT` on pool exhaustion; retry with backoff
+  - Tests: `tests/auth/test_ldap_pool_wave2b.cpp`
+- [ ] LDAP Search Pagination: controlled, bounded result pagination in `ldap_authenticator.cpp` (Target: Q4 2026)
+- [ ] `federated_identity_manager.cpp`: Cross-provider state sync — replace ~9 stubbed functions with real implementation (Target: Q4 2026)
+
 ### Short-term (3-6 months)
 - [ ] tighten fail-closed behavior for optional provider-degraded scenarios (Target: Q4 2026)
 - [ ] expand deterministic integration regressions across auth protocol matrixes (Target: Q4 2026)

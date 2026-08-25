@@ -46,6 +46,21 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 
 ## Planned Features
 
+### Wave 2-A: Security Hardening (Target: Q3 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-A, gap scanner verified 2026-08-25  
+> **Gap count:** ~10 `model_integrity_gap` (CRITICAL), ~3 `iterator_invalidation` (CRITICAL), ~53 `data_race`, ~12 `missing_audit_log`
+
+- [ ] Model Integrity Gate: implement SHA-256 verification before `handleLoadModel()` in `llm_api_handler.cpp:190,407` — allowlist-manifest lookup, reject tampered models, audit-log every load attempt (Target: Q3 2026)
+  - Inputs: model file path, `model_integrity_manifest.json`
+  - Outputs: accepted load or `403 Forbidden` + audit record
+  - Tests: `tests/server/test_model_integrity_wave2.cpp` (5 cases: valid model, tampered checksum, missing manifest, empty path, replay)
+  - Perf: verification overhead ≤ 50ms for 1 GB model file
+- [ ] Iterator Invalidation Fix in `query_api_handler.cpp:1426,1959,2005`: snapshot container keys before mutation; replace concurrent iterate+erase with collect-then-modify (Target: Q3 2026)
+  - Tests: `tests/server/test_query_iterator_safety.cpp` (3 specific iterator-invalidation scenarios)
+- [ ] Data Race audit: `llm_api_handler.cpp:407`, `query_api_handler.cpp:1575,1635` — wrap shared state in mutex + RAII guards; verify `[&]` lambda captures are function-scoped (Target: Q3 2026)
+- [ ] Missing audit log: ~12 handler files — add `THEMIS_INFO("[AUDIT] ...")` for all `authorize()` call sites not yet covered by `requireScope()` / `requireAccess()` (Target: Q3 2026)
+
 ### Short-term (3-6 months)
 - [ ] Plugin-based server adapter loading with signature validation and rollback guardrails (Target: Q4 2026)
 - [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)

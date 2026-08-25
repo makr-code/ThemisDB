@@ -36,6 +36,23 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 
 ## Planned Features
 
+### Wave 2-B: GPU RAII & CUDA Backend (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-B, gap scanner verified 2026-08-25  
+> **Gap count:** 5 `gpu_memory_leak` (CRITICAL), 26 `unchecked_cuda_call`, 12 `iterator_invalidation`, 79 `todo_as_productionlogic`
+
+- [ ] Implement `CudaUniquePtr<T>` RAII wrapper with `cudaFree()` destructor — fix 5 `gpu_memory_leak` in `cuda_hnsw_graph_traversal.cpp:362,370,381` and `gpu_memory_oversubscription.cpp:53` (Target: Q4 2026)
+  - Constraints: exception-safe; `cudaFree` called on all error paths
+  - Errors: `cudaErrorInvalidDevicePointer` → log + `IndexErrorCode::GpuMemoryError`
+  - Tests: `tests/index/test_index_gpu_raii_wave2.cpp` (leak-free assertions with AddressSanitizer)
+- [ ] Add `THEMIS_CUDA_CHECK` after every kernel launch in `cuda_hnsw_graph_traversal.cpp`, `gpu_vector_index.cpp`, `rotary_embeddings_cuda.cu` (26 sites) — return `IndexErrorCode::GpuKernelError` on failure (Target: Q4 2026)
+- [ ] Fix 12 `iterator_invalidation` in `graph_index.cpp:244-248`, `multi_vector_search.cpp:224,406` — vector-resize and concurrent traversal patterns (Target: Q4 2026)
+- [ ] Implement CUDA L2/Cosine/Dot-Product kernels in `src/acceleration/cuda/cuda_hnsw_kernels.cu` — replace CPU fallbacks; target ≥4× speedup vs CPU baseline on RTX-class GPU (Target: Q4 2026)
+  - Inputs: float32 vectors, batch size ≤ 1e6; outputs: distance matrix + TopK indices
+  - Constraints: deterministic FP tolerance ≤ 1e-6 vs CPU reference
+  - Tests: `tests/index/test_ann_cuda_kernel_parity.cpp` (L2/cosine/dot CPU vs GPU parity)
+- [ ] HIP/AMD backend: `HIPVectorBackend::search()` — feature parity with CUDA backend (Target: Q4 2026)
+
 ### Hybrid Retrieval Rollout Gates (issue #5468)
 - [ ] Phase B gate: fix 60% of buffer lifecycle RAII gaps (7,712 total → ~4,600 target) (Target: Q3 2026)
 - [ ] Phase B gate: ThreadSanitizer clean for Vec KNN insert pipeline (Target: Q3 2026)
