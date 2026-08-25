@@ -176,10 +176,11 @@ static BuildVerificationResult doVerify() {
     return res;
 #else
     // Reconstruct the manifest string that was signed:
-    //   "<channel>|<version>|<build_id>|<timestamp>"
+    //   "<channel>|<version>|<build_uuid>|<build_id>|<timestamp>"
     const std::string manifest =
         std::string(THEMIS_BUILD_CHANNEL) + "|" +
         std::string(THEMIS_VERSION_STRING) + "|" +
+        std::string(THEMIS_BUILD_UUID)    + "|" +
         std::string(THEMIS_BUILD_ID)       + "|" +
         std::string(THEMIS_BUILD_TIMESTAMP);
 

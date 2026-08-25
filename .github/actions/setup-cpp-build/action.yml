@@ -35,14 +35,21 @@ runs:
 
     - name: Enable sccache GHA backend
       shell: bash
-      run: echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
+      run: |
+        echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
+        # Ignore transient cache I/O errors (e.g. temporary GHA Cache storage
+        # outages) so sccache falls back to direct compilation instead of
+        # aborting with exit code 2.
+        echo "SCCACHE_IGNORE_SERVER_IO_ERROR=1" >> "$GITHUB_ENV"
 
     - name: Install build dependencies
       shell: bash
       run: |
         sudo apt-get update -qq
-        # Base packages required by every C++ CI job
-        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev"
+        # Base packages required by every C++ CI job. Vulkan/GLSL tooling is
+        # required for ThemisDB's GPU backend checks in Linux CI and local
+        # validation runs that configure the Vulkan-capable build presets.
+        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev libvulkan-dev glslc"
         # Append optional extra packages (guard against empty string)
         EXTRA="${{ inputs.extra-packages }}"
         # shellcheck disable=SC2086

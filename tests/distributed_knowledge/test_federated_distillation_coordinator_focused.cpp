@@ -274,12 +274,59 @@ TEST_F(FederatedDistillationCoordinatorTest, GenerateModelCardAfterBroadcast) {
     EXPECT_DOUBLE_EQ(card.dp_epsilon_per_round, cfg_.dp_epsilon);
 }
 
+// FDC-13: setBoundedPolicy with max_rounds=1 blocks second broadcast (FAIL_CLOSED)
+TEST_F(FederatedDistillationCoordinatorTest, BoundedPolicyMaxRoundsEnforced) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    DistillationBoundedPolicy policy;
+    policy.max_distillation_rounds   = 1;
+    policy.privacy_budget_hard_limit = 0.0; // unlimited budget
+    coordinator.setBoundedPolicy(policy);
+
+    // First broadcast — allowed (round 0 < max 1)
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    EXPECT_NO_THROW(coordinator.broadcastToStudents());
+
+    // Second broadcast — blocked (round 1 >= max 1)
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    EXPECT_THROW(coordinator.broadcastToStudents(), std::runtime_error);
+}
+
+// FDC-14: setBoundedPolicy with privacy_budget_hard_limit blocks broadcast that would exceed it
+TEST_F(FederatedDistillationCoordinatorTest, BoundedPolicyPrivacyBudgetEnforced) {
+    DistillationConfig cfg = cfg_;
+    cfg.dp_epsilon = 1.0;
+    FederatedDistillationCoordinator coordinator(cfg);
+
+    // Hard limit: only 0.5 epsilon allowed — first broadcast (cost 1.0) must be blocked
+    DistillationBoundedPolicy policy;
+    policy.max_distillation_rounds   = 0; // unlimited rounds
+    policy.privacy_budget_hard_limit = 0.5;
+    coordinator.setBoundedPolicy(policy);
+
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    EXPECT_THROW(coordinator.broadcastToStudents(), std::runtime_error);
+}
+
+// FDC-15: Unconstrained DistillationBoundedPolicy does not block broadcast
+TEST_F(FederatedDistillationCoordinatorTest, BoundedPolicyUnconstrainedAllowsBroadcast) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    // Default-constructed policy is unconstrained — must not block
+    DistillationBoundedPolicy policy; // max_rounds=0, hard_limit=0.0
+    EXPECT_FALSE(policy.isConstrained());
+    coordinator.setBoundedPolicy(policy);
+
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    EXPECT_NO_THROW(coordinator.broadcastToStudents());
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test Summary
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*
- * Test Coverage Summary (FDC-01..FDC-12):
+ * Test Coverage Summary (FDC-01..FDC-15):
  *
  * FDC-01: SoftLabel creation with required fields
  * FDC-02: Valid DistillationConfig reports isValid()
@@ -293,7 +340,10 @@ TEST_F(FederatedDistillationCoordinatorTest, GenerateModelCardAfterBroadcast) {
  * FDC-10: privacyBudgetRemaining() returns max for unlimited rounds
  * FDC-11: Multiple students all receive the broadcast
  * FDC-12: generateModelCard() captures round and DP metadata
+ * FDC-13: setBoundedPolicy max_distillation_rounds cap enforced FAIL_CLOSED
+ * FDC-14: setBoundedPolicy privacy_budget_hard_limit cap enforced FAIL_CLOSED
+ * FDC-15: Unconstrained DistillationBoundedPolicy does not block broadcast
  *
- * Target: Q3 2026 Hardening - policy gates, DP enforcement, deterministic workflows.
+ * Target: Q3 2026 Hardening - policy gates, DP enforcement, bounded policy, deterministic workflows.
  * Status: Focused unit test suite for federated distillation coordination layer.
  */

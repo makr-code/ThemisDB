@@ -12,8 +12,10 @@
 
 #include "analytics/llm_process_analyzer.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <fstream>
 #include <iomanip>
 #include <list>
 #include <mutex>
@@ -24,6 +26,168 @@
 #include <unordered_map>
 
 namespace themis {
+
+// ============================================================================
+// Prompt Injection Sanitization
+// ============================================================================
+
+/// @brief Built-in default prompt-injection prefixes (lower-case).
+/// Applied when no operator-supplied config file is configured or when the
+/// file cannot be read.
+static const std::vector<std::string> kBuiltinInjectionPrefixes = {
+    "system:",
+    "### system",
+    "### instruction",
+    "ignore all",
+    "ignore previous",
+    "disregard",
+    "forget all previous",
+    "you are now",
+    "act as",
+    "jailbreak",
+    "</system>",
+    "<|im_start|>",
+    "<|system|>",
+};
+
+/**
+ * @brief Load the effective injection-prefix list for sanitizeUserContent().
+ *
+ * When @p config_path is non-empty the file is opened and each non-empty,
+ * non-comment line (lines starting with '#' are skipped) is lower-cased and
+ * added to the returned list.  If the path is empty, the file cannot be
+ * opened, or the file contains no qualifying lines, the built-in 13-pattern
+ * list is returned instead.
+ *
+ * @param config_path  Absolute or relative path to the operator-supplied
+ *                     prefix file.  Pass an empty string to use built-in defaults.
+ * @return             Effective lower-cased injection prefix list.
+ */
+static std::vector<std::string> loadInjectionPrefixes(const std::string &config_path) {
+    if (config_path.empty()) {
+        return kBuiltinInjectionPrefixes;
+    }
+
+    std::ifstream file(config_path);
+    if (!file.is_open()) {
+        spdlog::warn("LLMProcessAnalyzer: could not open injection prefix config '{}'; "
+                     "using built-in defaults ({} patterns)",
+                     config_path, kBuiltinInjectionPrefixes.size());
+        return kBuiltinInjectionPrefixes;
+    }
+
+    std::vector<std::string> prefixes;
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        // Normalize to lower-case for case-insensitive matching.
+        std::transform(line.begin(), line.end(), line.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        prefixes.push_back(std::move(line));
+    }
+
+    if (prefixes.empty()) {
+        spdlog::warn("LLMProcessAnalyzer: injection prefix config '{}' produced no entries; "
+                     "using built-in defaults ({} patterns)",
+                     config_path, kBuiltinInjectionPrefixes.size());
+        return kBuiltinInjectionPrefixes;
+    }
+
+    spdlog::info("LLMProcessAnalyzer: loaded {} injection prefixes from '{}'",
+                 prefixes.size(), config_path);
+    return prefixes;
+}
+
+/**
+ * @brief Sanitize user-supplied content before embedding it in LLM prompts.
+ *
+ * Removes or neutralizes common prompt-injection sequences in the serialized
+ * JSON string that will be embedded verbatim into a prompt.  The goal is to
+ * prevent attacker-controlled field values from hijacking the system role or
+ * appending additional instructions that alter model behavior.
+ *
+ * Mitigations applied:
+ *  1. Null-byte removal — LLMs may truncate or behave unpredictably on NUL.
+ *  2. Non-printable ASCII control characters (0x00–0x1F, except \t/\n/\r) are
+ *     replaced with a space to avoid smuggled escape sequences.
+ *  3. Known prompt-injection prefixes (e.g. "System:", "###", "Ignore all",
+ *     "IGNORE PREVIOUS INSTRUCTIONS") are replaced with a redacted marker.
+ *     The check is case-insensitive and covers common jailbreak patterns.
+ *  4. Content length is hard-capped to kMaxContentBytes to prevent
+ *     prompt flooding / token exhaustion attacks.
+ *
+ * @note This function operates on the *serialized* JSON representation of
+ *       user data, not on the raw request object, so no structural information
+ *       is lost.  The JSON syntax itself (quotes, braces) is preserved; only
+ *       values that match injection patterns are neutralized.
+ *
+ * @param content             Serialized JSON string to sanitize.
+ * @param injection_prefixes  Lower-case prefix list to redact; loaded via
+ *                            loadInjectionPrefixes() at construction time.
+ * @return                    Sanitized copy safe for prompt embedding.
+ */
+static std::string sanitizeUserContent(const std::string &content,
+                                       const std::vector<std::string> &injection_prefixes) {
+    // Hard cap: 32 KiB of user content per field embedded in a single prompt.
+    // Exceeding this is almost certainly a flooding or context-exhaustion attack.
+    constexpr size_t kMaxContentBytes = 32 * 1024;
+
+    std::string out;
+    const size_t limit = std::min(content.size(), kMaxContentBytes);
+    out.reserve(limit);
+
+    for (size_t i = 0; i < limit; ++i) {
+        unsigned char c = static_cast<unsigned char>(content[i]);
+        // Remove null bytes and non-printable control chars (except \t, \n, \r).
+        if (c == 0x00) {
+            continue; // drop silently
+        }
+        if (c < 0x20 && c != '\t' && c != '\n' && c != '\r') {
+            out += ' ';
+            continue;
+        }
+
+        // Sliding window: check if this position starts a known injection prefix.
+        // Build a lower-case window of up to 40 chars for comparison.
+        bool injected = false;
+        for (const auto &prefix : injection_prefixes) {
+            if (i + prefix.size() > limit) {
+                continue;
+            }
+            // Case-insensitive comparison without heap allocation.
+            bool match = true;
+            for (size_t k = 0; k < prefix.size(); ++k) {
+                if (std::tolower(static_cast<unsigned char>(content[i + k])) != prefix[k]) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+                out += "[REDACTED_INJECTION_ATTEMPT]";
+                i += prefix.size() - 1; // skip matched chars (loop will ++i)
+                injected = true;
+                spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
+                             "prompt injection pattern '{}' detected and redacted at offset {}",
+                             prefix, i);
+                break;
+            }
+        }
+        if (!injected) {
+            out += static_cast<char>(c);
+        }
+    }
+
+    if (content.size() > kMaxContentBytes) {
+        spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
+                     "content truncated from {} to {} bytes (flood/token-exhaustion guard)",
+                     content.size(), kMaxContentBytes);
+        out += "\n[CONTENT_TRUNCATED]";
+    }
+
+    return out;
+}
 
 // ============================================================================
 // API Key Sanitization
@@ -47,6 +211,11 @@ std::string sanitizeApiKey(const std::string &api_key) {
 struct LLMProcessAnalyzer::Impl {
     LLMConfig config;
 
+    /// Effective injection-prefix list, loaded at construction time.
+    /// Either the operator-supplied file contents (config.injection_prefix_config_path)
+    /// or the built-in kBuiltinInjectionPrefixes fallback.
+    std::vector<std::string> injection_prefixes;
+
     // Response cache entry
     struct CacheEntry {
         nlohmann::json response;
@@ -65,7 +234,9 @@ struct LLMProcessAnalyzer::Impl {
     // Statistics
     mutable CacheStats stats;
 
-    Impl(const LLMConfig &cfg) : config(cfg) {}
+    Impl(const LLMConfig &cfg)
+        : config(cfg)
+        , injection_prefixes(loadInjectionPrefixes(cfg.injection_prefix_config_path)) {}
 
     std::optional<nlohmann::json> getFromCache(const std::string &key) const {
         if (!config.enable_caching) {
@@ -333,8 +504,10 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "2. Fehlende oder übersprungene Aktivitäten\n";
             ss << "3. Compliance-Verstöße\n";
             ss << "4. Mögliche Prozessoptimierungen\n\n";
-            ss << "Prozessdaten:\n" << data["trace"].dump(2) << "\n\n";
-            ss << "Erwartetes Modell:\n" << data["model"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): user-supplied trace/model are sanitized before
+            // embedding to neutralize injection payloads hidden in field values.
+            ss << "Prozessdaten:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
+            ss << "Erwartetes Modell:\n" << sanitizeUserContent(data["model"].dump(2), pImpl->injection_prefixes) << "\n\n";
             ss << "Gib die Antwort als JSON zurück mit den Feldern:\n";
             ss << "- conformance_score (0.0-1.0)\n";
             ss << "- deviations (Array mit activity, type, severity, description)\n";
@@ -345,8 +518,9 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
         case TaskType::PREDICT_NEXT:
             ss << "Basierend auf dem bisherigen Prozessverlauf, welche Aktivitäten werden als nächstes wahrscheinlich "
                   "ausgeführt?\n\n";
-            ss << "Bisheriger Verlauf:\n" << data["trace"].dump(2) << "\n\n";
-            ss << "Prozessmodell:\n" << data["model"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Bisheriger Verlauf:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
+            ss << "Prozessmodell:\n" << sanitizeUserContent(data["model"].dump(2), pImpl->injection_prefixes) << "\n\n";
             ss << "Gib die Top 3 wahrscheinlichsten nächsten Aktivitäten zurück als JSON:\n";
             ss << "- predictions (Array mit activity, probability, reasoning)\n";
             break;
@@ -359,7 +533,8 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "3. Richtige Dosis (Doppelcheck?)\n";
             ss << "4. Richtiger Zeitpunkt (Zeitplan eingehalten?)\n";
             ss << "5. Richtige Applikationsform (Darreichungsform korrekt?)\n\n";
-            ss << "Medikationsdaten:\n" << data["trace"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Medikationsdaten:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
             ss << "Gib die Antwort als JSON zurück:\n";
             ss << "- five_rights_check (Object mit right_patient, right_medication, right_dose, right_time, "
                   "right_route, overall_compliance, risk_level, corrective_actions)\n";
@@ -373,9 +548,10 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
             ss << "3. Lieferant nicht verifiziert\n";
             ss << "4. Abweichungen von Bestellungen\n";
             ss << "5. Fehlende Dokumentation\n\n";
-            ss << "Rechnungsdaten:\n" << data["trace"].dump(2) << "\n\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Rechnungsdaten:\n" << sanitizeUserContent(data["trace"].dump(2), pImpl->injection_prefixes) << "\n\n";
             if (data.contains("context")) {
-                ss << "Historische Daten:\n" << data["context"].dump(2) << "\n\n";
+                ss << "Historische Daten:\n" << sanitizeUserContent(data["context"].dump(2), pImpl->injection_prefixes) << "\n\n";
             }
             ss << "Gib die Antwort als JSON zurück:\n";
             ss << "- fraud_analysis (Object mit risk_score, detected_anomalies, flags, recommended_action)\n";
@@ -383,7 +559,8 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
 
         default:
             ss << "Process analysis task\n";
-            ss << "Data: " << data.dump(2) << "\n";
+            // SECURITY (prompt_injection): sanitize before embedding.
+            ss << "Data: " << sanitizeUserContent(data.dump(2), pImpl->injection_prefixes) << "\n";
             break;
     }
 
@@ -474,20 +651,94 @@ nlohmann::json LLMProcessAnalyzer::parseResponse(const std::string &raw_response
 // ============================================================================
 
 bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskType task_type) const {
+    constexpr std::size_t kMaxListSize      = 512;
+    constexpr std::size_t kMaxStringLength  = 4096;
+
+    const auto isBoundedString = [kMaxStringLength](const nlohmann::json &value) {
+        return value.is_string() && value.get_ref<const std::string &>().size() <= kMaxStringLength;
+    };
+
     switch (task_type) {
         case TaskType::ANALYZE_PROCESS:
             return response.contains("conformance_score") && response.contains("deviations")
                    && response.contains("compliance_issues") && response.contains("recommendations");
 
         case TaskType::PREDICT_NEXT:
-            return response.contains("predictions") && response["predictions"].is_array();
+            if (!response.contains("predictions") || !response["predictions"].is_array()) {
+                return false;
+            }
+            if (response["predictions"].size() > kMaxListSize) {
+                return false;
+            }
+            for (const auto &prediction : response["predictions"]) {
+                if (!prediction.is_object() || !prediction.contains("activity") || !prediction.contains("probability")
+                   || !prediction.contains("reasoning")) {
+                   return false;
+                }
+                if (!isBoundedString(prediction["activity"]) || !isBoundedString(prediction["reasoning"])
+                   || !prediction["probability"].is_number()) {
+                   return false;
+                }
+                const auto probability = prediction["probability"].get<double>();
+                if (probability < 0.0 || probability > 1.0) {
+                   return false;
+                }
+            }
+            return true;
 
         case TaskType::VERIFY_5R_RULE:
-            return response.contains("five_rights_check")
-                   && response["five_rights_check"].contains("overall_compliance");
+            if (!response.contains("five_rights_check") || !response["five_rights_check"].is_object()) {
+                return false;
+            }
+            if (!response["five_rights_check"].contains("overall_compliance")
+                || !response["five_rights_check"]["overall_compliance"].is_boolean()) {
+                return false;
+            }
+            if (response["five_rights_check"].contains("risk_level")
+                && !isBoundedString(response["five_rights_check"]["risk_level"])) {
+                return false;
+            }
+            if (response["five_rights_check"].contains("corrective_actions")) {
+                const auto &actions = response["five_rights_check"]["corrective_actions"];
+                if (!actions.is_array() || actions.size() > kMaxListSize) {
+                   return false;
+                }
+                for (const auto &action : actions) {
+                   if (!isBoundedString(action)) {
+                       return false;
+                   }
+                }
+            }
+            return true;
 
         case TaskType::DETECT_FRAUD:
-            return response.contains("fraud_analysis") && response["fraud_analysis"].contains("risk_score");
+            if (!response.contains("fraud_analysis") || !response["fraud_analysis"].is_object()
+                || !response["fraud_analysis"].contains("risk_score")
+                || !response["fraud_analysis"]["risk_score"].is_number()) {
+                return false;
+            }
+            {
+                const auto risk_score = response["fraud_analysis"]["risk_score"].get<double>();
+                if (risk_score < 0.0 || risk_score > 1.0) {
+                   return false;
+                }
+            }
+            if (response["fraud_analysis"].contains("detected_anomalies")) {
+                const auto &anomalies = response["fraud_analysis"]["detected_anomalies"];
+                if (!anomalies.is_array() || anomalies.size() > kMaxListSize) {
+                   return false;
+                }
+                for (const auto &anomaly : anomalies) {
+                   if (!isBoundedString(anomaly)) {
+                       return false;
+                   }
+                }
+            }
+            if (response["fraud_analysis"].contains("recommended_action")
+                && !isBoundedString(response["fraud_analysis"]["recommended_action"])) {
+                return false;
+            }
+            return true;
 
         default:
             return true; // Basic validation

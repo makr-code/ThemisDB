@@ -83,7 +83,7 @@ std::string GPUAdminAPI::getStatsJson() const {
           << "\"edition_info\":\"" << jsonEscape(info) << "\""
           << "}";
         return j.str();
-    } catch (const std::bad_alloc &e) {
+    } catch (const std::bad_alloc &) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::getStatsJson() memory allocation failure");
@@ -132,7 +132,7 @@ std::string GPUAdminAPI::getTenantsJson() const {
         }
         j << "]";
         return j.str();
-    } catch (const std::bad_alloc &e) {
+    } catch (const std::bad_alloc &) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::getTenantsJson() memory allocation failure");
@@ -186,7 +186,7 @@ std::string GPUAdminAPI::getDevicesJson() const {
         }
         j << "]";
         return j.str();
-    } catch (const std::bad_alloc &e) {
+    } catch (const std::bad_alloc &) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::getDevicesJson() memory allocation failure");
@@ -232,7 +232,7 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
           << "\"bytes\":" << bytes << ","
           << "\"current_allocated_bytes\":" << stats.allocated_bytes << "}";
         return j.str();
-    } catch (const std::bad_alloc &e) {
+    } catch (const std::bad_alloc &) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::simulateJson() memory allocation failure");
@@ -261,7 +261,7 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
 std::string GPUAdminAPI::getGeoBackendStatsJson() const {
     try {
         return ::themis::geo::getGpuSpatialBackendStatsJson();
-    } catch (const std::bad_alloc &e) {
+    } catch (const std::bad_alloc &) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::getGeoBackendStatsJson() memory allocation failure");
@@ -314,7 +314,7 @@ std::string GPUAdminAPI::getMIGInstancesJson() const {
         }
         j << "]";
         return j.str();
-    } catch (const std::bad_alloc &e) {
+    } catch (const std::bad_alloc &) {
         auto logger = spdlog::get("gpu");
         if (logger) {
             logger->error("GPUAdminAPI::getMIGInstancesJson() memory allocation failure");

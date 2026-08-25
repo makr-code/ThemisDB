@@ -442,9 +442,9 @@ TEST_F(AuditIntegrityTest, IntegrationFullWorkflow) {
             (i % 2 == 0) ? "update" : "read",
             "user1"
         );
-        auto signed = integrity_manager.addEntry(entry);
-        EXPECT_FALSE(signed.entry_id.empty());
-        EXPECT_GT(signed.entry_sequence_number, -1);
+        auto signed_entry = integrity_manager.addEntry(entry);
+        EXPECT_FALSE(signed_entry.entry_id.empty());
+        EXPECT_GT(signed_entry.entry_sequence_number, -1);
     }
     
     // Verify integrity

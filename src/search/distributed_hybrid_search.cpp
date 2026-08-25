@@ -151,10 +151,10 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 futures.reserve(batch_end - batch_start);
 
                 for (size_t i = batch_start; i < batch_end; ++i) {
-                    const auto& shard = remote_shards[i];
+                    auto shard = remote_shards[i];
                     futures.push_back(std::async(
                         std::launch::async,
-                        [this, &shard, &text_query, &vector_query]()
+                        [this, shard, &text_query, &vector_query]()
                             -> ShardSearchResult {
                             return searchRemoteShard(
                                 shard, text_query, vector_query, config_.k);
@@ -479,4 +479,3 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::parseShardResponse(
 }
 
 } // namespace themis
-

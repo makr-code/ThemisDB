@@ -684,6 +684,10 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             double aa, ab, x, y;
         };
         std::vector<IP> ips;
+        // Reserve a conservative hint: at most min(na, nb) intersections is
+        // typical for non-pathological polygons; avoids repeated reallocation
+        // in the inner push_back loop.
+        ips.reserve(std::min(na, nb));
         for (std::size_t i = 0; i < na; ++i) {
             const std::size_t i2 = (i + 1) % na;
             for (std::size_t j = 0; j < nb; ++j) {
@@ -791,6 +795,9 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
 
         std::vector<Coordinate> ring;
+        // Reserve capacity for at most na + nb vertices plus the closing
+        // duplicate, to avoid repeated reallocations during traversal.
+        ring.reserve(static_cast<std::size_t>(na + nb) + 1);
         bool on_A = true;
         int cur_a = start_a, cur_b = -1;
 
@@ -855,6 +862,9 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
 
         std::vector<Coordinate> ring;
+        // Reserve capacity for at most na + nb vertices plus the closing
+        // duplicate, to avoid repeated reallocations during traversal.
+        ring.reserve(static_cast<std::size_t>(na + nb) + 1);
         bool on_A = true;
         int cur_a = start_a, cur_b = -1;
 

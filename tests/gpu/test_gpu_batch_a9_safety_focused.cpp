@@ -61,7 +61,7 @@ class GPUBatchA9SafetyTest : public ::testing::Test {
  * @test CUDA_CHECK macro catches errors and throws on failure
  */
 TEST_F(GPUBatchA9SafetyTest, CUDA_CHECK_ThrowsOnError) {
-#ifdef THEMIS_GPU_SAFE_RAII_HAS_CUDA
+#if THEMIS_GPU_SAFE_RAII_HAS_CUDA
     // Note: We test the error handling capability without actual CUDA hardware.
     // This test verifies the macro structure is sound and error checking is in place.
     EXPECT_NO_THROW({
@@ -80,7 +80,7 @@ TEST_F(GPUBatchA9SafetyTest, CUDA_CHECK_ThrowsOnError) {
  * @test DeviceMemoryGuard allocates and frees GPU memory correctly
  */
 TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardAllocatesFrees) {
-#ifdef THEMIS_GPU_SAFE_RAII_HAS_CUDA
+#if THEMIS_GPU_SAFE_RAII_HAS_CUDA
     // Test allocation
     {
         DeviceMemoryGuard<float> guard(1024);
@@ -100,7 +100,7 @@ TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardAllocatesFrees) {
  * @test DeviceMemoryGuard move semantics transfer ownership
  */
 TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardMoveSemantics) {
-#ifdef THEMIS_GPU_SAFE_RAII_HAS_CUDA
+#if THEMIS_GPU_SAFE_RAII_HAS_CUDA
     {
         DeviceMemoryGuard<float> guard1(256);
         auto *ptr1 = guard1.get();
@@ -741,8 +741,3 @@ TEST_F(GPUBatchA9HardeningTest, MemoryAllocationBoundaries) {
 // ============================================================================
 // Main
 // ============================================================================
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -24,6 +24,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <mutex>
 
 namespace themis { namespace aql { namespace test { 
 
@@ -102,12 +103,22 @@ public:
     }
 
     bool isReady() const override {
-        return true;
+        return ready_.load();
     }
     
     int call_count() const { return call_count_; }
     
-    void setResponse(const std::string& response) { response_ = response; }
+    void setResponse(const std::string& response) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        response_ = response;
+    }
+
+    void setReady(bool ready) { ready_.store(ready); }
+
+    std::vector<std::string> prompts() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return prompts_;
+    }
     
 private:
     llm::GenerationResult generateImpl(
@@ -119,13 +130,20 @@ private:
         call_count_++;
         llm::GenerationResult result;
         result.success = true;
-        result.text = response_;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            prompts_.push_back(prompt);
+            result.text = response_;
+        }
         result.finish_reason = "stop_sequence";
         return result;
     }
 
     std::string response_;
     std::atomic<int> call_count_;
+    std::atomic<bool> ready_{true};
+    mutable std::mutex mutex_;
+    std::vector<std::string> prompts_;
 };
 
 // ============================================================================
@@ -235,6 +253,17 @@ TEST_F(LLMValidationPipelineTest, ParseErrorRetriesExhausted) {
     EXPECT_EQ(3, result.attempts_made);  // 1 initial + 2 retries
 }
 
+TEST_F(LLMValidationPipelineTest, LLMClientNotReadyFailsFast) {
+    llm_client_->setReady(false);
+
+    auto pipeline = LLMValidationPipelineFactory::create(parser_service_, llm_client_);
+    auto result = pipeline->execute("List all users", "");
+
+    EXPECT_EQ(LLMValidationStatus::LLM_GENERATION_FAILED, result.status);
+    EXPECT_EQ(0, result.attempts_made);
+    EXPECT_EQ(0, llm_client_->call_count());
+}
+
 // ============================================================================
 // Retry Logic Tests
 // ============================================================================
@@ -280,6 +309,24 @@ TEST_F(LLMValidationPipelineTest, RetryFeedbackGeneration) {
     
     // Feedback would be used during retry (in real scenario)
     EXPECT_NO_THROW(pipeline->execute("List all users", ""));
+}
+
+TEST_F(LLMValidationPipelineTest, RetryFeedbackIsInjectedIntoSubsequentPrompt) {
+    parser_service_ = std::make_shared<MockAQLParserService>(false);  // force retry path
+
+    LLMValidationPipelineConfig config;
+    config.max_retries = 1;
+    config.reject_on_error = false;
+
+    auto pipeline = LLMValidationPipelineFactory::createWithConfig(
+        parser_service_, llm_client_, config
+    );
+
+    auto result = pipeline->execute("List all users", "");
+    const auto prompts = llm_client_->prompts();
+    EXPECT_EQ(LLMValidationStatus::EXHAUSTED_RETRIES, result.status);
+    ASSERT_GE(prompts.size(), 2u);
+    EXPECT_NE(prompts[1].find("Previous parser validation error"), std::string::npos);
 }
 
 // ============================================================================

@@ -11,7 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- **2026-08-24 — Documentation Cleanup (DOC-WEEKLY-2026-34):** Archived 1803 AI agent working session files and 18 subdirectories from `ai_working/` to `docs/ARCHIVED/ai-working-history/` via `git mv` (history preserved). Active stream instructions retained in `ai_working/00_START_HERE.md` and `ai_working/00_STREAM_B_START_HERE.md`. Additionally, 35 `docs/` files carrying stale-marker/archive-candidate headers were moved to appropriate `docs/ARCHIVED/` subdirectories (`implementation-summaries/`, `roadmaps/`, `root-drafts/`); duplicate copies already present in the archive were removed.
 - Audit/docs governance sync: root `AUDIT.md` converted to strict SOT navigation pointer, `audit/README.md` now contains explicit canonical `/audit` ↔ downstream `/docs` mapping, and root audit/security index links were aligned to canonical audit paths.
+- Build option transition note: wxWidgets config editor build flag standardized to `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
 
 ---
 

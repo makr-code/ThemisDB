@@ -11,12 +11,20 @@
 // Falls back to "unknown" when the build directory is not inside a git repo.
 #define THEMIS_BUILD_ID "@THEMIS_BUILD_ID@"
 
+// Build UUID derived from the current build provenance inputs. This UUID is
+// embedded into all binaries compiled with the generated build metadata and is
+// shown alongside the semantic version string.
+#define THEMIS_BUILD_UUID "@THEMIS_BUILD_UUID@"
+
+// Display string used by startup logs and --version output.
+#define THEMIS_BUILD_VERSION_STRING "@THEMIS_BUILD_VERSION_STRING@"
+
 // UTC ISO-8601 build timestamp. Uses SOURCE_DATE_EPOCH when set; otherwise
 // BuildInfo.cmake falls back to deterministic git metadata when available.
 #define THEMIS_BUILD_TIMESTAMP "@THEMIS_BUILD_TIMESTAMP@"
 
 // Ed25519 signature over the canonical manifest string:
-//   "<channel>|<version>|<build_id>|<timestamp>"
+//   "<channel>|<version>|<build_uuid>|<build_id>|<timestamp>"
 // Base64-encoded (standard alphabet).  Empty string for community builds.
 #define THEMIS_BUILD_SIG "@THEMIS_BUILD_SIG@"
 

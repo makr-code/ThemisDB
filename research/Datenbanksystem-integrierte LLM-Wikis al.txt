@@ -1,0 +1,161 @@
+Datenbanksystem-integrierte LLM-Wikis als Substrat zur Halluzinationsreduktion: Eine wissenschaftliche Systemanalyse von Speicherhierarchien, iterativer Selektion und wissensgraphgestützter Generierung
+Die Einbettung großer Sprachmodelle (Large Language Models, LLMs) in moderne Datenbankarchitekturen markiert einen grundlegenden Wandel in der Informationsverarbeitung von Unternehmensdaten und wissenschaftlichen Repositorien1. Während primäre Modellfähigkeiten wie logisches Schlussfolgern und sprachliche Abstraktion fortlaufend reifen, bildet die verlässliche Verankerung von Generierungsprozessen in dynamischen, zeitkritischen und strukturkontrollierten Datenbeständen nach wie vor eine zentrale Schwachstelle1. Klassische Ansätze des Retrieval-Augmented Generation (RAG) adressieren diese Problematik meist über statische, eiphasige Vektorsuch-Pipelines, bei denen das Sprachmodell Wissen bei jeder Anfrage von Grund auf neu suchen und synthetisieren muss1. Dieser Beitrag analysiert das neuartige Paradigma des datenbanknativen LLM-Wiki – wie es im Kontext von ThemisDB konzipiert wurde – als kontinuierlich gepflegte, komprimierte und auditable Speicherschicht, welche die Wahrscheinlichkeit unbegründeter Modellhalluzinationen unter strengen Token- und Latenzbudgets systematisch minimiert1.
+1. Einleitung und Problemstellung des kognitiven Information Retrieval
+In datenbankintegrierten KI-Workflows manifestiert sich das Hauptproblem von LLMs selten in mangelnden logischen Schlussfolgerungsfähigkeiten, sondern primär in Grounding-Fehlern1. Wenn Modelle auf veraltete Datensätze, unvollständige Schemata oder widersprüchliche Dokumentenfragmente zugreifen, neigen sie unter dem Druck begrenzter Aufmerksamkeitsfenster zur Halluzination1.
+Die Unzulänglichkeit monotoner Kontextvergrößerung und eiphasiger RAG-Pipelines
+Die Ansicht, dass stetig wachsende Kontextfenster das Problem der Faktentreue lösen würden, greift systemtechnisch zu kurz1. Empirische Untersuchungen der Aufmerksamkeitsmechanismen von Transformer-Architekturen belegen, dass die effektive Informationsnutzung bei überfüllten Prompts drastisch sinkt1. Dieses als „Lost in the Middle“-Phänomen bekannte Verhalten zeigt, dass relevante Fakten im Zentrum umfangreicher Kontexte vom Modell gehäuft ignoriert oder fehlinterpretiert werden2. Zudem wachsen die Rechenkosten der Selbstaufmerksamkeit quadratisch oder mit hohen linearen Koeffizienten zur Tokenlänge, was eine unreflektierte Injektion von Rohdokumenten wirtschaftlich unrentabel macht1.
+Klassische RAG-Pipelines versuchen diese Beschränkung zu umgehen, indem sie Dokumente segmentieren, einbetten und bei einer Anfrage die mathematisch ähnlichsten Chunks in den Prompt einfügen1. Diese Methodik weist jedoch drei wesentliche strukturelle Mängel auf:
+Fehlende Wissensakkumulation: Der Informationsabruf erfolgt isolationistisch; es baut sich über aufeinanderfolgende Anfragen hinweg keine kohärente Wissensstruktur auf2. Das Modell muss komplexe Zusammenhänge bei jeder Interaktion erneut ermitteln2.
+Sättigung des Kontexts: Durch die Übergabe unstrukturierter Roh-Textfragmente enthält der Prompt signifikante Mengen redundanter Token, was die Selektionsfähigkeit des Sprachmodells schwächt1.
+Einfache Einpass-Extraktion: Vielschichtige, dokumentenübergreifende Synthesen scheitern, da der Retriever in einem einzigen Durchlauf seltene Querbeziehungen oder mehrstufige logische Pfade nicht zuverlässig isolieren kann1.
+Die Karpathy-Metapher und ihre datenbanknative Transformation
+Das von Andrej Karpathy beschriebene Konzept des „LLM-Wiki“ bricht mit der ephemeren Abfragelogik traditioneller RAG-Systeme2. Die Kernidee basiert auf einer klaren Arbeitsteilung: Während der Mensch für die Quellenauswahl und Zielsetzung verantwortlich ist, übernimmt das Sprachmodell die kontinuierliche Wissenspflege2. Karpathy beschreibt dieses Verhältnis über die Metapher, wonach die Benutzeroberfläche (etwa Obsidian) als integrierte Entwicklungsumgebung (IDE) agiert, das LLM die Rolle des Programmierers einnimmt und das entstehende, interlinkte Wiki die zu pflegende Codebasis darstellt2. Wenn dem System neue Quellen zugeführt werden, werden diese nicht bloß indexiert; das Modell extrahiert Entitäten, verfasst zusammenfassende Themenseiten, verknüpft Querverweise, vermerkt Widersprüche und hält die Wissensbasis konsistent2.
+Während Karpathy dieses Prinzip für persönliche Wissenssysteme auf Dateisystemebene entwarf, überträgt der Forschungsentwurf zum ThemisDB-Projekt diesen Ansatz auf datenbanknative Substrate1. Das Wiki fungiert hierbei nicht als externe Ordnerstruktur, sondern als aktive Speicherschicht innerhalb des Datenbank-Engines, die Kontrolle über Provenienz, zeitliche Revisionsstände, Kontextkomprimierung und iterative Abruflogiken unter strikten Budgetvorgaben ausübt1.
+2. Systemarchitektur des datenbanknativen LLM-Wiki-Substrats
+Die im Forschungsentwurf dargelegte Architektur gliedert das datenbanknative LLM-Wiki in vier eng miteinander gekoppelte Komponenten, die direkt in den Ausführungsplan der Datenbank eingebunden sind1.
+Die vier Kernschichten der Speicherarchitektur
+Der kanonische Fakten- und Evidenz-Speicher bildet das Fundament der Architektur1. Er speichert unveränderliche Rohdokumente, Chunks, Einbettungsvektoren, Zeitstempel, Provenienzlinks und Revisionsdaten1. Im Gegensatz zu reinen Vektordatenbanken bleiben Datenmodell-Abhängigkeiten, Schema-Kontexte und Zugriffskontrolllisten auf dieser Schicht strikt erhalten1.
+Darüber liegt die kompakte Speicherschicht, welche eine komprimierte, semantisch verdichtete Repräsentation des Gesamtkorpus aufrechterhält1. Sie umfasst Entitäts-Zusammenfassungen, Begriffscluster, Abstraktionen von Dokumenten-Chunks sowie query-konditionierte Speicher-Skizzen1. Diese Ebene ist darauf optimiert, die maximale Informationsdichte pro Token bereitzustellen1.
+Die budgetierte Evidenzpack-Retrieval-Policy steuert den dynamischen Informationsfluss bei Abfragen1. Statt den Modellprompts ungefilterte Datenmengen zuzuführen, selektiert das System ein präzise zugeschnittenes Evidenzpaket1. Dieses Paket besteht aus den relevantesten Entitätseinträgen, prägnanten Zusammenfassungen und ausgewählten Quellenzitaten, wobei ein vorgegebenes Token-Budget nicht überschritten werden darf1.
+Die iterative Verifikation und Re-Retrieval-Kontrollschleife komplettiert das System1. Stellt das Sprachmodell fest, dass die im ersten Evidenzpaket enthaltenen Informationen unzureichend sind, widersprüchliche Aussagen enthalten oder mehrstufige Schlussfolgerungen erfordern, wird eine gezielte Folgeabfrage an die Datenbank abgesetzt1. Dieser geschlossene Regelkreis verhindert, dass das Modell fehlende Fakten durch Halluzinationen kompensiert1.
+Hierarchische Wissenskomprimierung und multimodale Datenintegration
+Ein wesentlicher Vorteil der Einbettung in ein System wie ThemisDB liegt in der pyramidalen Anordnung des Wissens1. An der Basis der Pyramide befinden sich die hochaufgelösten Einzelfakten und Quelltexte1. Auf der mittleren Ebene verbinden sich diese Daten zu strukturierten Entitäts-Graphen und Konzept-Clustern1. Die Spitze der Pyramide bilden ultrakompakte Wissenskapseln, die problemlos in minimale Prompt-Budgets passen1.
+Diese Schichtung korrespondiert mit den multimodalen Fähigkeiten von ThemisDB1. Graph-Repräsentationen erfassen Beziehungsstrukturen zwischen Entitäten und Richtlinien; Vektorindizes ermöglichen die semantische Ähnlichkeitssuche über breite Themenkomplexe; relationale Indizes garantieren exakte Filterungen nach Gültigkeit und Zeitstempeln1. Durch die simultane Auswertung dieser Kanäle erzeugt die Datenbank ein Evidenzpaket, das sowohl semantisch präzise als auch beziehungstechnisch fundiert ist1.
+Mittelfristige System-Enabler: Tensor-Abstraktion und AdaLoRA
+Um die Interaktion zwischen der Datenbank und dem Sprachmodell performant zu gestalten, führt der Forschungsentwurf zwei zukunftsweisende Mechanismen ein1:
+Eine Tensor-Abstraktionsschicht vereinheitlicht die Repräsentation von Vektoreinbettungen, Fakten-Tensoren und graphbasierten Zuständen1. Dadurch werden Speicherkomprimierungen und Transformationsoperationen direkt auf Hardware-Beschleunigern ausführbar, ohne dass kontinuierlich zwischen Text- und Vektorformaten konvertiert werden muss1.
+Ergänzend dazu erlaubt das AdaLoRA-Verfahren (Adaptive Low-Rank Adaptation) eine dynamische, parametereffiziente Anpassung des Sprachmodells an domänenspezifische Datenstrukturen1. Anstatt das gesamte Modell neu zu trainieren, verwaltet das System kleine Adaptionsmatrizen, deren Ränge dynamisch an die Bedeutung einzelner Wissensdomänen angepasst werden1. Dies befähigt das Modell, komplexe Abrufheuristiken und Selektionsmuster der Datenbank direkt in seinen Aufmerksamkeitskopfen nachzuvollziehen1.
+3. Mathematische und Systemtheoretische Fundierung
+Die Selektion und Pflege von Wissenselementen im LLM-Wiki wird als mathematisches Optimierungs- und Regelungsproblem modelliert1.
+Das budgetierte Selektionsproblem
+Gegeben sei eine Benutzeranfrage , eine Kandidatenmenge von Evidenzelementen  aus der Wiki-Speicherschicht sowie ein vorgegebenes Token-Budget 1. Der Selektionsalgorithmus ermittelt eine Teilmenge , die folgenden Bedingungen genügt1:
+
+Hierbei steht  für den Token-Verbrauch des Elements 1. Da die Kombination zweier redundanter Fakten keinen additiven Mehrwert bietet, wird die Gesamtrelevanz  über eine submodulare Nutzenfunktion definiert:
+
+Die Parameter ,  und  gewichten die semantische Ähnlichkeit (), die strukturelle Abdeckung im Wissensgraphen () sowie die informationstheoretische Redundanz () innerhalb der gewählten Teilmenge 1.
+Konfidenzverlauf und zeitlicher Zerfall
+In Anlehnung an erweiterte Speichermodelle (wie sie in agentmemory formuliert wurden) tragen Wissenselemente im Wiki einen Konfidenzwert , der über die Zeit hinweg einer mathematischen Dämpfung unterliegt6. Das Modell nutzt eine Modifikation der Ebbinghaus’schen Vergessenskurve6:
+
+Dabei bezeichnet  die initiale Konfidenz bei der Ersterfassung zum Zeitpunkt ,  den domänenspezifischen Zerfallskoeffizienten und  die Zeitpunkte, zu denen das Faktum durch neue Quellen reevaluiert oder bestätigt wurde6. Der Term  beschreibt den Konfidenzzuwachs pro Verifikation6. Sinkt der Wert  unter einen Schwellenwert , wird das Faktum automatisch in den Archivbereich verschoben4.
+Ersetzungs- und Revisionsmechanismen
+Trifft eine neue Information ein, die einer bestehenden Aussage widerspricht, greift eine explizite Ersetzungslogik (Supersession)2. Das historische Faktum wird nicht gelöscht, sondern zeitgestempelt, mit dem Status superseded versehen und über eine gerichtete Kante im Provenienzgraphen mit dem Nachfolgefaktum verknüpft6. Dadurch bleibt die Historie für Revisionszwecke vollständig nachvollziehbar, während aktive Abfrageprozesse ausschließlich auf die validen Zustände zugreifen1.
+4. Speicherarchitektur, Ingestion und Operative Pflegeprozesse
+Die operative Betriebsfähigkeit des LLM-Wiki beruht auf einer klaren Schichtung von Speicherzugriffen und Pflegeroutinen4.
+Die Drei-Stufen-Cache-Hierarchie
+Das Speichermanagement lehnt sich an die Cache-Hierarchie moderner Prozessorarchitekturen an4. Der L1-Cache umfasst unveränderliche Systeminstruktionen, fundamentale Sicherheitsregeln und kritische Invarianten, die dauerhaft im Prompt-Kontext vorgehalten werden4. Der L2-Cache bildet die eigentliche Wiki-Schicht, welche Entitätsseiten, zusammenfassende Themenhubs und verknüpfte Markdown-Dokumente beinhaltet3. Der Zugriff erfolgt primär über strukturierte Indexlisten (_index/)3. Der L3-Cache dient als Fallback-Ebene und umfasst das unstrukturierte Rohdaten-Archiv (raw/), auf das mittels Volltext-Verfahren (z. B. BM25) oder Vektorsuche nur dann zugegriffen wird, wenn die L2-Routing-Stufe ein Informationsdefizit signalisiert4.
+Der vierphasige Ingestion-Workflow
+Die Aufnahme neuer Quelldokumente erfolgt in einem automatisierten Vier-Phasen-Prozess4:
+In der ersten Phase (Analyse und Extraktion) analysiert das Modell das Rohdokument, isoliert Entitäten, Relationen sowie Zeitstempel und ordnet die Fakten den Speicher-Klassen (L1 oder L2) zu4. In der zweiten Phase (Scan und Matching) gleicht das System die extrahierten Informationen mit den bestehenden Hub-Indizes ab, um betroffene Zielseiten zu identifizieren4. Die dritte Phase (Chirurgisches Update) führt die Modifikationen durch: Neue Seiten werden mit YAML-Frontmatter-Metadaten angelegt, während bestehende Seiten um neue Erkenntnisse ergänzt werden, ohne historischen Kontext blind zu überschreiben3. In der vierten Phase (Quality Gate) durchläuft das Update ein Regelwerk, das die Vollständigkeit der Metadaten, das Vorhandensein von Querverweisen und den Schutz vor sensiblen Daten prüft, bevor die Transaktion im Logbuch vermerkt wird4.
+Zweistufiges Abfrage-Routing und automatisierte Speicherhygiene
+Bei einer Abfrage liest das System in der ersten Stufe (Routing) lediglich die kompakten Beschreibungszeilen der zentralen Hub-Indizes (_index/hub_*.md), um die drei relevantesten L2-Seiten zu ermitteln4. Erst in der zweiten Stufe (Lesen und Synthese) werden die Volltextseiten geladen und zur Antwortgenerierung herangezogen4. Jeder Ladevorgang wird in einem Protokoll verzeichnet4.
+Zur Vermeidung von Leistungsabfällen durch unkontrolliertes Wachstum führt die Datenbank zwei automatisierte Hygiene-Prozesse aus4:
+Der Prune-Prozess überprüft das Zugriffsprotokoll und identifiziert verwaiste oder seit mehreren Monaten nicht aufgerufene Seiten4. Diese werden aus dem primären Routing-Index entfernt und in den Archiv-Bereich zurückgestuft4. Da die physischen Dateien unverändert bleiben, behalten alle eingehenden Verweise ihre Gültigkeit4.
+Der Lint-Prozess prüft das Wiki anhand von elf strukturellen und semantischen Integritätsregeln4. Er identifiziert seitenübergreifend verwaiste Dokumente, gebrochene Querverweise, veraltete Konfidenz-Zustände sowie Diskrepanzen zwischen den Indizes und den tatsächlichen Dateien4. Über den Parameter --fix kann das System erkannte Abweichungen autonom korrigieren4.
+5. Implementierung und Repository-Passfähigkeit in ThemisDB
+Die technische Realisierbarkeit des LLM-Wiki-Musters lässt sich direkt an bestehenden Komponenten der ThemisDB-Codebasis belegen1.
+
+Nachweis-ID
+Systemkomponente
+Repository-Pfad
+Operationaler Beitrag im LLM-Wiki
+E1
+Prompt- & Retrieval-Orchestrierung
+src/prompt_engineering/
+Steuerung der Prompt-Assemblierung und faktenbasierten Antwortgenerierung1
+E2
+Qualitäts-Gating & Verifikation
+src/prompt_engineering/
+Kalibrierung von Vertrauenswerten und automatisiertes Rubrik-Scoring1
+E3
+Kontext-Konstruktion unter Budgets
+src/prompt_engineering/rag_prompt_builder.cpp
+Erzeugung komprimierter Evidenzpakete unter Einhaltung harter Token-Limits1
+E4
+Adaption & Modell-Routing
+docs/en/llm/
+Domänenspezifische Inferenzsteuerung und dynamische Adapterauswahl1
+E5
+Lokale Inferenz-Infrastruktur
+docs/en/llm/LLAMA_CPP_MIGRATION.md
+Latenzarme Einbindung lokaler LLM-Engines für datenbanknahe Abfrageschleifen1
+E6
+Benchmarking & Observability
+benchmarks/
+Empirische Leistungsmessung von Latenzen, Token-Verbrauch und Genauigkeit1
+
+Vergleichende Gegenüberstellung der Architekturen
+Das datenbanknative LLM-Wiki unterscheidet sich in wesentlichen Leistungsmerkmalen von bisherigen Ansätzen der Kontext- und Wissensverwaltung.
+
+Evaluierungskriterium
+Naives Prompt-Stuffing
+Einphasiges Standard-RAG
+Lokales LLM-Wiki (Datei-basiert)
+Datenbank-natives LLM-Wiki (ThemisDB)
+Speicher-Persistenz
+Keines (Flüchtig pro Aufruf)2
+Keine (Statische Indizes)2
+Hoch (Lokale Markdown-Dateien)2
+Sehr hoch (Multimodale DB-Strukturen)1
+Wissensakkumulation
+Nicht vorhanden2
+Nicht vorhanden2
+Manuell getriebener Wissensaufbau2
+Automatische, fortlaufende Synthese1
+Kontext-Effizienz
+Sehr gering (Hohe Token-Kosten)1
+Mäßig (Enthält unstrukturierte Chunks)1
+Hoch (Synthetisierte Zusammenfassungen)1
+Maximal (Pyramidal komprimierte Kapseln)1
+Multi-Hop-Fähigkeit
+Ineffizient bei großen Datenmengen1
+Gering (Scheitert an komplexen Pfaden)1
+Gut (Über Verlinkungen)2
+Exzellent (Graph-Traversierung + Vektorsuche)1
+Kontrollschleife
+Nicht vorhanden1
+Selten (Starr vorgegebener Ablauf)1
+Agentengetrieben auf Dateiebene3
+Nativ im Query-Engine-Ausführungsplan1
+Provenienz & Audit
+Nicht vorhanden1
+Eingeschränkt (Chunk-ID)1
+Gut (Markdown-Referenzen)3
+Strikte DB-Revisionssicherheit & ACLs1
+
+6. Erkenntnisse zweiter und dritter Ordnung sowie System-Trade-offs
+Aus der vertieften systemtechnischen Analyse ergeben sich weiterführende Erkenntnisse, welche die zukünftige Gestaltung datenbankintegrierter KI-Architekturen beeinflussen.
+Wandel der Datenbank von der Speicher- zur Inferenz-Engine
+Die Implementierung des LLM-Wiki führt zu einer strukturellen Funktionserweiterung der Datenbank1. Ihre Aufgabe beschränkt sich nicht mehr auf das rein verlustfreie Speichern und Wiederauffinden von Zuständen1. Sie übernimmt vielmehr aktive Aufgaben der Wissensverdichtung, der semantischen Konsistenzprüfung und der kognitiven Inferenzsteuerung1. Abfragepläne innerhalb der Datenbank verarbeiten neben klassischen SQL- oder Graph-Operatoren zunehmend komplexe Synthese-Operatoren, die den Informationsfluss zum Sprachmodell optimieren1.
+Entkopplung von Parametergröße und Wissenskapazität
+Durch das Bereitstellen einer hochgradig strukturierten, dynamisch gepflegten Speicherschicht sinkt die Notwendigkeit, gigantische Sprachmodelle für spezialisierte Wissensaufgaben einzusetzen1. Ein kleineres, lokal betriebenes Modell (beispielsweise mit 8 bis 14 Milliarden Parametern) kann in Kombination mit einem datenbanknativen LLM-Wiki präzisere und faktentreuere Antworten liefern als ein massives, monolithisches Modell, das ausschließlich auf sein parametrisches Gedächtnis oder unstrukturierte Prompt-Beilagen angewiesen ist1. Dies führt zu erheblichen Einsparungen bei Betriebskosten und Inferenzlatenzen1.
+Der Pareto-Zielkonflikt zwischen Faktualität und Latenz
+Der Einsatz iterativer Re-Retrieval-Schleifen erfordert eine kontinuierliche Abwägung zwischen Antwortqualität und System-Latenz1. Während eine eiphasige Antwortgenerierung minimale Antwortzeiten garantiert, erhöht jeder zusätzliche Re-Retrieval-Schritt die Latenz durch erneute Datenbankabfragen und LLM-Inferenzschritte1. Für die praktische Anwendung bedeutet dies, dass Datenbank-Engines dynamische Abbruchkriterien definieren müssen1. Ein erneuter Abruf von Informationen sollte nur dann eingeleitet werden, wenn der erwartete Konfidenzgewinn die mathematischen Kosten der zusätzlichen Verzögerung rechtfertigt1.
+7. Synthese und Ausblick
+Das datenbanknative LLM-Wiki stellt ein tragfähiges Architekturmuster dar, um die Verlässlichkeit und Faktentreue von Sprachmodellen in komplexen Datenumgebungen nachhaltig zu steigern1. Durch die Kombination komprimierter Speicherstrukturen, budgetierter Evidenzpakete, transparenter Provenienzverfolgung und geschlossener Re-Retrieval-Schleifen gelingt eine spürbare Reduktion von Halluzinationen, ohne dass das System unter den Effizienzverlusten überfüllter Kontextfenster leidet1.
+Für die finale wissenschaftliche Publikation (etwa im Rahmen der arXiv-Einreichung) erfordert das Rahmenkonzept noch die Durchführung systematischer Benchmark-Reihen1. Hierbei gilt es, die theoretischen Gewinne bei der Halluzinationsreduktion und der Multi-Hop-Synthese anhand standardisierter Datensätze unter realen Hardware-Bedingungen quantitativ nachzuweisen1. Die fortschreitende Integration von Tensor-Abstraktionen und adaptiven Adapterschichten weist hierbei den Weg für eine neue Generation verlässlicher, datenbankzentrierter KI-Systeme1.
+
+7.1 Kanonische Architekturdefinition für ThemisDB
+Ein LLM-Wiki ist in ThemisDB nicht nur ein Ablageort für Texte, sondern eine eigenständige, datenbanknahe Wissensschicht mit Exzerpt-, Provenienz- und Revisionssemantik. Es erfüllt die Rolle eines modernen wissenschaftlichen Zettelkastens: Rohquellen werden extrahiert, verdichtet, verlinkt, kommentiert und in eine auditierbare Wissensstruktur überführt1.
+
+Im Retrieval steht das LLM-Wiki gleichberechtigt neben relationalen, Vektor-, Graph-, Tensor-, Geo- und Timeseries-Substraten. Es beantwortet keine Rohdatenfrage, sondern eine Bedeutungs- und Kontextfrage: Welche komprimierte, geprüfte und provenance-markierte Wissenseinheit soll dem Modell als Orientierung dienen?
+
+Im Verhältnis zum TensorGraph ist das LLM-Wiki die interpretierbare Oberfläche. Der TensorGraph trägt die verdichteten numerischen und relationalen Zustände, während das LLM-Wiki diese Zustände in lexikalische, narrative und mindmap-artige Wissenseinheiten übersetzt. Daraus ergibt sich die kanonische Einordnung:
+
+- Wissensfunktion: semantische Verdichtung, Begriffsnormierung, Gegenbelegverwaltung und Re-Ankerung
+- Speicherfunktion: auditierbare Revisionshistorie mit Provenienz- und Transformationsmetadaten
+- Retrieval-Funktion: budgetierte Evidenzpakete für LLM-generierte Antworten
+- Integrationsfunktion: Brücke zwischen Rohdaten, Graphzuständen, Vektorsuche und Tensorrepräsentationen
+
+Damit ist das LLM-Wiki die erklärbare Wissensoberfläche von ThemisDB, nicht nur eine weitere Ablageform. Es ist die Schicht, die aus gespeicherten Daten ein navigierbares, prüfbares und iterativ verfeinerbares Lexikon bildet1.
+
+Die dafür notwendige Kostenberechnung muss in ThemisDB nicht neu erfunden werden: Ein kanonischer RAG-Kostenpfad existiert bereits in der AI-Orchestrierung über RagCostModelInput, RagCostEstimate und IRagCostModelService; zusätzlich stehen im Query-Stack mit OptimizerCostModel und PerQueryCostModel bereits kalibrierbare Kostenmodelle zur Verfügung1. Die Retrieval-Planung selbst ist bereits in der Prompt-Enhancement-Schicht angelegt und sollte als Planungsinput für das Wiki-Routing dienen, nicht als zweite konkurrierende Planungslogik1. Für das LLM-Wiki ist daher keine Parallel-Implementierung sinnvoll, sondern eine Anpassung dieser bestehenden Modelle auf wiki-spezifische Signale wie Provenienz-Tiefe, Evidenzpaket-Größe, Re-Ankerbedarf und Transformationskette1.
+
+Referenzen
+LLM_WIKI_DATABASE_NATIVE_RETRIEVAL_THEMISDB_DRAFT.md
+LLM Wiki - GitHub Gist, https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+LLM Wiki Setup: Karpathy's Knowledge Base [2026 Guide], https://www.kunalganglani.com/blog/llm-wiki-karpathy-local-knowledge-base
+Build Karpathy's LLM Wiki with Claude Code. L1/L2 cache ... - GitHub, https://github.com/MehmetGoekce/llm-wiki
+Astro-Han/karpathy-llm-wiki - GitHub, https://github.com/Astro-Han/karpathy-llm-wiki
+LLM Wiki v2 - GitHub Gist, https://gist.github.com/rohitg00/2067ab416f7bbe447c1977edaaa681e2
+KG-IRAG with Iterative Knowledge Retrieval - arXiv, https://arxiv.org/abs/2503.14234
+Llm wiki by karpathy : r/LocalLLaMA - Reddit, https://www.reddit.com/r/LocalLLaMA/comments/1sclfs6/llm_wiki_by_karpathy/

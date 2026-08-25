@@ -25,6 +25,11 @@ include(cmake/DetectVsDevCmd.cmake OPTIONAL)
 if(WIN32)
     set(CMAKE_C_COMPILER_WORKS ON CACHE BOOL "C compiler pre-validated" FORCE)
     set(CMAKE_CXX_COMPILER_WORKS ON CACHE BOOL "CXX compiler pre-validated" FORCE)
+    set(THREADS_PREFER_PTHREAD_FLAG OFF CACHE BOOL "Prefer Win32 threads on Windows" FORCE)
+    set(CMAKE_USE_PTHREADS_INIT OFF CACHE BOOL "Disable pthread detection on Windows" FORCE)
+    set(CMAKE_HAVE_PTHREAD_H OFF CACHE BOOL "Disable pthread header detection on Windows" FORCE)
+    set(CMAKE_HAVE_PTHREADS_CREATE OFF CACHE BOOL "Disable pthread create detection on Windows" FORCE)
+    set(CMAKE_THREAD_LIBS_INIT "" CACHE STRING "No pthread library on Windows" FORCE)
 endif()
 
 # Read VERSION first (before project())
@@ -127,6 +132,18 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     if(THEMIS_GIT_EXECUTABLE)
         set(_themis_missing_submodules "")
         foreach(_themis_submodule IN ITEMS "vcpkg" "ffmpeg" "llama.cpp" "whisper.cpp" "stable-diffusion.cpp")
+            execute_process(
+                COMMAND ${THEMIS_GIT_EXECUTABLE} -C "${CMAKE_CURRENT_SOURCE_DIR}" ls-files -s -- "${_themis_submodule}"
+                RESULT_VARIABLE _themis_submodule_tracked_result
+                OUTPUT_VARIABLE _themis_submodule_tracked_output
+                ERROR_QUIET
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            if(NOT _themis_submodule_tracked_result EQUAL 0 OR
+               NOT _themis_submodule_tracked_output MATCHES "^160000 ")
+                continue()
+            endif()
+
             if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/.git" AND
                NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/CMakeLists.txt")
                 list(APPEND _themis_missing_submodules "${_themis_submodule}")
@@ -143,7 +160,7 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
             if(NOT _themis_submodule_result EQUAL 0)
                 message(WARNING
                     "Failed to initialize submodules (${_themis_missing_submodules}): ${_themis_submodule_error}\n"
-                    "You can run manually: git submodule update --init --recursive vcpkg ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp")
+                    "You can run manually: git submodule update --init --recursive ${_themis_missing_submodules}")
             endif()
         endif()
     endif()
@@ -225,22 +242,22 @@ include(cmake/validation/FeatureValidation.cmake)
 
 # Redirect runtime/library/archive outputs to separate folders on Windows to
 # avoid parallel linker/file-lock collisions in shared `bin/` during large
-# parallel builds. Tests and runtime loaders should prefer the `bin_out` path
+# parallel builds. Tests and runtime loaders should prefer the `bin/` path
 # added below; PATH modifications in tests are updated accordingly.
 if(WIN32)
-    set(_themis_bin_out "${CMAKE_BINARY_DIR}/bin")
+    set(_themis_bin_dir "${CMAKE_BINARY_DIR}/bin")
     set(_themis_lib_out "${CMAKE_BINARY_DIR}/lib")
-    file(MAKE_DIRECTORY "${_themis_bin_out}")
+    file(MAKE_DIRECTORY "${_themis_bin_dir}")
     file(MAKE_DIRECTORY "${_themis_lib_out}")
 
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${_themis_bin_out})
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${_themis_bin_out})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${_themis_bin_dir})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${_themis_bin_dir})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${_themis_lib_out})
 
     foreach(_cfg IN ITEMS Debug Release RelWithDebInfo MinSizeRel)
         string(TOUPPER "${_cfg}" _ucfg)
-        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
-        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_dir})
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_dir})
         set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_ucfg} ${_themis_lib_out})
     endforeach()
 endif()
@@ -646,6 +663,61 @@ else()
     message(FATAL_ERROR "Invalid THEMIS_DOCS_DB_MODE='${THEMIS_DOCS_DB_MODE}'. Allowed: AUTO, BUILD, PREBUILT, OFF")
 endif()
 
+# ─── AdaLoRA Rebuild-Gate (CMake target: adalora_cache_check) ────────────────
+#
+# Runs scripts/compute_model_fingerprint.py to determine whether the AdaLoRA
+# adapter checkpoint needs to be rebuilt.
+#
+# Decision logic (in priority order):
+#   1. THEMIS_ADALORA_FORCE_REBUILD=ON  → always rebuild (exits 2)
+#   2. THEMIS_LLM_MODEL_PATH not set    → skip gate silently (no-op stamp)
+#   3. Fingerprint matches cache        → up-to-date (exit 0)
+#   4. Fingerprint changed / no cache   → rebuild required (exit 2)
+#
+# The target writes one of two stamp files into THEMIS_ADALORA_CACHE_DIR:
+#   adalora_rebuild_required.stamp  — adapter must be retrained
+#   adalora_up_to_date.stamp        — cached adapter may be loaded directly
+#
+# Downstream targets that depend on the adapter can check for these stamps.
+
+option(THEMIS_ADALORA_FORCE_REBUILD
+    "Force AdaLoRA adapter rebuild regardless of cached fingerprint"
+    OFF)
+
+set(THEMIS_ADALORA_CACHE_DIR
+    "${CMAKE_BINARY_DIR}/cache/adalora"
+    CACHE PATH "Directory for AdaLoRA checkpoint and model fingerprint cache")
+
+find_package(Python3 COMPONENTS Interpreter QUIET)
+if(Python3_FOUND)
+    set(_adalora_fp_script "${CMAKE_SOURCE_DIR}/scripts/compute_model_fingerprint.py")
+    if(EXISTS "${_adalora_fp_script}")
+        # Build the environment overrides for the subprocess
+        set(_adalora_env_args "")
+        if(THEMIS_ADALORA_FORCE_REBUILD)
+            list(APPEND _adalora_env_args
+                "${CMAKE_COMMAND}" -E env "THEMIS_ADALORA_FORCE_REBUILD=1")
+        endif()
+
+        add_custom_target(adalora_cache_check
+            COMMAND
+                ${CMAKE_COMMAND} -E env
+                "THEMIS_ADALORA_CACHE_DIR=${THEMIS_ADALORA_CACHE_DIR}"
+                $<$<BOOL:${THEMIS_ADALORA_FORCE_REBUILD}>:THEMIS_ADALORA_FORCE_REBUILD=1>
+                "${Python3_EXECUTABLE}" "${_adalora_fp_script}"
+            COMMENT "AdaLoRA rebuild gate: checking model fingerprint…"
+            VERBATIM
+        )
+        message(STATUS "AdaLoRA cache-gate target 'adalora_cache_check' registered")
+        message(STATUS "  Cache dir: ${THEMIS_ADALORA_CACHE_DIR}")
+        message(STATUS "  Force rebuild: ${THEMIS_ADALORA_FORCE_REBUILD}")
+    else()
+        message(STATUS "AdaLoRA cache-gate: script not found at ${_adalora_fp_script} — target skipped")
+    endif()
+else()
+    message(STATUS "AdaLoRA cache-gate: Python3 not found — adalora_cache_check target skipped")
+endif()
+
 if(DEFINED THEMIS_RELEASE_ROOT_DOC_FILES)
     foreach(_themis_doc_file IN LISTS THEMIS_RELEASE_ROOT_DOC_FILES)
         if(EXISTS "${CMAKE_SOURCE_DIR}/${_themis_doc_file}")
@@ -695,22 +767,37 @@ set(_themis_models_mode "${THEMIS_MODELS_MODE}")
 if(_themis_models_mode STREQUAL "AUTO")
     if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
         set(_themis_models_mode "PACKAGE")
-        message(STATUS "models mode AUTO -> PACKAGE")
+        message(STATUS "models mode AUTO -> PACKAGE (models dir found)")
     else()
-        message(FATAL_ERROR "models mode AUTO resolved to PACKAGE, but directory not found: ${THEMIS_MODELS_SOURCE_DIR}")
+        set(_themis_models_mode "SKIP")
+        message(STATUS "models mode AUTO -> SKIP (models dir not found: ${THEMIS_MODELS_SOURCE_DIR})")
     endif()
 endif()
 
 if(_themis_models_mode STREQUAL "PACKAGE")
     if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
+        file(GLOB _themis_tinyllama_candidates
+            "${THEMIS_MODELS_SOURCE_DIR}/*tinyllama*.gguf"
+            "${THEMIS_MODELS_SOURCE_DIR}/*TinyLlama*.gguf"
+            "${THEMIS_MODELS_SOURCE_DIR}/default.gguf"
+        )
+
+        if(THEMIS_PACKAGE_INCLUDE_TINYLLAMA AND NOT _themis_tinyllama_candidates)
+            message(FATAL_ERROR
+                "models mode PACKAGE requires TinyLlama GGUF artifacts, but none were found in '${THEMIS_MODELS_SOURCE_DIR}'. "
+                "Provide TinyLlama files or set THEMIS_PACKAGE_INCLUDE_TINYLLAMA=OFF explicitly."
+            )
+        endif()
+
         if(THEMIS_PACKAGE_INCLUDE_TINYLLAMA)
             install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
                 DESTINATION models
                 COMPONENT models
                 OPTIONAL
                 FILES_MATCHING
-                PATTERN "*tinyllama*"
-                PATTERN "*TinyLlama*"
+                PATTERN "*tinyllama*.gguf"
+                PATTERN "*TinyLlama*.gguf"
+                PATTERN "default.gguf"
                 PATTERN "*gemma*" EXCLUDE
                 PATTERN "*Gemma*" EXCLUDE
             )
@@ -1023,6 +1110,18 @@ endif()
 include(CPack)
 
 message(STATUS "==========================================")
-message(STATUS "ThemisDB ${THEMIS_VERSION} (${THEMIS_VERSION_STRING})")
+message(STATUS "ThemisDB ${THEMIS_VERSION}")
+if(DEFINED THEMIS_BUILD_UUID AND NOT "${THEMIS_BUILD_UUID}" STREQUAL "")
+    message(STATUS "Build UUID: ${THEMIS_BUILD_UUID}")
+endif()
+if(DEFINED THEMIS_BUILD_ID AND NOT "${THEMIS_BUILD_ID}" STREQUAL "")
+    message(STATUS "Build ID: ${THEMIS_BUILD_ID}")
+endif()
+if(DEFINED THEMIS_BUILD_TIMESTAMP AND NOT "${THEMIS_BUILD_TIMESTAMP}" STREQUAL "")
+    message(STATUS "Build timestamp: ${THEMIS_BUILD_TIMESTAMP}")
+endif()
+if(DEFINED THEMIS_BUILD_CHANNEL AND NOT "${THEMIS_BUILD_CHANNEL}" STREQUAL "")
+    message(STATUS "Build channel: ${THEMIS_BUILD_CHANNEL}")
+endif()
 message(STATUS "Edition: ${THEMIS_EDITION}")
 message(STATUS "==========================================")

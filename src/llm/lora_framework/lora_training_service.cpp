@@ -943,11 +943,10 @@ public:
                     
                     // Compute real validation metrics
                     float accuracy = 0.0f;
-                    float f1_score = 0.0f;
                     int correct_predictions = 0;
                     int total_predictions = 0;
                     
-                    for (const auto& sample : validation_data.samples) {
+                    for ([[maybe_unused]] const auto& sample : validation_data.samples) {
                         // Simulate forward pass on validation data
                         // In real implementation, this would use the trained model
                         // For now, we use model loss as proxy for accuracy

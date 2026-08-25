@@ -20,6 +20,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/ToolsFeatures.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/OptimizationFeatures.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/PluginFeatures.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/PrivatePluginFeatures.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/BenchmarkRuntimeProfile.cmake)
 
 # Set global flag for feature configuration completed
 set(THEMIS_FEATURES_CONFIGURED TRUE CACHE INTERNAL "Feature configuration completed")

@@ -7,6 +7,8 @@
 
 **Status:** PRODUCTION (Wave 5 GA) | **Thread-Safe:** Yes | **Fail-Closed:** Yes
 
+Model baseline selection policy (scoring + hard gates) is maintained in `src/llm/VALIDATION_AND_TEST_CHECKLIST.md` under "Baseline Model Evaluation Matrix (Release Candidate)".
+
 ---
 
 ## Quick Start Guide

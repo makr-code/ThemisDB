@@ -31,16 +31,40 @@ std::string getTestModelPath() {
     if (env_path && std::filesystem::exists(env_path)) {
         return env_path;
     }
-    
-    std::vector<std::string> default_paths = {
-        "./models/tinyllama_1.1b.gguf",
-        "./models/llama3.2_1b.gguf",
-        "./models/phi3_mini.gguf"
+
+    const std::vector<std::filesystem::path> root_dirs = {
+        std::filesystem::current_path(),
+        std::filesystem::current_path() / "models",
+        std::filesystem::current_path() / ".." / "models",
+        std::filesystem::current_path() / ".." / ".." / "models"
     };
-    
-    for (const auto& path : default_paths) {
-        if (std::filesystem::exists(path)) {
-            return path;
+
+    for (const auto& root : root_dirs) {
+        for (const auto& candidate : {
+                "TinyLlama-1.1B-Chat-v1.0.gguf",
+                "tinyllama-1.1b-chat-v1.0.gguf",
+                "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+                "tinyllama_1.1b.gguf"}) {
+            auto path = root / candidate;
+            if (std::filesystem::exists(path) && std::filesystem::is_regular_file(path)) {
+                return path.string();
+            }
+        }
+
+        if (std::filesystem::exists(root) && std::filesystem::is_directory(root)) {
+            for (const auto& entry : std::filesystem::directory_iterator(root)) {
+                if (!entry.is_regular_file()) {
+                    continue;
+                }
+                const auto filename = entry.path().filename().string();
+                auto lower = filename;
+                std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) {
+                    return static_cast<char>(std::tolower(c));
+                });
+                if (lower.find("tinyllama") != std::string::npos && lower.find(".gguf") != std::string::npos) {
+                    return entry.path().string();
+                }
+            }
         }
     }
     
@@ -78,7 +102,7 @@ protected:
         model_path_ = getTestModelPath();
         
         if (model_path_.empty()) {
-            GTEST_SKIP() << "capability:model_available=false;reason=no_test_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
+            GTEST_SKIP() << "capability:model_available=false;reason=simulation_only_fallback_no_tinyllama_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
                          << compiledBackendSummary();
         }
         
@@ -179,26 +203,29 @@ TEST_F(KVCacheReuseTest, SimilarityThreshold) {
 TEST_F(KVCacheReuseTest, LRUEviction) {
     cache_config_.max_entries = 3;
     LLMPrefixCache cache("test_kv_cache", cache_config_);
-    
-    std::vector<float> embedding = {0.1f, 0.2f, 0.3f};
-    
+
+    const std::vector<float> embedding1 = {1.0f, 0.0f, 0.0f, 0.0f};
+    const std::vector<float> embedding2 = {0.0f, 1.0f, 0.0f, 0.0f};
+    const std::vector<float> embedding3 = {0.0f, 0.0f, 1.0f, 0.0f};
+    const std::vector<float> embedding4 = {0.0f, 0.0f, 0.0f, 1.0f};
+
     // Add 3 entries with time advancement
-    cache.put("Prefix 1 - long enough to be cached", {1}, embedding);
+    cache.put("Prefix 1 - long enough to be cached", {1}, embedding1);
     mock_clock_->advance(std::chrono::milliseconds(10));
-    cache.put("Prefix 2 - long enough to be cached", {2}, embedding);
+    cache.put("Prefix 2 - long enough to be cached", {2}, embedding2);
     mock_clock_->advance(std::chrono::milliseconds(10));
-    cache.put("Prefix 3 - long enough to be cached", {3}, embedding);
-    
+    cache.put("Prefix 3 - long enough to be cached", {3}, embedding3);
+
     // Add 4th entry - should evict oldest (Prefix 1)
     mock_clock_->advance(std::chrono::milliseconds(10));
-    cache.put("Prefix 4 - long enough to be cached", {4}, embedding);
-    
+    cache.put("Prefix 4 - long enough to be cached", {4}, embedding4);
+
     // Prefix 1 should be evicted
-    auto result1 = cache.get("Prefix 1 - long enough to be cached", embedding);
+    auto result1 = cache.get("Prefix 1 - long enough to be cached", embedding1);
     EXPECT_FALSE(result1.has_value()) << "Oldest entry should be evicted";
-    
+
     // Prefix 4 should exist
-    auto result4 = cache.get("Prefix 4 - long enough to be cached", embedding);
+    auto result4 = cache.get("Prefix 4 - long enough to be cached", embedding4);
     EXPECT_TRUE(result4.has_value()) << "Newest entry should exist";
 }
 
@@ -248,26 +275,27 @@ TEST_F(KVCacheReuseTest, PrecomputedKVCache) {
 
 TEST_F(KVCacheReuseTest, StatisticsAPI) {
     LLMPrefixCache cache("test_kv_cache", cache_config_);
-    
-    std::vector<float> embedding = {0.1f, 0.2f, 0.3f};
-    
+
+    const std::vector<float> cached_embedding = {1.0f, 0.0f, 0.0f, 0.0f};
+    const std::vector<float> miss_embedding = {0.0f, 1.0f, 0.0f, 0.0f};
+
     // Initial stats
     auto stats1 = cache.getStatistics();
     EXPECT_EQ(stats1.hits, 0);
     EXPECT_EQ(stats1.misses, 0);
-    
+
     // Add some cache operations
-    cache.put("Test prefix one for statistics", {1}, embedding);
-    cache.get("Test prefix one for statistics", embedding);  // Hit
-    cache.get("Non-existent prefix for testing miss", embedding);  // Miss
-    
+    cache.put("Test prefix one for statistics", {1}, cached_embedding);
+    cache.get("Test prefix one for statistics", cached_embedding);  // Hit
+    cache.get("Non-existent prefix for testing miss", miss_embedding);  // Miss
+
     // Check updated stats
     auto stats2 = cache.getStatistics();
     EXPECT_GT(stats2.hits, 0) << "Should have at least one hit";
     EXPECT_GT(stats2.misses, 0) << "Should have at least one miss";
-    
+
     // Calculate hit rate
-    double hit_rate = static_cast<double>(stats2.hits) / 
+    double hit_rate = static_cast<double>(stats2.hits) /
                      (stats2.hits + stats2.misses);
     EXPECT_GE(hit_rate, 0.0);
     EXPECT_LE(hit_rate, 1.0);

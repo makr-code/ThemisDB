@@ -361,7 +361,7 @@ void ConfigMetricsExporter::updateMetricsCollector() {
 #endif
 }
 
-void ConfigMetricsExporter::registerWithRegistry(const std::shared_ptr<prometheus::Registry>& registry) {
+void ConfigMetricsExporter::registerWithRegistry([[maybe_unused]] const std::shared_ptr<prometheus::Registry>& registry) {
 #ifdef THEMIS_HAS_PROMETHEUS
     std::lock_guard<std::mutex> lock(g_registry_mutex);
     g_registry = registry;

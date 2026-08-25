@@ -517,5 +517,3 @@ inline GPUEventHandle makeGPUEvent() {
 
 }  // namespace gpu
 }  // namespace themis
-
-#endif  // THEMIS_GPU_RAII_WRAPPERS_HPP

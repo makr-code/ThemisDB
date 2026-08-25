@@ -24,7 +24,7 @@
 #include <windows.h>
 #include <winldap.h>
 #define THEMIS_HAS_LDAP 1
-#elif defined(THEMIS_HAS_LDAP)
+#elif defined(THEMIS_HAS_LDAP) && THEMIS_HAS_LDAP
 #include <lber.h>
 #include <ldap.h>
 #endif

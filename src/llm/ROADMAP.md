@@ -40,6 +40,20 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [x] `tests/llm/test_wiki_index_store.cpp` — WIS-01..16 unit tests
 - [x] `tests/llm/test_wiki_rag_quality.cpp` — WISQ-01..05 quality gate tests
   (Recall@5 ≥ 80 %, latency < 200 ms/10 queries on 100 chunks)
+- [x] `tests/llm/test_llm_doku_rag.cpp` — RAG-01..12 doku.db CI test suite (2026-08-24)
+  - RAG-01..07: existing BM25/HNSW/RRF/phase/AdaLoRA/community/latency gates
+  - RAG-08: Golden dataset keyword gate (≥ 1 expected keyword per entry in Top-5)
+  - RAG-09: Golden dataset Recall@5 ≥ 80 % across all curated entries
+  - RAG-10: Source-hint presence gate (expected doc source in Top-5 results)
+  - RAG-11: Median query latency < 500 ms across all golden-dataset queries
+  - RAG-12: Golden dataset schema/size/distribution guard:
+    - minimum dataset size ≥ 110 entries
+    - distribution 20 % general / 30 % specific / 50 % specialized (±3 % tolerance)
+    - specialized entries must be tagged as rare/non-generic knowledge points
+- [x] `tests/llm/data/themisdb_rag_golden_dataset.yaml` — 110 curated Q/A entries (2026-08-24)
+  - Levels: 22 general (20 %), 33 specific (30 %), 55 specialized (50 %)
+  - Categories: architecture, roadmap, AdaLoRA/training, branch/release, build, API contracts
+  - Generated bootstrap script: `scripts/generate_rag_golden_dataset.py`
 
 ### Phase B (2026-07-27, partial delivery)
 

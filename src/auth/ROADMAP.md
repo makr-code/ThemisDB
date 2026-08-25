@@ -14,6 +14,9 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] hardening of distributed revocation, federation, and policy-edge behavior (Target: Q3 2026)
 - [x] benchmark and release-gate consolidation for token/session hot paths (Target: Q3 2026)
 - [x] consistency hardening for async/provider-integration reliability (Target: Q3 2026)
+- [~] Wave C benchmark gate execution and evidence capture in CI (AUTH-GRG-01..06) (Target: Q4 2026)
+  - Dispatched: `CI — Benchmarks` run `#40` (`32765349559`) on `develop` with filter `bench_auth_hotpaths|AHP-`
+  - Pending: run completion on representative hardware and artifact-to-gate mapping evidence
 
 ## v1.2.0 Async Operations & Connection Pooling (Completed)
 
@@ -80,6 +83,12 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
   - `exchangeToken()` non-HTTPS endpoint check throws PROVIDER_CAPABILITY_MISMATCH
 - [x] align session/trust behavior to shared bounded runtime contracts (Target: Q3 2026)
   - `session_manager.h` updated with bounded runtime contract cross-referencing auth_principal_contract.h
+- [x] PasskeyAuthenticator concrete class and real CBOR/OpenSSL verification (Target: Q4 2026)
+  - `include/auth/passkey_authenticator.h`: added `PasskeyAuthenticator` class implementing `IPasskeyAuthenticator`
+    with thread-safe in-memory credential store and pending-challenge lifecycle
+  - `src/auth/passkey_authenticator.cpp`: TODO stubs replaced with real base64url decode (OpenSSL BIO),
+    CBOR attestation-object parsing, authenticatorData parsing (rpIdHash, flags, signCount, AAGUID, credential ID,
+    COSE public key), ECDSA-P256/RS256 signature verification via `EVP_DigestVerify`, and sign_count clone detection
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior for malformed auth artifacts and degraded backends (Target: Q3 2026)
@@ -89,6 +98,16 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] unify error taxonomy and diagnostics across protocol adapters (Target: Q3 2026)
   - Delivered: 12 new AuthErrorCode entries (9420-9452) for provider/revocation/policy/async failures,
     all registered with actionable operator guidance in `auth_error.cpp::registerAuthErrors()`
+- [x] close catch_all_swallow, unchecked_result, resource_leaked_in_exception gaps (Target: Q3 2026; delivered 2026-08-24)
+  - `jwks_security.cpp`: RAII wrappers (UniqueX509, UniqueOSSLBuf, UniqueOSSLChar) applied to
+    `computeSPKIHashFromFile`, `computeSPKIHashFromPEM`, `getCertificateInfo` — 3 resource_leaked_in_exception closed
+  - `ldap_authenticator.cpp`: 4 unchecked `ldap_set_option` calls (TIMELIMIT×2, PROTOCOL_VERSION,
+    NETWORK_TIMEOUT, TIMEOUT) now log warnings on failure — 4 unchecked_result closed
+  - `rate_limiter_backend.cpp`: 5 bridge-function `catch(...)` blocks now log before fallback — 5 catch_all_swallow closed
+  - `http_auth_async.cpp`: `performConnectivityCheck` `catch(...)` now logs at debug level — 1 catch_all_swallow closed
+  - `auth_rate_limiter.cpp`: `reset()` lock-ordering hazard fixed (stats_mutex_ no longer held over
+    sub-object reset calls); constructor and `incrementAndGetBreachCount()` Redis blocks wrapped with
+    logged exception guards — 1 circular_lock_ordering + 2 catch_all_swallow closed
 
 ### Phase 4: Tests
 - [x] DBL-01..DBL-08: core CRUD (add, isRevoked, purge, concurrency) — tests/auth/test_auth_distributed_blacklist.cpp
@@ -103,6 +122,12 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
     missing endpoint, multi-realm coexistence, realm count)
   - Delivered: ASY-01..08 (session/async: empty user_id, unknown session, expired session, idempotent terminate,
     terminateAllOther, sess_ prefix invariant, pruneExpired, per-user limit)
+- [x] Wave C test gates delivered (Target: Q4 2026)
+  - Delivered: `tests/auth/test_auth_wavec_authentication_methods.cpp` (AUTH-Auth-01..08: JWT/SAML/mTLS validation edge cases)
+  - Delivered: `tests/auth/test_auth_wavec_token_lifecycle.cpp` (AUTH-Token-01..08: SessionManager + DistributedTokenBlacklist lifecycle)
+  - Delivered: `tests/auth/test_auth_wavec_federation_providers.cpp` (AUTH-Provider-01..06: FederatedIdentityManager failover, degradation, realm management)
+  - Delivered: `tests/auth/test_auth_wavec_authorization.cpp` (AUTH-AuthZ-01..08: authorization policy contract types)
+  - Delivered: `tests/auth/test_auth_wavec_rate_limiting.cpp` (AUTH-RateLimit-01..06: AuthRateLimiter per-user, concurrency, reset)
 
 ### Phase 5: Performance and Hardening
 - [x] isRevoked() confirmed O(1) RocksDB point read (< 1 µs warm cache); hot path unaffected by background sync
@@ -135,6 +160,11 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] distributed blacklist RPC layer (TBLK/v1) fully implemented and tested (DBL-01..DBL-17)
 - [x] remaining hardening tasks closed for provider edge cases
 - [x] release-gate benchmark stabilization complete
+- [x] PasskeyAuthenticator TODO stubs replaced with real CBOR/OpenSSL verification logic (2026-08-19)
+- [x] Wave C test gates delivered: AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06 (2026-08-19)
+- [x] Batch 5 gap closure: resource_leaked_in_exception (jwks_security.cpp RAII), unchecked_result (ldap_authenticator.cpp), catch_all_swallow (rate_limiter_backend.cpp, http_auth_async.cpp, auth_rate_limiter.cpp), circular_lock_ordering (auth_rate_limiter.cpp reset()) — delivered 2026-08-24
+- [x] audit_logger.h filename collision resolved: include/api/audit_logger.h renamed to include/api/graphql_audit_logger.h; ws_handler.cpp updated — delivered 2026-08-24 (unblocks build validation for AUTH-GRG gate evidence)
+- [~] Wave C benchmark gates executed (AUTH-GRG-01..06) — CI run `CI — Benchmarks` #40 (`32765349559`) pending completion as of 2026-08-24T19:20Z; evidence capture follows artifact publication
 
 ## Known Issues and Limitations
 

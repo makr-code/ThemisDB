@@ -31,9 +31,9 @@ namespace {
 
     // 2) Common build output locations relative to repo root or current working dir
     const std::vector<fs::path> candidates = {
-        fs::path("./bin_out/themis_plugin_runtime_test_plugin.dll"),
-        fs::path("../build-msvc-windows-release/bin_out/themis_plugin_runtime_test_plugin.dll"),
-        fs::path("build-msvc-windows-release/bin_out/themis_plugin_runtime_test_plugin.dll"),
+        fs::path("./bin/themis_plugin_runtime_test_plugin.dll"),
+        fs::path("../build-msvc-windows-release/bin/themis_plugin_runtime_test_plugin.dll"),
+        fs::path("build-msvc-windows-release/bin/themis_plugin_runtime_test_plugin.dll"),
         fs::path("./themis_plugin_runtime_test_plugin.dll"),
     };
 

@@ -16,9 +16,9 @@ namespace {
 ProfileSnapshot makeCpuSnapshot(const std::string& folded) {
     ProfileSnapshot snapshot;
     snapshot.type = ProfileType::CPU;
-    snapshot.data = std::vector<std::byte>(folded.size());
+    snapshot.data = std::vector<uint8_t>(folded.size());
     for (size_t i = 0; i < folded.size(); ++i) {
-        snapshot.data[i] = static_cast<std::byte>(folded[i]);
+        snapshot.data[i] = static_cast<uint8_t>(folded[i]);
     }
     return snapshot;
 }
@@ -29,11 +29,11 @@ public:
 
     [[nodiscard]] std::string channelType() const override { return "recording"; }
 
-    [[nodiscard]] Result<void> send(const Alert& alert) override {
+    [[nodiscard]] themis::Result<void> send(const Alert& alert) override {
         alerts.push_back(alert);
         if (fail_) {
-            return tl::unexpected(Error{
-                errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
+            return tl::unexpected(themis::Error{
+                themis::errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
                 "channel failure"
             });
         }
@@ -48,13 +48,13 @@ private:
 
 class RecordingAlertmanager : public Alertmanager {
 public:
-    Result<void> sendAlert(const Alert& alert) override {
+    themis::Result<void> sendAlert(const Alert& alert) override {
         sent.push_back(alert);
         upsertActiveAlert(alert);
         return {};
     }
 
-    Result<void> resolveAlert(const std::string& alert_id) override {
+    themis::Result<void> resolveAlert(const std::string& alert_id) override {
         resolved.push_back(alert_id);
         removeActiveAlertById(alert_id);
         return {};
@@ -126,7 +126,7 @@ TEST(ObservabilityBlockAAlerting, EngineDispatchesAndResolvesBackendState) {
 TEST(ObservabilityBlockARootCause, ReportIncludesReasonCodeAndFallbackFactor) {
     RootCauseAnalyzer analyzer;
     PerformanceIssue issue;
-    issue.category = IssueCategory::QUERY_LATENCY;
+    issue.category = IssueCategory::QUERY_OPTIMIZATION;
 
     SystemSnapshot before;
     before.avg_query_latency_ms = 100.0;

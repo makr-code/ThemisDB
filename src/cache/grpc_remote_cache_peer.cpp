@@ -31,7 +31,7 @@
 //   island; distributed invalidation events are silently dropped.
 // This fallback is PERMANENT for no-gRPC builds.  Install gRPC C++ libraries
 //   and set `-DTHEMIS_ENABLE_GRPC=1` to activate the real gRPC client below.
-// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md §"gRPC Remote Cache Peer Activation"
+// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md (gRPC peer activation — planned)
 
 #ifdef THEMIS_ENABLE_GRPC
 
@@ -127,7 +127,9 @@ void GrpcRemoteCachePeer::sendRpc(const std::string& type,
     const bool got_event = cq.Next(&tag, &ok);
 
     if (!got_event || !ok || tag != reinterpret_cast<void*>(1)) {
-        healthy_.store(false, std::memory_order_relaxed);
+        // memory_order fix: use release so the health state is visible to any
+        // thread that subsequently reads healthy_ with acquire semantics.
+        healthy_.store(false, std::memory_order_release);
         const std::string msg =
             "[GrpcRemoteCachePeer] completion queue error for '" + type +
             "' to " + config_.address +
@@ -138,10 +140,10 @@ void GrpcRemoteCachePeer::sendRpc(const std::string& type,
     }
 
     if (status.ok()) {
-        healthy_.store(true, std::memory_order_relaxed);
+        healthy_.store(true, std::memory_order_release);
         THEMIS_DEBUG("[GrpcRemoteCachePeer] {} ok → peer={}", type, config_.address);
     } else {
-        healthy_.store(false, std::memory_order_relaxed);
+        healthy_.store(false, std::memory_order_release);
         const std::string msg =
             "[GrpcRemoteCachePeer] RPC '" + type + "' to " + config_.address +
             " failed: " + status.error_message() +

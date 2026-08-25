@@ -611,8 +611,3 @@ TEST_F(FederationFaultInjectionTest, FED_08_BoundedResourceGrowth) {
     EXPECT_LE(acc.getCurrentMemoryBytes(),
               mem_policy.getMaxResultBytes() + 1000);  // Small buffer for precision
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

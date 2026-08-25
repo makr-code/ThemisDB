@@ -27,6 +27,67 @@
 
 namespace themis {
 namespace plugins {
+
+struct PluginManagerTestAccess {
+    using PluginEntry = PluginManager::PluginEntry;
+
+    static PluginsError recoverPartialRegistryState(PluginManager& manager, const std::string& plugin_name) {
+        return manager.recoverPartialRegistryState(plugin_name);
+    }
+
+    static PluginsError validateManifestOptionalFields(PluginManager& manager, PluginManifest& manifest) {
+        return manager.validateManifestOptionalFields(manifest);
+    }
+
+    static PluginsError validateConcurrentStateChange(
+        PluginManager& manager,
+        const PluginEntry& plugin_entry,
+        PluginLifecycleState requested_state) {
+        return manager.validateConcurrentStateChange(plugin_entry, requested_state);
+    }
+
+    static PluginsError validateABICompatibility(
+        PluginManager& manager,
+        const PluginEntry& previous_entry,
+        const PluginManifest& new_manifest) {
+        return manager.validateABICompatibility(previous_entry, new_manifest);
+    }
+
+    static bool verifyManifestSignatureWithTimeout(
+        PluginManager& manager,
+        const std::string& manifest_path,
+        uint32_t timeout_ms,
+        std::string& error_details) {
+        return manager.verifyManifestSignatureWithTimeout(manifest_path, timeout_ms, error_details);
+    }
+
+    static json getDiagnosticsForPlugin(PluginManager& manager, const std::string& plugin_name) {
+        return manager.getDiagnosticsForPlugin(plugin_name);
+    }
+
+    static ManifestErrorCode validateManifestEditionRestrictions(
+        PluginManager& manager,
+        const PluginManifest& manifest,
+        std::string& error_details) {
+        return manager.validateManifestEditionRestrictions(manifest, error_details);
+    }
+
+    static ManifestErrorCode validateManifestPublicPrivateBoundary(
+        PluginManager& manager,
+        const PluginManifest& manifest,
+        const std::string& plugin_path,
+        std::string& error_details) {
+        return manager.validateManifestPublicPrivateBoundary(manifest, plugin_path, error_details);
+    }
+
+    static std::string formatDiagnosticMessage(
+        PluginsError error_code,
+        const std::string& context,
+        const std::string& plugin_name = "") {
+        return PluginManager::formatDiagnosticMessage(error_code, context, plugin_name);
+    }
+};
+
 namespace test {
 
 // ============================================================================
@@ -71,7 +132,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG29_ConcurrentLoadUnload) {
             // Note: In real test, plugin would be discovered via scanPluginDirectory
             // For now, we just validate the error handling path
             auto result = manager_.loadPlugin(plugin_name);
-            if (result.is_ok()) {
+            if (result.has_value()) {
                 load_count++;
             } else {
                 // Expected: plugin not found or transition error
@@ -87,7 +148,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG29_ConcurrentLoadUnload) {
     
     // Verify: Either all succeeded (1 actual load) or all failed appropriately
     // At minimum, no undefined behavior or crashes
-    EXPECT_GE(load_count + error_count, 0);
+    EXPECT_GE(load_count.load() + error_count.load(), 0);
     EXPECT_LE(error_count, THREAD_COUNT);
 }
 
@@ -111,7 +172,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG30_SignatureVerificationTimeout) {
     
     // Test with very short timeout
     std::string error_details;
-    bool result = manager_.verifyManifestSignatureWithTimeout(test_manifest, 1, error_details);
+    bool result = PluginManagerTestAccess::verifyManifestSignatureWithTimeout(manager_, test_manifest, 1, error_details);
     
     // Verify: Either succeeds (no .sig file) or reports a non-empty error detail
     // A timeout or missing signature must leave an observable error_details message
@@ -131,7 +192,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG31_PartialStateRecovery) {
     std::string plugin_name = "partial_state_plugin";
     
     // Test recovery of plugin in LOADING state
-    PluginsError recovery_result = manager_.recoverPartialRegistryState(plugin_name);
+    PluginsError recovery_result = PluginManagerTestAccess::recoverPartialRegistryState(manager_, plugin_name);
     
     // Verify: Returns kPluginNotFound (expected) or kSuccess
     EXPECT_TRUE(
@@ -157,7 +218,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG32_MissingOptionalFields) {
     // Intentionally leave optional fields empty
     // allowed_editions, license_feature, visibility, capabilities, dependencies
     
-    PluginsError validation_result = manager_.validateManifestOptionalFields(manifest);
+    PluginsError validation_result = PluginManagerTestAccess::validateManifestOptionalFields(manager_, manifest);
     
     // Verify: Should succeed and apply defaults
     EXPECT_EQ(validation_result, PluginsError::kSuccess);
@@ -176,21 +237,22 @@ TEST_F(PluginErrorHandlingPhase3, PLG33_AbiIncompatibilityDetection) {
     // This is a unit test, so we can't actually load plugins
     // But we can verify the ABI compatibility check logic
     
-    PluginManager::PluginEntry prev_entry;
+    PluginManagerTestAccess::PluginEntry prev_entry;
     prev_entry.manifest.version = "1.0.0";
-    prev_entry.frozen_capabilities.push_back("capability1");
+    prev_entry.frozen_capabilities.supports_streaming = true;
+    prev_entry.frozen_capabilities.thread_safe = true;
     
     PluginManifest new_manifest;
     new_manifest.version = "2.0.0";  // Major version change
     
-    PluginsError abi_check = manager_.validateABICompatibility(prev_entry, new_manifest);
+    PluginsError abi_check = PluginManagerTestAccess::validateABICompatibility(manager_, prev_entry, new_manifest);
     
     // Major version change should be incompatible
     EXPECT_EQ(abi_check, PluginsError::kSignatureVerifyFailed);
     
     // Test compatible version (patch level change)
     new_manifest.version = "1.0.1";
-    abi_check = manager_.validateABICompatibility(prev_entry, new_manifest);
+    abi_check = PluginManagerTestAccess::validateABICompatibility(manager_, prev_entry, new_manifest);
     EXPECT_EQ(abi_check, PluginsError::kSuccess);
 }
 
@@ -208,11 +270,11 @@ TEST_F(PluginErrorHandlingPhase3, PLG34_InitializationFailure) {
     auto result = manager_.loadPlugin(failing_plugin);
     
     // Verify: Error should be returned
-    EXPECT_FALSE(result.is_ok());
+    EXPECT_FALSE(result.has_value());
     
     // Plugin should not remain loaded
     auto status = manager_.getPlugin(failing_plugin);
-    EXPECT_FALSE(status.is_ok());
+    EXPECT_FALSE(status.has_value());
 }
 
 // ============================================================================
@@ -228,7 +290,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG35_ResourceLeakHandling) {
     auto unload_result = manager_.unloadPlugin(leaky_plugin);
     
     // Verify: Plugin not loaded means unload returns an error (not ok)
-    EXPECT_FALSE(unload_result.is_ok());
+    EXPECT_FALSE(unload_result.has_value());
 }
 
 // ============================================================================
@@ -268,7 +330,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG37_ConcurrentRegistryOperations) {
     // Thread 1: Scan for plugins
     std::thread scanner([&]() {
         auto result = manager_.scanPluginDirectory("./plugins");
-        if (result.is_ok()) {
+        if (result.has_value()) {
             success_count++;
         } else {
             failure_count++;
@@ -278,7 +340,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG37_ConcurrentRegistryOperations) {
     // Thread 2: Attempt to load plugins
     std::thread loader([&]() {
         auto result = manager_.loadPlugin("some_plugin");
-        if (!result.is_ok()) {
+        if (!result.has_value()) {
             // Expected if plugin not found
             failure_count++;
         }
@@ -287,7 +349,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG37_ConcurrentRegistryOperations) {
     // Thread 3: Attempt another scan
     std::thread scanner2([&]() {
         auto result = manager_.scanPluginDirectory("./plugins");
-        if (result.is_ok()) {
+        if (result.has_value()) {
             success_count++;
         } else {
             failure_count++;
@@ -320,7 +382,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG38_DeadlockTimeout) {
     
     // Test with timeout
     std::string error_details;
-    bool result = manager_.verifyManifestSignatureWithTimeout(manifest_path, 100, error_details);
+    bool result = PluginManagerTestAccess::verifyManifestSignatureWithTimeout(manager_, manifest_path, 100, error_details);
     
     // Verify: Should complete within reasonable time (no actual deadlock)
     EXPECT_TRUE(true);  // Just checking no hang
@@ -349,7 +411,7 @@ TEST_F(PluginErrorHandlingPhase3, PLG39_DiagnosticMessageConsistency) {
     };
     
     for (auto error_code : error_codes) {
-        std::string message = PluginManager::formatDiagnosticMessage(
+        std::string message = PluginManagerTestAccess::formatDiagnosticMessage(
             error_code,
             "Test context message",
             "test_plugin"
@@ -379,17 +441,17 @@ TEST_F(PluginErrorHandlingPhase3, PLG40_ErrorRecoveryRetry) {
     
     // First attempt (will fail - plugin not loaded)
     auto result1 = manager_.unloadPlugin(plugin_name);
-    EXPECT_FALSE(result1.is_ok());
+    EXPECT_FALSE(result1.has_value());
     
     // Recovery: scan directory (simulates remediation)
     auto recovery = manager_.scanPluginDirectory("./plugins");
     
     // Second attempt (should still fail gracefully, but not due to bad state)
     auto result2 = manager_.unloadPlugin(plugin_name);
-    EXPECT_FALSE(result2.is_ok());
+    EXPECT_FALSE(result2.has_value());
     
     // Verify: Both attempts handled consistently
-    EXPECT_TRUE(!result1.is_ok() && !result2.is_ok());
+    EXPECT_TRUE(!result1.has_value() && !result2.has_value());
 }
 
 // ============================================================================
@@ -400,12 +462,12 @@ TEST_F(PluginErrorHandlingPhase3, ConcurrentStateValidation) {
     // Helper: Directly test concurrent state change validation
     // This tests the validateConcurrentStateChange method
     
-    PluginManager::PluginEntry test_entry;
+    PluginManagerTestAccess::PluginEntry test_entry;
     test_entry.state = PluginLifecycleState::LOADED;
-    test_entry.state_mutex = std::mutex();
     
     // Should allow transition from LOADED to UNLOADING
-    PluginsError result = manager_.validateConcurrentStateChange(
+    PluginsError result = PluginManagerTestAccess::validateConcurrentStateChange(
+        manager_,
         test_entry,
         PluginLifecycleState::UNLOADING
     );
@@ -416,7 +478,7 @@ TEST_F(PluginErrorHandlingPhase3, ConcurrentStateValidation) {
 TEST_F(PluginErrorHandlingPhase3, DiagnosticDataStructure) {
     // Test getDiagnosticsForPlugin returns valid JSON
     
-    auto diagnostics = manager_.getDiagnosticsForPlugin("nonexistent_plugin");
+    auto diagnostics = PluginManagerTestAccess::getDiagnosticsForPlugin(manager_, "nonexistent_plugin");
     
     // Verify: Should return valid JSON
     EXPECT_TRUE(diagnostics.is_object());
@@ -437,10 +499,10 @@ TEST_F(PluginErrorHandlingPhase3, ManifestOptionalFieldsComprehensive) {
     manifest.allowed_editions.clear();
     manifest.license_feature = "";
     manifest.visibility = "";
-    manifest.capabilities.clear();
+    manifest.capabilities = PluginCapabilities{};
     manifest.dependencies.clear();
     
-    auto result = manager_.validateManifestOptionalFields(manifest);
+    auto result = PluginManagerTestAccess::validateManifestOptionalFields(manager_, manifest);
     
     EXPECT_EQ(result, PluginsError::kSuccess);
     EXPECT_EQ(manifest.visibility, "public");

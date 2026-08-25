@@ -56,21 +56,28 @@ class SseConnectionManager;
  * stream.run(key_prefix, event_types);  // Blocks until stream closes or timeout
  * ```
  */
+/**
+ * @brief Stream configuration for AsyncSSEStream backpressure and event handling.
+ *
+ * Defined outside AsyncSSEStream so it can be used as a default parameter
+ * in the constructor declaration (GCC 13 restriction on nested-struct
+ * aggregate initialization inside a class body).
+ */
+struct AsyncSSEStreamConfig {
+    /// Maximum events to buffer before dropping oldest (backpressure)
+    size_t max_buffered_events = 1000;
+    /// Heartbeat interval in milliseconds (0 = disabled)
+    uint32_t heartbeat_interval_ms = 15000;
+    /// Maximum duration before stream auto-closes (in seconds)
+    uint32_t max_duration_seconds = 300;
+    /// Backpressure strategy: true = drop oldest, false = drop newest
+    bool drop_oldest_on_overflow = true;
+};
+
 class AsyncSSEStream {
 public:
-    /**
-     * @brief Stream configuration for backpressure and event handling.
-     */
-    struct Config {
-        /// Maximum events to buffer before dropping oldest (backpressure)
-        size_t max_buffered_events = 1000;
-        /// Heartbeat interval in milliseconds (0 = disabled)
-        uint32_t heartbeat_interval_ms = 15000;
-        /// Maximum duration before stream auto-closes (in seconds)
-        uint32_t max_duration_seconds = 300;
-        /// Backpressure strategy: true = drop oldest, false = drop newest
-        bool drop_oldest_on_overflow = true;
-    };
+    /// @brief Alias for the stream configuration type.
+    using Config = AsyncSSEStreamConfig;
 
     /**
      * @brief Construct an async SSE stream.

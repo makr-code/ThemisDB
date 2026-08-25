@@ -229,7 +229,9 @@ public:
      *
      * @param metrics  Read-only metrics snapshot from @c NetworkMetrics::snapshot().
      */
-    virtual void onMetricsFlush(const NetworkMetrics::Snapshot& metrics) noexcept {}
+    virtual void onMetricsFlush([[maybe_unused]] const NetworkMetrics::Snapshot& metrics) noexcept {
+        (void)metrics;
+    }
 };
 
 // =============================================================================

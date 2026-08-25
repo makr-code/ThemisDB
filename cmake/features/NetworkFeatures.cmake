@@ -23,12 +23,12 @@ endif()
 
 # WebSocket
 if(NOT DEFINED THEMIS_ENABLE_WEBSOCKET)
-    option(THEMIS_ENABLE_WEBSOCKET "Enable WebSocket" OFF)
+    option(THEMIS_ENABLE_WEBSOCKET "Enable WebSocket" ON)
 endif()
 
 # MQTT
 if(NOT DEFINED THEMIS_ENABLE_MQTT)
-    option(THEMIS_ENABLE_MQTT "Enable MQTT" OFF)
+    option(THEMIS_ENABLE_MQTT "Enable MQTT" ON)
 endif()
 
 # MQTT TLS (requires THEMIS_ENABLE_MQTT=ON and OpenSSL)
@@ -45,12 +45,12 @@ endif()
 
 # MCP (Model Context Protocol)
 if(NOT DEFINED THEMIS_ENABLE_MCP)
-    option(THEMIS_ENABLE_MCP "Enable MCP" OFF)
+    option(THEMIS_ENABLE_MCP "Enable MCP" ON)
 endif()
 
 # Server-Sent Events
 if(NOT DEFINED THEMIS_ENABLE_SSE)
-    option(THEMIS_ENABLE_SSE "Enable Server-Sent Events" OFF)
+    option(THEMIS_ENABLE_SSE "Enable Server-Sent Events" ON)
 endif()
 
 # GraphQL

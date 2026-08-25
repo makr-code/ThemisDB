@@ -1,0 +1,352 @@
+school_id: befreiungstheologie
+name: Liberation Theology (Dussel)
+name_de: Lateinamerikanische Befreiungstheologie (Dussel)
+taxonomy_class: non_mainstream
+tags:
+- befreiungstheologie
+- dussel
+- lateinamerika
+- transmodernitat
+- arme
+- option_fuer_arme
+- subalterne
+- kolonialitaet
+- dekolonisierung
+- nicht_mainstream
+applicable_domains:
+- social_justice
+- human_rights
+- ai_governance
+- global_ethics
+- environmental_ethics
+- poverty
+convergence_compatible:
+- marx
+- ubuntu_ethik
+- care_ethics
+- buddhistische_ethik
+cross_school_tensions:
+- own_thesis: option_fuer_arme
+  opposing_school: rawls
+  opposing_thesis: original_position
+  tension_type: preferential_option_vs_procedural_neutrality
+  rebuttal_cite_weight: 0.85
+- own_thesis: exterioridad
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: embodied_suffering_vs_formal_universalism
+  rebuttal_cite_weight: 0.8
+- own_thesis: transmodernitat
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: liberation_ethics_vs_colonial_progress_narrative
+  rebuttal_cite_weight: 0.75
+activation_conditions:
+- condition: dilemma.domains enthält social_justice ODER poverty
+  effect: always_active
+- condition: dilemma.tags enthält inequality ODER oppression ODER colonialism ODER marginalized
+  effect: always_active
+- condition: dilemma.domains enthält ai_governance ODER global_ethics
+  effect: always_active
+- condition: dilemma.tags enthält power ODER south_global ODER human_rights
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Befreiungstheologie ist akademisch-theologisch; keine spezifischen regulatorischen Rahmenbedingungen
+domain_overrides:
+  social_justice:
+    weight_boost: 0.35
+    note: Option für die Armen als originärer Beitrag zur globalen Gerechtigkeitsdebatte
+  ai_governance:
+    weight_boost: 0.2
+    note: Befreiungstheologie liefert Perspektive für globale Süd-Norden-Machtasymmetrien in KI
+founders:
+- name: Enrique Dussel
+  years: 1934-2023
+  nationality: Argentinisch-Mexikanisch
+  key_works:
+  - title: Ethics of Liberation in the Age of Globalization and Exclusion
+    year: 1998
+    significance: Hauptwerk der Befreiungsethik; Exterioridad, Transmodernität, Option für Arme
+  - title: 'Philosophy of Liberation'
+    year: 1977
+    significance: Philosophische Grundlegung der Befreiungsethik; Kritik des Eurozentrismus
+  - title: 1492 — The Concealment of the Other
+    year: 1992
+    significance: Entmystifizierung der Conquista; Standpunkt des Anderen als Ausgangspunkt
+  biography: Argentinisch-mexikanischer Philosoph und Theologe; Begründer der Befreiungsethik als systematische Philosophie.
+    Entwickelte Transmodernitätskonzept als Alternative zu moderner westlicher Universalität.
+- name: Gustavo Gutiérrez
+  years: 1928-2024
+  nationality: Peruanisch
+  key_works:
+  - title: "A Theology of Liberation: History, Politics, and Salvation"
+    year: 1971
+    significance: Gründungstext der Befreiungstheologie; Option für die Armen als theologisches Prinzip
+  biography: Peruanischer Dominikanertheologe; Begründer der Befreiungstheologie als Strömung des Zweiten Vatikanums.
+    Geprägt von Erfahrungen in den Armenvierteln Limas.
+- name: Leonardo Boff
+  years: 1938-
+  nationality: Brasilianisch
+  key_works:
+  - title: Church, Charism and Power
+    year: 1981
+    significance: Befreiungstheologie und Kirchenkritik; globale Ausweitung auf Ökologie
+  - title: Ecology and Liberation
+    year: 1995
+    significance: Verbindung von Befreiungstheologie und Ökologie-Ethik
+  biography: Brasilianischer Franziskaner und Theologe; verband Befreiungstheologie mit Ökologie und Menschenrechten.
+historical_context:
+  period: 1950er bis heute; theologische Formalisierung ab 1968 (Medellín-Konferenz)
+  philosophical_movement: Befreiungstheologie, Befreiungsphilosophie, Dekoloniale Theorie
+  zeitgeist: Option für die Armen, Befreiung von Unterdrückung, Transmodernität
+  influences:
+  - source: Zweites Vatikanisches Konzil (1962-1965)
+    impact: Öffnung der Kirche für Sozialfragen und Menschenrechte
+  - source: Marxismus (insbesondere Kritische Theorie)
+    thinkers:
+    - Marx
+    - Gramsci
+    - Frantz Fanon
+    impact: Sozialanalyse und Klassentheorie als Werkzeug der Befreiungsethik
+  - source: Dependenztheorie (lateinamerikanisch)
+    impact: Strukturelle Armutsanalyse; Unterentwicklung als Produkt kolonialer Herrschaft
+  reactions_against:
+  - Eurozentrismus der westlichen Moralphilosophie
+  - Konservative Kirchenlehre ohne soziale Kritik
+  - Entwicklungsparadigma des Nordens als Maßstab des Südens
+main_theses:
+- thesis_id: befreiungstheologie:option_fuer_arme
+  name: Option für die Armen (Opción preferencial por los pobres)
+  description: 'Die preferentielle Option für die Armen: ethische Entscheidungen werden aus der Perspektive der Marginalisierten,
+    Unterdrückten und Ausgeschlossenen getroffen. Der Standpunkt der Armen ist epistemisch privilegiert.'
+  explanation: 'Die Option für die Armen ist kein Mitleids-Prinzip, sondern eine
+
+    epistemische und ethische Privilegierung: die Perspektive der Unterdrückten
+
+    enthüllt die Wahrheit gesellschaftlicher Verhältnisse besser als die Perspektive
+
+    der Herrschenden.  Ethik muss von unten beginnen.
+
+    In der KI-Ethik: Wessen Perspektive wird in Trainingsdaten und Algorithmen
+
+    privilegiert? Globale Süd-Perspektiven müssen aktiv einbezogen werden.
+
+    '
+  implications:
+  - Ethische Analyse muss strukturelle Ungleichheit und Ausschluss berücksichtigen
+  - Stimmen der Marginalisierten sind epistemisch privilegiert
+  - KI-Trainingsdaten und Governance-Prozesse müssen globale Süd-Perspektiven einschließen
+  - Technologie darf Machtasymmetrien nicht verstärken
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 4
+  - 5
+  round_role_weights:
+    PRO: 0.9
+    SYNTHESIS: 0.85
+    REBUTTAL: 0.65
+- thesis_id: befreiungstheologie:exterioridad
+  name: Exterioridad — Der Andere als ethischer Ausgangspunkt
+  description: 'Dussel zufolge muss Ethik vom Anderen ausgehen: vom Ausgeschlossenen, vom Armen, vom Opfer des Systems.
+    Der Andere ist nicht das Andere des Gleichen, sondern ein Jenseits des Systems.'
+  explanation: 'In der Befreiungsethik Dussels beginnt Ethik nicht mit dem
+
+    Subjekt des Systems, sondern mit dem Anderen (el Otro) — dem Ausgeschlossenen,
+
+    Unterdrückten, dem Opfer.  Ethische Antwort bedeutet: Verantwortung für
+
+    das Gesicht des Anderen übernehmen (Bezug auf Levinas).
+
+    In der KI-Ethik: Wer ist der Andere, der in KI-Systemen unsichtbar gemacht
+
+    wird? Wessen Schaden ist systematisch nicht sichtbar?
+
+    '
+  implications:
+  - Ethik beginnt mit dem Ausgeschlossenen, nicht mit dem Systemteilnehmer
+  - Unsichtbare Opfer technologischer Systeme müssen aktiv sichtbar gemacht werden
+  - Globale Lieferketten-Ethik für KI-Hardware (Kobalt, seltene Erden) gehört zur Befreiungsethik
+  token_budget: 170
+  activation_rounds:
+  - 1
+  - 2
+  - 4
+  round_role_weights:
+    PRO: 0.85
+    REBUTTAL: 0.7
+    SYNTHESIS: 0.8
+- thesis_id: befreiungstheologie:transmodernitat
+  name: Transmodernität — Jenseits von Moderne und Postmoderne
+  description: Transmodernität bezeichnet ein Projekt der Befreiung, das weder die westliche Moderne noch die Postmoderne
+    einfach ablehnt, sondern sie aus der Perspektive anderer Kulturen transformiert.
+  explanation: 'Dussel lehnt sowohl die Universalisierungsansprüche der westlichen
+
+    Moderne als auch die nihilistische Postmoderne ab.  Transmodernität meint:
+
+    andere Kulturen, Völker und Traditionen entwickeln ihre eigene Moderne aus
+
+    ihren Wurzeln — nicht Imitation des Westens, sondern kreative Eigenentwicklung.
+
+    In der KI-Ethik: globale KI-Governance darf nicht westliche Normvorstellungen
+
+    universalisieren, sondern muss plurale kulturelle Ausgangspunkte anerkennen.
+
+    '
+  implications:
+  - Westliche Normvorstellungen sind nicht universell
+  - Globale KI-Governance braucht plurale kulturelle Ausgangspunkte
+  - Dekolonisierung von KI-Ethik-Frameworks ist ethische Pflicht
+  token_budget: 160
+  activation_rounds:
+  - 1
+  - 3
+  - 5
+  round_role_weights:
+    PRO: 0.8
+    REBUTTAL: 0.75
+    SYNTHESIS: 0.75
+- thesis_id: befreiungstheologie:conscientizacao
+  name: Conscientização — Bewusstseinsweckung und Befreiungspraxis
+  description: 'Paulo Freires Konzept der Conscientização: Befreiung erfordert kritisches Bewusstsein über eigene Unterdrückung
+    und aktive Praxis der Veränderung (Praxis als Dialog).'
+  explanation: 'Conscientização (Freire) ist der Prozess des kritischen Bewusstseins
+
+    über die eigene gesellschaftliche Lage und die Mechanismen der Unterdrückung.
+
+    Befreiung ist kein Geschenk von oben, sondern entsteht im Dialog zwischen
+
+    Unterdrückten und ihren Begleitern.
+
+    In der KI-Kontext: Betroffene von KI-Entscheidungen müssen verstehen, wie
+
+    Systeme funktionieren und wie sie sie beeinflussen können (algorithmische
+
+    Bildung als Befreiungspraxis).
+
+    '
+  token_budget: 140
+  activation_rounds:
+  - 2
+  - 3
+  - 4
+  round_role_weights:
+    PRO: 0.7
+    SYNTHESIS: 0.75
+    REBUTTAL: 0.6
+secondary_theses:
+- thesis_id: befreiungstheologie:praxis_theologie
+  name: Praxis — Theologische Reflexion aus der Befreiungspraxis
+  description: Theologische und philosophische Reflexion muss aus konkreter Praxis der Befreiung entstehen, nicht umgekehrt.
+    Theorie ohne Praxis ist Ideologie.
+  token_budget: 120
+  activation_rounds:
+  - 2
+  - 3
+  - 5
+  round_role_weights:
+    SYNTHESIS: 0.75
+    PRO: 0.6
+- thesis_id: befreiungstheologie:solidaritaet
+  name: Solidarität — Aktive Parteinahme für die Unterdrückten
+  description: Solidarität ist mehr als Sympathie — sie bedeutet aktive Parteinahme für die Unterdrückten, auch wenn dies
+    persönliche oder institutionelle Kosten verursacht.
+  token_budget: 110
+  activation_rounds:
+  - 1
+  - 2
+  round_role_weights:
+    PRO: 0.75
+    REBUTTAL: 0.55
+decision_framework:
+  question_sequence:
+  - Wessen Perspektive wird privilegiert — die der Herrschenden oder die der Ausgeschlossenen?
+  - Wer ist der Andere, der durch die Handlung oder das System unsichtbar gemacht wird?
+  - Stärkt die Handlung Strukturen der Unterdrückung oder trägt sie zur Befreiung bei?
+  - Ist die Analyse der Situation von unten (von den Betroffenen) gemacht worden?
+  - Verbindet die Handlung Theorie mit konkreter Praxis der Befreiung?
+  tests:
+  - name: Option-für-Arme-Test
+    procedure: Würde eine unterdrückte, marginalisierte Person diese Entscheidung als befreiend erfahren?
+  - name: Exterioridad-Test
+    procedure: Wessen Gesicht, Leid und Würde wird durch die Handlung ignoriert oder sichtbar gemacht?
+  - name: Transmodernitäts-Test
+    procedure: Reproduziert die Entscheidung westliche Normvorstellungen oder öffnet sie Raum für plurale Kulturen?
+strengths:
+- point: Strukturelle Analyse
+  elaboration: Verbindet individuelle Ethik mit Kritik gesellschaftlicher Strukturen und Machtverhältnisse
+- point: Globale Perspektive
+  elaboration: Bezieht Perspektiven des globalen Südens ein, die in westlicher Ethiktradition marginalisiert sind
+- point: Praxisorientierung
+  elaboration: Ethik ohne Praxis ist Ideologie; Befreiungstheologie verbindet Reflexion mit Handlung
+- point: Epistemische Stärke
+  elaboration: Standpunkt der Unterdrückten enthüllt Wahrheiten, die aus der Herrschendenperspektive unsichtbar sind
+weaknesses:
+- point: Ideologieverdacht
+  elaboration: Kritiker werfen Befreiungstheologie marxistische Einseitigkeit und politische Instrumentalisierung vor
+- point: Kirchlicher Konflikt
+  elaboration: Vatikan-Konflikte (Kardinal Ratzinger) haben Befreiungstheologie institutionell geschwächt
+- point: Skalierbarkeit der Praxis
+  elaboration: Gemeinschaftsbasierte Praxis ist schwer auf staatliche oder globale Governance-Ebene zu übertragen
+internal_debate:
+  theologie_vs_philosophie:
+    issue: Ist Befreiungstheologie primär Theologie oder säkulare Philosophie?
+    positions:
+    - 'Gutiérrez: theologische Basis ist unverzichtbar — Befreiung ist eschatologisches Projekt'
+    - 'Dussel: Befreiungsethik ist säkulare Philosophie mit theologischen Quellen'
+  reform_vs_revolution:
+    issue: Ist Befreiung durch Reform oder Revolution zu erreichen?
+    positions:
+    - 'Reformismus: schrittweise Transformation durch Institutionen'
+    - 'Radikale Strömung: struktureller Wandel erfordert Systembruch'
+philosophical_positioning:
+  relation_to_marx: 'Selektive Anlehnung: Sozialanalyse ja; atheistischer Materialismus nein; Eschatologie als Unterschied'
+  relation_to_kant: 'Kritik: formaler Universalismus blendet konkrete Unterdrückungserfahrungen aus; Exterioridad als Korrektur'
+  relation_to_rawls: 'Kritik: Schleier des Nichtwissens neutralisiert real bestehende Machtasymmetrien; Option für Arme bevorzugt Betroffene'
+  relation_to_care_ethics: 'Überschneidung: Fürsorge für Verletzliche; Befreiungstheologie fügt Machtanalyse und Strukturkritik hinzu'
+contemporary_extensions:
+- thinker: Walter Mignolo
+  contribution: Dekolonialität und Grenzdenken; Wissenssysteme des Südens als eigenständige Epistemologie
+- thinker: Boaventura de Sousa Santos
+  contribution: Epistemologies of the South; Pluriversalität als Alternative zur westlichen Universalität
+- thinker: Franz Hinkelammert
+  contribution: Befreiungstheologie und Wirtschaftsethik; neoliberaler Kapitalismus als theologisches Problem
+application_areas:
+- domain: KI-Governance und globale Technikethik
+  issues:
+  - 'Datenmacht und Datenkolonialismus: wessen Daten trainieren KI-Systeme?'
+  - Befreiungstheologische Perspektive auf KI-Regulierung im globalen Süden
+  - Algorithmische Diskriminierung als Fortsetzung struktureller Unterdrückung
+- domain: Soziale Gerechtigkeit
+  issues:
+  - Armutsbekämpfung muss Strukturursachen adressieren, nicht nur Symptome
+  - Participatory Justice — Betroffene als Akteure, nicht Objekte
+- domain: Umweltethik
+  issues:
+  - Umweltgerechtigkeit (Environmental Justice) — Arme sind unverhältnismäßig von Umweltzerstörung betroffen
+  - Klimagerechtigkeit als Befreiungsprojekt des globalen Südens
+famous_quotes:
+- quote: "El punto de partida de la ética de la liberación es el pobre, el excluido, la víctima. — Der Ausgangspunkt der
+    Befreiungsethik ist der Arme, der Ausgeschlossene, das Opfer."
+  source: Enrique Dussel, Ética de la Liberación, 1998
+  context: Exterioridad als ethischer Grundsatz; Option für die Armen als methodischer Ausgangspunkt
+- quote: "La opción preferencial por los pobres es el sello de la teología de la liberación. — Die preferentielle Option
+    für die Armen ist das Markenzeichen der Befreiungstheologie."
+  source: Gustavo Gutiérrez, A Theology of Liberation, 1971
+  context: Option für die Armen als Kernprinzip der Befreiungstheologie
+- quote: "No es posible pensar eticamente sin partir de las víctimas. — Es ist nicht möglich, ethisch zu denken, ohne von
+    den Opfern auszugehen."
+  source: Enrique Dussel
+  context: Epistemischer Vorrang der Opfer in der Befreiungsethik
+key_literature:
+  primary:
+  - 'Dussel, Enrique. Ethics of Liberation in the Age of Globalization and Exclusion. Duke UP, 2013.'
+  - "Dussel, Enrique. Philosophy of Liberation. Orbis Books, 1985."
+  - "Gutiérrez, Gustavo. A Theology of Liberation. Orbis Books, 1971."
+  - "Freire, Paulo. Pedagogy of the Oppressed. Continuum, 1970."
+  secondary:
+  - 'Mignolo, Walter. Local Histories/Global Designs. Princeton UP, 2000.'
+  - 'Santos, Boaventura de Sousa. Epistemologies of the South. Routledge, 2014.'
+  - 'Hinkelammert, Franz. The Ideological Weapons of Death. Orbis Books, 1986.'

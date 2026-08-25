@@ -1,6 +1,6 @@
-/**
+﻿/**
  * @file subagent_factory_impl.cpp
- * @brief Implementation of SubagentFactory — creates and manages independent
+ * @brief Implementation of SubagentFactory â€” creates and manages independent
  *        LLM Inferencing Subagents with isolated configuration.
  *
  * @note **Production-Grade Implementation**: Thread-safe factory with resource
@@ -24,7 +24,7 @@ namespace themis {
 namespace llm {
 
 // ============================================================================
-// § 1  Subagent Implementation
+// Â§ 1  Subagent Implementation
 // ============================================================================
 
 /**
@@ -76,7 +76,7 @@ public:
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
-            return make_unexpected("Cannot load: subagent state is " + 
+            return tl::make_unexpected("Cannot load: subagent state is " + 
                 std::string(subagentStateToString(state_)));
         }
 
@@ -102,7 +102,7 @@ public:
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::READY) {
-            return make_unexpected("Cannot warm: subagent not in READY state");
+            return tl::make_unexpected(std::string("Cannot warm: subagent not in READY state"));
         }
 
         // In production, warm would:
@@ -283,7 +283,7 @@ public:
     SubagentResult<void> pause() override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
         if (state_ != SubagentState::READY) {
-            return make_unexpected("Cannot pause: subagent not in READY state");
+            return tl::make_unexpected(std::string("Cannot pause: subagent not in READY state"));
         }
         state_ = SubagentState::PAUSED;
         return make_expected();
@@ -292,7 +292,7 @@ public:
     SubagentResult<void> resume() override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
         if (state_ != SubagentState::PAUSED) {
-            return make_unexpected("Cannot resume: subagent not in PAUSED state");
+            return tl::make_unexpected(std::string("Cannot resume: subagent not in PAUSED state"));
         }
         state_ = SubagentState::READY;
         return make_expected();
@@ -331,10 +331,10 @@ private:
 };
 
 // ============================================================================
-// § 2  SubagentFactory Implementation
+// Â§ 2  SubagentFactory Implementation
 // ============================================================================
 
-/** @brief § 2  SubagentFactory Implementation. */
+/** @brief Â§ 2  SubagentFactory Implementation. */
 class SubagentFactoryImpl : public SubagentFactory {
 public:
     SubagentFactoryImpl(
@@ -393,7 +393,7 @@ public:
             for (const auto& err : errors) {
                 msg += err.field + " (" + err.reason + ") ";
             }
-            return make_unexpected(msg);
+            return tl::make_unexpected(msg);
         }
 
         // Check max subagents limit and duplicate ID
@@ -401,10 +401,10 @@ public:
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             if (config_.max_subagents > 0 && 
                 subagents_.size() >= config_.max_subagents) {
-                return make_unexpected("Maximum subagents limit reached");
+                return tl::make_unexpected(std::string("Maximum subagents limit reached"));
             }
             if (subagents_.count(config.id) > 0) {
-                return make_unexpected("Subagent already exists with ID: " + config.id);
+                return tl::make_unexpected(std::string("Subagent already exists with ID: ") + config.id);
             }
         }
 
@@ -453,7 +453,7 @@ public:
             config.budget.max_tokens_per_minute
         );
 
-        return make_expected(subagent);
+        return make_expected<std::shared_ptr<Subagent>>(std::static_pointer_cast<Subagent>(subagent));
     }
 
     SubagentResult<void> destroySubagent(
@@ -465,7 +465,7 @@ public:
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             auto it = subagents_.find(subagent_id);
             if (it == subagents_.end()) {
-                return make_unexpected("Subagent not found: " + subagent_id);
+                return tl::make_unexpected(std::string("Subagent not found: ") + subagent_id);
             }
             subagent = it->second;
             subagents_.erase(it);
@@ -505,7 +505,7 @@ public:
         const std::string& subagent_id) override {
         auto subagent = getSubagent(subagent_id);
         if (!subagent) {
-            return make_unexpected("Subagent not found: " + subagent_id);
+            return tl::make_unexpected("Subagent not found: " + subagent_id);
         }
         return make_expected(subagent->getMetrics());
     }
@@ -514,7 +514,7 @@ public:
         const std::string& subagent_id) override {
         auto subagent = getSubagent(subagent_id);
         if (!subagent) {
-            return make_unexpected("Subagent not found: " + subagent_id);
+            return tl::make_unexpected("Subagent not found: " + subagent_id);
         }
         return make_expected(subagent->getState());
     }
@@ -534,7 +534,7 @@ public:
             std::unique_lock<std::mutex> lock(policies_mutex_);
             auto it = policies_.find(policy_id);
             if (it == policies_.end()) {
-                return make_unexpected("Policy not found: " + policy_id);
+                return tl::make_unexpected(std::string("Policy not found: ") + policy_id);
             }
             policies_.erase(it);
         }
@@ -565,7 +565,7 @@ private:
 };
 
 // ============================================================================
-// § 3  Factory Creation
+// Â§ 3  Factory Creation
 // ============================================================================
 
 SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
@@ -577,7 +577,7 @@ SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
     const Config& config) {
     
     if (!plugin || !worker_pool || !model_loader || !lora_manager) {
-        return make_unexpected("Required dependencies are null");
+        return tl::make_unexpected(std::string("Required dependencies are null"));
     }
 
     return make_expected<std::unique_ptr<SubagentFactory>>(

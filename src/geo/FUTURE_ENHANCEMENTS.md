@@ -1,7 +1,7 @@
 # Geo Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-07-29 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · ARCHITECTURE.md -->
 
 ## Scope
 
@@ -71,3 +71,14 @@
 - preserve explicit failure signaling for degraded or unsupported paths.
 - enforce bounded behavior for advanced geo operations under pressure.
 - keep diagnostics actionable for production geo incidents.
+
+### CUDA Geospatial Kernels
+- Haversine distance kernel delivered (Q3 2026): batched per-pair spherical distance computation.
+- Vincenty distance kernel delivered (Q3 2026): WGS-84 ellipsoid model, fallback for nearly-antipodal points.
+- Point-in-polygon containment kernel delivered (Q3 2026): ray-casting, batched dispatch.
+- Open: full diagnostics parity and mixed-capability fallback hardening (Q4 2026).
+
+### Boost.Geometry Integration
+- CPU exact backend implemented via `boost::geometry`: supports union, difference, intersection for polygon inputs.
+- Backend registered as `boost_cpu_exact` in the backend dispatch table.
+- Open: expanded regression coverage for complex polygon edge cases (Q4 2026).

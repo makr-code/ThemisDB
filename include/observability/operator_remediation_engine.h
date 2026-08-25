@@ -754,5 +754,13 @@ public:
     virtual std::map<std::string, double> getStatistics() = 0;
 };
 
+/**
+ * @brief Create an operator remediation engine with the built-in pattern set.
+ *
+ * @return A heap-allocated remediation engine instance ready for use by tests
+ *         and production code.
+ */
+std::unique_ptr<OperatorRemediationEngine> createOperatorRemediationEngine();
+
 } // namespace observability
 } // namespace themis

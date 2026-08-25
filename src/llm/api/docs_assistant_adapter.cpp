@@ -19,7 +19,12 @@ struct DocsAssistant::Impl {
         res.total_docs_searched = 0;
         return res;
     }
-    std::vector<DocumentEntry> searchDocs(const std::string& q, int max_results) { return {}; }
+    std::vector<DocumentEntry> searchDocs(const std::string& q, int max_results) {
+        // The lightweight IDocsAssistant interface currently exposes no raw document search endpoint.
+        (void)q;
+        (void)max_results;
+        return {};
+    }
     void clearCache() { if (impl) impl->clearCache(); }
     DocsQueryResult getConfigHelp(const std::string& topic) {
         DocsQueryResult res;

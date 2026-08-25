@@ -17,6 +17,7 @@
 
 #include "cache/cache_replication_coordinator.h"
 #include <functional>
+#include <optional>
 #include <string>
 #include <thread>
 #include <atomic>

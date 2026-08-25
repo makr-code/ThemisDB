@@ -3,61 +3,67 @@
 **Document Type:** Wave D Exit Gate Checklist  
 **Target Completion:** Q1 2027 (v2.4.x / v2.5.0-rc1)  
 **Status:** 🟡 Phase 1 In Progress  
-**Last Updated:** 2026-08-15  
+**Last Updated:** 2026-08-24
 
 ---
 
 ## Phase 1: Prerequisite Verification (Target: 2026-08-15)
 
 ### Wave A-C Exit Criteria Status
-- [ ] **Wave A Exit Criteria** — Deterministic chaos evidence, fail-closed behavior, `release_critical` CI green, p95/p99 baselines
-  - [ ] Transaction module: Chaos evidence for crash recovery, retry-storm control, timeout/rollback determinism ✅
-  - [ ] Sharding module: Multi-shard exact-path gate, rebalance hardening, distributed write stress ✅
-  - [ ] Replication module: Geographic placement policy, async WAL shipping, failover diagnostics ✅
-  - [ ] Voice module: Fail-closed session lifecycle, stream validation, multi-session teardown ✅
-  - [ ] GPU module: Unchecked CUDA-call reduction, RAII lifecycle, kernel timeout, CPU degradation ✅
-  - [ ] `release_critical` CI gate confirmed on `develop` ✅
-  - [ ] Representative hardware p95/p99 baselines collected ✅
+- [~] **Wave A Exit Criteria** — Deterministic chaos evidence, fail-closed behavior, `release_critical` CI green, p95/p99 baselines
+  - [~] Transaction module: 83 tests registered `release_critical`; chaos/recovery evidence indexed in `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; hardware execution pending Q4 2026
+  - [x] Sharding module: Multi-shard exact-path gate, rebalance hardening, distributed write stress ✅ COMPLETE 2026-08-17
+  - [x] Replication module: Geographic placement policy, async WAL shipping, failover diagnostics ✅ COMPLETE 2026-08-18
+  - [~] Voice module: Test suites (VOICE-CHAOS-01..12, stream validation, anti-spoof, teardown) delivered; representative-hardware baselines pending Q4 2026
+  - [~] GPU module: `include/gpu/cuda_raii.h` RAII guards created 2026-08-24 (CudaStreamGuard, CudaEventGuard, CudaDeviceMemoryGuard); KernelSLAGuard confirmed at 11 sites; GPU-TIMEOUT/EXHAUST/FALLBACK suites registered `release_critical`; hardware baselines pending Q4 2026
+  - [~] `release_critical` CI gate: registered for Transaction/Voice/GPU; green confirmation pending hardware run
+  - [~] Representative hardware p95/p99 baselines: Sharding ✅ Replication ✅; Transaction/Voice/GPU pending Q4 2026
 
-- [ ] **Wave B Exit Criteria** — 4-layer retrieval chain stability, Access Model benchmarks, RocksDB gates
-  - [ ] Search module: LayeredRetrievalOrchestrator 4-layer integration complete ✅
-  - [ ] Access Model: Phase 5-6 observability, concurrency/e2e tests, GATE-ACM-01..06 closed ✅
-  - [ ] LLM Wiki: RocksDB retrieval, cache hit-rate, query-latency gates measurable/reproducible ✅
+- [~] **Wave B Exit Criteria** — 4-layer retrieval chain stability, Access Model benchmarks, RocksDB gates
+  - [x] Search module: LayeredRetrievalOrchestrator 4-layer integration complete ✅ COMPLETE 2026-08-17/18
+  - [x] Access Model: Phase 5-6 observability, concurrency/e2e tests, GATE-ACM-01..06 closed ✅ COMPLETE 2026-08-17
+  - [~] LLM Wiki: Integration tests delivered (LWP-INT-01..05, 16 tests); `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` created 2026-08-24; RocksDB hardware evidence pending Q4 2026
 
-- [ ] **Wave C Exit Criteria** — Security integration, Audit reliability, CI policy gates
-  - [ ] Security module: Vault/HSM/PKI integration validation complete ✅
-  - [ ] Audit module: Integrity + high-volume export reliability under sustained load ✅
-  - [ ] CI policy gates: Private/public boundaries, edition/license checks, SBOM, fail-closed community builds ✅
+- [x] **Wave C Exit Criteria** — Security integration, Audit reliability, CI policy gates ✅ ALL PASS 2026-08-18
+  - [x] Security module: Vault/HSM/PKI integration validation complete ✅
+  - [x] Audit module: Integrity + high-volume export reliability under sustained load ✅
+  - [x] CI policy gates: Private/public boundaries, edition/license checks, SBOM, fail-closed community builds ✅
 
 ### GA Batch D Sign-Off
-- [ ] Batch D gates D-1 through D-10 all marked PASS
-  - [ ] D-1: Operations/SLA runbook suites wired ✅
-  - [ ] D-2: 99.99% SLA gate (RTO ≤ 5000 µs) ✅
-  - [ ] D-3: Chaos/fault-recovery gate (cluster rejoin ≤ 2000 µs) ✅
-  - [ ] D-4: Security overhead gate (auth p99 ≤ 150 µs) ✅
-  - [ ] D-5: Wave 5/6 regression suites retained ✅
-  - [ ] D-6: Top-risk modules no new CRITICAL findings ✅
-  - [ ] D-7: Public API & failure-behaviour docs aligned ✅
-  - [ ] D-8: Release governance docs synchronized ✅
-  - [ ] D-9: Doxygen 100% public API coverage audit ✅
-  - [ ] D-10: Research Soll-Ist matrix complete ✅
+- [~] Batch D gates D-1 through D-10 all marked PASS
+  - [x] D-1: Operations/SLA runbook suites wired ✅
+  - [x] D-2: 99.99% SLA gate (RTO ≤ 5000 µs) ✅
+  - [x] D-3: Chaos/fault-recovery gate (cluster rejoin ≤ 2000 µs) ✅
+  - [x] D-4: Security overhead gate (auth p99 ≤ 150 µs) ✅
+  - [x] D-5: Wave 5/6 regression suites retained ✅
+  - [x] D-6: Top-risk modules no new CRITICAL findings ✅
+  - [x] D-7: Public API & failure-behaviour docs aligned ✅
+  - [x] D-8: Release governance docs synchronized ✅
+  - [x] D-9: Doxygen 100% public API coverage audit ✅
+  - [x] D-10: Research Soll-Ist matrix complete ✅
 
-- [ ] Batch E gates E-1 through E-5 all marked PASS
-  - [ ] E-1: CDC Phase 5-6 complete ✅
-  - [ ] E-2: Prompt Engineering Phase 3-6 benchmarks created ✅
-  - [ ] E-3: Geo Phase 5-6 complete ✅
-  - [ ] E-4: Chimera Phase 5 benchmarks created ✅
-  - [ ] E-5: Graph Phase 5 benchmarks created ✅
+- [x] Batch E gates E-1 through E-5 all marked PASS
+  - [x] E-1: CDC Phase 5-6 complete ✅
+  - [x] E-2: Prompt Engineering Phase 3-6 benchmarks created ✅
+  - [x] E-3: Geo Phase 5-6 complete ✅
+  - [x] E-4: Chimera Phase 5 benchmarks created ✅
+  - [x] E-5: Graph Phase 5 benchmarks created ✅
 
-- [ ] GA Batch D Section 9 human sign-off status
+- [x] Content Batch 5 gates CMT-7504/7505/7506 ✅ COMPLETE 2026-08-24
+  - [x] CMT-7504-04: Documentation linkset framework evidenced ✅
+  - [x] CMT-7505-03/04: Test coverage correlation complete (27 test files) ✅
+  - [x] CMT-7506: GA sign-off section §8.1 populated ✅ (two-reviewer approval pending — non-blocking)
+
+- [~] GA Batch D Section 9 human sign-off status
   - [ ] Release approver signature required: ❌ AWAITING
-  - [ ] Deferred items (DEF-01..04) documented and accepted: ✅
+  - [x] Deferred items (DEF-01..04) documented and accepted: ✅
 
 ### Operability Infrastructure Setup
 - [x] `docs/operability/` directory created
 - [x] `docs/operability/WAVE_D_ROADMAP.md` established
 - [x] `docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md` established (this file)
-- [ ] `docs/operability/README.md` created with directory index
+- [x] 5 operator runbooks published: `RUNBOOK_ACCESS_MODEL_PROMOTION.md`, `RUNBOOK_GPU_FALLBACK_PERFORMANCE.md`, `RUNBOOK_REPLICATION_LAG_FAILOVER.md`, `RUNBOOK_SHARDING_TOPOLOGY_CHANGE.md`, `RUNBOOK_VOICE_INCIDENT_TRIAGE.md`
+- [x] `docs/operability/README.md` updated with directory index and current status (2026-08-24)
 - [ ] Wave D markers added to root ROADMAP.md (template: Phase-6B for observability modules)
 
 ---

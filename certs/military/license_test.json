@@ -1,0 +1,18 @@
+{
+  "organization_name": "ThemisDB Test",
+  "organization_id": "test",
+  "contact_email": "test@themisdb.local",
+  "license_key": "THEMIS-MIL-TEST-20260217",
+  "edition": "MILITARY",
+  "issued_date": "2026-02-17",
+  "expiry_date": "2027-12-31",
+  "max_nodes": 50,
+  "max_cores": -1,
+  "max_storage_tb": -1,
+  "build_id": "test-license-gen",
+  "signature": "",
+  "usage": "development_and_ci_only",
+  "test_only": true,
+  "do_not_use_in_production": true,
+  "source": "repository_test_fixture"
+}

@@ -14,13 +14,14 @@ bool EmbeddedLLM::isReady() const {
 
 std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
     auto impl = createEmbeddedLLM();
-    return impl ? impl->generate(prompt) : std::string();
+    if (!impl) return std::string();
+    return impl->generateWithParams(prompt, 0.7f, 0.9f, max_tokens);
 }
 
 std::string EmbeddedLLM::generateWithParams(const std::string& prompt, float temperature, float top_p, int max_tokens) {
     auto impl = createEmbeddedLLM();
     if (!impl) return std::string();
-    return impl->generate(prompt);
+    return impl->generateWithParams(prompt, temperature, top_p, max_tokens);
 }
 
 std::string EmbeddedLLM::chat(const std::vector<ChatMessage>& messages, ChatFormat format) {
@@ -41,8 +42,10 @@ std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::s
 std::string EmbeddedLLM::generateStreaming(const std::string& prompt, std::function<void(const std::string&)> callback, int max_tokens) {
     auto impl = createEmbeddedLLM();
     if (!impl) return std::string();
+    (void)max_tokens;
     std::string out;
     impl->generateStreaming(prompt, [&](const std::string& token){
+        out += token;
         callback(token);
     });
     return out;

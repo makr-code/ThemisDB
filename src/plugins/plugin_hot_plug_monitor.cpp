@@ -23,6 +23,7 @@
 
 #ifdef _WIN32
     #include <windows.h>
+    #include <io.h>
 #elif defined(__APPLE__)
     #include <CoreServices/CoreServices.h>
     #include <sys/event.h>
@@ -47,12 +48,24 @@ namespace fs = std::filesystem;
 // RAII Helper Classes
 // ============================================================================
 
+namespace {
+#ifdef _WIN32
+inline int platformClose(int fd) noexcept {
+    return _close(fd);
+}
+#else
+inline int platformClose(int fd) noexcept {
+    return ::close(fd);
+}
+#endif
+}
+
 // RAII wrapper for file descriptors (Unix/Linux/macOS)
 struct FileDescriptorDeleter {
     void operator()(int* fd_ptr) const noexcept {
         if (fd_ptr && *fd_ptr >= 0) {
             try {
-                close(*fd_ptr);
+                (void)platformClose(*fd_ptr);
                 *fd_ptr = -1;
             } catch (...) {
                 THEMIS_WARN("Exception during file descriptor cleanup");

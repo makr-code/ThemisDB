@@ -202,8 +202,14 @@ struct WikiWorkspaceStats {
     int    wiki_pages       = 0;   ///< Wiki pages in persistent workspace (0 if no workspace)
     int    open_tasks       = 0;   ///< Unresolved review/contradiction tasks in workspace
     int    orphan_pages     = 0;   ///< Pages with no inbound links (lint result)
+    int    provenance_records = 0; ///< Total persisted provenance/version records
+    int    llm_iterations   = 0;   ///< Number of synthetic LLM/hybrid iterations recorded
+    int    reanchor_required_pages = 0; ///< Pages flagged for human re-anchor
     bool   rocksdb_backed   = false; ///< True when WikiIndexStore Phase B is active
     std::string embedding_provider; ///< Active embedding provider name
+    double average_synthetic_chain_length = 0.0; ///< Mean synthetic chain length over revisions
+    double max_synthetic_chain_length = 0.0;     ///< Maximum synthetic chain length observed
+    double average_provenance_confidence = 0.0;   ///< Mean provenance confidence over revisions
     EvaluationStats evaluation;     ///< Retrieval/evaluation quality + latency metrics
 };
 
@@ -221,6 +227,8 @@ struct WikiLintResult {
     std::vector<std::string> missing_backlinks;      ///< Pages that reference non-existent targets
     std::vector<std::string> stale_synthesis_pages;  ///< Synthesis pages with outdated source refs
     std::vector<std::string> unresolved_tasks;       ///< Open contradiction-review tasks
+    std::vector<std::string> degraded_pages;         ///< Pages with high synthetic-chain/drift scores
+    std::vector<std::string> reanchor_required_pages; ///< Pages requiring human re-anchor
 };
 
 // ============================================================================

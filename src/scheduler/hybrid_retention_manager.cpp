@@ -420,7 +420,7 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
         }
     }
 
-    size_t batches_processed = result->is_array() ? result->size() : 0;
+    size_t batches_processed = (*result).is_array() ? (*result).size() : 0;
 
     THEMIS_INFO("Stage 1 Gorilla compression complete: batches={}, ratio={:.2f}",
                 batches_processed, compression_ratio);
@@ -503,7 +503,7 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
     
     // Count high-variance (anomalous) periods preserved
     int anomalies_preserved = 0;
-    if (result->is_array()) {
+    if ((*result).is_array()) {
         for (const auto& item : *result) {
             if (item.contains("cv") && item["cv"].get<double>() > medium_cv) {
                 anomalies_preserved++;
@@ -515,7 +515,7 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
         {"status", "success"},
         {"stage", 2},
         {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess)},
-        {"periods_processed", result->is_array() ? result->size() : 0},
+        {"periods_processed", (*result).is_array() ? (*result).size() : 0},
         {"anomalies_preserved", anomalies_preserved},
         {"strategy", "adaptive"}
     };
@@ -575,7 +575,7 @@ nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::j
         {"status", "success"},
         {"stage", 3},
         {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess)},
-        {"days_processed", result->is_array() ? result->size() : 0},
+        {"days_processed", (*result).is_array() ? (*result).size() : 0},
         {"strategy", "time_based"}
     };
 }
@@ -620,7 +620,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         };
     }
     
-    size_t stage2_deleted = result2->is_array() ? result2->size() : size_t{0};
+    size_t stage2_deleted = (*result2).is_array() ? (*result2).size() : size_t{0};
     
     // Cleanup Stage 3 data (adaptive data that's been aggregated to daily)
     std::ostringstream aql_stage3;
@@ -656,7 +656,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         };
     }
     
-    size_t stage3_deleted = result3->is_array() ? result3->size() : size_t{0};
+    size_t stage3_deleted = (*result3).is_array() ? (*result3).size() : size_t{0};
     
     return nlohmann::json{
         {"status", "success"},

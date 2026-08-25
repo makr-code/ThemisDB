@@ -198,10 +198,6 @@ public:
     const ProcessAgenticConfig& config() const { return config_; }
     void setConfig(const ProcessAgenticConfig& cfg) { config_ = cfg; }
 
-private:
-    ProcessGraphRag&     rag_;
-    ProcessAgenticConfig config_;
-
     /// Encode a ProcessRagContext into a vector of RetrievedDocument.
     ///
     /// This method safely encodes all context fields (prompt, subgraph, attachments,
@@ -236,6 +232,10 @@ private:
         ProcessRagContext ctx,
         const std::vector<rag::judge::RetrievedDocument>& extra_docs
     );
+
+private:
+    ProcessGraphRag&     rag_;
+    ProcessAgenticConfig config_;
 
     /// Run the full agentic loop given the initial context.
     ProcessAgenticResult runLoop(

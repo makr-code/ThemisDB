@@ -14,6 +14,11 @@ message(STATUS "[benchmarks/storage] Configuring storage benchmark targets")
 
 file(GLOB STR_BENCH_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp")
 
+# Pilot migration compatibility:
+# These files are now physically located in storage/, but remain registered via
+# top-level benchmark targets to preserve existing target names.
+list(FILTER STR_BENCH_SOURCES EXCLUDE REGEX "/bench_(crud|mvcc|wal_stress)\\.cpp$")
+
 foreach(_src IN LISTS STR_BENCH_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "bench_storage_${_stem}")
@@ -49,16 +54,11 @@ foreach(_src IN LISTS STR_BENCH_SOURCES)
         COMPONENT benchmarks
     )
 
-    add_test(
-        NAME "${_target}"
-        COMMAND "${_target}"
-            --benchmark_out=${CMAKE_BINARY_DIR}/bench_results/${_target}.json
-            --benchmark_out_format=json
-            --benchmark_min_time=0.1s
-    )
-    set_tests_properties("${_target}" PROPERTIES
-        LABELS   "storage;benchmark"
-        TIMEOUT  120
+    themis_register_benchmark_ctest(
+        NAME    "${_target}"
+        TARGET  "${_target}"
+        MODULE  "storage"
+        TIMEOUT 120
     )
 
     message(STATUS "[benchmarks/storage] Registered ${_target}")

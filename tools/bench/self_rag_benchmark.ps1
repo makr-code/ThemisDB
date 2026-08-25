@@ -17,7 +17,7 @@ param(
     [int]$Repetitions = 100,
     [string]$BuildDir = "build-msvc-relwithdebinfo",
     [string]$Target = "test_self_rag_alce_focused",
-    [string]$ExeRelPath = "bin_out\test_self_rag_alce_focused.exe",
+    [string]$ExeRelPath = "bin\test_self_rag_alce_focused.exe",
     [switch]$RunNow
 )
 

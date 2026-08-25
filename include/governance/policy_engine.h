@@ -21,6 +21,7 @@
 #include <unordered_set>
 
 #include "governance/data_masker.h"
+#include "governance/governance_diagnostics.h"
 
 // Forward-declare ModelGovernancePolicy so policy_engine.h stays lean
 // (full type only needed in policy_engine.cpp)

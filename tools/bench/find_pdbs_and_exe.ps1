@@ -11,7 +11,7 @@ if (-not $exe) {
 if ($exe) { Write-Host "Found exe:`n" $exe.FullName } else { Write-Host "No focused exe found." }
 
 Write-Host "`nSearching for PDBs under build* directories...`n"
-$pdbs = Get-ChildItem -Path $Root -Recurse -Include *.pdb -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -match '\\build' -or $_.FullName -match 'bin_out' -or $_.FullName -match 'build-' } | Select-Object FullName,Length
+$pdbs = Get-ChildItem -Path $Root -Recurse -Include *.pdb -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -match '\\build' -or $_.FullName -match '\\bin\\' -or $_.FullName -match 'build-' } | Select-Object FullName,Length
 if ($pdbs.Count -gt 0) { $pdbs | Format-Table -AutoSize } else { Write-Host "No PDBs found under build dirs." }
 
 Write-Host "`nDone.`n"

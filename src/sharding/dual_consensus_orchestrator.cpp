@@ -98,10 +98,16 @@ void DualConsensusOrchestrator::start() {
     
     // Start both consensus layers
     if (storage_consensus_) {
-        storage_consensus_->start();
+        const bool storage_started = storage_consensus_->start();
+        if (!storage_started) {
+            spdlog::warn("DualConsensusOrchestrator: storage consensus start reported failure");
+        }
     }
     if (cache_consensus_) {
-        cache_consensus_->start();
+        const bool cache_started = cache_consensus_->start();
+        if (!cache_started) {
+            spdlog::warn("DualConsensusOrchestrator: cache consensus start reported failure");
+        }
     }
     
     // Start background synchronization thread

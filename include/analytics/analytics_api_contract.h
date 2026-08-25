@@ -242,5 +242,112 @@ enum class ForecastModelCapability : unsigned int {
     return (static_cast<unsigned int>(set) & static_cast<unsigned int>(flag)) != 0u;
 }
 
+// ============================================================================
+// § 8  Bounded Execution Policy
+//
+// Defines resource limits applied uniformly to ML-serving inference calls
+// (MLServingClient::infer()) and analytics export operations
+// (IAnalyticsExporter::exportToFile()).  Enforcement uses the existing
+// circuit-breaker infrastructure as the back-end.
+//
+// Target: Wave B / Q4 2026.
+// ============================================================================
+
+/**
+ * @brief Resource and latency limits applied to bounded-execution operations.
+ *
+ * Callers embed a `BoundedExecutionPolicy` in their request or configuration
+ * to declare the acceptable resource envelope for a single operation.  The
+ * enforcing layer (circuit-breaker or semaphore) rejects calls that would
+ * violate the limits before dispatching to the back-end.
+ *
+ * ### Field semantics
+ * - `max_latency_ms`           — wall-clock timeout in milliseconds; 0 = no timeout.
+ * - `max_concurrent_requests`  — maximum in-flight requests sharing one policy
+ *                                 instance; 0 = unlimited.
+ * - `queue_depth`              — maximum number of requests allowed to wait when
+ *                                 the concurrency limit is reached; 0 = no queuing
+ *                                 (reject immediately on saturation).
+ *
+ * ### Enforcement contract
+ * When a call is rejected due to policy limits, the enforcing component MUST
+ * return an appropriate status code (`MLServingStatus::TIMEOUT` /
+ * `AnalyticsErrorCode::STREAM_BACKPRESSURE`) and MUST NOT block the caller
+ * beyond `max_latency_ms` milliseconds.
+ */
+struct BoundedExecutionPolicy {
+    /// Wall-clock timeout in milliseconds.  0 means no timeout enforced.
+    uint32_t max_latency_ms          = 0u;
+    /// Maximum number of concurrent operations.  0 means unlimited.
+    uint32_t max_concurrent_requests = 0u;
+    /// Maximum depth of the waiting queue when the concurrency limit is full.
+    /// 0 means callers are rejected immediately on saturation (no queuing).
+    uint32_t queue_depth             = 0u;
+
+    /// Returns true when this policy imposes at least one limit.
+    [[nodiscard]] constexpr bool isConstrained() const noexcept {
+        return max_latency_ms != 0u
+            || max_concurrent_requests != 0u
+            || queue_depth != 0u;
+    }
+};
+
+// ============================================================================
+// § 9  Streaming Runtime Limits (Phase 2 / Wave B — Q4 2026)
+//
+// Applies back-pressure and memory guards to AnalyticsStreamingEngine and
+// DistributedCoordinator streaming paths.  When a limit is reached the engine
+// applies the configured BackPressureMode instead of silently dropping events
+// or blocking indefinitely.
+// ============================================================================
+
+/// Action taken when a streaming limit is exceeded.
+enum class BackPressureMode : uint8_t {
+    /// Discard the incoming event; increment an internal drop counter.
+    DROP   = 0,
+    /// Block the producer until the engine drains below the limit.
+    /// Warning: may cause the producer thread to stall indefinitely if the
+    /// consumer is slower than the producer.
+    BLOCK  = 1,
+    /// Shed load by discarding the oldest buffered events to make room for new
+    /// arrivals.  Maintains freshness at the cost of completeness.
+    SHED   = 2,
+};
+
+/**
+ * @brief Runtime limits for streaming and CEP pipeline paths.
+ *
+ * Embed in streaming engine or coordinator configuration to bound memory
+ * and event-rate usage.  When all fields are zero the engine operates in
+ * unconstrained mode (legacy behaviour).
+ *
+ * ### Field semantics
+ * - `max_events_per_window`   — maximum events buffered per window before the
+ *                               back-pressure action fires; 0 = unlimited.
+ * - `max_window_memory_bytes` — maximum bytes allocated for all open windows
+ *                               combined; 0 = unlimited.
+ * - `back_pressure_mode`      — action taken when a limit is exceeded.
+ *
+ * ### Contract
+ * When `back_pressure_mode == DROP` and the event limit is hit, the engine
+ * MUST return `AnalyticsErrorCode::STREAM_BACKPRESSURE` to the producer
+ * instead of blocking or silently discarding.
+ *
+ * @since Wave B / Q4 2026
+ */
+struct StreamingRuntimeLimits {
+    /// Maximum events buffered per window; 0 = unlimited.
+    std::size_t max_events_per_window   = 0u;
+    /// Maximum total memory for open windows (bytes); 0 = unlimited.
+    std::size_t max_window_memory_bytes = 0u;
+    /// Action taken when a limit is exceeded.
+    BackPressureMode back_pressure_mode = BackPressureMode::DROP;
+
+    /// Returns true when at least one limit is active.
+    [[nodiscard]] constexpr bool isConstrained() const noexcept {
+        return max_events_per_window != 0u || max_window_memory_bytes != 0u;
+    }
+};
+
 } // namespace analytics
 } // namespace themis

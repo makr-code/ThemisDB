@@ -49,7 +49,7 @@
 | **ingestion** | `themis::ingestion` | **T3** | Batch/streaming ingestion | [ROADMAP](../src/ingestion/ROADMAP.md) | — |
 | **llama_cpp** | `themis::llama_cpp` | **T3** | Llama.cpp binding, local inference | [ROADMAP](../src/llama_cpp/ROADMAP.md) | ✅ `plugins/llama_cpp/` |
 | **llm** | `themis::llm` | **T3** | LLM inference, model switching | [ROADMAP](../src/llm/ROADMAP.md) | — |
-| **llm_wiki** | `themis::llm_wiki` | **T3** | LLM-assisted wiki/RAG | [ROADMAP](../src/llm_wiki/ROADMAP.md) | 🔒 `themisdb_llm_wiki/` (Wave 1) |
+| **llm_wiki** | `themis::llm_wiki` | **T3** | Standalone wiki/provenance core for LLM retrieval and RAG workflows | [ROADMAP](../src/llm_wiki/ROADMAP.md) | 🔒 `themisdb_llm_wiki/` (Wave 1; strong deps on `llm` + `llama_cpp`) |
 | **maintenance** | `themis::maintenance` | **T3** | GC, compaction, maintenance | [ROADMAP](../src/maintenance/ROADMAP.md) | — |
 | **network** | `themis::network` | **T3** | Transport, conn pooling, messaging | [ROADMAP](../src/network/ROADMAP.md) | — |
 | **observability** | `themis::observability` | **T3** | Metrics, logging, tracing | [ROADMAP](../src/observability/ROADMAP.md) | — |
@@ -107,6 +107,7 @@ themis::                           // root, forward decls
 | **Data Model** | document, graph, timeseries, temporal, tensor | Multi-model storage contracts |
 | **Storage** | storage, replication, sharding, failover, cdc | Persistence, distribution, HA |
 | **AI/ML** | llm, ai, training, evaluation, rag, prompt_engineering | Inference, fine-tuning, ops |
+| **AI/Wiki** | llm_wiki, llm, llama_cpp, prompt_engineering, rag | Semantic wiki core, retrieval planning, local inference support |
 | **Infrastructure** | config, observability, chaos, performance, scheduler | Cross-cutting concerns |
 
 ## Consumer Relationships (High-Level Dependencies)
@@ -116,6 +117,7 @@ themis::                           // root, forward decls
 - **execution** → index, retrieval, graph, timeseries, tensor
 - **storage** → core, replication, sharding, maintenance
 - **llm** → ai, retrieval, rag, prompt_engineering, training
+- **llm_wiki** → llm, llama_cpp, prompt_engineering, retrieval, metadata
 - **index** → storage, cache, performance, acceleration
 - **auth** → governance, security, access_model, observability
 

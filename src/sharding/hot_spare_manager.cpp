@@ -126,10 +126,16 @@ void HotSpareManager::stop() {
     
     // Join threads
     if (health_check_thread_.joinable()) {
-        themis::utils::joinThreadWithin(health_check_thread_);
+        const bool health_joined = themis::utils::joinThreadWithin(health_check_thread_);
+        if (!health_joined) {
+            spdlog::warn("HotSpareManager: health-check thread did not join within timeout");
+        }
     }
     if (rebuild_thread_.joinable()) {
-        themis::utils::joinThreadWithin(rebuild_thread_);
+        const bool rebuild_joined = themis::utils::joinThreadWithin(rebuild_thread_);
+        if (!rebuild_joined) {
+            spdlog::warn("HotSpareManager: rebuild thread did not join within timeout");
+        }
     }
     
     spdlog::info("HotSpareManager stopped");

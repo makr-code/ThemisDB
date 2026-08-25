@@ -2,7 +2,7 @@ param(
     [string]$ExePath = ''
 )
 if (-not $ExePath) {
-    $ExePath = 'build-msvc-windows-release\bin_out\test_self_rag_alce_focused.exe'
+    $ExePath = 'build-msvc-windows-release\bin\test_self_rag_alce_focused.exe'
 }
 if (-not (Test-Path $ExePath)) { Write-Error "EXE not found: $ExePath"; exit 1 }
 Write-Host "Reading PE: $ExePath`n"

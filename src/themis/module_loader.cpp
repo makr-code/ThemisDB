@@ -1691,7 +1691,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
 // extractToTempDir
 // ----------------------------------------------------------------------------
 
-std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
+std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::string& bundlePath,
                                                   std::string& error) {
 #ifndef THEMIS_HAVE_LIBZIP
     error = "PluginBundleLoader requires libzip, which was not found at build time";

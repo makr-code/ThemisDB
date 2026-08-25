@@ -357,8 +357,8 @@ std::vector<TamperIncident> AuditTamperDetector::verifyAuditTrail(
     std::vector<TamperIncident> incidents;
     
     for (size_t i = 0; i < entries.size(); i++) {
-        std::optional<ImmutableAuditEntry> prev = 
-            (i > 0) ? entries[i - 1] : std::nullopt;
+        std::optional<ImmutableAuditEntry> prev =
+            (i > 0) ? std::optional<ImmutableAuditEntry>(entries[i - 1]) : std::nullopt;
         
         auto incident = verifyEntry(entries[i], signer, prev);
         if (incident) {
@@ -386,7 +386,7 @@ std::vector<TamperIncident> AuditTamperDetector::verifyTimeRange(
             continue;
         }
         
-        std::optional<ImmutableAuditEntry> prev = 
+        std::optional<ImmutableAuditEntry> prev =
             prev_in_range ? std::optional<ImmutableAuditEntry>(*prev_in_range) : std::nullopt;
         
         auto incident = verifyEntry(entry, signer, prev);

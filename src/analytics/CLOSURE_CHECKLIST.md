@@ -4,7 +4,7 @@
 **Parent Epic**: makr-code/ThemisDB#5624  
 **Area Label**: area:analytics  
 **Roadmap Path**: src/analytics/ROADMAP.md  
-**Synchronization Date**: 2026-07-19
+**Synchronization Date**: 2026-08-19
 
 ---
 
@@ -127,6 +127,9 @@ The analytics module is in active development with partial implementation comple
 - [~] Hardening of streaming and distributed runtime limits under sustained load
 - [~] Benchmark and release-gate consolidation for analytics-critical paths
 - [~] Consistency hardening for optional dependency and fallback behavior
+  - [x] model import SHA-256 integrity enforcement path (2026-08-19)
+  - [x] TF serving secure transport defaults + explicit insecure opt-in gate (2026-08-19)
+  - [x] strict LLM schema validation for fraud/5R/prediction payloads (2026-08-19)
 
 **Phases Planned (Q4 2026 - Q1 2027)**
 - [ ] Strengthen bounded-memory behavior in high-cardinality streaming windows
@@ -171,4 +174,3 @@ The analytics module is in active development with partial implementation comple
 - Evidence Base: MODULE_EVIDENCE.md
 - Documentation: All archives synchronized
 - Status: READY FOR CLOSURE
-

@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://themisdb.dev/schemas/llm_wiki/llm_wiki_entity.schema.json",
+  "title": "ThemisDB LLM Wiki Entity",
+  "description": "Versioned and extensible entity schema for LLM Wiki claims, chunks, pages, and edges.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "entity_type",
+    "provenance",
+    "confidence",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "Semantic schema version, e.g. 1.0 or 1.2.3."
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "page",
+        "chunk",
+        "claim",
+        "edge",
+        "evidence_package"
+      ]
+    },
+    "entity_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "origin_type",
+        "source_ref",
+        "revision_id",
+        "transform_chain_length",
+        "captured_at"
+      ],
+      "properties": {
+        "origin_type": {
+          "type": "string",
+          "enum": [
+            "ingest",
+            "query",
+            "synthesis",
+            "re_anchor"
+          ]
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parent_revision_id": {
+          "type": "string"
+        },
+        "transform_chain_length": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "policy_snapshot_id": {
+          "type": "string"
+        },
+        "re_anchor_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "content": {
+      "type": "object",
+      "description": "Entity payload that varies by entity_type.",
+      "additionalProperties": true
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Namespaced extension surface. Unknown namespaces are forward-compatible.",
+      "patternProperties": {
+        "^(llm_wiki|retrieval|prompt_engineering|metadata|domain\\.[a-z0-9_]+)\\.[a-z0-9_.-]+$": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "array",
+            "object",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "governance": {
+      "type": "object",
+      "required": [
+        "decision",
+        "reason_code"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "allow",
+            "deny",
+            "defer"
+          ]
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "guardrail_category": {
+          "type": "string"
+        },
+        "entitlement_gate": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "entity_type": {
+            "const": "evidence_package"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "governance"
+        ]
+      }
+    }
+  ],
+  "additionalProperties": false
+}

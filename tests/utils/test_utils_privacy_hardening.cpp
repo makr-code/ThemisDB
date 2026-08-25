@@ -196,8 +196,3 @@ TEST(PrivacyHardening, OversizedChunkDoesNotExhaustedMemory) {
     const std::string big_chunk(1024 * 1024, 'x');
     EXPECT_NO_THROW(scanner.scan_chunk(big_chunk, /*is_last=*/true));
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -11,6 +11,18 @@
 
 set -euo pipefail
 
+PYTHON_BIN="${PYTHON_BIN:-}"
+if [[ -z "${PYTHON_BIN}" ]]; then
+    if command -v python3 >/dev/null 2>&1; then
+        PYTHON_BIN="python3"
+    elif command -v python >/dev/null 2>&1; then
+        PYTHON_BIN="python"
+    else
+        echo "[verify-vcpkg-baseline] ERROR: no Python interpreter found (tried python3 and python)" >&2
+        exit 1
+    fi
+fi
+
 VCPKG_JSON_PATH="${1:-vcpkg.json}"
 OUTPUT_JSON_PATH="${2:-sbom-vcpkg-baseline-verification.json}"
 
@@ -20,7 +32,7 @@ if [[ ! -f "${VCPKG_JSON_PATH}" ]]; then
 fi
 
 BASELINE="$(
-python3 - "${VCPKG_JSON_PATH}" <<'PYTHON'
+"${PYTHON_BIN}" - "${VCPKG_JSON_PATH}" <<'PYTHON'
 import json
 import re
 import sys
@@ -61,7 +73,7 @@ else
         > "${RESPONSE_JSON}"
 fi
 
-python3 - "${RESPONSE_JSON}" "${BASELINE}" "${OUTPUT_JSON_PATH}" <<'PYTHON'
+"${PYTHON_BIN}" - "${RESPONSE_JSON}" "${BASELINE}" "${OUTPUT_JSON_PATH}" <<'PYTHON'
 import json
 import sys
 

@@ -37,7 +37,7 @@
 // Optional libcurl-backed HTTP fetch implementation.
 // Activated when the build defines THEMIS_HAS_CURL (set by CMake when libcurl
 // is found, see src/process/ integration notes in ROADMAP.md).
-#if defined(THEMIS_HAS_CURL) || defined(THEMIS_ENABLE_CURL)
+#if (defined(THEMIS_HAS_CURL) && THEMIS_HAS_CURL) || (defined(THEMIS_ENABLE_CURL) && THEMIS_ENABLE_CURL)
 #  include <curl/curl.h>
 #  define THEMIS_FIM_HAS_CURL 1
 #else

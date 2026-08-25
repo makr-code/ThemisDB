@@ -810,7 +810,7 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
         bool found = false;
         std::string link_key_to_delete;
         
-        db_.scanPrefix("proc:link:", [&](std::string_view key, std::string_view value) -> bool {
+        db_.scanPrefix("proc:link:", [&]([[maybe_unused]] std::string_view key, std::string_view value) -> bool {
             try {
                 auto doc = json::parse(value);
                 std::string stored_id = doc.value("link_id", "");

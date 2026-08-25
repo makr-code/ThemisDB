@@ -78,7 +78,7 @@ endforeach()
 - **Tier:** unit
 - **Timeout:** 120 seconds per test
 - **Labels:** importers, phase4
-- **Output Directory:** `${CMAKE_BINARY_DIR}/bin_out_tests_by_module/importers/`
+- **Output Directory:** `${CMAKE_BINARY_DIR}/bin/tests_by_module/importers/`
 - **Seed:** kImportersContractSeed = 42 (deterministic)
 - **I/O Mode:** Self-contained (no external I/O, no filesystem dependencies)
 

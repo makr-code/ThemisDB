@@ -58,6 +58,14 @@ std::optional<nlohmann::json> BoundedLRUCache::get(const std::string &key) {
     }
 
     auto node = it->second;
+    if (!node) [[unlikely]] {
+        // Defensive: shared_ptr in cache_ should never be null, but guard anyway.
+        cache_.erase(it);
+        if (config_.enable_statistics) {
+            misses_.fetch_add(1, std::memory_order_relaxed);
+        }
+        return std::nullopt;
+    }
 
     // Check if expired
     if (isExpired(node->entry)) {
@@ -109,12 +117,17 @@ void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t
     auto it = cache_.find(key);
     if (it != cache_.end()) {
         // Update existing entry
-        auto node               = it->second;
-        node->entry.value       = std::move(value);
-        node->entry.expiry      = std::chrono::steady_clock::now() + ttl;
-        node->entry.last_access = std::chrono::steady_clock::now();
-        moveToFront(node);
-        return;
+        auto node = it->second;
+        if (!node) [[unlikely]] {
+            // Defensive: corrupt map entry — remove and fall through to insert.
+            cache_.erase(it);
+        } else {
+            node->entry.value       = std::move(value);
+            node->entry.expiry      = std::chrono::steady_clock::now() + ttl;
+            node->entry.last_access = std::chrono::steady_clock::now();
+            moveToFront(node);
+            return;
+        }
     }
 
     // Evict if at capacity
@@ -147,6 +160,11 @@ bool BoundedLRUCache::remove(const std::string &key) {
     }
 
     auto node = it->second;
+    if (!node) [[unlikely]] {
+        // Defensive: corrupt map entry — erase and report success.
+        cache_.erase(it);
+        return true;
+    }
     removeNode(node);
     cache_.erase(it);
 
@@ -186,6 +204,9 @@ void BoundedLRUCache::clear() {
 }
 
 void BoundedLRUCache::moveToFront(std::shared_ptr<Node> node) {
+    if (!node) [[unlikely]] {
+        return;
+    }
     if (node == head_) {
         // Already at front
         return;
@@ -216,6 +237,9 @@ void BoundedLRUCache::moveToFront(std::shared_ptr<Node> node) {
 }
 
 void BoundedLRUCache::removeNode(std::shared_ptr<Node> node) {
+    if (!node) [[unlikely]] {
+        return;
+    }
     if (node->prev) {
         node->prev->next = node->next;
     } else {
@@ -227,9 +251,15 @@ void BoundedLRUCache::removeNode(std::shared_ptr<Node> node) {
     } else {
         tail_ = node->prev;
     }
+    // Break shared_ptr cycles to allow immediate ref-count release.
+    node->prev = nullptr;
+    node->next = nullptr;
 }
 
 void BoundedLRUCache::addToFront(std::shared_ptr<Node> node) {
+    if (!node) [[unlikely]] {
+        return;
+    }
     node->prev = nullptr;
     node->next = head_;
 
@@ -251,13 +281,16 @@ void BoundedLRUCache::removeLRU() {
     auto lru = tail_;
     cache_.erase(lru->key);
 
-    if (tail_->prev) {
-        tail_       = tail_->prev;
+    if (lru->prev) {
+        tail_       = lru->prev;
         tail_->next = nullptr;
     } else {
         head_ = nullptr;
         tail_ = nullptr;
     }
+    // Release the outgoing node's list links to break any shared_ptr cycles.
+    lru->prev = nullptr;
+    lru->next = nullptr;
 }
 
 bool BoundedLRUCache::isExpired(const CacheEntry &entry) const {
@@ -268,6 +301,9 @@ bool BoundedLRUCache::contains(const std::string &key) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = cache_.find(key);
     if (it == cache_.end()) {
+        return false;
+    }
+    if (!it->second) [[unlikely]] {
         return false;
     }
     return !isExpired(it->second->entry);

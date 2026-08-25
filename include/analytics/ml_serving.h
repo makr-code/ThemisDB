@@ -57,6 +57,8 @@
 
 // Re-use DataPoint for seamless integration with the anomaly detection module.
 #include "analytics/anomaly_detection.h"
+// BoundedExecutionPolicy for policy-aware inference overloads.
+#include "analytics/analytics_api_contract.h"
 
 namespace themisdb {
 namespace analytics {
@@ -105,10 +107,12 @@ struct MLServingRequest {
 
 /** Status codes returned by MLServingResponse. */
 enum class MLServingStatus {
-    OK,           ///< Inference completed successfully
-    UNAVAILABLE,  ///< Backend or model not available
-    INVALID_INPUT,///< Input shape/type mismatch
-    BACKEND_ERROR ///< Internal backend error (see error_message)
+    OK,             ///< Inference completed successfully
+    UNAVAILABLE,    ///< Backend or model not available
+    INVALID_INPUT,  ///< Input shape/type mismatch
+    BACKEND_ERROR,  ///< Internal backend error (see error_message)
+    TIMEOUT,        ///< Inference did not complete within the policy deadline
+    POLICY_REJECTED,///< Request rejected because the BoundedExecutionPolicy concurrency limit was exceeded
 };
 
 /**
@@ -196,10 +200,11 @@ private:
  * Configuration for TFServingBackend.
  */
 struct TFServingConfig {
-    std::string base_url   = "http://localhost:8501"; ///< TF Serving REST API base URL
-    int         timeout_ms = 5000;                    ///< HTTP request timeout
-    bool        verify_ssl = true;                    ///< Verify TLS certificates
-    std::string api_key;                              ///< Optional bearer token / API key
+    std::string base_url                 = "https://localhost:8501"; ///< TF Serving REST API base URL
+    int         timeout_ms               = 5000;                     ///< HTTP request timeout
+    bool        verify_ssl               = true;                     ///< Verify TLS certificates
+    bool        allow_insecure_transport = false;                    ///< Allow plaintext HTTP when explicitly enabled
+    std::string api_key;                                              ///< Optional bearer token / API key
 };
 
 /**
@@ -249,6 +254,14 @@ struct MLServingConfig {
     MLBackendType     backend      = MLBackendType::AUTO;
     ONNXBackendConfig onnx_config;
     TFServingConfig   tf_config;
+
+    /// Default execution policy applied automatically to every infer() call
+    /// when the caller does not supply an explicit BoundedExecutionPolicy.
+    /// When unconstrained (all fields zero, the default), the policy
+    /// enforcement layer is bypassed entirely to avoid overhead.
+    /// Set any non-zero field to activate per-client concurrency or
+    /// latency enforcement without modifying individual call sites.
+    ::themis::analytics::BoundedExecutionPolicy default_policy;
 };
 
 /**
@@ -305,6 +318,32 @@ public:
     MLServingResponse infer(const MLServingRequest& req);
 
     /**
+     * @brief Run inference with bounded execution enforcement.
+     *
+     * Enforces the resource limits declared by @p policy before dispatching
+     * to the underlying backend.  Specifically:
+     *
+     *   - **Concurrency**: if `policy.max_concurrent_requests > 0` and the
+     *     number of in-flight `infer()` calls on this client instance already
+     *     equals that limit, the call returns `POLICY_REJECTED` immediately.
+     *   - **Timeout**: if `policy.max_latency_ms > 0` and the backend call
+     *     has not returned within that many milliseconds the call returns
+     *     `TIMEOUT`.  The backend call itself may continue in a detached
+     *     thread; callers must not re-use the client for further calls until
+     *     the previous call has fully returned.
+     *
+     * When `!policy.isConstrained()` this overload is equivalent to the
+     * unconstrained `infer(req)`.
+     *
+     * @param req     Inference request.
+     * @param policy  Resource limits to enforce.
+     * @return MLServingResponse; status is `POLICY_REJECTED` or `TIMEOUT` on
+     *         policy violation, otherwise same as the unconstrained overload.
+     */
+    MLServingResponse infer(const MLServingRequest&                      req,
+                            const ::themis::analytics::BoundedExecutionPolicy& policy);
+
+    /**
      * Convenience overload: converts the numeric fields of @p point into a
      * single flat float32 input tensor named "input" and calls infer().
      *
@@ -348,4 +387,3 @@ std::string mlBackendTypeName(MLBackendType type);
 
 } // namespace analytics
 } // namespace themisdb
-

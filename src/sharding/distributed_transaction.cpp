@@ -1001,6 +1001,33 @@ void DistributedTransactionCoordinator::logBeginStateForRecovery(
     );
 }
 
+void DistributedTransactionCoordinator::logOperationAddedForRecovery(
+    const std::string& txn_id,
+    const std::string& shard_id,
+    const nlohmann::json& operation
+) {
+    if (!wal_manager_) {
+        return;
+    }
+
+    const nlohmann::json operation_data = {
+        {"transaction_id", txn_id},
+        {"phase", "operation_append"},
+        {"shard_id", shard_id},
+        {"operation", operation}
+    };
+
+    (void)WALLoggingHelper::appendEntryWithResult(
+        wal_manager_.get(),
+        WALEntryType::UPDATE,
+        txn_id,
+        operation_data,
+        /*sync=*/true,
+        "distributed-coordinator-recovery",
+        recoveryWalComponentId(config_)
+    );
+}
+
 bool DistributedTransactionCoordinator::logDecisionStateForRecovery(
     const DistributedTransaction& txn,
     bool commit,
@@ -1335,7 +1362,12 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
     }
 
     for (auto& t : threads) {
-        themis::utils::joinThreadWithin(t);
+        const bool joined = themis::utils::joinThreadWithin(t);
+        if (!joined) {
+            all_committed.store(false, std::memory_order_relaxed);
+            std::lock_guard<std::mutex> lk(error_mutex);
+            error_details.push_back("commit worker thread join timed out");
+        }
     }
 
     if (!all_committed.load()) {

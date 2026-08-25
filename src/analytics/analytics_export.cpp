@@ -930,5 +930,78 @@ std::unique_ptr<IAnalyticsExporter> ExporterFactory::createDefaultExporter() {
     return std::make_unique<JSONCSVExporter>();
 }
 
+// ============================================================================
+// IAnalyticsExporter — BoundedExecutionPolicy wrapper
+// ============================================================================
+
+ExportResult IAnalyticsExporter::exportToFile(
+        const ArrowRecordBatch &batch,
+        const std::string      &output_path,
+        const ExportOptions    &options,
+        const BoundedExecutionPolicy &policy) {
+
+    // Resolve the effective policy: prefer the explicitly-passed policy when
+    // it is constrained; fall back to the options-embedded default otherwise.
+    const BoundedExecutionPolicy &effective_policy =
+        policy.isConstrained() ? policy : options.policy;
+
+    // Fast path: no limits declared in either policy source.
+    if (!effective_policy.isConstrained()) {
+        return exportToFile(batch, output_path, options);
+    }
+
+    // ── Concurrency enforcement ──────────────────────────────────────────────
+    if (effective_policy.max_concurrent_requests > 0u) {
+        uint32_t concurrent_snapshot = inflight_export_count_.load(std::memory_order_relaxed);
+        while (true) {
+            if (concurrent_snapshot >= effective_policy.max_concurrent_requests) {
+                ExportResult result;
+                result.status  = ExportStatus::POLICY_REJECTED;
+                result.message = "BoundedExecutionPolicy: max_concurrent_requests ("
+                                 + std::to_string(effective_policy.max_concurrent_requests)
+                                 + ") exceeded (current=" + std::to_string(concurrent_snapshot) + ")";
+                spdlog::warn("IAnalyticsExporter::exportToFile: export rejected by "
+                             "BoundedExecutionPolicy (max_concurrent_requests={}, current={})",
+                             effective_policy.max_concurrent_requests, concurrent_snapshot);
+                return result;
+            }
+            if (inflight_export_count_.compare_exchange_weak(
+                    concurrent_snapshot, concurrent_snapshot + 1u, std::memory_order_acq_rel,
+                    std::memory_order_relaxed)) {
+                break;
+            }
+        }
+    } else {
+        inflight_export_count_.fetch_add(1u, std::memory_order_acq_rel);
+    }
+
+    // RAII guard for in-flight count.
+    struct Guard {
+        std::atomic<uint32_t> &counter;
+        ~Guard() { counter.fetch_sub(1u, std::memory_order_acq_rel); }
+    } guard{inflight_export_count_};
+
+    // ── Timeout enforcement ──────────────────────────────────────────────────
+    if (effective_policy.max_latency_ms > 0u) {
+        auto fut = std::async(std::launch::async,
+            [this, &batch, &output_path, &options]() -> ExportResult {
+                return exportToFile(batch, output_path, options);
+            });
+        const auto deadline = std::chrono::milliseconds(effective_policy.max_latency_ms);
+        if (fut.wait_for(deadline) == std::future_status::timeout) {
+            ExportResult result;
+            result.status  = ExportStatus::POLICY_REJECTED;
+            result.message = "BoundedExecutionPolicy: export did not complete within "
+                             + std::to_string(effective_policy.max_latency_ms) + " ms";
+            spdlog::warn("IAnalyticsExporter::exportToFile: export timed out after {} ms "
+                         "(policy deadline)", effective_policy.max_latency_ms);
+            return result;
+        }
+        return fut.get();
+    }
+
+    return exportToFile(batch, output_path, options);
+}
+
 } // namespace analytics
 } // namespace themis

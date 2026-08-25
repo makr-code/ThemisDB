@@ -202,7 +202,7 @@ bool RebalanceOperation::executeWithThroughputGuarantee(
             uint64_t current_throughput = throughput_callback();
             if (current_throughput < minimum_throughput) {
                 // Reduce batch size to maintain minimum throughput
-                progress_.total_records = std::max(progress_.total_records, config_.batch_size);
+                progress_.total_records = std::max<uint64_t>(progress_.total_records, config_.batch_size);
                 return false;
             }
         }
@@ -234,15 +234,8 @@ bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
         return false; // No topology change
     }
     
-    // Calculate target shard count per node for balanced state
-    size_t total_shards = config_.token_range_end - config_.token_range_start;
-    size_t ideal_shards_per_node = total_shards / new_topology.size();
-    
-    // Rebalancing needed if distribution is significantly imbalanced
-    // Allow 10% variance before triggering rebalance
-    return total_shards % new_topology.size() != 0 ||
-           total_shards / new_topology.size() > ideal_shards_per_node + 
-           (ideal_shards_per_node / 10);
+    // Any join/leave changes shard ownership and requires a rebalance plan.
+    return true;
 }
 
 /**
@@ -268,8 +261,7 @@ std::vector<RebalanceOperationConfig> RebalanceOperation::generateTopologyChange
     // Calculate shard distribution before and after
     size_t total_shards = config_.token_range_end - config_.token_range_start;
     size_t target_per_node = total_shards / new_topology.size();
-    size_t remainder = total_shards % new_topology.size();
-    
+
     // For node join: redistribute from overloaded nodes to new node
     // For node leave: redistribute from removed node to remaining nodes
     bool is_join = new_topology.size() > old_topology.size();

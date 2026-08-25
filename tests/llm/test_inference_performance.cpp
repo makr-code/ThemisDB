@@ -25,30 +25,64 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <filesystem>
+#include <cstdlib>
 
 // Conditional compilation for LLM support
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/llama_wrapper.h"
 #include "llm/inference_engine_enhanced.h"
 #include "llm/llm_plugin_manager.h"
+#include "llama_cpp/llama_cpp_plugin.h"
+#include "llm/llm_plugin_interface.h"
 #endif
 
 using namespace themis;
 
 /**
- * Test fixture for inference performance tests
+ * Test fixture for inference performance tests.
+ *
+ * Model discovery (same pattern as RealEmbeddingsTest):
+ *   1. THEMIS_TEST_MODEL_PATH env var
+ *   2. Filesystem scan for well-known TinyLlama GGUF names
+ *
+ * When no model is found, model_available_ == false and every test that
+ * requires real inference will GTEST_SKIP().  This keeps CI green when no
+ * GGUF file is present while letting real-inference tests run automatically
+ * whenever a model is available.
  */
 class InferencePerformanceTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Setup test environment
+        const char* env_path = std::getenv("THEMIS_TEST_MODEL_PATH");
+        if (env_path && std::filesystem::exists(env_path)) {
+            model_path_      = env_path;
+            model_available_ = true;
+        } else {
+            for (const auto& root : {".", "./models", "../models", "../../models"}) {
+                for (const auto& name : {
+                        "TinyLlama-1.1B-Chat-v1.0.gguf",
+                        "tinyllama-1.1b-chat-v1.0.gguf",
+                        "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+                        "tinyllama_1.1b.gguf",
+                        "test_model.gguf"}) {
+                    auto p = std::filesystem::path(root) / name;
+                    if (std::filesystem::exists(p)) {
+                        model_path_      = p.string();
+                        model_available_ = true;
+                        break;
+                    }
+                }
+                if (model_available_) break;
+            }
+        }
     }
-    
-    void TearDown() override {
-        // Cleanup
-    }
-    
-    // Helper to simulate token generation
+
+    void TearDown() override {}
+
+    // ── helpers ──────────────────────────────────────────────────────────────
+
+    /** Lightweight simulation fallback used by structural-only tests. */
     std::string simulateGeneration(size_t num_tokens) {
         std::string result;
         result.reserve(num_tokens * 8);
@@ -57,6 +91,39 @@ protected:
         }
         return result;
     }
+
+#ifdef THEMIS_ENABLE_LLM
+    /**
+     * Run a real generate() call through LlamaCppPlugin and return the
+     * InferenceResponse.  The plugin is freshly loaded per call so tests
+     * remain independent.
+     */
+    llm::InferenceResponse runRealGenerate(
+            const std::string& prompt,
+            int max_tokens = 16,
+            float temperature = 0.0f,
+            std::function<void(const std::string&)> cb = nullptr) {
+        LlamaCppPlugin plugin;
+        nlohmann::json cfg;
+        cfg["n_ctx"]   = 512;
+        cfg["n_batch"] = 128;
+        if (!plugin.loadModel(model_path_, cfg)) {
+            llm::InferenceResponse err;
+            err.success       = false;
+            err.error_message = "loadModel failed for: " + model_path_;
+            return err;
+        }
+        llm::InferenceRequest req;
+        req.prompt      = prompt;
+        req.max_tokens  = max_tokens;
+        req.temperature = temperature;
+        if (cb) req.stream_callback = std::move(cb);
+        return plugin.generate(req);
+    }
+#endif
+
+    std::string model_path_;
+    bool model_available_ = false;
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -71,21 +138,22 @@ protected:
  * - Latency is consistent
  */
 TEST_F(InferencePerformanceTest, Latency_SingleInference) {
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
+
     auto samples = test::sampleLatencyMs([&]() {
-        std::string prompt = "Hello, how are you?";
-        std::string output = simulateGeneration(10);
-        (void)prompt;
-        (void)output;
+        auto resp = runRealGenerate("Hello, how are you?", 16, 0.0f);
+        (void)resp;
     });
 
     const auto p95 = test::percentileValue(samples, 95);
     EXPECT_GT(p95, 0.0) << "Latency should be measured";
-    EXPECT_LT(p95, 100.0) << "Simulated inference p95 should be fast";
 
     std::cout << "Single inference latency p95: " << p95 << "ms" << std::endl;
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
 #endif
 }
 
@@ -97,21 +165,25 @@ TEST_F(InferencePerformanceTest, Latency_SingleInference) {
  * - No timeouts
  */
 TEST_F(InferencePerformanceTest, Latency_SLAValidation) {
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
+
     const double SLA_MS = 10000.0; // 10 seconds
 
     auto samples = test::sampleLatencyMs([&]() {
-        std::string prompt = "Write a paragraph about machine learning:";
-        std::string output = simulateGeneration(100);
-        (void)prompt;
-        (void)output;
+        auto resp = runRealGenerate("Write a paragraph about machine learning:", 64, 0.0f);
+        (void)resp;
     });
 
     const auto p95 = test::percentileValue(samples, 95);
     EXPECT_LT(p95, SLA_MS)
         << "Inference latency p95 " << p95 << "ms exceeds SLA of " << SLA_MS << "ms";
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full SLA test requires actual model inference";
+
+    std::cout << "SLA validation latency p95: " << p95 << "ms (SLA=" << SLA_MS << "ms)" << std::endl;
 #endif
 }
 
@@ -248,7 +320,12 @@ TEST_F(InferencePerformanceTest, Latency_FirstToken) {
  * - Consistent performance
  */
 TEST_F(InferencePerformanceTest, Throughput_TokensPerSecond) {
-    const size_t num_tokens = 100;
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
 
     const int runs = test::BenchmarkPolicy::independentRuns();
     std::vector<double> samples;
@@ -256,10 +333,9 @@ TEST_F(InferencePerformanceTest, Throughput_TokensPerSecond) {
 
     for (int run = 0; run < runs; ++run) {
         test::ThroughputCalculator throughput;
-        for (size_t i = 0; i < num_tokens; ++i) {
-            std::this_thread::sleep_for(std::chrono::microseconds(100));
-            throughput.increment();
-        }
+        auto resp = runRealGenerate("Count: one two three four five", 32, 0.0f);
+        ASSERT_TRUE(resp.success) << "Generate failed: " << resp.error_message;
+        throughput.increment(static_cast<size_t>(resp.tokens_generated));
         samples.push_back(throughput.getTokensPerSecond());
     }
 
@@ -267,9 +343,6 @@ TEST_F(InferencePerformanceTest, Throughput_TokensPerSecond) {
     EXPECT_GT(p05, 0.0) << "Throughput should be positive";
 
     std::cout << "Token generation throughput p05: " << p05 << " tokens/sec" << std::endl;
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
 #endif
 }
 
@@ -281,25 +354,29 @@ TEST_F(InferencePerformanceTest, Throughput_TokensPerSecond) {
  * - No significant degradation with longer prompts
  */
 TEST_F(InferencePerformanceTest, Throughput_VariablePromptSize) {
-    std::vector<size_t> prompt_sizes = {10, 50, 100, 500};
-    
-    for (size_t size : prompt_sizes) {
-        test::ThroughputCalculator throughput;
-        
-        // Simulate generation with different prompt sizes
-        std::string prompt(size, 'x');
-        std::string output = simulateGeneration(50);
-        
-        throughput.increment(50); // 50 tokens generated
-        
-        double tokens_per_sec = throughput.getTokensPerSecond();
-        
-        std::cout << "Prompt size " << size << ": " 
-                  << tokens_per_sec << " tokens/sec" << std::endl;
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
     }
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
+
+    // Use short prompts to stay well within context limits
+    const std::vector<std::pair<size_t, std::string>> prompt_cases = {
+        {10,  "Hello"},
+        {50,  "Briefly describe a cat."},
+        {100, "Explain in one sentence what machine learning is."}
+    };
+
+    for (const auto& [size_hint, prompt] : prompt_cases) {
+        test::ThroughputCalculator throughput;
+        auto resp = runRealGenerate(prompt, 16, 0.0f);
+        ASSERT_TRUE(resp.success) << "Generate failed for prompt length hint " << size_hint
+                                  << ": " << resp.error_message;
+        throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        double tokens_per_sec = throughput.getTokensPerSecond();
+        std::cout << "Prompt size ~" << size_hint << ": " << tokens_per_sec << " tokens/sec" << std::endl;
+    }
 #endif
 }
 
@@ -315,36 +392,42 @@ TEST_F(InferencePerformanceTest, Throughput_VariablePromptSize) {
  * - No quality degradation in batch mode
  */
 TEST_F(InferencePerformanceTest, Batch_ThroughputMeasurement) {
-    const int batch_size = 8;
-    const int tokens_per_prompt = 50;
-
-    const int runs = test::BenchmarkPolicy::independentRuns();
-    std::vector<double> throughput_samples;
-    throughput_samples.reserve(static_cast<size_t>(runs));
-
-    for (int run = 0; run < runs; ++run) {
-        test::ThroughputCalculator throughput;
-        std::vector<std::string> prompts(batch_size, "Test prompt");
-        std::vector<std::string> outputs;
-        outputs.reserve(batch_size);
-
-        for (int i = 0; i < batch_size; ++i) {
-            outputs.push_back(simulateGeneration(tokens_per_prompt));
-            throughput.increment(tokens_per_prompt);
-        }
-
-        EXPECT_EQ(outputs.size(), static_cast<size_t>(batch_size));
-        throughput_samples.push_back(throughput.getTokensPerSecond());
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
     }
 
-    const auto p05 = test::percentileValue(throughput_samples, 5);
-    EXPECT_GT(p05, 0.0);
+    const int batch_size = 4;  // Reduced from 8 to keep test time reasonable
 
-    std::cout << "Batch inference throughput p05: "
-              << p05 << " tokens/sec" << std::endl;
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model batch inference";
+    // Load plugin once for the batch
+    LlamaCppPlugin plugin;
+    nlohmann::json cfg;
+    cfg["n_ctx"]   = 512;
+    cfg["n_batch"] = 128;
+    ASSERT_TRUE(plugin.loadModel(model_path_, cfg)) << "loadModel failed";
+
+    test::ThroughputCalculator throughput;
+    std::vector<llm::InferenceResponse> outputs;
+    outputs.reserve(static_cast<size_t>(batch_size));
+
+    std::vector<llm::InferenceRequest> requests(static_cast<size_t>(batch_size));
+    for (int i = 0; i < batch_size; ++i) {
+        requests[static_cast<size_t>(i)].prompt      = "Test prompt " + std::to_string(i);
+        requests[static_cast<size_t>(i)].max_tokens  = 8;
+        requests[static_cast<size_t>(i)].temperature = 0.0f;
+    }
+    outputs = plugin.generateBatch(requests);
+
+    EXPECT_EQ(outputs.size(), static_cast<size_t>(batch_size));
+    for (const auto& resp : outputs) {
+        if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+    }
+
+    const double tps = throughput.getTokensPerSecond();
+    EXPECT_GT(tps, 0.0);
+    std::cout << "Batch inference throughput: " << tps << " tokens/sec" << std::endl;
 #endif
 }
 
@@ -356,25 +439,39 @@ TEST_F(InferencePerformanceTest, Batch_ThroughputMeasurement) {
  * - Performance scales appropriately
  */
 TEST_F(InferencePerformanceTest, Batch_ScalingEfficiency) {
-    std::vector<int> batch_sizes = {1, 2, 4, 8, 16};
-    
-    for (int batch_size : batch_sizes) {
-        test::ThroughputCalculator throughput;
-        
-        // Simulate batch processing
-        for (int i = 0; i < batch_size; ++i) {
-            simulateGeneration(25);
-            throughput.increment(25);
-        }
-        
-        double tokens_per_sec = throughput.getTokensPerSecond();
-        
-        std::cout << "Batch size " << batch_size << ": "
-                  << tokens_per_sec << " tokens/sec" << std::endl;
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
     }
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model batch inference";
+
+    // Load once and reuse for all batch sizes
+    LlamaCppPlugin plugin;
+    nlohmann::json cfg;
+    cfg["n_ctx"]   = 512;
+    cfg["n_batch"] = 128;
+    ASSERT_TRUE(plugin.loadModel(model_path_, cfg)) << "loadModel failed";
+
+    const std::vector<int> batch_sizes = {1, 2, 4};  // keep total work small
+
+    for (int batch_size : batch_sizes) {
+        std::vector<llm::InferenceRequest> requests(static_cast<size_t>(batch_size));
+        for (int i = 0; i < batch_size; ++i) {
+            requests[static_cast<size_t>(i)].prompt      = "Hello " + std::to_string(i);
+            requests[static_cast<size_t>(i)].max_tokens  = 8;
+            requests[static_cast<size_t>(i)].temperature = 0.0f;
+        }
+
+        test::ThroughputCalculator throughput;
+        auto outputs = plugin.generateBatch(requests);
+        for (const auto& resp : outputs) {
+            if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        }
+
+        double tokens_per_sec = throughput.getTokensPerSecond();
+        std::cout << "Batch size " << batch_size << ": " << tokens_per_sec << " tokens/sec" << std::endl;
+    }
 #endif
 }
 
@@ -390,23 +487,36 @@ TEST_F(InferencePerformanceTest, Batch_ScalingEfficiency) {
  * - Memory footprint is reasonable
  */
 TEST_F(InferencePerformanceTest, Memory_InferenceFootprint) {
-    test::MemoryUsageTracker memory;
-    
-    // Simulate inference operations
-    std::vector<std::string> outputs;
-    for (int i = 0; i < 100; ++i) {
-        outputs.push_back(simulateGeneration(50));
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
     }
-    
+
+    // Load once and run several inferences, tracking memory growth
+    LlamaCppPlugin plugin;
+    nlohmann::json cfg;
+    cfg["n_ctx"]   = 512;
+    cfg["n_batch"] = 128;
+    ASSERT_TRUE(plugin.loadModel(model_path_, cfg)) << "loadModel failed";
+
+    test::MemoryUsageTracker memory;
+
+    for (int i = 0; i < 5; ++i) {
+        llm::InferenceRequest req;
+        req.prompt      = "Hello world " + std::to_string(i);
+        req.max_tokens  = 8;
+        req.temperature = 0.0f;
+        auto resp = plugin.generate(req);
+        EXPECT_TRUE(resp.success) << "Inference " << i << " failed: " << resp.error_message;
+    }
+
     double memory_delta = memory.getDeltaMB();
-    
-    EXPECT_LT(memory_delta, 100.0) 
-        << "Memory usage for simulated inference too high: " << memory_delta << "MB";
-    
-    std::cout << "Memory usage: " << memory_delta << "MB" << std::endl;
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
+    EXPECT_LT(memory_delta, 200.0)
+        << "Unexpected memory growth during inference: " << memory_delta << "MB";
+
+    std::cout << "Memory usage during inference: " << memory_delta << "MB" << std::endl;
 #endif
 }
 
@@ -418,17 +528,38 @@ TEST_F(InferencePerformanceTest, Memory_InferenceFootprint) {
  * - No excessive allocations
  */
 TEST_F(InferencePerformanceTest, Memory_KVCacheEfficiency) {
-#ifdef THEMIS_ENABLE_LLM
-    test::MemoryUsageTracker memory;
-    
-    // Would test with KV cache enabled
-    // - Generate with same prefix multiple times
-    // - Verify memory reuse
-    // - Check cache hit rates
-    
-    GTEST_SKIP() << "Requires actual model inference with KV cache";
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
+
+    // KV cache is managed internally by llama.cpp.  We verify that repeated
+    // inference with a shared prefix completes successfully and does not
+    // accumulate unbounded memory.
+    LlamaCppPlugin plugin;
+    nlohmann::json cfg;
+    cfg["n_ctx"]   = 512;
+    cfg["n_batch"] = 128;
+    ASSERT_TRUE(plugin.loadModel(model_path_, cfg)) << "loadModel failed";
+
+    test::MemoryUsageTracker memory;
+
+    const std::string shared_prefix = "The quick brown fox jumps";
+    for (int i = 0; i < 3; ++i) {
+        llm::InferenceRequest req;
+        req.prompt      = shared_prefix + " over " + std::to_string(i);
+        req.max_tokens  = 8;
+        req.temperature = 0.0f;
+        auto resp = plugin.generate(req);
+        EXPECT_TRUE(resp.success) << "KV cache inference " << i << " failed: " << resp.error_message;
+    }
+
+    double memory_delta = memory.getDeltaMB();
+    EXPECT_LT(memory_delta, 200.0)
+        << "Unexpected memory growth with KV cache across repeated inferences: " << memory_delta << "MB";
+    std::cout << "KV cache memory delta: " << memory_delta << "MB" << std::endl;
 #endif
 }
 
@@ -440,26 +571,36 @@ TEST_F(InferencePerformanceTest, Memory_KVCacheEfficiency) {
  * - Baseline memory restored
  */
 TEST_F(InferencePerformanceTest, Memory_ProperCleanup) {
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
+
+    LlamaCppPlugin plugin;
+    nlohmann::json cfg;
+    cfg["n_ctx"]   = 512;
+    cfg["n_batch"] = 128;
+    ASSERT_TRUE(plugin.loadModel(model_path_, cfg)) << "loadModel failed";
+
     test::MemoryUsageTracker memory;
     double baseline = memory.getCurrentMemoryUsageMB();
-    
-    // Simulate multiple inference cycles
-    for (int i = 0; i < 10; ++i) {
-        std::string output = simulateGeneration(100);
-        // Clear output
-        output.clear();
-        output.shrink_to_fit();
+
+    for (int i = 0; i < 5; ++i) {
+        llm::InferenceRequest req;
+        req.prompt      = "Hello " + std::to_string(i);
+        req.max_tokens  = 8;
+        req.temperature = 0.0f;
+        auto resp = plugin.generate(req);
+        (void)resp;
     }
-    
+
     double final_memory = memory.getCurrentMemoryUsageMB();
     double delta = final_memory - baseline;
-    
-    // Should not accumulate significant memory
-    EXPECT_LT(std::abs(delta), 50.0) 
-        << "Memory accumulation detected: " << delta << "MB";
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
+
+    EXPECT_LT(std::abs(delta), 200.0)
+        << "Memory accumulation detected across inferences: " << delta << "MB";
 #endif
 }
 
@@ -475,28 +616,43 @@ TEST_F(InferencePerformanceTest, Memory_ProperCleanup) {
  * - Performance is tracked over time
  */
 TEST_F(InferencePerformanceTest, Regression_BaselineComparison) {
-    // Establish baseline
-    const double BASELINE_TOKENS_PER_SEC = 50.0;
-    const double REGRESSION_THRESHOLD = 0.8; // 20% regression allowed
-    
-    test::ThroughputCalculator throughput;
-    
-    // Measure current performance
-    for (int i = 0; i < 100; ++i) {
-        simulateGeneration(10);
-        throughput.increment(10);
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
     }
-    
+
+    // CPU baseline for TinyLlama ≥ 5 tokens/sec is a very conservative floor.
+    const double BASELINE_TOKENS_PER_SEC = 5.0;
+    const double REGRESSION_THRESHOLD   = 0.8; // 20% regression allowed
+
+    LlamaCppPlugin plugin;
+    nlohmann::json cfg;
+    cfg["n_ctx"]   = 512;
+    cfg["n_batch"] = 128;
+    ASSERT_TRUE(plugin.loadModel(model_path_, cfg)) << "loadModel failed";
+
+    test::ThroughputCalculator throughput;
+    for (int i = 0; i < 3; ++i) {
+        llm::InferenceRequest req;
+        req.prompt      = "Hello world " + std::to_string(i);
+        req.max_tokens  = 16;
+        req.temperature = 0.0f;
+        auto resp = plugin.generate(req);
+        if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+    }
+
     double current_tokens_per_sec = throughput.getTokensPerSecond();
     double threshold = BASELINE_TOKENS_PER_SEC * REGRESSION_THRESHOLD;
-    
+
     EXPECT_GE(current_tokens_per_sec, threshold)
-        << "Performance regression detected: " 
+        << "Performance regression detected: "
         << current_tokens_per_sec << " tokens/sec < "
         << threshold << " tokens/sec threshold";
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference with baseline";
+
+    std::cout << "Regression baseline comparison: " << current_tokens_per_sec
+              << " tokens/sec (threshold=" << threshold << ")" << std::endl;
 #endif
 }
 
@@ -508,60 +664,57 @@ TEST_F(InferencePerformanceTest, Regression_BaselineComparison) {
  * - No unexpected slowdowns
  */
 TEST_F(InferencePerformanceTest, Regression_ConsistencyCheck) {
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
+
+    LlamaCppPlugin plugin;
+    nlohmann::json cfg;
+    cfg["n_ctx"]   = 512;
+    cfg["n_batch"] = 128;
+    ASSERT_TRUE(plugin.loadModel(model_path_, cfg)) << "loadModel failed";
+
     const int warmup_runs = 2;
-    const int num_runs = 10;
-    const int iterations_per_run = 200;
-    const int tokens_per_iteration = 20;
+    const int num_runs    = 5;   // reduced to keep total test time reasonable
     std::vector<double> throughputs;
 
-    // Warmup: reduce cold-start effects (allocator/CPU frequency ramps)
-    for (int warmup = 0; warmup < warmup_runs; ++warmup) {
-        for (int i = 0; i < iterations_per_run; ++i) {
-            simulateGeneration(tokens_per_iteration);
-        }
-    }
-    
-    for (int run = 0; run < num_runs; ++run) {
+    auto runOnce = [&]() {
         test::ThroughputCalculator throughput;
-        
-        for (int i = 0; i < iterations_per_run; ++i) {
-            simulateGeneration(tokens_per_iteration);
-            throughput.increment(tokens_per_iteration);
-        }
-        
-        throughputs.push_back(throughput.getOpsPerSecond());
-    }
-    
-    // Calculate variance
+        llm::InferenceRequest req;
+        req.prompt      = "Performance consistency test.";
+        req.max_tokens  = 16;
+        req.temperature = 0.0f;
+        auto resp = plugin.generate(req);
+        if (resp.success) throughput.increment(static_cast<size_t>(resp.tokens_generated));
+        return throughput.getOpsPerSecond();
+    };
+
+    for (int warmup = 0; warmup < warmup_runs; ++warmup) { (void)runOnce(); }
+    for (int run = 0; run < num_runs; ++run) { throughputs.push_back(runOnce()); }
+
     double mean = 0.0;
-    for (double t : throughputs) {
-        mean += t;
-    }
+    for (double t : throughputs) mean += t;
     mean /= num_runs;
-    
+
     double variance = 0.0;
-    for (double t : throughputs) {
-        variance += (t - mean) * (t - mean);
-    }
+    for (double t : throughputs) variance += (t - mean) * (t - mean);
     variance /= num_runs;
     double std_dev = std::sqrt(variance);
-    
-    // Coefficient of variation threshold after warmup + longer sampling
-    // to limit scheduler jitter impact while keeping regression sensitivity.
-    double cv = std_dev / mean;
- #ifdef _WIN32
-     const double cv_threshold = 1.10;
- #else
-     const double cv_threshold = 0.30;
- #endif
+
+    double cv = (mean > 0.0) ? (std_dev / mean) : 0.0;
+#ifdef _WIN32
+    const double cv_threshold = 1.10;
+#else
+    const double cv_threshold = 0.50; // wider gate for real inference variance
+#endif
     EXPECT_LT(cv, cv_threshold) << "High performance variance detected: CV=" << cv
                                  << " (threshold=" << cv_threshold << ")";
-    
-    std::cout << "Performance consistency: mean=" << mean 
+
+    std::cout << "Performance consistency: mean=" << mean
               << " std_dev=" << std_dev << " cv=" << cv << std::endl;
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
 #endif
 }
 
@@ -577,35 +730,50 @@ TEST_F(InferencePerformanceTest, Regression_ConsistencyCheck) {
  * - No significant performance degradation
  */
 TEST_F(InferencePerformanceTest, Concurrent_ThroughputMeasurement) {
-    const int num_threads = 4;
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
+
+    // Note: llama.cpp is NOT thread-safe for the same context.
+    // Each thread gets its own LlamaCppPlugin instance (independent context).
+    const int num_threads = 2;
     std::atomic<int> completed{0};
     test::ThroughputCalculator throughput;
     std::vector<std::thread> threads;
-    
+    std::mutex tps_mutex;
+
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back([this, &completed, &throughput]() {
-            for (int j = 0; j < 25; ++j) {
-                simulateGeneration(10);
-                throughput.increment(10);
-                completed++;
+        threads.emplace_back([&, i]() {
+            LlamaCppPlugin plugin;
+            nlohmann::json cfg;
+            cfg["n_ctx"]   = 256;
+            cfg["n_batch"] = 64;
+            if (!plugin.loadModel(model_path_, cfg)) return;
+
+            llm::InferenceRequest req;
+            req.prompt      = "Thread test " + std::to_string(i);
+            req.max_tokens  = 8;
+            req.temperature = 0.0f;
+            auto resp = plugin.generate(req);
+            if (resp.success) {
+                std::lock_guard<std::mutex> lock(tps_mutex);
+                throughput.increment(static_cast<size_t>(resp.tokens_generated));
             }
+            completed++;
         });
     }
-    
-    for (auto& thread : threads) {
-        thread.join();
-    }
-    
+
+    for (auto& thread : threads) { thread.join(); }
+
+    EXPECT_EQ(completed.load(), num_threads);
     double tokens_per_sec = throughput.getTokensPerSecond();
-    
-    EXPECT_EQ(completed.load(), num_threads * 25);
     EXPECT_GT(tokens_per_sec, 0.0);
-    
+
     std::cout << "Concurrent inference (" << num_threads << " threads): "
               << tokens_per_sec << " tokens/sec" << std::endl;
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
 #endif
 }
 
@@ -617,32 +785,46 @@ TEST_F(InferencePerformanceTest, Concurrent_ThroughputMeasurement) {
  * - Efficient resource utilization
  */
 TEST_F(InferencePerformanceTest, Concurrent_Scalability) {
-    std::vector<int> thread_counts = {1, 2, 4, 8};
-    
+#ifndef THEMIS_ENABLE_LLM
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM not set)";
+#else
+    if (!model_available_) {
+        GTEST_SKIP() << "No test model available; set THEMIS_TEST_MODEL_PATH or place a GGUF in ./models/";
+    }
+
+    // Each thread gets its own LlamaCppPlugin (independent llama.cpp context).
+    const std::vector<int> thread_counts = {1, 2};
+
     for (int num_threads : thread_counts) {
         test::ThroughputCalculator throughput;
         std::vector<std::thread> threads;
-        
+        std::mutex tps_mutex;
+
         for (int i = 0; i < num_threads; ++i) {
-            threads.emplace_back([this, &throughput]() {
-                for (int j = 0; j < 20; ++j) {
-                    simulateGeneration(10);
-                    throughput.increment(10);
+            threads.emplace_back([&, i]() {
+                LlamaCppPlugin plugin;
+                nlohmann::json cfg;
+                cfg["n_ctx"]   = 256;
+                cfg["n_batch"] = 64;
+                if (!plugin.loadModel(model_path_, cfg)) return;
+
+                llm::InferenceRequest req;
+                req.prompt      = "Scalability test thread " + std::to_string(i);
+                req.max_tokens  = 8;
+                req.temperature = 0.0f;
+                auto resp = plugin.generate(req);
+                if (resp.success) {
+                    std::lock_guard<std::mutex> lock(tps_mutex);
+                    throughput.increment(static_cast<size_t>(resp.tokens_generated));
                 }
             });
         }
-        
-        for (auto& thread : threads) {
-            thread.join();
-        }
-        
+
+        for (auto& thread : threads) { thread.join(); }
+
         double tokens_per_sec = throughput.getOpsPerSecond();
-        
-        std::cout << "Threads: " << num_threads 
+        std::cout << "Threads: " << num_threads
                   << ", Throughput: " << tokens_per_sec << " tokens/sec" << std::endl;
     }
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual model inference";
 #endif
 }

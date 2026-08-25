@@ -248,10 +248,16 @@ void GossipConfigManager::start() {
     } catch (...) {
         running_.store(false);
         if (gossip_thread_.joinable()) {
-            themis::utils::joinThreadWithin(gossip_thread_);
+            const bool joined = themis::utils::joinThreadWithin(gossip_thread_);
+            if (!joined) {
+                spdlog::warn("GossipConfigManager shutdown join timed out for gossip thread");
+            }
         }
         if (anti_entropy_thread_.joinable()) {
-            themis::utils::joinThreadWithin(anti_entropy_thread_);
+            const bool joined = themis::utils::joinThreadWithin(anti_entropy_thread_);
+            if (!joined) {
+                spdlog::warn("GossipConfigManager shutdown join timed out for anti-entropy thread");
+            }
         }
         throw;
     }
@@ -267,11 +273,17 @@ void GossipConfigManager::stop() {
     running_.store(false);
 
     if (gossip_thread_.joinable()) {
-        themis::utils::joinThreadWithin(gossip_thread_);
+        const bool joined = themis::utils::joinThreadWithin(gossip_thread_);
+        if (!joined) {
+            spdlog::warn("GossipConfigManager stop join timed out for gossip thread");
+        }
     }
 
     if (anti_entropy_thread_.joinable()) {
-        themis::utils::joinThreadWithin(anti_entropy_thread_);
+        const bool joined = themis::utils::joinThreadWithin(anti_entropy_thread_);
+        if (!joined) {
+            spdlog::warn("GossipConfigManager stop join timed out for anti-entropy thread");
+        }
     }
 }
 

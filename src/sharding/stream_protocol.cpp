@@ -676,10 +676,10 @@ bool StreamSession::initialize() {
     //               `setPrepareTransferCallback()` and remove this fallback.
     //               See src/sharding/FUTURE_ENHANCEMENTS.md §Stream Protocol PrepareTransfer.
     
-    THEMIS_WARN("StreamSession::initialize() using in-process simulation (no mTLS prepare callback). "
-                "This is a test-only configuration. Remote endpoint: {}. "
-                "Subsequent data transfers will fail unless a real transport callback is injected.",
-                config_.remote_endpoint);
+    spdlog::warn("StreamSession::initialize() using in-process simulation (no mTLS prepare callback). "
+                 "This is a test-only configuration. Remote endpoint: {}. "
+                 "Subsequent data transfers will fail unless a real transport callback is injected.",
+                 config_.remote_endpoint);
     return true;
 }
 
@@ -692,8 +692,8 @@ void StreamSession::addFile(const StreamFileInfo& file) {
         return;
     }
     
-    if (file.file_name.empty()) {
-        spdlog::error("StreamSession::addFile: file has empty file_name, rejecting");
+    if (file.collection_name.empty()) {
+        spdlog::error("StreamSession::addFile: file has empty collection_name, rejecting");
         return;
     }
     
@@ -786,10 +786,16 @@ void StreamSession::abort(const std::string& reason) {
     cv_.notify_all();
     
     if (session_thread_.joinable()) {
-        themis::utils::joinThreadWithin(session_thread_);
+        const bool joined = themis::utils::joinThreadWithin(session_thread_);
+        if (!joined) {
+            spdlog::warn("StreamSession shutdown join timed out for session thread");
+        }
     }
     if (heartbeat_thread_.joinable()) {
-        themis::utils::joinThreadWithin(heartbeat_thread_);
+        const bool joined = themis::utils::joinThreadWithin(heartbeat_thread_);
+        if (!joined) {
+            spdlog::warn("StreamSession shutdown join timed out for heartbeat thread");
+        }
     }
     
     if (completion_callback) {
@@ -1064,8 +1070,8 @@ void StreamPlan::addSession(std::unique_ptr<StreamSession> session) {
         return;
     }
     
-    if (session->getSessionId().empty()) {
-        spdlog::error("StreamPlan::addSession: session has empty session_id, rejecting");
+    if (session->getSessionId() == 0) {
+        spdlog::error("StreamPlan::addSession: session has invalid session_id=0, rejecting");
         return;
     }
     
@@ -1096,7 +1102,10 @@ void StreamPlan::abort() {
     }
     
     if (executor_thread_.joinable()) {
-        themis::utils::joinThreadWithin(executor_thread_);
+        const bool joined = themis::utils::joinThreadWithin(executor_thread_);
+        if (!joined) {
+            spdlog::warn("StreamPlan shutdown join timed out for executor thread");
+        }
     }
 }
 
@@ -1213,7 +1222,10 @@ StreamTransferTask::StreamTransferTask(
 StreamTransferTask::~StreamTransferTask() {
     abort();
     if (transfer_thread_.joinable()) {
-        themis::utils::joinThreadWithin(transfer_thread_);
+        const bool joined = themis::utils::joinThreadWithin(transfer_thread_);
+        if (!joined) {
+            spdlog::warn("StreamTransferTask join timed out during destruction");
+        }
     }
 }
 

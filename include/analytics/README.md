@@ -4,7 +4,7 @@
 
 **Version:** 1.9.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-07-19
+**Last Updated:** 2026-08-19
 **Module Path:** `include/analytics/`
 
 ---
@@ -42,6 +42,7 @@ The most important public headers for analytics integrations are:
 | `process_mining.h` | Event-log extraction, discovery, and conformance checking |
 | `analytics_export.h` + `arrow_export.h` | Export APIs (JSON/CSV always, Arrow formats optional) |
 | `streaming_window.h` + `streaming_join.h` | Streaming windows and stream-stream joins |
+| `model_serving.h` + `ml_serving.h` | In-process and external serving contracts with integrity and secure-transport policy controls |
 
 ## Header Files
 

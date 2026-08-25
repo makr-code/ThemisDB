@@ -84,6 +84,15 @@ struct LLMConfig {
     // Limits
     int max_tokens = 2000;
     double temperature = 0.3;  // Lower = more deterministic
+
+    /// Optional path to an operator-configurable injection-prefix file.
+    /// Each non-empty, non-comment line (lines beginning with '#' are skipped)
+    /// is interpreted as a lower-case prompt-injection prefix that
+    /// sanitizeUserContent() will redact from any user-supplied data before
+    /// it is embedded in an LLM prompt.
+    /// When empty (the default) or when the file cannot be opened, the
+    /// built-in 13-pattern prefix list is used as the fallback.
+    std::string injection_prefix_config_path;
 };
 
 struct LLMRequest {

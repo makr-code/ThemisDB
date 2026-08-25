@@ -222,15 +222,20 @@ endif()
 # ════════════════════════════════════════════════════════════════════════════
 if(MSVC)
     # Windows MSVC compiler options (include paths already added above)
-    add_compile_options(
+    set(_themis_msvc_warning_flags
         /W4              # Warning level 4
-        /WX-             # Don't treat warnings as errors (unless THEMIS_STRICT_BUILD)
         /fp:precise      # Precise floating point
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
         /EHsc            # Exception handling (C++ only, not SEH)
         /w14018          # Enable C4018: signed/unsigned mismatch warning
     )
+    if(THEMIS_STRICT_BUILD)
+        list(APPEND _themis_msvc_warning_flags /WX)
+    else()
+        list(APPEND _themis_msvc_warning_flags /WX-)
+    endif()
+    add_compile_options(${_themis_msvc_warning_flags})
     
     # Also use include_directories for good measure
     if(_VC_TOOLS_DIR AND _WIN_SDK_ROOT AND _WIN_SDK_VERSION)
@@ -302,11 +307,6 @@ if(MSVC)
         add_compile_definitions(THEMIS_HAS_AVX2=1)
     endif()
     
-    # Treat warnings as errors if requested
-    if(THEMIS_STRICT_BUILD)
-        add_compile_options(/WX)
-    endif()
-
     # ── MSVC Security Hardening (Release builds) ──────────────────────────────
     # Applied via generator expressions so multi-config generators work correctly.
     #   /GS       – Buffer Security Check (stack canaries)

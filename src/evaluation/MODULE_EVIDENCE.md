@@ -14,7 +14,7 @@ attempt performed during this refresh.
 
 - Preset: `windows-release`
 - Focused target pattern: `module_evaluation_test_*_focused.exe`
-- Result: focused module binary was not found in `build-msvc-windows-release/bin_out`
+- Result: focused module binary was not found in `build-msvc-windows-release/bin`
 - Status: evidence gap documented in issue #5643
 
 ## Source-Verifiable Coverage (validated 2026-07-29)

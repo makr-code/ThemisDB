@@ -254,6 +254,9 @@ QualityCheckResult DataQualityFramework::QualityAssessor::scoreWithAudit(
     const std::string& audit_event_id,
     const std::map<std::string, ColumnStatistics>& stats,
     const std::string& bypass_reason) {
+    (void)table_name;
+    (void)audit_event_id;
+    (void)stats;
     // PHASE-2-HARDENING: Quality Score Bounds & Audit Integration
     // Determinism: yes (formula is deterministic)
     // Audit: emits quality check or bypass events

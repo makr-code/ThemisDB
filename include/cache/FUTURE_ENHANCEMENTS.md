@@ -1,5 +1,3 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/cache/FUTURE_ENHANCEMENTS.md -->
 

@@ -1,16 +1,25 @@
 # Deprecation and style checks run at configure time.
 # Currently: warn on use of `add_definitions()` which is discouraged.
 
-# Gather cmake files to scan
+# Gather only Themis-owned CMake helper files to scan.
 file(GLOB_RECURSE _themis_cmake_scan_files
-    "${CMAKE_SOURCE_DIR}/*.cmake"
-    "${CMAKE_SOURCE_DIR}/CMakeLists.txt"
+    "${CMAKE_SOURCE_DIR}/cmake/*.cmake"
 )
+list(FILTER _themis_cmake_scan_files EXCLUDE REGEX "deprecated_checks\\.cmake$")
 
 set(_themis_add_definitions_hits "")
 foreach(_themis_scan_file IN LISTS _themis_cmake_scan_files)
     if(EXISTS "${_themis_scan_file}")
-        file(READ "${_themis_scan_file}" _themis_scan_content)
+        file(STRINGS "${_themis_scan_file}" _themis_scan_lines)
+        set(_themis_scan_content "")
+        foreach(_themis_scan_line IN LISTS _themis_scan_lines)
+            string(REGEX MATCH "^[ \t]*#" _themis_is_comment "${_themis_scan_line}")
+            if(_themis_is_comment)
+                continue()
+            endif()
+            string(APPEND _themis_scan_content "${_themis_scan_line}\n")
+        endforeach()
+
         string(TOLOWER "${_themis_scan_content}" _themis_scan_lc)
         string(FIND "${_themis_scan_lc}" "add_definitions(" _themis_found_pos)
         if(NOT _themis_found_pos EQUAL -1)

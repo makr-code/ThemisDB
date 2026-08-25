@@ -30,6 +30,17 @@ DisasterRecoveryManager::DisasterRecoveryManager(
       fencing_mgr_(std::move(fencing_mgr)) {}
 
 DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecoveryPlan& plan) {
+    // FO-IMPL-007: Idempotent plan execution — return cached result for repeated plan_id
+    {
+        std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+        auto it = completed_plans_.find(plan.plan_id);
+        if (it != completed_plans_.end()) {
+            spdlog::info("DisasterRecoveryManager::executePlan: returning cached result "
+                         "for plan_id='{}' (idempotent)", plan.plan_id);
+            return it->second;
+        }
+    }
+
     // Reject concurrent invocations: concurrent calls race on state_ and fencing_mgr_.
     std::unique_lock<std::mutex> exec_lock(execution_mutex_, std::try_to_lock);
     if (!exec_lock.owns_lock()) {
@@ -121,6 +132,13 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
         std::chrono::steady_clock::now() - started_at);
 
     updateStatistics(result);
+
+    // FO-IMPL-007: Cache result for idempotency (only for plans with a valid plan_id)
+    if (!plan.plan_id.empty()) {
+        std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+        completed_plans_[plan.plan_id] = result;
+    }
+
     return result;
 }
 

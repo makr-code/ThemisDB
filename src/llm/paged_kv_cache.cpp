@@ -382,7 +382,8 @@ uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     uint32_t exp_4bit = (exp_bias > 127) ? ((exp_bias - 127) >> 5) : 0;
     exp_4bit = std::min(exp_4bit, 3U);  // Clamp to 2 bits
     
-    uint8_t result = (sign << 7) | (exp_4bit << 5) | (mantissa << 4);
+    const uint32_t packed_bits = ((sign & 0x1u) << 7) | ((exp_4bit & 0x3u) << 5) | ((mantissa & 0x1u) << 4);
+    uint8_t result = static_cast<uint8_t>(packed_bits);
     return result;
 }
 

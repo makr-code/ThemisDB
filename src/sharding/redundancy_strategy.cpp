@@ -2904,6 +2904,9 @@ ReadResult RedundancyStrategy::readMirrorWithVersion(
     ShardTopology& topology,
     ReadHandlerWithVersion handler
 ) {
+    (void)collection;
+    (void)topology;
+
     ReadResult result;
     result.document_id = document_id;
     

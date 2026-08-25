@@ -24,6 +24,12 @@
 namespace themisdb {
 namespace sharding {
 
+} // namespace sharding
+} // namespace themisdb
+
+namespace themis {
+namespace sharding {
+
 /**
  * @brief Coordinates replica acknowledgments for write-concern enforcement.
  *
@@ -177,5 +183,11 @@ private:
     void cleanupPendingWrites();
 };
 
+} // namespace sharding
+} // namespace themis
+
+namespace themisdb {
+namespace sharding {
+using ReplicationCoordinator = themis::sharding::ReplicationCoordinator;
 } // namespace sharding
 } // namespace themisdb

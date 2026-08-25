@@ -3,6 +3,20 @@
 
 # 📈 Advanced Benchmarks - Executive Summary
 
+Status: Historical snapshot
+Canonicality: Non-canonical for current benchmark standards
+Last governance alignment: 2026-08-21
+
+Canonical references:
+- [../BENCHMARK_STANDARDS.md](../BENCHMARK_STANDARDS.md)
+- [../MEASUREMENT_HYGIENE.md](../MEASUREMENT_HYGIENE.md)
+- [../README.md](../README.md)
+
+Usage note:
+- Keep this file for historical context and prior planning rationale.
+- Do not use its quantitative claims as current baseline without revalidation
+    in current presets and benchmark runs.
+
 **Date**: 2025-12-18  
 **Status**: ✅ Complete Analysis & Roadmap
 

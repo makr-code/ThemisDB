@@ -11,10 +11,13 @@
 
 
 #include "failover/auto_failover_manager.h"
+#include "failover/topology_snapshot.h"
 
 #include <algorithm>
+#include <future>
 #include <numeric>
 
+#include "failover/quorum_log.h"
 #include "spdlog/spdlog.h"
 
 namespace themis {
@@ -31,7 +34,17 @@ AutoFailoverManager::AutoFailoverManager(
       replication_mgr_(std::move(replication_mgr)),
       health_monitor_(std::move(health_monitor)),
       spare_manager_(std::move(spare_manager)),
-      fencing_manager_(std::move(fencing_manager)) {}
+      fencing_manager_(std::move(fencing_manager)),
+      current_check_interval_(config.health_check_interval) {
+    if (!config_.quorum_log_path.empty()) {
+        quorum_log_ = std::make_unique<QuorumLog>(config_.quorum_log_path);
+        const auto state = quorum_log_->recover();
+        if (state.valid) {
+            spdlog::info("QuorumLog: recovered state — last_epoch={}, last_node='{}', decision='{}'",
+                         state.last_epoch, state.last_promoted_node, state.last_decision);
+        }
+    }
+}
 
 AutoFailoverManager::~AutoFailoverManager() {
     if (running_.load()) {
@@ -253,7 +266,7 @@ void AutoFailoverManager::monitoringLoop() {
             checkForNetworkPartitions();
             detectNodeFailures();
 
-            std::this_thread::sleep_for(config_.health_check_interval);
+            std::this_thread::sleep_for(current_check_interval_);
         } catch (const std::exception& e) {
             spdlog::error("Error in monitoring loop: {}", e.what());
         }
@@ -261,11 +274,69 @@ void AutoFailoverManager::monitoringLoop() {
 }
 
 void AutoFailoverManager::performHealthChecks() {
-    if (!replication_mgr_) {
+#ifdef THEMIS_TEST_BUILD
+    const bool has_source = replication_mgr_ || health_check_override_;
+#else
+    const bool has_source = static_cast<bool>(replication_mgr_);
+#endif
+    if (!has_source) {
         return;
     }
 
-    const auto cluster = replication_mgr_->getClusterHealth();
+    // If a previous timed-out health-check task is still running, drain it first
+    // so we don't accumulate unbounded blocked futures.
+    if (abandoned_health_check_future_.valid()) {
+        if (abandoned_health_check_future_.wait_for(std::chrono::seconds(0))
+                == std::future_status::ready) {
+            try { abandoned_health_check_future_.get(); } catch (...) {}
+        } else {
+            // Previous task not yet done — skip this cycle to avoid blocking.
+            spdlog::debug("performHealthChecks: previous timed-out task still running; skipping cycle");
+            return;
+        }
+    }
+
+    // Read the configured timeout before spawning the async task so the mutex
+    // is not held across the future wait.
+    const auto timeout_ms = getConfig().health_check_call_timeout_ms;
+
+    // Capture dependencies by value so the lambda never touches `this` after a timeout.
+    auto replication_mgr = replication_mgr_;
+#ifdef THEMIS_TEST_BUILD
+    auto override_fn = health_check_override_;
+#endif
+
+    const auto t0 = std::chrono::steady_clock::now();
+    auto fut = std::async(std::launch::async, [replication_mgr
+#ifdef THEMIS_TEST_BUILD
+        , override_fn
+#endif
+        ]() -> std::map<std::string, bool> {
+#ifdef THEMIS_TEST_BUILD
+        if (override_fn) {
+            return override_fn();
+        }
+#endif
+        return replication_mgr->getClusterHealth();
+    });
+
+    if (fut.wait_for(timeout_ms) == std::future_status::timeout) {
+        spdlog::warn("performHealthChecks: getClusterHealth() timed out after {}ms",
+                     timeout_ms.count());
+        emitDiagnostic(FailoverErrorCode::HEARTBEAT_MISSED, "",
+                       "health-check call timed out after " +
+                       std::to_string(timeout_ms.count()) + "ms");
+        // Move the future into the abandoned slot so its destructor doesn't block here.
+        abandoned_health_check_future_ = std::move(fut);
+        return;
+    }
+
+    const auto cluster = fut.get();
+    const auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0);
+    if (getConfig().adaptive_check_interval) {
+        updateAdaptiveInterval(latency);
+    }
     for (const auto& [node_id, is_healthy] : cluster) {
         updateFailureTracking(node_id, is_healthy);
     }
@@ -291,8 +362,29 @@ void AutoFailoverManager::checkForNetworkPartitions() {
 }
 
 void AutoFailoverManager::detectNodeFailures() {
-    // Detect nodes that have failed and enqueue failover tasks
+    // Take snapshot before computing failing nodes
+    TopologySnapshot snap_before;
+    {
+        std::shared_lock<std::shared_mutex> lock(tracking_mutex_);
+        snap_before = captureTopologySnapshot();
+    }
+
     auto failing_nodes = getFailingNodes();
+
+    // Check if topology changed while we were computing failing nodes
+    TopologySnapshot snap_after;
+    {
+        std::shared_lock<std::shared_mutex> lock(tracking_mutex_);
+        snap_after = captureTopologySnapshot();
+    }
+
+    if (snap_before.has_topology_change(snap_after)) {
+        spdlog::warn("detectNodeFailures: topology changed during detection "
+                     "(version {} → {}); retrying detection",
+                     snap_before.version, snap_after.version);
+        // Retry once to avoid infinite loop
+        failing_nodes = getFailingNodes();
+    }
 
     for (const auto& node_id : failing_nodes) {
         spdlog::warn("Failover condition met for node: {}", node_id);
@@ -300,18 +392,30 @@ void AutoFailoverManager::detectNodeFailures() {
     }
 }
 
+TopologySnapshot AutoFailoverManager::captureTopologySnapshot() const {
+    // Caller must hold tracking_mutex_ (shared or exclusive)
+    return TopologySnapshot::capture(topology_version_.load(std::memory_order_relaxed),
+                                     consecutive_failures_);
+}
+
 void AutoFailoverManager::updateFailureTracking(const std::string& node_id, bool is_healthy) {
     std::unique_lock<std::shared_mutex> lock(tracking_mutex_);
+
+    const bool is_new_node = (consecutive_failures_.find(node_id) == consecutive_failures_.end());
+    if (is_new_node) {
+        topology_version_.fetch_add(1, std::memory_order_relaxed);
+    }
 
     if (is_healthy) {
         consecutive_failures_[node_id] = 0;
     } else {
-        consecutive_failures_[node_id]++;
-        emitEvent(
-            FailoverEventType::NODE_FAILURE_DETECTED,
-            node_id,
-            "Consecutive failures: " + std::to_string(consecutive_failures_[node_id])
-        );
+        const bool in_grace = checkAndApplyGcGrace(node_id);
+        if (!in_grace) {
+            consecutive_failures_[node_id]++;
+        }
+        emitEvent(FailoverEventType::NODE_FAILURE_DETECTED,
+                  node_id,
+                  "Consecutive failures: " + std::to_string(consecutive_failures_[node_id]));
     }
 }
 
@@ -399,13 +503,19 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
         }
 
         // Step 3: Split-brain prevention
+        // FO-IMPL-003: fencing is always attempted if a fencing manager is available,
+        // regardless of enable_split_brain_prevention. The flag only controls whether
+        // we BLOCK promotion when no fencing manager is configured.
         if (config_.enable_split_brain_prevention) {
             if (!preventSplitBrain(task.failed_node_id)) {
-                spdlog::error("Split-brain prevention failed");
+                spdlog::error("Split-brain prevention failed; blocking promotion");
                 transitionState(FailoverOrchestratorState::FAILED);
                 result.success = false;
                 return result;
             }
+        } else if (fencing_manager_) {
+            // Manager available but prevention disabled — still fence but don't block
+            preventSplitBrain(task.failed_node_id);
         }
 
         // Step 4: Select and promote replica or spare
@@ -468,15 +578,27 @@ bool AutoFailoverManager::checkAndWaitForQuorum() {
         return false;
     }
 
-    auto deadline = std::chrono::steady_clock::now() + config_.failover_timeout;
+    const auto timeout = getConfig().quorum_timeout_ms;
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
 
     while (std::chrono::steady_clock::now() < deadline) {
         if (replication_mgr_->hasQuorum()) {
+            if (quorum_log_) {
+                if (!quorum_log_->append(0, "", "QUORUM_REACHED")) {
+                    spdlog::error("checkAndWaitForQuorum: quorum log write failed; blocking promotion");
+                    emitDiagnostic(FailoverErrorCode::QUORUM_UNAVAILABLE, "",
+                                   "quorum log write failed; promotion blocked");
+                    return false;
+                }
+            }
             return true;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
+    spdlog::error("checkAndWaitForQuorum: timed out after {}ms", timeout.count());
+    emitDiagnostic(FailoverErrorCode::QUORUM_UNAVAILABLE, "",
+                   "quorum wait timed out after " + std::to_string(timeout.count()) + "ms");
     return false;
 }
 
@@ -507,29 +629,54 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
     const auto replicas = replication_mgr_->getReplicas();
     const auto health = replication_mgr_->getReplicaHealthStatus();
 
-    std::string candidate;
+    std::vector<std::string> candidates;
     for (const auto& [node_id, status] : health) {
-        if (status != themisdb::replication::HealthStatus::HEALTHY) {
-            continue;
-        }
-        if (node_id == failed_node_id) {
-            continue;
-        }
+        if (status != themisdb::replication::HealthStatus::HEALTHY) continue;
+        if (node_id == failed_node_id) continue;
         for (const auto& replica : replicas) {
             if (replica.node_id == node_id &&
                 replica.role != themisdb::replication::ReplicationRole::WITNESS) {
-                candidate = node_id;
+                candidates.push_back(node_id);
                 break;
             }
         }
-        if (!candidate.empty()) {
-            break;
-        }
     }
 
-    if (candidate.empty()) {
+    if (candidates.empty()) {
         spdlog::error("No healthy, promotable replica candidate available");
         return false;
+    }
+
+    std::string candidate;
+    if (candidates.size() == 1 || !getConfig().deterministic_tie_breaking) {
+        candidate = candidates.front();
+    } else {
+        candidate = resolveSplitVote(candidates);
+        spdlog::info("selectAndPromoteReplica: tie-breaking selected '{}'", candidate);
+    }
+
+    // FO-IMPL-003: verify epoch fence before promotion to prevent dual-master
+    if (fencing_manager_) {
+        const auto token = fencing_manager_->bumpEpoch(
+            "promotion of candidate " + candidate + " replacing " + failed_node_id);
+        if (token.epoch == 0) {
+            spdlog::error("selectAndPromoteReplica: fencing returned invalid epoch for candidate {}",
+                          candidate);
+            emitDiagnostic(FailoverErrorCode::SPLIT_BRAIN_DETECTED, candidate,
+                           "fencing verification returned invalid epoch; promotion blocked");
+            return false;
+        }
+        spdlog::info("selectAndPromoteReplica: epoch {} fenced for promotion of {}",
+                     token.epoch, candidate);
+    }
+
+    if (quorum_log_) {
+        if (!quorum_log_->append(0, candidate, "PROMOTE")) {
+            spdlog::error("selectAndPromoteReplica: quorum log write failed; blocking promotion");
+            emitDiagnostic(FailoverErrorCode::QUORUM_UNAVAILABLE, candidate,
+                           "quorum log write failed; promotion blocked");
+            return false;
+        }
     }
 
     if (!replication_mgr_->triggerFailover(candidate)) {
@@ -587,6 +734,18 @@ bool AutoFailoverManager::preventSplitBrain(const std::string& failed_node_id) {
     const auto epoch_token = fencing_manager_->bumpEpoch(
         "automatic failover for failed node " + failed_node_id
     );
+
+    // FO-IMPL-003: epoch 0 is the reserved invalid sentinel — fail closed.
+    if (epoch_token.epoch == 0) {
+        emitDiagnostic(FailoverErrorCode::SPLIT_BRAIN_DETECTED, failed_node_id,
+                       "fencing returned invalid epoch; failing closed");
+        spdlog::error("preventSplitBrain: bumpEpoch returned invalid epoch for node={}",
+                      failed_node_id);
+        return false;
+    }
+
+    spdlog::info("preventSplitBrain: epoch {} fenced for node={}",
+                 epoch_token.epoch, failed_node_id);
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.split_brain_preventions++;
@@ -612,6 +771,25 @@ bool AutoFailoverManager::isNetworkPartitionedFromQuorum() const {
 
 bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
     spdlog::info("Attempting recovery for node: {}", failed_node_id);
+
+#ifdef THEMIS_TEST_BUILD
+    if (recovery_override_) {
+        const bool ok = recovery_override_(failed_node_id);
+        {
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+            stats_.total_retry_attempts++;
+            stats_.total_recovery_attempts++;
+            if (ok) {
+                stats_.successful_retries++;
+            } else {
+                stats_.failed_retries++;
+                emitDiagnostic(FailoverErrorCode::NODE_REJOIN_FAILED, failed_node_id,
+                               "node failed to recover (recovery_override returned false)");
+            }
+        }
+        return ok;
+    }
+#endif
 
     // ROADMAP.md compliance: "attemptRecovery stats batch-updated: single lock acquisition
     // per call instead of per iteration"
@@ -760,6 +938,64 @@ bool AutoFailoverManager::canTransition(FailoverOrchestratorState from,
     }
 }
 
+void AutoFailoverManager::updateAdaptiveInterval(std::chrono::milliseconds last_latency) {
+    // Called without holding monitor_mutex_; acquire it here.
+    std::lock_guard<std::mutex> lock(monitor_mutex_);
+    health_check_latency_samples_.push_back(last_latency);
+    if (health_check_latency_samples_.size() > config_.adaptive_check_samples) {
+        health_check_latency_samples_.erase(health_check_latency_samples_.begin());
+    }
+    auto sorted = health_check_latency_samples_;
+    std::sort(sorted.begin(), sorted.end());
+    const size_t p95_idx = std::min(
+        static_cast<size_t>(sorted.size() * 95 / 100),
+        sorted.size() - 1u);
+    const auto p95 = sorted[p95_idx];
+    auto new_interval = std::chrono::milliseconds(p95.count() * 2);
+    new_interval = std::max(new_interval, config_.adaptive_check_interval_min);
+    new_interval = std::min(new_interval, config_.adaptive_check_interval_max);
+    current_check_interval_ = new_interval;
+    spdlog::debug("Adaptive check interval updated to {}ms (p95={}ms)",
+                  new_interval.count(), p95.count());
+}
+
+bool AutoFailoverManager::checkAndApplyGcGrace(const std::string& node_id) {
+    // tracking_mutex_ (exclusive) is already held by the caller (updateFailureTracking).
+    const auto now = std::chrono::steady_clock::now();
+    const auto cfg = [this]() {
+        // Can't call getConfig() (which acquires monitor_mutex_) while tracking_mutex_ is
+        // held in exclusive mode — use a direct read of config_ under monitor_mutex_ only.
+        std::lock_guard<std::mutex> lock(monitor_mutex_);
+        return config_;
+    }();
+
+    if (now < gc_grace_expiry_) {
+        spdlog::debug("GC grace period active for node {}", node_id);
+        return true;
+    }
+    recent_failure_timestamps_.push_back(now);
+    const auto window_start = now - cfg.gc_grace_window;
+    recent_failure_timestamps_.erase(
+        std::remove_if(recent_failure_timestamps_.begin(), recent_failure_timestamps_.end(),
+            [&](const auto& ts) { return ts < window_start; }),
+        recent_failure_timestamps_.end());
+    if (recent_failure_timestamps_.size() >= cfg.gc_grace_failure_count) {
+        gc_grace_expiry_ = now + cfg.gc_grace_period;
+        spdlog::warn("GC grace period started for node {} ({}ms)",
+                     node_id, cfg.gc_grace_period.count());
+        recent_failure_timestamps_.clear();
+        return true;
+    }
+    return false;
+}
+
+std::string AutoFailoverManager::resolveSplitVote(
+    const std::vector<std::string>& candidates) const {
+    if (candidates.empty()) { return {}; }
+    // Deterministic: smallest lexicographic node_id wins split-vote.
+    return *std::min_element(candidates.begin(), candidates.end());
+}
+
 void AutoFailoverManager::emitDiagnostic(FailoverErrorCode code,
                                           const std::string& node_id,
                                           const std::string& detail) noexcept {
@@ -772,6 +1008,15 @@ void AutoFailoverManager::emitDiagnostic(FailoverErrorCode code,
         switch (code) {
             case FailoverErrorCode::QUORUM_UNAVAILABLE:
                 event_type = FailoverEventType::QUORUM_CHECK_FAILED;
+                break;
+            case FailoverErrorCode::HEARTBEAT_MISSED:
+                event_type = FailoverEventType::HEARTBEAT_MISSED;
+                break;
+            case FailoverErrorCode::SPLIT_BRAIN_DETECTED:
+                event_type = FailoverEventType::SPLIT_BRAIN_RISK_DETECTED;
+                break;
+            case FailoverErrorCode::NODE_REJOIN_FAILED:
+                event_type = FailoverEventType::NODE_REJOIN_FAILED;
                 break;
             default:
                 event_type = FailoverEventType::FAILOVER_CANCELLED;
@@ -839,6 +1084,12 @@ void AutoFailoverManager::updateStatistics(const FailoverResult& result) {
         stats_.max_failover_time =
             *std::max_element(failover_durations_.begin(), failover_durations_.end());
     }
+}
+
+void AutoFailoverManager::resetStatistics() {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    stats_ = Statistics{};
+    failover_durations_.clear();
 }
 
 }  // namespace failover

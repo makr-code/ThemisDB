@@ -47,7 +47,7 @@
 #include <thread>
 #include <utility>
 
-#if defined(THEMIS_ENABLE_CUDA) && defined(__has_include)
+#if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA && defined(__has_include)
 #if __has_include(<cuda_runtime.h>)
 #define THEMIS_GPU_SAFE_RAII_HAS_CUDA 1
 #include <cuda_runtime.h>

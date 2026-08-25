@@ -37,26 +37,41 @@ protected:
     void SetUp() override {
         // Try to find a test model (skip tests if not available)
         // In CI, these tests may be skipped if no model is available
-        std::vector<std::string> possible_paths = {
-            "models/test_model.gguf",
-            "../models/test_model.gguf",
-            "../../models/test_model.gguf",
-            "/tmp/test_model.gguf",
-            std::string(std::getenv("THEMIS_TEST_MODEL_PATH") ? std::getenv("THEMIS_TEST_MODEL_PATH") : "")
-        };
-        
-        for (const auto& path : possible_paths) {
-            if (!path.empty() && std::filesystem::exists(path)) {
-                model_path_ = path;
-                model_available_ = true;
-                spdlog::info("Found test model at: {}", model_path_);
-                break;
+        const char* env_path = std::getenv("THEMIS_TEST_MODEL_PATH");
+        if (env_path && std::filesystem::exists(env_path)) {
+            model_path_ = env_path;
+            model_available_ = true;
+            spdlog::info("Found test model at: {}", model_path_);
+        } else {
+            for (const auto& root : {
+                    std::filesystem::path("."),
+                    std::filesystem::path("./models"),
+                    std::filesystem::path("../models"),
+                    std::filesystem::path("../../models")}) {
+                for (const auto& candidate : {
+                        "TinyLlama-1.1B-Chat-v1.0.gguf",
+                        "tinyllama-1.1b-chat-v1.0.gguf",
+                        "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+                        "tinyllama_1.1b.gguf",
+                        "test_model.gguf"}) {
+                    auto path = root / candidate;
+                    if (std::filesystem::exists(path) && std::filesystem::is_regular_file(path)) {
+                        model_path_ = path.string();
+                        model_available_ = true;
+                        spdlog::info("Found test model at: {}", model_path_);
+                        break;
+                    }
+                }
+
+                if (model_available_) {
+                    break;
+                }
             }
         }
         
         if (!model_available_) {
-            spdlog::warn("No test model found. Tokenizer tests will be skipped.");
-            spdlog::info("Set THEMIS_TEST_MODEL_PATH environment variable to enable tests.");
+            spdlog::warn("simulation-only fallback: no TinyLlama GGUF model found in ./models/. Tokenizer tests will be skipped.");
+            spdlog::info("Set THEMIS_TEST_MODEL_PATH to the real model path to enable tests.");
         }
     }
     

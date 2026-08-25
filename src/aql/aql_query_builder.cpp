@@ -631,8 +631,11 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
             if (start != std::string::npos) {
                 line = line.substr(start, end - start + 1);
             }
-            // Skip empty lines and markdown fences
-            if (!line.empty() && line.find("```") == std::string::npos) {
+            // Skip empty lines, markdown fences, and oversized responses
+            // (unvalidated LLM output guard: AQL clause snippets should be short).
+            static constexpr std::size_t kMaxSuggestionBytes = 256;
+            if (!line.empty() && line.find("```") == std::string::npos
+                    && line.size() <= kMaxSuggestionBytes) {
                 suggestions.push_back(line);
             }
         }

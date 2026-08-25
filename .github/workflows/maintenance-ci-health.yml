@@ -27,7 +27,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: maintenance-ci-health
+  group: ci-maintenance-ci-health-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -253,8 +253,10 @@ jobs:
               }
             };
 
-            await ensureLabel('ci/chronic-failure', 'B60205', 'Chronic CI failures requiring remediation');
+            await ensureLabel('ci/chronic-failure', 'B60205', 'Chronic CI failures (>30% rate) requiring remediation');
             await ensureLabel('ci/failure', 'D93F0B', 'CI execution failures requiring action');
+            await ensureLabel('ci/build-failed', 'B60205', 'Build after merge failed; blocks next merge');
+            await ensureLabel('ci/build-ok', '0E8A16', 'Build after merge succeeded');
             await ensureLabel('status/needs-approval', 'FBCA04', 'Requires explicit maintainer approval');
 
             const issues = await github.paginate(github.rest.issues.listForRepo, {

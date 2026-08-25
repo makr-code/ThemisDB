@@ -1,6 +1,6 @@
 # Audit Report - Analytics Module
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-08-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · MODULE_EVIDENCE.md -->
 
 ## Summary
@@ -50,6 +50,7 @@
 - core analytics runtime surfaces are present and source-verified.
 - module documentation set is synchronized to source-verifiable claims.
 - roadmap/changelog separation is aligned to governance pattern.
+- serving-path security hardening delivered: model import integrity checks, secure-by-default TF serving transport, and strict LLM response validation.
 
 ## Compliance Snapshot
 

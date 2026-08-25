@@ -207,8 +207,3 @@ TEST(CryptoHardening, HKDFCacheThreadLocalDoesNotCrash) {
     }
     for (auto& t : threads) t.join();
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

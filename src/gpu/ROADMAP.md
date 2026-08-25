@@ -24,15 +24,19 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [~] benchmark stabilization for core allocation, backend, and acceleration hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for quota denials, backend degradation, and fallback incidents (Target: Q3 2026)
 - [~] GPU query accelerator kernel launchers for common query types (Target: Q4 2026)
+  - 2026-08-24: Sprint 1 — Filter/Join/Aggregation GPU paths confirmed production-wired (Thrust); hashJoin GPU-path brace bug fixed (stray `}` closed `if (use_gpu)` prematurely, making `gpu_done` out of scope in CUDA/HIP builds); topK operation added (GPU: `thrust::partial_sort_copy` O(n log k), CPU: `std::partial_sort` fallback); `QueryShape::OpType::TOPK` added; 10 topK focused tests (QA-TOPK-01..10) added to `tests/gpu/test_gpu_query_accelerator.cpp`.
 - [~] GPU vector index CUDA backend integration and optimization (Target: Q4 2026)
 - [~] GPU vector index HIP backend feature-parity (Target: Q4 2026)
 
 ## Planned Features
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [ ] Phase C pre-requisite: fix 50% of unchecked CUDA calls (340 → 170) — CRITICAL (Target: Q3 2026)
-- [ ] Phase C pre-requisite: kernel SLA timeout enforcement (5-second hard limit) (Target: Q3 2026)
-- [ ] Phase C pre-requisite: RAII resource lifecycle violations resolved (57 gaps) (Target: Q3 2026)
+- [~] Phase C pre-requisite: fix 50% of unchecked CUDA calls (340 → 170) — CRITICAL (Target: Q3 2026)
+  - 2026-08-24: CUDA-call audit complete for `src/gpu/` + `include/gpu/`; `include/gpu/cuda_raii.h` added with `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`; all raw call sites catalogued in `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; wrapper coverage confirmed for stream/event/memory; remaining destructor-only `cudaFree` sites documented as acceptable
+- [~] Phase C pre-requisite: kernel SLA timeout enforcement (5-second hard limit) (Target: Q3 2026)
+  - 2026-08-24: Confirmed present — `KernelSLAGuard` at `include/themis/gpu/gpu_timeout.h`; 11 active deployment sites in `query_accelerator.cpp` and `rocm_backend.cpp`; GPU-TIMEOUT-01..12 registered `release_critical`
+- [~] Phase C pre-requisite: RAII resource lifecycle violations resolved (57 gaps) (Target: Q3 2026)
+  - 2026-08-24: Wrapper infrastructure now spans `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `gpu_resource_handles.h` + `cuda_raii.h`; gap-by-gap migration in progress
 - [ ] Phase D gate: fix 85% of unchecked CUDA calls (340 → ≤ 51) (Target: Q4 2026)
 - [ ] Phase D gate: resource exhaustion injection test suite (Target: Q4 2026)
 - [ ] Phase D gate: all GPU failures degrade to CPU cleanly (Target: Q4 2026)
@@ -139,7 +143,8 @@ This module is scoped to **Wave A — Runtime Reliability First** in the program
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave A Scope for `gpu`
-- [ ] Gpu: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026)
+- [~] Gpu: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026)
+  - 2026-08-24: CUDA-call audit complete; `cuda_raii.h` wrappers added; KernelSLAGuard confirmed at 11 sites; GPU-TIMEOUT/EXHAUST/FALLBACK tests registered `release_critical`.
 
 ### Wave A Exit Criteria (this module's contribution)
 - [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
@@ -152,12 +157,14 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: Phase 2/3 focused tests (P23-01..08) and release-gate benchmarks (GP23-01..06) are already delivered.
-- [~] Chaos/fault-injection evidence: focused timeout/fallback/resource-safety CPU-only regressions are now covered; broader resource-exhaustion and all-path fault-injection suites remain open.
-- [~] Fail-closed verification: timeout enforcement now avoids unsafe stream destruction and focused regressions prove clean CPU fallback on timeout/exception paths, but full all-path proof is still pending.
-- [ ] Representative-hardware p95/p99 baselines: representative-hardware refresh remains open for backend and acceleration paths; `bench_gpu_a8_baselines` is now wired into the benchmark build for evidence capture.
-- [~] `release_critical` coverage: timeout/fallback/resource-exhaustion focused targets are now registered `release_critical`, but full green-on-`develop` evidence remains open.
-  - 2026-08-18: current develop evidence gap is CI-lane specific, not test-registration specific; push-side `ci-pr-gates` passed while `ci-build` has not yet yielded a completed release-critical proof point for GPU.
-- [~] Next closure batch: resource-exhaustion and representative-hardware closure remain open after the delivered CUDA-call/RAII/timeout/fallback hardening.
+- [x] Kernel SLA timeout enforcement: `KernelSLAGuard` delivered in `include/themis/gpu/gpu_timeout.h`; 12 deterministic timeout-enforcement tests (GPU-TIMEOUT-01..12) implemented in `tests/gpu/test_gpu_wave_a_timeout_closure.cpp` (registered `release_critical` 2026-08-19). See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
+- [x] Resource-exhaustion and all-path CPU-fallback: `test_gpu_resource_exhaustion.cpp` (GPU-EXHAUST-01..12) and `test_gpu_fallback_all_paths.cpp` (GPU-FALLBACK-01..12) registered `release_critical` 2026-08-18.
+- [~] Unchecked CUDA call reduction: 340 calls identified; Phase C pre-requisite is 50% (→170); in progress.
+  - 2026-08-24: audit pass complete; `include/gpu/cuda_raii.h` delivers `CudaStreamGuard`/`CudaEventGuard`/`CudaDeviceMemoryGuard`; all `src/gpu/` raw call sites catalogued (see `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md §CUDA Call Reduction Audit`).
+- [~] RAII lifecycle gap closure: 57 gaps identified; `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `cuda_raii.h` (2026-08-24) deliver wrapper infrastructure; `CudaStreamGuard::adopt()` factory added + `stream_manager.cpp` migrated from `uintptr_t` registry to `CudaStreamGuard` (2026-08-24); full gap closure in progress.
+- [ ] Representative-hardware p95/p99 baselines: `bench_gpu_a8_baselines.cpp` wired into benchmark build; hardware execution evidence pending.
+  - EVIDENCE-NOTE: representative-hardware execution (A100/H100 class) pending Q4 2026; sandbox environment does not provide CUDA-capable hardware; CI on `develop` will be authoritative baseline record.
+- [~] `release_critical` coverage: Wave A targets registered; green-on-`develop` execution evidence still pending.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.

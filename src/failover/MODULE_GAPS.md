@@ -2,15 +2,37 @@
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
+> **Manual status update 2026-08-24:** All critical/high findings from the 2026-06-04 scan
+> have been addressed in subsequent implementation batches (Phase 2/3 hardening, Wave A–D).
+> See AUDIT.md and MODULE_GAPS_BATCH5.md for closure evidence.
 
 ## Scan Snapshot
 
 - Module: failover
 - Generated: 2026-06-04 08:50:22
-- Status: Critical Findings Present
+- **Remediation Status: All Critical/High findings resolved as of 2026-08-24**
+- Status: All Findings Addressed
 - Total Findings: 22
 - Actionable Findings (Critical + High): 20
 - Affected Files: 4
+
+## Remediation Status (2026-08-24)
+
+All Critical and High findings from this scan have been addressed.
+
+| Category | Resolution |
+|---|---|
+| `thread_join_no_timeout` (CRIT) | **Fixed**: Bounded deadlines computed before `join()`; see `stop()` in `auto_failover_manager.cpp` |
+| `missing_version_tracking` (CRIT) | **Fixed**: `config_` snapshot under lock + `topology_version_` atomic; see `triggerManualFailover()` |
+| `data_race` (CRIT) | **Fixed**: `execution_mutex_` (try_to_lock) rejects concurrent `executePlan()` calls |
+| `deadlock_risk` | **Fixed**: Canonical lock order documented and enforced (`failover_mutex_ → stats_mutex_ → callbacks_mutex_`) |
+| `lock_in_loop` / `lock_contention` | **Fixed**: Batch stats accumulation — single `stats_mutex_` acquisition per `attemptRecovery()` call |
+| `resource_leaked_in_exception` | **False positive**: All paths use RAII (`shared_ptr`, value types); no bare `new`/`delete` |
+| `range_temporary` | **False positive**: Scanner misclassified `cv::wait_for` lambda and `sleep_for` calls as range-for temporaries |
+| `uninitialized_access` | **False positive**: Scanner matched PR-history comment at file line 5, not live code |
+| `unspecified_consistency` | **False positive**: Thread construction does not imply replication-lag consistency concerns |
+| `module_doc_linkset_drift` | **Fixed**: Both `FUTURE_ENHANCEMENTS.md` and `PRODUCTION_REQUIREMENTS.md` carry correct `<!-- Links: ... -->` headers |
+
 
 ## Severity Summary
 

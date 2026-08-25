@@ -235,15 +235,23 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
                 {"compiler", build_config.compiler},
                 {"compiler_version", build_config.compiler_version},
                 {"build_type", build_config.build_type},
-                {"timestamp", build_config.build_timestamp}
+            {"timestamp", build_config.build_timestamp}
             }}
         };
         
-#ifdef THEMIS_VERSION_STRING
+    #ifdef THEMIS_BUILD_VERSION_STRING
+        response["version"] = THEMIS_BUILD_VERSION_STRING;
+    #else
+    #ifdef THEMIS_VERSION_STRING
         response["version"] = THEMIS_VERSION_STRING;
 #else
         response["version"] = "unknown";
 #endif
+    #endif
+
+    #ifdef THEMIS_BUILD_UUID
+        response["build"]["uuid"] = THEMIS_BUILD_UUID;
+    #endif
 
         // Add embedded license information if available
         auto license = themis::license::getEmbeddedLicense();
@@ -491,6 +499,9 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
             {"version", build_config.compiler_version},
             {"type", build_config.build_type}
         };
+#ifdef THEMIS_BUILD_UUID
+        caps["build"]["uuid"] = THEMIS_BUILD_UUID;
+#endif
     } catch (...) {
         THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
         // If build info fails, continue with basic capabilities
@@ -627,10 +638,14 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         // themis_build_info – static info metric with version/build labels
         {
             std::string version;
+#ifdef THEMIS_BUILD_VERSION_STRING
+            version = THEMIS_BUILD_VERSION_STRING;
+#else
 #ifdef THEMIS_VERSION_STRING
             version = THEMIS_VERSION_STRING;
 #else
             version = "unknown";
+#endif
 #endif
             auto build_cfg = themis::build_info::getBuildConfiguration();
             // Sanitize label values: replace '"' and '\n' with '_'

@@ -12,6 +12,8 @@
 
 #include "query/aql_parser.h"
 
+#include <type_traits>
+
 namespace themis {
 namespace query {
 

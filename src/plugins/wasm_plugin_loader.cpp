@@ -82,6 +82,7 @@ struct WasmtimeBundleDeleter {
 using UniqueWasmtimeBundle = std::unique_ptr<void, WasmtimeBundleDeleter>;
 #endif // THEMIS_WASM_WASMTIME
 
+/**
  * @brief Compute the SHA-256 hex digest of a file at @p path.
  * @return Lowercase hex string, or empty string on I/O or crypto error.
  */

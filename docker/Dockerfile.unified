@@ -21,8 +21,6 @@ ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 # Fetch pinned vcpkg source archive at Docker build time to avoid
 # in-container git TLS/proxy trust-chain issues.
 ADD https://github.com/microsoft/vcpkg/archive/10b7a178346f3f0abef60cecd5130e295afd8da4.tar.gz /tmp/vcpkg.tar.gz
-# Fetch matching prebuilt vcpkg tool binary (linux glibc x86_64).
-ADD https://github.com/microsoft/vcpkg-tool/releases/download/2024-10-18/vcpkg-glibc /tmp/vcpkg-glibc
 
 # Install build essentials (combined layer for efficiency)
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -36,12 +34,11 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         update-ca-certificates; \
     fi && \
     rm -rf /var/lib/apt/lists/* && \
-    echo "47536d30e8ba854bc283776d5be67401e230aca55054ce439f712c2e7b21f5d05b86aa64438252e91390601eefe26710bfc83c5fb154d6737940f334c6c932a0  /tmp/vcpkg-glibc" | sha512sum -c - && \
     tar -xzf /tmp/vcpkg.tar.gz -C /opt && \
     mv /opt/vcpkg-10b7a178346f3f0abef60cecd5130e295afd8da4 ${VCPKG_ROOT} && \
-    install -m 0755 /tmp/vcpkg-glibc ${VCPKG_ROOT}/vcpkg && \
+    ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics && \
     touch ${VCPKG_ROOT}/vcpkg.disable-metrics && \
-    rm -f /tmp/vcpkg.tar.gz /tmp/vcpkg-glibc && \
+    rm -f /tmp/vcpkg.tar.gz && \
     ${VCPKG_ROOT}/vcpkg version --disable-metrics
 
 # ============================================================================
@@ -220,7 +217,7 @@ RUN set -eux; \
         echo "For GPU support in container, install Vulkan SDK in base stage and mount /dev/dri"; \
     fi; \
     \
-    cmake --preset docker-release \
+    cmake --preset linux-release \
         -DTHEMIS_EDITION="${THEMIS_EDITION}" \
         -DTHEMIS_ENABLE_LLM="${ENABLE_LLM}" \
         -DVCPKG_TARGET_TRIPLET="${TRIPLET}" \

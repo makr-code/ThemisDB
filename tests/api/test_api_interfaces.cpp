@@ -144,7 +144,7 @@ TEST(MiddlewareChainTest, SingleHandlerReturnsResponse)
     chain.append(std::make_shared<FixedResponseHandler>(HttpResponse::ok("{}")));
     auto result = chain.handle(HttpRequest{});
     ASSERT_TRUE(result.has_value());
-    EXPECT_EQ(result->status_code, 200);
+    EXPECT_EQ(result.value().status_code, 200);
 }
 
 TEST(MiddlewareChainTest, RejectingFirstHandlerShortCircuits)
@@ -168,8 +168,8 @@ TEST(MiddlewareChainTest, PassThroughLeadsToTerminalHandlerResponse)
     auto result = chain.handle(HttpRequest{});
     ASSERT_TRUE(result.has_value());
     // Terminal handler's response (201) must be returned, not the interceptor's (200)
-    EXPECT_EQ(result->status_code, 201);
-    EXPECT_EQ(result->body, "{\"id\":99}");
+    EXPECT_EQ(result.value().status_code, 201);
+    EXPECT_EQ(result.value().body, "{\"id\":99}");
 }
 
 TEST(MiddlewareChainTest, RequiresAuthIfAnyLinkRequiresIt)

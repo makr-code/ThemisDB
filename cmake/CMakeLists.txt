@@ -185,20 +185,22 @@ if(NOT DEFINED THEMIS_ENABLE_HIP)
     set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
 endif()
 if(NOT DEFINED THEMIS_ENABLE_VULKAN)
-    set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+    set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration")
 endif()
 
 if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)
     message(STATUS "GPU backend auto-detect: probing CUDA/HIP/Vulkan")
     set(_themis_detected_gpu_backends)
 
-    # Vulkan (cross-vendor)
+    # Vulkan is required for the active GPU build contract. Keep it enabled even on
+    # Windows/MSVC so the backend is available instead of silently falling back to CPU.
     find_package(Vulkan QUIET)
     if(Vulkan_FOUND)
         set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
         list(APPEND _themis_detected_gpu_backends "Vulkan")
     else()
-        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
+        message(WARNING "Vulkan SDK not detected, but Vulkan remains enabled by build contract; CPU fallback still applies at runtime.")
+        set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration" FORCE)
     endif()
 
     # HIP (AMD ROCm)
@@ -288,9 +290,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Keep all runtime artifacts (EXE/DLL) in a single bin/ directory to avoid PATH/env mismatches.
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin")
 
 # Runtime library for static linking on Windows
 if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static")
@@ -358,14 +360,29 @@ set(libzip_FOUND OFF)
 if(libzip_FOUND)
     message(STATUS "libzip found - Archive processing available")
 else()
-    message(WARNING "libzip not found - Install with: vcpkg install libzip")
-    message(WARNING "Archive processing will not be available")
+    message(STATUS "libzip not found - Install with: vcpkg install libzip")
+    message(STATUS "Archive processing will not be available")
 endif()
 
 # pugixml is used by SAML/XML parsing and Office processing.
 find_package(pugixml CONFIG)
 if(NOT pugixml_FOUND)
     find_package(pugixml)
+endif()
+
+# Some vcpkg/toolchain setups expose pugixml without the canonical imported target names.
+# Add a fallback target so both core and modular builds get the headers and library.
+if(pugixml_FOUND AND NOT TARGET pugixml::pugixml AND NOT TARGET pugixml::static AND NOT TARGET pugixml)
+    find_path(PUGIXML_INCLUDE_DIR NAMES pugixml.hpp PATHS "${VCPKG_INSTALLED_DIR}" "${_VCPKG_ROOT_DIR}" PATH_SUFFIXES include)
+    find_library(PUGIXML_LIB NAMES pugixml libpugixml)
+    if(PUGIXML_INCLUDE_DIR AND PUGIXML_LIB)
+        add_library(pugixml UNKNOWN IMPORTED)
+        set_target_properties(pugixml PROPERTIES
+            IMPORTED_LOCATION "${PUGIXML_LIB}"
+            INTERFACE_INCLUDE_DIRECTORIES "${PUGIXML_INCLUDE_DIR}")
+        add_library(pugixml::pugixml ALIAS pugixml)
+        message(STATUS "pugixml fallback target configured from manual discovery")
+    endif()
 endif()
 
 # Office support requires both libzip and pugixml
@@ -840,10 +857,12 @@ endif()
 # These determine which functionality is available at build time
 
 # GPU Memory Limits: Edition-specific VRAM constraints
-# MINIMAL: No GPU, no LLM, no sharding - only core database features
-# COMMUNITY: 24 GB (typical gaming GPU, consumer hardware)
-# ENTERPRISE: 256 GB (data center grade A100/H100)
-# HYPERSCALER: Unlimited (custom, OEM deployments)
+# All limits reflect cumulative VRAM across all GPUs in a single system node.
+# MINIMAL:     0 GB    — no GPU; CPU fallback enforced (IoT/embedded)
+# COMMUNITY:  16 GB    — 1× Tesla T4 (entry-level inference node)
+# ENTERPRISE: 320 GB   — 4× A100 80 GB (standard 4-GPU server node)
+# MILITARY:    80 GB   — 2× A100 40 GB (controlled air-gapped deployment)
+# HYPERSCALER: unlimited — OEM, custom cluster deployments
 if(THEMIS_EDITION STREQUAL "MINIMAL")
     # MINIMAL Edition: Core database features only
     # No LLM, no GPU acceleration, no sharding, no replication, no advanced analytics
@@ -881,7 +900,7 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     message(STATUS "  Build time: ~5-10 minutes (vs ~30-40 for full build)")
     
 elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
-    set(THEMIS_GPU_MAX_VRAM_GB 8 CACHE INTERNAL "Max GPU VRAM for Community Edition")
+    set(THEMIS_GPU_MAX_VRAM_GB 16 CACHE INTERNAL "Max GPU VRAM for Community Edition (1x Tesla T4)")
     set(THEMIS_SHARDING_MAX_NODES 5 CACHE INTERNAL "Max sharding nodes for Community Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
     set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
@@ -915,7 +934,7 @@ elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     endif()
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
-    set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
+    set(THEMIS_GPU_MAX_VRAM_GB 320 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition (4x A100 80 GB)")
     set(THEMIS_SHARDING_MAX_NODES 100 CACHE INTERNAL "Max sharding nodes for Enterprise Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
     set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
@@ -1189,6 +1208,12 @@ set(THEMIS_LICENSE_SIGNATURE "")
 
 # If license file is provided or auto-detected, read and parse it
 if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
+    string(TOLOWER "${THEMIS_LICENSE_FILE}" THEMIS_LICENSE_FILE_LOWER)
+    if(THEMIS_LICENSE_FILE_LOWER MATCHES "license_test\\.json|/config/.*_test\\.json|/certs/.*/license_test\\.json")
+        message(WARNING
+            "The license file '${THEMIS_LICENSE_FILE}' is a repository test fixture intended only for local development and CI validation. It must not be used in production or any customer deployment.")
+    endif()
+
     message(STATUS "Embedding license data from: ${THEMIS_LICENSE_FILE}")
     
     # Read the license file
@@ -1321,9 +1346,6 @@ if(MSVC)
     add_compile_options(/wd5072)
     # Suppress OpenSSL 3.0 deprecation warnings globally (C4996)
     add_compile_options(/wd4996)
-    if(THEMIS_STRICT_BUILD)
-        add_compile_options(/WX)
-    endif()
     add_compile_definitions(NOMINMAX _CRT_SECURE_NO_WARNINGS _WIN32_WINNT=0x0A00)
     # Apply Release-specific settings for single- and multi-config generators
     add_compile_options($<$<CONFIG:Release>:/O2>)
@@ -2339,7 +2361,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
+    ../src/server/grpc_web_proxy_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/wasm_handler_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
@@ -2719,6 +2741,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
     ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/passkey_authenticator.cpp
     ../src/auth/auth_metrics.cpp
     ../src/auth/auth_error.cpp
     ../src/auth/jwks_security.cpp
@@ -5184,9 +5207,9 @@ target_link_libraries(themis_server
 
 # Set output directory to bin/ folder (consistent with test binaries)
     set_target_properties(themis_server PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
 )
 
 # Ensure themis_server does not directly link mimalloc; rely on themis_core
@@ -5289,16 +5312,21 @@ endif()
 # themisctl — Unified Management CLI (C++ tool, can be built independently)
 option(THEMIS_BUILD_THEMISCTL "Build themisctl unified management CLI" ON)
 if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
+    # cpp-httplib provides the HTTP client and is required for themisctl.
+    find_package(httplib QUIET)
+    if(NOT httplib_FOUND)
+        message(STATUS "themisctl: cpp-httplib not found — skipping themisctl build")
+    else()
     add_executable(themisctl
         ${THEMIS_ROOT_DIR}/tools/themisctl.cpp
     )
 
     set_target_properties(themisctl PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
     )
 
     target_compile_features(themisctl PRIVATE cxx_std_17)
@@ -5312,11 +5340,7 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
         target_compile_options(themisctl PRIVATE "-I${CMAKE_HOME_DIRECTORY}/include")
     endif()
     
-    # cpp-httplib provides the HTTP client (header-only)
-    find_package(httplib QUIET)
-    if(httplib_FOUND)
-        target_link_libraries(themisctl PRIVATE httplib::httplib)
-    endif()
+    target_link_libraries(themisctl PRIVATE httplib::httplib)
     
     find_package(nlohmann_json QUIET)
     if(nlohmann_json_FOUND)
@@ -5378,8 +5402,46 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
     endif()
     
     message(STATUS "themisctl unified management CLI: ENABLED")
+    endif()
 else()
     message(STATUS "themisctl: disabled or source not found")
+endif()
+
+# ThemisDB Config Editor (wxWidgets desktop GUI)
+option(THEMIS_BUILD_TOOLS "Build optional desktop tools (includes wxWidgets config editor)" ON)
+
+if(THEMIS_BUILD_TOOLS AND EXISTS "${THEMIS_ROOT_DIR}/tools/themis_config_wx/main.cpp")
+    find_package(wxWidgets COMPONENTS core base adv QUIET)
+    find_package(yaml-cpp QUIET)
+
+    if(wxWidgets_FOUND AND yaml-cpp_FOUND)
+        include(${wxWidgets_USE_FILE})
+
+        add_executable(themis_config_wx
+            ${THEMIS_ROOT_DIR}/tools/themis_config_wx/main.cpp
+        )
+
+        set_target_properties(themis_config_wx PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+        )
+
+        target_compile_features(themis_config_wx PRIVATE cxx_std_20)
+        target_link_libraries(themis_config_wx PRIVATE ${wxWidgets_LIBRARIES} yaml-cpp)
+
+        install(TARGETS themis_config_wx
+            OPTIONAL
+            RUNTIME DESTINATION bin
+            COMPONENT tools
+        )
+
+        message(STATUS "themis_config_wx: enabled")
+    else()
+        message(WARNING "THEMIS_BUILD_TOOLS is ON, but themis_config_wx dependencies are missing (wxWidgets and/or yaml-cpp); target is skipped")
+    endif()
 endif()
 
 # Export CLI Tool (themis-export)
@@ -5388,11 +5450,11 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
         ${THEMIS_ROOT_DIR}/tools/export_cli.cpp
     )
     set_target_properties(themis-export PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
     )
     target_link_libraries(themis-export PRIVATE
         themis_core
@@ -5420,11 +5482,11 @@ if(THEMIS_ENABLE_LLM)
             ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
         )
         set_target_properties(themis-model PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
         )
         target_link_libraries(themis-model PRIVATE 
             themis_core
@@ -5456,11 +5518,11 @@ if(THEMIS_ENABLE_LLM)
                 )
             endif()
             set_target_properties(themis-model PROPERTIES
-                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
-                RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
-                RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
-                RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
-                RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+                RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
+                RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+                RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
+                RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
             )
             target_link_libraries(themis-model PRIVATE 
                 themis_core

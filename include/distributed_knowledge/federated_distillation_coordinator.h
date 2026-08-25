@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
+#include "distributed_knowledge/distributed_knowledge_api_contract.h"
 
 namespace themis {
 namespace distributed_knowledge {
@@ -347,6 +348,31 @@ public:
     void setPolicyGate(PolicyGate gate);
 
     /**
+     * @brief Apply a `DistillationBoundedPolicy` for runtime enforcement.
+     *
+     * Enforces hard caps on broadcast rounds and DP-epsilon budget
+     * with FAIL_CLOSED semantics.  Any call to `broadcastToStudents()` that
+     * would violate `policy.max_distillation_rounds` or
+     * `policy.privacy_budget_hard_limit` throws `std::runtime_error`
+     * immediately before executing the broadcast.
+     *
+     * ### Enforcement semantics
+     * - `max_distillation_rounds != 0`: throws when `current_round_ >=
+     *   policy.max_distillation_rounds` (round numbering starts at 0).
+     * - `privacy_budget_hard_limit > 0.0`: throws when
+     *   `total_epsilon_spent_ + per_round_epsilon >= policy.privacy_budget_hard_limit`.
+     * - `policy_gate_enforcement == FAIL_CLOSED` (default): violations throw;
+     *   no fallback or silent degradation is permitted.
+     *
+     * Pass a default-constructed (unconstrained) policy to clear enforcement.
+     *
+     * @param policy  Bounded policy to apply; replaces any previously set policy.
+     *
+     * @since Phase 2 hardening (Q4 2026)
+     */
+    void setBoundedPolicy(DistillationBoundedPolicy policy);
+
+    /**
      * @brief Inject an audit callback.
      *
      * Called after every successful broadcast with a JSON audit record.
@@ -440,6 +466,7 @@ private:
 
     // Callbacks
     PolicyGate                                 policy_gate_;
+    DistillationBoundedPolicy                  bounded_policy_;
     std::function<void(const nlohmann::json&)> audit_cb_;
     std::function<void(uint64_t, double)>      rollback_trigger_;
     NoiseGeneratorFn                           noise_generator_fn_;

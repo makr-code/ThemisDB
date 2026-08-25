@@ -617,6 +617,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     void* ptr = nullptr;
     detail::MemoryHolder::Type alloc_type = detail::MemoryHolder::Type::CPU;
     bool was_fallback = false;
+    (void)was_fallback;
     
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_ && !available_gpus_.empty()) {

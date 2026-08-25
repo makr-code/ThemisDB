@@ -45,9 +45,6 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
-  security-events: write
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -56,6 +53,8 @@ jobs:
     name: Preflight CI Policy + Workflow Lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
@@ -141,25 +140,37 @@ jobs:
   wavec-policy-gates-private-plugin:
     name: Wave C Policy Gate — Private/Public Plugin Boundary
     needs: preflight-ci-policy
-    if: github.event.pull_request.base.ref != ''
+    if: github.event_name == 'pull_request' && github.base_ref != ''
+    permissions:
+      contents: read
+      pull-requests: write
     uses: ./.github/workflows/09-pr-gates_private-plugin-boundary-enforcement.yml
 
   wavec-policy-gates-edition-license:
     name: Wave C Policy Gate — Edition & License Validation
     needs: preflight-ci-policy
-    if: github.event.pull_request.base.ref != ''
+    if: github.event_name == 'pull_request' && github.base_ref != ''
+    permissions:
+      contents: read
+      pull-requests: write
     uses: ./.github/workflows/09-pr-gates_edition-license-validation.yml
 
   wavec-policy-gates-hash-sbom:
     name: Wave C Policy Gate — Hash & SBOM Integrity
     needs: preflight-ci-policy
-    if: github.event.pull_request.base.ref != ''
+    if: github.event_name == 'pull_request' && github.base_ref != ''
+    permissions:
+      contents: read
+      pull-requests: write
     uses: ./.github/workflows/09-pr-gates_hash-sbom-validation.yml
 
   wavec-policy-gates-community-fail-closed:
     name: Wave C Policy Gate — Community Fail-Closed Validation
     needs: preflight-ci-policy
-    if: github.event.pull_request.base.ref != ''
+    if: github.event_name == 'pull_request' && github.base_ref != ''
+    permissions:
+      contents: read
+      pull-requests: write
     uses: ./.github/workflows/09-pr-gates_community-fail-closed.yml
 
   # ────────────────────────────────────────────────────────────────────────────
@@ -170,6 +181,8 @@ jobs:
     name: Wave C Policy Gates (Aggregated)
     runs-on: ubuntu-latest
     if: always()
+    permissions:
+      contents: read
     needs:
       - wavec-policy-gates-private-plugin
       - wavec-policy-gates-edition-license
@@ -208,6 +221,8 @@ jobs:
     name: Community Pipeline Policy
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     if: >
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'minimal')
@@ -265,6 +280,8 @@ jobs:
     name: High Exception Record Guard
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -290,6 +307,8 @@ jobs:
     name: Private Plugin Boundary Guard
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     if: >
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
@@ -365,6 +384,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     needs: preflight-ci-policy
+    permissions:
+      contents: read
     if: >
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
@@ -380,7 +401,7 @@ jobs:
       - name: Configure (community-release)
         run: |
           set -euo pipefail
-          cmake --preset community-release 2>&1 | tee /tmp/release-critical-configure.log
+          cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON 2>&1 | tee /tmp/release-critical-configure.log
 
       - name: Build release-critical targets
         run: |
@@ -825,7 +846,7 @@ jobs:
               "github_token": (r"ghp_[A-Za-z0-9_]{36}", "CRITICAL"),
               "github_oauth": (r"gho_[A-Za-z0-9_]{36}", "CRITICAL"),
               "github_pat": (r"github_pat_[A-Za-z0-9_]{36}", "CRITICAL"),
-              "ssh_private_key": (r"-----BEGIN RSA PRIVATE KEY-----", "CRITICAL"),
+              "ssh_private_key": (r"-----BEGIN RSA PRIVATE KEY-----", "CRITICAL"),  # gitleaks:allow
               "openssh_private_key": (r"-----BEGIN OPENSSH PRIVATE KEY-----", "CRITICAL"),
               "pgp_private_key": (r"-----BEGIN PGP PRIVATE KEY BLOCK-----", "CRITICAL"),
               "private_secret_env": (r"\$\{\{.*secrets\.[A-Z_]*PRIVATE[A-Z_]*\}\}", "CRITICAL"),

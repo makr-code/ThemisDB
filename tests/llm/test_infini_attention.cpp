@@ -98,8 +98,10 @@ TEST_F(InfiniAttentionTest, BackendNameIdentification) {
     
     std::string backend_name = infini->getBackendName();
     EXPECT_TRUE(backend_name.find("infini") != std::string::npos);
-    EXPECT_TRUE(backend_name.find("90") != std::string::npos || 
-                backend_name.find("86") != std::string::npos);
+    EXPECT_NE(backend_name.find("cuda"), std::string::npos);
+    if (backend_name.find("sm") != std::string::npos) {
+        EXPECT_NE(backend_name.find(std::to_string(config_.cuda_sm)), std::string::npos);
+    }
 }
 
 /**

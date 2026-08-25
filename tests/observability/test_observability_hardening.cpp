@@ -14,6 +14,7 @@
 #include "core/concerns/i_logger.h"
 #include "core/concerns/noop_implementations.h"
 #include "core/concerns/spdlog_logger_adapter.h"
+#include "observability/observability_api_contract.h"
 #include "observability/metrics_collector.h"
 
 #include <memory>

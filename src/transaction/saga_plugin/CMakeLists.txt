@@ -23,6 +23,11 @@ if(nlohmann_json_FOUND)
     target_link_libraries(saga_orchestrator_plugin PUBLIC nlohmann_json::nlohmann_json)
 endif()
 
+find_package(fmt CONFIG QUIET)
+if(fmt_FOUND)
+    target_link_libraries(saga_orchestrator_plugin PRIVATE fmt::fmt)
+endif()
+
 set(SAGA_ORCHESTRATOR_MANIFEST_PATH "${CMAKE_CURRENT_BINARY_DIR}/plugin.json")
 set(SAGA_ORCHESTRATOR_MANIFEST_SIG_PATH "${CMAKE_CURRENT_BINARY_DIR}/plugin.json.sig")
 

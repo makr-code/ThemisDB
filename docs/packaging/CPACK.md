@@ -43,6 +43,50 @@ On **ZIP/TGZ** archives the paths are relative, so unpacking anywhere gives
 > **NSIS** is only added to the Windows generator list when `makensis` is found
 > on `PATH` at configure time. It does not require any extra CMake files.
 
+## Release artifact matrix
+
+The project produces two layers of release artifacts:
+
+1. the actual package artifacts from CPack, which are platform-specific installers and archives;
+2. the GitHub release bundle used for publishing, validation, and downstream distribution.
+
+### CPack package outputs
+
+| Platform | Example artifact | Notes |
+|----------|------------------|-------|
+| Windows | `ThemisDB-<version>-Windows-x64.zip` | portable archive |
+| Windows | `ThemisDB-<version>-Windows-x64.msi` | WiX installer |
+| Windows | `ThemisDB-<version>-Windows-x64.exe` | optional NSIS installer if `makensis` is found |
+| Linux | `themisdb_<version>_amd64.deb` | Debian/Ubuntu package |
+| Linux | `themisdb-<version>.rpm` | RPM package |
+| Linux | `themisdb-<version>.tar.gz` | generic Linux archive |
+| All | `themisdb-<version>.tar.gz` | source tarball |
+| All | `themisdb-<version>.zip` | source zip |
+
+### GitHub release wrapper artifacts
+
+The release workflow consolidates the platform packages into a publishable release bundle. In addition to the package files above, the release pipeline creates:
+
+| Artifact | Purpose |
+|----------|---------|
+| `SHA256SUMS.txt` | checksum manifest for every uploaded package |
+| `RELEASE_MANIFEST.txt` | machine-readable list of published artifacts |
+| `themisdb-<edition>-<version>-linux-x64.tar.gz` | fallback archive created when the release bundle is assembled from raw build output |
+
+These files are generated in the packaging job described in the release workflow and are uploaded to the GitHub Release as release assets, not as CPack-native package types.
+
+### Distribution metadata and installer registries
+
+The repository also keeps distribution metadata outside the core CPack step:
+
+| Surface | Example |
+|---------|---------|
+| Winget manifests | `packaging/winget/manifests/.../ThemisDB.ThemisDB.installer.yaml` |
+| Release metadata | `RELEASE_MANIFEST.txt`, `SHA256SUMS.txt` |
+| Installer metadata | Windows WiX/MSI metadata from `CPACK_WIX_*` variables |
+
+Winget metadata does not create a new binary package format by itself; it references real release artifacts and their hashes so that package managers can install the released ZIP/MSI outputs reliably.
+
 ## Prerequisites
 
 ### All Platforms

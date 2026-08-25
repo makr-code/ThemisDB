@@ -1,12 +1,12 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-08-19T07:53:56+00:00",
-  "mode": "full_sync",
-  "source_count": 6447,
-  "source_hash": "d78a5dfa06bd31f17f50c139827d61bc7450da27e8635d78cc3efa17c90dda79",
+  "generated_at": "2026-08-24T03:20:33+00:00",
+  "mode": "incremental",
+  "source_count": 5808,
+  "source_hash": "c0ca28c9c2d544b49c161bc7c5955cdb9fcd92009cb057b69f058446210555fb",
   "delta": {
-    "added_count": 6447,
+    "added_count": 5808,
     "removed_count": 0,
     "changed_count": 0,
     "added_preview": [
@@ -18,7 +18,10 @@
       ".github/workflows/ci-benchmarks.yml",
       ".github/workflows/ci-build.yml",
       ".github/workflows/ci-pr-gates.yml",
+      ".github/workflows/ci-release-build-matrix.yml",
       ".github/workflows/ci-release.yml",
+      ".github/workflows/ci-widget.yml",
+      ".github/workflows/cmake-build-pipeline.yml",
       ".github/workflows/codeql.yml",
       ".github/workflows/compliance-supply-chain.yml",
       ".github/workflows/copilot-ollama-router-ci.yml",
@@ -30,11 +33,11 @@
       ".github/workflows/governance-gates.yml",
       ".github/workflows/maintenance-ai-working.yml",
       ".github/workflows/maintenance-build-issues.yml",
-      ".github/workflows/maintenance-cache-warming.yml",
       ".github/workflows/maintenance-ci-health.yml",
       ".github/workflows/maintenance-docs.yml",
       ".github/workflows/maintenance-issues.yml",
-      ".github/workflows/quality-static-analysis.yml",
+      ".github/workflows/maintenance-pr-failure-diagnosis.yml",
+      ".github/workflows/maintenance-workflow-guardrails-observe.yml",
       ".github/workflows/release-changelog.yml",
       ".github/workflows/security-consolidated.yml",
       ".github/workflows/security-pentest-quarterly.yml",
@@ -56,14 +59,11 @@
       "ai_context/GOVERNANCE_MODULE_STATUS_2026_07_18.md",
       "ai_context/GOVERNANCE_PHASE2B_3A_3B_IMPLEMENTATION_REPORT.md",
       "ai_context/GOVERNANCE_PHASE2_3_IMPLEMENTATION_REPORT.md",
-      "ai_context/INDEX_MODULE_STATUS_2026_08_02.md",
-      "ai_context/INDEX_MODULE_STATUS_2026_08_09.md",
-      "ai_context/ISSUE_5647_CLOSURE_SUMMARY.md",
-      "ai_context/KNOWLEDGE_CONFLICTS.md"
+      "ai_context/INDEX_MODULE_STATUS_2026_08_02.md"
     ],
     "removed_preview": [],
     "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "9c0620f3262d5bff01fd293773517152dcfbfa64176661f8f46582f5f2490a92"
+  "manifest_sha256": "418129c7278eb48375562380e5781e23cf148226625a201c96ec3fd7a0b22d48"
 }

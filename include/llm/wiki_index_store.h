@@ -55,12 +55,44 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
+#include <unordered_set>
 #include <atomic>
 #include <cstddef>
 #include <list>
 
 namespace themis {
 namespace llm {
+
+// ============================================================================
+// WikiEvalStats — retrieval evaluation metrics accumulated over query history
+// ============================================================================
+
+/**
+ * @brief Retrieval evaluation statistics accumulated by `WikiIndexStore`.
+ *
+ * Populated by `WikiIndexStore::evaluateQuery()` when ground-truth document
+ * IDs are supplied.  `getEvaluationStats()` returns the running averages
+ * over all evaluation queries since construction (or the last
+ * `resetEvaluationStats()` call).
+ *
+ * p95_query_latency_ms is computed over all `query()` calls (not just
+ * evaluation queries) from a circular ring buffer of 1 024 samples.
+ *
+ * ## Thread safety
+ * All accumulator state is guarded by an internal mutex; concurrent calls
+ * to `evaluateQuery()`, `getEvaluationStats()`, and `resetEvaluationStats()`
+ * are safe.
+ */
+struct WikiEvalStats {
+    double      recall_at_k1          = 0.0; ///< Mean Recall@1 over eval query window
+    double      recall_at_k3          = 0.0; ///< Mean Recall@3 over eval query window
+    double      recall_at_k5          = 0.0; ///< Mean Recall@5 over eval query window
+    double      recall_at_k10         = 0.0; ///< Mean Recall@10 over eval query window
+    double      mrr                   = 0.0; ///< Mean Reciprocal Rank over eval query window
+    double      p95_query_latency_ms  = 0.0; ///< p95 query latency (all queries, ms)
+    std::size_t query_count           = 0;   ///< Number of eval queries contributing to metrics
+    std::size_t total_query_count     = 0;   ///< Total queries (eval + non-eval)
+};
 
 // ============================================================================
 // WikiChunk — a single indexed text chunk from a wiki/markdown document
@@ -347,6 +379,51 @@ public:
      */
     [[nodiscard]] bool isReady() const noexcept override;
 
+    // -----------------------------------------------------------------------
+    // Evaluation API (Recall@k / MRR / p95 latency)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Query with ground-truth evaluation: records Recall@k and MRR.
+     *
+     * Executes `query()` and, when `relevant_doc_ids` is non-empty, computes
+     * Recall@1/3/5/10 and MRR against the supplied ground-truth set.  Metrics
+     * are accumulated via an online mean so `getEvaluationStats()` always
+     * reflects the running average since construction (or last reset).
+     *
+     * p95 query latency is recorded regardless of whether ground truth is
+     * supplied.
+     *
+     * @param query_text        Natural-language query string.
+     * @param top_k             Maximum number of results (passed to `query()`).
+     * @param min_score         Score threshold (passed to `query()`).
+     * @param relevant_doc_ids  Ground-truth set of relevant `WikiChunk::doc_id`
+     *                          values for this query.  Empty → no eval update.
+     * @return                  Same ranked result list as `query()`.
+     */
+    [[nodiscard]] std::vector<WikiChunk> evaluateQuery(
+        const std::string&              query_text,
+        int                             top_k,
+        float                           min_score,
+        const std::vector<std::string>& relevant_doc_ids) const;
+
+    /**
+     * @brief Return accumulated retrieval evaluation statistics.
+     *
+     * Thread-safe snapshot of the running evaluation metrics.
+     *
+     * @return WikiEvalStats with recall@k, MRR, p95 latency, and query counts.
+     */
+    [[nodiscard]] WikiEvalStats getEvaluationStats() const;
+
+    /**
+     * @brief Reset all evaluation metric accumulators to zero.
+     *
+     * Clears recall@k running means, MRR running mean, eval query count,
+     * total query count, and the latency ring buffer.  Thread-safe.
+     */
+    void resetEvaluationStats() noexcept;
+
 private:
     /// @brief Convert a WikiChunk to a storage-compatible BaseEntity for index ingestion.
     [[nodiscard]] static themis::BaseEntity toEntity(const WikiChunk& chunk);
@@ -432,6 +509,37 @@ private:
     /// Re-initialises the vector index if the probed dim differs from config_.
     /// Idempotent: subsequent calls are no-ops once dim_probed_ is set.
     void probeEmbeddingDim();
+
+    // -----------------------------------------------------------------------
+    // Evaluation metric accumulators (protected by eval_mutex_)
+    // -----------------------------------------------------------------------
+
+    /// Capacity of the latency ring buffer (1 024 samples ≈ last ~1 K queries).
+    static constexpr std::size_t kLatencyRingSize = 1024;
+
+    /// Guards eval_* and latency_ring_* members below.
+    mutable std::mutex          eval_mutex_;
+
+    /// Circular ring buffer of query latencies in milliseconds.
+    /// Populated by every `query()` call regardless of eval mode.
+    mutable std::vector<double> latency_ring_;       ///< Pre-allocated capacity kLatencyRingSize
+    mutable std::size_t         latency_ring_head_{0}; ///< Next write position (mod kLatencyRingSize)
+    mutable std::size_t         latency_ring_count_{0}; ///< Valid entries [0, kLatencyRingSize]
+
+    /// Total query count (eval + non-eval) — incremented on every `query()`.
+    mutable std::size_t         total_query_count_{0};
+
+    /// Online mean accumulators for eval queries (updated by `evaluateQuery()`).
+    mutable double              eval_recall_at_1_{0.0};
+    mutable double              eval_recall_at_3_{0.0};
+    mutable double              eval_recall_at_5_{0.0};
+    mutable double              eval_recall_at_10_{0.0};
+    mutable double              eval_mrr_{0.0};
+    mutable std::size_t         eval_query_count_{0};
+
+    /// Record a single query latency sample into the ring buffer.
+    /// Not thread-safe; caller must hold eval_mutex_.
+    void recordLatencyLocked(double latency_ms) const noexcept;
 };
 
 // ============================================================================

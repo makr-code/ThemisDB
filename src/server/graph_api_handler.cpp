@@ -936,12 +936,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             span.setAttribute("graph.start_vertex", sv);
             span.setAttribute("graph.end_vertex", ev);
 
-            Result<themis::graph::GraphQueryOptimizer::OptimizationPlan> result;
-            if (query_type == "shortest_path") {
-                result = optimizer_->optimizeShortestPath(sv, ev, qc);
-            } else {
-                result = optimizer_->optimizeReachability(sv, ev, qc);
-            }
+            auto result = (query_type == "shortest_path")
+                ? optimizer_->optimizeShortestPath(sv, ev, qc)
+                : optimizer_->optimizeReachability(sv, ev, qc);
 
             if (!result.has_value()) {
                 span.setStatus(false, result.error().message());

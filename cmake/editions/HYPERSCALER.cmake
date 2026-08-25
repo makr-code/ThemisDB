@@ -3,6 +3,27 @@
 
 message(STATUS "Configuring HYPERSCALER edition...")
 
+if(NOT DEFINED THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "" OR NOT EXISTS "${THEMIS_LICENSE_FILE}")
+    message(FATAL_ERROR
+        "=============================================================\n"
+        "HYPERSCALER Edition REQUIRES embedded license file\n"
+        "=============================================================\n"
+        "\n"
+        "HYPERSCALER Edition cannot be configured without a valid\n"
+        "license file.\n"
+        "\n"
+        "Usage:\n"
+        "  cmake -B build -S . \\\n"
+        "    -DTHEMIS_EDITION=HYPERSCALER \\\n"
+        "    -DTHEMIS_LICENSE_FILE=/path/to/hyperscaler-license.json \\\n"
+        "    -DCMAKE_BUILD_TYPE=Release\n"
+        "\n"
+        "=============================================================\n"
+    )
+endif()
+
+message(STATUS "HYPERSCALER Edition: License requirement ENFORCED")
+
 # Hardware limits - no limits
 set(THEMIS_GPU_MAX_VRAM_GB 0 CACHE STRING "GPU VRAM limit (GB) - 0 = unlimited" FORCE)
 set(THEMIS_SHARDING_MAX_NODES 0 CACHE STRING "Maximum sharding nodes - 0 = unlimited" FORCE)

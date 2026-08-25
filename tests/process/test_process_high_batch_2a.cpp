@@ -304,7 +304,8 @@ TEST_F(VccVpbImporterTest, EXS13_ImportYamlActivities) {
     auto result = VccVpbImporter::importYaml(yaml);
     
     EXPECT_TRUE(result.ok);
-    EXPECT_GT(result.record.activities.size(), 0);
+    EXPECT_TRUE(result.record.normalized.contains("activities"));
+    EXPECT_GT(result.record.normalized["activities"].size(), 0);
 }
 
 // EXS-14: Test importYaml edges parsing (static regex pre-compilation)
@@ -313,7 +314,8 @@ TEST_F(VccVpbImporterTest, EXS14_ImportYamlEdges) {
     auto result = VccVpbImporter::importYaml(yaml);
     
     EXPECT_TRUE(result.ok);
-    EXPECT_GT(result.record.edges.size(), 0);
+    EXPECT_TRUE(result.record.normalized.contains("edges"));
+    EXPECT_GT(result.record.normalized["edges"].size(), 0);
 }
 
 // EXS-15: Test importYamlList with array parsing (bounds checking)

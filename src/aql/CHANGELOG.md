@@ -13,6 +13,12 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit existing benchmark symbols from current AQL benchmark sources.
+- NL→AQL retry prompts now sanitize and delimit validation feedback before reinjection, reducing prompt-injection risk from model-generated retry diagnostics (`llm_aql_handler.cpp`).
+- `AQLIngestionBridge` destructor is now explicitly `noexcept` to codify non-throwing teardown semantics.
+- `LLMAQLEmbeddingBridge` degraded-mode failures are elevated from debug to warning logs, removing effectively silent production fallback behavior.
+- Translation retry attempts in `translateNLToAQL*` now honor `validation_config.max_retries` instead of hardcoded retry defaults.
+- `LLMValidationPipeline` now fails fast when the LLM client is unavailable and injects parser retry feedback into subsequent generation attempts.
+- `LLMExtractiveCompressor` now uses real readiness checks, deterministic ranking fallback when LLM ranking is unavailable, and warning-level logging for persistence failures.
 
 ## [1.8.0] - 2026-03-22
 

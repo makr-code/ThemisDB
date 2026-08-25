@@ -1109,8 +1109,3 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLMetricsJsonExport) {
     EXPECT_GE(m["adaptive_ttl"]["ttl_extended_total"].get<uint64_t>(), 1u);
     EXPECT_EQ(m["adaptive_ttl"]["ttl_shortened_total"].get<uint64_t>(), 0u);
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -1012,6 +1012,9 @@ std::unique_ptr<ILLMPlugin> LLMPluginManager::CreatePluginSafe(
     }
     
     try {
+        spdlog::debug("CreatePluginSafe: creating '{}' with config bytes={} (content redacted)",
+                     plugin_name, config_json.size());
+
         // NOTE: Actual plugin factory would be called here
         // This is a safe pattern that ensures:
         // 1. Null check on factory return (GAP-4-1)

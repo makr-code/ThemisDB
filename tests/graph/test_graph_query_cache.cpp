@@ -43,7 +43,7 @@ protected:
 // ---------------------------------------------------------------------------
 
 TEST(GraphQueryCacheConstruct, DefaultConfig_Succeeds) {
-    EXPECT_NO_THROW(GraphQueryCache cache);
+    EXPECT_NO_THROW(GraphQueryCache cache(GraphQueryCache::Config{}));
 }
 
 TEST(GraphQueryCacheConstruct, ValidConfig_Succeeds) {

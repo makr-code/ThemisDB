@@ -411,8 +411,3 @@ TEST_F(LLMTimeoutManager_A10_1KCyclesTest, A10_1K_Timeout_NoThreadLeak) {
             << " — possible thread leak in timeout path";
     }
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

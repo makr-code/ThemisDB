@@ -265,7 +265,7 @@ cmake --build --preset community-release
 - LLM support enabled
 - gRPC networking
 - Optional GPU support (off by default)
-- Hardware limits: 8 GB GPU VRAM, 5 nodes, 1 GB cache
+- Hardware limits: 16 GB GPU VRAM (1x Tesla T4), 5 nodes, 1 GB cache
 
 ### COMMUNITY with LLM/GPU
 
@@ -303,7 +303,7 @@ cmake --build --preset enterprise-release
 - All COMMUNITY features
 - HSM integration
 - Multi-shard support (up to 100 nodes)
-- Hardware limits: 24 GB GPU VRAM, 100 nodes, 4 GB cache
+- Hardware limits: 320 GB GPU VRAM (4x A100 80 GB), 100 nodes, 4 GB cache
 
 ### HYPERSCALER Edition
 

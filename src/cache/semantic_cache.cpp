@@ -35,9 +35,12 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::CacheEntry::fromJson(con
         entry.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
         entry.ttl_seconds  = j.at("ttl_seconds").get<int>();
         return entry;
-    } catch (const std::string&) {
+    } catch (const std::string& ex) {
+        // generic_catch fix: log swallowed non-standard exception types
+        THEMIS_DEBUG("semantic_cache::fromJson: std::string exception: {}", ex);
         return std::nullopt;
-    } catch (const char*) {
+    } catch (const char* ex) {
+        THEMIS_DEBUG("semantic_cache::fromJson: c-string exception: {}", (ex ? ex : "<null>"));
         return std::nullopt;
     } catch (const nlohmann::json::exception&) {
         return std::nullopt;

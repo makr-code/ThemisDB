@@ -1,0 +1,75 @@
+version: 1.0.0
+policy_id: themisdb_default_knowledge_spheres
+mode: shadow
+
+spheres:
+  canonical:
+    enabled: true
+    status: active
+    schema_version: "1.0"
+    access_scope: internal
+    protected: false
+    migration_target: null
+
+  process:
+    enabled: true
+    status: active
+    schema_version: "1.0"
+    access_scope: internal
+    protected: false
+    migration_target: null
+
+  derived:
+    enabled: true
+    status: active
+    schema_version: "1.0"
+    access_scope: internal
+    protected: false
+    migration_target: null
+
+  ingested_external:
+    enabled: true
+    status: active
+    schema_version: "1.0"
+    access_scope: internal
+    protected: false
+    migration_target: null
+
+  protected:
+    enabled: false
+    status: archived
+    schema_version: "1.0"
+    access_scope: private
+    protected: true
+    migration_target: "protected_v2"
+
+runtime:
+  default_sphere: canonical
+  allowed_status_transitions:
+    - active -> deprecated
+    - deprecated -> archived
+    - active -> migrating
+    - migrating -> active
+  fail_closed_on_invalid_sphere: true
+  require_audit_on_migration: true
+
+policy:
+  hard_invariants:
+    - canonical.source_of_truth_must_be_authoritative
+    - derived.must_be_reproducible
+    - protected.must_not_mix_into_public
+    - process.must_not_override_safety_gates
+
+  ml_tunable_knobs:
+    - derived.max_evidence_items
+    - derived.confidence_floor
+    - process.default_retry_budget
+
+  allowed_runtime_overrides: []
+
+migration:
+  strategy: explicit
+  require_snapshot: true
+  require_reason_code: true
+  maximum_parallel_migrations: 1
+  rollback_on_failure: true

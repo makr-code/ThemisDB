@@ -29,6 +29,15 @@ namespace auth {
 // Helpers
 // ============================================================================
 
+namespace {
+const char* redisErrStrSafe(const redisContext* ctx) {
+    if (!ctx || !ctx->errstr) {
+        return "unknown redis error";
+    }
+    return ctx->errstr;
+}
+} // namespace
+
 std::string RedisTokenBlacklist::makeKey(const std::string& jti) const {
     return config_.key_prefix + jti;
 }
@@ -47,7 +56,7 @@ bool RedisTokenBlacklist::connect() {
     if (!ctx_ || ctx_->err) {
         THEMIS_WARN("RedisTokenBlacklist: connect to {}:{} failed: {}",
                     config_.host, config_.port,
-                    ctx_ ? ctx_->errstr : "allocation failure");
+                    ctx_ ? redisErrStrSafe(ctx_) : "allocation failure");
         if (ctx_) { redisFree(ctx_); ctx_ = nullptr; }
         return false;
     }
@@ -129,7 +138,7 @@ void RedisTokenBlacklist::add(const std::string& jti,
 
     if (!reply) {
         THEMIS_WARN("RedisTokenBlacklist::add: command failed for JTI '{}': {}",
-                    jti, ctx_->errstr);
+                    jti, redisErrStrSafe(ctx_));
         disconnect();
         return;
     }
@@ -166,7 +175,7 @@ bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
         redisCommand(ctx_, "EXISTS %s", key.c_str()));
 
     if (!reply) {
-        THEMIS_WARN("RedisTokenBlacklist::isRevoked: command failed: {}", ctx_->errstr);
+        THEMIS_WARN("RedisTokenBlacklist::isRevoked: command failed: {}", redisErrStrSafe(ctx_));
         // Cast away const to reset connection state on error
         const_cast<RedisTokenBlacklist*>(this)->disconnect();
         return false;

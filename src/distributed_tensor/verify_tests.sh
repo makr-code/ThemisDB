@@ -56,8 +56,8 @@ for target in "${UNIT_TEST_TARGETS[@]}"; do
     elif [ -f "$BUILD_DIR/bin/$target" ]; then
         echo "  ✓ $target (in bin/)"
         FOUND_COUNT=$((FOUND_COUNT + 1))
-    elif [ -f "$BUILD_DIR/bin_out/$target" ]; then
-        echo "  ✓ $target (in bin_out/)"
+    elif [ -f "$BUILD_DIR/bin/$target" ]; then
+        echo "  ✓ $target (in bin/)"
         FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/$target" ]; then
         echo "  ✓ $target"
@@ -84,8 +84,8 @@ for target in "${BENCHMARK_TARGETS[@]}"; do
     elif [ -f "$BUILD_DIR/bin/$target" ]; then
         echo "  ✓ $target (in bin/)"
         FOUND_COUNT=$((FOUND_COUNT + 1))
-    elif [ -f "$BUILD_DIR/bin_out/$target" ]; then
-        echo "  ✓ $target (in bin_out/)"
+    elif [ -f "$BUILD_DIR/bin/$target" ]; then
+        echo "  ✓ $target (in bin/)"
         FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/tests/epic3_distributed_tensor/${target}.exe" ]; then
         echo "  ✓ $target.exe (Windows)"

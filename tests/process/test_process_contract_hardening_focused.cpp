@@ -21,6 +21,10 @@
 #include <vector>
 
 using namespace themis::process;
+using themis::BPMNNodeType;
+using themis::ProcessEdgeInfo;
+using themis::ProcessEdgeType;
+using themis::ProcessNodeInfo;
 using json = nlohmann::json;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -102,7 +106,10 @@ protected:
             std::filesystem::temp_directory_path() /
             ("themis_test_proc_" + std::to_string(nonce) + ".db")
         ).string();
-        db_ = std::make_unique<themis::RocksDBWrapper>(temp_db_path_);
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = temp_db_path_;
+        db_ = std::make_unique<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open());
         manager_ = std::make_unique<ProcessModelManager>(*db_);
     }
 
@@ -128,7 +135,7 @@ TEST_F(ProcessModelHardeningTest, PRC20_ValidateEmptyId) {
 
     auto result = manager_->validateModelConsistency(record);
     EXPECT_FALSE(result.ok);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("id must not be empty"));
+    EXPECT_NE(result.message.find("id must not be empty"), std::string::npos);
 }
 
 TEST_F(ProcessModelHardeningTest, PRC21_ValidateEmptyName) {
@@ -142,7 +149,7 @@ TEST_F(ProcessModelHardeningTest, PRC21_ValidateEmptyName) {
 
     auto result = manager_->validateModelConsistency(record);
     EXPECT_FALSE(result.ok);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("name must not be empty"));
+    EXPECT_NE(result.message.find("name must not be empty"), std::string::npos);
 }
 
 TEST_F(ProcessModelHardeningTest, PRC22_ValidateValidModel) {
@@ -186,7 +193,7 @@ TEST_F(ProcessModelHardeningTest, PRC23_ValidateDuplicateNodeIds) {
 
     auto result = manager_->validateModelConsistency(record);
     EXPECT_FALSE(result.ok);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("Duplicate node id"));
+    EXPECT_NE(result.message.find("Duplicate node id"), std::string::npos);
 }
 
 TEST_F(ProcessModelHardeningTest, PRC24_ValidateDanglingEdge) {
@@ -208,7 +215,7 @@ TEST_F(ProcessModelHardeningTest, PRC24_ValidateDanglingEdge) {
 
     auto result = manager_->validateModelConsistency(record);
     EXPECT_FALSE(result.ok);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("non-existent"));
+    EXPECT_NE(result.message.find("non-existent"), std::string::npos);
 }
 
 TEST_F(ProcessModelHardeningTest, PRC25_ValidateNameLengthLimit) {
@@ -222,7 +229,7 @@ TEST_F(ProcessModelHardeningTest, PRC25_ValidateNameLengthLimit) {
 
     auto result = manager_->validateModelConsistency(record);
     EXPECT_FALSE(result.ok);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("maximum length"));
+    EXPECT_NE(result.message.find("maximum length"), std::string::npos);
 }
 
 TEST_F(ProcessModelHardeningTest, PRC26_ConsistencyDiagnostics) {
@@ -268,7 +275,7 @@ TEST(BpmnSerializerHardeningTest, PRC31_ValidateNodeWithEmptyId) {
     std::vector<ProcessEdgeInfo> edges;
     
     std::string error = BpmnSerializer::validateStructure(nodes, edges);
-    EXPECT_THAT(error, ::testing::HasSubstr("empty id"));
+    EXPECT_NE(error.find("empty id"), std::string::npos);
 }
 
 TEST(BpmnSerializerHardeningTest, PRC32_ValidateDuplicateNodeIds) {
@@ -284,7 +291,7 @@ TEST(BpmnSerializerHardeningTest, PRC32_ValidateDuplicateNodeIds) {
     std::vector<ProcessEdgeInfo> edges;
     
     std::string error = BpmnSerializer::validateStructure(nodes, edges);
-    EXPECT_THAT(error, ::testing::HasSubstr("Duplicate"));
+    EXPECT_NE(error.find("Duplicate"), std::string::npos);
 }
 
 TEST(BpmnSerializerHardeningTest, PRC33_ValidateDanglingEdge) {
@@ -303,7 +310,7 @@ TEST(BpmnSerializerHardeningTest, PRC33_ValidateDanglingEdge) {
     std::vector<ProcessEdgeInfo> edges_vec = {edge};
     
     std::string error = BpmnSerializer::validateStructure(nodes, edges_vec);
-    EXPECT_THAT(error, ::testing::HasSubstr("non-existent"));
+    EXPECT_NE(error.find("non-existent"), std::string::npos);
 }
 
 TEST(BpmnSerializerHardeningTest, PRC34_ValidateExcessiveNodes) {
@@ -317,7 +324,7 @@ TEST(BpmnSerializerHardeningTest, PRC34_ValidateExcessiveNodes) {
     }
     
     std::string error = BpmnSerializer::validateStructure(nodes, {});
-    EXPECT_THAT(error, ::testing::HasSubstr("exceeds maximum"));
+    EXPECT_NE(error.find("exceeds maximum"), std::string::npos);
 }
 
 TEST(BpmnSerializerHardeningTest, PRC35_ValidateValidStructure) {
@@ -402,10 +409,10 @@ TEST(ProcessErrorTaxonomyTest, P3_DiagnosticMessageFormatting) {
         "line 42: unexpected token"
     );
     
-    EXPECT_THAT(diag, ::testing::HasSubstr("IMPORT"));
-    EXPECT_THAT(diag, ::testing::HasSubstr("MALFORMED_INPUT"));
-    EXPECT_THAT(diag, ::testing::HasSubstr("import BPMN from XML"));
-    EXPECT_THAT(diag, ::testing::HasSubstr("line 42"));
+    EXPECT_NE(diag.find("IMPORT"), std::string::npos);
+    EXPECT_NE(diag.find("MALFORMED_INPUT"), std::string::npos);
+    EXPECT_NE(diag.find("import BPMN from XML"), std::string::npos);
+    EXPECT_NE(diag.find("line 42"), std::string::npos);
 }
 
 TEST(ProcessErrorTaxonomyTest, P3_DiagnosticMessageWithoutDetail) {
@@ -414,9 +421,9 @@ TEST(ProcessErrorTaxonomyTest, P3_DiagnosticMessageWithoutDetail) {
         "import process model"
     );
     
-    EXPECT_THAT(diag, ::testing::HasSubstr("IMPORT"));
-    EXPECT_THAT(diag, ::testing::HasSubstr("EMPTY_INPUT"));
-    EXPECT_THAT(diag, ::testing::HasSubstr("import process model"));
+    EXPECT_NE(diag.find("IMPORT"), std::string::npos);
+    EXPECT_NE(diag.find("EMPTY_INPUT"), std::string::npos);
+    EXPECT_NE(diag.find("import process model"), std::string::npos);
 }
 
 // BPMN Import Malformed Input Handling Tests
@@ -424,8 +431,8 @@ TEST(BpmnImportErrorHandlingTest, P3_EmptyInputReturnsEmptyInputError) {
     auto result = BpmnSerializer::importXml("");
     EXPECT_FALSE(result.ok);
     EXPECT_EQ(result.error_code, ProcessErrorCode::EMPTY_INPUT);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("EMPTY_INPUT"));
-    EXPECT_THAT(result.message, ::testing::HasSubstr("empty"));
+    EXPECT_NE(result.message.find("EMPTY_INPUT"), std::string::npos);
+    EXPECT_NE(result.message.find("empty"), std::string::npos);
     EXPECT_TRUE(result.nodes.empty());
     EXPECT_TRUE(result.edges.empty());
 }
@@ -439,8 +446,8 @@ TEST(BpmnImportErrorHandlingTest, P3_OversizedInputReturnsInputTooLargeError) {
     auto result = BpmnSerializer::importXml(oversized);
     EXPECT_FALSE(result.ok);
     EXPECT_EQ(result.error_code, ProcessErrorCode::INPUT_TOO_LARGE);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("INPUT_TOO_LARGE"));
-    EXPECT_THAT(result.message, ::testing::HasSubstr("10 MiB"));
+    EXPECT_NE(result.message.find("INPUT_TOO_LARGE"), std::string::npos);
+    EXPECT_NE(result.message.find("10 MiB"), std::string::npos);
 }
 
 TEST(BpmnImportErrorHandlingTest, P3_MalformedXmlReturnsMalformedInputError) {
@@ -448,7 +455,7 @@ TEST(BpmnImportErrorHandlingTest, P3_MalformedXmlReturnsMalformedInputError) {
     auto result = BpmnSerializer::importXml(malformed);
     EXPECT_FALSE(result.ok);
     EXPECT_EQ(result.error_code, ProcessErrorCode::MALFORMED_INPUT);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("MALFORMED_INPUT"));
+    EXPECT_NE(result.message.find("MALFORMED_INPUT"), std::string::npos);
 }
 
 TEST(BpmnImportErrorHandlingTest, P3_NoElementsReturnsEmptyInputError) {
@@ -456,14 +463,14 @@ TEST(BpmnImportErrorHandlingTest, P3_NoElementsReturnsEmptyInputError) {
     auto result = BpmnSerializer::importXml(empty_process);
     EXPECT_FALSE(result.ok);
     EXPECT_EQ(result.error_code, ProcessErrorCode::EMPTY_INPUT);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("EMPTY_INPUT"));
+    EXPECT_NE(result.message.find("EMPTY_INPUT"), std::string::npos);
 }
 
 TEST(BpmnImportErrorHandlingTest, P3_FileNotFoundReturnsFileReadError) {
     auto result = BpmnSerializer::importFile("/nonexistent/file/path/bpmn.xml");
     EXPECT_FALSE(result.ok);
     EXPECT_EQ(result.error_code, ProcessErrorCode::FILE_READ_ERROR);
-    EXPECT_THAT(result.message, ::testing::HasSubstr("FILE_READ_ERROR"));
+    EXPECT_NE(result.message.find("FILE_READ_ERROR"), std::string::npos);
 }
 
 TEST(BpmnImportErrorHandlingTest, P3_SuccessfulImportReturnsValidResult) {
@@ -511,13 +518,13 @@ TEST(ProcessDiagnosticsTest, P3_DiagnosticsIncludeActionableContext) {
     
     // Verify diagnostic includes:
     // 1. Error category
-    EXPECT_THAT(diag, ::testing::HasSubstr("IMPORT"));
+    EXPECT_NE(diag.find("IMPORT"), std::string::npos);
     // 2. Error code name
-    EXPECT_THAT(diag, ::testing::HasSubstr("MALFORMED_INPUT"));
+    EXPECT_NE(diag.find("MALFORMED_INPUT"), std::string::npos);
     // 3. Operation context
-    EXPECT_THAT(diag, ::testing::HasSubstr("parse BPMN"));
+    EXPECT_NE(diag.find("parse BPMN"), std::string::npos);
     // 4. Specific detail
-    EXPECT_THAT(diag, ::testing::HasSubstr("line 15"));
+    EXPECT_NE(diag.find("line 15"), std::string::npos);
 }
 
 TEST(ProcessDiagnosticsTest, P3_DiagnosticsAreActionable) {
@@ -532,8 +539,8 @@ TEST(ProcessDiagnosticsTest, P3_DiagnosticsAreActionable) {
     for (const auto& diag : diags) {
         // Each diagnostic should indicate what failed, why, and what to check
         EXPECT_FALSE(diag.empty());
-        EXPECT_THAT(diag, ::testing::HasSubstr("["));
-        EXPECT_THAT(diag, ::testing::HasSubstr("/"));  // Category/Code separator
-        EXPECT_THAT(diag, ::testing::HasSubstr("]"));
+        EXPECT_NE(diag.find("["), std::string::npos);
+        EXPECT_NE(diag.find("/"), std::string::npos);  // Category/Code separator
+        EXPECT_NE(diag.find("]"), std::string::npos);
     }
 }

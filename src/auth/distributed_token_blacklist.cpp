@@ -324,9 +324,6 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
     , last_successful_sync_(std::chrono::system_clock::now())
 {
     // Open RocksDB database
-    rocksdb::DB* db = nullptr;
-    rocksdb::ColumnFamilyHandle* cf = nullptr;
-    
     rocksdb::Options opts;
     opts.create_if_missing = true;
     opts.create_missing_column_families = true;
@@ -341,17 +338,15 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
     rocksdb::DB* db_raw = nullptr;
     rocksdb::Status status = rocksdb::DB::Open(
-        opts, config_.db_path, cf_descriptors, &cf_handles, &db_raw);
-    db = db_raw;
+        rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &db_raw);
 
     if (!status.ok()) {
         throw std::runtime_error(
             std::string("Cannot open RocksDB: ") + status.ToString());
     }
     
-    db_ = db;
-    cf = cf_handles[1];  // Our column family (not default)
-    cf_ = cf;
+    db_.reset(db_raw);
+    cf_ = cf_handles[1];  // Our column family (not default)
     
     // Keep other CF handles alive for proper cleanup
     other_cf_handles_.push_back(cf_handles[0]);
@@ -415,16 +410,14 @@ DistributedTokenBlacklist::~DistributedTokenBlacklist()
     
     // Close RocksDB column family handles and the database itself
     if (cf_) {
-        auto* rdb = static_cast<rocksdb::DB*>(db_);
-        rdb->DestroyColumnFamilyHandle(static_cast<rocksdb::ColumnFamilyHandle*>(cf_));
+        db_->DestroyColumnFamilyHandle(cf_);
+        cf_ = nullptr;
     }
     for (auto* h : other_cf_handles_) {
-        auto* rdb = static_cast<rocksdb::DB*>(db_);
-        rdb->DestroyColumnFamilyHandle(static_cast<rocksdb::ColumnFamilyHandle*>(h));
+        db_->DestroyColumnFamilyHandle(h);
     }
-    if (db_) {
-        delete static_cast<rocksdb::DB*>(db_);
-    }
+    other_cf_handles_.clear();
+    db_.reset();
 }
 
 // ===========================================================================
@@ -449,12 +442,9 @@ void DistributedTokenBlacklist::add(
                                       + " exceeds limit " + std::to_string(kMaxJtiLen)));
     }
 
-    auto* db = static_cast<rocksdb::DB*>(db_);
-    auto* cf = static_cast<rocksdb::ColumnFamilyHandle*>(cf_);
-    
     std::string expiry_val = encodeExpiry(expiry);
-    rocksdb::Status status = db->Put(
-        rocksdb::WriteOptions{}, cf, jti, expiry_val);
+    rocksdb::Status status = db_->Put(
+        rocksdb::WriteOptions{}, cf_, jti, expiry_val);
     
     if (!status.ok()) {
         throw std::runtime_error(
@@ -464,12 +454,9 @@ void DistributedTokenBlacklist::add(
 
 bool DistributedTokenBlacklist::isRevoked(const std::string& jti) const
 {
-    auto* db = static_cast<rocksdb::DB*>(db_);
-    auto* cf = static_cast<rocksdb::ColumnFamilyHandle*>(cf_);
-    
     std::string expiry_val;
-    rocksdb::Status status = db->Get(
-        rocksdb::ReadOptions{}, cf, jti, &expiry_val);
+    rocksdb::Status status = db_->Get(
+        rocksdb::ReadOptions{}, cf_, jti, &expiry_val);
     
     if (status.IsNotFound()) return false;
     
@@ -482,26 +469,23 @@ bool DistributedTokenBlacklist::isRevoked(const std::string& jti) const
 
 void DistributedTokenBlacklist::purgeExpired()
 {
-    auto* db = static_cast<rocksdb::DB*>(db_);
-    auto* cf = static_cast<rocksdb::ColumnFamilyHandle*>(cf_);
-    
     // Wrap iterator in unique_ptr so it is freed on all paths (RAII)
     auto it = std::unique_ptr<rocksdb::Iterator>(
-        db->NewIterator(rocksdb::ReadOptions{}, cf));
+        db_->NewIterator(rocksdb::ReadOptions{}, cf_));
     rocksdb::WriteBatch batch;
     const auto now = std::chrono::system_clock::now();
     
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
         try {
             auto expiry = decodeExpiry(it->value().ToString());
-            if (now >= expiry) batch.Delete(cf, it->key());
+            if (now >= expiry) batch.Delete(cf_, it->key());
         } catch (...) {
             // Skip corrupted entries silently
         }
     }
     
     if (batch.Count() > 0) {
-        rocksdb::Status st = db->Write(rocksdb::WriteOptions{}, &batch);
+        rocksdb::Status st = db_->Write(rocksdb::WriteOptions{}, &batch);
         if (!st.ok()) {
             throw std::runtime_error(
                 std::string("Cannot write batch to RocksDB: ") + st.ToString());
@@ -600,14 +584,11 @@ void DistributedTokenBlacklist::replicationLoop()
 std::vector<std::pair<std::string, std::chrono::system_clock::time_point>>
 DistributedTokenBlacklist::getAllEntries() const
 {
-    auto* db = static_cast<rocksdb::DB*>(db_);
-    auto* cf = static_cast<rocksdb::ColumnFamilyHandle*>(cf_);
-    
     std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> result;
     const auto now = std::chrono::system_clock::now();
     
     auto it = std::unique_ptr<rocksdb::Iterator>(
-        db->NewIterator(rocksdb::ReadOptions{}, cf));
+        db_->NewIterator(rocksdb::ReadOptions{}, cf_));
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
         try {
             auto expiry = decodeExpiry(it->value().ToString());
@@ -631,9 +612,6 @@ DistributedTokenBlacklist::getAllEntries() const
 void DistributedTokenBlacklist::applyEntries(
     const std::vector<std::pair<std::string, int64_t>>& entries)
 {
-    auto* db = static_cast<rocksdb::DB*>(db_);
-    auto* cf = static_cast<rocksdb::ColumnFamilyHandle*>(cf_);
-    
     rocksdb::WriteBatch batch;
     const auto now = std::chrono::system_clock::now();
     
@@ -641,11 +619,11 @@ void DistributedTokenBlacklist::applyEntries(
         if (jti.empty()) continue;
         auto tp = std::chrono::system_clock::from_time_t(static_cast<time_t>(secs));
         if (tp <= now) continue;  // skip already-expired
-        batch.Put(cf, jti, encodeExpiry(tp));
+        batch.Put(cf_, jti, encodeExpiry(tp));
     }
     
     if (batch.Count() > 0) {
-        rocksdb::Status st = db->Write(rocksdb::WriteOptions{}, &batch);
+        rocksdb::Status st = db_->Write(rocksdb::WriteOptions{}, &batch);
         if (!st.ok()) {
             throw std::runtime_error(
                 std::string("applyEntries: RocksDB write failed: ") + st.ToString());

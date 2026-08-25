@@ -201,6 +201,39 @@ TEST_F(LLMProcessAnalyzerTest, ValidateResponse_DetectFraud_MissingRiskScore) {
     EXPECT_FALSE(analyzer.validateResponse(resp, TaskType::DETECT_FRAUD));
 }
 
+TEST_F(LLMProcessAnalyzerTest, ValidateResponse_DetectFraud_RiskScoreOutOfRange) {
+    nlohmann::json resp;
+    resp["fraud_analysis"]["risk_score"] = 1.2;
+
+    EXPECT_FALSE(analyzer.validateResponse(resp, TaskType::DETECT_FRAUD));
+}
+
+TEST_F(LLMProcessAnalyzerTest, ValidateResponse_DetectFraud_AnomaliesMustBeStringArray) {
+    nlohmann::json resp;
+    resp["fraud_analysis"]["risk_score"]         = 0.4;
+    resp["fraud_analysis"]["detected_anomalies"] = nlohmann::json::array({42});
+
+    EXPECT_FALSE(analyzer.validateResponse(resp, TaskType::DETECT_FRAUD));
+}
+
+TEST_F(LLMProcessAnalyzerTest, ValidateResponse_PredictNext_ProbabilityOutOfRangeRejected) {
+    nlohmann::json resp;
+    resp["predictions"] = nlohmann::json::array({{
+        {"activity", "next_step"},
+        {"probability", 1.5},
+        {"reasoning", "invalid probability"}
+    }});
+
+    EXPECT_FALSE(analyzer.validateResponse(resp, TaskType::PREDICT_NEXT));
+}
+
+TEST_F(LLMProcessAnalyzerTest, ValidateResponse_Verify5RRule_OverallComplianceMustBeBool) {
+    nlohmann::json resp;
+    resp["five_rights_check"]["overall_compliance"] = "yes";
+
+    EXPECT_FALSE(analyzer.validateResponse(resp, TaskType::VERIFY_5R_RULE));
+}
+
 TEST_F(LLMProcessAnalyzerTest, ValidateResponse_Default_AlwaysTrue) {
     // Unknown task types should pass basic validation
     nlohmann::json resp;

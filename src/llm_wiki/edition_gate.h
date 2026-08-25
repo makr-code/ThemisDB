@@ -38,6 +38,8 @@
 namespace themis {
 namespace llm_wiki {
 
+using PluginStatus = themis::plugins::llm_wiki::Status;
+
 // ============================================================================
 // Edition enumeration
 // ============================================================================
@@ -101,7 +103,7 @@ enum class Edition {
  * @param operation_name  Name of the operation (for error message).
  * @return                Status indicating whether access is allowed.
  */
-[[nodiscard]] Status enforcePluginGate(const char* operation_name) noexcept;
+[[nodiscard]] PluginStatus enforcePluginGate(const char* operation_name) noexcept;
 
 /**
  * @brief Enforce edition gate for a specific LLM Wiki sub-feature.
@@ -112,7 +114,7 @@ enum class Edition {
  * @param feature_name  Name of the sub-feature (e.g., "llm_wiki_wikipedia").
  * @return              Status indicating whether access is allowed.
  */
-[[nodiscard]] Status enforceFeatureGate(const char* feature_name) noexcept;
+[[nodiscard]] PluginStatus enforceFeatureGate(const char* feature_name) noexcept;
 
 // ============================================================================
 // Inline implementation for compile-time gating

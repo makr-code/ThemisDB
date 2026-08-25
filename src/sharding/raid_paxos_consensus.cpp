@@ -248,7 +248,6 @@ void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
                     shard_index, raidModeToString(raid_config_.raid_mode));
         
         // Check if we can still maintain quorum
-        int total_shards = static_cast<int>(cluster_nodes_.size());
         int max_failures = getMaxTolerableFailuresInternal();
         
         if (static_cast<int>(failed_shards_.size()) > max_failures) {

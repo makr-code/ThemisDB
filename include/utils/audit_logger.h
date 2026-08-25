@@ -213,6 +213,9 @@ struct AuditLoggerConfig {
 /** @brief Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now). */
 class AuditLogger {
 public:
+    AuditLogger() = default;
+    virtual ~AuditLogger() = default;
+
     // Resource limits (Phase 2.6 cross-cutting hardening)
     static constexpr size_t DEFAULT_MAX_BUFFER_SIZE = 1024ULL * 1024 * 1024;  // 1GB
     static constexpr size_t DEFAULT_MAX_QUEUED_EVENTS = 10'000;  // Queue depth
@@ -258,7 +261,16 @@ public:
      * @see ErrorCode 9010-9019 for audit error taxonomy
      * @see logSecurityEvent() for security-specific event logging
      */
-    void logEvent(const nlohmann::json& event);
+    virtual void logEvent(const nlohmann::json& event);
+
+    virtual nlohmann::json getEvents(
+        int64_t start_ms = 0,
+        int64_t end_ms = 0,
+        const std::string& filter = "") const;
+
+    virtual size_t getTotalEventCount() const;
+
+    virtual void clear();
      
     /**
      * @brief Log a security event with structured data
@@ -504,7 +516,6 @@ private:
     void forwardToSiem(const nlohmann::json& event);
     void loadChainState();
     void saveChainState();
-    void logErrorContext(const ErrorContext& ctx);
     std::string computeEntryHash(const nlohmann::json& entry) const;
     static std::string securityEventTypeToString(SecurityEventType type);
     

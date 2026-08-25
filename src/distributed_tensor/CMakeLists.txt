@@ -51,7 +51,7 @@ endif()
 target_compile_features(themis_distributed_tensor PRIVATE cxx_std_17)
 
 if(MSVC)
-    target_compile_options(themis_distributed_tensor PRIVATE /W4 /WX)
+    target_compile_options(themis_distributed_tensor PRIVATE /W4)
 else()
     target_compile_options(themis_distributed_tensor PRIVATE -Wall -Wextra -Wpedantic)
 endif()

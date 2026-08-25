@@ -103,7 +103,7 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
     }
 
     std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
-    rocksdb::DB* db_raw = nullptr;
+    rocksdb::DB *db_raw = nullptr;
     rocksdb::Status s = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_raw);
     db_.reset(db_raw);
     if (!s.ok()) {

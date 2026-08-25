@@ -129,6 +129,82 @@ jobs:
           
           echo "✓ Telemetry/tracking detection passed"
 
+      - name: Fail closed on private plugin references
+        id: check-private-references
+        run: |
+          set -euo pipefail
+
+          echo "Checking for private plugin references introduced in community/minimal code scope..."
+
+          patterns=(
+            'plugins/private/'
+            'plugins/themisdb_ethic_ai'
+            'plugins/themisdb_llm_wiki'
+            'plugins/themisdb_storage'
+            'plugins/themisdb_importer'
+            'plugins/themisdb_plugin_signer'
+            'makr-code/themisdb_ethic_ai'
+            'makr-code/themisdb_llm_wiki'
+            'makr-code/themisdb_storage'
+            'makr-code/themisdb_importer'
+            'makr-code/themisdb_plugin_signer'
+          )
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="${{ github.event.pull_request.base.sha }}"
+            HEAD_REF="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_REF="${{ github.event.before }}"
+            HEAD_REF="${{ github.sha }}"
+          fi
+
+          mapfile -t scoped_files < <(
+            git diff --name-only "$BASE_REF" "$HEAD_REF" -- \
+              src include cmake plugins CMakeLists.txt CMakePresets.json \
+              | grep -E '\.(c|cc|cpp|cxx|h|hh|hpp|hxx|cmake|json|ya?ml)$|(^|/)CMakeLists\.txt$|(^|/)CMakePresets\.json$' \
+              || true
+          )
+
+          if [ "${#scoped_files[@]}" -eq 0 ]; then
+            echo "No changed files in community/minimal code scope."
+            echo "✓ No private plugin references introduced in scoped files"
+            exit 0
+          fi
+
+          existing_files=()
+          for file in "${scoped_files[@]}"; do
+            if [ -f "$file" ]; then
+              existing_files+=("$file")
+            fi
+          done
+
+          if [ "${#existing_files[@]}" -eq 0 ]; then
+            echo "No existing changed files left to scan."
+            echo "✓ No private plugin references introduced in scoped files"
+            exit 0
+          fi
+
+          found=()
+          for pat in "${patterns[@]}"; do
+            if grep -I -n -F -- "$pat" "${existing_files[@]}" 2>/dev/null >/tmp/private_refs.txt; then
+              while IFS= read -r line; do
+                [ -z "$line" ] && continue
+                found+=("$line")
+              done < /tmp/private_refs.txt
+            fi
+          done
+
+          if [ "${#found[@]}" -gt 0 ]; then
+            echo "::error::Private plugin references detected in community branch scope."
+            for line in "${found[@]}"; do
+              echo "::error::$line"
+            done
+            echo "error_summary=Private plugin references detected in community/minimal branch scope" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+          echo "✓ No private plugin references introduced in community branch scope"
+
       - name: Validate community-only build config
         id: check-build-config
         run: |
@@ -183,6 +259,7 @@ jobs:
           for step_out in \
             "${{ steps.check-fallback.outputs.error_summary }}" \
             "${{ steps.check-telemetry.outputs.error_summary }}" \
+            "${{ steps.check-private-references.outputs.error_summary }}" \
             "${{ steps.check-build-config.outputs.error_summary }}" \
             "${{ steps.check-secrets.outputs.error_summary }}"; do
             [ -n "$step_out" ] && SUMMARY="${SUMMARY}${step_out}\n"
@@ -201,6 +278,7 @@ jobs:
             - ${{ steps.check-fallback.outcome == 'success' && '✅' || '❌' }} No silent fallback patterns
             - ${{ steps.check-license.outcome == 'success' && '✅' || '❌' }} License disclaimers present
             - ${{ steps.check-telemetry.outcome == 'success' && '✅' || '❌' }} No unguarded telemetry/tracking
+            - ${{ steps.check-private-references.outcome == 'success' && '✅' || '❌' }} No private plugin references in community/minimal scope
             - ${{ steps.check-build-config.outcome == 'success' && '✅' || '❌' }} Community-only build config validation
             - ${{ steps.check-secrets.outcome == 'success' && '✅' || '❌' }} No enterprise secrets leakage
           error-summary: ${{ steps.collect-errors.outputs.summary }}

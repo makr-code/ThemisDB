@@ -22,6 +22,7 @@
 #include <chrono>
 #include <functional>
 #include <future>
+#include <rocksdb/db.h>
 
 namespace themis {
 namespace auth {
@@ -220,10 +221,10 @@ public:
 private:
     DistributedBlacklistConfig config_;
     
-    // RocksDB state (same as RocksDBTokenBlacklist)
-    void* db_{nullptr};  // rocksdb::DB*
-    void* cf_{nullptr};  // rocksdb::ColumnFamilyHandle*
-    std::vector<void*> other_cf_handles_;
+    // RocksDB state (same ownership model as RocksDBTokenBlacklist)
+    std::unique_ptr<rocksdb::DB> db_{nullptr};
+    rocksdb::ColumnFamilyHandle* cf_{nullptr};
+    std::vector<rocksdb::ColumnFamilyHandle*> other_cf_handles_;
     
     // Background threads
     std::thread purge_thread_;

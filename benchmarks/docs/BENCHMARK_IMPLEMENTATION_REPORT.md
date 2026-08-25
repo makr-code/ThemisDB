@@ -3,6 +3,20 @@
 # Date: 2026-05-10
 # Build: windows-release (MSVC 2022 + Ninja)
 
+Status: Historical snapshot
+Canonicality: Non-canonical for current benchmark standards
+Last governance alignment: 2026-08-21
+
+Canonical references:
+- [../BENCHMARK_STANDARDS.md](../BENCHMARK_STANDARDS.md)
+- [../MEASUREMENT_HYGIENE.md](../MEASUREMENT_HYGIENE.md)
+- [../README.md](../README.md)
+
+Usage note:
+- This report documents prior measurements and validation snapshots.
+- Current release decisions must rely on current benchmark runs and current
+  KPI evidence.
+
 ## Consolidation Scope (Root Performance Docs)
 
 - **Document role:** Mess- und Ergebnisnachweis (Benchmark-Ausführung + gemessene KPI-Werte).

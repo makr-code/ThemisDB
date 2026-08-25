@@ -22,7 +22,7 @@
 #include <array>
 #include <mutex>
 
-#if defined(THEMIS_HAS_ONNX)
+#if defined(THEMIS_HAS_ONNX) && THEMIS_HAS_ONNX
 #  if __has_include(<onnxruntime/onnxruntime_cxx_api.h>)
 #    include <onnxruntime/onnxruntime_cxx_api.h>
 #    define THEMIS_DPR_HAS_ONNX_RUNTIME 1

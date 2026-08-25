@@ -53,10 +53,15 @@
 
 #include "analytics/model_serving.h"
 
+#include <cctype>
 #include <deque>
+#include <iomanip>
 #include <mutex>
+#include <openssl/sha.h>
+#include <sstream>
 #include <shared_mutex>
 #include <stdexcept>
+#include <string_view>
 #include <unordered_map>
 
 namespace themisdb {
@@ -94,6 +99,24 @@ inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
     return std::chrono::duration<double, std::milli>(end - start).count();
 }
 
+std::string normalizeSha256HexOrThrow(const std::string& expected_sha256_hex) {
+    if (expected_sha256_hex.size() != 64) {
+        throw std::invalid_argument(
+            "ModelServingEngine::loadModel expected_sha256_hex must be 64 hex characters");
+    }
+
+    std::string normalized = expected_sha256_hex;
+    for (char& c : normalized) {
+        const unsigned char uc = static_cast<unsigned char>(c);
+        if (!std::isxdigit(uc)) {
+            throw std::invalid_argument(
+                "ModelServingEngine::loadModel expected_sha256_hex must be valid hexadecimal");
+        }
+        c = static_cast<char>(std::tolower(uc));
+    }
+    return normalized;
+}
+
 // ----------------------------------------------------------------------------
 // Latency helpers (caller must hold entry.health_mu)
 // ----------------------------------------------------------------------------
@@ -119,6 +142,18 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
     std::sort(sorted.begin(), sorted.end());
     size_t idx              = static_cast<size_t>(0.99 * static_cast<double>(n - 1));
     e.health.p99_latency_ms = sorted[idx];
+}
+
+std::string sha256Hex(std::string_view input) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (unsigned char byte : hash) {
+        oss << std::setw(2) << static_cast<int>(byte);
+    }
+    return oss.str();
 }
 
 } // anonymous namespace
@@ -401,22 +436,31 @@ std::string ModelServingEngine::serializeModel(const std::string &name, const st
 // ============================================================================
 // loadModel
 // ============================================================================
-// SECURITY WARNING: Model integrity
-// This method deserializes a model from untrusted input without verification.
-// If serialized_data comes from an untrusted source or network, an attacker
-// could provide a poisoned model that produces adversarial outputs.
-// Recommendations:
-// 1. Verify data integrity (e.g., HMAC/signature validation)
-// 2. Only load models from authenticated/encrypted sources
-// 3. Consider cryptographic signing of model artifacts
-// 4. Implement a model auditing/rollback mechanism
-
 void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
                                    const std::string &serialized_data) {
+    if (impl_->config.require_model_integrity) {
+        throw std::invalid_argument(
+            "ModelServingEngine::loadModel requires explicit SHA-256 when require_model_integrity=true");
+    }
+    auto model = AutoMLModel::deserialize(serialized_data);
+    registerModel(name, version, std::move(model));
+}
+
+void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
+                                   const std::string &serialized_data, const std::string &expected_sha256_hex) {
+    if (expected_sha256_hex.empty()) {
+        throw std::invalid_argument("ModelServingEngine::loadModel expected_sha256_hex must not be empty");
+    }
+
+    const auto normalized_expected_sha256 = normalizeSha256HexOrThrow(expected_sha256_hex);
+    const auto actual_sha256 = sha256Hex(serialized_data);
+    if (actual_sha256 != normalized_expected_sha256) {
+        throw std::runtime_error("ModelServingEngine::loadModel integrity check failed (SHA-256 mismatch)");
+    }
+
     auto model = AutoMLModel::deserialize(serialized_data);
     registerModel(name, version, std::move(model));
 }
 
 } // namespace analytics
 } // namespace themisdb
-

@@ -2,6 +2,12 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 <!-- Copyright (c) 2026 ThemisDB Contributors -->
 
+Canonical baseline reference:
+- [BENCHMARK_STANDARDS.md](BENCHMARK_STANDARDS.md)
+
+This file is a detailed companion for measurement protocol. If a structural
+rule conflicts, BENCHMARK_STANDARDS.md is authoritative.
+
 Standardised warmup / run protocol for all ThemisDB benchmark suites.  
 Applies from Wave 1 onward; Wave 5 enforces the canonical 3-phase warmup.
 
@@ -177,7 +183,7 @@ initiative and applies to all new and modified benchmark files.
 
 | File | Issue fixed |
 |---|---|
-| `bench_crud.cpp` | Non-deterministic RNG seed; hardcoded relative DB path |
+| `storage/bench_crud.cpp` | Non-deterministic RNG seed; hardcoded relative DB path |
 | `bench_ycsb.cpp` | Non-deterministic namespace-scope RNG; relative `tmp/` path |
 | `bench_batch_insert.cpp` | Shared static DB path across fixture instances |
 | `bench_graph_traversal.cpp` | Hardcoded relative `./data/` path |
