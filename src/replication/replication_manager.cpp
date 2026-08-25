@@ -34,6 +34,7 @@
 #include <set>
 #include <future>
 #include <numeric>
+#include <type_traits>
 #include <cerrno>
 #include <lz4.h>
 #include <zstd.h>
@@ -99,26 +100,30 @@ namespace {
 /**
  * @brief Execute a blocking operation with timeout protection.
  * 
- * This utility wraps I/O operations in std::async to provide timeout semantics.
- * If the operation exceeds the timeout, the future is abandoned and an error is logged.
+ * This utility runs I/O operations on a worker thread and tracks deadline
+ * violations. The callable is always joined before return to prevent
+ * lifetime hazards for reference captures and file-descriptor ownership.
  * 
  * @param timeout_ms Timeout duration in milliseconds
  * @param operation Function that performs the blocking operation
- * @return true if operation completed within timeout, false if timed out
+ * @return true if operation completed within timeout, false if timed out or failed
  * 
- * @note Operations exceeding timeout are not cancelled; they continue in the background.
- *       Resources may be leaked if the operation holds file handles or memory.
- *       Prefer shorter timeouts (< 1000ms) for file operations.
+ * @note Operations exceeding timeout are not force-cancelled unless the
+ *       callable cooperates with stop requests. A timeout still returns false,
+ *       but this helper waits for worker completion before returning.
  * 
  * RATIONALE: Prevents indefinite blocking on hung file descriptors, stuck network reads,
  * or other I/O operations. Production deployment requires monitoring of timed-out operations.
  */
 template<typename Func>
-bool executeWithTimeout(uint32_t timeout_ms, Func operation) {
+bool executeWithTimeout(uint32_t timeout_ms, Func&& operation) {
+    using Operation = std::decay_t<Func>;
+    Operation operation_copy(std::forward<Func>(operation));
+
     if (timeout_ms == 0) {
         // Timeout protection disabled
         try {
-            operation();
+            operation_copy();
             return true;
         } catch (const std::exception& e) {
             THEMIS_ERROR("I/O operation failed without timeout: {}", e.what());
@@ -126,22 +131,29 @@ bool executeWithTimeout(uint32_t timeout_ms, Func operation) {
         }
     }
 
-    auto future = std::async(std::launch::async, operation);
-    auto status = future.wait_for(std::chrono::milliseconds(timeout_ms));
-    
-    if (status == std::future_status::timeout) {
+    std::packaged_task<void()> task(std::move(operation_copy));
+    auto future = task.get_future();
+
+    bool timed_out = false;
+    std::jthread worker([task = std::move(task)]() mutable {
+        task();
+    });
+
+    if (future.wait_for(std::chrono::milliseconds(timeout_ms)) == std::future_status::timeout) {
+        timed_out = true;
         THEMIS_ERROR("I/O operation timed out after {}ms (timeout protection threshold exceeded)", 
                      timeout_ms);
-        return false;
+        worker.request_stop();
     }
 
     try {
         future.get();
-        return true;
     } catch (const std::exception& e) {
         THEMIS_ERROR("I/O operation threw exception after timeout wait: {}", e.what());
         return false;
     }
+
+    return !timed_out;
 }
 
 /**
@@ -7209,5 +7221,3 @@ std::string GeoReplicationManager::exportPrometheusMetrics() const
 
 } // namespace replication
 } // namespace themisdb
-
-

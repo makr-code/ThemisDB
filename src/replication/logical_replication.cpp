@@ -22,6 +22,7 @@
 #include <future>
 #include <stdexcept>
 #include <thread>
+#include <type_traits>
 #include <utility>
 #include "replication/logical_replication.h"
 #include <fstream>
@@ -43,31 +44,43 @@ namespace replication {
 // template in replication_manager.cpp.  Wraps a blocking callable with a
 // configurable millisecond deadline.  Returns true if the callable completed
 // within the deadline; false if timed out (an error is already logged by the
-// caller).  A timed-out operation continues in a detached thread — callers
-// must not hold locks or access shared mutable state after a false return.
+// caller). Timed-out operations are still joined before return to avoid
+// lifetime hazards for reference captures and file-descriptor ownership.
 // ----------------------------------------------------------------------------
 namespace {
 template <typename Func>
 bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
+    using Operation = std::decay_t<Func>;
+    Operation op_copy(std::forward<Func>(op));
+
     if (timeout_ms == 0) {
-        try { std::forward<Func>(op)(); return true; }
+        try { op_copy(); return true; }
         catch (const std::exception& e) {
             THEMIS_ERROR("LogicalReplicationManager: I/O op failed: {}", e.what());
             return false;
         }
     }
-    auto fut = std::async(std::launch::async, std::forward<Func>(op));
-    if (fut.wait_for(std::chrono::milliseconds(timeout_ms))
-            == std::future_status::timeout) {
+
+    std::packaged_task<void()> task(std::move(op_copy));
+    auto fut = task.get_future();
+    bool timed_out = false;
+    std::jthread worker([task = std::move(task)]() mutable {
+        task();
+    });
+
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) == std::future_status::timeout) {
+        timed_out = true;
         THEMIS_ERROR("LogicalReplicationManager: I/O op timed out after {}ms",
                      timeout_ms);
-        return false;  // fut destructs and detaches; the thread continues
+        worker.request_stop();
     }
-    try { fut.get(); return true; }
+
+    try { fut.get(); }
     catch (const std::exception& e) {
         THEMIS_ERROR("LogicalReplicationManager: I/O op threw: {}", e.what());
         return false;
     }
+    return !timed_out;
 }
 } // anonymous namespace
 
@@ -843,5 +856,3 @@ std::string LogicalReplicationManager::collectionKey(const std::string& collecti
 
 }  // namespace replication
 }  // namespace themisdb
-
-
