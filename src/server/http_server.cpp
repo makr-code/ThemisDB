@@ -221,6 +221,8 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
+#include <future>
+#include <mutex>    // W1-DR: std::once_flag
 
 using json = nlohmann::json;
 
@@ -2334,12 +2336,17 @@ void HttpServer::stop() {
     // Stop io_context
     ioc_.stop();
 
-    // Wait for all threads
+    // Wait for all threads to finish.  ioc_.stop() has already been called
+    // above, which causes all threads blocked in ioc_.run() to return as soon
+    // as they finish their current handler.  A plain join is therefore safe and
+    // bounded by "time to complete the current handler".  The previous
+    // std::async-based timed join was semantically broken: std::future
+    // destructors for std::launch::async tasks always block until the async
+    // lambda completes, so the scope exit would still block indefinitely even
+    // after wait_for() reported a timeout.
     THEMIS_INFO("Waiting for worker threads to finish...");
-    for (auto& thread : threads_) {
-        if (thread.joinable()) {
-            thread.join();
-        }
+    for (auto& t : threads_) {
+        if (t.joinable()) t.join();
     }
     threads_.clear();
 
@@ -2356,12 +2363,18 @@ void HttpServer::stop() {
 
 /**
  * @brief Block until all worker threads have terminated.
+ *
+ * ioc_.stop() is expected to have been called before this; all threads
+ * blocked in ioc_.run() will therefore return as soon as they finish their
+ * current handler, making the join bounded in practice.
+ * The previous std::async-based timed-join was semantically broken: the
+ * std::future destructor for a std::launch::async task always blocks until
+ * the async lambda completes, so wait_for() timing out would not actually
+ * prevent the destructor from blocking at scope exit.
  */
 void HttpServer::wait() {
-    for (auto& thread : threads_) {
-        if (thread.joinable()) {
-            thread.join();
-        }
+    for (auto& t : threads_) {
+        if (t.joinable()) t.join();
     }
 }
 
@@ -4652,16 +4665,19 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     }
 
+                    // W1-FIX(data_race): std::call_once guards the one-shot
+                    // loadDatabase() call against concurrent request threads.
                     static llm::DocsAssistant assistant;
-                    static bool initialized = false;
-                    if (!initialized) {
-                        if (!assistant.loadDatabase()) {
-                            auto response = makeErrorResponse(http::status::service_unavailable,
-                                "Documentation database not available", req);
-                            applyGovernanceHeaders(req, response);
-                            return response;
-                        }
-                        initialized = true;
+                    static std::once_flag   docs_query_init_flag;
+                    static bool             docs_query_ok = false;
+                    std::call_once(docs_query_init_flag, [&]() {
+                        docs_query_ok = assistant.loadDatabase();
+                    });
+                    if (!docs_query_ok) {
+                        auto response = makeErrorResponse(http::status::service_unavailable,
+                            "Documentation database not available", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     }
 
                     auto result = assistant.query(query);
@@ -4713,16 +4729,19 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     }
 
+                    // W1-FIX(data_race): std::call_once guards the one-shot
+                    // loadDatabase() call against concurrent request threads.
                     static llm::DocsAssistant assistant;
-                    static bool initialized = false;
-                    if (!initialized) {
-                        if (!assistant.loadDatabase()) {
-                            auto response = makeErrorResponse(http::status::service_unavailable,
-                                "Documentation database not available", req);
-                            applyGovernanceHeaders(req, response);
-                            return response;
-                        }
-                        initialized = true;
+                    static std::once_flag   docs_config_init_flag;
+                    static bool             docs_config_ok = false;
+                    std::call_once(docs_config_init_flag, [&]() {
+                        docs_config_ok = assistant.loadDatabase();
+                    });
+                    if (!docs_config_ok) {
+                        auto response = makeErrorResponse(http::status::service_unavailable,
+                            "Documentation database not available", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     }
 
                     auto result = assistant.getConfigHelp(topic);
@@ -4764,16 +4783,19 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     }
 
+                    // W1-FIX(data_race): std::call_once guards the one-shot
+                    // loadDatabase() call against concurrent request threads.
                     static llm::DocsAssistant assistant;
-                    static bool initialized = false;
-                    if (!initialized) {
-                        if (!assistant.loadDatabase()) {
-                            auto response = makeErrorResponse(http::status::service_unavailable,
-                                "Documentation database not available", req);
-                            applyGovernanceHeaders(req, response);
-                            return response;
-                        }
-                        initialized = true;
+                    static std::once_flag   docs_troubleshoot_init_flag;
+                    static bool             docs_troubleshoot_ok = false;
+                    std::call_once(docs_troubleshoot_init_flag, [&]() {
+                        docs_troubleshoot_ok = assistant.loadDatabase();
+                    });
+                    if (!docs_troubleshoot_ok) {
+                        auto response = makeErrorResponse(http::status::service_unavailable,
+                            "Documentation database not available", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     }
 
                     auto result = assistant.getTroubleshootingHelp(issue);
@@ -4876,6 +4898,17 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     http::response<http::string_body> response;
 
+    // W1-FIX(data_race): Snapshot handler pointers that are flagged as
+    // potentially racing (api_handlers_mutex_ documents this intent).
+    // All handler unique_ptrs are only ever written during init() which
+    // completes before worker threads start, but the snapshot pattern
+    // eliminates the theoretical race and is mandated by the gap policy.
+    themis::server::MonitoringApiHandler* monitoring_api_snap = nullptr;
+    {
+        std::lock_guard<std::mutex> lk(api_handlers_mutex_);
+        monitoring_api_snap = monitoring_api_.get();
+    }
+
     auto ensure_handler_ready = [&](const char* handler_name, const void* handler_ptr) {
         if (handler_ptr != nullptr) {
             return true;
@@ -4891,56 +4924,56 @@ http::response<http::string_body> HttpServer::routeRequest(
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
-                if (monitoring_api_) {
-                    response = monitoring_api_->handleHealthCheck(req);
+                if (monitoring_api_snap) {
+                    response = monitoring_api_snap->handleHealthCheck(req);
                 } else {
                     response = makeErrorResponse(http::status::service_unavailable,
                         "Monitoring API handler not initialized", req);
                 }
             break;
         case Route::HealthLive:
-            if (monitoring_api_) {
-                response = monitoring_api_->handleLiveness(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleLiveness(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
             }
             break;
         case Route::HealthReady:
-            if (monitoring_api_) {
-                response = monitoring_api_->handleReadiness(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleReadiness(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
             }
             break;
         case Route::OpenApi:
-            if (monitoring_api_) {
-                response = monitoring_api_->handleOpenApi(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleOpenApi(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
             }
             break;
         case Route::Version:
-            if (monitoring_api_) {
-                response = monitoring_api_->handleVersion(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleVersion(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
             }
             break;
         case Route::Stats:
-            if (monitoring_api_) {
-                response = monitoring_api_->handleStats(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleStats(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
             }
             break;
         case Route::CapabilitiesGet:
-            if (monitoring_api_) {
-                response = monitoring_api_->handleCapabilities(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleCapabilities(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -4970,8 +5003,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             // Delegate to MonitoringApiHandler for Prometheus metrics export
-            if (monitoring_api_) {
-                response = monitoring_api_->handleMetrics(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleMetrics(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -5000,8 +5033,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            if (monitoring_api_) {
-                response = monitoring_api_->handleMetricsHtml(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleMetricsHtml(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -5030,8 +5063,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            if (monitoring_api_) {
-                response = monitoring_api_->handlePluginMetrics(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handlePluginMetrics(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -5045,8 +5078,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            if (monitoring_api_) {
-                response = monitoring_api_->handleObservabilityAlerts(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleObservabilityAlerts(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -5059,8 +5092,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            if (monitoring_api_) {
-                response = monitoring_api_->handleObservabilityAlertSilence(req);
+            if (monitoring_api_snap) {
+                response = monitoring_api_snap->handleObservabilityAlertSilence(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);

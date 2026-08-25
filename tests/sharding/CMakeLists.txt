@@ -454,6 +454,42 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_multishard_exact.cpp")
 endif()
 
 # ============================================================================
+# Wave 1 CRITICAL gap closure regression tests (WV1-BRC / EXD / NTO / ITR /
+#   DBL / CLO / UNI / TODO / SUM)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_wave1_critical_closure.cpp")
+    message(STATUS "Adding Sharding: Wave 1 CRITICAL gap closure regression tests")
+    add_executable(test_sharding_wave1_critical_closure
+        test_sharding_wave1_critical_closure.cpp)
+    target_include_directories(test_sharding_wave1_critical_closure PRIVATE
+        ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_sharding_wave1_critical_closure PRIVATE
+        ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_sharding_wave1_critical_closure PRIVATE
+        THEMIS_TEST_BUILD=1)
+    set_target_properties(test_sharding_wave1_critical_closure PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON)
+    themis_register_module_focused_test(
+        MODULE  sharding
+        NAME    ShardingWave1CriticalClosureTests
+        TARGET  test_sharding_wave1_critical_closure
+        TIER    unit
+        TIMEOUT 60
+        LABELS  sharding wave1 critical-closure release_critical)
+    message(STATUS "  WV1-BRC-01..04: braces_imbalance — all 12 flagged files balanced")
+    message(STATUS "  WV1-EXD-01..02: exception_in_destructor — noexcept contracts")
+    message(STATUS "  WV1-NTO-01..02: no_timeout — timed-lock enforcement")
+    message(STATUS "  WV1-ITR-01..02: iterator_invalidation — bounded iteration")
+    message(STATUS "  WV1-DBL-01..02: db_connection_leak — RAII ownership lifecycle")
+    message(STATUS "  WV1-CLO-01..03: circular_lock_ordering — std::lock canonical order")
+    message(STATUS "  WV1-UNI-01..02: uninitialized_access — value-init at declaration")
+    message(STATUS "  WV1-TODO-01..02: todo_as_productionlogic — no bare TODO in critical paths")
+    message(STATUS "  WV1-SUM-01: 0 open CRITICAL gaps at Wave 1 closure")
+endif()
+
+# ============================================================================
 # Phase C prerequisite gates — Thread-Safety / Lock-Order / Consensus (TSO/LKO/CCR)
 # ============================================================================
 

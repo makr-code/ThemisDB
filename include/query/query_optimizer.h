@@ -142,9 +142,11 @@ public:
      *
      * When attached, executeOptimizedKeys and executeOptimizedEntities will record
      * actual execution time into the model.  Pass nullptr to detach.
+     *
+     * @param new_cost_model Cost model instance to attach; pass nullptr to detach.
      */
     void attachPerQueryCostModel(
-        std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model);
+        std::shared_ptr<performance::phase3::PerQueryCostModel> new_cost_model);
 
     /** @brief Return the currently attached PerQueryCostModel (may be nullptr). */
     std::shared_ptr<performance::phase3::PerQueryCostModel> perQueryCostModel() const;
@@ -467,4 +469,3 @@ private:
 
 } // namespace query
 } // namespace themis
-

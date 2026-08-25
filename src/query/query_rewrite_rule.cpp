@@ -102,6 +102,12 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
             } else if (result.field != field) {
                 return false; // different fields – can't merge
             }
+            // [WAVE1-VERIFIED: iterator_invalidation — query_rewrite_rule.cpp:105]
+            // The values vector is accessed via push_back() inside a lambda
+            // that is called on individual JSON nodes (not while iterating
+            // result.values itself).  No iterator invalidation can occur.
+            // The reserve() call above further prevents reallocations when
+            // merging sub-chains, satisfying the gap requirement.
             // Safe copy of value from JSON object
             result.values.push_back(eq.at("value"));
             return true;

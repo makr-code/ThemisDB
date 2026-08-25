@@ -219,6 +219,11 @@ struct ReplicationConfig {
     
     // Initial cluster members
     std::vector<std::string> seed_nodes;
+
+    // Timeout settings (Wave 1 CRITICAL fix — no_timeout class)
+    /// Maximum milliseconds to wait for any blocking file-I/O operation (WAL read/sync).
+    /// 0 = timeout protection disabled (not recommended for production).
+    uint32_t file_io_timeout_ms = 5000;
 };
 
 // ============================================================================
@@ -1077,6 +1082,9 @@ public:
         uint32_t queue_size          = 10000;
         bool use_dependency_tracking = true;
         bool group_transactions      = true;  // Drain multiple entries per worker iteration
+        /// Worker idle-poll interval in ms. Must not be zero.
+        /// (Wave 1 CRITICAL fix — no_timeout:4170; replaces hardcoded 5ms)
+        uint32_t idle_poll_interval_ms = 5;
     };
 
     struct Stats {
@@ -1841,6 +1849,9 @@ public:
         // Lifecycle management: transition segments to colder tiers.
         // 0 = lifecycle management disabled.
         uint32_t    transition_to_cold_after_days = 90;
+        /// Maximum milliseconds allowed for a full archival-scan iteration.
+        /// 0 = no deadline enforced. (Wave 1 CRITICAL fix — no_timeout:6024)
+        uint32_t    archival_scan_timeout_ms = 30000;
     };
 
     struct ArchivedSegment {

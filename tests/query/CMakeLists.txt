@@ -696,6 +696,7 @@ endif()
 
 file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_query_*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_wave*.cpp"
 )
 
 foreach(_src IN LISTS QUERY_AUTOGEN_PREFIX_TEST_SOURCES)

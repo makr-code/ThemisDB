@@ -4,13 +4,13 @@ This file documents all documentation and code quality gaps in the **transaction
 
 ## Summary
 
-- **Total Gaps**: 1682
+- **Total Gaps**: 1660  <!-- Reduced by 22 CRITICAL (Wave A 2026-08-25) -->
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
 ### By Severity
 
-- **CRITICAL**: 22
+- **CRITICAL**: 0  <!-- Wave A remediation 2026-08-25: all 22 CRITICAL gaps closed; see WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md -->
 - **HIGH**: 181
 - **MEDIUM**: 1476
 - **LOW**: 3
@@ -53,28 +53,31 @@ This file documents all documentation and code quality gaps in the **transaction
 
 ## Top 20 Gaps
 
-- [braces_imbalance] distributed_transaction_manager.cpp:1 (CRITICAL)
-- [braces_imbalance] global_transaction_manager.cpp:1 (CRITICAL)
-- [new_without_raii] saga_orchestrator_plugin.cpp:112 (CRITICAL)
-- [smart_ptr_misuse] saga_orchestrator_plugin.cpp:112 (CRITICAL)
-- [iterator_invalidation] lock_manager.cpp:153 (CRITICAL)
-- [iterator_invalidation] lock_manager.cpp:178 (CRITICAL)
-- [iterator_invalidation] lock_manager.cpp:194 (CRITICAL)
-- [blocking_no_timeout] transaction_batcher.cpp:233 (CRITICAL)
-- [no_timeout] transaction_batcher.cpp:233 (CRITICAL)
-- [iterator_invalidation] deadlock_predictor.cpp:268 (CRITICAL)
-- [blocking_no_timeout] distributed_transaction_manager.cpp:314 (CRITICAL)
-- [no_timeout] distributed_transaction_manager.cpp:314 (CRITICAL)
-- [db_connection_leak] lock_manager.cpp:350 (CRITICAL)
-- [blocking_no_timeout] distributed_transaction_manager.cpp:377 (CRITICAL)
-- [no_timeout] distributed_transaction_manager.cpp:377 (CRITICAL)
-- [iterator_invalidation] lock_manager.cpp:387 (CRITICAL)
-- [blocking_no_timeout] distributed_transaction_manager.cpp:433 (CRITICAL)
-- [no_timeout] distributed_transaction_manager.cpp:433 (CRITICAL)
-- [db_connection_leak] transaction_manager.cpp:615 (CRITICAL)
-- [db_connection_leak] transaction_manager.cpp:651 (CRITICAL)
+> **Wave A Remediation (2026-08-25):** All 22 CRITICAL gaps below have been closed.
+> See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` for full disposition.
 
-... and 1662 more gaps.
+- [braces_imbalance] distributed_transaction_manager.cpp:1 (**CLOSED** — braces balanced, scanner false-positive)
+- [braces_imbalance] global_transaction_manager.cpp:1 (**CLOSED** — braces balanced, scanner false-positive)
+- [new_without_raii] saga_orchestrator_plugin.cpp:112 (**CLOSED** — already uses std::make_unique + std::move)
+- [smart_ptr_misuse] saga_orchestrator_plugin.cpp:112 (**CLOSED** — same location; safe ownership transfer)
+- [iterator_invalidation] lock_manager.cpp:153 (**CLOSED** — erase-remove idiom; no invalidation)
+- [iterator_invalidation] lock_manager.cpp:178 (**CLOSED** — keys collected before map modification)
+- [iterator_invalidation] lock_manager.cpp:194 (**CLOSED** — same function; safe pattern)
+- [blocking_no_timeout] transaction_batcher.cpp:233 (**CLOSED** — wait_for(30s) already at line 227)
+- [no_timeout] transaction_batcher.cpp:233 (**CLOSED** — same location)
+- [iterator_invalidation] deadlock_predictor.cpp:268 (**CLOSED** — const read-only function, no mutation)
+- [blocking_no_timeout] distributed_transaction_manager.cpp:314 (**CLOSED** — line 314 is a closing brace; scanner false-positive)
+- [no_timeout] distributed_transaction_manager.cpp:314 (**CLOSED** — same location)
+- [db_connection_leak] lock_manager.cpp:350 (**CLOSED** — no raw DB connection; scanner false-positive on atomic store)
+- [blocking_no_timeout] distributed_transaction_manager.cpp:377 (**CLOSED** — actual blocking call (fut.get) was at line 372 and **fixed this session**: replaced with `fut.wait_until(batch_deadline)` using `config_.prepare_timeout`)
+- [no_timeout] distributed_transaction_manager.cpp:377 (**CLOSED** — same fix)
+- [iterator_invalidation] lock_manager.cpp:387 (**CLOSED** — `getWaiters` is const read-only; no mutation)
+- [blocking_no_timeout] distributed_transaction_manager.cpp:433 (**CLOSED** — line 433 empty; `runPhase2Unlocked` already uses per-participant deadline)
+- [no_timeout] distributed_transaction_manager.cpp:433 (**CLOSED** — same location)
+- [db_connection_leak] transaction_manager.cpp:615 (**CLOSED** — inside seqlock read loop; no DB connection acquired)
+- [db_connection_leak] transaction_manager.cpp:651 (**CLOSED** — `stats_sequence_.load()`; no DB connection)
+
+... and 1638 more gaps (HIGH/MEDIUM/LOW; see roadmap for prioritisation).
 
 ---
 

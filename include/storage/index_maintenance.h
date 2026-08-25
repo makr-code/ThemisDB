@@ -162,7 +162,8 @@ public:
     /**
      * @brief Destructor - stops background maintenance thread
      */
-    ~IndexMaintenanceManager();
+    /// @brief Destructor — noexcept; stops maintenance thread and swallows exceptions.
+    ~IndexMaintenanceManager() noexcept;
     
     // Disable copy and move
     IndexMaintenanceManager(const IndexMaintenanceManager&) = delete;

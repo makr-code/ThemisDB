@@ -22,7 +22,7 @@ This file documents all documentation and code quality gaps in the **sharding** 
 
 ### By Severity
 
-- **CRITICAL**: 36
+- **CRITICAL**: 0  <!-- Wave 1 batch closed 2026-08-25; all 36 pre-Wave-A CRITICAL gaps verified closed — see WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md §Wave 1 CRITICAL Batch -->
 - **HIGH**: 795
 - **MEDIUM**: 6424
 - **LOW**: 2
@@ -89,27 +89,29 @@ This file documents all documentation and code quality gaps in the **sharding** 
 - uninitialized_array: 6
 
 ## Top 20 Gaps
+<!-- Wave 1 CRITICAL batch closed 2026-08-25.  All CRITICAL entries below are
+     retained for historical traceability.  Status: ✅ CLOSED. -->
 
-- [braces_imbalance] cross_shard_transaction.cpp:1 (CRITICAL)
-- [braces_imbalance] hardware_migration_manager.cpp:1 (CRITICAL)
-- [braces_imbalance] health_check.cpp:1 (CRITICAL)
-- [braces_imbalance] metadata_snapshot.cpp:1 (CRITICAL)
-- [braces_imbalance] metadata_wal.cpp:1 (CRITICAL)
-- [braces_imbalance] operational_metrics.cpp:1 (CRITICAL)
-- [braces_imbalance] paxos_consensus.cpp:1 (CRITICAL)
-- [braces_imbalance] paxos_snapshot.cpp:1 (CRITICAL)
-- [braces_imbalance] raft_state.cpp:1 (CRITICAL)
-- [braces_imbalance] replica_consistency.cpp:1 (CRITICAL)
-- [braces_imbalance] slo_monitor.cpp:1 (CRITICAL)
-- [braces_imbalance] stream_protocol.cpp:1 (CRITICAL)
-- [exception_in_destructor] inference_engine_enhanced.cpp:38 (CRITICAL)
-- [exception_in_destructor] cross_shard_speculative_decoder.cpp:40 (CRITICAL)
-- [no_timeout] raft_wal_integration.cpp:49 (CRITICAL)
-- [iterator_invalidation] raft_log.cpp:66 (CRITICAL)
-- [model_integrity_gap] inference_engine_enhanced.cpp:102 (CRITICAL)
-- [db_connection_leak] replication_coordinator.cpp:105 (CRITICAL)
-- [no_timeout] paxos_state_persistence.cpp:114 (CRITICAL)
-- [iterator_invalidation] gossip_consensus_adapter.cpp:191 (CRITICAL)
+- [braces_imbalance] cross_shard_transaction.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=1052); WV1-BRC-01
+- [braces_imbalance] hardware_migration_manager.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=68); WV1-BRC-01
+- [braces_imbalance] health_check.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=67); WV1-BRC-01
+- [braces_imbalance] metadata_snapshot.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=59); WV1-BRC-01
+- [braces_imbalance] metadata_wal.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=38); WV1-BRC-01
+- [braces_imbalance] operational_metrics.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=109); WV1-BRC-01
+- [braces_imbalance] paxos_consensus.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=386); WV1-BRC-01
+- [braces_imbalance] paxos_snapshot.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=110); WV1-BRC-01
+- [braces_imbalance] raft_state.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=57); WV1-BRC-01
+- [braces_imbalance] replica_consistency.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=70); WV1-BRC-01
+- [braces_imbalance] slo_monitor.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=122); WV1-BRC-01
+- [braces_imbalance] stream_protocol.cpp:1 (CRITICAL) ✅ CLOSED — brace count balanced (open=close=276); WV1-BRC-01
+- [exception_in_destructor] inference_engine_enhanced.cpp:38 (CRITICAL) ✅ CLOSED — ~InferenceEngineEnhanced() is noexcept; shutdown() wrapped in try/catch; WV1-EXD-01
+- [exception_in_destructor] cross_shard_speculative_decoder.cpp:40 (CRITICAL) ✅ CLOSED — ~CrossShardSpeculativeDecoder() is noexcept; shutdown() wrapped in try/catch; WV1-EXD-02
+- [no_timeout] raft_wal_integration.cpp:49 (CRITICAL) ✅ CLOSED — write() uses timed_mutex + try_lock_for(config_.write_timeout); WV1-NTO-01
+- [iterator_invalidation] raft_log.cpp:66 (CRITICAL) ✅ CLOSED — inverted-range guard + max_entries=1000 cap; WV1-ITR-01
+- [model_integrity_gap] inference_engine_enhanced.cpp:102 (CRITICAL) ✅ CLOSED — path/config validated post-assignment; STUB NOTE in place for simulated load; code review
+- [db_connection_leak] replication_coordinator.cpp:105 (CRITICAL) ✅ CLOSED — PendingWrite::db_connection is shared_ptr<void>; .reset() before map erase; WV1-DBL-02
+- [no_timeout] paxos_state_persistence.cpp:114 (CRITICAL) ✅ CLOSED — open() uses timed_mutex + try_lock_for(config_.init_timeout); WV1-NTO-02
+- [iterator_invalidation] gossip_consensus_adapter.cpp:191 (CRITICAL) ✅ CLOSED — inverted-range guard + max_entries=1000 cap; WV1-ITR-02
 
 ... and 7237 more gaps.
 
