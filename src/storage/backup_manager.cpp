@@ -1462,26 +1462,13 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
         return false;
     }
 #else
-    // No compression library available — raw directory copy.
-    static std::once_flag s_compress_warn;
-    std::call_once(s_compress_warn, [type] {
-        THEMIS_WARN("BackupManager::compressPath: STUB — files copied without compression "
-                    "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
-                    "(This warning is printed once per process.)", static_cast<int>(type));
-    });
-    try {
-        THEMIS_INFO("Compressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
-        fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
-        if (ec) {
-            THEMIS_ERROR("Failed to copy for compression: {}", ec.message());
-            return false;
-        }
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during compression: {}", e.what());
-        return false;
-    }
+    // No compression library available — fail closed; do not silently copy uncompressed data.
+    ec = std::make_error_code(std::errc::function_not_supported);
+    THEMIS_ERROR("BackupManager::compressPath: compression library unavailable — "
+                 "cannot produce compressed backup (THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set). "
+                 "Build with -DTHEMIS_HAS_ZSTD=ON or -DTHEMIS_HAS_LZ4=ON for compressed backups. "
+                 "Aborting backup run.");
+    return false;
 #endif
 }
 
@@ -1721,26 +1708,10 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     return true;
 #else
     static_cast<void>(key);
-    static std::once_flag s_encrypt_warn;
-    std::call_once(s_encrypt_warn, [] {
-        THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
-                    "AES-256-GCM encryption (THEMIS_ENABLE_OPENSSL not set). "
-                    "Build with -DTHEMIS_ENABLE_OPENSSL=ON for encrypted backups. "
-                    "(This warning is printed once per process.)");
-    });
-    namespace fs = std::filesystem;
-    try {
-        fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
-        if (ec) {
-            THEMIS_ERROR("Failed to copy for encryption: {}", ec.message());
-            return false;
-        }
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during encryption: {}", e.what());
-        return false;
-    }
+    ec = std::make_error_code(std::errc::function_not_supported);
+    THEMIS_ERROR("BackupManager::encryptFile: OpenSSL not available — "
+                 "cannot produce encrypted backup. Aborting.");
+    return false;
 #endif
 }
 

@@ -4,7 +4,7 @@
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 81/100
- * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=2, H=1, M=9, L=0
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=1, H=1, M=9, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
@@ -55,9 +55,20 @@ VectorAutoBuffer::VectorAutoBuffer(VectorIndexManager* vectorIndex,
     stats_.last_flush_time = std::chrono::steady_clock::now();
 }
 
-VectorAutoBuffer::~VectorAutoBuffer() {
+VectorAutoBuffer::~VectorAutoBuffer() noexcept {
+    // Wave 3-C Fix 2: destructor must be noexcept — wrap stop() so exceptions
+    // from the flush thread, the final flush, or any downstream index operation
+    // cannot propagate during stack unwinding (undefined behaviour per [except.terminate]).
     if (running_.load()) {
-        stop();
+        try {
+            stop();
+        } catch (const std::exception& e) {
+            // Destructor must never propagate exceptions; log and swallow.
+            THEMIS_WARN("VectorAutoBuffer::~VectorAutoBuffer: exception during stop (ignored): {}",
+                        e.what());
+        } catch (...) {
+            THEMIS_WARN("VectorAutoBuffer::~VectorAutoBuffer: unknown exception during stop (ignored)");
+        }
     }
 }
 

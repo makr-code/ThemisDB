@@ -1268,10 +1268,115 @@ Result<void> ColumnSegment::decode() {
         return {};
     }
 
-    // Decoding implementation would reverse the encoding
-    // For now, just mark as decoded
-    is_encoded_ = false;
-    return {};
+    switch (metadata_.codec) {
+        case CompressionCodec::NONE: {
+            // No-op encoding: encoded_data_ IS raw_data_
+            raw_data_ = encoded_data_;
+            is_encoded_ = false;
+            return {};
+        }
+
+        case CompressionCodec::RLE: {
+            if (metadata_.type == ColumnType::INT32) {
+                auto decode_result = RLECodec::decodeInt32(encoded_data_);
+                if (!decode_result) return tl::unexpected(decode_result.error());
+                const auto& vals = *decode_result;
+                raw_data_.resize(vals.size() * sizeof(int32_t));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+            } else if (metadata_.type == ColumnType::INT64) {
+                auto decode_result = RLECodec::decodeInt64(encoded_data_);
+                if (!decode_result) return tl::unexpected(decode_result.error());
+                const auto& vals = *decode_result;
+                raw_data_.resize(vals.size() * sizeof(int64_t));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+            } else {
+                return tl::unexpected(Error(
+                    errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
+                    "RLE decode: only INT32/INT64 supported"
+                ));
+            }
+            is_encoded_ = false;
+            return {};
+        }
+
+        case CompressionCodec::BIT_PACKING: {
+            if (metadata_.type == ColumnType::INT32) {
+                auto decode_result = BitPackingCodec::decodeInt32(encoded_data_);
+                if (!decode_result) return tl::unexpected(decode_result.error());
+                const auto& vals = *decode_result;
+                raw_data_.resize(vals.size() * sizeof(int32_t));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+            } else if (metadata_.type == ColumnType::INT64) {
+                auto decode_result = BitPackingCodec::decodeInt64(encoded_data_);
+                if (!decode_result) return tl::unexpected(decode_result.error());
+                const auto& vals = *decode_result;
+                raw_data_.resize(vals.size() * sizeof(int64_t));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+            } else {
+                return tl::unexpected(Error(
+                    errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
+                    "Bit-packing decode: only INT32/INT64 supported"
+                ));
+            }
+            is_encoded_ = false;
+            return {};
+        }
+
+        case CompressionCodec::FRAME_OF_REF: {
+            if (metadata_.type == ColumnType::INT32) {
+                auto decode_result = FrameOfReferenceCodec::decodeInt32(encoded_data_);
+                if (!decode_result) return tl::unexpected(decode_result.error());
+                const auto& vals = *decode_result;
+                raw_data_.resize(vals.size() * sizeof(int32_t));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+            } else if (metadata_.type == ColumnType::INT64) {
+                auto decode_result = FrameOfReferenceCodec::decodeInt64(encoded_data_);
+                if (!decode_result) return tl::unexpected(decode_result.error());
+                const auto& vals = *decode_result;
+                raw_data_.resize(vals.size() * sizeof(int64_t));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
+            } else {
+                return tl::unexpected(Error(
+                    errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
+                    "Frame-of-reference decode: only INT32/INT64 supported"
+                ));
+            }
+            is_encoded_ = false;
+            return {};
+        }
+
+        case CompressionCodec::LZ4: {
+            auto decode_result = GenericCompressionCodec::decompressLZ4(encoded_data_);
+            if (!decode_result) return tl::unexpected(decode_result.error());
+            raw_data_ = std::move(*decode_result);
+            is_encoded_ = false;
+            return {};
+        }
+
+        case CompressionCodec::SNAPPY: {
+            auto decode_result = GenericCompressionCodec::decompressSnappy(encoded_data_);
+            if (!decode_result) return tl::unexpected(decode_result.error());
+            raw_data_ = std::move(*decode_result);
+            is_encoded_ = false;
+            return {};
+        }
+
+        case CompressionCodec::DICTIONARY: {
+            // DICTIONARY encoding is string-only; not supported via raw_data_ decode path.
+            // Callers using DICTIONARY-encoded segments must decode via DictionaryCodec::decodeStrings().
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
+                "DICTIONARY codec decode not available via raw decode path; "
+                "use DictionaryCodec::decodeStrings() directly"
+            ));
+        }
+
+        default:
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
+                "ColumnSegment::decode: unsupported compression codec"
+            ));
+    }
 }
 
 std::vector<uint8_t> ColumnSegment::serialize() const {

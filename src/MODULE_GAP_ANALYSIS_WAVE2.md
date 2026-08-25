@@ -1,4 +1,4 @@
-# ThemisDB — Core Module Gap Analysis & Wave 2 Implementation Plan
+# ThemisDB — Core Module Gap Analysis & Wave 2 / Wave 3 Implementation Plan
 
 > **Generated:** 2026-08-25  
 > **Branch:** copilot/select-core-modules-gaps  
@@ -6,6 +6,74 @@
 > **Scope:** Core modules in src/ — prioritized by CRITICAL/HIGH count and real source-code gaps
 
 ## Implementation Status (2026-08-25)
+
+### Wave 3 Status (2026-08-25 — In Progress)
+
+| Track | Status | Description |
+|-------|--------|-------------|
+| **Wave 3-A** — Storage Real Gaps | 🔄 In Progress | columnar decode stub, backup fail-closed, metrics emit wiring |
+| **Wave 3-B** — Query Blocking + DB Leak | 🔄 In Progress | blocking_no_timeout (`parallel_executor.cpp:65`, `continuous_query_engine.cpp:143`, `query_engine.cpp:4872`), null_dereference, catch_all_swallow |
+| **Wave 3-C** — Index GPU RAII + Iterator Safety | 🔄 In Progress | exception_in_destructor (2), gpu_memory_leak (5), iterator_invalidation (12) |
+| **Wave 3-D** — Network Command Injection + Deadlock | 🔄 In Progress | command_injection RCE (`qos_manager.cpp:663,672,685`), health check stub (`raft_load_balancer.cpp:425`), deadlock (`wire_protocol_server.cpp`), FD leak (`socket_timeout_manager.cpp`) |
+| **Wave 3-LLM** — LLM DB Connection + Data Race | ⏳ Planned | 192 db_connection_leak, 11 real data_race, 13 exception_in_destructor |
+
+### Wave 3-A Confirmed Real Gaps — Storage (2026-08-25 Subagent Triage):
+Raw scanner CRITICAL count: 69 → **Verified real: 2 CRITICAL + 3 HIGH** (after false-positive triage)
+
+| # | Gap | File | Severity | Status |
+|---|-----|------|----------|--------|
+| A1 | `ColumnSegment::decode()` stub — silent no-op | `columnar_format.cpp:1265` | CRITICAL | 🔄 Fixing |
+| A2 | `encryptFile()` plaintext fallback returns `true` | `backup_manager.cpp:1726` | CRITICAL | 🔄 Fixing |
+| A3 | `compressPath()` uncompressed fallback returns `true` | `backup_manager.cpp:1468` | HIGH | 🔄 Fixing |
+| A4 | `emitDiagnosticEvent/RecoveryFault/Pressure` — TODO stubs | `storage_error_diagnostics.cpp:370,385,404` | HIGH | 🔄 Fixing |
+| A5 | `asGgmlTensor()` returns fake ptr when allocfn unset | `ggml_tensor_bridge.cpp:190` | HIGH | 🔄 Fixing |
+
+False-Positives confirmed by source inspection (no code change needed):
+`db_connection_leak` (4 scanner entries — shared_ptr managed), `scope_mismatch` (anonymous ns),
+`braces_imbalance@line:1` (6 phantom entries), `null_dereference` (guards in place),
+`unchecked_cuda_call` (36 — THEMIS_CUDA_CHECK macro applied), `no_transit_encryption` (SDK-managed TLS),
+`blocking_no_timeout` (acquire_timeout_ design), `iterator_invalidation` (2 — source-justified)
+
+### Wave 3-C Confirmed Real Gaps — Index (Scanner-confirmed real):
+| # | Gap | File | Line | Severity |
+|---|-----|------|------|----------|
+| C1 | exception_in_destructor | `graph_auto_buffer.cpp` | 52 | CRITICAL |
+| C2 | exception_in_destructor | `vector_auto_buffer.cpp` | 66 | CRITICAL |
+| C3 | gpu_memory_leak | `gpu_memory_oversubscription.cpp` | 53 | CRITICAL |
+| C4 | gpu_memory_leak (×3) | `cuda_hnsw_graph_traversal.cpp` | 362,370,381 | CRITICAL |
+| C5-C12 | iterator_invalidation (×8) | `vector_index.cpp:80`, `multi_vector_search.cpp:224,406`, `graph_index.cpp:244,247,248`, `edge_types.cpp:364`, `gpu_memory_oversubscription.cpp:230` | — | CRITICAL |
+
+False-Positives: `braces_imbalance@line:1` (6 entries confirmed phantom)
+
+### Wave 3-D Confirmed Real Gaps — Network (2026-08-25 Subagent Triage):
+Raw scanner CRITICAL count: 29 → **Verified real: 4 CRITICAL + 5 HIGH** (7.25× inflation factor)
+
+| # | Gap | File | Line | Severity | Status |
+|---|-----|------|------|----------|--------|
+| D1 | command_injection × 3 — `std::system()` with unsanitized `iface` | `qos_manager.cpp` | 663,672,685 | CRITICAL | 🔄 Fixing |
+| D2 | `defaultHealthCheck()` always-true stub → 41 db_connection_leak downstream | `raft_load_balancer.cpp` | 425 | CRITICAL | 🔄 Fixing |
+| D3 | deadlock — `connections_mutex_` ↔ `rate_limit_mutex_` ABBA | `wire_protocol_server.cpp` | 701,855 | HIGH | 🔄 Fixing |
+| D4 | missing dtor + smart_ptr missing `closesocket()` deleter → FD leak | `socket_timeout_manager.cpp` | 71,202 | HIGH | 🔄 Fixing |
+| D5 | `SO_SNDTIMEO` only on `__linux__` — no send timeout on macOS/FreeBSD | `service_mesh.cpp` | 175,194 | HIGH | 🔄 Fixing |
+
+False-Positives confirmed: `braces_imbalance@line:1` (5 entries), `scope_mismatch` (1,404 stdlib/boost qualified-name hits — all FP), 5 of 7 `deadlock_risk` entries (sequential non-nested lock acquisitions)
+
+### Wave 3-B Confirmed Real Gaps — Query (2026-08-25 Subagent Triage):
+Raw scanner CRITICAL count: 52 → **Verified real: 3 CRITICAL + 6 HIGH** (84% FP — scope_mismatch dominates)
+
+| # | Gap | File | Line | Severity | Status |
+|---|-----|------|------|----------|--------|
+| B1 | `(void)timeout_seconds; tg.wait()` — explicit void + infinite block | `parallel_executor.cpp` | 65 | CRITICAL | 🔄 Fixing |
+| B2 | `loop_thread_.join()` in destructor — no deadline → streaming deadlock | `continuous_query_engine.cpp` | 143 | CRITICAL | 🔄 Fixing |
+| B3 | `tg.wait()` inline, post-fact timeout comment — no real interrupt | `query_engine.cpp` | 4872 | CRITICAL | 🔄 Fixing |
+| B4 | null_dereference — sequential fallback at :225 lacks null guard (TBB path at :238 has it) | `parallel_executor.cpp` | 225 | HIGH | 🔄 Fixing |
+| B5 | `catch(...)` swallows all exceptions, masks JIT state corruption | `query_compiler.cpp` | 423 | HIGH | 🔄 Fixing |
+
+False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces in `namespace themis`, valid C++),
+`braces_imbalance@line:1` (2 phantom), `braces_imbalance_midfile` (121 — THEMIS_WARN `{}` format strings),
+`db_connection_leak` in `cq_watermark.cpp` (lock-free atomics, confirmed FP), `aql_translator.cpp` 54×null (all guarded defensive returns)
+
+---
 
 | Track | Status | Commit |
 |-------|--------|--------|

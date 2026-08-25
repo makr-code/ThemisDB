@@ -25,7 +25,47 @@
 
 #if defined(__linux__)
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <spawn.h>
+extern char** environ;  // POSIX environ for posix_spawn
 #endif
+
+namespace {
+
+/// @brief Validate a network interface name for use in shell-adjacent tc calls.
+/// Allows only: ASCII alphanumeric, hyphen, underscore, dot — max 15 chars.
+/// Rejects leading '-' to prevent argument injection (e.g. "--help").
+/// This is a defence-in-depth guard; the primary protection is posix_spawn().
+static bool isValidInterfaceName(std::string_view iface) noexcept {
+    if (iface.empty() || iface.size() > 15) return false;
+    if (iface.front() == '-') return false;
+    return std::all_of(iface.begin(), iface.end(), [](char c) {
+        return std::isalnum(static_cast<unsigned char>(c)) ||
+               c == '-' || c == '_' || c == '.';
+    });
+}
+
+#if defined(__linux__)
+/// @brief Execute a tc(8) command via posix_spawn() — no shell involved.
+/// @param tc_bin  Absolute path to the tc binary (already validated by access()).
+/// @param argv    Null-terminated argument array; argv[0] must equal tc_bin.
+/// @return true on success (exit status 0), false otherwise.
+static bool runTcCommand(const char* tc_bin, char* const argv[]) noexcept {
+    pid_t pid = 0;
+    if (::posix_spawn(&pid, tc_bin, nullptr, nullptr, argv, environ) != 0) {
+        return false;
+    }
+    int status = 0;
+    // Retry EINTR from waitpid (signal safety).
+    while (::waitpid(pid, &status, 0) == -1) {
+        if (errno != EINTR) return false;
+    }
+    return WIFEXITED(status) && WEXITSTATUS(status) == 0;
+}
+#endif
+
+}  // anonymous namespace
 
 namespace themis {
 namespace network {
@@ -620,22 +660,16 @@ bool QoSManager::configureTc(const TcConfig& tc_config) {
         return false;
     }
 
-#if defined(__linux__)
-    // Validate interface name:
-    //  1. Must not start with '-' to prevent argument injection (tc parses
-    //     flags if the interface name looks like "-h" or "--help").
-    //  2. Must contain only alphanumeric, '-', '_', or '.' characters to
-    //     prevent shell metacharacter injection via snprintf.
-    if (tc_config.interface_name.front() == '-') {
+    // Command injection guard — reject any interface name that does not
+    // conform to the POSIX interface name character set.  This is checked
+    // before we ever reach the posix_spawn() call below.
+    if (!isValidInterfaceName(tc_config.interface_name)) {
+        THEMIS_ERROR("QosManager: invalid interface name '{}' — command injection guard rejected",
+                     tc_config.interface_name);
         return false;
     }
-    for (char c : tc_config.interface_name) {
-        if (!std::isalnum(static_cast<unsigned char>(c)) &&
-            c != '-' && c != '_' && c != '.') {
-            return false;
-        }
-    }
 
+#if defined(__linux__)
     // Locate tc binary
     const char* tc_paths[] = {"/sbin/tc", "/usr/sbin/tc", "/usr/bin/tc"};
     const char* tc_bin     = nullptr;
@@ -649,40 +683,80 @@ bool QoSManager::configureTc(const TcConfig& tc_config) {
         return false;  // tc not available
     }
 
-    const std::string& iface = tc_config.interface_name;
-    uint64_t rate_bps        = tc_config.total_rate_bps > 0
-                                   ? tc_config.total_rate_bps
-                                   : effectiveMaxBandwidthBps();
+    // iface is validated — safe to use as a direct argv element.
+    const char* iface = tc_config.interface_name.c_str();
+    uint64_t rate_bps = tc_config.total_rate_bps > 0
+                            ? tc_config.total_rate_bps
+                            : effectiveMaxBandwidthBps();
 
-    // Remove any existing root qdisc (ignore failure)
-    {
-        char cmd[256];
-        std::snprintf(cmd, sizeof(cmd),
-                      "%s qdisc del dev %s root 2>/dev/null",
-                      tc_bin, iface.c_str());
-        std::system(cmd);  // NOLINT(cert-env33-c)
+    // Build rate/ceil strings for HTB (needed only when rate_bps > 0).
+    char rate_str[32] = {};
+    char ceil_str[32] = {};
+    if (rate_bps > 0) {
+        uint64_t rate_kbps = std::max(rate_bps / 1000, uint64_t{1});
+        std::snprintf(rate_str, sizeof(rate_str), "%" PRIu64 "kbit", rate_kbps);
+        std::snprintf(ceil_str, sizeof(ceil_str), "%" PRIu64 "kbit", rate_kbps);
     }
 
-    // Add HTB root qdisc
+    // --- Remove any existing root qdisc (ignore failure) ---
+    // argv is built inline; each token is a separate element — no shell involved.
     {
-        char cmd[256];
-        std::snprintf(cmd, sizeof(cmd),
-                      "%s qdisc add dev %s root handle 1: htb default 10",
-                      tc_bin, iface.c_str());
-        if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        char* argv[] = {
+            const_cast<char*>(tc_bin),
+            const_cast<char*>("qdisc"),
+            const_cast<char*>("del"),
+            const_cast<char*>("dev"),
+            const_cast<char*>(iface),
+            const_cast<char*>("root"),
+            nullptr
+        };
+        runTcCommand(tc_bin, argv);  // intentionally ignore failure
+    }
+
+    // --- Add HTB root qdisc ---
+    {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        char* argv[] = {
+            const_cast<char*>(tc_bin),
+            const_cast<char*>("qdisc"),
+            const_cast<char*>("add"),
+            const_cast<char*>("dev"),
+            const_cast<char*>(iface),
+            const_cast<char*>("root"),
+            const_cast<char*>("handle"),
+            const_cast<char*>("1:"),
+            const_cast<char*>("htb"),
+            const_cast<char*>("default"),
+            const_cast<char*>("10"),
+            nullptr
+        };
+        if (!runTcCommand(tc_bin, argv)) {
             return false;
         }
     }
 
-    // Add root class with total rate limit (if configured)
+    // --- Add root class with total rate limit (if configured) ---
     if (rate_bps > 0) {
-        char cmd[512];
-        uint64_t rate_kbps = std::max(rate_bps / 1000, uint64_t{1});
-        std::snprintf(cmd, sizeof(cmd),
-                      "%s class add dev %s parent 1: classid 1:1 htb"
-                      " rate %" PRIu64 "kbit ceil %" PRIu64 "kbit",
-                      tc_bin, iface.c_str(), rate_kbps, rate_kbps);
-        if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        char* argv[] = {
+            const_cast<char*>(tc_bin),
+            const_cast<char*>("class"),
+            const_cast<char*>("add"),
+            const_cast<char*>("dev"),
+            const_cast<char*>(iface),
+            const_cast<char*>("parent"),
+            const_cast<char*>("1:"),
+            const_cast<char*>("classid"),
+            const_cast<char*>("1:1"),
+            const_cast<char*>("htb"),
+            const_cast<char*>("rate"),
+            rate_str,
+            const_cast<char*>("ceil"),
+            ceil_str,
+            nullptr
+        };
+        if (!runTcCommand(tc_bin, argv)) {
             return false;
         }
     }
