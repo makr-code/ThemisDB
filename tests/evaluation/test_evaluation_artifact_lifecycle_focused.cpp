@@ -99,17 +99,17 @@ TEST(EvaluationArtifactLifecycleFocusedTests, AL6_RequiresImmediateRebuild_Inval
 TEST(EvaluationArtifactLifecycleFocusedTests, AL7_Invalidate_SetsStateAndReason) {
     auto meta = make_ready_metadata();
     auto updated = ArtifactLifecycleManager::invalidate(
-        meta, InvalidationReason::DELTA_LAG_EXCEEDED);
+        meta, InvalidationReason::STALENESS_EXCEEDED);
 
     EXPECT_EQ(updated.state, LifecycleState::INVALIDATED);
-    EXPECT_EQ(updated.invalidation_reason, InvalidationReason::DELTA_LAG_EXCEEDED);
+    EXPECT_EQ(updated.invalidation_reason, InvalidationReason::STALENESS_EXCEEDED);
     EXPECT_EQ(updated.artifact_id, meta.artifact_id);  // id preserved
 }
 
 // AL8: beginRebuild() transitions to REBUILDING and increments attempt count
 TEST(EvaluationArtifactLifecycleFocusedTests, AL8_BeginRebuild_SetsRebuildingAndIncrementsCount) {
     auto meta = ArtifactLifecycleManager::invalidate(
-        make_ready_metadata(), InvalidationReason::AGE_EXCEEDED);
+        make_ready_metadata(), InvalidationReason::STALENESS_EXCEEDED);
     auto rebuilding = ArtifactLifecycleManager::beginRebuild(meta);
 
     EXPECT_EQ(rebuilding.state, LifecycleState::REBUILDING);
