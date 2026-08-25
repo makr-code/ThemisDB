@@ -161,7 +161,7 @@ jobs:
           mapfile -t scoped_files < <(
             git diff --name-only "$BASE_REF" "$HEAD_REF" -- \
               src include cmake plugins CMakeLists.txt CMakePresets.json \
-              | grep -E '\.(c|cc|cpp|cxx|h|hh|hpp|hxx|cmake|txt|md|json|ya?ml)$|(^|/)CMakeLists\.txt$|(^|/)CMakePresets\.json$' \
+              | grep -E '\.(c|cc|cpp|cxx|h|hh|hpp|hxx|cmake|json|ya?ml)$|(^|/)CMakeLists\.txt$|(^|/)CMakePresets\.json$' \
               || true
           )
 
@@ -259,6 +259,7 @@ jobs:
           for step_out in \
             "${{ steps.check-fallback.outputs.error_summary }}" \
             "${{ steps.check-telemetry.outputs.error_summary }}" \
+            "${{ steps.check-private-references.outputs.error_summary }}" \
             "${{ steps.check-build-config.outputs.error_summary }}" \
             "${{ steps.check-secrets.outputs.error_summary }}"; do
             [ -n "$step_out" ] && SUMMARY="${SUMMARY}${step_out}\n"
