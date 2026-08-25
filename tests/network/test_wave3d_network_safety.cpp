@@ -24,6 +24,7 @@
 // ── Standard library ─────────────────────────────────────────────────────────
 #include <chrono>
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <sstream>
@@ -197,24 +198,17 @@ TEST(Wave3DNetworkSafety, W3D05_WireProtocolServer_lock_ordering_documented) {
     // Compile-time proof is not feasible here; instead we read the source file
     // and confirm that the canonical lock-ordering comment block is present.
     // This protects against future edits that silently remove the documentation.
-    const char* source_paths[] = {
-        // Typical CI / cmake source tree paths
-        "src/network/wire_protocol_server.cpp",
-        "../src/network/wire_protocol_server.cpp",
-        "../../src/network/wire_protocol_server.cpp",
-        "/home/runner/work/ThemisDB/ThemisDB/src/network/wire_protocol_server.cpp",
-    };
+    const auto source_path =
+        (std::filesystem::path(__FILE__).parent_path() / ".." / ".." / "src" / "network"
+         / "wire_protocol_server.cpp")
+            .lexically_normal();
 
-    std::string content;
-    for (const char* path : source_paths) {
-        std::ifstream f(path);
-        if (f) {
-            std::ostringstream ss;
-            ss << f.rdbuf();
-            content = ss.str();
-            break;
-        }
-    }
+    std::ifstream f(source_path);
+    ASSERT_TRUE(f.is_open()) << "Unable to open source file: " << source_path.string();
+
+    std::ostringstream ss;
+    ss << f.rdbuf();
+    const std::string content = ss.str();
 
     ASSERT_FALSE(content.empty());
 

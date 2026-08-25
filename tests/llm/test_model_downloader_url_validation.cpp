@@ -78,11 +78,11 @@ TEST(ModelDownloaderUrlValidation, URL_VAL_03_FtpSchemeRejected) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// URL_VAL_04: URL with embedded credentials (user:pass@host) is rejected
+// URL_VAL_04: URL with embedded credentials (userinfo@host) is rejected
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(ModelDownloaderUrlValidation, URL_VAL_04_EmbeddedCredentialsRejected) {
-    // Credential injection pattern: ******host/
-    const auto result = attemptPull("******localhost:11434");
+    // Credential injection pattern: http://userinfo@host/
+    const auto result = attemptPull("http://user@localhost:11434");
     EXPECT_FALSE(result.success);
 }
 
@@ -90,7 +90,7 @@ TEST(ModelDownloaderUrlValidation, URL_VAL_04_EmbeddedCredentialsRejected) {
 // URL_VAL_04b: HTTPS with embedded credentials is also rejected
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(ModelDownloaderUrlValidation, URL_VAL_04b_HttpsEmbeddedCredentialsRejected) {
-    const auto result = attemptPull("******ollama.example.com:11434");
+    const auto result = attemptPull("https://user@ollama.example.com:11434");
     EXPECT_FALSE(result.success);
 }
 
@@ -144,7 +144,7 @@ TEST(ModelDownloaderUrlValidation, URL_VAL_08_ListModelsRejectsInvalidScheme) {
 // URL_VAL_09: listOllamaModels() also rejects embedded credentials
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(ModelDownloaderUrlValidation, URL_VAL_09_ListModelsRejectsCredentials) {
-    const auto models = listModels("******localhost:11434");
+    const auto models = listModels("http://user@localhost:11434");
     EXPECT_TRUE(models.empty());
 }
 

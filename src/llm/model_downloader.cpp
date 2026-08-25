@@ -96,8 +96,9 @@ std::string calculate_sha256(const std::string& file_path) {
 // Acceptance criteria (test_model_downloader_url_validation.cpp):
 //   URL_VAL_01..03 — invalid schemes rejected
 //   URL_VAL_04     — embedded credentials (@) rejected
-//   URL_VAL_05     — http://non-localhost logs a warning but is permitted
-//   URL_VAL_06..07 — valid http/https urls accepted
+//   URL_VAL_05     — http://non-localhost rejected by default
+//   URL_VAL_06..07 — localhost-http and https urls accepted
+//   URL_VAL_10     — http://non-localhost accepted only with explicit override
 [[nodiscard]] static bool validateOllamaUrl(const std::string& url,
                                              bool allow_insecure_http = false) {
     if (url.empty()) {
@@ -763,5 +764,4 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
 
 } // namespace llm
 } // namespace themis
-
 

@@ -22,6 +22,7 @@
 
 #include "query/parallel_executor.h"
 
+#include <atomic>
 #include <algorithm>
 #include <cstddef>
 #include <string>
@@ -67,19 +68,21 @@ namespace themis {
 inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) noexcept {
     // Shared flag: main thread sets it when tg.wait() returns, watchdog sets it
     // when the deadline fires.  Using atomic avoids an extra mutex.
-    auto done = std::make_shared<std::atomic<bool>>(false);
+    auto done      = std::make_shared<std::atomic<bool>>(false);
+    auto timed_out = std::make_shared<std::atomic<bool>>(false);
 
     const auto deadline_ms = static_cast<long long>(timeout_seconds * 1000.0);
 
     // Watchdog thread: waits up to deadline_ms, then cancels the group if the
     // main work hasn't finished yet.
-    std::thread watchdog([done, &tg, deadline_ms]() noexcept {
+    std::thread watchdog([done, timed_out, &tg, deadline_ms]() noexcept {
         const auto deadline = std::chrono::steady_clock::now()
                             + std::chrono::milliseconds(deadline_ms);
         // Poll every 50 ms so the watchdog exits promptly when work finishes.
         while (!done->load(std::memory_order_acquire)) {
             if (std::chrono::steady_clock::now() >= deadline) {
                 if (!done->load(std::memory_order_acquire)) {
+                    timed_out->store(true, std::memory_order_release);
                     // Signal TBB to stop accepting new tasks and drain quickly.
                     tg.cancel_group_execution();
                 }
@@ -94,15 +97,7 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
 
     watchdog.join();
 
-    // If the group was cancelled the context flag is set inside TBB's task
-    // context.  We use tbb::task_group_context::is_group_execution_cancelled()
-    // indirectly: a cancelled group always signals cancellation via the return
-    // value of tg.is_canceling().  Use that to inform the caller.
-    // Note: tbb::task_group has no public is_canceling() in all TBB versions;
-    // we instead rely on the watchdog having called cancel_group_execution().
-    // The watchdog only fires after deadline_ms, so we can infer timeout by
-    // comparing elapsed time.
-    return true;  // tg.wait() has returned; partial results are safe to use.
+    return !timed_out->load(std::memory_order_acquire);
 }
 
 // ============================================================================
@@ -495,4 +490,3 @@ Result<ParallelExecutor::AggregateResult> ParallelExecutor::parallelAggregate(
 }
 
 } // namespace themis
-

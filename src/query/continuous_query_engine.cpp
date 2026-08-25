@@ -149,6 +149,10 @@ void ContinuousQueryEngineImpl::stopLoop() {
         return;
     }
 
+    // Move ownership of the loop thread into a local handle so loop_thread_
+    // becomes non-joinable immediately in this object.
+    std::thread loop_thread = std::move(loop_thread_);
+
     // Timed join via a watcher thread + condition variable.
     // std::thread::join() has no timeout overload in C++17/20, so we use
     // a secondary thread to signal completion and a timed wait on cv.
@@ -156,9 +160,9 @@ void ContinuousQueryEngineImpl::stopLoop() {
     std::mutex join_mutex;
     std::condition_variable join_cv;
 
-    std::thread watcher([&]() noexcept {
-        if (loop_thread_.joinable()) {
-            loop_thread_.join();
+    std::thread watcher([loop = std::move(loop_thread), &join_mutex, &join_cv, &joined]() mutable noexcept {
+        if (loop.joinable()) {
+            loop.join();
         }
         std::lock_guard<std::mutex> lk(join_mutex);
         joined = true;
@@ -169,15 +173,13 @@ void ContinuousQueryEngineImpl::stopLoop() {
         std::unique_lock<std::mutex> lk(join_mutex);
         constexpr auto kStopDeadline = std::chrono::seconds(5);
         if (!join_cv.wait_for(lk, kStopDeadline, [&joined] { return joined; })) {
-            // Loop thread did not exit within 5 seconds.  Detach both the
-            // loop_thread_ and watcher to avoid a deadlock; the process-level
-            // exit will reclaim OS resources.  Log a critical warning for ops.
+            // Loop thread did not exit within 5 seconds.  The watcher owns the
+            // loop thread handle, so detaching the watcher avoids destructor
+            // deadlock/terminate while still allowing eventual background join.
             THEMIS_ERROR(
                 "ContinuousQueryEngineImpl::stopLoop: evaluation loop did not "
-                "terminate within 5 s — detaching to avoid destructor deadlock. "
+                "terminate within 5 s — detaching watcher to avoid destructor deadlock. "
                 "This indicates a blocking subscriber callback or a hung tickOnce().");
-            // loop_thread_ was already joined by watcher or is still running.
-            // Detach watcher to prevent watcher::join() from blocking.
             watcher.detach();
             return;
         }

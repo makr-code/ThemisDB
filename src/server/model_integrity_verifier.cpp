@@ -14,6 +14,7 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <openssl/crypto.h>
 #include <openssl/evp.h>
 
 #include "utils/logger.h"
@@ -127,11 +128,12 @@ bool ModelIntegrityVerifier::loadManifest(const std::string& manifest_path) {
         new_hashes[model_id] = model_info["sha256"].get<std::string>();
     }
 
+    const std::size_t loaded_entries = new_hashes.size();
     {
         std::unique_lock<std::shared_mutex> lock(manifest_mutex_);
         manifest_hashes_ = std::move(new_hashes);
     }
-    THEMIS_INFO("ModelIntegrityVerifier: manifest loaded ({} entries)", manifest_hashes_.size());
+    THEMIS_INFO("ModelIntegrityVerifier: manifest loaded ({} entries)", loaded_entries);
     return true;
 }
 

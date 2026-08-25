@@ -38,7 +38,7 @@ TEST(AuthRedactionTest, RedactDoesNotLeakOriginalValue) {
 // ---------------------------------------------------------------------------
 
 TEST(AuthRedactionTest, RedactContainsLengthInfo) {
-    const std::string token = "******";  // 20 chars
+    const std::string token  = "12345678901234567890";  // 20 chars
     const std::string result = redact(token);
 
     EXPECT_NE(result.find("20"), std::string::npos)
