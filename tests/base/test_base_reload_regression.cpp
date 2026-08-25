@@ -214,6 +214,78 @@ TEST_F(ReloadPhaseOrderTest, ClearCallbacksPreventsDispatch) {
     EXPECT_EQ(counter.load(), 0) << "Callbacks must not fire after clearReloadCallbacks()";
 }
 
+/// If a callback unregisters the module during BEFORE_UNLOAD, reload must fail
+/// cleanly without dereferencing stale slot storage.
+TEST_F(ReloadPhaseOrderTest, CallbackUnregisterDuringReloadFailsCleanly) {
+    mgr_->registerModule("self_unregister_mod", *loader_);
+
+    mgr_->addReloadCallback([this](const std::string &name, HotReloadManager::ReloadPhase p) {
+        if (p == HotReloadManager::ReloadPhase::BEFORE_UNLOAD) {
+            mgr_->unregisterModule(name);
+        }
+    });
+
+    HotReloadResult result = mgr_->reloadModule("self_unregister_mod", "/nonexistent.so");
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.errorMessage.empty());
+
+    auto names = mgr_->registeredModules();
+    EXPECT_EQ(std::find(names.begin(), names.end(), "self_unregister_mod"), names.end());
+}
+
+/// If a callback unregisters and re-registers the same module with the same
+/// loader object during BEFORE_UNLOAD, reload must still fail cleanly and leave
+/// exactly one fresh registration behind.
+TEST_F(ReloadPhaseOrderTest, CallbackReregisterSameLoaderDuringReloadKeepsRegistration) {
+    constexpr const char* kName = "self_reregister_mod";
+    mgr_->registerModule(kName, *loader_);
+
+    std::atomic<int> re_register_count{0};
+    mgr_->addReloadCallback([this, &re_register_count](const std::string &name,
+                                                       HotReloadManager::ReloadPhase p) {
+        if (p == HotReloadManager::ReloadPhase::BEFORE_UNLOAD) {
+            mgr_->unregisterModule(name);
+            mgr_->registerModule(name, *loader_);
+            re_register_count.fetch_add(1);
+        }
+    });
+
+    HotReloadResult first = mgr_->reloadModule(kName, "/nonexistent.so");
+    EXPECT_FALSE(first.success);
+    EXPECT_EQ(re_register_count.load(), 1);
+
+    auto names = mgr_->registeredModules();
+    EXPECT_NE(std::find(names.begin(), names.end(), kName), names.end());
+}
+
+/// Re-register race with the same loader must not poison manager state:
+/// after the re-registering callback runs once, a follow-up reload attempt
+/// still executes the normal registered-module failure path.
+TEST_F(ReloadPhaseOrderTest, CallbackReregisterSameLoaderAllowsFollowupReloadAttempt) {
+    constexpr const char* kName = "self_reregister_followup_mod";
+    mgr_->registerModule(kName, *loader_);
+
+    std::atomic<bool> did_reregister{false};
+    mgr_->addReloadCallback([this, &did_reregister](const std::string &name,
+                                                    HotReloadManager::ReloadPhase p) {
+        if (p == HotReloadManager::ReloadPhase::BEFORE_UNLOAD
+            && !did_reregister.exchange(true)) {
+            mgr_->unregisterModule(name);
+            mgr_->registerModule(name, *loader_);
+        }
+    });
+
+    HotReloadResult first = mgr_->reloadModule(kName, "/nonexistent.so");
+    EXPECT_FALSE(first.success);
+    EXPECT_TRUE(did_reregister.load());
+
+    mgr_->clearReloadCallbacks();
+    HotReloadResult second = mgr_->reloadModule(kName, "/nonexistent.so");
+    EXPECT_FALSE(second.success);
+    EXPECT_FALSE(second.errorMessage.empty());
+    EXPECT_EQ(second.errorMessage.find("not registered"), std::string::npos);
+}
+
 /// Rollback phase callback: ROLLBACK must be emitted when rollback is called and
 /// the module has no backup (the rollback itself fails, but the phase must fire).
 TEST_F(ReloadPhaseOrderTest, RollbackPhaseEmittedOnRollbackAttempt) {

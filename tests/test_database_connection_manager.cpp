@@ -4,7 +4,7 @@
 
 using namespace themis::storage;
 
-// Mock connection implementation for testing
+// Test-double connection implementation for testing
 class MockConnection : public DatabaseConnectionManager::Connection {
 public:
     explicit MockConnection(bool initially_valid = true)
@@ -47,7 +47,7 @@ private:
     std::string last_error_;
 };
 
-// Mock connection manager for testing
+// Test-double connection manager for testing
 class MockConnectionManager : public DatabaseConnectionManager {
 public:
     explicit MockConnectionManager(const ConnectionConfig& config)

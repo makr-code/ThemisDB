@@ -20254,6 +20254,28 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/test_base_entity_focused.cpp")
     message(STATUS "  BaseEntity::setField: empty field_name rejection, map corruption prevention")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/test_base_reload_regression.cpp")
+    message(STATUS "Adding Base: HotReloadManager reload-race regression tests")
+    add_executable(test_base_reload_regression_focused base/test_base_reload_regression.cpp)
+    target_include_directories(test_base_reload_regression_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_base_reload_regression_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_base_reload_regression_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME BaseReloadRegressionFocusedTests COMMAND test_base_reload_regression_focused)
+    set_tests_properties(BaseReloadRegressionFocusedTests PROPERTIES
+        LABELS "base;hot-reload;regression;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  HotReloadManager: rollback/reload edge cases, callback race scenarios, dependency conflict regressions")
+endif()
+
 # Replication Module Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_manager_addReplica_simple.cpp")
     message(STATUS "Adding Replication: ReplicationManager::addReplica fail-closed guard tests (QW-33)")

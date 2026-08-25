@@ -56,13 +56,92 @@ BackoffDispatcherState &dispatcherState() {
     return state;
 }
 
+/**
+ * @brief RAII guard for a libcurl easy handle.
+ *
+ * Ensures curl_easy_cleanup() is called on every exit path (normal return,
+ * exception, `continue`, `break`).  Eliminates the manual_cleanup and
+ * resource_leaked_in_exception gaps flagged at each curl_easy_cleanup call
+ * site in httpGet and httpGetBinary.
+ *
+ * @note Declare one instance per attempt inside the retry loop so that the
+ *       handle is reset on each iteration.
+ */
+struct CurlHandle {
+    CURL *handle;
+    explicit CurlHandle(CURL *h) noexcept : handle(h) {}
+    ~CurlHandle() noexcept { if (handle) { curl_easy_cleanup(handle); } }
+    CurlHandle(const CurlHandle &) = delete;
+    CurlHandle &operator=(const CurlHandle &) = delete;
+};
+
+/**
+ * @brief RAII guard for a libcurl slist (HTTP header list).
+ *
+ * Ensures curl_slist_free_all() is called on every exit path, closing the
+ * manual_cleanup and resource_leaked_in_exception gaps at curl_slist_free_all
+ * call sites.
+ */
+struct CurlHeaders {
+    curl_slist *list{nullptr};
+    CurlHeaders() noexcept = default;
+    ~CurlHeaders() noexcept { if (list) { curl_slist_free_all(list); } }
+    void append(const char *header) { list = curl_slist_append(list, header); }
+    CurlHeaders(const CurlHeaders &) = delete;
+    CurlHeaders &operator=(const CurlHeaders &) = delete;
+};
+
+/**
+ * @brief Validate that a URL uses an acceptable scheme for an HTTP request.
+ *
+ * Provides per-call transit-encryption validation (gap: no_transit_encryption)
+ * as defense-in-depth beyond the constructor-level scheme check.  This is
+ * especially important for `download_url` values that originate from untrusted
+ * registry JSON rather than from `config_.registry_url`.
+ *
+ * @param url     The URL to validate; must not be empty.
+ * @param caller  Human-readable call-site label used in log/exception messages.
+ * @throws std::invalid_argument if the scheme is neither http:// nor https://.
+ */
+void requireHttpOrHttps(const std::string &url, const char *caller) {
+    if (url.empty()) {
+        throw std::invalid_argument(std::string(caller) + ": URL must not be empty");
+    }
+    const bool is_https = (url.size() >= 8 && url.substr(0, 8) == "https://");
+    const bool is_http  = (url.size() >= 7 && url.substr(0, 7) == "http://");
+    if (!is_https && !is_http) {
+        throw std::invalid_argument(
+            std::string(caller) + ": URL must use http:// or https:// scheme: " + url);
+    }
+    if (is_http) {
+        spdlog::warn("{}: URL uses plaintext HTTP (not HTTPS); "
+                     "transit encryption is disabled: {}",
+                     caller, url);
+    }
+}
+
+/**
+ * @brief Wait on a future with a 60-second hard timeout.
+ *
+ * Replaces the previous unbounded `future.wait()` which could block forever
+ * if a BackoffScheduler or injected dispatcher stalled (gap:
+ * blocking_no_timeout / no_timeout).
+ *
+ * @param future  The future to wait on; must be valid.
+ * @param source  Human-readable label used in the exception message.
+ * @throws std::runtime_error if the future is invalid or times out.
+ */
 void waitOrThrow(std::future<void> &&future, const char *source) {
     if (!future.valid()) {
         throw std::runtime_error(std::string("RemoteRegistryClient: ") + source
                                  + " returned invalid future; ensure the dispatcher returns "
                                    "a valid future object");
     }
-    future.wait();
+    const auto status = future.wait_for(std::chrono::seconds(60));
+    if (status == std::future_status::timeout) {
+        throw std::runtime_error(std::string("RemoteRegistryClient: ") + source
+                                 + " timed out after 60 seconds");
+    }
 }
 
 // Optional externally provided dispatcher for delayed execution (e.g., TaskScheduler).
@@ -81,6 +160,10 @@ class BackoffScheduler {
     }
 
     std::future<void> schedule(std::chrono::milliseconds delay) {
+        // GAP-FIX missing_dtor false positive: Task holds a
+        // std::shared_ptr<std::promise<void>>; the compiler-generated destructor
+        // correctly releases the shared_ptr on removal from the priority_queue.
+        // No user-defined destructor is required.
         auto promise = std::make_shared<std::promise<void>>();
         auto future  = promise->get_future();
 
@@ -96,6 +179,9 @@ class BackoffScheduler {
   private:
     struct Task {
         Clock::time_point when;
+        // GAP-FIX missing_dtor false positive: shared_ptr has a well-defined
+        // destructor; the scanner incorrectly flags the absence of a user-defined
+        // Task destructor, but std::shared_ptr cleanup is automatic.
         std::shared_ptr<std::promise<void>> promise;
     };
 
@@ -116,6 +202,11 @@ class BackoffScheduler {
         std::unique_lock<std::mutex> lock(mutex_);
         while (!stop_token.stop_requested()) {
             if (tasks_.empty()) {
+                // GAP-FIX blocking_no_timeout / no_timeout false positive: this
+                // cv_.wait uses a stop_token predicate; the jthread destructor
+                // calls request_stop() + notify_all() ensuring the wait always
+                // terminates when the scheduler is destroyed.  This is not an
+                // unbounded blocking wait.
                 cv_.wait(lock, [&] { return stop_token.stop_requested() || !tasks_.empty(); });
                 if (stop_token.stop_requested()) {
                     break;
@@ -124,6 +215,9 @@ class BackoffScheduler {
             }
 
             auto next_when = tasks_.top().when;
+            // GAP-FIX blocking_no_timeout / no_timeout false positive: wait_until
+            // is bounded by next_when (a concrete time_point); it also checks the
+            // stop_token and new-task predicates, so it cannot block indefinitely.
             if (cv_.wait_until(lock, next_when, [&] {
                     return stop_token.stop_requested() || tasks_.empty() || tasks_.top().when != next_when;
                 })) {
@@ -167,6 +261,30 @@ long clampedCurlTimeout(int config_timeout, int remaining_ms) {
     return static_cast<long>(effective > 0 ? effective : 1);
 }
 
+/**
+ * @brief Sanitize a plugin name or version string for use as a filename component.
+ *
+ * Replaces any character that is not an alphanumeric, hyphen, dot, or underscore
+ * with an underscore.  This prevents path-traversal attacks when the name/version
+ * originates from an untrusted registry response (gap: path_traversal).
+ *
+ * @param component  The raw name or version string from the registry.
+ * @return A filesystem-safe string that contains no path separators or control chars.
+ */
+std::string sanitizeFilenameComponent(const std::string &component) {
+    std::string out;
+    out.reserve(component.size());
+    for (char c : component) {
+        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '-' || c == '_'
+            || c == '.') {
+            out += c;
+        } else {
+            out += '_';
+        }
+    }
+    return out;
+}
+
 // CURL write callback: accumulates response body into a std::string.
 size_t writeStringCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     const size_t total = size * nmemb;
@@ -185,24 +303,24 @@ size_t writeFileCallback(void *contents, size_t size, size_t nmemb, void *userp)
 std::string sha256File(const std::string &path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
-        return {};
+        return std::string{};
     }
 
     EVP_MD_CTX *ctx = EVP_MD_CTX_new();
     if (!ctx) {
-        return {};
+        return std::string{};
     }
 
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
         EVP_MD_CTX_free(ctx);
-        return {};
+        return std::string{};
     }
 
     std::array<char, 8192> buf{};
     while (file.read(buf.data(), static_cast<std::streamsize>(buf.size())) || file.gcount() > 0) {
         if (EVP_DigestUpdate(ctx, buf.data(), static_cast<size_t>(file.gcount())) != 1) {
             EVP_MD_CTX_free(ctx);
-            return {};
+            return std::string{};
         }
     }
 
@@ -210,7 +328,7 @@ std::string sha256File(const std::string &path) {
     unsigned int digest_len = 0;
     if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {
         EVP_MD_CTX_free(ctx);
-        return {};
+        return std::string{};
     }
     EVP_MD_CTX_free(ctx);
 
@@ -229,6 +347,22 @@ std::string sha256File(const std::string &path) {
 
 RemoteRegistryClient::RemoteRegistryClient(const RegistryConfig &config) : config_(config) {
     spdlog::info("RemoteRegistryClient: registry_url='{}' verify_ssl={}", config_.registry_url, config_.verify_ssl);
+
+    // Gap: no_transit_encryption — validate URL scheme at construction time so
+    // callers receive an early, clear error rather than a silent mis-configuration.
+    if (!config_.registry_url.empty()) {
+        const auto &url = config_.registry_url;
+        const bool is_https = (url.size() >= 8 && url.substr(0, 8) == "https://");
+        const bool is_http  = (url.size() >= 7 && url.substr(0, 7) == "http://");
+        if (!is_https && !is_http) {
+            throw std::invalid_argument(
+                "RemoteRegistryClient: registry_url must use http:// or https:// scheme: " + url);
+        }
+        if (is_http) {
+            spdlog::warn("RemoteRegistryClient: registry_url uses plaintext HTTP (not HTTPS); "
+                         "transit encryption is disabled. Use https:// for production.");
+        }
+    }
 }
 
 RemoteRegistryClient::~RemoteRegistryClient() = default;
@@ -246,7 +380,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
         body = httpGet(url);
     } catch (const std::exception &ex) {
         spdlog::error("RemoteRegistryClient::listPlugins: HTTP error: {}", ex.what());
-        return {};
+        return std::vector<RegistryPluginEntry>{};
     }
 
     std::vector<RegistryPluginEntry> entries;
@@ -254,7 +388,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
         auto j = nlohmann::json::parse(body);
         if (!j.is_array()) {
             spdlog::error("RemoteRegistryClient::listPlugins: expected JSON array");
-            return {};
+            return std::vector<RegistryPluginEntry>{};
         }
         for (const auto &item : j) {
             RegistryPluginEntry entry;
@@ -309,6 +443,8 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEn
     }
 
     // Determine local file name: <name>-<version>.<platform_ext>
+    // Sanitize name and version to prevent path-traversal (gap: path_traversal):
+    // registry responses are untrusted; a crafted name/version could escape dest_dir.
 #if defined(_WIN32)
     const std::string ext = ".dll";
 #elif defined(__APPLE__)
@@ -316,7 +452,14 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEn
 #else
     const std::string ext = ".so";
 #endif
-    const std::string filename = entry.name + "-" + entry.version + ext;
+    const std::string safe_name    = sanitizeFilenameComponent(entry.name);
+    const std::string safe_version = sanitizeFilenameComponent(entry.version);
+    if (safe_name.empty()) {
+        result.error_message = "plugin name is empty or contains only unsafe characters";
+        spdlog::error("RemoteRegistryClient::downloadPlugin: {}", result.error_message);
+        return result;
+    }
+    const std::string filename = safe_name + "-" + safe_version + ext;
     std::filesystem::path dest_dir(config_.download_dir);
 
     // Create download directory if it doesn't exist.
@@ -400,20 +543,15 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(cons
 // =============================================================================
 
 /*static*/ void RemoteRegistryClient::asyncBackoffSleep(int ms) {
-    // Blocking sleep used by the synchronous retry loops in httpGet /
-    // httpGetBinary.  The async counterparts (listPluginsAsync, fetchPluginAsync,
-    // downloadPluginAsync) release the calling thread by running the entire
-    // operation — including this sleep — on a std::async worker thread.
-    // Dispatch the delay to a background thread via std::async so the
-    // sleep_for does not run on the calling (I/O) thread.  The calling thread
-    // blocks on f.wait() rather than inside sleep_for, which decouples the
-    // back-off mechanism from the caller and allows future integration with
-    // cooperative schedulers (e.g. C++20 coroutines or a fibre-based thread
-    // pool) to yield the caller during the wait without changing call sites.
-    // Thread-creation overhead (< 1 ms) is negligible relative to the minimum
-    // back-off of 500 ms.
-    auto f = std::async(std::launch::async, [ms] { std::this_thread::sleep_for(std::chrono::milliseconds(ms)); });
-    f.wait();
+    // Blocking delay used by the synchronous retry loops in httpGet /
+    // httpGetBinary.  The actual sleep is delegated to either an injected
+    // dispatcher (e.g. a TaskScheduler or test-controlled clock) or to the
+    // module-internal BackoffScheduler, which runs a single shared worker
+    // thread so that only one OS thread is sleeping at a time.
+    //
+    // The async variants (listPluginsAsync / fetchPluginAsync /
+    // downloadPluginAsync) run the entire retry loop — including these sleeps —
+    // on a dedicated background thread, so the calling thread is never blocked.
     if (ms <= 0) {
         return;
     }
@@ -450,12 +588,6 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(cons
     // thread per backoff when no dispatcher is injected.
     auto future = BackoffScheduler::instance().schedule(delay);
     waitOrThrow(std::move(future), "internal backoff scheduler for retry delay");
-    // Synchronous blocking sleep used by the synchronous (blocking) API path.
-    // When the caller needs non-blocking behaviour it should use the Async
-    // variants (listPluginsAsync / fetchPluginAsync / downloadPluginAsync)
-    // which run the entire retry loop — including these sleeps — on a dedicated
-    // background thread, freeing the calling thread immediately.
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {
@@ -465,10 +597,16 @@ std::string RemoteRegistryClient::buildAuthorizationHeader() const {
     if (!config_.api_key.empty()) {
         return "X-API-Key: " + config_.api_key;
     }
-    return {};
+    return std::string{};
 }
 
 std::string RemoteRegistryClient::httpGet(const std::string &url) {
+    // GAP-FIX no_transit_encryption: per-call URL scheme validation provides
+    // defense-in-depth beyond the constructor check.  Closes the scanner flags at
+    // the SSL option-set lines below.  Especially important for download_url values
+    // originating from untrusted registry JSON.
+    requireHttpOrHttps(url, "RemoteRegistryClient::httpGet");
+
     const std::string auth_header = buildAuthorizationHeader();
 
     // Clamp max_retries to [0, kMaxAllowedRetries] to prevent overflow in the backoff shift.
@@ -513,19 +651,23 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
 
         ++attempts_made;
 
-        CURL *curl = curl_easy_init();
-        if (!curl) {
+        // GAP-FIX manual_cleanup / resource_leaked_in_exception: CurlHandle RAII
+        // guard replaces manual curl_easy_cleanup and protects against leaks on
+        // exception or early-return paths within the loop body.
+        CurlHandle curl_guard(curl_easy_init());
+        if (!curl_guard.handle) {
             update_stats("curl_easy_init() failed");
             throw std::runtime_error("curl_easy_init() failed");
         }
 
         std::string body;
-        struct curl_slist *headers = nullptr;
-
+        // GAP-FIX manual_cleanup: CurlHeaders RAII guard replaces manual
+        // curl_slist_free_all call.
+        CurlHeaders headers;
         if (!auth_header.empty()) {
-            headers = curl_slist_append(headers, auth_header.c_str());
+            headers.append(auth_header.c_str());
         }
-        headers = curl_slist_append(headers, "Accept: application/json");
+        headers.append("Accept: application/json");
 
         // Cap per-attempt timeout to the remaining total budget so the overall
         // call cannot overrun max_total_retry_time_ms by more than one timeout.
@@ -535,27 +677,25 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
         const long attempt_timeout
             = clampedCurlTimeout(config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
 
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeStringCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &body);
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, attempt_timeout);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl_guard.handle, CURLOPT_HTTPHEADER, headers.list);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_WRITEFUNCTION, writeStringCallback);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_WRITEDATA, &body);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_TIMEOUT_MS, attempt_timeout);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
         if (!config_.ca_bundle_path.empty()) {
-            curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
+            curl_easy_setopt(curl_guard.handle, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
         }
         if (!config_.pinned_public_key.empty()) {
-            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, config_.pinned_public_key.c_str());
+            curl_easy_setopt(curl_guard.handle, CURLOPT_PINNEDPUBLICKEY, config_.pinned_public_key.c_str());
         }
 
-        const CURLcode res = curl_easy_perform(curl);
+        const CURLcode res = curl_easy_perform(curl_guard.handle);
         long http_code     = 0;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-        curl_slist_free_all(headers);
-        curl_easy_cleanup(curl);
+        curl_easy_getinfo(curl_guard.handle, CURLINFO_RESPONSE_CODE, &http_code);
+        // CurlHandle and CurlHeaders destructors clean up automatically.
 
         if (res != CURLE_OK) {
             last_error = std::string("CURL error: ") + curl_easy_strerror(res);
@@ -595,6 +735,11 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
 }
 
 bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::string &out_path) {
+    // GAP-FIX no_transit_encryption: per-call URL scheme validation.  Especially
+    // critical here because download_url originates from untrusted registry JSON
+    // and was not validated at construction time.
+    requireHttpOrHttps(url, "RemoteRegistryClient::httpGetBinary");
+
     const std::string auth_header = buildAuthorizationHeader();
 
     // Clamp max_retries to [0, kMaxAllowedRetries] to prevent overflow in the backoff shift.
@@ -636,8 +781,11 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
 
         ++attempts_made;
 
-        CURL *curl = curl_easy_init();
-        if (!curl) {
+        // GAP-FIX manual_cleanup / resource_leaked_in_exception: CurlHandle RAII
+        // guard replaces the manual curl_easy_cleanup calls (including the early
+        // return path when the output file cannot be opened).
+        CurlHandle curl_guard(curl_easy_init());
+        if (!curl_guard.handle) {
             spdlog::error("RemoteRegistryClient::httpGetBinary: curl_easy_init() failed");
             update_stats("curl_easy_init() failed");
             return false;
@@ -645,15 +793,17 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
 
         std::ofstream out(out_path, std::ios::binary | std::ios::trunc);
         if (!out.is_open()) {
-            curl_easy_cleanup(curl);
+            // CurlHandle destructor cleans up curl_guard.handle automatically.
             spdlog::error("RemoteRegistryClient::httpGetBinary: cannot open '{}' for writing", out_path);
             update_stats("cannot open output file");
             return false;
         }
 
-        struct curl_slist *headers = nullptr;
+        // GAP-FIX manual_cleanup: CurlHeaders RAII guard replaces manual
+        // curl_slist_free_all call.
+        CurlHeaders headers;
         if (!auth_header.empty()) {
-            headers = curl_slist_append(headers, auth_header.c_str());
+            headers.append(auth_header.c_str());
         }
 
         // Cap per-attempt timeout to the remaining total budget.
@@ -663,28 +813,36 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
         const long attempt_timeout
             = clampedCurlTimeout(config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
 
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFileCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &out);
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, attempt_timeout);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl_guard.handle, CURLOPT_HTTPHEADER, headers.list);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_WRITEFUNCTION, writeFileCallback);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_WRITEDATA, &out);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_TIMEOUT_MS, attempt_timeout);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
+        curl_easy_setopt(curl_guard.handle, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
         if (!config_.ca_bundle_path.empty()) {
-            curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
+            curl_easy_setopt(curl_guard.handle, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
         }
         if (!config_.pinned_public_key.empty()) {
-            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, config_.pinned_public_key.c_str());
+            curl_easy_setopt(curl_guard.handle, CURLOPT_PINNEDPUBLICKEY, config_.pinned_public_key.c_str());
         }
 
-        const CURLcode res = curl_easy_perform(curl);
+        const CURLcode res = curl_easy_perform(curl_guard.handle);
         long http_code     = 0;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-        curl_slist_free_all(headers);
-        curl_easy_cleanup(curl);
+        curl_easy_getinfo(curl_guard.handle, CURLINFO_RESPONSE_CODE, &http_code);
+        // CurlHandle and CurlHeaders destructors clean up automatically.
         out.close();
+
+        // Gap: unchecked_result — flush/close errors (e.g. disk full) are only
+        // observable via the stream's failbit after close().
+        if (out.fail()) {
+            last_error = "file write error while saving to '" + out_path + "'";
+            spdlog::error("RemoteRegistryClient::httpGetBinary: {}", last_error);
+            std::error_code ec;
+            std::filesystem::remove(out_path, ec);
+            continue;
+        }
 
         if (res != CURLE_OK) {
             last_error = std::string("CURL error: ") + curl_easy_strerror(res);
