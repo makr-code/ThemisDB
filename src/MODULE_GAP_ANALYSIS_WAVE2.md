@@ -1,9 +1,23 @@
 # ThemisDB — Core Module Gap Analysis & Wave 2 Implementation Plan
 
 > **Generated:** 2026-08-25  
-> **Branch:** develop  
+> **Branch:** copilot/select-core-modules-gaps  
 > **Method:** Automated gap scanner (Phase 5 verified) + subagent semantic analysis  
 > **Scope:** Core modules in src/ — prioritized by CRITICAL/HIGH count and real source-code gaps
+
+## Implementation Status (2026-08-25)
+
+| Track | Status | Commit |
+|-------|--------|--------|
+| **Wave 2-A** — Security & Data Integrity | ✅ COMPLETE | `896bc4b2` |
+| **Wave 2-B** — RAII & Resource Safety | [~] In Progress | — |
+| **Wave 2-C** — LLM Stub Replacement | [ ] Planned | — |
+| **Wave 2-D** — Sharding/Replication | [ ] Partial (Replication ✅ already closed 2026-08-16) | — |
+
+### Wave 2-A Closure (2026-08-25):
+- [x] A1: Model Integrity Gate — `include/server/model_integrity_verifier.h` + `src/server/model_integrity_verifier.cpp` + `tests/server/test_model_integrity_wave2.cpp` (6 tests)
+- [x] A2: Auth Sensitive Logging Redaction — `include/auth/auth_redaction.h` + jwt_key_rotation_manager edits + `tests/auth/test_auth_sensitive_data_redaction.cpp` (5 tests)
+- [x] A3: Iterator Invalidation Fix — `src/server/query_api_handler.cpp` (cycle guards at ~1424 and ~2161) + `tests/server/test_query_iterator_safety.cpp` (3 tests)
 
 ---
 
