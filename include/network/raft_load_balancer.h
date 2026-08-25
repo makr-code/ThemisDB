@@ -395,6 +395,17 @@ public:
      */
     void setHealthCheckFn(std::function<bool(const Backend&)> fn);
 
+    /**
+     * @brief Default TCP-based health check: opens a non-blocking connection to
+     *        backend.address (format "host:port") with a 500 ms deadline.
+     *
+     * Returns true when the TCP handshake completes within the deadline.
+     * Returns false on timeout, connection refused, or invalid address.
+     *
+     * Public so that callers can use it directly or wrap it in a custom fn.
+     */
+    static bool defaultHealthCheck(const Backend& backend);
+
 private:
     // -------------------------------------------------------------------------
     // Internal helpers
@@ -434,9 +445,6 @@ private:
     /// Trigger dynamic weight rebalancing if load imbalance exceeds threshold.
     /// Called from the health-check thread.
     void maybeRebalance();
-
-    /// Default health-check implementation (always returns true in unit tests).
-    static bool defaultHealthCheck(const Backend& backend);
 
     // -------------------------------------------------------------------------
     // Members

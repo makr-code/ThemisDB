@@ -5,8 +5,8 @@ This file documents all documentation and code quality gaps in the **query** mod
 ## Summary
 
 - **Total Gaps**: 4591 (reduced from 4602)
-- **Status**: Verified & FIXED (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, BRACE IMBALANCE FIX APPLIED, WAVE 1 CRITICAL BATCH APPLIED)
-- **Last Updated**: 2026-08-25 — Wave 1 CRITICAL Batch: 8 CRITICAL gaps fixed (scope_mismatch, blocking_no_timeout/no_timeout, db_connection_leak, iterator_invalidation, multiplication_overflow×3) + 3 HIGH scope_mismatch gaps fixed
+- **Status**: Verified & FIXED (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, BRACE IMBALANCE FIX APPLIED, WAVE 1 CRITICAL BATCH APPLIED, WAVE 3-B CRITICAL+HIGH BATCH APPLIED)
+- **Last Updated**: 2026-08-25 — Wave 3-B Query Closure Batch: 3 CRITICAL + 1 HIGH + 1 HIGH(catch_all_swallow) fixed
 
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave A Gaps** (~200 IMPL gaps): Query planning determinism, timeout enforcement, cancellation semantics, federated execution error handling
@@ -23,8 +23,8 @@ This file documents all documentation and code quality gaps in the **query** mod
 
 ### By Severity
 
-- **CRITICAL**: 52 (reduced from 60, fixed 8 in Wave 1 CRITICAL batch)
-- **HIGH**: 430 (reduced from 433, fixed 3 HIGH scope_mismatch gaps in Wave 1)
+- **CRITICAL**: 49 (reduced from 52; fixed 3 in Wave 3-B: blocking_no_timeout×2 + no_timeout×1)
+- **HIGH**: 428 (reduced from 430; fixed 2 in Wave 3-B: null_dereference asymmetry + catch_all_swallow)
 - **MEDIUM**: 4106
 - **LOW**: 3
 
@@ -222,3 +222,83 @@ All CRITICAL gaps from the Wave 1 priority list have been remediated.  The three
 - Brace_imbalance gaps reduced from 14 to 2
 - All 12 query module files now have balanced braces
 - Compilation should now succeed without syntax errors related to brace imbalance
+
+---
+
+## Wave 3-B Closure (2026-08-25)
+
+All five confirmed CRITICAL/HIGH gaps from the Wave 3-B priority list have been remediated.
+
+### Fixes Applied
+
+#### Fix 1 — CRITICAL: `parallel_executor.cpp` — `waitWithTimeout` blocking_no_timeout
+
+**Root cause**: The `waitWithTimeout()` helper function had `(void)timeout_seconds; tg.wait();` — the timeout parameter was silently discarded and `tg.wait()` blocked indefinitely.  Any stuck morsel task would hang all parallel scan callers forever.
+
+**Fix**: Replaced stub body with a watchdog-thread pattern.  A detached `std::thread` polls a shared `std::atomic<bool>` flag every 50 ms; when the deadline elapses without completion, it calls `tg.cancel_group_execution()` on the task group, causing `tg.wait()` to return promptly.  The main thread joins the watchdog after `tg.wait()` returns.  No TBB API extensions required; compatible with TBB 2021 oneTBB.
+
+**Files**: `src/query/parallel_executor.cpp`
+
+---
+
+#### Fix 2 — CRITICAL: `continuous_query_engine.cpp` — blocking join in destructor
+
+**Root cause**: `stopLoop()` called `loop_thread_.join()` with no deadline.  If a subscriber callback or `tickOnce()` blocked indefinitely, the destructor deadlocked permanently.
+
+**Fix**: Replaced the bare `.join()` with a timed-join pattern using a watcher thread and `std::condition_variable::wait_for` with a 5-second deadline.  If the deadline elapses the loop thread is detached with a `THEMIS_ERROR` log so operations is alerted; the destructor still completes.  Pattern is analogous to `waitUntilCancelledFor()` from the Wave 1 query_canceller fix.
+
+**Files**: `src/query/continuous_query_engine.cpp`
+
+---
+
+#### Fix 3 — CRITICAL: `query_engine.cpp` — inline `tg.wait()` post-fact timeout
+
+**Root cause**: The `tbbWaitWithTimeout` helper in `query_engine.cpp` (used by the content-geo spatial filter) only checked elapsed time *after* `tg.wait()` returned, making the timeout advisory post-fact.  A stalled morsel would still block the call indefinitely.  Additionally the inline `tg.wait()` at the content-geo scan site bypassed even that advisory check.
+
+**Fix**: (a) Rewrote `tbbWaitWithTimeout` to use the same watchdog-thread pattern as Fix 1; (b) replaced the bare `tg.wait()` at the content-geo scan site with a call to `tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "content_geo_spatial_filter")`.
+
+**Files**: `src/query/query_engine.cpp`
+
+---
+
+#### Fix 4 — HIGH: `parallel_executor.cpp` — null_dereference asymmetry (sequential fallback)
+
+**Root cause**: The TBB morsel lambda in `parallelScan` guarded against `input.empty()` before dereferencing, but the sequential fallback branch (taken when `threads <= 1` or input fits one morsel) had no such guard, creating an asymmetric null-safety posture.
+
+**Fix**: Added `if (input.empty()) return Ok(Table{});` immediately before the `sequentialScan()` call in the sequential fallback branch of `parallelScan`.
+
+**Files**: `src/query/parallel_executor.cpp`
+
+---
+
+#### Fix 5 — HIGH: `query_compiler.cpp` — catch_all_swallow masking JIT corruption
+
+**Root cause**: The `catch(...)` handler in `trySpecialise()` swallowed unknown exceptions with only a `THEMIS_WARN` log, making potential JIT state corruption invisible to callers and preventing any automatic recovery.
+
+**Fix**: (a) Added `bool jit_state_corrupted_ = false;` member to `QueryCompiler::Impl`; (b) the `catch(...)` block now sets `jit_state_corrupted_ = true` and logs at `THEMIS_ERROR` level; (c) the compilation-trigger guard in `execute()` checks `!jit_state_corrupted_` so further specialisation is permanently suppressed; (d) added `isJitStateCorrupted()` public accessor on `QueryCompiler` for observability and testing.
+
+**Files**: `src/query/query_compiler.cpp`, `include/query/query_compiler.h`
+
+---
+
+### Tests Added
+
+`tests/query/test_wave3b_query_timeout_fixes.cpp` — 4 new tests:
+
+| Test ID | Class | Covers |
+|---------|-------|--------|
+| W3B-01 | ParallelExecutorTimeoutTest | parallelScan returns within 10 s wall-clock deadline |
+| W3B-02 | ContinuousQueryEngineDestructorTest | Destructor completes within 10 s; no deadlock |
+| W3B-03 | ParallelExecutorNullInputTest | Empty input → sequential path → Ok(empty table), no crash |
+| W3B-04 | QueryCompilerCorruptionSentinelTest | std::exception path does not set corrupted flag; execute() never propagates |
+
+### Summary
+
+| Metric | Before Wave 3-B | After Wave 3-B |
+|--------|-----------------|----------------|
+| CRITICAL gaps | 52 | 49 |
+| HIGH gaps | 430 | 428 |
+| blocking_no_timeout (CRITICAL) | 12 | 10 |
+| no_timeout (CRITICAL) | 12 | 11 |
+| null_dereference (HIGH) | 60 | 59 |
+| catch_all_swallow (HIGH) | 21 | 20 |

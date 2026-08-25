@@ -112,8 +112,7 @@ TEST(Wave3DNetworkSafety, W3D01_QosManager_invalid_iface_rejected) {
 
     QoSManager qos;
     const bool result = qos.configureTc(cfg);
-    EXPECT_FALSE(result)
-        << "configureTc() must reject interface name containing shell metacharacters";
+    EXPECT_FALSE(result);
 }
 
 // =============================================================================
@@ -144,7 +143,7 @@ TEST(Wave3DNetworkSafety, W3D02_QosManager_valid_iface_accepted) {
     const bool bad_result = qos.configureTc(cfg_bad);
     // good_result may be false for tc-not-found reasons — that is allowed.
     // The important assertion is that bad returns false.
-    EXPECT_FALSE(bad_result) << "Injection-attempt interface name must always be rejected";
+    EXPECT_FALSE(bad_result);  // Injection-attempt interface name must always be rejected
 
     // Smoke: the good name must not throw.
     EXPECT_NO_THROW(qos.configureTc(cfg_good));
@@ -166,8 +165,7 @@ TEST(Wave3DNetworkSafety, W3D03_RaftLoadBalancer_health_check_dead_backend) {
     RaftLoadBalancer lb(cfg);
 
     const bool alive = RaftLoadBalancer::defaultHealthCheck(backend);
-    EXPECT_FALSE(alive)
-        << "Health check against a non-listening port must return false";
+    EXPECT_FALSE(alive);  // Health check against a non-listening port must return false
 }
 
 // =============================================================================
@@ -177,7 +175,8 @@ TEST(Wave3DNetworkSafety, W3D03_RaftLoadBalancer_health_check_dead_backend) {
 TEST(Wave3DNetworkSafety, W3D04_RaftLoadBalancer_health_check_live_backend) {
     auto [srv_fd, port] = startListeningSocket();
     if (srv_fd < 0) {
-        GTEST_SKIP() << "Could not open a listening socket; skipping live health-check test";
+        GTEST_SKIP();
+        return;
     }
 
     RaftLoadBalancer::Backend backend;
@@ -187,8 +186,7 @@ TEST(Wave3DNetworkSafety, W3D04_RaftLoadBalancer_health_check_live_backend) {
 
     closeSocket(srv_fd);
 
-    EXPECT_TRUE(alive)
-        << "Health check against a listening port must return true";
+    EXPECT_TRUE(alive);  // Health check against a listening port must return true
 }
 
 // =============================================================================
@@ -218,15 +216,10 @@ TEST(Wave3DNetworkSafety, W3D05_WireProtocolServer_lock_ordering_documented) {
         }
     }
 
-    ASSERT_FALSE(content.empty())
-        << "Could not read wire_protocol_server.cpp — check test working directory";
+    ASSERT_FALSE(content.empty());
 
-    EXPECT_NE(content.find("LOCK ORDERING"), std::string::npos)
-        << "wire_protocol_server.cpp must contain the LOCK ORDERING comment block";
-    EXPECT_NE(content.find("connections_mutex_"), std::string::npos)
-        << "LOCK ORDERING comment must mention connections_mutex_ (L1)";
-    EXPECT_NE(content.find("stats_mutex_"), std::string::npos)
-        << "LOCK ORDERING comment must mention stats_mutex_ (L2)";
-    EXPECT_NE(content.find("rate_limit_mutex_"), std::string::npos)
-        << "LOCK ORDERING comment must mention rate_limit_mutex_ (L3)";
+    EXPECT_NE(content.find("LOCK ORDERING"), std::string::npos);
+    EXPECT_NE(content.find("connections_mutex_"), std::string::npos);
+    EXPECT_NE(content.find("stats_mutex_"), std::string::npos);
+    EXPECT_NE(content.find("rate_limit_mutex_"), std::string::npos);
 }
