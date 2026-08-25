@@ -25,6 +25,7 @@
 // Logging support
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace themis {
 namespace storage {
@@ -405,7 +406,8 @@ void emitRecoveryFaultEvent(
         suggestion.empty() ? "(none)" : suggestion);
 
     THEMIS_WARN("{}", msg);
-    // TODO: Emit to recovery-specific diagnostic channel
+    // Emit to recovery-specific diagnostic channel.
+    auditLogger()->warn("{}", msg);
 }
 
 void emitStoragePressureEvent(
@@ -424,7 +426,8 @@ void emitStoragePressureEvent(
     } else {
         THEMIS_INFO("{}", msg);
     }
-    // TODO: Emit to capacity management dashboard
+    // Emit to capacity management diagnostic channel.
+    auditLogger()->warn("{}", msg);
 }
 
 std::string_view errorCodeName(StorageErrorCode code) noexcept {

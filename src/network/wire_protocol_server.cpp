@@ -26,6 +26,15 @@
 // ThemisDB Wire Protocol Server Implementation
 // Binary protocol for high-performance native client communication
 
+// LOCK ORDERING (must always acquire in this sequence to prevent ABBA deadlock):
+//   L1: connections_mutex_   — guards connections_per_ip_, active_sessions_
+//   L2: stats_mutex_         — guards Stats struct (counters)
+//   L3: rate_limit_mutex_    — guards rate_limits_ map
+// Rule: never acquire L1 while holding L2 or L3.
+//       never acquire L2 while holding L3.
+// Callsites that need multiple locks must follow L1 → L2 → L3 order,
+// or use std::lock() for simultaneous acquisition when order is ambiguous.
+
 #include "network/wire_protocol_server.h"
 #include <stdexcept>
 #include "network/wire_bootstrap_validation.h"

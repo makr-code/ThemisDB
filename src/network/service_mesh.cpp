@@ -166,8 +166,15 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
                 "Content-Length: 9\r\n"
                 "Connection: close\r\n\r\n"
                 "Not Found";
-            // no_timeout: set SO_SNDTIMEO so synchronous write doesn't block forever
-#ifdef __linux__
+            // no_timeout: SO_SNDTIMEO is POSIX-standard (Linux, macOS, FreeBSD).
+            // Windows uses a DWORD millisecond value instead of timeval.
+#if defined(_WIN32)
+            {
+                DWORD timeout_ms = 5000;
+                ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
+                             reinterpret_cast<const char*>(&timeout_ms), sizeof(timeout_ms));
+            }
+#else
             {
                 struct timeval tv{5, 0};  // 5 s send deadline
                 ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
@@ -185,8 +192,15 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
             "Connection: close\r\n\r\n" +
             body;
 
-        // no_timeout: set SO_SNDTIMEO so synchronous write doesn't block forever
-#ifdef __linux__
+        // no_timeout: SO_SNDTIMEO is POSIX-standard (Linux, macOS, FreeBSD).
+        // Windows uses a DWORD millisecond value instead of timeval.
+#if defined(_WIN32)
+        {
+            DWORD timeout_ms = 5000;
+            ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
+                         reinterpret_cast<const char*>(&timeout_ms), sizeof(timeout_ms));
+        }
+#else
         {
             struct timeval tv{5, 0};  // 5 s send deadline
             ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,

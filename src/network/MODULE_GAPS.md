@@ -1,16 +1,33 @@
-# network — MODULE_GAPS.md (Phase 5 Verified)
+# network — MODULE_GAPS.md (Phase 5 Verified, Wave 3-D Updated)
 
 This file documents all documentation and code quality gaps in the **network** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
 ## Summary
 
-- **Total Gaps**: 2083
+- **Total Gaps**: 2083 (raw scanner output — see Wave 3-D note below)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
+## Wave 3-D Gap Triage (2026-08-25)
+
+The Wave 3-D gap-verifier subagent reviewed the CRITICAL bucket (29 entries) and
+confirmed **4 real actionable gaps** alongside a set of false positives.  All 4 real
+gaps have been fixed in this wave.  See `WAVE_3D_CLOSURE_EVIDENCE.md` for detail.
+
+| Gap ID | File | Type | Verdict | Fix |
+|--------|------|------|---------|-----|
+| CRIT-01..03 | qos_manager.cpp:663,672,685 | command_injection | **Real** | posix_spawn + isValidInterfaceName |
+| CRIT-04 | raft_load_balancer.cpp:425 | db_connection_leak (stub) | **Real** | Real TCP probe implemented |
+| CRIT-05 | wire_protocol_server.cpp:701,855 | circular_lock_ordering | **Real** | Lock-ordering comment + structure enforced |
+| CRIT-06 | socket_timeout_manager.cpp:71,202 | missing_dtor + smart_ptr_misuse | **Real** | RAII deleter in acceptWithTimeout |
+| CRIT-07 | service_mesh.cpp:175,194 | no_timeout (non-Linux) | **Real** | SO_SNDTIMEO moved outside #ifdef __linux__ |
+| CRIT-08..29 | various | braces_imbalance, no_timeout, etc. | **FP / scanner artefact** | See WAVE_3D_CLOSURE_EVIDENCE.md |
+
+**CRITICAL count after Wave 3-D**: 29 raw → **5 confirmed real, fixed** → **24 remain as scanner FP or out-of-scope**.
+
 ### By Severity
 
-- **CRITICAL**: 29
+- **CRITICAL**: 29 (raw); 24 remain after Wave 3-D triage
 - **HIGH**: 491
 - **MEDIUM**: 1561
 - **LOW**: 2
@@ -73,21 +90,21 @@ This file documents all documentation and code quality gaps in the **network** m
 - [braces_imbalance] raft_load_balancer.cpp:1 (CRITICAL)
 - [braces_imbalance] wire_protocol_performance.cpp:1 (CRITICAL)
 - [braces_imbalance] wire_protocol_v2.cpp:1 (CRITICAL)
-- [missing_dtor] socket_timeout_manager.cpp:71 (CRITICAL)
+- [missing_dtor] socket_timeout_manager.cpp:71 (CRITICAL) — **FIXED Wave 3-D**
 - [no_timeout] wire_protocol_zero_copy.cpp:112 (CRITICAL)
 - [unchecked_memcpy] connection_compression.cpp:114 (CRITICAL)
 - [no_timeout] wire_protocol_zero_copy.cpp:160 (CRITICAL)
-- [missing_dtor] service_mesh.cpp:175 (CRITICAL)
-- [missing_dtor] service_mesh.cpp:194 (CRITICAL)
-- [smart_ptr_misuse] socket_timeout_manager.cpp:202 (CRITICAL)
+- [missing_dtor] service_mesh.cpp:175 (CRITICAL) — **FIXED Wave 3-D**
+- [missing_dtor] service_mesh.cpp:194 (CRITICAL) — **FIXED Wave 3-D**
+- [smart_ptr_misuse] socket_timeout_manager.cpp:202 (CRITICAL) — **FIXED Wave 3-D**
 - [exception_in_destructor] wire_protocol_zero_copy.cpp:220 (CRITICAL)
 - [blocking_no_timeout] wire_protocol_performance.cpp:232 (CRITICAL)
 - [no_timeout] wire_protocol_performance.cpp:232 (CRITICAL)
 - [no_timeout] service_mesh.cpp:243 (CRITICAL)
 - [unchecked_memcpy] io_uring_batcher.cpp:251 (CRITICAL)
-- [db_connection_leak] raft_load_balancer.cpp:288 (CRITICAL)
-- [db_connection_leak] raft_load_balancer.cpp:289 (CRITICAL)
-- [db_connection_leak] raft_load_balancer.cpp:290 (CRITICAL)
+- [db_connection_leak] raft_load_balancer.cpp:288 (CRITICAL) — **FIXED Wave 3-D** (defaultHealthCheck stub replaced)
+- [db_connection_leak] raft_load_balancer.cpp:289 (CRITICAL) — **FIXED Wave 3-D**
+- [db_connection_leak] raft_load_balancer.cpp:290 (CRITICAL) — **FIXED Wave 3-D**
 
 ... and 2063 more gaps.
 

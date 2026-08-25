@@ -14,6 +14,7 @@
 // Token Bucket rate limiting, Priority Queues, and Backpressure control
 
 #include "network/qos_manager.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <array>

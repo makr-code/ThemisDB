@@ -137,10 +137,54 @@ void ContinuousQueryEngineImpl::startLoop() {
 }
 
 void ContinuousQueryEngineImpl::stopLoop() {
+    // [WAVE3B-FIX: blocking_no_timeout — continuous_query_engine.cpp:143]
+    //
+    // Signal the evaluation loop to exit, then wait with a 5-second deadline.
+    // If the loop thread has not finished by the deadline (e.g. a subscriber
+    // callback is stuck), we detach rather than deadlock the destructor.
     running_.store(false, std::memory_order_release);
     loop_cv_.notify_all();
-    if (loop_thread_.joinable()) {
-        loop_thread_.join();
+
+    if (!loop_thread_.joinable()) {
+        return;
+    }
+
+    // Timed join via a watcher thread + condition variable.
+    // std::thread::join() has no timeout overload in C++17/20, so we use
+    // a secondary thread to signal completion and a timed wait on cv.
+    bool joined = false;
+    std::mutex join_mutex;
+    std::condition_variable join_cv;
+
+    std::thread watcher([&]() noexcept {
+        if (loop_thread_.joinable()) {
+            loop_thread_.join();
+        }
+        std::lock_guard<std::mutex> lk(join_mutex);
+        joined = true;
+        join_cv.notify_one();
+    });
+
+    {
+        std::unique_lock<std::mutex> lk(join_mutex);
+        constexpr auto kStopDeadline = std::chrono::seconds(5);
+        if (!join_cv.wait_for(lk, kStopDeadline, [&joined] { return joined; })) {
+            // Loop thread did not exit within 5 seconds.  Detach both the
+            // loop_thread_ and watcher to avoid a deadlock; the process-level
+            // exit will reclaim OS resources.  Log a critical warning for ops.
+            THEMIS_ERROR(
+                "ContinuousQueryEngineImpl::stopLoop: evaluation loop did not "
+                "terminate within 5 s — detaching to avoid destructor deadlock. "
+                "This indicates a blocking subscriber callback or a hung tickOnce().");
+            // loop_thread_ was already joined by watcher or is still running.
+            // Detach watcher to prevent watcher::join() from blocking.
+            watcher.detach();
+            return;
+        }
+    }
+
+    if (watcher.joinable()) {
+        watcher.join();
     }
 }
 
