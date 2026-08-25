@@ -117,6 +117,20 @@ class ReActAgent::Impl {
                 spdlog::debug("[ReActAgent] raw_response: {}", raw_response);
             }
 
+            // Guard against oversized responses (unvalidated LLM output).
+            // A legitimate answer within max_tokens_per_step should never approach
+            // this limit; exceeding it indicates a misbehaving provider or injection.
+            {
+                static constexpr std::size_t kBytesPerToken = 8;
+                const std::size_t max_response_bytes =
+                    static_cast<std::size_t>(config_.max_tokens_per_step) * kBytesPerToken;
+                if (raw_response.size() > max_response_bytes) {
+                    spdlog::warn("[ReActAgent] LLM response ({} bytes) exceeds {} byte limit; truncating",
+                                 raw_response.size(), max_response_bytes);
+                    raw_response.resize(max_response_bytes);
+                }
+            }
+
             // Parse the LLM response into a reasoning step.
             auto step = parseStep(raw_response);
             result.reasoning_trace.push_back(step);

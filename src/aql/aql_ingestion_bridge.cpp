@@ -36,7 +36,7 @@ AQLIngestionBridge::AQLIngestionBridge(
     }
 }
 
-AQLIngestionBridge::~AQLIngestionBridge() = default;
+AQLIngestionBridge::~AQLIngestionBridge() noexcept = default;
 
 AQLIngestionBridge::AQLIngestionBridge(AQLIngestionBridge&&) noexcept = default;
 AQLIngestionBridge& AQLIngestionBridge::operator=(AQLIngestionBridge&&) noexcept = default;

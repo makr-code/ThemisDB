@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -230,7 +231,7 @@ ClassifyResult AQLFunctionClassifyBridge::classify(const std::string &text,
             }
         }
     } catch (...) {
-        // Registry call failed – fall through to local classifier.
+        spdlog::debug("[ClassifyBridge] registry classify call failed; falling through to local classifier");
     }
 
     // 2. Keyword-based fallback (always produces a result).

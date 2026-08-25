@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <cctype>
 #include <regex>
+#include <spdlog/spdlog.h>
 #include <string>
 
 #include "analytics/nlp_text_analyzer.h"
@@ -46,6 +47,7 @@ bool queryContains(const std::string &upper_query, const std::string &keyword) {
         std::regex re(pattern);
         return std::regex_search(upper_query, re);
     } catch (...) {
+        spdlog::debug("[AQLOptimizerAdvisor] regex compile for keyword check failed; using substring fallback");
         return upper_query.find(keyword) != std::string::npos;
     }
 }

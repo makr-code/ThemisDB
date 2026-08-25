@@ -71,23 +71,23 @@ Additional documentation expansion completed in Issue #5628 on 2026-07-19.
     - `tests/aql/test_aql_bridge_degradation.cpp` (7 tests covering bridge/context degradation)
   - Status: ✅ PRODUCTION-READY
 
-- [~] **Block 4.2: Validation Component Hardening — PLANNED**
+- [x] **Block 4.2: Validation Component Hardening — COMPLETED**
   - Modify validateAQLWithParser() to use AQLErrorContext instead of generic error strings
   - Add detailed error diagnostics: AST location, token position, schema field, suggested fixes
   - Integrate Prometheus metrics for error type distribution
-  - Target: Q3 2026
+  - 2026-08-24 follow-up: `LLMValidationPipeline` now fails fast when the LLM client is unavailable and records structured generation/validation metrics.
 
-- [~] **Block 4.3: Translation Pipeline Error Handling — PLANNED**
+- [x] **Block 4.3: Translation Pipeline Error Handling — COMPLETED**
   - Enhance translateNLToAQL() with structured retry logic (exponential backoff, max 3 retries)
   - Integrate InvalidResponse retry with error feedback in LLM prompt
   - Add circuit breaker checks before provider calls
-  - Target: Q3 2026
+  - 2026-08-24 follow-up: all `translateNLToAQL*` retry loops now consume `validation_config.max_retries` instead of hardcoded retry defaults.
 
-- [~] **Block 4.4: Bridge/Helper Component Diagnostics — PLANNED**
+- [x] **Block 4.4: Bridge/Helper Component Diagnostics — COMPLETED**
   - Update llm_aql_embedding_bridge.cpp to handle provider failures gracefully
   - Update aql_conversation_context.cpp to handle context bound exhaustion
   - Add error context to all helper components (highlighter, scorer, few-shot library)
-  - Target: Q3 2026
+  - 2026-08-24 follow-up: `LLMExtractiveCompressor` now has non-placeholder availability checks, deterministic ranking fallback, and warning-level persistence diagnostics.
 
 ## Scope
 

@@ -9,6 +9,7 @@
  */
 
 #include "aql/llm_validation_pipeline.h"
+#include "aql/llm_metrics_collector.h"
 #include "query/aql_parser_service.h"
 #include "llm/llm_client.h"
 
@@ -113,9 +114,24 @@ LLMValidationResult LLMValidationPipeline::execute(
     const std::string& schema_context)
 {
     auto start_time = std::chrono::high_resolution_clock::now();
+    const auto elapsedSinceStart = [&start_time]() {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::high_resolution_clock::now() - start_time);
+    };
     LLMValidationResult result;
+
+    if (!impl_->llm_client || !impl_->llm_client->isReady()) {
+        result.status = LLMValidationStatus::LLM_GENERATION_FAILED;
+        result.error_message = "LLM client unavailable or not ready";
+        result.attempts_made = 0;
+        LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+            false, 0, elapsedSinceStart(), "client_unavailable");
+        spdlog::error("LLMValidationPipeline: client unavailable or not ready");
+        return result;
+    }
     
     spdlog::debug("LLMValidationPipeline::execute: nl_query='{}'", nl_query);
+    std::string retry_feedback;
     
     // Loop: LLM generation + validation + retry
     for (size_t attempt = 0; attempt <= impl_->config.max_retries; ++attempt) {
@@ -135,12 +151,14 @@ LLMValidationResult LLMValidationPipeline::execute(
         // Generate AQL via LLM
         std::string generated_aql;
         try {
-            generated_aql = generateAQL(nl_query, schema_context);
+            generated_aql = generateAQL(nl_query, schema_context, retry_feedback);
             
             if (generated_aql.empty()) {
                 result.status = LLMValidationStatus::LLM_GENERATION_FAILED;
                 result.error_message = "LLM generated empty response";
                 result.attempts_made = attempt + 1;
+                LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+                    false, static_cast<int>(attempt + 1), elapsedSinceStart(), "empty_response");
                 
                 spdlog::error("LLM generated empty response");
                 return result;
@@ -152,6 +170,8 @@ LLMValidationResult LLMValidationPipeline::execute(
             result.status = LLMValidationStatus::LLM_GENERATION_FAILED;
             result.error_message = std::string("LLM generation failed: ") + e.what();
             result.attempts_made = attempt + 1;
+            LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+                false, static_cast<int>(attempt + 1), elapsedSinceStart(), "generation_exception");
             
             spdlog::error("LLM generation exception: {}", e.what());
             return result;
@@ -165,12 +185,13 @@ LLMValidationResult LLMValidationPipeline::execute(
             result.status = LLMValidationStatus::SUCCESS;
             result.validated_aql = generated_aql;
             result.attempts_made = attempt + 1;
+            LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+                true, static_cast<int>(attempt + 1), elapsedSinceStart(), "success");
             
             spdlog::info("AQL validation succeeded (attempt {}/{})",
                         attempt + 1, impl_->config.max_retries + 1);
-            
-            // Emit metrics
-            // TODO: prometheus counter: aql_validation_outcomes_total{outcome="success"}++
+            LLMMetricsCollector::instance().recordAQLValidation(
+                true, elapsedSinceStart(), "");
             
             return result;
         }
@@ -188,6 +209,10 @@ LLMValidationResult LLMValidationPipeline::execute(
         if (impl_->config.reject_on_error) {
             result.status = LLMValidationStatus::REJECTED;
             result.error_message = parse_result.diagnostics.error_message;
+            LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+                false, static_cast<int>(attempt + 1), elapsedSinceStart(), "reject_on_error");
+            LLMMetricsCollector::instance().recordAQLValidation(
+                false, elapsedSinceStart(), "parse_error");
 
             spdlog::error("AQL validation rejected: {} (reject_on_error=true)",
                          parse_result.diagnostics.error_message);
@@ -203,23 +228,22 @@ LLMValidationResult LLMValidationPipeline::execute(
             result.status = LLMValidationStatus::EXHAUSTED_RETRIES;
             
             result.error_message = parse_result.diagnostics.error_message;
+            LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+                false, static_cast<int>(attempt + 1), elapsedSinceStart(), "exhausted_retries");
+            LLMMetricsCollector::instance().recordAQLValidation(
+                false, elapsedSinceStart(), "parse_error");
             
             spdlog::error("AQL validation rejected: {} (retries_available={}, should_retry={})",
                          parse_result.diagnostics.error_message, can_retry, should_retry);
-            
-            // Emit metrics
-            // TODO: prometheus counter: aql_validation_outcomes_total{outcome="rejected"}++
-            
             return result;
         }
         
         // Format feedback for LLM retry
-        result.retry_feedback = formatRetryFeedback(parse_result.diagnostics);
+        retry_feedback = formatRetryFeedback(parse_result.diagnostics);
+        result.retry_feedback = retry_feedback;
         
         spdlog::info("Retrying LLM with feedback: {}", result.retry_feedback);
-        
-        // Emit metrics
-        // TODO: prometheus counter: aql_validation_retries_total{retry_count=attempt+1}++
+        LLMMetricsCollector::instance().recordValidationRetry(false, static_cast<int>(attempt + 1));
     }
     
     // Should not reach here (loop exits early on success/failure)
@@ -232,7 +256,8 @@ LLMValidationResult LLMValidationPipeline::execute(
 
 std::string LLMValidationPipeline::generateAQL(
     const std::string& nl_query,
-    const std::string& schema_context)
+    const std::string& schema_context,
+    const std::string& retry_feedback)
 {
     // Phase 0.4: Invoke real LLM client via generateAQL()
     llm::GenerationOptions options;
@@ -240,7 +265,14 @@ std::string LLMValidationPipeline::generateAQL(
     options.temperature = 0.5f;  // Deterministic for AQL generation
     options.timeout_ms = 8000;
     
-    auto result = impl_->llm_client->generateAQL(nl_query, schema_context, options);
+    std::string effective_query = nl_query;
+    if (!retry_feedback.empty()) {
+        effective_query += "\n\nPrevious parser validation error:\n";
+        effective_query += retry_feedback;
+        effective_query += "\n\nRegenerate a corrected AQL query that fixes this error.";
+    }
+
+    auto result = impl_->llm_client->generateAQL(effective_query, schema_context, options);
     
     if (!result.success) {
         throw std::runtime_error("LLM generation failed: " + result.error_message);

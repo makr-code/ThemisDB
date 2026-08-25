@@ -43,6 +43,8 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - [x] Block 4.2: Validation Component Hardening (validateAQLWithParser: null/empty guard, category tags, schema mismatch enrichment)
   - [x] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL: [TRANSLATION:GenerationFailed], [TRANSLATION:ProviderUnavailable] log tags)
   - [x] Block 4.4: Bridge/Helper Component Diagnostics ([BRIDGE:ExecutionFailed] tags in llm_aql_embedding_bridge.cpp)
+  - [x] 2026-08-19 hardening follow-up: retry validation feedback is now sanitized/delimited before reuse in NL→AQL prompts; bridge fallback failures elevated to warning-level logs.
+  - [x] 2026-08-24 hardening follow-up: `translateNLToAQL*` retry attempt count now follows `validation_config.max_retries`; `LLMValidationPipeline` now gates on LLM client readiness and reinjects parser feedback on retry; `LLMExtractiveCompressor` TODO/silent-catch placeholders replaced by production logic and observability.
 - [x] **Q3 2026 BATCH 2: Consistency Hardening + Performance Gates** (2026-08-15)
   - [x] Unified error handling consistency across validation/translation/bridge (CONS-01..CONS-08 tests)
   - [x] Standardized log tag format: [COMPONENT:ErrorType] across all surfaces
@@ -234,6 +236,27 @@ This module is a **contributing module** in the program-level Wave A → B → C
 It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
 and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
+
+## Wave A–D Gap Closure (2026-08-24)
+
+The following production-code gaps identified in `MODULE_GAPS.md` were addressed in this batch:
+
+### Wave A — Runtime Reliability
+- [x] **`llm_extractive_compressor.cpp`**: Replaced `todo_as_productionlogic` heuristic with deterministic bag-of-words cosine similarity for `computeSimilarity()`. The previous turn-count ratio gave non-monotonic similarity scores; the new implementation computes TF cosine over message content and is fully deterministic.
+- [x] **`docs_assistant_functions.cpp`** (×3): Elevated silent `catch(...)` blocks (lines 236, 278, 510) to `spdlog::debug` log entries. All three represent legitimate fallback paths (NLP/LLM unavailable) but must be observable in debug traces.
+- [x] **`classify_bridge.cpp`**: Elevated silent `catch(...)` (registry classify failure) to `spdlog::debug`.
+- [x] **`aql_query_validator.cpp`**: Elevated silent `catch(...)` (regex compile fallback) to `spdlog::debug`.
+- [x] **`aql_optimizer_advisor.cpp`**: Elevated silent `catch(...)` (regex compile fallback) to `spdlog::debug`.
+
+### Wave B — Performance / Resource
+- [x] **`aql_lora_finetuner.cpp:338`** (`smart_ptr_misuse`): Verified as scanner false positive — line 338 is a `samples_.push_back` call with no raw pointer involvement. No code change required; documented as confirmed false positive.
+
+### Wave C — Security
+- [x] **`aql_agent.cpp`** (`unvalidated_llm_output`): Added per-step response length guard (`max_tokens_per_step × 8 bytes`). Responses from misbehaving providers are now truncated with a `warn`-level log before being appended to the conversation string.
+- [x] **`aql_query_builder.cpp`** (`unvalidated_llm_output`): Added 256-byte per-suggestion length gate in `getCompletionSuggestions()`. AQL clause snippets exceeding this limit are discarded.
+
+### Wave D — Documentation / Operability
+- [x] Updated `ROADMAP.md` (this section) with Wave A–D gap closure evidence (2026-08-24).
 
 ### Wave D Contribution for `aql`
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)

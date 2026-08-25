@@ -234,7 +234,7 @@ std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string 
         return result.category;
 
     } catch (...) {
-        // Native NLP not available or failed
+        spdlog::debug("[DocsAssistant] classify via native NLP failed; returning 'unknown'");
         return "unknown";
     }
 }
@@ -276,7 +276,7 @@ std::string DocsAssistantFunctions::detectIntentWithLLM(const std::string &query
         return "unknown";
 
     } catch (...) {
-        // LLM not available or failed, return unknown to trigger fallback
+        spdlog::debug("[DocsAssistant] classify via LLM failed; returning 'unknown' to trigger regex fallback");
         return "unknown";
     }
 }
@@ -508,6 +508,7 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
             auto *assistant           = impl->getAssistant();
             metrics["base_assistant"] = assistant->getStats();
         } catch (...) {
+            spdlog::debug("[DocsAssistant] getStats() on base assistant failed; metrics entry set to null");
             metrics["base_assistant"] = nullptr;
         }
     }
