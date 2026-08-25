@@ -79,67 +79,102 @@ False-Positives confirmed: `smart_ptr_misuse` on JS-string literals (`new Date()
 
 > Target branch: `develop` · Target: Q3–Q4 2026
 
-### Wave 4-A — Server: Data Race + Audit Hardening (P1)
+### Wave 4-A — Server: Integrity Gate Fix + Audit Completion (P1)
 
-**Scope:** `src/server/llm_api_handler.cpp`, `src/server/query_api_handler.cpp`, remaining handler audit paths
+> **Subagent triage 2026-08-25 · Inflation factor: ~8–10× (~158 raw CRITICAL → 15–20 real)**
+
+**Verified Real Gaps (subagent confirmed):**
+
+| # | File | Line(s) | Type | Severity | Fix |
+|---|------|---------|------|----------|-----|
+| S1 | `llm_api_handler.cpp` | 978 | `integrity_gate_bypass` | HIGH | Replace `if (!path.empty())` silent skip with HTTP 400 when `path` absent |
+| S2 | `llm_api_handler.cpp` | 967–969 | `path_traversal` | HIGH | Canonicalize `path` via `weakly_canonical()` + root-escape check before `verifyModel`/`loadModel` |
+| S3 | `lora_api_handler.cpp` | post-authorize | `missing_audit_log` | HIGH | Add `THEMIS_INFO("[AUDIT] …")` on ALLOW+DENY branches |
+| S4 | `import_api_handler.cpp` | post-authorize | `missing_audit_log` | HIGH | Same pattern as S3 |
+| S5 | ~3 small handlers | post-authorize | `missing_audit_log` | HIGH | replication_topology, postgres_session, others per header C= |
+| S6 | `mcp_server.cpp` | 2814 | `unimplemented_platform` | HIGH | Add `// STUB/SIMULATION NOTE` documenting non-Linux platform gap + removal plan |
+
+**FPs Confirmed Closed (no code change):**
+
+| Finding | Count | Root Cause |
+|---|---|---|
+| `model_integrity_gap` | 10 | SHA-256 gate already at `llm_api_handler.cpp:981`; scanner re-fires on dispatch + every post-gate call |
+| `iterator_invalidation` query_api_handler | 3 | Container identity confusion (`parent` vs `visited`); read-only loops |
+| `data_race` local `[&]` lambdas | ~15 | Function-local variables, single-threaded dispatch; confirmed Wave-1 |
+| `new_without_raii`/`smart_ptr_misuse` | 5 | JS `new Date()`/`new Error()` inside C++ string literals |
+| `missing_audit_log` http_server+session | 7 | Routes through `requireScope()`/`requireAccess()` with centralised audit at lines 10073-10081 |
+
+**Note:** `prompt_injection` (docs_assistant.cpp:678) and `deadlock_risk` (ai_orchestrator.cpp:264-289) are real CRITICAL items in `src/llm/` module — tracked in LLM ROADMAP, not server scope.
 
 **Acceptance Criteria:**
-- [ ] All concurrent LLM handler paths snapshot shared plugin state under mutex before use (S1)
-- [ ] `query_api_handler.cpp` pagination paths use copy-under-lock or stable iterator approach (S2)
-- [ ] 12 remaining `authorize()` call sites emit audit events on both ALLOW and DENY paths (S3)
-- [ ] MCP stdio transport stub documented with STUB NOTE and removal plan (S4)
-- [ ] `model_integrity_gap` ROADMAP item closed as FP (S5 confirmed implemented)
-- Regression tests: 8 tests covering data-race-proof snapshot, iterator-safe pagination, audit completeness
+- [ ] Empty-path model-load request rejected with HTTP 400 (S1)
+- [ ] User-supplied model path blocked from path traversal via canonicalization (S2)
+- [ ] audit events present on ALLOW+DENY in lora, import, and ~3 small handlers (S3–S5)
+- [ ] MCP stdio stub documented per governance rules (S6)
+- Regression tests: `tests/server/test_wave4a_server_hardening.cpp` (8 tests)
 
-**Files:**
-- `src/server/llm_api_handler.cpp`
-- `src/server/query_api_handler.cpp`
-- affected handler files (`src/server/*_api_handler.cpp` with missing audit)
-- `tests/server/test_wave4a_server_hardening.cpp`
-- `src/server/MODULE_GAPS.md` (update CRITICAL 158 → ~146)
-- `src/server/ROADMAP.md` (close S5 FP, mark S1-S4 in progress)
+**Files:** `src/server/llm_api_handler.cpp`, `src/server/lora_api_handler.cpp`, `src/server/import_api_handler.cpp`, `src/server/mcp_server.cpp`, ~3 small handlers, `src/server/MODULE_GAPS.md` (update 158→~146), `src/server/ROADMAP.md`
 
 ---
 
-### Wave 4-B — Auth: Audit Events + OAuth Retry (P2)
+### Wave 4-B — Auth: Audit Events + OAuth Retry + Crypto Hardening (P2)
 
-**Scope:** `src/auth/auth_audit_logger.cpp`, `src/auth/jwt_key_rotation_manager.cpp`, `src/auth/federated_identity_manager.cpp`, `src/auth/mtls_authenticator.cpp`
+> **Subagent triage 2026-08-25 · 193 claimed gaps → 14 verified real**
+
+**Verified Real Gaps (subagent confirmed):**
+
+| # | File | Line(s) | Type | Severity | Fix |
+|---|------|---------|------|----------|-----|
+| A1 | `passkey_authenticator.cpp` | 880–892 | `missing_audit_log` | CRITICAL | Inject `AuthAuditLogger*`; call `logPasskeySuccess/Failure` — zero audit calls currently |
+| A2 | `mtls_authenticator.cpp` | 281 | `missing_audit_log` | CRITICAL | Inject `AuthAuditLogger*`; add `logMTLSSuccess/Failure` — no `#include "auth/auth_audit_logger.h"` in file |
+| A3 | `federated_identity_manager.cpp` | 202–578 | `missing_audit_log` | CRITICAL | Add `AuthAuditLogger*` injection; call `logJWTSuccess/Failure` in `validateToken()` + `exchangeToken()` |
+| A4 | `auth_audit_logger.cpp` | (absent) | `missing_event_type` | CRITICAL | Add `SecurityEventType::ROLE_CHANGED`, `PERMISSION_CHANGED`; add `logRoleChange/logPermissionChange` |
+| A5 | `jwt_key_rotation_manager.cpp` | 54 | `missing_audit_log` | HIGH | try/catch around `max_keys` throw → emit `KEY_ROTATION_FAILED` event before re-throw |
+| A6 | `jwt_key_rotation_manager.cpp` | 99–100 | `missing_audit_log` | HIGH | Emit `KEY_REVOCATION_FAILED` before `return false` on unknown `kid` |
+| A7 | `auth_audit_logger.cpp` | (absent) | `missing_audit_method` | HIGH | Add `logPasskeyRegistered(user_id, credential_id, rp_id)`; call from `registerCredential()` |
+| B1 | `ldap_connection_pool.cpp` | 173–181 | `no_retry_logic` | HIGH | Add retry loop (max 3×, base 100ms, ×2, ±20ms jitter) around `createConnection()`; fall-through → PROVIDER_DEGRADED |
+| B2 | `federated_identity_manager.cpp` | 390–393 | `no_retry_logic` | HIGH | Wrap `httpPost()` in retry loop; retry on `CURLE_COULDNT_CONNECT`, HTTP 429/503 |
+| B3 | `oauth_pkce_flow.cpp` | 317–318 | `no_retry_logic` | HIGH | Same retry fix as B2; factor into shared retrying `httpPost()` helper |
+| B4 | `oauth_device_flow.cpp` | 399–400 | `no_retry_logic` | MEDIUM | Retry HTTP transport errors within RFC poll loop (not the poll interval — RFC 8628 correct) |
+| C1 | `passkey_authenticator.cpp` | 407–483 | `cose_alg_bypass` | HIGH | Add `alg` field allowlist in `coseKeyToEvpPkey()`; reject `kty=2` if `alg != -7`; reject `kty=3` if `alg != -257` |
+| C2 | `mtls_authenticator.cpp` | 173–283 | `missing_eku_check` | HIGH | Add `X509_get_ext_d2i(NID_ext_key_usage)` check; reject certs lacking `id-kp-clientAuth` |
+| C3 | `passkey_authenticator.cpp` | 447–482 | `rsa_keysize_floor` | MEDIUM | After EVP_PKEY build, call `EVP_PKEY_get_bits(pkey)` and reject if `< 2048` |
+
+**FPs Confirmed Closed:** `sensitive_data_logging` (155) — scanner matched variable names near log calls, not values; `// NOPII` on ambiguous sites; no raw credential in any spdlog format arg. mTLS cipher claim is wrong file scope (no SSL_CTX in MTLSAuthenticator).
 
 **Acceptance Criteria:**
-- [ ] Failed authentication audit event emitted in all auth paths (A1)
-- [ ] Key rotation audit event emitted in `jwt_key_rotation_manager.cpp` rotate path (A2)
-- [ ] Role/permission change audit event emitted in all RBAC modification paths (A3)
-- [ ] OAuth/federated timeout paths retry with exponential backoff (max 3, base 100ms, ×2, ±20ms jitter) (A4)
-- [ ] mTLS path explicitly restricts cipher list to TLS 1.2+ strong suites (A5)
-- Regression tests: 8 tests in `tests/auth/test_wave4b_auth_hardening.cpp`
+- [ ] All 7 missing audit events implemented with regression tests (A1–A7)
+- [ ] httpPost() retry helper covers federated, PKCE, device-flow (B2–B4); ldap createConnection retry (B1)
+- [ ] COSE alg allowlist + EKU validation + RSA key-size floor in place (C1–C3)
+- Regression tests: `tests/auth/test_wave4b_auth_hardening.cpp` (≥14 tests)
 
-**Files:**
-- `src/auth/auth_audit_logger.cpp`
-- `src/auth/jwt_key_rotation_manager.cpp`
-- `src/auth/federated_identity_manager.cpp`
-- `src/auth/mtls_authenticator.cpp`
-- `tests/auth/test_wave4b_auth_hardening.cpp`
-- `src/auth/MODULE_GAPS.md` (update CRITICAL 5 → ~0)
-- `src/auth/ROADMAP.md` (close A1-A5, mark A6 FP)
+**Files:** `src/auth/passkey_authenticator.cpp`, `src/auth/mtls_authenticator.cpp`, `src/auth/federated_identity_manager.cpp`, `src/auth/auth_audit_logger.cpp`, `src/auth/jwt_key_rotation_manager.cpp`, `src/auth/ldap_connection_pool.cpp`, `src/auth/oauth_pkce_flow.cpp`, `src/auth/oauth_device_flow.cpp`, `tests/auth/test_wave4b_auth_hardening.cpp`, `src/auth/MODULE_GAPS.md`
 
 ---
 
-### Wave 4-C — Transaction: RPC Transport + Lock Manager (P3)
+### Wave 4-C — Transaction: Lock Upgrade Deadlock + GTM Phase-2 Under Lock (P3)
 
-**Scope:** `src/transaction/distributed_transaction_manager.cpp`, `src/transaction/lock_manager.cpp`
+> **Subagent triage 2026-08-25 · 43 claimed gaps → 3 verified real HIGH + 2 MEDIUM**
+
+**Verified Real Gaps (subagent confirmed):**
+
+| # | File | Line(s) | Type | Severity | Fix |
+|---|------|---------|------|----------|-----|
+| T1 | `distributed_transaction_manager.cpp` | 67–91 | `guarded_stub` | HIGH | Add `// STUB/SIMULATION NOTE`; add PRODUCTION_REQUIREMENTS doc for mandatory transport injection |
+| T2 | `lock_manager.cpp` | 258–265 | `upgrade_deadlock` | HIGH | Add mutual-upgrade cycle detection before enqueuing upgrade waiter, or wire `DeadlockPredictor` into wait path |
+| T3 | `global_transaction_manager.cpp` | 248–252 | `phase2_under_global_lock` | HIGH | Apply snapshot-then-release pattern: snapshot participant list under lock → release → deliver Phase-2 → re-acquire to mark COMPLETED (mirrors DTM `runPhase1Unlocked`) |
+| T4 | `lock_manager.cpp` | 530–538 | `silent_predicate_lock_drop` | MEDIUM | Add `THEMIS_WARN` + metric counter on `max_locks` capacity reject; false-positive SSI abort rate hidden |
+
+**FPs Confirmed Closed:** LM C=2 stale metadata (iterator_invalidation FPs closed Wave-A), saga_orchestrator H=10 (Kahn's algorithm + circuit breaker FSM — correct patterns), GTM H=22 (`scope_mismatch` × 1413 + `circular_lock_ordering` FPs), DTM C=1 stale header.
 
 **Acceptance Criteria:**
-- [ ] stub #279 RPC Phase-1/Phase-2 bridges: either wire a default gRPC transport or add clear STUB NOTE with activation/removal plan (T1)
-- [ ] `lock_manager.cpp` 2 CRITICAL gaps confirmed and fixed or documented as FP (T4)
-- [ ] Saga and global_transaction_manager HIGH gaps verified by subagent triage (T2, T3)
-- Regression tests: focused tests for null-transport fail-closed behavior
+- [ ] stub #279 STUB NOTE present with transport injection requirement documented (T1)
+- [ ] `upgradeLock` mutual-upgrade deadlock eliminated (T2)
+- [ ] GTM `commit()`/`abort()`/`recoverInDoubt()` release global lock before Phase-2 delivery (T3)
+- [ ] Predicate lock capacity-reject emits warn + metric (T4)
+- Regression tests: `tests/transaction/test_wave4c_transaction_hardening.cpp`
 
-**Files:**
-- `src/transaction/distributed_transaction_manager.cpp`
-- `src/transaction/lock_manager.cpp`
-- `tests/transaction/test_wave4c_transaction_hardening.cpp`
-- `src/transaction/MODULE_GAPS.md`
-- `src/transaction/ROADMAP.md`
+**Files:** `src/transaction/distributed_transaction_manager.cpp`, `src/transaction/lock_manager.cpp`, `src/transaction/global_transaction_manager.cpp`, `tests/transaction/test_wave4c_transaction_hardening.cpp`, `src/transaction/MODULE_GAPS.md`, `src/transaction/ROADMAP.md`
 
 ---
 
