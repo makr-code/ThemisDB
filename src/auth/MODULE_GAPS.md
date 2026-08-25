@@ -6,22 +6,36 @@ This file documents all documentation and code quality gaps in the **auth** modu
 
 - **Total Gaps**: 2745 (14 false positives removed in Phase 6 verification)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, Phase 6: false-positive remediation)
-- **Last Updated**: 2026-08-15 (Phase 6 verification: 14 FP removed, 4 CRITICAL→HIGH downgraded)
+- **Last Updated**: 2026-08-24 (Batch 7: audit_logger.h filename collision fix + AUTH-GRG CI status update)
 
-### By Severity
+### Wave C Gap Closure Progress (2026-08-24 Batch 7)
 
-- **CRITICAL**: 39 (18 false positives removed)
-- **HIGH**: 229 (4 no_transit_encryption downgraded + false positives removed)
+- **audit_logger.h filename collision resolved**: `include/api/audit_logger.h` (GraphQL-specific, `themis::graphql`) renamed to `include/api/graphql_audit_logger.h` to eliminate filename collision with `include/utils/audit_logger.h` (`themis::utils`). The two headers share the filename but are unrelated classes in different namespaces. Single consumer `src/api/ws_handler.cpp` updated; `include/api/README.md` updated. Collision was blocking scanner/tooling-based build validation.
+- **AUTH-GRG-01..06 CI run status**: `CI — Benchmarks` run #40 (`32765349559`) dispatched 2026-08-24T18:57Z, status `pending` as of 2026-08-24T19:20Z. Gate evidence capture (artifact publication + latency P99 measurement) will follow on run completion. No code changes required; status is awaiting CI infrastructure.
+- **Remaining actionable gaps**: benchmark gates AUTH-GRG-01..06 awaiting completion/evidence from CI run #40; null_dereference hardening sweep delivered (rescan pending); uninitialized_access findings are scanner-header artefacts pending scanner-rule refinement; scope_mismatch remains scanner artefacts; circular_lock_ordering remainder verified as false positives/single-mutex patterns
+
+### Wave C Gap Closure Progress (2026-08-19 Batch 4)
+
+- **PasskeyAuthenticator TODO stubs closed**: `verifyRegistration` and `verifyAuthentication` replaced with real CBOR/OpenSSL implementation; `PasskeyAuthenticator` concrete class added to header with `IPasskeyAuthenticator` implementation
+- **Test evidence gates delivered**: 5 Wave C test files (AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06)
+- **todo_as_productionlogic count reduced**: from 62 to 51 (11 TODO stubs resolved in passkey_authenticator.cpp)
+
+See `MODULE_GAPS_BATCH4.md` for full Wave C closure status.
+
+### By Severity (Post-Batch-5)
+
+- **CRITICAL**: 36 (3 resource_leaked_in_exception closed; 18 false positives already removed)
+- **HIGH**: 211 (4 unchecked_result + 5 catch_all_swallow + 3 circular_lock_ordering/catch_all in auth_rate_limiter closed; 4 no_transit_encryption downgraded earlier)
 - **MEDIUM**: 2475
 - **LOW**: 2
 
-### By Type
+### By Type (Post-Batch-5)
 
 - blocking_no_timeout: 5 (2 removed as FP)
 - braces_imbalance: 5 (8 removed as FP)
 - braces_imbalance_midfile: 8
-- catch_all_swallow: 4
-- circular_lock_ordering: 20
+- catch_all_swallow: 0 (all 4 original + 3 in auth_rate_limiter closed in Batch 5)
+- circular_lock_ordering: 17 (1 confirmed issue in auth_rate_limiter.cpp reset() fixed; 2 catch_all in auth_rate_limiter fixed; ~17 remaining verified as consistent single-mutex or false-positive patterns)
 - copy_overhead: 6
 - crypto_weakness: 9
 - data_race: 2
@@ -47,7 +61,7 @@ This file documents all documentation and code quality gaps in the **auth** modu
 - plaintext_transmission: 4
 - range_temporary: 4
 - repeated_search: 1
-- resource_leaked_in_exception: 5
+- resource_leaked_in_exception: 2 (3 closed in jwks_security.cpp Batch 5; 2 remaining in other files)
 - scope_mismatch: 2213
 - sensitive_data_logging: 155
 - shift_overflow: 2
@@ -55,9 +69,9 @@ This file documents all documentation and code quality gaps in the **auth** modu
 - smart_ptr_misuse: 2
 - stale_doc_section_reference: 2
 - string_concat_loop: 18
-- todo_as_productionlogic: 62
+- todo_as_productionlogic: 51 (reduced from 62 in Batch 4)
 - uncaught_exception: 54
-- unchecked_result: 11
+- unchecked_result: 7 (4 closed in ldap_authenticator.cpp Batch 5)
 - uninitialized_access: 14
 - uninitialized_variable: 6
 
@@ -122,3 +136,21 @@ This file documents all documentation and code quality gaps in the **auth** modu
    - Expected FP rate reduction: 78% → ~5% after 5 scanner refinements
    - Targeted re-scan of all modules to verify improvements
 
+4. **Wave C Auth benchmark gate execution tracking (AUTH-GRG-01..06):**
+   - CI workflow dispatched: `CI — Benchmarks` (`.github/workflows/ci-benchmarks.yml`)
+   - Run: `#40` (`32765349559`, `workflow_dispatch`, branch `develop`)
+   - Filter used: `bench_auth_hotpaths|AHP-`
+   - Status: pending completion as of 2026-08-24T19:20Z; gate evidence capture follows on artifact publication
+   - Build validation unblocked: `include/api/audit_logger.h` filename collision resolved (renamed to `graphql_audit_logger.h`)
+
+5. **Batch 6 hardening sweep delivered (null_dereference focus):**
+   - `src/auth/jwks_security.cpp`: base64 BIO allocation/push and buffer-pointer guards
+   - `src/auth/totp_secret_encryption.cpp`: base64 encode/decode BIO guard checks
+   - `src/auth/saml_authenticator.cpp`: base64 buffer pointer guard in AuthnRequest encoding path
+   - `src/auth/mtls_authenticator.cpp`: PEM BIO-buffer and X509-name buffer guard checks
+   - `src/auth/rate_limiter_backend.cpp`, `src/auth/redis_token_blacklist.cpp`: Redis error-string guard helper to avoid null-pointer dereference on degraded contexts
+
+6. **Scanner-artefact governance closure notes:**
+   - `uninitialized_access` counts are currently dominated by auto-generated file-header comment patterns (`line 16`) and do not correspond to executable uninitialized-variable paths.
+   - `scope_mismatch` counts are scanner classification artefacts and remain non-actionable for production code changes.
+   - `circular_lock_ordering` remainder is tracked as verified single-mutex patterns/false positives unless future scans provide a concrete multi-lock path.

@@ -13,7 +13,7 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "api/ws_handler.h"
-#include "api/audit_logger.h"
+#include "api/graphql_audit_logger.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 

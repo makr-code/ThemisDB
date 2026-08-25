@@ -33,7 +33,7 @@ All headers are `#pragma once` guarded and contain no implementation code.
 | [`tracing_middleware.h`](tracing_middleware.h) | `TracingMiddleware` — `X-Correlation-ID` propagation and thread-local request context |
 | [`correlation_id.h`](correlation_id.h) | `CorrelationId` — request correlation ID generation and propagation |
 | [`rate_limiter.h`](rate_limiter.h) | Token-bucket rate limiter interface for per-client/per-tenant request throttling |
-| [`audit_logger.h`](audit_logger.h) | Audit event logging interface for security-relevant API operations |
+| [`graphql_audit_logger.h`](graphql_audit_logger.h) | Audit event logging interface for security-relevant API operations |
 | [`otlp_exporter.h`](otlp_exporter.h) | `OTLPExporter` — OpenTelemetry OTLP trace/metric exporter |
 | [`persisted_queries.h`](persisted_queries.h) | Persisted GraphQL query store — hash-keyed lookup to avoid repeated parsing |
 | [`geo_index_hooks.h`](geo_index_hooks.h) | GeoJSON validation hooks wired into the storage write/delete path |
@@ -161,7 +161,7 @@ if (!limiter.allow(tenant_id)) {
 ### Audit Logging
 
 ```cpp
-#include "api/audit_logger.h"
+#include "api/graphql_audit_logger.h"
 
 // Register a file-backed handler (JSONL, one entry per line)
 api::AuditLogger::instance().addFileHandler("/var/log/themisdb/audit.jsonl");

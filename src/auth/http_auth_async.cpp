@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <regex>
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 #ifdef _WIN32
 #  include <winsock2.h>
@@ -365,7 +366,11 @@ bool AsyncHTTPAuth::performConnectivityCheck(const std::string& url)
         // Consider any 2xx response as successful connectivity
         return (http_code >= 200 && http_code < 300);
         
+    } catch (const std::exception& ex) {
+        spdlog::debug("AsyncHTTPAuth: connectivity check for '{}' threw: {}", url, ex.what());
+        return false;
     } catch (...) {
+        spdlog::debug("AsyncHTTPAuth: connectivity check for '{}' threw unknown exception", url);
         return false;
     }
 }

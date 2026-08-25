@@ -1,5 +1,5 @@
 /**
- * @file audit_logger.h
+ * @file graphql_audit_logger.h
  * @brief Audit logging for GraphQL operations (security, compliance, debugging).
  *
  * @details Records structured audit events for all GraphQL operations,

@@ -2741,6 +2741,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
     ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/passkey_authenticator.cpp
     ../src/auth/auth_metrics.cpp
     ../src/auth/auth_error.cpp
     ../src/auth/jwks_security.cpp

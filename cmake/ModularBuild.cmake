@@ -879,6 +879,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/saml_authenticator.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/passkey_authenticator.cpp
     ../src/auth/auth_metrics.cpp
     ../src/auth/auth_error.cpp
     ../src/auth/jwks_security.cpp
@@ -888,7 +889,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
     ../src/server/auth_middleware.cpp
-    ../src/server/policy_engine.cpp
     
     # Governance
     ../src/governance/policy_engine.cpp
