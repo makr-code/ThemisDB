@@ -170,11 +170,48 @@ std::string calculate_sha256(const std::string& file_path) {
     return true;
 }
 
+/// [W3-SEC-01] Startup-level guard for allow_insecure_http.
+///
+/// Emits a prominent warning whenever allow_insecure_http=true appears in a
+/// config that is actually exercised.  A second check against the
+/// THEMISDB_ALLOW_INSECURE_HTTP environment variable provides an additional
+/// enforcement layer: if the env-var is absent, the warning is upgraded to
+/// strongly discourage unintended use in production deployments.
+///
+/// This function is intentionally non-fatal so callers that have already
+/// validated the URL (validateOllamaUrl) can proceed; the purpose is operator
+/// visibility, not a second gate.
+static void warnInsecureConfigIfSet(const ModelDownloadConfig& cfg) {
+    if (!cfg.allow_insecure_http) {
+        return;
+    }
+    const char* env_guard = std::getenv("THEMISDB_ALLOW_INSECURE_HTTP");
+    const bool  env_set   = (env_guard != nullptr &&
+                             std::string_view{env_guard} == "1");
+    if (!env_set) {
+        THEMIS_WARN(
+            "[SECURITY] ModelDownloadConfig::allow_insecure_http=true is set "
+            "but THEMISDB_ALLOW_INSECURE_HTTP=1 env-var is NOT present. "
+            "This combination is unsafe in production — plain-HTTP model "
+            "transfers can be intercepted. Set THEMISDB_ALLOW_INSECURE_HTTP=1 "
+            "explicitly on startup to acknowledge the risk, or switch to HTTPS.");
+    } else {
+        THEMIS_WARN(
+            "[SECURITY] allow_insecure_http=true acknowledged via "
+            "THEMISDB_ALLOW_INSECURE_HTTP=1 — plain-HTTP transfers are active "
+            "for ollama_url '{}'. Ensure this is intentional.",
+            cfg.ollama_url);
+    }
+}
+
 } // anonymous namespace
 
 ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
     auto start_time = std::chrono::steady_clock::now();
+
+    // [W3-SEC-01] Warn at call-site if insecure-HTTP opt-in is active.
+    warnInsecureConfigIfSet(config);
 
     // [W3-SEC-02] Validate model_name before it is embedded in any filesystem path.
     {
@@ -221,6 +258,11 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
 
 ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
+
+    // [W3-SEC-01] Warn at call-site if insecure-HTTP opt-in is active.
+    // pullFromOllama may be called independently of downloadFromOllama, so the
+    // guard runs here as well to ensure no silent insecure path.
+    warnInsecureConfigIfSet(config);
 
     // Wave 2-C: validate ollama_url before any outbound HTTP request.
     // [W3-SEC-01] Pass allow_insecure_http flag from config to reject non-local HTTP by default.

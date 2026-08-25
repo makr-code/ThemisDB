@@ -24,6 +24,9 @@
 #include <optional>
 #include <functional>
 #include <atomic>
+#include <thread>
+#include <vector>
+#include <chrono>
 
 namespace themis::llm {
 
@@ -341,6 +344,89 @@ TEST(LlmWave3, W3_15_PrefixCacheInstantiatesWithCustomCacheDir) {
     EXPECT_NO_THROW({
         LLMPrefixCache cache("w3-test", cfg);
     });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// W3-SEC-03 TSAN stress: concurrent adapter apply under the patched lock model.
+//
+// W3_08 and W3_09 verify functional correctness of the applyAdapter path;
+// this test applies stronger coverage by running N threads concurrently
+// through orch.run() so that ThreadSanitizer can detect data races in the
+// mutex hand-off pattern introduced by the [W3-SEC-03] deadlock fix.
+//
+// Run with: cmake -DTHEMIS_ENABLE_TSAN=ON and execute this test binary under
+// TSAN to get full race detection.  Under normal (non-TSAN) builds the test
+// verifies that no assertion fires and load_calls stays in the expected range.
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(LlmWave3, W3_TSAN_AdapterLockStress) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kW3RagYaml, &res);
+    if (!res.ok) {
+        GTEST_SKIP() << "YAML load failed — skipping TSAN stress test";
+    }
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<W3EchoPlugin>();
+    orch.setLLMPlugin(llm);
+    orch.setAdapterPathResolver([](const std::string& adapter_id,
+                                   const std::string& tenant) -> std::optional<std::string> {
+        return "/models/" + tenant + "/" + adapter_id + ".gguf";
+    });
+    orch.setAdapterCandidateProvider(
+        std::make_shared<W3SingleAdapterProvider>("w3-stress-adapter"));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    orch.setAdapterSwitchPolicy(pol);
+
+    // 8 concurrent threads each issuing kIters requests — designed so TSAN
+    // will report data races in the lock hand-off if the [W3-SEC-03] fix
+    // regresses.  The std::atomic barrier synchronises thread start to
+    // maximise contention on the shared PluginAdapterApplyService mutex.
+    constexpr int kThreads = 8;
+    constexpr int kIters   = 20;
+
+    std::atomic<bool> go{false};
+    std::atomic<int>  errors{0};
+
+    std::vector<std::thread> workers;
+    workers.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        workers.emplace_back([&, t] {
+            while (!go.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+            for (int i = 0; i < kIters; ++i) {
+                OrchestratorContext ctx;
+                ctx.query      = "stress-query";
+                ctx.mode_id    = "rag";
+                ctx.request_id = "tsan-t" + std::to_string(t) + "-i" + std::to_string(i);
+                ctx.extra["tenant"] = "tsan-tenant";
+                // run() must not throw or corrupt shared state.
+                try {
+                    orch.run(ctx);
+                } catch (...) {
+                    errors.fetch_add(1, std::memory_order_relaxed);
+                }
+            }
+        });
+    }
+
+    go.store(true, std::memory_order_release);
+    for (auto& w : workers) {
+        w.join();
+    }
+
+    EXPECT_EQ(errors.load(), 0)
+        << "No exceptions expected during concurrent adapter-apply stress";
+    // load_calls must be between 1 and kThreads*kIters (no zero, no over-count).
+    const int calls = llm->load_calls.load();
+    EXPECT_GE(calls, 1)
+        << "At least one loadLoRA call expected during concurrent stress";
+    EXPECT_LE(calls, kThreads * kIters)
+        << "loadLoRA call count must not exceed total request count";
 }
 
 } // namespace themis::llm
