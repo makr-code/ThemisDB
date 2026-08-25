@@ -29,7 +29,7 @@ A composite GitHub Action that captures compiler, linker, CMake, dependency, san
 
 ## Usage
 
-### Basic Example (ci-build.yml)
+### Basic Example (build-mainline.yml)
 
 ```yaml
 - name: Capture build errors
@@ -50,7 +50,7 @@ A composite GitHub Action that captures compiler, linker, CMake, dependency, san
     retention-days: 7
 ```
 
-### Docker Build Example (docker-image.yml)
+### Docker Build Example (release-docker-image.yml)
 
 ```yaml
 - name: Build Docker image
@@ -102,7 +102,7 @@ The generated JSON follows this schema with severity levels:
   "metadata": {
     "run_id": 12345,
     "run_number": 456,
-    "workflow": "CI — Build",
+    "workflow": "Build: Mainline",
     "event": "push",
     "ref": "refs/heads/develop",
     "sha": "abc123f",

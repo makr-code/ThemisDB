@@ -50,6 +50,7 @@
 #endif
 
 using namespace themis;
+using LlamaPlugin = themis::llamacpp::LlamaCppPlugin;
 
 // ═══════════════════════════════════════════════════════════
 // Test fixture
@@ -96,7 +97,7 @@ protected:
      * @param[out] plugin  Plugin to initialise.
      * @return true on successful loadModel().
      */
-    bool makePlugin(LlamaCppPlugin& plugin, int n_ctx = 512, int n_batch = 128) {
+    bool makePlugin(LlamaPlugin& plugin, int n_ctx = 512, int n_batch = 128) {
         nlohmann::json cfg;
         cfg["n_ctx"]   = n_ctx;
         cfg["n_batch"] = n_batch;
@@ -143,7 +144,7 @@ TEST_F(LlamaCppRealInferenceTest, A1_LoadModel_ReturnsTrue) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     EXPECT_TRUE(makePlugin(plugin)) << "loadModel() should return true for a valid GGUF";
 #endif
 }
@@ -156,7 +157,7 @@ TEST_F(LlamaCppRealInferenceTest, A2_IsModelLoaded_TrueAfterLoad) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     EXPECT_TRUE(plugin.isModelLoaded()) << "isModelLoaded() should be true after loadModel()";
 #endif
@@ -170,7 +171,7 @@ TEST_F(LlamaCppRealInferenceTest, A3_GetModelInfo_ValidInfo) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     auto info = plugin.getModelInfo();
     ASSERT_TRUE(info.has_value()) << "getModelInfo() should return a value when model is loaded";
@@ -187,7 +188,7 @@ TEST_F(LlamaCppRealInferenceTest, A4_UnloadModel_IsLoadedFalse) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     plugin.unloadModel();
     EXPECT_FALSE(plugin.isModelLoaded()) << "isModelLoaded() should be false after unloadModel()";
@@ -206,7 +207,7 @@ TEST_F(LlamaCppRealInferenceTest, B1_Generate_SuccessTrue) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     auto resp = plugin.generate(makeReq("Hello, world!", 16));
     EXPECT_TRUE(resp.success) << "generate() should succeed. error=" << resp.error_message;
@@ -221,7 +222,7 @@ TEST_F(LlamaCppRealInferenceTest, B2_Generate_TextNonEmpty) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     auto resp = plugin.generate(makeReq("The capital of France is", 8));
     ASSERT_TRUE(resp.success) << resp.error_message;
@@ -238,7 +239,7 @@ TEST_F(LlamaCppRealInferenceTest, B3_Generate_TokensGeneratedPositive) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     auto resp = plugin.generate(makeReq("One plus one equals", 8));
     ASSERT_TRUE(resp.success) << resp.error_message;
@@ -255,7 +256,7 @@ TEST_F(LlamaCppRealInferenceTest, B4_Generate_MaxTokens1_LimitRespected) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     auto resp = plugin.generate(makeReq("The sky is", /*max_tokens=*/1));
     ASSERT_TRUE(resp.success) << resp.error_message;
@@ -273,7 +274,7 @@ TEST_F(LlamaCppRealInferenceTest, B5_Generate_Deterministic_Temperature0) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
     const auto req = makeReq("Count: one two three", 12, 0.0f);
     auto resp1 = plugin.generate(req);
@@ -298,7 +299,7 @@ TEST_F(LlamaCppRealInferenceTest, C1_Streaming_CallbackReceivesTokens) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     std::atomic<int> token_count{0};
@@ -322,7 +323,7 @@ TEST_F(LlamaCppRealInferenceTest, C2_Streaming_ConcatenatedTokensMatchText) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     std::string streamed;
@@ -347,7 +348,7 @@ TEST_F(LlamaCppRealInferenceTest, C3_GenerateStream_ConvenienceMethod) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     std::string streamed;
@@ -375,7 +376,7 @@ TEST_F(LlamaCppRealInferenceTest, D1_Embed_DimensionPositive) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     auto emb = plugin.embed("Hello world");
@@ -395,7 +396,7 @@ TEST_F(LlamaCppRealInferenceTest, D2_Embed_DimensionConsistent) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     auto emb1 = plugin.embed("First sentence.");
@@ -417,7 +418,7 @@ TEST_F(LlamaCppRealInferenceTest, D3_Embed_DifferentPromptsAreDifferent) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     auto emb_a = plugin.embed("The cat sat on the mat.");
@@ -445,7 +446,7 @@ TEST_F(LlamaCppRealInferenceTest, E1_EmptyPrompt_GracefulReturn) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     // An empty prompt may succeed or fail, but must not hang / crash.
@@ -466,7 +467,7 @@ TEST_F(LlamaCppRealInferenceTest, E2_MaxTokensZero_DoesNotHang) {
     if (!model_available_) {
         GTEST_SKIP() << "Real inference test requires GGUF model (set THEMIS_TEST_MODEL_PATH)";
     }
-    LlamaCppPlugin plugin;
+    LlamaPlugin plugin;
     ASSERT_TRUE(makePlugin(plugin));
 
     auto resp = plugin.generate(makeReq("Hello", /*max_tokens=*/0));
@@ -484,7 +485,7 @@ TEST_F(LlamaCppRealInferenceTest, E3_UnloadedPlugin_ErrorResponse) {
 #else
     // This test intentionally does NOT load a model — it only verifies the
     // error path, so no model_available_ check is needed.
-    LlamaCppPlugin plugin;  // freshly constructed, model NOT loaded
+    LlamaPlugin plugin;  // freshly constructed, model NOT loaded
 
     auto resp = plugin.generate(makeReq("Hello", 8));
     EXPECT_FALSE(resp.success)
@@ -494,3 +495,4 @@ TEST_F(LlamaCppRealInferenceTest, E3_UnloadedPlugin_ErrorResponse) {
     spdlog::info("[E3] unloaded error_message='{}'", resp.error_message);
 #endif
 }
+

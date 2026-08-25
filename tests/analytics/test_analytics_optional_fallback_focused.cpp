@@ -76,14 +76,14 @@ TEST(OptionalFallback, MLServingStatusValuesComparable) {
  */
 TEST(OptionalFallback, StreamBackpressureErrorCodeDefined) {
     AnalyticsErrorCode code = AnalyticsErrorCode::STREAM_BACKPRESSURE;
-    EXPECT_NE(code, AnalyticsErrorCode::OK);
+    EXPECT_NE(code, AnalyticsErrorCode::AGGREGATION_OVERFLOW);
 }
 
 /**
  * @test OPF-05: AnalyticsErrorCode::AGGREGATION_OVERFLOW is defined and distinct.
  */
 TEST(OptionalFallback, AggregationOverflowErrorCodeDefined) {
-    EXPECT_NE(AnalyticsErrorCode::AGGREGATION_OVERFLOW, AnalyticsErrorCode::OK);
+    EXPECT_NE(AnalyticsErrorCode::AGGREGATION_OVERFLOW, AnalyticsErrorCode::WINDOW_EXPIRED);
     EXPECT_NE(AnalyticsErrorCode::AGGREGATION_OVERFLOW, AnalyticsErrorCode::STREAM_BACKPRESSURE);
 }
 
@@ -93,15 +93,15 @@ TEST(OptionalFallback, AggregationOverflowErrorCodeDefined) {
 TEST(OptionalFallback, ErrorCodesUsableInSwitch) {
     auto label = [](AnalyticsErrorCode c) -> const char* {
         switch (c) {
-            case AnalyticsErrorCode::OK:                  return "OK";
             case AnalyticsErrorCode::STREAM_BACKPRESSURE: return "BACKPRESSURE";
             case AnalyticsErrorCode::AGGREGATION_OVERFLOW: return "OVERFLOW";
+            case AnalyticsErrorCode::WINDOW_EXPIRED:       return "WINDOW_EXPIRED";
             default:                                       return "OTHER";
         }
     };
-    EXPECT_STREQ(label(AnalyticsErrorCode::OK),                   "OK");
     EXPECT_STREQ(label(AnalyticsErrorCode::STREAM_BACKPRESSURE),   "BACKPRESSURE");
     EXPECT_STREQ(label(AnalyticsErrorCode::AGGREGATION_OVERFLOW),  "OVERFLOW");
+    EXPECT_STREQ(label(AnalyticsErrorCode::WINDOW_EXPIRED),        "WINDOW_EXPIRED");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

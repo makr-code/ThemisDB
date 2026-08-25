@@ -117,8 +117,8 @@ TEST(FailoverWaveDObservability, FO_WD_OBS_01_PromotionEventCallbacks) {
 
     // Simulate a promotion path by adding a node (no-op in test mode) and verify
     // the callback wiring compiles and the accumulator captures whatever is emitted.
-    manager.addMonitoredNode("node-primary", NodeRole::PRIMARY);
-    manager.addMonitoredNode("node-replica", NodeRole::REPLICA);
+    manager.addMonitoredNode("node-primary", NodeRole::Leader);
+    manager.addMonitoredNode("node-replica", NodeRole::Follower);
 
     // Verify callback registration succeeded (count >= 0, no crash)
     EXPECT_NO_THROW(manager.getStatistics());
@@ -203,7 +203,7 @@ TEST(FailoverWaveDObservability, FO_WD_OBS_04_NodeRejoinFailedAfterMaxAttempts) 
         return false;
     });
 
-    manager.addMonitoredNode("node-failed", NodeRole::REPLICA);
+    manager.addMonitoredNode("node-failed", NodeRole::Follower);
 
     // Attempt recovery — after max_recovery_attempts=1, emits NODE_REJOIN_FAILED
     manager.testTriggerRecovery("node-failed");

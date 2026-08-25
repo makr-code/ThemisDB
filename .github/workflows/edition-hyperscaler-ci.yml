@@ -26,7 +26,7 @@ concurrency:
 jobs:
   hyperscaler-build:
     if: github.ref == 'refs/heads/hyperscaler'
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     secrets: inherit
     with:
       runs_on: ubuntu-latest

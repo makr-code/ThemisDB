@@ -29,6 +29,11 @@ on:
         required: false
         default: ''
         type: string
+      target-type:
+        description: Target kind for comment_issue (issue|pr|auto)
+        required: false
+        default: 'auto'
+        type: string
       labels-to-add:
         description: Comma-separated labels to add
         required: false
@@ -110,6 +115,7 @@ jobs:
           issue-title: ${{ inputs.issue-title }}
           issue-body: ${{ inputs.issue-body }}
           issue-marker: ${{ inputs.issue-marker }}
+          target-type: ${{ inputs.target-type }}
           labels-to-add: ${{ inputs.labels-to-add }}
           labels-to-remove: ${{ inputs.labels-to-remove }}
           status-group: ${{ inputs.status-group }}

@@ -22,7 +22,7 @@ on:
       - 'CMakePresets.json'
       - 'vcpkg.json'
       - 'cmake/**'
-      - '.github/workflows/09-pr-gates_hash-sbom-validation.yml'
+      - '.github/workflows/gate-pr-hash-sbom.yml'
   push:
     branches: [develop]
     paths:
@@ -206,7 +206,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           gate-name: Hash & SBOM Integrity
-          workflow-file: 09-pr-gates_hash-sbom-validation.yml
+          workflow-file: gate-pr-hash-sbom.yml
           job-status: ${{ job.status }}
           checklist: |
             - ${{ steps.check-hashes.outcome == 'success' && '✅' || '❌' }} Dependency hash integrity check

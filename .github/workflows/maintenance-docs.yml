@@ -414,8 +414,8 @@ jobs:
   # Detects stale AI-session working documents in ai_working/ (> STALE_DAYS days,
   # not governance-critical) and reports orphaned ai_context/ entries.
   # Governance-critical files are explicitly excluded from the stale-file list:
-  #   - ai_working/ENFORCEMENT_WAIVERS.md  (read by governance-gates.yml)
-  #   - ai_working/MERGE_GATE_AUDIT_LOG.jsonl  (read by governance-gates.yml)
+  #   - ai_working/ENFORCEMENT_WAIVERS.md  (read by compliance-governance-gates.yml)
+  #   - ai_working/MERGE_GATE_AUDIT_LOG.jsonl  (read by compliance-governance-gates.yml)
   #   - ai_working/gs3/  (used by maintenance-gs3-gaps.yml; partially .gitignored)
   # This job is report-only: it never deletes files and never fails the workflow.
   # ────────────────────────────────────────────────────────────────────────────

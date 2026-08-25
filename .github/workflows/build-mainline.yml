@@ -5,7 +5,7 @@ name: "Build: Mainline"
 # ──────────────────────────────────────────────────────────────────────────────
 # Trigger policy: push to develop only (no pull_request trigger).
 # Heavy C++ builds (up to 120 min) run post-merge, not on every PR push.
-# PR-level feedback is provided by lightweight ci-pr-gates.yml and 09-pr-gates_*.yml.
+# PR-level feedback is provided by lightweight gate-pr-core.yml and gate-pr-*.yml.
 # See .github/WORKFLOW_GUIDELINES.md §Label Policy for build-status labels.
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -24,7 +24,7 @@ on:
       - 'vcpkg.json'
       - 'vcpkg-configuration.json'
       - '.github/actions/**'
-      - '.github/workflows/ci-build.yml'
+      - '.github/workflows/build-mainline.yml'
   workflow_dispatch:
     inputs:
       sanitizer:
@@ -48,7 +48,7 @@ permissions:
 
 jobs:
   build:
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
       shell: bash
@@ -92,13 +92,17 @@ jobs:
           BUILD_RESULT: ${{ needs.build.result }}
         run: |
           if [ "${BUILD_RESULT}" = "success" ]; then
-            echo "status_label=ci/build-ok" >> "$GITHUB_OUTPUT"
-            echo "status_text=passing" >> "$GITHUB_OUTPUT"
-            echo "status_icon=✅" >> "$GITHUB_OUTPUT"
+            {
+              echo "status_label=ci/build-ok"
+              echo "status_text=passing"
+              echo "status_icon=✅"
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "status_label=ci/build-failed" >> "$GITHUB_OUTPUT"
-            echo "status_text=failing" >> "$GITHUB_OUTPUT"
-            echo "status_icon=❌" >> "$GITHUB_OUTPUT"
+            {
+              echo "status_label=ci/build-failed"
+              echo "status_text=failing"
+              echo "status_icon=❌"
+            } >> "$GITHUB_OUTPUT"
           fi
 
       - name: Upsert build tracker issue

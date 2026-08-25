@@ -8,7 +8,7 @@
 # type: info     — informational, no action required
 # ──────────────────────────────────────────────────────────────────────────────
 
-# ── ci/ — CI pipeline status (set/cleared by ci-build.yml and maintenance workflows) ──
+# ── ci/ — CI pipeline status (set/cleared by build-mainline.yml and maintenance workflows) ──
 
 - name: "ci/build-failed"
   color: "B60205"
@@ -77,7 +77,7 @@
   description: "All PR gates green; approved for merge"
   type: info
 
-# ── governance/ — Governance gate status (set by governance-gates.yml) ──
+# ── governance/ — Governance gate status (set by compliance-governance-gates.yml) ──
 
 - name: "governance/drift"
   color: "E11D48"
@@ -165,6 +165,26 @@
   description: "Build system or dependency change"
   type: info
 
+- name: "type:feature"
+  color: "0075CA"
+  description: "Feature implementation change"
+  type: info
+
+- name: "type:bugfix"
+  color: "0075CA"
+  description: "Bug fix change"
+  type: info
+
+- name: "type:performance"
+  color: "0075CA"
+  description: "Performance-oriented change"
+  type: info
+
+- name: "type:security"
+  color: "0075CA"
+  description: "Security-focused code change"
+  type: info
+
 - name: "breaking-change"
   color: "B60205"
   description: "Introduces a breaking API or behavior change"
@@ -184,6 +204,108 @@
   color: "D93F0B"
   description: "Change in a release-critical module; requires sign-off"
   type: blocker
+
+- name: "needs-triage"
+  color: "FBCA04"
+  description: "Requires initial triage"
+  type: warning
+
+- name: "llm-ci-failure"
+  color: "B60205"
+  description: "LLM CI lane failed and needs follow-up"
+  type: blocker
+
+- name: "severity:critical"
+  color: "B60205"
+  description: "Critical severity classification"
+  type: blocker
+
+- name: "severity:high"
+  color: "D93F0B"
+  description: "High severity classification"
+  type: warning
+
+- name: "severity:medium"
+  color: "FBCA04"
+  description: "Medium severity classification"
+  type: warning
+
+- name: "severity:low"
+  color: "0E8A16"
+  description: "Low severity classification"
+  type: info
+
+- name: "impact:single_module"
+  color: "C5DEF5"
+  description: "Impact is limited to a single module"
+  type: info
+
+- name: "impact:multiple_modules"
+  color: "C5DEF5"
+  description: "Impact spans multiple modules"
+  type: warning
+
+- name: "impact:core"
+  color: "D4C5F9"
+  description: "Impact affects core platform behavior"
+  type: warning
+
+- name: "impact:api"
+  color: "D4C5F9"
+  description: "Impact affects public API behavior"
+  type: warning
+
+- name: "impact:infrastructure"
+  color: "D4C5F9"
+  description: "Impact affects CI/CD or infrastructure behavior"
+  type: warning
+
+# ── lane/priority labels — used by milestone automation ──
+
+- name: "hot-patch"
+  color: "B60205"
+  description: "Urgent hot patch lane"
+  type: blocker
+
+- name: "hotpatch"
+  color: "B60205"
+  description: "Legacy alias for hot patch lane"
+  type: blocker
+
+- name: "long-term"
+  color: "5319E7"
+  description: "Long-term roadmap lane"
+  type: info
+
+- name: "roadmap/long-term"
+  color: "5319E7"
+  description: "Long-term roadmap planning lane"
+  type: info
+
+- name: "priority:critical"
+  color: "B60205"
+  description: "Critical priority work item"
+  type: blocker
+
+- name: "priority:low"
+  color: "0E8A16"
+  description: "Low priority work item"
+  type: info
+
+- name: "enhancement"
+  color: "84B6EB"
+  description: "Enhancement request"
+  type: info
+
+- name: "docs"
+  color: "0075CA"
+  description: "Documentation lane marker"
+  type: info
+
+- name: "backlog"
+  color: "E4E669"
+  description: "Backlog lane marker"
+  type: info
 
 # ── wave: — Roadmap wave classification (set by actions/labeler) ──
 

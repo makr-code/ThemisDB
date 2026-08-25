@@ -9,7 +9,7 @@ name: "Security: Consolidated Scans"
 # Design decisions:
 #   - All scanner jobs run on schedule and workflow_dispatch only.
 #   - PR trigger is intentionally absent: heavy scanners (Trivy, DAST) must not
-#     block PRs.  CodeQL (codeql.yml) remains the sole PR security gate.
+#     block PRs.  CodeQL (security-codeql.yml) remains the sole PR security gate.
 #   - Gitleaks is the only fast secret-scan job that may optionally run on PR if
 #     needed, but it is also covered here on schedule for completeness.
 #   - SARIF uploads go to GitHub Security tab (code scanning) for unified triage.

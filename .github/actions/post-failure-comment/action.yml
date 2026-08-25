@@ -12,7 +12,7 @@ inputs:
     description: Short human-readable name of the gate or check (e.g. "Community Fail-Closed").
     required: true
   workflow-file:
-    description: Workflow file name shown in the comment footer (e.g. "09-pr-gates_community-fail-closed.yml").
+    description: Workflow file name shown in the comment footer (e.g. "gate-pr-community-failclosed.yml").
     required: true
   job-status:
     description: The job status string ("success", "failure", "cancelled", "skipped").

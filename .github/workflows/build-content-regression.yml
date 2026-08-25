@@ -25,7 +25,7 @@ on:
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
       - 'cmake/**'
-      - '.github/workflows/ci-content-regression.yml'
+      - '.github/workflows/build-content-regression.yml'
   schedule:
     # Weekly Sunday 05:30 UTC — Wave D soak tests (content module)
     - cron: '30 5 * * 0'
@@ -45,7 +45,7 @@ permissions:
   actions: read
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Shared build setup variables (keep aligned with ci-build.yml)
+# Shared build setup variables (keep aligned with build-mainline.yml)
 # ──────────────────────────────────────────────────────────────────────────────
 env:
   APT_PACKAGES: >-

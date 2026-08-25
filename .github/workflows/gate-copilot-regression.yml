@@ -12,7 +12,7 @@ on:
       - 'cmake/**'
       - 'tools/ci/copilot_regression_guard.py'
       - 'tools/tests/test_copilot_regression_guard.py'
-      - '.github/workflows/copilot-regression-guard.yml'
+      - '.github/workflows/gate-copilot-regression.yml'
   workflow_dispatch:
 
 concurrency:

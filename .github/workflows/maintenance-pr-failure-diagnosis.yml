@@ -9,9 +9,8 @@ name: "Maintenance: PR Failure Diagnosis [Recommend-Only]"
 on:
   workflow_run:
     workflows:
-      - "CI — Build"
-      - "CI — PR Gates"
-      - "Quality — Static Analysis"
+      - "Build: Mainline"
+      - "Gate: PR Core"
     types: [completed]
   workflow_dispatch:
     inputs:

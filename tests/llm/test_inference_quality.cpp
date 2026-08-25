@@ -40,6 +40,7 @@
 #endif
 
 using namespace themis;
+using namespace themis::llamacpp;
 
 /**
  * Test fixture for inference quality tests.
@@ -549,7 +550,7 @@ TEST_F(InferenceQualityTest, Metrics_PerplexityCalculation) {
     EXPECT_GT(resp.tokens_generated, 0);
     // time_ms is a proxy for perplexity workload (model ran forward pass)
     std::cout << "Perplexity proxy: " << resp.tokens_generated
-              << " tokens in " << resp.time_ms << "ms" << std::endl;
+              << " tokens in " << resp.inference_time_ms << "ms" << std::endl;
 #endif
 }
 
@@ -601,7 +602,7 @@ TEST_F(InferenceQualityTest, Metrics_ResponseTimeTracking) {
     }
     auto resp = runRealGenerate("Hello:", 8, 0.0f);
     ASSERT_TRUE(resp.success) << "Real inference failed: " << resp.error_message;
-    EXPECT_GT(resp.time_ms, 0.0) << "Inference should report non-zero time";
-    std::cout << "Real inference time: " << resp.time_ms << "ms" << std::endl;
+    EXPECT_GT(resp.inference_time_ms, 0.0f) << "Inference should report non-zero time";
+    std::cout << "Real inference time: " << resp.inference_time_ms << "ms" << std::endl;
 #endif
 }

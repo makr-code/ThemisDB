@@ -296,7 +296,7 @@ TEST(FederationTrustPolicy, AlwaysPermitAllowsAll) {
     AdapterCapabilityAnnouncement ann;
     ann.adapter_id = "adapter-trusted";
     ann.shard_id   = "shard-01";
-    ann.is_active  = true;
+    ann.is_withdrawal = false;
     EXPECT_EQ(policy.evaluateTrustGate(ann), TrustDecision::PERMIT);
 }
 

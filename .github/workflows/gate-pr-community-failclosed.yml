@@ -17,7 +17,7 @@ on:
       - 'src/**'
       - 'plugins/**'
       - 'CMakeLists.txt'
-      - '.github/workflows/09-pr-gates_community-fail-closed.yml'
+      - '.github/workflows/gate-pr-community-failclosed.yml'
   push:
     branches: [community, minimal]
     paths:
@@ -274,7 +274,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           gate-name: Community Fail-Closed Validation
-          workflow-file: 09-pr-gates_community-fail-closed.yml
+          workflow-file: gate-pr-community-failclosed.yml
           job-status: ${{ job.status }}
           checklist: |
             - ${{ steps.check-fallback.outcome == 'success' && '✅' || '❌' }} No silent fallback patterns

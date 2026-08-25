@@ -21,12 +21,12 @@ on:
   push:
     branches: [ "develop", "community" ]
     paths:
-      - '.github/workflows/codeql.yml'
+      - '.github/workflows/security-codeql.yml'
       - '.github/workflows/security-consolidated.yml'
   pull_request:
     branches: [ "develop", "community" ]
     paths:
-      - '.github/workflows/codeql.yml'
+      - '.github/workflows/security-codeql.yml'
       - '.github/workflows/security-consolidated.yml'
   workflow_dispatch: {}
 

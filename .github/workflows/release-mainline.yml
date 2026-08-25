@@ -152,7 +152,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   build-matrix:
     needs: preflight-release-policy
-    uses: ./.github/workflows/ci-release-build-matrix.yml
+    uses: ./.github/workflows/release-build-matrix.yml
     with:
       build_matrix: ${{ inputs.build_matrix || 'all' }}
     secrets: inherit
@@ -369,7 +369,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          gh workflow run .github/workflows/docker-image.yml \
+          gh workflow run .github/workflows/release-docker-image.yml \
             --ref "${TARGET_REF}" \
             -f push_to_registry=true \
             -f registry=ghcr.io \
@@ -403,7 +403,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          gh workflow run .github/workflows/ci-widget.yml \
+          gh workflow run .github/workflows/build-widget.yml \
             --ref "${TARGET_REF}" \
             -f dry_run=true \
             -f source_workflow="CI - Release" \
@@ -630,7 +630,7 @@ jobs:
   #             via workflow_dispatch.  Required: false for v1-beta;
   #             promote to required: true for GA by updating branch protection.
   #
-  # Uses the same ci-llm-inference.yml reusable workflow and the canonical
+  # Uses the same build-llm-inference.yml reusable workflow and the canonical
   # HuggingFace TinyLlama GGUF model download path.
   # ─────────────────────────────────────────────────────────────────────────────
   llm-inference-gate:

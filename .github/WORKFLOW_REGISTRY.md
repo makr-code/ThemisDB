@@ -17,29 +17,29 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 ## Aktiver Workflow-Kern
 
 ### Fokus-Workflows
-- `.github/workflows/ci-pr-gates.yml`
+- `.github/workflows/gate-pr-core.yml`
   — Fast PR-Gate-Layer inkl. `release-critical-tests` (mandatory), Boundary- und Policy-Gates
-- `.github/workflows/ci-build.yml`
+- `.github/workflows/build-mainline.yml`
   — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
-- `.github/workflows/ci-release.yml`
+- `.github/workflows/release-mainline.yml`
   — Tag-/Dispatch-gesteuerte Release-Builds; CPack-Packaging (TGZ/DEB/RPM/ZIP/MSI); Manifest-Validierung, GitHub-Release-Erstellung und Publish-Lanes (community + private); Changelog-Automation
-- `.github/workflows/ci-benchmarks.yml`
+- `.github/workflows/build-benchmarks.yml`
   — Entkoppelte schwere Benchmark-Lanes (voice, GPU matrix, nightly sweep)
 - `.github/workflows/release-changelog.yml`
   — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
 - `.github/workflows/security-consolidated.yml`
   — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan + DAST/ZAP (Schedule/Dispatch only; 4 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml)
-- `.github/workflows/fortify.yml`
+- `.github/workflows/security-fortify.yml`
   — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
 - `.github/workflows/security-pentest-quarterly.yml`
   — Quartals-Pentest-Cadence mit Evidence-Artefakten (non-mutating)
 - `.github/workflows/compliance-supply-chain.yml`
   — SBOM-/Signatur-/Release-Compliance-Pruefungen
-- `.github/workflows/codeql.yml`
+- `.github/workflows/security-codeql.yml`
   — CodeQL Analyse-Workflow
 - `.github/workflows/quality-static-analysis.yml`
   — Statische Qualitaetspruefungen und Artefaktberichte
-- `.github/workflows/governance-gates.yml`
+- `.github/workflows/compliance-governance-gates.yml`
   — Governance- und Release-Policy-Gates
 - `.github/workflows/maintenance-docs.yml`
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
@@ -49,16 +49,20 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
 - `.github/workflows/maintenance-issues.yml`
   — Konsolidiertes Issue-Maintenance: GS3-Gap-Triage (03:30 UTC) + Security-Alert-SLA-Triage (05:30 UTC); ersetzt maintenance-gs3-gaps.yml + maintenance-security-alerts.yml
-- `.github/workflows/docker-image.yml`
-  — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit ci-release.yml)
+- `.github/workflows/maintenance-issue-recommendations.yml`
+  — Recommend-only Issue Triage; kommentiert offene Issues mit merged-PR-Evidenz und bleibt bewusst non-destructive
+- `.github/workflows/maintenance-milestones.yml`
+  — Milestone-Governance: synchronisiert kanonische Milestones aus `.github/milestones.yml` und weist Issues/PRs automatisch anhand von Labels bzw. `Target Version` zu (inkl. HOTPATCH/LONG-TERM)
+- `.github/workflows/release-docker-image.yml`
+  — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit release-mainline.yml)
   _(security-scan.yml, security.yml, security-scanning.yml wurden in security-consolidated.yml konsolidiert und in no_workflows/ archiviert.)_
 - `.github/workflows/edition-hyperscaler-ci.yml`
   — Editionsspezifische Hyperscaler-CI Lane
 - `.github/workflows/automation-community.yml`
   — Community Automation (Labeling/Onboarding)
-- `.github/workflows/copilot-ollama-router-ci.yml`
+- `.github/workflows/build-ollama-router.yml`
   — Scoped CI fuer `tools/copilot-ollama-router/**`
-- `.github/workflows/copilot-regression-guard.yml`
+- `.github/workflows/gate-copilot-regression.yml`
   — Copilot/CMake-Regression Guard
 
 ## Quarantaene: `.github/no_workflows/`
@@ -89,18 +93,48 @@ Lokaler Standard-Check:
 pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
+### Test-System im Detail
+
+Das lokale GitHub-Action-Testsystem besteht aus zwei Kernschritten:
+
+- `actionlint` via Docker (`rhysd/actionlint:latest`): validiert die Workflow-Syntax und die strukturelle Korrektheit der YAML-Dateien.
+- `act` Dry-Run: simuiert Workflow-Events wie `push`, `pull_request`, `workflow_dispatch` und `schedule` ohne echten GitHub Runner.
+
+Die genaue Logik sitzt in `scripts/test-github-actions-local.ps1` und erzeugt Logs im Standardordner `tmp/`:
+
+```powershell
+actionlint_<timestamp>.log
+act_dryrun_<event>_<timestamp>.log
+```
+
+Die Verifikation besteht aus drei Modi:
+
+```powershell
+pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint
+pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode dryrun
+pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
+```
+
+Hinweis: `Mode all` ist der Standard-Check vor Merge. `act` kann bei Events ohne passende Stages als Skip melden; das ist kein Workflow-Fehler, sondern ein lokales Laufzeit-Limit der Simulation.
+
+## Naming-Migration
+Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
+
+- `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
+
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 21
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 38
 - Deaktivierte Workflows in `.github/no_workflows/`: 30
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
+- Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
 
 ## Durchgeführte Konsolidierungen (Workflow Framework Refactoring)
 
 | Aktion | Quelle(n) | Ziel | Sprint |
 |---|---|---|---|
-| Trigger-Cleanup | ci-benchmarks.yml | push/PR entfernt → schedule/dispatch only | 1 |
-| Trigger-Cleanup | fortify.yml | pull_request entfernt → schedule only | 1 |
-| Trigger-Cleanup | governance-gates.yml | paths: Filter für push/develop | 1 |
+| Trigger-Cleanup | build-benchmarks.yml | push/PR entfernt → schedule/dispatch only | 1 |
+| Trigger-Cleanup | security-fortify.yml | pull_request entfernt → schedule only | 1 |
+| Trigger-Cleanup | compliance-governance-gates.yml | paths: Filter für push/develop | 1 |
 | Trigger-Cleanup | maintenance-docs.yml | pull_request entfernt | 1 |
 | Archiviert | security-scan.yml | no_workflows/ (war legacy shim) | 1 |
 | Konsolidiert | security.yml + security-scanning.yml | security-consolidated.yml | 2 |

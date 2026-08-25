@@ -32,7 +32,7 @@ permissions:
 jobs:
   validate-build:
     name: Build Validation (distributed_knowledge)
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
       shell: bash
@@ -70,7 +70,7 @@ jobs:
   validate-unit-tests:
     name: Unit Tests (58 tests)
     needs: validate-build
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
       shell: bash
@@ -98,7 +98,7 @@ jobs:
   validate-benchmarks:
     name: Benchmark Validation (±5% gates)
     needs: validate-build
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
       shell: bash

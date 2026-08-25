@@ -62,10 +62,10 @@ TEST(UtilsLlmPathFocused, UL5_LlmErrors_AllInLlmCategory) {
     }
 }
 
-// ── UL6: getSolution shorthand returns same as getError().solution ────────────
+// ── UL6: getRecoveryHint shorthand returns same as getError().solution ───────
 TEST(UtilsLlmPathFocused, UL6_GetSolution_MatchesMetadataSolution) {
     auto& reg = ErrorRegistry::getInstance();
     auto meta      = reg.getError(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);
-    auto solution  = reg.getSolution(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);
+    auto solution  = reg.getRecoveryHint(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);
     EXPECT_EQ(meta.solution, solution);
 }

@@ -25,9 +25,13 @@ using json = nlohmann::json;
 
 // ── helper ────────────────────────────────────────────────────────────────────
 
-static LlamaCppPlugin make_loaded_plugin() {
-    LlamaCppPlugin p;
-    p.loadModel("/stub/model.gguf", {});
+static LlamaCppPlugin& make_loaded_plugin() {
+    static LlamaCppPlugin p;
+    static bool initialized = false;
+    if (!initialized) {
+        p.loadModel("/stub/model.gguf", {});
+        initialized = true;
+    }
     return p;
 }
 
@@ -46,7 +50,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC1_GenerateUnloaded_ReturnsError) {
 
 // IC2: generate() on loaded plugin returns success
 TEST(LlamaCppInferenceContractFocusedTests, IC2_GenerateLoaded_ReturnsSuccess) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     InferenceRequest req;
     req.prompt     = "What is the capital of France?";
     req.max_tokens = 32;
@@ -56,7 +60,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC2_GenerateLoaded_ReturnsSuccess) {
 
 // IC3: generate() response text is non-empty when successful
 TEST(LlamaCppInferenceContractFocusedTests, IC3_GenerateSuccess_TextNotEmpty) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     InferenceRequest req;
     req.prompt     = "Describe the sky.";
     req.max_tokens = 32;
@@ -68,7 +72,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC3_GenerateSuccess_TextNotEmpty) {
 
 // IC4: error_message is empty on a successful response
 TEST(LlamaCppInferenceContractFocusedTests, IC4_GenerateSuccess_ErrorMessageEmpty) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     InferenceRequest req;
     req.prompt     = "hello";
     req.max_tokens = 8;
@@ -80,7 +84,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC4_GenerateSuccess_ErrorMessageEmpt
 
 // IC5: system_prompt field is accepted without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC5_SystemPrompt_Accepted) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     InferenceRequest req;
     req.prompt        = "Hi";
     req.max_tokens    = 8;
@@ -90,7 +94,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC5_SystemPrompt_Accepted) {
 
 // IC6: lora_adapter_id hint is accepted without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC6_LoRAAdapterHint_Accepted) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     InferenceRequest req;
     req.prompt          = "test";
     req.max_tokens      = 8;
@@ -100,7 +104,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC6_LoRAAdapterHint_Accepted) {
 
 // IC7: streaming callback is invoked at least once when provided
 TEST(LlamaCppInferenceContractFocusedTests, IC7_StreamingCallback_IsInvoked) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     InferenceRequest req;
     req.prompt     = "Stream test";
     req.max_tokens = 16;
@@ -120,10 +124,10 @@ TEST(LlamaCppInferenceContractFocusedTests, IC7_StreamingCallback_IsInvoked) {
 
 // IC8: generateRAG() returns a response without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC8_GenerateRAG_ReturnsResponse) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
 
     RAGContext ctx;
-    ctx.context_text = "Paris is the capital of France.";
+    ctx.documents.push_back({"Paris is the capital of France.", "wiki://paris", 0.99f, {}});
 
     InferenceRequest req;
     req.prompt     = "What is the capital of France?";
@@ -137,7 +141,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC8_GenerateRAG_ReturnsResponse) {
 
 // IC9: generateRAG() with empty context does not crash
 TEST(LlamaCppInferenceContractFocusedTests, IC9_GenerateRAG_EmptyContext_NocrASH) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     RAGContext ctx;  // empty
     InferenceRequest req;
     req.prompt     = "Any question?";
@@ -147,7 +151,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC9_GenerateRAG_EmptyContext_NocrASH
 
 // IC10: json_schema binding is accepted without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC10_JsonSchema_Accepted) {
-    auto p = make_loaded_plugin();
+    LlamaCppPlugin& p = make_loaded_plugin();
     InferenceRequest req;
     req.prompt     = "Return a JSON object";
     req.max_tokens = 32;
