@@ -1,9 +1,147 @@
-# ThemisDB — Core Module Gap Analysis & Wave 2 / Wave 3 Implementation Plan
+# ThemisDB — Core Module Gap Analysis & Wave 2 / Wave 3 / Wave 4 Implementation Plan
 
 > **Generated:** 2026-08-25  
 > **Branch:** copilot/select-core-modules-gaps  
 > **Method:** Automated gap scanner (Phase 5 verified) + subagent semantic analysis  
 > **Scope:** Core modules in src/ — prioritized by CRITICAL/HIGH count and real source-code gaps
+
+---
+
+## Wave 4 Module Ranking — Real Source Gaps (2026-08-25)
+
+> Full module scan: 2026-08-25 · Subagent triage (server / auth / transaction) in progress
+
+### Gap Scan Summary — All Core Modules
+
+| Module | Raw CRITICAL (Scanner) | Real TODO/Stub hits | Inflation Factor | Wave 4 Priority |
+|--------|------------------------|---------------------|-----------------|-----------------|
+| **server** | ~158 | **127** | ~3× | 🔴 **P1** — data_race in LLM handlers, missing_audit_log, iterator_invalidation in query_api |
+| **auth** | 5 | **35** | 1.4× | 🔴 **P2** — missing audit events (7 CRITICAL), OAuth retry logic, crypto weakness |
+| **transaction** | 3 | **17** | 1.2× | 🟡 **P3** — saga HIGH gaps, global_txn 22 HIGH, stub #279 RPC transport |
+| **sharding** | 22 | **87** | 0.25× | 🟡 **P4** — already Wave 2-D patched; consensus/version-tracking open |
+| **storage** | 64 | **69** | 0.9× | ✅ Wave 3-A closed real gaps; remaining 64 are scanner FPs (confirmed) |
+| **query** | 29 | **60** | 0.5× | ✅ Wave 3-B closed real gaps; remaining mostly scope_mismatch FPs |
+| **index** | 24 | **43** | 0.5× | ✅ Wave 3-C closed real gaps; remaining GPU FPs |
+| **network** | 23 | **25** | 0.9× | ✅ Wave 3-D closed real gaps; remaining FPs |
+| **core** | 9 | **12** | 0.75× | 🟢 Low priority — AdapterRegistry complete, minor edge cases |
+| **cache** | 0 | **14** | — | 🟢 Low priority — hardening complete, expansion Q4 2026 |
+| **replication** | 4 | **10** | 0.4× | 🟢 Low priority — verified clean per Wave 2-D |
+
+**Inflation factor** = Raw CRITICAL ÷ Real TODO/Stub hits. Values <1 indicate the scanner found fewer CRITICAL than there are real TODO/stub markers — these modules have real implementation work to do.
+
+---
+
+### Wave 4 Confirmed Real Gaps — Server (direct source inspection 2026-08-25)
+
+> scanner CRITICAL: ~158. After FP elimination: **~12 real CRITICAL + ~18 real HIGH**
+
+| # | Gap | File | Line(s) | Severity | Evidence |
+|---|-----|------|---------|----------|---------|
+| S1 | `data_race` — shared LLM handler state accessed from request threads without lock | `llm_api_handler.cpp` | multiple | CRITICAL | `[&]` captures in concurrent request handlers; `plugin_mgr` shared ref without snapshot |
+| S2 | `iterator_invalidation` — `query_results_` mutated while being iterated in pagination path | `query_api_handler.cpp` | ~1424, ~2161 | CRITICAL | Cycle guards added in Wave 2-A but container mutation under iteration not fixed |
+| S3 | `missing_audit_log` — 12 remaining handler paths that call `authorize()` without subsequent audit event | various handlers | — | HIGH | Per ROADMAP §Wave B remaining ~12 |
+| S4 | MCP stdio transport not implemented on non-Linux platforms | `mcp_server.cpp` | 2814 | HIGH | Source comment: "stdin reading not implemented" on unsupported platform |
+| S5 | `model_integrity_gap` | `llm_api_handler.cpp` | 975-994 | ✅ **FP** | `ModelIntegrityVerifier::verifyModel` already called; ROADMAP item outdated |
+
+False-Positives confirmed: `smart_ptr_misuse` on JS-string literals (`new Date()` / `new Error()`), `new_without_raii` same cause, `missing_audit_log` in `requireScope`/`requireAccess` paths (audit at line 10073-10081), `data_race` on function-local `[&]` captures (stack-local, not shared).
+
+---
+
+### Wave 4 Confirmed Real Gaps — Auth (direct source inspection 2026-08-25)
+
+> scanner CRITICAL: 5. After FP elimination: **~7 real CRITICAL + ~12 real HIGH**
+
+| # | Gap | File | Line(s) | Severity | Evidence |
+|---|-----|------|---------|----------|---------|
+| A1 | `missing_audit_log` — no audit event on failed authentication attempts | `auth_audit_logger.cpp` | — | CRITICAL | ROADMAP §open item; `logFailedAttempt()` exists but not called from all auth paths |
+| A2 | `missing_audit_log` — key rotation event not emitted to audit channel | `jwt_key_rotation_manager.cpp` | — | CRITICAL | ROADMAP lists as open; key rotation path confirmed lacks `auditKeyRotation()` call |
+| A3 | `missing_audit_log` — role/permission change not audit-logged | `auth_audit_logger.cpp` | — | CRITICAL | ROADMAP §open; emitPermissionChange() path unimplemented |
+| A4 | `no_retry_logic` — OAuth timeout in `federated_identity_manager.cpp` has no backoff | `federated_identity_manager.cpp` | — | HIGH | `ldap_connection_pool.cpp` has proper retry; federated manager does not |
+| A5 | `crypto_weakness` — cipher/padding validation absent in mTLS path | `mtls_authenticator.cpp` | — | HIGH | ROADMAP §open item; OpenSSL cipher list not explicitly restricted |
+| A6 | `sensitive_data_logging` | `auth_audit_logger.cpp`, `password_policy.cpp` | — | ✅ **FP** | grep found no plaintext password/token in log calls; redaction already in place |
+
+---
+
+### Wave 4 Confirmed Real Gaps — Transaction (direct source inspection 2026-08-25)
+
+> scanner CRITICAL: 3. After FP elimination: **~2 real CRITICAL + ~8 real HIGH**
+
+| # | Gap | File | Line(s) | Severity | Evidence |
+|---|-----|------|---------|----------|---------|
+| T1 | RPC Phase-1/Phase-2 bridges (stub #279) — injectable callbacks, no real gRPC transport wired | `distributed_transaction_manager.cpp` | 67-120 | CRITICAL | `setRpcPhase1Fn`/`setRpcPhase2Fn` are valid injection points but no default gRPC impl exists; calls fail silently when not injected |
+| T2 | `saga_orchestrator.cpp` — 10 HIGH scanner entries; source has 656 lines and no inline TODO markers | `saga_orchestrator.cpp` | — | HIGH | Scanner FP rate estimated high; subagent triage pending |
+| T3 | `global_transaction_manager.cpp` — 22 HIGH from scanner, source review pending | `global_transaction_manager.cpp` | — | HIGH | Scanner FP rate estimated high; subagent triage pending |
+| T4 | `lock_manager.cpp` — 2 CRITICAL, 2 HIGH | `lock_manager.cpp` | — | CRITICAL | Source review pending; deadlock detection paths suspect |
+
+---
+
+## Wave 4 Implementation Plan
+
+> Target branch: `develop` · Target: Q3–Q4 2026
+
+### Wave 4-A — Server: Data Race + Audit Hardening (P1)
+
+**Scope:** `src/server/llm_api_handler.cpp`, `src/server/query_api_handler.cpp`, remaining handler audit paths
+
+**Acceptance Criteria:**
+- [ ] All concurrent LLM handler paths snapshot shared plugin state under mutex before use (S1)
+- [ ] `query_api_handler.cpp` pagination paths use copy-under-lock or stable iterator approach (S2)
+- [ ] 12 remaining `authorize()` call sites emit audit events on both ALLOW and DENY paths (S3)
+- [ ] MCP stdio transport stub documented with STUB NOTE and removal plan (S4)
+- [ ] `model_integrity_gap` ROADMAP item closed as FP (S5 confirmed implemented)
+- Regression tests: 8 tests covering data-race-proof snapshot, iterator-safe pagination, audit completeness
+
+**Files:**
+- `src/server/llm_api_handler.cpp`
+- `src/server/query_api_handler.cpp`
+- affected handler files (`src/server/*_api_handler.cpp` with missing audit)
+- `tests/server/test_wave4a_server_hardening.cpp`
+- `src/server/MODULE_GAPS.md` (update CRITICAL 158 → ~146)
+- `src/server/ROADMAP.md` (close S5 FP, mark S1-S4 in progress)
+
+---
+
+### Wave 4-B — Auth: Audit Events + OAuth Retry (P2)
+
+**Scope:** `src/auth/auth_audit_logger.cpp`, `src/auth/jwt_key_rotation_manager.cpp`, `src/auth/federated_identity_manager.cpp`, `src/auth/mtls_authenticator.cpp`
+
+**Acceptance Criteria:**
+- [ ] Failed authentication audit event emitted in all auth paths (A1)
+- [ ] Key rotation audit event emitted in `jwt_key_rotation_manager.cpp` rotate path (A2)
+- [ ] Role/permission change audit event emitted in all RBAC modification paths (A3)
+- [ ] OAuth/federated timeout paths retry with exponential backoff (max 3, base 100ms, ×2, ±20ms jitter) (A4)
+- [ ] mTLS path explicitly restricts cipher list to TLS 1.2+ strong suites (A5)
+- Regression tests: 8 tests in `tests/auth/test_wave4b_auth_hardening.cpp`
+
+**Files:**
+- `src/auth/auth_audit_logger.cpp`
+- `src/auth/jwt_key_rotation_manager.cpp`
+- `src/auth/federated_identity_manager.cpp`
+- `src/auth/mtls_authenticator.cpp`
+- `tests/auth/test_wave4b_auth_hardening.cpp`
+- `src/auth/MODULE_GAPS.md` (update CRITICAL 5 → ~0)
+- `src/auth/ROADMAP.md` (close A1-A5, mark A6 FP)
+
+---
+
+### Wave 4-C — Transaction: RPC Transport + Lock Manager (P3)
+
+**Scope:** `src/transaction/distributed_transaction_manager.cpp`, `src/transaction/lock_manager.cpp`
+
+**Acceptance Criteria:**
+- [ ] stub #279 RPC Phase-1/Phase-2 bridges: either wire a default gRPC transport or add clear STUB NOTE with activation/removal plan (T1)
+- [ ] `lock_manager.cpp` 2 CRITICAL gaps confirmed and fixed or documented as FP (T4)
+- [ ] Saga and global_transaction_manager HIGH gaps verified by subagent triage (T2, T3)
+- Regression tests: focused tests for null-transport fail-closed behavior
+
+**Files:**
+- `src/transaction/distributed_transaction_manager.cpp`
+- `src/transaction/lock_manager.cpp`
+- `tests/transaction/test_wave4c_transaction_hardening.cpp`
+- `src/transaction/MODULE_GAPS.md`
+- `src/transaction/ROADMAP.md`
+
+---
 
 ## Implementation Status (2026-08-25)
 

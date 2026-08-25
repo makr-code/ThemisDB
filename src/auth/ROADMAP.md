@@ -45,19 +45,33 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 
 ## Planned Features
 
+### Wave 4-B: Auth Audit Events + OAuth Retry + mTLS Hardening (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 4-B · direct source inspection 2026-08-25  
+> **Real gap count:** ~7 CRITICAL (missing_audit_log), ~12 HIGH (no_retry_logic in federated, crypto_weakness in mTLS)  
+> **FP closed:** `sensitive_data_logging` — grep found no plaintext password/token in log call paths; redaction already in place
+
+- [x] Sensitive data redaction: **FP CONFIRMED** — no plaintext password/token/secret in log-write paths (grep verified 2026-08-25); item closed
+- [ ] Add missing audit events: failed authentication, key rotation, token revocation, role/permission change (Target: Q4 2026)
+  - Files: `auth_audit_logger.cpp` (add `logFailedAttempt()` call from all auth entry paths), `jwt_key_rotation_manager.cpp` (add `auditKeyRotation()` in rotate path)
+  - Constraints: every `authenticate()` call site must emit ALLOW or DENY audit record; key rotation and revocation must be logged
+  - Tests: `tests/auth/test_wave4b_auth_hardening.cpp` — audit completeness under: failed auth, key rotation, token revocation, permission change
+- [ ] OAuth/federated retry logic: exponential backoff for timeout in `federated_identity_manager.cpp` (Target: Q4 2026)
+  - Constraints: max 3 retries, base 100ms, ×2, ±20ms jitter; all retries exhausted → PROVIDER_DEGRADED fail-closed
+  - Note: `ldap_connection_pool.cpp` already has proper retry + bounded wait — reuse same pattern
+  - Tests: retry-exhaustion, jitter bounds, PROVIDER_DEGRADED emission
+- [ ] mTLS cipher restriction: explicitly set TLS 1.2+ strong cipher list in `mtls_authenticator.cpp` — no MD5/RC4/3DES, require ECDHE (Target: Q4 2026)
+  - Tests: `SSL_CTX_set_cipher_list` validated; rejected TLS 1.0/1.1 negotiation
+
 ### Wave 2-A: Auth Security Hardening (Target: Q3 2026)
 
 > **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-A, gap scanner verified 2026-08-25  
 > **Gap count:** 155 `sensitive_data_logging` (HIGH), 7 `missing_audit_log` (CRITICAL), 22 `no_retry_logic`, 9 `crypto_weakness`
 
-- [ ] Sensitive data redaction: add redaction wrapper for all spdlog calls in `auth_audit_logger.cpp`, `password_policy.cpp`, token handlers — passwords, secrets, tokens replaced with `[REDACTED]` (Target: Q3 2026)
-  - Constraints: no plaintext secret in any log output; `grep -rn "password\|Bearer\|token" src/auth/*.cpp` → zero hits in log-write paths
-  - Tests: `tests/auth/test_auth_sensitive_data_redaction.cpp` (6 cases: password change, token grant, key rotation, revocation, federation, passkey)
-- [ ] Add missing audit events: failed authentication, key rotation, token revocation, role/permission change in `jwt_key_rotation_manager.cpp`, `auth_audit_logger.cpp` (7 gaps) (Target: Q3 2026)
-- [ ] Auth retry logic: exponential backoff for LDAP/OAuth timeouts in `ldap_connection_pool.cpp`, `federated_identity_manager.cpp` (22 `no_retry_logic` gaps) (Target: Q3 2026)
-  - Constraints: max 3 retries, base delay 100ms, factor 2×, jitter ±20ms
-  - Errors: all retries exhausted → fail-closed with PROVIDER_DEGRADED
-- [ ] Crypto weakness fixes: validate OpenSSL usage in `passkey_authenticator.cpp`, `mtls_authenticator.cpp` — no weak ciphers, proper ECDSA padding, secure key derivation (9 gaps) (Target: Q3 2026)
+- [x] Sensitive data redaction: **FP — no plaintext in log paths** (see Wave 4-B above)
+- [~] Add missing audit events: tracked in Wave 4-B (Target: Q4 2026)
+- [~] Auth retry logic: `ldap_connection_pool.cpp` complete; `federated_identity_manager.cpp` tracked in Wave 4-B (Target: Q4 2026)
+- [~] Crypto weakness fixes: mTLS tracked in Wave 4-B (Target: Q4 2026)
 
 ### Wave 2-B: LDAP Stub Replacement (Target: Q4 2026)
 

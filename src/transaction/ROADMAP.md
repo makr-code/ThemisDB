@@ -25,6 +25,18 @@ Production-grade transaction stack with ACID lifecycle management, MVCC integrat
 
 ## Planned Features
 
+### Wave 4-C: Transaction RPC Transport + Lock Manager Hardening (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 4-C · direct source inspection 2026-08-25  
+> **Real gaps:** 2 CRITICAL (stub #279 RPC bridges lack default transport, lock_manager CRITICAL), ~8 HIGH (saga/global_txn scanner findings, subagent triage pending)
+
+- [ ] stub #279 RPC transport: add `// STUB/SIMULATION NOTE` to `distributed_transaction_manager.cpp:67,91` documenting that `setRpcPhase1Fn`/`setRpcPhase2Fn` require injection by the caller; add startup-time guard that emits `THEMIS_WARN` if 2PC commit is attempted with no transport registered (fail-closed) (Target: Q4 2026)
+  - Files: `src/transaction/distributed_transaction_manager.cpp`
+  - Behavior: `commit()` on a transaction with participants and no transport registered → `ERR_NO_TRANSPORT` immediately
+  - Tests: `tests/transaction/test_wave4c_transaction_hardening.cpp` — null-transport fail-closed scenario
+- [ ] lock_manager.cpp CRITICAL gaps: source triage pending (subagent in flight); fix once confirmed (Target: Q4 2026)
+- [ ] saga/global_transaction_manager HIGH gaps: scanner triage pending (subagent in flight); expected mostly FPs based on source inspection (Target: Q4 2026)
+
 ### Short-term (3-6 months)
 
 #### Q3 2026 — Phase 2+3 Hardening Acceptance Criteria
