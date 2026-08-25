@@ -180,6 +180,7 @@ jobs:
     steps:
       - name: Analyze PR content with AI
         id: ai_analysis
+        continue-on-error: true
         uses: actions/ai-inference@b81b2afb8390ee6839b494a404766bef6493c7d9  # v1
         with:
           prompt: |
@@ -201,6 +202,7 @@ jobs:
 
       - name: Parse AI analysis and apply labels
         id: parse_labels
+        if: steps.ai_analysis.outputs.response != ''
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
