@@ -26,20 +26,19 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    # sccache replaces ccache as the compiler-output cache.
-    # SHA pinned to mozilla-actions/sccache-action v0.0.6 (2024-11-01).
-    - name: Setup sccache
-      uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
-      with:
-        version: "v0.8.1"
-
-    - name: Enable sccache GHA backend
+    # Pre-configure sccache environment variables BEFORE sccache-action starts
+    # the server.  Variables written to GITHUB_ENV in step N are visible in
+    # step N+1, including to the sccache daemon launched by sccache-action.
+    # SCCACHE_IGNORE_SERVER_IO_ERROR and SCCACHE_ERROR_WHEN_DISCONNECTED must
+    # be set *before* the daemon starts so that transient GHA Cache storage
+    # outages (HTTP 503) cause sccache to fall back to direct compilation
+    # instead of aborting with exit code 2.
+    - name: Pre-configure sccache environment
       shell: bash
       run: |
         echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
-        # Ignore transient cache I/O errors (e.g. temporary GHA Cache storage
-        # outages) so sccache falls back to direct compilation instead of
-        # aborting with exit code 2.
+        # Ignore transient cache I/O errors so sccache falls back to direct
+        # compilation instead of aborting with exit code 2.
         echo "SCCACHE_IGNORE_SERVER_IO_ERROR=1" >> "$GITHUB_ENV"
         # When the GHA cache storage backend is fully unavailable (e.g. returns
         # an HTML error page on startup), sccache would otherwise fail the
@@ -47,6 +46,13 @@ runs:
         # Setting this to false lets sccache fall back to direct compilation
         # transparently instead of aborting the build.
         echo "SCCACHE_ERROR_WHEN_DISCONNECTED=false" >> "$GITHUB_ENV"
+
+    # sccache replaces ccache as the compiler-output cache.
+    # SHA pinned to mozilla-actions/sccache-action v0.0.6 (2024-11-01).
+    - name: Setup sccache
+      uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
+      with:
+        version: "v0.8.1"
 
     - name: Install build dependencies
       shell: bash
