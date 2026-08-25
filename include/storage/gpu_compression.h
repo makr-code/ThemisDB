@@ -39,7 +39,7 @@
 // THEMIS_CUDA_CHECK — fail-closed CUDA error checking macro
 // ============================================================================
 //
-// Wraps any CUDA API call and returns ErrorCode::CudaError (logging the error)
+// Wraps any CUDA API call and throws std::runtime_error (logging the error)
 // when the call does not return cudaSuccess.  This satisfies the
 // unchecked_cuda_call gap class: every cuda*() call that affects correctness
 // or resource ownership MUST be wrapped with this macro rather than ignoring
@@ -53,8 +53,8 @@
 // ============================================================================
 #ifdef THEMIS_ENABLE_CUDA
 #  include <cuda_runtime.h>
-// Requires spdlog or THEMIS_LOG_ERROR to be available at the call site.
-// Include utils/logger.h before this header if THEMIS_LOG_ERROR is preferred.
+#  include <stdexcept>
+// Requires THEMIS_ERROR (utils/logger.h) to be available at the call site.
 #  ifndef THEMIS_CUDA_CHECK
 #    define THEMIS_CUDA_CHECK(call)                                            \
        do {                                                                    \
@@ -63,7 +63,9 @@
                THEMIS_ERROR("CUDA error at {}:{}: {}",                        \
                             __FILE__, __LINE__,                               \
                             cudaGetErrorString(_themis_cuda_err));            \
-               return ErrorCode::CudaError;                                   \
+               throw std::runtime_error(                                      \
+                   std::string("CUDA error: ") +                              \
+                   cudaGetErrorString(_themis_cuda_err));                     \
            }                                                                  \
        } while (0)
 #  endif // THEMIS_CUDA_CHECK

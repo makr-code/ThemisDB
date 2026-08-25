@@ -139,15 +139,14 @@ public:
                         "This MUST NOT be used in production environments.");
         }
 #endif
-        // Enforce HTTPS scheme — reject plain HTTP to prevent data in transit
-        // from being sent without encryption on any code path.
-        if (base_url_.size() >= 7 &&
-            base_url_.substr(0, 7) == "http://" &&
-            base_url_.substr(0, 8) != "https://") {
-            THEMIS_ERROR("WebDAVBlobBackend: HTTP (non-TLS) URL rejected: {}. "
+        // Enforce HTTPS scheme — reject anything that is not an https:// URL to
+        // prevent data in transit from being sent without encryption on any
+        // code path (not only plain http://, but also ftp://, ws://, etc.).
+        if (base_url_.size() < 8 || base_url_.substr(0, 8) != "https://") {
+            THEMIS_ERROR("WebDAVBlobBackend: non-HTTPS URL rejected: {}. "
                          "Use an https:// endpoint.", base_url_);
             throw std::invalid_argument(
-                "WebDAVBlobBackend: plain HTTP rejected; only https:// is permitted");
+                "WebDAVBlobBackend: only https:// URLs are permitted");
         }
         
         THEMIS_INFO("WebDAVBlobBackend initialized: url={}, user={}, ssl_verify={}", 

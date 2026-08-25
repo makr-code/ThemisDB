@@ -221,7 +221,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
-#include <future>   // W1-DR: timed thread join
+#include <future>
 #include <mutex>    // W1-DR: std::once_flag
 
 using json = nlohmann::json;
@@ -2336,32 +2336,17 @@ void HttpServer::stop() {
     // Stop io_context
     ioc_.stop();
 
-    // Wait for all threads — bounded by a per-thread deadline so that a
-    // misbehaving io_context worker cannot block shutdown indefinitely.
-    // W1-FIX(thread_join_no_timeout): each thread is moved into an async task
-    // and waited on with a timeout; stragglers are detached after the deadline.
+    // Wait for all threads to finish.  ioc_.stop() has already been called
+    // above, which causes all threads blocked in ioc_.run() to return as soon
+    // as they finish their current handler.  A plain join is therefore safe and
+    // bounded by "time to complete the current handler".  The previous
+    // std::async-based timed join was semantically broken: std::future
+    // destructors for std::launch::async tasks always block until the async
+    // lambda completes, so the scope exit would still block indefinitely even
+    // after wait_for() reported a timeout.
     THEMIS_INFO("Waiting for worker threads to finish...");
-    {
-        constexpr auto kWorkerJoinTimeout = std::chrono::seconds{10};
-        std::vector<std::future<void>> join_futures;
-        join_futures.reserve(threads_.size());
-        for (auto& t : threads_) {
-            if (!t.joinable()) continue;
-            // Move ownership into the async lambda; the original entry is left
-            // in a default-constructed (non-joinable) state.
-            join_futures.emplace_back(
-                std::async(std::launch::async,
-                           [th = std::move(t)]() mutable {
-                               if (th.joinable()) th.join();
-                           }));
-        }
-        for (auto& f : join_futures) {
-            if (f.wait_for(kWorkerJoinTimeout) != std::future_status::ready) {
-                THEMIS_WARN("Worker thread did not exit within {}s deadline; "
-                            "abandoning join to avoid hang",
-                            kWorkerJoinTimeout.count());
-            }
-        }
+    for (auto& t : threads_) {
+        if (t.joinable()) t.join();
     }
     threads_.clear();
 
@@ -2377,29 +2362,19 @@ void HttpServer::stop() {
 }
 
 /**
- * @brief Block until all worker threads have terminated, with a per-thread timeout.
+ * @brief Block until all worker threads have terminated.
  *
- * W1-FIX(thread_join_no_timeout): Uses std::async-based timed join so that a
- * hung io_context worker cannot block the caller indefinitely.  Each thread is
- * given kWorkerJoinTimeout seconds; stragglers are reported and abandoned.
+ * ioc_.stop() is expected to have been called before this; all threads
+ * blocked in ioc_.run() will therefore return as soon as they finish their
+ * current handler, making the join bounded in practice.
+ * The previous std::async-based timed-join was semantically broken: the
+ * std::future destructor for a std::launch::async task always blocks until
+ * the async lambda completes, so wait_for() timing out would not actually
+ * prevent the destructor from blocking at scope exit.
  */
 void HttpServer::wait() {
-    constexpr auto kWorkerJoinTimeout = std::chrono::seconds{10};
-    std::vector<std::future<void>> join_futures;
-    join_futures.reserve(threads_.size());
     for (auto& t : threads_) {
-        if (!t.joinable()) continue;
-        join_futures.emplace_back(
-            std::async(std::launch::async,
-                       [th = std::move(t)]() mutable {
-                           if (th.joinable()) th.join();
-                       }));
-    }
-    for (auto& f : join_futures) {
-        if (f.wait_for(kWorkerJoinTimeout) != std::future_status::ready) {
-            THEMIS_WARN("wait(): worker thread did not exit within {}s; detaching",
-                        kWorkerJoinTimeout.count());
-        }
+        if (t.joinable()) t.join();
     }
 }
 
@@ -5118,7 +5093,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             if (monitoring_api_snap) {
-                response = monitoring_api_->handleObservabilityAlertSilence(req);
+                response = monitoring_api_snap->handleObservabilityAlertSilence(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);

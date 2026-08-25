@@ -33,6 +33,7 @@
 #include <limits>
 #include <set>
 #include <future>
+#include <thread>
 #include <numeric>
 #include <type_traits>
 #include <cerrno>
@@ -98,22 +99,23 @@ namespace fs = std::filesystem;
 namespace {
 
 /**
- * @brief Execute a blocking operation with timeout protection.
- * 
- * This utility runs I/O operations on a worker thread and tracks deadline
- * violations. The callable is always joined before return to prevent
- * lifetime hazards for reference captures and file-descriptor ownership.
- * 
- * @param timeout_ms Timeout duration in milliseconds
- * @param operation Function that performs the blocking operation
- * @return true if operation completed within timeout, false if timed out or failed
- * 
- * @note Operations exceeding timeout are not force-cancelled unless the
- *       callable cooperates with stop requests. A timeout still returns false,
- *       but this helper waits for worker completion before returning.
- * 
- * RATIONALE: Prevents indefinite blocking on hung file descriptors, stuck network reads,
- * or other I/O operations. Production deployment requires monitoring of timed-out operations.
+ * @brief Execute a blocking operation on a worker thread, returning within
+ *        the specified deadline regardless of whether the operation completes.
+ *
+ * If the operation completes within @p timeout_ms the worker is joined and
+ * the result is returned.  If the deadline expires the worker thread is
+ * detached, allowing the caller to proceed immediately.
+ *
+ * @warning Callers MUST NOT pass lambdas that capture local variables by
+ *          reference unless they can guarantee those variables remain valid
+ *          for the lifetime of the potentially-detached worker thread.
+ *          Use value captures (or heap-allocated shared state) for all
+ *          objects that may be destroyed before the worker finishes.
+ *
+ * @param timeout_ms Timeout duration in milliseconds; 0 disables the timeout.
+ * @param operation  Callable to execute. Must be safe to run on a detached
+ *                   thread after the caller returns on timeout.
+ * @return true if operation completed within timeout, false if timed out or failed.
  */
 template<typename Func>
 bool executeWithTimeout(uint32_t timeout_ms, Func&& operation) {
@@ -134,26 +136,28 @@ bool executeWithTimeout(uint32_t timeout_ms, Func&& operation) {
     std::packaged_task<void()> task(std::move(operation_copy));
     auto future = task.get_future();
 
-    bool timed_out = false;
-    std::jthread worker([task = std::move(task)]() mutable {
+    // Use std::thread (not std::jthread) so that we can detach on timeout
+    // without the destructor blocking.
+    std::thread worker([task = std::move(task)]() mutable {
         task();
     });
 
     if (future.wait_for(std::chrono::milliseconds(timeout_ms)) == std::future_status::timeout) {
-        timed_out = true;
-        THEMIS_ERROR("I/O operation timed out after {}ms (timeout protection threshold exceeded)", 
+        THEMIS_ERROR("I/O operation timed out after {}ms; worker detached",
                      timeout_ms);
-        worker.request_stop();
-    }
-
-    try {
-        future.get();
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("I/O operation threw exception after timeout wait: {}", e.what());
+        worker.detach();
         return false;
     }
 
-    return !timed_out;
+    worker.join();
+    try {
+        future.get();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("I/O operation threw exception: {}", e.what());
+        return false;
+    }
+
+    return true;
 }
 
 /**
@@ -532,16 +536,23 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
             break;
         }
         
-        // BATCH A FIX: Wrap file reading in timeout protection
-        auto readSegmentData = [this, &segment_path, &entries, start_sequence, limit]() {
+        // BATCH A FIX: Wrap file reading in timeout protection.
+        // All captures are by value (or shared_ptr) so the lambda is safe to
+        // run on a detached thread if executeWithTimeout times out.
+        // seg_entries collects results for this segment; they are merged into
+        // the outer `entries` accumulator only on success.
+        auto seg_entries = std::make_shared<std::vector<WALEntry>>();
+        const std::string seg_path_copy = segment_path;
+        auto readSegmentData = [this, seg_path_copy, seg_entries,
+                                 start_sequence, limit]() {
             try {
-                std::ifstream ifs(segment_path, std::ios::binary);
+                std::ifstream ifs(seg_path_copy, std::ios::binary);
                 if (!ifs) {
-                    THEMIS_ERROR("Failed to open WAL segment: {}", segment_path);
+                    THEMIS_ERROR("Failed to open WAL segment: {}", seg_path_copy);
                     return;
                 }
                 
-                while (entries.size() < limit) {
+                while (seg_entries->size() < limit) {
                     uint32_t len = 0;
                     ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
                     if (ifs.eof() || len == 0) break;
@@ -553,7 +564,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     static constexpr uint32_t MAX_WAL_RECORD_SIZE = 64u * 1024u * 1024u;
                     if (len > MAX_WAL_RECORD_SIZE) {
                         THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", 
-                                   segment_path, len);
+                                   seg_path_copy, len);
                         break;
                     }
                     
@@ -567,7 +578,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     if (__builtin_mul_overflow(static_cast<size_t>(len),
                                                sizeof(uint8_t), &alloc_bytes)) {
                         THEMIS_ERROR("WAL segment {}: allocation-size overflow for "
-                                     "len={}, skipping entry", segment_path, len);
+                                     "len={}, skipping entry", seg_path_copy, len);
                         break;
                     }
                     std::vector<uint8_t> data(alloc_bytes);
@@ -576,13 +587,13 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     if (ifs.gcount() < 0 ||
                         static_cast<uint64_t>(ifs.gcount()) != static_cast<uint64_t>(len)) {
                         THEMIS_ERROR("WAL segment {}: incomplete read (expected {} bytes, got {})",
-                                   segment_path, len, ifs.gcount());
+                                   seg_path_copy, len, ifs.gcount());
                         break;
                     }
                     
                     auto entry = WALEntry::deserialize(data);
                     if (!entry) {
-                        THEMIS_ERROR("WAL segment {}: failed to deserialize entry", segment_path);
+                        THEMIS_ERROR("WAL segment {}: failed to deserialize entry", seg_path_copy);
                         continue;
                     }
                     
@@ -605,11 +616,11 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                                 continue;
                             }
                         }
-                        entries.push_back(*entry);
+                        seg_entries->push_back(*entry);
                     }
                 }
             } catch (const std::exception& e) {
-                THEMIS_ERROR("Exception reading WAL segment {}: {}", segment_path, e.what());
+                THEMIS_ERROR("Exception reading WAL segment {}: {}", seg_path_copy, e.what());
             }
         };
         
@@ -618,6 +629,8 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
             THEMIS_WARN("Timeout reading WAL segment {}, stopping read", segment_path);
             break;
         }
+        // Merge per-segment results into the accumulator
+        entries.insert(entries.end(), seg_entries->begin(), seg_entries->end());
     }
     
     return entries;
@@ -680,14 +693,14 @@ void WALManager::sync() {
         }
         // WAVE1-FIX [no_timeout:654]: wrap the blocking ::fsync in a configurable
         // deadline (config_.file_io_timeout_ms).  A hung device will not stall the
-        // calling thread indefinitely; instead an error is logged and the function
-        // continues to the next file.  The background thread spawned by
-        // executeWithTimeout may persist, but this is safe for a detached fsync.
+        // executeWithTimeout detaches on timeout, so the lambda must only
+        // capture by value.  captured_fd (int) and captured_path (string) are
+        // both copied; the original locals remain valid for the caller.
         const int captured_fd = fd;
         const std::string captured_path = entry.path().string();
         const bool fsync_ok = executeWithTimeout(
             config_.file_io_timeout_ms,
-            [captured_fd, &captured_path]() {
+            [captured_fd, captured_path]() {
                 if (::fsync(captured_fd) != 0) {
                     // Warning is emitted from the owning thread below if timed out;
                     // emit here too so the background thread leaves a trace.

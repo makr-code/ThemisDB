@@ -23,10 +23,10 @@
 
 #include <algorithm>
 #include <array>
-#include <chrono>   // W1-FIX: timed io_thread_ join
+#include <chrono>
 #include <cmath>
 #include <cstring>
-#include <future>   // W1-FIX: timed io_thread_ join
+#include <future>
 #include <iomanip>
 #include <random>
 #include <sstream>
@@ -297,19 +297,14 @@ void MqttClientService::stop() {
         asio_->work_guard.reset();
     });
 
-    // W1-FIX(thread_join_no_timeout): timed join so a stuck io_thread cannot
-    // block stop() indefinitely.  After the deadline the thread is abandoned
-    // (it will exit naturally once the io_ctx is destroyed).
+    // Join the io_thread.  work_guard.reset() above lets the io_context run
+    // out of work, so the thread will exit its io_context::run() call very
+    // shortly.  The previous std::async-based timed join was semantically
+    // broken: std::future (std::launch::async) destructors always block until
+    // the async lambda completes, meaning a wait_for() timeout still resulted
+    // in an indefinite block at scope exit.
     if (io_thread_.joinable()) {
-        auto fut = std::async(std::launch::async,
-                              [th = std::move(io_thread_)]() mutable {
-                                  if (th.joinable()) th.join();
-                              });
-        constexpr auto kJoinTimeout = std::chrono::seconds{10};
-        if (fut.wait_for(kJoinTimeout) != std::future_status::ready) {
-            THEMIS_WARN("MqttClientService::stop(): io_thread_ did not exit "
-                        "within {}s; abandoning join", kJoinTimeout.count());
-        }
+        io_thread_.join();
     }
     stats_.is_connected = false;
 }

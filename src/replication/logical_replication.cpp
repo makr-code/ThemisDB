@@ -44,8 +44,9 @@ namespace replication {
 // template in replication_manager.cpp.  Wraps a blocking callable with a
 // configurable millisecond deadline.  Returns true if the callable completed
 // within the deadline; false if timed out (an error is already logged by the
-// caller). Timed-out operations are still joined before return to avoid
-// lifetime hazards for reference captures and file-descriptor ownership.
+// caller). On timeout the worker thread is detached so the caller returns
+// immediately; callers MUST use only value captures in the passed lambda to
+// avoid dangling references in the detached thread.
 // ----------------------------------------------------------------------------
 namespace {
 template <typename Func>
@@ -63,24 +64,26 @@ bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
 
     std::packaged_task<void()> task(std::move(op_copy));
     auto fut = task.get_future();
-    bool timed_out = false;
-    std::jthread worker([task = std::move(task)]() mutable {
+
+    // std::thread (not std::jthread) so detach on timeout does not block.
+    std::thread worker([task = std::move(task)]() mutable {
         task();
     });
 
     if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) == std::future_status::timeout) {
-        timed_out = true;
-        THEMIS_ERROR("LogicalReplicationManager: I/O op timed out after {}ms",
-                     timeout_ms);
-        worker.request_stop();
+        THEMIS_ERROR("LogicalReplicationManager: I/O op timed out after {}ms; "
+                     "worker detached", timeout_ms);
+        worker.detach();
+        return false;
     }
 
+    worker.join();
     try { fut.get(); }
     catch (const std::exception& e) {
         THEMIS_ERROR("LogicalReplicationManager: I/O op threw: {}", e.what());
         return false;
     }
-    return !timed_out;
+    return true;
 }
 } // anonymous namespace
 
@@ -728,9 +731,12 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
     // lrm_executeWithTimeout.  If the deadline fires the slot state is NOT
     // persisted this cycle — the caller logs the failure and replication
     // continues; the WAL provides a recovery path on restart.
+    // All captures are by value so that the lambda is safe to run on a
+    // detached thread if lrm_executeWithTimeout times out.
     const bool io_ok = lrm_executeWithTimeout(
         config_.file_io_timeout_ms,
-        [&tmp_path, &payload, &state_path, &base, &ec, &slot]() {
+        [tmp_path, payload, state_path, base, slot_name = slot.meta.slot_name]() mutable {
+            std::error_code ec;
 #ifdef _WIN32
             int fd = ::_open(tmp_path.string().c_str(),
                              _O_WRONLY | _O_CREAT | _O_TRUNC | _O_BINARY,
@@ -761,10 +767,10 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
                 fs::remove(tmp_path, ec);
                 if (written < 0) {
                     THEMIS_WARN("Failed to persist logical slot {}: {}",
-                                slot.meta.slot_name, strerror(errno));
+                                slot_name, strerror(errno));
                 } else {
                     THEMIS_WARN("Failed to persist logical slot {}, "
-                                "partial/failed write", slot.meta.slot_name);
+                                "partial/failed write", slot_name);
                 }
                 return;
             }
@@ -780,7 +786,7 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
                 ::close(fd);
 #endif
                 fs::remove(tmp_path, ec);
-                THEMIS_WARN("Failed to fsync logical slot {}", slot.meta.slot_name);
+                THEMIS_WARN("Failed to fsync logical slot {}", slot_name);
                 return;
             }
 #ifdef _WIN32
