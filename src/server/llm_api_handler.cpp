@@ -37,6 +37,7 @@
 #include <exception>
 #include <limits>
 #include "utils/tracing.h"
+#include "server/model_integrity_verifier.h"
 
 namespace themis::server {
 
@@ -970,6 +971,31 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
         return createErrorResponse(http::status::bad_request, "Invalid load model parameters", e.what());
     }
     
+    // --- A1: Model Integrity Gate ---
+    // If a manifest entry exists for this model_id, the SHA-256 of 'path' MUST
+    // match before we allow the load.  Missing manifest → graceful pass-through
+    // (operator has not yet deployed an integrity manifest).
+    if (!path.empty()) {
+        auto expected_hash = ModelIntegrityVerifier::getExpectedHash(model_id);
+        if (expected_hash.has_value()) {
+            const bool hash_ok = ModelIntegrityVerifier::verifyModel(path, *expected_hash);
+            if (!hash_ok) {
+                THEMIS_ERROR(
+                    "handleLoadModel: integrity check FAILED for model_id='{}' path='{}'",
+                    model_id, path);
+                return createErrorResponse(http::status::forbidden,
+                                           "Model integrity verification failed",
+                                           "SHA-256 mismatch — model may be corrupt or tampered");
+            }
+            THEMIS_INFO(
+                "handleLoadModel: integrity check passed for model_id='{}'", model_id);
+        } else {
+            THEMIS_INFO(
+                "handleLoadModel: no manifest entry for model_id='{}', skipping integrity check",
+                model_id);
+        }
+    }
+
     // Call LLMPluginManager to load model
     try {
         auto& plugin_mgr = llm::LLMPluginManager::instance();
