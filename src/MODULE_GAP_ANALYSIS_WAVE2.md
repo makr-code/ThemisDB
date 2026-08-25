@@ -10,14 +10,28 @@
 | Track | Status | Commit |
 |-------|--------|--------|
 | **Wave 2-A** — Security & Data Integrity | ✅ COMPLETE | `896bc4b2` |
-| **Wave 2-B** — RAII & Resource Safety | [~] In Progress | — |
-| **Wave 2-C** — LLM Stub Replacement | [ ] Planned | — |
-| **Wave 2-D** — Sharding/Replication | [ ] Partial (Replication ✅ already closed 2026-08-16) | — |
+| **Wave 2-B** — RAII & Resource Safety | ✅ COMPLETE | `90f5b1e5` |
+| **Wave 2-C** — LLM Stub Replacement | ⏸ Deferred | Stubs #261/#262 bereits ordnungsgemäß dokumentiert (Removal: Q4 2026) |
+| **Wave 2-D** — Sharding/Replication | ✅ COMPLETE (partial) | Replication: `2026-08-16`; Sharding lock-ordering: Wave A LKO-01..06 ✅ |
 
 ### Wave 2-A Closure (2026-08-25):
 - [x] A1: Model Integrity Gate — `include/server/model_integrity_verifier.h` + `src/server/model_integrity_verifier.cpp` + `tests/server/test_model_integrity_wave2.cpp` (6 tests)
 - [x] A2: Auth Sensitive Logging Redaction — `include/auth/auth_redaction.h` + jwt_key_rotation_manager edits + `tests/auth/test_auth_sensitive_data_redaction.cpp` (5 tests)
 - [x] A3: Iterator Invalidation Fix — `src/server/query_api_handler.cpp` (cycle guards at ~1424 and ~2161) + `tests/server/test_query_iterator_safety.cpp` (3 tests)
+
+### Wave 2-B Closure (2026-08-25):
+- [x] B1: GPU Memory Oversubscription RAII — `Impl::~Impl() noexcept` destructor frees all VRAM-partitions + `tests/index/test_index_gpu_oversubscription_raii.cpp` (3 tests)
+- [x] B2: HNSW buildIndex cudaMalloc separation — combined `||` condition split into two explicit failure paths
+- [x] B3: LLM gpu_memory_manager CUDA audit — confirmed all CUDA calls already checked (no change needed)
+- [x] B4: LDAP Auth stub audit — confirmed permanent fallback block is intentional, not a stub (no change needed)
+
+### Wave 2-C Status (Deferred):
+- `inference_engine_enhanced.cpp` STUB #261/#262 — documented with explicit purpose/activation/removal plan; Removal Target Q4 2026 when real llama.cpp tokenizer integrates
+- `inline_training_engine.cpp` STUB #37 — injectable GradientComputerFn; documented; not GA-blocking
+
+### Wave 2-D Status (Closed):
+- Replication: Zero TODO/STUB/FIXME markers verified 2026-08-16 (`src/replication/ROADMAP.md §107`)
+- Sharding circular_lock_ordering: Canonical lock order documented + `std::lock()` applied for multi-mutex; LKO-01..06 tests pass (Wave A evidence bundle). 172 remaining scanner findings are HIGH (not CRITICAL) in non-critical paths.
 
 ---
 
