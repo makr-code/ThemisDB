@@ -1,11 +1,49 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-08-18 -->
+<!-- Status: current | validated: 2026-08-24 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · MODULE_STATUS.md -->
 <!-- Phase 6 Acceptance: CHANGELOG.md updated with all critical gap fixes from Batches 1-3 -->
+<!-- Sprint 1 Phase B E2E: 2026-08-24 — BM25+/HNSW/RRF/LLM-Judge end-to-end activation -->
 <!-- Issue References: makr-code/ThemisDB#5665 (tracking issue), makr-code/ThemisDB#5624 (parent epic) -->
 
 # Changelog — RAG Module
+
+All notable changes to the RAG module are documented here.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [2.3.0] — 2026-08-24 – Sprint 1: Phase B Kern End-to-End Activation
+
+### Phase B Retrieval Chain — Activated End-to-End
+
+- **BM25+ scorer** (`WikiIndexStore::query`): production path confirmed active via
+  `SecondaryIndexManager::scanFulltextWithScores` + `applyBm25PlusFloor(score, config_.bm25_delta)`.
+  Parameters `bm25_k1=1.5`, `bm25_b=0.75`, `bm25_delta=0.5` validated in
+  `WikiIndexConfig`. Gate `THEMIS_WIKI_PHASE_B` enabled by default.
+- **HNSW index** (`WikiIndexStore` constructor): `VectorIndexManager::init` called with
+  `hnsw_m=16`, `hnsw_ef_construction=200`, `Metric::COSINE`. Phase B gate guards init.
+- **RRF fusion** (`HybridRetriever::fuseRRF`): `rrf_k=60.0`, equal BM25+vector weights
+  by default. `WikiIndexStore::query` calls `retriever_.fuse(bm25_docs, vec_docs)`.
+- **LLM-Judge real-mode** (`LLMJudgeIntegration`): production path via
+  `ILLMInferenceEngine*` constructor injection confirmed. Mock fallback only reachable
+  via explicit `allow_mock=true && use_mock_mode=true` (test-only). Gate
+  `THEMIS_ENABLE_LLM_JUDGE` enabled by default.
+
+### New Tests
+
+- `tests/rag/test_rag_phase_b_e2e.cpp` — 7 focused integration tests:
+  - PHASE-B-E2E-01: RRF fuses BM25 and HNSW candidates; shared-doc boosted to top rank.
+  - PHASE-B-E2E-02: BM25-only mode (vector_weight=0): BM25-sourced doc outscores HNSW-only.
+  - PHASE-B-E2E-03: Vector-only mode (bm25_weight=0): HNSW-sourced doc outscores BM25-only.
+  - PHASE-B-E2E-04: RRF k=60 factory preset: all hybrid scores positive, strictly ordered.
+  - PHASE-B-E2E-05: Real ILLMInferenceEngine injection: isMockMode()==false, engine called once.
+  - PHASE-B-E2E-06: Gate disabled (enable_llm_judge=false): llm_unavailable returned, engine not called.
+  - PHASE-B-E2E-07: Full Phase B chain — BM25 + HNSW → RRF → LLM-Judge — chunk-001 top-ranked and judged.
+
+### Documentation
+
+- `src/rag/ROADMAP.md`: BM25+, HNSW, RRF, Persistent Cache, LLM-Judge, Phase B acceptance boxes advanced from `[~]`/`[ ]` to `[x]` with source-aligned evidence citations.
+
+
 
 All notable changes to the RAG module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).

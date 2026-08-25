@@ -24,6 +24,7 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [~] benchmark stabilization for core allocation, backend, and acceleration hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for quota denials, backend degradation, and fallback incidents (Target: Q3 2026)
 - [~] GPU query accelerator kernel launchers for common query types (Target: Q4 2026)
+  - 2026-08-24: Sprint 1 — Filter/Join/Aggregation GPU paths confirmed production-wired (Thrust); hashJoin GPU-path brace bug fixed (stray `}` closed `if (use_gpu)` prematurely, making `gpu_done` out of scope in CUDA/HIP builds); topK operation added (GPU: `thrust::partial_sort_copy` O(n log k), CPU: `std::partial_sort` fallback); `QueryShape::OpType::TOPK` added; 10 topK focused tests (QA-TOPK-01..10) added to `tests/gpu/test_gpu_query_accelerator.cpp`.
 - [~] GPU vector index CUDA backend integration and optimization (Target: Q4 2026)
 - [~] GPU vector index HIP backend feature-parity (Target: Q4 2026)
 
@@ -160,7 +161,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [x] Resource-exhaustion and all-path CPU-fallback: `test_gpu_resource_exhaustion.cpp` (GPU-EXHAUST-01..12) and `test_gpu_fallback_all_paths.cpp` (GPU-FALLBACK-01..12) registered `release_critical` 2026-08-18.
 - [~] Unchecked CUDA call reduction: 340 calls identified; Phase C pre-requisite is 50% (→170); in progress.
   - 2026-08-24: audit pass complete; `include/gpu/cuda_raii.h` delivers `CudaStreamGuard`/`CudaEventGuard`/`CudaDeviceMemoryGuard`; all `src/gpu/` raw call sites catalogued (see `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md §CUDA Call Reduction Audit`).
-- [~] RAII lifecycle gap closure: 57 gaps identified; `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `cuda_raii.h` (2026-08-24) deliver wrapper infrastructure; full gap closure in progress.
+- [~] RAII lifecycle gap closure: 57 gaps identified; `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `cuda_raii.h` (2026-08-24) deliver wrapper infrastructure; `CudaStreamGuard::adopt()` factory added + `stream_manager.cpp` migrated from `uintptr_t` registry to `CudaStreamGuard` (2026-08-24); full gap closure in progress.
 - [ ] Representative-hardware p95/p99 baselines: `bench_gpu_a8_baselines.cpp` wired into benchmark build; hardware execution evidence pending.
   - EVIDENCE-NOTE: representative-hardware execution (A100/H100 class) pending Q4 2026; sandbox environment does not provide CUDA-capable hardware; CI on `develop` will be authoritative baseline record.
 - [~] `release_critical` coverage: Wave A targets registered; green-on-`develop` execution evidence still pending.

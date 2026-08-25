@@ -26,19 +26,10 @@
 #include <cuda_runtime.h>
 #endif
 
-#ifdef THEMIS_ENABLE_CUDA
-namespace {
-// Maps stream name → cudaStream_t, kept as uintptr_t for portability.
-static std::unordered_map<std::string, uintptr_t> &cudaStreamRegistry() {
-    static std::unordered_map<std::string, uintptr_t> registry;
-    return registry;
-}
-static std::mutex &cudaStreamMutex() {
-    static std::mutex mtx;
-    return mtx;
-}
-} // anonymous namespace
-#endif
+// THEMIS_ENABLE_CUDA block intentionally left empty after RAII migration.
+// cudaStreamRegistry() and cudaStreamMutex() removed; stream lifetime is now
+// managed by CudaStreamGuard in each Stream::cuda_stream_guard field.
+
 
 namespace themis {
 namespace gpu {
@@ -64,12 +55,10 @@ GPUStreamManager::~GPUStreamManager() {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto &kv : streams_) {
 #ifdef THEMIS_ENABLE_CUDA
-        if (kv.second.cuda_stream != 0) {
-            cudaStream_t cs = reinterpret_cast<cudaStream_t>(kv.second.cuda_stream);
-            // Synchronize pending work before destroying the stream
-            cudaStreamSynchronize(cs);
-            cudaStreamDestroy(cs);
-        }
+        // cuda_stream_guard destructor calls cudaStreamSynchronize then
+        // cudaStreamDestroy automatically when Stream is destroyed below.
+        // Nothing to do explicitly here.
+        (void)kv;
 #endif
         if (kv.second.uses_rocm_stream) {
             ROCmBackend::GetInstance().destroyStream(kv.first);
@@ -116,7 +105,8 @@ bool GPUStreamManager::createStream(const StreamConfig &cfg, GPULauncher::Backen
         auto &entry     = streams_.at(cfg.name);
         cudaStream_t cs = nullptr;
         if (cudaStreamCreate(&cs) == cudaSuccess) {
-            entry.cuda_stream = reinterpret_cast<uintptr_t>(cs);
+            // Transfer ownership to the RAII guard; no explicit cudaStreamDestroy needed.
+            entry.cuda_stream_guard = CudaStreamGuard::adopt(cs);
         }
     }
 #endif
@@ -141,6 +131,7 @@ bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_inde
     }
 
     GPULauncher::BackendFn backend_fn;
+    CudaStreamGuard stream_guard; // holds CUDA stream ownership until transferred to Stream
 
 #ifdef THEMIS_ENABLE_CUDA
     // Create a real CUDA stream on the requested device.
@@ -151,11 +142,10 @@ bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_inde
     } else if (cudaStreamCreate(&cuda_stream) != cudaSuccess) {
         backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
     } else {
-        // Register the native handle so destroyStream() can clean it up.
-        {
-            std::lock_guard<std::mutex> clk(cudaStreamMutex());
-            cudaStreamRegistry()[cfg.name] = reinterpret_cast<uintptr_t>(cuda_stream);
-        }
+        // Transfer ownership to RAII guard.  If a TOCTOU duplicate is detected
+        // below, the guard destructs the stream automatically when it goes out
+        // of scope at the return false path.
+        stream_guard = CudaStreamGuard::adopt(cuda_stream);
 
         // Build a BackendFn that synchronises the CUDA stream after each work
         // item so the caller receives a well-defined completion signal.
@@ -199,32 +189,21 @@ bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_inde
     std::lock_guard<std::mutex> lock(mutex_);
     // Re-check after acquiring the lock (TOCTOU guard).
     if (streams_.count(cfg.name)) {
-#ifdef THEMIS_ENABLE_CUDA
-        // Clean up any CUDA stream that was registered before we re-acquired
-        // the lock, to avoid leaking the native handle.
-        {
-            std::lock_guard<std::mutex> clk(cudaStreamMutex());
-            auto &reg = cudaStreamRegistry();
-            auto it   = reg.find(cfg.name);
-            if (it != reg.end()) {
-                cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second));
-                reg.erase(it);
-            }
-        }
-#endif
+        // stream_guard destructs here, releasing any CUDA stream that was
+        // created before the duplicate was detected — no explicit cleanup needed.
         return false;
     }
 
     Stream s;
-    s.config     = cfg;
-    s.launcher   = std::make_unique<GPULauncher>(std::move(backend_fn));
-    s.stats.name = cfg.name;
+    s.config                = cfg;
+    s.cuda_stream_guard     = std::move(stream_guard); // transfer RAII ownership
+    s.launcher              = std::make_unique<GPULauncher>(std::move(backend_fn));
+    s.stats.name            = cfg.name;
     streams_.emplace(cfg.name, std::move(s));
     return true;
 }
 
 bool GPUStreamManager::destroyStream(const std::string &name) {
-    uintptr_t cuda_handle = 0;
     bool uses_rocm_stream = false;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -232,33 +211,11 @@ bool GPUStreamManager::destroyStream(const std::string &name) {
         if (it == streams_.end()) {
             return false;
         }
-        cuda_handle      = it->second.cuda_stream;
         uses_rocm_stream = it->second.uses_rocm_stream;
+        // Erase the Stream; its cuda_stream_guard destructor calls
+        // cudaStreamSynchronize + cudaStreamDestroy automatically.
         streams_.erase(it);
     }
-
-#ifdef THEMIS_ENABLE_CUDA
-    // Destroy CUDA stream from the cuda_stream field (createStream path).
-    if (cuda_handle != 0) {
-        cudaStream_t cs = reinterpret_cast<cudaStream_t>(cuda_handle);
-        // Synchronize before destruction to ensure pending work completes
-        cudaStreamSynchronize(cs);
-        cudaStreamDestroy(cs);
-    }
-    // Destroy CUDA stream registered in the global registry (createCudaStream path).
-    {
-        std::lock_guard<std::mutex> clk(cudaStreamMutex());
-        auto &reg = cudaStreamRegistry();
-        auto it   = reg.find(name);
-        if (it != reg.end()) {
-            cudaStream_t cs = reinterpret_cast<cudaStream_t>(it->second);
-            // Synchronize before destruction to ensure pending work completes
-            cudaStreamSynchronize(cs);
-            cudaStreamDestroy(cs);
-            reg.erase(it);
-        }
-    }
-#endif
 
     if (uses_rocm_stream) {
         ROCmBackend::GetInstance().destroyStream(name);

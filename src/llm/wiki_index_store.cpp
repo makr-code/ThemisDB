@@ -28,6 +28,7 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <fstream>
 #include <functional>
@@ -38,6 +39,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 namespace themis {
@@ -103,6 +105,9 @@ WikiIndexStore::WikiIndexStore(SecondaryIndexManager& sim,
     , emb_cache_table_(config_.embedding_cache_table)
     , legacy_emb_cache_table_(config_.table_name + "_emb_cache")
 {
+    // Pre-allocate the latency ring buffer so query() never allocates on the
+    // hot path.  kLatencyRingSize slots are inserted at construction.
+    latency_ring_.resize(kLatencyRingSize, 0.0);
     if (!config_.enable_phase_b) {
         spdlog::warn("[WikiIndexStore] Phase B gate disabled (THEMIS_WIKI_PHASE_B=OFF). "
                      "Store remains inactive.");
@@ -303,6 +308,8 @@ void WikiIndexStore::flush() {
 std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
                                               int                top_k,
                                               float              min_score) const {
+    const auto t_start = std::chrono::steady_clock::now();
+
     std::shared_lock lock(mutex_);
     if (!config_.enable_phase_b) {
         spdlog::warn("[WikiIndexStore] query requested while Phase B gate is disabled");
@@ -399,6 +406,15 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
         if (static_cast<int>(out.size()) >= k) break;
     }
 
+    // ── Record query latency ───────────────────────────────────────────────
+    {
+        const auto t_end = std::chrono::steady_clock::now();
+        const double latency_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+        std::lock_guard<std::mutex> elk(eval_mutex_);
+        recordLatencyLocked(latency_ms);
+        ++total_query_count_;
+    }
+
     return out;
 }
 
@@ -411,7 +427,119 @@ bool WikiIndexStore::isReady() const noexcept {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// WikiIndexStore — toEntity (static)
+// WikiIndexStore — Evaluation API (Recall@k / MRR / p95)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void WikiIndexStore::recordLatencyLocked(double latency_ms) const noexcept {
+    // Ring buffer: overwrite oldest entry when full.
+    latency_ring_[latency_ring_head_] = latency_ms;
+    latency_ring_head_ = (latency_ring_head_ + 1) % kLatencyRingSize;
+    if (latency_ring_count_ < kLatencyRingSize) {
+        ++latency_ring_count_;
+    }
+}
+
+std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
+    const std::string&              query_text,
+    int                             top_k,
+    float                           min_score,
+    const std::vector<std::string>& relevant_doc_ids) const {
+
+    // query() records latency and increments total_query_count_ internally.
+    auto results = query(query_text, top_k, min_score);
+
+    if (!relevant_doc_ids.empty()) {
+        const std::unordered_set<std::string> rel_set(
+            relevant_doc_ids.begin(), relevant_doc_ids.end());
+
+        // ── Recall@k ────────────────────────────────────────────────────────
+        // For each k: count how many of the top-k returned results have a
+        // doc_id in the ground-truth set, normalised by ground-truth size.
+        auto recall_at = [&](int k) -> double {
+            const int n = std::min(k, static_cast<int>(results.size()));
+            int hits = 0;
+            for (int i = 0; i < n; ++i) {
+                if (rel_set.count(results[static_cast<std::size_t>(i)].doc_id)) {
+                    ++hits;
+                }
+            }
+            return static_cast<double>(hits) / static_cast<double>(rel_set.size());
+        };
+
+        // ── MRR ─────────────────────────────────────────────────────────────
+        // Reciprocal rank of the first relevant result; 0 if none in results.
+        double rr = 0.0;
+        for (std::size_t i = 0; i < results.size(); ++i) {
+            if (rel_set.count(results[i].doc_id)) {
+                rr = 1.0 / static_cast<double>(i + 1);
+                break;
+            }
+        }
+
+        // ── Online mean update ──────────────────────────────────────────────
+        std::lock_guard<std::mutex> lk(eval_mutex_);
+        const double n_prev = static_cast<double>(eval_query_count_);
+        const double n_new  = n_prev + 1.0;
+        eval_recall_at_1_  = (eval_recall_at_1_  * n_prev + recall_at(1))  / n_new;
+        eval_recall_at_3_  = (eval_recall_at_3_  * n_prev + recall_at(3))  / n_new;
+        eval_recall_at_5_  = (eval_recall_at_5_  * n_prev + recall_at(5))  / n_new;
+        eval_recall_at_10_ = (eval_recall_at_10_ * n_prev + recall_at(10)) / n_new;
+        eval_mrr_          = (eval_mrr_           * n_prev + rr)             / n_new;
+        ++eval_query_count_;
+    }
+
+    return results;
+}
+
+WikiEvalStats WikiIndexStore::getEvaluationStats() const {
+    std::lock_guard<std::mutex> lk(eval_mutex_);
+    WikiEvalStats s;
+    s.recall_at_k1        = eval_recall_at_1_;
+    s.recall_at_k3        = eval_recall_at_3_;
+    s.recall_at_k5        = eval_recall_at_5_;
+    s.recall_at_k10       = eval_recall_at_10_;
+    s.mrr                 = eval_mrr_;
+    s.query_count         = eval_query_count_;
+    s.total_query_count   = total_query_count_;
+
+    // Compute p95 from the valid portion of the ring buffer.
+    if (latency_ring_count_ > 0) {
+        // Copy valid samples — ring may have wrapped; copy count_ items starting
+        // from the oldest (= head - count, wrapping around).
+        std::vector<double> samples;
+        samples.reserve(latency_ring_count_);
+        const std::size_t oldest =
+            (latency_ring_head_ + kLatencyRingSize - latency_ring_count_) % kLatencyRingSize;
+        for (std::size_t i = 0; i < latency_ring_count_; ++i) {
+            samples.push_back(latency_ring_[(oldest + i) % kLatencyRingSize]);
+        }
+        std::sort(samples.begin(), samples.end());
+        // p95 index: ceil(0.95 * N) - 1, clamped to [0, N-1].
+        const std::size_t p95_idx = static_cast<std::size_t>(
+            std::ceil(0.95 * static_cast<double>(samples.size())));
+        const std::size_t clamped = (p95_idx == 0) ? 0 : p95_idx - 1;
+        s.p95_query_latency_ms = samples[std::min(clamped, samples.size() - 1)];
+    }
+
+    return s;
+}
+
+void WikiIndexStore::resetEvaluationStats() noexcept {
+    std::lock_guard<std::mutex> lk(eval_mutex_);
+    eval_recall_at_1_  = 0.0;
+    eval_recall_at_3_  = 0.0;
+    eval_recall_at_5_  = 0.0;
+    eval_recall_at_10_ = 0.0;
+    eval_mrr_          = 0.0;
+    eval_query_count_  = 0;
+    total_query_count_ = 0;
+    latency_ring_head_  = 0;
+    latency_ring_count_ = 0;
+    // Wipe ring buffer values so stale data isn't accidentally exposed.
+    std::fill(latency_ring_.begin(), latency_ring_.end(), 0.0);
+}
+
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 themis::BaseEntity WikiIndexStore::toEntity(const WikiChunk& chunk) {
