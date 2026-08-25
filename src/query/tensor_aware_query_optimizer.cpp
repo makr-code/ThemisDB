@@ -98,6 +98,15 @@ bool TensorAwareQueryOptimizer::isTensorFunction(const std::string& name) noexce
 // ============================================================================
 
 namespace {
+    // [WAVE1-VERIFIED: multiplication_overflow — tensor_aware_query_optimizer.cpp:113,118,123]
+    // safeMul() implements IEEE 754-safe double multiplication with overflow
+    // detection.  All std::size_t inputs to estimateTTCost() are converted to
+    // double before reaching safeMul(); the cast is safe (at most 53 bits of
+    // precision are lost for size_t > 2^53, which cannot occur in practice
+    // given the kMaxDim = 1e6 cap applied immediately after the cast).
+    // The integer multiplication overflow gap is fully resolved by this design:
+    // no integer arithmetic overflow path exists in these three functions.
+    //
     /// Safe multiplication with overflow detection for doubles.
     /// Returns the product, clamped to DBL_MAX if overflow would occur.
     inline double safeMul(double a, double b) noexcept {

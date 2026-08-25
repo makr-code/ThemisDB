@@ -22,6 +22,7 @@
 
 #include "query/parallel_executor.h"
 
+#include <atomic>
 #include <algorithm>
 #include <cstddef>
 #include <string>
@@ -42,28 +43,61 @@ namespace themis {
 // ============================================================================
 
 /**
- * @brief Helper to wait for a task_group with timeout protection.
+ * @brief Helper to wait for a task_group with a real bounded timeout.
  *
- * Wraps tbb::task_group::wait() with a timeout check to prevent indefinite
- * blocking in case of task hangs. If timeout is exceeded, logs a warning and
- * returns to allow the caller to proceed with partial results or graceful
- * degradation.
+ * Launches a detached watchdog thread that calls
+ * tbb::task_group::cancel_group_execution() once the deadline elapses.
+ * The main thread then blocks on tg.wait(), which returns quickly after
+ * cancellation because no new tasks can be enqueued and TBB drains the
+ * already-running morsels.
  *
- * @param tg The task_group to wait for.
+ * Contract:
+ *   - Returns true  if tg.wait() returned before the watchdog fired.
+ *   - Returns false if the watchdog cancelled the group; callers should
+ *     treat the results as partial and log/propagate appropriately.
+ *
+ * Thread-safety: the shared `done` flag is accessed via std::atomic<bool>
+ * to avoid data races between the watchdog and the main thread.
+ *
+ * @param tg              The task_group to wait for.
  * @param timeout_seconds Maximum time to wait (default: 5 seconds).
  * @return true if wait completed within timeout; false if timeout exceeded.
+ *
+ * [WAVE3B-FIX: blocking_no_timeout — parallel_executor.cpp]
  */
-inline bool waitWithTimeout(tbb::task_group& tg, [[maybe_unused]] double timeout_seconds = 5.0) noexcept {
-    // TBB task_group::wait() is blocking and does not support timeouts natively.
-    // For now, we simply call wait() directly. In future implementations, this
-    // could be replaced with TBB 2021+ task_group mechanisms or custom timeout logic.
-    //
-    // LIMITATION: Cannot timeout on hung tasks without external mechanisms (e.g., watchdog threads).
-    // Current behavior: blocks indefinitely if tasks hang (matching pre-1C behavior).
-    // Mitigation: Callers should ensure tasks have their own timeout/cancellation logic.
-    (void)timeout_seconds;
-    tg.wait();
-    return true;  // Always returns true (wait completed)
+inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) noexcept {
+    // Shared flag: main thread sets it when tg.wait() returns, watchdog sets it
+    // when the deadline fires.  Using atomic avoids an extra mutex.
+    auto done      = std::make_shared<std::atomic<bool>>(false);
+    auto timed_out = std::make_shared<std::atomic<bool>>(false);
+
+    const auto deadline_ms = static_cast<long long>(timeout_seconds * 1000.0);
+
+    // Watchdog thread: waits up to deadline_ms, then cancels the group if the
+    // main work hasn't finished yet.
+    std::thread watchdog([done, timed_out, &tg, deadline_ms]() noexcept {
+        const auto deadline = std::chrono::steady_clock::now()
+                            + std::chrono::milliseconds(deadline_ms);
+        // Poll every 50 ms so the watchdog exits promptly when work finishes.
+        while (!done->load(std::memory_order_acquire)) {
+            if (std::chrono::steady_clock::now() >= deadline) {
+                if (!done->load(std::memory_order_acquire)) {
+                    timed_out->store(true, std::memory_order_release);
+                    // Signal TBB to stop accepting new tasks and drain quickly.
+                    tg.cancel_group_execution();
+                }
+                return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+    });
+
+    tg.wait();  // Returns promptly once cancelled or all tasks finish.
+    done->store(true, std::memory_order_release);
+
+    watchdog.join();
+
+    return !timed_out->load(std::memory_order_acquire);
 }
 
 // ============================================================================
@@ -222,6 +256,10 @@ Result<ParallelExecutor::Table> ParallelExecutor::parallelScan(
     // is 1, or the input fits inside a single morsel.
     const size_t threads = resolveThreads(num_threads);
     if (!config_.enable_parallel_scan || threads <= 1 || n <= config_.morsel_size) {
+        // [WAVE3B-FIX: null_dereference asymmetry — parallel_executor.cpp sequential path]
+        // TBB path guards against empty/null input inside the morsel lambda.
+        // Mirror that guard here so the sequential path is equally safe.
+        if (input.empty()) return Ok(Table{});
         return Ok(sequentialScan(input, filter));
     }
 
@@ -452,4 +490,3 @@ Result<ParallelExecutor::AggregateResult> ParallelExecutor::parallelAggregate(
 }
 
 } // namespace themis
-

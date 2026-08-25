@@ -147,7 +147,8 @@ sudo apt-get install -y \
   librocksdb-dev \
   libzstd-dev \
   libfmt-dev \
-  libspdlog-dev
+  libspdlog-dev \
+  libcpp-httplib-dev
 ```
 
 #### Fedora/RHEL:
@@ -298,6 +299,15 @@ not deterministic.
 - macOS: `brew install fmt spdlog`
 
 Alternatively, use the `linux-release` preset with vcpkg, which includes all dependencies.
+
+### Error: "httplib.h: No such file or directory"
+
+**Cause**: Using `community-release` on a system where cpp-httplib is installed only via system packages and the required development package is missing.
+
+**Solution**: Install the cpp-httplib development package:
+- Debian/Ubuntu: `sudo apt-get install libcpp-httplib-dev`
+- Fedora/RHEL: install the distro package that provides `httplib.h` / `cpp-httplib`
+- macOS: use the `linux-release` preset with vcpkg or provide a compatible `cpp-httplib` install
 
 ### Build Reproducibility Issues on `linux-release` or `community-release`
 

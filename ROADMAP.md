@@ -1269,6 +1269,21 @@ Audit method:
 - Improved scanner pipeline: Phase 1–6 vollständig implementiert, alte Scanner bereinigt
 - Delta vs Pre-Improvement-Baseline (2026-05-27): Methodik geändert (dedupliziert vs raw); Trend: FP-Anteil signifikant reduziert
 
+**Wave 3 Source-Code Gap Remediation — COMPLETE (2026-08-25):**
+> Subagent-verifizierte Triage der rohen Scanner-CRITICAL-Counts für die vier Core-Module mit den meisten gemeldeten Gaps. Echte Gaps deutlich geringer als Scanner suggeriert (Inflationsfaktor 7–34×).
+
+| Modul | Raw CRITICAL | Echte CRITICAL | Inflationsfaktor | Status |
+|-------|-------------|----------------|-----------------|--------|
+| storage | 69 | 2 | 34× | ✅ Wave 3-A COMPLETE — columnar decode, backup fail-closed, diagnostics emit, ggml guard |
+| query | 52 | 3 | 17× | ✅ Wave 3-B COMPLETE — watchdog bounded-wait (×3), sequential null guard, JIT corruption sentinel |
+| index | 29 | 1 | 29× | ✅ Wave 3-C COMPLETE — VectorAutoBuffer `noexcept` dtor; 28 restliche pre-existing fixed bestätigt |
+| network | 29 | 4 | 7× | ✅ Wave 3-D COMPLETE — command_injection RCE→posix_spawn, TCP health probe, FD-RAII, SO_SNDTIMEO POSIX |
+| **Gesamt** | **179** | **10** | **18×** | ✅ **10 CRITICAL + 9 HIGH gefixt** |
+
+Haupt-FP-Ursachen: `scope_mismatch` (anon-ns in `namespace themis`), `braces_imbalance@line:1`, `db_connection_leak` auf `shared_ptr`-verwaltete Verbindungen, `no_transit_encryption` bei SDK-TLS.
+Closure-Evidence: `src/storage/WAVE_3A_CLOSURE_EVIDENCE.md`, `src/query/WAVE_3B_CLOSURE_EVIDENCE.md`, `src/index/WAVE_3C_CLOSURE_EVIDENCE.md`, `src/network/WAVE_3D_CLOSURE_EVIDENCE.md`.
+Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
+
 **Scanner Roadmap — Next Steps (Phase 7+):**
 - Weitere FP-Reduktion bei dominierenden Regeln: `missing_doxygen_*`, `circular_lock_ordering`
 - Delta-Messung nach jeder Regelwelle (Fast-Scan mit Baseline-Vergleich)

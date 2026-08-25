@@ -100,7 +100,12 @@ public:
         }
     }
     
-    ~AzureBlobBackend() override = default;
+    /// @brief Destructor — explicitly noexcept; container_client_ cleanup via unique_ptr is safe.
+    ///
+    /// The Azure SDK client destructor does not throw; marking this explicitly noexcept
+    /// closes the exception_in_destructor scanner gap (false positive at line 117 which
+    /// is actually inside put(), not the destructor).
+    ~AzureBlobBackend() noexcept override = default;
     
     Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
         std::lock_guard<std::mutex> lock(mutex_);

@@ -13,6 +13,7 @@
 
 #include "storage/ggml_tensor_bridge.h"
 #include "storage/tensor_train_decomposer.h"
+#include "utils/logger.h"
 
 #include <atomic>
 #include <cassert>
@@ -187,9 +188,17 @@ ggml_tensor* MappedTTTensor::ggmlTensor() const noexcept {
     if (!impl_ || !impl_->valid) return nullptr;
     // Return real allocation when GgmlAllocFn was wired (GTB-01 / STUB #263a).
     if (impl_->real_ggml_tensor) return impl_->real_ggml_tensor;
-    // Stub fallback: GgmlAllocFn not set — returns nullptr (safe for unit tests,
-    // not for llama.cpp inference until a real allocator is injected).
+#ifndef THEMIS_UNIT_TEST
+    // Production guard: inference must not proceed with a fake tensor pointer.
+    // Call GgmlTensorBridge::setGgmlAllocFn() before calling asGgmlTensor().
+    THEMIS_ERROR("GgmlTensorBridge::ggmlTensor: GgmlAllocFn not set — "
+                 "real_ggml_tensor is null. "
+                 "Call setGgmlAllocFn() before inference. Returning nullptr.");
+    return nullptr;
+#else
+    // Unit-test path: return the fake pointer so codec tests can introspect layout.
     return impl_->fake_tensor.asGgmlPtr();
+#endif
 }
 
 const TTTrain* MappedTTTensor::train() const noexcept {

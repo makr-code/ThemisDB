@@ -111,7 +111,8 @@ public:
      */
     CompactionManager(std::shared_ptr<RocksDBWrapper> db, const Config& config);
 
-    ~CompactionManager();
+    /// @brief Destructor — noexcept; stops background GC thread and swallows exceptions.
+    ~CompactionManager() noexcept;
 
     // Not copyable or movable after construction.
     CompactionManager(const CompactionManager&) = delete;

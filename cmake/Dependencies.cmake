@@ -500,6 +500,34 @@ endif()
 
 # cpp-httplib (built-in HTTP server)
 find_package(httplib QUIET CONFIG)
+if(NOT httplib_FOUND)
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(HTTPLIB_PC QUIET cpp-httplib)
+        if(HTTPLIB_PC_FOUND AND NOT TARGET httplib::httplib)
+            add_library(httplib::httplib INTERFACE IMPORTED)
+            set_target_properties(httplib::httplib PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${HTTPLIB_PC_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${HTTPLIB_PC_LINK_LIBRARIES}"
+            )
+            if(HTTPLIB_PC_CFLAGS_OTHER)
+                set_property(TARGET httplib::httplib APPEND PROPERTY
+                    INTERFACE_COMPILE_OPTIONS "${HTTPLIB_PC_CFLAGS_OTHER}"
+                )
+            endif()
+            if(HTTPLIB_PC_CFLAGS)
+                foreach(_httplib_cflag IN LISTS HTTPLIB_PC_CFLAGS)
+                    if(_httplib_cflag MATCHES "^-D(.+)$")
+                        set_property(TARGET httplib::httplib APPEND PROPERTY
+                            INTERFACE_COMPILE_DEFINITIONS "${CMAKE_MATCH_1}"
+                        )
+                    endif()
+                endforeach()
+            endif()
+            set(httplib_FOUND TRUE)
+        endif()
+    endif()
+endif()
 if(httplib_FOUND)
     message(STATUS "cpp-httplib found - enabling built-in HTTP server")
     add_compile_definitions(THEMIS_HAS_HTTPLIB=1)

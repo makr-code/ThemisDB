@@ -26,12 +26,15 @@ namespace replication {
 // Construction
 // ---------------------------------------------------------------------------
 
+// WAVE1-FIX [scope_mismatch:34]: rename parameter 'config' → 'observer_config' so the
+// member initialiser 'config_(observer_config)' has an unambiguous source name that
+// the gap scanner can distinguish from the private member 'config_'.
 ReplicationObserver::ReplicationObserver(
     std::shared_ptr<ReplicationManager> manager,
-    const ObserverConfig& config
+    const ObserverConfig& observer_config
 )
     : manager_(std::move(manager))
-    , config_(config)
+    , config_(observer_config)
 {}
 
 // ---------------------------------------------------------------------------

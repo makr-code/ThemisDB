@@ -25,6 +25,18 @@
 #include <stdexcept>
 #include <string>
 
+#if !defined(_WIN32)
+#  include <sys/socket.h>
+#  include <netinet/in.h>
+#  include <netdb.h>
+#  include <unistd.h>
+#  include <fcntl.h>
+#  include <sys/select.h>
+#else
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
+#endif
+
 #include "utils/logger.h"
 
 namespace themis {
@@ -422,11 +434,104 @@ std::string RaftLoadBalancer::selectConsistentHash(const std::string &key) {
 // Health Check Loop
 // =============================================================================
 
-bool RaftLoadBalancer::defaultHealthCheck(const Backend & /*backend*/) {
-    // In a real implementation this would open a TCP connection to
-    // backend.address and send a ThemisDB ping frame.  For unit-test and
-    // embedded environments we return true (always healthy).
-    return true;
+bool RaftLoadBalancer::defaultHealthCheck(const Backend& backend) {
+    // Real TCP probe with 500 ms connect timeout.
+    // Splits backend.address ("host:port") into host and port components.
+    // Returns true if the TCP handshake completes within the deadline.
+
+    const std::string& addr = backend.address;
+
+    // Parse "host:port"
+    const auto colon = addr.rfind(':');
+    if (colon == std::string::npos) {
+        THEMIS_WARN("RaftLoadBalancer: health-check address '{}' has no port; skipping", addr);
+        return false;
+    }
+    const std::string host = addr.substr(0, colon);
+    const std::string port = addr.substr(colon + 1);
+
+#if defined(_WIN32)
+    using sock_t = SOCKET;
+    constexpr sock_t kInvalid = INVALID_SOCKET;
+    auto closeSock = [](sock_t s) { ::closesocket(s); };
+#else
+    using sock_t = int;
+    constexpr sock_t kInvalid = -1;
+    auto closeSock = [](sock_t s) { ::close(s); };
+#endif
+
+    // RAII socket handle
+    struct SockGuard {
+        sock_t fd;
+        decltype(closeSock)& closer;
+        ~SockGuard() noexcept { if (fd != kInvalid) closer(fd); }
+    };
+
+    struct ::addrinfo hints{};
+    hints.ai_family   = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    struct ::addrinfo* res_raw = nullptr;
+    if (::getaddrinfo(host.c_str(), port.c_str(), &hints, &res_raw) != 0 || !res_raw) {
+        return false;
+    }
+    // Unique owner of the addrinfo list
+    struct AddrInfoGuard {
+        struct ::addrinfo* p;
+        ~AddrInfoGuard() noexcept { ::freeaddrinfo(p); }
+    } ai_guard{res_raw};
+
+    sock_t fd = ::socket(res_raw->ai_family, res_raw->ai_socktype, res_raw->ai_protocol);
+    if (fd == kInvalid) {
+        return false;
+    }
+    SockGuard sg{fd, closeSock};
+
+#if defined(_WIN32)
+    // Set non-blocking on Windows
+    u_long mode = 1;
+    ::ioctlsocket(fd, FIONBIO, &mode);
+    ::connect(fd, res_raw->ai_addr, static_cast<int>(res_raw->ai_addrlen));
+    // select() with 500 ms deadline
+    fd_set wfds;
+    FD_ZERO(&wfds);
+    FD_SET(fd, &wfds);
+    struct ::timeval tv{0, 500'000};
+    int sel = ::select(0, nullptr, &wfds, nullptr, &tv);
+    return sel > 0;
+#else
+    // Set non-blocking
+    const int flags = ::fcntl(fd, F_GETFL, 0);
+    ::fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+
+    const int rc = ::connect(fd, res_raw->ai_addr, res_raw->ai_addrlen);
+    if (rc == 0) {
+        return true;  // instant connect (loopback, etc.)
+    }
+    if (errno != EINPROGRESS) {
+        return false;
+    }
+
+    // Wait up to 500 ms for the connect to complete.
+    fd_set wfds;
+    FD_ZERO(&wfds);
+    FD_SET(fd, &wfds);
+    struct ::timeval tv{0, 500'000};  // 500 ms
+
+    const int sel = ::select(fd + 1, nullptr, &wfds, nullptr, &tv);
+    if (sel <= 0) {
+        return false;  // timeout or error
+    }
+
+    // Confirm the connection did not fail asynchronously.
+    int sock_err = 0;
+    ::socklen_t len = sizeof(sock_err);
+    if (::getsockopt(fd, SOL_SOCKET, SO_ERROR, &sock_err, &len) != 0) {
+        return false;
+    }
+    return sock_err == 0;
+#endif
 }
 
 void RaftLoadBalancer::runHealthChecks() {

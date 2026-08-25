@@ -131,6 +131,33 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
 - [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
+### Wave 2-B: RAII & Resource Safety (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-B, gap scanner verified 2026-08-25  
+> **Gap count:** 192 `db_connection_leak` (CRITICAL), 108 `resource_leaked_in_exception`, 118 `pointer_arithmetic_unbounded`
+
+- [ ] Implement `ScopedDbConnection` RAII wrapper — replace all 192 raw DB-connection acquires in `ml_model_manager.cpp`, `lora_storage_service_themisdb.cpp`, `inference_engine_enhanced.cpp` (Target: Q4 2026)
+  - Inputs: raw `getConnection()` call sites; bounded pool size config
+  - Outputs: RAII-wrapped connections released on scope exit or exception
+  - Constraints: zero new `db_connection_leak` findings post-fix; `valgrind --leak-check=full` clean
+  - Errors: pool exhaustion → `ErrorCode::LLM_RESOURCE_EXHAUSTED`; test: `tests/llm/test_llm_raii_db_connections.cpp`
+  - Perf: no throughput regression (benchmark: `bench_llm_hotpaths` LLM-01..LLM-08)
+- [ ] Fix 108 `resource_leaked_in_exception` — wrap all resource acquires before `throw` sites with RAII or try/catch cleanup in `distributed_training_coordinator.cpp`, `gpu_memory_manager.cpp` (Target: Q4 2026)
+- [ ] Bounds-check all pointer arithmetic in `gpu_memory_manager.cpp` (118 `pointer_arithmetic_unbounded`) — use `std::span` or explicit size validation before every pointer dereference (Target: Q4 2026)
+
+### Wave 2-C: LLM Stub Replacement (Target: Q4 2026)
+
+> **Source:** Semantic analysis 2026-08-25 — `inference_engine_enhanced.cpp` (8 stubs), `inline_training_engine.cpp` (5 stubs)
+
+- [ ] Replace 8 stubs in `inference_engine_enhanced.cpp`: speculative decode verify-step, CUDA kernel fusion for attention, KV-cache LRU eviction (Target: Q4 2026)
+  - Inputs: draft-model logits + verify-model logits; KV-cache capacity config
+  - Outputs: accepted token count, cache hit/miss metrics
+  - Tests: `tests/llm/test_inference_engine_stubs_wave2c.cpp` (8 test cases)
+- [ ] Complete `inline_training_engine.cpp` training loop (5 stubs → production): SGD/Adam gradient update, loss tracking, model-checkpoint persistence to RocksDB, cancellation/timeout support (Target: Q4 2026)
+  - Constraints: loss must decrease over 10 epochs on synthetic data (test criterion)
+  - Errors: checkpoint write failure, cancellation mid-epoch
+  - Tests: `tests/llm/test_inline_training_production.cpp`
+
 ---
 
 ## Wave A-8 Distributed Optimization Closure (2026-08-16)
@@ -339,3 +366,40 @@ The module provides production-grade LLM runtime surfaces across async inference
 ## Breaking Changes
 
 - No breaking changes planned at roadmap level; any required API break must be explicitly documented in CHANGELOG and migration notes before merge.
+
+## Wave 3-LLM — Security Gap Triage & Closure (2026-08-25)
+
+### Triage Summary
+- Raw CRITICALs scanned: **155** across 113 source files
+- Real gaps confirmed: **5** (2 CRITICAL, 3 HIGH)
+- False positives removed: **150** (96.8% FP rate, consistent with prior waves)
+
+### False-Positive Patterns (Wave 3)
+- `braces_imbalance` (29): 100% FP — raw string literals (`R"({...})"`) and `#ifdef`-gated brace blocks cause scanner heuristic to misfire; state-machine tokenizer confirms all files terminate at depth 0
+- `circular_lock_ordering` (108): 100% FP — scanner fires on any file with >1 mutex name; actual code uses consistent documented hierarchies and release-before-acquire patterns
+- `data_race` (11): 100% FP — all counters are `std::atomic`; collections protected by `std::mutex`/`std::shared_mutex`
+- `sql_injection` (7): 100% FP — RPC envelope strings named `rpc_query`, not SQL; mock strings in test/stub mode
+
+### Confirmed Real Gaps — All Fixed
+
+| ID | Severity | Pattern | Location | Fix |
+|---|---|---|---|---|
+| W3-SEC-01 | HIGH | `insecure_model_url` | `model_downloader.cpp` `validateOllamaUrl` | Non-local HTTP rejected by default; `ModelDownloadConfig::allow_insecure_http` for explicit opt-in |
+| W3-SEC-02 | HIGH | `path_traversal` | `model_downloader.cpp` lines 150, 239 | `sanitizeModelName()` rejects `..`, `/`, `\`, null bytes in `downloadFromOllama`/`pullFromOllama` |
+| W3-SEC-03 | CRITICAL | `deadlock_risk` | `ai_orchestrator.cpp` `PluginAdapterApplyService::applyAdapter` | Capture state under lock; release `mutex_` before `unloadLoRA`, `path_resolver_`, `loadLoRA`; re-lock to write |
+| W3-SEC-04 | CRITICAL | `prompt_injection` | `docs_assistant.cpp` lines 678, 683 | `getConfigHelp`/`getTroubleshootingHelp` now apply `sanitizePromptWithSharedPolicy` with length caps (128 / 512 chars) |
+| W3-SEC-05 | HIGH | `hardcoded_path` | `llm_prefix_cache.cpp` line 46 | `LLMPrefixCache::Config::cache_dir` field added; impl uses configured path with `/tmp/themis_llm_prefix_cache` as fallback |
+
+### Tests Added
+- `tests/llm/test_llm_wave3_gap_fixes.cpp` — 15 regression tests (W3_01..W3_15)
+- `tests/llm/test_model_downloader_url_validation.cpp` — URL_VAL_05 updated; URL_VAL_10 added
+
+### Wave 3 Status
+- [x] Triage 155 raw CRITICALs — triage report: `ai_working/gap_verifier_report_llm.md`
+- [x] W3-SEC-01: insecure_model_url fixed
+- [x] W3-SEC-02: path_traversal fixed
+- [x] W3-SEC-03: deadlock_risk fixed
+- [x] W3-SEC-04: prompt_injection fixed
+- [x] W3-SEC-05: hardcoded_path fixed
+- [x] Regression tests added (W3_01..W3_15)
+- [x] ROADMAP and MODULE_GAPS updated

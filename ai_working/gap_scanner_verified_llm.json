@@ -1,0 +1,130 @@
+{
+  "module": "llm",
+  "scan_timestamp": "2026-08-25T16:12:53Z",
+  "verifier_version": "wave3-v1.0",
+  "source_files_scanned": 113,
+  "summary": {
+    "total_raw": 155,
+    "verified_gaps": 5,
+    "false_positives_removed": 150,
+    "downgrades": 3,
+    "severity_distribution": {
+      "CRITICAL": 2,
+      "HIGH": 3,
+      "MEDIUM": 0,
+      "INFO": 0
+    },
+    "fp_breakdown": {
+      "braces_imbalance_all": 37,
+      "circular_lock_ordering_all": 108,
+      "data_race_unconfirmed": 11,
+      "sql_injection_mock_strings": 7,
+      "stub_compile_gated": 1,
+      "other": 0
+    }
+  },
+  "findings": [
+    {
+      "id": "LLM-CRIT-001",
+      "file": "src/llm/docs_assistant.cpp",
+      "lines": [678, 683],
+      "pattern": "prompt_injection",
+      "original_severity": "CRITICAL",
+      "verified_severity": "CRITICAL",
+      "classification": "Real Gap",
+      "rationale": "User-supplied 'topic' and 'error_description' parameters are concatenated directly into LLM prompt strings without passing through PromptPolicy::evaluate() or any other sanitisation. Attacker-controlled input can redirect LLM behaviour, exfiltrate context, or bypass guardrails.",
+      "code_snippet": "std::string query = \"How do I configure \" + topic + \" in ThemisDB?...\";\nstd::string query = \"I'm experiencing this issue: \" + error_description + \"...\";"
+    },
+    {
+      "id": "LLM-CRIT-002",
+      "file": "src/llm/ai_orchestrator.cpp",
+      "lines": [264, 269, 280, 289],
+      "pattern": "deadlock_risk",
+      "original_severity": "CRITICAL",
+      "verified_severity": "CRITICAL",
+      "classification": "Real Gap",
+      "rationale": "PluginAdapterApplyService::applyAdapter() acquires non-reentrant mutex_ at line 264 and then calls plugin->unloadLoRA(), path_resolver_(), and plugin->loadLoRA() while holding it. Any of these callbacks may re-enter AIOrchestrator::currentAdapter() or ::isModelLoaded() which also acquire mutex_, producing a non-reentrant deadlock. The trigger path is confirmed: currentAdapter() (line 299) acquires mutex_ unconditionally.",
+      "code_snippet": "std::lock_guard<std::mutex> lock(mutex_);          // line 264 — locked\n...\nconst bool unload_ok = plugin->unloadLoRA(...);    // line 269 — external call under lock\nconst auto resolved = path_resolver_(...);         // line 280 — callback under lock\nconst bool ok = plugin->loadLoRA(...);             // line 289 — external call under lock"
+    },
+    {
+      "id": "LLM-HIGH-001",
+      "file": "src/llm/model_downloader.cpp",
+      "lines": [150, 239],
+      "pattern": "path_traversal",
+      "original_severity": "CRITICAL",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "config.model_name is not validated for '../', '/', '\\', or null-byte sequences before constructing filesystem paths. model_name can be supplied via YAML config (line 626) or as an API parameter. Downgraded from CRITICAL because model_name is typically operator-configured rather than directly user-supplied at runtime.",
+      "code_snippet": "std::string expected_path = config.download_dir + \"/\" + config.model_name + \".gguf\";"
+    },
+    {
+      "id": "LLM-HIGH-002",
+      "file": "src/llm/model_downloader.cpp",
+      "lines": [595, 108, 135],
+      "pattern": "insecure_model_url",
+      "original_severity": "CRITICAL",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "Default Ollama URL is http://localhost:11434 (plaintext). validateOllamaUrl() issues only a WARN for non-local HTTP targets and returns true (permitting the connection). Production deployments pointing at a remote Ollama endpoint can transmit model weights over an unencrypted channel. Downgraded from CRITICAL because localhost deployments (the common case) are unaffected.",
+      "code_snippet": ": \"http://localhost:11434\";   // line 595 — plaintext default\n...\nTHEMIS_WARN(\"plain HTTP used for non-local endpoint\");  // line 135 — warn only, not reject\nreturn true;  // always accepts"
+    },
+    {
+      "id": "LLM-HIGH-003",
+      "file": "src/llm/llm_prefix_cache.cpp",
+      "lines": [46],
+      "pattern": "hardcoded_path",
+      "original_severity": "CRITICAL",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "Cache directory hardcoded to /tmp/themis_llm_prefix_cache with no configurable override. In multi-instance deployments, all processes share the same /tmp path, causing race conditions on cache files. World-readable /tmp also exposes cached embeddings. Downgraded from CRITICAL because exploitation requires multi-tenant shared-host deployments.",
+      "code_snippet": "embed_config.cache_dir = \"/tmp/themis_llm_prefix_cache\";"
+    }
+  ],
+  "false_positives": [
+    {
+      "group": "braces_imbalance",
+      "count": 37,
+      "pattern": "braces_imbalance + braces_imbalance_midfile",
+      "original_severity": "CRITICAL",
+      "verified_severity": null,
+      "classification": "False-Positive",
+      "rationale": "State-machine brace counter confirmed all 113 .cpp files terminate at depth 0. Scanner FP causes: (1) C++14 digit separators like 10'000 parsed as char literals '000' by simple regex; (2) Multi-line raw string literals R\"(...)\" containing unescaped { and } characters; (3) char literals like '\"' and '\\\\' causing string-stripping regex to misidentify string boundaries. All flagged files end correctly with } // namespace llm / } // namespace themis."
+    },
+    {
+      "group": "circular_lock_ordering",
+      "count": 108,
+      "pattern": "circular_lock_ordering",
+      "original_severity": "CRITICAL",
+      "verified_severity": null,
+      "classification": "False-Positive",
+      "rationale": "Heuristic fires on any file using more than one mutex name. Manual inspection of all top mutex-heavy files (inference_engine_enhanced.cpp 70 uses, multi_lora_manager.cpp 65 uses, gpu_memory_manager.cpp 47 uses, async_inference_engine.cpp 45 uses, ml_model_manager.cpp 28 uses) found zero ABBA lock-ordering inversions. Most files use a single mutex_ throughout; those with multiple mutexes acquire them in consistent documented order or in non-overlapping scopes."
+    },
+    {
+      "group": "data_race",
+      "count": 11,
+      "pattern": "data_race",
+      "original_severity": "CRITICAL",
+      "verified_severity": null,
+      "classification": "False-Positive",
+      "rationale": "All shared mutable state in inspected files is protected: counters use std::atomic<>, collections are guarded by std::mutex or std::shared_mutex. gpu_available_ in GPUMemoryManager is written only during constructor (single-threaded) and read-only thereafter. Scanner FP fires on non-const member variables in classes that happen to contain a std::thread member."
+    },
+    {
+      "group": "sql_injection",
+      "count": 7,
+      "pattern": "sql_injection",
+      "original_severity": "CRITICAL",
+      "verified_severity": null,
+      "classification": "False-Positive",
+      "rationale": "All 7 instances are either: (a) hardcoded mock AQL strings in llm_client_default.cpp (test/stub code, no user input concatenated); (b) RPC protocol envelope strings in distributed_training_coordinator.cpp named 'rpc_query' that are not SQL; (c) internal audit log fields in moral_analyzer.cpp. No parameterised SQL construction from user input was found."
+    },
+    {
+      "group": "embedded_llm_stub",
+      "count": 1,
+      "pattern": "simulation_stub_marker",
+      "original_severity": "CRITICAL",
+      "verified_severity": null,
+      "classification": "False-Positive",
+      "rationale": "embedded_llm_stub.cpp stub path (success=true with hardcoded text) is permanently gated by #ifdef THEMIS_LLM_STUB_MODE. Documentation confirms this flag is never set in release build presets. The production else-branch correctly returns success=false with a diagnostic error message."
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "module": "query",
+  "scan_timestamp": "2026-08-25T15:34:28",
+  "source_path": "src/query/",
+  "raw_input": "src/query/MODULE_GAPS.md",
+  "summary": {
+    "total_raw_critical": 52,
+    "wave1_pre_verified_fixed": 8,
+    "verified_critical_remaining": 5,
+    "verified_high": 6,
+    "false_positives_removed": 3864,
+    "downgrades": 3,
+    "upgrades": 0,
+    "severity_distribution": {
+      "CRITICAL": 5,
+      "HIGH": 6,
+      "MEDIUM": 2,
+      "INFO": 0
+    },
+    "fp_type_breakdown": {
+      "scope_mismatch_anon_namespace": 3860,
+      "braces_imbalance_line1_scanner_artifact": 2,
+      "guarded_null_check_downgraded": 2
+    }
+  },
+  "wave1_confirmed_fixed": [
+    {
+      "file": "src/query/continuous_query_planner.cpp",
+      "line": 24,
+      "pattern": "scope_mismatch",
+      "original_severity": "CRITICAL",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "WAVE1-FIX confirmed in source: aliases renamed to plan_spec/plan_synopsis/plan_wm at line 34-35; eval_mode local rename at line 49.",
+      "verification_marker": "line 28-29: [WAVE1-FIX: scope_mismatch]"
+    },
+    {
+      "file": "src/query/query_canceller.cpp",
+      "line": 49,
+      "pattern": "blocking_no_timeout + no_timeout",
+      "original_severity": "CRITICAL",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "WAVE1-FIX confirmed: waitUntilCancelledFor(std::chrono::milliseconds timeout) added at line 57; cancel() calls cv_.notify_all().",
+      "verification_marker": "line 11: [WAVE1-FIX: blocking_no_timeout / no_timeout]"
+    },
+    {
+      "file": "src/query/cq_watermark.cpp",
+      "line": 60,
+      "pattern": "db_connection_leak",
+      "original_severity": "CRITICAL",
+      "verified_severity": "FIXED",
+      "classification": "False-Positive (confirmed lock-free)",
+      "rationale": "Source inspection confirms no external resource acquired before early-return path. Lock-free atomics only. RAII enforcement comment added at line 60.",
+      "verification_marker": "line 60: [WAVE1-FIX: db_connection_leak]"
+    },
+    {
+      "file": "src/query/query_rewrite_rule.cpp",
+      "line": 105,
+      "pattern": "iterator_invalidation",
+      "original_severity": "CRITICAL",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "WAVE1-VERIFIED: push_back operates on separate container from iteration target; .reserve() called pre-merge. Verification comment at line 105.",
+      "verification_marker": "line 105: [WAVE1-VERIFIED: iterator_invalidation]"
+    },
+    {
+      "file": "src/query/tensor_aware_query_optimizer.cpp",
+      "line": 113,
+      "pattern": "multiplication_overflow",
+      "original_severity": "CRITICAL",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "WAVE1-VERIFIED: safeMul() IEEE-754 double guard confirmed at lines 112+. size_t inputs cast to double before multiplication; kMaxDim clamp prevents integer overflow path.",
+      "verification_marker": "line 101-104: [WAVE1-VERIFIED: multiplication_overflow]"
+    },
+    {
+      "file": "src/query/tensor_aware_query_optimizer.cpp",
+      "line": 118,
+      "pattern": "multiplication_overflow",
+      "original_severity": "CRITICAL",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "Same safeMul() fix as line 113. All estimateTTCost() paths confirmed guarded.",
+      "verification_marker": "line 101-104: [WAVE1-VERIFIED: multiplication_overflow]"
+    },
+    {
+      "file": "src/query/tensor_aware_query_optimizer.cpp",
+      "line": 123,
+      "pattern": "multiplication_overflow",
+      "original_severity": "CRITICAL",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "Same safeMul() fix. size_t→double cast verified safe at kMaxDim=1e6 (< 2^53).",
+      "verification_marker": "line 101-104: [WAVE1-VERIFIED: multiplication_overflow]"
+    },
+    {
+      "file": "src/query/aql_parser.cpp",
+      "line": 178,
+      "pattern": "scope_mismatch (HIGH)",
+      "original_severity": "HIGH",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "#undef guards for PHRASE/NEAR/SEARCH/ANALYZER added before enum class TokenType.",
+      "verification_marker": "WAVE1-FIXED per MODULE_GAPS.md"
+    },
+    {
+      "file": "src/query/query_optimizer.cpp",
+      "line": 345,
+      "pattern": "scope_mismatch (HIGH)",
+      "original_severity": "HIGH",
+      "verified_severity": "FIXED",
+      "classification": "Fixed",
+      "rationale": "Parameter renamed cost_model → new_cost_model; no ABI change.",
+      "verification_marker": "WAVE1-FIXED per MODULE_GAPS.md"
+    }
+  ],
+  "findings": [
+    {
+      "file": "src/query/parallel_executor.cpp",
+      "line": 65,
+      "pattern": "blocking_no_timeout",
+      "original_severity": "CRITICAL",
+      "verified_severity": "CRITICAL",
+      "classification": "Real Gap",
+      "rationale": "tg.wait() blocks indefinitely. timeout_seconds parameter explicitly suppressed with (void)timeout_seconds at line 64. Comment at line 62 states 'blocks indefinitely if tasks hang'. No enforcement mechanism. Direct hang vector if morsel task stalls."
+    },
+    {
+      "file": "src/query/continuous_query_engine.cpp",
+      "line": 143,
+      "pattern": "blocking_no_timeout",
+      "original_severity": "CRITICAL",
+      "verified_severity": "CRITICAL",
+      "classification": "Real Gap",
+      "rationale": "loop_thread_.join() with no timeout or deadline guard in destructor path. If the loop thread is stuck in a spin or blocked I/O, the destructor hangs indefinitely — a liveness failure in streaming engine teardown."
+    },
+    {
+      "file": "src/query/query_engine.cpp",
+      "line": 4872,
+      "pattern": "blocking_no_timeout",
+      "original_severity": "CRITICAL",
+      "verified_severity": "HIGH",
+      "classification": "Guarded Stub",
+      "rationale": "Inline tg.wait() at line 4872; comment acknowledges 'timeout is advisory post-fact (no cancellation)'. Post-hoc telemetry exists but no pre-emptive interrupt. Downgraded: observational wrapper still detects overruns and logs audit events — not a silent hang."
+    },
+    {
+      "file": "src/query/query_engine.cpp",
+      "line": 93,
+      "pattern": "blocking_no_timeout",
+      "original_severity": "CRITICAL",
+      "verified_severity": "HIGH",
+      "classification": "Guarded Stub",
+      "rationale": "tg.wait() inside tbbWaitWithTimeout() helper. Timeout measured POST-FACT (lines 94-108): elapsed compared after wait returns, audit event logged. No pre-emptive cancellation signal to tasks — timeout cannot interrupt a hung worker. Real risk but diagnostic coverage exists."
+    },
+    {
+      "file": "src/query/query_cache.cpp",
+      "line": 439,
+      "pattern": "todo_as_productionlogic",
+      "original_severity": "HIGH",
+      "verified_severity": "MEDIUM",
+      "classification": "Placeholder",
+      "rationale": "Explicit TODO comment: 'Implement asynchronous cleanup for dependency index removals'. Current code performs synchronous cleanup inline under the cache lock — creates lock contention on eviction paths. Not a crash/safety issue; a performance debt for Phase N+1."
+    },
+    {
+      "file": "src/query/query_compiler.cpp",
+      "line": 423,
+      "pattern": "catch_all_swallow",
+      "original_severity": "HIGH",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "catch(...) swallows unknown exceptions in JIT specialisation path with RATIONALE comment. Intentional design decision but masks unknown error types that could silently corrupt compiler state; no rethrow or structured escalation. Warrants a typed catch or explicit panic."
+    },
+    {
+      "file": "src/query/parallel_executor.cpp",
+      "line": 237,
+      "pattern": "null_dereference",
+      "original_severity": "HIGH",
+      "verified_severity": "HIGH",
+      "classification": "Guarded Stub",
+      "rationale": "Source shows defensive check: 'if (!input.data() || input.empty())' at line 238 before morsel processing. However, check is inside TBB lambda — the outer call site at line 225 (sequentialScan) does NOT have an equivalent guard. Potential null on the sequential fallback path."
+    },
+    {
+      "file": "src/query/result_stream.cpp",
+      "line": 156,
+      "pattern": "memory_leak",
+      "original_severity": "HIGH",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "Listed in MODULE_GAPS.md Top 20. Direct source at lines 167-175 shows skip() has overflow guard (line 174-175) but the memory_leak flag is distinct — likely relates to a conditional early-exit path where the stream's backing buffer is abandoned without release. Requires dedicated owner investigation."
+    },
+    {
+      "file": "src/query/query_compiler.cpp",
+      "line": 567,
+      "pattern": "uncaught_exception",
+      "original_severity": "HIGH",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "Exception handling present at lines 201-256 for hot/cold paths, but a path exists beyond line 415 (try block at 417-422) that reaches an outer catch(...) at 423 which swallows exceptions. Line 567 is in the outer compilation scope where a thrown exception from a sub-path may propagate uncaught past the guarded region."
+    },
+    {
+      "file": "src/query/aql_translator.cpp",
+      "line": "multiple (1609-1853)",
+      "pattern": "null_dereference",
+      "original_severity": "CRITICAL (C=54 per header)",
+      "verified_severity": "HIGH",
+      "classification": "Guarded Stub",
+      "rationale": "Header reports C=54 CRITICAL gaps. Source inspection shows all return {} calls are guarded: 'if (!error.empty()) return {}', 'if (!e) return nullptr', 'if (brace_open == std::string::npos) return {}'. These are conditional early exits, not unimplemented stubs. Bulk downgrade: all 54 are guarded defensive returns."
+    },
+    {
+      "file": "src/query/scope_mismatch — ALL 3863 instances",
+      "line": "various",
+      "pattern": "scope_mismatch",
+      "original_severity": "CRITICAL/HIGH/MEDIUM",
+      "verified_severity": "REMOVED",
+      "classification": "False-Positive",
+      "rationale": "Source scan finds 25 anonymous namespace blocks inside 65 'namespace themis' scopes. The scanner flags any identifier in an anonymous namespace as a scope_mismatch with outer namespace identifiers — this is standard C++ practice (anonymous namespace = translation-unit-local linkage). Not an actual scope ambiguity in production code. All 3863 instances are false positives of this pattern."
+    },
+    {
+      "file": "src/query/braces_imbalance — line:1 instances",
+      "line": 1,
+      "pattern": "braces_imbalance",
+      "original_severity": "CRITICAL",
+      "verified_severity": "REMOVED",
+      "classification": "False-Positive",
+      "rationale": "Two remaining braces_imbalance gaps reported at line 1 — scanner artifact from counting braces before reaching any actual code. All 12 real brace imbalances were fixed in the Brace Resolution batch (2026-08-16). Line 1 triggers are a scanner initialization artifact, not a code defect."
+    }
+  ],
+  "fp_classification_summary": {
+    "scope_mismatch_anonymous_namespace_in_themis": {
+      "count": 3860,
+      "verdict": "False-Positive",
+      "pattern": "namespace { ... } inside namespace themis — valid C++ linkage scoping",
+      "evidence": "25 anonymous namespace blocks found; 65 namespace themis usages; no actual identifier clash"
+    },
+    "braces_imbalance_line1": {
+      "count": 2,
+      "verdict": "False-Positive",
+      "pattern": "Scanner fires at line 1 before parsing any code",
+      "evidence": "All 12 real brace gaps fixed 2026-08-16; remaining 2 are both reported at file start"
+    },
+    "braces_imbalance_midfile": {
+      "count": 121,
+      "verdict": "Likely False-Positive",
+      "pattern": "Multiline string literals, macro expansions, or preprocessor blocks containing unmatched braces",
+      "evidence": "cypher_parser.cpp fix log shows one case was an error message string containing '}' — same pattern probable for all 121"
+    }
+  }
+}

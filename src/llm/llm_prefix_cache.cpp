@@ -43,7 +43,9 @@ public:
                 embed_config.ttl_seconds = cfg.ttl_seconds;
                 embed_config.similarity_threshold = static_cast<float>(cfg.similarity_threshold);
                 embed_config.use_vector_index = true;  // Enable HNSW
-                embed_config.cache_dir = "/tmp/themis_llm_prefix_cache";
+                embed_config.cache_dir = cfg.cache_dir.empty()
+                    ? "/tmp/themis_llm_prefix_cache"
+                    : cfg.cache_dir;  // [W3-SEC-05] Use configured dir; fallback to default only when unset.
                 // Embedding dimension will be inferred from first embedding added
                 // Default to 1536 (OpenAI ada-002) but will auto-adjust
                 embed_config.embedding_dim = 1536;

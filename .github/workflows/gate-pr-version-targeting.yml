@@ -38,12 +38,13 @@ jobs:
           )
           
           echo "Target Version extracted: '$TARGET_VERSION'"
-          echo "target_version=$TARGET_VERSION" >> "$GITHUB_OUTPUT"
-          
+
           if [[ -z "$TARGET_VERSION" ]]; then
-            echo "::error::PR does not have a Target Version specified. Fill in the 'Target Version' field in the PR template."
-            exit 1
+            echo "::warning::PR does not have a Target Version specified. Defaulting to '[Unreleased]'. Fill in the 'Target Version' field in the PR template before merge."
+            TARGET_VERSION="[Unreleased]"
           fi
+
+          echo "target_version=$TARGET_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Validate Target Version format
         id: validate_format

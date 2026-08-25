@@ -1413,6 +1413,7 @@ set(THEMIS_LLM_SOURCES
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/model_integrity_verifier.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/lora_api_handler.cpp>
     # Voice assistant implementation (always required when tests link VoiceAssistant)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_assistant.cpp>
