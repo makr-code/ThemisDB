@@ -78,7 +78,6 @@ jobs:
 
       - name: Prepare repository (strip private submodules)
         run: |
-          git submodule deinit -f --all || true
           for sm in \
             plugins/private/themisdb_ethic_ai \
             plugins/private/themisdb_importer \
@@ -166,7 +165,6 @@ jobs:
 
       - name: Prepare repository (strip private submodules)
         run: |
-          git submodule deinit -f --all || true
           for sm in \
             plugins/private/themisdb_ethic_ai \
             plugins/private/themisdb_importer \
