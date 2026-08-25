@@ -1,5 +1,7 @@
-name: CI — Content Regression & Wave-D Soak
+name: "Build: Content Regression [Wave D]"
 
+# Rechenaufwand-Score: R=5 (K=5, L=5, N=5) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
 # ──────────────────────────────────────────────────────────────────────────────
 # Trigger policy:
 #   push to develop   → content regression check (ctest --label-include "content")

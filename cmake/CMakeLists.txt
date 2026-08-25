@@ -2752,6 +2752,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/principal_validator.cpp
     ../src/auth/http_auth_async.cpp
     ../src/auth/distributed_token_blacklist.cpp
+    ../src/server/policy_engine.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/opa_adapter.cpp
     ../src/governance/policy_manager.cpp

@@ -1,5 +1,7 @@
-name: CI — PR Gates (Wave C) — Hash & SBOM Integrity Validation
+name: "Gate: PR Core [Hash & SBOM Integrity]"
 
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
 # Enforces dependency hash integrity and SBOM consistency.
 # Detects supply-chain tampering and divergence from approved SBOM versions.
 # Ensures SBOM reflects edition-correct dependencies (no private plugin leakage in SBOM).

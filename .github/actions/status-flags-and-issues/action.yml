@@ -1,0 +1,386 @@
+name: 'Status Flags and Issues Interface'
+description: |
+  Unified interface for workflow status labels and issue lifecycle operations.
+
+  Supported operations:
+  - upsert_issue
+  - set_status
+  - clear_status
+  - replace_status_group
+  - comment_issue
+  - close_issue
+
+inputs:
+  repo-token:
+    description: 'GitHub token with issues:write permission'
+    required: true
+  operation:
+    description: 'Operation: upsert_issue|set_status|clear_status|replace_status_group|comment_issue|close_issue'
+    required: true
+  issue-number:
+    description: 'Target issue number (optional if resolving by marker/title)'
+    required: false
+    default: ''
+  issue-title:
+    description: 'Issue title for upsert or resolution fallback'
+    required: false
+    default: ''
+  issue-body:
+    description: 'Issue body for upsert and/or comment text for comment_issue'
+    required: false
+    default: ''
+  issue-marker:
+    description: 'Unique marker to find existing tracker issue in body'
+    required: false
+    default: ''
+  labels-to-add:
+    description: 'Comma-separated labels to add'
+    required: false
+    default: ''
+  labels-to-remove:
+    description: 'Comma-separated labels to remove'
+    required: false
+    default: ''
+  status-group:
+    description: 'Comma-separated label group for replace_status_group'
+    required: false
+    default: ''
+  source-workflow:
+    description: 'Name of caller workflow'
+    required: false
+    default: ''
+  source-run-id:
+    description: 'Run id for audit trail'
+    required: false
+    default: ''
+  source-sha:
+    description: 'Commit SHA for audit trail'
+    required: false
+    default: ''
+  close-reason:
+    description: 'Issue close reason: completed|not_planned|duplicate'
+    required: false
+    default: 'completed'
+  allow-missing:
+    description: 'If true, skip non-upsert operations when target issue cannot be resolved'
+    required: false
+    default: 'false'
+
+outputs:
+  issue-number:
+    description: 'Resolved issue number after operation'
+    value: ${{ steps.exec.outputs.issue_number }}
+  action-result:
+    description: 'Action result: created|updated|closed|commented|labels-updated|unchanged|skipped'
+    value: ${{ steps.exec.outputs.action_result }}
+  applied-labels:
+    description: 'Comma-separated labels applied in this operation'
+    value: ${{ steps.exec.outputs.applied_labels }}
+  removed-labels:
+    description: 'Comma-separated labels removed in this operation'
+    value: ${{ steps.exec.outputs.removed_labels }}
+
+runs:
+  using: composite
+  steps:
+    - name: Execute status interface operation
+      id: exec
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+      env:
+        INPUT_OPERATION: ${{ inputs.operation }}
+        INPUT_ISSUE_NUMBER: ${{ inputs.issue-number }}
+        INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
+        INPUT_ISSUE_BODY: ${{ inputs.issue-body }}
+        INPUT_ISSUE_MARKER: ${{ inputs.issue-marker }}
+        INPUT_LABELS_TO_ADD: ${{ inputs.labels-to-add }}
+        INPUT_LABELS_TO_REMOVE: ${{ inputs.labels-to-remove }}
+        INPUT_STATUS_GROUP: ${{ inputs.status-group }}
+        INPUT_SOURCE_WORKFLOW: ${{ inputs.source-workflow }}
+        INPUT_SOURCE_RUN_ID: ${{ inputs.source-run-id }}
+        INPUT_SOURCE_SHA: ${{ inputs.source-sha }}
+        INPUT_CLOSE_REASON: ${{ inputs.close-reason }}
+        INPUT_ALLOW_MISSING: ${{ inputs.allow-missing }}
+      with:
+        github-token: ${{ inputs.repo-token }}
+        script: |
+          const owner = context.repo.owner;
+          const repo = context.repo.repo;
+
+          const op = (process.env.INPUT_OPERATION || '').trim();
+          const issueNumberRaw = (process.env.INPUT_ISSUE_NUMBER || '').trim();
+          const issueTitle = process.env.INPUT_ISSUE_TITLE || '';
+          const issueBody = process.env.INPUT_ISSUE_BODY || '';
+          const issueMarker = process.env.INPUT_ISSUE_MARKER || '';
+          const sourceWorkflow = process.env.INPUT_SOURCE_WORKFLOW || context.workflow;
+          const sourceRunId = process.env.INPUT_SOURCE_RUN_ID || String(context.runId || '');
+          const sourceSha = process.env.INPUT_SOURCE_SHA || (context.sha || '');
+          const closeReason = (process.env.INPUT_CLOSE_REASON || 'completed').trim();
+          const allowMissing = ((process.env.INPUT_ALLOW_MISSING || 'false').trim().toLowerCase() === 'true');
+
+          const parseList = (raw) =>
+            (raw || '')
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean);
+
+          const labelPalette = {
+            quality: '5319E7',
+            'ci/build-ok': '0E8A16',
+            'ci/build-failed': 'B60205',
+            'ci/chronic-failure': 'B60205',
+            'ci/failure': 'D93F0B',
+            'status/needs-approval': 'FBCA04',
+            'status/build-pending': '0075CA',
+            'scanner/gs3': '1D76DB',
+            'scanner/runtime': '1D76DB',
+            security: 'B60205',
+            'security/critical': 'B60205',
+          };
+
+          const labelColorFor = (name) => {
+            const normalized = (name || '').toLowerCase();
+            if (labelPalette[normalized]) return labelPalette[normalized];
+            let hash = 0;
+            for (let i = 0; i < normalized.length; i += 1) {
+              hash = normalized.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const hue = Math.abs(hash) % 360;
+            return `hsl(${hue}, 65%, 50%)`.replace(/[^0-9a-fhsl%,()]/gi, '').slice(0, 6); 
+          };
+
+          const ensureLabel = async (name) => {
+            if (!name) return;
+            try {
+              await github.rest.issues.getLabel({ owner, repo, name });
+              return;
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              const color = labelColorFor(name).replace('#', '').replace(/[^0-9a-f]/gi, '').slice(0, 6) || 'D4C5F9';
+              await github.rest.issues.createLabel({
+                owner,
+                repo,
+                name,
+                color,
+                description: `Auto-created by workflow status interface for ${name}`,
+              });
+            }
+          };
+
+          const labelsToAdd = parseList(process.env.INPUT_LABELS_TO_ADD);
+          const labelsToRemove = parseList(process.env.INPUT_LABELS_TO_REMOVE);
+          const statusGroup = parseList(process.env.INPUT_STATUS_GROUP);
+
+          const out = {
+            issue_number: '',
+            action_result: 'skipped',
+            applied_labels: '',
+            removed_labels: '',
+          };
+
+          const setOutputs = () => {
+            core.setOutput('issue_number', out.issue_number);
+            core.setOutput('action_result', out.action_result);
+            core.setOutput('applied_labels', out.applied_labels);
+            core.setOutput('removed_labels', out.removed_labels);
+          };
+
+          const ensureArrayUnique = (arr) => [...new Set(arr)];
+
+          const issueFromNumber = async (num) => {
+            try {
+              const { data } = await github.rest.issues.get({ owner, repo, issue_number: Number(num) });
+              return data;
+            } catch {
+              return null;
+            }
+          };
+
+          const findOpenIssueByMarkerOrTitle = async () => {
+            const all = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100,
+            });
+            if (issueMarker) {
+              const byMarker = all.find((i) => (i.body || '').includes(issueMarker));
+              if (byMarker) return byMarker;
+            }
+            if (issueTitle) {
+              const byTitle = all.find((i) => i.title === issueTitle);
+              if (byTitle) return byTitle;
+            }
+            return null;
+          };
+
+          const resolveIssue = async () => {
+            if (issueNumberRaw) {
+              const byNumber = await issueFromNumber(issueNumberRaw);
+              if (byNumber) return byNumber;
+            }
+            return await findOpenIssueByMarkerOrTitle();
+          };
+
+          const buildAuditSuffix = () => {
+            const shortSha = sourceSha ? sourceSha.slice(0, 7) : '';
+            const runUrl = sourceRunId
+              ? `https://github.com/${owner}/${repo}/actions/runs/${sourceRunId}`
+              : '';
+            return `\n\n---\nsource_workflow: ${sourceWorkflow}\nsource_run: ${sourceRunId}${runUrl ? ` (${runUrl})` : ''}\nsource_sha: ${shortSha}`;
+          };
+
+          if (!op) {
+            core.setFailed('status-flags-and-issues: operation is required');
+            setOutputs();
+            return;
+          }
+
+          if (op === 'upsert_issue') {
+            for (const label of ensureArrayUnique([...labelsToAdd, ...statusGroup])) {
+              await ensureLabel(label);
+            }
+            let issue = await resolveIssue();
+            const body = `${issueBody}${buildAuditSuffix()}`;
+            if (issue) {
+              const currentLabels = (issue.labels || []).map((l) => l.name);
+              const merged = ensureArrayUnique([...currentLabels, ...labelsToAdd]);
+              const updateReq = {
+                owner,
+                repo,
+                issue_number: issue.number,
+                body,
+                labels: merged,
+              };
+              if (issueTitle && issue.title !== issueTitle) updateReq.title = issueTitle;
+              await github.rest.issues.update(updateReq);
+              out.issue_number = String(issue.number);
+              out.action_result = 'updated';
+              out.applied_labels = labelsToAdd.join(',');
+              setOutputs();
+              return;
+            }
+
+            if (!issueTitle) {
+              core.setFailed('status-flags-and-issues: upsert_issue requires issue-title when issue does not exist');
+              setOutputs();
+              return;
+            }
+
+            const { data: created } = await github.rest.issues.create({
+              owner,
+              repo,
+              title: issueTitle,
+              body,
+              labels: labelsToAdd,
+            });
+            out.issue_number = String(created.number);
+            out.action_result = 'created';
+            out.applied_labels = labelsToAdd.join(',');
+            setOutputs();
+            return;
+          }
+
+          const issue = await resolveIssue();
+          if (!issue) {
+            if (allowMissing) {
+              out.action_result = 'unchanged';
+              setOutputs();
+              return;
+            }
+            core.setFailed('status-flags-and-issues: target issue not found; provide issue-number or resolvable marker/title');
+            setOutputs();
+            return;
+          }
+
+          const issueNumber = issue.number;
+          out.issue_number = String(issueNumber);
+          const current = (issue.labels || []).map((l) => l.name);
+
+          if (op === 'set_status') {
+            for (const label of ensureArrayUnique([...labelsToAdd, ...statusGroup])) {
+              await ensureLabel(label);
+            }
+            const merged = ensureArrayUnique([...current, ...labelsToAdd]);
+            await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: merged });
+            out.action_result = 'labels-updated';
+            out.applied_labels = labelsToAdd.join(',');
+            setOutputs();
+            return;
+          }
+
+          if (op === 'clear_status') {
+            for (const label of ensureArrayUnique([...labelsToRemove, ...statusGroup])) {
+              await ensureLabel(label);
+            }
+            const filtered = current.filter((l) => !labelsToRemove.includes(l));
+            await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: filtered });
+            out.action_result = 'labels-updated';
+            out.removed_labels = labelsToRemove.join(',');
+            setOutputs();
+            return;
+          }
+
+          if (op === 'replace_status_group') {
+            for (const label of ensureArrayUnique([...labelsToAdd, ...statusGroup, ...labelsToRemove])) {
+              await ensureLabel(label);
+            }
+            const removedSet = new Set([...statusGroup, ...labelsToRemove]);
+            const base = current.filter((l) => !removedSet.has(l));
+            const merged = ensureArrayUnique([...base, ...labelsToAdd]);
+            await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: merged });
+            out.action_result = 'labels-updated';
+            out.applied_labels = labelsToAdd.join(',');
+            out.removed_labels = [...removedSet].join(',');
+            setOutputs();
+            return;
+          }
+
+          if (op === 'comment_issue') {
+            const baseBody = issueBody || `Status update from ${sourceWorkflow} run ${sourceRunId}`;
+            const body = issueMarker ? `${issueMarker}\n${baseBody}` : baseBody;
+            const existingComments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: issueNumber,
+              per_page: 100,
+            });
+            const existing = issueMarker
+              ? existingComments.find((c) => (c.body || '').includes(issueMarker))
+              : null;
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+              out.action_result = 'commented';
+              setOutputs();
+              return;
+            }
+
+            await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body });
+            out.action_result = 'commented';
+            setOutputs();
+            return;
+          }
+
+          if (op === 'close_issue') {
+            const reason = ['completed', 'not_planned', 'duplicate'].includes(closeReason)
+              ? closeReason
+              : 'completed';
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              state: 'closed',
+              state_reason: reason,
+            });
+            out.action_result = 'closed';
+            setOutputs();
+            return;
+          }
+
+          core.setFailed(`status-flags-and-issues: unsupported operation '${op}'`);
+          setOutputs();

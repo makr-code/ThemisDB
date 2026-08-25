@@ -11,6 +11,7 @@
 
 #include "training/ada_lora_adapter.h"
 
+#include <array>
 #include <algorithm>
 #include <cmath>
 #include <cstring>

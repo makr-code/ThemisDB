@@ -889,6 +889,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
     ../src/server/auth_middleware.cpp
+    ../src/server/policy_engine.cpp
     
     # Governance
     ../src/governance/policy_engine.cpp

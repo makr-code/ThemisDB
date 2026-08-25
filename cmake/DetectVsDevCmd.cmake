@@ -26,6 +26,9 @@ set(_conflicting_vars
     VS170COMNTOOLS
     VS180COMNTOOLS
     VSCMD_VER
+    INCLUDE
+    LIB
+    LIBPATH
 )
 
 set(_themis_vs_roots)

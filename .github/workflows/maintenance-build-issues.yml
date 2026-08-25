@@ -1,5 +1,7 @@
-name: Maintenance — Build Error Issues
+name: "Maintenance: Build Error Issues"
 
+# Rechenaufwand-Score: R=3 (K=3, L=3, N=3) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
 # Aggregates build/docker errors from failed CI runs and creates consolidated GitHub issues.
 # Triggered after ci-build.yml or docker-image.yml workflows complete.
 
@@ -288,20 +290,24 @@ jobs:
 
       - name: Send Slack notification for chronic errors
         if: steps.aggregate.outputs.chronic_errors > 0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-url: ${{ env.SLACK_WEBHOOK_URL }}
           chronic-threshold: '3'
           include-remediation-hints: 'true'
         continue-on-error: true
 
       - name: Send Discord notification for chronic errors
         if: steps.aggregate.outputs.chronic_errors > 0
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          webhook-url: ${{ env.DISCORD_WEBHOOK_URL }}
           chronic-threshold: '3'
           include-remediation-hints: 'true'
         continue-on-error: true
@@ -366,11 +372,13 @@ jobs:
 
       - name: Publish Error Dashboard
         if: always() && steps.fetch.outputs.has_artifacts == 'true'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         uses: ./.github/actions/publish-error-dashboard
         with:
           metrics-artifact: error-metrics
           create-issue: ${{ steps.aggregate.outputs.chronic_errors > 0 }}
           dashboard-title: '📊 Build Error Dashboard — Run #${{ github.run_number }}'
-          send-slack: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
-          slack-webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          send-slack: ${{ env.SLACK_WEBHOOK_URL != '' }}
+          slack-webhook: ${{ env.SLACK_WEBHOOK_URL }}
         continue-on-error: true

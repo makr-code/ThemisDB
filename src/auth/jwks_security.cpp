@@ -33,9 +33,9 @@ namespace auth {
 
 namespace {
 
-struct X509Deleter { void operator()(X509* p) const { X509_free(p); } };
+struct JwksX509Deleter { void operator()(X509* p) const { X509_free(p); } };
 struct OpenSSLBufDeleter { void operator()(unsigned char* p) const { OPENSSL_free(p); } };
-using UniqueX509 = std::unique_ptr<X509, X509Deleter>;
+using JwksUniqueX509 = std::unique_ptr<X509, JwksX509Deleter>;
 using UniqueOSSLBuf = std::unique_ptr<unsigned char, OpenSSLBufDeleter>;
 
 struct OpenSSLCharDeleter { void operator()(char* p) const { OPENSSL_free(p); } };
@@ -387,7 +387,7 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
     if (!cert_raw) {
         throw std::runtime_error("Failed to parse certificate: " + cert_path);
     }
-    UniqueX509 cert(cert_raw);
+    JwksUniqueX509 cert(cert_raw);
     
     // Extract SPKI (Subject Public Key Info)
     unsigned char* spki_raw = nullptr;
@@ -420,7 +420,7 @@ std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem
     if (!cert_raw) {
         throw std::runtime_error("Failed to parse PEM certificate");
     }
-    UniqueX509 cert(cert_raw);
+    JwksUniqueX509 cert(cert_raw);
     
     // Extract SPKI
     unsigned char* spki_raw = nullptr;
@@ -479,7 +479,7 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
     if (!cert_raw) {
         throw std::runtime_error("Failed to parse certificate: " + cert_path);
     }
-    UniqueX509 cert(cert_raw);
+    JwksUniqueX509 cert(cert_raw);
     
     // Subject
     UniqueOSSLChar subject(X509_NAME_oneline(X509_get_subject_name(cert.get()), nullptr, 0));

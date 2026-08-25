@@ -13,7 +13,10 @@
 # documentation. If you need additional assistance, please contact Fortify support.                                                            #
 ################################################################################################################################################
 
-name: Fortify AST Scan
+name: "Security: Fortify AST Scan [Scheduled]"
+
+# Rechenaufwand-Score: R=5 (K=4, L=4, N=4) | last-calibrated: 2026-08-25
+# Trigger policy: scheduled vendor SAST with manual dispatch only; no PR triggering.
 
 # Heavy vendor SAST scan; runs on schedule and manual dispatch only.
 # PR trigger removed to avoid blocking PRs on external Fortify availability.

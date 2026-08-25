@@ -165,36 +165,36 @@ jobs:
           if [ -f /tmp/guard_results.json ]; then
             echo "### Guard Results (bench_*.cpp vs CMake targets)" >> "$GITHUB_STEP_SUMMARY"
             python3 - <<'PYEOF' >> "$GITHUB_STEP_SUMMARY"
-import json, sys
-try:
-    with open("/tmp/guard_results.json") as f:
-        d = json.load(f)
-except Exception as e:
-    print(f"> ⚠️ Could not parse guard results: {e}")
-    sys.exit(0)
-counts = d.get("counts", {})
-print("| Metric | Count |")
-print("|--------|-------|")
-print(f"| Orphaned (no CMake target, not allowlisted) | {counts.get('orphaned', 0)} |")
-print(f"| Auto-registration covered | {counts.get('auto_reg_covered', 0)} |")
-print(f"| Binary missing (--build-dir mode) | {counts.get('binary_missing', 0)} |")
-print(f"| Auto-reg skipped in binary check (EXCLUDE_FROM_ALL) | {counts.get('auto_reg_binary_skipped', 0)} |")
-print(f"| Allowlisted (permitted absences) | {counts.get('allowlisted', 0)} |")
-if d.get("orphaned_sources"):
-    print()
-    print("#### Orphaned Sources")
-    print("| Source | Category |")
-    print("|--------|----------|")
-    for entry in d["orphaned_sources"]:
-        print(f"| `{entry['stem']}.cpp` | {entry['category']} |")
-if d.get("allowlisted_sources"):
-    print()
-    print("#### Allowlisted Sources (permitted absences)")
-    print("| Source | Category | Reason |")
-    print("|--------|----------|--------|")
-    for entry in d["allowlisted_sources"]:
-        print(f"| `{entry['stem']}.cpp` | {entry['category']} | {entry.get('reason','')} |")
-PYEOF
+            import json, sys
+            try:
+                with open("/tmp/guard_results.json") as f:
+                    d = json.load(f)
+            except Exception as e:
+                print(f"> ⚠️ Could not parse guard results: {e}")
+                sys.exit(0)
+            counts = d.get("counts", {})
+            print("| Metric | Count |")
+            print("|--------|-------|")
+            print(f"| Orphaned (no CMake target, not allowlisted) | {counts.get('orphaned', 0)} |")
+            print(f"| Auto-registration covered | {counts.get('auto_reg_covered', 0)} |")
+            print(f"| Binary missing (--build-dir mode) | {counts.get('binary_missing', 0)} |")
+            print(f"| Auto-reg skipped in binary check (EXCLUDE_FROM_ALL) | {counts.get('auto_reg_binary_skipped', 0)} |")
+            print(f"| Allowlisted (permitted absences) | {counts.get('allowlisted', 0)} |")
+            if d.get("orphaned_sources"):
+                print()
+                print("#### Orphaned Sources")
+                print("| Source | Category |")
+                print("|--------|----------|")
+                for entry in d["orphaned_sources"]:
+                    print(f"| `{entry['stem']}.cpp` | {entry['category']} |")
+            if d.get("allowlisted_sources"):
+                print()
+                print("#### Allowlisted Sources (permitted absences)")
+                print("| Source | Category | Reason |")
+                print("|--------|----------|--------|")
+                for entry in d["allowlisted_sources"]:
+                    print(f"| `{entry['stem']}.cpp` | {entry['category']} | {entry.get('reason','')} |")
+            PYEOF
           fi
           if [ -f /tmp/perf_audit_results.json ]; then
             echo "" >> "$GITHUB_STEP_SUMMARY"
@@ -349,35 +349,35 @@ PYEOF
           if [ -f /tmp/binary_guard_results.json ]; then
             echo "### Binary Guard Results" >> "$GITHUB_STEP_SUMMARY"
             python3 - <<'PYEOF' >> "$GITHUB_STEP_SUMMARY"
-import json, sys
-try:
-    with open("/tmp/binary_guard_results.json") as f:
-        d = json.load(f)
-except Exception as e:
-    print(f"> ⚠️ Could not parse binary guard results: {e}")
-    sys.exit(0)
-counts = d.get("counts", {})
-print("| Metric | Count |")
-print("|--------|-------|")
-print(f"| Explicitly-wired binaries missing | {counts.get('binary_missing', 0)} |")
-print(f"| Auto-reg skipped (EXCLUDE_FROM_ALL, not in default build) | {counts.get('auto_reg_binary_skipped', 0)} |")
-print(f"| Allowlisted (permitted absences) | {counts.get('allowlisted', 0)} |")
-if d.get("binary_missing_sources"):
-    print()
-    print("#### Missing Binaries (CI FAILURE)")
-    print("| Source | Category |")
-    print("|--------|----------|")
-    for entry in d["binary_missing_sources"]:
-        print(f"| `{entry['stem']}.cpp` | {entry['category']} |")
-if d.get("auto_reg_binary_skipped_sources"):
-    print()
-    print("#### Auto-Registered Sources (not checked – EXCLUDE_FROM_ALL)")
-    print("| Source | Category |")
-    print("|--------|----------|")
-    for entry in d["auto_reg_binary_skipped_sources"][:10]:
-        print(f"| `{entry['stem']}.cpp` | {entry['category']} |")
-    total = counts.get('auto_reg_binary_skipped', 0)
-    if total > 10:
-        print(f"| *(and {total - 10} more …)* |  |")
-PYEOF
+            import json, sys
+            try:
+                with open("/tmp/binary_guard_results.json") as f:
+                    d = json.load(f)
+            except Exception as e:
+                print(f"> ⚠️ Could not parse binary guard results: {e}")
+                sys.exit(0)
+            counts = d.get("counts", {})
+            print("| Metric | Count |")
+            print("|--------|-------|")
+            print(f"| Explicitly-wired binaries missing | {counts.get('binary_missing', 0)} |")
+            print(f"| Auto-reg skipped (EXCLUDE_FROM_ALL, not in default build) | {counts.get('auto_reg_binary_skipped', 0)} |")
+            print(f"| Allowlisted (permitted absences) | {counts.get('allowlisted', 0)} |")
+            if d.get("binary_missing_sources"):
+                print()
+                print("#### Missing Binaries (CI FAILURE)")
+                print("| Source | Category |")
+                print("|--------|----------|")
+                for entry in d["binary_missing_sources"]:
+                    print(f"| `{entry['stem']}.cpp` | {entry['category']} |")
+            if d.get("auto_reg_binary_skipped_sources"):
+                print()
+                print("#### Auto-Registered Sources (not checked – EXCLUDE_FROM_ALL)")
+                print("| Source | Category |")
+                print("|--------|----------|")
+                for entry in d["auto_reg_binary_skipped_sources"][:10]:
+                    print(f"| `{entry['stem']}.cpp` | {entry['category']} |")
+                total = counts.get('auto_reg_binary_skipped', 0)
+                if total > 10:
+                    print(f"| *(and {total - 10} more …)* |  |")
+            PYEOF
           fi

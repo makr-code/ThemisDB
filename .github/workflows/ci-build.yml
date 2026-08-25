@@ -1,5 +1,7 @@
-name: CI — Build
+name: "Build: Mainline"
 
+# Rechenaufwand-Score: R=7 (K=8, L=7, N=7) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
 # ──────────────────────────────────────────────────────────────────────────────
 # Trigger policy: push to develop only (no pull_request trigger).
 # Heavy C++ builds (up to 120 min) run post-merge, not on every PR push.
@@ -83,81 +85,60 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Apply build-status labels
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+      - name: Derive status payload
+        id: status
+        shell: bash
         env:
           BUILD_RESULT: ${{ needs.build.result }}
+        run: |
+          if [ "${BUILD_RESULT}" = "success" ]; then
+            echo "status_label=ci/build-ok" >> "$GITHUB_OUTPUT"
+            echo "status_text=passing" >> "$GITHUB_OUTPUT"
+            echo "status_icon=✅" >> "$GITHUB_OUTPUT"
+          else
+            echo "status_label=ci/build-failed" >> "$GITHUB_OUTPUT"
+            echo "status_text=failing" >> "$GITHUB_OUTPUT"
+            echo "status_icon=❌" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upsert build tracker issue
+        id: tracker
+        uses: ./.github/actions/status-flags-and-issues
         with:
-          script: |
-            const buildResult = process.env.BUILD_RESULT;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[CI] Build status tracker — develop'
+          issue-marker: '<!-- ci-build:type:build-status -->'
+          issue-body: |
+            <!-- ci-build:type:build-status -->
+            ## CI Build Status — `develop`
 
-            // Helper: ensure label exists
-            const ensureLabel = async (name, color, description) => {
-              try {
-                await github.rest.issues.getLabel({ owner, repo, name });
-              } catch (err) {
-                if (err.status !== 404) throw err;
-                await github.rest.issues.createLabel({ owner, repo, name, color, description });
-              }
-            };
+            Current status: **${{ steps.status.outputs.status_icon }} ${{ steps.status.outputs.status_text }}**
 
-            await ensureLabel('ci/build-ok',     '0E8A16', 'Build after merge succeeded');
-            await ensureLabel('ci/build-failed',  'B60205', 'Build after merge failed; blocks next merge');
-            await ensureLabel('ci/test-ok',       '0E8A16', 'Tests green after merge');
-            await ensureLabel('ci/test-failed',   'B60205', 'Tests after merge failed; blocks next merge');
-            await ensureLabel('status/build-pending', '0075CA', 'Post-merge build triggered and in progress');
+            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
 
-            // Find the most recent open issue marked as a develop-build-status tracker
-            const marker = '<!-- ci-build:type:build-status -->';
-            const allIssues = await github.paginate(github.rest.issues.listForRepo, {
-              owner, repo, state: 'open', per_page: 100,
-            });
-            const trackerIssue = allIssues.find(i => (i.body || '').includes(marker));
+            _This issue tracks post-merge build health on develop._
+            _Labels: `ci/build-ok` = passing, `ci/build-failed` = failing, `status/build-pending` = in progress._
 
-            const succeeded = buildResult === 'success';
-            const statusLabel    = succeeded ? 'ci/build-ok'     : 'ci/build-failed';
-            const clearLabel     = succeeded ? 'ci/build-failed'  : 'ci/build-ok';
-            const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
-            const sha = context.sha.slice(0, 7);
+      - name: Replace status labels atomically
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ steps.tracker.outputs.issue-number }}
+          labels-to-add: ${{ steps.status.outputs.status_label }}
+          status-group: 'ci/build-ok,ci/build-failed,status/build-pending'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
-            if (trackerIssue) {
-              // Remove the opposite label from the tracker issue if present
-              const currentLabels = trackerIssue.labels.map(l => l.name);
-              const newLabels = currentLabels
-                .filter(l => l !== clearLabel && l !== 'status/build-pending')
-                .concat(statusLabel)
-                .filter((v, i, a) => a.indexOf(v) === i);
-              await github.rest.issues.update({
-                owner, repo,
-                issue_number: trackerIssue.number,
-                labels: newLabels,
-              });
-              await github.rest.issues.createComment({
-                owner, repo,
-                issue_number: trackerIssue.number,
-                body: `${succeeded ? '✅' : '❌'} Build ${succeeded ? 'succeeded' : 'failed'} for \`${sha}\` — [run ${context.runId}](${runUrl})`,
-              });
-              core.notice(`Updated build-status tracker issue #${trackerIssue.number}: ${statusLabel}`);
-            } else {
-              // Create a tracker issue for the develop branch build status
-              const body = [
-                marker,
-                `## CI Build Status — \`develop\``,
-                '',
-                `Current status: **${succeeded ? '✅ passing' : '❌ failing'}**`,
-                '',
-                `Last run: [${context.runId}](${runUrl}) at \`${sha}\``,
-                '',
-                '_This issue tracks post-merge build health on develop._',
-                '_Labels: `ci/build-ok` = passing, `ci/build-failed` = failing, `status/build-pending` = in progress._',
-              ].join('\n');
-              const { data: issue } = await github.rest.issues.create({
-                owner, repo,
-                title: '[CI] Build status tracker — develop',
-                body,
-                labels: [statusLabel],
-              });
-              core.notice(`Created build-status tracker issue #${issue.number}`);
-            }
+      - name: Comment build status
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.tracker.outputs.issue-number }}
+          issue-body: '${{ steps.status.outputs.status_icon }} Build ${{ needs.build.result }} for `${{ github.sha }}` — [run ${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
