@@ -40,6 +40,39 @@
 #include <limits>
 #include <random>
 
+// ── Wave 2-D: Canonical Lock-Hierarchy for CrossShardTransactionCoordinator ──
+//
+// Three mutexes are used in this translation unit.  They MUST always be
+// acquired in the order shown below to prevent deadlock:
+//
+//   LEVEL 1 — transactions_mutex_  (std::timed_mutex)
+//     Guards the main transaction table and coordinator lifecycle state.
+//     Any code that needs both L1 and a lower-level mutex must acquire L1
+//     first.  Use try_lock_for with LOCK_TIMEOUT_MS when entering from a
+//     non-critical path.
+//
+//   LEVEL 2 — callbacks_mutex_  (std::mutex)
+//     Guards registered completion/failure callbacks.
+//     May be acquired while L1 is held.  Never hold L2 and then attempt
+//     to acquire L1 (would invert the hierarchy).
+//     See: failClosedAbortAllParticipants (line ~1724) which explicitly
+//     requires that callbacks_mutex_ is NOT held on entry.
+//
+//   LEVEL 3 — deferred_mutex_  (std::mutex)
+//     Guards the deferred-execution queue.
+//     MUST NOT be acquired while transactions_mutex_ (L1) is held
+//     (enforced by usage pattern: deferred_mutex_ is only accessed from
+//     paths that have already released L1).
+//     May be acquired while callbacks_mutex_ (L2) is held.
+//
+// Summary table:
+//   Hierarchy  | transactions_mutex_ | callbacks_mutex_ | deferred_mutex_
+//   Acquire if | (always first)      | after L1 or solo | after L2 or solo; NEVER under L1
+//
+// Verification: Wave 2-D / LKO-D1 — grep for mutex acquisition sites and
+//   confirm no call site inverts this ordering.
+// ─────────────────────────────────────────────────────────────────────────────
+
 namespace themisdb {
 namespace sharding {
 

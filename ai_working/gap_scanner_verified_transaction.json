@@ -1,0 +1,137 @@
+{
+  "module": "transaction",
+  "scan_timestamp": "2026-08-25T17:27:21Z",
+  "scope": [
+    "src/transaction/distributed_transaction_manager.cpp",
+    "src/transaction/saga_orchestrator.cpp",
+    "src/transaction/global_transaction_manager.cpp",
+    "src/transaction/lock_manager.cpp"
+  ],
+  "summary": {
+    "total_raw_declared": 43,
+    "note_raw_breakdown": "DTM: C=1 H=28 M=7; SAGA: C=0 H=10 M=33; LM: C=2 H=2 M=9; GTM: C=0 H=22 M=0",
+    "verified_gaps": 6,
+    "false_positives_removed": 4,
+    "stale_metadata_flags": 3,
+    "downgrades": 3,
+    "severity_distribution": {
+      "CRITICAL": 0,
+      "HIGH": 3,
+      "MEDIUM": 2,
+      "INFO": 1
+    }
+  },
+  "findings": [
+    {
+      "id": "TXN-001",
+      "file": "src/transaction/distributed_transaction_manager.cpp",
+      "line": "67-112",
+      "pattern": "RPC bridge hooks (Phase-1 and Phase-2) are injectable function pointers with no default implementation",
+      "original_severity": "CRITICAL",
+      "verified_severity": "HIGH",
+      "classification": "Guarded Stub",
+      "rationale": "Stub #279 partial fix: initialization-time and per-transaction fail-fast guards (lines 220-235, 293-315) throw invalid_argument when no transport is configured AND remote participants are registered. The bridges themselves (s_rpc_phase1_fn, s_rpc_phase2_fn) have no default network implementation — callers must inject one via setRpcPhase1Fn/setRpcPhase2Fn or config fields. This is an intentional plugin architecture, not an unconditional stub. CRITICAL downgraded to HIGH because fail-closed guards prevent silent data loss; the gap is a missing default transport, not missing logic.",
+      "fix_suggestion": "Document in PRODUCTION_REQUIREMENTS.md that a Phase-1 and Phase-2 RPC transport MUST be injected before any remote participant is registered. Consider adding a compile-time or startup assertion when no transport is supplied but the config allows remote participants.",
+      "stub_279_status": {
+        "fixed": [
+          "Init-time Phase-2 transport validation (line 220-235): throws if remote_phase1_dispatch set but no Phase-2 bridge",
+          "Per-transaction Phase-2 validation (line 293-315): throws on beginDistributed with remote participant and no bridge",
+          "Fail-closed handler (line 1326-1344): THEMIS_ERROR + all_delivered=false + break instead of silent skip",
+          "Phase-1 RPC bridge registration API (lines 99-112)",
+          "Phase-2 RPC bridge registration API (lines 75-88)"
+        ],
+        "remaining_gap": "No default/fallback RPC transport implementation. Bridges are pure injection points — production deployments without explicit transport injection will throw at startup or beginDistributed, which is correct fail-fast behavior but leaves the actual network layer unimplemented in this codebase."
+      }
+    },
+    {
+      "id": "TXN-002",
+      "file": "src/transaction/lock_manager.cpp",
+      "line": "258-265",
+      "pattern": "upgradeLock waits for other SHARED holders without deadlock-cycle detection",
+      "original_severity": "CRITICAL",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "Two concurrent transactions both holding SHARED on the same key and both calling upgradeLock will deadlock: each pushes to waiters and blocks on cv.wait_for. The push_front priority hint helps with single-upgrade scenarios but does NOT break a mutual upgrade deadlock. The LockManager exposes getWaiters/getWaitingFor for an external deadlock detector, but there is NO wiring from upgradeLock to the DeadlockPredictor. If the timeout fires, the call returns LockResult::Timeout() — which is the only escape. The C=2 from the file header were false-positive iterator_invalidation flags (now Wave-A closed). This real upgrade-deadlock risk was not in the original scan.",
+      "fix_suggestion": "Before enqueuing an upgrade request, check whether the requesting transaction is already in another holder's wait chain on this key. If yes, return LockResult::Denied(\"upgrade deadlock detected\") immediately. Alternatively, wire DeadlockPredictor::buildWaitForGraph() into the upgrade wait path with a short poll interval."
+    },
+    {
+      "id": "TXN-003",
+      "file": "src/transaction/lock_manager.cpp",
+      "line": "530-538",
+      "pattern": "acquirePredicateLock silently drops lock when max_predicate_locks_ capacity reached",
+      "original_severity": "HIGH",
+      "verified_severity": "MEDIUM",
+      "classification": "Guarded Stub",
+      "rationale": "Lines 534-538: when max_predicate_locks_ limit is reached, the function returns false without adding the predicate lock and without logging. The comment acknowledges this raises the false-positive abort rate but claims correctness is preserved. This is a documented intentional design choice (capacity-based degradation). Severity is MEDIUM because SSI correctness is maintained (false-positive aborts, not missed conflicts), and the behavior is guarded with a configurable limit.",
+      "fix_suggestion": "Add a THEMIS_WARN log when the predicate lock cap is reached so operators know SSI false-positive abort rate may be elevated. Consider exposing a stats counter (stats_predicate_lock_drops_) for monitoring."
+    },
+    {
+      "id": "TXN-004",
+      "file": "src/transaction/global_transaction_manager.cpp",
+      "line": "248-252",
+      "pattern": "runPhase2 called while holding mutex_ — synchronous blocking I/O under global lock",
+      "original_severity": "HIGH",
+      "verified_severity": "HIGH",
+      "classification": "Real Gap",
+      "rationale": "Lines 248-252: a lock_guard<mutex_> is acquired, then runPhase2 is called, which iterates all region participants and calls commit()/abort() synchronously on each (lines 590-614). If any region participant blocks (network, slow disk), mutex_ is held for the duration, serializing ALL other GTM operations. This is not a stub — it is a real architectural bottleneck that will manifest under load. The H=22 in the file header reflects scanner pattern hits (scope_mismatch/circular_lock_ordering) but this specific risk is the most severe real gap.",
+      "fix_suggestion": "Refactor: capture the participant list and decision under lock, then release mutex_ before calling runPhase2. Apply the same pattern used in DistributedTransactionManager::runPhase1Unlocked (snapshot-then-release). Example:\n  { lock_guard lock(mutex_); rec_snapshot = rec; }\n  runPhase2(rec_snapshot, all_prepared);\n  { lock_guard lock(mutex_); transactions_.at(txn_id).state = COMPLETED; }"
+    },
+    {
+      "id": "TXN-005",
+      "file": "src/transaction/saga_orchestrator.cpp",
+      "line": "211-213",
+      "pattern": "topologicalSort returns {} on cycle — scanner flagged as unguarded empty return",
+      "original_severity": "HIGH",
+      "verified_severity": "INFO",
+      "classification": "False-Positive",
+      "rationale": "Lines 211-213: `if (order.size() != saga.steps.size()) return {};` is the standard Kahn's algorithm termination check for DAG cycle detection. The caller (validate(), line 95-97) checks the returned vector size and emits SagaOrchestratorStatus::Error(\"dependency cycle detected\"). This is a correct, fully handled defensive pattern. Scanner mis-classified this as an unguarded empty stub return.",
+      "fix_suggestion": "No code change needed. Scanner rule should be updated to recognize Kahn's algorithm pattern as valid."
+    },
+    {
+      "id": "TXN-006",
+      "file": "src/transaction/saga_orchestrator.cpp",
+      "line": "621-632",
+      "pattern": "Circuit breaker isCircuitBreakerOpen returns false (CLOSED) after timeout — scanner flagged as stub false return",
+      "original_severity": "HIGH",
+      "verified_severity": "INFO",
+      "classification": "False-Positive",
+      "rationale": "Lines 621-632: `return false; // Circuit is CLOSED` at line 622 is the correct base case (threshold not reached → circuit closed). `return false` at line 632 is the HALF_OPEN state transition (timeout expired → allow one retry by treating circuit as open=false). Both are correct circuit breaker FSM transitions. The scanner incorrectly flagged these as stub false-returns.",
+      "fix_suggestion": "No code change needed. The 10 HIGH gaps in saga_orchestrator.cpp are all scanner pattern false-positives (circular_lock_ordering on independent mutex acquisitions, scope_mismatch from static analysis tooling). None represent unimplemented production logic."
+    }
+  ],
+  "false_positives_detail": [
+    {
+      "file": "src/transaction/lock_manager.cpp",
+      "lines": "153, 178, 194, 387",
+      "original_severity": "CRITICAL (×3) + HIGH (×1)",
+      "reason": "All four iterator_invalidation flags closed in Wave A (2026-08-25). erase-remove idiom and const read-only function patterns confirmed safe. File header C=2 metadata is stale pre-remediation.",
+      "action": "REMOVED — Wave A verified closure"
+    },
+    {
+      "file": "src/transaction/lock_manager.cpp",
+      "line": "350",
+      "original_severity": "CRITICAL",
+      "reason": "db_connection_leak false-positive on atomic store in setDefaultTimeout. No DB connection present. Wave A verified.",
+      "action": "REMOVED — Wave A verified closure"
+    },
+    {
+      "file": "src/transaction/global_transaction_manager.cpp",
+      "lines": "1, 1",
+      "original_severity": "CRITICAL (×2)",
+      "reason": "braces_imbalance on file-level line 1 for both DTM and GTM. Wave A confirmed braces are balanced; scanner artifact.",
+      "action": "REMOVED — Wave A verified closure"
+    },
+    {
+      "file": "src/transaction/saga_orchestrator.cpp",
+      "lines": "H=10 scanner flags",
+      "original_severity": "HIGH ×10",
+      "reason": "All 10 HIGH flags are circular_lock_ordering or scope_mismatch patterns from independent mutex acquisitions (metrics_mutex_, status_mutex_, circuit_breaker_mutex_, journal_mutex_, templates_mutex_). None are acquired simultaneously; all are independent critical sections. No real circular ordering risk.",
+      "action": "REMOVED — confirmed FALSE POSITIVE (independent, non-nested mutex usage)"
+    }
+  ],
+  "stale_metadata_notes": [
+    "distributed_transaction_manager.cpp line 7: C=1 in header — stale; WAVE_A closed all 22 CRITICAL. The DTM file's remaining C=1 in metadata is pre-remediation and has not been updated post-fix.",
+    "lock_manager.cpp line 7: C=2 in header — stale; all CRITICAL iterator_invalidation and db_connection_leak flags were Wave A closures.",
+    "global_transaction_manager.cpp line 7: H=22 in header — those 22 HIGH are scanner pattern hits (scope_mismatch), not unimplemented production code. Metadata overstates severity."
+  ]
+}

@@ -85,6 +85,11 @@ public:
         int ttl_seconds = 7200;              // 2 hours TTL
         bool enable_kv_caching = true;       // Precompute KV cache
         std::shared_ptr<utils::Clock> clock = nullptr;  // Injectable clock (uses SystemClock if null)
+        /// [W3-SEC-05] Configurable on-disk cache directory.
+        /// When empty the implementation falls back to "/tmp/themis_llm_prefix_cache".
+        /// Multi-tenant deployments MUST set a per-tenant path to prevent cache
+        /// file collisions and privilege-escalation via crafted cache entries.
+        std::string cache_dir;
     };
     
     explicit LLMPrefixCache(const std::string& cache_name, const Config& config);

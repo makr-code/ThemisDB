@@ -337,6 +337,8 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
     size_t vec_bytes = num_vectors * config_.dim * sizeof(float);
     if (cudaMalloc(&impl_->d_vectors, vec_bytes) != cudaSuccess) {
         THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(vectors) failed");
+        // No freeDevice() needed: d_vectors was not allocated and freeDevice() was
+        // called unconditionally above (line 334). CPU fallback remains active.
         impl_->cuda_available = false;
         impl_->index_built = true;
         return true;  // CPU fallback still works
@@ -354,10 +356,16 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
     size_t off_bytes = (bottom.num_nodes + 1) * sizeof(int32_t);
     size_t nb_bytes  = bottom.neighbours.size() * sizeof(int32_t);
 
-    if (cudaMalloc(&impl_->d_offsets, off_bytes) != cudaSuccess ||
-        cudaMalloc(&impl_->d_neighbours, nb_bytes) != cudaSuccess) {
-        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(graph) failed");
+    if (cudaMalloc(&impl_->d_offsets, off_bytes) != cudaSuccess) {
+        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(offsets) failed");
         impl_->freeDevice();
+        impl_->cuda_available = false;
+        impl_->index_built = true;
+        return true;
+    }
+    if (cudaMalloc(&impl_->d_neighbours, nb_bytes) != cudaSuccess) {
+        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(neighbours) failed");
+        impl_->freeDevice();  // d_offsets is freed here via freeDevice()
         impl_->cuda_available = false;
         impl_->index_built = true;
         return true;

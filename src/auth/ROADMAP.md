@@ -45,6 +45,64 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 
 ## Planned Features
 
+### Wave 4-B: Auth Audit Events + OAuth Retry + mTLS Hardening (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 4-B · gap-verifier subagent 2026-08-25  
+> **Verified real gaps:** 7 CRITICAL (missing audit events), 7 HIGH (retry + crypto), 1 MEDIUM  
+> **FP closed (14):** sensitive_data_logging (all 155) — scanner matched variable names not values; mTLS cipher claim wrong file scope (MTLSAuthenticator has no SSL_CTX)
+
+#### A — Missing Audit Events (7 gaps — all CRITICAL/HIGH)
+
+- [ ] `passkey_authenticator.cpp:880-892` — inject `AuthAuditLogger*`; call `logPasskeySuccess(credential_id)` / `logPasskeyFailure(reason)` from `verifyAuthentication()` — zero audit calls currently (CRITICAL) (Target: Q4 2026)
+- [ ] `mtls_authenticator.cpp:281` — inject `AuthAuditLogger*`; add `logMTLSSuccess(principal,serial)` / `logMTLSFailure(reason)` — no `AuthAuditLogger` include or call in file (CRITICAL) (Target: Q4 2026)
+- [ ] `federated_identity_manager.cpp:202-578` — add `AuthAuditLogger*` injection; call `logJWTSuccess/Failure` / `logFederatedSuccess/Failure` in `validateToken()` and `exchangeToken()` — file has no `#include "auth/auth_audit_logger.h"` (CRITICAL) (Target: Q4 2026)
+- [ ] `auth_audit_logger.cpp` — add `SecurityEventType::ROLE_CHANGED`, `PERMISSION_CHANGED`; add `logRoleChange(user_id, role, old_role)` and `logPermissionChange(user_id, resource, old_perm, new_perm)` (CRITICAL) (Target: Q4 2026)
+- [ ] `jwt_key_rotation_manager.cpp:54` — add try/catch around `max_keys` throw to fire `KEY_ROTATION_FAILED` audit event before re-throwing — logger assigned on line 77, after throw, so never reached (HIGH) (Target: Q4 2026)
+- [ ] `jwt_key_rotation_manager.cpp:99-100` — emit `KEY_REVOCATION_FAILED` event before `return false` on unknown `kid` — THEMIS_WARN only, no audit trail for key ID probing (HIGH) (Target: Q4 2026)
+- [ ] `auth_audit_logger.cpp` — add `logPasskeyRegistered(user_id, credential_id, rp_id)`; call from `registerCredential()` — `logMFAEnrolled` covers TOTP only (HIGH) (Target: Q4 2026)
+
+#### B — Auth Retry Logic (4 real gaps)
+
+- [ ] `ldap_connection_pool.cpp:173-181` — add inner retry loop (max 3×, base 100ms, ×2, ±20ms jitter) around `createConnection()`; on exhaustion → `throw AuthException(PROVIDER_DEGRADED)`; current: `nullptr` falls through to CV wait without backoff (HIGH) (Target: Q4 2026)
+- [ ] `federated_identity_manager.cpp:390-393` — wrap `httpPost()` in retry loop (max 3×, jittered backoff); retry on `CURLE_COULDNT_CONNECT`, `CURLE_OPERATION_TIMEDOUT`, HTTP 429/503 — currently throws immediately (HIGH) (Target: Q4 2026)
+- [ ] `oauth_pkce_flow.cpp:317-318` — same fix as B-2 above; factor into shared retrying `httpPost()` helper (HIGH) (Target: Q4 2026)
+- [ ] `oauth_device_flow.cpp:399-400` — retry individual HTTP transport errors within the RFC poll loop (not the poll interval itself — RFC 8628 §3.5 poll loop is correct); distinguish `CURLE` transport failure from `authorization_pending` (MEDIUM) (Target: Q4 2026)
+
+#### C — Crypto Weakness (3 real gaps)
+
+- [ ] `passkey_authenticator.cpp:407-483` — add COSE `alg` field allowlist in `coseKeyToEvpPkey()`; reject `kty=2` if `alg != -7` (ES256); reject `kty=3` if `alg != -257` (RS256); enforce stored credential algorithm matches (HIGH — cross-algorithm substitution risk) (Target: Q4 2026)
+- [ ] `mtls_authenticator.cpp:173-283` — add `X509_get_ext_d2i(cert, NID_ext_key_usage)` check; reject certs lacking `id-kp-clientAuth` OID; add `digitalSignature` key-usage bit check (HIGH — serverAuth-only certs currently accepted) (Target: Q4 2026)
+- [ ] `passkey_authenticator.cpp:447-482` — after RSA EVP_PKEY construction, call `EVP_PKEY_get_bits(pkey)` and reject if `< 2048` (MEDIUM — 512/1024-bit RSA keys currently accepted) (Target: Q4 2026)
+
+#### Tests
+- `tests/auth/test_wave4b_auth_hardening.cpp` — minimum 14 tests covering all verified gaps above
+
+#### FPs Confirmed (closed, no code change needed)
+- sensitive_data_logging (155): scanner matched variable names near log calls, not log values; `// NOPII` already on ambiguous sites; no raw credential in any spdlog format argument
+- mTLS cipher list: `MTLSAuthenticator` is a PEM-level verifier with no SSL_CTX; TLS cipher enforcement belongs in the transport layer wrapping this component
+
+### Wave 2-A: Auth Security Hardening (Target: Q3 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-A, gap scanner verified 2026-08-25  
+> **Gap count:** 155 `sensitive_data_logging` (HIGH), 7 `missing_audit_log` (CRITICAL), 22 `no_retry_logic`, 9 `crypto_weakness`
+
+- [x] Sensitive data redaction: **FP CONFIRMED** — 100% false positive per subagent triage (2026-08-25); preventive lint policy recommended as follow-up
+- [~] Add missing audit events: **expanded and detailed in Wave 4-B** above (14 verified specific gaps across 4 files) (Target: Q4 2026)
+- [~] Auth retry logic: `ldap_connection_pool.cpp` checkout has bounded wait; `createConnection()` retry gap tracked in Wave 4-B; federated/PKCE/device-flow tracked in Wave 4-B (Target: Q4 2026)
+- [~] Crypto weakness: `passkey_authenticator.cpp` alg+RSA-size and `mtls_authenticator.cpp` EKU tracked in Wave 4-B; mTLS cipher FP confirmed (Target: Q4 2026)
+
+### Wave 2-B: LDAP Stub Replacement (Target: Q4 2026)
+
+> **Source:** Semantic analysis 2026-08-25 — `ldap_authenticator.cpp` has ~12 stubbed functions
+
+- [ ] LDAP Connection Pool: real pool management (bind context, bounded size, timeout) in `ldap_authenticator.cpp` (Target: Q4 2026)
+  - Inputs: LDAP server config (host, port, bind-DN, timeout)
+  - Outputs: pooled LDAP connection with automatic rebind on staleness
+  - Errors: `LDAP_CONNECT_TIMEOUT` on pool exhaustion; retry with backoff
+  - Tests: `tests/auth/test_ldap_pool_wave2b.cpp`
+- [ ] LDAP Search Pagination: controlled, bounded result pagination in `ldap_authenticator.cpp` (Target: Q4 2026)
+- [ ] `federated_identity_manager.cpp`: Cross-provider state sync — replace ~9 stubbed functions with real implementation (Target: Q4 2026)
+
 ### Short-term (3-6 months)
 - [ ] tighten fail-closed behavior for optional provider-degraded scenarios (Target: Q4 2026)
 - [ ] expand deterministic integration regressions across auth protocol matrixes (Target: Q4 2026)

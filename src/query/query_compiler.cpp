@@ -218,6 +218,7 @@ public:
         // ---- Compilation trigger -------------------------------------------
         if (config_.enable_jit
             && !entry.compile_failed
+            && !jit_state_corrupted_   // [WAVE3B-FIX] skip if JIT state is corrupted
             && entry.call_count == config_.hot_threshold)
         {
             trySpecialise(entry, handle.key);
@@ -320,6 +321,8 @@ public:
 
     const QueryCompiler::Config& config() const noexcept { return config_; }
 
+    bool isJitStateCorrupted() const noexcept { return jit_state_corrupted_; }
+
 private:
     // -----------------------------------------------------------------------
     // Specialisation
@@ -420,17 +423,23 @@ private:
             THEMIS_WARN("QueryCompiler: specialisation failed key={} error={}",
                         key, ex.what());
         } catch (...) {
-            // RATIONALE: Catch-all exception swallowing is intentional here.
-            // The specialisation path is an optimization (hot-path compilation).
-            // If specialisation fails for any reason (even unknown exceptions),
-            // we gracefully degrade to the cold path (interpreted execution).
-            // Propagating the exception would break query execution entirely,
-            // whereas swallowing allows the query to proceed with full correctness,
-            // just without the optimization benefit.
-            // This design ensures robustness over performance edge cases.
+            // [WAVE3B-FIX: catch_all_swallow — query_compiler.cpp:423]
+            //
+            // Unknown (non-std::exception) exceptions from the specialisation path
+            // indicate a potential JIT state corruption (e.g. signal converted to
+            // exception, implementation-specific throw).  We:
+            //   1. Mark this entry as failed (same as std::exception path above).
+            //   2. Set the module-level jit_state_corrupted_ sentinel so that
+            //      further specialisation attempts are suppressed.
+            //   3. Log at ERROR level (not WARN) because this is unexpected.
+            //
+            // Future callers check jit_state_corrupted_ before calling trySpecialise().
             entry.compile_failed = true;
             ++stats_.compilation_failures;
-            THEMIS_WARN("QueryCompiler: specialisation failed key={} (unknown error)", key);
+            jit_state_corrupted_ = true;
+            THEMIS_ERROR("QueryCompiler: specialisation raised unknown exception for key={} "
+                         "— JIT state marked corrupted; further specialisation disabled",
+                         key);
         }
     }
 
@@ -441,6 +450,13 @@ private:
     QueryCompiler::Config config_;
     std::unordered_map<std::string, Entry> entries_;
     mutable QueryCompiler::Stats           stats_;
+
+    /// [WAVE3B-FIX: catch_all_swallow — query_compiler.cpp]
+    /// Set to true when an unknown (non-std::exception) exception escapes the
+    /// specialisation path, indicating potential JIT state corruption.
+    /// Checked at compile() entry — if true, further specialisation is skipped
+    /// and the compiler degrades gracefully to the interpreted cold path.
+    bool jit_state_corrupted_ = false;
 };
 
 // ============================================================================
@@ -501,6 +517,10 @@ void QueryCompiler::resetStats() noexcept {
 
 const QueryCompiler::Config& QueryCompiler::config() const noexcept {
     return impl_->config();
+}
+
+bool QueryCompiler::isJitStateCorrupted() const noexcept {
+    return impl_->isJitStateCorrupted();
 }
 
 }  // namespace query

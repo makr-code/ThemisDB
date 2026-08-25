@@ -89,12 +89,142 @@ std::string calculate_sha256(const std::string& file_path) {
     return ss.str();
 }
 
+// ── Wave 2-C: insecure_model_url — Ollama URL validation ─────────────────────
+// Purpose: Prevent SSRF and credential-injection attacks via the ollama_url
+//          config value. Called by every outbound HTTP function before the URL
+//          is passed to libcurl.
+// Acceptance criteria (test_model_downloader_url_validation.cpp):
+//   URL_VAL_01..03 — invalid schemes rejected
+//   URL_VAL_04     — embedded credentials (@) rejected
+//   URL_VAL_05     — http://non-localhost rejected by default
+//   URL_VAL_06..07 — localhost-http and https urls accepted
+//   URL_VAL_10     — http://non-localhost accepted only with explicit override
+[[nodiscard]] static bool validateOllamaUrl(const std::string& url,
+                                             bool allow_insecure_http = false) {
+    if (url.empty()) {
+        THEMIS_WARN("validateOllamaUrl: URL is empty — rejected");
+        return false;
+    }
+
+    // Accept only http:// and https:// schemes.
+    const bool is_http  = (url.rfind("http://",  0) == 0);
+    const bool is_https = (url.rfind("https://", 0) == 0);
+    if (!is_http && !is_https) {
+        THEMIS_WARN("validateOllamaUrl: rejected URL with non-HTTP scheme: {}",
+                    url.substr(0, std::min(url.size(), size_t{64})));
+        return false;
+    }
+
+    // Reject credential injection: "******host/..."
+    // The '@' character in the authority component signals embedded credentials.
+    const std::string_view authority_start = is_https ? url.substr(8) : url.substr(7);
+    const auto slash_pos = authority_start.find('/');
+    const auto at_pos    = authority_start.find('@');
+    if (at_pos != std::string_view::npos &&
+        (slash_pos == std::string_view::npos || at_pos < slash_pos)) {
+        THEMIS_WARN("validateOllamaUrl: rejected URL containing embedded credentials");
+        return false;
+    }
+
+    // [W3-SEC-01] Reject plain-HTTP connections to non-localhost targets unless
+    // ModelDownloadConfig::allow_insecure_http is explicitly set to true.
+    // Rationale: unencrypted model weight transfers are trivially MITM-attacked.
+    if (is_http) {
+        const bool is_local = (authority_start.rfind("localhost", 0) == 0) ||
+                              (authority_start.rfind("127.", 0) == 0)      ||
+                              (authority_start.rfind("[::1]", 0) == 0);
+        if (!is_local) {
+            if (!allow_insecure_http) {
+                THEMIS_WARN("validateOllamaUrl: plain HTTP rejected for non-local endpoint '{}' "
+                            "— use HTTPS or set allow_insecure_http=true", url);
+                return false;
+            }
+            THEMIS_WARN("validateOllamaUrl: plain HTTP allowed for non-local endpoint '{}' "
+                        "via allow_insecure_http override — not recommended in production", url);
+        }
+    }
+
+    return true;
+}
+
+/// [W3-SEC-02] Sanitize model_name before it is used in any filesystem path.
+/// Rejects traversal sequences (".."), path separators, and null bytes that
+/// could redirect output outside the configured download directory.
+[[nodiscard]] static bool sanitizeModelName(const std::string& name,
+                                             std::string& error_out) {
+    if (name.empty()) {
+        error_out = "model_name must not be empty";
+        return false;
+    }
+    if (name.find("..") != std::string::npos) {
+        error_out = "model_name must not contain '..' path traversal sequences";
+        return false;
+    }
+    if (name.find('/') != std::string::npos || name.find('\\') != std::string::npos) {
+        error_out = "model_name must not contain path separators ('/' or '\\')";
+        return false;
+    }
+    if (name.find('\0') != std::string::npos) {
+        error_out = "model_name must not contain null bytes";
+        return false;
+    }
+    return true;
+}
+
+/// [W3-SEC-01] Startup-level guard for allow_insecure_http.
+///
+/// Emits a prominent warning whenever allow_insecure_http=true appears in a
+/// config that is actually exercised.  A second check against the
+/// THEMISDB_ALLOW_INSECURE_HTTP environment variable provides an additional
+/// enforcement layer: if the env-var is absent, the warning is upgraded to
+/// strongly discourage unintended use in production deployments.
+///
+/// This function is intentionally non-fatal so callers that have already
+/// validated the URL (validateOllamaUrl) can proceed; the purpose is operator
+/// visibility, not a second gate.
+static void warnInsecureConfigIfSet(const ModelDownloadConfig& cfg) {
+    if (!cfg.allow_insecure_http) {
+        return;
+    }
+    const char* env_guard = std::getenv("THEMISDB_ALLOW_INSECURE_HTTP");
+    const bool  env_set   = (env_guard != nullptr &&
+                             std::string_view{env_guard} == "1");
+    if (!env_set) {
+        THEMIS_WARN(
+            "[SECURITY] ModelDownloadConfig::allow_insecure_http=true is set "
+            "but THEMISDB_ALLOW_INSECURE_HTTP=1 env-var is NOT present. "
+            "This combination is unsafe in production — plain-HTTP model "
+            "transfers can be intercepted. Set THEMISDB_ALLOW_INSECURE_HTTP=1 "
+            "explicitly on startup to acknowledge the risk, or switch to HTTPS.");
+    } else {
+        THEMIS_WARN(
+            "[SECURITY] allow_insecure_http=true acknowledged via "
+            "THEMISDB_ALLOW_INSECURE_HTTP=1 — plain-HTTP transfers are active "
+            "for ollama_url '{}'. Ensure this is intentional.",
+            cfg.ollama_url);
+    }
+}
+
 } // anonymous namespace
 
 ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
     auto start_time = std::chrono::steady_clock::now();
-    
+
+    // [W3-SEC-01] Warn at call-site if insecure-HTTP opt-in is active.
+    warnInsecureConfigIfSet(config);
+
+    // [W3-SEC-02] Validate model_name before it is embedded in any filesystem path.
+    {
+        std::string name_error;
+        if (!sanitizeModelName(config.model_name, name_error)) {
+            result.success = false;
+            result.error_message = "Invalid model_name: " + name_error;
+            THEMIS_WARN("downloadFromOllama: rejected config.model_name — {}", name_error);
+            return result;
+        }
+    }
+
     try {
         // Check if model already exists
         std::string expected_path = config.download_dir + "/" + config.model_name + ".gguf";
@@ -129,7 +259,32 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
 
 ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
-    
+
+    // [W3-SEC-01] Warn at call-site if insecure-HTTP opt-in is active.
+    // pullFromOllama may be called independently of downloadFromOllama, so the
+    // guard runs here as well to ensure no silent insecure path.
+    warnInsecureConfigIfSet(config);
+
+    // Wave 2-C: validate ollama_url before any outbound HTTP request.
+    // [W3-SEC-01] Pass allow_insecure_http flag from config to reject non-local HTTP by default.
+    if (!validateOllamaUrl(config.ollama_url, config.allow_insecure_http)) {
+        result.success = false;
+        result.error_message = "Invalid ollama_url: must be http:// or https:// without embedded credentials";
+        return result;
+    }
+
+    // [W3-SEC-02] Re-validate model_name here since pullFromOllama is part of the
+    // public-facing protected API and may be called independently of downloadFromOllama.
+    {
+        std::string name_error;
+        if (!sanitizeModelName(config.model_name, name_error)) {
+            result.success = false;
+            result.error_message = "Invalid model_name: " + name_error;
+            THEMIS_WARN("pullFromOllama: rejected config.model_name — {}", name_error);
+            return result;
+        }
+    }
+
     // Initialize CURL
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -210,6 +365,10 @@ bool ModelDownloader::exportOllamaModel(
     const std::string& model_name,
     const std::string& output_path
 ) {
+    if (!validateOllamaUrl(ollama_url)) {
+        THEMIS_WARN("exportOllamaModel: invalid ollama_url — rejected");
+        return false;
+    }
     // Query Ollama's /api/show endpoint to get the model manifest, which
     // contains the SHA-256 digest of the underlying GGUF blob.
     // The blob file lives at ~/.ollama/models/blobs/sha256-<digest>.
@@ -430,6 +589,9 @@ std::optional<json> ModelDownloader::getOllamaManifest(
     const std::string& ollama_url,
     const std::string& model_name
 ) {
+    if (!validateOllamaUrl(ollama_url)) {
+        return std::nullopt;
+    }
     try {
         CURL* curl = curl_easy_init();
         if (!curl) {
@@ -474,7 +636,11 @@ std::optional<json> ModelDownloader::getOllamaManifest(
 
 std::vector<std::string> ModelDownloader::listOllamaModels(const std::string& ollama_url) {
     std::vector<std::string> models;
-    
+
+    if (!validateOllamaUrl(ollama_url)) {
+        return models;
+    }
+
     try {
         CURL* curl = curl_easy_init();
         if (!curl) {
@@ -598,5 +764,4 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
 
 } // namespace llm
 } // namespace themis
-
 

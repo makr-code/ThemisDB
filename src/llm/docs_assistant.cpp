@@ -12,6 +12,7 @@
 #include "llm/docs_assistant.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/prompt_safety_utils.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -675,12 +676,48 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
 }
 
 DocsQueryResult DocsAssistant::getConfigHelp(const std::string& topic) {
-    std::string query = "How do I configure " + topic + " in ThemisDB? What are the configuration options and environment variables?";
+    // [W3-SEC-04] Prompt injection guard: cap length and check for blocked instruction
+    // patterns before embedding caller-supplied strings into an LLM query.
+    constexpr size_t kMaxTopicLen = 128;
+    const std::string safe_topic = topic.substr(0, kMaxTopicLen);
+
+    std::string sanitized;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!prompt_safety::sanitizePromptWithSharedPolicy(safe_topic, sanitized,
+                                                       &blocked_rule, &blocked_reason)) {
+        THEMIS_WARN("getConfigHelp: topic blocked by prompt safety policy [{}]: {}",
+                    blocked_rule, blocked_reason);
+        DocsQueryResult blocked{};
+        blocked.answer = "Request blocked by content safety policy.";
+        blocked.confidence_score = 0.0f;
+        return blocked;
+    }
+
+    std::string query = "How do I configure " + sanitized + " in ThemisDB? What are the configuration options and environment variables?";
     return this->query(query);
 }
 
 DocsQueryResult DocsAssistant::getTroubleshootingHelp(const std::string& error_description) {
-    std::string query = "I'm experiencing this issue with ThemisDB: " + error_description + ". How can I troubleshoot and fix this?";
+    // [W3-SEC-04] Prompt injection guard: cap length and check for blocked instruction
+    // patterns before embedding caller-supplied strings into an LLM query.
+    constexpr size_t kMaxDescLen = 512;
+    const std::string safe_desc = error_description.substr(0, kMaxDescLen);
+
+    std::string sanitized;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!prompt_safety::sanitizePromptWithSharedPolicy(safe_desc, sanitized,
+                                                       &blocked_rule, &blocked_reason)) {
+        THEMIS_WARN("getTroubleshootingHelp: error_description blocked by prompt safety policy [{}]: {}",
+                    blocked_rule, blocked_reason);
+        DocsQueryResult blocked{};
+        blocked.answer = "Request blocked by content safety policy.";
+        blocked.confidence_score = 0.0f;
+        return blocked;
+    }
+
+    std::string query = "I'm experiencing this issue with ThemisDB: " + sanitized + ". How can I troubleshoot and fix this?";
     return this->query(query);
 }
 
