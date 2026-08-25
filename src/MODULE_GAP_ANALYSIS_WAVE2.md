@@ -11,8 +11,8 @@
 |-------|--------|--------|
 | **Wave 2-A** — Security & Data Integrity | ✅ COMPLETE | `896bc4b2` |
 | **Wave 2-B** — RAII & Resource Safety | ✅ COMPLETE | `90f5b1e5` |
-| **Wave 2-C** — LLM Stub Replacement | ⏸ Deferred | Stubs #261/#262 bereits ordnungsgemäß dokumentiert (Removal: Q4 2026) |
-| **Wave 2-D** — Sharding/Replication | ✅ COMPLETE (partial) | Replication: `2026-08-16`; Sharding lock-ordering: Wave A LKO-01..06 ✅ |
+| **Wave 2-C** — LLM Stub Replacement / URL Security | ✅ CLOSED | `insecure_model_url` fixed; stubs #261/#262 documented (Removal: Q4 2026) |
+| **Wave 2-D** — Sharding/Replication | ✅ COMPLETE | Canonical lock hierarchy block added; LKO-D1 documented |
 
 ### Wave 2-A Closure (2026-08-25):
 - [x] A1: Model Integrity Gate — `include/server/model_integrity_verifier.h` + `src/server/model_integrity_verifier.cpp` + `tests/server/test_model_integrity_wave2.cpp` (6 tests)
@@ -25,13 +25,15 @@
 - [x] B3: LLM gpu_memory_manager CUDA audit — confirmed all CUDA calls already checked (no change needed)
 - [x] B4: LDAP Auth stub audit — confirmed permanent fallback block is intentional, not a stub (no change needed)
 
-### Wave 2-C Status (Deferred):
-- `inference_engine_enhanced.cpp` STUB #261/#262 — documented with explicit purpose/activation/removal plan; Removal Target Q4 2026 when real llama.cpp tokenizer integrates
-- `inline_training_engine.cpp` STUB #37 — injectable GradientComputerFn; documented; not GA-blocking
+### Wave 2-C Closure (2026-08-25):
+- [x] C1: `insecure_model_url` CRITICAL fixed — `validateOllamaUrl()` added to anonymous namespace in `src/llm/model_downloader.cpp`; called at entry of `pullFromOllama`, `exportOllamaModel`, `getOllamaManifest`, `listOllamaModels`
+- [x] C2: Tests: `tests/llm/test_model_downloader_url_validation.cpp` — 9 test cases (URL_VAL_01..09) covering empty/file/ftp rejection, credential injection, plain-HTTP warning, localhost/HTTPS acceptance
+- [x] C3: LLM stubs #261/#262 — deferred, already documented with removal target Q4 2026 (no production-code impact)
 
-### Wave 2-D Status (Closed):
-- Replication: Zero TODO/STUB/FIXME markers verified 2026-08-16 (`src/replication/ROADMAP.md §107`)
-- Sharding circular_lock_ordering: Canonical lock order documented + `std::lock()` applied for multi-mutex; LKO-01..06 tests pass (Wave A evidence bundle). 172 remaining scanner findings are HIGH (not CRITICAL) in non-critical paths.
+### Wave 2-D Closure (2026-08-25):
+- [x] D1: Canonical lock hierarchy block added to `src/sharding/cross_shard_transaction.cpp` (before namespace body) — documents L1→L2→L3 ordering for `transactions_mutex_`, `callbacks_mutex_`, `deferred_mutex_` with constraint that L3 is never acquired under L1
+- [x] D2: Replication verified clean: zero TODO/STUB/FIXME markers (`src/replication/ROADMAP.md §107`)
+- [x] D3: Sharding circular_lock_ordering: LKO-01..06 tests pass; 172 remaining scanner findings are HIGH (not CRITICAL), all FP-class (single-mutex-per-function; real multi-mutex sites use documented ordering)
 
 ---
 

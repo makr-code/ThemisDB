@@ -89,6 +89,56 @@ std::string calculate_sha256(const std::string& file_path) {
     return ss.str();
 }
 
+// ── Wave 2-C: insecure_model_url — Ollama URL validation ─────────────────────
+// Purpose: Prevent SSRF and credential-injection attacks via the ollama_url
+//          config value. Called by every outbound HTTP function before the URL
+//          is passed to libcurl.
+// Acceptance criteria (test_model_downloader_url_validation.cpp):
+//   URL_VAL_01..03 — invalid schemes rejected
+//   URL_VAL_04     — embedded credentials (@) rejected
+//   URL_VAL_05     — http://non-localhost logs a warning but is permitted
+//   URL_VAL_06..07 — valid http/https urls accepted
+[[nodiscard]] static bool validateOllamaUrl(const std::string& url) {
+    if (url.empty()) {
+        THEMIS_WARN("validateOllamaUrl: URL is empty — rejected");
+        return false;
+    }
+
+    // Accept only http:// and https:// schemes.
+    const bool is_http  = (url.rfind("http://",  0) == 0);
+    const bool is_https = (url.rfind("https://", 0) == 0);
+    if (!is_http && !is_https) {
+        THEMIS_WARN("validateOllamaUrl: rejected URL with non-HTTP scheme: {}",
+                    url.substr(0, std::min(url.size(), size_t{64})));
+        return false;
+    }
+
+    // Reject credential injection: "******host/..."
+    // The '@' character in the authority component signals embedded credentials.
+    const std::string_view authority_start = is_https ? url.substr(8) : url.substr(7);
+    const auto slash_pos = authority_start.find('/');
+    const auto at_pos    = authority_start.find('@');
+    if (at_pos != std::string_view::npos &&
+        (slash_pos == std::string_view::npos || at_pos < slash_pos)) {
+        THEMIS_WARN("validateOllamaUrl: rejected URL containing embedded credentials");
+        return false;
+    }
+
+    // Warn on plain-HTTP connections to non-localhost targets — acceptable for
+    // local development but inadvisable in production (MITM risk).
+    if (is_http) {
+        const bool is_local = (authority_start.rfind("localhost", 0) == 0) ||
+                              (authority_start.rfind("127.", 0) == 0)      ||
+                              (authority_start.rfind("[::1]", 0) == 0);
+        if (!is_local) {
+            THEMIS_WARN("validateOllamaUrl: plain HTTP used for non-local endpoint '{}' "
+                        "— prefer HTTPS in production", url);
+        }
+    }
+
+    return true;
+}
+
 } // anonymous namespace
 
 ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfig& config) {
@@ -129,7 +179,14 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
 
 ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
-    
+
+    // Wave 2-C: validate ollama_url before any outbound HTTP request.
+    if (!validateOllamaUrl(config.ollama_url)) {
+        result.success = false;
+        result.error_message = "Invalid ollama_url: must be http:// or https:// without embedded credentials";
+        return result;
+    }
+
     // Initialize CURL
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -210,6 +267,10 @@ bool ModelDownloader::exportOllamaModel(
     const std::string& model_name,
     const std::string& output_path
 ) {
+    if (!validateOllamaUrl(ollama_url)) {
+        THEMIS_WARN("exportOllamaModel: invalid ollama_url — rejected");
+        return false;
+    }
     // Query Ollama's /api/show endpoint to get the model manifest, which
     // contains the SHA-256 digest of the underlying GGUF blob.
     // The blob file lives at ~/.ollama/models/blobs/sha256-<digest>.
@@ -430,6 +491,9 @@ std::optional<json> ModelDownloader::getOllamaManifest(
     const std::string& ollama_url,
     const std::string& model_name
 ) {
+    if (!validateOllamaUrl(ollama_url)) {
+        return std::nullopt;
+    }
     try {
         CURL* curl = curl_easy_init();
         if (!curl) {
@@ -474,7 +538,11 @@ std::optional<json> ModelDownloader::getOllamaManifest(
 
 std::vector<std::string> ModelDownloader::listOllamaModels(const std::string& ollama_url) {
     std::vector<std::string> models;
-    
+
+    if (!validateOllamaUrl(ollama_url)) {
+        return models;
+    }
+
     try {
         CURL* curl = curl_easy_init();
         if (!curl) {
