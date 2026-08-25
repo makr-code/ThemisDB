@@ -88,6 +88,23 @@ public:
 
     explicit Impl(const Config& cfg) : config(cfg) {}
 
+    /// @brief RAII cleanup: frees all VRAM-resident partitions on destruction.
+    /// @note  Does not acquire the mutex (destructor invariant: no concurrent access).
+    /// @note  Does not update vram_used_bytes / eviction counters (object teardown).
+    ~Impl() noexcept {
+        // RAII cleanup: evict all VRAM-resident partitions on destruction
+        for (auto& [id, p] : partitions) {
+            if (p.in_vram && p.vram_ptr &&
+                p.vram_ptr != static_cast<void*>(p.host_data.data())) {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+                themis::gpu::GPUUnifiedMemoryAllocator::GetInstance().free(p.vram_ptr);
+#endif
+                p.vram_ptr = nullptr;
+                p.in_vram  = false;
+            }
+        }
+    }
+
     // -----------------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------------
