@@ -401,7 +401,7 @@ jobs:
       - name: Configure (community-release)
         run: |
           set -euo pipefail
-          cmake --preset community-release 2>&1 | tee /tmp/release-critical-configure.log
+          cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON 2>&1 | tee /tmp/release-critical-configure.log
 
       - name: Build release-critical targets
         run: |
