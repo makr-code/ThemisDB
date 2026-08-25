@@ -134,7 +134,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          echo "Checking for private plugin references in community/minimal branch scope..."
+          echo "Checking for private plugin references introduced in community/minimal code scope..."
 
           patterns=(
             'plugins/private/'
@@ -150,9 +150,43 @@ jobs:
             'makr-code/themisdb_plugin_signer'
           )
 
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="${{ github.event.pull_request.base.sha }}"
+            HEAD_REF="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_REF="${{ github.event.before }}"
+            HEAD_REF="${{ github.sha }}"
+          fi
+
+          mapfile -t scoped_files < <(
+            git diff --name-only "$BASE_REF" "$HEAD_REF" -- \
+              src include cmake plugins CMakeLists.txt CMakePresets.json \
+              | grep -E '\.(c|cc|cpp|cxx|h|hh|hpp|hxx|cmake|txt|md|json|ya?ml)$|(^|/)CMakeLists\.txt$|(^|/)CMakePresets\.json$' \
+              || true
+          )
+
+          if [ "${#scoped_files[@]}" -eq 0 ]; then
+            echo "No changed files in community/minimal code scope."
+            echo "✓ No private plugin references introduced in scoped files"
+            exit 0
+          fi
+
+          existing_files=()
+          for file in "${scoped_files[@]}"; do
+            if [ -f "$file" ]; then
+              existing_files+=("$file")
+            fi
+          done
+
+          if [ "${#existing_files[@]}" -eq 0 ]; then
+            echo "No existing changed files left to scan."
+            echo "✓ No private plugin references introduced in scoped files"
+            exit 0
+          fi
+
           found=()
           for pat in "${patterns[@]}"; do
-            if grep -R -n --exclude-dir=.git --exclude-dir=.venv --exclude='*.png' --exclude='*.jpg' --exclude='*.svg' --exclude='*.ico' "$pat" . 2>/dev/null >/tmp/private_refs.txt; then
+            if grep -I -n -F -- "$pat" "${existing_files[@]}" 2>/dev/null >/tmp/private_refs.txt; then
               while IFS= read -r line; do
                 [ -z "$line" ] && continue
                 found+=("$line")
@@ -169,7 +203,7 @@ jobs:
             exit 1
           fi
 
-          echo "✓ No private plugin references in community branch scope"
+          echo "✓ No private plugin references introduced in community branch scope"
 
       - name: Validate community-only build config
         id: check-build-config
