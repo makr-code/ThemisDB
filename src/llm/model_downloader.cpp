@@ -98,7 +98,8 @@ std::string calculate_sha256(const std::string& file_path) {
 //   URL_VAL_04     — embedded credentials (@) rejected
 //   URL_VAL_05     — http://non-localhost logs a warning but is permitted
 //   URL_VAL_06..07 — valid http/https urls accepted
-[[nodiscard]] static bool validateOllamaUrl(const std::string& url) {
+[[nodiscard]] static bool validateOllamaUrl(const std::string& url,
+                                             bool allow_insecure_http = false) {
     if (url.empty()) {
         THEMIS_WARN("validateOllamaUrl: URL is empty — rejected");
         return false;
@@ -124,18 +125,48 @@ std::string calculate_sha256(const std::string& file_path) {
         return false;
     }
 
-    // Warn on plain-HTTP connections to non-localhost targets — acceptable for
-    // local development but inadvisable in production (MITM risk).
+    // [W3-SEC-01] Reject plain-HTTP connections to non-localhost targets unless
+    // ModelDownloadConfig::allow_insecure_http is explicitly set to true.
+    // Rationale: unencrypted model weight transfers are trivially MITM-attacked.
     if (is_http) {
         const bool is_local = (authority_start.rfind("localhost", 0) == 0) ||
                               (authority_start.rfind("127.", 0) == 0)      ||
                               (authority_start.rfind("[::1]", 0) == 0);
         if (!is_local) {
-            THEMIS_WARN("validateOllamaUrl: plain HTTP used for non-local endpoint '{}' "
-                        "— prefer HTTPS in production", url);
+            if (!allow_insecure_http) {
+                THEMIS_WARN("validateOllamaUrl: plain HTTP rejected for non-local endpoint '{}' "
+                            "— use HTTPS or set allow_insecure_http=true", url);
+                return false;
+            }
+            THEMIS_WARN("validateOllamaUrl: plain HTTP allowed for non-local endpoint '{}' "
+                        "via allow_insecure_http override — not recommended in production", url);
         }
     }
 
+    return true;
+}
+
+/// [W3-SEC-02] Sanitize model_name before it is used in any filesystem path.
+/// Rejects traversal sequences (".."), path separators, and null bytes that
+/// could redirect output outside the configured download directory.
+[[nodiscard]] static bool sanitizeModelName(const std::string& name,
+                                             std::string& error_out) {
+    if (name.empty()) {
+        error_out = "model_name must not be empty";
+        return false;
+    }
+    if (name.find("..") != std::string::npos) {
+        error_out = "model_name must not contain '..' path traversal sequences";
+        return false;
+    }
+    if (name.find('/') != std::string::npos || name.find('\\') != std::string::npos) {
+        error_out = "model_name must not contain path separators ('/' or '\\')";
+        return false;
+    }
+    if (name.find('\0') != std::string::npos) {
+        error_out = "model_name must not contain null bytes";
+        return false;
+    }
     return true;
 }
 
@@ -144,7 +175,18 @@ std::string calculate_sha256(const std::string& file_path) {
 ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
     auto start_time = std::chrono::steady_clock::now();
-    
+
+    // [W3-SEC-02] Validate model_name before it is embedded in any filesystem path.
+    {
+        std::string name_error;
+        if (!sanitizeModelName(config.model_name, name_error)) {
+            result.success = false;
+            result.error_message = "Invalid model_name: " + name_error;
+            THEMIS_WARN("downloadFromOllama: rejected config.model_name — {}", name_error);
+            return result;
+        }
+    }
+
     try {
         // Check if model already exists
         std::string expected_path = config.download_dir + "/" + config.model_name + ".gguf";
@@ -181,10 +223,23 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     ModelDownloadResult result;
 
     // Wave 2-C: validate ollama_url before any outbound HTTP request.
-    if (!validateOllamaUrl(config.ollama_url)) {
+    // [W3-SEC-01] Pass allow_insecure_http flag from config to reject non-local HTTP by default.
+    if (!validateOllamaUrl(config.ollama_url, config.allow_insecure_http)) {
         result.success = false;
         result.error_message = "Invalid ollama_url: must be http:// or https:// without embedded credentials";
         return result;
+    }
+
+    // [W3-SEC-02] Re-validate model_name here since pullFromOllama is part of the
+    // public-facing protected API and may be called independently of downloadFromOllama.
+    {
+        std::string name_error;
+        if (!sanitizeModelName(config.model_name, name_error)) {
+            result.success = false;
+            result.error_message = "Invalid model_name: " + name_error;
+            THEMIS_WARN("pullFromOllama: rejected config.model_name — {}", name_error);
+            return result;
+        }
     }
 
     // Initialize CURL

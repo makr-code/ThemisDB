@@ -34,6 +34,19 @@ static ModelDownloadResult attemptPull(const std::string& url) {
     return dl.downloadFromOllama(cfg);
 }
 
+static ModelDownloadResult attemptPullInsecure(const std::string& url) {
+    ModelDownloadConfig cfg;
+    cfg.ollama_url           = url;
+    cfg.model_name           = "test-model";
+    cfg.download_dir         = "/tmp/themis_url_val_test";
+    cfg.timeout_seconds      = 1;
+    cfg.use_cache            = false;
+    cfg.allow_insecure_http  = true;  // explicit opt-in for testing
+
+    ModelDownloader dl;
+    return dl.downloadFromOllama(cfg);
+}
+
 static std::vector<std::string> listModels(const std::string& url) {
     return ModelDownloader::listOllamaModels(url);
 }
@@ -82,21 +95,17 @@ TEST(ModelDownloaderUrlValidation, URL_VAL_04b_HttpsEmbeddedCredentialsRejected)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// URL_VAL_05: plain http:// non-localhost is permitted (warning only)
-//   The call will ultimately fail with a CURL error (no server) but must NOT
-//   be rejected by the URL validator — CURL error != validator rejection.
+// URL_VAL_05: plain http:// non-localhost is REJECTED by default (W3-SEC-01)
+//   ModelDownloadConfig::allow_insecure_http defaults to false; non-local HTTP
+//   must return the "Invalid ollama_url" error to prevent MITM weight injection.
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(ModelDownloaderUrlValidation, URL_VAL_05_PlainHttpNonLocalPermitted) {
-    // Use a non-routable address to guarantee a fast CURL failure,
-    // not a validator failure.
+TEST(ModelDownloaderUrlValidation, URL_VAL_05_PlainHttpNonLocalRejectedByDefault) {
     const auto result = attemptPull("http://192.0.2.1:11434");  // TEST-NET-1 (RFC 5737)
-    // success==false is expected (CURL will time out / refuse) but the error
-    // message must NOT be the URL validation error.
-    if (!result.success) {
-        EXPECT_TRUE(result.error_message.find("Invalid ollama_url") == std::string::npos)
-            << "URL validator should not reject plain-HTTP non-local URL; "
-               "got: " << result.error_message;
-    }
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_NE(result.error_message.find("Invalid ollama_url"), std::string::npos)
+        << "Non-local plain HTTP must be rejected by URL validator when "
+           "allow_insecure_http is false; got: " << result.error_message;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -137,6 +146,20 @@ TEST(ModelDownloaderUrlValidation, URL_VAL_08_ListModelsRejectsInvalidScheme) {
 TEST(ModelDownloaderUrlValidation, URL_VAL_09_ListModelsRejectsCredentials) {
     const auto models = listModels("******localhost:11434");
     EXPECT_TRUE(models.empty());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// URL_VAL_10: plain http:// non-localhost is accepted when allow_insecure_http=true
+//   Confirms the explicit opt-in path works (non-production controlled networks).
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(ModelDownloaderUrlValidation, URL_VAL_10_PlainHttpNonLocalAllowedWithExplicitFlag) {
+    const auto result = attemptPullInsecure("http://192.0.2.1:11434");  // TEST-NET-1
+    // Validator should pass; failure (if any) must come from CURL — not the URL check.
+    if (!result.success) {
+        EXPECT_EQ(result.error_message.find("Invalid ollama_url"), std::string::npos)
+            << "URL validator should not reject non-local HTTP when allow_insecure_http=true; "
+               "got: " << result.error_message;
+    }
 }
 
 } // namespace themis::llm
