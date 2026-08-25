@@ -7,15 +7,32 @@
 
 ## Implementation Status (2026-08-25)
 
-### Wave 3 Status (2026-08-25 — In Progress)
+### Wave 3 Status (2026-08-25 — COMPLETE)
 
-| Track | Status | Description |
-|-------|--------|-------------|
-| **Wave 3-A** — Storage Real Gaps | 🔄 In Progress | columnar decode stub, backup fail-closed, metrics emit wiring |
-| **Wave 3-B** — Query Blocking + DB Leak | 🔄 In Progress | blocking_no_timeout (`parallel_executor.cpp:65`, `continuous_query_engine.cpp:143`, `query_engine.cpp:4872`), null_dereference, catch_all_swallow |
-| **Wave 3-C** — Index GPU RAII + Iterator Safety | 🔄 In Progress | exception_in_destructor (2), gpu_memory_leak (5), iterator_invalidation (12) |
-| **Wave 3-D** — Network Command Injection + Deadlock | 🔄 In Progress | command_injection RCE (`qos_manager.cpp:663,672,685`), health check stub (`raft_load_balancer.cpp:425`), deadlock (`wire_protocol_server.cpp`), FD leak (`socket_timeout_manager.cpp`) |
-| **Wave 3-LLM** — LLM DB Connection + Data Race | ⏳ Planned | 192 db_connection_leak, 11 real data_race, 13 exception_in_destructor |
+| Track | Status | Commit-Inhalt |
+|-------|--------|---------------|
+| **Wave 3-A** — Storage Real Gaps | ✅ COMPLETE | columnar decode implementiert, encryptFile/compressPath fail-closed, diagnostics emit gewired, ggml nullptr-Guard; MODULE_GAPS.md 69→64 |
+| **Wave 3-B** — Query Blocking + Timeout | ✅ COMPLETE | parallel_executor watchdog-wait, continuous_query timed-join, tbbWaitWithTimeout real cancellation, sequential null guard, JIT corruption sentinel; MODULE_GAPS.md 52→49 |
+| **Wave 3-C** — Index GPU RAII + Iterator Safety | ✅ COMPLETE | VectorAutoBuffer `~VectorAutoBuffer() noexcept`; übrige 28 CRITICAL verifizierte FPs (pre-existing fixes bestätigt); MODULE_GAPS.md 29→28 |
+| **Wave 3-D** — Network Command Injection + Deadlock | ✅ COMPLETE | command_injection RCE (`qos_manager.cpp`) → posix_spawn; health check stub (`raft_load_balancer.cpp`) → echter TCP-Probe; FD-Leak RAII; SO_SNDTIMEO POSIX-breit; Lock-Ordering doc; MODULE_GAPS.md 29→24 |
+
+### Wave 3 Gesamtbilanz — Scanner-Inflation vs. echte Gaps
+
+| Modul | Raw CRITICAL (Scanner) | Echte CRITICAL | Inflationsfaktor | Gefixt |
+|-------|------------------------|----------------|-----------------|--------|
+| storage | 69 | 2 | 34× | ✅ 2 CRITICAL + 3 HIGH |
+| query | 52 | 3 | 17× | ✅ 3 CRITICAL + 2 HIGH |
+| index | 29 | 1 | 29× | ✅ 1 CRITICAL (rest pre-existing fixed) |
+| network | 29 | 4 | 7× | ✅ 4 CRITICAL + 4 HIGH |
+| **Gesamt** | **179** | **10** | **18×** | ✅ **10 CRITICAL + 9 HIGH** |
+
+**Hauptursachen Scanner-Inflation:**
+- `scope_mismatch` auf anonyme Namespaces in `namespace themis` (valides C++) — 3.860+ Hits im query-Modul allein
+- `braces_imbalance@line:1` — Scanner-Phantom vor jedem Parsing-Durchlauf
+- `db_connection_leak` auf `shared_ptr`-verwaltete Verbindungen — Scanner sieht kein RAII
+- `no_transit_encryption` bei SDK-verwalteter TLS (AWS SDK, Azure SDK, GCS Client)
+
+---
 
 ### Wave 3-A Confirmed Real Gaps — Storage (2026-08-25 Subagent Triage):
 Raw scanner CRITICAL count: 69 → **Verified real: 2 CRITICAL + 3 HIGH** (after false-positive triage)
