@@ -55,7 +55,10 @@ void PluginDependencyGraph::buildFromResolver(
     const ModuleDependencyResolver& resolver)
 {
     clear();
-    for (const auto& info : resolver.getRegisteredModules()) {
+    // GAP-FIX range_temporary: capture the returned collection to a named
+    // local so the vector lifetime is not bound to the range-for expression.
+    const auto registered = resolver.getRegisteredModules();
+    for (const auto& info : registered) {
         addModule(info.name, info.version);
         for (const auto& dep : info.deps) {
             addDependency(info.name,
@@ -70,7 +73,10 @@ void PluginDependencyGraph::buildFromResolver(
 void PluginDependencyGraph::buildFromRegistry()
 {
     clear();
-    for (const auto& mod : ModuleRegistry::instance().getAllModules()) {
+    // GAP-FIX range_temporary: capture the returned collection to a named
+    // local so the vector lifetime is not bound to the range-for expression.
+    const auto all_mods = ModuleRegistry::instance().getAllModules();
+    for (const auto& mod : all_mods) {
         addModule(mod.name, mod.version);
         for (const auto& dep : mod.metadata.dependencies) {
             addDependency(mod.name,
@@ -228,7 +234,7 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
 
     if (order.size() != nodes_.size()) {
         // Cycle exists — topological order is undefined.
-        return {};
+        return std::vector<std::string>{};
     }
     // Our edges are "from → to" where from is the dependent and to is the
     // dependency (inverse of the standard Kahn prerequisite direction).
@@ -314,16 +320,17 @@ void PluginDependencyGraph::renderDot(std::ostream& out) const
         }
         // Build version constraint label.
         if (!e.minVersion.empty() || !e.maxVersion.empty()) {
-            std::string vLabel;
+            // GAP-FIX string_concat_loop: use ostringstream instead of +=
+            // inside the edge-iteration loop to avoid repeated heap allocations.
+            std::ostringstream voss;
             if (!e.minVersion.empty()) {
-                vLabel += ">=" + e.minVersion;
+                voss << ">=" << e.minVersion;
             }
             if (!e.maxVersion.empty()) {
-                if (!vLabel.empty()) {
-                    vLabel += " ";
-                }
-                vLabel += "<=" + e.maxVersion;
+                if (!e.minVersion.empty()) { voss << ' '; }
+                voss << "<=" << e.maxVersion;
             }
+            const std::string vLabel = voss.str();
             if (hasAttrs) {
                 attrs += ", ";
             }
@@ -433,15 +440,17 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
         di.to       = e.to;
         di.required = e.required;
         if (!e.minVersion.empty() || !e.maxVersion.empty()) {
+            // GAP-FIX string_concat_loop: use ostringstream instead of +=
+            // inside the edge-iteration loop to avoid repeated heap allocations.
+            std::ostringstream voss;
             if (!e.minVersion.empty()) {
-                di.versionConstraint += ">=" + e.minVersion;
+                voss << ">=" << e.minVersion;
             }
             if (!e.maxVersion.empty()) {
-                if (!di.versionConstraint.empty()) {
-                    di.versionConstraint += " ";
-                }
-                di.versionConstraint += "<=" + e.maxVersion;
+                if (!e.minVersion.empty()) { voss << ' '; }
+                voss << "<=" << e.maxVersion;
             }
+            di.versionConstraint = voss.str();
         }
         deps[e.from].push_back(std::move(di));
     }

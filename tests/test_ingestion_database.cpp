@@ -116,7 +116,7 @@ TEST(DatabaseConnectorTest, IsAvailableWithMock) {
     conn.initialize(makeDbConfig());
     // Inject an empty mock so the availability check uses the mock path
     conn.setRowFetchForTesting([]() -> std::vector<DatabaseConnector::DbRow> {
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
     EXPECT_TRUE(conn.isAvailable());
 }
@@ -129,9 +129,9 @@ TEST(DatabaseConnectorTest, GetDocumentCountWithMockReturnsZero) {
     DatabaseConnector conn;
     conn.initialize(makeDbConfig());
     conn.setRowFetchForTesting([]() -> std::vector<DatabaseConnector::DbRow> {
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
-    // Mock path always returns 0 (count unknown)
+    // Test-injected path always returns 0 (count unknown)
     EXPECT_EQ(conn.getDocumentCount(), 0u);
 }
 
@@ -150,7 +150,7 @@ TEST(DatabaseConnectorTest, IngestSingleRow) {
         if (calls++ == 0) {
             return {makeRow({{"id","1"}, {"body","hello world"}})};
         }
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     auto stats = conn.ingest("col", nullptr);
@@ -174,7 +174,7 @@ TEST(DatabaseConnectorTest, IngestMultipleRows) {
                 makeRow({{"id","3"}, {"body","doc three"}})
             };
         }
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     auto stats = conn.ingest("col", nullptr);
@@ -198,7 +198,7 @@ TEST(DatabaseConnectorTest, TextColumnExtraction) {
         if (calls++ == 0) {
             return {makeRow({{"id","1"}, {"title","Hello"}, {"body","World"}})};
         }
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     auto stats = conn.ingest("col", nullptr);
@@ -217,7 +217,7 @@ TEST(DatabaseConnectorTest, NoTextColumnsUsesJsonFallback) {
         if (calls++ == 0) {
             return {makeRow({{"id","42"}, {"name","Widget"}})};
         }
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     auto stats = conn.ingest("col", nullptr);
@@ -237,7 +237,7 @@ TEST(DatabaseConnectorTest, EmptyTextColumnFallsBackToJson) {
         if (calls++ == 0) {
             return {makeRow({{"id","1"}, {"summary",""}, {"body","rich content"}})};
         }
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     auto stats = conn.ingest("col", nullptr);
@@ -279,7 +279,7 @@ TEST(DatabaseConnectorTest, EmptyBatchTerminates) {
     conn.initialize(makeDbConfig("jdbc:postgresql://localhost:5432/db", "docs",
                                  "", "body"));
     conn.setRowFetchForTesting([]() -> std::vector<DatabaseConnector::DbRow> {
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     auto stats = conn.ingest("col", nullptr);
@@ -303,7 +303,7 @@ TEST(DatabaseConnectorTest, ProgressCallbackInvoked) {
         if (calls++ == 0) {
             return {makeRow({{"id","1"}, {"body","hello"}})};
         }
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     std::atomic<int> cb_count{0};
@@ -329,7 +329,7 @@ TEST(DatabaseConnectorTest, ExceptionInRowFetchIsHandled) {
         if (calls++ == 0) {
             throw std::runtime_error("simulated DB error");
         }
-        return {};
+        return std::vector<DatabaseConnector::DbRow>{};
     });
 
     auto stats = conn.ingest("col", nullptr);

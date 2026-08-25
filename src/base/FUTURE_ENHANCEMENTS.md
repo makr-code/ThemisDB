@@ -84,3 +84,10 @@
 - preserve auditable runtime decisions for activation and rollback outcomes.
 - enforce bounded resource behavior in sandbox and runtime surfaces.
 - keep diagnostics actionable for production incident response.
+
+## Wave A → D execution status (2026-08-24)
+
+- Wave A/B/C runtime gap closures were executed in production code:
+  - `remote_registry_client.cpp`: scheme validation, path sanitization, RAII curl cleanup.
+  - `hot_reload_manager.cpp`: reload slot re-validation and rollback null-loader guard.
+- Wave D remains focused on operator-facing operability (soak/runtime observability/runbooks), not deferred safety fixes.
