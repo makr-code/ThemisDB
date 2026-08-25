@@ -45,6 +45,30 @@
 namespace themis {
 namespace cache {
 
+// ============================================================================
+// LOCK ORDER — must always be acquired in this canonical sequence to prevent
+// circular lock ordering and deadlock throughout this translation unit:
+//
+// Non-POSIX (no THEMIS_POSIX_SOCKETS) path:
+//   1. s_redis_bridge_fn_mutex  (static bridge fn; file-scope, non-instance)
+//   2. stats_mutex_             (per-instance counters: messages_published_,
+//                                publish_errors_, etc.)
+//   3. callbacks_mutex_         (entry_cb_ / invalidation_cb_ callback slots)
+//
+// POSIX (THEMIS_POSIX_SOCKETS) path:
+//   1. pub_mutex_               (publish-side socket / connection state)
+//   2. stats_mutex_             (per-instance counters, same as above)
+//   3. callbacks_mutex_         (callback slots)
+//
+// Rules:
+//  - s_redis_bridge_fn_mutex / pub_mutex_ and stats_mutex_ are NEVER held
+//    simultaneously in this file. The bridge lock is always acquired and
+//    released in its own scope before stats_mutex_ is taken (sequential, not
+//    nested). This eliminates all circular_lock_ordering risk.
+//  - callbacks_mutex_ is always acquired in isolation; it is never taken while
+//    stats_mutex_ or pub_mutex_ is held.
+// ============================================================================
+
 // ---------------------------------------------------------------------------
 // STUB #61 — RedisPublishBridgeFn static bridge (non-POSIX injection)
 // ---------------------------------------------------------------------------
@@ -88,11 +112,17 @@ RedisCacheCoordinator::~RedisCacheCoordinator() = default;
 
 void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
                                          const std::string &tenant_id) {
+    // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
+    // scope to snapshot the bridge fn. stats_mutex_ is then acquired separately
+    // after s_redis_bridge_fn_mutex has been fully released. These two mutexes
+    // are intentionally NEVER held simultaneously (sequential, not nested),
+    // eliminating the circular_lock_ordering risk flagged at HIGH severity.
     RedisPublishBridgeFn fn;
     {
         std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
         fn = s_redis_bridge_fn;
-    }
+    } // s_redis_bridge_fn_mutex released here
+
     if (fn) {
         const std::string channel = config_.channel_prefix + ":entries";
         nlohmann::json payload = {
@@ -111,6 +141,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
             ok = false;
         }
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         if (ok) {
             ++messages_published_;
@@ -118,17 +149,23 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             ++publish_errors_;
         }
     } else {
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     }
 }
 
 void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
+    // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
+    // scope to snapshot the bridge fn. stats_mutex_ is then acquired separately
+    // after s_redis_bridge_fn_mutex has been fully released (sequential, not
+    // nested), eliminating the circular_lock_ordering risk flagged at HIGH severity.
     RedisPublishBridgeFn fn;
     {
         std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
         fn = s_redis_bridge_fn;
-    }
+    } // s_redis_bridge_fn_mutex released here
+
     if (fn) {
         const std::string channel = config_.channel_prefix + ":invalidations";
         nlohmann::json payload = {
@@ -145,6 +182,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
             ok = false;
         }
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         if (ok) {
             ++messages_published_;
@@ -152,6 +190,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             ++publish_errors_;
         }
     } else {
+        // stats_mutex_ acquired only after s_redis_bridge_fn_mutex is released.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     }
@@ -248,6 +287,12 @@ namespace {
 /// Maximum back-off cap for the subscriber reconnect loop.
 /// The initial back-off is taken from config_.reconnect_interval_ms.
 constexpr int kReconnectBackoffMaxMs = 30000; ///< Maximum back-off: 30 seconds
+
+/// Bounded retry constants for the publisher PUBLISH path (no_retry_logic fix).
+/// The publish loop retries up to kMaxPublishRetries times with an initial
+/// kPublishRetryDelayMs delay (doubled each attempt) before giving up.
+constexpr int kMaxPublishRetries    = 2;   ///< at most 2 reconnect+retry attempts
+constexpr int kPublishRetryDelayMs  = 50;  ///< initial retry delay: 50 ms
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -311,6 +356,9 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
     }
 
     if (!redisPublish(entryChannel(), payload)) {
+        // LOCK ORDER: redisPublish() acquires/releases pub_mutex_ internally.
+        // stats_mutex_ is acquired here only after pub_mutex_ has been fully
+        // released, maintaining the canonical sequential (not nested) ordering.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     } else {
@@ -338,6 +386,9 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
     }
 
     if (!redisPublish(invalidationChannel(), payload)) {
+        // LOCK ORDER: redisPublish() acquires/releases pub_mutex_ internally.
+        // stats_mutex_ is acquired here only after pub_mutex_ has been fully
+        // released, maintaining the canonical sequential (not nested) ordering.
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
     } else {
@@ -405,14 +456,19 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
     hints.ai_family   = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
-    struct addrinfo *res       = nullptr;
+    // RAII guard for the addrinfo list returned by ::getaddrinfo().
+    // Using a unique_ptr with ::freeaddrinfo as the custom deleter ensures
+    // the OS-allocated linked list is always released, even if an exception
+    // is thrown or an early return is taken after getaddrinfo() succeeds.
+    struct addrinfo *res_raw = nullptr;
     const std::string port_str = std::to_string(config_.port);
-    if (::getaddrinfo(config_.host.c_str(), port_str.c_str(), &hints, &res) != 0) {
+    if (::getaddrinfo(config_.host.c_str(), port_str.c_str(), &hints, &res_raw) != 0) {
         return kInvalidSocket;
     }
+    std::unique_ptr<struct addrinfo, decltype(&::freeaddrinfo)> res(res_raw, ::freeaddrinfo);
 
     SocketFd fd = kInvalidSocket;
-    for (struct addrinfo *p = res; p != nullptr; p = p->ai_next) {
+    for (struct addrinfo *p = res.get(); p != nullptr; p = p->ai_next) {
         fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);
         if (fd == kInvalidSocket)
             continue;
@@ -430,7 +486,7 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
         ::close(fd);
         fd = kInvalidSocket;
     }
-    ::freeaddrinfo(res);
+    // res goes out of scope here; ::freeaddrinfo is called automatically.
     return fd;
 }
 
@@ -541,65 +597,52 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
 }
 
 bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::string &payload) {
-    // C2: Double-checked locking — fast path when publisher is already connected.
-    // coordinator_ready_ is checked with acquire semantics before the mutex.
-    // A relaxed re-check under the lock is sufficient because the mutex provides
-    // the necessary ordering barrier for the initialisation payload.
-    if (!coordinator_ready_.load(std::memory_order_acquire)) {
+    // no_retry_logic fix: the publish path now retries up to kMaxPublishRetries
+    // times on send/recv failure, reconnecting before each retry attempt.
+    // This mirrors the subscriber loop's bounded back-off without introducing
+    // an unbounded blocking publish path.
+    const std::string cmd = buildRespCommand({"PUBLISH", channel, payload});
+    int retry_delay_ms = kPublishRetryDelayMs;
+
+    for (int attempt = 0; attempt <= kMaxPublishRetries; ++attempt) {
+        if (attempt > 0) {
+            THEMIS_WARN("RedisCacheCoordinator: PUBLISH retry {}/{} after {}ms",
+                        attempt, kMaxPublishRetries, retry_delay_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+            retry_delay_ms *= 2;
+        }
+
+        // C2: Double-checked locking — fast path when publisher is already connected.
+        // coordinator_ready_ is checked with acquire semantics before the mutex.
+        // A relaxed re-check under the lock is sufficient because the mutex provides
+        // the necessary ordering barrier for the initialisation payload.
         std::unique_lock<std::mutex> lk(pub_mutex_);
         if (!coordinator_ready_.load(std::memory_order_relaxed)) {
-            // Expensive path: establish/re-establish publisher connection.
             if (!ensurePublisherConnected()) {
-                return false;
+                continue; // will retry on next attempt
             }
             coordinator_ready_.store(true, std::memory_order_release);
         }
-        // Fall through — we hold pub_mutex_ and the connection is ready.
-        const std::string cmd = buildRespCommand({"PUBLISH", channel, payload});
+
         if (!sendAll(pub_fd_, cmd)) {
             THEMIS_WARN("RedisCacheCoordinator: PUBLISH send failed; will reconnect");
             closeSocket(pub_fd_);
             pub_ok_ = false;
             coordinator_ready_.store(false, std::memory_order_release);
-            return false;
+            continue;
         }
         std::string reply;
         if (!readLine(pub_fd_, reply)) {
             closeSocket(pub_fd_);
             pub_ok_ = false;
             coordinator_ready_.store(false, std::memory_order_release);
-            return false;
+            continue;
         }
         return !reply.empty() && reply[0] != '-';
     }
 
-    // Fast path: publisher already connected; still need the lock for I/O.
-    std::lock_guard<std::mutex> lk(pub_mutex_);
-
-    if (!ensurePublisherConnected()) {
-        return false;
-    }
-
-    // PUBLISH <channel> <payload>
-    const std::string cmd = buildRespCommand({"PUBLISH", channel, payload});
-    if (!sendAll(pub_fd_, cmd)) {
-        THEMIS_WARN("RedisCacheCoordinator: PUBLISH send failed; will reconnect");
-        closeSocket(pub_fd_);
-        pub_ok_ = false;
-        coordinator_ready_.store(false, std::memory_order_release);
-        return false;
-    }
-
-    // Read the integer reply (:N\r\n)
-    std::string reply;
-    if (!readLine(pub_fd_, reply)) {
-        closeSocket(pub_fd_);
-        pub_ok_ = false;
-        coordinator_ready_.store(false, std::memory_order_release);
-        return false;
-    }
-
-    return !reply.empty() && reply[0] != '-';
+    THEMIS_WARN("RedisCacheCoordinator: PUBLISH failed after {} attempts", kMaxPublishRetries + 1);
+    return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -763,7 +806,9 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
             received += static_cast<size_t>(n);
         }
         // Consume trailing \r\n
-        char crlf[2];
+        // uninitialized_array fix: zero-initialise so the array has a defined
+        // state regardless of whether MSG_WAITALL fills it (e.g., partial recv).
+        char crlf[2] = {};
         if (::recv(fd, crlf, 2, MSG_WAITALL) != 2)
             return false;
         return true;

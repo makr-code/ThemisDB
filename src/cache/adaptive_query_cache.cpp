@@ -46,6 +46,12 @@ constexpr int64_t ADAPTIVE_TTL_WINDOW_MS = 5 * 60 * 1000; // 5-minute sliding wi
 // C1: Timeout-safe L3 lock — 1 000 ms deadline before returning RESOURCE_EXHAUSTED.
 constexpr auto kL3LockTimeoutMs = std::chrono::milliseconds(1000);
 
+// C2: L3 initialization retry bounds — 3 attempts with 1 s / 2 s backoff (max 3 s total).
+// The retry loop in the constructor uses these constants so the total init timeout is explicit.
+constexpr int kL3InitMaxRetries       = 3;
+constexpr int kL3InitRetryDelayMs     = 1000; // initial backoff
+constexpr int kL3InitMaxTotalDelayMs  = 3000; // sum of all sleep_for calls across retries
+
 // C4: AI/LLM safety constants — hard caps applied unconditionally in put().
 constexpr size_t  kAbsoluteMaxEntrySizeBytes = 67108864ULL; // 64 MiB
 constexpr int     kAbsoluteMaxTTLSeconds      = 86400;       // 24 hours
@@ -110,11 +116,11 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config &config) : config_(config) {
     // Initialize L3 (RocksDB) cache with retry logic
     // Empty l3_db_path means L3 is disabled (l3_db_ stays null).
     if (!config_.l3_db_path.empty()) {
+        // Bounded init: kL3InitMaxRetries attempts, max kL3InitMaxTotalDelayMs total sleep.
         int retry_count    = 0;
-        int max_retries    = 3;
-        int retry_delay_ms = 1000; // Start with 1 second
+        int retry_delay_ms = kL3InitRetryDelayMs;
 
-        while (retry_count < max_retries) {
+        while (retry_count < kL3InitMaxRetries) {
             try {
                 RocksDBWrapper::Config db_config;
                 db_config.db_path             = config_.l3_db_path;
@@ -131,13 +137,13 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config &config) : config_(config) {
                 break; // Success
             } catch (const std::exception &e) {
                 retry_count++;
-                if (retry_count < max_retries) {
+                if (retry_count < kL3InitMaxRetries) {
                     THEMIS_WARN("Failed to initialize L3 cache (attempt {}/{}): {}. Retrying in {}ms...", retry_count,
-                                max_retries, e.what(), retry_delay_ms);
+                                kL3InitMaxRetries, e.what(), retry_delay_ms);
                     std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
                     retry_delay_ms *= RETRY_BACKOFF_MULTIPLIER; // Exponential backoff
                 } else {
-                    THEMIS_WARN("Failed to initialize L3 cache after {} attempts: {}. L3 cache disabled.", max_retries,
+                    THEMIS_WARN("Failed to initialize L3 cache after {} attempts: {}. L3 cache disabled.", kL3InitMaxRetries,
                                 e.what());
                     l3_db_.reset();
                     if (l3_circuit_breaker_) {

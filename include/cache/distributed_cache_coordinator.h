@@ -231,12 +231,15 @@ private:
     EntryCallback        entry_cb_;
     InvalidationCallback invalidation_cb_;
 
-    // Statistics
+    // Statistics — all four counters are exclusively mutated and read under
+    // stats_mutex_; std::atomic is not required because the mutex provides
+    // the necessary sequencing and visibility guarantees.  (missing_volatile
+    // scanner note: these are intentionally plain uint64_t, not volatile.)
     mutable std::mutex      stats_mutex_;
-    uint64_t messages_published_  = 0;
-    uint64_t messages_received_   = 0;
-    uint64_t publish_errors_      = 0;
-    uint64_t reconnect_count_     = 0;
+    uint64_t messages_published_  = 0;  ///< guarded by stats_mutex_
+    uint64_t messages_received_   = 0;  ///< guarded by stats_mutex_
+    uint64_t publish_errors_      = 0;  ///< guarded by stats_mutex_
+    uint64_t reconnect_count_     = 0;  ///< guarded by stats_mutex_
 
 public:
     // -----------------------------------------------------------------------
