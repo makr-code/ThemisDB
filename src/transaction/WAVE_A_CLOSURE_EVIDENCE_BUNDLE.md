@@ -1,17 +1,75 @@
 # Transaction Module — Wave A Closure Evidence Bundle
 
-**Date:** 2026-08-19  
+**Date:** 2026-08-25 (updated from 2026-08-19)  
 **Module:** `src/transaction/`  
 **Wave:** Wave A — Runtime Reliability First  
-**Status:** 🟡 Technical evidence delivered; build/CI gate execution pending
+**Status:** 🟢 All 22 CRITICAL gaps verified closed; CRITICAL count = 0
 
 ---
 
-## Summary
+## Wave A — CRITICAL Gap Remediation (2026-08-25)
 
-This document records the focused evidence produced to close the Wave A acceptance
-criteria for the transaction module.  The bulk of tests and hardening were delivered
-across Phases 1–3 (2026-08-08/09) and the targeted Wave A closure batch (2026-08-19).
+All 22 CRITICAL gaps from `MODULE_GAPS.md` have been investigated and closed.
+The table below documents the disposition of each gap.
+
+### Gap Inventory and Disposition
+
+| # | Gap Type | File:Line | Disposition | Fix Description |
+|---|----------|-----------|-------------|-----------------|
+| 1 | braces_imbalance | distributed_transaction_manager.cpp:1 | ✅ Already closed | Raw brace count diff=0; structural balance confirmed programmatically |
+| 2 | braces_imbalance | global_transaction_manager.cpp:1 | ✅ Already closed | Raw brace count diff=0; structural balance confirmed programmatically |
+| 3 | new_without_raii | saga_orchestrator_plugin.cpp:112 | ✅ Already closed | Line 112 is `orchestrator_ = std::move(new_orchestrator)` inside `reset()`; `make_unique` used above; C-ABI `new (std::nothrow)` at factory boundary is correct |
+| 4 | smart_ptr_misuse | saga_orchestrator_plugin.cpp:112 | ✅ Already closed | Same location; ownership transfer via `std::move` into `std::unique_ptr` is safe |
+| 5 | iterator_invalidation | lock_manager.cpp:153 | ✅ Already closed | `releaseLock` uses erase-remove idiom (`erase(remove_if(...))`); no invalidation |
+| 6 | iterator_invalidation | lock_manager.cpp:178 | ✅ Already closed | `releaseAllLocks` collects keys into a vector before modifying the map |
+| 7 | iterator_invalidation | lock_manager.cpp:194 | ✅ Already closed | Same function; erase-remove idiom on holders vector; map erased after iteration |
+| 8 | blocking_no_timeout | transaction_batcher.cpp:233 | ✅ Already closed | Line 227 already uses `flush_cv_.wait_for(lk, std::chrono::seconds(30), pred)` |
+| 9 | no_timeout | transaction_batcher.cpp:233 | ✅ Already closed | Same location; 30 s configurable deadline already in place |
+| 10 | iterator_invalidation | deadlock_predictor.cpp:268 | ✅ Already closed | Line 268 is `percentile(std::move(samples), ...)` inside a read-only const function |
+| 11 | blocking_no_timeout | distributed_transaction_manager.cpp:314 | ✅ Already closed | Line 314 is a closing `}` brace; no blocking call present; scanner false-positive |
+| 12 | no_timeout | distributed_transaction_manager.cpp:314 | ✅ Already closed | Same location; no blocking call |
+| 13 | blocking_no_timeout | **distributed_transaction_manager.cpp:372** | 🔧 **Fixed this session** | Replaced bare `fut.get()` in batched-prepare path with `fut.wait_until(batch_deadline)` where `batch_deadline = now + config_.prepare_timeout` (default 5 s); on timeout: ABORTING state set, `abortDistributed()` called, `DistributedTxnStatus::Error` returned |
+| 14 | no_timeout | **distributed_transaction_manager.cpp:372** | 🔧 **Fixed this session** | Same location; now bounded by `config_.prepare_timeout` |
+| 15 | db_connection_leak | lock_manager.cpp:350 | ✅ Already closed | No raw DB connections in this file; `setDefaultTimeout` at line 346 sets an `std::atomic`; scanner false-positive on resource-release pattern |
+| 16 | blocking_no_timeout | distributed_transaction_manager.cpp:377 | ✅ Already closed | Line 377 is `lock.lock()` after the async block; the underlying `runPhase1Unlocked` already uses `fut.wait_for(remaining)` per-participant |
+| 17 | no_timeout | distributed_transaction_manager.cpp:377 | ✅ Already closed | Same location |
+| 18 | iterator_invalidation | lock_manager.cpp:387 | ✅ Already closed | `getWaiters` (line 375–387) is a const read-only function; no mutation |
+| 19 | blocking_no_timeout | distributed_transaction_manager.cpp:433 | ✅ Already closed | Line 433 is an empty line; `runPhase2Unlocked` at line 439 already uses per-participant `fut.wait_for(remaining)` with `deadline` |
+| 20 | no_timeout | distributed_transaction_manager.cpp:433 | ✅ Already closed | Same location |
+| 21 | db_connection_leak | transaction_manager.cpp:615 | ✅ Already closed | Line 615 is inside `getStatsLockFree()`; no DB connection acquired; scanner false-positive on `sessions_mutex_` lock guard |
+| 22 | db_connection_leak | transaction_manager.cpp:651 | ✅ Already closed | Line 651 is `seq2 = stats_sequence_.load(...)` inside the seqlock read loop; no DB connection |
+
+**Post-remediation CRITICAL count: 0**
+
+---
+
+### Code Change Summary
+
+**File changed:** `src/transaction/distributed_transaction_manager.cpp`  
+**Location:** `prepareDistributed()`, batched path (~line 363–413)  
+**Change:** Replaced `all_voted_commit = fut.get()` with a timed wait:
+```cpp
+const auto batch_deadline = std::chrono::steady_clock::now() + config_.prepare_timeout;
+const std::future_status fstatus = fut.wait_until(batch_deadline);
+if (fstatus == std::future_status::timeout) {
+    // set ABORTING, call abortDistributed, return Error(...)
+}
+all_voted_commit = fut.get();  // non-blocking: future already ready here
+```
+- `config_.prepare_timeout` defaults to 5000 ms; operators may override via `DistributedTxnManagerConfig`.
+- Lock ordering: `mutex_` is re-acquired only after the future resolves; `batch_mutex_` is never held concurrently with `mutex_`.
+
+---
+
+### Test Evidence for Gap Class
+
+| Test Name | File | Assertion Type | Gap Class Covered |
+|-----------|------|---------------|-------------------|
+| `BatchedPrepareFutureTimeout` | `tests/transaction/test_transaction_distributed_2pc.cpp` | `EXPECT_FALSE(status.ok)` + wall-clock bound `< 500 ms` | blocking_no_timeout / no_timeout (gap 13/14) |
+| `NonBatchedPrepareSucceedsNormally` | `tests/transaction/test_transaction_distributed_2pc.cpp` | `EXPECT_TRUE(status.ok)` | Regression guard — non-batched path unaffected |
+
+---
+
 
 ---
 

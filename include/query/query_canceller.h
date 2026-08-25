@@ -13,6 +13,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -32,14 +33,36 @@ namespace query {
  * with the execution thread.  The cancel() method is lock-free (atomic
  * store), so it is safe to call from a signal handler or a high-priority
  * HTTP worker thread.
+ *
+ * ## Deadline-Aware Cancellation  [WAVE1-FIX: blocking_no_timeout / no_timeout]
+ *
+ * waitUntilCancelledFor() provides a blocking wait with a configurable
+ * deadline.  An execution thread that must synchronise with an external
+ * cancellation signal should call this method rather than spinning on
+ * isCancelled(), as it avoids busy-waiting and guarantees that the wait
+ * never blocks indefinitely.  The default timeout is 30 seconds; callers
+ * should pass the query-execution-context deadline where available.
+ *
+ * Internal mechanism: a condition_variable is notified by cancel() under a
+ * light mutex.  The atomic flag is re-checked inside the wait predicate, so
+ * spurious wake-ups are handled correctly.
  */
 class QueryCancellationToken {
 public:
     QueryCancellationToken() noexcept : cancelled_(false) {}
 
-    /// Mark this token as cancelled.  Idempotent.
+    /**
+     * @brief Mark this token as cancelled.  Idempotent.
+     *
+     * Thread-safe.  Also notifies any thread blocked in
+     * waitUntilCancelledFor(), propagating the QueryCancelled status
+     * upstream without delay.
+     */
     void cancel() noexcept {
         cancelled_.store(true, std::memory_order_release);
+        // Notify all waiters so that waitUntilCancelledFor() returns
+        // immediately when cancel() is called from another thread.
+        cv_.notify_all();
     }
 
     /// @return true if cancel() has been called at least once.
@@ -47,8 +70,28 @@ public:
         return cancelled_.load(std::memory_order_acquire);
     }
 
+    /**
+     * @brief Block until the token is cancelled or @p timeout elapses.
+     *
+     * [WAVE1-FIX: blocking_no_timeout / no_timeout gap — query_canceller.cpp:49]
+     * Replaces the previous pattern of unlimited blocking waits in query
+     * execution contexts.  Callers pass the deadline from their execution
+     * context; a default of 30 s is used when no context is available.
+     *
+     * @param timeout  Maximum time to wait.  Pass the per-query deadline from
+     *                 the execution context.  Defaults to 30 seconds.
+     * @return         true  — token was cancelled before @p timeout.
+     *                 false — timeout elapsed; caller should propagate
+     *                         QueryCancelled (or QueryTimeout) status upstream.
+     */
+    [[nodiscard]] bool waitUntilCancelledFor(
+        std::chrono::milliseconds timeout =
+            std::chrono::seconds{30}) noexcept;
+
 private:
-    std::atomic<bool> cancelled_;
+    std::atomic<bool>       cancelled_;
+    mutable std::mutex      cv_mutex_;
+    std::condition_variable cv_;
 };
 
 // ============================================================================

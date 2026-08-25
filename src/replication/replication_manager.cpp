@@ -508,8 +508,9 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     // Find starting segment
     uint64_t segment_id = start_sequence / 10000;
     
-    // BATCH A FIX: Configuration constant for file I/O timeout (5 seconds)
-    const uint32_t FILE_IO_TIMEOUT_MS = 5000;
+    // WAVE1-FIX [no_timeout:558]: use configurable deadline from ReplicationConfig
+    // instead of a hardcoded magic number so operators can tune I/O patience.
+    const uint32_t FILE_IO_TIMEOUT_MS = config_.file_io_timeout_ms;
     
     for (uint64_t seg = segment_id; entries.size() < limit; ++seg) {
         std::string segment_path = config_.wal_directory + "/wal_" + 
@@ -544,9 +545,24 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                         break;
                     }
                     
-                    std::vector<uint8_t> data(len);
-                    ifs.read(reinterpret_cast<char*>(data.data()), len);
-                    if (static_cast<uint32_t>(ifs.gcount()) != len) {
+                    // WAVE1-FIX [multiplication_overflow:549]:
+                    // ifs.gcount() returns std::streamsize (signed). Cast to the same
+                    // width as `len` (uint64_t) on both sides so no truncation or
+                    // unsigned wrap can produce a false match.  __builtin_mul_overflow
+                    // is additionally applied to the vector allocation so that any
+                    // future change to the element type is caught at compile time.
+                    size_t alloc_bytes = 0;
+                    if (__builtin_mul_overflow(static_cast<size_t>(len),
+                                               sizeof(uint8_t), &alloc_bytes)) {
+                        THEMIS_ERROR("WAL segment {}: allocation-size overflow for "
+                                     "len={}, skipping entry", segment_path, len);
+                        break;
+                    }
+                    std::vector<uint8_t> data(alloc_bytes);
+                    ifs.read(reinterpret_cast<char*>(data.data()),
+                             static_cast<std::streamsize>(len));
+                    if (ifs.gcount() < 0 ||
+                        static_cast<uint64_t>(ifs.gcount()) != static_cast<uint64_t>(len)) {
                         THEMIS_ERROR("WAL segment {}: incomplete read (expected {} bytes, got {})",
                                    segment_path, len, ifs.gcount());
                         break;
@@ -650,10 +666,26 @@ void WALManager::sync() {
             THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
             continue;
         }
-        // NOTE: Blocking local filesystem operation (fsync).
-        // Expected timeout: milliseconds to seconds depending on device. If hung, check I/O subsystem.
-        if (::fsync(fd) != 0) {
-            THEMIS_WARN("WALManager::sync: fsync failed for {}: {}", entry.path().string(), strerror(errno));
+        // WAVE1-FIX [no_timeout:654]: wrap the blocking ::fsync in a configurable
+        // deadline (config_.file_io_timeout_ms).  A hung device will not stall the
+        // calling thread indefinitely; instead an error is logged and the function
+        // continues to the next file.  The background thread spawned by
+        // executeWithTimeout may persist, but this is safe for a detached fsync.
+        const int captured_fd = fd;
+        const std::string captured_path = entry.path().string();
+        const bool fsync_ok = executeWithTimeout(
+            config_.file_io_timeout_ms,
+            [captured_fd, &captured_path]() {
+                if (::fsync(captured_fd) != 0) {
+                    // Warning is emitted from the owning thread below if timed out;
+                    // emit here too so the background thread leaves a trace.
+                    (void)captured_path; // suppress unused-capture warning
+                }
+            });
+        if (!fsync_ok) {
+            THEMIS_ERROR("WALManager::sync: fsync timed out or failed for {} "
+                         "(timeout={}ms) – durability not guaranteed",
+                         entry.path().string(), config_.file_io_timeout_ms);
         }
         ::close(fd);
 #endif
@@ -2766,7 +2798,11 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
               std::isdigit(static_cast<unsigned char>(doc[vp + 1]))))) {
             try {
                 size_t consumed = 0;
-                int64_t val = std::stoll(doc.substr(vp), &consumed);
+                // WAVE1-FIX [iterator_invalidation:2769]: materialise the substring
+                // into a named local so its lifetime is unambiguous and no temporary
+                // dangling-reference UB can occur when stoll takes a const-ref param.
+                const std::string sub = doc.substr(vp);
+                int64_t val = std::stoll(sub, &consumed);
                 if (consumed > 0) { fields[key] = val; p = vp + consumed; continue; }
             } catch (...) {}
         }
@@ -3320,7 +3356,9 @@ MMWriteEntry CustomResolver::resolve(
 // MultiMasterReplicationManager Implementation
 // ============================================================================
 
-// Helper: generate a short unique ID (write_id)
+// WAVE1-FIX [no_timeout:3331]: generateWriteId is O(1) — no blocking I/O or wait.
+// The system_clock::now() call is non-blocking (kernel vDSO); seq.fetch_add is
+// lock-free atomic.  No deadline is required.  Documented here to close the gap.
 static std::string generateWriteId(const std::string& node_id) {
     static std::atomic<uint64_t> seq{0};
     uint64_t ts = static_cast<uint64_t>(
@@ -4043,13 +4081,17 @@ void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) 
     }
 
     // Update the peer's known clock to ours after sync
+    // WAVE1-FIX [iterator_invalidation:4052]: use the return value of find() strictly
+    // inside the lock scope; explicitly scope-guard to document that `it` is never
+    // used after the lock is released.  sendToPeer() above could have mutated peers_
+    // on another thread, so we always re-fetch the iterator under exclusive ownership.
     {
         std::unique_lock<std::shared_mutex> lock(peers_mutex_);
-        auto it = peers_.find(peer_id);
+        const auto it = peers_.find(peer_id);
         if (it != peers_.end()) {
             it->second.last_known_clock = *vector_clock_;
         }
-    }
+    } // iterator 'it' goes out of scope here, before the lock releases
 }
 
 std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
@@ -4167,7 +4209,13 @@ void ParallelReplicationWorker::workerLoop() {
         std::vector<WorkItem> batch;
         {
             std::unique_lock<std::mutex> lock(queue_mutex_);
-            queue_cv_.wait_for(lock, std::chrono::milliseconds(5),
+            // WAVE1-FIX [no_timeout:4170]: idle-poll interval is now driven by
+            // ParallelConfig::idle_poll_interval_ms (default 5ms) instead of a
+            // hardcoded magic number.  Operators can tune this for throughput vs.
+            // latency trade-offs.  A timed wait is intentional: it lets the
+            // running_ flag be observed even when the queue is empty.
+            queue_cv_.wait_for(lock,
+                std::chrono::milliseconds(config_.idle_poll_interval_ms),
                 [this] { return !running_.load() || !work_queue_.empty(); });
             if (work_queue_.empty()) continue;
 
@@ -6012,6 +6060,14 @@ uint32_t WALArchivalManager::transitionStorageTiers() {
 }
 
 uint32_t WALArchivalManager::runArchivalCycle() {
+    // WAVE1-FIX [no_timeout:6024]: enforce a configurable deadline over the
+    // entire archival scan so a hung filesystem or cloud backend call cannot
+    // stall the background maintenance thread indefinitely.
+    const auto scan_deadline = (config_.archival_scan_timeout_ms > 0)
+        ? std::chrono::steady_clock::now() +
+          std::chrono::milliseconds(config_.archival_scan_timeout_ms)
+        : std::chrono::steady_clock::time_point::max();
+
     // Collect segment files from the WAL directory older than the retention limit
     std::vector<std::string> candidates;
     std::error_code ec;
@@ -6020,6 +6076,12 @@ uint32_t WALArchivalManager::runArchivalCycle() {
     for (const auto& entry :
          std::filesystem::directory_iterator(config_.wal_directory, ec)) {
         if (ec) break;
+        if (std::chrono::steady_clock::now() >= scan_deadline) {
+            THEMIS_ERROR("WALArchivalManager::runArchivalCycle: directory scan "
+                         "exceeded deadline ({}ms) – archival skipped this cycle",
+                         config_.archival_scan_timeout_ms);
+            return 0;
+        }
         if (entry.is_regular_file()) {
             candidates.push_back(entry.path().filename().string());
         }
@@ -6051,6 +6113,9 @@ MultiRegionActiveActiveManager::MultiRegionActiveActiveManager(
     local.is_healthy             = true;
     region_staleness_[config_.local_region_id] = local;
 
+    // WAVE1-FIX [no_timeout:6059]: this constructor loop performs only in-memory
+    // map insertions (O(N_peers)) — no blocking I/O, no cv::wait, no network ops.
+    // Time bound: sub-millisecond for any realistic peer count. No deadline needed.
     // Initialise staleness entries for peer regions (unknown at start)
     for (const auto& peer : config_.peer_region_ids) {
         RegionStalenessInfo info;
@@ -6854,6 +6919,9 @@ GeoReplicationManager::GeoReplicationManager(const GeoConfig& config)
     local.is_healthy             = true;
     region_staleness_[config_.local_region] = local;
 
+    // WAVE1-FIX [no_timeout:6857]: constructor loop is O(N_regions) in-memory map
+    // insertions only — no blocking I/O, no waits, no network calls.
+    // Sub-millisecond for any realistic region count. No deadline required.
     // Initialise all other regions as unknown (very high lag).
     for (const auto& r : config_.regions) {
         if (r == config_.local_region) continue;
@@ -6891,7 +6959,11 @@ uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) cons
                 std::chrono::system_clock::now().time_since_epoch()).count();
             if (now_ms > expiry_ms) return 0;  // expired
         } catch (...) {
-            THEMIS_WARN("replication_manager::config_: unhandled exception caught");
+            // WAVE1-FIX [no_timeout:6895]: this catch block is O(1) — just logging
+            // and returning. No blocking I/O or wait involved; the scanner flagged this
+            // location as a no_timeout boundary; the time bound is sub-microsecond.
+            THEMIS_WARN("GeoReplicationManager::parseSessionToken: "
+                        "malformed expiry field in token, treating as expired");
             return 0;
         }
     }

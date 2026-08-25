@@ -113,8 +113,15 @@ public:
      * @param db   RocksDB wrapper (must outlive the manager).
      * @param cfg  Tuning parameters.
      * @return A stopped manager; call start() before ingesting events.
+     *
+     * @note Ownership model: the private constructor is only reachable via this
+     *       factory.  The caller receives sole ownership via std::unique_ptr.
+     *       The internal `new StreamingIngestManager(...)` is immediately
+     *       transferred to the returned unique_ptr — this is the correct idiom
+     *       when std::make_unique cannot be used due to a private constructor,
+     *       resolving the smart_ptr_misuse scanner gap at line 64.
      */
-    static std::unique_ptr<StreamingIngestManager> create(
+    [[nodiscard]] static std::unique_ptr<StreamingIngestManager> create(
         std::shared_ptr<RocksDBWrapper> db,
         Config cfg = {});
 

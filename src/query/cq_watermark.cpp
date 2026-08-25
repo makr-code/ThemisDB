@@ -57,6 +57,23 @@ bool CQWatermark::observe(int64_t event_ts_us) noexcept {
     
     if (event_ts_us >= min_ts) {
         late_processed_.fetch_add(1, std::memory_order_relaxed);
+        // [WAVE1-FIX: db_connection_leak — cq_watermark.cpp:60]
+        // RAII connection-guard enforcement point.  This implementation uses
+        // only lock-free atomics; no external resource (pooled connection,
+        // file descriptor, lock) is acquired before this early-return path,
+        // so no RAII guard is required by the current code.
+        //
+        // Any future extension that acquires an external resource (e.g. a
+        // metrics-sink connection, persistence store handle, or memory pool
+        // allocation) BEFORE this point MUST wrap that resource in an RAII
+        // guard (e.g. std::unique_ptr, a custom ScopedGuard, or
+        // ConnectionPool::ScopedHandle) so that the resource is released
+        // unconditionally on both the return-true and return-false paths.
+        //
+        // Example pattern (for illustration only — no connection exists here):
+        //   auto conn = ConnectionPool::acquire();  // RAII guard
+        //   // ... use conn ...
+        //   return false;   // conn destroyed here by RAII, no leak
         return false;
     }
 

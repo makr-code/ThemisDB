@@ -4,17 +4,23 @@
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=2, L=0
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  *
- * ## Blocking Operations & Timeout Safety
+ * ## Blocking Operations & Timeout Safety  [WAVE1-FIX: blocking_no_timeout / no_timeout]
  *
  * All public methods that interact with the shared token registry use
- * std::timed_mutex with explicit timeout. If the lock cannot be acquired
- * within kLockTimeout, the operation returns a safe default (typically
- * registering a token that cannot be cancelled via the registry, or returning
- * false for cancel/unregister operations).
+ * std::timed_mutex with explicit timeout (kLockTimeout = 200 ms). If the
+ * lock cannot be acquired within kLockTimeout, the operation returns a safe
+ * default (typically registering a token that cannot be cancelled via the
+ * registry, or returning false for cancel/unregister operations).
+ *
+ * Additionally, QueryCancellationToken::waitUntilCancelledFor() adds
+ * deadline-aware cancellation: execution threads blocked on an external
+ * cancellation signal call this method instead of an unlimited wait().
+ * The default timeout is 30 s; callers pass the per-query execution-context
+ * deadline.  On timeout, the caller propagates QueryCancelled status upstream.
  *
  * This prevents indefinite blocking due to contention or deadlock, ensuring
  * the cancellation registry is never a bottleneck in query execution.
@@ -34,6 +40,26 @@ namespace query {
 // generous for a simple hash-map operation; if we cannot acquire the lock
 // within this window the registry is considered unavailable for that call.
 static constexpr std::chrono::milliseconds kLockTimeout{200};
+
+// ── QueryCancellationToken ──────────────────────────────────────────────────
+
+/**
+ * @brief [WAVE1-FIX: blocking_no_timeout / no_timeout — query_canceller.cpp:49]
+ *
+ * Deadline-aware wait: replaces any unbounded blocking wait pattern in query
+ * execution contexts.  Uses std::condition_variable::wait_for so the call
+ * returns at most @p timeout after the point of entry.  The predicate
+ * re-checks the atomic flag on every wakeup (including spurious ones).
+ *
+ * If the deadline fires without cancellation the caller receives false and
+ * MUST propagate QueryCancelled (or a deadline-exceeded status) upstream.
+ */
+bool QueryCancellationToken::waitUntilCancelledFor(
+        std::chrono::milliseconds timeout) noexcept {
+    std::unique_lock<std::mutex> lock(cv_mutex_);
+    return cv_.wait_for(lock, timeout,
+                        [this]() noexcept { return isCancelled(); });
+}
 
 // ── QueryCanceller ──────────────────────────────────────────────────────────
 

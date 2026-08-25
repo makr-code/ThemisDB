@@ -43,9 +43,23 @@ IndexMaintenanceManager::IndexMaintenanceManager(
     THEMIS_INFO("IndexMaintenanceManager initialized");
 }
 
-IndexMaintenanceManager::~IndexMaintenanceManager() {
+/// @brief Destructor — noexcept per C++ standard requirements for destructors.
+///
+/// Calls stop() to join the maintenance background thread.  The Result<void>
+/// returned by stop() is intentionally discarded here; any exception is caught
+/// and logged rather than being allowed to propagate (which would call
+/// std::terminate under C++11 and later).
+IndexMaintenanceManager::~IndexMaintenanceManager() noexcept {
     if (running_) {
-        (void)stop();
+        try {
+            (void)stop();
+        } catch (const std::exception& e) {
+            THEMIS_WARN("IndexMaintenanceManager::~IndexMaintenanceManager: "
+                        "exception during stop (swallowed): {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("IndexMaintenanceManager::~IndexMaintenanceManager: "
+                        "unknown exception during stop (swallowed)");
+        }
     }
 }
 

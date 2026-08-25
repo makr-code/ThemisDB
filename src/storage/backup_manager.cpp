@@ -839,6 +839,22 @@ Result<void> BackupManager::restoreFromBackup(const std::string& src_dir) {
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Restoring database from backup: {}", src_dir);
+
+        // path_traversal guard: canonicalize src_dir and confirm it is under
+        // or adjacent to the database root directory.  Restoring from an
+        // arbitrary path (e.g. "../../etc") must be rejected fail-closed.
+        const fs::path db_root = fs::weakly_canonical(
+            fs::path(db_wrapper_->getConfig().db_path).parent_path());
+        const fs::path canonical_src = fs::weakly_canonical(fs::path(src_dir));
+        const std::string canonical_str = canonical_src.string();
+        const std::string root_str      = db_root.string();
+        if (canonical_str.find(root_str) != 0) {
+            THEMIS_ERROR("restoreFromBackup: path traversal attempt rejected: "
+                         "src_dir='{}' not under db_root='{}'",
+                         src_dir, root_str);
+            return ErrVoid(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                           "Path traversal rejected for restore source: " + src_dir);
+        }
         
         // Read backup manifest
         std::string type;
@@ -1071,7 +1087,23 @@ Result<void> BackupManager::isBackupComplete(const std::string& backup_dir,
 Result<std::string> BackupManager::calculateChecksum(const std::string& file_path) {
     namespace fs = std::filesystem;
     try {
-        std::ifstream file(file_path, std::ios::binary);
+        // path_traversal guard: canonicalize the requested path and verify it
+        // remains within the database root.  This prevents a caller from
+        // escaping the backup directory via "../.." sequences or symlinks.
+        const fs::path db_root = fs::weakly_canonical(
+            fs::path(db_wrapper_->getConfig().db_path).parent_path());
+        const fs::path canonical = fs::weakly_canonical(fs::path(file_path));
+        const std::string canonical_str = canonical.string();
+        const std::string root_str      = db_root.string();
+        if (canonical_str.find(root_str) != 0) {
+            THEMIS_ERROR("calculateChecksum: path traversal attempt rejected: "
+                         "requested='{}' not under db_root='{}'",
+                         file_path, root_str);
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                    "Path traversal rejected: " + file_path);
+        }
+
+        std::ifstream file(canonical, std::ios::binary);
         if (!file) {
             return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, 
                                    "Failed to open file for checksum: " + file_path);

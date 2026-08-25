@@ -16,6 +16,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/input_validator.h"
+#include "utils/audit_logger.h"  // W1-FIX(missing_audit_log): structured auth audit
 
 #include <nlohmann/json.hpp>
 
@@ -208,6 +209,15 @@ bool ShardRepairApiHandler::checkAuth(
     }
 
     auto ar = auth.authorize(*token, required_scope);
+    // W1-FIX(missing_audit_log): every authorization decision must be recorded.
+    // If a centralized AuditLogger is later injected, redirect there instead.
+    if (ar.authorized) {
+        THEMIS_INFO("[AUDIT] shard_repair authorize: scope='{}' user='{}' decision=ALLOW",
+                    required_scope, ar.user_id);
+    } else {
+        THEMIS_WARN("[AUDIT] shard_repair authorize: scope='{}' user='{}' decision=DENY reason='{}'",
+                    required_scope, ar.user_id, ar.reason);
+    }
     if (!ar.authorized) {
         out = makeErrorResponse(http::status::forbidden,
                                 "Insufficient scope: " + required_scope, req);

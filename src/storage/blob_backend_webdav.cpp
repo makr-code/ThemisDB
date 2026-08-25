@@ -118,6 +118,38 @@ public:
         password_(password),
         verify_ssl_(verify_ssl) {
         
+        // no_transit_encryption guard: WebDAV connections MUST use HTTPS with
+        // peer verification enabled.  Disabling SSL verification is allowed only
+        // in development/testing environments (THEMIS_ALLOW_INSECURE_WEBDAV).
+        // In production, fail closed if the caller attempts to bypass TLS.
+#ifndef THEMIS_ALLOW_INSECURE_WEBDAV
+        if (!verify_ssl_) {
+            THEMIS_ERROR("WebDAVBlobBackend: SSL peer verification is disabled but "
+                         "THEMIS_ALLOW_INSECURE_WEBDAV is not set.  Refusing to "
+                         "operate without TLS verification to prevent data exposure "
+                         "in transit.");
+            throw std::invalid_argument(
+                "WebDAVBlobBackend: TLS peer verification required "
+                "(set THEMIS_ALLOW_INSECURE_WEBDAV=1 only for non-production use)");
+        }
+#else
+        if (!verify_ssl_) {
+            THEMIS_WARN("WebDAVBlobBackend: SSL peer verification is DISABLED "
+                        "(THEMIS_ALLOW_INSECURE_WEBDAV set).  "
+                        "This MUST NOT be used in production environments.");
+        }
+#endif
+        // Enforce HTTPS scheme — reject plain HTTP to prevent data in transit
+        // from being sent without encryption on any code path.
+        if (base_url_.size() >= 7 &&
+            base_url_.substr(0, 7) == "http://" &&
+            base_url_.substr(0, 8) != "https://") {
+            THEMIS_ERROR("WebDAVBlobBackend: HTTP (non-TLS) URL rejected: {}. "
+                         "Use an https:// endpoint.", base_url_);
+            throw std::invalid_argument(
+                "WebDAVBlobBackend: plain HTTP rejected; only https:// is permitted");
+        }
+        
         THEMIS_INFO("WebDAVBlobBackend initialized: url={}, user={}, ssl_verify={}", 
             base_url_, username_, verify_ssl_);
     }

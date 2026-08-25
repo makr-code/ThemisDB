@@ -23,8 +23,10 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>   // W1-FIX: timed io_thread_ join
 #include <cmath>
 #include <cstring>
+#include <future>   // W1-FIX: timed io_thread_ join
 #include <iomanip>
 #include <random>
 #include <sstream>
@@ -256,8 +258,14 @@ void MqttClientService::stop() {
         if (stats_.is_connected.load()) {
             boost::system::error_code ec;
             auto pkt = detail::buildDisconnect();
+            // W1-FIX(no_timeout): set a 5-second send-timeout on the socket
+            // before the synchronous DISCONNECT write so it cannot block forever.
+            constexpr int kSendTimeoutSec = 5;
 #ifdef THEMIS_ENABLE_MQTT_TLS
             if (config_.tls_enabled && asio_->ssl_stream) {
+                using opt = boost::asio::socket_base::send_timeout;
+                asio_->ssl_stream->lowest_layer().set_option(
+                    opt{kSendTimeoutSec}, ec);
                 asio::write(*asio_->ssl_stream, asio::buffer(pkt), ec);
                 asio_->ssl_stream->lowest_layer().shutdown(
                     asio::ip::tcp::socket::shutdown_both, ec);
@@ -267,6 +275,8 @@ void MqttClientService::stop() {
             } else
 #endif
             {
+                using opt = boost::asio::socket_base::send_timeout;
+                asio_->socket.set_option(opt{kSendTimeoutSec}, ec);
                 asio::write(asio_->socket, asio::buffer(pkt), ec);
                 asio_->socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
                 asio_->socket.close(ec);
@@ -287,7 +297,20 @@ void MqttClientService::stop() {
         asio_->work_guard.reset();
     });
 
-    if (io_thread_.joinable()) io_thread_.join();
+    // W1-FIX(thread_join_no_timeout): timed join so a stuck io_thread cannot
+    // block stop() indefinitely.  After the deadline the thread is abandoned
+    // (it will exit naturally once the io_ctx is destroyed).
+    if (io_thread_.joinable()) {
+        auto fut = std::async(std::launch::async,
+                              [th = std::move(io_thread_)]() mutable {
+                                  if (th.joinable()) th.join();
+                              });
+        constexpr auto kJoinTimeout = std::chrono::seconds{10};
+        if (fut.wait_for(kJoinTimeout) != std::future_status::ready) {
+            THEMIS_WARN("MqttClientService::stop(): io_thread_ did not exit "
+                        "within {}s; abandoning join", kJoinTimeout.count());
+        }
+    }
     stats_.is_connected = false;
 }
 
@@ -430,15 +453,27 @@ void MqttClientService::doConnect() {
     });
 }
 
+/**
+ * @brief Send MQTT CONNECT packet to the broker.
+ *
+ * W1-FIX(no_timeout): a 30-second send timeout is applied to the socket
+ * before the synchronous write so the call cannot block indefinitely.
+ */
 void MqttClientService::sendMqttConnect() {
     auto pkt = detail::buildConnect(config_, effective_client_id_);
     boost::system::error_code we;
+    // Apply send timeout before synchronous write to avoid indefinite blocking.
+    constexpr int kConnectSendTimeoutSec = 30;
 #ifdef THEMIS_ENABLE_MQTT_TLS
     if (config_.tls_enabled && asio_->tls_ready && asio_->ssl_stream) {
+        using opt = boost::asio::socket_base::send_timeout;
+        asio_->ssl_stream->lowest_layer().set_option(opt{kConnectSendTimeoutSec}, we);
         asio::write(*asio_->ssl_stream, asio::buffer(pkt), we);
     } else
 #endif
     {
+        using opt = boost::asio::socket_base::send_timeout;
+        asio_->socket.set_option(opt{kConnectSendTimeoutSec}, we);
         asio::write(asio_->socket, asio::buffer(pkt), we);
     }
     if (we) { scheduleReconnect(); return; }

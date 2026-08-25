@@ -89,6 +89,10 @@ public:
         std::string target_version = "v1.6";
         bool parallel_decoding = true;
         std::function<void(LogicalChange&)> transform;  ///< Optional per-change transformer
+        /// Maximum milliseconds to wait for a single persistSlot I/O operation.
+        /// 0 = timeout protection disabled.
+        /// (Wave 1 CRITICAL fix — no_timeout:647,702)
+        uint32_t file_io_timeout_ms = 5000;
     };
 
     struct Stats {
