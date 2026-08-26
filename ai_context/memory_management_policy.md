@@ -1,6 +1,6 @@
 # Memory Management Policy — Core Rules
 
-**Datum:** 2026-08-03  
+Datum: 2026-08-03  
 **Status:** Active, Enforced  
 **Primary:** src/base/resource.h, include/base/*.h  
 **Bezug:** RAII, smart pointers, ownership contracts
@@ -71,7 +71,7 @@ std::unique_ptr<T[]> allocate(size_t sz) {
 
 ## Further Reading
 
-- Full guidance: [src/base/resource.h](../src/base/resource.h), [PERFORMANCE_EXPECTATIONS](../src/PERFORMANCE_EXPECTATIONS.md)
+- Full guidance: [src/base/ROADMAP.md](../src/base/ROADMAP.md), [base/PERFORMANCE_EXPECTATIONS](../src/base/PERFORMANCE_EXPECTATIONS.md)
 - Approved singletons (immutable config, append-only registries) documented separately
 
 ---

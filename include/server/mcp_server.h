@@ -220,6 +220,22 @@ private:
     json toolLLMListModes(const json& args);
     #endif
 
+    // ── Group 1: Knowledge Graph tools (Q4 2026) ──────────────────────────
+    json toolKgNeighbours(const json& args);
+    json toolKgShortestPath(const json& args);
+    json toolKgNodeProperties(const json& args);
+
+    // ── Group 2: Vector / Hybrid / RAG tools (Q4 2026) ────────────────────
+    json toolSemanticSearch(const json& args);
+    json toolHybridSearch(const json& args);
+    json toolRagRetrieve(const json& args);
+    json toolVectorIndexList(const json& args);
+
+    // ── Group 7: Schema extensions (Q4 2026) ──────────────────────────────
+    json toolSchemaDiff(const json& args);
+    json toolSchemaValidate(const json& args);
+    json toolExplainQuery(const json& args);
+
     // Default resource handlers
     void registerDefaultResources();
     json resourceSchema(const std::string& uri);

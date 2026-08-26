@@ -62,12 +62,16 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     // Authorization: Bearer <token> forwarded by SecureTransportClient, so
     // no special bypass is required.
     if (!validateBearerToken(req)) {
+        THEMIS_INFO("[AUDIT] {} {} path='{}' user='<unauthenticated>' result=DENY",
+                    std::string(req.method_string()), "lora_api", std::string(target));
         return createErrorResponse(
             http::status::unauthorized,
             "Unauthorized",
             "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
         );
     }
+    THEMIS_INFO("[AUDIT] {} {} path='{}' user='authenticated' result=ALLOW",
+                std::string(req.method_string()), "lora_api", std::string(target));
     
     // Route to appropriate handler based on path and method
     

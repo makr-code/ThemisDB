@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (39)
+## Aktive Workflows (40)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -20,6 +20,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/build-content-regression.yml`
 - `.github/workflows/build-llm-inference.yml`
 - `.github/workflows/gate-pr-core.yml`
+- `.github/workflows/gate-pr-doxygen-governance.yml`
 - `.github/workflows/release-build-matrix.yml`
 - `.github/workflows/release-mainline.yml`
 - `.github/workflows/build-widget.yml`
@@ -101,7 +102,7 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - Publish-Workflows nur ueber Tag- oder Environment-Gates freigeben.
 - Third-party Actions auf immutable Commit-SHAs pinnen (SHA-only, kein `@vX.Y.Z` Tag als einzige Referenz).
   Beispiel: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`
-  Enforcement: `actionlint` + SHA-Pin-Prüfung in `quality-static-analysis.yml`.
+  Enforcement: `gate-pr-core.yml` Preflight-Checks + lokales `actionlint` via `scripts/test-github-actions-local.ps1`.
 - Compliance-Gates fuer Dependencies muessen branch- und pfadbegrenzt sein und ein downloadbares Audit-Artefakt erzeugen.
 - OIDC-basierte Authentifizierung (kein long-lived PAT) fuer ghcr.io und neue Registry-Ziele.
 
@@ -250,8 +251,11 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 
 ## Doxygen Coverage Threshold (Maintainer)
 - Der Doxygen-Coverage-Gate liest den Schwellwert zentral aus `.github/ci-scope-config.yaml` unter `quality_gates.docs_coverage_threshold`.
-- Standardwert ist `90`.
-- Empfohlene stufenweise Anhebung: `90 -> 92 -> 95`.
+- Kanonische CI-Konfiguration ist `Doxyfile.audit`; der PR-Gate-Workflow verwendet eine daraus abgeleitete, modul-scoped Laufkonfiguration.
+- Aktueller Standardwert ist `95`.
+- Empfohlene stufenweise Anhebung ab diesem Stand: `95 -> 97 -> 99`.
+- Strukturfehler (`@brief`, `@param`, `@return`, fehlender Doxygen-Block, Doxygen-Warnungen, fehlendes XML`) sind im PR-Gate blocking; Coverage < Threshold ist auf `develop` beobachtbar und auf Release-/Phase-6-Scope eskalationspflichtig.
+- Ein genehmigter Tier-1-Override fuer `T1-DOXYGEN-COVERAGE` muss ueber `.github/workflows/compliance-governance-gates.yml` per `/approve-with-waiver ...` kommentarbasiert freigegeben werden; `gate-pr-doxygen-governance.yml` wertet dazu den kanonischen PR-Kommentar-Marker aus und synchronisiert das Label `governance/doxygen-waiver`.
 - Nach jeder Anhebung zuerst mehrere PR-Laeufe beobachten und nur bei stabiler Signalqualitaet weiter erhoehen.
 - Bei hoher False-Positive-Rate den Schwellwert voruebergehend zuruecksetzen und Doku-Luecken gezielt abbauen.
 

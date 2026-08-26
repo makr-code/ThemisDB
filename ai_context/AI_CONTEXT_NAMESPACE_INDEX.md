@@ -1,6 +1,6 @@
 # Namespace Index (Alphabetical)
 
-**Datum:** 2026-08-03  
+Datum: 2026-08-03  
 **Status:** Active  
 **Primary:** include/<module>/*.h, src/<module>/*.cpp  
 **Bezug:** AI-freundliche Namespace-Navigation

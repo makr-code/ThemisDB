@@ -1,6 +1,6 @@
 # Modules & Namespaces Overview
 
-**Datum:** 2026-08-03  
+Datum: 2026-08-03  
 **Status:** Active  
 **Primary:** src/<module>/ROADMAP.md, include/<module>/*.h  
 **Bezug:** AI-Context für schnelle Modul-/Namespace-Navigation

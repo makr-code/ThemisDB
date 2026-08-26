@@ -83,6 +83,25 @@ private:
             return grpc::Status::OK;
         }
 
+        // STUB/SIMULATION NOTE:
+        // Purpose: All non-Ping RPCs (Create, Read, Update, Delete, Batch*,
+        //          Transaction*, ExecuteAQL, StreamQuery, ScanCollection,
+        //          GetStatus) are not yet implemented in the service layer.
+        //          The generated ThemisCoreService::Service base class returns
+        //          gRPC UNIMPLEMENTED for each method automatically.
+        // Activation: Compiled whenever THEMIS_HAS_CORE_GRPC is defined
+        //             (i.e., the protobuf/gRPC stubs for themis_core.proto are
+        //             on the include path and the gRPC SDK is linked).
+        // Production Delta: Any gRPC client calling these methods receives
+        //                   status UNIMPLEMENTED (code 12).  HTTP/REST APIs
+        //                   backed by this service will not function for
+        //                   data-plane operations.
+        // Removal Plan: Wire real service logic (storage + transaction +
+        //               AQL dispatch) per method, targeting v1.7.0 / Q4 2026.
+        THEMIS_WARN("ThemisCoreServiceImpl: UNIMPLEMENTED RPC invoked — "
+                    "service layer not yet wired (see STUB/SIMULATION NOTE in "
+                    "themis_core_grpc_service.cpp:88)");
+
         // All other RPCs (Create, Read, Update, Delete, Batch*, Transaction*,
         // ExecuteAQL, StreamQuery, ScanCollection, GetStatus) return
         // UNIMPLEMENTED until the full service layer is wired in.

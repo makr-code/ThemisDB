@@ -51,6 +51,15 @@ void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::opt
 
         // Enforce max_keys resource limit (new key will be added)
         if (config_.max_keys > 0 && keys_.size() >= config_.max_keys && keys_.find(new_kid) == keys_.end()) {
+            if (audit_logger_) {
+                nlohmann::json meta;
+                meta["new_kid"]   = new_kid;
+                meta["max_keys"]  = config_.max_keys;
+                meta["reason"]    = "max_keys_limit_reached";
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::KEY_ROTATION_FAILED,
+                                                "jwt_key_rotation_manager",
+                                                "jwt_key/" + new_kid, meta);
+            }
             throw std::length_error("JWTKeyRotationManager: max_keys limit (" + std::to_string(config_.max_keys)
                                     + ") reached");
         }
@@ -97,6 +106,14 @@ bool JWTKeyRotationManager::revokeKey(const std::string &kid) {
         auto it = keys_.find(kid);
         if (it == keys_.end()) {
             THEMIS_WARN("JWTKeyRotation: revokeKey – unknown kid '{}'", redact(kid));
+            if (audit_logger_) {
+                nlohmann::json meta;
+                meta["kid"]    = kid;
+                meta["reason"] = "unknown_kid";
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::KEY_REVOCATION_FAILED,
+                                                "jwt_key_rotation_manager",
+                                                "jwt_key/" + kid, meta);
+            }
             return false;
         }
 

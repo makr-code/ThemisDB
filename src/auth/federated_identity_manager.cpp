@@ -12,11 +12,13 @@
 
 #include "auth/federated_identity_manager.h"
 
+#include <chrono>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 #include <unordered_set>
 
 namespace themis {
@@ -200,6 +202,21 @@ size_t FederatedIdentityManager::realmCount() const {
 // ---------------------------------------------------------------------------
 
 FederatedValidationResult FederatedIdentityManager::validateToken(const std::string &token) {
+    // -----------------------------------------------------------------------
+    // Fast path: check the in-memory token cache before doing any network I/O.
+    // Cache is keyed by raw token string and entries are invalidated by JWT exp.
+    // -----------------------------------------------------------------------
+    {
+        const auto now = std::chrono::system_clock::now();
+        std::lock_guard<std::mutex> c_lock(cache_mutex_);
+        const auto cache_it = token_cache_.find(token);
+        if (cache_it != token_cache_.end() && now < cache_it->second.expires_at) {
+            spdlog::debug("FederatedIdentityManager: cache hit for token sub='{}'",
+                          cache_it->second.result.claims.sub);
+            return cache_it->second.result;
+        }
+    }
+
     // Step 1: peek at the issuer without full validation
     const std::string raw_iss = extractIssuer(token);
     const std::string iss     = normalize(raw_iss);
@@ -240,7 +257,22 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
                                       "Provider error for realm '" + iss + "': " + ex.what()));
     }
 
-    return FederatedValidationResult{std::move(claims), iss};
+    // Log JWT success before moving claims
+    if (audit_logger_) {
+        audit_logger_->logJWTSuccess(claims.sub, claims.jti, iss, "");
+    }
+    FederatedValidationResult validated{std::move(claims), iss};
+
+    // Populate the token cache so subsequent calls for the same token are fast.
+    {
+        CachedValidation entry;
+        entry.result     = validated;
+        entry.expires_at = validated.claims.expiration;
+        std::lock_guard<std::mutex> c_lock(cache_mutex_);
+        token_cache_[token] = std::move(entry);
+    }
+
+    return validated;
 }
 
 OIDCProvider &FederatedIdentityManager::realmProvider(const std::string &issuer_url) {
@@ -266,6 +298,123 @@ void FederatedIdentityManager::setHttpGetForTesting(std::function<std::string(co
 void FederatedIdentityManager::setHttpPostForTesting(
     std::function<std::string(const std::string &url, const std::string &body)> fn) {
     http_post_fn_ = std::move(fn);
+}
+
+// ---------------------------------------------------------------------------
+// Cross-provider trust registry
+// ---------------------------------------------------------------------------
+
+void FederatedIdentityManager::addCrossProviderTrust(const std::string &subject_issuer,
+                                                     const std::string &trusting_issuer) {
+    const std::string subj = normalize(subject_issuer);
+    const std::string trus = normalize(trusting_issuer);
+    if (subj.empty() || trus.empty()) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Cross-provider trust registration failed",
+                                      "subject_issuer and trusting_issuer must not be empty"));
+    }
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    trust_map_[trus].insert(subj);
+    spdlog::info("FederatedIdentityManager: trust registered: '{}' trusted by '{}'", subj, trus);
+}
+
+bool FederatedIdentityManager::removeCrossProviderTrust(const std::string &subject_issuer,
+                                                        const std::string &trusting_issuer) {
+    const std::string subj = normalize(subject_issuer);
+    const std::string trus = normalize(trusting_issuer);
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    auto it = trust_map_.find(trus);
+    if (it == trust_map_.end()) {
+        return false;
+    }
+    const bool removed = it->second.erase(subj) > 0;
+    if (it->second.empty()) {
+        trust_map_.erase(it);
+    }
+    return removed;
+}
+
+bool FederatedIdentityManager::isTrustedBy(const std::string &subject_issuer,
+                                           const std::string &trusting_issuer) const {
+    const std::string subj = normalize(subject_issuer);
+    const std::string trus = normalize(trusting_issuer);
+    // A realm always implicitly trusts itself.
+    if (subj == trus) {
+        return true;
+    }
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    const auto it = trust_map_.find(trus);
+    if (it == trust_map_.end()) {
+        return false;
+    }
+    return it->second.count(subj) > 0;
+}
+
+std::vector<std::string> FederatedIdentityManager::getCrossProviderTrusts(
+    const std::string &trusting_issuer) const {
+    const std::string trus = normalize(trusting_issuer);
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    const auto it = trust_map_.find(trus);
+    if (it == trust_map_.end()) {
+        return {};
+    }
+    return std::vector<std::string>(it->second.begin(), it->second.end());
+}
+
+// ---------------------------------------------------------------------------
+// In-memory token validation cache
+// ---------------------------------------------------------------------------
+
+void FederatedIdentityManager::cacheValidationResult(const std::string &token,
+                                                     const FederatedValidationResult &result) {
+    CachedValidation entry;
+    entry.result     = result;
+    entry.expires_at = result.claims.expiration;
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    token_cache_[token] = std::move(entry);
+}
+
+std::optional<FederatedValidationResult> FederatedIdentityManager::getCachedResult(
+    const std::string &token) const {
+    const auto now = std::chrono::system_clock::now();
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    const auto it = token_cache_.find(token);
+    if (it == token_cache_.end()) {
+        return std::nullopt;
+    }
+    if (now >= it->second.expires_at) {
+        return std::nullopt;  // expired — evict on next evictExpiredCacheEntries()
+    }
+    return it->second.result;
+}
+
+size_t FederatedIdentityManager::evictExpiredCacheEntries() {
+    const auto now = std::chrono::system_clock::now();
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    size_t count = 0;
+    for (auto it = token_cache_.begin(); it != token_cache_.end(); ) {
+        if (now >= it->second.expires_at) {
+            it = token_cache_.erase(it);
+            ++count;
+        } else {
+            ++it;
+        }
+    }
+    if (count > 0) {
+        spdlog::debug("FederatedIdentityManager: evicted {} expired cache entr{}", count,
+                      count == 1 ? "y" : "ies");
+    }
+    return count;
+}
+
+void FederatedIdentityManager::clearTokenCache() {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    token_cache_.clear();
+}
+
+size_t FederatedIdentityManager::tokenCacheSize() const {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    return token_cache_.size();
 }
 
 // ---------------------------------------------------------------------------
@@ -487,20 +636,49 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
 
     const std::string form_body = buildFormBody(params);
 
-    // Step 7: POST the token-exchange request to the IdP
+    // Step 7: POST the token-exchange request to the IdP with retry/backoff (B2)
     spdlog::debug("FederatedIdentityManager::exchangeToken: "
                   "posting to token_endpoint '{}'",
                   token_endpoint);
 
     std::string response_body;
-    try {
-        response_body = httpPost(token_endpoint, form_body);
-    } catch (const std::exception &ex) {
-        spdlog::error("FederatedIdentityManager::exchangeToken: "
-                      "HTTP POST failed: {}",
-                      ex.what());
-        throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "Token exchange request failed",
-                                      std::string("HTTP POST error: ") + ex.what()));
+    {
+        constexpr int kMaxRetries = 3;
+        constexpr int kBaseDelayMs = 100;
+        std::exception_ptr last_exc;
+        for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+            try {
+                response_body = httpPost(token_endpoint, form_body);
+                last_exc = nullptr;
+                break;
+            } catch (const std::exception &ex) {
+                last_exc = std::current_exception();
+                const std::string what = ex.what();
+                // Retry on connection errors and HTTP 429/503
+                const bool retryable = (what.find("HTTP 429") != std::string::npos)
+                                     || (what.find("HTTP 503") != std::string::npos)
+                                     || (what.find("libcurl") != std::string::npos);
+                if (!retryable || attempt + 1 == kMaxRetries) {
+                    break;
+                }
+                const int delay_ms = kBaseDelayMs * (1 << attempt);
+                spdlog::warn("FederatedIdentityManager::exchangeToken: "
+                             "HTTP POST attempt {} failed ({}), retrying in {}ms",
+                             attempt + 1, what, delay_ms);
+                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            }
+        }
+        if (last_exc) {
+            try { std::rethrow_exception(last_exc); }
+            catch (const std::exception &ex) {
+                if (audit_logger_) audit_logger_->logJWTFailure("token_exchange_http_error: " + std::string(ex.what()));
+                spdlog::error("FederatedIdentityManager::exchangeToken: "
+                              "HTTP POST failed after retries: {}",
+                              ex.what());
+                throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "Token exchange request failed",
+                                             std::string("HTTP POST error: ") + ex.what()));
+            }
+        }
     }
 
     // Step 8: parse the IdP response
@@ -577,6 +755,9 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
     spdlog::info("FederatedIdentityManager::exchangeToken: "
                  "token exchange successful for realm '{}', subject='{}'",
                  iss, result.claims.sub);
+    if (audit_logger_) {
+        audit_logger_->logJWTSuccess(result.claims.sub, result.claims.jti, iss, "");
+    }
 
     return result;
 }

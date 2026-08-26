@@ -169,6 +169,7 @@ bool CacheAdminApiHandler::checkAuth(
 
     auto ar = auth_->authorize(*token, required_scope);
     if (!ar.authorized) {
+        THEMIS_WARN("[AUDIT] authorize result=DENY scope={}", required_scope);
         THEMIS_WARN("Cache admin API auth denied: user={}, scope={}, reason={}",
                     ar.user_id, required_scope,
                     ar.reason.empty() ? "insufficient_scope" : ar.reason);
@@ -176,6 +177,7 @@ bool CacheAdminApiHandler::checkAuth(
                                 "Insufficient scope: " + required_scope, req);
         return false;
     }
+    THEMIS_INFO("[AUDIT] authorize result=ALLOW scope={}", required_scope);
 
     return true;
 }

@@ -158,9 +158,11 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
     // Authorize using configured scopes
     auto authz = auth_->authorize(*token_opt, scope);
     if (!authz.authorized) {
+        THEMIS_WARN("[AUDIT] authorize result=DENY scope={}", scope);
         auto reason = authz.reason.empty() ? "Unauthorized" : authz.reason;
         return makeErrorResponse(http::status::unauthorized, reason, req);
     }
+    THEMIS_INFO("[AUDIT] authorize result=ALLOW scope={}", scope);
 
     return std::nullopt; // Access granted
 }

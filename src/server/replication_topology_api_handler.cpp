@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <sstream>
 #include "utils/input_validator.h"
+#include "utils/logger.h"
 #include "utils/tracing.h"
 
 namespace themis {
@@ -101,6 +102,7 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
     const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleTopologyGet");
+    THEMIS_INFO("[AUDIT] GET /api/v1/replication/topology path='/api/v1/replication/topology' user='<server-auth>' result=ALLOW");
     if (!coordinator_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Replication not configured", req);

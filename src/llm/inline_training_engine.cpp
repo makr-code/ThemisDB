@@ -16,6 +16,7 @@
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
+#include <rocksdb/db.h>
 
 #include <algorithm>
 #include <atomic>
@@ -220,6 +221,11 @@ struct InlineTrainingEngine::Impl {
     std::vector<float> v_adam;   // second moment (or v_rms for RMSProp)
     std::vector<float> m_sgd;    // SGD velocity
 
+    // Persistent LoRA parameter vector updated by every optimizer step.
+    // Initialised lazily on the first step; size matches the gradient dimension.
+    // Wave-B L5: replaces the per-step dummy zero vector (stub fix).
+    std::vector<float> model_params_;
+
     // Thread-safety and state
     mutable std::mutex state_mutex;
     std::atomic<bool>  stop_flag{false};
@@ -276,6 +282,15 @@ void InlineTrainingEngine::setGovernancePolicy(
 {
     std::lock_guard<std::mutex> lock(impl_->state_mutex);
     impl_->governance_policy = std::move(policy);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Public API – setCheckpointDb
+// ═══════════════════════════════════════════════════════════════════════════
+
+void InlineTrainingEngine::setCheckpointDb(std::shared_ptr<rocksdb::DB> db)
+{
+    checkpoint_db_ = std::move(db);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -543,9 +558,21 @@ TrainingResult InlineTrainingEngine::trainLoop(
                 }
             }
 
-            // Apply optimizer step (updates dummy parameter vector)
-            std::vector<float> params(accumulated_gradients.size(), 0.0f);
-            optimizerStep(params, accumulated_gradients, global_step);
+            // Apply optimizer step to persistent LoRA parameter vector.
+            // Wave-B L5: params are retained across steps so optimizer moments
+            // and weight-decay accumulate correctly over the full training run.
+            if (!accumulated_gradients.empty()) {
+                if (impl_->model_params_.size() != accumulated_gradients.size()) {
+                    // Lazy initialisation: small random values in [-0.01, 0.01].
+                    impl_->model_params_.resize(accumulated_gradients.size());
+                    const float kInitScale = 0.01f;
+                    for (size_t i = 0; i < impl_->model_params_.size(); ++i) {
+                        impl_->model_params_[i] =
+                            kInitScale * (2.0f * static_cast<float>(i % 17) / 16.0f - 1.0f);
+                    }
+                }
+                optimizerStep(impl_->model_params_, accumulated_gradients, global_step);
+            }
 
             ++global_step;
 
@@ -925,6 +952,20 @@ void InlineTrainingEngine::saveCheckpoint(
     const TrainingState& state
 ) {
     try {
+        // --- RocksDB persistence (when handle is set) ---
+        if (checkpoint_db_) {
+            std::string json_value = state.toJSON().dump();
+            rocksdb::Status s = checkpoint_db_->Put(
+                rocksdb::WriteOptions(), path, json_value);
+            if (s.ok()) {
+                spdlog::info("[TRAINING] Checkpoint persisted to RocksDB key='{}'", path);
+            } else {
+                spdlog::warn("[TRAINING] RocksDB checkpoint write failed for key='{}': {}",
+                             path, s.ToString());
+            }
+        }
+
+        // --- Filesystem JSON (always written for durability) ---
         fs::create_directories(path);
         std::ofstream ofs(path + "/training_state.json");
         if (!ofs.is_open()) {
@@ -947,6 +988,21 @@ void InlineTrainingEngine::saveCheckpoint(
 }
 
 TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
+    // --- Try RocksDB first (when handle is set) ---
+    if (checkpoint_db_) {
+        std::string value;
+        rocksdb::Status s = checkpoint_db_->Get(
+            rocksdb::ReadOptions(), path, &value);
+        if (s.ok()) {
+            json j = json::parse(value);
+            TrainingState state = TrainingState::fromJSON(j);
+            spdlog::info("[TRAINING] Checkpoint loaded from RocksDB key='{}'", path);
+            return state;
+        }
+        // Key not found — fall through to filesystem
+    }
+
+    // --- Filesystem fallback ---
     std::ifstream ifs(path + "/training_state.json");
     if (!ifs.is_open()) {
         throw std::runtime_error("InlineTrainingEngine: checkpoint not found at '" + path + "'");

@@ -116,9 +116,11 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     // auth_->authorize() which checks that the token contains the required scope.
     auto ar = auth_->authorize(*token, scope);
     if (!ar.authorized) {
+        THEMIS_WARN("[AUDIT] authorize result=DENY scope={}", scope);
         return makeErrorResponse(http::status::forbidden,
                                  "Insufficient permissions for scope: " + scope, req);
     }
+    THEMIS_INFO("[AUDIT] authorize result=ALLOW scope={}", scope);
 
     return std::nullopt; // Access granted
 }

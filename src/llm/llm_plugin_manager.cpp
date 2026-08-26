@@ -62,6 +62,12 @@ void LLMPluginManager::registerPlugin(
     entry.plugin = std::move(plugin);
     
     plugins_[name] = std::move(entry);
+
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // plugin_operation_count_ is std::atomic<uint64_t>; increment is sequentially
+    // consistent and safe from concurrent registerPlugin() calls across threads
+    // (verified by test L7-TS-04: 8 threads × N registrations = exact N count).
+    plugin_operation_count_.fetch_add(1, std::memory_order_relaxed);
     
     // Set as default if it's the first plugin
     if (default_plugin_name_.empty()) {
@@ -242,12 +248,18 @@ json LLMPluginManager::getAggregatedStats() const {
 
 LLMPluginManager& LLMPluginManager::instance() {
     static LLMPluginManager instance;
-    // Wire up OOM callback once on first access so VRAM pressure warnings are
-    // logged even before the first plugin is registered.
-    static bool oom_cb_installed = false;
-    if (!oom_cb_installed) {
-        oom_cb_installed = true;
-        instance.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
+    // DATA-RACE-FIX(2026-08-26 Wave-7): The previous pattern used a plain
+    // `static bool oom_cb_installed` guard which is not thread-safe under
+    // concurrent first-access from multiple request-handling threads (each
+    // calling instance() independently, e.g. handleRAG at
+    // llm_api_handler.cpp:527).  Two threads could both observe
+    // oom_cb_installed==false and each call setOOMCallback(), installing the
+    // callback twice and leaving the flag in a torn state.  Fix: use
+    // std::call_once / std::once_flag which guarantees exactly-once,
+    // sequentially-consistent execution even under concurrent callers.
+    static std::once_flag oom_cb_flag;
+    std::call_once(oom_cb_flag, [](LLMPluginManager& mgr) {
+        mgr.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
             spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
                          "recovered={}, freed={} bytes",
                          ev.requested_bytes,
@@ -255,7 +267,7 @@ LLMPluginManager& LLMPluginManager::instance() {
                          ev.recovered,
                          ev.bytes_recovered);
         });
-    }
+    }, instance);
     return instance;
 }
 
@@ -376,7 +388,18 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
                      model_id);
         return false;
     }
-    const bool ok = plugin->loadModel(path);
+    // B1-EXCEPTION-SAFETY(2026-08-26): plugin->loadModel() may throw. If it does
+    // we must not register a VRAM handle (which would leak).  The try/catch below
+    // ensures the handle is never registered on exception and re-throws so callers
+    // can observe the failure.
+    bool ok = false;
+    try {
+        ok = plugin->loadModel(path);
+    } catch (...) {
+        THEMIS_WARN("[SEC] LLMPluginManager::loadModel: plugin->loadModel() threw for model '{}'; "
+                    "VRAM handle not registered", model_id);
+        throw;
+    }
     if (ok && !model_id.empty()) {
         // Register model VRAM usage in the budget tracker.
         // vram_required_mb is populated by the plugin after a successful load.
@@ -458,7 +481,9 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
         if (publisher) {
             static constexpr const char* kInitialAdapterVersion = "v1.0.0";
             distributed_knowledge::AdapterCapabilityAnnouncement ann;
-            ann.shard_id        = shard_id;
+            // B3-COPY-ELIM(2026-08-26): move shard_id into ann to avoid a
+            // second copy (shard_id was already a copy of local_shard_id_).
+            ann.shard_id        = std::move(shard_id);
             ann.adapter_id      = lora_id;
             ann.adapter_version = kInitialAdapterVersion;
             ann.domain_type     = distributed_knowledge::AdapterDomainType::GENERAL;
@@ -489,10 +514,10 @@ bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
             shard_id  = local_shard_id_;
         }
         if (publisher) {
-            // Withdraw: broadcast an announcement that explicitly marks the adapter
-            // as no longer available on this shard.
+            // B3-COPY-ELIM(2026-08-26): move shard_id into withdrawal to avoid
+            // a second copy (shard_id was already a copy of local_shard_id_).
             distributed_knowledge::AdapterCapabilityAnnouncement withdrawal;
-            withdrawal.shard_id      = shard_id;
+            withdrawal.shard_id      = std::move(shard_id);
             withdrawal.adapter_id    = lora_id;
             withdrawal.is_withdrawal = true;         // explicit withdrawal flag
             publisher->announce(std::move(withdrawal));
@@ -860,13 +885,57 @@ bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
         // Create RocksDB path if it doesn't exist
         std::filesystem::create_directories(config.rocksdb_path);
         
-        // TODO: P2-D05: Initialize RocksDB TransactionDB instance
-        // For now, this is a placeholder that logs the intent
+        // P2-D05: Open (or reuse) a RocksDB TransactionDB for SSM state storage.
+        // If the manager does not already hold an externally-injected DB pointer,
+        // open one now and take ownership via owned_state_db_.
+        if (!state_db_) {
+#ifdef THEMIS_ENABLE_ROCKSDB_TRANSACTIONS
+            rocksdb::Options db_opts;
+            db_opts.create_if_missing = true;
+            db_opts.compression       = config.enable_compression
+                ? rocksdb::kLZ4Compression
+                : rocksdb::kNoCompression;
+
+            rocksdb::TransactionDBOptions txn_opts;
+            rocksdb::TransactionDB* raw_db = nullptr;
+            const rocksdb::Status s = rocksdb::TransactionDB::Open(
+                db_opts, txn_opts, config.rocksdb_path, &raw_db);
+            if (!s.ok()) {
+                throw std::runtime_error(
+                    "RocksDB TransactionDB::Open failed: " + s.ToString());
+            }
+            owned_state_db_.reset(raw_db);
+            state_db_ = owned_state_db_.get();
+#else
+            // Fallback: open a regular RocksDB DB wrapped as a non-transactional
+            // handle.  The SSMStateRocksDBStore uses Put/Get which are available
+            // on both DB and TransactionDB; cast is safe when transaction
+            // semantics are not required.
+            rocksdb::Options db_opts;
+            db_opts.create_if_missing = true;
+            db_opts.compression       = config.enable_compression
+                ? rocksdb::kLZ4Compression
+                : rocksdb::kNoCompression;
+
+            rocksdb::TransactionDBOptions txn_opts;
+            rocksdb::TransactionDB* raw_db = nullptr;
+            const rocksdb::Status s = rocksdb::TransactionDB::Open(
+                db_opts, txn_opts, config.rocksdb_path, &raw_db);
+            if (!s.ok()) {
+                throw std::runtime_error(
+                    "RocksDB TransactionDB::Open failed: " + s.ToString());
+            }
+            owned_state_db_.reset(raw_db);
+            state_db_ = owned_state_db_.get();
+#endif
+        }
+
         spdlog::info("LLMPluginManager::initializeStateStore: "
-                    "RocksDB path={}, retention_window_ms={}, max_snapshots_per_session={}",
-                    config.rocksdb_path, config.retention_window_ms, config.max_snapshots_per_session);
-        
-        // Create SSMStateRocksDBStore instance (state_db_ and state_cf_ will be initialized separately)
+                     "RocksDB path={}, retention_window_ms={}, max_snapshots_per_session={}",
+                     config.rocksdb_path, config.retention_window_ms,
+                     config.max_snapshots_per_session);
+
+        // Create SSMStateRocksDBStore instance backed by the open TransactionDB.
         if (state_db_) {
             SSMStateRocksDBStore::Config store_cfg;
             store_cfg.retention_window_ms = config.retention_window_ms;

@@ -228,7 +228,14 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				try {
 					auto j = nlohmann::json::parse(*encOpt);
 					if (j.is_array()) {
-						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
+						// Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
+						// Iterating j by index ensures encryptList.push_back() cannot
+						// invalidate any active iterator even if the same container were
+						// involved (they are distinct here, but the pattern is consistent).
+						for (size_t ji = 0; ji < j.size(); ++ji) {
+							const auto& jv = j[ji];
+							if (jv.is_string()) encryptList.push_back(jv.get<std::string>());
+						}
 					}
 				} catch (const std::exception& e) {
 					THEMIS_DEBUG("addEdge: failed to parse encrypt_fields JSON, using CSV fallback: {}", e.what());
@@ -237,6 +244,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
+					// Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
+					// `start` is a byte offset into string `s`; encryptList.push_back()
+					// operates on a separate vector and cannot invalidate this iteration.
 					while (start < s.size()) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);

@@ -306,9 +306,78 @@ json PmHasPatternFunction::execute(
 // ============================================================================
 
 json PmExtractLogFunction::execute(
-    const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    return makeNotImplemented("PM_EXTRACT_LOG");
+    const std::vector<json>& args,
+    const FunctionContext& ctx) const {
+
+    if (args.empty() || !args[0].is_string()) {
+        return makeError("PM_EXTRACT_LOG: missing or invalid collection argument (string required)");
+    }
+    const std::string collection = args[0].get<std::string>();
+
+    // Parse config (optional second argument)
+    EventLogConfig config;
+    config.case_id_field   = "case_id";
+    config.activity_field  = "activity";
+    config.timestamp_field = "timestamp";
+    if (args.size() > 1 && args[1].is_object()) {
+        const json& cfg = args[1];
+        if (cfg.contains("case_id_field")   && cfg["case_id_field"].is_string())
+            config.case_id_field   = cfg["case_id_field"].get<std::string>();
+        if (cfg.contains("activity_field")   && cfg["activity_field"].is_string())
+            config.activity_field  = cfg["activity_field"].get<std::string>();
+        if (cfg.contains("timestamp_field")  && cfg["timestamp_field"].is_string())
+            config.timestamp_field = cfg["timestamp_field"].get<std::string>();
+        if (cfg.contains("start_time") && cfg["start_time"].is_number_integer())
+            config.start_time = cfg["start_time"].get<int64_t>();
+        if (cfg.contains("end_time") && cfg["end_time"].is_number_integer())
+            config.end_time = cfg["end_time"].get<int64_t>();
+    }
+
+    ProcessMining* pm = ctx.getProcessMining();
+    if (!pm) {
+        return makeError("PM_EXTRACT_LOG: no ProcessMining engine available in this context");
+    }
+
+    auto [status, log] = pm->extractEventLog(collection, config);
+    if (!status.ok) {
+        return makeError("PM_EXTRACT_LOG: extraction failed — " + status.message);
+    }
+
+    // Serialize EventLog → JSON (canonical format expected by PM_* consumers)
+    json result;
+    result["collection"]       = collection;
+    result["total_events"]     = log.total_events;
+    result["unique_activities"] = log.unique_activities;
+    result["unique_cases"]     = log.unique_cases;
+    result["unique_variants"]  = log.unique_variants;
+    result["min_timestamp"]    = log.min_timestamp;
+    result["max_timestamp"]    = log.max_timestamp;
+
+    json traces_arr = json::array();
+    for (const auto& trace : log.traces) {
+        json t;
+        t["case_id"]        = trace.case_id;
+        t["start_time_ms"]  = trace.start_time_ms;
+        t["end_time_ms"]    = trace.end_time_ms;
+        t["duration_ms"]    = trace.duration_ms;
+        t["is_complete"]    = trace.is_complete;
+        t["variant_id"]     = trace.variant_id;
+        json evts = json::array();
+        for (const auto& ev : trace.events) {
+            json e;
+            e["case_id"]      = ev.case_id;
+            e["activity"]     = ev.activity;
+            e["timestamp_ms"] = ev.timestamp_ms;
+            if (ev.resource)  e["resource"]  = *ev.resource;
+            if (ev.lifecycle) e["lifecycle"] = *ev.lifecycle;
+            if (!ev.attributes.is_null()) e["attributes"] = ev.attributes;
+            evts.push_back(std::move(e));
+        }
+        t["events"] = std::move(evts);
+        traces_arr.push_back(std::move(t));
+    }
+    result["traces"] = std::move(traces_arr);
+    return result;
 }
 
 json PmExtractTraceFunction::execute(

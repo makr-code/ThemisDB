@@ -32,17 +32,17 @@ Production-grade transaction stack with ACID lifecycle management, MVCC integrat
 > **FP confirmed closed:** `saga_orchestrator.cpp` H=10 — Kahn's algorithm cycle-return and circuit breaker FSM states are correct patterns; no unimplemented paths  
 > **FP confirmed closed:** `global_transaction_manager.cpp` H=22 — `scope_mismatch` × 1413 + `circular_lock_ordering` FPs on correct mutex usage
 
-- [ ] **T1 — stub #279 STUB NOTE** (`distributed_transaction_manager.cpp:67,91`): RPC Phase-1/Phase-2 bridges are pure injection points; add `// STUB/SIMULATION NOTE` documenting mandatory transport injection requirement; add entry to `PRODUCTION_REQUIREMENTS.md`; fail-fast guards already in place at lines 220–235 and 293–315 (Target: Q4 2026)
+- [x] **T1 — stub #279 STUB NOTE** (`distributed_transaction_manager.cpp:67,91`): RPC Phase-1/Phase-2 bridges are pure injection points; add `// STUB/SIMULATION NOTE` documenting mandatory transport injection requirement; add entry to `PRODUCTION_REQUIREMENTS.md`; fail-fast guards already in place at lines 220–235 and 293–315 — **Done 2026-08-26**
   - Files: `src/transaction/distributed_transaction_manager.cpp`
   - Tests: verify `commit()` with participants and no transport returns `ERR_NO_TRANSPORT`
-- [ ] **T2 — Upgrade Deadlock** (`lock_manager.cpp:258-265`): two transactions both holding SHARED on key `k` call `upgradeLock(k)` → both enqueue exclusive waiter → mutual block until timeout; add mutual-upgrade cycle detection before enqueuing OR wire `DeadlockPredictor` into the upgrade-wait path (Target: Q4 2026)
+- [x] **T2 — Upgrade Deadlock** (`lock_manager.cpp:258-265`): two transactions both holding SHARED on key `k` call `upgradeLock(k)` → both enqueue exclusive waiter → mutual block until timeout; add mutual-upgrade cycle detection before enqueuing OR wire `DeadlockPredictor` into the upgrade-wait path — **Done 2026-08-26**
   - Files: `src/transaction/lock_manager.cpp`
   - Tests: `upgradeLock` under concurrent same-key shared holders → one succeeds, one gets deadlock error promptly
-- [ ] **T3 — Phase-2 Under Global Lock** (`global_transaction_manager.cpp:248-252`): `runPhase2()` called inside `std::lock_guard<mutex_>`, blocking all GTM operations during Phase-2 delivery; apply snapshot-then-release pattern: snapshot participant list under lock → release → deliver Phase-2 → re-acquire to mark COMPLETED (mirrors `DistributedTransactionManager::runPhase1Unlocked`) (Target: Q4 2026)
+- [x] **T3 — Phase-2 Under Global Lock** (`global_transaction_manager.cpp:248-252`): `runPhase2()` called inside `std::lock_guard<mutex_>`, blocking all GTM operations during Phase-2 delivery; apply snapshot-then-release pattern: snapshot participant list under lock → release → deliver Phase-2 → re-acquire to mark COMPLETED (mirrors `DistributedTransactionManager::runPhase1Unlocked`) — **Done 2026-08-26**
   - Files: `src/transaction/global_transaction_manager.cpp`
   - Also apply to `abort()` (L306) and `recoverInDoubtTransactions()` (L415)
   - Tests: concurrent `beginTransaction` not blocked during slow Phase-2 delivery
-- [ ] **T4 — Silent Predicate Lock Drop** (`lock_manager.cpp:530-538`): capacity-based `return false` has no log/counter; SSI false-positive abort rate invisible to operators; add `THEMIS_WARN` + metric counter on `max_locks` capacity reject (MEDIUM) (Target: Q4 2026)
+- [x] **T4 — Silent Predicate Lock Drop** (`lock_manager.cpp:530-538`): capacity-based `return false` has no log/counter; SSI false-positive abort rate invisible to operators; add `THEMIS_WARN` + metric counter on `max_locks` capacity reject (MEDIUM) — **Done 2026-08-26**
 - **Regression tests:** `tests/transaction/test_wave4c_transaction_hardening.cpp`
 
 ### Short-term (3-6 months)

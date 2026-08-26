@@ -165,8 +165,19 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
                                 impl_->workers[i].judge_id);
                 }
             } else {
-                res = futures[i].get();
-                ok  = true;
+                // Wave 5 R1: blocking_no_timeout — apply a 30 s default so
+                // callers that omit per_judge_timeout cannot hang indefinitely.
+                constexpr auto kEvalTimeout = std::chrono::seconds(30);
+                const auto status = futures[i].wait_for(kEvalTimeout);
+                if (status == std::future_status::ready) {
+                    res = futures[i].get();
+                    ok  = true;
+                } else {
+                    THEMIS_WARN(
+                        "DistributedRAGEvaluator: judge '{}' timed out after 30 s "
+                        "(no per_judge_timeout set), using fallback empty result",
+                        impl_->workers[i].judge_id);
+                }
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("DistributedRAGEvaluator: judge '{}' threw: {}",

@@ -74,7 +74,40 @@ jobs:
   preflight-release-policy:
     name: Preflight Release Policy
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
+      - name: Bootstrap build tracker issue (schedule gate)
+        if: github.event_name == 'schedule'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const marker = '<!-- ci-build:type:build-status -->';
+            const { owner, repo } = context.repo;
+            const allIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner, repo, state: 'open', per_page: 100,
+            });
+            const tracker = allIssues.find(i => (i.body || '').includes(marker));
+            if (!tracker) {
+              const created = await github.rest.issues.create({
+                owner, repo,
+                title: '[CI] Build status tracker \u2014 develop',
+                body: [
+                  '<!-- ci-build:type:build-status -->',
+                  '## CI Build Status \u2014 `develop`',
+                  '',
+                  'Current status: **\u2705 bootstrapped (no prior build recorded)**',
+                  '',
+                  '_This issue was auto-created by the release preflight because no tracker issue existed._',
+                  '_Labels: `ci/build-ok` = passing, `ci/build-failed` = failing, `status/build-pending` = in progress._',
+                ].join('\n'),
+                labels: ['ci/build-ok'],
+              });
+              core.notice(`Bootstrapped build tracker issue #${created.data.number} with ci/build-ok label.`);
+            } else {
+              core.notice(`Build tracker issue #${tracker.number} already exists; skipping bootstrap.`);
+            }
       - name: Checkout (sparse — action only)
         if: github.event_name == 'schedule'
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2

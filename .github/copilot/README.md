@@ -51,12 +51,14 @@ cp -r .vscode.example .vscode
 2. Read the team workflow in [AI_CUSTOMIZATION_WORKFLOW.md](AI_CUSTOMIZATION_WORKFLOW.md).
 3. Follow links into the relevant module guides.
 4. Use [VSCODE_CONTEXT.md](VSCODE_CONTEXT.md) for local environment setup.
+5. Use [AI_WIKI_CONTEXT.md](AI_WIKI_CONTEXT.md) when GitHub Copilot on GitHub should ground coding work in the Developer LLM Wiki.
 
 ## AI Workflow Quick Links
 
 - Team workflow playbook: [AI_CUSTOMIZATION_WORKFLOW.md](AI_CUSTOMIZATION_WORKFLOW.md)
 - PR AI report template: [PR_AI_REPORT_TEMPLATE.md](PR_AI_REPORT_TEMPLATE.md)
 - Review severity policy: [REVIEW_SEVERITY_POLICY.md](REVIEW_SEVERITY_POLICY.md)
+- Developer wiki context for GitHub Copilot: [AI_WIKI_CONTEXT.md](AI_WIKI_CONTEXT.md)
 - Agents: [../agents/themisdb-implementer.agent.md](../agents/themisdb-implementer.agent.md), [../agents/themisdb-reviewer.agent.md](../agents/themisdb-reviewer.agent.md)
 - Prompts: [../prompts/roadmap-to-production.prompt.md](../prompts/roadmap-to-production.prompt.md), [../prompts/build-triage-windows-release.prompt.md](../prompts/build-triage-windows-release.prompt.md), [../prompts/pr-diff-findings-review.prompt.md](../prompts/pr-diff-findings-review.prompt.md), [../prompts/security-hardening-review.prompt.md](../prompts/security-hardening-review.prompt.md), [../prompts/api-change-impact-review.prompt.md](../prompts/api-change-impact-review.prompt.md), [../prompts/release-readiness-check.prompt.md](../prompts/release-readiness-check.prompt.md), [../prompts/compose-ai-pr-report.prompt.md](../prompts/compose-ai-pr-report.prompt.md), [../prompts/verify-high-exception-record.prompt.md](../prompts/verify-high-exception-record.prompt.md)
 
@@ -155,6 +157,14 @@ cp -r .vscode.example .vscode
 - IntelliSense configuration.
 - Debugging workflows.
 - Formatting support.
+
+### AI_WIKI_CONTEXT.md
+
+- Required Developer LLM Wiki read order for GitHub Copilot on GitHub.
+- Which curated wiki files to use for module/API, CI/build, governance, and C/C++ tasks.
+- Which C++ workflow profile to use for public API, internal core, concurrency/performance, and plugin-boundary work.
+- Freshness checks via `WIKI_STATUS.json`.
+- Source-of-truth fallback rules when wiki synthesis drifts.
 
 ### PROMPT_ENGINEERING.md
 

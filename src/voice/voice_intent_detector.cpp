@@ -10,6 +10,7 @@
  */
 
 #include "voice/voice_intent_detector.h"
+#include "utils/logger.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <sstream>
@@ -275,6 +276,9 @@ bool VoiceIntentDetector::meetsThreshold(float confidence) const {
 IntentResult VoiceIntentDetector::detect(
     const std::string& text, const ConversationContext* context)
 {
+    // Wave-A V1: shared fallback semantics applied — intent recognition fallback
+    // If recognizeIntent() throws or returns an error, return IntentResult{UNKNOWN, 0.0}.
+    try {
     // TASK 2.3: Intent detection with confidence threshold enforcement
     // and fallback chain (primary model → backup model → safe default)
     // Error code 6801: Intent detection confidence below threshold
@@ -329,6 +333,18 @@ IntentResult VoiceIntentDetector::detect(
     }
 
     return result;
+
+    } catch (const std::exception& e) {
+        THEMIS_WARN("[VOICE-FALLBACK] intent recognition failed: {}; returning UNKNOWN/0.0 fallback", e.what());
+        ++detections_total_;
+        ++low_confidence_;
+        return getTimeoutDefault();  // intent=UNKNOWN, confidence=0.0
+    } catch (...) {
+        THEMIS_WARN("[VOICE-FALLBACK] intent recognition failed (unknown exception); returning UNKNOWN/0.0 fallback");
+        ++detections_total_;
+        ++low_confidence_;
+        return getTimeoutDefault();  // intent=UNKNOWN, confidence=0.0
+    }
 }
 
 json VoiceIntentDetector::getStatistics() const {

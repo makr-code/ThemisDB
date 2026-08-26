@@ -258,7 +258,18 @@ else()
            set(RocksDB_FOUND TRUE)
            message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
        else()
-           if(THEMIS_ALLOW_MISSING_ROCKSDB)
+           # Final fallback for distro packages that do not ship a rocksdb.pc file.
+           find_path(ROCKSDB_INCLUDE_DIR NAMES rocksdb/db.h)
+           find_library(ROCKSDB_LIBRARY NAMES rocksdb)
+           if(ROCKSDB_INCLUDE_DIR AND ROCKSDB_LIBRARY)
+               message(STATUS "RocksDB found via manual search: ${ROCKSDB_LIBRARY}")
+               add_library(RocksDB::rocksdb UNKNOWN IMPORTED)
+               set_target_properties(RocksDB::rocksdb PROPERTIES
+                   IMPORTED_LOCATION "${ROCKSDB_LIBRARY}"
+                   INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}"
+               )
+               set(RocksDB_FOUND TRUE)
+           elseif(THEMIS_ALLOW_MISSING_ROCKSDB)
                message(WARNING
                    "RocksDB not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON. "
                    "Install via vcpkg (rocksdb) or system package librocksdb-dev before building "
@@ -970,9 +981,10 @@ if(THEMIS_ENABLE_HIP)
 endif()
 
 if(THEMIS_ENABLE_VULKAN)
-    find_package(Vulkan REQUIRED)
+    find_package(Vulkan QUIET)
     if(NOT Vulkan_FOUND)
-        message(FATAL_ERROR "ThemisDB requires Vulkan support; install the Vulkan SDK or disable the build contract intentionally.")
+        message(WARNING "THEMIS_ENABLE_VULKAN=ON but Vulkan SDK was not found. Disabling Vulkan backend.")
+        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Vulkan disabled: SDK not found" FORCE)
     endif()
 endif()
 

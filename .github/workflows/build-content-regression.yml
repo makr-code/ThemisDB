@@ -88,8 +88,8 @@ jobs:
             plugins/private/themisdb_plugin_signer; do
             git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
           done
-          git submodule sync --recursive  || true
-          git submodule update --init --recursive --depth 1 || true
+          git submodule sync -- vcpkg || true
+          git submodule update --init --depth 1 vcpkg
 
       - name: Install build dependencies
         run: |
@@ -113,7 +113,6 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build
@@ -175,8 +174,8 @@ jobs:
             plugins/private/themisdb_plugin_signer; do
             git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
           done
-          git submodule sync --recursive  || true
-          git submodule update --init --recursive --depth 1 || true
+          git submodule sync -- vcpkg || true
+          git submodule update --init --depth 1 vcpkg
 
       - name: Install build dependencies
         run: |
@@ -200,7 +199,6 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build

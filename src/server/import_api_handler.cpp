@@ -195,6 +195,8 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
     }
 
     THEMIS_INFO("ImportApiHandler: async import requested for '{}'", source_path);
+    THEMIS_INFO("[AUDIT] POST /api/v1/import/postgresql path='{}' user='<server-auth>' result=ALLOW",
+                source_path);
 
     auto handle = importer_->importDataAsync(source_path, opts);
     registry_->add(handle);
@@ -248,6 +250,8 @@ void ImportApiHandler::handleStartMySQLImport(const httplib::Request& req,
     }
 
     THEMIS_INFO("ImportApiHandler: async MySQL import requested for '{}'", source_path);
+    THEMIS_INFO("[AUDIT] POST /api/v1/import/mysql path='{}' user='<server-auth>' result=ALLOW",
+                source_path);
 
     auto handle = importer->importDataAsync(source_path, opts);
     registry_->add(handle);

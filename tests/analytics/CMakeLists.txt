@@ -51,6 +51,12 @@ foreach(_src IN LISTS ANALYTICS_MODULE_TEST_SOURCES)
         )
     endif()
 
+    if(_stem STREQUAL "test_wave_next_analytics_hardening")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/analytics/forecasting.cpp
+        )
+    endif()
+
     add_executable(${_target}
         "${_src}"
         ${_extra_sources}

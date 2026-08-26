@@ -1,6 +1,6 @@
 # API Contract Templates & Filling Guidelines
 
-**Datum:** 2026-08-03  
+Datum: 2026-08-03  
 **Status:** Active  
 **Primary:** api_contracts/README.md, include/**/*.h  
 **Bezug:** Maschinenlesbare API-Verträge pro Modul
@@ -17,7 +17,7 @@
 
 ### API Column
 - Function/method name with signature
-- Link to header file if possible: `[name](link)`
+- Link to header file if possible: `name (path/to/header.h)` or `name -> ../include/module/header.h`
 
 **Example:**
 ```
@@ -129,7 +129,7 @@ Script: `scripts/ai-context-lint.py` (optional future work)
 
 ## Integration with CI/CD
 
-**Workflow:** `.github/workflows/08-maintenance_ai-context-wiki-sync.yml`
+**Workflow:** `.github/workflows/maintenance-docs.yml`
 
 - On PR: validate API contract rows exist for modified public APIs
 - On merge: regenerate skeleton rows for new functions (optional)
@@ -137,7 +137,7 @@ Script: `scripts/ai-context-lint.py` (optional future work)
 
 ## Example: api.md (Complete Sample)
 
-See [api_contracts/api.md](./api/api.md) for filled example.
+See [api_contracts/api.md](./api_contracts/api.md) for filled example.
 
 Key sections:
 - Transport layer APIs (HTTP, gRPC)

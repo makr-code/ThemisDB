@@ -69,6 +69,7 @@
  */
 
 #include "analytics/forecasting.h"
+#include "utils/logger.h"
 
 #include <array>
 #include <cmath>
@@ -234,6 +235,46 @@ ForecastMetrics computeMetrics(const std::vector<double> &actual, const std::vec
     m.smape   = (sum_smape / dn) * 100.0;
     return m;
 }
+
+// ============================================================================
+// Wave-A AN2: model integrity check — CRC-32 helpers
+// ============================================================================
+
+namespace {
+
+/// Standard CRC-32/ISO-HDLC (same polynomial as zlib/ethernet: 0xEDB88320).
+/// Table is computed once at first call via a lambda-initialized static.
+/// Self-contained: no external dependency required.
+uint32_t crc32Compute(const char* data, size_t len) noexcept {
+    // Build the 256-entry lookup table from the reflected polynomial 0xEDB88320.
+    static const std::array<uint32_t, 256> kTable = []() {
+        std::array<uint32_t, 256> t{};
+        for (uint32_t i = 0; i < 256u; ++i) {
+            uint32_t c = i;
+            for (int j = 0; j < 8; ++j) {
+                c = (c & 1u) ? (0xEDB88320u ^ (c >> 1u)) : (c >> 1u);
+            }
+            t[i] = c;
+        }
+        return t;
+    }();
+    uint32_t crc = 0xFFFFFFFFu;
+    for (size_t i = 0; i < len; ++i) {
+        const uint8_t idx = static_cast<uint8_t>((crc ^ static_cast<uint8_t>(data[i])) & 0xFFu);
+        crc = kTable[idx] ^ (crc >> 8u);
+    }
+    return crc ^ 0xFFFFFFFFu;
+}
+
+/// Compute CRC-32 of a std::string body and return it as an 8-char uppercase hex string.
+std::string crc32Hex(const std::string& s) {
+    const uint32_t v = crc32Compute(s.data(), s.size());
+    char buf[9];
+    std::snprintf(buf, sizeof(buf), "%08X", static_cast<unsigned>(v));
+    return std::string(buf, 8);
+}
+
+} // anonymous namespace (AN2 CRC helpers)
 
 // ============================================================================
 // Anonymous namespace – shared algorithm helpers
@@ -2251,7 +2292,13 @@ std::string ForecastModel::serialize() const {
     for (size_t i = 0; i < pp.fourier_yearly.size(); ++i) {
         oss << "prophet_fy_" << i << "=" << pp.fourier_yearly[i] << "\n";
     }
-    return oss.str();
+    // Wave-A AN2: model integrity check — store CRC-32 checksum at save time.
+    // The checksum covers the entire serialised body; it is appended as the last
+    // line so that existing callers that read the string before round-tripping
+    // through deserialize() are unaffected by the extra line.
+    std::string body = oss.str();
+    body += "checksum=" + crc32Hex(body) + "\n";
+    return body;
 }
 
 ForecastModel ForecastModel::deserialize(const std::string &data) {
@@ -2270,8 +2317,42 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
             }
         }
     }
-    // Sentinel returned when a key is missing; declared in outer scope (not static
-    // inside the lambda) to avoid any question about concurrent initialisation.
+    // Wave-A AN2: model integrity check — verify CRC-32 checksum before serving.
+    {
+        auto ck_it = kv.find("checksum");
+        if (ck_it == kv.end()) {
+            // No stored checksum: legacy model — pass through with a WARN.
+            THEMIS_WARN("[AN2] forecasting model has no stored checksum; "
+                        "skipping integrity check (legacy model without checksum)");
+        } else {
+            const std::string& stored = ck_it->second;
+            // Locate the checksum line to delimit the body that was checksummed.
+            // serialize() appends "checksum=<hex>\n" as the last line, so the
+            // body is everything before that line.
+            const std::string chk_marker = "\nchecksum=";
+            const auto pos = data.rfind(chk_marker);
+            std::string body;
+            if (pos != std::string::npos) {
+                // body = data up to and including the '\n' before "checksum="
+                body = data.substr(0, pos + 1);
+            } else {
+                // checksum is on the very first line (no preceding '\n')
+                const auto nl = data.find('\n');
+                body = (nl != std::string::npos) ? "" : data;
+            }
+            const std::string computed = crc32Hex(body);
+            if (computed != stored) {
+                THEMIS_ERROR("[AN2] forecasting model integrity check FAILED: "
+                             "stored={}, computed={}", stored, computed);
+                throw std::runtime_error(
+                    "[AN2] ForecastModel integrity check failed: checksum mismatch");
+            }
+            THEMIS_INFO("[AN2] forecasting model integrity check PASSED");
+        }
+    }
+
+    // Sentinel returned when a key is missing; declared in outer scope to
+    // avoid questions about concurrent initialisation inside the lambda.
     const std::string kEmpty;
     auto readS = [&](const std::string &key) -> const std::string & {
         auto it = kv.find(key);

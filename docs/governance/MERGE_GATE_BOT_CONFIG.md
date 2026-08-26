@@ -228,16 +228,17 @@ Release lead posts comment on PR:
    - If invalid: POST "Unknown gate ID; check policy documentation"
 
 3. **Log Waiver**
-   - Append to `ai_working/ENFORCEMENT_WAIVERS.md`:
+   - Generate runner-local `ai_working/ENFORCEMENT_WAIVERS.md` evidence and upload it as workflow artifact:
      ```markdown
      | PR | Gate | Approver | Justification | Issue Date | Expires | Status |
      | #12345 | GATE-DOXYGEN-P6 | @release-lead | "Doxygen gap in new process module; 10 tests added; will complete by next sprint" | 2026-08-15 | 2026-08-29 | ACTIVE |
      ```
-   - Commit this change to PR branch (append-only)
+   - Publish/update a canonical PR comment marker and sync the governance label instead of committing workflow-generated files to the PR branch
 
 4. **Unblock Merge**
-   - Update GitHub check: "Merge Gate Validation" → APPROVED
-   - POST comment: "✅ Waiver approved. Merge blocked until: 2026-08-29"
+   - Update the canonical PR waiver comment to `Status: ACTIVE`
+   - Sync label `governance/doxygen-waiver`
+   - POST/update comment: "✅ Waiver approved. Merge blocked until: 2026-08-29"
    - Allow merge to proceed
 
 5. **Set Waiver Expiration**
@@ -406,4 +407,3 @@ When bot detects gate failures:
 - `MATURITY_EVIDENCE_MANIFEST.json` — Gate artifact registry
 - `.github/workflows/10-governance_maturity-verification.yml` — Gate verification
 - `.github/workflows/12-governance_rc-validation.yml` — RC validation pipeline
-

@@ -64,7 +64,13 @@ struct TransactionStateSnapshot {
 };
 
 // ============================================================================
-// RPC phase-2 bridge (stub #279)
+// RPC phase-2 bridge (STUB #279)
+//
+// STUB/SIMULATION NOTE:
+// Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding
+// Activation: Always active until a concrete RpcTransport implementation is injected via constructor/setter
+// Production Delta: In-process mock calls replace real RPC; network partitions and timeouts are not exercised
+// Removal Plan: Q4 2026 — bind gRPC transport in production wiring; remove stub after integration tests pass
 // ============================================================================
 
 namespace {
@@ -88,7 +94,13 @@ static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
 }
 
 // ============================================================================
-// RPC phase-1 bridge (stub #279 — Phase-1 PREPARE extension)
+// RPC phase-1 bridge (STUB #279 — Phase-1 PREPARE extension)
+//
+// STUB/SIMULATION NOTE:
+// Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding
+// Activation: Always active until a concrete RpcTransport implementation is injected via constructor/setter
+// Production Delta: In-process mock calls replace real RPC; network partitions and timeouts are not exercised
+// Removal Plan: Q4 2026 — bind gRPC transport in production wiring; remove stub after integration tests pass
 // ============================================================================
 
 namespace {
