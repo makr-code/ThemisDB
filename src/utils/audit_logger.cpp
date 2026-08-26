@@ -625,6 +625,10 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::SHARD_LIVE_MIGRATION_FAILED: return "SHARD_LIVE_MIGRATION_FAILED";
         // Generic
         case SecurityEventType::CUSTOM_EVENT: return "CUSTOM_EVENT";
+        // Auth Wave4B additions (A4, A5, A6)
+        case SecurityEventType::PERMISSION_CHANGED: return "PERMISSION_CHANGED";
+        case SecurityEventType::KEY_ROTATION_FAILED: return "KEY_ROTATION_FAILED";
+        case SecurityEventType::KEY_REVOCATION_FAILED: return "KEY_REVOCATION_FAILED";
         default: return "UNKNOWN";
     }
 }

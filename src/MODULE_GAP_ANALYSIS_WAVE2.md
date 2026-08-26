@@ -224,7 +224,7 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 - [x] `rag`: Fix data-race gaps — `knowledge_gap_detector.cpp` (R3), `continuous_learning_orchestrator.cpp` (R4) (Target: Q4 2026)
 - [x] `rag`: Exception-safety — `calibration_manager.cpp` RAII (R6), `rlaif_trainer.cpp` noexcept destructor (R8) (Target: Q4 2026)
 - [x] `rag`: Wave B — BM25+ scorer + HNSW→RocksDB + RRF fusion + persistent embedding cache (R9–R10) (Target: Q4 2026)
-- [ ] `auth`: Wave 4B A1–C3 (audit events, OAuth retry backoff, mTLS EKU/COSE hardening) (Target: Q4 2026)
+- [x] `auth`: Wave 4B A1–C3 (audit events, OAuth retry backoff, mTLS EKU/COSE hardening) (Target: Q4 2026)
 - [ ] `llm`: Thread-safety audit — shared state in inference handlers; top-20 `std::atomic`/mutex additions (L7 class) (Target: Q4 2026)
 
 ### Phase 3 — Acceleration + Storage wiring + Transaction + Query features + Analytics/Training (P5–P11, Q4 2026)
@@ -270,7 +270,7 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 - [ ] LLM STUB #261/#262/#2/#3 + RocksDB init + RAII: implementiert oder mit dokumentiertem Removal-Plan + Testnachweis
 - [x] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates (BM25+/HNSW/RRF/Cache) mit Testnachweisen
 - [x] Server Wave4A S1–S6 + Wave5 S7–S11 alle geschlossen (regression tests grün)
-- [ ] Auth Wave4B A1–C3 geschlossen (audit events, retry, crypto)
+- [x] Auth Wave4B A1–C3 geschlossen (audit events, retry, crypto)
 - [ ] Acceleration STUB #169 + NCCL/OneAPI/OpenCL: implementiert oder explizit mit STUB/SIMULATION NOTE + Removal-Plan
 - [x] Storage STUB #263a/b/c + #264: production ggml wiring oder dokumentierte Deferred-Entscheidung
 - [ ] Transaction Wave4C T1–T4 Testnachweise in `test_wave4c_transaction_hardening.cpp`
@@ -417,9 +417,9 @@ False-Positives confirmed: `smart_ptr_misuse` on JS-string literals (`new Date()
 **FPs Confirmed Closed:** `sensitive_data_logging` (155) — scanner matched variable names near log calls, not values; `// NOPII` on ambiguous sites; no raw credential in any spdlog format arg. mTLS cipher claim is wrong file scope (no SSL_CTX in MTLSAuthenticator).
 
 **Acceptance Criteria:**
-- [ ] All 7 missing audit events implemented with regression tests (A1–A7)
-- [ ] httpPost() retry helper covers federated, PKCE, device-flow (B2–B4); ldap createConnection retry (B1)
-- [ ] COSE alg allowlist + EKU validation + RSA key-size floor in place (C1–C3)
+- [x] All 7 missing audit events implemented with regression tests (A1–A7)
+- [x] httpPost() retry helper covers federated, PKCE, device-flow (B2–B4); ldap createConnection retry (B1)
+- [x] COSE alg allowlist + EKU validation + RSA key-size floor in place (C1–C3)
 - Regression tests: `tests/auth/test_wave4b_auth_hardening.cpp` (≥14 tests)
 
 **Files:** `src/auth/passkey_authenticator.cpp`, `src/auth/mtls_authenticator.cpp`, `src/auth/federated_identity_manager.cpp`, `src/auth/auth_audit_logger.cpp`, `src/auth/jwt_key_rotation_manager.cpp`, `src/auth/ldap_connection_pool.cpp`, `src/auth/oauth_pkce_flow.cpp`, `src/auth/oauth_device_flow.cpp`, `tests/auth/test_wave4b_auth_hardening.cpp`, `src/auth/MODULE_GAPS.md`
@@ -606,7 +606,7 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 
 ### Phase 2 — RAG + Auth (P2 + P4)
 - [x] `rag`: CRITICAL deadlocks (R1–R2) + data-races (R3–R4) + Wave-B (BM25+/HNSW/RRF/Cache) (Target: Q4 2026)
-- [ ] `auth`: Wave 4B A1–C3 (Target: Q4 2026)
+- [x] `auth`: Wave 4B A1–C3 (Target: Q4 2026)
 - [ ] `llm`: Thread-safety top-20 + inline training stubs L7–L10 (Target: Q4 2026)
 
 ### Phase 3 — Acceleration + Storage + Transaction + Query + Analytics + Training (P5–P11)
@@ -624,7 +624,7 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 - [ ] LLM STUB #261/#262/#2/#3 + RocksDB init + RAII: implementiert oder mit Removal-Plan + Testnachweisen
 - [x] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates mit Testnachweisen
 - [x] `server`/Wave4A + Wave5: alle offenen Server-Stubs grün; Regressionstests pass
-- [ ] `auth` Wave-4B A1–C3 auf `[x]`; AUTH-GRG-01..06 Gate-Evidence finalisiert
+- [x] `auth` Wave-4B A1–C3 auf `[x]`; AUTH-GRG-01..06 Gate-Evidence finalisiert
 - [ ] Acceleration STUB #169 + NCCL/OneAPI/OpenCL: implementiert oder explizit als STUB/SIMULATION NOTE dokumentiert
 - [ ] `transaction` Wave 4-C Testnachweise in `tests/transaction/test_wave4c_transaction_hardening.cpp`
 - [ ] `query` process_mining + ethics: kein "not implemented" throw mehr in produktiven Pfaden
