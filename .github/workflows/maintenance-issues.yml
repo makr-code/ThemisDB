@@ -588,6 +588,12 @@ jobs:
           echo "  Timestamp     : $(date -u)"
           echo "============================================================"
 
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+
       - name: Open/update SLA issue for high/critical alerts
         id: triage
         uses: ./.github/actions/status-flags-and-issues
