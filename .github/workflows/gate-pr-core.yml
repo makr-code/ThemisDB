@@ -26,12 +26,34 @@ on:
       - hyperscaler
       - military
       - minimal
+    paths:
+      - CMakeLists.txt
+      - CMakePresets.json
+      - cmake/**/*.cmake
+      - cmake/**/*.txt
+      - cmake/**/*.in
+      - .github/workflows/**
+      - .github/no_workflows/**
+      - .github/actions/**
+      - .github/scripts/**
+      - .github/WORKFLOW_GUIDELINES.md
+      - .github/WORKFLOW_REGISTRY.md
+      - ROADMAP.md
+      - FUTURE_ENHANCEMENTS.md
+      - RELEASE_STRATEGY.md
+      - BRANCHING_STRATEGY.md
+      - VERSIONING.md
+      - CHANGELOG.md
+      - tools/ci/**
+      - tools/tests/**
   push:
     branches: [develop]
     paths:
       - CMakeLists.txt
       - CMakePresets.json
-      - cmake/**
+      - cmake/**/*.cmake
+      - cmake/**/*.txt
+      - cmake/**/*.in
       - .github/workflows/gate-pr-core.yml
       - .github/WORKFLOW_GUIDELINES.md
   workflow_dispatch:
@@ -826,12 +848,15 @@ jobs:
         run: |
           BASE_REF="${{ github.base_ref }}"
           git fetch origin "${BASE_REF}"
+          DIFF_RANGE="origin/${BASE_REF}...HEAD"
           if git merge-base "origin/${BASE_REF}" HEAD >/dev/null 2>&1; then
-            git diff --name-only "origin/${BASE_REF}...HEAD" > changed_files.txt
+            :
           else
             echo "::warning::No merge base found for origin/${BASE_REF}...HEAD; falling back to two-dot diff."
-            git diff --name-only "origin/${BASE_REF}..HEAD" > changed_files.txt
+            DIFF_RANGE="origin/${BASE_REF}..HEAD"
           fi
+          git diff --name-only "${DIFF_RANGE}" > changed_files.txt
+          git diff --unified=0 --no-color "${DIFF_RANGE}" > pr.diff
           echo "Files changed: $(wc -l < changed_files.txt)"
 
       - name: Scan for private credentials (AWS/Azure/GCP/OAuth/SSH)
@@ -859,26 +884,28 @@ jobs:
               "db_password": (r"db_password\s*[:=]\s*['\"]([^'\"]{8,})['\"]", "HIGH"),
           }
 
-          changed_files = Path("changed_files.txt").read_text().splitlines()
           critical_found = False
           matches_summary = []
+          current_file = None
+          target_line = None
 
-          for filepath in changed_files:
-              p = Path(filepath)
-              if not p.exists() or not p.is_file():
+          for raw_line in Path("pr.diff").read_text(errors="replace").splitlines():
+              if raw_line.startswith("+++ b/"):
+                  current_file = raw_line[6:]
                   continue
-
-              try:
-                  content = p.read_text(errors="replace")
-              except Exception:
+              if raw_line.startswith("@@"):
+                  match = re.match(r"@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@", raw_line)
+                  target_line = int(match.group(1)) if match else None
                   continue
-
-              line_num = 0
-              for line in content.splitlines():
-                  line_num += 1
+              if current_file is None or target_line is None:
+                  continue
+              if raw_line.startswith("+") and not raw_line.startswith("+++"):
+                  line = raw_line[1:]
+                  line_num = target_line
+                  target_line += 1
                   for pattern_name, (pattern, severity) in CREDENTIAL_PATTERNS.items():
                       if re.search(pattern, line, re.IGNORECASE):
-                          msg = f"[{severity}] {pattern_name} detected at {filepath}:{line_num}"
+                          msg = f"[{severity}] {pattern_name} detected at {current_file}:{line_num}"
                           print(f"::error::{msg}")
                           matches_summary.append(f"{severity}: {pattern_name}")
                           if severity == "CRITICAL":
@@ -924,9 +951,12 @@ jobs:
           echo "  Detector   : verified secrets only (--only-verified)"
           echo "============================================================"
 
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0  # TruffleHog --since-commit requires full commit history
+
+      - name: Install TruffleHog
         run: |
           echo "  Installing TruffleHog from official install script..."
           T0=$(date +%s)

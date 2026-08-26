@@ -53,7 +53,7 @@ Status: Active
 - Hash: `1191d102ff820880`
 - Titel: Namespace Index (Alphabetical)
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Primary:** include/<module>/*.h, src/<module>/*.cpp
 
@@ -62,7 +62,7 @@ Status: Active
 - Hash: `2f59faee2096b8a7`
 - Titel: API Contract Templates & Filling Guidelines
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Primary:** api_contracts/README.md, include/**/*.h
 
@@ -80,7 +80,7 @@ Status: Active
 - Hash: `35b13b26268ace89`
 - Titel: ThemisDB Module Classification: Core, Integrated Modules, and Plugins
 - Auszug:
-  - **Datum:** 2026-08-07
+  - Datum: 2026-08-07
   - **Status:** Active (Wave-1 Private Plugin Strategy)
   - **Primary (Quelle der Wahrheit):** ARCHITECTURE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, src/plugins/ROADMAP.md
 
@@ -107,7 +107,7 @@ Status: Active
 - Hash: `6a9b9d0aceb8879c`
 - Titel: ThemisDB Documentation Update — Execution Summary (2026-08-09)
 - Auszug:
-  - **Datum:** 2026-08-09
+  - Datum: 2026-08-09
   - **Status:** COMPLETE ✅
   - **Scope:** Full 4-phase documentation update implementation
 
@@ -116,7 +116,7 @@ Status: Active
 - Hash: `9da5e7fc7ab4d90e`
 - Titel: Function Classification Framework
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Primary:** src/*/ROADMAP.md, include/**/*.h
 
@@ -161,7 +161,7 @@ Status: Active
 - Hash: `259bbaf90872547f`
 - Titel: ThemisDB Module Status Index (2026-08-09)
 - Auszug:
-  - **Datum:** 2026-08-09
+  - Datum: 2026-08-09
   - **Status:** Synchronized with root ROADMAP.md and module-level ROADMAP.md files
   - **Bezug:** Root ROADMAP.md (canonical source), 66 module ROADMAP.md files, recent Phase 1-6 delivery evidence
 
@@ -197,7 +197,7 @@ Status: Active
 - Hash: `56c77ac57e84cbff`
 - Titel: Modules & Namespaces Overview
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Primary:** src/<module>/ROADMAP.md, include/<module>/*.h
 
@@ -206,7 +206,7 @@ Status: Active
 - Hash: `845ae81695565fda`
 - Titel: Module Documentation Remediation Checklist (2026-08-09)
 - Auszug:
-  - **Datum:** 2026-08-09
+  - Datum: 2026-08-09
   - **Status:** Phase 3 Documentation Gap Analysis
   - **Scope:** 66 tracked modules in ROADMAP.md vs existing src/<module>/README.md files
 
@@ -215,7 +215,7 @@ Status: Active
 - Hash: `33e2e37db17cef40`
 - Titel: OOP & Separation of Concerns Principles
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Primary:** include/**/*.h, src/*/ARCHITECTURE.md
 
@@ -251,7 +251,7 @@ Status: Active
 - Hash: `4e91583c0e772d58`
 - Titel: Research Integration Audit (2026-08-09)
 - Auszug:
-  - **Datum:** 2026-08-09
+  - Datum: 2026-08-09
   - **Status:** Phase 4 Audit Complete
   - **Scope:** research/implementation_influence/by_module.md analysis
 
@@ -278,7 +278,7 @@ Status: Active
 - Hash: `dcdd431d23597332`
 - Titel: API Module Contract
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Module:** api (HTTP/gRPC/GraphQL transport)
 
@@ -287,7 +287,7 @@ Status: Active
 - Hash: `79a353afc8db2bf7`
 - Titel: Auth Module Contract
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Module:** auth (Authentication, authorization, principal contracts)
 
@@ -296,7 +296,7 @@ Status: Active
 - Hash: `25469f6237ebeb04`
 - Titel: Index Module Contract
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Module:** index (HNSW, B-tree, R-tree, index lifecycle)
 
@@ -305,7 +305,7 @@ Status: Active
 - Hash: `2b4e807c3d995bac`
 - Titel: LLM Module Contract
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Module:** llm (LLM inference, model switching, context mgmt)
 
@@ -314,7 +314,7 @@ Status: Active
 - Hash: `7fde80c33b8b5670`
 - Titel: Storage Module Contract
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Module:** storage (RocksDB backend, K-V layer, LSM-tree)
 
@@ -323,7 +323,7 @@ Status: Active
 - Hash: `c95cb832d5066070`
 - Titel: Transaction Module Contract
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active
   - **Module:** transaction (Coordinator, 2PC/3PC/SAGA patterns)
 
@@ -386,7 +386,7 @@ Status: Active
 - Hash: `05a08a3523bf5e7d`
 - Titel: Memory Management Policy — Core Rules
 - Auszug:
-  - **Datum:** 2026-08-03
+  - Datum: 2026-08-03
   - **Status:** Active, Enforced
   - **Primary:** src/base/resource.h, include/base/*.h
 
@@ -504,7 +504,7 @@ Status: Active
 - Titel: GAP-004: API Reference - PolicyManager & Integration
 - Auszug:
   - **Version:** 1.0
-  - **Datum:** 5. Februar 2026
+  - Datum: 5. Februar 2026
   - ---
 
 ## docs/ARCHIVED/gaps/GAP_004_CONFIGURATION_GUIDE.md
@@ -513,7 +513,7 @@ Status: Active
 - Titel: GAP-004: Configuration Guide - PolicyManager Setup
 - Auszug:
   - **Version:** 1.0
-  - **Datum:** 5. Februar 2026
+  - Datum: 5. Februar 2026
   - ---
 
 ## docs/ARCHIVED/gaps/GAP_004_PHASE5_DOCUMENTATION.md
@@ -550,7 +550,7 @@ Status: Active
 - Auszug:
   - **Dokument:** Roadmap und Implementierungsplan
   - **Version:** 1.0
-  - **Datum:** 4. Februar 2026
+  - Datum: 4. Februar 2026
 
 ## docs/ARCHIVED/gaps/GAP_004_SECURITY_GOVERNANCE.md
 - Kategorie: governance_and_docs
@@ -558,7 +558,7 @@ Status: Active
 - Titel: GAP-004: Security & Governance - Implementierungsübersicht (Aktualisiert)
 - Auszug:
   - **Status:** ✅ Basisimplementierung abgeschlossen (ohne Duplikate)
-  - **Datum:** 4. Februar 2026
+  - Datum: 4. Februar 2026
   - **Version:** 2.0 (Dedupliziert)
 
 ## docs/ARCHIVED/gaps/GAP_006_DUPLICATE_REMOVAL.md

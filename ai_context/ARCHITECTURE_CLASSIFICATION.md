@@ -1,6 +1,6 @@
 # ThemisDB Module Classification: Core, Integrated Modules, and Plugins
 
-**Datum:** 2026-08-07  
+Datum: 2026-08-07  
 **Status:** Active (Wave-1 Private Plugin Strategy)  
 **Primary (Quelle der Wahrheit):** ARCHITECTURE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, src/plugins/ROADMAP.md  
 **Bezug:** Architecture division clarification, Wave-1 plugin externalization

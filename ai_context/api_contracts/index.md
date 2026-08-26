@@ -1,6 +1,6 @@
 # Index Module Contract
 
-**Datum:** 2026-08-03  
+Datum: 2026-08-03  
 **Status:** Active  
 **Module:** index (HNSW, B-tree, R-tree, index lifecycle)  
 **Primary:** include/index/hnsw_index.h, include/index/index_manager.h, src/index/ROADMAP.md
