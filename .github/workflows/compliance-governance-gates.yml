@@ -68,7 +68,7 @@ permissions:
 # replaced when new commits are pushed. Note: governance-gate handles multiple
 # event types; cancel-in-progress ensures stale runs are cleared promptly.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number || github.event.schedule || github.ref || github.run_id }}
   cancel-in-progress: true
 
 # ──────────────────────────────────────────────────────────────────────────────

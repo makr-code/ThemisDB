@@ -188,12 +188,6 @@ def write_scoped_doxyfile(repo_root: Path, artifact_dir: Path, scope_paths: List
     return generated_cfg, warn_log, xml_index
 
 
-def run_structural_scan(repo_root: Path, changed_code_files: List[str]) -> List[dict]:
-    scanner = ThemisCppDoxygenPolicyRulesScan(str(repo_root))
-    findings = scanner.scan_files([Path(path) for path in changed_code_files])
-    return [finding for finding in findings if finding.get("pattern") in BLOCKING_PATTERNS]
-
-
 def parse_warning_lines(raw_lines: Iterable[str]) -> List[str]:
     warnings: List[str] = []
     for line in raw_lines:
