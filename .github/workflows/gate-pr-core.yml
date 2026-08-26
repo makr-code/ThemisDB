@@ -26,12 +26,34 @@ on:
       - hyperscaler
       - military
       - minimal
+    paths:
+      - CMakeLists.txt
+      - CMakePresets.json
+      - cmake/**/*.cmake
+      - cmake/**/*.txt
+      - cmake/**/*.in
+      - .github/workflows/**
+      - .github/no_workflows/**
+      - .github/actions/**
+      - .github/scripts/**
+      - .github/WORKFLOW_GUIDELINES.md
+      - .github/WORKFLOW_REGISTRY.md
+      - ROADMAP.md
+      - FUTURE_ENHANCEMENTS.md
+      - RELEASE_STRATEGY.md
+      - BRANCHING_STRATEGY.md
+      - VERSIONING.md
+      - CHANGELOG.md
+      - tools/ci/**
+      - tools/tests/**
   push:
     branches: [develop]
     paths:
       - CMakeLists.txt
       - CMakePresets.json
-      - cmake/**
+      - cmake/**/*.cmake
+      - cmake/**/*.txt
+      - cmake/**/*.in
       - .github/workflows/gate-pr-core.yml
       - .github/WORKFLOW_GUIDELINES.md
   workflow_dispatch:
