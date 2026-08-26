@@ -137,3 +137,40 @@ foreach(_src IN LISTS RAG_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS rag autogen
     )
 endforeach()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Wave 5 Phase 2 RAG hardening test (explicit entry — not caught by GLOB when
+# file is added after initial configure)
+# ─────────────────────────────────────────────────────────────────────────────
+set(_wave5_src "${CMAKE_CURRENT_SOURCE_DIR}/test_wave5_rag_hardening.cpp")
+if(EXISTS "${_wave5_src}" AND NOT TARGET module_rag_test_wave5_rag_hardening_focused)
+    add_executable(module_rag_test_wave5_rag_hardening_focused "${_wave5_src}")
+    target_include_directories(module_rag_test_wave5_rag_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    # wiki_index_store.cpp is in themis_core when THEMIS_ENABLE_LLM=ON.
+    # If not (community build without LLM), supply it directly.
+    if(NOT THEMIS_ENABLE_LLM)
+        target_sources(module_rag_test_wave5_rag_hardening_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/distributed_rag_evaluator.cpp
+        )
+    endif()
+    target_link_libraries(module_rag_test_wave5_rag_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_rag_test_wave5_rag_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE rag
+        NAME test_wave5_rag_hardening_RagFocusedTests
+        TARGET module_rag_test_wave5_rag_hardening_focused
+        TIER unit
+        TIMEOUT 120
+    )
+endif()

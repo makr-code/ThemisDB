@@ -154,7 +154,7 @@ std::vector<IndexResult> rrfFusion(
     std::vector<IndexResult> results;
     results.reserve(rrf_scores.size());
     for (auto& [doc_id, score] : rrf_scores) {
-        results.push_back({doc_id, score});
+        results.push_back(IndexResult{doc_id, score});
     }
 
     // Sort descending by RRF score, then ascending by doc_id for stable ties.
@@ -255,7 +255,7 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
 
     for (const auto& [doc_id, text] : impl_->docs) {
         const float score = bm25PlusScore(query_terms, text, avg_len, impl_->idf_cache);
-        results.push_back({doc_id, score});
+        results.push_back(IndexResult{doc_id, score});
     }
 
     // Partial sort: only the top_k highest scores needed.

@@ -13,6 +13,7 @@
 #pragma once
 
 #include <cstddef>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -71,6 +72,12 @@ std::vector<IndexResult> rrfFusion(
 // WikiIndexStore — composite index façade
 // ─────────────────────────────────────────────────────────────────────────────
 
+/// @brief Configuration for WikiIndexStore.
+struct WikiIndexStoreConfig {
+    float avg_doc_len{128.0f}; ///< Corpus average document length.
+    int   rrf_k{60};           ///< RRF constant.
+};
+
 /**
  * @brief Composite index store providing BM25+ lexical search and RRF fusion.
  *
@@ -80,12 +87,9 @@ std::vector<IndexResult> rrfFusion(
  */
 class WikiIndexStore {
 public:
-    struct Config {
-        float avg_doc_len{128.0f}; ///< Corpus average document length.
-        int   rrf_k{60};           ///< RRF constant.
-    };
+    using Config = WikiIndexStoreConfig;
 
-    explicit WikiIndexStore(Config cfg = {});
+    explicit WikiIndexStore(Config cfg = Config{});
     ~WikiIndexStore();
 
     // Non-copyable, movable.
