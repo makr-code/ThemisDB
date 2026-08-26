@@ -4472,6 +4472,10 @@ if(THEMIS_ENABLE_GPU)
         target_link_libraries(themis_core PUBLIC gfortran quadmath)
     endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_GPU_ENABLED)
+    # W9-14: Expose THEMIS_HAS_FAISS so advanced_vector_index.cpp enables
+    # the production FAISS code paths (IVF+PQ, HNSW, GPU cloner).
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_FAISS)
+    message(STATUS "FAISS found and enabled (THEMIS_HAS_FAISS)")
 elseif(hnswlib_FOUND)
     target_link_libraries(themis_core PUBLIC hnswlib::hnswlib)
     target_compile_definitions(themis_core PUBLIC THEMIS_HNSW_ENABLED)

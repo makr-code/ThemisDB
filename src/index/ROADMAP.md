@@ -152,6 +152,14 @@ It does not own a primary wave deliverable but must remain `release_critical`-gr
 and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
+### Wave 9 Block 4 — Index Module CRITICAL Closure + FAISS Wiring (2026-08-26)
+
+| Task | Description | Status |
+|------|-------------|--------|
+| [x] W9-13 | Audit and close all 28 CRITICAL scanner FPs; verify brace balance in 6 files | ✅ Done |
+| [x] W9-14 | FAISS optional-feature wiring: `THEMIS_HAS_FAISS` in CMake, stub block verified | ✅ Done |
+| [x] W9-15 | GPU Vulkan RAII hardening Phase B entry: `VkBufferRaii` added, stubs documented | ✅ Done |
+
 ### Wave D Contribution for `index`
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
 - [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
