@@ -18,6 +18,7 @@
 #include <condition_variable>
 #include <memory>
 #include <atomic>
+#include "auth/auth_audit_logger.h"
 
 // ---------------------------------------------------------------------------
 // Forward-declare the platform LDAP handle type without pulling in platform
@@ -153,6 +154,17 @@ public:
     /// Return the pool configuration.
     const LDAPPoolConfig& config() const noexcept { return config_; }
 
+    /**
+     * @brief Attach an audit logger for pool-level security events.
+     *
+     * [W8-17] When attached, pool exhaustion timeouts emit a structured
+     * PROVIDER_DEGRADED audit event via @p logger so operators can correlate
+     * pool saturation with downstream auth failures.
+     *
+     * @param logger Non-owning; may be nullptr (disables audit events).
+     */
+    void setAuditLogger(utils::AuditLogger* logger) noexcept { audit_logger_ = logger; }
+
     // -----------------------------------------------------------------------
     // Metrics accessors (used by auth_metrics)
     // -----------------------------------------------------------------------
@@ -199,6 +211,9 @@ private:
 
     /// Total live connections (idle + active); used to enforce max_size.
     int total_count_{0};
+
+    /// [W8-17] Non-owning optional audit logger for pool-level security events.
+    utils::AuditLogger* audit_logger_{nullptr};
 };
 
 } // namespace auth

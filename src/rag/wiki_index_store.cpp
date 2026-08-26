@@ -43,6 +43,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <list>
 #include <memory>
 #include <mutex>
 #include <sstream>
@@ -250,6 +251,80 @@ struct WikiIndexStore::Impl {
             total += static_cast<float>(tokenise(text).size());
         }
         return total / static_cast<float>(docs.size());
+    }
+
+    // ─── [W8-18] HNSW injection bridge (in-memory fallback) ──────────────
+    // STUB/SIMULATION NOTE:
+    // Purpose:    Approximate nearest-neighbour search over dense embeddings.
+    //             This in-memory cosine-similarity exhaustive scan is the
+    //             injection-bridge placeholder until hnswlib/FAISS is wired.
+    // Activation: config.enable_hnsw == true (per-instance config flag).
+    // Production Delta:
+    //   - Replace exhaustive scan with hnswlib HierarchicalNSW or FAISS HNSW.
+    //   - Add WAL-backed index snapshot for persistence across restarts.
+    //   - Support upsert and delete operations on the live index.
+    // Removal Plan: Wire real HNSW library in Q4 2026 (ROADMAP.md §Wave-B).
+
+    /// Stored embeddings: doc_id → unit-norm float vector.
+    std::unordered_map<std::string, std::vector<float>> hnsw_vectors;
+
+    /// Dimension of stored vectors; 0 = not yet set.
+    size_t hnsw_dim{0};
+
+    /// Cosine similarity: inner product of two unit-norm vectors.
+    static float cosineSim(const std::vector<float>& a,
+                            const std::vector<float>& b) {
+        float dot = 0.0f;
+        const size_t n = a.size();
+        for (size_t i = 0; i < n; ++i) dot += a[i] * b[i];
+        return dot;
+    }
+
+    /// Return a unit-norm copy of @p v (safe: returns @p v if near-zero norm).
+    static std::vector<float> unitNorm(const std::vector<float>& v) {
+        float norm = 0.0f;
+        for (float x : v) norm += x * x;
+        norm = std::sqrt(norm);
+        if (norm < 1e-9f) return v;
+        std::vector<float> out;
+        out.reserve(v.size());
+        for (float x : v) out.push_back(x / norm);
+        return out;
+    }
+
+    // ─── [W8-19] In-memory embedding cache bridge ────────────────────────
+    // STUB/SIMULATION NOTE:
+    // Purpose:    Avoid re-encoding documents on restart by caching dense
+    //             embeddings keyed by doc_id (or content hash).
+    // Activation: config.cache_dir non-empty (RocksDB persistence) OR
+    //             always active as in-memory LRU when max_cache_size > 0.
+    // Production Delta:
+    //   - Replace in-memory map with RocksDB column family writes
+    //     (key = SHA-256(doc_id + model_id), value = float32[] LE).
+    //   - Add TTL compaction filter for expired entries.
+    //   - Add prometheus counters for hit/miss rate.
+    // Removal Plan: Wire RocksDB CF in Q4 2026 alongside HNSW (ROADMAP §Wave-B).
+
+    /// LRU-ordered list of cache keys (front = most recent).
+    std::list<std::string> cache_lru;
+    /// Embedding cache: doc_id → embedding vector (unit-norm).
+    std::unordered_map<std::string, std::vector<float>> embedding_cache;
+
+    /// Insert into LRU cache with eviction if above max_cache_size.
+    void cacheInsert(const std::string& key, std::vector<float> emb) {
+        // Remove existing entry from LRU order if present.
+        auto it = embedding_cache.find(key);
+        if (it != embedding_cache.end()) {
+            cache_lru.remove(key);
+        }
+        // Evict LRU entry if at capacity.
+        if (config.max_cache_size > 0 &&
+            embedding_cache.size() >= config.max_cache_size) {
+            embedding_cache.erase(cache_lru.back());
+            cache_lru.pop_back();
+        }
+        cache_lru.push_front(key);
+        embedding_cache[key] = std::move(emb);
     }
 };
 
@@ -535,6 +610,158 @@ std::vector<IndexResult> WikiIndexStore::fuseRRF(
     const std::vector<std::vector<std::string>>& ranked_lists) const
 {
     return rrfFusion(ranked_lists, impl_->config.rrf_k);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WikiIndexStore::addVector — [W8-18] HNSW injection bridge
+// ─────────────────────────────────────────────────────────────────────────────
+
+void WikiIndexStore::addVector(const std::string& doc_id,
+                                const std::vector<float>& embedding)
+{
+    if (embedding.empty()) {
+        throw std::invalid_argument(
+            "WikiIndexStore::addVector: embedding must not be empty");
+    }
+    if (!impl_->config.enable_hnsw) {
+        THEMIS_WARN("WikiIndexStore::addVector: HNSW is disabled (enable_hnsw=false); "
+                    "ignoring vector for '{}'", doc_id);
+        return;
+    }
+
+    std::lock_guard<std::mutex> lk(impl_->idx_mutex);
+
+    // Enforce consistent dimensionality after the first insertion.
+    if (impl_->hnsw_dim == 0) {
+        impl_->hnsw_dim = embedding.size();
+    } else if (embedding.size() != impl_->hnsw_dim) {
+        throw std::invalid_argument(
+            "WikiIndexStore::addVector: dimension mismatch — expected " +
+            std::to_string(impl_->hnsw_dim) + ", got " +
+            std::to_string(embedding.size()));
+    }
+
+    impl_->hnsw_vectors[doc_id] = Impl::unitNorm(embedding);
+    THEMIS_DEBUG("WikiIndexStore::addVector: stored dim={} vector for '{}'",
+                 impl_->hnsw_dim, doc_id);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WikiIndexStore::searchHNSW — [W8-18] exhaustive cosine scan (bridge impl)
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<IndexResult> WikiIndexStore::searchHNSW(
+    const std::vector<float>& query_embedding,
+    size_t top_k) const
+{
+    if (query_embedding.empty()) {
+        THEMIS_WARN("WikiIndexStore::searchHNSW: empty query embedding");
+        return {};
+    }
+    if (!impl_->config.enable_hnsw || impl_->hnsw_vectors.empty()) {
+        THEMIS_WARN("WikiIndexStore::searchHNSW: HNSW disabled or no vectors indexed");
+        return {};
+    }
+
+    std::lock_guard<std::mutex> lk(impl_->idx_mutex);
+
+    if (query_embedding.size() != impl_->hnsw_dim) {
+        THEMIS_WARN("WikiIndexStore::searchHNSW: query dim={} != index dim={}; "
+                    "returning empty", query_embedding.size(), impl_->hnsw_dim);
+        return {};
+    }
+
+    const auto q_unit = Impl::unitNorm(query_embedding);
+
+    std::vector<IndexResult> results;
+    results.reserve(impl_->hnsw_vectors.size());
+    for (const auto& [id, vec] : impl_->hnsw_vectors) {
+        results.push_back(IndexResult{id, Impl::cosineSim(q_unit, vec)});
+    }
+
+    const size_t k = std::min(top_k, results.size());
+    std::partial_sort(results.begin(),
+                      results.begin() + static_cast<std::ptrdiff_t>(k),
+                      results.end(),
+                      [](const IndexResult& a, const IndexResult& b) {
+                          return a.score > b.score;
+                      });
+    results.resize(k);
+    THEMIS_INFO("WikiIndexStore::searchHNSW: top_k={} → {} result(s)", top_k, results.size());
+    return results;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WikiIndexStore::cacheEmbedding / retrieveEmbedding — [W8-19]
+// ─────────────────────────────────────────────────────────────────────────────
+
+void WikiIndexStore::cacheEmbedding(const std::string& key,
+                                     const std::vector<float>& embedding)
+{
+    if (key.empty() || embedding.empty()) return;
+    if (impl_->config.max_cache_size == 0) return; // cache disabled
+
+    std::lock_guard<std::mutex> lk(impl_->idx_mutex);
+    impl_->cacheInsert(key, Impl::unitNorm(embedding));
+    THEMIS_DEBUG("WikiIndexStore::cacheEmbedding: stored embedding for '{}'", key);
+}
+
+std::vector<float> WikiIndexStore::retrieveEmbedding(const std::string& key) const
+{
+    if (key.empty()) return {};
+
+    std::lock_guard<std::mutex> lk(impl_->idx_mutex);
+    auto it = impl_->embedding_cache.find(key);
+    if (it == impl_->embedding_cache.end()) {
+        THEMIS_DEBUG("WikiIndexStore::retrieveEmbedding: cache miss for '{}'", key);
+        return {};
+    }
+    // Promote to front (LRU).
+    impl_->cache_lru.remove(key);
+    impl_->cache_lru.push_front(key);
+    THEMIS_DEBUG("WikiIndexStore::retrieveEmbedding: cache hit for '{}'", key);
+    return it->second;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WikiIndexStore::searchHybrid — [W8-21] BM25+ ⊕ HNSW fused with RRF
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<IndexResult> WikiIndexStore::searchHybrid(
+    const std::vector<std::string>& query_terms,
+    const std::vector<float>&       query_embedding,
+    size_t                          top_k) const
+{
+    // BM25+ lexical list (always available).
+    const auto bm25_results = searchBM25(query_terms, top_k * 2);
+
+    std::vector<std::string> bm25_ids;
+    bm25_ids.reserve(bm25_results.size());
+    for (const auto& r : bm25_results) bm25_ids.push_back(r.doc_id);
+
+    // HNSW semantic list (only when backend is enabled and query has a vector).
+    if (!impl_->config.enable_hnsw || query_embedding.empty()) {
+        // Hybrid degrades gracefully to pure BM25+ when HNSW is unavailable.
+        THEMIS_DEBUG("WikiIndexStore::searchHybrid: HNSW disabled/no-embedding — "
+                     "falling back to BM25+");
+        auto results = bm25_results;
+        if (results.size() > top_k) results.resize(top_k);
+        return results;
+    }
+
+    const auto hnsw_results = searchHNSW(query_embedding, top_k * 2);
+
+    std::vector<std::string> hnsw_ids;
+    hnsw_ids.reserve(hnsw_results.size());
+    for (const auto& r : hnsw_results) hnsw_ids.push_back(r.doc_id);
+
+    // Fuse both ranked lists with RRF.
+    auto fused = fuseRRF({bm25_ids, hnsw_ids});
+
+    if (fused.size() > top_k) fused.resize(top_k);
+    THEMIS_INFO("WikiIndexStore::searchHybrid: bm25={} hnsw={} fused={}",
+                bm25_ids.size(), hnsw_ids.size(), fused.size());
+    return fused;
 }
 
 void WikiIndexStore::clear() {

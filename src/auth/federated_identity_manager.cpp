@@ -14,7 +14,10 @@
 
 #include <chrono>
 #include <curl/curl.h>
+#include <iomanip>
+#include <list>
 #include <nlohmann/json.hpp>
+#include <openssl/sha.h>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
@@ -25,7 +28,36 @@ namespace themis {
 namespace auth {
 
 // ---------------------------------------------------------------------------
-// Private static helpers
+// [W8-16] Token cache size cap + SHA-256 key helpers
+// ---------------------------------------------------------------------------
+
+/// Maximum number of validated tokens held in the in-memory cache.
+/// Entries exceeding this limit are evicted LRU-first.
+static constexpr std::size_t kTokenCacheMaxSize = 4096;
+
+/**
+ * @brief Compute SHA-256 of @p input and return a 64-char lowercase hex string.
+ *
+ * Using SHA-256 as the cache key prevents the unbounded growth caused by
+ * large JWT strings acting as map keys (W8-16 DoS hardening).
+ *
+ * @param input  Raw token string (JWT).
+ * @return       64-character lowercase hex digest.
+ */
+static std::string sha256Hex(const std::string& input) {
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(input.data()),
+           input.size(), digest);
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (unsigned char byte : digest) {
+        oss << std::setw(2) << static_cast<int>(byte);
+    }
+    return oss.str();
+}
+
+// ---------------------------------------------------------------------------
+// [W8-16] Private static helpers
 // ---------------------------------------------------------------------------
 
 namespace {
@@ -204,13 +236,18 @@ size_t FederatedIdentityManager::realmCount() const {
 FederatedValidationResult FederatedIdentityManager::validateToken(const std::string &token) {
     // -----------------------------------------------------------------------
     // Fast path: check the in-memory token cache before doing any network I/O.
-    // Cache is keyed by raw token string and entries are invalidated by JWT exp.
+    // [W8-16] Cache key is SHA-256(token) hex to prevent unbounded key growth
+    // from large JWT strings. LRU list tracks recency for eviction.
     // -----------------------------------------------------------------------
     {
         const auto now = std::chrono::system_clock::now();
+        const std::string cache_key = sha256Hex(token);
         std::lock_guard<std::mutex> c_lock(cache_mutex_);
-        const auto cache_it = token_cache_.find(token);
+        const auto cache_it = token_cache_.find(cache_key);
         if (cache_it != token_cache_.end() && now < cache_it->second.expires_at) {
+            // Promote to front of LRU list.
+            cache_lru_order_.remove(cache_key);
+            cache_lru_order_.push_front(cache_key);
             spdlog::debug("FederatedIdentityManager: cache hit for token sub='{}'",
                           cache_it->second.result.claims.sub);
             return cache_it->second.result;
@@ -264,12 +301,24 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
     FederatedValidationResult validated{std::move(claims), iss};
 
     // Populate the token cache so subsequent calls for the same token are fast.
+    // [W8-16] Use SHA-256(token) as key; enforce kTokenCacheMaxSize with LRU.
     {
         CachedValidation entry;
         entry.result     = validated;
         entry.expires_at = validated.claims.expiration;
+        const std::string cache_key = sha256Hex(token);
         std::lock_guard<std::mutex> c_lock(cache_mutex_);
-        token_cache_[token] = std::move(entry);
+        // Evict LRU entry if at capacity.
+        if (token_cache_.size() >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+            if (!cache_lru_order_.empty()) {
+                token_cache_.erase(cache_lru_order_.back());
+                cache_lru_order_.pop_back();
+            }
+        }
+        // Insert or replace entry; move to front of LRU list.
+        token_cache_[cache_key] = std::move(entry);
+        cache_lru_order_.remove(cache_key);
+        cache_lru_order_.push_front(cache_key);
     }
 
     return validated;
@@ -370,15 +419,26 @@ void FederatedIdentityManager::cacheValidationResult(const std::string &token,
     CachedValidation entry;
     entry.result     = result;
     entry.expires_at = result.claims.expiration;
+    const std::string cache_key = sha256Hex(token);
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    token_cache_[token] = std::move(entry);
+    // [W8-16] Enforce LRU cap before inserting new entry.
+    if (token_cache_.size() >= kTokenCacheMaxSize && token_cache_.count(cache_key) == 0) {
+        if (!cache_lru_order_.empty()) {
+            token_cache_.erase(cache_lru_order_.back());
+            cache_lru_order_.pop_back();
+        }
+    }
+    token_cache_[cache_key] = std::move(entry);
+    cache_lru_order_.remove(cache_key);
+    cache_lru_order_.push_front(cache_key);
 }
 
 std::optional<FederatedValidationResult> FederatedIdentityManager::getCachedResult(
     const std::string &token) const {
     const auto now = std::chrono::system_clock::now();
+    const std::string cache_key = sha256Hex(token);
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    const auto it = token_cache_.find(token);
+    const auto it = token_cache_.find(cache_key);
     if (it == token_cache_.end()) {
         return std::nullopt;
     }
@@ -394,6 +454,8 @@ size_t FederatedIdentityManager::evictExpiredCacheEntries() {
     size_t count = 0;
     for (auto it = token_cache_.begin(); it != token_cache_.end(); ) {
         if (now >= it->second.expires_at) {
+            // [W8-16] Also remove from LRU order list.
+            cache_lru_order_.remove(it->first);
             it = token_cache_.erase(it);
             ++count;
         } else {
@@ -410,6 +472,7 @@ size_t FederatedIdentityManager::evictExpiredCacheEntries() {
 void FederatedIdentityManager::clearTokenCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     token_cache_.clear();
+    cache_lru_order_.clear(); // [W8-16] Keep LRU list in sync.
 }
 
 size_t FederatedIdentityManager::tokenCacheSize() const {

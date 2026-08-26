@@ -19,6 +19,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
@@ -424,9 +425,16 @@ private:
     // In-memory token validation cache (cross-provider state sync)
     // Protected by cache_mutex_ (separate from mutex_ to avoid lock inversion
     // when validateToken() holds mutex_ and stores to cache).
+    //
+    // [W8-16] Cache keys are SHA-256(token) hex strings (64 chars) rather than
+    // raw JWT strings, preventing unbounded key growth from large bearer tokens.
+    // The LRU order list (cache_lru_order_) enforces kTokenCacheMaxSize cap.
     // -----------------------------------------------------------------------
     mutable std::mutex cache_mutex_;
+    /// @brief Cache map: SHA-256(token) hex → CachedValidation entry.
     std::unordered_map<std::string, CachedValidation> token_cache_;
+    /// @brief LRU order list: front = most recently used key, back = LRU key.
+    std::list<std::string> cache_lru_order_;
 
     // -----------------------------------------------------------------------
     // Cross-provider trust registry: trusting_issuer -> {trusted subject issuers}
