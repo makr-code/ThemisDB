@@ -96,13 +96,18 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 
 > **Source:** Semantic analysis 2026-08-25 — `ldap_authenticator.cpp` has ~12 stubbed functions
 
-- [ ] LDAP Connection Pool: real pool management (bind context, bounded size, timeout) in `ldap_authenticator.cpp` (Target: Q4 2026)
+- [x] 2026-08-26 LDAP Connection Pool: real pool management (bind context, bounded size, timeout) in `ldap_authenticator.cpp` (Target: Q4 2026)
   - Inputs: LDAP server config (host, port, bind-DN, timeout)
   - Outputs: pooled LDAP connection with automatic rebind on staleness
   - Errors: `LDAP_CONNECT_TIMEOUT` on pool exhaustion; retry with backoff
-  - Tests: `tests/auth/test_ldap_pool_wave2b.cpp`
-- [ ] LDAP Search Pagination: controlled, bounded result pagination in `ldap_authenticator.cpp` (Target: Q4 2026)
-- [ ] `federated_identity_manager.cpp`: Cross-provider state sync — replace ~9 stubbed functions with real implementation (Target: Q4 2026)
+  - `checkout()` timeout now throws `AuthException(PROVIDER_DEGRADED)` instead of returning `nullptr`
+  - Tests: `tests/auth/test_wave7_auth_ldap_federated.cpp` (WP-01..WP-06, WA-01..WA-04)
+- [x] 2026-08-26 LDAP Search Pagination: controlled, bounded result pagination in `ldap_authenticator.cpp` (Target: Q4 2026)
+  - Unix/OpenLDAP path: paginated `ldap_search_ext_s` loop with `ldap_create_page_control` / `ldap_parse_page_control`; page_size=500, max_results=5000; partial results returned on pagination error with `THEMIS_WARN`
+- [x] 2026-08-26 `federated_identity_manager.cpp`: Cross-provider state sync — 9 new methods implemented (Target: Q4 2026)
+  - `addCrossProviderTrust` / `removeCrossProviderTrust` / `isTrustedBy` / `getCrossProviderTrusts`: in-memory trust registry protected by `trust_mutex_`
+  - `cacheValidationResult` / `getCachedResult` / `evictExpiredCacheEntries` / `clearTokenCache` / `tokenCacheSize`: `std::unordered_map`-backed token validation cache with `std::chrono::system_clock` expiry; auto-populated by `validateToken()`
+  - Tests: `tests/auth/test_wave7_auth_ldap_federated.cpp` (FR-01..FR-03, FT-01..FT-05, FC-01..FC-07)
 
 ### Short-term (3-6 months)
 - [ ] tighten fail-closed behavior for optional provider-degraded scenarios (Target: Q4 2026)

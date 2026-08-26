@@ -20,11 +20,13 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <memory>
 #include <mutex>
 #include <functional>
 #include <optional>
 #include <utility>
+#include <chrono>
 
 namespace themis {
 namespace auth {
@@ -38,10 +40,22 @@ namespace auth {
 struct FederatedValidationResult {
     JWTClaims    claims;      ///< Validated JWT claims
     std::string  realm;       ///< Issuer URL of the realm that validated the token
-};
+};/**
 
 /**
- * @brief Result of an RFC 8693 OAuth 2.0 Token Exchange
+ * @brief In-memory entry in the cross-provider token validation cache.
+ *
+ * Caches the result of a successful validateToken() call keyed by the raw
+ * bearer token string.  Entries are considered valid until
+ * @c expires_at passes (derived from JWTClaims::expiration).
+ *
+ * Thread safety: all access is serialised through cache_mutex_ in
+ * FederatedIdentityManager.
+ */
+struct CachedValidation {
+    FederatedValidationResult result;                   ///< The cached validation result
+    std::chrono::system_clock::time_point expires_at;  ///< Wall-clock expiry from JWT exp
+};/** * @brief Result of an RFC 8693 OAuth 2.0 Token Exchange
  *
  * Contains the raw exchanged access token, the token type declared by the IdP,
  * the optional lifetime, and the validated claims extracted by the
@@ -284,6 +298,94 @@ public:
         std::function<std::string(const std::string& url,
                                   const std::string& body)> fn);
 
+    // -----------------------------------------------------------------------
+    // Cross-provider trust registry
+    //
+    // Records which issuers are trusted by which realms.  Used internally by
+    // exchangeToken() to guard cross-realm token exchange.  All methods are
+    // thread-safe.
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Register a cross-provider trust relationship.
+     *
+     * After this call, @p trusting_issuer is marked as accepting tokens
+     * originally issued by @p subject_issuer.
+     *
+     * @param subject_issuer   Normalized issuer URL of the token source.
+     * @param trusting_issuer  Normalized issuer URL of the realm that trusts it.
+     * @throws AuthException(AUTH_CONFIG_INVALID) if either issuer URL is empty.
+     */
+    void addCrossProviderTrust(const std::string& subject_issuer,
+                                const std::string& trusting_issuer);
+
+    /**
+     * @brief Remove a previously registered cross-provider trust relationship.
+     *
+     * @return true if the trust was found and removed, false otherwise.
+     */
+    bool removeCrossProviderTrust(const std::string& subject_issuer,
+                                  const std::string& trusting_issuer);
+
+    /**
+     * @brief Check whether @p trusting_issuer accepts tokens from @p subject_issuer.
+     *
+     * A realm always implicitly trusts itself (same-issuer tokens).
+     *
+     * @return true if the trust relationship is registered or the issuers match.
+     */
+    bool isTrustedBy(const std::string& subject_issuer,
+                     const std::string& trusting_issuer) const;
+
+    /**
+     * @brief Return all subject-issuers trusted by @p trusting_issuer.
+     */
+    std::vector<std::string> getCrossProviderTrusts(
+        const std::string& trusting_issuer) const;
+
+    // -----------------------------------------------------------------------
+    // In-memory token validation cache
+    //
+    // validateToken() populates the cache automatically after each successful
+    // validation.  Callers may also query and manage the cache directly.
+    // All entries are keyed by the raw bearer token string.
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Explicitly insert or replace a cached validation entry.
+     *
+     * Typically used from tests; production code relies on the implicit
+     * cache-fill inside validateToken().
+     */
+    void cacheValidationResult(const std::string& token,
+                               const FederatedValidationResult& result);
+
+    /**
+     * @brief Look up @p token in the validation cache.
+     *
+     * @return The cached result if present and not expired, or std::nullopt.
+     */
+    std::optional<FederatedValidationResult> getCachedResult(
+        const std::string& token) const;
+
+    /**
+     * @brief Evict all entries whose JWT expiration has passed.
+     *
+     * @return Number of entries removed.
+     */
+    size_t evictExpiredCacheEntries();
+
+    /**
+     * @brief Remove all entries from the token validation cache.
+     */
+    void clearTokenCache();
+
+    /**
+     * @brief Return the number of entries currently in the token cache
+     *        (including possibly-expired ones not yet evicted).
+     */
+    size_t tokenCacheSize() const;
+
 private:
     /// Normalize an issuer URL by stripping trailing slashes.
     static std::string normalize(const std::string& url);
@@ -314,6 +416,21 @@ private:
                                const std::string& body)> http_post_fn_;
 
     AuthAuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
+
+    // -----------------------------------------------------------------------
+    // In-memory token validation cache (cross-provider state sync)
+    // Protected by cache_mutex_ (separate from mutex_ to avoid lock inversion
+    // when validateToken() holds mutex_ and stores to cache).
+    // -----------------------------------------------------------------------
+    mutable std::mutex cache_mutex_;
+    std::unordered_map<std::string, CachedValidation> token_cache_;
+
+    // -----------------------------------------------------------------------
+    // Cross-provider trust registry: trusting_issuer -> {trusted subject issuers}
+    // Protected by trust_mutex_.
+    // -----------------------------------------------------------------------
+    mutable std::mutex trust_mutex_;
+    std::unordered_map<std::string, std::unordered_set<std::string>> trust_map_;
 };
 
 } // namespace auth

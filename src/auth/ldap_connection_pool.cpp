@@ -11,6 +11,7 @@
 
 
 #include "auth/ldap_connection_pool.h"
+#include "auth/auth_error.h"
 
 #include <algorithm>
 #include <cassert>
@@ -206,9 +207,14 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
         // --- 3. Pool at capacity — wait for a connection to be returned -----
         if (cv_.wait_until(lock, deadline) == std::cv_status::timeout) {
             spdlog::warn("LDAPConnectionPool::checkout: timeout waiting for "
-                         "connection (active={}, idle={})",
+                         "connection (active={}, idle={}) — throwing PROVIDER_DEGRADED",
                          active_count_.load(), static_cast<int>(idle_.size()));
-            return nullptr;
+            throw AuthException(AuthError(
+                AuthErrorCode::PROVIDER_DEGRADED,
+                "LDAP connection pool exhausted",
+                "All " + std::to_string(config_.max_size) +
+                " pool connections are busy; checkout timeout of " +
+                std::to_string(config_.checkout_timeout_ms) + " ms expired"));
         }
         // Woken — retry from the top.
     }

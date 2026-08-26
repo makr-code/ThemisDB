@@ -66,3 +66,35 @@ if(NOT TARGET module_auth_test_wave4b_auth_hardening2_focused)
         LABELS auth wave_b release_critical
     )
 endif()
+
+# ---------------------------------------------------------------------------
+# Wave 7 — LDAP Connection Pool + Federated Cross-Provider State Sync
+# (explicit registration for wave_b / release_critical)
+# ---------------------------------------------------------------------------
+
+if(NOT TARGET module_auth_test_wave7_auth_ldap_federated_focused)
+    add_executable(module_auth_test_wave7_auth_ldap_federated_focused
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_wave7_auth_ldap_federated.cpp"
+    )
+    target_include_directories(module_auth_test_wave7_auth_ldap_federated_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_auth_test_wave7_auth_ldap_federated_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_auth_test_wave7_auth_ldap_federated_focused
+        PRIVATE THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE auth
+        NAME test_wave7_auth_ldap_federated_auth_FocusedTests
+        TARGET module_auth_test_wave7_auth_ldap_federated_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS auth wave_b release_critical
+    )
+endif()

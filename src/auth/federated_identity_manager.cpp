@@ -202,6 +202,21 @@ size_t FederatedIdentityManager::realmCount() const {
 // ---------------------------------------------------------------------------
 
 FederatedValidationResult FederatedIdentityManager::validateToken(const std::string &token) {
+    // -----------------------------------------------------------------------
+    // Fast path: check the in-memory token cache before doing any network I/O.
+    // Cache is keyed by raw token string and entries are invalidated by JWT exp.
+    // -----------------------------------------------------------------------
+    {
+        const auto now = std::chrono::system_clock::now();
+        std::lock_guard<std::mutex> c_lock(cache_mutex_);
+        const auto cache_it = token_cache_.find(token);
+        if (cache_it != token_cache_.end() && now < cache_it->second.expires_at) {
+            spdlog::debug("FederatedIdentityManager: cache hit for token sub='{}'",
+                          cache_it->second.result.claims.sub);
+            return cache_it->second.result;
+        }
+    }
+
     // Step 1: peek at the issuer without full validation
     const std::string raw_iss = extractIssuer(token);
     const std::string iss     = normalize(raw_iss);
@@ -246,7 +261,18 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
     if (audit_logger_) {
         audit_logger_->logJWTSuccess(claims.sub, claims.jti, iss, "");
     }
-    return FederatedValidationResult{std::move(claims), iss};
+    FederatedValidationResult validated{std::move(claims), iss};
+
+    // Populate the token cache so subsequent calls for the same token are fast.
+    {
+        CachedValidation entry;
+        entry.result     = validated;
+        entry.expires_at = validated.claims.expiration;
+        std::lock_guard<std::mutex> c_lock(cache_mutex_);
+        token_cache_[token] = std::move(entry);
+    }
+
+    return validated;
 }
 
 OIDCProvider &FederatedIdentityManager::realmProvider(const std::string &issuer_url) {
@@ -272,6 +298,123 @@ void FederatedIdentityManager::setHttpGetForTesting(std::function<std::string(co
 void FederatedIdentityManager::setHttpPostForTesting(
     std::function<std::string(const std::string &url, const std::string &body)> fn) {
     http_post_fn_ = std::move(fn);
+}
+
+// ---------------------------------------------------------------------------
+// Cross-provider trust registry
+// ---------------------------------------------------------------------------
+
+void FederatedIdentityManager::addCrossProviderTrust(const std::string &subject_issuer,
+                                                     const std::string &trusting_issuer) {
+    const std::string subj = normalize(subject_issuer);
+    const std::string trus = normalize(trusting_issuer);
+    if (subj.empty() || trus.empty()) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Cross-provider trust registration failed",
+                                      "subject_issuer and trusting_issuer must not be empty"));
+    }
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    trust_map_[trus].insert(subj);
+    spdlog::info("FederatedIdentityManager: trust registered: '{}' trusted by '{}'", subj, trus);
+}
+
+bool FederatedIdentityManager::removeCrossProviderTrust(const std::string &subject_issuer,
+                                                        const std::string &trusting_issuer) {
+    const std::string subj = normalize(subject_issuer);
+    const std::string trus = normalize(trusting_issuer);
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    auto it = trust_map_.find(trus);
+    if (it == trust_map_.end()) {
+        return false;
+    }
+    const bool removed = it->second.erase(subj) > 0;
+    if (it->second.empty()) {
+        trust_map_.erase(it);
+    }
+    return removed;
+}
+
+bool FederatedIdentityManager::isTrustedBy(const std::string &subject_issuer,
+                                           const std::string &trusting_issuer) const {
+    const std::string subj = normalize(subject_issuer);
+    const std::string trus = normalize(trusting_issuer);
+    // A realm always implicitly trusts itself.
+    if (subj == trus) {
+        return true;
+    }
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    const auto it = trust_map_.find(trus);
+    if (it == trust_map_.end()) {
+        return false;
+    }
+    return it->second.count(subj) > 0;
+}
+
+std::vector<std::string> FederatedIdentityManager::getCrossProviderTrusts(
+    const std::string &trusting_issuer) const {
+    const std::string trus = normalize(trusting_issuer);
+    std::lock_guard<std::mutex> lock(trust_mutex_);
+    const auto it = trust_map_.find(trus);
+    if (it == trust_map_.end()) {
+        return {};
+    }
+    return std::vector<std::string>(it->second.begin(), it->second.end());
+}
+
+// ---------------------------------------------------------------------------
+// In-memory token validation cache
+// ---------------------------------------------------------------------------
+
+void FederatedIdentityManager::cacheValidationResult(const std::string &token,
+                                                     const FederatedValidationResult &result) {
+    CachedValidation entry;
+    entry.result     = result;
+    entry.expires_at = result.claims.expiration;
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    token_cache_[token] = std::move(entry);
+}
+
+std::optional<FederatedValidationResult> FederatedIdentityManager::getCachedResult(
+    const std::string &token) const {
+    const auto now = std::chrono::system_clock::now();
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    const auto it = token_cache_.find(token);
+    if (it == token_cache_.end()) {
+        return std::nullopt;
+    }
+    if (now >= it->second.expires_at) {
+        return std::nullopt;  // expired — evict on next evictExpiredCacheEntries()
+    }
+    return it->second.result;
+}
+
+size_t FederatedIdentityManager::evictExpiredCacheEntries() {
+    const auto now = std::chrono::system_clock::now();
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    size_t count = 0;
+    for (auto it = token_cache_.begin(); it != token_cache_.end(); ) {
+        if (now >= it->second.expires_at) {
+            it = token_cache_.erase(it);
+            ++count;
+        } else {
+            ++it;
+        }
+    }
+    if (count > 0) {
+        spdlog::debug("FederatedIdentityManager: evicted {} expired cache entr{}", count,
+                      count == 1 ? "y" : "ies");
+    }
+    return count;
+}
+
+void FederatedIdentityManager::clearTokenCache() {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    token_cache_.clear();
+}
+
+size_t FederatedIdentityManager::tokenCacheSize() const {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    return token_cache_.size();
 }
 
 // ---------------------------------------------------------------------------
