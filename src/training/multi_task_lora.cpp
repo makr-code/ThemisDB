@@ -79,8 +79,14 @@ public:
         const size_t shared_rank = cfg_.shared_rank;
         const size_t n_tasks     = tasks_.size();
 
+        // STUB/SIMULATION NOTE (MTL-S02 — SGD training loop, no BLAS):
+        // Purpose: CPU-only, element-wise SGD with cosine-similarity gating proxy.
+        //          Enables functional multi-task LoRA training without BLAS/LAPACK dependency.
+        // Activation: Always active when MultiTaskLoRATrainer::train() is called in current build.
+        // Production Delta: BLAS dgemm-backed implementation would offer 10-50× throughput on
+        //                   large ranks; task gating should use learned attention, not cosine sim.
+        // Removal Plan: Replace with BLAS-backed SGD + Adam + learned task gating — Target Q1 2027.
         // Initialise shared LoRA base B (in_dim × shared_rank) and A (shared_rank × in_dim).
-        // Stub MTL-S02: simple SGD, no BLAS.
         std::mt19937 rng(42);
         std::normal_distribution<float> init(0.0f, 0.01f);
 
@@ -117,7 +123,15 @@ public:
             task_sample_map[s.task_id].push_back(i);
         }
 
-        // Compute per-task prototype vectors (for gating heuristic Stub MTL-S01).
+        // STUB/SIMULATION NOTE (MTL-S01 — cosine-similarity gating heuristic):
+        // Purpose: Per-task prototype vectors enable a lightweight gating heuristic for
+        //          task routing. Avoids a learned attention module in the current build.
+        // Activation: Active in all builds; no compile flag guards this path.
+        // Production Delta: Production gating should use a learned cross-attention or
+        //                   mixture-of-experts router, not centroid cosine similarity.
+        // Removal Plan: Replace with MoE router when training module reaches Phase 4 BLAS
+        //               upgrade — Target Q1 2027.
+        // Compute per-task prototype vectors (for gating heuristic MTL-S01).
         for (const auto& [tid, idxs] : task_sample_map) {
             size_t ti = task_index_.at(tid);
             auto& proto = task_prototypes_[ti];
@@ -134,7 +148,7 @@ public:
             }
         }
 
-        // Training loop (Stub MTL-S02).
+        // Training loop (MTL-S02 — see STUB/SIMULATION NOTE above).
         const size_t total_steps = cfg_.epochs * (samples.size() / std::max(cfg_.batch_size, size_t{1}) + 1);
         const size_t warmup_steps = static_cast<size_t>(total_steps * cfg_.warmup_frac);
         size_t step = 0;
@@ -265,7 +279,7 @@ public:
         if (!trained_)
             throw std::runtime_error("MultiTaskLoRATrainer: model not trained yet");
 
-        // Stub MTL-S01: cosine similarity to prototype vectors.
+        // MTL-S01 gating heuristic (cosine similarity to prototype vectors — see STUB/SIMULATION NOTE above).
         DomainGatingResult result;
         result.scores.reserve(tasks_.size());
 
