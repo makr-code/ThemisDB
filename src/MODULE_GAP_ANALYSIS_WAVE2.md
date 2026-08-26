@@ -720,3 +720,34 @@ All 4 items complete:
 **Total new tests this wave**: 31  
 **Critical bugs fixed**: 1 deadlock in `LlmModelManager::healthMonitorLoop()` (models_mutex_ re-acquisition)  
 **Open `[ ]` checkboxes**: 0 — all items either `[x]` complete or `[?]` hardware-gated (Q4 2026/Q1 2027)
+
+---
+
+## 8. Wave 6 — Auth Wave 4-B + Server Wave 4-A + Transaction T1-T4 (2026-08-26)
+
+Targets real code security/audit/safety gaps — no hardware-gated items.
+
+| ID | Module | Item | Wave | Status |
+|---|---|---|---|---|
+| W1 | auth | A1 passkey audit (7 calls), A2-A7 confirmed present; B1-B4 retry confirmed; C1-C3 crypto hardening confirmed; all 14 Wave 4-B items verified/closed | Wave 4-B | `[x]` complete 2026-08-26 (20 tests) |
+| W2 | server | S1 integrity-gate bypass (confirmed), S2 path-traversal validation (confirmed), S3-S7 audit logs (3 new: bpmn/cache-admin/entity), S8 MCP STUB NOTE updated 4-field | Wave 4-A | `[x]` complete 2026-08-26 (14 tests) |
+| W3 | transaction | T1 STUB #279 governance doc, T2 lock-upgrade deadlock detection, T3 GTM Phase-2 snapshot-then-release, T4 predicate-lock drop THEMIS_WARN + counter | Wave 4-C | `[x]` complete 2026-08-26 (13 tests) |
+
+### Acceptance Criteria
+- W1: 12+ tests covering all audit/retry/crypto paths
+- W2: 10+ tests covering path-traversal, integrity-gate, audit logs
+- W3: 8+ tests covering T1-T4 behaviors
+
+### Wave 6 Closure Summary (2026-08-26)
+
+All 3 items complete — 47 new tests, real code fixes across auth/server/transaction:
+
+| ID | Module | Delivered | Tests |
+|---|---|---|---|
+| W1 | auth | A1: 7 passkey audit call sites injected in `verifyAuthentication()`; A2–A7 + B1–B4 + C1–C3 confirmed present; all 14 Wave 4-B items closed | `test_wave4b_auth_hardening2.cpp` (20) |
+| W2 | server | S1/S2 security fixes confirmed; 3 new audit log injections (bpmn/cache-admin/entity); S8 MCP STUB NOTE upgraded to 4-field format | `test_wave4a_server_hardening2.cpp` (14) |
+| W3 | transaction | T1 canonical STUB NOTE on Phase-1/Phase-2 RPC bridges + PRODUCTION_REQUIREMENTS.md; T2 `[TXLOCK]` deadlock warn; T4 `predicate_lock_drops_` atomic + accessor; `stats_deadlocks_` ODR gap closed | `test_wave4c_t1t4_hardening.cpp` (13) |
+
+**Total new tests this wave**: 47  
+**Security fixes confirmed/added**: S1 integrity-gate bypass, S2 path-traversal guard, C1-C3 crypto hardening, T2 deadlock detection  
+**Critical bug closed**: latent `stats_deadlocks_` ODR gap in lock_manager.h  
