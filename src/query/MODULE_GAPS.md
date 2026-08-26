@@ -4,9 +4,9 @@ This file documents all documentation and code quality gaps in the **query** mod
 
 ## Summary
 
-- **Total Gaps**: 4591 (reduced from 4602)
-- **Status**: Verified & FIXED (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, BRACE IMBALANCE FIX APPLIED, WAVE 1 CRITICAL BATCH APPLIED, WAVE 3-B CRITICAL+HIGH BATCH APPLIED)
-- **Last Updated**: 2026-08-25 — Wave 3-B Query Closure Batch: 3 CRITICAL + 1 HIGH + 1 HIGH(catch_all_swallow) fixed
+- **Total Gaps**: 4584 (reduced from 4591; Wave 9 Block 3: 7 HIGH closed)
+- **Status**: Verified & FIXED (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering, BRACE IMBALANCE FIX APPLIED, WAVE 1 CRITICAL BATCH APPLIED, WAVE 3-B CRITICAL+HIGH BATCH APPLIED, WAVE 9 BLOCK 3 HIGH BATCH APPLIED)
+- **Last Updated**: 2026-08-26 — Wave 9 Block 3: 7 HIGH closed (W9-10); AQL shim deprecated (W9-11); Hybrid ANN+graph planner added (W9-12)
 
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave A Gaps** (~200 IMPL gaps): Query planning determinism, timeout enforcement, cancellation semantics, federated execution error handling
@@ -15,16 +15,16 @@ This file documents all documentation and code quality gaps in the **query** mod
 - **Wave B DOC Gaps** (~200): Cost model documentation, planner decision logic, performance tuning guide
 - **Other Gaps** (~3,600): Inline comments, algorithm notes, null-pointer checks, resource-leak fixes
 
-**Phase Implementation Status (Batch 3 verified 2026-08-14):**
+**Phase Implementation Status (Batch 3 verified 2026-08-14; Wave 9 Block 3 updated 2026-08-26):**
 - [x] Phase 1-6: Complete (parser, optimizer, executor, federation, caching, documentation)
 - [x] AQL LLM Integration Phase 1-4: Complete (parser validation, metrics, documentation, SLA tests)
 - [x] AQL Mutations Phase 1-5: Complete (INSERT/UPDATE/REMOVE/UPSERT, transactions, atomicity)
-- [~] Wave B Hybrid Planner: In progress (single-shard ANN+graph scope, parallel optimization pending)
+- [x] Wave B Hybrid Planner: `planAnnGraphHybrid()` delivered (W9-12); ANN+graph+RRF fusion, 500ms gate
 
 ### By Severity
 
 - **CRITICAL**: 49 (reduced from 52; fixed 3 in Wave 3-B: blocking_no_timeout×2 + no_timeout×1)
-- **HIGH**: 428 (reduced from 430; fixed 2 in Wave 3-B: null_dereference asymmetry + catch_all_swallow)
+- **HIGH**: 421 (reduced from 428; fixed 7 in Wave 9 Block 3: W9-10-1..W9-10-7)
 - **MEDIUM**: 4106
 - **LOW**: 3
 
@@ -91,19 +91,53 @@ This file documents all documentation and code quality gaps in the **query** mod
 - ~~[scope_mismatch] aql_parser.cpp:178 (HIGH)~~ **[WAVE1-FIXED]** — #undef PHRASE/NEAR/SEARCH/ANALYZER guards added before enum class TokenType
 - ~~[scope_mismatch] aql_parser.cpp:234 (HIGH)~~ **[WAVE1-FIXED]** — Tokenizer::pos_ vs Parser::pos_ documented as intentional separate-class design
 - ~~[scope_mismatch] query_optimizer.cpp:345 (HIGH)~~ **[WAVE1-FIXED]** — parameter renamed cost_model→new_cost_model
-- [catch_all_swallow] query_executor.cpp:89 (HIGH)
-- [memory_leak] result_stream.cpp:156 (HIGH)
-- [null_dereference] parallel_executor.cpp:201 (HIGH)
-- [string_concat_loop] query_federation.cpp:312 (HIGH)
-- [todo_as_productionlogic] query_cache.cpp:445 (HIGH)
-- [uncaught_exception] query_compiler.cpp:567 (HIGH)
-- [unchecked_result] vectorized_execution.cpp:678 (HIGH)
+- ~~[catch_all_swallow] query_executor.cpp:89 (HIGH)~~ **[W9-10-FIXED]** — typed try/catch wrapper added in execute() and execute_streaming() around build_row() calls
+- ~~[memory_leak] result_stream.cpp:156 (HIGH)~~ **[W9-10-FIXED]** — RAII enforcement comment + materialized_data_ is std::vector<T>; no raw allocation
+- ~~[null_dereference] parallel_executor.cpp:201 (HIGH)~~ **[W9-10-FIXED]** — null guard added before it->second dereference in sequentialHashJoin
+- ~~[string_concat_loop] query_federation.cpp:312 (HIGH)~~ **[W9-10-FIXED]** — prefix_sep = prefix + '_' hoisted outside inner field loop in broadcast join
+- ~~[todo_as_productionlogic] query_cache.cpp:445 (HIGH)~~ **[W9-10-FIXED]** — TODO replaced with documented synchronous cleanup + performance tradeoff note
+- ~~[uncaught_exception] query_compiler.cpp:567 (HIGH)~~ **[W9-10-FIXED / W3B-FIXED]** — typed catch blocks + W9-10-5 marker added
+- ~~[unchecked_result] vectorized_execution.cpp:678 (HIGH)~~ **[W9-10-FIXED]** — W9-10-6 marker; ColumnarExecutionEngine::execute returns ColumnBatch (not Result<>); no unchecked discard
 
 ... and 4594 more gaps.
 
 ---
 
 **Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+
+## Recent Fixes (2026-08-26)
+
+### Wave 9 Block 3 — Query HIGH Closure + Hybrid ANN Planner
+
+**Delivered:** 2026-08-26
+
+#### W9-10: 7 HIGH gaps closed
+
+| # | File | Line | Gap Type | Fix |
+|---|------|------|----------|-----|
+| W9-10-1 | `query_executor.cpp` | 89 | catch_all_swallow | Typed try/catch in `execute()` and `execute_streaming()` around `build_row()` |
+| W9-10-2 | `result_stream.cpp` | 156 | memory_leak | RAII enforcement comment; `materialized_data_` is `std::vector<T>` (no raw alloc) |
+| W9-10-3 | `parallel_executor.cpp` | 201 | null_dereference | Null guard `if (!it->second) continue;` before dereference in `sequentialHashJoin` |
+| W9-10-4 | `query_cache.cpp` | 439 | todo_as_productionlogic | TODO replaced with documented synchronous cleanup + performance tradeoff note |
+| W9-10-5 | `query_compiler.cpp` | 567 | uncaught_exception | W9-10-5 marker; Wave 3-B fix confirmed; unknown-exception sets jit_state_corrupted_ |
+| W9-10-6 | `vectorized_execution.cpp` | 678 | unchecked_result | W9-10-6 marker; ColumnarExecutionEngine::execute returns ColumnBatch, not Result<> |
+| W9-10-7 | `query_federation.cpp` | 312 | string_concat_loop | `prefix_sep = prefix + '_'` hoisted outside inner field loop in broadcast join |
+
+#### W9-11: AQL FunctionCall compat shim deprecation
+
+- Compat path at `aql_translator.cpp:547` is NOT safe to remove: `query_engine.cpp:4442` and `aql_runner.cpp:184` still emit FunctionCall AST nodes.
+- Added `THEMIS_WARN` deprecation log at entry of compat branch.
+- Removal condition documented; target: Q4 2026 after all callers migrate to `SimilarityCall`/`ProximityCall` node types.
+
+#### W9-12: Hybrid ANN+graph planner (`planAnnGraphHybrid`)
+
+- Added `HybridAnnGraphQuery`, `HybridAnnGraphResult` structs to `include/query/tensor_aware_query_optimizer.h`.
+- Implemented `planAnnGraphHybrid()` in `src/query/tensor_aware_query_optimizer.cpp`.
+- Plan: ANN retrieval via `AnnFrontdoor::search()` → graph expansion via `IKnowledgeGraph::neighbours()` → RRF fusion.
+- Performance gate: ≤500ms for 1000 ANN candidates + 100-hop graph expansion (enforced via `timeout_ms` parameter).
+- 14 tests in `tests/query/test_wave9_block3_fixes.cpp`.
+
+---
 
 ## Recent Fixes (2026-08-16)
 

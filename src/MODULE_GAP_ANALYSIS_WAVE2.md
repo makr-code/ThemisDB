@@ -868,3 +868,66 @@ All 3 items complete — 41 new tests across rag (2 tracks) and llm:
 | **Total** | **7** | **3** | **3** | **1** | |
 
 > **Key finding:** 14 of 21 subagent-reported gaps were already fixed in waves W3-SEC / Wave3B / Wave4-B / Wave7-M3. The Wave 8 real backlog is 7 items — all auth or RAG Wave-B. No CRITICAL open items remain in the verified core module set.
+
+---
+
+## §11 Wave 9 Block 3 — Query HIGH Closure + Hybrid ANN Planner (2026-08-26)
+
+### Scope
+
+Module: **query**  
+Delivered: 2026-08-26
+
+### W9-10: 7 HIGH gaps closed (query module)
+
+| Gap ID | File | Gap Type | Fix Applied |
+|--------|------|----------|-------------|
+| W9-10-1 | `src/query/query_executor.cpp:89` | catch_all_swallow | Typed try/catch in `execute()` and `execute_streaming()` around `build_row()` — exceptions wrapped as `std::runtime_error` with context |
+| W9-10-2 | `src/query/result_stream.cpp:156` | memory_leak | RAII enforcement comment; `materialized_data_` confirmed as `std::vector<T>` (no raw allocation) |
+| W9-10-3 | `src/query/parallel_executor.cpp:201` | null_dereference | `if (!it->second) continue;` guard before `*it->second` dereference in `sequentialHashJoin` |
+| W9-10-4 | `src/query/query_cache.cpp:439` | todo_as_productionlogic | TODO replaced with documented synchronous cleanup + async-dispatch tradeoff analysis |
+| W9-10-5 | `src/query/query_compiler.cpp:567` | uncaught_exception | W9-10-5 marker added; Wave 3-B fix confirmed; unknown-exception handler sets `jit_state_corrupted_` |
+| W9-10-6 | `src/query/vectorized_execution.cpp:678` | unchecked_result | W9-10-6 marker; `ColumnarExecutionEngine::execute` returns `ColumnBatch` (not `Result<>`); no unchecked discard |
+| W9-10-7 | `src/query/query_federation.cpp:312` | string_concat_loop | `prefix_sep = prefix + '_'` hoisted outside inner field-iteration loop in broadcast join |
+
+**HIGH gap count**: 428 → 421 (−7)
+
+### W9-11: AQL FunctionCall compat shim deprecation
+
+- **Assessment**: NOT safe to remove — `query_engine.cpp:4442` and `aql_runner.cpp:184` still emit FunctionCall AST nodes.
+- **Action**: `THEMIS_WARN` deprecation log added at compat-branch entry in `aql_translator.cpp`.
+- **Removal condition**: All callers migrate to `ASTNodeType::SimilarityCall` / `ASTNodeType::ProximityCall`.
+- **Target**: Q4 2026.
+
+### W9-12: Hybrid ANN+graph planner
+
+- **New API**: `HybridAnnGraphQuery` + `HybridAnnGraphResult` + `planAnnGraphHybrid()` in `include/query/tensor_aware_query_optimizer.h` + `src/query/tensor_aware_query_optimizer.cpp`.
+- **Algorithm**: ANN retrieval via `AnnFrontdoor::search()` → graph expansion via `IKnowledgeGraph::neighbours()` → RRF fusion (k=60).
+- **Performance gate**: `timeout_ms` hard cap (default 500ms) enforced at runtime.
+- **Wave-B hybrid planner status**: `[x]` (was `[~]`).
+
+### Tests
+
+14 tests added in `tests/query/test_wave9_block3_fixes.cpp`:
+- W9-10 (7 tests): catch wrapper, RAII, null guard, cache eviction, compiler sentinel, vectorized result, prefix hoisting
+- W9-11 (2 tests): compat path active, canonical node types distinct
+- W9-12 (5 tests): null inputs, empty vector guard, RRF formula, top_k bound, default struct values
+
+### Files Touched
+
+| File | Change Type |
+|------|------------|
+| `src/query/query_executor.cpp` | Fix W9-10-1 |
+| `src/query/result_stream.cpp` | Fix W9-10-2 |
+| `src/query/parallel_executor.cpp` | Fix W9-10-3 |
+| `src/query/query_cache.cpp` | Fix W9-10-4 |
+| `src/query/query_compiler.cpp` | Fix W9-10-5 marker |
+| `src/query/vectorized_execution.cpp` | Fix W9-10-6 marker |
+| `src/query/query_federation.cpp` | Fix W9-10-7 |
+| `src/query/aql_translator.cpp` | Fix W9-11 deprecation warning |
+| `src/query/tensor_aware_query_optimizer.cpp` | Impl W9-12 planAnnGraphHybrid |
+| `include/query/tensor_aware_query_optimizer.h` | API W9-12 declarations |
+| `tests/query/test_wave9_block3_fixes.cpp` | 14 new tests |
+| `src/query/MODULE_GAPS.md` | Updated HIGH count, added Wave 9 Block 3 section |
+| `src/query/ROADMAP.md` | W9-10/11/12 marked `[x]`, Phase B hybrid gate closed |
+| `src/MODULE_GAP_ANALYSIS_WAVE2.md` | §11 added |
