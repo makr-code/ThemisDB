@@ -47,7 +47,7 @@ Use this module when GitHub Copilot on GitHub is implementing, refactoring, revi
 ### C and C++ implementation work
 - Start with `MODULES_AND_APIS.md`
 - Then consult:
-  - `../../ai_context/MEMORY_MANAGEMENT_POLICY.md`
+  - `../../ai_context/memory_management_policy.md`
   - `../../ai_context/OOP_AND_SOC_PRINCIPLES.md`
   - `../../ai_context/FUNCTION_CLASSIFICATION.md`
 - Cross-check with:
@@ -56,6 +56,26 @@ Use this module when GitHub Copilot on GitHub is implementing, refactoring, revi
   - `../../.github/instructions/documentation-enforcement.instructions.md`
 - For public C++ API changes, also read the relevant file in `../../ai_context/api_contracts/` before editing.
 - Prefer the wiki and instruction files to establish invariants, ownership, and test expectations before touching `.cpp`/`.h`/`.hpp` files.
+
+#### Public C++ API work
+- Prioritize `ai_context/api_contracts/*.md` after `MODULES_AND_APIS.md`.
+- Verify public/header-level stability, ownership, thread-safety, deprecation, and documentation expectations before editing `include/**`.
+- Cross-check with `FUNCTION_CLASSIFICATION.md` for public API level and `documentation-enforcement.instructions.md` for Doxygen obligations.
+
+#### Internal core C++ work
+- Prioritize `memory_management_policy.md` and `OOP_AND_SOC_PRINCIPLES.md` after `MODULES_AND_APIS.md`.
+- Focus on invariants, ownership transfer, adapter boundaries, and whether logic belongs in `include/**`, `src/**`, or `detail::`.
+- Verify that any internal helper/API drift does not accidentally widen the public surface.
+
+#### Concurrency and performance C++ work
+- Prioritize `FUNCTION_CLASSIFICATION.md` and `memory_management_policy.md` after `MODULES_AND_APIS.md`.
+- Check thread-safety class, locking expectations, timeout/cancellation behavior, and hot-path criticality before editing.
+- Cross-check with `cpp-best-practices.instructions.md` for lock ordering, atomics, false-sharing, and profiling-first constraints.
+
+#### Plugin boundary and extensibility C++ work
+- Prioritize `OOP_AND_SOC_PRINCIPLES.md` and `GOVERNANCE_AND_ROADMAP.md` after `MODULES_AND_APIS.md`.
+- Verify public/private boundary rules, adapter/plugin interface contracts, and that no private implementation details leak into Community/Minimal surfaces.
+- Treat plugin-related interface additions as governance-sensitive changes, not just local refactors.
 
 ### General onboarding or multi-area tasks
 - Start with `INDEX.md`
@@ -68,7 +88,10 @@ Use this module when GitHub Copilot on GitHub is implementing, refactoring, revi
 | API / module implementation | `developer_llm_wiki/MODULES_AND_APIS.md` | `src/<module>/*.md`, `ai_context/api_contracts/*.md`, headers/tests |
 | CI / build / workflow triage | `developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md` | GitHub Actions logs, `.github/workflows/*.yml`, `scripts/*` |
 | Governance / roadmap / release | `developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md` | `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md` |
-| C / C++ coding | `developer_llm_wiki/MODULES_AND_APIS.md` | `MEMORY_MANAGEMENT_POLICY.md`, `OOP_AND_SOC_PRINCIPLES.md`, C++ instruction files, module sources/tests |
+| C++ public API | `developer_llm_wiki/MODULES_AND_APIS.md` | `ai_context/api_contracts/*.md`, `FUNCTION_CLASSIFICATION.md`, headers/tests |
+| C++ internal core | `developer_llm_wiki/MODULES_AND_APIS.md` | `memory_management_policy.md`, `OOP_AND_SOC_PRINCIPLES.md`, module sources/tests |
+| C++ concurrency / performance | `developer_llm_wiki/MODULES_AND_APIS.md` | `FUNCTION_CLASSIFICATION.md`, `memory_management_policy.md`, C++ instruction files, benchmarks/tests |
+| C++ plugin boundary | `developer_llm_wiki/MODULES_AND_APIS.md` | `OOP_AND_SOC_PRINCIPLES.md`, `GOVERNANCE_AND_ROADMAP.md`, plugin docs/interfaces |
 | Multi-area / discovery | `developer_llm_wiki/INDEX.md` | linked task-specific wiki pages and primary sources |
 
 ## Freshness and Trust Rules
