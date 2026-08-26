@@ -15,6 +15,7 @@
  *  LRU-08  removeSequence() cleans LRU structures; evictionCount() unchanged.
  *  LRU-09  Sequential evictions walk all seqs before free blocks run out.
  *  LRU-10  evictionCount() is monotonically non-decreasing.
+ *  LRU-11  Reused block IDs do not leak stale per-layer KV entries.
  *  CKP-01  RocksDB Put called with correct key when checkpoint_db_ is set.
  *          (guard: THEMIS_USE_ROCKSDB)
  *  CKP-02  loadCheckpoint reads from RocksDB when key is present.
@@ -207,6 +208,24 @@ TEST(KVCacheLRU, LRU10_EvictionCountMonotonic) {
         uint64_t cur = cache->evictionCount();
         EXPECT_GE(cur, prev) << "evictionCount must never decrease";
         prev = cur;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // LRU-11  Reused block IDs must not expose stale per-layer data
+    // ═══════════════════════════════════════════════════════════════════════════
+    TEST(KVCacheLRU, LRU11_ReusedBlockDoesNotLeakStaleLayerData) {
+        auto [bm, cache] = makeCache(1);
+
+        // seq 1 occupies the only block at layer 1
+        ASSERT_TRUE(cache->store(1, 1, oneTokenData()));
+        ASSERT_FALSE(cache->retrieve(1, 1).empty());
+
+        // seq 2 forces eviction and reuses the same block for layer 0 only
+        ASSERT_TRUE(cache->store(2, 0, oneTokenData()));
+        EXPECT_EQ(cache->evictionCount(), 1u);
+
+        // layer 1 for seq 2 must be empty; stale layer-1 data from seq 1 is forbidden
+        EXPECT_TRUE(cache->retrieve(2, 1).empty());
     }
 }
 

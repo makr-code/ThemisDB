@@ -40,7 +40,7 @@ namespace auth {
 struct FederatedValidationResult {
     JWTClaims    claims;      ///< Validated JWT claims
     std::string  realm;       ///< Issuer URL of the realm that validated the token
-};/**
+};
 
 /**
  * @brief In-memory entry in the cross-provider token validation cache.
@@ -55,7 +55,10 @@ struct FederatedValidationResult {
 struct CachedValidation {
     FederatedValidationResult result;                   ///< The cached validation result
     std::chrono::system_clock::time_point expires_at;  ///< Wall-clock expiry from JWT exp
-};/** * @brief Result of an RFC 8693 OAuth 2.0 Token Exchange
+};
+
+/**
+ * @brief Result of an RFC 8693 OAuth 2.0 Token Exchange
  *
  * Contains the raw exchanged access token, the token type declared by the IdP,
  * the optional lifetime, and the validated claims extracted by the

@@ -9,87 +9,84 @@
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 
+#ifdef THEMIS_ENABLE_MCP
+#include "server/mcp_server.h"
+#include <boost/asio/io_context.hpp>
+#include <string>
+#endif
+
 using json = nlohmann::json;
 
-// ---------------------------------------------------------------------------
-// Lightweight test harness: we exercise handler logic without a full DB stack
-// by driving the tool call directly through its contract (input/output shapes).
-// ---------------------------------------------------------------------------
+#ifndef THEMIS_ENABLE_MCP
 
-// Simulate what the handler returns for a missing required parameter
-static json missing_param_error(const std::string& param) {
-    return {{"error", "missing parameter: " + param}};
+TEST(McpKgTools, RequiresMcpBuildFlag) {
+    GTEST_SKIP() << "THEMIS_ENABLE_MCP is not enabled in this build.";
 }
+
+#else
+
+namespace {
+
+json callTool(themis::server::McpServer& server,
+              const std::string& tool_name,
+              const json& args = json::object()) {
+    const json request = {
+        {"jsonrpc", "2.0"},
+        {"method", "tools/call"},
+        {"params", {{"name", tool_name}, {"arguments", args}}}
+    };
+
+    const json response = server.handleRequest(request);
+    EXPECT_TRUE(response.contains("result"));
+    EXPECT_TRUE(response["result"].contains("content"));
+    EXPECT_FALSE(response["result"]["content"].empty());
+
+    const std::string payload = response["result"]["content"][0]["text"].get<std::string>();
+    return json::parse(payload);
+}
+
+} // namespace
 
 // ============================================================================
 // kg_neighbours tests
 // ============================================================================
 
 TEST(KgNeighboursTest, MissingNodeIdReturnsError) {
-    json args = json::object();   // no node_id
-    // Contract: missing node_id must produce error key
-    EXPECT_TRUE(args.find("node_id") == args.end());
-    json expected = missing_param_error("node_id");
-    EXPECT_EQ(expected["error"], "missing parameter: node_id");
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
+
+    const json result = callTool(server, "kg_neighbours", json::object());
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"], "missing parameter: node_id");
 }
 
-TEST(KgNeighboursTest, DefaultDepthIsOne) {
-    json args = {{"node_id", "persons/1"}};
-    int depth = args.value("depth", 1);
-    EXPECT_EQ(depth, 1);
+TEST(KgNeighboursTest, DefaultDepthAndMaxNodesAreApplied) {
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
+
+    const json result = callTool(server, "kg_neighbours", {{"node_id", "persons/1"}});
+    EXPECT_EQ(result["depth_reached"], 1);
+    EXPECT_FALSE(result["truncated"].get<bool>());
 }
 
-TEST(KgNeighboursTest, DepthClamped) {
-    json args = {{"node_id", "persons/1"}, {"depth", 99}};
-    int depth = std::min(std::max(args.value("depth", 1), 1), 5);
-    EXPECT_EQ(depth, 5);
-}
+TEST(KgNeighboursTest, DepthClampedToMaximum) {
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
 
-TEST(KgNeighboursTest, DepthMinClamped) {
-    json args = {{"node_id", "persons/1"}, {"depth", -3}};
-    int depth = std::min(std::max(args.value("depth", 1), 1), 5);
-    EXPECT_EQ(depth, 1);
-}
-
-TEST(KgNeighboursTest, MaxNodesClamped) {
-    json args = {{"node_id", "persons/1"}, {"max_nodes", 9999}};
-    int max_nodes = std::min(std::max(args.value("max_nodes", 100), 1), 1000);
-    EXPECT_EQ(max_nodes, 1000);
-}
-
-TEST(KgNeighboursTest, DefaultMaxNodes) {
-    json args = {{"node_id", "persons/1"}};
-    int max_nodes = std::min(std::max(args.value("max_nodes", 100), 1), 1000);
-    EXPECT_EQ(max_nodes, 100);
+    const json result = callTool(server, "kg_neighbours", {{"node_id", "persons/1"}, {"depth", 99}});
+    EXPECT_EQ(result["depth_reached"], 5);
 }
 
 TEST(KgNeighboursTest, OutputShapeContainsRequiredFields) {
-    // Simulate handler output contract
-    json result = {
-        {"node_id",      "persons/1"},
-        {"depth_reached", 1},
-        {"nodes",        json::array()},
-        {"edges",        json::array()},
-        {"truncated",    false}
-    };
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
+
+    const json result = callTool(server, "kg_neighbours", {{"node_id", "persons/1"}, {"max_nodes", 1}});
     EXPECT_TRUE(result.contains("node_id"));
     EXPECT_TRUE(result.contains("depth_reached"));
     EXPECT_TRUE(result.contains("nodes"));
     EXPECT_TRUE(result.contains("edges"));
     EXPECT_TRUE(result.contains("truncated"));
-    EXPECT_FALSE(result["truncated"].get<bool>());
-}
-
-TEST(KgNeighboursTest, TruncatedFlagWhenMaxNodesReached) {
-    // Simulate truncation: if we have more nodes than max_nodes, truncated=true
-    json result = {{"truncated", true}};
-    EXPECT_TRUE(result["truncated"].get<bool>());
-}
-
-TEST(KgNeighboursTest, EdgeTypeFilterAcceptsArray) {
-    json args = {{"node_id", "n/1"}, {"edge_types", {"KNOWS", "LIKES"}}};
-    EXPECT_TRUE(args["edge_types"].is_array());
-    EXPECT_EQ(args["edge_types"].size(), 2u);
 }
 
 // ============================================================================
@@ -97,48 +94,41 @@ TEST(KgNeighboursTest, EdgeTypeFilterAcceptsArray) {
 // ============================================================================
 
 TEST(KgShortestPathTest, MissingFromNodeReturnsError) {
-    json args = {{"to_node", "n/2"}};
-    EXPECT_TRUE(args.find("from_node") == args.end());
-    json expected = missing_param_error("from_node");
-    EXPECT_EQ(expected["error"], "missing parameter: from_node");
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
+
+    const json result = callTool(server, "kg_shortest_path", {{"to_node", "n/2"}});
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"], "missing parameter: from_node");
 }
 
 TEST(KgShortestPathTest, MissingToNodeReturnsError) {
-    json args = {{"from_node", "n/1"}};
-    EXPECT_TRUE(args.find("to_node") == args.end());
-    json expected = missing_param_error("to_node");
-    EXPECT_EQ(expected["error"], "missing parameter: to_node");
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
+
+    const json result = callTool(server, "kg_shortest_path", {{"from_node", "n/1"}});
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"], "missing parameter: to_node");
 }
 
 TEST(KgShortestPathTest, SameNodeReturnsHopCountZero) {
-    // Contract: from==to → hop_count=0, found=true
-    json result = {
-        {"path",      json::array({{{"id", "n/1"}, {"properties", json::object()}}})},
-        {"edges",     json::array()},
-        {"hop_count", 0},
-        {"found",     true}
-    };
-    EXPECT_EQ(result["hop_count"].get<int>(), 0);
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
+
+    const json result = callTool(server, "kg_shortest_path", {{"from_node", "n/1"}, {"to_node", "n/1"}});
+    EXPECT_EQ(result["hop_count"], 0);
     EXPECT_TRUE(result["found"].get<bool>());
 }
 
-TEST(KgShortestPathTest, NoPathReturnsFalse) {
-    json result = {{"path", json::array()}, {"edges", json::array()}, {"hop_count", 0}, {"found", false}};
-    EXPECT_FALSE(result["found"].get<bool>());
-}
+TEST(KgShortestPathTest, OutputShapeContainsRequiredFields) {
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
 
-TEST(KgShortestPathTest, PathFoundOutputShape) {
-    json result = {
-        {"path",  json::array({{{"id", "n/1"}}, {{"id", "n/2"}}})},
-        {"edges", json::array({{{"from", "n/1"}, {"to", "n/2"}, {"type", "KNOWS"}}})},
-        {"hop_count", 1},
-        {"found", true}
-    };
+    const json result = callTool(server, "kg_shortest_path", {{"from_node", "n/1"}, {"to_node", "n/2"}});
     EXPECT_TRUE(result.contains("path"));
     EXPECT_TRUE(result.contains("edges"));
     EXPECT_TRUE(result.contains("hop_count"));
-    EXPECT_TRUE(result["found"].get<bool>());
-    EXPECT_EQ(result["hop_count"].get<int>(), 1);
+    EXPECT_TRUE(result.contains("found"));
 }
 
 // ============================================================================
@@ -146,30 +136,24 @@ TEST(KgShortestPathTest, PathFoundOutputShape) {
 // ============================================================================
 
 TEST(KgNodePropertiesTest, MissingNodeIdReturnsError) {
-    json args = json::object();
-    EXPECT_TRUE(args.find("node_id") == args.end());
-    json expected = missing_param_error("node_id");
-    EXPECT_EQ(expected["error"], "missing parameter: node_id");
-}
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
 
-TEST(KgNodePropertiesTest, ExistingNodeOutputShape) {
-    json result = {
-        {"id",         "persons/42"},
-        {"properties", {{"name", "Alice"}, {"age", 30}}},
-        {"collection", "persons"}
-    };
-    EXPECT_EQ(result["id"].get<std::string>(), "persons/42");
-    EXPECT_TRUE(result["properties"].contains("name"));
-    EXPECT_TRUE(result.contains("collection"));
+    const json result = callTool(server, "kg_node_properties", json::object());
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"], "missing parameter: node_id");
 }
 
 TEST(KgNodePropertiesTest, MissingNodeReturnsFoundFalse) {
-    json result = {
-        {"id",         "persons/999"},
-        {"properties", json::object()},
-        {"collection", ""},
-        {"found",      false}
-    };
+    boost::asio::io_context io;
+    themis::server::McpServer server(io);
+
+    const json result = callTool(server, "kg_node_properties", {{"node_id", "persons/999"}});
+    EXPECT_EQ(result["id"], "persons/999");
+    EXPECT_TRUE(result.contains("properties"));
+    EXPECT_TRUE(result.contains("collection"));
+    EXPECT_TRUE(result.contains("found"));
     EXPECT_FALSE(result["found"].get<bool>());
-    EXPECT_TRUE(result["properties"].empty());
 }
+
+#endif

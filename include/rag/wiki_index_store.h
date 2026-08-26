@@ -38,7 +38,7 @@ struct IndexResult {
  * BM25+ formula per term t:
  *   score(t,d) = IDF(t) * [ (tf(t,d) * (k1+1)) / (tf(t,d) + k1*(1-b+b*dl/avgdl)) + delta ]
  *
- * Parameters: k1 = 1.5, b = 0.75, delta = 1.0 (BM25+ lower-bound correction).
+ * Parameters: k1 = 1.5, b = 0.75, delta = 0.5 (BM25+ lower-bound correction).
  *
  * @param query_terms   Tokenised query terms (duplicates are summed).
  * @param doc_text      Raw document text (whitespace-tokenised internally).

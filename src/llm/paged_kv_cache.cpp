@@ -29,6 +29,8 @@ PagedKVCache::~PagedKVCache() {
     std::lock_guard<std::mutex> lock(mutex_);
     block_tables_.clear();
     kv_storage_.clear();
+    kv_storage_quantized_.clear();
+    quantization_metadata_.clear();
 }
 
 bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data) {
@@ -210,12 +212,22 @@ bool PagedKVCache::evictLRU() {
     lru_order_.pop_back();
     lru_map_.erase(victim_id);
 
-    // Release block table (BlockTable destructor returns blocks to free list)
-    block_tables_.erase(victim_id);
+    auto victim_it = block_tables_.find(victim_id);
+    if (victim_it == block_tables_.end()) {
+        return false;
+    }
+    const auto victim_blocks = victim_it->second->getBlockMapping();
 
-    // Also clean KV storage for blocks that belonged to this sequence
-    // (block_table destructor handles block freeing; kv_storage_ keys are block IDs
-    //  which are now free and will be reused — clear their stale entries)
+    // Release block table (BlockTable destructor returns blocks to free list).
+    block_tables_.erase(victim_it);
+
+    // Clear KV payloads for all freed block IDs so reused blocks cannot expose
+    // stale per-layer entries from the evicted sequence.
+    for (int block_id : victim_blocks) {
+        kv_storage_.erase(block_id);
+        kv_storage_quantized_.erase(block_id);
+        quantization_metadata_.erase(block_id);
+    }
 
     uint64_t total = eviction_count_.fetch_add(1, std::memory_order_relaxed) + 1;
     spdlog::info("[KVCACHE] LRU evicted seq={}, evictions_total={}", victim_id, total);

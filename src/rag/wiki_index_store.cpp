@@ -103,7 +103,7 @@ float bm25PlusScore(
 {
     constexpr float k1    = 1.5f;
     constexpr float b     = 0.75f;
-    constexpr float delta = 1.0f;
+    constexpr float delta = 0.5f;
 
     // Tokenise document and compute term-frequency map.
     const auto doc_tokens = tokenise(doc_text);
