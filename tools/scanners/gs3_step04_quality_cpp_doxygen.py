@@ -196,9 +196,6 @@ class ThemisCppDoxygenPolicyRulesScan:
         rel = str(file_path.relative_to(self.repo_root)).replace("\\", "/")
 
         for decl in declarations:
-            if not self._looks_like_function_declaration(decl.text):
-                continue
-
             signature = self._normalize_signature(decl.text)
             info = self._parse_signature(signature, decl.class_name)
             if info is None:
@@ -361,6 +358,9 @@ class ThemisCppDoxygenPolicyRulesScan:
                 kind = class_match.group(1)
                 name = class_match.group(2)
                 class_stack.append({"name": name, "access": "public" if kind == "struct" else "private", "depth": brace_depth + 1})
+                stmt_parts = []
+                brace_depth += line.count("{") - line.count("}")
+                continue
 
             current_class = class_stack[-1] if class_stack else None
             class_depth = int(current_class["depth"]) if current_class else 0
@@ -418,7 +418,7 @@ class ThemisCppDoxygenPolicyRulesScan:
 
     def _looks_like_function_declaration(self, text: str) -> bool:
         normalized = text.strip()
-        if not (normalized.endswith(";") or normalized.endswith("{")):
+        if not (normalized.endswith(";") or normalized.endswith("{") or normalized.endswith("}")):
             return False
         if "(" not in normalized or ")" not in normalized:
             return False
@@ -436,6 +436,8 @@ class ThemisCppDoxygenPolicyRulesScan:
             return False
         if "=" in normalized and "operator=" not in normalized:
             return False
+        if "{" in normalized and "}" in normalized:
+            return True
         if normalized.endswith("{") and "{" in normalized[:-1] and "}" not in normalized:
             return True
         return True
