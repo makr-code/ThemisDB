@@ -67,6 +67,12 @@ Task-specific minimum expectations:
   - Internal core work: verify RAII rules, adapter boundaries, and internal-vs-public surface separation before editing `src/**` or internal headers.
   - Concurrency / performance work: verify locking model, atomic usage, timeout/cancellation behavior, hot-path classification, and benchmark expectations before changing behavior.
   - Plugin boundary / extensibility work: verify public/private boundary constraints, adapter contracts, and governance-sensitive plugin surface rules before changing interfaces.
+  - Classification hint:
+    - `include/**` or external contract change → public API work
+    - `src/**`, internal headers, or `detail::` changes → internal core work
+    - locking, atomics, latency, benchmarks, or timeout behavior → concurrency / performance work
+    - adapters, plugin interfaces, SDK exposure, or edition boundaries → plugin boundary / extensibility work
+  - If more than one C++ subtype applies, all relevant wiki inputs and the strictest boundary/documentation rules apply together.
 
 Reference module: [../.github/copilot/AI_WIKI_CONTEXT.md](../.github/copilot/AI_WIKI_CONTEXT.md)
 

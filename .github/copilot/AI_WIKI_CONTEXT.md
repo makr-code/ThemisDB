@@ -61,21 +61,57 @@ Use this module when GitHub Copilot on GitHub is implementing, refactoring, revi
 - Prioritize `ai_context/api_contracts/*.md` after `MODULES_AND_APIS.md`.
 - Verify public/header-level stability, ownership, thread-safety, deprecation, and documentation expectations before editing `include/**`.
 - Cross-check with `FUNCTION_CLASSIFICATION.md` for public API level and `documentation-enforcement.instructions.md` for Doxygen obligations.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. relevant `ai_context/api_contracts/*.md`
+  3. `ai_context/FUNCTION_CLASSIFICATION.md`
+  4. public headers in `include/**`
+  5. affected tests and module docs
+- Must verify: ownership/lifetime contract, `@thread_safety`, deprecation/versioning impact, and whether the change expands the supported public surface.
 
 #### Internal core C++ work
 - Prioritize `memory_management_policy.md` and `OOP_AND_SOC_PRINCIPLES.md` after `MODULES_AND_APIS.md`.
 - Focus on invariants, ownership transfer, adapter boundaries, and whether logic belongs in `include/**`, `src/**`, or `detail::`.
 - Verify that any internal helper/API drift does not accidentally widen the public surface.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/memory_management_policy.md`
+  3. `ai_context/OOP_AND_SOC_PRINCIPLES.md`
+  4. internal headers / `src/**`
+  5. focused module tests
+- Must verify: RAII ownership, `detail::` boundaries, exception/result-handling pattern, and no accidental promotion of internal helpers into public headers.
 
 #### Concurrency and performance C++ work
 - Prioritize `FUNCTION_CLASSIFICATION.md` and `memory_management_policy.md` after `MODULES_AND_APIS.md`.
 - Check thread-safety class, locking expectations, timeout/cancellation behavior, and hot-path criticality before editing.
 - Cross-check with `cpp-best-practices.instructions.md` for lock ordering, atomics, false-sharing, and profiling-first constraints.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/FUNCTION_CLASSIFICATION.md`
+  3. `ai_context/memory_management_policy.md`
+  4. C++ best-practice instruction file
+  5. relevant benchmarks / concurrency tests / target sources
+- Must verify: thread-safety class, lock ordering, atomic vs mutex choice, timeout/cancellation semantics, and whether the path is P0/P1/P2.
 
 #### Plugin boundary and extensibility C++ work
 - Prioritize `OOP_AND_SOC_PRINCIPLES.md` and `GOVERNANCE_AND_ROADMAP.md` after `MODULES_AND_APIS.md`.
 - Verify public/private boundary rules, adapter/plugin interface contracts, and that no private implementation details leak into Community/Minimal surfaces.
 - Treat plugin-related interface additions as governance-sensitive changes, not just local refactors.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/OOP_AND_SOC_PRINCIPLES.md`
+  3. `developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md`
+  4. plugin interface headers/docs
+  5. affected governance/release docs when surface policy changes
+- Must verify: adapter boundary, edition/public-private boundary, repository-vs-plugin ownership, and whether the change belongs in public SDK docs or private plugin space.
+
+## C++ Subtype Routing Heuristics
+
+- If the task edits `include/**` or changes documented external behavior, treat it as **Public C++ API work**.
+- If the task edits `src/**`, `detail::`, or internal helper headers without intended external contract change, treat it as **Internal core C++ work**.
+- If the task changes mutexes, atomics, scheduling, batching, benchmarks, latency-sensitive code, or timeout behavior, treat it as **Concurrency and performance C++ work**.
+- If the task changes adapters, plugin interfaces, extensibility seams, SDK exposure, or edition boundaries, treat it as **Plugin boundary and extensibility C++ work**.
+- If multiple C++ subtypes apply, read all relevant subtype inputs and use the strictest boundary/documentation requirements among them.
 
 ### General onboarding or multi-area tasks
 - Start with `INDEX.md`

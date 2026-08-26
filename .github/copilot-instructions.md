@@ -45,6 +45,12 @@ Task-spezifische Mindestregeln:
   - Internal Core / Implementierungslogik: Ownership, RAII, `detail::`-Grenzen und unbeabsichtigte API-Flaechenerweiterungen gegen `memory_management_policy.md` und `OOP_AND_SOC_PRINCIPLES.md` pruefen.
   - Concurrency / Performance: Locking, Atomics, Hot-Path-Klassifikation, Timeout/Cancellation und Benchmark-Bezug gegen `FUNCTION_CLASSIFICATION.md` und C++-Best-Practice-Regeln pruefen.
   - Plugin-Boundaries / Extensibility: Adapter-/Interface-Grenzen sowie Public-vs-Private-Grenzen gegen `OOP_AND_SOC_PRINCIPLES.md` und `GOVERNANCE_AND_ROADMAP.md` pruefen.
+  - Einordnungshilfe:
+    - `include/**` oder externe Vertragsaenderung → Public API
+    - `src/**`, interne Header oder `detail::` → Internal Core
+    - Locking/Atomics/Latenz/Benchmarks/Timeouts → Concurrency / Performance
+    - Plugin-Interfaces/Adapter/Edition-Grenzen → Plugin-Boundaries / Extensibility
+  - Wenn mehrere C++-Subtypen zugleich betroffen sind, gelten alle relevanten Wiki-/Governance-Pflichten kumulativ.
 
 Details und Dateizwecke: [AI_WIKI_CONTEXT.md](copilot/AI_WIKI_CONTEXT.md)
 
