@@ -84,7 +84,7 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
                 if (!done->load(std::memory_order_acquire)) {
                     timed_out->store(true, std::memory_order_release);
                     // Signal TBB to stop accepting new tasks and drain quickly.
-                    tg.cancel_group_execution();
+                    tg.cancel();
                 }
                 return;
             }
