@@ -16,11 +16,6 @@
 
 #include "llm_wiki/rocksdb_wiki_store.h"
 
-#include <rocksdb/db.h>
-#include <rocksdb/options.h>
-#include <rocksdb/slice.h>
-#include <rocksdb/status.h>
-
 #include <filesystem>
 #include <stdexcept>
 #include <string>

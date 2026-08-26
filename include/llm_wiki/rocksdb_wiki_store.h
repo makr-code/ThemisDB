@@ -38,10 +38,11 @@
 #pragma once
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Forward-declare Status so this header can be included without the full
-// plugin interface in contexts that only need the store.
+// Status comes from the lightweight header so this file does not pull in
+// the full plugin interface (which transitively includes llm/wiki_index_store.h
+// → TBB → CUDA headers).
 // ─────────────────────────────────────────────────────────────────────────────
-#include "llm_wiki/llm_wiki_plugin_interface.h"  // themis::plugins::llm_wiki::Status
+#include "llm_wiki/llm_wiki_status.h"
 
 #include <functional>
 #include <memory>
@@ -72,7 +73,7 @@ namespace llm_wiki {
  * ```cpp
  * RocksDbWikiStore store;
  * auto st = store.open("/var/lib/themisdb/wiki_store");
- * if (!st.ok()) { /* handle */ }
+ * if (!st.ok()) { return; }   // handle error
  * store.put("page:hnsw", page_json);
  * auto [get_st, json] = store.get("page:hnsw");
  * store.close();

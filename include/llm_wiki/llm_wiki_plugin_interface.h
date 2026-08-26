@@ -52,6 +52,11 @@
 #include "plugins/plugin_interface.h"
 #include "llm/wiki_index_store.h"
 
+// Status type lives in a lightweight header so low-level implementation
+// headers (e.g., rocksdb_wiki_store.h) can include it without pulling in
+// the full plugin interface and its transitive TBB / CUDA dependencies.
+#include "llm_wiki/llm_wiki_status.h"
+
 #include <chrono>
 #include <cstddef>
 #include <memory>
@@ -62,42 +67,6 @@
 namespace themis {
 namespace plugins {
 namespace llm_wiki {
-
-// ============================================================================
-// Status — lightweight result type for lifecycle operations
-// ============================================================================
-
-/**
- * @brief Status result for ILLMWikiPlugin lifecycle operations.
- *
- * Lightweight value type returned by `initialize()`, `wikiInit()`, and similar
- * methods to signal success or failure with a human-readable message.
- */
-struct Status {
-    /// @brief Status code categories.
-    enum class Code {
-        Ok,               ///< Operation succeeded.
-        Error,            ///< Generic failure.
-        PermissionDenied, ///< Sub-feature or edition gate blocked the call.
-        InvalidArgument,  ///< Malformed or out-of-range input.
-        NotInitialized,   ///< Plugin is not yet initialized.
-    };
-
-    Code        code    = Code::Ok;
-    std::string message;
-
-    [[nodiscard]] bool ok() const noexcept { return code == Code::Ok; }
-
-    [[nodiscard]] static Status Ok() { return {Code::Ok, {}}; }
-    [[nodiscard]] static Status Error(std::string msg)
-        { return {Code::Error, std::move(msg)}; }
-    [[nodiscard]] static Status PermissionDenied(std::string msg)
-        { return {Code::PermissionDenied, std::move(msg)}; }
-    [[nodiscard]] static Status InvalidArgument(std::string msg)
-        { return {Code::InvalidArgument, std::move(msg)}; }
-    [[nodiscard]] static Status NotInitialized()
-        { return {Code::NotInitialized, "plugin not initialized; call initialize() first"}; }
-};
 
 // ============================================================================
 // Forward declarations

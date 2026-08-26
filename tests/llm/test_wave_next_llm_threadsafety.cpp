@@ -281,7 +281,7 @@ TEST(WaveBL7ThreadSafety, AtomicPluginCounterExact) {
     for (auto& th : threads) th.join();
 
     // plugin_operation_count_ must equal kExpected (8 × 100 = 800).
-    EXPECT_EQ(mgr.plugin_operation_count_.load(std::memory_order_acquire), kExpected);
+    EXPECT_EQ(mgr.getPluginOperationCount(), kExpected);
 }
 
 } // anonymous namespace

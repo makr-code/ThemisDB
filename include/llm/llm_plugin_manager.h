@@ -162,6 +162,16 @@ public:
     bool ingestModel(const std::string& model_id, const std::string& data);
     std::optional<ModelInfo> getModelInfo(const std::string& model_id) const;
 
+    /**
+     * @brief Return the total number of registerPlugin() calls since construction.
+     *
+     * Thread-safe: the underlying counter is std::atomic<uint64_t>.
+     * Intended for observability, tests (L7-TS-04), and metrics endpoints.
+     */
+    uint64_t getPluginOperationCount() const {
+        return plugin_operation_count_.load(std::memory_order_acquire);
+    }
+
     struct PluginStatistics {
         int models_loaded = 0;
         int loras_loaded = 0;

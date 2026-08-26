@@ -210,10 +210,11 @@ namespace {
 /// Build a minimal fitted ForecastModel, serialize it, and return the string.
 std::string makeSerializedModel() {
     using namespace themisdb::analytics;
-    ForecastModel m(ForecastMethod::LINEAR);
+    ForecastModel m(ForecastMethod::LINEAR_REGRESSION);
     TimeSeries ts;
-    ts.timestamps = {0, 1, 2, 3, 4};
-    ts.values     = {1.0, 2.0, 3.0, 4.0, 5.0};
+    for (int i = 0; i < 5; ++i) {
+        ts.push(static_cast<int64_t>(i) * 1000, static_cast<double>(i + 1));
+    }
     m.fit(ts);
     return m.serialize();
 }
@@ -286,8 +287,9 @@ TEST(AN2IntegrityTest, AN2_03_MissingChecksumPassesWithWarn) {
 TEST(AN2IntegrityTest, AN2_04_ChecksumRoundTrip) {
     ForecastModel m(ForecastMethod::EXP_SMOOTHING);
     TimeSeries ts;
-    ts.timestamps = {0, 1, 2, 3, 4, 5, 6, 7};
-    ts.values     = {10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0};
+    for (int i = 0; i < 8; ++i) {
+        ts.push(static_cast<int64_t>(i) * 1000, 10.0 + static_cast<double>(i));
+    }
     m.fit(ts);
 
     // Serialize → includes checksum.
