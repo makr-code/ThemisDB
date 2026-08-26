@@ -17,6 +17,10 @@ try:
 except Exception:  # pragma: no cover - optional import fallback
     yaml = None
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from tools.scanners.gs3_step04_quality_cpp_doxygen import (
     ThemisCppDoxygenPolicyRulesScan,
 )
@@ -290,6 +294,7 @@ def main() -> int:
     generated_config: Path | None = None
     warning_log: Path | None = None
     coverage_summary_path: Path | None = None
+    coverage_verify_path = artifact_dir / "doxygen-coverage-verify.txt"
     xml_index: Path | None = None
     doxygen_exit_code: int | None = None
     xml_index_exists = False
@@ -340,6 +345,25 @@ def main() -> int:
             )
             if coverage_proc.returncode == 0:
                 coverage_percent = extract_coverage_percent(coverage_summary_path.read_text(encoding="utf-8", errors="ignore"))
+                verify_proc = _run(
+                    [
+                        "python3",
+                        str(repo_root / "scripts" / "verify_docs.py"),
+                        "--summary-file",
+                        str(coverage_summary_path),
+                        "--threshold",
+                        str(threshold),
+                    ],
+                    repo_root,
+                )
+                coverage_verify_path.write_text(
+                    (verify_proc.stdout or "") + (verify_proc.stderr or ""),
+                    encoding="utf-8",
+                )
+                if verify_proc.returncode not in (0, 1):
+                    doxygen_warnings.append(
+                        f"verify_docs.py failed with exit code {verify_proc.returncode}"
+                    )
             else:
                 doxygen_warnings.append(
                     f"coverxygen failed with exit code {coverage_proc.returncode}"
