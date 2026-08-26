@@ -297,3 +297,46 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.
 - Wave D operability hardening depends on all prior waves being gate-complete.
+
+---
+
+## Wave 9 Block 2 — gRPC RPC Bridges for Distributed 2PC/3PC
+
+> Added: 2026-08-26
+
+### Scope
+
+Wire real gRPC transport into the `DistributedTransactionManager` static
+injection points (`setRpcPhase1Fn` / `setRpcPhase2Fn`) so distributed
+transactions drive actual network calls instead of falling back to the
+in-process simulation.
+
+| Item | Description | Status |
+|------|-------------|--------|
+| [x] **W9-7** | `GrpcRpcPhase1Adapter` — Phase-1 PREPARE gRPC adapter | Done 2026-08-26 |
+| [x] **W9-8** | `GrpcRpcPhase2Adapter` — Phase-2 COMMIT/ABORT gRPC adapter with 3-attempt exp-backoff | Done 2026-08-26 |
+| [x] **W9-9** | Wire adapters in DI root (`src/main.cpp`) behind `THEMIS_HAS_CORE_GRPC` guard | Done 2026-08-26 |
+
+### Files delivered
+
+| File | Role |
+|------|------|
+| `include/transaction/grpc_rpc_adapter.h` | Public API — `GrpcRpcPhase1Adapter::make()`, `GrpcRpcPhase2Adapter::make()` |
+| `src/transaction/grpc_rpc_adapter.cpp` | Implementation; all gRPC code in `#ifdef THEMIS_HAS_CORE_GRPC` |
+| `tests/transaction/test_grpc_rpc_adapter.cpp` | 15 tests (GRPC-P1-01..05, GRPC-P2-01..05, GRPC-DTM-01..03, GRPC-CONTENTION-01, GRPC-WAL-01) |
+
+### Bridge architecture note
+
+`ThemisCoreService::BeginTransaction` (with `options["2pc_prepare"]="1"`) is
+used as a Phase-1 PREPARE proxy because the current proto schema has no
+dedicated `PrepareTransaction` RPC.  This is intentional for the W9 bridge;
+when the schema is extended a first-class `Prepare` RPC should replace it.
+
+### Acceptance criteria closure
+
+- [x] STUB #279 Phase-1 transport bridge — resolved; `GrpcRpcPhase1Adapter` wired
+- [x] STUB #279 Phase-2 transport bridge — resolved; `GrpcRpcPhase2Adapter` wired
+- [x] Retry-with-backoff (3 attempts: 100 ms / 200 ms / 400 ms) for Phase-2
+- [x] `THEMIS_HAS_CORE_GRPC` compile guard — non-gRPC builds compile cleanly
+- [x] Fail-closed stubs in non-gRPC path (vote ABORT / throw)
+- [x] 15 tests registered `release_critical` in `tests/transaction/CMakeLists.txt`
