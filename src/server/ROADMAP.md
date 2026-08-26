@@ -57,15 +57,15 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 
 - [x] Model Integrity Gate: **CONFIRMED IMPLEMENTED** — `ModelIntegrityVerifier::verifyModel()` called at `llm_api_handler.cpp:981`; manifest lookup, SHA-256 match, reject on mismatch; closed as FP (2026-08-25)
 - [x] Iterator Invalidation: **CONFIRMED FP** — `parent` is read-only inside BFS loop; scanner mislabeled separate `pathVisited` container as `parent` mutation (2026-08-25)
-- [ ] `integrity_gate_bypass` (`llm_api_handler.cpp:978`): `if (!path.empty())` silently skips SHA-256 gate when `path` absent; replace with HTTP 400 reject (Target: Q4 2026)
+- [x] `integrity_gate_bypass` (`llm_api_handler.cpp:978`): `if (!path.empty())` silently skips SHA-256 gate when `path` absent; replace with HTTP 400 reject (Target: Q4 2026 → Completed 2026-08-26)
   - Tests: empty-path model-load returns 400, non-empty path proceeds normally
-- [ ] `path_traversal` (`llm_api_handler.cpp:967-969`): user-supplied `path` not validated; add `weakly_canonical()` + model-store root escape check before `verifyModel`/`loadModel` (Target: Q4 2026)
+- [x] `path_traversal` (`llm_api_handler.cpp:967-969`): user-supplied `path` not validated; add `weakly_canonical()` + model-store root escape check before `verifyModel`/`loadModel` (Target: Q4 2026 → Completed 2026-08-26)
   - Tests: `../` path blocked, absolute path outside model root blocked
-- [ ] `missing_audit_log` (`lora_api_handler.cpp`): add `THEMIS_INFO("[AUDIT] authorize result={} scope={}", result, scope)` after `authorize()` on ALLOW+DENY branches (Target: Q4 2026)
-- [ ] `missing_audit_log` (`import_api_handler.cpp`): same pattern (Target: Q4 2026)
-- [ ] `missing_audit_log` (~3 small handlers): replication_topology, postgres_session, others per header C= counts — audit injection needed (Target: Q4 2026)
-- [ ] `mcp_server.cpp:2814`: add `// STUB/SIMULATION NOTE` for non-Linux platform gap with removal plan (Target: Q4 2026)
-- **Regression tests:** `tests/server/test_wave4a_server_hardening.cpp` (8 tests)
+- [x] `missing_audit_log` (`lora_api_handler.cpp`): add `THEMIS_INFO("[AUDIT] authorize result={} scope={}", result, scope)` after `authorize()` on ALLOW+DENY branches (Target: Q4 2026 → Completed 2026-08-26)
+- [x] `missing_audit_log` (`import_api_handler.cpp`): same pattern (Target: Q4 2026 → Completed 2026-08-26)
+- [x] `missing_audit_log` (~3 small handlers): `bpmn_api_handler.cpp`, `cache_admin_api_handler.cpp`, `entity_api_handler.cpp` — `[AUDIT] authorize result={} scope={}` injected on ALLOW and DENY branches (Target: Q4 2026 → Completed 2026-08-26)
+- [x] `mcp_server.cpp:2814`: 4-field `// STUB/SIMULATION NOTE` for non-Linux Unix socket path / abstract namespace gap with removal plan Q2 2027 (Target: Q4 2026 → Completed 2026-08-26)
+- **Regression tests:** `tests/server/test_wave4a_server_hardening.cpp` (8 tests) + `tests/server/test_wave4a_server_hardening2.cpp` (14 tests, labels: wave_a release_critical)
 
 > **Note:** `prompt_injection` (src/llm/docs_assistant.cpp:678) and `deadlock_risk` (src/llm/ai_orchestrator.cpp:264–289) are real CRITICAL findings in the LLM module — tracked in LLM ROADMAP, not server scope.
 

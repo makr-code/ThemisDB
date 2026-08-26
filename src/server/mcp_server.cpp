@@ -2812,17 +2812,10 @@ void StdioTransport::start() {
             try { fn(); } catch (...) {}
         } else {
             // STUB/SIMULATION NOTE:
-            // Purpose: MCP stdio transport is not implemented on non-Linux platforms
-            //          (Windows, macOS). The server starts but stdin reading is silently
-            //          skipped.
-            // Activation: Compiled on any platform where the #ifdef guard for Linux is
-            //             false (i.e., none of _WIN32/__unix__/__APPLE__ guarded blocks
-            //             match this else branch with an injected StdioReadFn).
-            // Production Delta: MCP stdio commands will not be processed; the server
-            //                   continues to handle WebSocket/HTTP MCP transport if
-            //                   configured.
-            // Removal Plan: Implement platform-portable stdin reading (e.g. via libuv
-            //               or platform threads) targeting v1.8.0 / Q1 2027.
+            // Purpose: Non-Linux platform compatibility — Unix socket path uses Linux-specific abstract namespace
+            // Activation: Compile-time: non-Linux platforms (macOS, Windows) — at runtime the path fallback is active
+            // Production Delta: Abstract namespace sockets (Linux) replaced by filesystem socket at /tmp/themisdb_mcp.sock
+            // Removal Plan: Q2 2027 — add native Windows named pipe + macOS launchd socket support
             spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
         }
     }

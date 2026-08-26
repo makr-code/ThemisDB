@@ -26,7 +26,16 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    if(_stem STREQUAL "test_server_phase5_hardening")
+    if(_stem STREQUAL "test_wave4a_server_hardening2")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS wave_a release_critical server hardening
+        )
+    elseif(_stem STREQUAL "test_server_phase5_hardening")
         themis_register_module_focused_test(
             MODULE server
             NAME ${_ctest}
