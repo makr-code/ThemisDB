@@ -258,7 +258,18 @@ else()
            set(RocksDB_FOUND TRUE)
            message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
        else()
-           if(THEMIS_ALLOW_MISSING_ROCKSDB)
+           # Final fallback for distro packages that do not ship a rocksdb.pc file.
+           find_path(ROCKSDB_INCLUDE_DIR NAMES rocksdb/db.h)
+           find_library(ROCKSDB_LIBRARY NAMES rocksdb)
+           if(ROCKSDB_INCLUDE_DIR AND ROCKSDB_LIBRARY)
+               message(STATUS "RocksDB found via manual search: ${ROCKSDB_LIBRARY}")
+               add_library(RocksDB::rocksdb UNKNOWN IMPORTED)
+               set_target_properties(RocksDB::rocksdb PROPERTIES
+                   IMPORTED_LOCATION "${ROCKSDB_LIBRARY}"
+                   INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}"
+               )
+               set(RocksDB_FOUND TRUE)
+           elseif(THEMIS_ALLOW_MISSING_ROCKSDB)
                message(WARNING
                    "RocksDB not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON. "
                    "Install via vcpkg (rocksdb) or system package librocksdb-dev before building "
