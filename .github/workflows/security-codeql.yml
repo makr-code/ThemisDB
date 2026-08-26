@@ -193,7 +193,7 @@ jobs:
         # After codeql-action/init, the tracer environment is already active, so
         # compiler calls made by cmake --build are captured for CodeQL extraction.
         run: |
-          cmake --build build-community-release --parallel $(nproc)
+          cmake --build build-community-release --parallel "$(nproc)"
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8

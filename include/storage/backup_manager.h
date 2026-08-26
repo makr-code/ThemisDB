@@ -847,7 +847,8 @@ private:
      * @param ec Receives the failure reason when the operation returns `false`.
      * @return `true` on success, or `false` when traversal, compression, or copy fails.
      */
-    bool compressPath(const std::string& src_path, const std::string& dest_path,
+    bool compressPath([[maybe_unused]] const std::string& src_path,
+                      [[maybe_unused]] const std::string& dest_path,
                       CompressionType type, std::error_code& ec);
     
     /**
@@ -860,7 +861,8 @@ private:
      * @return `true` on success, or `false` when traversal, decompression, or
      *         copy fails.
      */
-    bool decompressPath(const std::string& src_path, const std::string& dest_path,
+    bool decompressPath([[maybe_unused]] const std::string& src_path,
+                        [[maybe_unused]] const std::string& dest_path,
                         CompressionType type, std::error_code& ec);
     
     /**
@@ -872,7 +874,8 @@ private:
      * @param ec Receives the failure reason when the operation returns `false`.
      * @return `true` on success, or `false` when encryption or copy fails.
      */
-    bool encryptFile(const std::string& src_path, const std::string& dest_path,
+    bool encryptFile([[maybe_unused]] const std::string& src_path,
+                     [[maybe_unused]] const std::string& dest_path,
                      [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     /**
@@ -884,7 +887,8 @@ private:
      * @param ec Receives the failure reason when the operation returns `false`.
      * @return `true` on success, or `false` when decryption or copy fails.
      */
-    bool decryptFile(const std::string& src_path, const std::string& dest_path,
+    bool decryptFile([[maybe_unused]] const std::string& src_path,
+                     [[maybe_unused]] const std::string& dest_path,
                      [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     /**

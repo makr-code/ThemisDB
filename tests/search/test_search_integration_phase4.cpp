@@ -70,7 +70,6 @@ TEST_F(SearchIntegrationPhase4Test, INT_01_DistributedHybridWithAnalytics) {
       stats.shards_succeeded = 4;
       stats.shards_failed = 0;
       stats.partial_result = false;
-      stats.total_execution_time_ms = 250;
       
       component_timings_ms = {80, 100, 50, 20};  // BM25, Vector, Rerank, Merge
     }
@@ -415,13 +414,13 @@ TEST_F(SearchIntegrationPhase4Test, INT_09_ErrorPropagationPipeline) {
     std::vector<std::string> error_chain;
     
     void stage_expansion() {
-      error_code = SEARCH_ERR_EXPANSION_LIMIT_EXCEEDED;
+      error_code = static_cast<int>(SearchErrorCode::EXPANSION_LIMIT_EXCEEDED);
       error_chain.push_back("expansion_failed");
     }
     
     void stage_faceted_search() {
       if (error_code != 0) return;  // Skip if upstream failed
-      error_code = SEARCH_ERR_FACET_OVERFLOW;
+      error_code = static_cast<int>(SearchErrorCode::FACET_CARDINALITY_LIMIT);
       error_chain.push_back("facet_failed");
     }
     
@@ -440,7 +439,7 @@ TEST_F(SearchIntegrationPhase4Test, INT_09_ErrorPropagationPipeline) {
   ErrorPropagatingPipeline pipeline;
   pipeline.execute();
   
-  EXPECT_EQ(pipeline.error_code, SEARCH_ERR_EXPANSION_LIMIT_EXCEEDED);
+  EXPECT_EQ(pipeline.error_code, static_cast<int>(SearchErrorCode::EXPANSION_LIMIT_EXCEEDED));
   EXPECT_EQ(pipeline.error_chain.size(), 1);
   EXPECT_EQ(pipeline.error_chain[0], "expansion_failed");
 }

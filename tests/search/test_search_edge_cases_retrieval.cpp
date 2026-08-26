@@ -24,7 +24,7 @@ class RetrieverEdgeCasesTest : public ::testing::Test {
     size_t bm25_results = 0;
     size_t vector_results = 0;
 
-    SearchErrorCode retrieve_bm25(const std::string& query, size_t k,
+    SearchErrorCode retrieve_bm25([[maybe_unused]] const std::string& query, size_t k,
                                  std::vector<HybridSearch::Result>& results) {
       if (!bm25_available) {
         return SearchErrorCode::BM25_BACKEND_UNAVAILABLE;
@@ -37,7 +37,7 @@ class RetrieverEdgeCasesTest : public ::testing::Test {
       return SearchErrorCode::SUCCESS;
     }
 
-    SearchErrorCode retrieve_vector(const std::string& query, size_t k,
+    SearchErrorCode retrieve_vector([[maybe_unused]] const std::string& query, size_t k,
                                    std::vector<HybridSearch::Result>& results) {
       if (!vector_available) {
         return SearchErrorCode::VECTOR_BACKEND_UNAVAILABLE;

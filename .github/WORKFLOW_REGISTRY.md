@@ -23,6 +23,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — PR-Gate fuer geaenderten C/C++-Sourcecode: GS3-Doxygen-Strukturpruefung, Doxygen-Audit-Warnungen, XML-Generierbarkeit, Coverage-/Waiver-Eskalation
 - `.github/workflows/build-mainline.yml`
   — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
+- `.github/workflows/build-clang-fast.yml`
+  — Lightweight Clang-Lane fuer PR-Fruehfeedback (ohne heavy Sanitizer-Overhead)
 - `.github/workflows/release-mainline.yml`
   — Tag-/Dispatch-gesteuerte Release-Builds; CPack-Packaging (TGZ/DEB/RPM/ZIP/MSI); Manifest-Validierung, GitHub-Release-Erstellung und Publish-Lanes (community + private); Changelog-Automation
 - `.github/workflows/build-benchmarks.yml`
@@ -33,6 +35,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan + DAST/ZAP (Schedule/Dispatch only; 4 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml)
 - `.github/workflows/security-fortify.yml`
   — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
+- `.github/workflows/sanitizer-nightly.yml`
+  — Geplante ASan/UBSan-Nachtlaeufe auf ausgewaehlten kritischen Targets
 - `.github/workflows/security-pentest-quarterly.yml`
   — Quartals-Pentest-Cadence mit Evidence-Artefakten (non-mutating)
 - `.github/workflows/compliance-supply-chain.yml`
@@ -123,7 +127,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 38
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 40
 - Deaktivierte Workflows in `.github/no_workflows/`: 30
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.

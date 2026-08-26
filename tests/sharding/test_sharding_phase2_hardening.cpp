@@ -120,8 +120,8 @@ TEST_F(Phase2ThreadSafetyTest, TS01_ConcurrentElectionStartup) {
         topology,
         gossip_mgr,
         DistributedCoordinator::Config{
-            .election_timeout_ms = 100,
             .heartbeat_interval_ms = 50,
+            .election_timeout_ms = 100,
         }
     );
     
@@ -744,7 +744,7 @@ TEST_F(Phase2ErrorLoggingTest, EL02_QuorumTimeoutDiagnostics) {
  * when run with the same random seed
  */
 TEST_F(Phase2DeterminismTest, DT01_DeterministicLoadImbalance) {
-    std::vector<ShardLoadDetector::LoadImbalanceResult> results;
+    std::vector<LoadImbalanceResult> results;
     
     for (int run = 0; run < 2; ++run) {
         auto topology = std::make_shared<ShardTopology>();
