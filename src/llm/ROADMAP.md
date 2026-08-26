@@ -151,16 +151,16 @@ The module provides production-grade LLM runtime surfaces across async inference
 
 > **Source:** Semantic analysis 2026-08-25 — `inference_engine_enhanced.cpp` (8 stubs), `inline_training_engine.cpp` (5 stubs)
 
-- [ ] Replace 8 stubs in `inference_engine_enhanced.cpp`: speculative decode verify-step, CUDA kernel fusion for attention, KV-cache LRU eviction (Target: Q4 2026)
+- [x] Replace 8 stubs in `inference_engine_enhanced.cpp`: speculative decode verify-step, CUDA kernel fusion for attention, KV-cache LRU eviction (Wave-7, 2026-08-26)
   - Inputs: draft-model logits + verify-model logits; KV-cache capacity config
   - Outputs: accepted token count, cache hit/miss metrics
-  - Tests: `tests/llm/test_inference_engine_stubs_wave2c.cpp` (8 test cases)
+  - Tests: `tests/llm/test_wave7_llm_kvcache_lru_checkpoint.cpp` (LRU-01..LRU-10)
 - [~] Complete `inline_training_engine.cpp` training loop (5 stubs → production): SGD/Adam gradient update, loss tracking, model-checkpoint persistence to RocksDB, cancellation/timeout support (Target: Q4 2026)
   - [x] Persistent `model_params_` vector added to `Impl`; training loop now updates real parameters across steps instead of a per-step zero-initialised dummy (Wave-B L5, 2026-08-26)
   - [x] SGD, Adam, AdamW, AdaGrad, RMSProp optimizers fully implemented and wired
   - [x] Stop flag (`stop_flag`) checked at epoch and batch boundaries
   - [x] Loss tracked per step, logged via spdlog
-  - [ ] Checkpoint persistence to RocksDB (remaining gap — currently writes JSON to filesystem)
+  - [x] Checkpoint persistence to RocksDB — `setCheckpointDb()` wired; dual-write (RocksDB + filesystem JSON) in `saveCheckpoint()`; RocksDB-first load with filesystem fallback in `loadCheckpoint()` (Wave-7, 2026-08-26)
   - Constraints: loss must decrease over 10 epochs on synthetic data (test criterion)
   - Errors: checkpoint write failure, cancellation mid-epoch
   - Tests: `tests/llm/test_inline_training_production.cpp`

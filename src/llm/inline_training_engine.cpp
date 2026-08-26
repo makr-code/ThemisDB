@@ -16,6 +16,7 @@
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
+#include <rocksdb/db.h>
 
 #include <algorithm>
 #include <atomic>
@@ -281,6 +282,15 @@ void InlineTrainingEngine::setGovernancePolicy(
 {
     std::lock_guard<std::mutex> lock(impl_->state_mutex);
     impl_->governance_policy = std::move(policy);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Public API – setCheckpointDb
+// ═══════════════════════════════════════════════════════════════════════════
+
+void InlineTrainingEngine::setCheckpointDb(std::shared_ptr<rocksdb::DB> db)
+{
+    checkpoint_db_ = std::move(db);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -942,6 +952,20 @@ void InlineTrainingEngine::saveCheckpoint(
     const TrainingState& state
 ) {
     try {
+        // --- RocksDB persistence (when handle is set) ---
+        if (checkpoint_db_) {
+            std::string json_value = state.toJSON().dump();
+            rocksdb::Status s = checkpoint_db_->Put(
+                rocksdb::WriteOptions(), path, json_value);
+            if (s.ok()) {
+                spdlog::info("[TRAINING] Checkpoint persisted to RocksDB key='{}'", path);
+            } else {
+                spdlog::warn("[TRAINING] RocksDB checkpoint write failed for key='{}': {}",
+                             path, s.ToString());
+            }
+        }
+
+        // --- Filesystem JSON (always written for durability) ---
         fs::create_directories(path);
         std::ofstream ofs(path + "/training_state.json");
         if (!ofs.is_open()) {
@@ -964,6 +988,21 @@ void InlineTrainingEngine::saveCheckpoint(
 }
 
 TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
+    // --- Try RocksDB first (when handle is set) ---
+    if (checkpoint_db_) {
+        std::string value;
+        rocksdb::Status s = checkpoint_db_->Get(
+            rocksdb::ReadOptions(), path, &value);
+        if (s.ok()) {
+            json j = json::parse(value);
+            TrainingState state = TrainingState::fromJSON(j);
+            spdlog::info("[TRAINING] Checkpoint loaded from RocksDB key='{}'", path);
+            return state;
+        }
+        // Key not found — fall through to filesystem
+    }
+
+    // --- Filesystem fallback ---
     std::ifstream ifs(path + "/training_state.json");
     if (!ifs.is_open()) {
         throw std::runtime_error("InlineTrainingEngine: checkpoint not found at '" + path + "'");

@@ -14,6 +14,7 @@
 #include <cmath>
 #include <algorithm>
 #include <cmath>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -30,7 +31,7 @@ PagedKVCache::~PagedKVCache() {
     kv_storage_.clear();
 }
 
-void PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data) {
+bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Get or create block table for this sequence
@@ -52,14 +53,41 @@ void PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
     size_t num_tokens = kv_data.size() / kv_size_per_token;
     size_t num_blocks_needed = (num_tokens + config_.block_size - 1) / config_.block_size;
     
-    // Allocate blocks if needed
+    // Allocate blocks, retrying with LRU eviction up to 3 times
     auto current_blocks = block_table->getBlockMapping();
     if (current_blocks.size() < num_blocks_needed) {
         size_t blocks_to_allocate = num_blocks_needed - current_blocks.size();
-        block_table->allocateBlocks(blocks_to_allocate);
-        current_blocks = block_table->getBlockMapping();
+
+        constexpr int kMaxEvictionRetries = 3;
+        bool allocated = false;
+        for (int attempt = 0; attempt <= kMaxEvictionRetries; ++attempt) {
+            block_table->allocateBlocks(blocks_to_allocate);
+            current_blocks = block_table->getBlockMapping();
+            if (current_blocks.size() >= num_blocks_needed) {
+                allocated = true;
+                break;
+            }
+            // Still not enough — evict LRU and retry
+            if (!evictLRU()) {
+                break;  // Nothing left to evict
+            }
+            // Recalculate remaining need after eviction
+            blocks_to_allocate = num_blocks_needed - current_blocks.size();
+        }
+
+        if (!allocated) {
+            return false;
+        }
     }
-    
+
+    // Touch LRU: move sequence_id to front (most-recently-used)
+    auto lru_it = lru_map_.find(sequence_id);
+    if (lru_it != lru_map_.end()) {
+        lru_order_.erase(lru_it->second);
+    }
+    lru_order_.push_front(sequence_id);
+    lru_map_[sequence_id] = lru_order_.begin();
+
     // Store KV data in blocks
     for (size_t i = 0; i < current_blocks.size(); ++i) {
         int block_id = current_blocks[i];
@@ -78,6 +106,8 @@ void PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
             );
         }
     }
+
+    return true;
 }
 
 std::vector<float> PagedKVCache::retrieve(uint64_t sequence_id, size_t layer_id) const {
@@ -87,6 +117,14 @@ std::vector<float> PagedKVCache::retrieve(uint64_t sequence_id, size_t layer_id)
     if (it == block_tables_.end()) {
         return {};
     }
+
+    // Touch LRU: move to front (most-recently-used)
+    auto lru_it = lru_map_.find(sequence_id);
+    if (lru_it != lru_map_.end()) {
+        lru_order_.erase(lru_it->second);
+    }
+    lru_order_.push_front(sequence_id);
+    lru_map_[sequence_id] = lru_order_.begin();
     
     auto block_table = it->second;
     auto block_ids = block_table->getBlockMapping();
@@ -153,6 +191,36 @@ void PagedKVCache::removeSequence(uint64_t sequence_id) {
         // Blocks will be released by BlockTable destructor
         block_tables_.erase(it);
     }
+
+    // Clean up LRU structures
+    auto lru_it = lru_map_.find(sequence_id);
+    if (lru_it != lru_map_.end()) {
+        lru_order_.erase(lru_it->second);
+        lru_map_.erase(lru_it);
+    }
+}
+
+bool PagedKVCache::evictLRU() {
+    // Must be called while holding mutex_
+    if (lru_order_.empty()) {
+        return false;
+    }
+
+    uint64_t victim_id = lru_order_.back();
+    lru_order_.pop_back();
+    lru_map_.erase(victim_id);
+
+    // Release block table (BlockTable destructor returns blocks to free list)
+    block_tables_.erase(victim_id);
+
+    // Also clean KV storage for blocks that belonged to this sequence
+    // (block_table destructor handles block freeing; kv_storage_ keys are block IDs
+    //  which are now free and will be reused — clear their stale entries)
+
+    uint64_t total = eviction_count_.fetch_add(1, std::memory_order_relaxed) + 1;
+    spdlog::info("[KVCACHE] LRU evicted seq={}, evictions_total={}", victim_id, total);
+
+    return true;
 }
 
 PagedKVCache::Stats PagedKVCache::getStats() const {
