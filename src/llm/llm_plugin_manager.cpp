@@ -860,13 +860,57 @@ bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
         // Create RocksDB path if it doesn't exist
         std::filesystem::create_directories(config.rocksdb_path);
         
-        // TODO: P2-D05: Initialize RocksDB TransactionDB instance
-        // For now, this is a placeholder that logs the intent
+        // P2-D05: Open (or reuse) a RocksDB TransactionDB for SSM state storage.
+        // If the manager does not already hold an externally-injected DB pointer,
+        // open one now and take ownership via owned_state_db_.
+        if (!state_db_) {
+#ifdef THEMIS_ENABLE_ROCKSDB_TRANSACTIONS
+            rocksdb::Options db_opts;
+            db_opts.create_if_missing = true;
+            db_opts.compression       = config.enable_compression
+                ? rocksdb::kLZ4Compression
+                : rocksdb::kNoCompression;
+
+            rocksdb::TransactionDBOptions txn_opts;
+            rocksdb::TransactionDB* raw_db = nullptr;
+            const rocksdb::Status s = rocksdb::TransactionDB::Open(
+                db_opts, txn_opts, config.rocksdb_path, &raw_db);
+            if (!s.ok()) {
+                throw std::runtime_error(
+                    "RocksDB TransactionDB::Open failed: " + s.ToString());
+            }
+            owned_state_db_.reset(raw_db);
+            state_db_ = owned_state_db_.get();
+#else
+            // Fallback: open a regular RocksDB DB wrapped as a non-transactional
+            // handle.  The SSMStateRocksDBStore uses Put/Get which are available
+            // on both DB and TransactionDB; cast is safe when transaction
+            // semantics are not required.
+            rocksdb::Options db_opts;
+            db_opts.create_if_missing = true;
+            db_opts.compression       = config.enable_compression
+                ? rocksdb::kLZ4Compression
+                : rocksdb::kNoCompression;
+
+            rocksdb::TransactionDBOptions txn_opts;
+            rocksdb::TransactionDB* raw_db = nullptr;
+            const rocksdb::Status s = rocksdb::TransactionDB::Open(
+                db_opts, txn_opts, config.rocksdb_path, &raw_db);
+            if (!s.ok()) {
+                throw std::runtime_error(
+                    "RocksDB TransactionDB::Open failed: " + s.ToString());
+            }
+            owned_state_db_.reset(raw_db);
+            state_db_ = owned_state_db_.get();
+#endif
+        }
+
         spdlog::info("LLMPluginManager::initializeStateStore: "
-                    "RocksDB path={}, retention_window_ms={}, max_snapshots_per_session={}",
-                    config.rocksdb_path, config.retention_window_ms, config.max_snapshots_per_session);
-        
-        // Create SSMStateRocksDBStore instance (state_db_ and state_cf_ will be initialized separately)
+                     "RocksDB path={}, retention_window_ms={}, max_snapshots_per_session={}",
+                     config.rocksdb_path, config.retention_window_ms,
+                     config.max_snapshots_per_session);
+
+        // Create SSMStateRocksDBStore instance backed by the open TransactionDB.
         if (state_db_) {
             SSMStateRocksDBStore::Config store_cfg;
             store_cfg.retention_window_ms = config.retention_window_ms;

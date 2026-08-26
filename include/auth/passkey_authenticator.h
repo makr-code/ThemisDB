@@ -21,6 +21,9 @@
 namespace themis {
 namespace auth {
 
+// Forward declaration — avoid pulling the full header into every TU.
+class AuthAuditLogger;
+
 // ---------------------------------------------------------------------------
 // PasskeyCredential — stored credential record after registration
 // ---------------------------------------------------------------------------
@@ -276,6 +279,16 @@ public:
     [[nodiscard]] bool revokeCredential(const std::string& credential_id) override;
 
     // -----------------------------------------------------------------------
+    // Audit logger injection
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Attach an AuthAuditLogger that receives passkey success/failure events.
+     * @param logger Non-owning pointer; may be nullptr (disables audit logging).
+     */
+    void setAuditLogger(AuthAuditLogger* logger) { audit_logger_ = logger; }
+
+    // -----------------------------------------------------------------------
     // Low-level cryptographic helpers (used internally; exposed for testing)
     // -----------------------------------------------------------------------
 
@@ -330,6 +343,8 @@ private:
     mutable std::mutex challenge_mutex_;
     /// challenge_id → PasskeyChallenge
     std::unordered_map<std::string, PasskeyChallenge> pending_challenges_;
+
+    AuthAuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
 
     /**
      * @brief Generate a cryptographically secure base64url challenge string.

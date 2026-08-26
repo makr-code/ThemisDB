@@ -64,7 +64,21 @@ struct TransactionStateSnapshot {
 };
 
 // ============================================================================
-// RPC phase-2 bridge (stub #279)
+// RPC phase-2 bridge (STUB #279)
+//
+// STUB/SIMULATION NOTE:
+// Purpose: Injectable RPC transport bridge for 2PC Phase-2 (COMMIT/ABORT)
+//          delivery to remote participants.  Provides a runtime-configurable
+//          transport layer without coupling the DTM to a specific RPC library.
+// Activation: When setRpcPhase2Fn() is not called, getRpcPhase2Fn() returns
+//             nullptr.  The constructor rejects this configuration if
+//             remote_phase1_dispatch is set (fail-fast at startup).
+//             If only local participants are used, the bridge is never invoked.
+// Production Delta: Without injection, distributed 2PC cannot deliver Phase-2
+//             to remote nodes.  This is safe: the fail-fast check prevents
+//             a coordinator from leaving remote participants in PREPARED state.
+// Removal Plan: Wire a default gRPC transport in ThemisServer::initialize()
+//               and remove setRpcPhase2Fn() — Target Q4 2026 (issue #279).
 // ============================================================================
 
 namespace {
@@ -88,7 +102,16 @@ static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
 }
 
 // ============================================================================
-// RPC phase-1 bridge (stub #279 — Phase-1 PREPARE extension)
+// RPC phase-1 bridge (STUB #279 — Phase-1 PREPARE extension)
+//
+// STUB/SIMULATION NOTE:
+// Purpose: Injectable RPC transport bridge for 2PC Phase-1 (PREPARE) delivery
+//          to remote participants.
+// Activation: When setRpcPhase1Fn() is not called, local-only mode applies.
+// Production Delta: Without injection, Phase-1 PREPARE is not sent to remote
+//             nodes; only local participants participate in the transaction.
+// Removal Plan: Wire a default gRPC transport in ThemisServer::initialize()
+//               — Target Q4 2026 (issue #279).
 // ============================================================================
 
 namespace {

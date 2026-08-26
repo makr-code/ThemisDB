@@ -54,6 +54,7 @@ enum class SecurityEventType {
     // Privilege Escalation
     PRIVILEGE_ESCALATION_ATTEMPT,
     ROLE_CHANGED,
+    PERMISSION_CHANGED,
     SCOPE_GRANTED,
     SCOPE_REVOKED,
     

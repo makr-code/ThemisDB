@@ -143,6 +143,69 @@ void AuthAuditLogger::logSAMLFailure(const std::string &reason) {
 }
 
 // ---------------------------------------------------------------------------
+// Passkey / FIDO2 events
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logPasskeySuccess(const std::string &user_id, const std::string &credential_id) {
+    nlohmann::json d;
+    d["credential_id"] = credential_id;
+    emit(utils::SecurityEventType::LOGIN_SUCCESS, user_id, "passkey/authenticate", d);
+}
+
+void AuthAuditLogger::logPasskeyFailure(const std::string &user_id, const std::string &reason) {
+    nlohmann::json d;
+    d["reason"] = reason;
+    emit(utils::SecurityEventType::LOGIN_FAILED, user_id, "passkey/authenticate", d);
+}
+
+void AuthAuditLogger::logPasskeyRegistered(const std::string &user_id,
+                                           const std::string &credential_id,
+                                           const std::string &rp_id) {
+    nlohmann::json d;
+    d["credential_id"] = credential_id;
+    d["rp_id"]         = rp_id;
+    emit(utils::SecurityEventType::TOKEN_CREATED, user_id, "passkey/register", d);
+}
+
+// ---------------------------------------------------------------------------
+// mTLS events
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logMTLSSuccess(const std::string &principal, const std::string &serial) {
+    nlohmann::json d;
+    d["serial"] = serial;
+    emit(utils::SecurityEventType::LOGIN_SUCCESS, principal, "mtls/authenticate", d);
+}
+
+void AuthAuditLogger::logMTLSFailure(const std::string &reason) {
+    nlohmann::json d;
+    d["reason"] = reason;
+    emit(utils::SecurityEventType::LOGIN_FAILED, "", "mtls/authenticate", d);
+}
+
+// ---------------------------------------------------------------------------
+// Role / permission change events
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logRoleChange(const std::string &user_id,
+                                    const std::string &old_role,
+                                    const std::string &new_role) {
+    nlohmann::json d;
+    d["old_role"] = old_role;
+    d["new_role"] = new_role;
+    emit(utils::SecurityEventType::ROLE_CHANGED, user_id, "auth/role", d);
+}
+
+void AuthAuditLogger::logPermissionChange(const std::string &user_id,
+                                          const std::string &permission,
+                                          bool granted) {
+    nlohmann::json d;
+    d["permission"] = permission;
+    d["granted"]    = granted;
+    emit(utils::SecurityEventType::PERMISSION_CHANGED, user_id, "auth/permission", d);
+}
+
+// ---------------------------------------------------------------------------
 // LDAP / Active Directory events
 // ---------------------------------------------------------------------------
 

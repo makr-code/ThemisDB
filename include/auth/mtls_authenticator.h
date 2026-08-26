@@ -23,6 +23,9 @@
 namespace themis {
 namespace auth {
 
+// Forward declaration
+class AuthAuditLogger;
+
 /**
  * @brief Claims extracted from a validated client certificate during mTLS authentication.
  *
@@ -214,10 +217,17 @@ public:
      */
     static std::string extractSubjectCN(const std::string& cert_pem);
 
+    /**
+     * @brief Attach an AuthAuditLogger that receives mTLS success/failure events.
+     * @param logger Non-owning pointer; may be nullptr (disables audit logging).
+     */
+    void setAuditLogger(AuthAuditLogger* logger) { audit_logger_ = logger; }
+
 private:
     Config config_;
     mutable std::mutex mutex_;
     std::unordered_set<std::string> revoked_serials_;
+    AuthAuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
 
     // OpenSSL X509_STORE for CA chain verification (PIMPL via void*)
     struct Impl;

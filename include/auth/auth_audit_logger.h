@@ -136,6 +136,45 @@ public:
     void logSAMLFailure(const std::string& reason);
 
     // -----------------------------------------------------------------------
+    // Passkey / FIDO2 events
+    // -----------------------------------------------------------------------
+
+    /** Passkey authentication succeeded. */
+    void logPasskeySuccess(const std::string& user_id, const std::string& credential_id);
+
+    /** Passkey authentication failed. */
+    void logPasskeyFailure(const std::string& user_id, const std::string& reason);
+
+    /** Passkey credential was registered for a user. */
+    void logPasskeyRegistered(const std::string& user_id,
+                              const std::string& credential_id,
+                              const std::string& rp_id);
+
+    // -----------------------------------------------------------------------
+    // mTLS events
+    // -----------------------------------------------------------------------
+
+    /** mTLS client certificate authentication succeeded. */
+    void logMTLSSuccess(const std::string& principal, const std::string& serial);
+
+    /** mTLS client certificate authentication failed. */
+    void logMTLSFailure(const std::string& reason);
+
+    // -----------------------------------------------------------------------
+    // Role / permission change events
+    // -----------------------------------------------------------------------
+
+    /** A user's role was changed. */
+    void logRoleChange(const std::string& user_id,
+                       const std::string& old_role,
+                       const std::string& new_role);
+
+    /** A permission was granted or revoked for a user. */
+    void logPermissionChange(const std::string& user_id,
+                             const std::string& permission,
+                             bool granted);
+
+    // -----------------------------------------------------------------------
     // LDAP / Active Directory events
     // -----------------------------------------------------------------------
 

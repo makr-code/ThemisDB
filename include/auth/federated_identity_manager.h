@@ -15,6 +15,7 @@
 #include "auth/oidc_provider.h"
 #include "auth/jwt_validator.h"
 #include "auth/auth_error.h"
+#include "auth/auth_audit_logger.h"
 
 #include <string>
 #include <vector>
@@ -250,6 +251,12 @@ public:
      */
     OIDCProvider& realmProvider(const std::string& issuer_url);
 
+    /**
+     * @brief Attach an AuthAuditLogger that receives JWT success/failure events.
+     * @param logger Non-owning pointer; may be nullptr (disables audit logging).
+     */
+    void setAuditLogger(AuthAuditLogger* logger) { audit_logger_ = logger; }
+
     // -----------------------------------------------------------------------
     // Testing helpers
     // -----------------------------------------------------------------------
@@ -305,6 +312,8 @@ private:
     /// Optional HTTP POST mock injected for testing; used by exchangeToken()
     std::function<std::string(const std::string& url,
                                const std::string& body)> http_post_fn_;
+
+    AuthAuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
 };
 
 } // namespace auth

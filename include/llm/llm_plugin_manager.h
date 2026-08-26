@@ -498,7 +498,13 @@ private:
     /// SSM state store for persistent snapshot storage (P2-D04 / P2-D05)
     std::unique_ptr<SSMStateRocksDBStore> state_store_;
     
-    /// RocksDB instance for state storage (not owned by this class)
+    /// RocksDB TransactionDB instance opened by initializeStateStore() (owned).
+    /// When set, state_db_ below points to the same object.
+    std::unique_ptr<rocksdb::TransactionDB> owned_state_db_;
+
+    /// RocksDB instance for state storage.
+    /// May point to owned_state_db_.get() (opened internally) or to an
+    /// externally-injected instance.  Lifetime is always >= state_store_.
     rocksdb::TransactionDB* state_db_ = nullptr;
     
     /// Column family handle for SSM state (not owned by this class)

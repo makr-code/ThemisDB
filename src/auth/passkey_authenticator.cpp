@@ -11,6 +11,8 @@
 
 #include "auth/passkey_authenticator.h"
 
+#include "auth/auth_audit_logger.h"
+
 #include <algorithm>
 #include <array>
 #include <cstring>
@@ -405,6 +407,11 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
     }
 
     if (fields.kty == 2) {
+        // EC2 / P-256 — require alg == -7 (ES256) when alg field is present
+        if (fields.alg != 0 && fields.alg != -7) {
+            err_out = "COSE EC2 key has disallowed alg=" + std::to_string(fields.alg) + " (expected -7/ES256)";
+            return nullptr;
+        }
         // EC2 / P-256 (ES256, crv=1)
         if (fields.crv != 1) {
             err_out = "unsupported EC curve (only P-256 supported)";
@@ -445,6 +452,11 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
         return pkey;
 
     } else if (fields.kty == 3) {
+        // RSA — require alg == -257 (RS256) when alg field is present
+        if (fields.alg != 0 && fields.alg != -257) {
+            err_out = "COSE RSA key has disallowed alg=" + std::to_string(fields.alg) + " (expected -257/RS256)";
+            return nullptr;
+        }
         // RSA (RS256)
         if (fields.neg1_bytes.empty() || fields.neg2_bytes.empty()) {
             err_out = "RSA COSE key missing modulus or exponent";
@@ -476,6 +488,15 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
             EVP_PKEY_free(pkey);
             err_out = "EVP_PKEY_fromdata failed for RSA key";
             return nullptr;
+        }
+        // C3: reject RSA keys shorter than 2048 bits
+        {
+            const int bits = EVP_PKEY_get_bits(pkey);
+            if (bits < 2048) {
+                EVP_PKEY_free(pkey);
+                err_out = "RSA key too short: " + std::to_string(bits) + " bits (minimum 2048)";
+                return nullptr;
+            }
         }
         return pkey;
 
@@ -579,6 +600,11 @@ bool PasskeyAuthenticator::completeRegistration(const std::string& challenge_id,
         credentials_[credential.credential_id] = credential;
     }
 
+    if (audit_logger_) {
+        audit_logger_->logPasskeyRegistered(credential.user_id, credential.credential_id,
+                                            relying_party_id_);
+    }
+
     spdlog::info("PasskeyAuthenticator: credential registered for user '{}'",
                  credential.user_id);
     return true;
@@ -616,6 +642,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
         auto it = pending_challenges_.find(challenge_id);
         if (it == pending_challenges_.end()) {
             spdlog::warn("PasskeyAuthenticator: completeAuthentication — challenge not found");
+            if (audit_logger_) audit_logger_->logPasskeyFailure("", "challenge_not_found");
             return PasskeyVerifyResult::INVALID_CHALLENGE;
         }
         challenge = it->second;
@@ -625,6 +652,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     // 2. Check expiry
     if (std::chrono::system_clock::now() > challenge.expires_at) {
         spdlog::warn("PasskeyAuthenticator: completeAuthentication — challenge expired");
+        if (audit_logger_) audit_logger_->logPasskeyFailure(challenge.user_id, "challenge_expired");
         return PasskeyVerifyResult::INVALID_CHALLENGE;
     }
 
@@ -635,6 +663,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
         auto it = credentials_.find(response.credential_id);
         if (it == credentials_.end()) {
             spdlog::warn("PasskeyAuthenticator: completeAuthentication — credential not found");
+            if (audit_logger_) audit_logger_->logPasskeyFailure(challenge.user_id, "credential_not_found");
             return PasskeyVerifyResult::CREDENTIAL_NOT_FOUND;
         }
         credential = it->second;
@@ -654,6 +683,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
 
     // 6. Cryptographic verification
     if (!verifyAuthentication(challenge, credential, assertion_encoded)) {
+        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "invalid_signature");
         return PasskeyVerifyResult::INVALID_SIGNATURE;
     }
 
@@ -669,6 +699,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
         }
     } catch (const std::exception& ex) {
         spdlog::warn("PasskeyAuthenticator: sign_count extraction failed ({})", ex.what());
+        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "sign_count_parse_error");
         return PasskeyVerifyResult::INVALID_SIGNATURE;
     }
 
@@ -676,6 +707,7 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     if ((credential.sign_count > 0 || new_sign_count > 0)
         && cloneDetectionFailed(credential.sign_count, new_sign_count))
     {
+        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "replay_attack_clone_detected");
         return PasskeyVerifyResult::REPLAY_ATTACK;
     }
 
@@ -690,6 +722,9 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     }
 
     out_user_id = credential.user_id;
+    if (audit_logger_) {
+        audit_logger_->logPasskeySuccess(credential.user_id, response.credential_id);
+    }
     spdlog::info("PasskeyAuthenticator: authentication succeeded for user '{}'",
                  credential.user_id);
     return PasskeyVerifyResult::SUCCESS;

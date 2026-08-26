@@ -384,6 +384,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
             }
         }
     } else {
+        THEMIS_INFO("[AUDIT] gRPC-Web proxy request rejected: UNIMPLEMENTED");
         grpc_code    = 12; // grpc::StatusCode::UNIMPLEMENTED
         grpc_message = "gRPC backend not available in this build";
     }

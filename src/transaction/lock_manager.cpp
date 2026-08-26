@@ -256,6 +256,32 @@ LockManager::LockResult LockManager::upgradeLock(
                         entry.holders[0].holder == txn_id);
 
     if (!only_holder) {
+        // Mutual-upgrade deadlock prevention (Wave 4C T2):
+        // If another transaction is already waiting to upgrade this key to
+        // EXCLUSIVE (i.e., it also holds a SHARED lock and is at the front of
+        // the waiter queue with EXCLUSIVE type), we have a mutual-upgrade cycle.
+        // Abort the current request — the caller must retry after a back-off.
+        for (const auto& waiter : entry.waiters) {
+            if (waiter->type == LockType::EXCLUSIVE && waiter->txn_id != txn_id) {
+                // Check that the competing waiter is also a current SHARED holder
+                // (i.e., it is truly a mutual upgrade, not an ordinary acquire).
+                bool is_upgrade_waiter = std::any_of(
+                    entry.holders.begin(), entry.holders.end(),
+                    [&](const LockEntry& e) { return e.holder == waiter->txn_id; });
+                if (is_upgrade_waiter) {
+                    THEMIS_WARN(
+                        "LockManager: mutual upgrade deadlock detected on key '{}': "
+                        "txn {} aborted (competing txn {} holds upgrade waiter). "
+                        "Caller should retry with back-off.",
+                        key, txn_id, waiter->txn_id);
+                    stats_deadlocks_.fetch_add(1, std::memory_order_relaxed);
+                    return LockResult::Denied(
+                        "mutual upgrade deadlock on key '" + key + "': txn " +
+                        std::to_string(txn_id) + " aborted — retry with back-off");
+                }
+            }
+        }
+
         // Must wait for other holders to release
         auto req = std::make_shared<LockRequest>(txn_id, LockType::EXCLUSIVE);
         entry.waiters.push_front(req); // Priority: upgrade at front
@@ -535,6 +561,12 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
     if (max_locks > 0 && predicate_locks_.size() >= max_locks) {
         // Limit reached: drop the lock silently.  This may raise the
         // false-positive abort rate but does not compromise correctness.
+        // Wave 4C T4: emit warning so operators can tune max_predicate_locks.
+        THEMIS_WARN(
+            "LockManager: predicate lock capacity reached (max={}, current={}). "
+            "Predicate lock for txn {} on [{}, {}] dropped — SSI false-abort rate may increase. "
+            "Tune max_predicate_locks if this occurs frequently.",
+            max_locks, predicate_locks_.size(), txn_id, start_key, end_key);
         return false;
     }
     predicate_locks_.push_back({txn_id, start_key, end_key});

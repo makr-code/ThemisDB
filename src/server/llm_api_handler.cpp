@@ -38,6 +38,8 @@
 #include <limits>
 #include "utils/tracing.h"
 #include "server/model_integrity_verifier.h"
+#include <filesystem>
+#include <cstdlib>
 
 namespace themis::server {
 
@@ -971,6 +973,31 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
         return createErrorResponse(http::status::bad_request, "Invalid load model parameters", e.what());
     }
     
+    // --- S1: Empty-path guard — reject before attempting any fs/integrity work ---
+    if (path.empty()) {
+        return createErrorResponse(http::status::bad_request,
+                                   "Missing 'path' field",
+                                   "model path must be provided for load operation");
+    }
+
+    // --- S2: Path canonicalization and traversal guard ---
+    try {
+        auto canonical = std::filesystem::weakly_canonical(std::filesystem::path(path));
+        const char* base_env = std::getenv("THEMIS_MODEL_BASE_DIR");
+        if (base_env) {
+            auto base = std::filesystem::weakly_canonical(std::filesystem::path(base_env));
+            auto rel  = std::mismatch(base.begin(), base.end(), canonical.begin());
+            if (rel.first != base.end()) {
+                return createErrorResponse(http::status::bad_request,
+                                           "Invalid model path",
+                                           "path traversal detected");
+            }
+        }
+        path = canonical.string();
+    } catch (const std::filesystem::filesystem_error& e) {
+        return createErrorResponse(http::status::bad_request, "Invalid model path", e.what());
+    }
+
     // --- A1: Model Integrity Gate ---
     // If a manifest entry exists for this model_id, the SHA-256 of 'path' MUST
     // match before we allow the load.  Missing manifest → graceful pass-through
