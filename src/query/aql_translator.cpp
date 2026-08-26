@@ -543,8 +543,29 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 return finalizeResult(TranslationResult::SuccessContentGeo(std::move(cq)));
             }
 
+            // [W9-11-FIX: compatibility shim — aql_translator.cpp:547]
+            // DEPRECATION WARNING: The FunctionCall compat path for SIMILARITY()
+            // and PROXIMITY() is still active.  Callers in query_engine.cpp and
+            // aql_runner.cpp continue to emit FunctionCall AST nodes for these
+            // functions instead of the canonical VectorQuery AST node.
+            //
+            // REMOVAL CONDITION: This branch may be removed once ALL call sites
+            // that produce SIMILARITY/PROXIMITY function-call nodes have been
+            // updated to emit ASTNodeType::VectorQuery directly.  Confirmed
+            // active callers as of Wave 9 Block 3 (2026-08-26):
+            //   • src/query/query_engine.cpp:4442  — SIMILARITY without Spatial
+            //   • src/query/aql_runner.cpp:184     — Content+Geo hybrid dispatch
+            //
+            // TODO (Q4 2026): Migrate callers to VectorQuery AST, then delete this branch.
+            //
             // Compat path: handle FunctionCall nodes for SIMILARITY/PROXIMITY.
             // TODO: Remove once all callers emit the canonical VectorQuery AST node.
+            THEMIS_WARN("[W9-11-DEPRECATED] aql_translator: FunctionCall compat path "
+                        "triggered for function '{}'. Emit ASTNodeType::VectorQuery "
+                        "instead. This path will be removed in Q4 2026.",
+                        spec.expression->getType() == ASTNodeType::FunctionCall
+                            ? std::static_pointer_cast<FunctionCallExpr>(spec.expression)->name
+                            : std::string("<unknown>"));
             if (spec.expression->getType() == ASTNodeType::FunctionCall) {
                 auto func = std::static_pointer_cast<FunctionCallExpr>(spec.expression);
                 std::string name = func->name;

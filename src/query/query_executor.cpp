@@ -174,7 +174,21 @@ ResultSet QueryExecutor::execute()
                 std::to_string(context_->row_limit));
         }
         BoundsChecker::check_dereference(it, src_range.begin(), src_range.end());
-        rs.rows.push_back(build_row(*it));
+        // [W9-10-FIX: catch_all_swallow — query_executor.cpp:89]
+        // Wrap build_row() in typed exception handlers so that any exception
+        // from column resolution or type coercion is surfaced with context
+        // rather than propagating as an opaque unknown type.
+        try {
+            rs.rows.push_back(build_row(*it));
+        } catch (const std::exception& ex) {
+            throw std::runtime_error(
+                fmt::format("QueryExecutor::execute: row build failed at index {} — {}",
+                            rs.rows.size(), ex.what()));
+        } catch (...) {
+            throw std::runtime_error(
+                fmt::format("QueryExecutor::execute: row build raised unknown exception "
+                            "at index {}", rs.rows.size()));
+        }
     }
 
     return rs;
@@ -212,7 +226,19 @@ std::size_t QueryExecutor::execute_streaming(RowCallback cb)
             break;
         }
         BoundsChecker::check_dereference(it, src_range.begin(), src_range.end());
-        Row row = build_row(*it);
+        // [W9-10-FIX: catch_all_swallow — query_executor.cpp:89 streaming path]
+        Row row;
+        try {
+            row = build_row(*it);
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("QueryExecutor::execute_streaming: row build failed at {} — {}",
+                        delivered, ex.what());
+            break;  // Deliver partial results gracefully on row-build error
+        } catch (...) {
+            THEMIS_WARN("QueryExecutor::execute_streaming: row build raised unknown "
+                        "exception at {}", delivered);
+            break;
+        }
         if (!cb(row)) {
             break;
         }

@@ -217,6 +217,17 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [x] Keep server developer docs aligned with source and routing behavior after each hardening wave — `include/server/server_api_contract.h` freezes all handler registration, auth gate, retry/timeout/backpressure, error taxonomy, lifecycle/ownership, and threading contracts for v1.x (Target: Q2 2026)
 - [x] Ensure completed roadmap items are moved only to CHANGELOG and not retained in roadmap history blocks — server ROADMAP Phase 1, Phase 4, Phase 5 checkboxes updated with evidence references (Target: ongoing)
 
+## Wave 9 Block 1 — gRPC Core Service Layer (2026-08-26)
+
+- [x] **W9-1** Create RPC — `db_->put(collection:key, data)` wired; optional TxnManager session (`transaction_id` → `stoull`) for transactional writes; returns `CreateResponse.key` + timestamp
+- [x] **W9-2** Read RPC — `db_->get(collection:key)` wired; `ReadResponse.document` populated; 404 on miss
+- [x] **W9-3** Update / Delete / Scan RPCs — Update: `create_if_missing` guard + `db_->put()`; Delete: `db_->del()`; ScanCollection: `db_->scanPrefix(collection + ":")` streams `ScanResult` rows via `grpc::ServerWriter`
+- [x] **W9-4** Batch RPCs (BatchCreate / BatchRead / BatchUpdate / BatchDelete) — iterate documents/keys, apply each, count successes; GetStatus returns version + uptime
+- [x] **W9-5** Transaction RPCs — BeginTransaction/CommitTransaction/RollbackTransaction wired to `TransactionManager::beginTransaction()` / `commitTransaction()` / `rollbackTransaction()` with proto→`themis::IsolationLevel` mapping
+- [x] **W9-6** AQL RPCs (ExecuteAQL + StreamQuery) — forwarded to `aql_engine_->execute(query)` with null-check returning gRPC UNIMPLEMENTED when no engine is wired; `AQLEngine` type alias resolved to `themis::IQueryEngine` in header
+- [x] Tests — `tests/server/test_grpc_core_service.cpp` — 16 always-on source/API tests (GCS-01..GCS-16) + 13 full RPC tests under `THEMIS_HAS_CORE_GRPC` guard (GCS-17..GCS-29)
+- Resolved: `src/STUB_INVENTORY.md` entries for `server/themis_core_grpc_service.cpp` marked complete; `src/server/MODULE_GAPS.md` UNIMPLEMENTED grpc items closed
+
 ## Production Readiness Checklist
 - Status: Tracking in progress (last validated 2026-08-17)
 - Nachweise: Integration tests, focused protocol tests, and security regression suites

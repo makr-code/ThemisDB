@@ -205,6 +205,14 @@ std::vector<ParallelExecutor::JoinTuple> ParallelExecutor::sequentialHashJoin(
         if (!lkey) continue;
         auto [beg, end] = ht.equal_range(*lkey);
         for (auto it = beg; it != end; ++it) {
+            // [W9-10-FIX: null_dereference — parallel_executor.cpp:201]
+            // The hash table stores const BaseEntity* values.  Guard against
+            // a null pointer before dereferencing to produce JoinTuple.
+            if (!it->second) {
+                THEMIS_WARN("ParallelExecutor::sequentialHashJoin: null BaseEntity* "
+                            "in hash table for key='{}'; skipping", *lkey);
+                continue;
+            }
             out.push_back({l, *it->second});
         }
     }

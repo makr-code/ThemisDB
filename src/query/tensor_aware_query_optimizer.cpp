@@ -311,3 +311,160 @@ TensorAwareQueryOptimizer::rewrite(std::shared_ptr<QueryPlanNode> root) {
 } // namespace query
 } // namespace themis
 
+
+// ============================================================================
+// W9-12: planAnnGraphHybrid — Hybrid ANN+graph planner
+// ============================================================================
+
+#include "index/ann_frontdoor.h"
+#include "themis/rag/kg/knowledge_graph_interface.h"
+#include "utils/logger.h"
+
+#include <algorithm>
+#include <chrono>
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+namespace themis {
+namespace query {
+
+std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
+    const HybridAnnGraphQuery&              query,
+    const index::AnnFrontdoor*              frontdoor,
+    const themis::rag::kg::IKnowledgeGraph* kg)
+{
+    if (frontdoor && query.query_vector.empty()) {
+        throw std::invalid_argument(
+            "planAnnGraphHybrid: query_vector must not be empty when frontdoor is provided");
+    }
+
+    const auto t_start = std::chrono::steady_clock::now();
+    auto elapsed_ms = [&t_start]() -> double {
+        return std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - t_start).count();
+    };
+    auto check_timeout = [&]() {
+        if (query.timeout_ms.count() > 0 &&
+            elapsed_ms() >= static_cast<double>(query.timeout_ms.count())) {
+            throw std::runtime_error(
+                "planAnnGraphHybrid: deadline exceeded (" +
+                std::to_string(query.timeout_ms.count()) + "ms)");
+        }
+    };
+
+    // ── Step 1: ANN retrieval ─────────────────────────────────────────────
+    // ann_ranked: node_id → 0-based rank in ANN result list
+    std::vector<std::string> ann_list;       // ordered by ANN rank
+    std::unordered_map<std::string, int> ann_rank_map;
+
+    if (frontdoor) {
+        try {
+            AnnFrontdoorResult ann_res = frontdoor->search(
+                query.query_vector.data(),
+                query.query_vector.size(),
+                static_cast<int>(query.ann_k),
+                query.ann_context);
+
+            ann_list.reserve(ann_res.candidates.size());
+            int rank = 0;
+            for (const auto& cand : ann_res.candidates) {
+                std::string id = std::to_string(cand.id);
+                ann_list.push_back(id);
+                ann_rank_map.emplace(std::move(id), rank++);
+            }
+            THEMIS_DEBUG("planAnnGraphHybrid: ANN step returned {} candidates in {:.1f}ms",
+                         ann_list.size(), elapsed_ms());
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("planAnnGraphHybrid: ANN step failed: {}; proceeding with graph-only", ex.what());
+        }
+    }
+
+    check_timeout();
+
+    // ── Step 2: Graph expansion ───────────────────────────────────────────
+    // Expand neighbours from top ANN hits; collect ordered graph_list.
+    std::vector<std::string> graph_list;    // ordered by graph discovery rank
+    std::unordered_map<std::string, int> graph_rank_map;
+
+    if (kg && !ann_list.empty()) {
+        // Expand from the top min(ann_k, 32) ANN hits to bound graph cost.
+        const std::size_t expand_limit = std::min(ann_list.size(), std::size_t{32});
+        for (std::size_t i = 0; i < expand_limit; ++i) {
+            check_timeout();
+            const std::string& seed_id = ann_list[i];
+            try {
+                auto nbrs = kg->neighbours(
+                    seed_id,
+                    query.graph_max_depth,
+                    query.graph_min_edge_weight,
+                    query.graph_max_nodes);
+
+                for (const auto& nbr_id : nbrs) {
+                    if (graph_rank_map.count(nbr_id) == 0) {
+                        int grank = static_cast<int>(graph_list.size());
+                        graph_rank_map.emplace(nbr_id, grank);
+                        graph_list.push_back(nbr_id);
+                    }
+                }
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("planAnnGraphHybrid: graph expansion failed for seed='{}': {}",
+                            seed_id, ex.what());
+            }
+        }
+        THEMIS_DEBUG("planAnnGraphHybrid: graph expansion returned {} nodes in {:.1f}ms",
+                     graph_list.size(), elapsed_ms());
+    }
+
+    check_timeout();
+
+    // ── Step 3: RRF fusion ────────────────────────────────────────────────
+    // RRF score(d) = Σ 1 / (rrf_k + rank_i(d))
+    // Collect all unique node IDs and compute RRF score from both lists.
+    std::unordered_map<std::string, HybridAnnGraphResult> fused;
+    fused.reserve(ann_list.size() + graph_list.size());
+
+    // Seed from ANN list
+    for (int r = 0; r < static_cast<int>(ann_list.size()); ++r) {
+        const auto& id = ann_list[r];
+        auto& entry = fused[id];
+        entry.node_id   = id;
+        entry.ann_rank  = r;
+        entry.rrf_score += 1.0 / (query.rrf_k + r + 1.0);
+    }
+    // Add from graph list
+    for (int r = 0; r < static_cast<int>(graph_list.size()); ++r) {
+        const auto& id = graph_list[r];
+        auto& entry = fused[id];
+        if (entry.node_id.empty()) {
+            entry.node_id    = id;
+            entry.from_graph = true;
+        }
+        entry.graph_rank  = r;
+        entry.rrf_score  += 1.0 / (query.rrf_k + r + 1.0);
+    }
+
+    // ── Step 4: Sort + truncate ───────────────────────────────────────────
+    std::vector<HybridAnnGraphResult> results;
+    results.reserve(fused.size());
+    for (auto& [id, entry] : fused) {
+        results.push_back(std::move(entry));
+    }
+    std::sort(results.begin(), results.end(),
+              [](const HybridAnnGraphResult& a, const HybridAnnGraphResult& b) {
+                  return a.rrf_score > b.rrf_score;  // descending
+              });
+    if (results.size() > query.top_k) {
+        results.resize(query.top_k);
+    }
+
+    THEMIS_INFO("planAnnGraphHybrid: fused {} ANN + {} graph → {} results in {:.1f}ms",
+                ann_list.size(), graph_list.size(), results.size(), elapsed_ms());
+
+    return results;
+}
+
+} // namespace query
+} // namespace themis
+

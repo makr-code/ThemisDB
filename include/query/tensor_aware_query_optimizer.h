@@ -254,3 +254,72 @@ private:
 
 } // namespace query
 } // namespace themis
+
+// ============================================================================
+// W9-12: ANN+Graph Hybrid Planner declarations
+// ============================================================================
+
+#include "index/ann_frontdoor.h"
+#include "themis/rag/kg/knowledge_graph_interface.h"
+
+#include <chrono>
+#include <optional>
+
+namespace themis {
+namespace query {
+
+/**
+ * @brief Parameters for a single hybrid ANN+graph query.
+ *
+ * The planner retrieves ANN candidates via AnnFrontdoor then expands
+ * graph neighbours for the top ANN hits, and fuses the two ranked lists
+ * using Reciprocal Rank Fusion (RRF, k=60).
+ *
+ * Performance gate (W9-12): planAnnGraphHybrid() must complete in ≤500ms
+ * for ann_k=1000 candidates merged with graph_max_depth=1, graph_max_nodes=100.
+ */
+struct HybridAnnGraphQuery {
+    std::vector<float> query_vector;          ///< Dense query vector (required)
+    std::size_t        ann_k              = 100; ///< ANN candidate count
+    std::size_t        graph_max_depth    = 1;   ///< BFS depth for graph expansion
+    std::size_t        graph_max_nodes    = 50;  ///< Max graph nodes per ANN hit
+    double             graph_min_edge_weight = 0.0;
+    std::size_t        top_k             = 20;  ///< Final result count after fusion
+    double             rrf_k             = 60.0; ///< RRF constant
+    AnnQueryContext    ann_context;              ///< Routing hints for AnnFrontdoor
+    std::chrono::milliseconds timeout_ms{500};  ///< Hard wall-clock timeout
+};
+
+/** @brief One result entry from the hybrid planner. */
+struct HybridAnnGraphResult {
+    std::string node_id;          ///< Stable node identifier
+    double      rrf_score = 0.0;  ///< RRF-fused relevance score (higher is better)
+    int         ann_rank  = -1;   ///< Rank in ANN list (-1 = absent)
+    int         graph_rank = -1;  ///< Rank in graph-expansion list (-1 = absent)
+    bool        from_graph = false; ///< True if first seen via graph expansion
+};
+
+/**
+ * @brief Execute a hybrid ANN+graph retrieval plan.
+ *
+ * 1. Retrieve ann_k ANN candidates via @p frontdoor.
+ * 2. Expand graph neighbours for the top ANN hits via @p kg->neighbours().
+ * 3. Fuse both ranked lists with RRF (k = query.rrf_k).
+ * 4. Return top query.top_k results sorted by descending rrf_score.
+ *
+ * @param query     Query parameters.
+ * @param frontdoor ANN frontdoor (may be null → no ANN step; graph-only).
+ * @param kg        Knowledge graph (may be null → no graph step; ANN-only).
+ * @return          Fused result list, sorted by descending rrf_score.
+ *
+ * @throws std::invalid_argument when query.query_vector is empty and
+ *         frontdoor is non-null.
+ * @throws std::runtime_error    when the timeout is exceeded.
+ */
+[[nodiscard]] std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
+    const HybridAnnGraphQuery&              query,
+    const index::AnnFrontdoor*              frontdoor,
+    const themis::rag::kg::IKnowledgeGraph* kg);
+
+} // namespace query
+} // namespace themis

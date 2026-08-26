@@ -509,6 +509,29 @@ public:
     /// heuristic (STUB #262).  Thread-safe.
     void setTargetLogitsFn(TargetLogitsFn fn);
 
+    // ── STUB #263 bridge — tokenizer injection ────────────────────────────
+
+    /// Callback type for injecting a real tokenizer into
+    /// trySpeculativeGeneration().  Called on the remote draft model's raw text
+    /// output to produce proper vocabulary token IDs in place of the built-in
+    /// byte-modulo heuristic (byte value % vocab_size).
+    ///
+    /// Parameters: (text, vocab_size)
+    /// Returns:    non-empty vector of IDs each in [0, vocab_size).
+    ///             An empty return or a thrown exception both fall through to
+    ///             the byte-modulo fallback (fail-closed behaviour).
+    using TokenizerFn = std::function<std::vector<int>(const std::string& text,
+                                                       size_t             vocab_size)>;
+
+    /// Inject a real tokenizer into trySpeculativeGeneration() for the remote
+    /// draft path.  Pass nullptr / empty fn to restore the byte-modulo
+    /// heuristic (STUB #263).  Thread-safe.
+    void setTokenizerFn(TokenizerFn fn);
+
+    /// Remove the injected tokenizer, restoring the byte-modulo fallback.
+    /// Equivalent to setTokenizerFn(nullptr).  Thread-safe.
+    void clearTokenizerFn();
+
 private:
     Config config_;
     std::atomic<bool> running_{false};
@@ -543,6 +566,9 @@ private:
     // STUB #262 bridge — target logit injection.
     TargetLogitsFn target_logits_fn_;
     mutable std::mutex target_logits_fn_mutex_;
+    // STUB #263 bridge — tokenizer injection.
+    TokenizerFn tokenizer_fn_;
+    mutable std::mutex tokenizer_fn_mutex_;
 
     // Lookup decoder (n-gram based, draft-model-free).
     // nullptr when enable_lookup_decoding == false.

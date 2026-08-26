@@ -423,6 +423,7 @@ private:
             THEMIS_WARN("QueryCompiler: specialisation failed key={} error={}",
                         key, ex.what());
         } catch (...) {
+            // [W9-10-FIX: uncaught_exception — query_compiler.cpp:567]
             // [WAVE3B-FIX: catch_all_swallow — query_compiler.cpp:423]
             //
             // Unknown (non-std::exception) exceptions from the specialisation path
