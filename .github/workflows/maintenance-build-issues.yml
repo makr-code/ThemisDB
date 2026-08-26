@@ -368,7 +368,7 @@ jobs:
         with:
           name: error-metrics
           path: /tmp/error-metrics/
-          retention-days: 90
+          retention-days: 30
 
       - name: Publish Error Dashboard
         if: always() && steps.fetch.outputs.has_artifacts == 'true'

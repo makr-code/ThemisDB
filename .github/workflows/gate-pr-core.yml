@@ -1,6 +1,6 @@
 name: "Gate: PR Core"
 
-# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-25
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-26
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # Consolidated PR gate workflow.
 # Replaces: 09-pr-gates_community-pipeline-policy.yml,
@@ -60,7 +60,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Run workflow preflight checks
         run: |
@@ -204,7 +204,7 @@ jobs:
             echo "| Community Fail-Closed | ${{ needs.wavec-policy-gates-community-fail-closed.result }} |"
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
-      
+
       - name: Fail if any Wave C policy gate failed
         if: |
           needs.wavec-policy-gates-private-plugin.result == 'failure' ||
@@ -231,7 +231,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Collect changed files
         run: |
@@ -317,7 +317,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Collect changed files
         run: |
@@ -493,7 +493,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
@@ -620,7 +620,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
@@ -719,7 +719,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Collect changed manifest files
         run: |
@@ -820,7 +820,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Collect changed files
         run: |
@@ -926,9 +926,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
-          fetch-depth: 0
-
-      - name: Install TruffleHog
+          fetch-depth: 0  # TruffleHog --since-commit requires full commit history
         run: |
           echo "  Installing TruffleHog from official install script..."
           T0=$(date +%s)
