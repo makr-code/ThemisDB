@@ -22,6 +22,7 @@ on:
   schedule:
     - cron: '30 3 * * *'   # Daily 03:30 UTC — GS3 gap triage
     - cron: '30 5 * * *'   # Daily 05:30 UTC — Security alert SLA triage
+    - cron: '30 2 * * 3'   # Weekly Wednesday 02:30 UTC — Doxygen header update
   workflow_dispatch:
     inputs:
       job:
@@ -31,6 +32,7 @@ on:
         options:
           - gs3-gap-triage
           - security-alert-triage
+          - doxygen-header-update
           - both
         default: both
       # ── GS3 inputs ────────────────────────────────────────────────────────
@@ -661,3 +663,245 @@ jobs:
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Job 3: Doxygen Header Update (GS3-driven)
+  # Uses GS3 findings (missing_doxygen_*) as input to autofix_engine.py,
+  # which calls doxygen_fixer_adapter → doxygen_autofix.py --apply.
+  # Opens a PR against develop if changes are produced; never pushes directly.
+  # Runs weekly on Wednesday 02:30 UTC or on workflow_dispatch.
+  # ────────────────────────────────────────────────────────────────────────────
+  doxygen-header-update:
+    name: "📝 Doxygen Header Update (GS3-driven)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+      pull-requests: write
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' &&
+        inputs.job == 'doxygen-header-update')
+    env:
+      TARGET_BRANCH: ${{ github.event_name == 'schedule' && 'develop' || inputs.target_branch || 'develop' }}
+
+    steps:
+      - name: Print context
+        run: |
+          echo "============================================================"
+          echo " Maintenance — Doxygen Header Update (GS3-driven)"
+          echo "============================================================"
+          echo "  Trigger       : ${{ github.event_name }}"
+          echo "  Target branch : ${TARGET_BRANCH}"
+          echo "  Actor         : ${{ github.actor }}"
+          echo "  Run ID        : ${{ github.run_id }}"
+          echo "  Timestamp     : $(date -u)"
+          echo "============================================================"
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: python3 -m pip install --quiet --upgrade pip pyyaml
+
+      - name: Prepare output directories
+        run: mkdir -p ai_working/gs3 ai_working/doxygen
+
+      - name: Run GS3 doxygen scan
+        id: gs3_scan
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          output_json = Path("ai_working/gs3/gap_scan_doxygen.json")
+          output_md   = Path("ai_working/gs3/gap_scan_doxygen.md")
+
+          # Run GS3 targeting src and include; doxygen findings are in
+          # gs3_step04_quality_cpp_doxygen and will be filtered by type in the next step.
+          cmd = [
+            "python3", "-m", "tools.gs3", "scan",
+            "src", "include",
+            "--scan-mode", "thorough",
+            "--output", str(output_json),
+            "--md-report", str(output_md),
+          ]
+          print("Running:", " ".join(cmd))
+          cp = subprocess.run(cmd)
+          exit_code = cp.returncode
+
+          # gs3 returns 0 if findings exist, 1 if no findings; both are valid
+          scan_ok = exit_code in (0, 1)
+          has_findings = exit_code == 0 and output_json.exists()
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+            fh.write(f"scan_ok={'true' if scan_ok else 'false'}\n")
+            fh.write(f"has_findings={'true' if has_findings else 'false'}\n")
+            fh.write(f"exit_code={exit_code}\n")
+
+          if not scan_ok:
+            print(f"::error::GS3 doxygen scan failed with exit code {exit_code}")
+            sys.exit(exit_code)
+
+          print(f"GS3 doxygen scan finished (exit={exit_code}, findings={'yes' if has_findings else 'no'})")
+          PY
+
+      - name: Convert GS3 JSON for autofix_engine input
+        id: convert
+        if: steps.gs3_scan.outputs.has_findings == 'true'
+        run: |
+          python3 - <<'PY'
+          # autofix_engine.py expects a flat JSON array of findings.
+          # GS3 emits {"gaps": [...]}. Extract and filter to doxygen types only.
+          import json
+          import os
+          from pathlib import Path
+
+          src = Path("ai_working/gs3/gap_scan_doxygen.json")
+          dst = Path("ai_working/doxygen/autofix_findings.json")
+
+          data = json.loads(src.read_text(encoding="utf-8"))
+          gaps = data.get("gaps", [])
+
+          DOXYGEN_TYPES = {
+            "missing_doxygen_comment",
+            "missing_doxygen_brief",
+            "missing_doxygen_param",
+            "missing_doxygen_return",
+          }
+          filtered = [
+            {
+              "file":     g.get("file", ""),
+              "line":     int(g.get("line") or 1),
+              "type":     g.get("type", "missing_doxygen_comment"),
+              "severity": g.get("severity", "MEDIUM"),
+              "message":  g.get("description", ""),
+            }
+            for g in gaps
+            if g.get("type") in DOXYGEN_TYPES
+          ]
+
+          dst.write_text(json.dumps(filtered, indent=2, ensure_ascii=False), encoding="utf-8")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+            fh.write(f"finding_count={len(filtered)}\n")
+
+          print(f"Prepared {len(filtered)} doxygen findings for autofix_engine")
+          PY
+
+      - name: Apply doxygen fixes via autofix_engine
+        id: autofix
+        if: steps.gs3_scan.outputs.has_findings == 'true' && steps.convert.outputs.finding_count != '0'
+        env:
+          DOXYGEN_USE_OLLAMA: 'false'
+        run: |
+          python3 tools/fixers/autofix_engine.py \
+            --root . \
+            --findings ai_working/doxygen/autofix_findings.json \
+            --types missing_doxygen_comment,missing_doxygen_brief,missing_doxygen_param,missing_doxygen_return \
+            --apply \
+            --report ai_working/doxygen/autofix_report.json
+
+      - name: Check for file changes
+        id: diff
+        if: steps.gs3_scan.outputs.has_findings == 'true'
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No file changes produced by doxygen autofix."
+          else
+            changed_count=$(git diff --name-only | wc -l | tr -d ' ')
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "changed_count=${changed_count}" >> "$GITHUB_OUTPUT"
+            echo "::notice::${changed_count} file(s) modified by doxygen autofix."
+            git diff --stat
+          fi
+
+      - name: Upload doxygen artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: doxygen-autofix-${{ github.run_id }}
+          path: |
+            ai_working/gs3/gap_scan_doxygen.json
+            ai_working/gs3/gap_scan_doxygen.md
+            ai_working/doxygen/autofix_findings.json
+            ai_working/doxygen/autofix_report.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Configure git for PR commit
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create PR branch and open PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGED_COUNT: ${{ steps.diff.outputs.changed_count }}
+        run: |
+          BRANCH="doxygen/auto-update-${{ github.run_id }}"
+          git checkout -b "${BRANCH}"
+          git add -u
+          git commit -m "chore: auto-update doxygen headers [GS3 maintenance run ${{ github.run_id }}]
+
+          Updated ${CHANGED_COUNT} file(s) with missing Doxygen headers.
+          Scanner: gs3_step04_quality_cpp_doxygen
+          Fixer: tools/fixers/autofix_engine.py -> doxygen_fixer_adapter -> doxygen_autofix.py
+          Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          git push origin "${BRANCH}"
+
+          gh pr create \
+            --base "${{ env.TARGET_BRANCH }}" \
+            --head "${BRANCH}" \
+            --title "chore: auto-update doxygen headers [GS3 maintenance]" \
+            --body "## Automated Doxygen Header Update
+
+          This PR was auto-generated by the GS3 maintenance workflow.
+
+          **Trigger:** Scheduled GS3 gap scan identified missing Doxygen headers in \`src/\` and \`include/\`.
+          **Scope:** Missing \`@brief\`, \`@param\`, \`@return\` tags in public C++ API declarations.
+          **Files changed:** ${CHANGED_COUNT}
+
+          ### What was applied
+          - Scanner: \`gs3_step04_quality_cpp_doxygen\`
+          - Fixer: \`tools/fixers/autofix_engine.py\` -> \`doxygen_fixer_adapter\` -> \`tools/doxygen_autofix.py --apply\`
+          - Mode: additions only (no rewriting of existing Doxygen blocks)
+          - Ollama: disabled in CI (no remote endpoint available from GitHub Actions)
+
+          ### Review checklist
+          - [ ] Verify \`@brief\` descriptions are accurate
+          - [ ] Verify \`@param\` names match the actual parameter names
+          - [ ] Spot-check 2-3 files for correctness
+
+          _Auto-generated by \`maintenance-issues.yml\` job \`doxygen-header-update\` run \`${{ github.run_id }}\`_" \
+            --label "quality,automated" \
+            --no-maintainer-edit
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## 📝 Doxygen Header Update (GS3-driven)"
+            echo ""
+            echo "- Trigger: \`${{ github.event_name }}\`"
+            echo "- Branch: \`${TARGET_BRANCH}\`"
+            echo "- GS3 scan ok: \`${{ steps.gs3_scan.outputs.scan_ok || 'n/a' }}\`"
+            echo "- GS3 findings: \`${{ steps.gs3_scan.outputs.has_findings || 'n/a' }}\`"
+            echo "- Doxygen findings to fix: \`${{ steps.convert.outputs.finding_count || '0' }}\`"
+            echo "- Files changed: \`${{ steps.diff.outputs.changed_count || '0' }}\`"
+            echo "- PR opened: \`${{ steps.diff.outputs.changed == 'true' && 'yes' || 'no' }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
