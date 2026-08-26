@@ -887,6 +887,153 @@ void McpServer::registerDefaultTools() {
             {"required", {"question"}}
         },
         [this](const json& args) { return toolIntrospectDatabase(args); });
+
+    // ========================================================================
+    // Group 1: Knowledge Graph Tools (Q4 2026)
+    // ========================================================================
+
+    registerTool("kg_neighbours",
+        "Retrieve neighbours of a graph node with configurable depth and edge-type filters",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"node_id",    {{"type", "string"},  {"description", "Source node ID"}}},
+                {"depth",      {{"type", "integer"}, {"description", "BFS depth (1–5)"}, {"default", 1}, {"minimum", 1}, {"maximum", 5}}},
+                {"edge_types", {{"type", "array"},   {"items", {{"type", "string"}}}, {"description", "Edge type filter (empty = all)"}}},
+                {"max_nodes",  {{"type", "integer"}, {"description", "Max nodes returned (1–1000)"}, {"default", 100}, {"minimum", 1}, {"maximum", 1000}}},
+                {"collection", {{"type", "string"},  {"description", "Graph/collection name (optional)"}}}
+            }},
+            {"required", {"node_id"}}
+        },
+        [this](const json& args) { return toolKgNeighbours(args); });
+
+    registerTool("kg_shortest_path",
+        "Find the shortest path between two graph nodes",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"from_node",  {{"type", "string"},  {"description", "Start node ID"}}},
+                {"to_node",    {{"type", "string"},  {"description", "End node ID"}}},
+                {"collection", {{"type", "string"},  {"description", "Graph/collection name (optional)"}}},
+                {"max_hops",   {{"type", "integer"}, {"description", "Maximum hop count"}, {"default", 10}}}
+            }},
+            {"required", {"from_node", "to_node"}}
+        },
+        [this](const json& args) { return toolKgShortestPath(args); });
+
+    registerTool("kg_node_properties",
+        "Get all properties of a graph node",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"node_id",    {{"type", "string"}, {"description", "Node ID"}}},
+                {"collection", {{"type", "string"}, {"description", "Graph/collection name (optional)"}}}
+            }},
+            {"required", {"node_id"}}
+        },
+        [this](const json& args) { return toolKgNodeProperties(args); });
+
+    // ========================================================================
+    // Group 2: Vector / Hybrid / RAG Tools (Q4 2026)
+    // ========================================================================
+
+    registerTool("semantic_search",
+        "Perform vector-based semantic (kNN) search using an auto-embedded text query",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query",      {{"type", "string"},  {"description", "Text query (auto-embedded)"}}},
+                {"top_k",      {{"type", "integer"}, {"description", "Results to return (max 200)"}, {"default", 10}}},
+                {"collection", {{"type", "string"},  {"description", "Target collection (optional)"}}},
+                {"filter",     {{"type", "object"},  {"description", "Optional metadata filter"}}},
+                {"threshold",  {{"type", "number"},  {"description", "Minimum similarity score (0.0–1.0)"}, {"minimum", 0.0}, {"maximum", 1.0}}}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolSemanticSearch(args); });
+
+    registerTool("hybrid_search",
+        "Combine vector similarity and BM25 full-text scores via RRF merge",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query",         {{"type", "string"},  {"description", "Search query"}}},
+                {"top_k",         {{"type", "integer"}, {"description", "Results to return"}, {"default", 10}}},
+                {"collection",    {{"type", "string"},  {"description", "Target collection (optional)"}}},
+                {"vector_weight", {{"type", "number"},  {"description", "Weight for vector score (0.0–1.0)"}, {"default", 0.5}}},
+                {"bm25_weight",   {{"type", "number"},  {"description", "Weight for BM25 score (0.0–1.0)"}, {"default", 0.5}}},
+                {"filter",        {{"type", "object"},  {"description", "Optional metadata filter"}}}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolHybridSearch(args); });
+
+    registerTool("rag_retrieve",
+        "Retrieve ranked document chunks for RAG context assembly",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query",            {{"type", "string"},  {"description", "Retrieval query"}}},
+                {"top_k",            {{"type", "integer"}, {"description", "Chunks to retrieve (max 20)"}, {"default", 5}}},
+                {"collection",       {{"type", "string"},  {"description", "Source collection (optional)"}}},
+                {"rerank",           {{"type", "boolean"}, {"description", "Apply score-based reranking"}, {"default", true}}},
+                {"include_sources",  {{"type", "boolean"}, {"description", "Include source metadata"}, {"default", true}}},
+                {"max_chunk_tokens", {{"type", "integer"}, {"description", "Max tokens per chunk"}, {"default", 512}}}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolRagRetrieve(args); });
+
+    registerTool("vector_index_list",
+        "List all vector indexes, optionally filtered by collection",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"collection", {{"type", "string"}, {"description", "Filter by collection (optional)"}}}
+            }}
+        },
+        [this](const json& args) { return toolVectorIndexList(args); });
+
+    // ========================================================================
+    // Group 7: Schema Extension Tools (Q4 2026)
+    // ========================================================================
+
+    registerTool("schema_diff",
+        "Compare schema versions for a collection and return added/removed/changed fields",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"collection", {{"type", "string"}, {"description", "Collection name"}}},
+                {"version_a",  {{"type", "string"}, {"description", "Base version (default: current)"}}},
+                {"version_b",  {{"type", "string"}, {"description", "Target version (optional)"}}}
+            }},
+            {"required", {"collection"}}
+        },
+        [this](const json& args) { return toolSchemaDiff(args); });
+
+    registerTool("schema_validate",
+        "Validate a document against the collection schema",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"collection", {{"type", "string"},  {"description", "Collection name"}}},
+                {"document",   {{"type", "object"},  {"description", "Document to validate"}}}
+            }},
+            {"required", {"collection", "document"}}
+        },
+        [this](const json& args) { return toolSchemaValidate(args); });
+
+    registerTool("explain_query",
+        "Return the query execution plan and cost estimate",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query",    {{"type", "string"}, {"description", "Query string"}}},
+                {"language", {{"type", "string"}, {"enum", {"aql", "cypher", "sql"}}, {"default", "aql"}, {"description", "Query language"}}}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolExplainQuery(args); });
 }
 
 json McpServer::toolQuery(const json& args) {
@@ -3242,6 +3389,583 @@ void WebSocketTransport::schedulePing() {
             self->schedulePing();
         }
     });
+}
+
+// ============================================================================
+// Group 1: Knowledge Graph Tool Handlers (Q4 2026)
+// ============================================================================
+
+json McpServer::toolKgNeighbours(const json& args) {
+    try {
+        if (!args.contains("node_id") || args["node_id"].get<std::string>().empty()) {
+            spdlog::warn("kg_neighbours: missing required parameter node_id");
+            return {{"error", "missing parameter: node_id"}};
+        }
+
+        const std::string node_id   = args["node_id"].get<std::string>();
+        const int         depth     = std::min(std::max(args.value("depth", 1), 1), 5);
+        const int         max_nodes = std::min(std::max(args.value("max_nodes", 100), 1), 1000);
+        const std::string collection = args.value("collection", "");
+
+        // Build AQL graph traversal
+        std::string graph_clause = collection.empty() ? "GRAPH \"default\"" : ("GRAPH \"" + collection + "\"");
+        std::string aql = fmt::format(
+            "FOR v, e IN 1..{} ANY \"{}\" {} RETURN {{v: v, e: e}}",
+            depth, node_id, graph_clause);
+
+        json query_args = {{"query", aql}, {"language", "aql"}};
+        json qresult = toolQuery(query_args);
+
+        json nodes = json::array();
+        json edges = json::array();
+        bool truncated = false;
+
+        if (qresult.value("status", "") == "success" && qresult.contains("results")) {
+            for (auto& row : qresult["results"]) {
+                if (static_cast<int>(nodes.size()) >= max_nodes) {
+                    truncated = true;
+                    break;
+                }
+                if (row.contains("v") && !row["v"].is_null()) {
+                    json node = {{"id", row["v"].value("_id", "")}, {"properties", row["v"]}};
+                    nodes.push_back(node);
+                }
+                if (row.contains("e") && !row["e"].is_null()) {
+                    json edge = {
+                        {"from",   row["e"].value("_from", "")},
+                        {"to",     row["e"].value("_to", "")},
+                        {"type",   row["e"].value("type", "")},
+                        {"weight", row["e"].value("weight", 1.0)}
+                    };
+                    edges.push_back(edge);
+                }
+            }
+        }
+
+        spdlog::info("kg_neighbours: node={} depth={} nodes_found={}", node_id, depth, nodes.size());
+        return {
+            {"node_id",      node_id},
+            {"depth_reached", depth},
+            {"nodes",        nodes},
+            {"edges",        edges},
+            {"truncated",    truncated}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+json McpServer::toolKgShortestPath(const json& args) {
+    try {
+        if (!args.contains("from_node") || args["from_node"].get<std::string>().empty()) {
+            spdlog::warn("kg_shortest_path: missing required parameter from_node");
+            return {{"error", "missing parameter: from_node"}};
+        }
+        if (!args.contains("to_node") || args["to_node"].get<std::string>().empty()) {
+            spdlog::warn("kg_shortest_path: missing required parameter to_node");
+            return {{"error", "missing parameter: to_node"}};
+        }
+
+        const std::string from_node  = args["from_node"].get<std::string>();
+        const std::string to_node    = args["to_node"].get<std::string>();
+        const std::string collection = args.value("collection", "");
+        const int         max_hops   = args.value("max_hops", 10);
+
+        if (from_node == to_node) {
+            // Trivial path: same node
+            return {
+                {"path",      json::array({{{"id", from_node}, {"properties", json::object()}}})},
+                {"edges",     json::array()},
+                {"hop_count", 0},
+                {"found",     true}
+            };
+        }
+
+        std::string graph_clause = collection.empty() ? "GRAPH \"default\"" : ("GRAPH \"" + collection + "\"");
+        std::string aql = fmt::format(
+            "FOR v, e IN ANY SHORTEST_PATH \"{}\" TO \"{}\" {} RETURN {{v: v, e: e}}",
+            from_node, to_node, graph_clause);
+
+        json query_args = {{"query", aql}, {"language", "aql"}};
+        json qresult = toolQuery(query_args);
+
+        if (qresult.value("status", "") != "success" || !qresult.contains("results") || qresult["results"].empty()) {
+            return {{"path", json::array()}, {"edges", json::array()}, {"hop_count", 0}, {"found", false}};
+        }
+
+        json path  = json::array();
+        json edges = json::array();
+        for (auto& row : qresult["results"]) {
+            if (row.contains("v") && !row["v"].is_null()) {
+                path.push_back({{"id", row["v"].value("_id", "")}, {"properties", row["v"]}});
+            }
+            if (row.contains("e") && !row["e"].is_null()) {
+                edges.push_back({
+                    {"from", row["e"].value("_from", "")},
+                    {"to",   row["e"].value("_to", "")},
+                    {"type", row["e"].value("type", "")}
+                });
+            }
+        }
+
+        int hop_count = static_cast<int>(edges.size());
+        bool found    = hop_count > 0 && hop_count <= max_hops;
+
+        spdlog::info("kg_shortest_path: from={} to={} hops={} found={}", from_node, to_node, hop_count, found);
+        return {
+            {"path",      path},
+            {"edges",     edges},
+            {"hop_count", hop_count},
+            {"found",     found}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+json McpServer::toolKgNodeProperties(const json& args) {
+    try {
+        if (!args.contains("node_id") || args["node_id"].get<std::string>().empty()) {
+            spdlog::warn("kg_node_properties: missing required parameter node_id");
+            return {{"error", "missing parameter: node_id"}};
+        }
+
+        const std::string node_id    = args["node_id"].get<std::string>();
+        const std::string collection = args.value("collection", "");
+
+        // Delegate to get_entity first; fall back to AQL lookup
+        json entity_result = toolGetEntity({{"key", node_id}});
+
+        if (entity_result.value("status", "") == "success" && !entity_result["value"].is_null()) {
+            spdlog::info("kg_node_properties: node={} found via get_entity", node_id);
+            return {
+                {"id",         node_id},
+                {"properties", entity_result["value"]},
+                {"collection", collection}
+            };
+        }
+
+        // Fallback: AQL document lookup
+        std::string aql = fmt::format("RETURN DOCUMENT(\"{}\")", node_id);
+        json qresult = toolQuery({{"query", aql}, {"language", "aql"}});
+
+        if (qresult.value("status", "") == "success" && qresult.contains("results") && !qresult["results"].empty()) {
+            auto& doc = qresult["results"][0];
+            if (!doc.is_null()) {
+                spdlog::info("kg_node_properties: node={} found via AQL DOCUMENT()", node_id);
+                return {
+                    {"id",         node_id},
+                    {"properties", doc},
+                    {"collection", collection}
+                };
+            }
+        }
+
+        return {
+            {"id",         node_id},
+            {"properties", json::object()},
+            {"collection", collection},
+            {"found",      false}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+// ============================================================================
+// Group 2: Vector / Hybrid / RAG Tool Handlers (Q4 2026)
+// ============================================================================
+
+json McpServer::toolSemanticSearch(const json& args) {
+    try {
+        if (!args.contains("query") || args["query"].get<std::string>().empty()) {
+            spdlog::warn("semantic_search: missing required parameter query");
+            return {{"error", "missing parameter: query"}};
+        }
+
+        const std::string query_text = args["query"].get<std::string>();
+        const int         top_k      = std::min(std::max(args.value("top_k", 10), 1), 200);
+        const std::string collection = args.value("collection", "");
+        const double      threshold  = args.value("threshold", 0.0);
+
+        // Obtain query embedding via llm_embed
+        json embed_result;
+        std::string embedding_model = "default";
+        json query_vec = json::array();
+
+#ifdef THEMIS_ENABLE_LLM
+        embed_result = toolLLMEmbed({{"text", query_text}});
+        if (embed_result.value("status", "") == "success" && embed_result.contains("embedding")) {
+            query_vec = embed_result["embedding"];
+        }
+#endif
+
+        // Build AQL kNN query using the obtained embedding or a text-search fallback
+        json results = json::array();
+        int  candidates_scanned = 0;
+
+        if (!query_vec.empty()) {
+            // Vector index kNN search via AQL approximation
+            std::string coll_name = collection.empty() ? "documents" : collection;
+            std::string aql = fmt::format(
+                "FOR doc IN {} "
+                "  LET score = COSINE_SIMILARITY(doc.embedding, @qvec) "
+                "  FILTER score >= @threshold "
+                "  SORT score DESC "
+                "  LIMIT @k "
+                "  RETURN {{id: doc._id, score: score, content: doc.content, metadata: doc.metadata}}",
+                coll_name);
+
+            json bind_vars = {{"qvec", query_vec}, {"threshold", threshold}, {"k", top_k}};
+            json qresult = toolQuery({{"query", aql}, {"language", "aql"}});
+
+            if (qresult.value("status", "") == "success" && qresult.contains("results")) {
+                results = qresult["results"];
+                candidates_scanned = static_cast<int>(results.size());
+            }
+        } else {
+            // Fallback: full-text keyword search
+            std::string coll_name = collection.empty() ? "documents" : collection;
+            std::string aql = fmt::format(
+                "FOR doc IN {} "
+                "  FILTER CONTAINS(LOWER(doc.content), LOWER(@q)) "
+                "  LIMIT @k "
+                "  RETURN {{id: doc._id, score: 0.5, content: doc.content, metadata: doc.metadata}}",
+                coll_name);
+
+            json qresult = toolQuery({{"query", aql}, {"language", "aql"}, {"bind_vars", {{"q", query_text}, {"k", top_k}}}});
+            if (qresult.value("status", "") == "success" && qresult.contains("results")) {
+                results = qresult["results"];
+                candidates_scanned = static_cast<int>(results.size());
+            }
+        }
+
+        spdlog::info("semantic_search: query='{}' top_k={} results={}", query_text, top_k, results.size());
+        return {
+            {"results",                  results},
+            {"total_candidates_scanned", candidates_scanned},
+            {"query_embedding_model",    embedding_model}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+json McpServer::toolHybridSearch(const json& args) {
+    try {
+        if (!args.contains("query") || args["query"].get<std::string>().empty()) {
+            spdlog::warn("hybrid_search: missing required parameter query");
+            return {{"error", "missing parameter: query"}};
+        }
+
+        const std::string query_text   = args["query"].get<std::string>();
+        const int         top_k        = std::max(args.value("top_k", 10), 1);
+        const std::string collection   = args.value("collection", "");
+        const double      vector_w     = std::min(std::max(args.value("vector_weight", 0.5), 0.0), 1.0);
+        const double      bm25_w       = std::min(std::max(args.value("bm25_weight",   0.5), 0.0), 1.0);
+
+        // 1. Vector leg
+        json vec_args = {{"query", query_text}, {"top_k", top_k * 2}};
+        if (!collection.empty()) vec_args["collection"] = collection;
+        json vec_result = toolSemanticSearch(vec_args);
+
+        // 2. BM25 leg via full-text AQL
+        json bm25_results = json::array();
+        std::string coll_name = collection.empty() ? "documents" : collection;
+        std::string bm25_aql  = fmt::format(
+            "FOR doc IN {} "
+            "  FILTER CONTAINS(LOWER(doc.content), LOWER(@q)) "
+            "  LIMIT @k "
+            "  RETURN {{id: doc._id, bm25_score: 0.5, content: doc.content, metadata: doc.metadata}}",
+            coll_name);
+        json bm25_qresult = toolQuery({{"query", bm25_aql}, {"language", "aql"}});
+        if (bm25_qresult.value("status", "") == "success" && bm25_qresult.contains("results")) {
+            bm25_results = bm25_qresult["results"];
+        }
+
+        // 3. RRF merge: score(doc) = Σ weight / (rank + 60)
+        std::unordered_map<std::string, double> rrf_scores;
+        std::unordered_map<std::string, json>   doc_cache;
+
+        int rank = 1;
+        if (vec_result.contains("results")) {
+            for (auto& r : vec_result["results"]) {
+                std::string id = r.value("id", "");
+                if (id.empty()) { ++rank; continue; }
+                rrf_scores[id] += vector_w / (rank + 60.0);
+                if (!doc_cache.count(id)) doc_cache[id] = r;
+                doc_cache[id]["vector_score"] = r.value("score", 0.0);
+                ++rank;
+            }
+        }
+        rank = 1;
+        for (auto& r : bm25_results) {
+            std::string id = r.value("id", "");
+            if (id.empty()) { ++rank; continue; }
+            rrf_scores[id] += bm25_w / (rank + 60.0);
+            if (!doc_cache.count(id)) doc_cache[id] = r;
+            doc_cache[id]["bm25_score"] = r.value("bm25_score", 0.5);
+            ++rank;
+        }
+
+        // Sort by merged score, take top_k
+        std::vector<std::pair<std::string, double>> ranked(rrf_scores.begin(), rrf_scores.end());
+        std::sort(ranked.begin(), ranked.end(), [](auto& a, auto& b){ return a.second > b.second; });
+
+        json merged = json::array();
+        for (int i = 0; i < static_cast<int>(ranked.size()) && i < top_k; ++i) {
+            const auto& [id, score] = ranked[i];
+            auto it = doc_cache.find(id);
+            json entry  = (it != doc_cache.end()) ? it->second : json::object();
+            entry["id"]           = id;
+            entry["score"]        = score;
+            if (!entry.contains("vector_score")) entry["vector_score"] = 0.0;
+            if (!entry.contains("bm25_score"))   entry["bm25_score"]   = 0.0;
+            merged.push_back(entry);
+        }
+
+        spdlog::info("hybrid_search: query='{}' top_k={} merged={}", query_text, top_k, merged.size());
+        return {
+            {"results",       merged},
+            {"top_k_returned", static_cast<int>(merged.size())}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+json McpServer::toolRagRetrieve(const json& args) {
+    try {
+        if (!args.contains("query") || args["query"].get<std::string>().empty()) {
+            spdlog::warn("rag_retrieve: missing required parameter query");
+            return {{"error", "missing parameter: query"}};
+        }
+
+        const std::string query_text      = args["query"].get<std::string>();
+        const int         top_k           = std::min(std::max(args.value("top_k", 5), 1), 20);
+        const std::string collection      = args.value("collection", "");
+        const bool        rerank          = args.value("rerank", true);
+        const bool        include_sources = args.value("include_sources", true);
+        const int         max_chunk_tok   = args.value("max_chunk_tokens", 512);
+
+        auto t_start = std::chrono::steady_clock::now();
+
+        // Step 1: semantic search
+        json sem_args = {{"query", query_text}, {"top_k", top_k * 2}};
+        if (!collection.empty()) sem_args["collection"] = collection;
+        json sem_result = toolSemanticSearch(sem_args);
+
+        json raw_results = sem_result.value("results", json::array());
+
+        // Step 2: optional rerank (score-sort is already applied; just slice)
+        if (rerank) {
+            std::sort(raw_results.begin(), raw_results.end(), [](const json& a, const json& b) {
+                return a.value("score", 0.0) > b.value("score", 0.0);
+            });
+        }
+
+        // Build context_chunks
+        json chunks = json::array();
+        int  total_tokens = 0;
+        int  rank = 1;
+        for (auto& r : raw_results) {
+            if (rank > top_k) break;
+            std::string content = r.value("content", "");
+            // Naive token estimate: 1 token ≈ 4 chars
+            int token_est = static_cast<int>(content.size() / 4) + 1;
+            if (token_est > max_chunk_tok) {
+                content   = content.substr(0, static_cast<size_t>(max_chunk_tok) * 4);
+                token_est = max_chunk_tok;
+            }
+            total_tokens += token_est;
+
+            json chunk = {
+                {"rank",    rank},
+                {"content", content},
+                {"score",   r.value("score", 0.0)}
+            };
+            if (include_sources) {
+                chunk["source"] = {
+                    {"id",         r.value("id", "")},
+                    {"collection", collection}
+                };
+            }
+            chunks.push_back(chunk);
+            ++rank;
+        }
+
+        auto t_end = std::chrono::steady_clock::now();
+        auto latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count();
+
+        spdlog::info("rag_retrieve: query='{}' chunks={} tokens_est={}", query_text, chunks.size(), total_tokens);
+        return {
+            {"context_chunks",        chunks},
+            {"total_tokens_estimate", total_tokens},
+            {"retrieval_latency_ms",  static_cast<int>(latency_ms)}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+json McpServer::toolVectorIndexList(const json& args) {
+    try {
+        const std::string filter_collection = args.value("collection", "");
+
+        // Delegate to list_indexes and filter for vector index type
+        json idx_result = toolListIndexes(json::object());
+
+        json vector_indexes = json::array();
+        if (idx_result.value("status", "") == "success" && idx_result.contains("indexes")) {
+            for (auto& idx : idx_result["indexes"]) {
+                std::string idx_type = idx.value("type", "");
+                if (idx_type != "vector" && idx_type != "hnsw" && idx_type != "flat" && idx_type != "ivf") continue;
+                if (!filter_collection.empty() && idx.value("table", "") != filter_collection) continue;
+                vector_indexes.push_back({
+                    {"name",         idx.value("column", "")},
+                    {"collection",   idx.value("table", "")},
+                    {"dimension",    idx.value("additional_info", json::object()).value("dimension", 0)},
+                    {"metric",       idx.value("additional_info", json::object()).value("metric", "cosine")},
+                    {"vector_count", idx.value("entry_count", 0)},
+                    {"status",       "ready"}
+                });
+            }
+        }
+
+        spdlog::info("vector_index_list: collection='{}' count={}", filter_collection, vector_indexes.size());
+        return {{"indexes", vector_indexes}};
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+// ============================================================================
+// Group 7: Schema Extension Tool Handlers (Q4 2026)
+// ============================================================================
+
+json McpServer::toolSchemaDiff(const json& args) {
+    try {
+        if (!args.contains("collection") || args["collection"].get<std::string>().empty()) {
+            spdlog::warn("schema_diff: missing required parameter collection");
+            return {{"error", "missing parameter: collection"}};
+        }
+
+        const std::string collection = args["collection"].get<std::string>();
+
+        if (!schema_mgr_) {
+            return {
+                {"diff_available",  false},
+                {"collection",      collection},
+                {"current_schema",  json::object()},
+                {"note",            "SchemaManager not initialized"}
+            };
+        }
+
+        // Version tracking not yet available — return current schema with diff_available=false
+        json current_schema = toolGetSchema(json::object());
+
+        spdlog::info("schema_diff: collection={} diff_available=false", collection);
+        return {
+            {"diff_available",  false},
+            {"collection",      collection},
+            {"current_schema",  current_schema},
+            {"added",           json::array()},
+            {"removed",         json::array()},
+            {"changed",         json::array()},
+            {"note",            "Schema version history not yet tracked; returning current schema only"}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+json McpServer::toolSchemaValidate(const json& args) {
+    try {
+        if (!args.contains("collection") || args["collection"].get<std::string>().empty()) {
+            spdlog::warn("schema_validate: missing required parameter collection");
+            return {{"error", "missing parameter: collection"}};
+        }
+        if (!args.contains("document") || !args["document"].is_object()) {
+            spdlog::warn("schema_validate: missing required parameter document");
+            return {{"error", "missing parameter: document"}};
+        }
+
+        const std::string collection = args["collection"].get<std::string>();
+        const json&       document   = args["document"];
+
+        json validation_errors = json::array();
+
+        if (schema_mgr_) {
+            auto& schema_mgr = *schema_mgr_;
+            try {
+                auto table_info = schema_mgr.getTable(collection);
+                // Validate required columns are present in document
+                for (const auto& col : table_info.columns) {
+                    if (col.not_null && !document.contains(col.name)) {
+                        validation_errors.push_back({
+                            {"field",   col.name},
+                            {"message", fmt::format("Required field '{}' is missing", col.name)}
+                        });
+                    }
+                }
+            } catch (const std::exception& schema_err) {
+                // Collection not found in schema — treat as unvalidated
+                spdlog::warn("schema_validate: collection '{}' not found in schema: {}", collection, schema_err.what());
+                return {
+                    {"valid",  true},
+                    {"errors", json::array()},
+                    {"note",   fmt::format("Collection '{}' not found in schema; document accepted", collection)}
+                };
+            }
+        } else {
+            // No schema manager: accept the document
+            return {{"valid", true}, {"errors", json::array()}, {"note", "SchemaManager not initialized; no validation applied"}};
+        }
+
+        bool valid = validation_errors.empty();
+        spdlog::info("schema_validate: collection={} valid={} errors={}", collection, valid, validation_errors.size());
+        return {{"valid", valid}, {"errors", validation_errors}};
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
+}
+
+json McpServer::toolExplainQuery(const json& args) {
+    try {
+        if (!args.contains("query") || args["query"].get<std::string>().empty()) {
+            spdlog::warn("explain_query: missing required parameter query");
+            return {{"error", "missing parameter: query"}};
+        }
+
+        const std::string query_str = args["query"].get<std::string>();
+        const std::string language  = args.value("language", "aql");
+
+        // Attempt query engine explain if available
+        if (query_engine_ && language == "aql") {
+            try {
+                auto plan = query_engine_->explain(query_str);
+                if (plan) {
+                    spdlog::info("explain_query: AQL explain succeeded query='{}'", query_str);
+                    return {{"plan", *plan}};
+                }
+            } catch (...) {
+                // fall through to stub plan
+            }
+        }
+
+        // Fallback: basic parse-validation stub
+        spdlog::info("explain_query: returning stub plan for language={}", language);
+        return {
+            {"plan", {
+                {"nodes",               json::array()},
+                {"estimated_total_cost", 0},
+                {"optimizations_applied", json::array()}
+            }},
+            {"note", fmt::format("explain not yet available for this query type (language={})", language)}
+        };
+    } catch (const std::exception& e) {
+        return {{"error", e.what()}};
+    }
 }
 
 } // namespace server

@@ -98,6 +98,24 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TIMEOUT 120
             LABELS release_critical server phase2 performance
         )
+    elseif(_stem STREQUAL "test_mcp_kg_tools")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS wave_b release_critical server mcp kg
+        )
+    elseif(_stem STREQUAL "test_mcp_search_tools")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS wave_b release_critical server mcp search
+        )
     else()
         themis_register_module_focused_test(
             MODULE server

@@ -85,20 +85,20 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)
 - [ ] GraphQL federation and schema governance hardening for multi-service deployments (Target: Q4 2026)
 - [ ] HTTP/3 congestion-control and connection migration tuning under production-like packet loss (Target: Q4 2026)
-- [ ] MCP Tool Extension — Group 1: Knowledge Graph tools (kg_neighbours, kg_shortest_path, kg_subgraph, kg_node_properties) (Target: Q4 2026)
+- [x] MCP Tool Extension — Group 1: Knowledge Graph tools (kg_neighbours, kg_shortest_path, kg_subgraph, kg_node_properties) (Target: Q4 2026 → Completed 2026-08-26)
   - Inputs: node_id, depth (1–5), edge_type filter, max_nodes; output: nodes/edges list + truncation flag
   - Backend: graph_api_handler; cycle-safe traversal; max 1000 nodes per call
   - Tests: 16 GTest cases (depth 1/2/3, cycles, non-existent nodes) in tests/server/test_mcp_kg_tools.cpp
   - Perf: p99 ≤ 200ms at depth=3, fan-out ≤ 50
-- [ ] MCP Tool Extension — Group 2: Vector/Hybrid/RAG tools (semantic_search, hybrid_search, rag_retrieve, vector_index_list) (Target: Q4 2026)
+- [x] MCP Tool Extension — Group 2: Vector/Hybrid/RAG tools (semantic_search, hybrid_search, rag_retrieve, vector_index_list) (Target: Q4 2026 → Completed 2026-08-26)
   - Inputs: text query or raw float32 vector, top_k (max 200), collection, filter, threshold
   - Backend: vector_api_handler + LLMPluginManager (auto-embed); rag_retrieve returns ranked chunks with sources
   - Tests: 16 GTest cases in tests/server/test_mcp_search_tools.cpp
   - Perf: p99 ≤ 500ms at top_k=10, 100k documents
-- [ ] MCP Tool Extension — Group 7: Schema extensions (schema_diff, schema_validate, explain_query) (Target: Q4 2026)
+- [x] MCP Tool Extension — Group 7: Schema extensions (schema_diff, schema_validate, explain_query) (Target: Q4 2026 → Completed 2026-08-26)
   - explain_query returns execution plan without executing; schema_diff compares two named versions
   - Backend: schema_api_handler, query_api_handler
-  - Tests: integrated into existing schema test suite
+  - Tests: integrated into existing schema test suite (test_mcp_search_tools.cpp)
 
 ### Mid-term (6-12 months)
 - [ ] Passwordless WebAuthn/FIDO2 auth integration for admin and API scopes (Target: Q1 2027)

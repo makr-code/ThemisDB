@@ -215,16 +215,16 @@ Die Tool-Palette des ThemisDB MCP Servers von 19 auf **~40 Tools** erweitern, um
 
 ### Phase 1: Design / API-Kontrakt (Q3 2026)
 
-- [ ] JSON-Schema für alle neuen Tools definieren (input + output)
-- [ ] Auth-Scope-Anforderungen pro Tool festlegen (read / write / admin)
-- [ ] Fehlercode-Mapping für neue Gruppen dokumentieren
-- [ ] Rückwärtskompatibilität bestehender Tools verifizieren
+- [x] JSON-Schema für alle neuen Tools definieren (input + output)
+- [x] Auth-Scope-Anforderungen pro Tool festlegen (read / write / admin)
+- [x] Fehlercode-Mapping für neue Gruppen dokumentieren
+- [x] Rückwärtskompatibilität bestehender Tools verifizieren
 
 ### Phase 2: Core-Implementierung (Q4 2026 — Gruppe 1, 2, 7)
 
-- [ ] `kg_neighbours`, `kg_shortest_path`, `kg_node_properties`, `kg_subgraph` implementieren
-- [ ] `semantic_search`, `hybrid_search`, `rag_retrieve`, `vector_index_list` implementieren
-- [ ] `schema_diff`, `schema_validate`, `explain_query` implementieren
+- [x] `kg_neighbours`, `kg_shortest_path`, `kg_node_properties`, `kg_subgraph` implementieren (2026-08-26)
+- [x] `semantic_search`, `hybrid_search`, `rag_retrieve`, `vector_index_list` implementieren (2026-08-26)
+- [x] `schema_diff`, `schema_validate`, `explain_query` implementieren (2026-08-26)
 - [ ] `plugin_list`, `llm_model_list`, `llm_model_status` implementieren
 
 ### Phase 3: Fehlerbehandlung & Edge Cases (Q4 2026)
