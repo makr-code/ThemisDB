@@ -1,0 +1,191 @@
+name: "Gate: PR Doxygen Governance"
+
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-26
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Enforces Doxygen source-governance on changed public C/C++ API surfaces.
+# Blocks merge on missing Doxygen structure or Doxygen warning output.
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'Doxyfile'
+      - 'Doxyfile.audit'
+      - 'Doxyfile.coverage'
+      - 'Doxyfile.local'
+      - 'Doxyfile.smoke'
+      - 'Doxyfile.xml.local'
+      - '.github/ci-scope-config.yaml'
+      - '.github/labels.yml'
+      - '.github/actions/status-flags-and-issues/action.yml'
+      - '.github/workflows/gate-pr-doxygen-governance.yml'
+      - 'scripts/doxygen_governance_gate.py'
+      - 'scripts/verify_docs.py'
+      - 'tools/scanners/gs3_step04_quality_cpp_doxygen.py'
+  workflow_dispatch:
+
+concurrency:
+  group: doxygen-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  doxygen-governance:
+    name: Doxygen Governance
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Install Doxygen gate dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install coverxygen pyyaml
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends doxygen
+
+      - name: Collect current PR labels
+        id: pr_labels
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        with:
+          script: |
+            const labels = (context.payload.pull_request?.labels || []).map(label => label.name);
+            core.setOutput('csv', labels.join(','));
+
+      - name: Run Doxygen governance gate
+        id: gate
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/doxygen-gate
+          python3 scripts/doxygen_governance_gate.py \
+            --repo-root . \
+            --base-ref "${{ github.base_ref || 'develop' }}" \
+            --artifact-dir /tmp/doxygen-gate \
+            --report-json /tmp/doxygen-gate/report.json \
+            --summary-md /tmp/doxygen-gate/summary.md \
+            --pr-labels "${{ steps.pr_labels.outputs.csv }}"
+
+      - name: Export gate outputs
+        id: gate_result
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = json.loads(Path('/tmp/doxygen-gate/report.json').read_text(encoding='utf-8'))
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write(f"verdict={report['verdict']}\n")
+              fh.write(f"coverage_enforced={'true' if report['coverage_enforced'] else 'false'}\n")
+              fh.write(f"coverage_waived={'true' if report['coverage_waived'] else 'false'}\n")
+              fh.write(f"changed_files={len(report['changed_code_files'])}\n")
+              fh.write("summary<<EOF\n")
+              fh.write(report['summary_markdown'])
+              fh.write("EOF\n")
+          PY
+
+      - name: Upload Doxygen gate artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: doxygen-governance-${{ github.run_number }}
+          path: /tmp/doxygen-gate
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Mark Doxygen failure labels
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: clear_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-remove: 'quality/doxygen-warning'
+
+      - name: Apply Doxygen failed label
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: set_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'quality/doxygen-failed'
+
+      - name: Mark Doxygen warning labels
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: clear_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-remove: 'quality/doxygen-failed'
+
+      - name: Apply Doxygen warning label
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: set_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'quality/doxygen-warning'
+
+      - name: Clear Doxygen result labels on pass
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: clear_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-remove: 'quality/doxygen-failed,quality/doxygen-warning'
+
+      - name: Comment gate result on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.pull_request.number }}
+          target-type: pr
+          issue-marker: '<!-- doxygen-governance-gate -->'
+          issue-body: ${{ steps.gate_result.outputs.summary }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Fail on blocking Doxygen verdict
+        if: always() && steps.gate_result.outputs.verdict == 'FAIL'
+        run: |
+          echo "::error::Doxygen governance gate failed."
+          exit 1

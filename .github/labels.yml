@@ -99,6 +99,11 @@
   description: "Governance item requires attention (waivers, drift, policy)"
   type: warning
 
+- name: "governance/doxygen-waiver"
+  color: "FBCA04"
+  description: "Approved temporary waiver for Tier-1 Doxygen coverage escalation"
+  type: warning
+
 # ── security/ — Security findings (set by maintenance-issues.yml) ──
 
 - name: "security"
@@ -131,6 +136,16 @@
 - name: "quality"
   color: "5319E7"
   description: "Quality and maintainability issue"
+  type: warning
+
+- name: "quality/doxygen-failed"
+  color: "B60205"
+  description: "Doxygen governance gate failed on changed source code"
+  type: blocker
+
+- name: "quality/doxygen-warning"
+  color: "FBCA04"
+  description: "Doxygen governance gate emitted non-blocking warning or waived coverage shortfall"
   type: warning
 
 - name: "maintenance"

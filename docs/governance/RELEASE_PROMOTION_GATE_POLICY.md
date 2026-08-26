@@ -64,9 +64,10 @@ This document establishes binding, non-waiverable quality gates that control pro
 
 1. **Doxygen Coverage for Phase 6 Modules**
    - **Requirement:** All modules at Phase 6 must have ≥ 95% Doxygen coverage for public APIs
-   - **Evidence:** Doxygen build output with coverage report
-   - **Verification:** Automated check runs as part of Phase 6 acceptance gate
+   - **Evidence:** Scoped `Doxyfile.audit` build output with XML coverage report and warning log
+   - **Verification:** Automated check runs in `.github/workflows/gate-pr-doxygen-governance.yml` and Phase 6 acceptance validation
    - **Escalation Path:** If < 95%, file GitHub issue `[escalation] Doxygen coverage gap`, require release lead waiver
+   - **Operational Marker:** Approved temporary overrides must be visible via PR label `governance/doxygen-waiver`
    - **Waiver Expiration:** 14 days; waiver must be renewed if gap not closed
 
 2. **BSI C5 2026 Compliance Gaps**
@@ -221,4 +222,3 @@ This log is immutable (append-only) and used for compliance audits and root caus
 - **Monthly:** Security lead reviews Tier 0 security gate status
 - **Quarterly:** Full gate policy review; adjust thresholds if needed
 - **Annually:** Policy compliance audit against release tag history
-
