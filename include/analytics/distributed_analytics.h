@@ -210,6 +210,21 @@ public:
         /// Timeout (ms) for enqueuing a request when the queue is full.
         /// 0 means non-blocking (drop if full). Default: 100 ms.
         uint32_t queue_enqueue_timeout_ms = 100;
+
+        // Wave-A AN1: per-shard retry with exponential backoff
+        /// Per-shard retry configuration.  Retries are applied only to
+        /// transient failures (timeout, network error); permanent failures
+        /// (invalid query, auth/permission error) skip retry immediately.
+        struct RetryConfig {
+            /// Maximum number of retry attempts after the first failure.
+            /// 0 = no retry (behaves like the pre-AN1 code path).
+            uint32_t max_retries   = 2;
+            /// Base backoff delay in milliseconds for the first retry.
+            uint32_t base_delay_ms = 50;
+            /// Hard cap on the computed backoff delay in milliseconds.
+            uint32_t max_delay_ms  = 500;
+        };
+        RetryConfig retry_config;
     };
 
     /**

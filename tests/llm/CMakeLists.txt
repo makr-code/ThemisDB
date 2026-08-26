@@ -158,6 +158,27 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         )
         target_link_libraries(${_target} PRIVATE rocksdb)
     endif()
+    # Wave-Next LW1/LW2: RocksDbWikiStore persistence tests.
+    # Compile rocksdb_wiki_store.cpp directly into the test target so the test
+    # runs even when themis_llm_wiki is not yet configured.
+    # When RocksDB is available, define THEMIS_USE_ROCKSDB and link rocksdb.
+    if(_stem STREQUAL "test_wave_next_llm_wiki_rocksdb")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm_wiki/rocksdb_wiki_store.cpp
+        )
+        target_include_directories(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm_wiki
+        )
+        if(TARGET rocksdb)
+            target_compile_definitions(${_target} PRIVATE THEMIS_USE_ROCKSDB=1)
+            target_link_libraries(${_target} PRIVATE rocksdb)
+        elseif(RocksDB_FOUND OR rocksdb_FOUND)
+            target_compile_definitions(${_target} PRIVATE THEMIS_USE_ROCKSDB=1)
+            target_link_libraries(${_target} PRIVATE ${RocksDB_LIBRARIES})
+            target_include_directories(${_target} PRIVATE ${RocksDB_INCLUDE_DIRS})
+        endif()
+        set(_wave_b_labels "wave_b llm_wiki release_critical rocksdb_persistence")
+    endif()
     # Wiki secondary index tests: compile the three wiki implementation units
     # directly into the test target.  JsonWikiIndexReader and WikiChunkSplitter
     # have no RocksDB dependency, so these tests are always runnable.

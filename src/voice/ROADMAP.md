@@ -42,16 +42,16 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 - [x] Define explicit failure contracts for invalid audio, auth failure, and unavailable backend states (2026-08-09: VOICE_SESSION_CONTRACT.md §4; error_message prefix tags frozen)
 
 ### Phase 2: Core Implementation
-- [~] Complete hardening for session lifecycle, chunk validation, and bounded streaming behavior (Target: Q4 2026) — 2026-08-17: fail-closed session teardown, bounded voice payload rejection, deterministic liveness/anti-spoof engines delivered; broader backend fallback alignment still open
-- [ ] Align wake-word, intent, and command pipelines to shared fallback semantics (Target: Q4 2026)
+- [x] Complete hardening for session lifecycle, chunk validation, and bounded streaming behavior (Target: Q4 2026) — ✅ 2026-08-26: COMPLETED — fail-closed session teardown, bounded voice payload rejection, deterministic liveness/anti-spoof engines delivered; backend fallback alignment completed by Wave-A V1/V2 guards (wake-word, intent, command, STT, TTS, liveness).
+- [x] Align wake-word, intent, and command pipelines to shared fallback semantics (Target: Q4 2026) — ✅ 2026-08-26: COMPLETED — Wave-A V1: detectWakeWord(), VoiceIntentDetector::detect(), and processTextCommand() all wrapped with [VOICE-FALLBACK] try/catch guards returning fail-closed defaults (WakeWordDetectionResult{detected:false}, IntentResult{UNKNOWN,0.0}, error response string)
 
 ### Phase 3: Error Handling and Edge Cases
-- [~] Enforce fail-closed behavior for malformed payloads, invalid session transitions, and partial backend failures (Target: Q4 2026) — 2026-08-17: malformed/oversized payload rejection and terminated-session fail-closed teardown verified; partial backend failure matrix still open
-- [ ] Standardize fallback behavior when optional runtime features are unavailable (Target: Q4 2026)
+- [x] Enforce fail-closed behavior for malformed payloads, invalid session transitions, and partial backend failures (Target: Q4 2026) — ✅ 2026-08-26: COMPLETED — Wave-A V2: STT backend failure → empty transcript + [STT_BACKEND_FAILURE] marker; TTS backend failure → silent empty-bytes fallback; liveness backend failure → fail-closed reject (both authenticate() and enroll() dispatch paths in voice_authenticator.cpp). All sites log THEMIS_WARN [VOICE-FALLBACK].
+- [x] Standardize fallback behavior when optional runtime features are unavailable (Target: Q4 2026) — ✅ 2026-08-26: COMPLETED — Wave-A V2 partial backend failure matrix covers STT, TTS, and liveness/anti-spoof paths.
 
 ### Phase 4: Tests
 - [~] Expand focused regressions for session isolation, streaming teardown, and auth edge cases (Target: Q4 2026) — 2026-08-17: `tests/voice/test_voice_wave_a8_hardening_focused.cpp` added for teardown, replay, stale challenge, and audit callback coverage
-- [~] Extend adversarial input regressions for spoofing, replay, and noisy wake-word scenarios (Target: Q4 2026) — 2026-08-17: deterministic live/replay/speaker-mismatch anti-spoof regressions added; noisy wake-word expansion still open
+- [x] Extend adversarial input regressions for spoofing, replay, and noisy wake-word scenarios (Target: Q4 2026) — ✅ 2026-08-26: COMPLETED — Wave-A V3: `tests/voice/test_voice_wave_a_noisy_wakeword.cpp` added (8 tests); covers confidence threshold rejection, SNR noise gate, exception fail-closed, UNKNOWN intent for empty input, LLM timeout fallback, command failure response, STT partial failure marker.
 
 ### Phase 5: Performance and Hardening
 - [~] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026) — 2026-08-18: `bench_voice_a8_baselines.cpp` registered in `benchmarks/CMakeLists.txt`; representative-hardware execution still pending (target Q4 2026)
@@ -114,6 +114,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 | Backend Degradation | `tests/voice/test_voice_backend_degradation_focused.cpp` | `wave_a release_critical` |
 | Browser / Telephony Streaming | `tests/voice/test_voice_browser_streaming.cpp` | `wave_a release_critical` |
 | Chaos Bundle — VOICE-CHAOS-01..12 (12 tests) | `tests/voice/test_voice_wave_a_chaos_bundle.cpp` | `wave_a release_critical` |
+| Noisy Wake-Word Adversarial (8 tests) | `tests/voice/test_voice_wave_a_noisy_wakeword.cpp` | `wave_a release_critical` |
 
 #### Pending Items (Wave A)
 

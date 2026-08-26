@@ -123,13 +123,42 @@ struct MLModelConfig {
  */
 struct MLModelInstance {
     virtual ~MLModelInstance() = default;
+
+    // Wave-B L7: thread-safety audit — explicit copy constructor required because
+    // active_requests is std::atomic<size_t> (non-copyable by default).
+    // Snapshot the loaded value so that copied instances (e.g. listModelInstances())
+    // get a consistent point-in-time view.
+    MLModelInstance() = default;
+    MLModelInstance(const MLModelInstance& o)
+        : instance_id(o.instance_id)
+        , model_id(o.model_id)
+        , status(o.status)
+        , gpu_device_id(o.gpu_device_id)
+        , active_requests(o.active_requests.load(std::memory_order_relaxed))
+        , total_requests(o.total_requests)
+        , successful_requests(o.successful_requests)
+        , failed_requests(o.failed_requests)
+        , avg_latency_ms(o.avg_latency_ms)
+        , p95_latency_ms(o.p95_latency_ms)
+        , p99_latency_ms(o.p99_latency_ms)
+        , requests_per_second(o.requests_per_second)
+        , latency_window(o.latency_window)
+        , consecutive_health_check_failures(o.consecutive_health_check_failures)
+        , last_health_check(o.last_health_check)
+        , deployed_at(o.deployed_at)
+        , last_request_at(o.last_request_at)
+    {}
+
     std::string instance_id;
     std::string model_id;
     MLModelStatus status;
     
     // Runtime information
     int gpu_device_id = -1;
-    size_t active_requests = 0;
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // active_requests is incremented/decremented by concurrent infer() calls without a
+    // global lock; must be atomic to prevent data races (UB under C++11 memory model).
+    std::atomic<size_t> active_requests{0};
     size_t total_requests = 0;
     size_t successful_requests = 0;
     size_t failed_requests = 0;
@@ -160,7 +189,7 @@ struct MLModelInstance {
             {"model_id", model_id},
             {"status", static_cast<int>(status)},
             {"gpu_device_id", gpu_device_id},
-            {"active_requests", active_requests},
+            {"active_requests", active_requests.load(std::memory_order_relaxed)},
             {"total_requests", total_requests},
             {"successful_requests", successful_requests},
             {"failed_requests", failed_requests},
@@ -517,6 +546,7 @@ private:
     // ┌─ model_lifecycle_lock_ : std::mutex
     // │  └─ model_cache_lock_ : std::shared_mutex (for cache reads)
     // │     └─ metrics_lock_ : std::mutex
+    // └─ models_mutex_ : std::mutex  (flat lock used by non-lifecycle accessors)
     // └─ dispatch_fn_mutex_ : std::mutex (independent)
     // └─ cancel_mutex_ : std::mutex (independent)
     
@@ -528,6 +558,14 @@ private:
     
     /// Exclusive lock for instance metrics and statistics updates
     mutable std::mutex metrics_lock_;
+
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // models_mutex_ guards all accessors that read or modify models_ outside the
+    // lifecycle/cache-lock hierarchy (updateModel, retireModel, unregisterModel,
+    // listModels, getModelConfig, getModelStatus, listModelInstances, getModelMetrics,
+    // scaleModel, healthCheck, restartInstance, shutdown, getSystemStats, selectInstance,
+    // shutdownInstance, healthMonitorLoop, autoScalerLoop).
+    mutable std::mutex models_mutex_;
     
     // Background threads
     std::unique_ptr<std::thread> health_monitor_thread_;

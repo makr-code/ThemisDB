@@ -165,6 +165,27 @@ The module provides production-grade LLM runtime surfaces across async inference
   - Errors: checkpoint write failure, cancellation mid-epoch
   - Tests: `tests/llm/test_inline_training_production.cpp`
 
+### Wave 2-D: Thread-Safety Hardening — L7 Class (Target: Q4 2026)
+
+> **Source:** Thread-safety audit — shared state in inference handlers; top-20 std::atomic/mutex additions  
+> **Gap count:** 13 sites across `ml_model_manager.h/.cpp`, `llm_plugin_manager.h/.cpp`
+
+- [x] Thread-safety audit — shared state in inference handlers; top-20 std::atomic/mutex additions (Wave-B L7, 2026-08-26)
+  - [x] `include/llm/ml_model_manager.h`: added `mutable std::mutex models_mutex_` declaration (was used in 18 cpp call sites but undeclared — compile-time gap)
+  - [x] `include/llm/ml_model_manager.h`: changed `MLModelInstance::active_requests` from `size_t` to `std::atomic<size_t>` — concurrent `infer()` calls increment/decrement without a global lock
+  - [x] `include/llm/ml_model_manager.h`: added explicit copy constructor for `MLModelInstance` (required by `std::atomic` non-copyability; `listModelInstances()` uses value-copy)
+  - [x] `src/llm/ml_model_manager.cpp`: `updateModel()`, `retireModel()`, `listModels()`, `getModelConfig()`, `getModelStatus()` — Wave-B L7 comments added at each lock acquisition site
+  - [x] `src/llm/ml_model_manager.cpp` `infer()`: `active_requests.fetch_add/fetch_sub` with `memory_order_relaxed` replaces unguarded `++`/`--`
+  - [x] `src/llm/ml_model_manager.cpp` `updateInstanceMetrics()`: added `metrics_lock_` guard — per-instance metrics written here, read concurrently by `getModelMetrics()` / `listModelInstances()`
+  - [x] `src/llm/ml_model_manager.cpp` `healthMonitorLoop()`: fixed deadlock — previously held `models_mutex_` while calling `healthCheck()` which re-acquires the same mutex; fix collects instance IDs under the lock then releases before per-instance `healthCheck()` calls
+  - [x] `include/llm/llm_plugin_manager.h`: added `std::atomic<uint64_t> plugin_operation_count_{0}` — tracks total `registerPlugin()` calls race-free
+  - [x] `src/llm/llm_plugin_manager.cpp` `registerPlugin()`: increments `plugin_operation_count_` atomically via `fetch_add(1, memory_order_relaxed)`
+  - Tests: `tests/llm/test_wave_next_llm_threadsafety.cpp` (L7-TS-01..04)
+    - L7-TS-01: Concurrent `getModelConfig()` / `getModelStatus()` from 4 threads × 1 000 iterations — no data race
+    - L7-TS-02: Concurrent `registerModel()` (2 writer threads) + `listModels()` (2 reader threads) — no crash or corruption
+    - L7-TS-03: `initializeStateStore()` from one thread while another calls `getPlugin()` — no use-after-free on `state_db_`
+    - L7-TS-04: `registerPlugin()` from 8 threads × 100 registrations — `plugin_operation_count_` == 800 exactly
+
 ---
 
 ## Wave A-8 Distributed Optimization Closure (2026-08-16)

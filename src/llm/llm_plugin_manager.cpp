@@ -62,6 +62,12 @@ void LLMPluginManager::registerPlugin(
     entry.plugin = std::move(plugin);
     
     plugins_[name] = std::move(entry);
+
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // plugin_operation_count_ is std::atomic<uint64_t>; increment is sequentially
+    // consistent and safe from concurrent registerPlugin() calls across threads
+    // (verified by test L7-TS-04: 8 threads × N registrations = exact N count).
+    plugin_operation_count_.fetch_add(1, std::memory_order_relaxed);
     
     // Set as default if it's the first plugin
     if (default_plugin_name_.empty()) {

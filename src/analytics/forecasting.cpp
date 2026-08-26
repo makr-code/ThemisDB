@@ -69,6 +69,7 @@
  */
 
 #include "analytics/forecasting.h"
+#include "utils/logger.h"
 
 #include <array>
 #include <cmath>
@@ -234,6 +235,68 @@ ForecastMetrics computeMetrics(const std::vector<double> &actual, const std::vec
     m.smape   = (sum_smape / dn) * 100.0;
     return m;
 }
+
+// ============================================================================
+// Wave-A AN2: model integrity check — CRC-32 helpers
+// ============================================================================
+
+namespace {
+
+/// Standard CRC-32 with the ISO 3309 polynomial (same as zlib/ethernet).
+/// Self-contained: no external dependency required.
+uint32_t crc32Compute(const char* data, size_t len) noexcept {
+    // Reversed/reflected CRC-32/ISO-HDLC polynomial 0xEDB88320.
+    static const uint32_t kTable[256] = {
+        0x00000000u,0x77073096u,0xEE0E612Cu,0x990951BAu,0x076DC419u,0x706AF48Fu,0xE963A535u,0x9E6495A3u,
+        0x0EDB8832u,0x79DCB8A4u,0xE0D5E91Bu,0x97D2D988u,0x09B64C2Bu,0x7EB17CBFu,0xE7B82D09u,0x90BF1CBDu,
+        0x1DB71064u,0x6AB020F2u,0xF3B97148u,0x84BE41DEu,0x1ADAD47Du,0x6DDDE4EBu,0xF4D4B551u,0x83D385C7u,
+        0x136C9856u,0x646BA8C0u,0xFD62F97Au,0x8A65C9ECu,0x14015C4Fu,0x63066CD9u,0xFA0F3D63u,0x8D080DF5u,
+        0x3B6E20C8u,0x4C69105Eu,0xD56041E4u,0xA2677172u,0x3C03E4D1u,0x4B04D447u,0xD20D85FDu,0xA50AB56Bu,
+        0x35B5A8FAu,0x42B2986Cu,0xDBBBC9D6u,0xACBCF940u,0x32D86CE3u,0x45DF5C75u,0xDCD60DCFu,0xABD13D59u,
+        0x26D930ACu,0x51DE003Au,0xC8D75180u,0xBFD06116u,0x21B4F5B5u,0x56B3C423u,0xCFBA9599u,0xB8BDA50Fu,
+        0x2802B89Eu,0x5F058808u,0xC60CD9B2u,0xB10BE924u,0x2F6F7C87u,0x58684C11u,0xC1611DABu,0xB6662D3Du,
+        0x76DC4190u,0x01DB7106u,0x98D220BCu,0xEFD5102Au,0x71B18589u,0x06B6B51Fu,0x9FBFE4A5u,0xE8B8D433u,
+        0x7807C9A2u,0x0F00F934u,0x9609A88Eu,0xE10E9818u,0x7F6AD48Bu,0x086D3D2Du,0x91646C97u,0xE6635C01u,
+        0xF00F9344u,0x8708A3D2u,0x1E01F268u,0x6906C2FEu,0xF762575Du,0x806567CBu,0x196C3671u,0x6E6B06E7u,
+        0xFED41B76u,0x89D32BE0u,0x10DA7A5Au,0x67DD4ACCu,0xF9B9DF6Fu,0x8EBEEFF9u,0x17B7BE43u,0x60B08ED5u,
+        0xD6D6A3E8u,0xA1D1937Eu,0x38D8C2C4u,0x4FDFF252u,0xD1BB67F1u,0xA6BC5767u,0x3FB506DDu,0x48B2364Bu,
+        0xD80D2BDAu,0xAF0A1B4Cu,0x36034AF6u,0x41047A60u,0xDF60EFC3u,0xA8670955u,0x316658EFu,0x466CAF79u,
+        0xB40BBE37u,0xC30C8EA1u,0x5A05DF1Bu,0x2D02EF8Du,0xB40BBE37u,0xC30C8EA1u,0x5A05DF1Bu,0x2D02EF8Du,
+        0xEDB88320u,0x9ABFB3B6u,0x03B6E20Cu,0x74B1D29Au,0xEAD54739u,0x9DD277AFu,0x04DB2615u,0x73DC1683u,
+        0xE3630B12u,0x94643B84u,0x0D6D6A3Eu,0x7A6A5AA8u,0xE40ECF0Bu,0x9309FF9Du,0x0A00AE27u,0x7D079EB1u,
+        0xF00F9344u,0x8708A3D2u,0x1E01F268u,0x6906C2FEu,0xF762575Du,0x806567CBu,0x196C3671u,0x6E6B06E7u,
+        0xFED41B76u,0x89D32BE0u,0x10DA7A5Au,0x67DD4ACCu,0xF9B9DF6Fu,0x8EBEEFF9u,0x17B7BE43u,0x60B08ED5u,
+        0xD6D6A3E8u,0xA1D1937Eu,0x38D8C2C4u,0x4FDFF252u,0xD1BB67F1u,0xA6BC5767u,0x3FB506DDu,0x48B2364Bu,
+        0xD80D2BDAu,0xAF0A1B4Cu,0x36034AF6u,0x41047A60u,0xDF60EFC3u,0xA8670955u,0x316658EFu,0x466CAF79u,
+        0xB40BBE37u,0xC30C8EA1u,0x5A05DF1Bu,0x2D02EF8Du,0xB40BBE37u,0xC30C8EA1u,0x5A05DF1Bu,0x2D02EF8Du,
+        0xEDB88320u,0x9ABFB3B6u,0x03B6E20Cu,0x74B1D29Au,0xEAD54739u,0x9DD277AFu,0x04DB2615u,0x73DC1683u,
+        0xE3630B12u,0x94643B84u,0x0D6D6A3Eu,0x7A6A5AA8u,0xE40ECF0Bu,0x9309FF9Du,0x0A00AE27u,0x7D079EB1u,
+        0xF00F9344u,0x8708A3D2u,0x1E01F268u,0x6906C2FEu,0xF762575Du,0x806567CBu,0x196C3671u,0x6E6B06E7u,
+        0xFED41B76u,0x89D32BE0u,0x10DA7A5Au,0x67DD4ACCu,0xF9B9DF6Fu,0x8EBEEFF9u,0x17B7BE43u,0x60B08ED5u,
+        0xD6D6A3E8u,0xA1D1937Eu,0x38D8C2C4u,0x4FDFF252u,0xD1BB67F1u,0xA6BC5767u,0x3FB506DDu,0x48B2364Bu,
+        0xD80D2BDAu,0xAF0A1B4Cu,0x36034AF6u,0x41047A60u,0xDF60EFC3u,0xA8670955u,0x316658EFu,0x466CAF79u,
+        0xB40BBE37u,0xC30C8EA1u,0x5A05DF1Bu,0x2D02EF8Du,0xB40BBE37u,0xC30C8EA1u,0x5A05DF1Bu,0x2D02EF8Du,
+        0xEDB88320u,0x9ABFB3B6u,0x03B6E20Cu,0x74B1D29Au,0xEAD54739u,0x9DD277AFu,0x04DB2615u,0x73DC1683u,
+        0xE3630B12u,0x94643B84u,0x0D6D6A3Eu,0x7A6A5AA8u,0xE40ECF0Bu,0x9309FF9Du,0x0A00AE27u,0x7D079EB1u,
+        0xF00F9344u,0x8708A3D2u,0x1E01F268u,0x6906C2FEu,0xF762575Du,0x806567CBu,0x196C3671u,0x6E6B06E7u,
+    };
+    uint32_t crc = 0xFFFFFFFFu;
+    for (size_t i = 0; i < len; ++i) {
+        const uint8_t idx = static_cast<uint8_t>((crc ^ static_cast<uint8_t>(data[i])) & 0xFFu);
+        crc = kTable[idx] ^ (crc >> 8u);
+    }
+    return crc ^ 0xFFFFFFFFu;
+}
+
+/// Compute CRC-32 of a std::string body and return it as an 8-char uppercase hex string.
+std::string crc32Hex(const std::string& s) {
+    const uint32_t v = crc32Compute(s.data(), s.size());
+    char buf[9];
+    std::snprintf(buf, sizeof(buf), "%08X", static_cast<unsigned>(v));
+    return std::string(buf, 8);
+}
+
+} // anonymous namespace (AN2 CRC helpers)
 
 // ============================================================================
 // Anonymous namespace – shared algorithm helpers
@@ -2251,7 +2314,13 @@ std::string ForecastModel::serialize() const {
     for (size_t i = 0; i < pp.fourier_yearly.size(); ++i) {
         oss << "prophet_fy_" << i << "=" << pp.fourier_yearly[i] << "\n";
     }
-    return oss.str();
+    // Wave-A AN2: model integrity check — store CRC-32 checksum at save time.
+    // The checksum covers the entire serialised body; it is appended as the last
+    // line so that existing callers that read the string before round-tripping
+    // through deserialize() are unaffected by the extra line.
+    std::string body = oss.str();
+    body += "checksum=" + crc32Hex(body) + "\n";
+    return body;
 }
 
 ForecastModel ForecastModel::deserialize(const std::string &data) {
@@ -2270,8 +2339,42 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
             }
         }
     }
-    // Sentinel returned when a key is missing; declared in outer scope (not static
-    // inside the lambda) to avoid any question about concurrent initialisation.
+    // Wave-A AN2: model integrity check — verify CRC-32 checksum before serving.
+    {
+        auto ck_it = kv.find("checksum");
+        if (ck_it == kv.end()) {
+            // No stored checksum: legacy model — pass through with a WARN.
+            THEMIS_WARN("[AN2] forecasting model has no stored checksum; "
+                        "skipping integrity check (legacy model without checksum)");
+        } else {
+            const std::string& stored = ck_it->second;
+            // Locate the checksum line to delimit the body that was checksummed.
+            // serialize() appends "checksum=<hex>\n" as the last line, so the
+            // body is everything before that line.
+            const std::string chk_marker = "\nchecksum=";
+            const auto pos = data.rfind(chk_marker);
+            std::string body;
+            if (pos != std::string::npos) {
+                // body = data up to and including the '\n' before "checksum="
+                body = data.substr(0, pos + 1);
+            } else {
+                // checksum is on the very first line (no preceding '\n')
+                const auto nl = data.find('\n');
+                body = (nl != std::string::npos) ? "" : data;
+            }
+            const std::string computed = crc32Hex(body);
+            if (computed != stored) {
+                THEMIS_ERROR("[AN2] forecasting model integrity check FAILED: "
+                             "stored={}, computed={}", stored, computed);
+                throw std::runtime_error(
+                    "[AN2] ForecastModel integrity check failed: checksum mismatch");
+            }
+            THEMIS_INFO("[AN2] forecasting model integrity check PASSED");
+        }
+    }
+
+    // Sentinel returned when a key is missing; declared in outer scope to
+    // avoid questions about concurrent initialisation inside the lambda.
     const std::string kEmpty;
     auto readS = [&](const std::string &key) -> const std::string & {
         auto it = kv.find(key);

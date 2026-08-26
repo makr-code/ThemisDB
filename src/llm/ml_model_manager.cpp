@@ -137,6 +137,7 @@ Result<bool> MLModelManager::updateModel(
     const std::string& model_id,
     const MLModelConfig& new_config
 ) {
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     auto it = models_.find(model_id);
@@ -198,6 +199,7 @@ Result<bool> MLModelManager::retireModel(
 ) {
     // Step 1: mark as retired under the lock, then release before sleeping.
     {
+        // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
         std::lock_guard<std::mutex> lock(models_mutex_);
         auto it = models_.find(model_id);
         if (it == models_.end()) {
@@ -282,6 +284,7 @@ Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
 // ═══════════════════════════════════════════════════════════
 
 std::vector<std::string> MLModelManager::listModels(const json& filter) const {
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     std::vector<std::string> result;
@@ -312,6 +315,7 @@ std::vector<std::string> MLModelManager::listModels(const json& filter) const {
 }
 
 Result<MLModelConfig> MLModelManager::getModelConfig(const std::string& model_id) const {
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     auto it = models_.find(model_id);
@@ -326,6 +330,7 @@ Result<MLModelConfig> MLModelManager::getModelConfig(const std::string& model_id
 }
 
 Result<MLModelStatus> MLModelManager::getModelStatus(const std::string& model_id) const {
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     auto it = models_.find(model_id);
@@ -412,7 +417,10 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
         return Ok(response);
     }
     
-    instance->active_requests++;
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // active_requests is std::atomic<size_t>; fetch_add is sequentially consistent
+    // by default, ensuring the in-flight counter is always consistent across threads.
+    instance->active_requests.fetch_add(1, std::memory_order_relaxed);
     
     auto queue_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - start
@@ -494,7 +502,8 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     response.inference_time_ms = static_cast<float>(inference_time);
     response.total_time_ms = response.queue_time_ms + response.inference_time_ms;
     
-    instance->active_requests--;
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    instance->active_requests.fetch_sub(1, std::memory_order_relaxed);
     
     updateInstanceMetrics(instance, response.total_time_ms, response.success);
     
@@ -730,7 +739,7 @@ json MLModelManager::getSystemStats() const {
             if (inst->status == MLModelStatus::DEPLOYED) {
                 healthy_instances++;
             }
-            active_requests += inst->active_requests;
+            active_requests += inst->active_requests.load(std::memory_order_relaxed);
         }
     }
     
@@ -750,17 +759,28 @@ void MLModelManager::healthMonitorLoop() {
         std::this_thread::sleep_for(
             std::chrono::milliseconds(config_.health_check_interval_ms)
         );
-        
-        std::lock_guard<std::mutex> lock(models_mutex_);
-        
-        for (auto& [model_id, entry] : models_) {
-            if (!entry->config.enable_health_check) {
-                continue;
+
+        // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+        // Collect instance IDs under models_mutex_, then RELEASE the lock before calling
+        // healthCheck().  The previous pattern held models_mutex_ while calling
+        // healthCheck() which re-acquires models_mutex_ → deadlock on non-recursive mutex.
+        // Fix: snapshot IDs inside the locked block, then do per-instance health checks
+        // outside it (each healthCheck() call acquires/releases models_mutex_ on its own).
+        std::vector<std::string> instance_ids;
+        {
+            std::lock_guard<std::mutex> lock(models_mutex_);
+            for (auto& [model_id, entry] : models_) {
+                if (!entry->config.enable_health_check) {
+                    continue;
+                }
+                for (auto& inst : entry->instances) {
+                    instance_ids.push_back(inst->instance_id);
+                }
             }
-            
-            for (auto& inst : entry->instances) {
-                healthCheck(inst->instance_id);
-            }
+        }
+
+        for (const auto& id : instance_ids) {
+            healthCheck(id);
         }
     }
 }
@@ -781,7 +801,7 @@ void MLModelManager::autoScalerLoop() {
             // Calculate average utilization
             float total_utilization = 0.0f;
             for (const auto& inst : entry->instances) {
-                float utilization = static_cast<float>(inst->active_requests) / 
+                float utilization = static_cast<float>(inst->active_requests.load(std::memory_order_relaxed)) / 
                                    entry->config.max_concurrent_requests;
                 total_utilization += utilization;
             }
@@ -931,6 +951,13 @@ void MLModelManager::updateInstanceMetrics(
     bool success
 ) {
     if (!instance) return;
+
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // metrics_lock_ guards per-instance mutable statistics (total_requests,
+    // successful_requests, failed_requests, avg_latency_ms, latency_window, p95/p99)
+    // that are written here from the infer() caller thread and read concurrently by
+    // getModelMetrics() / listModelInstances() under models_mutex_.
+    std::lock_guard<std::mutex> lock(metrics_lock_);
     
     instance->total_requests++;
     instance->last_request_at = std::chrono::system_clock::now();

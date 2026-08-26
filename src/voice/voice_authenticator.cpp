@@ -10,6 +10,7 @@
  */
 
 #include "voice/voice_auth.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <chrono>
@@ -73,7 +74,18 @@ bool VoiceBiometricAuthenticator::enroll_voice(
         // Liveness gate: when require_liveness is set, reject samples that do
         // not appear to be genuine live speech (anti-spoofing during enrollment).
         if (config.require_liveness) {
-            auto liveness = detect_liveness(sample);
+            // Wave-A V2: partial backend failure matrix — liveness backend fallback (fail-closed)
+            // If liveness backend throws during enrollment, skip the sample for security.
+            LivenessScore liveness;
+            try {
+                liveness = detect_liveness(sample);
+            } catch (const std::exception& e) {
+                THEMIS_WARN("[VOICE-FALLBACK] liveness check backend failed — fail-closed: session rejected: {}", e.what());
+                liveness.is_live = false;
+            } catch (...) {
+                THEMIS_WARN("[VOICE-FALLBACK] liveness check backend failed — fail-closed: session rejected (unknown exception)");
+                liveness.is_live = false;
+            }
             if (!liveness.is_live) {
                 continue;  // skip replay / synthetic samples
             }
@@ -422,7 +434,20 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     }
 
     // 1. Liveness check
-    auto liveness = detect_liveness(audio_sample);
+    // Wave-A V2: partial backend failure matrix — liveness backend fallback (fail-closed)
+    // If liveness backend throws, reject the session for security.
+    LivenessScore liveness;
+    try {
+        liveness = detect_liveness(audio_sample);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("[VOICE-FALLBACK] liveness check backend failed — fail-closed: session rejected: {}", e.what());
+        liveness.is_live = false;
+        liveness.reason = "liveness_backend_exception";
+    } catch (...) {
+        THEMIS_WARN("[VOICE-FALLBACK] liveness check backend failed — fail-closed: session rejected (unknown exception)");
+        liveness.is_live = false;
+        liveness.reason = "liveness_backend_unknown_exception";
+    }
     if (!liveness.is_live) {
         result.decision_reason = "liveness_failed: " + liveness.reason;
         emitAuthAuditEvent(user_id, result);

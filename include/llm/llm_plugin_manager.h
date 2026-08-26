@@ -473,6 +473,12 @@ private:
     std::string default_plugin_name_;
     mutable std::mutex mutex_;
 
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // plugin_operation_count_ tracks total registerPlugin() calls atomically so that
+    // concurrent registrations from multiple threads yield an exact final count
+    // (verified by test L7-TS-04 via 8-thread stress).
+    std::atomic<uint64_t> plugin_operation_count_{0};
+
     /// VRAM budget tracker — registers externally-managed GPU memory (loaded models)
     /// for system-wide VRAM pressure monitoring and OOM-threshold alerting.
     ActiveVRAMAllocator vram_allocator_;

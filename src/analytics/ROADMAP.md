@@ -104,7 +104,10 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 ### Mid-term (6-12 months)
 - [ ] add/expand dedicated benchmarks for currently proxy-covered analytics paths (Target: Q1 2027)
 - [ ] re-baseline analytics latency and throughput envelopes per representative hardware profile (Target: Q1 2027)
-- [ ] harden cross-cluster security and reliability controls in federated analytics scenarios (Target: Q1 2027)
+- [x] harden cross-cluster security and reliability controls in federated analytics scenarios (Target: Q1 2027)
+  - [x] **AN1**: Wire federated query coordinator — per-shard retry with exponential backoff and ±20% jitter; permanent-failure fast-path skips retry; `Config::RetryConfig` (max_retries=2, base_delay_ms=50, max_delay_ms=500) (Completed 2026-08-26)
+  - [x] **AN2**: Forecasting model integrity check — CRC-32 computed at `serialize()` time, verified at `deserialize()` time; legacy models without checksum pass with `THEMIS_WARN`; corrupted checksum returns error (Completed 2026-08-26)
+  - [x] `tests/analytics/test_wave_next_analytics_hardening.cpp` — AN1-01..AN1-04, AN2-01..AN2-04 regression tests (Completed 2026-08-26)
 
 ## Implementation Phases
 
