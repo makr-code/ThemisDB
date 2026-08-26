@@ -60,6 +60,11 @@ Required flow:
 Task-specific minimum expectations:
 
 - API/module work: consult `./developer_llm_wiki/MODULES_AND_APIS.md` first, then the relevant files under `./api_contracts/` and the module-local `src/<module>/*.md`.
+  - Transport / external API work: consult `./api_contracts/api.md` first for request/response contracts, fail-closed behavior, client-visible errors, and versioned external surface changes.
+  - Storage / index contract work: consult `./api_contracts/storage.md` and/or `./api_contracts/index.md` first for ordering guarantees, snapshot/durability rules, performance gates, and option compatibility.
+  - Auth / identity work: consult `./api_contracts/auth.md` first for credential/principal contracts, revocation/expiry behavior, tenant isolation, and security defaults.
+  - LLM / model API work: consult `./api_contracts/llm.md` first for input/output contracts, timeout/cancellation behavior, ownership/lifetime, and model-switch semantics.
+  - Transaction / consistency work: consult `./api_contracts/transaction.md` first for isolation levels, commit/rollback guarantees, savepoints/SAGA, and consistency commitments.
 - Build/test/CI/operations work: consult `./developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md` first, then verify against GitHub Actions logs, `.github/workflows/*.yml`, and affected scripts.
 - Roadmap/governance/release work: consult `./developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md` first, then verify against `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, and `VERSIONING.md`.
 - C/C++ work: consult `./developer_llm_wiki/MODULES_AND_APIS.md` first, then `memory_management_policy.md`, `OOP_AND_SOC_PRINCIPLES.md`, `FUNCTION_CLASSIFICATION.md`, and the relevant `.github/instructions/*cpp*` rule files before editing code.
@@ -73,6 +78,7 @@ Task-specific minimum expectations:
     - locking, atomics, latency, benchmarks, or timeout behavior → concurrency / performance work
     - adapters, plugin interfaces, SDK exposure, or edition boundaries → plugin boundary / extensibility work
   - If more than one C++ subtype applies, all relevant wiki inputs and the strictest boundary/documentation rules apply together.
+  - If more than one API subtype applies, all relevant contract, compatibility, and security checks apply together.
 
 Reference module: [../.github/copilot/AI_WIKI_CONTEXT.md](../.github/copilot/AI_WIKI_CONTEXT.md)
 

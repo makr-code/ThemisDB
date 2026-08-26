@@ -162,6 +162,7 @@ cp -r .vscode.example .vscode
 
 - Required Developer LLM Wiki read order for GitHub Copilot on GitHub.
 - Which curated wiki files to use for module/API, CI/build, governance, and C/C++ tasks.
+- Finer API routing for transport, storage/index, auth/identity, LLM/model, and transaction/consistency work.
 - Which C++ workflow profile to use for public API, internal core, concurrency/performance, and plugin-boundary work.
 - Freshness checks via `WIKI_STATUS.json`.
 - Source-of-truth fallback rules when wiki synthesis drifts.

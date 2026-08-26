@@ -32,6 +32,65 @@ Use this module when GitHub Copilot on GitHub is implementing, refactoring, revi
   - `auth.md`
 - Prefer module/API wiki context before broad repository search when the task asks to implement, extend, or review an API contract.
 
+#### Transport and external API work
+- Prioritize `ai_context/api_contracts/api.md` after `MODULES_AND_APIS.md`.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/api_contracts/api.md`
+  3. `ai_context/FUNCTION_CLASSIFICATION.md`
+  4. transport-facing headers under `include/api/**`
+  5. transport tests and `src/api/*.md`
+- Must verify: request/response contract, fail-closed behavior, external error mapping, version/deprecation impact, and documented thread-safety.
+
+#### Storage and index API contract work
+- Prioritize `ai_context/api_contracts/storage.md` and `ai_context/api_contracts/index.md` after `MODULES_AND_APIS.md`.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/api_contracts/storage.md` and/or `index.md`
+  3. `ai_context/FUNCTION_CLASSIFICATION.md`
+  4. public storage/index headers and module docs
+  5. focused tests and benchmarks
+- Must verify: key/value or query contract, ordering/result guarantees, snapshot/isolation expectations, durability/performance gates, and compatibility of any option changes.
+
+#### Auth and identity API work
+- Prioritize `ai_context/api_contracts/auth.md` after `MODULES_AND_APIS.md`.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/api_contracts/auth.md`
+  3. `developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md` when policy or surface rules change
+  4. auth-facing headers and module docs
+  5. auth tests and security-sensitive callers
+- Must verify: principal/credential contract, tenant/scope isolation, revocation/expiry semantics, client-visible error policy, and no weakening of security defaults.
+
+#### LLM and model API work
+- Prioritize `ai_context/api_contracts/llm.md` after `MODULES_AND_APIS.md`.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/api_contracts/llm.md`
+  3. `ai_context/FUNCTION_CLASSIFICATION.md`
+  4. public LLM headers and module docs
+  5. inference tests / benchmarks / timeout-sensitive callers
+- Must verify: model/input/output contract, timeout and cancellation semantics, ownership/lifetime of returned data, concurrency model, and behavior across model switching.
+
+#### Transaction and consistency API work
+- Prioritize `ai_context/api_contracts/transaction.md` after `MODULES_AND_APIS.md`.
+- Default file order:
+  1. `developer_llm_wiki/MODULES_AND_APIS.md`
+  2. `ai_context/api_contracts/transaction.md`
+  3. `ai_context/FUNCTION_CLASSIFICATION.md`
+  4. transaction-facing headers and module docs
+  5. isolation / rollback / recovery tests
+- Must verify: isolation-level semantics, commit/rollback guarantees, timeout behavior, savepoint/saga stability, and that consistency guarantees remain explicit.
+
+## API Subtype Routing Heuristics
+
+- If the task changes HTTP/gRPC/GraphQL request handling, version routing, middleware, or client-visible transport errors, treat it as **Transport and external API work**.
+- If the task changes storage engine CRUD, snapshotting, scans, index search/insert/delete, or result ordering guarantees, treat it as **Storage and index API contract work**.
+- If the task changes authentication, authorization, principals, tokens, revocation, tenant isolation, or security-sensitive caller contracts, treat it as **Auth and identity API work**.
+- If the task changes embeddings, generation, model selection, inference options, or cancellation behavior, treat it as **LLM and model API work**.
+- If the task changes transactions, isolation levels, commit/rollback, 2PC/SAGA, savepoints, or consistency guarantees, treat it as **Transaction and consistency API work**.
+- If multiple API subtypes apply, read all relevant contract pages and use the strictest compatibility, security, and documentation requirements among them.
+
 ### Build, test, CI, and operations work
 - Start with `BUILD_TEST_CI_AND_OPERATIONS.md`
 - Cross-check with `.github/workflows/*.yml`, `scripts/*`, and root build docs
@@ -122,6 +181,11 @@ Use this module when GitHub Copilot on GitHub is implementing, refactoring, revi
 | Task type | Read first | Then verify against |
 |---|---|---|
 | API / module implementation | `developer_llm_wiki/MODULES_AND_APIS.md` | `src/<module>/*.md`, `ai_context/api_contracts/*.md`, headers/tests |
+| API transport / external surface | `developer_llm_wiki/MODULES_AND_APIS.md` | `ai_context/api_contracts/api.md`, `FUNCTION_CLASSIFICATION.md`, `include/api/**`, transport tests |
+| API storage / index contracts | `developer_llm_wiki/MODULES_AND_APIS.md` | `ai_context/api_contracts/storage.md`, `index.md`, module docs, tests/benchmarks |
+| API auth / identity | `developer_llm_wiki/MODULES_AND_APIS.md` | `ai_context/api_contracts/auth.md`, auth docs/tests, governance-sensitive policy sources |
+| API LLM / model | `developer_llm_wiki/MODULES_AND_APIS.md` | `ai_context/api_contracts/llm.md`, `FUNCTION_CLASSIFICATION.md`, llm docs/tests |
+| API transaction / consistency | `developer_llm_wiki/MODULES_AND_APIS.md` | `ai_context/api_contracts/transaction.md`, transaction docs/tests |
 | CI / build / workflow triage | `developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md` | GitHub Actions logs, `.github/workflows/*.yml`, `scripts/*` |
 | Governance / roadmap / release | `developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md` | `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md` |
 | C++ public API | `developer_llm_wiki/MODULES_AND_APIS.md` | `ai_context/api_contracts/*.md`, `FUNCTION_CLASSIFICATION.md`, headers/tests |

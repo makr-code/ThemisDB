@@ -38,6 +38,11 @@ Pflichtablauf:
 Task-spezifische Mindestregeln:
 
 - API-/Modularbeit: zuerst `ai_context/developer_llm_wiki/MODULES_AND_APIS.md`, danach relevante `ai_context/api_contracts/*.md` und modulnahe `src/<module>/*.md`.
+  - Transport / externe API: zuerst `ai_context/api_contracts/api.md`; Request-/Response-Vertrag, fail-closed Verhalten, externe Fehlerabbildung und Versionierung pruefen.
+  - Storage / Index Contracts: zuerst `ai_context/api_contracts/storage.md` bzw. `index.md`; Ergebnisordnung, Snapshot-/Durability-/Performance-Gates und Options-Kompatibilitaet pruefen.
+  - Auth / Identity: zuerst `ai_context/api_contracts/auth.md`; Credential-/Principal-Vertrag, Tenant-Isolation, Revocation/Expiry und Security-Defaults pruefen.
+  - LLM / Model APIs: zuerst `ai_context/api_contracts/llm.md`; Input/Output-Vertrag, Timeout/Cancellation, Ownership und Model-Switch-Verhalten pruefen.
+  - Transaction / Consistency: zuerst `ai_context/api_contracts/transaction.md`; Isolation-Level, Commit/Rollback, Savepoints/SAGA und Konsistenzgarantien pruefen.
 - Build/CI/Test: zuerst `ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md`; bei Fehlern zusaetzlich immer konkrete GitHub-Actions-Logs und betroffene Workflow-Dateien pruefen.
 - Governance/Roadmap/Release: zuerst `ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md`, danach Root-SOT-Dateien (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md`).
 - C/C++-Arbeit: zuerst `ai_context/developer_llm_wiki/MODULES_AND_APIS.md`, danach `ai_context/memory_management_policy.md`, `ai_context/OOP_AND_SOC_PRINCIPLES.md`, `ai_context/FUNCTION_CLASSIFICATION.md` sowie die einschlaegigen `.github/instructions/*cpp*` Regeln.
@@ -51,6 +56,7 @@ Task-spezifische Mindestregeln:
     - Locking/Atomics/Latenz/Benchmarks/Timeouts → Concurrency / Performance
     - Plugin-Interfaces/Adapter/Edition-Grenzen → Plugin-Boundaries / Extensibility
   - Wenn mehrere C++-Subtypen zugleich betroffen sind, gelten alle relevanten Wiki-/Governance-Pflichten kumulativ.
+  - Wenn mehrere API-Subtypen zugleich betroffen sind, gelten alle relevanten Contract-/Kompatibilitaets-/Security-Pflichten kumulativ.
 
 Details und Dateizwecke: [AI_WIKI_CONTEXT.md](copilot/AI_WIKI_CONTEXT.md)
 
