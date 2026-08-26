@@ -15,7 +15,9 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <cstdlib>
 #include <spdlog/spdlog.h>
+#include <thread>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
@@ -170,7 +172,27 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
         // --- 2. No idle connection available — create one if capacity permits
         if (total_count_ < config_.max_size) {
             lock.unlock();
-            LDAP *fresh = createConnection();
+            // B1: retry createConnection() with exponential backoff
+            constexpr int kMaxRetries  = 3;
+            constexpr int kBaseDelayMs = 100;
+            LDAP *fresh = nullptr;
+            for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+                try {
+                    fresh = createConnection();
+                    if (fresh) break;
+                } catch (const std::exception &e) {
+                    if (attempt + 1 == kMaxRetries) {
+                        spdlog::warn("LDAPConnectionPool: createConnection failed after {} attempts: {}",
+                                     kMaxRetries, e.what());
+                        throw;
+                    }
+                }
+                if (!fresh) {
+                    const int jitter    = (std::rand() % 40) - 20;
+                    const int delay_ms  = kBaseDelayMs * (1 << attempt) + jitter;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+                }
+            }
             lock.lock();
 
             if (fresh) {

@@ -12,11 +12,13 @@
 
 #include "auth/federated_identity_manager.h"
 
+#include <chrono>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 #include <unordered_set>
 
 namespace themis {
@@ -240,6 +242,10 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
                                       "Provider error for realm '" + iss + "': " + ex.what()));
     }
 
+    // Log JWT success before moving claims
+    if (audit_logger_) {
+        audit_logger_->logJWTSuccess(claims.sub, claims.jti, iss, "");
+    }
     return FederatedValidationResult{std::move(claims), iss};
 }
 
@@ -255,10 +261,9 @@ OIDCProvider &FederatedIdentityManager::realmProvider(const std::string &issuer_
     return *it->second;
 }
 
-// static
-std::string FederatedIdentityManager::normalize
-
-void FederatedIdentityManager::setHttpGetForTesting(std::function<std::string(const std::string &url)> fn) {
+// ---------------------------------------------------------------------------
+// Testing helpers
+// ---------------------------------------------------------------------------(std::function<std::string(const std::string &url)> fn) {
     http_get_fn_ = std::move(fn);
 }
 
@@ -486,20 +491,49 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
 
     const std::string form_body = buildFormBody(params);
 
-    // Step 7: POST the token-exchange request to the IdP
+    // Step 7: POST the token-exchange request to the IdP with retry/backoff (B2)
     spdlog::debug("FederatedIdentityManager::exchangeToken: "
                   "posting to token_endpoint '{}'",
                   token_endpoint);
 
     std::string response_body;
-    try {
-        response_body = httpPost(token_endpoint, form_body);
-    } catch (const std::exception &ex) {
-        spdlog::error("FederatedIdentityManager::exchangeToken: "
-                      "HTTP POST failed: {}",
-                      ex.what());
-        throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "Token exchange request failed",
-                                      std::string("HTTP POST error: ") + ex.what()));
+    {
+        constexpr int kMaxRetries = 3;
+        constexpr int kBaseDelayMs = 100;
+        std::exception_ptr last_exc;
+        for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+            try {
+                response_body = httpPost(token_endpoint, form_body);
+                last_exc = nullptr;
+                break;
+            } catch (const std::exception &ex) {
+                last_exc = std::current_exception();
+                const std::string what = ex.what();
+                // Retry on connection errors and HTTP 429/503
+                const bool retryable = (what.find("HTTP 429") != std::string::npos)
+                                     || (what.find("HTTP 503") != std::string::npos)
+                                     || (what.find("libcurl") != std::string::npos);
+                if (!retryable || attempt + 1 == kMaxRetries) {
+                    break;
+                }
+                const int delay_ms = kBaseDelayMs * (1 << attempt);
+                spdlog::warn("FederatedIdentityManager::exchangeToken: "
+                             "HTTP POST attempt {} failed ({}), retrying in {}ms",
+                             attempt + 1, what, delay_ms);
+                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            }
+        }
+        if (last_exc) {
+            try { std::rethrow_exception(last_exc); }
+            catch (const std::exception &ex) {
+                if (audit_logger_) audit_logger_->logJWTFailure("token_exchange_http_error: " + std::string(ex.what()));
+                spdlog::error("FederatedIdentityManager::exchangeToken: "
+                              "HTTP POST failed after retries: {}",
+                              ex.what());
+                throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "Token exchange request failed",
+                                             std::string("HTTP POST error: ") + ex.what()));
+            }
+        }
     }
 
     // Step 8: parse the IdP response
@@ -576,6 +610,9 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
     spdlog::info("FederatedIdentityManager::exchangeToken: "
                  "token exchange successful for realm '{}', subject='{}'",
                  iss, result.claims.sub);
+    if (audit_logger_) {
+        audit_logger_->logJWTSuccess(result.claims.sub, result.claims.jti, iss, "");
+    }
 
     return result;
 }

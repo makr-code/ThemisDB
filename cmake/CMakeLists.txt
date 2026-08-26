@@ -3536,6 +3536,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/rag_ingestion_bridge.cpp
     # ExplainabilityReasonBuilder — Layer-9 causal explanation (IMPL-B9)
     ../src/rag/explainability_reason_builder.cpp
+    # Wave 5 R9/R10: WikiIndexStore — BM25+, RRF, HNSW/cache stubs
+    ../src/rag/wiki_index_store.cpp
     # DK-1: Distributed Knowledge Layer 11 — all four sub-components (S-1/S-9)
     ../src/distributed_knowledge/adapter_capability_announcement.cpp
     ../src/distributed_knowledge/lora_federation_coordinator.cpp

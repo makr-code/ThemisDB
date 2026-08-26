@@ -61,7 +61,9 @@ enum class SecurityEventType {
     // Key Management
     KEY_CREATED,
     KEY_ROTATED,
+    KEY_ROTATION_FAILED,
     KEY_DELETED,
+    KEY_REVOCATION_FAILED,
     KEY_ACCESS,
     
     // HSM Operations (Hardware Security Module)
