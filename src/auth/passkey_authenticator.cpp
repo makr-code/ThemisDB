@@ -683,7 +683,6 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
 
     // 6. Cryptographic verification
     if (!verifyAuthentication(challenge, credential, assertion_encoded)) {
-        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "invalid_signature");
         return PasskeyVerifyResult::INVALID_SIGNATURE;
     }
 
@@ -878,6 +877,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
         if (!std::equal(ad.rp_id_hash.begin(), ad.rp_id_hash.end(),
                         expected_hash.begin())) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — rpIdHash mismatch");
+            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "rp_id_hash_mismatch");
             return false;
         }
 
@@ -885,6 +885,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
         constexpr uint8_t kFlagUP = 0x01;
         if (!(ad.flags & kFlagUP)) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — UP flag not set");
+            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "user_presence_flag_not_set");
             return false;
         }
 
@@ -908,6 +909,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
         if (!pkey) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — public key load error ({})",
                          key_err);
+            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "public_key_load_error:" + key_err);
             return false;
         }
 
@@ -916,6 +918,7 @@ bool PasskeyAuthenticator::verifyAuthentication(
         if (!ctx) {
             EVP_PKEY_free(pkey);
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — EVP_MD_CTX_new failed");
+            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "evp_context_alloc_failed");
             return false;
         }
 
@@ -929,14 +932,17 @@ bool PasskeyAuthenticator::verifyAuthentication(
 
         if (!sig_ok) {
             spdlog::warn("PasskeyAuthenticator: verifyAuthentication — signature invalid");
+            if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, "signature_invalid");
             return false;
         }
 
         spdlog::debug("PasskeyAuthenticator: verifyAuthentication — signature verified");
+        if (audit_logger_) audit_logger_->logPasskeySuccess(credential.user_id, credential.credential_id);
         return true;
 
     } catch (const std::exception& ex) {
         spdlog::warn("PasskeyAuthenticator: verifyAuthentication exception ({})", ex.what());
+        if (audit_logger_) audit_logger_->logPasskeyFailure(credential.user_id, std::string("exception:") + ex.what());
         return false;
     }
 }
