@@ -247,7 +247,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 #elif defined(AFL_HARNESS)
 // ---- AFL++ persistent-mode entry point ------------------------------------
 #ifdef __AFL_FUZZ_TESTCASE_LEN
-extern unsigned char* __AFL_FUZZ_TESTCASE_BUF;
 #define AFL_LOOP(n) __AFL_LOOP(n)
 #else
 #define AFL_LOOP(n) 1
