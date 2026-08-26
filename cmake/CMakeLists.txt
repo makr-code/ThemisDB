@@ -4477,6 +4477,13 @@ elseif(hnswlib_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_HNSW_ENABLED)
 endif()
 
+# Expose THEMIS_ROCKSDB_AVAILABLE so sources can guard RocksDB CF usage.
+# RocksDB is always present (build fails above if not found), but we gate
+# behind this flag to allow future conditional builds.
+if(THEMIS_ROCKSDB_TARGET)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ROCKSDB_AVAILABLE)
+endif()
+
 # v1.1.0: Link mimalloc (20-40% memory boost, drop-in replacement)
 if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
     # Use DLL version on Windows (mimalloc-static not available in vcpkg binary cache)

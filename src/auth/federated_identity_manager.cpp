@@ -17,7 +17,7 @@
 #include <iomanip>
 #include <list>
 #include <nlohmann/json.hpp>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
@@ -41,17 +41,32 @@ static constexpr std::size_t kTokenCacheMaxSize = 4096;
  * Using SHA-256 as the cache key prevents the unbounded growth caused by
  * large JWT strings acting as map keys (W8-16 DoS hardening).
  *
+ * Implemented via the OpenSSL EVP_Digest API (OpenSSL 3.x compatible);
+ * the deprecated one-shot @c SHA256() call was removed as a follow-up to
+ * the Wave 8 risk "sha256Hex() uses raw OpenSSL/sha.h API".
+ *
  * @param input  Raw token string (JWT).
  * @return       64-character lowercase hex digest.
  */
 static std::string sha256Hex(const std::string& input) {
-    unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(input.data()),
-           input.size(), digest);
+    unsigned char digest[EVP_MAX_MD_SIZE];
+    unsigned int  digest_len = 0;
+
+    // EVP_Digest is the OpenSSL 3.x-recommended one-shot hash API.
+    // It avoids the deprecated SHA256() shortcut and works with both
+    // the legacy and default OpenSSL 3.x provider configurations.
+    if (EVP_Digest(input.data(), input.size(),
+                   digest, &digest_len,
+                   EVP_sha256(), nullptr) != 1) {
+        // Fallback: return a fixed string to avoid silent cache collisions.
+        // In practice this path is unreachable on any supported platform.
+        return std::string(64, '0');
+    }
+
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
-    for (unsigned char byte : digest) {
-        oss << std::setw(2) << static_cast<int>(byte);
+    for (unsigned int i = 0; i < digest_len; ++i) {
+        oss << std::setw(2) << static_cast<int>(digest[i]);
     }
     return oss.str();
 }

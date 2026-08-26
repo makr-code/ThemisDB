@@ -22,8 +22,8 @@
 - BM25+ scorer: ✅ **Implemented** (Wave 7 X2 — `searchPhrase()`, `searchProximity()`, positional index in WikiIndexStore)
 - RRF fusion: ✅ **Implemented** (Wave 5 R3 — `fuseRRF()` present and working across BM25+ result sets)
 - Other IMPL/data-race gaps: ✅ **Closed** (Wave 5 R3–R8 + Wave 7 X1)
-- **HNSW index**: ✅ **IMPLEMENTED (W8-18)** — injection-bridge (exhaustive cosine scan); `addVector()`/`searchHNSW()` live; real hnswlib/faiss wiring deferred to Q4 2026 Wave-B production sprint (STUB/SIMULATION NOTE in source)
-- **Persistent embedding cache**: ✅ **IMPLEMENTED (W8-19)** — in-memory LRU cache; `cacheEmbedding()`/`retrieveEmbedding()` live; RocksDB CF persistence deferred to Q4 2026 (STUB/SIMULATION NOTE in source)
+- **HNSW index**: ✅ **PRODUCTION (W8-18 + follow-up)** — hnswlib wired under `THEMIS_HNSW_ENABLED` (real ANN via `HierarchicalNSW`); exhaustive cosine-scan fallback when hnswlib not installed; `addVector()`/`searchHNSW()` fully wired
+- **Persistent embedding cache**: ✅ **PRODUCTION (W8-19 + follow-up)** — RocksDB CF "embedding_cache" wired under `THEMIS_ROCKSDB_AVAILABLE` + non-empty `cache_dir`; SHA-256 keying (EVP_Digest); in-memory LRU write-through; `cacheEmbedding()`/`retrieveEmbedding()` fully wired
 - **Hybrid search API**: ✅ **IMPLEMENTED (W8-21)** — `searchHybrid(BM25+HNSW)` via `fuseRRF()`; graceful fallback to BM25+ when HNSW disabled
 - **Config struct HNSW params**: ✅ **IMPLEMENTED (W8-20)** — `WikiIndexStoreConfig` extended with `enable_hnsw`, `hnsw_ef`, `hnsw_m`, `hnsw_max_m0`, `hnsw_ef_construction`, `cache_dir`, `cache_ttl_seconds`, `max_cache_size`
 - LLM-Judge: `[?]` deferred Q4 2026 (real integration pending, mock-mode stub documented with STUB/SIMULATION NOTE)

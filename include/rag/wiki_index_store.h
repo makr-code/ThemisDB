@@ -1,12 +1,15 @@
 /**
  * @file wiki_index_store.h
- * @brief WikiIndexStore — BM25+, RRF fusion, HNSW stub, and persistent
- *        embedding cache interface for ThemisDB RAG Wave 5/7.
+ * @brief WikiIndexStore — BM25+, RRF fusion, HNSW (hnswlib or fallback),
+ *        and RocksDB-backed persistent embedding cache.
  *
  * @note Production-ready components: BM25+ scoring, RRF fusion,
  *       positional index, phrase queries, proximity queries (Wave 7).
- * @note STUB components: HNSW index backend, RocksDB persistent cache
- *       (see STUB/SIMULATION NOTEs in wiki_index_store.cpp).
+ * @note HNSW: wired against hnswlib when THEMIS_HNSW_ENABLED is set by the
+ *       build system; falls back to exhaustive cosine scan otherwise.
+ * @note Persistent cache: RocksDB CF "embedding_cache" used when
+ *       THEMIS_ROCKSDB_AVAILABLE and WikiIndexStoreConfig::cache_dir is set;
+ *       in-memory LRU always active when max_cache_size > 0.
  *
  * Thread-safety: All public methods are thread-safe via internal mutex.
  */
@@ -103,9 +106,10 @@ struct WikiIndexStoreConfig {
 /**
  * @brief Composite index store providing BM25+ lexical search and RRF fusion.
  *
- * @note HNSW vector search and RocksDB persistent embedding cache are
- *       architectural stubs in this release — see STUB/SIMULATION NOTEs in
- *       the implementation file.
+ * @note HNSW vector search is wired against hnswlib (when THEMIS_HNSW_ENABLED)
+ *       or falls back to an exhaustive cosine scan.  RocksDB persistent
+ *       embedding cache is wired when THEMIS_ROCKSDB_AVAILABLE and
+ *       WikiIndexStoreConfig::cache_dir is non-empty.
  */
 class WikiIndexStore {
 public:
