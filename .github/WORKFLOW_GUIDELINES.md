@@ -255,7 +255,7 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 - Aktueller Standardwert ist `95`.
 - Empfohlene stufenweise Anhebung ab diesem Stand: `95 -> 97 -> 99`.
 - Strukturfehler (`@brief`, `@param`, `@return`, fehlender Doxygen-Block, Doxygen-Warnungen, fehlendes XML`) sind im PR-Gate blocking; Coverage < Threshold ist auf `develop` beobachtbar und auf Release-/Phase-6-Scope eskalationspflichtig.
-- Ein genehmigter Tier-1-Override wird über das Label `governance/doxygen-waiver` sichtbar gemacht; ohne diese Freigabe bleibt der Coverage-Verstoss im eskalationspflichtigen Scope blockierend.
+- Ein genehmigter Tier-1-Override fuer `T1-DOXYGEN-COVERAGE` muss ueber `.github/workflows/compliance-governance-gates.yml` per `/approve-with-waiver ...` kommentarbasiert freigegeben werden; `gate-pr-doxygen-governance.yml` wertet dazu den kanonischen PR-Kommentar-Marker aus und synchronisiert das Label `governance/doxygen-waiver`.
 - Nach jeder Anhebung zuerst mehrere PR-Laeufe beobachten und nur bei stabiler Signalqualitaet weiter erhoehen.
 - Bei hoher False-Positive-Rate den Schwellwert voruebergehend zuruecksetzen und Doku-Luecken gezielt abbauen.
 

@@ -11,6 +11,8 @@ Detects:
 - missing @brief tag in existing doxygen comments
 - missing @param tags for named parameters
 - missing @return tag for non-void return declarations
+- missing @tparam tags for named template parameters
+- missing @throws tags for documented throwing definitions
 """
 
 from __future__ import annotations
@@ -25,8 +27,10 @@ from typing import Dict, List, Optional
 class _Decl:
     text: str
     start_line: int
+    end_line: int
     class_name: Optional[str]
     access: str
+    has_body: bool
 
 
 class ThemisCppDoxygenPolicyRulesScan:
@@ -224,6 +228,23 @@ class ThemisCppDoxygenPolicyRulesScan:
                             f"Class '{decl.class_name}' is missing a Doxygen comment",
                             decl.class_name,
                         )
+                    elif class_info and class_info["template_params"]:
+                        missing_tparams = [
+                            param for param in class_info["template_params"]
+                            if not self._has_tparam_doc(class_info["doc"], param)
+                        ]
+                        if missing_tparams:
+                            self._append(
+                                rel,
+                                class_info["line"],
+                                "LOW",
+                                "missing_doxygen_tparam",
+                                (
+                                    f"Class '{decl.class_name}' is missing @tparam for: "
+                                    f"{', '.join(missing_tparams)}"
+                                ),
+                                decl.class_name,
+                            )
 
             doc = self._extract_leading_doc(lines, decl.start_line)
             if doc is None:
@@ -258,6 +279,19 @@ class ThemisCppDoxygenPolicyRulesScan:
                     signature,
                 )
 
+            missing_tparams = [
+                param for param in info["template_params"] if not self._has_tparam_doc(doc, param)
+            ]
+            if missing_tparams:
+                self._append(
+                    rel,
+                    decl.start_line,
+                    "LOW",
+                    "missing_doxygen_tparam",
+                    f"Doxygen comment for '{info['name']}' is missing @tparam for: {', '.join(missing_tparams)}",
+                    signature,
+                )
+
             if info["needs_return"] and "@return" not in doc.lower():
                 self._append(
                     rel,
@@ -265,6 +299,16 @@ class ThemisCppDoxygenPolicyRulesScan:
                     "LOW",
                     "missing_doxygen_return",
                     f"Doxygen comment for '{info['name']}' is missing @return",
+                    signature,
+                )
+
+            if self._needs_throws_doc(lines, decl, signature) and not self._has_throws_doc(doc):
+                self._append(
+                    rel,
+                    decl.start_line,
+                    "LOW",
+                    "missing_doxygen_throws",
+                    f"Doxygen comment for '{info['name']}' is missing @throws/@exception",
                     signature,
                 )
 
@@ -352,8 +396,10 @@ class ThemisCppDoxygenPolicyRulesScan:
                     _Decl(
                         text=joined,
                         start_line=stmt_start,
+                        end_line=index,
                         class_name=current_class["name"] if current_class else None,
                         access=current_class["access"] if current_class else "public",
+                        has_body="{" in stripped or "{" in joined,
                     )
                 )
                 stmt_parts = []
@@ -382,7 +428,6 @@ class ThemisCppDoxygenPolicyRulesScan:
             "using ",
             "enum ",
             "static_assert",
-            "template <",
             "friend class",
             "friend struct",
         )
@@ -415,12 +460,15 @@ class ThemisCppDoxygenPolicyRulesScan:
         full_name = name_match.group(1)
         name = full_name.split("::")[-1]
         return_type = prefix[: -len(full_name)].strip() if prefix.endswith(full_name) else ""
+        template_params = self._extract_template_params(signature)
 
         if name.startswith("operator"):
             return {
                 "name": name,
                 "params": [],
+                "template_params": template_params,
                 "needs_return": False,
+                "needs_throws": False,
                 "is_static": False,
                 "skip_doc_enforcement": True,
             }
@@ -468,6 +516,7 @@ class ThemisCppDoxygenPolicyRulesScan:
         return {
             "name": name,
             "params": params,
+            "template_params": template_params,
             "needs_return": needs_return,
             "is_static": is_static,
             "skip_doc_enforcement": skip_doc_enforcement,
@@ -476,6 +525,66 @@ class ThemisCppDoxygenPolicyRulesScan:
     def _has_param_doc(self, doc: str, param: str) -> bool:
         pattern = re.compile(rf"@param(?:\[[^\]]+\])?\s+{re.escape(param)}\b", re.IGNORECASE)
         return bool(pattern.search(doc))
+
+    def _has_tparam_doc(self, doc: str, param: str) -> bool:
+        pattern = re.compile(rf"@tparam\s+{re.escape(param)}\b", re.IGNORECASE)
+        return bool(pattern.search(doc))
+
+    def _has_throws_doc(self, doc: str) -> bool:
+        lowered = doc.lower()
+        return "@throws" in lowered or "@exception" in lowered
+
+    def _extract_template_params(self, signature: str) -> List[str]:
+        match = re.search(r"template\s*<(.+?)>\s*", signature)
+        if not match:
+            return []
+
+        params: List[str] = []
+        for chunk in self._split_params(match.group(1)):
+            token = chunk.split("=", 1)[0].strip()
+            if not token or token == "...":
+                continue
+            candidates = re.findall(r"[A-Za-z_][A-Za-z0-9_]*", token)
+            if not candidates:
+                continue
+            if candidates[0] == "template" and len(candidates) > 1:
+                params.append(candidates[-1])
+                continue
+            params.append(candidates[-1])
+        return params
+
+    def _needs_throws_doc(self, lines: List[str], decl: _Decl, signature: str) -> bool:
+        if not decl.has_body:
+            return False
+        if " noexcept" in f" {signature} " and "noexcept(false)" not in signature:
+            return False
+        return self._body_contains_throw(lines, decl)
+
+    def _body_contains_throw(self, lines: List[str], decl: _Decl) -> bool:
+        body_started = False
+        brace_depth = 0
+        for line in lines[decl.start_line - 1 :]:
+            in_string = False
+            escaped = False
+            code_chars: List[str] = []
+            for ch in line:
+                if ch == '"' and not escaped:
+                    in_string = not in_string
+                if not in_string:
+                    code_chars.append(ch)
+                escaped = ch == "\\" and not escaped
+            code = "".join(code_chars).split("//", 1)[0]
+            for ch in code:
+                if ch == "{":
+                    brace_depth += 1
+                    body_started = True
+                elif ch == "}":
+                    brace_depth -= 1
+            if body_started and re.search(r"\bthrow\b", code):
+                return True
+            if body_started and brace_depth <= 0:
+                break
+        return False
 
     def _extract_param_names(self, params_str: str) -> List[str]:
         if not params_str or params_str == "void":
@@ -621,11 +730,32 @@ class ThemisCppDoxygenPolicyRulesScan:
                 # Check if there's documentation before this line
                 class_doc = self._extract_leading_class_doc(lines, idx)
                 needs_doc = class_doc is None or "@brief" not in (class_doc or "").lower()
+                template_params = self._extract_template_prefix_params(lines, idx + 1)
                 return {
                     'line': idx + 1,  # 1-indexed
                     'name': class_name,
-                    'needs_doc': needs_doc
+                    'needs_doc': needs_doc,
+                    'doc': class_doc or "",
+                    'template_params': template_params,
                 }
             idx -= 1
         
         return None
+
+    def _extract_template_prefix_params(self, lines: List[str], start_line: int) -> List[str]:
+        idx = start_line - 2
+        template_lines: List[str] = []
+        while idx >= 0:
+            stripped = lines[idx].strip()
+            if not stripped:
+                idx -= 1
+                continue
+            if stripped.startswith("template"):
+                template_lines.append(stripped)
+                idx -= 1
+                continue
+            break
+        if not template_lines:
+            return []
+        template_lines.reverse()
+        return self._extract_template_params(" ".join(template_lines))

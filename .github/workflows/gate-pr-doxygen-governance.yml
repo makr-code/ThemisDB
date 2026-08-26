@@ -45,6 +45,7 @@ concurrency:
 
 permissions:
   contents: read
+  issues: write
   pull-requests: write
 
 jobs:
@@ -74,14 +75,37 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends doxygen
 
-      - name: Collect current PR labels
-        id: pr_labels
+      - name: Collect active Doxygen waiver approvals
+        id: waiver_state
         if: github.event_name == 'pull_request'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
         with:
           script: |
-            const labels = (context.payload.pull_request?.labels || []).map(label => label.name);
-            core.setOutput('csv', labels.join(','));
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue_number = context.payload.pull_request.number;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+            const marker = '<!-- governance-waiver:T1-DOXYGEN-COVERAGE -->';
+            const matching = comments
+              .filter((comment) => (comment.body || '').includes(marker))
+              .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+            let waivedGates = [];
+            if (matching.length > 0) {
+              const body = matching[0].body || '';
+              const status = (body.match(/- Status:\s*`?([A-Z_]+)`?/i) || [null, ''])[1].toUpperCase();
+              const expiresRaw = (body.match(/- Expires:\s*`?([0-9T:\-+.Z]+)`?/i) || [null, ''])[1];
+              const expiresAt = expiresRaw ? new Date(expiresRaw) : null;
+              if (status === 'ACTIVE' && expiresAt && !Number.isNaN(expiresAt.valueOf()) && expiresAt > new Date()) {
+                waivedGates.push('T1-DOXYGEN-COVERAGE');
+              }
+            }
+            core.setOutput('csv', waivedGates.join(','));
+            core.setOutput('doxygen_coverage_active', waivedGates.includes('T1-DOXYGEN-COVERAGE') ? 'true' : 'false');
 
       - name: Run Doxygen governance gate
         id: gate
@@ -94,7 +118,8 @@ jobs:
             --artifact-dir /tmp/doxygen-gate \
             --report-json /tmp/doxygen-gate/report.json \
             --summary-md /tmp/doxygen-gate/summary.md \
-            --pr-labels "${{ steps.pr_labels.outputs.csv }}"
+            --pr-labels "${{ github.event_name == 'pull_request' && join(github.event.pull_request.labels.*.name, ',') || '' }}" \
+            --waived-gates "${{ steps.waiver_state.outputs.csv }}"
 
       - name: Export gate outputs
         id: gate_result
@@ -124,6 +149,24 @@ jobs:
           path: /tmp/doxygen-gate
           retention-days: 14
           if-no-files-found: warn
+
+      - name: Sync Doxygen waiver label
+        if: always() && github.event_name == 'pull_request' && steps.waiver_state.outputs.doxygen_coverage_active == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: set_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'governance/doxygen-waiver'
+
+      - name: Clear stale Doxygen waiver label
+        if: always() && github.event_name == 'pull_request' && steps.waiver_state.outputs.doxygen_coverage_active != 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: clear_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-remove: 'governance/doxygen-waiver'
 
       - name: Mark Doxygen failure labels
         if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'

@@ -37,6 +37,11 @@ BLOCKING_PATTERNS = {
     "missing_doxygen_param",
     "missing_doxygen_return",
 }
+ADVISORY_PATTERNS = {
+    "missing_doxygen_tparam",
+    "missing_doxygen_throws",
+}
+DOXYGEN_COVERAGE_GATE_ID = "T1-DOXYGEN-COVERAGE"
 
 
 @dataclass
@@ -51,8 +56,10 @@ class GateReport:
     coverage_threshold: float
     coverage_enforced: bool
     coverage_waived: bool
+    waived_gates: List[str]
     coverage_percent: float | None
     structural_findings: List[dict]
+    advisory_findings: List[dict]
     doxygen_warnings: List[str]
     doxygen_exit_code: int | None
     xml_index_exists: bool
@@ -215,7 +222,9 @@ def build_summary(report: GateReport) -> str:
         f"- Coverage threshold: `{report.coverage_threshold:.1f}%`",
         f"- Coverage result: `{f'{report.coverage_percent:.2f}%' if report.coverage_percent is not None else 'skipped'}`",
         f"- Coverage waiver active: `{'yes' if report.coverage_waived else 'no'}`",
+        f"- Approved waivers: `{', '.join(report.waived_gates) if report.waived_gates else 'none'}`",
         f"- Structural findings: `{len(report.structural_findings)}`",
+        f"- Advisory findings: `{len(report.advisory_findings)}`",
         f"- Doxygen warnings: `{len(report.doxygen_warnings)}`",
         f"- XML generated: `{'yes' if report.xml_index_exists else 'no'}`",
         "",
@@ -246,13 +255,23 @@ def build_summary(report: GateReport) -> str:
             lines.append(f"- `... {len(report.doxygen_warnings) - 20} more`")
         lines.append("")
 
+    if report.advisory_findings:
+        lines.append("### Advisory Doxygen findings")
+        for finding in report.advisory_findings[:20]:
+            lines.append(
+                f"- `{finding['file']}:{finding['line']}` — {finding['description']}"
+            )
+        if len(report.advisory_findings) > 20:
+            lines.append(f"- `... {len(report.advisory_findings) - 20} more`")
+        lines.append("")
+
     if report.coverage_enforced and report.verdict != "PASS":
         lines.append("### Escalation")
         lines.append(
             "- Coverage on release-lane or Phase-6 scope failed the Tier-1 threshold."
         )
         lines.append(
-            f"- Remediation: add public API Doxygen coverage or use `/approve-with-waiver T1-DOXYGEN-COVERAGE \"justification\"` and re-run after authorized waiver handling."
+            f"- Remediation: add public API Doxygen coverage or use `/approve-with-waiver {DOXYGEN_COVERAGE_GATE_ID} \"justification\"` and re-run after authorized waiver handling."
         )
         if not report.coverage_waived:
             lines.append(f"- Temporary label for approved override: `{WAIVER_LABEL}`")
@@ -269,6 +288,7 @@ def main() -> int:
     parser.add_argument("--report-json", required=True, help="Path to JSON report")
     parser.add_argument("--summary-md", required=True, help="Path to markdown summary")
     parser.add_argument("--pr-labels", default="", help="Comma-separated PR labels")
+    parser.add_argument("--waived-gates", default="", help="Comma-separated approved waiver gate IDs")
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root).resolve()
@@ -288,7 +308,14 @@ def main() -> int:
     threshold = load_coverage_threshold(repo_root)
     base_ref = args.base_ref
     release_lane = base_ref in RELEASE_BRANCHES
-    waiver_active = WAIVER_LABEL in {label.strip() for label in args.pr_labels.split(",") if label.strip()}
+    waived_gates = sorted(
+        {
+            gate.strip().upper()
+            for gate in args.waived_gates.split(",")
+            if gate.strip()
+        }
+    )
+    waiver_active = DOXYGEN_COVERAGE_GATE_ID in waived_gates
     coverage_enforced = release_lane or bool(phase6_modules)
 
     generated_config: Path | None = None
@@ -301,10 +328,19 @@ def main() -> int:
     coverage_percent: float | None = None
     doxygen_warnings: List[str] = []
     structural_findings: List[dict] = []
+    advisory_findings: List[dict] = []
     verdict = "PASS"
 
     if changed_code_files:
-        structural_findings = run_structural_scan(repo_root, changed_code_files)
+        scan_findings = ThemisCppDoxygenPolicyRulesScan(str(repo_root)).scan_files(
+            [Path(path) for path in changed_code_files]
+        )
+        structural_findings = [
+            finding for finding in scan_findings if finding.get("pattern") in BLOCKING_PATTERNS
+        ]
+        advisory_findings = [
+            finding for finding in scan_findings if finding.get("pattern") in ADVISORY_PATTERNS
+        ]
         scope_paths = _selected_scope_paths(repo_root, changed_code_files)
         generated_config, warning_log, xml_index = write_scoped_doxyfile(
             repo_root, artifact_dir, scope_paths
@@ -375,6 +411,8 @@ def main() -> int:
             verdict = "WARN" if waiver_active else "FAIL"
         elif coverage_percent is None and coverage_enforced:
             verdict = "FAIL"
+        elif advisory_findings:
+            verdict = "WARN"
         elif not coverage_enforced and coverage_percent is not None and coverage_percent + 1e-9 < threshold:
             verdict = "WARN"
     else:
@@ -391,8 +429,10 @@ def main() -> int:
         coverage_threshold=threshold,
         coverage_enforced=coverage_enforced,
         coverage_waived=waiver_active and verdict == "WARN",
+        waived_gates=waived_gates,
         coverage_percent=coverage_percent,
         structural_findings=structural_findings,
+        advisory_findings=advisory_findings,
         doxygen_warnings=doxygen_warnings,
         doxygen_exit_code=doxygen_exit_code,
         xml_index_exists=xml_index_exists,

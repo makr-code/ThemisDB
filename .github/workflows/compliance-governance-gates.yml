@@ -526,7 +526,169 @@ jobs:
           path: /tmp/gate_audit_summary.json
           retention-days: 90
 
-  # 6. Waiver Expiration Check (daily)
+  # 6. Doxygen waiver command handling (PR comments)
+  doxygen-waiver-commands:
+    name: Doxygen Waiver Commands
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '/approve-with-waiver') &&
+      contains(github.event.comment.body, 'T1-DOXYGEN-COVERAGE')
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Validate waiver approver permission
+        id: approver
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const username = context.actor;
+            try {
+              const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner,
+                repo,
+                username,
+              });
+              const permission = String(data.permission || '').toLowerCase();
+              const allowed = ['admin', 'maintain', 'write'].includes(permission);
+              core.setOutput('allowed', allowed ? 'true' : 'false');
+              core.setOutput('permission', permission || 'none');
+            } catch (error) {
+              core.setOutput('allowed', 'false');
+              core.setOutput('permission', 'none');
+            }
+
+      - name: Parse Doxygen waiver command
+        id: waiver
+        if: steps.approver.outputs.allowed == 'true'
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          python3 .github/scripts/waiver_validator.py \
+            --parse-comment "$COMMENT_BODY" \
+            --pr-number "${{ github.event.issue.number }}" \
+            --approver "${{ github.actor }}" \
+            --output /tmp/doxygen_waiver_result.json
+
+      - name: Export Doxygen waiver result
+        id: waiver_result
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          result = {
+              "success": False,
+              "error": "Waiver command not processed.",
+              "gate_id": "",
+              "expires": "",
+              "justification": "",
+          }
+
+          if os.environ.get("ALLOWED") != "true":
+              result["error"] = f"Approver lacks required repository write permission ({os.environ.get('PERMISSION', 'none')})."
+          else:
+              path = Path("/tmp/doxygen_waiver_result.json")
+              if path.exists():
+                  payload = json.loads(path.read_text(encoding="utf-8"))
+                  result["success"] = bool(payload.get("success"))
+                  result["error"] = payload.get("error", "")
+                  waiver = payload.get("waiver") or {}
+                  result["gate_id"] = str(waiver.get("gate_id", ""))
+                  result["expires"] = str(waiver.get("expires", ""))
+                  result["justification"] = str(waiver.get("justification", ""))
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"success={'true' if result['success'] else 'false'}\n")
+              fh.write(f"gate_id={result['gate_id']}\n")
+              fh.write(f"expires={result['expires']}\n")
+              fh.write("justification<<EOF\n")
+              fh.write(result["justification"])
+              fh.write("\nEOF\n")
+              fh.write("error<<EOF\n")
+              fh.write(result["error"])
+              fh.write("\nEOF\n")
+          PY
+        env:
+          ALLOWED: ${{ steps.approver.outputs.allowed }}
+          PERMISSION: ${{ steps.approver.outputs.permission }}
+
+      - name: Apply Doxygen waiver label
+        if: steps.waiver_result.outputs.success == 'true' && steps.waiver_result.outputs.gate_id == 'T1-DOXYGEN-COVERAGE'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: set_status
+          issue-number: ${{ github.event.issue.number }}
+          labels-to-add: 'governance/doxygen-waiver'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Publish approved Doxygen waiver comment
+        if: steps.waiver_result.outputs.success == 'true' && steps.waiver_result.outputs.gate_id == 'T1-DOXYGEN-COVERAGE'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.issue.number }}
+          target-type: pr
+          issue-marker: '<!-- governance-waiver:T1-DOXYGEN-COVERAGE -->'
+          issue-body: |
+            ## Approved Doxygen Coverage Waiver
+
+            - Gate: `T1-DOXYGEN-COVERAGE`
+            - Status: `ACTIVE`
+            - Approver: `@${{ github.actor }}`
+            - Permission: `${{ steps.approver.outputs.permission }}`
+            - Expires: `${{ steps.waiver_result.outputs.expires }}`
+            - Justification: ${{ steps.waiver_result.outputs.justification }}
+            - Approval comment: ${{ github.event.comment.html_url }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Publish rejected Doxygen waiver comment
+        if: steps.waiver_result.outputs.success != 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.issue.number }}
+          target-type: pr
+          issue-marker: '<!-- governance-waiver:T1-DOXYGEN-COVERAGE -->'
+          issue-body: |
+            ## Doxygen Coverage Waiver Rejected
+
+            - Gate: `T1-DOXYGEN-COVERAGE`
+            - Status: `REJECTED`
+            - Reason: ${{ steps.waiver_result.outputs.error }}
+            - Source comment: ${{ github.event.comment.html_url }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Upload Doxygen waiver artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: doxygen-waiver-${{ github.run_number }}
+          path: |
+            /tmp/doxygen_waiver_result.json
+            ai_working/ENFORCEMENT_WAIVERS.md
+          retention-days: 90
+          if-no-files-found: ignore
+
+  # 7. Waiver Expiration Check (daily)
   waiver-expiration-check:
     name: Waiver Expiration Check
     runs-on: ubuntu-latest

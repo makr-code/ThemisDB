@@ -162,10 +162,11 @@ Detected classifications are converted to labels and merged with existing labels
 ### Workflow-driven Doxygen gate labeling
 
 - Triggered by `.github/workflows/gate-pr-doxygen-governance.yml`
+- Waiver approvals for `T1-DOXYGEN-COVERAGE` are issued by `.github/workflows/compliance-governance-gates.yml` from PR comments and then re-validated by the PR gate
 - Uses `.github/actions/status-flags-and-issues` for idempotent PR comments and label state
 - `quality/doxygen-failed` is the canonical blocker label for missing Doxygen structure, warning-log failures, or missing XML generation in scoped code changes
-- `quality/doxygen-warning` is used for non-blocking observation and waived coverage shortfalls
-- `governance/doxygen-waiver` is not path-based; it is an explicit governance marker tied to the Tier-1 waiver process for `T1-DOXYGEN-COVERAGE`
+- `quality/doxygen-warning` is used for advisory `@throws`/`@tparam` findings, non-blocking observation, and waived coverage shortfalls
+- `governance/doxygen-waiver` is not path-based; it is a workflow-synchronized governance marker that reflects an active PR comment approval for `T1-DOXYGEN-COVERAGE`
 
 ## Maintenance and Updates
 
