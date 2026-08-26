@@ -289,7 +289,8 @@ public:
     };
     
     explicit MLModelManager(const Config& config);
-    ~MLModelManager();
+    // B1-EXCEPTION-SAFETY(2026-08-26): noexcept — shutdown() exceptions swallowed.
+    ~MLModelManager() noexcept;
     
     // ═══════════════════════════════════════════════════════════
     // Model Lifecycle Management

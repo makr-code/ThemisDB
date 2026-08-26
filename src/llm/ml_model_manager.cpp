@@ -41,8 +41,15 @@ MLModelManager::MLModelManager(const Config& config)
     THEMIS_INFO("MLModelManager initialized");
 }
 
-MLModelManager::~MLModelManager() {
-    shutdown();
+MLModelManager::~MLModelManager() noexcept {
+    // B1-EXCEPTION-SAFETY(2026-08-26): destructor must be noexcept; shutdown()
+    // may throw (e.g. health-monitor thread join or RocksDB flush); swallow all
+    // exceptions to avoid std::terminate in destructors.
+    try {
+        shutdown();
+    } catch (...) {
+        // Swallow — cannot safely propagate from destructor.
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -108,21 +115,34 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     entry->status = MLModelStatus::DEPLOYING;
     std::vector<std::string> instance_ids;
     
-    for (size_t i = 0; i < num_instances; ++i) {
-        auto result = deployInstance(model_id, entry->config);
-        if (!result.has_value()) {
-            THEMIS_ERROR("Failed to deploy instance " + std::to_string(i) + " for model " + model_id + ": " + result.error().message());
-            // Rollback: shutdown already deployed instances
-            for (const auto& inst_id : instance_ids) {
-                shutdownInstance(inst_id);
+    // B1-EXCEPTION-SAFETY(2026-08-26): wrap the instance deployment loop so that
+    // any unexpected exception (not just error-Result) rolls back status to FAILED
+    // and propagates.  Without this, an exception mid-loop leaves status=DEPLOYING
+    // permanently, which the health-monitor never recovers from.
+    try {
+        for (size_t i = 0; i < num_instances; ++i) {
+            auto result = deployInstance(model_id, entry->config);
+            if (!result.has_value()) {
+                THEMIS_ERROR("Failed to deploy instance " + std::to_string(i) + " for model " + model_id + ": " + result.error().message());
+                // Rollback: shutdown already deployed instances
+                for (const auto& inst_id : instance_ids) {
+                    shutdownInstance(inst_id);
+                }
+                entry->status = MLModelStatus::FAILED;
+                return themis::Err<std::vector<std::string>>(
+                    themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                    "Deployment failed: " + result.error().message()
+                );
             }
-            entry->status = MLModelStatus::FAILED;
-            return themis::Err<std::vector<std::string>>(
-                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                "Deployment failed: " + result.error().message()
-            );
+            instance_ids.push_back(result.value());
         }
-        instance_ids.push_back(result.value());
+    } catch (...) {
+        THEMIS_ERROR("deployModel: unexpected exception during instance deployment for model '" + model_id + "'; rolling back");
+        for (const auto& inst_id : instance_ids) {
+            try { shutdownInstance(inst_id); } catch (...) {}
+        }
+        entry->status = MLModelStatus::FAILED;
+        throw;
     }
     
     entry->status = MLModelStatus::DEPLOYED;
@@ -163,21 +183,34 @@ Result<bool> MLModelManager::updateModel(
     }
     
     std::vector<std::string> new_instance_ids;
-    for (size_t i = 0; i < num_instances; ++i) {
-        auto result = deployInstance(model_id, new_config);
-        if (!result.has_value()) {
-            // Rollback
-            for (const auto& inst_id : new_instance_ids) {
-                shutdownInstance(inst_id);
+    // B1-EXCEPTION-SAFETY(2026-08-26): exception mid-deployment would leave
+    // entry->instances empty and old_instances moved-away — no recovery possible.
+    // Wrap in try/catch to restore old instances and set status before propagating.
+    try {
+        for (size_t i = 0; i < num_instances; ++i) {
+            auto result = deployInstance(model_id, new_config);
+            if (!result.has_value()) {
+                // Rollback
+                for (const auto& inst_id : new_instance_ids) {
+                    shutdownInstance(inst_id);
+                }
+                entry->instances = std::move(old_instances);
+                entry->status = MLModelStatus::DEPLOYED;
+                return themis::Err<bool>(
+                    themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                    "Update failed: " + result.error().message()
+                );
             }
-            entry->instances = std::move(old_instances);
-            entry->status = MLModelStatus::DEPLOYED;
-            return themis::Err<bool>(
-                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                "Update failed: " + result.error().message()
-            );
+            new_instance_ids.push_back(result.value());
         }
-        new_instance_ids.push_back(result.value());
+    } catch (...) {
+        // Rollback new instances and restore old ones before propagating.
+        for (const auto& inst_id : new_instance_ids) {
+            try { shutdownInstance(inst_id); } catch (...) {}
+        }
+        entry->instances = std::move(old_instances);
+        entry->status = MLModelStatus::DEPLOYED;
+        throw;
     }
     
     // Shutdown old instances
@@ -528,18 +561,20 @@ std::string MLModelManager::inferAsync(
 ) {
     std::string request_id = generateRequestId();
     
-    // Launch async inference
-    std::thread([this, request, callback]() {
+    // B3-COPY-ELIM(2026-08-26): capture callback by move so the std::function
+    // object is moved into the lambda rather than copied (std::function copy can
+    // be expensive for closures with captured heap state).
+    std::thread([this, request, cb = std::move(callback)]() {
         auto result = this->infer(request);
         if (!result.has_value()) {
             MLInferenceResponse error_response{};
             error_response.success = false;
             error_response.error_message = result.error().message();
-            callback(error_response);
+            cb(error_response);
             return;
         }
 
-        callback(result.value());
+        cb(result.value());
     }).detach();
     
     return request_id;

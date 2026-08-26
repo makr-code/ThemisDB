@@ -248,12 +248,18 @@ json LLMPluginManager::getAggregatedStats() const {
 
 LLMPluginManager& LLMPluginManager::instance() {
     static LLMPluginManager instance;
-    // Wire up OOM callback once on first access so VRAM pressure warnings are
-    // logged even before the first plugin is registered.
-    static bool oom_cb_installed = false;
-    if (!oom_cb_installed) {
-        oom_cb_installed = true;
-        instance.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
+    // DATA-RACE-FIX(2026-08-26 Wave-7): The previous pattern used a plain
+    // `static bool oom_cb_installed` guard which is not thread-safe under
+    // concurrent first-access from multiple request-handling threads (each
+    // calling instance() independently, e.g. handleRAG at
+    // llm_api_handler.cpp:527).  Two threads could both observe
+    // oom_cb_installed==false and each call setOOMCallback(), installing the
+    // callback twice and leaving the flag in a torn state.  Fix: use
+    // std::call_once / std::once_flag which guarantees exactly-once,
+    // sequentially-consistent execution even under concurrent callers.
+    static std::once_flag oom_cb_flag;
+    std::call_once(oom_cb_flag, [](LLMPluginManager& mgr) {
+        mgr.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
             spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
                          "recovered={}, freed={} bytes",
                          ev.requested_bytes,
@@ -261,7 +267,7 @@ LLMPluginManager& LLMPluginManager::instance() {
                          ev.recovered,
                          ev.bytes_recovered);
         });
-    }
+    }, instance);
     return instance;
 }
 
@@ -382,7 +388,18 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
                      model_id);
         return false;
     }
-    const bool ok = plugin->loadModel(path);
+    // B1-EXCEPTION-SAFETY(2026-08-26): plugin->loadModel() may throw. If it does
+    // we must not register a VRAM handle (which would leak).  The try/catch below
+    // ensures the handle is never registered on exception and re-throws so callers
+    // can observe the failure.
+    bool ok = false;
+    try {
+        ok = plugin->loadModel(path);
+    } catch (...) {
+        THEMIS_WARN("[SEC] LLMPluginManager::loadModel: plugin->loadModel() threw for model '{}'; "
+                    "VRAM handle not registered", model_id);
+        throw;
+    }
     if (ok && !model_id.empty()) {
         // Register model VRAM usage in the budget tracker.
         // vram_required_mb is populated by the plugin after a successful load.
@@ -464,7 +481,9 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
         if (publisher) {
             static constexpr const char* kInitialAdapterVersion = "v1.0.0";
             distributed_knowledge::AdapterCapabilityAnnouncement ann;
-            ann.shard_id        = shard_id;
+            // B3-COPY-ELIM(2026-08-26): move shard_id into ann to avoid a
+            // second copy (shard_id was already a copy of local_shard_id_).
+            ann.shard_id        = std::move(shard_id);
             ann.adapter_id      = lora_id;
             ann.adapter_version = kInitialAdapterVersion;
             ann.domain_type     = distributed_knowledge::AdapterDomainType::GENERAL;
@@ -495,10 +514,10 @@ bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
             shard_id  = local_shard_id_;
         }
         if (publisher) {
-            // Withdraw: broadcast an announcement that explicitly marks the adapter
-            // as no longer available on this shard.
+            // B3-COPY-ELIM(2026-08-26): move shard_id into withdrawal to avoid
+            // a second copy (shard_id was already a copy of local_shard_id_).
             distributed_knowledge::AdapterCapabilityAnnouncement withdrawal;
-            withdrawal.shard_id      = shard_id;
+            withdrawal.shard_id      = std::move(shard_id);
             withdrawal.adapter_id    = lora_id;
             withdrawal.is_withdrawal = true;         // explicit withdrawal flag
             publisher->announce(std::move(withdrawal));

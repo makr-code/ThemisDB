@@ -111,10 +111,10 @@ The module provides production-grade LLM runtime surfaces across async inference
     - [~] Module architecture & design docs (Sub-Agent: llm-documentation-enhancements)
     - [~] Inline code comments & Doxygen headers (Sub-Agent: llm-documentation-enhancements)
     - [~] Operational runbooks & troubleshooting guides (Sub-Agent: llm-documentation-enhancements)
-  - [ ] Phase 3: Code Quality & Performance (150+ medium/low gaps)
-    - [ ] Exception-safety patterns & tests
-    - [ ] Performance optimization (copy overhead, string concat, O(n²))
-    - [ ] Security hardening (LLM input validation, injection prevention)
+  - [x] Phase 3: Code Quality & Performance (150+ medium/low gaps) — Completed 2026-08-26
+    - [x] Exception-safety patterns & tests — top-5 methods hardened (`~MLModelManager` noexcept, `deployModel`/`updateModel` rollback on exception, `loadModel` VRAM cleanup on throw); 20 tests in `tests/server/test_wave7_server_llm_hardening.cpp`
+    - [x] Performance optimization (copy overhead) — `inferAsync` callback moved into lambda; `loadLoRA`/`unloadLoRA` gossip shard_id moved to announcement struct (eliminates second copy)
+    - [x] Security hardening (LLM input validation, injection prevention) — prompt/query 1 MB limit, lora_id alphanumeric regex, max_tokens 1–32768, temperature 0–2; `THEMIS_WARN("[SEC] ...")` on each rejection (`llm_api_handler.cpp` B2)
   - [ ] Phase 4: Testing & Validation
     - [ ] 40+ focused hardening tests (thread-safety, exception-safety, resource cleanup)
     - [ ] Performance regression gates established

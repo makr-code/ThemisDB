@@ -77,7 +77,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 
 - [x] Model Integrity Gate: **FP — already implemented** (see Wave 4-A above)
 - [x] Iterator Invalidation Fix in `query_api_handler.cpp:1426,1959,2005`: cycle guards added in Wave 2-A; deep pagination fix tracked in Wave 4-A (Target: Q3 2026 → partial)
-- [ ] Data Race audit: `llm_api_handler.cpp:407`, `query_api_handler.cpp:1575,1635` — tracked in Wave 4-A (Target: Q4 2026)
+- [x] Data Race audit: `llm_api_handler.cpp:407`, `query_api_handler.cpp:1575,1635` — fixed 2026-08-26 (Wave-7: `call_once` OOM guard, explicit lambda captures; see `test_wave7_server_llm_hardening.cpp`)
 - [~] Missing audit log: ~12 handler files — tracked in Wave 4-A (Target: Q4 2026)
 
 ### Short-term (3-6 months)

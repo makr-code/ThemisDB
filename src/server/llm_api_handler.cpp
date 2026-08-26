@@ -334,6 +334,43 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         return createErrorResponse(http::status::bad_request, "Invalid request parameters", e.what());
     }
     
+    // ── B2-INPUT-VALIDATION (2026-08-26 Wave-7 Security Hardening) ─────────
+    // Validates all user-supplied fields before they reach the inference engine.
+    {
+        static constexpr std::size_t kMaxPromptBytes = 1ULL * 1024 * 1024; // 1 MB
+        if (prompt.size() > kMaxPromptBytes) {
+            THEMIS_WARN("[SEC] Input validation failed: field=prompt reason=too_large size={}", prompt.size());
+            return createErrorResponse(http::status::bad_request,
+                "prompt too large",
+                "prompt must be <= 1 MB");
+        }
+        // lora_id: alphanumeric, hyphens, underscores only
+        if (!lora_id.empty()) {
+            static const std::regex kLoraIdRe{"^[a-zA-Z0-9_-]+$"};
+            if (!std::regex_match(lora_id, kLoraIdRe)) {
+                THEMIS_WARN("[SEC] Input validation failed: field=lora_id reason=invalid_chars value='{}'", lora_id);
+                return createErrorResponse(http::status::bad_request,
+                    "lora_id contains invalid characters",
+                    "lora_id must match [a-zA-Z0-9_-]+");
+            }
+        }
+        // max_tokens: 1–32768
+        if (max_tokens < 1 || max_tokens > 32768) {
+            THEMIS_WARN("[SEC] Input validation failed: field=max_tokens reason=out_of_range value={}", max_tokens);
+            return createErrorResponse(http::status::bad_request,
+                "max_tokens out of range",
+                "max_tokens must be between 1 and 32768");
+        }
+        // temperature: 0.0–2.0
+        if (temperature < 0.0 || temperature > 2.0) {
+            THEMIS_WARN("[SEC] Input validation failed: field=temperature reason=out_of_range value={}", temperature);
+            return createErrorResponse(http::status::bad_request,
+                "temperature out of range",
+                "temperature must be between 0.0 and 2.0");
+        }
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     // Use the plugin manager path (same as RAG) for consistent runtime behavior.
     try {
         llm::InferenceRequest llm_request;
@@ -491,6 +528,40 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     if (max_tokens <= 0) {
         return createErrorResponse(http::status::bad_request, "max_tokens must be greater than 0");
     }
+
+    // ── B2-INPUT-VALIDATION (2026-08-26 Wave-7 Security Hardening) ─────────
+    {
+        static constexpr std::size_t kMaxQueryBytes = 1ULL * 1024 * 1024; // 1 MB
+        if (query.size() > kMaxQueryBytes) {
+            THEMIS_WARN("[SEC] Input validation failed: field=query reason=too_large size={}", query.size());
+            return createErrorResponse(http::status::bad_request,
+                "prompt too large",
+                "query must be <= 1 MB");
+        }
+        if (!lora_id.empty()) {
+            static const std::regex kLoraIdRe{"^[a-zA-Z0-9_-]+$"};
+            if (!std::regex_match(lora_id, kLoraIdRe)) {
+                THEMIS_WARN("[SEC] Input validation failed: field=lora_id reason=invalid_chars value='{}'", lora_id);
+                return createErrorResponse(http::status::bad_request,
+                    "lora_id contains invalid characters",
+                    "lora_id must match [a-zA-Z0-9_-]+");
+            }
+        }
+        // Tighten max_tokens upper bound (existing check only enforces > 0)
+        if (max_tokens > 32768) {
+            THEMIS_WARN("[SEC] Input validation failed: field=max_tokens reason=out_of_range value={}", max_tokens);
+            return createErrorResponse(http::status::bad_request,
+                "max_tokens out of range",
+                "max_tokens must be between 1 and 32768");
+        }
+        if (temperature < 0.0 || temperature > 2.0) {
+            THEMIS_WARN("[SEC] Input validation failed: field=temperature reason=out_of_range value={}", temperature);
+            return createErrorResponse(http::status::bad_request,
+                "temperature out of range",
+                "temperature must be between 0.0 and 2.0");
+        }
+    }
+    // ── end input validation ────────────────────────────────────────────────
     
     // Implement RAG workflow
     try {
