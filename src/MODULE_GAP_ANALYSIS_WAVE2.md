@@ -679,3 +679,29 @@ All Phase 1–6 implementation gaps tracked in this document are now **closed or
 **Total new test cases added**: 73+  
 **Wave-B deferred items**: 9 (all marked `[?]` in checkboxes above; all have STUB/SIMULATION NOTEs with Removal Plan)  
 **Open `[ ]` checkboxes remaining**: 0
+
+---
+
+## 7. Next Wave — Wave A Closure + Wave B Deferred (2026-08-26)
+
+Planned by subagent dispatch 2026-08-26. Targets Wave A exit criteria + Wave B deferred items.
+
+### Open Items
+
+| ID | Module | Item | Wave | Status |
+|---|---|---|---|---|
+| N1 | voice | Wake-word/intent/command fallback alignment (V1), partial backend failure matrix (V2), noisy wake-word adversarial expansion (V3) | Wave A | `[~]` in progress |
+| N2 | analytics | Federated coordinator shard retry AN1 + forecasting integrity AN2 | Wave A/B | `[~]` in progress |
+| N3 | llm | Thread-safety top-20 (L7 class): `std::atomic`/mutex at top shared-state sites | Wave B | `[~]` in progress |
+| N4 | llm_wiki | RocksDB backend replacing in-memory mock (Wave B partial) | Wave B | `[~]` in progress |
+
+### Wave A Exit Criteria Impact
+- N1 (voice) → closes "fail-closed behavior verified for distributed/acceleration paths in scope"
+- N2 (analytics) → closes "deterministic retry for distributed fan-out failure paths"
+- N3/N4 → Wave B: performance + correctness hardening
+
+### Acceptance Criteria
+- N1: 10+ tests covering fallback paths, partial backend failure, noisy wake-word
+- N2: 8+ tests covering shard retry, backoff, forecasting integrity check
+- N3: 10-20 mutex/atomic sites; thread-safety stress tests
+- N4: RocksDB put/get/scan/close; persistence round-trip test
