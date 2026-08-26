@@ -28,10 +28,25 @@ using namespace themis::query;
 // Test Fixtures & Utilities
 // ============================================================================
 
+static std::string createScopedResult(
+    const std::string& collection,
+    const std::string& shard_id,
+    uint64_t generation = 1) {
+    nlohmann::json result;
+    result["_scope"] = {
+        {"collection", collection},
+        {"shard", shard_id},
+        {"generation", generation},
+        {"is_federated", true}
+    };
+    result["data"] = "test_result";
+    return result.dump();
+}
+
 class ScopeEnforcerTest : public ::testing::Test {
 protected:
     std::unique_ptr<ScopeEnforcer> enforcer;
-    
+
     void SetUp() override {
         enforcer = std::make_unique<ScopeEnforcerImpl>();
     }
@@ -40,25 +55,9 @@ protected:
 class FederatedScopeIntegrationTest : public ::testing::Test {
 protected:
     std::unique_ptr<ScopeEnforcer> enforcer;
-    
+
     void SetUp() override {
         enforcer = std::make_unique<ScopeEnforcerImpl>();
-    }
-    
-    // Helper to create test JSON result with scope metadata
-    std::string createScopedResult(
-        const std::string& collection,
-        const std::string& shard_id,
-        uint64_t generation = 1) {
-        nlohmann::json result;
-        result["_scope"] = {
-            {"collection", collection},
-            {"shard", shard_id},
-            {"generation", generation},
-            {"is_federated", true}
-        };
-        result["data"] = "test_result";
-        return result.dump();
     }
 };
 
@@ -418,5 +417,3 @@ TEST_F(FederatedScopeIntegrationTest, SequentialPaginationWithScopeTracking) {
         EXPECT_TRUE(page_result) << "Failed at page offset " << offset;
     }
 }
-
-} // namespace

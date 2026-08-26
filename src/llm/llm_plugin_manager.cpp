@@ -16,6 +16,7 @@
 #include "llm/llama_wrapper.h"
 #include "llm/embedded_llm.h"
 #include "llm/ssm_state_rocksdb_store.h"
+#include "utils/logger.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
@@ -23,6 +24,12 @@
 #include <filesystem>
 #include <cstdlib>
 #include <algorithm>
+
+#ifdef THEMIS_ROCKSDB_AVAILABLE
+#include <rocksdb/db.h>
+#include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
+#endif
 
 namespace themis {
 namespace llm {
@@ -396,8 +403,8 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
     try {
         ok = plugin->loadModel(path);
     } catch (...) {
-        THEMIS_WARN("[SEC] LLMPluginManager::loadModel: plugin->loadModel() threw for model '{}'; "
-                    "VRAM handle not registered", model_id);
+        spdlog::warn("[SEC] LLMPluginManager::loadModel: plugin->loadModel() threw for model '{}'; "
+                     "VRAM handle not registered", model_id);
         throw;
     }
     if (ok && !model_id.empty()) {

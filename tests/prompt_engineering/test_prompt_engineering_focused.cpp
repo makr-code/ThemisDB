@@ -115,7 +115,7 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_003_PromptManagerTemplateValidation) 
   valid_tmpl.content = "Valid: {placeholder}";
   
   auto result = mgr.validateTemplate(valid_tmpl);
-  EXPECT_TRUE(result.is_valid);
+  EXPECT_TRUE(result.valid);
   EXPECT_TRUE(result.errors.empty());
 }
 
@@ -125,14 +125,14 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_003_PromptManagerTemplateValidation) 
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_004_PromptVersionControlCommitHistory) {
   // Verify commit operation succeeds
-  bool commit1_ok = vcs.commit("template_v1", "v1", "Initial version");
-  EXPECT_TRUE(commit1_ok);
+  auto commit1_id = vcs.commit("template_v1", "v1", "Initial version");
+  EXPECT_FALSE(commit1_id.empty());
 
-  bool commit2_ok = vcs.commit("template_v1", "v2", "Updated version");
-  EXPECT_TRUE(commit2_ok);
+  auto commit2_id = vcs.commit("template_v1", "v2", "Updated version");
+  EXPECT_FALSE(commit2_id.empty());
 
   // Verify history retrieval
-  auto history = vcs.getHistory("template_v1", 10);
+  auto history = vcs.getHistory("template_v1", "", 10);
   EXPECT_GE(history.size(), 1u);
 }
 
@@ -141,18 +141,19 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_004_PromptVersionControlCommitHistory
 // ============================================================================
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_005_FeedbackCollectorRecording) {
-  FeedbackCollector::Feedback fb;
-  fb.template_id = "tmpl_1";
-  fb.user_rating = 4.5;
-  fb.feedback_text = "Good response";
-  
-  bool recorded = feedback.recordFeedback(fb);
-  EXPECT_TRUE(recorded);
+  auto feedback_id = feedback.recordFeedback(
+      "tmpl_1",
+      "Was ist ThemisDB?",
+      "ThemisDB ist eine hybride Datenbank.",
+      FeedbackType::USER_POSITIVE,
+      "Good response",
+      0.9);
+  EXPECT_FALSE(feedback_id.empty());
 
   auto stats = feedback.getStats("tmpl_1");
-  ASSERT_TRUE(stats.has_value());
-  EXPECT_GT(stats->avg_rating, 0.0);
-  EXPECT_GE(stats->count, 1u);
+  EXPECT_EQ(stats.prompt_id, "tmpl_1");
+  EXPECT_GE(stats.total_feedback, 1u);
+  EXPECT_GT(stats.positive_ratio, 0.0);
 }
 
 // ============================================================================
@@ -160,14 +161,16 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_005_FeedbackCollectorRecording) {
 // ============================================================================
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_006_PromptOptimizerBasicOptimization) {
-  PromptOptimizer::OptimizationRequest req;
-  req.template_id = "tmpl_opt_1";
-  req.original_content = "Original prompt";
-  req.max_iterations = 1;
+  std::vector<TestCase> tests = {
+      {"Frage", "Antwort", {}}
+  };
+  auto eval_fn = [](const std::string& prompt, const std::vector<TestCase>&) {
+    return prompt.empty() ? 0.0 : 0.8;
+  };
 
-  auto result = optimizer.optimize(req);
-  EXPECT_TRUE(result.success);
-  EXPECT_FALSE(result.optimized_content.empty());
+  auto result = optimizer.optimize("Original prompt", tests, eval_fn);
+  EXPECT_FALSE(result.optimized_prompt.empty());
+  EXPECT_GE(result.final_score, 0.0);
 }
 
 // ============================================================================
@@ -175,12 +178,9 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_006_PromptOptimizerBasicOptimization)
 // ============================================================================
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_007_PromptEvaluatorStructuralEvaluation) {
-  PromptEvaluator::EvaluationRequest req;
-  req.template_id = "tmpl_eval_1";
-  req.prompt_content = "Evaluate this prompt";
-  
-  auto result = evaluator.evaluateSingle(req);
-  EXPECT_FALSE(result.metrics.empty());
+  auto result = evaluator.evaluateSingle("Evaluate this prompt", "Evaluate this prompt");
+  EXPECT_GE(result.exact_match, 0.0);
+  EXPECT_GE(result.semantic_similarity, 0.0);
   // Structural evaluation should not fail
 }
 
@@ -189,11 +189,11 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_007_PromptEvaluatorStructuralEvaluati
 // ============================================================================
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_008_PromptEngineeringMetricsRecording) {
-  metrics.recordTemplateAccess("tmpl_metrics_1");
-  metrics.recordTemplateAccess("tmpl_metrics_1");
-  
-  auto stats = metrics.getMetrics("tmpl_metrics_1");
-  EXPECT_GE(stats.access_count, 2u);
+  metrics.recordPromptExecutionCount("tmpl_metrics_1", 2);
+  metrics.recordPromptExecution("tmpl_metrics_1", true, 3.0);
+
+  auto exported = metrics.exportMetrics();
+  EXPECT_NE(exported.find("tmpl_metrics_1"), std::string::npos);
 }
 
 // ============================================================================
@@ -279,7 +279,7 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_013_VersionControlConsistency) {
   vcs.commit(tmpl_id, "v1.0.1", "Patch");
   vcs.commit(tmpl_id, "v1.1.0", "Minor update");
 
-  auto history = vcs.getHistory(tmpl_id, 5);
+  auto history = vcs.getHistory(tmpl_id, "", 5);
   EXPECT_GE(history.size(), 2u); // At least 2 commits should be in history
 }
 
@@ -288,15 +288,17 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_013_VersionControlConsistency) {
 // ============================================================================
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_014_OptimizerDiagnostics) {
-  PromptOptimizer::OptimizationRequest req;
-  req.template_id = "diag_test";
-  req.original_content = "Test prompt for diagnostics";
-  req.max_iterations = 1;
+  std::vector<TestCase> tests = {
+      {"input", "output", {}}
+  };
+  auto eval_fn = [](const std::string& prompt, const std::vector<TestCase>&) {
+    return prompt.empty() ? 0.0 : 0.75;
+  };
 
-  auto result = optimizer.optimize(req);
+  auto result = optimizer.optimize("Test prompt for diagnostics", tests, eval_fn);
   // Diagnostics should be populated even if optimization has issues
   // (Assuming implementation provides diagnostics)
-  EXPECT_TRUE(!result.optimized_content.empty() || result.success);
+  EXPECT_TRUE(!result.optimized_prompt.empty() || result.converged);
 }
 
 // ============================================================================
@@ -304,14 +306,10 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_014_OptimizerDiagnostics) {
 // ============================================================================
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_015_EvaluatorConsistency) {
-  PromptEvaluator::EvaluationRequest req;
-  req.template_id = "consistency_eval";
-  req.prompt_content = "Consistent evaluation test";
-
-  auto result1 = evaluator.evaluateSingle(req);
-  auto result2 = evaluator.evaluateSingle(req);
+  auto result1 = evaluator.evaluateSingle("Consistent evaluation test", "Consistent evaluation test");
+  auto result2 = evaluator.evaluateSingle("Consistent evaluation test", "Consistent evaluation test");
 
   // Both evaluations should complete without errors
-  EXPECT_FALSE(result1.metrics.empty());
-  EXPECT_FALSE(result2.metrics.empty());
+  EXPECT_GE(result1.semantic_similarity, 0.0);
+  EXPECT_GE(result2.semantic_similarity, 0.0);
 }

@@ -112,7 +112,7 @@ size_t ColumnHistogram::getDistinctValues() const {
     for (const auto& bucket : buckets) {
         total += bucket.distinctValues;
     }
-    return std::max(1UL, total);
+    return std::max<size_t>(size_t{1}, total);
 }
 
 // =============================================================================
@@ -145,12 +145,12 @@ double EstimateValidation::computeP95Error() const {
 
 bool EstimateValidation::hasSystematicUnderestimation() const {
     if (samples.size() < 5) return false;
-    
+
     std::vector<double> ratios;
     for (const auto& sample : samples) {
         if (sample.actualRows > 0) {
-            ratios.push_back(static_cast<double>(sample.actualRows) / 
-                           std::max(1UL, sample.estimatedRows));
+            ratios.push_back(static_cast<double>(sample.actualRows) /
+                             std::max<size_t>(size_t{1}, sample.estimatedRows));
         }
     }
     
@@ -162,12 +162,12 @@ bool EstimateValidation::hasSystematicUnderestimation() const {
 
 bool EstimateValidation::hasSystematicOverestimation() const {
     if (samples.size() < 5) return false;
-    
+
     std::vector<double> ratios;
     for (const auto& sample : samples) {
         if (sample.actualRows > 0) {
-            ratios.push_back(static_cast<double>(sample.actualRows) / 
-                           std::max(1UL, sample.estimatedRows));
+            ratios.push_back(static_cast<double>(sample.actualRows) /
+                             std::max<size_t>(size_t{1}, sample.estimatedRows));
         }
     }
     
