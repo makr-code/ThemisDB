@@ -19,6 +19,14 @@
 #include <mutex>
 #include <unordered_map>
 #include "utils/logger.h"
+// Wave-B I1: cuda_utils.h provides CudaUniquePtr / THEMIS_CUDA_CHECK for any
+// future CUDA additions to this file.  The Partition::vram_ptr below is a
+// void* managed through GPUUnifiedMemoryAllocator (not raw cudaMalloc), so it
+// intentionally uses the allocator abstraction rather than CudaUniquePtr
+// directly (CudaUniquePtr is typed and cannot wrap opaque void*).
+#ifdef THEMIS_ENABLE_CUDA
+#  include "index/cuda_utils.h"
+#endif
 
 namespace themis {
 namespace index {

@@ -1238,6 +1238,13 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
             size_t offset = 0;
             bool copy_ok = true;
             for (const auto& alloc : device_allocs) {
+                // Wave-B L4: bounds-check added (pointer_arithmetic_unbounded fix)
+                if (offset + alloc.vram_bytes > total_vram) {
+                    spdlog::error("Defrag: GPU copy offset {} + {} exceeds total_vram {} for model {} on GPU {}",
+                                  offset, alloc.vram_bytes, total_vram, model_id, device_id);
+                    copy_ok = false;
+                    break;
+                }
                 cudaError_t copy_err = cudaMemcpy(static_cast<char*>(new_ptr) + offset,
                                                   alloc.gpu_ptr,
                                                   alloc.vram_bytes,
@@ -1266,6 +1273,12 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
             }
             size_t offset = 0;
             for (const auto& alloc : device_allocs) {
+                // Wave-B L4: bounds-check added (pointer_arithmetic_unbounded fix)
+                if (offset + alloc.vram_bytes > total_vram) {
+                    spdlog::error("Defrag: CPU copy offset {} + {} exceeds total_vram {} for model {}",
+                                  offset, alloc.vram_bytes, total_vram, model_id);
+                    break;
+                }
                 std::memcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes);
                 offset += alloc.vram_bytes;
             }
@@ -1277,6 +1290,12 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         }
         size_t offset = 0;
         for (const auto& alloc : device_allocs) {
+            // Wave-B L4: bounds-check added (pointer_arithmetic_unbounded fix)
+            if (offset + alloc.vram_bytes > total_vram) {
+                spdlog::error("Defrag: CPU-only copy offset {} + {} exceeds total_vram {} for model {}",
+                              offset, alloc.vram_bytes, total_vram, model_id);
+                break;
+            }
             std::memcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes);
             offset += alloc.vram_bytes;
         }
@@ -1381,6 +1400,12 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
         // Copy data
         size_t offset = 0;
         for (const auto& alloc : pinned_allocs) {
+            // Wave-B L4: bounds-check added (pointer_arithmetic_unbounded fix)
+            if (offset + alloc.ram_bytes > total_ram) {
+                spdlog::error("Defrag: pinned copy offset {} + {} exceeds total_ram {} for model {}",
+                              offset, alloc.ram_bytes, total_ram, model_id);
+                break;
+            }
             std::memcpy(static_cast<char*>(new_ptr) + offset, 
                        alloc.cpu_ptr, 
                        alloc.ram_bytes);
@@ -1441,6 +1466,12 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
         // Copy data
         size_t offset = 0;
         for (const auto& alloc : regular_allocs) {
+            // Wave-B L4: bounds-check added (pointer_arithmetic_unbounded fix)
+            if (offset + alloc.ram_bytes > total_ram) {
+                spdlog::error("Defrag: regular-CPU copy offset {} + {} exceeds total_ram {} for model {}",
+                              offset, alloc.ram_bytes, total_ram, model_id);
+                break;
+            }
             std::memcpy(static_cast<char*>(new_ptr) + offset, 
                        alloc.cpu_ptr, 
                        alloc.ram_bytes);

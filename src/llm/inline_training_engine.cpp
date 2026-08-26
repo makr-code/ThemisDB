@@ -220,6 +220,11 @@ struct InlineTrainingEngine::Impl {
     std::vector<float> v_adam;   // second moment (or v_rms for RMSProp)
     std::vector<float> m_sgd;    // SGD velocity
 
+    // Persistent LoRA parameter vector updated by every optimizer step.
+    // Initialised lazily on the first step; size matches the gradient dimension.
+    // Wave-B L5: replaces the per-step dummy zero vector (stub fix).
+    std::vector<float> model_params_;
+
     // Thread-safety and state
     mutable std::mutex state_mutex;
     std::atomic<bool>  stop_flag{false};
@@ -543,9 +548,21 @@ TrainingResult InlineTrainingEngine::trainLoop(
                 }
             }
 
-            // Apply optimizer step (updates dummy parameter vector)
-            std::vector<float> params(accumulated_gradients.size(), 0.0f);
-            optimizerStep(params, accumulated_gradients, global_step);
+            // Apply optimizer step to persistent LoRA parameter vector.
+            // Wave-B L5: params are retained across steps so optimizer moments
+            // and weight-decay accumulate correctly over the full training run.
+            if (!accumulated_gradients.empty()) {
+                if (impl_->model_params_.size() != accumulated_gradients.size()) {
+                    // Lazy initialisation: small random values in [-0.01, 0.01].
+                    impl_->model_params_.resize(accumulated_gradients.size());
+                    const float kInitScale = 0.01f;
+                    for (size_t i = 0; i < impl_->model_params_.size(); ++i) {
+                        impl_->model_params_[i] =
+                            kInitScale * (2.0f * static_cast<float>(i % 17) / 16.0f - 1.0f);
+                    }
+                }
+                optimizerStep(impl_->model_params_, accumulated_gradients, global_step);
+            }
 
             ++global_step;
 

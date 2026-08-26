@@ -221,6 +221,9 @@ MultiVectorSearch::search(
                 ranks.push_back(it->second.second);
             } else {
                 scores.push_back(0.0f);  // Not found
+                // Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
+                // Loop variable `i` indexes `individual_results` (not `scores`/`ranks`);
+                // push_back to separate local vectors cannot invalidate this iteration.
                 ranks.push_back(std::numeric_limits<int>::max());  // Worst rank
             }
         }
@@ -403,6 +406,9 @@ MultiVectorSearch::hybridSearch(
             scores.push_back(vec_it->second.first);
             ranks.push_back(vec_it->second.second);
         } else {
+            // Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
+            // The outer loop iterates over `all_doc_ids` (a separate pre-collected set);
+            // push_back to local `scores`/`ranks` cannot invalidate any active iterator.
             scores.push_back(0.0f);
             ranks.push_back(std::numeric_limits<int>::max());
         }

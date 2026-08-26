@@ -23,6 +23,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <fstream>
+#include <filesystem>
 #include <future>
 #include <set>
 
@@ -1307,15 +1308,19 @@ bool DistributedTrainingCoordinator::saveCheckpoint(int step_number) {
         
         std::string checkpoint_file = config_.checkpoint_path + 
             "/checkpoint_step_" + std::to_string(step_number) + ".json";
-        
-        std::ofstream file(checkpoint_file);
-        if (!file.is_open()) {
-            spdlog::error("Failed to open checkpoint file: {}", checkpoint_file);
-            return false;
+        // Wave-B L3: write to a temp file first, then rename atomically so a
+        // partial write (e.g. OOM during dump()) never leaves a corrupt checkpoint.
+        std::string tmp_file = checkpoint_file + ".tmp";
+        {
+            std::ofstream file(tmp_file);
+            if (!file.is_open()) {
+                spdlog::error("Failed to open checkpoint tmp file: {}", tmp_file);
+                return false;
+            }
+            file << checkpoint.dump(2);
+            // flush/close before rename; ofstream RAII closes on scope exit.
         }
-        
-        file << checkpoint.dump(2);
-        file.close();
+        std::filesystem::rename(tmp_file, checkpoint_file);
         
         spdlog::info("Checkpoint saved: {}", checkpoint_file);
         return true;

@@ -14,6 +14,7 @@
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/prompt_safety_utils.h"
+#include "llm/scoped_db_connection.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
 #include "sharding/remote_executor.h"
@@ -1133,7 +1134,8 @@ void InferenceEngineEnhanced::processBatch(
             }
             // RAII guard: decrement active_requests when this scope exits,
             // regardless of normal return, continue, or exception.
-            auto active_guard = std::shared_ptr<void>(nullptr, [this, model_id](void*) {
+            // Wave-B L2: replaced shared_ptr<void> hack with ScopedDbConnection.
+            ScopedDbConnection active_guard([this, model_id]() noexcept {
                 std::lock_guard<std::mutex> lock(models_mutex_);
                 auto it = models_.find(model_id);
                 if (it != models_.end() && it->second.active_requests > 0) {
