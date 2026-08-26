@@ -594,8 +594,58 @@ jobs:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
 
+      - name: Query code scanning alerts for SLA breaches
+        id: query
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const slaDaysRaw = '${{ inputs.sla_days || 14 }}';
+            const slaDays = Number.parseInt(slaDaysRaw, 10);
+            if (!Number.isFinite(slaDays) || slaDays <= 0) {
+              throw new Error(`Invalid sla_days input: ${slaDaysRaw}`);
+            }
+            const now = Date.now();
+            const msPerDay = 24 * 60 * 60 * 1000;
+            let alerts = [];
+            try {
+              alerts = await github.paginate(github.rest.codeScanning.listAlertsForRepo, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 100,
+              });
+            } catch (err) {
+              if (err.status === 404) {
+                core.notice('Code scanning not enabled on this repository; skipping SLA triage.');
+                core.setOutput('has_breach', 'false');
+                core.setOutput('breach_count', '0');
+                return;
+              }
+              throw err;
+            }
+            const prioritized = alerts
+              .map(a => {
+                const sev = (a.rule?.security_severity_level || '').toLowerCase();
+                const createdAt = Date.parse(a.created_at);
+                const ageDays = Number.isFinite(createdAt)
+                  ? Math.floor((now - createdAt) / msPerDay)
+                  : 0;
+                return { a, sev, ageDays };
+              })
+              .filter(x => (x.sev === 'high' || x.sev === 'critical') && x.ageDays >= slaDays)
+              .sort((x, y) => y.ageDays - x.ageDays);
+            const hasBreach = prioritized.length > 0;
+            core.setOutput('has_breach', String(hasBreach));
+            core.setOutput('breach_count', String(prioritized.length));
+            if (hasBreach) {
+              core.notice(`Found ${prioritized.length} high/critical alert(s) breaching ${slaDays}-day SLA.`);
+            } else {
+              core.notice(`No high/critical alerts are beyond ${slaDays}-day SLA.`);
+            }
+
       - name: Open/update SLA issue for high/critical alerts
         id: triage
+        if: steps.query.outputs.has_breach == 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -608,7 +658,7 @@ jobs:
             <!-- security-triage:ref:${{ github.ref }} -->
             ## Security SLA Alert — Code Scanning
 
-            Open high/critical code scanning alert(s) are older than **${{ inputs.sla_days || 14 }} day(s)** and require triage.
+            Found **${{ steps.query.outputs.breach_count }}** open high/critical code scanning alert(s) older than **${{ inputs.sla_days || 14 }} day(s)** and requiring triage.
 
             **Owner:** @makr-code
             **SLA:** high/critical alert triage within ${{ inputs.sla_days || 14 }} days, mitigation plan within 72h after triage.
@@ -621,7 +671,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize security label group
-        if: always()
+        if: steps.query.outputs.has_breach == 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -634,7 +684,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Close resolved security issue
-        if: always()
+        if: always() && steps.query.outputs.has_breach != 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -650,7 +700,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Finalize resolved security issue
-        if: always()
+        if: always() && steps.query.outputs.has_breach != 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
