@@ -751,3 +751,20 @@ All 3 items complete — 47 new tests, real code fixes across auth/server/transa
 **Total new tests this wave**: 47  
 **Security fixes confirmed/added**: S1 integrity-gate bypass, S2 path-traversal guard, C1-C3 crypto hardening, T2 deadlock detection  
 **Critical bug closed**: latent `stats_deadlocks_` ODR gap in lock_manager.h  
+
+---
+
+## 9. Wave 7 — MCP Tools G1/G2/G7 + Auth LDAP/Federated + Server Data-Race + LLM Phase3 (2026-08-26)
+
+Targets Q4 2026 Wave B items with full specs and real code gaps.
+
+| ID | Module | Item | Wave | Status |
+|---|---|---|---|---|
+| M1 | server (mcp) | Group 1: kg_neighbours/kg_shortest_path/kg_node_properties; Group 2: semantic_search/hybrid_search/rag_retrieve/vector_index_list; Group 7: schema_diff/schema_validate/explain_query — 10 tools total | Wave B | `[x]` complete 2026-08-26 (43 tests) |
+| M2 | auth | LDAP real connection pool + search pagination in ldap_authenticator.cpp; federated cross-provider state sync (~9 stubs replaced) in federated_identity_manager.cpp | Wave B | `[~]` in progress |
+| M3 | server+llm | Data-race audit (llm_api_handler:407, query_api_handler:1575,1635); LLM Phase3 exception-safety + input validation (prompt size, lora_id, numeric ranges) + string copy elimination | Wave A/Phase3 | `[~]` in progress |
+
+### Acceptance Criteria
+- M1: 24+ tests covering all 10 new MCP tools
+- M2: 12+ tests covering LDAP pool exhaustion/recycle, pagination, federated state sync
+- M3: 12+ tests covering data races, input validation rejections, exception safety
