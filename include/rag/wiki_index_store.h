@@ -1,9 +1,10 @@
 /**
  * @file wiki_index_store.h
  * @brief WikiIndexStore — BM25+, RRF fusion, HNSW stub, and persistent
- *        embedding cache interface for ThemisDB RAG Wave 5.
+ *        embedding cache interface for ThemisDB RAG Wave 5/7.
  *
- * @note Production-ready components: BM25+ scoring, RRF fusion.
+ * @note Production-ready components: BM25+ scoring, RRF fusion,
+ *       positional index, phrase queries, proximity queries (Wave 7).
  * @note STUB components: HNSW index backend, RocksDB persistent cache
  *       (see STUB/SIMULATION NOTEs in wiki_index_store.cpp).
  *
@@ -104,6 +105,51 @@ public:
     /// @brief BM25+ ranked search.
     std::vector<IndexResult> searchBM25(
         const std::vector<std::string>& query_terms,
+        size_t top_k = 10) const;
+
+    /**
+     * @brief Exact phrase search using positional index.
+     *
+     * Tokenises @p phrase with the same whitespace tokeniser used during
+     * indexing, then returns documents where the terms appear as a
+     * consecutive run (pos[i+1] == pos[i]+1 for every adjacent pair).
+     * Results are BM25+-scored and sorted descending.
+     *
+     * Edge cases:
+     *  - Single-term phrase → equivalent to searchBM25.
+     *  - Empty phrase       → returns empty vector.
+     *
+     * @param phrase  Raw phrase string.
+     * @param top_k   Maximum results to return.
+     * @return        Ranked results, descending score.
+     */
+    std::vector<IndexResult> searchPhrase(
+        const std::string& phrase,
+        size_t top_k = 10) const;
+
+    /**
+     * @brief Proximity search: docs where term1 and term2 are ≤ distance apart.
+     *
+     * Uses the positional index to find the minimum token-distance between
+     * any occurrence of term1 and any occurrence of term2 within the same
+     * document.  Only documents satisfying the distance constraint are
+     * returned.
+     *
+     * Edge cases:
+     *  - term1 == term2   → requires ≥2 occurrences whose mutual distance
+     *                        satisfies the constraint.
+     *  - Either term absent in corpus → returns empty vector.
+     *
+     * @param term1     First term (pre-tokenised, lowercase).
+     * @param term2     Second term (pre-tokenised, lowercase).
+     * @param distance  Maximum allowed token distance (inclusive).
+     * @param top_k     Maximum results to return.
+     * @return          Ranked results, descending score.
+     */
+    std::vector<IndexResult> searchProximity(
+        const std::string& term1,
+        const std::string& term2,
+        size_t distance,
         size_t top_k = 10) const;
 
     /// @brief Fuse the provided ranked lists with RRF.

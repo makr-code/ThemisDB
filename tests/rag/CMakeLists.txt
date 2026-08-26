@@ -174,3 +174,76 @@ if(EXISTS "${_wave5_src}" AND NOT TARGET module_rag_test_wave5_rag_hardening_foc
         TIMEOUT 120
     )
 endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Wave 7 BM25+ Positional + FTS phrase/proximity test
+# Labels: wave_b, release_critical
+# ─────────────────────────────────────────────────────────────────────────────
+set(_wave7_src "${CMAKE_CURRENT_SOURCE_DIR}/test_wave7_bm25_positional_fts.cpp")
+if(EXISTS "${_wave7_src}" AND NOT TARGET module_rag_test_wave7_bm25_positional_fts_focused)
+    add_executable(module_rag_test_wave7_bm25_positional_fts_focused "${_wave7_src}")
+    target_include_directories(module_rag_test_wave7_bm25_positional_fts_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    if(NOT THEMIS_ENABLE_LLM)
+        target_sources(module_rag_test_wave7_bm25_positional_fts_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/wiki_index_store.cpp
+        )
+    endif()
+    target_link_libraries(module_rag_test_wave7_bm25_positional_fts_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_rag_test_wave7_bm25_positional_fts_focused PRIVATE
+        THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE rag
+        NAME test_wave7_bm25_positional_fts_RagFocusedTests
+        TARGET module_rag_test_wave7_bm25_positional_fts_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS wave_b release_critical
+    )
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Wave B X1a/X1b/X1c: TensorRagCostModel, RetrievalGuardrail, RagQualityMonitor
+# ─────────────────────────────────────────────────────────────────────────────
+set(_wave7_costmodel_src
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_wave7_rag_costmodel_guardrail.cpp")
+if(EXISTS "${_wave7_costmodel_src}" AND
+   NOT TARGET module_rag_test_wave7_rag_costmodel_guardrail_focused)
+
+    add_executable(module_rag_test_wave7_rag_costmodel_guardrail_focused
+        "${_wave7_costmodel_src}")
+    target_include_directories(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    if(NOT THEMIS_ENABLE_LLM)
+        target_sources(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_cost_model.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/retrieval_guardrail.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rag_quality_monitor.cpp
+        )
+    endif()
+    target_link_libraries(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
+        THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE rag
+        NAME test_wave7_rag_costmodel_guardrail_RagFocusedTests
+        TARGET module_rag_test_wave7_rag_costmodel_guardrail_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS wave_b release_critical
+    )
+endif()

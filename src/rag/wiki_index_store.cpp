@@ -59,7 +59,10 @@ namespace themis::rag {
 
 namespace {
 
-/// Lowercase-tokenise a string on whitespace boundaries.
+/// Lowercase-tokenise a string on whitespace+punctuation boundaries.
+/// Strips leading/trailing punctuation from each word so that "hello,"
+/// and "hello" index identically, keeping tokenisation consistent between
+/// addDocument and query paths.
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream ss(text);
@@ -68,9 +71,20 @@ std::vector<std::string> tokenise(const std::string& text) {
         std::string lower;
         lower.reserve(word.size());
         for (unsigned char c : word) {
-            lower += static_cast<char>(std::tolower(c));
+            if (std::isalnum(c) || c == '\'') {
+                lower += static_cast<char>(std::tolower(c));
+            } else {
+                lower += ' '; // Treat punctuation as a separator.
+            }
         }
-        tokens.push_back(std::move(lower));
+        // Split on internal spaces introduced by punctuation above.
+        std::istringstream inner(lower);
+        std::string part;
+        while (inner >> part) {
+            if (!part.empty()) {
+                tokens.push_back(std::move(part));
+            }
+        }
     }
     return tokens;
 }
@@ -178,6 +192,12 @@ struct WikiIndexStore::Impl {
     mutable std::mutex                          idx_mutex;
     std::unordered_map<std::string, std::string> docs; // Thread-safety: protected by idx_mutex (Wave 5)
 
+    // Positional index: term → doc_id → sorted list of 0-based token positions.
+    // Thread-safety: protected by idx_mutex (same lock as docs/idf_cache, Wave 7).
+    std::unordered_map<
+        std::string,
+        std::unordered_map<std::string, std::vector<size_t>>> positional_index_;
+
     // Corpus-level IDF cache; rebuilt on addDocument.
     // Thread-safety: protected by idx_mutex (Wave 5)
     std::unordered_map<std::string, float>      idf_cache;
@@ -207,6 +227,18 @@ struct WikiIndexStore::Impl {
             idf_cache[term] = std::log(
                 (N - static_cast<float>(df) + 0.5f) /
                 (static_cast<float>(df) + 0.5f) + 1.0f);
+        }
+    }
+
+    /// Rebuild the positional index from the current document set
+    /// (call under idx_mutex held).
+    void rebuildPositionalIndex() {
+        positional_index_.clear();
+        for (const auto& [doc_id, text] : docs) {
+            const auto tokens = tokenise(text);
+            for (size_t pos = 0; pos < tokens.size(); ++pos) {
+                positional_index_[tokens[pos]][doc_id].push_back(pos);
+            }
         }
     }
 
@@ -240,6 +272,7 @@ void WikiIndexStore::addDocument(const std::string& doc_id,
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
     impl_->docs[doc_id] = text;
     impl_->rebuildIDF();
+    impl_->rebuildPositionalIndex();
     THEMIS_DEBUG("WikiIndexStore: indexed doc '{}' ({} total)", doc_id, impl_->docs.size());
 }
 
@@ -270,6 +303,234 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     return results;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// BM25+ Positional scorer — production implementation (Wave 7)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// @internal Check whether all query_terms appear within a sliding window of
+/// @p window_size tokens anywhere in the positional index entry for @p doc_id.
+static bool termsWithinWindow(
+    const std::vector<std::string>& query_terms,
+    const std::string&              doc_id,
+    const std::unordered_map<std::string,
+          std::unordered_map<std::string, std::vector<size_t>>>& pos_idx,
+    size_t window_size)
+{
+    // Gather the positions for each term in this document.
+    std::vector<const std::vector<size_t>*> term_pos_lists;
+    term_pos_lists.reserve(query_terms.size());
+    for (const auto& term : query_terms) {
+        auto it_term = pos_idx.find(term);
+        if (it_term == pos_idx.end()) return false;
+        auto it_doc = it_term->second.find(doc_id);
+        if (it_doc == it_term->second.end()) return false;
+        term_pos_lists.push_back(&it_doc->second);
+    }
+
+    // Sweep anchor positions of the first term and test whether every other
+    // term has at least one position inside [anchor, anchor + window_size).
+    for (size_t anchor : *term_pos_lists[0]) {
+        bool all_in_window = true;
+        for (size_t ti = 1; ti < term_pos_lists.size(); ++ti) {
+            bool found = false;
+            for (size_t p : *term_pos_lists[ti]) {
+                if (p >= anchor && p < anchor + window_size) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) { all_in_window = false; break; }
+        }
+        if (all_in_window) return true;
+    }
+    return false;
+}
+
+/// @brief BM25+ with positional proximity bonus.
+///
+/// Standard BM25+ score multiplied by 1.5 when all query_terms co-occur
+/// within a window of @p window_size tokens in the document.
+static float computePositionalBM25Score(
+    const std::vector<std::string>&               query_terms,
+    const std::string&                            doc_id,
+    const std::string&                            doc_text,
+    float                                         avg_len,
+    const std::unordered_map<std::string, float>& idf_cache,
+    const std::unordered_map<std::string,
+          std::unordered_map<std::string, std::vector<size_t>>>& pos_idx,
+    size_t window_size = 8)
+{
+    float score = bm25PlusScore(query_terms, doc_text, avg_len, idf_cache);
+    if (query_terms.size() > 1 &&
+        termsWithinWindow(query_terms, doc_id, pos_idx, window_size)) {
+        score *= 1.5f;
+    }
+    return score;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WikiIndexStore::searchPhrase — phrase query (Wave 7)
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<IndexResult> WikiIndexStore::searchPhrase(
+    const std::string& phrase,
+    size_t top_k) const
+{
+    if (phrase.empty()) {
+        THEMIS_WARN("WikiIndexStore::searchPhrase: empty phrase, returning empty");
+        return {};
+    }
+
+    const auto phrase_terms = tokenise(phrase);
+    if (phrase_terms.empty()) return {};
+
+    // Single-term phrase → delegate to standard BM25.
+    if (phrase_terms.size() == 1) {
+        return searchBM25(phrase_terms, top_k);
+    }
+
+    std::lock_guard<std::mutex> lk(impl_->idx_mutex);
+
+    // Collect candidate docs: those containing ALL phrase terms.
+    // Start from the first term's posting list and intersect.
+    auto it_first = impl_->positional_index_.find(phrase_terms[0]);
+    if (it_first == impl_->positional_index_.end()) return {};
+
+    std::vector<std::string> candidates;
+    candidates.reserve(it_first->second.size());
+    for (const auto& [doc_id, _] : it_first->second) {
+        candidates.push_back(doc_id);
+    }
+
+    for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
+        auto it = impl_->positional_index_.find(phrase_terms[ti]);
+        if (it == impl_->positional_index_.end()) return {};
+        const auto& posting = it->second;
+        candidates.erase(
+            std::remove_if(candidates.begin(), candidates.end(),
+                [&posting](const std::string& d) {
+                    return posting.find(d) == posting.end();
+                }),
+            candidates.end());
+        if (candidates.empty()) return {};
+    }
+
+    // Filter by consecutive-position constraint.
+    const float avg_len = impl_->computeAvgDocLen();
+    std::vector<IndexResult> results;
+    results.reserve(candidates.size());
+
+    for (const auto& doc_id : candidates) {
+        // Check positions of phrase_terms[0] in this doc.
+        const auto& pos0 = impl_->positional_index_.at(phrase_terms[0]).at(doc_id);
+        bool phrase_found = false;
+        for (size_t anchor : pos0) {
+            bool consecutive = true;
+            for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
+                const auto& pos_ti =
+                    impl_->positional_index_.at(phrase_terms[ti]).at(doc_id);
+                size_t expected = anchor + ti;
+                bool has_pos = std::binary_search(pos_ti.begin(), pos_ti.end(), expected);
+                if (!has_pos) { consecutive = false; break; }
+            }
+            if (consecutive) { phrase_found = true; break; }
+        }
+        if (!phrase_found) continue;
+
+        const float score = bm25PlusScore(
+            phrase_terms, impl_->docs.at(doc_id), avg_len, impl_->idf_cache);
+        results.push_back(IndexResult{doc_id, score});
+    }
+
+    const size_t k = std::min(top_k, results.size());
+    std::partial_sort(results.begin(),
+                      results.begin() + static_cast<std::ptrdiff_t>(k),
+                      results.end(),
+                      [](const IndexResult& a, const IndexResult& b) {
+                          return a.score > b.score;
+                      });
+    results.resize(k);
+    THEMIS_INFO("WikiIndexStore::searchPhrase: '{}' → {} result(s)", phrase, results.size());
+    return results;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WikiIndexStore::searchProximity — proximity query (Wave 7)
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<IndexResult> WikiIndexStore::searchProximity(
+    const std::string& term1,
+    const std::string& term2,
+    size_t distance,
+    size_t top_k) const
+{
+    if (term1.empty() || term2.empty()) {
+        THEMIS_WARN("WikiIndexStore::searchProximity: empty term(s), returning empty");
+        return {};
+    }
+
+    std::lock_guard<std::mutex> lk(impl_->idx_mutex);
+
+    auto it1 = impl_->positional_index_.find(term1);
+    auto it2 = impl_->positional_index_.find(term2);
+    if (it1 == impl_->positional_index_.end() ||
+        it2 == impl_->positional_index_.end()) {
+        THEMIS_WARN("WikiIndexStore::searchProximity: term '{}' or '{}' not in index",
+                    term1, term2);
+        return {};
+    }
+
+    const auto& posting1 = it1->second;
+    const auto& posting2 = it2->second;
+
+    const float avg_len = impl_->computeAvgDocLen();
+    std::vector<IndexResult> results;
+
+    for (const auto& [doc_id, pos_list1] : posting1) {
+        auto it_doc2 = posting2.find(doc_id);
+        if (it_doc2 == posting2.end()) continue;
+        const auto& pos_list2 = it_doc2->second;
+
+        // Find minimum distance between any pair of positions.
+        bool within = false;
+        if (term1 == term2) {
+            // Same term: need ≥2 positions within distance of each other.
+            for (size_t i = 0; i + 1 < pos_list1.size() && !within; ++i) {
+                if (pos_list1[i + 1] - pos_list1[i] <= distance) within = true;
+            }
+        } else {
+            // Two-pointer scan (both lists are sorted).
+            size_t i = 0, j = 0;
+            while (i < pos_list1.size() && j < pos_list2.size() && !within) {
+                size_t p1 = pos_list1[i];
+                size_t p2 = pos_list2[j];
+                size_t d  = (p1 <= p2) ? (p2 - p1) : (p1 - p2);
+                if (d <= distance) { within = true; }
+                else if (p1 < p2) { ++i; } else { ++j; }
+            }
+        }
+        if (!within) continue;
+
+        const std::vector<std::string> query_terms{term1, term2};
+        const float score = computePositionalBM25Score(
+            query_terms, doc_id, impl_->docs.at(doc_id),
+            avg_len, impl_->idf_cache, impl_->positional_index_);
+        results.push_back(IndexResult{doc_id, score});
+    }
+
+    const size_t k = std::min(top_k, results.size());
+    std::partial_sort(results.begin(),
+                      results.begin() + static_cast<std::ptrdiff_t>(k),
+                      results.end(),
+                      [](const IndexResult& a, const IndexResult& b) {
+                          return a.score > b.score;
+                      });
+    results.resize(k);
+    THEMIS_INFO("WikiIndexStore::searchProximity: '{}'~'{}' dist={} → {} result(s)",
+                term1, term2, distance, results.size());
+    return results;
+}
+
 std::vector<IndexResult> WikiIndexStore::fuseRRF(
     const std::vector<std::vector<std::string>>& ranked_lists) const
 {
@@ -280,6 +541,7 @@ void WikiIndexStore::clear() {
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
     impl_->docs.clear();
     impl_->idf_cache.clear();
+    impl_->positional_index_.clear();
 }
 
 size_t WikiIndexStore::size() const {
