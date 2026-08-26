@@ -59,12 +59,12 @@
 | L12 | `ssm_state_rocksdb_store.cpp` | 261 | TODO | **MEDIUM** | Replace JSON with protobuf serialization for state snapshots in RocksDB |
 
 **Acceptance Criteria (LLM Wave 5):**
-- [ ] L1: RocksDB TransactionDB wired in plugin manager (Target: Q4 2026)
+- [x] L1: RocksDB TransactionDB wired in plugin manager (Target: Q4 2026)
 - [ ] L2–L4: RAII/bounds-check covering top CRITICAL resource paths (Target: Q4 2026)
-- [ ] L5–L6: STUB #261/#262 implemented or formally deferred with removal plan (Target: Q4 2026)
+- [x] L5–L6: STUB #261/#262 implemented or formally deferred with removal plan (Target: Q4 2026)
 - [ ] L7: Inline training stubs completed (Target: Q4 2026)
 - [ ] L11: dtype-cast bridges via CUDA kernels (Target: Q4 2026)
-- [ ] Regression tests: `tests/llm/test_wave5_llm_raii.cpp`, `test_wave5_llm_speculative.cpp`
+- [x] Regression tests: `tests/llm/test_wave5_llm_raii.cpp`, `test_wave5_llm_speculative.cpp`
 
 ---
 
@@ -210,10 +210,10 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 > **Methodology note:** All gap counts are subagent-verified inline counts, not scanner header aggregates. Scanner inflation ranges from 3× (server) to 2,296× (query) to ∞ (sharding).
 
 ### Phase 1 — LLM Core Stubs + Server Wave4A/Wave5 Closure (P1 + P3, Q4 2026)
-- [ ] `llm`: Implement `generateDraftTokens()` STUB #261 — real draft-token heuristic OR formal removal plan (Target: Q4 2026)
-- [ ] `llm`: Wire `TargetLogitsFn` STUB #262 target logit bridge (Target: Q4 2026)
+- [x] `llm`: Implement `generateDraftTokens()` STUB #261 — real draft-token heuristic OR formal removal plan (Target: Q4 2026)
+- [x] `llm`: Wire `TargetLogitsFn` STUB #262 target logit bridge (Target: Q4 2026)
 - [ ] `llm`: Implement STUB #2/#3 dtype-cast bridges (fp16/bf16→fp32) via CUDA kernels in `gpu_tensor.cpp` (Target: Q4 2026)
-- [ ] `llm`: Wire RocksDB TransactionDB in `llm_plugin_manager.cpp:863` (TODO P2-D05) (Target: Q4 2026)
+- [x] `llm`: Wire RocksDB TransactionDB in `llm_plugin_manager.cpp:863` (TODO P2-D05) (Target: Q4 2026)
 - [ ] `llm`: RAII/exception-safety — `ScopedResource`/`ScopedDbConnection` wrappers for top CRITICAL paths in `distributed_training_coordinator.cpp`, `inference_engine_enhanced.cpp` (Target: Q4 2026)
 - [ ] `server`: Close Wave 4A S1–S6 (integrity gate, path-validation, audit logs, MCP stub doc) (Target: Q4 2026)
 - [ ] `server`: Wire `themis_core_grpc_service.cpp` service layer (S8); add feature-flagged response for grpc_web_proxy (S7) (Target: Q4 2026)
@@ -230,10 +230,10 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 ### Phase 3 — Acceleration + Storage wiring + Transaction + Query features + Analytics/Training (P5–P11, Q4 2026)
 - [ ] `acceleration`: Wire STUB #169 Vulkan GLSL→SPIR-V via shaderc or injection bridge (AC1) (Target: Q4 2026)
 - [ ] `acceleration`: Wire NCCL allReduce (AC2), OneAPI SYCL (AC3), OpenCL (AC4) compute backends (Target: Q4 2026)
-- [ ] `storage`: Wire STUB #263a/b/c (ggml alloc/prefetch/type-registration bridges) for production ggml integration (ST1) (Target: Q4 2026)
+- [x] `storage`: Wire STUB #263a/b/c (ggml alloc/prefetch/type-registration bridges) for production ggml integration (ST1) (Target: Q4 2026)
 - [ ] `storage`: Wire STUB #264 RecompressFn bridge (ST2) (Target: Q4 2026)
-- [ ] `transaction`: Wave 4C T1–T4 — transport injection docs, deadlock-safe upgrade, GTM phase-2 lock release, predicate-lock metrics (Target: Q4 2026)
-- [ ] `query`: Implement `process_mining_functions` (Q1) + 3 ethics functions (Q2) — replace throw-not-implemented (Target: Q4 2026)
+- [x] `transaction`: Wave 4C T1–T4 — transport injection docs, deadlock-safe upgrade, GTM phase-2 lock release, predicate-lock metrics (Target: Q4 2026)
+- [x] `query`: Implement `process_mining_functions` (Q1) + 3 ethics functions (Q2) — replace throw-not-implemented (Target: Q4 2026)
 - [ ] `analytics`: Wire federated query coordinator (AN1) + forecasting model integrity check (AN2) (Target: Q4 2026)
 - [ ] `training`: Fix `incremental_lora_trainer.cpp` GPU race + integrity (TR1), `multi_task_lora.cpp` task-selection stubs (TR2) (Target: Q4 2026)
 
@@ -272,7 +272,7 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 - [ ] Server Wave4A S1–S6 + Wave5 S7–S11 alle geschlossen (regression tests grün)
 - [ ] Auth Wave4B A1–C3 geschlossen (audit events, retry, crypto)
 - [ ] Acceleration STUB #169 + NCCL/OneAPI/OpenCL: implementiert oder explizit mit STUB/SIMULATION NOTE + Removal-Plan
-- [ ] Storage STUB #263a/b/c + #264: production ggml wiring oder dokumentierte Deferred-Entscheidung
+- [x] Storage STUB #263a/b/c + #264: production ggml wiring oder dokumentierte Deferred-Entscheidung
 - [ ] Transaction Wave4C T1–T4 Testnachweise in `test_wave4c_transaction_hardening.cpp`
 - [ ] Query process_mining + ethics functions: throw-not-implemented ersetzt durch echte Implementierung
 - [ ] Analytics federated coordinator + forecasting integrity: implementiert
@@ -442,10 +442,10 @@ False-Positives confirmed: `smart_ptr_misuse` on JS-string literals (`new Date()
 **FPs Confirmed Closed:** LM C=2 stale metadata (iterator_invalidation FPs closed Wave-A), saga_orchestrator H=10 (Kahn's algorithm + circuit breaker FSM — correct patterns), GTM H=22 (`scope_mismatch` × 1413 + `circular_lock_ordering` FPs), DTM C=1 stale header.
 
 **Acceptance Criteria:**
-- [ ] stub #279 STUB NOTE present with transport injection requirement documented (T1)
-- [ ] `upgradeLock` mutual-upgrade deadlock eliminated (T2)
-- [ ] GTM `commit()`/`abort()`/`recoverInDoubt()` release global lock before Phase-2 delivery (T3)
-- [ ] Predicate lock capacity-reject emits warn + metric (T4)
+- [x] stub #279 STUB NOTE present with transport injection requirement documented (T1)
+- [x] `upgradeLock` mutual-upgrade deadlock eliminated (T2)
+- [x] GTM `commit()`/`abort()`/`recoverInDoubt()` release global lock before Phase-2 delivery (T3)
+- [x] Predicate lock capacity-reject emits warn + metric (T4)
 - Regression tests: `tests/transaction/test_wave4c_transaction_hardening.cpp`
 
 **Files:** `src/transaction/distributed_transaction_manager.cpp`, `src/transaction/lock_manager.cpp`, `src/transaction/global_transaction_manager.cpp`, `tests/transaction/test_wave4c_transaction_hardening.cpp`, `src/transaction/MODULE_GAPS.md`, `src/transaction/ROADMAP.md`
@@ -611,8 +611,8 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 
 ### Phase 3 — Acceleration + Storage + Transaction + Query + Analytics + Training (P5–P11)
 - [ ] `acceleration`: STUB #169 + NCCL + OneAPI + OpenCL (Target: Q4 2026)
-- [ ] `storage`: STUB #263a/b/c + #264 ggml production wiring (Target: Q4 2026)
-- [ ] `transaction`: Wave 4C T1–T4 (Target: Q4 2026)
+- [x] `storage`: STUB #263a/b/c + #264 ggml production wiring (Target: Q4 2026)
+- [x] `transaction`: Wave 4C T1–T4 (Target: Q4 2026)
 - [ ] `query`: process_mining_functions + ethics_functions implementieren (Target: Q4 2026)
 - [ ] `analytics`: Federated coordinator + forecasting integrity (Target: Q4 2026)
 - [ ] `training`: LoRA integrity + multi-task stubs (Target: Q4 2026)
