@@ -942,7 +942,7 @@ Delivered: 2026-08-26
 
 | Block | Items | Module | Status | Tests Added |
 |-------|-------|--------|--------|-------------|
-| Block 1 — W9-1..W9-6 | gRPC Create/Read/Update/Delete/Scan/ExecuteAQL/StreamQuery/Batch + MCP + Timeseries wiring | `server` | [~] subagent in progress | TBD |
+| Block 1 — W9-1..W9-6 | gRPC Create/Read/Update/Delete/Scan/ExecuteAQL/StreamQuery/Batch + Timeseries wiring | `server` | [x] DONE 2026-08-26 | 29 (GCS-01..GCS-29) |
 | Block 2 — W9-7..W9-9 | GrpcRpcPhase1Adapter + GrpcRpcPhase2Adapter + DI root wiring | `transaction` | [x] DONE 2026-08-26 | 15 (GRPC-P1-01..05, GRPC-P2-01..05, GRPC-DTM-01..03, GRPC-CONTENTION-01, GRPC-WAL-01) |
 | Block 3 — W9-10..W9-12 | 7 HIGH fixes + AQL shim deprecation + Hybrid ANN+graph planner | `query` | [x] DONE 2026-08-26 | 14 (W9-10×7, W9-11×2, W9-12×5) |
 | Block 4 — W9-13..W9-15 | 28 CRITICAL FPs closed + THEMIS_HAS_FAISS + VkBufferRaii | `index` | [x] DONE 2026-08-26 | — (FP audit) |
@@ -952,7 +952,7 @@ Delivered: 2026-08-26
 
 | Module | CRITICAL before | CRITICAL after | HIGH before | HIGH after |
 |--------|---------------:|---------------:|------------:|-----------:|
-| `server` | 1 | TBD (Block 1) | ~180 | TBD |
+| `server` | 1 | 0 | ~180 | ~179 (gRPC UNIMPLEMENTED closed) |
 | `transaction` | — | — | — | — (STUB #279 closed) |
 | `query` | 49 | 49 (blocking_no_timeout/no_timeout next) | 428 | 421 |
 | `index` | 28 | 0 | 3057 | 3057 |
@@ -962,7 +962,7 @@ Delivered: 2026-08-26
 
 - **query**: 49 CRITICAL (10 `blocking_no_timeout` + 11 `no_timeout` + 28 other) — next closure target Wave 10
 - **llm**: 135 CRITICAL remaining (non-braces_imbalance categories); `ILLMPlugin::setDraftTokensFn()` (STUB #261) for local draft path
-- **server Block 1**: gRPC service layer wiring in progress
+- **server**: mTLS upgrade needed for gRPC channels (currently InsecureChannelCredentials); bind_vars forwarding to IQueryEngine deferred; W9-5 TimeSeriesApiHandler DI wiring TODO marked
 - **transaction**: mTLS credentials (currently `InsecureChannelCredentials`); `THEMIS_HAS_CORE_GRPC` definition needs adding to CMakeLists server target
 - **index**: `faiss` vcpkg flat dep should move behind optional feature flag (Wave 10)
 
@@ -975,4 +975,4 @@ Delivered: 2026-08-26
 - [x] FAISS `THEMIS_HAS_FAISS` compile flag wired (Block 4)
 - [x] LLM CRITICAL count 155 → 135 (Block 5)
 - [x] Speculative decode TokenizerFn + TargetLogitsFn production injection bridges wired (Block 5)
-- [ ] gRPC core service layer data-plane RPCs (Block 1 — pending)
+- [x] gRPC core service layer data-plane RPCs wired: Create/Read/Update/Delete/Batch/ExecuteAQL/StreamQuery/ScanCollection (Block 1)
