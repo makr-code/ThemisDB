@@ -30,9 +30,17 @@ Pflichtablauf:
    - API-/Modularbeit → `MODULES_AND_APIS.md`
    - Build/CI/Test → `BUILD_TEST_CI_AND_OPERATIONS.md`
    - Governance/Roadmap/Release → `GOVERNANCE_AND_ROADMAP.md`
+   - C/C++-Implementierung → `MODULES_AND_APIS.md` plus `MEMORY_MANAGEMENT_POLICY.md`, `OOP_AND_SOC_PRINCIPLES.md`, `FUNCTION_CLASSIFICATION.md`
    - allgemeiner Einstieg/Link-Hub → `INDEX.md`
 5. Bei Konflikten gilt: Root-SOT und Modulquellen vor kompilierter Wiki-Synthese.
 6. Wenn Wiki-Artefakte fehlen, stale wirken oder der Aufgabe widersprechen, diese Luecke explizit nennen statt das Wiki still zu ignorieren.
+
+Task-spezifische Mindestregeln:
+
+- API-/Modularbeit: zuerst `ai_context/developer_llm_wiki/MODULES_AND_APIS.md`, danach relevante `ai_context/api_contracts/*.md` und modulnahe `src/<module>/*.md`.
+- Build/CI/Test: zuerst `ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md`; bei Fehlern zusaetzlich immer konkrete GitHub-Actions-Logs und betroffene Workflow-Dateien pruefen.
+- Governance/Roadmap/Release: zuerst `ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md`, danach Root-SOT-Dateien (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md`).
+- C/C++-Arbeit: zuerst `ai_context/developer_llm_wiki/MODULES_AND_APIS.md`, danach `ai_context/MEMORY_MANAGEMENT_POLICY.md`, `ai_context/OOP_AND_SOC_PRINCIPLES.md`, `ai_context/FUNCTION_CLASSIFICATION.md` sowie die einschlaegigen `.github/instructions/*cpp*` Regeln.
 
 Details und Dateizwecke: [AI_WIKI_CONTEXT.md](copilot/AI_WIKI_CONTEXT.md)
 

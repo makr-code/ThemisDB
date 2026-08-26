@@ -161,7 +161,7 @@ cp -r .vscode.example .vscode
 ### AI_WIKI_CONTEXT.md
 
 - Required Developer LLM Wiki read order for GitHub Copilot on GitHub.
-- Which curated wiki files to use for module/API, CI/build, and governance tasks.
+- Which curated wiki files to use for module/API, CI/build, governance, and C/C++ tasks.
 - Freshness checks via `WIKI_STATUS.json`.
 - Source-of-truth fallback rules when wiki synthesis drifts.
 

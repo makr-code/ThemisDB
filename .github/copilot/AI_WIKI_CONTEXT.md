@@ -23,18 +23,53 @@ Use this module when GitHub Copilot on GitHub is implementing, refactoring, revi
 ### Module and API work
 - Start with `MODULES_AND_APIS.md`
 - Cross-check with module-local `src/<module>/ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `README.md`
+- Then consult API contract pages under `ai_context/api_contracts/` when the change touches public interfaces:
+  - `api.md`
+  - `llm.md`
+  - `index.md`
+  - `storage.md`
+  - `transaction.md`
+  - `auth.md`
+- Prefer module/API wiki context before broad repository search when the task asks to implement, extend, or review an API contract.
 
 ### Build, test, CI, and operations work
 - Start with `BUILD_TEST_CI_AND_OPERATIONS.md`
 - Cross-check with `.github/workflows/*.yml`, `scripts/*`, and root build docs
+- For CI/build failures, inspect the failing GitHub Actions run/job first, then use the wiki to narrow the relevant workflow/build files.
+- Prioritize workflow/package/dependency sections in the wiki before scanning unrelated modules.
 
 ### Governance, roadmap, release, and process work
 - Start with `GOVERNANCE_AND_ROADMAP.md`
 - Cross-check with `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md`
+- Treat root governance files as the final authority for branch names, release lanes, documentation sync, and acceptance gates.
+- Use the wiki as an index into those root governance sources, not as a replacement for them.
+
+### C and C++ implementation work
+- Start with `MODULES_AND_APIS.md`
+- Then consult:
+  - `../../ai_context/MEMORY_MANAGEMENT_POLICY.md`
+  - `../../ai_context/OOP_AND_SOC_PRINCIPLES.md`
+  - `../../ai_context/FUNCTION_CLASSIFICATION.md`
+- Cross-check with:
+  - `../../.github/instructions/cpp-best-practices.instructions.md`
+  - `../../.github/instructions/cpp-language-service-tools.instructions.md`
+  - `../../.github/instructions/documentation-enforcement.instructions.md`
+- For public C++ API changes, also read the relevant file in `../../ai_context/api_contracts/` before editing.
+- Prefer the wiki and instruction files to establish invariants, ownership, and test expectations before touching `.cpp`/`.h`/`.hpp` files.
 
 ### General onboarding or multi-area tasks
 - Start with `INDEX.md`
 - Follow its links before falling back to broad repository search
+
+## Task-Type Priority Matrix
+
+| Task type | Read first | Then verify against |
+|---|---|---|
+| API / module implementation | `developer_llm_wiki/MODULES_AND_APIS.md` | `src/<module>/*.md`, `ai_context/api_contracts/*.md`, headers/tests |
+| CI / build / workflow triage | `developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md` | GitHub Actions logs, `.github/workflows/*.yml`, `scripts/*` |
+| Governance / roadmap / release | `developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md` | `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md` |
+| C / C++ coding | `developer_llm_wiki/MODULES_AND_APIS.md` | `MEMORY_MANAGEMENT_POLICY.md`, `OOP_AND_SOC_PRINCIPLES.md`, C++ instruction files, module sources/tests |
+| Multi-area / discovery | `developer_llm_wiki/INDEX.md` | linked task-specific wiki pages and primary sources |
 
 ## Freshness and Trust Rules
 

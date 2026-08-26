@@ -53,8 +53,16 @@ Required flow:
    - API/module work → `MODULES_AND_APIS.md`
    - build/test/CI/operations work → `BUILD_TEST_CI_AND_OPERATIONS.md`
    - roadmap/governance/release work → `GOVERNANCE_AND_ROADMAP.md`
+   - C/C++ implementation work → `MODULES_AND_APIS.md` plus `MEMORY_MANAGEMENT_POLICY.md`, `OOP_AND_SOC_PRINCIPLES.md`, `FUNCTION_CLASSIFICATION.md`
    - general onboarding/navigation → `INDEX.md`
 5. If the wiki conflicts with root SOT or module-local source docs, prefer the root/module source and flag the wiki drift explicitly.
+
+Task-specific minimum expectations:
+
+- API/module work: consult `./developer_llm_wiki/MODULES_AND_APIS.md` first, then the relevant files under `./api_contracts/` and the module-local `src/<module>/*.md`.
+- Build/test/CI/operations work: consult `./developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md` first, then verify against GitHub Actions logs, `.github/workflows/*.yml`, and affected scripts.
+- Roadmap/governance/release work: consult `./developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md` first, then verify against `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, and `VERSIONING.md`.
+- C/C++ work: consult `./developer_llm_wiki/MODULES_AND_APIS.md` first, then `MEMORY_MANAGEMENT_POLICY.md`, `OOP_AND_SOC_PRINCIPLES.md`, `FUNCTION_CLASSIFICATION.md`, and the relevant `.github/instructions/*cpp*` rule files before editing code.
 
 Reference module: [../.github/copilot/AI_WIKI_CONTEXT.md](../.github/copilot/AI_WIKI_CONTEXT.md)
 
