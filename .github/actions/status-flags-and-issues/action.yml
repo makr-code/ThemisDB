@@ -139,6 +139,9 @@ runs:
             'status/build-pending': '0075CA',
             'scanner/gs3': '1D76DB',
             'scanner/runtime': '1D76DB',
+            'quality/doxygen-failed': 'B60205',
+            'quality/doxygen-warning': 'FBCA04',
+            'governance/doxygen-waiver': 'FBCA04',
             security: 'B60205',
             'security/critical': 'B60205',
           };

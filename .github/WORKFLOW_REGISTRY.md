@@ -19,6 +19,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 ### Fokus-Workflows
 - `.github/workflows/gate-pr-core.yml`
   — Fast PR-Gate-Layer inkl. `release-critical-tests` (mandatory), Boundary- und Policy-Gates
+- `.github/workflows/gate-pr-doxygen-governance.yml`
+  — PR-Gate fuer geaenderten C/C++-Sourcecode: GS3-Doxygen-Strukturpruefung, Doxygen-Audit-Warnungen, XML-Generierbarkeit, Coverage-/Waiver-Eskalation
 - `.github/workflows/build-mainline.yml`
   — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
 - `.github/workflows/release-mainline.yml`
@@ -37,8 +39,6 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — SBOM-/Signatur-/Release-Compliance-Pruefungen
 - `.github/workflows/security-codeql.yml`
   — CodeQL Analyse-Workflow
-- `.github/workflows/quality-static-analysis.yml`
-  — Statische Qualitaetspruefungen und Artefaktberichte
 - `.github/workflows/compliance-governance-gates.yml`
   — Governance- und Release-Policy-Gates
 - `.github/workflows/maintenance-docs.yml`
