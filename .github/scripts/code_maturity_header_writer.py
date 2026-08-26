@@ -11,9 +11,9 @@ Verzeichnis-/Schichtenstruktur:
 Schichten:
   1. Scanner: Sammelt Rohdaten (z. B. aus gap_scanner_v2, analyze_code_maturity)
   2. Dispatcher: Entscheidet, welche Dateien/Module aktualisiert werden
-  3. Updater: Schreibt Header/Reports (delegiert aktuell an Legacy-Logik)
+  3. Updater: Schreibt Header/Reports inkl. Header-Vollständigkeitsvalidierung
 
-Aktuell: Nur Klassengerüst, keine Verhaltensänderung. Die eigentliche Logik bleibt vorerst im Legacy-Skript.
+Aktuell: Enthält die kanonische Header-Generierung für Workflow und lokale Läufe.
 """
 
 import sys
@@ -83,9 +83,9 @@ class CodeMaturityScanner:
         'production': (3, 9), 'tests': (2, 20), 'docs': (1, 15), 'documented_stub': (1, 10),
     }
 
-    def scan(self, repo_root: str = "."):
-        repo_root = Path(repo_root)
-        files = list(self._find_files(repo_root))
+    def scan(self, repo_root: str = ".", target_paths: Optional[List[str]] = None):
+        repo_root = Path(repo_root).resolve()
+        files = list(self._find_files(repo_root, target_paths=target_paths))
         _debug_log('scanner', f'Found {len(files)} candidate files under {repo_root}')
         results = []
         for index, file in enumerate(files, start=1):
@@ -96,16 +96,41 @@ class CodeMaturityScanner:
                 _debug_log('scanner', f'Analyzed {index}/{len(files)} files')
         return results
 
-    def _find_files(self, repo_root: Path):
-        # Ziel: src/, include/, tests/, benchmarks/ rekursiv durchsuchen
-        code_dirs = [repo_root / d for d in ("src", "include", "tests", "benchmarks") if (repo_root / d).exists()]
-        for base_dir in code_dirs:
-            for root, dirs, files in os.walk(base_dir):
+    def _resolve_scan_roots(self, repo_root: Path, target_paths: Optional[List[str]]) -> List[Path]:
+        if not target_paths:
+            return [repo_root / d for d in ("src", "include", "tests", "benchmarks") if (repo_root / d).exists()]
+        roots: List[Path] = []
+        for raw in target_paths:
+            candidate = Path(raw)
+            resolved = candidate.resolve() if candidate.is_absolute() else (repo_root / candidate).resolve()
+            if resolved.exists():
+                roots.append(resolved)
+            else:
+                _debug_log('scanner', f'Skip missing target path: {raw}')
+        return roots
+
+    def _find_files(self, repo_root: Path, target_paths: Optional[List[str]] = None):
+        roots = self._resolve_scan_roots(repo_root, target_paths)
+        seen: set = set()
+        for root_path in roots:
+            if root_path.is_file():
+                ext = root_path.suffix.lower()
+                if ext in self.SUPPORTED_EXTENSIONS:
+                    file_key = root_path.as_posix()
+                    if file_key not in seen:
+                        seen.add(file_key)
+                        yield root_path
+                continue
+            for root, dirs, files in os.walk(root_path):
                 dirs[:] = [d for d in dirs if d not in self.EXCLUDE_DIRS]
                 for file in files:
                     ext = os.path.splitext(file)[1]
                     if ext in self.SUPPORTED_EXTENSIONS:
-                        yield Path(root) / file
+                        candidate = Path(root) / file
+                        file_key = candidate.as_posix()
+                        if file_key not in seen:
+                            seen.add(file_key)
+                            yield candidate
 
     def _analyze_file(self, file_path: Path):
         try:
@@ -164,15 +189,26 @@ class CodeMaturityScanner:
 # --- Dispatcher ---
 class CodeMaturityDispatcher:
     """Entscheidet, welche Dateien/Module aktualisiert werden sollen (Policy-gesteuert)"""
-    def __init__(self, scanner: CodeMaturityScanner, min_score: int = 80):
+    def __init__(
+        self,
+        scanner: CodeMaturityScanner,
+        min_score: int = 80,
+        include_all_files: bool = False,
+        target_paths: Optional[List[str]] = None,
+    ):
         self.scanner = scanner
         self.min_score = min_score
+        self.include_all_files = include_all_files
+        self.target_paths = target_paths or []
 
     def dispatch(self, repo_root: str = "."):
-        _debug_log('dispatcher', f'Start dispatch with min_score={self.min_score}')
-        scan_results = self.scanner.scan(repo_root)
-        # Policy: Nur Dateien mit Score < min_score (nicht production-ready)
-        to_update = [r for r in scan_results if r['score'] < self.min_score]
+        _debug_log('dispatcher', f'Start dispatch with min_score={self.min_score}, include_all_files={self.include_all_files}')
+        scan_results = self.scanner.scan(repo_root, target_paths=self.target_paths)
+        if self.include_all_files:
+            to_update = scan_results
+        else:
+            # Policy: Nur Dateien mit Score < min_score (nicht production-ready)
+            to_update = [r for r in scan_results if r['score'] < self.min_score]
         _debug_log('dispatcher', f'Selected {len(to_update)} files for header updates out of {len(scan_results)} scanned files')
         return to_update
 
@@ -188,8 +224,14 @@ class CodeMaturityUpdater:
  * @version {version}
  * @note Maturity: {level}
  * @note Score: {score}/100
+ * @note Module Context: {module_context}
+ * @note Ownership Scope: {ownership_scope}
+ * @note Primary Symbols: {primary_symbols}
  * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
+ * @note Governance: {governance_context}
+ * @note Release Context: {release_context}
  * @note Status: {status}{maturity_gate}
+ * @note Generator: .github/scripts/code_maturity_header_writer.py
  * @note This block is auto-generated and will be overwritten.
  */"""
     )
@@ -204,9 +246,15 @@ class CodeMaturityUpdater:
  * @note Maturity: {level}
  * @note Score: {score}/100
  * @note Lines: {total_lines}
+ * @note Module Context: {module_context}
+ * @note Ownership Scope: {ownership_scope}
+ * @note Primary Symbols: {primary_symbols}
  * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
  * @note PR History (last 5): {pr_info}
+ * @note Governance: {governance_context}
+ * @note Release Context: {release_context}
  * @note Status: {status}{maturity_gate}
+ * @note Generator: .github/scripts/code_maturity_header_writer.py
  * @note This block is auto-generated and will be overwritten.
  */"""
     )
@@ -285,29 +333,56 @@ class CodeMaturityUpdater:
             _debug_log('maturity_gate_detection', f'Warning: {e}')
             return ''
 
-    def update(self, repo_root: str = "."):
-
+    def update(
+        self,
+        repo_root: str = ".",
+        no_headers: bool = False,
+        report_path: Optional[str] = None,
+        validate_headers: bool = True,
+        fail_on_validation: bool = False,
+    ):
         repo_root_path = Path(repo_root).resolve()
         _debug_log('updater', f'Load external gap details from {repo_root_path / "ai_working"}')
         self.external_gap_details = self._load_external_gap_details(repo_root_path)
         _debug_log('updater', f'Loaded external gap details for {len(self.external_gap_details)} files')
         to_update = self.dispatcher.dispatch(str(repo_root_path))
-        _debug_log('updater', f'Start header updates for {len(to_update)} files')
+        _debug_log('updater', f'Start header updates for {len(to_update)} files (no_headers={no_headers})')
         updated = []
         total = len(to_update)
-        for index, entry in enumerate(to_update, start=1):
-            file_path = entry['file']
-            score = entry['score']
-            level = entry['level']
-            try:
-                self._write_header(repo_root_path, Path(file_path), score, level)
-                updated.append(file_path)
-                if index == 1 or index % 100 == 0 or index == total:
-                    _debug_log('updater', f'Updated {index}/{total}: {Path(file_path).name}')
-            except Exception as e:
-                print(f"[FAIL] Header-Update für {file_path}: {e}")
+        if not no_headers:
+            for index, entry in enumerate(to_update, start=1):
+                file_path = entry['file']
+                score = entry['score']
+                level = entry['level']
+                try:
+                    self._write_header(repo_root_path, Path(file_path), score, level)
+                    updated.append(file_path)
+                    if index == 1 or index % 100 == 0 or index == total:
+                        _debug_log('updater', f'Updated {index}/{total}: {Path(file_path).name}')
+                except Exception as e:
+                    print(f"[FAIL] Header-Update für {file_path}: {e}")
+        else:
+            _debug_log('updater', 'Header write disabled via --no-headers')
         print(f"[OK] {len(updated)} Header aktualisiert.")
-        return updated
+        validation_summary = {'checked': 0, 'failed': 0, 'failures': []}
+        if validate_headers:
+            validation_summary = self._validate_headers(repo_root_path, to_update)
+            print(f"[OK] Header validation checked={validation_summary['checked']} failed={validation_summary['failed']}")
+
+        summary = {
+            'scanned_candidates': total,
+            'updated': len(updated),
+            'no_headers': no_headers,
+            'validation': validation_summary,
+            'header_mode': self._resolve_header_mode(''),
+        }
+        if report_path:
+            self._write_report(Path(report_path), summary)
+        if fail_on_validation and validation_summary['failed'] > 0:
+            summary['exit_code'] = 2
+        else:
+            summary['exit_code'] = 0
+        return summary
 
     def _write_header(self, repo_root: Path, file_path: Path, score: int, level: str):
         # Lese Originalinhalt
@@ -340,6 +415,14 @@ class CodeMaturityUpdater:
             'debt': metrics['debt'],
             'status': status,
         }
+        module_context, ownership_scope = self._derive_module_context(repo_root, file_path)
+        template_data.update({
+            'module_context': module_context,
+            'ownership_scope': ownership_scope,
+            'primary_symbols': self._extract_primary_symbols(content_ohne_header),
+            'governance_context': 'BranchModel=develop-first; CanonicalBranches=develop,community,military',
+            'release_context': 'GateModel=WaveA→B→C→D on develop',
+        })
 
         gap_corr = self._build_gap_correlation(repo_root, file_path, metrics['gaps'])
         template_data.update(gap_corr)
@@ -365,6 +448,41 @@ class CodeMaturityUpdater:
         new_content = header_out + content_ohne_header
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(new_content)
+
+    def _derive_module_context(self, repo_root: Path, file_path: Path) -> Tuple[str, str]:
+        rel = file_path.relative_to(repo_root)
+        parts = rel.parts
+        if len(parts) < 2:
+            return (parts[0] if parts else 'root', 'global')
+        context = parts[0]
+        module = parts[1]
+        ownership = {
+            'src': 'production-code',
+            'include': 'public-api',
+            'tests': 'test-suite',
+            'benchmarks': 'benchmark-suite',
+        }.get(context, 'global')
+        return (f'{context}/{module}', ownership)
+
+    def _extract_primary_symbols(self, content: str, max_symbols: int = 6) -> str:
+        class_pattern = re.compile(r'^\s*(?:template\s*<[^>]+>\s*)?(?:class|struct|enum(?:\s+class)?)\s+([A-Za-z_]\w*)', re.MULTILINE)
+        function_pattern = re.compile(
+            r'^\s*(?:inline\s+|static\s+|virtual\s+|constexpr\s+|friend\s+)*'
+            r'(?:[\w:\<\>\,\s\*&~]+)\s+([A-Za-z_~]\w*)\s*\([^;{}]*\)\s*(?:const)?\s*(?:noexcept)?\s*(?:\{|$)',
+            re.MULTILINE,
+        )
+        blocked = {'if', 'for', 'while', 'switch', 'return', 'catch'}
+        symbols: List[str] = []
+        for pattern in (class_pattern, function_pattern):
+            for match in pattern.finditer(content):
+                name = match.group(1)
+                if not name or name in blocked:
+                    continue
+                if name not in symbols:
+                    symbols.append(name)
+                if len(symbols) >= max_symbols:
+                    return ', '.join(symbols)
+        return ', '.join(symbols) if symbols else 'none-detected'
 
     def _derive_score_and_level(self, content: str) -> Tuple[int, str]:
         content = strip_generated_header(content)
@@ -608,9 +726,78 @@ class CodeMaturityUpdater:
             return 'extended'
         return self.header_mode
 
+    def _required_header_fragments(self, mode: str) -> List[str]:
+        base = [
+            '@file',
+            '@brief',
+            '@version',
+            '@note Maturity:',
+            '@note Score:',
+            '@note Module Context:',
+            '@note Ownership Scope:',
+            '@note Primary Symbols:',
+            '@note Gap Summary:',
+            '@note Governance:',
+            '@note Release Context:',
+            '@note Status:',
+            '@note Generator:',
+        ]
+        if mode == 'extended':
+            return ['@author', '@date', '@note Lines:', '@note PR History (last 5):'] + base
+        return base
+
+    def _validate_headers(self, repo_root: Path, entries: List[Dict[str, Any]]) -> Dict[str, Any]:
+        mode = self._resolve_header_mode('')
+        required = self._required_header_fragments(mode)
+        failures: List[Dict[str, Any]] = []
+        checked = 0
+        for entry in entries:
+            file_path = Path(entry['file'])
+            try:
+                content = file_path.read_text(encoding='utf-8', errors='ignore')
+            except Exception:
+                failures.append({'file': file_path.as_posix(), 'missing': ['<read_failed>']})
+                continue
+            match = self._RE_EXISTING_HEADER.match(content)
+            checked += 1
+            if not match:
+                failures.append({'file': file_path.relative_to(repo_root).as_posix(), 'missing': ['<header_block_missing>']})
+                continue
+            header = match.group(0)
+            missing = [fragment for fragment in required if fragment not in header]
+            if missing:
+                failures.append({'file': file_path.relative_to(repo_root).as_posix(), 'missing': missing})
+        return {'checked': checked, 'failed': len(failures), 'failures': failures}
+
+    def _write_report(self, report_path: Path, summary: Dict[str, Any]) -> None:
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        now = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
+        validation = summary.get('validation', {})
+        lines = [
+            '# Code Maturity Header Report',
+            '',
+            f'- Generated: {now}',
+            f'- Header mode: {summary.get("header_mode", "unknown")}',
+            f'- Scan candidates: {summary.get("scanned_candidates", 0)}',
+            f'- Headers updated: {summary.get("updated", 0)}',
+            f'- Header write mode: {"check-only" if summary.get("no_headers") else "rewrite"}',
+            f'- Validation checked: {validation.get("checked", 0)}',
+            f'- Validation failed: {validation.get("failed", 0)}',
+            '',
+        ]
+        failures = validation.get('failures', [])
+        if failures:
+            lines.extend(['## Missing required header fragments', ''])
+            for item in failures[:200]:
+                missing = ', '.join(item.get('missing', []))
+                lines.append(f"- `{item.get('file', '<unknown>')}` → {missing}")
+        else:
+            lines.append('All validated files contain required header fragments.')
+        report_path.write_text('\n'.join(lines).rstrip() + '\n', encoding='utf-8')
+
 
 def main():
-    parser = argparse.ArgumentParser(description='Write/update compact code maturity headers.')
+    parser = argparse.ArgumentParser(description='Write/update canonical code maturity Doxygen headers.')
     parser.add_argument('--root', default='.', help='Repository root path')
     parser.add_argument('--min-score', type=int, default=80, help='Only files with score < min-score are updated')
     parser.add_argument(
@@ -619,13 +806,31 @@ def main():
         default='auto',
         help='Header detail level (auto=extended until production-ready, then lean)',
     )
+    parser.add_argument('--target-paths', default='', help='Comma-separated list of paths to scan (files or directories)')
+    parser.add_argument('--include-all-files', action='store_true', help='Update all scanned files regardless of score')
+    parser.add_argument('--no-headers', action='store_true', help='Do not rewrite headers; run scan/validation/report only')
+    parser.add_argument('--report-path', default='', help='Optional markdown report output path')
+    parser.add_argument('--no-validate-headers', action='store_true', help='Disable required-header validation')
+    parser.add_argument('--fail-on-validation', action='store_true', help='Return non-zero exit code if validation fails')
     args = parser.parse_args()
 
+    target_paths = [p.strip() for p in args.target_paths.split(',') if p.strip()]
     scanner = CodeMaturityScanner()
-    dispatcher = CodeMaturityDispatcher(scanner, min_score=args.min_score)
+    dispatcher = CodeMaturityDispatcher(
+        scanner,
+        min_score=args.min_score,
+        include_all_files=args.include_all_files,
+        target_paths=target_paths,
+    )
     updater = CodeMaturityUpdater(dispatcher, header_mode=args.header_mode)
-    updater.update(args.root)
-    return 0
+    summary = updater.update(
+        args.root,
+        no_headers=args.no_headers,
+        report_path=args.report_path or None,
+        validate_headers=not args.no_validate_headers,
+        fail_on_validation=args.fail_on_validation,
+    )
+    return int(summary.get('exit_code', 0))
 
 
 if __name__ == '__main__':
