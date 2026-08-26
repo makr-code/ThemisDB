@@ -770,7 +770,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             joinSpan.setAttribute("join.table_right", table2);
 
             using namespace themis::query;
-            std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
+            // DATA-RACE-AUDIT(2026-08-26 Wave-7): same fix as line ~1669 —
+            // change [&] to [] (no outer-scope locals needed; non-recursive).
+            std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                 if (!fa) return std::string();
                 std::vector<std::string> parts;
