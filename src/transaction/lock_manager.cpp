@@ -270,10 +270,10 @@ LockManager::LockResult LockManager::upgradeLock(
                     [&](const LockEntry& e) { return e.holder == waiter->txn_id; });
                 if (is_upgrade_waiter) {
                     THEMIS_WARN(
-                        "LockManager: mutual upgrade deadlock detected on key '{}': "
+                        "[TXLOCK] Mutual upgrade deadlock detected for key={}, tx_a={}, tx_b={}: "
                         "txn {} aborted (competing txn {} holds upgrade waiter). "
                         "Caller should retry with back-off.",
-                        key, txn_id, waiter->txn_id);
+                        key, txn_id, waiter->txn_id, txn_id, waiter->txn_id);
                     stats_deadlocks_.fetch_add(1, std::memory_order_relaxed);
                     return LockResult::Denied(
                         "mutual upgrade deadlock on key '" + key + "': txn " +
@@ -563,10 +563,11 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
         // false-positive abort rate but does not compromise correctness.
         // Wave 4C T4: emit warning so operators can tune max_predicate_locks.
         THEMIS_WARN(
-            "LockManager: predicate lock capacity reached (max={}, current={}). "
-            "Predicate lock for txn {} on [{}, {}] dropped — SSI false-abort rate may increase. "
+            "[TXLOCK] Predicate lock dropped: max_locks capacity reached (max={}, tx={}). "
+            "Predicate lock on [{}, {}] dropped — SSI false-abort rate may increase. "
             "Tune max_predicate_locks if this occurs frequently.",
-            max_locks, predicate_locks_.size(), txn_id, start_key, end_key);
+            max_locks, txn_id, start_key, end_key);
+        predicate_lock_drops_.fetch_add(1, std::memory_order_relaxed);
         return false;
     }
     predicate_locks_.push_back({txn_id, start_key, end_key});
