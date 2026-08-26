@@ -1,0 +1,204 @@
+name: "CodeQL Advanced"
+
+# Rechenaufwand-Score: R=4 (K=5, L=4, N=4) | last-calibrated: 2026-08-26
+# Build note: Uses direct cmake --build (not autobuild) so that the pre-configured
+# community-release preset is respected (THEMIS_ENABLE_HIP=OFF, no ROCm required).
+# Trigger policy: repo framework score calibration for workflow cost controls.
+#
+# ── PREREQUISITE ─────────────────────────────────────────────────────────────
+# GitHub's Default Code Scanning Setup MUST be disabled before this workflow
+# can upload SARIF results. If Default Setup is active, the upload step will
+# fail with "advanced configurations cannot be processed when the default
+# setup is enabled."
+# Disable via: Repository Settings → Code security → Code scanning →
+#              Default setup → Disable
+#
+# ── Query-suite split (cost control) ─────────────────────────────────────────
+#   pull_request / push  → security-extended   (security rules only, no quality)
+#   schedule (weekly)    → security-and-quality (full suite, runs at 03:00 UTC)
+#
+# ── Database size control ─────────────────────────────────────────────────────
+# .github/codeql/codeql-config.yml excludes vendored paths (vcpkg/, llama.cpp/,
+# internal/, build/, docs/, …) from the database to reduce build and analysis
+# time. Only production source (src/, include/, tests/, benchmarks/, tools/) is
+# compiled into the CodeQL database.
+#
+# ── Copilot Autofix ──────────────────────────────────────────────────────────
+# Enable via: Repository Settings → Code security → Copilot Autofix → Enable
+# When enabled, Copilot automatically suggests fixes for CodeQL findings on PRs.
+
+on:
+  push:
+    branches: [ "develop", "community" ]
+    paths:
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'tests/**/*.c'
+      - 'tests/**/*.cc'
+      - 'tests/**/*.cpp'
+      - 'tests/**/*.cxx'
+      - 'tests/**/*.h'
+      - 'tests/**/*.hh'
+      - 'tests/**/*.hpp'
+      - 'tests/**/*.hxx'
+      - 'benchmarks/**/*.c'
+      - 'benchmarks/**/*.cc'
+      - 'benchmarks/**/*.cpp'
+      - 'benchmarks/**/*.cxx'
+      - 'benchmarks/**/*.h'
+      - 'benchmarks/**/*.hh'
+      - 'benchmarks/**/*.hpp'
+      - 'benchmarks/**/*.hxx'
+      - 'tools/ci/**'
+      - 'tools/tests/**'
+      - '*.c'
+      - '*.cc'
+      - '*.cpp'
+      - '*.hpp'
+      - '*.h'
+      - '.github/workflows/security-codeql.yml'
+      - '.github/codeql/codeql-config.yml'
+  pull_request:
+    branches: [ "develop", "community" ]
+    paths:
+      - 'src/**/*.c'
+      - 'src/**/*.cc'
+      - 'src/**/*.cpp'
+      - 'src/**/*.cxx'
+      - 'src/**/*.h'
+      - 'src/**/*.hh'
+      - 'src/**/*.hpp'
+      - 'src/**/*.hxx'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'tests/**/*.c'
+      - 'tests/**/*.cc'
+      - 'tests/**/*.cpp'
+      - 'tests/**/*.cxx'
+      - 'tests/**/*.h'
+      - 'tests/**/*.hh'
+      - 'tests/**/*.hpp'
+      - 'tests/**/*.hxx'
+      - 'benchmarks/**/*.c'
+      - 'benchmarks/**/*.cc'
+      - 'benchmarks/**/*.cpp'
+      - 'benchmarks/**/*.cxx'
+      - 'benchmarks/**/*.h'
+      - 'benchmarks/**/*.hh'
+      - 'benchmarks/**/*.hpp'
+      - 'benchmarks/**/*.hxx'
+      - 'tools/ci/**'
+      - 'tools/tests/**'
+      - '*.c'
+      - '*.cc'
+      - '*.cpp'
+      - '*.hpp'
+      - '*.h'
+      - '.github/workflows/security-codeql.yml'
+      - '.github/codeql/codeql-config.yml'
+  schedule:
+    # Weekly full scan (security-and-quality) — Sunday 03:00 UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      query_suite:
+        description: 'CodeQL query suite to use'
+        required: false
+        default: 'security-extended'
+        type: choice
+        options:
+          - security-extended
+          - security-and-quality
+
+permissions:
+  contents: read
+  security-events: write  # Required for SARIF uploads and Copilot Autofix
+  actions: read           # Required to fetch workflow run info
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze (c-cpp)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 1
+
+      - name: Install C++ build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libvulkan-dev glslc \
+            libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev
+
+      - name: Select query suite
+        id: suite
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "queries=security-and-quality" >> "$GITHUB_OUTPUT"
+            echo "CodeQL suite: security-and-quality (scheduled full scan)"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "queries=${{ inputs.query_suite }}" >> "$GITHUB_OUTPUT"
+            echo "CodeQL suite: ${{ inputs.query_suite }} (manual dispatch)"
+          else
+            echo "queries=security-extended" >> "$GITHUB_OUTPUT"
+            echo "CodeQL suite: security-extended (PR / push)"
+          fi
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        with:
+          languages: c-cpp
+          config-file: .github/codeql/codeql-config.yml
+          queries: ${{ steps.suite.outputs.queries }}
+
+      - name: Configure (community-release preset)
+        run: |
+          set -euo pipefail
+          git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer 2>/dev/null || true
+          cmake --preset community-release -DCMAKE_BUILD_TYPE=RelWithDebInfo 2>&1 | tail -30
+
+      - name: Build (manual cmake build for CodeQL extraction)
+        # Use direct cmake --build instead of autobuild: autobuild re-invokes cmake
+        # without the community-release preset, enabling HIP (hipcc detected) and
+        # failing to compile rotary_embeddings_hip.cpp without the full ROCm SDK.
+        # After codeql-action/init, the tracer environment is already active, so
+        # compiler calls made by cmake --build are captured for CodeQL extraction.
+        run: |
+          cmake --build build-community-release --parallel $(nproc)
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        with:
+          category: "/language:c-cpp"
+          output: codeql-results
+          ram: 6144
+          threads: 4
