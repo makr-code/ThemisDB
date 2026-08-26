@@ -3,8 +3,8 @@
  * @brief Public C++ SDK interface for the LLM Wiki enterprise plugin.
  *
  * Exposes the canonical plugin entry point, typed request/response structs, and
- * the `ILLMWikiPlugin` abstract interface that the private plugin implementation
- * (`plugins/themisdb_llm_wiki`) implements.
+ * the `ILLMWikiPlugin` abstract interface that the enterprise plugin
+ * implementation provides.
  *
  * ## Plugin identity
  *  - Plugin type: `PluginType::CUSTOM`
@@ -19,7 +19,7 @@
  *   // Load via PluginManager (enterprise runtime):
  *   auto& mgr = themis::plugins::PluginManager::instance();
  *   auto plugin = std::dynamic_pointer_cast<ILLMWikiPlugin>(
- *       mgr.load("llm_wiki", "/usr/lib/themisdb/plugins/themisdb_llm_wiki.so"));
+ *       mgr.load("llm_wiki", "/usr/lib/themisdb/plugins/llm_wiki_plugin.so"));
  *
  *   // Ingest a Markdown source directory:
  *   WikiIngestOptions ingest_opts;
