@@ -692,7 +692,7 @@ Planned by subagent dispatch 2026-08-26. Targets Wave A exit criteria + Wave B d
 |---|---|---|---|---|
 | N1 | voice | Wake-word/intent/command fallback alignment (V1), partial backend failure matrix (V2), noisy wake-word adversarial expansion (V3) | Wave A | `[x]` complete 2026-08-26 |
 | N2 | analytics | Federated coordinator shard retry AN1 + forecasting integrity AN2 | Wave A/B | `[~]` in progress |
-| N3 | llm | Thread-safety top-20 (L7 class): `std::atomic`/mutex at top shared-state sites | Wave B | `[~]` in progress |
+| N3 | llm | Thread-safety top-20 (L7 class): `std::atomic`/mutex at top shared-state sites | Wave B | `[x]` complete 2026-08-26 (14 sites fixed, deadlock fix in healthMonitorLoop) |
 | N4 | llm_wiki | RocksDB backend replacing in-memory mock (Wave B partial) | Wave B | `[x]` complete 2026-08-26 (11 tests) |
 
 ### Wave A Exit Criteria Impact
