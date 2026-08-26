@@ -64,12 +64,12 @@ permissions:
   checks: write
   security-events: read
 
-# Concurrency: queue runs per ref; do not cancel in-progress because
-# governance-gates handles multiple event types (PR review, issue_comment,
-# schedule) and premature cancellation can corrupt gate-audit state.
+# Concurrency: cancel in-progress runs on the same ref so stale PR runs are
+# replaced when new commits are pushed. Note: governance-gate handles multiple
+# event types; cancel-in-progress ensures stale runs are cleared promptly.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
