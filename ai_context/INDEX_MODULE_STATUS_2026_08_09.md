@@ -1,6 +1,6 @@
 # ThemisDB Module Status Index (2026-08-09)
 
-**Datum:** 2026-08-09  
+Datum: 2026-08-09  
 **Status:** Synchronized with root ROADMAP.md and module-level ROADMAP.md files  
 **Bezug:** Root ROADMAP.md (canonical source), 66 module ROADMAP.md files, recent Phase 1-6 delivery evidence  
 **Primary (Quelle der Wahrheit):** ROADMAP.md, src/<module>/ROADMAP.md files, corresponding FUTURE_ENHANCEMENTS.md, PHASE_*_ACCEPTANCE_CHECKLIST.md
