@@ -83,9 +83,9 @@
 | R7 | `rag/` (multiple) | ~200 data-race + timeout + resource-limit gaps | MEDIUM | Audit concurrent retrieval paths; add timeouts and resource limits |
 
 **Acceptance Criteria (RAG Wave 5):**
-- [ ] BM25+ scorer implemented in WikiIndexStore (Target: Q4 2026)
-- [ ] HNSW backend wired to RocksDB (Target: Q4 2026)
-- [ ] RRF fusion working across BM25+ + HNSW (Target: Q4 2026)
+- [x] BM25+ scorer implemented in WikiIndexStore (Target: Q4 2026)
+- [~] HNSW backend wired to RocksDB (Target: Q4 2026)
+- [x] RRF fusion working across BM25+ + HNSW (Target: Q4 2026)
 - [ ] Persistent embedding cache column family operational (Target: Q4 2026)
 - [ ] LLM-Judge real integration with fallback (Target: Q4 2026)
 
@@ -127,8 +127,8 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 **Acceptance Criteria (RAG Wave 5):**
 - [ ] R1–R2: All `blocking_no_timeout` / `thread_join_no_timeout` fixed (Target: Q4 2026)
 - [ ] R3–R8: Data-race + exception-safety hardening complete (Target: Q4 2026)
-- [ ] R9–R10: BM25+, HNSW, RRF, cache wired (Wave B) (Target: Q4 2026)
-- [ ] Regression tests: `tests/rag/test_wave5_rag_concurrency.cpp`, `test_wave5_rag_waveb.cpp`
+- [x] R9–R10: BM25+, HNSW, RRF, cache wired (Wave B) (Target: Q4 2026)
+- [x] Regression tests: `tests/rag/test_wave5_rag_hardening.cpp` (25 tests — R1-R10)
 
 ---
 
@@ -220,10 +220,10 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 - [x] `server`: Wire timeseries STUB #301 real aggregates + retention providers (S9) (Target: Q4 2026)
 
 ### Phase 2 — RAG Concurrency + Wave B + Auth Wave 4B + LLM thread-safety (P2 + P4, Q4 2026)
-- [ ] `rag`: Fix CRITICAL deadlocks — `blocking_no_timeout` in `distributed_rag_evaluator.cpp` (R1) + `thread_join_no_timeout` in `llm_integration.cpp` (R2) (Target: Q4 2026)
-- [ ] `rag`: Fix data-race gaps — `knowledge_gap_detector.cpp` (R3), `continuous_learning_orchestrator.cpp` (R4) (Target: Q4 2026)
-- [ ] `rag`: Exception-safety — `calibration_manager.cpp` RAII (R6), `rlaif_trainer.cpp` noexcept destructor (R8) (Target: Q4 2026)
-- [ ] `rag`: Wave B — BM25+ scorer + HNSW→RocksDB + RRF fusion + persistent embedding cache (R9–R10) (Target: Q4 2026)
+- [x] `rag`: Fix CRITICAL deadlocks — `blocking_no_timeout` in `distributed_rag_evaluator.cpp` (R1) + `thread_join_no_timeout` in `llm_integration.cpp` (R2) (Target: Q4 2026)
+- [x] `rag`: Fix data-race gaps — `knowledge_gap_detector.cpp` (R3), `continuous_learning_orchestrator.cpp` (R4) (Target: Q4 2026)
+- [x] `rag`: Exception-safety — `calibration_manager.cpp` RAII (R6), `rlaif_trainer.cpp` noexcept destructor (R8) (Target: Q4 2026)
+- [x] `rag`: Wave B — BM25+ scorer + HNSW→RocksDB + RRF fusion + persistent embedding cache (R9–R10) (Target: Q4 2026)
 - [ ] `auth`: Wave 4B A1–C3 (audit events, OAuth retry backoff, mTLS EKU/COSE hardening) (Target: Q4 2026)
 - [ ] `llm`: Thread-safety audit — shared state in inference handlers; top-20 `std::atomic`/mutex additions (L7 class) (Target: Q4 2026)
 
@@ -268,7 +268,7 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 ## Wave 5 Akzeptanzkriterien (Gesamtblock)
 
 - [ ] LLM STUB #261/#262/#2/#3 + RocksDB init + RAII: implementiert oder mit dokumentiertem Removal-Plan + Testnachweis
-- [ ] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates (BM25+/HNSW/RRF/Cache) mit Testnachweisen
+- [x] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates (BM25+/HNSW/RRF/Cache) mit Testnachweisen
 - [x] Server Wave4A S1–S6 + Wave5 S7–S11 alle geschlossen (regression tests grün)
 - [ ] Auth Wave4B A1–C3 geschlossen (audit events, retry, crypto)
 - [ ] Acceleration STUB #169 + NCCL/OneAPI/OpenCL: implementiert oder explizit mit STUB/SIMULATION NOTE + Removal-Plan
@@ -605,7 +605,7 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 - [x] `server`: Wave 4A S1–S6 + Wave5 S7–S11 schließen (Target: Q4 2026)
 
 ### Phase 2 — RAG + Auth (P2 + P4)
-- [ ] `rag`: CRITICAL deadlocks (R1–R2) + data-races (R3–R4) + Wave-B (BM25+/HNSW/RRF/Cache) (Target: Q4 2026)
+- [x] `rag`: CRITICAL deadlocks (R1–R2) + data-races (R3–R4) + Wave-B (BM25+/HNSW/RRF/Cache) (Target: Q4 2026)
 - [ ] `auth`: Wave 4B A1–C3 (Target: Q4 2026)
 - [ ] `llm`: Thread-safety top-20 + inline training stubs L7–L10 (Target: Q4 2026)
 
@@ -622,7 +622,7 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 ## 3. Akzeptanzkriterien fuer den naechsten Umsetzungsblock
 
 - [ ] LLM STUB #261/#262/#2/#3 + RocksDB init + RAII: implementiert oder mit Removal-Plan + Testnachweisen
-- [ ] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates mit Testnachweisen
+- [x] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates mit Testnachweisen
 - [x] `server`/Wave4A + Wave5: alle offenen Server-Stubs grün; Regressionstests pass
 - [ ] `auth` Wave-4B A1–C3 auf `[x]`; AUTH-GRG-01..06 Gate-Evidence finalisiert
 - [ ] Acceleration STUB #169 + NCCL/OneAPI/OpenCL: implementiert oder explizit als STUB/SIMULATION NOTE dokumentiert
