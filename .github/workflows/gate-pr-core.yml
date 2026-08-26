@@ -386,6 +386,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     needs: preflight-ci-policy
+    env:
+      SCCACHE_GHA_ENABLED: "false"
     permissions:
       contents: read
     if: >
