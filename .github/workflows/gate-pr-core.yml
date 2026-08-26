@@ -924,9 +924,12 @@ jobs:
           echo "  Detector   : verified secrets only (--only-verified)"
           echo "============================================================"
 
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0  # TruffleHog --since-commit requires full commit history
+
+      - name: Install TruffleHog
         run: |
           echo "  Installing TruffleHog from official install script..."
           T0=$(date +%s)
