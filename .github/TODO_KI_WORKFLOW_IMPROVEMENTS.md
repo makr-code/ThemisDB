@@ -127,7 +127,7 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 - [x] Ziel: dynamische Prüfung auf Laufzeitfehler in KI-generiertem C++-Code
 
 ### 4.3 CodeQL-Workflow auf `paths:` eingrenzen
-- [x] `codeql.yml` aktuell triggert auf alle PRs nach `develop` ohne `paths:`
+- [x] `security-codeql.yml` aktuell triggert auf alle PRs nach `develop` ohne `paths:`
   — prüfen ob dies WORKFLOW_GUIDELINES-konform ist
 - [x] `paths:` auf `src/**`, `include/**` begrenzen (Docs/Meta-Änderungen
   lösen keinen CodeQL-Scan aus)

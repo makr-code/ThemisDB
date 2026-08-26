@@ -189,6 +189,13 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_doku_rag")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
+    endif()
     # Phase B wiki integration tests: full RocksDB + BM25 + HNSW + RRF path.
     if(_stem STREQUAL "test_wiki_index_store_phase_b")
         target_sources(${_target} PRIVATE
@@ -464,6 +471,18 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/task_decomposer.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_tinyllama_inference")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/llama_tokenizer.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_doku_rag")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_reranker")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/search/llm_reranker.cpp
@@ -491,6 +510,22 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS llm autogen
     )
 endforeach()
+
+# Ensure autofocused LLM targets keep required implementation units even when
+# they are created by a different autogen pass before this file section.
+if(TARGET module_llm_test_llm_doku_rag_autofocused)
+    target_sources(module_llm_test_llm_doku_rag_autofocused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+    )
+endif()
+
+if(TARGET module_llm_test_llm_tinyllama_inference_autofocused)
+    target_sources(module_llm_test_llm_tinyllama_inference_autofocused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/llm/lora_framework/llama_tokenizer.cpp
+    )
+endif()
 
 # =============================================================================
 # LLM Inferencing CI Targets — TinyLlama + doku.db RAG + AdaLoRA
@@ -573,6 +608,11 @@ if(THEMIS_LLM_INFERENCE_TESTS)
         test_llm_doku_rag
         "llm;llm_rag_doku;model_required"
         180
+    )
+    target_sources(module_llm_test_llm_doku_rag_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
     )
 
     # Copy the golden dataset YAML next to the test binary so RAG-08..12

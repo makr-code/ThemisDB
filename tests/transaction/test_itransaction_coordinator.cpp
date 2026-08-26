@@ -79,7 +79,7 @@ public:
     struct Config {
         CommitProtocol     protocol         = CommitProtocol::TWO_PHASE_COMMIT;
         std::string        name             = "2PC-mock";  ///< Owned string — no lifetime hazard.
-        CoordinatorCapabilities caps{
+        CoordinatorCapabilities caps = CoordinatorCapabilities{
             /* supports_prepare_phase  */ true,
             /* supports_pre_commit     */ false,
             /* supports_compensation   */ false,
@@ -91,7 +91,8 @@ public:
         bool prepare_returns_abort = false; ///< Simulate a participant ABORT vote.
     };
 
-    explicit StatefulMockCoordinator(Config cfg = {}) : cfg_(std::move(cfg)) {}
+    StatefulMockCoordinator() : cfg_{} {}
+    explicit StatefulMockCoordinator(Config cfg) : cfg_(std::move(cfg)) {}
 
     // ─── Protocol introspection ───────────────────────────────────────────
 

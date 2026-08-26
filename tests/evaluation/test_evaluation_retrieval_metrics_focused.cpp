@@ -18,6 +18,7 @@ using namespace themis::evaluation;
 
 static std::vector<RankedResult> make_ranked(std::initializer_list<const char*> ids) {
     std::vector<RankedResult> v;
+    v.reserve(ids.size());
     double score = static_cast<double>(ids.size());
     for (const char* id : ids) {
         v.push_back({id, score--});
@@ -26,7 +27,12 @@ static std::vector<RankedResult> make_ranked(std::initializer_list<const char*> 
 }
 
 static std::vector<std::string> make_gt(std::initializer_list<const char*> ids) {
-    return {ids};
+    std::vector<std::string> v;
+    v.reserve(ids.size());
+    for (const char* id : ids) {
+        v.emplace_back(id);
+    }
+    return v;
 }
 
 // ── Group RM — Retrieval Metrics ──────────────────────────────────────────────
@@ -134,7 +140,8 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM11_MetricCollector_AccumulatesSna
 
     EXPECT_EQ(col.snapshotCount(), 1u);
     auto metrics = col.summarizeTensorGraph(/*max_residual_error=*/0.10);
-    EXPECT_GE(metrics.artifact_freshness_rate, 0.0);
+    EXPECT_GE(metrics.mean_artifact_age_ms, 0.0);
+    EXPECT_GE(metrics.mean_residual_error, 0.0);
 }
 
 // RM12: MetricCollector reset() clears all state

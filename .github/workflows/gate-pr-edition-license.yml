@@ -22,7 +22,7 @@ on:
       - 'include/**'
       - 'src/**'
       - 'CMakeLists.txt'
-      - '.github/workflows/09-pr-gates_edition-license-validation.yml'
+      - '.github/workflows/gate-pr-edition-license.yml'
   push:
     branches: [develop]
     paths:
@@ -172,7 +172,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           gate-name: Edition & License Validation
-          workflow-file: 09-pr-gates_edition-license-validation.yml
+          workflow-file: gate-pr-edition-license.yml
           job-status: ${{ job.status }}
           checklist: |
             - ${{ steps.check-edition-matrix.outcome == 'success' && '✅' || '❌' }} Edition matrix consistency check

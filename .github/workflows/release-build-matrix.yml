@@ -18,7 +18,7 @@ permissions:
 jobs:
   community-release:
     if: inputs.build_matrix == 'all' || inputs.build_matrix == 'community-only'
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
       shell: bash
@@ -61,7 +61,7 @@ jobs:
 
   linux-release:
     if: inputs.build_matrix == 'all' || inputs.build_matrix == 'linux-release-only'
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
       shell: bash
@@ -149,7 +149,7 @@ jobs:
 
   windows-release:
     if: inputs.build_matrix == 'all' || inputs.build_matrix == 'windows-release-only'
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: windows-latest
       shell: bash

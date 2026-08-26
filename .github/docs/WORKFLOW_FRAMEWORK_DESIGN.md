@@ -54,17 +54,61 @@ Der Repository-Standard fuer Issue-/Status-Tracking ist jetzt die gemeinsame Com
 ### 2.5.1 Zielzustand
 - `upsert_issue`: vorhandene Tracker-Issue suchen, aktualisieren oder neu anlegen
 - `set_status`, `clear_status`, `replace_status_group`: Labels als Status-Signal verwalten
-- `comment_issue`: Issue-Kommentare mit Marker-basierter Idempotenz schreiben
+- `comment_issue`: Issue- oder PR-Kommentare mit Marker-basierter Idempotenz schreiben
 - `close_issue`: abgeschlossene Tracker-Issues sauber schließen
+- `target-type`: optionales Target-Flag, damit ein Kommentar explizit als `issue`, `pr` oder `auto` adressiert werden kann
 
 ### 2.5.2 Migrationsstatus der Workflow-Landschaft
 - Migrated: Build, LLM, supply-chain, CI health, maintenance issues, security pentest, governance gates
 - Aktiv und zentralisiert: [.github/workflows/reusable-status-flags-and-issues.yml](.github/workflows/reusable-status-flags-and-issues.yml)
-- Teilweise bewusst ausserhalb der Status-Schnittstelle: PR-review, milestone assignment, semantic labeling, release flow and label sync remain workflow-specific because they are not issue lifecycle state tracking.
+- Milestone-Governance ist zentralisiert ueber [.github/workflows/maintenance-milestones.yml](.github/workflows/maintenance-milestones.yml) + [.github/milestones.yml](.github/milestones.yml).
+- Teilweise bewusst ausserhalb der Status-Schnittstelle bleiben PR-review, semantisches AI-Labeling, Release-Flow und Label-Sync, da sie keine trackerbasierte Status-API-Semantik abbilden.
 
 ### 2.5.3 Standardregel
 Alle GitHub-Issue-/Label-Aktionen, die einen Tracker-State modellieren, muessen via der shared interface laufen.
-Workflow-spezifische Automationen, die keine Tracker-Status semantisch abbilden (z. B. Review-Request, Milestones, AI-Semantic-Labeling), duerfen weiterhin direkt im Workflow bleiben.
+Workflow-spezifische Automationen, die keine Tracker-Status semantisch abbilden (z. B. Review-Request oder AI-Semantic-Labeling), duerfen weiterhin direkt im Workflow bleiben.
+Milestones sind kein ad-hoc Sonderfall mehr, sondern folgen der kanonischen Automation ueber `maintenance-milestones.yml`.
+
+### 2.5.4 Fehler-Kommentar-Model
+Die gemeinsame Schnittstelle ist auch fuer Fehlerberichte in PRs und Issues vorgesehen. Ein Job darf ein Fehler-Update nur dann direkt per `github.rest.issues.createComment` schreiben, wenn es nicht als trackerbasierte Status- oder Governance-Aktion modelliert ist. Der Standardpfad fuer CI-/Security-/Build-Fehler ist:
+- `issue` oder `pr` als explizites Ziel
+- eindeutiger `issue-marker`, damit Kommentare upserted werden
+- Body mit Workflow, Run-Link, Job, SHA und kurzer Fehlerbeschreibung
+- `comment_issue` statt ad-hoc Kommentaranweisungen im Job
+
+### 2.5.5 Winget-inspirierte Adaption: Recommend-only Issue Triage
+ThemisDB adaptiert aus `microsoft/winget-cli` das Muster einer **recommend-only** Issue-Triage statt einer automatischen Issue-Schliessung.
+
+Ziel:
+- offene Issues mit bereits gemergten PRs oder hinreichender Evidenz identifizieren
+- eine kurze, idempotente Empfehlungskommentierung erzeugen
+- keine automatische Schliessung, kein Label-Override, keine Branch-Mutation
+
+SOC-Grenzen:
+- Erkennung, Bewertung und Kommentar-Emission bleiben getrennte Schritte
+- die Triage-Logik entscheidet nur ueber Kandidaten, nicht ueber Mutationen
+- Schreiboperationen gehen ausschliesslich ueber marker-basierte Kommentare
+
+Technische Zielintegration:
+- als dedizierter Maintenance-Workflow mit eigenem Namen und enger Trigger-Grenze
+- getrennt von GS3-/Security-Triage, damit Laufzeit und Berechtigungen isoliert bleiben
+- nur offene Kandidaten mit recent/merged evidence, keine breite Repo-Suche
+- verwendet marker-basierte Idempotenz und bleibt comment-only; kein `close_issue`, kein Label-Override, kein Branch-Mutation
+
+Ausnahme-Definition:
+- Diese Triage-Lane nutzt anstelle des generischen Status-Interfaces ein eigenes `github-script`-Fragment, weil sie per GraphQL dynamische Evidence aus Issue-Timelines und gemergten PRs zusammensetzt.
+- Die Ausnahme gilt nur fuer recommendation-only comment generation; alle echten Tracker-State-Aktionen (Schliessen, Labeln, Statuswechsel) bleiben weiterhin im Standardpfad `.github/actions/status-flags-and-issues`.
+
+Validierungsanforderungen:
+- `actionlint` fuer Workflow-Syntax
+- `act` Dry-Run fuer `schedule` und `workflow_dispatch`
+- gezielter Kandidaten-/Kommentar-Idempotenztest mit Marker-Pruefung
+
+Qualitaetsziele:
+- minimale Berechtigungen
+- keine stillen Auto-Closures
+- kommentierte Empfehlungen muessen reproduzierbar und spamfrei sein
+- Ausfuehrung auf kleine Kandidatenmengen begrenzen (z. B. recent/open only)
 
 ## 3. Zielbild Architektur
 
@@ -252,7 +296,7 @@ Mindestanforderungen fuer `workflow_call` Workflows:
 Empfohlene Sub-Workflows (kanonisch):
 - `reusable-cmake-build.yml`
 - `reusable-release-matrix.yml`
-- `reusable-docker-image.yml`
+- `reusable-release-docker-image.yml`
 - `reusable-release-changelog.yml`
 
 ## 6.1 Einheitliche Status-Schnittstelle fuer alle Workflows (verbindlich)
@@ -343,9 +387,9 @@ Akzeptanzkriterien:
 
 Workflows mit direkter Label/Issue-REST-Logik (Ist-Stand, zu migrieren):
 - `automation-community.yml`
-- `ci-llm-inference.yml`
+- `build-llm-inference.yml`
 - `compliance-supply-chain.yml`
-- `governance-gates.yml`
+- `compliance-governance-gates.yml`
 - `maintenance-build-issues.yml`
 - `maintenance-issues.yml`
 - `maintenance-labels.yml`
@@ -353,7 +397,7 @@ Workflows mit direkter Label/Issue-REST-Logik (Ist-Stand, zu migrieren):
 - `security-pentest-quarterly.yml`
 
 Bereits migriert auf zentrale Schnittstelle:
-- `ci-build.yml`
+- `build-mainline.yml`
 - `maintenance-ci-health.yml`
 
 Priorisierte Reihenfolge:
@@ -366,8 +410,8 @@ Priorisierte Reihenfolge:
 
 Diese Liste ist ein Entwurf fuer die erste Welle der Umbenennung (UI-Name, optional Dateiname):
 
-- `CI — Build` -> `Build: Mainline [develop]`
-- `CI — PR Gates` -> `Gate: PR Core`
+- `Build: Mainline` ist bereits die kanonische aktive Bezeichnung.
+- `Gate: PR Core` ist bereits die kanonische aktive Bezeichnung.
 - `CI — Benchmarks` -> `Build: Benchmarks [scheduled]`
 - `CI — Release` -> `Release: Mainline`
 - `CI - Release Build Matrix` -> `Reusable: Release Matrix`

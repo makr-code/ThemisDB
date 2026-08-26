@@ -129,7 +129,7 @@ jobs:
           path: |
             artifacts/license-compliance/license-summary.md
             artifacts/license-compliance/vcpkg-license-sbom.json
-          retention-days: 90
+          retention-days: 30
 
   # ── Attach license artifacts to GitHub Release ──────────────────────────────
   license-release-assets:
@@ -393,7 +393,7 @@ jobs:
         with:
           name: dependency-freshness-${{ github.run_id }}
           path: dependency-freshness.sarif
-          retention-days: 90
+          retention-days: 30
 
       - name: Open or update staleness issue
         if: ${{ steps.stale_check.outputs.stale == 'true' }}

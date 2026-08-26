@@ -16,5 +16,5 @@
     "login": "act-local",
     "id": 1
   },
-  "workflow": ".github/workflows/ci-build.yml"
+  "workflow": ".github/workflows/build-mainline.yml"
 }

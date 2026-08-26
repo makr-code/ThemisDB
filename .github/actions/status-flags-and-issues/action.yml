@@ -33,6 +33,10 @@ inputs:
     description: 'Unique marker to find existing tracker issue in body'
     required: false
     default: ''
+  target-type:
+    description: 'Target kind for comment_issue: issue|pr|auto'
+    required: false
+    default: 'auto'
   labels-to-add:
     description: 'Comma-separated labels to add'
     required: false
@@ -92,6 +96,7 @@ runs:
         INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
         INPUT_ISSUE_BODY: ${{ inputs.issue-body }}
         INPUT_ISSUE_MARKER: ${{ inputs.issue-marker }}
+        INPUT_TARGET_TYPE: ${{ inputs.target-type }}
         INPUT_LABELS_TO_ADD: ${{ inputs.labels-to-add }}
         INPUT_LABELS_TO_REMOVE: ${{ inputs.labels-to-remove }}
         INPUT_STATUS_GROUP: ${{ inputs.status-group }}
@@ -111,6 +116,7 @@ runs:
           const issueTitle = process.env.INPUT_ISSUE_TITLE || '';
           const issueBody = process.env.INPUT_ISSUE_BODY || '';
           const issueMarker = process.env.INPUT_ISSUE_MARKER || '';
+          const targetType = (process.env.INPUT_TARGET_TYPE || 'auto').trim().toLowerCase();
           const sourceWorkflow = process.env.INPUT_SOURCE_WORKFLOW || context.workflow;
           const sourceRunId = process.env.INPUT_SOURCE_RUN_ID || String(context.runId || '');
           const sourceSha = process.env.INPUT_SOURCE_SHA || (context.sha || '');
@@ -296,6 +302,43 @@ runs:
           out.issue_number = String(issueNumber);
           const current = (issue.labels || []).map((l) => l.name);
 
+          if (op === 'comment_issue') {
+            const explicitTarget = ['issue', 'pr', 'auto'].includes(targetType) ? targetType : 'auto';
+            const resolvedTarget = explicitTarget === 'auto'
+              ? (issueNumberRaw && issueNumberRaw === String(issue.number) ? 'issue' : 'issue')
+              : explicitTarget;
+            const baseBody = issueBody || `Status update from ${sourceWorkflow} run ${sourceRunId}`;
+            const body = issueMarker ? `${issueMarker}\n${baseBody}` : baseBody;
+            const existingComments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: issueNumber,
+              per_page: 100,
+            });
+            const existing = issueMarker
+              ? existingComments.find((c) => (c.body || '').includes(issueMarker))
+              : null;
+
+            const annotatedBody = `Target: ${resolvedTarget}\n\n${body}\n\n---\nsource_workflow: ${sourceWorkflow}\nsource_run: ${sourceRunId}\nsource_sha: ${sourceSha ? sourceSha.slice(0, 7) : ''}`;
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body: annotatedBody,
+              });
+              out.action_result = 'commented';
+              setOutputs();
+              return;
+            }
+
+            await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body: annotatedBody });
+            out.action_result = 'commented';
+            setOutputs();
+            return;
+          }
+
           if (op === 'set_status') {
             for (const label of ensureArrayUnique([...labelsToAdd, ...statusGroup])) {
               await ensureLabel(label);
@@ -331,37 +374,6 @@ runs:
             out.action_result = 'labels-updated';
             out.applied_labels = labelsToAdd.join(',');
             out.removed_labels = [...removedSet].join(',');
-            setOutputs();
-            return;
-          }
-
-          if (op === 'comment_issue') {
-            const baseBody = issueBody || `Status update from ${sourceWorkflow} run ${sourceRunId}`;
-            const body = issueMarker ? `${issueMarker}\n${baseBody}` : baseBody;
-            const existingComments = await github.paginate(github.rest.issues.listComments, {
-              owner,
-              repo,
-              issue_number: issueNumber,
-              per_page: 100,
-            });
-            const existing = issueMarker
-              ? existingComments.find((c) => (c.body || '').includes(issueMarker))
-              : null;
-
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner,
-                repo,
-                comment_id: existing.id,
-                body,
-              });
-              out.action_result = 'commented';
-              setOutputs();
-              return;
-            }
-
-            await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body });
-            out.action_result = 'commented';
             setOutputs();
             return;
           }

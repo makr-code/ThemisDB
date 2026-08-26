@@ -170,7 +170,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 
 // ─── AFL++ persistent mode wrapper ───────────────────────────────────────────
 #ifdef __AFL_FUZZ_TESTCASE_LEN
-extern unsigned char* __AFL_FUZZ_TESTCASE_BUF;
 
 int main() {
     __AFL_INIT();

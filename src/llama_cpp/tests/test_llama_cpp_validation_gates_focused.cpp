@@ -24,9 +24,13 @@ using json = nlohmann::json;
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-static LlamaCppPlugin make_loaded() {
-    LlamaCppPlugin p;
-    p.loadModel("/stub/model.gguf", {});
+static LlamaCppPlugin& make_loaded() {
+    static LlamaCppPlugin p;
+    static bool initialized = false;
+    if (!initialized) {
+        p.loadModel("/stub/model.gguf", {});
+        initialized = true;
+    }
     return p;
 }
 
@@ -68,7 +72,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG3_ContextLength_AtMaxBoundary) {
 
 // VG4: max_tokens == 0 should result in a failed or empty generation
 TEST(LlamaCppValidationGatesFocusedTests, VG4_MaxTokensZero_IsRejected) {
-    auto p = make_loaded();
+    LlamaCppPlugin& p = make_loaded();
     InferenceRequest req;
     req.prompt     = "hello";
     req.max_tokens = 0;
@@ -81,7 +85,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG4_MaxTokensZero_IsRejected) {
 
 // VG5: negative max_tokens is handled gracefully
 TEST(LlamaCppValidationGatesFocusedTests, VG5_MaxTokensNegative_IsRejected) {
-    auto p = make_loaded();
+    LlamaCppPlugin& p = make_loaded();
     InferenceRequest req;
     req.prompt     = "test";
     req.max_tokens = -1;
@@ -92,7 +96,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG5_MaxTokensNegative_IsRejected) {
 
 // VG6: very large max_tokens (exceeding 50% of context) is capped but not fatal
 TEST(LlamaCppValidationGatesFocusedTests, VG6_MaxTokensExceedsHalfContext_NotFatal) {
-    auto p = make_loaded();
+    LlamaCppPlugin& p = make_loaded();
     InferenceRequest req;
     req.prompt     = "query";
     req.max_tokens = 100000;  // likely > 50% of the 4096 default context
@@ -103,7 +107,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG6_MaxTokensExceedsHalfContext_NotFat
 
 // VG7: temperature out of [0.0, 2.0] is clamped, not fatal
 TEST(LlamaCppValidationGatesFocusedTests, VG7_TemperatureOutOfRange_NotFatal) {
-    auto p = make_loaded();
+    LlamaCppPlugin& p = make_loaded();
     InferenceRequest req;
     req.prompt      = "test";
     req.temperature = 5.0f;  // out of [0.0, 2.0]
@@ -114,7 +118,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG7_TemperatureOutOfRange_NotFatal) {
 
 // VG8: top_p out of [0.0, 1.0] is clamped, not fatal
 TEST(LlamaCppValidationGatesFocusedTests, VG8_TopPOutOfRange_NotFatal) {
-    auto p = make_loaded();
+    LlamaCppPlugin& p = make_loaded();
     InferenceRequest req;
     req.prompt = "test";
     req.top_p  = 1.5f;  // out of [0.0, 1.0]
@@ -125,7 +129,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG8_TopPOutOfRange_NotFatal) {
 
 // VG9: empty prompt results in a failed generation (not a crash)
 TEST(LlamaCppValidationGatesFocusedTests, VG9_EmptyPrompt_ReturnsError) {
-    auto p = make_loaded();
+    LlamaCppPlugin& p = make_loaded();
     InferenceRequest req;
     req.prompt     = "";
     req.max_tokens = 32;

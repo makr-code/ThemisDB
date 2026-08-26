@@ -21,7 +21,7 @@ on:
       - 'plugins/**'
       - 'src/plugins/**'
       - '.gitmodules'
-      - '.github/workflows/09-pr-gates_private-plugin-boundary-enforcement.yml'
+      - '.github/workflows/gate-pr-plugin-boundary.yml'
   push:
     branches: [develop]
     paths:
@@ -167,7 +167,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           gate-name: Private Plugin Boundary Enforcement
-          workflow-file: 09-pr-gates_private-plugin-boundary-enforcement.yml
+          workflow-file: gate-pr-plugin-boundary.yml
           job-status: ${{ job.status }}
           checklist: |
             - ${{ steps.check-leakage.outcome == 'success' && '✅' || '❌' }} Private plugin leakage detection

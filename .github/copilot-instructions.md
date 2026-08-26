@@ -13,6 +13,47 @@ Pflichtregeln:
 3. Änderungen, die Architektur, Betrieb, Prozesse oder Governance betreffen, müssen die zugehörigen Wiki-Inhalte synchron halten.
 4. Fehlende Wiki-Inhalte sind als Lücke zu melden und in den Arbeitsartefakten/PR-Hinweisen zu markieren statt stillschweigend zu ignorieren.
 
+## 0.1) Developer LLM Wiki fuer GitHub Copilot auf GitHub (MUST)
+
+Wenn GitHub Copilot als Coding Agent auf GitHub implementiert, reviewt oder refactort, muss es das Developer LLM Wiki aktiv als Vibe-Coding-Kontext nutzen.
+
+Pflichtablauf:
+
+1. Zuerst `AI_WIKI_INTEGRATION_PLAYBOOK.md` lesen.
+2. Vor Codeaenderungen die relevanten Developer-Wiki-Artefakte aus `ai_context/developer_llm_wiki/` konsultieren:
+   - `INDEX.md`
+   - `MODULES_AND_APIS.md`
+   - `BUILD_TEST_CI_AND_OPERATIONS.md`
+   - `GOVERNANCE_AND_ROADMAP.md`
+3. `ai_context/developer_llm_wiki/WIKI_STATUS.json` als Frische-/Health-Signal pruefen (`generated_at`, `source_count`, Delta-Status).
+4. Wiki-Kontext nach Task-Typ priorisieren:
+   - API-/Modularbeit → `MODULES_AND_APIS.md`
+   - Build/CI/Test → `BUILD_TEST_CI_AND_OPERATIONS.md`
+   - Governance/Roadmap/Release → `GOVERNANCE_AND_ROADMAP.md`
+   - C/C++-Implementierung → `MODULES_AND_APIS.md` plus `memory_management_policy.md`, `OOP_AND_SOC_PRINCIPLES.md`, `FUNCTION_CLASSIFICATION.md`
+   - allgemeiner Einstieg/Link-Hub → `INDEX.md`
+5. Bei Konflikten gilt: Root-SOT und Modulquellen vor kompilierter Wiki-Synthese.
+6. Wenn Wiki-Artefakte fehlen, stale wirken oder der Aufgabe widersprechen, diese Luecke explizit nennen statt das Wiki still zu ignorieren.
+
+Task-spezifische Mindestregeln:
+
+- API-/Modularbeit: zuerst `ai_context/developer_llm_wiki/MODULES_AND_APIS.md`, danach relevante `ai_context/api_contracts/*.md` und modulnahe `src/<module>/*.md`.
+- Build/CI/Test: zuerst `ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md`; bei Fehlern zusaetzlich immer konkrete GitHub-Actions-Logs und betroffene Workflow-Dateien pruefen.
+- Governance/Roadmap/Release: zuerst `ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md`, danach Root-SOT-Dateien (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md`).
+- C/C++-Arbeit: zuerst `ai_context/developer_llm_wiki/MODULES_AND_APIS.md`, danach `ai_context/memory_management_policy.md`, `ai_context/OOP_AND_SOC_PRINCIPLES.md`, `ai_context/FUNCTION_CLASSIFICATION.md` sowie die einschlaegigen `.github/instructions/*cpp*` Regeln.
+  - Public API / Header-Vertraege: zusaetzlich zuerst relevante `ai_context/api_contracts/*.md` und Doxygen-/Thread-Safety-/Ownership-Pflichten pruefen.
+  - Internal Core / Implementierungslogik: Ownership, RAII, `detail::`-Grenzen und unbeabsichtigte API-Flaechenerweiterungen gegen `memory_management_policy.md` und `OOP_AND_SOC_PRINCIPLES.md` pruefen.
+  - Concurrency / Performance: Locking, Atomics, Hot-Path-Klassifikation, Timeout/Cancellation und Benchmark-Bezug gegen `FUNCTION_CLASSIFICATION.md` und C++-Best-Practice-Regeln pruefen.
+  - Plugin-Boundaries / Extensibility: Adapter-/Interface-Grenzen sowie Public-vs-Private-Grenzen gegen `OOP_AND_SOC_PRINCIPLES.md` und `GOVERNANCE_AND_ROADMAP.md` pruefen.
+  - Einordnungshilfe:
+    - `include/**` oder externe Vertragsaenderung → Public API
+    - `src/**`, interne Header oder `detail::` → Internal Core
+    - Locking/Atomics/Latenz/Benchmarks/Timeouts → Concurrency / Performance
+    - Plugin-Interfaces/Adapter/Edition-Grenzen → Plugin-Boundaries / Extensibility
+  - Wenn mehrere C++-Subtypen zugleich betroffen sind, gelten alle relevanten Wiki-/Governance-Pflichten kumulativ.
+
+Details und Dateizwecke: [AI_WIKI_CONTEXT.md](copilot/AI_WIKI_CONTEXT.md)
+
 ## 1) Ziel
 
 Roadmap-Einträge müssen so konkret sein, dass Copilot **produktiven Sourcecode** statt Stub/Rumpf erzeugen kann.

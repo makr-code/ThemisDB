@@ -1,0 +1,289 @@
+name: "Maintenance: Issue Closure Recommendations"
+
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Recommend-only triage workflow inspired by winget's closure recommendation lane.
+# It comments on issues that likely deserve human closure review, but never closes them.
+# SOC boundary: detection and recommendation are separate from any mutation that changes issue state.
+
+on:
+  schedule:
+    - cron: '0 7 * * 1'  # Weekly Monday 07:00 UTC
+  workflow_dispatch:
+    inputs:
+      lookback_days:
+        description: 'Days to look back for recent issue activity (default: 21)'
+        required: false
+        default: '21'
+        type: string
+      target_issue:
+        description: 'Optional issue number for a focused manual run'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: ci-maintenance-issue-recommendations-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  recommend-issue-closures:
+    name: 🧭 Recommend Issue Closures
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+
+    steps:
+      - name: Generate recommend-only issue comments
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        env:
+          LOOKBACK_DAYS: ${{ inputs.lookback_days || '21' }}
+          TARGET_ISSUE: ${{ inputs.target_issue || '' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const markerPrefix = '<!-- maintenance-issue-recommendation';
+
+            const severityOrder = { critical: 3, high: 2, medium: 1, low: 0 };
+            const rawLookback = Number.parseInt(String(process.env.LOOKBACK_DAYS || '21'), 10);
+            const lookbackDays = Number.isFinite(rawLookback) && rawLookback > 0 ? Math.min(rawLookback, 90) : 21;
+            const cutoff = new Date(Date.now() - lookbackDays * 24 * 60 * 60 * 1000);
+
+            const rawTargetIssue = String(process.env.TARGET_ISSUE || '').trim();
+            const targeted = rawTargetIssue.length > 0;
+            const targetIssueNumber = targeted ? Number.parseInt(rawTargetIssue, 10) : null;
+
+            const targetQuery = `
+              query($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $number) {
+                    id
+                    number
+                    title
+                    url
+                    state
+                    updatedAt
+                    labels(first: 20) { nodes { name } }
+                    timelineItems(last: 50, itemTypes: [CROSS_REFERENCED_EVENT]) {
+                      nodes {
+                        ... on CrossReferencedEvent {
+                          createdAt
+                          source {
+                            __typename
+                            ... on PullRequest {
+                              number
+                              title
+                              url
+                              merged
+                              mergedAt
+                              repository { nameWithOwner }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const scanQuery = `
+              query($owner: String!, $repo: String!, $cursor: String) {
+                repository(owner: $owner, name: $repo) {
+                  issues(first: 50, after: $cursor, states: [OPEN], orderBy: { field: UPDATED_AT, direction: DESC }) {
+                    nodes {
+                      id
+                      number
+                      title
+                      url
+                      updatedAt
+                      labels(first: 20) { nodes { name } }
+                      timelineItems(last: 50, itemTypes: [CROSS_REFERENCED_EVENT]) {
+                        nodes {
+                          ... on CrossReferencedEvent {
+                            createdAt
+                            source {
+                              __typename
+                              ... on PullRequest {
+                                number
+                                title
+                                url
+                                merged
+                                mergedAt
+                                repository { nameWithOwner }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    pageInfo {
+                      hasNextPage
+                      endCursor
+                    }
+                  }
+                }
+              }
+            `;
+
+            const commentBodyFor = (issue, mergedPullRequests) => {
+              const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
+              const lines = [
+                `<!-- maintenance-issue-recommendation:issue:${issue.number} -->`,
+                '## Recommend-only issue triage',
+                '',
+                `Issue: #${issue.number} - ${issue.title}`,
+                `Run: ${runUrl}`,
+                `Lookback window: ${lookbackDays} day(s)`,
+                '',
+                'Merged PR evidence:',
+              ];
+
+              if (mergedPullRequests.length === 0) {
+                lines.push('- No merged PR cross references found in the current lookback window.');
+              } else {
+                for (const pr of mergedPullRequests.slice(0, 5)) {
+                  lines.push(`- #${pr.number} ${pr.title} (${pr.url})`);
+                }
+              }
+
+              lines.push(
+                '',
+                'Recommendation:',
+                '- Human maintainer should verify whether the merged PRs fully resolved this issue.',
+                '- If unresolved, keep the issue open and add follow-up evidence instead of closing automatically.',
+                '- If resolved, a maintainer can close it manually after review.',
+                '',
+                '_This workflow never closes issues or removes labels._'
+              );
+
+              return lines.join('\n');
+            };
+
+            const findExistingComment = async (issueNumber) => {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner,
+                repo,
+                issue_number: issueNumber,
+                per_page: 100,
+              });
+
+              return comments.find((comment) => String(comment.body || '').includes(markerPrefix));
+            };
+
+            const extractMergedPRs = (issue) => {
+              const prs = [];
+              for (const event of issue.timelineItems?.nodes || []) {
+                const pr = event?.source;
+                if (
+                  pr?.__typename !== 'PullRequest' ||
+                  pr.repository?.nameWithOwner !== `${owner}/${repo}` ||
+                  pr.merged !== true ||
+                  !pr.mergedAt
+                ) {
+                  continue;
+                }
+
+                if (new Date(pr.mergedAt).getTime() < cutoff.getTime()) {
+                  continue;
+                }
+
+                prs.push({
+                  number: pr.number,
+                  title: pr.title,
+                  url: pr.url,
+                  mergedAt: pr.mergedAt,
+                });
+              }
+
+              const unique = new Map();
+              for (const pr of prs) {
+                unique.set(pr.number, pr);
+              }
+
+              return [...unique.values()].sort((left, right) => new Date(right.mergedAt) - new Date(left.mergedAt));
+            };
+
+            const issueNumbers = [];
+            if (targeted) {
+              if (!Number.isFinite(targetIssueNumber) || targetIssueNumber <= 0) {
+                core.setFailed(`Invalid target_issue value: ${rawTargetIssue}`);
+                return;
+              }
+              issueNumbers.push(targetIssueNumber);
+            } else {
+              let cursor = null;
+              do {
+                const result = await github.graphql(scanQuery, { owner, repo, cursor });
+                const connection = result.repository.issues;
+                for (const issue of connection.nodes || []) {
+                  if (new Date(issue.updatedAt).getTime() >= cutoff.getTime()) {
+                    issueNumbers.push(issue.number);
+                  }
+                }
+                cursor = connection.pageInfo.hasNextPage ? connection.pageInfo.endCursor : null;
+              } while (cursor);
+            }
+
+            const seen = new Set();
+            const candidateNumbers = issueNumbers.filter((n) => {
+              if (seen.has(n)) return false;
+              seen.add(n);
+              return true;
+            });
+
+            let commented = 0;
+            let skipped = 0;
+
+            for (const issueNumber of candidateNumbers) {
+              const result = await github.graphql(targetQuery, { owner, repo, number: issueNumber });
+              const issue = result.repository.issue;
+              if (!issue || issue.state !== 'OPEN') {
+                continue;
+              }
+
+              const mergedPullRequests = extractMergedPRs(issue);
+              if (mergedPullRequests.length === 0) {
+                skipped += 1;
+                continue;
+              }
+
+              const body = commentBodyFor(issue, mergedPullRequests);
+              const existing = await findExistingComment(issue.number);
+
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existing.id,
+                  body,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  body,
+                });
+              }
+
+              commented += 1;
+            }
+
+            core.summary
+              .addHeading('Recommend-only issue triage')
+              .addRaw(`Lookback days: ${lookbackDays}\n`)
+              .addRaw(`Candidates scanned: ${candidateNumbers.length}\n`)
+              .addRaw(`Comments written: ${commented}\n`)
+              .addRaw(`Skipped without evidence: ${skipped}\n`)
+              .write();

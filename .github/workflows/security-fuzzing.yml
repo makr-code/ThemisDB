@@ -31,7 +31,7 @@ permissions:
 
 jobs:
   fuzz:
-    uses: ./.github/workflows/cmake-build-pipeline.yml
+    uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
       shell: bash

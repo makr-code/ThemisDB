@@ -52,7 +52,7 @@ This playbook defines how to use the workspace prompts, agents, and instructions
 
 5. Exception compliance check
 - If any High finding is accepted, run `Verify High Exception Record` against PR text before merge.
-- CI guard: `.github/workflows/09-pr-gates_high-exception-record.yml` validates record completeness for the governance scope.
+- CI guard: `.github/workflows/gate-pr-core.yml` validates record completeness for the governance scope.
 
 ## Usage Notes
 

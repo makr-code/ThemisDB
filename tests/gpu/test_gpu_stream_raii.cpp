@@ -83,8 +83,8 @@ TEST(StreamRaii, STREAM_RAII_05_NullAdoptedGuardDestructsCleanly) {
 // ---------------------------------------------------------------------------
 
 namespace {
-static themis::gpu::StreamConfig makeCfg(const std::string& name) {
-    themis::gpu::StreamConfig cfg;
+static themis::gpu::GPUStreamManager::StreamConfig makeCfg(const std::string& name) {
+    themis::gpu::GPUStreamManager::StreamConfig cfg;
     cfg.name = name;
     return cfg;
 }
