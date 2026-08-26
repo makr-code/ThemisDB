@@ -431,3 +431,32 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [x] W3-SEC-05: hardcoded_path fixed
 - [x] Regression tests added (W3_01..W3_15)
 - [x] ROADMAP and MODULE_GAPS updated
+
+---
+
+## Wave 9 Block 5 — LLM CRITICAL Closure + Speculative Decode Wiring (2026-08-26)
+
+### Summary
+- CRITICAL residual after W9-16: 135 (20 `braces_imbalance` scanner FPs closed)
+- Speculative decode bridges: `TokenizerFn` wired; `TargetLogitsFn` note updated
+- Tests: `tests/llm/test_wave9_speculative_decode_bridges.cpp` (SD-BRG-01..07)
+
+### W9-16: Batch-close `braces_imbalance` false positives
+- [x] Verified all 20 `braces_imbalance` CRITICAL entries using a C++ state-machine
+      parser that skips raw string literals — all 20 confirmed structurally balanced
+- [x] `grafana_metrics.cpp` raw count −3 explained by R"()" JSON payloads
+- [x] MODULE_GAPS.md updated with verification table (155 → 135 residual)
+
+### W9-17: Speculative decode bridges
+- [x] `TokenizerFn` type + `setTokenizerFn()` / `clearTokenizerFn()` added to
+      `InferenceEngineEnhanced` public API (`include/llm/inference_engine_enhanced.h`)
+- [x] `setTokenizerFn` / `clearTokenizerFn` implemented in
+      `src/llm/inference_engine_enhanced.cpp` (mutex-guarded, same pattern as
+      `TargetLogitsFn`)
+- [x] Remote draft path in `trySpeculativeGeneration()` updated to call
+      `TokenizerFn` before byte-modulo fallback; fail-closed on exception
+- [x] STUB #263 note updated: "Removal Plan" → "Production Injection Point"
+- [x] STUB #262 note updated: "Removal Plan" → "Production Injection Point"
+      (TargetLogitsFn was already fully wired; note corrected)
+- [x] Tests SD-BRG-01..SD-BRG-07 added
+- [x] STUB_INVENTORY.md entries 322/323 marked resolved
