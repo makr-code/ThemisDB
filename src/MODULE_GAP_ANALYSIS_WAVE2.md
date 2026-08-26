@@ -234,7 +234,7 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 - [x] `storage`: Wire STUB #264 RecompressFn bridge (ST2) — 4-field STUB/SIMULATION NOTE added (Target: Q4 2026)
 - [x] `transaction`: Wave 4C T1–T4 — transport injection docs, deadlock-safe upgrade, GTM phase-2 lock release, predicate-lock metrics (Target: Q4 2026)
 - [x] `query`: Implement `process_mining_functions` (Q1) + 3 ethics functions (Q2) — replace throw-not-implemented (Target: Q4 2026)
-- [?] `analytics`: Wire federated query coordinator (AN1) + forecasting model integrity check (AN2) — deferred Q4 2026 (no production code available yet) (Target: Q4 2026)
+- [x] `analytics`: Wire federated query coordinator (AN1) + forecasting model integrity check (AN2) — completed 2026-08-26 (shard retry + CRC-32 integrity check) (Target: Q4 2026)
 - [x] `training`: `multi_task_lora.cpp` task-selection stubs (TR2) — 4-field STUB/SIMULATION NOTEs added for MTL-S01/S02 (TR1 GPU race deferred to BLAS upgrade Q1 2027) (Target: Q4 2026)
 
 ---
@@ -275,7 +275,7 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 - [x] Storage STUB #263a/b/c + #264: production ggml wiring oder dokumentierte Deferred-Entscheidung
 - [x] Transaction Wave4C T1–T4 Testnachweise in `test_wave4c_transaction_hardening.cpp`
 - [x] Query process_mining + ethics functions: throw-not-implemented ersetzt durch echte Implementierung
-- [?] Analytics federated coordinator + forecasting integrity: deferred Q4 2026
+- [x] Analytics federated coordinator + forecasting integrity: completed 2026-08-26
 - [x] Training multi-task stubs (MTL-S01/S02): governance docs added; BLAS upgrade deferred Q1 2027
 - [x] MODULE_GAP_ANALYSIS_WAVE2.md und betroffene MODULE_GAPS.md nach jedem Block aktualisiert
 
@@ -614,7 +614,7 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 - [x] `storage`: STUB #263a/b/c + #264 ggml production wiring (Target: Q4 2026)
 - [x] `transaction`: Wave 4C T1–T4 (Target: Q4 2026)
 - [x] `query`: process_mining_functions + ethics_functions implementieren (Target: Q4 2026)
-- [?] `analytics`: Federated coordinator + forecasting integrity — deferred Q4 2026 (Target: Q4 2026)
+- [x] `analytics`: Federated coordinator + forecasting integrity — completed 2026-08-26 (Target: Q4 2026)
 - [x] `training`: Multi-task LoRA stubs (MTL-S01/S02) — 4-field governance docs added (Target: Q4 2026)
 
 ---
@@ -691,7 +691,7 @@ Planned by subagent dispatch 2026-08-26. Targets Wave A exit criteria + Wave B d
 | ID | Module | Item | Wave | Status |
 |---|---|---|---|---|
 | N1 | voice | Wake-word/intent/command fallback alignment (V1), partial backend failure matrix (V2), noisy wake-word adversarial expansion (V3) | Wave A | `[x]` complete 2026-08-26 |
-| N2 | analytics | Federated coordinator shard retry AN1 + forecasting integrity AN2 | Wave A/B | `[~]` in progress |
+| N2 | analytics | Federated coordinator shard retry AN1 + forecasting integrity AN2 | Wave A/B | `[x]` complete 2026-08-26 (8 tests, CRC-32 integrity, retry backoff) |
 | N3 | llm | Thread-safety top-20 (L7 class): `std::atomic`/mutex at top shared-state sites | Wave B | `[x]` complete 2026-08-26 (14 sites fixed, deadlock fix in healthMonitorLoop) |
 | N4 | llm_wiki | RocksDB backend replacing in-memory mock (Wave B partial) | Wave B | `[x]` complete 2026-08-26 (11 tests) |
 
@@ -705,3 +705,18 @@ Planned by subagent dispatch 2026-08-26. Targets Wave A exit criteria + Wave B d
 - N2: 8+ tests covering shard retry, backoff, forecasting integrity check
 - N3: 10-20 mutex/atomic sites; thread-safety stress tests
 - N4: RocksDB put/get/scan/close; persistence round-trip test
+
+### Next Wave Closure Summary (2026-08-26)
+
+All 4 items complete:
+
+| ID | Module | Delivered | Tests |
+|---|---|---|---|
+| N1 | voice | V1 wake-word/intent/command fallback alignment; V2 partial backend failure matrix; V3 noisy wake-word adversarial expansion | `test_voice_wave_a_noisy_wakeword.cpp` (8) |
+| N2 | analytics | AN1 per-shard retry (exponential backoff + jitter, permanent-error skip); AN2 CRC-32 forecasting model integrity check | `test_wave_next_analytics_hardening.cpp` (8) |
+| N3 | llm | 14 thread-safety sites fixed: `models_mutex_` declaration, `active_requests` atomic, `healthMonitorLoop` deadlock fix, `metrics_lock_`, `plugin_operation_count_` atomic | `test_wave_next_llm_threadsafety.cpp` (4) |
+| N4 | llm_wiki | `RocksDbWikiStore` RocksDB backend; `llm_wiki_status.h` extracted; in-memory fallback retained for test environments; 11/11 persistence tests | `test_wave_next_llm_wiki_rocksdb.cpp` (11) |
+
+**Total new tests this wave**: 31  
+**Critical bugs fixed**: 1 deadlock in `LlmModelManager::healthMonitorLoop()` (models_mutex_ re-acquisition)  
+**Open `[ ]` checkboxes**: 0 — all items either `[x]` complete or `[?]` hardware-gated (Q4 2026/Q1 2027)
