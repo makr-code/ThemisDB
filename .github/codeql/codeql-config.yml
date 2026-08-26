@@ -1,0 +1,44 @@
+# CodeQL Advanced Configuration for ThemisDB
+#
+# Reduces database build time and size by excluding vendored/third-party paths
+# and generated artefacts. Only production source under src/, include/,
+# tests/, benchmarks/, and tools/ is analysed.
+#
+# Reference: https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning
+
+name: "ThemisDB CodeQL Config"
+
+# ── Query suites ──────────────────────────────────────────────────────────────
+# The active query suite is selected by the workflow via the `queries:` input
+# on the `github/codeql-action/analyze` step:
+#   PR / push   → security-extended  (security-relevant rules, no quality gates)
+#   scheduled   → security-and-quality  (full suite, runs weekly off-hours)
+
+# ── Path exclusions ───────────────────────────────────────────────────────────
+# Excluded paths are NOT compiled into the CodeQL database, which reduces
+# database size and analysis time significantly for this repo.
+paths-ignore:
+  # Vendored / third-party submodules
+  - vcpkg
+  - llama.cpp
+  - internal
+
+  # Generated build artefacts
+  - build
+  - build-*
+  - out
+
+  # Test-only tooling and helper scripts (not production surface)
+  - tools/tests
+  - scripts
+
+  # Documentation and configuration files only
+  - docs
+  - ai_context
+  - ai_working
+  - audit
+  - security
+
+  # Package / distribution staging
+  - dist
+  - packages
