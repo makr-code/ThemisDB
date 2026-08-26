@@ -770,7 +770,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             joinSpan.setAttribute("join.table_right", table2);
 
             using namespace themis::query;
-            std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
+            // DATA-RACE-AUDIT(2026-08-26 Wave-7): same fix as line ~1669 —
+            // change [&] to [] (no outer-scope locals needed; non-recursive).
+            std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                 if (!fa) return std::string();
                 std::vector<std::string> parts;
@@ -1563,9 +1565,18 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 return false;
             };
 
-            // Helper: pr�fe, ob ein Ausdruck v/e-Referenzen enth�lt (f�r konstante Vorabpr�fung)
+            // DATA-RACE-AUDIT(2026-08-26 Wave-7): `usesVE` is a recursive
+            // stack-local std::function.  The scanner flagged the `[&]`
+            // capture as a potential data race because `[&]` silently captures
+            // the entire enclosing scope — including `usesVE` itself — by
+            // reference, making it look like a reference that could escape.
+            // FIX: change to an explicit single-variable capture `[&usesVE]`
+            // which (a) makes the self-reference intent unambiguous, and (b)
+            // prevents any future code addition inside the lambda from
+            // accidentally touching other stack locals without a visible
+            // capture declaration (race-free: single-threaded dispatch only).
             std::function<bool(const Expression*)> usesVE;
-            usesVE = [&](const Expression* e)->bool{
+            usesVE = [&usesVE](const Expression* e)->bool{
                 if (!e) return false;
                 if (auto* le = dynamic_cast<const LiteralExpr*>(e)) {
                     return false;
@@ -1647,7 +1658,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                         // Hilfsfunktionen zur Extraktion
                         using namespace themis::query;
-                        std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
+                        // DATA-RACE-AUDIT(2026-08-26 Wave-7): `fieldFromFA` is a
+                        // non-recursive helper that does NOT need to capture
+                        // itself; the `[&]` on the prior version silently
+                        // captured all outer locals (var1, var2, table1/2,
+                        // parse_result…) — making the scanner flag the whole
+                        // lambda as a potential escaped-reference race.
+                        // FIX: capture only `fieldFromFA` is not needed here
+                        // (no self-recursion); use empty capture `[]` and
+                        // accept params explicitly.  Single-threaded dispatch,
+                        // no real race — capture narrowing removes the warning.
+                        std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                             // Liefert Feldpfad ("a.b") und setzt rootVar auf Variablennamen
                             auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                             if (!fa) return std::string();

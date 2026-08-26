@@ -334,7 +334,7 @@ See `research/implementation_influence/by_module.md` for detailed mappings.
 
 ---
 
-**Last Updated:** 2026-08-19 (Wave B Phase B integration tests delivered: LWP-INT-01..05 — 16 tests, `tests/llm/test_llm_wiki_phase_b_integration.cpp`)
+**Last Updated:** 2026-08-26 (Wave-Next LW1/LW2 gap closure: `RocksDbWikiStore` implemented — `include/llm_wiki/rocksdb_wiki_store.h`, `src/llm_wiki/rocksdb_wiki_store.cpp`, persistence tests LW-01..LW-07 in `tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`)
 
 ## Program Execution Model — Wave Context
 
@@ -343,8 +343,8 @@ Wave B begins only after Wave A exit criteria are met.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave B Scope for `llm_wiki`
-- [~] Llm Wiki: Phase B integration test suite delivered (LWP-INT-01..05, 16 tests, 2026-08-19); RocksDB representative-hardware closure still pending (Target: Q3–Q4 2026)
-- **STUB NOTE (AI Delivery Contract):** Phase B integration tests use an in-memory mock (hash-based score proxy); no RocksDB or network required. Real RocksDB backend activation pending private plugin phase 4+ delivery (Q4 2026). Explicitly disclosed per AI delivery contract — see `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` §Stub/Mock Disclosure.
+- [x] Llm Wiki: Phase B integration test suite delivered (LWP-INT-01..05, 16 tests, 2026-08-19); **RocksDB backend implemented (LW1/LW2 gap closure, 2026-08-26)** — `RocksDbWikiStore` wired into plugin via `#ifdef THEMIS_USE_ROCKSDB`; persistence tests LW-01..LW-07 delivered (`tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`)
+- **STUB NOTE (AI Delivery Contract):** Phase B integration tests use an in-memory mock (hash-based score proxy); no network required. **RocksDB backend now implemented** via `RocksDbWikiStore` (Wave-Next LW1, 2026-08-26); activated when `THEMIS_USE_ROCKSDB` is defined and `rocksdb_dir` config is set. In-memory fallback retained for test environments; production must use RocksDB path. Explicitly disclosed per AI delivery contract — see `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` §Stub/Mock Disclosure.
 - **Closure Evidence:** See [`WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`](WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md) for full Wave B partial-closure evidence, regression audits, and hardware-gated pending items.
 
 ### Wave B Entry Gate (prerequisite from Wave A)

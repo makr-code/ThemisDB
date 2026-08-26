@@ -70,7 +70,7 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     set(_labels "voice")
-    if(_stem MATCHES "test_voice_wave_a_chaos_bundle|test_voice_stream_validation|test_voice_backend_degradation_focused|test_voice_session_chaos_isolation")
+    if(_stem MATCHES "test_voice_wave_a_chaos_bundle|test_voice_stream_validation|test_voice_backend_degradation_focused|test_voice_session_chaos_isolation|test_voice_wave_a_noisy_wakeword")
         list(APPEND _labels "wave_a" "release_critical")
     endif()
 

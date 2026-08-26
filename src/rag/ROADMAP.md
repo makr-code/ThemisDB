@@ -61,22 +61,22 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - [ ] Recall@k ≥ 0.8 at k=10 as gate criterion for LWP-01..08 acceptance tests. (Target: Q4 2026)
 
 #### FTS Enhancement
-- [ ] Phrase queries (`"hello world"` → positional adjacency check); proximity queries (`NEAR(term1, term2, distance=5)`). (Target: Q4 2026)
+- [x] Phrase queries (`"hello world"` → positional adjacency check); proximity queries (`NEAR(term1, term2, distance=5)`). (Target: Q4 2026) — implemented 2026-08-26.
 - [ ] ≤100ms p95 on 100K documents; benchmark gate `RAG-FTS-PERF-01`. (Target: Q4 2026)
-- [ ] BM25+ Positional Scorer complete (lower-bound term frequency δ=0.5, Robertson & Zaragoza 2009). (Target: Q4 2026)
+- [x] BM25+ Positional Scorer complete (lower-bound term frequency δ=0.5, Robertson & Zaragoza 2009) with proximity window bonus (×1.5 within 8-token window). (Target: Q4 2026) — implemented 2026-08-26.
 
 #### TensorRagCostModel
-- [ ] 5-phase cost model: C_RAG = C_embed + C_retrieve + C_rerank + C_assemble + C_generate; `TENSOR_RAG` WorkloadType in `TensorWorkloadClassifier`. (Target: Q4 2026)
-- [ ] TTFT comparison table: llama.cpp baseline 150-400ms vs cached 40-90ms. (Target: Q4 2026)
-- [ ] Integrate with `TensorRagCostModel::estimate(query, config) → CostEstimate`. (Target: Q4 2026)
+- [x] 5-phase cost model: C_RAG = C_embed + C_retrieve + C_rerank + C_assemble + C_generate; `TENSOR_RAG` WorkloadType in `TensorWorkloadClassifier`. (2026-08-26)
+- [x] TTFT comparison table: llama.cpp baseline 150-400ms vs cached 40-90ms. (2026-08-26)
+- [x] Integrate with `TensorRagCostModel::estimate(query, config) → CostEstimate`. (2026-08-26)
 
 #### Per-Query Retrieval Guardrails
-- [ ] `RetrievalGuardrail::checkFederatedCost(query, plan)` returns `GuardrailDecision{allow, deny_reason, estimated_cost_ms}`; deny reason surfaced in `SearchStats`. (Target: Q4 2026)
+- [x] `RetrievalGuardrail::checkFederatedCost(query, plan)` returns `GuardrailDecision{allow, deny_reason, estimated_cost_ms}`; deny reason surfaced in `SearchStats`. (2026-08-26)
 - [ ] SLO-validated benchmarks confirm ≤5% throughput regression vs no-guardrail baseline. (Target: Q4 2026)
 
 #### Observability Dashboards
-- [ ] Per-layer handoff quality metrics: ANN Recall@10, Tensor routing accuracy, Graph provenance precision, LLM ROUGE-L; emitted as Prometheus gauges. (Target: Q4 2026)
-- [ ] Anomaly detection: z-score ≥3 over rolling 5-min window triggers alert with root-cause hint (`low_recall`, `high_latency`, `guardrail_deny_rate`). (Target: Q4 2026)
+- [x] Per-layer handoff quality metrics: ANN Recall@10, Tensor routing accuracy, Graph provenance precision, LLM ROUGE-L; emitted as Prometheus gauges. (2026-08-26)
+- [x] Anomaly detection: z-score ≥3 over rolling 5-min window triggers alert with root-cause hint (`low_recall`, `high_latency`, `guardrail_deny_rate`). (2026-08-26)
 
 ### Short-term (3-6 months, beyond Q4 2026)
 - [ ] Expand deterministic regressions for retrieval/evaluation edge cases under mixed backend conditions (Target: Q4 2026)

@@ -166,7 +166,20 @@ struct RLAIFTrainer::Impl {
 // RLAIFTrainer — construction
 // ============================================================
 
-RLAIFTrainer::~RLAIFTrainer() = default;
+// Wave 5 R8: exception_in_destructor — make destructor explicitly noexcept
+// and suppress any exception that could propagate during cleanup.
+RLAIFTrainer::~RLAIFTrainer() noexcept {
+    try {
+        // impl_ is a unique_ptr<Impl>; Impl holds mutexes and shared_ptrs.
+        // All of their destructors are noexcept, so this try/catch is a
+        // belt-and-suspenders guard in case a shared IAIJudge deleter throws.
+        impl_.reset();
+    } catch (const std::exception& e) {
+        THEMIS_WARN("RLAIFTrainer destructor: exception suppressed: {}", e.what());
+    } catch (...) {
+        THEMIS_WARN("RLAIFTrainer destructor: unknown exception suppressed");
+    }
+}
 
 RLAIFTrainer::RLAIFTrainer()
     : impl_(std::make_unique<Impl>()) {

@@ -44,6 +44,7 @@
  */
 
 #include "analytics/distributed_analytics.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <chrono>
@@ -52,9 +53,11 @@
 #include <future>
 #include <limits>
 #include <queue>
+#include <random>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 #include <unordered_map>
 
 namespace themisdb {
@@ -750,11 +753,11 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                   "tenant='{}', dimensions={}, measures={}",
                   query.collection, query.tenant_id,
                   query.dimensions.size(), query.measures.size());
-    // NO_RETRY: shard-level failures are handled by partial-result and failure-rate gates
-    // (config_.allow_partial_results / config_.max_failure_rate). Individual shard retry
-    // is not implemented here; callers requiring idempotent retry should re-issue the
-    // full executeDistributed() call. This is an intentional architectural choice to avoid
-    // cascading retries in distributed fan-out scenarios.
+    // Wave-A AN1: per-shard retry with exponential backoff.
+    // Transient failures (timeout, network) are retried up to retry_config.max_retries
+    // times with exponential backoff + ±20% jitter before counting the shard as failed.
+    // Permanent failures (invalid query, auth/permission) skip retry immediately.
+    // Only shards that exhaust all retries are counted in the failure-rate gate.
 
     // Snapshot the active shard list under the lock (uses cached health — no I/O)
     std::vector<ShardEntry> active;
@@ -835,41 +838,85 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             // 2. Future (f) synchronizes promise readiness only; it does not join the thread.
             // 3. The lambda sets the promise as its final action and then exits immediately.
             // 4. All exception paths set the promise value before returning.
-            std::thread([entry, query, promise = std::move(promise)]() mutable {
+            std::thread([entry, query, promise = std::move(promise),
+                          retry_cfg = config_.retry_config]() mutable {
                 ShardExecutionInfo info;
                 info.shard_id = entry.shard_id;
 
+                // Wave-A AN1: per-shard retry with exponential backoff
+                std::mt19937 rng(std::random_device{}());
+                std::uniform_real_distribution<double> jitter_dist(0.0, 1.0);
+
                 const auto t0 = std::chrono::steady_clock::now();
-                try {
-                    if (!entry.executor) {
-                        throw std::runtime_error("shard executor is null");
+                const uint32_t max_attempts = retry_cfg.max_retries + 1u;
+
+                for (uint32_t attempt = 0u; attempt < max_attempts; ++attempt) {
+                    try {
+                        if (!entry.executor) {
+                            throw std::runtime_error("shard executor is null");
+                        }
+                        auto partial = entry.executor->execute(entry.shard_id, query);
+                        const auto t1 = std::chrono::steady_clock::now();
+                        info.success = true;
+                        info.execution_time_ms =
+                            std::chrono::duration<double, std::milli>(t1 - t0).count();
+                        promise.set_value({std::move(partial), std::move(info)});
+                        return;
+                    } catch (const std::exception& ex) {
+                        const std::string err_msg = ex.what();
+                        // Classify: permanent failures (invalid query, auth) skip retry.
+                        std::string lower = err_msg;
+                        std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+                        const bool is_permanent =
+                            lower.find("invalid query")    != std::string::npos ||
+                            lower.find("permission denied") != std::string::npos ||
+                            lower.find("auth")             != std::string::npos;
+
+                        if (is_permanent || attempt + 1u >= max_attempts) {
+                            const auto t1 = std::chrono::steady_clock::now();
+                            info.success = false;
+                            info.error   = err_msg;
+                            info.execution_time_ms =
+                                std::chrono::duration<double, std::milli>(t1 - t0).count();
+                            spdlog::error(
+                                "DistributedAnalyticsSharding: shard {} failed: {}",
+                                entry.shard_id, err_msg);
+                            promise.set_value({OLAPResult{}, std::move(info)});
+                            return;
+                        }
+                        // Transient: backoff = base * 2^attempt, capped, ±20% jitter.
+                        const uint32_t raw_ms =
+                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
+                        const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
+                        const double jf = 0.8 + 0.4 * jitter_dist(rng);
+                        const uint32_t delay_ms =
+                            static_cast<uint32_t>(static_cast<double>(capped_ms) * jf);
+                        THEMIS_INFO("[AN1] shard '{}' retry {} of {}",
+                                    entry.shard_id, attempt + 1u, retry_cfg.max_retries);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+                    } catch (...) {
+                        if (attempt + 1u >= max_attempts) {
+                            const auto t1 = std::chrono::steady_clock::now();
+                            info.success = false;
+                            info.error   = "unknown shard error";
+                            info.execution_time_ms =
+                                std::chrono::duration<double, std::milli>(t1 - t0).count();
+                            spdlog::error(
+                                "DistributedAnalyticsSharding: shard {} failed with unknown exception",
+                                entry.shard_id);
+                            promise.set_value({OLAPResult{}, std::move(info)});
+                            return;
+                        }
+                        const uint32_t raw_ms =
+                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
+                        const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
+                        const double jf = 0.8 + 0.4 * jitter_dist(rng);
+                        const uint32_t delay_ms =
+                            static_cast<uint32_t>(static_cast<double>(capped_ms) * jf);
+                        THEMIS_INFO("[AN1] shard '{}' retry {} of {}",
+                                    entry.shard_id, attempt + 1u, retry_cfg.max_retries);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                     }
-                    auto partial = entry.executor->execute(entry.shard_id, query);
-                    const auto t1 = std::chrono::steady_clock::now();
-                    info.success = true;
-                    info.execution_time_ms =
-                        std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    promise.set_value({std::move(partial), std::move(info)});
-                } catch (const std::exception& ex) {
-                    const auto t1 = std::chrono::steady_clock::now();
-                    info.success = false;
-                    info.error   = std::string(ex.what());
-                    info.execution_time_ms =
-                        std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    spdlog::error(
-                        "DistributedAnalyticsSharding: shard {} failed: {}",
-                        entry.shard_id, ex.what());
-                    promise.set_value({OLAPResult{}, std::move(info)});
-                } catch (...) {
-                    const auto t1 = std::chrono::steady_clock::now();
-                    info.success = false;
-                    info.error   = "unknown shard error";
-                    info.execution_time_ms =
-                        std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    spdlog::error(
-                        "DistributedAnalyticsSharding: shard {} failed with unknown exception",
-                        entry.shard_id);
-                    promise.set_value({OLAPResult{}, std::move(info)});
                 }
                 // The promise is fulfilled as the last observable action before thread exit.
             }).detach();

@@ -1,6 +1,8 @@
 name: "CodeQL Advanced"
 
 # Rechenaufwand-Score: R=4 (K=5, L=4, N=4) | last-calibrated: 2026-08-26
+# Build note: Uses direct cmake --build (not autobuild) so that the pre-configured
+# community-release preset is respected (THEMIS_ENABLE_HIP=OFF, no ROCm required).
 # Trigger policy: repo framework score calibration for workflow cost controls.
 #
 # ── PREREQUISITE ─────────────────────────────────────────────────────────────
@@ -184,8 +186,14 @@ jobs:
           git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer 2>/dev/null || true
           cmake --preset community-release -DCMAKE_BUILD_TYPE=RelWithDebInfo 2>&1 | tail -30
 
-      - name: Build (autobuild for CodeQL extraction)
-        uses: github/codeql-action/autobuild@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+      - name: Build (manual cmake build for CodeQL extraction)
+        # Use direct cmake --build instead of autobuild: autobuild re-invokes cmake
+        # without the community-release preset, enabling HIP (hipcc detected) and
+        # failing to compile rotary_embeddings_hip.cpp without the full ROCm SDK.
+        # After codeql-action/init, the tracer environment is already active, so
+        # compiler calls made by cmake --build are captured for CodeQL extraction.
+        run: |
+          cmake --build build-community-release --parallel $(nproc)
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8

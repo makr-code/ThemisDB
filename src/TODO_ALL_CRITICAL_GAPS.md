@@ -1,5 +1,10 @@
 # TODO: All Critical Gaps Across ThemisDB Modules
 
+> ⚠️ **Status (2026-08-25): Historical snapshot**  
+> Diese Datei ist **nicht mehr die kanonische Priorisierungsquelle** fuer reale Sourcecode-Gaps.  
+> Aktuelle Core-first Priorisierung und naechste Implementierungsschritte stehen in:  
+> `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave-4 Plan, verifizierte Real-Gaps).
+
 > Generated: 2026-06-13
 > Source: MODULE_GAPS.md files from src/*/ modules
 > **Total Critical+High Issues: 1524 (llm) + 997 (sharding) + 22 (whisper) + ... = ~2500+**

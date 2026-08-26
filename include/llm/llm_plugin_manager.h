@@ -162,6 +162,16 @@ public:
     bool ingestModel(const std::string& model_id, const std::string& data);
     std::optional<ModelInfo> getModelInfo(const std::string& model_id) const;
 
+    /**
+     * @brief Return the total number of registerPlugin() calls since construction.
+     *
+     * Thread-safe: the underlying counter is std::atomic<uint64_t>.
+     * Intended for observability, tests (L7-TS-04), and metrics endpoints.
+     */
+    uint64_t getPluginOperationCount() const {
+        return plugin_operation_count_.load(std::memory_order_acquire);
+    }
+
     struct PluginStatistics {
         int models_loaded = 0;
         int loras_loaded = 0;
@@ -473,6 +483,12 @@ private:
     std::string default_plugin_name_;
     mutable std::mutex mutex_;
 
+    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    // plugin_operation_count_ tracks total registerPlugin() calls atomically so that
+    // concurrent registrations from multiple threads yield an exact final count
+    // (verified by test L7-TS-04 via 8-thread stress).
+    std::atomic<uint64_t> plugin_operation_count_{0};
+
     /// VRAM budget tracker — registers externally-managed GPU memory (loaded models)
     /// for system-wide VRAM pressure monitoring and OOM-threshold alerting.
     ActiveVRAMAllocator vram_allocator_;
@@ -498,7 +514,13 @@ private:
     /// SSM state store for persistent snapshot storage (P2-D04 / P2-D05)
     std::unique_ptr<SSMStateRocksDBStore> state_store_;
     
-    /// RocksDB instance for state storage (not owned by this class)
+    /// RocksDB TransactionDB instance opened by initializeStateStore() (owned).
+    /// When set, state_db_ below points to the same object.
+    std::unique_ptr<rocksdb::TransactionDB> owned_state_db_;
+
+    /// RocksDB instance for state storage.
+    /// May point to owned_state_db_.get() (opened internally) or to an
+    /// externally-injected instance.  Lifetime is always >= state_store_.
     rocksdb::TransactionDB* state_db_ = nullptr;
     
     /// Column family handle for SSM state (not owned by this class)
