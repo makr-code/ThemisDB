@@ -215,9 +215,9 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 - [ ] `llm`: Implement STUB #2/#3 dtype-cast bridges (fp16/bf16→fp32) via CUDA kernels in `gpu_tensor.cpp` (Target: Q4 2026)
 - [x] `llm`: Wire RocksDB TransactionDB in `llm_plugin_manager.cpp:863` (TODO P2-D05) (Target: Q4 2026)
 - [ ] `llm`: RAII/exception-safety — `ScopedResource`/`ScopedDbConnection` wrappers for top CRITICAL paths in `distributed_training_coordinator.cpp`, `inference_engine_enhanced.cpp` (Target: Q4 2026)
-- [ ] `server`: Close Wave 4A S1–S6 (integrity gate, path-validation, audit logs, MCP stub doc) (Target: Q4 2026)
-- [ ] `server`: Wire `themis_core_grpc_service.cpp` service layer (S8); add feature-flagged response for grpc_web_proxy (S7) (Target: Q4 2026)
-- [ ] `server`: Wire timeseries STUB #301 real aggregates + retention providers (S9) (Target: Q4 2026)
+- [x] `server`: Close Wave 4A S1–S6 (integrity gate, path-validation, audit logs, MCP stub doc) (Target: Q4 2026)
+- [x] `server`: Wire `themis_core_grpc_service.cpp` service layer (S8); add feature-flagged response for grpc_web_proxy (S7) (Target: Q4 2026)
+- [x] `server`: Wire timeseries STUB #301 real aggregates + retention providers (S9) (Target: Q4 2026)
 
 ### Phase 2 — RAG Concurrency + Wave B + Auth Wave 4B + LLM thread-safety (P2 + P4, Q4 2026)
 - [ ] `rag`: Fix CRITICAL deadlocks — `blocking_no_timeout` in `distributed_rag_evaluator.cpp` (R1) + `thread_join_no_timeout` in `llm_integration.cpp` (R2) (Target: Q4 2026)
@@ -269,7 +269,7 @@ Combined with Wave 4A S1–S6: **~11 real server stubs/gaps total**.
 
 - [ ] LLM STUB #261/#262/#2/#3 + RocksDB init + RAII: implementiert oder mit dokumentiertem Removal-Plan + Testnachweis
 - [ ] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates (BM25+/HNSW/RRF/Cache) mit Testnachweisen
-- [ ] Server Wave4A S1–S6 + Wave5 S7–S11 alle geschlossen (regression tests grün)
+- [x] Server Wave4A S1–S6 + Wave5 S7–S11 alle geschlossen (regression tests grün)
 - [ ] Auth Wave4B A1–C3 geschlossen (audit events, retry, crypto)
 - [ ] Acceleration STUB #169 + NCCL/OneAPI/OpenCL: implementiert oder explizit mit STUB/SIMULATION NOTE + Removal-Plan
 - [x] Storage STUB #263a/b/c + #264: production ggml wiring oder dokumentierte Deferred-Entscheidung
@@ -381,8 +381,8 @@ False-Positives confirmed: `smart_ptr_misuse` on JS-string literals (`new Date()
 **Note:** `prompt_injection` (docs_assistant.cpp:678) and `deadlock_risk` (ai_orchestrator.cpp:264-289) are real CRITICAL items in `src/llm/` module — tracked in LLM ROADMAP, not server scope.
 
 **Acceptance Criteria:**
-- [ ] Empty-path model-load request rejected with HTTP 400 (S1)
-- [ ] User-supplied model path blocked from path traversal via canonicalization (S2)
+- [x] Empty-path model-load request rejected with HTTP 400 (S1)
+- [x] User-supplied model path blocked from path traversal via canonicalization (S2)
 - [ ] audit events present on ALLOW+DENY in lora, import, and ~3 small handlers (S3–S5)
 - [ ] MCP stdio stub documented per governance rules (S6)
 - Regression tests: `tests/server/test_wave4a_server_hardening.cpp` (8 tests)
@@ -602,7 +602,7 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 
 ### Phase 1 — LLM Stubs + Server (P1 + P3)
 - [ ] `llm`: STUB #261/#262/#2/#3 + RocksDB init + RAII top-CRITICAL paths (Target: Q4 2026)
-- [ ] `server`: Wave 4A S1–S6 + Wave5 S7–S11 schließen (Target: Q4 2026)
+- [x] `server`: Wave 4A S1–S6 + Wave5 S7–S11 schließen (Target: Q4 2026)
 
 ### Phase 2 — RAG + Auth (P2 + P4)
 - [ ] `rag`: CRITICAL deadlocks (R1–R2) + data-races (R3–R4) + Wave-B (BM25+/HNSW/RRF/Cache) (Target: Q4 2026)
@@ -623,7 +623,7 @@ False-Positives confirmed: `scope_mismatch` (3,860 hits — anonymous namespaces
 
 - [ ] LLM STUB #261/#262/#2/#3 + RocksDB init + RAII: implementiert oder mit Removal-Plan + Testnachweisen
 - [ ] RAG CRITICAL deadlocks + data-races behoben; Wave-B Gates mit Testnachweisen
-- [ ] `server`/Wave4A + Wave5: alle offenen Server-Stubs grün; Regressionstests pass
+- [x] `server`/Wave4A + Wave5: alle offenen Server-Stubs grün; Regressionstests pass
 - [ ] `auth` Wave-4B A1–C3 auf `[x]`; AUTH-GRG-01..06 Gate-Evidence finalisiert
 - [ ] Acceleration STUB #169 + NCCL/OneAPI/OpenCL: implementiert oder explizit als STUB/SIMULATION NOTE dokumentiert
 - [ ] `transaction` Wave 4-C Testnachweise in `tests/transaction/test_wave4c_transaction_hardening.cpp`

@@ -263,7 +263,9 @@ OIDCProvider &FederatedIdentityManager::realmProvider(const std::string &issuer_
 
 // ---------------------------------------------------------------------------
 // Testing helpers
-// ---------------------------------------------------------------------------(std::function<std::string(const std::string &url)> fn) {
+// ---------------------------------------------------------------------------
+
+void FederatedIdentityManager::setHttpGetForTesting(std::function<std::string(const std::string &url)> fn) {
     http_get_fn_ = std::move(fn);
 }
 
