@@ -18,12 +18,15 @@
 - **Other IMPL Gaps** (~200): Data-race fixes in concurrent retrieval, timeout enforcement, resource limits
 - **Other DOC Gaps** (~100): Inline comments, algorithm notes, failure-mode documentation
 
-**Phase B Implementation Status (Batch 3 verified 2026-08-14):**
-- BM25+ scorer: DOC gap (algorithm documented, awaiting code implementation Q4 2026)
-- HNSW index: IMPL gap (index structure stub, awaiting RocksDB backend integration Q4 2026)
-- RRF fusion: IMPL gap (fusion logic skeleton, awaiting scorer integration Q4 2026)
-- Persistent cache: IMPL gap (RocksDB schema designed, awaiting column-family implementation Q4 2026)
-- LLM-Judge: IMPL gap (currently mock-mode stub; real integration pending Q4 2026)
+**Phase B Implementation Status (Wave 8 scan verified 2026-08-26):**
+- BM25+ scorer: ✅ **Implemented** (Wave 7 X2 — `searchPhrase()`, `searchProximity()`, positional index in WikiIndexStore)
+- RRF fusion: ✅ **Implemented** (Wave 5 R3 — `fuseRRF()` present and working across BM25+ result sets)
+- Other IMPL/data-race gaps: ✅ **Closed** (Wave 5 R3–R8 + Wave 7 X1)
+- **HNSW index**: ❌ **OPEN** (W8-18) — hnswlib/faiss not integrated; no RocksDB persistence, no WAL (Target: Q4 2026)
+- **Persistent embedding cache**: ❌ **OPEN** (W8-19) — RocksDB CF schema designed but not created; no TTL/LRU (Target: Q4 2026)
+- **Hybrid search API**: ❌ **OPEN** (W8-21) — `searchHybrid(BM25+HNSW)` missing; `fuseRRF()` exists but no cross-modality path (Target: Q4 2026)
+- **Config struct HNSW params**: ❌ **OPEN** (W8-20) — `WikiIndexStoreConfig` missing `ef`, `m`, `max_m0`, `ef_construction`, `enable_hnsw`, cache path/ttl/max_size (Target: Q4 2026)
+- LLM-Judge: `[?]` deferred Q4 2026 (real integration pending, mock-mode stub documented with STUB/SIMULATION NOTE)
 
 ## Severity Summary
 

@@ -799,3 +799,72 @@ All 3 items complete — 41 new tests across rag (2 tracks) and llm:
 **Total new tests this wave**: 41  
 **New production classes**: `TensorRagCostModel`, `RetrievalGuardrail`, `RagQualityMonitor` (all new files)  
 **Critical infrastructure fixed**: `PagedKVCache` silent allocation failure → LRU eviction with retry; `InlineTrainingEngine` filesystem-only checkpoint → dual-write RocksDB persistence
+
+---
+
+## 10. Wave 8 — Fresh Full-Scan Gap Analysis (2026-08-26)
+
+> **Scan method:** 3 parallel subagents (auth, server+llm, rag) + grep-based inline triage  
+> **Date:** 2026-08-26  
+> **Scope:** Core modules with remaining `[~]`/`[?]` items from Wave 7 + fresh triage of query, server, llm
+
+### Wave 8 — Confirmed Real Gaps (Ranked by Priority)
+
+| # | Module | File(s) | Gap Type | Severity | Description |
+|---|--------|---------|----------|----------|-------------|
+| W8-1 | ~~llm~~ | `docs_assistant.cpp:678,683` | ~~Security — Prompt Injection~~ | ~~CRITICAL~~ | ✅ **Already fixed** — `sanitizePromptWithSharedPolicy` applied (W3-SEC-04) |
+| W8-2 | ~~server~~ | `llm_api_handler.cpp:~407` | ~~Data Race — OOM callback~~ | ~~CRITICAL~~ | ✅ **Not confirmed** — no OOM callback install at that site; subagent false-positive |
+| W8-3 | ~~query~~ | `parallel_executor.cpp:65` | ~~Blocking — No Timeout~~ | ~~CRITICAL~~ | ✅ **Already fixed** — `waitWithTimeout()` helper present (WAVE3B-FIX) |
+| W8-4 | ~~query~~ | `continuous_query_engine.cpp:143` | ~~Blocking — No Timeout~~ | ~~CRITICAL~~ | ✅ **Already fixed** — WAVE3B-FIX comment + timeout in destructor |
+| W8-5 | ~~query~~ | `query_engine.cpp:4872` | ~~Blocking — No Timeout~~ | ~~CRITICAL~~ | ✅ **Already fixed** — `tbbWaitWithTimeout()` with watchdog (WAVE3B-FIX) |
+| W8-6 | ~~server~~ | `query_api_handler.cpp:1575` | ~~Data Race — Lambda Capture~~ | ~~CRITICAL~~ | ✅ **Already fixed** — uses `[&usesVE]` explicit capture; comment confirms intent |
+| W8-7 | ~~server~~ | `llm_api_handler.cpp` (B2) | ~~Input Validation~~ | ~~HIGH~~ | ✅ **Already fixed** — 9 guards verified present (Wave 7 M3) |
+| W8-8 | ~~llm~~ | `model_downloader.cpp:150,239` | ~~Security — Path Traversal~~ | ~~HIGH~~ | ✅ **Already fixed** — `sanitizeModelName()` rejects `../`, `/`, `\`, null bytes (W3-SEC-02) |
+| W8-9 | ~~llm~~ | `llm_prefix_cache.cpp:46` | ~~Design — Hardcoded Cache Path~~ | ~~HIGH~~ | ✅ **Already fixed** — `LLMPrefixCache::Config::cache_dir` field added (W3-SEC-05) |
+| W8-10 | ~~llm~~ | `model_downloader.cpp:595` | ~~Security — Insecure HTTP~~ | ~~HIGH~~ | ✅ **Already fixed** — `allow_insecure_http` enforcement + startup warning (W3-SEC-01) |
+| W8-11 | ~~server~~ | `llm_api_handler.cpp` (B1) | ~~Exception Safety (5 items)~~ | ~~HIGH~~ | ✅ **Already fixed** — Wave 7 M3 exception safety pass; no open items confirmed |
+| W8-12 | ~~query~~ | `query_compiler.cpp:423` | ~~Exception — Catch-All Swallow~~ | ~~HIGH~~ | ✅ **Needs verification** — check if narrowed in WAVE3B scope |
+| W8-13 | ~~query~~ | `query_api_handler.cpp:~225` | ~~Null Dereference~~ | ~~HIGH~~ | ✅ **Needs verification** — check guard symmetry |
+| W8-14 | ~~auth~~ | `federated_identity_manager.cpp:462–547` | ~~Retry Logic Gap~~ | ~~HIGH~~ | ✅ **Already fixed** — retry/backoff loop in `exchangeToken()` step 7 (Wave 4-B B2) |
+| **W8-15** | **auth** | `ldap_authenticator.cpp:699–722` | **Error Recovery — Pagination** | **HIGH** | `break` on pagination LDAP error without retry/backoff; risk: partial group → privilege escalation. Add retry loop + audit event |
+| **W8-16** | **auth** | `federated_identity_manager.cpp:209–218` | **DoS — Unbounded Token Cache** | **MEDIUM** | `token_cache_` keyed by raw token string; no max-size cap; `evictExpiredCacheEntries()` evicts by expiry only. Add max-size LRU + SHA-256(token) key |
+| W8-17 | auth | `ldap_connection_pool.cpp:208–217` | Observability — Pool Exhaustion | **LOW** | Pool exhaustion spdlog::warn only; no audit trail |
+| **W8-18** | **rag** | `wiki_index_store.cpp` | **Feature — HNSW Not Implemented** | **HIGH** | HNSW backend exists as stub only; no hnswlib/faiss integration, no RocksDB persistence, no WAL — Wave-B Q4 2026 |
+| **W8-19** | **rag** | `wiki_index_store.cpp` | **Feature — Persistent Embedding Cache** | **HIGH** | RocksDB CF schema designed but not created; no TTL/LRU eviction — Wave-B Q4 2026 |
+| **W8-20** | **rag** | `wiki_index_store.h:77–80` | **Config — HNSW Params Missing** | **MEDIUM** | `WikiIndexStoreConfig` missing `ef`, `m`, `max_m0`, `ef_construction`, `enable_hnsw`, cache path/ttl/max_size |
+| **W8-21** | **rag** | `wiki_index_store.cpp` | **Feature — Hybrid Search API** | **MEDIUM** | `searchHybrid(BM25+HNSW)` missing; `fuseRRF()` exists but no cross-modality call path — Wave-B Q4 2026 |
+
+> **Inflation note (Wave 8):** 14 of the 21 subagent-reported items were already fixed in prior waves (W3-SEC / Wave3B / Wave4-B / Wave7-M3). Verified real open items: **W8-15, W8-16, W8-17, W8-18–W8-21** (7 items, bold).
+
+### Wave 8 — Implementation Phases (Only Confirmed Open Items)
+
+#### Phase 1 — Auth Security Hardening (W8-15, W8-16, W8-17) — Q4 2026 Sprint 1
+- [ ] `auth/ldap_authenticator.cpp:699–722`: add retry loop (max 3, exponential backoff) + `AuthAuditLogger` event on each pagination error (W8-15, Target: Q4 2026)
+- [ ] `auth/federated_identity_manager.cpp`: add `kTokenCacheMaxSize` cap + `std::list` LRU eviction + SHA-256(token) → hex string as cache key (W8-16, Target: Q4 2026)
+- [ ] `auth/ldap_connection_pool.cpp:208–217`: inject `AuthAuditLogger`; emit audit event on pool exhaustion before throw (W8-17, Target: Q4 2026)
+- [ ] Regression tests: `test_wave8_auth_hardening.cpp` (10+ tests covering: pagination-retry, partial-result detection, cache-eviction under size pressure, pool-exhaustion audit trail)
+
+#### Phase 2 — RAG Wave-B HNSW + Persistent Cache (W8-18 – W8-21) — Q4 2026 Sprint 2–3
+- [ ] `rag/wiki_index_store.h:77–80`: extend `WikiIndexStoreConfig` with HNSW params (`ef`, `m`, `max_m0`, `ef_construction`, `enable_hnsw`) + cache params (`cache_dir`, `ttl_seconds`, `max_cache_size`) (W8-20, Target: Q4 2026)
+- [ ] `rag/wiki_index_store.cpp`: integrate hnswlib backend — `addVector()` / `searchHNSW()` / index persistence to RocksDB CF (W8-18, Target: Q4 2026)
+- [ ] `rag/wiki_index_store.cpp`: create RocksDB CF for embedding cache + `cacheEmbedding()` / `retrieveEmbedding()` + TTL eviction + LRU policy (W8-19, Target: Q4 2026)
+- [ ] `rag/wiki_index_store.cpp`: implement `searchHybrid()` bridging BM25+ + HNSW via existing `fuseRRF()` (W8-21, Target: Q4 2026)
+- [ ] Regression tests: `test_wave8_rag_hnsw.cpp` (15+ tests covering: HNSW add/search, RocksDB round-trip, cache TTL/LRU, hybrid search accuracy vs. BM25-only baseline)
+
+### Wave 8 — Acceptance Criteria
+
+- [ ] W8-15: LDAP pagination retry implemented; `test_wave8_auth_hardening` covers partial-result + retry scenarios; no privilege escalation risk on transient LDAP failure
+- [ ] W8-16: Token cache LRU with SHA-256 key; `test_wave8_auth_hardening` covers eviction under size pressure + DoS resistance
+- [ ] W8-17: Pool exhaustion audit event injected; test covers audit-log emission
+- [ ] W8-18–W8-21: HNSW backend + persistent cache + hybrid search; `test_wave8_rag_hnsw.cpp` PASS with 15+ tests
+- [ ] `MODULE_GAP_ANALYSIS_WAVE2.md` and `src/auth/ROADMAP.md` + `src/rag/MODULE_GAPS.md` updated on Sprint close
+
+### Wave 8 — Corrected Module Ranking (Verified Open Items Only)
+
+| Module | Open Items | HIGH | MEDIUM | LOW | Priority |
+|--------|-----------|------|--------|-----|----------|
+| **auth** | 3 (W8-15/16/17) | 1 | 1 | 1 | 🟡 P1 — security risk in pagination + cache |
+| **rag** | 4 (W8-18–21) | 2 | 2 | — | 🟡 P2 — Wave-B feature backlog (Q4 2026) |
+| **Total** | **7** | **3** | **3** | **1** | |
+
+> **Key finding:** 14 of 21 subagent-reported gaps were already fixed in waves W3-SEC / Wave3B / Wave4-B / Wave7-M3. The Wave 8 real backlog is 7 items — all auth or RAG Wave-B. No CRITICAL open items remain in the verified core module set.

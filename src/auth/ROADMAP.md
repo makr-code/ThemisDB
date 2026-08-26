@@ -114,6 +114,14 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [ ] expand deterministic integration regressions across auth protocol matrixes (Target: Q4 2026)
 - [ ] improve operator diagnostics for policy/revocation/federation decision classes (Target: Q4 2026)
 
+### Wave 8 — Auth Hardening Items (2026-08-26 scan, Q4 2026)
+> Source: `src/MODULE_GAP_ANALYSIS_WAVE2.md §Wave 8`
+
+- [ ] **W8-15** `ldap_authenticator.cpp:699–722` — LDAP pagination error handling: add retry loop (max 3, exponential backoff) + `AuthAuditLogger` event on each transient LDAP error; current `break` returns partial group membership silently (Target: Q4 2026)
+- [ ] **W8-16** `federated_identity_manager.cpp:209–218` — Token cache DoS hardening: add `kTokenCacheMaxSize` cap + `std::list` LRU eviction + SHA-256(token) → hex string as cache key; current cache is unbounded and keyed on raw token strings (Target: Q4 2026)
+- [ ] **W8-17** `ldap_connection_pool.cpp:208–217` — Pool exhaustion audit: inject `AuthAuditLogger`; emit structured audit event on pool exhaustion before throw (LOW, Target: Q4 2026)
+- [ ] Test: `tests/auth/test_wave8_auth_hardening.cpp` — 10+ tests covering pagination retry, partial-result detection, cache eviction under size pressure, pool-exhaustion audit trail
+
 ### Mid-term (6-12 months)
 - [ ] reduce remaining proxy-like benchmark targets through dedicated auth microbenchmarks (Target: Q1 2027)
 - [ ] re-baseline auth p95/p99 envelopes on representative production profiles (Target: Q1 2027)
