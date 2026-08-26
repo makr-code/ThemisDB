@@ -13,6 +13,29 @@ Pflichtregeln:
 3. Änderungen, die Architektur, Betrieb, Prozesse oder Governance betreffen, müssen die zugehörigen Wiki-Inhalte synchron halten.
 4. Fehlende Wiki-Inhalte sind als Lücke zu melden und in den Arbeitsartefakten/PR-Hinweisen zu markieren statt stillschweigend zu ignorieren.
 
+## 0.1) Developer LLM Wiki fuer GitHub Copilot auf GitHub (MUST)
+
+Wenn GitHub Copilot als Coding Agent auf GitHub implementiert, reviewt oder refactort, muss es das Developer LLM Wiki aktiv als Vibe-Coding-Kontext nutzen.
+
+Pflichtablauf:
+
+1. Zuerst `AI_WIKI_INTEGRATION_PLAYBOOK.md` lesen.
+2. Vor Codeaenderungen die relevanten Developer-Wiki-Artefakte aus `ai_context/developer_llm_wiki/` konsultieren:
+   - `INDEX.md`
+   - `MODULES_AND_APIS.md`
+   - `BUILD_TEST_CI_AND_OPERATIONS.md`
+   - `GOVERNANCE_AND_ROADMAP.md`
+3. `ai_context/developer_llm_wiki/WIKI_STATUS.json` als Frische-/Health-Signal pruefen (`generated_at`, `source_count`, Delta-Status).
+4. Wiki-Kontext nach Task-Typ priorisieren:
+   - API-/Modularbeit → `MODULES_AND_APIS.md`
+   - Build/CI/Test → `BUILD_TEST_CI_AND_OPERATIONS.md`
+   - Governance/Roadmap/Release → `GOVERNANCE_AND_ROADMAP.md`
+   - allgemeiner Einstieg/Link-Hub → `INDEX.md`
+5. Bei Konflikten gilt: Root-SOT und Modulquellen vor kompilierter Wiki-Synthese.
+6. Wenn Wiki-Artefakte fehlen, stale wirken oder der Aufgabe widersprechen, diese Luecke explizit nennen statt das Wiki still zu ignorieren.
+
+Details und Dateizwecke: [AI_WIKI_CONTEXT.md](copilot/AI_WIKI_CONTEXT.md)
+
 ## 1) Ziel
 
 Roadmap-Einträge müssen so konkret sein, dass Copilot **produktiven Sourcecode** statt Stub/Rumpf erzeugen kann.

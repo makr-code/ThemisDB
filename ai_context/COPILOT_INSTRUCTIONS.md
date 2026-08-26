@@ -36,6 +36,28 @@ Before starting any implementation task, consult these curated references:
 
 **Usage:** Link to contract row when reviewing/implementing public APIs in these modules.
 
+## Developer LLM Wiki for GitHub Copilot (MUST)
+
+When GitHub Copilot acts as a coding agent on GitHub, it must actively use the Developer LLM Wiki as implementation context instead of relying only on raw repository search.
+
+Required flow:
+
+1. Read `../AI_WIKI_INTEGRATION_PLAYBOOK.md` first.
+2. Consult the relevant curated wiki artifacts in `./developer_llm_wiki/` before editing:
+   - `INDEX.md`
+   - `MODULES_AND_APIS.md`
+   - `BUILD_TEST_CI_AND_OPERATIONS.md`
+   - `GOVERNANCE_AND_ROADMAP.md`
+3. Check `./developer_llm_wiki/WIKI_STATUS.json` for freshness and sync health (`generated_at`, `source_count`, delta metadata).
+4. Prioritize wiki sources by task type:
+   - API/module work → `MODULES_AND_APIS.md`
+   - build/test/CI/operations work → `BUILD_TEST_CI_AND_OPERATIONS.md`
+   - roadmap/governance/release work → `GOVERNANCE_AND_ROADMAP.md`
+   - general onboarding/navigation → `INDEX.md`
+5. If the wiki conflicts with root SOT or module-local source docs, prefer the root/module source and flag the wiki drift explicitly.
+
+Reference module: [../.github/copilot/AI_WIKI_CONTEXT.md](../.github/copilot/AI_WIKI_CONTEXT.md)
+
 ## Documentation tasks (MUST)
 If the task involves documentation (any markdown docs change; `docs/**` keeps the stricter format rules below):
 
