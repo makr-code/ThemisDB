@@ -768,3 +768,34 @@ Targets Q4 2026 Wave B items with full specs and real code gaps.
 - M1: 24+ tests covering all 10 new MCP tools
 - M2: 12+ tests covering LDAP pool exhaustion/recycle, pagination, federated state sync
 - M3: 12+ tests covering data races, input validation rejections, exception safety
+
+---
+
+## 9. Wave 7 — RAG Phase B Features + LLM KV-Cache/Checkpoint (2026-08-26)
+
+Targets real implementation backlog — new classes + infrastructure hardening.
+
+| ID | Module | Item | Wave | Status |
+|---|---|---|---|---|
+| X1 | rag | TensorRagCostModel (5-phase C_RAG) + RetrievalGuardrail (checkFederatedCost/GuardrailDecision) + RagQualityMonitor (Prometheus gauges + z-score anomaly detection) | Wave B | `[x]` complete 2026-08-26 (14 tests) |
+| X2 | rag | BM25+ positional scorer + FTS phrase query operator + proximity query operator (NEAR/k) | Wave B | `[x]` complete 2026-08-26 (12 tests) |
+| X3 | llm | PagedKVCache LRU eviction (evictLRU + evictionCount, MRU/LRU correctness) + InlineTrainingEngine RocksDB checkpoint dual-write + RocksDB-first load | Wave B | `[x]` complete 2026-08-26 (15 tests) |
+
+### Acceptance Criteria
+- X1: 14+ tests covering cost model accuracy, guardrail allow/deny, anomaly detection
+- X2: 12+ tests covering phrase match, phrase miss, proximity match, proximity distance
+- X3: 10+ tests covering LRU correctness, eviction count, RocksDB checkpoint round-trip
+
+### Wave 7 Closure Summary (2026-08-26)
+
+All 3 items complete — 41 new tests across rag (2 tracks) and llm:
+
+| ID | Module | Delivered | Tests |
+|---|---|---|---|
+| X1 | rag | `TensorRagCostModel` (5-phase C_RAG, injected coefficients, confidence), `RetrievalGuardrail` (checkFederatedCost, cross-DC threshold, THEMIS_WARN on deny), `RagQualityMonitor` (ring buffer, Prometheus gauge emit, z-score anomaly detection) | `test_wave7_rag_costmodel_guardrail.cpp` (14) |
+| X2 | rag | BM25+ positional index in `WikiIndexStore` + `searchPhrase("exact phrase")` + `searchProximity(term1, term2, distance)` + tokenizer punctuation extension | `test_wave7_bm25_positional_fts.cpp` (12) |
+| X3 | llm | `PagedKVCache` LRU eviction (evictLRU, 3-retry, evictionCount, MRU/LRU correctness) + `InlineTrainingEngine` RocksDB checkpoint dual-write + RocksDB-first load (`#ifdef THEMIS_USE_ROCKSDB`) | `test_wave7_llm_kvcache_lru_checkpoint.cpp` (15) |
+
+**Total new tests this wave**: 41  
+**New production classes**: `TensorRagCostModel`, `RetrievalGuardrail`, `RagQualityMonitor` (all new files)  
+**Critical infrastructure fixed**: `PagedKVCache` silent allocation failure → LRU eviction with retry; `InlineTrainingEngine` filesystem-only checkpoint → dual-write RocksDB persistence
