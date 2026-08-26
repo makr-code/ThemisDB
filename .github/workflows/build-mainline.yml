@@ -85,6 +85,9 @@ jobs:
     permissions:
       issues: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Derive status payload
         id: status
         shell: bash
