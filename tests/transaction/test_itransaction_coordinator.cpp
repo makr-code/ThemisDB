@@ -91,7 +91,7 @@ public:
         bool prepare_returns_abort = false; ///< Simulate a participant ABORT vote.
     };
 
-    explicit StatefulMockCoordinator(Config cfg = {}) : cfg_(std::move(cfg)) {}
+    explicit StatefulMockCoordinator(Config cfg = Config{}) : cfg_(std::move(cfg)) {}
 
     // ─── Protocol introspection ───────────────────────────────────────────
 
