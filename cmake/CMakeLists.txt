@@ -3538,6 +3538,12 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/explainability_reason_builder.cpp
     # Wave 5 R9/R10: WikiIndexStore — BM25+, RRF, HNSW/cache stubs
     ../src/rag/wiki_index_store.cpp
+    # Wave B X1a: TensorRagCostModel — 5-phase cost model
+    ../src/rag/tensor_rag_cost_model.cpp
+    # Wave B X1b: RetrievalGuardrail — federated cost guardrail
+    ../src/rag/retrieval_guardrail.cpp
+    # Wave B X1c: RagQualityMonitor — per-layer quality metrics & anomaly detection
+    ../src/rag/rag_quality_monitor.cpp
     # DK-1: Distributed Knowledge Layer 11 — all four sub-components (S-1/S-9)
     ../src/distributed_knowledge/adapter_capability_announcement.cpp
     ../src/distributed_knowledge/lora_federation_coordinator.cpp
