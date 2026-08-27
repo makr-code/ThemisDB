@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (42)
+## Aktive Workflows (43)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -30,6 +30,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/compliance-supply-chain.yml`
 - `.github/workflows/build-ollama-router.yml`
 - `.github/workflows/gate-copilot-regression.yml`
+- `.github/workflows/publish-wiki.yml`
 - `.github/workflows/release-docker-image.yml`
 - `.github/workflows/edition-hyperscaler-ci.yml`
 - `.github/workflows/security-fortify.yml`

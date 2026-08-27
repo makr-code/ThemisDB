@@ -1,0 +1,129 @@
+name: "Publish: GitHub Wiki"
+
+# Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-08-27
+# Publishes selected repository documentation to the GitHub Wiki on every
+# push to develop that touches docs, ROADMAPs, or README, and on manual dispatch.
+# The wiki is a separate Git remote (<repo>.wiki.git); this workflow clones it,
+# runs scripts/build_wiki.py to stage updated pages, commits, and pushes back.
+#
+# Prerequisites:
+#   1. GitHub Wiki must be enabled for the repository (Settings → Features → Wikis).
+#   2. The wiki must have been initialized with at least one page via the UI before
+#      this workflow can push to it.
+#   3. The workflow uses GITHUB_TOKEN with contents:write scope for the wiki push.
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'README.md'
+      - 'docs/architecture/*.md'
+      - 'docs/governance/*.md'
+      - 'src/acceleration/ROADMAP.md'
+      - 'src/access_model/ROADMAP.md'
+      - 'src/ai/ROADMAP.md'
+      - 'src/analytics/ROADMAP.md'
+      - 'src/api/ROADMAP.md'
+      - 'src/aql/ROADMAP.md'
+      - 'src/auth/ROADMAP.md'
+      - 'src/base/ROADMAP.md'
+      - 'src/cache/ROADMAP.md'
+      - 'src/cdc/ROADMAP.md'
+      - 'src/config/ROADMAP.md'
+      - 'src/content/ROADMAP.md'
+      - 'src/core/ROADMAP.md'
+      - 'src/distributed_knowledge/ROADMAP.md'
+      - 'src/distributed_tensor/ROADMAP.md'
+      - 'src/document/ROADMAP.md'
+      - 'src/evaluation/ROADMAP.md'
+      - 'src/execution/ROADMAP.md'
+      - 'src/failover/ROADMAP.md'
+      - 'src/geo/ROADMAP.md'
+      - 'src/governance/ROADMAP.md'
+      - 'src/gpu/ROADMAP.md'
+      - 'src/graph/ROADMAP.md'
+      - 'src/llm/ROADMAP.md'
+      - 'src/process/ROADMAP.md'
+      - 'src/server/ROADMAP.md'
+      - 'src/sharding/ROADMAP.md'
+      - 'src/storage/ROADMAP.md'
+      - 'src/updates/ROADMAP.md'
+      - 'src/utils/ROADMAP.md'
+      - 'ai_context/developer_llm_wiki/*.md'
+      - 'scripts/build_wiki.py'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run only (print pages, do not push wiki)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-wiki-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish-wiki:
+    name: Build and publish wiki
+    runs-on: ubuntu-latest
+    # Skip if the wiki has not been initialized yet (no wiki remote available).
+    # The condition can be removed once the wiki is confirmed active.
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build wiki staging
+        id: build
+        run: |
+          DRY_RUN_FLAG=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
+          python scripts/build_wiki.py \
+            --repo-root . \
+            --output /tmp/wiki-staging \
+            $DRY_RUN_FLAG
+          echo "staging_dir=/tmp/wiki-staging" >> "$GITHUB_OUTPUT"
+
+      - name: Clone wiki remote
+        if: inputs.dry_run != 'true'
+        run: |
+          git clone \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" \
+            /tmp/wiki-repo
+          # Remove all existing .md pages so stale pages are cleaned up.
+          # Preserve Git metadata.
+          find /tmp/wiki-repo -maxdepth 1 -name '*.md' -delete
+
+      - name: Sync staged pages into wiki repo
+        if: inputs.dry_run != 'true'
+        run: |
+          cp /tmp/wiki-staging/*.md /tmp/wiki-repo/
+
+      - name: Commit and push wiki
+        if: inputs.dry_run != 'true'
+        run: |
+          cd /tmp/wiki-repo
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No wiki changes to commit."
+          else
+            COMMIT_SHA="${{ github.sha }}"
+            git commit -m "docs(wiki): sync from ${COMMIT_SHA:0:8} [skip ci]"
+            git push
+          fi

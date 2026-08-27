@@ -68,6 +68,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Scoped CI fuer `tools/copilot-ollama-router/**`
 - `.github/workflows/gate-copilot-regression.yml`
   — Copilot/CMake-Regression Guard
+- `.github/workflows/publish-wiki.yml`
+  — Publishes docs/architecture, docs/governance, src/*/ROADMAP.md and developer wiki to GitHub Wiki on push to develop or manual dispatch; community guardrail blocks private plugin paths
 
 ## Quarantaene: `.github/no_workflows/`
 Workflows in diesem Verzeichnis sind absichtlich deaktiviert. Eine Rueckverschiebung nach `.github/workflows/` ist nur zulaessig, wenn alle folgenden Punkte vorab dokumentiert sind:
@@ -127,7 +129,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 40
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 43
 - Deaktivierte Workflows in `.github/no_workflows/`: 30
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
