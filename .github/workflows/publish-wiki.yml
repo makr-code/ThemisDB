@@ -2,9 +2,25 @@ name: "Publish: GitHub Wiki"
 
 # Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-08-27
 # Publishes selected repository documentation to the GitHub Wiki on every
-# push to develop that touches docs, ROADMAPs, or README, and on manual dispatch.
+# push to develop that touches docs, ROADMAPs, README, or the developer wiki
+# artifacts in ai_context/, nightly at 02:00 UTC, and on manual dispatch.
 # The wiki is a separate Git remote (<repo>.wiki.git); this workflow clones it,
 # runs scripts/build_wiki.py to stage updated pages, commits, and pushes back.
+#
+# Workflow interplay:
+#   - maintenance-docs.yml  → runs ai-context-lint + ai-dev-llm-wiki-sync, which
+#     REGENERATES ai_context/developer_llm_wiki/*.md from root source-of-truth files.
+#     publish-wiki.yml then reads those regenerated artifacts and publishes them to
+#     the GitHub Wiki.  Run order: maintenance-docs first, publish-wiki second.
+#     On push to develop, maintenance-docs fires when ai_context/** or root docs change,
+#     publish-wiki fires when the resulting developer_llm_wiki artifacts change.
+#     On the nightly schedule both run independently; their ordering is best-effort
+#     (GitHub does not guarantee schedule ordering across workflows).
+#   - gate-pr-doxygen-governance.yml / compliance-governance-gates.yml  →
+#     govern doc quality at PR time; publish-wiki.yml is post-merge only.
+#   - Copilot instructions (ai_context/COPILOT_INSTRUCTIONS.md, CLAUDE.md) require
+#     coding agents to consult ai_context/developer_llm_wiki/ before implementing.
+#     This workflow ensures the wiki stays fresh so Copilot always reads current state.
 #
 # Prerequisites:
 #   1. GitHub Wiki must be enabled for the repository (Settings → Features → Wikis).
@@ -50,7 +66,10 @@ on:
       - 'src/updates/ROADMAP.md'
       - 'src/utils/ROADMAP.md'
       - 'ai_context/developer_llm_wiki/*.md'
+      - 'ai_context/developer_llm_wiki/WIKI_STATUS.json'
       - 'scripts/build_wiki.py'
+  schedule:
+    - cron: '0 2 * * *'   # Nightly 02:00 UTC — full wiki sync regardless of push activity
   workflow_dispatch:
     inputs:
       dry_run:
@@ -88,8 +107,11 @@ jobs:
       - name: Build wiki staging
         id: build
         run: |
+          # On workflow_dispatch with dry_run=true, skip the push steps.
+          # On push and schedule events, github.event.inputs is empty so
+          # dry_run defaults to false — always publish.
           DRY_RUN_FLAG=""
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             DRY_RUN_FLAG="--dry-run"
           fi
           python scripts/build_wiki.py \
@@ -97,9 +119,11 @@ jobs:
             --output /tmp/wiki-staging \
             $DRY_RUN_FLAG
           echo "staging_dir=/tmp/wiki-staging" >> "$GITHUB_OUTPUT"
+          # Propagate dry-run flag as output for downstream step conditions
+          echo "is_dry_run=${DRY_RUN_FLAG:+true}" >> "$GITHUB_OUTPUT"
 
       - name: Clone wiki remote
-        if: inputs.dry_run != 'true'
+        if: steps.build.outputs.is_dry_run != 'true'
         run: |
           git clone \
             "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" \
@@ -109,12 +133,12 @@ jobs:
           find /tmp/wiki-repo -maxdepth 1 -name '*.md' -delete
 
       - name: Sync staged pages into wiki repo
-        if: inputs.dry_run != 'true'
+        if: steps.build.outputs.is_dry_run != 'true'
         run: |
           cp /tmp/wiki-staging/*.md /tmp/wiki-repo/
 
       - name: Commit and push wiki
-        if: inputs.dry_run != 'true'
+        if: steps.build.outputs.is_dry_run != 'true'
         run: |
           cd /tmp/wiki-repo
           git config user.name  "github-actions[bot]"
@@ -124,6 +148,8 @@ jobs:
             echo "No wiki changes to commit."
           else
             COMMIT_SHA="${{ github.sha }}"
-            git commit -m "docs(wiki): sync from ${COMMIT_SHA:0:8} [skip ci]"
+            TRIGGER="${{ github.event_name }}"
+            git commit -m "docs(wiki): sync from ${COMMIT_SHA:0:8} (${TRIGGER}) [skip ci]"
             git push
           fi
+
