@@ -88,8 +88,10 @@ jobs:
             plugins/private/themisdb_plugin_signer; do
             git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
           done
-          git submodule sync -- vcpkg || true
-          git submodule update --init --depth 1 vcpkg
+          if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
+            rm -rf vcpkg
+            git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          fi
 
       - name: Install build dependencies
         run: |
@@ -112,6 +114,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_GRPC=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
             -DTHEMIS_MODELS_MODE=SKIP
 
@@ -174,8 +177,10 @@ jobs:
             plugins/private/themisdb_plugin_signer; do
             git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
           done
-          git submodule sync -- vcpkg || true
-          git submodule update --init --depth 1 vcpkg
+          if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
+            rm -rf vcpkg
+            git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          fi
 
       - name: Install build dependencies
         run: |
@@ -198,6 +203,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_GRPC=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
             -DTHEMIS_MODELS_MODE=SKIP
 

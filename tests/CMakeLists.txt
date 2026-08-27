@@ -3339,7 +3339,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_grpc_server.cpp")
     )
 
     if(THEMIS_ENABLE_GRPC)
-        target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++ gRPC::grpc++_reflection)
+        target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++)
+        if(TARGET gRPC::grpc++_reflection)
+            target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++_reflection)
+        else()
+            message(WARNING "gRPC reflection target (gRPC::grpc++_reflection) not found; building test_api_grpc_server without reflection")
+        endif()
         target_compile_definitions(test_api_grpc_server PRIVATE THEMIS_ENABLE_GRPC)
     endif()
 

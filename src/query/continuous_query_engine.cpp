@@ -11,6 +11,7 @@
 
 
 #include "query/continuous_query_engine_impl.h"
+#include "utils/logger.h"
 #include "utils/error_registry.h"
 
 #include <algorithm>

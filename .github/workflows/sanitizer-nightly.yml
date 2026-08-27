@@ -40,7 +40,7 @@ jobs:
       configure_command: >-
         set -euo pipefail; SAN_MODE="${{ inputs.sanitizer_mode || 'asan-ubsan' }}"; if [ "$SAN_MODE" = "asan-only" ]; then SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer"; else SAN_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"; fi; cmake -S . -B build-sanitizer -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_FLAGS="$SAN_FLAGS" -DCMAKE_CXX_FLAGS="$SAN_FLAGS" -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
       build_command: >-
-        cmake --build build-sanitizer --target themis_core module_epic3_distributed_tensor_tensor_shard_summary_focused module_llm_test_llm_phase1_hardening_focused --parallel 8
+        cmake --build build-sanitizer --target themis_base module_epic3_distributed_tensor_tensor_shard_summary_focused module_llm_test_llm_phase1_hardening_focused --parallel 8
       validation_command: >-
         ctest --test-dir build-sanitizer --output-on-failure -R "TensorShardSummaryPhaseCTests|module_llm_test_llm_phase1_hardening_focused" -j 1 --timeout 90
       artifact_name: sanitizer-nightly-logs-${{ github.run_number }}
