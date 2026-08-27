@@ -23,6 +23,7 @@
 #include <atomic>
 #include <mutex>
 #include <filesystem>
+#include <memory>
 
 namespace fs = std::filesystem;
 
@@ -65,7 +66,9 @@ protected:
 // ============================================================================
 
 TEST_F(AuditLoggerStressTest, ConcurrentWriters_8Threads) {
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
     
     constexpr int kThreads = 8;
     constexpr int kEventsPerThread = 100;
@@ -109,7 +112,9 @@ TEST_F(AuditLoggerStressTest, ConcurrentWriters_8Threads) {
 // ============================================================================
 
 TEST_F(AuditLoggerStressTest, ConcurrentWriters_32Threads) {
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
     
     constexpr int kThreads = 32;
     constexpr int kEventsPerThread = 50;
@@ -151,7 +156,9 @@ TEST_F(AuditLoggerStressTest, ConcurrentWriters_32Threads) {
 // ============================================================================
 
 TEST_F(AuditLoggerStressTest, ConcurrentWriters_128Threads) {
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
     
     constexpr int kThreads = 128;
     constexpr int kEventsPerThread = 20;  // Lower per-thread for 128 threads
@@ -210,7 +217,9 @@ TEST_F(AuditLoggerStressTest, ConcurrentWriters_128Threads) {
 // ============================================================================
 
 TEST_F(AuditLoggerStressTest, RapidFireEvents_NoDelay) {
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
     
     constexpr int kThreads = 16;
     constexpr int kEventsPerThread = 500;
@@ -256,7 +265,9 @@ TEST_F(AuditLoggerStressTest, RapidFireEvents_NoDelay) {
 // ============================================================================
 
 TEST_F(AuditLoggerStressTest, QueuePressureHandling) {
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
     
     constexpr int kThreads = 32;
     constexpr int kEventsPerThread = 200;
@@ -304,7 +315,9 @@ TEST_F(AuditLoggerStressTest, QueuePressureHandling) {
 // ============================================================================
 
 TEST_F(AuditLoggerStressTest, MixedPayloadSizes) {
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
     
     constexpr int kThreads = 16;
     constexpr int kEventsPerThread = 100;

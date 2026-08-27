@@ -121,9 +121,7 @@ if(MSVC)
     # Skip ABI detection for sub-projects to avoid deep CMakeScratch directories
     set(CMAKE_C_COMPILER_WORKS ON CACHE BOOL "C compiler pre-validated" FORCE)
     set(CMAKE_CXX_COMPILER_WORKS ON CACHE BOOL "CXX compiler pre-validated" FORCE)
-    
-    # Use config-style package discovery to avoid deep library searches
-    set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON CACHE BOOL "Prefer -config.cmake over Find modules" FORCE)
+
 endif()
 
 # 4. EXTERNAL PROJECT PATH FLATTENING FUNCTION
@@ -2546,6 +2544,7 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/async_wal_shipper.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp

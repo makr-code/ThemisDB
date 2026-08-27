@@ -323,5 +323,3 @@ TEST_F(ContentTypeRegistryOptionalTest, CMT_FIN_40_MemorySafety_AllMethodsSequen
     EXPECT_EQ(opt1.value().mime_type, opt2.value().mime_type);
 }
 
-} // namespace content
-} // namespace themis

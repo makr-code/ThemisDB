@@ -998,6 +998,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/async_wal_shipper.cpp
     ../src/replication/geo_placement.cpp
     
 )

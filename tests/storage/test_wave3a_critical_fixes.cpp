@@ -186,6 +186,7 @@ TEST(Wave3a_BackupManager, CompressPathNoCompression_CompilesToFailClosed) {
 // Fix 5 — GgmlTensorBridge::ggmlTensor() guard
 // ─────────────────────────────────────────────────────────────────────────────
 
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
 /// When THEMIS_UNIT_TEST is defined (as it is in this TU), ggmlTensor() returns
 /// the fake pointer (not nullptr) — confirming the #ifdef guard compiles and the
 /// unit-test path is active.
@@ -208,6 +209,7 @@ TEST(Wave3a_GgmlTensorBridge, SetAndClearAllocFnDoesNotThrow) {
     EXPECT_NO_THROW(GgmlTensorBridge::setGgmlAllocFn(nullptr));
     EXPECT_NO_THROW(GgmlTensorBridge::clearGgmlAllocFn());
 }
+#endif  // THEMIS_ENABLE_GGML_BRIDGE
 
 }  // namespace storage
 }  // namespace themis

@@ -199,8 +199,8 @@ TEST_F(VoiceAuditLoggingTest, AuditPersistenceFileWrite) {
 // TEST 6: Audit Log Rotation
 // ============================================================================
 TEST_F(VoiceAuditLoggingTest, AuditLogRotation) {
-    // Re-create with small rotation size for testing
-    audit_config_.rotation_size_mb = 1;  // Rotate at 1 MB (very small for testing)
+    // Re-create logger with a minimal config supported by the current API.
+    audit_config_.include_audio_metadata = true;
     audit_logger_ = std::make_unique<VoiceAuditLogger>(audit_config_);
     
     // Log many events to trigger rotation

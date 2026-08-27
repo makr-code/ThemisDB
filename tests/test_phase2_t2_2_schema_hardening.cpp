@@ -9,6 +9,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "importers/schema_inference.h"
 #include "importers/schema_validator.h"
 

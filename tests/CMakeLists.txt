@@ -855,6 +855,12 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
+    # Restore missing link providers for unresolved test symbols in monolithic themis_tests.
+    ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/replication/lag_alert_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/governance/policy_conflict_detector.cpp
+    ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+    ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
     # AI plugin generator (ai/test_ai_plugin_generator.cpp)
     ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     # Continuous query engine helpers (continuous/test_continuous_query_engine.cpp)
@@ -4069,6 +4075,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_geo_placemen
 
     add_executable(test_replication_geo_placement_wal_shipping_focused
        replication/test_replication_geo_placement_wal_shipping_focused.cpp
+         ../src/replication/async_wal_shipper.cpp
     )
 
     target_include_directories(test_replication_geo_placement_wal_shipping_focused PRIVATE

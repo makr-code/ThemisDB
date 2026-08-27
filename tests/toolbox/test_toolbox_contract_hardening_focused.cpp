@@ -6,6 +6,9 @@
 
 #include <gtest/gtest.h>
 #include "toolbox/toolbox_api_contract.h"
+#include "toolbox/toolbox_builder.h"
+#include "toolbox/toolbox_registry.h"
+#include "toolbox/content_toolbox_bridge.h"
 
 #include <algorithm>
 #include <cstdint>

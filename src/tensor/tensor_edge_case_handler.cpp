@@ -480,7 +480,7 @@ void TensorEdgeCaseHandler::emitDiagnostic(
     } else if (result.is_recoverable) {
         logger->warn(diag);
     } else {
-        logger->err(diag);
+        logger->error(diag);
     }
 }
 

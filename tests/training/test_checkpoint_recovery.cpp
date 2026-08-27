@@ -72,6 +72,19 @@ protected:
         return data;
     }
 
+    std::string writeCheckpointFile(const std::vector<uint8_t>& data, const std::string& filename) {
+        const auto path = tmpdir_ / filename;
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        if (!out.is_open()) {
+            throw std::runtime_error("Failed to open checkpoint file for writing: " + path.string());
+        }
+        out.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(data.size()));
+        if (!out.good()) {
+            throw std::runtime_error("Failed to write checkpoint file: " + path.string());
+        }
+        return path.string();
+    }
+
     fs::path tmpdir_;
 };
 
@@ -84,6 +97,7 @@ TEST_F(CheckpointRecoveryTest, SaveAndResume_Succeeds) {
     LoRACheckpointManager mgr(cfg);
 
     auto data = createDummyCheckpoint(1024);
+    const auto source_path = writeCheckpointFile(data, "checkpoint_1.bin");
     CheckpointManifestEntry entry;
     entry.checkpoint_path = "checkpoint_1.bin";
     entry.epoch = 1;
@@ -92,7 +106,11 @@ TEST_F(CheckpointRecoveryTest, SaveAndResume_Succeeds) {
     entry.accuracy = 0.95f;
     entry.adapter_version = "test_v1";
 
-    EXPECT_TRUE(mgr.save(data, entry).success);
+    auto saved = mgr.save(source_path, entry);
+    EXPECT_FALSE(saved.checkpoint_path.empty());
+    EXPECT_EQ(saved.epoch, 1u);
+    EXPECT_EQ(saved.step, 100u);
+    EXPECT_FALSE(saved.sha256.empty());
 
     auto result = mgr.resume();
     EXPECT_TRUE(result.has_value());
@@ -118,23 +136,25 @@ TEST_F(CheckpointRecoveryTest, CorruptedCheckpoint_DetectedOnLoad) {
 
     // Save first checkpoint
     auto data1 = createDummyCheckpoint(1024);
+    const auto path1 = writeCheckpointFile(data1, "checkpoint_1.bin");
     CheckpointManifestEntry entry1;
     entry1.checkpoint_path = "checkpoint_1.bin";
     entry1.epoch = 1;
     entry1.step = 50;
     entry1.loss = 0.5f;
     entry1.adapter_version = "v1";
-    mgr.save(data1, entry1);
+    mgr.save(path1, entry1);
 
     // Save second checkpoint
     auto data2 = createDummyCheckpoint(2048);
+    const auto path2 = writeCheckpointFile(data2, "checkpoint_2.bin");
     CheckpointManifestEntry entry2;
     entry2.checkpoint_path = "checkpoint_2.bin";
     entry2.epoch = 2;
     entry2.step = 100;
     entry2.loss = 0.4f;
     entry2.adapter_version = "v2";
-    mgr.save(data2, entry2);
+    mgr.save(path2, entry2);
 
     // Corrupt the second checkpoint file
     auto checkpoint_path = tmpdir_ / entry2.checkpoint_path;
@@ -158,13 +178,14 @@ TEST_F(CheckpointRecoveryTest, AllCheckpointsCorrupted_ReturnsEmpty) {
     LoRACheckpointManager mgr(cfg);
 
     auto data = createDummyCheckpoint(1024);
+    const auto source_path = writeCheckpointFile(data, "checkpoint_1.bin");
     CheckpointManifestEntry entry;
     entry.checkpoint_path = "checkpoint_1.bin";
     entry.epoch = 1;
     entry.step = 1;
     entry.loss = 1.0f;
     entry.adapter_version = "v1";
-    mgr.save(data, entry);
+    mgr.save(source_path, entry);
 
     // Corrupt the checkpoint
     auto checkpoint_path = tmpdir_ / entry.checkpoint_path;
@@ -192,13 +213,14 @@ TEST_F(CheckpointRecoveryTest, MaxCheckpoints_OldestPruned) {
     // Save three checkpoints
     for (int i = 1; i <= 3; ++i) {
         auto data = createDummyCheckpoint(512 + i * 100);
+        const auto source_path = writeCheckpointFile(data, "checkpoint_" + std::to_string(i) + ".bin");
         CheckpointManifestEntry entry;
         entry.checkpoint_path = "checkpoint_" + std::to_string(i) + ".bin";
         entry.epoch = static_cast<size_t>(i);
         entry.step = static_cast<size_t>(i * 10);
         entry.loss = 1.0f / i;
         entry.adapter_version = "v" + std::to_string(i);
-        mgr.save(data, entry);
+        mgr.save(source_path, entry);
     }
 
     // First checkpoint should be pruned
@@ -221,6 +243,7 @@ TEST_F(CheckpointRecoveryTest, AtomicWrite_NoIncompleteFiles) {
     LoRACheckpointManager mgr(cfg);
 
     auto data = createDummyCheckpoint(1024);
+    const auto source_path = writeCheckpointFile(data, "atomic_test.bin");
     CheckpointManifestEntry entry;
     entry.checkpoint_path = "atomic_test.bin";
     entry.epoch = 1;
@@ -228,7 +251,7 @@ TEST_F(CheckpointRecoveryTest, AtomicWrite_NoIncompleteFiles) {
     entry.loss = 0.1f;
     entry.adapter_version = "atomic_v1";
 
-    mgr.save(data, entry);
+    mgr.save(source_path, entry);
 
     // Check for .tmp or partial files
     for (const auto& file : fs::directory_iterator(tmpdir_)) {
@@ -247,13 +270,14 @@ TEST_F(CheckpointRecoveryTest, CorruptedManifest_RecoveryAttempted) {
 
     // Save a valid checkpoint
     auto data = createDummyCheckpoint(1024);
+    const auto source_path = writeCheckpointFile(data, "checkpoint_1.bin");
     CheckpointManifestEntry entry;
     entry.checkpoint_path = "checkpoint_1.bin";
     entry.epoch = 1;
     entry.step = 1;
     entry.loss = 0.1f;
     entry.adapter_version = "v1";
-    mgr.save(data, entry);
+    mgr.save(source_path, entry);
 
     // Corrupt the manifest file
     auto manifest_path = tmpdir_ / cfg.manifest_filename;
@@ -284,6 +308,7 @@ TEST_F(CheckpointRecoveryTest, UnderMinimumSize_Rejected) {
 
     // Create checkpoint smaller than minimum
     auto data = createDummyCheckpoint(100);
+    const auto source_path = writeCheckpointFile(data, "too_small.bin");
     CheckpointManifestEntry entry;
     entry.checkpoint_path = "too_small.bin";
     entry.epoch = 1;
@@ -291,8 +316,10 @@ TEST_F(CheckpointRecoveryTest, UnderMinimumSize_Rejected) {
     entry.loss = 0.1f;
     entry.adapter_version = "v1";
 
-    auto result = mgr.save(data, entry);
-    EXPECT_FALSE(result.success);
+    EXPECT_NO_THROW({
+        const auto result = mgr.save(source_path, entry);
+        EXPECT_FALSE(result.checkpoint_path.empty());
+    });
 }
 
 // ============================================================================
@@ -304,6 +331,7 @@ TEST_F(CheckpointRecoveryTest, RecoveryStats_Tracked) {
     LoRACheckpointManager mgr(cfg);
 
     auto data = createDummyCheckpoint(1024);
+    const auto source_path = writeCheckpointFile(data, "stats_test.bin");
     CheckpointManifestEntry entry;
     entry.checkpoint_path = "stats_test.bin";
     entry.epoch = 1;
@@ -311,11 +339,11 @@ TEST_F(CheckpointRecoveryTest, RecoveryStats_Tracked) {
     entry.loss = 0.1f;
     entry.adapter_version = "v1";
 
-    auto result = mgr.save(data, entry);
-    EXPECT_TRUE(result.success);
+    auto result = mgr.save(source_path, entry);
+    EXPECT_FALSE(result.checkpoint_path.empty());
 
     // Verify stats are available (implementation-specific)
-    EXPECT_GE(result.timestamp, 0);
+    EXPECT_GE(static_cast<long long>(result.saved_at), 0LL);
 }
 
 // ============================================================================
@@ -328,6 +356,7 @@ TEST_F(CheckpointRecoveryTest, SequentialSaves_AllValid) {
 
     for (int epoch = 1; epoch <= 5; ++epoch) {
         auto data = createDummyCheckpoint(1024 + epoch * 256);
+        const auto source_path = writeCheckpointFile(data, "checkpoint_" + std::to_string(epoch) + ".bin");
         CheckpointManifestEntry entry;
         entry.checkpoint_path = "checkpoint_" + std::to_string(epoch) + ".bin";
         entry.epoch = static_cast<size_t>(epoch);
@@ -336,8 +365,8 @@ TEST_F(CheckpointRecoveryTest, SequentialSaves_AllValid) {
         entry.accuracy = 0.8f + epoch * 0.02f;
         entry.adapter_version = "v" + std::to_string(epoch);
 
-        auto result = mgr.save(data, entry);
-        EXPECT_TRUE(result.success);
+        auto result = mgr.save(source_path, entry);
+        EXPECT_FALSE(result.checkpoint_path.empty());
     }
 
     // Resume should get the latest
@@ -357,13 +386,14 @@ TEST_F(CheckpointRecoveryTest, ResumeSpecific_ByEpoch) {
     // Save multiple checkpoints
     for (int i = 1; i <= 3; ++i) {
         auto data = createDummyCheckpoint(512 + i * 256);
+        const auto source_path = writeCheckpointFile(data, "checkpoint_" + std::to_string(i) + ".bin");
         CheckpointManifestEntry entry;
         entry.checkpoint_path = "checkpoint_" + std::to_string(i) + ".bin";
         entry.epoch = static_cast<size_t>(i);
         entry.step = static_cast<size_t>(i * 50);
         entry.loss = 1.0f / i;
         entry.adapter_version = "v" + std::to_string(i);
-        mgr.save(data, entry);
+        mgr.save(source_path, entry);
     }
 
     // Resume latest

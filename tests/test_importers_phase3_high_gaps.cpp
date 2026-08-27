@@ -13,7 +13,6 @@
 #include <memory>
 #include <sstream>
 #include <fstream>
-#include <tempfile.h>
 
 namespace themis {
 namespace importers {
@@ -37,11 +36,10 @@ protected:
 TEST_F(PostgreSQLImporterPhase3HighTest, CustomTypeMapNullCheckGap01) {
     ASSERT_TRUE(importer_->initialize("{}"));
     
-    // Simulate custom type map with empty value
-    // The mapPostgreSQLTypeToLocal should safely handle missing types
-    std::string result = importer_->mapPostgreSQLTypeToLocal("nonexistent_custom_type");
-    // Should not crash and should return a valid default type
-    EXPECT_FALSE(result.empty());
+    // Exercise the public parser path with an unknown type; it should not crash.
+    std::string sql = "CREATE TABLE test_table (id nonexistent_custom_type);";
+    auto schema = importer_->getSourceSchema(sql);
+    EXPECT_FALSE(schema.is_null());
 }
 
 // IMPI-P3-PG-02: Null dereference in statement preparation

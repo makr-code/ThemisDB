@@ -307,7 +307,8 @@ double GeospatialCostEstimator::estimateDistanceSelectivity(
         double distanceDegrees = distanceMeters / 111000.0;
         
         // Search area: circle with radius distanceDegrees
-        double searchArea = M_PI * distanceDegrees * distanceDegrees;
+        constexpr double kPi = 3.14159265358979323846;
+        double searchArea = kPi * distanceDegrees * distanceDegrees;
         
         // Global area estimate
         double globalLonRange = histogram->globalMaxLon - histogram->globalMinLon;
