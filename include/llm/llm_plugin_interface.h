@@ -429,7 +429,8 @@ public:
     };
 
     // ─────────────────────────────────────────────────────────────────────
-    // STUB #261 bridge — callback injection for generateDraftTokens()
+    // STUB #261 — Production Injection Point (wired by
+    //   InferenceEngineEnhanced::trySpeculativeGeneration, 2026-08-27)
     // ─────────────────────────────────────────────────────────────────────
 
     /// Callback type that replaces the default heuristic implementation of
@@ -514,7 +515,8 @@ public:
 
 private:
     // Inline static storage for the default generateDraftTokens() injection
-    // (STUB #261 bridge).  Using inline static avoids a separate .cpp TU.
+    // (STUB #261 — Production Injection Point, wired 2026-08-27).
+    // Using inline static avoids a separate .cpp TU.
     // Placed in a private section between two public ones so that the injected
     // state cannot be accessed directly; access is exclusively through the
     // public static setter setDefaultGenerateDraftTokensFn().

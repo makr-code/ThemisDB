@@ -460,3 +460,25 @@ The module provides production-grade LLM runtime surfaces across async inference
       (TargetLogitsFn was already fully wired; note corrected)
 - [x] Tests SD-BRG-01..SD-BRG-07 added
 - [x] STUB_INVENTORY.md entries 322/323 marked resolved
+
+---
+
+## Wave 10 — Local Draft Plugin Bridge (2026-08-27)
+
+### W10-D: Bridge ILLMPlugin::setDraftTokensFn() for local draft path
+
+- [x] `trySpeculativeGeneration()` local draft path wired: when `TokenizerFn` is
+      set on the engine, a `GenerateDraftTokensFn` lambda is injected into
+      `ILLMPlugin::setDefaultGenerateDraftTokensFn()` before calling
+      `draft_plugin->generateDraftTokens()`.
+- [x] Lambda captures `draft_plugin` by value (shared_ptr copy) — no `this`
+      capture across thread boundaries.
+- [x] Bridge cleared (`setDefaultGenerateDraftTokensFn(nullptr)`) after the
+      call, including on exception, to prevent global state pollution.
+- [x] Byte-modulo heuristic retained as documented fallback when TokenizerFn
+      is absent or returns empty / throws.
+- [x] STUB #261 comment updated in `include/llm/llm_plugin_interface.h`:
+      "Production Injection Point (wired by
+       InferenceEngineEnhanced::trySpeculativeGeneration, 2026-08-27)".
+- [x] Tests SD-LOCAL-01 and SD-LOCAL-02 added in
+      `tests/llm/test_w10d_local_draft_bridge.cpp`.

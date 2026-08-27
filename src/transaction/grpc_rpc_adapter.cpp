@@ -17,8 +17,8 @@
  * fail-closed callables that log a warning and vote ABORT / throw, preventing
  * silent data loss.
  *
- * @version 0.0.1
- * @note Wave: Wave 9 Block 2 (W9-7..W9-9)
+ * @version 0.0.2
+ * @note Wave: Wave 9 Block 2 (W9-7..W9-9); mTLS credential support added Wave 10 (W10-A)
  */
 
 // Copyright 2025 ThemisDB
@@ -29,6 +29,7 @@
 
 #include <chrono>
 #include <map>
+#include <optional>
 #include <set>
 #include <stdexcept>
 #include <string>
@@ -65,6 +66,62 @@ constexpr std::chrono::milliseconds kRetryDelays[3] = {
 
 constexpr int kMaxRetries = 3;
 
+#ifdef THEMIS_HAS_CORE_GRPC
+/**
+ * @brief Build gRPC channel credentials from an optional MtlsConfig.
+ *
+ * When @p mtls is present and all three PEM fields (ca_cert_pem,
+ * client_cert_pem, client_key_pem) are non-empty, returns
+ * `grpc::SslCredentials` configured with those PEM strings.
+ *
+ * Falls back to `grpc::InsecureChannelCredentials()` otherwise and logs a
+ * warning so the insecure path is always visible in operator logs.
+ *
+ * @param mtls  Optional mTLS credential bundle.
+ * @return      Shared pointer to `grpc::ChannelCredentials`.
+ */
+[[nodiscard]] inline std::shared_ptr<grpc::ChannelCredentials>
+makeChannelCredentials(const std::optional<MtlsConfig>& mtls)
+{
+    if (mtls.has_value() &&
+        !mtls->ca_cert_pem.empty() &&
+        !mtls->client_cert_pem.empty() &&
+        !mtls->client_key_pem.empty())
+    {
+        grpc::SslCredentialsOptions ssl_opts;
+        ssl_opts.pem_root_certs    = mtls->ca_cert_pem;
+        ssl_opts.pem_private_key   = mtls->client_key_pem;
+        ssl_opts.pem_cert_chain    = mtls->client_cert_pem;
+        return grpc::SslCredentials(ssl_opts);
+    }
+
+    THEMIS_WARN("gRPC channel using insecure credentials — "
+                "provide THEMIS_GRPC_CA_CERT / THEMIS_GRPC_CLIENT_CERT / "
+                "THEMIS_GRPC_CLIENT_KEY for production deployments");
+    return grpc::InsecureChannelCredentials();
+}
+
+/**
+ * @brief Build `grpc::ChannelArguments` from an optional MtlsConfig.
+ *
+ * If @p mtls carries a non-empty `target_name_override` the override is set
+ * on the returned arguments object (useful for test environments where the
+ * server certificate CN does not match the dial address).
+ *
+ * @param mtls  Optional mTLS credential bundle.
+ * @return      Configured `grpc::ChannelArguments` (may be default-constructed).
+ */
+[[nodiscard]] inline grpc::ChannelArguments
+makeChannelArguments(const std::optional<MtlsConfig>& mtls)
+{
+    grpc::ChannelArguments args;
+    if (mtls.has_value() && !mtls->target_name_override.empty()) {
+        args.SetSslTargetNameOverride(mtls->target_name_override);
+    }
+    return args;
+}
+#endif  // THEMIS_HAS_CORE_GRPC
+
 }  // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -73,12 +130,13 @@ constexpr int kMaxRetries = 3;
 
 DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
     const std::map<std::string, std::string>& node_addresses,
-    std::chrono::milliseconds                  timeout)
+    std::chrono::milliseconds                  timeout,
+    std::optional<MtlsConfig>                  mtls)
 {
 #ifdef THEMIS_HAS_CORE_GRPC
     // Capture by value so the returned callable is self-contained and safe to
     // call from any thread after the creator scope has exited.
-    return [node_addresses, timeout](
+    return [node_addresses, timeout, mtls](
                const std::string& node_id,
                const std::string& txn_id,
                const std::set<std::string>& /*affected_keys*/) -> bool
@@ -92,11 +150,12 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
 
         const std::string& endpoint = it->second;
 
-        // Create an insecure channel.  Production deployments MUST pass mTLS
-        // credentials here; replace `InsecureChannelCredentials()` with the
-        // appropriate `SslCredentials` / `local_credentials` configuration.
-        auto channel = grpc::CreateChannel(endpoint,
-                                           grpc::InsecureChannelCredentials());
+        // Build credentials and channel arguments from the mTLS config.
+        // makeChannelCredentials() falls back to InsecureChannelCredentials()
+        // with a warning when PEM fields are absent.
+        auto creds = makeChannelCredentials(mtls);
+        auto args  = makeChannelArguments(mtls);
+        auto channel = grpc::CreateCustomChannel(endpoint, creds, args);
         auto stub    = themis::core::ThemisCoreService::NewStub(channel);
 
         grpc::ClientContext ctx;
@@ -144,6 +203,7 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
 
     (void)node_addresses;
     (void)timeout;
+    (void)mtls;
 
     return [](const std::string& node_id,
               const std::string& txn_id,
@@ -164,11 +224,12 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
 
 DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
     const std::map<std::string, std::string>& node_addresses,
-    std::chrono::milliseconds                  timeout)
+    std::chrono::milliseconds                  timeout,
+    std::optional<MtlsConfig>                  mtls)
 {
 #ifdef THEMIS_HAS_CORE_GRPC
 
-    return [node_addresses, timeout](
+    return [node_addresses, timeout, mtls](
                const std::string& node_id,
                const std::string& txn_id,
                bool               do_commit)
@@ -185,10 +246,12 @@ DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
         const char*        phase2_op = do_commit ? "COMMIT" : "ROLLBACK";
 
         for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
-            // Fresh channel + stub per attempt — channels remain valid across
-            // attempts but we re-acquire the deadline each time.
-            auto channel = grpc::CreateChannel(endpoint,
-                                               grpc::InsecureChannelCredentials());
+            // Build credentials and channel arguments from the mTLS config.
+            // makeChannelCredentials() falls back to InsecureChannelCredentials()
+            // with a warning when PEM fields are absent.
+            auto creds   = makeChannelCredentials(mtls);
+            auto args    = makeChannelArguments(mtls);
+            auto channel = grpc::CreateCustomChannel(endpoint, creds, args);
             auto stub    = themis::core::ThemisCoreService::NewStub(channel);
             grpc::ClientContext ctx;
             ctx.set_deadline(makeDeadline(timeout));
@@ -275,6 +338,7 @@ DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
 
     (void)node_addresses;
     (void)timeout;
+    (void)mtls;
 
     return [](const std::string& node_id,
               const std::string& txn_id,

@@ -21,6 +21,7 @@
 #include <mutex>
 #include <string>
 #include <utility>
+#include <nlohmann/json.hpp>
 
 // Conditionally compile the real service implementation when the protobuf
 // stubs generated from proto/themis_core.proto are available on the include
@@ -487,7 +488,17 @@ private:
                                     "AQL engine not available");
             }
             const auto t0 = std::chrono::steady_clock::now();
-            auto result = aql_engine_->execute(req->query());
+            // Serialize bind_vars proto map to a JSON object string.
+            // bind_vars is a map<string,string>; pass "{}" when absent/empty.
+            std::string bind_vars_json = "{}";
+            if (req->bind_vars_size() > 0) {
+                nlohmann::json bv = nlohmann::json::object();
+                for (const auto& [k, v] : req->bind_vars()) {
+                    bv[k] = v;
+                }
+                bind_vars_json = bv.dump();
+            }
+            auto result = aql_engine_->execute(req->query(), bind_vars_json);
             const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - t0).count();
 
@@ -519,7 +530,15 @@ private:
                 return grpc::Status(grpc::StatusCode::UNIMPLEMENTED,
                                     "AQL engine not wired");
             }
-            auto result = aql_engine_->execute(req->query());
+            std::string stream_bind_vars_json = "{}";
+            if (req->bind_vars_size() > 0) {
+                nlohmann::json bv = nlohmann::json::object();
+                for (const auto& [k, v] : req->bind_vars()) {
+                    bv[k] = v;
+                }
+                stream_bind_vars_json = bv.dump();
+            }
+            auto result = aql_engine_->execute(req->query(), stream_bind_vars_json);
             if (!result) {
                 return grpc::Status(grpc::StatusCode::INTERNAL, result.error().message());
             }

@@ -340,3 +340,44 @@ when the schema is extended a first-class `Prepare` RPC should replace it.
 - [x] `THEMIS_HAS_CORE_GRPC` compile guard — non-gRPC builds compile cleanly
 - [x] Fail-closed stubs in non-gRPC path (vote ABORT / throw)
 - [x] 15 tests registered `release_critical` in `tests/transaction/CMakeLists.txt`
+
+---
+
+## Wave 10 — mTLS credential wiring for gRPC channels (W10-A)
+
+> Added: 2026-08-27
+
+### Scope
+
+Replace the `InsecureChannelCredentials()` TODO in both adapter `make()`
+factories with real mTLS (`grpc::SslCredentials`) support; preserve an
+insecure fallback for dev/test environments.
+
+| Item | Description | Status |
+|------|-------------|--------|
+| [x] **W10-A** | `MtlsConfig` struct in `include/transaction/grpc_rpc_adapter.h` | Done 2026-08-27 |
+| [x] **W10-A** | `GrpcRpcPhase1Adapter::make()` accepts `std::optional<MtlsConfig>` | Done 2026-08-27 |
+| [x] **W10-A** | `GrpcRpcPhase2Adapter::make()` accepts `std::optional<MtlsConfig>` | Done 2026-08-27 |
+| [x] **W10-A** | `src/main.cpp` reads `THEMIS_GRPC_CA_CERT` / `THEMIS_GRPC_CLIENT_CERT` / `THEMIS_GRPC_CLIENT_KEY` | Done 2026-08-27 |
+| [x] **W10-A** | MTLS-01: construction with all PEM fields populated does not throw | Done 2026-08-27 |
+| [x] **W10-A** | MTLS-02: `nullopt` falls back to insecure credentials without throwing | Done 2026-08-27 |
+
+### Files touched
+
+| File | Change |
+|------|--------|
+| `include/transaction/grpc_rpc_adapter.h` | `MtlsConfig` struct; `[[nodiscard]]` + optional param on `make()` |
+| `src/transaction/grpc_rpc_adapter.cpp` | `makeChannelCredentials` / `makeChannelArguments` helpers; `grpc::CreateCustomChannel` |
+| `src/main.cpp` | Env-var reading block; pass `mtls_cfg` to both adapters |
+| `tests/transaction/test_grpc_rpc_adapter.cpp` | MTLS-01, MTLS-02 tests |
+
+### Acceptance criteria closure
+
+- [x] `MtlsConfig` struct with Doxygen docs in public header
+- [x] `SslCredentials` used when all three PEM fields are non-empty
+- [x] `InsecureChannelCredentials()` fallback with `spdlog::warn` when any PEM field absent or `mtls = nullopt`
+- [x] `target_name_override` wired via `grpc::ChannelArguments::SetSslTargetNameOverride`
+- [x] No raw `new`/`delete`; `grpc::SslCredentialsOptions` used directly
+- [x] `make()` marked `[[nodiscard]]`
+- [x] `THEMIS_GRPC_CA_CERT`, `THEMIS_GRPC_CLIENT_CERT`, `THEMIS_GRPC_CLIENT_KEY` env vars read in `src/main.cpp`
+- [x] 2 new tests (MTLS-01, MTLS-02) in `tests/transaction/test_grpc_rpc_adapter.cpp`

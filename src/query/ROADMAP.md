@@ -260,7 +260,7 @@ Performance and scalability optimization with measurable, gated performance impr
 ### Wave 9 Block 3 Delivery (2026-08-26)
 
 - [x] **W9-10**: 7 HIGH gaps closed — catch_all_swallow, memory_leak, null_dereference, todo_as_productionlogic, uncaught_exception, unchecked_result, string_concat_loop (Target: Q3 2026) ✅ COMPLETE
-- [x] **W9-11**: AQL FunctionCall compat shim deprecation warning added; callers documented; removal gated on Q4 2026 migration (Target: Q4 2026) ✅ WARNING ADDED
+- [x] **W9-11**: AQL FunctionCall compat shim deprecation warning added; callers documented; **W10-C: compat shim removed** — no callers existed; canonical `SimilarityCall`/`ProximityCall` paths are sole active dispatch (Target: Q4 2026) ✅ COMPLETE
 - [x] **W9-12**: Hybrid ANN+graph planner `planAnnGraphHybrid()` delivered in `tensor_aware_query_optimizer.cpp`; `AnnFrontdoor` + `IKnowledgeGraph::neighbours()` + RRF fusion; 500ms gate; 14 regression tests (Target: Q3 2026) ✅ COMPLETE
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)

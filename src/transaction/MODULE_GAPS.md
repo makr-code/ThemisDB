@@ -6,8 +6,9 @@ This file documents all documentation and code quality gaps in the **transaction
 
 - **Total Gaps**: 1660  <!-- Reduced by 22 CRITICAL (Wave A 2026-08-25) -->
 - **STUB #279 (Phase-1/Phase-2 transport bridges)**: **CLOSED 2026-08-26** — `GrpcRpcPhase1Adapter` and `GrpcRpcPhase2Adapter` delivered in `include/transaction/grpc_rpc_adapter.h` / `src/transaction/grpc_rpc_adapter.cpp` (W9-7..W9-9); wired in `src/main.cpp`; 15 tests registered.
+- **TODO (InsecureChannelCredentials mTLS replacement)**: **CLOSED 2026-08-27** — `MtlsConfig` struct and `grpc::SslCredentials` wired in both adapters (W10-A); env-var loading in `src/main.cpp`; insecure fallback preserved with `spdlog::warn`; 2 new tests (MTLS-01, MTLS-02).
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Last Updated**: 2026-08-27 (W10-A mTLS closure)
 
 ### By Severity
 

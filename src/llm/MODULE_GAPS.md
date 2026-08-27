@@ -242,3 +242,24 @@ CRITICAL count reduction: 155 − 20 = **135 residual** (20 scanner FPs closed).
 - `ModelDownloadConfig` gains `bool allow_insecure_http = false` (non-breaking default)
 - `LLMPrefixCache::Config` gains `std::string cache_dir = ""` (non-breaking default)
 - `validateOllamaUrl` signature updated to `validateOllamaUrl(url, bool allow_insecure_http = false)` — internal only (anonymous namespace)
+
+---
+
+## Wave 10-D — Local Draft Plugin Bridge (2026-08-27)
+
+**STUB #261 (LLM): ILLMPlugin::generateDraftTokens() local path — byte-modulo heuristic bridged**
+
+- **Gap**: `InferenceEngineEnhanced::trySpeculativeGeneration()` called
+  `draft_plugin->generateDraftTokens()` without injecting the engine's
+  `TokenizerFn`, leaving the local draft path on the byte-modulo heuristic
+  even when a real tokenizer was registered.
+- **Fix (W10-D, 2026-08-27)**: Before the `generateDraftTokens()` call, the
+  engine's `TokenizerFn` (when set) is bridged into
+  `ILLMPlugin::setDefaultGenerateDraftTokensFn()` via a lambda that calls
+  `draft_plugin->generate()` then tokenizes the result with the real fn.
+  The injected fn is cleared after the call (`nullptr` reset) to prevent
+  process-wide state leakage.
+- **Files**: `src/llm/inference_engine_enhanced.cpp`;
+             `include/llm/llm_plugin_interface.h` (comment only)
+- **Tests**: `tests/llm/test_w10d_local_draft_bridge.cpp` (SD-LOCAL-01, SD-LOCAL-02)
+- **Status**: **RESOLVED 2026-08-27**

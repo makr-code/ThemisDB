@@ -163,8 +163,9 @@ int main(int argc, char* argv[]) {
         // To extend:
         //   1. Populate node_addresses from your cluster configuration source.
         //   2. Set prepare_timeout / commit_timeout to your SLA budget.
-        //   3. Replace InsecureChannelCredentials() in grpc_rpc_adapter.cpp
-        //      with mTLS credentials for production deployments.
+        //   3. Set THEMIS_GRPC_CA_CERT / THEMIS_GRPC_CLIENT_CERT /
+        //      THEMIS_GRPC_CLIENT_KEY env vars for mTLS (W10-A). When absent
+        //      the adapters log a warning and fall back to insecure channels.
         {
             // Node address map — populated from config / service-discovery at
             // real startup; left empty here so the demo path is a no-op.
@@ -172,19 +173,49 @@ int main(int argc, char* argv[]) {
             constexpr auto prepare_timeout = std::chrono::milliseconds{500};
             constexpr auto commit_timeout  = std::chrono::milliseconds{2000};
 
+            // W10-A: Read optional mTLS credential env vars.
+            // Set THEMIS_GRPC_CA_CERT, THEMIS_GRPC_CLIENT_CERT, and
+            // THEMIS_GRPC_CLIENT_KEY to PEM-encoded strings to enable mTLS.
+            // When any var is absent the adapters fall back to insecure
+            // channels and emit a warning.
+            auto getenv_safe = [](const char* name) -> std::string {
+                const char* v = std::getenv(name);
+                return v ? std::string(v) : std::string{};
+            };
+
+            std::optional<themis::transaction::MtlsConfig> mtls_cfg;
+            {
+                themis::transaction::MtlsConfig cfg;
+                cfg.ca_cert_pem     = getenv_safe("THEMIS_GRPC_CA_CERT");
+                cfg.client_cert_pem = getenv_safe("THEMIS_GRPC_CLIENT_CERT");
+                cfg.client_key_pem  = getenv_safe("THEMIS_GRPC_CLIENT_KEY");
+                // target_name_override is not exposed via env var; leave empty
+                // for production use (override is only needed in test setups).
+                if (!cfg.ca_cert_pem.empty() &&
+                    !cfg.client_cert_pem.empty() &&
+                    !cfg.client_key_pem.empty())
+                {
+                    mtls_cfg = std::move(cfg);
+                    THEMIS_INFO("W10-A: mTLS credentials loaded from environment variables");
+                }
+                // else: mtls_cfg stays nullopt → adapters use insecure fallback
+            }
+
             themis::transaction::DistributedTransactionManager::setRpcPhase1Fn(
                 themis::transaction::GrpcRpcPhase1Adapter::make(
-                    node_addresses, prepare_timeout));
+                    node_addresses, prepare_timeout, mtls_cfg));
 
             themis::transaction::DistributedTransactionManager::setRpcPhase2Fn(
                 themis::transaction::GrpcRpcPhase2Adapter::make(
-                    node_addresses, commit_timeout));
+                    node_addresses, commit_timeout, mtls_cfg));
 
             THEMIS_INFO("W9-9: gRPC RPC bridges installed for distributed 2PC/3PC "
-                        "(node_count={}, prepare_timeout={}ms, commit_timeout={}ms)",
+                        "(node_count={}, prepare_timeout={}ms, commit_timeout={}ms, "
+                        "mtls={})",
                         node_addresses.size(),
                         prepare_timeout.count(),
-                        commit_timeout.count());
+                        commit_timeout.count(),
+                        mtls_cfg.has_value() ? "enabled" : "insecure-fallback");
         }
         // ────────────────────────────────────────────────────────────────────
         

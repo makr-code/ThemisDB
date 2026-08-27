@@ -4635,6 +4635,7 @@ endif()
 # gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
 if(THEMIS_ENABLE_GRPC)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_CORE_GRPC)
     message(STATUS "gRPC support enabled (inter-shard communication)")
     find_package(gRPC CONFIG)
     find_package(Protobuf CONFIG)
@@ -5219,6 +5220,10 @@ target_compile_definitions(themis_server PRIVATE THEMIS_SERVER_PROFILE_DEFAULT="
 
 if(THEMIS_ENABLE_HTTP_SERVER)
     target_compile_definitions(themis_server PRIVATE THEMIS_ENABLE_HTTP_SERVER=1)
+endif()
+
+if(THEMIS_ENABLE_GRPC)
+    target_compile_definitions(themis_server PRIVATE THEMIS_HAS_CORE_GRPC)
 endif()
 
 target_link_libraries(themis_server

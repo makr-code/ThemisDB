@@ -30,9 +30,9 @@
  *
  * Phase-2 maps directly to `CommitTransaction` / `RollbackTransaction`.
  *
- * @version 0.0.1
+ * @version 0.0.2
  * @note Maturity: 🟡 BETA — wired, tested in-process; pending real gRPC CI lane
- * @note Wave: Wave 9 Block 2 (W9-7..W9-9)
+ * @note Wave: Wave 9 Block 2 (W9-7..W9-9); mTLS added Wave 10 (W10-A)
  */
 
 // Copyright 2025 ThemisDB
@@ -44,9 +44,42 @@
 
 #include <chrono>
 #include <map>
+#include <optional>
 #include <string>
 
 namespace themis::transaction {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// W10-A — mTLS credential configuration
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Mutual-TLS credential bundle for gRPC channel creation.
+ *
+ * When all three PEM fields are non-empty the adapters will create a channel
+ * backed by `grpc::SslCredentials`; if any field is empty (or the struct is
+ * absent) the adapters fall back to `InsecureChannelCredentials()` and emit a
+ * `spdlog::warn` so the fallback is always visible in logs.
+ *
+ * @note For production deployments populate from files or a secret manager —
+ *       never hard-code PEM material in source code.
+ */
+struct MtlsConfig {
+    /// PEM-encoded root CA certificate used to verify the server's certificate.
+    std::string ca_cert_pem;
+    /// PEM-encoded client certificate presented to the server.
+    std::string client_cert_pem;
+    /// PEM-encoded client private key corresponding to @p client_cert_pem.
+    std::string client_key_pem;
+    /**
+     * @brief Optional TLS server-name override.
+     *
+     * When non-empty this is set via `grpc::ChannelArguments::SetSslTargetNameOverride`.
+     * Useful in test environments where the server certificate CN does not
+     * match the dial address (e.g. `"localhost"` vs `"127.0.0.1"`).
+     */
+    std::string target_name_override;
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // W9-7 — Phase-1 PREPARE gRPC adapter
@@ -74,12 +107,18 @@ public:
      * @param node_addresses  Map from node_id → "host:port".  Unknown node_ids
      *                        vote ABORT.
      * @param timeout         gRPC deadline applied to every PREPARE call.
+     * @param mtls            Optional mTLS credential bundle.  When present and
+     *                        all three PEM fields are non-empty, the channel is
+     *                        created with `grpc::SslCredentials`.  Otherwise
+     *                        `InsecureChannelCredentials()` is used and a
+     *                        warning is logged.
      * @return                Callable compatible with
      *                        `DistributedTransactionManager::RpcPhase1Fn`.
      */
-    static DistributedTransactionManager::RpcPhase1Fn make(
+    [[nodiscard]] static DistributedTransactionManager::RpcPhase1Fn make(
         const std::map<std::string, std::string>& node_addresses,
-        std::chrono::milliseconds                  timeout);
+        std::chrono::milliseconds                  timeout,
+        std::optional<MtlsConfig>                  mtls = std::nullopt);
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -110,12 +149,15 @@ public:
      *
      * @param node_addresses  Map from node_id → "host:port".
      * @param timeout         Per-attempt gRPC deadline.
+     * @param mtls            Optional mTLS credential bundle (see
+     *                        `GrpcRpcPhase1Adapter::make` for semantics).
      * @return                Callable compatible with
      *                        `DistributedTransactionManager::RpcPhase2Fn`.
      */
-    static DistributedTransactionManager::RpcPhase2Fn make(
+    [[nodiscard]] static DistributedTransactionManager::RpcPhase2Fn make(
         const std::map<std::string, std::string>& node_addresses,
-        std::chrono::milliseconds                  timeout);
+        std::chrono::milliseconds                  timeout,
+        std::optional<MtlsConfig>                  mtls = std::nullopt);
 };
 
 }  // namespace themis::transaction

@@ -512,3 +512,60 @@ TEST(GrpcRpcAdapterWal, CommitDecisionDurableBeforePhase2) {
     DistributedTransactionManager::clearRpcPhase1Fn();
     DistributedTransactionManager::clearRpcPhase2Fn();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MTLS-01  mTLS config: adapters construct without throwing when all PEM fields
+//          are populated.
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(GrpcRpcAdapterMtls, ConstructWithMtlsConfig) {
+    // Provide non-empty (syntactically plausible) PEM strings.  We do not
+    // connect to a real server — this test only verifies that the adapter
+    // factory path that builds SslCredentials does not throw or abort.
+    themis::transaction::MtlsConfig cfg;
+    cfg.ca_cert_pem     = "-----BEGIN CERTIFICATE-----\nMTLS-CA-CERT\n-----END CERTIFICATE-----\n";
+    cfg.client_cert_pem = "-----BEGIN CERTIFICATE-----\nMTLS-CLIENT-CERT\n-----END CERTIFICATE-----\n";
+    cfg.client_key_pem  = "-----BEGIN PRIVATE KEY-----\nMTLS-CLIENT-KEY\n-----END PRIVATE KEY-----\n";
+    cfg.target_name_override = "localhost";
+
+    std::optional<themis::transaction::MtlsConfig> mtls_opt = cfg;
+
+    // Phase-1 adapter
+    EXPECT_NO_THROW({
+        auto fn1 = GrpcRpcPhase1Adapter::make({}, std::chrono::milliseconds{500}, mtls_opt);
+        // fn1 is a valid callable (non-null std::function).
+        EXPECT_TRUE(static_cast<bool>(fn1));
+    });
+
+    // Phase-2 adapter
+    EXPECT_NO_THROW({
+        auto fn2 = GrpcRpcPhase2Adapter::make({}, std::chrono::milliseconds{2000}, mtls_opt);
+        EXPECT_TRUE(static_cast<bool>(fn2));
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MTLS-02  mTLS nullopt: adapters construct and operate successfully when mtls
+//          is std::nullopt (insecure fallback path).
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(GrpcRpcAdapterMtls, ConstructWithNulloptFallback) {
+    // Pass std::nullopt explicitly — adapters must fall back to insecure
+    // credentials without throwing.
+    EXPECT_NO_THROW({
+        auto fn1 = GrpcRpcPhase1Adapter::make({}, std::chrono::milliseconds{500},
+                                               std::nullopt);
+        EXPECT_TRUE(static_cast<bool>(fn1));
+    });
+
+    EXPECT_NO_THROW({
+        auto fn2 = GrpcRpcPhase2Adapter::make({}, std::chrono::milliseconds{2000},
+                                               std::nullopt);
+        EXPECT_TRUE(static_cast<bool>(fn2));
+    });
+
+    // Verify the insecure fallback still votes ABORT for unknown nodes
+    // (fail-closed contract preserved).
+    auto fn1 = GrpcRpcPhase1Adapter::make({}, std::chrono::milliseconds{500},
+                                           std::nullopt);
+    bool vote = fn1("unknown-node", "txn-mtls-02", {});
+    EXPECT_FALSE(vote) << "Insecure-fallback Phase-1 fn should vote ABORT for unknown node";
+}

@@ -125,9 +125,11 @@ This file documents all documentation and code quality gaps in the **query** mod
 
 #### W9-11: AQL FunctionCall compat shim deprecation
 
-- Compat path at `aql_translator.cpp:547` is NOT safe to remove: `query_engine.cpp:4442` and `aql_runner.cpp:184` still emit FunctionCall AST nodes.
-- Added `THEMIS_WARN` deprecation log at entry of compat branch.
-- Removal condition documented; target: Q4 2026 after all callers migrate to `SimilarityCall`/`ProximityCall` node types.
+- [x] Compat path at `aql_translator.cpp:547` **removed** (W10-C): confirmed no callers in
+  `query_engine.cpp` or `aql_runner.cpp` constructed `FunctionCallExpr` nodes for
+  SIMILARITY/PROXIMITY — the shim was dead code. Canonical `SimilarityCall` /
+  `ProximityCall` dispatch paths (lines 367 and 444) are the sole active paths.
+- `THEMIS_WARN` deprecation log removed along with the shim.
 
 #### W9-12: Hybrid ANN+graph planner (`planAnnGraphHybrid`)
 

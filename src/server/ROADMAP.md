@@ -226,6 +226,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [x] **W9-5** Transaction RPCs — BeginTransaction/CommitTransaction/RollbackTransaction wired to `TransactionManager::beginTransaction()` / `commitTransaction()` / `rollbackTransaction()` with proto→`themis::IsolationLevel` mapping
 - [x] **W9-6** AQL RPCs (ExecuteAQL + StreamQuery) — forwarded to `aql_engine_->execute(query)` with null-check returning gRPC UNIMPLEMENTED when no engine is wired; `AQLEngine` type alias resolved to `themis::IQueryEngine` in header
 - [x] Tests — `tests/server/test_grpc_core_service.cpp` — 16 always-on source/API tests (GCS-01..GCS-16) + 13 full RPC tests under `THEMIS_HAS_CORE_GRPC` guard (GCS-17..GCS-29)
+- [x] CMake — `THEMIS_HAS_CORE_GRPC` compile definition added to `themis_core` (PUBLIC) and `themis_server` (PRIVATE) in `cmake/CMakeLists.txt`; `test_grpc_core_service` registered in `tests/CMakeLists.txt` (W10-B, 2026-08-27)
 - Resolved: `src/STUB_INVENTORY.md` entries for `server/themis_core_grpc_service.cpp` marked complete; `src/server/MODULE_GAPS.md` UNIMPLEMENTED grpc items closed
 
 ## Production Readiness Checklist
