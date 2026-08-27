@@ -68,7 +68,7 @@ TEST(ReplicaValidationHandlerTest, RVH01_HandlerName) {
 
 TEST(ReplicaValidationHandlerTest, RVH02_ExecuteSuccess) {
     ReplicaValidationHandler handler([]() -> Result<std::string> {
-        return "Replica validation passed: 0 inconsistencies found";
+        return std::string{"Replica validation passed: 0 inconsistencies found"};
     });
 
     auto result = handler.execute("job-42", MaintenanceTaskType::REPLICA_VALIDATION);
@@ -118,7 +118,7 @@ TEST(ReplicaValidationHandlerTest, RVH05_ExecuteIgnoresJobIdAndTaskType) {
     int call_count = 0;
     ReplicaValidationHandler handler([&call_count]() -> Result<std::string> {
         ++call_count;
-        return "ok";
+        return std::string{"ok"};
     });
 
     // Called with an unrelated task type — handler must not filter.
@@ -197,11 +197,11 @@ TEST(ReplicaValidationHandlerTest, RVH08_IndependentHandlerState) {
 
     ReplicaValidationHandler handler_a([&count_a]() -> Result<std::string> {
         ++count_a;
-        return "handler_a";
+        return std::string{"handler_a"};
     });
     ReplicaValidationHandler handler_b([&count_b]() -> Result<std::string> {
         ++count_b;
-        return "handler_b";
+        return std::string{"handler_b"};
     });
 
     handler_a.execute("job-1", MaintenanceTaskType::REPLICA_VALIDATION);

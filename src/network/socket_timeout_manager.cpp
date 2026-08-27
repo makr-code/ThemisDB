@@ -14,6 +14,7 @@
 #include <spdlog/spdlog.h>
 #include <cstring>
 #include <cerrno>
+#include <memory>
 
 #ifdef _WIN32
     #include <winsock2.h>
@@ -230,6 +231,15 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
         stats_.failed_operations++;
         return INVALID_SOCKET_VALUE;
     }
+    // RAII guard: ensures client_socket is closed on any exception or early
+    // return before we explicitly release ownership back to the caller.
+    auto sock_ptr = std::shared_ptr<socket_t>(new socket_t(client_socket),
+        [](socket_t* s) {
+            if (s && *s != static_cast<socket_t>(INVALID_SOCKET_VALUE)) {
+                closesocket(*s);
+            }
+            delete s;
+        });
 #else
     // Use poll() for accept timeout on Unix
     struct pollfd pfd;
@@ -255,6 +265,15 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
         stats_.failed_operations++;
         return INVALID_SOCKET_VALUE;
     }
+    // RAII guard: ensures client_socket is closed on any exception or early
+    // return before we explicitly release ownership back to the caller.
+    auto sock_ptr = std::shared_ptr<socket_t>(new socket_t(client_socket),
+        [](socket_t* s) {
+            if (s && *s >= 0) {
+                ::close(*s);
+            }
+            delete s;
+        });
 #endif
     
     // Configure the accepted socket
@@ -265,6 +284,8 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
     recordSuccess();
     stats_.successful_operations++;
     spdlog::debug("Accepted connection successfully");
+    // Transfer ownership to caller — socket will NOT be closed by sock_ptr.
+    *sock_ptr = INVALID_SOCKET_VALUE;
     return client_socket;
 }
 

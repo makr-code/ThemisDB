@@ -405,8 +405,22 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     // Get or create session
     auto session = getSession(session_id);
     
-    // Transcribe audio to text
-    auto transcription = stt_processor_->transcribe(audio_data);
+    // Wave-A V2: partial backend failure matrix — STT backend fallback
+    // If the STT backend throws or fails, return an empty/partial transcript with error marker.
+    content::TranscriptionResult transcription;
+    try {
+        transcription = stt_processor_->transcribe(audio_data);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("[VOICE-FALLBACK] STT backend failed, using empty transcript fallback: {}", e.what());
+        transcription.success = false;
+        transcription.full_text = "";
+        transcription.error_message = "[STT_BACKEND_FAILURE]";
+    } catch (...) {
+        THEMIS_WARN("[VOICE-FALLBACK] STT backend failed, using empty transcript fallback (unknown exception)");
+        transcription.success = false;
+        transcription.full_text = "";
+        transcription.error_message = "[STT_BACKEND_FAILURE]";
+    }
     
     if (!transcription.success) {
         // Return error message as speech
@@ -450,9 +464,18 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     tts_options.format = "wav";
     tts_options.language = session.preferred_language;
     
-    auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
-    
-    return tts_result.audio_data;
+    // Wave-A V2: partial backend failure matrix — TTS backend fallback
+    // If TTS backend throws, return empty audio bytes (not a crash).
+    try {
+        auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
+        return tts_result.audio_data;
+    } catch (const std::exception& e) {
+        THEMIS_WARN("[VOICE-FALLBACK] TTS backend failed, returning silent fallback: {}", e.what());
+        return {};  // silent fallback — empty audio bytes
+    } catch (...) {
+        THEMIS_WARN("[VOICE-FALLBACK] TTS backend failed, returning silent fallback (unknown exception)");
+        return {};  // silent fallback — empty audio bytes
+    }
 }
 
 std::string VoiceAssistant::processTextCommand(
@@ -483,8 +506,18 @@ std::string VoiceAssistant::processTextCommand(
     // Add to conversation history
     session.history.push_back("User: " + text);
     
-    // Generate LLM response
-    std::string llm_response = generateLLMResponse(text, session);
+    // Wave-A V1: shared fallback semantics applied — command execution fallback
+    // If executeCommand/generateLLMResponse fails, log THEMIS_WARN and return error response.
+    std::string llm_response;
+    try {
+        llm_response = generateLLMResponse(text, session);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("[VOICE-FALLBACK] command execution failed: {}; returning error response", e.what());
+        return "I'm sorry, I encountered an error executing your command. Please try again.";
+    } catch (...) {
+        THEMIS_WARN("[VOICE-FALLBACK] command execution failed (unknown exception); returning error response");
+        return "I'm sorry, I encountered an error executing your command. Please try again.";
+    }
     
     // Add to conversation history
     session.history.push_back("Assistant: " + llm_response);
@@ -1016,7 +1049,16 @@ std::vector<VoiceProfileID> VoiceAssistant::listVoiceProfiles() const
 WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     const std::vector<uint8_t>& audio_chunk
 ) {
-    return wake_word_detector_->processAudioChunk(audio_chunk);
+    // Wave-A V1: shared fallback semantics applied
+    try {
+        return wake_word_detector_->processAudioChunk(audio_chunk);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("[VOICE-FALLBACK] wake-word detector failed: {}; returning fail-closed result (detected=false, confidence=0.0)", e.what());
+        return WakeWordDetectionResult{};  // detected=false, confidence=0.0f
+    } catch (...) {
+        THEMIS_WARN("[VOICE-FALLBACK] wake-word detector unknown exception; returning fail-closed result (detected=false, confidence=0.0)");
+        return WakeWordDetectionResult{};  // detected=false, confidence=0.0f
+    }
 }
 
 void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {

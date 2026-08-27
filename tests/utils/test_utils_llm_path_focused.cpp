@@ -13,8 +13,7 @@
 #include <string>
 #include <vector>
 
-using namespace themis;
-using namespace themis::utils;
+using namespace themis::errors;
 
 // ── UL1: ERR_LLM_MODEL_NOT_FOUND is registered and has non-empty message ─────
 TEST(UtilsLlmPathFocused, UL1_LlmModelNotFound_Registered) {
@@ -62,10 +61,10 @@ TEST(UtilsLlmPathFocused, UL5_LlmErrors_AllInLlmCategory) {
     }
 }
 
-// ── UL6: getSolution shorthand returns same as getError().solution ────────────
+// ── UL6: getRecoveryHint shorthand returns same as getError().solution ───────
 TEST(UtilsLlmPathFocused, UL6_GetSolution_MatchesMetadataSolution) {
     auto& reg = ErrorRegistry::getInstance();
     auto meta      = reg.getError(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);
-    auto solution  = reg.getSolution(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);
-    EXPECT_EQ(meta.solution, solution);
+    auto recovery_hint  = reg.getRecoveryHint(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);
+    EXPECT_EQ(meta.solution, recovery_hint);
 }

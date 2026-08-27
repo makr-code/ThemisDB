@@ -26,7 +26,7 @@
 #include <thread>
 #include <vector>
 
-#include "core/logger.h"
+#include "utils/logger.h"
 #include "access_model/access_model_logging.h"
 #include "access_model/access_model_trace.h"
 
@@ -40,6 +40,8 @@ namespace access_model {
 /** @brief § 1  AccessCoordinatorImpl: Central Tier Orchestrator. */
 class AccessCoordinatorImpl : public AccessCoordinator {
  public:
+    struct DemotionEvent;
+
     explicit AccessCoordinatorImpl(size_t thread_pool_size = 4)
         : thread_pool_size_(thread_pool_size),
           running_(false),
@@ -57,7 +59,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         override {
         std::lock_guard<std::mutex> lock(mutex_);
         tiers_ = tiers;
-        logger()->info("AccessCoordinator initialized with {} tiers", tiers_.size());
+        THEMIS_INFO("AccessCoordinator initialized with {} tiers", tiers_.size());
         return true;
     }
 
@@ -72,7 +74,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             worker_threads_.emplace_back([this] { workerMain(); });
         }
 
-        logger()->info("AccessCoordinator started with {} worker threads",
+        THEMIS_INFO("AccessCoordinator started with {} worker threads",
                        thread_pool_size_);
         
         // Emit structured lifecycle log
@@ -104,7 +106,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         }
 
         worker_threads_.clear();
-        logger()->info("AccessCoordinator shut down");
+        THEMIS_INFO("AccessCoordinator shut down");
         
         // Emit structured lifecycle log
         CoordinatorLifecycleLog lifecycle_log{
@@ -189,7 +191,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
-        logger()->debug(
+        THEMIS_DEBUG(
             "Cache eviction observed: key={}, tier={}, access_count={}, "
             "correlation_id={}",
             event.key, tierLevelName(event.tier), event.access_count,
@@ -199,8 +201,8 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         EvictionEventLog eviction_log{
             .key = std::string(event.key),
             .from_tier = event.tier,
-            .eviction_reason = std::string(event.eviction_reason),
-            .size_bytes = event.size_bytes,
+            .eviction_reason = event.reason,
+            .size_bytes = event.evicted_size_bytes,
             .access_count = event.access_count,
             .last_access_age = event.last_access_age_secs,
             .decision = decision,
@@ -277,7 +279,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
-        logger()->debug(
+        THEMIS_DEBUG(
             "Hot access detected: key={}, tier={}, access_count={}, "
             "correlation_id={}",
             event.key, tierLevelName(event.current_tier), event.access_count,
@@ -290,7 +292,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             .target_tier = target_tier_opt,
             .decision = decision,
             .access_count = event.access_count,
-            .age_secs = std::chrono::seconds(event.age_secs),
+            .age_secs = event.access_window,
             .threshold_name = "storage_promotion_threshold",
             .threshold_value = policy_.storage_promotion_threshold,
             .actual_value = event.access_count,
@@ -340,7 +342,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             pending_demotions_++;
             metrics_.counters.promotions_initiated++;
 
-            logger()->debug(
+            THEMIS_DEBUG(
                 "Promotion queued: key={}, from={}, to={}, correlation_id={}",
                 key, tierLevelName(from_tier), tierLevelName(to_tier),
                 correlation_id);
@@ -368,7 +370,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
         pending_plans_[plan_id] = plan;
 
-        logger()->debug("Demotion plan created: plan_id={}, key={}, from={}, to={}",
+        THEMIS_DEBUG("Demotion plan created: plan_id={}, key={}, from={}, to={}",
                        plan_id, key, tierLevelName(from_tier), tierLevelName(to_tier));
 
         return plan;
@@ -380,7 +382,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
         auto it = pending_plans_.find(plan_id);
         if (it == pending_plans_.end()) {
-            logger()->warn("Execute demotion: plan not found for plan_id {}", plan_id);
+            THEMIS_WARN("Execute demotion: plan not found for plan_id {}", plan_id);
             return std::nullopt;
         }
 
@@ -390,7 +392,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         // Validate tiers exist
         if (tiers_.find(plan.from_tier) == tiers_.end() ||
             tiers_.find(plan.to_tier) == tiers_.end()) {
-            logger()->warn("Execute demotion: tier not found for plan_id {}", plan_id);
+            THEMIS_WARN("Execute demotion: tier not found for plan_id {}", plan_id);
             return std::nullopt;
         }
 
@@ -416,7 +418,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             metrics_.counters.demotions_failed++;
         }
 
-        logger()->info(
+        THEMIS_INFO(
             "Demotion executed: correlation_id={}, key={}, latency_ms={}",
             correlation_id, plan.key, result.total_latency_ms.count());
 
@@ -427,7 +429,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         std::lock_guard<std::mutex> lock(mutex_);
         policy_ = policy;
         policy_set_ = true;
-        logger()->info("AgeBasedPolicy set: hot_to_warm_days={}",
+        THEMIS_INFO("AgeBasedPolicy set: hot_to_warm_days={}",
                        policy_.hot_to_warm_days);
     }
 
@@ -479,7 +481,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         TraceContext ctx{worker_id};
         TraceContextManager::ScopedContext trace_guard(ctx);
         
-        logger()->debug("Worker thread started: correlation_id={}", worker_id);
+        THEMIS_DEBUG("Worker thread started: correlation_id={}", worker_id);
 
         while (running_) {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -506,7 +508,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             }
         }
         
-        logger()->debug("Worker thread exiting: correlation_id={}", worker_id);
+        THEMIS_DEBUG("Worker thread exiting: correlation_id={}", worker_id);
     }
 
     void processPromotionTask(const DemotionEvent& task) {
@@ -546,7 +548,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             });
         }
 
-        logger()->debug(
+        THEMIS_DEBUG(
             "Promotion task processed: key={}, from_tier={}, to_tier={}",
             task.key, tierLevelName(task.from_tier), tierLevelName(task.to_tier));
         
@@ -556,7 +558,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             .from_tier = task.from_tier,
             .to_tier = task.to_tier,
             .reason = task.reason,
-            .latency_ms = result.total_latency_ms.count(),
+            .latency_ms = static_cast<uint64_t>(result.total_latency_ms.count()),
             .correlation_id = correlation_id,
             .thread_id = std::this_thread::get_id(),
             .timestamp = result.completed_at,
@@ -573,12 +575,6 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     std::string generatePlanId() {
         static std::atomic<uint64_t> counter{0};
         return "plan-" + std::to_string(counter++);
-    }
-
-    // Helper for logging
-    static themis::core::Logger* logger() {
-        static auto* log = themis::core::getOrCreateLogger("access_model");
-        return log;
     }
 
     size_t thread_pool_size_;

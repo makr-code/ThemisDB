@@ -19,8 +19,8 @@ TEST(DistributedKnowledgeLlmFocused, DK1_ConstructValidConfig_NoThrow) {
     EXPECT_NO_THROW({ FederatedRAGMerger merger(cfg); });
 }
 
-// ── DK2: Construct with max_merged_docs=0 throws invalid_argument ─────────────
-TEST(DistributedKnowledgeLlmFocused, DK2_ZeroMaxDocs_ThrowsInvalidArgument) {
+// ── DK2: Construct with top_k=0 throws invalid_argument ──────────────────────
+TEST(DistributedKnowledgeLlmFocused, DK2_ZeroTopK_ThrowsInvalidArgument) {
     FederatedRAGMergerConfig cfg;
     cfg.top_k = 0;
     EXPECT_THROW({ FederatedRAGMerger merger(cfg); }, std::invalid_argument);
@@ -46,6 +46,7 @@ TEST(DistributedKnowledgeLlmFocused, DK4_MergeSingleShard_ReturnsDocuments) {
     ShardRetrievalResult shard;
     shard.shard_id = "shard-0";
     shard.timed_out = false;
+    shard.ok = true;
     RetrievedDocument doc;
     doc.doc_id     = "doc-1";
     doc.relevance_score = 0.9;
@@ -65,6 +66,7 @@ TEST(DistributedKnowledgeLlmFocused, DK5_BuildPromptContext_ReturnsNonEmpty) {
 
     ShardRetrievalResult shard;
     shard.shard_id = "shard-0";
+    shard.ok = true;
     RetrievedDocument doc;
     doc.doc_id = "doc-1";
     doc.relevance_score = 0.8;
@@ -76,14 +78,15 @@ TEST(DistributedKnowledgeLlmFocused, DK5_BuildPromptContext_ReturnsNonEmpty) {
     EXPECT_FALSE(context.empty());
 }
 
-// ── DK6: Merge respects max_merged_docs limit ────────────────────────────────
-TEST(DistributedKnowledgeLlmFocused, DK6_MaxDocsLimit_Respected) {
+// ── DK6: Merge respects top_k limit ───────────────────────────────────────────
+TEST(DistributedKnowledgeLlmFocused, DK6_TopKLimit_Respected) {
     FederatedRAGMergerConfig cfg;
     cfg.top_k = 2;
     FederatedRAGMerger merger(cfg);
 
     ShardRetrievalResult shard;
     shard.shard_id = "shard-0";
+    shard.ok = true;
     for (int i = 0; i < 5; ++i) {
         RetrievedDocument d;
         d.doc_id = "doc-" + std::to_string(i);
@@ -105,10 +108,12 @@ TEST(DistributedKnowledgeLlmFocused, DK7_TimedOutShard_GracefulDegradation) {
     ShardRetrievalResult timed_shard;
     timed_shard.shard_id = "slow-shard";
     timed_shard.timed_out = true;
+    timed_shard.ok = false;
 
     ShardRetrievalResult ok_shard;
     ok_shard.shard_id = "fast-shard";
     ok_shard.timed_out = false;
+    ok_shard.ok = true;
     RetrievedDocument d;
     d.doc_id = "doc-ok";
     d.relevance_score = 0.7;
@@ -116,7 +121,6 @@ TEST(DistributedKnowledgeLlmFocused, DK7_TimedOutShard_GracefulDegradation) {
     ok_shard.documents.push_back(d);
 
     auto merged = merger.merge({timed_shard, ok_shard});
-    // At least the ok shard document should appear
     bool found = false;
     for (const auto& doc : merged.documents) {
         if (doc.doc_id == "doc-ok") found = true;

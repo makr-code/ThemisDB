@@ -46,7 +46,6 @@
 
 // AFL++ persistent mode macros
 #ifdef __AFL_FUZZ_TESTCASE_LEN
-  extern unsigned char *__AFL_FUZZ_TESTCASE_BUF;
   #define AFL_LOOP(count) __AFL_LOOP(count)
 #else
   #define AFL_LOOP(count) 1

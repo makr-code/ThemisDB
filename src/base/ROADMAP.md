@@ -94,3 +94,10 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
 - [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
 - [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+
+## Wave A → D Gap-Closure Execution (2026-08-24)
+
+- [x] **Wave A (critical runtime closure pass)**: transport-scheme and path-sanitization hardening in `remote_registry_client.cpp` completed (batches B/C).
+- [x] **Wave B (high-risk resource/lifecycle pass)**: curl RAII cleanup guards and exception-safe cleanup in `remote_registry_client.cpp` completed (batch C).
+- [x] **Wave C (concurrency/runtime correctness pass)**: `hot_reload_manager.cpp` stale-slot/null-loader reload/rollback hardening completed (batch D).
+- [~] **Wave D (operability + long-duration confidence)**: remaining observability/runbook soak tasks continue under existing Q1 2027 items above.

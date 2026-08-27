@@ -98,11 +98,12 @@ protected:
     }
 
     /// Skip test if no model available.
-    bool skipIfNoModel() {
+    void skipIfNoModel() {
         if (!model_available_) {
-            return true;
+            GTEST_SKIP() << "TinyLlama GGUF not available — set THEMIS_TEST_MODEL_PATH "
+                            "or run scripts/ci-download-tinyllama.sh";
+            return;
         }
-        return false;
     }
 
     std::string model_path_;
@@ -113,9 +114,8 @@ protected:
 // ─── INFER-01: Basic text generation ─────────────────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer01_BasicGeneration) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     const std::string prompt = "The capital of France is";
     const std::string result = llm_->generate(prompt, /*max_tokens=*/100);
@@ -128,9 +128,8 @@ TEST_F(TinyLlamaInferenceTest, Infer01_BasicGeneration) {
 // ─── INFER-02: Streaming token callback ──────────────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer02_StreamingCallback) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     std::vector<std::string> tokens;
     std::mutex mu;
@@ -158,9 +157,8 @@ TEST_F(TinyLlamaInferenceTest, Infer02_StreamingCallback) {
 // ─── INFER-03: Batch inference (4 concurrent requests) ───────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     constexpr int kBatch = 4;
     std::vector<std::string> prompts = {
@@ -197,9 +195,8 @@ TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
 // ─── INFER-04: Tokenizer round-trip ──────────────────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer04_TokenizerRoundTrip) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     // LlamaTokenizer loads the model in vocab-only mode (lightweight).
     LlamaTokenizer tokenizer(model_path_);
@@ -222,9 +219,8 @@ TEST_F(TinyLlamaInferenceTest, Infer04_TokenizerRoundTrip) {
 // ─── INFER-05: KV-cache reuse acceleration ───────────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer05_KvCacheReuseSpeedup) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     // Warm up the model first
     const std::string prefix = "ThemisDB is a distributed database system. ";
@@ -252,11 +248,9 @@ TEST_F(TinyLlamaInferenceTest, Infer05_KvCacheReuseSpeedup) {
 // ─── INFER-06: Grammar-constrained JSON output ───────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer06_GrammarConstrainedJson) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
-    // Use generateWithParams to pass grammar_type = "json"
     const std::string result = llm_->generateWithParams(
         "Return a JSON object with fields 'name' and 'value'.",
         /*temperature=*/0.0f,
@@ -276,9 +270,8 @@ TEST_F(TinyLlamaInferenceTest, Infer06_GrammarConstrainedJson) {
 // ─── INFER-07: Timeout / cancellation ────────────────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer07_CancellationNoLeak) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     auto cancel_token = std::make_shared<std::atomic<bool>>(false);
 
@@ -310,9 +303,8 @@ TEST_F(TinyLlamaInferenceTest, Infer07_CancellationNoLeak) {
 // ─── INFER-08: Context-length limit ──────────────────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer08_ContextLengthLimit) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     // Build a prompt significantly larger than the configured context window (2048 tokens).
     // Each word ~1 token; 4000 words ≈ 4000 tokens > 2048 context.
@@ -361,9 +353,8 @@ TEST_F(TinyLlamaInferenceTest, Infer09_MissingModelFallback) {
 // ─── INFER-10: Embedding generation ──────────────────────────────────────────
 
 TEST_F(TinyLlamaInferenceTest, Infer10_EmbeddingGeneration) {
-    if (skipIfNoModel()) {
-        GTEST_SKIP() << "TinyLlama GGUF not available - set THEMIS_TEST_MODEL_PATH or run scripts/ci-download-tinyllama.sh";
-    }
+    skipIfNoModel();
+    if (!model_available_) return;
 
     const std::vector<float> emb = llm_->embed("ThemisDB vector search engine");
 

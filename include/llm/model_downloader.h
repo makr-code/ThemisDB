@@ -40,6 +40,11 @@ struct ModelDownloadConfig {
     bool use_cache = true;            // Use cached model if available
     int timeout_seconds = 300;        // Download timeout
     DownloadProgressCallback progress_callback;  // Optional progress tracking
+    /// [W3-SEC-01] Allow plain-HTTP (non-TLS) for non-localhost Ollama endpoints.
+    /// Default false: non-local HTTP is rejected by the URL validator to prevent
+    /// model-weight MITM interception. Set to true only for controlled private
+    /// networks where TLS is not available.
+    bool allow_insecure_http = false;
 };
 
 /**

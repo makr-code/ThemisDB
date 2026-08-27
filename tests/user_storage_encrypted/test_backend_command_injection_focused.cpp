@@ -18,7 +18,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "gocryptfs_backend.hpp"
+#include "user_storage_encrypted/gocryptfs_backend.hpp"
 #include <vector>
 #include <string>
 #include <cstdint>
@@ -185,24 +185,24 @@ TEST(CommandInjectionPrevention, USEG_INJ_06_EnvironmentVariableRejection) {
 TEST(CommandInjectionPrevention, USEG_INJ_07_EscapeAndQuoteRejection) {
     // CRITICAL: Escape sequences and quotes MUST be REJECTED
     std::vector<std::string> attack_patterns = {
-        "/tmp/storage\\n",             // Newline escape
-        "/tmp/storage\\x41",           // Hex escape
+        "/tmp/storage\\n",             // Newline escape text
+        "/tmp/storage\\x41",           // Hex escape text
         "/tmp/'storage'",              // Single quotes
         "/tmp/\"storage\"",            // Double quotes
-        "/tmp/storage\t",              // Tab character
-        "/tmp/storage\r",              // Carriage return
-        "/tmp/storage\x00",            // Null byte
+        "/tmp/storage\\t",             // Tab escape text
+        "/tmp/storage\\r",             // Carriage return escape text
+        "/tmp/storage\\x00",           // Null-byte escape text
     };
 
     for (const auto& pattern : attack_patterns) {
         // Verify it contains a dangerous character
         EXPECT_TRUE(
-            pattern.find('\\') != std::string::npos ||
-            pattern.find('\'') != std::string::npos ||
-            pattern.find('\"') != std::string::npos ||
-            pattern.find('\t') != std::string::npos ||
-            pattern.find('\n') != std::string::npos ||
-            pattern.find('\r') != std::string::npos
+            pattern.find("\\") != std::string::npos ||
+            pattern.find("'") != std::string::npos ||
+            pattern.find("\"") != std::string::npos ||
+            pattern.find("\t") != std::string::npos ||
+            pattern.find("\n") != std::string::npos ||
+            pattern.find("\r") != std::string::npos
         ) << "Should contain escape/quote character: " << pattern;
     }
 }

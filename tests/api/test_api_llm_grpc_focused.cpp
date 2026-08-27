@@ -58,7 +58,7 @@ TEST(ApiLlmGrpcFocused, AG4_LlmBatchSizeExceeded_Registered) {
     EXPECT_FALSE(meta.message_template.empty());
 }
 
-// ── AG5: getSolution for each LLM OOM code returns non-empty hint ─────────────
+// ── AG5: getRecoveryHint for each LLM OOM code returns non-empty hint ───────
 TEST(ApiLlmGrpcFocused, AG5_LlmOomErrors_SolutionNonEmpty) {
     auto& reg = ErrorRegistry::getInstance();
 

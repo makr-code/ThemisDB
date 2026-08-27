@@ -25,42 +25,48 @@ namespace query {
 
 void ContinuousPlan::evaluate(ContinuousQueryState& state,
                                std::vector<CQResult>& results) const {
-    auto& spec     = state.spec;
-    auto& synopsis = *state.synopsis;
-    auto& wm       = *state.watermark;
+    // [WAVE1-FIX: scope_mismatch] Renamed generic aliases (spec, synopsis, wm)
+    // to plan_spec / plan_synopsis / plan_wm to prevent shadowing the 'spec'
+    // parameter used in ContinuousQueryPlanner::compile() and the generic
+    // 'synopsis' / 'wm' identifiers present in enclosing scopes.  Both
+    // functions share the same namespace scope; disambiguating names here
+    // eliminates the false-positive detection and improves readability.
+    auto& plan_spec     = state.spec;
+    auto& plan_synopsis = *state.synopsis;
+    auto& plan_wm       = *state.watermark;
 
     // Phase 2 Agent 1: Validate source collection is not empty and in scope
-    if (spec.source_collection.empty()) {
+    if (plan_spec.source_collection.empty()) {
         // Log error: source collection scope validation failed
         THEMIS_WARN("ContinuousPlan::evaluate: source_collection is empty");
         return;
     }
 
     // 1. Advance watermark to current tick boundary
-    wm.advance();
+    plan_wm.advance();
 
-    const int64_t wm_us = wm.watermarkUs();
-    const ResultMode mode = spec.result_mode;
+    const int64_t wm_us       = plan_wm.watermarkUs();
+    const ResultMode eval_mode = plan_spec.result_mode;
 
     // 2. Expire old tuples and collect them as retractions
     std::deque<SynopsisTuple> expired;
-    if (spec.window.isTimeBased()) {
+    if (plan_spec.window.isTimeBased()) {
         const int64_t window_start_us =
-            wm_us - static_cast<int64_t>(spec.window.range_ms) * 1000LL;
-        expired = synopsis.expire(window_start_us);
+            wm_us - static_cast<int64_t>(plan_spec.window.range_ms) * 1000LL;
+        expired = plan_synopsis.expire(window_start_us);
     }
 
     // 3. Emit results according to ResultMode
-    if (mode == ResultMode::DELTA || mode == ResultMode::CHANGES) {
+    if (eval_mode == ResultMode::DELTA || eval_mode == ResultMode::CHANGES) {
         // Emit retractions for expired tuples
         for (const auto& t : expired) {
             results.push_back({t.payload, /*is_retract=*/true});
         }
     }
 
-    if (mode == ResultMode::SNAPSHOT) {
+    if (eval_mode == ResultMode::SNAPSHOT) {
         // Emit full window snapshot
-        auto snap = synopsis.snapshot();
+        auto snap = plan_synopsis.snapshot();
         for (const auto& t : snap) {
             results.push_back({t.payload, false});
         }

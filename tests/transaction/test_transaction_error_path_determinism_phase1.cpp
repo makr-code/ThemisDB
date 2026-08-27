@@ -30,7 +30,6 @@ protected:
         config.db_path = test_db_path_;
         config.memtable_size_mb = 64;
         config.block_cache_size_mb = 128;
-        config.log_level = "ERROR";
 
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open()) << "Failed to open test database";

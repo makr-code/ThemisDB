@@ -376,6 +376,10 @@ LoRAAdapter::LoRAAdapter(size_t default_rank, float default_alpha)
 
 LoRAAdapter::~LoRAAdapter() = default;
 
+LoRAAdapter::LoRAAdapter(LoRAAdapter&&) noexcept = default;
+
+LoRAAdapter& LoRAAdapter::operator=(LoRAAdapter&&) noexcept = default;
+
 void LoRAAdapter::addLayer(const std::string& layer_name,
                             size_t in_dim, size_t out_dim,
                             size_t rank, float alpha) {

@@ -13,6 +13,7 @@
 #include <vector>
 #include <string>
 
+using namespace themis;
 using namespace themis::index;
 
 // ── GV1: Construct with CPU-only config does not throw ────────────────────────

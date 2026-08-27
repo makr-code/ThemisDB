@@ -377,6 +377,22 @@ public:
 
     const Config& config() const noexcept;
 
+    // =========================================================================
+    // JIT state health
+    // =========================================================================
+
+    /**
+     * @brief Returns true if an unknown exception has been observed during
+     *        specialisation, indicating potential JIT state corruption.
+     *
+     * When this returns true the compiler has permanently disabled further
+     * specialisation and all executions fall back to the interpreted cold path.
+     * This flag is never reset (restart the engine to recover).
+     *
+     * [WAVE3B-FIX: catch_all_swallow — query_compiler.cpp]
+     */
+    bool isJitStateCorrupted() const noexcept;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

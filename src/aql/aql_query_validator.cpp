@@ -18,6 +18,7 @@
 #include <cctype>
 #include <regex>
 #include <set>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <unordered_map>
 
@@ -100,7 +101,7 @@ bool containsKeyword(const std::string &text, const std::string &kw) {
         std::regex re(pattern);
         return std::regex_search(upper_text, re);
     } catch (...) {
-        // Fallback: simple substring search
+        spdlog::debug("[AQLValidator] regex compile for keyword check failed; using substring fallback");
         return upper_text.find(upper_kw) != std::string::npos;
     }
 }

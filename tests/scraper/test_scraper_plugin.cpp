@@ -20,14 +20,14 @@
 
 #include <gtest/gtest.h>
 
-#include "../plugins/scraper/include/scraper_config.h"
-#include "../plugins/scraper/include/scraper_search_engine.h"
-#include "../plugins/scraper/include/gov_source_catalog.h"
-#include "../plugins/scraper/include/scraper_js_renderer.h"
-#include "../plugins/scraper/include/scraper_api_client.h"
-#include "../plugins/scraper/include/scraper_llm_evaluator.h"
-#include "../plugins/scraper/include/scraper_metadata_writer.h"
-#include "../plugins/scraper/include/scraper_plugin.h"
+#include "scraper/scraper_config.h"
+#include "scraper/scraper_search_engine.h"
+#include "scraper/gov_source_catalog.h"
+#include "scraper/scraper_js_renderer.h"
+#include "scraper/scraper_api_client.h"
+#include "scraper/scraper_llm_evaluator.h"
+#include "scraper/scraper_metadata_writer.h"
+#include "scraper/scraper_plugin.h"
 
 using namespace themis::scraper;
 

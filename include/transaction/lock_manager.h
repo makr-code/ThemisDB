@@ -262,6 +262,7 @@ private:
     std::atomic<uint64_t> stats_timeouts_{0};
     std::atomic<uint64_t> stats_escalations_{0};
     std::atomic<uint64_t> stats_waiting_{0};
+    std::atomic<uint64_t> stats_deadlocks_{0};
 
     // ── Predicate locks for SSI ───────────────────────────────────────────────
 
@@ -280,6 +281,20 @@ private:
 
     /// Whether predicate-lock tracking is enabled (default: true).
     std::atomic<bool> predicate_locking_enabled_{true};
-};
+
+    /// Counter: number of predicate locks dropped due to max_locks capacity (Wave 4C T4).
+    std::atomic<uint64_t> predicate_lock_drops_{0};
+
+public:
+    /// Return the cumulative count of predicate locks dropped due to capacity limits.
+    /// Non-zero values indicate SSI false-abort rate may have increased; tune
+    /// setMaxPredicateLocks() or increase capacity.
+    uint64_t predicateLockDropCount() const noexcept {
+        return predicate_lock_drops_.load(std::memory_order_relaxed);
+    }
+
+private:
+
+}; // class LockManager
 
 } // namespace themis

@@ -467,7 +467,4 @@ TEST_F(AuthSecurityFixture, MatrixEnforced) {
     EXPECT_FALSE(can_delete) << "User should not be able to delete sessions";
 }
 
-} // namespace
-} // namespace
-
 // Entry point

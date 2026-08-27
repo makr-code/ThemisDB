@@ -770,7 +770,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             joinSpan.setAttribute("join.table_right", table2);
 
             using namespace themis::query;
-            std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
+            // DATA-RACE-AUDIT(2026-08-26 Wave-7): same fix as line ~1669 —
+            // change [&] to [] (no outer-scope locals needed; non-recursive).
+            std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                 if (!fa) return std::string();
                 std::vector<std::string> parts;
@@ -1421,13 +1423,24 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             // Empty path: PATH.ALL & PATH.NONE -> true, PATH.ANY -> false
                             if (fname == "path.any") return false; else return true;
                         }
-                        // Walk back using parent map if available
+                        // Walk back using parent map if available.
+                        // Guard: track visited nodes to prevent infinite loop if
+                        // a cycle in the parent map is ever introduced (defensive
+                        // invariant, normally impossible in a correct BFS).
                         pathNodes.push_back(cur);
+                        std::unordered_set<std::string> pathVisited;
+                        pathVisited.insert(cur);
                         auto itp = parent.find(cur);
                         while (itp != parent.end()) {
+                            const std::string& next_node = itp->second.parent;
+                            // Cycle detection: stop if we've already visited this node
+                            if (pathVisited.count(next_node) > 0) {
+                                break;
+                            }
                             pathEdges.push_back(itp->second.edgeId);
-                            pathNodes.push_back(itp->second.parent);
-                            itp = parent.find(pathNodes.back());
+                            pathNodes.push_back(next_node);
+                            pathVisited.insert(next_node);
+                            itp = parent.find(next_node);
                         }
                         // Now reverse to get start->...->cur
                         std::reverse(pathNodes.begin(), pathNodes.end());
@@ -1552,9 +1565,18 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 return false;
             };
 
-            // Helper: pr�fe, ob ein Ausdruck v/e-Referenzen enth�lt (f�r konstante Vorabpr�fung)
+            // DATA-RACE-AUDIT(2026-08-26 Wave-7): `usesVE` is a recursive
+            // stack-local std::function.  The scanner flagged the `[&]`
+            // capture as a potential data race because `[&]` silently captures
+            // the entire enclosing scope — including `usesVE` itself — by
+            // reference, making it look like a reference that could escape.
+            // FIX: change to an explicit single-variable capture `[&usesVE]`
+            // which (a) makes the self-reference intent unambiguous, and (b)
+            // prevents any future code addition inside the lambda from
+            // accidentally touching other stack locals without a visible
+            // capture declaration (race-free: single-threaded dispatch only).
             std::function<bool(const Expression*)> usesVE;
-            usesVE = [&](const Expression* e)->bool{
+            usesVE = [&usesVE](const Expression* e)->bool{
                 if (!e) return false;
                 if (auto* le = dynamic_cast<const LiteralExpr*>(e)) {
                     return false;
@@ -1636,7 +1658,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                         // Hilfsfunktionen zur Extraktion
                         using namespace themis::query;
-                        std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [&](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
+                        // DATA-RACE-AUDIT(2026-08-26 Wave-7): `fieldFromFA` is a
+                        // non-recursive helper that does NOT need to capture
+                        // itself; the `[&]` on the prior version silently
+                        // captured all outer locals (var1, var2, table1/2,
+                        // parse_result…) — making the scanner flag the whole
+                        // lambda as a potential escaped-reference race.
+                        // FIX: capture only `fieldFromFA` is not needed here
+                        // (no self-recursion); use empty capture `[]` and
+                        // accept params explicitly.  Single-threaded dispatch,
+                        // no real race — capture narrowing removes the warning.
+                        std::function<std::string(const std::shared_ptr<Expression>&, std::string&)> fieldFromFA = [](const std::shared_ptr<Expression>& expr, std::string& rootVar)->std::string {
                             // Liefert Feldpfad ("a.b") und setzt rootVar auf Variablennamen
                             auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                             if (!fa) return std::string();
@@ -2153,12 +2185,19 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::vector<std::string> edges;
                     std::string cur = terminal;
                     vertices.push_back(cur);
+                    // Cycle guard: track visited nodes to prevent infinite traversal
+                    // if a malformed parent map contains a cycle.
+                    std::unordered_set<std::string> recoVisited;
+                    recoVisited.insert(cur);
                     while (cur != t.startVertex) {
                         auto it = parent.find(cur);
-                        if (it == parent.end()) break; // sollte bei Start aufh�ren
+                        if (it == parent.end()) break; // sollte bei Start aufhören
+                        const std::string& next = it->second.parent;
+                        if (recoVisited.count(next) > 0) break; // cycle detected
                         edges.push_back(it->second.edgeId);
-                        cur = it->second.parent;
+                        cur = next;
                         vertices.push_back(cur);
+                        recoVisited.insert(cur);
                     }
                     std::reverse(vertices.begin(), vertices.end());
                     std::reverse(edges.begin(), edges.end());

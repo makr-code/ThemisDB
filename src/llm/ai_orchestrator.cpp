@@ -261,13 +261,22 @@ public:
             return false;
         }
 
-        std::lock_guard<std::mutex> lock(mutex_);
-        last_error_ = ErrorCode::None;
+        // [W3-SEC-03] Deadlock fix: capture shared state under lock, then release
+        // before invoking external plugin calls (unloadLoRA, path_resolver_,
+        // loadLoRA). Those calls may re-enter currentAdapter() or other methods
+        // that acquire mutex_, which would deadlock with a non-reentrant mutex.
+        std::string prev_adapter;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            last_error_ = ErrorCode::None;
+            prev_adapter = current_adapter_;
+        }
 
-        // Unload previously active adapter if different.
-        if (!current_adapter_.empty() && current_adapter_ != adapter_id) {
-            const bool unload_ok = plugin->unloadLoRA(current_adapter_);
+        // Unload previously active adapter if different — called without lock.
+        if (!prev_adapter.empty() && prev_adapter != adapter_id) {
+            const bool unload_ok = plugin->unloadLoRA(prev_adapter);
             if (!unload_ok) {
+                std::lock_guard<std::mutex> lock(mutex_);
                 last_error_ = ErrorCode::UnloadFailed;
                 return false;
             }
@@ -275,23 +284,29 @@ public:
 
         // Best-effort path resolution: for now use adapter id as path.
         // Optional path resolver can map logical adapter ids to artifact paths.
+        // Called without lock — user-supplied callback has no re-entrancy contract.
         std::string lora_path = adapter_id;
         if (path_resolver_) {
             const auto resolved = path_resolver_(adapter_id, tenant);
             if (!resolved.has_value() || resolved->empty()) {
                 spdlog::warn("[AIOrchestrator] Adapter path resolver returned empty for '{}'", adapter_id);
+                std::lock_guard<std::mutex> lock(mutex_);
                 last_error_ = ErrorCode::ResolverReturnedEmpty;
                 return false;
             }
             lora_path = *resolved;
         }
 
+        // Load new adapter — called without lock.
         const bool ok = plugin->loadLoRA(adapter_id, lora_path, scale);
-        if (ok) {
-            current_adapter_ = adapter_id;
-            last_error_ = ErrorCode::None;
-        } else {
-            last_error_ = ErrorCode::LoadFailed;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (ok) {
+                current_adapter_ = adapter_id;
+                last_error_ = ErrorCode::None;
+            } else {
+                last_error_ = ErrorCode::LoadFailed;
+            }
         }
         return ok;
     }

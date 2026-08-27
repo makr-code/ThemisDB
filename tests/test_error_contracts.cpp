@@ -13,6 +13,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "utils/error_contracts.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/ostream_sink.h>

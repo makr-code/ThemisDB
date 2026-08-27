@@ -1,12 +1,17 @@
 #include <gtest/gtest.h>
 #include "server/rpc/snapshot_transfer_handler.h"
+#if __has_include(<crc32c/crc32c.h>)
 #include <crc32c/crc32c.h>
+#define THEMIS_HAS_CRC32C_HEADER 1
+#else
+#define THEMIS_HAS_CRC32C_HEADER 0
+#endif
 #include <filesystem>
 #include <fstream>
 #include <vector>
 
 // Temporarily disable snapshot transfer security tests on MSVC
-#define SKIP_SNAPSHOT_TRANSFER_TESTS 1
+#define SKIP_SNAPSHOT_TRANSFER_TESTS (!THEMIS_HAS_CRC32C_HEADER || 1)
 
 #if SKIP_SNAPSHOT_TRANSFER_TESTS
 

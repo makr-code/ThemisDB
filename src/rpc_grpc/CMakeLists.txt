@@ -39,9 +39,14 @@ target_include_directories(themis_rpc_grpc
 
 target_link_libraries(themis_rpc_grpc PRIVATE
     gRPC::grpc++
-    gRPC::grpc++_reflection
     protobuf::libprotobuf
 )
+
+if(TARGET gRPC::grpc++_reflection)
+    target_link_libraries(themis_rpc_grpc PRIVATE gRPC::grpc++_reflection)
+else()
+    message(WARNING "gRPC reflection target (gRPC::grpc++_reflection) not found; building themis_rpc_grpc without reflection")
+endif()
 
 set_target_properties(themis_rpc_grpc PROPERTIES
     OUTPUT_NAME "themis_rpc_grpc"

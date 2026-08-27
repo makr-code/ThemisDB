@@ -34,11 +34,15 @@ using namespace themis::query;
 
 class JITEquivalenceTest : public ::testing::Test {
 protected:
-    QueryCompiler compiler_{QueryCompiler::Config{
-        .hot_threshold = 2,  // Compile quickly for testing
-        .enable_jit = true,
-        .compilation_timeout_ms = 1000,
-    }};
+    static QueryCompiler::Config makeCompilerConfig() {
+        QueryCompiler::Config cfg;
+        cfg.hot_threshold = 2;  // Compile quickly for testing
+        cfg.enable_jit = true;
+        cfg.compilation_timeout_ms = 1000;
+        return cfg;
+    }
+
+    QueryCompiler compiler_{makeCompilerConfig()};
 
     /// Simple echo executor: returns the query text in a result
     static QueryCompiler::ExecuteFn makeEchoExecutor() {
@@ -80,7 +84,8 @@ protected:
     static QueryCompiler::ExecuteFn makeFailingExecutor(const std::string& fail_pattern) {
         return [fail_pattern](const std::string& q, const QueryParams& /*p*/) -> Result<QueryResult> {
             if (q.find(fail_pattern) != std::string::npos) {
-                return Result<QueryResult>::Error("Simulated compilation failure for pattern: " + fail_pattern);
+                return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                        "Simulated compilation failure for pattern: " + fail_pattern);
             }
             QueryResult r;
             r.rows = {nlohmann::json{{"result", "success"}}};
@@ -574,11 +579,11 @@ TEST_F(JITEquivalenceTest, OptimizationLevels) {
     QueryParams params{{"@x", 42}};
     
     for (auto opt : opt_levels) {
-        QueryCompiler compiler_opt{QueryCompiler::Config{
-            .hot_threshold = 2,
-            .enable_jit = true,
-            .opt_level = opt,
-        }};
+        QueryCompiler::Config opt_cfg;
+        opt_cfg.hot_threshold = 2;
+        opt_cfg.enable_jit = true;
+        opt_cfg.opt_level = opt;
+        QueryCompiler compiler_opt{opt_cfg};
         
         auto q = compiler_opt.compile("SELECT * FROM t", {}, executor);
         for (int i = 0; i < 3; ++i) {
@@ -589,10 +594,10 @@ TEST_F(JITEquivalenceTest, OptimizationLevels) {
 }
 
 TEST_F(JITEquivalenceTest, JITDisabledMode) {
-    QueryCompiler compiler_disabled{QueryCompiler::Config{
-        .enable_jit = false,
-        .hot_threshold = 2,
-    }};
+    QueryCompiler::Config disabled_cfg;
+    disabled_cfg.enable_jit = false;
+    disabled_cfg.hot_threshold = 2;
+    QueryCompiler compiler_disabled{disabled_cfg};
     
     auto executor = makeDeterministicExecutor();
     auto q = compiler_disabled.compile("SELECT * FROM t", {}, executor);
@@ -616,12 +621,12 @@ TEST_F(JITEquivalenceTest, JITDisabledMode) {
 
 TEST_F(JITEquivalenceTest, ManyDistinctQueries_NoEviction) {
     auto executor = makeDeterministicExecutor();
-    
-    QueryCompiler compiler_large{QueryCompiler::Config{
-        .hot_threshold = 2,
-        .max_cache_entries = 1000,
-        .enable_jit = true,
-    }};
+
+    QueryCompiler::Config large_cfg;
+    large_cfg.hot_threshold = 2;
+    large_cfg.max_cache_entries = 1000;
+    large_cfg.enable_jit = true;
+    QueryCompiler compiler_large{large_cfg};
     
     QueryParams params;
     
@@ -638,5 +643,3 @@ TEST_F(JITEquivalenceTest, ManyDistinctQueries_NoEviction) {
     EXPECT_EQ(stats.compilations, 100) << "All 100 queries should compile";
     EXPECT_EQ(stats.cache_size, 100) << "Cache should have 100 entries";
 }
-
-} // namespace

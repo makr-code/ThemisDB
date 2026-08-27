@@ -162,6 +162,14 @@ public:
     };
 
     // -----------------------------------------------------------------------
+    // TopK result
+    // -----------------------------------------------------------------------
+    struct TopKResult {
+        std::vector<Row> rows;     ///< Up to k rows, sorted by key in @p order
+        bool             used_gpu = false;
+    };
+
+    // -----------------------------------------------------------------------
     // Statistics
     // -----------------------------------------------------------------------
     struct Stats {
@@ -171,6 +179,7 @@ public:
         size_t   total_joins         = 0;
         size_t   total_dot_products  = 0;  ///< Dot-product operations completed
         size_t   total_ann_searches  = 0;  ///< ANN search operations completed
+        size_t   total_topk          = 0;  ///< TopK partial-sort operations completed
         uint64_t rows_processed      = 0;
         uint64_t bytes_scanned       = 0;
         size_t   gpu_ops             = 0;
@@ -306,6 +315,29 @@ public:
                         size_t                    numVectors,
                         size_t                    k,
                         bool                      useL2 = true);
+
+    /**
+     * @brief GPU-accelerated partial sort — return the top @p k rows by
+     *        @p key_fn in @p order without fully sorting the input.
+     *
+     * Uses `thrust::partial_sort_copy` on GPU (CUDA/HIP) and
+     * `std::partial_sort` on the CPU fallback path.  When `k >= rows.size()`
+     * the result is equivalent to a full sort.
+     *
+     * Fail-closed: any GPU allocation failure or SLA timeout causes an
+     * immediate CPU fallback; `used_gpu` reflects the path actually taken.
+     *
+     * @param rows    Input row set.
+     * @param key_fn  Numeric key extractor (host callable).
+     * @param k       Maximum number of rows to return.
+     * @param order   ASC returns the k rows with the smallest keys;
+     *                DESC returns the k rows with the largest keys.
+     * @return TopKResult with at most k rows sorted in @p order.
+     */
+    TopKResult topK(std::vector<Row> rows,
+                    KeyFn            key_fn,
+                    size_t           k,
+                    SortOrder        order = SortOrder::ASC);
 
     // -----------------------------------------------------------------------
     // Stats

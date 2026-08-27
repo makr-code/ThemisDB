@@ -113,15 +113,19 @@ protected:
 TEST_F(Phase2ThreadSafetyTest, TS01_ConcurrentElectionStartup) {
     // Create mock topology and gossip manager
     auto topology = std::make_shared<ShardTopology>();
-    auto gossip_mgr = std::make_shared<GossipConfigManager>();
-    
+    auto gossip_mgr = std::make_shared<GossipConfigManager>(
+        GossipConfigManagerConfig{},
+        topology,
+        nullptr
+    );
+
     auto coordinator = std::make_unique<DistributedCoordinator>(
         "shard-001",
         topology,
         gossip_mgr,
         DistributedCoordinator::Config{
-            .election_timeout_ms = 100,
             .heartbeat_interval_ms = 50,
+            .election_timeout_ms = 100,
         }
     );
     
@@ -175,8 +179,8 @@ TEST_F(Phase2ThreadSafetyTest, TS01_ConcurrentElectionStartup) {
  */
 TEST_F(Phase2ThreadSafetyTest, TS02_ConcurrentLoadUpdates) {
     auto topology = std::make_shared<ShardTopology>();
-    auto metrics = std::make_shared<PrometheusMetrics>();
-    
+    auto metrics = std::make_shared<PrometheusMetrics>(PrometheusMetrics::Config{});
+
     auto detector = std::make_unique<ShardLoadDetector>(topology, metrics);
     
     std::atomic<uint32_t> updates_completed{0};
@@ -266,8 +270,12 @@ TEST_F(Phase2ThreadSafetyTest, TS03_ConcurrentRoutingCounters) {
  */
 TEST_F(Phase2ThreadSafetyTest, TS04_CallbackRegistrationRace) {
     auto topology = std::make_shared<ShardTopology>();
-    auto gossip_mgr = std::make_shared<GossipConfigManager>();
-    
+    auto gossip_mgr = std::make_shared<GossipConfigManager>(
+        GossipConfigManagerConfig{},
+        topology,
+        nullptr
+    );
+
     auto coordinator = std::make_unique<DistributedCoordinator>(
         "shard-001",
         topology,
@@ -330,8 +338,12 @@ TEST_F(Phase2ThreadSafetyTest, TS04_CallbackRegistrationRace) {
  */
 TEST_F(Phase2LockOrderingTest, LO01_CoordinatorLockHierarchy) {
     auto topology = std::make_shared<ShardTopology>();
-    auto gossip_mgr = std::make_shared<GossipConfigManager>();
-    
+    auto gossip_mgr = std::make_shared<GossipConfigManager>(
+        GossipConfigManagerConfig{},
+        topology,
+        nullptr
+    );
+
     auto coordinator = std::make_unique<DistributedCoordinator>(
         "shard-001",
         topology,
@@ -408,10 +420,10 @@ TEST_F(Phase2LockOrderingTest, LO01_CoordinatorLockHierarchy) {
  */
 TEST_F(Phase2LockOrderingTest, LO02_LoadDetectorSingleLock) {
     auto topology = std::make_shared<ShardTopology>();
-    auto metrics = std::make_shared<PrometheusMetrics>();
-    
+    auto metrics = std::make_shared<PrometheusMetrics>(PrometheusMetrics::Config{});
+
     auto detector = std::make_unique<ShardLoadDetector>(topology, metrics);
-    
+
     std::atomic<int> detected_imbalances{0};
     const int num_threads = 5;
     
@@ -608,14 +620,18 @@ TEST_F(Phase2TimeoutTest, TO03_ImbalanceDetectionTimeout) {
  */
 TEST_F(Phase2ExceptionSafetyTest, ES01_TaskExecutionExceptionHandling) {
     auto topology = std::make_shared<ShardTopology>();
-    auto gossip_mgr = std::make_shared<GossipConfigManager>();
-    
+    auto gossip_mgr = std::make_shared<GossipConfigManager>(
+        GossipConfigManagerConfig{},
+        topology,
+        nullptr
+    );
+
     auto coordinator = std::make_unique<DistributedCoordinator>(
         "shard-001",
         topology,
         gossip_mgr
     );
-    
+
     std::atomic<int> tasks_executed{0};
     std::atomic<int> tasks_succeeded{0};
     
@@ -744,7 +760,7 @@ TEST_F(Phase2ErrorLoggingTest, EL02_QuorumTimeoutDiagnostics) {
  * when run with the same random seed
  */
 TEST_F(Phase2DeterminismTest, DT01_DeterministicLoadImbalance) {
-    std::vector<ShardLoadDetector::LoadImbalanceResult> results;
+    std::vector<themis::sharding::LoadImbalanceResult> results;
     
     for (int run = 0; run < 2; ++run) {
         auto topology = std::make_shared<ShardTopology>();

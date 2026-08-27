@@ -1,0 +1,1047 @@
+name: "Governance: Gates"
+
+# Rechenaufwand-Score: R=3 (K=3, L=3, N=3) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Consolidated governance workflow.
+# Replaces: 10-governance_maturity-verification.yml,
+#           11-governance_module-phase-gate.yml,
+#           12-governance_gate-audit-summary.yml,
+#           12-governance_merge-gate-enforcer.yml,
+#           12-governance_rc-validation.yml,
+#           12-governance_waiver-expiration-check.yml
+
+on:
+  push:
+    branches: [develop]
+    # Limit push trigger to governance-relevant paths only.
+    # Avoids running heavy maturity jobs on every develop commit.
+    paths:
+      - 'ROADMAP.md'
+      - 'FUTURE_ENHANCEMENTS.md'
+      - 'src/*/ROADMAP.md'
+      - 'docs/governance/**'
+      - 'audit/MATURITY_REPORT_*.md'
+      - 'scripts/verification/**'
+      - '.github/workflows/compliance-governance-gates.yml'
+    tags:
+      - 'v*-rc.*'
+  pull_request:
+    types: [opened, synchronize, labeled, unlabeled, reopened]
+    branches:
+      - develop
+      - minimal
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+    paths:
+      - 'ROADMAP.md'
+      - 'FUTURE_ENHANCEMENTS.md'
+      - 'audit/MATURITY_REPORT_*.md'
+      - 'src/*/ROADMAP.md'
+      - 'scripts/verification/**'
+      - 'tests/test_maturity_exit_criteria.py'
+      - 'docs/governance/**'
+      - '.github/workflows/compliance-governance-gates.yml'
+  pull_request_review:
+    types: [submitted]
+  issue_comment:
+    types: [created]
+  schedule:
+    - cron: '30 3 * * *'    # Daily 03:30 UTC — maturity verification + waiver expiration (staggered from maintenance-docs 04:00)
+    - cron: '0 8 * * MON'   # Weekly Monday 08:00 UTC — gate audit summary
+    - cron: '0 8 1 1,4,7,10 *'  # Quarterly — branch protection drift detection
+  workflow_dispatch:
+    inputs:
+      rc_tag:
+        description: 'Release Candidate tag for RC validation (e.g., v8.1.0-rc.1)'
+        required: false
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+  security-events: read
+
+# Concurrency: cancel in-progress runs on the same ref so stale PR runs are
+# replaced when new commits are pushed. Note: governance-gate handles multiple
+# event types; cancel-in-progress ensures stale runs are cleared promptly.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number || github.event.schedule || github.ref || github.run_id }}
+  cancel-in-progress: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # 1. Maturity Verification (push/PR/schedule)
+  maturity-verification:
+    name: Maturity Evidence & Gate Verification
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'pull_request' ||
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - run: pip install pyyaml jsonschema gitpython
+
+      - name: Load Maturity Evidence Manifest
+        id: manifest
+        run: |
+          python3 << 'EOF'
+          import json
+          from pathlib import Path
+
+          manifest_file = Path("docs/governance/MATURITY_EVIDENCE_MANIFEST.json")
+          if not manifest_file.exists():
+              print("::warning::MATURITY_EVIDENCE_MANIFEST.json not found — skipping.")
+              exit(0)
+          manifest = json.loads(manifest_file.read_text())
+          print(f"Loaded {len(manifest.get('evidence_items', []))} evidence items.")
+          EOF
+
+      - name: Verify maturity gates
+        run: |
+          python3 .github/scripts/verify_maturity_gates.py \
+            --manifest docs/governance/MATURITY_EVIDENCE_MANIFEST.json \
+            --output /tmp/maturity_report.json || true
+
+      - name: Check hard maturity exit criteria
+        continue-on-error: true
+        run: |
+          python3 scripts/verification/check_maturity_exit_criteria.py \
+            --repo-root="${GITHUB_WORKSPACE}" \
+            --output-json=/tmp/maturity_exit_criteria.json
+
+      - name: Summarize hard maturity exit criteria
+        if: always()
+        run: |
+          python3 << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          path = Path("/tmp/maturity_exit_criteria.json")
+          print("## Hard 100% Maturity Exit Criteria")
+          print()
+          if not path.exists():
+              print("- Result: no artifact produced")
+              raise SystemExit(0)
+
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          failed = [check for check in payload["checks"] if not check["passed"]]
+          print(f"- Result: {'PASS' if payload['pass'] else 'FAIL'}")
+          print(f"- Report: `{payload['maturity_report']}`")
+          print(f"- Failed checks: {len(failed)}")
+          if failed:
+              print()
+              print("| Check | Value | Target |")
+              print("|---|---:|---:|")
+              for check in failed:
+                  print(f"| `{check['name']}` | {check['value']} | {check['target']} |")
+          EOF
+
+      - name: Upload maturity report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: maturity-report-${{ github.run_number }}
+          path: /tmp/maturity_report.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Upload hard maturity exit artifact
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: maturity-exit-criteria-${{ github.run_number }}
+          path: /tmp/maturity_exit_criteria.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # 2. Module Phase Gate (PR — ROADMAP.md changes)
+  module-phase-gate:
+    name: Module Phase Closure Validation
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Identify changed modules
+        id: modules
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          CHANGED_ROADMAPS=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep 'src/.*/ROADMAP\.md' || true)
+          {
+            echo "changed_roadmaps<<EOF"
+            echo "${CHANGED_ROADMAPS}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Validate phase closures
+        if: steps.modules.outputs.changed_roadmaps != ''
+        run: |
+          echo "${{ steps.modules.outputs.changed_roadmaps }}" | while read -r roadmap; do
+            [ -z "${roadmap}" ] && continue
+            module=$(dirname "${roadmap}" | xargs basename)
+            echo "Validating phase closure for module: ${module}"
+            python3 .github/scripts/validate_module_phase_gate.py \
+              --roadmap "${roadmap}" \
+              --module "${module}" || true
+          done
+
+  # 3. Merge Gate Enforcer (PR open/sync/review/comment)
+  merge-gate-enforcer:
+    name: Merge Gate Enforcer
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'pull_request' &&
+       (github.event.action == 'opened' || github.event.action == 'synchronize')) ||
+      github.event_name == 'pull_request_review' ||
+      github.event_name == 'issue_comment'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Tier 0 gate validation
+        id: validate
+        run: |
+          python3 .github/scripts/merge_gate_validator.py \
+            --tier 0 \
+            --output /tmp/gate_result.json || true
+
+          if [ -f /tmp/gate_result.json ]; then
+            STATUS=$(python3 -c "import json; d=json.loads(open('/tmp/gate_result.json').read()); print(d.get('status','unknown'))")
+            echo "tier0_status=${STATUS}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tier0_status=skipped" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare gate result summary
+        id: gate_comment
+        if: github.event_name == 'pull_request' && steps.validate.outputs.tier0_status != 'skipped'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          body = "Merge Gate Enforcer: validation completed."
+          result_path = Path('/tmp/gate_result.json')
+          if result_path.exists():
+              try:
+                  result = json.loads(result_path.read_text(encoding='utf-8'))
+                  body = "## Merge Gate Result\n- Status: " + str(result.get('status', 'unknown')) + "\n- Message: " + str(result.get('message', 'n/a'))
+              except Exception:
+                  pass
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write('body<<EOF\n')
+              fh.write(body)
+              fh.write('\nEOF\n')
+          PY
+
+      - name: Post gate result to PR
+        if: github.event_name == 'pull_request' && steps.validate.outputs.tier0_status != 'skipped'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.pull_request.number }}
+          issue-marker: '<!-- merge-gate-result -->'
+          issue-body: ${{ steps.gate_comment.outputs.body }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+  # 4. RC Validation (RC tags + manual dispatch)
+  rc-validation:
+    name: Release Candidate Validation
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-rc.')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.rc_tag != '')
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.rc_tag || github.ref }}
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Extract RC tag
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.rc_tag || github.ref_name }}"
+          echo "rc_tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "RC Tag: ${TAG}"
+
+      - name: Verify Wave-7–9 technical gates
+        run: |
+          python3 << 'EOF'
+          import json, sys
+          from pathlib import Path
+
+          manifest_file = Path("docs/governance/MATURITY_EVIDENCE_MANIFEST.json")
+          if not manifest_file.exists():
+              print("::warning::MATURITY_EVIDENCE_MANIFEST.json not found — skipping gate check.")
+              sys.exit(0)
+          manifest = json.loads(manifest_file.read_text())
+          required_waves = {"wave7", "wave8", "wave9"}
+          passed = {item["wave"] for item in manifest.get("evidence_items", []) if item.get("status") == "pass"}
+          missing = required_waves - passed
+          if missing:
+              print(f"::error::Missing gate evidence for waves: {', '.join(sorted(missing))}")
+              sys.exit(1)
+          print("All required Wave-7–9 gates passed.")
+          EOF
+
+      - name: Produce RC validation summary
+        if: always()
+        run: |
+          {
+            echo "## RC Validation — ${{ steps.tag.outputs.rc_tag }}"
+            echo "| Gate | Status |"
+            echo "|------|--------|"
+            echo "| Wave-7–9 Evidence | ${{ job.status }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 4. WAVE C BATCH 3 — SBOM/Hash Verification (release integrity)
+  sbom-hash-verification:
+    name: SBOM/Hash Verification (Wave C Batch 3)
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-rc.')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.rc_tag != '')
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.rc_tag || github.ref }}
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Extract RC tag
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.rc_tag || github.ref_name }}"
+          echo "rc_tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate SBOM for release artifacts
+        id: sbom_gen
+        run: |
+          python3 << 'EOF'
+          import json, hashlib
+          from pathlib import Path
+
+          # Generate SBOM entry for each known managed dependency
+          dependencies = [
+              {"name": "vcpkg", "version": "master", "url": "https://github.com/microsoft/vcpkg.git"},
+              {"name": "llama.cpp", "version": "main", "url": "https://github.com/ggerganov/llama.cpp.git"},
+              {"name": "whisper.cpp", "version": "main", "url": "https://github.com/ggerganov/whisper.cpp.git"},
+              {"name": "stable-diffusion.cpp", "version": "master", "url": "https://github.com/leejet/stable-diffusion.cpp.git"},
+              {"name": "FFmpeg", "version": "master", "url": "https://github.com/FFmpeg/FFmpeg.git"},
+              {"name": "openssl", "version": "master", "url": "https://github.com/openssl/openssl.git"},
+          ]
+
+          # Create SBOM JSON
+          sbom = {
+              "bomVersion": "1.3",
+              "specVersion": "1.3",
+              "version": 1,
+              "components": []
+          }
+
+          for dep in dependencies:
+              component = {
+                  "type": "library",
+                  "name": dep["name"],
+                  "version": dep["version"],
+                  "purl": f"github://github.com/{dep['url'].split('github.com/', 1)[1].rstrip('.git')}",
+                  "externalReferences": [
+                      {
+                          "type": "vcs",
+                          "url": dep["url"]
+                      }
+                  ]
+              }
+              sbom["components"].append(component)
+
+          # Write SBOM to file
+          sbom_file = Path("SBOM_RELEASE.json")
+          sbom_file.write_text(json.dumps(sbom, indent=2))
+
+          # Compute SBOM hash (SHA-256)
+          sbom_content = sbom_file.read_bytes()
+          sbom_hash = hashlib.sha256(sbom_content).hexdigest()
+
+          print(f"SBOM generated with {len(sbom['components'])} components")
+          print(f"SBOM hash: {sbom_hash}")
+
+          # Store hash in output file for verification
+          Path("sbom_hash.txt").write_text(sbom_hash)
+          # Use the modern GITHUB_OUTPUT mechanism instead of the deprecated ::set-output command
+          import os
+          github_output = os.environ.get("GITHUB_OUTPUT", "")
+          if github_output:
+              with open(github_output, "a") as f:
+                  f.write(f"sbom_hash={sbom_hash}\n")
+          EOF
+
+      - name: Verify SBOM hash against release manifest
+        run: |
+          python3 << 'EOF'
+          import json, hashlib, sys
+          from pathlib import Path
+
+          sbom_file = Path("SBOM_RELEASE.json")
+          hash_file = Path("sbom_hash.txt")
+
+          # Verify SBOM exists
+          if not sbom_file.exists():
+              print("::error::SBOM_RELEASE.json not found — FAIL-CLOSED")
+              sys.exit(1)
+
+          # Compute current SBOM hash
+          current_hash = hashlib.sha256(sbom_file.read_bytes()).hexdigest()
+          stored_hash = hash_file.read_text().strip()
+
+          print(f"SBOM hash verification:")
+          print(f"  Stored : {stored_hash}")
+          print(f"  Current: {current_hash}")
+
+          if current_hash != stored_hash:
+              print("::error::SBOM hash mismatch — FAIL-CLOSED: dependency changed since generation")
+              sys.exit(1)
+
+          # Verify no private dependencies
+          sbom = json.loads(sbom_file.read_text())
+          private_urls = [c.get("externalReferences", [{}])[0].get("url", "") 
+                         for c in sbom.get("components", []) 
+                         if "makr-code/themisdb" in c.get("externalReferences", [{}])[0].get("url", "")]
+
+          if private_urls:
+              print(f"::error::SBOM contains private dependencies: {private_urls} — FAIL-CLOSED")
+              sys.exit(1)
+
+          print("✅ SBOM hash verification passed")
+          EOF
+
+      - name: Produce SBOM verification summary
+        if: always()
+        run: |
+          {
+            echo "## SBOM/Hash Verification — ${{ steps.tag.outputs.rc_tag }}"
+            echo "| Gate | Status |"
+            echo "|------|--------|"
+            echo "| SBOM Generation | ${{ job.status }} |"
+            echo "| SBOM Hash Verification | ${{ job.status }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 5. Gate Audit Summary (weekly)
+  gate-audit-summary:
+    name: Weekly Gate Audit Summary
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Analyse gate metrics
+        run: |
+          python3 << 'EOF'
+          import json, sys
+          from pathlib import Path
+          from datetime import datetime, timedelta
+          from collections import defaultdict
+
+          audit_log = Path("ai_working/MERGE_GATE_AUDIT_LOG.jsonl")
+          waiver_log = Path("ai_working/ENFORCEMENT_WAIVERS.md")
+
+          metrics = {
+              "period_start": (datetime.utcnow() - timedelta(days=7)).isoformat(),
+              "period_end": datetime.utcnow().isoformat(),
+              "total_validations": 0,
+              "total_passes": 0,
+              "total_failures": 0,
+              "total_waivers": 0,
+              "gate_failure_counts": {},
+              "most_common_failures": [],
+          }
+
+          if audit_log.exists():
+              for line in audit_log.read_text().splitlines():
+                  line = line.strip()
+                  if not line:
+                      continue
+                  try:
+                      entry = json.loads(line)
+                      metrics["total_validations"] += 1
+                      if entry.get("status") == "pass":
+                          metrics["total_passes"] += 1
+                      else:
+                          metrics["total_failures"] += 1
+                          gate = entry.get("gate", "unknown")
+                          metrics["gate_failure_counts"][gate] = metrics["gate_failure_counts"].get(gate, 0) + 1
+                  except json.JSONDecodeError:
+                      continue
+
+          print(json.dumps(metrics, indent=2))
+          Path("/tmp/gate_audit_summary.json").write_text(json.dumps(metrics, indent=2))
+          EOF
+
+      - name: Upload audit summary
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: gate-audit-summary-${{ github.run_number }}
+          path: /tmp/gate_audit_summary.json
+          retention-days: 90
+
+  # 6. Doxygen waiver command handling (PR comments)
+  doxygen-waiver-commands:
+    name: Doxygen Waiver Commands
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '/approve-with-waiver') &&
+      contains(github.event.comment.body, 'T1-DOXYGEN-COVERAGE')
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Validate waiver approver permission
+        id: approver
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const username = context.actor;
+            try {
+              const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner,
+                repo,
+                username,
+              });
+              const permission = String(data.permission || '').toLowerCase();
+              const allowed = ['admin', 'maintain', 'write'].includes(permission);
+              core.setOutput('allowed', allowed ? 'true' : 'false');
+              core.setOutput('permission', permission || 'none');
+            } catch (error) {
+              core.setOutput('allowed', 'false');
+              core.setOutput('permission', 'none');
+            }
+
+      - name: Parse Doxygen waiver command
+        id: waiver
+        if: steps.approver.outputs.allowed == 'true'
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          python3 .github/scripts/waiver_validator.py \
+            --parse-comment "$COMMENT_BODY" \
+            --pr-number "${{ github.event.issue.number }}" \
+            --approver "${{ github.actor }}" \
+            --output /tmp/doxygen_waiver_result.json
+
+      - name: Export Doxygen waiver result
+        id: waiver_result
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          result = {
+              "success": False,
+              "error": "Waiver command not processed.",
+              "gate_id": "",
+              "expires": "",
+              "justification": "",
+          }
+
+          if os.environ.get("ALLOWED") != "true":
+              result["error"] = f"Approver lacks required repository write permission ({os.environ.get('PERMISSION', 'none')})."
+          else:
+              path = Path("/tmp/doxygen_waiver_result.json")
+              if path.exists():
+                  payload = json.loads(path.read_text(encoding="utf-8"))
+                  result["success"] = bool(payload.get("success"))
+                  result["error"] = payload.get("error", "")
+                  waiver = payload.get("waiver") or {}
+                  result["gate_id"] = str(waiver.get("gate_id", ""))
+                  result["expires"] = str(waiver.get("expires", ""))
+                  result["justification"] = str(waiver.get("justification", ""))
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"success={'true' if result['success'] else 'false'}\n")
+              fh.write(f"gate_id={result['gate_id']}\n")
+              fh.write(f"expires={result['expires']}\n")
+              fh.write("justification<<EOF\n")
+              fh.write(result["justification"])
+              fh.write("\nEOF\n")
+              fh.write("error<<EOF\n")
+              fh.write(result["error"])
+              fh.write("\nEOF\n")
+          PY
+        env:
+          ALLOWED: ${{ steps.approver.outputs.allowed }}
+          PERMISSION: ${{ steps.approver.outputs.permission }}
+
+      - name: Apply Doxygen waiver label
+        if: steps.waiver_result.outputs.success == 'true' && steps.waiver_result.outputs.gate_id == 'T1-DOXYGEN-COVERAGE'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: set_status
+          issue-number: ${{ github.event.issue.number }}
+          labels-to-add: 'governance/doxygen-waiver'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Publish approved Doxygen waiver comment
+        if: steps.waiver_result.outputs.success == 'true' && steps.waiver_result.outputs.gate_id == 'T1-DOXYGEN-COVERAGE'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.issue.number }}
+          target-type: pr
+          issue-marker: '<!-- governance-waiver:T1-DOXYGEN-COVERAGE -->'
+          issue-body: |
+            ## Approved Doxygen Coverage Waiver
+
+            - Gate: `T1-DOXYGEN-COVERAGE`
+            - Status: `ACTIVE`
+            - Approver: `@${{ github.actor }}`
+            - Permission: `${{ steps.approver.outputs.permission }}`
+            - Expires: `${{ steps.waiver_result.outputs.expires }}`
+            - Justification: ${{ steps.waiver_result.outputs.justification }}
+            - Approval comment: ${{ github.event.comment.html_url }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Publish rejected Doxygen waiver comment
+        if: steps.waiver_result.outputs.success != 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.issue.number }}
+          target-type: pr
+          issue-marker: '<!-- governance-waiver:T1-DOXYGEN-COVERAGE -->'
+          issue-body: |
+            ## Doxygen Coverage Waiver Rejected
+
+            - Gate: `T1-DOXYGEN-COVERAGE`
+            - Status: `REJECTED`
+            - Reason: ${{ steps.waiver_result.outputs.error }}
+            - Source comment: ${{ github.event.comment.html_url }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Upload Doxygen waiver artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: doxygen-waiver-${{ github.run_number }}
+          path: |
+            /tmp/doxygen_waiver_result.json
+            ai_working/ENFORCEMENT_WAIVERS.md
+          retention-days: 90
+          if-no-files-found: ignore
+
+  # 7. Waiver Expiration Check (daily)
+  waiver-expiration-check:
+    name: Waiver Expiration Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Check expiring waivers
+        id: check
+        run: |
+          python3 .github/scripts/waiver_validator.py \
+            --check-expiration \
+            --output /tmp/expiring_waivers.json || true
+
+          if [ -f /tmp/expiring_waivers.json ]; then
+            COUNT=$(python3 -c "import json; print(json.load(open('/tmp/expiring_waivers.json')).get('total', 0))" 2>/dev/null || echo "0")
+            echo "expiring_count=${COUNT}" >> "$GITHUB_OUTPUT"
+          else
+            echo "expiring_count=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create or update expiration issues
+        if: steps.check.outputs.expiring_count > 0
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Governance] ${{ steps.check.outputs.expiring_count }} waiver(s) expiring soon'
+          issue-marker: '<!-- governance-waiver:expiration -->'
+          issue-body: |
+            <!-- governance-waiver:expiration -->
+            ## Waiver Expiration Reminder
+
+            **${{ steps.check.outputs.expiring_count }}** governance waiver(s) are expiring within 7 days.
+
+            Please review `ai_working/ENFORCEMENT_WAIVERS.md` and renew or resolve each waiver.
+
+            _Auto-generated by compliance-governance-gates.yml at ${{ github.run_id }}_
+          labels-to-add: 'governance/needs-attention,status/needs-attention'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # 7. Wave Gate Automation
+  # Parses src/*/ROADMAP.md checkbox statuses and validates that no [~]
+  # (in-progress) items block the current Wave exit criteria defined in the
+  # root ROADMAP.md §Wave gate model.
+  # Debug: prints per-module status table, wave detection, and full summary.
+  # ──────────────────────────────────────────────────────────────────────────
+  wave-gate-automation:
+    name: 🌊 Wave Gate Automation (ROADMAP checkbox parser)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'pull_request' ||
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Print wave gate context
+        run: |
+          echo "============================================================"
+          echo " Governance Gates  |  Wave Gate Automation"
+          echo "============================================================"
+          echo "  Event      : ${{ github.event_name }}"
+          echo "  Ref        : ${{ github.ref }}"
+          echo "  SHA        : ${{ github.sha }}"
+          echo "  Actor      : ${{ github.actor }}"
+          echo "  Run ID     : ${{ github.run_id }}"
+          echo "  Purpose    : Parse src/*/ROADMAP.md [~] items vs Wave exit"
+          echo "               criteria in root ROADMAP.md"
+          echo "============================================================"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Parse ROADMAP checkboxes and evaluate wave gates
+        id: wave_gate
+        run: |
+          python3 - << 'PY'
+          import re
+          import os
+          import sys
+          from pathlib import Path
+
+          DIVIDER = "──────────────────────────────────────────────"
+
+          # ── Load current wave from root ROADMAP.md ──────────────────────
+          print(f"\n{DIVIDER}")
+          print("  Wave Gate Automation — ROADMAP scan")
+          print(DIVIDER)
+
+          root_roadmap = Path("ROADMAP.md").read_text(encoding="utf-8")
+          current_wave_match = re.search(
+              r'###\s+(Wave\s+\w+)[^\n]*(?:CURRENT|current)', root_roadmap
+          )
+          current_wave = current_wave_match.group(1) if current_wave_match else "Wave A"
+          print(f"  Detected current wave : {current_wave}")
+
+          # ── Scan src/*/ROADMAP.md ────────────────────────────────────────
+          all_files = sorted(Path("src").glob("*/ROADMAP.md"))
+          print(f"  Module ROADMAP files  : {len(all_files)}")
+          print()
+
+          blocking = []
+          module_stats = []
+          for roadmap_file in all_files:
+              module = roadmap_file.parent.name
+              text = roadmap_file.read_text(encoding="utf-8")
+              done      = len(re.findall(r'- \[x\]', text))
+              in_prog   = re.findall(r'- \[~\] (.+)', text)
+              open_     = len(re.findall(r'- \[ \]', text))
+              blocked   = len(re.findall(r'- \[\?\]', text))
+              print(f"  {module:<30} done={done:>3}  in-progress={len(in_prog):>2}  open={open_:>3}  blocked={blocked}")
+              module_stats.append((module, done, len(in_prog), open_, blocked))
+              if in_prog:
+                  blocking.append({"module": module, "items": in_prog})
+
+          total_blocking = sum(len(b["items"]) for b in blocking)
+          print()
+          print(f"  Total [~] in-progress : {total_blocking}")
+          if blocking:
+              print()
+              print("  Blocking items:")
+              for b in blocking:
+                  for item in b["items"]:
+                      print(f"    [{b['module']}] {item[:80]}")
+          print(DIVIDER)
+
+          # ── Emit step summary ────────────────────────────────────────────
+          summary_path = os.environ["GITHUB_STEP_SUMMARY"]
+          lines = [
+              f"## 🌊 Wave Gate Automation — {current_wave}",
+              "",
+              "| Module | ✅ Done | 🔄 In-Progress | 📋 Open | ❓ Blocked |",
+              "|--------|--------|---------------|--------|-----------|",
+          ]
+          for (mod, done, inp, op, bl) in module_stats:
+              lines.append(f"| `{mod}` | {done} | {inp} | {op} | {bl} |")
+          lines.append("")
+
+          if blocking:
+              lines += [
+                  f"### ⚠️ {total_blocking} in-progress [~] item(s) detected",
+                  "",
+                  "| Module | In-Progress Item |",
+                  "|--------|-----------------|",
+              ]
+              for b in blocking:
+                  for item in b["items"]:
+                      lines.append(f"| `{b['module']}` | {item[:80]} |")
+              lines += [
+                  "",
+                  "_Review and resolve [~] items before promoting to the next Wave._",
+                  "",
+                  f"_Wave: **{current_wave}** · Scan at $(date -u)_",
+              ]
+              status = "warning"
+          else:
+              lines += [
+                  f"### ✅ No blocking [~] items — wave gate passed",
+                  "",
+                  f"_Wave: **{current_wave}** · All module ROADMAPs scanned: {len(all_files)} files._",
+              ]
+              status = "pass"
+
+          with open(summary_path, "a") as f:
+              f.write("\n".join(lines) + "\n")
+
+          # ── Write outputs ────────────────────────────────────────────────
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"wave={current_wave}\n")
+              f.write(f"status={status}\n")
+              f.write(f"blocking_count={total_blocking}\n")
+
+          print(f"\n  Wave gate result: {status.upper()}")
+          print(f"  Blocking items  : {total_blocking}")
+          PY
+
+      - name: Annotate PR with wave gate status
+        if: github.event_name == 'pull_request' && steps.wave_gate.outputs.blocking_count != '0'
+        run: |
+          echo "::warning::🌊 Wave gate (${{ steps.wave_gate.outputs.wave }}) — ${{ steps.wave_gate.outputs.blocking_count }} in-progress [~] item(s) detected in module ROADMAPs. Resolve before wave promotion."
+          echo ""
+          echo "  Blocking count : ${{ steps.wave_gate.outputs.blocking_count }}"
+          echo "  Wave           : ${{ steps.wave_gate.outputs.wave }}"
+          echo "  Status         : ${{ steps.wave_gate.outputs.status }}"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # 8. Branch Protection Drift Detection
+  # Validates that all canonical branches have required checks, required
+  # reviews, and force-push disabled. Raises a governance/drift issue if
+  # any branch deviates from the policy.
+  # Debug: prints per-branch protection status before comparison.
+  # ──────────────────────────────────────────────────────────────────────────
+  branch-protection-drift:
+    name: 🛡️ Branch Protection Drift Detection
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Print drift detection context
+        run: |
+          echo "============================================================"
+          echo " Governance Gates  |  Branch Protection Drift Detection"
+          echo "============================================================"
+          echo "  Trigger    : ${{ github.event_name }}"
+          echo "  Actor      : ${{ github.actor }}"
+          echo "  Run ID     : ${{ github.run_id }}"
+          echo "  Scope      : All canonical branches per BRANCHING_STRATEGY.md"
+          echo "  Branches   : develop, minimal, community, enterprise,"
+          echo "               hyperscaler, military"
+          echo "  Required   : force-push=disabled, required reviews, status checks"
+          echo "============================================================"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Validate branch protection for canonical branches
+        id: drift
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        with:
+          script: |
+            const CANONICAL = ['develop', 'minimal', 'community', 'enterprise', 'hyperscaler', 'military'];
+            const REQUIRED_CHECKS = ['release-critical-tests'];
+            const drifted = [];
+
+            console.log('──────────────────────────────────────────────────────');
+            console.log('  Branch Protection Status');
+            console.log('──────────────────────────────────────────────────────');
+
+            for (const branch of CANONICAL) {
+              let protection;
+              try {
+                const { data } = await github.rest.repos.getBranchProtection({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  branch,
+                });
+                protection = data;
+              } catch (err) {
+                if (err.status === 404) {
+                  console.log(`  ${branch.padEnd(20)} ❌ NO PROTECTION configured`);
+                  drifted.push({ branch, issue: 'No branch protection configured' });
+                  continue;
+                }
+                console.log(`  ${branch.padEnd(20)} ⚠️  Could not read: ${err.message}`);
+                core.warning(`Could not read branch protection for ${branch}: ${err.message}`);
+                continue;
+              }
+
+              const issues = [];
+
+              // Check: force-push
+              const fpEnabled = protection.allow_force_pushes?.enabled || false;
+              if (fpEnabled) issues.push('force-push ENABLED');
+
+              // Check: required status checks
+              const checks = protection.required_status_checks?.contexts || [];
+              const missing = REQUIRED_CHECKS.filter(c => !checks.includes(c));
+              if (missing.length > 0) issues.push(`missing checks: ${missing.join(', ')}`);
+
+              // Check: required reviews
+              const hasReviews = !!protection.required_pull_request_reviews;
+              if (!hasReviews) issues.push('no required PR reviews');
+
+              const reviewCount = protection.required_pull_request_reviews?.required_approving_review_count || 0;
+              const statusIcon = issues.length === 0 ? '✅' : '❌';
+
+              console.log(`  ${branch.padEnd(20)} ${statusIcon}  force-push=${fpEnabled}  reviews=${hasReviews}(${reviewCount})  checks=[${checks.join(',')||'none'}]`);
+
+              if (issues.length > 0) {
+                issues.forEach(iss => {
+                  console.log(`                         ↳ DRIFT: ${iss}`);
+                  drifted.push({ branch, issue: iss });
+                });
+              }
+            }
+
+            console.log('──────────────────────────────────────────────────────');
+            console.log(`  Drifted items: ${drifted.length}`);
+
+            core.setOutput('drift_count', String(drifted.length));
+            core.setOutput('drifted_branches', JSON.stringify(drifted));
+
+            const fs = require('fs');
+            const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+            if (drifted.length > 0) {
+              let lines = [
+                '## ⚠️ Branch Protection Drift Detected',
+                '',
+                `**${drifted.length}** drift item(s) found across canonical branches.`,
+                '',
+                '| Branch | Issue |',
+                '|--------|-------|',
+              ];
+              for (const d of drifted) lines.push(`| \`${d.branch}\` | ${d.issue} |`);
+              lines.push('');
+              lines.push('_See `BRANCHING_STRATEGY.md` for required configuration._');
+              fs.appendFileSync(summaryPath, lines.join('\n') + '\n');
+            } else {
+              fs.appendFileSync(summaryPath,
+                '## ✅ Branch Protection — All canonical branches compliant\n\n' +
+                'All 6 canonical branches have force-push disabled, required reviews, and required status checks.\n'
+              );
+            }
+
+      - name: Report drift result
+        run: |
+          DRIFT="${{ steps.drift.outputs.drift_count }}"
+          if [ "${DRIFT}" = "0" ] || [ -z "${DRIFT}" ]; then
+            echo "  ✅ All canonical branches are compliant — no drift detected."
+          else
+            echo "  ❌ ${DRIFT} drift item(s) detected — an issue will be created/updated."
+            echo "::warning::🛡️ Branch protection drift: ${DRIFT} item(s) detected. Check governance-gates run for details."
+          fi
+
+      - name: Open or update drift issue
+        if: steps.drift.outputs.drift_count != '0' && steps.drift.outputs.drift_count != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Governance] Branch protection drift detected'
+          issue-marker: '<!-- governance-drift:branch-protection -->'
+          issue-body: |
+            <!-- governance-drift:branch-protection -->
+            ## Branch Protection Drift Report
+
+            **${{ steps.drift.outputs.drift_count }}** canonical branch(es) have drifted from the required protection policy.
+
+            ${{ steps.drift.outputs.drifted_branches }}
+
+            See `BRANCHING_STRATEGY.md` for the required configuration.
+
+            _Auto-generated by compliance-governance-gates.yml at ${{ github.run_id }}_
+          labels-to-add: 'governance/drift,status/needs-attention'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}

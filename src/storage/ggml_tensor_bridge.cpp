@@ -13,6 +13,7 @@
 
 #include "storage/ggml_tensor_bridge.h"
 #include "storage/tensor_train_decomposer.h"
+#include "utils/logger.h"
 
 #include <atomic>
 #include <cassert>
@@ -44,6 +45,17 @@ namespace storage {
 // the stub metadata section at the top of the file — false positives.
 
 // ============================================================================
+// STUB/SIMULATION NOTE (STUB #263a — GgmlAllocFn injection bridge):
+// Purpose: Injectable bridge for production ggml memory allocator integration.
+//          Allows a server-side allocator to track tensor allocation for profiling
+//          and OOM control without coupling this file to a specific allocator.
+// Activation: When setGgmlAllocFn() is called at startup with a real allocator fn.
+//             Default (fn == nullptr): falls back to ggml's internal allocator
+//             (ggml_malloc / ggml_new_tensor_1d) inside doMap().
+// Production Delta: Without injection, tensor allocations are untracked by
+//                   ThemisDB's memory accounting layer.
+// Removal Plan: Wire ThemisDB's tracked allocator in ThemisServer::initialize()
+//               once memory accounting for ggml tensors is required — Target Q4 2026.
 // GgmlAllocFn injection bridge (STUB #263a)
 // ============================================================================
 
@@ -66,6 +78,16 @@ void GgmlTensorBridge::clearGgmlAllocFn() {
 }
 
 // ============================================================================
+// STUB/SIMULATION NOTE (STUB #263b — PrefetchFn injection bridge):
+// Purpose: Injectable bridge for io_uring-based speculative prefetch of TT-core
+//          tensor data. Enables async readahead without coupling this file to
+//          a specific io_uring implementation.
+// Activation: When setPrefetchFn() is called and THEMIS_HAS_IO_URING is not defined.
+//             Default (fn == nullptr): no-op (OS demand-pager handles page faults).
+// Production Delta: Without injection, TT-core access latency is higher on cold
+//                   cache misses; no data loss or correctness issue.
+// Removal Plan: Enable -DTHEMIS_HAS_IO_URING=ON to activate the built-in io_uring
+//               path. The bridge path becomes unreachable once io_uring is compiled in.
 // PrefetchFn injection bridge (STUB #263b)
 // ============================================================================
 
@@ -88,6 +110,17 @@ void GgmlTensorBridge::clearPrefetchFn() {
 }
 
 // ============================================================================
+// STUB/SIMULATION NOTE (STUB #263c — TypeRegistrationFn injection bridge):
+// Purpose: Injectable bridge for registering custom ggml tensor types with an
+//          external type registry (e.g., plugin-defined quantization formats).
+// Activation: When setTypeRegistrationFn() is called at startup.
+//             Default (fn == nullptr): uses ggml's built-in type IDs only;
+//             custom types return a stable placeholder ID (see FakeTensor note).
+// Production Delta: Without injection, custom quantization types are unregistered
+//                   and will be treated as unknown by ggml, causing doMap() to
+//                   fall back to float32 decompression.
+// Removal Plan: Wire type registration in ThemisServer::initialize() when plugin
+//               quantization formats are finalized — Target Q4 2026.
 // TypeRegistrationFn injection bridge (STUB #263c)
 // ============================================================================
 
@@ -187,9 +220,17 @@ ggml_tensor* MappedTTTensor::ggmlTensor() const noexcept {
     if (!impl_ || !impl_->valid) return nullptr;
     // Return real allocation when GgmlAllocFn was wired (GTB-01 / STUB #263a).
     if (impl_->real_ggml_tensor) return impl_->real_ggml_tensor;
-    // Stub fallback: GgmlAllocFn not set — returns nullptr (safe for unit tests,
-    // not for llama.cpp inference until a real allocator is injected).
+#ifndef THEMIS_UNIT_TEST
+    // Production guard: inference must not proceed with a fake tensor pointer.
+    // Call GgmlTensorBridge::setGgmlAllocFn() before calling asGgmlTensor().
+    THEMIS_ERROR("GgmlTensorBridge::ggmlTensor: GgmlAllocFn not set — "
+                 "real_ggml_tensor is null. "
+                 "Call setGgmlAllocFn() before inference. Returning nullptr.");
+    return nullptr;
+#else
+    // Unit-test path: return the fake pointer so codec tests can introspect layout.
     return impl_->fake_tensor.asGgmlPtr();
+#endif
 }
 
 const TTTrain* MappedTTTensor::train() const noexcept {

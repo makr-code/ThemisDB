@@ -879,6 +879,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/saml_authenticator.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/passkey_authenticator.cpp
     ../src/auth/auth_metrics.cpp
     ../src/auth/auth_error.cpp
     ../src/auth/jwks_security.cpp
@@ -997,6 +998,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/async_wal_shipper.cpp
     ../src/replication/geo_placement.cpp
     
 )
@@ -1412,6 +1414,7 @@ set(THEMIS_LLM_SOURCES
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/model_integrity_verifier.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/lora_api_handler.cpp>
     # Voice assistant implementation (always required when tests link VoiceAssistant)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_assistant.cpp>

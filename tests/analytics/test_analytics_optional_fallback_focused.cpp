@@ -99,12 +99,14 @@ TEST(OptionalFallback, ErrorCodesUsableInSwitch) {
         switch (c) {
             case AnalyticsErrorCode::STREAM_BACKPRESSURE: return "BACKPRESSURE";
             case AnalyticsErrorCode::AGGREGATION_OVERFLOW: return "OVERFLOW";
+            case AnalyticsErrorCode::WINDOW_EXPIRED:       return "WINDOW_EXPIRED";
             default:                                       return "OTHER";
         }
     };
     EXPECT_STREQ(label(AnalyticsErrorCode::INTERNAL_ERROR),        "OTHER");
     EXPECT_STREQ(label(AnalyticsErrorCode::STREAM_BACKPRESSURE),   "BACKPRESSURE");
     EXPECT_STREQ(label(AnalyticsErrorCode::AGGREGATION_OVERFLOW),  "OVERFLOW");
+    EXPECT_STREQ(label(AnalyticsErrorCode::WINDOW_EXPIRED),        "WINDOW_EXPIRED");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

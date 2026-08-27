@@ -778,7 +778,6 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
                 logger->warn("join GPU path: unexpected exception: {}", ex.what());
             }
         }
-        }
         if (gpu_done) {
             uint64_t bytes = 0;
             for (const auto &r : left)
@@ -1376,6 +1375,181 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
     std::lock_guard<std::mutex> lk(mutex_);
     ++stats_.total_ann_searches;
     recordOp(numVectors, bytes, result.used_gpu);
+
+    return result;
+}
+
+// ---------------------------------------------------------------------------
+// topK
+// ---------------------------------------------------------------------------
+
+GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows, KeyFn key_fn, size_t k,
+                                                          SortOrder order) {
+    TopKResult result;
+    if (rows.empty() || k == 0) {
+        return result;
+    }
+
+    const size_t actual_k = std::min(k, rows.size());
+    bool use_gpu          = shouldUseGPU(rows.size());
+    result.used_gpu       = use_gpu;
+
+    // Graph cache check — pack k and order into the param hash ----------------
+    if (graph_cache_enabled_) {
+        uint64_t param   = static_cast<uint64_t>(k) ^ (static_cast<uint64_t>(order) << 32u);
+        QueryShape shape = makeShape(QueryShape::OpType::TOPK, rows.size(), param);
+        if (graph_cache_.lookup(shape)) {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_hits;
+        } else {
+            graph_cache_.capture(shape);
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_misses;
+        }
+    }
+
+    // GPU path — Thrust partial_sort_copy on key-index pairs (CUDA / HIP).
+    //
+    // 1. Extract numeric keys and original row indices on host.
+    // 2. Upload key-index pairs to device.
+    // 3. partial_sort_copy — copies the k smallest (or largest) key-index
+    //    pairs from the full device range into a device output range of size k.
+    // 4. Download the k pairs; gather the corresponding rows on host.
+    //
+    // This avoids a full O(n log n) sort: thrust::partial_sort_copy is O(n log k),
+    // which is substantially faster when k << n.
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+    if (use_gpu) {
+        bool gpu_done = false;
+        try {
+            KernelSLAGuard kernel_guard(kGpuDispatchTimeout);
+            const size_t n = rows.size();
+
+            // 1. Extract keys and indices on host.
+            // Use uint64_t indices to handle tables larger than 2^32 rows.
+            std::vector<double>   h_keys(n);
+            std::vector<uint64_t> h_idx(n);
+            for (size_t i = 0; i < n; ++i) {
+                h_keys[i] = key_fn(rows[i]);
+                h_idx[i]  = static_cast<uint64_t>(i);
+            }
+
+            // 2. Upload to device.
+            thrust::device_vector<double>   d_keys(h_keys.begin(), h_keys.end());
+            thrust::device_vector<uint64_t> d_idx(h_idx.begin(), h_idx.end());
+
+            // 3. Partial sort: select the k smallest (ASC) or k largest (DESC)
+            //    key-index pairs into output device vectors of size actual_k.
+            thrust::device_vector<double>   d_out_keys(actual_k);
+            thrust::device_vector<uint64_t> d_out_idx(actual_k);
+
+            // Zip key and index iterators so they are sorted together.
+            auto zipped_in_begin  = thrust::make_zip_iterator(thrust::make_tuple(d_keys.begin(), d_idx.begin()));
+            auto zipped_in_end    = thrust::make_zip_iterator(thrust::make_tuple(d_keys.end(),   d_idx.end()));
+            auto zipped_out_begin = thrust::make_zip_iterator(thrust::make_tuple(d_out_keys.begin(), d_out_idx.begin()));
+            auto zipped_out_end   = thrust::make_zip_iterator(thrust::make_tuple(d_out_keys.end(),   d_out_idx.end()));
+
+            // Comparison on zipped pairs: compare by key (first element of tuple).
+            struct ZipLess {
+                __host__ __device__ bool operator()(
+                    const thrust::tuple<double, uint64_t>& a,
+                    const thrust::tuple<double, uint64_t>& b) const {
+                    return thrust::get<0>(a) < thrust::get<0>(b);
+                }
+            };
+            struct ZipGreater {
+                __host__ __device__ bool operator()(
+                    const thrust::tuple<double, uint64_t>& a,
+                    const thrust::tuple<double, uint64_t>& b) const {
+                    return thrust::get<0>(a) > thrust::get<0>(b);
+                }
+            };
+
+            if (order == SortOrder::ASC) {
+                thrust::partial_sort_copy(zipped_in_begin, zipped_in_end,
+                                          zipped_out_begin, zipped_out_end, ZipLess{});
+            } else {
+                thrust::partial_sort_copy(zipped_in_begin, zipped_in_end,
+                                          zipped_out_begin, zipped_out_end, ZipGreater{});
+            }
+
+            // 4. Download the top-k indices back to host.
+            std::vector<uint64_t> topk_idx(actual_k);
+            thrust::copy(d_out_idx.begin(), d_out_idx.end(), topk_idx.begin());
+            THEMIS_GPU_QUERY_ACCEL_SYNC();
+
+            if (!kernel_guard.checkTimeoutDeadline()) {
+                result.rows.reserve(actual_k);
+                for (uint64_t idx : topk_idx) {
+                    result.rows.push_back(rows[static_cast<size_t>(idx)]);
+                }
+                gpu_done = true;
+            }
+        } catch (const std::bad_alloc &ex) {
+            result.rows.clear();
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("topK GPU path: memory allocation failure: {}", ex.what());
+            }
+        } catch (const std::runtime_error &ex) {
+            result.rows.clear();
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->debug("topK GPU path: runtime error: {}", ex.what());
+            }
+        } catch (const std::exception &ex) {
+            result.rows.clear();
+            gpu_done = false;
+            auto logger = spdlog::get("gpu");
+            if (logger) {
+                logger->warn("topK GPU path: unexpected exception: {}", ex.what());
+            }
+        }
+        if (gpu_done) {
+            uint64_t bytes = 0;
+            for (const auto &r : result.rows)
+                bytes += r.data.size();
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.total_topk;
+            recordOp(rows.size(), bytes, true);
+            return result;
+        }
+        result.used_gpu = false;
+    }
+#endif
+
+    // CPU partial-sort path — O(n log k), preserves relative order among equal
+    // keys via the stable ordering provided by std::partial_sort semantics.
+    //
+    // Build an index vector; partial_sort the first actual_k positions by key;
+    // gather the corresponding rows.  This avoids copying the (potentially
+    // large) payload data during sorting.
+    std::vector<size_t> cpu_idx(rows.size());
+    for (size_t i = 0; i < rows.size(); ++i)
+        cpu_idx[i] = i;
+
+    auto cmp = [&](size_t a, size_t b) {
+        double ka = key_fn(rows[a]);
+        double kb = key_fn(rows[b]);
+        return (order == SortOrder::ASC) ? ka < kb : ka > kb;
+    };
+
+    std::partial_sort(cpu_idx.begin(), cpu_idx.begin() + static_cast<std::ptrdiff_t>(actual_k),
+                      cpu_idx.end(), cmp);
+
+    result.rows.reserve(actual_k);
+    for (size_t i = 0; i < actual_k; ++i) {
+        result.rows.push_back(rows[cpu_idx[i]]);
+    }
+
+    uint64_t bytes = 0;
+    for (const auto &r : result.rows)
+        bytes += r.data.size();
+    std::lock_guard<std::mutex> lk(mutex_);
+    ++stats_.total_topk;
+    recordOp(rows.size(), bytes, result.used_gpu);
 
     return result;
 }

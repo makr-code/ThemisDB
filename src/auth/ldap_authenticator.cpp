@@ -4,7 +4,7 @@
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=12, M=18, L=0
+ * @note Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=8, M=18, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
@@ -402,7 +402,10 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     if (ld) {
         // Set search time limit (seconds)
         ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
-        ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        const ULONG timelimit_result = ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        if (timelimit_result != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP search time limit: {}", timelimit_result);
+        }
 
         // Disable referral chasing — following attacker-controlled referrals can
         // redirect authentication to a rogue LDAP server.
@@ -433,7 +436,10 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
         // Set search time limit (seconds)
         ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
-        ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        const ULONG timelimit2_result = ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+        if (timelimit2_result != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP search time limit: {}", timelimit2_result);
+        }
 
         // Disable referral chasing
         const ULONG referrals_result =
@@ -577,17 +583,29 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         owns_connection = true;
 
         int version = LDAP_VERSION3;
-        ldap_set_option(ld, LDAP_OPT_PROTOCOL_VERSION, &version);
+        rc2 = ldap_set_option(ld, LDAP_OPT_PROTOCOL_VERSION, &version);
+        if (rc2 != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP protocol version: {}",
+                          ldap_err2string(rc2));
+        }
 
         struct timeval conn_tv{};
         conn_tv.tv_sec  = config_.connection_timeout_seconds;
         conn_tv.tv_usec = 0;
-        ldap_set_option(ld, LDAP_OPT_NETWORK_TIMEOUT, &conn_tv);
+        rc2 = ldap_set_option(ld, LDAP_OPT_NETWORK_TIMEOUT, &conn_tv);
+        if (rc2 != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP network timeout: {}",
+                          ldap_err2string(rc2));
+        }
 
         struct timeval srch_tv{};
         srch_tv.tv_sec  = config_.search_timeout_seconds;
         srch_tv.tv_usec = 0;
-        ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
+        rc2 = ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
+        if (rc2 != LDAP_SUCCESS) {
+            spdlog::warn("LDAPAuthenticator: failed to set LDAP search timeout: {}",
+                          ldap_err2string(rc2));
+        }
 
         rc2 = ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF);
         if (rc2 != LDAP_SUCCESS) {
@@ -646,45 +664,109 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                 : config_.group_search_base;
 
         const char* attrs[] = {config_.group_attribute.c_str(), nullptr};
-        LDAPMessage* result = nullptr;
         struct timeval tv{};
         tv.tv_sec  = config_.search_timeout_seconds;
         tv.tv_usec = 0;
 
-        rc = ldap_search_ext_s(
-            ld,
-            search_base.c_str(),
-            LDAP_SCOPE_SUBTREE,
-            filter.c_str(),
-            const_cast<char**>(attrs),
-            0,
-            nullptr, nullptr,
-            &tv,
-            LDAP_NO_LIMIT,
-            &result
-        );
+        // -----------------------------------------------------------------------
+        // Paginated group search — RFC 2696 / LDAP_CONTROL_PAGEDRESULTS
+        //
+        // We issue repeated ldap_search_ext_s calls with a server-side page
+        // control and advance the cursor via the returned cookie.  This bounds
+        // memory usage and avoids hitting server-side result-set size limits.
+        //
+        // Defaults: page_size=500, max_results=5000.
+        // -----------------------------------------------------------------------
+        constexpr ber_int_t kPageSize   = 500;
+        constexpr int       kMaxResults = 5000;
 
-        if (rc == LDAP_SUCCESS && result) {
+        struct berval* page_cookie = nullptr;
+        int total_collected = 0;
+        bool pagination_done = false;
+
+        do {
+            // Build the page control.  Pass the current cookie (nullptr on
+            // the first page, non-nullptr on subsequent pages).
+            LDAPControl* page_ctrl = nullptr;
+            struct berval b_cookie{0, nullptr};
+            if (page_cookie) {
+                b_cookie = *page_cookie;
+            }
+            const int ctrl_rc = ldap_create_page_control(
+                ld, static_cast<ber_int_t>(kPageSize), &b_cookie, 0, &page_ctrl);
+            if (ctrl_rc != LDAP_SUCCESS || !page_ctrl) {
+                spdlog::warn("[LDAP] Pagination error: {}", ldap_err2string(ctrl_rc));
+                break;
+            }
+
+            LDAPControl* server_ctrls[] = {page_ctrl, nullptr};
+            LDAPMessage* result = nullptr;
+            rc = ldap_search_ext_s(
+                ld,
+                search_base.c_str(),
+                LDAP_SCOPE_SUBTREE,
+                filter.c_str(),
+                const_cast<char**>(attrs),
+                0,
+                server_ctrls, nullptr,
+                &tv,
+                LDAP_NO_LIMIT,
+                &result
+            );
+            ldap_control_free(page_ctrl);
+
+            if (rc != LDAP_SUCCESS) {
+                spdlog::warn("[LDAP] Pagination error: {}", ldap_err2string(rc));
+                if (result) { ldap_msgfree(result); }
+                if (page_cookie) { ber_bvfree(page_cookie); page_cookie = nullptr; }
+                break;  // Return partial results (non-fatal)
+            }
+
+            // Collect entries from this page.
             for (LDAPMessage* entry = ldap_first_entry(ld, result);
-                 entry != nullptr;
+                 entry && total_collected < kMaxResults;
                  entry = ldap_next_entry(ld, entry))
             {
                 struct berval** vals = ldap_get_values_len(
                     ld, entry, config_.group_attribute.c_str());
                 if (vals) {
-                    for (int i = 0; vals[i] != nullptr; ++i) {
+                    for (int i = 0; vals[i] && total_collected < kMaxResults; ++i) {
                         groups.emplace_back(vals[i]->bv_val,
                                             static_cast<size_t>(vals[i]->bv_len));
+                        ++total_collected;
                     }
                     ldap_value_free_len(vals);
                 }
             }
+
+            // Parse the response controls to get the next-page cookie BEFORE
+            // freeing the result chain — ldap_parse_result needs the chain.
+            LDAPControl** resp_ctrls = nullptr;
+            ldap_parse_result(ld, result, nullptr, nullptr, nullptr, nullptr,
+                              &resp_ctrls, 0 /* do not free result */);
+
+            // Advance or terminate the cookie.
+            if (page_cookie) { ber_bvfree(page_cookie); page_cookie = nullptr; }
+            if (resp_ctrls) {
+                ber_int_t total_count = 0;
+                ldap_parse_page_control(ld, resp_ctrls, &total_count, &page_cookie);
+                ldap_controls_free(resp_ctrls);
+            }
             ldap_msgfree(result);
-        } else if (rc != LDAP_SUCCESS) {
-            spdlog::warn("LDAPAuthenticator: group search failed for '{}': {}",
-                         username, ldap_err2string(rc));
-            // Non-fatal: continue without groups
-        }
+
+            // Stop when the server signals no more pages or we hit the cap.
+            if (!page_cookie || page_cookie->bv_len == 0) {
+                pagination_done = true;
+            }
+            if (total_collected >= kMaxResults) {
+                spdlog::info("[LDAP] Group search capped at max_results={} for user '{}'",
+                             kMaxResults, username);
+                pagination_done = true;
+            }
+
+        } while (!pagination_done);
+
+        if (page_cookie) { ber_bvfree(page_cookie); }
     }
 
     // -----------------------------------------------------------------------

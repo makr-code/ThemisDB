@@ -416,7 +416,22 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
             aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
             span.setAttribute("aggregates.source", "agg_engine");
         } else {
-            // Ultimate fallback: built-in defaults
+            // STUB/SIMULATION NOTE:
+            // Purpose: No aggregates provider (aggregates_fn_) or
+            //          ContinuousAggMaterializationEngine (agg_engine_) has
+            //          been injected at construction time. A fixed set of
+            //          built-in aggregate function names is returned so the
+            //          endpoint remains functional.
+            // Activation: Both aggregates_fn_ and agg_engine_ are null,
+            //             which is the default for unit tests and lightweight
+            //             deployments that do not configure the aggregation
+            //             subsystem.
+            // Production Delta: Only the five built-in names are advertised;
+            //                   custom or materialized aggregates are not
+            //                   listed until a real provider is wired.
+            // Removal Plan: Ensure aggregates_fn_ or agg_engine_ is always
+            //               injected via TimeSeriesApiHandler::setAggregatesFn()
+            //               or the relevant DI path, targeting v1.7.0 / Q4 2026.
             aggregate_names = {"min", "max", "avg", "sum", "count"};
             span.setAttribute("aggregates.source", "builtin");
         }

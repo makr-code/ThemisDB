@@ -66,15 +66,27 @@ std::string base64Encode(const std::vector<uint8_t> &data) {
 
     BIO *b64 = BIO_new(BIO_f_base64());
     BIO *bio = BIO_new(BIO_s_mem());
-    bio      = BIO_push(b64, bio);
+    if (!b64 || !bio) {
+        BIO_free(b64);
+        BIO_free(bio);
+        throw std::runtime_error("TOTP base64Encode: BIO allocation failed");
+    }
+    bio = BIO_push(b64, bio);
+    if (!bio) {
+        BIO_free_all(b64);
+        throw std::runtime_error("TOTP base64Encode: BIO push failed");
+    }
 
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
     BIO_write(bio, data.data(), static_cast<int>(data.size()));
     BIO_flush(bio);
 
-    BUF_MEM *bufferPtr;
+    BUF_MEM *bufferPtr = nullptr;
     BIO_get_mem_ptr(bio, &bufferPtr);
-
+    if (!bufferPtr || !bufferPtr->data || bufferPtr->length == 0) {
+        BIO_free_all(bio);
+        return {};
+    }
     std::string result(bufferPtr->data, bufferPtr->length);
 
     BIO_free_all(bio);
@@ -89,7 +101,16 @@ std::vector<uint8_t> base64Decode(const std::string &input) {
 
     BIO *b64 = BIO_new(BIO_f_base64());
     BIO *bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.length()));
-    bio      = BIO_push(b64, bio);
+    if (!b64 || !bio) {
+        BIO_free(b64);
+        BIO_free(bio);
+        return {};
+    }
+    bio = BIO_push(b64, bio);
+    if (!bio) {
+        BIO_free_all(b64);
+        return {};
+    }
 
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
 
@@ -427,4 +448,3 @@ size_t TOTPSecretRotationManager::cleanupExpiredSecrets() {
 
 } // namespace auth
 } // namespace themis
-

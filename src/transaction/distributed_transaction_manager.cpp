@@ -64,7 +64,13 @@ struct TransactionStateSnapshot {
 };
 
 // ============================================================================
-// RPC phase-2 bridge (stub #279)
+// RPC phase-2 bridge (STUB #279)
+//
+// STUB/SIMULATION NOTE:
+// Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding
+// Activation: Always active until a concrete RpcTransport implementation is injected via constructor/setter
+// Production Delta: In-process mock calls replace real RPC; network partitions and timeouts are not exercised
+// Removal Plan: Q4 2026 — bind gRPC transport in production wiring; remove stub after integration tests pass
 // ============================================================================
 
 namespace {
@@ -88,7 +94,13 @@ static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
 }
 
 // ============================================================================
-// RPC phase-1 bridge (stub #279 — Phase-1 PREPARE extension)
+// RPC phase-1 bridge (STUB #279 — Phase-1 PREPARE extension)
+//
+// STUB/SIMULATION NOTE:
+// Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding
+// Activation: Always active until a concrete RpcTransport implementation is injected via constructor/setter
+// Production Delta: In-process mock calls replace real RPC; network partitions and timeouts are not exercised
+// Removal Plan: Q4 2026 — bind gRPC transport in production wiring; remove stub after integration tests pass
 // ============================================================================
 
 namespace {
@@ -362,6 +374,12 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
 
     if (config_.prepare_batch_window.count() > 0 && batch_flush_thread_.joinable()) {
         // Batched path (PERF-D4): enqueue and wait for the batch-flush thread.
+        //
+        // GAP fix (blocking_no_timeout / no_timeout): the prior bare fut.get()
+        // blocked indefinitely if the batch-flush thread was slow or stalled.
+        // Replaced with fut.wait_for(prepare_timeout) so callers always get a
+        // bounded response. On timeout the transaction is treated as ABORT-voted
+        // and the normal abort path is followed.
         std::promise<bool> promise;
         std::future<bool>  fut = promise.get_future();
         {
@@ -369,7 +387,34 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
             batch_queue_.push_back({txn_id, std::move(promise)});
         }
         batch_cv_.notify_one();
-        all_voted_commit = fut.get();
+
+        const auto batch_deadline = std::chrono::steady_clock::now() + config_.prepare_timeout;
+        const std::future_status fstatus =
+            fut.wait_until(batch_deadline);
+
+        if (fstatus == std::future_status::timeout) {
+            THEMIS_WARN(
+                "DistributedTransactionManager [{}] prepareDistributed: "
+                "batch-flush did not respond within {}ms for txn={}; aborting",
+                coordinator_id_, config_.prepare_timeout.count(), txn_id);
+            // Mark as ABORTING and delegate to the abort path below.
+            lock.lock();
+            auto* txn_timeout = findTransaction(txn_id);
+            if (txn_timeout) {
+                txn_timeout->state        = DistributedTxnState::ABORTING;
+                txn_timeout->error_detail = "prepareDistributed: batch-flush timeout (" +
+                    std::to_string(config_.prepare_timeout.count()) + "ms)";
+            }
+            lock.unlock();
+            abortDistributed(txn_id);
+            return DistributedTxnStatus::Error(
+                "prepareDistributed: batch-flush timeout for txn " + txn_id,
+                0,
+                themis::utils::RetryExhaustionReason::NONE,
+                themis::utils::RetryTimeoutSource::OVERALL);
+        }
+
+        all_voted_commit = fut.get(); // future is ready — non-blocking at this point
     } else {
         // Immediate path: run Phase 1 right now.
         all_voted_commit = runPhase1Unlocked(txn_id);

@@ -12,6 +12,7 @@ add_library(themis_llm_wiki STATIC
     wikipedia/wiki_workspace_orchestrator.cpp
     wikipedia/llm_wiki_plugin_impl.cpp
     wikipedia/llm_wiki_plugin_factory.cpp
+    rocksdb_wiki_store.cpp
 )
 
 target_include_directories(themis_llm_wiki
@@ -27,6 +28,16 @@ target_link_libraries(themis_llm_wiki
         themis_core
         spdlog::spdlog
 )
+
+# Wire RocksDB when available — activates the real backend (Wave-Next LW1).
+if(TARGET rocksdb)
+    target_compile_definitions(themis_llm_wiki PUBLIC THEMIS_USE_ROCKSDB=1)
+    target_link_libraries(themis_llm_wiki PUBLIC rocksdb)
+elseif(RocksDB_FOUND OR rocksdb_FOUND)
+    target_compile_definitions(themis_llm_wiki PUBLIC THEMIS_USE_ROCKSDB=1)
+    target_link_libraries(themis_llm_wiki PUBLIC ${RocksDB_LIBRARIES})
+    target_include_directories(themis_llm_wiki PRIVATE ${RocksDB_INCLUDE_DIRS})
+endif()
 
 if(MSVC)
     target_compile_options(themis_llm_wiki PRIVATE /W4)

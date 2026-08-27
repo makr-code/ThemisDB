@@ -1,0 +1,142 @@
+name: Copilot Regression Guard
+
+# Rechenaufwand-Score: R=4 (K=4, L=4, N=4) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+on:
+  pull_request:
+    branches: [community, develop]
+    paths:
+      - 'tests/CMakeLists.txt'
+      - 'src/**'
+      - 'include/**'
+      - 'cmake/**'
+      - 'tools/ci/copilot_regression_guard.py'
+      - 'tools/tests/test_copilot_regression_guard.py'
+      - '.github/workflows/gate-copilot-regression.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  copilot-regression-guard:
+    name: Copilot regression guard (build + pattern checks)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.12'
+
+      - name: Install test dependencies
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Run guard unit tests
+        run: python -m pytest tools/tests/test_copilot_regression_guard.py -q
+
+      - name: Run guard inventory on repository
+        run: |
+          mkdir -p artifacts/copilot-regression-guard
+          python tools/ci/copilot_regression_guard.py \
+            --repo-root . \
+            --cmake-file tests/CMakeLists.txt \
+            --output-json artifacts/copilot-regression-guard/report.json
+
+      - name: "Repro check: strict missing-source detection must fail on broken fixture"
+        run: |
+          FIXTURE_DIR="$(mktemp -d)"
+          mkdir -p "$FIXTURE_DIR"/{src/replication,tests,include,cmake}
+          cat > "$FIXTURE_DIR"/src/replication/crdt_types.cpp <<'CPP'
+          int crdt_types_fixture = 1;
+          CPP
+          cat > "$FIXTURE_DIR"/tests/CMakeLists.txt <<'CMAKE'
+          add_executable(test_replication_crdt_types test_replication_crdt_types.cpp)
+          target_compile_definitions(test_replication_crdt_types PRIVATE THEMIS_TEST_BUILD=1)
+          CMAKE
+          cat > "$FIXTURE_DIR"/include/themis_export.h <<'HDR'
+          #pragma once
+          #ifdef _WIN32
+          #if defined(THEMIS_BASE_EXPORTS) || defined(THEMIS_TEST_BUILD)
+          #define THEMIS_BASE_API __declspec(dllexport)
+          #else
+          #define THEMIS_BASE_API __declspec(dllimport)
+          #endif
+          #else
+          #define THEMIS_BASE_API
+          #endif
+          HDR
+          cat > "$FIXTURE_DIR"/cmake/CMakeLists.txt <<'CMAKE'
+          target_compile_definitions(themis_core PRIVATE THEMIS_BASE_EXPORTS)
+          CMAKE
+
+          set +e
+          python tools/ci/copilot_regression_guard.py \
+            --repo-root "$FIXTURE_DIR" \
+            --cmake-file tests/CMakeLists.txt \
+            --strict-missing-sources
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            echo "Expected strict guard to fail on missing source linkage fixture"
+            exit 1
+          fi
+
+      - name: "Repro check: LNK parser must fail on LNK2019 fixture"
+        run: |
+          FIXTURE_DIR="$(mktemp -d)"
+          mkdir -p "$FIXTURE_DIR"/{src/replication,tests,include,cmake}
+          cat > "$FIXTURE_DIR"/src/replication/crdt_types.cpp <<'CPP'
+          int crdt_types_fixture = 1;
+          CPP
+          cat > "$FIXTURE_DIR"/tests/CMakeLists.txt <<'CMAKE'
+          add_executable(test_replication_crdt_types test_replication_crdt_types.cpp)
+          target_compile_definitions(test_replication_crdt_types PRIVATE THEMIS_TEST_BUILD=1)
+          CMAKE
+          cat > "$FIXTURE_DIR"/include/themis_export.h <<'HDR'
+          #pragma once
+          #ifdef _WIN32
+          #if defined(THEMIS_BASE_EXPORTS) || defined(THEMIS_TEST_BUILD)
+          #define THEMIS_BASE_API __declspec(dllexport)
+          #else
+          #define THEMIS_BASE_API __declspec(dllimport)
+          #endif
+          #else
+          #define THEMIS_BASE_API
+          #endif
+          HDR
+          cat > "$FIXTURE_DIR"/cmake/CMakeLists.txt <<'CMAKE'
+          target_compile_definitions(themis_core PRIVATE THEMIS_BASE_EXPORTS)
+          CMAKE
+
+          cat > "$FIXTURE_DIR"/lnk.log <<'LOG'
+          error LNK2019: unresolved external symbol "public: void CRDTTypes::merge(void)" referenced in function main
+          LOG
+
+          set +e
+          python tools/ci/copilot_regression_guard.py \
+            --repo-root "$FIXTURE_DIR" \
+            --cmake-file tests/CMakeLists.txt \
+            --build-log "$FIXTURE_DIR"/lnk.log \
+            --output-json artifacts/copilot-regression-guard/lnk-fixture-report.json
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            echo "Expected LNK fixture to fail guard"
+            exit 1
+          fi
+
+      - name: Upload guard artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: copilot-regression-guard-${{ github.run_number }}
+          path: artifacts/copilot-regression-guard/
+          retention-days: 14

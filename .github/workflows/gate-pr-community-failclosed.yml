@@ -1,0 +1,286 @@
+name: "Gate: PR Core [Community Fail-Closed]"
+
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Enforces fail-closed behavior for community builds.
+# Verifies that community builds do not degrade silently when private dependencies are missing.
+# Validates license disclaimers and no-telemetry enforcement in community distribution.
+
+on:
+  workflow_call: {}
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - community
+      - minimal
+    paths:
+      - 'src/**'
+      - 'plugins/**'
+      - 'CMakeLists.txt'
+      - '.github/workflows/gate-pr-community-failclosed.yml'
+  push:
+    branches: [community, minimal]
+    paths:
+      - 'src/**'
+      - 'plugins/**'
+      - 'CMakeLists.txt'
+  workflow_dispatch:
+
+concurrency:
+  group: community-fail-closed-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  community-fail-closed-validation:
+    name: Community Fail-Closed Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Check for silent fallback patterns (no fail-closed behavior)
+        id: check-fallback
+        run: |
+          set -euo pipefail
+          
+          echo "Scanning for silent fallback patterns in community-buildable code..."
+          
+          SUSPECT_FILES=$(grep -r "THEMIS_.*_AVAILABLE" src --include="*.cpp" --include="*.h" 2>/dev/null | \
+                          grep -v "#ifdef\|#if defined" | \
+                          head -20 || echo "")
+          
+          if [ -n "$SUSPECT_FILES" ]; then
+            echo "::warning::Found potential silent fallback patterns (verify they are guarded):"
+            echo "$SUSPECT_FILES" | head -5
+          fi
+          
+          if grep -r "THEMIS_ALLOW_MISSING_PRIVATE\|DISABLE_ON_MISSING_PRIVATE" CMakeLists.txt cmake/ 2>/dev/null; then
+            ERR="Found flags allowing silent degradation on missing private plugins in community build"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          
+          echo "✓ Silent fallback pattern check passed"
+
+      - name: Validate license disclaimers in community distribution
+        id: check-license
+        run: |
+          set -euo pipefail
+          
+          echo "Checking for license disclaimers in community-facing artifacts..."
+          
+          LICENSE_FILES="LICENSE COPYING NOTICE"
+          MISSING_LICENSES=0
+          for lic_file in $LICENSE_FILES; do
+            if [ ! -f "$lic_file" ]; then
+              echo "::warning::Missing $lic_file in repository root"
+              ((MISSING_LICENSES++)) || true
+            fi
+          done
+          
+          if [ ! -f "include/themis/api.h" ]; then
+            echo "::warning::Main API header not found"
+          else
+            if ! head -20 include/themis/api.h | grep -q "SPDX-License-Identifier\|Apache"; then
+              echo "::warning::Main API header missing SPDX license identifier"
+            fi
+          fi
+          
+          if [ $MISSING_LICENSES -gt 0 ]; then
+            echo "::notice::Consider adding missing license files"
+          fi
+          
+          echo "✓ License disclaimer validation passed"
+
+      - name: Detect telemetry/tracking in community code paths
+        id: check-telemetry
+        run: |
+          set -euo pipefail
+          
+          echo "Scanning for telemetry/tracking code in community build paths..."
+          
+          TELEMETRY_PATTERNS="send_telemetry|phoning_home|analytics_endpoint|tracking_beacon|usage_stats"
+          UNGUARDED_TELEMETRY=0
+          
+          SUSPECT_FILES=$(grep -r "$TELEMETRY_PATTERNS" src --include="*.cpp" --include="*.h" 2>/dev/null || echo "")
+          
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            FILE=$(echo "$line" | cut -d: -f1)
+            LINE_NUM=$(echo "$line" | cut -d: -f2)
+            CONTEXT=$(sed -n "$((LINE_NUM-5)),$((LINE_NUM+5))p" "$FILE" 2>/dev/null || echo "")
+            if ! echo "$CONTEXT" | grep -q "#ifdef THEMIS_ENABLE_TELEMETRY\|ifdef THEMIS_TELEMETRY"; then
+              echo "::warning::Potential unguarded telemetry in $FILE:$LINE_NUM"
+              ((UNGUARDED_TELEMETRY++)) || true
+            fi
+          done <<< "$SUSPECT_FILES"
+          
+          if [ $UNGUARDED_TELEMETRY -gt 0 ]; then
+            ERR="Found $UNGUARDED_TELEMETRY telemetry patterns that may not be properly guarded"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          
+          echo "✓ Telemetry/tracking detection passed"
+
+      - name: Fail closed on private plugin references
+        id: check-private-references
+        run: |
+          set -euo pipefail
+
+          echo "Checking for private plugin references introduced in community/minimal code scope..."
+
+          patterns=(
+            'plugins/private/'
+            'plugins/themisdb_ethic_ai'
+            'plugins/themisdb_llm_wiki'
+            'plugins/themisdb_storage'
+            'plugins/themisdb_importer'
+            'plugins/themisdb_plugin_signer'
+            'makr-code/themisdb_ethic_ai'
+            'makr-code/themisdb_llm_wiki'
+            'makr-code/themisdb_storage'
+            'makr-code/themisdb_importer'
+            'makr-code/themisdb_plugin_signer'
+          )
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="${{ github.event.pull_request.base.sha }}"
+            HEAD_REF="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_REF="${{ github.event.before }}"
+            HEAD_REF="${{ github.sha }}"
+          fi
+
+          mapfile -t scoped_files < <(
+            git diff --name-only "$BASE_REF" "$HEAD_REF" -- \
+              src include cmake plugins CMakeLists.txt CMakePresets.json \
+              | grep -E '\.(c|cc|cpp|cxx|h|hh|hpp|hxx|cmake|json|ya?ml)$|(^|/)CMakeLists\.txt$|(^|/)CMakePresets\.json$' \
+              || true
+          )
+
+          if [ "${#scoped_files[@]}" -eq 0 ]; then
+            echo "No changed files in community/minimal code scope."
+            echo "✓ No private plugin references introduced in scoped files"
+            exit 0
+          fi
+
+          existing_files=()
+          for file in "${scoped_files[@]}"; do
+            if [ -f "$file" ]; then
+              existing_files+=("$file")
+            fi
+          done
+
+          if [ "${#existing_files[@]}" -eq 0 ]; then
+            echo "No existing changed files left to scan."
+            echo "✓ No private plugin references introduced in scoped files"
+            exit 0
+          fi
+
+          found=()
+          for pat in "${patterns[@]}"; do
+            if grep -I -n -F -- "$pat" "${existing_files[@]}" 2>/dev/null >/tmp/private_refs.txt; then
+              while IFS= read -r line; do
+                [ -z "$line" ] && continue
+                found+=("$line")
+              done < /tmp/private_refs.txt
+            fi
+          done
+
+          if [ "${#found[@]}" -gt 0 ]; then
+            echo "::error::Private plugin references detected in community branch scope."
+            for line in "${found[@]}"; do
+              echo "::error::$line"
+            done
+            echo "error_summary=Private plugin references detected in community/minimal branch scope" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+          echo "✓ No private plugin references introduced in community branch scope"
+
+      - name: Validate community-only build config
+        id: check-build-config
+        run: |
+          set -euo pipefail
+          
+          echo "Validating community-only build configuration..."
+          
+          COMMUNITY_PRESET="CMakePresets.json"
+          
+          if [ ! -f "$COMMUNITY_PRESET" ]; then
+            echo "::warning::No CMakePresets.json found"
+            exit 0
+          fi
+          
+          if grep -A 50 '"community"' "$COMMUNITY_PRESET" | grep -q "private"; then
+            ERR="Community preset references private plugins"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          
+          if grep -A 50 '"minimal"' "$COMMUNITY_PRESET" | grep -q "THEMIS.*ADVANCED"; then
+            ERR="Minimal preset includes advanced features"
+            echo "::error::$ERR"
+            echo "error_summary=$ERR" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          
+          echo "✓ Community-only build config validation passed"
+
+      - name: Check for enterprise secrets leakage
+        id: check-secrets
+        run: |
+          set -euo pipefail
+          
+          echo "Scanning for hardcoded enterprise secrets or API keys in community code..."
+          
+          SUSPICIOUS_ENVS=$(grep -r "\$ENTERPRISE\|\$PROPRIETARY\|\$PRIVATE_" src --include="*.cpp" --include="*.h" 2>/dev/null || echo "")
+          
+          if [ -n "$SUSPICIOUS_ENVS" ]; then
+            echo "::warning::Found references to enterprise-specific environment variables"
+            echo "$SUSPICIOUS_ENVS" | head -5
+          fi
+          
+          echo "✓ Enterprise secret leakage check passed"
+
+      - name: Collect error summary for comment
+        id: collect-errors
+        if: failure()
+        run: |
+          SUMMARY=""
+          for step_out in \
+            "${{ steps.check-fallback.outputs.error_summary }}" \
+            "${{ steps.check-telemetry.outputs.error_summary }}" \
+            "${{ steps.check-private-references.outputs.error_summary }}" \
+            "${{ steps.check-build-config.outputs.error_summary }}" \
+            "${{ steps.check-secrets.outputs.error_summary }}"; do
+            [ -n "$step_out" ] && SUMMARY="${SUMMARY}${step_out}\n"
+          done
+          echo "summary=${SUMMARY}" >> "$GITHUB_OUTPUT"
+
+      - name: Post community fail-closed validation result
+        if: always() && github.event_name == 'pull_request'
+        uses: ./.github/actions/post-failure-comment
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          gate-name: Community Fail-Closed Validation
+          workflow-file: gate-pr-community-failclosed.yml
+          job-status: ${{ job.status }}
+          checklist: |
+            - ${{ steps.check-fallback.outcome == 'success' && '✅' || '❌' }} No silent fallback patterns
+            - ${{ steps.check-license.outcome == 'success' && '✅' || '❌' }} License disclaimers present
+            - ${{ steps.check-telemetry.outcome == 'success' && '✅' || '❌' }} No unguarded telemetry/tracking
+            - ${{ steps.check-private-references.outcome == 'success' && '✅' || '❌' }} No private plugin references in community/minimal scope
+            - ${{ steps.check-build-config.outcome == 'success' && '✅' || '❌' }} Community-only build config validation
+            - ${{ steps.check-secrets.outcome == 'success' && '✅' || '❌' }} No enterprise secrets leakage
+          error-summary: ${{ steps.collect-errors.outputs.summary }}

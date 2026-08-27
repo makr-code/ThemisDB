@@ -395,7 +395,7 @@ TEST_F(IncidentTaxonomyTest, IntegrationIncidentCriticalRemoteWriteFailure) {
 TEST_F(IncidentTaxonomyTest, IsBackpressureErrorClassification) {
     EXPECT_TRUE(isBackpressureError(IngestIncidentCode::BUFFER_PRESSURE_HIGH));
     EXPECT_TRUE(isBackpressureError(IngestIncidentCode::BUFFER_OVERFLOW_IMMINENT));
-    EXPECT_FALSE(isBackpressureError(IngestIncidentCode::ENCRYPTION_ROTATION_FAILURE));
+    EXPECT_FALSE(isBackpressureError(IngestIncidentCode::FLUSH_TIMEOUT));
 }
 
 TEST_F(IncidentTaxonomyTest, IsHardIngestErrorClassification) {
@@ -530,5 +530,3 @@ TEST_F(IncidentTaxonomyTest, DISABLED_IncidentCreationLatencyBounded) {
     // 10000 creations should be < 50ms (~5µs per creation)
     EXPECT_LT(duration_us.count(), 50000);
 }
-
-}  // namespace themis

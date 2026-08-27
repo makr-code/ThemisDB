@@ -1609,3 +1609,79 @@ TEST_F(DistributedTxnManagerTest, DTM3_InstanceBridgeTakesPriorityOverStaticBrid
     mgr2.abortDistributed(tid);
     DistributedTransactionManager::clearLivenessCheckFn();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Wave A — CRITICAL gap closure tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// GAP: blocking_no_timeout / no_timeout — distributed_transaction_manager.cpp
+//      (batched prepareDistributed path used bare fut.get() with no deadline)
+//
+// Verify: when the batch-flush thread cannot fulfil the prepare promise before
+// config_.prepare_timeout expires, prepareDistributed() returns an error status
+// with ok==false rather than blocking indefinitely.
+//
+// Implementation note: we simulate a stalled batch-flush thread by using a
+// SlowParticipant whose onPrepare() sleeps longer than the configured
+// prepare_timeout.  With prepare_batch_window > 0 the batched code path is
+// exercised.
+TEST(Distributed2PCWaveAGapTests, BatchedPrepareFutureTimeout) {
+    // Participant that blocks for 500 ms — longer than the 100 ms timeout.
+    class SlowParticipant : public IDistributedParticipantCallback {
+    public:
+        bool onPrepare(const std::string& /*txn_id*/,
+                       const std::set<std::string>& /*keys*/) override {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            return true;
+        }
+        void onCommit(const std::string& /*txn_id*/) override {}
+        void onAbort(const std::string& /*txn_id*/)  override {}
+    };
+
+    SlowParticipant slow_p;
+
+    DistributedTxnManagerConfig cfg;
+    // Short timeout so the test completes quickly.
+    cfg.prepare_timeout      = std::chrono::milliseconds(100);
+    cfg.prepare_batch_window = std::chrono::milliseconds(10);  // enable batched path
+    cfg.default_txn_timeout  = std::chrono::seconds(60);
+
+    DistributedTransactionManager mgr("wave-a-batch-timeout-coord", cfg);
+
+    const auto tid = mgr.beginDistributed({
+        makeParticipant("slow-node", &slow_p),
+    });
+
+    const auto t0 = std::chrono::steady_clock::now();
+    const auto status = mgr.prepareDistributed(tid);
+    const auto elapsed = std::chrono::steady_clock::now() - t0;
+
+    // Must NOT succeed (the prepare was stalled past the deadline).
+    EXPECT_FALSE(status.ok)
+        << "prepareDistributed must return !ok when batch-flush times out";
+
+    // The call must terminate within a reasonable bound: strictly less than
+    // 5× the prepare_timeout (i.e. < 500 ms), proving it did not wait for
+    // the slow participant to finish.
+    const auto elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+    EXPECT_LT(elapsed_ms, 500)
+        << "prepareDistributed must not block indefinitely; elapsed=" << elapsed_ms << "ms";
+}
+
+// Regression guard: non-batched path (prepare_batch_window==0) still succeeds
+// with a normally responding participant — ensuring the timeout fix does not
+// break the happy path.
+TEST(Distributed2PCWaveAGapTests, NonBatchedPrepareSucceedsNormally) {
+    MockParticipant p;
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout      = std::chrono::milliseconds(5000);
+    cfg.prepare_batch_window = std::chrono::milliseconds(0);   // immediate path
+
+    DistributedTransactionManager mgr("wave-a-nonbatch-coord", cfg);
+    const auto tid = mgr.beginDistributed({ makeParticipant("n1", &p) });
+
+    const auto status = mgr.prepareDistributed(tid);
+    EXPECT_TRUE(status.ok)
+        << "Non-batched prepare must succeed with a cooperating participant";
+}

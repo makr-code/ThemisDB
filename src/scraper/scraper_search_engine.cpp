@@ -334,9 +334,11 @@ std::vector<SearchForm> HtmlSearchEngine::discoverForms(
 
 SearchResultPage HtmlSearchEngine::parseResults(
         const std::string& html,
-        const std::string& base_url,
-        const std::string& selector) const {
+    const std::string& base_url,
+    const std::string& selector) const {
     SearchResultPage page;
+    static_cast<void>(base_url);
+    static_cast<void>(selector);
 
 #ifdef THEMIS_ENABLE_PUGIXML
     pugi::xml_document doc;

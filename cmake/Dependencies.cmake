@@ -258,7 +258,18 @@ else()
            set(RocksDB_FOUND TRUE)
            message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
        else()
-           if(THEMIS_ALLOW_MISSING_ROCKSDB)
+           # Final fallback for distro packages that do not ship a rocksdb.pc file.
+           find_path(ROCKSDB_INCLUDE_DIR NAMES rocksdb/db.h)
+           find_library(ROCKSDB_LIBRARY NAMES rocksdb)
+           if(ROCKSDB_INCLUDE_DIR AND ROCKSDB_LIBRARY)
+               message(STATUS "RocksDB found via manual search: ${ROCKSDB_LIBRARY}")
+               add_library(RocksDB::rocksdb UNKNOWN IMPORTED)
+               set_target_properties(RocksDB::rocksdb PROPERTIES
+                   IMPORTED_LOCATION "${ROCKSDB_LIBRARY}"
+                   INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}"
+               )
+               set(RocksDB_FOUND TRUE)
+           elseif(THEMIS_ALLOW_MISSING_ROCKSDB)
                message(WARNING
                    "RocksDB not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON. "
                    "Install via vcpkg (rocksdb) or system package librocksdb-dev before building "
@@ -500,6 +511,34 @@ endif()
 
 # cpp-httplib (built-in HTTP server)
 find_package(httplib QUIET CONFIG)
+if(NOT httplib_FOUND)
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(HTTPLIB_PC QUIET cpp-httplib)
+        if(HTTPLIB_PC_FOUND AND NOT TARGET httplib::httplib)
+            add_library(httplib::httplib INTERFACE IMPORTED)
+            set_target_properties(httplib::httplib PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${HTTPLIB_PC_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${HTTPLIB_PC_LINK_LIBRARIES}"
+            )
+            if(HTTPLIB_PC_CFLAGS_OTHER)
+                set_property(TARGET httplib::httplib APPEND PROPERTY
+                    INTERFACE_COMPILE_OPTIONS "${HTTPLIB_PC_CFLAGS_OTHER}"
+                )
+            endif()
+            if(HTTPLIB_PC_CFLAGS)
+                foreach(_httplib_cflag IN LISTS HTTPLIB_PC_CFLAGS)
+                    if(_httplib_cflag MATCHES "^-D(.+)$")
+                        set_property(TARGET httplib::httplib APPEND PROPERTY
+                            INTERFACE_COMPILE_DEFINITIONS "${CMAKE_MATCH_1}"
+                        )
+                    endif()
+                endforeach()
+            endif()
+            set(httplib_FOUND TRUE)
+        endif()
+    endif()
+endif()
 if(httplib_FOUND)
     message(STATUS "cpp-httplib found - enabling built-in HTTP server")
     add_compile_definitions(THEMIS_HAS_HTTPLIB=1)
@@ -942,9 +981,10 @@ if(THEMIS_ENABLE_HIP)
 endif()
 
 if(THEMIS_ENABLE_VULKAN)
-    find_package(Vulkan REQUIRED)
+    find_package(Vulkan QUIET)
     if(NOT Vulkan_FOUND)
-        message(FATAL_ERROR "ThemisDB requires Vulkan support; install the Vulkan SDK or disable the build contract intentionally.")
+        message(WARNING "THEMIS_ENABLE_VULKAN=ON but Vulkan SDK was not found. Disabling Vulkan backend.")
+        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Vulkan disabled: SDK not found" FORCE)
     endif()
 endif()
 

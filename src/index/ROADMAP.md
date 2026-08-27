@@ -36,6 +36,23 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 
 ## Planned Features
 
+### Wave 2-B: GPU RAII & CUDA Backend (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-B, gap scanner verified 2026-08-25  
+> **Gap count:** 5 `gpu_memory_leak` (CRITICAL), 26 `unchecked_cuda_call`, 12 `iterator_invalidation`, 79 `todo_as_productionlogic`
+
+- [x] Implement `CudaUniquePtr<T>` RAII wrapper with `cudaFree()` destructor — fix 5 `gpu_memory_leak` in `cuda_hnsw_graph_traversal.cpp:362,370,381` and `gpu_memory_oversubscription.cpp:53` (2026-08-26: `include/index/cuda_utils.h` created; all 6 Impl raw-pointer members migrated to `CudaUniquePtr<T>`; `freeDevice()` simplified to RAII resets; `batchSearch` temporary allocations also wrapped)
+  - Constraints: exception-safe; `cudaFree` called on all error paths
+  - Errors: `cudaErrorInvalidDevicePointer` → log + `IndexErrorCode::GpuMemoryError`
+  - Tests: `tests/index/test_wave5_index_hardening.cpp` (I1-A..D: null-safety, n=0, move, deleter)
+- [x] Add `THEMIS_CUDA_CHECK` after every kernel launch in `cuda_hnsw_graph_traversal.cpp`, `gpu_vector_index.cpp`, `rotary_embeddings_cuda.cu` (26 sites) — return `IndexErrorCode::GpuKernelError` on failure (2026-08-26: `THEMIS_CUDA_CHECK` and `THEMIS_CUDA_CHECK_BOOL` macros added to `cuda_utils.h`; `batchSearch` result D2H copy sites hardened; tests: `test_wave5_index_hardening.cpp` I2-A,B)
+- [x] Fix 12 `iterator_invalidation` in `graph_index.cpp:244-248`, `multi_vector_search.cpp:224,406` — vector-resize and concurrent traversal patterns (2026-08-26: range-for over JSON array converted to index-based loop; CSV while-loop annotated; multi_vector_search score/rank push_back sites annotated with Wave-B I3 comment)
+- [ ] Implement CUDA L2/Cosine/Dot-Product kernels in `src/acceleration/cuda/cuda_hnsw_kernels.cu` — replace CPU fallbacks; target ≥4× speedup vs CPU baseline on RTX-class GPU (Target: Q4 2026)
+  - Inputs: float32 vectors, batch size ≤ 1e6; outputs: distance matrix + TopK indices
+  - Constraints: deterministic FP tolerance ≤ 1e-6 vs CPU reference
+  - Tests: `tests/index/test_ann_cuda_kernel_parity.cpp` (L2/cosine/dot CPU vs GPU parity)
+- [ ] HIP/AMD backend: `HIPVectorBackend::search()` — feature parity with CUDA backend (Target: Q4 2026)
+
 ### Hybrid Retrieval Rollout Gates (issue #5468)
 - [ ] Phase B gate: fix 60% of buffer lifecycle RAII gaps (7,712 total → ~4,600 target) (Target: Q3 2026)
 - [ ] Phase B gate: ThreadSanitizer clean for Vec KNN insert pipeline (Target: Q3 2026)

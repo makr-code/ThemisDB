@@ -1,0 +1,99 @@
+# Canonical Milestone Registry
+# Managed by .github/workflows/maintenance-milestones.yml
+
+settings:
+  default_milestone: Backlog
+  allow_target_version_override: true
+  auto_create_missing_milestones: true
+
+milestones:
+  - title: HOTPATCH
+    state: open
+    due_on: 2026-12-31T23:59:59Z
+    description: Immediate production fixes, security incidents, and urgent regressions.
+
+  - title: Q4 2026
+    state: open
+    due_on: 2026-12-31T23:59:59Z
+    description: Wave A/B/C release-critical delivery cycle.
+
+  - title: Q1 2027
+    state: open
+    due_on: 2027-03-31T23:59:59Z
+    description: Wave D operability and hardening cycle.
+
+  - title: Documentation
+    state: open
+    due_on: 2027-01-31T23:59:59Z
+    description: Documentation and governance updates.
+
+  - title: LONG-TERM
+    state: open
+    due_on: 2027-12-31T23:59:59Z
+    description: Long-term roadmap and non-urgent strategic work.
+
+  - title: Backlog
+    state: open
+    due_on: 2027-12-31T23:59:59Z
+    description: Unscheduled work waiting for wave or release assignment.
+
+  - title: CI-RECOVERY
+    state: open
+    due_on: 2027-01-31T23:59:59Z
+    description: CI stability and pipeline recovery actions.
+
+  - title: GOVERNANCE-REMEDIATION
+    state: open
+    due_on: 2027-01-31T23:59:59Z
+    description: Governance drift and policy remediation lane.
+
+  - title: SECURITY-REMEDIATION
+    state: open
+    due_on: 2027-01-31T23:59:59Z
+    description: Security findings and pentest follow-up lane.
+
+  - title: LLM-TRIAGE
+    state: open
+    due_on: 2027-01-31T23:59:59Z
+    description: LLM inference pipeline failures and triage tasks.
+
+assignment_rules:
+  - name: Hot patch priority
+    labels_any: [hot-patch, hotpatch, priority:critical, severity:critical, security/critical]
+    milestone: HOTPATCH
+
+  - name: CI recovery lane
+    labels_any: [ci/failure, ci/chronic-failure, ci/build-error, ci/build-failed, ci/test-failed]
+    milestone: CI-RECOVERY
+
+  - name: Governance remediation lane
+    labels_any: [governance/drift, governance/needs-attention, governance/wave-gate-fail]
+    milestone: GOVERNANCE-REMEDIATION
+
+  - name: Security remediation lane
+    labels_any: [security, security/pentest]
+    milestone: SECURITY-REMEDIATION
+
+  - name: LLM triage lane
+    labels_any: [llm-ci-failure, needs-triage]
+    milestone: LLM-TRIAGE
+
+  - name: Long-term planning
+    labels_any: [long-term, roadmap/long-term, priority:low, enhancement]
+    milestone: LONG-TERM
+
+  - name: Wave D
+    labels_any: [wave:D]
+    milestone: Q1 2027
+
+  - name: Wave A/B/C
+    labels_any: [wave:A, wave:B, wave:C]
+    milestone: Q4 2026
+
+  - name: Documentation
+    labels_any: [type:documentation, docs]
+    milestone: Documentation
+
+  - name: Explicit backlog
+    labels_any: [backlog]
+    milestone: Backlog

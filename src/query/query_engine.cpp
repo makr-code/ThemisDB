@@ -89,10 +89,33 @@ static void tbbWaitWithTimeout(
     const std::string&             phase,
     const std::string&             query_id = "")
 {
+    // [WAVE3B-FIX: blocking_no_timeout — query_engine.cpp tbbWaitWithTimeout]
+    //
+    // Replace the post-fact advisory pattern (tg.wait(); then check elapsed)
+    // with a watchdog-thread approach that actively cancels the task group
+    // when the deadline fires, so stalled morsels unblock promptly.
+    auto done = std::make_shared<std::atomic<bool>>(false);
+
+    std::thread watchdog([done, &tg, timeout_ms]() noexcept {
+        const auto deadline = std::chrono::steady_clock::now() + timeout_ms;
+        while (!done->load(std::memory_order_acquire)) {
+            if (std::chrono::steady_clock::now() >= deadline) {
+                if (!done->load(std::memory_order_acquire)) {
+					tg.cancel();
+                }
+                return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+    });
+
     const auto t0 = std::chrono::high_resolution_clock::now();
     tg.wait();
     const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::high_resolution_clock::now() - t0);
+
+    done->store(true, std::memory_order_release);
+    watchdog.join();
 
     if (elapsed > timeout_ms) {
         THEMIS_WARN("Query phase '{}' exceeded timeout: elapsed={}ms limit={}ms query_id='{}'",
@@ -4869,9 +4892,13 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
 		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
-		tg.wait(); for(auto &b : buckets){ results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end())); }
-		// Timeout enforcement: content-geo spatial filter (Q1/REL-50)
-		// Note: tg.wait() above is inline; timeout is advisory post-fact (no cancellation)
+		// [WAVE3B-FIX: blocking_no_timeout — query_engine.cpp inline tg.wait()]
+		// Replace inline tg.wait() (advisory post-fact) with tbbWaitWithTimeout()
+		// so stalled content-geo morsels are cancelled within the query timeout.
+		tbbWaitWithTimeout(tg, audit_logger_,
+		                   query_timeout_ms_,
+		                   "content_geo_spatial_filter");
+		for(auto &b : buckets){ results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end())); }
 		child2.setAttribute("spatial_results", static_cast<int64_t>(results.size())); child2.setStatus(true);
 	} else {
 		// Spatial-first Plan: verwende SpatialIndex zur Kandidatenmenge, dann naive Fulltext-Evaluation

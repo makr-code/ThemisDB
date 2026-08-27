@@ -14,16 +14,18 @@
  */
 
 #include <algorithm>
+#include <atomic>
 #include <cctype>
-#include <filesystem>
-#include "replication/logical_replication.h"
-#include <fstream>
-#include <utility>
-#include <stdexcept>
 #include <cerrno>
 #include <cstring>
-#include <atomic>
+#include <filesystem>
+#include <future>
+#include <stdexcept>
 #include <thread>
+#include <type_traits>
+#include <utility>
+#include "replication/logical_replication.h"
+#include <fstream>
 #include "utils/logger.h"
 #include <fcntl.h>
 #ifdef _WIN32
@@ -36,6 +38,54 @@ namespace fs = std::filesystem;
 
 namespace themisdb {
 namespace replication {
+
+// ----------------------------------------------------------------------------
+// WAVE1-FIX [no_timeout:647,702]: module-local helper mirror of the identical
+// template in replication_manager.cpp.  Wraps a blocking callable with a
+// configurable millisecond deadline.  Returns true if the callable completed
+// within the deadline; false if timed out (an error is already logged by the
+// caller). On timeout the worker thread is detached so the caller returns
+// immediately; callers MUST use only value captures in the passed lambda to
+// avoid dangling references in the detached thread.
+// ----------------------------------------------------------------------------
+namespace {
+template <typename Func>
+bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
+    using Operation = std::decay_t<Func>;
+    Operation op_copy(std::forward<Func>(op));
+
+    if (timeout_ms == 0) {
+        try { op_copy(); return true; }
+        catch (const std::exception& e) {
+            THEMIS_ERROR("LogicalReplicationManager: I/O op failed: {}", e.what());
+            return false;
+        }
+    }
+
+    std::packaged_task<void()> task(std::move(op_copy));
+    auto fut = task.get_future();
+
+    // std::thread (not std::jthread) so detach on timeout does not block.
+    std::thread worker([task = std::move(task)]() mutable {
+        task();
+    });
+
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) == std::future_status::timeout) {
+        THEMIS_ERROR("LogicalReplicationManager: I/O op timed out after {}ms; "
+                     "worker detached", timeout_ms);
+        worker.detach();
+        return false;
+    }
+
+    worker.join();
+    try { fut.get(); }
+    catch (const std::exception& e) {
+        THEMIS_ERROR("LogicalReplicationManager: I/O op threw: {}", e.what());
+        return false;
+    }
+    return true;
+}
+} // anonymous namespace
 
 // ============================================================================
 // Lock Hierarchy Documentation (logical_replication.cpp)
@@ -675,80 +725,102 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
 
     const auto tmp_path = base / (slot.meta.slot_name + ".json.tmp");
     const std::string payload = j.dump(2);
-#ifdef _WIN32
-    // NOTE: Blocking local filesystem operation (open). 
-    // Expected timeout: microseconds to milliseconds.
-    int fd = ::_open(tmp_path.string().c_str(), _O_WRONLY | _O_CREAT | _O_TRUNC | _O_BINARY, _S_IREAD | _S_IWRITE);
-#else
-    // NOTE: Blocking local filesystem operation (open). 
-    // Expected timeout: microseconds to milliseconds.
-    int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
-#endif
-    if (fd < 0) {
-        THEMIS_WARN("Failed to open logical slot state {}: {}", tmp_path.string(), strerror(errno));
-        return;
-    }
 
-        const auto written =
+    // WAVE1-FIX [no_timeout:647,702]: wrap all blocking filesystem operations
+    // (open/write/fsync/rename/dir-fsync) in a single configurable deadline via
+    // lrm_executeWithTimeout.  If the deadline fires the slot state is NOT
+    // persisted this cycle — the caller logs the failure and replication
+    // continues; the WAL provides a recovery path on restart.
+    // All captures are by value so that the lambda is safe to run on a
+    // detached thread if lrm_executeWithTimeout times out.
+    const bool io_ok = lrm_executeWithTimeout(
+        config_.file_io_timeout_ms,
+        [tmp_path, payload, state_path, base, slot_name = slot.meta.slot_name]() mutable {
+            std::error_code ec;
 #ifdef _WIN32
-        ::_write(fd, payload.data(), static_cast<unsigned int>(payload.size()));
+            int fd = ::_open(tmp_path.string().c_str(),
+                             _O_WRONLY | _O_CREAT | _O_TRUNC | _O_BINARY,
+                             _S_IREAD | _S_IWRITE);
 #else
-        ::write(fd, payload.data(), payload.size());
+            int fd = ::open(tmp_path.c_str(),
+                            O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
 #endif
-    if (written < 0 || static_cast<size_t>(written) != payload.size()) {
+            if (fd < 0) {
+                THEMIS_WARN("Failed to open logical slot state {}: {}",
+                            tmp_path.string(), strerror(errno));
+                return;
+            }
+
+            const auto written =
 #ifdef _WIN32
-        ::_close(fd);
+                ::_write(fd, payload.data(),
+                         static_cast<unsigned int>(payload.size()));
 #else
-        ::close(fd);
+                ::write(fd, payload.data(), payload.size());
 #endif
-        fs::remove(tmp_path, ec);
-        if (written < 0) {
-            THEMIS_WARN("Failed to persist logical slot {}: {}", slot.meta.slot_name, strerror(errno));
-        } else {
-            THEMIS_WARN("Failed to persist logical slot {}, partial/failed write", slot.meta.slot_name);
-        }
-        return;
-    }
+            if (written < 0 || static_cast<size_t>(written) != payload.size()) {
+#ifdef _WIN32
+                ::_close(fd);
+#else
+                ::close(fd);
+#endif
+                fs::remove(tmp_path, ec);
+                if (written < 0) {
+                    THEMIS_WARN("Failed to persist logical slot {}: {}",
+                                slot_name, strerror(errno));
+                } else {
+                    THEMIS_WARN("Failed to persist logical slot {}, "
+                                "partial/failed write", slot_name);
+                }
+                return;
+            }
 
 #ifdef _WIN32
-    if (::_commit(fd) != 0) {
+            if (::_commit(fd) != 0) {
 #else
-    // NOTE: Blocking local filesystem operation (fsync).
-    // Expected timeout: milliseconds to seconds depending on device.
-    if (::fsync(fd) != 0) {
+            if (::fsync(fd) != 0) {
 #endif
 #ifdef _WIN32
-        ::_close(fd);
+                ::_close(fd);
 #else
-        ::close(fd);
+                ::close(fd);
 #endif
-        fs::remove(tmp_path, ec);
-        THEMIS_WARN("Failed to fsync logical slot {}", slot.meta.slot_name);
-        return;
-    }
+                fs::remove(tmp_path, ec);
+                THEMIS_WARN("Failed to fsync logical slot {}", slot_name);
+                return;
+            }
 #ifdef _WIN32
-    ::_close(fd);
+            ::_close(fd);
 #else
-    ::close(fd);
+            ::close(fd);
 #endif
 
-    fs::rename(tmp_path, state_path, ec);
-    if (ec) {
-        THEMIS_WARN("Failed to rename slot state file {} to {}: {}", tmp_path.string(), state_path, ec.message());
-        fs::remove(tmp_path, ec);
-    }
+            fs::rename(tmp_path, state_path, ec);
+            if (ec) {
+                THEMIS_WARN("Failed to rename slot state file {} to {}: {}",
+                            tmp_path.string(), state_path, ec.message());
+                fs::remove(tmp_path, ec);
+            }
 
 #ifndef _WIN32
-    // NOTE: Blocking local filesystem operation (open + fsync).
-    // Expected timeout: milliseconds to seconds. For directory sync to ensure durability.
-    int dir_fd = ::open(base.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
-    if (dir_fd >= 0) {
-        if (::fsync(dir_fd) != 0) {
-            THEMIS_WARN("Failed to fsync logical slot directory {}: {}", base.string(), strerror(errno));
-        }
-        ::close(dir_fd);
-    }
+            int dir_fd = ::open(base.c_str(),
+                                O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+            if (dir_fd >= 0) {
+                if (::fsync(dir_fd) != 0) {
+                    THEMIS_WARN("Failed to fsync logical slot directory {}: {}",
+                                base.string(), strerror(errno));
+                }
+                ::close(dir_fd);
+            }
 #endif
+        }); // end lrm_executeWithTimeout
+
+    if (!io_ok) {
+        THEMIS_ERROR("LogicalReplicationManager::persistSlot: I/O timed out "
+                     "or failed for slot '{}' (timeout={}ms) – slot state not "
+                     "persisted this cycle; will retry on next advance",
+                     slot.meta.slot_name, config_.file_io_timeout_ms);
+    }
 }
 
 std::string LogicalReplicationManager::slotStatePath(const std::string& slot_name) const {
@@ -790,5 +862,3 @@ std::string LogicalReplicationManager::collectionKey(const std::string& collecti
 
 }  // namespace replication
 }  // namespace themisdb
-
-

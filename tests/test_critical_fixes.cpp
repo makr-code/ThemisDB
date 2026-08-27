@@ -18,7 +18,7 @@
 #include <sstream>
 #include <openssl/sha.h>
 
-#include "argument_store.h"
+#include "ethics_ai/argument_store.h"
 #include "ethics_ai/prior_round_compressor.h"
 #include "ethics_ai/ethics_ai_types.h"
 
@@ -54,7 +54,7 @@ protected:
         store_ = std::make_unique<ArgumentStore>();
         // nullptr → standalone (in-memory) mode; no RocksDB required.
         auto status = store_->initialize(nullptr, nullptr);
-        ASSERT_TRUE(status.ok()) << status.message();
+        ASSERT_TRUE(status) << status.message;
     }
     std::unique_ptr<ArgumentStore> store_;
 };
@@ -95,7 +95,7 @@ TEST_F(ArgumentStoreIntegrityTest, StandaloneStoreAndRetrieve) {
     arg.argument_type    = ArgumentType::PRO;
 
     auto store_status = store_->storeArgument(arg);
-    ASSERT_TRUE(store_status.ok()) << store_status.message();
+    ASSERT_TRUE(store_status) << store_status.message;
 
     auto result = store_->getArgument(arg.id);
     ASSERT_TRUE(std::holds_alternative<EthicalArgument>(result));
@@ -119,8 +119,8 @@ TEST_F(ArgumentStoreIntegrityTest, ByPhilosophyFilterIsCorrect) {
     util_arg.content          = "Maximize utility";
     util_arg.argument_type    = ArgumentType::PRO;
 
-    ASSERT_TRUE(store_->storeArgument(kant_arg).ok());
-    ASSERT_TRUE(store_->storeArgument(util_arg).ok());
+    ASSERT_TRUE(store_->storeArgument(kant_arg));
+    ASSERT_TRUE(store_->storeArgument(util_arg));
 
     auto result = store_->getArgumentsByPhilosophy("kant", {}, 100);
     ASSERT_TRUE(std::holds_alternative<std::vector<EthicalArgument>>(result));
@@ -138,7 +138,7 @@ TEST(EthicsSelectionRouterIteratorTest, SafeIterationPattern) {
     // which is a proxy for the safe iteration pattern used to prevent
     // iterator invalidation from container modifications.
     auto store = std::make_unique<ArgumentStore>();
-    ASSERT_TRUE(store->initialize(nullptr, nullptr).ok());
+    ASSERT_TRUE(store->initialize(nullptr, nullptr));
 
     constexpr int kThreads = 4;
     constexpr int kPerThread = 10;
@@ -151,7 +151,7 @@ TEST(EthicsSelectionRouterIteratorTest, SafeIterationPattern) {
             arg.philosophy_school = "kant";
             arg.content          = "Thread " + std::to_string(thread_id) + " argument " + std::to_string(i);
             arg.argument_type    = ArgumentType::PRO;
-            if (store->storeArgument(arg).ok()) {
+            if (store->storeArgument(arg)) {
                 ++success_count;
             }
         }
@@ -179,7 +179,7 @@ TEST(EthicsAIPluginMemorySafetyTest, StandaloneStoreCreationIsNonNull) {
     auto store = std::make_shared<ArgumentStore>();
     ASSERT_NE(store, nullptr);
     auto status = store->initialize(nullptr, nullptr);
-    EXPECT_TRUE(status.ok());
+    EXPECT_TRUE(status);
     // Correct cleanup via shared_ptr when store goes out of scope.
 }
 
@@ -225,10 +225,11 @@ TEST_F(PriorRoundCompressorDataRaceTest, ConcurrentSetAndCompress) {
     // Reader thread: repeatedly compresses using the (possibly null) function.
     auto reader = [&]() {
         for (int i = 0; i < 50; ++i) {
-            auto result = compressor_->compressStructuredSummary(arg, config);
+            config.mode = CompressionMode::STRUCTURED_SUMMARY;
+            auto result = compressor_->compressPriorRound({arg}, config, 1);
             ++compress_calls;
             // The result must always have a non-empty compressed_text.
-            EXPECT_FALSE(result.compressed_text.empty());
+            ASSERT_FALSE(result.compressed_text.empty());
         }
     };
 
@@ -248,7 +249,7 @@ TEST_F(PriorRoundCompressorDataRaceTest, ConcurrentSetAndCompress) {
 /// ArgumentStore concurrent storeArgument + getArgumentsByPhilosophy must be safe.
 TEST(RAGContextEngineDataRaceTest, ArgumentStoreConcurrentAccess) {
     auto store = std::make_shared<ArgumentStore>();
-    ASSERT_TRUE(store->initialize(nullptr, nullptr).ok());
+    ASSERT_TRUE(store->initialize(nullptr, nullptr));
 
     constexpr int kWriters = 3;
     constexpr int kReaders = 3;
@@ -262,7 +263,7 @@ TEST(RAGContextEngineDataRaceTest, ArgumentStoreConcurrentAccess) {
             arg.philosophy_school = "virtue_ethics";
             arg.content          = "Concurrent write " + std::to_string(i);
             arg.argument_type    = ArgumentType::PRO;
-            if (!store->storeArgument(arg).ok()) {
+            if (!store->storeArgument(arg)) {
                 ++errors;
             }
         }

@@ -1,6 +1,6 @@
 name: 'Check Build Status'
 description: |
-  Reads the ci-build tracker issue (set by ci-build.yml after each push to develop)
+  Reads the ci-build tracker issue (set by build-mainline.yml after each push to develop)
   and fails the calling job when the last recorded build was unsuccessful.
 
   The tracker issue is identified by the HTML marker
@@ -15,7 +15,7 @@ description: |
   When no tracker issue is found the action can optionally treat the absence as
   a warning instead of a hard failure (set `fail-if-missing: 'false'`).
 
-  Used by: ci-benchmarks.yml, ci-release.yml.
+  Used by: build-benchmarks.yml, release-mainline.yml.
 
 inputs:
   repo-token:

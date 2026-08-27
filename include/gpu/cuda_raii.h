@@ -135,6 +135,38 @@ struct CudaStreamGuard {
 
     /// @return true if the stream was created successfully.
     [[nodiscard]] bool isValid() const noexcept { return stream != nullptr; }
+
+    // -----------------------------------------------------------------------
+    // Adoption factory
+    // -----------------------------------------------------------------------
+
+    /// @brief Adopt ownership of an existing, already-created CUDA stream.
+    ///
+    /// The guard takes ownership: the caller must not destroy the stream
+    /// after calling this function.  Useful when stream creation is
+    /// interleaved with fallback logic (e.g., cudaSetDevice + cudaStreamCreate
+    /// in a try-else path) and the raw handle needs to be transferred to RAII
+    /// after successful creation.
+    ///
+    /// @param existing  A valid cudaStream_t that was created by the caller.
+    ///                  Passing nullptr is allowed and produces an empty guard.
+    /// @return          A CudaStreamGuard that owns `existing`.
+    ///
+    /// ### CUDA-CALL-AUDIT note (Wave A — Phase C prerequisite)
+    /// Adoption targets:
+    /// - `src/gpu/stream_manager.cpp` createStream path: raw handle stored as
+    ///   `uintptr_t cuda_stream`; migrated to adopt().
+    /// - `src/gpu/stream_manager.cpp` createCudaStream path: raw handle
+    ///   registered in `cudaStreamRegistry()`; migrated to adopt() in Stream.
+    ///
+    /// Activation: CUDA-enabled build (THEMIS_ENABLE_CUDA=1).
+    /// Production Delta: none — identical lifecycle; ownership transferred.
+    /// Removal Plan: N/A — permanent RAII governance.
+    [[nodiscard]] static CudaStreamGuard adopt(cudaStream_t existing) noexcept {
+        CudaStreamGuard g;
+        g.stream = existing;
+        return g;
+    }
 };
 
 // ===========================================================================

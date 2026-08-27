@@ -72,6 +72,15 @@ TEST_F(EpisodicCompressionTest, AvailabilityCheck) {
     EXPECT_TRUE(compressor_->isAvailable());
 }
 
+TEST_F(EpisodicCompressionTest, AvailabilityReflectsLLMClientReadiness) {
+    LLMAQLHandler real_handler;
+    LLMExtractiveCompressor real_compressor(real_handler);
+    EXPECT_TRUE(real_compressor.isAvailable());
+
+    real_handler.setLLMClient(nullptr);
+    EXPECT_FALSE(real_compressor.isAvailable());
+}
+
 TEST_F(EpisodicCompressionTest, BasicCompressionRoundTrip) {
     auto history = createSampleHistory();
     

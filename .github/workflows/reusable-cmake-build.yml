@@ -1,0 +1,199 @@
+name: Reusable CMake Build Pipeline
+
+# Rechenaufwand-Score: R=5 (K=5, L=5, N=5) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+on:
+  workflow_call:
+    inputs:
+      runs_on:
+        required: false
+        default: ubuntu-latest
+        type: string
+      shell:
+        required: false
+        default: bash
+        type: string
+      fetch_depth:
+        required: false
+        default: '0'
+        type: string
+      submodules:
+        required: false
+        default: false
+        type: boolean
+      working_directory:
+        required: false
+        default: .
+        type: string
+      setup_command:
+        required: false
+        default: ''
+        type: string
+      configure_command:
+        required: true
+        type: string
+      build_command:
+        required: true
+        type: string
+      validation_command:
+        required: false
+        default: ''
+        type: string
+      build_continue_on_error:
+        required: false
+        default: false
+        type: boolean
+      validation_continue_on_error:
+        required: false
+        default: false
+        type: boolean
+      artifact_name:
+        required: false
+        default: ''
+        type: string
+      artifact_paths:
+        required: false
+        default: ''
+        type: string
+      artifact_name_secondary:
+        required: false
+        default: ''
+        type: string
+      artifact_paths_secondary:
+        required: false
+        default: ''
+        type: string
+      artifact_retention_days:
+        required: false
+        default: '30'
+        type: string
+      artifact_retention_days_secondary:
+        required: false
+        default: '30'
+        type: string
+      summary_title:
+        required: false
+        default: CMake Build
+        type: string
+    secrets:
+      THEMIS_HYPERSCALER_LICENSE_B64:
+        required: false
+      THEMIS_BUILD_SIG:
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ inputs.summary_title }}
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: ${{ inputs.fetch_depth }}
+          submodules: ${{ inputs.submodules }}
+
+      - name: Setup MSVC environment (Windows only)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
+        with:
+          arch: x64
+
+      - name: Setup
+        if: inputs.setup_command != ''
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          SETUP_COMMAND: ${{ inputs.setup_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
+        run: |
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-setup.sh"
+          printf '%s\n' "$SETUP_COMMAND" > "$script_path"
+          bash "$script_path"
+
+      - name: Configure
+        id: configure
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          CONFIGURE_COMMAND: ${{ inputs.configure_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
+        run: |
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-configure.sh"
+          printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
+          bash "$script_path"
+
+      - name: Build
+        id: build
+        continue-on-error: ${{ inputs.build_continue_on_error }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          BUILD_COMMAND: ${{ inputs.build_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
+        run: |
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-build.sh"
+          printf '%s\n' "$BUILD_COMMAND" > "$script_path"
+          bash "$script_path"
+
+      - name: Validation
+        id: validation
+        if: inputs.validation_command != ''
+        continue-on-error: ${{ inputs.validation_continue_on_error }}
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          VALIDATION_COMMAND: ${{ inputs.validation_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
+        run: |
+          cd "$WORKING_DIRECTORY"
+          script_path="$RUNNER_TEMP/cmake-build-validation.sh"
+          printf '%s\n' "$VALIDATION_COMMAND" > "$script_path"
+          bash "$script_path"
+
+      - name: Upload artifacts
+        if: inputs.artifact_name != '' && inputs.artifact_paths != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: ${{ inputs.artifact_paths }}
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: ignore
+
+      - name: Upload secondary artifacts
+        if: inputs.artifact_name_secondary != '' && inputs.artifact_paths_secondary != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ inputs.artifact_name_secondary }}
+          path: ${{ inputs.artifact_paths_secondary }}
+          retention-days: ${{ inputs.artifact_retention_days_secondary }}
+          if-no-files-found: ignore
+
+      - name: Build summary
+        if: always()
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+          VALIDATION_COMMAND: ${{ inputs.validation_command }}
+        run: |
+          cd "$WORKING_DIRECTORY"
+          {
+            echo "### ${{ inputs.summary_title }}"
+            echo ""
+            echo "- Configure: ${{ steps.configure.outcome }}"
+            echo "- Build: ${{ steps.build.outcome }}"
+            if [ -n "$VALIDATION_COMMAND" ]; then
+              echo "- Validation: ${{ steps.validation.outcome }}"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

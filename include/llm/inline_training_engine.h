@@ -31,6 +31,11 @@ namespace themis::governance {
     class ModelGovernancePolicy;
 }
 
+// Forward-declare RocksDB type so callers don't need the full header.
+namespace rocksdb {
+    class DB;
+}
+
 namespace themis::llm {
 
 // Forward declarations
@@ -293,6 +298,18 @@ public:
         std::shared_ptr<governance::ModelGovernancePolicy> policy);
 
     /**
+     * @brief Inject a RocksDB handle for checkpoint persistence.
+     *
+     * When set, saveCheckpoint() additionally writes the serialised
+     * TrainingState JSON into RocksDB under the given path key, and
+     * loadCheckpoint() reads from RocksDB first, falling back to the
+     * filesystem JSON if the key is absent.
+     *
+     * Pass nullptr to clear the handle and revert to filesystem-only mode.
+     */
+    void setCheckpointDb(std::shared_ptr<rocksdb::DB> db);
+
+    /**
      * @brief Train a new LoRA adapter
      * @param adapter_id Unique identifier for the adapter
      * @param base_model_path Path to base model (GGUF format)
@@ -342,6 +359,9 @@ private:
     // Implementation details
     class Impl;
     std::unique_ptr<Impl> impl_;
+
+    // Optional RocksDB handle for checkpoint persistence (dual-write)
+    std::shared_ptr<rocksdb::DB> checkpoint_db_;
 
     // Training loop implementation
     TrainingResult trainLoop(

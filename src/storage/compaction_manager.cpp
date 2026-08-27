@@ -43,8 +43,22 @@ CompactionManager::CompactionManager(std::shared_ptr<RocksDBWrapper> db,
     }
 }
 
-CompactionManager::~CompactionManager() {
-    stopBackgroundGC();
+/// @brief Destructor — noexcept per C++ standard requirements for destructors.
+///
+/// Stops the background GC thread before the object is destroyed.  Any
+/// exception that might propagate out of stopBackgroundGC() is caught and
+/// logged here so it never escapes the destructor (which would call
+/// std::terminate under C++11 and later).
+CompactionManager::~CompactionManager() noexcept {
+    try {
+        stopBackgroundGC();
+    } catch (const std::exception& e) {
+        THEMIS_WARN("CompactionManager::~CompactionManager: exception during "
+                    "background GC stop (swallowed): {}", e.what());
+    } catch (...) {
+        THEMIS_WARN("CompactionManager::~CompactionManager: unknown exception "
+                    "during background GC stop (swallowed)");
+    }
 }
 
 // ──────────────────────────────────────────────────────────────────────────────

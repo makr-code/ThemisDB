@@ -189,7 +189,9 @@ private:
     std::unique_ptr<Impl> impl_;
     
     // Private methods for internal workflow
-    std::string generateAQL(const std::string& nl_query, const std::string& schema_context);
+    std::string generateAQL(const std::string& nl_query,
+                            const std::string& schema_context,
+                            const std::string& retry_feedback = "");
     
     std::string formatRetryFeedback(const query::ParserDiagnostics& diagnostics) const;
     

@@ -7,7 +7,7 @@ on:
       - community
     paths:
       - '.github/workflows/security-scan.yml'
-      - '.github/workflows/codeql.yml'
+      - '.github/workflows/security-codeql.yml'
       - '.github/workflows/security-scanning.yml'
   pull_request:
     branches:
@@ -15,7 +15,7 @@ on:
       - community
     paths:
       - '.github/workflows/security-scan.yml'
-      - '.github/workflows/codeql.yml'
+      - '.github/workflows/security-codeql.yml'
       - '.github/workflows/security-scanning.yml'
   workflow_dispatch: {}
 
@@ -34,4 +34,4 @@ jobs:
       - name: Security scan compatibility marker
         run: |
           echo "Compatibility workflow restored at .github/workflows/security-scan.yml"
-          echo "Canonical security workflows: codeql.yml and security-scanning.yml"
+          echo "Canonical security workflows: security-codeql.yml and security-scanning.yml"

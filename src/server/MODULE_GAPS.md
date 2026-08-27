@@ -4,6 +4,65 @@
 > Source: gap_scan_results_verified_L0.5_full.json
 > Verification Method: Semantic code pattern analysis with false-positive elimination
 > Verification Status: L0.5 Verified (22,160 total verified gaps across all modules, 6.8% false-positive removal applied)
+> Wave 1 CRITICAL remediation applied: 2026-08-25 (see section below)
+
+## Wave 1 CRITICAL Batch Fixed
+
+> **Date:** 2026-08-25
+> **Branch:** copilot/select-important-core-modules
+> **Engineer:** Copilot Wave-1 CRITICAL Gap Remediation Agent
+
+### Summary of Fixes Applied
+
+| Category | Count Fixed | Files Touched | Fix Pattern |
+|---|---:|---|---|
+| `thread_join_no_timeout` / `blocking_no_timeout` | 8 | `http_server.cpp` | `stop()` and `wait()` converted to `std::async`-based timed join with 10 s deadline; stragglers reported and abandoned |
+| `thread_join_no_timeout` | 1 | `mqtt_client_service.cpp` | `io_thread_.join()` wrapped in timed `std::async` join |
+| `data_race` (monitoring handler pointer) | 10 | `http_server.cpp` | `monitoring_api_` snapshotted under `api_handlers_mutex_` into `monitoring_api_snap`; all switch-case uses updated |
+| `data_race` (static one-shot init) | 3 | `http_server.cpp` | Three `static llm::DocsAssistant` / `static bool initialized` patterns replaced with `std::call_once` + per-endpoint `once_flag` |
+| `no_timeout` (synchronous socket write) | 4 | `mqtt_client_service.cpp` | `SO_SNDTIMEO` applied via `boost::asio::socket_base::send_timeout` before each synchronous `asio::write` call |
+| `missing_audit_log` (authorize without log) | 2 | `shard_repair_api_handler.cpp`, `rope_api_handler.cpp` | `THEMIS_INFO/WARN("[AUDIT] …")` added immediately after `authorize()` covering ALLOW and DENY branches |
+| **Total CRITICAL fixes** | **28** | 4 files | — |
+
+### False Positives Confirmed (no code change required)
+
+| Scanner Finding | Location | Reason |
+|---|---|---|
+| `smart_ptr_misuse` lines 2446, 2478 | `http_server.cpp` | Scanner matched JavaScript `new Date()` / `new Error()` inside C-string literals as raw `new T` |
+| `new_without_raii` lines 158, 162 | `shard_repair_api_handler.cpp` | Same JS-string false positive (`new Error()`) |
+| `new_without_raii` lines 293, 294 | `replication_topology_api_handler.cpp` | Same JS-string false positive |
+| `missing_audit_log` lines 7084-10122 | `http_server.cpp` | Authorize calls are routed through `requireScope()` / `requireAccess()` which both have audit logging at lines 10073-10081 |
+| `missing_audit_log` lines 154-313 | `session_api_handler.cpp` | `auditAuthorizationDecision()` is called immediately after every `authorize()` invocation |
+| `data_race` (local lambdas) | `query_api_handler.cpp` | Scanner flagged `[&]` captures of stack-local variables as data races; these are function-local and never shared across threads |
+| `data_race` on `registry_` | `import_api_handler.cpp` | `ImportJobRegistry` has its own internal `std::mutex` guarding all public methods (confirmed in `importer_interface.h`) |
+| `array_bounds` line 487 | `mqtt_session.cpp` | `buffer_` is `std::array<char,8192>`; access at `[0]` is guarded by `bytes_transferred < 2` check immediately above |
+| `blocking_no_timeout` lines 787, 801, 821 | `mqtt_session.cpp` | `weak_ptr::lock()` is non-blocking; scanner misclassified it |
+
+### Remaining CRITICAL Gaps (post-Wave 1)
+
+| Severity | Count (pre-Wave 1) | Count (post-Wave 1) |
+|---|---:|---:|
+| Critical | 186 | ~158 |
+
+Approximate breakdown of remaining ~158:
+- `missing_audit_log` (other files not in this wave): ~12
+- `data_race` (other modules): ~53 (model_integrity_gap, llm_api_handler, etc.)
+- `model_integrity_gap` (LLM handler): ~10 — requires HMAC/SHA-256 model verification gate
+- `iterator_invalidation` in query_api_handler: ~3
+- Remaining `no_timeout` in other handlers: ~6
+
+These are planned for Wave 2 / Wave B remediation.
+
+### Regression Tests Added
+
+- `tests/server/test_wave1_critical_gaps.cpp` — 7 focused unit tests covering:
+  - Timed-join: quick-exit threads join cleanly; stuck threads counted as stragglers
+  - `std::call_once`: invoked exactly once under concurrency; result consistent
+  - Handler-snapshot pattern: concurrent readers see consistent pointer
+  - Audit-log pattern: ALLOW and DENY branches both produce records
+  - Send-timeout constants are positive
+
+---
 
 ## Executive Summary
 
@@ -11,6 +70,7 @@
 - **Actionable Gaps (Critical + High)**: 654 (30.1%)
 - **Affected Source Files**: 111
 - **Previous Scan (2026-06-04)**: 1,793 findings → **Current Verified**: 2,172 findings (+21% additional gaps identified)
+- **Wave 1 CRITICAL Fixed (2026-08-25)**: 28 gaps across 4 source files
 
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave A Gaps** (~400 IMPL gaps): HTTP timeout enforcement, graceful shutdown drain, rate-limit fail-closed, protocol retry semantics
@@ -21,7 +81,7 @@
 
 | Severity | Count |
 |---|---:|
-| Critical | 186 |
+| Critical | ~158 (was 186; 28 fixed in Wave 1 — see section above) |
 | High | 468 |
 | Medium | 1013 |
 | Low | 8 |

@@ -1,0 +1,151 @@
+name: "Build: Mainline"
+
+# Rechenaufwand-Score: R=7 (K=8, L=7, N=7) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# ──────────────────────────────────────────────────────────────────────────────
+# Trigger policy: push to develop only (no pull_request trigger).
+# Heavy C++ builds (up to 120 min) run post-merge, not on every PR push.
+# PR-level feedback is provided by lightweight gate-pr-core.yml and gate-pr-*.yml.
+# See .github/WORKFLOW_GUIDELINES.md §Label Policy for build-status labels.
+# ──────────────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'plugins/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**'
+      - 'vcpkg.json'
+      - 'vcpkg-configuration.json'
+      - '.github/actions/**'
+      - '.github/workflows/build-mainline.yml'
+  workflow_dispatch:
+    inputs:
+      sanitizer:
+        description: 'Additional sanitizer job (asan|ubsan|none|both)'
+        required: false
+        default: 'none'
+        type: choice
+        options: [none, asan, ubsan, both]
+      debug_mode:
+        description: 'Enable extra verbose debug output'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; echo "CI — Build wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; test -f vcpkg/scripts/buildsystems/vcpkg.cmake || { echo "::error::vcpkg toolchain missing before bootstrap"; exit 1; }; export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+      configure_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
+      build_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake --build build --parallel 16
+      validation_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ctest --test-dir build --output-on-failure -j 1 --timeout 60
+      artifact_name: ctest-results-${{ github.run_number }}
+      artifact_paths: |
+        build/Testing
+        build/ctest-results.xml
+        build/ctest-output.txt
+      artifact_retention_days: '7'
+      summary_title: CI — Build
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Build-status label management
+  # Sets ci/build-ok or ci/build-failed on the develop branch after each run.
+  # These labels are used by branch protection rules and downstream workflows.
+  # ──────────────────────────────────────────────────────────────────────────
+  update-build-labels:
+    name: Update build-status labels
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: build
+    if: always() && github.event_name == 'push'
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Derive status payload
+        id: status
+        shell: bash
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+        run: |
+          if [ "${BUILD_RESULT}" = "success" ]; then
+            {
+              echo "status_label=ci/build-ok"
+              echo "status_text=passing"
+              echo "status_icon=✅"
+            } >> "$GITHUB_OUTPUT"
+          else
+            {
+              echo "status_label=ci/build-failed"
+              echo "status_text=failing"
+              echo "status_icon=❌"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upsert build tracker issue
+        id: tracker
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[CI] Build status tracker — develop'
+          issue-marker: '<!-- ci-build:type:build-status -->'
+          issue-body: |
+            <!-- ci-build:type:build-status -->
+            ## CI Build Status — `develop`
+
+            Current status: **${{ steps.status.outputs.status_icon }} ${{ steps.status.outputs.status_text }}**
+
+            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
+
+            _This issue tracks post-merge build health on develop._
+            _Labels: `ci/build-ok` = passing, `ci/build-failed` = failing, `status/build-pending` = in progress._
+
+      - name: Replace status labels atomically
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ steps.tracker.outputs.issue-number }}
+          labels-to-add: ${{ steps.status.outputs.status_label }}
+          status-group: 'ci/build-ok,ci/build-failed,status/build-pending'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Comment build status
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.tracker.outputs.issue-number }}
+          issue-body: '${{ steps.status.outputs.status_icon }} Build ${{ needs.build.result }} for `${{ github.sha }}` — [run ${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}

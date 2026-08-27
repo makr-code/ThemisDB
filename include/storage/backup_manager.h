@@ -188,6 +188,17 @@ struct RecoveryStats {
 class BackupManager {
 public:
     /**
+     * @brief Runtime configuration for backup path and guard behavior.
+     *
+     * @note backup_base_dir, when provided, is the canonical root used by
+     *       restore/checksum path-traversal guards. Empty means derive the base
+     *       from the database root directory.
+     */
+    struct Config {
+        std::string backup_base_dir;
+    };
+
+    /**
      * @brief Construct a backup manager around an open RocksDB wrapper.
      *
      * The wrapper is used for checkpoint creation, sequence-number discovery,
@@ -195,8 +206,12 @@ public:
      *
      * @param db_wrapper Shared pointer to the storage wrapper used for
      *        checkpoint and restore operations.
+     * @param config Backup manager runtime configuration. Set
+     *        `config.backup_base_dir` to constrain restore/checksum guards to a
+     *        dedicated backup root.
      */
-    explicit BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper);
+    explicit BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper,
+                           Config config = {});
 
     /**
      * @brief Destroy the backup manager.
@@ -712,6 +727,7 @@ private:
     std::atomic<uint64_t> schedule_counter_{0};
 
     std::shared_ptr<RocksDBWrapper> db_wrapper_;
+    Config config_{};
     RAIDConfig raid_config_;
     
     /**
@@ -831,7 +847,8 @@ private:
      * @param ec Receives the failure reason when the operation returns `false`.
      * @return `true` on success, or `false` when traversal, compression, or copy fails.
      */
-    bool compressPath(const std::string& src_path, const std::string& dest_path,
+    bool compressPath([[maybe_unused]] const std::string& src_path,
+                      [[maybe_unused]] const std::string& dest_path,
                       CompressionType type, std::error_code& ec);
     
     /**
@@ -844,7 +861,8 @@ private:
      * @return `true` on success, or `false` when traversal, decompression, or
      *         copy fails.
      */
-    bool decompressPath(const std::string& src_path, const std::string& dest_path,
+    bool decompressPath([[maybe_unused]] const std::string& src_path,
+                        [[maybe_unused]] const std::string& dest_path,
                         CompressionType type, std::error_code& ec);
     
     /**
@@ -856,7 +874,8 @@ private:
      * @param ec Receives the failure reason when the operation returns `false`.
      * @return `true` on success, or `false` when encryption or copy fails.
      */
-    bool encryptFile(const std::string& src_path, const std::string& dest_path,
+    bool encryptFile([[maybe_unused]] const std::string& src_path,
+                     [[maybe_unused]] const std::string& dest_path,
                      [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     /**
@@ -868,7 +887,8 @@ private:
      * @param ec Receives the failure reason when the operation returns `false`.
      * @return `true` on success, or `false` when decryption or copy fails.
      */
-    bool decryptFile(const std::string& src_path, const std::string& dest_path,
+    bool decryptFile([[maybe_unused]] const std::string& src_path,
+                     [[maybe_unused]] const std::string& dest_path,
                      [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     /**

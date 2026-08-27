@@ -697,3 +697,46 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_wave_a_closure.cpp")
 else()
     message(STATUS "Wave A Closure tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_wave_a_closure.cpp")
 endif()
+
+# ===== WAVE 4-C HARDENING TESTS (2026-08-26) =====
+
+# Wave 4-C T1–T4: STUB note doc, mutual upgrade deadlock, GTM Phase-2 unlock, predicate drop counter
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_wave4c_t1t4_hardening.cpp")
+    message(STATUS "Adding Wave 4-C T1-T4 hardening tests (transaction, 2026-08-26)")
+
+    add_executable(test_wave4c_t1t4_hardening
+        test_wave4c_t1t4_hardening.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/lock_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_wave4c_t1t4_hardening PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_wave4c_t1t4_hardening PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_wave4c_t1t4_hardening PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ROOT_DIR="${THEMIS_ROOT_DIR}"
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME Wave4CT1T4HardeningTests
+        TARGET test_wave4c_t1t4_hardening
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS transaction wave_c release_critical stub-note upgrade-deadlock gtm-phase2 predicate-lock
+    )
+
+    message(STATUS "  Wave 4-C: T1 STUB note, T2 mutual upgrade deadlock, T3 GTM Phase-2 unlock, T4 predicate drop counter")
+else()
+    message(STATUS "Wave 4-C T1-T4 hardening tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_wave4c_t1t4_hardening.cpp")
+endif()

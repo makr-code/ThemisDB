@@ -16,6 +16,7 @@
 
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
+#include "auth/auth_redaction.h"
 
 namespace themis {
 namespace auth {
@@ -50,6 +51,15 @@ void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::opt
 
         // Enforce max_keys resource limit (new key will be added)
         if (config_.max_keys > 0 && keys_.size() >= config_.max_keys && keys_.find(new_kid) == keys_.end()) {
+            if (audit_logger_) {
+                nlohmann::json meta;
+                meta["new_kid"]   = new_kid;
+                meta["max_keys"]  = config_.max_keys;
+                meta["reason"]    = "max_keys_limit_reached";
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::KEY_ROTATION_FAILED,
+                                                "jwt_key_rotation_manager",
+                                                "jwt_key/" + new_kid, meta);
+            }
             throw std::length_error("JWTKeyRotationManager: max_keys limit (" + std::to_string(config_.max_keys)
                                     + ") reached");
         }
@@ -59,7 +69,7 @@ void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::opt
             if (info.status == JWKKeyInfo::Status::ACTIVE) {
                 info.status     = JWKKeyInfo::Status::PASSIVE;
                 info.demoted_at = std::chrono::system_clock::now();
-                THEMIS_INFO("JWTKeyRotation: key '{}' demoted to PASSIVE", kid);
+                THEMIS_INFO("JWTKeyRotation: key '{}' demoted to PASSIVE", redact(kid));
             }
         }
 
@@ -74,7 +84,7 @@ void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::opt
         rotation_count_++;
         rotation_num = rotation_count_;
         logger       = audit_logger_;
-        THEMIS_INFO("JWTKeyRotation: key '{}' is now ACTIVE (rotation #{})", new_kid, rotation_num);
+        THEMIS_INFO("JWTKeyRotation: key '{}' is now ACTIVE (rotation #{})", redact(new_kid), rotation_num);
     }
 
     if (logger) {
@@ -95,7 +105,15 @@ bool JWTKeyRotationManager::revokeKey(const std::string &kid) {
 
         auto it = keys_.find(kid);
         if (it == keys_.end()) {
-            THEMIS_WARN("JWTKeyRotation: revokeKey – unknown kid '{}'", kid);
+            THEMIS_WARN("JWTKeyRotation: revokeKey – unknown kid '{}'", redact(kid));
+            if (audit_logger_) {
+                nlohmann::json meta;
+                meta["kid"]    = kid;
+                meta["reason"] = "unknown_kid";
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::KEY_REVOCATION_FAILED,
+                                                "jwt_key_rotation_manager",
+                                                "jwt_key/" + kid, meta);
+            }
             return false;
         }
 
@@ -112,7 +130,7 @@ bool JWTKeyRotationManager::revokeKey(const std::string &kid) {
         validator_.revokeKid(kid);
         logger = audit_logger_;
 
-        THEMIS_WARN("JWTKeyRotation: key '{}' REVOKED (revocation #{})", kid, revocation_num);
+        THEMIS_WARN("JWTKeyRotation: key '{}' REVOKED (revocation #{})", redact(kid), revocation_num);
     }
 
     if (revoked && logger) {
@@ -133,7 +151,7 @@ bool JWTKeyRotationManager::reactivateKey(const std::string &kid) {
         return false;
     }
     if (it->second.status == JWKKeyInfo::Status::REVOKED) {
-        THEMIS_WARN("JWTKeyRotation: cannot reactivate REVOKED key '{}'", kid);
+        THEMIS_WARN("JWTKeyRotation: cannot reactivate REVOKED key '{}'", redact(kid));
         return false;
     }
 
@@ -147,7 +165,7 @@ bool JWTKeyRotationManager::reactivateKey(const std::string &kid) {
 
     it->second.status       = JWKKeyInfo::Status::ACTIVE;
     it->second.activated_at = std::chrono::system_clock::now();
-    THEMIS_INFO("JWTKeyRotation: key '{}' reactivated", kid);
+    THEMIS_INFO("JWTKeyRotation: key '{}' reactivated", redact(kid));
     return true;
 }
 
@@ -189,7 +207,7 @@ void JWTKeyRotationManager::checkAndRotate() {
         keys_[kid].status = JWKKeyInfo::Status::REVOKED;
         revocation_count_++;
         validator_.revokeKid(kid);
-        THEMIS_WARN("JWTKeyRotation: passive key '{}' auto-revoked after grace period", kid);
+        THEMIS_WARN("JWTKeyRotation: passive key '{}' auto-revoked after grace period", redact(kid));
     }
 }
 

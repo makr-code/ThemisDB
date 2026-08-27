@@ -24,13 +24,35 @@
 
 // Logging support
 #include "utils/logger.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace themis {
 namespace storage {
 
 // ============================================================================
-// § 1  Error Severity Mapping
+// § 0  Audit channel helper
 // ============================================================================
+
+/**
+ * @brief Returns the "storage.audit" named spdlog logger, creating a
+ *        stderr-colour sink on first call if the application has not already
+ *        registered one.  The logger is the structured event channel consumed
+ *        by Prometheus exporters, Grafana dashboards, and the audit pipeline.
+ */
+static std::shared_ptr<spdlog::logger> auditLogger() noexcept {
+    static const char* kName = "storage.audit";
+    auto existing = spdlog::get(kName);
+    if (existing) return existing;
+    try {
+        auto logger = spdlog::stderr_color_mt(kName);
+        logger->set_pattern("[%Y-%m-%dT%H:%M:%SZ] [storage.audit] %v");
+        return logger;
+    } catch (...) {
+        return spdlog::default_logger();
+    }
+}
+
 
 /**
  * @brief Map StorageErrorCode to default severity.
@@ -367,7 +389,9 @@ void emitDiagnosticEvent(const StorageErrorContext& context) noexcept {
         THEMIS_INFO("{}", log_msg);
     }
 
-    // TODO: Emit to metrics/audit channel for operational dashboards
+    // Emit structured event to the storage.audit diagnostic channel so that
+    // Prometheus exporters, Grafana dashboards, and the audit pipeline receive it.
+    auditLogger()->error("{}", log_msg);
 }
 
 void emitRecoveryFaultEvent(
@@ -382,7 +406,8 @@ void emitRecoveryFaultEvent(
         suggestion.empty() ? "(none)" : suggestion);
 
     THEMIS_WARN("{}", msg);
-    // TODO: Emit to recovery-specific diagnostic channel
+    // Emit to recovery-specific diagnostic channel.
+    auditLogger()->warn("{}", msg);
 }
 
 void emitStoragePressureEvent(
@@ -401,7 +426,8 @@ void emitStoragePressureEvent(
     } else {
         THEMIS_INFO("{}", msg);
     }
-    // TODO: Emit to capacity management dashboard
+    // Emit to capacity management diagnostic channel.
+    auditLogger()->warn("{}", msg);
 }
 
 std::string_view errorCodeName(StorageErrorCode code) noexcept {

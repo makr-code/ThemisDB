@@ -939,6 +939,14 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
 
     // Fall back to auth middleware authorization check
     auto ar = auth_->authorize(*token, permission);
+    // W1-FIX(missing_audit_log): record every authorization decision.
+    if (ar.authorized) {
+        THEMIS_INFO("[AUDIT] rope requireAccess: permission='{}' user='{}' decision=ALLOW",
+                    permission, ar.user_id);
+    } else {
+        THEMIS_WARN("[AUDIT] rope requireAccess: permission='{}' user='{}' decision=DENY reason='{}'",
+                    permission, ar.user_id, ar.reason);
+    }
     if (!ar.authorized) {
         return makeErrorResponse(http::status::forbidden,
                                  "Insufficient permissions for scope: " + permission, req);

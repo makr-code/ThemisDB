@@ -54,13 +54,16 @@ enum class SecurityEventType {
     // Privilege Escalation
     PRIVILEGE_ESCALATION_ATTEMPT,
     ROLE_CHANGED,
+    PERMISSION_CHANGED,
     SCOPE_GRANTED,
     SCOPE_REVOKED,
     
     // Key Management
     KEY_CREATED,
     KEY_ROTATED,
+    KEY_ROTATION_FAILED,
     KEY_DELETED,
+    KEY_REVOCATION_FAILED,
     KEY_ACCESS,
     
     // HSM Operations (Hardware Security Module)

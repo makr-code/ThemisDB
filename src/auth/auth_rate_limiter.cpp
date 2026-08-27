@@ -4,7 +4,7 @@
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=0, L=0
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
@@ -249,8 +249,16 @@ AuthRateLimiter::AuthRateLimiter(const AuthRateLimitConfig &config) : config_(co
 
 #ifdef THEMIS_ENABLE_REDIS
     if (config_.enable_cs_persistent_backend) {
-        std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
-        connectCsRedis();
+        try {
+            std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
+            connectCsRedis();
+        } catch (const std::exception &ex) {
+            utils::Logger::error("AuthRateLimiter: unexpected exception during CS Redis init: "
+                                 + std::string(ex.what()) + "; using in-process fallback");
+        } catch (...) {
+            utils::Logger::error("AuthRateLimiter: unknown exception during CS Redis init; "
+                                 "using in-process fallback");
+        }
     }
 #else
     if (config_.enable_cs_persistent_backend) {
@@ -522,31 +530,49 @@ uint32_t AuthRateLimiter::incrementAndGetBreachCount(const std::string &user_id)
 
 #ifdef THEMIS_ENABLE_REDIS
     if (config_.enable_cs_persistent_backend) {
-        std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
-        if (!cs_redis_ctx_ && !connectCsRedis()) {
-            // Redis unavailable – fall through to in-memory
-        } else if (cs_redis_ctx_) {
-            // INCR key
-            redisReply *reply = static_cast<redisReply *>(redisCommand(cs_redis_ctx_, "INCR %s", key.c_str()));
-            if (reply && reply->type == REDIS_REPLY_INTEGER) {
-                long long count = reply->integer;
-                freeReplyObject(reply);
-                // Set TTL only when the key is first created so it expires near
-                // the intended day boundary and is not extended by subsequent
-                // breaches under the same key.
-                if (count == 1) {
-                    redisReply *ex = static_cast<redisReply *>(
-                        redisCommand(cs_redis_ctx_, "EXPIRE %s %d", key.c_str(), kCsBreachKeyTtlSeconds));
-                    if (ex)
-                        freeReplyObject(ex);
+        try {
+            std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
+            if (!cs_redis_ctx_ && !connectCsRedis()) {
+                // Redis unavailable – fall through to in-memory
+            } else if (cs_redis_ctx_) {
+                // INCR key
+                redisReply *reply = static_cast<redisReply *>(redisCommand(cs_redis_ctx_, "INCR %s", key.c_str()));
+                if (reply && reply->type == REDIS_REPLY_INTEGER) {
+                    long long count = reply->integer;
+                    freeReplyObject(reply);
+                    // Set TTL only when the key is first created so it expires near
+                    // the intended day boundary and is not extended by subsequent
+                    // breaches under the same key.
+                    if (count == 1) {
+                        redisReply *ex = static_cast<redisReply *>(
+                            redisCommand(cs_redis_ctx_, "EXPIRE %s %d", key.c_str(), kCsBreachKeyTtlSeconds));
+                        if (ex)
+                            freeReplyObject(ex);
+                    }
+                    return static_cast<uint32_t>(count);
                 }
-                return static_cast<uint32_t>(count);
+                if (reply)
+                    freeReplyObject(reply);
+                // Redis error – fall through to in-memory
+                redisFree(cs_redis_ctx_);
+                cs_redis_ctx_ = nullptr;
             }
-            if (reply)
-                freeReplyObject(reply);
-            // Redis error – fall through to in-memory
-            redisFree(cs_redis_ctx_);
-            cs_redis_ctx_ = nullptr;
+        } catch (const std::exception &ex) {
+            utils::Logger::error("AuthRateLimiter: exception in CS Redis increment for key '" + key
+                                 + "': " + ex.what() + "; falling back to in-process counter");
+            // cs_redis_ctx_ may be in an unknown state; invalidate it so the
+            // next call attempts a fresh reconnect.
+            if (cs_redis_ctx_) {
+                redisFree(cs_redis_ctx_);
+                cs_redis_ctx_ = nullptr;
+            }
+        } catch (...) {
+            utils::Logger::error("AuthRateLimiter: unknown exception in CS Redis increment for key '" + key
+                                 + "'; falling back to in-process counter");
+            if (cs_redis_ctx_) {
+                redisFree(cs_redis_ctx_);
+                cs_redis_ctx_ = nullptr;
+            }
         }
     }
 #endif
@@ -732,12 +758,15 @@ AuthRateLimiter::Statistics AuthRateLimiter::getStatistics() const {
 }
 
 void AuthRateLimiter::reset() {
-    {
-        std::unique_lock<std::shared_mutex> lock(stats_mutex_);
-        ip_rate_limiter_->reset();
-        user_rate_limiter_->reset();
-        lockout_manager_->reset();
-    }
+    // Reset sub-objects WITHOUT holding stats_mutex_ to avoid a lock-ordering
+    // violation: AccountLockoutManager::reset() acquires lockout_manager_->mutex_
+    // internally, and other hot paths (recordFailedAuth, allowAuthAttempt) acquire
+    // that same mutex WITHOUT stats_mutex_, so nesting them would invert the order
+    // and risk a deadlock.  stats_mutex_ guards only config_ and backend_; it does
+    // not need to span the sub-object resets.
+    ip_rate_limiter_->reset();
+    user_rate_limiter_->reset();
+    lockout_manager_->reset();
     {
         std::unique_lock<std::mutex> slock(stuffing_mutex_);
         stuffing_state_.clear();

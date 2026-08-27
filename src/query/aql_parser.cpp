@@ -133,6 +133,25 @@ void ParserScopeContext::clear() {
 #ifdef FALSE
 #undef FALSE
 #endif
+// [WAVE1-FIX: scope_mismatch:178] Some system or third-party headers define
+// PHRASE, NEAR, and SEARCH as preprocessor macros.  Undef them here before
+// the TokenType enum class so that the enum values are not silently replaced
+// by macro expansions.  Because TokenType is an enum class, the values are
+// already namespace-scoped; the undef guards provide an additional layer of
+// protection against macro collision in translation units that include
+// platform headers prior to this file.
+#ifdef PHRASE
+#undef PHRASE
+#endif
+#ifdef NEAR
+#undef NEAR
+#endif
+#ifdef SEARCH
+#undef SEARCH
+#endif
+#ifdef ANALYZER
+#undef ANALYZER
+#endif
 
 enum class TokenType {
     // Keywords
@@ -231,6 +250,13 @@ public:
     
 private:
     std::string input_;
+    // [WAVE1-FIX: scope_mismatch:234] pos_, line_, and column_ here are
+    // private members of the Tokenizer class.  The identical names in the
+    // Parser class (below) are also private members of a *separate* class;
+    // they do not shadow each other in C++ (different class scopes).  The
+    // scope_mismatch flag was a static-analysis heuristic false positive.
+    // Both sets of members are intentionally named identically for
+    // consistency between the two lexical-analysis states.
     size_t pos_;
     size_t line_;
     size_t column_;

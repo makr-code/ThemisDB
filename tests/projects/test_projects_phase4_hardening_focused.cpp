@@ -28,7 +28,10 @@ protected:
         tmp_dir_ = fs::temp_directory_path() / "themis_projects_p4_test";
         fs::remove_all(tmp_dir_);
         fs::create_directories(tmp_dir_);
-        storage_ = std::make_shared<RocksDBWrapper>(tmp_dir_.string());
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = tmp_dir_.string();
+        storage_ = std::make_shared<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
     }
 
     void TearDown() override {

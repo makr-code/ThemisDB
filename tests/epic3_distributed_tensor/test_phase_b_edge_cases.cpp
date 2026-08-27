@@ -561,4 +561,4 @@ TEST_F(PhaseBEdgeCaseTest, PBE24_IntegrationLargeDeltaPath) {
   EXPECT_EQ(decision, UpdateDecision::REBUILD);
 }
 
-}  // namespace themis::distributed_tensor
+

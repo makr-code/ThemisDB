@@ -89,7 +89,7 @@ TEST(FailoverExceptionSafety, EmitDiagnosticNoThrow) {
     EXPECT_NO_THROW(mgr.testEmitDiagnostic(
         FailoverErrorCode::SPLIT_BRAIN_DETECTED, "node-1", "unit test"));
     EXPECT_NO_THROW(mgr.testEmitDiagnostic(
-        FailoverErrorCode::FENCING_FAILED, "node-1", "unit test"));
+        FailoverErrorCode::INTERNAL_ERROR, "node-1", "unit test"));
 #else
     GTEST_SKIP() << "THEMIS_TEST_BUILD not set; skipping white-box diagnostic test";
 #endif

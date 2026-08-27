@@ -170,7 +170,7 @@ public:
     explicit VectorAutoBuffer(VectorIndexManager* vectorIndex, 
                               VectorAutoBufferConfig config = VectorAutoBufferConfig{});
     
-    ~VectorAutoBuffer();
+    ~VectorAutoBuffer() noexcept;
     
     // Non-copyable, non-movable (contains threads)
     VectorAutoBuffer(const VectorAutoBuffer&) = delete;

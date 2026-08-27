@@ -1,20 +1,22 @@
 # ThemisDB — Maturity Report 2026-08
 
-**Erstellt:** 2026-08-10
+**Erstellt:** 2026-08-10  
+**Zuletzt aktualisiert:** 2026-08-26
 **Version:** `2.4.0` (Repo-Metadaten) / `v2.4.0-rc1` (Audit-Evidence-Snapshot)
 **Branch:** `develop`  
 **Scope:** 67 produktive Source-Module in `src/` + Wave 1–9 Benchmarks + Security & Compliance + Governance  
 **Methodik:** Automatisierter Source-Scan (D1–D3) + Compliance-Dokumenten-Audit (D4) + Roadmap-Checkbox-Analyse (D5) + Operational-Evidence-Review (D6)  
-**Basis:** `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `IMPLEMENTATION_AUDIT_2026-08-08.md`, `../ROADMAP.md` (Stand 2026-08-09)
+**Basis:** `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `IMPLEMENTATION_AUDIT_2026-08-12.md`, `IMPLEMENTATION_AUDIT_2026-08-18.md`, `../ROADMAP.md`, `../docs/governance/GA_PROMOTION_SIGN_OFF.md`
 
 > **Archiv-Hinweis:** Verweise auf `v1.4.x` Audit-Templates/Evidence-Pakete in diesem Bericht sind historisch und nicht als Current-State-Quelle zu lesen; aktuelle Statusaussagen folgen `ROADMAP.md`, `CHANGELOG.md` und `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
-> **Wichtige Sync-Notiz (2026-08-10):**
+> **Wichtige Sync-Notiz (Stand 2026-08-26):**
 > - Das korrigierte Audit `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist die maßgebliche Quelle bei Abweichungen für `evaluation`, `execution`, CUDA-Geokernel und den `ai_snapshot_cleanup.h`-Compile-Befund.
-> - `src/execution/ROADMAP.md` existiert inzwischen; der frühere reine Governance-Gap ist damit geschlossen.
+> - `src/execution/ROADMAP.md` existiert; der frühere reine Governance-Gap ist geschlossen.
 > - `src/evaluation/AUDIT.md`, `tests/epic2_evaluation/` und `benchmarks/epic2_evaluation/` belegen produktive Source-, Test- und Benchmark-Surfaces; offen bleibt dort primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
-> - Source-Check 2026-08-12: `include/search/` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer in 20 Headern, diese sitzen jedoch in auto-generierten Gap-Summary-Kommentaren; die reale Search-Restarbeit bleibt die in `src/search/ROADMAP.md` geführte 4-Layer-Integration und Timeout-Härtung.
-> - Source-Check 2026-08-12: `include/security/ai_snapshot_cleanup.h` zeigt den korrigierten Konstruktor-Split (`AiSnapshotCleanupJob();` plus `explicit AiSnapshotCleanupJob(Config cfg);`); offen ist nur noch die Re-Validierung im Build-Lauf.
+> - Source-Check 2026-08-12: `include/search/` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer in 20 Headern, diese sitzen jedoch in auto-generierten Gap-Summary-Kommentaren; die reale Search-Restarbeit wird über Wave-A/B-Härtung geführt.
+> - Source-Check 2026-08-12: `include/security/ai_snapshot_cleanup.h` zeigt den korrigierten Konstruktor-Split (`AiSnapshotCleanupJob();` plus `explicit AiSnapshotCleanupJob(Config cfg);`); der Source-Befund ist geschlossen.
+> - `ROADMAP.md` führt den Gesamtstatus inzwischen bei **~78–82 %** (Wave-A-Critical-Closure + Folge-Updates), bei weiter **1 Governance-Blocker** (Section 9 Human Sign-Off).
 
 ---
 
@@ -22,13 +24,13 @@
 
 | Metrik | Wert | Trend | Anmerkung |
 |--------|------|-------|----------|
-| **Produktionsreife gesamt** | **~72 %** | ⟶ stabil | LOC-gewichtet, Basis 2026-08-08 |
-| **Core-Module (A.1–A.4)** | **~76 %** | ⟶ stabil | Server, Auth, Network, Process prodgrade |
-| **Optionale Module** | **~66 %** | ⟶ stabil | LLM, GPU, Tensor in aktiver Härtung |
+| **Produktionsreife gesamt** | **~78–82 %** | ⬆︎ verbessert | Re-Sync gegen Roadmap/Audit-Stand 2026-08-26 |
+| **Core-Module (A.1–A.4)** | **~82 %** | ⬆︎ verbessert | Server, Auth, Network, Process prodgrade |
+| **Optionale Module** | **~68–72 %** | ⬆︎ verbessert | LLM, GPU, Tensor mit fortgeschrittener Härtung |
 | **Private Plugins Wave-1** | **~55 %** | ⟶ stabil | Wave-1-Submodule commit-gepinnt; Governance-/CI-Gates bleiben offen |
 | **GA-Blocker (technisch)** | **0** | ✅ | Alle technischen Gates PASS |
 | **GA-Blocker (Governance)** | **1** | ⏳ | Menschliche Freigabe §9 ausstehend |
-| **Aktive Compile-Fehler** | **0 bestätigt im aktuellen Source** | ⚠️ | früherer `ai_snapshot_cleanup.h:63`-Befund source-seitig geschlossen; Header-Revalidierung PASS, vollständige Geo-/Security-Build-Revalidierung aktuell von `spdlog`/RocksDB-Dependencies blockiert |
+| **Aktive Compile-Fehler** | **0 bestätigt im aktuellen Source** | ✅ | früherer `ai_snapshot_cleanup.h:63`-Befund source-seitig geschlossen |
 | **Source-Code gesamt** | **~830 K LOC** | ⟶ | 67 Module, Messdatum 2026-08-09 |
 | **Test-Dateien aktiv** | **~1.000+** | ⟶ | 132 focused-Tests |
 | **Stub-Marker gesamt** | **~2.500** | ⟶ | Über 67 Module verteilt |
@@ -42,8 +44,8 @@
 | Rang | Risiko | Modul | Schwere | Status |
 |------|--------|-------|---------|--------|
 | 🔴 1 | Hybrid-Retrieval Thread-Safety (Issue #5468) | `query`, `gpu`, `sharding` | Hoch | In Härtung Q3 |
-| 🔴 2 | Build-Re-Validierung für source-seitig geschlossenen `ai_snapshot_cleanup.h`-Befund | `geo`, `security` | Mittel-Hoch | Fix im Header sichtbar, neuer Build-Nachweis offen |
-| 🟡 3 | 6 Module mit 0 automatisierten Tests | Mehrere | Mittel | Governance-Risiko |
+| 🟡 2 | Vollständige CI-/Hardware-Revalidierung der Wave-A-Schließungen noch unvollständig | `transaction`, `voice`, `gpu` | Mittel-Hoch | Fokusläufe/representative Hardware in Arbeit |
+| 🟡 3 | 5 Module mit 0 automatisierten Tests | Mehrere | Mittel | Governance-Risiko |
 | 🟡 4 | EU AI Act 65 % — Model Cards fehlen | `llm`, `rag`, `ethics_ai` | Mittel | Q4 2026 |
 | 🟡 5 | BSI C5 2026 — 5 Nachweislücken offen | Compliance | Mittel | Maßnahmen laufend |
 
@@ -169,7 +171,7 @@
 | `maintenance` | — | — | 🟡 70% | 6 | 🟡 | 2 | 🟢 | 🟡 **68%** |
 | `updates` | 11.378 | 42 | 🟢 80% | 6 | 🟡 | 5 | 🟢 | 🟢 **78%** |
 | `execution` | 450 | 0 | 🟢 75% | 4 | 🟡 | 1 | 🟡 | 🟢 **75%** |
-| `llm_wiki` | 844 | 0 | 🟡 55% | 0 | ⬛ | 0 | ⬛ | 🟡 **50%** |
+| `llm_wiki` | 844 | 0 | 🟡 65% | 11 | 🟡 | 0 | ⬛ | 🟡 **62%** |
 | `projects` | 1.699 | 14 | 🟡 65% | 3 | 🟡 | 1 | 🟡 | 🟡 **62%** |
 | `document` | 153 | 2 | ⬛ 25% | 5 | 🟡 | 3 | 🟢 | 🟡 **50%** |
 | `ai` | 1.133 | 2 | 🟡 60% | 2 | 🟡 | 1 | 🟡 | 🟡 **60%** |
@@ -194,12 +196,11 @@
 |-------|-----|---------|----------------|
 | `distributed_tensor` | 3.931 | EPIC 3 Contracts vorhanden, 0 Tests | 🔴 Hoch — kritischer Pfad |
 | `llama_cpp` | 2.196 | Integration mit llama.cpp-Submodul | 🟡 Mittel — extern getestet |
-| `llm_wiki` | 844 | Phase A JSON-Reader | 🟡 Mittel — Plugin-Tests separat |
 | `onnx_clip` | 644 | v0.2.0 prodgrade | 🟡 Mittel — extern validiert |
 | `stable_diffusion` | 1.445 | v2.2.0 Content-Policy aktiv | 🟡 Mittel — extern validiert |
 | `retrieval` | 781 | Placeholder | 🔴 Hoch — realer Status unklar |
 
-**Befund:** 6 Module ohne Tests — `evaluation` und `execution` gehören nach aktuellem Source-Stand nicht mehr in diese Liste. Governance-Risiko vor GA-Promotion bleibt für die verbleibenden testlosen Module bestehen.
+**Befund:** 5 Module ohne Tests — `evaluation`, `execution` und `llm_wiki` gehören nach aktuellem Source-Stand nicht mehr in diese Liste. Governance-Risiko vor GA-Promotion bleibt für die verbleibenden testlosen Module bestehen.
 
 ### 3.3 Stub-Hotspots (Top-15 nach Schweregrad)
 
@@ -526,15 +527,15 @@ Maturity % (LOC-gewichtet, schematisch)
      W1   W2   W3   W4   W5   W6   W7   W8   W9   →Q3→  →Q4→  →GA+
 
 Fokus-Cluster für Q3/Q4 2026:
-  ▶ query (70%) + gpu (62%) + distributed_tensor (58%) + evaluation (42%)
-  ▶ Ziel: Gesamt-Reife 78% bis Ende Q3 2026
+  ▶ query (70%) + gpu (65%) + distributed_tensor (58%) + evaluation (60%)
+  ▶ Ziel: Gesamt-Reife 82% bis Ende Q3 2026
 ```
 
 ### 9.1 Projektionspfad zu 85 % Gesamt-Reife
 
 | Zeitraum | Maßnahmen | Ziel-Reife |
 |----------|-----------|-----------|
-| **GA-Tag (heute)** | Technische Gates alle PASS | ~72 % |
+| **GA-Tag (heute)** | Technische Gates alle PASS, Governance-Sign-off offen | ~78–82 % |
 | **Q3 2026** | Hybrid-Retrieval, CUDA-Kernels, transaction-Härtung, distributed_tensor Phase 3–4 | ~78 % |
 | **Q4 2026** | Evaluation, EU AI Act, RAG-Härtung, ethics_ai-Tests | ~83 % |
 | **v2.5.0 Target** | Alle P1/P2 Maßnahmen abgeschlossen | **≥ 85 %** |
@@ -550,7 +551,7 @@ Fokus-Cluster für Q3/Q4 2026:
 | Gesamte Test-Dateien | ~1.000+ |
 | Gesamte Focused-Tests | 132 |
 | Wave-7/8/9 Hard-Gates PASS | 18/18 ✅ |
-| Module mit 0 Tests | 8 |
+| Module mit 0 Tests | 5 |
 | Module mit 0 Benchmarks | 7 |
 | Stub-Marker gesamt | ~2.500 |
 | ROADMAP Done-Rate | 65 % (2.279/3.515 Items) |
@@ -581,6 +582,6 @@ Fokus-Cluster für Q3/Q4 2026:
 
 ---
 
-*Report generiert / synchronisiert: 2026-08-10*
+*Report generiert / synchronisiert: 2026-08-26*
 *Methodik: Automatisierter Source-Scan + Dokumenten-Audit + Compliance-Review*  
 *Nächstes Review: Nach GA-Promotion oder Q4 2026 (was früher eintritt)*

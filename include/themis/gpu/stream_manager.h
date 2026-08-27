@@ -20,6 +20,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "gpu/cuda_raii.h"
 #include "themis/gpu/launcher.h"
 #include "themis/gpu/rocm_backend.h"
 
@@ -195,7 +196,7 @@ private:
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
-        uintptr_t                  cuda_stream      = 0;     ///< cudaStream_t handle; 0 when not created.
+        ::themis::gpu::CudaStreamGuard cuda_stream_guard;   ///< RAII CUDA stream ownership (CUDA builds); replaces former raw uintptr_t field.
         bool                       uses_rocm_stream = false; ///< true when a HIP stream was registered via ROCmBackend.
     };
 

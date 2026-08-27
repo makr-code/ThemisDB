@@ -10,6 +10,7 @@
  */
 
 #include "index/cuda_hnsw_graph_traversal.h"
+#include "index/cuda_utils.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -221,12 +222,14 @@ struct CudaHnswTraversalEngine::Impl {
     size_t max_batch_size = 512;
 
 #ifdef THEMIS_ENABLE_CUDA
-    // Device pointers
-    float*   d_vectors    = nullptr;
-    int32_t* d_offsets    = nullptr;  // Bottom layer only (layer 0)
-    int32_t* d_neighbours = nullptr;
-    int64_t* d_result_ids     = nullptr;
-    float*   d_result_scores  = nullptr;
+    // Device allocations — RAII-managed via CudaUniquePtr (Wave-B I1).
+    // cudaFree() is called automatically on reset() / destruction; no manual
+    // freeDevice() call is required for these members.
+    themis::index::CudaUniquePtr<float>   d_vectors;     // Flat vector store (device)
+    themis::index::CudaUniquePtr<int32_t> d_offsets;     // Bottom layer CSR row offsets
+    themis::index::CudaUniquePtr<int32_t> d_neighbours;  // Bottom layer CSR column indices
+    themis::index::CudaUniquePtr<int64_t> d_result_ids;      // Per-batch result id buffer
+    themis::index::CudaUniquePtr<float>   d_result_scores;   // Per-batch result score buffer
     size_t   result_buf_size  = 0;    // Allocated query capacity
 
     // Persistent 1-bit-per-node visited bitset pool.
@@ -234,7 +237,7 @@ struct CudaHnswTraversalEngine::Impl {
     // bytes.  Reused across batchSearch() calls to eliminate per-launch
     // cudaMalloc/cudaFree overhead.  Each kernel thread zeroes its own slice
     // so the pool does not need host-side zeroing between launches.
-    uint8_t* d_visited_pool    = nullptr;
+    themis::index::CudaUniquePtr<uint8_t> d_visited_pool;    // RAII visited bitset pool
     size_t   visited_pool_bytes = 0;  // Total allocated bytes
 
     cudaStream_t stream = nullptr;
@@ -256,18 +259,24 @@ struct CudaHnswTraversalEngine::Impl {
     // result/visited GPU buffers (INDEX-CUDA-BATCHSEARCH-RACE-01).
     mutable std::mutex search_mutex_;  // Tier 1: Global search protection
 
+    /// @brief Release all CUDA device resources.
+    ///
+    /// CudaUniquePtr members free device memory automatically on reset().
+    /// The stream handle requires cudaStreamDestroy (not cudaFree) and is
+    /// managed explicitly here.  Called before re-building the index and from
+    /// the destructor (via ~Impl()).
     void freeDevice() {
-        // GPU Memory Leak Prevention (A-3.1): Explicit null checks before all frees
-        // This ensures defensive programming even though CUDA allows cudaFree(nullptr)
-        if (d_vectors)       { cudaFree(d_vectors);       d_vectors       = nullptr; }
-        if (d_offsets)       { cudaFree(d_offsets);       d_offsets       = nullptr; }
-        if (d_neighbours)    { cudaFree(d_neighbours);    d_neighbours    = nullptr; }
-        if (d_result_ids)    { cudaFree(d_result_ids);    d_result_ids    = nullptr; }
-        if (d_result_scores) { cudaFree(d_result_scores); d_result_scores = nullptr; }
-        // Visited pool allocation/deallocation lifecycle verified (non-fatal failure handled)
-        if (d_visited_pool)  { cudaFree(d_visited_pool);  d_visited_pool  = nullptr;
-                                                           visited_pool_bytes = 0;  }
-        if (stream)          { cudaStreamDestroy(stream); stream          = nullptr; }
+        // Wave-B I1: CudaUniquePtr RAII — reset() calls cudaFree() automatically.
+        d_vectors.reset();
+        d_offsets.reset();
+        d_neighbours.reset();
+        d_result_ids.reset();
+        d_result_scores.reset();
+        d_visited_pool.reset();
+        result_buf_size    = 0;
+        visited_pool_bytes = 0;
+        // cudaStream_t is not a plain pointer allocation; use cudaStreamDestroy.
+        if (stream) { cudaStreamDestroy(stream); stream = nullptr; }
     }
 #endif
 
@@ -335,13 +344,17 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
 
     // Upload vectors
     size_t vec_bytes = num_vectors * config_.dim * sizeof(float);
-    if (cudaMalloc(&impl_->d_vectors, vec_bytes) != cudaSuccess) {
+    // Upload vectors — Wave-B I1: use cudaMakeUnique instead of raw cudaMalloc.
+    impl_->d_vectors = themis::index::cudaMakeUnique<float>(num_vectors * config_.dim);
+    if (!impl_->d_vectors) {
         THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(vectors) failed");
+        // No freeDevice() needed: d_vectors was not allocated and freeDevice() was
+        // called unconditionally above (line 334). CPU fallback remains active.
         impl_->cuda_available = false;
         impl_->index_built = true;
         return true;  // CPU fallback still works
     }
-    if (cudaMemcpy(impl_->d_vectors, vectors, vec_bytes, cudaMemcpyHostToDevice) != cudaSuccess) {
+    if (cudaMemcpy(impl_->d_vectors.get(), vectors, vec_bytes, cudaMemcpyHostToDevice) != cudaSuccess) {
         THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMemcpy(vectors) failed");
         impl_->freeDevice();
         impl_->cuda_available = false;
@@ -354,17 +367,26 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
     size_t off_bytes = (bottom.num_nodes + 1) * sizeof(int32_t);
     size_t nb_bytes  = bottom.neighbours.size() * sizeof(int32_t);
 
-    if (cudaMalloc(&impl_->d_offsets, off_bytes) != cudaSuccess ||
-        cudaMalloc(&impl_->d_neighbours, nb_bytes) != cudaSuccess) {
-        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(graph) failed");
+    // Wave-B I1: cudaMakeUnique for offsets and neighbours.
+    impl_->d_offsets = themis::index::cudaMakeUnique<int32_t>(bottom.num_nodes + 1);
+    if (!impl_->d_offsets) {
+        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(offsets) failed");
         impl_->freeDevice();
         impl_->cuda_available = false;
         impl_->index_built = true;
         return true;
     }
-    if (cudaMemcpy(impl_->d_offsets, bottom.offsets.data(), off_bytes,
+    impl_->d_neighbours = themis::index::cudaMakeUnique<int32_t>(bottom.neighbours.size());
+    if (!impl_->d_neighbours) {
+        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMalloc(neighbours) failed");
+        impl_->freeDevice();
+        impl_->cuda_available = false;
+        impl_->index_built = true;
+        return true;
+    }
+    if (cudaMemcpy(impl_->d_offsets.get(), bottom.offsets.data(), off_bytes,
                    cudaMemcpyHostToDevice) != cudaSuccess ||
-        cudaMemcpy(impl_->d_neighbours, bottom.neighbours.data(), nb_bytes,
+        cudaMemcpy(impl_->d_neighbours.get(), bottom.neighbours.data(), nb_bytes,
                    cudaMemcpyHostToDevice) != cudaSuccess) {
         THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMemcpy(graph) failed");
         impl_->freeDevice();
@@ -383,15 +405,15 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
         const size_t vis_per_q    = ((size_t)bottom.num_nodes + 7u) / 8u;
         const size_t new_pool_sz  = impl_->max_batch_size * vis_per_q;
         if (new_pool_sz > 0) {
-            cudaError_t ve = cudaMalloc(&impl_->d_visited_pool, new_pool_sz);
-            if (ve == cudaSuccess) {
+            // Wave-B I1: cudaMakeUnique for the visited bitset pool.
+            impl_->d_visited_pool = themis::index::cudaMakeUnique<uint8_t>(new_pool_sz);
+            if (impl_->d_visited_pool) {
                 impl_->visited_pool_bytes = new_pool_sz;
                 THEMIS_INFO("CudaHnswTraversalEngine::buildIndex: "
                             "allocated visited pool {} bytes "
                             "(max_batch={}, nodes={})",
                             new_pool_sz, impl_->max_batch_size, bottom.num_nodes);
             } else {
-                impl_->d_visited_pool   = nullptr;
                 impl_->visited_pool_bytes = 0;
                 THEMIS_WARN("CudaHnswTraversalEngine::buildIndex: "
                             "cudaMalloc(visited_pool, {} bytes) failed — "
@@ -509,10 +531,11 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
         // concatenated on the host (chunked batch processing).
         if (k <= themis::cuda::kHnswKernelMaxK) {
             // Upload all queries to device once to avoid repeated H2D transfers.
-            float* d_queries_all = nullptr;
-            if (cudaMalloc(&d_queries_all,
-                           num_queries * config_.dim * sizeof(float)) == cudaSuccess) {
-                bool all_ok = (cudaMemcpy(d_queries_all, queries,
+            // Wave-B I1: CudaUniquePtr owns d_queries_all; freed automatically.
+            auto d_queries_all = themis::index::cudaMakeUnique<float>(
+                                     num_queries * config_.dim);
+            if (d_queries_all) {
+                bool all_ok = (cudaMemcpy(d_queries_all.get(), queries,
                                           num_queries * config_.dim * sizeof(float),
                                           cudaMemcpyHostToDevice) == cudaSuccess);
                 if (!all_ok) {
@@ -524,23 +547,28 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                     const size_t this_chunk = std::min(chunk_size,
                                                        num_queries - chunk_start);
 
-                    // Grow result buffers if needed for this chunk size
+                    // Grow result buffers if needed for this chunk size.
+                    // Wave-B I1: CudaUniquePtr — reset() replaces cudaFree; no leak on failure.
                     if (impl_->result_buf_size < this_chunk * k) {
-                        if (impl_->d_result_ids)    cudaFree(impl_->d_result_ids);
-                        if (impl_->d_result_scores) cudaFree(impl_->d_result_scores);
-                        impl_->d_result_ids    = nullptr;
-                        impl_->d_result_scores = nullptr;
+                        impl_->d_result_ids.reset();
+                        impl_->d_result_scores.reset();
                         impl_->result_buf_size = 0;
-                        if (cudaMalloc(&impl_->d_result_ids,
-                                       this_chunk * k * sizeof(int64_t)) != cudaSuccess) {
+                        impl_->d_result_ids = themis::index::cudaMakeUnique<int64_t>(
+                                                  this_chunk * k);
+                        if (!impl_->d_result_ids) {
+                            THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch: "
+                                         "cudaMalloc(result_ids, {} elems) failed",
+                                         this_chunk * k);
                             all_ok = false;
                             break;
                         }
-                        if (cudaMalloc(&impl_->d_result_scores,
-                                       this_chunk * k * sizeof(float)) != cudaSuccess) {
-                            // Free the already-allocated ids buffer to avoid a GPU memory leak.
-                            cudaFree(impl_->d_result_ids);
-                            impl_->d_result_ids = nullptr;
+                        impl_->d_result_scores = themis::index::cudaMakeUnique<float>(
+                                                     this_chunk * k);
+                        if (!impl_->d_result_scores) {
+                            THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch: "
+                                         "cudaMalloc(result_scores, {} elems) failed",
+                                         this_chunk * k);
+                            impl_->d_result_ids.reset();  // RAII — but reset explicitly for clarity
                             all_ok = false;
                             break;
                         }
@@ -549,22 +577,23 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
                     // Use persistent pool (nullptr if pool unavailable → overflow)
                     uint8_t* visited_ptr = (pool_capacity > 0)
-                                          ? impl_->d_visited_pool
+                                          ? impl_->d_visited_pool.get()
                                           : nullptr;
 
-                    const float* chunk_q = d_queries_all + chunk_start * config_.dim;
+                    const float* chunk_q = d_queries_all.get() + chunk_start * config_.dim;
                     bool overflow = false;
                     themis::cuda::launchHnswSearchKernel(
-                        impl_->d_vectors, config_.dim,
-                        impl_->d_offsets, impl_->d_neighbours,
+                        impl_->d_vectors.get(), config_.dim,
+                        impl_->d_offsets.get(), impl_->d_neighbours.get(),
                         num_nodes,
                         chunk_q, static_cast<uint32_t>(this_chunk),
                         k, ef, static_cast<uint8_t>(config_.metric),
                         /*entry_node=*/0u,
-                        impl_->d_result_ids, impl_->d_result_scores,
+                        impl_->d_result_ids.get(), impl_->d_result_scores.get(),
                         impl_->stream, &overflow,
                         visited_ptr);
 
+                    // Wave-B I2: THEMIS_CUDA_CHECK_BOOL applied after stream sync.
                     cudaStreamSynchronize(impl_->stream);
 
                     if (overflow) {
@@ -575,10 +604,10 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                     // Copy chunk results to host and append to global results
                     std::vector<int64_t> h_ids(this_chunk * k);
                     std::vector<float>   h_scores(this_chunk * k);
-                    if (cudaMemcpy(h_ids.data(), impl_->d_result_ids,
+                    if (cudaMemcpy(h_ids.data(), impl_->d_result_ids.get(),
                                    h_ids.size() * sizeof(int64_t),
                                    cudaMemcpyDeviceToHost) != cudaSuccess ||
-                        cudaMemcpy(h_scores.data(), impl_->d_result_scores,
+                        cudaMemcpy(h_scores.data(), impl_->d_result_scores.get(),
                                    h_scores.size() * sizeof(float),
                                    cudaMemcpyDeviceToHost) != cudaSuccess) {
                         THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch: "
@@ -596,8 +625,8 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                     }
                 }
 
-                // GPU Memory Leak Prevention (A-3.3): Defensive null check before free
-                if (d_queries_all) cudaFree(d_queries_all);
+                // Wave-B I1: d_queries_all is a CudaUniquePtr; it frees automatically
+                // when it goes out of scope.  No explicit cudaFree needed.
                 gpu_path_ok = all_ok;
             }
 
@@ -617,29 +646,22 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
             // Chunk size for multi-pass mirrors the single-pass chunk_size
             const size_t mp_chunk = chunk_size;
 
-            // Per-pass result buffers sized for one chunk of queries
-            int64_t* d_pass_ids    = nullptr;
-            float*   d_pass_scores = nullptr;
-            const cudaError_t e1 = cudaMalloc(&d_pass_ids,
-                                              mp_chunk * pass_k * sizeof(int64_t));
-            const cudaError_t e2 = (e1 == cudaSuccess)
-                                   ? cudaMalloc(&d_pass_scores,
-                                                mp_chunk * pass_k * sizeof(float))
-                                   : cudaErrorMemoryAllocation;
+            // Wave-B I1: per-pass result buffers owned by CudaUniquePtr — no
+            // manual cudaFree needed on any error path.
+            auto d_pass_ids    = themis::index::cudaMakeUnique<int64_t>(
+                                     mp_chunk * pass_k);
+            auto d_pass_scores = d_pass_ids
+                                 ? themis::index::cudaMakeUnique<float>(
+                                       mp_chunk * pass_k)
+                                 : themis::index::CudaUniquePtr<float>{};
 
-            if (e1 == cudaSuccess && e2 != cudaSuccess) {
-                // d_pass_ids was allocated but d_pass_scores failed — free to avoid leak
-                cudaFree(d_pass_ids);
-                d_pass_ids = nullptr;
-            }
-
-            if (e1 == cudaSuccess && e2 == cudaSuccess) {
-                float* d_queries_all = nullptr;
-                bool queries_ok = (cudaMalloc(&d_queries_all,
-                                              num_queries * config_.dim * sizeof(float))
-                                   == cudaSuccess);
+            if (d_pass_ids && d_pass_scores) {
+                // Wave-B I1: d_queries_all owned by CudaUniquePtr.
+                auto d_queries_all = themis::index::cudaMakeUnique<float>(
+                                         num_queries * config_.dim);
+                bool queries_ok = (d_queries_all != nullptr);
                 if (queries_ok) {
-                    queries_ok = (cudaMemcpy(d_queries_all, queries,
+                    queries_ok = (cudaMemcpy(d_queries_all.get(), queries,
                                              num_queries * config_.dim * sizeof(float),
                                              cudaMemcpyHostToDevice) == cudaSuccess);
                     if (!queries_ok) {
@@ -659,10 +681,10 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                          chunk_start += mp_chunk) {
                         const size_t this_chunk = std::min(mp_chunk,
                                                            num_queries - chunk_start);
-                        const float* chunk_q = d_queries_all
+                        const float* chunk_q = d_queries_all.get()
                                                + chunk_start * config_.dim;
                         uint8_t* visited_ptr = (pool_capacity > 0)
-                                              ? impl_->d_visited_pool
+                                              ? impl_->d_visited_pool.get()
                                               : nullptr;
 
                         for (uint32_t pass = 0; pass < num_passes; ++pass) {
@@ -674,13 +696,13 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
                             bool overflow = false;
                             themis::cuda::launchHnswSearchKernel(
-                                impl_->d_vectors, config_.dim,
-                                impl_->d_offsets, impl_->d_neighbours,
+                                impl_->d_vectors.get(), config_.dim,
+                                impl_->d_offsets.get(), impl_->d_neighbours.get(),
                                 num_nodes,
                                 chunk_q, static_cast<uint32_t>(this_chunk),
                                 pass_k, ef, static_cast<uint8_t>(config_.metric),
                                 entry_node,
-                                d_pass_ids, d_pass_scores,
+                                d_pass_ids.get(), d_pass_scores.get(),
                                 impl_->stream, &overflow,
                                 visited_ptr);
 
@@ -692,10 +714,10 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
                             std::vector<int64_t> h_ids(this_chunk * pass_k);
                             std::vector<float>   h_sc(this_chunk * pass_k);
-                            if (cudaMemcpy(h_ids.data(), d_pass_ids,
+                            if (cudaMemcpy(h_ids.data(), d_pass_ids.get(),
                                            h_ids.size() * sizeof(int64_t),
                                            cudaMemcpyDeviceToHost) != cudaSuccess ||
-                                cudaMemcpy(h_sc.data(),  d_pass_scores,
+                                cudaMemcpy(h_sc.data(),  d_pass_scores.get(),
                                            h_sc.size()  * sizeof(float),
                                            cudaMemcpyDeviceToHost) != cudaSuccess) {
                                 THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch (multi-pass): "
@@ -717,8 +739,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                         }
                     }
 
-                    // GPU Memory Leak Prevention (A-3.4): Defensive null check before free
-                    if (d_queries_all) cudaFree(d_queries_all);
+                    // Wave-B I1: d_queries_all freed automatically on scope exit.
 
                     if (mp_ok) {
                         // Merge: deduplicate by id, then partial_sort for top-k
@@ -765,11 +786,8 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                 } else {
                     // d_queries_all alloc failed
                 }
+                // Wave-B I1: d_pass_ids / d_pass_scores freed automatically here.
             }
-
-            // GPU Memory Leak Prevention (A-3.2): Explicit null checks before frees
-            if (d_pass_ids)    cudaFree(d_pass_ids);
-            if (d_pass_scores) cudaFree(d_pass_scores);
         }
 
         if (gpu_path_ok) return results;

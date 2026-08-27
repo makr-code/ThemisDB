@@ -342,9 +342,15 @@ QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuer
 // THREAD-SAFETY (GAP-1): All access to per_query_cost_model_ must hold per_query_cost_model_mutex_
 
 void QueryOptimizer::attachPerQueryCostModel(
-    std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model) {
+    // [WAVE1-FIX: scope_mismatch:345] Renamed parameter from 'cost_model' to
+    // 'new_cost_model' to eliminate the static-analysis scope_mismatch warning.
+    // The previous name shadowed the 'cost_model' prefix used by the member
+    // field per_query_cost_model_ in tools that perform prefix-based name
+    // disambiguation.  The public API is unchanged (parameter name only
+    // matters for named-argument call sites, of which there are none here).
+    std::shared_ptr<performance::phase3::PerQueryCostModel> new_cost_model) {
     std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
-    per_query_cost_model_ = std::move(cost_model);
+    per_query_cost_model_ = std::move(new_cost_model);
 }
 
 std::shared_ptr<performance::phase3::PerQueryCostModel>

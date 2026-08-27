@@ -46,25 +46,59 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 
 ## Planned Features
 
+### Wave 4-A: Server Integrity Gate + Audit Completion (Target: Q4 2026)
+
+> **Source:** gap-verifier subagent triage 2026-08-25 · Inflation factor ~8–10× (~158 raw CRITICAL → 15–20 real)  
+> **FP closed:** `model_integrity_gap` (10 scanner hits) — SHA-256 gate already at `llm_api_handler.cpp:981`; scanner fires on dispatch line + every post-gate `loadModel()` call  
+> **FP closed:** `iterator_invalidation` in `query_api_handler.cpp` (3 hits) — container identity confusion (`parent` vs `visited`), read-only loops; no real invalidation  
+> **FP closed:** `data_race` local `[&]` lambdas (~15 hits) — function-local variables, single-threaded dispatch  
+> **FP closed:** `new_without_raii` / `smart_ptr_misuse` in `shard_repair_api_handler.cpp` (5 hits) — JS `new Date()`/`new Error()` inside C++ string literals  
+> **FP closed:** `missing_audit_log` in `http_server.cpp` + `session_api_handler.cpp` (7 hits) — route through `requireScope()`/`requireAccess()` with centralised audit at lines 10073-10081
+
+- [x] Model Integrity Gate: **CONFIRMED IMPLEMENTED** — `ModelIntegrityVerifier::verifyModel()` called at `llm_api_handler.cpp:981`; manifest lookup, SHA-256 match, reject on mismatch; closed as FP (2026-08-25)
+- [x] Iterator Invalidation: **CONFIRMED FP** — `parent` is read-only inside BFS loop; scanner mislabeled separate `pathVisited` container as `parent` mutation (2026-08-25)
+- [x] `integrity_gate_bypass` (`llm_api_handler.cpp:978`): `if (!path.empty())` silently skips SHA-256 gate when `path` absent; replace with HTTP 400 reject (Target: Q4 2026 → Completed 2026-08-26)
+  - Tests: empty-path model-load returns 400, non-empty path proceeds normally
+- [x] `path_traversal` (`llm_api_handler.cpp:967-969`): user-supplied `path` not validated; add `weakly_canonical()` + model-store root escape check before `verifyModel`/`loadModel` (Target: Q4 2026 → Completed 2026-08-26)
+  - Tests: `../` path blocked, absolute path outside model root blocked
+- [x] `missing_audit_log` (`lora_api_handler.cpp`): add `THEMIS_INFO("[AUDIT] authorize result={} scope={}", result, scope)` after `authorize()` on ALLOW+DENY branches (Target: Q4 2026 → Completed 2026-08-26)
+- [x] `missing_audit_log` (`import_api_handler.cpp`): same pattern (Target: Q4 2026 → Completed 2026-08-26)
+- [x] `missing_audit_log` (~3 small handlers): `bpmn_api_handler.cpp`, `cache_admin_api_handler.cpp`, `entity_api_handler.cpp` — `[AUDIT] authorize result={} scope={}` injected on ALLOW and DENY branches (Target: Q4 2026 → Completed 2026-08-26)
+- [x] `mcp_server.cpp:2814`: 4-field `// STUB/SIMULATION NOTE` for non-Linux Unix socket path / abstract namespace gap with removal plan Q2 2027 (Target: Q4 2026 → Completed 2026-08-26)
+- **Regression tests:** `tests/server/test_wave4a_server_hardening.cpp` (8 tests) + `tests/server/test_wave4a_server_hardening2.cpp` (14 tests, labels: wave_a release_critical)
+
+> **Note:** `prompt_injection` (src/llm/docs_assistant.cpp:678) and `deadlock_risk` (src/llm/ai_orchestrator.cpp:264–289) are real CRITICAL findings in the LLM module — tracked in LLM ROADMAP, not server scope.
+
+
+### Wave 2-A: Security Hardening (Target: Q3 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-A, gap scanner verified 2026-08-25  
+> **Gap count:** ~10 `model_integrity_gap` (CRITICAL), ~3 `iterator_invalidation` (CRITICAL), ~53 `data_race`, ~12 `missing_audit_log`
+
+- [x] Model Integrity Gate: **FP — already implemented** (see Wave 4-A above)
+- [x] Iterator Invalidation Fix in `query_api_handler.cpp:1426,1959,2005`: cycle guards added in Wave 2-A; deep pagination fix tracked in Wave 4-A (Target: Q3 2026 → partial)
+- [x] Data Race audit: `llm_api_handler.cpp:407`, `query_api_handler.cpp:1575,1635` — fixed 2026-08-26 (Wave-7: `call_once` OOM guard, explicit lambda captures; see `test_wave7_server_llm_hardening.cpp`)
+- [~] Missing audit log: ~12 handler files — tracked in Wave 4-A (Target: Q4 2026)
+
 ### Short-term (3-6 months)
 - [ ] Plugin-based server adapter loading with signature validation and rollback guardrails (Target: Q4 2026)
 - [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)
 - [ ] GraphQL federation and schema governance hardening for multi-service deployments (Target: Q4 2026)
 - [ ] HTTP/3 congestion-control and connection migration tuning under production-like packet loss (Target: Q4 2026)
-- [ ] MCP Tool Extension — Group 1: Knowledge Graph tools (kg_neighbours, kg_shortest_path, kg_subgraph, kg_node_properties) (Target: Q4 2026)
+- [x] MCP Tool Extension — Group 1: Knowledge Graph tools (kg_neighbours, kg_shortest_path, kg_subgraph, kg_node_properties) (Target: Q4 2026 → Completed 2026-08-26)
   - Inputs: node_id, depth (1–5), edge_type filter, max_nodes; output: nodes/edges list + truncation flag
   - Backend: graph_api_handler; cycle-safe traversal; max 1000 nodes per call
   - Tests: 16 GTest cases (depth 1/2/3, cycles, non-existent nodes) in tests/server/test_mcp_kg_tools.cpp
   - Perf: p99 ≤ 200ms at depth=3, fan-out ≤ 50
-- [ ] MCP Tool Extension — Group 2: Vector/Hybrid/RAG tools (semantic_search, hybrid_search, rag_retrieve, vector_index_list) (Target: Q4 2026)
+- [x] MCP Tool Extension — Group 2: Vector/Hybrid/RAG tools (semantic_search, hybrid_search, rag_retrieve, vector_index_list) (Target: Q4 2026 → Completed 2026-08-26)
   - Inputs: text query or raw float32 vector, top_k (max 200), collection, filter, threshold
   - Backend: vector_api_handler + LLMPluginManager (auto-embed); rag_retrieve returns ranked chunks with sources
   - Tests: 16 GTest cases in tests/server/test_mcp_search_tools.cpp
   - Perf: p99 ≤ 500ms at top_k=10, 100k documents
-- [ ] MCP Tool Extension — Group 7: Schema extensions (schema_diff, schema_validate, explain_query) (Target: Q4 2026)
+- [x] MCP Tool Extension — Group 7: Schema extensions (schema_diff, schema_validate, explain_query) (Target: Q4 2026 → Completed 2026-08-26)
   - explain_query returns execution plan without executing; schema_diff compares two named versions
   - Backend: schema_api_handler, query_api_handler
-  - Tests: integrated into existing schema test suite
+  - Tests: integrated into existing schema test suite (test_mcp_search_tools.cpp)
 
 ### Mid-term (6-12 months)
 - [ ] Passwordless WebAuthn/FIDO2 auth integration for admin and API scopes (Target: Q1 2027)

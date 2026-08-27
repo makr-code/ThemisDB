@@ -24,7 +24,8 @@ class GeospatialPhase2Integration : public ::testing::Test {
 protected:
     SpatialHistogram globalHistogram;
     std::map<std::string, IndexStatistics> availableIndexes;
-    
+    std::map<std::string, std::string> availableIndexTypes;
+
     void SetUp() override {
         // Build global histogram
         std::vector<std::pair<double, double>> points;
@@ -48,7 +49,8 @@ protected:
         rtree.averageHitRate = 0.85;
         rtree.maintenanceOverhead = 0.05;
         availableIndexes["idx_location_rtree"] = rtree;
-        
+        availableIndexTypes["idx_location_rtree"] = "RTREE";
+
         IndexStatistics grid;
         grid.indexName = "idx_location_grid";
         grid.type = SpatialIndexType::GRID;
@@ -56,6 +58,7 @@ protected:
         grid.averageHitRate = 0.80;
         grid.maintenanceOverhead = 0.03;
         availableIndexes["idx_location_grid"] = grid;
+        availableIndexTypes["idx_location_grid"] = "GRID";
     }
 };
 
@@ -71,7 +74,7 @@ TEST_F(GeospatialPhase2Integration, INT_GEO_01_DistanceWithHint) {
     EXPECT_TRUE(hint.isValid());
     
     // 2. Validate hint
-    bool valid = SpatialHintParser::validateHint(hint, availableIndexes);
+    bool valid = SpatialHintParser::validateHint(hint, availableIndexTypes);
     EXPECT_TRUE(valid);
     
     // 3. Apply hint to plan
@@ -166,7 +169,7 @@ TEST_F(GeospatialPhase2Integration, INT_GEO_04_HintOverrideSelection) {
     EXPECT_TRUE(hint.isValid());
     
     // Validate hint
-    bool valid = SpatialHintParser::validateHint(hint, availableIndexes);
+    bool valid = SpatialHintParser::validateHint(hint, availableIndexTypes);
     EXPECT_TRUE(valid);
     
     // Create hint context
@@ -334,7 +337,7 @@ TEST_F(GeospatialPhase2Integration, INT_GEO_10_E2EOptimizationPipeline) {
     // Step 1-2: Parse and validate hint
     auto hint = SpatialHintParser::parseHint("INDEX_PRIORITY(doc.location, 1.5)");
     EXPECT_TRUE(hint.isValid());
-    EXPECT_TRUE(SpatialHintParser::validateHint(hint, availableIndexes));
+    EXPECT_TRUE(SpatialHintParser::validateHint(hint, availableIndexTypes));
     
     // Step 3: Infer distribution
     auto distribution = GeospatialIndexSelector::inferDistribution(globalHistogram);

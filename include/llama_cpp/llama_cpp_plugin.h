@@ -57,6 +57,9 @@ public:
     LlamaCppPlugin();
     ~LlamaCppPlugin() override;
 
+    LlamaCppPlugin(LlamaCppPlugin&&) noexcept = default;
+    LlamaCppPlugin& operator=(LlamaCppPlugin&&) noexcept = default;
+
     // ── ILLMPlugin ────────────────────────────────────────────────────────
     bool loadModel(const std::string& model_path, const json& config) override;
     void unloadModel() override;

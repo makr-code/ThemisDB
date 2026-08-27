@@ -12,23 +12,29 @@ set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
 
 set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_artifact_classes.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/artifact_manifest.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/artifact_manifest.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/shard_placement.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/recovery_manager.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/distributed_planner.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_training_coordinator.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_infrastructure.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_delta_log.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/manifest_store.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/crash_recovery_checkpoint.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_storage_strategy.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/snapshot_update_worker.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/shard_summary_coordinator.cc
 )
 
 add_library(themis_distributed_tensor STATIC ${DISTRIBUTED_TENSOR_SOURCES})
 target_include_directories(themis_distributed_tensor
     PUBLIC
         ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}
 )
 
 target_link_libraries(themis_distributed_tensor

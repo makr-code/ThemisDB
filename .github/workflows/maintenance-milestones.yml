@@ -1,0 +1,318 @@
+name: "Maintenance: Milestone Sync & Assignment"
+
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+#
+# Purpose:
+# 1) Keep canonical milestones in sync from .github/milestones.yml
+# 2) Auto-assign milestones to issues/PRs based on labels, with Target Version override
+#
+# Notes:
+# - Uses only repository-side config and GitHub API calls.
+# - Supports hot-patch and long-term lanes via assignment rules.
+
+on:
+  schedule:
+    - cron: '15 5 * * 1'
+  push:
+    branches: [develop]
+    paths:
+      - '.github/milestones.yml'
+      - '.github/workflows/maintenance-milestones.yml'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run only (no writes)'
+        required: false
+        default: false
+        type: boolean
+  pull_request_target:
+    types: [opened, synchronize, labeled, unlabeled, reopened, ready_for_review, edited]
+  issues:
+    types: [opened, labeled, unlabeled, reopened, edited]
+
+concurrency:
+  group: maintenance-milestones
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  sync-milestones:
+    name: Sync milestones from .github/milestones.yml
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Install js-yaml
+        run: npm install js-yaml@4
+
+      - name: Reconcile milestones
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const yaml = require('js-yaml');
+
+            const raw = fs.readFileSync('.github/milestones.yml', 'utf8');
+            const cfg = yaml.load(raw);
+            const milestones = Array.isArray(cfg?.milestones) ? cfg.milestones : [];
+            const dryRun = String('${{ inputs.dry_run || false }}').toLowerCase() === 'true';
+
+            if (milestones.length === 0) {
+              core.setFailed('No milestones defined in .github/milestones.yml');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const fetchAll = async (state) => {
+              const out = [];
+              let page = 1;
+              while (true) {
+                const { data } = await github.rest.issues.listMilestones({
+                  owner,
+                  repo,
+                  state,
+                  per_page: 100,
+                  page,
+                });
+                out.push(...data);
+                if (data.length < 100) break;
+                page += 1;
+              }
+              return out;
+            };
+
+            const existing = [...await fetchAll('open'), ...await fetchAll('closed')];
+            const byTitle = new Map(existing.map((m) => [m.title, m]));
+
+            let created = 0;
+            let updated = 0;
+            let unchanged = 0;
+            let errors = 0;
+
+            for (const def of milestones) {
+              const title = String(def?.title || '').trim();
+              if (!title) {
+                core.warning('Skipping milestone without title');
+                continue;
+              }
+
+              const desiredState = (String(def?.state || 'open').toLowerCase() === 'closed') ? 'closed' : 'open';
+              const desiredDesc = String(def?.description || '');
+              const desiredDue = def?.due_on ? new Date(def.due_on).toISOString() : null;
+
+              const found = byTitle.get(title);
+
+              try {
+                if (!found) {
+                  if (dryRun) {
+                    core.info(`[dry-run] create milestone: ${title}`);
+                  } else {
+                    await github.rest.issues.createMilestone({
+                      owner,
+                      repo,
+                      title,
+                      state: desiredState,
+                      description: desiredDesc,
+                      due_on: desiredDue,
+                    });
+                  }
+                  created += 1;
+                  continue;
+                }
+
+                const currentDue = found.due_on ? new Date(found.due_on).toISOString() : null;
+                const needsUpdate =
+                  found.state !== desiredState ||
+                  (found.description || '') !== desiredDesc ||
+                  currentDue !== desiredDue;
+
+                if (!needsUpdate) {
+                  unchanged += 1;
+                  continue;
+                }
+
+                if (dryRun) {
+                  core.info(`[dry-run] update milestone: ${title}`);
+                } else {
+                  await github.rest.issues.updateMilestone({
+                    owner,
+                    repo,
+                    milestone_number: found.number,
+                    state: desiredState,
+                    title,
+                    description: desiredDesc,
+                    due_on: desiredDue,
+                  });
+                }
+                updated += 1;
+              } catch (err) {
+                errors += 1;
+                core.error(`Failed milestone ${title}: ${err.message}`);
+              }
+            }
+
+            const summary = `Milestone sync complete: ${created} created, ${updated} updated, ${unchanged} unchanged, ${errors} errors`;
+            if (errors > 0) {
+              core.setFailed(summary);
+            } else {
+              core.notice(summary);
+            }
+
+            await core.summary
+              .addHeading('Milestone Sync Results')
+              .addTable([
+                [{ data: 'Action', header: true }, { data: 'Count', header: true }],
+                ['Created', String(created)],
+                ['Updated', String(updated)],
+                ['Unchanged', String(unchanged)],
+                ['Errors', String(errors)],
+              ])
+              .write();
+
+  assign-milestone:
+    name: Assign milestone by labels/Target Version
+    runs-on: ubuntu-latest
+    needs: [sync-milestones]
+    if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Install js-yaml
+        run: npm install js-yaml@4
+
+      - name: Resolve and assign milestone
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const yaml = require('js-yaml');
+
+            const raw = fs.readFileSync('.github/milestones.yml', 'utf8');
+            const cfg = yaml.load(raw) || {};
+            const settings = cfg.settings || {};
+            const rules = Array.isArray(cfg.assignment_rules) ? cfg.assignment_rules : [];
+
+            const dryRun = String('${{ inputs.dry_run || false }}').toLowerCase() === 'true';
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const issue = context.payload.issue || context.payload.pull_request;
+            if (!issue) {
+              core.info('No issue/pull_request payload. Skipping.');
+              return;
+            }
+
+            if (context.eventName === 'pull_request_target' && issue.draft) {
+              core.info('Draft PR: skipping milestone assignment.');
+              return;
+            }
+
+            const issueNumber = issue.number;
+            const labels = (issue.labels || []).map((l) => String(l?.name || l || '').trim().toLowerCase()).filter(Boolean);
+
+            const fetchMilestones = async () => {
+              const all = [];
+              for (const state of ['open', 'closed']) {
+                let page = 1;
+                while (true) {
+                  const { data } = await github.rest.issues.listMilestones({
+                    owner,
+                    repo,
+                    state,
+                    per_page: 100,
+                    page,
+                  });
+                  all.push(...data);
+                  if (data.length < 100) break;
+                  page += 1;
+                }
+              }
+              return all;
+            };
+
+            const allMilestones = await fetchMilestones();
+            const byTitle = new Map(allMilestones.map((m) => [m.title, m]));
+
+            let selected = '';
+
+            const allowTargetVersionOverride = Boolean(settings.allow_target_version_override);
+            if (allowTargetVersionOverride && context.eventName === 'pull_request_target') {
+              const body = String(issue.body || '');
+              const m = body.match(/^\*\*Target Version:\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$/m);
+              const tv = (m?.[1] || m?.[2] || '').trim();
+              if (tv) {
+                selected = tv;
+                core.info(`Milestone selected from Target Version: ${selected}`);
+              }
+            }
+
+            if (!selected) {
+              for (const rule of rules) {
+                const any = Array.isArray(rule.labels_any) ? rule.labels_any.map((v) => String(v).toLowerCase()) : [];
+                if (any.some((tag) => labels.includes(tag))) {
+                  selected = String(rule.milestone || '').trim();
+                  core.info(`Milestone selected by rule '${rule.name || 'unnamed'}': ${selected}`);
+                  break;
+                }
+              }
+            }
+
+            if (!selected) {
+              selected = String(settings.default_milestone || '').trim();
+              if (selected) {
+                core.info(`No rule matched. Using default milestone: ${selected}`);
+              }
+            }
+
+            if (!selected) {
+              core.info('No milestone resolved. Skipping assignment.');
+              return;
+            }
+
+            let milestone = byTitle.get(selected);
+            if (!milestone && Boolean(settings.auto_create_missing_milestones)) {
+              if (dryRun) {
+                core.info(`[dry-run] would create missing milestone '${selected}'`);
+                milestone = { number: -1, title: selected };
+              } else {
+                const created = await github.rest.issues.createMilestone({
+                  owner,
+                  repo,
+                  title: selected,
+                  state: 'open',
+                  description: 'Auto-created by maintenance-milestones workflow from assignment logic.',
+                });
+                milestone = created.data;
+                core.notice(`Auto-created missing milestone '${selected}'`);
+              }
+            }
+
+            if (!milestone) {
+              core.warning(`Milestone '${selected}' not found and auto-create disabled. Skipping.`);
+              return;
+            }
+
+            if (dryRun) {
+              core.info(`[dry-run] would assign #${issueNumber} -> '${selected}'`);
+              return;
+            }
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              milestone: milestone.number,
+            });
+
+            core.notice(`Assigned #${issueNumber} to milestone '${selected}'`);

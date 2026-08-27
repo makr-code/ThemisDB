@@ -14,6 +14,7 @@
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/prompt_safety_utils.h"
+#include "llm/scoped_db_connection.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
 #include "sharding/remote_executor.h"
@@ -208,7 +209,7 @@ void InferenceEngineEnhanced::setSelfRAGCriticCallback(SelfRAGCriticCallback cb)
     self_rag_critic_cb_ = std::move(cb);
 }
 
-// ── setTargetLogitsFn (STUB #262) ────────────────────────────────────────────
+// ── setTargetLogitsFn ────────────────────────────────────────────────────────
 void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
     std::lock_guard<std::mutex> lock(target_logits_fn_mutex_);
     target_logits_fn_ = std::move(fn);
@@ -1133,7 +1134,8 @@ void InferenceEngineEnhanced::processBatch(
             }
             // RAII guard: decrement active_requests when this scope exits,
             // regardless of normal return, continue, or exception.
-            auto active_guard = std::shared_ptr<void>(nullptr, [this, model_id](void*) {
+            // Wave-B L2: replaced shared_ptr<void> hack with ScopedDbConnection.
+            ScopedDbConnection active_guard([this, model_id]() noexcept {
                 std::lock_guard<std::mutex> lock(models_mutex_);
                 auto it = models_.find(model_id);
                 if (it != models_.end() && it->second.active_requests > 0) {
@@ -1998,8 +2000,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
     if (use_remote) {
         // Fetch draft text from the remote shard and convert to token IDs +
-        // peaked logit distributions using the same heuristic as the default
-        // generateDraftTokens() implementation (STUB #261).
+        // peaked logit distributions using the same byte-modulo heuristic as
+        // the local generateDraftTokens() path (see STUB/SIMULATION NOTE below).
         std::string remote_text;
         try {
             const nlohmann::json body = {
@@ -2051,8 +2053,22 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     }
 
     // ── Local draft path (fallback or primary) ────────────────────────────
-    // generateDraftTokens() calls generate() internally and maps text to token
-    // IDs via UTF-8 byte values modulo vocab_size (STUB #261).
+    // STUB/SIMULATION NOTE:
+    // Purpose: generateDraftTokens() maps generated text to token IDs using
+    //          UTF-8 byte values modulo vocab_size as a surrogate tokenizer.
+    //          This provides a functional draft-token stream without requiring
+    //          a real vocabulary or tokenizer to be bundled with the plugin.
+    // Activation: Active whenever the ILLMPlugin::generateDraftTokens()
+    //             implementation uses the byte-modulo heuristic internally
+    //             (i.e., before a real BPE/SentencePiece tokenizer is wired).
+    // Production Delta: Byte-modulo IDs do not correspond to real vocabulary
+    //                   entries; acceptance rates in speculative decoding will
+    //                   be lower than with a proper tokenizer.  A real tokenizer
+    //                   integration will raise acceptance rates by 15-40 %.
+    // Removal Plan: Replace the byte-modulo mapping inside each plugin's
+    //               generateDraftTokens() with a proper tokenizer call once
+    //               the ThemisDB tokenizer bridge (ROADMAP §"Tokenizer v2") is
+    //               merged (Target: v1.8.0).
     if (draft_result.tokens.empty()) {
         InferenceRequest draft_request = request;
         draft_request.stream_callback  = nullptr;
@@ -2071,7 +2087,21 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         return false;
     }
 
-    // ── Target logit estimation (STUB #262 bridge) ────────────────────────
+    // ── Target logit estimation ───────────────────────────────────────────
+    // STUB/SIMULATION NOTE:
+    // Purpose: When no TargetLogitsFn is injected, a single generate(max_tokens=1)
+    //          call is used to obtain the target's most-likely next token, and
+    //          peaked distributions (kPeak / kBaseline) are synthesised for all
+    //          K+1 positions as a placeholder logit matrix.
+    // Activation: Active when setTargetLogitsFn() has not been called, or when
+    //             the injected function returns a wrong-shape result.
+    // Production Delta: The peaked heuristic overstates target confidence and
+    //                   skips the K-token forward pass; a real implementation
+    //                   would run a single batched forward pass over all K draft
+    //                   tokens and return the true conditional logit matrix.
+    // Removal Plan: Implement a batched forward-pass bridge in each plugin's
+    //               getTargetLogits() and register it via setTargetLogitsFn()
+    //               at startup (Target: v1.8.0, ROADMAP §"Speculative Decoding v2").
     // Try the injected TargetLogitsFn first; fall back to the single-token
     // peaked-distribution heuristic when no fn is set.
     TargetLogitsFn target_logits_fn_copy;

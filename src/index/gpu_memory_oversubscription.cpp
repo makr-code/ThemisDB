@@ -19,6 +19,14 @@
 #include <mutex>
 #include <unordered_map>
 #include "utils/logger.h"
+// Wave-B I1: cuda_utils.h provides CudaUniquePtr / THEMIS_CUDA_CHECK for any
+// future CUDA additions to this file.  The Partition::vram_ptr below is a
+// void* managed through GPUUnifiedMemoryAllocator (not raw cudaMalloc), so it
+// intentionally uses the allocator abstraction rather than CudaUniquePtr
+// directly (CudaUniquePtr is typed and cannot wrap opaque void*).
+#ifdef THEMIS_ENABLE_CUDA
+#  include "index/cuda_utils.h"
+#endif
 
 namespace themis {
 namespace index {
@@ -87,6 +95,23 @@ public:
     // -----------------------------------------------------------------------
 
     explicit Impl(const Config& cfg) : config(cfg) {}
+
+    /// @brief RAII cleanup: frees all VRAM-resident partitions on destruction.
+    /// @note  Does not acquire the mutex (destructor invariant: no concurrent access).
+    /// @note  Does not update vram_used_bytes / eviction counters (object teardown).
+    ~Impl() noexcept {
+        // RAII cleanup: evict all VRAM-resident partitions on destruction
+        for (auto& [id, p] : partitions) {
+            if (p.in_vram && p.vram_ptr &&
+                p.vram_ptr != static_cast<void*>(p.host_data.data())) {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+                themis::gpu::GPUUnifiedMemoryAllocator::GetInstance().free(p.vram_ptr);
+#endif
+                p.vram_ptr = nullptr;
+                p.in_vram  = false;
+            }
+        }
+    }
 
     // -----------------------------------------------------------------------
     // Helpers

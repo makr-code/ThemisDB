@@ -1,0 +1,374 @@
+name: Docker Image CI/CD
+
+# Rechenaufwand-Score: R=5 (K=6, L=5, N=5) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Security hardening (2026-08-11):
+#   - Explicit least-privilege permissions at workflow and job level.
+#   - OIDC-based secret-less login replaces long-lived DOCKERHUB_TOKEN PAT
+#     for ghcr.io; Docker Hub still uses token until OIDC federation is set up.
+#   - SLSA Level 2 build provenance attestation via actions/attest-build-provenance.
+#   - Docker layer cache via GitHub Actions cache backend (no external registry required).
+
+on:
+  workflow_call:
+    inputs:
+      push_to_registry:
+        description: "Push built images to Docker registry"
+        required: false
+        default: "true"
+        type: string
+      registry:
+        description: "Docker registry to push to"
+        required: false
+        default: "ghcr.io"
+        type: string
+      tag_name:
+        description: "Release tag to use for version detection"
+        required: false
+        default: ""
+        type: string
+  workflow_dispatch:
+    inputs:
+      push_to_registry:
+        description: "Push built images to Docker registry"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      registry:
+        description: "Docker registry to push to"
+        required: false
+        default: "ghcr.io"
+        type: choice
+        options:
+          - "ghcr.io"
+          - "docker.io"
+      tag_name:
+        description: "Optional release tag (e.g. v2.4.0-alpha)"
+        required: false
+        type: string
+
+# Explicit minimal default permissions — each job overrides as needed.
+permissions:
+  contents: read
+
+concurrency:
+  # Prevent duplicate workflow_run or dispatch builds for the same ref.
+  # cancel-in-progress: false — Docker build interruption can corrupt layer cache.
+  group: ${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-push:
+    name: "Build & Push Docker Image"
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    # For workflow_dispatch and workflow_call: always run.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'workflow_call'
+
+    permissions:
+      contents: read
+      packages: write
+      # Required for OIDC-based ghcr.io login and SLSA attestation
+      id-token: write
+      # Required to attach provenance attestations to the image
+      attestations: write
+
+    outputs:
+      images: ${{ steps.image-info.outputs.images }}
+      digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+    - name: Print Docker build context
+      run: |
+        echo "============================================================"
+        echo " Docker Image CI/CD — Build & Push"
+        echo "============================================================"
+        echo "  Trigger         : ${{ github.event_name }}"
+        echo "  Ref             : ${{ github.ref }}"
+        echo "  SHA             : ${{ github.sha }}"
+        echo "  Actor           : ${{ github.actor }}"
+        echo "  Run ID          : ${{ github.run_id }}"
+        echo "  Timestamp       : $(date -u)"
+        echo "  Push requested  : ${{ github.event.inputs.push_to_registry || 'N/A (auto)' }}"
+        echo "  Target registry : ${{ github.event.inputs.registry || 'ghcr.io (default)' }}"
+        echo "  OS              : $(uname -a)"
+        echo "  Docker version  : $(docker --version)"
+        echo "  Purpose         : Build ThemisDB image, push to registry,"
+        echo "                    attach SLSA Level 2 provenance attestation."
+        echo "============================================================"
+
+    - name: Checkout
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        fetch-depth: 0
+        ref: ${{ github.sha }}
+
+    - name: Determine version
+      id: version
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        GIT_REF: ${{ github.ref }}
+        TAG_INPUT: ${{ inputs.tag_name || github.event.inputs.tag_name || '' }}
+      run: |
+        echo "──────────────────────────────────────────────"
+        echo "  Version detection"
+        RELEASE_TAG_NAME="$(jq -r '.release.tag_name // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
+        TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
+
+        if [[ "${EVENT_NAME}" == "workflow_call" ]]; then
+          if [[ -n "${TAG_INPUT}" ]]; then
+            if ! echo "${TAG_INPUT}" | grep -Eq "${TAG_REGEX}"; then
+              echo "::error::workflow_call tag_name has invalid format: ${TAG_INPUT}"
+              exit 1
+            fi
+            VERSION="${TAG_INPUT}"
+            echo "  Source   : workflow_call input tag_name"
+          else
+            VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
+            echo "  Source   : VERSION file + timestamp (workflow_call fallback)"
+          fi
+
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+        elif [[ "${GIT_REF}" == refs/tags/* ]]; then
+          VERSION="${GIT_REF}"
+          VERSION="${VERSION#refs/tags/}"
+          echo "  Source   : git tag"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+        elif [[ "${EVENT_NAME}" == "release" ]]; then
+          VERSION="${RELEASE_TAG_NAME}"
+          echo "  Source   : release event"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+        else
+          VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
+          echo "  Source   : VERSION file + timestamp"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+        fi
+        echo "  Version  : ${VERSION}"
+        echo "──────────────────────────────────────────────"
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+
+    - name: Log in to Docker Hub
+      if: |
+        (github.event_name == 'release') ||
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io') ||
+        (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true' && inputs.registry == 'docker.io')
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Log in to GitHub Container Registry (OIDC — no long-lived token)
+      if: |
+        (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+        (github.event_name == 'release') ||
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io') ||
+        (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true' && inputs.registry == 'ghcr.io')
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        # OIDC: uses the ephemeral GITHUB_TOKEN issued by the OIDC provider;
+        # no stored PAT required for ghcr.io.
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Determine Docker tags
+      id: tags
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        GIT_REF: ${{ github.ref }}
+        REPOSITORY: ${{ github.repository }}
+        COMMIT_SHA: ${{ github.sha }}
+        RUN_ID: ${{ github.run_id }}
+        TARGET_REGISTRY_INPUT: ${{ inputs.registry || github.event.inputs.registry || '' }}
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        TAGS=""
+        RELEASE_TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
+        REPO_LC="$(echo "${REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
+        GHCR_REPO="ghcr.io/${REPO_LC}"
+        DOCKERHUB_REPO="themisdb/themisdb"
+        TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
+
+        # For released versions, rely on resolved VERSION and selected registry.
+        if [[ "${VERSION}" =~ ${RELEASE_TAG_REGEX} ]]; then
+          MINOR_VERSION="$(echo "${VERSION}" | cut -d. -f1-2)"
+          if [[ "${TARGET_REGISTRY}" == "docker.io" ]]; then
+            TAGS="${DOCKERHUB_REPO}:${VERSION},${DOCKERHUB_REPO}:${MINOR_VERSION}"
+            if [[ ! "${VERSION}" =~ [-] ]]; then
+              TAGS="$TAGS,${DOCKERHUB_REPO}:latest"
+            fi
+          else
+            TAGS="${GHCR_REPO}:${VERSION},${GHCR_REPO}:${MINOR_VERSION}"
+            if [[ ! "${VERSION}" =~ [-] ]]; then
+              TAGS="$TAGS,${GHCR_REPO}:latest"
+            fi
+          fi
+
+        # For develop-based builds, prefer GHCR; workflow_dispatch can target Docker Hub explicitly.
+        elif [[ "${GIT_REF}" == "refs/heads/develop" ]]; then
+          SHORT_SHA="$(echo "${COMMIT_SHA}" | cut -c1-7)"
+          if [[ ("${EVENT_NAME}" == "workflow_dispatch" || "${EVENT_NAME}" == "workflow_call") && "${TARGET_REGISTRY}" == "docker.io" ]]; then
+            TAGS="${DOCKERHUB_REPO}:dev-${SHORT_SHA}"
+            TAGS="$TAGS,${DOCKERHUB_REPO}:develop"
+          else
+            TAGS="${GHCR_REPO}:dev-${SHORT_SHA}"
+            TAGS="$TAGS,${GHCR_REPO}:develop"
+          fi
+
+
+        # For non-release manual builds outside develop, honor the selected registry.
+        else
+          if [[ ("${EVENT_NAME}" == "workflow_dispatch" || "${EVENT_NAME}" == "workflow_call") && "${TARGET_REGISTRY}" == "docker.io" ]]; then
+            TAGS="${DOCKERHUB_REPO}:manual-${RUN_ID}"
+          else
+            TAGS="${GHCR_REPO}:manual-${RUN_ID}"
+          fi
+        fi
+
+        echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
+        echo "Tags to be pushed: ${TAGS}"
+
+    - name: Ensure optional Docker build context paths exist
+      run: |
+        mkdir -p internal llama.cpp vcpkg/downloads
+
+    - name: Build and push Docker image
+      id: build
+      uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
+      with:
+        context: .
+        file: ./docker/Dockerfile.unified
+        push: |
+          ${{
+            (github.event_name == 'release') ||
+            (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
+            (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true')
+          }}
+        platforms: linux/amd64,linux/arm64
+        tags: ${{ steps.tags.outputs.value }}
+        build-args: |
+          THEMIS_EDITION=COMMUNITY
+          VERSION=${{ steps.version.outputs.version }}
+          VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
+        # GitHub Actions cache backend: no external registry required.
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        # Enable provenance attestation (SLSA Level 2).
+        provenance: true
+        sbom: true
+
+    - name: Capture docker build errors as JSON
+      if: failure()
+      shell: bash
+      run: |
+        # docker/build-push-action writes to Actions log, not a file.
+        # Write a minimal structured error record so downstream aggregation
+        # always finds a *-errors.json file on failure.
+        cat > docker-errors.json <<'EOF'
+        {
+          "workflow": "docker-image",
+          "run_id": "${{ github.run_id }}",
+          "run_number": "${{ github.run_number }}",
+          "errors": [
+            {
+              "type": "docker_build_failure",
+              "severity": "critical",
+              "message": "Docker image build failed — see Actions log for details",
+              "timestamp": "$(date -u +%FT%TZ)"
+            }
+          ]
+        }
+        EOF
+
+    - name: Print build result
+      if: always()
+      run: |
+        echo "──────────────────────────────────────────────"
+        echo "  Docker build complete"
+        echo "  Version   : ${{ steps.version.outputs.version }}"
+        echo "  Tags      : ${{ steps.tags.outputs.value }}"
+        echo "  Digest    : ${{ steps.build.outputs.digest || 'not yet pushed' }}"
+        echo "  Platforms : linux/amd64, linux/arm64"
+        if [ -n "${{ steps.build.outputs.digest }}" ]; then
+          echo "  ✅ Image pushed and digest available for SLSA attestation."
+        else
+          echo "  ℹ️  No digest (PR build or push not requested)."
+        fi
+        echo "──────────────────────────────────────────────"
+
+    - name: Generate SLSA provenance attestation
+      # Attach build provenance to the pushed image digest (SLSA Level 2).
+      # Skipped for PR builds (digest only available after push).
+      if: |
+        steps.build.outputs.digest != '' &&
+        (
+          (github.event_name == 'release') ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
+          (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true')
+        )
+      uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
+      with:
+        subject-name: ${{ steps.tags.outputs.value }}
+        subject-digest: ${{ steps.build.outputs.digest }}
+        push-to-registry: true
+
+    - name: Print SLSA attestation result
+      if: always()
+      run: |
+        echo "──────────────────────────────────────────────"
+        echo "  SLSA attestation"
+        DIGEST="${{ steps.build.outputs.digest }}"
+        if [ -n "${DIGEST}" ]; then
+          echo "  ✅ Provenance attestation generated (SLSA Level 2)"
+          echo "  Subject name   : ${{ steps.tags.outputs.value }}"
+          echo "  Subject digest : ${DIGEST}"
+        else
+          echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
+        fi
+        echo "──────────────────────────────────────────────"
+
+    - name: Upload docker errors
+      if: always() && hashFiles('docker-errors.json') != ''
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      with:
+        name: docker-errors-${{ github.run_number }}
+        path: docker-errors.json
+        retention-days: 7
+
+    - name: Capture image info
+      id: image-info
+      run: |
+        TAGS="${{ steps.tags.outputs.value }}"
+        echo "images=${TAGS}" >> "${GITHUB_OUTPUT}"
+
+    - name: Docker Hub image summary
+      if: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+      env:
+        VERSION_OUTPUT: ${{ steps.version.outputs.version }}
+        TAG_LIST: ${{ steps.tags.outputs.value }}
+        DIGEST_OUTPUT: ${{ steps.build.outputs.digest }}
+      run: |
+        {
+          echo "### 🐳 Docker Image Published"
+          echo
+          echo "**Version:** ${VERSION_OUTPUT}"
+          echo "**Tags:** ${TAG_LIST}"
+          echo "**Digest:** ${DIGEST_OUTPUT}"
+          echo "**SLSA Provenance:** attached via actions/attest-build-provenance"
+          echo
+          echo "**Pull commands:**"
+          echo '```bash'
+          while IFS= read -r TAG; do
+            echo "docker pull ${TAG}"
+          done < <(tr ',' '\n' <<< "${TAG_LIST}")
+          echo '```'
+        } >> "${GITHUB_STEP_SUMMARY}"

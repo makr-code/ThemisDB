@@ -244,10 +244,26 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
     );
 
     // ── Phase 2: COMMIT or ABORT ─────────────────────────────────────────
+    // Wave 4C T3: Snapshot the record under the lock, then release before
+    // Phase-2 delivery. This prevents holding the global mutex while blocking
+    // on potentially slow region commit/abort RPCs.
+    GlobalTxnRecord rec_snapshot;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        rec_snapshot = transactions_.at(txn_id);  // copy snapshot
+    }
+    // Deliver Phase-2 outside the global lock (no mutex held during RPC calls).
+    runPhase2(rec_snapshot, all_prepared);
+    // Re-acquire to persist the COMPLETED state.
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto& rec = transactions_.at(txn_id);
-        runPhase2(rec, all_prepared);
+        // Merge back acked flags from the snapshot (runPhase2 updates the copy).
+        for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
+            if (auto it = rec.region_records.find(region_id); it != rec.region_records.end()) {
+                it->second.phase2_acked = snap_rrec.phase2_acked;
+            }
+        }
         rec.state = GlobalTxnState::COMPLETED;
     }
 

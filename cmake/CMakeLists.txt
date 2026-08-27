@@ -121,9 +121,7 @@ if(MSVC)
     # Skip ABI detection for sub-projects to avoid deep CMakeScratch directories
     set(CMAKE_C_COMPILER_WORKS ON CACHE BOOL "C compiler pre-validated" FORCE)
     set(CMAKE_CXX_COMPILER_WORKS ON CACHE BOOL "CXX compiler pre-validated" FORCE)
-    
-    # Use config-style package discovery to avoid deep library searches
-    set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON CACHE BOOL "Prefer -config.cmake over Find modules" FORCE)
+
 endif()
 
 # 4. EXTERNAL PROJECT PATH FLATTENING FUNCTION
@@ -2552,6 +2550,7 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/async_wal_shipper.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
@@ -2747,6 +2746,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
     ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/passkey_authenticator.cpp
     ../src/auth/auth_metrics.cpp
     ../src/auth/auth_error.cpp
     ../src/auth/jwks_security.cpp
@@ -2757,6 +2757,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/principal_validator.cpp
     ../src/auth/http_auth_async.cpp
     ../src/auth/distributed_token_blacklist.cpp
+    ../src/server/policy_engine.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/opa_adapter.cpp
     ../src/governance/policy_manager.cpp
@@ -3403,6 +3404,7 @@ if(THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
         # Server/API (HTTP + optional gRPC)
     ../src/server/llm_api_handler.cpp
+    ../src/server/model_integrity_verifier.cpp
     # AQL handlers (LLM-enabled path)
     ../src/aql/llm_aql_handler.cpp
     ../src/aql/aql_confidence_scorer.cpp
@@ -3539,6 +3541,14 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/rag_ingestion_bridge.cpp
     # ExplainabilityReasonBuilder — Layer-9 causal explanation (IMPL-B9)
     ../src/rag/explainability_reason_builder.cpp
+    # Wave 5 R9/R10: WikiIndexStore — BM25+, RRF, HNSW/cache stubs
+    ../src/rag/wiki_index_store.cpp
+    # Wave B X1a: TensorRagCostModel — 5-phase cost model
+    ../src/rag/tensor_rag_cost_model.cpp
+    # Wave B X1b: RetrievalGuardrail — federated cost guardrail
+    ../src/rag/retrieval_guardrail.cpp
+    # Wave B X1c: RagQualityMonitor — per-layer quality metrics & anomaly detection
+    ../src/rag/rag_quality_monitor.cpp
     # DK-1: Distributed Knowledge Layer 11 — all four sub-components (S-1/S-9)
     ../src/distributed_knowledge/adapter_capability_announcement.cpp
     ../src/distributed_knowledge/lora_federation_coordinator.cpp

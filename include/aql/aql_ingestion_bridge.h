@@ -95,7 +95,7 @@ public:
         std::string                                   text_field_key  = "text"
     );
 
-    ~AQLIngestionBridge();
+    ~AQLIngestionBridge() noexcept;
 
     // Non-copyable, movable
     AQLIngestionBridge(const AQLIngestionBridge&) = delete;

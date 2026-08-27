@@ -14,6 +14,9 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] hardening of distributed revocation, federation, and policy-edge behavior (Target: Q3 2026)
 - [x] benchmark and release-gate consolidation for token/session hot paths (Target: Q3 2026)
 - [x] consistency hardening for async/provider-integration reliability (Target: Q3 2026)
+- [~] Wave C benchmark gate execution and evidence capture in CI (AUTH-GRG-01..06) (Target: Q4 2026)
+  - Dispatched: `CI — Benchmarks` run `#40` (`32765349559`) on `develop` with filter `bench_auth_hotpaths|AHP-`
+  - Pending: run completion on representative hardware and artifact-to-gate mapping evidence
 
 ## v1.2.0 Async Operations & Connection Pooling (Completed)
 
@@ -41,6 +44,70 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] Comprehensive test coverage for distributed scenarios (tests/auth/test_auth_distributed_blacklist.cpp, DBL-01..DBL-17)
 
 ## Planned Features
+
+### Wave 4-B: Auth Audit Events + OAuth Retry + mTLS Hardening (Target: Q4 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 4-B · gap-verifier subagent 2026-08-25  
+> **Verified real gaps:** 7 CRITICAL (missing audit events), 7 HIGH (retry + crypto), 1 MEDIUM  
+> **FP closed (14):** sensitive_data_logging (all 155) — scanner matched variable names not values; mTLS cipher claim wrong file scope (MTLSAuthenticator has no SSL_CTX)
+
+#### A — Missing Audit Events (7 gaps — all CRITICAL/HIGH)
+
+- [x] 2026-08-26 `passkey_authenticator.cpp:880-892` — inject `AuthAuditLogger*`; call `logPasskeySuccess(credential_id)` / `logPasskeyFailure(reason)` from `verifyAuthentication()` — zero audit calls currently (CRITICAL) (Target: Q4 2026)
+- [x] 2026-08-26 `mtls_authenticator.cpp:281` — inject `AuthAuditLogger*`; add `logMTLSSuccess(principal,serial)` / `logMTLSFailure(reason)` — no `AuthAuditLogger` include or call in file (CRITICAL) (Target: Q4 2026)
+- [x] 2026-08-26 `federated_identity_manager.cpp:202-578` — add `AuthAuditLogger*` injection; call `logJWTSuccess/Failure` / `logFederatedSuccess/Failure` in `validateToken()` and `exchangeToken()` — file has no `#include "auth/auth_audit_logger.h"` (CRITICAL) (Target: Q4 2026)
+- [x] 2026-08-26 `auth_audit_logger.cpp` — add `SecurityEventType::ROLE_CHANGED`, `PERMISSION_CHANGED`; add `logRoleChange(user_id, role, old_role)` and `logPermissionChange(user_id, resource, old_perm, new_perm)` (CRITICAL) (Target: Q4 2026)
+- [x] 2026-08-26 `jwt_key_rotation_manager.cpp:54` — add try/catch around `max_keys` throw to fire `KEY_ROTATION_FAILED` audit event before re-throwing — logger assigned on line 77, after throw, so never reached (HIGH) (Target: Q4 2026)
+- [x] 2026-08-26 `jwt_key_rotation_manager.cpp:99-100` — emit `KEY_REVOCATION_FAILED` event before `return false` on unknown `kid` — THEMIS_WARN only, no audit trail for key ID probing (HIGH) (Target: Q4 2026)
+- [x] 2026-08-26 `auth_audit_logger.cpp` — add `logPasskeyRegistered(user_id, credential_id, rp_id)`; call from `registerCredential()` — `logMFAEnrolled` covers TOTP only (HIGH) (Target: Q4 2026)
+
+#### B — Auth Retry Logic (4 real gaps)
+
+- [x] 2026-08-26 `ldap_connection_pool.cpp:173-181` — add inner retry loop (max 3×, base 100ms, ×2, ±20ms jitter) around `createConnection()`; on exhaustion → `throw AuthException(PROVIDER_DEGRADED)`; current: `nullptr` falls through to CV wait without backoff (HIGH) (Target: Q4 2026)
+- [x] 2026-08-26 `federated_identity_manager.cpp:390-393` — wrap `httpPost()` in retry loop (max 3×, jittered backoff); retry on `CURLE_COULDNT_CONNECT`, `CURLE_OPERATION_TIMEDOUT`, HTTP 429/503 — currently throws immediately (HIGH) (Target: Q4 2026)
+- [x] 2026-08-26 `oauth_pkce_flow.cpp:317-318` — same fix as B-2 above; factor into shared retrying `httpPost()` helper (HIGH) (Target: Q4 2026)
+- [x] 2026-08-26 `oauth_device_flow.cpp:399-400` — retry individual HTTP transport errors within the RFC poll loop (not the poll interval itself — RFC 8628 §3.5 poll loop is correct); distinguish `CURLE` transport failure from `authorization_pending` (MEDIUM) (Target: Q4 2026)
+
+#### C — Crypto Weakness (3 real gaps)
+
+- [x] 2026-08-26 `passkey_authenticator.cpp:407-483` — add COSE `alg` field allowlist in `coseKeyToEvpPkey()`; reject `kty=2` if `alg != -7` (ES256); reject `kty=3` if `alg != -257` (RS256); enforce stored credential algorithm matches (HIGH — cross-algorithm substitution risk) (Target: Q4 2026)
+- [x] 2026-08-26 `mtls_authenticator.cpp:173-283` — add `X509_get_ext_d2i(cert, NID_ext_key_usage)` check; reject certs lacking `id-kp-clientAuth` OID; add `digitalSignature` key-usage bit check (HIGH — serverAuth-only certs currently accepted) (Target: Q4 2026)
+- [x] 2026-08-26 `passkey_authenticator.cpp:447-482` — after RSA EVP_PKEY construction, call `EVP_PKEY_get_bits(pkey)` and reject if `< 2048` (MEDIUM — 512/1024-bit RSA keys currently accepted) (Target: Q4 2026)
+
+#### Tests
+- `tests/auth/test_wave4b_auth_hardening.cpp` — minimum 14 tests covering all verified gaps above
+- `tests/auth/test_wave4b_auth_hardening2.cpp` — 12+ additional tests; registered with `wave_b release_critical` labels (added 2026-08-26)
+
+#### FPs Confirmed (closed, no code change needed)
+- sensitive_data_logging (155): scanner matched variable names near log calls, not log values; `// NOPII` already on ambiguous sites; no raw credential in any spdlog format argument
+- mTLS cipher list: `MTLSAuthenticator` is a PEM-level verifier with no SSL_CTX; TLS cipher enforcement belongs in the transport layer wrapping this component
+
+### Wave 2-A: Auth Security Hardening (Target: Q3 2026)
+
+> **Source:** MODULE_GAP_ANALYSIS_WAVE2.md §Wave 2-A, gap scanner verified 2026-08-25  
+> **Gap count:** 155 `sensitive_data_logging` (HIGH), 7 `missing_audit_log` (CRITICAL), 22 `no_retry_logic`, 9 `crypto_weakness`
+
+- [x] Sensitive data redaction: **FP CONFIRMED** — 100% false positive per subagent triage (2026-08-25); preventive lint policy recommended as follow-up
+- [x] Add missing audit events: all 14 Wave 4-B gaps closed 2026-08-26
+- [x] Auth retry logic: LDAP createConnection retry, federated/PKCE/device-flow retry — all closed 2026-08-26
+- [x] Crypto weakness: passkey COSE alg allowlist, RSA key size, mTLS EKU — all closed 2026-08-26
+
+### Wave 2-B: LDAP Stub Replacement (Target: Q4 2026)
+
+> **Source:** Semantic analysis 2026-08-25 — `ldap_authenticator.cpp` has ~12 stubbed functions
+
+- [x] 2026-08-26 LDAP Connection Pool: real pool management (bind context, bounded size, timeout) in `ldap_authenticator.cpp` (Target: Q4 2026)
+  - Inputs: LDAP server config (host, port, bind-DN, timeout)
+  - Outputs: pooled LDAP connection with automatic rebind on staleness
+  - Errors: `LDAP_CONNECT_TIMEOUT` on pool exhaustion; retry with backoff
+  - `checkout()` timeout now throws `AuthException(PROVIDER_DEGRADED)` instead of returning `nullptr`
+  - Tests: `tests/auth/test_wave7_auth_ldap_federated.cpp` (WP-01..WP-06, WA-01..WA-04)
+- [x] 2026-08-26 LDAP Search Pagination: controlled, bounded result pagination in `ldap_authenticator.cpp` (Target: Q4 2026)
+  - Unix/OpenLDAP path: paginated `ldap_search_ext_s` loop with `ldap_create_page_control` / `ldap_parse_page_control`; page_size=500, max_results=5000; partial results returned on pagination error with `THEMIS_WARN`
+- [x] 2026-08-26 `federated_identity_manager.cpp`: Cross-provider state sync — 9 new methods implemented (Target: Q4 2026)
+  - `addCrossProviderTrust` / `removeCrossProviderTrust` / `isTrustedBy` / `getCrossProviderTrusts`: in-memory trust registry protected by `trust_mutex_`
+  - `cacheValidationResult` / `getCachedResult` / `evictExpiredCacheEntries` / `clearTokenCache` / `tokenCacheSize`: `std::unordered_map`-backed token validation cache with `std::chrono::system_clock` expiry; auto-populated by `validateToken()`
+  - Tests: `tests/auth/test_wave7_auth_ldap_federated.cpp` (FR-01..FR-03, FT-01..FT-05, FC-01..FC-07)
 
 ### Short-term (3-6 months)
 - [ ] tighten fail-closed behavior for optional provider-degraded scenarios (Target: Q4 2026)
@@ -80,6 +147,12 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
   - `exchangeToken()` non-HTTPS endpoint check throws PROVIDER_CAPABILITY_MISMATCH
 - [x] align session/trust behavior to shared bounded runtime contracts (Target: Q3 2026)
   - `session_manager.h` updated with bounded runtime contract cross-referencing auth_principal_contract.h
+- [x] PasskeyAuthenticator concrete class and real CBOR/OpenSSL verification (Target: Q4 2026)
+  - `include/auth/passkey_authenticator.h`: added `PasskeyAuthenticator` class implementing `IPasskeyAuthenticator`
+    with thread-safe in-memory credential store and pending-challenge lifecycle
+  - `src/auth/passkey_authenticator.cpp`: TODO stubs replaced with real base64url decode (OpenSSL BIO),
+    CBOR attestation-object parsing, authenticatorData parsing (rpIdHash, flags, signCount, AAGUID, credential ID,
+    COSE public key), ECDSA-P256/RS256 signature verification via `EVP_DigestVerify`, and sign_count clone detection
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior for malformed auth artifacts and degraded backends (Target: Q3 2026)
@@ -89,6 +162,16 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] unify error taxonomy and diagnostics across protocol adapters (Target: Q3 2026)
   - Delivered: 12 new AuthErrorCode entries (9420-9452) for provider/revocation/policy/async failures,
     all registered with actionable operator guidance in `auth_error.cpp::registerAuthErrors()`
+- [x] close catch_all_swallow, unchecked_result, resource_leaked_in_exception gaps (Target: Q3 2026; delivered 2026-08-24)
+  - `jwks_security.cpp`: RAII wrappers (UniqueX509, UniqueOSSLBuf, UniqueOSSLChar) applied to
+    `computeSPKIHashFromFile`, `computeSPKIHashFromPEM`, `getCertificateInfo` — 3 resource_leaked_in_exception closed
+  - `ldap_authenticator.cpp`: 4 unchecked `ldap_set_option` calls (TIMELIMIT×2, PROTOCOL_VERSION,
+    NETWORK_TIMEOUT, TIMEOUT) now log warnings on failure — 4 unchecked_result closed
+  - `rate_limiter_backend.cpp`: 5 bridge-function `catch(...)` blocks now log before fallback — 5 catch_all_swallow closed
+  - `http_auth_async.cpp`: `performConnectivityCheck` `catch(...)` now logs at debug level — 1 catch_all_swallow closed
+  - `auth_rate_limiter.cpp`: `reset()` lock-ordering hazard fixed (stats_mutex_ no longer held over
+    sub-object reset calls); constructor and `incrementAndGetBreachCount()` Redis blocks wrapped with
+    logged exception guards — 1 circular_lock_ordering + 2 catch_all_swallow closed
 
 ### Phase 4: Tests
 - [x] DBL-01..DBL-08: core CRUD (add, isRevoked, purge, concurrency) — tests/auth/test_auth_distributed_blacklist.cpp
@@ -103,6 +186,12 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
     missing endpoint, multi-realm coexistence, realm count)
   - Delivered: ASY-01..08 (session/async: empty user_id, unknown session, expired session, idempotent terminate,
     terminateAllOther, sess_ prefix invariant, pruneExpired, per-user limit)
+- [x] Wave C test gates delivered (Target: Q4 2026)
+  - Delivered: `tests/auth/test_auth_wavec_authentication_methods.cpp` (AUTH-Auth-01..08: JWT/SAML/mTLS validation edge cases)
+  - Delivered: `tests/auth/test_auth_wavec_token_lifecycle.cpp` (AUTH-Token-01..08: SessionManager + DistributedTokenBlacklist lifecycle)
+  - Delivered: `tests/auth/test_auth_wavec_federation_providers.cpp` (AUTH-Provider-01..06: FederatedIdentityManager failover, degradation, realm management)
+  - Delivered: `tests/auth/test_auth_wavec_authorization.cpp` (AUTH-AuthZ-01..08: authorization policy contract types)
+  - Delivered: `tests/auth/test_auth_wavec_rate_limiting.cpp` (AUTH-RateLimit-01..06: AuthRateLimiter per-user, concurrency, reset)
 
 ### Phase 5: Performance and Hardening
 - [x] isRevoked() confirmed O(1) RocksDB point read (< 1 µs warm cache); hot path unaffected by background sync
@@ -135,6 +224,11 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] distributed blacklist RPC layer (TBLK/v1) fully implemented and tested (DBL-01..DBL-17)
 - [x] remaining hardening tasks closed for provider edge cases
 - [x] release-gate benchmark stabilization complete
+- [x] PasskeyAuthenticator TODO stubs replaced with real CBOR/OpenSSL verification logic (2026-08-19)
+- [x] Wave C test gates delivered: AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06 (2026-08-19)
+- [x] Batch 5 gap closure: resource_leaked_in_exception (jwks_security.cpp RAII), unchecked_result (ldap_authenticator.cpp), catch_all_swallow (rate_limiter_backend.cpp, http_auth_async.cpp, auth_rate_limiter.cpp), circular_lock_ordering (auth_rate_limiter.cpp reset()) — delivered 2026-08-24
+- [x] audit_logger.h filename collision resolved: include/api/audit_logger.h renamed to include/api/graphql_audit_logger.h; ws_handler.cpp updated — delivered 2026-08-24 (unblocks build validation for AUTH-GRG gate evidence)
+- [~] Wave C benchmark gates executed (AUTH-GRG-01..06) — CI run `CI — Benchmarks` #40 (`32765349559`) pending completion as of 2026-08-24T19:20Z; evidence capture follows artifact publication
 
 ## Known Issues and Limitations
 

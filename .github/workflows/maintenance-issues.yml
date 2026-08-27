@@ -1,5 +1,7 @@
-name: Maintenance — Issues (GS3 Gaps + Security Alerts)
+name: "Maintenance: Issues [GS3 + Security Alerts]"
 
+# Rechenaufwand-Score: R=3 (K=3, L=3, N=3) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
 # Consolidated maintenance dispatcher for issue-creating triage workflows.
 # Merges: maintenance-gs3-gaps.yml + maintenance-security-alerts.yml
 #
@@ -20,6 +22,7 @@ on:
   schedule:
     - cron: '30 3 * * *'   # Daily 03:30 UTC — GS3 gap triage
     - cron: '30 5 * * *'   # Daily 05:30 UTC — Security alert SLA triage
+    - cron: '30 2 * * 3'   # Weekly Wednesday 02:30 UTC — Doxygen header update
   workflow_dispatch:
     inputs:
       job:
@@ -29,6 +32,7 @@ on:
         options:
           - gs3-gap-triage
           - security-alert-triage
+          - doxygen-header-update
           - both
         default: both
       # ── GS3 inputs ────────────────────────────────────────────────────────
@@ -347,220 +351,196 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Open/update/close consolidated issue
+      - name: Build GS3 issue body
+        id: gs3-body
         if: steps.scan.outputs.scan_failed != 'true'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        shell: bash
         env:
           SHOULD_OPEN_ISSUE: ${{ steps.consolidate.outputs.should_open_issue }}
           ACTIONABLE_BUCKETS: ${{ steps.consolidate.outputs.actionable_buckets }}
           ACTIONABLE_FINDINGS: ${{ steps.consolidate.outputs.actionable_findings }}
           CRITICAL_COUNT: ${{ steps.consolidate.outputs.critical_count }}
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
 
-            const summaryPath = path.join(process.cwd(), 'ai_working/gs3/consolidated_summary.json');
-            if (!fs.existsSync(summaryPath)) {
-              core.warning(`Summary file missing: ${summaryPath}`);
-              return;
-            }
+          summary_path = Path('ai_working/gs3/consolidated_summary.json')
+          if not summary_path.exists():
+              raise SystemExit(0)
 
-            const summary = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
-            const buckets = Array.isArray(summary.buckets) ? summary.buckets : [];
-            const signatures = Array.isArray(summary.signatures) ? summary.signatures : [];
-            const bySeverity = summary.by_severity || {};
-            const scanContext = summary.scan_context || {};
+          summary = json.loads(summary_path.read_text(encoding='utf-8'))
+          buckets = summary.get('buckets') or []
+          signatures = summary.get('signatures') or []
+          by_severity = summary.get('by_severity') or {}
+          scan_context = summary.get('scan_context') or {}
 
-            const targetBranch = process.env.TARGET_BRANCH || scanContext.target_branch || 'develop';
-            const scanPaths = process.env.SCAN_PATHS || scanContext.scan_paths || 'src include tests';
-            const scanMode = process.env.SCAN_MODE || scanContext.scan_mode || 'fast';
-            const minSeverity = process.env.MIN_SEVERITY || scanContext.min_severity || 'HIGH';
-            const minBucketCount = Number.parseInt(process.env.MIN_BUCKET_COUNT || String(scanContext.min_bucket_count || '1'), 10) || 1;
-            const closeWhenClean = String(process.env.CLOSE_WHEN_CLEAN || 'true') === 'true';
-            const forceReopen = String(process.env.FORCE_REOPEN || 'false') === 'true';
+          target_branch = os.environ.get('TARGET_BRANCH') or scan_context.get('target_branch') or 'develop'
+          scan_paths = os.environ.get('SCAN_PATHS') or scan_context.get('scan_paths') or 'src include tests'
+          scan_mode = os.environ.get('SCAN_MODE') or scan_context.get('scan_mode') or 'fast'
+          min_severity = os.environ.get('MIN_SEVERITY') or scan_context.get('min_severity') or 'HIGH'
+          min_bucket_count = int(os.environ.get('MIN_BUCKET_COUNT') or str(scan_context.get('min_bucket_count') or '1'))
+          should_open = str(os.environ.get('SHOULD_OPEN_ISSUE') or 'false').lower() == 'true'
+          actionable_findings = os.environ.get('ACTIONABLE_FINDINGS') or '0'
+          actionable_buckets = os.environ.get('ACTIONABLE_BUCKETS') or '0'
+          critical_count = os.environ.get('CRITICAL_COUNT') or '0'
 
-            const markerType = '<!-- gs3-gap:type:consolidated -->';
-            const markerScope = `<!-- gs3-gap:scope:${context.repo.owner}/${context.repo.repo} -->`;
-            const markerRef = `<!-- gs3-gap:branch:${targetBranch} -->`;
-            const markerPaths = `<!-- gs3-gap:paths:${scanPaths} -->`;
-            const markerThreshold = `<!-- gs3-gap:min-severity:${minSeverity} -->`;
-            const markerBuckets = `<!-- gs3-gap:min-bucket-count:${minBucketCount} -->`;
-
-            const issueTitle = `[GS3] Gap Scan — ${targetBranch} (${minSeverity}+)`;
-
-            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
-              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
-            });
-            const closedIssues = forceReopen
-              ? await github.paginate(github.rest.issues.listForRepo, {
-                  owner: context.repo.owner, repo: context.repo.repo, state: 'closed', per_page: 100,
-                })
-              : [];
-
-            const matchesScope = (issue) => {
-              const body = issue.body || '';
-              return body.includes(markerType) && body.includes(markerScope) &&
-                     body.includes(markerRef) && body.includes(markerPaths) &&
-                     body.includes(markerThreshold) && body.includes(markerBuckets);
-            };
-
-            const existingOpen = openIssues.find(matchesScope);
-            const existingClosed = closedIssues.find(matchesScope);
-
-            const extractSignatures = (body) => {
-              if (!body) return [];
-              const match = body.match(/<!-- gs3-gap:signatures:([\s\S]*?)-->/);
-              if (!match) return [];
-              return match[1].split(',').map(x => x.trim()).filter(Boolean);
-            };
-
-            const previousSignatures = extractSignatures(existingOpen?.body || existingClosed?.body || '');
-            const previousSet = new Set(previousSignatures);
-            const currentSet = new Set(signatures);
-            const newCount = [...currentSet].filter(x => !previousSet.has(x)).length;
-            const resolvedCount = [...previousSet].filter(x => !currentSet.has(x)).length;
-
-            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const topRows = buckets.slice(0, 50).map(b => {
-              const loc = `${b.file}:${b.line && b.line > 0 ? b.line : 'n/a'}`;
-              return `| ${b.severity} | \`${b.scanner}\` | \`${b.type}\` | \`${loc}\` | ${b.count} | \`${b.subsystem || 'unknown'}\` |`;
-            });
-
-            const sigLimit = 500;
-            const limitedSignatures = signatures.slice(0, sigLimit);
-            const signatureMarker = `<!-- gs3-gap:signatures:${limitedSignatures.join(',')} -->`;
-            const signatureNote = signatures.length > sigLimit
-              ? `⚠️ Signature list truncated to ${sigLimit}/${signatures.length} entries.`
-              : `Signature baseline entries: ${signatures.length}.`;
-
-            const body = [
-              markerType, markerScope, markerRef, markerPaths, markerThreshold, markerBuckets, signatureMarker,
-              '## GS3 Consolidated Gap Scan', '',
-              `- **Branch:** \`${targetBranch}\``,
-              `- **Paths:** \`${scanPaths}\``,
-              `- **Mode:** \`${scanMode}\``,
-              `- **Threshold:** \`${minSeverity}+\``, '',
-              `- **Actionable findings:** ${process.env.ACTIONABLE_FINDINGS || '0'}`,
-              `- **Actionable buckets:** ${process.env.ACTIONABLE_BUCKETS || '0'} (minimum for issue action: ${minBucketCount})`,
-              `- **New buckets vs previous baseline:** ${newCount}`,
-              `- **Resolved buckets vs previous baseline:** ${resolvedCount}`, '',
-              `- **By severity:** CRITICAL=${bySeverity.CRITICAL || 0}, HIGH=${bySeverity.HIGH || 0}, MEDIUM=${bySeverity.MEDIUM || 0}, LOW=${bySeverity.LOW || 0}`, '',
-              `- **Run:** ${runUrl}`,
-              `- ${signatureNote}`, '',
-              '### Top actionable buckets', '',
+          markers = [
+              '<!-- gs3-gap:type:consolidated -->',
+              f'<!-- gs3-gap:scope:{os.environ.get("GITHUB_REPOSITORY", "") or "repo"} -->',
+              f'<!-- gs3-gap:branch:{target_branch} -->',
+              f'<!-- gs3-gap:paths:{scan_paths} -->',
+              f'<!-- gs3-gap:min-severity:{min_severity} -->',
+              f'<!-- gs3-gap:min-bucket-count:{min_bucket_count} -->',
+          ]
+          lines = []
+          lines.extend(markers)
+          lines.extend([
+              '## GS3 Consolidated Gap Scan',
+              '',
+              f'- **Branch:** `{target_branch}`',
+              f'- **Paths:** `{scan_paths}`',
+              f'- **Mode:** `{scan_mode}`',
+              f'- **Threshold:** `{min_severity}+`',
+              '',
+              f'- **Actionable findings:** {actionable_findings}',
+              f'- **Actionable buckets:** {actionable_buckets} (minimum for issue action: {min_bucket_count})',
+              f'- **By severity:** CRITICAL={by_severity.get("CRITICAL", 0)}, HIGH={by_severity.get("HIGH", 0)}, MEDIUM={by_severity.get("MEDIUM", 0)}, LOW={by_severity.get("LOW", 0)}',
+              '',
+              f'- **Run:** https://github.com/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{os.environ["GITHUB_RUN_ID"]}',
+              '',
+              '### Top actionable buckets',
+              '',
               '| Severity | Scanner | Type | Location | Count | Subsystem |',
               '|---|---|---|---|---:|---|',
-              ...(topRows.length ? topRows : ['| _none_ | _none_ | _none_ | _none_ | 0 | _none_ |']), '',
-              `_Auto-generated by maintenance-issues.yml at ${new Date().toISOString()}_`,
-            ].join('\n');
+          ])
 
-            const ensureLabel = async (name, color, description) => {
-              try { await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name }); }
-              catch (error) {
-                if (error.status !== 404) throw error;
-                await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
-              }
-            };
-            await ensureLabel('quality', '5319E7', 'Quality and maintainability issue');
-            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 finding');
-            await ensureLabel('scanner/runtime', '1D76DB', 'Runtime scanner finding');
-            await ensureLabel('security', 'B60205', 'Open security finding requiring triage');
-            await ensureLabel('security/critical', 'B60205', 'Critical security finding; immediate action required');
-            await ensureLabel('status/needs-approval', 'FBCA04', 'Requires explicit maintainer approval');
+          if buckets:
+              for bucket in buckets[:50]:
+                  loc = f"{bucket.get('file', 'unknown')}:{bucket.get('line') if bucket.get('line') and bucket.get('line') > 0 else 'n/a'}"
+                  lines.append(f"| {bucket.get('severity', 'LOW')} | `{bucket.get('scanner', 'unknown')}` | `{bucket.get('type', 'unknown')}` | `{loc}` | {bucket.get('count', 0)} | `{bucket.get('subsystem', 'unknown')}` |")
+          else:
+              lines.append('| _none_ | _none_ | _none_ | _none_ | 0 | _none_ |')
 
-            const hasCritical = Number.parseInt(process.env.CRITICAL_COUNT || '0', 10) > 0;
-            const labels = hasCritical
-              ? ['quality', 'scanner/gs3', 'security', 'security/critical', 'status/needs-approval']
-              : ['quality', 'scanner/gs3'];
+          lines.extend(['', '_Auto-generated by maintenance-issues.yml at ' + __import__('datetime').datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ') + '_'])
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write('body<<EOF\n')
+              fh.write('\n'.join(lines))
+              fh.write('\nEOF\n')
+          PY
 
-            const shouldOpenIssue = String(process.env.SHOULD_OPEN_ISSUE || 'false') === 'true';
-            if (shouldOpenIssue) {
-              if (existingOpen) {
-                await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existingOpen.number, title: issueTitle, body, labels });
-                core.notice(`Updated existing GS3 consolidated issue #${existingOpen.number}`);
-              } else if (existingClosed && forceReopen) {
-                await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existingClosed.number, state: 'open', title: issueTitle, body, labels });
-                core.notice(`Re-opened GS3 consolidated issue #${existingClosed.number}`);
-              } else {
-                const created = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: issueTitle, body, labels });
-                core.notice(`Created GS3 consolidated issue #${created.data.number}`);
-              }
-              return;
-            }
-            if (existingOpen && closeWhenClean) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: existingOpen.number,
-                body: ['✅ No actionable GS3 bucket remains above threshold.', '', `New: ${newCount}, resolved: ${resolvedCount}.`, `_Auto-closed by maintenance-issues.yml at ${new Date().toISOString()}_`].join('\n'),
-              });
-              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existingOpen.number, state: 'closed', state_reason: 'completed' });
-              core.notice(`Closed GS3 consolidated issue #${existingOpen.number}`);
-            } else {
-              core.notice('No issue action required (below threshold and no close action).');
-            }
-
-      - name: Handle scanner execution failure issue
-        if: steps.scan.outputs.scan_failed == 'true'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
-        env:
-          SCAN_EXIT_CODE: ${{ steps.scan.outputs.scan_exit_code }}
+      - name: Upsert consolidated GS3 issue
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue == 'true'
+        uses: ./.github/actions/status-flags-and-issues
         with:
-          script: |
-            const markerType = '<!-- gs3-gap:type:scanner-failure -->';
-            const markerScope = `<!-- gs3-gap:scope:${context.repo.owner}/${context.repo.repo} -->`;
-            const markerBranch = `<!-- gs3-gap:branch:${process.env.TARGET_BRANCH || 'develop'} -->`;
-            const title = `[GS3] Scanner execution failure — ${process.env.TARGET_BRANCH || 'develop'}`;
-            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const body = [
-              markerType, markerScope, markerBranch,
-              '## GS3 scanner execution failed', '',
-              `- **Exit code:** ${process.env.SCAN_EXIT_CODE || 'unknown'}`,
-              `- **Branch:** \`${process.env.TARGET_BRANCH || 'develop'}\``,
-              `- **Paths:** \`${process.env.SCAN_PATHS || 'src include tests'}\``,
-              `- **Mode:** \`${process.env.SCAN_MODE || 'fast'}\``,
-              `- **Run:** ${runUrl}`, '',
-              '_Please inspect workflow logs and fix scanner/runtime failures._',
-              `_Auto-generated by maintenance-issues.yml at ${new Date().toISOString()}_`,
-            ].join('\n');
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[GS3] Gap Scan — ${{ env.TARGET_BRANCH }} (${{ env.MIN_SEVERITY }}+)'
+          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
+          issue-body: ${{ steps.gs3-body.outputs.body }}
+          labels-to-add: 'quality,scanner/gs3,status/needs-approval'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
-            const issues = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
-            const existing = issues.find(i => { const b = i.body || ''; return b.includes(markerType) && b.includes(markerScope) && b.includes(markerBranch); });
+      - name: Normalize GS3 labels when open
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
+          labels-to-add: 'quality,scanner/gs3,status/needs-approval'
+          status-group: 'quality,scanner/gs3,scanner/runtime,security,security/critical,status/needs-approval'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
-            const ensureLabel = async (name, color, description) => {
-              try { await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name }); }
-              catch (error) {
-                if (error.status !== 404) throw error;
-                await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
-              }
-            };
-            await ensureLabel('quality', '5319E7', 'Quality and maintainability issue');
-            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 finding');
+      - name: Close GS3 issue when clean
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
+          allow-missing: true
+          issue-body: |
+            ✅ No actionable GS3 bucket remains above threshold.
 
-            if (existing) {
-              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title, body, labels: ['quality', 'scanner/gs3'] });
-              core.notice(`Updated scanner failure issue #${existing.number}`);
-            } else {
-              const created = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body, labels: ['quality', 'scanner/gs3'] });
-              core.notice(`Created scanner failure issue #${created.data.number}`);
-            }
+            _Auto-closed by maintenance-issues.yml at ${{ github.run_id }}_
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Complete GS3 issue closure
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: close_issue
+          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
+          allow-missing: true
+          close-reason: completed
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Upsert scanner failure issue
+        if: steps.scan.outputs.scan_failed == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[GS3] Scanner execution failure — ${{ env.TARGET_BRANCH }}'
+          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
+          issue-body: |
+            <!-- gs3-gap:type:scanner-failure -->
+            <!-- gs3-gap:scope:${{ github.repository }} -->
+            <!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->
+            ## GS3 scanner execution failed
+
+            - **Exit code:** ${{ steps.scan.outputs.scan_exit_code || 'unknown' }}
+            - **Branch:** `${{ env.TARGET_BRANCH }}`
+            - **Paths:** `${{ env.SCAN_PATHS }}`
+            - **Mode:** `${{ env.SCAN_MODE }}`
+            - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            _Please inspect workflow logs and fix scanner/runtime failures._
+            _Auto-generated by maintenance-issues.yml at ${{ github.run_id }}_
+          labels-to-add: 'quality,scanner/gs3'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
       - name: Close scanner failure issue on recovery
         if: steps.scan.outputs.scan_failed != 'true'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        uses: ./.github/actions/status-flags-and-issues
         with:
-          script: |
-            const markerType = '<!-- gs3-gap:type:scanner-failure -->';
-            const markerScope = `<!-- gs3-gap:scope:${context.repo.owner}/${context.repo.repo} -->`;
-            const markerBranch = `<!-- gs3-gap:branch:${process.env.TARGET_BRANCH || 'develop'} -->`;
-            const issues = await github.paginate(github.rest.issues.listForRepo, { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
-            const existing = issues.find(i => { const b = i.body || ''; return b.includes(markerType) && b.includes(markerScope) && b.includes(markerBranch); });
-            if (!existing) { core.notice('No open GS3 scanner failure issue found.'); return; }
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number,
-              body: ['✅ GS3 scanner execution recovered.', `_Auto-closed by maintenance-issues.yml at ${new Date().toISOString()}_`].join('\n'),
-            });
-            await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, state: 'closed', state_reason: 'completed' });
-            core.notice(`Closed scanner failure issue #${existing.number}`);
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
+          allow-missing: true
+          issue-body: |
+            ✅ GS3 scanner execution recovered.
+
+            _Auto-closed by maintenance-issues.yml at ${{ github.run_id }}_
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Finalize scanner failure close
+        if: steps.scan.outputs.scan_failed != 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: close_issue
+          issue-marker: '<!-- gs3-gap:branch:${{ env.TARGET_BRANCH }} -->'
+          allow-missing: true
+          close-reason: completed
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
       - name: Job summary
         if: always()
@@ -610,9 +590,15 @@ jobs:
           echo "  Timestamp     : $(date -u)"
           echo "============================================================"
 
-      - name: Open/update SLA issue for high/critical alerts
-        id: triage
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+
+      - name: Query code scanning alerts for SLA breaches
+        id: query
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           script: |
             const slaDaysRaw = '${{ inputs.sla_days || 14 }}';
@@ -620,89 +606,352 @@ jobs:
             if (!Number.isFinite(slaDays) || slaDays <= 0) {
               throw new Error(`Invalid sla_days input: ${slaDaysRaw}`);
             }
-
-            const markerType = '<!-- security-triage:type:code-scanning-sla -->';
-            const markerScope = `<!-- security-triage:scope:${context.repo.owner}/${context.repo.repo} -->`;
-            const markerRef = `<!-- security-triage:ref:${context.ref} -->`;
             const now = Date.now();
             const msPerDay = 24 * 60 * 60 * 1000;
-
-            const ensureLabel = async (name, color, description) => {
-              try { await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name }); }
-              catch (error) {
-                if (error.status !== 404) throw error;
-                await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name, color, description });
+            let alerts = [];
+            try {
+              alerts = await github.paginate(github.rest.codeScanning.listAlertsForRepo, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 100,
+              });
+            } catch (err) {
+              if (err.status === 404) {
+                core.notice('Code scanning not enabled on this repository; skipping SLA triage.');
+                core.setOutput('has_breach', 'false');
+                core.setOutput('breach_count', '0');
+                return;
               }
-            };
-            await ensureLabel('security', 'B60205', 'Open security finding requiring triage');
-            await ensureLabel('security/critical', 'B60205', 'Critical security finding; immediate action required');
-            await ensureLabel('status/needs-approval', 'FBCA04', 'Requires explicit maintainer approval');
-
-            const alerts = await github.paginate(github.rest.codeScanning.listAlertsForRepo, {
-              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
-            });
-
+              throw err;
+            }
             const prioritized = alerts
               .map(a => {
                 const sev = (a.rule?.security_severity_level || '').toLowerCase();
                 const createdAt = Date.parse(a.created_at);
-                const ageDays = Number.isFinite(createdAt) ? Math.floor((now - createdAt) / msPerDay) : 0;
+                const ageDays = Number.isFinite(createdAt)
+                  ? Math.floor((now - createdAt) / msPerDay)
+                  : 0;
                 return { a, sev, ageDays };
               })
               .filter(x => (x.sev === 'high' || x.sev === 'critical') && x.ageDays >= slaDays)
               .sort((x, y) => y.ageDays - x.ageDays);
-
+            const hasBreach = prioritized.length > 0;
+            core.setOutput('has_breach', String(hasBreach));
             core.setOutput('breach_count', String(prioritized.length));
-
-            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
-              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
-            });
-            const existing = openIssues.find(i =>
-              (i.body || '').includes(markerType) &&
-              (i.body || '').includes(markerScope) &&
-              (i.body || '').includes(markerRef)
-            );
-
-            if (prioritized.length === 0) {
-              if (existing) {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number,
-                  body: ['✅ No open high/critical Code Scanning alerts are beyond SLA anymore.', '', `_Auto-closed by maintenance-issues.yml at ${new Date().toISOString()}_`].join('\n'),
-                });
-                await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, state: 'closed', state_reason: 'completed' });
-                core.notice(`Closed resolved security triage issue #${existing.number}`);
-              } else {
-                core.notice('No SLA-breaching high/critical alerts; no issue action required.');
-              }
-              return;
-            }
-
-            const title = `[Security] Code Scanning alerts breaching ${slaDays}d SLA`;
-            const rows = prioritized.slice(0, 50).map(({ a, sev, ageDays }) => {
-              const alertUrl = a.html_url || `https://github.com/${context.repo.owner}/${context.repo.repo}/security/code-scanning/${a.number}`;
-              const branch = a.most_recent_instance?.ref || 'unknown';
-              const tool = a.tool?.name || 'unknown';
-              const rule = a.rule?.id || a.rule?.name || 'unknown';
-              return `| [#${a.number}](${alertUrl}) | ${sev} | ${ageDays} | \`${branch}\` | ${tool} | \`${rule}\` |`;
-            });
-
-            const body = [
-              markerType, markerScope, markerRef,
-              '## Security SLA Alert — Code Scanning', '',
-              `Found **${prioritized.length}** open high/critical code scanning alert(s) older than **${slaDays} day(s)**.`, '',
-              '**Owner:** @makr-code',
-              `**SLA:** high/critical alert triage within ${slaDays} days, mitigation plan within 72h after triage.`, '',
-              '| Alert | Severity | Age (days) | Branch | Tool | Rule |',
-              '|---|---:|---:|---|---|---|',
-              ...rows, '',
-              '_Source of truth: GitHub Security › Code scanning alerts._',
-              `_Auto-generated by maintenance-issues.yml at ${new Date().toISOString()}_`,
-            ].join('\n');
-
-            if (existing) {
-              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, title, body, labels: ['security', 'status/needs-approval'] });
-              core.notice(`Updated security triage issue #${existing.number}`);
+            if (hasBreach) {
+              core.notice(`Found ${prioritized.length} high/critical alert(s) breaching ${slaDays}-day SLA.`);
             } else {
-              const { data: issue } = await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body, labels: ['security', 'status/needs-approval'] });
-              core.notice(`Created security triage issue #${issue.number}`);
+              core.notice(`No high/critical alerts are beyond ${slaDays}-day SLA.`);
             }
+
+      - name: Open/update SLA issue for high/critical alerts
+        id: triage
+        if: steps.query.outputs.has_breach == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Security] Code Scanning alerts breaching ${{ inputs.sla_days || 14 }}d SLA'
+          issue-marker: '<!-- security-triage:ref:${{ github.ref }} -->'
+          issue-body: |
+            <!-- security-triage:type:code-scanning-sla -->
+            <!-- security-triage:scope:${{ github.repository }} -->
+            <!-- security-triage:ref:${{ github.ref }} -->
+            ## Security SLA Alert — Code Scanning
+
+            Found **${{ steps.query.outputs.breach_count }}** open high/critical code scanning alert(s) older than **${{ inputs.sla_days || 14 }} day(s)** and requiring triage.
+
+            **Owner:** @makr-code
+            **SLA:** high/critical alert triage within ${{ inputs.sla_days || 14 }} days, mitigation plan within 72h after triage.
+
+            _Source of truth: GitHub Security › Code scanning alerts._
+            _Auto-generated by maintenance-issues.yml at ${{ github.run_id }}_
+          labels-to-add: 'security,status/needs-approval'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Normalize security label group
+        if: steps.query.outputs.has_breach == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-marker: '<!-- security-triage:ref:${{ github.ref }} -->'
+          labels-to-add: 'security,status/needs-approval'
+          status-group: 'security,security/critical,status/needs-approval'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Close resolved security issue
+        if: always() && steps.query.outputs.has_breach != 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-marker: '<!-- security-triage:ref:${{ github.ref }} -->'
+          allow-missing: true
+          issue-body: |
+            ✅ No open high/critical Code Scanning alerts are beyond SLA anymore.
+
+            _Auto-closed by maintenance-issues.yml at ${{ github.run_id }}_
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Finalize resolved security issue
+        if: always() && steps.query.outputs.has_breach != 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: close_issue
+          issue-marker: '<!-- security-triage:ref:${{ github.ref }} -->'
+          allow-missing: true
+          close-reason: completed
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Job 3: Doxygen Header Update (GS3-driven)
+  # Uses GS3 findings (missing_doxygen_*) as input to autofix_engine.py,
+  # which calls doxygen_fixer_adapter → doxygen_autofix.py --apply.
+  # Opens a PR against develop if changes are produced; never pushes directly.
+  # Runs weekly on Wednesday 02:30 UTC or on workflow_dispatch.
+  # ────────────────────────────────────────────────────────────────────────────
+  doxygen-header-update:
+    name: "📝 Doxygen Header Update (GS3-driven)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+      pull-requests: write
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' &&
+        inputs.job == 'doxygen-header-update')
+    env:
+      TARGET_BRANCH: ${{ github.event_name == 'schedule' && 'develop' || inputs.target_branch || 'develop' }}
+
+    steps:
+      - name: Print context
+        run: |
+          echo "============================================================"
+          echo " Maintenance — Doxygen Header Update (GS3-driven)"
+          echo "============================================================"
+          echo "  Trigger       : ${{ github.event_name }}"
+          echo "  Target branch : ${TARGET_BRANCH}"
+          echo "  Actor         : ${{ github.actor }}"
+          echo "  Run ID        : ${{ github.run_id }}"
+          echo "  Timestamp     : $(date -u)"
+          echo "============================================================"
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: python3 -m pip install --quiet --upgrade pip pyyaml
+
+      - name: Prepare output directories
+        run: mkdir -p ai_working/gs3 ai_working/doxygen
+
+      - name: Run GS3 doxygen scan
+        id: gs3_scan
+        run: |
+          python3 - <<'PY'
+          import os
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          output_json = Path("ai_working/gs3/gap_scan_doxygen.json")
+          output_md   = Path("ai_working/gs3/gap_scan_doxygen.md")
+
+          # Run GS3 targeting src and include; doxygen findings are in
+          # gs3_step04_quality_cpp_doxygen and will be filtered by type in the next step.
+          cmd = [
+            "python3", "-m", "tools.gs3", "scan",
+            "src", "include",
+            "--scan-mode", "thorough",
+            "--output", str(output_json),
+            "--md-report", str(output_md),
+          ]
+          print("Running:", " ".join(cmd))
+          cp = subprocess.run(cmd)
+          exit_code = cp.returncode
+
+          # gs3 returns 0 if findings exist, 1 if no findings; both are valid
+          scan_ok = exit_code in (0, 1)
+          has_findings = exit_code == 0 and output_json.exists()
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+            fh.write(f"scan_ok={'true' if scan_ok else 'false'}\n")
+            fh.write(f"has_findings={'true' if has_findings else 'false'}\n")
+            fh.write(f"exit_code={exit_code}\n")
+
+          if not scan_ok:
+            print(f"::error::GS3 doxygen scan failed with exit code {exit_code}")
+            sys.exit(exit_code)
+
+          print(f"GS3 doxygen scan finished (exit={exit_code}, findings={'yes' if has_findings else 'no'})")
+          PY
+
+      - name: Convert GS3 JSON for autofix_engine input
+        id: convert
+        if: steps.gs3_scan.outputs.has_findings == 'true'
+        run: |
+          python3 - <<'PY'
+          # autofix_engine.py expects a flat JSON array of findings.
+          # GS3 emits {"gaps": [...]}. Extract and filter to doxygen types only.
+          import json
+          import os
+          from pathlib import Path
+
+          src = Path("ai_working/gs3/gap_scan_doxygen.json")
+          dst = Path("ai_working/doxygen/autofix_findings.json")
+
+          data = json.loads(src.read_text(encoding="utf-8"))
+          gaps = data.get("gaps", [])
+
+          DOXYGEN_TYPES = {
+            "missing_doxygen_comment",
+            "missing_doxygen_brief",
+            "missing_doxygen_param",
+            "missing_doxygen_return",
+          }
+          filtered = [
+            {
+              "file":     g.get("file", ""),
+              "line":     int(g.get("line") or 1),
+              "type":     g.get("type", "missing_doxygen_comment"),
+              "severity": g.get("severity", "MEDIUM"),
+              "message":  g.get("description", ""),
+            }
+            for g in gaps
+            if g.get("type") in DOXYGEN_TYPES
+          ]
+
+          dst.write_text(json.dumps(filtered, indent=2, ensure_ascii=False), encoding="utf-8")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+            fh.write(f"finding_count={len(filtered)}\n")
+
+          print(f"Prepared {len(filtered)} doxygen findings for autofix_engine")
+          PY
+
+      - name: Apply doxygen fixes via autofix_engine
+        id: autofix
+        if: steps.gs3_scan.outputs.has_findings == 'true' && steps.convert.outputs.finding_count != '0'
+        env:
+          DOXYGEN_USE_OLLAMA: 'false'
+        run: |
+          python3 tools/fixers/autofix_engine.py \
+            --root . \
+            --findings ai_working/doxygen/autofix_findings.json \
+            --types missing_doxygen_comment,missing_doxygen_brief,missing_doxygen_param,missing_doxygen_return \
+            --apply \
+            --report ai_working/doxygen/autofix_report.json
+
+      - name: Check for file changes
+        id: diff
+        if: steps.gs3_scan.outputs.has_findings == 'true'
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No file changes produced by doxygen autofix."
+          else
+            changed_count=$(git diff --name-only | wc -l | tr -d ' ')
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "changed_count=${changed_count}" >> "$GITHUB_OUTPUT"
+            echo "::notice::${changed_count} file(s) modified by doxygen autofix."
+            git diff --stat
+          fi
+
+      - name: Upload doxygen artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: doxygen-autofix-${{ github.run_id }}
+          path: |
+            ai_working/gs3/gap_scan_doxygen.json
+            ai_working/gs3/gap_scan_doxygen.md
+            ai_working/doxygen/autofix_findings.json
+            ai_working/doxygen/autofix_report.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Configure git for PR commit
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create PR branch and open PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGED_COUNT: ${{ steps.diff.outputs.changed_count }}
+        run: |
+          BRANCH="doxygen/auto-update-${{ github.run_id }}"
+          git checkout -b "${BRANCH}"
+          git add -u
+          git commit -m "chore: auto-update doxygen headers [GS3 maintenance run ${{ github.run_id }}]
+
+          Updated ${CHANGED_COUNT} file(s) with missing Doxygen headers.
+          Scanner: gs3_step04_quality_cpp_doxygen
+          Fixer: tools/fixers/autofix_engine.py -> doxygen_fixer_adapter -> doxygen_autofix.py
+          Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          git push origin "${BRANCH}"
+
+          gh pr create \
+            --base "${{ env.TARGET_BRANCH }}" \
+            --head "${BRANCH}" \
+            --title "chore: auto-update doxygen headers [GS3 maintenance]" \
+            --body "## Automated Doxygen Header Update
+
+          This PR was auto-generated by the GS3 maintenance workflow.
+
+          **Trigger:** Scheduled GS3 gap scan identified missing Doxygen headers in \`src/\` and \`include/\`.
+          **Scope:** Missing \`@brief\`, \`@param\`, \`@return\` tags in public C++ API declarations.
+          **Files changed:** ${CHANGED_COUNT}
+
+          ### What was applied
+          - Scanner: \`gs3_step04_quality_cpp_doxygen\`
+          - Fixer: \`tools/fixers/autofix_engine.py\` -> \`doxygen_fixer_adapter\` -> \`tools/doxygen_autofix.py --apply\`
+          - Mode: additions only (no rewriting of existing Doxygen blocks)
+          - Ollama: disabled in CI (no remote endpoint available from GitHub Actions)
+
+          ### Review checklist
+          - [ ] Verify \`@brief\` descriptions are accurate
+          - [ ] Verify \`@param\` names match the actual parameter names
+          - [ ] Spot-check 2-3 files for correctness
+
+          _Auto-generated by \`maintenance-issues.yml\` job \`doxygen-header-update\` run \`${{ github.run_id }}\`_" \
+            --label "quality,automated" \
+            --no-maintainer-edit
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## 📝 Doxygen Header Update (GS3-driven)"
+            echo ""
+            echo "- Trigger: \`${{ github.event_name }}\`"
+            echo "- Branch: \`${TARGET_BRANCH}\`"
+            echo "- GS3 scan ok: \`${{ steps.gs3_scan.outputs.scan_ok || 'n/a' }}\`"
+            echo "- GS3 findings: \`${{ steps.gs3_scan.outputs.has_findings || 'n/a' }}\`"
+            echo "- Doxygen findings to fix: \`${{ steps.convert.outputs.finding_count || '0' }}\`"
+            echo "- Files changed: \`${{ steps.diff.outputs.changed_count || '0' }}\`"
+            echo "- PR opened: \`${{ steps.diff.outputs.changed == 'true' && 'yes' || 'no' }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

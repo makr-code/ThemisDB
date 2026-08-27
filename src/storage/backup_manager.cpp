@@ -92,6 +92,34 @@ fs::path resolveLocalBackupPath(const std::string& value) {
     return fs::path(value);
 }
 
+/// Resolve the canonical base directory used by backup path-traversal guards.
+fs::path resolveBackupGuardBaseDir(const RocksDBWrapper& db_wrapper,
+                                   const BackupManager::Config& config) {
+    const fs::path configured_base = config.backup_base_dir.empty()
+        ? fs::path(db_wrapper.getConfig().db_path).parent_path()
+        : fs::path(config.backup_base_dir);
+    const fs::path absolute_base = configured_base.is_absolute()
+        ? configured_base
+        : fs::absolute(configured_base);
+    return fs::weakly_canonical(absolute_base);
+}
+
+/// Return true when @p candidate is inside @p base (or equals @p base).
+bool isPathWithinBaseDir(const fs::path& base, const fs::path& candidate) {
+    std::error_code ec;
+    const fs::path relative = fs::relative(candidate, base, ec);
+    if (ec) {
+        return false;
+    }
+
+    if (relative.empty()) {
+        return true;
+    }
+
+    const auto first = relative.begin();
+    return first == relative.end() || *first != "..";
+}
+
 /// Validate that one cron field only uses the supported literal characters.
 bool isValidCronField(const std::string& field) {
     if (field.empty()) {
@@ -226,8 +254,9 @@ static std::string winQuoteForCreateProcess(const std::string& s) {
 }
 #endif
 
-BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper) 
-    : db_wrapper_(std::move(db_wrapper)) {
+BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper, Config config)
+    : db_wrapper_(std::move(db_wrapper))
+    , config_(std::move(config)) {
     if (!db_wrapper_) {
         THEMIS_ERROR("BackupManager: db_wrapper is null");
         // uncaught_exception scanner alert (line 66): constructor throws
@@ -839,6 +868,18 @@ Result<void> BackupManager::restoreFromBackup(const std::string& src_dir) {
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Restoring database from backup: {}", src_dir);
+
+        // path_traversal guard: canonicalize src_dir and confirm it stays
+        // inside the configured backup base directory.
+        const fs::path backup_root = resolveBackupGuardBaseDir(*db_wrapper_, config_);
+        const fs::path canonical_src = fs::weakly_canonical(fs::path(src_dir));
+        if (!isPathWithinBaseDir(backup_root, canonical_src)) {
+            THEMIS_ERROR("restoreFromBackup: path traversal attempt rejected: "
+                         "src_dir='{}' not under backup_root='{}'",
+                         src_dir, backup_root.string());
+            return ErrVoid(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                           "Path traversal rejected for restore source: " + src_dir);
+        }
         
         // Read backup manifest
         std::string type;
@@ -1071,7 +1112,20 @@ Result<void> BackupManager::isBackupComplete(const std::string& backup_dir,
 Result<std::string> BackupManager::calculateChecksum(const std::string& file_path) {
     namespace fs = std::filesystem;
     try {
-        std::ifstream file(file_path, std::ios::binary);
+        // path_traversal guard: canonicalize the requested path and verify it
+        // remains within the configured backup root. This prevents escaping
+        // via "../.." sequences or symlinks.
+        const fs::path backup_root = resolveBackupGuardBaseDir(*db_wrapper_, config_);
+        const fs::path canonical = fs::weakly_canonical(fs::path(file_path));
+        if (!isPathWithinBaseDir(backup_root, canonical)) {
+            THEMIS_ERROR("calculateChecksum: path traversal attempt rejected: "
+                         "requested='{}' not under backup_root='{}'",
+                         file_path, backup_root.string());
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                    "Path traversal rejected: " + file_path);
+        }
+
+        std::ifstream file(canonical, std::ios::binary);
         if (!file) {
             return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, 
                                    "Failed to open file for checksum: " + file_path);
@@ -1306,7 +1360,8 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
 // New Helper Methods
 // ============================================================================
 
-bool BackupManager::compressPath(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::compressPath([[maybe_unused]] const std::string& src_path,
+                                 [[maybe_unused]] const std::string& dest_path,
                                  CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
     // ZSTD: compress each file to dest_path/<relpath>.zst (THEMIS_HAS_ZSTD)
@@ -1408,30 +1463,18 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
         return false;
     }
 #else
-    // No compression library available — raw directory copy.
-    static std::once_flag s_compress_warn;
-    std::call_once(s_compress_warn, [type] {
-        THEMIS_WARN("BackupManager::compressPath: STUB — files copied without compression "
-                    "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
-                    "(This warning is printed once per process.)", static_cast<int>(type));
-    });
-    try {
-        THEMIS_INFO("Compressing {} to {} (type={})", src_path, dest_path, static_cast<int>(type));
-        fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
-        if (ec) {
-            THEMIS_ERROR("Failed to copy for compression: {}", ec.message());
-            return false;
-        }
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during compression: {}", e.what());
-        return false;
-    }
+    // No compression library available — fail closed; do not silently copy uncompressed data.
+    ec = std::make_error_code(std::errc::function_not_supported);
+    THEMIS_ERROR("BackupManager::compressPath: compression library unavailable — "
+                 "cannot produce compressed backup (THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set). "
+                 "Build with -DTHEMIS_HAS_ZSTD=ON or -DTHEMIS_HAS_LZ4=ON for compressed backups. "
+                 "Aborting backup run.");
+    return false;
 #endif
 }
 
-bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::decompressPath([[maybe_unused]] const std::string& src_path,
+                                   [[maybe_unused]] const std::string& dest_path,
                                    CompressionType type, std::error_code& ec) {
     namespace fs = std::filesystem;
     // ZSTD: decompress *.zst files; THEMIS_HAS_ZSTD must be set.
@@ -1588,7 +1631,8 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 #endif
 }
 
-bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::encryptFile([[maybe_unused]] const std::string& src_path,
+                                [[maybe_unused]] const std::string& dest_path,
                                 [[maybe_unused]] const std::string& key, std::error_code& ec) {
     static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
@@ -1667,30 +1711,15 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     return true;
 #else
     static_cast<void>(key);
-    static std::once_flag s_encrypt_warn;
-    std::call_once(s_encrypt_warn, [] {
-        THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
-                    "AES-256-GCM encryption (THEMIS_ENABLE_OPENSSL not set). "
-                    "Build with -DTHEMIS_ENABLE_OPENSSL=ON for encrypted backups. "
-                    "(This warning is printed once per process.)");
-    });
-    namespace fs = std::filesystem;
-    try {
-        fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
-        if (ec) {
-            THEMIS_ERROR("Failed to copy for encryption: {}", ec.message());
-            return false;
-        }
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during encryption: {}", e.what());
-        return false;
-    }
+    ec = std::make_error_code(std::errc::function_not_supported);
+    THEMIS_ERROR("BackupManager::encryptFile: OpenSSL not available — "
+                 "cannot produce encrypted backup. Aborting.");
+    return false;
 #endif
 }
 
-bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
+bool BackupManager::decryptFile([[maybe_unused]] const std::string& src_path,
+                                [[maybe_unused]] const std::string& dest_path,
                                 [[maybe_unused]] const std::string& key, std::error_code& ec) {
     static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
@@ -3238,7 +3267,7 @@ bool BackupManager::decompressPathWithIntegrity(const std::string& src_path,
 
 // Stub implementations when THEMIS_ROCKSDB_AVAILABLE is not defined
 
-BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> /* db_wrapper */) {
+BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> /* db_wrapper */, Config /* config */) {
     THEMIS_ERROR("BackupManager requires THEMIS_ROCKSDB_AVAILABLE to be enabled");
 }
 
@@ -3340,6 +3369,5 @@ Result<std::string> BackupManager::decompressBackup(const std::string& /* compre
 #endif // THEMIS_ROCKSDB_AVAILABLE
 
 } // namespace themis
-
 
 

@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
@@ -150,12 +151,36 @@ OAuthDeviceFlow::TokenResponse OAuthDeviceFlow::pollForToken(const std::string &
     spdlog::debug("OAuthDeviceFlow: polling token endpoint {}", config_.token_endpoint);
 
     std::string response_body;
-    try {
-        response_body = httpPost(config_.token_endpoint, body);
-    } catch (const std::exception &ex) {
-        spdlog::warn("OAuthDeviceFlow: token poll HTTP error: {}", ex.what());
-        status_out = PollStatus::Error;
-        return {};
+    {
+        // B4: retry httpPost() with exponential backoff on transient transport errors
+        constexpr int kMaxRetries  = 3;
+        constexpr int kBaseDelayMs = 100;
+        bool success = false;
+        for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+            try {
+                response_body = httpPost(config_.token_endpoint, body);
+                success = true;
+                break;
+            } catch (const std::exception &ex) {
+                const std::string what = ex.what();
+                const bool retryable   = (what.find("HTTP 429") != std::string::npos)
+                                       || (what.find("HTTP 503") != std::string::npos)
+                                       || (what.find("libcurl") != std::string::npos);
+                if (!retryable || attempt + 1 == kMaxRetries) {
+                    spdlog::warn("OAuthDeviceFlow: token poll HTTP error: {}", what);
+                    status_out = PollStatus::Error;
+                    return {};
+                }
+                const int delay_ms = kBaseDelayMs * (1 << attempt);
+                spdlog::warn("OAuthDeviceFlow: token poll attempt {} failed ({}), retrying in {}ms",
+                             attempt + 1, what, delay_ms);
+                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            }
+        }
+        if (!success) {
+            status_out = PollStatus::Error;
+            return {};
+        }
     }
 
     nlohmann::json j;

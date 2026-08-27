@@ -27,8 +27,6 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/src/search/conversational_search.cpp
         ${THEMIS_ROOT_DIR}/src/search/federated_search.cpp
         ${THEMIS_ROOT_DIR}/src/search/search_result_stream.cpp
-        ${THEMIS_ROOT_DIR}/src/search/hybrid_search.cpp
-        ${THEMIS_ROOT_DIR}/src/search/distributed_hybrid_search.cpp
         ${_extra_sources}
     )
     target_include_directories(${_target} PRIVATE

@@ -52,6 +52,22 @@ static constexpr std::size_t kMetaInfixLen = 6;      // strlen(":meta:")
 } // anonymous namespace
 
 // ============================================================================
+// STUB/SIMULATION NOTE (STUB #264 — RecompressFn injection bridge):
+// Purpose: Injectable bridge for external tensor recompression during RocksDB
+//          compaction. Enables ThemisDB's TT-rank reduction to be swapped out
+//          for an alternative compression algorithm (e.g., LAPACK-backed SVD,
+//          quantization-aware compression) without recompiling this filter.
+// Activation: When setRecompressFn() is called at startup with a custom fn.
+//             Default (fn == nullptr): uses the built-in truncatedSVD (Golub-Reinsch)
+//             implemented inside TensorCompactionFilter::recompress().
+// Production Delta: Without injection, compression is performed by the self-contained
+//                   truncatedSVD; results are mathematically correct. Injection only
+//                   needed when LAPACK dgesdd or a quantization-aware algorithm is
+//                   preferred for performance (LAPACK offers ~3× speedup for large
+//                   unfoldings).
+// Removal Plan: This bridge is permanent infrastructure — not removed. Wire
+//               LAPACK path via setRecompressFn() at startup when
+//               THEMIS_USE_LAPACK_SVD is defined — Target Q4 2026.
 // RecompressFn injection bridge (STUB #264)
 // ============================================================================
 

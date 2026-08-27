@@ -10,13 +10,70 @@
 #include "utils/uuid.h"
 
 #include <algorithm>
-#include <numeric>
+#include <cctype>
 #include <cmath>
-#include <sstream>
 #include <chrono>
+#include <numeric>
+#include <spdlog/spdlog.h>
+#include <sstream>
 
 namespace themis {
 namespace aql {
+
+namespace {
+
+std::vector<int32_t> buildRecencyRanking(std::size_t history_size) {
+    std::vector<int32_t> indices;
+    indices.reserve(history_size);
+    for (int32_t i = static_cast<int32_t>(history_size); i-- > 0;) {
+        indices.push_back(i);
+    }
+    return indices;
+}
+
+std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t history_size) {
+    std::vector<int32_t> indices;
+    std::string current_number;
+    std::vector<bool> seen(history_size, false);
+
+    auto flush_number = [&]() {
+        if (current_number.empty()) {
+            return;
+        }
+        try {
+            const auto idx = std::stoi(current_number);
+            if (idx >= 0 && idx < static_cast<int32_t>(history_size) && !seen[static_cast<std::size_t>(idx)]) {
+                indices.push_back(idx);
+                seen[static_cast<std::size_t>(idx)] = true;
+            }
+        } catch (const std::exception&) {
+            // Ignore malformed fragments.
+        }
+        current_number.clear();
+    };
+
+    for (char ch : response) {
+        if (std::isdigit(static_cast<unsigned char>(ch))) {
+            current_number.push_back(ch);
+        } else {
+            flush_number();
+        }
+    }
+    flush_number();
+
+    if (indices.size() == history_size) {
+        return indices;
+    }
+
+    for (int32_t i = static_cast<int32_t>(history_size); i-- > 0;) {
+        if (!seen[static_cast<std::size_t>(i)]) {
+            indices.push_back(i);
+        }
+    }
+    return indices;
+}
+
+} // namespace
 
 LLMExtractiveCompressor::LLMExtractiveCompressor(
     LLMAQLHandler& handler,
@@ -121,8 +178,8 @@ std::unique_ptr<CompressionResult> LLMExtractiveCompressor::compressHistory(
 }
 
 bool LLMExtractiveCompressor::isAvailable() const {
-    // Check if LLM handler is functional
-    return true;  // TODO: Add actual availability check
+    auto llm_client = handler_.getLLMClient();
+    return llm_client != nullptr && llm_client->isReady();
 }
 
 std::string LLMExtractiveCompressor::getStatistics() const {
@@ -158,17 +215,22 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
         ranking_prompt.replace(pos, 7, turn_format.str());
     }
 
-    // Call LLM for ranking
     try {
-        // TODO: Use proper LLM call with timeout
-        // For now, return default ranking (most recent first)
-        std::vector<int32_t> indices;
-        for (int32_t i = history.size() - 1; i >= 0; --i) {
-            indices.push_back(i);
+        if (!isAvailable()) {
+            return buildRecencyRanking(history.size());
         }
-        return indices;
-    } catch (...) {
-        return {};
+
+        std::unordered_map<std::string, std::string> options;
+        options["max_tokens"] = "256";
+        options["temperature"] = "0.0";
+        const std::string ranking_response = handler_.executeInfer(ranking_prompt, "", "", options);
+        if (ranking_response.empty()) {
+            return buildRecencyRanking(history.size());
+        }
+        return parseRankedIndices(ranking_response, history.size());
+    } catch (const std::exception& ex) {
+        spdlog::warn("LLMExtractiveCompressor: ranking via LLM failed; using recency fallback: {}", ex.what());
+        return buildRecencyRanking(history.size());
     }
 }
 
@@ -216,6 +278,43 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
     return selected;
 }
 
+/// @brief Build a term-frequency bag-of-words from a flat message collection.
+/// @details Tokenises each message body into lowercase words and accumulates
+///          counts.  Punctuation is stripped and empty tokens are discarded.
+/// @param msgs Collection of (role, content) pairs to aggregate.
+/// @return Mapping from word to occurrence count.
+static std::unordered_map<std::string, float> buildTermFrequency(
+    const std::vector<std::pair<std::string, std::string>>& msgs) {
+    std::unordered_map<std::string, float> tf;
+    for (const auto& [role, content] : msgs) {
+        (void)role; // role is not used for term frequency
+        std::string token;
+        for (unsigned char ch : content) {
+            if (std::isalnum(ch)) {
+                token.push_back(static_cast<char>(std::tolower(ch)));
+            } else {
+                if (!token.empty()) {
+                    tf[token] += 1.0f;
+                    token.clear();
+                }
+            }
+        }
+        if (!token.empty()) {
+            tf[token] += 1.0f;
+        }
+    }
+    return tf;
+}
+
+/// @brief Compute the L2 norm of a term-frequency vector.
+static float l2Norm(const std::unordered_map<std::string, float>& tf) {
+    float sum = 0.0f;
+    for (const auto& [_, v] : tf) {
+        sum += v * v;
+    }
+    return std::sqrt(sum);
+}
+
 float LLMExtractiveCompressor::computeSimilarity(
     const std::vector<std::pair<std::string, std::string>>& original,
     const std::vector<std::pair<std::string, std::string>>& compressed) {
@@ -224,16 +323,43 @@ float LLMExtractiveCompressor::computeSimilarity(
         return -1.0f;
     }
 
-    // TODO: Implement actual embedding-based similarity computation
-    // For now, use heuristic: preserve ratio of turn count
     if (original.empty()) {
         return 1.0f;
     }
 
-    float turn_ratio = static_cast<float>(compressed.size()) / original.size();
-    // Map turn ratio to similarity (conservative estimate)
-    float base_similarity = 0.7f + (turn_ratio * 0.3f);
-    return std::min(base_similarity, 1.0f);
+    // Cosine similarity over bag-of-words term frequencies.
+    // This is a deterministic, dependency-free approximation of semantic
+    // overlap that replaces the previous turn-count heuristic.  When a real
+    // embedding service is wired in this can be upgraded without changing the
+    // call sites.
+    const auto orig_tf = buildTermFrequency(original);
+    const auto comp_tf = buildTermFrequency(compressed);
+
+    if (orig_tf.empty() || comp_tf.empty()) {
+        // No text content — treat as fully similar to avoid spurious rejection.
+        return 1.0f;
+    }
+
+    // Dot product (iterate over the smaller vector for efficiency)
+    const auto& iter_tf = (orig_tf.size() <= comp_tf.size()) ? orig_tf : comp_tf;
+    const auto& lookup_tf = (orig_tf.size() <= comp_tf.size()) ? comp_tf : orig_tf;
+    float dot = 0.0f;
+    for (const auto& [term, value] : iter_tf) {
+        auto it = lookup_tf.find(term);
+        if (it != lookup_tf.end()) {
+            dot += value * it->second;
+        }
+    }
+
+    const float norm_orig = l2Norm(orig_tf);
+    const float norm_comp = l2Norm(comp_tf);
+
+    if (norm_orig <= 0.0f || norm_comp <= 0.0f) {
+        return 0.0f;
+    }
+
+    const float cosine = dot / (norm_orig * norm_comp);
+    return std::min(std::max(cosine, 0.0f), 1.0f);
 }
 
 void LLMExtractiveCompressor::storeEpisode(const CompressionResult& result) {
@@ -253,8 +379,13 @@ void LLMExtractiveCompressor::storeEpisode(const CompressionResult& result) {
         episode.metadata["type"] = "episodic_summary";
 
         store_->createInteraction(episode);
+    } catch (const std::exception& ex) {
+        // Log and continue - failure to store shouldn't break compression.
+        spdlog::warn("LLMExtractiveCompressor: failed to persist episode {}: {}",
+                     result.episode_id, ex.what());
     } catch (...) {
-        // Log and continue - failure to store shouldn't break compression
+        spdlog::warn("LLMExtractiveCompressor: failed to persist episode {} due to unknown exception",
+                     result.episode_id);
     }
 }
 

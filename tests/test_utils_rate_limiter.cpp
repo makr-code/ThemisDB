@@ -51,7 +51,7 @@ TEST(UtilsRateLimiter, AcquireBlocksAndCompletes) {
     rl.try_acquire(1.0);
     // Blocking acquire should complete quickly given high rate
     auto start = std::chrono::steady_clock::now();
-    rl.acquire(1.0);
+    EXPECT_TRUE(rl.acquire_with_timeout(1.0, 100ms));
     auto elapsed = std::chrono::steady_clock::now() - start;
     // Must complete within 100 ms (theoretical: ~1 ms at 1000 tok/s)
     EXPECT_LT(elapsed, 100ms);

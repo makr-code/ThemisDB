@@ -16,8 +16,10 @@
 #include "llm/paged_block_manager.h"
 #include <vector>
 #include <unordered_map>
+#include <list>
 #include <memory>
 #include <mutex>
+#include <atomic>
 
 namespace themis {
 namespace llm {
@@ -56,8 +58,9 @@ public:
     
     ~PagedKVCache();
 
-    // Store KV cache for a sequence
-    void store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data);
+    // Store KV cache for a sequence.
+    // Returns true on success, false if blocks could not be allocated even after LRU eviction.
+    bool store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data);
     
     // Retrieve KV cache for a sequence
     std::vector<float> retrieve(uint64_t sequence_id, size_t layer_id) const;
@@ -80,6 +83,11 @@ public:
         double prefix_sharing_ratio = 0.0;
     };
     Stats getStats() const;
+
+    /**
+     * @brief Returns total number of sequences evicted by LRU since construction.
+     */
+    uint64_t evictionCount() const noexcept { return eviction_count_.load(std::memory_order_relaxed); }
 
     /**
      * @brief Quantize KV data to target precision format.
@@ -155,7 +163,23 @@ private:
     
     mutable std::mutex mutex_;
     
+    // LRU eviction structures (guarded by mutex_)
+    // Front = most-recently-used, back = least-recently-used
+    mutable std::list<uint64_t> lru_order_;
+    mutable std::unordered_map<uint64_t, std::list<uint64_t>::iterator> lru_map_;
+
+    // Total eviction counter (atomic for lock-free reads via evictionCount())
+    std::atomic<uint64_t> eviction_count_{0};
+    
     size_t calculateKVSize() const;
+
+    /**
+     * @brief Evict the least-recently-used sequence to free blocks.
+     *
+     * Must be called while holding mutex_.  Returns false if there are no
+     * sequences to evict.
+     */
+    bool evictLRU();
 
     /**
      * @brief Quantize float32 to NVFP4 (4-bit float: 1 sign, 2 exponent, 1 mantissa).

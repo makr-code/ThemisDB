@@ -1,5 +1,7 @@
-name: Maintenance — Docs
+name: "Maintenance: Docs"
 
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-08-25
+# Trigger policy: repo framework score calibration for workflow cost controls.
 # Consolidated docs-maintenance workflow.
 # Replaces: 08-maintenance_ai-context-wiki-sync.yml,
 #           08-maintenance_code-maturity.yml,
@@ -77,6 +79,30 @@ on:
         description: 'Code maturity: rewrite headers (default: check-only)'
         type: boolean
         default: false
+      full_repo_scan:
+        description: 'Code maturity: include full repository scan target (`.`) for supported code extensions'
+        type: boolean
+        default: false
+      include_all_files:
+        description: 'Code maturity: update/validate all scanned files regardless of score threshold'
+        type: boolean
+        default: false
+      header_mode:
+        description: 'Code maturity: header richness mode'
+        type: choice
+        default: extended
+        options:
+          - lean
+          - extended
+          - auto
+      min_score:
+        description: 'Code maturity: score threshold when include_all_files=false'
+        type: string
+        default: '80'
+      target_paths:
+        description: 'Code maturity: comma-separated scan roots (ignored when full_repo_scan=true)'
+        type: string
+        default: 'src,include,tests,benchmarks'
       apply_ai_updates:
         description: 'AI context: apply lint updates'
         type: boolean
@@ -236,25 +262,60 @@ jobs:
       - name: Determine run mode
         id: mode
         run: |
+          HEADER_MODE="extended"
+          MIN_SCORE="80"
+          TARGET_PATHS="src,include,tests,benchmarks"
+          INCLUDE_ALL_FLAG=""
+          FAIL_ON_VALIDATION_FLAG=""
+          REPORT_PATH_FLAG="--report-path /tmp/code_maturity_report.md"
+
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ]; then
             {
               echo "mode=rewrite"
               echo "no_headers_flag="
-              echo "report_path_flag="
             } >> "$GITHUB_OUTPUT"
           else
             {
               echo "mode=check-only"
               echo "no_headers_flag=--no-headers"
-              echo "report_path_flag=--report-path /tmp/code_maturity_report.md"
             } >> "$GITHUB_OUTPUT"
           fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            HEADER_MODE="${{ inputs.header_mode }}"
+            MIN_SCORE="${{ inputs.min_score }}"
+            TARGET_PATHS="${{ inputs.target_paths }}"
+
+            if [ "${{ inputs.full_repo_scan }}" = "true" ]; then
+              TARGET_PATHS="."
+            fi
+            if [ "${{ inputs.include_all_files }}" = "true" ] || [ "${{ inputs.full_repo_scan }}" = "true" ]; then
+              INCLUDE_ALL_FLAG="--include-all-files"
+            fi
+            if [ "${{ inputs.fail_on_findings }}" = "true" ]; then
+              FAIL_ON_VALIDATION_FLAG="--fail-on-validation"
+            fi
+          fi
+
+          {
+            echo "header_mode=$HEADER_MODE"
+            echo "min_score=$MIN_SCORE"
+            echo "target_paths=$TARGET_PATHS"
+            echo "include_all_flag=$INCLUDE_ALL_FLAG"
+            echo "fail_on_validation_flag=$FAIL_ON_VALIDATION_FLAG"
+            echo "report_path_flag=$REPORT_PATH_FLAG"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Run code maturity analysis (${{ steps.mode.outputs.mode }})
         run: |
           python .github/scripts/code_maturity_header_writer.py \
             --root . \
+            --header-mode "${{ steps.mode.outputs.header_mode }}" \
+            --min-score "${{ steps.mode.outputs.min_score }}" \
+            --target-paths "${{ steps.mode.outputs.target_paths }}" \
+            ${{ steps.mode.outputs.include_all_flag }} \
             ${{ steps.mode.outputs.no_headers_flag }} \
+            ${{ steps.mode.outputs.fail_on_validation_flag }} \
             ${{ steps.mode.outputs.report_path_flag }} \
             2>&1 | tee /tmp/maturity_run.log
 
@@ -276,6 +337,10 @@ jobs:
             echo "## Code Maturity — ${{ steps.mode.outputs.mode }}"
             echo "| Mode | ${{ steps.mode.outputs.mode }} |"
             echo "| Event | \`${{ github.event_name }}\` |"
+            echo "| Header mode | \`${{ steps.mode.outputs.header_mode }}\` |"
+            echo "| Min score | \`${{ steps.mode.outputs.min_score }}\` |"
+            echo "| Target paths | \`${{ steps.mode.outputs.target_paths }}\` |"
+            echo "| Include all files | \`${{ steps.mode.outputs.include_all_flag != '' }}\` |"
           } >> "$GITHUB_STEP_SUMMARY"
 
   # 4. Docs Orphan Check
@@ -412,8 +477,8 @@ jobs:
   # Detects stale AI-session working documents in ai_working/ (> STALE_DAYS days,
   # not governance-critical) and reports orphaned ai_context/ entries.
   # Governance-critical files are explicitly excluded from the stale-file list:
-  #   - ai_working/ENFORCEMENT_WAIVERS.md  (read by governance-gates.yml)
-  #   - ai_working/MERGE_GATE_AUDIT_LOG.jsonl  (read by governance-gates.yml)
+  #   - ai_working/ENFORCEMENT_WAIVERS.md  (read by compliance-governance-gates.yml)
+  #   - ai_working/MERGE_GATE_AUDIT_LOG.jsonl  (read by compliance-governance-gates.yml)
   #   - ai_working/gs3/  (used by maintenance-gs3-gaps.yml; partially .gitignored)
   # This job is report-only: it never deletes files and never fails the workflow.
   # ────────────────────────────────────────────────────────────────────────────
@@ -573,4 +638,3 @@ jobs:
             /tmp/ai-hygiene-report.txt
           retention-days: 30
           if-no-files-found: ignore
-

@@ -314,7 +314,7 @@ TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
         std::this_thread::sleep_for(std::chrono::microseconds(10));
         {
             std::lock_guard<std::mutex> lock(order_mutex);
-            execution_order.push_back(-thread_id);  // Negative marker for post-barrier
+            execution_order.push_back(-(thread_id + 1));  // Negative marker for post-barrier
         }
     };
 

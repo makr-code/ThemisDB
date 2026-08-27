@@ -14,8 +14,6 @@
 
 #include "tensor/tensor_edge_case_handler.h"
 #include "utils/error_registry.h"
-#include "diagnostics/diagnostic_emitter.h"
-
 namespace themis::tensor::test {
 
 using ::testing::Test;
@@ -33,7 +31,24 @@ class TensorEdgeCaseHandlerFixture : public Test {
 
   void TearDown() override {
     // Verify handler was exercised
-    EXPECT_GT(handler_.getStats().total_scenarios_handled, 0)
+    const auto stats = handler_.getStats();
+    const std::size_t total =
+        stats.invalid_adapter_refs +
+        stats.out_of_bounds_accesses +
+        stats.stale_fingerprints +
+        stats.self_similarity_failures +
+        stats.null_train_comparisons +
+        stats.concurrent_modifications +
+        stats.bridge_routing_failures +
+        stats.adapter_comm_failures +
+        stats.invalid_decompositions +
+        stats.kappa_gate_violations +
+        stats.export_serialization_failures +
+        stats.replay_deserialization_failures +
+        stats.partial_graph_losses +
+        stats.oom_during_computation +
+        stats.concurrent_memory_exhaustion;
+    EXPECT_GT(total, 0u)
         << "Handler should have processed at least one scenario";
   }
 
@@ -478,13 +493,13 @@ TEST_F(TensorEdgeCaseHandlerFixture, ValidateStatisticsTracking) {
   handler_.handleStaleFingerprint("test_adapter", 1.5f);
   
   auto stats = handler_.getStats();
-  EXPECT_GT(stats.total_scenarios_handled, 0);
+  EXPECT_GT(stats.invalid_adapter_refs + stats.out_of_bounds_accesses + stats.stale_fingerprints, 0u);
 }
 
 TEST_F(TensorEdgeCaseHandlerFixture, ValidateDiagnosticMessageGeneration) {
   auto result = handler_.handleOutOfBoundsIndex(50, 10);
   
-  EXPECT_FALSE(result.diagnostic_message.empty());
+  EXPECT_FALSE(result.error_message.empty());
 }
 
 TEST_F(TensorEdgeCaseHandlerFixture, ValidateErrorCodeMapping) {

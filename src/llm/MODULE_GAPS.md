@@ -157,3 +157,27 @@ This file documents all documentation and code quality gaps in the **llm** modul
 ---
 
 **Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+
+---
+
+## Wave 3-LLM Remediation Log (2026-08-25)
+
+### Triage
+- Input: 155 raw CRITICALs (gap scanner output)
+- Real gaps confirmed: 5 | False positives: 150 (96.8% FP rate)
+- Triage evidence: `ai_working/gap_verifier_report_llm.md`
+
+### Fixes Applied
+
+| Gap ID | File | Pattern | Change |
+|---|---|---|---|
+| W3-SEC-01 | `src/llm/model_downloader.cpp` | `insecure_model_url` | `validateOllamaUrl` now rejects non-local HTTP unless `allow_insecure_http=true` |
+| W3-SEC-02 | `src/llm/model_downloader.cpp` | `path_traversal` | `sanitizeModelName()` added; called in `downloadFromOllama` + `pullFromOllama` |
+| W3-SEC-03 | `src/llm/ai_orchestrator.cpp` | `deadlock_risk` | `applyAdapter` releases `mutex_` before all external plugin calls |
+| W3-SEC-04 | `src/llm/docs_assistant.cpp` | `prompt_injection` | `getConfigHelp`/`getTroubleshootingHelp` apply `sanitizePromptWithSharedPolicy` |
+| W3-SEC-05 | `include/llm/llm_prefix_cache.h` + `src/llm/llm_prefix_cache.cpp` | `hardcoded_path` | `Config::cache_dir` field added; hardcoded fallback preserved for backward compat |
+
+### API Contract Changes
+- `ModelDownloadConfig` gains `bool allow_insecure_http = false` (non-breaking default)
+- `LLMPrefixCache::Config` gains `std::string cache_dir = ""` (non-breaking default)
+- `validateOllamaUrl` signature updated to `validateOllamaUrl(url, bool allow_insecure_http = false)` — internal only (anonymous namespace)

@@ -265,6 +265,14 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_shard_summary.cpp")
     if(TARGET themis_tensor)
         list(APPEND _shard_summary_link_libs themis_tensor)
     endif()
+    if(NOT TARGET themis_distributed_tensor)
+        target_sources(module_epic3_distributed_tensor_tensor_shard_summary_focused
+            PRIVATE
+                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/shard_summary_coordinator.cc
+                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
+                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
+        )
+    endif()
     if(NOT TARGET themis_tensor)
         target_sources(module_epic3_distributed_tensor_tensor_shard_summary_focused
             PRIVATE ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp

@@ -158,10 +158,38 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         )
         target_link_libraries(${_target} PRIVATE rocksdb)
     endif()
+    # Wave-Next LW1/LW2: RocksDbWikiStore persistence tests.
+    # Compile rocksdb_wiki_store.cpp directly into the test target so the test
+    # runs even when themis_llm_wiki is not yet configured.
+    # When RocksDB is available, define THEMIS_USE_ROCKSDB and link rocksdb.
+    if(_stem STREQUAL "test_wave_next_llm_wiki_rocksdb")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm_wiki/rocksdb_wiki_store.cpp
+        )
+        target_include_directories(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm_wiki
+        )
+        if(TARGET rocksdb)
+            target_compile_definitions(${_target} PRIVATE THEMIS_USE_ROCKSDB=1)
+            target_link_libraries(${_target} PRIVATE rocksdb)
+        elseif(RocksDB_FOUND OR rocksdb_FOUND)
+            target_compile_definitions(${_target} PRIVATE THEMIS_USE_ROCKSDB=1)
+            target_link_libraries(${_target} PRIVATE ${RocksDB_LIBRARIES})
+            target_include_directories(${_target} PRIVATE ${RocksDB_INCLUDE_DIRS})
+        endif()
+        set(_wave_b_labels "wave_b llm_wiki release_critical rocksdb_persistence")
+    endif()
     # Wiki secondary index tests: compile the three wiki implementation units
     # directly into the test target.  JsonWikiIndexReader and WikiChunkSplitter
     # have no RocksDB dependency, so these tests are always runnable.
     if(_stem STREQUAL "test_wiki_index_store" OR _stem STREQUAL "test_wiki_rag_quality")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_doku_rag")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
             ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
@@ -176,6 +204,18 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
         )
         # Link RocksDB explicitly when not pulled in through themis_llm.
+        if(NOT TARGET themis_llm)
+            target_link_libraries(${_target} PRIVATE rocksdb)
+        endif()
+    endif()
+    # Wave B eval metric tests (EVAL-01..10): Recall@k / MRR / p95 — same
+    # build setup as Phase B wiki integration tests.
+    if(_stem STREQUAL "test_wiki_eval_metrics")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
         if(NOT TARGET themis_llm)
             target_link_libraries(${_target} PRIVATE rocksdb)
         endif()
@@ -234,6 +274,10 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         # Wave B Phase B integration tests (LWP-INT-01..05) — self-contained,
         # no RocksDB or external deps required
         set(_wave_b_labels "wave_b llm_wiki release_critical phase_b_integration")
+    elseif(_stem STREQUAL "test_wiki_eval_metrics")
+        # Wave B eval metric gate tests (EVAL-01..10): Recall@k / MRR / p95.
+        # Gate criterion: Recall@5 >= 0.8 on synthetic corpus.
+        set(_wave_b_labels "wave_b llm_wiki release_critical eval_metrics")
     else()
         set(_wave_b_labels "")
     endif()
@@ -427,6 +471,18 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/task_decomposer.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_tinyllama_inference")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/llama_tokenizer.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_doku_rag")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_reranker")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/search/llm_reranker.cpp
@@ -454,6 +510,22 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS llm autogen
     )
 endforeach()
+
+# Ensure autofocused LLM targets keep required implementation units even when
+# they are created by a different autogen pass before this file section.
+if(TARGET module_llm_test_llm_doku_rag_autofocused)
+    target_sources(module_llm_test_llm_doku_rag_autofocused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+    )
+endif()
+
+if(TARGET module_llm_test_llm_tinyllama_inference_autofocused)
+    target_sources(module_llm_test_llm_tinyllama_inference_autofocused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/llm/lora_framework/llama_tokenizer.cpp
+    )
+endif()
 
 # =============================================================================
 # LLM Inferencing CI Targets — TinyLlama + doku.db RAG + AdaLoRA
@@ -536,6 +608,11 @@ if(THEMIS_LLM_INFERENCE_TESTS)
         test_llm_doku_rag
         "llm;llm_rag_doku;model_required"
         180
+    )
+    target_sources(module_llm_test_llm_doku_rag_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
     )
 
     # Copy the golden dataset YAML next to the test binary so RAG-08..12

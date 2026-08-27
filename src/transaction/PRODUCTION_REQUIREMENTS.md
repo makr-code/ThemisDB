@@ -56,6 +56,15 @@ Es definiert verbindliche Anforderungen für Transaktionslifecycle, verteilte Ko
 - [ ] In-doubt-Timeout dokumentiert und deployment-spezifisch konfiguriert
 - [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
 
+## RPC Transport Injection Requirement (Wave 4C T1 — STUB #279)
+
+- **MUST:** RPC transport must be injected before production deployment; stub injection causes silent no-op delivery.
+  - The `DistributedTransactionManager` Phase-1 and Phase-2 RPC bridges are pure injection points.
+  - Without a concrete `RpcTransport` implementation bound via `setRpcPhase1Fn()` / `setRpcPhase2Fn()` (or constructor config), distributed 2PC delivers no-op calls to remote participants.
+  - A fail-fast guard prevents construction when `remote_phase1_dispatch` is set but no Phase-2 bridge is injected.
+  - **Activation trigger:** Any deployment using remote participants (non-null `endpoint`, null `callback`).
+  - **Removal Plan:** Q4 2026 — bind gRPC transport in `ThemisServer::initialize()`; remove stub after integration tests pass (issue #279).
+
 ## Review / Sourcecode-Audit-Nachweis
 
 ### Betroffene Dateien im Review

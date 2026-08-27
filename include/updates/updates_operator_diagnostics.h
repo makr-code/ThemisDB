@@ -348,4 +348,3 @@ private:
 }  // namespace updates
 }  // namespace themis
 
-#endif  // THEMIS_UPDATES_OPERATOR_DIAGNOSTICS_H

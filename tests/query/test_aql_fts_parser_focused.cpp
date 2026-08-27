@@ -340,5 +340,3 @@ TEST_F(FtsParserTest, FtsP16_BareStringTermPredicate) {
     EXPECT_TRUE(p.field.empty())
         << "Bare term predicate field should be empty (resolved from IN clause at executor level)";
 }
-
-} // anonymous namespace (tests live in test-binary scope)

@@ -35,6 +35,44 @@
 #include <string>
 #include <vector>
 
+// ============================================================================
+// THEMIS_CUDA_CHECK — fail-closed CUDA error checking macro
+// ============================================================================
+//
+// Wraps any CUDA API call and throws std::runtime_error (logging the error)
+// when the call does not return cudaSuccess.  This satisfies the
+// unchecked_cuda_call gap class: every cuda*() call that affects correctness
+// or resource ownership MUST be wrapped with this macro rather than ignoring
+// the return value.
+//
+// Usage:
+//   THEMIS_CUDA_CHECK(cudaMalloc(&ptr, size));
+//   THEMIS_CUDA_CHECK(cudaMemcpyAsync(dst, src, n, kind, stream));
+//
+// The macro is a no-op when THEMIS_ENABLE_CUDA is not defined.
+// ============================================================================
+#ifdef THEMIS_ENABLE_CUDA
+#  include <cuda_runtime.h>
+#  include <stdexcept>
+// Requires THEMIS_ERROR (utils/logger.h) to be available at the call site.
+#  ifndef THEMIS_CUDA_CHECK
+#    define THEMIS_CUDA_CHECK(call)                                            \
+       do {                                                                    \
+           cudaError_t _themis_cuda_err = (call);                             \
+           if (_themis_cuda_err != cudaSuccess) {                             \
+               THEMIS_ERROR("CUDA error at {}:{}: {}",                        \
+                            __FILE__, __LINE__,                               \
+                            cudaGetErrorString(_themis_cuda_err));            \
+               throw std::runtime_error(                                      \
+                   std::string("CUDA error: ") +                              \
+                   cudaGetErrorString(_themis_cuda_err));                     \
+           }                                                                  \
+       } while (0)
+#  endif // THEMIS_CUDA_CHECK
+#else
+#  define THEMIS_CUDA_CHECK(call) static_cast<void>(0)
+#endif // THEMIS_ENABLE_CUDA
+
 namespace themis {
 namespace storage {
 

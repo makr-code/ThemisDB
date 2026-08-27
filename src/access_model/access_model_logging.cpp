@@ -10,6 +10,7 @@
 
 #include "utils/logger.h"
 
+#include <functional>
 #include <iomanip>
 #include <sstream>
 
@@ -22,7 +23,8 @@ namespace access_model {
 
 void DefaultAccessModelLogger::logTierTransition(const TierTransitionLog& log) {
     try {
-        utils::logger()->info(
+        auto thread_id_hash = std::hash<std::thread::id>{}(log.thread_id);
+        THEMIS_INFO(
             "access_model::tier_transition | key={} | from={} | to={} | "
             "reason={} | latency_ms={} | status={} | correlation_id={} | "
             "thread_id={}",
@@ -33,7 +35,7 @@ void DefaultAccessModelLogger::logTierTransition(const TierTransitionLog& log) {
             log.latency_ms,
             log.status,
             log.correlation_id,
-            log.thread_id);
+            thread_id_hash);
     } catch (...) {
         // Logging exceptions are silently swallowed
     }
@@ -41,7 +43,8 @@ void DefaultAccessModelLogger::logTierTransition(const TierTransitionLog& log) {
 
 void DefaultAccessModelLogger::logEvictionEvent(const EvictionEventLog& log) {
     try {
-        utils::logger()->debug(
+        auto thread_id_hash = std::hash<std::thread::id>{}(log.thread_id);
+        THEMIS_DEBUG(
             "access_model::eviction | key={} | from={} | reason={} | "
             "size_bytes={} | access_count={} | last_access_age_secs={} | "
             "decision={} | correlation_id={} | thread_id={}",
@@ -53,7 +56,7 @@ void DefaultAccessModelLogger::logEvictionEvent(const EvictionEventLog& log) {
             log.last_access_age.count(),
             log.decision,
             log.correlation_id,
-            log.thread_id);
+            thread_id_hash);
     } catch (...) {
         // Logging exceptions are silently swallowed
     }
@@ -62,7 +65,8 @@ void DefaultAccessModelLogger::logEvictionEvent(const EvictionEventLog& log) {
 void DefaultAccessModelLogger::logPromotionDecision(
     const PromotionDecisionLog& log) {
     try {
-        utils::logger()->debug(
+        auto thread_id_hash = std::hash<std::thread::id>{}(log.thread_id);
+        THEMIS_DEBUG(
             "access_model::promotion_decision | key={} | current_tier={} | "
             "target_tier={} | decision={} | access_count={} | age_secs={} | "
             "threshold_name={} | threshold_value={} | actual_value={} | "
@@ -79,7 +83,7 @@ void DefaultAccessModelLogger::logPromotionDecision(
             log.actual_value,
             log.reason,
             log.correlation_id,
-            log.thread_id);
+            thread_id_hash);
     } catch (...) {
         // Logging exceptions are silently swallowed
     }
@@ -88,13 +92,14 @@ void DefaultAccessModelLogger::logPromotionDecision(
 void DefaultAccessModelLogger::logCoordinatorLifecycle(
     const CoordinatorLifecycleLog& log) {
     try {
-        utils::logger()->info(
+        auto thread_id_hash = std::hash<std::thread::id>{}(log.thread_id);
+        THEMIS_INFO(
             "access_model::coordinator_lifecycle | event_type={} | "
             "details={} | correlation_id={} | thread_id={}",
             log.event_type,
             log.details,
             log.correlation_id,
-            log.thread_id);
+            thread_id_hash);
     } catch (...) {
         // Logging exceptions are silently swallowed
     }

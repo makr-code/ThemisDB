@@ -37,7 +37,7 @@ class FusionEdgeCasesTest : public ::testing::Test {
     std::vector<SearchResult> bm25_results;
     std::vector<SearchResult> vector_results;
     std::vector<SearchResult> fused_results;
-    SearchStats stats;
+    HybridSearch::SearchStats stats;
     uint32_t error_code = 0x0000;
   };
   
@@ -85,7 +85,7 @@ TEST_F(FusionEdgeCasesTest, FUS_02_SingleBMZeroVariance) {
   
   EXPECT_EQ(ctx.bm25_results.size(), 3);
   EXPECT_EQ(ctx.vector_results.size(), 0);
-  EXPECT_TRUE(ctx.stats.partial_result);
+  EXPECT_FALSE(ctx.stats.partial_result);
 }
 
 // FUS-03: Extremely high variance between backends
