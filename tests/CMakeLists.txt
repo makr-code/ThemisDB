@@ -15867,6 +15867,23 @@ function(add_llm_focused_test target_name test_src test_name labels description)
         target_link_libraries(${target_name} PRIVATE yaml-cpp::yaml-cpp)
     endif()
 
+    # Some focused LLM tests instantiate themis::llamacpp::LlamaCppPlugin
+    # directly. Keep linkage robust across build variants.
+    if(TARGET llama_cpp_plugin)
+        target_link_libraries(${target_name} PRIVATE llama_cpp_plugin)
+    endif()
+
+    # test_llm_inference_performance directly uses LlamaCppPlugin symbols.
+    # Compile the implementation units into the test target to avoid link gaps
+    # when plugin targets/libraries are excluded by build flavor.
+    if(target_name STREQUAL "test_llm_inference_performance")
+        target_sources(${target_name} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    endif()
+
     # Boost (Beast/ASIO) is used by server headers included from some LLM tests.
     if(Boost_FOUND)
         target_link_libraries(${target_name} PRIVATE Boost::system)
