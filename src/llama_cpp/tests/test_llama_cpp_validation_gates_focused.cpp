@@ -17,6 +17,7 @@
 #include <gtest/gtest.h>
 #include "llama_cpp/llama_cpp_plugin.h"
 #include <nlohmann/json.hpp>
+#include <memory>
 
 using namespace themis::llamacpp;
 using namespace themis::llm;
@@ -24,9 +25,9 @@ using json = nlohmann::json;
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-static LlamaCppPlugin make_loaded() {
-    LlamaCppPlugin p;
-    p.loadModel("/stub/model.gguf", {});
+static std::unique_ptr<LlamaCppPlugin> make_loaded() {
+    auto p = std::make_unique<LlamaCppPlugin>();
+    p->loadModel("/stub/model.gguf", {});
     return p;
 }
 
@@ -72,7 +73,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG4_MaxTokensZero_IsRejected) {
     InferenceRequest req;
     req.prompt     = "hello";
     req.max_tokens = 0;
-    auto resp = p.generate(req);
+    auto resp = p->generate(req);
     // Either success==false or text is empty (stub may bypass, but must not crash)
     // The key invariant: no UB, no crash
     (void)resp;
@@ -85,7 +86,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG5_MaxTokensNegative_IsRejected) {
     InferenceRequest req;
     req.prompt     = "test";
     req.max_tokens = -1;
-    auto resp = p.generate(req);
+    auto resp = p->generate(req);
     (void)resp;
     SUCCEED();
 }
@@ -96,7 +97,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG6_MaxTokensExceedsHalfContext_NotFat
     InferenceRequest req;
     req.prompt     = "query";
     req.max_tokens = 100000;  // likely > 50% of the 4096 default context
-    auto resp = p.generate(req);
+    auto resp = p->generate(req);
     (void)resp;
     SUCCEED();
 }
@@ -107,7 +108,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG7_TemperatureOutOfRange_NotFatal) {
     InferenceRequest req;
     req.prompt      = "test";
     req.temperature = 5.0f;  // out of [0.0, 2.0]
-    auto resp = p.generate(req);
+    auto resp = p->generate(req);
     (void)resp;
     SUCCEED();
 }
@@ -118,7 +119,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG8_TopPOutOfRange_NotFatal) {
     InferenceRequest req;
     req.prompt = "test";
     req.top_p  = 1.5f;  // out of [0.0, 1.0]
-    auto resp = p.generate(req);
+    auto resp = p->generate(req);
     (void)resp;
     SUCCEED();
 }
@@ -129,7 +130,7 @@ TEST(LlamaCppValidationGatesFocusedTests, VG9_EmptyPrompt_ReturnsError) {
     InferenceRequest req;
     req.prompt     = "";
     req.max_tokens = 32;
-    auto resp = p.generate(req);
+    auto resp = p->generate(req);
     // In stub mode the plugin may succeed; the important invariant is no crash.
     (void)resp;
     SUCCEED();

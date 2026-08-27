@@ -64,7 +64,7 @@ TEST_F(ProjectsPhase4Test, PRH02_LifecycleRejectsEmptyActor) {
     ASSERT_TRUE(init_status.ok);
     
     // Attempt transition with empty actor (no audit trail)
-    auto trans_status = pl.applyTransition("test-proj", ProjectState::ACTIVE, "");
+    auto trans_status = pl.activate("test-proj", "");
     EXPECT_FALSE(trans_status.ok);
     EXPECT_NE(trans_status.message.find("actor"), std::string::npos)
         << "Error should mention empty actor validation";
@@ -141,7 +141,7 @@ TEST_F(ProjectsPhase4Test, PRH06_CollaborationRejectsEmptyUserId) {
     CollaborationManager cm(storage_);
     
     std::vector<User> users = {{""}, {"valid-user"}};  // Mixed valid and invalid
-    auto status = cm.shareProject("proj-1", users, Permission::EDIT);
+    auto status = cm.shareProject("proj-1", users, Permission::WRITE);
     
     // Should reject the batch due to empty user ID
     EXPECT_FALSE(status.ok);
@@ -186,7 +186,7 @@ TEST_F(ProjectsPhase4Test, PRH08_ErrorMessageConsistency) {
     ASSERT_TRUE(pl.initProject("proj-1", "owner").ok);
 
     // Lifecycle transition validation should have function prefix
-    auto lc_err = pl.applyTransition("proj-1", ProjectState::ACTIVE, "");
+    auto lc_err = pl.activate("proj-1", "");
     EXPECT_NE(lc_err.message.find("applyTransition:"), std::string::npos)
         << "Lifecycle errors should include function name";
     

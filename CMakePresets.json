@@ -38,17 +38,18 @@
       "environment": {
         "CMAKE_BUILD_PARALLEL_LEVEL": "8",
         "SCCACHE_DIR": "${sourceDir}/.cache/sccache",
-        "VCToolsInstallDir": "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207",
+        "VCToolsInstallDir": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207",
         "WindowsSdkDir": "C:/Program Files (x86)/Windows Kits/10",
         "WindowsSDKVersion": "10.0.26100.0",
         "WindowsSDKLibVersion": "10.0.26100.0",
-        "INCLUDE": "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/include;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
-        "LIB": "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/lib/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64",
-        "LIBPATH": "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/lib/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64"
+        "INCLUDE": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/include;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
+        "LIB": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64",
+        "LIBPATH": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64"
       },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
-        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_LLM": "OFF",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THREADS_PREFER_PTHREAD_FLAG": "OFF",
         "CMAKE_USE_PTHREADS_INIT": "OFF",
@@ -68,7 +69,8 @@
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_LLM": "OFF",
         "THEMIS_ENABLE_HTTP_SERVER": "ON"
       },
       "environment": {
@@ -91,6 +93,29 @@
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_DIAGNOSTIC_MODE": "OFF",
         "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_MODELS_MODE": "PACKAGE",
+        "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
+        "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF"
+      }
+    },
+    {
+      "name": "windows-release-production",
+      "displayName": "Windows x64: Release (production only)",
+      "description": "Production release build for Windows without tests or benchmarks. Intended for warning-free runtime validation.",
+      "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "binaryDir": "${sourceDir}/build-msvc-windows-release-prod",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_DIAGNOSTIC_MODE": "OFF",
+        "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_MODELS_MODE": "PACKAGE",
         "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
@@ -563,6 +588,11 @@
     {
       "name": "windows-release",
       "configurePreset": "windows-release",
+      "jobs": 16
+    },
+    {
+      "name": "windows-release-production",
+      "configurePreset": "windows-release-production",
       "jobs": 16
     },
     {

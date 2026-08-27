@@ -38,6 +38,7 @@
 #endif
 
 using namespace themis;
+using namespace themis::llamacpp;
 
 /**
  * Test fixture for inference performance tests.

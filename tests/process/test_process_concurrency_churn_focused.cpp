@@ -34,7 +34,7 @@ protected:
 
 TEST_F(ConcurrencyChurnTest, C01_ConcurrentAtomicIncrement) {
     std::atomic<int64_t> counter{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto work = [&counter, &sync_point]() {
         sync_point.arrive_and_wait();  // Ensure all threads start together
@@ -63,7 +63,7 @@ TEST_F(ConcurrencyChurnTest, C01_ConcurrentAtomicIncrement) {
 TEST_F(ConcurrencyChurnTest, C02_ConcurrentLinkCreation) {
     std::vector<ProcessLink> links_storage;
     std::mutex links_mutex;
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto create_links = [&links_storage, &links_mutex, &sync_point](int32_t thread_id) {
         sync_point.arrive_and_wait();
@@ -110,7 +110,7 @@ TEST_F(ConcurrencyChurnTest, C03_ConcurrentAttachmentCreation) {
     std::vector<ProcessAttachment> attachments;
     std::mutex attachments_mutex;
     std::atomic<int64_t> clock_ms{1000};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto create_attachments = [&attachments, &attachments_mutex, &clock_ms, &sync_point](int32_t thread_id) {
         sync_point.arrive_and_wait();
@@ -168,7 +168,7 @@ TEST_F(ConcurrencyChurnTest, C04_ReadHeavyConcurrentAccess) {
     }
 
     std::atomic<int64_t> read_count{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto reader = [&shared_links, &access_mutex, &read_count, &sync_point]() {
         sync_point.arrive_and_wait();
@@ -253,7 +253,7 @@ TEST_F(ConcurrencyChurnTest, C05_SingleWriterMultipleReaders) {
 
 TEST_F(ConcurrencyChurnTest, C06_ConcurrentErrorEnumAccess) {
     std::atomic<int64_t> checks_performed{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto check_errors = [&checks_performed, &sync_point]() {
         sync_point.arrive_and_wait();
@@ -298,7 +298,7 @@ TEST_F(ConcurrencyChurnTest, C06_ConcurrentErrorEnumAccess) {
 TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
     std::vector<int32_t> execution_order;
     std::mutex order_mutex;
-    std::barrier<std::function<void()>> barrier(kNumThreads, []{});
+    std::barrier barrier(kNumThreads);
 
     auto synchronized_work = [&execution_order, &order_mutex, &barrier](int32_t thread_id) {
         // Record pre-barrier time
@@ -349,7 +349,7 @@ TEST_F(ConcurrencyChurnTest, C08_HighContentionLinkOperations) {
     std::vector<ProcessAttachment> all_attachments;
     std::mutex links_mutex, attachments_mutex;
     std::atomic<int64_t> total_operations{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto mixed_operations = [&all_links, &links_mutex, &all_attachments, &attachments_mutex,
                              &total_operations, &sync_point](int32_t thread_id) {
@@ -410,7 +410,7 @@ TEST_F(ConcurrencyChurnTest, C09_ConcurrentReadModifyWrite) {
     Counter shared{0};
     std::mutex counter_mutex;
     std::atomic<int64_t> successful_updates{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto increment_and_check = [&shared, &counter_mutex, &successful_updates, &sync_point]() {
         sync_point.arrive_and_wait();
@@ -449,7 +449,7 @@ TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
     std::timed_mutex map_mutex;
     std::atomic<int64_t> successful_acquisitions{0};
     std::atomic<int64_t> failed_acquisitions{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto try_update_map = [&shared_map, &map_mutex, &successful_acquisitions, 
                            &failed_acquisitions, &sync_point](int32_t thread_id) {
@@ -493,7 +493,7 @@ TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
 TEST_F(ConcurrencyChurnTest, C11_OrderedLockAcquisitionDeadlockPrevention) {
     std::mutex lock_a, lock_b;
     std::atomic<int64_t> operations_completed{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto ordered_operation = [&lock_a, &lock_b, &operations_completed, &sync_point](int32_t thread_id) {
         sync_point.arrive_and_wait();
@@ -533,7 +533,7 @@ TEST_F(ConcurrencyChurnTest, C12_HighContentionLockCycles) {
     std::vector<int64_t> counters(8, 0);  // One counter per potential contention point
     std::vector<std::mutex> counter_locks(8);
     std::atomic<int64_t> total_cycles{0};
-    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+    std::barrier sync_point(kNumThreads);
 
     auto rapid_cycle = [&counters, &counter_locks, &total_cycles, &sync_point](int32_t thread_id) {
         sync_point.arrive_and_wait();

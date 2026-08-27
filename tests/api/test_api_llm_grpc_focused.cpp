@@ -13,7 +13,7 @@
 #include "utils/error_registry.h"
 
 using namespace themis;
-using namespace themis::utils;
+using namespace themis::errors;
 
 // ── AG1: ERR_LLM_INFERENCE_TIMEOUT maps to DEADLINE_EXCEEDED (code check) ────
 TEST(ApiLlmGrpcFocused, AG1_LlmInferenceTimeout_CorrectCode) {
@@ -63,7 +63,7 @@ TEST(ApiLlmGrpcFocused, AG5_LlmOomErrors_SolutionNonEmpty) {
     auto& reg = ErrorRegistry::getInstance();
 
     for (auto code : {ErrorCode::ERR_LLM_GPU_OOM, ErrorCode::ERR_LLM_RAM_OOM}) {
-        auto solution = reg.getSolution(code);
+        auto solution = reg.getRecoveryHint(code);
         EXPECT_FALSE(solution.empty())
             << "Empty solution for code " << static_cast<int>(code);
     }

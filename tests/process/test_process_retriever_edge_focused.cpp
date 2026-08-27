@@ -88,7 +88,7 @@ protected:
         result.success = false;
         result.degraded = true;
         result.exhaustion_reason = "stale_link_detected";
-        result.error_code = ProcError::kRetrievalIncident;
+        result.error_code = ProcError::kRetrievalFailed;
         result.latency_ms = 5;
         return result;
     }
@@ -96,7 +96,7 @@ protected:
     MockRetrievalResult mock_retrieve_malformed_context() {
         MockRetrievalResult result;
         result.success = false;
-        result.error_code = ProcError::kMalformedInput;
+        result.error_code = ProcError::kDeserialiserFailed;
         result.context = "";
         result.latency_ms = 3;
         return result;
@@ -183,7 +183,7 @@ TEST_F(RetrieverEdgeTest, R06_StaleLinkDetection) {
     EXPECT_TRUE(result.degraded);
     EXPECT_TRUE(result.exhaustion_reason.has_value());
     EXPECT_EQ(result.exhaustion_reason.value(), "stale_link_detected");
-    EXPECT_EQ(result.error_code, ProcError::kRetrievalIncident);
+    EXPECT_EQ(result.error_code, ProcError::kRetrievalFailed);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -194,7 +194,7 @@ TEST_F(RetrieverEdgeTest, R07_MalformedContextRejection) {
     MockRetrievalResult result = mock_retrieve_malformed_context();
 
     EXPECT_FALSE(result.success);
-    EXPECT_EQ(result.error_code, ProcError::kMalformedInput);
+    EXPECT_EQ(result.error_code, ProcError::kDeserialiserFailed);
     EXPECT_EQ(result.context_size_bytes, 0);
 }
 
@@ -246,7 +246,7 @@ TEST_F(RetrieverEdgeTest, R09_EmptySubgraphCommunityDetection) {
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.context_size_bytes, 0);
     // Should still complete without error
-    EXPECT_NE(result.error_code, ProcError::kRetrievalIncident);
+    EXPECT_NE(result.error_code, ProcError::kRetrievalFailed);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

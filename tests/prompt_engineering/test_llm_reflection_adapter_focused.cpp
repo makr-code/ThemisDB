@@ -121,8 +121,8 @@ TEST(LlmReflectionAdapterFocused, RA9_SetGetStrategy_Roundtrip) {
     ILLMProviderReflectionAdapter adapter(llm, ReflectionStrategy::SELF_REFINE);
     EXPECT_EQ(adapter.getStrategy(), ReflectionStrategy::SELF_REFINE);
 
-    adapter.setStrategy(ReflectionStrategy::CHAIN_OF_THOUGHT);
-    EXPECT_EQ(adapter.getStrategy(), ReflectionStrategy::CHAIN_OF_THOUGHT);
+    adapter.setStrategy(ReflectionStrategy::REFLEXION);
+    EXPECT_EQ(adapter.getStrategy(), ReflectionStrategy::REFLEXION);
 }
 
 // ── RA10: name() reflects wrapped provider ────────────────────────────────────

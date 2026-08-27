@@ -3,7 +3,7 @@
 
 # Main LLM feature (already set by edition, but allow user override)
 if(NOT DEFINED THEMIS_ENABLE_LLM)
-    option(THEMIS_ENABLE_LLM "Enable LLM plugin" ON)
+    option(THEMIS_ENABLE_LLM "Enable LLM plugin" OFF)
 endif()
 
 # Vision support (CLIP-based, requires LLM)

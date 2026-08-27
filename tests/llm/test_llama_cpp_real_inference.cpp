@@ -51,6 +51,11 @@
 
 using namespace themis;
 
+#ifdef THEMIS_ENABLE_LLM
+using namespace themis::llamacpp;
+using namespace themis::llm;
+#endif
+
 // ═══════════════════════════════════════════════════════════
 // Test fixture
 // ═══════════════════════════════════════════════════════════
