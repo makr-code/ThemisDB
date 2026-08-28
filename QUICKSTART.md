@@ -153,6 +153,10 @@ This installs vcpkg dependencies, llama.cpp, whisper.cpp, and ffmpeg into the re
 
 The repository uses a pinned `vcpkg` submodule for consistent Windows/Linux/Docker dependency resolution.
 
+> Build reality check: the repo is currently expected to work with a repo-local `vcpkg` checkout at `./vcpkg` or with CMake-native bootstrap enabled via `-DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON`. Fresh clones and some Windows developer environments may not have the toolchain file in place yet; in those cases, the canonical recovery path is to reconfigure with the bootstrap flag rather than to hard-code a machine-specific absolute path. Local overrides belong in `CMakeUserPresets.json`, not in checked-in build instructions.
+
+> Local developer note: `vcpkg` can occasionally show a dirty submodule state because of generated lock/temp files from local tool runs. That is a working-tree artifact from the toolchain, not a source-code change. If needed, ignore those generated files in the submodule's local git exclude instead of documenting them as repository policy.
+
 ### 3. Configure and build (Community edition)
 
 **Linux x64:**

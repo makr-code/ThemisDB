@@ -41,6 +41,10 @@ cd ThemisDB
 git submodule update --init --recursive
 ```
 
+> Build reality check: the repository currently expects a repo-local `vcpkg` checkout or an automatic bootstrap during CMake configure. If the toolchain is missing, the supported recovery path is `cmake --preset <preset> -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON`; do not rely on machine-specific absolute paths in docs or scripts. Keep local environment overrides in `CMakeUserPresets.json` or in the active shell environment, not in committed configuration files.
+
+> Local developer note: generated `vcpkg` lock/temp files may make the submodule look dirty during a manual toolchain run. This is a local tool artifact and should be handled with the submodule-local git exclude, not by changing root repository policy or checked-in build docs.
+
 ---
 
 ## 2) Install Hooks and Bootstrap Dependencies via CMake

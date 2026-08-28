@@ -129,6 +129,10 @@ Source-backed preset prerequisites:
 - `linux-release` expects Ninja and a bootstrapped `vcpkg` checkout at `./vcpkg`.
 - `community-release` requires a system RocksDB development package (`librocksdb-dev` or equivalent).
 
+> Build reality check: on developer machines the most reliable path is a repo-local `vcpkg` checkout plus `THEMIS_AUTO_BOOTSTRAP_DEPS=ON` during configure. Some Windows and fresh-clone setups still require that bootstrap path to be present before the toolchain is valid; this is a local environment requirement and not a stable source-level contract.
+
+> Avoid hard-coded absolute paths such as `C:/Projects/ThemisDB/...` in documentation. The portable pattern is to reference the repo root and use local `CMakeUserPresets.json` overrides or environment variables for machine-specific values.
+
 ```bash
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
