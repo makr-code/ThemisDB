@@ -1311,7 +1311,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
 - 17 new documentation guides
 - 938 files changed (+113,762 lines, -45,154 lines)
 
-**[→ Complete Release Notes](release-changelogs/v1.4.0-alpha.md)**
+**[→ Complete Release Notes](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha)**
 
 ---
 
@@ -1338,7 +1338,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
 - Updated `.dockerignore` to exclude build artifacts while preserving vcpkg baseline
 - Improved Dockerfile.themis-server for more reliable builds
 
-**[→ Complete Release Notes](release-changelogs/v1.3.4-hotfix.md)**
+**[→ Complete Release Notes](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.4-hotfix)**
 
 ---
 
@@ -1356,7 +1356,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
   - Transaction resource leak fixes
   - Column Family handle cleanup improvements
   - BackupEngine exception safety
-  - [Audit Report](docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+  - [Audit Report](audit/docs/Audit/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
 
 - **8 Medium-Severity Issues**
   - Improved transaction error handling
@@ -1369,7 +1369,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
 - Secure token handling in Update Checker (no hardcoded credentials)
 - Binary authenticity verification with cryptographic manifest signing (RSA-4096, SHA-256)
 
-**[→ Complete Release Notes](release-changelogs/v1.3.4.md)**
+**[→ Complete Release Notes](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.4)**
 
 ---
 
@@ -1383,7 +1383,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
 - **PostgreSQL Wire Protocol** - BI tool compatibility
 - **MCP Server** - Model Context Protocol support for LLM integration
 
-**[→ Complete Release Notes](release-changelogs/v1.3.3.md)**
+**[→ Complete Release Notes](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3)**
 
 ---
 
@@ -1395,7 +1395,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
   - Plugin interfaces: `IImageAnalysisBackend`, `ImageAnalysisManager`
   - 15+ comprehensive unit tests and benchmarks
 
-**[→ Complete Release Notes](release-changelogs/v1.3.2.md)**
+**[→ Complete Release Notes](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.2)**
 
 ---
 
@@ -1406,7 +1406,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
 - Documentation of ThemisDB's **12 unique innovations**
 - Clear attribution for all major dependencies
 
-**[→ Complete Release Notes](release-changelogs/v1.3.1.md)**
+**[→ Complete Release Notes](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.1)**
 
 ---
 
@@ -1429,29 +1429,28 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
   - Multi-language support (100+ languages)
   - [Documentation](docs/en/features/voice_assistant_guide.md)
 
-**[→ Complete Release Notes](release-changelogs/v1.3.0.md)**
+**[→ Complete Release Notes](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)**
 
 ---
 
 ## Earlier Versions
 
 For releases prior to v1.3.0, please see:
-- [Release Changelogs Directory](release-changelogs/)
 - [GitHub Releases Page](https://github.com/makr-code/ThemisDB/releases)
 
 ---
 
 ## Release Notes
 
-Detailed release notes for each version are available in the [release-changelogs/](release-changelogs/) directory:
+Detailed release notes for each version are available on GitHub Releases:
 
-- [v1.4.0-alpha](release-changelogs/v1.4.0-alpha.md) - Advanced LLM features
-- [v1.3.4-hotfix](release-changelogs/v1.3.4-hotfix.md) - RAID sharding deadlock hotfix
-- [v1.3.4](release-changelogs/v1.3.4.md) - Security improvements
-- [v1.3.3](release-changelogs/v1.3.3.md) - Network protocol enhancements
-- [v1.3.2](release-changelogs/v1.3.2.md) - Image analysis AI plugin
-- [v1.3.1](release-changelogs/v1.3.1.md) - Third-party attribution
-- [v1.3.0](release-changelogs/v1.3.0.md) - LLM integration
+- [v1.4.0-alpha](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha) - Advanced LLM features
+- [v1.3.4-hotfix](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.4-hotfix) - RAID sharding deadlock hotfix
+- [v1.3.4](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.4) - Security improvements
+- [v1.3.3](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3) - Network protocol enhancements
+- [v1.3.2](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.2) - Image analysis AI plugin
+- [v1.3.1](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.1) - Third-party attribution
+- [v1.3.0](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0) - LLM integration
 
 ---
 

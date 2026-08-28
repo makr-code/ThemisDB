@@ -53,7 +53,7 @@
 - ✅ **No null-pointer or out-of-bounds vulnerabilities** in edge-case handlers
 - ✅ **Thread-safe access patterns** confirmed in rotation/constraint modules
 
-**Evidence:** [ROADMAP.md § Graph Module Completion Phase 2.2](ROADMAP.md#-graph-module-completion-phase-22-q3-2026--sign-off) | [ai_working/GRAPH_PHASE_2_GATE_ANALYSIS.md](ai_working/GRAPH_PHASE_2_GATE_ANALYSIS.md)
+**Evidence:** [ROADMAP.md § Graph Module Completion Phase 2.2](ROADMAP.md#-graph-module-completion-phase-22-q3-2026--sign-off) | [docs/ARCHIVED/ai-working-history/GRAPH_PHASE_2_GATE_ANALYSIS.md](docs/ARCHIVED/ai-working-history/GRAPH_PHASE_2_GATE_ANALYSIS.md)
 
 ---
 
@@ -145,7 +145,7 @@ gemeinsame Baseline:
 | Architekturkonsistenz | Sicherheitsmodell (Hardening, Transportschutz, AuthN/AuthZ, Audit-Trail) ist mit der Root-Architektur synchronisiert | [ARCHITECTURE.md](ARCHITECTURE.md), [audit/AUDIT.md](audit/AUDIT.md) |
 | Technische Kontrollen | Auditierbare Kontrollen umfassen mindestens RBAC, verschlüsselte Audit-Logs, SAST/Secret/Container-Scans | [audit/AUDIT.md](audit/AUDIT.md), [audit/docs/audit-framework/AUDIT_RUNBOOK.md](audit/docs/audit-framework/AUDIT_RUNBOOK.md) |
 | Verifikationspfade | Security-relevante Test-/Nachweiswege werden in CTest nachvollziehbar geführt | [CTEST.md](CTEST.md) |
-| Performance-Randbedingungen | Performance-Ziele und Optimierungen dürfen Sicherheitskontrollen nicht abschalten oder umgehen | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md), [PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md), [PERFORMANCE_BOTTLENECKS.md](PERFORMANCE_BOTTLENECKS.md) |
+| Performance-Randbedingungen | Performance-Ziele und Optimierungen duerfen Sicherheitskontrollen nicht abschalten oder umgehen | [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md), [docs/performance/PERFORMANCE_OPTIMIZATION_PLAN.md](docs/performance/PERFORMANCE_OPTIMIZATION_PLAN.md), [docs/performance/PERFORMANCE_BOTTLENECKS.md](docs/performance/PERFORMANCE_BOTTLENECKS.md) |
 
 ---
 
@@ -173,7 +173,7 @@ Primary reference: [ARCHITECTURE.md](ARCHITECTURE.md#security--hardening-tiering
 | **Type-Error Propagation** | 🔴 CRITICAL | ontology_manager type constraints allow type mismatches to propagate unchecked; potential for silent data corruption in multi-model queries | Phase 2.3 type-validation hardening; unit tests added to test_ontology_manager.cpp | 2026-08-20 |
 | **Semantic Constraint Bypass** | 🔴 CRITICAL | path_constraints allows unvalidated constraint predicates in cross-shard queries; risk of query scope bypass (T3 → T2 boundary crossing) | Phase 2.2 constraint-propagation audit; security-level test in test_constraint_propagation.cpp | 2026-08-06 |
 
-**Primary Evidence:** [ai_working/graph_l2_analysis.md](ai_working/graph_l2_analysis.md) Section 4 (Risk Assessment)  
+**Primary Evidence:** [docs/ARCHIVED/ai-working-history/graph_l2_analysis.md](docs/ARCHIVED/ai-working-history/graph_l2_analysis.md) Section 4 (Risk Assessment)  
 **Action Items:**  
 1. Lock graph module from production releases until Phase 2.4 complete
 2. Assign T2/Security architect to Phase 2.3 validation work

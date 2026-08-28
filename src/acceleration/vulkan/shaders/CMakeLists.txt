@@ -66,10 +66,17 @@ foreach(SHADER_FILE ${LORA_SHADERS})
 endforeach()
 
 # Create target for all LoRA shaders
-add_custom_target(vulkan_lora_shaders ALL
-    DEPENDS ${COMPILED_LORA_SHADERS}
-    COMMENT "Building Vulkan LoRA shaders"
-)
+if(THEMIS_EAGER_SHADER_BUILD)
+    add_custom_target(vulkan_lora_shaders ALL
+        DEPENDS ${COMPILED_LORA_SHADERS}
+        COMMENT "Building Vulkan LoRA shaders"
+    )
+else()
+    add_custom_target(vulkan_lora_shaders
+        DEPENDS ${COMPILED_LORA_SHADERS}
+        COMMENT "Building Vulkan LoRA shaders (on-demand)"
+    )
+endif()
 
 # Install compiled shaders
 install(FILES ${COMPILED_LORA_SHADERS}
@@ -110,10 +117,17 @@ foreach(SHADER_FILE ${VECTOR_INDEX_SHADERS})
 endforeach()
 
 # Create target for Vector Index shaders
-add_custom_target(vulkan_vector_index_shaders ALL
-    DEPENDS ${COMPILED_VECTOR_SHADERS}
-    COMMENT "Building Vulkan Vector Index shaders"
-)
+if(THEMIS_EAGER_SHADER_BUILD)
+    add_custom_target(vulkan_vector_index_shaders ALL
+        DEPENDS ${COMPILED_VECTOR_SHADERS}
+        COMMENT "Building Vulkan Vector Index shaders"
+    )
+else()
+    add_custom_target(vulkan_vector_index_shaders
+        DEPENDS ${COMPILED_VECTOR_SHADERS}
+        COMMENT "Building Vulkan Vector Index shaders (on-demand)"
+    )
+endif()
 
 # Install compiled Vector Index shaders
 install(FILES ${COMPILED_VECTOR_SHADERS}
@@ -157,10 +171,17 @@ foreach(SHADER_FILE ${GEO_SHADERS})
 endforeach()
 
 # Create target for Geospatial shaders
-add_custom_target(vulkan_geo_shaders ALL
-    DEPENDS ${COMPILED_GEO_SHADERS}
-    COMMENT "Building Vulkan Geospatial shaders"
-)
+if(THEMIS_EAGER_SHADER_BUILD)
+    add_custom_target(vulkan_geo_shaders ALL
+        DEPENDS ${COMPILED_GEO_SHADERS}
+        COMMENT "Building Vulkan Geospatial shaders"
+    )
+else()
+    add_custom_target(vulkan_geo_shaders
+        DEPENDS ${COMPILED_GEO_SHADERS}
+        COMMENT "Building Vulkan Geospatial shaders (on-demand)"
+    )
+endif()
 
 # Install compiled Geospatial shaders
 install(FILES ${COMPILED_GEO_SHADERS}

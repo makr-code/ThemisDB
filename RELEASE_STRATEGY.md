@@ -360,12 +360,14 @@ ThemisDB Community releases are published to the [Windows Package Manager Commun
 
 ### Installation for end users
 
+Example commands below use `<version>` as a placeholder to avoid stale pinned examples.
+
 ```powershell
 # Stable release
 winget install ThemisDB.ThemisDB
 
 # Specific version
-winget install ThemisDB.ThemisDB --version 2.4.0-rc1
+winget install ThemisDB.ThemisDB --version <version>
 
 # Upgrade to latest stable
 winget upgrade ThemisDB.ThemisDB
@@ -387,18 +389,18 @@ Manifests live under `packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>/`
 ```powershell
 # From a published GitHub Release asset (ZIP)
 pwsh scripts/release/new-winget-manifest.ps1 `
-    -Version 2.4.0-rc1 `
+    -Version <version> `
     -InstallerType zip `
-    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb-2.4.0-rc1-community-binary-x64.zip `
+    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v<version>/themisdb-<version>-community-binary-x64.zip `
     -InstallerSha256 <SHA256_FROM_RELEASE> `
     -PackageDependencies Microsoft.VCRedist.2015+.x64 `
     -IncludeGermanLocale
 
 # From an MSI release
 pwsh scripts/release/new-winget-manifest.ps1 `
-    -Version 2.4.0-rc1 `
+    -Version <version> `
     -InstallerType msi `
-    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/ThemisDB-COMMUNITY-2.4.0-rc1-windows-x64.msi `
+    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v<version>/ThemisDB-COMMUNITY-<version>-windows-x64.msi `
     -InstallerSha256 <SHA256_FROM_RELEASE> `
     -IncludeGermanLocale
 ```
@@ -410,7 +412,7 @@ Versions with a pre-release suffix (`-alpha`, `-beta`, `-rc*`) are represented b
 ```powershell
 # Erstellt Fork, Branch, Commit und Draft-PR gegen microsoft/winget-pkgs
 pwsh scripts/release/submit-winget-pkgs.ps1 `
-    -Version 2.4.0-rc1 `
+    -Version <version> `
     -ForkOwner <github-username>
 ```
 
@@ -435,7 +437,7 @@ ThemisDB Community images are published to Docker Hub as `themisdb/themisdb`.
 
 | Tag | Meaning |
 |---|---|
-| `themisdb/themisdb:2.4.0-rc1` | Pinned version |
+| `themisdb/themisdb:<version>` | Pinned version |
 | `themisdb/themisdb:2.4` | Minor-version floating tag |
 | `themisdb/themisdb:latest` | Latest stable release only |
 
@@ -455,18 +457,18 @@ Dockerfile: `docker/Dockerfile.unified` with `--build-arg THEMIS_EDITION=COMMUNI
 
 ```bash
 # Build + push stable release
-TAG=2.4.0-rc1 PUSH=true bash scripts/build-docker.sh
+TAG=<version> PUSH=true bash scripts/build-docker.sh
 
 # Build only (no push, for local testing)
-TAG=2.4.0-rc1 bash scripts/build-docker.sh
+TAG=<version> bash scripts/build-docker.sh
 
 # Multi-arch (requires buildx builder)
-PLATFORMS=linux/amd64,linux/arm64 TAG=2.4.0-rc1 PUSH=true bash scripts/build-docker.sh
+PLATFORMS=linux/amd64,linux/arm64 TAG=<version> PUSH=true bash scripts/build-docker.sh
 ```
 
 ```powershell
 # Windows (PowerShell)
-.\scripts\build-docker.ps1 -Tag 2.4.0-rc1 -Push
+.\scripts\build-docker.ps1 -Tag <version> -Push
 ```
 
 ### Rules

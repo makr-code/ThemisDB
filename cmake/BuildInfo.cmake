@@ -59,7 +59,9 @@ set(THEMIS_BUILD_VERSION_STRING "${THEMIS_BUILD_VERSION_STRING}" CACHE INTERNAL 
 set(THEMIS_BUILD_ID "${THEMIS_BUILD_ID}" CACHE INTERNAL "Short Git SHA used for build provenance" FORCE)
 set(THEMIS_BUILD_TIMESTAMP "${THEMIS_BUILD_TIMESTAMP}" CACHE INTERNAL "UTC build timestamp used for build provenance" FORCE)
 
-add_compile_definitions(
+# Keep BuildInfo macros target-scoped by registering them for target-level
+# application in cmake/CMakeLists.txt and cmake/ModularBuild.cmake.
+list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS
     THEMIS_BUILD_UUID="${THEMIS_BUILD_UUID}"
     THEMIS_BUILD_VERSION_STRING="${THEMIS_BUILD_VERSION_STRING}"
 )
@@ -203,9 +205,8 @@ set(_BUILD_INFO_OUT "${CMAKE_BINARY_DIR}/include/updates/build_info.h")
 
 configure_file("${_BUILD_INFO_IN}" "${_BUILD_INFO_OUT}" @ONLY)
 
-# Ensure the generated header is on the include path for all targets that
-# include BuildInfo.cmake.  Callers can also add this directory explicitly.
-include_directories("${CMAKE_BINARY_DIR}/include")
+# Generated include directory is consumed via target_include_directories.
+set(THEMIS_GENERATED_INCLUDE_DIR "${CMAKE_BINARY_DIR}/include" CACHE INTERNAL "Generated include directory for build metadata headers" FORCE)
 
 message(STATUS
     "[BuildInfo] version=${THEMIS_BUILD_VERSION_STRING}  "

@@ -73,7 +73,7 @@ The build system loads modules in this critical order:
 
 1. **VcpkgConfiguration.cmake** - Centralized vcpkg setup with automatic binary caching
 2. **EditionMatrix.cmake** - Validates features against edition constraints
-3. **LTCG/LTO** - Link-Time Code Generation for 15% performance improvement
+3. **LTCG/LTO** - Explicit opt-in for Release builds (`THEMIS_ENABLE_IPO=ON`)
 4. **Consolidated Flags** - Removed duplicate AVX2 flags across modules
 
 ## Edition System
@@ -262,7 +262,7 @@ cmake -S . -B build -DTHEMIS_ENABLE_TRACING=ON
 
 **Purpose**: Compile unit tests  
 **Type**: `ON | OFF`  
-**Default**: `ON`
+**Default**: `Debug: ON / Release: OFF`
 
 ```bash
 cmake -S . -B build -DTHEMIS_BUILD_TESTS=OFF
@@ -275,7 +275,7 @@ cmake -S . -B build -DTHEMIS_BUILD_TESTS=OFF
 
 **Purpose**: Compile performance benchmarks  
 **Type**: `ON | OFF`  
-**Default**: `ON`
+**Default**: `OFF`
 
 ```bash
 cmake -S . -B build -DTHEMIS_BUILD_BENCHMARKS=OFF
@@ -283,6 +283,30 @@ cmake -S . -B build -DTHEMIS_BUILD_BENCHMARKS=OFF
 
 **Binary Impact**: +300 MB  
 **Build Time**: +60 seconds
+
+### THEMIS_MODULES_ENABLE_UNITY
+
+**Purpose**: Enable Unity Build for modular MSVC targets  
+**Type**: `ON | OFF`  
+**Default**: `OFF`
+
+```bash
+cmake -S . -B build -DTHEMIS_MODULES_ENABLE_UNITY=ON
+```
+
+**Note**: Unity should be enabled deliberately (for selected CI/build profiles), not by default for local dev.
+
+### THEMIS_ENABLE_IPO
+
+**Purpose**: Enable IPO/LTO in Release builds  
+**Type**: `ON | OFF`  
+**Default**: `OFF`
+
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DTHEMIS_ENABLE_IPO=ON
+```
+
+**Note**: `THEMIS_ENABLE_IPO=ON` has effect only for `CMAKE_BUILD_TYPE=Release`.
 
 ### THEMIS_STRICT_BUILD
 
@@ -328,6 +352,11 @@ cmake -S . -B build -DTHEMIS_ENABLE_AVX2=ON -DCMAKE_BUILD_TYPE=Release
 - GCC/Clang: `-mavx2 -mfma`
 
 **Note**: Only applies to x86_64. Automatically disabled for ARM.
+
+### User Override Semantics
+
+- Defaults are applied only when an option is not explicitly provided by user/preset.
+- `THEMIS_BENCHMARK_MODE=ON` prefers enabling measurement flags, but explicit user `OFF` overrides remain valid.
 
 ### THEMIS_QNAP_BUILD
 

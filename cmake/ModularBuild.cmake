@@ -62,7 +62,8 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
     option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
-    option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" ON)
+    option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" OFF)
+    option(THEMIS_MODULES_DISABLE_IPO_FOR_DLL_EXPORTS "Disable IPO/LTO for modular shared libraries that need Windows export-symbol generation" ON)
     set(THEMIS_MODULES_UNITY_BATCH_SIZE "20" CACHE STRING "Unity batch size for modular libraries")
     set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query;sharding;geo;content;timeseries;security;transaction;ingestion;llm;llm_ext" CACHE STRING
         "Semicolon-separated module names for Unity Build (or ALL)")
@@ -114,6 +115,18 @@ function(themis_add_module MODULE_NAME)
         PRIVATE
             ${CMAKE_SOURCE_DIR}/src
     )
+
+    if(THEMIS_GENERATED_INCLUDE_DIR)
+        target_include_directories(themis_${MODULE_NAME} PRIVATE "${THEMIS_GENERATED_INCLUDE_DIR}")
+    endif()
+
+    if(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR)
+        target_include_directories(themis_${MODULE_NAME} SYSTEM PRIVATE "${THEMIS_VCPKG_INCLUDE_FALLBACK_DIR}")
+    endif()
+
+    if(THEMIS_GLOBAL_COMPILE_DEFINITIONS)
+        target_compile_definitions(themis_${MODULE_NAME} PUBLIC ${THEMIS_GLOBAL_COMPILE_DEFINITIONS})
+    endif()
     
     # C++20 standard
     target_compile_features(themis_${MODULE_NAME} PUBLIC cxx_std_20)
@@ -171,26 +184,29 @@ function(themis_add_module MODULE_NAME)
         if(ARG_DISABLE_AUTO_EXPORT)
             set_target_properties(themis_${MODULE_NAME} PROPERTIES
                 WINDOWS_EXPORT_ALL_SYMBOLS OFF
-                INTERPROCEDURAL_OPTIMIZATION FALSE
                 VS_GLOBAL_WholeProgramOptimization "false"
             )
         else()
             set_target_properties(themis_${MODULE_NAME} PROPERTIES
                 WINDOWS_EXPORT_ALL_SYMBOLS ON
-                INTERPROCEDURAL_OPTIMIZATION FALSE
                 VS_GLOBAL_WholeProgramOptimization "false"
             )
         endif()
-        target_compile_options(themis_${MODULE_NAME} PRIVATE
-            $<$<CONFIG:Release>:/GL->
-            $<$<CONFIG:RelWithDebInfo>:/GL->
-            $<$<CONFIG:MinSizeRel>:/GL->
-        )
-        target_link_options(themis_${MODULE_NAME} PRIVATE
-            $<$<CONFIG:Release>:/LTCG:OFF>
-            $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
-            $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
-        )
+        if(THEMIS_MODULES_DISABLE_IPO_FOR_DLL_EXPORTS)
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                INTERPROCEDURAL_OPTIMIZATION FALSE
+            )
+            target_compile_options(themis_${MODULE_NAME} PRIVATE
+                $<$<CONFIG:Release>:/GL->
+                $<$<CONFIG:RelWithDebInfo>:/GL->
+                $<$<CONFIG:MinSizeRel>:/GL->
+            )
+            target_link_options(themis_${MODULE_NAME} PRIVATE
+                $<$<CONFIG:Release>:/LTCG:OFF>
+                $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
+                $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
+            )
+        endif()
     endif()
     
     # Set output directories

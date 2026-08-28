@@ -1005,8 +1005,8 @@ ThemisDB uses a comprehensive labeling system to categorize and organize issues 
 **For contributors:** Look for `good first issue` labels if you're new to the project.
 
 **Complete documentation:**
-- **Full Guide:** [.github/LABELS_GUIDE.md](.github/LABELS_GUIDE.md) (English & German)
-- **Quick Reference:** [.github/LABELS_QUICK_REF.md](.github/LABELS_QUICK_REF.md)
+- **Full Guide:** [.github/LABELS.md](.github/LABELS.md)
+- **Quick Reference:** [.github/LABELS.md](.github/LABELS.md)
 - **Label Definitions:** [.github/labels.yml](.github/labels.yml)
 
 ---
@@ -1123,7 +1123,7 @@ Documentation is reviewed at multiple levels:
    - Update version references
    - Validate migration guides
 
-**Review schedule and process:** [docs/DOCUMENTATION_REVIEW_SCHEDULE.md](docs/DOCUMENTATION_REVIEW_SCHEDULE.md)
+**Review schedule and process:** [docs/governance/documentation-history/DOCUMENTATION_REVIEW_SCHEDULE.md](docs/governance/documentation-history/DOCUMENTATION_REVIEW_SCHEDULE.md)
 
 ### Documentation Guidelines
 
@@ -1142,7 +1142,7 @@ mkdocs build --strict              # Verify build
 ./scripts/test-examples.sh         # Test examples (if available)
 ```
 
-**Complete documentation guidelines:** [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
+**Complete documentation guidelines:** [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md)
 
 ### Documentation Archival
 
@@ -1189,8 +1189,8 @@ If you're interested in maintaining ThemisDB packages for a specific distributio
 We welcome package maintainers for all platforms! To become a maintainer:
 
 1. **Review the packaging documentation:**
-   - Read `docs/packaging.md` for detailed instructions
-   - Check `docs/PACKAGING-QUICKREF.md` for quick reference
+   - Read `docs/de/guides/guides_packaging.md` for detailed instructions
+   - Check `docs/de/guides/guides_packaging_quickref.md` for quick reference
 
 2. **Test the package build:**
    - Build the package for your target platform
@@ -1198,7 +1198,7 @@ We welcome package maintainers for all platforms! To become a maintainer:
    - Verify all functionality works as expected
 
 3. **Submit to distribution repositories:**
-   - Follow platform-specific guidelines (see `docs/packaging.md`)
+   - Follow platform-specific guidelines (see `docs/de/guides/guides_packaging.md`)
    - Submit package to appropriate repository (PPA, AUR, Copr, etc.)
    - Notify us via GitHub issue when package is published
 
@@ -1464,8 +1464,8 @@ When you push a version tag (e.g., `v1.4.0`), the release workflow automatically
 <details>
 <summary><b>1️⃣ Review Packaging Documentation</b></summary>
 
-- 📖 Read [docs/packaging.md](docs/packaging.md) for detailed instructions
-- 📄 Check [docs/PACKAGING-QUICKREF.md](docs/PACKAGING-QUICKREF.md) for quick reference
+- 📖 Read [docs/de/guides/guides_packaging.md](docs/de/guides/guides_packaging.md) for detailed instructions
+- 📄 Check [docs/de/guides/guides_packaging_quickref.md](docs/de/guides/guides_packaging_quickref.md) for quick reference
 
 </details>
 

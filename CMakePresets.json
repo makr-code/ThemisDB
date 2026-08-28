@@ -16,6 +16,8 @@
         "CMAKE_SUPPRESS_DEVELOPER_WARNINGS": "ON",
         "THEMIS_ENABLE_COMPILER_CACHE": "ON",
         "THEMIS_COMPILER_CACHE_PROGRAM": "sccache",
+        "THEMIS_ENABLE_IPO": "OFF",
+        "THEMIS_MODULES_ENABLE_UNITY": "OFF",
         "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
@@ -26,6 +28,7 @@
       "description": "vcpkg-enabled base: Configures CMAKE_TOOLCHAIN_FILE and VCPKG_INSTALLED_DIR. Required by linux-release and windows-release. Requires: vcpkg repo cloned to ./vcpkg and bootstrapped",
       "inherits": "base",
       "cacheVariables": {
+        "THEMIS_AUTO_BOOTSTRAP_DEPS": "ON",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed"
       }
@@ -92,7 +95,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_DIAGNOSTIC_MODE": "OFF",
-        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_MODELS_MODE": "SKIP",
         "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
@@ -137,7 +140,8 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY",
-        "THEMIS_DIAGNOSTIC_MODE": "OFF"
+        "THEMIS_DIAGNOSTIC_MODE": "OFF",
+        "THEMIS_BUILD_TESTS": "ON"
       }
     },
     {

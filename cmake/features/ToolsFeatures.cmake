@@ -1,12 +1,20 @@
 # ThemisDB Tools and Development Features
 # Tests, benchmarks, build options
 
-# Tests
+# Canonical build-profile default:
+# Debug/test-focused configurations include unit tests by default; release
+# builds keep tests disabled unless explicitly enabled. This matches the root
+# CMake policy and avoids preset drift.
 if(NOT DEFINED THEMIS_BUILD_TESTS)
-    option(THEMIS_BUILD_TESTS "Build unit tests" ON)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        option(THEMIS_BUILD_TESTS "Build unit tests" ON)
+    else()
+        option(THEMIS_BUILD_TESTS "Build unit tests" OFF)
+    endif()
 endif()
 
-# Benchmarks
+# Benchmarks stay opt-in and remain disabled by default in normal dev/release
+# configurations.
 if(NOT DEFINED THEMIS_BUILD_BENCHMARKS)
     option(THEMIS_BUILD_BENCHMARKS "Build benchmarks" OFF)
 endif()

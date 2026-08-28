@@ -24,8 +24,8 @@
 | | `THEMIS_ENABLE_ARM_SIMD` | Auto-detected | ARM targets | Built-in |
 | | `THEMIS_ENABLE_QNAP_ARM` | OFF | Custom | Built-in |
 | | `THEMIS_ENABLE_MIMALLOC` | ON | All | Built-in |
-| **Build** | `THEMIS_BUILD_TESTS` | ON | All | +200 MB |
-| | `THEMIS_BUILD_BENCHMARKS` | ON | All | +300 MB |
+| **Build** | `THEMIS_BUILD_TESTS` | Debug: ON / Release: OFF | All | +200 MB |
+| | `THEMIS_BUILD_BENCHMARKS` | OFF | All | +300 MB |
 | | `THEMIS_STRICT_BUILD` | OFF | Development | No change |
 | | `THEMIS_ENABLE_ASAN` | OFF | Development | No change |
 

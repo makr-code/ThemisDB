@@ -4,15 +4,12 @@
 Dieses Repository nutzt bewusst ein schlankes, release-orientiertes CI/CD-Set.
 Alle nicht zwingenden Modul-/Spezial-Workflows wurden entfernt, um Wartung,
 Signalqualität und Release-Stabilitaet zu verbessern.
-Deaktivierte Kandidaten liegen unter `.github/no_workflows/` und bilden eine
-Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 
 ## Leitprinzipien
 - Keep it lean: nur Workflows mit direktem Beitrag zu Release, klar isolierten Qualitaetspruefungen oder Tooling-Governance.
 - Modularisierung: wiederverwendbare Workflows statt duplizierter Build-Logik.
 - Klare Verantwortlichkeit je Lane: nur explizit begrenzte Trigger statt repo-weiter Aktivierung.
 - Keine Schatten-CI: neue oder reaktivierte Workflows nur mit begruendeter Notwendigkeit und Registry-Update.
-- No-Workflows-Quarantaene: Uebertriggernde oder redundante Workflows bleiben deaktiviert, bis Ursache, neue Triggergrenzen und Rollout-Plan dokumentiert sind.
 
 ## Aktiver Workflow-Kern
 
@@ -47,8 +44,6 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Governance- und Release-Policy-Gates
 - `.github/workflows/maintenance-docs.yml`
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
-- `.github/workflows/maintenance-cache-warming.yml`
-  — Wöchentliches vcpkg/sccache Cache-Vorwärmen (Linux + Windows; Monday 00:00 UTC)
 - `.github/workflows/maintenance-ci-health.yml`
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
 - `.github/workflows/maintenance-issues.yml`
@@ -59,7 +54,6 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Milestone-Governance: synchronisiert kanonische Milestones aus `.github/milestones.yml` und weist Issues/PRs automatisch anhand von Labels bzw. `Target Version` zu (inkl. HOTPATCH/LONG-TERM)
 - `.github/workflows/release-docker-image.yml`
   — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit release-mainline.yml)
-  _(security-scan.yml, security.yml, security-scanning.yml wurden in security-consolidated.yml konsolidiert und in no_workflows/ archiviert.)_
 - `.github/workflows/edition-hyperscaler-ci.yml`
   — Editionsspezifische Hyperscaler-CI Lane
 - `.github/workflows/automation-community.yml`
@@ -68,13 +62,6 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Scoped CI fuer `tools/copilot-ollama-router/**`
 - `.github/workflows/gate-copilot-regression.yml`
   — Copilot/CMake-Regression Guard
-
-## Quarantaene: `.github/no_workflows/`
-Workflows in diesem Verzeichnis sind absichtlich deaktiviert. Eine Rueckverschiebung nach `.github/workflows/` ist nur zulaessig, wenn alle folgenden Punkte vorab dokumentiert sind:
-- Warum der alte Trigger zu breit war.
-- Welche Dateien, Module oder Release-Pfade den neuen Trigger begrenzen.
-- Wer den Workflow besitzt und wie Run-Kosten/False Positives beobachtet werden.
-- Ob der erste Rollout nur manuell, nur scheduled oder non-blocking erfolgt.
 
 ## Governance fuer neue Workflows
 Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutrifft:
@@ -88,7 +75,6 @@ Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutriff
 - Benchmark-, Audit-, GPU- und Nightly-Workflows sind standardmaessig keine Required Checks.
 - Reaktivierte Workflows muessen zunaechst in einer risikoarmen Form starten: `workflow_dispatch`, `schedule` oder non-blocking.
 - Doppelte Abdeckung mit bestehenden Workflows ist ein Ablehnungsgrund.
-- Reaktivierungen aus `.github/no_workflows/` muessen im selben PR Guidelines und Registry aktualisieren.
 
 ## Validierung
 Lokaler Standard-Check:
@@ -127,9 +113,8 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 40
-- Deaktivierte Workflows in `.github/no_workflows/`: 30
-- Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 42
+- Strategie: Lean + harte Triggergrenzen ohne Legacy-Quarantaene
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
 
 ## Durchgeführte Konsolidierungen (Workflow Framework Refactoring)
@@ -140,7 +125,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 | Trigger-Cleanup | security-fortify.yml | pull_request entfernt → schedule only | 1 |
 | Trigger-Cleanup | compliance-governance-gates.yml | paths: Filter für push/develop | 1 |
 | Trigger-Cleanup | maintenance-docs.yml | pull_request entfernt | 1 |
-| Archiviert | security-scan.yml | no_workflows/ (war legacy shim) | 1 |
+| Entfernt | security-scan.yml | aus aktivem Bestand entfernt | 1 |
 | Konsolidiert | security.yml + security-scanning.yml | security-consolidated.yml | 2 |
 | ai_context + ai_working Coverage | maintenance-docs.yml | ai-working-hygiene Job hinzugefügt | 2 (new req) |
 | Composite Action | — | .github/actions/setup-python-script/ | 3 |

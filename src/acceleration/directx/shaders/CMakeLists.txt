@@ -55,10 +55,17 @@ foreach(_shader IN LISTS VECTOR_HLSL_SHADERS)
     list(APPEND COMPILED_VECTOR_SHADERS "${_out}")
 endforeach()
 
-add_custom_target(directx_vector_shaders ALL
-    DEPENDS ${COMPILED_VECTOR_SHADERS}
-    COMMENT "Building DirectX ANN/Vector-Index shaders"
-)
+if(THEMIS_EAGER_SHADER_BUILD)
+    add_custom_target(directx_vector_shaders ALL
+        DEPENDS ${COMPILED_VECTOR_SHADERS}
+        COMMENT "Building DirectX ANN/Vector-Index shaders"
+    )
+else()
+    add_custom_target(directx_vector_shaders
+        DEPENDS ${COMPILED_VECTOR_SHADERS}
+        COMMENT "Building DirectX ANN/Vector-Index shaders (on-demand)"
+    )
+endif()
 
 install(FILES ${COMPILED_VECTOR_SHADERS}
     DESTINATION bin/shaders/vector_index
@@ -105,10 +112,17 @@ foreach(_shader IN LISTS GEO_HLSL_SHADERS)
     list(APPEND COMPILED_GEO_SHADERS "${_out}")
 endforeach()
 
-add_custom_target(directx_geo_shaders ALL
-    DEPENDS ${COMPILED_GEO_SHADERS}
-    COMMENT "Building DirectX Geospatial shaders"
-)
+if(THEMIS_EAGER_SHADER_BUILD)
+    add_custom_target(directx_geo_shaders ALL
+        DEPENDS ${COMPILED_GEO_SHADERS}
+        COMMENT "Building DirectX Geospatial shaders"
+    )
+else()
+    add_custom_target(directx_geo_shaders
+        DEPENDS ${COMPILED_GEO_SHADERS}
+        COMMENT "Building DirectX Geospatial shaders (on-demand)"
+    )
+endif()
 
 install(FILES ${COMPILED_GEO_SHADERS}
     DESTINATION bin/shaders/geo
@@ -160,10 +174,17 @@ foreach(_shader IN LISTS LORA_HLSL_SHADERS)
     list(APPEND COMPILED_LORA_SHADERS "${_out}")
 endforeach()
 
-add_custom_target(directx_lora_shaders ALL
-    DEPENDS ${COMPILED_LORA_SHADERS}
-    COMMENT "Building DirectX LoRA shaders"
-)
+if(THEMIS_EAGER_SHADER_BUILD)
+    add_custom_target(directx_lora_shaders ALL
+        DEPENDS ${COMPILED_LORA_SHADERS}
+        COMMENT "Building DirectX LoRA shaders"
+    )
+else()
+    add_custom_target(directx_lora_shaders
+        DEPENDS ${COMPILED_LORA_SHADERS}
+        COMMENT "Building DirectX LoRA shaders (on-demand)"
+    )
+endif()
 
 install(FILES ${COMPILED_LORA_SHADERS}
     DESTINATION bin/shaders/lora

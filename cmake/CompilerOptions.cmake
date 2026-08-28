@@ -519,10 +519,14 @@ endif()
 # ============================================================================
 # LINK-TIME CODE GENERATION (LTCG) / INTERPROCEDURAL OPTIMIZATION (IPO)
 # ============================================================================
-# Enable Link-Time Code Generation for Release builds to improve performance
-# This allows the compiler to optimize across translation units
+# Enable Link-Time Code Generation only when explicitly requested. This keeps
+# iterative development and debug/test validation predictable.
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
+option(THEMIS_ENABLE_IPO
+    "Enable IPO/LTO for Release builds"
+    OFF)
+
+if(THEMIS_ENABLE_IPO AND CMAKE_BUILD_TYPE STREQUAL "Release")
     # On Windows, IPO probing links a test binary and requires initialized MSVC
     # LIB paths. Skip probing when LIB is unavailable (e.g. plain shells).
     if(WIN32 AND "$ENV{LIB}" STREQUAL "")
@@ -545,7 +549,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
         endif()
     endif()
 else()
-    message(STATUS "IPO/LTO skipped (only enabled in Release mode)")
+    if(THEMIS_ENABLE_IPO)
+        message(STATUS "IPO/LTO skipped (requires CMAKE_BUILD_TYPE=Release)")
+    else()
+        message(STATUS "IPO/LTO disabled by default (set THEMIS_ENABLE_IPO=ON to enable for Release)")
+    endif()
 endif()
 
 # Platform-specific handling

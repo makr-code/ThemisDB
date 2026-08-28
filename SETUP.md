@@ -43,20 +43,20 @@ git submodule update --init --recursive
 
 ---
 
-## 2) Install Hooks and Third-Party Dependencies
+## 2) Install Hooks and Bootstrap Dependencies via CMake
 
 ### Linux / macOS
 
 ```bash
 ./scripts/setup-pre-commit.sh
-pwsh ./scripts/setup-third-party.ps1
+cmake --preset linux-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
 .\scripts\setup-pre-commit.ps1
-.\scripts\setup-third-party.ps1
+cmake --preset windows-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 ```
 
 ---
@@ -102,7 +102,7 @@ ThemisDB provides multiple presets optimized for different scenarios:
 #### With vcpkg (recommended):
 
 ```bash
-# Prerequisites: submodules initialized and third-party setup executed
+# Prerequisites: submodules initialized or CMake auto-bootstrap enabled
 
 cmake --preset linux-release
 cmake --build --preset linux-release --parallel 16
@@ -123,7 +123,7 @@ ctest --preset community-release --output-on-failure
 From a Visual Studio Developer Command Prompt:
 
 ```powershell
-# Prerequisites: submodules initialized and third-party setup executed
+# Prerequisites: submodules initialized or CMake auto-bootstrap enabled
 
 cmake --preset windows-release
 cmake --build --preset windows-release --parallel 16
@@ -260,10 +260,14 @@ not deterministic.
 **Cause**: Using a vcpkg-based preset (linux-release, windows-release) without initialized submodules/bootstrap.
 
 **Solution**:
-1. Initialize submodules and bootstrap third-party dependencies:
+1. Use CMake-native auto-bootstrap:
+   ```bash
+   cmake --preset linux-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
+   ```
+
+   Optional manual fallback:
    ```bash
    git submodule update --init --recursive
-   pwsh ./scripts/setup-third-party.ps1
    ```
 
 2. Or use fallback preset:
@@ -317,7 +321,7 @@ Alternatively, use the `linux-release` preset with vcpkg, which includes all dep
 
 1. **`linux-release` requires vcpkg toolchain**: If you receive "Could not find toolchain file", ensure:
    - submodules are initialized (`git submodule update --init --recursive`)
-   - `pwsh ./scripts/setup-third-party.ps1` completed successfully
+   - configure is retried with `-DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON`
    - CMAKE_TOOLCHAIN_FILE in CMakePresets.json points to correct path
 
 2. **`community-release` may fail on missing packages**: This preset depends on system development packages being installed.
