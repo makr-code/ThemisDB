@@ -276,15 +276,7 @@ current_test_run.txt
 !data/docs.db/
 !data/.gitkeep
 llm_cache/
-models/*
-!models/.gitkeep
-# Keep only TinyLlama GGUF artifacts in VCS for release/workflow reproducibility.
-models/*.gguf
-!models/tinyllama*.gguf
-!models/TinyLlama*.gguf
-!models/tinyllama*.gguf.json
-!models/TinyLlama*.gguf.json
-!models/benchmark_config.json
+/models/
 test_geo_integration_db/
 Testing/
 
