@@ -4014,11 +4014,14 @@ if(THEMIS_GEO_HIP)
 endif()
 
 # Graphics API backends
+# graphics_backends.cpp provides the always-available backend abstractions and
+# stub-safe implementations used by backend_registry.cpp, so it must be linked
+# even when the high-level GPU feature flag is OFF.
+list(APPEND THEMIS_ACCELERATION_SOURCES
+    ../src/acceleration/graphics_backends.cpp
+)
+
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
-    list(APPEND THEMIS_ACCELERATION_SOURCES
-        ../src/acceleration/graphics_backends.cpp
-    )
-    
     if(THEMIS_ENABLE_DIRECTX)
         # Add DirectX 12 compute pipeline sources
         list(APPEND THEMIS_ACCELERATION_SOURCES

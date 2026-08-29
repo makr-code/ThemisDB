@@ -418,6 +418,7 @@ public:
                                                integrity_error;
                     } else {
                         // Phase 5: Resume training (incremental from checkpoint state)
+                        bool can_resume = true;
 #ifdef THEMIS_ENABLE_LLM
                         // Restore LoRA weights from saved checkpoint if available
                         initLoRAComponents();
@@ -426,8 +427,10 @@ public:
                             result.success = false;
                             result.error_message =
                                 "Checkpoint weight restore failed: " + weight_load_error;
-                        } else {
+                            can_resume = false;
+                        }
 #endif
+                        if (can_resume) {
                             result = train(TrainingMode::INCREMENTAL, callback);
 
                             if (result.success) {

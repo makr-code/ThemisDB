@@ -272,7 +272,7 @@ json protoValueToJson(const v1::Value& value) {
         }
         case v1::Value::kMapValue: {
             json result = json::object();
-            for (const auto& [key, entry] : value.map_value().fields()) {
+            for (const auto& [key, entry] : value.map_value().entries()) {
                 result[key] = protoValueToJson(entry);
             }
             return result;

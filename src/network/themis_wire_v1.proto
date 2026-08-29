@@ -1,0 +1,156 @@
+syntax = "proto3";
+
+package themis.wire.v1;
+
+option cc_enable_arenas = true;
+
+message Value {
+  oneof kind {
+    string string_value = 1;
+    int64 int_value = 2;
+    double double_value = 3;
+    bool bool_value = 4;
+    bytes bytes_value = 5;
+    ListValue list_value = 6;
+    MapValue map_value = 7;
+  }
+
+  message ListValue {
+    repeated Value values = 1;
+  }
+
+  message MapValue {
+    map<string, Value> entries = 1;
+  }
+}
+
+message HelloRequest {}
+
+message AuthResponse {
+  string username = 1;
+  string namespace = 2;
+}
+
+message GetRequest {
+  string collection = 1;
+  string uuid = 2;
+}
+
+message PutRequest {
+  string collection = 1;
+  string uuid = 2;
+  string entity = 3;
+}
+
+message DeleteRequest {
+  string collection = 1;
+  string uuid = 2;
+}
+
+message BatchGetRequest {
+  string collection = 1;
+  repeated string uuids = 2;
+}
+
+message BatchPutRequest {
+  string collection = 1;
+  repeated PutRequest items = 2;
+}
+
+message QueryRequest {
+  string aql = 1;
+  uint32 batch_size = 2;
+}
+
+message QueryResult {
+  repeated string results = 1;
+  bool has_more = 2;
+  string cursor_id = 3;
+  uint64 total_count = 4;
+}
+
+message CursorNextRequest {
+  string cursor_id = 1;
+  uint32 batch_size = 2;
+}
+
+message CursorCloseRequest {
+  string cursor_id = 1;
+}
+
+message TransactionBeginRequest {
+  string isolation_level = 1;
+}
+
+message TransactionCommitRequest {
+  string transaction_id = 1;
+}
+
+message TransactionAbortRequest {
+  string transaction_id = 1;
+}
+
+message VectorSearchRequest {
+  string collection = 1;
+  repeated float vector = 2;
+  uint32 top_k = 3;
+}
+
+message GeoQueryRequest {
+  string collection = 1;
+  double lat = 2;
+  double lon = 3;
+  double radius_m = 4;
+  int32 limit = 5;
+}
+
+message GeoQueryResponse {
+  repeated string results = 1;
+}
+
+message TimeSeriesQueryRequest {
+  string collection = 1;
+  int64 start_time_ns = 2;
+  int64 end_time_ns = 3;
+  string aggregation = 4;
+  uint32 bucket_size_ns = 5;
+  map<string, Value> filters = 6;
+}
+
+message TimeSeriesBucket {
+  int64 timestamp_ns = 1;
+  double value = 2;
+  uint32 count = 3;
+  double min = 4;
+  double max = 5;
+}
+
+message TimeSeriesStats {
+  uint64 total_data_points = 1;
+  uint64 buckets_returned = 2;
+  double data_density = 3;
+}
+
+message TimeSeriesQueryResponse {
+  repeated TimeSeriesBucket buckets = 1;
+  uint64 query_time_us = 2;
+  TimeSeriesStats stats = 3;
+}
+
+message BpmnStartProcessRequest {
+  string process_definition_key = 1;
+  map<string, Value> variables = 2;
+}
+
+message BpmnTaskCompleteRequest {
+  string task_id = 1;
+  map<string, Value> variables = 2;
+}
+
+message BpmnQueryInstanceRequest {
+  string process_instance_id = 1;
+}
+
+message PingRequest {}
+
+message CloseRequest {}

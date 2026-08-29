@@ -12,10 +12,13 @@
 
 #pragma once
 
-#include <llama.h>
+#include <cstdint>
 #include <vector>
 #include <memory>
 #include <string>
+
+struct llama_context;
+using llama_token = std::int32_t;
 
 namespace themis {
 namespace llm {

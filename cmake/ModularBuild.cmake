@@ -312,10 +312,13 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/shader_integrity.cpp
     # PERF-D3: Parallel batch insertion + SIMD distance pipeline
     ../src/acceleration/vec_knn.cpp
-    # CPU multi-threaded backends (requires THEMIS_ENABLE_GPU)
+    # CPU multi-threaded backends and GPU abstraction layer.
+    # graphics_backends.cpp provides always-linked backend abstractions and
+    # stub-safe implementations used by backend_registry.cpp, so it must stay
+    # in the base target even when THEMIS_ENABLE_GPU is OFF.
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/graphics_backends.cpp>
+    ../src/acceleration/graphics_backends.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/gpu/gpu_memory_manager_edition.cpp>
     # GPU-specific backends
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
@@ -1475,6 +1478,23 @@ set(THEMIS_TRAINING_SOURCES
     ../src/rag/continuous_learning_orchestrator.cpp
 )
 
+# When LLM is disabled, keep only LLM-independent code paths in the modular
+# LLM source set. This prevents hard dependencies on llama.cpp headers in
+# COMMUNITY debug profiles that intentionally run with THEMIS_ENABLE_LLM=OFF.
+if(NOT THEMIS_ENABLE_LLM)
+    list(REMOVE_ITEM THEMIS_LLM_SOURCES
+        ../src/llm/model_loader.cpp
+        ../src/llm/model_downloader.cpp
+        ../src/llm/llama_wrapper.cpp
+        ../src/llm/llama_lora_adapter.cpp
+        ../src/llm/llama_grammar_adapter.cpp
+        ../src/llm/llamacpp_inference_engine.cpp
+        ../src/llm/multi_lora_manager.cpp
+        ../src/llm/grammar.cpp
+        ../src/llm/lora_framework/llama_tokenizer.cpp
+    )
+endif()
+
 if(THEMIS_ENABLE_GPU)
     list(APPEND THEMIS_LLM_SOURCES
         ../src/llm/lora_framework/vram_allocator.cpp
@@ -1711,7 +1731,8 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
     ../src/ingestion/ingestion_quality_judge.cpp
-    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/ingestion/llm_adapter.cpp>
+    # Backend-agnostic adapter used by ingestion_manager even in regex-fallback mode.
+    ../src/ingestion/llm_adapter.cpp
     ../src/ingestion/steps/chunk_tt_decompose_step.cpp
     ../src/ingestion/steps/tensor_core_bridge_step.cpp
     ../src/toolbox/ingestion_toolbox.cpp

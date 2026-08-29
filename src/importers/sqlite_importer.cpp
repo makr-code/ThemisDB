@@ -53,7 +53,7 @@ struct SQLiteConnectionPoolState {
 static thread_local SQLiteConnectionPoolState g_sqlite_connection_pool;
 
 /// Maps SQLite-specific error patterns to ImporterErrorCode
-static ImportErrorCode mapSQLiteErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapSQLiteErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));

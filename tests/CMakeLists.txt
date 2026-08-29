@@ -15873,10 +15873,10 @@ function(add_llm_focused_test target_name test_src test_name labels description)
         target_link_libraries(${target_name} PRIVATE llama_cpp_plugin)
     endif()
 
-    # test_llm_inference_performance directly uses LlamaCppPlugin symbols.
-    # Compile the implementation units into the test target to avoid link gaps
-    # when plugin targets/libraries are excluded by build flavor.
-    if(target_name STREQUAL "test_llm_inference_performance")
+    # Build flavors can exclude plugin implementation objects from linked libs.
+    # Compile the implementation units directly into LLM focused tests to keep
+    # symbol availability deterministic across modular/non-modular variants.
+    if(THEMIS_BUILD_MODULAR OR target_name STREQUAL "test_llm_inference_performance")
         target_sources(${target_name} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
             ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp

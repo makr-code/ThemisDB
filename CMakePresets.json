@@ -51,8 +51,8 @@
       },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
-        "THEMIS_ENABLE_GPU": "OFF",
-        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THREADS_PREFER_PTHREAD_FLAG": "OFF",
         "CMAKE_USE_PTHREADS_INIT": "OFF",
@@ -72,8 +72,8 @@
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "THEMIS_ENABLE_GPU": "OFF",
-        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON"
       },
       "environment": {

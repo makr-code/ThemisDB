@@ -30,7 +30,7 @@ namespace {
 
 /// Maps MongoDB-specific error patterns to ImporterErrorCode for standardized
 /// error reporting across all importers.
-static ImportErrorCode mapMongoDBErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapMongoDBErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
