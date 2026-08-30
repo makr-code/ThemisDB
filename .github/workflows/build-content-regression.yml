@@ -53,6 +53,7 @@ env:
     librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev
     libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev
     libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev
+    libvulkan-dev glslc
     libboost-system-dev libboost-filesystem-dev
     libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc
     libpugixml-dev
@@ -117,7 +118,7 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_GRPC=OFF \
-            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ENABLE_VULKAN=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build
@@ -208,7 +209,7 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_GRPC=OFF \
-            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ENABLE_VULKAN=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build
