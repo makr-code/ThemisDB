@@ -2677,6 +2677,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/query_expander.cpp
     ../src/search/fuzzy_matcher.cpp
     ../src/search/faceted_search.cpp
+    ../src/search/search_highlighter.cpp
     ../src/search/search_analytics.cpp
     ../src/search/autocomplete.cpp
     ../src/search/learning_to_rank.cpp

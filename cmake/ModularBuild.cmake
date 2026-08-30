@@ -638,6 +638,7 @@ set(THEMIS_QUERY_SOURCES
     # Query engine
     ../src/query/query_engine.cpp
     ../src/search/hybrid_search.cpp
+    ../src/search/search_highlighter.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/query/adaptive_join.cpp

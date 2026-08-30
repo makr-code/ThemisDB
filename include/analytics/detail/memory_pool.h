@@ -214,3 +214,11 @@ private:
 } // namespace detail
 } // namespace analytics
 } // namespace themis
+
+namespace themisdb {
+namespace analytics {
+namespace detail {
+using ::themis::analytics::detail::AnalyticsMemoryPool;
+} // namespace detail
+} // namespace analytics
+} // namespace themisdb
