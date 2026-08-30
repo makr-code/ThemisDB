@@ -49,7 +49,7 @@ permissions:
 # ──────────────────────────────────────────────────────────────────────────────
 env:
   APT_PACKAGES: >-
-    build-essential cmake ninja-build pkg-config sccache
+    build-essential cmake ninja-build pkg-config ccache
     librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev
     libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev
     libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev
@@ -66,7 +66,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────────────
   content-regression:
     name: Content Regression (ctest --label-include "content")
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 60
     if: >
       github.event_name == 'push' ||
@@ -110,6 +110,8 @@ jobs:
       - name: Configure (content tests only)
         run: |
           export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+          ccache_path="$(command -v ccache)"
+          export THEMIS_COMPILER_CACHE_PROGRAM="${ccache_path}"
           cmake -S . -B "${{ env.BUILD_DIR }}" -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
             -DTHEMIS_BUILD_TESTS=ON \
@@ -152,7 +154,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────────────
   wave-d-soak:
     name: Wave-D Soak (ctest --label-include "soak" --timeout 600)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 90
     if: >
       (github.event_name == 'schedule' && github.event.schedule == '30 5 * * 0') ||
@@ -199,6 +201,8 @@ jobs:
       - name: Configure (soak tests — Release for endurance realism)
         run: |
           export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+          ccache_path="$(command -v ccache)"
+          export THEMIS_COMPILER_CACHE_PROGRAM="${ccache_path}"
           cmake -S . -B "${{ env.BUILD_DIR_SOAK }}" -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_TESTS=ON \

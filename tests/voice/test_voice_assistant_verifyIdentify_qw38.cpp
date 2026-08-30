@@ -154,8 +154,8 @@ TEST_F(VoiceAssistantVerifyIdentifyTest, VerifyVoiceSpeaker_AuditContainsCorrect
     VoiceProfileID profile_id = "profile_003";
     
     // Expected metadata values
-    float expected_match_score = 0.92f;
-    float expected_threshold = 0.80f;
+    [[maybe_unused]] float expected_match_score = 0.92f;
+    [[maybe_unused]] float expected_threshold = 0.80f;
     
     // Verify: Audit entry metadata should include:
     // - "match_score": 0.92
@@ -260,12 +260,12 @@ TEST_F(VoiceAssistantVerifyIdentifyTest, VerifyVoiceSpeaker_AuditTimestampSet) {
     auto audio = CreateSampleAudio();
     VoiceProfileID profile_id = "profile_ts_test";
     
-    auto before_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+    [[maybe_unused]] auto before_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     
     // Execute: Call verifyVoiceSpeaker
     
-    auto after_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+    [[maybe_unused]] auto after_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     
     // Verify: Audit entry timestamp_ms should be between before_ms and after_ms
@@ -284,12 +284,12 @@ TEST_F(VoiceAssistantVerifyIdentifyTest, IdentifyVoiceProfiles_AuditTimestampSet
     
     std::vector<VoiceProfileID> candidates = {"p1", "p2"};
     
-    auto before_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+    [[maybe_unused]] auto before_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     
     // Execute: Call identifyVoiceProfiles
     
-    auto after_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+    [[maybe_unused]] auto after_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     
     // Verify: Audit entry timestamp_ms should be between before_ms and after_ms

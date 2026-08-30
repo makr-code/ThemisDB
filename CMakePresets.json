@@ -602,7 +602,7 @@
     {
       "name": "windows-debug",
       "configurePreset": "windows-debug",
-      "jobs": 4
+      "jobs": 20
     },
     {
       "name": "hyperscaler-debug-windows",

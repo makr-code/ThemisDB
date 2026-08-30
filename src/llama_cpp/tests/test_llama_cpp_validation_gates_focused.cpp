@@ -69,11 +69,12 @@ TEST(LlamaCppValidationGatesFocusedTests, VG3_ContextLength_AtMaxBoundary) {
 
 // VG4: max_tokens == 0 should result in a failed or empty generation
 TEST(LlamaCppValidationGatesFocusedTests, VG4_MaxTokensZero_IsRejected) {
-    LlamaCppPlugin& p = make_loaded();
+    auto plugin = make_loaded();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "hello";
     req.max_tokens = 0;
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     // Either success==false or text is empty (stub may bypass, but must not crash)
     // The key invariant: no UB, no crash
     (void)resp;
@@ -82,55 +83,60 @@ TEST(LlamaCppValidationGatesFocusedTests, VG4_MaxTokensZero_IsRejected) {
 
 // VG5: negative max_tokens is handled gracefully
 TEST(LlamaCppValidationGatesFocusedTests, VG5_MaxTokensNegative_IsRejected) {
-    LlamaCppPlugin& p = make_loaded();
+    auto plugin = make_loaded();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "test";
     req.max_tokens = -1;
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     (void)resp;
     SUCCEED();
 }
 
 // VG6: very large max_tokens (exceeding 50% of context) is capped but not fatal
 TEST(LlamaCppValidationGatesFocusedTests, VG6_MaxTokensExceedsHalfContext_NotFatal) {
-    LlamaCppPlugin& p = make_loaded();
+    auto plugin = make_loaded();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "query";
     req.max_tokens = 100000;  // likely > 50% of the 4096 default context
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     (void)resp;
     SUCCEED();
 }
 
 // VG7: temperature out of [0.0, 2.0] is clamped, not fatal
 TEST(LlamaCppValidationGatesFocusedTests, VG7_TemperatureOutOfRange_NotFatal) {
-    LlamaCppPlugin& p = make_loaded();
+    auto plugin = make_loaded();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt      = "test";
     req.temperature = 5.0f;  // out of [0.0, 2.0]
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     (void)resp;
     SUCCEED();
 }
 
 // VG8: top_p out of [0.0, 1.0] is clamped, not fatal
 TEST(LlamaCppValidationGatesFocusedTests, VG8_TopPOutOfRange_NotFatal) {
-    LlamaCppPlugin& p = make_loaded();
+    auto plugin = make_loaded();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt = "test";
     req.top_p  = 1.5f;  // out of [0.0, 1.0]
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     (void)resp;
     SUCCEED();
 }
 
 // VG9: empty prompt results in a failed generation (not a crash)
 TEST(LlamaCppValidationGatesFocusedTests, VG9_EmptyPrompt_ReturnsError) {
-    LlamaCppPlugin& p = make_loaded();
+    auto plugin = make_loaded();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "";
     req.max_tokens = 32;
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     // In stub mode the plugin may succeed; the important invariant is no crash.
     (void)resp;
     SUCCEED();

@@ -214,7 +214,7 @@ bool validateTokenLimits(
  */
 bool validateModelInitialization(
     const std::string& model_path,
-    const nlohmann::json& config,
+    [[maybe_unused]] const nlohmann::json& config,
     std::string& error_msg)
 {
     // Empty path is explicit stub mode → OK

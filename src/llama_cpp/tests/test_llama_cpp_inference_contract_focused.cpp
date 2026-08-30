@@ -47,21 +47,23 @@ TEST(LlamaCppInferenceContractFocusedTests, IC1_GenerateUnloaded_ReturnsError) {
 
 // IC2: generate() on loaded plugin returns success
 TEST(LlamaCppInferenceContractFocusedTests, IC2_GenerateLoaded_ReturnsSuccess) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "What is the capital of France?";
     req.max_tokens = 32;
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     EXPECT_TRUE(resp.success);
 }
 
 // IC3: generate() response text is non-empty when successful
 TEST(LlamaCppInferenceContractFocusedTests, IC3_GenerateSuccess_TextNotEmpty) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "Describe the sky.";
     req.max_tokens = 32;
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     if (resp.success) {
         EXPECT_FALSE(resp.text.empty());
     }
@@ -69,11 +71,12 @@ TEST(LlamaCppInferenceContractFocusedTests, IC3_GenerateSuccess_TextNotEmpty) {
 
 // IC4: error_message is empty on a successful response
 TEST(LlamaCppInferenceContractFocusedTests, IC4_GenerateSuccess_ErrorMessageEmpty) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "hello";
     req.max_tokens = 8;
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     if (resp.success) {
         EXPECT_TRUE(resp.error_message.empty());
     }
@@ -81,27 +84,30 @@ TEST(LlamaCppInferenceContractFocusedTests, IC4_GenerateSuccess_ErrorMessageEmpt
 
 // IC5: system_prompt field is accepted without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC5_SystemPrompt_Accepted) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt        = "Hi";
     req.max_tokens    = 8;
     req.system_prompt = "You are a helpful assistant.";
-    ASSERT_NO_THROW(p->generate(req));
+    ASSERT_NO_THROW(p.generate(req));
 }
 
 // IC6: lora_adapter_id hint is accepted without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC6_LoRAAdapterHint_Accepted) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt          = "test";
     req.max_tokens      = 8;
     req.lora_adapter_id = "dummy-lora-adapter";
-    ASSERT_NO_THROW(p->generate(req));
+    ASSERT_NO_THROW(p.generate(req));
 }
 
 // IC7: streaming callback is invoked at least once when provided
 TEST(LlamaCppInferenceContractFocusedTests, IC7_StreamingCallback_IsInvoked) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "Stream test";
     req.max_tokens = 16;
@@ -113,7 +119,7 @@ TEST(LlamaCppInferenceContractFocusedTests, IC7_StreamingCallback_IsInvoked) {
         }
     };
 
-    auto resp = p->generate(req);
+    auto resp = p.generate(req);
     // In stub mode the callback may or may not be called; the key invariant is no crash.
     (void)resp;
     SUCCEED();
@@ -121,7 +127,8 @@ TEST(LlamaCppInferenceContractFocusedTests, IC7_StreamingCallback_IsInvoked) {
 
 // IC8: generateRAG() returns a response without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC8_GenerateRAG_ReturnsResponse) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
 
     RAGContext ctx;
     ctx.documents.push_back({"Paris is the capital of France.", "stub", 1.0f, {}});
@@ -131,27 +138,29 @@ TEST(LlamaCppInferenceContractFocusedTests, IC8_GenerateRAG_ReturnsResponse) {
     req.max_tokens = 32;
 
     ASSERT_NO_THROW({
-        auto resp = p->generateRAG(ctx, req);
+        auto resp = p.generateRAG(ctx, req);
         EXPECT_TRUE(resp.success);
     });
 }
 
 // IC9: generateRAG() with empty context does not crash
 TEST(LlamaCppInferenceContractFocusedTests, IC9_GenerateRAG_EmptyContext_NocrASH) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     RAGContext ctx;  // empty
     InferenceRequest req;
     req.prompt     = "Any question?";
     req.max_tokens = 8;
-    ASSERT_NO_THROW(p->generateRAG(ctx, req));
+    ASSERT_NO_THROW(p.generateRAG(ctx, req));
 }
 
 // IC10: json_schema binding is accepted without crash
 TEST(LlamaCppInferenceContractFocusedTests, IC10_JsonSchema_Accepted) {
-    LlamaCppPlugin& p = make_loaded_plugin();
+    auto plugin = make_loaded_plugin();
+    LlamaCppPlugin& p = *plugin;
     InferenceRequest req;
     req.prompt     = "Return a JSON object";
     req.max_tokens = 32;
     req.json_schema = json{{"type", "object"}, {"properties", json::object()}};
-    ASSERT_NO_THROW(p->generate(req));
+    ASSERT_NO_THROW(p.generate(req));
 }

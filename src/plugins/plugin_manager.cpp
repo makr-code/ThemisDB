@@ -269,7 +269,7 @@ bool PluginManager::verifyPlugin(const std::string& path, std::string& error_mes
  * @param error_message Output detail for failure reason.
  * @return true when signature checks pass (or are optional in current mode).
  */
-bool PluginManager::verifyManifestSignature(const std::string& manifest_path, std::string& error_message) {
+bool PluginManager::verifyManifestSignature(const std::string& manifest_path, [[maybe_unused]] std::string& error_message) {
     // Signature verification strategy:
     // 1. Check for manifest_path + ".sig" file (digital signature)
     // 2. Verify SHA256 hash matches signature file content

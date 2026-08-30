@@ -226,6 +226,7 @@ if(MSVC)
         /W4              # Warning level 4
         /fp:precise      # Precise floating point
         /Gy              # Enable function-level linking
+        /Zm200           # Increase compiler heap for large Windows translation units
         /permissive-     # Conformance mode
         /EHsc            # Exception handling (C++ only, not SEH)
         /w14018          # Enable C4018: signed/unsigned mismatch warning

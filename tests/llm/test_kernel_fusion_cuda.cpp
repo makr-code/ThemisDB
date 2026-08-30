@@ -105,7 +105,7 @@ struct DeviceTensor {
 
 /// Compute naive (O(n²)) scaled dot-product attention on the host.
 /// Input layout: [batch * num_heads * seq_len * head_dim]
-static std::vector<float> cpuAttentionForward(
+[[maybe_unused]] static std::vector<float> cpuAttentionForward(
     const std::vector<float>& Q,
     const std::vector<float>& K,
     const std::vector<float>& V,
@@ -163,14 +163,14 @@ static std::vector<float> cpuAttentionForward(
 // Test helpers
 // ---------------------------------------------------------------------------
 
-static bool allFinite(const std::vector<float>& v) {
+[[maybe_unused]] static bool allFinite(const std::vector<float>& v) {
     for (float x : v)
         if (!std::isfinite(x)) return false;
     return true;
 }
 
 /// Returns max relative error between a and b (element-wise).
-static float maxRelError(const std::vector<float>& a, const std::vector<float>& b) {
+[[maybe_unused]] static float maxRelError(const std::vector<float>& a, const std::vector<float>& b) {
     float max_err = 0.0f;
     for (size_t i = 0; i < a.size(); ++i) {
         float denom = std::max(std::abs(b[i]), 1e-6f);

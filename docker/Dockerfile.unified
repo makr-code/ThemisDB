@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
-        zip unzip tar wget flex bison aria2 python3 perl nasm autoconf \
+        zip unzip tar wget flex bison aria2 ccache python3 perl nasm autoconf \
         automake libtool && \
     if [ -n "${EXTRA_CA_CERT_B64}" ]; then \
         echo "${EXTRA_CA_CERT_B64}" | base64 -d > /usr/local/share/ca-certificates/themis-extra-ca.crt && \
@@ -47,7 +47,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 FROM base AS deps
 
 ARG THEMIS_EDITION=COMMUNITY
-ARG TARGETARCH=amd64
+ARG TARGETARCH
 ARG VCPKG_MANIFEST_HASH=""
 
 WORKDIR /build
@@ -65,14 +65,17 @@ RUN set -eux; \
     else \
         echo "ERROR: vcpkg-${EDITION}.json not found!"; exit 1; \
     fi && \
+    ARCH="${TARGETARCH:-}"; \
+    if [ -z "${ARCH}" ]; then ARCH="$(uname -m)"; fi; \
     TRIPLET="x64-linux"; \
-    case "${TARGETARCH}" in \
-        amd64) TRIPLET="x64-linux" ;; \
-        arm64) TRIPLET="arm64-linux" ;; \
-        arm) TRIPLET="arm-linux" ;; \
+    case "${ARCH}" in \
+        amd64|x86_64) TRIPLET="x64-linux" ;; \
+        arm64|aarch64) TRIPLET="arm64-linux" ;; \
+        arm|armv7l) TRIPLET="arm-linux" ;; \
+        *) echo "WARN: Unknown TARGETARCH='${ARCH}', fallback to x64-linux" ;; \
     esac && \
     echo "${TRIPLET}" > /tmp/triplet.txt && \
-    echo "Architecture: ${TRIPLET}"
+    echo "Architecture: ${ARCH} -> ${TRIPLET}"
 
 # Copy vcpkg configuration and overlay ports
 COPY vcpkg-configuration.json ./
@@ -152,7 +155,7 @@ FROM deps AS build
 
 ARG THEMIS_EDITION=COMMUNITY
 ARG ENABLE_LLM=ON
-ARG TARGETARCH=amd64
+ARG TARGETARCH
 
 WORKDIR /src
 
@@ -163,13 +166,14 @@ COPY include ./include
 COPY src ./src
 COPY proto ./proto
 COPY internal ./internal
+COPY ports ./ports
 
 # Copy vcpkg config from deps stage (not from host!)
 COPY --from=deps /build/vcpkg.json ./vcpkg.json
 COPY --from=deps /build/vcpkg-configuration.json ./vcpkg-configuration.json
 
-# Copy vcpkg installed packages
-COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
+# Copy vcpkg installed packages where Dependencies.cmake expects them
+COPY --from=deps /build/vcpkg_installed /src/vcpkg_installed
 
 # Copy llama.cpp
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
@@ -188,9 +192,17 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 ARG FORCE_CPU_ONLY=OFF
 
 RUN set -eux; \
-    TRIPLET=$(cat /tmp/triplet.txt); \
+    ARCH="${TARGETARCH:-}"; \
+    if [ -z "${ARCH}" ]; then ARCH="$(uname -m)"; fi; \
+    TRIPLET="x64-linux"; \
+    case "${ARCH}" in \
+        amd64|x86_64) TRIPLET="x64-linux" ;; \
+        arm64|aarch64) TRIPLET="arm64-linux" ;; \
+        arm|armv7l) TRIPLET="arm-linux" ;; \
+        *) echo "WARN: Unknown TARGETARCH='${ARCH}', fallback to x64-linux" ;; \
+    esac; \
     echo "Building ThemisDB ${THEMIS_EDITION} (LLM=${ENABLE_LLM}, FORCE_CPU_ONLY=${FORCE_CPU_ONLY})..."; \
-    echo "TRIPLET=${TRIPLET}"; \
+    echo "TARGETARCH=${ARCH} TRIPLET=${TRIPLET}"; \
     ls -la /build/vcpkg_installed/${TRIPLET} 2>/dev/null | head -20 || echo "No vcpkg_installed"; \
     \
     EXTRA_ARGS=""; \
@@ -206,10 +218,12 @@ RUN set -eux; \
     cmake --preset linux-release \
         -DTHEMIS_EDITION="${THEMIS_EDITION}" \
         -DTHEMIS_ENABLE_LLM="${ENABLE_LLM}" \
+        -DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF \
         -DVCPKG_TARGET_TRIPLET="${TRIPLET}" \
-        -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake" \
-        -DOPENSSL_ROOT_DIR="/build/vcpkg_installed/${TRIPLET}" \
-        -DOpenSSL_DIR="/build/vcpkg_installed/${TRIPLET}/share/openssl" \
+        -DVCPKG_INSTALLED_DIR="/src/vcpkg_installed" \
+        -DCMAKE_PREFIX_PATH="/src/vcpkg_installed/${TRIPLET};/src/vcpkg_installed/${TRIPLET}/share;/src/vcpkg_installed/${TRIPLET}/lib/cmake" \
+        -DOPENSSL_ROOT_DIR="/src/vcpkg_installed/${TRIPLET}" \
+        -DOpenSSL_DIR="/src/vcpkg_installed/${TRIPLET}/share/openssl" \
         ${EXTRA_ARGS} && \
     ninja -C build -j$(nproc)
 

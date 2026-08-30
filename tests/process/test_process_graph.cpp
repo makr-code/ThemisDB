@@ -1164,7 +1164,7 @@ TEST_F(ProcessGraphTest, AqlQueryExecutorInjection_aggregateByField) {
 
     bool executor_called = false;
     pgm_->setAqlQueryExecutor(
-        [&](std::string_view, const nlohmann::json& bind_vars) -> std::vector<nlohmann::json> {
+        [&](std::string_view, [[maybe_unused]] const nlohmann::json& bind_vars) -> std::vector<nlohmann::json> {
             executor_called = true;
             nlohmann::json row;
             row["group_key"] = "alice";

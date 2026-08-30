@@ -75,24 +75,35 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     }
     
     std::vector<llama_token> tokens_buffer(text.size() + 16);
+    if (tokens_buffer.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+        spdlog::error("Token buffer too large for llama_tokenize");
+        return std::vector<float>();
+    }
+
+    const int32_t token_capacity = static_cast<int32_t>(tokens_buffer.size());
     int32_t n_tokens = llama_tokenize(
         vocab,
         text.c_str(),
-        text.length(),
+        static_cast<int32_t>(text.length()),
         tokens_buffer.data(),
-        tokens_buffer.size(),
+        token_capacity,
         true,   // add_bos
         false   // special
     );
     
     if (n_tokens < 0) {
         tokens_buffer.resize(-n_tokens);
+        if (tokens_buffer.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+            spdlog::error("Retried token buffer too large for llama_tokenize");
+            return std::vector<float>();
+        }
+        const int32_t retry_capacity = static_cast<int32_t>(tokens_buffer.size());
         n_tokens = llama_tokenize(
             vocab,
             text.c_str(),
-            text.length(),
+            static_cast<int32_t>(text.length()),
             tokens_buffer.data(),
-            tokens_buffer.size(),
+            retry_capacity,
             true,
             false
         );
@@ -346,19 +357,26 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
     
     // Convert to llama_token
     std::vector<llama_token> llama_tokens(tokens.begin(), tokens.end());
-    
+
+    if (llama_tokens.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+        spdlog::error("Token sequence too large for llama_batch_init");
+        return std::vector<float>();
+    }
+
+    const int32_t llama_token_count = static_cast<int32_t>(llama_tokens.size());
+
     // Create batch for inference
-    llama_batch batch = llama_batch_init(llama_tokens.size(), 0, 1);
-    
+    llama_batch batch = llama_batch_init(llama_token_count, 0, 1);
+
     // Fill batch
-    for (size_t i = 0; i < llama_tokens.size(); ++i) {
-        batch.token[i] = llama_tokens[i];
-        batch.pos[i] = i;
+    for (int32_t i = 0; i < llama_token_count; ++i) {
+        batch.token[i] = llama_tokens[static_cast<size_t>(i)];
+        batch.pos[i] = static_cast<llama_pos>(i);
         batch.n_seq_id[i] = 1;
         batch.seq_id[i][0] = 0;
-        batch.logits[i] = (i == llama_tokens.size() - 1) ? 1 : 0;  // Only last token needs logits
+        batch.logits[i] = (i == llama_token_count - 1) ? 1 : 0;  // Only last token needs logits
     }
-    batch.n_tokens = static_cast<int32_t>(llama_tokens.size());
+    batch.n_tokens = llama_token_count;
     
     // Decode to get embeddings
     int result = llama_decode(context_, batch);

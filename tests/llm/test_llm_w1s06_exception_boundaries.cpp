@@ -141,7 +141,9 @@ TEST_F(W1S06JWTHandlerTest, EX04_MalformedJWT_ExceptionCaught_Returns401) {
     ASSERT_NO_THROW(res = handler_->handleRequest(req));
     EXPECT_EQ(res.result(), http::status::unauthorized);
     // Response body should be valid JSON
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW({
+        [[maybe_unused]] const auto parsed = json::parse(res.body());
+    });
 }
 
 // ---------------------------------------------------------------------------

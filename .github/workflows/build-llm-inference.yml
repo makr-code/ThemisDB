@@ -146,7 +146,7 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
+            build-essential cmake ninja-build pkg-config ccache \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
             libyaml-cpp-dev libcurl4-openssl-dev libboost-system-dev \
@@ -159,6 +159,8 @@ jobs:
       - name: Configure CMake (inference tests enabled)
         run: |
           set -euo pipefail
+          ccache_path="$(command -v ccache)"
+          export THEMIS_COMPILER_CACHE_PROGRAM="${ccache_path}"
           cmake -S . -B "${{ env.CMAKE_BUILD_DIR }}" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \

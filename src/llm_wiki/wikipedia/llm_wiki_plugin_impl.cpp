@@ -197,7 +197,13 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
 
     if (workspace_.get() == nullptr) {
         workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
-        workspace_->init(workspace_root_.empty() ? std::filesystem::current_path().string() : workspace_root_);
+        const auto init_status = workspace_->init(
+            workspace_root_.empty() ? std::filesystem::current_path().string() : workspace_root_);
+        if (!init_status.ok()) {
+            result.errors = 1;
+            result.failed_files.push_back(source_path);
+            return result;
+        }
     }
 
     result = workspace_->ingest(source_path, opts, chunks);
@@ -207,7 +213,7 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
 
 WikiQueryResult LLMWikiPluginImpl::query(
     const std::string& query_text,
-    const WikiQueryOptions& opts)
+    [[maybe_unused]] const WikiQueryOptions& opts)
 {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     WikiQueryResult result;

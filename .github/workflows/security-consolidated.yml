@@ -207,7 +207,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────────────
   dast-scan:
     name: OWASP ZAP Baseline DAST
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 45
     continue-on-error: true
     if: >

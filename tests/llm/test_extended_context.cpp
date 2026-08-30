@@ -311,8 +311,9 @@ TEST_F(ExtendedContextTest, RAMUsageTracking) {
     metrics_->recordRAMUsage(model_id, ram_used, ram_total);
     
     // Verify percentage calculation
-    double expected_pct = (static_cast<double>(ram_used) / static_cast<double>(ram_total)) * 100.0;
-    EXPECT_FLOAT_EQ(expected_pct, 18.75);
+    const float expected_pct = static_cast<float>(
+        (static_cast<double>(ram_used) / static_cast<double>(ram_total)) * 100.0);
+    EXPECT_FLOAT_EQ(expected_pct, 18.75f);
     
     std::string output = exporter_->exportMetrics();
     EXPECT_THAT(output, ::testing::HasSubstr("llm_ram_used_mb"));
@@ -327,8 +328,9 @@ TEST_F(ExtendedContextTest, VRAMUsageTracking) {
     
     metrics_->recordVRAMUsage(model_id, vram_used, vram_total);
     
-    double expected_pct = (static_cast<double>(vram_used) / static_cast<double>(vram_total)) * 100.0;
-    EXPECT_FLOAT_EQ(expected_pct, 66.666667);
+    const float expected_pct = static_cast<float>(
+        (static_cast<double>(vram_used) / static_cast<double>(vram_total)) * 100.0);
+    EXPECT_FLOAT_EQ(expected_pct, 66.666667f);
     
     std::string output = exporter_->exportMetrics();
     EXPECT_THAT(output, ::testing::HasSubstr("llm_vram_used_mb"));

@@ -186,12 +186,24 @@ TEST(TensorHissSearch, HissReshaperInfersBitDepthsFromTrainModes) {
 
 TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridSizeCount) {
     const auto train = makeSmallTrain();
-    EXPECT_THROW(themis::tensor::HissReshaper::exposeQuantics(train, {4, 4}), std::invalid_argument);
+    bool threw = false;
+    try {
+        (void)themis::tensor::HissReshaper::exposeQuantics(train, {4, 4});
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    EXPECT_TRUE(threw);
 }
 
 TEST(TensorHissSearch, HissReshaperRejectsMismatchedGridProduct) {
     const auto train = makeSmallTrain();
-    EXPECT_THROW(themis::tensor::HissReshaper::exposeQuantics(train, {4, 4, 5}), std::invalid_argument);
+    bool threw = false;
+    try {
+        (void)themis::tensor::HissReshaper::exposeQuantics(train, {4, 4, 5});
+    } catch (const std::invalid_argument&) {
+        threw = true;
+    }
+    EXPECT_TRUE(threw);
 }
 
 TEST(TensorHissSearch, HissReshaperPreservesDenseTensorValues) {

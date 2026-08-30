@@ -804,7 +804,7 @@ InferenceRequest AIOrchestrator::buildRequest(const OrchestratorContext& ctx,
 std::string AIOrchestrator::assemblePrompt(
         const std::string&                         query,
         const std::vector<RAGContext::Document>&   docs,
-    const ModeSpec&                            /*mode*/) const {
+        [[maybe_unused]] const ModeSpec&           mode) const {
     if (docs.empty()) {
         return query;
     }

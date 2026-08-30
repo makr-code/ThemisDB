@@ -21224,6 +21224,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/failover/test_failover_chaos_scenarios.cp
     add_executable(test_failover_chaos_scenarios_focused
         failover/test_failover_chaos_scenarios.cpp
         ${THEMIS_ROOT_DIR}/src/failover/auto_failover_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp
         ${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp
     )
     target_include_directories(test_failover_chaos_scenarios_focused PRIVATE
