@@ -386,6 +386,194 @@ def _collect_entries(repo_root: Path) -> list[tuple[Path, str]]:
         for f in sorted(dev_wiki_dir.glob("*.md")):
             _add(f, _wiki_page_name("Developer", f.stem))
 
+    # ---- Root-level governance & meta docs ------------------------------------
+
+    _ROOT_DOCS: list[tuple[str, str]] = [
+        ("CHANGELOG.md",          "Root-Changelog"),
+        ("ARCHITECTURE.md",       "Root-Architecture"),
+        ("ROADMAP.md",            "Root-Roadmap"),
+        ("FUTURE_ENHANCEMENTS.md","Root-Future-Enhancements"),
+        ("CONTRIBUTING.md",       "Root-Contributing"),
+        ("SECURITY.md",           "Root-Security"),
+        ("CODE_OF_CONDUCT.md",    "Code-of-Conduct"),
+        ("SUPPORT.md",            "Support"),
+        ("MAINTAINERS.md",        "Maintainers"),
+        ("GOVERNANCE.md",         "Root-Governance"),
+        ("VERSIONING.md",         "Versioning"),
+        ("BRANCHING_STRATEGY.md", "Branching-Strategy"),
+        ("RELEASE_STRATEGY.md",   "Release-Strategy"),
+        ("QUICKSTART.md",         "Quickstart"),
+        ("SETUP.md",              "Setup"),
+        ("CTEST.md",              "CTest-Guide"),
+    ]
+    for filename, wiki_name in _ROOT_DOCS:
+        _add(repo_root / filename, wiki_name)
+
+    # ---- Client SDKs ----------------------------------------------------------
+
+    clients_dir = repo_root / "clients"
+    if clients_dir.is_dir():
+        # Per-language READMEs
+        for f in sorted(clients_dir.glob("*/README.md")):
+            lang = _slug(f.parent.name)
+            _add(f, f"Client-{lang}")
+        # Top-level summary docs
+        for f in sorted(clients_dir.glob("*.md")):
+            if f.stem.upper() == "README":
+                _add(f, "Client-Overview")
+            else:
+                _add(f, f"Client-{_slug(f.stem)}")
+
+    # ---- SDKs -----------------------------------------------------------------
+
+    sdks_dir = repo_root / "sdks"
+    if sdks_dir.is_dir():
+        _add(sdks_dir / "README.md", "SDK-Overview")
+        for f in sorted(sdks_dir.glob("*/README.md")):
+            _add(f, f"SDK-{_slug(f.parent.name)}")
+
+    # ---- Examples (one page per example directory, use its README) ------------
+
+    examples_dir = repo_root / "examples"
+    if examples_dir.is_dir():
+        # Top-level ROADMAP/ARCHITECTURE of examples module if present
+        for fname, suffix in _MODULE_DOC_TYPES:
+            _add(examples_dir / fname, f"Examples-{suffix}")
+        # Per-example READMEs
+        for readme in sorted(examples_dir.glob("*/README.md")):
+            ex_name = _slug(readme.parent.name)
+            _add(readme, f"Example-{ex_name}")
+
+    # ---- Demo -----------------------------------------------------------------
+
+    demo_dir = repo_root / "demo"
+    if demo_dir.is_dir():
+        for f in sorted(demo_dir.glob("*.md")):
+            stem = f.stem.upper()
+            name_map = {
+                "README": "Demo-Overview",
+                "QUICKSTART": "Demo-Quickstart",
+                "DEMO_QUERIES": "Demo-Queries",
+            }
+            _add(f, name_map.get(stem, f"Demo-{_slug(f.stem)}"))
+        # Setup sub-dir
+        for f in sorted((demo_dir / "setup").glob("*.md")) if (demo_dir / "setup").is_dir() else []:
+            _add(f, f"Demo-{_slug(f.stem)}")
+
+    # ---- DeveloperGuide -------------------------------------------------------
+
+    devguide_dir = repo_root / "DeveloperGuide"
+    if devguide_dir.is_dir():
+        for f in sorted(devguide_dir.glob("*.md")):
+            _add(f, f"DevGuide-{_slug(f.stem)}")
+
+    # ---- Adapters -------------------------------------------------------------
+
+    adapters_dir = repo_root / "adapters"
+    if adapters_dir.is_dir():
+        for adapter_dir in sorted(d for d in adapters_dir.iterdir() if d.is_dir()):
+            aname = _slug(adapter_dir.name)
+            for fname, suffix in _MODULE_DOC_TYPES:
+                _add(adapter_dir / fname, f"Adapter-{aname}-{suffix}")
+            _add(adapter_dir / "README.md", f"Adapter-{aname}-README")
+
+    # ---- API module (root-level, like src modules) ----------------------------
+
+    api_dir = repo_root / "api"
+    if api_dir.is_dir():
+        for fname, suffix in _MODULE_DOC_TYPES:
+            _add(api_dir / fname, f"Api-Module-{suffix}")
+        _add(api_dir / "README.md", "Api-Module-README")
+
+    # ---- Operator (Kubernetes operator) ---------------------------------------
+
+    operator_dir = repo_root / "operator"
+    if operator_dir.is_dir():
+        _add(operator_dir / "README.md", "Operator-Overview")
+        for sub in sorted(d for d in operator_dir.iterdir() if d.is_dir()):
+            sname = _slug(sub.name)
+            for fname, suffix in _MODULE_DOC_TYPES:
+                _add(sub / fname, f"Operator-{sname}-{suffix}")
+            _add(sub / "README.md", f"Operator-{sname}-README")
+
+    # ---- Deploy / Docker / Helm / Packaging -----------------------------------
+
+    # deploy/
+    deploy_dir = repo_root / "deploy"
+    if deploy_dir.is_dir():
+        _add(deploy_dir / "README.md", "Deploy-Overview")
+        for f in sorted(deploy_dir.glob("*/README.md")):
+            _add(f, f"Deploy-{_slug(f.parent.name)}")
+
+    # docker/
+    docker_dir = repo_root / "docker"
+    if docker_dir.is_dir():
+        _add(docker_dir / "DOCKERHUB_README.md", "Docker-Hub-README")
+        _add(docker_dir / "README.md", "Docker-Overview")
+        for f in sorted(docker_dir.glob("*/README.md")):
+            _add(f, f"Docker-{_slug(f.parent.name)}")
+
+    # helm/
+    helm_dir = repo_root / "helm"
+    if helm_dir.is_dir():
+        _add(helm_dir / "README.md", "Helm-Overview")
+        for f in sorted(helm_dir.glob("*/README.md")):
+            _add(f, f"Helm-{_slug(f.parent.name)}")
+
+    # packaging/
+    pkg_dir = repo_root / "packaging"
+    if pkg_dir.is_dir():
+        _add(pkg_dir / "README.md", "Packaging-Overview")
+        for sub in sorted(d for d in pkg_dir.iterdir() if d.is_dir()):
+            sname = _slug(sub.name)
+            for fname, suffix in _MODULE_DOC_TYPES:
+                _add(sub / fname, f"Packaging-{sname}-{suffix}")
+            _add(sub / "README.md", f"Packaging-{sname}-README")
+
+    # ---- OpenAPI / Proto ------------------------------------------------------
+
+    _add(repo_root / "openapi" / "README.md", "OpenAPI-Overview")
+    _add(repo_root / "proto" / "README.md", "Proto-Overview")
+
+    # ---- Tools (selective: READMEs + ROADMAP for named tools) -----------------
+
+    tools_dir = repo_root / "tools"
+    if tools_dir.is_dir():
+        _add(tools_dir / "STATUS.md", "Tools-Status")
+        for sub in sorted(d for d in tools_dir.iterdir() if d.is_dir()):
+            sname = _slug(sub.name)
+            _add(sub / "README.md", f"Tool-{sname}-README")
+            _add(sub / "ROADMAP.md", f"Tool-{sname}-Roadmap")
+
+    # ---- Scripts (BUILD_QUICK_REF only) ---------------------------------------
+
+    _add(repo_root / "scripts" / "BUILD_QUICK_REF.md", "Scripts-Build-Quick-Ref")
+
+    # ---- Audit (current baseline reports only, not dated point-in-time files) -
+
+    audit_dir = repo_root / "audit"
+    if audit_dir.is_dir():
+        _AUDIT_KEEP = {
+            "MATURITY_REPORT_2026-08.md":           "Audit-Maturity-Report",
+            "PRODUCTION_READINESS_ASSESSMENT_2026-08-18.md": "Audit-Production-Readiness",
+            "BSI_C5_2026_THEMISDB_AUDIT.md":        "Audit-BSI-C5",
+        }
+        for fname, wiki_name in _AUDIT_KEEP.items():
+            _add(audit_dir / fname, wiki_name)
+
+    # ---- Security (public compliance docs only) -------------------------------
+
+    security_dir = repo_root / "security"
+    if security_dir.is_dir():
+        _add(security_dir / "DSGVO_SOC2_COMPLIANCE_CHECKLIST.md", "Security-DSGVO-SOC2-Checklist")
+
+    # ---- Schulung (training examples, selective) ------------------------------
+
+    schulung_dir = repo_root / "schulung"
+    if schulung_dir.is_dir():
+        for readme in sorted(schulung_dir.glob("examples/*/README.md")):
+            _add(readme, f"Training-{_slug(readme.parent.name)}")
+
     return entries
 
 
@@ -451,12 +639,19 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
         "FAQ",
         "Edition-Comparison",
         "Repository-README",
+        "Root-Changelog",
+        "Root-Roadmap",
+        "Versioning",
     ]),
     # 2. Getting Started — first steps for new users
     ("🚀 Getting Started", [
         "Quick-Reference",
+        "Quickstart",
+        "Setup",
         "Integration-Guide",
         "Migration-Guide",
+        "Demo-Overview",
+        "Demo-Quickstart",
     ]),
     # 3. Tutorials — hands-on walkthroughs (broad → narrow)
     ("📖 Tutorials", []),       # populated dynamically from Tutorial-* pages
@@ -465,11 +660,22 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
         "AQL-Reference",
         "AQL-Examples",
         "API-Reference",
+        "Api-Module-README",
+        "OpenAPI-Overview",
+        "Client-Overview",
+        "SDK-Overview",
     ]),
     # 5. Operations & Security — running ThemisDB in production
     ("⚙️ Operations & Security", [
         "Operations",
         "Security-Policy",
+        "Deploy-Overview",
+        "Docker-Overview",
+        "Docker-Hub-README",
+        "Helm-Overview",
+        "Packaging-Overview",
+        "Operator-Overview",
+        "Security-DSGVO-SOC2-Checklist",
     ]),
     # 6. Architecture — system design (after users understand what it does)
     ("🏗️ Architecture", []),    # populated dynamically from Architecture-* pages (curated subset)
@@ -478,15 +684,37 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
     # 8. Contributing / Developer — internal orientation
     ("🔧 Contributing", [
         "Contributing",
+        "Root-Contributing",
+        "Code-of-Conduct",
+        "Support",
+        "Maintainers",
+        "CTest-Guide",
+        "Scripts-Build-Quick-Ref",
         "Developer-INDEX",
         "Developer-BUILD-TEST-CI-AND-OPERATIONS",
         "Module-Index",
+        "Branching-Strategy",
+        "Release-Strategy",
     ]),
     # 9. Governance — policy, compliance, release gates
     ("📋 Governance", []),       # populated dynamically from Governance-* pages
-    # 10. Plugins — extension points
+    # 10. Audit — baseline maturity & compliance reports
+    ("🔍 Audit", [
+        "Audit-Maturity-Report",
+        "Audit-Production-Readiness",
+        "Audit-BSI-C5",
+    ]),
+    # 11. Plugins — extension points
     ("🧩 Plugins", []),          # populated dynamically from Plugin-* pages
-    # 11. Developer LLM Wiki — AI-context artifacts (most internal)
+    # 12. Adapters — integration adapters
+    ("🔌 Adapters", []),         # populated dynamically from Adapter-* pages
+    # 13. Examples — runnable application examples
+    ("💡 Examples", []),         # populated dynamically from Example-* pages
+    # 14. Client SDKs
+    ("📦 Client SDKs", []),      # populated dynamically from Client-* + SDK-* pages
+    # 15. Tools — developer tooling
+    ("🛠️ Tools", []),            # populated dynamically from Tool-* pages
+    # 16. Developer LLM Wiki — AI-context artifacts (most internal)
     ("🤖 Developer LLM Wiki", []),    # populated dynamically from Developer-* pages
 ]
 
@@ -532,6 +760,40 @@ def _sidebar_label(wiki_name: str) -> str:
         "Migration-Guide": "Migration Guide",
         "Operations": "Operations",
         "Security-Policy": "Security Policy",
+        "Deploy-Overview": "Deploy Overview",
+        "Docker-Overview": "Docker Overview",
+        "Docker-Hub-README": "Docker Hub README",
+        "Helm-Overview": "Helm Overview",
+        "Packaging-Overview": "Packaging Overview",
+        "Operator-Overview": "Operator Overview",
+        "Security-DSGVO-SOC2-Checklist": "DSGVO / SOC2 Checklist",
+        "Client-Overview": "Client SDK Overview",
+        "SDK-Overview": "SDK Overview",
+        "Api-Module-README": "API Module README",
+        "OpenAPI-Overview": "OpenAPI Overview",
+        "Demo-Overview": "Demo Overview",
+        "Demo-Quickstart": "Demo Quickstart",
+        "Demo-Queries": "Demo Queries",
+        "Audit-Maturity-Report": "Maturity Report",
+        "Audit-Production-Readiness": "Production Readiness",
+        "Audit-BSI-C5": "BSI C5 Audit",
+        "Tools-Status": "Tools Status",
+        "Scripts-Build-Quick-Ref": "Build Quick Reference",
+        "Root-Contributing": "Contributing (root)",
+        "Root-Changelog": "Changelog",
+        "Root-Architecture": "Architecture Overview",
+        "Root-Roadmap": "Roadmap",
+        "Root-Future-Enhancements": "Future Enhancements",
+        "Root-Security": "Security Policy (root)",
+        "Root-Governance": "Governance",
+        "Branching-Strategy": "Branching Strategy",
+        "Release-Strategy": "Release Strategy",
+        "Versioning": "Versioning",
+        "Code-of-Conduct": "Code of Conduct",
+        "Support": "Support",
+        "Maintainers": "Maintainers",
+        "CTest-Guide": "CTest Guide",
+        "Proto-Overview": "Protobuf Overview",
         "Contributing": "Contributing",
         "Module-Index": "Module Index",
         "Developer-INDEX": "Developer Wiki Index",
@@ -563,6 +825,10 @@ def _sidebar_label(wiki_name: str) -> str:
         for prefix in (
             "Tutorial-", "Guide-", "ADR-", "Architecture-",
             "Governance-", "Developer-", "Module-",
+            "Client-", "SDK-", "Example-", "Adapter-",
+            "Tool-", "Deploy-", "Docker-", "Helm-", "Packaging-",
+            "Operator-", "Audit-", "Training-", "DevGuide-",
+            "Demo-", "Api-Module-", "Root-",
         ):
             if name.startswith(prefix):
                 name = name[len(prefix):]
@@ -583,6 +849,21 @@ def _sidebar_label(wiki_name: str) -> str:
         words = words[1:]
 
     return " ".join(words)
+
+
+# Shared dynamic-prefix map: section title → wiki page name prefix.
+# Sections not in this map are either curated (Architecture) or use explicit lists.
+_SECTION_DYNAMIC_PREFIX: dict[str, str] = {
+    "📖 Tutorials":          "Tutorial-",
+    "📐 ADRs":               "ADR-",
+    "📋 Governance":         "Governance-",
+    "🧩 Plugins":            "Plugin-",
+    "🔌 Adapters":           "Adapter-",
+    "💡 Examples":           "Example-",
+    "📦 Client SDKs":        "Client-",
+    "🛠️ Tools":              "Tool-",
+    "🤖 Developer LLM Wiki": "Developer-",
+}
 
 
 def _build_wiki_index(all_wiki_names: set[str]) -> str:
@@ -608,15 +889,7 @@ def _build_wiki_index(all_wiki_names: set[str]) -> str:
         elif explicit_pages:
             pages = [p for p in explicit_pages if p in all_wiki_names]
         else:
-            prefix_map = {
-                "📖 Tutorials": "Tutorial-",
-                "🏗️ Architecture": None,
-                "📐 ADRs": "ADR-",
-                "📋 Governance": "Governance-",
-                "🧩 Plugins": "Plugin-",
-                "🤖 Developer LLM Wiki": "Developer-",
-            }
-            prefix = prefix_map.get(section_title)
+            prefix = _SECTION_DYNAMIC_PREFIX.get(section_title)
             if prefix:
                 pages = sorted(p for p in all_wiki_names if p.startswith(prefix))
             elif section_title == "🏗️ Architecture":
@@ -670,15 +943,7 @@ def _build_sidebar(
             section_pages = [p for p in explicit_pages if p in all_wiki_names]
         else:
             # Populate dynamically from prefix matching
-            prefix_map = {
-                "📖 Tutorials": "Tutorial-",
-                "🏗️ Architecture": None,    # curated set
-                "📐 ADRs": "ADR-",
-                "📋 Governance": "Governance-",
-                "🧩 Plugins": "Plugin-",
-                "🤖 Developer LLM Wiki": "Developer-",
-            }
-            prefix = prefix_map.get(section_title)
+            prefix = _SECTION_DYNAMIC_PREFIX.get(section_title)
             if prefix:
                 section_pages = sorted(
                     p for p in all_wiki_names if p.startswith(prefix)
