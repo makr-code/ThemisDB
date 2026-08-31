@@ -73,6 +73,20 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 - selected advanced structural paths remain in active hardening status.
 - benchmark depth should continue expanding for broader tensor workload patterns.
 
+## Wave 3 Gap-Closure Tracking (2026-08-31)
+
+- [~] `compression_strategy.cpp` — `TTDecompositionStrategy::compress()` returns
+  synthetic 2× ratio; not wired to real TensorTrainDecomposer. STUB #CS-01.
+  Target Q2 2027.
+- [~] `compression_strategy.cpp` — `CompressionFactory::registerStrategy()` is a
+  no-op; strategy map not yet implemented. STUB #CS-02. Target Q2 2027.
+- [~] `tensor_routing_strategy.cpp` — Freshness scoring in `RankBasedPrioritization`
+  uses constant 1.0; `created_at` timestamp parsing not yet implemented.
+  Target Q2 2027.
+- [~] `tensor_routing_strategy.cpp` — Adaptive routing in
+  `AdaptiveLearningRouter::route()` uses fixed heuristic; metrics-based learning
+  loop not yet implemented. Target Q2 2027.
+
 ## Breaking Changes
 
 No breaking tensor contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

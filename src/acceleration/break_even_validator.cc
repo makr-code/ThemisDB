@@ -178,6 +178,8 @@ std::string WorkloadProfile::ToString() const {
 // ============================================================================
 
 std::string BreakEvenDecision::ToString() const {
+    // NOTE: Prometheus metric emission for BreakEvenDecision is not yet wired.
+    // Tracked: src/acceleration/ROADMAP.md § "BreakEvenValidator Prometheus Metrics"
     return fmt::format(
         "BreakEvenDecision{{use_gpu={}, speedup={:.2f}x, cpu={}ms, gpu={}ms, reason={}, cached={}}}",
         use_gpu ? "true" : "false",

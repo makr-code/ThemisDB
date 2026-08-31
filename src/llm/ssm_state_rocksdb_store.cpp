@@ -258,7 +258,7 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     result.push_back(1);  // Version 1
 
     // Serialize snapshot to JSON and then to binary
-    // TODO: Use protobuf or binary serialization for efficiency
+    // TODO(tracked): Migrate to binary/protobuf serialization — see src/llm/ROADMAP.md
     nlohmann::json j;
     j["snapshot_ts_physical"] = snapshot.snapshot_ts.physical();
     j["snapshot_ts_logical"] = snapshot.snapshot_ts.logical();
