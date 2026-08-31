@@ -53,17 +53,18 @@ class ThemisCppDoxygenPolicyRulesScan:
     )
 
     def __init__(self, repo_root: str = "."):
-        self.repo_root = Path(repo_root)
+        self.repo_root = Path(repo_root).resolve()
         self.gaps: List[Dict] = []
 
     def scan_files(self, file_list: List[Path]) -> List[Dict]:
         self.gaps = []
+        normalized_files = [self._normalize_input_path(path) for path in file_list]
 
-        scoped_modules = self._modules_in_scope(file_list)
-        header_files = self._collect_public_headers(file_list, scoped_modules)
+        scoped_modules = self._modules_in_scope(normalized_files)
+        header_files = self._collect_public_headers(normalized_files, scoped_modules)
         
         # Also scan source files for public API implementations
-        source_files = self._collect_source_files(file_list, scoped_modules)
+        source_files = self._collect_source_files(normalized_files, scoped_modules)
 
         for header_path in header_files:
             self._scan_file(header_path)
@@ -72,6 +73,10 @@ class ThemisCppDoxygenPolicyRulesScan:
             self._scan_file(source_path)
 
         return self.gaps
+
+    def _normalize_input_path(self, path: Path) -> Path:
+        candidate = path if path.is_absolute() else self.repo_root / path
+        return candidate.resolve()
 
     def _modules_in_scope(self, file_list: List[Path]) -> List[str]:
         modules: List[str] = []
@@ -189,7 +194,10 @@ class ThemisCppDoxygenPolicyRulesScan:
 
         lines = text.splitlines()
         declarations = self._collect_declarations(lines)
-        rel = str(file_path.relative_to(self.repo_root)).replace("\\", "/")
+        try:
+            rel = str(file_path.relative_to(self.repo_root)).replace("\\", "/")
+        except ValueError:
+            rel = file_path.as_posix()
 
         for decl in declarations:
             if not self._looks_like_function_declaration(decl.text):

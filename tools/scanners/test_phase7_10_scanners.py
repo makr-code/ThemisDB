@@ -40,6 +40,7 @@ from tools.scanners.gs3_step04_design_distributed_consistency import Distributed
 from tools.scanners.gs3_step04_design_llm_ai_safety import LLMAISafetyScan
 from tools.scanners.gs3_step04_design_observability import ObservabilityScannerImproved
 from tools.scanners.gs3_step04_design_determinism import DeterminismScannerImproved
+from tools.scanners.gs3_step04_quality_cpp_doxygen import ThemisCppDoxygenPolicyRulesScan
 
 
 # ---------------------------------------------------------------------------
@@ -714,6 +715,42 @@ class TestDeterminismScan(unittest.TestCase):
         """)
         gaps = self.scanner.scan_files([f])
         self.assertEqual(gaps, [])
+
+
+# ===========================================================================
+# P10-8  ThemisCppDoxygenPolicyRulesScan
+# ===========================================================================
+
+class TestThemisCppDoxygenPolicyRulesScan(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.scanner = ThemisCppDoxygenPolicyRulesScan(str(self.tmp))
+
+    def _header(self, name: str, code: str) -> Path:
+        return _write(self.tmp, f'include/auth/{name}', code)
+
+    def test_relative_header_path_is_supported(self):
+        self._header('federated_identity_manager.h', """\
+            class FederatedIdentityManager {
+            public:
+                bool authenticate(const std::string& user);
+            };
+        """)
+        gaps = self.scanner.scan_files([Path('include/auth/federated_identity_manager.h')])
+        self.assertIn('missing_doxygen_class', _patterns(gaps))
+        self.assertIn('missing_doxygen_comment', _patterns(gaps))
+
+    def test_absolute_header_path_still_supported(self):
+        header = self._header('session_manager.h', """\
+            class SessionManager {
+            public:
+                bool authenticate(const std::string& user);
+            };
+        """)
+        gaps = self.scanner.scan_files([header])
+        self.assertIn('missing_doxygen_class', _patterns(gaps))
+        self.assertIn('missing_doxygen_comment', _patterns(gaps))
 
 
 # ===========================================================================
