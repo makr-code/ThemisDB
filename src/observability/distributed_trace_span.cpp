@@ -205,9 +205,13 @@ std::string DistributedTraceSpan::generateSpanId() {
 }
 
 void DistributedTraceSpan::flushInternal() {
-    // TODO: Send span to OTel backend (async)
-    // This will be integrated with OpenTelemetryTracer in Phase 2C
-    // For now, this is a no-op (spans are queued for export during test execution)
+    // [I] ROADMAP: OpenTelemetry span export (Phase 2C).
+    //     Tracked in src/observability/ROADMAP.md § "OTel Exporter Integration".
+    //     When OpenTelemetryTracer is wired, this method will call
+    //     tracer->exportSpan(*this) via the injected ISpanExporter interface.
+    //     Until then, spans accumulate in the local queue and are visible
+    //     only via getMetrics() / unit-test inspection.
+    (void)this; // suppress unused-this on non-OTel builds
 }
 
 } // namespace observability

@@ -38,6 +38,7 @@
 #include <cstdlib>
 #include <string>
 #include <mutex>
+#include <openssl/rand.h>
 
 namespace themis { namespace security {
 
@@ -291,7 +292,20 @@ std::string TimestampAuthority::getLastError() const { return last_error_; }
 std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>&, const std::vector<uint8_t>&) { return {}; }
 TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>&) { TimestampToken t; t.success = true; return t; }
 std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_t>&) { return {}; }
-std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) { std::vector<uint8_t> n(bytes); for(size_t i=0;i<bytes;++i) n[i]=static_cast<uint8_t>(i); return n; }
+std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) {
+    // Cryptographically random nonce using OpenSSL RAND_bytes.
+    // Sequential counter bytes were previously used here (security gap) —
+    // replaced with RAND_bytes to ensure nonces are unpredictable.
+    std::vector<uint8_t> n(bytes);
+    if (RAND_bytes(n.data(), static_cast<int>(bytes)) != 1) {
+        // RAND_bytes failure is non-recoverable; return empty to signal error.
+        // Callers must treat an empty nonce as a failure (token.success stays false).
+        THEMIS_ERROR("TimestampAuthority::generateNonce: RAND_bytes failed — cannot produce "
+                     "cryptographically random nonce (size={}). TSP token will be rejected.", bytes);
+        return {};
+    }
+    return n;
+}
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data) { return pseudo_hash(data); }
 
 // ============================================================================

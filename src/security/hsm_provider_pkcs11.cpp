@@ -23,6 +23,7 @@
 #include <memory>
 #include <atomic>
 #include <cstring>
+#include <cstdlib>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/x509.h>
@@ -661,7 +662,20 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
             impl_->total_sign_time_us.fetch_add(elapsed, std::memory_order_relaxed);
             return bridged;
         }
-        // Fallback stub behaviour: return Base64-encoded hash
+        // STUB/SIMULATION NOTE:
+        // Purpose: Return a non-cryptographic signature when real PKCS#11 HSM is unavailable
+        //          (real_ready == false), so that CI and dev environments remain functional.
+        // Activation: real_ready == false at runtime (PKCS#11 library missing, no slot, or
+        //             key discovery failed). Loud WARN is emitted at initialize() time.
+        // Production Delta: Signature is Base64(SHA-256 hash) — not a valid digital signature.
+        //                   cert_serial is hardcoded "STUB-CERT". Not cryptographically secure.
+        // Removal Plan: Configure a valid PKCS#11 HSM (library_path + slot + PIN + key_label)
+        //               so real_ready becomes true at initialize() time.
+        // NOT IMPLEMENTED: Real PKCS#11 hardware signing.
+        // Tracked: src/security/ROADMAP.md — Phase 2: ABAC & HSM Direct Integration
+        THEMIS_WARN("HSMProvider (PKCS#11 path) signHash fallback: PKCS#11 not ready — "
+                    "returning non-cryptographic stub signature (key_label='{}').",
+                    key_label.empty() ? config_.key_label : key_label);
         r.success = true; 
         r.signature_b64 = toBase64(hash);
         r.algorithm = config_.signature_algorithm; 
@@ -1106,6 +1120,24 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
         if (bridge) {
             return bridge(key_label);
         }
+        // Fail-closed: returning a hardcoded stub cert to unsuspecting callers is
+        // dangerous — any certificate-validation logic would accept a meaningless token.
+        // Require explicit opt-in via THEMIS_ALLOW_HSM_STUB=1.
+        {
+            const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+            if (!allow_stub || std::string(allow_stub) != "1") {
+                THEMIS_ERROR(
+                    "HSMProvider (PKCS#11 path) getCertificate('{}') refused: real HSM not "
+                    "ready and returning a stub PEM is insecure. Set THEMIS_ALLOW_HSM_STUB=1 "
+                    "for explicit development override, or fix your PKCS#11 configuration.",
+                    key_label);
+                return std::nullopt;
+            }
+        }
+        THEMIS_WARN(
+            "HSMProvider (PKCS#11 path) getCertificate('{}') returning hardcoded stub PEM "
+            "(THEMIS_ALLOW_HSM_STUB=1). Not suitable for production.",
+            key_label);
         return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
     }
     auto api = impl_->loader.api(); if(!api || !api->C_GetAttributeValue) return std::nullopt;

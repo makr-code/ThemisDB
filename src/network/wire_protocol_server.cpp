@@ -1250,14 +1250,15 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
         // before calling fn() so that handler methods which access payload_buffer_
         // and header_buffer_ via 'this->' see the correct frame data.
         //
-        // KNOWN LIMITATION (FIXME): payload_buffer_ is also used by asyncReadPayload
+        // KNOWN LIMITATION: payload_buffer_ is also used by asyncReadPayload
         // for the NEXT incoming frame. Under high-frequency pipelining, a race
         // exists between this write (worker thread) and asyncReadPayload's
         // resize+async_read (I/O thread). The canonical fix is to use a per-session
         // net::strand to serialize all session state mutations, or to pass the
         // payload as an explicit parameter to each handler method instead of
-        // relying on the session-level member. To be addressed in a follow-up
-        // refactor (Target: Q3 2026).
+        // relying on the session-level member.
+        // [I] ROADMAP: tracked in src/network/ROADMAP.md § "Wire Protocol
+        //     Session-State Strand Safety" — target Q1 2027.
         auto payload_copy = payload_buffer_;
         auto header_copy  = header_buffer_;
         net::post(*server_->worker_pool_,

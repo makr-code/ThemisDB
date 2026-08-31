@@ -78,6 +78,13 @@ Production-grade security stack with transport/auth/access-control, encryption/k
   - [x] Crypto error-path tests K-ERR-01..K-ERR-04 (2026-08-07)
   - [x] Key-provider failover tests K-PROV-01..K-PROV-04 (2026-08-07)
   - [x] Production failure-injection matrix validation (`tests/security/test_security_wavec_production_validation_focused.cpp`) (2026-08-17)
+  - [x] Fix `TimestampAuthority::generateNonce()` — replaced sequential-byte counter with `RAND_bytes` (cryptographic security gap, wave1 gap-closure 2026-08-31)
+  - [x] Add fail-closed guard to `hsm_provider_pkcs11.cpp` `getCertificate()` fallback — stub PEM now requires `THEMIS_ALLOW_HSM_STUB=1` opt-in (wave1 gap-closure 2026-08-31)
+  - [x] Add STUB/SIMULATION NOTE template to `HSMKeyProviderAdapter` injectable DEK bridge (#47/#48) (wave1 gap-closure 2026-08-31)
+  - [x] Add STUB/SIMULATION NOTE template + per-call WARN to `hsm_provider_pkcs11.cpp` fallback sign path (wave1 gap-closure 2026-08-31)
+  - [x] Add STUB/SIMULATION NOTE template + WARN to `HSMPKIClient::getCertSerial()` silent stub (wave1 gap-closure 2026-08-31)
+- [I] PKCS#11 real HSM signing integration (`hsm_provider_pkcs11.cpp` — stub sign path active when real_ready==false) (Target: Wave 2 / Q1 2027)
+- [I] RFC 3161 / eIDAS qualified timestamp implementation (`timestamp_authority_openssl.cpp` — requires -DTHEMIS_USE_OPENSSL_TSA=ON + libcurl) (Target: Wave 2 / Q1 2027)
 
 ### Phase 3: Policy and Data-Protection Hardening
 - [~] Expand RLS/masking/policy-enforcement regression coverage under mixed query workloads (Target: Q4 2026)
