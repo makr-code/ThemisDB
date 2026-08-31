@@ -70,14 +70,16 @@ runs:
             return;
           }
 
-          // Find existing open issue with matching title
-          const { data: openIssues } = await github.rest.issues.listForRepo({
-            owner, repo,
-            state: 'open',
-            labels: labels.join(','),
-            per_page: 50,
-          });
-          const existing = openIssues.find(i => i.title === title);
+          // Find existing open issue with matching title (search without label filter
+          // to avoid missing issues created with different labels; paginate fully).
+          let existing = null;
+          for await (const response of github.paginate.iterator(
+            github.rest.issues.listForRepo,
+            { owner, repo, state: 'open', per_page: 100 }
+          )) {
+            const match = response.data.find(i => i.pull_request === undefined && i.title === title);
+            if (match) { existing = match; break; }
+          }
 
           const isBodyEmpty = !body || body.trim() === '';
 
