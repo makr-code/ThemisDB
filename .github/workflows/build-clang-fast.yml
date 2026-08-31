@@ -22,15 +22,6 @@ on:
       - 'vcpkg-configuration.json'
       - '.github/workflows/build-clang-fast.yml'
       - '.github/workflows/reusable-cmake-build.yml'
-      - 'src/**'
-      - 'include/**'
-      - 'tests/**'
-      - 'cmake/**'
-      - 'CMakeLists.txt'
-      - 'CMakePresets.json'
-      - 'vcpkg.json'
-      - 'vcpkg-configuration.json'
-      - '.github/workflows/build-clang-fast.yml'
   workflow_dispatch:
 
 permissions:
