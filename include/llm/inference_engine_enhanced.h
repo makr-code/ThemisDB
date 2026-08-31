@@ -561,8 +561,11 @@ public:
             std::shared_ptr<ILLMPlugin>        /*target_plugin*/)>;
 
     /// Inject a real target-logit computation into trySpeculativeGeneration().
-    /// Pass nullptr / empty fn to restore the built-in peaked-distribution
-    /// heuristic (STUB #262).  Thread-safe.
+    /// Pass nullptr / empty fn to remove the override. Without an injected fn,
+    /// the engine auto-uses a native llama-backed target-logit bridge when the
+    /// target plugin exposes one; otherwise speculative decoding fails closed
+    /// back to the target-model generation path instead of fabricating logits.
+    /// Thread-safe.
     void setTargetLogitsFn(TargetLogitsFn fn);
 
     // ── STUB #263 bridge — tokenizer injection ────────────────────────────

@@ -9,8 +9,8 @@
  *   SD-DFT-02  nullptr/empty fn restores the built-in heuristic
  *   SD-DFT-03  Bridge is thread-safe (concurrent calls see consistent fn)
  *   SPEC-TL-01 Injected TargetLogitsFn is called in trySpeculativeGeneration
- *   SPEC-TL-02 nullptr fn restores built-in peaked-distribution heuristic
- *   SPEC-TL-03 TargetLogitsFn returning wrong shape falls back to heuristic
+ *   SPEC-TL-02 nullptr fn falls back to normal target generation when no native bridge exists
+ *   SPEC-TL-03 TargetLogitsFn returning wrong shape falls back to normal target generation
  *   SPEC-TL-06 Local tokenizer bridge fail-closed path falls back to target generation
  *   SPEC-TL-07 Generic non-llama local draft path fails closed without tokenizer bridge
  */
@@ -264,10 +264,9 @@ TEST(SpecTlBridge, SPEC_TL_01_InjectedTargetLogitsFnUsed) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SPEC-TL-02: nullptr fn restores built-in peaked-distribution heuristic
-//             (engine still produces a response without the injected fn)
+// SPEC-TL-02: nullptr fn falls back to target generation when no native bridge exists
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(SpecTlBridge, SPEC_TL_02_NullFnRestoresHeuristic) {
+TEST(SpecTlBridge, SPEC_TL_02_NullFnFallsBackToTargetGeneration) {
     constexpr size_t kVocab = 64;
     constexpr size_t kK     = 2;
 
@@ -304,14 +303,17 @@ TEST(SpecTlBridge, SPEC_TL_02_NullFnRestoresHeuristic) {
     auto response = handle.get();
     engine.shutdown();
 
-    EXPECT_FALSE(response.text.empty())
-        << "Engine must work correctly without injected TargetLogitsFn";
+    EXPECT_EQ(response.text, "t")
+        << "Without an injected or native target-logit bridge, the engine must "
+           "fail closed back to the target model path";
+    EXPECT_EQ(response.metadata.value("speculative_accepted", uint64_t{0}),
+              uint64_t{0});
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SPEC-TL-03: TargetLogitsFn returning wrong row count falls back to heuristic
+// SPEC-TL-03: TargetLogitsFn returning wrong row count falls back to target generation
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(SpecTlBridge, SPEC_TL_03_BadShapeFallsBackToHeuristic) {
+TEST(SpecTlBridge, SPEC_TL_03_BadShapeFallsBackToTargetGeneration) {
     constexpr size_t kVocab = 32;
     constexpr size_t kK     = 3;
 
@@ -345,10 +347,14 @@ TEST(SpecTlBridge, SPEC_TL_03_BadShapeFallsBackToHeuristic) {
     req.allow_caching       = false;
 
     // The engine must NOT throw even when the injected fn returns bad shape;
-    // it should fall back to the heuristic and still produce a response.
+    // it should fall back to the normal target path when no native bridge exists.
     auto handle   = engine.submit(req);
-    EXPECT_NO_THROW(handle.get());
+    auto response = handle.get();
     engine.shutdown();
+
+    EXPECT_EQ(response.text, "t");
+    EXPECT_EQ(response.metadata.value("speculative_accepted", uint64_t{0}),
+              uint64_t{0});
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

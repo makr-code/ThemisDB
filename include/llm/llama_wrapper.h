@@ -434,6 +434,28 @@ public:
         const std::string& text,
         bool add_bos = true
     );
+
+    /**
+     * @brief Compute exact target-model logits for a speculative draft token sequence.
+     *
+     * Evaluates the request prompt once, captures the next-token logits for the
+     * current prefix, then incrementally feeds each supplied draft token back
+     * through the live llama.cpp context and captures the resulting next-token
+     * logits after every step. The returned matrix therefore has exactly
+     * `draft_token_ids.size() + 1` rows and is directly compatible with
+     * `SpeculativeDecoder::verify()`.
+     *
+     * @param request Inference request whose prompt forms the verification prefix.
+     * @param draft_token_ids Draft token IDs to validate in target-vocabulary space.
+     * @return `(K+1) x vocab_size` raw target-logit matrix.
+     *
+     * @throws std::runtime_error if no live model/context is available or prompt/token evaluation fails.
+     * @throws std::invalid_argument if any supplied token is outside the loaded vocabulary range.
+     */
+    [[nodiscard]] std::vector<std::vector<float>> computeTargetLogitsForTokens(
+        const InferenceRequest& request,
+        const std::vector<int>& draft_token_ids
+    );
     
     InferenceResponse generateRAG(
         const RAGContext& rag_context,

@@ -154,7 +154,7 @@ public:
      * full-vocabulary entropy computation whenever
      * `TARGConfig::use_entropy_gate == true`.
      * Pass a null / default-constructed `FullEntropyFn` to revert to the
-     * built-in approximation.
+     * built-in exact full-vocabulary entropy path.
      *
      * @param fn  Callable accepting raw logits and returning entropy in nats.
      */

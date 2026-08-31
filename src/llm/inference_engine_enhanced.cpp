@@ -11,6 +11,7 @@
 
 #include "llm/inference_engine_enhanced.h"
 #include <stdexcept>
+#include "llama_cpp/llama_cpp_plugin.h"
 #include "llm/llama_wrapper.h"
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
@@ -99,6 +100,32 @@ InferenceEngineEnhanced::TokenizerFn makeTokenizerBridgeForPlugin(
 
     const auto info = plugin->getModelInfo();
     return info.has_value() && info->architecture == "llama";
+}
+
+[[nodiscard]] bool tryComputeNativeTargetLogitsForPlugin(
+    const InferenceRequest& request,
+    const std::vector<int>& draft_tokens,
+    const std::shared_ptr<ILLMPlugin>& plugin,
+    std::vector<std::vector<float>>& out_target_logits
+) {
+    if (!plugin) {
+        return false;
+    }
+
+    if (const auto llama_wrapper = std::dynamic_pointer_cast<LlamaWrapper>(plugin)) {
+        out_target_logits =
+            llama_wrapper->computeTargetLogitsForTokens(request, draft_tokens);
+        return true;
+    }
+
+    if (const auto llama_cpp =
+            std::dynamic_pointer_cast<llamacpp::LlamaCppPlugin>(plugin)) {
+        out_target_logits =
+            llama_cpp->computeTargetLogitsForTokens(request, draft_tokens);
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace
@@ -2032,7 +2059,6 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                      vocab_size);
         vocab_size = 32000u;
     }
-    const int vocab_size_int = static_cast<int>(vocab_size);
 
     // ── Remote draft path ─────────────────────────────────────────────────
     // When a remote draft shard is configured and a RemoteExecutor is injected,
@@ -2278,24 +2304,10 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     }
 
     // ── Target logit estimation ───────────────────────────────────────────
-    // STUB/SIMULATION NOTE:
-    // Purpose: When no TargetLogitsFn is injected, a single generate(max_tokens=1)
-    //          call is used to obtain the target's most-likely next token, and
-    //          peaked distributions (kPeak / kBaseline) are synthesised for all
-    //          K+1 positions as a placeholder logit matrix.
-    // Activation: Active when setTargetLogitsFn() has not been called, or when
-    //             the injected function returns a wrong-shape result.
-    // Production Delta: The peaked heuristic overstates target confidence and
-    //                   skips the K-token forward pass; a real implementation
-    //                   would run a single batched forward pass over all K draft
-    //                   tokens and return the true conditional logit matrix.
-    // Production Injection Point (W9-17, 2026-08-26):
-    //   Inject via setTargetLogitsFn() at engine startup.  The registered fn is
-    //   called FIRST; the peaked-distribution heuristic is the documented fallback
-    //   only when no fn is set or the fn returns a wrong-shape result or throws.
-    //   Shape contract: exactly K+1 rows of vocab_size floats.
-    // Try the injected TargetLogitsFn first; fall back to the single-token
-    // peaked-distribution heuristic when no fn is set.
+    // Prefer an injected TargetLogitsFn. When none is available (or it returns
+    // invalid output), auto-use a native llama-backed target-logit bridge when
+    // the target plugin exposes one. Unsupported generic plugins fail closed
+    // back to the normal target-generation path instead of fabricating logits.
     TargetLogitsFn target_logits_fn_copy;
     {
         std::lock_guard<std::mutex> lk(target_logits_fn_mutex_);
@@ -2317,60 +2329,58 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                 if (!valid) {
                     target_logit_matrix.clear();
                     spdlog::warn("TargetLogitsFn returned wrong shape — "
-                                 "falling back to heuristic");
+                                 "trying native target-logit bridge");
                 }
             } else {
                 const size_t actual_rows = target_logit_matrix.size();
                 target_logit_matrix.clear();
                 spdlog::warn("TargetLogitsFn returned {} rows (expected {}) — "
-                             "falling back to heuristic",
+                             "trying native target-logit bridge",
                              actual_rows, K + 1);
             }
         } catch (const std::exception& e) {
             target_logit_matrix.clear();
-            spdlog::warn("TargetLogitsFn threw: {} — falling back to heuristic",
+            spdlog::warn("TargetLogitsFn threw: {} — trying native target-logit bridge",
                          e.what());
         }
     }
 
     if (!used_injected_logits) {
-        // Built-in heuristic: single generate(max_tokens=1) call to obtain the
-        // target's most-likely next token; peaked distributions for all K+1 rows.
-        constexpr float kTargetPeak     =  5.0f;
-        constexpr float kTargetBaseline = -5.0f;
-
-        int target_pred_token = 0;
-        {
-            InferenceRequest one_tok_req = request;
-            one_tok_req.max_tokens      = 1;
-            one_tok_req.stream_callback = nullptr;
-            try {
-                const auto tgt_resp = target_plugin->generate(one_tok_req);
-                if (!tgt_resp.text.empty()) {
-                    target_pred_token =
-                        static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
-                        vocab_size_int;
-                }
-            } catch (...) {
-                THEMIS_WARN("inference_engine_enhanced: unhandled exception caught");
-                // Non-fatal: keep target_pred_token = 0.
-            }
+        try {
+            used_injected_logits = tryComputeNativeTargetLogitsForPlugin(
+                request,
+                draft_result.tokens,
+                target_plugin,
+                target_logit_matrix);
+        } catch (const std::exception& e) {
+            target_logit_matrix.clear();
+            spdlog::warn("Native target-logit bridge failed: {} — falling back "
+                         "to target generation",
+                         e.what());
         }
+    }
 
-        auto make_target_row = [&](int peak_token) {
-            std::vector<float> row(vocab_size, kTargetBaseline);
-            row[static_cast<size_t>(
-                std::max(0, peak_token) % vocab_size_int)] = kTargetPeak;
-            return row;
-        };
+    if (!used_injected_logits) {
+        spdlog::info("Speculative target model has no usable target-logit bridge; "
+                     "falling back to target generation");
+        return false;
+    }
 
-        target_logit_matrix.resize(K + 1);
-        for (size_t i = 0; i < K; ++i) {
-            target_logit_matrix[i] = make_target_row(target_pred_token);
+    if (target_logit_matrix.size() != K + 1) {
+        spdlog::warn("Target-logit bridge returned {} rows (expected {}) — "
+                     "falling back to target generation",
+                     target_logit_matrix.size(),
+                     K + 1);
+        return false;
+    }
+    for (const auto& row : target_logit_matrix) {
+        if (row.size() != vocab_size) {
+            spdlog::warn("Target-logit bridge returned vocab row size {} (expected {}) "
+                         "— falling back to target generation",
+                         row.size(),
+                         vocab_size);
+            return false;
         }
-        // Bonus position: use a token shifted by 1 to distinguish from verification.
-        target_logit_matrix[K] = make_target_row(
-            (target_pred_token + 1) % vocab_size_int);
     }
 
     // ── Acceptance / rejection loop ───────────────────────────────────────

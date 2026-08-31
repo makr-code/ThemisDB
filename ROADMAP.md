@@ -631,7 +631,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] `ingestWikipediaDump()` ABI wiring: sub-feature gate `"llm_wiki_wikipedia"` check at runtime; `ILLMWikiPlugin::Status::PermissionDenied` in Community/Minimal editions; test `LWP-WIKI-01` (enterprise smoke) + `LWP-WIKI-02` (community gate). (Target: Q4 2026)
 - [ ] FTS enhancement gate: phrase/proximity query path is implemented; remaining work is the ≤100ms p95 benchmark gate on 100K documents. (Target: Q4 2026)
 - [ ] `TensorRagCostModel`: 5-phase RAG cost model — C_RAG = C_embed + C_retrieve + C_rerank + C_assemble + C_generate; `TENSOR_RAG` WorkloadType in `TensorWorkloadClassifier`; TTFT comparison table (150-400ms llama.cpp vs 40-90ms cached); integrate with `TensorRagCostModel::estimate()`. (Target: Q4 2026)
-- [ ] LLM↔RAG entropy bridge: inject `TARGRetrieval::setFullEntropyFn()` from the LLM speculative-decode path wherever full-vocabulary logits are available so TARG does not stay on the top-32 approximation fallback. (Target: Q4 2026)
+- [ ] LLM↔RAG entropy bridge: reuse the exact full-vocabulary logits now available from the LLM speculative-decode path to inject a backend-specific `TARGRetrieval::setFullEntropyFn()` only where it avoids redundant entropy recomputation; the default TARG runtime no longer uses the old top-32 approximation fallback. (Target: Q4 2026)
 - [ ] LWP tests Phase 4 (LWP-01..20 + LWP-GATE-01): see `plugins/themisdb_llm_wiki/ROADMAP.md` Phase 4 for full list; Recall@k ≥0.8 gate on LWP-01..08. (Target: Q4 2026)
 
 ### 6. Evaluation Framework
