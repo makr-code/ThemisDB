@@ -63,6 +63,8 @@ Es definiert verbindliche Anforderungen für Prompt-Injection-Schutz, Context-As
   - **Status:** ✅ Documented restriction
 - `continuous_learning_orchestrator.cpp` (`wireLiveSignalProviders()`) benötigt konfigurierte Signal-Provider; ohne Provider laufen Loop-Iterationen ohne Live-Feedback.
   - **Status:** ✅ Fallback documented (wireLiveSignalProviders emits "fallback_missing" signal)
+- `llm_judge_integration.cpp` erlaubt keinen Mock-Judge mehr; ohne injizierten Backend-Adapter oder gesetzte Inference-Funktion liefern Judge-Aufrufe explizit `llm_unavailable`.
+  - **Status:** ✅ Fail-closed enforced
 
 ## Ingestion Bridge Bounds (Phase 6 dokumentiert)
 
@@ -86,6 +88,7 @@ Es definiert verbindliche Anforderungen für Prompt-Injection-Schutz, Context-As
 | RAG-Judge und Quality-Control-Pipeline aktiv | ✅ COMPLETE | src/rag/rag_judge.cpp, quality_control_pipeline.cpp |
 | Upstream-Autorisierung für Retrieval-Scope aktiv | ✅ COMPLETE | rag_ingestion_bridge.h integration |
 | Judge-Ergebnis wird mit Response geliefert | ✅ COMPLETE | src/rag/rag_judge.cpp result struct |
+| LLM-Judge mock fallback entfernt; ohne Backend explizites `llm_unavailable` | ✅ COMPLETE | src/rag/llm_judge_integration.cpp |
 | Bias-Detektor kalibriert | ✅ COMPLETE | src/rag/bias_detector.cpp |
 | Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt | ✅ COMPLETE | Runtime environment variable checks |
 

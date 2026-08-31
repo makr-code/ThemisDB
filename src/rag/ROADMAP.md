@@ -54,8 +54,8 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 
 #### LLM-Judge Integration
 - [x] Replace mock-mode in `src/rag/llm_judge_integration.cpp` with real `ILLMBackend` adapter calls under gate `THEMIS_ENABLE_LLM_JUDGE`. (Target: Q4 2026)
-  - **Evidence**: `LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config&)` production constructor wires `engine->generate(prompt)` into `inference_fn_`; sets `mock_mode_active_ = false`. `defaultInference` (mock fallback) is only reachable when `config.allow_mock=true && config.use_mock_mode=true` — never in production. Gate `THEMIS_ENABLE_LLM_JUDGE` defaults ON in `cmake/features/LLMFeatures.cmake`.
-  - **New Test Coverage**: `tests/rag/test_rag_phase_b_e2e.cpp` PHASE-B-E2E-05 (real engine, isMockMode=false) + PHASE-B-E2E-06 (gate disabled → unavailable).
+  - **Evidence**: `LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config&)` production constructor wires `engine->generate(prompt)` into `inference_fn_` and rejects `nullptr` engines; config-only construction leaves the backend unset until `setInferenceFunction()` is called. `defaultInference` mock fallback has been removed. Gate `THEMIS_ENABLE_LLM_JUDGE` defaults ON in `cmake/features/LLMFeatures.cmake`.
+  - **New Test Coverage**: `tests/rag/test_rag_phase_b_e2e.cpp` PHASE-B-E2E-05 (real engine, isMockMode=false) + PHASE-B-E2E-06 (gate disabled → unavailable) + fail-closed coverage in `tests/llm/test_llm_judge_integration.cpp` and `tests/llm/test_llm_judge_is_mock.cpp`.
   - When gate off or LLM unavailable → `LLMJudgeResult{score: -1, reason: "llm_unavailable"}`; never silent mock. ✅
 - [x] Recall@k / MRR / p95-Reporting in `WikiIndexStore::evaluateQuery()` / `getEvaluationStats()` / `resetEvaluationStats()`: `WikiEvalStats::recall_at_k` (k=1,3,5,10), `mrr`, `p95_query_latency_ms` — implemented 2026-08-24. (Target: Q4 2026)
 - [ ] Recall@k ≥ 0.8 at k=10 as gate criterion for LWP-01..08 acceptance tests. (Target: Q4 2026)
@@ -121,6 +121,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - [~] Standardize fallback behavior for optional model/acceleration/runtime dependencies (Target: Q4 2026)
   - **Status**: Documented in FUTURE_ENHANCEMENTS.md; implementation in progress
   - [x] `targ_retrieval.cpp` now uses exact full-vocabulary softmax entropy by default; `FullEntropyFn` remains as an override hook for backend-specific entropy implementations
+  - [x] `llm_judge_integration.cpp` no longer allows mock-mode fallback; missing judge backends now return explicit `llm_unavailable` fail-closed results
 
 ### Phase 4: Tests
 - [~] Expand focused regressions for ingestion bridge, budget propagation, and deterministic tie-breaking (Target: Q4 2026)
@@ -236,7 +237,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 ### Evaluation Framework — LLM-Judge & Metrics
 
 - [x] **[LLM-Judge real-mode]** Replace mock dispatch in `llm_judge_integration.cpp` with real LLM call when `THEMIS_ENABLE_LLM_JUDGE=ON`; return `Status::Unavailable` with structured diagnostic when LLM endpoint unreachable (Target: Q4 2026)
-  - **Evidence**: `LLMJudgeIntegration(ILLMInferenceEngine*, Config)` production constructor; `callLLM` dispatches `inference_fn_(prompt)` only when `enable_llm_judge=true` and `inference_fn_` is non-null. Gate-disabled or no-backend path returns `{"score":-1,"reason":"llm_unavailable","success":false}`.
+  - **Evidence**: `LLMJudgeIntegration(ILLMInferenceEngine*, Config)` production constructor; `callLLM` dispatches `inference_fn_(prompt)` only when `enable_llm_judge=true` and `inference_fn_` is non-null. Gate-disabled or no-backend path returns explicit `llm_unavailable`, and mock fallback has been removed.
   - **New Test Coverage**: `tests/rag/test_rag_phase_b_e2e.cpp` PHASE-B-E2E-05..07.
 - [x] **[Recall@k / MRR / p95 in stats()]** Implement `Recall@k`, `MRR`, and `p95` latency in `WikiIndexStore::evaluateQuery()` + `getEvaluationStats()` + `resetEvaluationStats()`; values populated after ≥1 evaluateQuery() call; 10 gate tests (EVAL-01..10) added — 2026-08-24 (Target: Q4 2026)
 - [ ] **[Recall@k gate]** `Recall@k ≥ 0.8` is a hard gate criterion for `LWP-01..LWP-08` pass/fail decision (Target: Q4 2026)

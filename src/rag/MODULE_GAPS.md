@@ -26,7 +26,7 @@
 - **Persistent embedding cache**: ✅ **PRODUCTION (W8-19 + follow-up)** — RocksDB CF "embedding_cache" wired under `THEMIS_ROCKSDB_AVAILABLE` + non-empty `cache_dir`; SHA-256 keying (EVP_Digest); in-memory LRU write-through; `cacheEmbedding()`/`retrieveEmbedding()` fully wired
 - **Hybrid search API**: ✅ **IMPLEMENTED (W8-21)** — `searchHybrid(BM25+HNSW)` via `fuseRRF()`; graceful fallback to BM25+ when HNSW disabled
 - **Config struct HNSW params**: ✅ **IMPLEMENTED (W8-20)** — `WikiIndexStoreConfig` extended with `enable_hnsw`, `hnsw_ef`, `hnsw_m`, `hnsw_max_m0`, `hnsw_ef_construction`, `cache_dir`, `cache_ttl_seconds`, `max_cache_size`
-- LLM-Judge: `[?]` deferred Q4 2026 (real integration pending, mock-mode stub documented with STUB/SIMULATION NOTE)
+- LLM-Judge: ✅ **PRODUCTION (2026-08-31 hardening)** — real engine / injected-function only; mock fallback removed; missing backend returns explicit `llm_unavailable`
 
 ## Severity Summary
 

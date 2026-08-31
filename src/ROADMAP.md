@@ -541,7 +541,7 @@ All items with label `stub-replacement`. Most critical:
 - `gpu/query_accelerator.cpp`: 5 GPU stubs (#28)
 - `index/gpu_vector_index.cpp`: CUDA/HIP never dispatched (#29)
 - `chimera`: 7 ThemisDB adapter stubs + 3 in-process DB simulations (#14, #15)
-- `rag`: mock mode silently returns fixed evaluation scores (#94)
+- `rag`: historical mock judge gap (#94) is now closed; runtime uses real backend injection or explicit `llm_unavailable`
 - `query`: federation always broadcasts to all shards (#88)
 
 **Suggested Epic Label:** `epic:stub-replacement` · **Target:** v1.8.0

@@ -638,7 +638,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 **Scope:** `src/rag/`, `src/evaluation/`, `include/llm_wiki/`
 
-- [x] LLM-Judge Integration: `src/rag/llm_judge_integration.cpp` has a real `ILLMInferenceEngine` path under `THEMIS_ENABLE_LLM_JUDGE`; when the gate is off or no backend is available it returns `llm_unavailable` fail-closed, while mock mode remains test-only via `allow_mock=true && use_mock_mode=true`. (Target: Q4 2026)
+- [x] LLM-Judge Integration: `src/rag/llm_judge_integration.cpp` has a real `ILLMInferenceEngine` path under `THEMIS_ENABLE_LLM_JUDGE`; when the gate is off or no backend is available it returns `llm_unavailable` fail-closed, and the former mock-mode fallback has been removed from runtime behavior. (Target: Q4 2026)
 - [x] Recall@k / MRR / p95-Reporting in `ILLMWikiPlugin::stats()`:
   - `EvaluationStats::recall_at_k` (k=1,3,5,10) — fraction of queries with relevant doc in top-k.
   - `EvaluationStats::mrr` — mean reciprocal rank over last N queries.

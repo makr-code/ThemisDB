@@ -73,19 +73,10 @@ using ILLMBackend = ILLMInferenceEngine;
  * Usage Example (Production with setInferenceFunction):
  * @code
  *   LLMJudgeIntegration::Config config;
- *   config.use_mock_mode = false;
  *   LLMJudgeIntegration integration(config);
  *   integration.setInferenceFunction([](const std::string& prompt) {
  *       return myCustomLLMBackend.infer(prompt);
  *   });
- * @endcode
- * 
- * Usage Example (Testing with Mock):
- * @code
- *   LLMJudgeIntegration::Config config;
- *   config.use_mock_mode = true;
- *   LLMJudgeIntegration integration(config);
- *   // No inference function needed - will use mock responses
  * @endcode
  */
 class LLMJudgeIntegration {
@@ -107,19 +98,14 @@ public:
         int timeout_ms = 30000;
         bool use_json_mode = true;
         bool enable_llm_judge = kDefaultJudgeEnabled; // gate for real backend dispatch
-        
-        // Mock mode configuration
-        bool use_mock_mode = false;           // Enable mock responses (for testing only)
-        bool warn_on_mock_mode = true;        // Log warning once when mock mode is used
-        bool allow_mock = false;              // Allow nullptr engine (tests only, requires use_mock_mode=true)
     };
     
     /**
      * @brief Construct with explicit inference engine (production path)
      *
      * @param engine Pointer to an ILLMInferenceEngine implementation.
-     *               Must not be nullptr unless config.allow_mock is true.
-     * @throws std::invalid_argument if engine is nullptr and allow_mock is false.
+     *               Must not be nullptr.
+     * @throws std::invalid_argument if engine is nullptr.
      */
     explicit LLMJudgeIntegration(ILLMInferenceEngine* engine);
     
@@ -128,18 +114,26 @@ public:
      *
      * @param engine Pointer to an ILLMInferenceEngine implementation.
      * @param config Integration configuration.
-     * @throws std::invalid_argument if engine is nullptr and config.allow_mock is false.
+     * @throws std::invalid_argument if engine is nullptr.
      */
     explicit LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config);
 
     /**
-     * @brief Construct with default configuration
+     * @brief Construct with default configuration.
+     *
+     * No backend is configured by default. Callers must inject a backend via
+     * setInferenceFunction() before evaluation or the unavailable fail-closed
+     * path will be returned.
      */
     LLMJudgeIntegration();
     
     /**
      * @brief Construct with custom configuration
      * @param config Integration configuration
+     *
+     * No backend is configured by this constructor. Callers must inject a
+     * backend via setInferenceFunction() before evaluation or the unavailable
+     * fail-closed path will be returned.
      */
     explicit LLMJudgeIntegration(const Config& config);
     
@@ -186,16 +180,14 @@ public:
     Config getConfig() const;
     
     /**
-     * @brief Check if currently in mock mode
-     * @return true if using mock responses
+     * @brief Compatibility probe for legacy callers.
+     * @return Always false because mock-mode fallback has been removed.
      */
-    bool isMockMode() const;
+    [[nodiscard]] bool isMockMode() const;
 
 private:
     Config config_;
     std::function<std::string(const std::string&)> inference_fn_;
-    bool mock_mode_active_ = false;        // Tracks whether stub inference is currently active
-    bool mock_mode_warning_shown_ = false;  // Track if warning has been shown
     
     /**
      * @brief Call LLM inference with retries
@@ -203,13 +195,6 @@ private:
      * @return LLM response
      */
     std::string callLLM(const std::string& prompt);
-    
-    /**
-     * @brief Default inference function (stub)
-     * @param prompt Input prompt
-     * @return Mock response
-     */
-    static std::string defaultInference(const std::string& prompt);
 };
 
 } // namespace themis::rag::judge
