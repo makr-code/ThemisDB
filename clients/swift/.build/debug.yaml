@@ -1,0 +1,54 @@
+client:
+  name: basic
+  file-system: device-agnostic
+tools: {}
+targets:
+  "PackageStructure": ["<PackageStructure>"]
+  "ThemisDB-x86_64-unknown-linux-gnu-debug.module": ["<ThemisDB-x86_64-unknown-linux-gnu-debug.module>"]
+  "main": ["<ThemisDB-x86_64-unknown-linux-gnu-debug.module>"]
+  "test": ["<ThemisDB-x86_64-unknown-linux-gnu-debug.module>"]
+default: "main"
+nodes:
+  "/home/runner/work/ThemisDB/ThemisDB/clients/swift/Sources/ThemisDB/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+commands:
+  "/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/ThemisDB.swiftmodule.o":
+    tool: shell
+    inputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/Modules/ThemisDB.swiftmodule"]
+    outputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/ThemisDB.swiftmodule.o"]
+    description: "Wrapping AST for ThemisDB for debugging"
+    args: ["/usr/share/swift/usr/bin/swiftc","-modulewrap","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/Modules/ThemisDB.swiftmodule","-o","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/ThemisDB.swiftmodule.o","-target","x86_64-unknown-linux-gnu"]
+
+  "/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/home/runner/work/ThemisDB/ThemisDB/clients/swift/Sources/ThemisDB/LlmModels.swift","/home/runner/work/ThemisDB/ThemisDB/clients/swift/Sources/ThemisDB/ThemisClient.swift"]
+    outputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/sources"]
+    description: "Write auxiliary file /home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/sources"
+
+  "/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt":
+    tool: write-auxiliary-file
+    inputs: ["<swift-get-version>","/usr/share/swift/usr/bin/swiftc"]
+    outputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt"]
+    always-out-of-date: "true"
+    description: "Write auxiliary file /home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt"
+
+  "<ThemisDB-x86_64-unknown-linux-gnu-debug.module>":
+    tool: phony
+    inputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/LlmModels.swift.o","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/ThemisClient.swift.o","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/Modules/ThemisDB.swiftmodule"]
+    outputs: ["<ThemisDB-x86_64-unknown-linux-gnu-debug.module>"]
+
+  "C.ThemisDB-x86_64-unknown-linux-gnu-debug.module":
+    tool: shell
+    inputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/Sources/ThemisDB/LlmModels.swift","/home/runner/work/ThemisDB/ThemisDB/clients/swift/Sources/ThemisDB/ThemisClient.swift","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/sources"]
+    outputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/LlmModels.swift.o","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/ThemisClient.swift.o","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/Modules/ThemisDB.swiftmodule"]
+    description: "Compiling Swift Module 'ThemisDB' (2 sources)"
+    args: ["/usr/share/swift/usr/bin/swiftc","-module-name","ThemisDB","-emit-dependencies","-emit-module","-emit-module-path","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/Modules/ThemisDB.swiftmodule","-output-file-map","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/output-file-map.json","-parse-as-library","-incremental","-c","@/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/sources","-I","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/Modules","-target","x86_64-unknown-linux-gnu","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/index/store","-Onone","-enable-testing","-j4","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/home/runner/work/ThemisDB/ThemisDB/clients/swift/.build/x86_64-unknown-linux-gnu/debug/ThemisDB.build/include/ThemisDB-Swift.h","-swift-version","5","-g","-Xcc","-fPIC","-Xcc","-g","-package-name","swift","-Xcc","-fno-omit-frame-pointer"]
+
+  "PackageStructure":
+    tool: package-structure-tool
+    inputs: ["/home/runner/work/ThemisDB/ThemisDB/clients/swift/Sources/ThemisDB/","/home/runner/work/ThemisDB/ThemisDB/clients/swift/Package.swift","/home/runner/work/ThemisDB/ThemisDB/clients/swift/Package.resolved"]
+    outputs: ["<PackageStructure>"]
+    description: "Planning build"
+    allow-missing-inputs: true
+
