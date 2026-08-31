@@ -46,6 +46,10 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Governance- und Release-Policy-Gates
 - `.github/workflows/maintenance-docs.yml`
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
+- `.github/workflows/maintenance-docs-db-build.yml`
+  — Docs-to-ThemisDB: Ingests docs/ into a RocksDB database via themis_docs_builder; triggered on docs/** changes (push develop/community); content-hash guard prevents redundant rebuilds; workflow_dispatch supports arbitrary input_dir
+- `.github/workflows/reusable-docs-db-builder.yml`
+  — Reusable: generalized folder→ThemisDB-DB pipeline; builds themis_docs_builder, hashes input tree, skips if up-to-date, uploads artifact; called by maintenance-docs-db-build.yml and any future per-folder callers
 - `.github/workflows/maintenance-ci-health.yml`
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
 - `.github/workflows/maintenance-issues.yml`

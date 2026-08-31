@@ -1,0 +1,91 @@
+name: "Maintenance: Docs-to-ThemisDB Database Build"
+
+# Rechenaufwand-Score: R=3 (K=2, L=3, N=3) | last-calibrated: 2026-08-31
+# Trigger policy: push on docs/** changes merged to develop/community.
+#
+# Watches the docs/ folder and rebuilds a ThemisDB-compatible RocksDB database
+# whenever documentation content changes.  Uses the canonical Python pipeline:
+#   scripts/generate_docs_database.py → JSON artifact (chunks + embeddings + graph)
+#   scripts/generate_docs_rocksdb.py  → C++ importer source
+#   g++ compile + run                 → RocksDB database
+#
+# The heavy build logic lives in the reusable workflow (reusable-docs-db-builder.yml)
+# which also implements the second-layer content-hash guard to skip redundant rebuilds.
+#
+# Outdated detection (two-layer):
+#   1. paths: filter below — workflow runs only when docs/** files change.
+#   2. Content-hash check inside the reusable job — skips build if the exact
+#      file tree was already processed (e.g. after a revert commit).
+#
+# Adding a second source folder (example: legals/):
+#   1. Copy this file as maintenance-legals-db-build.yml.
+#   2. Adjust paths: to 'legals/**'.
+#   3. Update the job inputs: input_dir, namespace, output_name.
+#   4. Register the new workflow in .github/WORKFLOW_REGISTRY.md.
+#
+# See also: reusable-docs-db-builder.yml for the shared Python pipeline logic.
+
+on:
+  push:
+    branches: [develop, community]
+    paths:
+      - 'docs/**'
+      - 'scripts/generate_docs_database.py'
+      - 'scripts/generate_docs_rocksdb.py'
+      - 'tools/ingest.py'
+      - '.github/workflows/maintenance-docs-db-build.yml'
+      - '.github/workflows/reusable-docs-db-builder.yml'
+
+  schedule:
+    # Weekly Sunday 02:00 UTC — ensure artifact is not expired without a recent push.
+    - cron: '0 2 * * 0'
+
+  workflow_dispatch:
+    inputs:
+      input_dir:
+        description: >
+          Source folder to ingest (relative to repo root).
+          Defaults to 'docs'. Change to 'legals', 'runbooks', etc. for ad-hoc builds.
+        type: string
+        default: 'docs'
+      namespace:
+        description: 'ThemisDB namespace for the database.'
+        type: string
+        default: 'com.themisdb.docs'
+      output_name:
+        description: 'Artifact name for the generated database.'
+        type: string
+        default: 'docs-db'
+      embedding_model:
+        description: 'sentence-transformers model (or empty for hash-fallback embeddings).'
+        type: string
+        default: 'sentence-transformers/all-MiniLM-L6-v2'
+      graph_mode:
+        description: 'Graph edge persistence mode (full | doc-only | intra-doc).'
+        type: string
+        default: 'full'
+      force_rebuild:
+        description: 'Force rebuild even if content hash matches.'
+        type: boolean
+        default: false
+
+concurrency:
+  group: maintenance-docs-db-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-docs-db:
+    name: "Docs DB: docs/ → ThemisDB"
+    uses: ./.github/workflows/reusable-docs-db-builder.yml
+    permissions:
+      contents: read
+    with:
+      # For push/schedule triggers use fixed defaults; for workflow_dispatch
+      # use the operator-supplied values.
+      input_dir:       ${{ github.event_name == 'workflow_dispatch' && inputs.input_dir       || 'docs' }}
+      namespace:       ${{ github.event_name == 'workflow_dispatch' && inputs.namespace       || 'com.themisdb.docs' }}
+      output_name:     ${{ github.event_name == 'workflow_dispatch' && inputs.output_name     || 'docs-db' }}
+      embedding_model: ${{ github.event_name == 'workflow_dispatch' && inputs.embedding_model || 'sentence-transformers/all-MiniLM-L6-v2' }}
+      graph_mode:      ${{ github.event_name == 'workflow_dispatch' && inputs.graph_mode      || 'full' }}
+      force_rebuild:   ${{ github.event_name == 'workflow_dispatch' && inputs.force_rebuild == true }}
+      artifact_retention_days: 30
