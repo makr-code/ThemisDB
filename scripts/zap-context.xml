@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ZAP Session Context — ThemisDB REST API
+  ========================================
+  Used by security-dast-zap.yml for baseline, API, and full-scan modes.
+
+  Scope:
+    - All /api/* endpoints on localhost:18080
+    - Health, metrics, and auth endpoints explicitly excluded from active attack
+      (/health, /api/health, /api/v1/auth/*, /metrics).
+
+  Authentication:
+    - Type 2 = HTTP Authentication / JSON body login
+    - Uses test credentials (CI-only; no real data).
+    - If THEMIS_ZAP_TEST_TOKEN is available as env, the replacer header
+      config in the workflow will inject it as the Authorization header.
+
+  Maintenance:
+    - Update <incregexes> if the API base path or port changes.
+    - Update <loginurl> when the auth endpoint path changes.
+    - Do not add production credentials to this file.
+-->
+<configuration>
+  <context>
+    <name>ThemisDB REST API</name>
+    <desc>ThemisDB REST API dynamic security scan context — CI only</desc>
+    <inscope>true</inscope>
+
+    <!-- Scope: all /api/ routes on the default CI port -->
+    <incregexes>http://localhost:18080/api/.*</incregexes>
+
+    <!-- Exclude noisy/sensitive endpoints from active attack phases -->
+    <excregexes>http://localhost:18080/metrics</excregexes>
+    <excregexes>http://localhost:18080/health</excregexes>
+    <excregexes>http://localhost:18080/api/health</excregexes>
+    <excregexes>http://localhost:18080/api/v1/auth/.*</excregexes>
+    <excregexes>http://localhost:18080/api/v1/docs.*</excregexes>
+
+    <!-- Technology hints to improve ZAP spider and active scan coverage -->
+    <tech>
+      <include>Db</include>
+      <include>Language.C</include>
+    </tech>
+
+    <!-- JSON-body form authentication -->
+    <authentication>
+      <type>2</type>
+      <loginurl>http://localhost:18080/api/v1/auth/login</loginurl>
+      <loginbody>{"username":"ci-test-user","password":"ci-test-password"}</loginbody>
+      <loggedinregex>\Q{"token"\E</loggedinregex>
+      <loggedoutregex>\Q401\E</loggedoutregex>
+    </authentication>
+
+    <!-- Session management: bearer token extracted from login response -->
+    <sessionmanagement>
+      <type>2</type>
+    </sessionmanagement>
+
+    <!-- User for authenticated scan pass -->
+    <user>
+      <name>ci-test-user</name>
+      <credentials>
+        <username>ci-test-user</username>
+        <password>ci-test-password</password>
+      </credentials>
+    </user>
+  </context>
+</configuration>
