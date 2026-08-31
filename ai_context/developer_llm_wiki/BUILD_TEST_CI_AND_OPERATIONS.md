@@ -1,171 +1,216 @@
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-08-24
+Datum: 2026-08-31
 Status: Active
-
-## .github/workflows/09-pr-gates_community-fail-closed.yml
-- Kategorie: build_test_ci
-- Hash: `66d8e43b5e1122d4`
-- Titel: (binary or unreadable)
-
-## .github/workflows/09-pr-gates_edition-license-validation.yml
-- Kategorie: build_test_ci
-- Hash: `3e34fb927761f12b`
-- Titel: (binary or unreadable)
-
-## .github/workflows/09-pr-gates_hash-sbom-validation.yml
-- Kategorie: build_test_ci
-- Hash: `9f7702bd6d4a00b7`
-- Titel: (binary or unreadable)
-
-## .github/workflows/09-pr-gates_private-plugin-boundary-enforcement.yml
-- Kategorie: build_test_ci
-- Hash: `972957e532ebe2c6`
-- Titel: (binary or unreadable)
 
 ## .github/workflows/automation-community.yml
 - Kategorie: build_test_ci
-- Hash: `eb20636cc69c9d29`
+- Hash: `1ea4b43c00c3ceac`
 - Titel: (binary or unreadable)
 
-## .github/workflows/ci-benchmarks.yml
+## .github/workflows/build-benchmarks.yml
 - Kategorie: build_test_ci
-- Hash: `48ec51e3e095ec37`
+- Hash: `5a4b946d79a0a609`
 - Titel: (binary or unreadable)
 
-## .github/workflows/ci-build.yml
+## .github/workflows/build-clang-fast.yml
 - Kategorie: build_test_ci
-- Hash: `c01a0fe9f7a994d7`
+- Hash: `a30bcdd8263e5521`
 - Titel: (binary or unreadable)
 
-## .github/workflows/ci-pr-gates.yml
+## .github/workflows/build-content-regression.yml
 - Kategorie: build_test_ci
-- Hash: `bcc45846e03e4561`
+- Hash: `bc91672809b6a931`
 - Titel: (binary or unreadable)
 
-## .github/workflows/ci-release-build-matrix.yml
+## .github/workflows/build-llm-inference.yml
 - Kategorie: build_test_ci
-- Hash: `b9323e6956c4342b`
+- Hash: `ad3bb36cace665a2`
 - Titel: (binary or unreadable)
 
-## .github/workflows/ci-release.yml
+## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `67a363eb96827dcc`
+- Hash: `6c093aeb4ad6dc04`
 - Titel: (binary or unreadable)
 
-## .github/workflows/ci-widget.yml
+## .github/workflows/build-ollama-router.yml
 - Kategorie: build_test_ci
-- Hash: `98216721ddf34319`
+- Hash: `ac23513a80215274`
 - Titel: (binary or unreadable)
 
-## .github/workflows/cmake-build-pipeline.yml
+## .github/workflows/build-widget.yml
 - Kategorie: build_test_ci
-- Hash: `6158e08edbe1ce6b`
+- Hash: `4ee50ac0338367b0`
 - Titel: (binary or unreadable)
 
-## .github/workflows/codeql.yml
+## .github/workflows/compliance-governance-gates.yml
 - Kategorie: build_test_ci
-- Hash: `010568b1e5fe4046`
+- Hash: `af6c41b41eb9b4b1`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-supply-chain.yml
 - Kategorie: build_test_ci
-- Hash: `74b61a2ab389a5c5`
-- Titel: (binary or unreadable)
-
-## .github/workflows/copilot-ollama-router-ci.yml
-- Kategorie: build_test_ci
-- Hash: `ecd5d8f3f8a667c2`
-- Titel: (binary or unreadable)
-
-## .github/workflows/copilot-regression-guard.yml
-- Kategorie: build_test_ci
-- Hash: `b3fd5082060bb8ea`
-- Titel: (binary or unreadable)
-
-## .github/workflows/docker-image.yml
-- Kategorie: build_test_ci
-- Hash: `29d8019e5df69c8c`
+- Hash: `b1f81c9ed3b8c73d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/edition-hyperscaler-ci.yml
 - Kategorie: build_test_ci
-- Hash: `b7155cdb07c99451`
+- Hash: `db1c1c8261c1f56a`
 - Titel: (binary or unreadable)
 
-## .github/workflows/fortify.yml
+## .github/workflows/gate-copilot-regression.yml
 - Kategorie: build_test_ci
-- Hash: `a33cefa9a4632d7d`
+- Hash: `015e63303d18c22f`
 - Titel: (binary or unreadable)
 
-## .github/workflows/fuzzing.yml
+## .github/workflows/gate-distributed-knowledge.yml
 - Kategorie: build_test_ci
-- Hash: `469e129fa696f2e6`
+- Hash: `e6d1b6c106ded011`
 - Titel: (binary or unreadable)
 
-## .github/workflows/governance-gates.yml
+## .github/workflows/gate-pr-community-failclosed.yml
 - Kategorie: build_test_ci
-- Hash: `101ce755181fad88`
+- Hash: `746ec901e4f3e7d9`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-core.yml
+- Kategorie: build_test_ci
+- Hash: `e92e385025216a14`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-doxygen-governance.yml
+- Kategorie: build_test_ci
+- Hash: `f896440412d34320`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-edition-license.yml
+- Kategorie: build_test_ci
+- Hash: `68470e5e365c09db`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-hash-sbom.yml
+- Kategorie: build_test_ci
+- Hash: `9355ff747b1d8211`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-plugin-boundary.yml
+- Kategorie: build_test_ci
+- Hash: `101659cc2cd418a0`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-version-targeting.yml
+- Kategorie: build_test_ci
+- Hash: `f6183d6588cbb068`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-ai-working.yml
 - Kategorie: build_test_ci
-- Hash: `aaa8d15a6cdf0d3d`
+- Hash: `c98c9e2f98d7c44e`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-build-issues.yml
 - Kategorie: build_test_ci
-- Hash: `9b7a3f76317b902d`
+- Hash: `6fb385aa1529b1c0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-ci-health.yml
 - Kategorie: build_test_ci
-- Hash: `6416cd7980ff008e`
+- Hash: `773da2a5bebd6f02`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-docs.yml
 - Kategorie: build_test_ci
-- Hash: `9baf4069be666ae0`
+- Hash: `601adf8c646c61c4`
+- Titel: (binary or unreadable)
+
+## .github/workflows/maintenance-issue-recommendations.yml
+- Kategorie: build_test_ci
+- Hash: `d082d1cef0728570`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-issues.yml
 - Kategorie: build_test_ci
-- Hash: `d4a41edc6a3bd4cb`
+- Hash: `29dac9b270341025`
+- Titel: (binary or unreadable)
+
+## .github/workflows/maintenance-labels.yml
+- Kategorie: build_test_ci
+- Hash: `917762ead870562a`
+- Titel: (binary or unreadable)
+
+## .github/workflows/maintenance-milestones.yml
+- Kategorie: build_test_ci
+- Hash: `9d3982b027ad31f4`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-pr-failure-diagnosis.yml
 - Kategorie: build_test_ci
-- Hash: `ecc4fd833125ded0`
+- Hash: `6fe2017a047cb1a2`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-workflow-guardrails-observe.yml
 - Kategorie: build_test_ci
-- Hash: `3f801165b398800c`
+- Hash: `9745d1be37c73f9c`
+- Titel: (binary or unreadable)
+
+## .github/workflows/release-build-matrix.yml
+- Kategorie: build_test_ci
+- Hash: `79eac03702079b08`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
 - Kategorie: build_test_ci
-- Hash: `9d1ca77d0217021e`
+- Hash: `902cf8249a90f6ec`
+- Titel: (binary or unreadable)
+
+## .github/workflows/release-docker-image.yml
+- Kategorie: build_test_ci
+- Hash: `5c0256141eb962a8`
+- Titel: (binary or unreadable)
+
+## .github/workflows/release-mainline.yml
+- Kategorie: build_test_ci
+- Hash: `ecd50e225a3084f8`
+- Titel: (binary or unreadable)
+
+## .github/workflows/reusable-cmake-build.yml
+- Kategorie: build_test_ci
+- Hash: `1db4b11d93720955`
+- Titel: (binary or unreadable)
+
+## .github/workflows/reusable-status-flags-and-issues.yml
+- Kategorie: build_test_ci
+- Hash: `53df458ff40607cc`
+- Titel: (binary or unreadable)
+
+## .github/workflows/sanitizer-nightly.yml
+- Kategorie: build_test_ci
+- Hash: `9baf8bf997e08efe`
+- Titel: (binary or unreadable)
+
+## .github/workflows/security-codeql.yml
+- Kategorie: build_test_ci
+- Hash: `4ecbf6b4c1947ac4`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/security-consolidated.yml
 - Kategorie: build_test_ci
-- Hash: `e530345a5dacf576`
+- Hash: `d14f4d190f1f11b1`
+- Titel: (binary or unreadable)
+
+## .github/workflows/security-fortify.yml
+- Kategorie: build_test_ci
+- Hash: `2a2cb1e487b6232b`
+- Titel: (binary or unreadable)
+
+## .github/workflows/security-fuzzing.yml
+- Kategorie: build_test_ci
+- Hash: `a512d37be6d27c2f`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/security-pentest-quarterly.yml
 - Kategorie: build_test_ci
-- Hash: `776c48d397e64d2b`
-- Titel: (binary or unreadable)
-
-## .github/workflows/validate-distributed-knowledge.yml
-- Kategorie: build_test_ci
-- Hash: `b7e4558801ba386b`
-- Titel: (binary or unreadable)
-
-## .github/workflows/validate-pr-version-targeting.yml
-- Kategorie: build_test_ci
-- Hash: `3722842dc6438fdd`
+- Hash: `4335d845f4dde44e`
 - Titel: (binary or unreadable)
 
 ## scripts/acceleration_roadmap_audit.py
@@ -228,6 +273,11 @@ Status: Active
 - Hash: `30e05791af3e49fd`
 - Titel: (binary or unreadable)
 
+## scripts/compute_model_fingerprint.py
+- Kategorie: build_test_ci
+- Hash: `45e7fa9b4f062e4f`
+- Titel: (binary or unreadable)
+
 ## scripts/create_docs_audit_issues.py
 - Kategorie: build_test_ci
 - Hash: `0481242fa88a4520`
@@ -261,6 +311,11 @@ Status: Active
 ## scripts/docs-orphan-check.py
 - Kategorie: build_test_ci
 - Hash: `affd9e78af9caa20`
+- Titel: (binary or unreadable)
+
+## scripts/doxygen_governance_gate.py
+- Kategorie: build_test_ci
+- Hash: `b4b6af516f61470c`
 - Titel: (binary or unreadable)
 
 ## scripts/drift-detector.py
@@ -328,6 +383,11 @@ Status: Active
 - Hash: `bc07b6164abe99a5`
 - Titel: (binary or unreadable)
 
+## scripts/generate_rag_golden_dataset.py
+- Kategorie: build_test_ci
+- Hash: `21516e75982ea130`
+- Titel: (binary or unreadable)
+
 ## scripts/generate_research_index.py
 - Kategorie: build_test_ci
 - Hash: `72ff207d1f542a6e`
@@ -341,64 +401,4 @@ Status: Active
 ## scripts/link-check.py
 - Kategorie: build_test_ci
 - Hash: `ca9f7c7968669be6`
-- Titel: (binary or unreadable)
-
-## scripts/llm_wiki_mvp.py
-- Kategorie: build_test_ci
-- Hash: `aca35f542febe250`
-- Titel: (binary or unreadable)
-
-## scripts/migrate_ethics.py
-- Kategorie: build_test_ci
-- Hash: `924f20c89570e848`
-- Titel: (binary or unreadable)
-
-## scripts/next_phase_kickoff.py
-- Kategorie: build_test_ci
-- Hash: `ffc35316652df4b5`
-- Titel: (binary or unreadable)
-
-## scripts/parse_submodule_report.py
-- Kategorie: build_test_ci
-- Hash: `dafd04dbdf57358e`
-- Titel: (binary or unreadable)
-
-## scripts/parse_submodule_report_stdout.py
-- Kategorie: build_test_ci
-- Hash: `78f420dfe9e0f0be`
-- Titel: (binary or unreadable)
-
-## scripts/pre-commit-cross-compile.py
-- Kategorie: build_test_ci
-- Hash: `5b903b27fea946e3`
-- Titel: (binary or unreadable)
-
-## scripts/prepare_release_mini_llm.py
-- Kategorie: build_test_ci
-- Hash: `36a829298b61f5fb`
-- Titel: (binary or unreadable)
-
-## scripts/quality_gate_gui.py
-- Kategorie: build_test_ci
-- Hash: `7c1c3333da63a9d7`
-- Titel: (binary or unreadable)
-
-## scripts/raid_endurance_test.py
-- Kategorie: build_test_ci
-- Hash: `0ed3b96b23ca507e`
-- Titel: (binary or unreadable)
-
-## scripts/reconcile-issues-prs-docs.py
-- Kategorie: build_test_ci
-- Hash: `f9756661c94d43cb`
-- Titel: (binary or unreadable)
-
-## scripts/root-docs-hygiene.py
-- Kategorie: build_test_ci
-- Hash: `70c8af8315753ef9`
-- Titel: (binary or unreadable)
-
-## scripts/secret_scan.py
-- Kategorie: build_test_ci
-- Hash: `0caf31b5d1889228`
 - Titel: (binary or unreadable)
