@@ -149,7 +149,7 @@ jobs:
             build-essential cmake ninja-build pkg-config ccache \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libcurl4-openssl-dev libboost-system-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev libcpphttplib-dev libboost-system-dev \
             libboost-filesystem-dev libpugixml-dev
 
       - name: Prepare optional submodule paths

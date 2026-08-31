@@ -4420,11 +4420,14 @@ if(CURL_FOUND)
 endif()
 
 # Link cpp-httplib (HTTP server) if available
+find_package(httplib QUIET)
 if(TARGET httplib::httplib)
     target_link_libraries(themis_core PUBLIC httplib::httplib)
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_HTTPLIB)
+elseif(httplib_FOUND)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_HTTPLIB)
 else()
-    message(STATUS "cpp-httplib target not found - HTTP server adapter may fail to build")
+    message(STATUS "cpp-httplib not found - HTTP server adapter will use stub implementation")
 endif()
 
 # Link MessagePack if available (target names vary by package)

@@ -10,7 +10,9 @@
  */
 
 #include "llm/grafana_metrics.h"
+#ifdef THEMIS_HAS_HTTPLIB
 #include <httplib.h>
+#endif
 #include <spdlog/spdlog.h>
 #include "utils/thread_join_utils.h"
 #include <map>
@@ -1277,10 +1279,15 @@ bool GrafanaDashboardGenerator::saveDashboard(const std::string& filepath) const
 
 // MetricsServer::Impl — holds the httplib server and its listener thread.
 // Defined here (not in the header) to keep <httplib.h> out of grafana_metrics.h.
+#ifdef THEMIS_HAS_HTTPLIB
 struct MetricsServer::Impl {
     httplib::Server svr;
     std::thread     thread;
 };
+#else
+// Stub Impl when cpp-httplib is not available.
+struct MetricsServer::Impl {};
+#endif
 
 // MetricsServer Implementation
 MetricsServer::MetricsServer(const ServerConfig& config, PrometheusExporter* exporter)
@@ -1293,6 +1300,7 @@ MetricsServer::~MetricsServer() {
     stop();
 }
 
+#ifdef THEMIS_HAS_HTTPLIB
 bool MetricsServer::start() {
     if (running_) {
         spdlog::warn("MetricsServer already running");
@@ -1429,6 +1437,19 @@ void MetricsServer::stop() {
     running_ = false;
     spdlog::info("MetricsServer stopped");
 }
+
+#else  // !THEMIS_HAS_HTTPLIB
+
+bool MetricsServer::start() {
+    spdlog::warn("MetricsServer::start() called but cpp-httplib is not available; HTTP metrics endpoint disabled");
+    return false;
+}
+
+void MetricsServer::stop() {
+    // No-op: server was never started without httplib.
+}
+
+#endif  // THEMIS_HAS_HTTPLIB
 
 bool MetricsServer::isRunning() const {
     return running_;
