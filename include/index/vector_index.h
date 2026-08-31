@@ -39,7 +39,9 @@ namespace utils {
     class AuditLogger;
 }
 
-/// VectorIndexManager
+/// @brief Manages a vector index namespace backed by RocksDB with optional HNSW ANN acceleration.
+///
+/// VectorIndexManager supports:
 /// - Optional HNSWlib-Unterstützung (compile-time)
 /// - Fallback: Brute-Force (L2/Cosine) über in-memory Cache oder RocksDB-Scan
 /// - Persistenz: Vektoren liegen in RocksDB unter Namespace objectName:pk als BaseEntity
@@ -58,36 +60,50 @@ class VectorIndexManager {
 public:
     enum class Metric { L2, COSINE, DOT };
 
+    /// @brief Result of a vector index operation; carries ok/error state and message.
     struct Status {
         bool ok = true;
         std::string message;
+        /// @brief Returns a successful Status.
         static Status OK() { return {}; }
+        /// @brief Returns an error Status with the given message.
+        /// @param msg Human-readable error description.
+        /// @return Status with ok=false and the provided message.
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
+    /// @brief A single KNN result entry holding the primary key and distance to the query vector.
     struct Result {
         std::string pk;
         float distance = 0.0f; // kleiner = besser (für COSINE: 1 - cosine)
     };
 
+    /// @brief Constructs a VectorIndexManager bound to the given RocksDB wrapper.
+    /// @param db Reference to the RocksDB wrapper used for persistence.
     explicit VectorIndexManager(RocksDBWrapper& db);
+    /// @brief Destructor; saves the index if auto-save is enabled.
     ~VectorIndexManager() noexcept;
     
-    // Phase 1: Set optional audit logger for tracking vector operations
+    /// @brief Sets the optional audit logger for tracking vector operations.
+    /// @param logger Shared audit logger instance; pass nullptr to disable.
+    /// @param user_context User identifier attached to audit log entries.
     void setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context = "system");
     
-    // Set user context for audit logging
+    /// @brief Sets the user context used in audit log entries.
+    /// @param user_id Identifier of the acting user.
     void setUserContext(std::string user_id);
     
-    // Phase 4: Set optional expression evaluator for advanced filtering
+    /// @brief Sets the optional expression evaluator used for advanced candidate filtering.
+    /// @param evaluator Shared evaluator instance; pass nullptr to disable.
     void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
     
-    // Get expression evaluator
+    /// @brief Returns the currently configured expression evaluator, or nullptr if none is set.
     std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
     
-    // Advanced Vector Index Integration (v1.5.0+)
-    // Enable FAISS-based advanced indexing (IVF+PQ/HNSW) for large-scale datasets
-    // Note: Requires THEMIS_GPU_ENABLED for FAISS/DiskANN support
+    /// @brief Configuration for the optional advanced (FAISS/DiskANN/ScaNN) index backend.
+    ///
+    /// Enable FAISS-based advanced indexing (IVF+PQ/HNSW) for large-scale datasets.
+    /// @note Requires THEMIS_GPU_ENABLED for FAISS/DiskANN support.
     struct AdvancedIndexConfig {
         bool enabled = false;           // Enable advanced indexing
         size_t nlist = 1024;           // Number of IVF clusters
@@ -117,33 +133,45 @@ public:
         size_t      diskann_cache_mb = 1024; // RAM cache budget in MiB
     };
     
-    // Enable advanced indexing with specified configuration
-    // Must be called before init() to take effect
+    /// @brief Applies an advanced index configuration.
+    /// @param config Configuration to activate; must be called before init() to take effect.
     Status setAdvancedIndexConfig(const AdvancedIndexConfig& config);
     
-    // Get current advanced index configuration
+    /// @brief Returns the current advanced index configuration.
     AdvancedIndexConfig getAdvancedIndexConfig() const { return advanced_config_; }
     
-    // Check if advanced indexing is enabled and available
+    /// @brief Returns true when the advanced ANN backend is enabled and initialised.
     bool isAdvancedIndexEnabled() const {
         return (advanced_config_.enabled && advanced_index_ != nullptr) ||
                ann_backend_ != nullptr;
     }
 
 
-    // Initialisierung eines Index-Namespace (z. B. "documents"): Dimension, M/ef, Metrik
+    /// @brief Initialises an index namespace with the given parameters.
+    /// @param objectName Namespace prefix used as the RocksDB key prefix.
+    /// @param dim Vector dimension.
+    /// @param metric Distance metric (L2, COSINE, DOT).
+    /// @param M HNSW M parameter (graph connections per node).
+    /// @param efConstruction HNSW efConstruction parameter.
+    /// @param efSearch HNSW efSearch parameter.
+    /// @param savePath Optional on-disk directory for auto-save.
     Status init(std::string_view objectName, int dim, Metric metric = Metric::COSINE,
                 int M = 16, int efConstruction = 200, int efSearch = 64,
                 const std::string& savePath = "");
 
-    // Lifecycle-Management
+    /// @brief Sets the auto-save path and enables or disables automatic saving on shutdown.
+    /// @param savePath Directory path for index persistence.
+    /// @param autoSave When true, the index is saved automatically during shutdown().
         void setAutoSavePath(const std::string& savePath, bool autoSave = true);
+    /// @brief Shuts down the index, saving it if auto-save is enabled.
     Status shutdown(); // Speichert Index wenn auto_save aktiviert
 
-    // HNSW Parameter zur Laufzeit anpassen (nur efSearch; M/efConstruction erfordern Rebuild)
+    /// @brief Adjusts the efSearch parameter at runtime (without rebuilding the index).
+    /// @param efSearch New efSearch value; larger values improve recall at the cost of speed.
     Status setEfSearch(int efSearch);
 
-    // Index aus Storage aufbauen (scannt Prefix objectName:) — optional
+    /// @brief Rebuilds the HNSW index from storage by scanning the objectName: key prefix.
+    /// @return Status indicating success or failure of the rebuild.
     Status rebuildFromStorage();
 
     // ===== Incremental Re-indexing =====
@@ -158,7 +186,7 @@ public:
         bool   full_rebuild_triggered = false; ///< True when auto full-rebuild ran
     };
 
-    /// Incremental re-index: sync the HNSW index with current storage state
+    /// @brief Incrementally re-indexes the HNSW index by syncing with current storage state
     /// without performing a full rebuild.
     ///
     /// Compares in-memory index state against storage and:
@@ -179,30 +207,68 @@ public:
         float rebuild_threshold = 0.20f,
         std::string_view vectorField = "embedding");
 
-    // Persistenz (optional, nur wenn HNSW aktiv): speichert Index + Mapping + Metadaten im Verzeichnis
+    /// @brief Persists the HNSW index, mapping, and metadata to the given directory.
+    /// @param directory Target directory; created if it does not exist.
+    /// @return Status indicating success or failure of the save operation.
     Status saveIndex(const std::string& directory) const;
+    /// @brief Loads an HNSW index from the given directory.
+    /// @param directory Source directory containing index files written by saveIndex().
+    /// @return Status indicating success or failure of the load operation.
     Status loadIndex(const std::string& directory);
 
-    // CRUD (Standard: direktes Commit)
+    /// @brief Adds an entity to the index using a direct commit.
+    /// @param e Entity whose vector field is indexed.
+    /// @param vectorField Name of the vector field within the entity (default: "embedding").
     Status addEntity(const BaseEntity& e, std::string_view vectorField = "embedding");
+    /// @brief Updates an existing entity in the index using a direct commit.
+    /// @param e Entity with updated vector data.
+    /// @param vectorField Name of the vector field within the entity.
     Status updateEntity(const BaseEntity& e, std::string_view vectorField = "embedding");
+    /// @brief Removes an entity from the index by primary key using a direct commit.
+    /// @param pk Primary key of the entity to remove.
+    /// @return Status indicating success or failure of the removal.
     Status removeByPk(std::string_view pk);
     
-    // CRUD für Transaktionen: nutzen bestehende WriteBatch
+    /// @brief Adds an entity to the index within an existing WriteBatch transaction.
+    /// @param e Entity whose vector field is indexed.
+    /// @param batch WriteBatch to accumulate the write into.
+    /// @param vectorField Name of the vector field within the entity.
     Status addEntity(const BaseEntity& e, RocksDBWrapper::WriteBatchWrapper& batch, 
                      std::string_view vectorField = "embedding");
+    /// @brief Updates an entity in the index within an existing WriteBatch transaction.
+    /// @param e Entity with updated vector data.
+    /// @param batch WriteBatch to accumulate the write into.
+    /// @param vectorField Name of the vector field within the entity.
     Status updateEntity(const BaseEntity& e, RocksDBWrapper::WriteBatchWrapper& batch,
                         std::string_view vectorField = "embedding");
+    /// @brief Removes an entity from the index within an existing WriteBatch transaction.
+    /// @param pk Primary key of the entity to remove.
+    /// @param batch WriteBatch to accumulate the delete into.
+    /// @return Status indicating success or failure of the removal.
     Status removeByPk(std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch);
 
-    // MVCC Transaction Varianten
+    /// @brief Adds an entity to the index within an MVCC TransactionWrapper.
+    /// @param e Entity whose vector field is indexed.
+    /// @param txn Active MVCC transaction.
+    /// @param vectorField Name of the vector field within the entity.
     Status addEntity(const BaseEntity& e, RocksDBWrapper::TransactionWrapper& txn,
                      std::string_view vectorField = "embedding");
+    /// @brief Updates an entity in the index within an MVCC TransactionWrapper.
+    /// @param e Entity with updated vector data.
+    /// @param txn Active MVCC transaction.
+    /// @param vectorField Name of the vector field within the entity.
     Status updateEntity(const BaseEntity& e, RocksDBWrapper::TransactionWrapper& txn,
                         std::string_view vectorField = "embedding");
+    /// @brief Removes an entity from the index within an MVCC TransactionWrapper.
+    /// @param pk Primary key of the entity to remove.
+    /// @param txn Active MVCC transaction.
+    /// @return Status indicating success or failure of the removal.
     Status removeByPk(std::string_view pk, RocksDBWrapper::TransactionWrapper& txn);
 
-    // KNN-Suche; optional Whitelist von PKs für hybrides Pre-Filtering
+    /// @brief Finds the k nearest neighbours of the query vector.
+    /// @param query Query vector; must match the index dimension.
+    /// @param k Number of results to return.
+    /// @param whitelistPks Optional set of PKs to restrict the search to (pre-filtering).
     std::pair<Status, std::vector<Result>> searchKnn(
         const std::vector<float>& query,
         size_t k,
@@ -223,8 +289,7 @@ public:
         const std::vector<std::string>* whitelistPks = nullptr
     ) const;
 
-    // KNN-Suche mit Attribut-Filter (Post-Filtering)
-    // Filtert Ergebnisse basierend auf Entity-Attributen nach HNSW-Suche
+    /// @brief Simple post-filter applied to KNN results based on entity attribute equality.
     struct AttributeFilter {
         std::string field;
         std::string value;
@@ -236,6 +301,7 @@ public:
     #ifdef IN
     #undef IN
     #endif
+    /// @brief Extended attribute filter with range, set, and comparison operators for pre-filtering via SecondaryIndex.
     struct AttributeFilterV2 {
         std::string field;
         enum class Op { 
@@ -255,18 +321,35 @@ public:
         std::string value_min;          // For RANGE operator
         std::string value_max;          // For RANGE operator
         
-        // Convenience constructors
+        /// @brief Creates an equality filter matching @p field == @p value.
+        /// @param field Attribute field name to match against.
+        /// @param value Expected value for the equality check.
+        /// @return AttributeFilterV2 configured for equality matching.
         static AttributeFilterV2 Equals(std::string field, std::string value) {
             return {std::move(field), Op::EQUALS, std::move(value), {}, "", ""};
         }
+        /// @brief Creates a range filter matching @p min <= @p field <= @p max.
+        /// @param field Attribute field name to apply the range to.
+        /// @param min Lower bound of the range (inclusive).
+        /// @param max Upper bound of the range (inclusive).
+        /// @return AttributeFilterV2 configured for range matching.
         static AttributeFilterV2 Range(std::string field, std::string min, std::string max) {
             return {std::move(field), Op::RANGE, "", {}, std::move(min), std::move(max)};
         }
+        /// @brief Creates a set-membership filter matching @p field in @p vals.
+        /// @param field Attribute field name to check membership for.
+        /// @param vals Set of accepted values.
+        /// @return AttributeFilterV2 configured for set-membership matching.
         static AttributeFilterV2 In(std::string field, std::vector<std::string> vals) {
             return {std::move(field), Op::IN, "", std::move(vals), "", ""};
         }
     };
     
+    /// @brief KNN search with post-filtering based on entity attributes.
+    /// @param query Query vector.
+    /// @param k Number of results to return.
+    /// @param filters Attribute filters applied after HNSW search.
+    /// @param candidateMultiplier Fetch k*multiplier candidates from HNSW before filtering.
     std::pair<Status, std::vector<Result>> searchKnnFiltered(
         const std::vector<float>& query,
         size_t k,
@@ -274,9 +357,11 @@ public:
         size_t candidateMultiplier = 3  // Fetch k*multiplier from HNSW, then filter
     ) const;
     
-    // KNN-Suche mit Pre-Filtering via SecondaryIndexManager
-    // Generiert Whitelist aus SecondaryIndex-Scans, dann HNSW mit Whitelist
-    // Benötigt SecondaryIndexManager-Pointer (optional dependency)
+    /// @brief KNN search with pre-filtering via SecondaryIndexManager.
+    /// @param query Query vector.
+    /// @param k Number of results to return.
+    /// @param filters Attribute filters used to generate a PK whitelist.
+    /// @param secondaryIdx Optional SecondaryIndexManager for whitelist generation.
     std::pair<Status, std::vector<Result>> searchKnnPreFiltered(
         const std::vector<float>& query,
         size_t k,
@@ -326,11 +411,14 @@ public:
     /// Update multiple entities in single batch
     Status updateBatch(const std::vector<BaseEntity>& entities, std::string_view vectorField = "embedding");
     
-    /// Remove multiple entities by PKs in single batch
+    /// @brief Removes multiple entities by primary key in a single batch.
+    /// @param pks List of primary keys to remove.
+    /// @return Status indicating success or failure of the batch removal.
     Status removeBatch(const std::vector<std::string>& pks);
 
     // ===== Vector Statistics & Aggregation =====
-    
+
+    /// @brief Distance distribution and count statistics for the index.
     struct Statistics {
         size_t vector_count = 0;
         int dimension = 0;
@@ -344,10 +432,12 @@ public:
     /// Get index statistics (distance distribution, vector count, etc.)
     std::pair<Status, Statistics> getStatistics() const;
     
-    /// Compute centroid (mean vector) of all vectors in index
+    /// @brief Computes the centroid (mean vector) of all vectors in the index.
+    /// @return Pair of Status and the centroid vector; Status is error if the index is empty.
     std::pair<Status, std::vector<float>> computeCentroid() const;
     
-    /// Compute variance per dimension
+    /// @brief Computes per-dimension variance across all vectors in the index.
+    /// @return Pair of Status and the per-dimension variance vector.
     std::pair<Status, std::vector<float>> computeVariance() const;
     
     /// Find outlier vectors (those far from centroid)
@@ -368,7 +458,7 @@ public:
     bool isQuantizationEnabled() const { return quantization_enabled_; }
     bool isQuantizerTrained() const;
     
-    /// Get quantization statistics
+    /// @brief Product quantization state and compression statistics.
     struct QuantizationStats {
         bool enabled = false;
         bool trained = false;
@@ -378,42 +468,56 @@ public:
     };
     QuantizationStats getQuantizationStats() const;
 
-    // Getter für Konfiguration & Statistiken
+    /// @brief Returns the index namespace (object name).
     const std::string& getObjectName() const { return objectName_; }
+    /// @brief Returns the vector dimension.
     int getDimension() const { return dim_; }
+    /// @brief Returns the configured distance metric.
     Metric getMetric() const { return metric_; }
+    /// @brief Returns the current efSearch parameter.
     int getEfSearch() const { return efSearch_; }
+    /// @brief Returns the HNSW M parameter.
     int getM() const { return m_; }
+    /// @brief Returns the HNSW efConstruction parameter.
     int getEfConstruction() const { return efConstruction_; }
+    /// @brief Returns the number of indexed vectors.
     size_t getVectorCount() const {
         if (useHnsw_ || ann_backend_ != nullptr) {
             return pkToId_.size();
         }
         return cache_.size();
     }
+    /// @brief Returns true when the HNSW index is active.
     bool isHnswEnabled() const { return useHnsw_; }
+    /// @brief Returns the configured on-disk save path.
     const std::string& getSavePath() const { return savePath_; }
     
     /// Get vector by primary key (for searchById support)
     /// Returns nullopt if vector doesn't exist
     std::optional<std::vector<float>> getVectorByPk(std::string_view pk) const;
     
-    // Encryption configuration (Phase 1)
+    /// @brief Returns true when per-vector encryption is enabled.
     bool isVectorEncryptionEnabled() const;
+    /// @brief Enables or disables per-vector encryption.
     void setVectorEncryptionEnabled(bool enabled);
+    /// @brief Returns the key ID used for vector encryption.
     const std::string& getVectorKeyId() const { return vectorKeyId_; }
+    /// @brief Sets the key ID used for vector encryption.
     void setVectorKeyId(const std::string& keyId) { vectorKeyId_ = keyId; }
     
-    // Phase 2: HNSW index encryption
+    /// @brief Returns true when HNSW index encryption is enabled.
     bool isHnswEncryptionEnabled() const;
+    /// @brief Enables or disables HNSW index encryption.
     void setHnswEncryptionEnabled(bool enabled);
+    /// @brief Returns the key ID used for HNSW index encryption.
     const std::string& getHnswKeyId() const { return hnswKeyId_; }
+    /// @brief Sets the key ID used for HNSW index encryption.
     void setHnswKeyId(const std::string& keyId) { hnswKeyId_ = keyId; }
     
-    // Phase 4: HNSW Layer Optimizer access
+    /// @brief Returns the HNSW layer optimizer, or nullptr if not configured.
     HnswLayerOptimizer* getHnswOptimizer() const { return hnsw_optimizer_.get(); }
     
-    // Flush pending encrypted writes (Phase 1 batching)
+    /// @brief Flushes any pending encrypted writes from the internal batch buffer.
     void flushEncryptedWrites() const;
     
     // ===== Rotary Embeddings Support =====
@@ -447,16 +551,22 @@ public:
     /// Get runtime RoPE stats. Returns nullopt when RoPE is disabled.
     std::optional<RotaryEmbeddingStats> getRotaryEmbeddingStats() const;
     
-    /// Add entity with automatic positional rotation
-    /// The embedding is rotated based on the position parameter before storage
+    /// @brief Adds an entity with automatic positional rotation applied to its embedding.
+    /// @param e Entity whose vector field is indexed.
+    /// @param vectorField Name of the vector field within the entity.
+    /// @param position Position index used to compute the rotation angle.
+    /// @return Status indicating success or failure.
     Status addEntityWithRotation(
         const BaseEntity& e,
         std::string_view vectorField,
         size_t position
     );
     
-    /// Add entity with relational rotation (for Knowledge Graph edges)
-    /// The embedding is rotated based on the relation type
+    /// @brief Adds an entity with relational rotation for Knowledge Graph edges.
+    /// @param e Entity whose vector field is indexed.
+    /// @param vectorField Name of the vector field within the entity.
+    /// @param relation_type Relation type identifier used to compute the rotation.
+    /// @return Status indicating success or failure.
     Status addEntityWithRelationalRotation(
         const BaseEntity& e,
         std::string_view vectorField,
