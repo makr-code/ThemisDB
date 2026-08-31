@@ -25,6 +25,11 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "transaction/transaction_manager.h"
+#include "transaction/distributed_transaction_manager.h"
+// W9-9: gRPC RPC bridge adapters for distributed 2PC/3PC.
+// Included unconditionally; the factory functions compile to fail-closed stubs
+// when THEMIS_HAS_CORE_GRPC is not defined (test/headless builds).
+#include "transaction/grpc_rpc_adapter.h"
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include <nlohmann/json.hpp>
@@ -144,6 +149,75 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Database opened successfully at: {}", config.db_path);
+
+        // ── W9-9: Wire gRPC RPC bridges for distributed 2PC/3PC ─────────────
+        // When the server runs with THEMIS_HAS_CORE_GRPC defined and a
+        // populated node-address map, the static injection points on
+        // DistributedTransactionManager are wired here so every remote
+        // participant receives real PREPARE / COMMIT / ROLLBACK calls.
+        //
+        // In test/headless builds (THEMIS_HAS_CORE_GRPC not defined) the
+        // adapter factories return fail-closed stubs that vote ABORT / throw,
+        // so the mock/null injection path below is preserved automatically.
+        //
+        // To extend:
+        //   1. Populate node_addresses from your cluster configuration source.
+        //   2. Set prepare_timeout / commit_timeout to your SLA budget.
+        //   3. Set THEMIS_GRPC_CA_CERT / THEMIS_GRPC_CLIENT_CERT /
+        //      THEMIS_GRPC_CLIENT_KEY env vars for mTLS (W10-A). When absent
+        //      the adapters log a warning and fall back to insecure channels.
+        {
+            // Node address map — populated from config / service-discovery at
+            // real startup; left empty here so the demo path is a no-op.
+            std::map<std::string, std::string> node_addresses;
+            constexpr auto prepare_timeout = std::chrono::milliseconds{500};
+            constexpr auto commit_timeout  = std::chrono::milliseconds{2000};
+
+            // W10-A: Read optional mTLS credential env vars.
+            // Set THEMIS_GRPC_CA_CERT, THEMIS_GRPC_CLIENT_CERT, and
+            // THEMIS_GRPC_CLIENT_KEY to PEM-encoded strings to enable mTLS.
+            // When any var is absent the adapters fall back to insecure
+            // channels and emit a warning.
+            auto getenv_safe = [](const char* name) -> std::string {
+                const char* v = std::getenv(name);
+                return v ? std::string(v) : std::string{};
+            };
+
+            std::optional<themis::transaction::MtlsConfig> mtls_cfg;
+            {
+                themis::transaction::MtlsConfig cfg;
+                cfg.ca_cert_pem     = getenv_safe("THEMIS_GRPC_CA_CERT");
+                cfg.client_cert_pem = getenv_safe("THEMIS_GRPC_CLIENT_CERT");
+                cfg.client_key_pem  = getenv_safe("THEMIS_GRPC_CLIENT_KEY");
+                // target_name_override is not exposed via env var; leave empty
+                // for production use (override is only needed in test setups).
+                if (!cfg.ca_cert_pem.empty() &&
+                    !cfg.client_cert_pem.empty() &&
+                    !cfg.client_key_pem.empty())
+                {
+                    mtls_cfg = std::move(cfg);
+                    THEMIS_INFO("W10-A: mTLS credentials loaded from environment variables");
+                }
+                // else: mtls_cfg stays nullopt → adapters use insecure fallback
+            }
+
+            themis::transaction::DistributedTransactionManager::setRpcPhase1Fn(
+                themis::transaction::GrpcRpcPhase1Adapter::make(
+                    node_addresses, prepare_timeout, mtls_cfg));
+
+            themis::transaction::DistributedTransactionManager::setRpcPhase2Fn(
+                themis::transaction::GrpcRpcPhase2Adapter::make(
+                    node_addresses, commit_timeout, mtls_cfg));
+
+            THEMIS_INFO("W9-9: gRPC RPC bridges installed for distributed 2PC/3PC "
+                        "(node_count={}, prepare_timeout={}ms, commit_timeout={}ms, "
+                        "mtls={})",
+                        node_addresses.size(),
+                        prepare_timeout.count(),
+                        commit_timeout.count(),
+                        mtls_cfg.has_value() ? "enabled" : "insecure-fallback");
+        }
+        // ────────────────────────────────────────────────────────────────────
         
         // === Demo: Insert a relational entity ===
         {

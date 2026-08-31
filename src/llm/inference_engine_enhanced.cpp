@@ -215,6 +215,17 @@ void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
     target_logits_fn_ = std::move(fn);
 }
 
+// ── setTokenizerFn / clearTokenizerFn ────────────────────────────────────────
+void InferenceEngineEnhanced::setTokenizerFn(TokenizerFn fn) {
+    std::lock_guard<std::mutex> lock(tokenizer_fn_mutex_);
+    tokenizer_fn_ = std::move(fn);
+}
+
+void InferenceEngineEnhanced::clearTokenizerFn() {
+    std::lock_guard<std::mutex> lock(tokenizer_fn_mutex_);
+    tokenizer_fn_ = nullptr;
+}
+
 // ═══════════════════════════════════════════════════════════
 // Model Management
 // ═══════════════════════════════════════════════════════════
@@ -2033,52 +2044,198 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
         if (!remote_text.empty()) {
             // Convert remote text to token IDs + logit distributions.
+            // ── Primary path: use the injected TokenizerFn when available ────
+            // ── Fallback:     byte-modulo heuristic when no fn is set ─────────
+            TokenizerFn tok_fn_copy;
+            {
+                std::lock_guard<std::mutex> lk(tokenizer_fn_mutex_);
+                tok_fn_copy = tokenizer_fn_;
+            }
+
             constexpr float kPeak     =  5.0f;
             constexpr float kBaseline = -5.0f;
             draft_result.vocab_size = vocab_size;
-            for (size_t i = 0; i < K; ++i) {
-                const size_t tid_raw = (i < remote_text.size())
-                    ? (static_cast<size_t>(static_cast<unsigned char>(remote_text[i])) %
-                       vocab_size)
-                    : 0u;
-                const int tid = static_cast<int>(std::min(
-                    tid_raw,
-                    static_cast<size_t>(std::numeric_limits<int>::max())));
-                draft_result.tokens.push_back(tid);
-                std::vector<float> row(vocab_size, kBaseline);
-                row[static_cast<size_t>(tid)] = kPeak;
-                draft_result.logits.push_back(std::move(row));
+            bool used_injected_tokenizer = false;
+
+            if (tok_fn_copy) {
+                try {
+                    const std::vector<int> tok_ids =
+                        tok_fn_copy(remote_text, vocab_size);
+                    if (!tok_ids.empty()) {
+                        for (size_t i = 0; i < K; ++i) {
+                            const int tid = (i < tok_ids.size())
+                                ? tok_ids[i] : 0;
+                            draft_result.tokens.push_back(tid);
+                            std::vector<float> row(vocab_size, kBaseline);
+                            const size_t idx = static_cast<size_t>(
+                                std::max(0, std::min(tid,
+                                    static_cast<int>(vocab_size) - 1)));
+                            row[idx] = kPeak;
+                            draft_result.logits.push_back(std::move(row));
+                        }
+                        used_injected_tokenizer = true;
+                        spdlog::debug("Remote draft: TokenizerFn produced {} "
+                                      "token IDs", tok_ids.size());
+                    } else {
+                        spdlog::warn("TokenizerFn returned empty token list — "
+                                     "falling back to byte-modulo");
+                    }
+                } catch (const std::exception& e) {
+                    spdlog::warn("TokenizerFn threw: {} — falling back to "
+                                 "byte-modulo", e.what());
+                }
+            }
+
+            if (!used_injected_tokenizer) {
+                // Byte-modulo fallback (STUB #263):
+                // Maps UTF-8 byte values of remote_text to token IDs via
+                // byte % vocab_size.  Functional but acceptance rates are
+                // lower than with a real BPE/SentencePiece tokenizer.
+                for (size_t i = 0; i < K; ++i) {
+                    const size_t tid_raw = (i < remote_text.size())
+                        ? (static_cast<size_t>(
+                               static_cast<unsigned char>(remote_text[i])) %
+                           vocab_size)
+                        : 0u;
+                    const int tid = static_cast<int>(std::min(
+                        tid_raw,
+                        static_cast<size_t>(std::numeric_limits<int>::max())));
+                    draft_result.tokens.push_back(tid);
+                    std::vector<float> row(vocab_size, kBaseline);
+                    row[static_cast<size_t>(tid)] = kPeak;
+                    draft_result.logits.push_back(std::move(row));
+                }
             }
         }
     }
 
     // ── Local draft path (fallback or primary) ────────────────────────────
-    // STUB/SIMULATION NOTE:
-    // Purpose: generateDraftTokens() maps generated text to token IDs using
-    //          UTF-8 byte values modulo vocab_size as a surrogate tokenizer.
-    //          This provides a functional draft-token stream without requiring
-    //          a real vocabulary or tokenizer to be bundled with the plugin.
-    // Activation: Active whenever the ILLMPlugin::generateDraftTokens()
-    //             implementation uses the byte-modulo heuristic internally
-    //             (i.e., before a real BPE/SentencePiece tokenizer is wired).
-    // Production Delta: Byte-modulo IDs do not correspond to real vocabulary
-    //                   entries; acceptance rates in speculative decoding will
-    //                   be lower than with a proper tokenizer.  A real tokenizer
-    //                   integration will raise acceptance rates by 15-40 %.
-    // Removal Plan: Replace the byte-modulo mapping inside each plugin's
-    //               generateDraftTokens() with a proper tokenizer call once
-    //               the ThemisDB tokenizer bridge (ROADMAP §"Tokenizer v2") is
-    //               merged (Target: v1.8.0).
+    // STUB #261 — Production Injection Point (wired by
+    //   InferenceEngineEnhanced::trySpeculativeGeneration, 2026-08-27)
+    //
+    // When a TokenizerFn is registered on this engine, it is bridged into
+    // ILLMPlugin::setDefaultGenerateDraftTokensFn() so that the plugin's
+    // generateDraftTokens() calls the real tokenizer instead of the byte-modulo
+    // heuristic.  The bridge lambda:
+    //   1. Captures draft_plugin by value (shared_ptr copy) — safe across threads.
+    //   2. Calls draft_plugin->generate() to obtain draft text.
+    //   3. Runs the TokenizerFn over that text to produce real token IDs.
+    //   4. Falls back to byte-modulo if the TokenizerFn throws or returns empty.
+    // After the call the injected fn is cleared to avoid global-state pollution
+    // (ILLMPlugin::s_default_draft_fn_ is process-wide).
     if (draft_result.tokens.empty()) {
         InferenceRequest draft_request = request;
         draft_request.stream_callback  = nullptr;
+
+        // ── Bridge: inject TokenizerFn into ILLMPlugin when available ────
+        TokenizerFn tok_fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(tokenizer_fn_mutex_);
+            tok_fn_copy = tokenizer_fn_;
+        }
+
+        if (tok_fn_copy) {
+            // Capture draft_plugin by value so the lambda is self-contained and
+            // safe even if this method returns before the fn is cleared.
+            auto local_draft_plugin   = draft_plugin;
+            const size_t vocab_cap    = vocab_size;
+            constexpr float kPeak     =  5.0f;
+            constexpr float kBaseline = -5.0f;
+
+            ILLMPlugin::setDefaultGenerateDraftTokensFn(
+                [local_draft_plugin, tok_fn_copy, vocab_cap,
+                 kPeak, kBaseline](
+                    const InferenceRequest& req,
+                    size_t k,
+                    size_t vocab_size_hint) -> ILLMPlugin::DraftTokensResult
+                {
+                    const size_t vocab = (vocab_size_hint > 0)
+                        ? vocab_size_hint : vocab_cap;
+
+                    // Step 1: obtain draft text from the plugin.
+                    InferenceRequest gen_req = req;
+                    gen_req.max_tokens      = static_cast<int>(k);
+                    gen_req.stream_callback = nullptr;
+                    const auto resp = local_draft_plugin->generate(gen_req);
+
+                    // Step 2: tokenize draft text.
+                    ILLMPlugin::DraftTokensResult result;
+                    result.vocab_size = vocab;
+                    bool used_real_tokenizer = false;
+
+                    try {
+                        const auto ids = tok_fn_copy(resp.text, vocab);
+                        if (!ids.empty()) {
+                            result.tokens.reserve(k);
+                            result.logits.reserve(k);
+                            for (size_t i = 0; i < k; ++i) {
+                                const int tid = (i < ids.size()) ? ids[i] : 0;
+                                result.tokens.push_back(tid);
+                                std::vector<float> row(vocab, kBaseline);
+                                const size_t idx = static_cast<size_t>(
+                                    std::max(0, std::min(tid,
+                                        static_cast<int>(vocab) - 1)));
+                                row[idx] = kPeak;
+                                result.logits.push_back(std::move(row));
+                            }
+                            used_real_tokenizer = true;
+                            spdlog::debug("Local draft (STUB #261 bridge): "
+                                          "TokenizerFn produced {} token IDs",
+                                          ids.size());
+                        } else {
+                            spdlog::warn("Local draft (STUB #261 bridge): "
+                                         "TokenizerFn returned empty list — "
+                                         "falling back to byte-modulo");
+                        }
+                    } catch (const std::exception& ex) {
+                        spdlog::warn("Local draft (STUB #261 bridge): "
+                                     "TokenizerFn threw: {} — falling back to "
+                                     "byte-modulo", ex.what());
+                    }
+
+                    // Step 3: byte-modulo fallback when tokenizer unavailable.
+                    if (!used_real_tokenizer) {
+                        const std::string& text = resp.text;
+                        result.tokens.clear();
+                        result.logits.clear();
+                        result.tokens.reserve(k);
+                        result.logits.reserve(k);
+                        for (size_t i = 0; i < k; ++i) {
+                            const size_t tid_raw = (i < text.size())
+                                ? (static_cast<size_t>(
+                                       static_cast<unsigned char>(text[i])) %
+                                   vocab)
+                                : 0u;
+                            const int tid = static_cast<int>(std::min(
+                                tid_raw,
+                                static_cast<size_t>(
+                                    std::numeric_limits<int>::max())));
+                            result.tokens.push_back(tid);
+                            std::vector<float> row(vocab, kBaseline);
+                            row[static_cast<size_t>(tid)] = kPeak;
+                            result.logits.push_back(std::move(row));
+                        }
+                    }
+                    return result;
+                });
+        }
+
         try {
             draft_result = draft_plugin->generateDraftTokens(
                 draft_request, K, vocab_size);
         } catch (const std::exception& e) {
+            // Always clear the injected fn even on failure.
+            if (tok_fn_copy) {
+                ILLMPlugin::setDefaultGenerateDraftTokensFn(nullptr);
+            }
             spdlog::warn("Draft model generateDraftTokens failed: {} — "
                          "falling back to target", e.what());
             return false;
+        }
+
+        // Clear the injected fn to prevent global state pollution.
+        if (tok_fn_copy) {
+            ILLMPlugin::setDefaultGenerateDraftTokensFn(nullptr);
         }
     }
 
@@ -2099,9 +2256,11 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     //                   skips the K-token forward pass; a real implementation
     //                   would run a single batched forward pass over all K draft
     //                   tokens and return the true conditional logit matrix.
-    // Removal Plan: Implement a batched forward-pass bridge in each plugin's
-    //               getTargetLogits() and register it via setTargetLogitsFn()
-    //               at startup (Target: v1.8.0, ROADMAP §"Speculative Decoding v2").
+    // Production Injection Point (W9-17, 2026-08-26):
+    //   Inject via setTargetLogitsFn() at engine startup.  The registered fn is
+    //   called FIRST; the peaked-distribution heuristic is the documented fallback
+    //   only when no fn is set or the fn returns a wrong-shape result or throws.
+    //   Shape contract: exactly K+1 rows of vocab_size floats.
     // Try the injected TargetLogitsFn first; fall back to the single-token
     // peaked-distribution heuristic when no fn is set.
     TargetLogitsFn target_logits_fn_copy;

@@ -20,8 +20,10 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <chrono>
 #include <future>
 #include <mutex>
+#include <thread>
 #include <utility>
 
 // ---------------------------------------------------------------------------
@@ -677,49 +679,116 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         //
         // Defaults: page_size=500, max_results=5000.
         // -----------------------------------------------------------------------
-        constexpr ber_int_t kPageSize   = 500;
-        constexpr int       kMaxResults = 5000;
+        constexpr ber_int_t kPageSize      = 500;
+        constexpr int       kMaxResults    = 5000;
+        // [W8-15] Retry parameters for transient LDAP pagination errors.
+        // Up to 3 attempts per page with exponential back-off (100 ms base).
+        // Partial results accumulated before a permanent failure are returned
+        // rather than discarded, preventing privilege-escalation via silent
+        // empty-group returns on transient network errors.
+        constexpr int       kMaxPageRetries = 3;
+        constexpr long      kRetryBaseMs    = 100;
 
         struct berval* page_cookie = nullptr;
         int total_collected = 0;
         bool pagination_done = false;
+        AuthAuditLogger audit(audit_logger_);
 
         do {
-            // Build the page control.  Pass the current cookie (nullptr on
-            // the first page, non-nullptr on subsequent pages).
-            LDAPControl* page_ctrl = nullptr;
-            struct berval b_cookie{0, nullptr};
-            if (page_cookie) {
-                b_cookie = *page_cookie;
-            }
-            const int ctrl_rc = ldap_create_page_control(
-                ld, static_cast<ber_int_t>(kPageSize), &b_cookie, 0, &page_ctrl);
-            if (ctrl_rc != LDAP_SUCCESS || !page_ctrl) {
-                spdlog::warn("[LDAP] Pagination error: {}", ldap_err2string(ctrl_rc));
-                break;
-            }
-
-            LDAPControl* server_ctrls[] = {page_ctrl, nullptr};
+            // [W8-15] Retry loop per page — transient errors get up to
+            // kMaxPageRetries attempts with exponential back-off.
+            bool page_ok = false;
             LDAPMessage* result = nullptr;
-            rc = ldap_search_ext_s(
-                ld,
-                search_base.c_str(),
-                LDAP_SCOPE_SUBTREE,
-                filter.c_str(),
-                const_cast<char**>(attrs),
-                0,
-                server_ctrls, nullptr,
-                &tv,
-                LDAP_NO_LIMIT,
-                &result
-            );
-            ldap_control_free(page_ctrl);
+            int last_rc = LDAP_OTHER;
 
-            if (rc != LDAP_SUCCESS) {
-                spdlog::warn("[LDAP] Pagination error: {}", ldap_err2string(rc));
-                if (result) { ldap_msgfree(result); }
+            for (int page_attempt = 0; page_attempt < kMaxPageRetries; ++page_attempt) {
+                if (page_attempt > 0) {
+                    const long delay_ms = kRetryBaseMs * (1L << (page_attempt - 1));
+                    spdlog::warn("[LDAP][W8-15] Pagination retry {}/{} for user '{}' "
+                                 "after {}ms (last_rc={})",
+                                 page_attempt, kMaxPageRetries - 1,
+                                 username, delay_ms, ldap_err2string(last_rc));
+                    // Emit audit event on each retry attempt so operators can
+                    // detect repeated transient failures before they cascade.
+                    if (audit.isEnabled()) {
+                        audit.logLDAPFailure(username,
+                            std::string("pagination_retry attempt=") +
+                            std::to_string(page_attempt) + " rc=" +
+                            ldap_err2string(last_rc));
+                    }
+                    std::this_thread::sleep_for(
+                        std::chrono::milliseconds(delay_ms));
+                }
+
+                // Build the page control.  Pass the current cookie (nullptr
+                // on the first page, non-nullptr on subsequent pages).
+                LDAPControl* page_ctrl = nullptr;
+                struct berval b_cookie{0, nullptr};
+                if (page_cookie) {
+                    b_cookie = *page_cookie;
+                }
+                const int ctrl_rc = ldap_create_page_control(
+                    ld, static_cast<ber_int_t>(kPageSize), &b_cookie, 0, &page_ctrl);
+                if (ctrl_rc != LDAP_SUCCESS || !page_ctrl) {
+                    last_rc = ctrl_rc;
+                    spdlog::warn("[LDAP][W8-15] ldap_create_page_control failed "
+                                 "(attempt {}/{}): {}",
+                                 page_attempt + 1, kMaxPageRetries,
+                                 ldap_err2string(ctrl_rc));
+                    continue; // retry
+                }
+
+                LDAPControl* server_ctrls[] = {page_ctrl, nullptr};
+                if (result) { ldap_msgfree(result); result = nullptr; }
+                rc = ldap_search_ext_s(
+                    ld,
+                    search_base.c_str(),
+                    LDAP_SCOPE_SUBTREE,
+                    filter.c_str(),
+                    const_cast<char**>(attrs),
+                    0,
+                    server_ctrls, nullptr,
+                    &tv,
+                    LDAP_NO_LIMIT,
+                    &result
+                );
+                ldap_control_free(page_ctrl);
+
+                if (rc == LDAP_SUCCESS) {
+                    page_ok = true;
+                    break; // success — exit retry loop
+                }
+
+                last_rc = rc;
+                if (result) { ldap_msgfree(result); result = nullptr; }
+                // Transient errors (busy, timeout, unavailable) are retried;
+                // fatal errors (no_such_object, insufficient_access) are not.
+                const bool retryable = (rc == LDAP_BUSY || rc == LDAP_UNAVAILABLE
+                    || rc == LDAP_TIMEOUT || rc == LDAP_CONNECT_ERROR
+                    || rc == LDAP_SERVER_DOWN);
+                if (!retryable) {
+                    spdlog::warn("[LDAP][W8-15] Pagination permanent error "
+                                 "(non-retryable rc={}); returning partial results.",
+                                 ldap_err2string(rc));
+                    break;
+                }
+            } // end retry loop
+
+            if (!page_ok) {
+                // Exhausted retries or hit permanent error.  Emit a final audit
+                // event and break with whatever partial results were collected.
+                if (audit.isEnabled()) {
+                    audit.logLDAPFailure(username,
+                        std::string("pagination_failed after retries rc=") +
+                        ldap_err2string(last_rc) +
+                        " partial_groups=" + std::to_string(total_collected));
+                }
+                spdlog::warn("[LDAP][W8-15] Pagination failed after {} retries "
+                             "(rc={}); returning {} partial group(s) for user '{}'.",
+                             kMaxPageRetries, ldap_err2string(last_rc),
+                             total_collected, username);
                 if (page_cookie) { ber_bvfree(page_cookie); page_cookie = nullptr; }
-                break;  // Return partial results (non-fatal)
+                break; // Return partial results (non-fatal)
             }
 
             // Collect entries from this page.

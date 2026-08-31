@@ -16,6 +16,7 @@
 #include <string>
 #include <optional>
 #include "utils/expected.h"
+#include "utils/logger.h"
 
 namespace themis {
 
@@ -83,6 +84,32 @@ public:
      *       Implementations should migrate to Result<std::string>.
      */
     [[nodiscard]] virtual Result<std::string> execute(const std::string& query) = 0;
+
+    /**
+     * @brief Execute a query with named bind variables.
+     *
+     * @param query          AQL query string.
+     * @param bind_vars_json Named bind variables as a JSON object string
+     *                       (e.g. `{"@col":"users","limit":10}`).
+     *                       Pass `"{}"` or an empty string when there are no
+     *                       bind variables.
+     * @return JSON-encoded result string, or error.
+     *
+     * @note The default implementation calls the single-argument @c execute()
+     *       overload and emits a warning when non-empty bind variables are
+     *       supplied, because they cannot be forwarded.  Engine implementations
+     *       that natively support bind variables should override this method.
+     */
+    [[nodiscard]] virtual Result<std::string> execute(
+        const std::string& query,
+        const std::string& bind_vars_json)
+    {
+        if (!bind_vars_json.empty() && bind_vars_json != "{}") {
+            THEMIS_WARN("IQueryEngine::execute called with bind_vars but no "
+                        "forwarding implementation; bind_vars ignored");
+        }
+        return execute(query);
+    }
     
     /**
      * @brief Validate a query without executing it

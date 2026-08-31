@@ -19,6 +19,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
@@ -178,11 +179,13 @@ public:
 
     /**
      * @brief Return the normalized issuer URLs of all registered realms.
+     * @return Vector of normalized issuer URLs in their current registry order.
      */
     std::vector<std::string> realmIssuers() const;
 
     /**
      * @brief Return the number of registered realms.
+     * @return Count of realms currently registered in the manager.
      */
     size_t realmCount() const;
 
@@ -325,6 +328,8 @@ public:
     /**
      * @brief Remove a previously registered cross-provider trust relationship.
      *
+     * @param subject_issuer   Normalized issuer URL of the token source.
+     * @param trusting_issuer  Normalized issuer URL of the realm that trusts it.
      * @return true if the trust was found and removed, false otherwise.
      */
     bool removeCrossProviderTrust(const std::string& subject_issuer,
@@ -359,6 +364,9 @@ public:
      *
      * Typically used from tests; production code relies on the implicit
      * cache-fill inside validateToken().
+     *
+     * @param token   Raw bearer token used as the cache key.
+     * @param result  Validation result to cache for @p token.
      */
     void cacheValidationResult(const std::string& token,
                                const FederatedValidationResult& result);
@@ -386,6 +394,7 @@ public:
     /**
      * @brief Return the number of entries currently in the token cache
      *        (including possibly-expired ones not yet evicted).
+     * @return Current number of cached token-validation entries.
      */
     size_t tokenCacheSize() const;
 
@@ -424,9 +433,16 @@ private:
     // In-memory token validation cache (cross-provider state sync)
     // Protected by cache_mutex_ (separate from mutex_ to avoid lock inversion
     // when validateToken() holds mutex_ and stores to cache).
+    //
+    // [W8-16] Cache keys are SHA-256(token) hex strings (64 chars) rather than
+    // raw JWT strings, preventing unbounded key growth from large bearer tokens.
+    // The LRU order list (cache_lru_order_) enforces kTokenCacheMaxSize cap.
     // -----------------------------------------------------------------------
     mutable std::mutex cache_mutex_;
+    /// @brief Cache map: SHA-256(token) hex → CachedValidation entry.
     std::unordered_map<std::string, CachedValidation> token_cache_;
+    /// @brief LRU order list: front = most recently used key, back = LRU key.
+    std::list<std::string> cache_lru_order_;
 
     // -----------------------------------------------------------------------
     // Cross-provider trust registry: trusting_issuer -> {trusted subject issuers}

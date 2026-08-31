@@ -40,6 +40,7 @@ from tools.scanners.gs3_step04_design_distributed_consistency import Distributed
 from tools.scanners.gs3_step04_design_llm_ai_safety import LLMAISafetyScan
 from tools.scanners.gs3_step04_design_observability import ObservabilityScannerImproved
 from tools.scanners.gs3_step04_design_determinism import DeterminismScannerImproved
+from tools.scanners.gs3_step04_quality_cpp_doxygen import ThemisCppDoxygenPolicyRulesScan
 
 
 # ---------------------------------------------------------------------------
@@ -714,6 +715,60 @@ class TestDeterminismScan(unittest.TestCase):
         """)
         gaps = self.scanner.scan_files([f])
         self.assertEqual(gaps, [])
+
+
+# ===========================================================================
+# P10-8  ThemisCppDoxygenPolicyRulesScan
+# ===========================================================================
+
+class TestThemisCppDoxygenPolicyRulesScan(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.scanner = ThemisCppDoxygenPolicyRulesScan(str(self.tmp))
+
+    def _header(self, name: str, code: str) -> Path:
+        return _write(self.tmp, f'include/auth/{name}', code)
+
+    def _source(self, name: str, code: str) -> Path:
+        return _write(self.tmp, f'src/auth/{name}', code)
+
+    def test_relative_header_path_matches_absolute_results(self):
+        header = self._header('federated_identity_manager.h', """\
+            class FederatedIdentityManager {
+            public:
+                bool authenticate_user(const std::string& user);
+            };
+        """)
+        absolute_gaps = self.scanner.scan_files([header])
+        relative_gaps = self.scanner.scan_files([Path('include/auth/federated_identity_manager.h')])
+        self.assertEqual(relative_gaps, absolute_gaps)
+        self.assertIsInstance(relative_gaps, list)
+
+    def test_scans_only_changed_header_inputs(self):
+        changed = self._header('changed.h', """\
+            class ChangedApi {
+            public:
+                bool authenticate_user(const std::string& user);
+            };
+        """)
+        self._header('unchanged.h', """\
+            class UnchangedApi {
+            public:
+                bool authenticate_user(const std::string& user);
+            };
+        """)
+        gaps = self.scanner.scan_files([changed])
+        self.assertTrue(gaps)
+        self.assertTrue(all(gap['file'] == 'include/auth/changed.h' for gap in gaps))
+
+    def test_source_only_input_is_ignored(self):
+        source = self._source('session_manager.cpp', """\
+            bool authenticate_user(const std::string& user) {
+                return !user.empty();
+            }
+        """)
+        self.assertEqual(self.scanner.scan_files([source]), [])
 
 
 # ===========================================================================

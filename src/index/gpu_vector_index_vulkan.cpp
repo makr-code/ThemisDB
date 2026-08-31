@@ -113,6 +113,69 @@ namespace themis {
 namespace index {
 
 /**
+ * @brief Move-only RAII scope guard for a raw VkBuffer + VkDeviceMemory pair.
+ *
+ * Use this for ad-hoc allocations (e.g., staging buffers in Wave-B compute
+ * shader kernels) that do not go through lora::vulkan::VulkanBuffer.  For
+ * buffers that need re-use, upload helpers, or copy_from, prefer
+ * lora::vulkan::VulkanBuffer instead.
+ *
+ * Removal plan: Once Wave-B GPU ANN kernels (L2/cosine/inner-product) are
+ * integrated, graduate any remaining uses to lora::vulkan::VulkanBuffer and
+ * remove this guard.  Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md
+ * §"GPU Vector Index (Vulkan)" — Wave-B Q4 2026.
+ */
+struct VkBufferRaii {
+    VkDevice       device = VK_NULL_HANDLE;
+    VkBuffer       buffer = VK_NULL_HANDLE;
+    VkDeviceMemory memory = VK_NULL_HANDLE;
+
+    VkBufferRaii() = default;
+    VkBufferRaii(VkDevice dev, VkBuffer buf, VkDeviceMemory mem) noexcept
+        : device(dev), buffer(buf), memory(mem) {}
+
+    ~VkBufferRaii() noexcept {
+        if (buffer != VK_NULL_HANDLE) {
+            vkDestroyBuffer(device, buffer, nullptr);
+            buffer = VK_NULL_HANDLE;
+        }
+        if (memory != VK_NULL_HANDLE) {
+            vkFreeMemory(device, memory, nullptr);
+            memory = VK_NULL_HANDLE;
+        }
+    }
+
+    // Move-only
+    VkBufferRaii(const VkBufferRaii&) = delete;
+    VkBufferRaii& operator=(const VkBufferRaii&) = delete;
+
+    VkBufferRaii(VkBufferRaii&& o) noexcept
+        : device(o.device), buffer(o.buffer), memory(o.memory) {
+        o.device = VK_NULL_HANDLE;
+        o.buffer = VK_NULL_HANDLE;
+        o.memory = VK_NULL_HANDLE;
+    }
+    VkBufferRaii& operator=(VkBufferRaii&& o) noexcept {
+        if (this != &o) {
+            if (buffer != VK_NULL_HANDLE) vkDestroyBuffer(device, buffer, nullptr);
+            if (memory != VK_NULL_HANDLE) vkFreeMemory(device, memory, nullptr);
+            device = o.device;  buffer = o.buffer;  memory = o.memory;
+            o.device = VK_NULL_HANDLE;
+            o.buffer = VK_NULL_HANDLE;
+            o.memory = VK_NULL_HANDLE;
+        }
+        return *this;
+    }
+
+    /// Release ownership without destroying (e.g. after successful vkBindBufferMemory).
+    void release() noexcept {
+        device = VK_NULL_HANDLE;
+        buffer = VK_NULL_HANDLE;
+        memory = VK_NULL_HANDLE;
+    }
+};
+
+/**
  * @brief Implementation class for Vulkan backend
  */
 class VulkanVectorIndexBackend::Impl {

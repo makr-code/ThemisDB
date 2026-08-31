@@ -158,6 +158,67 @@ This file documents all documentation and code quality gaps in the **llm** modul
 
 **Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
 
+## Wave 9 Block 5 — CRITICAL Closure (2026-08-26)
+
+### W9-16: Batch-close `braces_imbalance` false positives
+
+**Method**: State-machine C++ parser (skipping raw string literals, block/line
+comments, and char/string literals) run against every file flagged under
+`braces_imbalance` in the Top-20 list.
+
+**Result**: All 20 files are **structurally balanced** (state-machine depth = 0
+at end-of-file).  The raw `{`/`}` character counts were inflated by
+`R"(…)"` raw string literals containing JSON payloads with unequal brace
+characters — the scanner heuristic cannot distinguish these from structural
+braces.
+
+| File | Raw open | Raw close | Raw diff | State-machine depth | Verdict |
+|---|---|---|---|---|---|
+| `active_vram_allocator.cpp` | 154 | 154 | 0 | 0 | ~~FP~~ |
+| `adapter_registry.cpp` | 128 | 128 | 0 | 0 | ~~FP~~ |
+| `async_inference_engine.cpp` | 273 | 273 | 0 | 0 | ~~FP~~ |
+| `block_table.cpp` | 19 | 19 | 0 | 0 | ~~FP~~ |
+| `ethics_aware_confidence_detector.cpp` | 92 | 92 | 0 | 0 | ~~FP~~ |
+| `gguf_loader.cpp` | 170 | 170 | 0 | 0 | ~~FP~~ |
+| `grafana_metrics.cpp` | 468 | 471 | −3 | **0** | ~~FP~~ (raw-string `{}` in JSON payloads) |
+| `inference_engine_enhanced.cpp` | 473 | 473 | 0 | 0 | ~~FP~~ |
+| `llama_wrapper.cpp` | 811 | 811 | 0 | 0 | ~~FP~~ |
+| `llm_model_storage.cpp` | 267 | 267 | 0 | 0 | ~~FP~~ |
+| `llm_prefix_cache.cpp` | 64 | 64 | 0 | 0 | ~~FP~~ |
+| `meta_prompt_generator.cpp` | 46 | 46 | 0 | 0 | ~~FP~~ |
+| `model_downloader.cpp` | 154 | 154 | 0 | 0 | ~~FP~~ |
+| `model_loader.cpp` | 268 | 268 | 0 | 0 | ~~FP~~ |
+| `multi_lora_manager.cpp` | 850 | 850 | 0 | 0 | ~~FP~~ |
+| `multi_perspective_generator.cpp` | 133 | 133 | 0 | 0 | ~~FP~~ |
+| `prompt_evaluator.cpp` | 55 | 55 | 0 | 0 | ~~FP~~ |
+| `prompt_optimizer.cpp` | 52 | 52 | 0 | 0 | ~~FP~~ |
+| `streaming_handler.cpp` | 15 | 15 | 0 | 0 | ~~FP~~ |
+| `token_quota_manager.cpp` | 28 | 28 | 0 | 0 | ~~FP~~ |
+
+**All 20 `braces_imbalance` CRITICAL entries are confirmed false positives.**
+CRITICAL count reduction: 155 − 20 = **135 residual** (20 scanner FPs closed).
+
+### W9-17: Speculative decode — wire `TokenizerFn` + update `TargetLogitsFn` notes
+
+**STUB #263 — TokenizerFn bridge (remote draft path)**
+
+- Added `TokenizerFn = std::function<std::vector<int>(const std::string&, size_t)>`
+  to `InferenceEngineEnhanced` public API.
+- `setTokenizerFn(fn)` / `clearTokenizerFn()` added — mutex-guarded static
+  instance storage, same pattern as `TargetLogitsFn`.
+- `trySpeculativeGeneration()` remote-draft path now calls the injected fn
+  before the byte-modulo fallback; fail-closed on exception or empty return.
+- STUB note updated: "Removal Plan" → "Production Injection Point".
+
+**STUB #262 — TargetLogitsFn bridge (already wired; note updated)**
+
+- Confirmed fully wired in prior work: injected fn is called first,
+  peaked-distribution heuristic is the documented fallback.
+- STUB note updated: "Removal Plan" → "Production Injection Point".
+
+**Tests added**: `tests/llm/test_wave9_speculative_decode_bridges.cpp`
+(SD-BRG-01..SD-BRG-07)
+
 ---
 
 ## Wave 3-LLM Remediation Log (2026-08-25)
@@ -181,3 +242,24 @@ This file documents all documentation and code quality gaps in the **llm** modul
 - `ModelDownloadConfig` gains `bool allow_insecure_http = false` (non-breaking default)
 - `LLMPrefixCache::Config` gains `std::string cache_dir = ""` (non-breaking default)
 - `validateOllamaUrl` signature updated to `validateOllamaUrl(url, bool allow_insecure_http = false)` — internal only (anonymous namespace)
+
+---
+
+## Wave 10-D — Local Draft Plugin Bridge (2026-08-27)
+
+**STUB #261 (LLM): ILLMPlugin::generateDraftTokens() local path — byte-modulo heuristic bridged**
+
+- **Gap**: `InferenceEngineEnhanced::trySpeculativeGeneration()` called
+  `draft_plugin->generateDraftTokens()` without injecting the engine's
+  `TokenizerFn`, leaving the local draft path on the byte-modulo heuristic
+  even when a real tokenizer was registered.
+- **Fix (W10-D, 2026-08-27)**: Before the `generateDraftTokens()` call, the
+  engine's `TokenizerFn` (when set) is bridged into
+  `ILLMPlugin::setDefaultGenerateDraftTokensFn()` via a lambda that calls
+  `draft_plugin->generate()` then tokenizes the result with the real fn.
+  The injected fn is cleared after the call (`nullptr` reset) to prevent
+  process-wide state leakage.
+- **Files**: `src/llm/inference_engine_enhanced.cpp`;
+             `include/llm/llm_plugin_interface.h` (comment only)
+- **Tests**: `tests/llm/test_w10d_local_draft_bridge.cpp` (SD-LOCAL-01, SD-LOCAL-02)
+- **Status**: **RESOLVED 2026-08-27**

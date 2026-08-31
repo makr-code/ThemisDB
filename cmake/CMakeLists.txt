@@ -4420,11 +4420,14 @@ if(CURL_FOUND)
 endif()
 
 # Link cpp-httplib (HTTP server) if available
+find_package(httplib QUIET)
 if(TARGET httplib::httplib)
     target_link_libraries(themis_core PUBLIC httplib::httplib)
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_HTTPLIB)
+elseif(httplib_FOUND)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_HTTPLIB)
 else()
-    message(STATUS "cpp-httplib target not found - HTTP server adapter may fail to build")
+    message(STATUS "cpp-httplib not found - HTTP server adapter will use stub implementation")
 endif()
 
 # Link MessagePack if available (target names vary by package)
@@ -4518,9 +4521,20 @@ if(THEMIS_ENABLE_GPU)
         target_link_libraries(themis_core PUBLIC gfortran quadmath)
     endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_GPU_ENABLED)
+    # W9-14: Expose THEMIS_HAS_FAISS so advanced_vector_index.cpp enables
+    # the production FAISS code paths (IVF+PQ, HNSW, GPU cloner).
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_FAISS)
+    message(STATUS "FAISS found and enabled (THEMIS_HAS_FAISS)")
 elseif(hnswlib_FOUND)
     target_link_libraries(themis_core PUBLIC hnswlib::hnswlib)
     target_compile_definitions(themis_core PUBLIC THEMIS_HNSW_ENABLED)
+endif()
+
+# Expose THEMIS_ROCKSDB_AVAILABLE so sources can guard RocksDB CF usage.
+# RocksDB is always present (build fails above if not found), but we gate
+# behind this flag to allow future conditional builds.
+if(THEMIS_ROCKSDB_TARGET)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ROCKSDB_AVAILABLE)
 endif()
 
 # v1.1.0: Link mimalloc (20-40% memory boost, drop-in replacement)
@@ -4670,6 +4684,7 @@ endif()
 # gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
 if(THEMIS_ENABLE_GRPC)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_CORE_GRPC)
     message(STATUS "gRPC support enabled (inter-shard communication)")
     find_package(gRPC CONFIG)
     find_package(Protobuf CONFIG)
@@ -5254,6 +5269,10 @@ target_compile_definitions(themis_server PRIVATE THEMIS_SERVER_PROFILE_DEFAULT="
 
 if(THEMIS_ENABLE_HTTP_SERVER)
     target_compile_definitions(themis_server PRIVATE THEMIS_ENABLE_HTTP_SERVER=1)
+endif()
+
+if(THEMIS_ENABLE_GRPC)
+    target_compile_definitions(themis_server PRIVATE THEMIS_HAS_CORE_GRPC)
 endif()
 
 target_link_libraries(themis_server

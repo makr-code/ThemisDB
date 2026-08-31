@@ -740,3 +740,49 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_wave4c_t1t4_hardening.cpp")
 else()
     message(STATUS "Wave 4-C T1-T4 hardening tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_wave4c_t1t4_hardening.cpp")
 endif()
+
+# ===== WAVE 9 BLOCK 2 — gRPC RPC BRIDGE ADAPTER TESTS (W9-7..W9-9) =====
+
+# GrpcRpcPhase1Adapter / GrpcRpcPhase2Adapter unit tests (W9-7, W9-8)
+# GRPC-P1-01..05, GRPC-P2-01..05, GRPC-DTM-01..03, GRPC-CONTENTION-01, GRPC-WAL-01
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_grpc_rpc_adapter.cpp")
+    message(STATUS "Adding Wave 9 Block 2 gRPC RPC adapter tests (W9-7..W9-9)")
+
+    add_executable(test_grpc_rpc_adapter
+        test_grpc_rpc_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_grpc_rpc_adapter PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_grpc_rpc_adapter PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    # grpc_rpc_adapter.cpp is compiled as a header-only-style inclusion test;
+    # when THEMIS_HAS_CORE_GRPC is NOT defined (default for unit tests) the
+    # adapter falls back to fail-closed stubs, so no gRPC library is required.
+    target_compile_definitions(test_grpc_rpc_adapter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME Wave9Block2GrpcRpcAdapterTests
+        TARGET test_grpc_rpc_adapter
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction wave9 grpc rpc 2pc 3pc distributed release_critical
+    )
+
+    message(STATUS "  Wave 9 Block 2: GRPC-P1-01..05, GRPC-P2-01..05, GRPC-DTM-01..03, GRPC-CONTENTION-01, GRPC-WAL-01")
+else()
+    message(STATUS "Wave 9 Block 2 gRPC RPC adapter tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_grpc_rpc_adapter.cpp")
+endif()

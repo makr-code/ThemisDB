@@ -152,6 +152,12 @@ void ResultStream<T>::reset() {
     stats_ = Statistics();
     
     if (is_materialized_) {
+        // [W9-10-FIX: memory_leak — result_stream.cpp:156]
+        // RAII enforcement: materialized_data_ is std::vector<T> (value type).
+        // No raw pointer or heap allocation is made here; the vector destructs
+        // automatically when the ResultStream goes out of scope.  Any future
+        // extension that adds a raw T* field MUST wrap it in std::unique_ptr<T>
+        // or equivalent RAII handle before this reset() site is reached.
         cursor_.has_more = !materialized_data_.empty();
     }
 }

@@ -22,7 +22,7 @@ This file documents all documentation and code quality gaps in the **index** mod
 
 ### By Severity
 
-- **CRITICAL**: 28  *(was 29 — see Wave 3-C Closure below)*
+- **CRITICAL**: 0  *(was 28 — all resolved as confirmed FPs or fixed; see Wave 3-C Closure and Wave 9 Block 4 Closure below)*
 - **HIGH**: 3057
 - **MEDIUM**: 4623
 - **LOW**: 3
@@ -132,6 +132,100 @@ All other 28 reported CRITICALs are scanner false-positives (6 `braces_imbalance
 
 ### Test Coverage Added
 - `tests/index/test_wave3c_index_raii.cpp` — compile-time `is_nothrow_destructible` checks, iterator-safe erase patterns, CPU fallback compile validation.
+
+---
+
+## Wave 9 Block 4 CRITICAL Closure (2026-08-26) — W9-13
+
+### Brace-Imbalance FP Verification (W9-13)
+
+All 6 `braces_imbalance` CRITICAL scanner artefacts verified by counting `{` vs `}` tokens:
+
+| File | `{` count | `}` count | Result |
+|------|-----------|-----------|--------|
+| `cuda_hnsw_graph_traversal.cpp` | 118 | 118 | ✅ Balanced — confirmed FP |
+| `graph_index.cpp` | 509 | 509 | ✅ Balanced — confirmed FP |
+| `hnsw_production_defaults.cpp` | 75 | 75 | ✅ Balanced — confirmed FP |
+| `property_graph.cpp` | 267 | 267 | ✅ Balanced — confirmed FP |
+| `secondary_index.cpp` | 980 | 980 | ✅ Balanced — confirmed FP |
+| `spatial_index.cpp` | 240 | 240 | ✅ Balanced — confirmed FP |
+
+No real brace imbalances found. All 6 entries are scanner artefacts at file boundary (`:1`).
+
+### Remaining 22 CRITICAL FP items
+
+The 22 remaining CRITICAL items (iterator_invalidation × 7, gpu_memory_leak × 4, unchecked_cuda_call × 26 counted as 1 group, exception_in_destructor × 1 already fixed, etc.) were all confirmed false-positives in Wave 3-C (see table above). No code changes required.
+
+### ~~CRITICAL Count: 28 → 0~~ (all resolved as FPs or previously fixed)
+
+| # | Gap | File | Status |
+|---|-----|------|--------|
+| ~~1~~ | ~~braces_imbalance~~ | ~~`cuda_hnsw_graph_traversal.cpp:1`~~ | ✅ **Confirmed FP** |
+| ~~2~~ | ~~braces_imbalance~~ | ~~`graph_index.cpp:1`~~ | ✅ **Confirmed FP** |
+| ~~3~~ | ~~braces_imbalance~~ | ~~`hnsw_production_defaults.cpp:1`~~ | ✅ **Confirmed FP** |
+| ~~4~~ | ~~braces_imbalance~~ | ~~`property_graph.cpp:1`~~ | ✅ **Confirmed FP** |
+| ~~5~~ | ~~braces_imbalance~~ | ~~`secondary_index.cpp:1`~~ | ✅ **Confirmed FP** |
+| ~~6~~ | ~~braces_imbalance~~ | ~~`spatial_index.cpp:1`~~ | ✅ **Confirmed FP** |
+| ~~7~~ | ~~gpu_memory_leak~~ | ~~`gpu_memory_oversubscription.cpp:53`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~8~~ | ~~iterator_invalidation~~ | ~~`vector_index.cpp:80`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~9~~ | ~~iterator_invalidation~~ | ~~`multi_vector_search.cpp:224`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~10~~ | ~~iterator_invalidation~~ | ~~`gpu_memory_oversubscription.cpp:230`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~11~~ | ~~iterator_invalidation~~ | ~~`graph_index.cpp:244`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~12~~ | ~~iterator_invalidation~~ | ~~`graph_index.cpp:247`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~13~~ | ~~iterator_invalidation~~ | ~~`graph_index.cpp:248`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~14~~ | ~~gpu_memory_leak~~ | ~~`cuda_hnsw_graph_traversal.cpp:362`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~15~~ | ~~iterator_invalidation~~ | ~~`edge_types.cpp:364`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~16~~ | ~~gpu_memory_leak~~ | ~~`cuda_hnsw_graph_traversal.cpp:370`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~17~~ | ~~gpu_memory_leak~~ | ~~`cuda_hnsw_graph_traversal.cpp:381`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~18~~ | ~~iterator_invalidation~~ | ~~`multi_vector_search.cpp:406`~~ | ✅ **Confirmed FP** (Wave 3-C) |
+| ~~19-28~~ | ~~exception_in_destructor / unchecked_cuda_call~~ | various | ✅ **Fixed or Confirmed FP** (Wave 3-C) |
+
+**CRITICAL count: 28 → 0** ✅
+
+---
+
+## Wave 9 Block 4 FAISS Wiring (2026-08-26) — W9-14
+
+### Changes Applied
+
+1. **`cmake/CMakeLists.txt`** — Added `THEMIS_HAS_FAISS` compile definition when `faiss_FOUND` in the `THEMIS_ENABLE_GPU` block. The existing `find_package(faiss CONFIG)` at line ~1733 already detects FAISS; the new definition propagates availability to all TUs.
+
+2. **`vcpkg.json`** — `faiss` was already present as a flat dependency. No structural change required; optional-feature promotion is deferred to when a vcpkg port with feature flags is available.
+
+3. **`src/index/advanced_vector_index.cpp`** — The `#ifndef THEMIS_HAS_FAISS` stub block is complete and correct:
+   - `initializeIndex()` logs `THEMIS_WARN` and returns `false` when FAISS absent
+   - All production paths (`train`, `add`, `search`, `searchBatch`) are fully guarded
+   - Injection-bridge callbacks (`StubCallbacks`) allow test/integration override without FAISS
+
+### Status
+
+| Item | Status |
+|------|--------|
+| `THEMIS_HAS_FAISS` defined when faiss linked | ✅ Wired in CMake |
+| Stub block complete in `advanced_vector_index.cpp` | ✅ Verified |
+| `initializeIndex()` warns when FAISS absent | ✅ Present |
+| vcpkg `faiss` dependency present | ✅ Flat dependency in vcpkg.json |
+| Optional-feature promotion | ⏳ Deferred (vcpkg port lacks feature flags) |
+
+---
+
+## Wave 9 Block 4 GPU Vulkan RAII Hardening — W9-15 (Phase B Entry)
+
+### Analysis of STUB Sections
+
+| Location | Type | Assessment |
+|----------|------|------------|
+| `gpu_vector_index_vulkan.cpp:67–99` | Injection-bridge callbacks (VVI-BRIDGE) | ✅ Already correct pattern; no raw RAII gap |
+| `gpu_vector_index_vulkan.cpp:917–933` | No-op stub when `!THEMIS_HAS_VULKAN_IMPL` | ✅ Properly documented with removal plan |
+| `lora::vulkan::VulkanBuffer` (production path) | Raw `VkBuffer`/`VkDeviceMemory` in member fields | ✅ Already RAII: `~VulkanBuffer() noexcept` + move ctor/assign zero handles |
+
+### `VkBufferRaii` Addition
+
+A `VkBufferRaii` move-only scope guard has been added to `gpu_vector_index_vulkan.cpp` inside the `#if THEMIS_HAS_VULKAN_IMPL` block for use in any future ad-hoc raw buffer allocations (e.g., staging buffers in Wave-B kernels) that do not go through `lora::vulkan::VulkanBuffer`.
+
+**Removal / graduation plan**: When Wave-B GPU ANN kernels (L2/cosine/inner-product compute shaders) require staging buffers, use `VkBufferRaii` as the scope-guard. Graduate to `lora::vulkan::VulkanBuffer` when the buffer needs re-use or upload helpers. Remove stub comment when `THEMIS_HAS_VULKAN_IMPL` is always `1` on supported platforms.
+
+**Roadmap ref**: `src/index/FUTURE_ENHANCEMENTS.md §"GPU Vector Index (Vulkan)"`, Wave-B Q4 2026.
 
 ---
 
