@@ -448,7 +448,9 @@ json EthicsLoadProfileFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& /*ctx*/) const {
     
-    // NOTE: Full implementation loads from the ethics_profiles collection.
+    // NOTE: Collection-backed argument, similarity, and traversal functions are
+    // implemented below; profile loading remains a lightweight fallback until a
+    // dedicated profile store is injected.
     // Requires the ethics_ai plugin to populate philosophy profiles.
     const std::string& school = args[0];
     
@@ -466,7 +468,8 @@ json EthicsListSchoolsFunction::execute(
     const std::vector<json>& /*args*/,
     const FunctionContext& /*ctx*/) const {
     
-    // NOTE: Full implementation queries available profiles from the ethics_profiles collection.
+    // NOTE: Known schools remain available even when the ethics profile store
+    // has not been populated yet.
     json schools = json::array();
     
     // Return known schools

@@ -29,7 +29,7 @@ namespace functions {
 using json = nlohmann::json;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Static bridge storage — stubs #278, #283
+// Static bridge storage — bridge-backed process-mining integrations
 // ─────────────────────────────────────────────────────────────────────────────
 
 PmPredictEndFunction::PredictEndFn     PmPredictEndFunction::predict_end_fn_;
@@ -708,7 +708,7 @@ MiningConfig parseMiningConfig(const json& j) {
 } // anonymous namespace
 
 // ============================================================================
-// Pattern matching functions  (require ProcessPatternMatcher — no engine yet)
+// Pattern matching functions
 // ============================================================================
 
 json PmFindSimilarFunction::execute(
@@ -912,7 +912,7 @@ json PmExtractTraceFunction::execute(
 // args[1]: optional config JSON (algorithm, thresholds, ...)
 //
 // Delegates to ProcessMining::discoverProcess() when engine is available.
-// Falls back to a stub result when no engine is injected (test / offline).
+// Falls back to a structural placeholder only when no engine or event log is injected.
 // ============================================================================
 
 json PmDiscoverProcessFunction::execute(
@@ -925,8 +925,8 @@ json PmDiscoverProcessFunction::execute(
 
     ProcessMining* pm = ctx.getProcessMining();
     if (!pm) {
-        // No engine injected: return a structural stub with correct shape but
-        // zero content so callers can at least inspect the result keys.
+        // No engine injected: return a structural placeholder with correct shape
+        // so callers can still inspect the contract in offline/test contexts.
         json result;
         result["id"]              = "";
         result["name"]            = "stub_model";

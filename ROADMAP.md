@@ -37,7 +37,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | core | 9 listed | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading are delivered; remaining items are Wave D operability and refreshed evidence |
 | base | 8 listed | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
 | server | 4 residual source gaps | REAL IMPL gaps | gRPC-Web proxy is still UNIMPLEMENTED-only in fallback builds; time-series aggregate/retention providers and RoPE metrics still rely on degraded fallback paths; non-Linux MCP stdio transport remains unsupported |
-| query | 4 residual source gaps | REAL IMPL gaps | `process_mining_functions.cpp` still routes unresolved calls through `makeNotImplemented()`; three `ETHICS_*` functions still throw generic `not implemented` runtime errors |
+| query | residual perf / validation follow-up | Mostly verification / perf gaps | Process-mining trace/pattern/ideal query paths and the three `ETHICS_*` runtime gaps were closed on 2026-08-31; remaining work is optimizer/federation hardening and benchmark evidence |
 | transaction | 19 listed | Mostly verification / benchmark evidence | Wave 4C code gaps are closed; build/run, chaos, and representative-hardware evidence remain open |
 | auth | 8+ listed | Mostly verification / perf follow-up | Wave 4B source gaps are closed; remaining work is Wave 8 tests, representative-hardware baselines, and protocol-matrix regressions |
 | LLM | 13 listed | MIXED | Major Wave 5 closures landed; remaining real gaps center on distributed collectives, multi-tenant isolation, and final cross-module speculative/TARG wiring |
