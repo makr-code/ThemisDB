@@ -86,9 +86,9 @@ private:
 // Helper: build a minimal DTM with a temp WAL
 // ─────────────────────────────────────────────────────────────────────────────
 
-static DistributedTransactionManagerConfig makeConfig() {
-    DistributedTransactionManagerConfig cfg;
-    cfg.wal_path        = "/tmp/test_grpc_rpc_adapter_wal";
+static DistributedTxnManagerConfig makeConfig() {
+    DistributedTxnManagerConfig cfg;
+    cfg.wal_directory        = "/tmp/test_grpc_rpc_adapter_wal";
     cfg.prepare_timeout = 200ms;
     cfg.commit_timeout  = 200ms;
     return cfg;
@@ -156,7 +156,7 @@ TEST(GrpcRpcAdapterPhase1, VoteCommitOnSuccess) {
     auto txn_id = dtm.beginDistributed({remote});
     auto result  = dtm.prepareDistributed(txn_id);
 
-    EXPECT_TRUE(result.ok()) << result.message();
+    EXPECT_TRUE(result.ok) << result.message;
 
     DistributedTransactionManager::clearRpcPhase1Fn();
     DistributedTransactionManager::clearRpcPhase2Fn();
@@ -180,7 +180,7 @@ TEST(GrpcRpcAdapterPhase1, VoteAbortOnFailure) {
     auto txn_id = dtm.beginDistributed({remote});
     auto result  = dtm.prepareDistributed(txn_id);
 
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.ok);
 
     DistributedTransactionManager::clearRpcPhase1Fn();
     DistributedTransactionManager::clearRpcPhase2Fn();
@@ -218,7 +218,7 @@ TEST(GrpcRpcAdapterPhase1, VoteAbortOnTimeout) {
     // (The exact result depends on thread scheduling; both ok() and !ok() are
     // valid because the DTM may or may not have received the vote before its
     // internal deadline; what matters is that the transaction is not stuck.)
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.ok);
 
     DistributedTransactionManager::clearRpcPhase1Fn();
     DistributedTransactionManager::clearRpcPhase2Fn();
@@ -247,7 +247,7 @@ TEST(GrpcRpcAdapterPhase1, VoteAbortOnNetworkException) {
     auto txn_id = dtm.beginDistributed({remote});
     auto result  = dtm.prepareDistributed(txn_id);
 
-    EXPECT_FALSE(result.ok());
+    EXPECT_FALSE(result.ok);
 
     DistributedTransactionManager::clearRpcPhase1Fn();
     DistributedTransactionManager::clearRpcPhase2Fn();
@@ -389,7 +389,7 @@ TEST(GrpcRpcAdapterDtmIntegration, Phase1FnWiredAllCommit) {
     auto txn_id = dtm.beginDistributed({r1, r2});
     auto prep   = dtm.prepareDistributed(txn_id);
 
-    EXPECT_TRUE(prep.ok()) << prep.message();
+    EXPECT_TRUE(prep.ok) << prep.message;
 
     DistributedTransactionManager::clearRpcPhase1Fn();
     DistributedTransactionManager::clearRpcPhase2Fn();
@@ -410,7 +410,7 @@ TEST(GrpcRpcAdapterDtmIntegration, Phase1FnAbortVote) {
     auto txn_id = dtm.beginDistributed({r});
     auto prep   = dtm.prepareDistributed(txn_id);
 
-    EXPECT_FALSE(prep.ok());
+    EXPECT_FALSE(prep.ok);
 
     DistributedTransactionManager::clearRpcPhase1Fn();
     DistributedTransactionManager::clearRpcPhase2Fn();
@@ -432,7 +432,7 @@ TEST(GrpcRpcAdapterDtmIntegration, Phase2FnDeliverCommit) {
     dtm.prepareDistributed(txn_id);
     auto commit = dtm.commitDistributed(txn_id);
 
-    EXPECT_TRUE(commit.ok()) << commit.message();
+    EXPECT_TRUE(commit.ok) << commit.message;
     // Phase-2 fn must have been called with do_commit=true for node s4.
     std::lock_guard<std::mutex> lk(rec.mu);
     bool found = false;
@@ -467,9 +467,9 @@ TEST(GrpcRpcAdapterContention, SerialTransactionsDeterminism) {
 
         auto txn_id = dtm.beginDistributed({r});
         auto prep   = dtm.prepareDistributed(txn_id);
-        if (prep.ok()) {
+        if (prep.ok) {
             auto c = dtm.commitDistributed(txn_id);
-            if (c.ok()) ++committed;
+            if (c.ok) ++committed;
         }
     }
 
@@ -505,7 +505,7 @@ TEST(GrpcRpcAdapterWal, CommitDecisionDurableBeforePhase2) {
     dtm.prepareDistributed(txn_id);
     auto result = dtm.commitDistributed(txn_id);
 
-    EXPECT_TRUE(result.ok()) << result.message();
+    EXPECT_TRUE(result.ok) << result.message;
     // Phase-2 fn should have been invoked.
     EXPECT_TRUE(phase2_called.load());
 
