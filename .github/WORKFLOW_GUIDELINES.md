@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (39)
+## Aktive Workflows (40)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -17,6 +17,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/automation-community.yml`
 - `.github/workflows/build-benchmarks.yml`
 - `.github/workflows/build-mainline.yml`
+- `.github/workflows/build-clang-fast.yml`
 - `.github/workflows/build-content-regression.yml`
 - `.github/workflows/build-llm-inference.yml`
 - `.github/workflows/gate-pr-core.yml`
