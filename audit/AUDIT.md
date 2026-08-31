@@ -6,6 +6,7 @@
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
 
 > **BASELINE SYNC (2026-08-31):** This undated canonical document was refreshed to align with `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`.
+> **ROADMAP Evidence Rule (2026-08-31):** ROADMAP checkbox states are planning/documentation signals only; audit or release evidence requires source-verified traces (code paths, tests, benchmarks, or runbooks).
 
 > **NOTE:** This document aggregates the current audit stack. When August 2026 audit files disagree, prefer `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`, then `IMPLEMENTATION_AUDIT_2026-08-26.md`, then `IMPLEMENTATION_AUDIT_2026-08-18.md`, then `MATURITY_REPORT_2026-08.md`, then the root `ROADMAP.md`, and finally module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
 > **NEW (Aug 2026):** EU AI Act compliance documentation added (canonical in `/audit`, downstream mirrors may lag):
@@ -329,6 +330,8 @@ For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 
 The acceleration module roadmap is subject to an automated consistency audit.
 See [ARCHITECTURE.md § Acceleration Module ROADMAP Audit](../ARCHITECTURE.md#acceleration-module-roadmap-audit) for usage.
+
+Before using ROADMAP status as evidence, validate each relevant claim against source artifacts in `src/`, `tests/`, and benchmark/runbook evidence where applicable.
 
 ---
 

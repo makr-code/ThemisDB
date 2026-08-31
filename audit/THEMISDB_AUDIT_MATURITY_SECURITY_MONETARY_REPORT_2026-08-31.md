@@ -37,13 +37,16 @@
 
 ### 2.3 Roadmap-Checkbox-Signal aus `src/*/ROADMAP.md`
 
+**Evidenzregel:** Diese Werte sind ein **Dokumentationssignal** und gelten **nicht** als belastbare Implementierungsevidenz, bevor die betroffenen Claims gegen realen Sourcecode, Tests und ggf. Benchmarks verifiziert wurden.
+
 - **Ausgewertete Modul-Roadmaps:** 71  
 - **Checkbox gesamt:** 4.369  
 - **Done `[x]`:** 2.985 (**68,32%**)  
 - **In Progress `[~]`:** 332  
 - **Open `[ ]`:** 1.052
 
-Interpretation: Die technische Substanz ist groß, aber der dokumentierte Phase-/Closure-Status ist noch nicht homogen abgeschlossen.
+Interpretation: Die technische Substanz ist groß, aber der dokumentierte Phase-/Closure-Status ist noch nicht homogen abgeschlossen.  
+**Wichtig:** Für Release-/Audit-Entscheidungen ist pro Claim mindestens ein Sourcecode- oder Test-/Benchmark-Nachweis erforderlich; reine `[x]/[~]/[ ]`-Zählung reicht nicht aus.
 
 ---
 
