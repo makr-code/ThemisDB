@@ -96,8 +96,10 @@ jobs:
             echo "::error::Input directory '${{ inputs.input_dir }}' does not exist."
             exit 1
           fi
-          HASH=$(find "${{ inputs.input_dir }}" -type f | LC_ALL=C sort \
-                 | xargs sha256sum 2>/dev/null | sha256sum | awk '{print $1}')
+          HASH=$(find "${{ inputs.input_dir }}" -type f -print0 \
+                 | LC_ALL=C sort -z \
+                 | xargs -0 sha256sum 2>/dev/null \
+                 | sha256sum | awk '{print $1}')
           echo "value=${HASH}" >> "$GITHUB_OUTPUT"
           echo "Input hash: ${HASH}"
 
@@ -105,8 +107,10 @@ jobs:
         id: cache
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
-          path: .db-cache/${{ inputs.output_name }}.sha
-          key: docs-db-${{ inputs.output_name }}-${{ steps.hash.outputs.value }}
+          path: |
+            .db-cache/${{ inputs.output_name }}.sha
+            output-db/${{ inputs.output_name }}.db
+          key: docs-db-${{ inputs.output_name }}-${{ inputs.namespace }}-${{ inputs.graph_mode }}-${{ inputs.embedding_model }}-${{ steps.hash.outputs.value }}
 
       - name: Determine whether rebuild is needed
         id: check
@@ -222,7 +226,7 @@ jobs:
       # ── Upload artifacts ──────────────────────────────────────────────────
 
       - name: Upload RocksDB database artifact
-        if: steps.check.outputs.skip != 'true'
+        if: always() && (steps.check.outputs.skip != 'true' || steps.cache.outputs.cache-hit == 'true')
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ inputs.output_name }}
