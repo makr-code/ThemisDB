@@ -2076,7 +2076,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         if (!remote_text.empty()) {
             // Convert remote text to token IDs + logit distributions.
             // ── Primary path: use the injected TokenizerFn when available ────
-            // ── Fallback:     byte-modulo heuristic when no fn is set ─────────
+            // ── Fallback:     retry the local draft model when no tokenizer
+            //                   bridge is available for the remote text ─────────
             TokenizerFn tok_fn_copy;
             {
                 std::lock_guard<std::mutex> lk(tokenizer_fn_mutex_);
@@ -2092,9 +2093,12 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             constexpr float kPeak     =  5.0f;
             constexpr float kBaseline = -5.0f;
             draft_result.vocab_size = vocab_size;
-            bool used_injected_tokenizer = false;
 
-            if (tok_fn_copy) {
+            if (!tok_fn_copy) {
+                spdlog::info("Remote draft shard '{}' returned text but no tokenizer bridge "
+                             "is available; retrying with the local draft model",
+                             remote_shard.shard_id);
+            } else {
                 try {
                     const std::vector<int> tok_ids =
                         tok_fn_copy(remote_text, vocab_size);
@@ -2110,37 +2114,15 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                             row[idx] = kPeak;
                             draft_result.logits.push_back(std::move(row));
                         }
-                        used_injected_tokenizer = true;
                         spdlog::debug("Remote draft: TokenizerFn produced {} "
                                       "token IDs", tok_ids.size());
                     } else {
-                        spdlog::warn("TokenizerFn returned empty token list — "
-                                     "falling back to byte-modulo");
+                        spdlog::warn("TokenizerFn returned empty token list for remote draft "
+                                     "text — retrying with the local draft model");
                     }
                 } catch (const std::exception& e) {
-                    spdlog::warn("TokenizerFn threw: {} — falling back to "
-                                 "byte-modulo", e.what());
-                }
-            }
-
-            if (!used_injected_tokenizer) {
-                // Byte-modulo fallback (STUB #263):
-                // Maps UTF-8 byte values of remote_text to token IDs via
-                // byte % vocab_size.  Functional but acceptance rates are
-                // lower than with a real BPE/SentencePiece tokenizer.
-                for (size_t i = 0; i < K; ++i) {
-                    const size_t tid_raw = (i < remote_text.size())
-                        ? (static_cast<size_t>(
-                               static_cast<unsigned char>(remote_text[i])) %
-                           vocab_size)
-                        : 0u;
-                    const int tid = static_cast<int>(std::min(
-                        tid_raw,
-                        static_cast<size_t>(std::numeric_limits<int>::max())));
-                    draft_result.tokens.push_back(tid);
-                    std::vector<float> row(vocab_size, kBaseline);
-                    row[static_cast<size_t>(tid)] = kPeak;
-                    draft_result.logits.push_back(std::move(row));
+                    spdlog::warn("TokenizerFn threw for remote draft text: {} — retrying "
+                                 "with the local draft model", e.what());
                 }
             }
         }
@@ -2169,6 +2151,12 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         {
             std::lock_guard<std::mutex> lk(tokenizer_fn_mutex_);
             tok_fn_copy = tokenizer_fn_;
+        }
+        if (!tok_fn_copy) {
+            tok_fn_copy = makeTokenizerBridgeForPlugin(draft_plugin);
+        }
+        if (!tok_fn_copy) {
+            tok_fn_copy = makeTokenizerBridgeForPlugin(target_plugin);
         }
 
         if (tok_fn_copy) {

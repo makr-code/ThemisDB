@@ -382,3 +382,55 @@ TEST(SpecTlBridge, SPEC_TL_04_OversizedVocabMetadataHandledSafely) {
     EXPECT_FALSE(response.text.empty())
         << "Engine should keep running with oversized vocab metadata";
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SPEC-TL-05: Local draft path uses TokenizerFn bridge instead of byte-modulo
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(SpecTlBridge, SPEC_TL_05_LocalDraftTokenizerBridgeOverridesHeuristic) {
+    constexpr size_t kVocab = 256;
+    constexpr size_t kK     = 2;
+
+    InferenceEngineEnhanced::Config cfg;
+    cfg.enable_speculative_decoding = true;
+    cfg.speculative_draft_tokens    = kK;
+    cfg.speculative_draft_model_id  = "draft";
+    cfg.num_worker_threads          = 1;
+    cfg.enable_context_caching      = false;
+    cfg.batch_timeout_ms            = 50;
+
+    InferenceEngineEnhanced engine(cfg);
+    engine.registerModel("target", std::make_shared<MinimalPlugin>("target_resp", kVocab));
+    engine.registerModel("draft",  std::make_shared<MinimalPlugin>("ab",          kVocab));
+    engine.start();
+
+    engine.setTokenizerFn(
+        [](const std::string&, size_t) -> std::vector<int> {
+            return {11, 12};
+        });
+    engine.setTargetLogitsFn(
+        [](const InferenceRequest&, size_t K, size_t vocab_size,
+           std::shared_ptr<ILLMPlugin>) -> std::vector<std::vector<float>> {
+            std::vector<std::vector<float>> mat(K + 1,
+                                                std::vector<float>(vocab_size, -5.0f));
+            mat[0][11] = 5.0f;
+            mat[1][12] = 5.0f;
+            mat[2][0]  = 5.0f;
+            return mat;
+        });
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id          = "spec_tl_05";
+    req.base_request.prompt = "hello local draft";
+    req.preferred_model_id  = "target";
+    req.allow_caching       = false;
+
+    auto handle   = engine.submit(req);
+    auto response = handle.get();
+    engine.shutdown();
+
+    EXPECT_FALSE(response.text.empty());
+    EXPECT_EQ(response.metadata.value("speculative_accepted", uint64_t{0}),
+              static_cast<uint64_t>(kK))
+        << "TokenizerFn bridge should drive the local draft path instead of "
+           "the byte-modulo heuristic";
+}

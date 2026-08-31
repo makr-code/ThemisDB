@@ -92,7 +92,9 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Source-validated runtime gap closure follow-up (Target: Q4 2026)
   - [~] remove the remaining STUB #261 / STUB #263 draft-token fallback paths in `inference_engine_enhanced.cpp` so speculative decode no longer falls back to byte-modulo token IDs in production-style execution
     - [x] remote speculative-draft wiring now auto-uses `LlamaWrapper` tokenization when the draft or target plugin is a live llama.cpp backend, reducing byte-modulo fallback use in production-style execution
-    - [ ] generic non-llama plugin paths still retain the documented byte-modulo fallback when no tokenizer bridge is available
+    - [x] remote speculative-draft text no longer byte-modulo-falls back when no tokenizer bridge is available; it now retries the local draft model instead
+    - [x] local speculative-draft fallback now also auto-uses `LlamaWrapper` tokenization when the draft or target plugin is a live llama.cpp backend
+    - [ ] generic non-llama plugin paths still retain the documented byte-modulo fallback when no tokenizer bridge or plugin-native draft implementation is available
   - [ ] replace simulation-backed validation/telemetry defaults in `gpu_memory_manager.cpp` and `production_validator.cpp` with hardware-backed checks or explicit disabled-state contracts
   - [ ] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
 - [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
