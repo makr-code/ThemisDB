@@ -32,28 +32,8 @@ name: "Publish: GitHub Wiki"
 #   3. GITHUB_TOKEN with contents:write scope for the wiki push.
 
 on:
-  push:
-    branches: [develop]
-    paths:
-      - 'README.md'
-      - 'docs/**/*.md'
-      - 'src/**/ROADMAP.md'
-      - 'src/**/ARCHITECTURE.md'
-      - 'src/**/CHANGELOG.md'
-      - 'src/**/FUTURE_ENHANCEMENTS.md'
-      - 'plugins/**/ROADMAP.md'
-      - 'ai_context/developer_llm_wiki/*.md'
-      - 'ai_context/developer_llm_wiki/WIKI_STATUS.json'
-      - 'scripts/build_wiki.py'
-      - 'scripts/validate_wiki_links.py'
-      - 'scripts/extract_doxygen_wiki.py'
-
-  # Fire after maintenance-docs.yml completes on develop to ensure
-  # developer_llm_wiki artifacts are refreshed before we publish.
-  workflow_run:
-    workflows: ["Maintenance: Docs"]
-    branches: [develop]
-    types: [completed]
+  # push and workflow_run triggers removed — wiki updates run on schedule or manual dispatch only.
+  # This prevents the wiki from being rebuilt on every merge to develop.
 
   schedule:
     - cron: '0 3 * * *'   # Nightly 03:00 UTC — full wiki sync
