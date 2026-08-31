@@ -229,6 +229,11 @@ _EXPLICIT_MAPPINGS: dict[str, str] = {
     "docs/CONTRIBUTING_PLATFORM_GUIDELINES.md": "Contributing",
     "docs/aql/AQL_API_REFERENCE.md": "AQL-Reference",
     "docs/aql/AQL_QUERY_EXAMPLES.md": "AQL-Examples",
+    "docs/aql/README.md": "AQL-Overview",
+    "docs/aql/AQL_COMPLETE_FEATURE_ROADMAP.md": "AQL-Feature-Roadmap",
+    "docs/aql/AQL_GEOSPATIAL_OPTIMIZATION_GUIDE.md": "AQL-Geospatial-Guide",
+    "docs/aql/AQL_LLM_INTEGRATION_MIGRATION_GUIDE.md": "AQL-LLM-Migration-Guide",
+    "docs/aql/API.md": "AQL-API",
     "docs/api/API_REFERENCE.md": "API-Reference",
     "docs/security/INFORMATION_SECURITY_POLICY.md": "Security-Policy",
 }
@@ -567,10 +572,106 @@ def _collect_entries(repo_root: Path) -> list[tuple[Path, str]]:
     if security_dir.is_dir():
         _add(security_dir / "DSGVO_SOC2_COMPLIANCE_CHECKLIST.md", "Security-DSGVO-SOC2-Checklist")
 
-    # ---- Schulung (training examples, selective) ------------------------------
+    # ---- docs/operations — operational runbooks & guides ----------------------
+
+    ops_dir = repo_root / "docs" / "operations"
+    if ops_dir.is_dir():
+        # Top-level ops docs
+        for f in sorted(ops_dir.glob("*.md")):
+            stem = f.stem.upper()
+            name_map = {
+                "README": "Ops-Overview",
+                "OPERATIONS_RUNBOOK": "Ops-Runbook",
+                "OPERATIONS_HANDBOOK": "Ops-Handbook",
+                "THEMISCTL_ADMIN_GUIDE": "Ops-ThemisCtl-Admin-Guide",
+                "PIPELINE_E2E_SOPS": "Ops-Pipeline-E2E-SOPs",
+                "ACCESS_MODEL_RUNBOOKS": "Ops-Access-Model-Runbooks",
+                "ACCESS_MODEL_DASHBOARD_GUIDE": "Ops-Access-Model-Dashboard",
+                "MATURITY_AUTOMATION_RUNBOOK": "Ops-Maturity-Automation",
+                "PENTEST_AUTOMATION_SCHEDULE": "Ops-Pentest-Automation",
+            }
+            _add(f, name_map.get(stem, f"Ops-{_slug(f.stem)}"))
+        # LLM ops runbooks
+        llm_ops = ops_dir / "llm"
+        if llm_ops.is_dir():
+            for f in sorted(llm_ops.glob("*.md")):
+                _add(f, f"Ops-LLM-{_slug(f.stem)}")
+        # Disaster recovery
+        dr_dir = ops_dir / "disaster-recovery"
+        if dr_dir.is_dir():
+            for f in sorted(dr_dir.glob("*.md")):
+                _add(f, f"Ops-DR-{_slug(f.stem)}")
+        # Access management
+        am_dir = ops_dir / "access-management"
+        if am_dir.is_dir():
+            for f in sorted(am_dir.glob("*.md")):
+                _add(f, f"Ops-Access-{_slug(f.stem)}")
+        # Incident response
+        ir_dir = ops_dir / "incident-response"
+        if ir_dir.is_dir():
+            for f in sorted(ir_dir.glob("*.md")):
+                _add(f, f"Ops-IR-{_slug(f.stem)}")
+        # Logging
+        log_dir = ops_dir / "logging"
+        if log_dir.is_dir():
+            for f in sorted(log_dir.glob("*.md")):
+                _add(f, f"Ops-Logging-{_slug(f.stem)}")
+
+    # ---- docs/security — public security docs --------------------------------
+
+    docs_security_dir = repo_root / "docs" / "security"
+    if docs_security_dir.is_dir():
+        _SECURITY_KEEP = {
+            "INFORMATION_SECURITY_POLICY.md":      "Security-Policy",
+            "PRODUCTION_HARDENING_CHECKLIST.md":   "Security-Hardening-Checklist",
+            "ENCRYPTION_KEY_MANAGEMENT_POLICY.md": "Security-Key-Management",
+            "access_control_framework.md":         "Security-Access-Control",
+            "THEMISDB_SECURITY_HARDENING_GUIDE.md":"Security-Hardening-Guide",
+            "zero_trust_policy_enforcer.md":       "Security-Zero-Trust",
+            "api_authentication_authorization.md": "Security-API-Auth",
+            "HSM_PRODUCTION_SETUP.md":             "Security-HSM-Setup",
+            "PKCS11_INTEGRATION.md":               "Security-PKCS11",
+        }
+        for fname, wiki_name in _SECURITY_KEEP.items():
+            _add(docs_security_dir / fname, wiki_name)
+
+    # ---- AQL Grammar (EBNF → Markdown wrapper) --------------------------------
+
+    aql_root = repo_root / "aql"
+    if aql_root.is_dir():
+        _add(aql_root / "README.md", "AQL-Root-Overview")
+        _add(aql_root / "examples" / "README.md", "AQL-Examples-Root")
+        # EBNF grammar: generate a Markdown wrapper page on the fly
+        ebnf_v13 = aql_root / "AQL_GRAMMAR_EXTENDED_v1.3.1.ebnf"
+        ebnf_base = aql_root / "AQL_GRAMMAR.ebnf"
+        # Prefer extended version; fall back to base
+        grammar_file = ebnf_v13 if ebnf_v13.exists() else ebnf_base
+        if grammar_file.exists():
+            # Synthetic entry: file exists but needs EBNF→MD wrapping
+            _add(grammar_file, "AQL-Grammar")
+
+    # ---- schulung/ — training materials (German) ------------------------------
 
     schulung_dir = repo_root / "schulung"
     if schulung_dir.is_dir():
+        _add(schulung_dir / "README.md", "Training-Overview")
+        # Structured documents
+        dok_dir = schulung_dir / "dokumente"
+        if dok_dir.is_dir():
+            for f in sorted(dok_dir.glob("*.md")):
+                if f.stem.upper() == "README":
+                    _add(f, "Training-Docs-Overview")
+                else:
+                    _add(f, f"Training-Doc-{_slug(f.stem)}")
+        # Presentations
+        pres_dir = schulung_dir / "praesentation"
+        if pres_dir.is_dir():
+            for f in sorted(pres_dir.glob("*.md")):
+                if f.stem.upper() == "README":
+                    _add(f, "Training-Pres-Overview")
+                else:
+                    _add(f, f"Training-Pres-{_slug(f.stem)}")
+        # Per-example READMEs (already partially added above)
         for readme in sorted(schulung_dir.glob("examples/*/README.md")):
             _add(readme, f"Training-{_slug(readme.parent.name)}")
 
@@ -659,6 +760,14 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
     ("📗 User Guide", [
         "AQL-Reference",
         "AQL-Examples",
+        "AQL-Overview",
+        "AQL-Feature-Roadmap",
+        "AQL-Geospatial-Guide",
+        "AQL-LLM-Migration-Guide",
+        "AQL-API",
+        "AQL-Grammar",
+        "AQL-Root-Overview",
+        "AQL-Examples-Root",
         "API-Reference",
         "Api-Module-README",
         "OpenAPI-Overview",
@@ -668,15 +777,33 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
     # 5. Operations & Security — running ThemisDB in production
     ("⚙️ Operations & Security", [
         "Operations",
-        "Security-Policy",
+        "Ops-Overview",
+        "Ops-Runbook",
+        "Ops-Handbook",
+        "Ops-ThemisCtl-Admin-Guide",
+        "Ops-Pipeline-E2E-SOPs",
         "Deploy-Overview",
         "Docker-Overview",
         "Docker-Hub-README",
         "Helm-Overview",
         "Packaging-Overview",
         "Operator-Overview",
+        "Security-Policy",
+        "Security-Hardening-Checklist",
+        "Security-Hardening-Guide",
+        "Security-Key-Management",
+        "Security-Access-Control",
+        "Security-Zero-Trust",
+        "Security-API-Auth",
+        "Security-HSM-Setup",
+        "Security-PKCS11",
         "Security-DSGVO-SOC2-Checklist",
+        "Ops-Access-Model-Runbooks",
+        "Ops-Access-Model-Dashboard",
+        "Ops-Maturity-Automation",
     ]),
+    # 5b. Ops Runbooks — sub-section for operational runbooks (dynamic)
+    ("📟 Ops Runbooks", []),     # populated dynamically from Ops-LLM-*, Ops-DR-*, Ops-IR-*, Ops-Logging-*, Ops-Access-*
     # 6. Architecture — system design (after users understand what it does)
     ("🏗️ Architecture", []),    # populated dynamically from Architecture-* pages (curated subset)
     # 7. ADRs — architecture decision records (linked from Architecture)
@@ -712,9 +839,11 @@ _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
     ("💡 Examples", []),         # populated dynamically from Example-* pages
     # 14. Client SDKs
     ("📦 Client SDKs", []),      # populated dynamically from Client-* + SDK-* pages
-    # 15. Tools — developer tooling
+    # 15. Training / Schulung — training materials
+    ("🎓 Training", []),         # populated dynamically from Training-* pages
+    # 16. Tools — developer tooling
     ("🛠️ Tools", []),            # populated dynamically from Tool-* pages
-    # 16. Developer LLM Wiki — AI-context artifacts (most internal)
+    # 17. Developer LLM Wiki — AI-context artifacts (most internal)
     ("🤖 Developer LLM Wiki", []),    # populated dynamically from Developer-* pages
 ]
 
@@ -755,11 +884,39 @@ def _sidebar_label(wiki_name: str) -> str:
         "Edition-Comparison": "Edition Comparison",
         "AQL-Reference": "AQL Reference",
         "AQL-Examples": "AQL Examples",
+        "AQL-Overview": "AQL Overview",
+        "AQL-Root-Overview": "AQL Root Overview",
+        "AQL-Feature-Roadmap": "AQL Feature Roadmap",
+        "AQL-Geospatial-Guide": "AQL Geospatial Guide",
+        "AQL-LLM-Migration-Guide": "AQL LLM Migration Guide",
+        "AQL-API": "AQL API",
+        "AQL-Examples-Root": "AQL Examples (root)",
+        "AQL-Grammar": "AQL Grammar (EBNF)",
         "API-Reference": "API Reference",
         "Integration-Guide": "Integration Guide",
         "Migration-Guide": "Migration Guide",
         "Operations": "Operations",
+        "Ops-Overview": "Operations Overview",
+        "Ops-Runbook": "Operations Runbook",
+        "Ops-Handbook": "Operations Handbook",
+        "Ops-ThemisCtl-Admin-Guide": "ThemisCtl Admin Guide",
+        "Ops-Pipeline-E2E-SOPs": "Pipeline E2E SOPs",
+        "Ops-Access-Model-Runbooks": "Access Model Runbooks",
+        "Ops-Access-Model-Dashboard": "Access Model Dashboard",
+        "Ops-Maturity-Automation": "Maturity Automation Runbook",
+        "Ops-Pentest-Automation": "Pentest Automation Schedule",
         "Security-Policy": "Security Policy",
+        "Security-Hardening-Checklist": "Production Hardening Checklist",
+        "Security-Key-Management": "Encryption Key Management",
+        "Security-Access-Control": "Access Control Framework",
+        "Security-Hardening-Guide": "Security Hardening Guide",
+        "Security-Zero-Trust": "Zero Trust Policy",
+        "Security-API-Auth": "API Authentication & Authorization",
+        "Security-HSM-Setup": "HSM Production Setup",
+        "Security-PKCS11": "PKCS11 Integration",
+        "Training-Overview": "Training Overview",
+        "Training-Docs-Overview": "Training Documents",
+        "Training-Pres-Overview": "Training Presentations",
         "Deploy-Overview": "Deploy Overview",
         "Docker-Overview": "Docker Overview",
         "Docker-Hub-README": "Docker Hub README",
@@ -827,8 +984,10 @@ def _sidebar_label(wiki_name: str) -> str:
             "Governance-", "Developer-", "Module-",
             "Client-", "SDK-", "Example-", "Adapter-",
             "Tool-", "Deploy-", "Docker-", "Helm-", "Packaging-",
-            "Operator-", "Audit-", "Training-", "DevGuide-",
-            "Demo-", "Api-Module-", "Root-",
+            "Operator-", "Audit-", "Training-Doc-", "Training-Pres-", "Training-",
+            "DevGuide-", "Demo-", "Api-Module-", "Root-",
+            "Ops-LLM-", "Ops-DR-", "Ops-IR-", "Ops-Access-", "Ops-Logging-",
+            "Ops-", "Security-", "AQL-",
         ):
             if name.startswith(prefix):
                 name = name[len(prefix):]
@@ -862,6 +1021,7 @@ _SECTION_DYNAMIC_PREFIX: dict[str, str] = {
     "💡 Examples":           "Example-",
     "📦 Client SDKs":        "Client-",
     "🛠️ Tools":              "Tool-",
+    "🎓 Training":           "Training-",
     "🤖 Developer LLM Wiki": "Developer-",
 }
 
@@ -892,6 +1052,9 @@ def _build_wiki_index(all_wiki_names: set[str]) -> str:
             prefix = _SECTION_DYNAMIC_PREFIX.get(section_title)
             if prefix:
                 pages = sorted(p for p in all_wiki_names if p.startswith(prefix))
+            elif section_title == "📟 Ops Runbooks":
+                _OPS_RUNBOOK_PREFIXES = ("Ops-LLM-", "Ops-DR-", "Ops-IR-", "Ops-Access-", "Ops-Logging-")
+                pages = sorted(p for p in all_wiki_names if any(p.startswith(pfx) for pfx in _OPS_RUNBOOK_PREFIXES))
             elif section_title == "🏗️ Architecture":
                 pages = sorted(p for p in _ARCH_CURATED if p in all_wiki_names)
             else:
@@ -947,6 +1110,13 @@ def _build_sidebar(
             if prefix:
                 section_pages = sorted(
                     p for p in all_wiki_names if p.startswith(prefix)
+                )
+            elif section_title == "📟 Ops Runbooks":
+                # Collect all ops sub-runbook pages (excludes top-level Ops-* already in Operations)
+                _OPS_RUNBOOK_PREFIXES = ("Ops-LLM-", "Ops-DR-", "Ops-IR-", "Ops-Access-", "Ops-Logging-")
+                section_pages = sorted(
+                    p for p in all_wiki_names
+                    if any(p.startswith(pfx) for pfx in _OPS_RUNBOOK_PREFIXES)
                 )
             elif section_title == "🏗️ Architecture":
                 # Only curated architectural pages in the sidebar
@@ -1055,7 +1225,18 @@ def main(argv: list[str] | None = None) -> int:
             continue
 
         source_rel = str(source_path.relative_to(repo_root))
-        transformed = _transform(text, source_path, repo_root, wiki_name, all_wiki_names)
+
+        # Special handling for non-Markdown sources (e.g. EBNF grammar files)
+        if source_path.suffix.lower() == ".ebnf":
+            transformed = (
+                f"# {_sidebar_label(wiki_name)}\n\n"
+                f"> Source: `{source_rel}`\n\n"
+                "```ebnf\n"
+                + text
+                + "\n```\n"
+            )
+        else:
+            transformed = _transform(text, source_path, repo_root, wiki_name, all_wiki_names)
         header = _page_header(source_rel, wiki_name)
         footer = _page_footer(wiki_name)
         final_content = header + transformed + footer
