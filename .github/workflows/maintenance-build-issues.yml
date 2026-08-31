@@ -181,14 +181,14 @@ jobs:
             let downloadedLogCount = 0;
             const changedSrcFiles = new Set();
             
+            const repoWorkflows = await github.paginate(github.rest.actions.listRepoWorkflows, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+
             for (const workflowName of workflows) {
-              const { data: wfList } = await github.rest.actions.listRepoWorkflows({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                per_page: 5,
-              });
-              
-              const wf = wfList.workflows.find(w => w.name === workflowName);
+              const wf = repoWorkflows.find(w => w.name === workflowName);
               if (!wf) {
                 console.log(`  ⏭️  Workflow not found: ${workflowName}`);
                 continue;
@@ -445,7 +445,7 @@ jobs:
               .filter(entry => (entry.module || 'external') !== 'external')
               .filter(entry => (entry.counts?.compiler_error || 0) > 0 || (entry.counts?.compiler_warning || 0) > 0 || (entry.counts?.gap_marker || 0) > 0)
               .filter(entry => (entry.counts?.total || 0) >= minFindingsPerFile)
-              .filter(entry => scopeMode !== 'changed_files' || changedSrcFiles.size === 0 || changedSrcFiles.has(entry.file || ''))
+              .filter(entry => scopeMode !== 'changed_files' || changedSrcFiles.has(entry.file || ''))
               .sort((a, b) => (b.counts?.total || 0) - (a.counts?.total || 0));
 
             const actionable = scopedEntries.slice(0, maxIssuesPerRun);
