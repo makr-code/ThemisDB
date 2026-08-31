@@ -428,8 +428,7 @@ jobs:
         run: |
           set -euo pipefail
           cmake --preset community-release \
-            -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_ENABLE_COMPILER_CACHE=OFF 2>&1 | tee /tmp/release-critical-configure.log
+            -DTHEMIS_BUILD_TESTS=ON 2>&1 | tee /tmp/release-critical-configure.log
 
       - name: Build release-critical targets
         run: |
