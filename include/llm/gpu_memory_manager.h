@@ -76,17 +76,18 @@ public:
     /**
      * @brief Function type for per-device GPU temperature query (stub #309).
      *
-     * When injected via setNvmlTemperatureFn(), updateGPUHealth() calls this
-     * function instead of returning a hardcoded 0.0 °C placeholder.  The
-     * function receives the device ID and must return the current temperature
-     * in degrees Celsius, or throw on error.
+     * When injected via setNvmlTemperatureFn(), updateGPUHealth() uses this
+     * function as the preferred temperature source. If no hardware backend is
+     * available and no provider succeeds, the manager reports an explicit
+     * unavailable GPU state instead of fabricating healthy telemetry.
      */
     using NvmlTemperatureFn = std::function<float(int /*device_id*/)>;
 
     /**
      * @brief Inject an NVML-based (or mock) GPU temperature provider.
      *
-     * Thread-safe.  Passing nullptr reverts to the 0.0 °C placeholder.
+     * Thread-safe. Passing nullptr reverts to built-in hardware query and, if
+     * no usable backend exists, explicit unavailable-state reporting.
      *
      * @param fn Temperature query callback.
      */
@@ -120,8 +121,8 @@ public:
     // Multi-GPU memory queries (v1.4.0)
     [[nodiscard]] size_t getGPUVRAM(int gpu_device_id) const;  // Used VRAM on specific GPU
     [[nodiscard]] size_t getFreeGPUVRAM(int gpu_device_id) const;  // Free VRAM on specific GPU
-    [[nodiscard]] std::vector<int> getAvailableGPUs() const;  // List of available GPU IDs
-    [[nodiscard]] bool isGPUAvailable(int gpu_device_id) const;  // Check if GPU is available
+    [[nodiscard]] std::vector<int> getAvailableGPUs() const;  // List of runtime-available GPU IDs
+    [[nodiscard]] bool isGPUAvailable(int gpu_device_id) const;  // Check if GPU is runtime-available
     
     // Capacity checks
     [[nodiscard]] bool canAllocate(size_t vram_bytes, size_t ram_bytes) const;
@@ -202,7 +203,11 @@ public:
     void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
 
     /**
-     * @brief Remove runtime GPU temperature provider and use built-in fallback.
+     * @brief Remove runtime GPU temperature provider and use built-in hardware query.
+     *
+     * If the process has no usable GPU backend, subsequent health refreshes keep
+     * the device in an explicit unavailable state instead of synthesizing healthy
+     * temperatures.
      */
     void clearGPUTemperatureProviderFn();
     

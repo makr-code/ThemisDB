@@ -98,7 +98,7 @@ The module provides production-grade LLM runtime surfaces across async inference
     - [ ] generic non-llama plugin paths still retain the documented byte-modulo fallback when no tokenizer bridge or plugin-native draft implementation is available
   - [~] replace simulation-backed validation/telemetry defaults in `gpu_memory_manager.cpp` and `production_validator.cpp` with hardware-backed checks or explicit disabled-state contracts
     - [x] `production_validator.cpp` stress-test execution now fails closed without an attached inference engine instead of synthesizing local responses
-    - [ ] `gpu_memory_manager.cpp` still falls back to simulation-only defaults when CUDA is absent
+    - [x] `gpu_memory_manager.cpp` now keeps CUDA-absent / no-runtime paths in an explicit unavailable state instead of reporting simulated healthy/available GPUs or simulated peer-access success
   - [x] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
     - [x] gradient collection/broadcast/health now fail closed or mark shards unavailable when no `ShardRouter` transport is configured
 - [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
