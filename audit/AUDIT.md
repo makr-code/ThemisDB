@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-08-31
 **Repository Metadata:** `VERSION=2.4.0-alpha`
-**Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop`
+**Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
 
 > **BASELINE SYNC (2026-08-31):** This undated canonical document was refreshed to align with `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`.

@@ -3,7 +3,7 @@
 **Datum:** 2026-08-31  
 **Branch:** `develop`  
 **Version:** `2.4.0-alpha` (`VERSION`)  
-**Scope:** Sourcecode-verifizierter Status auf Basis von `src/`, `tests/`, `ai_working/` und kanonischen Audit-/Governance-Dokumenten
+**Scope:** Sourcecode-verifizierter Status auf Basis von `src/`, `tests/` und kanonischen Audit-/Governance-Dokumenten; `ai_working/` diente als Eingabe-/Arbeitsmaterial (non-SOT, nicht als Verifikationsgrundlage)
 
 ---
 
@@ -19,6 +19,14 @@
 ## 2) Sourcecode-Prüfung (direkt in diesem Auditlauf)
 
 ### 2.1 Gemessene Repository-Metriken (`src/` + `tests/`)
+
+> **Reproduzierbarkeit:** Alle Metriken wurden am 2026-08-31 auf Commit `b025f8506f` (Branch `develop`) erhoben.  
+> Werkzeug: `find` + `wc -l` für LOC; `grep -rE` für Marker; Filter: Dateiendungen `.c .cc .cpp .cxx .h .hh .hpp .hxx`.  
+> Befehlsbeispiele (aus Repository-Root):  
+> - Dateizahl: `find src/ -name '*.cpp' -o -name '*.cc' -o -name '*.c' -o -name '*.h' -o -name '*.hpp' | wc -l`  
+> - LOC: `find src/ \( -name '*.cpp' -o -name '*.cc' -o -name '*.c' -o -name '*.h' -o -name '*.hpp' \) -exec cat {} \; | wc -l`  
+> - Marker: `grep -rEic 'TODO|STUB|MOCK|FIXME' src/ | awk -F: '{s+=$2} END{print s}'`  
+> Zahlen sind bei Repository-Änderungen neu zu erheben.
 
 - **Module mit C/C++-Code in `src/`:** 69  
 - **C/C++-Dateien in `src/`:** 1.783  
