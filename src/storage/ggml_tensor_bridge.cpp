@@ -18,6 +18,7 @@
 #include <atomic>
 #include <cassert>
 #include <chrono>
+#include <cstring>
 #include <mutex>
 #include <stdexcept>
 #include <unordered_map>
@@ -262,7 +263,7 @@ struct GgmlTensorBridge::Impl {
                   GgmlTensorBridgeConfig                     c)
         : storage(std::move(s)), cfg(std::move(c)) {}
 
-    MappedTTTensor doMap(const TensorFieldKey& key, uint64_t version) {
+    MappedTTTensor doMap(ggml_context* ctx, const TensorFieldKey& key, uint64_t version) {
         const auto t0 = std::chrono::steady_clock::now();
 
         MappedTTTensor handle;
@@ -296,25 +297,30 @@ struct GgmlTensorBridge::Impl {
         handle.impl_->fake_tensor.data = *raw;
         handle.impl_->fake_tensor.n_elements = raw->size();
 
-        // Try real ggml_new_tensor_1d() allocation first (THEMIS_HAS_GGML path).
-        // allocGgmlTensor1d() returns nullptr when ggml is not linked or ctx is null.
-        // We pass nullptr as ctx here; callers that hold a real ggml_context
-        // must use map(ctx, key, version) overload which forwards ctx into Impl.
-        // For now the context comes from the map() public API (passed as parameter).
-        // NOTE: ctx is stored on the Impl so the allocation can happen here
-        //       when map() forwards it; see GgmlTensorBridge::map() below.
-        if (handle.impl_->real_ggml_tensor == nullptr) {
-            // Attempt zero-copy path via injected GgmlAllocFn (backward compat).
-            GgmlAllocFn alloc_fn_copy;
-            {
-                std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
-                alloc_fn_copy = ggmlAllocFnStorage();
-            }
-            if (alloc_fn_copy) {
-                handle.impl_->real_ggml_tensor =
-                    alloc_fn_copy(handle.impl_->fake_tensor.n_elements);
-            }
+        // Try a real ggml allocation first when a live ggml context is available.
+        // If a tracked allocator was injected, prefer it; otherwise allocate
+        // directly inside the supplied ggml context.
+        GgmlAllocFn alloc_fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
+            alloc_fn_copy = ggmlAllocFnStorage();
         }
+        if (alloc_fn_copy) {
+            handle.impl_->real_ggml_tensor =
+                alloc_fn_copy(handle.impl_->fake_tensor.n_elements);
+        } else {
+            handle.impl_->real_ggml_tensor =
+                allocGgmlTensor1d(ctx, handle.impl_->fake_tensor.n_elements);
+        }
+
+#ifdef THEMIS_HAS_GGML
+        if (handle.impl_->real_ggml_tensor && handle.impl_->real_ggml_tensor->data &&
+            !handle.impl_->fake_tensor.data.empty()) {
+            std::memcpy(handle.impl_->real_ggml_tensor->data,
+                        handle.impl_->fake_tensor.data.data(),
+                        handle.impl_->fake_tensor.data.size() * sizeof(float));
+        }
+#endif
 
         handle.impl_->valid = true;
 
@@ -370,7 +376,7 @@ MappedTTTensor GgmlTensorBridge::map([[maybe_unused]] ggml_context* ctx,
         empty.impl_ = std::make_unique<MappedTTTensor::Impl>();
         return empty;
     }
-    return impl_->doMap(key, version);
+    return impl_->doMap(ctx, key, version);
 }
 
 MappedTTTensor GgmlTensorBridge::mapAdapter([[maybe_unused]] ggml_context* ctx,

@@ -91,35 +91,27 @@ void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
         }
     }
 
-    // Approximate entropy from the top-32 logits.
-    // Sort descending, keep at most 32, apply softmax, compute -sum p*log(p).
-    constexpr std::size_t kTopK = 32;
-    std::vector<float> top_logits;
-    top_logits.reserve(std::min(kTopK, logits.size()));
-
-    // Partial sort: extract the top-kTopK values.
-    if (logits.size() <= kTopK) {
-        top_logits = logits;
-    } else {
-        top_logits = logits;
-        std::nth_element(top_logits.begin(),
-                         top_logits.begin() + kTopK,
-                         top_logits.end(),
-                         std::greater<float>{});
-        top_logits.resize(kTopK);
+    // Default production path: exact full-vocabulary softmax entropy.
+    const float max_v = *std::max_element(logits.begin(), logits.end());
+    double sum_exp = 0.0;
+    for (const float value : logits) {
+        sum_exp += std::exp(static_cast<double>(value - max_v));
     }
 
-    // Numerical-stable softmax over the selected logits.
-    float max_v = *std::max_element(top_logits.begin(), top_logits.end());
-    float sum_exp = 0.0f;
-    for (float v : top_logits) sum_exp += std::exp(v - max_v);
-
-    float entropy = 0.0f;
-    for (float v : top_logits) {
-        float p = std::exp(v - max_v) / sum_exp;
-        if (p > 0.0f) entropy -= p * std::log(p);
+    if (!(sum_exp > 0.0) || !std::isfinite(sum_exp)) {
+        out_entropy = 0.0f;
+        return;
     }
-    out_entropy = entropy;
+
+    double entropy = 0.0;
+    for (const float value : logits) {
+        const double probability =
+            std::exp(static_cast<double>(value - max_v)) / sum_exp;
+        if (probability > 0.0) {
+            entropy -= probability * std::log(probability);
+        }
+    }
+    out_entropy = static_cast<float>(entropy);
 }
 
 // ============================================================================

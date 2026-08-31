@@ -138,8 +138,9 @@ public:
      * @brief Injectable full-vocabulary entropy computation function.
      *
      * When set via `setFullEntropyFn()`, the entropy gate uses the injected
-     * function instead of the top-32 logit approximation.  This allows
-     * plugging in a full-vocabulary softmax-entropy computation at runtime.
+     * function instead of the built-in full-vocabulary softmax entropy path.
+     * This allows plugging in a backend-specific or precomputed entropy
+     * implementation at runtime.
      *
      * Signature: `float fn(const std::vector<float>& logits)` returning
      * the Shannon entropy in nats.
@@ -149,8 +150,9 @@ public:
     /**
      * @brief Inject a full-vocabulary entropy computation function.
      *
-     * Once set, `gate()` will call @p fn instead of the built-in top-32
-     * approximation whenever `TARGConfig::use_entropy_gate == true`.
+     * Once set, `gate()` will call @p fn instead of the built-in
+     * full-vocabulary entropy computation whenever
+     * `TARGConfig::use_entropy_gate == true`.
      * Pass a null / default-constructed `FullEntropyFn` to revert to the
      * built-in approximation.
      *

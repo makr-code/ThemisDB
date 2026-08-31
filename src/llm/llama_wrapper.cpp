@@ -1683,6 +1683,46 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     return result;
 }
 
+std::vector<int> LlamaWrapper::tokenizeForBridge(
+    const std::string& text,
+    bool add_bos
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (current_model_id_.empty() && !configured_model_id_.empty()) {
+        current_model_id_ = configured_model_id_;
+    }
+    if (current_model_path_.empty() && !configured_model_path_.empty()) {
+        current_model_path_ = configured_model_path_;
+    }
+    if (current_model_id_.empty()) {
+        throw std::runtime_error("No model loaded for bridge tokenization");
+    }
+
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
+
+    auto cached = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
+    if (!cached) {
+        throw std::runtime_error("Model failed to load for bridge tokenization");
+    }
+
+    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
+    if (!lmodel) {
+        throw std::runtime_error("Model handle is null for bridge tokenization");
+    }
+
+    const auto llama_tokens = tokenizeInternal(lmodel, text, add_bos);
+    std::vector<int> result;
+    result.reserve(llama_tokens.size());
+    for (const llama_token token : llama_tokens) {
+        result.push_back(static_cast<int>(token));
+    }
+    return result;
+}
+
 InferenceResponse LlamaWrapper::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request

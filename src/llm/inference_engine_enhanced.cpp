@@ -11,6 +11,7 @@
 
 #include "llm/inference_engine_enhanced.h"
 #include <stdexcept>
+#include "llm/llama_wrapper.h"
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/prompt_safety_utils.h"
@@ -53,6 +54,36 @@ void applySelfRAGDouble(const json& cfg_json, const char* key, double& target) {
 
 json makeSelfRAGMetadataObject() {
     return json::object();
+}
+
+InferenceEngineEnhanced::TokenizerFn makeTokenizerBridgeForPlugin(
+    const std::shared_ptr<ILLMPlugin>& plugin
+) {
+    const auto llama_plugin = std::dynamic_pointer_cast<LlamaWrapper>(plugin);
+    if (!llama_plugin) {
+        return {};
+    }
+
+    return [llama_plugin](const std::string& text, size_t vocab_size) {
+        std::vector<int> tokens = llama_plugin->tokenizeForBridge(text, true);
+        if (tokens.empty()) {
+            return tokens;
+        }
+
+        if (vocab_size == 0) {
+            return tokens;
+        }
+
+        std::vector<int> clamped;
+        clamped.reserve(tokens.size());
+        const int max_token = static_cast<int>(
+            std::min(vocab_size - 1,
+                     static_cast<size_t>(std::numeric_limits<int>::max())));
+        for (const int token : tokens) {
+            clamped.push_back(std::max(0, std::min(token, max_token)));
+        }
+        return clamped;
+    };
 }
 
 } // namespace
@@ -108,7 +139,7 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
         spdlog::info("  Batch scheduler initialized (max batch size: {})", 
                      sched_config.max_batch_size);
     }
-    
+
     spdlog::info("Enhanced Inference Engine initialized successfully");
 
     // Initialise speculative decoder when requested.
@@ -2051,6 +2082,12 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                 std::lock_guard<std::mutex> lk(tokenizer_fn_mutex_);
                 tok_fn_copy = tokenizer_fn_;
             }
+            if (!tok_fn_copy) {
+                tok_fn_copy = makeTokenizerBridgeForPlugin(draft_plugin);
+            }
+            if (!tok_fn_copy) {
+                tok_fn_copy = makeTokenizerBridgeForPlugin(target_plugin);
+            }
 
             constexpr float kPeak     =  5.0f;
             constexpr float kBaseline = -5.0f;
@@ -2488,4 +2525,3 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
 
 } // namespace llm
 } // namespace themis
-

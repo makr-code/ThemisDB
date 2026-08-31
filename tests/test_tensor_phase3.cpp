@@ -105,8 +105,8 @@
  *   FR-14  buildQueryEmbedding() returns empty after fn is cleared
  *
  * TARGRetrieval FullEntropyFn bridge — TARG-09..TARG-11 (STUB #262)
- *   TARG-09  no fn → top-32 approximation produces non-zero entropy
- *   TARG-10  fn set → fn return value replaces built-in approximation
+ *   TARG-09  no fn → built-in full-vocabulary entropy produces exact entropy
+ *   TARG-10  fn set → fn return value replaces built-in entropy path
  *   TARG-11  fn that returns high entropy triggers the entropy gate
  *
  * GgmlTensorBridge — GTB-01..GTB-06 (STUB #263a/#263b, THEMIS_ENABLE_GGML_BRIDGE only)
@@ -1502,7 +1502,7 @@ TEST(TensorRAGPipeline, TRPL08_individual_gate_disable) {
 
 namespace {
 
-TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_top32_approx) {
+TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_exact_entropy) {
     TARGRetrieval::clearFullEntropyFn();
 
     TARGConfig cfg;
@@ -1511,14 +1511,14 @@ TEST(TARGRetrievalPhase3, TARG09_full_entropy_fn_not_set_uses_top32_approx) {
     cfg.gap_threshold = -1.0f;      // gap gate never fires
     TARGRetrieval targ(cfg);
 
-    // Equal logits → entropy = ln(4) ≈ 1.386 via top-32 approx
-    std::vector<float> flat_logits(4, 0.0f);
+    // Equal logits across the full vocabulary → entropy = ln(V).
+    std::vector<float> flat_logits(64, 0.0f);
     auto d = targ.gate(flat_logits);
-    EXPECT_GT(d.entropy, 0.0f);
+    EXPECT_NEAR(d.entropy, std::log(64.0f), 1e-4f);
     EXPECT_LT(d.entropy, 10.0f);
 }
 
-TEST(TARGRetrievalPhase3, TARG10_full_entropy_fn_replaces_top32_approximation) {
+TEST(TARGRetrievalPhase3, TARG10_full_entropy_fn_replaces_builtin_entropy) {
     constexpr float kSentinel = 42.0f;
     TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
         return kSentinel;
