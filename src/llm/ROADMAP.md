@@ -168,7 +168,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 > **Source:** Semantic analysis 2026-08-25 — `inference_engine_enhanced.cpp` (8 stubs), `inline_training_engine.cpp` (5 stubs)
 
 - [x] Replace the remaining speculative-decode fallback stubs in `inference_engine_enhanced.cpp` after the Wave-7 bridge work (Target: Q4 2026)
-  - Source revalidation 2026-08-31: TokenizerFn bridging is wired, production llama.cpp paths now auto-reuse live tokenizer state via `LlamaWrapper::tokenizeForBridge()`, generic non-llama draft paths now fail closed without byte-modulo token fabrication, and target-model verification now auto-uses native llama-backed target logits instead of a fabricated peaked matrix. Remaining optional follow-up is the LLM↔RAG entropy bridge plus representative-hardware/acceptance evidence.
+  - Source revalidation 2026-08-31: TokenizerFn bridging is wired, production llama.cpp paths now auto-reuse live tokenizer state via `LlamaWrapper::tokenizeForBridge()`, generic non-llama draft paths now fail closed without byte-modulo token fabrication, target-model verification now auto-uses native llama-backed target logits instead of a fabricated peaked matrix, and speculative generation now installs a scoped per-request TARG entropy override so downstream RAG gates can reuse those target-logit rows without global callback leakage. Remaining follow-up is representative-hardware/acceptance evidence.
   - Inputs: draft-model logits + verify-model logits; KV-cache capacity config
   - Outputs: accepted token count, cache hit/miss metrics
   - Tests: `tests/llm/test_wave7_llm_kvcache_lru_checkpoint.cpp` (LRU-01..LRU-10)

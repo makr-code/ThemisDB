@@ -1555,6 +1555,31 @@ TEST(TARGRetrievalPhase3, TARG11_full_entropy_fn_triggers_gate_when_above_thresh
     TARGRetrieval::clearFullEntropyFn();
 }
 
+TEST(TARGRetrievalPhase3, TARG12_scoped_entropy_override_precedes_global_without_leakage) {
+    TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
+        return 1.0f;
+    });
+
+    TARGConfig cfg;
+    cfg.use_entropy_gate = true;
+    cfg.entropy_threshold = 100.0f;
+    cfg.gap_threshold = -1.0f;
+    TARGRetrieval targ(cfg);
+
+    {
+        TARGRetrieval::ScopedFullEntropyFnOverride scoped([](const std::vector<float>&) {
+            return 7.0f;
+        });
+        auto scoped_decision = targ.gate({1.0f, 0.5f, 0.2f});
+        EXPECT_FLOAT_EQ(scoped_decision.entropy, 7.0f);
+    }
+
+    auto restored_decision = targ.gate({1.0f, 0.5f, 0.2f});
+    EXPECT_FLOAT_EQ(restored_decision.entropy, 1.0f);
+
+    TARGRetrieval::clearFullEntropyFn();
+}
+
 } // namespace
 
 // ============================================================================

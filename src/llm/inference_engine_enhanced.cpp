@@ -19,6 +19,7 @@
 #include "llm/scoped_db_connection.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
+#include "rag/targ_retrieval.h"
 #include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include "utils/thread_join_utils.h"
@@ -55,6 +56,57 @@ void applySelfRAGDouble(const json& cfg_json, const char* key, double& target) {
 
 json makeSelfRAGMetadataObject() {
     return json::object();
+}
+
+float computeExactEntropyFromLogits(const std::vector<float>& logits) {
+    if (logits.empty()) {
+        return 0.0f;
+    }
+
+    const float max_v = *std::max_element(logits.begin(), logits.end());
+    double sum_exp = 0.0;
+    for (const float value : logits) {
+        sum_exp += std::exp(static_cast<double>(value - max_v));
+    }
+
+    if (!(sum_exp > 0.0) || !std::isfinite(sum_exp)) {
+        return 0.0f;
+    }
+
+    double entropy = 0.0;
+    for (const float value : logits) {
+        const double probability =
+            std::exp(static_cast<double>(value - max_v)) / sum_exp;
+        if (probability > 0.0) {
+            entropy -= probability * std::log(probability);
+        }
+    }
+
+    return static_cast<float>(entropy);
+}
+
+themis::rag::TARGRetrieval::FullEntropyFn makeSpeculativeEntropyBridgeFn(
+    const std::vector<std::vector<float>>& target_logit_matrix
+) {
+    if (target_logit_matrix.empty()) {
+        return {};
+    }
+
+    std::vector<std::pair<std::vector<float>, float>> cached_rows;
+    cached_rows.reserve(target_logit_matrix.size());
+    for (const auto& row : target_logit_matrix) {
+        cached_rows.emplace_back(row, computeExactEntropyFromLogits(row));
+    }
+
+    return [cached_rows = std::move(cached_rows)](const std::vector<float>& logits) -> float {
+        for (const auto& cached : cached_rows) {
+            if (cached.first.size() == logits.size() &&
+                std::equal(cached.first.begin(), cached.first.end(), logits.begin())) {
+                return cached.second;
+            }
+        }
+        return computeExactEntropyFromLogits(logits);
+    };
 }
 
 InferenceEngineEnhanced::TokenizerFn makeTokenizerBridgeForPlugin(
@@ -2316,6 +2368,8 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
     std::vector<std::vector<float>> target_logit_matrix;
     bool used_injected_logits = false;
+    bool used_global_target_logits_fn = false;
+    bool used_native_target_logits_bridge = false;
     if (target_logits_fn_copy) {
         try {
             target_logit_matrix = target_logits_fn_copy(request, K, vocab_size, target_plugin);
@@ -2326,6 +2380,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                     if (row.size() != vocab_size) { valid = false; break; }
                 }
                 used_injected_logits = valid;
+                used_global_target_logits_fn = valid;
                 if (!valid) {
                     target_logit_matrix.clear();
                     spdlog::warn("TargetLogitsFn returned wrong shape — "
@@ -2347,11 +2402,12 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
     if (!used_injected_logits) {
         try {
-            used_injected_logits = tryComputeNativeTargetLogitsForPlugin(
+            used_native_target_logits_bridge = tryComputeNativeTargetLogitsForPlugin(
                 request,
                 draft_result.tokens,
                 target_plugin,
                 target_logit_matrix);
+            used_injected_logits = used_native_target_logits_bridge;
         } catch (const std::exception& e) {
             target_logit_matrix.clear();
             spdlog::warn("Native target-logit bridge failed: {} — falling back "
@@ -2396,6 +2452,11 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
 
     recordSpeculativeStep(verify_result);
 
+    auto speculative_entropy_bridge_fn =
+        makeSpeculativeEntropyBridgeFn(target_logit_matrix);
+    themis::rag::TARGRetrieval::ScopedFullEntropyFnOverride
+        speculative_entropy_bridge_scope(std::move(speculative_entropy_bridge_fn));
+
     // Run the target model to produce the actual output.
     // In a production llama.cpp integration this would re-use the KV cache
     // built during draft verification; here we generate from scratch.
@@ -2405,6 +2466,15 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             static_cast<uint64_t>(verify_result.num_accepted);
         response.metadata["speculative_all_accepted"] = verify_result.all_accepted;
         response.metadata["speculative_acceptance_rate"] = verify_result.acceptance_rate;
+        response.metadata["speculative_targ_entropy_bridge"] = {
+            {"active", true},
+            {"cached_rows", static_cast<uint64_t>(target_logit_matrix.size())},
+            {"source", used_native_target_logits_bridge
+                ? "native_target_logits"
+                : (used_global_target_logits_fn
+                    ? "injected_target_logits"
+                    : "unknown")},
+        };
     } catch (const std::exception& e) {
         spdlog::warn("Target model generation failed in speculative path: {}", e.what());
         return false;

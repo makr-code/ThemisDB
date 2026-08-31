@@ -163,6 +163,27 @@ public:
     /** @brief Remove a previously injected FullEntropyFn. */
     static void clearFullEntropyFn();
 
+    /**
+     * @brief Scoped thread-local entropy override for the current request.
+     *
+     * Use this when a caller already has exact entropy inputs for the current
+     * thread and wants `gate()` to reuse them without mutating the global
+     * `FullEntropyFn` bridge for other requests. The scoped override takes
+     * precedence over the global callback while the guard is alive and is
+     * automatically removed at scope exit.
+     */
+    class ScopedFullEntropyFnOverride {
+    public:
+        explicit ScopedFullEntropyFnOverride(FullEntropyFn fn);
+        ~ScopedFullEntropyFnOverride();
+
+        ScopedFullEntropyFnOverride(const ScopedFullEntropyFnOverride&) = delete;
+        ScopedFullEntropyFnOverride& operator=(const ScopedFullEntropyFnOverride&) = delete;
+
+    private:
+        bool active_ = false;
+    };
+
     // ─── State management ─────────────────────────────────────────────────
 
     /**

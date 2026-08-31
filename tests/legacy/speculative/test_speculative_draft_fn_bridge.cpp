@@ -13,12 +13,14 @@
  *   SPEC-TL-03 TargetLogitsFn returning wrong shape falls back to normal target generation
  *   SPEC-TL-06 Local tokenizer bridge fail-closed path falls back to target generation
  *   SPEC-TL-07 Generic non-llama local draft path fails closed without tokenizer bridge
+ *   SPEC-TL-08 Scoped entropy bridge reuses speculative target logits for TARG
  */
 
 #include <gtest/gtest.h>
 #include "llm/llm_plugin_interface.h"
 #include "llm/inference_engine_enhanced.h"
 #include "llm/speculative_decoder.h"
+#include "rag/targ_retrieval.h"
 
 #include <atomic>
 #include <chrono>
@@ -81,6 +83,61 @@ private:
 /// RAII guard that clears the static GenerateDraftTokensFn after each test.
 struct DraftFnGuard {
     ~DraftFnGuard() { ILLMPlugin::setDefaultGenerateDraftTokensFn(nullptr); }
+};
+
+struct TargEntropyFnGuard {
+    ~TargEntropyFnGuard() { themis::rag::TARGRetrieval::clearFullEntropyFn(); }
+};
+
+class TargEntropyProbePlugin : public ILLMPlugin {
+public:
+    TargEntropyProbePlugin(std::string resp_text, std::vector<float> probe_logits)
+        : resp_text_(std::move(resp_text)), probe_logits_(std::move(probe_logits)) {}
+
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo m;
+        m.model_id = "targ_entropy_probe";
+        m.is_loaded = true;
+        m.vocab_size = probe_logits_.size();
+        return m;
+    }
+    bool isModelLoaded() const override { return true; }
+
+    InferenceResponse generate(const InferenceRequest&) override {
+        themis::rag::TARGConfig cfg;
+        cfg.use_entropy_gate = true;
+        cfg.entropy_threshold = 0.1f;
+        cfg.gap_threshold = -1.0f;
+        cfg.min_consecutive_uncertain = 1;
+
+        themis::rag::TARGRetrieval targ(cfg);
+        const auto decision = targ.gate(probe_logits_);
+
+        InferenceResponse r;
+        r.text = resp_text_;
+        r.success = true;
+        r.metadata["targ_probe_entropy"] = decision.entropy;
+        r.metadata["targ_probe_should_retrieve"] = decision.should_retrieve;
+        return r;
+    }
+    InferenceResponse generateRAG(const RAGContext&, const InferenceRequest& req) override {
+        return generate(req);
+    }
+    std::vector<float> embed(const std::string&) override { return {}; }
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+
+private:
+    std::string resp_text_;
+    std::vector<float> probe_logits_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -526,4 +583,64 @@ TEST(SpecTlBridge, SPEC_TL_07_GenericLocalDraftWithoutTokenizerBridgeFailsClosed
     EXPECT_EQ(response.text, "target_only");
     EXPECT_EQ(response.metadata.value("speculative_accepted", uint64_t{0}),
               uint64_t{0});
+}
+
+TEST(SpecTlBridge, SPEC_TL_08_ScopedEntropyBridgeReusesSpeculativeTargetLogits) {
+    TargEntropyFnGuard entropy_guard;
+
+    constexpr size_t kVocab = 64;
+    constexpr size_t kK = 2;
+
+    std::vector<float> probe_logits(kVocab, 0.0f);
+    probe_logits[11] = 5.0f;
+
+    themis::rag::TARGRetrieval::setFullEntropyFn([](const std::vector<float>&) {
+        return 0.0f;
+    });
+
+    InferenceEngineEnhanced::Config cfg;
+    cfg.enable_speculative_decoding = true;
+    cfg.speculative_draft_tokens = kK;
+    cfg.speculative_draft_model_id = "draft";
+    cfg.num_worker_threads = 1;
+    cfg.enable_context_caching = false;
+    cfg.batch_timeout_ms = 50;
+
+    InferenceEngineEnhanced engine(cfg);
+    engine.registerModel("target", std::make_shared<TargEntropyProbePlugin>("entropy_probe", probe_logits));
+    engine.registerModel("draft", std::make_shared<MinimalPlugin>("ab", kVocab));
+    engine.start();
+
+    engine.setTokenizerFn([](const std::string&, size_t) -> std::vector<int> {
+        return {11, 12};
+    });
+    engine.setTargetLogitsFn(
+        [](const InferenceRequest&, size_t K, size_t vocab_size, std::shared_ptr<ILLMPlugin>)
+            -> std::vector<std::vector<float>> {
+            std::vector<std::vector<float>> mat(K + 1, std::vector<float>(vocab_size, 0.0f));
+            mat[0][11] = 5.0f;
+            mat[1][12] = 5.0f;
+            mat[2][0] = 5.0f;
+            return mat;
+        });
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id = "spec_tl_08";
+    req.base_request.prompt = "entropy bridge";
+    req.preferred_model_id = "target";
+    req.allow_caching = false;
+
+    auto handle = engine.submit(req);
+    auto response = handle.get();
+    engine.shutdown();
+
+    ASSERT_TRUE(response.metadata.contains("speculative_targ_entropy_bridge"));
+    EXPECT_TRUE(response.metadata["speculative_targ_entropy_bridge"]["active"].get<bool>());
+    EXPECT_EQ(response.metadata["speculative_targ_entropy_bridge"]["cached_rows"].get<uint64_t>(),
+              static_cast<uint64_t>(kK + 1));
+    EXPECT_EQ(response.metadata["speculative_targ_entropy_bridge"]["source"].get<std::string>(),
+              "injected_target_logits");
+    EXPECT_GT(response.metadata["targ_probe_entropy"].get<float>(), 0.1f);
+    EXPECT_TRUE(response.metadata["targ_probe_should_retrieve"].get<bool>())
+        << "Scoped entropy bridge should override the global sentinel and reuse the speculative target logits";
 }

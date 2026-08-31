@@ -120,7 +120,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Status**: Test suite created; implementation validation ongoing
 - [~] Standardize fallback behavior for optional model/acceleration/runtime dependencies (Target: Q4 2026)
   - **Status**: Documented in FUTURE_ENHANCEMENTS.md; implementation in progress
-  - [x] `targ_retrieval.cpp` now uses exact full-vocabulary softmax entropy by default; `FullEntropyFn` remains as an override hook for backend-specific entropy implementations
+  - [x] `targ_retrieval.cpp` now uses exact full-vocabulary softmax entropy by default; `FullEntropyFn` remains as an override hook for backend-specific entropy implementations, and speculative LLM calls now install a scoped per-request override so downstream TARG gates can reuse verified target-logit rows without cross-thread leakage
   - [x] `llm_judge_integration.cpp` no longer allows mock-mode fallback; missing judge backends now return explicit `llm_unavailable` fail-closed results
 
 ### Phase 4: Tests

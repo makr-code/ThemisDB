@@ -16,6 +16,7 @@
 #include <mutex>
 #include <numeric>
 #include <stdexcept>
+#include <utility>
 
 namespace themis {
 namespace rag {
@@ -29,6 +30,32 @@ static TARGRetrieval::FullEntropyFn& fullEntropyFnStorage() {
     static TARGRetrieval::FullEntropyFn fn;
     return fn;
 }
+static std::vector<TARGRetrieval::FullEntropyFn>& threadLocalFullEntropyFnStack() {
+    static thread_local std::vector<TARGRetrieval::FullEntropyFn> stack;
+    return stack;
+}
+
+static float computeExactFullEntropy(const std::vector<float>& logits) {
+    const float max_v = *std::max_element(logits.begin(), logits.end());
+    double sum_exp = 0.0;
+    for (const float value : logits) {
+        sum_exp += std::exp(static_cast<double>(value - max_v));
+    }
+
+    if (!(sum_exp > 0.0) || !std::isfinite(sum_exp)) {
+        return 0.0f;
+    }
+
+    double entropy = 0.0;
+    for (const float value : logits) {
+        const double probability =
+            std::exp(static_cast<double>(value - max_v)) / sum_exp;
+        if (probability > 0.0) {
+            entropy -= probability * std::log(probability);
+        }
+    }
+    return static_cast<float>(entropy);
+}
 
 /*static*/
 void TARGRetrieval::setFullEntropyFn(FullEntropyFn fn) {
@@ -40,6 +67,26 @@ void TARGRetrieval::setFullEntropyFn(FullEntropyFn fn) {
 void TARGRetrieval::clearFullEntropyFn() {
     std::lock_guard<std::mutex> lk(fullEntropyFnMutex());
     fullEntropyFnStorage() = {};
+}
+
+TARGRetrieval::ScopedFullEntropyFnOverride::ScopedFullEntropyFnOverride(FullEntropyFn fn) {
+    if (!fn) {
+        return;
+    }
+
+    threadLocalFullEntropyFnStack().push_back(std::move(fn));
+    active_ = true;
+}
+
+TARGRetrieval::ScopedFullEntropyFnOverride::~ScopedFullEntropyFnOverride() {
+    if (!active_) {
+        return;
+    }
+
+    auto& stack = threadLocalFullEntropyFnStack();
+    if (!stack.empty()) {
+        stack.pop_back();
+    }
 }
 
 // ============================================================================
@@ -78,7 +125,13 @@ void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
         return;
     }
 
-    // If a full-vocabulary entropy function is injected, use it (STUB #262).
+    auto& scoped_stack = threadLocalFullEntropyFnStack();
+    if (!scoped_stack.empty() && scoped_stack.back()) {
+        out_entropy = scoped_stack.back()(logits);
+        return;
+    }
+
+    // If a full-vocabulary entropy function is injected globally, use it.
     {
         FullEntropyFn fn_copy;
         {
@@ -92,26 +145,7 @@ void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
     }
 
     // Default production path: exact full-vocabulary softmax entropy.
-    const float max_v = *std::max_element(logits.begin(), logits.end());
-    double sum_exp = 0.0;
-    for (const float value : logits) {
-        sum_exp += std::exp(static_cast<double>(value - max_v));
-    }
-
-    if (!(sum_exp > 0.0) || !std::isfinite(sum_exp)) {
-        out_entropy = 0.0f;
-        return;
-    }
-
-    double entropy = 0.0;
-    for (const float value : logits) {
-        const double probability =
-            std::exp(static_cast<double>(value - max_v)) / sum_exp;
-        if (probability > 0.0) {
-            entropy -= probability * std::log(probability);
-        }
-    }
-    out_entropy = static_cast<float>(entropy);
+    out_entropy = computeExactFullEntropy(logits);
 }
 
 // ============================================================================
