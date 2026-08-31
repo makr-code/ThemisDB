@@ -282,7 +282,7 @@ std::optional<std::string> InputValidator::validateJsonSchema(
             static std::unordered_set<std::string> s_warned_schemas;
             std::lock_guard<std::mutex> lock(s_warned_mutex);
             if (s_warned_schemas.emplace(schema_name).second) {
-                THEMIS_WARN("InputValidator::validateJsonStub: schema '{}' not found — "
+                THEMIS_WARN("InputValidator::validateJsonSchema: schema '{}' not found — "
                             "expected file: '{}/{}.json'.  "
                             "Place the JSON Schema file in that directory or set "
                             "THEMIS_SCHEMA_DIR to the correct path.  "

@@ -316,9 +316,24 @@ struct GgmlTensorBridge::Impl {
 #ifdef THEMIS_HAS_GGML
         if (handle.impl_->real_ggml_tensor && handle.impl_->real_ggml_tensor->data &&
             !handle.impl_->fake_tensor.data.empty()) {
-            std::memcpy(handle.impl_->real_ggml_tensor->data,
-                        handle.impl_->fake_tensor.data.data(),
-                        handle.impl_->fake_tensor.data.size() * sizeof(float));
+            // Guard: ensure tensor type is F32 and has sufficient capacity before copying.
+            const size_t copy_bytes =
+                handle.impl_->fake_tensor.data.size() * sizeof(float);
+            const bool type_ok = handle.impl_->real_ggml_tensor->type == GGML_TYPE_F32;
+            const size_t alloc_bytes =
+                static_cast<size_t>(handle.impl_->real_ggml_tensor->ne[0]) * sizeof(float);
+            if (type_ok && alloc_bytes >= copy_bytes) {
+                std::memcpy(handle.impl_->real_ggml_tensor->data,
+                            handle.impl_->fake_tensor.data.data(),
+                            copy_bytes);
+            } else {
+                THEMIS_ERROR("GgmlTensorBridge: memcpy skipped — tensor type/size mismatch "
+                             "(type={}, alloc_bytes={}, copy_bytes={})",
+                             static_cast<int>(handle.impl_->real_ggml_tensor->type),
+                             alloc_bytes, copy_bytes);
+                handle.impl_->valid = false;
+                return handle;
+            }
         }
 #endif
 

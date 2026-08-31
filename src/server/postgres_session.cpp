@@ -55,7 +55,7 @@ namespace {
     
     bool containsControlCharacters(const std::string& input) {
         return std::any_of(input.begin(), input.end(), [](unsigned char c) {
-            return c == '\0' || std::iscntrl(c);
+            return c == '\0' || (std::iscntrl(c) && c != '\t' && c != '\n' && c != '\r');
         });
     }
 
