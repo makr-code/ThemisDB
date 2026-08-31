@@ -163,7 +163,7 @@ jobs:
     needs: start-target
     if: >
       needs.start-target.outputs.container_running == 'true' &&
-      (env.SCAN_MODE == 'baseline' || github.event_name == 'schedule')
+      (inputs.scan_mode == 'baseline' || inputs.scan_mode == '' || github.event_name == 'schedule')
     permissions:
       contents: read
       security-events: write
@@ -259,7 +259,7 @@ jobs:
     needs: start-target
     if: >
       needs.start-target.outputs.container_running == 'true' &&
-      env.SCAN_MODE == 'api-scan'
+      inputs.scan_mode == 'api-scan'
     permissions:
       contents: read
       security-events: write
@@ -363,7 +363,7 @@ jobs:
     if: >
       needs.start-target.outputs.container_running == 'true' &&
       github.event_name == 'workflow_dispatch' &&
-      env.SCAN_MODE == 'full-scan'
+      inputs.scan_mode == 'full-scan'
     permissions:
       contents: read
       security-events: write
