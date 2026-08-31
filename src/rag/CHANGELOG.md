@@ -24,8 +24,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **RRF fusion** (`HybridRetriever::fuseRRF`): `rrf_k=60.0`, equal BM25+vector weights
   by default. `WikiIndexStore::query` calls `retriever_.fuse(bm25_docs, vec_docs)`.
 - **LLM-Judge real-mode** (`LLMJudgeIntegration`): production path via
-  `ILLMInferenceEngine*` constructor injection confirmed. Mock fallback only reachable
-  via explicit `allow_mock=true && use_mock_mode=true` (test-only). Gate
+  `ILLMInferenceEngine*` constructor injection confirmed. Config-only construction
+  now requires later `setInferenceFunction()` injection; missing backend and
+  gate-disabled paths return explicit `llm_unavailable`. Gate
   `THEMIS_ENABLE_LLM_JUDGE` enabled by default.
 
 ### New Tests

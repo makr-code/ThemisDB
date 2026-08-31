@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-08-18
+**Last Updated:** 2026-08-31
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -30,19 +30,19 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] Other modules use legacy four-column format; will be expanded on next per-module roadmap sync.
 - [x] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is established via `research/implementation_influence/by_module.md` (6 modules, 21 implementation aspects); recurring sync enforced from Phase 6 onwards (✅ COMPLETE 2026-08-04).
 
-## Implementation vs Documentation Gap Classification (2026-08-10)
+## Implementation vs Documentation Gap Classification (2026-08-31)
 
 | Module | Open Items | Classification | Notes |
 |---|---|---|---|
-| ethics_ai | 22 listed | Mostly DOC gaps | ChainVisualizer, NormEvidence, legal_db, CSEP tests all implemented 2026-08-09 |
-| transaction | 19 listed | Mostly DOC gaps | Test files exist; chaos/production validation pending CI confirmation |
-| voice | 22 listed | DOC + IMPL gaps | Basic liveness/anti-spoof code exists; hardening under adversarial inputs is real remaining work |
-| LLM | 13 listed | DOC + IMPL gaps | SpeculativeDecoder exists; distributed end-to-end optimization is real remaining work |
-| search | 43 listed | REAL IMPL gaps | LayeredRetrievalOrchestrator uses mocks; real ANN/Tensor/Graph/LLM wiring pending |
-| GPU/CUDA | 21+53 listed | REAL IMPL gaps | CUDA kernels are stubs (filter/join/agg/sort/topk not implemented) |
-| RAG Phase B | 57 listed | REAL IMPL gaps | BM25+, HNSW, RRF in WikiIndexStore not implemented; Phase A only |
-| sharding | 20 listed | REAL IMPL gaps | Thread-safety gaps (340+), lock ordering violations (95) are real |
-| replication | 16 listed | MIXED | Multi-region base exists; geo placement policies and lag-limit WAL shipping are real gaps |
+| core | 9 listed | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading are delivered; remaining items are Wave D operability and refreshed evidence |
+| base | 8 listed | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
+| server | 4 residual source gaps | REAL IMPL gaps | gRPC-Web proxy is still UNIMPLEMENTED-only in fallback builds; time-series aggregate/retention providers and RoPE metrics still rely on degraded fallback paths; non-Linux MCP stdio transport remains unsupported |
+| query | residual perf / validation follow-up | Mostly verification / perf gaps | Process-mining trace/pattern/ideal query paths and the three `ETHICS_*` runtime gaps were closed on 2026-08-31; remaining work is optimizer/federation hardening and benchmark evidence |
+| transaction | 19 listed | Mostly verification / benchmark evidence | Wave 4C code gaps are closed; build/run, chaos, and representative-hardware evidence remain open |
+| auth | 8+ listed | Mostly verification / perf follow-up | Wave 4B source gaps are closed; remaining work is Wave 8 tests, representative-hardware baselines, and protocol-matrix regressions |
+| LLM | 13 listed | MIXED | Major Wave 5 closures landed; remaining real gaps center on distributed collectives, multi-tenant isolation, and final cross-module speculative/TARG wiring |
+| RAG / LLM Wiki | 57 listed | Mostly perf / integration follow-up | BM25+, RRF, persistent cache, and real `LLMJudgeIntegration` path are implemented; remaining work is performance gates, Recall@k sign-off, Wikipedia ABI wiring, and entropy-bridge integration |
+| GPU/CUDA | 21+53 listed | REAL IMPL gaps | CUDA/HIP kernel parity and representative-hardware validation remain open release blockers for acceleration-heavy paths |
 | access_model | 21 listed | REAL IMPL gaps | Benchmarks and GATE-ACM-01..06 not yet implemented |
 
 ## Release Hardening Program (current canonical version: v2.4.0-alpha)
@@ -71,6 +71,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 - [x] Phase 1-6 execution contract complete: all technical gates PASS; human sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`) is the only remaining GA blocker.
 - [x] Tools build-option transition complete: canonical flag for desktop tools is `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
+- [~] Core-first residual source-gap queue revalidated: finish server runtime fallback gaps and query feature gaps first, then close LLM/RAG integration and GPU representative-hardware gates (Target: Q4 2026).
 
 ## Program Execution Model (Wave A → B → C → D)
 
@@ -625,30 +626,24 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 **Scope:** `src/rag/`, `src/llm/`, `plugins/themisdb_llm_wiki/`, `src/importers/`
 
-- [ ] WikiIndexStore Phase B activation (gate: `THEMIS_WIKI_PHASE_B`):
-  - BM25+ scorer (Robertson & Zaragoza 2009, δ=0.5, k1=1.5, b=0.75) in `WikiIndexStore::query()`.
-  - HNSW index (M=16, ef_construction=200) for dense embeddings.
-  - RRF fusion (k=60) combining BM25+ and HNSW scores.
-  - Perf target: ≥2× query throughput vs Phase A at 50K chunks; p95 < 100ms.
-  - Automatic Phase A→B index migration with progress log; rollback path on failure.
-  (Target: Q4 2026)
-- [ ] Persistent embedding cache: RocksDB column family `"embedding_cache"`; key = `sha256(doc_id + content)`; cache-miss triggers re-embedding call; ≥99% hit rate on re-ingest (measured); LRU eviction at configurable byte limit. (Target: Q4 2026)
+- [x] WikiIndexStore Phase B activation (gate: `THEMIS_WIKI_PHASE_B`): BM25+ scorer, HNSW index initialization, RRF fusion, automatic Phase A→B migration, and persistent embedding cache are implemented in `src/llm/wiki_index_store.cpp`; remaining work is representative-hardware performance proof and production gate evidence. (Target: Q4 2026)
+- [ ] Perf target for Phase B: ≥2× query throughput vs Phase A at 50K chunks; p95 < 100ms on representative hardware. (Target: Q4 2026)
 - [ ] `ingestWikipediaDump()` ABI wiring: sub-feature gate `"llm_wiki_wikipedia"` check at runtime; `ILLMWikiPlugin::Status::PermissionDenied` in Community/Minimal editions; test `LWP-WIKI-01` (enterprise smoke) + `LWP-WIKI-02` (community gate). (Target: Q4 2026)
-- [ ] FTS enhancement: phrase queries via positional inverted index (`"hello world"` → documents where tokens adjacent); proximity queries (`NEAR(term1, term2, distance=5)`); ≤100ms on 100K documents at p95. (Target: Q4 2026)
+- [ ] FTS enhancement gate: phrase/proximity query path is implemented; remaining work is the ≤100ms p95 benchmark gate on 100K documents. (Target: Q4 2026)
 - [ ] `TensorRagCostModel`: 5-phase RAG cost model — C_RAG = C_embed + C_retrieve + C_rerank + C_assemble + C_generate; `TENSOR_RAG` WorkloadType in `TensorWorkloadClassifier`; TTFT comparison table (150-400ms llama.cpp vs 40-90ms cached); integrate with `TensorRagCostModel::estimate()`. (Target: Q4 2026)
+- [x] LLM↔RAG entropy bridge: speculative decoding now installs a scoped per-request entropy override so downstream `TARGRetrieval` calls can reuse the already-available exact target-logit rows without cross-thread global callback leakage; the default TARG runtime still keeps its built-in exact full-vocabulary fallback when no bridge is active. (Target: Q4 2026)
 - [ ] LWP tests Phase 4 (LWP-01..20 + LWP-GATE-01): see `plugins/themisdb_llm_wiki/ROADMAP.md` Phase 4 for full list; Recall@k ≥0.8 gate on LWP-01..08. (Target: Q4 2026)
 
 ### 6. Evaluation Framework
 
 **Scope:** `src/rag/`, `src/evaluation/`, `include/llm_wiki/`
 
-- [ ] LLM-Judge Integration: replace mock-mode in `src/rag/llm_judge_integration.cpp` with real LLM judge calls via internal `ILLMBackend` adapter; gate `THEMIS_ENABLE_LLM_JUDGE`; when gate off or LLM unavailable → `LLMJudgeResult{score: -1, reason: "llm_unavailable"}` — never silently return fixed score. (Target: Q4 2026)
-  - Stub removal: current mock returns fixed score 0.85; MUST be replaced — mark with `STUB/SIMULATION NOTE` until replaced.
-- [ ] Recall@k / MRR / p95-Reporting in `ILLMWikiPlugin::stats()`:
+- [x] LLM-Judge Integration: `src/rag/llm_judge_integration.cpp` has a real `ILLMInferenceEngine` path under `THEMIS_ENABLE_LLM_JUDGE`; when the gate is off or no backend is available it returns `llm_unavailable` fail-closed, and the former mock-mode fallback has been removed from runtime behavior. (Target: Q4 2026)
+- [x] Recall@k / MRR / p95-Reporting in `ILLMWikiPlugin::stats()`:
   - `EvaluationStats::recall_at_k` (k=1,3,5,10) — fraction of queries with relevant doc in top-k.
   - `EvaluationStats::mrr` — mean reciprocal rank over last N queries.
   - `EvaluationStats::p95_query_latency_ms`.
-  - Recall@k ≥ 0.8 as gate criterion for LWP-01..08 acceptance. (Target: Q4 2026)
+  - Remaining open gate: Recall@k ≥ 0.8 as formal sign-off criterion for LWP-01..08 acceptance. (Target: Q4 2026)
 - [ ] Production observability dashboards: per-layer handoff quality metrics (ANN Recall@10, Tensor routing accuracy, Graph provenance precision, LLM ROUGE-L); anomaly detection (z-score ≥3 → alert); root-cause hint attached to alert payload. (Target: Q4 2026)
 - [ ] Per-query retrieval guardrails: `RetrievalGuardrail::checkFederatedCost(query, plan)` returns `GuardrailDecision{allow, deny_reason, estimated_cost_ms}`; SLO-validated benchmarks confirm ≤5% throughput regression vs no-guardrail. (Target: Q4 2026)
 

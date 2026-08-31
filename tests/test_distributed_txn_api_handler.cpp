@@ -488,6 +488,10 @@ TEST_F(DistributedTxnApiHandlerTest, ReadOnlyReturnsShardsResult) {
     EXPECT_TRUE(body.contains("results"));
     // Results should have one entry per shard
     EXPECT_EQ(body["results"].size(), 2u);
+    EXPECT_EQ(body["results"]["shard1"]["status"], "error");
+    EXPECT_EQ(body["results"]["shard1"]["error"], "missing_registered_endpoint");
+    EXPECT_EQ(body["results"]["shard2"]["status"], "error");
+    EXPECT_EQ(body["results"]["shard2"]["error"], "missing_registered_endpoint");
 }
 
 TEST_F(DistributedTxnApiHandlerTest, ReadOnlyMissingShardsReturnsBadRequest) {

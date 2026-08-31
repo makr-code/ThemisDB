@@ -12,6 +12,9 @@
 
 #include "llm/embedded_llm.h"
 #include "llm/prompt_safety_utils.h"
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+#include "storage/ggml_tensor_bridge.h"
+#endif
 #include "utils/error_registry.h"
 #include <algorithm>
 #include <cmath>
@@ -47,6 +50,20 @@ std::vector<float> buildFallbackEmbedding(const std::string& text) {
     return embedding;
 }
 
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+void registerGgmlBridgeTypesOnce() {
+    static std::once_flag once;
+    std::call_once(once, [] {
+        const int type_id = themis::storage::registerGgmlTypeTT();
+        if (type_id >= 0) {
+            spdlog::info("EmbeddedLLM: ggml TT type registration ready (type_id={})", type_id);
+        } else {
+            spdlog::info("EmbeddedLLM: ggml TT type already registered (type_id={})", type_id);
+        }
+    });
+}
+#endif
+
 } // namespace
 
 namespace themis {
@@ -70,6 +87,10 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     wrapper_config.n_batch = config.n_batch > 0 ? config.n_batch : config.n_ctx;
 
     wrapper_ = std::make_unique<LlamaWrapper>(wrapper_config);
+
+#ifdef THEMIS_ENABLE_GGML_BRIDGE
+    registerGgmlBridgeTypesOnce();
+#endif
     
     // Initialize ethical guidelines if enabled
     if (config.enable_ethical_guidelines) {

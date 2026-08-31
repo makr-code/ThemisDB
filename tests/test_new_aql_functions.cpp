@@ -5,6 +5,8 @@
 
 #include <gtest/gtest.h>
 #include "query/functions/function_registry.h"
+#include <memory>
+#include <unordered_map>
 
 using namespace themis::query::functions;
 using json = nlohmann::json;
@@ -169,7 +171,7 @@ TEST_F(NewAQLFunctionsTest, EthicsMakeDecisionStub) {
     EXPECT_TRUE(result.is_object());
     EXPECT_TRUE(result.contains("decision_id"));
     EXPECT_TRUE(result.contains("decision_text"));
-    EXPECT_TRUE(result["decision_text"].get<std::string>().find("Stub") != std::string::npos);
+    EXPECT_TRUE(result["decision_text"].get<std::string>().find("ethics_ai plugin") != std::string::npos);
 }
 
 TEST_F(NewAQLFunctionsTest, EthicsListSchools) {
@@ -194,13 +196,107 @@ TEST_F(NewAQLFunctionsTest, EthicsListSchools) {
     EXPECT_TRUE(hasUtilitarianism);
 }
 
-TEST_F(NewAQLFunctionsTest, EthicsGetArgumentsEmpty) {
+TEST_F(NewAQLFunctionsTest, EthicsGetArgumentsFiltersCollection) {
     auto& reg = FunctionRegistry::instance();
-    
-    // Test that ETHICS_GET_ARGUMENTS returns empty array (stub)
-    auto result = reg.call("ETHICS_GET_ARGUMENTS", {"kant"}, ctx);
+
+    auto collections = std::make_shared<std::unordered_map<std::string, std::vector<json>>>(
+        std::unordered_map<std::string, std::vector<json>>{
+            {"ethics_arguments", {
+                {{"id", "arg-1"}, {"philosophy_school", "kant"}, {"argument_type", "pro"}, {"content", "Duty first"}},
+                {{"id", "arg-2"}, {"philosophy_school", "kant"}, {"argument_type", "contra"}, {"content", "Consequences matter"}},
+                {{"id", "arg-3"}, {"philosophy_school", "utilitarianism"}, {"argument_type", "pro"}, {"content", "Utility"}}
+            }}
+        });
+    ctx.setCollectionScanner([collections](const std::string& collection,
+                                           const std::function<bool(const json&)>& predicate) {
+        std::vector<json> results;
+        const auto it = collections->find(collection);
+        if (it == collections->end()) {
+            return results;
+        }
+        for (const auto& doc : it->second) {
+            if (predicate(doc)) {
+                results.push_back(doc);
+            }
+        }
+        return results;
+    });
+
+    auto result = reg.call("ETHICS_GET_ARGUMENTS", {"kant", json::array({"pro"}), 10}, ctx);
     EXPECT_TRUE(result.is_array());
-    // Currently returns empty array as it's a stub
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_EQ(result[0].value("id", ""), "arg-1");
+}
+
+TEST_F(NewAQLFunctionsTest, EthicsFindSimilarDilemmasRanksMatches) {
+    auto& reg = FunctionRegistry::instance();
+
+    auto collections = std::make_shared<std::unordered_map<std::string, std::vector<json>>>(
+        std::unordered_map<std::string, std::vector<json>>{
+            {"ethics_dilemmas", {
+                {{"id", "d1"}, {"description", "AI triage in hospital diagnosis workflows"}},
+                {{"id", "d2"}, {"description", "Bridge toll policy debate"}},
+                {{"id", "d3"}, {"description", "Medical diagnosis support with machine learning"}}
+            }}
+        });
+    ctx.setCollectionScanner([collections](const std::string& collection,
+                                           const std::function<bool(const json&)>& predicate) {
+        std::vector<json> results;
+        const auto it = collections->find(collection);
+        if (it == collections->end()) {
+            return results;
+        }
+        for (const auto& doc : it->second) {
+            if (predicate(doc)) {
+                results.push_back(doc);
+            }
+        }
+        return results;
+    });
+
+    auto result = reg.call("ETHICS_FIND_SIMILAR_DILEMMAS",
+                           {"AI diagnosis for hospitals", 0.2, 2}, ctx);
+    ASSERT_TRUE(result.is_array());
+    ASSERT_GE(result.size(), 1u);
+    EXPECT_TRUE(result[0].contains("similarity"));
+    EXPECT_EQ(result[0].value("id", ""), "ethics_dilemmas/d1");
+}
+
+TEST_F(NewAQLFunctionsTest, EthicsTraverseChainBuildsTraversal) {
+    auto& reg = FunctionRegistry::instance();
+
+    auto collections = std::make_shared<std::unordered_map<std::string, std::vector<json>>>(
+        std::unordered_map<std::string, std::vector<json>>{
+            {"ethics_arguments", {
+                {{"id", "arg-1"}, {"content", "Start"}},
+                {{"id", "arg-2"}, {"content", "Child A"}},
+                {{"id", "arg-3"}, {"content", "Child B"}}
+            }},
+            {"ethics_arguments_graph", {
+                {{"_from", "ethics_arguments/arg-1"}, {"_to", "ethics_arguments/arg-2"}, {"relation", "supports"}},
+                {{"_from", "ethics_arguments/arg-2"}, {"_to", "ethics_arguments/arg-3"}, {"relation", "rebuts"}}
+            }}
+        });
+    ctx.setCollectionScanner([collections](const std::string& collection,
+                                           const std::function<bool(const json&)>& predicate) {
+        std::vector<json> results;
+        const auto it = collections->find(collection);
+        if (it == collections->end()) {
+            return results;
+        }
+        for (const auto& doc : it->second) {
+            if (predicate(doc)) {
+                results.push_back(doc);
+            }
+        }
+        return results;
+    });
+
+    auto result = reg.call("ETHICS_TRAVERSE_CHAIN", {"arg-1", 3}, ctx);
+    ASSERT_TRUE(result.is_array());
+    ASSERT_EQ(result.size(), 2);
+    EXPECT_EQ(result[0]["depth"], 1);
+    EXPECT_EQ(result[1]["depth"], 2);
 }
 
 // ============================================================================
@@ -227,10 +323,24 @@ TEST_F(NewAQLFunctionsTest, ProcessMiningFunctionsRegistered) {
     EXPECT_TRUE(reg.hasFunction("PM_EXPORT_BPMN"));
 }
 
-TEST_F(NewAQLFunctionsTest, PmFindSimilarStub) {
+TEST_F(NewAQLFunctionsTest, PmFindSimilarReturnsRankedMatches) {
     auto& reg = FunctionRegistry::instance();
-    
-    // Test PM_FIND_SIMILAR returns stub result
+
+    ctx.setVariable("pm_event_log", json{
+        {"traces", json::array({
+            {{"case_id", "case-001"}, {"events", json::array({
+                {{"activity", "A"}, {"timestamp_ms", 1000}},
+                {{"activity", "B"}, {"timestamp_ms", 2000}},
+                {{"activity", "C"}, {"timestamp_ms", 3000}}
+            })}},
+            {{"case_id", "case-002"}, {"events", json::array({
+                {{"activity", "A"}, {"timestamp_ms", 1000}},
+                {{"activity", "D"}, {"timestamp_ms", 2000}},
+                {{"activity", "E"}, {"timestamp_ms", 3000}}
+            })}}
+        })}
+    });
+
     json pattern = {
         {"activities", json::array({"A", "B", "C"})}
     };
@@ -243,20 +353,76 @@ TEST_F(NewAQLFunctionsTest, PmFindSimilarStub) {
     EXPECT_TRUE(result.is_object());
     EXPECT_TRUE(result.contains("results"));
     EXPECT_TRUE(result["results"].is_array());
+    ASSERT_EQ(result["total"], 1);
+    EXPECT_EQ(result["results"][0].value("case_id", ""), "case-001");
 }
 
-TEST_F(NewAQLFunctionsTest, PmHasPatternStub) {
+TEST_F(NewAQLFunctionsTest, PmHasPatternMatchesTrace) {
     auto& reg = FunctionRegistry::instance();
-    
-    // Test PM_HAS_PATTERN returns boolean
+
+    ctx.setVariable("pm_event_log", json{
+        {"traces", json::array({
+            {{"case_id", "case-001"}, {"events", json::array({
+                {{"activity", "A"}, {"timestamp_ms", 1000}},
+                {{"activity", "B"}, {"timestamp_ms", 2000}},
+                {{"activity", "C"}, {"timestamp_ms", 3000}}
+            })}}
+        })}
+    });
+
     json pattern = {
         {"activities", json::array({"A", "B"})}
     };
     
     auto result = reg.call("PM_HAS_PATTERN", {"case-001", pattern}, ctx);
     EXPECT_TRUE(result.is_boolean());
-    // Stub returns false
-    EXPECT_FALSE(result.get<bool>());
+    EXPECT_TRUE(result.get<bool>());
+}
+
+TEST_F(NewAQLFunctionsTest, PmCompareIdealReturnsMetrics) {
+    auto& reg = FunctionRegistry::instance();
+
+    ctx.setVariable("pm_event_log", json{
+        {"traces", json::array({
+            {{"case_id", "case-001"}, {"events", json::array({
+                {{"activity", "A"}, {"timestamp_ms", 1000}},
+                {{"activity", "B"}, {"timestamp_ms", 2000}},
+                {{"activity", "C"}, {"timestamp_ms", 3000}}
+            })}}
+        })}
+    });
+
+    json ideal = {
+        {"activities", json::array({"A", "B", "C"})},
+        {"edges", json::array({
+            {{"from", "A"}, {"to", "B"}},
+            {{"from", "B"}, {"to", "C"}}
+        })}
+    };
+
+    auto result = reg.call("PM_COMPARE_IDEAL", {"case-001", ideal}, ctx);
+    ASSERT_TRUE(result.is_object());
+    EXPECT_GE(result.value("fitness", 0.0), 0.9);
+    EXPECT_TRUE(result.contains("comparison"));
+}
+
+TEST_F(NewAQLFunctionsTest, PmExtractTraceUsesContextEventLog) {
+    auto& reg = FunctionRegistry::instance();
+
+    ctx.setVariable("pm_event_log", json{
+        {"traces", json::array({
+            {{"case_id", "case-001"}, {"events", json::array({
+                {{"activity", "A"}, {"timestamp_ms", 1000}},
+                {{"activity", "B"}, {"timestamp_ms", 2000}}
+            })}}
+        })}
+    });
+
+    auto result = reg.call("PM_EXTRACT_TRACE", {"case-001"}, ctx);
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result.value("case_id", ""), "case-001");
+    ASSERT_TRUE(result["events"].is_array());
+    EXPECT_EQ(result["events"].size(), 2);
 }
 
 TEST_F(NewAQLFunctionsTest, PmListAdminModelsFromContext) {

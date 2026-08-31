@@ -561,8 +561,11 @@ public:
             std::shared_ptr<ILLMPlugin>        /*target_plugin*/)>;
 
     /// Inject a real target-logit computation into trySpeculativeGeneration().
-    /// Pass nullptr / empty fn to restore the built-in peaked-distribution
-    /// heuristic (STUB #262).  Thread-safe.
+    /// Pass nullptr / empty fn to remove the override. Without an injected fn,
+    /// the engine auto-uses a native llama-backed target-logit bridge when the
+    /// target plugin exposes one; otherwise speculative decoding fails closed
+    /// back to the target-model generation path instead of fabricating logits.
+    /// Thread-safe.
     void setTargetLogitsFn(TargetLogitsFn fn);
 
     // ── STUB #263 bridge — tokenizer injection ────────────────────────────
@@ -574,21 +577,27 @@ public:
     ///
     /// Parameters: (text, vocab_size)
     /// Returns:    non-empty vector of IDs each in [0, vocab_size).
-    ///             An empty return or a thrown exception both fall through to
-    ///             the byte-modulo fallback (fail-closed behaviour).
+    ///             An empty return or a thrown exception never fabricates
+    ///             synthetic token IDs from raw bytes: the remote draft path
+    ///             retries the local draft model, and the local bridge path
+    ///             falls back to the target model response path.
     using TokenizerFn = std::function<std::vector<int>(const std::string& text,
                                                        size_t             vocab_size)>;
 
     /// Inject a real tokenizer into trySpeculativeGeneration() for the remote
-    /// draft path.  Pass nullptr / empty fn to restore the byte-modulo
-    /// heuristic (STUB #263).  Thread-safe.
+    /// and generic local draft paths. Pass nullptr / empty fn to remove the
+    /// override. Without an injected tokenizer, speculative decoding proceeds
+    /// only when the draft path has a known native llama-backed token source;
+    /// otherwise the engine falls back to the target-model path. Thread-safe.
     void setTokenizerFn(TokenizerFn fn);
 
     /**
      * @brief Remove the injected tokenizer override.
      *
-     * Equivalent to setTokenizerFn(nullptr) and restores the byte-modulo
-     * fallback used by the speculative-draft bridge. Thread-safe.
+     * Equivalent to setTokenizerFn(nullptr). After clearing the override,
+     * generic non-llama speculative draft paths fail closed back to the
+     * target-model path unless a known native llama-backed tokenizer source is
+     * available. Thread-safe.
      */
     void clearTokenizerFn();
 

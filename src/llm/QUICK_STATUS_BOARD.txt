@@ -1,4 +1,4 @@
-# LLM Gap Closure — Quick Reference Board (2026-08-17)
+# LLM Gap Closure — Quick Reference Board (historical snapshot, superseded by src/llm/ROADMAP.md after source revalidation on 2026-08-31)
 
 ```
 ╔════════════════════════════════════════════════════════════════════════════╗

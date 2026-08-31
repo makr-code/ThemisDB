@@ -252,7 +252,7 @@ TEST(RagPhaseBE2E, RrfK60ScoresPositiveAndOrdered) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PHASE-B-E2E-05: LLMJudgeIntegration — real engine, no mock mode
+// PHASE-B-E2E-05: LLMJudgeIntegration — real engine, production path
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(RagPhaseBE2E, LlmJudgeRealEngineNotMock) {
@@ -262,11 +262,8 @@ TEST(RagPhaseBE2E, LlmJudgeRealEngineNotMock) {
 
     DeterministicEngine engine{kRealResponse};
 
-    // Construct via the engine-injection production constructor
     LLMJudgeIntegration::Config cfg;
     cfg.enable_llm_judge = true;
-    cfg.use_mock_mode    = false;  // explicitly NOT mock
-    cfg.allow_mock       = false;
 
     LLMJudgeIntegration judge(&engine, cfg);
 
@@ -297,7 +294,6 @@ TEST(RagPhaseBE2E, LlmJudgeGateDisabledReturnsUnavailable) {
 
     LLMJudgeIntegration::Config cfg;
     cfg.enable_llm_judge = false;  // gate explicitly disabled
-    cfg.use_mock_mode    = false;
 
     LLMJudgeIntegration judge(&engine, cfg);
 
@@ -375,7 +371,6 @@ TEST(RagPhaseBE2E, FullPhaseBChainBm25HnswRrfLlmJudge) {
 
     LLMJudgeIntegration::Config judge_cfg;
     judge_cfg.enable_llm_judge = true;
-    judge_cfg.use_mock_mode    = false;
 
     LLMJudgeIntegration judge(&judge_engine, judge_cfg);
 

@@ -1,6 +1,6 @@
 # ThemisDB — Core Module Gap Analysis & Wave 2 / Wave 3 / Wave 4 / Wave 5 Implementation Plan
 
-> **Generated:** 2026-08-26 (Wave 5 update)  
+> **Generated:** 2026-08-31 (Wave 6 revalidation + Wave 5 historical snapshot)  
 > **Previous:** 2026-08-25 (Wave 4 ranking)  
 > **Branch:** develop  
 > **Method:** Full src/ inline-gap scan (grep TODO/STUB/FIXME/UNIMPLEMENTED on all .cpp/.hpp) + header C/H aggregate + subagent semantic triage  
@@ -8,7 +8,38 @@
 
 ---
 
-## Wave 5 Module Ranking — Real Source Gaps (2026-08-26)
+## Wave 6 Revalidation — Current Real Source Gaps (2026-08-31)
+
+> **Method:** Re-read module roadmaps + direct source inspection + subagent revalidation.  
+> **Key correction:** the 2026-08-26 Wave 5 snapshot materially overstates already-closed work in several modules while also understating newly re-validated runtime gaps in `sharding`, `server`, `storage`, and selected `llm` / `acceleration` paths. Current priority must be based on still-open runtime gaps, not on historical scanner buckets.
+
+### Core-first priority order (current)
+
+| Priority | Module | Current real source gaps | Verified evidence | Next implementation block |
+|---|---|---|---|---|
+| **P1** | `sharding` | **Follow-up validation / transport rollout gap** | Real cloud-backup SDK bootstrap, explicit shard endpoint validation, and production/test RPC path separation are now wired; remaining work is rollout validation in SDK-enabled and gRPC-enabled builds | Re-run focused sharding tests in a gRPC-enabled build and capture evidence for the stricter endpoint contract |
+| **P2** | `server` | **5 residual runtime / safety gaps** | `grpc_web_proxy_handler.cpp` build/runtime gating still needs validation; `timeseries_api_handler.cpp` still falls back when aggregate/retention providers are absent; `rope_api_handler.cpp` still exposes mock metrics; `postgres_session.cpp` still needs deeper protocol-level bound execution beyond typed literal binding; `mcp_server.cpp` still documents unsupported non-Linux stdio transport | Finish remaining request-path/runtime provider wiring and close the remaining PostgreSQL wire-protocol execution gap |
+| **P3** | `storage` | **1 narrowed bridge/wiring gap** | `backup_manager.cpp` restore fallback now fails closed instead of copying raw bytes; `ggml_tensor_bridge.cpp` now honors runtime `ggml_context*` for real allocation/copy and forwards that live context into injected allocators; EmbeddedLLM startup now registers `GGML_TYPE_TT` once for ggml-backed inference, but tracked allocator/prefetch startup wiring still remains | Finish the remaining allocator/prefetch startup hooks/tests before treating storage+LLM handoff as fully hardened |
+| **P4** | `llm` | **No major fabricated speculative runtime path remains; acceptance evidence is next** | `inference_engine_enhanced.cpp` now auto-uses `LlamaWrapper` tokenization for both remote and local speculative draft paths when a live llama.cpp backend is available; remote draft text now retries the local draft model instead of byte-modulo fallback; local tokenizer-bridge failures now fall back to the target-model path instead of synthesizing byte-modulo token IDs; generic non-llama draft paths now also fail closed unless a tokenizer bridge or known native llama-backed draft-token implementation is available; target-model verification now auto-uses exact llama-backed `K+1` target logits, speculative generation now installs a scoped per-request TARG entropy override so downstream RAG gates can reuse those rows without global leakage, and unsupported generic targets fall back to normal generation instead of fabricated peaked matrices; `distributed_training_coordinator.cpp` now fails closed instead of fabricating simulated gradients/health when no `ShardRouter` transport exists; `production_validator.cpp` stress runs now require a real inference engine; `gpu_memory_manager.cpp` now keeps CUDA-absent / no-runtime paths explicitly unavailable instead of reporting simulated healthy/available GPUs or peer-access success | Move the next block to acceptance-gate build/test evidence unless new representative-hardware RAG gaps appear |
+| **P5** | `rag` / `llm_wiki` | **Mostly acceptance-gate gaps** | BM25+, RRF, persistent cache, and the non-mock production constructor in `llm_judge_integration.cpp` are present; `targ_retrieval.cpp` now computes full-vocabulary entropy by default, leaving representative-hardware/performance/Recall@k closure as the main remaining work | Treat runtime as largely implemented and use the next block for final acceptance gates |
+| **P6** | `gpu` / `acceleration` | **Backend-parity + hardware-gate gaps** | `graphics_backends.cpp` DirectX backend still returns empty/default results; OneAPI/NCCL/RCCL/OpenCL parity work remains open; representative-hardware CUDA/HIP evidence is still missing | Implement or explicitly gate unsupported backends before expanding acceleration-dependent features |
+| **P7** | `query` | **No longer a top blocker, but not fully gap-free** | `ETHICS_GET_ARGUMENTS`, `ETHICS_FIND_SIMILAR_DILEMMAS`, and `ETHICS_TRAVERSE_CHAIN` are source-validated as implemented; residual follow-up remains in `PM_DISCOVER_PROCESS` structural `_stub` fallback and `optimizer_cost_model.cpp` default-selectivity heuristics | Keep out of the immediate queue; revisit after sharding/server/storage/llm blocks |
+| **P8** | `transaction` / `auth` | **No major open code gap; verification remains** | Current revalidation still finds the open work in tests, chaos, and benchmark evidence rather than in missing runtime implementation | Keep out of the immediate source-gap queue |
+| **P9** | `core` / `base` / `access_model` / `process` / `utils` | **No current core-first implementation blocker** | Current revalidation did not find a larger runtime gap here than in the modules above; outstanding items are mostly evidence, perf, or lower-priority follow-up | Do not spend the next implementation block here |
+
+### Immediate next sequence
+
+1. **Sharding block:** real cloud-backup providers, shard-endpoint validation, and production-only RPC behavior.
+2. **Server block:** gRPC-Web forwarding, first-class provider/validator wiring, prepared-statement binding, and explicit MCP transport contracts.
+3. **Storage block:** backup restore must stop silently copying compressed/ciphertext bytes in degraded builds.
+4. **LLM/RAG block:** entropy bridge reuse landed; next focus is final acceptance-gate build/test evidence.
+5. **GPU/Acceleration block:** backend parity + representative-hardware proof after the core runtime blocks above are clean.
+
+> **Historical note:** The older Wave 5 ranking below is retained for traceability only and must not be used as the current implementation queue without this 2026-08-31 correction.
+
+---
+
+## Wave 5 Module Ranking — Real Source Gaps (2026-08-26, historical snapshot)
 
 > Full src/ scan: 2026-08-26 · Method: inline grep (non-header) + header C/H aggregate + 4 parallel subagents  
 > **Key finding:** Most scanner inflation comes from per-file Gap Summary boilerplate headers (every .cpp file has ≥3 header entries that are not real inline gaps). Inflation factor 8–50× is typical for non-LLM modules.
@@ -78,7 +109,7 @@
 | R2 | `wiki_index_store.cpp` | HNSW index stub — structure present, no RocksDB backend | CRITICAL | Wire HNSW index to RocksDB column family for persistent ANN storage |
 | R3 | `wiki_index_store.cpp` | RRF fusion skeleton — awaiting scorer integration | HIGH | Implement reciprocal-rank fusion across BM25+ and HNSW result sets |
 | R4 | `wiki_index_store.cpp` | Persistent embedding cache — RocksDB schema designed, CF unimplemented | HIGH | Implement RocksDB column family for embedding cache with TTL |
-| R5 | `targ_retrieval.cpp:81` | STUB #262 bridge — full-entropy fn injection point | HIGH | Wire real entropy fn from LLM inference engine when available |
+| R5 | `targ_retrieval.cpp:81` | Scoped full-entropy bridge | RESOLVED | Speculative decoding now installs a per-request TARG entropy override so downstream gates can reuse verified target-logit rows without mutating global bridge state |
 | R6 | `rag/` (multiple) | LLM-Judge — mock-mode stub; real integration pending | HIGH | Integrate real LLM judge call with retry and fallback |
 | R7 | `rag/` (multiple) | ~200 data-race + timeout + resource-limit gaps | MEDIUM | Audit concurrent retrieval paths; add timeouts and resource limits |
 

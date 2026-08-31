@@ -18,6 +18,7 @@
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
+#include <string_view>
 #include <vector>
 
 #include "utils/logger.h"
@@ -26,6 +27,18 @@ namespace fs = std::filesystem;
 
 namespace themis {
 namespace sharding {
+
+namespace {
+bool validateFixedProviderArgument(std::string_view provider, std::string_view field_name,
+                                   const std::string &expected, const std::string &actual) {
+    if (expected != actual) {
+        THEMIS_ERROR("{} callback rejected mismatched {}: expected='{}' actual='{}'",
+                     provider, field_name, expected, actual);
+        return false;
+    }
+    return true;
+}
+}
 
 // ============================================================================
 // AWS S3 Implementation
@@ -47,6 +60,10 @@ std::shared_ptr<Aws::S3::S3Client> g_s3_client;
 }
 
 bool initializeS3Provider(const std::string &region, const std::string &bucket, const std::string &endpoint) {
+    if (region.empty() || bucket.empty()) {
+        THEMIS_ERROR("S3 provider initialization requires non-empty region and bucket");
+        return false;
+    }
     try {
         // Initialize AWS SDK
         Aws::Client::ClientConfiguration client_config;
@@ -59,8 +76,12 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
         g_s3_client = std::make_shared<Aws::S3::S3Client>(client_config);
 
         // Register S3 upload callback
-        setS3UploadFn([bucket](const std::string &local_path, const std::string &remote_path,
+        setS3UploadFn([bucket](const std::string &callback_bucket, const std::string &local_path,
+                               const std::string &remote_path,
                                const std::map<std::string, std::string> &metadata) -> bool {
+            if (!validateFixedProviderArgument("S3", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_s3_client) {
                 THEMIS_ERROR("S3 upload: client not initialized");
                 return false;
@@ -112,7 +133,11 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
         });
 
         // Register S3 download callback
-        setS3DownloadFn([bucket](const std::string &remote_path, const std::string &local_path) -> bool {
+        setS3DownloadFn([bucket](const std::string &callback_bucket, const std::string &remote_path,
+                                 const std::string &local_path) -> bool {
+            if (!validateFixedProviderArgument("S3", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_s3_client) {
                 THEMIS_ERROR("S3 download: client not initialized");
                 return false;
@@ -155,7 +180,10 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
         });
 
         // Register S3 delete callback
-        setS3DeleteFn([bucket](const std::string &remote_path) -> bool {
+        setS3DeleteFn([bucket](const std::string &callback_bucket, const std::string &remote_path) -> bool {
+            if (!validateFixedProviderArgument("S3", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_s3_client) {
                 THEMIS_ERROR("S3 delete: client not initialized");
                 return false;
@@ -187,8 +215,12 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
         });
 
         // Register S3 list callback
-        setS3ListFn([bucket](const std::string &prefix) -> std::vector<std::string> {
+        setS3ListFn([bucket](const std::string &callback_bucket, const std::string &prefix)
+                    -> std::vector<std::string> {
             std::vector<std::string> results;
+            if (!validateFixedProviderArgument("S3", "bucket", bucket, callback_bucket)) {
+                return results;
+            }
 
             if (!g_s3_client) {
                 THEMIS_ERROR("S3 list: client not initialized");
@@ -223,7 +255,10 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
         });
 
         // Register S3 exists callback
-        setS3ExistsFn([bucket](const std::string &remote_path) -> bool {
+        setS3ExistsFn([bucket](const std::string &callback_bucket, const std::string &remote_path) -> bool {
+            if (!validateFixedProviderArgument("S3", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_s3_client) {
                 THEMIS_ERROR("S3 exists: client not initialized");
                 return false;
@@ -297,6 +332,10 @@ std::shared_ptr<Azure::Storage::Blobs::BlobContainerClient> g_azure_container_cl
 
 bool initializeAzureProvider(const std::string &account_name, const std::string &container,
                              const std::string &connection_string) {
+    if (account_name.empty() || container.empty()) {
+        THEMIS_ERROR("Azure provider initialization requires non-empty account_name and container");
+        return false;
+    }
     try {
         // Initialize Azure Blob Storage client
         if (!connection_string.empty()) {
@@ -311,8 +350,14 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
         }
 
         // Register Azure upload callback
-        setAzureUploadFn([account_name, container](const std::string &local_path, const std::string &remote_path,
+        setAzureUploadFn([account_name, container](const std::string &callback_account,
+                                                   const std::string &callback_container,
+                                                   const std::string &local_path, const std::string &remote_path,
                                                    const std::map<std::string, std::string> &metadata) -> bool {
+            if (!validateFixedProviderArgument("Azure", "account", account_name, callback_account) ||
+                !validateFixedProviderArgument("Azure", "container", container, callback_container)) {
+                return false;
+            }
             if (!g_azure_container_client) {
                 THEMIS_ERROR("Azure upload: client not initialized");
                 return false;
@@ -361,7 +406,12 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
 
         // Register Azure download callback
         setAzureDownloadFn(
-            [account_name, container](const std::string &remote_path, const std::string &local_path) -> bool {
+            [account_name, container](const std::string &callback_account, const std::string &callback_container,
+                                      const std::string &remote_path, const std::string &local_path) -> bool {
+                if (!validateFixedProviderArgument("Azure", "account", account_name, callback_account) ||
+                    !validateFixedProviderArgument("Azure", "container", container, callback_container)) {
+                    return false;
+                }
                 if (!g_azure_container_client) {
                     THEMIS_ERROR("Azure download: client not initialized");
                     return false;
@@ -406,7 +456,13 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
             });
 
         // Register Azure delete callback
-        setAzureDeleteFn([account_name, container](const std::string &remote_path) -> bool {
+        setAzureDeleteFn([account_name, container](const std::string &callback_account,
+                                                   const std::string &callback_container,
+                                                   const std::string &remote_path) -> bool {
+            if (!validateFixedProviderArgument("Azure", "account", account_name, callback_account) ||
+                !validateFixedProviderArgument("Azure", "container", container, callback_container)) {
+                return false;
+            }
             if (!g_azure_container_client) {
                 THEMIS_ERROR("Azure delete: client not initialized");
                 return false;
@@ -433,8 +489,14 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
         });
 
         // Register Azure list callback
-        setAzureListFn([account_name, container](const std::string &prefix) -> std::vector<std::string> {
+        setAzureListFn([account_name, container](const std::string &callback_account,
+                                                 const std::string &callback_container,
+                                                 const std::string &prefix) -> std::vector<std::string> {
             std::vector<std::string> results;
+            if (!validateFixedProviderArgument("Azure", "account", account_name, callback_account) ||
+                !validateFixedProviderArgument("Azure", "container", container, callback_container)) {
+                return results;
+            }
 
             if (!g_azure_container_client) {
                 THEMIS_ERROR("Azure list: client not initialized");
@@ -467,7 +529,13 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
         });
 
         // Register Azure exists callback
-        setAzureExistsFn([account_name, container](const std::string &remote_path) -> bool {
+        setAzureExistsFn([account_name, container](const std::string &callback_account,
+                                                   const std::string &callback_container,
+                                                   const std::string &remote_path) -> bool {
+            if (!validateFixedProviderArgument("Azure", "account", account_name, callback_account) ||
+                !validateFixedProviderArgument("Azure", "container", container, callback_container)) {
+                return false;
+            }
             if (!g_azure_container_client) {
                 THEMIS_ERROR("Azure exists: client not initialized");
                 return false;
@@ -537,6 +605,10 @@ std::shared_ptr<google::cloud::storage::Client> g_gcs_client;
 
 bool initializeGCSProvider(const std::string &project_id, const std::string &bucket,
                            const std::string &credentials_file) {
+    if (project_id.empty() || bucket.empty()) {
+        THEMIS_ERROR("GCS provider initialization requires non-empty project_id and bucket");
+        return false;
+    }
     try {
         // Initialize GCS client
         if (!credentials_file.empty()) {
@@ -555,8 +627,12 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
         }
 
         // Register GCS upload callback
-        setGCSUploadFn([bucket](const std::string &local_path, const std::string &remote_path,
+        setGCSUploadFn([bucket](const std::string &callback_bucket, const std::string &local_path,
+                                const std::string &remote_path,
                                 const std::map<std::string, std::string> &metadata) -> bool {
+            if (!validateFixedProviderArgument("GCS", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_gcs_client) {
                 THEMIS_ERROR("GCS upload: client not initialized");
                 return false;
@@ -605,7 +681,11 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
         });
 
         // Register GCS download callback
-        setGCSDownloadFn([bucket](const std::string &remote_path, const std::string &local_path) -> bool {
+        setGCSDownloadFn([bucket](const std::string &callback_bucket, const std::string &remote_path,
+                                  const std::string &local_path) -> bool {
+            if (!validateFixedProviderArgument("GCS", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_gcs_client) {
                 THEMIS_ERROR("GCS download: client not initialized");
                 return false;
@@ -643,7 +723,10 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
         });
 
         // Register GCS delete callback
-        setGCSDeleteFn([bucket](const std::string &remote_path) -> bool {
+        setGCSDeleteFn([bucket](const std::string &callback_bucket, const std::string &remote_path) -> bool {
+            if (!validateFixedProviderArgument("GCS", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_gcs_client) {
                 THEMIS_ERROR("GCS delete: client not initialized");
                 return false;
@@ -671,8 +754,12 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
         });
 
         // Register GCS list callback
-        setGCSListFn([bucket](const std::string &prefix) -> std::vector<std::string> {
+        setGCSListFn([bucket](const std::string &callback_bucket, const std::string &prefix)
+                     -> std::vector<std::string> {
             std::vector<std::string> results;
+            if (!validateFixedProviderArgument("GCS", "bucket", bucket, callback_bucket)) {
+                return results;
+            }
 
             if (!g_gcs_client) {
                 THEMIS_ERROR("GCS list: client not initialized");
@@ -700,7 +787,10 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
         });
 
         // Register GCS exists callback
-        setGCSExistsFn([bucket](const std::string &remote_path) -> bool {
+        setGCSExistsFn([bucket](const std::string &callback_bucket, const std::string &remote_path) -> bool {
+            if (!validateFixedProviderArgument("GCS", "bucket", bucket, callback_bucket)) {
+                return false;
+            }
             if (!g_gcs_client) {
                 THEMIS_ERROR("GCS exists: client not initialized");
                 return false;

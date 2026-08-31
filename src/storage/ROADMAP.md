@@ -6,7 +6,7 @@
 
 ## Current Status
 
-Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces.
+Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces. Source revalidation on 2026-08-31 found two degraded restore paths in `backup_manager.cpp`: when compression or OpenSSL dependencies are absent, restore currently copies bytes verbatim instead of performing real decompression/decryption. Follow-up hardening now fail-closes those restore paths, `ggml_tensor_bridge.cpp` now honors the runtime `ggml_context*` so real ggml allocation/copy can occur without an injected allocator when ggml is linked, and EmbeddedLLM startup now registers `GGML_TYPE_TT` once so TT-backed ggml mappings do not rely on an uninitialized type-registration path.
 
 ## In Progress
 
@@ -30,6 +30,12 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
   - Implement coordinator-guided promotion paths (cold→warm→L3)
   - Extend TieredStorageManager with coordinator hooks
   - See: `src/access_model/ROADMAP.md` Phase 4
+- [x] make `BackupManager::decompressPath()` fail closed or perform real decompression when zstd/lz4 are unavailable; unsupported restore builds now reject the operation instead of copying raw bytes verbatim (Target: Q4 2026)
+- [x] make `BackupManager::decryptFile()` fail closed or perform real decryption when OpenSSL is unavailable; unsupported restore builds now reject the operation instead of copying ciphertext verbatim (Target: Q4 2026)
+- [~] wire the remaining `ggml_tensor_bridge.cpp` production injection seams (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) at server initialization (Target: Q4 2026)
+  - [x] `map(ctx, ...)` now forwards the live `ggml_context*` into `GgmlAllocFn` and still uses that context for real ggml allocation/copy when `THEMIS_HAS_GGML` is enabled, reducing reliance on the allocator stub path
+  - [x] EmbeddedLLM startup now calls `registerGgmlTypeTT()` once under `THEMIS_ENABLE_GGML_BRIDGE`, closing the uninitialized TT-type registration path for ggml-backed inference startup
+  - [ ] tracked allocator/prefetch hooks remain open for full server-side production wiring
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
 - [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)

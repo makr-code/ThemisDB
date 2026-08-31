@@ -19,6 +19,7 @@
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <chrono>
 #include <cstring>
 #include <unordered_set>
 #include <optional>
@@ -232,6 +233,24 @@ inline bool isTrackedGpuHealthEntryNoLock(const std::unordered_map<int, bool>& g
 
 inline bool isTrackedGpuNoLock(const std::vector<int>& available_gpus, int gpu_device_id) noexcept {
     return std::find(available_gpus.begin(), available_gpus.end(), gpu_device_id) != available_gpus.end();
+}
+
+inline GPUMemoryManager::GPUHealth buildUnavailableGpuHealth(int gpu_device_id,
+                                                             float utilization_percent,
+                                                             float temperature_celsius,
+                                                             size_t error_count,
+                                                             std::string reason) {
+    GPUMemoryManager::GPUHealth health = {};
+    health.device_id = gpu_device_id;
+    health.is_available = false;
+    health.is_healthy = false;
+    health.temperature_celsius = temperature_celsius;
+    health.utilization_percent = utilization_percent;
+    health.error_count = error_count;
+    health.last_error = std::move(reason);
+    health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    return health;
 }
 
 inline std::vector<int> sanitizeGpuDeviceList(const std::vector<int>& requested_gpus,
@@ -473,17 +492,18 @@ void GPUMemoryManager::initializeGPU() {
         spdlog::info("  Available GPUs: {}", available_gpus_.size());
     } else {
         gpu_available_ = false;
-        spdlog::warn("No GPU detected: {}", cudaGetErrorString(err));
-        spdlog::warn("Running in CPU-only mode (simulation)");
+        spdlog::warn("No usable CUDA GPU detected: {}", cudaGetErrorString(err));
+        spdlog::warn("Running in CPU-only mode; GPU runtime remains unavailable");
         
         // Fallback to simulation mode
         gpu_device_id_ = 0;
         available_gpus_.push_back(gpu_device_id_);
         per_gpu_vram_used_[gpu_device_id_] = 0;
-        gpu_health_status_[gpu_device_id_] = true;
+        gpu_health_status_[gpu_device_id_] = false;
     }
 #else
-    // Simulation mode when CUDA is not enabled at build time
+    // Track configured GPU ids for diagnostics, but keep runtime availability disabled
+    // when CUDA is not enabled at build time.
     gpu_available_ = false;
     gpu_device_id_ = 0;
     
@@ -499,22 +519,22 @@ void GPUMemoryManager::initializeGPU() {
 
         for (int gpu_id : available_gpus_) {
             per_gpu_vram_used_[gpu_id] = 0;
-            gpu_health_status_[gpu_id] = true;
-            spdlog::info("  GPU {} initialized (simulated)", gpu_id);
+            gpu_health_status_[gpu_id] = false;
+            spdlog::info("  GPU {} tracked for diagnostics only (CUDA unavailable)", gpu_id);
         }
         
         if (config_.enable_peer_access) {
-            spdlog::info("P2P access enabled (simulated)");
+            spdlog::info("P2P access requested but unavailable without CUDA");
         }
     } else {
         // Single GPU mode
         available_gpus_.push_back(gpu_device_id_);
         per_gpu_vram_used_[gpu_device_id_] = 0;
-        gpu_health_status_[gpu_device_id_] = true;
+        gpu_health_status_[gpu_device_id_] = false;
     }
     
-    spdlog::info("GPU Memory Manager: Running in simulation mode (CUDA not enabled at build time)");
-    spdlog::info("  Available GPUs: {} (simulated)", available_gpus_.size());
+    spdlog::info("GPU Memory Manager: CUDA not enabled at build time; GPU runtime remains unavailable");
+    spdlog::info("  Tracked GPU slots: {}", available_gpus_.size());
 #endif
 
     // Apply VRAM limit fallback: if max_vram_bytes is still 0 after platform-specific
@@ -1865,12 +1885,19 @@ size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
 
 std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return available_gpus_;
+    std::vector<int> runtime_available_gpus;
+    runtime_available_gpus.reserve(available_gpus_.size());
+    for (int gpu_id : available_gpus_) {
+        if (isGPUAvailableNoLock(gpu_health_status_, gpu_id)) {
+            runtime_available_gpus.push_back(gpu_id);
+        }
+    }
+    return runtime_available_gpus;
 }
 
 bool GPUMemoryManager::isGPUAvailable(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
+    return gpu_available_ && isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
 }
 
 bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
@@ -1917,9 +1944,8 @@ bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
     }
 #endif
     
-    // Simulation mode
-    spdlog::info("Peer access enabled: GPU {} -> GPU {} (simulated)", src_gpu, dst_gpu);
-    return true;
+    spdlog::warn("Cannot enable peer access without a usable CUDA GPU backend");
+    return false;
 }
 
 bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
@@ -1955,9 +1981,8 @@ bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
     }
 #endif
     
-    // Simulation mode
-    spdlog::info("Peer access disabled: GPU {} -> GPU {} (simulated)", src_gpu, dst_gpu);
-    return true;
+    spdlog::warn("Cannot disable peer access without a usable CUDA GPU backend");
+    return false;
 }
 
 bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
@@ -1991,8 +2016,7 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     }
 #endif
     
-    // Simulation: assume all GPUs can access each other if peer access is enabled
-    return true;
+    return false;
 }
 
 void GPUMemoryManager::setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn) {
@@ -2140,16 +2164,16 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) co
     
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
-    
-    if (!health.is_available) {
-        return health;
-    }
-    
-    // Check if we have stored health data
     auto it = gpu_health_data_.find(gpu_device_id);
     if (it != gpu_health_data_.end()) {
         return it->second;
+    }
+
+    health.is_available = gpu_available_ &&
+        isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
+
+    if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+        return health;
     }
     
     // Generate default health data
@@ -2179,30 +2203,26 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
         // Get health inline to avoid deadlock (mutex already locked)
         GPUHealth health = {};
         health.device_id = gpu_id;
-        health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id);
-        
-        if (health.is_available) {
-            // Check if we have stored health data
-            auto it = gpu_health_data_.find(gpu_id);
-            if (it != gpu_health_data_.end()) {
-                health = it->second;
-            } else {
-                // Generate default health data
-                auto health_it = gpu_health_status_.find(gpu_id);
-                health.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
-                
-                auto temp_it = gpu_temperatures_.find(gpu_id);
-                health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
-                
-                auto util_it = gpu_utilizations_.find(gpu_id);
-                health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
-                
-                auto err_it = gpu_error_counts_.find(gpu_id);
-                health.error_count = (err_it != gpu_error_counts_.end()) ? err_it->second : 0;
-                
-                health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()).count();
-            }
+        auto it = gpu_health_data_.find(gpu_id);
+        if (it != gpu_health_data_.end()) {
+            health = it->second;
+        } else if (isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id)) {
+            health.is_available = gpu_available_ &&
+                isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id);
+            auto health_it = gpu_health_status_.find(gpu_id);
+            health.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+
+            auto temp_it = gpu_temperatures_.find(gpu_id);
+            health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
+
+            auto util_it = gpu_utilizations_.find(gpu_id);
+            health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
+
+            auto err_it = gpu_error_counts_.find(gpu_id);
+            health.error_count = (err_it != gpu_error_counts_.end()) ? err_it->second : 0;
+
+            health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
         }
         
         all_health.push_back(health);
@@ -2236,8 +2256,13 @@ void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& re
     // Update health data
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
+    health.is_available = gpu_available_ &&
+        isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
     health.is_healthy = false;
+    auto temp_it = gpu_temperatures_.find(gpu_device_id);
+    health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
+    auto util_it = gpu_utilizations_.find(gpu_device_id);
+    health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
     health.last_error = reason;
     
     auto err_it = gpu_error_counts_.find(gpu_device_id);
@@ -2259,6 +2284,12 @@ void GPUMemoryManager::markGPUHealthy(int gpu_device_id) {
 
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
         spdlog::warn("Ignoring markGPUHealthy for untracked GPU {}", gpu_device_id);
+        return;
+    }
+
+    if (!gpu_available_) {
+        spdlog::warn("Ignoring markGPUHealthy for GPU {} because no usable GPU runtime is available",
+                     gpu_device_id);
         return;
     }
 
@@ -2521,7 +2552,8 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     }
 #endif
 
-    // Simulation / non-CUDA fallback.
+    // Non-CUDA / no-runtime fallback: preserve diagnostic telemetry only and keep
+    // the device in an explicit unavailable state.
     size_t used_vram = 0;
     auto it = per_gpu_vram_used_.find(gpu_device_id);
     if (it != per_gpu_vram_used_.end()) {
@@ -2558,12 +2590,26 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         return;
     }
     gpu_utilizations_[gpu_device_id] = utilization;
-    gpu_temperatures_[gpu_device_id] =
-        measured_temperature.value_or(45.0f + (utilization * 0.4f));  // Simulated temp
+    gpu_temperatures_[gpu_device_id] = measured_temperature.value_or(0.0f);
+    gpu_health_status_[gpu_device_id] = false;
+    const auto error_count = gpu_error_counts_.count(gpu_device_id) > 0
+        ? gpu_error_counts_.at(gpu_device_id)
+        : 0;
+    gpu_health_data_[gpu_device_id] = buildUnavailableGpuHealth(
+        gpu_device_id,
+        utilization,
+        gpu_temperatures_[gpu_device_id],
+        error_count,
+        "gpu_runtime_unavailable");
 }
 
 void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
     updateGPUHealth(gpu_device_id);
+
+    if (!gpu_available_) {
+        markGPUUnhealthy(gpu_device_id, "gpu_runtime_unavailable");
+        return;
+    }
 
     bool is_healthy = true;
     std::string reason;
@@ -2600,4 +2646,3 @@ void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
 
 } // namespace llm
 } // namespace themis
-

@@ -871,6 +871,26 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
     return result;
 }
 
+std::vector<std::vector<float>> LlamaCppPlugin::computeTargetLogitsForTokens(
+    const llm::InferenceRequest& request,
+    const std::vector<int>& draft_token_ids
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+#ifdef THEMIS_LLM_ENABLED
+    if (!wrapper_) {
+        throw std::runtime_error(
+            "LlamaCppPlugin target-logit bridge requires a loaded llama wrapper");
+    }
+    return wrapper_->computeTargetLogitsForTokens(request, draft_token_ids);
+#else
+    (void)request;
+    (void)draft_token_ids;
+    throw std::runtime_error(
+        "LlamaCppPlugin target-logit bridge unavailable without THEMIS_LLM_ENABLED");
+#endif
+}
+
 // ── generateStream ────────────────────────────────────────────────────────────
 
 llm::InferenceResponse LlamaCppPlugin::generateStream(
