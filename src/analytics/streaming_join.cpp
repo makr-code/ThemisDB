@@ -73,7 +73,7 @@ size_t findColumnIndex(const ColumnBatch &batch, const std::string &name) {
 
 /// Build a list of column indices from a list of names.
 /// Throws std::invalid_argument if any name is missing.
-std::vector<size_t> resolveColumns(const ColumnBatch &batch, const std::vector<std::string> &names) {
+[[maybe_unused]] std::vector<size_t> resolveColumns(const ColumnBatch &batch, const std::vector<std::string> &names) {
     std::vector<size_t> idxs;
     idxs.reserve(names.size());
     for (const auto &n : names) {
@@ -100,7 +100,7 @@ std::string makeCompositeKey(const std::vector<std::shared_ptr<Column>> &cols, c
 
 /// Project columns from `src` batch by name list (empty = all columns).
 /// Returns a list of (new Column, original name) pairs for building result.
-std::vector<std::shared_ptr<Column>> projectColumns(const ColumnBatch &src,
+[[maybe_unused]] std::vector<std::shared_ptr<Column>> projectColumns(const ColumnBatch &src,
                                                     const std::vector<std::string> &select_names) {
     std::vector<std::shared_ptr<Column>> result;
     if (select_names.empty()) {
@@ -122,7 +122,7 @@ std::vector<std::shared_ptr<Column>> projectColumns(const ColumnBatch &src,
 }
 
 /// Append a single null row to every column in `cols`.
-void appendNullRow(std::vector<std::shared_ptr<Column>> &cols) {
+[[maybe_unused]] void appendNullRow(std::vector<std::shared_ptr<Column>> &cols) {
     for (auto &c : cols) {
         c->appendNull();
     }
@@ -154,7 +154,7 @@ void appendRow(Column &dst, const Column &src, size_t src_row) {
 }
 
 /// Create empty output columns matching the schema of `src_cols`.
-std::vector<std::shared_ptr<Column>> makeEmptyOutputCols(const std::vector<std::shared_ptr<Column>> &src_cols) {
+[[maybe_unused]] std::vector<std::shared_ptr<Column>> makeEmptyOutputCols(const std::vector<std::shared_ptr<Column>> &src_cols) {
     std::vector<std::shared_ptr<Column>> result;
     result.reserve(src_cols.size());
     for (const auto &c : src_cols) {

@@ -1324,7 +1324,7 @@ DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const Mi
 namespace {
 
 // Helper: build activity-to-id mapping for a sub-log
-std::unordered_map<std::string, int> buildActivityIds(const std::vector<ProcessTrace> &traces) {
+[[maybe_unused]] std::unordered_map<std::string, int> buildActivityIds(const std::vector<ProcessTrace> &traces) {
     std::unordered_map<std::string, int> ids;
     int next = 0;
     for (const auto &t : traces) {
@@ -1380,7 +1380,7 @@ SubDFG buildSubDFG(const std::vector<ProcessTrace> &traces, double noise_thresho
 }
 
 // Check reachability in DFG (BFS)
-bool dfgReachable(const SubDFG &dfg, const std::string &from, const std::string &to) {
+[[maybe_unused]] bool dfgReachable(const SubDFG &dfg, const std::string &from, const std::string &to) {
     std::queue<std::string> q;
     std::unordered_set<std::string> visited;
     q.push(from);

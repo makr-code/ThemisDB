@@ -52,7 +52,7 @@ static int themis_io_uring_enter(int fd, unsigned to_submit, unsigned min_comple
                                        to_submit, min_complete, flags, sig,
                                        _NSIG / 8));
 }
-static int themis_io_uring_register(int fd, unsigned opcode, void* arg, unsigned nr) {
+[[maybe_unused]] static int themis_io_uring_register(int fd, unsigned opcode, void* arg, unsigned nr) {
     return static_cast<int>(::syscall(__NR_io_uring_register, fd, opcode, arg, nr));
 }
 
@@ -76,7 +76,10 @@ struct blk_zone {
     uint64_t start; uint64_t len; uint64_t wp;
     uint8_t  type;  uint8_t  cond; uint8_t  non_seq; uint8_t reserved[36];
 };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 struct blk_zone_report { uint64_t sector; uint32_t nr_zones; struct blk_zone zones[]; };
+#pragma GCC diagnostic pop
 #  endif
 #endif  // __linux__
 

@@ -233,12 +233,12 @@ void ConfigFileWatcher::stop() {
 #if defined(__linux__)
     if (pipe_write_fd_ != -1) {
         char dummy = 1;
-        (void)write(pipe_write_fd_, &dummy, 1);
+        [[maybe_unused]] ssize_t rc = write(pipe_write_fd_, &dummy, 1);
     }
 #elif defined(__APPLE__)
     if (pipe_write_fd_ != -1) {
         char dummy = 1;
-        (void)write(pipe_write_fd_, &dummy, 1);
+        [[maybe_unused]] ssize_t rc = write(pipe_write_fd_, &dummy, 1);
     }
 #elif defined(_WIN32)
     if (stop_event_ != nullptr) {

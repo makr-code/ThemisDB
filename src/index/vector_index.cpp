@@ -436,9 +436,11 @@ float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std:
 	
 	// SIMD-optimized loop
 	for (size_t i = 0; i + simd_width <= n; i += simd_width) {
-		#if defined(__clang__) || defined(__GNUC__)
-		#pragma unroll(8)
-		#endif
+#if defined(__clang__)
+#pragma clang loop unroll_count(8)
+#elif defined(__GNUC__)
+#pragma GCC unroll 8
+#endif
 		for (size_t j = 0; j < simd_width; ++j) {
 			dot += a[i+j] * b[i+j];
 			na += a[i+j] * a[i+j];
@@ -1155,7 +1157,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				threshold = j.value("auto_threshold", 1000000);
 			}
 		} catch (...) {}
-		if (mode == "none") return false; if (mode == "sq8") return true;
+		if (mode == "none") return false;
+		if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 	std::string key = makeObjectKey(pk);
@@ -2549,7 +2552,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				threshold = j.value("auto_threshold", 1000000);
 			}
 		} catch (...) {}
-		if (mode == "none") return false; if (mode == "sq8") return true;
+		if (mode == "none") return false;
+		if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 	std::vector<uint8_t> serialized;
@@ -2657,7 +2661,9 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 	}
 	
 	// Pre-compute all serialization and quantization
+#if defined(_OPENMP)
 	#pragma omp simd
+#endif
 	for (size_t idx = 0; idx < entities.size(); ++idx) {
 		const auto& entity = entities[idx];
 		const std::string& pk = entity.getPrimaryKey();

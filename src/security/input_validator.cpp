@@ -110,13 +110,13 @@ ValidationResult InputValidator::validateJsonPayload(std::string_view payload) {
   }
   
   // Check nesting depth (simple heuristic: count braces)
-  int depth = 0, max_depth = 0;
+  size_t depth = 0, max_depth = 0;
   for (char c : payload) {
     if (c == '{' || c == '[') {
       depth++;
-      max_depth = std::max(max_depth, depth);
+      if (depth > max_depth) max_depth = depth;
     } else if (c == '}' || c == ']') {
-      depth--;
+      if (depth > 0) depth--;
     }
   }
   
@@ -420,7 +420,7 @@ bool InputValidator::containsNullBytes(std::string_view input) {
 
 bool InputValidator::containsControlCharacters(std::string_view input) {
   for (unsigned char c : input) {
-    if ((c >= 0x00 && c <= 0x1F) || c == 0x7F) {
+    if (c <= 0x1F || c == 0x7F) {
       return true;
     }
   }

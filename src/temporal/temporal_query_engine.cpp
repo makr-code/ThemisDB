@@ -656,7 +656,7 @@ std::vector<VersionedDocument> queryAsOfCached(
 namespace {
 
 /// Merge the version history of a single key into sequenced-distinct rows.
-std::vector<VersionedDocument> mergeDistinctKey(
+[[maybe_unused]] std::vector<VersionedDocument> mergeDistinctKey(
     std::vector<VersionedDocument> history) {
 
     if (history.empty()) return {};
