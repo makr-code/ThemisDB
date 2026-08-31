@@ -16,6 +16,7 @@ const path = require('path');
 
 const MAX_ERRORS_PER_CATEGORY = 10;
 const CHRONIC_THRESHOLD = 3; // N consecutive runs = chronic
+const MAX_MARKDOWN_CHARS = 60000; // GitHub issue body hard limit is 65536
 
 /**
  * Error Aggregator: combines errors from multiple sources
@@ -363,7 +364,11 @@ async function main() {
   console.log(`  - Chronic errors: ${stats.chronic_errors}`);
 
   // Generate markdown
-  const markdown = aggregator.generateMarkdown();
+  let markdown = aggregator.generateMarkdown();
+  if (markdown.length > MAX_MARKDOWN_CHARS) {
+    const summaryNote = `\n\n---\n\nReport truncated to ${MAX_MARKDOWN_CHARS} characters to fit GitHub issue limits.\n`;
+    markdown = `${markdown.slice(0, MAX_MARKDOWN_CHARS - summaryNote.length)}${summaryNote}`;
+  }
 
   // Write output
   const outputFile = process.env.OUTPUT_FILE || '/tmp/aggregated-errors.md';
