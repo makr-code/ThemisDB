@@ -89,6 +89,10 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Cross-node and shard-aware inference hardening (Target: Q3 2026) — COMPLETE 2026-08-16
 - [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026) — COMPLETE 2026-08-16
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026) — COMPLETE 2026-08-16
+- [~] Source-validated runtime gap closure follow-up (Target: Q4 2026)
+  - [ ] remove the remaining STUB #261 / STUB #263 draft-token fallback paths in `inference_engine_enhanced.cpp` so speculative decode no longer falls back to byte-modulo token IDs in production-style execution
+  - [ ] replace simulation-backed validation/telemetry defaults in `gpu_memory_manager.cpp` and `production_validator.cpp` with hardware-backed checks or explicit disabled-state contracts
+  - [ ] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
 - [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
   - [x] P5-L01 EXS tests (28 exception-safety tests) and P5-L02 MEM tests (24 memory-leak tests) PASS (`tests/llm/test_llm_phase5_hardening.cpp`)
   - [x] Residual-risk items documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`
@@ -151,7 +155,8 @@ The module provides production-grade LLM runtime surfaces across async inference
 
 > **Source:** Semantic analysis 2026-08-25 — `inference_engine_enhanced.cpp` (8 stubs), `inline_training_engine.cpp` (5 stubs)
 
-- [x] Replace 8 stubs in `inference_engine_enhanced.cpp`: speculative decode verify-step, CUDA kernel fusion for attention, KV-cache LRU eviction (Wave-7, 2026-08-26)
+- [~] Replace the remaining speculative-decode fallback stubs in `inference_engine_enhanced.cpp` after the Wave-7 bridge work (Target: Q4 2026)
+  - Source revalidation 2026-08-31: TokenizerFn bridging is wired, but STUB #263 byte-modulo token fallback and the STUB #261 production-injection fallback path still remain as residual runtime debt
   - Inputs: draft-model logits + verify-model logits; KV-cache capacity config
   - Outputs: accepted token count, cache hit/miss metrics
   - Tests: `tests/llm/test_wave7_llm_kvcache_lru_checkpoint.cpp` (LRU-01..LRU-10)

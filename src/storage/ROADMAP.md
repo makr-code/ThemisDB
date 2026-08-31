@@ -6,7 +6,7 @@
 
 ## Current Status
 
-Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces.
+Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces. Source revalidation on 2026-08-31 found two degraded restore paths in `backup_manager.cpp`: when compression or OpenSSL dependencies are absent, restore currently copies bytes verbatim instead of performing real decompression/decryption.
 
 ## In Progress
 
@@ -30,6 +30,9 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
   - Implement coordinator-guided promotion paths (cold→warm→L3)
   - Extend TieredStorageManager with coordinator hooks
   - See: `src/access_model/ROADMAP.md` Phase 4
+- [ ] make `BackupManager::decompressPath()` fail closed or perform real decompression when zstd/lz4 are unavailable; the current degraded path copies bytes verbatim and is only safe when the matching write path also ran in raw-copy mode (Target: Q4 2026)
+- [ ] make `BackupManager::decryptFile()` fail closed or perform real decryption when OpenSSL is unavailable; the current degraded path copies ciphertext verbatim (Target: Q4 2026)
+- [ ] wire the remaining `ggml_tensor_bridge.cpp` production injection seams (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) at server initialization (Target: Q4 2026)
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
 - [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)

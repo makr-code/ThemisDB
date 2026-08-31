@@ -8,7 +8,7 @@
 
 ## Current Status
 
-Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability.
+Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability. Cloud-backup callback surfaces exist, but the default S3/Azure/GCS provider bodies in `cloud_backup.cpp` still remain fail-closed placeholders until real SDK-backed callbacks are wired.
 
 **Wave Alignment (see root ROADMAP.md § Program Execution Model):**
 - **Wave A (Q3–Q4 2026):** Multi-shard exact-path gate (Phase C), topology-change auto-rebalance, latency-aware routing, distributed write stress
@@ -45,7 +45,8 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)
-- [x] Real AWS S3, Azure Storage, and Google Cloud Storage SDK integrations for cloud backup (Target: Q2 2026)
+- [~] Real AWS S3, Azure Storage, and Google Cloud Storage SDK integrations for cloud backup (Target: Q4 2026)
+  - Source revalidation 2026-08-31: `cloud_backup.cpp` still logs placeholder upload/download/delete/exists operations and returns `false` unless a real callback is injected via `setS3UploadFn()` / `setAzureUploadFn()` / `setGCSUploadFn()`
 
 ## Planned Features
 
@@ -77,6 +78,9 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
+- [ ] replace placeholder S3/Azure/GCS provider bodies in `cloud_backup.cpp` with real SDK-backed upload/download/delete/exists behavior, keeping the callback seam for tests only (Target: Q4 2026)
+- [ ] replace the synthetic `shard://<id>` fallback in `distributed_transaction.cpp` with explicit endpoint-contract validation before 2PC starts (Target: Q4 2026)
+- [ ] keep `shard_rpc_client.cpp` simulation fallback out of production paths by making the runtime contract explicit and fail-closed when no real RPC transport is available (Target: Q4 2026)
 - [ ] tighten deterministic behavior under sustained shard migration and skewed load (Target: Q4 2026)
 - [ ] expand stress coverage for cross-shard transaction and anti-entropy edge scenarios (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for rebalance/repair incident triage (Target: Q4 2026)
