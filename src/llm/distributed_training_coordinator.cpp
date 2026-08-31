@@ -859,40 +859,7 @@ DistributedTrainingCoordinator::collectGradients(int step_number) {
                  active_shards_.size(), step_number);
     
     if (!shard_router_) {
-        // Fallback to simulated mode when ShardRouter is not available
-        spdlog::warn("No ShardRouter available, using simulated gradients");
-        
-        for (const auto& shard_id : active_shards_) {
-            // Create dummy gradient for testing/standalone mode
-            std::vector<GradientTensor> shard_grads;
-            GradientTensor dummy;
-            dummy.layer_name = "test_layer";
-            dummy.source_shard = shard_id;
-            dummy.step_number = step_number;
-            dummy.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count();
-            dummy.shape = {64, 64};
-            dummy.data.resize(64 * 64, 0.1f);  // Dummy data
-            
-            shard_grads.push_back(dummy);
-            collected[shard_id] = shard_grads;
-            
-            // Simulate loss values for testing/standalone mode
-            // Each shard has a simulated loss that decreases over steps
-            float shard_loss = 1.0f / (1.0f + step_number * 0.1f);
-            // Add some variance between shards (±10%)
-            float variance = (std::hash<std::string>{}(shard_id) % 20 - 10) / 100.0f;
-            shard_loss *= (1.0f + variance);
-            
-            // Update shard state with simulated loss
-            if (shard_states_.count(shard_id) > 0) {
-                shard_states_[shard_id].current_loss = shard_loss;
-                shard_states_[shard_id].samples_processed = 32;  // Simulated batch size
-                spdlog::debug("Shard {} simulated loss: {:.6f}", shard_id, shard_loss);
-            }
-        }
-        
+        spdlog::error("No ShardRouter available; distributed gradient collection is disabled");
         return collected;
     }
     
@@ -1103,15 +1070,8 @@ bool DistributedTrainingCoordinator::broadcastGradients(
                  gradients.size(), active_shards_.size());
     
     if (!shard_router_) {
-        // Fallback to simulated mode
-        spdlog::warn("No ShardRouter available, skipping broadcast (standalone mode)");
-        
-        // Update statistics for simulated mode
-        for (const auto& grad : gradients) {
-            stats_.total_bytes_sent += grad.uncompressed_size();
-        }
-        
-        return true;
+        spdlog::error("No ShardRouter available; distributed gradient broadcast is disabled");
+        return false;
     }
     
     // Real RPC implementation using ShardRouter
@@ -1191,14 +1151,14 @@ DistributedTrainingCoordinator::checkShardHealth() {
     ).count();
     
     if (!shard_router_) {
-        // Fallback to simulated health checks
-        spdlog::debug("No ShardRouter available, using simulated health checks");
-        
         for (auto& [shard_id, state] : shard_states_) {
             state.last_heartbeat_ms = now_ms;
-            state.is_active = true;
+            state.is_active = false;
+            state.is_synchronized = false;
+            state.consecutive_failures = std::max(1, state.consecutive_failures + 1);
+            spdlog::warn("Shard {} marked unavailable because no ShardRouter transport is configured",
+                         shard_id);
         }
-        
         return shard_states_;
     }
     
@@ -1655,4 +1615,3 @@ DistributedTrainingCoordinatorFactory::createWithAutoDiscovery(
 
 } // namespace llm
 } // namespace themis
-

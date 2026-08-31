@@ -95,8 +95,11 @@ The module provides production-grade LLM runtime surfaces across async inference
     - [x] remote speculative-draft text no longer byte-modulo-falls back when no tokenizer bridge is available; it now retries the local draft model instead
     - [x] local speculative-draft fallback now also auto-uses `LlamaWrapper` tokenization when the draft or target plugin is a live llama.cpp backend
     - [ ] generic non-llama plugin paths still retain the documented byte-modulo fallback when no tokenizer bridge or plugin-native draft implementation is available
-  - [ ] replace simulation-backed validation/telemetry defaults in `gpu_memory_manager.cpp` and `production_validator.cpp` with hardware-backed checks or explicit disabled-state contracts
-  - [ ] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
+  - [~] replace simulation-backed validation/telemetry defaults in `gpu_memory_manager.cpp` and `production_validator.cpp` with hardware-backed checks or explicit disabled-state contracts
+    - [x] `production_validator.cpp` stress-test execution now fails closed without an attached inference engine instead of synthesizing local responses
+    - [ ] `gpu_memory_manager.cpp` still falls back to simulation-only defaults when CUDA is absent
+  - [x] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
+    - [x] gradient collection/broadcast/health now fail closed or mark shards unavailable when no `ShardRouter` transport is configured
 - [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
   - [x] P5-L01 EXS tests (28 exception-safety tests) and P5-L02 MEM tests (24 memory-leak tests) PASS (`tests/llm/test_llm_phase5_hardening.cpp`)
   - [x] Residual-risk items documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`

@@ -413,6 +413,14 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
     
     spdlog::info("=== Starting Stress Test ({} hours) ===",
                  config_.stress_test_duration.count());
+
+    if (!inference_engine_) {
+        result.passed = false;
+        result.error_message =
+            "Stress test requires an attached inference engine; synthetic local fallback is disabled.";
+        spdlog::warn("{}", result.error_message);
+        return result;
+    }
     
     stress_test_running_ = true;
     stress_test_start_ = std::chrono::system_clock::now();
@@ -428,29 +436,19 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
         // Simulate request processing
         auto start = std::chrono::steady_clock::now();
         
-        // Run an actual inference request through the engine when available.
         bool success = true;
-        if (inference_engine_) {
-            InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
-            eng_req.base_request.prompt     = "stress test iteration " + std::to_string(iteration);
-            eng_req.base_request.model_id   = "default";
-            eng_req.base_request.max_tokens = 32;
-            eng_req.timeout                 = std::chrono::milliseconds(10000);
-            try {
-                auto handle = inference_engine_->submit(eng_req);
-                handle.get();
-                success = true;
-            } catch (const std::exception& e) {
-                spdlog::warn("Stress test request {} failed: {}", iteration, e.what());
-                success = false;
-            }
-        }
-        // If no engine is attached, the validator still executes the
-        // deterministic local fallback so the stress-test loop exercises real
-        // request handling and bookkeeping paths.
-        if (!inference_engine_) {
-            [[maybe_unused]] const auto response =
-                buildDeterministicResponse("stress test iteration " + std::to_string(iteration));
+        InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+        eng_req.base_request.prompt     = "stress test iteration " + std::to_string(iteration);
+        eng_req.base_request.model_id   = "default";
+        eng_req.base_request.max_tokens = 32;
+        eng_req.timeout                 = std::chrono::milliseconds(10000);
+        try {
+            auto handle = inference_engine_->submit(eng_req);
+            handle.get();
+            success = true;
+        } catch (const std::exception& e) {
+            spdlog::warn("Stress test request {} failed: {}", iteration, e.what());
+            success = false;
         }
         
         auto end = std::chrono::steady_clock::now();

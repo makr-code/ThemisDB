@@ -290,6 +290,22 @@ TEST_F(ProductionValidatorTest, StressTest_StartStop) {
     EXPECT_FALSE(validator.isStressTestRunning());
 }
 
+TEST_F(ProductionValidatorTest, StressTest_RequiresInferenceEngine) {
+    ProductionValidator::ValidationConfig short_config = config_;
+    short_config.stress_test_duration = std::chrono::hours(0);
+
+    ProductionValidator validator(short_config);
+
+    auto result = validator.runStressTest();
+
+    EXPECT_FALSE(result.passed);
+    EXPECT_EQ(result.total_requests, 0u);
+    EXPECT_EQ(result.successful_requests, 0u);
+    EXPECT_EQ(result.failed_requests, 0u);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_NE(result.error_message.find("requires an attached inference engine"), std::string::npos);
+}
+
 TEST_F(ProductionValidatorTest, LiveStats_Available) {
     ProductionValidator validator(config_);
     
@@ -304,4 +320,3 @@ TEST_F(ProductionValidatorTest, LiveStats_Available) {
 // ═══════════════════════════════════════════════════════════
 // Main
 // ═══════════════════════════════════════════════════════════
-
