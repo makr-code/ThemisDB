@@ -2171,7 +2171,7 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) co
 
     health.is_available = gpu_available_ &&
         isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
-    
+
     if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
         return health;
     }
@@ -2211,16 +2211,16 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
                 isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id);
             auto health_it = gpu_health_status_.find(gpu_id);
             health.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
-            
+
             auto temp_it = gpu_temperatures_.find(gpu_id);
             health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
-            
+
             auto util_it = gpu_utilizations_.find(gpu_id);
             health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
-            
+
             auto err_it = gpu_error_counts_.find(gpu_id);
             health.error_count = (err_it != gpu_error_counts_.end()) ? err_it->second : 0;
-            
+
             health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
         }
