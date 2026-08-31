@@ -1,14 +1,14 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-    Bootstrap-Skript für den Code-Maturity-Workflow
+    Bootstrap-Skript für die Code-Maturity-Pipeline
     
 .DESCRIPTION
-    Triggert den GitHub Actions Workflow "08-maintenance_code-maturity.yml"
-    manuell, um die fehlende docs/code_maturity_report.md zu erstellen.
+    Triggert den GitHub Actions Workflow "maintenance-docs.yml"
+    manuell, um Code-Maturity-Report, Version-Tracking und Badge-JSONs
+    zu aktualisieren.
     
-    Dies ist ein einmaliger Schritt, danach funktioniert der Workflow
-    automatisch bei Schedule oder bei PR-Änderungen an Workflow-Dateien.
+    Der Workflow läuft zusätzlich automatisch per Schedule.
 
 .EXAMPLE
     ./bootstrap_code_maturity_workflow.ps1
@@ -103,7 +103,7 @@ else {
 Write-Host "`n🚀 Triggering workflow..." -ForegroundColor Cyan
 
 $refBranch = (git rev-parse --abbrev-ref HEAD)
-$workflowFile = '08-maintenance_code-maturity.yml'
+$workflowFile = 'maintenance-docs.yml'
 
 $workflowCmd = @(
     'workflow', 'run', $workflowFile,
@@ -115,7 +115,7 @@ if ($UpdateHeaders) {
 }
 
 if ($FailOnDrift) {
-    $workflowCmd += @('-f', "fail_on_drift=true")
+    $workflowCmd += @('-f', "fail_on_findings=true")
 }
 
 if ($DryRun) {
@@ -161,11 +161,11 @@ Write-Host "  1. Wait 30-60 seconds for the workflow to initialize"
 Write-Host "  2. Check progress: " -NoNewline
 Write-Host "gh run view --repo . --log-failed" -ForegroundColor Gray
 Write-Host "  3. After completion, check artifacts:"
-Write-Host "     - /tmp/code_maturity_report.md (generated report)"
+Write-Host "     - docs/code_maturity_report.md (generated report)"
 Write-Host "     - .github/badges/*.json (badge files)"
 Write-Host "     - .github/version_tracking.json (version tracking)"
 
-Write-Host "`n✨ Bootstrap complete! The workflow will now run on schedule (Mondays 3 AM UTC).`n" -ForegroundColor Green
+Write-Host "`n✨ Bootstrap complete! The workflow now refreshes metrics on schedule (daily 04:00 UTC; weekly docs alignment Monday 05:00 UTC).`n" -ForegroundColor Green
 
 if (-not $UpdateHeaders) {
     Write-Host "💡 Tip: To update headers automatically, run with -UpdateHeaders flag:`n" -ForegroundColor Cyan

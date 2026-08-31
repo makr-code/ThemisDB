@@ -247,11 +247,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Set up Python
@@ -267,7 +268,8 @@ jobs:
           TARGET_PATHS="src,include,tests,benchmarks"
           INCLUDE_ALL_FLAG=""
           FAIL_ON_VALIDATION_FLAG=""
-          REPORT_PATH_FLAG="--report-path /tmp/code_maturity_report.md"
+          METRICS_REPORT_PATH="docs/code_maturity_report.md"
+          HEADER_REPORT_PATH="/tmp/code_maturity_header_report.md"
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ]; then
             {
@@ -303,10 +305,19 @@ jobs:
             echo "target_paths=$TARGET_PATHS"
             echo "include_all_flag=$INCLUDE_ALL_FLAG"
             echo "fail_on_validation_flag=$FAIL_ON_VALIDATION_FLAG"
-            echo "report_path_flag=$REPORT_PATH_FLAG"
+            echo "metrics_report_path=$METRICS_REPORT_PATH"
+            echo "header_report_path=$HEADER_REPORT_PATH"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Run code maturity analysis (${{ steps.mode.outputs.mode }})
+      - name: Generate code maturity metrics and badges
+        run: |
+          python .github/scripts/analyze_code_maturity.py \
+            --root . \
+            --no-headers \
+            --report-path "${{ steps.mode.outputs.metrics_report_path }}" \
+            2>&1 | tee /tmp/code_maturity_metrics.log
+
+      - name: Run code maturity header maintenance (${{ steps.mode.outputs.mode }})
         run: |
           python .github/scripts/code_maturity_header_writer.py \
             --root . \
@@ -316,8 +327,74 @@ jobs:
             ${{ steps.mode.outputs.include_all_flag }} \
             ${{ steps.mode.outputs.no_headers_flag }} \
             ${{ steps.mode.outputs.fail_on_validation_flag }} \
-            ${{ steps.mode.outputs.report_path_flag }} \
-            2>&1 | tee /tmp/maturity_run.log
+            --report-path "${{ steps.mode.outputs.header_report_path }}" \
+            2>&1 | tee /tmp/code_maturity_headers.log
+
+      - name: Commit generated code maturity artifacts
+        if: github.event_name != 'pull_request'
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          stage_code_maturity_changes() {
+            git add .github/badges/ .github/version_tracking.json docs/code_maturity_report.md || true
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ]; then
+              git add src include tests benchmarks || true
+            fi
+          }
+
+          regenerate_code_maturity_outputs() {
+            python .github/scripts/analyze_code_maturity.py \
+              --root . \
+              --no-headers \
+              --report-path "${{ steps.mode.outputs.metrics_report_path }}" \
+              2>&1 | tee /tmp/code_maturity_metrics_retry.log
+
+            python .github/scripts/code_maturity_header_writer.py \
+              --root . \
+              --header-mode "${{ steps.mode.outputs.header_mode }}" \
+              --min-score "${{ steps.mode.outputs.min_score }}" \
+              --target-paths "${{ steps.mode.outputs.target_paths }}" \
+              ${{ steps.mode.outputs.include_all_flag }} \
+              ${{ steps.mode.outputs.no_headers_flag }} \
+              ${{ steps.mode.outputs.fail_on_validation_flag }} \
+              --report-path "${{ steps.mode.outputs.header_report_path }}" \
+              2>&1 | tee /tmp/code_maturity_headers_retry.log
+          }
+
+          for attempt in 1 2 3; do
+            stage_code_maturity_changes
+
+            if git diff --cached --quiet; then
+              echo "Code maturity artifacts are already up to date."
+              exit 0
+            fi
+
+            CHANGED=$(git diff --cached --name-only | wc -l)
+            git commit -m "chore(code-maturity): refresh report + badges [skip ci]"
+
+            set +e
+            PUSH_OUTPUT=$(git push origin HEAD:${{ github.ref_name }} 2>&1)
+            PUSH_STATUS=$?
+            set -e
+            printf '%s\n' "$PUSH_OUTPUT"
+
+            if [ "$PUSH_STATUS" -eq 0 ]; then
+              echo "Pushed $CHANGED code-maturity file changes."
+              exit 0
+            fi
+
+            if [ "$attempt" -eq 3 ] || ! printf '%s' "$PUSH_OUTPUT" | grep -qiE 'non-fast-forward|fetch first|tip of your current branch is behind|remote contains work that you do not'; then
+              exit "$PUSH_STATUS"
+            fi
+
+            echo "::notice::${{ github.ref_name }} advanced during code-maturity push; regenerating outputs (retry $((attempt + 1))/3)."
+            git fetch origin "${{ github.ref_name }}"
+            git reset --hard "origin/${{ github.ref_name }}"
+            git clean -fd
+            regenerate_code_maturity_outputs
+          done
 
       - name: Upload maturity report
         if: always()
@@ -325,8 +402,14 @@ jobs:
         with:
           name: code-maturity-report-${{ github.run_number }}
           path: |
-            /tmp/code_maturity_report.md
+            /tmp/code_maturity_metrics.log
+            /tmp/code_maturity_metrics_retry.log
+            /tmp/code_maturity_header_report.md
+            /tmp/code_maturity_headers.log
+            /tmp/code_maturity_headers_retry.log
             docs/code_maturity_report.md
+            .github/badges/
+            .github/version_tracking.json
           retention-days: 30
           if-no-files-found: ignore
 

@@ -1,8 +1,8 @@
 # Badge Documentation
 
-This section explains the status badges shown at the top of the [ThemisDB README](../../../README.md).
+This section documents the repository badges used in the [ThemisDB README](../../../README.md) and related badge reference pages.
 
-The README header is organised into four thematic rows for quick scanning. Each badge links back to the corresponding page in this directory for more detail.
+Workflow-generated metric badges resolve through committed JSON badge files in `.github/badges/`. Static Shields/GitHub badges remain direct links to their upstream services.
 
 ## Badges
 
@@ -30,7 +30,7 @@ The README header is organised into four thematic rows for quick scanning. Each 
 
 | Badge | What it shows | Details |
 |-------|---------------|---------|
-| Lines of Code | Total source lines (Tokei count, stored in `.github/badges/lines-of-code.json`) | [loc.md](loc.md) |
+| Lines of Code | Core C/C++ line count for `src/` + `include/`, published from `.github/badges/lines-of-code.json` | [loc.md](loc.md) |
 | Repo Size | Total repository size (GitHub API) | [repo-size.md](repo-size.md) |
 | Last Commit | Date of the most recent commit on `develop` | [last-commit.md](last-commit.md) |
 | Stars | GitHub star count | [stars.md](stars.md) |
@@ -58,7 +58,7 @@ The README header is organised into four thematic rows for quick scanning. Each 
 
 ## Design rationale
 
-The badge bar uses five rows of five badges each (~25 total) to provide comprehensive project status at a glance without scrolling:
+The badge catalog groups repository badges by topic so generated metrics and service-backed badges stay explainable and reviewable:
 
 - **Row 1** answers: *Is the build healthy? What version is this? Can I use it freely?*
 - **Row 1b** answers: *Do all ThemisDB editions (MINIMAL/COMMUNITY/ENTERPRISE/HYPERSCALER/MILITARY) build successfully on `develop`?*
@@ -67,4 +67,3 @@ The badge bar uses five rows of five badges each (~25 total) to provide comprehe
 - **Row 4** answers: *What technology does this use? Does GPU/LLM support work?*
 
 Capability details (supported models, performance numbers, module documentation) are in the README body and module READMEs linked from there.
-
