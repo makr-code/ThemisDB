@@ -1,0 +1,482 @@
+name: "Security: OWASP ZAP DAST"
+
+# Rechenaufwand-Score: R=4 (K=4, L=4, N=3) | last-calibrated: 2026-08-31
+# Trigger policy: schedule + dispatch only; never on pull_request (heavy Docker build).
+#
+# Dedicated DAST workflow for ThemisDB REST API using OWASP ZAP.
+# Replaces the former dast-scan job in security-consolidated.yml.
+#
+# Scan modes (selectable via workflow_dispatch):
+#   baseline   — Passive spider + passive rules only. Fast, non-destructive.
+#                Runs on the Sunday schedule and is the default manual mode.
+#   api-scan   — OpenAPI-spec-driven active scan (uses openapi/openapi.yaml).
+#                More thorough than baseline; targets documented API surface.
+#   full-scan  — Full active attack scan. Manual-only (no schedule).
+#                Must be explicitly requested; can be noisy and destructive.
+#
+# SARIF output is uploaded to the GitHub Security tab (Code scanning).
+# HTML + JSON reports are retained as workflow artifacts (90 days).
+#
+# SLA-breach issue creation is handled by maintenance-issues.yml
+# (Security-Alert-SLA-Triage job) which reads from the Security tab.
+#
+# Design decisions:
+#   - ThemisDB is built and started via docker/Dockerfile.unified (not the
+#     root docker-compose.yml Dockerfile which does not exist).
+#   - Scan runs unauthenticated (guest-attacker perspective) because there
+#     are no CI JWT secrets provisioned; context file is present for future
+#     authenticated scan support when THEMIS_ZAP_TEST_TOKEN is added.
+#   - fail_action is false for baseline (advisory); true for api-scan /
+#     full-scan when fail_on_high is explicitly set to true.
+#   - Artifacts are retained 90 days as DAST evidence for audit trail.
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'    # Weekly Sunday 02:00 UTC — baseline scan
+  workflow_dispatch:
+    inputs:
+      scan_mode:
+        description: 'ZAP scan mode'
+        type: choice
+        options:
+          - baseline
+          - api-scan
+          - full-scan
+        default: baseline
+      fail_on_high:
+        description: 'Fail workflow on HIGH/CRITICAL ZAP findings'
+        type: boolean
+        default: false
+      target_url:
+        description: 'Override scan target URL (default: http://localhost:18080)'
+        type: string
+        default: 'http://localhost:18080'
+
+  # Reusable: called from release-mainline.yml pre-publish gate (api-scan mode)
+  workflow_call:
+    inputs:
+      scan_mode:
+        description: 'ZAP scan mode'
+        type: string
+        default: baseline
+      fail_on_high:
+        description: 'Fail workflow on HIGH/CRITICAL ZAP findings'
+        type: boolean
+        default: false
+      target_url:
+        description: 'Scan target URL'
+        type: string
+        default: 'http://localhost:18080'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-dast-zap-${{ github.ref }}
+  cancel-in-progress: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+env:
+  # Resolved scan mode: prefer workflow_dispatch input; fall back to 'baseline'
+  # for schedule triggers and workflow_call without explicit input.
+  SCAN_MODE: ${{ inputs.scan_mode || 'baseline' }}
+  TARGET_URL: ${{ inputs.target_url || 'http://localhost:18080' }}
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Build and start ThemisDB (Community Edition, no GPU, CI-fast config)
+  # ────────────────────────────────────────────────────────────────────────────
+  start-target:
+    name: Build and Start ThemisDB Target
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      container_running: ${{ steps.health.outputs.ready }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+
+      - name: Ensure optional build context paths exist
+        # These directories are optional in the repo but required by the Dockerfile
+        # COPY/ADD instructions; absent paths cause buildx checksum failures.
+        run: |
+          mkdir -p internal llama.cpp vcpkg/downloads
+
+      - name: Build ThemisDB image (Community, CPU-only, no tests)
+        run: |
+          docker buildx build \
+            --file docker/Dockerfile.unified \
+            --target runtime \
+            --tag themisdb:ci-dast \
+            --load \
+            --build-arg THEMIS_EDITION=COMMUNITY \
+            --build-arg ENABLE_LLM=OFF \
+            --build-arg ENABLE_GPU=OFF \
+            --build-arg FORCE_CPU_ONLY=ON \
+            --build-arg BUILD_TESTS=OFF \
+            --build-arg BUILD_BENCHMARKS=OFF \
+            .
+
+      - name: Start ThemisDB container
+        run: |
+          docker run -d \
+            --name themisdb-dast \
+            --publish 18080:8080 \
+            --publish 18081:8081 \
+            --env THEMIS_EDITION=COMMUNITY \
+            --env THEMIS_LOG_LEVEL=info \
+            themisdb:ci-dast
+
+      - name: Wait for ThemisDB health endpoint
+        id: health
+        run: |
+          echo "Waiting for ThemisDB to become ready..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:18080/api/health 2>/dev/null | grep -qiE '"ok"|"HEALTHY"'; then
+              echo "ThemisDB is ready after $((i * 2))s"
+              echo "ready=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "  attempt $i/30 — not ready yet, sleeping 2s"
+            sleep 2
+          done
+          echo "ThemisDB did not become ready in 60s; dumping container logs:"
+          docker logs themisdb-dast || true
+          echo "ready=false" >> "$GITHUB_OUTPUT"
+          exit 1
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # ZAP Baseline Scan (passive only — advisory, always non-blocking)
+  # ────────────────────────────────────────────────────────────────────────────
+  zap-baseline:
+    name: ZAP Baseline Scan (passive)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: start-target
+    if: >
+      needs.start-target.outputs.container_running == 'true' &&
+      (env.SCAN_MODE == 'baseline' || github.event_name == 'schedule')
+    permissions:
+      contents: read
+      security-events: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Run OWASP ZAP Baseline Scan
+        # Advisory — never blocks the workflow; findings go to SARIF/Security tab.
+        continue-on-error: true
+        uses: zaproxy/action-baseline@66042c8e7e24680119199a017e5b0e8603bf4dae  # v0.12.0
+        with:
+          target: ${{ env.TARGET_URL }}
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          rules_file_name: '.github/zap-rules.tsv'
+          cmd_options: '-config api.disablekey=true'
+          fail_action: false
+          allow_issue_writing: false
+
+      - name: Upload ZAP Baseline SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        with:
+          sarif_file: report_json.json
+          category: zap-baseline
+        continue-on-error: true
+
+      - name: Upload ZAP Baseline report artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: zap-baseline-report-${{ github.run_id }}
+          path: |
+            report_html.html
+            report_json.json
+            zap.out
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: Write scan summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          report = Path("report_json.json")
+          alerts = []
+          if report.exists():
+              try:
+                  data = json.loads(report.read_text(encoding="utf-8"))
+                  # ZAP JSON report: top-level "alerts" array or SARIF "runs[].results"
+                  if isinstance(data, list):
+                      alerts = data
+                  elif "site" in data:
+                      for site in data.get("site", []):
+                          alerts.extend(site.get("alerts", []))
+              except Exception as e:
+                  print(f"Could not parse report: {e}")
+
+          by_risk = {}
+          for a in alerts:
+              risk = a.get("riskdesc", a.get("risk", "Unknown"))
+              by_risk[risk] = by_risk.get(risk, 0) + 1
+
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          lines = ["### ZAP Baseline Scan Summary", ""]
+          if by_risk:
+              lines.append("| Risk Level | Count |")
+              lines.append("|------------|-------|")
+              for risk, count in sorted(by_risk.items()):
+                  lines.append(f"| {risk} | {count} |")
+          else:
+              lines.append("No alerts found or report not available.")
+
+          output = "\n".join(lines)
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write(output + "\n")
+          else:
+              print(output)
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # ZAP API Scan (OpenAPI-spec-driven active scan — can gate on findings)
+  # ────────────────────────────────────────────────────────────────────────────
+  zap-api-scan:
+    name: ZAP API Scan (OpenAPI-driven)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: start-target
+    if: >
+      needs.start-target.outputs.container_running == 'true' &&
+      env.SCAN_MODE == 'api-scan'
+    permissions:
+      contents: read
+      security-events: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Run OWASP ZAP API Scan
+        # Blocking when fail_on_high is true; advisory by default.
+        uses: zaproxy/action-api-scan@c44e4c9d1a68be1c38b0edb2f68c18b50c8c2e2b  # v0.9.0
+        continue-on-error: ${{ inputs.fail_on_high != true }}
+        with:
+          target: ${{ env.TARGET_URL }}
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          format: openapi
+          file: 'openapi/openapi.yaml'
+          rules_file_name: '.github/zap-rules.tsv'
+          cmd_options: '-config api.disablekey=true'
+          fail_action: ${{ inputs.fail_on_high == true }}
+          allow_issue_writing: false
+
+      - name: Upload ZAP API Scan SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        with:
+          sarif_file: report_json.json
+          category: zap-api-scan
+        continue-on-error: true
+
+      - name: Upload ZAP API Scan report artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: zap-api-scan-report-${{ github.run_id }}
+          path: |
+            report_html.html
+            report_json.json
+            zap.out
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: Write scan summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          report = Path("report_json.json")
+          alerts = []
+          if report.exists():
+              try:
+                  data = json.loads(report.read_text(encoding="utf-8"))
+                  if isinstance(data, list):
+                      alerts = data
+                  elif "site" in data:
+                      for site in data.get("site", []):
+                          alerts.extend(site.get("alerts", []))
+              except Exception as e:
+                  print(f"Could not parse report: {e}")
+
+          by_risk = {}
+          for a in alerts:
+              risk = a.get("riskdesc", a.get("risk", "Unknown"))
+              by_risk[risk] = by_risk.get(risk, 0) + 1
+
+          high_critical = sum(c for r, c in by_risk.items()
+                              if any(s in r.upper() for s in ("HIGH", "CRITICAL")))
+
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          lines = ["### ZAP API Scan Summary", ""]
+          if by_risk:
+              lines.append("| Risk Level | Count |")
+              lines.append("|------------|-------|")
+              for risk, count in sorted(by_risk.items()):
+                  lines.append(f"| {risk} | {count} |")
+              lines.append("")
+              lines.append(f"**HIGH/CRITICAL findings: {high_critical}**")
+          else:
+              lines.append("No alerts found or report not available.")
+
+          output = "\n".join(lines)
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write(output + "\n")
+          else:
+              print(output)
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # ZAP Full Scan (full active attack — manual-dispatch only, can be destructive)
+  # ────────────────────────────────────────────────────────────────────────────
+  zap-full-scan:
+    name: ZAP Full Scan (active attack — manual only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    needs: start-target
+    # Full scan: only manual dispatch, only full-scan mode explicitly selected.
+    if: >
+      needs.start-target.outputs.container_running == 'true' &&
+      github.event_name == 'workflow_dispatch' &&
+      env.SCAN_MODE == 'full-scan'
+    permissions:
+      contents: read
+      security-events: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Run OWASP ZAP Full Scan
+        uses: zaproxy/action-full-scan@0ab114cce38bab8cb4e888b6a00e698e18218729  # v0.11.0
+        continue-on-error: ${{ inputs.fail_on_high != true }}
+        with:
+          target: ${{ env.TARGET_URL }}
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          rules_file_name: '.github/zap-rules.tsv'
+          cmd_options: >
+            -config scanner.attackStrength=MEDIUM
+            -config api.disablekey=true
+          fail_action: ${{ inputs.fail_on_high == true }}
+          allow_issue_writing: false
+
+      - name: Upload ZAP Full Scan SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        with:
+          sarif_file: report_json.json
+          category: zap-full-scan
+        continue-on-error: true
+
+      - name: Upload ZAP Full Scan report artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: zap-full-scan-report-${{ github.run_id }}
+          path: |
+            report_html.html
+            report_json.json
+            zap.out
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: Write scan summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          report = Path("report_json.json")
+          alerts = []
+          if report.exists():
+              try:
+                  data = json.loads(report.read_text(encoding="utf-8"))
+                  if isinstance(data, list):
+                      alerts = data
+                  elif "site" in data:
+                      for site in data.get("site", []):
+                          alerts.extend(site.get("alerts", []))
+              except Exception as e:
+                  print(f"Could not parse report: {e}")
+
+          by_risk = {}
+          for a in alerts:
+              risk = a.get("riskdesc", a.get("risk", "Unknown"))
+              by_risk[risk] = by_risk.get(risk, 0) + 1
+
+          high_critical = sum(c for r, c in by_risk.items()
+                              if any(s in r.upper() for s in ("HIGH", "CRITICAL")))
+
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          lines = ["### ZAP Full Scan Summary", ""]
+          if by_risk:
+              lines.append("| Risk Level | Count |")
+              lines.append("|------------|-------|")
+              for risk, count in sorted(by_risk.items()):
+                  lines.append(f"| {risk} | {count} |")
+              lines.append("")
+              lines.append(f"**HIGH/CRITICAL findings: {high_critical}**")
+          else:
+              lines.append("No alerts found or report not available.")
+
+          output = "\n".join(lines)
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write(output + "\n")
+          else:
+              print(output)
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Cleanup — always stop and remove the ThemisDB container
+  # ────────────────────────────────────────────────────────────────────────────
+  cleanup:
+    name: Stop ThemisDB Container
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - start-target
+      - zap-baseline
+      - zap-api-scan
+      - zap-full-scan
+    if: always()
+    permissions:
+      contents: read
+
+    steps:
+      - name: Stop and remove ThemisDB DAST container
+        run: |
+          if docker ps -q --filter name=themisdb-dast | grep -q .; then
+            docker stop themisdb-dast || true
+            docker rm themisdb-dast || true
+            echo "Container themisdb-dast stopped and removed."
+          else
+            echo "Container themisdb-dast was not running (already stopped or never started)."
+          fi

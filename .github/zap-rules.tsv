@@ -1,0 +1,45 @@
+# OWASP ZAP alert suppression rules for ThemisDB REST API
+# Format: <alert_id>\t<action>\t<comment>
+# Actions: IGNORE | WARN | FAIL
+#
+# See: https://www.zaproxy.org/docs/desktop/addons/alert-filters/alertfilter/
+# Rule IDs: https://www.zaproxy.org/docs/alerts/
+
+# ── Informational / low-noise rules ─────────────────────────────────────────
+# 10021 — X-Content-Type-Options header missing
+# ThemisDB binary/protobuf endpoints intentionally omit this header.
+10021	IGNORE	X-Content-Type-Options: binary API endpoints do not serve HTML; header not required
+
+# 10017 — Cross-Domain JavaScript Source File Inclusion
+# Metrics/Prometheus scrape endpoints reference external JS; expected.
+10017	IGNORE	Prometheus metrics endpoint; no user-facing HTML
+
+# 10096 — Timestamp Disclosure - Unix
+# API responses include ISO timestamps; not a leak of sensitive information.
+10096	IGNORE	Timestamp in API response body is intentional and documented
+
+# 10035 — Strict-Transport-Security header missing
+# Baseline scan runs over HTTP (localhost:18080); HTTPS is enforced in production.
+10035	IGNORE	HSTS not applicable to localhost HTTP target in CI baseline scan
+
+# 10098 — Cross-Domain Misconfiguration (CORS headers)
+# Development mode allows all origins; production restricts via config.
+10098	WARN	CORS policy — verify production config; allowed in CI-local target
+
+# ── Known false positives for REST API error shapes ─────────────────────────
+# 90022 — Application Error Disclosure
+# ThemisDB returns structured JSON error bodies (RFC 7807); this is by design.
+90022	IGNORE	Structured JSON error body is intentional; RFC 7807 Problem Details format
+
+# 40012 — Cross-Site Scripting (Reflected) — baseline passive only
+# ZAP baseline does not perform active XSS injection; passive alert on JSON API.
+40012	IGNORE	REST API returns JSON; XSS not applicable in baseline passive mode
+
+# ── Noise from health/metrics endpoints ─────────────────────────────────────
+# 10036 — Server Leaks Version Information via "Server" HTTP Response Header Field
+# Prometheus metrics endpoint exposes build metadata; expected and documented.
+10036	WARN	Server header version leak — verify production header stripping policy
+
+# 10020 — Anti-clickjacking Header
+# API-only endpoints do not render HTML frames; not applicable.
+10020	IGNORE	Clickjacking not applicable to JSON REST API endpoints

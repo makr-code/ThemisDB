@@ -29,7 +29,9 @@ Signalqualität und Release-Stabilitaet zu verbessern.
 - `.github/workflows/release-changelog.yml`
   — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
 - `.github/workflows/security-consolidated.yml`
-  — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan + DAST/ZAP (Schedule/Dispatch only; 4 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml)
+  — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan (Schedule/Dispatch only; 3 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml; DAST/ZAP wurde in security-dast-zap.yml ausgelagert)
+- `.github/workflows/security-dast-zap.yml`
+  — OWASP ZAP DAST: Baseline (wöchentlich passiv), API-Scan (OpenAPI-getrieben, aktiv), Full-Scan (manuell, aktiv); SARIF-Upload auf GitHub Security Tab; reusable via workflow_call für pre-release Gate
 - `.github/workflows/security-fortify.yml`
   — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
 - `.github/workflows/sanitizer-nightly.yml`
