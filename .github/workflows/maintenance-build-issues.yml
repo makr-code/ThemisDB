@@ -18,6 +18,24 @@ on:
         required: false
         default: '1440'
         type: string
+      scope_mode:
+        description: 'Issue scope: all src files or only changed src files from failed runs'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - changed_files
+      min_findings_per_file:
+        description: 'Create/update issue only if total findings for file >= this value'
+        required: false
+        default: '1'
+        type: string
+      max_issues_per_run:
+        description: 'Maximum per-file issues created/updated in one run'
+        required: false
+        default: '80'
+        type: string
 
 permissions:
   contents: read
@@ -127,6 +145,8 @@ jobs:
       - name: Fetch failed workflow runs and error artifacts
         id: fetch
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        env:
+          LOOKBACK_MINUTES: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || '1440' }}
         with:
           script: |
             const fs = require('fs');
@@ -159,6 +179,7 @@ jobs:
             
             let downloadedCount = 0;
             let downloadedLogCount = 0;
+            const changedSrcFiles = new Set();
             
             for (const workflowName of workflows) {
               const { data: wfList } = await github.rest.actions.listRepoWorkflows({
@@ -187,6 +208,22 @@ jobs:
               
               // Download error artifacts from each run
               for (const run of runs.workflow_runs) {
+                try {
+                  const { data: commit } = await github.rest.repos.getCommit({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: run.head_sha,
+                    per_page: 100
+                  });
+                  for (const changed of (commit.files || [])) {
+                    if (changed.filename && changed.filename.startsWith('src/')) {
+                      changedSrcFiles.add(changed.filename);
+                    }
+                  }
+                } catch (e) {
+                  core.warning(`Failed to resolve changed files for run #${run.id}: ${e.message}`);
+                }
+
                 const { data: artifacts } = await github.rest.actions.listWorkflowRunArtifacts({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
@@ -277,9 +314,17 @@ jobs:
             
             console.log(`  Downloaded: ${downloadedCount} artifact(s)`);
             console.log(`  Downloaded: ${downloadedLogCount} run log bundle(s)`);
+            console.log(`  Changed src files in failed runs: ${changedSrcFiles.size}`);
+
+            const changedSrcFileList = Array.from(changedSrcFiles).sort();
+            fs.writeFileSync(
+              path.join(artifactDir, 'changed-src-files.json'),
+              JSON.stringify(changedSrcFileList, null, 2)
+            );
             
             core.setOutput('artifact_count', downloadedCount);
             core.setOutput('log_count', downloadedLogCount);
+            core.setOutput('changed_src_file_count', changedSrcFileList.length);
             core.setOutput('has_artifacts', (downloadedCount > 0 || downloadedLogCount > 0) ? 'true' : 'false');
             core.setOutput('artifact_dir', artifactDir);
 
@@ -362,6 +407,11 @@ jobs:
       - name: Create issue for each module/file diagnostics group
         if: steps.fetch.outputs.has_artifacts == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        env:
+          ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
+          SCOPE_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.scope_mode || 'all' }}
+          MIN_FINDINGS_PER_FILE: ${{ github.event_name == 'workflow_dispatch' && inputs.min_findings_per_file || '1' }}
+          MAX_ISSUES_PER_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.max_issues_per_run || '80' }}
         with:
           script: |
             const fs = require('fs');
@@ -374,14 +424,39 @@ jobs:
 
             const groupedData = JSON.parse(fs.readFileSync(groupedFile, 'utf8'));
             const entries = Array.isArray(groupedData.entries) ? groupedData.entries : [];
-            const actionable = entries
+            const scopeMode = String(process.env.SCOPE_MODE || 'all').trim();
+            const minFindingsPerFile = Math.max(1, Number.parseInt(process.env.MIN_FINDINGS_PER_FILE || '1', 10) || 1);
+            const maxIssuesPerRun = Math.max(1, Number.parseInt(process.env.MAX_ISSUES_PER_RUN || '80', 10) || 80);
+
+            const changedSrcPath = `${process.env.ERROR_ARTIFACTS_DIR || '/tmp/error-artifacts'}/changed-src-files.json`;
+            let changedSrcFiles = new Set();
+            if (scopeMode === 'changed_files' && fs.existsSync(changedSrcPath)) {
+              try {
+                const changedList = JSON.parse(fs.readFileSync(changedSrcPath, 'utf8'));
+                if (Array.isArray(changedList)) {
+                  changedSrcFiles = new Set(changedList.filter(Boolean));
+                }
+              } catch (e) {
+                core.warning(`Failed to read changed-src-files.json: ${e.message}`);
+              }
+            }
+
+            const scopedEntries = entries
               .filter(entry => (entry.module || 'external') !== 'external')
-              .filter(entry => (entry.counts?.compiler_error || 0) > 0 || (entry.counts?.compiler_warning || 0) > 0 || (entry.counts?.gap_marker || 0) > 0);
+              .filter(entry => (entry.counts?.compiler_error || 0) > 0 || (entry.counts?.compiler_warning || 0) > 0 || (entry.counts?.gap_marker || 0) > 0)
+              .filter(entry => (entry.counts?.total || 0) >= minFindingsPerFile)
+              .filter(entry => scopeMode !== 'changed_files' || changedSrcFiles.size === 0 || changedSrcFiles.has(entry.file || ''))
+              .sort((a, b) => (b.counts?.total || 0) - (a.counts?.total || 0));
+
+            const actionable = scopedEntries.slice(0, maxIssuesPerRun);
 
             if (actionable.length === 0) {
-              console.log('No actionable module/file diagnostics found.');
+              console.log(`No actionable module/file diagnostics found (scope=${scopeMode}, min=${minFindingsPerFile}).`);
               return;
             }
+
+            console.log(`Issue throttling: scope=${scopeMode}, min_findings_per_file=${minFindingsPerFile}, max_issues_per_run=${maxIssuesPerRun}`);
+            console.log(`Changed src files available for scoping: ${changedSrcFiles.size}`);
 
             for (const entry of actionable) {
               const moduleName = entry.module || 'unknown';
@@ -458,7 +533,7 @@ jobs:
               }
             }
 
-            console.log(`Processed ${actionable.length} module/file diagnostic issue(s).`);
+            console.log(`Processed ${actionable.length} module/file diagnostic issue(s) from ${scopedEntries.length} scoped candidate(s).`);
 
       - name: Print error aggregation summary
         if: always()
