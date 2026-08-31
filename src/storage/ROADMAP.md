@@ -33,7 +33,7 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 - [x] make `BackupManager::decompressPath()` fail closed or perform real decompression when zstd/lz4 are unavailable; unsupported restore builds now reject the operation instead of copying raw bytes verbatim (Target: Q4 2026)
 - [x] make `BackupManager::decryptFile()` fail closed or perform real decryption when OpenSSL is unavailable; unsupported restore builds now reject the operation instead of copying ciphertext verbatim (Target: Q4 2026)
 - [~] wire the remaining `ggml_tensor_bridge.cpp` production injection seams (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) at server initialization (Target: Q4 2026)
-  - [x] `map(ctx, ...)` now uses the supplied `ggml_context*` for real ggml allocation/copy when `THEMIS_HAS_GGML` is enabled, reducing reliance on the allocator stub path
+  - [x] `map(ctx, ...)` now forwards the live `ggml_context*` into `GgmlAllocFn` and still uses that context for real ggml allocation/copy when `THEMIS_HAS_GGML` is enabled, reducing reliance on the allocator stub path
   - [x] EmbeddedLLM startup now calls `registerGgmlTypeTT()` once under `THEMIS_ENABLE_GGML_BRIDGE`, closing the uninitialized TT-type registration path for ggml-backed inference startup
   - [ ] tracked allocator/prefetch hooks remain open for full server-side production wiring
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)

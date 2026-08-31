@@ -2139,7 +2139,9 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     //   1. Captures draft_plugin by value (shared_ptr copy) — safe across threads.
     //   2. Calls draft_plugin->generate() to obtain draft text.
     //   3. Runs the TokenizerFn over that text to produce real token IDs.
-    //   4. Falls back to byte-modulo if the TokenizerFn throws or returns empty.
+    //   4. Returns an empty draft result if the TokenizerFn throws or returns
+    //      empty, causing the caller to fall back to the target model path
+    //      instead of fabricating byte-modulo token IDs.
     // After the call the injected fn is cleared to avoid global-state pollution
     // (ILLMPlugin::s_default_draft_fn_ is process-wide).
     if (draft_result.tokens.empty()) {
@@ -2210,36 +2212,17 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                         } else {
                             spdlog::warn("Local draft (STUB #261 bridge): "
                                          "TokenizerFn returned empty list — "
-                                         "falling back to byte-modulo");
+                                         "falling back to target generation");
                         }
                     } catch (const std::exception& ex) {
                         spdlog::warn("Local draft (STUB #261 bridge): "
                                      "TokenizerFn threw: {} — falling back to "
-                                     "byte-modulo", ex.what());
+                                     "target generation", ex.what());
                     }
 
-                    // Step 3: byte-modulo fallback when tokenizer unavailable.
                     if (!used_real_tokenizer) {
-                        const std::string& text = resp.text;
                         result.tokens.clear();
                         result.logits.clear();
-                        result.tokens.reserve(k);
-                        result.logits.reserve(k);
-                        for (size_t i = 0; i < k; ++i) {
-                            const size_t tid_raw = (i < text.size())
-                                ? (static_cast<size_t>(
-                                       static_cast<unsigned char>(text[i])) %
-                                   vocab)
-                                : 0u;
-                            const int tid = static_cast<int>(std::min(
-                                tid_raw,
-                                static_cast<size_t>(
-                                    std::numeric_limits<int>::max())));
-                            result.tokens.push_back(tid);
-                            std::vector<float> row(vocab, kBaseline);
-                            row[static_cast<size_t>(tid)] = kPeak;
-                            result.logits.push_back(std::move(row));
-                        }
                     }
                     return result;
                 });

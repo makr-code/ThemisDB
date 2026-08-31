@@ -574,8 +574,10 @@ public:
     ///
     /// Parameters: (text, vocab_size)
     /// Returns:    non-empty vector of IDs each in [0, vocab_size).
-    ///             An empty return or a thrown exception both fall through to
-    ///             the byte-modulo fallback (fail-closed behaviour).
+    ///             An empty return or a thrown exception never fabricates
+    ///             synthetic token IDs from raw bytes: the remote draft path
+    ///             retries the local draft model, and the local bridge path
+    ///             falls back to the target model response path.
     using TokenizerFn = std::function<std::vector<int>(const std::string& text,
                                                        size_t             vocab_size)>;
 

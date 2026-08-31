@@ -2016,7 +2016,7 @@ TEST(GgmlTensorBridge, GTB01_ggml_tensor_null_without_alloc_fn) {
 TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
     // Use a process-local buffer as a stand-in for a real ggml_tensor*.
     ggml_tensor local_sentinel{};
-    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel](std::size_t) -> ggml_tensor* {
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel](ggml_context*, std::size_t) -> ggml_tensor* {
         return &local_sentinel;
     });
 
@@ -2030,10 +2030,13 @@ TEST(GgmlTensorBridge, GTB02_ggml_tensor_non_null_with_alloc_fn) {
     GgmlTensorBridge::clearGgmlAllocFn();
 }
 
-// GTB-03: n_elements passed to GgmlAllocFn matches data size
+// GTB-03: ggml context and n_elements passed to GgmlAllocFn match map() input
 TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
+    ggml_context* received_ctx = nullptr;
     std::size_t received_n = 0;
-    GgmlTensorBridge::setGgmlAllocFn([&received_n](std::size_t n) -> ggml_tensor* {
+    GgmlTensorBridge::setGgmlAllocFn([&received_ctx, &received_n](ggml_context* ctx,
+                                                                  std::size_t n) -> ggml_tensor* {
+        received_ctx = ctx;
         received_n = n;
         return nullptr;
     });
@@ -2042,7 +2045,9 @@ TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
     std::vector<float> data(7, 1.0f);
     auto storage = makeTestStorage(key, data);
     GgmlTensorBridge bridge(storage);
-    bridge.map(nullptr, key);
+    auto* expected_ctx = reinterpret_cast<ggml_context*>(1);
+    bridge.map(expected_ctx, key);
+    EXPECT_EQ(received_ctx, expected_ctx);
     EXPECT_EQ(received_n, 7u);
 
     GgmlTensorBridge::clearGgmlAllocFn();
@@ -2051,7 +2056,7 @@ TEST(GgmlTensorBridge, GTB03_alloc_fn_receives_correct_n_elements) {
 // GTB-04: GgmlAllocFn cleared → ggmlTensor() reverts to nullptr
 TEST(GgmlTensorBridge, GTB04_alloc_fn_cleared_reverts_to_nullptr) {
     ggml_tensor local_sentinel4{};
-    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel4](std::size_t) -> ggml_tensor* {
+    GgmlTensorBridge::setGgmlAllocFn([&local_sentinel4](ggml_context*, std::size_t) -> ggml_tensor* {
         return &local_sentinel4;
     });
     GgmlTensorBridge::clearGgmlAllocFn();

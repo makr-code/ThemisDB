@@ -307,7 +307,7 @@ struct GgmlTensorBridge::Impl {
         }
         if (alloc_fn_copy) {
             handle.impl_->real_ggml_tensor =
-                alloc_fn_copy(handle.impl_->fake_tensor.n_elements);
+                alloc_fn_copy(ctx, handle.impl_->fake_tensor.n_elements);
         } else {
             handle.impl_->real_ggml_tensor =
                 allocGgmlTensor1d(ctx, handle.impl_->fake_tensor.n_elements);
