@@ -203,7 +203,7 @@ public:
      * @param profile Workload profile defining input characteristics
      * @return BreakEvenDecision with recommendation and metrics
      *
-     * @thread Fully thread-safe; protected by internal mutex
+     * @note Thread safety: Fully thread-safe; protected by internal mutex
      */
     BreakEvenDecision ShouldUseGPU(const WorkloadProfile& profile);
 
@@ -219,7 +219,7 @@ public:
      * @param profile Workload profile to profile
      * @return BreakEvenDecision with fresh profiling results
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     BreakEvenDecision Profile(const WorkloadProfile& profile);
 
@@ -232,7 +232,7 @@ public:
      * @param kernel Kernel type to set threshold for
      * @param threshold Minimum speedup ratio (must be >= 1.0)
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     void SetSpeedupThreshold(KernelType kernel, float threshold);
 
@@ -242,7 +242,7 @@ public:
      * @param kernel Kernel type
      * @return Current threshold for this kernel (or default 1.5 if not set)
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     float GetSpeedupThreshold(KernelType kernel) const;
 
@@ -251,7 +251,7 @@ public:
      *
      * Next call to ShouldUseGPU() will trigger profiling (cache miss).
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     void ClearCache();
 
@@ -263,7 +263,7 @@ public:
      *
      * @param duration Cache validity duration
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     void SetCacheValidityDuration(std::chrono::hours duration);
 
@@ -277,7 +277,7 @@ public:
      *
      * @param fn CPU profiling callback, or empty to restore defaults
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     void SetCPUProfileFn(ProfileFn fn);
 
@@ -291,7 +291,7 @@ public:
      *
      * @param fn GPU profiling callback, or empty to restore defaults
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     void SetGPUProfileFn(ProfileFn fn);
 
@@ -304,7 +304,7 @@ public:
      *
      * @param fn Metrics callback, or empty to disable metrics emission
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     void SetMetricsSink(MetricsSinkFn fn);
 
@@ -317,7 +317,7 @@ public:
      * @param kernel Kernel type to query
      * @return Latest observed speedup ratio, or 0.0 if no data
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     float GetLatestBreakEvenRatio(KernelType kernel) const;
 
@@ -326,7 +326,7 @@ public:
      *
      * @return Number of ShouldUseGPU() calls that hit the cache
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     size_t GetCacheHitCount() const;
 
@@ -335,7 +335,7 @@ public:
      *
      * @return Number of ShouldUseGPU() calls that missed the cache
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     size_t GetCacheMissCount() const;
 
@@ -344,7 +344,7 @@ public:
      *
      * @return Number of cached decision entries
      *
-     * @thread Fully thread-safe
+     * @note Thread safety: Fully thread-safe
      */
     size_t GetCacheSize() const;
 

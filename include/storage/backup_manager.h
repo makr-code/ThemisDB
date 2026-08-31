@@ -28,7 +28,6 @@ namespace themis {
 class RocksDBWrapper;
 
 /**
- * @enum RAIDMode
  * @brief Supported redundancy layouts for backup coordination.
  * @ingroup storage
  */
@@ -66,7 +65,6 @@ struct RAIDConfig {
 };
 
 /**
- * @enum CompressionType
  * @brief Compression modes supported by backup creation and restore flows.
  * @ingroup storage
  */
@@ -94,7 +92,6 @@ struct FileIntegrityInfo {
 };
 
 /**
- * @enum StorageBackend
  * @brief Transport backends available to backup upload and restore operations.
  * @ingroup storage
  */

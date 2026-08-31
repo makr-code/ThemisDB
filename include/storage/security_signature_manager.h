@@ -41,15 +41,20 @@ public:
     };
 
     /**
-     * @brief Create a signature manager backed by RocksDB or an explicit test-only
-     *        in-memory fallback.
+     * @brief Create a signature manager backed by RocksDB.
      *
-     * @param db Persistent RocksDB wrapper. When null and
-     *        `options.allow_in_memory_fallback` is `false`, the manager stays
+     * @param db Persistent RocksDB wrapper. When null, the manager stays
      *        unavailable and all mutating operations fail closed.
-     * @param options Construction-time fallback policy.
      */
     explicit SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db);
+    /**
+     * @brief Create a signature manager backed by RocksDB with explicit fallback policy.
+     *
+     * @param db      Persistent RocksDB wrapper. When null and
+     *                `options.allow_in_memory_fallback` is `false`, the manager stays
+     *                unavailable and all mutating operations fail closed.
+     * @param options Construction-time fallback policy.
+     */
     explicit SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db,
                                       Options options);
     
