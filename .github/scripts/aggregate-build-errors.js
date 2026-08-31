@@ -17,6 +17,7 @@ const path = require('path');
 const MAX_GROUPS_IN_REPORT = 120;
 const MAX_ITEMS_PER_GROUP_IN_REPORT = 10;
 const CHRONIC_THRESHOLD = 3;
+const MAX_MARKDOWN_CHARS = 60000; // GitHub issue body hard limit is 65536
 
 const GAP_MARKER_PATTERN = /\b(GAP|SIMULATION|MOCKUP|STUB)\b/g;
 
@@ -486,7 +487,11 @@ async function main() {
   aggregator.aggregate();
 
   const stats = aggregator.getStats();
-  const markdown = aggregator.generateMarkdown();
+  let markdown = aggregator.generateMarkdown();
+  if (markdown.length > MAX_MARKDOWN_CHARS) {
+    const summaryNote = `\n\n---\n\nReport truncated to ${MAX_MARKDOWN_CHARS} characters to fit GitHub issue limits.\n`;
+    markdown = `${markdown.slice(0, MAX_MARKDOWN_CHARS - summaryNote.length)}${summaryNote}`;
+  }
   const grouped = {
     generated_at: new Date().toISOString(),
     stats,
