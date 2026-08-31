@@ -23,6 +23,12 @@ name: "Security: OWASP ZAP DAST"
 # Design decisions:
 #   - ThemisDB is built and started via docker/Dockerfile.unified (not the
 #     root docker-compose.yml Dockerfile which does not exist).
+#   - Each scan job builds and starts the ThemisDB container on its own runner.
+#     GitHub-hosted runners are isolated VMs; a container started in one job
+#     is not visible to any other job, so build/start/stop steps are inlined
+#     into every scan job rather than placed in a shared start-target job.
+#   - SARIF output (report_sarif.json) is uploaded to the Security tab;
+#     report_json.json (ZAP native format) is kept as an artifact only.
 #   - Scan runs unauthenticated (guest-attacker perspective) because there
 #     are no CI JWT secrets provisioned; context file is present for future
 #     authenticated scan support when THEMIS_ZAP_TEST_TOKEN is added.
@@ -83,19 +89,25 @@ env:
   TARGET_URL: ${{ inputs.target_url || 'http://localhost:18080' }}
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Shared build+start steps are inlined into each scan job because GitHub-hosted
+# runners are separate VMs — a container started in one job is not visible to
+# another job even when listed under `needs`.
+# ──────────────────────────────────────────────────────────────────────────────
 jobs:
 
   # ────────────────────────────────────────────────────────────────────────────
-  # Build and start ThemisDB (Community Edition, no GPU, CI-fast config)
+  # ZAP Baseline Scan (passive only — advisory, always non-blocking)
   # ────────────────────────────────────────────────────────────────────────────
-  start-target:
-    name: Build and Start ThemisDB Target
+  zap-baseline:
+    name: ZAP Baseline Scan (passive)
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 75
+    if: >
+      inputs.scan_mode == 'baseline' || inputs.scan_mode == '' || github.event_name == 'schedule'
     permissions:
       contents: read
-    outputs:
-      container_running: ${{ steps.health.outputs.ready }}
+      security-events: write
+      issues: write
 
     steps:
       - name: Checkout repository
@@ -105,8 +117,6 @@ jobs:
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
 
       - name: Ensure optional build context paths exist
-        # These directories are optional in the repo but required by the Dockerfile
-        # COPY/ADD instructions; absent paths cause buildx checksum failures.
         run: |
           mkdir -p internal llama.cpp vcpkg/downloads
 
@@ -136,13 +146,11 @@ jobs:
             themisdb:ci-dast
 
       - name: Wait for ThemisDB health endpoint
-        id: health
         run: |
           echo "Waiting for ThemisDB to become ready..."
           for i in $(seq 1 30); do
             if curl -sf http://localhost:18080/api/health 2>/dev/null | grep -qiE '"ok"|"HEALTHY"'; then
               echo "ThemisDB is ready after $((i * 2))s"
-              echo "ready=true" >> "$GITHUB_OUTPUT"
               exit 0
             fi
             echo "  attempt $i/30 — not ready yet, sleeping 2s"
@@ -150,28 +158,7 @@ jobs:
           done
           echo "ThemisDB did not become ready in 60s; dumping container logs:"
           docker logs themisdb-dast || true
-          echo "ready=false" >> "$GITHUB_OUTPUT"
           exit 1
-
-  # ────────────────────────────────────────────────────────────────────────────
-  # ZAP Baseline Scan (passive only — advisory, always non-blocking)
-  # ────────────────────────────────────────────────────────────────────────────
-  zap-baseline:
-    name: ZAP Baseline Scan (passive)
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    needs: start-target
-    if: >
-      needs.start-target.outputs.container_running == 'true' &&
-      (inputs.scan_mode == 'baseline' || inputs.scan_mode == '' || github.event_name == 'schedule')
-    permissions:
-      contents: read
-      security-events: write
-      issues: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Run OWASP ZAP Baseline Scan
         # Advisory — never blocks the workflow; findings go to SARIF/Security tab.
@@ -186,10 +173,12 @@ jobs:
           allow_issue_writing: false
 
       - name: Upload ZAP Baseline SARIF to GitHub Security tab
+        # ZAP actions emit report_sarif.json (SARIF format) in addition to
+        # report_json.json (ZAP native JSON).  upload-sarif requires SARIF input.
         if: always()
         uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
-          sarif_file: report_json.json
+          sarif_file: report_sarif.json
           category: zap-baseline
         continue-on-error: true
 
@@ -201,6 +190,7 @@ jobs:
           path: |
             report_html.html
             report_json.json
+            report_sarif.json
             zap.out
           retention-days: 90
           if-no-files-found: warn
@@ -217,7 +207,7 @@ jobs:
           if report.exists():
               try:
                   data = json.loads(report.read_text(encoding="utf-8"))
-                  # ZAP JSON report: top-level "alerts" array or SARIF "runs[].results"
+                  # ZAP JSON report: top-level "alerts" array or site/alerts structure
                   if isinstance(data, list):
                       alerts = data
                   elif "site" in data:
@@ -249,17 +239,20 @@ jobs:
               print(output)
           PY
 
+      - name: Stop and remove ThemisDB container
+        if: always()
+        run: |
+          docker stop themisdb-dast || true
+          docker rm themisdb-dast || true
+
   # ────────────────────────────────────────────────────────────────────────────
   # ZAP API Scan (OpenAPI-spec-driven active scan — can gate on findings)
   # ────────────────────────────────────────────────────────────────────────────
   zap-api-scan:
     name: ZAP API Scan (OpenAPI-driven)
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    needs: start-target
-    if: >
-      needs.start-target.outputs.container_running == 'true' &&
-      inputs.scan_mode == 'api-scan'
+    timeout-minutes: 90
+    if: inputs.scan_mode == 'api-scan'
     permissions:
       contents: read
       security-events: write
@@ -268,6 +261,53 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+
+      - name: Ensure optional build context paths exist
+        run: |
+          mkdir -p internal llama.cpp vcpkg/downloads
+
+      - name: Build ThemisDB image (Community, CPU-only, no tests)
+        run: |
+          docker buildx build \
+            --file docker/Dockerfile.unified \
+            --target runtime \
+            --tag themisdb:ci-dast \
+            --load \
+            --build-arg THEMIS_EDITION=COMMUNITY \
+            --build-arg ENABLE_LLM=OFF \
+            --build-arg ENABLE_GPU=OFF \
+            --build-arg FORCE_CPU_ONLY=ON \
+            --build-arg BUILD_TESTS=OFF \
+            --build-arg BUILD_BENCHMARKS=OFF \
+            .
+
+      - name: Start ThemisDB container
+        run: |
+          docker run -d \
+            --name themisdb-dast \
+            --publish 18080:8080 \
+            --publish 18081:8081 \
+            --env THEMIS_EDITION=COMMUNITY \
+            --env THEMIS_LOG_LEVEL=info \
+            themisdb:ci-dast
+
+      - name: Wait for ThemisDB health endpoint
+        run: |
+          echo "Waiting for ThemisDB to become ready..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:18080/api/health 2>/dev/null | grep -qiE '"ok"|"HEALTHY"'; then
+              echo "ThemisDB is ready after $((i * 2))s"
+              exit 0
+            fi
+            echo "  attempt $i/30 — not ready yet, sleeping 2s"
+            sleep 2
+          done
+          echo "ThemisDB did not become ready in 60s; dumping container logs:"
+          docker logs themisdb-dast || true
+          exit 1
 
       - name: Run OWASP ZAP API Scan
         # Blocking when fail_on_high is true; advisory by default.
@@ -287,7 +327,7 @@ jobs:
         if: always()
         uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
-          sarif_file: report_json.json
+          sarif_file: report_sarif.json
           category: zap-api-scan
         continue-on-error: true
 
@@ -299,6 +339,7 @@ jobs:
           path: |
             report_html.html
             report_json.json
+            report_sarif.json
             zap.out
           retention-days: 90
           if-no-files-found: warn
@@ -351,17 +392,21 @@ jobs:
               print(output)
           PY
 
+      - name: Stop and remove ThemisDB container
+        if: always()
+        run: |
+          docker stop themisdb-dast || true
+          docker rm themisdb-dast || true
+
   # ────────────────────────────────────────────────────────────────────────────
   # ZAP Full Scan (full active attack — manual-dispatch only, can be destructive)
   # ────────────────────────────────────────────────────────────────────────────
   zap-full-scan:
     name: ZAP Full Scan (active attack — manual only)
     runs-on: ubuntu-latest
-    timeout-minutes: 120
-    needs: start-target
+    timeout-minutes: 150
     # Full scan: only manual dispatch, only full-scan mode explicitly selected.
     if: >
-      needs.start-target.outputs.container_running == 'true' &&
       github.event_name == 'workflow_dispatch' &&
       inputs.scan_mode == 'full-scan'
     permissions:
@@ -372,6 +417,53 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+
+      - name: Ensure optional build context paths exist
+        run: |
+          mkdir -p internal llama.cpp vcpkg/downloads
+
+      - name: Build ThemisDB image (Community, CPU-only, no tests)
+        run: |
+          docker buildx build \
+            --file docker/Dockerfile.unified \
+            --target runtime \
+            --tag themisdb:ci-dast \
+            --load \
+            --build-arg THEMIS_EDITION=COMMUNITY \
+            --build-arg ENABLE_LLM=OFF \
+            --build-arg ENABLE_GPU=OFF \
+            --build-arg FORCE_CPU_ONLY=ON \
+            --build-arg BUILD_TESTS=OFF \
+            --build-arg BUILD_BENCHMARKS=OFF \
+            .
+
+      - name: Start ThemisDB container
+        run: |
+          docker run -d \
+            --name themisdb-dast \
+            --publish 18080:8080 \
+            --publish 18081:8081 \
+            --env THEMIS_EDITION=COMMUNITY \
+            --env THEMIS_LOG_LEVEL=info \
+            themisdb:ci-dast
+
+      - name: Wait for ThemisDB health endpoint
+        run: |
+          echo "Waiting for ThemisDB to become ready..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:18080/api/health 2>/dev/null | grep -qiE '"ok"|"HEALTHY"'; then
+              echo "ThemisDB is ready after $((i * 2))s"
+              exit 0
+            fi
+            echo "  attempt $i/30 — not ready yet, sleeping 2s"
+            sleep 2
+          done
+          echo "ThemisDB did not become ready in 60s; dumping container logs:"
+          docker logs themisdb-dast || true
+          exit 1
 
       - name: Run OWASP ZAP Full Scan
         uses: zaproxy/action-full-scan@0ab114cce38bab8cb4e888b6a00e698e18218729  # v0.11.0
@@ -390,7 +482,7 @@ jobs:
         if: always()
         uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
-          sarif_file: report_json.json
+          sarif_file: report_sarif.json
           category: zap-full-scan
         continue-on-error: true
 
@@ -402,6 +494,7 @@ jobs:
           path: |
             report_html.html
             report_json.json
+            report_sarif.json
             zap.out
           retention-days: 90
           if-no-files-found: warn
@@ -454,29 +547,8 @@ jobs:
               print(output)
           PY
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # Cleanup — always stop and remove the ThemisDB container
-  # ────────────────────────────────────────────────────────────────────────────
-  cleanup:
-    name: Stop ThemisDB Container
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    needs:
-      - start-target
-      - zap-baseline
-      - zap-api-scan
-      - zap-full-scan
-    if: always()
-    permissions:
-      contents: read
-
-    steps:
-      - name: Stop and remove ThemisDB DAST container
+      - name: Stop and remove ThemisDB container
+        if: always()
         run: |
-          if docker ps -q --filter name=themisdb-dast | grep -q .; then
-            docker stop themisdb-dast || true
-            docker rm themisdb-dast || true
-            echo "Container themisdb-dast stopped and removed."
-          else
-            echo "Container themisdb-dast was not running (already stopped or never started)."
-          fi
+          docker stop themisdb-dast || true
+          docker rm themisdb-dast || true
