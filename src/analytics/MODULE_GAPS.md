@@ -4,6 +4,15 @@ This file documents all documentation and code quality gaps in the **analytics**
 
 ## Summary
 
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **18 reale Gaps**, **26 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Real-Beispiel: `GAP-0253` → `src/analytics/streaming_window.cpp:50` (* Open TODOs (tracked here per code-review requirements; see also)
+- Doku-Leak-Beispiel: `GAP-0229` → `src/analytics/analytics_export.cpp:7` (* @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=5, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
+
 - **Total Gaps**: 3696 (scanner snapshot; see Gap Closure Updates for code-level reductions)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5); Batch 4 closures applied 2026-08-19

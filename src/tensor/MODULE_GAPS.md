@@ -4,6 +4,15 @@ This file documents all documentation and code quality gaps in the **tensor** mo
 
 ## Summary
 
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **25 reale Gaps**, **14 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Real-Beispiel: `GAP-1551` → `src/tensor/compression_strategy.cpp:40` (// TODO: Wire to actual TensorTrainDecomposer)
+- Doku-Leak-Beispiel: `GAP-1550` → `src/tensor/adapter_repository.cpp:7` (* @note Gap Summary: total=19; TODO=1, Stub=13, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=6, M=3, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
+
 - **Total Gaps**: 787
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)

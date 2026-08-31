@@ -3,6 +3,15 @@
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
+
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **26 reale Gaps**, **3 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Real-Beispiel: `GAP-0050` → `src/llama_cpp/llama_cpp_plugin.cpp:347` (// STUB/SIMULATION NOTE:)
+- Doku-Leak-Beispiel: `GAP-0715` → `src/llama_cpp/llama_cpp_plugin.cpp:7` (* @note Gap Summary: total=19; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=2, Debt=0, C=4, H=11, M=11, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
 ## Scan Snapshot
 
 - Module: llama_cpp

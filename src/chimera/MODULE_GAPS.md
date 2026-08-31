@@ -4,6 +4,15 @@ This file documents all documentation and code quality gaps in the **chimera** m
 
 ## Summary
 
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **38 reale Gaps**, **1 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Real-Beispiel: `GAP-0364` → `src/chimera/mongodb_adapter.cpp:67` (// TODO: Actual mongocxx client creation)
+- Doku-Leak-Beispiel: `GAP-0402` → `src/chimera/themisdb_adapter.cpp:7` (* @note Gap Summary: total=19; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=11, Debt=0, C=6, H=18, M=28, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
+
 - **Total Gaps**: 491
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)

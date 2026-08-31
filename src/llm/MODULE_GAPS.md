@@ -4,6 +4,15 @@ This file documents all documentation and code quality gaps in the **llm** modul
 
 ## Summary
 
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **18 reale Gaps**, **166 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Real-Beispiel: `GAP-0810` → `src/llm/ssm_state_rocksdb_store.cpp:261` (// TODO: Use protobuf or binary serialization for efficiency)
+- Doku-Leak-Beispiel: `GAP-0718` → `src/llm/active_vram_allocator.cpp:7` (* @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=13, M=5, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
+
 - **Total Gaps (Initial)**: 12474
 - **Status**: REMEDIATING (Phase 6 documentation enhancement in progress)
 - **Last Updated**: 2026-08-17T10:30:46Z (Phase 6 remediation start)

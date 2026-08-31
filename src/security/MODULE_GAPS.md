@@ -3,6 +3,15 @@
 ## Status (2026-08-17)
 
 - Legacy Phase-5 scanner baseline remains archived in Batch-4 planning artifacts.
+
+## Marker-Validierung 2026-08-31
+
+- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
+- Ergebnis: **41 reale Gaps**, **46 Doku-Leaks**
+- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
+- Real-Beispiel: `GAP-0102` → `src/security/hsm_key_provider_adapter.cpp:28` (const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");)
+- Doku-Leak-Beispiel: `GAP-1213` → `src/security/access_control.cpp:7` (* @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=3, L=0)
+- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
 - This module file now tracks **current residual-risk state** for active fixes instead of repeating stale aggregate counters.
 
 ## Closed in this refresh
