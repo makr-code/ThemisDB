@@ -1,10 +1,8 @@
 # ThemisDB Audit Hub and Canonical Map
 
-**Last Updated:** 2026-08-31  
-**Repository Metadata:** `VERSION=2.4.0-alpha`  
+**Last Updated:** 2026-08-17  
+**Repository Metadata:** `VERSION=2.4.0`, `RELEASE_TYPE=stable`  
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
-
-> **Baseline rule (2026-08-31):** Root audit documents without direct date reference in filename (`AUDIT.md`, `README.md`, `WAVE_C_AUDIT_EVIDENCE.md`) are synchronized to the latest consolidated baseline report.
 
 ---
 
@@ -21,11 +19,9 @@
 
 | Document | Purpose |
 |---|---|
-| `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md` | Consolidated source-verified audit, maturity, security, and monetary update |
 | `AUDIT.md` | Central security/compliance/release audit summary |
 | `MATURITY_REPORT_2026-08.md` | Monthly maturity and gate posture |
-| `IMPLEMENTATION_AUDIT_2026-08-26.md` | Current implementation sync report |
-| `IMPLEMENTATION_AUDIT_2026-08-12.md` | Prior implementation sync report |
+| `IMPLEMENTATION_AUDIT_2026-08-12.md` | Current implementation sync report |
 | `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Historical deep-dive delta report |
 | `IMPLEMENTATION_AUDIT_2026-08-08.md` | Historical raw delta report |
 | `IMPLEMENTATION_AUDIT_2026-08-07.md` | Historical base snapshot |
@@ -55,10 +51,9 @@
 - `../docs/de/compliance/compliance_full_checklist.md`
 
 ### Release & Security Evidence
-- `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`
 - `AUDIT.md`
 - `MATURITY_REPORT_2026-08.md`
-- `IMPLEMENTATION_AUDIT_2026-08-26.md`
+- `IMPLEMENTATION_AUDIT_2026-08-12.md`
 - `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`
 - `../docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`
 - `../security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`
@@ -76,7 +71,7 @@
 
 - Technical GA hardening remains **PASS** (Wave 7/8/9 + sanitizer + pentest evidence).
 - The only confirmed GA blocker remains the human sign-off in `../docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
-- For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-08-26.md` first.
+- For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-08-12.md` first.
 
 ### Compliance Snapshot
 

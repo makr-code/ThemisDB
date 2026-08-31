@@ -1,13 +1,10 @@
 # Audit Module Wave C Evidence Report
 
 **Document Status:** Final (2026-08-18)  
-**Last Updated:** 2026-08-31 (baseline sync)  
 **Wave:** C — Security Production Validation  
 **Evidence Date:** 2026-08-18  
 **Target Exit Criteria:** Q4 2026  
 **Canonical Location:** `/audit/WAVE_C_AUDIT_EVIDENCE.md`
-
-> **BASELINE SYNC (2026-08-31):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with the current audit baseline `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`.
 
 ---
 
