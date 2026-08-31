@@ -27,12 +27,12 @@ static std::vector<RankedResult> make_ranked(std::initializer_list<const char*> 
 }
 
 static std::vector<std::string> make_gt(std::initializer_list<const char*> ids) {
-    std::vector<std::string> v;
-    v.reserve(ids.size());
+    std::vector<std::string> out;
+    out.reserve(ids.size());
     for (const char* id : ids) {
-        v.emplace_back(id);
+        out.emplace_back(id);
     }
-    return v;
+    return out;
 }
 
 // ── Group RM — Retrieval Metrics ──────────────────────────────────────────────
@@ -81,7 +81,7 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM5_MRR_SecondRelevant) {
 TEST(EvaluationRetrievalMetricsFocusedTests, RM6_EmptyGroundTruth_ThrowsMetricError) {
     auto ranked = make_ranked({"a", "b"});
     EXPECT_THROW(
-        computeRetrievalQuality(ranked, {}, 2),
+        static_cast<void>(computeRetrievalQuality(ranked, {}, 2)),
         MetricError
     );
 }
@@ -91,7 +91,7 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM7_KZero_ThrowsMetricError) {
     auto ranked = make_ranked({"a", "b"});
     auto gt     = make_gt({"a"});
     EXPECT_THROW(
-        computeRetrievalQuality(ranked, gt, 0),
+        static_cast<void>(computeRetrievalQuality(ranked, gt, 0)),
         MetricError
     );
 }
@@ -101,7 +101,7 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM8_KExceedsRankedSize_ThrowsMetric
     auto ranked = make_ranked({"a"});
     auto gt     = make_gt({"a"});
     EXPECT_THROW(
-        computeRetrievalQuality(ranked, gt, 5),
+        static_cast<void>(computeRetrievalQuality(ranked, gt, 5)),
         MetricError
     );
 }
@@ -111,7 +111,7 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM9_DuplicateIds_ThrowsMetricError)
     std::vector<RankedResult> ranked = {{"a", 2.0}, {"a", 1.0}};
     auto gt = make_gt({"a"});
     EXPECT_THROW(
-        computeRetrievalQuality(ranked, gt, 2),
+        static_cast<void>(computeRetrievalQuality(ranked, gt, 2)),
         MetricError
     );
 }
@@ -140,8 +140,7 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM11_MetricCollector_AccumulatesSna
 
     EXPECT_EQ(col.snapshotCount(), 1u);
     auto metrics = col.summarizeTensorGraph(/*max_residual_error=*/0.10);
-    EXPECT_GE(metrics.mean_artifact_age_ms, 0.0);
-    EXPECT_GE(metrics.mean_residual_error, 0.0);
+    EXPECT_GE(metrics.graph_verified_finalization_pass_rate, 0.0);
 }
 
 // RM12: MetricCollector reset() clears all state
@@ -160,14 +159,14 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM12_MetricCollector_ResetClearsSta
 // RM13: MetricCollector throws when no snapshots on summarizeTensorGraph
 TEST(EvaluationRetrievalMetricsFocusedTests, RM13_MetricCollector_NoSnapshots_Throws) {
     MetricCollector col;
-    EXPECT_THROW(col.summarizeTensorGraph(), MetricError);
+    EXPECT_THROW(static_cast<void>(col.summarizeTensorGraph()), MetricError);
 }
 
 // RM14: MetricError kind is preserved
 TEST(EvaluationRetrievalMetricsFocusedTests, RM14_MetricError_KindIsPreserved) {
     try {
         auto ranked = make_ranked({"a"});
-        computeRetrievalQuality(ranked, {}, 1);
+        static_cast<void>(computeRetrievalQuality(ranked, {}, 1));
         FAIL() << "Expected MetricError";
     } catch (const MetricError& e) {
         EXPECT_EQ(e.kind(), MetricErrorKind::EmptyGroundTruth);

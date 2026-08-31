@@ -3,8 +3,6 @@
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
-Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
-duerfen nicht stillschweigend reaktiviert werden.
 
 ## Aktive Workflows (43)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
@@ -55,13 +53,8 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/gate-distributed-knowledge.yml`
 - `.github/workflows/gate-pr-version-targeting.yml`
 
-Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
-  `security.yml`, `security-scanning.yml`, `security-scan.yml`,
-  `maintenance-gs3-gaps.yml`, `maintenance-security-alerts.yml`
-
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
-- Alles unter `.github/no_workflows/` bleibt deaktiviert, bis eine explizite Reaktivierungsentscheidung dokumentiert ist.
 - Jeder reaktivierte Workflow braucht einen klar benannten Owner, ein Ablaufdatum fuer die naechste Review und einen Abschaltplan.
 - Pull-Request-Trigger sind nur zulaessig, wenn `branches:` und `paths:` beide eng begrenzt sind.
 - `paths:` duerfen nur datei- oder modulspezifische Bereiche enthalten. Globale Trigger wie `src/**`, `include/**`, `**/*.md` oder Repo-weit wirksame Sammelmuster sind fuer neue PR-Workflows nicht zulaessig.
@@ -69,7 +62,6 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - Schwere Jobs muessen `workflow_dispatch` oder `schedule` bevorzugen. Sie duerfen nicht bei jedem PR-Sync anlaufen.
 - Jeder PR-Workflow braucht `concurrency` mit workflow/ref-Gruppierung und `cancel-in-progress: true`.
 - Jeder Workflow muss minimale `permissions` setzen und darf keine impliziten Default-Rechte nutzen.
-- Wenn Triggergrenzen nicht knapp und messbar formulierbar sind, bleibt der Workflow in `.github/no_workflows/`.
 - Reaktivierungen oder neue Workflow-Dateien muessen den `Workflow Boundary Guard` passieren, bevor sie aktiv bleiben duerfen.
 
 ## Reaktivierungs-Checkliste
@@ -86,7 +78,6 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - Ein Benchmark-, Audit- oder Nightly-Workflow als Required PR Check.
 - Trigger auf Dokumentationsaenderungen fuer Build-, Security- oder Performance-Jobs.
 - Neue Schatten-CI in Form von fast identischen Kopien bestehender Build- oder Testlogik.
-- Reaktivierung aus `.github/no_workflows/`, ohne die Ursache fuer die frueheren Uebertrigger zu dokumentieren.
 
 ## Naming Conventions
 - Behalte das kanonische, prefixfreie `<domain>-<purpose>[-<scope>].yml`-Schema aus `WORKFLOW_FRAMEWORK_DESIGN.md` bei.
@@ -114,7 +105,7 @@ Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
 - `.github/actions/setup-python-script/`  — Reusable checkout→python→script→upload pattern (ersetzt 21× Duplizierung)
 - `.github/actions/status-flags-and-issues/`  — Kanonische Schnittstelle für Issue-/PR-Kommentare, Labels und Status-Tracker; ersetzt direkte `github.rest.issues.*`/`createComment`-Blöcke in Workflows.
 - `.github/actions/manage-governance-issue/`  — Kanonische create/update/close Issue-Action (aktuell noch nicht von Workflows verwendet; kanon. Referenz für künftige Migrations)
-- `build-mainline.yml` und `maintenance-cache-warming.yml` nutzen `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
+- `build-mainline.yml` nutzt `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
 - CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
 - Cache-Warming erfolgt wöchentlich (montags 00:00 UTC) für Linux (GCC) und Windows (MSVC).
 - Erwartete Wiedertreffer-Rate: 60–80% bei unveränderter Toolchain + vcpkg-Baseline.

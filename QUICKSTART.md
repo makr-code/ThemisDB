@@ -1,6 +1,6 @@
 # ThemisDB — Quick Start
 
-> **Version:** 2.4.0-rc1  
+> **Version:** 2.4.0-alpha  
 > Get ThemisDB running in minutes. This is the canonical **Step 1** from [README.md](README.md). For full development-environment setup, continue with [SETUP.md](SETUP.md).
 
 ---
@@ -58,7 +58,7 @@ docker run -d \
   --name themisdb \
   -p 8765:8765 \
   -v themisdb_data:/data \
-  themisdb/themisdb:2.4.0-rc1
+  themisdb/themisdb:2.4.0-alpha
 ```
 
 | Port | Protocol |
@@ -72,7 +72,7 @@ docker run -d \
 
 ```bash
 curl http://localhost:8765/health
-# {"status":"ok","version":"2.4.0-rc1"}
+# {"status":"ok","version":"2.4.0-alpha"}
 ```
 
 ### 3. Run your first query (AQL)
@@ -99,17 +99,17 @@ For server deployments without Docker:
 
 ```bash
 # Debian / Ubuntu
-wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb_2.4.0-rc1_amd64.deb
-sudo dpkg -i themisdb_2.4.0-rc1_amd64.deb
+wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-alpha/themisdb_2.4.0-alpha_amd64.deb
+sudo dpkg -i themisdb_2.4.0-alpha_amd64.deb
 
 # RHEL / Fedora
-wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb-2.4.0-rc1-1.x86_64.rpm
-sudo rpm -i themisdb-2.4.0-rc1-1.x86_64.rpm
+wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-alpha/themisdb-2.4.0-alpha-1.x86_64.rpm
+sudo rpm -i themisdb-2.4.0-alpha-1.x86_64.rpm
 
 # Generic (TGZ)
-wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb-2.4.0-rc1-Linux-x86_64.tar.gz
-tar xzf themisdb-2.4.0-rc1-Linux-x86_64.tar.gz
-cd themisdb-2.4.0-rc1-Linux-x86_64
+wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-alpha/themisdb-2.4.0-alpha-Linux-x86_64.tar.gz
+tar xzf themisdb-2.4.0-alpha-Linux-x86_64.tar.gz
+cd themisdb-2.4.0-alpha-Linux-x86_64
 ./bin/themis_server --config ./config/config.yaml --data-dir ./data
 ```
 
@@ -135,21 +135,27 @@ cd ThemisDB
 git submodule update --init --recursive
 ```
 
-### 2. Install pre-commit hooks and bootstrap third-party dependencies
+### 2. Install pre-commit hooks and use CMake-native dependency bootstrap
 
 ```bash
 # Linux / macOS
 ./scripts/setup-pre-commit.sh
-pwsh ./scripts/setup-third-party.ps1   # requires PowerShell 7+
+
+# Bootstrap dependencies directly via CMake (cross-platform)
+cmake --preset linux-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 
 # Windows (PowerShell)
 .\scripts\setup-pre-commit.ps1
-.\scripts\setup-third-party.ps1
+cmake --preset windows-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
 ```
 
 This installs vcpkg dependencies, llama.cpp, whisper.cpp, and ffmpeg into the repository tree.
 
 The repository uses a pinned `vcpkg` submodule for consistent Windows/Linux/Docker dependency resolution.
+
+> Build reality check: the repo is currently expected to work with a repo-local `vcpkg` checkout at `./vcpkg` or with CMake-native bootstrap enabled via `-DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON`. Fresh clones and some Windows developer environments may not have the toolchain file in place yet; in those cases, the canonical recovery path is to reconfigure with the bootstrap flag rather than to hard-code a machine-specific absolute path. Local overrides belong in `CMakeUserPresets.json`, not in checked-in build instructions.
+
+> Local developer note: `vcpkg` can occasionally show a dirty submodule state because of generated lock/temp files from local tool runs. That is a working-tree artifact from the toolchain, not a source-code change. If needed, ignore those generated files in the submodule's local git exclude instead of documenting them as repository policy.
 
 ### 3. Configure and build (Community edition)
 
@@ -243,15 +249,15 @@ curl -X POST http://localhost:8765/v2/search/vector \
 ## Troubleshooting
 
 **Container exits immediately (`Exit 139` / SIGSEGV)**  
-Set `enable_response_cache = false`, or move to the current tagged image line documented in [CHANGELOG.md](CHANGELOG.md) / [`VERSION`](VERSION) (`2.4.0-rc1` at this sync point).
+Set `enable_response_cache = false`, or move to the current tagged image line documented in [CHANGELOG.md](CHANGELOG.md) / [`VERSION`](VERSION) (`2.4.0-alpha` at this sync point).
 
 **Port already in use**  
 Change the host port mapping: `-p 18765:8765`.
 
 **Build fails: missing vcpkg package**  
-Run `pwsh ./scripts/setup-third-party.ps1` again; vcpkg bootstrap sometimes requires a second pass.
+Reconfigure with `-DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON`; CMake then initializes missing submodules and bootstraps vcpkg automatically.
 
 **More help:** [SUPPORT.md](SUPPORT.md) · [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) · [FAQ](docs/FAQ.md)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-07-27
+Zuletzt geprueft (Root-Sync): 2026-08-28

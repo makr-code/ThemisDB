@@ -259,10 +259,10 @@ TEST_F(TransactionBatchA6Test, SAGACompensationOrder) {
     
     // Validate and execute SAGA
     auto validation = orchestrator.validate(saga);
-    EXPECT_TRUE(validation.ok) << "SAGA should validate: " << validation.error;
+    EXPECT_TRUE(validation.ok) << "SAGA should validate: " << validation.message;
     
     auto status = orchestrator.execute(saga);
-    EXPECT_TRUE(status.ok) << "SAGA should execute: " << status.error;
+    EXPECT_TRUE(status.ok) << "SAGA should execute: " << status.message;
     
     // Verify compensation order is reverse (3, 2, 1)
     EXPECT_EQ(compensation_order.size(), 0) << "No compensation should occur on success";
@@ -690,4 +690,3 @@ TEST_F(TransactionBatchA6Test, HighThroughputBatching) {
     EXPECT_EQ(failed, 0) << "No items should fail under stress";
 }
 
-} // namespace

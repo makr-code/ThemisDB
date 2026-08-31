@@ -33,7 +33,6 @@ on:
       - cmake/**/*.txt
       - cmake/**/*.in
       - .github/workflows/**
-      - .github/no_workflows/**
       - .github/actions/**
       - .github/scripts/**
       - .github/WORKFLOW_GUIDELINES.md

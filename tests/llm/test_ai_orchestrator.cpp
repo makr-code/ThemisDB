@@ -50,7 +50,7 @@ public:
                                   const InferenceRequest& request) override {
         return generate(request);
     }
-    std::vector<float> embed(const std::string& text) override {
+    std::vector<float> embed([[maybe_unused]] const std::string& text) override {
         return std::vector<float>(8, 0.0f);
     }
 
@@ -603,7 +603,7 @@ TEST(ToolRegistryTest, InvokeTool_Permitted_CallsHandler) {
     ToolRegistry reg;
     ToolSpec spec;
     spec.name = "echo_tool";
-    reg.registerTool(spec, [](const json& args, const ModeSpec&) {
+    reg.registerTool(spec, []([[maybe_unused]] const json& args, const ModeSpec&) {
         return json{{"echoed", args}};
     });
 
@@ -1599,7 +1599,7 @@ TEST(AIOrchestrator_ToolTest, RegisterAndInvoke_ViaOrchestrator) {
     spec.name        = "docs_search";
     spec.description = "Test doc search";
 
-    orch.toolRegistry().registerTool(spec, [](const json& args, const ModeSpec&) {
+    orch.toolRegistry().registerTool(spec, []([[maybe_unused]] const json& args, const ModeSpec&) {
         return json{
             {"documents", json::array({
                 {{"content", "Sharding doc"}, {"source", "shard.md"}, {"relevance_score", 0.9f}},
@@ -1805,7 +1805,7 @@ TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
     spec.name = "calc_tool";
     std::atomic<int> call_count{0};
     orch.toolRegistry().registerTool(spec,
-        [&call_count](const json& args, const ModeSpec&) -> json {
+        [&call_count]([[maybe_unused]] const json& args, const ModeSpec&) -> json {
             ++call_count;
             return {{"result", args.value("x", 0) + args.value("y", 0)}};
         });
@@ -1842,7 +1842,7 @@ TEST(AgenticToolCallTest, PlainTextResponse_NoToolDispatched) {
     spec.name = "calc_tool";
     std::atomic<int> call_count{0};
     orch.toolRegistry().registerTool(spec,
-        [&call_count](const json&, const ModeSpec&) -> json {
+        [&call_count]([[maybe_unused]] const json&, const ModeSpec&) -> json {
             ++call_count;
             return {{"ok", true}};
         });
@@ -1871,7 +1871,7 @@ TEST(AgenticToolCallTest, MalformedJson_GracefulFallback) {
     ToolSpec spec;
     spec.name = "calc_tool";
     orch.toolRegistry().registerTool(spec,
-        [](const json&, const ModeSpec&) -> json { return {{"ok", true}}; });
+        []([[maybe_unused]] const json&, const ModeSpec&) -> json { return {{"ok", true}}; });
 
     OrchestratorContext ctx;
     ctx.query   = "{not valid json at all!!!";

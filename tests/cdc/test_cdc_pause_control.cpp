@@ -222,9 +222,10 @@ TEST(InMemoryPauseControlTest, PolymorphicUsage) {
         std::make_unique<InMemoryPauseControl>();
 
     EXPECT_FALSE(ctrl->isPaused());
-    ctrl->pause(PauseReason::SchemaEvolution);
+    [[maybe_unused]] const auto pause_applied =
+        ctrl->pause(PauseReason::SchemaEvolution);
     EXPECT_TRUE(ctrl->isPaused());
     EXPECT_EQ(ctrl->pauseReason(), PauseReason::SchemaEvolution);
-    ctrl->resume();
+    [[maybe_unused]] const auto resume_applied = ctrl->resume();
     EXPECT_FALSE(ctrl->isPaused());
 }

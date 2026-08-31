@@ -64,6 +64,23 @@ project(Themis
 # package during WiX/MSI generation.
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
 
+# Canonical build-profile defaults:
+# - Debug and test-focused dev builds should include unit tests by default.
+# - Release builds should keep tests disabled unless explicitly requested.
+# This keeps the default behavior consistent across presets, VS Code tasks, and
+# direct CMake invocations without requiring wrapper scripts.
+if(NOT DEFINED THEMIS_BUILD_TESTS)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(THEMIS_BUILD_TESTS ON CACHE BOOL "Build unit tests")
+    else()
+        set(THEMIS_BUILD_TESTS OFF CACHE BOOL "Build unit tests")
+    endif()
+endif()
+
+if(NOT DEFINED THEMIS_BUILD_BENCHMARKS)
+    set(THEMIS_BUILD_BENCHMARKS OFF CACHE BOOL "Build benchmarks")
+endif()
+
 option(ENABLE_FUZZING "Build standalone AFL++/libFuzzer harness targets" OFF)
 if(ENABLE_FUZZING)
     message(STATUS "Configuring standalone fuzz harness build")
@@ -74,6 +91,45 @@ if(ENABLE_FUZZING)
     add_subdirectory(fuzz)
     return()
 endif()
+
+function(themis_bootstrap_vcpkg_if_needed vcpkg_dir)
+    set(_themis_vcpkg_exe "${vcpkg_dir}/vcpkg")
+    if(WIN32)
+        set(_themis_vcpkg_exe "${vcpkg_dir}/vcpkg.exe")
+    endif()
+
+    if(EXISTS "${_themis_vcpkg_exe}")
+        message(STATUS "Auto-bootstrap: vcpkg executable already present at ${_themis_vcpkg_exe}")
+        return()
+    endif()
+
+    if(WIN32)
+        set(_themis_bootstrap_cmd cmd /c "${vcpkg_dir}/bootstrap-vcpkg.bat")
+    else()
+        find_program(THEMIS_SH_EXECUTABLE sh)
+        if(NOT THEMIS_SH_EXECUTABLE)
+            message(FATAL_ERROR
+                "Auto-bootstrap requires 'sh' on non-Windows hosts to run bootstrap-vcpkg.sh.")
+        endif()
+        set(_themis_bootstrap_cmd ${THEMIS_SH_EXECUTABLE} "${vcpkg_dir}/bootstrap-vcpkg.sh")
+    endif()
+
+    message(STATUS "Auto-bootstrap: bootstrapping vcpkg executable")
+    execute_process(
+        COMMAND ${_themis_bootstrap_cmd}
+        WORKING_DIRECTORY "${vcpkg_dir}"
+        RESULT_VARIABLE _themis_vcpkg_bootstrap_result
+        ERROR_VARIABLE _themis_vcpkg_bootstrap_error
+    )
+
+    if(NOT _themis_vcpkg_bootstrap_result EQUAL 0)
+        message(FATAL_ERROR
+            "Failed to bootstrap vcpkg executable in ${vcpkg_dir}.\n"
+            "vcpkg bootstrap error: ${_themis_vcpkg_bootstrap_error}\n"
+            "Retry with CMake-native bootstrap enabled:\n"
+            "  cmake --preset <preset> -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON")
+    endif()
+endfunction()
 
 # Preflight for externally provided toolchain file
 # Common failure: CMAKE_TOOLCHAIN_FILE points to missing repo-local vcpkg path.
@@ -102,9 +158,12 @@ if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "" AN
                 message(FATAL_ERROR
                     "Failed to auto-bootstrap vcpkg.\n"
                     "git clone error: ${_themis_vcpkg_clone_error}\n"
-                    "Run manually: powershell -ExecutionPolicy Bypass -File scripts/setup-third-party.ps1")
+                    "Retry with CMake-native bootstrap enabled:\n"
+                    "  cmake --preset <preset> -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON")
             endif()
         endif()
+
+        themis_bootstrap_vcpkg_if_needed("${_themis_vcpkg_dir}")
 
         set(CMAKE_TOOLCHAIN_FILE "${_themis_vcpkg_toolchain}" CACHE STRING "vcpkg toolchain file" FORCE)
         message(STATUS "Auto-bootstrap: using toolchain ${CMAKE_TOOLCHAIN_FILE}")
@@ -113,9 +172,8 @@ if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "" AN
             "CMAKE_TOOLCHAIN_FILE points to a missing file:\n"
             "  ${CMAKE_TOOLCHAIN_FILE}\n\n"
             "Fix options:\n"
-            "  1) Bootstrap dependencies: powershell -ExecutionPolicy Bypass -File scripts/setup-third-party.ps1\n"
-            "  2) Reconfigure with -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON\n"
-            "  3) Set CMAKE_TOOLCHAIN_FILE to a valid vcpkg toolchain path")
+            "  1) Reconfigure with CMake-native bootstrap: -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON\n"
+            "  2) Set CMAKE_TOOLCHAIN_FILE to a valid vcpkg toolchain path")
     endif()
 endif()
 
@@ -221,15 +279,19 @@ include(cmake/EditionMatrix.cmake)
 # 8. vcpkg Configuration (binary cache, feature dependencies)
 include(cmake/VcpkgConfiguration.cmake)
 
-# Fallback: ensure vcpkg "installed/<triplet>/include" is on the global include path
-# This helps in environments where per-package imported targets do not propagate
-# an umbrella include directory to all targets (diagnostic / compatibility aid).
+# Fallback include directory for environments where imported targets do not
+# propagate umbrella include paths reliably. This path is consumed by target-
+# scoped include declarations in module/core targets.
+set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "" CACHE INTERNAL "vcpkg fallback include directory")
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
-    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+    set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
 elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
-    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
+    set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
 elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
-    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
+    set(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
+endif()
+if(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR)
+    message(STATUS "Using target-scoped vcpkg fallback include directory: ${THEMIS_VCPKG_INCLUDE_FALLBACK_DIR}")
 endif()
 
 # 9. Dependencies
@@ -239,6 +301,27 @@ include(cmake/Dependencies.cmake)
 include(cmake/validation/PlatformValidation.cmake)
 include(cmake/validation/EditionValidation.cmake)
 include(cmake/validation/FeatureValidation.cmake)
+
+# Build-speed controls for script-adjacent generated artifacts.
+# Default policy:
+# - Debug or test-focused builds: do not eagerly build shaders and do not require
+#   shader artifacts for core target builds.
+# - Non-debug builds without tests: keep eager/required behavior enabled.
+set(_themis_shader_build_default ON)
+if((DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug") OR
+   (DEFINED THEMIS_BUILD_TESTS AND THEMIS_BUILD_TESTS))
+    set(_themis_shader_build_default OFF)
+endif()
+
+option(THEMIS_EAGER_SHADER_BUILD
+    "Build GPU shader artifacts as part of the default ALL target"
+    ${_themis_shader_build_default})
+
+option(THEMIS_REQUIRE_SHADER_ARTIFACTS
+    "Require shader artifact targets as dependencies of GPU libraries/executables"
+    ${_themis_shader_build_default})
+
+message(STATUS "Shader build policy: eager=${THEMIS_EAGER_SHADER_BUILD}, required=${THEMIS_REQUIRE_SHADER_ARTIFACTS}")
 
 # Redirect runtime/library/archive outputs to separate folders on Windows to
 # avoid parallel linker/file-lock collisions in shared `bin/` during large
@@ -312,6 +395,10 @@ option(THEMIS_BENCHMARK_MODE
        "Enable all performance measurement features (FOR BENCHMARKING ONLY!)" 
        OFF)
 
+# Compile definitions are accumulated here and applied in a target-scoped way
+# from cmake/CMakeLists.txt and cmake/ModularBuild.cmake.
+set(THEMIS_GLOBAL_COMPILE_DEFINITIONS "")
+
 # ============================================================================
 # CLOUD SDK INTEGRATION
 # ============================================================================
@@ -362,11 +449,18 @@ endif()
 
 # When THEMIS_BENCHMARK_MODE is ON, enable all measurement features
 if(THEMIS_BENCHMARK_MODE)
-    set(THEMIS_ENABLE_CYCLE_METRICS ON CACHE BOOL "" FORCE)
-    set(THEMIS_ENABLE_DETAILED_METRICS ON CACHE BOOL "" FORCE)
-    set(THEMIS_ENABLE_GPU_CYCLE_METRICS ON CACHE BOOL "" FORCE)
-    set(THEMIS_ENABLE_PMU_COUNTERS ON CACHE BOOL "" FORCE)
-    set(THEMIS_ENABLE_METRICS_EXPORT ON CACHE BOOL "" FORCE)
+    foreach(_themis_bench_flag IN ITEMS
+        THEMIS_ENABLE_CYCLE_METRICS
+        THEMIS_ENABLE_DETAILED_METRICS
+        THEMIS_ENABLE_GPU_CYCLE_METRICS
+        THEMIS_ENABLE_PMU_COUNTERS
+        THEMIS_ENABLE_METRICS_EXPORT)
+        if(NOT DEFINED CACHE{${_themis_bench_flag}})
+            set(${_themis_bench_flag} ON CACHE BOOL "Enabled by THEMIS_BENCHMARK_MODE")
+        elseif(NOT ${_themis_bench_flag})
+            message(STATUS "THEMIS_BENCHMARK_MODE requested, but ${_themis_bench_flag}=OFF is kept (user override)")
+        endif()
+    endforeach()
     
     message(WARNING "==========================================")
     message(WARNING "THEMIS_BENCHMARK_MODE is ENABLED")
@@ -378,27 +472,27 @@ endif()
 
 # Set compile definitions based on options
 if(THEMIS_ENABLE_CYCLE_METRICS)
-    add_compile_definitions(THEMIS_ENABLE_CYCLE_METRICS)
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_ENABLE_CYCLE_METRICS)
     message(STATUS "Cycle metrics: ENABLED")
 endif()
 
 if(THEMIS_ENABLE_DETAILED_METRICS)
-    add_compile_definitions(THEMIS_ENABLE_DETAILED_METRICS)
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_ENABLE_DETAILED_METRICS)
     message(STATUS "Detailed metrics: ENABLED")
 endif()
 
 if(THEMIS_ENABLE_GPU_CYCLE_METRICS)
-    add_compile_definitions(THEMIS_ENABLE_GPU_CYCLE_METRICS)
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_ENABLE_GPU_CYCLE_METRICS)
     message(STATUS "GPU cycle metrics: ENABLED")
 endif()
 
 if(THEMIS_ENABLE_PMU_COUNTERS)
-    add_compile_definitions(THEMIS_ENABLE_PMU_COUNTERS)
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_ENABLE_PMU_COUNTERS)
     message(STATUS "PMU counters: ENABLED")
 endif()
 
 if(THEMIS_ENABLE_IO_URING)
-    add_compile_definitions(THEMIS_ENABLE_IO_URING)
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_ENABLE_IO_URING)
     message(STATUS "io_uring zero-copy I/O: ENABLED")
 endif()
 
@@ -411,7 +505,7 @@ option(THEMIS_HAS_GGML
 if(THEMIS_HAS_GGML)
     find_package(ggml QUIET)
     if(ggml_FOUND)
-        add_compile_definitions(THEMIS_HAS_GGML)
+        list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_HAS_GGML)
         message(STATUS "THEMIS_HAS_GGML: ON (ggml found via find_package)")
     else()
         message(WARNING "THEMIS_HAS_GGML requested but ggml not found; falling back to FakeTensor")
@@ -426,7 +520,7 @@ if(THEMIS_HAS_IO_URING)
     find_library(LIBURING_LIB uring)
     find_path(LIBURING_INCLUDE liburing.h)
     if(LIBURING_LIB AND LIBURING_INCLUDE)
-        add_compile_definitions(THEMIS_HAS_IO_URING)
+        list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_HAS_IO_URING)
         set(THEMIS_IO_URING_LIB "${LIBURING_LIB}" CACHE INTERNAL "liburing path for target-scoped linking")
         set(THEMIS_IO_URING_INCLUDE "${LIBURING_INCLUDE}" CACHE INTERNAL "liburing include dir for target-scoped includes")
         message(STATUS "THEMIS_HAS_IO_URING: ON (liburing found at ${LIBURING_LIB})")
@@ -442,7 +536,7 @@ option(THEMIS_HAS_YAML_CPP
 if(THEMIS_HAS_YAML_CPP)
     find_package(yaml-cpp QUIET)
     if(yaml-cpp_FOUND)
-        add_compile_definitions(THEMIS_HAS_YAML_CPP)
+        list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_HAS_YAML_CPP)
         link_libraries(yaml-cpp)
         message(STATUS "THEMIS_HAS_YAML_CPP: ON (yaml-cpp found)")
     else()
@@ -457,7 +551,7 @@ option(THEMIS_HAS_NLI
 if(THEMIS_HAS_NLI)
     find_package(onnxruntime QUIET)
     if(onnxruntime_FOUND OR TARGET onnxruntime)
-        add_compile_definitions(THEMIS_HAS_NLI)
+        list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_HAS_NLI)
         message(STATUS "THEMIS_HAS_NLI: ON (onnxruntime found)")
     else()
         message(WARNING "THEMIS_HAS_NLI requested but onnxruntime not found; heuristic fallback is used")
@@ -467,7 +561,7 @@ endif()
 # ── End Wave 3 optional dependencies ─────────────────────────────────────────
 
 if(THEMIS_ENABLE_METRICS_EXPORT)
-    add_compile_definitions(THEMIS_ENABLE_METRICS_EXPORT)
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_ENABLE_METRICS_EXPORT)
     message(STATUS "Metrics export: ENABLED")
 endif()
 

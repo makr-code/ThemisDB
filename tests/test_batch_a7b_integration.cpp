@@ -14,6 +14,7 @@
 #include "replication/async_wal_shipper.h"
 #include "replication/lag_alert_manager.h"
 
+#include <algorithm>
 #include <gtest/gtest.h>
 #include <chrono>
 #include <thread>

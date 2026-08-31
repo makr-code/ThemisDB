@@ -19,6 +19,7 @@
 #include "replication/raft_v2.h"
 #include "replication/event_stream.h"
 #include "replication/async_wal_shipper.h"
+#include "replication/logical_replication.h"
 
 #include <thread>
 #include <chrono>
@@ -29,15 +30,6 @@ namespace themisdb {
 namespace replication {
 namespace test {
 
-// Mock WAL Manager for testing
-class MockWALManager : public WALManager {
-public:
-    MOCK_METHOD(void, append, (const WALEntry&), (override));
-    MOCK_METHOD(uint64_t, getCurrentSequence, (), (const, override));
-    MOCK_METHOD(std::vector<WALEntry>, readEntries,
-                (uint64_t start, uint64_t end), (const, override));
-};
-
 // ============================================================================
 // Test 1: Concurrent Slot Creation (Level 1 Lock)
 // ============================================================================
@@ -45,13 +37,12 @@ public:
 class ReplicationLockOrderingTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        wal_manager = std::make_shared<MockWALManager>();
-        EXPECT_CALL(*wal_manager, getCurrentSequence())
-            .WillRepeatedly(::testing::Return(1000));
-        EXPECT_CALL(*wal_manager, append).Times(::testing::AnyNumber());
+        ReplicationConfig cfg;
+        cfg.wal_directory = "tmp/themis_test_wal";
+        wal_manager = std::make_shared<WALManager>(cfg);
     }
 
-    std::shared_ptr<MockWALManager> wal_manager;
+    std::shared_ptr<WALManager> wal_manager;
 };
 
 TEST_F(ReplicationLockOrderingTest, ConcurrentSlotCreation_NoDeadlock)
@@ -213,11 +204,8 @@ TEST_F(ReplicationLockOrderingTest, EventStream_CallbacksOutsideLocks)
     for (int i = 0; i < 5; ++i) {
         threads.emplace_back([&, i]() {
             for (int j = 0; j < 10; ++j) {
-                ReplicationEventStream::Event ev;
-                ev.type = ReplicationEventStream::EventType::ROLE_CHANGED;
-                ev.timestamp = std::chrono::system_clock::now();
-                ev.data["thread_id"] = std::to_string(i);
-                stream->emit(std::move(ev));
+                (void)i;
+                stream->onRoleChange(ReplicationRole::FOLLOWER, ReplicationRole::LEADER);
             }
         });
     }

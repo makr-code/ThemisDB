@@ -498,7 +498,7 @@ TEST(HybridSearchReranker, SetRerankerClearsByPassingNull) {
 }
 
 TEST(HybridSearchReranker, RerankerConfigPassedThrough) {
-    LlmReranker::Config rr_cfg;
+    ILlmReranker::Config rr_cfg;
     rr_cfg.llm_weight = 0.9;
     rr_cfg.batch_size = 3;
 

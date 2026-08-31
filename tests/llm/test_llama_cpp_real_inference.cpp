@@ -52,6 +52,11 @@
 using namespace themis;
 using LlamaPlugin = themis::llamacpp::LlamaCppPlugin;
 
+#ifdef THEMIS_ENABLE_LLM
+using namespace themis::llamacpp;
+using namespace themis::llm;
+#endif
+
 // ═══════════════════════════════════════════════════════════
 // Test fixture
 // ═══════════════════════════════════════════════════════════

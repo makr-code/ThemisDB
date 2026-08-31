@@ -38,7 +38,6 @@ protected:
     UpdatesEdgeCaseHandler handler_;
 
     void SetUp() override {
-        sm_ = UpdateStateMachine("");
     }
 };
 

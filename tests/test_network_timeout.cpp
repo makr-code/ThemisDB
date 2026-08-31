@@ -281,7 +281,7 @@ TEST_F(SocketTimeoutManagerTest, ConcurrentTimeoutRecording) {
 
 // Test 15: SocketTimeoutGuard RAII behavior
 TEST_F(SocketTimeoutManagerTest, SocketTimeoutGuardRAII) {
-    SocketTimeoutManager manager(config_);
+    auto manager = std::make_shared<SocketTimeoutManager>(config_);
     
     // Note: We can't create real sockets in unit tests, but we can test the RAII logic
     socket_t mock_socket = 12345;  // Mock socket descriptor
@@ -300,7 +300,7 @@ TEST_F(SocketTimeoutManagerTest, SocketTimeoutGuardRAII) {
 
 // Test 16: SocketTimeoutGuard move semantics
 TEST_F(SocketTimeoutManagerTest, SocketTimeoutGuardMove) {
-    SocketTimeoutManager manager(config_);
+    auto manager = std::make_shared<SocketTimeoutManager>(config_);
     socket_t mock_socket = 12345;
     
     SocketTimeoutGuard guard1(manager, mock_socket);

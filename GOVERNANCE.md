@@ -112,7 +112,7 @@ Handled privately per [SECURITY.md](SECURITY.md) and [SOP.md §SOP-05](SOP.md#so
 
 ### Licensing
 
-All contributions must be compatible with the [MIT License](LICENSE). By submitting a pull request, you agree that your contribution is licensed under the MIT License.
+All contributions must be compatible with the [MIT License with Government Clause](docs/de/legal/license.md). By submitting a pull request, you agree that your contribution is licensed under that license.
 
 ---
 

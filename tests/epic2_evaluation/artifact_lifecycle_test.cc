@@ -8,7 +8,7 @@
 
 #include <gtest/gtest.h>
 
-#include "evaluation/include/artifact_lifecycle.h"
+#include "artifact_lifecycle.h"
 
 namespace themis {
 namespace evaluation {

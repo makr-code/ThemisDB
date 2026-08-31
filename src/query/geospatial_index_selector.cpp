@@ -45,10 +45,10 @@ DataDistribution DataDistribution::infer(
     
     if (dist.clusteringRatio > 0.7) {
         dist.type = CLUSTERED;
-        dist.approximateClusterCount = std::max(1UL, distinctLocationCells / 10);
+        dist.approximateClusterCount = std::max<size_t>(1, distinctLocationCells / 10);
     } else if (dist.clusteringRatio > 0.3) {
         dist.type = SKEWED;
-        dist.approximateClusterCount = std::max(1UL, distinctLocationCells / 5);
+        dist.approximateClusterCount = std::max<size_t>(1, distinctLocationCells / 5);
     } else {
         dist.type = UNIFORM;
         dist.approximateClusterCount = 0;

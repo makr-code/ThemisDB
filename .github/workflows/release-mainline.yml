@@ -730,6 +730,8 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_LLM_INFERENCE_TESTS=ON \
+            -DTHEMIS_ENABLE_GRPC=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
             -DTHEMIS_TEST_MODEL_DIR="${{ github.workspace }}/models" \
             -DCMAKE_BUILD_TYPE=Release \
             -G Ninja

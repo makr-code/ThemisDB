@@ -43,7 +43,7 @@ jobs:
       configure_command: >-
         cmake -S . -B build-clang-fast -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-Wall -Wextra -Wpedantic" -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
       build_command: >-
-        cmake --build build-clang-fast --target themis_core module_epic3_distributed_tensor_tensor_shard_summary_focused --parallel 8
+        cmake --build build-clang-fast --target themis_base module_epic3_distributed_tensor_tensor_shard_summary_focused --parallel 8
       validation_command: >-
         ctest --test-dir build-clang-fast --output-on-failure -R "TensorShardSummaryPhaseCTests|DistributedPlannerContractTests" -j 1 --timeout 60
       artifact_name: clang-fast-logs-${{ github.run_number }}

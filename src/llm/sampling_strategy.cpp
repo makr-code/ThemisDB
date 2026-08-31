@@ -18,6 +18,14 @@
 #include <random>
 #include <limits>
 
+#if __has_include(<llama.h>)
+#include <llama.h>
+#elif __has_include("llama.h")
+#include "llama.h"
+#else
+extern "C" float* llama_get_logits_ith(struct llama_context* ctx, std::int32_t i);
+#endif
+
 namespace themis {
 namespace llm {
 

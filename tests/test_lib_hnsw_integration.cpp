@@ -1,8 +1,22 @@
 #include <gtest/gtest.h>
+#if __has_include(<hnswlib/hnswlib.h>)
 #include <hnswlib/hnswlib.h>
+#define THEMIS_HAS_HNSWLIB_HEADER 1
+#else
+#define THEMIS_HAS_HNSWLIB_HEADER 0
+#endif
 #include <vector>
 #include <random>
 #include <cmath>
+#include <algorithm>
+
+#if !THEMIS_HAS_HNSWLIB_HEADER
+
+TEST(HNSWLibIntegrationTest, MissingHeader) {
+    GTEST_SKIP() << "hnswlib header not available in this build environment";
+}
+
+#else
 
 // Test fixture for HNSW library integration
 class HNSWLibIntegrationTest : public ::testing::Test {
@@ -547,3 +561,5 @@ TEST_F(HNSWLibIntegrationTest, IncrementalReindex_CapacityExpansion) {
 
     delete index;
 }
+
+#endif

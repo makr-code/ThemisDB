@@ -1,36 +1,9 @@
-/**
- * @file test_llm_doku_rag.cpp
- * @brief RAG CI test suite: ThemisDB documentation knowledge base (doku.db).
+/*
+ * test_llm_doku_rag.cpp
+ * RAG CI tests for the ThemisDB documentation knowledge base.
  *
- * Tests RAG-01..12 validate the WikiRagSource → JsonWikiIndexReader retrieval
- * pipeline against the doku.db JSON chunk index built by ci-build-doku-db.sh.
- *
- * All questions and answer-quality criteria derive exclusively from ThemisDB
- * documentation (docs/, src/<module>/ROADMAP.md, ARCHITECTURE.md, etc.).
- *
- *  RAG-01: Retrieval for "WikiIndexStore purpose" returns BM25/HNSW/RRF chunks
- *  RAG-02: Retrieval for "implementation phases" returns Phase 1–6 content
- *  RAG-03: Retrieval for "AdaLoRA" returns rank/singular-values chunks
- *  RAG-04: Retrieval for "Community branch" returns release-branch content
- *  RAG-05: Retrieval for "model download" returns Ollama/HuggingFace content
- *  RAG-06: Recall@5 ≥ 70 % across 10 representative questions
- *  RAG-07: Query latency < 3000 ms per query on CPU-only (JsonWikiIndexReader)
- *  RAG-08: Golden dataset keyword gate — every entry hits ≥ 1 keyword in Top-5
- *  RAG-09: Golden dataset Recall@5 ≥ 80 % across all golden entries
- *  RAG-10: Golden dataset source-hint gate — expected_source_hint in Top-5
- *  RAG-11: Golden dataset latency gate — median < 500 ms per query
- *  RAG-12: Golden dataset schema/size/distribution guard
- *          (>=110 entries; 20% general / 30% specific / 50% specialized)
- *
- * When the doku.db index file is absent, tests RAG-01..07 skip (model_required
- * label).  RAG-08..12 skip when doku.db is absent but FAIL if the golden
- * dataset YAML itself is missing (RAG-12).
- *
- * @see scripts/ci-build-doku-db.sh   (produces doku.db.json)
- * @see tests/llm/data/themisdb_rag_golden_dataset.yaml  (authoritative dataset)
- * @see scripts/generate_rag_golden_dataset.py           (bootstrap generator)
- * @see tests/llm/test_llm_tinyllama_inference.cpp (INFER-01..10)
- * @see tests/llm/test_llm_adalora_doku_training.cpp (LORA-01..08)
+ * This suite validates retrieval quality, latency, and golden-dataset gates
+ * against the doku.db JSON index generated in CI.
  */
 
 #ifndef THEMIS_TEST_BUILD
@@ -516,7 +489,7 @@ protected:
         }
     }
 
-    void skipIfNoDb() {
+void skipIfNoDb() {
         if (db_path_.empty() || !reader_ || !reader_->isReady()) {
             GTEST_SKIP() << "doku.db not available — run scripts/ci-build-doku-db.sh "
                             "or set THEMIS_DOKU_DB_PATH";

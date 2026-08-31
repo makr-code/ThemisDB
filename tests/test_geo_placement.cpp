@@ -148,7 +148,7 @@ TEST_F(GeoPlacementTest, RequireVoter)
 TEST_F(GeoPlacementTest, HealthyOnlyFilter)
 {
     std::vector<ReplicaInfo> replicas = {
-        makeReplica("node-1", "us-east-1", HealthStatus::UNHEALTHY, true, 0, 100),
+        makeReplica("node-1", "us-east-1", HealthStatus::FAILED, true, 0, 100),
         makeReplica("node-2", "us-west-1", HealthStatus::HEALTHY, true, 0, 100),
     };
 
@@ -291,7 +291,7 @@ TEST_F(GeoPlacementTest, HealthyCountPerDC)
 {
     std::vector<ReplicaInfo> replicas = {
         makeReplica("node-1", "us-east-1", HealthStatus::HEALTHY, true, 0, 100),
-        makeReplica("node-2", "us-east-1", HealthStatus::UNHEALTHY, true, 0, 100),
+        makeReplica("node-2", "us-east-1", HealthStatus::FAILED, true, 0, 100),
         makeReplica("node-3", "us-west-1", HealthStatus::HEALTHY, true, 0, 100),
     };
 

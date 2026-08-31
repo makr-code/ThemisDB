@@ -402,4 +402,3 @@ TEST_F(DeltaPatchOrderingTest, JsonRoundTripComplexOrdering) {
     EXPECT_EQ(dm2->deltas[2].apply_order, 10);
 }
 
-} // namespace themis::updates

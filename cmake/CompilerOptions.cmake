@@ -226,6 +226,7 @@ if(MSVC)
         /W4              # Warning level 4
         /fp:precise      # Precise floating point
         /Gy              # Enable function-level linking
+        /Zm200           # Increase compiler heap for large Windows translation units
         /permissive-     # Conformance mode
         /EHsc            # Exception handling (C++ only, not SEH)
         /w14018          # Enable C4018: signed/unsigned mismatch warning
@@ -519,10 +520,14 @@ endif()
 # ============================================================================
 # LINK-TIME CODE GENERATION (LTCG) / INTERPROCEDURAL OPTIMIZATION (IPO)
 # ============================================================================
-# Enable Link-Time Code Generation for Release builds to improve performance
-# This allows the compiler to optimize across translation units
+# Enable Link-Time Code Generation only when explicitly requested. This keeps
+# iterative development and debug/test validation predictable.
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
+option(THEMIS_ENABLE_IPO
+    "Enable IPO/LTO for Release builds"
+    OFF)
+
+if(THEMIS_ENABLE_IPO AND CMAKE_BUILD_TYPE STREQUAL "Release")
     # On Windows, IPO probing links a test binary and requires initialized MSVC
     # LIB paths. Skip probing when LIB is unavailable (e.g. plain shells).
     if(WIN32 AND "$ENV{LIB}" STREQUAL "")
@@ -545,7 +550,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
         endif()
     endif()
 else()
-    message(STATUS "IPO/LTO skipped (only enabled in Release mode)")
+    if(THEMIS_ENABLE_IPO)
+        message(STATUS "IPO/LTO skipped (requires CMAKE_BUILD_TYPE=Release)")
+    else()
+        message(STATUS "IPO/LTO disabled by default (set THEMIS_ENABLE_IPO=ON to enable for Release)")
+    endif()
 endif()
 
 # Platform-specific handling

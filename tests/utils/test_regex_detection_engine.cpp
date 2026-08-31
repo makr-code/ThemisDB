@@ -25,7 +25,6 @@ protected:
     RegexDetectionEngine engine;
     
     void SetUp() override {
-        engine = RegexDetectionEngine();
         // Initialize with default patterns
         nlohmann::json config = nlohmann::json::object();
         config["enabled"] = true;

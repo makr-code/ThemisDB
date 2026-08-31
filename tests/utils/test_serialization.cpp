@@ -203,7 +203,7 @@ TEST_F(SerializationTest, EmptyBuffer) {
     Serialization::Decoder decoder(empty);
     
     // Attempting to read from empty buffer should handle gracefully
-    TypeTag tag = decoder.readTag();
+    Serialization::TypeTag tag = decoder.readTag();
     EXPECT_EQ(tag, Serialization::TypeTag::NULL_VALUE);
 }
 

@@ -156,8 +156,8 @@ Total Test time (real) = 1338.74 sec
 ## Update 2026-04-02 (Plugin-Block vollständig stabilisiert)
 
 - Plugin-Manager-Manifeste in Release-Tests robust gemacht:
-    - [tests/test_plugin_manager.cpp](tests/test_plugin_manager.cpp)
-    - [tests/test_plugin_manager_comprehensive.cpp](tests/test_plugin_manager_comprehensive.cpp)
+    - [tests/plugins/test_plugin_manager.cpp](tests/plugins/test_plugin_manager.cpp)
+    - [tests/plugins/test_plugin_manager_comprehensive.cpp](tests/plugins/test_plugin_manager_comprehensive.cpp)
     - Test-Fixtures schreiben jetzt zu jedem `plugin.json` eine passende `.sig` mit realem SHA-256-Hash (statt Placeholder), damit Release-Signaturpruefung die Manifeste registriert.
 - Registry-Reset im Plugin-Manager fuer Testisolierung und sauberen Zustand verbessert:
     - [src/plugins/plugin_manager.cpp](src/plugins/plugin_manager.cpp)
@@ -166,9 +166,9 @@ Total Test time (real) = 1338.74 sec
     - [src/plugins/plugin_hot_plug_monitor.cpp](src/plugins/plugin_hot_plug_monitor.cpp)
     - In `stop()` wird unter Windows der Directory-Handle vor `join()` geschlossen, damit blockierendes `ReadDirectoryChangesW` sauber entblockt.
 - TearDown fuer Hot-Plug-Test unter Windows robust gemacht (Dateilock-Retry):
-    - [tests/test_plugin_manager_comprehensive.cpp](tests/test_plugin_manager_comprehensive.cpp)
+    - [tests/plugins/test_plugin_manager_comprehensive.cpp](tests/plugins/test_plugin_manager_comprehensive.cpp)
 - DER-CRL-Revocation-Test stabilisiert:
-    - [tests/test_plugin_security_crl_ocsp.cpp](tests/test_plugin_security_crl_ocsp.cpp)
+    - [tests/plugins/test_plugin_security_crl_ocsp.cpp](tests/plugins/test_plugin_security_crl_ocsp.cpp)
     - OpenSSL-Abfrage auf serial-basierte Suche (`X509_CRL_get0_by_serial`) umgestellt.
 
 - Ergebnis nach Fix:

@@ -26,8 +26,10 @@
 #include <thread>
 #include <vector>
 #include <chrono>
+#include <memory>
 
 namespace fs = std::filesystem;
+using namespace themis::utils;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helper: create a config whose log_path points to a non-existent directory
@@ -55,7 +57,9 @@ TEST(AuditLoggerHardening, LogEventWritesToTempFileSuccessfully) {
     // Ensure clean slate
     fs::remove(log_path);
 
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
     nlohmann::json ev;
     ev["type"] = "TEST_EVENT";
     ev["value"] = 42;
@@ -78,7 +82,9 @@ TEST(AuditLoggerHardening, BackendUnavailableThrowsFailClosed) {
     const std::string invalid_path = "/dev/null/nonexistent_dir/audit.log";
 
     AuditLoggerConfig cfg = makeConfig(invalid_path);
-    AuditLogger logger(cfg);
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       cfg);
 
     nlohmann::json ev;
     ev["type"] = "TEST";
@@ -95,7 +101,9 @@ TEST(AuditLoggerHardening, ConcurrentWritersNoDataRace) {
     const std::string log_path = (tmp_dir / "concurrent_audit.log").string();
     fs::remove(log_path);
 
-    AuditLogger logger(makeConfig(log_path));
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       makeConfig(log_path));
 
     constexpr int kThreads = 8;
     constexpr int kEventsPerThread = 16;
@@ -170,7 +178,9 @@ TEST(AuditLoggerHardening, RotationSkippedWhenMaxFileSizeZero) {
     AuditLoggerConfig cfg = makeConfig(log_path);
     cfg.max_file_size_bytes = 0; // disable rotation
 
-    AuditLogger logger(cfg);
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       cfg);
     // Write events beyond typical rotate threshold
     for (int i = 0; i < 50; ++i) {
         nlohmann::json ev;

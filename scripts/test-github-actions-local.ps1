@@ -66,6 +66,19 @@ function Invoke-CommandWithLog {
     return $exitCode
 }
 
+function Test-ActCleanupOnlyFailure {
+    param([string]$LogContent)
+
+    if ([string]::IsNullOrWhiteSpace($LogContent)) {
+        return $false
+    }
+
+    $hasJobSucceeded = $LogContent -match 'Job succeeded|ƒÅü  Job succeeded'
+    $hasCleanupError = $LogContent -match 'Error: remove .*\\.gitignore: The system cannot find the file specified|Error: remove .*\.gitignore: The system cannot find the file specified'
+
+    return $hasJobSucceeded -and $hasCleanupError
+}
+
 if (-not (Test-Path -LiteralPath '.github/workflows')) {
     throw 'Bitte aus dem Repository-Root starten (Ordner .github/workflows nicht gefunden).'
 }
@@ -118,6 +131,9 @@ if ($Mode -in @('dryrun', 'all')) {
 
             if ($actLogContent -match 'Could not find any stages to run') {
                 Write-Host "Hinweis: Keine passenden Jobs fuer Event '$eventName' gefunden (skip)." -ForegroundColor Yellow
+            }
+            elseif (Test-ActCleanupOnlyFailure -LogContent $actLogContent) {
+                Write-Host "Hinweis: Lokaler act-Cleanup-Fehler nur beim Cache-Loeschen; die Workflow-Ausfuehrung selbst war erfolgreich ($eventName)." -ForegroundColor Yellow
             }
             else {
                 $overallExit = 1

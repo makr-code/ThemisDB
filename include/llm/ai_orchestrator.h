@@ -718,7 +718,7 @@ private:
     /// Assemble prompt with optional RAG context
     std::string assemblePrompt(const std::string&                         query,
                                 const std::vector<RAGContext::Document>&   docs,
-                                const ModeSpec&                            mode) const;
+                                const ModeSpec&                            /*mode*/) const;
 
     /// Emit run metadata to logging / metrics
     void emitObservability(const RunMetadata& meta,

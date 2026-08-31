@@ -33,14 +33,12 @@ Diese Matrix folgt dem Zielbild aus `WORKFLOW_FRAMEWORK_DESIGN.md`.
 | `09-pr-gates_hash-sbom-validation.yml` | `gate-pr-hash-sbom.yml` | entfernt Prefix + `_`, Domain konsistent |
 | `09-pr-gates_private-plugin-boundary-enforcement.yml` | `gate-pr-plugin-boundary.yml` | entfernt Prefix + `_`, Segmentanzahl reduziert |
 | `ci-benchmarks.yml` | `build-benchmarks.yml` | `ci`-Domain ersetzt durch erlaubtes `build` |
-| `ci-build.yml` | `build-mainline.yml` | `ci`-Domain ersetzt durch `build` |
 | `ci-content-regression.yml` | `build-content-regression.yml` | `ci` -> `build` |
 | `ci-llm-inference.yml` | `build-llm-inference.yml` | `ci` -> `build` |
 | `ci-pr-gates.yml` | `gate-pr-core.yml` | `ci` -> `gate` |
 | `ci-release-build-matrix.yml` | `release-build-matrix.yml` | `ci` -> `release` |
 | `ci-release.yml` | `release-mainline.yml` | `ci` -> `release` |
 | `ci-widget.yml` | `build-widget.yml` | `ci` -> `build` |
-| `cmake-build-pipeline.yml` | `reusable-cmake-build.yml` | `cmake`-Domain ersetzt durch `reusable` |
 | `codeql.yml` | `security-codeql.yml` | Domain auf `security` normalisiert |
 | `copilot-ollama-router-ci.yml` | `build-ollama-router.yml` | `copilot`-Domain ersetzt durch `build` |
 | `copilot-regression-guard.yml` | `gate-copilot-regression.yml` | `copilot`-Domain ersetzt durch `gate` |

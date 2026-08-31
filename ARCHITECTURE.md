@@ -1486,8 +1486,8 @@ A: Check the `examples/` directory and [online documentation](https://makr-code.
 - **[SECURITY.md](SECURITY.md)**: Security policies and reporting
 - **[API Reference](docs/api/)**: API documentation
 - **[Examples](examples/)**: Code examples and tutorials
-- **[BRANCHING_STRATEGY.md](docs/BRANCHING_STRATEGY.md)**: Git workflow guide
-- **[BENCHMARK_RUNBOOK.md](docs/BENCHMARK_RUNBOOK.md)**: Performance testing guide
+- **[BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md)**: Git workflow guide
+- **[BENCHMARK_RUNBOOK.md](docs/performance/BENCHMARK_RUNBOOK.md)**: Performance testing guide
 
 ### Acceleration Module ROADMAP Audit
 
@@ -1545,7 +1545,7 @@ requests which are rate-limited to 60 requests per hour per IP address.
 
 A GitHub Actions workflow (`.github/workflows/acceleration-roadmap-audit.yml`)
 runs the audit automatically on:
-- Pushes to `develop` or `main` that touch `src/acceleration/ROADMAP.md`
+- Pushes to `develop` or `community` that touch `src/acceleration/ROADMAP.md`
 - Pull requests that touch `src/acceleration/**` or `ROADMAP.md`
 - Manual `workflow_dispatch`
 
@@ -1555,9 +1555,9 @@ build if any discrepancies are found.
 ### Related Documentation
 
 - **[00_DOCUMENTATION_INDEX.md](docs/00_DOCUMENTATION_INDEX.md)**: Complete documentation index
-- **[VECTOR_INDEXING_ARCHITECTURE.md](VECTOR_INDEXING_ARCHITECTURE.md)**: Vector search deep dive
-- **[DISTRIBUTED_SHARDING_IMPLEMENTATION_SUMMARY.md](DISTRIBUTED_SHARDING_IMPLEMENTATION_SUMMARY.md)**: Sharding details
-- **[LLM_LORA_IMPLEMENTATION_STATUS.md](docs/LLM_LORA_IMPLEMENTATION_STATUS.md)**: LLM integration status
+- **[VECTOR_INDEXING_ARCHITECTURE.md](docs/de/architecture/VECTOR_INDEXING_ARCHITECTURE.md)**: Vector search deep dive
+- **[DISTRIBUTED_SHARDING_IMPLEMENTATION_SUMMARY.md](docs/ARCHIVED/implementation-summaries/DISTRIBUTED_SHARDING_IMPLEMENTATION_SUMMARY.md)**: Sharding details
+- **[LLM_LORA_IMPLEMENTATION_STATUS.md](docs/en/llm/LLM_LORA_IMPLEMENTATION_STATUS.md)**: LLM integration status
 
 ---
 

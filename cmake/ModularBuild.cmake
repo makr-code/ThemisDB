@@ -62,7 +62,8 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
     option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
-    option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" ON)
+    option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" OFF)
+    option(THEMIS_MODULES_DISABLE_IPO_FOR_DLL_EXPORTS "Disable IPO/LTO for modular shared libraries that need Windows export-symbol generation" ON)
     set(THEMIS_MODULES_UNITY_BATCH_SIZE "20" CACHE STRING "Unity batch size for modular libraries")
     set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query;sharding;geo;content;timeseries;security;transaction;ingestion;llm;llm_ext" CACHE STRING
         "Semicolon-separated module names for Unity Build (or ALL)")
@@ -114,6 +115,18 @@ function(themis_add_module MODULE_NAME)
         PRIVATE
             ${CMAKE_SOURCE_DIR}/src
     )
+
+    if(THEMIS_GENERATED_INCLUDE_DIR)
+        target_include_directories(themis_${MODULE_NAME} PRIVATE "${THEMIS_GENERATED_INCLUDE_DIR}")
+    endif()
+
+    if(THEMIS_VCPKG_INCLUDE_FALLBACK_DIR)
+        target_include_directories(themis_${MODULE_NAME} SYSTEM PRIVATE "${THEMIS_VCPKG_INCLUDE_FALLBACK_DIR}")
+    endif()
+
+    if(THEMIS_GLOBAL_COMPILE_DEFINITIONS)
+        target_compile_definitions(themis_${MODULE_NAME} PUBLIC ${THEMIS_GLOBAL_COMPILE_DEFINITIONS})
+    endif()
     
     # C++20 standard
     target_compile_features(themis_${MODULE_NAME} PUBLIC cxx_std_20)
@@ -171,26 +184,29 @@ function(themis_add_module MODULE_NAME)
         if(ARG_DISABLE_AUTO_EXPORT)
             set_target_properties(themis_${MODULE_NAME} PROPERTIES
                 WINDOWS_EXPORT_ALL_SYMBOLS OFF
-                INTERPROCEDURAL_OPTIMIZATION FALSE
                 VS_GLOBAL_WholeProgramOptimization "false"
             )
         else()
             set_target_properties(themis_${MODULE_NAME} PROPERTIES
                 WINDOWS_EXPORT_ALL_SYMBOLS ON
-                INTERPROCEDURAL_OPTIMIZATION FALSE
                 VS_GLOBAL_WholeProgramOptimization "false"
             )
         endif()
-        target_compile_options(themis_${MODULE_NAME} PRIVATE
-            $<$<CONFIG:Release>:/GL->
-            $<$<CONFIG:RelWithDebInfo>:/GL->
-            $<$<CONFIG:MinSizeRel>:/GL->
-        )
-        target_link_options(themis_${MODULE_NAME} PRIVATE
-            $<$<CONFIG:Release>:/LTCG:OFF>
-            $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
-            $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
-        )
+        if(THEMIS_MODULES_DISABLE_IPO_FOR_DLL_EXPORTS)
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                INTERPROCEDURAL_OPTIMIZATION FALSE
+            )
+            target_compile_options(themis_${MODULE_NAME} PRIVATE
+                $<$<CONFIG:Release>:/GL->
+                $<$<CONFIG:RelWithDebInfo>:/GL->
+                $<$<CONFIG:MinSizeRel>:/GL->
+            )
+            target_link_options(themis_${MODULE_NAME} PRIVATE
+                $<$<CONFIG:Release>:/LTCG:OFF>
+                $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
+                $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
+            )
+        endif()
     endif()
     
     # Set output directories
@@ -296,10 +312,13 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/shader_integrity.cpp
     # PERF-D3: Parallel batch insertion + SIMD distance pipeline
     ../src/acceleration/vec_knn.cpp
-    # CPU multi-threaded backends (requires THEMIS_ENABLE_GPU)
+    # CPU multi-threaded backends and GPU abstraction layer.
+    # graphics_backends.cpp provides always-linked backend abstractions and
+    # stub-safe implementations used by backend_registry.cpp, so it must stay
+    # in the base target even when THEMIS_ENABLE_GPU is OFF.
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/graphics_backends.cpp>
+    ../src/acceleration/graphics_backends.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/gpu/gpu_memory_manager_edition.cpp>
     # GPU-specific backends
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
@@ -619,6 +638,7 @@ set(THEMIS_QUERY_SOURCES
     # Query engine
     ../src/query/query_engine.cpp
     ../src/search/hybrid_search.cpp
+    ../src/search/search_highlighter.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/query/adaptive_join.cpp
@@ -998,6 +1018,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/async_wal_shipper.cpp
     ../src/replication/geo_placement.cpp
     
 )
@@ -1458,6 +1479,23 @@ set(THEMIS_TRAINING_SOURCES
     ../src/rag/continuous_learning_orchestrator.cpp
 )
 
+# When LLM is disabled, keep only LLM-independent code paths in the modular
+# LLM source set. This prevents hard dependencies on llama.cpp headers in
+# COMMUNITY debug profiles that intentionally run with THEMIS_ENABLE_LLM=OFF.
+if(NOT THEMIS_ENABLE_LLM)
+    list(REMOVE_ITEM THEMIS_LLM_SOURCES
+        ../src/llm/model_loader.cpp
+        ../src/llm/model_downloader.cpp
+        ../src/llm/llama_wrapper.cpp
+        ../src/llm/llama_lora_adapter.cpp
+        ../src/llm/llama_grammar_adapter.cpp
+        ../src/llm/llamacpp_inference_engine.cpp
+        ../src/llm/multi_lora_manager.cpp
+        ../src/llm/grammar.cpp
+        ../src/llm/lora_framework/llama_tokenizer.cpp
+    )
+endif()
+
 if(THEMIS_ENABLE_GPU)
     list(APPEND THEMIS_LLM_SOURCES
         ../src/llm/lora_framework/vram_allocator.cpp
@@ -1694,7 +1732,8 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
     ../src/ingestion/ingestion_quality_judge.cpp
-    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/ingestion/llm_adapter.cpp>
+    # Backend-agnostic adapter used by ingestion_manager even in regex-fallback mode.
+    ../src/ingestion/llm_adapter.cpp
     ../src/ingestion/steps/chunk_tt_decompose_step.cpp
     ../src/ingestion/steps/tensor_core_bridge_step.cpp
     ../src/toolbox/ingestion_toolbox.cpp

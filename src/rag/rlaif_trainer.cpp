@@ -476,12 +476,13 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
 
         // Running average of step elapsed time.
         {
-            const double n      = static_cast<double>(impl_->stats.total_steps);
-            const auto old_ms   = impl_->stats.avg_step_ms.count();
-            const long new_ms   = step.elapsed_ms.count();
+            const double n = static_cast<double>(impl_->stats.total_steps);
+            const std::chrono::milliseconds::rep old_ms = impl_->stats.avg_step_ms.count();
+            const std::chrono::milliseconds::rep new_ms = step.elapsed_ms.count();
             impl_->stats.avg_step_ms =
                 std::chrono::milliseconds(
-                    static_cast<long>(old_ms + (new_ms - old_ms) / n));
+                    static_cast<std::chrono::milliseconds::rep>(
+                        old_ms + (new_ms - old_ms) / n));
         }
     }
 

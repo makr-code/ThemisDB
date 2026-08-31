@@ -22,7 +22,6 @@ protected:
     NERDetectionEngine engine;
     
     void SetUp() override {
-        engine = NERDetectionEngine();
     }
 };
 

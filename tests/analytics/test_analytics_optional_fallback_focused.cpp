@@ -39,6 +39,10 @@
 using namespace themis::analytics;
 using namespace themisdb::analytics;
 
+namespace {
+constexpr MLServingStatus kMlServingOk = static_cast<MLServingStatus>(0);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // OPF-01..03 — MLServingStatus fallback codes
 // ─────────────────────────────────────────────────────────────────────────────
@@ -47,14 +51,14 @@ using namespace themisdb::analytics;
  * @test OPF-01: MLServingStatus::UNAVAILABLE is defined and distinct from OK.
  */
 TEST(OptionalFallback, MLServingUnavailableIsDistinctFromOk) {
-    EXPECT_NE(MLServingStatus::UNAVAILABLE, MLServingStatus::OK);
+    EXPECT_NE(MLServingStatus::UNAVAILABLE, kMlServingOk);
 }
 
 /**
  * @test OPF-02: MLServingStatus::POLICY_REJECTED is defined and distinct.
  */
 TEST(OptionalFallback, MLServingPolicyRejectedIsDistinct) {
-    EXPECT_NE(MLServingStatus::POLICY_REJECTED, MLServingStatus::OK);
+    EXPECT_NE(MLServingStatus::POLICY_REJECTED, kMlServingOk);
     EXPECT_NE(MLServingStatus::POLICY_REJECTED, MLServingStatus::UNAVAILABLE);
 }
 
@@ -64,7 +68,7 @@ TEST(OptionalFallback, MLServingPolicyRejectedIsDistinct) {
 TEST(OptionalFallback, MLServingStatusValuesComparable) {
     MLServingStatus s = MLServingStatus::UNAVAILABLE;
     EXPECT_EQ(s, MLServingStatus::UNAVAILABLE);
-    EXPECT_NE(s, MLServingStatus::OK);
+    EXPECT_NE(s, kMlServingOk);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -76,14 +80,14 @@ TEST(OptionalFallback, MLServingStatusValuesComparable) {
  */
 TEST(OptionalFallback, StreamBackpressureErrorCodeDefined) {
     AnalyticsErrorCode code = AnalyticsErrorCode::STREAM_BACKPRESSURE;
-    EXPECT_NE(code, AnalyticsErrorCode::AGGREGATION_OVERFLOW);
+    EXPECT_NE(code, AnalyticsErrorCode::INTERNAL_ERROR);
 }
 
 /**
  * @test OPF-05: AnalyticsErrorCode::AGGREGATION_OVERFLOW is defined and distinct.
  */
 TEST(OptionalFallback, AggregationOverflowErrorCodeDefined) {
-    EXPECT_NE(AnalyticsErrorCode::AGGREGATION_OVERFLOW, AnalyticsErrorCode::WINDOW_EXPIRED);
+    EXPECT_NE(AnalyticsErrorCode::AGGREGATION_OVERFLOW, AnalyticsErrorCode::INTERNAL_ERROR);
     EXPECT_NE(AnalyticsErrorCode::AGGREGATION_OVERFLOW, AnalyticsErrorCode::STREAM_BACKPRESSURE);
 }
 
@@ -99,6 +103,7 @@ TEST(OptionalFallback, ErrorCodesUsableInSwitch) {
             default:                                       return "OTHER";
         }
     };
+    EXPECT_STREQ(label(AnalyticsErrorCode::INTERNAL_ERROR),        "OTHER");
     EXPECT_STREQ(label(AnalyticsErrorCode::STREAM_BACKPRESSURE),   "BACKPRESSURE");
     EXPECT_STREQ(label(AnalyticsErrorCode::AGGREGATION_OVERFLOW),  "OVERFLOW");
     EXPECT_STREQ(label(AnalyticsErrorCode::WINDOW_EXPIRED),        "WINDOW_EXPIRED");

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "api/persisted_queries.h"
 #include "api/rate_limiter.h"
-#include "api/audit_logger.h"
+#include "api/graphql_audit_logger.h"
 #include <atomic>
 #include <thread>
 #include <chrono>

@@ -59,35 +59,35 @@ struct WorkloadProfile {
 
 static const std::vector<WorkloadProfile> kWorkloadProfiles = {
     // Profile 1: Query-Heavy (95% query, 5% store/remove)
-    {"QueryHeavy", 95, 4, 1, 4, false,
+    {"QueryHeavy", 95, 4, 1, 4, 10000, false,
      "95% read-dominant workload, simulates production query pattern"},
 
     // Profile 2: Mixed (90% query, 10% store/remove)
-    {"Mixed", 90, 7, 3, 8, false,
+    {"Mixed", 90, 7, 3, 8, 10000, false,
      "Balanced read-write workload, typical OLTP pattern"},
 
     // Profile 3: Store-Heavy (75% query, 25% store/remove)
-    {"StoreHeavy", 75, 20, 5, 8, false,
+    {"StoreHeavy", 75, 20, 5, 8, 10000, false,
      "Write-heavy pattern, ingestion-dominated scenario"},
 
     // Profile 4: Saturated Reads (99% query, 1% store)
-    {"SaturatedReads", 99, 1, 0, 16, false,
+    {"SaturatedReads", 99, 1, 0, 16, 10000, false,
      "Maximum read concurrency, minimal writes"},
 
     // Profile 5: High Concurrency Mixed (90% query, 8 threads, many ops)
-    {"HighConcurrency", 90, 7, 3, 16, false,
+    {"HighConcurrency", 90, 7, 3, 16, 10000, false,
      "High-thread mixed workload for lock contention analysis"},
 
     // Profile 6: Chaos Injection (90% query with random failures)
-    {"ChaosInjection", 90, 7, 3, 8, true,
+    {"ChaosInjection", 90, 7, 3, 8, 10000, true,
      "Same as Mixed but with random failures and delays"},
 
     // Profile 7: Extreme Churn (50% store, 40% query, 10% remove)
-    {"ExtremeChurn", 40, 50, 10, 12, false,
+    {"ExtremeChurn", 40, 50, 10, 12, 10000, false,
      "High insert-delete rate, memory pressure scenario"},
 
     // Profile 8: Sustained Load (90% query, 8 threads, 1M ops)
-    {"SustainedLoad", 90, 7, 3, 8, false,
+    {"SustainedLoad", 90, 7, 3, 8, 10000, false,
      "48h+ design capability, extended run validation"},
 };
 
@@ -120,9 +120,9 @@ static TTTrain generateTestTrain(const std::string& seed_str, size_t dim = kDefa
     for (auto& v : core1) v = dis(rng);
 
     TTTrain train;
+    train.mode_sizes = {1, dim};
     train.cores.push_back({1, dim, 2, core0});
     train.cores.push_back({2, dim, 1, core1});
-    train.d = 2;
     return train;
 }
 
@@ -638,5 +638,3 @@ TEST_F(TensorStressTest, TSTRESS20_LongDurationDesign) {
     EXPECT_LT(stats.latencies.p99_ms(), 10000.0)
         << "P99 should remain bounded in long runs";
 }
-
-} // namespace

@@ -38,40 +38,6 @@ using namespace themis::updates;
 // Shared mock infrastructure
 // ============================================================================
 
-/**
- * @brief Minimal HotReloadEngine mock for stress testing.
- *
- * STUB NOTE: This mock provides the minimum overrides required by
- * CoordinatedUpdateManager under test.  It does not simulate real
- * file-level operations; it simply records call counts and returns
- * stable tokens.  All production HotReloadEngine paths (file apply,
- * signature verification) are exercised by integration tests elsewhere.
- */
-class StressMockHotReloadEngine : public HotReloadEngine {
-public:
-    std::atomic<int> apply_count{0};
-    std::atomic<int> rollback_count{0};
-    bool apply_should_fail{false};
-    bool rollback_should_fail{false};
-
-    std::string applyHotReload(const std::string& version,
-                               const std::string& /*artifact_path*/) override {
-        ++apply_count;
-        if (apply_should_fail) return "";
-        return "rollback_" + version;
-    }
-
-    bool rollback(const std::string& rollback_id) override {
-        ++rollback_count;
-        if (rollback_should_fail) return false;
-        return !rollback_id.empty();
-    }
-
-    std::string currentVersion() const override {
-        return "stress-current";
-    }
-};
-
 /// Helper: build a minimal single-node CoordinatedUpdateConfig
 static CoordinatedUpdateConfig makeSingleNodeConfig(const std::string& node_id,
                                                     const std::string& version) {

@@ -14,9 +14,15 @@
 #include <chrono>
 #include <optional>
 #include <string>
+#include <thread>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#endif
 
 namespace themis {
 namespace plugins {
@@ -86,13 +92,29 @@ public:
      * @param pid Process ID to terminate
      * @return Exit status from waitpid, or -1 if error
      */
-    static int terminateProcess(pid_t pid) {
+    static int terminateProcess(int pid) {
+#ifdef _WIN32
+        HANDLE process = OpenProcess(PROCESS_TERMINATE | SYNCHRONIZE, FALSE, static_cast<DWORD>(pid));
+        if (process == nullptr) {
+            return -1;
+        }
+
+        DWORD wait_result = WaitForSingleObject(process, 100);
+        if (wait_result == WAIT_TIMEOUT) {
+            TerminateProcess(process, 1);
+        }
+
+        DWORD exit_code = 0;
+        GetExitCodeProcess(process, &exit_code);
+        CloseHandle(process);
+        return static_cast<int>(exit_code);
+#else
         // First try SIGTERM for graceful shutdown
         if (kill(pid, SIGTERM) == 0) {
             // Wait 100ms for graceful termination
             std::chrono::milliseconds grace(100);
             auto start = std::chrono::steady_clock::now();
-            
+
             while (std::chrono::duration_cast<std::chrono::milliseconds>(
                        std::chrono::steady_clock::now() - start) < grace) {
                 int status = 0;
@@ -103,17 +125,18 @@ public:
                 if (result < 0) {
                     return -1;  // Error
                 }
-                usleep(10000);  // Sleep 10ms before retry
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
             }
         }
-        
+
         // Grace period expired, force kill
         kill(pid, SIGKILL);
-        
+
         // Ensure process is reaped
         int status = 0;
         waitpid(pid, &status, 0);
         return status;
+#endif
     }
     
 private:

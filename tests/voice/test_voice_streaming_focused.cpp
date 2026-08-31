@@ -533,8 +533,3 @@ TEST_F(StreamingFixture, ZeroSizeChunk) {
     // Zero-size chunks should be handled gracefully
     EXPECT_EQ(chunk.size(), 0) << "Zero-size chunk should be handled";
 }
-
-} // namespace
-} // namespace
-
-// Entry point

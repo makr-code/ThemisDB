@@ -16,6 +16,8 @@
         "CMAKE_SUPPRESS_DEVELOPER_WARNINGS": "ON",
         "THEMIS_ENABLE_COMPILER_CACHE": "ON",
         "THEMIS_COMPILER_CACHE_PROGRAM": "sccache",
+        "THEMIS_ENABLE_IPO": "OFF",
+        "THEMIS_MODULES_ENABLE_UNITY": "OFF",
         "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
@@ -26,6 +28,7 @@
       "description": "vcpkg-enabled base: Configures CMAKE_TOOLCHAIN_FILE and VCPKG_INSTALLED_DIR. Required by linux-release and windows-release. Requires: vcpkg repo cloned to ./vcpkg and bootstrapped",
       "inherits": "base",
       "cacheVariables": {
+        "THEMIS_AUTO_BOOTSTRAP_DEPS": "ON",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed"
       }
@@ -49,6 +52,7 @@
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
         "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THREADS_PREFER_PTHREAD_FLAG": "OFF",
         "CMAKE_USE_PTHREADS_INIT": "OFF",
@@ -69,6 +73,7 @@
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
         "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON"
       },
       "environment": {
@@ -90,11 +95,34 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_DIAGNOSTIC_MODE": "OFF",
-        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_MODELS_MODE": "SKIP",
         "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
         "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "OFF",
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF"
+      }
+    },
+    {
+      "name": "windows-release-production",
+      "displayName": "Windows x64: Release (production only)",
+      "description": "Production release build for Windows without tests or benchmarks. Intended for warning-free runtime validation.",
+      "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "binaryDir": "${sourceDir}/build-msvc-windows-release-prod",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_DIAGNOSTIC_MODE": "OFF",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_MODELS_MODE": "PACKAGE",
+        "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
+        "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
         "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF"
       }
     },
@@ -112,7 +140,8 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY",
-        "THEMIS_DIAGNOSTIC_MODE": "OFF"
+        "THEMIS_DIAGNOSTIC_MODE": "OFF",
+        "THEMIS_BUILD_TESTS": "ON"
       }
     },
     {
@@ -566,9 +595,14 @@
       "jobs": 16
     },
     {
+      "name": "windows-release-production",
+      "configurePreset": "windows-release-production",
+      "jobs": 16
+    },
+    {
       "name": "windows-debug",
       "configurePreset": "windows-debug",
-      "jobs": 4
+      "jobs": 20
     },
     {
       "name": "hyperscaler-debug-windows",

@@ -78,8 +78,8 @@ jobs:
           libboost-system-dev libboost-filesystem-dev \
           libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
           dpkg-dev rpm
-        git submodule sync --recursive || true
-        git submodule update --init --recursive --depth 1 || true
+        git submodule sync -- vcpkg llama.cpp whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
+        git submodule update --init --depth 1 vcpkg llama.cpp whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
           echo "::error::vcpkg submodule/toolchain missing before bootstrap"
           exit 1
@@ -157,8 +157,8 @@ jobs:
       setup_command: |
         set -euo pipefail
         choco install -y sccache || echo "::warning::sccache install via choco failed; continuing without sccache cache."
-        git submodule sync --recursive || true
-        git submodule update --init --recursive --depth 1 || true
+        git submodule sync -- vcpkg llama.cpp whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
+        git submodule update --init --depth 1 vcpkg llama.cpp whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
           echo "::error::vcpkg submodule/toolchain missing before bootstrap"
           exit 1

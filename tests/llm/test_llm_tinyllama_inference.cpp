@@ -85,11 +85,10 @@ protected:
         }
 
         EmbeddedLLM::Config cfg;
-        cfg.model_path = model_path_;
-        cfg.n_ctx = 2048;
-        cfg.n_batch = 2048;
-        cfg.n_threads = 4;
-        cfg.n_gpu_layers = 0; // CPU-only for portable CI
+        cfg.model_path           = model_path_;
+        cfg.n_ctx                = 2048;
+        cfg.n_threads            = 4;
+        cfg.n_gpu_layers         = 0;    // CPU-only for portable CI
 
         llm_ = std::make_unique<EmbeddedLLM>(cfg);
     }
@@ -177,11 +176,9 @@ TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
             // Each thread uses its own EmbeddedLLM instance because
             // EmbeddedLLM is not thread-safe for generate() across instances.
             EmbeddedLLM::Config cfg;
-            cfg.model_path = model_path_;
-            cfg.n_ctx = 2048;
-            cfg.n_batch = 2048;
-            cfg.n_threads = 1;
-            cfg.n_gpu_layers = 0;
+            cfg.model_path         = model_path_;
+            cfg.n_threads          = 1;
+            cfg.n_gpu_layers       = 0;
             EmbeddedLLM local_llm(cfg);
             results[i] = local_llm.generate(prompts[i], /*max_tokens=*/30);
         });
@@ -331,8 +328,8 @@ TEST_F(TinyLlamaInferenceTest, Infer08_ContextLengthLimit) {
 TEST_F(TinyLlamaInferenceTest, Infer09_MissingModelFallback) {
     // This test does NOT require a model; it validates the fallback path.
     EmbeddedLLM::Config cfg;
-    cfg.model_path = "/nonexistent/path/to/model.gguf";
-    cfg.n_threads = 1;
+    cfg.model_path   = "/nonexistent/path/to/model.gguf";
+    cfg.n_threads    = 1;
     cfg.n_gpu_layers = 0;
 
     // Construction with missing model must not throw

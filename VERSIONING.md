@@ -30,10 +30,10 @@ ThemisDB follows [Semantic Versioning 2.0.0](https://semver.org/):
 MAJOR.MINOR.PATCH[-PRE_RELEASE]
 
 Examples:
-  2.4.0
-  2.4.0-rc1
-  2.5.0-alpha1
-  2.5.0-beta1
+  2.6.0
+  2.6.0-rc1
+  2.7.0-alpha1
+  2.7.0-beta1
 ```
 
 | Segment | Incremented when |
@@ -53,12 +53,12 @@ The canonical version is stored in two places that must always be kept in sync:
 
 | File | Format | Example |
 |---|---|---|
-| [`VERSION`](VERSION) | Plain text, one line | `2.4.0` |
-| [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog header | `## [2.4.0] - 2026-08-05` |
+| [`VERSION`](VERSION) | Plain text, one line | `<major>.<minor>.<patch>[-pre]` |
+| [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog header | `## [<major>.<minor>.<patch>] - YYYY-MM-DD` |
 
 Additionally, the CMake build system reads the version at configure time via the `VERSION` file and from `CMakeLists.txt` `project()` call. Keep these consistent.
 
-The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). For GA governance claims, `VERSION`/`RELEASE_TYPE` must be interpreted together with the active promotion evidence state; until Section 9 sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md`, v2.4.0 GA promotion remains pending.
+The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). For GA governance claims, `VERSION`/`RELEASE_TYPE` must be interpreted together with the active promotion evidence state (including Section 9 sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md`).
 
 ### 2.1 Pull Request Version Targeting
 
@@ -73,10 +73,10 @@ Every PR must declare a **target version** at merge time. This maps the PR to a 
 | PR Type | Target Version | Example |
 |---------|----------------|---------|
 | New feature | Next planned MINOR | `v2.5.0-alpha1` for feature work on develop |
-| Bug fix (current RC/stable) | Current release or patch | `v2.4.0-rc1` or `v2.4.1` |
+| Bug fix (current RC/stable) | Current release or patch | `v<current-rc>` or `v<current-stable-patch>` |
 | Bug fix (general) | Next MINOR | `v2.5.0-alpha1` |
 | Documentation | Feature version | Same as documented feature |
-| Security patch | Current stable first | `v2.4.0` then backport to `v2.4.1` |
+| Security patch | Current stable first | `v<current-stable>` then backport to `v<current-stable-patch>` |
 | Infrastructure / Refactoring | Next MINOR or backlog | `v2.5.0-alpha1` or `[Unreleased]` |
 
 See [docs/governance/PR_VERSION_TARGETING.md](docs/governance/PR_VERSION_TARGETING.md) for detailed selection criteria and release manager workflow.
@@ -89,9 +89,9 @@ See [docs/governance/PR_VERSION_TARGETING.md](docs/governance/PR_VERSION_TARGETI
 |---|---|---|
 | **Alpha** | Early preview; API may change significantly | `v2.5.0-alpha1` |
 | **Beta** | Feature-complete; API stabilising | `v2.5.0-beta1` |
-| **Release Candidate (RC)** | Feature-frozen; only bug fixes | `v2.4.0-rc1` |
-| **Stable** | General availability (GA) | `v2.4.0` |
-| **Patch / Hotfix** | Critical fixes on a stable release | `v2.4.1` |
+| **Release Candidate (RC)** | Feature-frozen; only bug fixes | `vX.Y.Z-rcN` |
+| **Stable** | General availability (GA) | `vX.Y.Z` |
+| **Patch / Hotfix** | Critical fixes on a stable release | `vX.Y.(Z+1)` |
 
 Releases progress through the type sequence: alpha → beta → rc → stable.  
 Critical security fixes may bypass the pre-release sequence and be released directly as a patch.
@@ -166,11 +166,11 @@ All five editions share the same `MAJOR.MINOR.PATCH` base version. Edition-speci
 
 | Edition | Git branch | Docker tag pattern | Git tag pattern |
 |---|---|---|---|
-| COMMUNITY | `community` | `themisdb/themisdb:2.4.0-community-binary-x64` and `...-arm` | `v2.4.0` |
-| ENTERPRISE | `enterprise` | `<private-registry>/themisdb-enterprise:2.4.0-enterprise-binary-x64` and `...-arm` | `enterprise-v2.4.0` |
-| MILITARY | `military` | (private registry) | `military-v2.4.0` |
-| HYPERSCALER | `hyperscaler` | `<oem-registry>/themisdb-hyperscaler:2.4.0-hyperscaler-binary-x64` and `...-arm` | `hyperscaler-v2.4.0` |
-| MINIMAL | `minimal` | `themisdb/themisdb-minimal:2.4.0-minimal-binary-x64` and `...-arm` | `minimal-v2.4.0` |
+| COMMUNITY | `community` | `themisdb/themisdb:<version>-community-binary-x64` and `...-arm` | `v<version>` |
+| ENTERPRISE | `enterprise` | `<private-registry>/themisdb-enterprise:<version>-enterprise-binary-x64` and `...-arm` | `enterprise-v<version>` |
+| MILITARY | `military` | (private registry) | `military-v<version>` |
+| HYPERSCALER | `hyperscaler` | `<oem-registry>/themisdb-hyperscaler:<version>-hyperscaler-binary-x64` and `...-arm` | `hyperscaler-v<version>` |
+| MINIMAL | `minimal` | `themisdb/themisdb-minimal:<version>-minimal-binary-x64` and `...-arm` | `minimal-v<version>` |
 
 Release assets on GitHub follow the same canonical basename:
 

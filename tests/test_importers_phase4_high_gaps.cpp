@@ -34,6 +34,8 @@
 #include <string>
 #include <vector>
 
+constexpr size_t kMaxHeaderLineLength = 4096;
+
 // ===========================================================================
 // IMPI-P4-01..04: Schema Inference Edge Cases
 // ===========================================================================
@@ -185,7 +187,7 @@ TEST(S3Importer, BinaryDataRejection) {
  * IMPI-P4-15: S3 stream handles UTF-8 BOM markers
  */
 TEST(S3Importer, UTF8BOMHandling) {
-    std::string with_bom = "\xEF\xBB\xBFcol1,col2\n";
+    std::string with_bom = "\xEF\xBB\xBF" "col1,col2\n";
     
     // BOM should be stripped or handled gracefully
     EXPECT_GE(with_bom.size(), 3);
@@ -304,8 +306,6 @@ TEST(KafkaImporter, HighLatencyHandling) {
  * IMPI-P4-25: SQLite header line reading respects length limit
  */
 TEST(SQLiteImporter, HeaderLineLengthLimit) {
-    const size_t kMaxHeaderLineLength = 4096;
-    
     // Lines exceeding this should be truncated
     EXPECT_GT(kMaxHeaderLineLength, 256);
     EXPECT_LT(kMaxHeaderLineLength, 65536);
@@ -383,10 +383,10 @@ TEST(SQLiteImporter, PoolGuardRAIICleanup) {
  * IMPI-P4-33: Oracle header line reading respects length limit
  */
 TEST(OracleImporter, HeaderLineLengthLimit) {
-    const size_t kMaxHeaderLineLength = 4096;
+    const size_t kOracleMaxHeaderLineLength = 4096;
     
     // Lines exceeding this should be truncated
-    EXPECT_GT(kMaxHeaderLineLength, 256);
+    EXPECT_GT(kOracleMaxHeaderLineLength, 256);
 }
 
 /**

@@ -20,10 +20,13 @@ __pycache__
 .env.local
 .venv
 venv/
-llama.cpp/**
 vcpkg/
 build-msvc-windows-release/
 build-*/
 build_*/
+llama.cpp/build/
+llama.cpp/build/**
+llama.cpp/models/
+llama.cpp/models/**
 .pytest_cache/
 .coverage
