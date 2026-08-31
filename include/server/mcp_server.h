@@ -66,16 +66,17 @@ class PromptManager;
 }
 
 /**
- * @brief MCP (Model Context Protocol) Server Implementation
- * 
+ * @class McpServer
+ * @brief MCP (Model Context Protocol) Server Implementation.
+ *
  * Provides LLM integration for ThemisDB through the Model Context Protocol.
  * Supports multiple transports: stdio, SSE (Server-Sent Events), and WebSocket.
- * 
+ *
  * Architecture:
  * - Tools: Database operations exposed as callable LLM tools
  * - Resources: Read-only context (schema, stats, metadata)
  * - Prompts: Query templates for common operations
- * 
+ *
  * @see MCP_PROTOCOL_SUPPORT.md (path relative to project root: docs/apis/MCP_PROTOCOL_SUPPORT.md)
  */
 class McpServer : public std::enable_shared_from_this<McpServer> {
@@ -116,32 +117,81 @@ public:
         int websocket_ping_interval_ms = 30000;
     };
 
+    /**
+     * @brief Construct an MCP server with default configuration.
+     * @param io_context Asio I/O context for async operations.
+     */
     explicit McpServer(asio::io_context& io_context);
+    /**
+     * @brief Construct an MCP server with explicit configuration.
+     * @param io_context Asio I/O context for async operations.
+     * @param config     Server configuration controlling transports and buffers.
+     */
     explicit McpServer(asio::io_context& io_context, const Config& config);
+    /** @brief Destroy the server and release all transport resources. */
     ~McpServer();
 
-    // Lifecycle
+    /** @brief Start all enabled transports and begin accepting requests. */
     void start();
+    /** @brief Stop all transports and release associated resources. */
     void stop();
+    /** @brief Return true if the server is currently running. */
     bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
-    // Tool registration
+    /**
+     * @brief Register a tool that can be invoked by an LLM client.
+     * @param name         Unique tool name exposed via MCP tools/list.
+     * @param description  Human-readable description of the tool's purpose.
+     * @param input_schema JSON Schema object describing accepted arguments.
+     * @param handler      Callable invoked when the tool is called.
+     */
     void registerTool(const std::string& name, const std::string& description,
                       const json& input_schema, ToolHandler handler);
+    /**
+     * @brief Unregister a previously registered tool by name.
+     * @param name Tool name to remove.
+     */
     void unregisterTool(const std::string& name);
 
-    // Resource registration
+    /**
+     * @brief Register a read-only resource accessible to LLM clients.
+     * @param uri         Resource URI used to address the resource.
+     * @param description Human-readable description of the resource.
+     * @param mime_type   MIME type of the returned content.
+     * @param handler     Callable that returns the resource content for a given URI.
+     */
     void registerResource(const std::string& uri, const std::string& description,
                           const std::string& mime_type, ResourceHandler handler);
+    /**
+     * @brief Unregister a previously registered resource by URI.
+     * @param uri Resource URI to remove.
+     */
     void unregisterResource(const std::string& uri);
 
-    // Prompt registration
+    /**
+     * @brief Register a prompt template for LLM clients.
+     * @param name             Unique prompt name exposed via MCP prompts/list.
+     * @param description      Human-readable description of the prompt.
+     * @param arguments_schema JSON Schema describing the prompt's arguments.
+     * @param handler          Callable that produces prompt messages for the given name and args.
+     */
     void registerPrompt(const std::string& name, const std::string& description,
                         const json& arguments_schema, PromptHandler handler);
+    /**
+     * @brief Unregister a previously registered prompt by name.
+     * @param name Prompt name to remove.
+     */
     void unregisterPrompt(const std::string& name);
 
-    // Transport management
+    /**
+     * @brief Attach an HTTP server for SSE and WebSocket transports.
+     * @param http_server Shared pointer to the HTTP server instance.
+     */
     void attachHttpServer(std::shared_ptr<HttpServer> http_server);
+    /**
+     * @brief Attach the primary database backend for default tool handlers.
+     * @param db Shared pointer to the RocksDB wrapper.
+     */
     void attachDatabase(std::shared_ptr<RocksDBWrapper> db);
 
     /**
@@ -173,11 +223,18 @@ public:
     #ifdef THEMIS_ENABLE_LLM
     void attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator);
     #endif
+    /** @brief Get the stdio transport instance (may be null if stdio is disabled). */
     std::shared_ptr<McpTransport> getStdioTransport() const { return stdio_transport_; }
+    /** @brief Get the SSE transport instance (may be null if SSE is disabled). */
     std::shared_ptr<McpTransport> getSseTransport() const { return sse_transport_; }
+    /** @brief Get the WebSocket transport instance (may be null if WebSocket is disabled). */
     std::shared_ptr<McpTransport> getWebSocketTransport() const { return ws_transport_; }
 
-    // Request handling
+    /**
+     * @brief Dispatch an incoming MCP JSON-RPC request to the appropriate handler.
+     * @param request JSON-RPC request object.
+     * @return JSON-RPC response object.
+     */
     json handleRequest(const json& request);
 
 private:
@@ -420,6 +477,7 @@ public:
     void start() override;
     void stop() override;
     void send(const json& message) override;
+    [[nodiscard]] bool isRunning() const noexcept { return is_running_.load(std::memory_order_acquire); }
 
     // Bridge callback for exotic/embedded platforms that lack _WIN32, __unix__,
     // and __APPLE__ (STUB #65). When set, the injected function is called from

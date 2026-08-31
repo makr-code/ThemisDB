@@ -256,15 +256,17 @@ http::response<http::string_body> RopeApiHandler::handleConfigDelete(
                 "RoPE is not enabled for index '" + index_name + "'", req);
         }
         
-        // Note: VectorIndexManager does not currently provide a disable method.
-        // This endpoint returns success to indicate intent, but RoPE remains configured.
-        // Future enhancement: Add disableRotaryEmbedding() method to VectorIndexManager
-        // to fully support disabling RoPE at runtime.
+        auto disable_status = vector_index_->disableRotaryEmbedding();
+        if (!disable_status.ok) {
+            span.setStatus(false, disable_status.message);
+            return makeErrorResponse(http::status::internal_server_error,
+                "Failed to disable RoPE: " + disable_status.message, req);
+        }
         
         json response = {
             {"status", "success"},
-            {"message", "RoPE disable requested for index '" + index_name + "'"},
-            {"note", "RoPE configuration persists until server restart"}
+            {"message", "RoPE disabled for index '" + index_name + "'"},
+            {"enabled", false}
         };
         
         span.setStatus(true);
@@ -981,4 +983,3 @@ std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& p
 
 } // namespace server
 } // namespace themis
-

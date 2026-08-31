@@ -309,6 +309,7 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/device_manager.cpp
     ../src/acceleration/vllm_resource_manager.cpp
+    ../src/acceleration/break_even_validator.cc
     ../src/acceleration/shader_integrity.cpp
     # PERF-D3: Parallel batch insertion + SIMD distance pipeline
     ../src/acceleration/vec_knn.cpp

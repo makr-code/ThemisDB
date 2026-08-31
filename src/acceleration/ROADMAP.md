@@ -1,7 +1,7 @@
 # Acceleration Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-06 -->
+<!-- Status: current | validated: 2026-08-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase B–C), §7 (risk) -->
 
@@ -65,6 +65,8 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [~] Build system fixes for orphaned test declarations (pre-existing CMakeLists.txt cleanup)
 - [~] Runtime capability hardening for fail-closed behavior under partial backend availability (Target: Q3 2026)
 - [x] 2026-08-19: `DeviceManager` now supports deterministic injected capability snapshots for focused validation while preserving CPU-fallback synthesis and fail-closed runtime selection semantics. (Target: Q3 2026)
+- [x] 2026-08-31: `BreakEvenValidator` is now wired into the production acceleration build, uses hookable CPU/GPU profiling contracts plus deterministic fallback estimates instead of hardcoded placeholder timings, and focused GPU tests link the production implementation instead of the fallback-only shim. (Target: Q3 2026)
+- [x] 2026-08-31: `oneapi_backend.cpp` now fail-closes on USM allocation failure before `memcpy`, turning the prior undefined OOM path into explicit `std::bad_alloc` handling. (Target: Q3 2026)
 - [~] Multi-device and resource-management reliability tuning under sustained load (Target: Q3 2026)
 - [~] **B-01 · CUDA vector similarity search** — replacing CPU HNSW fallback in `ai_hardware_dispatcher.cpp` and `vllm_resource_manager.cpp` with GPU kernel dispatch (Target: Q3 2026)
 
@@ -167,19 +169,23 @@ All major GPU acceleration backends are now fully implemented and integrated:
 ### Phase 1: Design / API Contract
 - [~] Freeze backend capability/selection contract and fallback semantics for active major lines (Target: Q3 2026)
   - 2026-08-19: public `DeviceManager::setEnumerateFn()` test bridge added so capability negotiation can be verified without changing production discovery logic.
-- [ ] Define explicit failure contracts for unavailable backend, invalid input, and integrity-check failure states (Target: Q3 2026)
+- [~] Define explicit failure contracts for unavailable backend, invalid input, and integrity-check failure states (Target: Q3 2026)
+  - 2026-08-31: `BreakEvenValidator` now exposes explicit hook contracts for CPU/GPU profiling and fails closed on invalid distance/top-k profiles or non-GPU device selection.
 
 ### Phase 2: Core Implementation
-- [ ] Complete hardening for capability-driven dispatch and deterministic fallback selection paths (Target: Q4 2026)
+- [~] Complete hardening for capability-driven dispatch and deterministic fallback selection paths (Target: Q4 2026)
+  - 2026-08-31: break-even routing no longer depends on hardcoded CPU/GPU placeholder timings; the production implementation is compiled into both monolithic and modular acceleration builds.
 - [ ] Align multi-device and resource manager behavior to shared bounded execution contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] Enforce fail-closed behavior for malformed workload input, plugin/signature failure, and partial device outages (Target: Q4 2026)
+- [~] Enforce fail-closed behavior for malformed workload input, plugin/signature failure, and partial device outages (Target: Q4 2026)
+  - 2026-08-31: oneAPI USM allocation failures now fail closed before device copies, and break-even routing rejects malformed distance/top-k profiles instead of silently using placeholder timings.
 - [ ] Standardize fallback semantics when optional acceleration features are unavailable (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [~] Expand focused regressions for backend matrix, plugin security, and fallback correctness (Target: Q4 2026)
   - 2026-08-19: `tests/test_device_manager.cpp` extended with injected-enumeration coverage for cache reuse, refresh re-probe, CPU-fallback synthesis, best-device selection, and log observability; focused test registration fixed in `tests/CMakeLists.txt`.
+  - 2026-08-31: `tests/gpu/test_break_even_validation.cpp` now covers production profiling hooks, metrics emission, and fail-closed invalid-profile handling.
 - [ ] Extend multi-device failure-injection regressions for merge and resource paths (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening

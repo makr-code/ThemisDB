@@ -386,6 +386,11 @@ TEST_F(HttpRopeApiTest, DisableRoPE) {
     
     ASSERT_TRUE(response.contains("status"));
     EXPECT_EQ(response["status"], "success");
+    ASSERT_TRUE(response.contains("enabled"));
+    EXPECT_FALSE(response["enabled"]);
+
+    auto get_response = httpGet("/api/v1/vector-index/test_rope/rope/config");
+    ASSERT_TRUE(get_response.contains("error"));
 }
 
 // Test 9: Invalid Configuration (hidden_dim not even)

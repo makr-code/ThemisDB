@@ -48,3 +48,9 @@
 [submodule "projects/Themis.AdminTools.Shared"]
 	path = projects/Themis.AdminTools.Shared
 	url = https://github.com/makr-code/themisdb_admin_tools.git
+
+[submodule "plugins/themisdb_ethic_ai"]
+	path = plugins/themisdb_ethic_ai
+	url = https://github.com/makr-code/themisdb_ethic_ai.git
+	branch = develop
+	commit = ce401ad9d604012a2c02655e79f5c17f57a9f82d

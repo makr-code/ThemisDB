@@ -83,6 +83,8 @@ TEST_F(StubRemediationTest, TimeSeriesAggregatesWithProvider) {
     auto& aggregates = response_body["aggregates"];
     ASSERT_TRUE(aggregates.is_array());
     ASSERT_GE(aggregates.size(), 8);  // At least the provided aggregates
+    EXPECT_EQ(response_body["source"].get<std::string>(), "provider");
+    EXPECT_FALSE(response_body["degraded_mode"].get<bool>());
     
     // Verify all provided aggregates are present
     std::set<std::string> agg_set;
@@ -128,6 +130,8 @@ TEST_F(StubRemediationTest, TimeSeriesRetentionWithProvider) {
     auto& policies = response_body["policies"];
     ASSERT_TRUE(policies.is_array());
     ASSERT_GE(policies.size(), 3);  // At least the provided policies
+    EXPECT_EQ(response_body["source"].get<std::string>(), "provider");
+    EXPECT_FALSE(response_body["degraded_mode"].get<bool>());
 
     // Verify policies contain expected metrics
     std::set<std::string> metric_set;
@@ -159,6 +163,9 @@ TEST_F(StubRemediationTest, TimeSeriesAggregatesDefaultFallback) {
 
     json response_body = json::parse(response.body());
     auto& aggregates = response_body["aggregates"];
+    EXPECT_EQ(response_body["source"].get<std::string>(), "builtin");
+    EXPECT_TRUE(response_body["degraded_mode"].get<bool>());
+    EXPECT_TRUE(response_body.contains("degraded_reason"));
     
     // Should still have the built-in defaults
     ASSERT_GE(aggregates.size(), 5);

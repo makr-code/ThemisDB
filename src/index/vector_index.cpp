@@ -3090,6 +3090,24 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 	}
 }
 
+VectorIndexManager::Status VectorIndexManager::disableRotaryEmbedding() {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
+	if (!rotary_enabled_ && !rotary_embedding_) {
+		return Status::Error("Rotary embeddings not enabled");
+	}
+
+	rotary_enabled_ = false;
+	rotary_embedding_.reset();
+	rotary_positional_rotations_.store(0, std::memory_order_relaxed);
+	rotary_relational_rotations_.store(0, std::memory_order_relaxed);
+	rotary_query_rotations_.store(0, std::memory_order_relaxed);
+	rotary_total_rotation_time_us_.store(0, std::memory_order_relaxed);
+
+	THEMIS_INFO("VectorIndexManager::disableRotaryEmbedding - Rotary embeddings disabled");
+	logAuditEvent_("config", "rotary_embeddings", "disable", 0);
+	return Status::OK();
+}
+
 std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
@@ -3267,4 +3285,3 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 }
 
 } // namespace themis
-
