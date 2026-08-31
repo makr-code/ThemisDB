@@ -329,7 +329,7 @@ struct FkResolvedEdge {
             continue;
         }
 
-        double weight;
+        double weight = 0.0;
         if (edge.join_strength.has_value()) {
             weight = *edge.join_strength;
         } else {

@@ -62,25 +62,6 @@ const MMWriteEntry& pickLatestHlc(const std::vector<MMWriteEntry>& writes)
 }
 
 /**
- * Select the write with the lowest HLC timestamp (earliest).
- * 
- * @throws std::invalid_argument if writes vector is empty
- */
-const MMWriteEntry& pickEarliestHlc(const std::vector<MMWriteEntry>& writes)
-{
-    // BATCH D FIX: Add explicit validation for empty container
-    if (writes.empty()) {
-        throw std::invalid_argument("pickEarliestHlc requires non-empty writes vector");
-    }
-    
-    return *std::min_element(
-        writes.begin(), writes.end(),
-        [](const MMWriteEntry& a, const MMWriteEntry& b) {
-            return a.hlc < b.hlc;
-        });
-}
-
-/**
  * Parse top-level fields from a JSON object string into a key→value map.
  * 
  * This parser is intentionally lenient to handle partially-formed JSON and gracefully

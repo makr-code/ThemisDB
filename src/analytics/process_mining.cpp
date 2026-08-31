@@ -885,7 +885,7 @@ ProcessMining::discoverProcessFromCollection(std::string_view collection, const 
 
 // ===== Mining Algorithms =====
 
-DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, [[maybe_unused]] const MiningConfig &config) {
+DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const MiningConfig &) {
     DiscoveredProcess process;
     process.name = "Alpha Miner Result";
 
@@ -1323,22 +1323,6 @@ DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const Mi
 
 namespace {
 
-// Helper: build activity-to-id mapping for a sub-log
-[[maybe_unused]] std::unordered_map<std::string, int> buildActivityIds(const std::vector<ProcessTrace> &traces) {
-    std::unordered_map<std::string, int> ids;
-    int next = 0;
-    for (const auto &t : traces) {
-        for (const auto &e : t.events) {
-            // NOTE: ids.find() on unordered_map is O(1) average case, not O(n).
-            // Scanner reports O(n²) false positive due to not recognizing unordered_map complexity.
-            if (ids.find(e.activity) == ids.end()) {
-                ids[e.activity] = next++;
-            }
-        }
-    }
-    return ids;
-}
-
 // DFG for a sub-log (activity names → pair of frequency maps)
 struct SubDFG {
     std::set<std::string> activities;
@@ -1377,28 +1361,6 @@ SubDFG buildSubDFG(const std::vector<ProcessTrace> &traces, double noise_thresho
         }
     }
     return dfg;
-}
-
-// Check reachability in DFG (BFS)
-[[maybe_unused]] bool dfgReachable(const SubDFG &dfg, const std::string &from, const std::string &to) {
-    std::queue<std::string> q;
-    std::unordered_set<std::string> visited;
-    q.push(from);
-    visited.insert(from);
-    while (!q.empty()) {
-        auto cur = q.front();
-        q.pop();
-        if (cur == to) {
-            return true;
-        }
-        for (const auto &[k, _] : dfg.freq) {
-            if (k.first == cur && !visited.count(k.second)) {
-                visited.insert(k.second);
-                q.push(k.second);
-            }
-        }
-    }
-    return false;
 }
 
 // Find weakly connected components of the DFG (undirected)
@@ -2871,7 +2833,7 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string> &pattern, cons
 }
 
 std::pair<ProcessMining::Status, std::vector<ProcessMining::GeoProcessCluster>>
-ProcessMining::discoverGeoVariants(const EventLog &log, [[maybe_unused]] double cluster_radius_km) {
+ProcessMining::discoverGeoVariants(const EventLog &log, double) {
     std::vector<GeoProcessCluster> clusters;
     std::set<std::string> processed_variants;
 

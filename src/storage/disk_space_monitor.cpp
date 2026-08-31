@@ -469,7 +469,7 @@ bool DiskSpaceMonitor::shouldSendAlert() const {
     auto elapsed = now - stats_.last_alert;
     auto elapsed_minutes = std::chrono::duration_cast<std::chrono::minutes>(elapsed);
     
-    return elapsed_minutes.count() >= config_.alert_cooldown_minutes;
+    return elapsed_minutes.count() >= static_cast<long long>(config_.alert_cooldown_minutes);
 }
 
 void DiskSpaceMonitor::recordUsage(const SpaceInfo& info) {

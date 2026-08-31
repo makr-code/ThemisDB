@@ -54,12 +54,11 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
 
         // timestamp regularity: fraction of deltas equal to the modal delta
         if (!deltas.empty()) {
-            int64_t modal = deltas[0];
             size_t  modal_count = 0;
             for (auto d : deltas) {
                 size_t cnt = static_cast<size_t>(
                     std::count(deltas.begin(), deltas.end(), d));
-                if (cnt > modal_count) { modal_count = cnt; modal = d; }
+                if (cnt > modal_count) { modal_count = cnt; }
             }
             p.timestamp_regularity =
                 static_cast<double>(modal_count) / static_cast<double>(deltas.size());

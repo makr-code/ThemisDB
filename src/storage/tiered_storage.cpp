@@ -396,7 +396,6 @@ uint32_t TieredStorageManager::runMigrationCycle() {
 
         } else if (entry.tier == StorageTierLevel::WARM) {
             bool demote = false;
-            bool promote = false;
 
             // Phase 5: BLOCK 3 Integration — detect hot promotion pattern
             // If warm tier data is accessed frequently, emit promotion event
@@ -409,7 +408,6 @@ uint32_t TieredStorageManager::runMigrationCycle() {
                 // Emit promotion event for coordinator to consider moving back to HOT
                 emitPromotionEvent(key, access_model::TierLevel::L2_EPISODIC,
                                   entry.read_count, window_secs);
-                promote = true;
             }
 
             if (config_.warm_to_cold_days > 0 &&

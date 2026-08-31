@@ -99,6 +99,8 @@ bool devicesValid(int src, int dst, const std::vector<DeviceInfo> &devs) {
 
 // Determine the preferred interconnect for the device pair (best-effort).
 // Uses GPUClusterTopology::detect() when no explicit topology is provided.
+// Only needed in GPU builds — the CPU simulation path does not track interconnect types.
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
 InterconnectType detectInterconnect(int src, int dst, const std::vector<DeviceInfo> &devs) {
     if (!devicesValid(src, dst, devs)) {
         return InterconnectType::CPU;
@@ -106,6 +108,7 @@ InterconnectType detectInterconnect(int src, int dst, const std::vector<DeviceIn
     auto topo = GPUClusterTopology::detect(devs);
     return topo.preferredInterconnect(src, dst);
 }
+#endif
 
 } // namespace
 

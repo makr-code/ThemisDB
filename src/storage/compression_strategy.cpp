@@ -211,7 +211,7 @@ bool CompressionStrategyManager::is_mostly_text(const uint8_t* data, size_t size
         }
     }
     
-    return (printable * 100 / sample_size) > 80;
+    return (printable * 100 / sample_size) > size_t(80);
 }
 
 bool CompressionStrategyManager::is_sparse_data(const uint8_t* data, size_t size) {

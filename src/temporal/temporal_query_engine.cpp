@@ -653,44 +653,5 @@ std::vector<VersionedDocument> queryAsOfCached(
 // sequencedDistinct — SQL:2011 §13.4
 // ============================================================================
 
-namespace {
-
-/// Merge the version history of a single key into sequenced-distinct rows.
-[[maybe_unused]] std::vector<VersionedDocument> mergeDistinctKey(
-    std::vector<VersionedDocument> history) {
-
-    if (history.empty()) return {};
-
-    // Sort by sys_start ascending.
-    std::sort(history.begin(), history.end(),
-              [](const VersionedDocument& a, const VersionedDocument& b) {
-                  return a.sys_time.start < b.sys_time.start;
-              });
-
-    std::vector<VersionedDocument> result;
-    VersionedDocument current = history.front();
-
-    for (size_t i = 1; i < history.size(); ++i) {
-        const VersionedDocument& next = history[i];
-
-        // Two versions are contiguous when the previous period's end == the
-        // next period's start (half-open interval adjacency).
-        const bool contiguous = (current.sys_time.end == next.sys_time.start);
-        const bool same_data  = (current.data == next.data);
-
-        if (contiguous && same_data) {
-            // Extend the current period to cover the next version.
-            current.sys_time.end = next.sys_time.end;
-        } else {
-            result.push_back(current);
-            current = next;
-        }
-    }
-    result.push_back(current);
-    return result;
-}
-
-} // anonymous namespace
-
 } // namespace temporal
 } // namespace themisdb

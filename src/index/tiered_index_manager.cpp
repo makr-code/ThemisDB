@@ -283,8 +283,6 @@ std::string TieredIndexManager::pathForTier(const std::string&  name,
 MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                                                 IndexTierMeta::Tier from,
                                                 IndexTierMeta::Tier to) {
-    using Tier = IndexTierMeta::Tier;
-
     // Capture callbacks under lock so we can call them outside.
     ExportFn export_fn;
     ImportFn import_fn;

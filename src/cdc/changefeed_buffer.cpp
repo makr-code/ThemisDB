@@ -111,7 +111,6 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
     if (config_.compress_payloads && event.value.has_value()) {
         size_t payload_size = event.value->size();
         if (payload_size > config_.compression_threshold_bytes) {
-#pragma warning(suppress: 4456)
             CDC_MEASURE_LATENCY(metrics_.compression_latency);
             try {
                 auto compressed = utils::zstd_compress(*event.value, 3);
@@ -263,7 +262,6 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                 if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
                     if (event.value.has_value()) {
                         {
-#pragma warning(suppress: 4456)
                             CDC_MEASURE_LATENCY(metrics_.decompression_latency);
                             try {
                                 std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());

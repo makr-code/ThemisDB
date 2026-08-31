@@ -147,21 +147,6 @@ static DistributedTransactionManager::StaticLivenessCheckFn getLivenessCheckFn()
     return s_liveness_check_fn;
 }
 
-namespace {
-/// Format a system_clock time-point as ISO-8601 for WAL/log data.
-[[maybe_unused]] std::string formatTimePoint(std::chrono::system_clock::time_point tp) {
-    auto tt = std::chrono::system_clock::to_time_t(tp);
-    std::tm tm_buf{};
-#if defined(_WIN32)
-    gmtime_s(&tm_buf, &tt);
-#else
-    gmtime_r(&tt, &tm_buf);
-#endif
-    std::ostringstream oss;
-    oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
-    return oss.str();
-}
-
 template <typename Fn>
 bool deliverPhase2WithRetry(
     Fn&&               deliver_fn,

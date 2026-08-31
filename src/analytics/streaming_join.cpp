@@ -71,21 +71,6 @@ size_t findColumnIndex(const ColumnBatch &batch, const std::string &name) {
     return SIZE_MAX;
 }
 
-/// Build a list of column indices from a list of names.
-/// Throws std::invalid_argument if any name is missing.
-[[maybe_unused]] std::vector<size_t> resolveColumns(const ColumnBatch &batch, const std::vector<std::string> &names) {
-    std::vector<size_t> idxs;
-    idxs.reserve(names.size());
-    for (const auto &n : names) {
-        size_t idx = findColumnIndex(batch, n);
-        if (idx == SIZE_MAX) {
-            throw std::invalid_argument("StreamingJoin: column not found: " + n);
-        }
-        idxs.push_back(idx);
-    }
-    return idxs;
-}
-
 /// Make a composite key from given columns at a specific row.
 std::string makeCompositeKey(const std::vector<std::shared_ptr<Column>> &cols, const std::vector<size_t> &key_indices,
                              size_t row) {
@@ -96,36 +81,6 @@ std::string makeCompositeKey(const std::vector<std::shared_ptr<Column>> &cols, c
         key += '\xFF'; // separator
     }
     return key;
-}
-
-/// Project columns from `src` batch by name list (empty = all columns).
-/// Returns a list of (new Column, original name) pairs for building result.
-[[maybe_unused]] std::vector<std::shared_ptr<Column>> projectColumns(const ColumnBatch &src,
-                                                    const std::vector<std::string> &select_names) {
-    std::vector<std::shared_ptr<Column>> result;
-    if (select_names.empty()) {
-        result.reserve(src.columnCount());
-        for (size_t i = 0; i < src.columnCount(); ++i) {
-            result.push_back(src.getColumnAt(i));
-        }
-    } else {
-        result.reserve(select_names.size());
-        for (const auto &n : select_names) {
-            auto col = src.getColumn(n);
-            if (!col) {
-                throw std::invalid_argument("StreamingJoin::project: column not found: " + n);
-            }
-            result.push_back(col);
-        }
-    }
-    return result;
-}
-
-/// Append a single null row to every column in `cols`.
-[[maybe_unused]] void appendNullRow(std::vector<std::shared_ptr<Column>> &cols) {
-    for (auto &c : cols) {
-        c->appendNull();
-    }
 }
 
 /// Append row `src_row` from `src_col` to `dst_col`.
@@ -151,16 +106,6 @@ void appendRow(Column &dst, const Column &src, size_t src_row) {
             dst.appendNull();
             break;
     }
-}
-
-/// Create empty output columns matching the schema of `src_cols`.
-[[maybe_unused]] std::vector<std::shared_ptr<Column>> makeEmptyOutputCols(const std::vector<std::shared_ptr<Column>> &src_cols) {
-    std::vector<std::shared_ptr<Column>> result;
-    result.reserve(src_cols.size());
-    for (const auto &c : src_cols) {
-        result.push_back(std::make_shared<Column>(c->name(), c->type()));
-    }
-    return result;
 }
 
 } // anonymous namespace
