@@ -1610,24 +1610,12 @@ bool BackupManager::decompressPath([[maybe_unused]] const std::string& src_path,
     // Hardware requirement: vcpkg 'zstd' or 'lz4' + THEMIS_HAS_ZSTD=1 / THEMIS_HAS_LZ4=1.
     static std::once_flag s_decompress_warn;
     std::call_once(s_decompress_warn, [type] {
-        THEMIS_WARN("BackupManager::decompressPath: STUB — files copied without decompression "
-                    "(THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set, type={}). "
-                    "(This warning is printed once per process.)",
-                    static_cast<int>(type));
+        THEMIS_ERROR("BackupManager::decompressPath: unsupported restore path without zstd/lz4 "
+                     "(type={}); refusing raw-byte copy to avoid corrupted restore output",
+                     static_cast<int>(type));
     });
-    try {
-        THEMIS_INFO("Decompressing {} to {}", src_path, dest_path);
-        fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
-        if (ec) {
-            THEMIS_ERROR("Failed to copy for decompression: {}", ec.message());
-            return false;
-        }
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during decompression: {}", e.what());
-        return false;
-    }
+    ec = std::make_error_code(std::errc::function_not_supported);
+    return false;
 #endif
 }
 
@@ -1810,23 +1798,10 @@ bool BackupManager::decryptFile([[maybe_unused]] const std::string& src_path,
     static_cast<void>(key);
     static std::once_flag s_decrypt_warn;
     std::call_once(s_decrypt_warn, [] {
-        THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "
-                    "AES-256-GCM decryption (THEMIS_ENABLE_OPENSSL not set). "
-                    "(This warning is printed once per process.)");
+        THEMIS_ERROR("BackupManager::decryptFile: OpenSSL support is absent; refusing ciphertext passthrough restore");
     });
-    namespace fs = std::filesystem;
-    try {
-        fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
-        if (ec) {
-            THEMIS_ERROR("Failed to copy for decryption: {}", ec.message());
-            return false;
-        }
-        return true;
-    } catch (const std::exception& e) {
-        ec = std::make_error_code(std::errc::io_error);
-        THEMIS_ERROR("Exception during decryption: {}", e.what());
-        return false;
-    }
+    ec = std::make_error_code(std::errc::function_not_supported);
+    return false;
 #endif
 }
 
@@ -3369,5 +3344,4 @@ Result<std::string> BackupManager::decompressBackup(const std::string& /* compre
 #endif // THEMIS_ROCKSDB_AVAILABLE
 
 } // namespace themis
-
 

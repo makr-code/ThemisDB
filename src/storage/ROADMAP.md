@@ -30,8 +30,8 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
   - Implement coordinator-guided promotion paths (cold→warm→L3)
   - Extend TieredStorageManager with coordinator hooks
   - See: `src/access_model/ROADMAP.md` Phase 4
-- [ ] make `BackupManager::decompressPath()` fail closed or perform real decompression when zstd/lz4 are unavailable; the current degraded path copies bytes verbatim and is only safe when the matching write path also ran in raw-copy mode (Target: Q4 2026)
-- [ ] make `BackupManager::decryptFile()` fail closed or perform real decryption when OpenSSL is unavailable; the current degraded path copies ciphertext verbatim (Target: Q4 2026)
+- [x] make `BackupManager::decompressPath()` fail closed or perform real decompression when zstd/lz4 are unavailable; unsupported restore builds now reject the operation instead of copying raw bytes verbatim (Target: Q4 2026)
+- [x] make `BackupManager::decryptFile()` fail closed or perform real decryption when OpenSSL is unavailable; unsupported restore builds now reject the operation instead of copying ciphertext verbatim (Target: Q4 2026)
 - [ ] wire the remaining `ggml_tensor_bridge.cpp` production injection seams (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) at server initialization (Target: Q4 2026)
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
 - [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)

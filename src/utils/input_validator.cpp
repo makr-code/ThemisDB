@@ -264,7 +264,7 @@ std::optional<std::string> InputValidator::validateJson(
     }
 }
 
-std::optional<std::string> InputValidator::validateJsonStub(
+std::optional<std::string> InputValidator::validateJsonSchema(
     const nlohmann::json& payload,
     const std::string& schema_name
 ) const {
@@ -289,6 +289,13 @@ std::optional<std::string> InputValidator::validateJsonStub(
                             "Request rejected (fail-closed).  "
                             "(Subsequent occurrences for this schema are suppressed.)",
                             schema_name, schema_dir_, schema_name);
+            }
+
+            std::optional<std::string> InputValidator::validateJsonStub(
+                const nlohmann::json& payload,
+                const std::string& schema_name
+            ) const {
+                return validateJsonSchema(payload, schema_name);
             }
         }
         return std::string("schema '" + schema_name + "' not found in '" +
@@ -330,7 +337,7 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
     }
 
     // Pass minimal stub schema if available
-    if (auto err = validateJsonStub(payload, "aql_request")) {
+    if (auto err = validateJsonSchema(payload, "aql_request")) {
         return err;
     }
 
@@ -700,4 +707,3 @@ bool InputValidator::validateHeaderValue(const std::string& value) const {
 
 } // namespace utils
 } // namespace themis
-

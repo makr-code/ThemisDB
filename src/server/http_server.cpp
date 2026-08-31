@@ -6783,7 +6783,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     try {
                         nlohmann::json j = nlohmann::json::object();
                         if (!req.body().empty()) j = nlohmann::json::parse(req.body());
-                        if (auto err = validator_->validateJsonStub(j, "content_import")) {
+                        if (auto err = validator_->validateJsonSchema(j, "content_import")) {
                             response = makeErrorResponse(http::status::bad_request, *err, req);
                             break;
                         }
@@ -8474,7 +8474,7 @@ http::response<http::string_body> HttpServer::handlePkiSign(
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
         if (validator_) {
-            if (auto err = validator_->validateJsonStub(body, "pki_sign")) {
+            if (auto err = validator_->validateJsonSchema(body, "pki_sign")) {
                 return makeErrorResponse(http::status::bad_request, *err, req);
             }
         }
@@ -8515,7 +8515,7 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
         if (validator_) {
-            if (auto err = validator_->validateJsonStub(body, "pki_verify")) {
+            if (auto err = validator_->validateJsonSchema(body, "pki_verify")) {
                 return makeErrorResponse(http::status::bad_request, *err, req);
             }
         }
