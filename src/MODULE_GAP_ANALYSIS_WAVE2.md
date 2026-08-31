@@ -1,6 +1,6 @@
 # ThemisDB — Core Module Gap Analysis & Wave 2 / Wave 3 / Wave 4 / Wave 5 Implementation Plan
 
-> **Generated:** 2026-08-26 (Wave 5 update)  
+> **Generated:** 2026-08-31 (Wave 6 revalidation + Wave 5 historical snapshot)  
 > **Previous:** 2026-08-25 (Wave 4 ranking)  
 > **Branch:** develop  
 > **Method:** Full src/ inline-gap scan (grep TODO/STUB/FIXME/UNIMPLEMENTED on all .cpp/.hpp) + header C/H aggregate + subagent semantic triage  
@@ -8,7 +8,37 @@
 
 ---
 
-## Wave 5 Module Ranking — Real Source Gaps (2026-08-26)
+## Wave 6 Revalidation — Current Real Source Gaps (2026-08-31)
+
+> **Method:** Re-read module roadmaps + direct source inspection + subagent revalidation.  
+> **Key correction:** the 2026-08-26 Wave 5 snapshot materially overstates already-closed `llm`, `rag`, `server`, `auth`, and `transaction` work. Current priority must be based on still-open runtime gaps, not on historical scanner buckets.
+
+### Core-first priority order (current)
+
+| Priority | Module | Current real source gaps | Verified evidence | Next implementation block |
+|---|---|---|---|---|
+| **P1** | `server` | **4 residual runtime gaps** | `grpc_web_proxy_handler.cpp` fallback remains UNIMPLEMENTED-only; `timeseries_api_handler.cpp` still falls back when aggregate/retention providers are absent; `rope_api_handler.cpp` still exposes mock metrics; `mcp_server.cpp` still documents unsupported non-Linux stdio transport | Finish gRPC-Web/runtime provider wiring or make the degraded-mode contract explicit and feature-gated |
+| **P2** | `query` | **4 residual feature gaps** | `functions/process_mining_functions.cpp` still routes unresolved calls through `makeNotImplemented()`; `functions/ethics_functions.cpp` still throws for `ETHICS_GET_ARGUMENTS`, `ETHICS_FIND_SIMILAR_DILEMMAS`, `ETHICS_TRAVERSE_CHAIN` | Add provider-backed process-mining and ethics query execution or explicit fail-closed feature gating |
+| **P3** | `llm` | **3-5 meaningful integration gaps** | Major Wave 5 items are closed, but distributed collectives still require injected bridges in `lora_framework/distributed_trainer.cpp`; multi-tenant lifecycle/cache isolation remains open in `src/llm/ROADMAP.md`; TARG full-entropy bridge is not injected anywhere | Close distributed-collective wiring, tenant isolation, and llm↔rag entropy integration before new feature work |
+| **P4** | `rag` / `llm_wiki` | **Mostly integration/perf gates** | BM25+, RRF, persistent cache, and real `LLMJudgeIntegration` path are implemented; remaining work is representative-hardware perf, Recall@k sign-off, Wikipedia ABI wiring, and full-entropy bridge usage | Treat runtime as largely implemented and focus the next block on gate evidence + remaining ABI integration |
+| **P5** | `gpu` / `acceleration` | **Real implementation + hardware-gate gaps** | Root roadmap still tracks CUDA/HIP parity and representative-hardware validation as open | Finish kernel parity and representative-hardware proof after core server/query/llm items |
+| **P6** | `transaction` | **No major open code gap; verification remains** | Wave 4C T1–T4 are marked closed in module roadmap and module gaps; remaining tasks are build, chaos, and benchmark evidence | Keep out of the immediate source-gap queue; execute validation evidence separately |
+| **P7** | `auth` | **No major open code gap; tests/evidence remain** | Wave 4B source gaps are closed in `src/auth/ROADMAP.md`; remaining work is Wave 8 tests and performance evidence | Keep out of immediate implementation queue |
+| **P8** | `core` / `base` | **No current high-priority source gap** | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable gaps; `src/core/ROADMAP.md` shows evidence/operability follow-up, not missing runtime implementation | Do not spend the next implementation block here |
+| **P9** | `storage` | **Optional integration stubs only** | Remaining ggml/tensor compaction bridges are documented injection points with safe fail-closed fallbacks | Treat as deferred integration, not as a release-blocking source gap |
+
+### Immediate next sequence
+
+1. **Server block:** gRPC-Web fallback contract, time-series provider wiring, RoPE metrics source, MCP transport limitation.
+2. **Query block:** replace `process_mining` and `ETHICS_*` generic `not implemented` throws with real provider wiring or explicit feature gating.
+3. **LLM/RAG block:** distributed collectives, tenant isolation, TARG full-entropy injection, then representative-hardware/performance gates.
+4. **GPU block:** kernel parity + hardware validation after the core server/query path is clean.
+
+> **Historical note:** The older Wave 5 ranking below is retained for traceability only and must not be used as the current implementation queue without this 2026-08-31 correction.
+
+---
+
+## Wave 5 Module Ranking — Real Source Gaps (2026-08-26, historical snapshot)
 
 > Full src/ scan: 2026-08-26 · Method: inline grep (non-header) + header C/H aggregate + 4 parallel subagents  
 > **Key finding:** Most scanner inflation comes from per-file Gap Summary boilerplate headers (every .cpp file has ≥3 header entries that are not real inline gaps). Inflation factor 8–50× is typical for non-LLM modules.

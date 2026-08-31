@@ -273,6 +273,8 @@ Performance and scalability optimization with measurable, gated performance impr
 - [ ] Phase C gate: parallel optimization enabled after thread-safety gate passed (Target: Q3 2026+)
 
 ### Short-term (3-6 months)
+- [ ] Replace `makeNotImplemented()`-backed process-mining AQL functions with provider-backed execution or explicit feature gating so production query paths no longer throw generic `"function not implemented"` errors from `src/query/functions/process_mining_functions.cpp` (Target: Q4 2026)
+- [ ] Replace the three generic runtime-error paths in `src/query/functions/ethics_functions.cpp` (`ETHICS_GET_ARGUMENTS`, `ETHICS_FIND_SIMILAR_DILEMMAS`, `ETHICS_TRAVERSE_CHAIN`) with real collection/graph/vector wiring or explicit `ethics_ai` feature gating (Target: Q4 2026)
 - [x] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (UPSERT/INSERT/UPDATE/REMOVE/REPLACE nodes already in include/query/aql_parser.h; DML in parse loop)
 - [ ] Harden optimizer decision quality under skewed statistics and changing workloads (Target: Q4 2026)
 - [ ] Expand federated query failure handling with deterministic partial-result policies (Target: Q4 2026)

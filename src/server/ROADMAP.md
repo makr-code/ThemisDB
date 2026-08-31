@@ -81,6 +81,10 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [~] Missing audit log: ~12 handler files — tracked in Wave 4-A (Target: Q4 2026)
 
 ### Short-term (3-6 months)
+- [ ] Residual runtime gap: replace the build-without-gRPC fallback in `grpc_web_proxy_handler.cpp` so gRPC-Web requests are either proxied for real or rejected behind an explicit feature/operator contract instead of an always-UNIMPLEMENTED path (Target: Q4 2026)
+- [ ] Residual runtime gap: make aggregate and retention providers first-class production dependencies for the time-series metadata endpoints in `timeseries_api_handler.cpp`, while keeping the builtin/storage fallback documented as degraded mode only (Target: Q4 2026)
+- [ ] Residual runtime gap: replace mock RoPE rotation metrics in `rope_api_handler.cpp` with a real metrics source or an explicit disabled-state contract (Target: Q4 2026)
+- [ ] Residual deployment gap: keep unsupported non-Linux MCP stdio transport in `mcp_server.cpp` explicitly gated and documented until a real implementation exists (Target: Q4 2026)
 - [ ] Plugin-based server adapter loading with signature validation and rollback guardrails (Target: Q4 2026)
 - [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)
 - [ ] GraphQL federation and schema governance hardening for multi-service deployments (Target: Q4 2026)
