@@ -2257,6 +2257,9 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             supportsTokenizerlessNativeDraftTokens(draft_plugin);
 
         if (!tok_fn_copy && !allow_native_draft_tokens) {
+            const auto draft_info = draft_plugin ? draft_plugin->getModelInfo() : std::nullopt;
+            const std::string draft_model_id = (draft_info && !draft_info->model_id.empty())
+                ? draft_info->model_id : "(unknown draft model)";
             spdlog::info("Speculative draft model '{}' has no tokenizer bridge or "
                          "known native draft-token implementation; falling back "
                          "to target generation",

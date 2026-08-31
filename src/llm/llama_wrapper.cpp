@@ -1766,7 +1766,7 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
                 "Draft token out of target vocabulary range");
         }
 
-        const auto draft_token = static_cast<llama_token>(token_id);
+        auto draft_token = static_cast<llama_token>(token_id);
         const auto batch = llama_batch_get_one(&draft_token, 1);
         if (llama_decode(context_handle, batch) != 0) {
             throw std::runtime_error(
