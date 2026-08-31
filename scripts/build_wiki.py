@@ -444,35 +444,49 @@ def _build_module_index(repo_root: Path, wiki_names_set: set[str]) -> str:
 # used to filter dynamically collected names.
 
 _SIDEBAR_SECTIONS: list[tuple[str, list[str]]] = [
-    ("🚀 Getting Started", [
+    # 1. Overview — single entry point; everything else links from here
+    ("🏠 Overview", [
         "Home",
-        "Repository-README",
+        "Wiki-Index",
         "FAQ",
-        "Quick-Reference",
         "Edition-Comparison",
+        "Repository-README",
     ]),
+    # 2. Getting Started — first steps for new users
+    ("🚀 Getting Started", [
+        "Quick-Reference",
+        "Integration-Guide",
+        "Migration-Guide",
+    ]),
+    # 3. Tutorials — hands-on walkthroughs (broad → narrow)
     ("📖 Tutorials", []),       # populated dynamically from Tutorial-* pages
+    # 4. User Guide — reference material users need day-to-day
     ("📗 User Guide", [
         "AQL-Reference",
         "AQL-Examples",
         "API-Reference",
-        "Integration-Guide",
-        "Migration-Guide",
     ]),
+    # 5. Operations & Security — running ThemisDB in production
     ("⚙️ Operations & Security", [
         "Operations",
         "Security-Policy",
     ]),
+    # 6. Architecture — system design (after users understand what it does)
     ("🏗️ Architecture", []),    # populated dynamically from Architecture-* pages (curated subset)
+    # 7. ADRs — architecture decision records (linked from Architecture)
+    ("📐 ADRs", []),             # populated dynamically from ADR-* pages
+    # 8. Contributing / Developer — internal orientation
     ("🔧 Contributing", [
         "Contributing",
         "Developer-INDEX",
         "Developer-BUILD-TEST-CI-AND-OPERATIONS",
         "Module-Index",
     ]),
-    ("📐 ADRs", []),             # populated dynamically from ADR-* pages
+    # 9. Governance — policy, compliance, release gates
     ("📋 Governance", []),       # populated dynamically from Governance-* pages
+    # 10. Plugins — extension points
     ("🧩 Plugins", []),          # populated dynamically from Plugin-* pages
+    # 11. Developer LLM Wiki — AI-context artifacts (most internal)
     ("🤖 Developer LLM Wiki", []),    # populated dynamically from Developer-* pages
 ]
 
@@ -506,6 +520,7 @@ def _sidebar_label(wiki_name: str) -> str:
     # Explicit overrides for pages whose auto-label is ambiguous or ugly
     _OVERRIDES: dict[str, str] = {
         "Home": "Home",
+        "Wiki-Index": "All Wiki Pages",
         "Repository-README": "Repository README",
         "FAQ": "FAQ",
         "Quick-Reference": "Quick Reference",
@@ -570,6 +585,73 @@ def _sidebar_label(wiki_name: str) -> str:
     return " ".join(words)
 
 
+def _build_wiki_index(all_wiki_names: set[str]) -> str:
+    """Generate Wiki-Index.md — a full directory of all wiki pages, grouped by section.
+
+    Every section from _SIDEBAR_SECTIONS is represented.  Pages are sorted
+    alphabetically within each section.  Pages that belong to no section are
+    listed in a final "Other" group.
+    """
+    lines: list[str] = [
+        "# ThemisDB Wiki — All Pages\n\n",
+        f"This page lists all **{len(all_wiki_names)}** pages in the wiki, "
+        "grouped by section.\n\n",
+    ]
+
+    # Build section → page mapping using the same logic as _build_sidebar
+    assigned: set[str] = set()
+    section_entries: list[tuple[str, list[str]]] = []
+
+    for section_title, explicit_pages in _SIDEBAR_SECTIONS:
+        if section_title == "🏠 Overview":
+            pages = [p for p in explicit_pages if p in all_wiki_names]
+        elif explicit_pages:
+            pages = [p for p in explicit_pages if p in all_wiki_names]
+        else:
+            prefix_map = {
+                "📖 Tutorials": "Tutorial-",
+                "🏗️ Architecture": None,
+                "📐 ADRs": "ADR-",
+                "📋 Governance": "Governance-",
+                "🧩 Plugins": "Plugin-",
+                "🤖 Developer LLM Wiki": "Developer-",
+            }
+            prefix = prefix_map.get(section_title)
+            if prefix:
+                pages = sorted(p for p in all_wiki_names if p.startswith(prefix))
+            elif section_title == "🏗️ Architecture":
+                pages = sorted(p for p in _ARCH_CURATED if p in all_wiki_names)
+            else:
+                pages = []
+
+        section_entries.append((section_title, pages))
+        assigned.update(pages)
+
+    # Collect pages not assigned to any section
+    internal = {"_Sidebar", "_Footer", "Wiki-Index"}
+    unassigned = sorted(
+        p for p in all_wiki_names
+        if p not in assigned and p not in internal
+    )
+
+    # Render sections
+    for section_title, pages in section_entries:
+        if not pages:
+            continue
+        lines.append(f"\n## {section_title}\n\n")
+        for page in sorted(pages):
+            label = _sidebar_label(page)
+            lines.append(f"- [[{label}|{page}]]\n")
+
+    if unassigned:
+        lines.append("\n## Other\n\n")
+        for page in unassigned:
+            label = _sidebar_label(page)
+            lines.append(f"- [[{label}|{page}]]\n")
+
+    return "".join(lines)
+
+
 def _build_sidebar(
     all_wiki_names: set[str],
     collected_by_section: dict[str, list[str]],
@@ -630,6 +712,7 @@ def _build_footer() -> str:
         "---\n\n"
         f"**ThemisDB {THEMISDB_VERSION}** · "
         "[[Home]] · "
+        "[[Wiki-Index|Wiki-Index]] · "
         "[[Module-Index]] · "
         "[[FAQ]] · "
         "[[Quick-Reference]] · "
@@ -687,7 +770,7 @@ def main(argv: list[str] | None = None) -> int:
         if not _contains_private(text):
             all_wiki_names.add(wiki_name)
     # Also add generated pages
-    all_wiki_names.update({"Module-Index", "_Sidebar", "_Footer"})
+    all_wiki_names.update({"Module-Index", "Wiki-Index", "_Sidebar", "_Footer"})
 
     # Second pass: transform and write
     for source_path, wiki_name in entries:
@@ -731,6 +814,19 @@ def main(argv: list[str] | None = None) -> int:
         (output_dir / "Module-Index.md").write_text(module_index_content, encoding="utf-8")
         written.append("Module-Index.md")
     all_wiki_names.add("Module-Index")
+
+    # Generate Wiki-Index.md (all pages directory)
+    wiki_index_content = (
+        _page_header("generated:Wiki-Index", "Wiki-Index")
+        + _build_wiki_index(all_wiki_names)
+        + _page_footer("Wiki-Index")
+    )
+    if args.dry_run:
+        print("DRY-RUN: <generated> → Wiki-Index.md")
+    else:
+        (output_dir / "Wiki-Index.md").write_text(wiki_index_content, encoding="utf-8")
+        written.append("Wiki-Index.md")
+    all_wiki_names.add("Wiki-Index")
 
     # Generate _Sidebar.md
     sidebar_content = _build_sidebar(all_wiki_names, {})
