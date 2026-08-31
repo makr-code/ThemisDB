@@ -697,6 +697,32 @@ TEST_F(CloudStorageBackupTest, MissingLocalBackupHandling) {
     }
 }
 
+TEST_F(CloudStorageBackupTest, UploadBackupRejectsOversizedRemotePayloadBeforeTransfer) {
+    const auto oversized_file = backup_path_ / "oversized_payload.bin";
+    {
+        std::ofstream output(oversized_file, std::ios::binary);
+        ASSERT_TRUE(output.is_open());
+        output.seekp(static_cast<std::streamoff>(256ull * 1024ull * 1024ull));
+        output.put('\0');
+    }
+
+    BackupOptions options;
+    options.storage = StorageBackend::S3;
+
+    auto result = backup_mgr_->uploadBackupToCloud(
+        oversized_file.string(),
+        "s3://test-bucket/oversized",
+        options
+    );
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED);
+    EXPECT_NE(result.error().message().find("in-memory transfer limit"), std::string::npos);
+
+    std::error_code ec;
+    std::filesystem::remove(oversized_file, ec);
+}
+
 /**
  * Intent: Test handling of authentication failures
  * 

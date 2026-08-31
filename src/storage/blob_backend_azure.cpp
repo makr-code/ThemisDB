@@ -184,15 +184,17 @@ public:
                 data.insert(data.end(), buffer.begin(), buffer.begin() + bytes_read);
             }
             
-            // Verify hash
-            std::string actual_hash = computeSHA256(data);
-            if (!ref.hash_sha256.empty() && actual_hash != ref.hash_sha256) {
-                THEMIS_ERROR("Hash mismatch for blob {}: expected={}, actual={}", 
-                            ref.id, ref.hash_sha256, actual_hash);
-                return Err<std::vector<uint8_t>>(
-                    errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                    "Hash mismatch for blob: " + ref.id
-                );
+            // Verify hash when the caller supplied an expected digest.
+            if (!ref.hash_sha256.empty()) {
+                std::string actual_hash = computeSHA256(data);
+                if (actual_hash != ref.hash_sha256) {
+                    THEMIS_ERROR("Hash mismatch for blob {}: expected={}, actual={}",
+                                ref.id, ref.hash_sha256, actual_hash);
+                    return Err<std::vector<uint8_t>>(
+                        errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                        "Hash mismatch for blob: " + ref.id
+                    );
+                }
             }
             
             THEMIS_DEBUG("Blob retrieved from Azure: id={}, size={} bytes", ref.id, data.size());

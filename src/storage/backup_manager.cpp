@@ -65,12 +65,31 @@ namespace fs = std::filesystem;
 constexpr std::string_view kLocalBackupUriScheme{"file://"};
 constexpr std::string_view kRemoteBackupManifestBlobId{"__themis_backup_manifest__"};
 constexpr std::string_view kRemoteBackupFormatVersion{"1"};
+constexpr std::uintmax_t kMaxRemoteBackupPayloadBytes{256ull * 1024ull * 1024ull};
 
 struct RemoteBackupLocation {
     std::string authority;
     std::string container;
     std::string prefix;
 };
+
+#if defined(THEMIS_HAS_AWS_SDK) && THEMIS_HAS_AWS_SDK
+constexpr bool kRemoteBackupS3Linked = true;
+#else
+constexpr bool kRemoteBackupS3Linked = false;
+#endif
+
+#if defined(THEMIS_HAS_AZURE_STORAGE) && THEMIS_HAS_AZURE_STORAGE
+constexpr bool kRemoteBackupAzureLinked = true;
+#else
+constexpr bool kRemoteBackupAzureLinked = false;
+#endif
+
+#if defined(THEMIS_HAS_GCS_SDK) && THEMIS_HAS_GCS_SDK
+constexpr bool kRemoteBackupGcsLinked = true;
+#else
+constexpr bool kRemoteBackupGcsLinked = false;
+#endif
 
 /// Return whether @p value begins with the provider prefix @p prefix.
 bool hasUriPrefix(const std::string& value, std::string_view prefix) {
@@ -282,6 +301,98 @@ std::string joinPathSegments(const std::vector<std::string>& segments, std::size
     }
     return joined;
 }
+bool isRemoteBackupProviderLinked(StorageBackend backend) {
+    switch (backend) {
+    case StorageBackend::S3:
+        return kRemoteBackupS3Linked;
+    case StorageBackend::AZURE:
+        return kRemoteBackupAzureLinked;
+    case StorageBackend::GCS:
+        return kRemoteBackupGcsLinked;
+    case StorageBackend::LOCAL:
+        return false;
+    }
+
+    return false;
+}
+
+Result<void> validateRemotePayloadSize(std::uintmax_t size_bytes, const std::string& label) {
+    if (size_bytes <= kMaxRemoteBackupPayloadBytes) {
+        return OkVoid();
+    }
+
+    return ErrVoid(errors::ErrorCode::ERR_UTIL_ALLOCATION_FAILED,
+                   "Remote backup payload exceeds in-memory transfer limit (" +
+                       std::to_string(kMaxRemoteBackupPayloadBytes) + " bytes): " + label);
+}
+
+Result<void> validateRemoteUploadSourceSize(const fs::path& source_path) {
+    std::error_code ec;
+    const bool source_exists = fs::exists(source_path, ec);
+    if (ec) {
+        return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                       "Failed to inspect backup path '" + source_path.string() +
+                           "': " + ec.message());
+    }
+    if (!source_exists) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                       "Local backup path does not exist: " + source_path.string());
+    }
+
+    if (fs::is_regular_file(source_path, ec)) {
+        if (ec) {
+            return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                           "Failed to inspect backup file '" + source_path.string() +
+                               "': " + ec.message());
+        }
+        const auto size_bytes = fs::file_size(source_path, ec);
+        if (ec) {
+            return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                           "Failed to read backup file size '" + source_path.string() +
+                               "': " + ec.message());
+        }
+        return validateRemotePayloadSize(size_bytes, source_path.filename().generic_string());
+    }
+
+    if (!fs::is_directory(source_path, ec)) {
+        if (ec) {
+            return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                           "Failed to inspect backup path type '" + source_path.string() +
+                               "': " + ec.message());
+        }
+        return OkVoid();
+    }
+
+    for (const auto& entry : fs::recursive_directory_iterator(source_path, ec)) {
+        if (ec) {
+            return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                           "Failed to enumerate backup path '" + source_path.string() +
+                               "': " + ec.message());
+        }
+        if (!entry.is_regular_file()) {
+            continue;
+        }
+
+        const auto size_bytes = entry.file_size(ec);
+        if (ec) {
+            return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                           "Failed to read backup file size '" + entry.path().string() +
+                               "': " + ec.message());
+        }
+
+        const auto relative = fs::relative(entry.path(), source_path, ec);
+        const std::string label = ec ? entry.path().filename().generic_string()
+                                     : relative.generic_string();
+        ec.clear();
+
+        auto size_check = validateRemotePayloadSize(size_bytes, label);
+        if (!size_check.has_value()) {
+            return size_check;
+        }
+    }
+
+    return OkVoid();
+}
 
 std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend backend,
                                                               const std::string& uri) {
@@ -289,7 +400,6 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
     if (scheme_end == std::string::npos) {
         return std::nullopt;
     }
-
     const auto payload = uri.substr(scheme_end + 3);
     switch (backend) {
     case StorageBackend::S3:
@@ -422,7 +532,11 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
         return {};
 #endif
     case StorageBackend::GCS:
+#if defined(THEMIS_HAS_GCS_SDK) && THEMIS_HAS_GCS_SDK
         return std::make_shared<storage::GCSBlobBackend>(location.authority, location.prefix);
+#else
+        return {};
+#endif
     case StorageBackend::LOCAL:
         return {};
     }
@@ -2225,63 +2339,75 @@ Result<void> BackupManager::downloadFromCloud(const std::string& cloud_path,
                        "Remote backup manifest is invalid JSON: " + std::string(e.what()));
     }
 
-    if (!manifest_json.contains("format_version") ||
-        manifest_json["format_version"].get<std::string>() != kRemoteBackupFormatVersion) {
-        return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                       "Remote backup manifest has unsupported format version");
-    }
-    if (!manifest_json.contains("entries") || !manifest_json["entries"].is_array()) {
-        return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                       "Remote backup manifest is missing entries");
-    }
-
-    const fs::path restore_root = fs::path(local_path);
-    for (const auto& entry : manifest_json["entries"]) {
-        if (!entry.contains("kind") || !entry.contains("relative_path")) {
+    try {
+        if (!manifest_json.contains("format_version") ||
+            manifest_json["format_version"].get<std::string>() != kRemoteBackupFormatVersion) {
             return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                           "Remote backup manifest entry is incomplete");
+                           "Remote backup manifest has unsupported format version");
+        }
+        if (!manifest_json.contains("entries") || !manifest_json["entries"].is_array()) {
+            return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                           "Remote backup manifest is missing entries");
         }
 
-        const std::string kind = entry["kind"].get<std::string>();
-        const fs::path relative_path(entry["relative_path"].get<std::string>());
-        if (!isSafeRelativeBackupPath(relative_path)) {
-            return ErrVoid(errors::ErrorCode::ERR_BACKUP_INVALID_TYPE,
-                           "Remote backup manifest contains unsafe path: " +
-                               relative_path.generic_string());
-        }
-
-        const fs::path target_path = restore_root / relative_path;
-        if (kind == "directory") {
-            std::error_code ec;
-            fs::create_directories(target_path, ec);
-            if (ec) {
-                return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                               "Failed to create restore directory '" + target_path.string() +
-                                   "': " + ec.message());
+        const fs::path restore_root = fs::path(local_path);
+        for (const auto& entry : manifest_json["entries"]) {
+            if (!entry.contains("kind") || !entry.contains("relative_path")) {
+                return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                               "Remote backup manifest entry is incomplete");
             }
-            continue;
-        }
 
-        if (kind != "file" || !entry.contains("blob_id")) {
-            return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                           "Remote backup manifest file entry is incomplete");
-        }
+            const std::string kind = entry["kind"].get<std::string>();
+            const fs::path relative_path(entry["relative_path"].get<std::string>());
+            if (!isSafeRelativeBackupPath(relative_path)) {
+                return ErrVoid(errors::ErrorCode::ERR_BACKUP_INVALID_TYPE,
+                               "Remote backup manifest contains unsafe path: " +
+                                   relative_path.generic_string());
+            }
 
-        storage::BlobRef payload_ref;
-        payload_ref.id = entry["blob_id"].get<std::string>();
-        payload_ref.type = storage::BlobStorageType::CUSTOM;
-        payload_ref.uri = cloud_path;
-        payload_ref.size_bytes = entry.value("size_bytes", 0);
-        payload_ref.hash_sha256 = entry.value("hash_sha256", std::string{});
-        auto payload_result = backend_impl->get(payload_ref);
-        if (!payload_result.has_value()) {
-            return ErrVoid(payload_result.error().code(), payload_result.error().message());
-        }
+            const fs::path target_path = restore_root / relative_path;
+            if (kind == "directory") {
+                std::error_code ec;
+                fs::create_directories(target_path, ec);
+                if (ec) {
+                    return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                                   "Failed to create restore directory '" + target_path.string() +
+                                       "': " + ec.message());
+                }
+                continue;
+            }
 
-        auto write_result = writeBinaryFileBytes(target_path, payload_result.value());
-        if (!write_result.has_value()) {
-            return write_result;
+            if (kind != "file" || !entry.contains("blob_id")) {
+                return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                               "Remote backup manifest file entry is incomplete");
+            }
+
+            const auto size_bytes = entry.value<std::uint64_t>("size_bytes", 0);
+            auto size_check = validateRemotePayloadSize(
+                size_bytes, entry["relative_path"].get<std::string>());
+            if (!size_check.has_value()) {
+                return size_check;
+            }
+
+            storage::BlobRef payload_ref;
+            payload_ref.id = entry["blob_id"].get<std::string>();
+            payload_ref.type = storage::BlobStorageType::CUSTOM;
+            payload_ref.uri = cloud_path;
+            payload_ref.size_bytes = static_cast<int64_t>(size_bytes);
+            payload_ref.hash_sha256 = entry.value("hash_sha256", std::string{});
+            auto payload_result = backend_impl->get(payload_ref);
+            if (!payload_result.has_value()) {
+                return ErrVoid(payload_result.error().code(), payload_result.error().message());
+            }
+
+            auto write_result = writeBinaryFileBytes(target_path, payload_result.value());
+            if (!write_result.has_value()) {
+                return write_result;
+            }
         }
+    } catch (const std::exception& e) {
+        return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                       "Remote backup manifest is invalid: " + std::string(e.what()));
     }
 
     THEMIS_INFO("Restored remote backup {} into {}", cloud_path, local_path);
@@ -3016,7 +3142,8 @@ Result<std::string> BackupManager::uploadBackupToCloud(
                 ? "Invalid local backup destination: '" + cloud_uri +
                       "'. Use file:///absolute/path or an absolute filesystem path."
                 : "Invalid cloud URI: '" + cloud_uri +
-                      "'. Supported schemes: s3://<bucket>/path, azure://<account>/container/path,"
+                      "'. Supported schemes: s3://<bucket>/path, azure://<account>/container/path"
+                      " or azure://<container>/path,"
                       " gs://<bucket>/path"
         ));
     }
@@ -3035,11 +3162,17 @@ Result<std::string> BackupManager::uploadBackupToCloud(
         return cloud_uri;
     }
 
-    // Compile-time SDK flags control the active cloud path:
-    //   THEMIS_ENABLE_S3     → AWS S3 SDK
-    //   THEMIS_ENABLE_AZURE  → Azure Storage SDK
-    //   THEMIS_ENABLE_GCS    → Google Cloud Storage SDK
-#if defined(THEMIS_ENABLE_S3) || defined(THEMIS_ENABLE_AZURE) || defined(THEMIS_ENABLE_GCS)
+    auto size_check = validateRemoteUploadSourceSize(fs::path(local_backup_path));
+    if (!size_check.has_value()) {
+        return tl::unexpected(Error(size_check.error().code(), size_check.error().message()));
+    }
+    if (!isRemoteBackupProviderLinked(options.storage)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_UNKNOWN,
+            "Cloud backup upload not available for the requested provider in this build."
+        ));
+    }
+
     auto upload_result = uploadToCloud(local_backup_path, cloud_uri, options.storage,
                                        options.cloud_config);
     if (!upload_result.has_value()) {
@@ -3051,13 +3184,6 @@ Result<std::string> BackupManager::uploadBackupToCloud(
     }
     THEMIS_INFO("Backup uploaded to cloud: {}", cloud_uri);
     return cloud_uri;
-#else
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Cloud backup upload not available. "
-        "Build with THEMIS_ENABLE_S3, THEMIS_ENABLE_AZURE, or THEMIS_ENABLE_GCS."
-    ));
-#endif
 }
 
 Result<void> BackupManager::restoreFromCloud(
@@ -3114,11 +3240,13 @@ Result<void> BackupManager::restoreFromCloud(
         return OkVoid();
     }
 
-    // Compile-time SDK flags control the active cloud path:
-    //   THEMIS_ENABLE_S3     → AWS S3 SDK
-    //   THEMIS_ENABLE_AZURE  → Azure Storage SDK
-    //   THEMIS_ENABLE_GCS    → Google Cloud Storage SDK
-#if defined(THEMIS_ENABLE_S3) || defined(THEMIS_ENABLE_AZURE) || defined(THEMIS_ENABLE_GCS)
+    if (!isRemoteBackupProviderLinked(options.storage)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_UNKNOWN,
+            "Cloud backup restore not available for the requested provider in this build."
+        ));
+    }
+
     namespace fs = std::filesystem;
     std::error_code ec;
     fs::create_directories(local_restore_path, ec);
@@ -3141,13 +3269,6 @@ Result<void> BackupManager::restoreFromCloud(
     }
     THEMIS_INFO("Backup restored from cloud: {} → {}", cloud_uri, local_restore_path);
     return OkVoid();
-#else
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Cloud backup restore not available. "
-        "Build with THEMIS_ENABLE_S3, THEMIS_ENABLE_AZURE, or THEMIS_ENABLE_GCS."
-    ));
-#endif
 }
 
 Result<std::string> BackupManager::createSnapshot(

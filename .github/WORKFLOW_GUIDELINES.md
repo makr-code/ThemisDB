@@ -4,7 +4,7 @@
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 
-## Aktive Workflows (43)
+## Aktive Workflows (44)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -28,6 +28,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/compliance-supply-chain.yml`
 - `.github/workflows/build-ollama-router.yml`
 - `.github/workflows/gate-copilot-regression.yml`
+- `.github/workflows/copilot-code-review.yml`
 - `.github/workflows/publish-wiki.yml`
 - `.github/workflows/release-docker-image.yml`
 - `.github/workflows/edition-hyperscaler-ci.yml`
@@ -90,6 +91,9 @@ Kernliste der aktiven Workflows:
 - `concurrency` mit `cancel-in-progress` auf Push/PR-Workflows setzen.
 - Berechtigungen minimal halten (`permissions` least privilege).
 - Schwere Benchmark-, GPU- und Sweep-Jobs standardmaessig ueber `schedule` oder `workflow_dispatch` isolieren.
+- Copilot-Review-Runner-Konfigurationen muessen als selbstbegrenzte Workflows
+  mit dem Jobnamen `copilot-setup-steps` und einem expliziten Ubuntu
+  `runs-on` deklariert werden.
 
 ## Security Guidelines
 - Keine Secrets im YAML oder in Shell-Skripten hardcoden.

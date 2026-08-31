@@ -561,12 +561,17 @@ public:
      * - `StorageBackend::LOCAL`: local filesystem mirror via `file:///absolute/path`
      *   or an absolute path.
      * - `StorageBackend::S3`: `s3://bucket/path` (requires provider integration).
-     * - `StorageBackend::AZURE`: `azure://account/container/path` (requires provider integration).
+     * - `StorageBackend::AZURE`: `azure://account/container/path` or
+     *   `azure://container/path`. When the account segment is omitted, the
+     *   runtime derives the service endpoint from the configured Azure
+     *   connection string / environment.
      * - `StorageBackend::GCS`: `gs://bucket/path` (requires provider integration).
      *
      * Remote transfers serialize the backup as a manifest plus per-file payload
      * objects beneath the requested provider URI so that restore can reconstruct
      * the directory tree without relying on provider-side object listing.
+     * Individual remote payload objects currently transfer in-memory and are
+     * rejected when they exceed 256 MiB.
      *
      * @param local_backup_path Existing local backup directory or archive.
      * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
@@ -585,7 +590,8 @@ public:
      * `file:///absolute/path` URI or absolute path into @p local_restore_path.
      * Remote backends fetch a manifest object plus the referenced payload
      * objects from the provider URI and reconstruct the original backup tree
-     * locally.
+     * locally. Individual remote payload objects currently transfer in-memory
+     * and are rejected when they exceed 256 MiB.
      *
      * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
      * @param local_restore_path Local destination directory for the restored payload.
