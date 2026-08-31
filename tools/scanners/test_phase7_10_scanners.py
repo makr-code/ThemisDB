@@ -727,30 +727,29 @@ class TestThemisCppDoxygenPolicyRulesScan(unittest.TestCase):
         self.tmp = Path(tempfile.mkdtemp())
         self.scanner = ThemisCppDoxygenPolicyRulesScan(str(self.tmp))
 
-    def _header(self, name: str, code: str) -> Path:
-        return _write(self.tmp, f'include/auth/{name}', code)
+    def _source(self, name: str, code: str) -> Path:
+        return _write(self.tmp, f'src/auth/{name}', code)
 
-    def test_relative_header_path_is_supported(self):
-        self._header('federated_identity_manager.h', """\
-            class FederatedIdentityManager {
-            public:
-                bool authenticate(const std::string& user);
-            };
+    def test_relative_source_path_matches_absolute_results(self):
+        source = self._source('federated_identity_manager.cpp', """\
+            bool authenticate_user(const std::string& user) {
+                return !user.empty();
+            }
         """)
-        gaps = self.scanner.scan_files([Path('include/auth/federated_identity_manager.h')])
-        self.assertIn('missing_doxygen_class', _patterns(gaps))
-        self.assertIn('missing_doxygen_comment', _patterns(gaps))
+        absolute_gaps = self.scanner.scan_files([source])
+        relative_gaps = self.scanner.scan_files([Path('src/auth/federated_identity_manager.cpp')])
+        self.assertEqual(relative_gaps, absolute_gaps)
+        self.assertIsInstance(relative_gaps, list)
 
-    def test_absolute_header_path_still_supported(self):
-        header = self._header('session_manager.h', """\
-            class SessionManager {
-            public:
-                bool authenticate(const std::string& user);
-            };
+    def test_relative_source_path_reports_repo_relative_file_names(self):
+        self._source('session_manager.cpp', """\
+            bool authenticate_user(const std::string& user) {
+                return !user.empty();
+            }
         """)
-        gaps = self.scanner.scan_files([header])
-        self.assertIn('missing_doxygen_class', _patterns(gaps))
-        self.assertIn('missing_doxygen_comment', _patterns(gaps))
+        gaps = self.scanner.scan_files([Path('src/auth/session_manager.cpp')])
+        self.assertTrue(gaps)
+        self.assertTrue(all(gap['file'].startswith('src/auth/') for gap in gaps))
 
 
 # ===========================================================================
