@@ -66,6 +66,8 @@ examples/**/usage_example_enabled
 enterprise*/
 build-*/
 build_*/
+/.build/
+**/.build/
 /build/
 /out/
 /bin/
