@@ -353,9 +353,18 @@ Result<std::vector<Document>> MongoDBAdapter::find_documents(
         );
     }
 
-    // TODO: Query documents with filter
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Execute find() with BSON filter and limit, map results to Documents
     std::vector<Document> results;
     return Result<std::vector<Document>>::ok(std::move(results));
+#else
+    return Result<std::vector<Document>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB find_documents unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 Result<size_t> MongoDBAdapter::update_documents(
@@ -370,8 +379,17 @@ Result<size_t> MongoDBAdapter::update_documents(
         );
     }
 
-    // TODO: Update documents matching filter
+#ifdef THEMIS_CHIMERA_MONGO
+    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
+    // TODO: Execute update_many() with BSON filter and update document
     return Result<size_t>::ok(0);
+#else
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB update_documents unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -457,13 +475,13 @@ Result<SystemInfo> MongoDBAdapter::get_system_info() const {
     SystemInfo info;
     info.adapter_name = "MongoDB";
     info.adapter_version = "0.1.0";
-    info.database_version = "5.0.0";  // TODO: Query actual server version
+    info.database_version = "unknown";  // NOT IMPLEMENTED: Query via mongocxx requires THEMIS_CHIMERA_MONGO
     return Result<SystemInfo>::ok(std::move(info));
 }
 
 Result<SystemMetrics> MongoDBAdapter::get_metrics() const {
     SystemMetrics metrics;
-    metrics.total_queries = 0;  // TODO: Track actual statistics
+    metrics.total_queries = 0;  // NOT IMPLEMENTED: Track via mongocxx stats (THEMIS_CHIMERA_MONGO)
     metrics.total_errors = 0;
     metrics.avg_query_time_ms = 0.0;
     return Result<SystemMetrics>::ok(std::move(metrics));
@@ -580,8 +598,19 @@ Result<bool> MongoDBAdapter::rollback_to_savepoint(
         );
     }
 
-    // TODO: Implement rollback logic
+    // NOT IMPLEMENTED: Requires mongocxx session rollback-to-savepoint API.
+    // Gate: THEMIS_CHIMERA_MONGO. MongoDB does not natively support savepoints;
+    // this path should return NOT_IMPLEMENTED when the library is unavailable.
+#ifdef THEMIS_CHIMERA_MONGO
+    // TODO: Implement rollback-to-savepoint logic via mongocxx session
     return Result<bool>::ok(true);
+#else
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB rollback_to_savepoint unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_MONGO=ON to enable."
+    );
+#endif
 }
 
 TransactionState MongoDBAdapter::get_transaction_state(
@@ -715,24 +744,26 @@ bool MongoDBAdapter::is_valid_connection_string(const std::string& cs) {
 }
 
 std::string MongoDBAdapter::mask_credentials(const std::string& cs) {
-    // TODO: Mask password and API key in connection string
+    // NOT IMPLEMENTED: Full credential masking requires mongocxx URI parsing.
+    // Gate: THEMIS_CHIMERA_MONGO. For safety, return as-is; do not log raw cs.
     return cs;
 }
 
 std::string MongoDBAdapter::scalar_to_bson_string(const Scalar& /*scalar*/) {
-    // TODO: Serialize Scalar to BSON
+    // NOT IMPLEMENTED: Requires mongocxx BSON serialization. Gate: THEMIS_CHIMERA_MONGO
     return "";
 }
 
 std::string MongoDBAdapter::row_to_bson_document(const RelationalRow& /*row*/) {
-    // TODO: Serialize RelationalRow to BSON document
+    // NOT IMPLEMENTED: Requires mongocxx BSON document builder. Gate: THEMIS_CHIMERA_MONGO
     return "";
 }
 
 Result<std::string> MongoDBAdapter::parse_query_to_mongo(
     const std::string& /*aql_query*/
 ) const {
-    // TODO: Translate AQL to MongoDB aggregation pipeline
+    // NOT IMPLEMENTED: AQL → MongoDB aggregation pipeline translation not implemented.
+    // Gate: THEMIS_CHIMERA_MONGO
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
         "AQL to MongoDB query translation not yet implemented"

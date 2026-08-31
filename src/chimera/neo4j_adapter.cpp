@@ -60,11 +60,20 @@ Result<bool> Neo4jAdapter::connect(
     }
 
     connection_string_ = mask_credentials(connection_string);
-    
-    // TODO: Actual neo4j::Driver creation
+
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Actual neo4j::Driver creation via bolt URI
     connected_ = true;
-    
     return Result<bool>::ok(true);
+#else
+    (void)connection_string_;
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j adapter unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<bool> Neo4jAdapter::disconnect() {
@@ -179,9 +188,18 @@ Result<std::string> Neo4jAdapter::insert_node(const GraphNode& node) {
         );
     }
 
-    // TODO: Execute CREATE (node:Label {properties}) via Cypher
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Execute CREATE (node:Label {properties}) via Cypher session
     const std::string node_id = generate_id();
     return Result<std::string>::ok(node_id);
+#else
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j insert_node unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<std::string> Neo4jAdapter::insert_edge(const GraphEdge& edge) {
@@ -192,9 +210,18 @@ Result<std::string> Neo4jAdapter::insert_edge(const GraphEdge& edge) {
         );
     }
 
-    // TODO: Execute CREATE RELATIONSHIP (from)-[rel:TYPE]->(to)
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Execute CREATE (from)-[rel:TYPE]->(to) via Cypher session
     const std::string edge_id = generate_id();
     return Result<std::string>::ok(edge_id);
+#else
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j insert_edge unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<GraphPath> Neo4jAdapter::shortest_path(
@@ -209,9 +236,18 @@ Result<GraphPath> Neo4jAdapter::shortest_path(
         );
     }
 
-    // TODO: Execute Cypher shortest path query
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Execute Cypher shortestPath() query with max_depth bound
     GraphPath path;
     return Result<GraphPath>::ok(std::move(path));
+#else
+    return Result<GraphPath>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j shortest_path unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<std::vector<GraphNode>> Neo4jAdapter::traverse(
@@ -226,9 +262,18 @@ Result<std::vector<GraphNode>> Neo4jAdapter::traverse(
         );
     }
 
-    // TODO: Execute graph traversal query
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Execute BFS/DFS Cypher traversal query up to max_depth
     std::vector<GraphNode> nodes;
     return Result<std::vector<GraphNode>>::ok(std::move(nodes));
+#else
+    return Result<std::vector<GraphNode>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j traverse unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<std::vector<GraphPath>> Neo4jAdapter::execute_graph_query(
@@ -242,9 +287,18 @@ Result<std::vector<GraphPath>> Neo4jAdapter::execute_graph_query(
         );
     }
 
-    // TODO: Execute arbitrary Cypher query
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Execute arbitrary Cypher query and map results to GraphPath
     std::vector<GraphPath> paths;
     return Result<std::vector<GraphPath>>::ok(std::move(paths));
+#else
+    return Result<std::vector<GraphPath>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j execute_graph_query unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -262,9 +316,18 @@ Result<std::string> Neo4jAdapter::insert_document(
         );
     }
 
-    // TODO: Create node with collection label and document properties
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Create node with collection label and document properties via Cypher
     const std::string id = generate_id();
     return Result<std::string>::ok(id);
+#else
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j insert_document unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<size_t> Neo4jAdapter::batch_insert_documents(
@@ -278,8 +341,17 @@ Result<size_t> Neo4jAdapter::batch_insert_documents(
         );
     }
 
-    // TODO: Batch create nodes
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: Batch UNWIND + CREATE nodes via Cypher
     return Result<size_t>::ok(docs.size());
+#else
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j batch_insert_documents unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<std::vector<Document>> Neo4jAdapter::find_documents(
@@ -294,9 +366,18 @@ Result<std::vector<Document>> Neo4jAdapter::find_documents(
         );
     }
 
-    // TODO: Query nodes with label matching filter
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: MATCH (n:collection {filter}) RETURN n LIMIT limit via Cypher
     std::vector<Document> results;
     return Result<std::vector<Document>>::ok(std::move(results));
+#else
+    return Result<std::vector<Document>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j find_documents unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<size_t> Neo4jAdapter::update_documents(
@@ -311,8 +392,17 @@ Result<size_t> Neo4jAdapter::update_documents(
         );
     }
 
-    // TODO: Update node properties
+#ifdef THEMIS_CHIMERA_NEO4J
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
+    // TODO: MATCH (n:collection {filter}) SET n += updates via Cypher
     return Result<size_t>::ok(0);
+#else
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j update_documents unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -348,9 +438,19 @@ Result<bool> Neo4jAdapter::commit_transaction(const std::string& transaction_id)
         );
     }
     
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
     // TODO: Commit transaction via Neo4j session
+#ifdef THEMIS_CHIMERA_NEO4J
     it->second.state = "committed";
     return Result<bool>::ok(true);
+#else
+    it->second.state = "committed";  // State tracking without real driver
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j commit_transaction unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<bool> Neo4jAdapter::rollback_transaction(const std::string& transaction_id) {
@@ -363,9 +463,19 @@ Result<bool> Neo4jAdapter::rollback_transaction(const std::string& transaction_i
         );
     }
     
+    // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
     // TODO: Rollback transaction via Neo4j session
+#ifdef THEMIS_CHIMERA_NEO4J
     it->second.state = "aborted";
     return Result<bool>::ok(true);
+#else
+    it->second.state = "aborted";  // State tracking without real driver
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Neo4j rollback_transaction unavailable: library not compiled in. "
+        "Rebuild with THEMIS_CHIMERA_NEO4J=ON to enable."
+    );
+#endif
 }
 
 Result<std::string> Neo4jAdapter::create_savepoint(
@@ -421,7 +531,7 @@ Result<SystemInfo> Neo4jAdapter::get_system_info() const {
     SystemInfo info;
     info.adapter_name = "Neo4j";
     info.adapter_version = "0.1.0";
-    info.database_version = "5.0.0";  // TODO: Query actual server version
+    info.database_version = "unknown";  // NOT IMPLEMENTED: Query via neo4j-cpp-driver requires THEMIS_CHIMERA_NEO4J
     return Result<SystemInfo>::ok(std::move(info));
 }
 
@@ -470,12 +580,13 @@ bool Neo4jAdapter::is_valid_connection_string(const std::string& cs) {
 }
 
 std::string Neo4jAdapter::mask_credentials(const std::string& cs) {
-    // TODO: Mask password in connection string
+    // NOT IMPLEMENTED: Full credential masking requires neo4j URI parsing.
+    // Gate: THEMIS_CHIMERA_NEO4J. For safety, return as-is; do not log raw cs.
     return cs;
 }
 
 std::string Neo4jAdapter::scalar_to_cypher_literal(const Scalar& /*scalar*/) {
-    // TODO: Convert Scalar to Cypher literal syntax
+    // NOT IMPLEMENTED: Requires Cypher literal serialization. Gate: THEMIS_CHIMERA_NEO4J
     return "null";
 }
 
