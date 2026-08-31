@@ -333,19 +333,21 @@ jobs:
             echo "grouped_json_file=/tmp/aggregated-errors-by-module-file.json" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create or update chronic build failure issue
+      - name: Ensure single chronic build failure issue
         if: steps.aggregate.outputs.chronic_errors > 0
-        uses: ./.github/actions/manage-governance-issue
+        id: chronic-issue
+        uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: '🔴 Chronic Build Failures — Error Report'
-          body: |
+          operation: upsert_issue
+          issue-title: '🔴 Chronic Build Failures — Error Report'
+          issue-marker: '<!-- ci-build:type:chronic-error-report -->'
+          issue-body: |
+            <!-- ci-build:type:chronic-error-report -->
             ## Build Error Aggregation Report
             
             **Aggregation Period**: Last 24 hours  
-            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            ${{ steps.aggregate.outputs.report_markdown }}
+            **Latest Aggregation Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
             
             ### Debugging Tips
             1. **Navigate to Actions tab** → Find the failed workflow run
@@ -358,9 +360,29 @@ jobs:
             
             **Labels**: `ci/failure,ci/build-error`  
             **Severity**: High (blocking builds)  
-            **Priority**: Address chronic errors immediately
-          labels: 'ci/failure,ci/build-error,maintenance'
-          close-if-empty: 'false'
+            **Priority**: Address chronic errors immediately  
+            _Neue Build-Fehler werden als Kommentare an dieses Issue angehängt._
+          labels-to-add: 'ci/failure,ci/build-error,maintenance'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Append latest chronic build errors as issue comment
+        if: steps.aggregate.outputs.chronic_errors > 0
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
+          issue-body: |
+            ## 📎 Neuer Build-Fehlerreport
+
+            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ${{ steps.aggregate.outputs.report_markdown }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
       - name: Send Slack notification for chronic errors
         if: steps.aggregate.outputs.chronic_errors > 0
@@ -429,7 +451,7 @@ jobs:
         uses: ./.github/actions/publish-error-dashboard
         with:
           metrics-artifact: error-metrics
-          create-issue: ${{ steps.aggregate.outputs.chronic_errors > 0 }}
+          create-issue: 'false'
           dashboard-title: '📊 Build Error Dashboard — Run #${{ github.run_number }}'
           send-slack: ${{ env.SLACK_WEBHOOK_URL != '' }}
           slack-webhook: ${{ env.SLACK_WEBHOOK_URL }}
