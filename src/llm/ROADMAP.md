@@ -90,7 +90,9 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026) — COMPLETE 2026-08-16
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026) — COMPLETE 2026-08-16
 - [~] Source-validated runtime gap closure follow-up (Target: Q4 2026)
-  - [ ] remove the remaining STUB #261 / STUB #263 draft-token fallback paths in `inference_engine_enhanced.cpp` so speculative decode no longer falls back to byte-modulo token IDs in production-style execution
+  - [~] remove the remaining STUB #261 / STUB #263 draft-token fallback paths in `inference_engine_enhanced.cpp` so speculative decode no longer falls back to byte-modulo token IDs in production-style execution
+    - [x] remote speculative-draft wiring now auto-uses `LlamaWrapper` tokenization when the draft or target plugin is a live llama.cpp backend, reducing byte-modulo fallback use in production-style execution
+    - [ ] generic non-llama plugin paths still retain the documented byte-modulo fallback when no tokenizer bridge is available
   - [ ] replace simulation-backed validation/telemetry defaults in `gpu_memory_manager.cpp` and `production_validator.cpp` with hardware-backed checks or explicit disabled-state contracts
   - [ ] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
 - [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
@@ -156,7 +158,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 > **Source:** Semantic analysis 2026-08-25 — `inference_engine_enhanced.cpp` (8 stubs), `inline_training_engine.cpp` (5 stubs)
 
 - [~] Replace the remaining speculative-decode fallback stubs in `inference_engine_enhanced.cpp` after the Wave-7 bridge work (Target: Q4 2026)
-  - Source revalidation 2026-08-31: TokenizerFn bridging is wired, but STUB #263 byte-modulo token fallback and the STUB #261 production-injection fallback path still remain as residual runtime debt
+  - Source revalidation 2026-08-31: TokenizerFn bridging is wired, and production llama.cpp paths now auto-reuse live tokenizer state via `LlamaWrapper::tokenizeForBridge()`, but generic fallback paths still remain as residual runtime debt
   - Inputs: draft-model logits + verify-model logits; KV-cache capacity config
   - Outputs: accepted token count, cache hit/miss metrics
   - Tests: `tests/llm/test_wave7_llm_kvcache_lru_checkpoint.cpp` (LRU-01..LRU-10)

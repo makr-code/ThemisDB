@@ -6,7 +6,7 @@
 
 ## Current Status
 
-Production-grade RAG runtime with retrieval fusion, context assembly, evaluation, ingestion bridge integration, and safety controls. Phase 5-6 delivery complete: performance gates locked, operator documentation provided, full test coverage validated.
+Production-grade RAG runtime with retrieval fusion, context assembly, evaluation, ingestion bridge integration, and safety controls. Phase 5-6 delivery complete: performance gates locked, operator documentation provided, full test coverage validated. Source hardening now computes exact full-vocabulary TARG entropy by default and only uses `FullEntropyFn` for backend override injection, removing the old top-32 approximation from the default runtime path.
 
 **Wave Alignment (see root ROADMAP.md § Program Execution Model):**
 - **Wave B (Q3–Q4 2026):** Phase 1-6 Complete (retrieval fusion, error handling, performance gates, documentation, operator support)
@@ -120,6 +120,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Status**: Test suite created; implementation validation ongoing
 - [~] Standardize fallback behavior for optional model/acceleration/runtime dependencies (Target: Q4 2026)
   - **Status**: Documented in FUTURE_ENHANCEMENTS.md; implementation in progress
+  - [x] `targ_retrieval.cpp` now uses exact full-vocabulary softmax entropy by default; `FullEntropyFn` remains as an override hook for backend-specific entropy implementations
 
 ### Phase 4: Tests
 - [~] Expand focused regressions for ingestion bridge, budget propagation, and deterministic tie-breaking (Target: Q4 2026)
