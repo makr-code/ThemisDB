@@ -36,7 +36,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends clang lld cmake ninja-build pkg-config librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpphttplib-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends clang lld cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpphttplib-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
       configure_command: >-
         set -euo pipefail; SAN_MODE="${{ inputs.sanitizer_mode || 'asan-ubsan' }}"; if [ "$SAN_MODE" = "asan-only" ]; then SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer"; else SAN_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"; fi; cmake -S . -B build-sanitizer -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_FLAGS="$SAN_FLAGS" -DCMAKE_CXX_FLAGS="$SAN_FLAGS" -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
       build_command: >-
