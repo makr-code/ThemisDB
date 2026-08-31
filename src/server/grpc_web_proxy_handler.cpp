@@ -54,6 +54,24 @@ GrpcWebProxyHandler::BackendInvokeFn getBackendInvokeFn()
     return backendInvokeFnStorage();
 }
 
+bool grpcBackendAvailableInCurrentBuild()
+{
+#ifdef THEMIS_ENABLE_GRPC
+    return true;
+#else
+    return static_cast<bool>(getBackendInvokeFn());
+#endif
+}
+
+std::string grpcBackendMode()
+{
+#ifdef THEMIS_ENABLE_GRPC
+    return "grpc";
+#else
+    return getBackendInvokeFn() ? "override" : "unavailable";
+#endif
+}
+
 } // namespace
 
 void GrpcWebProxyHandler::setBackendInvokeFn(BackendInvokeFn fn)
@@ -256,8 +274,15 @@ http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
         {"backend_address", config_.backend_address},
         {"backend_tls",     config_.backend_tls},
         {"deadline_ms",     config_.deadline_ms},
-        {"cors_allow_origin", config_.cors_allow_origin}
+        {"cors_allow_origin", config_.cors_allow_origin},
+        {"requests_supported", grpcBackendAvailableInCurrentBuild()},
+        {"backend_mode", grpcBackendMode()}
     };
+#ifndef THEMIS_ENABLE_GRPC
+    if (!status["requests_supported"].get<bool>()) {
+        status["reason"] = "gRPC backend not available in this build";
+    }
+#endif
     return makeResponse(http::status::ok, status.dump(), "application/json", req);
 }
 
@@ -403,5 +428,4 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
 
 } // namespace server
 } // namespace themis
-
 

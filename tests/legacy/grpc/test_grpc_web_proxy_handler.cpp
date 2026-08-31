@@ -248,6 +248,8 @@ TEST_F(GrpcWebProxyHandlerTest, Status_Returns200WithJson) {
     EXPECT_TRUE(body.contains("backend_tls"));
     EXPECT_TRUE(body.contains("deadline_ms"));
     EXPECT_TRUE(body.contains("cors_allow_origin"));
+    EXPECT_TRUE(body.contains("requests_supported"));
+    EXPECT_TRUE(body.contains("backend_mode"));
 }
 
 TEST_F(GrpcWebProxyHandlerTest, Status_ReflectsConfig) {
@@ -266,6 +268,14 @@ TEST_F(GrpcWebProxyHandlerTest, Status_ReflectsConfig) {
     EXPECT_EQ(body["backend_tls"].get<bool>(), true);
     EXPECT_EQ(body["deadline_ms"].get<uint32_t>(), 5000u);
     EXPECT_EQ(body["cors_allow_origin"].get<std::string>(), "https://ui.example.com");
+#ifdef THEMIS_ENABLE_GRPC
+    EXPECT_TRUE(body["requests_supported"].get<bool>());
+    EXPECT_EQ(body["backend_mode"].get<std::string>(), "grpc");
+#else
+    EXPECT_FALSE(body["requests_supported"].get<bool>());
+    EXPECT_EQ(body["backend_mode"].get<std::string>(), "unavailable");
+    EXPECT_EQ(body["reason"].get<std::string>(), "gRPC backend not available in this build");
+#endif
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

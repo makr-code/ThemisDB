@@ -420,6 +420,16 @@ public:
     
     /// Enable/disable rotary embeddings with configuration
     Status setRotaryEmbeddingConfig(const struct RotationConfig& config);
+
+    /**
+     * @brief Disable rotary embeddings for subsequent vector operations.
+     *
+     * Clears the active RoPE configuration and resets runtime counters. Calls
+     * that require rotary embeddings will fail closed after this method returns.
+     *
+     * @return OK when RoPE was disabled, or an error when RoPE is already off.
+     */
+    Status disableRotaryEmbedding();
     
     /// Check if rotary embeddings are enabled
     bool isRotaryEmbeddingEnabled() const { return rotary_enabled_; }

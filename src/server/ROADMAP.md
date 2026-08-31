@@ -14,6 +14,11 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
 
 ## Recently Completed
+- [x] Wave 4-A residual server runtime contract hardening batch (Completed 2026-08-31)
+  - gRPC-Web status now exposes an explicit availability/operator contract via `requests_supported`, `backend_mode`, and fail-closed reason reporting for non-gRPC builds
+  - RoPE `DELETE /api/v1/vector-index/{index}/rope/config` now performs real runtime disablement via `VectorIndexManager::disableRotaryEmbedding()`
+  - Unsupported exotic-platform MCP stdio transport now self-disables unless a `StdioReadFn` is injected, instead of advertising a started-but-deaf transport
+  - Time-series metadata endpoints now return explicit `source` and `degraded_mode` fields so builtin/storage fallback is visible to operators and tests
 - [x] Phase 5 Server Hardening — P5-S01 Wire-Protocol Retry + P5-S02 HTTP Timeout/Shutdown — Completed Q3 2026 (Validated 2026-07-20)
   - P5-S01: Exponential-backoff retry gate with configurable max_retries, base_delay, budget cap, and optional jitter
   - P5-S01: Retry eligibility gating (kTransient only; kFatal/kInvalidArg fail-fast)
@@ -81,12 +86,12 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [~] Missing audit log: ~12 handler files — tracked in Wave 4-A (Target: Q4 2026)
 
 ### Short-term (3-6 months)
-- [ ] Residual runtime gap: replace the build-without-gRPC fallback in `grpc_web_proxy_handler.cpp` so gRPC-Web requests are either proxied for real or rejected behind an explicit feature/operator contract instead of an always-UNIMPLEMENTED path (Target: Q4 2026)
-- [ ] Residual runtime gap: make aggregate and retention providers first-class production dependencies for the time-series metadata endpoints in `timeseries_api_handler.cpp`, while keeping the builtin/storage fallback documented as degraded mode only (Target: Q4 2026)
-- [ ] Residual runtime gap: replace mock RoPE rotation metrics in `rope_api_handler.cpp` with a real metrics source or an explicit disabled-state contract (Target: Q4 2026)
+- [x] Residual runtime gap: replace the build-without-gRPC fallback in `grpc_web_proxy_handler.cpp` with an explicit feature/operator contract so non-gRPC builds advertise fail-closed availability via the status endpoint instead of a silent always-UNIMPLEMENTED path (Target: Q4 2026 → Completed 2026-08-31)
+- [~] Residual runtime gap: make aggregate and retention providers first-class production dependencies for the time-series metadata endpoints in `timeseries_api_handler.cpp`; explicit `source`/`degraded_mode` signaling is now delivered, but full DI wiring remains open (Target: Q4 2026)
+- [x] Residual runtime gap: `DELETE /api/v1/vector-index/{index}/rope/config` now disables rotary embeddings at runtime, and the stats path already uses real rotation metrics from `VectorIndexManager` (Target: Q4 2026 → Completed 2026-08-31)
 - [x] Residual request-validation gap: replace `validateJsonStub()` in `http_server.cpp` for content-import, PKI-sign, and PKI-verify routes with explicit schema validation entrypoints (Target: Q4 2026)
 - [~] Residual SQL-wire safety gap: tighten prepared-statement parameter handling in `postgres_session.cpp` with typed validation and placeholder-safe binding while deeper protocol-level bind execution remains open (Target: Q4 2026)
-- [ ] Residual deployment gap: keep unsupported non-Linux MCP stdio transport in `mcp_server.cpp` explicitly gated and documented until a real implementation exists (Target: Q4 2026)
+- [x] Residual deployment gap: unsupported non-Linux MCP stdio transport in `mcp_server.cpp` is now explicitly self-disabled and documented unless a `StdioReadFn` is injected; native platform implementation still remains future work (Target: Q4 2026 → Completed 2026-08-31)
 - [ ] Plugin-based server adapter loading with signature validation and rollback guardrails (Target: Q4 2026)
 - [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)
 - [ ] GraphQL federation and schema governance hardening for multi-service deployments (Target: Q4 2026)

@@ -1,7 +1,7 @@
 # Access Model Module - Roadmap
 
 **Version:** 1.0.0  
-**Status:** ACTIVE (Phase 2-4 complete; Phase 5-6 implementation launched)  
+**Status:** ACTIVE (Phase 2-6 complete; Wave B GA-ready)  
 **Last Validated:** 2026-08-17  
 **Phase 5-6 Plan:** `ai_working/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md`
 
@@ -133,18 +133,16 @@
 - [x] Unit tests ACM-01..ACM-08 (`tests/access_model/test_access_coordinator_focused.cpp`) ✅ **Done 2026-08-09**
 - [x] Cache integration (CAI-01..CAI-10 in `test_cache_storage_integration.cpp`) ✅ **Done 2026-08-09**
 - [x] Storage integration (CAI-07..10 via TieredStorageManager + PromotionListener) ✅ **Done 2026-08-09**
-- [ ] Observability (pending Phase 5)
-- [ ] Integration tests: full-stack e2e (pending Phase 6)
-- [ ] Release benchmarks: GATE-ACM-01..06 (pending Phase 6)
-- [ ] Operator runbooks (pending Phase 6)
+- [x] Observability (Phase 5 complete 2026-08-17)
+- [x] Integration tests: full-stack e2e (Phase 6 complete 2026-08-17)
+- [x] Release benchmarks: GATE-ACM-01..06 (Phase 6 complete 2026-08-17)
+- [x] Operator runbooks (Phase 5/6 complete 2026-08-17)
 
 ---
 
 ## Known Issues & Limitations
 
-- Phase 5 observability not yet wired (structured logging, trace correlation, dashboard panels — Target: Q1 2027)
-- Phase 6 e2e integration tests pending (`test_access_model_e2e.cpp`, `test_coordination_concurrency.cpp` — Target: Q1 2027)
-- Benchmark gates GATE-ACM-01..06 and promotion latency benchmarks not yet established (Target: Q1 2027)
+- Phase 5-6 observability, e2e/concurrency testing, and benchmark gates were completed and source-validated on 2026-08-17; keep derivative checklists synchronized with the validated source state
 - Phases 2-4 core implementation and unit/integration tests complete as of 2026-08-09
 
 ---

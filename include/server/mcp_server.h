@@ -420,6 +420,7 @@ public:
     void start() override;
     void stop() override;
     void send(const json& message) override;
+    [[nodiscard]] bool isRunning() const noexcept { return is_running_.load(std::memory_order_acquire); }
 
     // Bridge callback for exotic/embedded platforms that lack _WIN32, __unix__,
     // and __APPLE__ (STUB #65). When set, the injected function is called from

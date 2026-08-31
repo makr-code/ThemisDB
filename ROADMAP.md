@@ -36,14 +36,14 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 |---|---|---|---|
 | core | 9 listed | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading are delivered; remaining items are Wave D operability and refreshed evidence |
 | base | 8 listed | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
-| server | 4 residual source gaps | REAL IMPL gaps | gRPC-Web proxy is still UNIMPLEMENTED-only in fallback builds; time-series aggregate/retention providers and RoPE metrics still rely on degraded fallback paths; non-Linux MCP stdio transport remains unsupported |
+| server | 1 residual source gap | MOSTLY REMEDIATED | gRPC-Web fallback builds now advertise an explicit fail-closed capability contract, RoPE DELETE now disables runtime config, and unsupported MCP stdio self-disables; remaining work is first-class time-series provider DI beyond degraded metadata signaling |
 | query | residual perf / validation follow-up | Mostly verification / perf gaps | Process-mining trace/pattern/ideal query paths and the three `ETHICS_*` runtime gaps were closed on 2026-08-31; remaining work is optimizer/federation hardening and benchmark evidence |
 | transaction | 19 listed | Mostly verification / benchmark evidence | Wave 4C code gaps are closed; build/run, chaos, and representative-hardware evidence remain open |
 | auth | 8+ listed | Mostly verification / perf follow-up | Wave 4B source gaps are closed; remaining work is Wave 8 tests, representative-hardware baselines, and protocol-matrix regressions |
 | LLM | 13 listed | MIXED | Major Wave 5 closures landed; remaining real gaps center on distributed collectives, multi-tenant isolation, and final cross-module speculative/TARG wiring |
 | RAG / LLM Wiki | 57 listed | Mostly perf / integration follow-up | BM25+, RRF, persistent cache, and real `LLMJudgeIntegration` path are implemented; remaining work is performance gates, Recall@k sign-off, Wikipedia ABI wiring, and entropy-bridge integration |
 | GPU/CUDA | 21+53 listed | REAL IMPL gaps | CUDA/HIP kernel parity and representative-hardware validation remain open release blockers for acceleration-heavy paths |
-| access_model | 21 listed | REAL IMPL gaps | Benchmarks and GATE-ACM-01..06 not yet implemented |
+| access_model | roadmap contradiction | Mostly DOC drift | Source and module evidence show Phase 5-6 observability, e2e/concurrency tests, and GATE-ACM-01..06 are complete; stale checklist/known-issues text must stay synchronized |
 
 ## Release Hardening Program (current canonical version: v2.4.0-alpha)
 
@@ -71,7 +71,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 - [x] Phase 1-6 execution contract complete: all technical gates PASS; human sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`) is the only remaining GA blocker.
 - [x] Tools build-option transition complete: canonical flag for desktop tools is `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
-- [~] Core-first residual source-gap queue revalidated: finish server runtime fallback gaps and query feature gaps first, then close LLM/RAG integration and GPU representative-hardware gates (Target: Q4 2026).
+- [~] Core-first residual source-gap queue revalidated: finish the remaining server time-series provider DI gap and query feature gaps first, then close LLM/RAG integration and GPU representative-hardware gates (Target: Q4 2026).
 
 ## Program Execution Model (Wave A → B → C → D)
 
