@@ -412,7 +412,7 @@ jobs:
               | grep '^[-+]' \
               | grep -v '^---\|^+++' \
               | grep -vE '^[+-].*\*\*Last Updated:\*\*|^[+-].*"last_update":' \
-              | wc -l)
+              | grep -c '.' || true)
             [ "$non_ts_lines" -gt 0 ]
           }
 

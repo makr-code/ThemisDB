@@ -18,6 +18,24 @@ on:
         required: false
         default: '1440'
         type: string
+      scope_mode:
+        description: 'Issue scope: all src files or only changed src files from failed runs'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - changed_files
+      min_findings_per_file:
+        description: 'Create/update issue only if total findings for file >= this value'
+        required: false
+        default: '1'
+        type: string
+      max_issues_per_run:
+        description: 'Maximum per-file issues created/updated in one run'
+        required: false
+        default: '80'
+        type: string
 
 permissions:
   contents: read
@@ -127,6 +145,8 @@ jobs:
       - name: Fetch failed workflow runs and error artifacts
         id: fetch
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        env:
+          LOOKBACK_MINUTES: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || '1440' }}
         with:
           script: |
             const fs = require('fs');
@@ -147,22 +167,28 @@ jobs:
             console.log(`Since: ${since}`);
             
             // Fetch failed workflow runs
-            const workflows = ['Build: Mainline', 'Docker Image CI/CD'];
+            const workflows = [
+              'Build: Mainline',
+              'Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]',
+              'Docker Image CI/CD'
+            ];
             const artifactDir = '/tmp/error-artifacts';
             if (!fs.existsSync(artifactDir)) {
               fs.mkdirSync(artifactDir, { recursive: true });
             }
             
             let downloadedCount = 0;
+            let downloadedLogCount = 0;
+            const changedSrcFiles = new Set();
             
+            const repoWorkflows = await github.paginate(github.rest.actions.listRepoWorkflows, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+
             for (const workflowName of workflows) {
-              const { data: wfList } = await github.rest.actions.listRepoWorkflows({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                per_page: 5,
-              });
-              
-              const wf = wfList.workflows.find(w => w.name === workflowName);
+              const wf = repoWorkflows.find(w => w.name === workflowName);
               if (!wf) {
                 console.log(`  ⏭️  Workflow not found: ${workflowName}`);
                 continue;
@@ -182,6 +208,22 @@ jobs:
               
               // Download error artifacts from each run
               for (const run of runs.workflow_runs) {
+                try {
+                  const { data: commit } = await github.rest.repos.getCommit({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: run.head_sha,
+                    per_page: 100
+                  });
+                  for (const changed of (commit.files || [])) {
+                    if (changed.filename && changed.filename.startsWith('src/')) {
+                      changedSrcFiles.add(changed.filename);
+                    }
+                  }
+                } catch (e) {
+                  core.warning(`Failed to resolve changed files for run #${run.id}: ${e.message}`);
+                }
+
                 const { data: artifacts } = await github.rest.actions.listWorkflowRunArtifacts({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
@@ -189,7 +231,9 @@ jobs:
                 });
                 
                 const errorArtifacts = artifacts.artifacts.filter(a => 
-                  a.name.includes('error') || a.name.startsWith('ctest-results')
+                  a.name.includes('error') ||
+                  a.name.includes('diagnostic') ||
+                  a.name.startsWith('ctest-results')
                 );
                 
                 for (const artifact of errorArtifacts) {
@@ -232,13 +276,56 @@ jobs:
                     core.warning(`Failed to download artifact: ${artifact.name} — ${e.message}`);
                   }
                 }
+
+                try {
+                  console.log(`    📥 Downloading run logs for run #${run.id}`);
+                  const logsResponse = await github.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs', {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    run_id: run.id,
+                    request: { redirect: 'follow' },
+                  });
+
+                  const logsZipPath = path.join(artifactDir, `run-logs-${run.id}.zip`);
+                  fs.writeFileSync(logsZipPath, Buffer.from(logsResponse.data));
+
+                  const logsExtractDir = path.join(artifactDir, `run-logs-${run.id}`);
+                  fs.mkdirSync(logsExtractDir, { recursive: true });
+                  const { execSync } = require('child_process');
+                  execSync(`unzip -o "${logsZipPath}" -d "${logsExtractDir}"`, { stdio: 'pipe' });
+
+                  fs.writeFileSync(
+                    path.join(logsExtractDir, `_metadata.json`),
+                    JSON.stringify({
+                      name: `run-logs-${run.id}`,
+                      run_id: run.id,
+                      run_number: run.run_number,
+                      workflow: workflowName,
+                      created_at: run.created_at,
+                    }, null, 2)
+                  );
+
+                  downloadedLogCount++;
+                } catch (e) {
+                  core.warning(`Failed to download run logs for #${run.id}: ${e.message}`);
+                }
               }
             }
             
             console.log(`  Downloaded: ${downloadedCount} artifact(s)`);
+            console.log(`  Downloaded: ${downloadedLogCount} run log bundle(s)`);
+            console.log(`  Changed src files in failed runs: ${changedSrcFiles.size}`);
+
+            const changedSrcFileList = Array.from(changedSrcFiles).sort();
+            fs.writeFileSync(
+              path.join(artifactDir, 'changed-src-files.json'),
+              JSON.stringify(changedSrcFileList, null, 2)
+            );
             
             core.setOutput('artifact_count', downloadedCount);
-            core.setOutput('has_artifacts', downloadedCount > 0 ? 'true' : 'false');
+            core.setOutput('log_count', downloadedLogCount);
+            core.setOutput('changed_src_file_count', changedSrcFileList.length);
+            core.setOutput('has_artifacts', (downloadedCount > 0 || downloadedLogCount > 0) ? 'true' : 'false');
             core.setOutput('artifact_dir', artifactDir);
 
       - name: Aggregate errors from artifacts
@@ -247,6 +334,7 @@ jobs:
         env:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           OUTPUT_FILE: /tmp/aggregated-errors.md
+          GROUPED_OUTPUT_FILE: /tmp/aggregated-errors-by-module-file.json
         run: |
           node "${{ github.workspace }}/.github/scripts/aggregate-build-errors.js"
           
@@ -257,6 +345,10 @@ jobs:
               cat /tmp/aggregated-errors.md
               echo EOF
             } >> "$GITHUB_OUTPUT"
+          fi
+
+          if [ -f /tmp/aggregated-errors-by-module-file.json ]; then
+            echo "grouped_json_file=/tmp/aggregated-errors-by-module-file.json" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create or update chronic build failure issue
@@ -312,28 +404,136 @@ jobs:
           include-remediation-hints: 'true'
         continue-on-error: true
 
-      - name: Create issue for each error type (if needed)
+      - name: Create issue for each module/file diagnostics group
         if: steps.fetch.outputs.has_artifacts == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9.0.0
+        env:
+          ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
+          SCOPE_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.scope_mode || 'all' }}
+          MIN_FINDINGS_PER_FILE: ${{ github.event_name == 'workflow_dispatch' && inputs.min_findings_per_file || '1' }}
+          MAX_ISSUES_PER_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.max_issues_per_run || '80' }}
         with:
           script: |
             const fs = require('fs');
-            
-            // Read aggregated report
-            const reportFile = '/tmp/aggregated-errors.md';
-            if (!fs.existsSync(reportFile)) {
-              console.log('No aggregated report found.');
+
+            const groupedFile = '/tmp/aggregated-errors-by-module-file.json';
+            if (!fs.existsSync(groupedFile)) {
+              console.log('No grouped diagnostics report found.');
               return;
             }
-            
-            const reportMarkdown = fs.readFileSync(reportFile, 'utf8');
-            
-            // Check for critical errors and create separate tracking issue if needed
-            if (reportMarkdown.includes('CRITICAL') || reportMarkdown.includes('Chronic')) {
-              console.log('✅ Critical/chronic errors detected - main issue created');
-            } else {
-              console.log('✅ Error aggregation complete - no critical issues');
+
+            const groupedData = JSON.parse(fs.readFileSync(groupedFile, 'utf8'));
+            const entries = Array.isArray(groupedData.entries) ? groupedData.entries : [];
+            const scopeMode = String(process.env.SCOPE_MODE || 'all').trim();
+            const minFindingsPerFile = Math.max(1, Number.parseInt(process.env.MIN_FINDINGS_PER_FILE || '1', 10) || 1);
+            const maxIssuesPerRun = Math.max(1, Number.parseInt(process.env.MAX_ISSUES_PER_RUN || '80', 10) || 80);
+
+            const changedSrcPath = `${process.env.ERROR_ARTIFACTS_DIR || '/tmp/error-artifacts'}/changed-src-files.json`;
+            let changedSrcFiles = new Set();
+            if (scopeMode === 'changed_files' && fs.existsSync(changedSrcPath)) {
+              try {
+                const changedList = JSON.parse(fs.readFileSync(changedSrcPath, 'utf8'));
+                if (Array.isArray(changedList)) {
+                  changedSrcFiles = new Set(changedList.filter(Boolean));
+                }
+              } catch (e) {
+                core.warning(`Failed to read changed-src-files.json: ${e.message}`);
+              }
             }
+
+            const scopedEntries = entries
+              .filter(entry => (entry.module || 'external') !== 'external')
+              .filter(entry => (entry.counts?.compiler_error || 0) > 0 || (entry.counts?.compiler_warning || 0) > 0 || (entry.counts?.gap_marker || 0) > 0)
+              .filter(entry => (entry.counts?.total || 0) >= minFindingsPerFile)
+              .filter(entry => scopeMode !== 'changed_files' || changedSrcFiles.has(entry.file || ''))
+              .sort((a, b) => (b.counts?.total || 0) - (a.counts?.total || 0));
+
+            const actionable = scopedEntries.slice(0, maxIssuesPerRun);
+
+            if (actionable.length === 0) {
+              console.log(`No actionable module/file diagnostics found (scope=${scopeMode}, min=${minFindingsPerFile}).`);
+              return;
+            }
+
+            console.log(`Issue throttling: scope=${scopeMode}, min_findings_per_file=${minFindingsPerFile}, max_issues_per_run=${maxIssuesPerRun}`);
+            console.log(`Changed src files available for scoping: ${changedSrcFiles.size}`);
+
+            for (const entry of actionable) {
+              const moduleName = entry.module || 'unknown';
+              const filePath = entry.file || 'src/unknown';
+              const markerToken = `ci-build-diagnostics:${moduleName}:${filePath}`;
+              const marker = `<!-- ${markerToken} -->`;
+              const safeTitleFile = filePath.length > 90 ? `${filePath.slice(0, 87)}...` : filePath;
+              const title = `[CI][${moduleName}] Diagnostics in ${safeTitleFile}`;
+
+              const diagnostics = Array.isArray(entry.diagnostics) ? entry.diagnostics : [];
+              const compilerCounts = diagnostics.reduce((acc, d) => {
+                const compiler = d.compiler || 'unknown';
+                acc[compiler] = (acc[compiler] || 0) + (d.frequency || 1);
+                return acc;
+              }, {});
+
+              const compilerList = Object.entries(compilerCounts)
+                .sort((a, b) => b[1] - a[1])
+                .map(([c, n]) => `- ${c}: ${n}`)
+                .join('\n');
+
+              const details = diagnostics.slice(0, 20).map((d, i) => {
+                const line = d.line ? `:${d.line}${d.column ? `:${d.column}` : ''}` : '';
+                const loc = `${d.file || 'unknown'}${line}`;
+                const freq = d.frequency ? `[${d.frequency}x] ` : '';
+                const compiler = d.compiler && d.compiler !== 'n/a' ? ` (${d.compiler})` : '';
+                const markerInfo = d.marker ? ` [${d.marker}]` : '';
+                return `${i + 1}. ${freq}${d.type}${compiler}${markerInfo} — ${d.message || 'n/a'}\n   - ${loc}`;
+              }).join('\n');
+
+              const body = [
+                marker,
+                `## Build Diagnostics — ${moduleName}`,
+                '',
+                `- **Module**: \`${moduleName}\``,
+                `- **File**: \`${filePath}\``,
+                `- **Compiler Errors**: ${entry.counts?.compiler_error || 0}`,
+                `- **Compiler Warnings**: ${entry.counts?.compiler_warning || 0}`,
+                `- **GAP/SIMULATION/MOCKUP Markers**: ${entry.counts?.gap_marker || 0}`,
+                '',
+                '### Compiler Distribution',
+                compilerList || '- n/a',
+                '',
+                '### Diagnostics',
+                details || '- none',
+                '',
+                `Generated by run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              ].join('\n');
+
+              const search = await github.rest.search.issuesAndPullRequests({
+                q: `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open in:body "${markerToken}"`,
+                per_page: 1,
+              });
+
+              if ((search.data.items || []).length > 0) {
+                const issue = search.data.items[0];
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  title,
+                  body,
+                });
+                console.log(`Updated issue #${issue.number} for ${filePath}`);
+              } else {
+                const created = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title,
+                  body,
+                  labels: ['ci/failure', 'ci/build-error', 'maintenance'],
+                });
+                console.log(`Created issue #${created.data.number} for ${filePath}`);
+              }
+            }
+
+            console.log(`Processed ${actionable.length} module/file diagnostic issue(s) from ${scopedEntries.length} scoped candidate(s).`);
 
       - name: Print error aggregation summary
         if: always()
@@ -343,6 +543,7 @@ jobs:
           echo "──────────────────────────────────────────────"
           echo "Total unique errors: ${{ steps.aggregate.outputs.total_errors }}"
           echo "Chronic errors (≥3x): ${{ steps.aggregate.outputs.chronic_errors }}"
+          echo "Module/file groups: ${{ steps.aggregate.outputs.module_file_groups }}"
           if [ -f /tmp/aggregated-errors.md ]; then
             echo ""
             echo "Aggregated Report:"
