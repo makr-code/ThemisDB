@@ -11,10 +11,15 @@
 
 
 #include "query/functions/process_mining_functions.h"
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cctype>
 #include <nlohmann/json.hpp>
+#include <set>
 #include <optional>
-#include <stdexcept>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themis {
@@ -65,18 +70,123 @@ void PmPredictEndFunction::clearPredictEndFn() {
 // ============================================================================
 
 namespace {
+constexpr std::size_t kProcessEmbeddingDimensions = 256;
+
+std::vector<std::string> traceActivities(const ProcessTrace& trace) {
+    std::vector<std::string> activities;
+    activities.reserve(trace.events.size());
+    for (const auto& event : trace.events) {
+        activities.push_back(event.activity);
+    }
+    return activities;
+}
+
+std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace& trace) {
+    std::set<std::pair<std::string, std::string>> edges;
+    for (std::size_t i = 1; i < trace.events.size(); ++i) {
+        edges.emplace(trace.events[i - 1].activity, trace.events[i].activity);
+    }
+    return edges;
+}
+
+template <typename T>
+double jaccardSimilarity(const std::set<T>& lhs, const std::set<T>& rhs) {
+    if (lhs.empty() && rhs.empty()) {
+        return 1.0;
+    }
+    std::vector<T> intersection;
+    std::set_intersection(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(),
+                          std::back_inserter(intersection));
+    std::vector<T> union_values;
+    std::set_union(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(),
+                   std::back_inserter(union_values));
+    if (union_values.empty()) {
+        return 0.0;
+    }
+    return static_cast<double>(intersection.size()) /
+           static_cast<double>(union_values.size());
+}
+
+int longestCommonSubsequence(const std::vector<std::string>& lhs,
+                             const std::vector<std::string>& rhs) {
+    std::vector<int> previous(rhs.size() + 1, 0);
+    std::vector<int> current(rhs.size() + 1, 0);
+    for (std::size_t i = 1; i <= lhs.size(); ++i) {
+        for (std::size_t j = 1; j <= rhs.size(); ++j) {
+            if (lhs[i - 1] == rhs[j - 1]) {
+                current[j] = previous[j - 1] + 1;
+            } else {
+                current[j] = std::max(previous[j], current[j - 1]);
+            }
+        }
+        std::swap(previous, current);
+        std::fill(current.begin(), current.end(), 0);
+    }
+    return previous.back();
+}
+
+std::set<std::pair<std::string, std::string>> weakOrderPairs(
+    const std::vector<std::string>& sequence) {
+    std::set<std::pair<std::string, std::string>> pairs;
+    for (std::size_t i = 0; i < sequence.size(); ++i) {
+        for (std::size_t j = i + 1; j < sequence.size(); ++j) {
+            if (sequence[i] != sequence[j]) {
+                pairs.emplace(sequence[i], sequence[j]);
+            }
+        }
+    }
+    return pairs;
+}
+
+std::vector<float> embedActivities(const std::vector<std::string>& activities) {
+    std::vector<float> embedding(kProcessEmbeddingDimensions, 0.0f);
+    for (const auto& activity : activities) {
+        std::string padded;
+        padded.reserve(activity.size() + 2);
+        padded.push_back(' ');
+        for (unsigned char ch : activity) {
+            padded.push_back(static_cast<char>(std::tolower(ch)));
+        }
+        padded.push_back(' ');
+
+        for (std::size_t i = 0; i + 2 < padded.size(); ++i) {
+            const auto h0 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i]));
+            const auto h1 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 1]));
+            const auto h2 = static_cast<std::size_t>(static_cast<unsigned char>(padded[i + 2]));
+            const auto bucket = (h0 * 31u * 31u + h1 * 31u + h2) % kProcessEmbeddingDimensions;
+            embedding[bucket] += 1.0f;
+        }
+    }
+
+    double norm_sq = 0.0;
+    for (float value : embedding) {
+        norm_sq += static_cast<double>(value) * static_cast<double>(value);
+    }
+    if (norm_sq <= 0.0) {
+        return embedding;
+    }
+    const auto norm = static_cast<float>(std::sqrt(norm_sq));
+    for (auto& value : embedding) {
+        value /= norm;
+    }
+    return embedding;
+}
+
+double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>& rhs) {
+    if (lhs.empty() || rhs.empty() || lhs.size() != rhs.size()) {
+        return 0.0;
+    }
+    double dot = 0.0;
+    for (std::size_t i = 0; i < lhs.size(); ++i) {
+        dot += static_cast<double>(lhs[i]) * static_cast<double>(rhs[i]);
+    }
+    return dot;
+}
 
 json makeError(const std::string& msg) {
     json j;
     j["error"] = msg;
     return j;
-}
-
-json makeNotImplemented(const std::string& name) {
-    // F-027: throw so the AQL runtime surfaces a real error instead of
-    // returning a silent {"error":"… not implemented"} JSON result that
-    // callers may fail to detect.
-    throw std::runtime_error(name + ": function not implemented");
 }
 
 json normalizeAdminModels(const json& value) {
@@ -94,6 +204,333 @@ json normalizeAdminModels(const json& value) {
         result.push_back(entry);
     }
     return result;
+}
+
+EventLog parseEventLog(const json& j);
+
+ProcessPattern parseProcessPattern(const json& j) {
+    ProcessPattern pattern;
+    if (!j.is_object()) {
+        return pattern;
+    }
+
+    pattern.id = j.value("id", std::string{});
+    pattern.name = j.value("name", std::string{});
+    if (j.contains("activities") && j["activities"].is_array()) {
+        for (const auto& activity : j["activities"]) {
+            if (activity.is_string()) {
+                pattern.activities.push_back(activity.get<std::string>());
+            }
+        }
+    }
+    if (j.contains("edges") && j["edges"].is_array()) {
+        for (const auto& edge : j["edges"]) {
+            if (edge.is_object()) {
+                const auto from = edge.value("from", std::string{});
+                const auto to = edge.value("to", std::string{});
+                if (!from.empty() && !to.empty()) {
+                    pattern.edges.emplace_back(from, to);
+                }
+            }
+        }
+    }
+    return pattern;
+}
+
+SimilarityMethod parseSimilarityMethod(const json& config) {
+    const auto method = config.value("method", std::string{"hybrid"});
+    if (method == "graph") {
+        return SimilarityMethod::GRAPH;
+    }
+    if (method == "vector") {
+        return SimilarityMethod::VECTOR;
+    }
+    if (method == "behavioral") {
+        return SimilarityMethod::BEHAVIORAL;
+    }
+    return SimilarityMethod::HYBRID;
+}
+
+EventLogConfig parseEventLogConfig(const json& config) {
+    EventLogConfig log_config;
+    log_config.case_id_field = config.value("case_id_field", std::string{"case_id"});
+    log_config.activity_field = config.value("activity_field", std::string{"activity"});
+    log_config.timestamp_field = config.value("timestamp_field", std::string{"timestamp"});
+    if (config.contains("start_time") && config["start_time"].is_number_integer()) {
+        log_config.start_time = config["start_time"].get<int64_t>();
+    }
+    if (config.contains("end_time") && config["end_time"].is_number_integer()) {
+        log_config.end_time = config["end_time"].get<int64_t>();
+    }
+    return log_config;
+}
+
+EventLog buildEventLogFromScanner(const FunctionContext& ctx,
+                                  const std::string& collection,
+                                  const EventLogConfig& config) {
+    EventLog log;
+    std::unordered_map<std::string, std::vector<ProcessEvent>> events_by_case;
+
+    const auto docs = ctx.scanCollection(collection, [&](const json& doc) {
+        const auto case_id_it = doc.find(config.case_id_field);
+        const auto activity_it = doc.find(config.activity_field);
+        const auto ts_it = doc.find(config.timestamp_field);
+        if (case_id_it == doc.end() || !case_id_it->is_string() ||
+            activity_it == doc.end() || !activity_it->is_string() ||
+            ts_it == doc.end() || !ts_it->is_number_integer()) {
+            return false;
+        }
+
+        const auto timestamp = ts_it->get<int64_t>();
+        if (config.start_time && timestamp < *config.start_time) {
+            return false;
+        }
+        if (config.end_time && timestamp > *config.end_time) {
+            return false;
+        }
+        return true;
+    });
+
+    std::map<std::string, int> activity_to_id;
+    for (const auto& doc : docs) {
+        ProcessEvent event;
+        event.case_id = doc.at(config.case_id_field).get<std::string>();
+        event.activity = doc.at(config.activity_field).get<std::string>();
+        event.timestamp_ms = doc.at(config.timestamp_field).get<int64_t>();
+        if (const auto it = doc.find("resource"); it != doc.end() && it->is_string()) {
+            event.resource = it->get<std::string>();
+        }
+        if (const auto it = doc.find("lifecycle"); it != doc.end() && it->is_string()) {
+            event.lifecycle = it->get<std::string>();
+        }
+        event.attributes = doc;
+
+        events_by_case[event.case_id].push_back(event);
+        if (activity_to_id.find(event.activity) == activity_to_id.end()) {
+            const auto next_id = static_cast<int>(activity_to_id.size());
+            activity_to_id.emplace(event.activity, next_id);
+            log.id_to_activity.push_back(event.activity);
+        }
+        ++log.total_events;
+        if (log.min_timestamp == 0 || event.timestamp_ms < log.min_timestamp) {
+            log.min_timestamp = event.timestamp_ms;
+        }
+        if (event.timestamp_ms > log.max_timestamp) {
+            log.max_timestamp = event.timestamp_ms;
+        }
+    }
+
+    for (auto& [case_id, events] : events_by_case) {
+        std::sort(events.begin(), events.end(), [](const auto& lhs, const auto& rhs) {
+            return lhs.timestamp_ms < rhs.timestamp_ms;
+        });
+
+        ProcessTrace trace;
+        trace.case_id = case_id;
+        trace.events = std::move(events);
+        if (!trace.events.empty()) {
+            trace.start_time_ms = trace.events.front().timestamp_ms;
+            trace.end_time_ms = trace.events.back().timestamp_ms;
+            trace.duration_ms = trace.end_time_ms - trace.start_time_ms;
+            trace.is_complete = true;
+        }
+        log.traces.push_back(std::move(trace));
+    }
+
+    log.activity_to_id = std::move(activity_to_id);
+    log.unique_activities = log.activity_to_id.size();
+    log.unique_cases = log.traces.size();
+    return log;
+}
+
+EventLog getEventLogFromContext(const FunctionContext& ctx, const json& config = json::object()) {
+    if (config.contains("event_log") && config["event_log"].is_object()) {
+        return parseEventLog(config["event_log"]);
+    }
+
+    const auto context_log = ctx.getVariable("pm_event_log");
+    if (context_log.is_object()) {
+        return parseEventLog(context_log);
+    }
+
+    const auto& current = ctx.currentDocument();
+    if (current.is_object() && current.contains("traces")) {
+        return parseEventLog(current);
+    }
+
+    const auto log_cfg = config.contains("event_log_config") && config["event_log_config"].is_object()
+        ? parseEventLogConfig(config["event_log_config"])
+        : parseEventLogConfig(config);
+    const auto collection = config.value("collection", std::string{"events"});
+
+    if (auto* pm = ctx.getProcessMining(); pm != nullptr) {
+        auto [status, log] = pm->extractEventLog(collection, log_cfg);
+        if (status.ok) {
+            return log;
+        }
+    }
+
+    return buildEventLogFromScanner(ctx, collection, log_cfg);
+}
+
+const ProcessTrace* findTraceByCaseId(const EventLog& log, const std::string& case_id) {
+    for (const auto& trace : log.traces) {
+        if (trace.case_id == case_id) {
+            return &trace;
+        }
+    }
+    return nullptr;
+}
+
+double computeGraphSimilarity(const ProcessPattern& pattern, const ProcessTrace& trace) {
+    const std::set<std::string> pattern_activities(pattern.activities.begin(), pattern.activities.end());
+    const std::vector<std::string> trace_activity_sequence = traceActivities(trace);
+    const std::set<std::string> trace_activity_set(
+        trace_activity_sequence.begin(), trace_activity_sequence.end());
+    const std::set<std::pair<std::string, std::string>> pattern_edges(
+        pattern.edges.begin(), pattern.edges.end());
+    const auto trace_edge_set = traceEdges(trace);
+
+    const auto node_overlap = jaccardSimilarity(pattern_activities, trace_activity_set);
+    const auto edge_overlap = jaccardSimilarity(pattern_edges, trace_edge_set);
+    const auto lcs = longestCommonSubsequence(pattern.activities, trace_activity_sequence);
+    const auto max_len = static_cast<double>(
+        std::max(pattern.activities.size(), trace_activity_sequence.size()));
+    const auto path_similarity = max_len > 0.0 ? static_cast<double>(lcs) / max_len : 1.0;
+    return 0.4 * node_overlap + 0.35 * edge_overlap + 0.25 * path_similarity;
+}
+
+double computeBehavioralSimilarity(const ProcessPattern& pattern, const ProcessTrace& trace) {
+    const auto trace_activity_sequence = traceActivities(trace);
+    if (pattern.activities.empty() && trace_activity_sequence.empty()) {
+        return 1.0;
+    }
+    if (pattern.activities.empty() || trace_activity_sequence.empty()) {
+        return 0.0;
+    }
+
+    const auto lcs = longestCommonSubsequence(pattern.activities, trace_activity_sequence);
+    const auto max_len = static_cast<double>(
+        std::max(pattern.activities.size(), trace_activity_sequence.size()));
+    const auto seq_similarity = max_len > 0.0 ? static_cast<double>(lcs) / max_len : 0.0;
+    const auto pattern_order = weakOrderPairs(pattern.activities);
+    const auto trace_order = weakOrderPairs(trace_activity_sequence);
+    const auto order_similarity = jaccardSimilarity(pattern_order, trace_order);
+    return 0.5 * seq_similarity + 0.5 * order_similarity;
+}
+
+double computeVectorSimilarity(const ProcessPattern& pattern, const ProcessTrace& trace) {
+    return cosineSimilarity(embedActivities(pattern.activities), embedActivities(traceActivities(trace)));
+}
+
+json makeSimilarityEntry(const ProcessPattern& pattern,
+                         const ProcessTrace& trace,
+                         double overall_similarity,
+                         double graph_similarity,
+                         double vector_similarity,
+                         double behavioral_similarity) {
+    const std::set<std::string> pattern_activities(pattern.activities.begin(), pattern.activities.end());
+    const auto trace_activity_sequence = traceActivities(trace);
+    const std::set<std::string> trace_activity_set(
+        trace_activity_sequence.begin(), trace_activity_sequence.end());
+    const std::set<std::pair<std::string, std::string>> pattern_edges(
+        pattern.edges.begin(), pattern.edges.end());
+    const auto trace_edge_set = traceEdges(trace);
+
+    json matched_activities = json::array();
+    json missing_activities = json::array();
+    json extra_activities = json::array();
+    for (const auto& activity : pattern_activities) {
+        if (trace_activity_set.find(activity) != trace_activity_set.end()) {
+            matched_activities.push_back(activity);
+        } else {
+            missing_activities.push_back(activity);
+        }
+    }
+    for (const auto& activity : trace_activity_set) {
+        if (pattern_activities.find(activity) == pattern_activities.end()) {
+            extra_activities.push_back(activity);
+        }
+    }
+
+    json matched_edges = json::array();
+    for (const auto& edge : pattern_edges) {
+        if (trace_edge_set.find(edge) != trace_edge_set.end()) {
+            matched_edges.push_back({{"from", edge.first}, {"to", edge.second}});
+        }
+    }
+
+    return {
+        {"case_id", trace.case_id},
+        {"overall_similarity", overall_similarity},
+        {"metrics", {
+            {"graph_similarity", graph_similarity},
+            {"vector_similarity", vector_similarity},
+            {"behavioral_similarity", behavioral_similarity},
+            {"node_overlap", jaccardSimilarity(pattern_activities, trace_activity_set)},
+            {"edge_overlap", jaccardSimilarity(pattern_edges, trace_edge_set)}
+        }},
+        {"matched_activities", std::move(matched_activities)},
+        {"matched_edges", std::move(matched_edges)},
+        {"missing_activities", std::move(missing_activities)},
+        {"extra_activities", std::move(extra_activities)}
+    };
+}
+
+json traceToJson(const ProcessTrace& trace) {
+    json events = json::array();
+    for (const auto& event : trace.events) {
+        json entry = {
+            {"case_id", event.case_id},
+            {"activity", event.activity},
+            {"timestamp_ms", event.timestamp_ms}
+        };
+        if (event.resource) {
+            entry["resource"] = *event.resource;
+        }
+        if (event.lifecycle) {
+            entry["lifecycle"] = *event.lifecycle;
+        }
+        if (!event.attributes.is_null()) {
+            entry["attributes"] = event.attributes;
+        }
+        events.push_back(std::move(entry));
+    }
+    return {
+        {"case_id", trace.case_id},
+        {"start_time_ms", trace.start_time_ms},
+        {"end_time_ms", trace.end_time_ms},
+        {"duration_ms", trace.duration_ms},
+        {"is_complete", trace.is_complete},
+        {"events", std::move(events)}
+    };
+}
+
+json compareTraceWithPattern(const ProcessPattern& pattern, const ProcessTrace& trace) {
+    const auto graph_similarity = computeGraphSimilarity(pattern, trace);
+    const auto behavioral_similarity = computeBehavioralSimilarity(pattern, trace);
+    const auto vector_similarity = computeVectorSimilarity(pattern, trace);
+    const auto overall_similarity =
+        0.4 * graph_similarity + 0.35 * behavioral_similarity + 0.25 * vector_similarity;
+
+    auto similarity_entry = makeSimilarityEntry(
+        pattern, trace, overall_similarity, graph_similarity, vector_similarity, behavioral_similarity);
+    json deviations = json::array();
+    for (const auto& activity : similarity_entry["missing_activities"]) {
+        deviations.push_back("Missing activity: " + activity.get<std::string>());
+    }
+    for (const auto& activity : similarity_entry["extra_activities"]) {
+        deviations.push_back("Unexpected activity: " + activity.get<std::string>());
+    }
+
+    return {
+        {"fitness", behavioral_similarity},
+        {"precision", graph_similarity},
+        {"generalization", overall_similarity},
+        {"simplicity", std::max(0.0, 1.0 - 0.1 * static_cast<double>(deviations.size()))},
+        {"deviations", std::move(deviations)},
+        {"comparison", std::move(similarity_entry)}
+    };
 }
 
 // ---------------------------------------------------------------------------
@@ -275,30 +712,103 @@ MiningConfig parseMiningConfig(const json& j) {
 // ============================================================================
 
 json PmFindSimilarFunction::execute(
-    const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    json result;
-    result["results"] = json::array();
-    result["total"]   = 0;
-    return result;
+    const std::vector<json>& args,
+    const FunctionContext& ctx) const {
+    if (args.empty() || !args[0].is_object()) {
+        return makeError("PM_FIND_SIMILAR: pattern argument must be an object");
+    }
+
+    const auto pattern = parseProcessPattern(args[0]);
+    const auto config = args.size() > 1 && args[1].is_object() ? args[1] : json::object();
+    const auto threshold = std::clamp(config.value("threshold", 0.7), 0.0, 1.0);
+    const auto limit = static_cast<std::size_t>(std::max(0, config.value("limit", 10)));
+    const auto log = getEventLogFromContext(ctx, config);
+    const auto method = parseSimilarityMethod(config);
+
+    std::vector<std::pair<double, json>> ranked;
+    ranked.reserve(log.traces.size());
+    for (const auto& trace : log.traces) {
+        const auto graph_similarity = computeGraphSimilarity(pattern, trace);
+        const auto vector_similarity = computeVectorSimilarity(pattern, trace);
+        const auto behavioral_similarity = computeBehavioralSimilarity(pattern, trace);
+        double overall_similarity = 0.0;
+        switch (method) {
+            case SimilarityMethod::GRAPH:
+                overall_similarity = graph_similarity;
+                break;
+            case SimilarityMethod::VECTOR:
+                overall_similarity = vector_similarity;
+                break;
+            case SimilarityMethod::BEHAVIORAL:
+                overall_similarity = behavioral_similarity;
+                break;
+            case SimilarityMethod::HYBRID:
+                overall_similarity =
+                    0.4 * graph_similarity + 0.3 * vector_similarity + 0.3 * behavioral_similarity;
+                break;
+        }
+        if (overall_similarity < threshold) {
+            continue;
+        }
+        ranked.emplace_back(
+            overall_similarity,
+            makeSimilarityEntry(pattern, trace, overall_similarity,
+                                graph_similarity, vector_similarity, behavioral_similarity));
+    }
+
+    std::sort(ranked.begin(), ranked.end(), [](const auto& lhs, const auto& rhs) {
+        return lhs.first > rhs.first;
+    });
+
+    json results = json::array();
+    for (const auto& [score, entry] : ranked) {
+        (void)score;
+        if (results.size() >= limit) {
+            break;
+        }
+        results.push_back(entry);
+    }
+
+    return {
+        {"results", std::move(results)},
+        {"total", ranked.size()}
+    };
 }
 
 json PmCompareIdealFunction::execute(
-    const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    json result;
-    result["fitness"]        = 0.0;
-    result["precision"]      = 0.0;
-    result["generalization"] = 0.0;
-    result["simplicity"]     = 0.0;
-    result["deviations"]     = json::array();
-    return result;
+    const std::vector<json>& args,
+    const FunctionContext& ctx) const {
+    if (args.size() < 2 || !args[0].is_string() || !args[1].is_object()) {
+        return makeError("PM_COMPARE_IDEAL: expected case_id string and ideal_model object");
+    }
+
+    const auto log = getEventLogFromContext(ctx);
+    const auto* trace = findTraceByCaseId(log, args[0].get<std::string>());
+    if (trace == nullptr) {
+        return makeError("PM_COMPARE_IDEAL: case not found");
+    }
+
+    return compareTraceWithPattern(parseProcessPattern(args[1]), *trace);
 }
 
 json PmHasPatternFunction::execute(
-    const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    return false;
+    const std::vector<json>& args,
+    const FunctionContext& ctx) const {
+    if (args.size() < 2 || !args[0].is_string() || !args[1].is_object()) {
+        return false;
+    }
+
+    const auto threshold = args.size() > 2 && args[2].is_number()
+        ? std::clamp(args[2].get<double>(), 0.0, 1.0)
+        : 0.8;
+    const auto log = getEventLogFromContext(ctx);
+    const auto* trace = findTraceByCaseId(log, args[0].get<std::string>());
+    if (trace == nullptr) {
+        return false;
+    }
+
+    const auto comparison = compareTraceWithPattern(parseProcessPattern(args[1]), *trace);
+    return comparison["comparison"].value("overall_similarity", 0.0) >= threshold;
 }
 
 // ============================================================================
@@ -381,11 +891,18 @@ json PmExtractLogFunction::execute(
 }
 
 json PmExtractTraceFunction::execute(
-    const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    json result;
-    result["trace"] = json::array();
-    return result;
+    const std::vector<json>& args,
+    const FunctionContext& ctx) const {
+    if (args.empty() || !args[0].is_string()) {
+        return makeError("PM_EXTRACT_TRACE: case_id must be a string");
+    }
+
+    const auto log = getEventLogFromContext(ctx);
+    const auto* trace = findTraceByCaseId(log, args[0].get<std::string>());
+    if (trace == nullptr) {
+        return makeError("PM_EXTRACT_TRACE: case not found");
+    }
+    return traceToJson(*trace);
 }
 
 // ============================================================================
